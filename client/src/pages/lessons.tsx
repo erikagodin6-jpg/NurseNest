@@ -4066,7 +4066,7 @@ function LessonSystemCard({ system, onSelect, tier, lessonOverrides, onOverrides
       </CardHeader>
       <CardContent className="pt-6">
         <div className="space-y-3">
-          {system.diseases.map((disease: any) => {
+          {[...system.diseases].sort((a: any, b: any) => a.name.localeCompare(b.name)).map((disease: any) => {
             const difficulty = getDifficulty(disease.id, tier);
             const overrideName = lessonOverrides?.[disease.id]?.title;
             const displayName = overrideName || getLessonTitle(disease.id, language) || disease.name;

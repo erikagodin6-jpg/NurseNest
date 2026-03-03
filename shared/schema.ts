@@ -1126,6 +1126,9 @@ export const digitalProducts = pgTable("digital_products", {
   seoKeywords: text("seo_keywords"),
   themeId: text("theme_id"),
   careerType: text("career_type").default("nursing"),
+  salePrice: integer("sale_price"),
+  saleStartsAt: timestamp("sale_starts_at"),
+  saleEndsAt: timestamp("sale_ends_at"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
 });

@@ -9866,7 +9866,10 @@ Return ONLY valid JSON with this exact structure:
       const product = await storage.getDigitalProduct(productId);
       if (!product || !product.isActive) return res.status(404).json({ error: "Product not found" });
 
-      let finalPrice = product.price;
+      const now = new Date();
+      const saleActive = product.salePrice && product.saleStartsAt && product.saleEndsAt
+        && now >= new Date(product.saleStartsAt) && now <= new Date(product.saleEndsAt);
+      let finalPrice = saleActive ? product.salePrice! : product.price;
       if (couponCode) {
         const coupon = await storage.validateCoupon(couponCode);
         if (coupon.valid && coupon.discountType && coupon.discountValue) {
@@ -10223,6 +10226,35 @@ Return ONLY valid JSON with this exact structure:
       const compareAtCents = compareAtDollars ? Math.round(parseFloat(compareAtDollars) * 100) : null;
       const updated = await storage.updateDigitalProduct(req.params.id, { price: priceCents, compareAtPrice: compareAtCents });
       await logAudit(req, admin, "digital_product", req.params.id, "price-change", { price: existing.price }, { price: priceCents });
+      res.json(updated);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.post("/api/admin/shop/products/:id/sale", async (req, res) => {
+    const admin = await requireAdmin(req, res);
+    if (!admin) return;
+    try {
+      const existing = await storage.getDigitalProduct(req.params.id);
+      if (!existing) return res.status(404).json({ error: "Product not found" });
+      const { salePriceDollars, saleStartsAt, saleEndsAt, clearSale } = req.body;
+      if (clearSale) {
+        const updated = await storage.updateDigitalProduct(req.params.id, { salePrice: null, saleStartsAt: null, saleEndsAt: null });
+        await logAudit(req, admin, "digital_product", req.params.id, "sale-cleared", { salePrice: existing.salePrice }, { salePrice: null });
+        return res.json(updated);
+      }
+      if (!salePriceDollars || !saleStartsAt || !saleEndsAt) return res.status(400).json({ error: "salePriceDollars, saleStartsAt, and saleEndsAt are required" });
+      const salePriceCents = Math.round(parseFloat(salePriceDollars) * 100);
+      if (isNaN(salePriceCents) || salePriceCents <= 0) return res.status(400).json({ error: "Sale price must be a positive number" });
+      if (salePriceCents >= existing.price) return res.status(400).json({ error: "Sale price must be lower than regular price" });
+      if (new Date(saleStartsAt) >= new Date(saleEndsAt)) return res.status(400).json({ error: "Sale start date must be before end date" });
+      const updated = await storage.updateDigitalProduct(req.params.id, {
+        salePrice: salePriceCents,
+        saleStartsAt: new Date(saleStartsAt),
+        saleEndsAt: new Date(saleEndsAt),
+      });
+      await logAudit(req, admin, "digital_product", req.params.id, "sale-set", { salePrice: existing.salePrice }, { salePrice: salePriceCents, saleStartsAt, saleEndsAt });
       res.json(updated);
     } catch (e: any) {
       res.status(500).json({ error: e.message });

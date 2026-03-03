@@ -166,8 +166,13 @@ export default function ShopProductPage() {
     );
   }
 
-  const hasDiscount = product.compareAtPrice && product.compareAtPrice > product.price;
-  const savings = hasDiscount ? product.compareAtPrice! - product.price : 0;
+  const now = new Date();
+  const saleActive = product.salePrice && product.saleStartsAt && product.saleEndsAt
+    && now >= new Date(product.saleStartsAt) && now <= new Date(product.saleEndsAt);
+  const effectivePrice = saleActive ? product.salePrice! : product.price;
+  const hasDiscount = saleActive ? true : (product.compareAtPrice && product.compareAtPrice > product.price);
+  const savings = saleActive ? (product.price - effectivePrice) : (product.compareAtPrice && product.compareAtPrice > product.price ? product.compareAtPrice! - product.price : 0);
+  const strikethroughPrice = saleActive ? product.price : (product.compareAtPrice && product.compareAtPrice > product.price ? product.compareAtPrice! : 0);
 
   return (
     <div className="min-h-screen bg-warmwhite flex flex-col font-sans text-gray-900">
@@ -223,17 +228,22 @@ export default function ShopProductPage() {
 
               <div className="flex items-baseline gap-3 mb-6">
                 <span className="text-3xl font-bold text-primary" data-testid="text-product-detail-price">
-                  {formatPrice(product.price)}
+                  {formatPrice(effectivePrice)}
                 </span>
-                {hasDiscount && (
+                {hasDiscount && strikethroughPrice > 0 && (
                   <>
                     <span className="text-lg text-gray-400 line-through" data-testid="text-product-compare-price">
-                      {formatPrice(product.compareAtPrice!)}
+                      {formatPrice(strikethroughPrice)}
                     </span>
                     <Badge className="bg-green-100 text-green-700" data-testid="badge-savings">
                       Save {formatPrice(savings)}
                     </Badge>
                   </>
+                )}
+                {saleActive && (
+                  <Badge className="bg-red-100 text-red-700 text-xs" data-testid="badge-sale">
+                    Sale
+                  </Badge>
                 )}
               </div>
 
@@ -328,7 +338,7 @@ export default function ShopProductPage() {
                     data-testid="button-buy-now"
                   >
                     <ShoppingBag className="w-5 h-5" />
-                    {checkingOut ? "Processing..." : `Buy Now — ${formatPrice(product.price)}`}
+                    {checkingOut ? "Processing..." : `Buy Now — ${formatPrice(effectivePrice)}`}
                   </Button>
 
                   <p className="text-xs text-gray-400 mt-3 flex items-center gap-1">

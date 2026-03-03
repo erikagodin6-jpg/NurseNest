@@ -26,10 +26,25 @@ function formatPrice(cents: number) {
   return `$${(cents / 100).toFixed(2)}`;
 }
 
+function getEffectivePrice(product: DigitalProduct) {
+  const now = new Date();
+  const saleActive = product.salePrice && product.saleStartsAt && product.saleEndsAt
+    && now >= new Date(product.saleStartsAt) && now <= new Date(product.saleEndsAt);
+  return saleActive ? product.salePrice! : product.price;
+}
+
 function ProductCard({ product }: { product: DigitalProduct }) {
   const { t } = useI18n();
-  const hasDiscount = product.compareAtPrice && product.compareAtPrice > product.price;
-  const savingsPercent = hasDiscount ? Math.round((1 - product.price / product.compareAtPrice!) * 100) : 0;
+  const effectivePrice = getEffectivePrice(product);
+  const now = new Date();
+  const saleActive = product.salePrice && product.saleStartsAt && product.saleEndsAt
+    && now >= new Date(product.saleStartsAt) && now <= new Date(product.saleEndsAt);
+  const hasDiscount = saleActive
+    ? true
+    : (product.compareAtPrice && product.compareAtPrice > product.price);
+  const savingsPercent = saleActive
+    ? Math.round((1 - effectivePrice / product.price) * 100)
+    : (product.compareAtPrice && product.compareAtPrice > product.price ? Math.round((1 - product.price / product.compareAtPrice!) * 100) : 0);
   return (
     <LocaleLink href={`/shop/${product.slug}`}>
       <Card className="group hover:shadow-lg hover:border-primary/30 transition-all h-full cursor-pointer" data-testid={`card-product-${product.slug}`}>
@@ -88,15 +103,25 @@ function ProductCard({ product }: { product: DigitalProduct }) {
           )}
           <div className="flex items-center gap-2">
             <span className="text-lg font-bold text-primary" data-testid={`text-price-${product.slug}`}>
-              {formatPrice(product.price)}
+              {formatPrice(effectivePrice)}
             </span>
-            {hasDiscount && (
+            {saleActive && (
               <>
                 <span className="text-sm text-gray-400 line-through" data-testid={`text-compare-price-${product.slug}`}>
-                  {formatPrice(product.compareAtPrice!)}
+                  {formatPrice(product.price)}
                 </span>
                 <span className="text-xs font-medium text-green-600" data-testid={`text-savings-${product.slug}`}>
-                  {t("shop.product.save")} {formatPrice(product.compareAtPrice! - product.price)}
+                  {t("shop.product.save")} {formatPrice(product.price - effectivePrice)}
+                </span>
+              </>
+            )}
+            {!saleActive && product.compareAtPrice && product.compareAtPrice > product.price && (
+              <>
+                <span className="text-sm text-gray-400 line-through" data-testid={`text-compare-price-${product.slug}`}>
+                  {formatPrice(product.compareAtPrice)}
+                </span>
+                <span className="text-xs font-medium text-green-600" data-testid={`text-savings-${product.slug}`}>
+                  {t("shop.product.save")} {formatPrice(product.compareAtPrice - product.price)}
                 </span>
               </>
             )}
@@ -168,6 +193,8 @@ function AdminProductManager() {
   const [syncUrl, setSyncUrl] = useState("");
   const [syncing, setSyncing] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
+  const [saleProductId, setSaleProductId] = useState<string | null>(null);
+  const [saleForm, setSaleForm] = useState({ salePriceDollars: "", saleStartsAt: "", saleEndsAt: "" });
   const [form, setForm] = useState({
     title: "", slug: "", description: "", shortDescription: "", priceDollars: "19.99",
     compareAtDollars: "", fileUrl: "", coverImageUrl: "", category: "Cram Guide",
@@ -328,6 +355,40 @@ function AdminProductManager() {
     }
   };
 
+  const handleSaveSale = async (productId: string) => {
+    try {
+      const res = await adminFetch(`/api/admin/shop/products/${productId}/sale`, {
+        method: "POST",
+        body: { salePriceDollars: saleForm.salePriceDollars, saleStartsAt: saleForm.saleStartsAt, saleEndsAt: saleForm.saleEndsAt },
+      });
+      if (res.ok) {
+        toast({ title: "Sale activated" });
+        setSaleProductId(null);
+        loadProducts();
+      } else {
+        const err = await res.json();
+        toast({ title: "Error", description: err.error, variant: "destructive" });
+      }
+    } catch (e: any) {
+      toast({ title: "Error", description: e.message, variant: "destructive" });
+    }
+  };
+
+  const handleClearSale = async (productId: string) => {
+    try {
+      const res = await adminFetch(`/api/admin/shop/products/${productId}/sale`, {
+        method: "POST",
+        body: { clearSale: true },
+      });
+      if (res.ok) {
+        toast({ title: "Sale cleared" });
+        loadProducts();
+      }
+    } catch (e: any) {
+      toast({ title: "Error", description: e.message, variant: "destructive" });
+    }
+  };
+
   const startEdit = (p: DigitalProduct) => {
     setEditingId(p.id);
     setForm({
@@ -467,67 +528,130 @@ function AdminProductManager() {
 
       {products.length > 0 && (
         <div className="space-y-2">
-          {products.map(p => (
-            <div key={p.id} className="flex items-center justify-between bg-gray-50 rounded-lg p-3" data-testid={`admin-product-row-${p.slug}`}>
-              <div>
-                <span className="font-medium text-sm">{p.title}</span>
-                <span className="text-xs text-gray-400 ml-2">{formatPrice(p.price)}</span>
-                {!p.isActive && <Badge variant="outline" className="ml-2 text-xs text-red-500">Inactive</Badge>}
-              </div>
-              <div className="flex gap-1">
-                <Button onClick={() => startEdit(p)} variant="ghost" size="sm" data-testid={`button-edit-${p.slug}`}><Edit className="w-4 h-4" /></Button>
-                {p.fileUrl && (
+          {products.map(p => {
+            const now = new Date();
+            const hasSale = p.salePrice && p.saleStartsAt && p.saleEndsAt;
+            const saleActive = hasSale && now >= new Date(p.saleStartsAt!) && now <= new Date(p.saleEndsAt!);
+            const saleUpcoming = hasSale && now < new Date(p.saleStartsAt!);
+            const saleExpired = hasSale && now > new Date(p.saleEndsAt!);
+            return (
+            <div key={p.id} className="bg-gray-50 rounded-lg p-3 space-y-2" data-testid={`admin-product-row-${p.slug}`}>
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2 flex-wrap">
+                  <span className="font-medium text-sm">{p.title}</span>
+                  <span className="text-xs text-gray-400">{formatPrice(p.price)}</span>
+                  {!p.isActive && <Badge variant="outline" className="text-xs text-red-500">Inactive</Badge>}
+                  {saleActive && <Badge className="bg-green-100 text-green-700 text-[10px]" data-testid={`badge-sale-active-${p.slug}`}>SALE: {formatPrice(p.salePrice!)}</Badge>}
+                  {saleUpcoming && <Badge className="bg-blue-100 text-blue-700 text-[10px]" data-testid={`badge-sale-upcoming-${p.slug}`}>Sale scheduled</Badge>}
+                  {saleExpired && <Badge className="bg-gray-100 text-gray-500 text-[10px]">Sale expired</Badge>}
+                </div>
+                <div className="flex gap-1">
+                  <Button onClick={() => startEdit(p)} variant="ghost" size="sm" data-testid={`button-edit-${p.slug}`}><Edit className="w-4 h-4" /></Button>
+                  <Button
+                    onClick={() => {
+                      if (saleProductId === p.id) { setSaleProductId(null); return; }
+                      setSaleProductId(p.id);
+                      setSaleForm({
+                        salePriceDollars: p.salePrice ? (p.salePrice / 100).toFixed(2) : "",
+                        saleStartsAt: p.saleStartsAt ? new Date(p.saleStartsAt).toISOString().slice(0, 16) : "",
+                        saleEndsAt: p.saleEndsAt ? new Date(p.saleEndsAt).toISOString().slice(0, 16) : "",
+                      });
+                    }}
+                    variant="ghost" size="sm" data-testid={`button-sale-${p.slug}`}
+                    title="Manage sale"
+                  >
+                    <Tag className={`w-4 h-4 ${saleActive ? "text-green-500" : "text-gray-400"}`} />
+                  </Button>
+                  {p.fileUrl && (
+                    <Button
+                      onClick={async () => {
+                        try {
+                          const res = await adminFetch(`/api/admin/shop/products/${p.id}/download`);
+                          if (!res.ok) { toast({ title: "Download failed", variant: "destructive" }); return; }
+                          const blob = await res.blob();
+                          const url = URL.createObjectURL(blob);
+                          const a = document.createElement("a");
+                          a.href = url;
+                          a.download = `${p.slug || "product"}.pdf`;
+                          document.body.appendChild(a);
+                          a.click();
+                          a.remove();
+                          URL.revokeObjectURL(url);
+                        } catch (e: any) {
+                          toast({ title: "Download error", description: e.message, variant: "destructive" });
+                        }
+                      }}
+                      variant="ghost" size="sm" data-testid={`button-download-${p.slug}`}
+                      title="Download full PDF"
+                    >
+                      <Download className="w-4 h-4 text-blue-500" />
+                    </Button>
+                  )}
                   <Button
                     onClick={async () => {
                       try {
-                        const res = await adminFetch(`/api/admin/shop/products/${p.id}/download`);
-                        if (!res.ok) { toast({ title: "Download failed", variant: "destructive" }); return; }
-                        const blob = await res.blob();
-                        const url = URL.createObjectURL(blob);
-                        const a = document.createElement("a");
-                        a.href = url;
-                        a.download = `${p.slug || "product"}.pdf`;
-                        document.body.appendChild(a);
-                        a.click();
-                        a.remove();
-                        URL.revokeObjectURL(url);
+                        const res = await adminFetch(`/api/admin/shop/products/${p.id}/generate-preview`, {
+                          method: "POST",
+                          body: { pageCount: 3 },
+                        });
+                        if (res.ok) {
+                          toast({ title: "Preview generated" });
+                          loadProducts();
+                        } else {
+                          const err = await res.json().catch(() => ({}));
+                          toast({ title: "Preview Error", description: err.error || "Failed", variant: "destructive" });
+                        }
                       } catch (e: any) {
-                        toast({ title: "Download error", description: e.message, variant: "destructive" });
+                        toast({ title: "Error", description: e.message, variant: "destructive" });
                       }
                     }}
-                    variant="ghost" size="sm" data-testid={`button-download-${p.slug}`}
-                    title="Download full PDF"
+                    variant="ghost" size="sm" data-testid={`button-gen-preview-${p.slug}`}
+                    title="Generate watermarked preview"
                   >
-                    <Download className="w-4 h-4 text-blue-500" />
+                    <Shield className="w-4 h-4 text-amber-500" />
                   </Button>
-                )}
-                <Button
-                  onClick={async () => {
-                    try {
-                      const res = await adminFetch(`/api/admin/shop/products/${p.id}/generate-preview`, {
-                        method: "POST",
-                        body: { pageCount: 3 },
-                      });
-                      if (res.ok) {
-                        toast({ title: "Preview generated" });
-                        loadProducts();
-                      } else {
-                        const err = await res.json().catch(() => ({}));
-                        toast({ title: "Preview Error", description: err.error || "Failed", variant: "destructive" });
-                      }
-                    } catch (e: any) {
-                      toast({ title: "Error", description: e.message, variant: "destructive" });
-                    }
-                  }}
-                  variant="ghost" size="sm" data-testid={`button-gen-preview-${p.slug}`}
-                  title="Generate watermarked preview"
-                >
-                  <Shield className="w-4 h-4 text-amber-500" />
-                </Button>
-                <Button onClick={() => handleDelete(p.id)} variant="ghost" size="sm" data-testid={`button-delete-${p.slug}`}><Trash2 className="w-4 h-4 text-red-400" /></Button>
+                  <Button onClick={() => handleDelete(p.id)} variant="ghost" size="sm" data-testid={`button-delete-${p.slug}`}><Trash2 className="w-4 h-4 text-red-400" /></Button>
+                </div>
               </div>
+              {saleProductId === p.id && (
+                <div className="bg-white border border-green-200 rounded-lg p-3 space-y-2" data-testid={`panel-sale-${p.slug}`}>
+                  <p className="text-xs font-semibold text-gray-700">Sale Settings for {p.title}</p>
+                  <p className="text-[10px] text-gray-500">Regular price: {formatPrice(p.price)}</p>
+                  <div className="grid grid-cols-3 gap-2">
+                    <div>
+                      <label className="text-[10px] font-medium text-gray-400 block mb-0.5">Sale Price ($)</label>
+                      <Input type="number" step="0.01" placeholder="e.g. 9.99" value={saleForm.salePriceDollars} onChange={e => setSaleForm(f => ({...f, salePriceDollars: e.target.value}))} className="h-7 text-xs" data-testid={`input-sale-price-${p.slug}`} />
+                    </div>
+                    <div>
+                      <label className="text-[10px] font-medium text-gray-400 block mb-0.5">Starts</label>
+                      <Input type="datetime-local" value={saleForm.saleStartsAt} onChange={e => setSaleForm(f => ({...f, saleStartsAt: e.target.value}))} className="h-7 text-xs" data-testid={`input-sale-start-${p.slug}`} />
+                    </div>
+                    <div>
+                      <label className="text-[10px] font-medium text-gray-400 block mb-0.5">Ends</label>
+                      <Input type="datetime-local" value={saleForm.saleEndsAt} onChange={e => setSaleForm(f => ({...f, saleEndsAt: e.target.value}))} className="h-7 text-xs" data-testid={`input-sale-end-${p.slug}`} />
+                    </div>
+                  </div>
+                  {saleForm.salePriceDollars && Number(saleForm.salePriceDollars) > 0 && (
+                    <p className="text-[10px] text-green-600 font-medium">
+                      Discount: {Math.round((1 - (Number(saleForm.salePriceDollars) * 100) / p.price) * 100)}% off
+                    </p>
+                  )}
+                  <div className="flex gap-2">
+                    <Button onClick={() => handleSaveSale(p.id)} size="sm" className="h-7 text-xs" data-testid={`button-save-sale-${p.slug}`}>
+                      <Tag className="w-3 h-3 mr-1" /> Activate Sale
+                    </Button>
+                    {hasSale && (
+                      <Button onClick={() => handleClearSale(p.id)} size="sm" variant="outline" className="h-7 text-xs text-red-500" data-testid={`button-clear-sale-${p.slug}`}>
+                        Clear Sale
+                      </Button>
+                    )}
+                    <Button onClick={() => setSaleProductId(null)} size="sm" variant="ghost" className="h-7 text-xs">Cancel</Button>
+                  </div>
+                </div>
+              )}
             </div>
-          ))}
+            );
+          })}
         </div>
       )}
     </div>

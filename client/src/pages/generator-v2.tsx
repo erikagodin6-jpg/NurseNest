@@ -142,7 +142,8 @@ export default function GeneratorV2Page() {
   const [pubTitle, setPubTitle] = useState("");
   const [pubDesc, setPubDesc] = useState("");
   const [pubPrice, setPubPrice] = useState("19.99");
-  const [pubCompareAt, setPubCompareAt] = useState("29.99");
+  const [pubCompareAt, setPubCompareAt] = useState("");
+  const [showCompareAt, setShowCompareAt] = useState(false);
   const [pubCategory, setPubCategory] = useState("question-pack");
   const [pubTierTarget, setPubTierTarget] = useState("all");
   const [pubFeatured, setPubFeatured] = useState(false);
@@ -185,7 +186,8 @@ export default function GeneratorV2Page() {
   const [showArchived, setShowArchived] = useState(false);
   const [publishOnComplete, setPublishOnComplete] = useState(false);
   const [presetPrice, setPresetPrice] = useState("19.99");
-  const [presetCompareAt, setPresetCompareAt] = useState("29.99");
+  const [presetCompareAt, setPresetCompareAt] = useState("");
+  const [showPresetCompareAt, setShowPresetCompareAt] = useState(false);
   const [runningIds, setRunningIds] = useState<Set<string>>(new Set());
   const multiPollRef = useRef<Map<string, ReturnType<typeof setInterval>>>(new Map());
 
@@ -418,7 +420,7 @@ export default function GeneratorV2Page() {
         if (data.title) setPubTitle(data.title);
         if (data.description) setPubDesc(data.description);
         if (data.price) setPubPrice(data.price);
-        if (data.compareAt) setPubCompareAt(data.compareAt);
+        if (data.compareAt) { setPubCompareAt(data.compareAt); setShowCompareAt(true); }
         toast({ title: "Listing generated" });
       } else {
         toast({ title: "Auto-listing failed", variant: "destructive" });
@@ -832,15 +834,21 @@ export default function GeneratorV2Page() {
                     <Zap className="w-3 h-3 text-amber-500" /> Publish when finished
                   </label>
                   {publishOnComplete && (
-                    <div className="grid grid-cols-2 gap-2 pl-5">
+                    <div className="space-y-2 pl-5">
                       <div>
                         <label className="text-[10px] font-medium text-gray-400 block mb-0.5">Price ($)</label>
                         <Input type="number" step="0.01" value={presetPrice} onChange={e => setPresetPrice(e.target.value)} className="h-7 text-xs" data-testid="input-preset-price" />
                       </div>
-                      <div>
-                        <label className="text-[10px] font-medium text-gray-400 block mb-0.5">Compare at ($)</label>
-                        <Input type="number" step="0.01" value={presetCompareAt} onChange={e => setPresetCompareAt(e.target.value)} className="h-7 text-xs" data-testid="input-preset-compare" />
-                      </div>
+                      <label className="flex items-center gap-1.5 text-[10px] text-gray-500 cursor-pointer" data-testid="toggle-preset-compare-at">
+                        <input type="checkbox" checked={showPresetCompareAt} onChange={e => { setShowPresetCompareAt(e.target.checked); if (!e.target.checked) setPresetCompareAt(""); }} className="rounded w-3 h-3" />
+                        Add compare-at price
+                      </label>
+                      {showPresetCompareAt && (
+                        <div>
+                          <label className="text-[10px] font-medium text-gray-400 block mb-0.5">Compare at ($)</label>
+                          <Input type="number" step="0.01" value={presetCompareAt} onChange={e => setPresetCompareAt(e.target.value)} className="h-7 text-xs" data-testid="input-preset-compare" />
+                        </div>
+                      )}
                     </div>
                   )}
                 </div>
@@ -1331,17 +1339,23 @@ export default function GeneratorV2Page() {
                 <label className="text-xs font-medium text-gray-500 block mb-1">Description</label>
                 <textarea value={pubDesc} onChange={e => setPubDesc(e.target.value)} rows={3} className="w-full rounded-lg border px-3 py-2 text-sm resize-none" data-testid="input-pub-desc" />
               </div>
-              <div className="grid grid-cols-2 gap-3">
+              <div className="space-y-2">
                 <div>
                   <label className="text-xs font-medium text-gray-500 block mb-1">Price ($)</label>
                   <Input type="number" step="0.01" value={pubPrice} onChange={e => setPubPrice(e.target.value)} className="text-sm" data-testid="input-pub-price" />
                 </div>
-                <div>
-                  <label className="text-xs font-medium text-gray-500 block mb-1">Compare at ($)</label>
-                  <Input type="number" step="0.01" value={pubCompareAt} onChange={e => setPubCompareAt(e.target.value)} className="text-sm" data-testid="input-pub-compare" />
-                </div>
+                <label className="flex items-center gap-2 text-xs text-gray-600 cursor-pointer" data-testid="toggle-compare-at">
+                  <input type="checkbox" checked={showCompareAt} onChange={e => { setShowCompareAt(e.target.checked); if (!e.target.checked) setPubCompareAt(""); }} className="rounded" />
+                  Show compare-at price (strikethrough)
+                </label>
+                {showCompareAt && (
+                  <div>
+                    <label className="text-xs font-medium text-gray-500 block mb-1">Compare at ($)</label>
+                    <Input type="number" step="0.01" value={pubCompareAt} onChange={e => setPubCompareAt(e.target.value)} className="text-sm" data-testid="input-pub-compare" />
+                  </div>
+                )}
               </div>
-              {pubCompareAt && pubPrice && Number(pubCompareAt) > Number(pubPrice) && (
+              {showCompareAt && pubCompareAt && pubPrice && Number(pubCompareAt) > Number(pubPrice) && (
                 <div className="text-xs text-green-600 font-medium bg-green-50 px-2 py-1 rounded">
                   Savings badge: Save ${(Number(pubCompareAt) - Number(pubPrice)).toFixed(2)} ({Math.round((1 - Number(pubPrice) / Number(pubCompareAt)) * 100)}% off)
                 </div>
