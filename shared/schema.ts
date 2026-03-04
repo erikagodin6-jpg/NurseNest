@@ -2173,3 +2173,173 @@ export const pinterestPins = pgTable("pinterest_pins", {
 export const insertPinterestPinSchema = createInsertSchema(pinterestPins).omit({ id: true, createdAt: true });
 export type PinterestPin = typeof pinterestPins.$inferSelect;
 export type InsertPinterestPin = z.infer<typeof insertPinterestPinSchema>;
+
+export const seoClusters = pgTable("seo_clusters", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  keyword: text("keyword").notNull(),
+  countryMode: text("country_mode").notNull().default("BOTH"),
+  examTier: text("exam_tier").notNull().default("ALL"),
+  pillarSlug: text("pillar_slug").notNull().unique(),
+  status: text("status").notNull().default("draft"),
+  notes: text("notes"),
+  siteContext: text("site_context").notNull().default("nursing"),
+  careerTrack: text("career_track"),
+  careerCountryMode: text("career_country_mode").notNull().default("BOTH"),
+  examName: text("exam_name"),
+  blueprintTags: jsonb("blueprint_tags").default(sql`'[]'::jsonb`),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export const insertSeoClusterSchema = createInsertSchema(seoClusters).omit({ id: true, createdAt: true, updatedAt: true });
+export type SeoCluster = typeof seoClusters.$inferSelect;
+export type InsertSeoCluster = z.infer<typeof insertSeoClusterSchema>;
+
+export const seoArticles = pgTable("seo_articles", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  clusterId: varchar("cluster_id").notNull(),
+  type: text("type").notNull(),
+  status: text("status").notNull().default("draft"),
+  title: text("title").notNull(),
+  slug: text("slug").notNull().unique(),
+  targetKeyword: text("target_keyword").notNull(),
+  searchIntent: text("search_intent").notNull().default("informational"),
+  metaTitle: text("meta_title"),
+  metaDescription: text("meta_description"),
+  outlineJson: jsonb("outline_json").default(sql`'{}'::jsonb`),
+  contentMd: text("content_md").notNull().default(""),
+  wordCount: integer("word_count").notNull().default(0),
+  readingLevel: text("reading_level"),
+  canonicalUrl: text("canonical_url"),
+  requiresInfographic: boolean("requires_infographic").notNull().default(true),
+  requiresPins: boolean("requires_pins").notNull().default(true),
+  requiresPracticeQuestions: boolean("requires_practice_questions").notNull().default(true),
+  publishedAt: timestamp("published_at"),
+  siteContext: text("site_context").notNull().default("nursing"),
+  careerTrack: text("career_track"),
+  examName: text("exam_name"),
+  primaryCategory: text("primary_category"),
+  secondaryCategory: text("secondary_category"),
+  gatingLevel: text("gating_level").notNull().default("public"),
+  requiresDisclaimer: boolean("requires_disclaimer").notNull().default(true),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export const insertSeoArticleSchema = createInsertSchema(seoArticles).omit({ id: true, createdAt: true, updatedAt: true });
+export type SeoArticle = typeof seoArticles.$inferSelect;
+export type InsertSeoArticle = z.infer<typeof insertSeoArticleSchema>;
+
+export const infographicTemplates = pgTable("infographic_templates", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  templateKey: text("template_key").notNull().unique(),
+  name: text("name").notNull(),
+  category: text("category").notNull(),
+  isActive: boolean("is_active").notNull().default(true),
+  promptText: text("prompt_text").notNull(),
+  countryMode: text("country_mode").notNull().default("BOTH"),
+  examTier: text("exam_tier").notNull().default("ALL"),
+  siteContext: text("site_context").notNull().default("nursing"),
+  careerTrack: text("career_track"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export const insertInfographicTemplateSchema = createInsertSchema(infographicTemplates).omit({ id: true, createdAt: true, updatedAt: true });
+export type InfographicTemplate = typeof infographicTemplates.$inferSelect;
+export type InsertInfographicTemplate = z.infer<typeof insertInfographicTemplateSchema>;
+
+export const seoInfographics = pgTable("seo_infographics", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  articleId: varchar("article_id").notNull(),
+  templateId: varchar("template_id"),
+  type: text("type").notNull(),
+  variant: text("variant").notNull().default("default"),
+  status: text("status").notNull().default("draft"),
+  title: text("title").notNull(),
+  altText: text("alt_text").notNull().default(""),
+  promptUsed: text("prompt_used").notNull().default(""),
+  width: integer("width").notNull().default(3000),
+  height: integer("height").notNull().default(2000),
+  filePath: text("file_path").notNull().default(""),
+  publicUrl: text("public_url").notNull().default(""),
+  checksum: text("checksum"),
+  qcErrors: jsonb("qc_errors").default(sql`'[]'::jsonb`),
+  siteContext: text("site_context").notNull().default("nursing"),
+  careerTrack: text("career_track"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export const insertSeoInfographicSchema = createInsertSchema(seoInfographics).omit({ id: true, createdAt: true, updatedAt: true });
+export type SeoInfographic = typeof seoInfographics.$inferSelect;
+export type InsertSeoInfographic = z.infer<typeof insertSeoInfographicSchema>;
+
+export const seoPins = pgTable("seo_pins", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  articleId: varchar("article_id").notNull(),
+  infographicId: varchar("infographic_id"),
+  pinVariant: integer("pin_variant").notNull(),
+  headline: text("headline").notNull(),
+  bulletsJson: jsonb("bullets_json").default(sql`'[]'::jsonb`),
+  status: text("status").notNull().default("draft"),
+  width: integer("width").notNull().default(1000),
+  height: integer("height").notNull().default(1500),
+  filePath: text("file_path").notNull().default(""),
+  publicUrl: text("public_url").notNull().default(""),
+  qcErrors: jsonb("qc_errors").default(sql`'[]'::jsonb`),
+  siteContext: text("site_context").notNull().default("nursing"),
+  careerTrack: text("career_track"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export const insertSeoPinSchema = createInsertSchema(seoPins).omit({ id: true, createdAt: true, updatedAt: true });
+export type SeoPin = typeof seoPins.$inferSelect;
+export type InsertSeoPin = z.infer<typeof insertSeoPinSchema>;
+
+export const seoInternalLinks = pgTable("seo_internal_links", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  fromArticleId: varchar("from_article_id").notNull(),
+  toArticleId: varchar("to_article_id").notNull(),
+  anchorText: text("anchor_text").notNull(),
+  reason: text("reason").notNull(),
+  placement: text("placement").notNull().default("body"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const insertSeoInternalLinkSchema = createInsertSchema(seoInternalLinks).omit({ id: true, createdAt: true });
+export type SeoInternalLink = typeof seoInternalLinks.$inferSelect;
+export type InsertSeoInternalLink = z.infer<typeof insertSeoInternalLinkSchema>;
+
+export const seoPublishQueue = pgTable("seo_publish_queue", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  articleId: varchar("article_id").notNull(),
+  scheduledFor: timestamp("scheduled_for").notNull(),
+  priority: integer("priority").notNull().default(50),
+  status: text("status").notNull().default("queued"),
+  blockedReason: text("blocked_reason"),
+  siteContext: text("site_context").notNull().default("nursing"),
+  careerTrack: text("career_track"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export const insertSeoPublishQueueSchema = createInsertSchema(seoPublishQueue).omit({ id: true, createdAt: true, updatedAt: true });
+export type SeoPublishQueueItem = typeof seoPublishQueue.$inferSelect;
+export type InsertSeoPublishQueueItem = z.infer<typeof insertSeoPublishQueueSchema>;
+
+export const qcRuns = pgTable("qc_runs", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  scope: text("scope").notNull(),
+  clusterId: varchar("cluster_id"),
+  articleId: varchar("article_id"),
+  assetId: varchar("asset_id"),
+  passed: boolean("passed").notNull(),
+  errors: jsonb("errors").default(sql`'[]'::jsonb`),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const insertQcRunSchema = createInsertSchema(qcRuns).omit({ id: true, createdAt: true });
+export type QcRun = typeof qcRuns.$inferSelect;
+export type InsertQcRun = z.infer<typeof insertQcRunSchema>;

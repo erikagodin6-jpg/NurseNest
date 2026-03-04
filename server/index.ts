@@ -631,6 +631,9 @@ app.use((req, res, next) => {
   const { setupAutopilotRoutes } = await import("./autopilot");
   setupAutopilotRoutes(app);
 
+  const { setupSeoEngineRoutes } = await import("./seo-engine");
+  setupSeoEngineRoutes(app);
+
   // Register the rest of your app routes
   await registerRoutes(httpServer, app);
 
