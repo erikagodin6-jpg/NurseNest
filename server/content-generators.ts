@@ -67,6 +67,70 @@ FORMAT your output as valid JSON with these fields:
   "wordCount": 0
 }`;
 
+const ALLIED_HEALTH_PAGE_SYSTEM_PROMPT = `You are an allied health educator creating educational study resources for NurseNest.
+
+The goal is to create high-quality pages that help students studying for allied health certification exams.
+
+Supported careers:
+- Pharmacy Technician (PTCB/ExCPT)
+- Respiratory Therapy (RRT/TMC)
+- Paramedic / EMS (NREMT)
+- Medical Laboratory Technologist (MLT/ASCP)
+- Medical Imaging / Radiology (ARRT)
+
+ARTICLE REQUIREMENTS:
+- Length: 1500-2200 words
+- Audience: allied health students
+- Tone: clear, educational, exam-focused
+
+STRUCTURE (you MUST include ALL of these sections):
+1. Title
+2. Introduction
+3. Role Scope and Clinical Settings
+4. Core Concepts Explanation
+5. Clinical Workflow or Procedure Steps
+6. Safety Considerations
+7. Common Exam Traps
+8. Clinical Pearls
+9. Practice Questions (minimum 10 multiple-choice questions)
+10. Detailed rationales for each answer (explain why correct AND why each wrong answer is wrong)
+11. Summary
+
+SEO OUTPUT (include at the very top before the article):
+- SEO title (60 chars max)
+- Meta description (155 chars max)
+- URL slug (lowercase, hyphenated)
+
+VISUAL CONTENT RECOMMENDATION:
+At the end, recommend one infographic that illustrates the topic. Examples:
+- Ventilator settings chart
+- Dosage calculation formula chart
+- Order of draw chart
+Provide a short description for the recommended infographic.
+
+FORMAT your output as valid JSON with these fields:
+{
+  "seoTitle": "...",
+  "metaDescription": "...",
+  "slug": "...",
+  "title": "...",
+  "career": "pharmacy_tech | respiratory_therapy | paramedic_ems | mlt | radiology",
+  "article": "... (full markdown article with all sections)",
+  "practiceQuestions": [
+    {
+      "question": "...",
+      "options": ["A. ...", "B. ...", "C. ...", "D. ..."],
+      "correctAnswer": "A",
+      "rationale": "..."
+    }
+  ],
+  "infographicRecommendation": {
+    "title": "...",
+    "description": "..."
+  },
+  "wordCount": 0
+}`;
+
 const PRACTICE_QUESTION_SYSTEM_PROMPT = `You are a senior nursing exam item writer creating exam-style practice questions aligned with:
 - REx-PN
 - NCLEX-PN
@@ -189,6 +253,115 @@ Make the content comprehensive, clinically accurate, and exam-focused.`
       [JSON.stringify({
         title: parsed.title,
         slug: parsed.slug,
+        wordCount: parsed.wordCount,
+        questionCount: parsed.practiceQuestions?.length || 0,
+        queuedForReview: true,
+      }), jobId]
+    );
+
+    await pool.query(
+      "UPDATE autopilot_engines SET last_run_at = NOW() WHERE engine_key = 'blog_engine'"
+    );
+
+    return parsed;
+  } catch (err: any) {
+    await pool.query(
+      "UPDATE autopilot_jobs SET status = 'failed', error = $1, completed_at = NOW() WHERE id = $2",
+      [err.message, jobId]
+    );
+    throw err;
+  }
+}
+
+const ALLIED_CAREER_LABELS: Record<string, string> = {
+  pharmacy_tech: "Pharmacy Technician (PTCB/ExCPT)",
+  respiratory_therapy: "Respiratory Therapy (RRT/TMC)",
+  paramedic_ems: "Paramedic / EMS (NREMT)",
+  mlt: "Medical Laboratory Technologist (MLT/ASCP)",
+  radiology: "Medical Imaging / Radiology (ARRT)",
+};
+
+export async function generateAlliedHealthPage(
+  topic: string,
+  targetKeyword: string,
+  career: string,
+  wordCount: number,
+  jobId: string
+): Promise<any> {
+  const openai = getOpenAI();
+
+  await pool.query(
+    "UPDATE autopilot_jobs SET status = 'running', started_at = NOW() WHERE id = $1",
+    [jobId]
+  );
+
+  const careerLabel = ALLIED_CAREER_LABELS[career] || career;
+
+  try {
+    const response = await openai.chat.completions.create({
+      model: "gpt-4o",
+      messages: [
+        { role: "system", content: ALLIED_HEALTH_PAGE_SYSTEM_PROMPT },
+        {
+          role: "user",
+          content: `Generate a comprehensive allied health study page on the following topic:
+
+Topic: ${topic}
+Target SEO Keyword: ${targetKeyword}
+Career / Certification: ${careerLabel}
+Target Word Count: ${wordCount}
+
+Requirements:
+- Focus specifically on ${careerLabel} certification exam preparation
+- Include role scope and clinical settings relevant to this career
+- Include clinical workflow or procedure steps specific to this discipline
+- Include safety considerations and regulatory requirements
+- Include at least 10 practice questions with detailed rationales
+- Common exam traps should warn about frequent mistakes students make on the ${careerLabel} exam
+- Clinical pearls should be memorable exam tips specific to this career
+- Visual content recommendation should be relevant to ${careerLabel} practice
+
+Make the content comprehensive, clinically accurate, and exam-focused.`
+        }
+      ],
+      temperature: 0.7,
+      max_tokens: 8000,
+      response_format: { type: "json_object" },
+    });
+
+    const content = response.choices[0]?.message?.content;
+    if (!content) throw new Error("No content returned from generation");
+
+    const parsed = JSON.parse(content);
+
+    await pool.query(
+      `INSERT INTO publishing_queue (engine_key, content_type, title, content, status, metadata, created_by)
+       VALUES ('blog_engine', 'blog', $1, $2, 'pending_review', $3, 'autopilot')`,
+      [
+        parsed.title || topic,
+        JSON.stringify(parsed),
+        JSON.stringify({
+          topic,
+          targetKeyword,
+          career,
+          careerLabel,
+          contentType: "allied_health",
+          wordCount: parsed.wordCount || wordCount,
+          slug: parsed.slug,
+          seoTitle: parsed.seoTitle,
+          metaDescription: parsed.metaDescription,
+          questionCount: parsed.practiceQuestions?.length || 0,
+          generatedAt: new Date().toISOString(),
+        }),
+      ]
+    );
+
+    await pool.query(
+      `UPDATE autopilot_jobs SET status = 'completed', result = $1, completed_at = NOW() WHERE id = $2`,
+      [JSON.stringify({
+        title: parsed.title,
+        slug: parsed.slug,
+        career,
         wordCount: parsed.wordCount,
         questionCount: parsed.practiceQuestions?.length || 0,
         queuedForReview: true,
