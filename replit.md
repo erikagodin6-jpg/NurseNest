@@ -61,10 +61,12 @@ The system supports a multi-career allied health architecture, with career confi
 - **Content Generators** (`server/content-generators.ts`): 5 live generators that call OpenAI (gpt-4o) when autopilot jobs are triggered:
   - `generateNursingPage()`: Master prompt for 1500-2500 word nursing study pages (intro, concept explanation, clinical assessment, nursing interventions, tables, exam traps, clinical pearls, 10+ practice questions with rationales, infographic recommendations, SEO metadata)
   - `generatePracticeQuestionPage()`: Master prompt for 25-question practice banks (MC, SATA, case-based) with 300+ word rationales, auto-validation, difficulty distribution
+  - `generateAlliedHealthPage()`: Master prompt for 1500-2200 word allied health study pages — supports 5 careers: Pharmacy Tech (PTCB/ExCPT), Respiratory Therapy (RRT/TMC), Paramedic/EMS (NREMT), MLT (ASCP), Radiology (ARRT). Structure: intro, role scope, core concepts, clinical workflow, safety considerations, exam traps, clinical pearls, 10+ practice questions, infographic recommendation, SEO metadata
   - `generateVisualDiagram()`: Visual content specification generator (anatomy, pathophysiology, drug mechanisms, lab values)
   - `generatePracticeSEOPage()`: SEO-optimized practice question pages with FAQ schema and keyword targeting
   - `generateCourseContent()`: Complete course outlines with modules, lessons, quizzes, and learning outcomes
-- **Job Processing**: `processAutopilotJob()` in `server/autopilot.ts` dispatches jobs to generators asynchronously. Jobs update status (queued -> running -> completed/failed) and results feed into Publishing Queue for admin review.
+- **Job Processing**: `processAutopilotJob()` in `server/autopilot.ts` dispatches jobs to generators asynchronously. Blog engine routes to `generateNursingPage` by default, or `generateAlliedHealthPage` when `payload.contentType === "allied_health"`. Jobs update status (queued -> running -> completed/failed) and results feed into Publishing Queue for admin review.
+- **Blog Engine Tab UI**: Content type toggle (Nursing / Allied Health) switches between nursing exam selector (NCLEX-RN, NCLEX-PN, REx-PN, CNPE) and allied health career selector (Pharmacy Tech, Respiratory Therapy, Paramedic/EMS, MLT, Radiology). Both share topic, keyword, and word count fields.
 - Uses `adminFetch` for auth. OpenAI via `AI_INTEGRATIONS_OPENAI_API_KEY`/`AI_INTEGRATIONS_OPENAI_BASE_URL`.
 
 ### Study Path Generator

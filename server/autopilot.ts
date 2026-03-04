@@ -2,6 +2,7 @@ import type { Express, Request, Response } from "express";
 import { pool } from "./storage";
 import {
   generateNursingPage,
+  generateAlliedHealthPage,
   generatePracticeQuestionPage,
   generateVisualDiagram,
   generatePracticeSEOPage,
@@ -65,13 +66,23 @@ async function processAutopilotJob(jobId: string, engineKey: string, payload: an
   try {
     switch (engineKey) {
       case "blog_engine":
-        await generateNursingPage(
-          payload.topic || "General Nursing",
-          payload.targetKeyword || payload.topic || "",
-          payload.examType || "nclex-rn",
-          payload.wordCount || 2000,
-          jobId
-        );
+        if (payload.contentType === "allied_health" && payload.career) {
+          await generateAlliedHealthPage(
+            payload.topic || "General Allied Health",
+            payload.targetKeyword || payload.topic || "",
+            payload.career,
+            payload.wordCount || 1800,
+            jobId
+          );
+        } else {
+          await generateNursingPage(
+            payload.topic || "General Nursing",
+            payload.targetKeyword || payload.topic || "",
+            payload.examType || "nclex-rn",
+            payload.wordCount || 2000,
+            jobId
+          );
+        }
         break;
 
       case "question_factory":

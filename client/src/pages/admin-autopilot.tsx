@@ -481,21 +481,34 @@ function KeywordDiscoveryTab() {
 
 function BlogEngineTab() {
   const queryClient = useQueryClient();
+  const [contentType, setContentType] = useState<"nursing" | "allied_health">("nursing");
   const [topic, setTopic] = useState("");
   const [targetKeyword, setTargetKeyword] = useState("");
   const [examType, setExamType] = useState("nclex-rn");
+  const [career, setCareer] = useState("pharmacy_tech");
   const [wordCount, setWordCount] = useState("2000");
 
   const generateMutation = useMutation({
     mutationFn: async () => {
+      const payload: any = {
+        topic,
+        targetKeyword,
+        wordCount: parseInt(wordCount),
+      };
+      if (contentType === "allied_health") {
+        payload.contentType = "allied_health";
+        payload.career = career;
+      } else {
+        payload.examType = examType;
+      }
       const res = await adminFetch("/api/admin/autopilot/jobs", {
         method: "POST",
         body: {
           engineKey: "blog_engine",
-          payload: { topic, targetKeyword, examType, wordCount: parseInt(wordCount) },
+          payload,
         },
       });
-      if (!res.ok) throw new Error("Blog generation failed");
+      if (!res.ok) throw new Error("Page generation failed");
       return res.json();
     },
     onSuccess: () => {
@@ -514,25 +527,51 @@ function BlogEngineTab() {
 
   const recentRuns = Array.isArray(blogJobs) ? blogJobs : blogJobs?.jobs || [];
 
+  const isNursing = contentType === "nursing";
+
   return (
     <div className="space-y-6">
       <Card data-testid="card-blog-engine">
         <CardHeader>
           <CardTitle className="text-lg flex items-center gap-2">
-            <FileText className="h-5 w-5" /> Nursing Study Page Generator
+            <FileText className="h-5 w-5" /> Study Page Generator
           </CardTitle>
           <p className="text-xs text-gray-500 mt-1">
-            Generates 1500-2500 word study pages with clinical assessment, nursing interventions, tables, exam traps, clinical pearls, 10+ practice questions with rationales, and SEO metadata. Content is queued for review before publishing.
+            {isNursing
+              ? "Generates 1500-2500 word nursing study pages with clinical assessment, nursing interventions, tables, exam traps, clinical pearls, 10+ practice questions with rationales, and SEO metadata."
+              : "Generates 1500-2200 word allied health study pages with role scope, clinical workflows, safety considerations, exam traps, clinical pearls, 10+ practice questions with rationales, and SEO metadata."}
+            {" "}Content is queued for review before publishing.
           </p>
         </CardHeader>
         <CardContent className="space-y-4">
+          <div>
+            <Label className="text-sm mb-1 block">Content Type</Label>
+            <div className="flex gap-2">
+              <Button
+                variant={isNursing ? "default" : "outline"}
+                size="sm"
+                onClick={() => { setContentType("nursing"); setWordCount("2000"); }}
+                data-testid="button-content-type-nursing"
+              >
+                Nursing
+              </Button>
+              <Button
+                variant={!isNursing ? "default" : "outline"}
+                size="sm"
+                onClick={() => { setContentType("allied_health"); setWordCount("1800"); }}
+                data-testid="button-content-type-allied"
+              >
+                Allied Health
+              </Button>
+            </div>
+          </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <Label className="text-sm mb-1 block">Page Topic</Label>
               <Input
                 value={topic}
                 onChange={(e) => setTopic(e.target.value)}
-                placeholder="e.g., Understanding Cardiac Assessment"
+                placeholder={isNursing ? "e.g., Understanding Cardiac Assessment" : "e.g., Order of Draw for Blood Collection"}
                 data-testid="input-blog-topic"
               />
             </div>
@@ -541,24 +580,42 @@ function BlogEngineTab() {
               <Input
                 value={targetKeyword}
                 onChange={(e) => setTargetKeyword(e.target.value)}
-                placeholder="e.g., cardiac assessment nursing"
+                placeholder={isNursing ? "e.g., cardiac assessment nursing" : "e.g., order of draw phlebotomy"}
                 data-testid="input-blog-keyword"
               />
             </div>
-            <div>
-              <Label className="text-sm mb-1 block">Primary Exam</Label>
-              <Select value={examType} onValueChange={setExamType} data-testid="select-blog-exam">
-                <SelectTrigger data-testid="select-blog-exam-trigger">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="nclex-rn">NCLEX-RN</SelectItem>
-                  <SelectItem value="nclex-pn">NCLEX-PN</SelectItem>
-                  <SelectItem value="rex-pn">REx-PN</SelectItem>
-                  <SelectItem value="cnpe">CNPE</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
+            {isNursing ? (
+              <div>
+                <Label className="text-sm mb-1 block">Primary Exam</Label>
+                <Select value={examType} onValueChange={setExamType} data-testid="select-blog-exam">
+                  <SelectTrigger data-testid="select-blog-exam-trigger">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="nclex-rn">NCLEX-RN</SelectItem>
+                    <SelectItem value="nclex-pn">NCLEX-PN</SelectItem>
+                    <SelectItem value="rex-pn">REx-PN</SelectItem>
+                    <SelectItem value="cnpe">CNPE</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            ) : (
+              <div>
+                <Label className="text-sm mb-1 block">Career / Certification</Label>
+                <Select value={career} onValueChange={setCareer} data-testid="select-blog-career">
+                  <SelectTrigger data-testid="select-blog-career-trigger">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="pharmacy_tech">Pharmacy Technician (PTCB/ExCPT)</SelectItem>
+                    <SelectItem value="respiratory_therapy">Respiratory Therapy (RRT/TMC)</SelectItem>
+                    <SelectItem value="paramedic_ems">Paramedic / EMS (NREMT)</SelectItem>
+                    <SelectItem value="mlt">Medical Lab Technologist (MLT/ASCP)</SelectItem>
+                    <SelectItem value="radiology">Medical Imaging / Radiology (ARRT)</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            )}
             <div>
               <Label className="text-sm mb-1 block">Target Word Count</Label>
               <Input
@@ -582,7 +639,7 @@ function BlogEngineTab() {
             {generateMutation.isSuccess && (
               <p className="text-sm text-green-600" data-testid="text-blog-success">
                 <CheckCircle className="inline h-4 w-4 mr-1" />
-                Study page generated and sent to Publishing Queue for review
+                {isNursing ? "Nursing" : "Allied health"} study page generated and sent to Publishing Queue for review
               </p>
             )}
             {generateMutation.isError && (
