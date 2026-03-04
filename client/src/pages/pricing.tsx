@@ -373,6 +373,15 @@ export default function PricingPage() {
                       <CreditCard className="w-4 h-4 mr-2" />
                       {loadingTier === tier.id ? t("pricing.processing") : t("pricing.payWithCard")}
                     </Button>
+
+                    <div className="flex items-center justify-center gap-2 mt-2 py-1.5 px-3 bg-gray-50 rounded-full" data-testid={`bnpl-badges-${tier.id}`}>
+                      <span className="text-[10px] text-gray-400 font-medium">Also accepted:</span>
+                      <span className="text-[10px] font-semibold text-[#FFB3C7]">Klarna</span>
+                      <span className="text-[10px] text-gray-300">|</span>
+                      <span className="text-[10px] font-semibold text-[#B2FCE4]">Afterpay</span>
+                      <span className="text-[10px] text-gray-300">|</span>
+                      <span className="text-[10px] font-semibold text-[#4A4AFF]">Affirm</span>
+                    </div>
                     <Button
                       variant="ghost"
                       className="w-full rounded-full text-sm text-gray-500 hover:text-primary mt-1"
@@ -453,6 +462,43 @@ export default function PricingPage() {
                 </Card>
               );
             })}
+          </div>
+
+          <div className="mb-12 max-w-3xl mx-auto">
+            <Card className="border border-gray-100 shadow-sm">
+              <CardContent className="py-6 px-8">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
+                    <CreditCard className="w-4 h-4 text-primary" />
+                  </div>
+                  <h3 className="font-semibold text-lg text-gray-900" data-testid="text-bnpl-title">Flexible Payment Options</h3>
+                </div>
+                <p className="text-sm text-gray-600 mb-4">
+                  Pay your way. In addition to credit and debit cards, we accept multiple buy-now-pay-later options at checkout so you can start studying immediately.
+                </p>
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3" data-testid="bnpl-options-grid">
+                  <div className="flex flex-col items-center p-3 rounded-lg bg-gray-50 border border-gray-100">
+                    <span className="text-xs font-bold text-gray-700 mb-1">Credit / Debit</span>
+                    <span className="text-[10px] text-gray-400">Visa, Mastercard, Amex</span>
+                  </div>
+                  <div className="flex flex-col items-center p-3 rounded-lg bg-[#FFB3C7]/10 border border-[#FFB3C7]/20">
+                    <span className="text-xs font-bold text-[#E5678F] mb-1">Klarna</span>
+                    <span className="text-[10px] text-gray-400">Pay in 4 installments</span>
+                  </div>
+                  <div className="flex flex-col items-center p-3 rounded-lg bg-[#B2FCE4]/10 border border-[#B2FCE4]/30">
+                    <span className="text-xs font-bold text-[#00C2A8] mb-1">Afterpay</span>
+                    <span className="text-[10px] text-gray-400">Pay in 4 installments</span>
+                  </div>
+                  <div className="flex flex-col items-center p-3 rounded-lg bg-[#4A4AFF]/5 border border-[#4A4AFF]/15">
+                    <span className="text-xs font-bold text-[#4A4AFF] mb-1">Affirm</span>
+                    <span className="text-[10px] text-gray-400">Pay over time (US only)</span>
+                  </div>
+                </div>
+                <p className="text-[10px] text-gray-400 mt-3 text-center">
+                  Buy now, pay later options are available at checkout for eligible purchases. Subject to approval by the payment provider.
+                </p>
+              </CardContent>
+            </Card>
           </div>
 
           <div className="mb-16">

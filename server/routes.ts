@@ -2544,10 +2544,13 @@ Return ONLY a JSON array of flashcard objects, no other text.`;
 
       const baseUrl = `${req.protocol}://${req.get("host")}`;
 
+      const bnplPaymentMethods: string[] = ["card", "klarna", "afterpay_clearpay"];
+      if (!isCAD) bnplPaymentMethods.push("affirm");
+
       if (selectedDuration === "one-time" || tier === "lab-values" || tier === "med-math" || tier === "practice-tools") {
         const session = await stripe.checkout.sessions.create({
           customer: customerId,
-          payment_method_types: ["card"],
+          payment_method_types: amount >= 100 ? bnplPaymentMethods : ["card"],
           line_items: [
             {
               price_data: {
@@ -4996,7 +4999,7 @@ Be conservative: if uncertain, use "unknown". Only "pass" for clearly accurate c
       const stripeClient = new stripe(process.env.STRIPE_SECRET_KEY || "");
       const session = await stripeClient.checkout.sessions.create({
         mode: "payment",
-        payment_method_types: ["card"],
+        payment_method_types: ["card", "klarna", "afterpay_clearpay"],
         line_items: [{
           price_data: {
             currency: "cad",

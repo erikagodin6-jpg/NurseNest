@@ -237,6 +237,16 @@ export default function SubscribePage() {
             <p className="mt-3 text-white/60 text-sm flex items-center justify-center gap-1.5">
               <Shield className="w-4 h-4" /> {tier.guarantee}
             </p>
+            <div className="flex items-center justify-center gap-3 mt-3">
+              <span className="text-white/40 text-[10px]">Also accepted:</span>
+              <span className="text-[11px] font-semibold text-[#FFB3C7]">Klarna</span>
+              <span className="text-white/20">|</span>
+              <span className="text-[11px] font-semibold text-[#B2FCE4]">Afterpay</span>
+              <span className="text-white/20">|</span>
+              <span className="text-[11px] font-semibold text-[#9D9DFF]">Affirm</span>
+              <span className="text-white/20">|</span>
+              <span className="text-[11px] font-semibold text-[#0070ba]">PayPal</span>
+            </div>
           </div>
         </section>
 
