@@ -44,47 +44,8 @@ import { registerObjectStorageRoutes } from "./replit_integrations/object_storag
 import { regionMiddleware, getEffectiveRegion, isRegionAllowed, getDefaultRegionScope, canChangeRegionScope, buildRegionFilter, type Region, type RegionScope } from "./region";
 import { languageMiddleware, getTranslatedFields, getTranslationStatus, getBulkTranslatedTitles, getAvailableLanguages, simpleHash } from "./translation-helpers";
 import { checkAiLimits, recordAiUsage, getAiConfig, setAiConfig } from "./ai-safety";
-
-async function requireAdmin(req: any, res: any) {
-  const authHeader = String(req.headers?.["authorization"] || "");
-  if (authHeader.startsWith("Bearer ")) {
-    const token = authHeader.slice(7).trim();
-    const serverKey = process.env.ADMIN_API_KEY;
-    if (serverKey && token === serverKey) {
-      const adminId = String(req.headers?.["x-admin-id"] || "");
-      if (adminId) {
-        const user = await storage.getUser(adminId);
-        if (user && user.tier === "admin") return user;
-      }
-      const admins = await pool.query(`SELECT * FROM users WHERE tier = 'admin' LIMIT 1`);
-      if (admins.rows.length > 0) {
-        const row = admins.rows[0];
-        return { id: row.id, username: row.username, tier: row.tier, password: row.password, subscriptionStatus: row.subscription_status, email: row.email, region: row.region };
-      }
-    }
-  }
-
-  const username = String(req.body?.username || req.query?.username || "");
-  const password = String(req.body?.password || req.query?.password || "");
-
-  if (username && password) {
-    const user = await storage.getUserByUsername(username);
-    if (user && user.password === password && user.tier === "admin") {
-      return user;
-    }
-  }
-
-  const adminId = String(req.headers?.["x-admin-id"] || req.body?.adminId || req.query?.adminId || "");
-  if (adminId) {
-    const user = await storage.getUser(adminId);
-    if (user && user.tier === "admin") {
-      return user;
-    }
-  }
-
-  res.status(401).json({ error: "Authentication required" });
-  return null;
-}
+import { requireAdmin, signAdminToken } from "./admin-auth";
+import rateLimit from "express-rate-limit";
 
 async function logAudit(req: any, actor: any, entityType: string, entityId: string | null, action: string, beforeJson?: any, afterJson?: any) {
   try {
@@ -2415,7 +2376,16 @@ Return ONLY a JSON array of flashcard objects, no other text.`;
     }
   });
 
-  app.post("/api/auth/login", async (req, res) => {
+  const loginLimiter = rateLimit({
+    windowMs: 60 * 1000,
+    max: 5,
+    keyGenerator: (req: any) => String(req.headers["x-forwarded-for"] || req.ip || "unknown").split(",")[0].trim(),
+    message: { error: "Too many login attempts. Please try again in a minute." },
+    standardHeaders: true,
+    legacyHeaders: false,
+  });
+
+  app.post("/api/auth/login", loginLimiter, async (req, res) => {
     try {
       const { username, password } = req.body;
       const user = await storage.getUserByUsername(username);
@@ -2435,8 +2405,10 @@ Return ONLY a JSON array of flashcard objects, no other text.`;
         email: user.email,
         region: user.region,
       };
-      if (user.tier === "admin" && process.env.ADMIN_API_KEY) {
-        response.apiKey = process.env.ADMIN_API_KEY;
+      if (user.tier === "admin") {
+        const tokenData = signAdminToken(user.id, user.username);
+        response.accessToken = tokenData.accessToken;
+        response.expiresInSeconds = tokenData.expiresInSeconds;
       }
       res.json(response);
     } catch (e: any) {

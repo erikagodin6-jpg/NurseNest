@@ -1,11 +1,4 @@
-function getStoredApiKey(): string | null {
-  if (typeof window === "undefined") return null;
-  try {
-    return localStorage.getItem("nursenest-admin-api-key");
-  } catch {
-    return null;
-  }
-}
+import { getAdminAccessToken, clearAdminToken } from "./auth";
 
 function getStoredAdminId(): string | null {
   if (typeof window === "undefined") return null;
@@ -27,7 +20,7 @@ export async function adminFetch(
   init: (RequestInit & { body?: any }) = {}
 ): Promise<Response> {
   const method = (init.method ?? "GET").toUpperCase();
-  const apiKey = getStoredApiKey();
+  const token = getAdminAccessToken();
   const adminId = getStoredAdminId();
 
   const isAbsolute = /^https?:\/\//i.test(url);
@@ -36,8 +29,8 @@ export async function adminFetch(
   const u = new URL(url, isAbsolute ? undefined : base);
 
   const headers = new Headers(init.headers ?? {});
-  if (apiKey) {
-    headers.set("Authorization", `Bearer ${apiKey}`);
+  if (token) {
+    headers.set("Authorization", `Bearer ${token}`);
   }
   if (adminId) {
     headers.set("x-admin-id", adminId);
@@ -69,5 +62,17 @@ export async function adminFetch(
   }
 
   const finalUrl = isAbsolute ? u.toString() : `${u.pathname}${u.search}`;
-  return fetch(finalUrl, out);
+  const res = await fetch(finalUrl, out);
+
+  if (res.status === 401 && token) {
+    clearAdminToken();
+    if (typeof window !== "undefined") {
+      const currentPath = window.location.pathname;
+      if (currentPath.startsWith("/admin")) {
+        window.location.href = "/login?expired=1";
+      }
+    }
+  }
+
+  return res;
 }

@@ -25,14 +25,27 @@ type AuthContextType = {
 
 const AuthContext = createContext<AuthContextType | null>(null);
 
-function getStoredCredentials(): { username: string; password: string } | null {
+export function getAdminAccessToken(): string | null {
   try {
-    const raw = localStorage.getItem("nursenest-credentials");
-    if (!raw) return null;
-    const parsed = JSON.parse(raw);
-    if (parsed.username && parsed.password) return parsed;
+    const token = sessionStorage.getItem("nn_admin_access_token");
+    const expiresAt = sessionStorage.getItem("nn_admin_expires_at");
+    if (!token) return null;
+    if (expiresAt && Date.now() > Number(expiresAt)) {
+      sessionStorage.removeItem("nn_admin_access_token");
+      sessionStorage.removeItem("nn_admin_expires_at");
+      return null;
+    }
+    return token;
+  } catch {
+    return null;
+  }
+}
+
+export function clearAdminToken() {
+  try {
+    sessionStorage.removeItem("nn_admin_access_token");
+    sessionStorage.removeItem("nn_admin_expires_at");
   } catch {}
-  return null;
 }
 
 export function AuthProvider({ children }: { children: ReactNode }) {
@@ -56,35 +69,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     } catch {}
   }
 
-  async function setPreviewTier(tier: string | null) {
-    const creds = getStoredCredentials();
+  function setPreviewTier(tier: string | null) {
+    setPreviewTierState(tier);
     if (tier) {
-      try {
-        const res = await fetch("/api/admin/preview-mode", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          credentials: "include",
-          body: JSON.stringify({ mode: tier, ...(creds || {}) }),
-        });
-        if (res.ok) {
-          setPreviewTierState(tier);
-          localStorage.setItem("nursenest-preview-tier", tier);
-        }
-      } catch {
-        console.warn("[Preview] Failed to set preview mode on server");
-      }
+      localStorage.setItem("nursenest-preview-tier", tier);
     } else {
-      try {
-        const bodyData: any = {};
-        if (creds) { bodyData.username = creds.username; bodyData.password = creds.password; }
-        await fetch("/api/admin/preview-mode", {
-          method: "DELETE",
-          headers: { "Content-Type": "application/json" },
-          credentials: "include",
-          body: JSON.stringify(bodyData),
-        });
-      } catch {}
-      setPreviewTierState(null);
       localStorage.removeItem("nursenest-preview-tier");
     }
   }
@@ -131,16 +120,26 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
 
     const data = (await res.json()) as any;
-    if (data?.apiKey) {
-      localStorage.setItem("nursenest-admin-api-key", data.apiKey);
-      delete data.apiKey;
+    if (data?.accessToken) {
+      sessionStorage.setItem("nn_admin_access_token", data.accessToken);
+      const expiresAt = Date.now() + (data.expiresInSeconds || 1800) * 1000;
+      sessionStorage.setItem("nn_admin_expires_at", String(expiresAt));
+      delete data.accessToken;
+      delete data.expiresInSeconds;
     }
     if (data?.tier === "admin") {
       await syncPreviewFromServer();
     }
-    setUser(data as User);
-    localStorage.setItem("nursenest-user", JSON.stringify(data));
-    localStorage.setItem("nursenest-credentials", JSON.stringify({ username, password }));
+    const userData: User = {
+      id: data.id,
+      username: data.username,
+      tier: data.tier,
+      subscriptionStatus: data.subscriptionStatus,
+      email: data.email,
+      region: data.region,
+    };
+    setUser(userData);
+    localStorage.setItem("nursenest-user", JSON.stringify(userData));
   }
 
   async function register(username: string, password: string, email?: string) {
@@ -166,6 +165,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     localStorage.removeItem("nursenest-user");
     localStorage.removeItem("nursenest-credentials");
     localStorage.removeItem("nursenest-admin-api-key");
+    clearAdminToken();
   }
 
   async function refreshUser() {

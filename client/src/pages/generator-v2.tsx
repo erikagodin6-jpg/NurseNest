@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback, useRef } from "react";
-import { useAuth } from "@/lib/auth";
+import { useAuth, getAdminAccessToken, clearAdminToken } from "@/lib/auth";
 import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -26,8 +26,8 @@ const THEMES = [
   { id: "mono-fog", name: "Mono Fog", primaryColor: "#78716c", secondaryColor: "#a8a29e", accentColor: "#d6d3d1", coverBg: "#292524" },
 ];
 
-function adminFetch(url: string, options?: RequestInit) {
-  const apiKey = localStorage.getItem("nursenest-admin-api-key") || "";
+async function adminFetch(url: string, options?: RequestInit) {
+  const token = getAdminAccessToken() || "";
   const storedUser = JSON.parse(localStorage.getItem("nursenest-user") || "{}");
   const adminId = storedUser?.id || "";
 
@@ -35,24 +35,34 @@ function adminFetch(url: string, options?: RequestInit) {
     "Content-Type": "application/json",
     ...(options?.headers as Record<string, string> || {}),
   };
-  if (apiKey) {
-    headers["Authorization"] = `Bearer ${apiKey}`;
+  if (token) {
+    headers["Authorization"] = `Bearer ${token}`;
   }
   if (adminId) {
     headers["x-admin-id"] = adminId;
   }
 
+  let res: Response;
   if (!options || options.method === "GET" || !options.method) {
-    return fetch(url, { ...options, headers, credentials: "include" });
+    res = await fetch(url, { ...options, headers, credentials: "include" });
+  } else {
+    const body = options.body ? JSON.parse(options.body as string) : {};
+    res = await fetch(url, {
+      ...options,
+      headers,
+      body: JSON.stringify(body),
+      credentials: "include",
+    });
   }
 
-  const body = options.body ? JSON.parse(options.body as string) : {};
-  return fetch(url, {
-    ...options,
-    headers,
-    body: JSON.stringify(body),
-    credentials: "include",
-  });
+  if (res.status === 401 && token) {
+    clearAdminToken();
+    if (typeof window !== "undefined" && window.location.pathname.startsWith("/admin")) {
+      window.location.href = "/login?expired=1";
+    }
+  }
+
+  return res;
 }
 
 function sanitizeTopic(input: string): string {
