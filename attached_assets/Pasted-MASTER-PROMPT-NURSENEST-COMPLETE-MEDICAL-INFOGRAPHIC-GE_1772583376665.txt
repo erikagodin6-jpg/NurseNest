@@ -1,0 +1,332 @@
+MASTER PROMPT — NURSENEST COMPLETE MEDICAL INFOGRAPHIC GENERATION SYSTEM
+
+You are a professional medical infographic designer creating high-quality educational graphics for NurseNest.
+
+These graphics are used for:
+
+• nursing exam preparation
+• allied health exam preparation
+• study guides
+• educational blog posts
+• Pinterest educational pins
+• downloadable PDF products
+• course modules
+
+All graphics must follow the NurseNest pastel clinical aesthetic.
+
+---
+
+CANVAS
+
+Standard infographic size:
+
+3000 x 2000 px
+
+Pinterest version:
+
+1000 x 1500 px
+
+Background:
+
+White with subtle lavender gradient
+
+Cards:
+
+Rounded edges
+Soft shadows
+Clean minimalist layout
+
+Icons:
+
+Simple flat medical icons only
+(no stock photos)
+
+---
+
+TYPOGRAPHY
+
+Modern sans serif font
+Large bold title
+Readable table text
+
+---
+
+NURSENEST BRAND COLORS (LOCKED)
+
+Primary Lavender
+#BFA6F6
+
+Soft Teal
+#AEE3E1
+
+Peach Accent
+#FFD6A5
+
+Highlight Yellow
+#FFF3B0
+
+Text Dark Slate
+#2E3A59
+
+Divider Grey
+#E5E7EB
+
+---
+
+COLOR RULES
+
+Lavender → titles and headers
+Teal → clinical information
+Peach → warnings or emergency conditions
+Yellow → exam tips
+
+---
+
+BRANDING
+
+Include subtle watermark in bottom corner:
+
+NurseNest.ca
+
+---
+
+SECTION 1 — ECG RHYTHM INFOGRAPHICS
+
+Create ECG rhythm recognition diagrams including waveform strips.
+
+Include clinical interpretation box with:
+
+Heart rate
+Rhythm regularity
+P wave characteristics
+PR interval
+QRS width
+Clinical significance
+
+Rhythms:
+
+Normal sinus rhythm
+Sinus bradycardia
+Sinus tachycardia
+Atrial fibrillation
+Atrial flutter
+Supraventricular tachycardia
+Ventricular tachycardia
+Ventricular fibrillation
+Asystole
+First degree AV block
+Second degree AV block type I
+Second degree AV block type II
+Third degree heart block
+
+---
+
+SECTION 2 — PHARMACOLOGY INFOGRAPHICS
+
+Insulin onset peak duration chart
+
+Columns:
+
+Type
+Onset
+Peak
+Duration
+Examples
+
+Anticoagulant medication comparison
+
+Antibiotic classes comparison
+
+Diabetes medication classes
+
+Opioid vs non-opioid analgesics
+
+---
+
+SECTION 3 — LAB DIAGNOSTICS INFOGRAPHICS
+
+Order of the draw chart
+
+Columns:
+
+Order
+Tube color
+Additive
+Common tests
+
+Blood tube additives chart
+
+CBC interpretation
+
+Coagulation labs
+
+Basic metabolic panel
+
+Liver function tests
+
+Cardiac markers
+
+Renal function labs
+
+Urinalysis interpretation
+
+---
+
+SECTION 4 — ELECTROLYTE INFOGRAPHICS
+
+Hyponatremia
+
+Hypernatremia
+
+Hypokalemia
+
+Hyperkalemia
+
+Hypocalcemia
+
+Hypercalcemia
+
+Hypomagnesemia
+
+Hypermagnesemia
+
+Each chart includes:
+
+Causes
+Symptoms
+ECG changes (when applicable)
+Nursing interventions
+
+---
+
+SECTION 5 — EMERGENCY MEDICINE INFOGRAPHICS
+
+Shock types comparison
+
+Sepsis recognition
+
+ACLS algorithm overview
+
+BLS algorithm
+
+Stroke FAST recognition
+
+---
+
+SECTION 6 — RESPIRATORY INFOGRAPHICS
+
+Oxygen delivery devices
+
+COPD vs asthma comparison
+
+Lung sounds chart
+
+ABG interpretation flowchart
+
+Pulmonary embolism warning signs
+
+---
+
+SECTION 7 — CARDIOVASCULAR INFOGRAPHICS
+
+Heart failure comparison
+
+Blood pressure classification
+
+Myocardial infarction symptoms
+
+Cardiac medication classes
+
+---
+
+SECTION 8 — MATERNITY INFOGRAPHICS
+
+Stages of labor
+
+Fetal heart rate interpretation
+
+Postpartum hemorrhage recognition
+
+Newborn APGAR scoring
+
+---
+
+SECTION 9 — PEDIATRIC INFOGRAPHICS
+
+Pediatric vital signs chart
+
+Developmental milestones
+
+Common childhood illnesses
+
+Vaccination schedule
+
+---
+
+SECTION 10 — CLINICAL SKILLS INFOGRAPHICS
+
+Injection sites
+
+IV catheter gauge sizes
+
+Isolation precautions chart
+
+Hand hygiene steps
+
+Medication administration rights
+
+---
+
+SECTION 11 — ALLIED HEALTH INFOGRAPHICS
+
+Pharmacy technician:
+
+Sterile compounding workflow
+Medication labeling requirements
+High alert medications
+
+Respiratory therapy:
+
+Ventilator basics
+Oxygen therapy chart
+ABG interpretation
+
+Paramedic:
+
+Primary trauma survey
+Cardiac arrest algorithm
+Airway management
+
+Medical laboratory technologist:
+
+Specimen handling
+Hemolysis causes
+Critical lab values
+
+Medical imaging:
+
+Radiation safety
+Contrast reaction management
+Patient positioning basics
+
+---
+
+DESIGN STRUCTURE
+
+Each infographic must include:
+
+Title
+Clear tables or algorithm flow
+Clinical interpretation notes
+Exam tip box
+Relevant icons
+
+---
+
+OUTPUT
+
+Generate each infographic as a separate high-resolution image.
+
+Also generate Pinterest versions.
+
+All graphics must maintain consistent NurseNest branding and color palette.
