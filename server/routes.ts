@@ -12320,6 +12320,28 @@ Return ONLY valid JSON with this exact structure:
     }
   });
 
+  app.get("/api/admin/institutions", async (req, res) => {
+    try {
+      const adminId = String(req.headers?.["x-admin-id"] || "");
+      if (!adminId) return res.status(401).json({ error: "Unauthorized" });
+      const adminCheck = await pool.query("SELECT tier FROM users WHERE id = $1", [adminId]);
+      if (!adminCheck.rows[0] || adminCheck.rows[0].tier !== "admin") {
+        return res.status(403).json({ error: "Forbidden" });
+      }
+      const result = await pool.query(`
+        SELECT i.*, COALESCE(s.cnt, 0) as seat_count
+        FROM institutions i
+        LEFT JOIN (SELECT institution_id, COUNT(*) as cnt FROM institution_seats WHERE active = true GROUP BY institution_id) s
+        ON i.id = s.institution_id
+        ORDER BY i.created_at DESC
+      `);
+      res.json(result.rows.map((r: any) => ({ ...r, seatCount: parseInt(r.seat_count) || 0 })));
+    } catch (e: any) {
+      console.error("List institutions error:", e);
+      res.status(500).json({ error: "Failed to list institutions" });
+    }
+  });
+
   app.post("/api/admin/institutions", async (req, res) => {
     try {
       const adminId = String(req.headers?.["x-admin-id"] || req.body?.adminId || "");

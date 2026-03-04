@@ -56,7 +56,7 @@ import { useTheme } from "next-themes";
 import { useQuery } from "@tanstack/react-query";
 import { ThemedLogo } from "@/components/themed-logo";
 import { useI18n, LANGUAGES } from "@/lib/i18n";
-import { Globe, Languages, BarChart3, DollarSign, ShoppingBag, FileStack, Wind, Ambulance, Microscope, ScanLine } from "lucide-react";
+import { Globe, Languages, BarChart3, DollarSign, ShoppingBag, FileStack, Wind, Ambulance, Microscope, ScanLine, GraduationCap } from "lucide-react";
 import { useCareer } from "@/lib/career-context";
 import { getEnabledCareers, type CareerType } from "@shared/careers";
 
@@ -251,6 +251,10 @@ export function Navigation() {
     }
     if (itemLabel === "FAQ") {
       setLocation("/faq");
+      return;
+    }
+    if (itemLabel === "For Schools") {
+      setLocation("/for-institutions");
       return;
     }
     toast({
@@ -546,6 +550,12 @@ export function Navigation() {
               <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/faq")}>
                 <HelpCircle className="w-4 h-4" />
                 {t("footer.faq")}
+              </Button>
+            </SheetClose>
+            <SheetClose asChild>
+              <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/for-institutions")} data-testid="link-mobile-for-schools">
+                <GraduationCap className="w-4 h-4" />
+                For Schools
               </Button>
             </SheetClose>
 
@@ -917,6 +927,10 @@ export function Navigation() {
                     <HelpCircle className="w-4 h-4 text-primary/70" />
                     {t("footer.faq")}
                   </DropdownMenuItem>
+                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary hover:bg-primary/5" onClick={() => setLocation("/for-institutions")} data-testid="link-nav-for-schools">
+                    <GraduationCap className="w-4 h-4 text-primary/70" />
+                    For Schools
+                  </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
             </div>
@@ -1007,6 +1021,7 @@ export function Navigation() {
               <NavDropdown label={t("nav.resources")} items={[
                 { icon: Tag, label: t("nav.pricing"), key: "Pricing" },
                 { icon: HelpCircle, label: t("footer.faq"), key: "FAQ" },
+                { icon: GraduationCap, label: "For Schools", key: "For Schools" },
               ]} subBar />
               <div className="hidden md:block w-48 lg:w-56">
                 <Suspense fallback={<div className="w-full h-7" />}>

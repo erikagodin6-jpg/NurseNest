@@ -165,6 +165,8 @@ const TrialSession = lazy(() => import("@/pages/trial-session"));
 const TrialResults = lazy(() => import("@/pages/trial-results"));
 const TrialUpgrade = lazy(() => import("@/pages/trial-upgrade"));
 const AlliedHomePage = lazy(() => import("@/allied/pages/allied-home"));
+const ForInstitutions = lazy(() => import("@/pages/for-institutions"));
+const AdminInstitutions = lazy(() => import("@/pages/admin-institutions"));
 
 function PageTracker() {
   usePageTracker();
@@ -346,6 +348,8 @@ function AppRoutes() {
         <Route path="/admin/autopilot" component={AdminAutopilot} />
         <Route path="/admin/pageviews" component={AdminPageviews} />
         <Route path="/admin/seo-visual-autopilot" component={AdminSeoAutopilot} />
+        <Route path="/admin/institutions" component={AdminInstitutions} />
+        <Route path="/for-institutions" component={ForInstitutions} />
         <Route path="/order-of-the-draw" component={OrderOfTheDraw} />
         <Route path="/infographics/:slug" component={InfographicLibrary} />
         <Route path="/infographics" component={InfographicLibrary} />
