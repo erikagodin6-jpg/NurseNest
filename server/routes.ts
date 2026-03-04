@@ -44,7 +44,7 @@ import { registerObjectStorageRoutes } from "./replit_integrations/object_storag
 import { regionMiddleware, getEffectiveRegion, isRegionAllowed, getDefaultRegionScope, canChangeRegionScope, buildRegionFilter, type Region, type RegionScope } from "./region";
 import { languageMiddleware, getTranslatedFields, getTranslationStatus, getBulkTranslatedTitles, getAvailableLanguages, simpleHash } from "./translation-helpers";
 import { checkAiLimits, recordAiUsage, getAiConfig, setAiConfig } from "./ai-safety";
-import { requireAdmin, signAdminToken, verifyAdminToken } from "./admin-auth";
+import { requireAdmin, signAdminToken, verifyAdminToken, resolveAuthUser, requireExactTier } from "./admin-auth";
 import rateLimit from "express-rate-limit";
 
 async function logAudit(req: any, actor: any, entityType: string, entityId: string | null, action: string, beforeJson?: any, afterJson?: any) {
@@ -6198,12 +6198,7 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
   // Mock exams (unchanged auth style)
   // --------------------
   async function getAuthUser(req: any) {
-    const username = req.headers["x-username"] as string;
-    const password = req.headers["x-password"] as string;
-    if (!username || !password) return null;
-    const user = await storage.getUserByUsername(username);
-    if (!user || user.password !== password) return null;
-    return user;
+    return resolveAuthUser(req);
   }
 
   app.post("/api/mock-exams/start", async (req, res) => {

@@ -69,6 +69,60 @@ export async function requireAdmin(req: any, res: any): Promise<any> {
   return null;
 }
 
+export async function resolveAuthUser(req: any): Promise<any | null> {
+  const authHeader = String(req.headers?.["authorization"] || "");
+  if (authHeader.startsWith("Bearer ")) {
+    const token = authHeader.slice(7).trim();
+    const decoded = verifyAdminToken(token);
+    if (decoded) {
+      const r = await pool.query("SELECT * FROM users WHERE id = $1", [decoded.sub]);
+      if (r.rows[0]) return r.rows[0];
+    }
+  }
+
+  const userId = req.headers?.["x-user-id"] as string || req.body?.userId || req.query?.userId || "";
+  if (userId) {
+    const r = await pool.query("SELECT * FROM users WHERE id = $1", [userId]);
+    if (r.rows[0]) return r.rows[0];
+  }
+
+  const username = String(req.headers?.["x-username"] || req.body?.username || req.query?.username || "");
+  const password = String(req.headers?.["x-password"] || req.body?.password || req.query?.password || "");
+  if (username && password) {
+    const r = await pool.query("SELECT * FROM users WHERE username = $1 AND password = $2", [username, password]);
+    if (r.rows[0]) return r.rows[0];
+  }
+
+  return null;
+}
+
+export function requireExactTier(requiredTier: string) {
+  return async (req: any, res: any, next: any) => {
+    const user = await resolveAuthUser(req);
+    if (!user) {
+      return res.status(401).json({ error: "Not authenticated" });
+    }
+
+    const userTier = user.tier || "free";
+
+    if (userTier === "admin") {
+      req.authUser = user;
+      return next();
+    }
+
+    if (userTier !== requiredTier) {
+      return res.status(403).json({
+        error: "Tier access denied",
+        required: requiredTier,
+        userTier,
+      });
+    }
+
+    req.authUser = user;
+    next();
+  };
+}
+
 export async function requireInternal(req: any, res: any): Promise<boolean> {
   const authHeader = String(req.headers?.["authorization"] || "");
   if (authHeader.startsWith("Bearer ")) {

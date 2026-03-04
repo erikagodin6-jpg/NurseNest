@@ -1,0 +1,99 @@
+Option A (recommended): Replace it entirely
+Use requireAuth + requireExactTier("rn") etc.
+Option B: Turn it into a strict guard
+export function premiumRouteGuard(requiredTier?: "rpn"|"rn"|"np") {
+  return (req, res, next) => {
+    const tier = req.user?.tier ?? "free";
+    if (tier === "admin") return next();
+
+    if (!requiredTier) {
+      // if you truly have non-tiered premium routes
+      if (tier === "free") return res.status(403).json({ error: "Premium only" });
+      return next();
+    }
+
+    if (tier !== requiredTier) {
+      return res.status(403).json({ error: "Tier mismatch", requiredTier, tier });
+    }
+
+    next();
+  };
+}
+Then call it with the required tier per route. No more “any paid tier”.
+3) Apply exact-tier checks to routes AND to the database query
+Even if routes are gated, enforce tier in queries so mistakes can’t leak data.
+Example:
+// GET /api/qbank/:tier
+app.get(
+  "/api/qbank/:tier",
+  requireAuth,
+  (req, res, next) => requireExactTier(req.params.tier as any)(req, res, next),
+  async (req, res) => {
+    const tier = req.params.tier; // "rpn" | "rn" | "np"
+
+    const questions = await db.questions.findMany({
+      where: { tier },        // hard filter by tier
+      take: 50,
+      orderBy: { id: "desc" },
+    });
+
+    res.json({ questions });
+  }
+);
+Do not allow non-admin users to override tier via query/body/header.
+4) The bigger issue: if qbank content is embedded in the JS bundle, your paywall is fundamentally bypassable
+If your questions are bundled into the client (e.g., imported JSON, arrays, static files under public/, or compiled into assets/*.js), then:
+Any logged-in (or even logged-out) user can open DevTools and extract them.
+Tier enforcement won’t matter because the content is already shipped.
+You need to move premium question data out of the bundle.
+Non-negotiable for a real paywall:
+Premium content must live server-side (DB or protected object storage)
+and be delivered only via authenticated, tier-checked endpoints.
+Quick way to confirm:
+Open DevTools → Network → filter js → open the biggest bundle → search for a known question stem.
+If it’s there, it’s already leaked.
+5) Fastest migration plan from “bundled questions” to “secured questions”
+Phase 1 (same day): Stop shipping full content
+Remove any imports like import questions from './questions.json' from the client.
+Replace with fetch calls to /api/qbank/:tier.
+Phase 2 (1–2 days): Server endpoints + DB storage
+Create questions table with tier, exam, topic, stem, options, correctIndex, rationale, etc.
+Migrate existing question sets into DB.
+Add pagination and rate limits.
+Phase 3 (hardening): anti-scrape controls
+Per-user rate limits (especially for free accounts)
+Watermarked exports (if you offer downloads)
+Logging unusual access patterns
+6) Fix extractUserTier / resolveTierFromRequest risk
+If tier can be resolved from “various auth sources,” that’s often where AI “helpfully” broke things.
+Rule:
+Tier should come from the server’s user record, not from the request payload, not from headers, not from localStorage.
+So: resolveTierFromRequest should only help identify the user (session/JWT), then tier comes from DB.
+7) A tight Replit AI prompt that matches your architecture
+Paste this:
+Implement exact-tier gating across the app.
+
+Current:
+- admin-auth.ts has requireAdmin (OK)
+- premiumRouteGuard currently checks “any paid tier” (BAD for tiered content)
+- canAccessTier exists and correctly compares equality (userTier === targetTier)
+- extractUserTier/resolveTierFromRequest resolve tier from various sources (potentially unsafe)
+
+Required behavior:
+- RPN users: access ONLY RPN tier content
+- RN users: access ONLY RN tier content
+- NP users: access ONLY NP tier content
+- Admin: access everything
+- Free: preview only
+
+Tasks:
+1) Add server middleware requireExactTier(requiredTier) and apply it to EVERY non-admin premium endpoint (qbank, flashcards, generators, downloads, etc.).
+2) Replace premiumRouteGuard with a tier-aware guard OR remove it in favor of requireExactTier. No “any paid tier” access is allowed for tiered routes.
+3) Enforce tier at the DB query layer: for non-admin users, queries must always filter WHERE tier = req.user.tier (or route param validated by requireExactTier).
+4) Audit extractUserTier/resolveTierFromRequest: tier must NOT be derived from client-controlled values. Tier must come from the user record loaded server-side after auth.
+5) IMPORTANT: If question bank content is embedded in the frontend JS bundle, remove it and serve it from protected APIs instead (otherwise paywall is bypassable). Provide a migration plan and implement Phase 1.
+
+Return:
+- list of endpoints and required tier
+- code changes summary
+- tests verifying RN gets 403 on /api/qbank/rpn and /api/qbank/np, etc.
