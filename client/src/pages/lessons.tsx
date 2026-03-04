@@ -3507,6 +3507,7 @@ export default function Lessons() {
   const defaultTab = showAllTabs ? "rpn" : effectiveTier;
   const [activeTab, setActiveTab] = useState(defaultTab);
   const [lessonSearchQuery, setLessonSearchQuery] = useState("");
+  const [selectedSystemFilter, setSelectedSystemFilter] = useState<string>("all");
 
   const [dbLessons, setDbLessons] = useState<DbLesson[]>([]);
   const [customSystems, setCustomSystems] = useState<any[]>([]);
@@ -3669,7 +3670,7 @@ export default function Lessons() {
             <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-4">{t("lessons.title")}</h2>
             <p className="text-lg text-gray-600 max-w-3xl mx-auto">{t("lessons.subtitle")}</p>
           </div>
-          <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full md:w-auto">
+          <Tabs value={activeTab} onValueChange={(v) => { setActiveTab(v); setSelectedSystemFilter("all"); }} className="w-full md:w-auto">
             <TabsList className={cn("bg-gray-100 rounded-full p-1", showAllTabs ? "grid grid-cols-4 w-full md:w-[700px]" : "grid grid-cols-2 w-full md:w-[350px]")}>
               {showAllTabs ? (
                 <>
@@ -3690,8 +3691,8 @@ export default function Lessons() {
           </Tabs>
         </div>
 
-        <div className="mb-6 max-w-md mx-auto">
-          <div className="relative">
+        <div className="mb-6 flex flex-col sm:flex-row items-center gap-3 max-w-3xl mx-auto">
+          <div className="relative flex-1 w-full">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
             <Input
               type="text"
@@ -3711,13 +3712,37 @@ export default function Lessons() {
               </button>
             )}
           </div>
+          <select
+            value={selectedSystemFilter}
+            onChange={(e) => {
+              setSelectedSystemFilter(e.target.value);
+              if (e.target.value !== "all") {
+                const el = document.getElementById(`system-${e.target.value}`);
+                if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+              }
+            }}
+            className="w-full sm:w-56 h-10 rounded-full border border-gray-200 bg-white shadow-sm px-4 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-primary/30 appearance-none cursor-pointer"
+            style={{ backgroundImage: "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E\")", backgroundRepeat: "no-repeat", backgroundPosition: "right 12px center" }}
+            data-testid="select-system-filter"
+          >
+            <option value="all">All Systems</option>
+            {(() => {
+              const currentSystems = activeTab === "rpn" ? [...preNursingSystems, ...fundamentalsSystems, ...delegationSystems, ...clinicalScenariosSystems, ...medMathSystems, ...rpnNonPharm]
+                : activeTab === "rn" ? [...preNursingSystems, ...fundamentalsSystems, ...delegationSystems, ...clinicalScenariosSystems, ...medMathSystems, ...rnNonPharm]
+                : activeTab === "np" ? [...preNursingSystems, ...fundamentalsSystems, ...delegationSystems, ...clinicalScenariosSystems, ...medMathSystems, ...npNonPharm]
+                : [];
+              return currentSystems.map((s) => (
+                <option key={s.id} value={s.id}>{s.title || s.name} ({(s.diseases || s.lessons || []).length})</option>
+              ));
+            })()}
+          </select>
         </div>
 
         <Tabs value={activeTab} onValueChange={setActiveTab}>
           <TabsContent value="rpn" className="mt-0">
             <LecturesSection tier="rpn" onNavigate={setLocation} />
             <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-8">
-              {[...preNursingSystems, ...fundamentalsSystems, ...delegationSystems, ...clinicalScenariosSystems, ...medMathSystems, ...rpnNonPharm].filter((system) => { if (!lessonSearchQuery) return true; const q = lessonSearchQuery.toLowerCase(); const sysName = (system.name || system.title || "").toLowerCase(); return sysName.includes(q) || system.diseases?.some((d: any) => d.name?.toLowerCase().includes(q)) || system.lessons?.some((l: any) => l.title?.toLowerCase().includes(q)); }).map((system) => (
+              {[...preNursingSystems, ...fundamentalsSystems, ...delegationSystems, ...clinicalScenariosSystems, ...medMathSystems, ...rpnNonPharm].filter((system) => { if (selectedSystemFilter !== "all" && system.id !== selectedSystemFilter) return false; if (!lessonSearchQuery) return true; const q = lessonSearchQuery.toLowerCase(); const sysName = (system.name || system.title || "").toLowerCase(); return sysName.includes(q) || system.diseases?.some((d: any) => d.name?.toLowerCase().includes(q)) || system.lessons?.some((l: any) => l.title?.toLowerCase().includes(q)); }).map((system) => (
                 <LessonSystemCard key={system.id} system={system} tier="rpn" onSelect={handleLessonSelect} lessonOverrides={lessonOverrides} onOverridesChange={refreshOverrides} />
               ))}
               {customSystems.filter((s) => s.tier === "rpn" || !s.tier).map((cs) => (
@@ -3732,7 +3757,7 @@ export default function Lessons() {
           <TabsContent value="rn" className="mt-0">
             <LecturesSection tier="rn" onNavigate={setLocation} />
             <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-8">
-              {[...preNursingSystems, ...fundamentalsSystems, ...delegationSystems, ...clinicalScenariosSystems, ...medMathSystems, ...rnNonPharm].filter((system) => { if (!lessonSearchQuery) return true; const q = lessonSearchQuery.toLowerCase(); const sysName = (system.name || system.title || "").toLowerCase(); return sysName.includes(q) || system.diseases?.some((d: any) => d.name?.toLowerCase().includes(q)) || system.lessons?.some((l: any) => l.title?.toLowerCase().includes(q)); }).map((system) => (
+              {[...preNursingSystems, ...fundamentalsSystems, ...delegationSystems, ...clinicalScenariosSystems, ...medMathSystems, ...rnNonPharm].filter((system) => { if (selectedSystemFilter !== "all" && system.id !== selectedSystemFilter) return false; if (!lessonSearchQuery) return true; const q = lessonSearchQuery.toLowerCase(); const sysName = (system.name || system.title || "").toLowerCase(); return sysName.includes(q) || system.diseases?.some((d: any) => d.name?.toLowerCase().includes(q)) || system.lessons?.some((l: any) => l.title?.toLowerCase().includes(q)); }).map((system) => (
                 <LessonSystemCard key={system.id} system={system} tier="rn" onSelect={handleLessonSelect} lessonOverrides={lessonOverrides} onOverridesChange={refreshOverrides} />
               ))}
               {customSystems.filter((s) => s.tier === "rn" || !s.tier).map((cs) => (
@@ -3747,7 +3772,7 @@ export default function Lessons() {
           <TabsContent value="np" className="mt-0">
             <LecturesSection tier="np" onNavigate={setLocation} />
             <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-8">
-              {[...preNursingSystems, ...fundamentalsSystems, ...delegationSystems, ...clinicalScenariosSystems, ...medMathSystems, ...npNonPharm].filter((system) => { if (!lessonSearchQuery) return true; const q = lessonSearchQuery.toLowerCase(); const sysName = (system.name || system.title || "").toLowerCase(); return sysName.includes(q) || system.diseases?.some((d: any) => d.name?.toLowerCase().includes(q)) || system.lessons?.some((l: any) => l.title?.toLowerCase().includes(q)); }).map((system) => (
+              {[...preNursingSystems, ...fundamentalsSystems, ...delegationSystems, ...clinicalScenariosSystems, ...medMathSystems, ...npNonPharm].filter((system) => { if (selectedSystemFilter !== "all" && system.id !== selectedSystemFilter) return false; if (!lessonSearchQuery) return true; const q = lessonSearchQuery.toLowerCase(); const sysName = (system.name || system.title || "").toLowerCase(); return sysName.includes(q) || system.diseases?.some((d: any) => d.name?.toLowerCase().includes(q)) || system.lessons?.some((l: any) => l.title?.toLowerCase().includes(q)); }).map((system) => (
                 <LessonSystemCard key={system.id} system={system} tier="np" onSelect={handleLessonSelect} lessonOverrides={lessonOverrides} onOverridesChange={refreshOverrides} />
               ))}
               {customSystems.filter((s) => s.tier === "np" || !s.tier).map((cs) => (
@@ -4044,7 +4069,7 @@ function LessonSystemCard({ system, onSelect, tier, lessonOverrides, onOverrides
   };
 
   return (
-    <Card className="border-none shadow-lg hover:shadow-xl transition-all overflow-hidden bg-white">
+    <Card id={`system-${system.id}`} className="border-none shadow-lg hover:shadow-xl transition-all overflow-hidden bg-white scroll-mt-24">
       {systemImg && (
         <div className={cn("relative h-36 overflow-hidden", system.bgColor)}>
           <AdminImageOverlay
