@@ -10,7 +10,7 @@ import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useI18n } from "@/lib/i18n";
-import { buildBreadcrumbStructuredData } from "@/lib/seo-utils";
+import { buildBreadcrumbStructuredData } from "@/lib/structured-data";
 import {
   BookOpen,
   Search,

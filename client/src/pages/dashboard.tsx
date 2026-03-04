@@ -4,7 +4,7 @@ import { useLocation } from "wouter";
 import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
 import { SEO } from "@/components/seo";
-import { buildBreadcrumbStructuredData } from "@/lib/seo-utils";
+import { buildBreadcrumbStructuredData } from "@/lib/structured-data";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/lib/auth";

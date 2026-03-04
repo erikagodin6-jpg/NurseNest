@@ -3,7 +3,7 @@ import { Link } from "wouter";
 import { SEO } from "@/components/seo";
 import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
-import { buildFaqStructuredData, buildBreadcrumbStructuredData } from "@/lib/seo-utils";
+import { buildFaqStructuredData, buildBreadcrumbStructuredData } from "@/lib/structured-data";
 import {
   ArrowRight, BookOpen, FileText, Brain, Zap, GraduationCap,
   CheckCircle2, ChevronRight, Check, X, HelpCircle,

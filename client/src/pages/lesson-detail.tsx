@@ -20,7 +20,7 @@ import {
   PlayCircle, Clock, ChevronRight, ChevronLeft, Sparkles, Loader2, Wand2, ArrowRight
 } from "lucide-react";
 import { getLecturesForLesson } from "@/data/micro-lectures";
-import { getLessonNavigation } from "@/lib/lesson-navigation";
+import { getLessonNavigation, getLessonTier } from "@/lib/lesson-navigation";
 import { useToast } from "@/hooks/use-toast";
 import { getDifficulty, difficultyConfig } from "@/lib/difficulty";
 import { contentMap } from "@/data/lessons";
@@ -28,7 +28,8 @@ import { getLessonI18n, loadTranslationLanguage, isTranslationLoaded } from "@/l
 import { useAuth } from "@/lib/auth";
 import { canAccessTier } from "@/lib/access";
 import type { LessonContent, QuizQuestion } from "@/data/lessons/types";
-import { generateLessonSeoDescription, generateLessonKeywords, buildLessonStructuredData, buildBreadcrumbStructuredData, getLessonBodySystem, buildArticleStructuredData, buildCourseStructuredData, buildFaqFromQuizQuestions } from "@/lib/seo-utils";
+import { generateLessonSeoDescription, generateLessonKeywords, buildLessonStructuredData, getLessonBodySystem, buildArticleStructuredData, buildCourseStructuredData } from "@/lib/seo-utils";
+import { buildBreadcrumbStructuredData, buildFaqFromQuizQuestions } from "@/lib/structured-data";
 import { trackMilestone } from "@/components/upgrade-prompt";
 import { getInternalLinksForLesson } from "@/data/internal-links";
 import { LessonQuizEmbed } from "@/components/lesson-quiz-embed";
@@ -1200,12 +1201,6 @@ function IsolationTypesGuide() {
   );
 }
 
-function getLessonTier(lessonId: string): string {
-  if (lessonId.startsWith("med-math-")) return "free";
-  if (lessonId.startsWith("np-") || lessonId.includes("-np") || lessonId.includes("advanced-")) return "np";
-  if (lessonId.startsWith("rn-") || lessonId.includes("-rn") || lessonId.includes("nclex-")) return "rn";
-  return "rpn";
-}
 
 const tierPricing: Record<string, { name: string; priceCAD: string; priceUSD: string }> = {
   rpn: { name: "RPN/LVN", priceCAD: "$29.99 CAD/mo", priceUSD: "$21.99 USD/mo" },

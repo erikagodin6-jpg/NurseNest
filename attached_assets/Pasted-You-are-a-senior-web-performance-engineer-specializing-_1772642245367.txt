@@ -1,0 +1,226 @@
+You are a senior web performance engineer specializing in Lighthouse/Core Web Vitals for mobile. You are working on a production React + Vite + Express application deployed for https://www.nursenest.ca (route tested: https://www.nursenest.ca/en). Your task is to improve MOBILE PageSpeed Insights performance and SEO while preserving all existing functionality (auth, tier gating, admin, generators, Stripe/PayPal, i18n, routing).
+
+Mobile PageSpeed (Slow 4G / Moto G Power) current:
+Performance 50
+FCP 5.8s
+LCP 20.5s (CRITICAL)
+TBT 300ms
+CLS 0.003 (good)
+Speed Index 9.4s
+JS execution 1.8s
+Main-thread work 3.8s
+Unused JS savings 380KB
+Network payload 3.512MB
+Render blocking requests (150ms savings)
+DOM size too large
+3rd party impact present
+SEO issue: rel=canonical incorrectly points to root/home
+
+GOALS (MOBILE-FIRST):
+- LCP < 3.0s mobile (stretch 2.5s)
+- FCP < 2.5s mobile
+- Payload on /en < 1.5MB (stretch 1.0MB)
+- Unused JS reduced by at least 60% (380KB -> <150KB)
+- Keep CLS < 0.1 (already good)
+- Keep TBT < 300ms (do not regress)
+- Fix canonical tags so every route canonicalizes to itself, not homepage
+- Do not break any routes, tier gating, payments, admin, generators, or language switching
+
+DELIVERABLES:
+1) Implement all code changes.
+2) Output a summary of changes by file path.
+3) Provide a before/after Lighthouse comparison (scores, LCP, FCP, payload, bundle size).
+4) Provide a short checklist for verifying nothing broke (payments/admin/qbank).
+
+========================================================
+PHASE 1 — IDENTIFY THE MOBILE LCP ELEMENT (MANDATORY)
+========================================================
+Run Lighthouse locally or use the existing report trace. Identify the LCP element for /en on mobile. It is likely:
+- hero image / banner image
+- largest heading block
+- or a large above-the-fold card/grid
+
+Then implement targeted fixes depending on what LCP is:
+
+IF LCP IS AN IMAGE:
+- Convert to WebP (or AVIF if supported) and reduce size to <200KB.
+- Ensure width/height are set to prevent layout shifts.
+- Preload it and set fetchpriority="high".
+- Ensure it is NOT lazy-loaded.
+- Ensure it is served from the fastest origin/CDN available.
+
+Implement:
+<link rel="preload" as="image" href="/path/hero.webp" imagesrcset="..." imagesizes="..." fetchpriority="high">
+
+And in React:
+<img src="/path/hero.webp" width="..." height="..." decoding="async" fetchpriority="high" loading="eager" />
+
+IF LCP IS TEXT/DOM:
+- Ensure critical CSS is minimal and inline the critical rules.
+- Remove heavy above-the-fold components (carousels/animated sections) from initial render.
+- Defer non-critical components below the fold using dynamic import + intersection observer.
+
+========================================================
+PHASE 2 — FIX THE CANONICAL TAG BUG (HIGH IMPACT FOR INDEXING)
+========================================================
+Currently canonical points to root/home for all pages.
+Implement a robust head manager so each route outputs:
+<link rel="canonical" href="https://www.nursenest.ca{pathname}" />
+
+Requirements:
+- Must include language prefixes (e.g., /en)
+- Must work with your router (Wouter/React Router/etc.)
+- Must update on route change
+- Must not ever point all pages to homepage
+
+Also ensure:
+- Only ONE canonical per page
+- No conflicting OG:url values
+
+========================================================
+PHASE 3 — CUT MOBILE PAYLOAD FROM 3.5MB TO <1.5MB
+========================================================
+A) IMAGES
+- Audit all images used on /en:
+  - hero
+  - feature cards
+  - thumbnails
+  - logos
+Convert all non-hero images to WebP.
+Ensure responsive srcset:
+- 320w, 640w, 960w, 1200w variants
+Serve correct sizes via <img srcset> so mobile does not download desktop images.
+
+Rules:
+- hero <200KB
+- thumbnails <80KB
+- icons as SVG where possible
+- never ship a 2000px wide PNG to mobile
+
+B) FONTS
+- Remove unused font families/weights.
+- Self-host fonts if currently pulling multiple Google fonts.
+- Use font-display: swap.
+- Preload only the primary font subset.
+- Prefer system fonts if possible for the landing page.
+
+C) THIRD-PARTY SCRIPTS
+- Defer analytics/tracking until after first interaction or idle time.
+- Ensure all third-party scripts use defer/async and load after LCP.
+
+Implement a lightweight script loader:
+- On initial load, do NOT load Stripe/PayPal SDKs unless user is on checkout/pay pages.
+- Do NOT load admin-only scripts on public pages.
+
+========================================================
+PHASE 4 — REDUCE UNUSED JS BY 380KB (MOBILE)
+========================================================
+This is critical. Do ALL of the following:
+
+A) CODE SPLITTING BY ROUTE
+Use React.lazy + dynamic imports for every major route:
+- /admin/* (entire admin area)
+- /qbank, /flashcards, /generators, /autopilot, etc.
+- large study pages
+- large components like modals and editors
+
+Ensure the /en landing page bundle contains ONLY what it needs.
+
+B) TREE SHAKING & IMPORT HYGIENE
+- Ensure Vite build uses ESM and tree shaking.
+- Replace barrel imports that pull entire libraries.
+- For icon libraries, import only specific icons or switch to smaller icon set.
+- If using lodash, replace with per-function imports or native equivalents.
+- Remove unused dependencies discovered by bundle analysis.
+
+C) REMOVE HEAVY ANIMATION / NON-COMPOSITED ANIMATIONS
+Lighthouse flagged non-composited animations (2 elements).
+Find them and convert to transform/opacity only or remove for mobile.
+Add prefers-reduced-motion support.
+Disable heavy animations on mobile widths.
+
+D) VIRTUALIZE LONG LISTS
+If /en renders large lists or grids, virtualize or paginate.
+Avoid mounting hundreds of DOM nodes on first paint.
+
+========================================================
+PHASE 5 — FIX RENDER BLOCKING REQUESTS
+========================================================
+- Identify render-blocking CSS/JS in the head.
+- Inline only critical CSS needed for above-the-fold.
+- Defer the rest.
+- Ensure CSS is minified.
+
+If you are importing a big CSS framework globally for the landing page, split it:
+- minimal base styles for landing
+- load heavy styles only on dashboard/editor pages
+
+========================================================
+PHASE 6 — SERVER/ASSET CACHING + COMPRESSION
+========================================================
+Add Express compression (gzip/brotli).
+Use long-lived caching for static assets:
+- hashed filenames with immutable caching (1y)
+- HTML should be no-cache or short cache
+- API responses can be cached where safe
+
+Example:
+app.use(compression())
+app.use(express.static("dist", { maxAge: "1y", immutable: true }))
+
+Also confirm your hosting is not disabling compression.
+
+========================================================
+PHASE 7 — MOBILE-SPECIFIC RENDER PATH IMPROVEMENTS
+========================================================
+Because mobile FCP is 5.8s and LCP is 20.5s, optimize the critical render path:
+
+- Ensure SSR or pre-rendering for public SEO pages if feasible.
+If full SSR is too big a refactor right now, implement pre-rendering for:
+  - /en landing
+  - key pillar pages
+  - main category hubs
+
+Options:
+- vite-plugin-ssr
+- Vite SSG
+- Astro for content pages
+Choose the least invasive approach compatible with your app.
+
+At minimum:
+- ensure the HTML returned contains meaningful content quickly (not a blank div) to help crawl and perceived load.
+
+========================================================
+PHASE 8 — ACCESSIBILITY ITEMS (MOBILE REPORT)
+========================================================
+Fix:
+- Buttons missing accessible names (aria-label)
+- Select missing label associations
+- Heading order
+- Contrast (focus on primary CTA + nav)
+
+Do NOT change the design system; adjust tokens minimally to pass contrast.
+
+========================================================
+PHASE 9 — VALIDATION + OUTPUT
+========================================================
+After changes:
+- Run Lighthouse mobile on /en (slow 4G) and record:
+  Performance
+  FCP
+  LCP
+  TBT
+  CLS
+  Total transfer size
+- Provide a bundle analysis: top 10 biggest modules before vs after.
+- Confirm canonical now matches each route path.
+- Confirm no paywall/tier logic is affected.
+- Confirm Stripe/PayPal only load on checkout routes.
+
+IMPLEMENT EVERYTHING ABOVE. Prefer minimal-risk refactors. If a change is risky, propose the safer alternative and implement the safe alternative now.
+
+When finished, print:
+1) list of changed files
+2) change summary
+3) before/after performance metrics
+4) any remaining issues that require deeper architectural changes (SSR migration, CDN, etc.)

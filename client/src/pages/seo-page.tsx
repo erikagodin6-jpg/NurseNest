@@ -9,7 +9,7 @@ import { useI18n } from "@/lib/i18n";
 import { useAuth } from "@/lib/auth";
 import { ChevronRight, BookOpen, FileText, HelpCircle, Link as LinkIcon, ArrowLeft } from "lucide-react";
 import { useLocation } from "wouter";
-import { buildBreadcrumbStructuredData } from "@/lib/seo-utils";
+import { buildBreadcrumbStructuredData } from "@/lib/structured-data";
 
 type FAQ = { q: string; a: string };
 type TOCItem = { id: string; title: string; level: number };

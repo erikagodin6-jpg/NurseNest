@@ -3,7 +3,7 @@ import { useState } from "react";
 import { SEO } from "@/components/seo";
 import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
-import { buildFaqStructuredData } from "@/lib/seo-utils";
+import { buildFaqStructuredData } from "@/lib/structured-data";
 import {
   ArrowRight, Heart, Brain, Baby, Stethoscope, Ribbon, SmilePlus,
   Clock, Users, Scissors, Check, HelpCircle, ChevronRight,

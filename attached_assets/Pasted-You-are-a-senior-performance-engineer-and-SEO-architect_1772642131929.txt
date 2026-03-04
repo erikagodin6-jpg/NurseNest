@@ -1,0 +1,329 @@
+You are a senior performance engineer and SEO architect working on a production React + Vite + Express application.
+
+The website is https://www.nursenest.ca.
+
+Your task is to audit and optimize the entire application to fix PageSpeed Insights issues while preserving all existing functionality, routes, API endpoints, authentication, payment integrations (Stripe/PayPal), admin tools, and UI.
+
+Current PageSpeed diagnostics show:
+
+Performance score: ~46
+Total Blocking Time: ~1750 ms
+JavaScript execution time: ~1.9 s
+Main-thread work: ~4.1 s
+Network payload: ~3.2 MB
+LCP: ~3.3 s
+
+Issues reported by Lighthouse:
+
+Reduce unused JavaScript
+Render blocking requests
+Large network payload
+Long main-thread tasks
+DOM size too large
+Incorrect canonical tags
+Inefficient caching
+Images not optimized
+Large JavaScript bundles
+
+Your mission is to implement the following improvements across the entire application.
+
+---
+
+STEP 1 — Fix Canonical SEO Tags
+
+Ensure every page generates a canonical tag dynamically instead of pointing to the homepage.
+
+Implement a reusable canonical component.
+
+Example:
+
+```
+<link rel="canonical" href={`https://www.nursenest.ca${location.pathname}`} />
+```
+
+Requirements:
+
+• Canonical must reflect the actual page URL
+• Must work with language routes (/en, etc)
+• Must render server-side or in the head immediately
+• Must not break routing
+
+---
+
+STEP 2 — Implement Code Splitting
+
+The React bundle is too large.
+
+Refactor the application to use dynamic imports and lazy loading.
+
+Example:
+
+```
+import { lazy, Suspense } from "react"
+
+const StudyPage = lazy(() => import("./pages/StudyPage"))
+const QuestionBank = lazy(() => import("./pages/QuestionBank"))
+const Flashcards = lazy(() => import("./pages/Flashcards"))
+```
+
+Add Suspense fallback loaders.
+
+Example:
+
+```
+<Suspense fallback={<LoadingSpinner />}>
+   <StudyPage />
+</Suspense>
+```
+
+Code splitting must be applied to:
+
+• Study pages
+• Question bank
+• Admin dashboard
+• Autopilot control center
+• Generator tools
+• Blog pages
+• Flashcards
+• Practice exams
+
+---
+
+STEP 3 — Reduce Unused JavaScript
+
+Analyze dependencies and remove unused packages.
+
+Focus especially on:
+
+• UI libraries
+• icon libraries
+• unused animation packages
+• large utility packages
+
+Replace large packages with smaller alternatives where possible.
+
+Tree-shake all imports.
+
+Example:
+
+```
+import debounce from "lodash/debounce"
+```
+
+instead of importing full lodash.
+
+---
+
+STEP 4 — Optimize Images
+
+Convert all images to modern formats.
+
+Use:
+
+WebP
+AVIF (if supported)
+
+Image requirements:
+
+Hero images < 200 KB
+Thumbnails < 80 KB
+Infographics < 300 KB
+
+Implement automatic image optimization pipeline.
+
+Add lazy loading to all non-critical images.
+
+Example:
+
+```
+<img loading="lazy" decoding="async" />
+```
+
+---
+
+STEP 5 — Reduce Network Payload
+
+Target total homepage payload:
+
+Under 1.5 MB
+
+Strategies:
+
+• compress images
+• remove unused fonts
+• remove duplicate assets
+• compress JSON responses
+• compress SVGs
+
+Enable gzip or brotli compression on Express server.
+
+Example:
+
+```
+import compression from "compression"
+app.use(compression())
+```
+
+---
+
+STEP 6 — Defer Non-Critical Scripts
+
+Scripts that should load after initial render:
+
+• analytics
+• tracking scripts
+• admin-only scripts
+• third-party embeds
+
+Example:
+
+```
+<script defer src="/analytics.js"></script>
+```
+
+---
+
+STEP 7 — Improve Largest Contentful Paint
+
+Identify the LCP element.
+
+Most likely:
+
+Hero heading
+Hero image
+Main banner
+
+Optimize by:
+
+• preloading the hero image
+• minimizing blocking CSS
+• rendering primary content immediately
+
+Example:
+
+```
+<link rel="preload" as="image" href="/hero.webp">
+```
+
+---
+
+STEP 8 — Optimize DOM Size
+
+Reduce DOM nodes where possible.
+
+Focus on:
+
+• homepage
+• admin dashboard
+• navigation menus
+
+Strategies:
+
+• virtualize long lists
+• simplify nested components
+• remove unused wrapper elements
+
+---
+
+STEP 9 — Implement Cache Headers
+
+Configure long cache lifetimes for static assets.
+
+Example Express configuration:
+
+```
+app.use(express.static("dist", {
+  maxAge: "1y",
+  immutable: true
+}))
+```
+
+Ensure versioned filenames are used for cache busting.
+
+---
+
+STEP 10 — Add Prefetching for Navigation
+
+Prefetch major pages so navigation feels instant.
+
+Example:
+
+```
+<link rel="prefetch" href="/question-bank">
+```
+
+---
+
+STEP 11 — Improve Accessibility
+
+Fix Lighthouse accessibility warnings:
+
+• Add labels to all select elements
+• Ensure proper heading hierarchy
+• Improve color contrast where needed
+• Add aria-label attributes to buttons
+
+---
+
+STEP 12 — Improve SEO Metadata
+
+Ensure every page has:
+
+Title
+Meta description
+Canonical tag
+OpenGraph tags
+Twitter card tags
+
+Example:
+
+```
+<meta property="og:title" content="COPD Pathophysiology for RPN Students">
+```
+
+---
+
+STEP 13 — Rebuild Production Bundle
+
+Run a full optimized production build.
+
+Ensure:
+
+• minified JavaScript
+• minified CSS
+• hashed filenames
+• optimized assets
+
+---
+
+STEP 14 — Verify Improvements
+
+After implementation run Lighthouse again and ensure:
+
+Performance target:
+
+Desktop: 80+
+Mobile: 65+
+
+Largest Contentful Paint:
+
+< 2.5 seconds
+
+Total Blocking Time:
+
+< 300 ms
+
+Total page size:
+
+< 1.5 MB
+
+---
+
+IMPORTANT RULES
+
+Do not break:
+
+authentication
+Stripe payments
+PayPal integration
+admin panel

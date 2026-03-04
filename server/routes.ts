@@ -104,6 +104,28 @@ async function extractUserTier(req: Request): Promise<string | null> {
       return user.tier || "free";
     }
   }
+
+  const userId = req.query.userId as string || req.headers["x-user-id"] as string || "";
+  if (userId) {
+    const user = await storage.getUser(userId);
+    if (user) {
+      if (user.tier === "admin") {
+        const previewToken = ((req as any).cookies?.nursenest_preview || "") as string;
+        const preview = getPreviewFromToken(previewToken);
+        if (preview) return preview.mode;
+      }
+      return user.tier || "free";
+    }
+  }
+
+  const authHeader = req.headers.authorization;
+  if (authHeader?.startsWith("Bearer ")) {
+    try {
+      const decoded = verifyAdminToken(authHeader.slice(7));
+      if (decoded) return "admin";
+    } catch {}
+  }
+
   return null;
 }
 
@@ -180,7 +202,7 @@ async function resolveTierFromRequest(req: any): Promise<string> {
   const previewToken = (req.cookies?.nursenest_preview || "") as string;
   const preview = getPreviewFromToken(previewToken);
 
-  let userId = req.body?.userId || req.params?.userId || req.query?.userId;
+  let userId = req.body?.userId || req.params?.userId || req.query?.userId || req.headers?.["x-user-id"];
   if (!userId) {
     const username = String(req.body?.username || req.query?.username || "");
     const password = String(req.body?.password || req.query?.password || "");
@@ -200,6 +222,15 @@ async function resolveTierFromRequest(req: any): Promise<string> {
         return u.tier || "free";
       }
     }
+
+    const authHeader = req.headers?.authorization;
+    if (authHeader?.startsWith("Bearer ")) {
+      try {
+        const decoded = verifyAdminToken(authHeader.slice(7));
+        if (decoded) return "admin";
+      } catch {}
+    }
+
     return "free";
   }
 

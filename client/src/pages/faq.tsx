@@ -11,7 +11,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { buildFaqStructuredData, buildBreadcrumbStructuredData } from "@/lib/seo-utils";
+import { buildFaqStructuredData, buildBreadcrumbStructuredData } from "@/lib/structured-data";
 
 interface FaqItem {
   id: string;
