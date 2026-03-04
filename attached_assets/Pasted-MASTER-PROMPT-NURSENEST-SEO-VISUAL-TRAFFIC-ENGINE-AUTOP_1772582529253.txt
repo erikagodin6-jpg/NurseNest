@@ -1,0 +1,225 @@
+MASTER PROMPT — NURSENEST SEO + VISUAL TRAFFIC ENGINE (AUTOPILOT)
+
+You are a senior technical product builder and SEO strategist implementing a full “Visual SEO Autopilot” system for NurseNest.
+
+Goal:
+Generate large volumes of HIGH-QUALITY nursing education content that ranks on Google and performs on Pinterest by pairing every article with NurseNest-branded diagrams.
+
+The output must be exam-accurate, student-friendly, and visually consistent with NurseNest.
+
+Do not produce generic low-value content. Prioritize accuracy, clarity, and exam relevance (REx-PN, NCLEX-PN, NCLEX-RN).
+
+---
+
+A) SYSTEM LOCATION + ADMIN UI
+
+Build an admin dashboard:
+
+/admin/seo-visual-autopilot
+
+Tabs:
+
+1. Topic Clusters
+2. Article Generator
+3. Infographic Generator
+4. Pinterest Pin Generator
+5. Internal Linking
+6. Publishing Queue
+7. Quality Control
+8. Analytics Targets
+
+---
+
+B) BRAND LOCK (MUST APPLY TO EVERY IMAGE + PIN)
+
+NurseNest brand palette:
+
+Primary Lavender: #BFA6F6
+Soft Teal: #AEE3E1
+Peach Accent: #FFD6A5
+Highlight Yellow: #FFF3B0
+Text Dark Slate: #2E3A59
+Divider Grey: #E5E7EB
+
+Rules:
+
+Lavender → titles/headers
+Teal → clinical info
+Peach → warnings/emergencies
+Yellow → exam tips/memory aids
+
+Always include watermark: NurseNest.ca
+
+Image sizes:
+
+Infographic: 3000x2000 landscape
+Pinterest pin: 1000x1500 vertical
+
+---
+
+C) TOPIC CLUSTER GENERATOR
+
+Input:
+
+* Main keyword (e.g., “ECG rhythms”, “ABG interpretation”, “order of draw”)
+* Country mode: Canada / US
+* Exam tier: RPN/REx-PN, NCLEX-PN, NCLEX-RN, NP (optional)
+
+Output:
+
+* 1 pillar page
+* 20–40 supporting articles
+* Each supporting article includes 5–10 internal links (to pillar + related supports)
+* Each supporting article requires at least 1 branded infographic
+* Each supporting article requires 3 Pinterest pins (different headlines)
+
+Cluster constraints:
+
+* Avoid cannibalization: every post must target a distinct search intent
+* Provide slugs that are short, readable, and SEO safe
+* Provide meta titles and meta descriptions
+
+---
+
+D) ARTICLE GENERATOR (HIGH QUALITY)
+
+For each article:
+
+* Provide a clear outline
+* Write the article in a nursing education tone, exam-focused
+* Include tables, bullet lists, and a short algorithm when relevant
+* Include “Common Exam Traps” section
+* Include “Clinical Pearls” section
+* Include “Practice Questions” section (5 questions) with rationales (minimum 250 words each)
+* Add internal links placeholders: [LINK: /slug]
+* Country mode changes units/terms and lab conventions where relevant
+
+---
+
+E) INFOGRAPHIC GENERATOR (TEMPLATE-DRIVEN)
+
+For each article, generate 1–3 infographics using these templates:
+
+TABLE CHART
+ALGORITHM FLOW
+COMPARISON CHART
+STEP PROCESS
+QUICK CHEAT SHEET
+ECG STRIP SET (when topic is ECG)
+
+All infographics must follow brand lock and use rounded cards.
+
+Store files:
+/public/images/infographics/{slug}-{type}.png
+/public/images/pins/{slug}-{pin-variant}.png
+
+Save metadata in DB:
+
+* slug
+* title
+* keywords
+* image paths
+* alt text
+* template type
+* publish status
+
+---
+
+F) PINTEREST PIN GENERATOR
+
+For every article:
+Create 3 pins:
+
+* Pin 1: direct infographic style (table or algorithm)
+* Pin 2: “exam tips” style (yellow tip boxes)
+* Pin 3: “quick cheat sheet” style
+
+Each pin includes:
+
+* headline
+* 3–5 bullet “value props”
+* NurseNest watermark
+* consistent palette
+
+---
+
+G) INTERNAL LINKING ENGINE
+
+Every article must automatically link to:
+
+* The cluster pillar page
+* 3 related supports in same cluster
+* 2 cross-cluster pages (e.g., ECG -> electrolytes -> shock/sepsis)
+
+Use a simple ruleset:
+
+* based on shared tags
+* based on exam blueprint category
+* based on user intent similarity
+
+---
+
+H) QUALITY CONTROL GATES (STRICT)
+
+Before anything can be published:
+
+* check for medical accuracy flags (dangerous guidance)
+* check for duplicate content similarity
+* check for missing alt text
+* check for missing internal links
+* check for missing infographic and pins
+
+If fails:
+mark as “Needs Review” and list exact failures.
+
+---
+
+I) PUBLISHING QUEUE
+
+Add a publishing queue with:
+
+* scheduled date
+* priority
+* cluster tag
+* publish to: blog + image sitemap
+
+Auto-generate:
+
+* image sitemap entries
+* structured data (FAQ schema if present)
+* OpenGraph image selection
+
+---
+
+J) STARTER CLUSTERS (BUILD THESE FIRST)
+
+Generate and queue these clusters first:
+
+1. ECG Rhythm Recognition
+2. ABG Interpretation
+3. Electrolyte Imbalances
+4. Blood Transfusion Compatibility + Reactions
+5. Insulin + Diabetes Management
+6. Oxygen Delivery Devices
+7. Sepsis Recognition + Shock Types
+8. COPD vs Asthma
+9. Heart Failure Basics
+10. Order of the Draw + Lab Tubes
+
+---
+
+OUTPUT REQUIREMENT
+
+Implement this system so an admin can enter a keyword and click:
+
+“Generate Cluster”
+
+and the system produces:
+
+* pillar + supporting articles
+* matching NurseNest-branded infographics
+* 3 Pinterest pins per article
+* internal linking map
+* publish-ready queue entries
+
+All assets must be consistent with NurseNest colors and layout.
