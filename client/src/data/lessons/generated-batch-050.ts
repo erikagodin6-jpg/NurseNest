@@ -44,46 +44,52 @@ export const generatedBatch050Lessons: Record<string, LessonContent> = {
     ]
   },
   "icp-basics": {
-    title: "Intracranial Pressure Basics",
-    cellular: { title: "Pathophysiology of Intracranial Pressure Basics", content: "[WRITE YOUR PATHOPHYSIOLOGY AND INTRODUCTION HERE]" },
-    riskFactors: ["Advanced age or extremes of age","Family history of icp basics or related conditions","Chronic comorbidities (hypertension, diabetes, obesity)","Sedentary lifestyle and poor nutritional status","Tobacco, alcohol, or substance use","Immunocompromised state or prolonged medication use"],
-    diagnostics: ["Perform focused assessment and report findings to supervising nurse","Monitor vital signs and report deviations from baseline","Collect specimens as directed and label accurately","Document assessment findings and communicate changes promptly","Recognize and report signs of deterioration"],
-    management: ["Administer medications as ordered and document administration","Implement comfort measures and basic supportive care","Follow established care protocols and report patient responses","Assist with activities of daily living and mobility as appropriate","Report changes in patient condition to the registered nurse promptly"],
-    nursingActions: ["Order and interpret diagnostic studies for changes in condition","Prescribe pharmacological and non-pharmacological therapies per established protocols","Formulate differential diagnosis and treatment plan based on assessment findings","Counsel patients on disease management and prevention regarding condition management","Document all interventions, assessments, and patient responses accurately","Maintain safe environment and follow infection prevention protocols"],
-    assessmentFindings: ["Changes in vital signs including temperature, pulse, blood pressure, and respirations","Alterations in level of consciousness, orientation, or cognitive function","Pain assessment using validated tools (onset, location, duration, character, severity)","Skin assessment including color, turgor, moisture, integrity, and temperature","Functional status changes including mobility, self-care ability, and nutritional intake"],
-    signs: {
-      left: ["Changes in vital sign trends","Altered mental status or confusion","Pain or discomfort reported by patient","Skin changes (pallor, diaphoresis, cyanosis, jaundice)","Abnormal laboratory values"],
-      right: ["Fever or hypothermia","Edema (peripheral, periorbital, or generalized)","Adventitious breath sounds or respiratory distress","Gastrointestinal symptoms (nausea, vomiting, distension)","Changes in urine output or characteristics"]
-    },
-    medications: [{
-      name: "Levetiracetam",
-      type: "Anticonvulsant",
-      action: "Modulates synaptic vesicle protein SV2A to reduce neuronal excitability",
-      sideEffects: "Drowsiness, behavioral changes, dizziness, fatigue",
-      contra: "Known hypersensitivity; dose adjustment needed in renal impairment",
-      pearl: "Fewer drug interactions than older anticonvulsants; monitor for mood changes"
+        title: "Increased Intracranial Pressure (ICP) Basics",
+        cellular: { title: "Pathophysiology of Increased Intracranial Pressure", content: "Increased intracranial pressure (ICP) occurs when the pressure inside the rigid skull exceeds normal values (5-15 mmHg in adults), compressing brain tissue and compromising cerebral blood flow. Understanding the Monro-Kellie doctrine and the pathophysiology of ICP is essential for nurses because ICP elevation can rapidly progress to brain herniation and death if not recognized and treated promptly.\n\nThe Monro-Kellie doctrine states that the skull is a fixed, rigid container holding three components: brain tissue (80%), cerebrospinal fluid (CSF, 10%), and blood (10%). Because the volume is fixed, an increase in any one component must be compensated by a decrease in another, or ICP will rise. Initial compensatory mechanisms include displacement of CSF from the cranial vault into the spinal subarachnoid space, increased CSF absorption, and reduction of cerebral blood volume through venous compression. Once these mechanisms are exhausted, even small additional increases in volume cause dramatic ICP elevation.\n\nCauses of increased ICP include: space-occupying lesions (tumors, abscesses, hematomas), cerebral edema (cytotoxic from cell injury, vasogenic from blood-brain barrier disruption), increased CSF (hydrocephalus from obstruction or impaired absorption), and increased blood volume (venous obstruction, hypertensive crisis). Each cause produces ICP elevation through a different mechanism, but the clinical consequences are the same.\n\nAs ICP rises, cerebral perfusion pressure (CPP) decreases. CPP is calculated as Mean Arterial Pressure minus ICP (CPP = MAP - ICP). Normal CPP is 60-100 mmHg. When CPP falls below 60 mmHg, cerebral ischemia begins. The brain responds with the Cushing response (also called Cushing triad): systemic hypertension (widening pulse pressure) as the body attempts to force blood past the elevated ICP, reflex bradycardia from baroreceptor stimulation, and irregular respirations from brainstem compression. The Cushing triad is a late and ominous sign indicating imminent brain herniation.\n\nEarly signs of increased ICP that RPNs must recognize include: change in level of consciousness (the earliest and most sensitive indicator), restlessness, confusion, headache (often worse in the morning due to recumbent positioning during sleep increasing venous return to the head), vomiting (often projectile, without preceding nausea), and subtle changes in pupil reactivity. Late signs include decreased level of consciousness progressing to coma, abnormal posturing (decorticate with arms flexed, then decerebrate with arms extended), fixed dilated pupils, and the Cushing triad.\n\nBrain herniation is the catastrophic consequence of uncontrolled ICP. The most common type is transtentorial (uncal) herniation, where the medial temporal lobe (uncus) is pushed through the tentorial notch, compressing the midbrain and CN III. This produces ipsilateral pupil dilation (blown pupil), contralateral hemiparesis, and decreased consciousness. Herniation can progress to brainstem compression and death within minutes to hours." },
+        riskFactors: ["Head trauma or traumatic brain injury","Brain tumor or metastatic lesion","Intracranial hemorrhage (epidural, subdural, subarachnoid)","Hydrocephalus","Stroke with cerebral edema","Brain abscess or meningitis","Hepatic encephalopathy with cerebral edema","Status epilepticus"],
+        diagnostics: ["Monitor Glasgow Coma Scale every 1-2 hours or as ordered","Expect CT scan to identify cause of ICP elevation","Monitor ICP via ventriculostomy or intraparenchymal monitor if placed","Assess pupil size, symmetry, and reactivity frequently","Monitor vital signs for Cushing triad (hypertension, bradycardia, irregular breathing)","Expect serum osmolality and electrolytes monitoring"],
+        management: ["Elevate head of bed 30 degrees to promote venous drainage","Maintain head in midline position (avoid neck flexion or rotation)","Maintain normothermia (fever increases metabolic demand and ICP)","Avoid activities that increase ICP: Valsalva, coughing, straining, suctioning >10 seconds","Maintain quiet, dim environment to reduce stimulation","Space nursing activities to allow ICP to return to baseline between interventions"],
+        nursingActions: ["Perform neurological checks as ordered, report any decline immediately","Monitor pupils every 1-2 hours and compare to baseline","Maintain HOB at 30 degrees and head midline at all times","Report GCS decrease of 2 or more points urgently","Administer osmotic diuretics (mannitol) as prescribed and monitor output","Prevent constipation and straining (administer stool softeners as ordered)","Suction only when necessary, limit to 10 seconds, preoxygenate","Monitor intake and output strictly"],
+        assessmentFindings: ["Decreased level of consciousness (earliest sign)","Headache, especially worse in the morning","Projectile vomiting without nausea","Altered pupil response (sluggish, then fixed and dilated)","Cushing triad: hypertension with widening pulse pressure, bradycardia, irregular respirations","Papilledema on fundoscopic exam","Abnormal posturing (decorticate then decerebrate)"],
+        signs: {
+          left: ["Decreased LOC (earliest)","Restlessness and confusion","Headache (worse in morning)","Projectile vomiting","Sluggish pupil response"],
+          right: ["Cushing triad (late sign)","Fixed dilated pupil (blown pupil)","Decorticate posturing","Decerebrate posturing","Respiratory pattern changes"]
+        },
+        medications: [{
+      name: "Mannitol",
+      type: "Osmotic diuretic",
+      action: "Creates osmotic gradient that draws water from brain tissue into the intravascular space, reducing cerebral edema and ICP",
+      sideEffects: "Dehydration, electrolyte imbalances (hyponatremia, hypokalemia), rebound ICP elevation",
+      contra: "Anuria, severe dehydration, active intracranial bleeding",
+      pearl: "Given IV bolus through a filter; monitor serum osmolality (hold if >320 mOsm/kg); monitor strict I&O; have Foley catheter in place before administration"
+    },{
+      name: "Hypertonic Saline (3%)",
+      type: "Osmotic agent",
+      action: "Creates osmotic gradient to draw fluid from brain parenchyma into intravascular space, reducing cerebral edema",
+      sideEffects: "Hypernatremia, central pontine myelinolysis (if sodium corrected too rapidly), fluid overload",
+      contra: "Hypernatremia, severe cardiac failure",
+      pearl: "Monitor sodium levels frequently; must be given through central line due to risk of peripheral vein damage; target sodium 145-155 mEq/L in severe ICP elevation"
     }],
-    pearls: ["Always assess for allergies before administering any new medication","Document baseline assessment findings to enable accurate trending","Use the SBAR format for structured clinical communication with the healthcare team","Consider age-specific and population-specific variations in normal findings","Never ignore a sudden change in patient condition, even if vital signs appear stable","Verify two patient identifiers before any medication administration or procedure"],
-    quiz: [
-      {
-        question: "A nurse is caring for a patient with icp basics. Which assessment finding requires immediate intervention?",
-        options: ["Sudden change in level of consciousness","Mild discomfort rated 3/10 on pain scale","Stable vital signs within normal limits","Patient requesting information about their condition"],
-        correct: 0,
-        rationale: "A sudden change in level of consciousness may indicate a serious complication such as hemorrhage, hypoxia, or neurological deterioration and requires immediate assessment and intervention."
+        pearls: ["Change in LOC is the EARLIEST and MOST SENSITIVE indicator of rising ICP","Cushing triad (hypertension, bradycardia, irregular breathing) is a LATE sign of brain herniation","A blown pupil (fixed, dilated) is ipsilateral to the lesion in uncal herniation","HOB 30 degrees, head midline, avoid neck flexion: these are non-negotiable positioning requirements","Never suction for more than 10 seconds and always preoxygenate: suctioning dramatically increases ICP","CPP = MAP - ICP; target CPP above 60 mmHg to prevent cerebral ischemia"],
+        lifespan: { title: "Across the Lifespan", content: "In infants, the skull sutures and fontanelles have not yet fused, allowing the skull to expand with rising ICP. Signs of increased ICP in infants include bulging fontanelle, increasing head circumference, setting-sun eyes (downward deviation), high-pitched cry, and poor feeding. In adults, the rigid skull cannot expand, making compensatory mechanisms limited and ICP elevations more dangerous. Elderly patients may have brain atrophy that provides some initial compensation (more space for CSF displacement) but this delays clinical recognition, potentially allowing ICP to rise to dangerous levels before symptoms appear." },
+        quiz: [{
+        question: "A nurse caring for a patient with a traumatic brain injury notices the patient's level of consciousness has decreased from alert and oriented to confused and drowsy. Vital signs show BP 180/60, HR 52, RR irregular. What is happening?",
+        options: ["Expected post-injury fatigue requiring continued monitoring","Cushing response indicating critically elevated ICP and impending herniation","Medication side effect from prescribed pain management","Normal neurological fluctuation after head injury"],
+        correct: 1,
+        rationale: "The combination of decreased LOC, widening pulse pressure (180/60), bradycardia (52), and irregular respirations constitutes the Cushing triad, which indicates critically elevated ICP with brainstem compression. This is a medical emergency requiring immediate intervention."
       },
       {
-        question: "Which nursing action is most appropriate when managing a patient with icp basics?",
-        options: ["Order and interpret diagnostic studies for changes in condition","Delay assessment until the next scheduled time","Administer PRN medications without assessment","Transfer care without communicating relevant findings"],
-        correct: 0,
-        rationale: "Ongoing assessment and timely intervention are fundamental to safe patient care. Delaying assessment, administering medications without assessment, or failing to communicate findings can compromise patient safety."
-      },
-      {
-        question: "The patient asks about their icp basics diagnosis. What is the best initial nursing response?",
-        options: ["Avoid discussing the diagnosis and redirect the conversation","Provide all available information regardless of patient readiness","Assess the patient's current understanding and address their specific concerns","Tell the patient to wait for the physician to explain everything"],
+        question: "Which nursing intervention is CONTRAINDICATED for a patient with elevated ICP?",
+        options: ["Elevating the head of bed to 30 degrees","Maintaining the head in midline position","Clustering all nursing care activities together to minimize interruptions","Administering stool softeners to prevent straining"],
         correct: 2,
-        rationale: "Assessing the patient's current understanding allows the nurse to provide targeted, accurate education at the appropriate level, supporting informed decision-making and reducing anxiety."
+        rationale: "Clustering nursing activities (performing multiple assessments, repositioning, and care simultaneously) is contraindicated because each intervention can temporarily increase ICP. Activities should be spaced apart to allow ICP to return to baseline between interventions. All other options are appropriate ICP management strategies."
       },
-    ]
+      {
+        question: "An infant in the pediatric unit has a tense, bulging anterior fontanelle, setting-sun eyes, and a high-pitched cry. What should the nurse suspect?",
+        options: ["Normal infant behavior during feeding","Colic requiring comfort measures","Increased intracranial pressure requiring urgent evaluation","Dehydration causing fontanelle changes"],
+        correct: 2,
+        rationale: "A bulging fontanelle (normally soft and flat), setting-sun eyes (downward eye deviation from pressure on CN III and the tectal plate), and high-pitched cry are classic signs of increased ICP in infants. Dehydration causes a sunken fontanelle, not a bulging one. This requires urgent evaluation and intervention."
+      }]
   },
   "icp-monitoring-rn": {
     title: "ICP Monitoring Assessment",

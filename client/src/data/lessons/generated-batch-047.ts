@@ -380,46 +380,45 @@ export const generatedBatch047Lessons: Record<string, LessonContent> = {
     ]
   },
   "hydrocephalus-basics-rpn": {
-    title: "Hydrocephalus Basics",
-    cellular: { title: "Pathophysiology of Hydrocephalus Basics", content: "[WRITE YOUR PATHOPHYSIOLOGY AND INTRODUCTION HERE]" },
-    riskFactors: ["Advanced age or extremes of age","Family history of hydrocephalus basics or related conditions","Chronic comorbidities (hypertension, diabetes, obesity)","Sedentary lifestyle and poor nutritional status","Tobacco, alcohol, or substance use","Immunocompromised state or prolonged medication use"],
-    diagnostics: ["Perform focused assessment and report findings to supervising nurse","Monitor vital signs and report deviations from baseline","Collect specimens as directed and label accurately","Document assessment findings and communicate changes promptly","Recognize and report signs of deterioration"],
-    management: ["Administer medications as ordered and document administration","Implement comfort measures and basic supportive care","Follow established care protocols and report patient responses","Assist with activities of daily living and mobility as appropriate","Report changes in patient condition to the registered nurse promptly"],
-    nursingActions: ["Monitor and report for changes in condition","Administer medications as ordered and document per established protocols","Perform basic interventions as directed based on assessment findings","Reinforce patient teaching as delegated regarding condition management","Document all interventions, assessments, and patient responses accurately","Maintain safe environment and follow infection prevention protocols"],
-    assessmentFindings: ["Changes in vital signs including temperature, pulse, blood pressure, and respirations","Alterations in level of consciousness, orientation, or cognitive function","Pain assessment using validated tools (onset, location, duration, character, severity)","Skin assessment including color, turgor, moisture, integrity, and temperature","Functional status changes including mobility, self-care ability, and nutritional intake"],
-    signs: {
-      left: ["Changes in vital sign trends","Altered mental status or confusion","Pain or discomfort reported by patient","Skin changes (pallor, diaphoresis, cyanosis, jaundice)","Abnormal laboratory values"],
-      right: ["Fever or hypothermia","Edema (peripheral, periorbital, or generalized)","Adventitious breath sounds or respiratory distress","Gastrointestinal symptoms (nausea, vomiting, distension)","Changes in urine output or characteristics"]
-    },
-    medications: [{
-      name: "Acetaminophen",
-      type: "Analgesic/Antipyretic",
-      action: "Inhibits cyclooxygenase enzymes in the CNS to reduce pain and fever",
-      sideEffects: "Hepatotoxicity at high doses, nausea, rash (rare)",
-      contra: "Severe hepatic impairment, active liver disease, alcohol use disorder",
-      pearl: "Maximum 4g/day in healthy adults, 2g/day with liver disease; found in many combination products - check all sources"
+        title: "Hydrocephalus Basics",
+        cellular: { title: "Pathophysiology of Hydrocephalus", content: "Hydrocephalus is the abnormal accumulation of cerebrospinal fluid (CSF) within the ventricular system of the brain, causing ventricular dilation and increased intracranial pressure. Understanding CSF production, circulation, and absorption is essential for nurses managing patients with hydrocephalus or CSF diversion devices.\n\nCSF is produced primarily by the choroid plexus within the lateral ventricles at a rate of approximately 500 mL per day (20 mL/hour). The total CSF volume at any given time is only 125-150 mL, meaning the entire volume is replaced three to four times daily. CSF flows from the lateral ventricles through the foramen of Monro into the third ventricle, then through the cerebral aqueduct (aqueduct of Sylvius) into the fourth ventricle, and exits through the foramina of Luschka and Magendie into the subarachnoid space, where it is absorbed by arachnoid granulations (villi) into the venous sinuses.\n\nHydrocephalus develops when there is an imbalance between CSF production and absorption. There are three mechanisms: obstructive (non-communicating) hydrocephalus occurs when CSF flow is blocked within the ventricular system (commonly at the narrow cerebral aqueduct), caused by tumors, congenital stenosis, or blood clots. Communicating hydrocephalus occurs when CSF can flow through the ventricles but absorption by the arachnoid granulations is impaired, commonly caused by subarachnoid hemorrhage, meningitis, or fibrosis. Rarely, overproduction of CSF by a choroid plexus papilloma causes hydrocephalus.\n\nNormal pressure hydrocephalus (NPH) is a unique form seen in elderly patients characterized by the classic triad of gait disturbance (wide-based, magnetic gait), urinary incontinence, and dementia. Despite ventriculomegaly, ICP may be normal or only intermittently elevated. NPH is important because it is one of the few reversible causes of dementia when treated with CSF shunting.\n\nTreatment typically involves surgical placement of a ventriculoperitoneal (VP) shunt, which diverts CSF from the lateral ventricle through a subcutaneous catheter to the peritoneal cavity for absorption. Endoscopic third ventriculostomy (ETV) is an alternative for obstructive hydrocephalus.\n\nFor RPNs, critical responsibilities include recognizing signs of increased ICP, monitoring shunt function (signs of malfunction include headache, vomiting, decreased LOC, and bulging fontanelle in infants), maintaining shunt precautions (avoid positioning on the shunt valve side), and recognizing shunt infection (fever, redness along shunt tract, changes in mental status)." },
+        riskFactors: ["Congenital aqueductal stenosis","Neural tube defects (spina bifida, myelomeningocele)","Prematurity with intraventricular hemorrhage","Meningitis or CNS infection","Subarachnoid hemorrhage","Brain tumor obstructing CSF pathways","Head trauma","Age over 65 (normal pressure hydrocephalus)"],
+        diagnostics: ["Expect CT scan showing dilated ventricles","Expect MRI for detailed ventricular anatomy","Monitor head circumference in infants (serial measurements above 95th percentile)","Expect lumbar puncture with CSF removal trial in suspected NPH","Monitor ICP if invasive monitoring is placed","Assess for signs of shunt malfunction post-operatively"],
+        management: ["Maintain prescribed positioning after shunt placement (typically flat or low HOB initially)","Monitor for shunt malfunction signs (headache, vomiting, decreased LOC, bulging fontanelle)","Monitor for shunt infection signs (fever, redness along shunt tract, irritability)","Do not pump the shunt valve unless specifically ordered","Implement seizure precautions post-operatively","Monitor wound site for CSF leak or infection"],
+        nursingActions: ["Measure head circumference daily in infants and plot on growth chart","Assess for signs of increased ICP at every assessment","Monitor shunt site for redness, swelling, drainage, or tenderness","Position patient as ordered after shunt placement (avoid lying on shunt side)","Report any acute changes in neurological status immediately","Monitor surgical wound for signs of CSF leak","Teach families about shunt malfunction warning signs before discharge","Maintain seizure precautions throughout hospitalization"],
+        assessmentFindings: ["Infants: rapidly increasing head circumference, bulging fontanelle, setting-sun eyes, poor feeding","Children and adults: headache worse in morning, nausea and vomiting, papilledema, decreased LOC","NPH triad: gait disturbance (wide-based, shuffling), urinary incontinence, cognitive decline","Post-shunt: signs of malfunction include return of pre-operative symptoms","Post-shunt infection: fever, lethargy, irritability, wound redness"],
+        signs: {
+          left: ["Bulging fontanelle (infants)","Increasing head circumference","Setting-sun eyes","Headache (worse in AM)","Decreased LOC"],
+          right: ["Projectile vomiting","Papilledema","Gait disturbance (NPH)","Urinary incontinence (NPH)","Cognitive decline"]
+        },
+        medications: [{
+      name: "Acetazolamide (Diamox)",
+      type: "Carbonic anhydrase inhibitor",
+      action: "Temporarily reduces CSF production by inhibiting carbonic anhydrase in the choroid plexus",
+      sideEffects: "Metabolic acidosis, tingling in extremities, electrolyte imbalances, kidney stones",
+      contra: "Severe hepatic or renal impairment, hyponatremia, hypokalemia",
+      pearl: "Used as temporizing measure to reduce CSF production while awaiting definitive surgical treatment; not effective for long-term management; monitor electrolytes and acid-base status"
     }],
-    pearls: ["Always assess for allergies before administering any new medication","Document baseline assessment findings to enable accurate trending","Use the SBAR format for structured clinical communication with the healthcare team","Consider age-specific and population-specific variations in normal findings","Never ignore a sudden change in patient condition, even if vital signs appear stable","Verify two patient identifiers before any medication administration or procedure"],
-    quiz: [
-      {
-        question: "A nurse is caring for a patient with hydrocephalus basics. Which assessment finding requires immediate intervention?",
-        options: ["Sudden change in level of consciousness","Mild discomfort rated 3/10 on pain scale","Stable vital signs within normal limits","Patient requesting information about their condition"],
-        correct: 0,
-        rationale: "A sudden change in level of consciousness may indicate a serious complication such as hemorrhage, hypoxia, or neurological deterioration and requires immediate assessment and intervention."
+        pearls: ["In infants, increasing head circumference crossing percentile lines on growth chart is the earliest sign of hydrocephalus","Setting-sun eyes (downward deviation) in infants indicates pressure on the tectal plate","VP shunt malfunction can present hours to years after placement: educate families about warning signs","Never pump the shunt valve unless specifically ordered by neurosurgery","Normal pressure hydrocephalus is one of the few REVERSIBLE causes of dementia in the elderly","NPH triad: Wacky (gait), Wet (incontinence), Wobbly (dementia)"],
+        lifespan: { title: "Across the Lifespan", content: "Congenital hydrocephalus affects 1-2 per 1000 live births. In premature infants, intraventricular hemorrhage is the most common cause. The open fontanelles allow the skull to expand, so head circumference measurement is a crucial monitoring tool. In children, shunt-dependent hydrocephalus requires lifelong monitoring and likely multiple shunt revisions as the child grows. In elderly patients, NPH presents with the classic triad and can mimic Alzheimer disease or Parkinson disease; a positive CSF tap test (improvement in gait after large-volume LP) supports the diagnosis and predicts shunt response." },
+        quiz: [{
+        question: "A nurse measuring an infant's head circumference notes it has crossed from the 50th to the 90th percentile over two weeks. What should the nurse do?",
+        options: ["Document and continue to monitor at the next routine visit","Report immediately as this may indicate developing hydrocephalus","Reassure the parents that head growth varies in infants","Remeasure next month to confirm the trend"],
+        correct: 1,
+        rationale: "Rapid head circumference growth crossing percentile lines is the earliest sign of hydrocephalus in infants. The unfused sutures allow the skull to expand as CSF accumulates. This requires immediate reporting and likely urgent imaging (CT or ultrasound) to evaluate for hydrocephalus."
       },
       {
-        question: "Which nursing action is most appropriate when managing a patient with hydrocephalus basics?",
-        options: ["Monitor and report for changes in condition","Delay assessment until the next scheduled time","Administer PRN medications without assessment","Transfer care without communicating relevant findings"],
-        correct: 0,
-        rationale: "Ongoing assessment and timely intervention are fundamental to safe patient care. Delaying assessment, administering medications without assessment, or failing to communicate findings can compromise patient safety."
+        question: "A patient with a VP shunt develops sudden headache, nausea, and decreased alertness. What should the nurse suspect?",
+        options: ["Migraine headache","Shunt malfunction with increasing ICP","Medication side effect","Normal post-operative recovery"],
+        correct: 1,
+        rationale: "The return of hydrocephalus symptoms (headache, nausea, decreased alertness) in a patient with a VP shunt strongly suggests shunt malfunction. The shunt may be obstructed, disconnected, or infected. This requires urgent evaluation with CT scan and possible shunt revision."
       },
       {
-        question: "The patient asks about their hydrocephalus basics diagnosis. What is the best initial nursing response?",
-        options: ["Avoid discussing the diagnosis and redirect the conversation","Provide all available information regardless of patient readiness","Assess the patient's current understanding and address their specific concerns","Tell the patient to wait for the physician to explain everything"],
+        question: "An elderly patient presents with a wide-based shuffling gait, urinary incontinence, and progressive memory problems. Which condition should the nurse recognize this triad as?",
+        options: ["Parkinson disease","Alzheimer disease","Normal pressure hydrocephalus","Stroke"],
         correct: 2,
-        rationale: "Assessing the patient's current understanding allows the nurse to provide targeted, accurate education at the appropriate level, supporting informed decision-making and reducing anxiety."
-      },
-    ]
+        rationale: "The triad of gait disturbance, urinary incontinence, and dementia in an elderly patient is the classic presentation of normal pressure hydrocephalus (NPH). This is important to recognize because NPH is one of the few reversible causes of dementia. Treatment with a VP shunt can significantly improve symptoms."
+      }]
   },
   "hyperaldosteronism-np": {
     title: "Hyperaldosteronism: Conn Syndrome & Screening",

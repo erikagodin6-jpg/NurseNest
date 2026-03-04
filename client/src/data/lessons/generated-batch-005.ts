@@ -254,46 +254,52 @@ export const generatedBatch005Lessons: Record<string, LessonContent> = {
     ]
   },
   "als-basics-rpn": {
-    title: "ALS Basics",
-    cellular: { title: "Pathophysiology of ALS Basics", content: "[WRITE YOUR PATHOPHYSIOLOGY AND INTRODUCTION HERE]" },
-    riskFactors: ["Advanced age or extremes of age","Family history of als basics or related conditions","Chronic comorbidities (hypertension, diabetes, obesity)","Sedentary lifestyle and poor nutritional status","Tobacco, alcohol, or substance use","Immunocompromised state or prolonged medication use"],
-    diagnostics: ["Perform focused assessment and report findings to supervising nurse","Monitor vital signs and report deviations from baseline","Collect specimens as directed and label accurately","Document assessment findings and communicate changes promptly","Recognize and report signs of deterioration"],
-    management: ["Administer medications as ordered and document administration","Implement comfort measures and basic supportive care","Follow established care protocols and report patient responses","Assist with activities of daily living and mobility as appropriate","Report changes in patient condition to the registered nurse promptly"],
-    nursingActions: ["Monitor and report for changes in condition","Administer medications as ordered and document per established protocols","Perform basic interventions as directed based on assessment findings","Reinforce patient teaching as delegated regarding condition management","Document all interventions, assessments, and patient responses accurately","Maintain safe environment and follow infection prevention protocols"],
-    assessmentFindings: ["Changes in vital signs including temperature, pulse, blood pressure, and respirations","Alterations in level of consciousness, orientation, or cognitive function","Pain assessment using validated tools (onset, location, duration, character, severity)","Skin assessment including color, turgor, moisture, integrity, and temperature","Functional status changes including mobility, self-care ability, and nutritional intake"],
-    signs: {
-      left: ["Changes in vital sign trends","Altered mental status or confusion","Pain or discomfort reported by patient","Skin changes (pallor, diaphoresis, cyanosis, jaundice)","Abnormal laboratory values"],
-      right: ["Fever or hypothermia","Edema (peripheral, periorbital, or generalized)","Adventitious breath sounds or respiratory distress","Gastrointestinal symptoms (nausea, vomiting, distension)","Changes in urine output or characteristics"]
-    },
-    medications: [{
-      name: "Acetaminophen",
-      type: "Analgesic/Antipyretic",
-      action: "Inhibits cyclooxygenase enzymes in the CNS to reduce pain and fever",
-      sideEffects: "Hepatotoxicity at high doses, nausea, rash (rare)",
-      contra: "Severe hepatic impairment, active liver disease, alcohol use disorder",
-      pearl: "Maximum 4g/day in healthy adults, 2g/day with liver disease; found in many combination products - check all sources"
+        title: "Amyotrophic Lateral Sclerosis (ALS) Basics",
+        cellular: { title: "Pathophysiology of ALS", content: "Amyotrophic lateral sclerosis (ALS), also known as Lou Gehrig disease, is a progressive neurodegenerative disease that selectively destroys upper motor neurons in the motor cortex and lower motor neurons in the brainstem and spinal cord. The degeneration of these motor neurons leads to progressive muscle weakness, atrophy, fasciculations, and ultimately respiratory failure, which is the primary cause of death.\n\nAt the cellular level, ALS involves multiple pathological mechanisms. Approximately 10% of cases are familial (genetic), with mutations in the SOD1 gene (superoxide dismutase 1) being the most studied. The SOD1 enzyme normally protects cells from oxidative damage by converting superoxide radicals to hydrogen peroxide. Mutant SOD1 gains toxic functions that damage motor neurons through protein aggregation, mitochondrial dysfunction, and glutamate excitotoxicity. In sporadic ALS (90% of cases), the exact trigger is unknown, but similar pathological processes occur.\n\nThe destruction of upper motor neurons produces spasticity, hyperreflexia, and a positive Babinski sign. The destruction of lower motor neurons produces muscle weakness, atrophy, fasciculations (visible muscle twitching), and decreased or absent reflexes. The combination of upper and lower motor neuron signs in the same patient is the hallmark diagnostic feature of ALS.\n\nCritically, ALS spares the sensory neurons, oculomotor neurons, and the neurons controlling bowel and bladder function until very late in the disease. This means patients retain full sensation, can see and move their eyes, and maintain continence, even as they lose all voluntary muscle control. Cognitive function is preserved in most patients (though 15% develop frontotemporal dementia), meaning the person is fully aware as their body progressively fails.\n\nThe disease progresses relentlessly over 2-5 years from diagnosis. Early symptoms typically include asymmetric limb weakness (tripping, dropping objects, difficulty with fine motor tasks), muscle cramping, and fasciculations. Bulbar onset ALS (25% of cases) begins with dysarthria (slurred speech) and dysphagia (difficulty swallowing). As the disease progresses, respiratory muscles weaken, leading to dyspnea on exertion, orthopnea, and eventually respiratory failure.\n\nFor RPNs, the nursing priorities are maintaining safety as mobility declines, preventing aspiration as swallowing deteriorates, supporting respiratory function, providing communication aids as speech is lost, and offering emotional support to patients and families facing a terminal diagnosis. Advance care planning discussions should occur early while the patient can still communicate their wishes." },
+        riskFactors: ["Age 40-70 years (peak onset 55-65)","Male sex (slightly higher incidence)","Family history of ALS (10% familial)","Military service (higher incidence in veterans)","Smoking","Exposure to heavy metals or pesticides","Intense physical activity (debated)","Caucasian ethnicity"],
+        diagnostics: ["Expect electromyography (EMG) showing denervation patterns","Expect nerve conduction studies","Expect MRI to rule out other conditions (spinal cord compression, MS)","Monitor pulmonary function tests (FVC) regularly","Monitor swallowing function with speech-language pathology","Expect blood work to rule out treatable conditions mimicking ALS"],
+        management: ["Implement fall precautions and progressive mobility aids","Modify diet consistency as swallowing deteriorates (thickened liquids, pureed foods)","Position upright during and after meals to prevent aspiration","Support respiratory function with noninvasive ventilation (BiPAP) as prescribed","Facilitate advance care planning and goals of care discussions early","Coordinate multidisciplinary team (PT, OT, SLP, respiratory, social work, palliative care)"],
+        nursingActions: ["Assess respiratory status including rate, depth, oxygen saturation, and work of breathing","Monitor swallowing ability and report changes","Assess for aspiration signs after meals (coughing, wet voice quality)","Maintain safe environment with fall precautions","Assist with communication aids as speech declines","Administer prescribed medications on schedule","Provide emotional support to patient and family","Document functional status changes and report progressive decline"],
+        assessmentFindings: ["Progressive asymmetric muscle weakness (limb onset most common)","Muscle atrophy and visible fasciculations","Difficulty with fine motor tasks (buttoning, writing)","Slurred speech (dysarthria) progressing to inability to speak","Dysphagia with weight loss and aspiration risk","Respiratory difficulty progressing from exertional dyspnea to respiratory failure","Preserved sensation, eye movement, and cognition"],
+        signs: {
+          left: ["Muscle weakness (asymmetric)","Atrophy and fasciculations","Dysarthria","Dysphagia","Hyperreflexia (UMN)"],
+          right: ["Respiratory decline","Weight loss","Foot drop or hand weakness","Spasticity","Positive Babinski sign"]
+        },
+        medications: [{
+      name: "Riluzole (Rilutek)",
+      type: "Neuroprotective (glutamate antagonist)",
+      action: "Reduces glutamate excitotoxicity by inhibiting glutamate release, extending survival by 2-3 months",
+      sideEffects: "Nausea, fatigue, dizziness, hepatotoxicity",
+      contra: "Severe hepatic impairment",
+      pearl: "The only medication proven to extend survival in ALS; monitor liver function tests regularly; take on empty stomach; modest benefit but important to patients"
+    },{
+      name: "Edaravone (Radicava)",
+      type: "Free radical scavenger",
+      action: "Reduces oxidative stress and neuronal damage in ALS",
+      sideEffects: "Bruising, gait disturbance, headache, dermatitis",
+      contra: "Sulfite allergy",
+      pearl: "Given as IV infusion in cycles (14 days on, 14 days off initially); slows functional decline in some patients; newer oral formulation available"
     }],
-    pearls: ["Always assess for allergies before administering any new medication","Document baseline assessment findings to enable accurate trending","Use the SBAR format for structured clinical communication with the healthcare team","Consider age-specific and population-specific variations in normal findings","Never ignore a sudden change in patient condition, even if vital signs appear stable","Verify two patient identifiers before any medication administration or procedure"],
-    quiz: [
-      {
-        question: "A nurse is caring for a patient with als basics. Which assessment finding requires immediate intervention?",
-        options: ["Sudden change in level of consciousness","Mild discomfort rated 3/10 on pain scale","Stable vital signs within normal limits","Patient requesting information about their condition"],
-        correct: 0,
-        rationale: "A sudden change in level of consciousness may indicate a serious complication such as hemorrhage, hypoxia, or neurological deterioration and requires immediate assessment and intervention."
+        pearls: ["ALS preserves sensation, cognition, eye movement, and bowel/bladder function: the patient is fully aware","Respiratory failure is the leading cause of death, typically within 2-5 years of diagnosis","Advance care planning must occur early while the patient can still communicate","Aspiration risk increases progressively: monitor swallowing at every visit","The combination of upper motor neuron signs (spasticity, hyperreflexia) AND lower motor neuron signs (atrophy, fasciculations) in the same patient distinguishes ALS from other conditions","Riluzole extends survival by only 2-3 months but is still recommended as no better pharmacological option exists"],
+        lifespan: { title: "Across the Lifespan", content: "ALS typically presents between ages 40-70 with peak onset at 55-65. Juvenile ALS (onset before age 25) is rare and usually familial with slower progression. ALS affects adults in their most productive years, creating significant impact on employment, finances, relationships, and family roles. Caregiver burden is immense as the patient progresses from independence to total dependence. Palliative care involvement from diagnosis is recommended." },
+        quiz: [{
+        question: "A patient with ALS asks the nurse why they can still feel everything even though they cannot move their arms. How should the nurse respond?",
+        options: ["This is unusual and should be reported to the physician","ALS affects motor neurons only, leaving sensory nerves intact, so sensation is preserved throughout the disease","The sensation will likely be lost as the disease progresses","Preserved sensation indicates the diagnosis may be incorrect"],
+        correct: 1,
+        rationale: "ALS selectively destroys motor neurons while sparing sensory neurons. This means patients retain full sensation (touch, pain, temperature) even as they lose all voluntary muscle control. This is a defining characteristic of the disease and helps distinguish it from other neurological conditions."
       },
       {
-        question: "Which nursing action is most appropriate when managing a patient with als basics?",
-        options: ["Monitor and report for changes in condition","Delay assessment until the next scheduled time","Administer PRN medications without assessment","Transfer care without communicating relevant findings"],
-        correct: 0,
-        rationale: "Ongoing assessment and timely intervention are fundamental to safe patient care. Delaying assessment, administering medications without assessment, or failing to communicate findings can compromise patient safety."
-      },
-      {
-        question: "The patient asks about their als basics diagnosis. What is the best initial nursing response?",
-        options: ["Avoid discussing the diagnosis and redirect the conversation","Provide all available information regardless of patient readiness","Assess the patient's current understanding and address their specific concerns","Tell the patient to wait for the physician to explain everything"],
+        question: "Which assessment finding in a patient with ALS requires the most urgent nursing action?",
+        options: ["Fasciculations visible in the forearm","Difficulty buttoning a shirt","Oxygen saturation of 89% with increased respiratory rate","Slurred speech during conversation"],
         correct: 2,
-        rationale: "Assessing the patient's current understanding allows the nurse to provide targeted, accurate education at the appropriate level, supporting informed decision-making and reducing anxiety."
+        rationale: "Declining oxygen saturation with increased respiratory effort indicates respiratory muscle weakness, which is the leading cause of death in ALS. This requires immediate intervention (supplemental oxygen, noninvasive ventilation assessment). While other findings indicate disease progression, respiratory decline is the most urgent safety concern."
       },
-    ]
+      {
+        question: "When should advance care planning discussions begin for a patient newly diagnosed with ALS?",
+        options: ["After the patient loses the ability to speak","When respiratory failure becomes imminent","As soon as possible after diagnosis while the patient can communicate their wishes","Only if the patient brings it up first"],
+        correct: 2,
+        rationale: "Advance care planning should begin soon after diagnosis because ALS progressively impairs speech and communication. Early discussions ensure the patient can express their values and wishes regarding mechanical ventilation, feeding tubes, resuscitation, and end-of-life care while they are still able to communicate clearly."
+      }]
   },
   "als-management-np": {
     title: "ALS: Disease Progression & Supportive Care",

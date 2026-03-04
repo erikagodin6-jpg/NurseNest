@@ -548,46 +548,51 @@ export const generatedBatch038Lessons: Record<string, LessonContent> = {
     ]
   },
   "gerd-basics-rpn": {
-    title: "GERD (Gastroesophageal Reflux)",
-    cellular: { title: "Pathophysiology of GERD (Gastroesophageal Reflux)", content: "[WRITE YOUR PATHOPHYSIOLOGY AND INTRODUCTION HERE]" },
-    riskFactors: ["Advanced age or extremes of age","Family history of gerd basics or related conditions","Chronic comorbidities (hypertension, diabetes, obesity)","Sedentary lifestyle and poor nutritional status","Tobacco, alcohol, or substance use","Immunocompromised state or prolonged medication use"],
-    diagnostics: ["Perform focused assessment and report findings to supervising nurse","Monitor vital signs and report deviations from baseline","Collect specimens as directed and label accurately","Document assessment findings and communicate changes promptly","Recognize and report signs of deterioration"],
-    management: ["Administer medications as ordered and document administration","Implement comfort measures and basic supportive care","Follow established care protocols and report patient responses","Assist with activities of daily living and mobility as appropriate","Report changes in patient condition to the registered nurse promptly"],
-    nursingActions: ["Monitor and report for changes in condition","Administer medications as ordered and document per established protocols","Perform basic interventions as directed based on assessment findings","Reinforce patient teaching as delegated regarding condition management","Document all interventions, assessments, and patient responses accurately","Maintain safe environment and follow infection prevention protocols"],
-    assessmentFindings: ["Changes in vital signs including temperature, pulse, blood pressure, and respirations","Alterations in level of consciousness, orientation, or cognitive function","Pain assessment using validated tools (onset, location, duration, character, severity)","Skin assessment including color, turgor, moisture, integrity, and temperature","Functional status changes including mobility, self-care ability, and nutritional intake"],
-    signs: {
-      left: ["Changes in vital sign trends","Altered mental status or confusion","Pain or discomfort reported by patient","Skin changes (pallor, diaphoresis, cyanosis, jaundice)","Abnormal laboratory values"],
-      right: ["Fever or hypothermia","Edema (peripheral, periorbital, or generalized)","Adventitious breath sounds or respiratory distress","Gastrointestinal symptoms (nausea, vomiting, distension)","Changes in urine output or characteristics"]
-    },
-    medications: [{
-      name: "Omeprazole",
+        title: "GERD (Gastroesophageal Reflux Disease)",
+        cellular: { title: "Pathophysiology of GERD", content: "Gastroesophageal reflux disease (GERD) occurs when the lower esophageal sphincter (LES) fails to prevent gastric contents from refluxing into the esophagus, causing tissue damage, inflammation, and characteristic symptoms. GERD affects approximately 20% of the adult population in Western countries and is one of the most common gastrointestinal conditions nurses will encounter.\n\nThe LES is a ring of smooth muscle at the gastroesophageal junction that normally maintains a resting pressure of 10-30 mmHg, creating a barrier that prevents acidic gastric contents (pH 1-2) from entering the esophagus (which lacks the protective mucus lining that protects the stomach). In GERD, the LES tone is inappropriately low, allowing transient relaxations that permit reflux. Contributing factors include increased intra-abdominal pressure (obesity, pregnancy, ascites), delayed gastric emptying, hiatal hernia (displacement of the gastroesophageal junction above the diaphragm), and certain substances that relax the LES (caffeine, chocolate, alcohol, nicotine, fatty foods, peppermint).\n\nWhen acidic gastric contents contact the esophageal mucosa, they cause chemical injury to the squamous epithelium. Repeated acid exposure leads to inflammation (esophagitis), erosion, and potentially ulceration. Chronic GERD can cause Barrett esophagus, a condition where the normal squamous epithelium is replaced by columnar intestinal-type epithelium (intestinal metaplasia) as an adaptive response to chronic acid exposure. Barrett esophagus is a premalignant condition that increases the risk of esophageal adenocarcinoma by 30-125 times compared to the general population.\n\nGERD can also cause extraesophageal complications: chronic cough (acid irritation of the vagus nerve or microaspiration), laryngitis and hoarseness (acid damage to vocal cords), dental erosion (acid damaging tooth enamel), and asthma exacerbation (acid-triggered bronchospasm).\n\nFor RPNs, nursing management focuses on lifestyle modifications that reduce reflux (positioning, dietary changes, weight management), medication administration, and recognizing complications. The key positioning principle is that gravity helps keep gastric contents in the stomach: elevate the head of bed 30 degrees for patients with GERD, especially after meals and during sleep." },
+        riskFactors: ["Obesity (increased intra-abdominal pressure)","Pregnancy","Hiatal hernia","Smoking (nicotine relaxes LES)","Alcohol consumption","High-fat diet","Caffeine and chocolate consumption","Certain medications (calcium channel blockers, nitrates, anticholinergics, NSAIDs)","Delayed gastric emptying","Connective tissue disorders (scleroderma)"],
+        diagnostics: ["Expect upper endoscopy (EGD) for persistent symptoms or complications","Monitor symptom response to empiric PPI therapy (PPI trial)","Expect esophageal pH monitoring for atypical presentations","Expect barium swallow to evaluate hiatal hernia","Monitor for alarm symptoms requiring urgent endoscopy (dysphagia, weight loss, GI bleeding, anemia)","Expect biopsy during EGD to assess for Barrett esophagus"],
+        management: ["Elevate head of bed 30 degrees (use blocks under bed frame, not just pillows)","Avoid eating 2-3 hours before bedtime","Eat small, frequent meals rather than large meals","Avoid trigger foods: caffeine, chocolate, alcohol, fatty/spicy foods, citrus, tomato","Maintain healthy weight or pursue weight loss if obese","Avoid tight-fitting clothing around the abdomen"],
+        nursingActions: ["Position patient with HOB elevated 30 degrees, especially after meals","Administer PPIs as prescribed (30 minutes before first meal of the day)","Educate about dietary modifications and trigger avoidance","Assess for alarm symptoms (difficulty swallowing, unintended weight loss, GI bleeding)","Monitor medication effectiveness and side effects","Encourage smoking cessation and alcohol reduction","Educate about avoiding lying down for 2-3 hours after eating","Assess nutritional status and BMI"],
+        assessmentFindings: ["Heartburn (pyrosis): burning sensation in the substernal area, worse after meals and when lying down","Regurgitation of acidic or bitter fluid into the mouth","Dysphagia (difficulty swallowing) suggesting complications","Chronic cough, especially at night","Hoarseness or sore throat (laryngeal irritation)","Dental erosion from chronic acid exposure","Epigastric discomfort or chest pain (must differentiate from cardiac pain)"],
+        signs: {
+          left: ["Heartburn (substernal burning)","Acid regurgitation","Dysphagia","Chronic cough","Hoarseness"],
+          right: ["Water brash (excessive salivation)","Chest pain (non-cardiac)","Dental erosion","Nausea","Belching"]
+        },
+        medications: [{
+      name: "Omeprazole (Prilosec)",
       type: "Proton pump inhibitor (PPI)",
-      action: "Irreversibly inhibits hydrogen-potassium ATPase pump in gastric parietal cells",
-      sideEffects: "Headache, diarrhea, abdominal pain, risk of C. difficile, hypomagnesemia",
-      contra: "Concomitant use with rilpivirine; caution with long-term use",
-      pearl: "Take 30 minutes before meals; long-term use requires monitoring of magnesium and B12"
+      action: "Irreversibly blocks the hydrogen-potassium ATPase pump in parietal cells, suppressing gastric acid secretion by up to 90%",
+      sideEffects: "Headache, diarrhea, abdominal pain, vitamin B12 and magnesium deficiency with long-term use, increased C. difficile and pneumonia risk, potential bone fracture risk",
+      contra: "Known hypersensitivity to PPIs",
+      pearl: "Take 30 minutes before first meal for maximum effectiveness; long-term use requires periodic reassessment and monitoring for B12 and magnesium levels; step-down to H2 blockers or discontinue when possible"
+    },{
+      name: "Famotidine (Pepcid)",
+      type: "H2 receptor antagonist",
+      action: "Blocks histamine H2 receptors on parietal cells, reducing gastric acid secretion by approximately 70%",
+      sideEffects: "Headache, dizziness, constipation or diarrhea",
+      contra: "Known hypersensitivity",
+      pearl: "Less potent than PPIs but fewer long-term side effects; good for mild symptoms or step-down from PPI therapy; can be taken as needed for breakthrough symptoms"
     }],
-    pearls: ["Always assess for allergies before administering any new medication","Document baseline assessment findings to enable accurate trending","Use the SBAR format for structured clinical communication with the healthcare team","Consider age-specific and population-specific variations in normal findings","Never ignore a sudden change in patient condition, even if vital signs appear stable","Verify two patient identifiers before any medication administration or procedure"],
-    quiz: [
-      {
-        question: "A nurse is caring for a patient with gerd basics. Which assessment finding requires immediate intervention?",
-        options: ["Sudden change in level of consciousness","Mild discomfort rated 3/10 on pain scale","Stable vital signs within normal limits","Patient requesting information about their condition"],
-        correct: 0,
-        rationale: "A sudden change in level of consciousness may indicate a serious complication such as hemorrhage, hypoxia, or neurological deterioration and requires immediate assessment and intervention."
+        pearls: ["PPIs are most effective when taken 30 minutes before the first meal of the day","Elevate the HEAD OF BED with blocks, not just extra pillows (pillows cause neck flexion without raising the esophagus above the stomach)","Chest pain from GERD can mimic cardiac pain: cardiac causes must be ruled out first","Barrett esophagus is a premalignant condition requiring endoscopic surveillance","Long-term PPI use requires monitoring for B12 deficiency, magnesium depletion, and bone health","Alarm symptoms (dysphagia, weight loss, GI bleeding, anemia) require urgent endoscopy to rule out malignancy"],
+        quiz: [{
+        question: "A patient with GERD asks why they need to elevate the head of their bed instead of just using extra pillows. What should the nurse explain?",
+        options: ["Pillows are equally effective; either method works","Pillows only flex the neck without raising the esophagus above the stomach level, which is needed to prevent reflux by gravity","Pillows are more comfortable and preferred over bed elevation","Bed elevation is only needed for severe GERD, not mild cases"],
+        correct: 1,
+        rationale: "Extra pillows flex the neck and upper back but do not adequately elevate the esophagus above the stomach to prevent reflux. Elevating the entire head of the bed 6-8 inches using blocks under the bed frame legs uses gravity to keep gastric contents in the stomach throughout the night."
       },
       {
-        question: "Which nursing action is most appropriate when managing a patient with gerd basics?",
-        options: ["Monitor and report for changes in condition","Delay assessment until the next scheduled time","Administer PRN medications without assessment","Transfer care without communicating relevant findings"],
-        correct: 0,
-        rationale: "Ongoing assessment and timely intervention are fundamental to safe patient care. Delaying assessment, administering medications without assessment, or failing to communicate findings can compromise patient safety."
+        question: "A nurse is educating a patient about when to take omeprazole. What is the correct timing?",
+        options: ["At bedtime to suppress acid production overnight","30 minutes before the first meal of the day","Immediately after eating to neutralize acid","Only when heartburn symptoms occur"],
+        correct: 1,
+        rationale: "PPIs like omeprazole are prodrugs activated by acid. They are most effective when parietal cells are actively secreting acid, which occurs during a meal. Taking the PPI 30 minutes before eating allows the drug to be absorbed and present when parietal cells activate, providing maximum acid suppression."
       },
       {
-        question: "The patient asks about their gerd basics diagnosis. What is the best initial nursing response?",
-        options: ["Avoid discussing the diagnosis and redirect the conversation","Provide all available information regardless of patient readiness","Assess the patient's current understanding and address their specific concerns","Tell the patient to wait for the physician to explain everything"],
-        correct: 2,
-        rationale: "Assessing the patient's current understanding allows the nurse to provide targeted, accurate education at the appropriate level, supporting informed decision-making and reducing anxiety."
-      },
-    ]
+        question: "A patient with chronic GERD reports new difficulty swallowing solid foods and unintended weight loss of 10 pounds over 2 months. What should the nurse recognize?",
+        options: ["Normal progression of GERD symptoms","Alarm symptoms requiring urgent endoscopy to rule out complications including malignancy","Side effects of PPI medication","Symptoms of anxiety causing globus sensation"],
+        correct: 1,
+        rationale: "Dysphagia (difficulty swallowing) and unintended weight loss in a patient with chronic GERD are alarm symptoms that could indicate esophageal stricture, Barrett esophagus with dysplasia, or esophageal adenocarcinoma. These require urgent upper endoscopy for evaluation and biopsy."
+      }]
   },
   "gerd-core-np": {
     title: "GERD",
