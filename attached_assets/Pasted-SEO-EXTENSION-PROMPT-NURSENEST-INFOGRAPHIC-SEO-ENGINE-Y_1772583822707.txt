@@ -1,0 +1,133 @@
+SEO EXTENSION PROMPT — NURSENEST INFOGRAPHIC SEO ENGINE
+
+You are generating educational medical infographics for NurseNest.
+
+In addition to generating the images, you must also generate SEO metadata and content optimization for each infographic.
+
+This ensures diagrams rank in:
+
+Google Image search
+Pinterest search
+Google Discover
+Educational blog search results
+
+---
+
+FOR EACH INFOGRAPHIC GENERATE:
+
+1. SEO FILE NAME
+
+Format:
+
+primary-keyword-infographic-nursenest.png
+
+Example:
+
+ecg-rhythm-recognition-chart-nursenest.png
+
+---
+
+2. ALT TEXT
+
+Write descriptive alt text including primary keywords.
+
+Example:
+
+"ECG rhythm recognition chart showing normal sinus rhythm, atrial fibrillation, ventricular tachycardia and heart block patterns for nursing exam preparation."
+
+---
+
+3. IMAGE TITLE
+
+Example:
+
+ECG Rhythm Recognition Chart for Nursing Students
+
+---
+
+4. META DESCRIPTION
+
+Example:
+
+Learn ECG rhythm interpretation with this nursing study chart showing atrial fibrillation, ventricular tachycardia, heart blocks, and normal sinus rhythm patterns.
+
+---
+
+5. CAPTION TEXT
+
+Example:
+
+Infographic summarizing common ECG rhythms used in NCLEX and REx-PN exam preparation.
+
+---
+
+6. BLOG SECTION TEXT
+
+Generate a short paragraph to place above the image explaining the infographic.
+
+Length: 80–120 words.
+
+---
+
+7. PINTEREST PIN SEO
+
+Create Pinterest metadata:
+
+Pin Title
+Pin Description
+5–10 keywords
+Hashtags
+
+Example:
+
+Pin Title:
+ECG Rhythm Cheat Sheet for Nursing Students
+
+Pin Description:
+Quick ECG rhythm recognition guide covering atrial fibrillation, ventricular tachycardia, heart block, and sinus rhythms. Perfect for NCLEX and REx-PN exam prep.
+
+---
+
+8. STRUCTURED DATA
+
+Provide schema-ready JSON fields:
+
+image_url
+caption
+alt_text
+content_url
+
+---
+
+9. IMAGE SITEMAP ENTRY
+
+Generate sitemap entry format:
+
+[image:image](image:image)
+[image:loc](image:loc)IMAGE_URL</image:loc>
+[image:title](image:title)TITLE</image:title>
+[image:caption](image:caption)CAPTION</image:caption>
+</image:image>
+
+---
+
+10. INTERNAL LINKING
+
+Suggest 3 internal pages to link to from the infographic page.
+
+Example:
+
+/ecg-rhythm-recognition
+/heart-blocks-explained
+/cardiac-arrhythmias-nursing-review
+
+---
+
+OUTPUT
+
+For each infographic produce:
+
+Image asset
+Pinterest pin
+SEO metadata package
+Internal linking suggestions

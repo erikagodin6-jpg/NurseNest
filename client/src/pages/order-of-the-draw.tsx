@@ -20,7 +20,7 @@ import {
   ClipboardList,
 } from "lucide-react";
 import { Link } from "wouter";
-import Footer from "@/components/footer";
+import { Footer } from "@/components/footer";
 
 const TUBES = [
   {

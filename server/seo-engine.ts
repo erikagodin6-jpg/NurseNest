@@ -620,4 +620,60 @@ export function setupSeoEngineRoutes(app: Express): void {
       res.status(500).json({ error: err.message });
     }
   });
+
+  app.get("/image-sitemap.xml", (_req: Request, res: Response) => {
+    const CATALOG = [
+      { slug: "cbc-quick-reference", fileName: "cbc-quick-reference.png", title: "CBC Complete Blood Count Quick Reference", caption: "Complete blood count interpretation guide for NCLEX and REx-PN exam preparation." },
+      { slug: "coagulation-labs-reference", fileName: "coagulation-labs-reference.png", title: "Coagulation Labs Quick Reference", caption: "Coagulation laboratory values reference for anticoagulant monitoring." },
+      { slug: "liver-function-tests", fileName: "liver-function-tests.png", title: "Liver Function Tests (LFTs) Quick Reference", caption: "Liver function test interpretation guide for nursing students." },
+      { slug: "renal-function-labs", fileName: "renal-function-labs.png", title: "Renal Function Labs Quick Reference", caption: "Renal function laboratory interpretation guide for nursing." },
+      { slug: "cardiac-biomarkers", fileName: "cardiac-biomarkers.png", title: "Cardiac Biomarkers Quick Reference", caption: "Cardiac biomarker interpretation guide for MI and heart failure." },
+      { slug: "basic-metabolic-panel", fileName: "basic-metabolic-panel.png", title: "Basic Metabolic Panel (BMP) Quick Reference", caption: "Basic metabolic panel interpretation guide for nursing." },
+      { slug: "urinalysis-interpretation", fileName: "urinalysis-interpretation.png", title: "Urinalysis Interpretation Quick Reference", caption: "Urinalysis interpretation guide for nursing students." },
+      { slug: "order-of-the-draw", fileName: "order-of-the-draw.png", title: "Order of the Draw Quick Reference", caption: "Order of the draw reference for phlebotomy practice." },
+      { slug: "ecg-rhythm-recognition", fileName: "ecg-rhythm-recognition.png", title: "ECG Rhythm Recognition Chart", caption: "ECG rhythm recognition guide for nursing exam preparation." },
+      { slug: "heart-failure-comparison", fileName: "heart-failure-comparison.png", title: "Heart Failure: Left-Sided vs Right-Sided", caption: "Heart failure comparison for nursing education." },
+      { slug: "blood-pressure-classification", fileName: "blood-pressure-classification.png", title: "Blood Pressure Classification Chart", caption: "Blood pressure classification and hypertension guide." },
+      { slug: "electrolyte-imbalances", fileName: "electrolyte-imbalances.png", title: "Electrolyte Imbalances Quick Reference", caption: "Electrolyte imbalance recognition and management guide." },
+      { slug: "acid-base-imbalances", fileName: "acid-base-imbalances.png", title: "Acid-Base Imbalances Quick Reference", caption: "Acid-base balance interpretation guide for nursing." },
+      { slug: "abg-interpretation-flowchart", fileName: "abg-interpretation-flowchart.png", title: "ABG Interpretation Flowchart", caption: "ABG interpretation algorithm for nursing exam preparation." },
+      { slug: "oxygen-delivery-devices", fileName: "oxygen-delivery-devices.png", title: "Oxygen Delivery Devices Quick Reference", caption: "Oxygen delivery device comparison guide for respiratory nursing." },
+      { slug: "copd-vs-asthma", fileName: "copd-vs-asthma.png", title: "COPD vs Asthma Comparison Chart", caption: "COPD versus asthma clinical comparison for nursing." },
+      { slug: "lung-sounds-chart", fileName: "lung-sounds-chart.png", title: "Lung Sounds Assessment Chart", caption: "Lung sounds auscultation guide for respiratory assessment." },
+      { slug: "blood-transfusion-reactions", fileName: "blood-transfusion-reactions.png", title: "Blood Transfusion Reactions Quick Reference", caption: "Blood transfusion reaction recognition and management guide." },
+      { slug: "high-alert-medications", fileName: "high-alert-medications.png", title: "High-Alert Medications Quick Reference", caption: "High-alert medication safety guide for nursing." },
+      { slug: "insulin-onset-peak-times", fileName: "insulin-onset-peak-times-v2.png", title: "Insulin Onset, Peak, and Duration Chart", caption: "Insulin onset peak duration reference for diabetes management." },
+      { slug: "antibiotic-classes", fileName: "antibiotic-classes.png", title: "Antibiotic Classes Quick Reference", caption: "Antibiotic medication classes reference for nursing." },
+      { slug: "diabetes-medications", fileName: "diabetes-medications.png", title: "Diabetes Medication Classes Chart", caption: "Diabetes medication classes reference for nursing pharmacology." },
+      { slug: "shock-types-comparison", fileName: "shock-types-comparison.png", title: "Shock Types Comparison Chart", caption: "Shock types comparison for emergency and critical care nursing." },
+      { slug: "sepsis-recognition", fileName: "sepsis-recognition.png", title: "Sepsis Recognition and Management", caption: "Sepsis recognition and management guide for nursing." },
+      { slug: "stroke-fast-recognition", fileName: "stroke-fast-recognition.png", title: "Stroke FAST Recognition Chart", caption: "Stroke FAST assessment and comparison for nursing education." },
+      { slug: "stages-of-labor", fileName: "stages-of-labor.png", title: "Stages of Labor Quick Reference", caption: "Stages of labor reference for maternity nursing education." },
+      { slug: "apgar-scoring", fileName: "apgar-scoring.png", title: "APGAR Scoring for Newborns", caption: "APGAR newborn assessment scoring guide for maternity nursing." },
+      { slug: "pediatric-vital-signs", fileName: "pediatric-vital-signs.png", title: "Pediatric Vital Signs by Age Chart", caption: "Pediatric vital signs normal ranges by age group." },
+      { slug: "medication-rights", fileName: "medication-rights.png", title: "Medication Administration Rights", caption: "Ten rights of medication administration reference for nursing." },
+      { slug: "injection-sites-techniques", fileName: "injection-sites-techniques.png", title: "Injection Sites and Techniques Chart", caption: "Injection sites and techniques reference for nursing skills." },
+      { slug: "iv-catheter-gauges", fileName: "iv-catheter-gauges.png", title: "IV Catheter Gauge Size Quick Reference", caption: "IV catheter gauge selection guide for nursing skills." },
+      { slug: "isolation-precautions", fileName: "isolation-precautions.png", title: "Isolation Precautions Quick Reference", caption: "Infection control isolation precautions guide for nursing." },
+    ];
+
+    const baseUrl = "https://nursenest.ca";
+    const entries = CATALOG.map(item => `  <url>
+    <loc>${baseUrl}/infographics/${item.slug}</loc>
+    <image:image>
+      <image:loc>${baseUrl}/attached_assets/generated_images/${item.fileName}</image:loc>
+      <image:title>${item.title}</image:title>
+      <image:caption>${item.caption}</image:caption>
+    </image:image>
+  </url>`).join("\n");
+
+    const xml = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+${entries}
+</urlset>`;
+
+    res.set("Content-Type", "application/xml");
+    res.send(xml);
+  });
 }
