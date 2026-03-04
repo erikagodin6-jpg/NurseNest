@@ -911,28 +911,35 @@ export function Navigation() {
                 {t("nav.store")}
               </Button>
 
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" className="text-sm font-medium text-softgray hover:text-primary hover:bg-transparent flex items-center gap-1 px-2 lg:px-2.5 group data-[state=open]:text-primary">
-                    {t("nav.more")}
-                    <ChevronDown className="w-3 h-3 transition-transform duration-200 group-data-[state=open]:rotate-180" />
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="start" className="w-48 p-2">
-                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary hover:bg-primary/5" onClick={() => setLocation("/pricing")}>
-                    <Tag className="w-4 h-4 text-primary/70" />
-                    {t("nav.pricing")}
-                  </DropdownMenuItem>
-                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary hover:bg-primary/5" onClick={() => setLocation("/faq")}>
-                    <HelpCircle className="w-4 h-4 text-primary/70" />
-                    {t("footer.faq")}
-                  </DropdownMenuItem>
-                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary hover:bg-primary/5" onClick={() => setLocation("/for-institutions")} data-testid="link-nav-for-schools">
-                    <GraduationCap className="w-4 h-4 text-primary/70" />
-                    For Schools
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
+              <Button
+                variant="ghost"
+                className="text-sm font-medium text-softgray hover:text-primary hover:bg-transparent flex items-center gap-1 px-2 lg:px-2.5"
+                onClick={() => setLocation("/pricing")}
+                data-testid="link-nav-pricing"
+              >
+                <Tag className="w-4 h-4" />
+                {t("nav.pricing")}
+              </Button>
+
+              <Button
+                variant="ghost"
+                className="text-sm font-medium text-softgray hover:text-primary hover:bg-transparent flex items-center gap-1 px-2 lg:px-2.5"
+                onClick={() => setLocation("/faq")}
+                data-testid="link-nav-faq"
+              >
+                <HelpCircle className="w-4 h-4" />
+                {t("footer.faq")}
+              </Button>
+
+              <Button
+                variant="ghost"
+                className="text-sm font-medium text-softgray hover:text-primary hover:bg-transparent flex items-center gap-1 px-2 lg:px-2.5"
+                onClick={() => setLocation("/for-institutions")}
+                data-testid="link-nav-for-schools"
+              >
+                <GraduationCap className="w-4 h-4" />
+                For Schools
+              </Button>
             </div>
           </div>
 
