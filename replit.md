@@ -78,5 +78,12 @@ The system supports a multi-career allied health architecture, with career confi
 ### Social Media
 - Meta Graph API: For social media scheduling.
 
+### Lesson Content Pipeline
+- **Content Standard**: 1500+ words per lesson; RPN scope = monitor/report/administer; pathophysiology, risk factors, condition-specific meds (3), clinical quiz questions (3).
+- **Injection Scripts**: `script/inject-batch-*.ts` replace placeholder content in `generated-batch-*.ts` files. Existing scripts: `inject-batch-renal.ts`, `inject-batch-endo.ts`, `inject-batch-infection.ts`, `inject-batch-heent.ts`, `inject-batch-heme-fluids.ts`.
+- **Completed Real Content Batches**: GI, Renal (kidney stones, UTI, hemodialysis, incontinence, diabetic nephropathy), Endocrine (Addison, Cushing, Graves, Hashimoto, diabetes insipidus), Infection (sepsis, C. diff, COVID-19, HIV, anaphylaxis), HEENT/Skin (glaucoma, macular degeneration, cellulitis, shingles), Heme/Fluids (aplastic anemia, hemophilia, thalassemia, hypoglycemia vs DKA, dehydration).
+- **safeMerge pattern**: Real content files are listed BEFORE generated-batch files in `index.ts`, so real content overrides placeholders.
+- **Bug Fix Applied**: React hooks violation in `lesson-detail.tsx` fixed - 8 hooks moved above early return at line ~1790 to ensure consistent hook call order.
+
 ### Access Control / Paywalls
 - Tier system: free, rpn, rn, np, admin.
