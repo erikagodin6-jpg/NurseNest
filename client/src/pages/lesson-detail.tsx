@@ -1787,6 +1787,46 @@ export default function LessonDetail() {
     return content;
   }, [baseLesson, overrides, language, translationsReady, id]);
 
+  const [sectionAiPrompt, setSectionAiPrompt] = useState("");
+  const [sectionAiTarget, setSectionAiTarget] = useState<string | null>(null);
+  const [sectionAiLoading, setSectionAiLoading] = useState(false);
+
+  useEffect(() => {
+    trackMilestone("lesson_view");
+    trackMilestone("session_start");
+  }, [id]);
+
+  useEffect(() => {
+    if (user && id) {
+      fetch(`/api/notes/${user.id}/${id}`)
+        .then((r) => r.json())
+        .then((data) => {
+          if (data?.content) setNoteContent(data.content);
+        })
+        .catch(() => {});
+    }
+  }, [user, id]);
+
+  const saveNote = useCallback(() => {
+    if (!user || !id) return;
+    setNoteSaving(true);
+    fetch("/api/notes", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ userId: user.id, lessonId: id, content: noteContent }),
+    })
+      .then(() => setNoteSaving(false))
+      .catch(() => setNoteSaving(false));
+  }, [user, id, noteContent]);
+
+  const preTestQuestions = useMemo(() => {
+    return lessonContent ? getTestQuestions(lessonContent, "pretest") : [];
+  }, [lessonContent]);
+
+  const postTestQuestions = useMemo(() => {
+    return lessonContent ? getTestQuestions(lessonContent, "posttest") : [];
+  }, [lessonContent]);
+
   if (!baseLesson || !lessonContent) {
     if (dbLoading) {
       return (
@@ -2340,10 +2380,6 @@ export default function LessonDetail() {
     );
   }
 
-  const [sectionAiPrompt, setSectionAiPrompt] = useState("");
-  const [sectionAiTarget, setSectionAiTarget] = useState<string | null>(null);
-  const [sectionAiLoading, setSectionAiLoading] = useState(false);
-
   const generateSectionWithAI = async (section: string) => {
     if (!sectionAiPrompt.trim()) {
       toast({ title: "Enter a prompt", description: "Describe what you want AI to generate for this section.", variant: "destructive" });
@@ -2507,34 +2543,6 @@ export default function LessonDetail() {
   const lessonTier = getLessonTier(id || "");
   const userHasAccess = canAccessTier(user?.tier, lessonTier);
 
-  useEffect(() => {
-    trackMilestone("lesson_view");
-    trackMilestone("session_start");
-  }, [id]);
-
-  useEffect(() => {
-    if (user && id) {
-      fetch(`/api/notes/${user.id}/${id}`)
-        .then((r) => r.json())
-        .then((data) => {
-          if (data?.content) setNoteContent(data.content);
-        })
-        .catch(() => {});
-    }
-  }, [user, id]);
-
-  const saveNote = useCallback(() => {
-    if (!user || !id) return;
-    setNoteSaving(true);
-    fetch("/api/notes", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ userId: user.id, lessonId: id, content: noteContent }),
-    })
-      .then(() => setNoteSaving(false))
-      .catch(() => setNoteSaving(false));
-  }, [user, id, noteContent]);
-
   const handleNoteChange = (value: string) => {
     setNoteContent(value);
     if (saveTimeoutRef.current) clearTimeout(saveTimeoutRef.current);
@@ -2548,14 +2556,6 @@ export default function LessonDetail() {
       }
     }, 2000);
   };
-
-  const preTestQuestions = useMemo(() => {
-    return getTestQuestions(lessonContent, "pretest");
-  }, [lessonContent]);
-
-  const postTestQuestions = useMemo(() => {
-    return getTestQuestions(lessonContent, "posttest");
-  }, [lessonContent]);
 
   async function handleSubscribe() {
     if (!user) {
