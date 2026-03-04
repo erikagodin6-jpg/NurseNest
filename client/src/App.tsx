@@ -156,6 +156,7 @@ const RexPnWellness = lazy(() => import("@/pages/rex-pn-wellness"));
 const PharmacologyHub = lazy(() => import("@/pages/pharmacology-hub"));
 const AdminNgnGenerator = lazy(() => import("@/pages/admin-ngn-generator"));
 const AdminAutopilot = lazy(() => import("@/pages/admin-autopilot"));
+const AdminPageviews = lazy(() => import("@/pages/admin-pageviews"));
 const AdminSeoAutopilot = lazy(() => import("@/pages/admin-seo-autopilot"));
 const OrderOfTheDraw = lazy(() => import("@/pages/order-of-the-draw"));
 const InfographicLibrary = lazy(() => import("@/pages/infographic-library"));
@@ -343,6 +344,7 @@ function AppRoutes() {
         <Route path="/admin/pipeline" component={AdminPipelineDashboard} />
         <Route path="/admin/qbank/ngn-generator" component={AdminNgnGenerator} />
         <Route path="/admin/autopilot" component={AdminAutopilot} />
+        <Route path="/admin/pageviews" component={AdminPageviews} />
         <Route path="/admin/seo-visual-autopilot" component={AdminSeoAutopilot} />
         <Route path="/order-of-the-draw" component={OrderOfTheDraw} />
         <Route path="/infographics/:slug" component={InfographicLibrary} />

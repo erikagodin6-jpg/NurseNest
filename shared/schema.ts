@@ -2343,3 +2343,14 @@ export const qcRuns = pgTable("qc_runs", {
 export const insertQcRunSchema = createInsertSchema(qcRuns).omit({ id: true, createdAt: true });
 export type QcRun = typeof qcRuns.$inferSelect;
 export type InsertQcRun = z.infer<typeof insertQcRunSchema>;
+
+export const pageViewsDaily = pgTable("page_views_daily", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  date: text("date").notNull(),
+  path: text("path").notNull(),
+  count: integer("count").notNull().default(0),
+}, (table) => [
+  sql`CREATE UNIQUE INDEX IF NOT EXISTS idx_pvd_date_path ON page_views_daily(date, path)`,
+]);
+
+export type PageViewDaily = typeof pageViewsDaily.$inferSelect;

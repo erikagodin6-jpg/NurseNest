@@ -6375,9 +6375,39 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
   // --------------------
   // Tracking + Admin site analytics (NOW PROTECTED)
   // --------------------
+  const recentPageviews = new Map<string, number>();
+
+  setInterval(() => {
+    const cutoff = Date.now() - 35 * 60 * 1000;
+    for (const [key, ts] of recentPageviews) {
+      if (ts < cutoff) recentPageviews.delete(key);
+    }
+  }, 5 * 60 * 1000);
+
   app.post("/api/track/pageview", async (req, res) => {
     try {
       const view = await storage.createPageView(req.body);
+
+      const sessionId = String(req.body.sessionId || "");
+      const page = String(req.body.page || "/");
+      const dedupeKey = `${sessionId}:${page}`;
+      const now = Date.now();
+      const last = recentPageviews.get(dedupeKey);
+      const isDuplicate = last && (now - last) < 30 * 60 * 1000;
+
+      if (!isDuplicate) {
+        recentPageviews.set(dedupeKey, now);
+        const today = new Date().toISOString().slice(0, 10);
+        try {
+          await pool.query(
+            `INSERT INTO page_views_daily (id, date, path, count)
+             VALUES (gen_random_uuid(), $1, $2, 1)
+             ON CONFLICT (date, path) DO UPDATE SET count = page_views_daily.count + 1`,
+            [today, page]
+          );
+        } catch {}
+      }
+
       res.json(view);
     } catch (e: any) {
       res.status(500).json({ error: e.message });
@@ -6473,6 +6503,56 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
     }
   });
 
+
+  app.get("/api/admin/pageviews", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+
+      const startDate = String(req.query.start || new Date(Date.now() - 30 * 86400000).toISOString().slice(0, 10));
+      const endDate = String(req.query.end || new Date().toISOString().slice(0, 10));
+      const limit = Math.min(parseInt(String(req.query.limit || "50")), 200);
+
+      const dailyResult = await pool.query(
+        `SELECT date, SUM(count)::int AS total
+         FROM page_views_daily
+         WHERE date >= $1 AND date <= $2
+         GROUP BY date ORDER BY date ASC`,
+        [startDate, endDate]
+      );
+
+      const topPagesResult = await pool.query(
+        `SELECT path, SUM(count)::int AS total
+         FROM page_views_daily
+         WHERE date >= $1 AND date <= $2
+         GROUP BY path ORDER BY total DESC LIMIT $3`,
+        [startDate, endDate, limit]
+      );
+
+      const totalsResult = await pool.query(
+        `SELECT SUM(count)::int AS total_views, COUNT(DISTINCT path)::int AS unique_pages, COUNT(DISTINCT date)::int AS days_tracked
+         FROM page_views_daily
+         WHERE date >= $1 AND date <= $2`,
+        [startDate, endDate]
+      );
+
+      const totals = totalsResult.rows[0] || { total_views: 0, unique_pages: 0, days_tracked: 0 };
+
+      res.json({
+        dailyTrend: dailyResult.rows.map(r => ({ date: r.date, views: r.total })),
+        topPages: topPagesResult.rows.map(r => ({ path: r.path, views: r.total })),
+        totals: {
+          totalViews: totals.total_views || 0,
+          uniquePages: totals.unique_pages || 0,
+          daysTracked: totals.days_tracked || 0,
+          avgDaily: totals.days_tracked > 0 ? Math.round((totals.total_views || 0) / totals.days_tracked) : 0,
+        },
+        dateRange: { start: startDate, end: endDate },
+      });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
 
   // --------------------
   // Feedback (unchanged)
