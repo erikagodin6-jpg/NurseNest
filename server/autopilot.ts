@@ -1,5 +1,12 @@
 import type { Express, Request, Response } from "express";
 import { pool } from "./storage";
+import {
+  generateNursingPage,
+  generatePracticeQuestionPage,
+  generateVisualDiagram,
+  generatePracticeSEOPage,
+  generateCourseContent,
+} from "./content-generators";
 
 async function requireAdmin(req: Request, res: Response): Promise<any> {
   const username = String((req.body as any)?.username || req.query?.username || "");
@@ -51,6 +58,70 @@ async function seedDefaultEngines(): Promise<void> {
     seeded = true;
   } catch (err: any) {
     console.error("[Autopilot] Seed error:", err.message);
+  }
+}
+
+async function processAutopilotJob(jobId: string, engineKey: string, payload: any): Promise<void> {
+  try {
+    switch (engineKey) {
+      case "blog_engine":
+        await generateNursingPage(
+          payload.topic || "General Nursing",
+          payload.targetKeyword || payload.topic || "",
+          payload.examType || "nclex-rn",
+          payload.wordCount || 2000,
+          jobId
+        );
+        break;
+
+      case "question_factory":
+        await generatePracticeQuestionPage(
+          payload.topic || payload.category || "General Nursing",
+          payload.category || "nursing_ngn",
+          payload.batchSize || 25,
+          payload.difficultyRange || "2-4",
+          payload.autoValidate !== false,
+          jobId
+        );
+        break;
+
+      case "visual_factory":
+        await generateVisualDiagram(
+          payload.type || "anatomy",
+          payload.topic || "Heart Anatomy",
+          payload.style || "clinical",
+          jobId
+        );
+        break;
+
+      case "practice_seo":
+        await generatePracticeSEOPage(
+          payload.title || "Practice Questions",
+          payload.bodySystem || "cardiovascular",
+          payload.questionCount || 10,
+          payload.tier || "rn",
+          jobId
+        );
+        break;
+
+      case "course_builder":
+        await generateCourseContent(
+          payload.topic || "Nursing Fundamentals",
+          payload.exam || "nclex-rn",
+          payload.difficulty || "intermediate",
+          jobId
+        );
+        break;
+
+      default:
+        await pool.query(
+          "UPDATE autopilot_jobs SET status = 'completed', result = $1, completed_at = NOW() WHERE id = $2",
+          [JSON.stringify({ message: `Job queued for ${engineKey} (manual processing required)` }), jobId]
+        );
+        break;
+    }
+  } catch (err: any) {
+    console.error(`[Autopilot] processJob error for ${engineKey}:`, err.message);
   }
 }
 
@@ -175,6 +246,14 @@ export function setupAutopilotRoutes(app: Express): void {
       );
 
       const row = r.rows[0];
+      const jobId = row.id;
+
+      if (!scheduledFor) {
+        processAutopilotJob(jobId, engineKey, payload || {}).catch((err) => {
+          console.error(`[Autopilot] Job ${jobId} (${engineKey}) failed:`, err.message);
+        });
+      }
+
       res.json({
         job: {
           id: row.id,

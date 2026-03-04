@@ -501,21 +501,34 @@ function BlogEngineTab() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/admin/autopilot/queue"] });
       queryClient.invalidateQueries({ queryKey: ["/api/admin/autopilot/jobs"] });
+      setTopic("");
+      setTargetKeyword("");
     },
   });
+
+  const { data: blogJobs } = useQuery({
+    queryKey: ["/api/admin/autopilot/jobs", "blog_engine"],
+    queryFn: () => adminFetch("/api/admin/autopilot/jobs?engineKey=blog_engine&limit=10").then(r => r.json()),
+    refetchInterval: generateMutation.isPending ? 5000 : 30000,
+  });
+
+  const recentRuns = Array.isArray(blogJobs) ? blogJobs : blogJobs?.jobs || [];
 
   return (
     <div className="space-y-6">
       <Card data-testid="card-blog-engine">
         <CardHeader>
           <CardTitle className="text-lg flex items-center gap-2">
-            <FileText className="h-5 w-5" /> Blog Content Generator
+            <FileText className="h-5 w-5" /> Nursing Study Page Generator
           </CardTitle>
+          <p className="text-xs text-gray-500 mt-1">
+            Generates 1500-2500 word study pages with clinical assessment, nursing interventions, tables, exam traps, clinical pearls, 10+ practice questions with rationales, and SEO metadata. Content is queued for review before publishing.
+          </p>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <Label className="text-sm mb-1 block">Blog Topic</Label>
+              <Label className="text-sm mb-1 block">Page Topic</Label>
               <Input
                 value={topic}
                 onChange={(e) => setTopic(e.target.value)}
@@ -524,7 +537,7 @@ function BlogEngineTab() {
               />
             </div>
             <div>
-              <Label className="text-sm mb-1 block">Target Keyword</Label>
+              <Label className="text-sm mb-1 block">Target SEO Keyword</Label>
               <Input
                 value={targetKeyword}
                 onChange={(e) => setTargetKeyword(e.target.value)}
@@ -533,7 +546,7 @@ function BlogEngineTab() {
               />
             </div>
             <div>
-              <Label className="text-sm mb-1 block">Exam Type</Label>
+              <Label className="text-sm mb-1 block">Primary Exam</Label>
               <Select value={examType} onValueChange={setExamType} data-testid="select-blog-exam">
                 <SelectTrigger data-testid="select-blog-exam-trigger">
                   <SelectValue />
@@ -541,7 +554,7 @@ function BlogEngineTab() {
                 <SelectContent>
                   <SelectItem value="nclex-rn">NCLEX-RN</SelectItem>
                   <SelectItem value="nclex-pn">NCLEX-PN</SelectItem>
-                  <SelectItem value="rex-pn">REX-PN</SelectItem>
+                  <SelectItem value="rex-pn">REx-PN</SelectItem>
                   <SelectItem value="cnpe">CNPE</SelectItem>
                 </SelectContent>
               </Select>
@@ -552,30 +565,61 @@ function BlogEngineTab() {
                 type="number"
                 value={wordCount}
                 onChange={(e) => setWordCount(e.target.value)}
-                min="500"
-                max="5000"
+                min="1500"
+                max="3000"
                 data-testid="input-blog-word-count"
               />
             </div>
           </div>
-          <Button
-            onClick={() => generateMutation.mutate()}
-            disabled={generateMutation.isPending || !topic.trim()}
-            data-testid="button-generate-blog"
-          >
-            {generateMutation.isPending ? <><Loader2 className="animate-spin mr-2 h-4 w-4" /> Generating...</> : <><Play className="mr-2 h-4 w-4" /> Generate Blog Post</>}
-          </Button>
-          {generateMutation.isSuccess && (
-            <p className="text-sm text-green-600" data-testid="text-blog-success">Blog post queued for review</p>
-          )}
-          {generateMutation.isError && (
-            <p className="text-sm text-red-600" data-testid="text-blog-error">
-              <AlertTriangle className="inline h-4 w-4 mr-1" />
-              {(generateMutation.error as Error).message}
-            </p>
-          )}
+          <div className="flex items-center gap-3">
+            <Button
+              onClick={() => generateMutation.mutate()}
+              disabled={generateMutation.isPending || !topic.trim()}
+              data-testid="button-generate-blog"
+            >
+              {generateMutation.isPending ? <><Loader2 className="animate-spin mr-2 h-4 w-4" /> Generating (30-60s)...</> : <><Play className="mr-2 h-4 w-4" /> Generate Study Page</>}
+            </Button>
+            {generateMutation.isSuccess && (
+              <p className="text-sm text-green-600" data-testid="text-blog-success">
+                <CheckCircle className="inline h-4 w-4 mr-1" />
+                Study page generated and sent to Publishing Queue for review
+              </p>
+            )}
+            {generateMutation.isError && (
+              <p className="text-sm text-red-600" data-testid="text-blog-error">
+                <AlertTriangle className="inline h-4 w-4 mr-1" />
+                {(generateMutation.error as Error).message}
+              </p>
+            )}
+          </div>
         </CardContent>
       </Card>
+
+      {recentRuns.length > 0 && (
+        <Card data-testid="card-blog-history">
+          <CardHeader>
+            <CardTitle className="text-sm">Recent Page Generations</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-2">
+              {recentRuns.map((run: any) => (
+                <div key={run.id} className="flex items-center justify-between py-2 border-b last:border-0 text-sm" data-testid={`row-blog-run-${run.id}`}>
+                  <div className="flex items-center gap-2">
+                    <StatusBadge status={run.status} />
+                    <span className="text-xs truncate max-w-[200px]">{run.payload?.topic || "Untitled"}</span>
+                    {run.result?.questionCount && (
+                      <Badge variant="outline" className="text-xs">{run.result.questionCount}Q</Badge>
+                    )}
+                  </div>
+                  <span className="text-xs text-gray-400">
+                    {run.createdAt ? new Date(run.createdAt).toLocaleString() : "N/A"}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+      )}
     </div>
   );
 }
@@ -679,6 +723,7 @@ function PracticeSEOTab() {
 
 function QuestionFactoryTab() {
   const queryClient = useQueryClient();
+  const [topic, setTopic] = useState("");
   const [batchSize, setBatchSize] = useState("25");
   const [category, setCategory] = useState("nursing_ngn");
   const [difficultyRange, setDifficultyRange] = useState("2-4");
@@ -690,7 +735,7 @@ function QuestionFactoryTab() {
         method: "POST",
         body: {
           engineKey: "question_factory",
-          payload: { batchSize: parseInt(batchSize), category, difficultyRange, autoValidate },
+          payload: { topic, batchSize: parseInt(batchSize), category, difficultyRange, autoValidate },
         },
       });
       if (!res.ok) throw new Error("Question batch generation failed");
@@ -698,6 +743,8 @@ function QuestionFactoryTab() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/admin/autopilot/jobs"] });
+      queryClient.invalidateQueries({ queryKey: ["/api/admin/autopilot/queue"] });
+      setTopic("");
     },
   });
 
@@ -713,10 +760,22 @@ function QuestionFactoryTab() {
       <Card data-testid="card-question-factory">
         <CardHeader>
           <CardTitle className="text-lg flex items-center gap-2">
-            <Database className="h-5 w-5" /> Question Factory
+            <Database className="h-5 w-5" /> Practice Question Page Generator
           </CardTitle>
+          <p className="text-xs text-gray-500 mt-1">
+            Generates 25 exam-style practice questions (MC, SATA, case-based) with 300+ word rationales, clinical scenarios, and SEO metadata. Auto-validates structure before queuing for review.
+          </p>
         </CardHeader>
         <CardContent className="space-y-4">
+          <div>
+            <Label className="text-sm mb-1 block">Question Topic</Label>
+            <Input
+              value={topic}
+              onChange={(e) => setTopic(e.target.value)}
+              placeholder="e.g., Fluid and Electrolyte Imbalances"
+              data-testid="input-factory-topic"
+            />
+          </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             <div>
               <Label className="text-sm mb-1 block">Batch Size</Label>
@@ -770,16 +829,21 @@ function QuestionFactoryTab() {
               </div>
             </div>
           </div>
-          <Button
-            onClick={() => generateMutation.mutate()}
-            disabled={generateMutation.isPending}
-            data-testid="button-generate-questions"
-          >
-            {generateMutation.isPending ? <><Loader2 className="animate-spin mr-2 h-4 w-4" /> Generating...</> : <><Zap className="mr-2 h-4 w-4" /> Generate Batch</>}
-          </Button>
-          {generateMutation.isSuccess && (
-            <p className="text-sm text-green-600" data-testid="text-factory-success">Question batch job created</p>
-          )}
+          <div className="flex items-center gap-3">
+            <Button
+              onClick={() => generateMutation.mutate()}
+              disabled={generateMutation.isPending || !topic.trim()}
+              data-testid="button-generate-questions"
+            >
+              {generateMutation.isPending ? <><Loader2 className="animate-spin mr-2 h-4 w-4" /> Generating (30-60s)...</> : <><Zap className="mr-2 h-4 w-4" /> Generate Question Page</>}
+            </Button>
+            {generateMutation.isSuccess && (
+              <p className="text-sm text-green-600" data-testid="text-factory-success">
+                <CheckCircle className="inline h-4 w-4 mr-1" />
+                25 questions generated and sent to Publishing Queue
+              </p>
+            )}
+          </div>
         </CardContent>
       </Card>
 

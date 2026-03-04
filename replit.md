@@ -55,10 +55,17 @@ The system supports a multi-career allied health architecture, with career confi
 ### Autopilot Control Center
 - **Admin Dashboard** (`/admin/autopilot`): 14-tab admin dashboard controlling all automation engines. File: `client/src/pages/admin-autopilot.tsx`. Server: `server/autopilot.ts` with `setupAutopilotRoutes(app)`.
 - **Tabs**: Overview, Schedules, Publishing Queue, Keyword Discovery, Blog Engine, Practice SEO Engine, Question Factory, Visual Factory, Pinterest Scheduler, Auto Expansion, Course Builder, Lifecycle Email, Performance Dashboard, Settings.
-- **DB Tables**: `autopilot_engines`, `autopilot_jobs`, `publishing_queue`, `autopilot_schedules`, `lifecycle_emails`, `blog_clusters`, `practice_pages`, `visual_assets`, `pinterest_pins`.
+- **DB Tables**: `autopilot_engines`, `autopilot_jobs`, `publishing_queue`, `autopilot_schedules`.
 - **10 Engines**: blog_engine, question_factory, visual_factory, practice_seo, pinterest_scheduler, social_media, course_builder, lifecycle_email, auto_expansion, keyword_discovery. Auto-seeded on first API call.
 - **Publishing Queue**: Content approval workflow (draft -> pending_review -> approved -> published/rejected).
-- Uses `adminFetch` for auth.
+- **Content Generators** (`server/content-generators.ts`): 5 live generators that call OpenAI (gpt-4o) when autopilot jobs are triggered:
+  - `generateNursingPage()`: Master prompt for 1500-2500 word nursing study pages (intro, concept explanation, clinical assessment, nursing interventions, tables, exam traps, clinical pearls, 10+ practice questions with rationales, infographic recommendations, SEO metadata)
+  - `generatePracticeQuestionPage()`: Master prompt for 25-question practice banks (MC, SATA, case-based) with 300+ word rationales, auto-validation, difficulty distribution
+  - `generateVisualDiagram()`: Visual content specification generator (anatomy, pathophysiology, drug mechanisms, lab values)
+  - `generatePracticeSEOPage()`: SEO-optimized practice question pages with FAQ schema and keyword targeting
+  - `generateCourseContent()`: Complete course outlines with modules, lessons, quizzes, and learning outcomes
+- **Job Processing**: `processAutopilotJob()` in `server/autopilot.ts` dispatches jobs to generators asynchronously. Jobs update status (queued -> running -> completed/failed) and results feed into Publishing Queue for admin review.
+- Uses `adminFetch` for auth. OpenAI via `AI_INTEGRATIONS_OPENAI_API_KEY`/`AI_INTEGRATIONS_OPENAI_BASE_URL`.
 
 ### Study Path Generator
 - **Study Plan Page** (`/study-plan`): Full plan view with week cards, progress tracking, remediation focus. File: `client/src/pages/study-plan.tsx`.
