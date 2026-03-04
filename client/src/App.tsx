@@ -163,6 +163,7 @@ const TrialLanding = lazy(() => import("@/pages/trial-landing"));
 const TrialSession = lazy(() => import("@/pages/trial-session"));
 const TrialResults = lazy(() => import("@/pages/trial-results"));
 const TrialUpgrade = lazy(() => import("@/pages/trial-upgrade"));
+const AlliedHomePage = lazy(() => import("@/allied/pages/allied-home"));
 
 function PageTracker() {
   usePageTracker();
@@ -412,7 +413,7 @@ function AppRoutes() {
         <Route path="/rrt/study-plan" component={StudyPlanPage} />
         <Route path="/rrt/pricing" component={PricingPage} />
         <Route path="/rrt/dashboard" component={DashboardPage} />
-        <Route path="/rrt" component={Home} />
+        <Route path="/rrt" component={AlliedHomePage} />
 
         <Route path="/paramedic/question-bank" component={QuestionBank} />
         <Route path="/paramedic/flashcards/deck/:slug" component={DeckPage} />
@@ -423,7 +424,7 @@ function AppRoutes() {
         <Route path="/paramedic/study-plan" component={StudyPlanPage} />
         <Route path="/paramedic/pricing" component={PricingPage} />
         <Route path="/paramedic/dashboard" component={DashboardPage} />
-        <Route path="/paramedic" component={Home} />
+        <Route path="/paramedic" component={AlliedHomePage} />
 
         <Route path="/pharmacy-tech/question-bank" component={QuestionBank} />
         <Route path="/pharmacy-tech/flashcards/deck/:slug" component={DeckPage} />
@@ -434,7 +435,7 @@ function AppRoutes() {
         <Route path="/pharmacy-tech/study-plan" component={StudyPlanPage} />
         <Route path="/pharmacy-tech/pricing" component={PricingPage} />
         <Route path="/pharmacy-tech/dashboard" component={DashboardPage} />
-        <Route path="/pharmacy-tech" component={Home} />
+        <Route path="/pharmacy-tech" component={AlliedHomePage} />
 
         <Route path="/mlt/question-bank" component={QuestionBank} />
         <Route path="/mlt/flashcards/deck/:slug" component={DeckPage} />
@@ -445,7 +446,7 @@ function AppRoutes() {
         <Route path="/mlt/study-plan" component={StudyPlanPage} />
         <Route path="/mlt/pricing" component={PricingPage} />
         <Route path="/mlt/dashboard" component={DashboardPage} />
-        <Route path="/mlt" component={Home} />
+        <Route path="/mlt" component={AlliedHomePage} />
 
         <Route path="/imaging/question-bank" component={QuestionBank} />
         <Route path="/imaging/flashcards/deck/:slug" component={DeckPage} />
@@ -456,7 +457,7 @@ function AppRoutes() {
         <Route path="/imaging/study-plan" component={StudyPlanPage} />
         <Route path="/imaging/pricing" component={PricingPage} />
         <Route path="/imaging/dashboard" component={DashboardPage} />
-        <Route path="/imaging" component={Home} />
+        <Route path="/imaging" component={AlliedHomePage} />
 
         {/* Phase 3: Advanced Clinical & Specialist Certifications */}
         <Route path="/critical-care/question-bank" component={QuestionBank} />
@@ -468,7 +469,7 @@ function AppRoutes() {
         <Route path="/critical-care/study-plan" component={StudyPlanPage} />
         <Route path="/critical-care/pricing" component={PricingPage} />
         <Route path="/critical-care/dashboard" component={DashboardPage} />
-        <Route path="/critical-care" component={Home} />
+        <Route path="/critical-care" component={AlliedHomePage} />
 
         <Route path="/emergency-nursing/question-bank" component={QuestionBank} />
         <Route path="/emergency-nursing/flashcards/deck/:slug" component={DeckPage} />
@@ -479,7 +480,7 @@ function AppRoutes() {
         <Route path="/emergency-nursing/study-plan" component={StudyPlanPage} />
         <Route path="/emergency-nursing/pricing" component={PricingPage} />
         <Route path="/emergency-nursing/dashboard" component={DashboardPage} />
-        <Route path="/emergency-nursing" component={Home} />
+        <Route path="/emergency-nursing" component={AlliedHomePage} />
 
         <Route path="/perioperative/question-bank" component={QuestionBank} />
         <Route path="/perioperative/flashcards/deck/:slug" component={DeckPage} />
@@ -490,7 +491,7 @@ function AppRoutes() {
         <Route path="/perioperative/study-plan" component={StudyPlanPage} />
         <Route path="/perioperative/pricing" component={PricingPage} />
         <Route path="/perioperative/dashboard" component={DashboardPage} />
-        <Route path="/perioperative" component={Home} />
+        <Route path="/perioperative" component={AlliedHomePage} />
 
         <Route path="/oncology-nursing/question-bank" component={QuestionBank} />
         <Route path="/oncology-nursing/flashcards/deck/:slug" component={DeckPage} />
@@ -501,7 +502,7 @@ function AppRoutes() {
         <Route path="/oncology-nursing/study-plan" component={StudyPlanPage} />
         <Route path="/oncology-nursing/pricing" component={PricingPage} />
         <Route path="/oncology-nursing/dashboard" component={DashboardPage} />
-        <Route path="/oncology-nursing" component={Home} />
+        <Route path="/oncology-nursing" component={AlliedHomePage} />
 
         <Route path="/pediatric-cert/question-bank" component={QuestionBank} />
         <Route path="/pediatric-cert/flashcards/deck/:slug" component={DeckPage} />
@@ -512,7 +513,7 @@ function AppRoutes() {
         <Route path="/pediatric-cert/study-plan" component={StudyPlanPage} />
         <Route path="/pediatric-cert/pricing" component={PricingPage} />
         <Route path="/pediatric-cert/dashboard" component={DashboardPage} />
-        <Route path="/pediatric-cert" component={Home} />
+        <Route path="/pediatric-cert" component={AlliedHomePage} />
 
         {/* Phase 4: Mental Health & Behavioral Health */}
         <Route path="/psychotherapist/question-bank" component={QuestionBank} />
@@ -524,7 +525,7 @@ function AppRoutes() {
         <Route path="/psychotherapist/study-plan" component={StudyPlanPage} />
         <Route path="/psychotherapist/pricing" component={PricingPage} />
         <Route path="/psychotherapist/dashboard" component={DashboardPage} />
-        <Route path="/psychotherapist" component={Home} />
+        <Route path="/psychotherapist" component={AlliedHomePage} />
 
         <Route path="/social-worker/question-bank" component={QuestionBank} />
         <Route path="/social-worker/flashcards/deck/:slug" component={DeckPage} />
@@ -535,7 +536,7 @@ function AppRoutes() {
         <Route path="/social-worker/study-plan" component={StudyPlanPage} />
         <Route path="/social-worker/pricing" component={PricingPage} />
         <Route path="/social-worker/dashboard" component={DashboardPage} />
-        <Route path="/social-worker" component={Home} />
+        <Route path="/social-worker" component={AlliedHomePage} />
 
         <Route path="/addictions-counsellor/question-bank" component={QuestionBank} />
         <Route path="/addictions-counsellor/flashcards/deck/:slug" component={DeckPage} />
@@ -546,7 +547,7 @@ function AppRoutes() {
         <Route path="/addictions-counsellor/study-plan" component={StudyPlanPage} />
         <Route path="/addictions-counsellor/pricing" component={PricingPage} />
         <Route path="/addictions-counsellor/dashboard" component={DashboardPage} />
-        <Route path="/addictions-counsellor" component={Home} />
+        <Route path="/addictions-counsellor" component={AlliedHomePage} />
 
         {/* Admin Career Management */}
         <Route path="/admin/careers" component={AdminCareersPage} />
