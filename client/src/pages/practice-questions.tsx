@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { useRoute, useLocation } from "wouter";
 import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { BreadcrumbNav } from "@/components/breadcrumb-nav";
-import { buildQuestionPool, type PooledQuestion } from "@/lib/question-pool";
+import { getExamQuestions, type PooledQuestion } from "@/lib/question-pool";
 import {
   ArrowRight, CheckCircle2, XCircle, BookOpen, Target,
   ChevronRight, RotateCcw, Heart, Brain, Wind, Stethoscope,
@@ -61,44 +61,30 @@ function deslugify(slug: string): string {
   return slug.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
 }
 
-function getQuestionsForTierSystem(tier: string, system: string, count: number): PooledQuestion[] {
-  const pool = buildQuestionPool();
-  const filtered = pool.filter(
-    (q) => q.tier === tier && slugify(q.bodySystem) === system
-  );
-  const seed = (tier + system).split("").reduce((a, c) => a + c.charCodeAt(0), 0);
-  const sorted = [...filtered].sort((a, b) => {
-    const ha = ((seed * 31 + a.id.charCodeAt(a.id.length - 1)) % 997);
-    const hb = ((seed * 31 + b.id.charCodeAt(b.id.length - 1)) % 997);
-    return ha - hb;
-  });
-  return sorted.slice(0, count);
-}
-
-function getAvailableCombinations(): { tier: string; system: string; count: number }[] {
-  const pool = buildQuestionPool();
-  const combos: Record<string, number> = {};
-  for (const q of pool) {
-    const key = `${q.tier}|||${q.bodySystem}`;
-    combos[key] = (combos[key] || 0) + 1;
-  }
-  return Object.entries(combos)
-    .filter(([, count]) => count >= 5)
-    .map(([key, count]) => {
-      const [tier, system] = key.split("|||");
-      return { tier, system, count };
-    })
-    .sort((a, b) => {
-      const tierOrder = ["rpn", "rn", "np", "free"];
-      const ti = tierOrder.indexOf(a.tier) - tierOrder.indexOf(b.tier);
-      if (ti !== 0) return ti;
-      return a.system.localeCompare(b.system);
-    });
-}
-
 function PracticeQuestionsIndex() {
   const [, setLocation] = useLocation();
-  const combos = useMemo(() => getAvailableCombinations(), []);
+  const [combos, setCombos] = useState<{ tier: string; system: string; count: number }[]>([]);
+
+  useEffect(() => {
+    const fetchCombos = async () => {
+      const tiers = ["rpn", "rn", "np"];
+      const results: { tier: string; system: string; count: number }[] = [];
+      for (const tier of tiers) {
+        try {
+          const { fetchQBankStats } = await import("@/lib/qbank-api");
+          const res = await fetch(`/api/qbank/body-systems?tier=${tier}`);
+          if (res.ok) {
+            const data = await res.json();
+            for (const system of data.bodySystems || []) {
+              results.push({ tier, system, count: 10 });
+            }
+          }
+        } catch {}
+      }
+      setCombos(results);
+    };
+    fetchCombos();
+  }, []);
 
   const groupedByTier: Record<string, { system: string; count: number }[]> = {};
   for (const c of combos) {
@@ -208,13 +194,17 @@ function PracticeQuestionsIndex() {
 
 function QuizSession({ tier, systemSlug }: { tier: string; systemSlug: string }) {
   const [, setLocation] = useLocation();
-  const systemName = useMemo(() => {
-    const pool = buildQuestionPool();
-    const match = pool.find((q) => q.tier === tier && slugify(q.bodySystem) === systemSlug);
-    return match?.bodySystem || deslugify(systemSlug);
-  }, [tier, systemSlug]);
+  const systemName = deslugify(systemSlug);
+  const [questions, setQuestions] = useState<PooledQuestion[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  const questions = useMemo(() => getQuestionsForTierSystem(tier, systemSlug, 5), [tier, systemSlug]);
+  useEffect(() => {
+    setLoading(true);
+    getExamQuestions(tier, 5, [deslugify(systemSlug)]).then((qs) => {
+      setQuestions(qs.length > 0 ? qs : []);
+      setLoading(false);
+    }).catch(() => setLoading(false));
+  }, [tier, systemSlug]);
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);

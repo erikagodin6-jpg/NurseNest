@@ -80,16 +80,17 @@ export async function resolveAuthUser(req: any): Promise<any | null> {
     }
   }
 
-  const userId = req.headers?.["x-user-id"] as string || req.body?.userId || req.query?.userId || "";
-  if (userId) {
-    const r = await pool.query("SELECT * FROM users WHERE id = $1", [userId]);
+  const username = String(req.headers?.["x-username"] || "");
+  const password = String(req.headers?.["x-password"] || "");
+  if (username && password) {
+    const r = await pool.query("SELECT * FROM users WHERE username = $1 AND password = $2", [username, password]);
     if (r.rows[0]) return r.rows[0];
   }
 
-  const username = String(req.headers?.["x-username"] || req.body?.username || req.query?.username || "");
-  const password = String(req.headers?.["x-password"] || req.body?.password || req.query?.password || "");
-  if (username && password) {
-    const r = await pool.query("SELECT * FROM users WHERE username = $1 AND password = $2", [username, password]);
+  const qUsername = String(req.query?.username || req.body?.username || "");
+  const qPassword = String(req.query?.password || req.body?.password || "");
+  if (qUsername && qPassword) {
+    const r = await pool.query("SELECT * FROM users WHERE username = $1 AND password = $2", [qUsername, qPassword]);
     if (r.rows[0]) return r.rows[0];
   }
 
@@ -115,6 +116,28 @@ export function requireExactTier(requiredTier: string) {
         error: "Tier access denied",
         required: requiredTier,
         userTier,
+      });
+    }
+
+    req.authUser = user;
+    next();
+  };
+}
+
+export function requireAnyPaidTier() {
+  return async (req: any, res: any, next: any) => {
+    const user = await resolveAuthUser(req);
+    if (!user) {
+      return res.status(401).json({ error: "Not authenticated" });
+    }
+
+    const userTier = user.tier || "free";
+    const paidTiers = new Set(["rpn", "rn", "np", "admin"]);
+
+    if (!paidTiers.has(userTier)) {
+      return res.status(403).json({
+        error: "Premium feature - upgrade required",
+        upgradeRequired: true,
       });
     }
 

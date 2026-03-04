@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -6,14 +6,13 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
 import { SEO } from "@/components/seo";
-import { buildQuestionPool, getBowtieQuestions, buildBowtiePool } from "@/lib/question-pool";
+import { getExamQuestions, type PooledQuestion } from "@/lib/question-pool";
 import { CheckCircle2, XCircle, Filter, RotateCcw, ChevronLeft, ChevronRight, Trophy, Target, Lock, Crown } from "lucide-react";
 import { AdminEditButton } from "@/components/admin-edit-button";
 import { LocaleLink } from "@/lib/LocaleLink";
 import { useAuth } from "@/lib/auth";
 import { canAccessTier } from "@/lib/access";
 import { useLocation } from "wouter";
-import { BowtieQuestionCard } from "@/components/bowtie-question";
 import { BreadcrumbNav } from "@/components/breadcrumb-nav";
 
 const FREE_PREVIEW_COUNT = 3;
@@ -28,11 +27,8 @@ export default function QuestionBank() {
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
   const [revealed, setRevealed] = useState(false);
   const [stats, setStats] = useState({ correct: 0, total: 0 });
-  const [bowtieIndex, setBowtieIndex] = useState(0);
-  const [bowtieStats, setBowtieStats] = useState({ correct: 0, total: 0 });
-
-  const allQuestions = useMemo(() => buildQuestionPool(), []);
-  const allBowtie = useMemo(() => buildBowtiePool(), []);
+  const [allQuestions, setAllQuestions] = useState<PooledQuestion[]>([]);
+  const [loadingQuestions, setLoadingQuestions] = useState(true);
 
   const userCanAccessTier = (questionTier: string) => {
     if (!questionTier || questionTier === "free") return true;
@@ -41,12 +37,23 @@ export default function QuestionBank() {
     return canAccessTier(effectiveTier, questionTier);
   };
 
+  useEffect(() => {
+    const tier = tierFilter === "all" ? (effectiveTier || "rpn") : tierFilter;
+    setLoadingQuestions(true);
+    getExamQuestions(tier, 50).then((questions) => {
+      setAllQuestions(questions);
+      setCurrentIndex(0);
+      setSelectedAnswer(null);
+      setRevealed(false);
+      setLoadingQuestions(false);
+    }).catch(() => setLoadingQuestions(false));
+  }, [tierFilter, effectiveTier]);
+
   const filtered = useMemo(() => {
     let q = allQuestions;
-    if (tierFilter !== "all") q = q.filter(x => x.tier === tierFilter);
     if (systemFilter !== "all") q = q.filter(x => x.bodySystem === systemFilter);
     return q;
-  }, [allQuestions, tierFilter, systemFilter]);
+  }, [allQuestions, systemFilter]);
 
   const isTierLocked = tierFilter !== "all" && !userCanAccessTier(tierFilter);
   const accessibleQuestions = useMemo(() => {
@@ -54,33 +61,13 @@ export default function QuestionBank() {
     if (!user || !effectiveTier || effectiveTier === "free") {
       return filtered.slice(0, FREE_PREVIEW_COUNT);
     }
-    if (effectiveTier === "admin") return filtered;
-    return filtered.filter(q => userCanAccessTier(q.tier));
+    return filtered;
   }, [filtered, user, effectiveTier, isTierLocked]);
 
-  const filteredBowtie = useMemo(() => {
-    let q = allBowtie;
-    if (tierFilter !== "all") q = q.filter(x => x.tier === tierFilter);
-    if (systemFilter !== "all") q = q.filter(x => x.bodySystem === systemFilter);
-    return q;
-  }, [allBowtie, tierFilter, systemFilter]);
-
-  const accessibleBowtie = useMemo(() => {
-    if (isTierLocked) return [];
-    if (!user || !effectiveTier || effectiveTier === "free") {
-      return filteredBowtie.slice(0, FREE_PREVIEW_COUNT);
-    }
-    if (effectiveTier === "admin") return filteredBowtie;
-    return filteredBowtie.filter(q => userCanAccessTier(q.tier));
-  }, [filteredBowtie, user, effectiveTier, isTierLocked]);
-
   const bodySystems = useMemo(() => {
-    const systems = new Set([
-      ...allQuestions.map(q => q.bodySystem),
-      ...allBowtie.map(q => q.bodySystem)
-    ]);
+    const systems = new Set(allQuestions.map(q => q.bodySystem));
     return Array.from(systems).sort();
-  }, [allQuestions, allBowtie]);
+  }, [allQuestions]);
 
   const question = accessibleQuestions[currentIndex];
 

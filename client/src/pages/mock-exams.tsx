@@ -79,8 +79,23 @@ export default function MockExamsPage() {
     { value: "np", label: t("mockExams.tierNpLabel"), desc: t("mockExams.tierNpDesc") },
   ];
 
-  const availableSystems = getAvailableBodySystems(selectedTier);
-  const stats = getPoolStats(selectedTier);
+  const [availableSystems, setAvailableSystems] = useState<string[]>([]);
+  const [stats, setStats] = useState<{ total: number; systems: Record<string, number> }>({ total: 0, systems: {} });
+  const [tierStatsMap, setTierStatsMap] = useState<Record<string, { total: number }>>({});
+
+  useEffect(() => {
+    getAvailableBodySystems(selectedTier).then(setAvailableSystems);
+    getPoolStats(selectedTier).then(setStats);
+  }, [selectedTier]);
+
+  useEffect(() => {
+    Promise.all(
+      tierOptions.map(async (t) => {
+        const s = await getPoolStats(t.value);
+        return [t.value, { total: s.total }] as const;
+      })
+    ).then((entries) => setTierStatsMap(Object.fromEntries(entries)));
+  }, []);
 
   const filteredStats = selectedSystems.length > 0
     ? { total: selectedSystems.reduce((sum, sys) => sum + (stats.systems[sys] || 0), 0), systems: Object.fromEntries(Object.entries(stats.systems).filter(([sys]) => selectedSystems.includes(sys))) }
@@ -113,12 +128,12 @@ export default function MockExamsPage() {
       let domainAssignments: Record<string, string> | null = null;
 
       if (examMode === "official" && selectedBlueprint) {
-        const result = getOfficialExamQuestions(selectedBlueprint);
+        const result = await getOfficialExamQuestions(selectedBlueprint);
         questions = result.questions;
         blueprintMeta = result.blueprint;
         domainAssignments = result.domainAssignments;
       } else {
-        questions = getExamQuestions(selectedTier, selectedLength, selectedSystems.length > 0 ? selectedSystems : undefined);
+        questions = await getExamQuestions(selectedTier, selectedLength, selectedSystems.length > 0 ? selectedSystems : undefined);
       }
 
       const res = await fetch("/api/mock-exams/start", {
@@ -262,7 +277,7 @@ export default function MockExamsPage() {
               <div className="grid gap-2">
                 {tierOptions.map((tier) => {
                   const isAllowed = allowedTiers.includes(tier.value);
-                  const tierStats = getPoolStats(tier.value);
+                  const tierStats = tierStatsMap[tier.value] || { total: 0 };
                   return (
                     <button
                       key={tier.value}
@@ -418,7 +433,7 @@ export default function MockExamsPage() {
                       if (!user) { navigate("/login"); return; }
                       setStarting(true);
                       try {
-                        const result = getReadinessExamQuestions(selectedTier);
+                        const result = await getReadinessExamQuestions(selectedTier);
                         const res = await fetch("/api/mock-exams/start", {
                           method: "POST",
                           headers: { "Content-Type": "application/json", ...getAuthHeaders() },

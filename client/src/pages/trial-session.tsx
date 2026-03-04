@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/lib/auth";
-import { buildQuestionPool, type PooledQuestion } from "@/lib/question-pool";
+import { getExamQuestions, type PooledQuestion } from "@/lib/question-pool";
 import ExamConsoleLayout, { type AnswerStatus } from "@/components/exam-console";
 import { AlertTriangle } from "lucide-react";
 
@@ -77,18 +77,7 @@ export default function TrialSessionPage() {
 
         if (data.status === "started" && (!data.questions || data.questions.length === 0)) {
           const tier = data.tier || EXAM_KEY_TO_TIER[data.examKey] || "rpn";
-          const pool = buildQuestionPool();
-          const filtered = pool.filter((q) => q.tier === tier || q.tier === "free");
-          const shuffled = [...filtered].sort(() => Math.random() - 0.5);
-          const selected = shuffled.slice(0, TOTAL_QUESTIONS);
-
-          if (selected.length < TOTAL_QUESTIONS) {
-            const remaining = pool
-              .filter((q) => !selected.find((s) => s.id === q.id))
-              .sort(() => Math.random() - 0.5)
-              .slice(0, TOTAL_QUESTIONS - selected.length);
-            selected.push(...remaining);
-          }
+          const selected = await getExamQuestions(tier, TOTAL_QUESTIONS);
 
           const questionsPayload = selected.map((q) => ({
             id: q.id,

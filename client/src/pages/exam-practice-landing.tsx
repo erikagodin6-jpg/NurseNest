@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
 import { SEO } from "@/components/seo";
@@ -146,7 +146,8 @@ function FAQAccordion({ faqs }: { faqs: { q: string; a: string }[] }) {
 }
 
 function QuestionBankStats({ tier }: { tier: string }) {
-  const stats = useMemo(() => getPoolStats(tier), [tier]);
+  const [stats, setStats] = useState<{ total: number; systems: Record<string, number> }>({ total: 0, systems: {} });
+  useEffect(() => { getPoolStats(tier).then(setStats); }, [tier]);
   const systemEntries = Object.entries(stats.systems).sort((a, b) => b[1] - a[1]);
 
   return (

@@ -634,6 +634,9 @@ app.use((req, res, next) => {
   const { setupSeoEngineRoutes } = await import("./seo-engine");
   setupSeoEngineRoutes(app);
 
+  const { setupQBankRoutes } = await import("./qbank-api");
+  setupQBankRoutes(app);
+
   // Register the rest of your app routes
   await registerRoutes(httpServer, app);
 

@@ -44,7 +44,7 @@ import { registerObjectStorageRoutes } from "./replit_integrations/object_storag
 import { regionMiddleware, getEffectiveRegion, isRegionAllowed, getDefaultRegionScope, canChangeRegionScope, buildRegionFilter, type Region, type RegionScope } from "./region";
 import { languageMiddleware, getTranslatedFields, getTranslationStatus, getBulkTranslatedTitles, getAvailableLanguages, simpleHash } from "./translation-helpers";
 import { checkAiLimits, recordAiUsage, getAiConfig, setAiConfig } from "./ai-safety";
-import { requireAdmin, signAdminToken, verifyAdminToken, resolveAuthUser, requireExactTier } from "./admin-auth";
+import { requireAdmin, signAdminToken, verifyAdminToken, resolveAuthUser, requireExactTier, requireAnyPaidTier } from "./admin-auth";
 import rateLimit from "express-rate-limit";
 
 async function logAudit(req: any, actor: any, entityType: string, entityId: string | null, action: string, beforeJson?: any, afterJson?: any) {
@@ -91,42 +91,15 @@ function canAccessTier(userTier: string | null | undefined, targetTier: string):
 }
 
 async function extractUserTier(req: Request): Promise<string | null> {
-  const username = req.query.username as string | undefined;
-  const password = req.query.password as string | undefined;
-  if (username && password) {
-    const user = await storage.getUserByUsername(username);
-    if (user && user.password === password) {
-      if (user.tier === "admin") {
-        const previewToken = ((req as any).cookies?.nursenest_preview || "") as string;
-        const preview = getPreviewFromToken(previewToken);
-        if (preview) return preview.mode;
-      }
-      return user.tier || "free";
-    }
-  }
+  const user = await resolveAuthUser(req as any);
+  if (!user) return null;
 
-  const userId = req.query.userId as string || req.headers["x-user-id"] as string || "";
-  if (userId) {
-    const user = await storage.getUser(userId);
-    if (user) {
-      if (user.tier === "admin") {
-        const previewToken = ((req as any).cookies?.nursenest_preview || "") as string;
-        const preview = getPreviewFromToken(previewToken);
-        if (preview) return preview.mode;
-      }
-      return user.tier || "free";
-    }
+  if (user.tier === "admin") {
+    const previewToken = ((req as any).cookies?.nursenest_preview || "") as string;
+    const preview = getPreviewFromToken(previewToken);
+    if (preview) return preview.mode;
   }
-
-  const authHeader = req.headers.authorization;
-  if (authHeader?.startsWith("Bearer ")) {
-    try {
-      const decoded = verifyAdminToken(authHeader.slice(7));
-      if (decoded) return "admin";
-    } catch {}
-  }
-
-  return null;
+  return user.tier || "free";
 }
 
 const activePreviewSessions = new Map<string, { mode: string; expiresAt: number; adminUserId: string }>();
@@ -187,73 +160,14 @@ async function getEffectiveTier(req: any): Promise<{ tier: string; isPreview: bo
   return { tier: realTier || "free", isPreview: false, realTier };
 }
 
-const PREMIUM_ROUTES: { method: string; pattern: RegExp }[] = [
-  { method: "POST", pattern: /^\/api\/probability\/simulate$/ },
-  { method: "GET",  pattern: /^\/api\/actions\/next-best\// },
-  { method: "POST", pattern: /^\/api\/user-flashcards\/ai-generate$/ },
-  { method: "POST", pattern: /^\/api\/user-flashcards\/ai-generate-from-notes$/ },
-  { method: "POST", pattern: /^\/api\/decks\/[^/]+\/ai-generate$/ },
-  { method: "POST", pattern: /^\/api\/decks\/[^/]+\/ai-generate-from-notes$/ },
-];
-
-const PAID_TIERS = new Set(["rpn", "rn", "np", "admin", "all_access"]);
-
 async function resolveTierFromRequest(req: any): Promise<string> {
+  const user = await resolveAuthUser(req);
+  if (!user) return "free";
+
   const previewToken = (req.cookies?.nursenest_preview || "") as string;
   const preview = getPreviewFromToken(previewToken);
-
-  let userId = req.body?.userId || req.params?.userId || req.query?.userId || req.headers?.["x-user-id"];
-  if (!userId) {
-    const username = String(req.body?.username || req.query?.username || "");
-    const password = String(req.body?.password || req.query?.password || "");
-    if (username && password) {
-      const u = await storage.getUserByUsername(username);
-      if (u && u.password === password) {
-        if (u.tier === "admin" && preview) return preview.mode;
-        return u.tier || "free";
-      }
-    }
-    const headerUser = req.headers?.["x-username"] as string;
-    const headerPass = req.headers?.["x-password"] as string;
-    if (headerUser && headerPass) {
-      const u = await storage.getUserByUsername(headerUser);
-      if (u && u.password === headerPass) {
-        if (u.tier === "admin" && preview) return preview.mode;
-        return u.tier || "free";
-      }
-    }
-
-    const authHeader = req.headers?.authorization;
-    if (authHeader?.startsWith("Bearer ")) {
-      try {
-        const decoded = verifyAdminToken(authHeader.slice(7));
-        if (decoded) return "admin";
-      } catch {}
-    }
-
-    return "free";
-  }
-
-  const user = await storage.getUser(userId);
-  if (!user) return "free";
   if (user.tier === "admin" && preview) return preview.mode;
   return user.tier || "free";
-}
-
-function premiumRouteGuard(req: any, res: any, next: any) {
-  const match = PREMIUM_ROUTES.find(
-    (r) => r.method === req.method && r.pattern.test(req.path)
-  );
-  if (!match) return next();
-
-  resolveTierFromRequest(req)
-    .then((tier) => {
-      if (PAID_TIERS.has(tier)) return next();
-      res.status(403).json({ error: "Premium feature - upgrade required", upgradeRequired: true });
-    })
-    .catch(() => {
-      res.status(403).json({ error: "Premium feature - upgrade required", upgradeRequired: true });
-    });
 }
 
 export async function registerRoutes(httpServer: Server, app: Express): Promise<Server> {
@@ -268,7 +182,6 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
 
   app.use(regionMiddleware);
   app.use(languageMiddleware);
-  app.use(premiumRouteGuard);
 
   app.get("/api/region", (req, res) => {
     const region = req.region || "US";
@@ -2410,10 +2323,10 @@ Return ONLY a JSON array of flashcard objects, no other text.`;
   const loginLimiter = rateLimit({
     windowMs: 60 * 1000,
     max: 5,
-    keyGenerator: (req: any) => String(req.headers["x-forwarded-for"] || req.ip || "unknown").split(",")[0].trim(),
     message: { error: "Too many login attempts. Please try again in a minute." },
     standardHeaders: true,
     legacyHeaders: false,
+    validate: { xForwardedForHeader: false, trustProxy: false },
   });
 
   app.post("/api/auth/login", loginLimiter, async (req, res) => {
@@ -2873,13 +2786,14 @@ Rules:
     }
   });
 
-  app.post("/api/user-flashcards/ai-generate", async (req, res) => {
+  app.post("/api/user-flashcards/ai-generate", requireAnyPaidTier(), async (req: any, res) => {
     try {
-      const { userId, prompt, count, category } = req.body;
-      if (!userId || !prompt?.trim()) return res.status(400).json({ error: "userId and prompt required" });
+      const authUser = req.authUser;
+      const userId = authUser.id;
+      const { prompt, count, category } = req.body;
+      if (!prompt?.trim()) return res.status(400).json({ error: "prompt required" });
 
-      const user = await storage.getUser(userId);
-      if (!user) return res.status(404).json({ error: "User not found" });
+      const user = authUser;
 
       const previewToken = ((req as any).cookies?.nursenest_preview || "") as string;
       const preview = getPreviewFromToken(previewToken);
@@ -2942,14 +2856,15 @@ Rules:
     }
   });
 
-  app.post("/api/user-flashcards/ai-generate-from-notes", async (req, res) => {
+  app.post("/api/user-flashcards/ai-generate-from-notes", requireAnyPaidTier(), async (req: any, res) => {
     try {
-      const { userId, notes, count, category } = req.body;
-      if (!userId || !notes?.trim()) return res.status(400).json({ error: "userId and notes text required" });
+      const authUser = req.authUser;
+      const userId = authUser.id;
+      const { notes, count, category } = req.body;
+      if (!notes?.trim()) return res.status(400).json({ error: "notes text required" });
       if (notes.length > 50000) return res.status(400).json({ error: "Notes too long. Please limit to 50,000 characters." });
 
-      const user = await storage.getUser(userId);
-      if (!user) return res.status(404).json({ error: "User not found" });
+      const user = authUser;
 
       const previewToken = ((req as any).cookies?.nursenest_preview || "") as string;
       const preview = getPreviewFromToken(previewToken);
@@ -4467,10 +4382,11 @@ Be conservative: if uncertain, use "unknown". Only "pass" for clearly accurate c
     }
   });
 
-  app.post("/api/decks/:id/ai-generate", async (req, res) => {
+  app.post("/api/decks/:id/ai-generate", requireAnyPaidTier(), async (req: any, res) => {
     try {
-      const { userId, prompt, count } = req.body;
-      if (!userId || !prompt?.trim()) return res.status(400).json({ error: "userId and prompt required" });
+      const userId = req.authUser.id;
+      const { prompt, count } = req.body;
+      if (!prompt?.trim()) return res.status(400).json({ error: "prompt required" });
       const deckId = req.params.id;
       const deckResult = await pool.query(`SELECT * FROM flashcard_decks WHERE id = $1 AND owner_id = $2`, [deckId, userId]);
       if (deckResult.rows.length === 0) return res.status(404).json({ error: "Deck not found" });
@@ -4568,10 +4484,11 @@ Be conservative: if uncertain, use "unknown". Only "pass" for clearly accurate c
     }
   });
 
-  app.post("/api/decks/:id/ai-generate-from-notes", async (req, res) => {
+  app.post("/api/decks/:id/ai-generate-from-notes", requireAnyPaidTier(), async (req: any, res) => {
     try {
-      const { userId, notes, count } = req.body;
-      if (!userId || !notes?.trim()) return res.status(400).json({ error: "userId and notes text required" });
+      const userId = req.authUser.id;
+      const { notes, count } = req.body;
+      if (!notes?.trim()) return res.status(400).json({ error: "notes text required" });
       if (notes.length > 50000) return res.status(400).json({ error: "Notes too long. Please limit to 50,000 characters." });
       const deckId = req.params.id;
       const deckResult = await pool.query(`SELECT * FROM flashcard_decks WHERE id = $1 AND owner_id = $2`, [deckId, userId]);
@@ -8152,13 +8069,11 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
     }
   });
 
-  // ====== PROBABILITY SIMULATOR ======
-  app.post("/api/probability/simulate", async (req, res) => {
+  app.post("/api/probability/simulate", requireAnyPaidTier(), async (req: any, res) => {
     try {
-      const { userId, deltas } = req.body;
-      if (!userId) return res.status(400).json({ error: "userId required" });
-
-      const user = await storage.getUser(userId);
+      const user = req.authUser;
+      const userId = user.id;
+      const { deltas } = req.body;
       const rawTier = user?.tier || "rn";
       const previewToken = ((req as any).cookies?.nursenest_preview || "") as string;
       const preview = getPreviewFromToken(previewToken);
@@ -8256,11 +8171,10 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
     }
   });
 
-  // ====== NEXT BEST ACTION ======
-  app.get("/api/actions/next-best/:userId", async (req, res) => {
+  app.get("/api/actions/next-best/:userId", requireAnyPaidTier(), async (req: any, res) => {
     try {
-      const userId = req.params.userId;
-      const user = await storage.getUser(userId);
+      const user = req.authUser;
+      const userId = user.id;
       const rawTier = user?.tier || "free";
       const previewToken = ((req as any).cookies?.nursenest_preview || "") as string;
       const preview = getPreviewFromToken(previewToken);
