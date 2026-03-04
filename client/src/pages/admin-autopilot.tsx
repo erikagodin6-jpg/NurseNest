@@ -481,7 +481,7 @@ function KeywordDiscoveryTab() {
 
 function BlogEngineTab() {
   const queryClient = useQueryClient();
-  const [contentType, setContentType] = useState<"nursing" | "allied_health">("nursing");
+  const [contentType, setContentType] = useState<"nursing" | "allied_health" | "new_grad">("nursing");
   const [topic, setTopic] = useState("");
   const [targetKeyword, setTargetKeyword] = useState("");
   const [examType, setExamType] = useState("nclex-rn");
@@ -498,6 +498,8 @@ function BlogEngineTab() {
       if (contentType === "allied_health") {
         payload.contentType = "allied_health";
         payload.career = career;
+      } else if (contentType === "new_grad") {
+        payload.contentType = "new_grad";
       } else {
         payload.examType = examType;
       }
@@ -528,6 +530,20 @@ function BlogEngineTab() {
   const recentRuns = Array.isArray(blogJobs) ? blogJobs : blogJobs?.jobs || [];
 
   const isNursing = contentType === "nursing";
+  const isAllied = contentType === "allied_health";
+  const isNewGrad = contentType === "new_grad";
+
+  const descriptions: Record<string, string> = {
+    nursing: "Generates 1500-2500 word nursing study pages with clinical assessment, nursing interventions, tables, exam traps, clinical pearls, 10+ practice questions with rationales, and SEO metadata.",
+    allied_health: "Generates 1500-2200 word allied health study pages with role scope, clinical workflows, safety considerations, exam traps, clinical pearls, 10+ practice questions with rationales, and SEO metadata.",
+    new_grad: "Generates 1200-2000 word new graduate nurse resources with step-by-step guidance, common mistakes, clinical tips from experienced nurses, quick reference checklists, and SEO metadata.",
+  };
+
+  const placeholders: Record<string, { topic: string; keyword: string }> = {
+    nursing: { topic: "e.g., Understanding Cardiac Assessment", keyword: "e.g., cardiac assessment nursing" },
+    allied_health: { topic: "e.g., Order of Draw for Blood Collection", keyword: "e.g., order of draw phlebotomy" },
+    new_grad: { topic: "e.g., Time Management for New Graduate Nurses", keyword: "e.g., new nurse time management tips" },
+  };
 
   return (
     <div className="space-y-6">
@@ -537,10 +553,7 @@ function BlogEngineTab() {
             <FileText className="h-5 w-5" /> Study Page Generator
           </CardTitle>
           <p className="text-xs text-gray-500 mt-1">
-            {isNursing
-              ? "Generates 1500-2500 word nursing study pages with clinical assessment, nursing interventions, tables, exam traps, clinical pearls, 10+ practice questions with rationales, and SEO metadata."
-              : "Generates 1500-2200 word allied health study pages with role scope, clinical workflows, safety considerations, exam traps, clinical pearls, 10+ practice questions with rationales, and SEO metadata."}
-            {" "}Content is queued for review before publishing.
+            {descriptions[contentType]} Content is queued for review before publishing.
           </p>
         </CardHeader>
         <CardContent className="space-y-4">
@@ -556,12 +569,20 @@ function BlogEngineTab() {
                 Nursing
               </Button>
               <Button
-                variant={!isNursing ? "default" : "outline"}
+                variant={isAllied ? "default" : "outline"}
                 size="sm"
                 onClick={() => { setContentType("allied_health"); setWordCount("1800"); }}
                 data-testid="button-content-type-allied"
               >
                 Allied Health
+              </Button>
+              <Button
+                variant={isNewGrad ? "default" : "outline"}
+                size="sm"
+                onClick={() => { setContentType("new_grad"); setWordCount("1500"); }}
+                data-testid="button-content-type-newgrad"
+              >
+                New Grad
               </Button>
             </div>
           </div>
@@ -571,7 +592,7 @@ function BlogEngineTab() {
               <Input
                 value={topic}
                 onChange={(e) => setTopic(e.target.value)}
-                placeholder={isNursing ? "e.g., Understanding Cardiac Assessment" : "e.g., Order of Draw for Blood Collection"}
+                placeholder={placeholders[contentType]?.topic}
                 data-testid="input-blog-topic"
               />
             </div>
@@ -580,11 +601,11 @@ function BlogEngineTab() {
               <Input
                 value={targetKeyword}
                 onChange={(e) => setTargetKeyword(e.target.value)}
-                placeholder={isNursing ? "e.g., cardiac assessment nursing" : "e.g., order of draw phlebotomy"}
+                placeholder={placeholders[contentType]?.keyword}
                 data-testid="input-blog-keyword"
               />
             </div>
-            {isNursing ? (
+            {isNursing && (
               <div>
                 <Label className="text-sm mb-1 block">Primary Exam</Label>
                 <Select value={examType} onValueChange={setExamType} data-testid="select-blog-exam">
@@ -599,7 +620,8 @@ function BlogEngineTab() {
                   </SelectContent>
                 </Select>
               </div>
-            ) : (
+            )}
+            {isAllied && (
               <div>
                 <Label className="text-sm mb-1 block">Career / Certification</Label>
                 <Select value={career} onValueChange={setCareer} data-testid="select-blog-career">

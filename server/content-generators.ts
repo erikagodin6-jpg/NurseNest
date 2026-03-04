@@ -382,6 +382,1077 @@ Make the content comprehensive, clinically accurate, and exam-focused.`
   }
 }
 
+const ALLIED_HEALTH_QUESTION_PROMPT = `You are an allied health exam item writer creating exam-style practice questions for allied health students.
+
+Supported careers and certifications:
+- Pharmacy Technician (PTCB/ExCPT)
+- Respiratory Therapy (RRT/TMC)
+- Paramedic / EMS (NREMT)
+- Medical Laboratory Technologist (MLT/ASCP)
+- Medical Imaging / Radiology (ARRT)
+
+QUESTION SET REQUIREMENTS:
+- Generate exactly 25 questions for the given topic and career
+- Use multiple formats:
+  * Multiple choice (single correct answer)
+  * Select all that apply (SATA)
+  * Case-based scenarios (clinical situation leading to a question)
+  * Calculation questions when relevant (dosage, flow rates, exposure settings)
+
+QUESTION STRUCTURE (for each question):
+1. Clinical scenario (brief workplace situation)
+2. Question stem (clear, unambiguous)
+3. Answer choices (4-5 options for MC, 5-6 for SATA)
+4. Correct answer(s)
+
+RATIONALE REQUIREMENTS:
+- Minimum 300 words per rationale
+- Explain why the correct answer is correct
+- Explain why each incorrect answer is wrong
+- Include relevant clinical workflow, safety protocols, and exam strategy tips
+
+FORMAT your output as valid JSON:
+{
+  "topic": "...",
+  "career": "pharmacy_tech | respiratory_therapy | paramedic_ems | mlt | radiology",
+  "seoTitle": "...",
+  "metaDescription": "...",
+  "slug": "...",
+  "introduction": "... (2-3 paragraph intro to the topic and why it matters for certification exams)",
+  "questions": [
+    {
+      "id": 1,
+      "type": "multiple_choice | sata | case_based | calculation",
+      "scenario": "...",
+      "stem": "...",
+      "options": ["A. ...", "B. ...", "C. ...", "D. ..."],
+      "correctAnswers": ["A"],
+      "rationale": "... (minimum 300 words)",
+      "category": "...",
+      "difficulty": 1-5,
+      "examRelevance": "PTCB | RRT | NREMT | ASCP | ARRT | All"
+    }
+  ],
+  "summary": "..."
+}`;
+
+const ALLIED_HEALTH_INFOGRAPHIC_PROMPT = `You are a medical infographic designer creating allied health study diagrams for NurseNest.
+
+STYLE:
+- Pastel clinical aesthetic
+- Clean educational layout
+- Rounded infographic cards
+
+BRAND COLORS:
+- Lavender #BFA6F6
+- Teal #AEE3E1
+- Peach #FFD6A5
+- Yellow #FFF3B0
+- Text #2E3A59
+
+Include watermark: NurseNest.ca
+
+CANVAS SIZES:
+- Standard: 3000 x 2000 px
+- Pinterest version: 1000 x 1500 px
+
+Each diagram must include:
+- Title
+- Clear labels
+- Educational notes
+- Exam tip box
+
+FORMAT your output as valid JSON:
+{
+  "title": "...",
+  "slug": "...",
+  "career": "pharmacy_tech | respiratory_therapy | paramedic_ems | mlt | radiology",
+  "diagramType": "...",
+  "description": "...",
+  "canvasWidth": 3000,
+  "canvasHeight": 2000,
+  "pinterestWidth": 1000,
+  "pinterestHeight": 1500,
+  "brandColors": { "primary": "#BFA6F6", "secondary": "#AEE3E1", "accent": "#FFD6A5", "highlight": "#FFF3B0", "text": "#2E3A59" },
+  "elements": [
+    { "label": "...", "description": "...", "position": "...", "color": "...", "type": "header | section | callout | formula | chart_row | tip_box" }
+  ],
+  "examTipBox": { "title": "...", "tips": ["..."] },
+  "educationalNotes": ["..."],
+  "altText": "...",
+  "seoTitle": "...",
+  "metaDescription": "...",
+  "pinterestDescription": "...",
+  "relatedTopics": ["..."],
+  "watermark": "NurseNest.ca"
+}`;
+
+const NEW_GRAD_NURSE_PROMPT = `You are a nursing career mentor creating educational resources for newly graduated nurses transitioning from school to clinical practice.
+
+ARTICLE REQUIREMENTS:
+- Length: 1200-2000 words
+- Audience: new graduate nurses
+- Tone: supportive, practical, professional
+
+STRUCTURE (you MUST include ALL of these sections):
+1. Title
+2. Introduction
+3. Why This Skill Matters
+4. Step-by-Step Guidance
+5. Common Mistakes New Nurses Make
+6. Clinical Tips from Experienced Nurses
+7. Quick Reference Checklist
+8. Summary
+
+SEO OUTPUT:
+- SEO title (60 chars max)
+- Meta description (155 chars max)
+- URL slug (lowercase, hyphenated)
+
+VISUAL CONTENT RECOMMENDATION:
+Recommend one infographic or checklist. Examples:
+- Patient prioritization flowchart
+- SBAR communication template
+- Time management checklist
+
+FORMAT your output as valid JSON:
+{
+  "seoTitle": "...",
+  "metaDescription": "...",
+  "slug": "...",
+  "title": "...",
+  "article": "... (full markdown article with all sections)",
+  "checklist": ["... (quick reference checklist items)"],
+  "infographicRecommendation": {
+    "title": "...",
+    "description": "..."
+  },
+  "wordCount": 0
+}`;
+
+const SEO_CLUSTER_PROMPT = `You are an SEO strategist building topic clusters for NurseNest.
+
+For each topic, generate:
+- 1 pillar page
+- 15 supporting pages
+
+Each supporting page must target a different search query.
+
+FORMAT your output as valid JSON:
+{
+  "clusterTopic": "...",
+  "targetKeyword": "...",
+  "pillarPage": {
+    "title": "...",
+    "slug": "...",
+    "primaryKeyword": "...",
+    "metaDescription": "..."
+  },
+  "supportingPages": [
+    {
+      "title": "...",
+      "slug": "...",
+      "primaryKeyword": "...",
+      "searchIntent": "informational | transactional | navigational",
+      "linkToPillar": true,
+      "relatedSupportPages": ["slug1", "slug2"]
+    }
+  ],
+  "internalLinkingPlan": {
+    "pillarToSupports": ["..."],
+    "supportsToPillar": ["..."],
+    "supportsToRelated": [{ "from": "...", "to": "...", "anchorText": "..." }]
+  }
+}`;
+
+const FLASHCARD_PROMPT = `You are creating flashcards for nursing and allied health exam preparation.
+
+Generate 50 flashcards for the given topic.
+
+Each flashcard must include:
+- Term
+- Definition
+- Clinical relevance
+- Exam tip
+
+FORMAT your output as valid JSON:
+{
+  "topic": "...",
+  "seoTitle": "...",
+  "metaDescription": "...",
+  "slug": "...",
+  "flashcards": [
+    {
+      "id": 1,
+      "term": "...",
+      "definition": "...",
+      "clinicalRelevance": "...",
+      "examTip": "..."
+    }
+  ],
+  "totalCards": 50
+}`;
+
+const PINTEREST_PIN_PROMPT = `You are creating Pinterest pins for nursing education content on NurseNest.
+
+Generate 3 pins for the given topic. Each pin should be designed to drive traffic to the NurseNest study page.
+
+FORMAT your output as valid JSON:
+{
+  "topic": "...",
+  "pageUrl": "...",
+  "pins": [
+    {
+      "title": "...",
+      "description": "... (compelling pin description, 100-300 chars)",
+      "keywords": ["...", "...", "...", "...", "..."],
+      "hashtags": ["...", "...", "...", "...", "..."],
+      "boardSuggestion": "...",
+      "imageSpec": {
+        "width": 1000,
+        "height": 1500,
+        "style": "pastel clinical",
+        "elements": ["..."],
+        "brandColors": { "primary": "#BFA6F6", "secondary": "#AEE3E1", "accent": "#FFD6A5" }
+      }
+    }
+  ]
+}`;
+
+const INTERNAL_LINK_PROMPT = `You are optimizing internal links for NurseNest.
+
+For each page provided, generate an internal linking map:
+- Link to its pillar page
+- Link to 3 related supporting pages
+- Link to 2 pages from other clusters when relevant
+
+FORMAT your output as valid JSON:
+{
+  "sourcePage": "...",
+  "links": [
+    {
+      "destinationPage": "...",
+      "destinationSlug": "...",
+      "anchorText": "...",
+      "linkType": "pillar | supporting | cross_cluster",
+      "relevanceScore": 0.0
+    }
+  ]
+}`;
+
+const QUESTION_BANK_PRODUCT_PROMPT = `You are packaging exam questions into sellable study products for the NurseNest store.
+
+Generate a complete product listing with storefront copy optimized for conversions.
+
+FORMAT your output as valid JSON:
+{
+  "title": "...",
+  "slug": "...",
+  "description": "... (compelling product description, 200-400 words)",
+  "shortDescription": "... (one-liner for listings)",
+  "questionCount": 0,
+  "difficultyMix": { "easy": 0, "medium": 0, "hard": 0 },
+  "previewQuestions": [
+    {
+      "stem": "...",
+      "options": ["A. ...", "B. ...", "C. ...", "D. ..."],
+      "correctAnswer": "A",
+      "rationale": "..."
+    }
+  ],
+  "studyTips": ["..."],
+  "examsCovered": ["..."],
+  "features": ["..."],
+  "suggestedPrice": 0,
+  "compareAtPrice": 0
+}`;
+
+const INFOGRAPHIC_PAGE_PROMPT = `You are generating SEO pages for educational infographics on NurseNest.
+
+Use NurseNest branding: Lavender #BFA6F6, Teal #AEE3E1, Peach #FFD6A5, Yellow #FFF3B0, Text #2E3A59.
+
+Each page must include a title, short explanation, infographic specification, and exam tips.
+
+FORMAT your output as valid JSON:
+{
+  "title": "...",
+  "slug": "...",
+  "seoTitle": "...",
+  "metaDescription": "...",
+  "imageAltText": "...",
+  "explanation": "... (150-200 word explanation of the infographic topic)",
+  "infographicSpec": {
+    "width": 3000,
+    "height": 2000,
+    "sections": [
+      { "title": "...", "content": "...", "position": "..." }
+    ],
+    "colorScheme": { "primary": "#BFA6F6", "secondary": "#AEE3E1", "accent": "#FFD6A5" }
+  },
+  "examTips": ["..."],
+  "internalLinks": [
+    { "title": "...", "slug": "...", "anchorText": "..." }
+  ]
+}`;
+
+export async function generateAlliedHealthQuestions(
+  topic: string,
+  career: string,
+  difficultyRange: string,
+  autoValidate: boolean,
+  jobId: string
+): Promise<any> {
+  const openai = getOpenAI();
+  const careerLabel = ALLIED_CAREER_LABELS[career] || career;
+
+  await pool.query(
+    "UPDATE autopilot_jobs SET status = 'running', started_at = NOW() WHERE id = $1",
+    [jobId]
+  );
+
+  try {
+    const [minDiff, maxDiff] = difficultyRange.split("-").map(Number);
+
+    const response = await openai.chat.completions.create({
+      model: "gpt-4o",
+      messages: [
+        { role: "system", content: ALLIED_HEALTH_QUESTION_PROMPT },
+        {
+          role: "user",
+          content: `Generate a practice question bank for allied health students:
+
+Topic: ${topic}
+Career / Certification: ${careerLabel}
+Number of Questions: 25
+Difficulty Range: ${minDiff || 1} to ${maxDiff || 5}
+
+Requirements:
+- Mix of question types: approximately 12 multiple choice, 5 select-all-that-apply, 5 case-based, and 3 calculation questions
+- Difficulty should be distributed across the range ${difficultyRange}
+- Each rationale must be at least 300 words
+- Include workplace scenarios that are realistic and exam-relevant for ${careerLabel}
+- Cover different aspects: procedures, safety protocols, calculations, patient interactions, regulatory compliance
+- Questions should progressively increase in complexity
+- Include relevant values, measurements, and technical specifications where appropriate
+
+Make questions clinically accurate and representative of the ${careerLabel} certification exam.`
+        }
+      ],
+      temperature: 0.7,
+      max_tokens: 12000,
+      response_format: { type: "json_object" },
+    });
+
+    const content = response.choices[0]?.message?.content;
+    if (!content) throw new Error("No content returned from generation");
+
+    const parsed = JSON.parse(content);
+
+    let validationResult: any = null;
+    if (autoValidate && parsed.questions) {
+      validationResult = validateQuestions(parsed.questions);
+    }
+
+    await pool.query(
+      `INSERT INTO publishing_queue (engine_key, content_type, title, content, status, metadata, created_by)
+       VALUES ('question_factory', 'question', $1, $2, 'pending_review', $3, 'autopilot')`,
+      [
+        `Allied Health Questions: ${parsed.topic || topic} (${careerLabel})`,
+        JSON.stringify(parsed),
+        JSON.stringify({
+          topic,
+          career,
+          careerLabel,
+          contentType: "allied_health",
+          difficultyRange,
+          questionCount: parsed.questions?.length || 0,
+          validation: validationResult,
+          slug: parsed.slug,
+          seoTitle: parsed.seoTitle,
+          metaDescription: parsed.metaDescription,
+          generatedAt: new Date().toISOString(),
+        }),
+      ]
+    );
+
+    await pool.query(
+      `UPDATE autopilot_jobs SET status = 'completed', result = $1, completed_at = NOW() WHERE id = $2`,
+      [JSON.stringify({
+        topic: parsed.topic,
+        career,
+        questionCount: parsed.questions?.length || 0,
+        validation: validationResult,
+        queuedForReview: true,
+      }), jobId]
+    );
+
+    await pool.query(
+      "UPDATE autopilot_engines SET last_run_at = NOW() WHERE engine_key = 'question_factory'"
+    );
+
+    return parsed;
+  } catch (err: any) {
+    await pool.query(
+      "UPDATE autopilot_jobs SET status = 'failed', error = $1, completed_at = NOW() WHERE id = $2",
+      [err.message, jobId]
+    );
+    throw err;
+  }
+}
+
+export async function generateAlliedHealthInfographic(
+  topic: string,
+  career: string,
+  diagramType: string,
+  jobId: string
+): Promise<any> {
+  const openai = getOpenAI();
+  const careerLabel = ALLIED_CAREER_LABELS[career] || career;
+
+  await pool.query(
+    "UPDATE autopilot_jobs SET status = 'running', started_at = NOW() WHERE id = $1",
+    [jobId]
+  );
+
+  try {
+    const response = await openai.chat.completions.create({
+      model: "gpt-4o",
+      messages: [
+        { role: "system", content: ALLIED_HEALTH_INFOGRAPHIC_PROMPT },
+        {
+          role: "user",
+          content: `Create a detailed infographic specification for allied health education:
+
+Topic: ${topic}
+Career: ${careerLabel}
+Diagram Type: ${diagramType}
+
+Requirements:
+- Use NurseNest brand colors (Lavender, Teal, Peach, Yellow, Slate text)
+- Include watermark: NurseNest.ca
+- Standard canvas: 3000x2000px, Pinterest: 1000x1500px
+- Include clear labels, educational notes, and an exam tip box
+- Content must be specific to ${careerLabel} practice
+- Make it visually clean with pastel clinical aesthetic
+
+Generate the complete infographic specification ready for design production.`
+        }
+      ],
+      temperature: 0.7,
+      max_tokens: 4000,
+      response_format: { type: "json_object" },
+    });
+
+    const content = response.choices[0]?.message?.content;
+    if (!content) throw new Error("No content returned");
+
+    const parsed = JSON.parse(content);
+
+    await pool.query(
+      `INSERT INTO publishing_queue (engine_key, content_type, title, content, status, metadata, created_by)
+       VALUES ('visual_factory', 'diagram', $1, $2, 'pending_review', $3, 'autopilot')`,
+      [
+        parsed.title || topic,
+        JSON.stringify(parsed),
+        JSON.stringify({
+          topic, career, careerLabel, diagramType,
+          contentType: "allied_health",
+          slug: parsed.slug,
+          generatedAt: new Date().toISOString(),
+        }),
+      ]
+    );
+
+    await pool.query(
+      "UPDATE autopilot_jobs SET status = 'completed', result = $1, completed_at = NOW() WHERE id = $2",
+      [JSON.stringify({ title: parsed.title, slug: parsed.slug, career, queuedForReview: true }), jobId]
+    );
+
+    await pool.query(
+      "UPDATE autopilot_engines SET last_run_at = NOW() WHERE engine_key = 'visual_factory'"
+    );
+
+    return parsed;
+  } catch (err: any) {
+    await pool.query(
+      "UPDATE autopilot_jobs SET status = 'failed', error = $1, completed_at = NOW() WHERE id = $2",
+      [err.message, jobId]
+    );
+    throw err;
+  }
+}
+
+export async function generateNewGradNursePage(
+  topic: string,
+  targetKeyword: string,
+  wordCount: number,
+  jobId: string
+): Promise<any> {
+  const openai = getOpenAI();
+
+  await pool.query(
+    "UPDATE autopilot_jobs SET status = 'running', started_at = NOW() WHERE id = $1",
+    [jobId]
+  );
+
+  try {
+    const response = await openai.chat.completions.create({
+      model: "gpt-4o",
+      messages: [
+        { role: "system", content: NEW_GRAD_NURSE_PROMPT },
+        {
+          role: "user",
+          content: `Generate a comprehensive new graduate nurse resource on:
+
+Topic: ${topic}
+Target SEO Keyword: ${targetKeyword}
+Target Word Count: ${wordCount}
+
+Requirements:
+- Focus on practical, actionable guidance for new nurses entering clinical practice
+- Include step-by-step instructions that a new grad can follow immediately
+- Common mistakes section should reflect real-world scenarios new nurses face
+- Clinical tips should come across as advice from experienced mentors
+- Quick reference checklist should be printable and actionable
+- Tone should be supportive and encouraging while remaining professional
+
+Make the content practical, evidence-based, and immediately useful.`
+        }
+      ],
+      temperature: 0.7,
+      max_tokens: 6000,
+      response_format: { type: "json_object" },
+    });
+
+    const content = response.choices[0]?.message?.content;
+    if (!content) throw new Error("No content returned from generation");
+
+    const parsed = JSON.parse(content);
+
+    await pool.query(
+      `INSERT INTO publishing_queue (engine_key, content_type, title, content, status, metadata, created_by)
+       VALUES ('blog_engine', 'blog', $1, $2, 'pending_review', $3, 'autopilot')`,
+      [
+        parsed.title || topic,
+        JSON.stringify(parsed),
+        JSON.stringify({
+          topic,
+          targetKeyword,
+          contentType: "new_grad",
+          wordCount: parsed.wordCount || wordCount,
+          slug: parsed.slug,
+          seoTitle: parsed.seoTitle,
+          metaDescription: parsed.metaDescription,
+          generatedAt: new Date().toISOString(),
+        }),
+      ]
+    );
+
+    await pool.query(
+      `UPDATE autopilot_jobs SET status = 'completed', result = $1, completed_at = NOW() WHERE id = $2`,
+      [JSON.stringify({
+        title: parsed.title,
+        slug: parsed.slug,
+        wordCount: parsed.wordCount,
+        queuedForReview: true,
+      }), jobId]
+    );
+
+    await pool.query(
+      "UPDATE autopilot_engines SET last_run_at = NOW() WHERE engine_key = 'blog_engine'"
+    );
+
+    return parsed;
+  } catch (err: any) {
+    await pool.query(
+      "UPDATE autopilot_jobs SET status = 'failed', error = $1, completed_at = NOW() WHERE id = $2",
+      [err.message, jobId]
+    );
+    throw err;
+  }
+}
+
+export async function generateSEOCluster(
+  topic: string,
+  targetKeyword: string,
+  examType: string,
+  jobId: string
+): Promise<any> {
+  const openai = getOpenAI();
+
+  await pool.query(
+    "UPDATE autopilot_jobs SET status = 'running', started_at = NOW() WHERE id = $1",
+    [jobId]
+  );
+
+  try {
+    const response = await openai.chat.completions.create({
+      model: "gpt-4o",
+      messages: [
+        { role: "system", content: SEO_CLUSTER_PROMPT },
+        {
+          role: "user",
+          content: `Build a complete SEO topic cluster for NurseNest:
+
+Topic: ${topic}
+Target Keyword: ${targetKeyword}
+Exam Type: ${examType}
+
+Requirements:
+- 1 pillar page covering the broad topic comprehensively
+- 15 supporting pages each targeting a unique, specific search query
+- Each supporting page should have a clear search intent
+- Internal linking plan connecting pillar to supports and supports to each other
+- All slugs should be SEO-friendly and include relevant keywords
+- Supporting pages should cover the topic from different angles (study guides, practice questions, clinical tips, charts, comparisons)
+
+Make the cluster structure comprehensive and SEO-optimized.`
+        }
+      ],
+      temperature: 0.7,
+      max_tokens: 6000,
+      response_format: { type: "json_object" },
+    });
+
+    const content = response.choices[0]?.message?.content;
+    if (!content) throw new Error("No content returned");
+
+    const parsed = JSON.parse(content);
+
+    await pool.query(
+      `INSERT INTO publishing_queue (engine_key, content_type, title, content, status, metadata, created_by)
+       VALUES ('keyword_discovery', 'cluster', $1, $2, 'pending_review', $3, 'autopilot')`,
+      [
+        `Topic Cluster: ${parsed.clusterTopic || topic}`,
+        JSON.stringify(parsed),
+        JSON.stringify({
+          topic, targetKeyword, examType,
+          pillarSlug: parsed.pillarPage?.slug,
+          supportingPageCount: parsed.supportingPages?.length || 0,
+          generatedAt: new Date().toISOString(),
+        }),
+      ]
+    );
+
+    await pool.query(
+      "UPDATE autopilot_jobs SET status = 'completed', result = $1, completed_at = NOW() WHERE id = $2",
+      [JSON.stringify({
+        clusterTopic: parsed.clusterTopic,
+        pillarSlug: parsed.pillarPage?.slug,
+        supportingPages: parsed.supportingPages?.length || 0,
+        queuedForReview: true,
+      }), jobId]
+    );
+
+    await pool.query(
+      "UPDATE autopilot_engines SET last_run_at = NOW() WHERE engine_key = 'keyword_discovery'"
+    );
+
+    return parsed;
+  } catch (err: any) {
+    await pool.query(
+      "UPDATE autopilot_jobs SET status = 'failed', error = $1, completed_at = NOW() WHERE id = $2",
+      [err.message, jobId]
+    );
+    throw err;
+  }
+}
+
+export async function generateFlashcards(
+  topic: string,
+  examType: string,
+  jobId: string
+): Promise<any> {
+  const openai = getOpenAI();
+
+  await pool.query(
+    "UPDATE autopilot_jobs SET status = 'running', started_at = NOW() WHERE id = $1",
+    [jobId]
+  );
+
+  try {
+    const response = await openai.chat.completions.create({
+      model: "gpt-4o",
+      messages: [
+        { role: "system", content: FLASHCARD_PROMPT },
+        {
+          role: "user",
+          content: `Generate 50 flashcards for exam preparation:
+
+Topic: ${topic}
+Target Exam: ${examType}
+
+Requirements:
+- Each flashcard must have a concise term, clear definition, clinical relevance, and a memorable exam tip
+- Cover the topic comprehensively from basic to advanced concepts
+- Include relevant lab values, medications, procedures, and clinical findings
+- Flashcards should be suitable for spaced-repetition study
+- Generate SEO metadata for the flashcard page
+
+Make flashcards concise, accurate, and easy to study.`
+        }
+      ],
+      temperature: 0.7,
+      max_tokens: 8000,
+      response_format: { type: "json_object" },
+    });
+
+    const content = response.choices[0]?.message?.content;
+    if (!content) throw new Error("No content returned");
+
+    const parsed = JSON.parse(content);
+
+    await pool.query(
+      `INSERT INTO publishing_queue (engine_key, content_type, title, content, status, metadata, created_by)
+       VALUES ('course_builder', 'flashcard', $1, $2, 'pending_review', $3, 'autopilot')`,
+      [
+        `Flashcards: ${parsed.topic || topic}`,
+        JSON.stringify(parsed),
+        JSON.stringify({
+          topic, examType,
+          cardCount: parsed.flashcards?.length || 0,
+          slug: parsed.slug,
+          generatedAt: new Date().toISOString(),
+        }),
+      ]
+    );
+
+    await pool.query(
+      "UPDATE autopilot_jobs SET status = 'completed', result = $1, completed_at = NOW() WHERE id = $2",
+      [JSON.stringify({
+        topic: parsed.topic,
+        cardCount: parsed.flashcards?.length || 0,
+        queuedForReview: true,
+      }), jobId]
+    );
+
+    await pool.query(
+      "UPDATE autopilot_engines SET last_run_at = NOW() WHERE engine_key = 'course_builder'"
+    );
+
+    return parsed;
+  } catch (err: any) {
+    await pool.query(
+      "UPDATE autopilot_jobs SET status = 'failed', error = $1, completed_at = NOW() WHERE id = $2",
+      [err.message, jobId]
+    );
+    throw err;
+  }
+}
+
+export async function generatePinterestPins(
+  topic: string,
+  pageSlug: string,
+  board: string,
+  jobId: string
+): Promise<any> {
+  const openai = getOpenAI();
+
+  await pool.query(
+    "UPDATE autopilot_jobs SET status = 'running', started_at = NOW() WHERE id = $1",
+    [jobId]
+  );
+
+  try {
+    const response = await openai.chat.completions.create({
+      model: "gpt-4o",
+      messages: [
+        { role: "system", content: PINTEREST_PIN_PROMPT },
+        {
+          role: "user",
+          content: `Generate 3 Pinterest pins for NurseNest:
+
+Topic: ${topic}
+Page URL: https://nursenest.ca/${pageSlug}
+Board: ${board}
+
+Requirements:
+- Each pin should have a compelling title and description
+- Include 5 relevant keywords and hashtags per pin
+- Pin images should use NurseNest brand colors (Lavender, Teal, Peach)
+- Pins should drive clicks to the study page
+- Descriptions should be engaging and educational
+
+Make pins visually appealing and click-worthy.`
+        }
+      ],
+      temperature: 0.7,
+      max_tokens: 3000,
+      response_format: { type: "json_object" },
+    });
+
+    const content = response.choices[0]?.message?.content;
+    if (!content) throw new Error("No content returned");
+
+    const parsed = JSON.parse(content);
+
+    await pool.query(
+      `INSERT INTO publishing_queue (engine_key, content_type, title, content, status, metadata, created_by)
+       VALUES ('pinterest_scheduler', 'social', $1, $2, 'pending_review', $3, 'autopilot')`,
+      [
+        `Pinterest Pins: ${topic}`,
+        JSON.stringify(parsed),
+        JSON.stringify({
+          topic, pageSlug, board,
+          pinCount: parsed.pins?.length || 0,
+          generatedAt: new Date().toISOString(),
+        }),
+      ]
+    );
+
+    await pool.query(
+      "UPDATE autopilot_jobs SET status = 'completed', result = $1, completed_at = NOW() WHERE id = $2",
+      [JSON.stringify({
+        topic,
+        pinCount: parsed.pins?.length || 0,
+        queuedForReview: true,
+      }), jobId]
+    );
+
+    await pool.query(
+      "UPDATE autopilot_engines SET last_run_at = NOW() WHERE engine_key = 'pinterest_scheduler'"
+    );
+
+    return parsed;
+  } catch (err: any) {
+    await pool.query(
+      "UPDATE autopilot_jobs SET status = 'failed', error = $1, completed_at = NOW() WHERE id = $2",
+      [err.message, jobId]
+    );
+    throw err;
+  }
+}
+
+export async function generateInternalLinkMap(
+  pageSlug: string,
+  pageTitle: string,
+  clusterTopic: string,
+  jobId: string
+): Promise<any> {
+  const openai = getOpenAI();
+
+  await pool.query(
+    "UPDATE autopilot_jobs SET status = 'running', started_at = NOW() WHERE id = $1",
+    [jobId]
+  );
+
+  try {
+    const response = await openai.chat.completions.create({
+      model: "gpt-4o",
+      messages: [
+        { role: "system", content: INTERNAL_LINK_PROMPT },
+        {
+          role: "user",
+          content: `Generate an internal linking map for this NurseNest page:
+
+Source Page: ${pageTitle}
+Source Slug: ${pageSlug}
+Cluster Topic: ${clusterTopic}
+
+Requirements:
+- Link to the pillar page for this cluster
+- Link to 3 related supporting pages within the same cluster
+- Link to 2 pages from other clusters when relevant
+- Each link should have natural, descriptive anchor text
+- Include a relevance score for each link
+
+Generate the complete internal linking map.`
+        }
+      ],
+      temperature: 0.7,
+      max_tokens: 2000,
+      response_format: { type: "json_object" },
+    });
+
+    const content = response.choices[0]?.message?.content;
+    if (!content) throw new Error("No content returned");
+
+    const parsed = JSON.parse(content);
+
+    await pool.query(
+      "UPDATE autopilot_jobs SET status = 'completed', result = $1, completed_at = NOW() WHERE id = $2",
+      [JSON.stringify({
+        sourcePage: pageSlug,
+        linkCount: parsed.links?.length || 0,
+        links: parsed.links,
+      }), jobId]
+    );
+
+    await pool.query(
+      "UPDATE autopilot_engines SET last_run_at = NOW() WHERE engine_key = 'auto_expansion'"
+    );
+
+    return parsed;
+  } catch (err: any) {
+    await pool.query(
+      "UPDATE autopilot_jobs SET status = 'failed', error = $1, completed_at = NOW() WHERE id = $2",
+      [err.message, jobId]
+    );
+    throw err;
+  }
+}
+
+export async function generateQuestionBankProduct(
+  topic: string,
+  questionCount: number,
+  examType: string,
+  jobId: string
+): Promise<any> {
+  const openai = getOpenAI();
+
+  await pool.query(
+    "UPDATE autopilot_jobs SET status = 'running', started_at = NOW() WHERE id = $1",
+    [jobId]
+  );
+
+  try {
+    const response = await openai.chat.completions.create({
+      model: "gpt-4o",
+      messages: [
+        { role: "system", content: QUESTION_BANK_PRODUCT_PROMPT },
+        {
+          role: "user",
+          content: `Package a question bank product for the NurseNest store:
+
+Topic: ${topic}
+Question Count: ${questionCount}
+Target Exam: ${examType}
+
+Requirements:
+- Compelling product title and description optimized for conversions
+- Difficulty mix across easy, medium, and hard
+- 3 preview questions with full rationales to showcase quality
+- 5 study tips related to the topic
+- Suggested pricing with compare-at price for perceived value
+- Feature list highlighting what makes this product valuable
+
+Make the product listing professional and conversion-optimized.`
+        }
+      ],
+      temperature: 0.7,
+      max_tokens: 4000,
+      response_format: { type: "json_object" },
+    });
+
+    const content = response.choices[0]?.message?.content;
+    if (!content) throw new Error("No content returned");
+
+    const parsed = JSON.parse(content);
+
+    await pool.query(
+      `INSERT INTO publishing_queue (engine_key, content_type, title, content, status, metadata, created_by)
+       VALUES ('course_builder', 'product', $1, $2, 'pending_review', $3, 'autopilot')`,
+      [
+        parsed.title || `${topic} Question Bank`,
+        JSON.stringify(parsed),
+        JSON.stringify({
+          topic, questionCount, examType,
+          slug: parsed.slug,
+          suggestedPrice: parsed.suggestedPrice,
+          generatedAt: new Date().toISOString(),
+        }),
+      ]
+    );
+
+    await pool.query(
+      "UPDATE autopilot_jobs SET status = 'completed', result = $1, completed_at = NOW() WHERE id = $2",
+      [JSON.stringify({
+        title: parsed.title,
+        slug: parsed.slug,
+        questionCount: parsed.questionCount,
+        queuedForReview: true,
+      }), jobId]
+    );
+
+    return parsed;
+  } catch (err: any) {
+    await pool.query(
+      "UPDATE autopilot_jobs SET status = 'failed', error = $1, completed_at = NOW() WHERE id = $2",
+      [err.message, jobId]
+    );
+    throw err;
+  }
+}
+
+export async function generateInfographicPage(
+  topic: string,
+  style: string,
+  jobId: string
+): Promise<any> {
+  const openai = getOpenAI();
+
+  await pool.query(
+    "UPDATE autopilot_jobs SET status = 'running', started_at = NOW() WHERE id = $1",
+    [jobId]
+  );
+
+  try {
+    const response = await openai.chat.completions.create({
+      model: "gpt-4o",
+      messages: [
+        { role: "system", content: INFOGRAPHIC_PAGE_PROMPT },
+        {
+          role: "user",
+          content: `Generate an SEO-optimized infographic page for NurseNest:
+
+Topic: ${topic}
+Style: ${style}
+
+Requirements:
+- Title and 150-200 word explanation of the topic
+- Infographic specification with sections, colors, and layout
+- Use NurseNest brand colors
+- Include clinical exam tips related to the visual content
+- Internal links to related lessons
+- Complete SEO metadata including image alt text
+
+Make the page educational, visually appealing, and SEO-optimized.`
+        }
+      ],
+      temperature: 0.7,
+      max_tokens: 3000,
+      response_format: { type: "json_object" },
+    });
+
+    const content = response.choices[0]?.message?.content;
+    if (!content) throw new Error("No content returned");
+
+    const parsed = JSON.parse(content);
+
+    await pool.query(
+      `INSERT INTO publishing_queue (engine_key, content_type, title, content, status, metadata, created_by)
+       VALUES ('visual_factory', 'infographic_page', $1, $2, 'pending_review', $3, 'autopilot')`,
+      [
+        parsed.title || topic,
+        JSON.stringify(parsed),
+        JSON.stringify({
+          topic, style,
+          slug: parsed.slug,
+          seoTitle: parsed.seoTitle,
+          generatedAt: new Date().toISOString(),
+        }),
+      ]
+    );
+
+    await pool.query(
+      "UPDATE autopilot_jobs SET status = 'completed', result = $1, completed_at = NOW() WHERE id = $2",
+      [JSON.stringify({ title: parsed.title, slug: parsed.slug, queuedForReview: true }), jobId]
+    );
+
+    await pool.query(
+      "UPDATE autopilot_engines SET last_run_at = NOW() WHERE engine_key = 'visual_factory'"
+    );
+
+    return parsed;
+  } catch (err: any) {
+    await pool.query(
+      "UPDATE autopilot_jobs SET status = 'failed', error = $1, completed_at = NOW() WHERE id = $2",
+      [err.message, jobId]
+    );
+    throw err;
+  }
+}
+
 export async function generatePracticeQuestionPage(
   topic: string,
   category: string,

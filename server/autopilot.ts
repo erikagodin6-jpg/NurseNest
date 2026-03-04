@@ -3,10 +3,19 @@ import { pool } from "./storage";
 import {
   generateNursingPage,
   generateAlliedHealthPage,
+  generateNewGradNursePage,
   generatePracticeQuestionPage,
+  generateAlliedHealthQuestions,
   generateVisualDiagram,
+  generateAlliedHealthInfographic,
+  generateInfographicPage,
   generatePracticeSEOPage,
   generateCourseContent,
+  generateFlashcards,
+  generateSEOCluster,
+  generatePinterestPins,
+  generateInternalLinkMap,
+  generateQuestionBankProduct,
 } from "./content-generators";
 
 async function requireAdmin(req: Request, res: Response): Promise<any> {
@@ -74,6 +83,13 @@ async function processAutopilotJob(jobId: string, engineKey: string, payload: an
             payload.wordCount || 1800,
             jobId
           );
+        } else if (payload.contentType === "new_grad") {
+          await generateNewGradNursePage(
+            payload.topic || "New Grad Nursing",
+            payload.targetKeyword || payload.topic || "",
+            payload.wordCount || 1500,
+            jobId
+          );
         } else {
           await generateNursingPage(
             payload.topic || "General Nursing",
@@ -86,23 +102,48 @@ async function processAutopilotJob(jobId: string, engineKey: string, payload: an
         break;
 
       case "question_factory":
-        await generatePracticeQuestionPage(
-          payload.topic || payload.category || "General Nursing",
-          payload.category || "nursing_ngn",
-          payload.batchSize || 25,
-          payload.difficultyRange || "2-4",
-          payload.autoValidate !== false,
-          jobId
-        );
+        if (payload.contentType === "allied_health" && payload.career) {
+          await generateAlliedHealthQuestions(
+            payload.topic || "General Allied Health",
+            payload.career,
+            payload.difficultyRange || "2-4",
+            payload.autoValidate !== false,
+            jobId
+          );
+        } else {
+          await generatePracticeQuestionPage(
+            payload.topic || payload.category || "General Nursing",
+            payload.category || "nursing_ngn",
+            payload.batchSize || 25,
+            payload.difficultyRange || "2-4",
+            payload.autoValidate !== false,
+            jobId
+          );
+        }
         break;
 
       case "visual_factory":
-        await generateVisualDiagram(
-          payload.type || "anatomy",
-          payload.topic || "Heart Anatomy",
-          payload.style || "clinical",
-          jobId
-        );
+        if (payload.contentType === "allied_health" && payload.career) {
+          await generateAlliedHealthInfographic(
+            payload.topic || "Allied Health Diagram",
+            payload.career,
+            payload.diagramType || payload.type || "clinical",
+            jobId
+          );
+        } else if (payload.contentType === "infographic_page") {
+          await generateInfographicPage(
+            payload.topic || "Infographic",
+            payload.style || "clinical",
+            jobId
+          );
+        } else {
+          await generateVisualDiagram(
+            payload.type || "anatomy",
+            payload.topic || "Heart Anatomy",
+            payload.style || "clinical",
+            jobId
+          );
+        }
         break;
 
       case "practice_seo":
@@ -116,12 +157,75 @@ async function processAutopilotJob(jobId: string, engineKey: string, payload: an
         break;
 
       case "course_builder":
-        await generateCourseContent(
-          payload.topic || "Nursing Fundamentals",
-          payload.exam || "nclex-rn",
-          payload.difficulty || "intermediate",
-          jobId
-        );
+        if (payload.contentType === "flashcard") {
+          await generateFlashcards(
+            payload.topic || "Nursing Fundamentals",
+            payload.exam || payload.examType || "nclex-rn",
+            jobId
+          );
+        } else if (payload.contentType === "product") {
+          await generateQuestionBankProduct(
+            payload.topic || "Nursing Questions",
+            payload.questionCount || 250,
+            payload.exam || payload.examType || "nclex-rn",
+            jobId
+          );
+        } else {
+          await generateCourseContent(
+            payload.topic || "Nursing Fundamentals",
+            payload.exam || "nclex-rn",
+            payload.difficulty || "intermediate",
+            jobId
+          );
+        }
+        break;
+
+      case "keyword_discovery":
+        if (payload.contentType === "cluster") {
+          await generateSEOCluster(
+            payload.topic || "Nursing Topic",
+            payload.targetKeyword || payload.topic || "",
+            payload.examType || "nclex-rn",
+            jobId
+          );
+        } else {
+          await pool.query(
+            "UPDATE autopilot_jobs SET status = 'completed', result = $1, completed_at = NOW() WHERE id = $2",
+            [JSON.stringify({ message: "Keyword analysis queued", keywords: payload.keywords }), jobId]
+          );
+        }
+        break;
+
+      case "pinterest_scheduler":
+        if (payload.contentType === "generate_pins") {
+          await generatePinterestPins(
+            payload.topic || "Nursing Tips",
+            payload.pageSlug || "",
+            payload.board || "nursing-tips",
+            jobId
+          );
+        } else {
+          await pool.query(
+            "UPDATE autopilot_jobs SET status = 'completed', result = $1, completed_at = NOW() WHERE id = $2",
+            [JSON.stringify({ message: "Pin scheduled", title: payload.title, board: payload.board }), jobId]
+          );
+        }
+        break;
+
+      case "auto_expansion":
+        if (payload.contentType === "internal_links") {
+          await generateInternalLinkMap(
+            payload.pageSlug || "",
+            payload.pageTitle || "",
+            payload.clusterTopic || "",
+            jobId
+          );
+        } else {
+          await pool.query(
+            "UPDATE autopilot_jobs SET status = 'completed', result = $1, completed_at = NOW() WHERE id = $2",
+            [JSON.stringify({ message: `Expansion scan queued`, mode: payload.mode }), jobId]
+          );
+        }
         break;
 
       default:
@@ -279,6 +383,47 @@ export function setupAutopilotRoutes(app: Express): void {
           createdAt: row.created_at,
         },
       });
+    } catch (err: any) {
+      res.status(500).json({ error: err.message });
+    }
+  });
+
+  app.post("/api/admin/autopilot/jobs/batch", async (req: Request, res: Response) => {
+    const admin = await requireAdmin(req, res);
+    if (!admin) return;
+
+    try {
+      const { jobs } = req.body as any;
+      if (!Array.isArray(jobs) || jobs.length === 0) {
+        return res.status(400).json({ error: "jobs array is required" });
+      }
+      if (jobs.length > 50) {
+        return res.status(400).json({ error: "Maximum 50 jobs per batch" });
+      }
+
+      const created: any[] = [];
+      for (const job of jobs) {
+        const { engineKey, payload } = job;
+        if (!engineKey) continue;
+
+        const engineCheck = await pool.query("SELECT id FROM autopilot_engines WHERE engine_key = $1", [engineKey]);
+        if (!engineCheck.rows[0]) continue;
+
+        const r = await pool.query(
+          `INSERT INTO autopilot_jobs (engine_key, status, payload)
+           VALUES ($1, 'queued', $2) RETURNING *`,
+          [engineKey, JSON.stringify(payload || {})]
+        );
+
+        const row = r.rows[0];
+        created.push({ id: row.id, engineKey: row.engine_key, status: row.status });
+
+        processAutopilotJob(row.id, engineKey, payload || {}).catch((err) => {
+          console.error(`[Autopilot Batch] Job ${row.id} (${engineKey}) failed:`, err.message);
+        });
+      }
+
+      res.json({ created: created.length, jobs: created });
     } catch (err: any) {
       res.status(500).json({ error: err.message });
     }
