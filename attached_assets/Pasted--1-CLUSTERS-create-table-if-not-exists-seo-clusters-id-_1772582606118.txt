@@ -1,0 +1,187 @@
+-- 1) CLUSTERS
+create table if not exists seo_clusters (
+  id uuid primary key default gen_random_uuid(),
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now(),
+
+  keyword text not null,               -- e.g., "ECG rhythms"
+  country_mode text not null check (country_mode in ('CA','US','BOTH')),
+  exam_tier text not null check (exam_tier in ('REx-PN','NCLEX-PN','NCLEX-RN','NP','ALL')),
+  pillar_slug text not null unique,    -- e.g., "ecg-rhythm-recognition"
+  status text not null default 'draft' check (status in ('draft','generating','qc','queued','publishing','published','failed')),
+
+  notes text
+);
+
+create index if not exists idx_seo_clusters_status on seo_clusters(status);
+
+
+-- 2) ARTICLES
+create table if not exists seo_articles (
+  id uuid primary key default gen_random_uuid(),
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now(),
+
+  cluster_id uuid not null references seo_clusters(id) on delete cascade,
+
+  type text not null check (type in ('pillar','support')),
+  status text not null default 'draft' check (status in ('draft','generating','qc','queued','published','failed','needs_review')),
+
+  title text not null,
+  slug text not null unique,
+  target_keyword text not null,
+  search_intent text not null check (search_intent in ('informational','how-to','comparison','definition','symptoms','treatment','algorithm','practice','other')),
+
+  meta_title text,
+  meta_description text,
+
+  outline_json jsonb not null default '{}'::jsonb,
+  content_md text not null default '',
+
+  -- QC / content metrics
+  word_count int not null default 0,
+  reading_level text, -- optional
+  canonical_url text,
+
+  -- Feature flags (must be satisfied before publish)
+  requires_infographic boolean not null default true,
+  requires_pins boolean not null default true,
+  requires_practice_questions boolean not null default true,
+
+  published_at timestamptz
+);
+
+create index if not exists idx_seo_articles_cluster on seo_articles(cluster_id);
+create index if not exists idx_seo_articles_status on seo_articles(status);
+create index if not exists idx_seo_articles_type on seo_articles(type);
+
+
+-- 3) INFOGRAPHIC TEMPLATES (reusable prompt library)
+create table if not exists infographic_templates (
+  id uuid primary key default gen_random_uuid(),
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now(),
+
+  template_key text not null unique, -- e.g., "order_of_draw_v1"
+  name text not null,                -- friendly name
+  category text not null,            -- e.g., labs, cardio, resp
+  is_active boolean not null default true,
+
+  -- prompt used by image generator
+  prompt_text text not null,
+
+  -- optional constraints
+  country_mode text not null default 'BOTH' check (country_mode in ('CA','US','BOTH')),
+  exam_tier text not null default 'ALL' check (exam_tier in ('REx-PN','NCLEX-PN','NCLEX-RN','NP','ALL'))
+);
+
+create index if not exists idx_infographic_templates_active on infographic_templates(is_active);
+
+
+-- 4) INFOGRAPHICS (generated assets tied to an article)
+create table if not exists seo_infographics (
+  id uuid primary key default gen_random_uuid(),
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now(),
+
+  article_id uuid not null references seo_articles(id) on delete cascade,
+  template_id uuid references infographic_templates(id) on delete set null,
+
+  type text not null check (type in ('infographic','pin','og','other')),
+  variant text not null default 'default',  -- e.g., "table", "algorithm", "cheatsheet", "ecg-set", "pin-1"
+  status text not null default 'draft' check (status in ('draft','generating','qc','ready','failed')),
+
+  title text not null,
+  alt_text text not null default '',
+  prompt_used text not null default '',
+
+  width int not null default 3000,
+  height int not null default 2000,
+
+  file_path text not null default '',   -- /public/images/infographics/...
+  public_url text not null default '',  -- optional CDN URL
+
+  checksum text,                        -- to prevent duplicates
+  qc_errors jsonb not null default '[]'::jsonb
+);
+
+create index if not exists idx_seo_infographics_article on seo_infographics(article_id);
+create index if not exists idx_seo_infographics_status on seo_infographics(status);
+
+
+-- 5) PINS (explicit table to track 3 pins/article + metadata)
+create table if not exists seo_pins (
+  id uuid primary key default gen_random_uuid(),
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now(),
+
+  article_id uuid not null references seo_articles(id) on delete cascade,
+  infographic_id uuid references seo_infographics(id) on delete set null,
+
+  pin_variant int not null check (pin_variant between 1 and 3),
+  headline text not null,
+  bullets_json jsonb not null default '[]'::jsonb,
+
+  status text not null default 'draft' check (status in ('draft','generating','qc','ready','failed')),
+
+  width int not null default 1000,
+  height int not null default 1500,
+
+  file_path text not null default '',
+  public_url text not null default '',
+
+  qc_errors jsonb not null default '[]'::jsonb
+);
+
+create unique index if not exists uniq_article_pin_variant on seo_pins(article_id, pin_variant);
+
+
+-- 6) INTERNAL LINKS (map from → to)
+create table if not exists seo_internal_links (
+  id uuid primary key default gen_random_uuid(),
+  created_at timestamptz not null default now(),
+
+  from_article_id uuid not null references seo_articles(id) on delete cascade,
+  to_article_id uuid not null references seo_articles(id) on delete cascade,
+
+  anchor_text text not null,
+  reason text not null,                 -- e.g., "same cluster", "cross cluster", "exam blueprint"
+  placement text not null default 'body' check (placement in ('body','faq','sidebar','cta'))
+);
+
+create index if not exists idx_links_from on seo_internal_links(from_article_id);
+create index if not exists idx_links_to on seo_internal_links(to_article_id);
+
+
+-- 7) PUBLISH QUEUE
+create table if not exists publish_queue (
+  id uuid primary key default gen_random_uuid(),
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now(),
+
+  article_id uuid not null references seo_articles(id) on delete cascade,
+
+  scheduled_for timestamptz not null,
+  priority int not null default 50,      -- lower = sooner
+  status text not null default 'queued' check (status in ('queued','publishing','published','failed','blocked')),
+
+  blocked_reason text
+);
+
+create index if not exists idx_publish_queue_status on publish_queue(status);
+create index if not exists idx_publish_queue_sched on publish_queue(scheduled_for);
+
+
+-- 8) QC RUNS (audit trail)
+create table if not exists qc_runs (
+  id uuid primary key default gen_random_uuid(),
+  created_at timestamptz not null default now(),
+
+  scope text not null check (scope in ('cluster','article','asset')),
+  cluster_id uuid references seo_clusters(id) on delete cascade,
+  article_id uuid references seo_articles(id) on delete cascade,
+  asset_id uuid,  -- infographic_id or pin_id; store as uuid without FK for flexibility
+
+  passed boolean not null,
+  errors jsonb not null default '[]'::jsonb
+);

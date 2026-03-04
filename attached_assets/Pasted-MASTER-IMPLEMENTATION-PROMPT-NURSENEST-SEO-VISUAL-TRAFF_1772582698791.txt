@@ -1,0 +1,234 @@
+MASTER IMPLEMENTATION PROMPT — NURSENEST SEO + VISUAL TRAFFIC ENGINE
+
+You are a senior full-stack engineer building a production feature inside the NurseNest platform.
+
+The system must automate SEO content production, infographic generation, Pinterest pins, internal linking, and publishing workflows.
+
+This tool will be called the:
+
+NurseNest SEO + Visual Traffic Engine
+
+The system must integrate with an existing Node.js / Express backend and React frontend.
+
+The purpose of the system is to allow an admin to enter a keyword and automatically generate:
+
+• topic clusters
+• pillar + supporting articles
+• branded infographics
+• Pinterest pins
+• internal linking maps
+• a publish queue
+
+All content must be optimized for nursing education and exam preparation.
+
+---
+
+PART 1 — DATABASE SCHEMA
+
+Implement the following PostgreSQL tables.
+
+Tables required:
+
+seo_clusters
+seo_articles
+infographic_templates
+seo_infographics
+seo_pins
+seo_internal_links
+publish_queue
+qc_runs
+
+Each table must contain fields necessary for:
+
+cluster metadata
+article metadata
+image asset tracking
+pin asset tracking
+internal linking
+quality control checks
+publish scheduling
+
+Use UUID primary keys.
+
+Implement indexes for status fields and foreign key relationships.
+
+---
+
+PART 2 — TEMPLATE SYSTEM
+
+Create a reusable template library for infographic prompts.
+
+Table: infographic_templates
+
+Fields:
+
+template_key
+name
+category
+prompt_text
+country_mode
+exam_tier
+is_active
+
+Templates should include:
+
+order_of_draw_v1
+ecg_rhythm_chart
+abg_interpretation_flowchart
+electrolyte_imbalance_chart
+blood_transfusion_chart
+
+Templates store the prompt text used to generate images.
+
+---
+
+PART 3 — FILE STORAGE
+
+All generated assets must be saved in the public directory.
+
+Paths:
+
+/public/images/infographics/
+/public/images/pins/
+/public/images/og/
+
+Naming convention:
+
+{slug}-{asset-type}-{timestamp}.png
+
+Example:
+
+ecg-rhythm-recognition-infographic-20260303.png
+
+Store paths in the database.
+
+---
+
+PART 4 — ADMIN DASHBOARD
+
+Create a new admin page.
+
+Route:
+
+/admin/seo-visual-autopilot
+
+Tabs required:
+
+Topic Clusters
+Article Generator
+Infographic Generator
+Pinterest Pins
+Internal Linking
+Publishing Queue
+Quality Control
+
+Use React components and modern UI cards.
+
+---
+
+PART 5 — TOPIC CLUSTER GENERATOR
+
+Admin enters:
+
+keyword
+country_mode (CA, US, BOTH)
+exam_tier (REx-PN, NCLEX-PN, NCLEX-RN, NP)
+
+System generates:
+
+1 pillar article
+20-40 supporting articles
+
+Each article record is saved to seo_articles.
+
+Fields populated:
+
+title
+slug
+target_keyword
+meta_title
+meta_description
+outline_json
+
+---
+
+PART 6 — ARTICLE GENERATOR
+
+The article generator must produce full markdown articles.
+
+Each article must include:
+
+Introduction
+Key Concepts
+Clinical Explanation
+Tables where relevant
+Common Exam Traps section
+Clinical Pearls section
+Practice Questions (minimum 5)
+Detailed rationales (≥250 words each)
+
+Word counts:
+
+Support article: ≥1200 words
+Pillar article: ≥2500 words
+
+Save markdown in content_md.
+
+---
+
+PART 7 — INFOGRAPHIC GENERATOR
+
+Use infographic_templates to generate diagrams.
+
+Infographic sizes:
+
+3000 x 2000 px
+
+Brand palette (must be enforced):
+
+Primary Lavender #BFA6F6
+Soft Teal #AEE3E1
+Peach Accent #FFD6A5
+Highlight Yellow #FFF3B0
+Text Dark Slate #2E3A59
+
+Include watermark:
+
+NurseNest.ca
+
+Each article must generate at least 1 infographic.
+
+Save asset record in seo_infographics.
+
+---
+
+PART 8 — PINTEREST PIN GENERATOR
+
+Generate three Pinterest pins per article.
+
+Pin dimensions:
+
+1000 x 1500 px
+
+Each pin includes:
+
+headline
+3–5 bullet points
+brand colors
+NurseNest watermark
+
+Save pins in seo_pins.
+
+---
+
+PART 9 — INTERNAL LINKING ENGINE
+
+Automatically generate internal links.
+
+Rules:
+
+Each support article must link to pillar page.
+
+Each article must link to at least:
+
+3 articles

@@ -1,0 +1,328 @@
+MASTER IMPLEMENTATION PROMPT — NURSENEST SEO + VISUAL TRAFFIC ENGINE (NURSING + ALLIED HEALTH)
+
+You are a senior full-stack engineer building a production feature inside the NurseNest platform.
+
+The system must automate SEO content production, branded infographic generation, Pinterest pins, internal linking, and publishing workflows for:
+
+A) Nursing (REx-PN, NCLEX-PN, NCLEX-RN, NP)
+B) Allied Health (multiple careers + multiple countries)
+
+This tool will be called:
+
+NurseNest SEO + Visual Traffic Engine
+
+It must integrate with the existing Node.js / Express backend and React frontend.
+
+The system must support generating content for two site contexts:
+
+1. NurseNest Nursing site (main domain)
+2. Allied Health site (allied subdomain or allied path)
+
+The admin must be able to pick:
+
+site_context: "nursing" or "allied"
+career_track: (required when site_context = allied)
+
+---
+
+PART 1 — DATABASE SCHEMA (EXTEND)
+
+Implement the base PostgreSQL tables:
+
+seo_clusters
+seo_articles
+infographic_templates
+seo_infographics
+seo_pins
+seo_internal_links
+publish_queue
+qc_runs
+
+Then EXTEND these tables to support Allied Health.
+
+Add to seo_clusters:
+
+site_context text not null default 'nursing' check (site_context in ('nursing','allied'))
+career_track text null
+career_country_mode text not null default 'BOTH' check (career_country_mode in ('CA','US','BOTH'))
+exam_name text null
+blueprint_tags jsonb not null default '[]'::jsonb
+
+Add to seo_articles:
+
+site_context text not null default 'nursing' check (site_context in ('nursing','allied'))
+career_track text null
+exam_name text null
+primary_category text null
+secondary_category text null
+gating_level text not null default 'public' check (gating_level in ('public','free','premium','elite'))
+requires_disclaimer boolean not null default true
+
+Add to infographic_templates:
+
+site_context text not null default 'nursing' check (site_context in ('nursing','allied'))
+career_track text null
+
+Add to seo_infographics and seo_pins:
+
+site_context text not null default 'nursing' check (site_context in ('nursing','allied'))
+career_track text null
+
+Add to publish_queue:
+
+site_context text not null default 'nursing' check (site_context in ('nursing','allied'))
+career_track text null
+
+---
+
+PART 2 — ROUTING + URL STRUCTURE
+
+Nursing articles publish to:
+https://www.nursenest.ca/blog/{slug}
+
+Allied Health articles publish to ONE of these (choose whichever your project uses):
+Option A (preferred): https://allied.nursenest.ca/{career}/{slug}
+Option B: https://www.nursenest.ca/allied/{career}/{slug}
+
+Ensure sitemaps are separated:
+
+* /sitemap.xml (nursing)
+* /sitemap-allied.xml (allied)
+
+Ensure robots.txt references the correct sitemap per host.
+
+---
+
+PART 3 — ADMIN DASHBOARD (EXTEND)
+
+Route:
+/admin/seo-visual-autopilot
+
+Add top-level selectors:
+
+Site Context: Nursing / Allied
+If Allied:
+Career Track dropdown
+
+Career Track options (minimum list):
+pharmacy-tech
+respiratory-therapy (RRT)
+paramedic
+medical-lab-technologist (MLT)
+medical-imaging (radiology)
+ultrasound
+physical-therapy-assistant (PTA)
+occupational-therapy-assistant (OTA)
+
+These are labels; system stores slug value.
+
+Dashboard tabs remain the same but filtered by site_context + career_track.
+
+---
+
+PART 4 — ALLIED HEALTH CONTENT RULES (CRITICAL)
+
+When site_context = allied:
+
+* Content must be aligned to the selected career track scope and common exam standards.
+* Country mode must change units, terminology, and ranges if applicable.
+* Avoid nursing-only assumptions unless relevant to that profession.
+
+Each allied article must include:
+
+1. "Role Scope & Common Settings" section
+2. "Core Concepts" section
+3. "Clinical Workflow" or "Procedure Steps" section (when relevant)
+4. "Safety & Contraindications" section
+5. "Common Exam Traps" section
+6. "Clinical Pearls" section
+7. "Practice Questions" section (min 5 questions)
+8. Rationales ≥250 words each
+
+Word count:
+Support ≥1200
+Pillar ≥2500
+
+Add a short disclaimer block:
+"Educational content only. Follow local protocols and institutional policies."
+
+---
+
+PART 5 — TOPIC CLUSTER GENERATOR (EXTEND)
+
+Inputs:
+
+keyword
+country_mode (CA/US/BOTH)
+exam_tier (for nursing) OR exam_name (for allied)
+site_context (nursing/allied)
+career_track (required for allied)
+
+Output:
+
+1 pillar article
+20–40 support articles
+
+Rules:
+
+* Prevent cannibalization
+* Distinct intent per support article
+* Slugs include career prefix for allied:
+  {career}/{slug}
+
+Example allied slug:
+pharmacy-tech/sterile-compounding-basics
+
+---
+
+PART 6 — INFOGRAPHIC GENERATOR (EXTEND)
+
+Brand palette MUST be enforced for ALL diagrams:
+
+Primary Lavender #BFA6F6
+Soft Teal #AEE3E1
+Peach Accent #FFD6A5
+Highlight Yellow #FFF3B0
+Text Dark Slate #2E3A59
+Divider Grey #E5E7EB
+
+Watermark always:
+NurseNest.ca
+
+Sizes:
+Infographic: 3000 x 2000
+Pinterest pin: 1000 x 1500
+
+Allied health must have career-relevant icons:
+
+* Rx symbol, pill bottle, mortar/pestle (pharm tech)
+* lungs, ventilator, O2 device icons (RRT)
+* ambulance, trauma icons (paramedic)
+* microscope, test tube (MLT)
+* X-ray/CT icon (imaging)
+
+Templates must be taggable by:
+site_context + career_track
+
+---
+
+PART 7 — GATING + TIERS FOR ALLIED HEALTH
+
+Support gating levels per article:
+public: visible to all
+free: visible to logged-in free users
+premium: paywalled
+elite: higher paywall
+
+Admin can set gating_level before publishing.
+
+Publishing must embed gating metadata so frontend can enforce it.
+
+---
+
+PART 8 — INTERNAL LINKING ENGINE (EXTEND)
+
+Within the same career_track:
+
+* Each support article must link to its career pillar.
+* Link to 3 related supports in that career.
+  Cross-career linking:
+* Only when clinically relevant.
+* Prefer linking to foundational pages like "Lab Safety" or "Infection Control".
+
+Cross-site linking:
+
+* Allied pages can link to nursing foundational pages ONLY if beneficial and not misleading.
+
+---
+
+PART 9 — QUALITY CONTROL (EXTEND)
+
+Add Allied-specific QC checks:
+
+* Must include "Role Scope & Common Settings"
+* Must include "Safety & Contraindications"
+* Must include disclaimer block
+* Must not contain nursing-only claims if irrelevant
+
+Add unit checks:
+
+* CA mode: mmol/L where relevant; Canadian terminology
+* US mode: mg/dL where relevant; US terminology
+
+Asset QC:
+
+* correct dimensions
+* watermark present
+* file exists
+
+Cluster QC:
+
+* pillar exists
+* > =20 supports
+* assets exist per article based on requirements
+* no articles remain in needs_review
+
+---
+
+PART 10 — PUBLISHING (EXTEND)
+
+Publishing must:
+
+* Render markdown -> HTML
+* Place into correct site_context path
+* Update correct sitemap (nursing or allied)
+* Include OpenGraph image (prefer 3000x2000 infographic)
+* Include alt text for images
+
+---
+
+PART 11 — STARTER ALLIED HEALTH CLUSTERS (AUTO-CREATE)
+
+On deploy, create these initial Allied clusters:
+
+PHARMACY TECH
+
+* Pillar: Pharmacy Tech Fundamentals
+* Supports: dosage calculations, sterile compounding, med safety, controlled substances, refrigeration, labeling, high-alert meds
+
+RRT / RESPIRATORY THERAPY
+
+* Pillar: Respiratory Therapy Fundamentals
+* Supports: ABGs, oxygen devices, ventilator basics, COPD vs asthma, suctioning, trach care, aerosol therapy
+
+PARAMEDIC
+
+* Pillar: Prehospital Assessment & Emergencies
+* Supports: trauma primary survey, STEMI recognition, stroke FAST, shock types, airway management, medications in EMS
+
+MLT / LAB
+
+* Pillar: Lab Specimen Collection & Interpretation
+* Supports: order of draw, hemolysis causes, CBC basics, coag labs, cultures, critical values
+
+IMAGING (RADIOLOGY / SONO)
+
+* Pillar: Imaging Safety & Fundamentals
+* Supports: contrast reactions, radiation safety, patient prep, common positioning, documentation, contraindications
+
+---
+
+PART 12 — GOAL
+
+After implementation, an admin must be able to:
+
+1. choose Nursing or Allied
+2. if Allied: choose career track
+3. enter a keyword
+4. click "Generate Cluster"
+
+And the system creates:
+pillar + supports
+infographics
+3 Pinterest pins per article
+internal link map
+publish queue entries
+correct sitemap updates
+
+All content and visuals must be consistent with NurseNest branding.
