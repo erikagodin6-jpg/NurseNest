@@ -1,0 +1,239 @@
+SYSTEM TASK: NURSENEST SEO TRAFFIC ENGINE + TOPIC CLUSTER IMPLEMENTATION
+
+You are working inside the NurseNest codebase.
+
+Your goal is to build an SEO content cluster system that converts existing lessons into high-ranking study hubs while preventing duplicate content and maintaining curriculum structure.
+
+CRITICAL RULES
+
+1. NEVER create duplicate lessons.
+2. NEVER create “additional lesson” files.
+3. ALWAYS update the existing lesson file if it already exists.
+4. Ensure all content stays synced to the curriculum navigation.
+5. Maintain the RPN → RN → NP tier progression.
+
+SEO CONTENT OBJECTIVE
+
+Transform the NurseNest lesson library into a topic cluster system designed to capture search traffic from nursing students studying for:
+
+• REx-PN
+• NCLEX-PN
+• NCLEX-RN
+• Nurse Practitioner board exams
+
+Each topic should act as a “pillar page” supported by related lessons, flashcards, questions, and quizzes.
+
+TOPIC CLUSTER STRUCTURE
+
+Each major topic should become a cluster containing:
+
+Pillar Lesson Page
+Flashcards
+Practice Questions
+Question Bank Section
+Short Quiz
+Internal links to related lessons
+
+Example Cluster
+
+Topic: Cerebral Edema
+
+Pillar Lesson
+• Cerebral Edema Pathophysiology
+
+Supporting Lessons
+• Increased Intracranial Pressure
+• Brain Herniation
+• Hydrocephalus
+• Neurological Assessment
+
+Flashcards
+• Key pathophysiology points
+
+Practice Questions
+• 10–20 exam-style questions
+
+Mini Quiz
+• 5 questions
+
+INTERNAL LINKING
+
+Every lesson should automatically link to related lessons within its topic cluster.
+
+Example:
+
+If the lesson is Cerebral Edema, automatically link to:
+
+• Increased Intracranial Pressure
+• Brain Herniation
+• Hydrocephalus
+• Neurological Assessment
+
+These links must appear naturally within the text.
+
+This improves SEO and keeps students within the learning system.
+
+HIGH-TRAFFIC TOPIC CLUSTERS
+
+Implement clusters for the following high-value topics:
+
+Neurological Cluster
+
+• Increased Intracranial Pressure
+• Cerebral Edema
+• Stroke
+• Transient Ischemic Attack
+• Seizures
+• Parkinson’s Disease
+• Multiple Sclerosis
+• Myasthenia Gravis
+• Bell’s Palsy
+• Hydrocephalus
+
+Cardiovascular Cluster
+
+• Heart Failure
+• Myocardial Infarction
+• Angina
+• Cardiogenic Shock
+• Hypovolemic Shock
+• Septic Shock
+• Neurogenic Shock
+• Hypertension
+• Atrial Fibrillation
+• Ventricular Tachycardia
+
+Respiratory Cluster
+
+• COPD
+• Asthma
+• Pneumonia
+• Tuberculosis
+• Pulmonary Embolism
+• ARDS
+• Pneumothorax
+• Oxygen Therapy
+• Incentive Spirometry
+• Chest Physiotherapy
+
+Pharmacology Cluster
+
+• Acute Dystonic Reaction
+• Serotonin Syndrome
+• Neuroleptic Malignant Syndrome
+• Opioid Overdose
+• Insulin Types
+• Anticoagulants
+• Beta Blockers
+• ACE Inhibitors
+
+Endocrine Cluster
+
+• Diabetes Mellitus
+• Diabetic Ketoacidosis
+• Hyperosmolar Hyperglycemic State
+• Hypoglycemia
+• Thyroid Storm
+• Myxedema Coma
+
+Fluid and Electrolytes Cluster
+
+• Hyponatremia
+• Hyperkalemia
+• Hypokalemia
+• Metabolic Acidosis
+• Metabolic Alkalosis
+• Respiratory Acidosis
+• Respiratory Alkalosis
+• Fluid Volume Deficit
+• Fluid Volume Excess
+
+QUESTION PAGE SEO STRATEGY
+
+Generate question pages that target high-volume nursing search queries.
+
+Example pages:
+
+“10 RPN Practice Questions on COPD”
+
+“10 Nursing Questions on Cerebral Edema”
+
+“NCLEX Questions on Shock”
+
+Each question page should include:
+
+• 10 exam-style questions
+• detailed rationales
+• internal links to lessons
+• keywords targeting exam prep
+
+SEO METADATA
+
+Every page must include:
+
+SEO title
+Meta description
+20–30 keywords
+
+Keyword themes:
+
+• RPN exam preparation
+• REx-PN exam study guide
+• nursing pathophysiology explained
+• nursing interventions
+• nursing assessment
+• nursing exam practice questions
+
+CONTENT DEPTH BY TIER
+
+RPN
+
+Focus on:
+
+• foundational pathophysiology
+• common symptoms
+• nursing assessments
+• basic interventions
+
+RN
+
+Expand with:
+
+• deeper pathophysiology
+• complex interventions
+• monitoring and complications
+• clinical reasoning
+
+NP
+
+Include:
+
+• diagnostic reasoning
+• pharmacologic management
+• differential diagnoses
+• treatment planning
+
+FREE CONTENT RULE
+
+Certain introductory lessons should be accessible on free pages.
+
+Advanced lessons, question banks, and quizzes must remain behind the paywall.
+
+NAVIGATION
+
+Maintain navigation structure:
+
+Previous Lesson button
+Next Lesson button
+
+Do not break lesson order.
+
+FINAL OUTPUT
+
+Implement the topic cluster system while:
+
+• updating existing lessons
+• creating SEO question pages
+• linking clusters internally
+• preserving curriculum structure
+• preventing duplicate lesson files
