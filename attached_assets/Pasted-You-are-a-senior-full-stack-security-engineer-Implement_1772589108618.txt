@@ -1,0 +1,118 @@
+You are a senior full-stack security engineer. Implement secure admin authentication and internal service authentication across my existing Node/Express + React (Vite) codebase without breaking any existing generator behavior.
+
+GOALS (non-negotiable)
+1) Remove ALL credentials from URLs and query params (no username/password in query strings).
+2) Do NOT expose SERVER_API_KEY to the browser and do NOT create any endpoint that returns it.
+3) Admins authenticate via short-lived Bearer token (JWT or opaque) after a one-time username/password login.
+4) Internal server-to-server automation may authenticate using SERVER_API_KEY (env only).
+5) All admin-only endpoints must require admin auth; all internal automation endpoints must require internal auth (or admin).
+6) Ensure logout clears client auth state; ensure token expiry handling is graceful.
+
+ASSUMED STACK / CONTEXT
+- Backend: Express (TypeScript if present), existing middleware like requireAdmin exists.
+- Frontend: React + Vite, there may be multiple adminFetch helpers (shared + generator-v2 local).
+- There are generator endpoints like:
+  /api/generator-v2/generations/:id/status
+  /api/generator-v2/generations/:id
+  /api/generator-v2/generate
+- There is an admin login UI/endpoint already or a simple admin check exists.
+- Secrets are stored in env (Replit secrets):
+  SERVER_API_KEY
+  ADMIN_JWT_SECRET (create if missing)
+
+DELIVERABLES
+A) Server changes
+B) Client changes
+C) Security hardening (rate limits + safe defaults)
+D) A short verification checklist and manual test steps
+
+A) SERVER CHANGES (IMPLEMENT EXACTLY)
+1) Add env vars:
+   - SERVER_API_KEY (already exists)
+   - ADMIN_JWT_SECRET (new, long random string)
+   - ADMIN_USERNAME + ADMIN_PASSWORD_HASH (or use existing admin auth system; do NOT store plaintext)
+2) Implement /api/admin/login:
+   - Accept JSON { username, password }
+   - Validate credentials (use existing validate logic or bcrypt compare)
+   - If valid: issue access token (JWT recommended)
+     Payload must include: { sub: <admin id or username>, role: "admin" }
+     Expiry: 30 minutes
+   - Return JSON: { accessToken, expiresInSeconds }
+   - NEVER return SERVER_API_KEY.
+3) Implement /api/admin/logout (optional if stateless JWT):
+   - If you are using refresh tokens or server sessions, revoke them.
+   - Otherwise, client-only logout is fine; still provide endpoint if existing UI expects it.
+4) Update requireAdmin middleware:
+   - Read Authorization header: "Bearer <token>"
+   - Verify token using ADMIN_JWT_SECRET
+   - On success, attach req.admin = decoded payload and call next()
+   - On failure: 401 with { error: "Unauthorized" }
+5) Add requireInternal middleware:
+   - Accept Authorization: Bearer <SERVER_API_KEY>
+   - If matches env SERVER_API_KEY -> next()
+   - Else 401
+6) Add requireInternalOrAdmin middleware:
+   - Allow either a valid admin Bearer token OR a valid SERVER_API_KEY Bearer token.
+7) Protect routes:
+   - All admin-only routes must use requireAdmin.
+   - Any automation/autopilot internal routes must use requireInternalOrAdmin (so admin can run them too).
+   - Generator-v2 endpoints that currently accept username/password in query params must switch to requireAdmin (or requireInternalOrAdmin if your server jobs call them).
+8) Remove legacy query param auth:
+   - Delete any parsing of ?username=...&password=...
+   - Delete any code that logs these values.
+9) Add rate limiting:
+   - /api/admin/login: max 5 requests/min/IP
+   - generator status polling endpoints: max 60 req/min/IP (tune if needed)
+10) Add safe logging:
+   - Ensure request logging never logs Authorization headers or bodies containing passwords.
+   - If using morgan or custom logger, redact Authorization and password fields.
+
+B) CLIENT CHANGES (IMPLEMENT EXACTLY)
+1) Create ONE shared adminFetch helper (single source of truth):
+   - Reads token from sessionStorage key "nn_admin_access_token"
+   - Adds header Authorization: Bearer <token>
+   - Adds Content-Type: application/json for JSON requests
+2) Update every place that calls admin endpoints:
+   - Remove username/password query params completely
+   - Use adminFetch for all admin-only API calls, including generator-v2 status polling and generation creation
+3) Update login UI flow:
+   - When admin submits username/password, call POST /api/admin/login
+   - Store accessToken in sessionStorage under "nn_admin_access_token"
+   - Also store expiresAt timestamp (Date.now()+expiresInSeconds*1000) under "nn_admin_expires_at"
+4) Update logout:
+   - Clear both sessionStorage keys
+   - Redirect to login
+5) Token expiry UX:
+   - If any adminFetch receives 401, automatically clear stored token and redirect to login with a message "Session expired. Please log in again."
+
+C) GENERATOR POLLING IMPROVEMENTS (REQUIRED)
+1) Poll interval: 3–5 seconds (not faster)
+2) Exponential backoff after 30 seconds of polling (e.g., 5s -> 7s -> 10s max)
+3) Stop polling immediately on terminal states: completed, failed, cancelled
+4) Debounce duplicate polling requests per generationId
+
+D) VERIFICATION CHECKLIST (INCLUDE IN OUTPUT)
+- Confirm no URLs contain username= or password= anywhere
+- Confirm SERVER_API_KEY is never present in client bundles or responses
+- Confirm Authorization header is used for admin calls
+- Confirm /api/admin/login returns accessToken and expiresInSeconds
+- Confirm 401 handling logs out client and redirects
+- Confirm generator endpoints require admin token
+- Confirm rate limiting is active
+
+IMPLEMENTATION INSTRUCTIONS
+- Make the smallest set of code changes necessary.
+- Prefer editing existing middleware/utilities over duplicating.
+- Update both server and client. Search the entire repo for "username=" and "password=" and remove those usages.
+- After changes, ensure the build passes and existing tests still pass.
+
+OUTPUT FORMAT
+1) List each file you changed with a brief description.
+2) Provide exact code diffs or full updated file contents for each changed file.
+3) Provide the verification checklist and manual test steps.
+
+DO NOT
+- Do NOT create an endpoint that returns SERVER_API_KEY.
+- Do NOT store secrets in localStorage.
+- Do NOT put credentials in URLs.
+- Do NOT weaken auth by allowing missing Authorization headers.

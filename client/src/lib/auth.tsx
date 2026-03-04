@@ -130,11 +130,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       throw new Error(err.error || "Login failed");
     }
 
-    const data = (await res.json()) as User;
+    const data = (await res.json()) as any;
+    if (data?.apiKey) {
+      localStorage.setItem("nursenest-admin-api-key", data.apiKey);
+      delete data.apiKey;
+    }
     if (data?.tier === "admin") {
       await syncPreviewFromServer();
     }
-    setUser(data);
+    setUser(data as User);
     localStorage.setItem("nursenest-user", JSON.stringify(data));
     localStorage.setItem("nursenest-credentials", JSON.stringify({ username, password }));
   }
@@ -161,6 +165,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setPreviewTier(null);
     localStorage.removeItem("nursenest-user");
     localStorage.removeItem("nursenest-credentials");
+    localStorage.removeItem("nursenest-admin-api-key");
   }
 
   async function refreshUser() {

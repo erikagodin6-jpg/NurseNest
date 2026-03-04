@@ -1,13 +1,7 @@
-type StoredCreds = { username: string; password: string };
-
-function getStoredCredentials(): StoredCreds | null {
+function getStoredApiKey(): string | null {
   if (typeof window === "undefined") return null;
   try {
-    const raw = localStorage.getItem("nursenest-credentials");
-    if (!raw) return null;
-    const parsed = JSON.parse(raw);
-    if (!parsed?.username || !parsed?.password) return null;
-    return { username: String(parsed.username), password: String(parsed.password) };
+    return localStorage.getItem("nursenest-admin-api-key");
   } catch {
     return null;
   }
@@ -25,12 +19,7 @@ function getStoredAdminId(): string | null {
 }
 
 export function getAdminParams(): string {
-  const creds = getStoredCredentials();
-  if (!creds) return "";
-  const sp = new URLSearchParams();
-  sp.set("username", creds.username);
-  sp.set("password", creds.password);
-  return sp.toString();
+  return "";
 }
 
 export async function adminFetch(
@@ -38,7 +27,8 @@ export async function adminFetch(
   init: (RequestInit & { body?: any }) = {}
 ): Promise<Response> {
   const method = (init.method ?? "GET").toUpperCase();
-  const creds = getStoredCredentials();
+  const apiKey = getStoredApiKey();
+  const adminId = getStoredAdminId();
 
   const isAbsolute = /^https?:\/\//i.test(url);
   const base =
@@ -46,17 +36,16 @@ export async function adminFetch(
   const u = new URL(url, isAbsolute ? undefined : base);
 
   const headers = new Headers(init.headers ?? {});
+  if (apiKey) {
+    headers.set("Authorization", `Bearer ${apiKey}`);
+  }
+  if (adminId) {
+    headers.set("x-admin-id", adminId);
+  }
+
   const out: RequestInit = { ...init, method, headers };
 
-  const adminId = getStoredAdminId();
-
   if (method === "GET" || method === "HEAD") {
-    if (creds) {
-      u.searchParams.set("username", creds.username);
-      u.searchParams.set("password", creds.password);
-    } else if (adminId) {
-      u.searchParams.set("adminId", adminId);
-    }
     delete (out as any).body;
   } else {
     let bodyObj: any = {};
@@ -73,13 +62,6 @@ export async function adminFetch(
       } else {
         bodyObj = { payload: init.body };
       }
-    }
-
-    if (creds) {
-      if (bodyObj.username === undefined) bodyObj.username = creds.username;
-      if (bodyObj.password === undefined) bodyObj.password = creds.password;
-    } else if (adminId) {
-      if (bodyObj.adminId === undefined) bodyObj.adminId = adminId;
     }
 
     if (!headers.has("Content-Type")) headers.set("Content-Type", "application/json");

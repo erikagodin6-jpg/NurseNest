@@ -1,5 +1,6 @@
 import type { Express } from "express";
 import { pool } from "./storage";
+import { requireAdmin } from "./admin-auth";
 import { renderPromptForVariant, getActiveTemplates } from "./prompts/qbank-templates";
 
 let globalKillSwitch = false;
@@ -49,22 +50,6 @@ function parseJsonFromResponse(text: string): any {
   } catch {
     return null;
   }
-}
-
-async function requireAdmin(req: any, res: any): Promise<any> {
-  const username = String(req.body?.username || req.query?.username || "");
-  const password = String(req.body?.password || req.query?.password || "");
-  if (username && password) {
-    const r = await pool.query("SELECT * FROM users WHERE username = $1 AND password = $2 AND tier = 'admin'", [username, password]);
-    if (r.rows[0]) return r.rows[0];
-  }
-  const adminId = String(req.headers?.["x-admin-id"] || req.body?.adminId || req.query?.adminId || "");
-  if (adminId) {
-    const r = await pool.query("SELECT * FROM users WHERE id = $1 AND tier = 'admin'", [adminId]);
-    if (r.rows[0]) return r.rows[0];
-  }
-  res.status(401).json({ error: "Admin required" });
-  return null;
 }
 
 interface ValidationResult {

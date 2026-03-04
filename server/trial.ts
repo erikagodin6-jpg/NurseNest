@@ -1,5 +1,6 @@
 import type { Express } from "express";
 import { pool } from "./storage";
+import { requireAdmin } from "./admin-auth";
 
 function getClientIp(req: any): string {
   return String(req.headers["x-forwarded-for"] || req.ip || "unknown").split(",")[0].trim();
@@ -11,22 +12,6 @@ function mapExamKeyToTier(examKey: string): string {
   if (key === "nclex-rn") return "rn";
   if (key.startsWith("np-") || key === "aanp" || key === "ancc") return "np";
   return "rpn";
-}
-
-async function requireAdmin(req: any, res: any): Promise<any> {
-  const username = String(req.body?.username || req.query?.username || "");
-  const password = String(req.body?.password || req.query?.password || "");
-  if (username && password) {
-    const r = await pool.query("SELECT * FROM users WHERE username = $1 AND password = $2 AND tier = 'admin'", [username, password]);
-    if (r.rows[0]) return r.rows[0];
-  }
-  const adminId = String(req.headers?.["x-admin-id"] || req.body?.adminId || req.query?.adminId || "");
-  if (adminId) {
-    const r = await pool.query("SELECT * FROM users WHERE id = $1 AND tier = 'admin'", [adminId]);
-    if (r.rows[0]) return r.rows[0];
-  }
-  res.status(401).json({ error: "Admin required" });
-  return null;
 }
 
 export function setupTrialRoutes(app: Express): void {

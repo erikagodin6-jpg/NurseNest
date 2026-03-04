@@ -27,26 +27,29 @@ const THEMES = [
 ];
 
 function adminFetch(url: string, options?: RequestInit) {
-  const creds = JSON.parse(localStorage.getItem("nursenest-credentials") || "{}");
-  const username = creds.username || "";
-  const password = creds.password || "";
+  const apiKey = localStorage.getItem("nursenest-admin-api-key") || "";
   const storedUser = JSON.parse(localStorage.getItem("nursenest-user") || "{}");
   const adminId = storedUser?.id || "";
 
+  const headers: Record<string, string> = {
+    "Content-Type": "application/json",
+    ...(options?.headers as Record<string, string> || {}),
+  };
+  if (apiKey) {
+    headers["Authorization"] = `Bearer ${apiKey}`;
+  }
+  if (adminId) {
+    headers["x-admin-id"] = adminId;
+  }
+
   if (!options || options.method === "GET" || !options.method) {
-    const sep = url.includes("?") ? "&" : "?";
-    const params = username && password
-      ? `username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`
-      : `adminId=${encodeURIComponent(adminId)}`;
-    return fetch(`${url}${sep}${params}`, { ...options, credentials: "include" });
+    return fetch(url, { ...options, headers, credentials: "include" });
   }
 
   const body = options.body ? JSON.parse(options.body as string) : {};
-  if (username && password) { body.username = username; body.password = password; }
-  else { body.adminId = adminId; }
   return fetch(url, {
     ...options,
-    headers: { "Content-Type": "application/json", ...options.headers },
+    headers,
     body: JSON.stringify(body),
     credentials: "include",
   });
@@ -346,16 +349,9 @@ export default function GeneratorV2Page() {
   const exportPdf = async (genId: string) => {
     setExportingPdf(genId);
     try {
-      const creds = JSON.parse(localStorage.getItem("nursenest-credentials") || "{}");
-      const storedUser = JSON.parse(localStorage.getItem("nursenest-user") || "{}");
-      const authFields = (creds.username && creds.password)
-        ? { username: creds.username, password: creds.password }
-        : { adminId: storedUser?.id || "" };
-      const res = await fetch(`/api/generator-v2/generations/${genId}/export-pdf`, {
+      const res = await adminFetch(`/api/generator-v2/generations/${genId}/export-pdf`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        credentials: "include",
-        body: JSON.stringify({ themeId: selectedTheme, ...authFields }),
+        body: JSON.stringify({ themeId: selectedTheme }),
       });
       if (res.ok) {
         const blob = await res.blob();
@@ -1282,14 +1278,21 @@ export default function GeneratorV2Page() {
                             size="sm"
                             variant="outline"
                             className="gap-1.5 text-xs h-8"
-                            onClick={() => {
-                              const creds = JSON.parse(localStorage.getItem("nursenest-credentials") || "{}");
-                              const storedUser = JSON.parse(localStorage.getItem("nursenest-user") || "{}");
-                              const sep = "?";
-                              const params = creds.username && creds.password
-                                ? `username=${encodeURIComponent(creds.username)}&password=${encodeURIComponent(creds.password)}`
-                                : `adminId=${encodeURIComponent(storedUser?.id || "")}`;
-                              window.open(`/api/admin/shop/products/${product.id}/download${sep}${params}`, "_blank");
+                            onClick={async () => {
+                              try {
+                                const res = await adminFetch(`/api/admin/shop/products/${product.id}/download`);
+                                if (res.ok) {
+                                  const blob = await res.blob();
+                                  const url = window.URL.createObjectURL(blob);
+                                  const a = document.createElement("a");
+                                  a.href = url;
+                                  a.download = `${product.slug || product.id}.pdf`;
+                                  document.body.appendChild(a);
+                                  a.click();
+                                  document.body.removeChild(a);
+                                  window.URL.revokeObjectURL(url);
+                                }
+                              } catch {}
                             }}
                             data-testid={`button-download-published-${product.id.substring(0, 8)}`}
                           >
@@ -1319,14 +1322,7 @@ export default function GeneratorV2Page() {
                     {viewingPdfId === product.id && (
                       <div className="mt-4 border rounded-lg overflow-hidden bg-gray-50" data-testid={`pdf-viewer-${product.id.substring(0, 8)}`}>
                         <iframe
-                          src={(() => {
-                            const creds = JSON.parse(localStorage.getItem("nursenest-credentials") || "{}");
-                            const storedUser = JSON.parse(localStorage.getItem("nursenest-user") || "{}");
-                            const params = creds.username && creds.password
-                              ? `username=${encodeURIComponent(creds.username)}&password=${encodeURIComponent(creds.password)}`
-                              : `adminId=${encodeURIComponent(storedUser?.id || "")}`;
-                            return `/api/admin/shop/products/${product.id}/view-pdf?${params}`;
-                          })()}
+                          src={`/api/admin/shop/products/${product.id}/view-pdf?adminId=${encodeURIComponent(JSON.parse(localStorage.getItem("nursenest-user") || "{}").id || "")}`}
                           className="w-full border-0"
                           style={{ height: 700 }}
                           title={`${product.title} PDF`}

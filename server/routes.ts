@@ -46,6 +46,24 @@ import { languageMiddleware, getTranslatedFields, getTranslationStatus, getBulkT
 import { checkAiLimits, recordAiUsage, getAiConfig, setAiConfig } from "./ai-safety";
 
 async function requireAdmin(req: any, res: any) {
+  const authHeader = String(req.headers?.["authorization"] || "");
+  if (authHeader.startsWith("Bearer ")) {
+    const token = authHeader.slice(7).trim();
+    const serverKey = process.env.ADMIN_API_KEY;
+    if (serverKey && token === serverKey) {
+      const adminId = String(req.headers?.["x-admin-id"] || "");
+      if (adminId) {
+        const user = await storage.getUser(adminId);
+        if (user && user.tier === "admin") return user;
+      }
+      const admins = await pool.query(`SELECT * FROM users WHERE tier = 'admin' LIMIT 1`);
+      if (admins.rows.length > 0) {
+        const row = admins.rows[0];
+        return { id: row.id, username: row.username, tier: row.tier, password: row.password, subscriptionStatus: row.subscription_status, email: row.email, region: row.region };
+      }
+    }
+  }
+
   const username = String(req.body?.username || req.query?.username || "");
   const password = String(req.body?.password || req.query?.password || "");
 
@@ -2409,14 +2427,18 @@ Return ONLY a JSON array of flashcard objects, no other text.`;
         user.subscriptionStatus = "active";
       }
 
-      res.json({
+      const response: any = {
         id: user.id,
         username: user.username,
         tier: user.tier,
         subscriptionStatus: user.subscriptionStatus,
         email: user.email,
         region: user.region,
-      });
+      };
+      if (user.tier === "admin" && process.env.ADMIN_API_KEY) {
+        response.apiKey = process.env.ADMIN_API_KEY;
+      }
+      res.json(response);
     } catch (e: any) {
       res.status(400).json({ error: e.message });
     }

@@ -1,5 +1,6 @@
 import type { Express, Request, Response } from "express";
 import { pool } from "./storage";
+import { requireAdmin } from "./admin-auth";
 
 const CAREER_TRACKS = [
   { slug: "pharmacy-tech", label: "Pharmacy Technician" },
@@ -81,25 +82,6 @@ const STARTER_CLUSTERS = [
     ],
   },
 ];
-
-async function requireAdmin(req: Request, res: Response): Promise<any> {
-  const username = String((req.body as any)?.username || req.query?.username || "");
-  const password = String((req.body as any)?.password || req.query?.password || "");
-  if (username && password) {
-    const r = await pool.query(
-      "SELECT * FROM users WHERE username = $1 AND password = $2 AND tier = 'admin'",
-      [username, password]
-    );
-    if (r.rows[0]) return r.rows[0];
-  }
-  const adminId = String(req.headers?.["x-admin-id"] || (req.body as any)?.adminId || req.query?.adminId || "");
-  if (adminId) {
-    const r = await pool.query("SELECT * FROM users WHERE id = $1 AND tier = 'admin'", [adminId]);
-    if (r.rows[0]) return r.rows[0];
-  }
-  res.status(401).json({ error: "Admin required" });
-  return null;
-}
 
 function mapCluster(row: any) {
   return {
