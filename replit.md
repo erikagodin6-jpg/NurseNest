@@ -53,3 +53,20 @@ The application is built with Vite, React, and Express 5 on Node.js with TypeScr
 - **Free tier (489 lessons)**: Complete
 - Content files: 115+ TypeScript files in `client/src/data/lessons/`
 - NP lessons with JSON-quoted keys (np-clinical-units.ts, respiratory-missing-np.ts) use `"title"` format vs unquoted `title:` in batch files
+
+## Regional Measurement Adaptation
+- **Module**: `server/region-adapt-content.ts` — server-side unit conversion applied at the lesson content API level
+- **Integration**: `server/lesson-content-api.ts` `/api/lessons/content/:slug` endpoint calls `adaptLessonContent(lesson, region)` before sending response
+- **Region detection**: `req.region` set by middleware in `server/region.ts` based on hostname (`.ca` → "CA", default → "US")
+- **Baseline**: All lesson content is authored in US units (mg/dL, °F, mEq/L, g/dL, cells/µL, lbs)
+- **Canadian conversions**: Context-aware keyword matching (30/50/80-char windows) to identify lab type before applying correct conversion factor
+  - Glucose: mg/dL → mmol/L (×0.0555)
+  - Creatinine: mg/dL → µmol/L (×88.4)
+  - BUN: mg/dL → mmol/L (×0.357)
+  - Calcium: mg/dL → mmol/L (×0.25)
+  - Bilirubin: mg/dL → µmol/L (×17.1)
+  - Hemoglobin/Albumin: g/dL → g/L (×10)
+  - Temperature: °F → °C
+  - Electrolytes: mEq/L → mmol/L (1:1)
+  - WBC: cells/µL → ×10⁹/L (÷1000)
+  - Weight: lbs → kg (×0.4536)

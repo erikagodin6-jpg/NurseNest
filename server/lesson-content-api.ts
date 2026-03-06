@@ -1,4 +1,5 @@
 import type { Express, Request, Response } from "express";
+import { adaptLessonContent } from "./region-adapt-content";
 
 type LessonMeta = {
   id: string;
@@ -99,8 +100,10 @@ export function setupLessonContentRoutes(app: Express): void {
       if (!lesson) {
         return res.status(404).json({ error: "Lesson not found" });
       }
+      const region = (req as any).region || "US";
+      const adapted = adaptLessonContent(lesson, region);
       res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
-      res.json({ id: slug, ...lesson });
+      res.json({ id: slug, ...adapted });
     } catch (err: any) {
       console.error("[LessonAPI] content error:", err.message);
       res.status(500).json({ error: "Failed to load lesson content" });
