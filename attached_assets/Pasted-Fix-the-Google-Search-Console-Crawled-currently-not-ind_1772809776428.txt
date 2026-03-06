@@ -1,0 +1,158 @@
+Fix the Google Search Console “Crawled – currently not indexed” problem for the /learn content on nursenest.ca.
+
+Context:
+Google crawled many /learn pages but did not index them. The examples strongly suggest quality, duplication, slug, and multilingual/i18n indexing issues.
+
+Examples of likely problems visible from the URLs:
+- Duplicate or near-duplicate articles:
+  - /learn/crystalloids-vs-colloids
+  - /learn/crystalloids-vs-colloids-nursing-guide
+- Timestamp slug duplication:
+  - many pages end in long numeric IDs like -1772058924799
+- Low-quality or malformed slug:
+  - /learn/unable-to-complete-citation-constraint
+- Many translated locale versions may be thin, machine-like, duplicated, or missing proper hreflang/canonical handling
+- Some titles/slugs are too similar and likely competing with each other
+- Some pages may be too short, too templated, or missing enough unique value
+
+Goal:
+Improve indexability and content quality for /learn pages so Google sees them as unique, useful, canonical, and worth indexing.
+
+DO ALL OF THE FOLLOWING:
+
+1) CONTENT QUALITY AUDIT
+Scan all /learn pages and flag:
+- thin pages
+- duplicated or near-duplicated topics
+- auto-generated pages with weak content
+- malformed or nonsense titles/slugs
+- articles with poor internal linking
+- translated pages that are too literal / low quality / incomplete
+- pages missing enough unique information compared to similar pages
+
+For each flagged page, classify into one of these actions:
+A. Keep and improve
+B. Merge into another page
+C. 301 redirect to stronger canonical page
+D. Noindex
+E. Delete from sitemap
+
+2) DUPLICATE / NEAR-DUPLICATE CONSOLIDATION
+Identify overlapping topics and consolidate them.
+
+Examples:
+- If two pages target the same topic with only slight wording differences, keep the strongest version and 301 redirect the weaker one.
+- Remove timestamp-based duplicate variants.
+- Standardize to one clean slug per topic.
+
+Rules:
+- Prefer the page with the best content, backlinks/internal links, and cleanest slug.
+- Create 301 redirects from weaker duplicates to the canonical winner.
+- Update internal links to point only to canonical pages.
+
+3) SLUG CLEANUP
+Replace poor slugs with clean, human, SEO-safe slugs.
+
+Rules:
+- Remove random numeric timestamp endings unless absolutely required for uniqueness
+- Remove malformed/system-error slugs like “unable-to-complete-citation-constraint”
+- Use short, descriptive slugs
+- Preserve existing ranking value with 301 redirects from old URLs to new URLs
+
+4) CANONICAL + HREFLANG FIXES
+For all /learn pages:
+- Ensure each canonical URL points to itself if it is the main page
+- Ensure duplicates point to the correct canonical or are redirected
+- Ensure translated locale versions use proper hreflang links
+- Ensure locale pages do NOT canonicalize to the wrong language unless intentionally merged
+- Ensure all locale alternates are discoverable
+
+5) MULTILINGUAL QUALITY FIX
+For translated /learn pages:
+- Detect low-quality machine-like translations
+- Improve title, meta description, H1, intro, and body so each language page reads naturally
+- Ensure translated pages are not just shallow copies
+- If a translated page is too weak to index, either:
+  - improve it substantially, or
+  - noindex it temporarily until quality is improved
+- Do not allow masses of low-value translated pages into the sitemap
+
+6) ARTICLE QUALITY UPGRADE RULES
+For every /learn page that is kept indexed:
+- Ensure strong H1
+- Add a unique intro
+- Expand content so it is clearly useful and not templated
+- Add structured subheadings
+- Add FAQ section where relevant
+- Add internal links to related lessons
+- Add “next steps” / related resources
+- Improve meta title and meta description
+- Add unique educational value, not just generic AI filler
+- Remove repetitive filler text
+- Make the article clearly better than a thin blog post
+
+7) SITEMAP REBUILD
+Regenerate sitemap(s) so they include ONLY:
+- canonical, indexable, high-quality pages
+- locale pages that are actually ready for indexing
+Exclude:
+- redirected pages
+- noindex pages
+- low-value duplicate pages
+- malformed or placeholder pages
+
+8) INDEXING CONTROLS
+Implement rules so that:
+- weak / duplicate / placeholder articles are noindex or removed from sitemap
+- canonical winners remain indexable
+- translated pages only get indexed if they meet quality threshold
+
+9) INTERNAL LINKING IMPROVEMENT
+Build stronger internal linking for /learn pages:
+- add related articles blocks
+- link from hub/category pages to important articles
+- ensure no important page is orphaned
+- create topical clusters (electrolytes, shock, pediatric deterioration, ABGs, ECG, NCLEX strategy, etc.)
+
+10) QUALITY SAFETY CHECKS
+Before finalizing, verify:
+- no duplicate canonicals
+- no canonical chains
+- no redirect loops
+- no malformed slugs remain
+- noindex pages are removed from sitemap
+- canonical pages have enough content and unique value
+- translated pages have proper hreflang
+
+11) OUTPUT REQUIRED
+Provide:
+- list of pages to merge
+- list of pages to redirect
+- list of pages to noindex
+- list of pages to delete from sitemap
+- list of pages upgraded for quality
+- summary of technical SEO changes made
+- summary of multilingual fixes made
+
+12) IMPORTANT PRIORITIES
+Focus first on these likely problem patterns:
+- duplicate topic pairs
+- timestamp slug pages
+- malformed slugs
+- thin translated pages
+- low-value AI-generated pages with little uniqueness
+
+13) DO NOT
+- do not redesign the site
+- do not remove high-quality canonical pages
+- do not keep multiple weak pages targeting the same keyword
+- do not leave old duplicate URLs live without redirect or canonical resolution
+
+Definition of done:
+- /learn content is consolidated into stronger canonical pages
+- sitemap contains only indexable quality URLs
+- duplicates are redirected or noindexed
+- multilingual pages have proper hreflang and acceptable quality
+- malformed and timestamp-heavy URLs are cleaned up
+- internal linking is stronger
+- Google has a much cleaner set of pages to index
