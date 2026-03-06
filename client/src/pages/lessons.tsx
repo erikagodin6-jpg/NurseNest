@@ -326,7 +326,11 @@ export const rpnSystems = [
       { id: "ischemic-colitis-rpn", name: "Ischemic Colitis", status: "Available" },
       { id: "microscopic-colitis-rpn", name: "Microscopic Colitis", status: "Available" },
       { id: "short-bowel-syndrome-rpn", name: "Short Bowel Syndrome", status: "Available" },
-      { id: "pancreatic-pseudocyst-rpn", name: "Pancreatic Pseudocyst", status: "Available" }
+      { id: "pancreatic-pseudocyst-rpn", name: "Pancreatic Pseudocyst", status: "Available" },
+      { id: "eosinophilic-esophagitis-rpn", name: "Eosinophilic Esophagitis", status: "Available" },
+      { id: "meckel-diverticulum-rpn", name: "Meckel Diverticulum", status: "Available" },
+      { id: "sucralfate-rpn", name: "Sucralfate", status: "Available" },
+      { id: "ulcerative-colitis-rpn", name: "Ulcerative Colitis", status: "Available" }
     ]
   },
   {
@@ -583,7 +587,9 @@ export const rpnSystems = [
       { id: "fetal-oxygenation-pushing-rpn", name: "Fetal Oxygenation During Pushing", status: "Available" },
       { id: "molar-pregnancy-rpn", name: "Molar Pregnancy", status: "Available" },
       { id: "ovarian-hyperstimulation-rpn", name: "Ovarian Hyperstimulation Syndrome", status: "Available" },
-      { id: "toxic-shock-gynecologic-rpn", name: "Toxic Shock Syndrome (Gynecologic)", status: "Available" }
+      { id: "toxic-shock-gynecologic-rpn", name: "Toxic Shock Syndrome (Gynecologic)", status: "Available" },
+      { id: "mastitis-rpn", name: "Mastitis", status: "Available" },
+      { id: "maternal-newborn-edge-rpn", name: "Maternal-Newborn Edge Cases", status: "Available" }
     ]
   },
   {
@@ -610,7 +616,9 @@ export const rpnSystems = [
       { id: "retinopathy-of-prematurity-rpn", name: "Retinopathy of Prematurity", status: "Available" },
       { id: "bronchopulmonary-dysplasia-rpn", name: "Bronchopulmonary Dysplasia", status: "Available" },
       { id: "neonatal-abstinence-basics-rpn", name: "Neonatal Abstinence Syndrome Basics", status: "Available" },
-      { id: "congenital-hypothyroidism-rpn", name: "Congenital Hypothyroidism", status: "Available" }
+      { id: "congenital-hypothyroidism-rpn", name: "Congenital Hypothyroidism", status: "Available" },
+      { id: "infant-reflexes-rpn", name: "Infant Reflexes", status: "Available" },
+      { id: "meconium-ileus-rpn", name: "Meconium Ileus", status: "Available" }
     ]
   },
   {
@@ -669,7 +677,8 @@ export const rpnSystems = [
       { id: "ebv-complications-rpn", name: "EBV Complications", status: "Available" },
       { id: "post-polio-syndrome-rpn", name: "Post-Polio Syndrome", status: "Available" },
       { id: "histoplasmosis-basics-rpn", name: "Histoplasmosis Basics", status: "Available" },
-      { id: "aspergillosis-basics-rpn", name: "Aspergillosis Basics", status: "Available" }
+      { id: "aspergillosis-basics-rpn", name: "Aspergillosis Basics", status: "Available" },
+      { id: "rotavirus-rpn", name: "Rotavirus", status: "Available" }
     ]
   },
   {
@@ -741,7 +750,19 @@ export const rpnSystems = [
       { id: "bartholinitis-rpn", name: "Bartholinitis", status: "Available" },
       { id: "uterine-prolapse-rpn", name: "Uterine Prolapse", status: "Available" },
       { id: "benign-ovarian-cysts-rpn", name: "Benign Ovarian Cysts", status: "Available" },
-      { id: "endometrial-polyp-rpn", name: "Endometrial Polyp", status: "Available" }
+      { id: "endometrial-polyp-rpn", name: "Endometrial Polyp", status: "Available" },
+      { id: "balanitis-rpn", name: "Balanitis", status: "Available" },
+      { id: "breast-cancer-rpn", name: "Breast Cancer", status: "Available" },
+      { id: "cryptorchidism-rpn", name: "Cryptorchidism", status: "Available" },
+      { id: "endometriosis-rpn", name: "Endometriosis", status: "Available" },
+      { id: "galactorrhea-rpn", name: "Galactorrhea", status: "Available" },
+      { id: "infertility-rpn", name: "Infertility", status: "Available" },
+      { id: "orchitis-rpn", name: "Orchitis", status: "Available" },
+      { id: "penile-cancer-rpn", name: "Penile Cancer", status: "Available" },
+      { id: "phimosis-rpn", name: "Phimosis", status: "Available" },
+      { id: "priapism-rpn", name: "Priapism", status: "Available" },
+      { id: "prostatitis-rpn", name: "Prostatitis", status: "Available" },
+      { id: "urethritis-rpn", name: "Urethritis", status: "Available" }
     ]
   },
   {
@@ -993,6 +1014,23 @@ export const rpnSystems = [
       { id: "hypovolemic-shock-basics-rpn", name: "Hypovolemic Shock Basics", status: "Available" },
       { id: "neurogenic-shock-basics-rpn", name: "Neurogenic Shock Basics", status: "Available" },
       { id: "acute-transfusion-reaction-rpn", name: "Acute Transfusion Reaction", status: "Available" }
+    ]
+  },
+  {
+    id: "professional-practice-rpn",
+    title: "Professional Practice",
+    icon: BookOpen,
+    color: "text-indigo-500",
+    bgColor: "bg-indigo-50",
+    diseases: [
+      { id: "cultural-safety-rpn", name: "Cultural Safety", status: "Available" },
+      { id: "delegation-license-rpn", name: "Delegation by License", status: "Available" },
+      { id: "informatics-doc-rpn", name: "Informatics and Documentation", status: "Available" },
+      { id: "labs-diagnostics-rpn", name: "Labs and Diagnostics", status: "Available" },
+      { id: "leadership-mgmt-rpn", name: "Leadership and Management", status: "Available" },
+      { id: "legal-edge-rpn", name: "Legal Edge Cases", status: "Available" },
+      { id: "nursing-calc-rpn", name: "Nursing Calculations", status: "Available" },
+      { id: "therapeutic-comm-rpn", name: "Therapeutic Communication", status: "Available" }
     ]
   }
 ];
@@ -3438,28 +3476,28 @@ function DbLessonsSection({ lessons }: { lessons: DbLesson[] }) {
           <p className="text-sm text-gray-500">Supplemental lesson content</p>
         </div>
       </div>
-      <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-8">
+      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
         {Object.entries(grouped).map(([category, items]) => (
-          <Card key={category} className="border-none shadow-lg hover:shadow-xl transition-all overflow-hidden bg-white">
-            <CardHeader className="flex flex-row items-center gap-4 pb-2 bg-slate-50">
-              <div className="p-3 rounded-xl bg-white shadow-sm text-primary">
-                <BookOpen className="w-6 h-6" />
+          <Card key={category} className="border-none shadow-md hover:shadow-lg transition-all overflow-hidden bg-white">
+            <CardHeader className="flex flex-row items-center gap-3 py-3 px-4 bg-slate-50">
+              <div className="p-2 rounded-lg bg-white shadow-sm text-primary">
+                <BookOpen className="w-4 h-4" />
               </div>
-              <CardTitle className="text-xl font-bold text-gray-900">{category}</CardTitle>
+              <CardTitle className="text-base font-bold text-gray-900">{category}</CardTitle>
             </CardHeader>
-            <CardContent className="pt-6">
-              <div className="space-y-3">
+            <CardContent className="pt-3 px-4 pb-4">
+              <div className="space-y-1.5">
                 {items.map((lesson) => (
                   <LocaleLink
                     key={lesson.id}
                     href={`/lessons/${lesson.slug}`}
                     data-testid={`db-lesson-card-${lesson.slug}`}
-                    className="flex items-center justify-between p-4 rounded-xl border border-primary/20 bg-primary/5 hover:bg-primary/10 transition-all cursor-pointer group no-underline"
+                    className="flex items-center justify-between px-3 py-2 rounded-lg border border-primary/10 bg-primary/5 hover:bg-primary/10 transition-all cursor-pointer group no-underline"
                   >
-                    <div className="flex items-center gap-3 min-w-0">
-                      <BookOpen className="w-5 h-5 shrink-0 text-primary" />
+                    <div className="flex items-center gap-2 min-w-0">
+                      <BookOpen className="w-4 h-4 shrink-0 text-primary" />
                       <div className="min-w-0">
-                        <span className="font-medium text-gray-900 block truncate">{lesson.title}</span>
+                        <span className="text-sm font-medium text-gray-900 block truncate">{lesson.title}</span>
                         {lesson.summary && (
                           <span className="text-xs text-gray-500 block truncate mt-0.5">{lesson.summary}</span>
                         )}
@@ -3754,7 +3792,7 @@ export default function Lessons() {
         <Tabs value={activeTab} onValueChange={setActiveTab}>
           <TabsContent value="rpn" className="mt-0">
             <LecturesSection tier="rpn" onNavigate={setLocation} />
-            <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-8">
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
               {[...preNursingSystems, ...fundamentalsSystems, ...delegationSystems, ...clinicalScenariosSystems, ...medMathSystems, ...rpnNonPharm].filter((system) => { if (selectedSystemFilter !== "all" && system.id !== selectedSystemFilter) return false; if (!lessonSearchQuery) return true; const q = lessonSearchQuery.toLowerCase(); const sysName = (system.name || system.title || "").toLowerCase(); return sysName.includes(q) || system.diseases?.some((d: any) => d.name?.toLowerCase().includes(q)) || system.lessons?.some((l: any) => l.title?.toLowerCase().includes(q)); }).map((system) => (
                 <LessonSystemCard key={system.id} system={system} tier="rpn" onSelect={handleLessonSelect} lessonOverrides={lessonOverrides} onOverridesChange={refreshOverrides} completeLessons={completeLessons} />
               ))}
@@ -3769,7 +3807,7 @@ export default function Lessons() {
           </TabsContent>
           <TabsContent value="rn" className="mt-0">
             <LecturesSection tier="rn" onNavigate={setLocation} />
-            <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-8">
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
               {[...preNursingSystems, ...fundamentalsSystems, ...delegationSystems, ...clinicalScenariosSystems, ...medMathSystems, ...rnNonPharm].filter((system) => { if (selectedSystemFilter !== "all" && system.id !== selectedSystemFilter) return false; if (!lessonSearchQuery) return true; const q = lessonSearchQuery.toLowerCase(); const sysName = (system.name || system.title || "").toLowerCase(); return sysName.includes(q) || system.diseases?.some((d: any) => d.name?.toLowerCase().includes(q)) || system.lessons?.some((l: any) => l.title?.toLowerCase().includes(q)); }).map((system) => (
                 <LessonSystemCard key={system.id} system={system} tier="rn" onSelect={handleLessonSelect} lessonOverrides={lessonOverrides} onOverridesChange={refreshOverrides} completeLessons={completeLessons} />
               ))}
@@ -3784,7 +3822,7 @@ export default function Lessons() {
           </TabsContent>
           <TabsContent value="np" className="mt-0">
             <LecturesSection tier="np" onNavigate={setLocation} />
-            <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-8">
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
               {[...preNursingSystems, ...fundamentalsSystems, ...delegationSystems, ...clinicalScenariosSystems, ...medMathSystems, ...npNonPharm].filter((system) => { if (selectedSystemFilter !== "all" && system.id !== selectedSystemFilter) return false; if (!lessonSearchQuery) return true; const q = lessonSearchQuery.toLowerCase(); const sysName = (system.name || system.title || "").toLowerCase(); return sysName.includes(q) || system.diseases?.some((d: any) => d.name?.toLowerCase().includes(q)) || system.lessons?.some((l: any) => l.title?.toLowerCase().includes(q)); }).map((system) => (
                 <LessonSystemCard key={system.id} system={system} tier="np" onSelect={handleLessonSelect} lessonOverrides={lessonOverrides} onOverridesChange={refreshOverrides} completeLessons={completeLessons} />
               ))}
@@ -3802,7 +3840,7 @@ export default function Lessons() {
               {(showAllTabs || effectiveTier === "rpn") && (
                 <div>
                   <h2 className="text-lg font-bold text-gray-700 mb-4">{t("lessons.rpnPharmacology")}</h2>
-                  <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-8">
+                  <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
                     {rpnSystems.filter(s => s.id.includes("pharmacology")).filter((system) => { if (!lessonSearchQuery) return true; const q = lessonSearchQuery.toLowerCase(); const sysName = (system.name || system.title || "").toLowerCase(); return sysName.includes(q) || system.diseases?.some((d: any) => d.name?.toLowerCase().includes(q)) || system.lessons?.some((l: any) => l.title?.toLowerCase().includes(q)); }).map((system) => (
                       <LessonSystemCard key={system.id} system={system} tier="rpn" onSelect={(id) => setLocation(`/lessons/${id}`)} lessonOverrides={lessonOverrides} onOverridesChange={refreshOverrides} completeLessons={completeLessons} />
                     ))}
@@ -3812,7 +3850,7 @@ export default function Lessons() {
               {(showAllTabs || effectiveTier === "rn") && (
                 <div>
                   <h2 className="text-lg font-bold text-gray-700 mb-4">{t("lessons.rnPharmacology")}</h2>
-                  <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-8">
+                  <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
                     {rnSystems.filter(s => s.id.includes("pharmacology")).filter((system) => { if (!lessonSearchQuery) return true; const q = lessonSearchQuery.toLowerCase(); const sysName = (system.name || system.title || "").toLowerCase(); return sysName.includes(q) || system.diseases?.some((d: any) => d.name?.toLowerCase().includes(q)) || system.lessons?.some((l: any) => l.title?.toLowerCase().includes(q)); }).map((system) => (
                       <LessonSystemCard key={system.id} system={system} tier="rn" onSelect={(id) => setLocation(`/lessons/${id}`)} lessonOverrides={lessonOverrides} onOverridesChange={refreshOverrides} completeLessons={completeLessons} />
                     ))}
@@ -3822,7 +3860,7 @@ export default function Lessons() {
               {(showAllTabs || effectiveTier === "np") && (
                 <div>
                   <h2 className="text-lg font-bold text-gray-700 mb-4">{t("lessons.npPharmacology")}</h2>
-                  <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-8">
+                  <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
                     {npSystems.filter(s => s.id.includes("pharmacology")).filter((system) => { if (!lessonSearchQuery) return true; const q = lessonSearchQuery.toLowerCase(); const sysName = (system.name || system.title || "").toLowerCase(); return sysName.includes(q) || system.diseases?.some((d: any) => d.name?.toLowerCase().includes(q)) || system.lessons?.some((l: any) => l.title?.toLowerCase().includes(q)); }).map((system) => (
                       <LessonSystemCard key={system.id} system={system} tier="np" onSelect={(id) => setLocation(`/lessons/${id}`)} lessonOverrides={lessonOverrides} onOverridesChange={refreshOverrides} completeLessons={completeLessons} />
                     ))}
@@ -4004,6 +4042,31 @@ function DifficultyBadge({ level }: { level: DifficultyLevel }) {
   );
 }
 
+const COLLAPSE_THRESHOLD = 6;
+
+function CollapsibleLessonList({ diseases, systemId, children }: { diseases: any[]; systemId: string; children: (disease: any) => React.ReactNode }) {
+  const [expanded, setExpanded] = useState(false);
+  const sorted = [...diseases].sort((a: any, b: any) => a.name.localeCompare(b.name));
+  const shouldCollapse = sorted.length > COLLAPSE_THRESHOLD;
+  const visible = shouldCollapse && !expanded ? sorted.slice(0, COLLAPSE_THRESHOLD) : sorted;
+  const hiddenCount = sorted.length - COLLAPSE_THRESHOLD;
+
+  return (
+    <div className="space-y-1.5">
+      {visible.map((disease) => children(disease))}
+      {shouldCollapse && (
+        <button
+          onClick={() => setExpanded(!expanded)}
+          className="w-full text-center py-1.5 text-xs font-medium text-primary hover:text-primary/80 transition-colors rounded-lg hover:bg-primary/5"
+          data-testid={`button-toggle-${systemId}`}
+        >
+          {expanded ? "Show less" : `Show ${hiddenCount} more`}
+        </button>
+      )}
+    </div>
+  );
+}
+
 function LessonSystemCard({ system, onSelect, tier, lessonOverrides, onOverridesChange, completeLessons }: { system: any, onSelect: (id: string) => void, tier: string, lessonOverrides?: Record<string, any>, onOverridesChange?: () => void, completeLessons?: Set<string> }) {
   const { t, language } = useI18n();
   const { user } = useAuth();
@@ -4082,9 +4145,9 @@ function LessonSystemCard({ system, onSelect, tier, lessonOverrides, onOverrides
   };
 
   return (
-    <Card id={`system-${system.id}`} className="border-none shadow-lg hover:shadow-xl transition-all overflow-hidden bg-white scroll-mt-24">
+    <Card id={`system-${system.id}`} className="border-none shadow-md hover:shadow-lg transition-all overflow-hidden bg-white scroll-mt-24">
       {systemImg && (
-        <div className={cn("relative h-36 overflow-hidden", system.bgColor)}>
+        <div className={cn("relative h-24 overflow-hidden", system.bgColor)}>
           <AdminImageOverlay
             imageKey={`lesson-system-${system.id}`}
             src={systemImg}
@@ -4096,15 +4159,16 @@ function LessonSystemCard({ system, onSelect, tier, lessonOverrides, onOverrides
           <div className="absolute inset-0 bg-gradient-to-t from-white/80 via-transparent to-transparent pointer-events-none" />
         </div>
       )}
-      <CardHeader className={cn("flex flex-row items-center gap-4 pb-2", !systemImg && system.bgColor)}>
-        <div className={cn("p-3 rounded-xl bg-white shadow-sm", system.color)}>
-          <system.icon className="w-6 h-6" />
+      <CardHeader className={cn("flex flex-row items-center gap-3 py-3 px-4", !systemImg && system.bgColor)}>
+        <div className={cn("p-2 rounded-lg bg-white shadow-sm", system.color)}>
+          <system.icon className="w-4 h-4" />
         </div>
-        <CardTitle className="text-xl font-bold text-gray-900">{system.title}</CardTitle>
+        <CardTitle className="text-base font-bold text-gray-900">{system.title}</CardTitle>
+        <span className="ml-auto text-xs text-gray-400 font-normal">{system.diseases.length}</span>
       </CardHeader>
-      <CardContent className="pt-6">
-        <div className="space-y-3">
-          {[...system.diseases].sort((a: any, b: any) => a.name.localeCompare(b.name)).map((disease: any) => {
+      <CardContent className="pt-3 px-4 pb-4">
+        <CollapsibleLessonList diseases={system.diseases} systemId={system.id}>
+          {(disease: any) => {
             const difficulty = getDifficulty(disease.id, tier);
             const overrideName = lessonOverrides?.[disease.id]?.title;
             const displayName = overrideName || getLessonTitle(disease.id, language) || disease.name;
@@ -4116,18 +4180,18 @@ function LessonSystemCard({ system, onSelect, tier, lessonOverrides, onOverrides
                 data-testid={`lesson-card-${disease.id}`}
                 onClick={() => !isEditingThis && disease.status === "Available" && onSelect(disease.id)}
                 className={cn(
-                  "flex items-center justify-between p-4 rounded-xl border transition-all group",
+                  "flex items-center justify-between px-3 py-2 rounded-lg border transition-all group",
                   isEditingThis ? "border-primary/30 bg-primary/5" :
                   disease.status === "Available" 
-                    ? "border-primary/20 bg-primary/5 hover:bg-primary/10 cursor-pointer" 
+                    ? "border-primary/10 bg-primary/5 hover:bg-primary/10 cursor-pointer" 
                     : "border-gray-100 bg-gray-50 opacity-60 cursor-not-allowed"
                 )}
               >
-                <div className="flex items-center gap-3 min-w-0 flex-1">
+                <div className="flex items-center gap-2 min-w-0 flex-1">
                   {lessonImgUrl ? (
-                    <img src={lessonImgUrl} alt={displayName} className="w-10 h-10 rounded-lg object-cover shrink-0" data-testid={`img-lesson-${disease.id}`} />
+                    <img src={lessonImgUrl} alt={displayName} className="w-7 h-7 rounded object-cover shrink-0" data-testid={`img-lesson-${disease.id}`} />
                   ) : (
-                    <BookOpen className={cn("w-5 h-5 shrink-0", disease.status === "Available" ? "text-primary" : "text-gray-400")} />
+                    <BookOpen className={cn("w-4 h-4 shrink-0", disease.status === "Available" ? "text-primary" : "text-gray-400")} />
                   )}
                   {isEditingThis ? (
                     <div className="flex items-center gap-2 min-w-0 flex-1" onClick={(e) => e.stopPropagation()}>
@@ -4147,7 +4211,7 @@ function LessonSystemCard({ system, onSelect, tier, lessonOverrides, onOverrides
                       </Button>
                     </div>
                   ) : (
-                    <span className="font-medium text-gray-900 truncate">
+                    <span className="text-sm font-medium text-gray-900 truncate">
                       {displayName}
                     </span>
                   )}
@@ -4202,8 +4266,8 @@ function LessonSystemCard({ system, onSelect, tier, lessonOverrides, onOverrides
                 </div>
               </div>
             );
-          })}
-        </div>
+          }}
+        </CollapsibleLessonList>
       </CardContent>
     </Card>
   );
@@ -4294,22 +4358,24 @@ function CustomSystemCard({ system, tier, isAdmin, onSelect, onEdit, onDelete, l
   };
 
   return (
-    <Card className="border-none shadow-lg hover:shadow-xl transition-all overflow-hidden bg-white relative group">
+    <Card className="border-none shadow-md hover:shadow-lg transition-all overflow-hidden bg-white relative group">
       {system.imageUrl && (
-        <div className={cn("relative h-36 overflow-hidden", system.bgColor || "bg-gray-50")}>
+        <div className={cn("relative h-24 overflow-hidden", system.bgColor || "bg-gray-50")}>
           <img src={system.imageUrl} alt={system.title} className="w-full h-full object-cover opacity-80" loading="lazy" />
           <div className="absolute inset-0 bg-gradient-to-t from-white/80 via-transparent to-transparent" />
         </div>
       )}
-      <CardHeader className={cn("flex flex-row items-center gap-4 pb-2", !system.imageUrl && (system.bgColor || "bg-gray-50"))}>
-        <div className={cn("p-3 rounded-xl bg-white shadow-sm", system.color || "text-primary")}>
-          <IconComp className="w-6 h-6" />
+      <CardHeader className={cn("flex flex-row items-center gap-3 py-3 px-4", !system.imageUrl && (system.bgColor || "bg-gray-50"))}>
+        <div className={cn("p-2 rounded-lg bg-white shadow-sm", system.color || "text-primary")}>
+          <IconComp className="w-4 h-4" />
         </div>
-        <CardTitle className="text-xl font-bold text-gray-900">{system.title}</CardTitle>
+        <CardTitle className="text-base font-bold text-gray-900">{system.title}</CardTitle>
+        <span className="ml-auto text-xs text-gray-400 font-normal">{lessons.length}</span>
       </CardHeader>
-      <CardContent className="pt-6">
-        <div className="space-y-3">
-          {lessons.map((disease, idx) => {
+      <CardContent className="pt-3 px-4 pb-4">
+        <CollapsibleLessonList diseases={lessons.map((l, i) => ({ ...l, name: l.name || l.id || `lesson-${i}` }))} systemId={system.id || "custom"}>
+          {(disease: any) => {
+            const idx = lessons.findIndex(l => l.id === disease.id);
             const overrideName = lessonOverrides?.[disease.id]?.title;
             const displayName = overrideName || getLessonTitle(disease.id, language) || disease.name;
             const lessonImgUrl = disease.id ? getImageUrl(`lesson-${disease.id}`, "") : "";
@@ -4319,13 +4385,13 @@ function CustomSystemCard({ system, tier, isAdmin, onSelect, onEdit, onDelete, l
                 key={disease.id || idx}
                 data-testid={`custom-lesson-card-${disease.id || idx}`}
                 onClick={() => !isEditingThis && disease.id && onSelect(disease.id)}
-                className={cn("flex items-center justify-between p-4 rounded-xl border transition-all group/lesson border-primary/20 bg-primary/5 hover:bg-primary/10", isEditingThis ? "" : "cursor-pointer")}
+                className={cn("flex items-center justify-between px-3 py-2 rounded-lg border transition-all group/lesson border-primary/10 bg-primary/5 hover:bg-primary/10", isEditingThis ? "" : "cursor-pointer")}
               >
-                <div className="flex items-center gap-3 min-w-0 flex-1">
+                <div className="flex items-center gap-2 min-w-0 flex-1">
                   {lessonImgUrl ? (
-                    <img src={lessonImgUrl} alt={displayName} className="w-10 h-10 rounded-lg object-cover shrink-0" data-testid={`img-lesson-${disease.id}`} />
+                    <img src={lessonImgUrl} alt={displayName} className="w-7 h-7 rounded object-cover shrink-0" data-testid={`img-lesson-${disease.id}`} />
                   ) : (
-                    <BookOpen className="w-5 h-5 shrink-0 text-primary" />
+                    <BookOpen className="w-4 h-4 shrink-0 text-primary" />
                   )}
                   {isEditingThis ? (
                     <div className="flex items-center gap-2 min-w-0 flex-1" onClick={(e) => e.stopPropagation()}>
@@ -4345,7 +4411,7 @@ function CustomSystemCard({ system, tier, isAdmin, onSelect, onEdit, onDelete, l
                       </Button>
                     </div>
                   ) : (
-                    <span className="font-medium text-gray-900 truncate">{displayName}</span>
+                    <span className="text-sm font-medium text-gray-900 truncate">{displayName}</span>
                   )}
                 </div>
                 <div className="flex items-center gap-1 shrink-0 ml-2">
@@ -4387,8 +4453,8 @@ function CustomSystemCard({ system, tier, isAdmin, onSelect, onEdit, onDelete, l
                 </div>
               </div>
             );
-          })}
-        </div>
+          }}
+        </CollapsibleLessonList>
       </CardContent>
       {isAdmin && (
         <div className="absolute top-2 right-2 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity z-10">
