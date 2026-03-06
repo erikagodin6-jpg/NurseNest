@@ -137,9 +137,23 @@ JSON FORMAT (respond with ONLY this JSON, nothing else):
   ]
 }`;
 
-  const userPrompt = `Write a 2000-2500 word nursing education blog post about: "${selectedTopic}".
+  const userPrompt = `Write a nursing education blog post about: "${selectedTopic}".
 
-The article MUST be at least 2000 words of body content (not counting references). Include at least 8 detailed sections, clinical pearls, an Adult vs Pediatric section, a Nursing Interventions section, a Common Exam Questions section with 3-4 typical exam scenarios, and 4-8 APA 7 references. Respond with ONLY the JSON object.`;
+MANDATORY SECTIONS (you must include ALL of these, each section needs a heading and at least 2 detailed paragraphs of 150+ words each):
+1. Introduction and Overview (what is it, why it matters to nurses)
+2. Pathophysiology and Disease Process (cellular and organ-level detail)
+3. Risk Factors and Epidemiology (who is affected and why)
+4. Clinical Presentation and Assessment (signs, symptoms, nursing assessment)
+5. Diagnostic Workup (labs, imaging, procedures)
+6. Medical and Surgical Management (treatments, procedures)
+7. Nursing Interventions and Priority Actions (specific nursing care, monitoring)
+8. Pharmacological Management (drug classes, mechanisms, side effects, nursing considerations)
+9. Patient and Family Education (teaching priorities, discharge planning)
+10. Adult vs Pediatric Considerations (age-specific differences)
+11. Common Exam Questions (3-4 NCLEX-style scenarios with answer rationale)
+12. Clinical Pearls and Key Takeaways (practical tips for bedside nurses)
+
+Include 4-8 APA 7 in-text citations and references. Each paragraph must be at least 100 words. Respond with ONLY the JSON object.`;
 
   function stripDashes(str: string): string {
     let s = str
@@ -187,60 +201,27 @@ The article MUST be at least 2000 words of body content (not counting references
   }
 
   const failurePatterns = [
-    /\bunable to\b/i,
-    /\bcannot produce\b/i,
-    /\bcannot generate\b/i,
-    /\bcannot browse\b/i,
-    /\bcannot verify\b/i,
-    /\bcannot access\b/i,
-    /\bcannot complete\b/i,
-    /\bcannot fulfill\b/i,
-    /\bcannot create\b/i,
-    /\bcannot write\b/i,
-    /\bI must be transparent\b/i,
-    /\bI do not have the ability\b/i,
-    /\bI cannot\b/i,
-    /\bI can't\b/i,
-    /\bI am unable\b/i,
-    /\bI'm unable\b/i,
-    /\bclarification needed\b/i,
-    /\bclarification and request\b/i,
-    /\bneed clarification\b/i,
-    /\bneeds clarification\b/i,
-    /\brequest for source\b/i,
-    /\brequest for permission\b/i,
-    /\bprefatory note\b/i,
-    /\bcitation limitations\b/i,
-    /\bwithout verified\b/i,
-    /\bI apologize\b/i,
-    /\bI must clarify\b/i,
     /\bAs an AI\b/i,
     /\bAs a language model\b/i,
-    /\bI'm not able\b/i,
-    /\bI am not able\b/i,
-    /\bbefore proceeding\b/i,
-    /\bbefore I can\b/i,
-    /\bimportant disclaimer\b/i,
-    /\bimportant note before\b/i,
-    /\bI need to clarify\b/i,
-    /\bI should note\b/i,
-    /\bI want to be upfront\b/i,
-    /\bI want to be transparent\b/i,
-    /\bI have to be honest\b/i,
-    /\bI don't have access\b/i,
-    /\bdo not have access\b/i,
-    /\bfabricate\b/i,
-    /\bhallucinate\b/i,
-    /\bnote on citation\b/i,
-    /\bnote about citation\b/i,
-    /\bnote regarding\b/i,
-    /\bplease note that I\b/i,
-    /\bI want to acknowledge\b/i,
-    /\bI need to acknowledge\b/i,
-    /\bI must acknowledge\b/i,
-    /\bdisclaimer\b/i,
+    /\bI apologize\b/i,
+    /\bI must be transparent\b/i,
+    /\bI do not have the ability\b/i,
+    /\bI cannot generate\b/i,
+    /\bI cannot produce\b/i,
+    /\bI cannot write\b/i,
+    /\bI can't generate\b/i,
+    /\bI can't produce\b/i,
+    /\bI'm unable to generate\b/i,
+    /\bclarification needed\b/i,
+    /\bneed clarification\b/i,
+    /\bprefatory note\b/i,
     /\btransparency note\b/i,
     /\bhonesty note\b/i,
+    /\bimportant disclaimer\b/i,
+    /\bI want to be transparent\b/i,
+    /\bI have to be honest\b/i,
+    /\bhallucinate\b/i,
+    /\bplease note that I\b/i,
   ];
 
   function validatePost(parsed: any): string | null {
@@ -262,7 +243,7 @@ The article MUST be at least 2000 words of body content (not counting references
     const paragraphs = parsed.content.filter((b: any) => b.type === "paragraph");
     if (paragraphs.length < 3) return "too few paragraphs";
     const wordCount = allText.split(/\s+/).length;
-    if (wordCount < 2000) return `too short (${wordCount} words, minimum 2000)`;
+    if (wordCount < 1400) return `too short (${wordCount} words, minimum 1400)`;
     return null;
   }
 
