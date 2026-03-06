@@ -68,6 +68,28 @@ app.use((req, res, next) => {
   next();
 });
 
+const LEARN_REDIRECTS: Record<string, string> = {
+  "oxygenation-vs-ventilation-critical-differences": "oxygenation-vs-ventilation-clinical-distinction",
+  "create-more-posts-about-hyperkalemia": "hyperkalemia-nursing-guide",
+  "test-publish-flow-1772145129698": "",
+};
+
+app.use((req, res, next) => {
+  const match = req.path.match(/^(?:\/[a-z]{2,3})?\/learn\/([^/]+)\/?$/);
+  if (match) {
+    const slug = match[1];
+    if (slug in LEARN_REDIRECTS) {
+      const target = LEARN_REDIRECTS[slug];
+      if (target) {
+        const locale = req.path.match(/^\/([a-z]{2,3})\/learn\//)?.[1] || "en";
+        return res.redirect(301, `/${locale}/learn/${target}`);
+      }
+      return res.redirect(301, "/en/blog");
+    }
+  }
+  next();
+});
+
 app.use(compression());
 app.use(cookieParser());
 
@@ -425,10 +447,16 @@ app.get("/sitemap.xml", async (_req, res) => {
   try {
     const blogTypes = ["blog", "blog-post", "article"];
     const publishedContent = await storage.getPublishedContent();
-    const blogPosts = publishedContent.filter((item) => blogTypes.includes(item.type || "") && item.slug);
+    const blogPosts = publishedContent.filter((item) => {
+      if (!blogTypes.includes(item.type || "") || !item.slug) return false;
+      const contentLen = JSON.stringify(item.content || "").length;
+      if (contentLen < 5000) return false;
+      if (item.slug in LEARN_REDIRECTS) return false;
+      return true;
+    });
     for (const post of blogPosts) {
       const lastmod = post.updatedAt ? new Date(post.updatedAt).toISOString().split("T")[0] : (post.publishedAt ? new Date(post.publishedAt).toISOString().split("T")[0] : today);
-      entries.push(sitemapUrl(base, `/learn/${post.slug}`, "0.6", "weekly", locales, lastmod));
+      entries.push(sitemapUrl(base, `/learn/${post.slug}`, "0.6", "weekly", ["en"], lastmod));
     }
   } catch {}
 

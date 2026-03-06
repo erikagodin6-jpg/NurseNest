@@ -632,17 +632,14 @@ export default function ContentPage() {
     enabled: !!slug,
   });
 
-  const { data: relatedItems } = useQuery<ContentItem[]>({
-    queryKey: ["content-related", contentItem?.bodySystem, contentItem?.id],
+  const { data: relatedItems } = useQuery<{ slug: string; title: string; category: string; summary: string }[]>({
+    queryKey: ["content-related", slug],
     queryFn: async () => {
-      const res = await fetch(`/api/content?status=published`);
+      const res = await fetch(`/api/content/slug/${slug}/related`);
       if (!res.ok) return [];
-      const items: ContentItem[] = await res.json();
-      return items
-        .filter((item) => item.bodySystem === contentItem?.bodySystem && item.id !== contentItem?.id)
-        .slice(0, 3);
+      return res.json();
     },
-    enabled: !!contentItem?.bodySystem,
+    enabled: !!slug && !!contentItem,
   });
 
   const isNotFound = !isLoading && (!contentItem || contentItem.status !== "published");
@@ -769,6 +766,7 @@ export default function ContentPage() {
         description={description}
         canonicalPath={`/learn/${slug}`}
         ogType="article"
+        noindex={language !== "en"}
         keywords={tags.length > 0 ? tags.join(", ") : (contentItem!.category ? `${contentItem!.category}, nursing, ${contentItem!.tier || "education"}` : undefined)}
         structuredData={structuredData}
         additionalStructuredData={[breadcrumbData]}
@@ -887,16 +885,16 @@ export default function ContentPage() {
 
           {relatedItems && relatedItems.length > 0 && (
             <section className="mt-12 pt-8 border-t border-gray-200" data-testid="section-related-content">
-              <h2 className="text-xl font-bold text-gray-900 mb-6">Related Content</h2>
-              <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              <h2 className="text-xl font-bold text-gray-900 mb-6">Related Articles</h2>
+              <div className="grid gap-4 sm:grid-cols-2">
                 {relatedItems.map((item) => (
-                  <LocaleLink key={item.id} href={`/learn/${item.slug}`}>
-                    <Card className="hover:shadow-lg transition-shadow cursor-pointer h-full" data-testid={`card-related-${item.id}`}>
+                  <LocaleLink key={item.slug} href={`/learn/${item.slug}`}>
+                    <Card className="hover:shadow-lg transition-shadow cursor-pointer h-full" data-testid={`card-related-${item.slug}`}>
                       <CardContent className="p-5 space-y-2">
                         <div className="flex items-center gap-2">
-                          {item.bodySystem && (
+                          {item.category && (
                             <Badge variant="secondary" className="text-xs">
-                              {item.bodySystem}
+                              {item.category}
                             </Badge>
                           )}
                         </div>

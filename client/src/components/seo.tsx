@@ -9,11 +9,12 @@ interface SEOProps {
   keywords?: string;
   canonicalPath?: string;
   ogType?: string;
+  noindex?: boolean;
   structuredData?: Record<string, any>;
   additionalStructuredData?: Record<string, any>[];
 }
 
-export function SEO({ title, description, keywords, canonicalPath, ogType = "website", structuredData, additionalStructuredData }: SEOProps) {
+export function SEO({ title, description, keywords, canonicalPath, ogType = "website", noindex, structuredData, additionalStructuredData }: SEOProps) {
   useEffect(() => {
     const fullTitle = title.includes("NurseNest") ? title : `${title} | NurseNest`;
     document.title = fullTitle;
@@ -28,6 +29,15 @@ export function SEO({ title, description, keywords, canonicalPath, ogType = "web
       }
       el.content = content;
     };
+
+    if (noindex) {
+      setMeta("robots", "noindex, follow");
+    } else {
+      const robotsMeta = document.querySelector('meta[name="robots"]') as HTMLMetaElement;
+      if (robotsMeta && robotsMeta.content.includes("noindex")) {
+        robotsMeta.remove();
+      }
+    }
 
     setMeta("description", description);
     if (keywords) setMeta("keywords", keywords);
@@ -110,8 +120,12 @@ export function SEO({ title, description, keywords, canonicalPath, ogType = "web
         if (el) el.remove();
       });
       hreflangLinks.forEach((el) => el.remove());
+      if (noindex) {
+        const robotsMeta = document.querySelector('meta[name="robots"]') as HTMLMetaElement;
+        if (robotsMeta) robotsMeta.remove();
+      }
     };
-  }, [title, description, keywords, canonicalPath, ogType, structuredData, additionalStructuredData]);
+  }, [title, description, keywords, canonicalPath, ogType, noindex, structuredData, additionalStructuredData]);
 
   return null;
 }

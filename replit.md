@@ -94,5 +94,15 @@ The system supports a multi-career allied health architecture, with career confi
 - **Impact**: Main JS bundle reduced from 15.5MB to 76KB (99.5% reduction). Lesson content loads on-demand when a specific lesson page is visited.
 - **Changed Files**: lesson-detail.tsx (fetches from API), global-search.tsx (uses search API), profile.tsx (removed contentMap dep), exam-practice-landing.tsx (slug-based titles), seo-utils.ts (type-only import), getI18n.ts (accepts base lesson parameter), subscribe.tsx (static counts).
 
+### SEO: /learn Page Optimization
+- **301 Redirect System** (`server/index.ts`): `LEARN_REDIRECTS` map handles old/bad slugs. Matched via middleware before routes.
+  - `oxygenation-vs-ventilation-critical-differences` -> `oxygenation-vs-ventilation-clinical-distinction` (duplicate consolidated)
+  - `create-more-posts-about-hyperkalemia` -> `hyperkalemia-nursing-guide` (prompt leak slug fixed)
+  - `test-publish-flow-1772145129698` -> `/blog` (test content deleted)
+- **Sitemap**: /learn pages only include English URLs (no fake 15-locale expansion). Quality gate: content_length > 5000 chars. Redirected slugs excluded.
+- **noindex**: Non-English /learn pages get `<meta name="robots" content="noindex, follow">` via SEO component. Since no real translations exist, this prevents thin/duplicate indexing.
+- **Related Articles**: `GET /api/content/slug/:slug/related` scores candidates by category match, tag overlap, and title word similarity. Top 4 shown at bottom of each /learn page. Quality filter: only content >= 5000 chars.
+- **SEO Component**: `client/src/components/seo.tsx` supports `noindex` prop. Canonical URLs strip locale prefix. Hreflang tags auto-generated for supported locales.
+
 ### Access Control / Paywalls
 - Tier system: free, rpn, rn, np, admin.
