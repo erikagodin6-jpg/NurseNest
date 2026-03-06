@@ -44,3 +44,12 @@ The application is built with Vite, React, and Express 5 on Node.js with TypeScr
 
 ### Social Media
 - Meta Graph API: For social media scheduling.
+
+## Lesson Content Status
+- **Total lessons**: 1,299+ across all tiers
+- **RPN (430 lessons)**: 100% complete - all fields populated with scope-appropriate content
+- **RN (301 lessons)**: 100% complete - all fields populated with scope-appropriate content  
+- **NP (1,037 lessons)**: 100% complete - all 841 cellular placeholders replaced with NP-level pathophysiology content (March 2026). Content organized by clinical domain with topic-specific advanced pathophysiology, differential diagnosis, diagnostic criteria, and prescribing rationale.
+- **Free tier (489 lessons)**: Complete
+- Content files: 115+ TypeScript files in `client/src/data/lessons/`
+- NP lessons with JSON-quoted keys (np-clinical-units.ts, respiratory-missing-np.ts) use `"title"` format vs unquoted `title:` in batch files
