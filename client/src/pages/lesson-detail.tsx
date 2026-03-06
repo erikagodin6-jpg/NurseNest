@@ -1702,23 +1702,45 @@ export default function LessonDetail() {
 
   const [apiLesson, setApiLesson] = useState<LessonContent | null>(null);
   const [apiLoading, setApiLoading] = useState(true);
+  const [apiLessonId, setApiLessonId] = useState<string | null>(null);
 
   useEffect(() => {
     if (!id) { setApiLoading(false); return; }
+    setApiLesson(null);
+    setApiLessonId(null);
+    setOverrides(null);
+    setDbContent(null);
+    setNoteContent("");
     setApiLoading(true);
-    fetch(`/api/lessons/content/${id}`)
+    setDbLoading(true);
+    const controller = new AbortController();
+    fetch(`/api/lessons/content/${id}`, { signal: controller.signal })
       .then((r) => {
         if (!r.ok) { setApiLesson(null); setApiLoading(false); return; }
         return r.json();
       })
       .then((data) => {
         if (data) {
+          const returnedId = data.id;
+          if (returnedId && returnedId !== id) {
+            console.warn(`[LessonDetail] Content mismatch: requested "${id}" but received "${returnedId}"`);
+            setApiLesson(null);
+            setApiLoading(false);
+            return;
+          }
           const { id: _id, ...lesson } = data;
           setApiLesson(lesson as LessonContent);
+          setApiLessonId(returnedId || id);
         }
         setApiLoading(false);
       })
-      .catch(() => { setApiLesson(null); setApiLoading(false); });
+      .catch((err) => {
+        if (err.name !== 'AbortError') {
+          setApiLesson(null);
+          setApiLoading(false);
+        }
+      });
+    return () => controller.abort();
   }, [id]);
 
   const baseLesson = apiLesson;
@@ -1728,16 +1750,17 @@ export default function LessonDetail() {
   const [translationsReady, setTranslationsReady] = useState(isTranslationLoaded(language));
 
   useEffect(() => {
-    if (id) {
-      fetch(`/api/lesson-overrides/${id}`)
-        .then((r) => r.json())
-        .then((data) => {
-          if (data && Object.keys(data).length > 0) {
-            setOverrides(data);
-          }
-        })
-        .catch(() => {});
-    }
+    if (!id) return;
+    const controller = new AbortController();
+    fetch(`/api/lesson-overrides/${id}`, { signal: controller.signal })
+      .then((r) => r.json())
+      .then((data) => {
+        if (data && Object.keys(data).length > 0) {
+          setOverrides(data);
+        }
+      })
+      .catch(() => {});
+    return () => controller.abort();
   }, [id]);
 
   useEffect(() => {
@@ -1794,6 +1817,7 @@ export default function LessonDetail() {
 
   const lessonContent = useMemo(() => {
     if (!baseLesson || !id) return null;
+    if (apiLessonId && apiLessonId !== id) return null;
     let content = overrides ? { ...baseLesson, ...overrides } as LessonContent : baseLesson;
     if (language !== "en" && translationsReady) {
       const localized = getLessonI18n(id, language, baseLesson);
@@ -1802,7 +1826,7 @@ export default function LessonDetail() {
       }
     }
     return content;
-  }, [baseLesson, overrides, language, translationsReady, id]);
+  }, [baseLesson, overrides, language, translationsReady, id, apiLessonId]);
 
   const [sectionAiPrompt, setSectionAiPrompt] = useState("");
   const [sectionAiTarget, setSectionAiTarget] = useState<string | null>(null);

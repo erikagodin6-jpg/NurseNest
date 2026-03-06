@@ -99,7 +99,7 @@ export function setupLessonContentRoutes(app: Express): void {
       if (!lesson) {
         return res.status(404).json({ error: "Lesson not found" });
       }
-      res.setHeader("Cache-Control", "public, max-age=300");
+      res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
       res.json({ id: slug, ...lesson });
     } catch (err: any) {
       console.error("[LessonAPI] content error:", err.message);

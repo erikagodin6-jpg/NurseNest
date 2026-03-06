@@ -1,0 +1,208 @@
+Fix the lesson-content mismatch problem across the entire site.
+
+Critical issue:
+Lessons are rendering the wrong content from other lessons.
+Examples:
+- The COPD lesson is showing metered dose inhaler usage content instead of COPD content
+- Multiple cardiac lessons are showing cystic fibrosis content
+- Lessons are displaying reused or cross-contaminated content from unrelated pages
+
+This has happened many times before, so this fix must be structural and permanent, not a one-time patch.
+
+GOAL:
+Ensure every lesson always renders the correct lesson content for its own lesson slug/id/module/tier/language, with no bleed-over from previous lessons, cached content, duplicated state, or wrong database mappings.
+
+DO ALL OF THE FOLLOWING:
+
+1) ROOT-CAUSE AUDIT
+Trace the full lesson content pipeline and identify where mismatch is happening:
+- database/content table lookup
+- slug-to-content mapping
+- route params
+- CMS content fetch logic
+- caching layer
+- stale state in React
+- shared component state leakage
+- localization/i18n content mapping
+- admin inline editor save logic
+- AI generator save logic
+- lesson duplication/cloning logic
+- fallback logic incorrectly pulling prior content
+- bad joins or wrong where clauses
+- reused template objects or shallow copy bugs
+
+Do not guess. Find the actual source(s) of mismatch.
+
+2) ENFORCE UNIQUE CONTENT BINDING
+Make lesson rendering depend on a strict, unique content key.
+
+Every lesson must be bound by:
+- lessonId
+- lessonSlug
+- courseSlug
+- moduleSlug
+- tier
+- locale
+
+Content must only render if all required identifiers match correctly.
+
+Do NOT allow:
+- fallback to previous lesson content
+- fallback to unrelated content from same module
+- generic “first available content” behavior
+- stale cached content from another slug
+- state persistence from previous route
+
+3) HARD VALIDATION RULES
+Before rendering a lesson, validate:
+- fetched content.lessonSlug matches current route lessonSlug
+- fetched content.courseSlug matches expected course
+- fetched content.moduleSlug matches expected module
+- fetched content.locale matches current locale or explicit fallback rules
+- fetched content.title semantically matches lesson topic
+- fetched content is not empty placeholder content copied from another lesson
+
+If validation fails:
+- do NOT render the wrong lesson body
+- show a safe admin-visible error state
+- log the mismatch
+- optionally fall back to a clean “content unavailable” state, never unrelated content
+
+4) CACHE + STATE FIX
+Audit and fix:
+- client-side state reuse between routes
+- stale React query cache keys
+- route transitions reusing previous lesson payload
+- memoization bugs
+- SSR/CSR hydration mismatch
+- localStorage/sessionStorage misuse
+- global store pollution
+- service-layer caching keyed too broadly
+
+All fetch/query/cache keys must include:
+- lessonSlug
+- tier
+- locale
+- moduleSlug
+- courseSlug where applicable
+
+5) ADMIN / AI GENERATOR SAFETY
+The inline editor and AI generator must never save content into the wrong lesson.
+
+Implement safeguards:
+- save endpoint must require explicit lessonId + lessonSlug + courseSlug + moduleSlug + locale
+- server must verify the record exists and matches before updating
+- reject saves where identifiers do not match
+- log all mismatched save attempts
+- require AI-generated content to be attached only to the currently edited lesson record
+- no “duplicate previous lesson” behavior unless explicitly requested
+
+6) CONTENT INTEGRITY CHECKER
+Build a script or admin utility that scans all lessons and flags probable mismatches.
+
+Checks should include:
+- title-topic mismatch (example: title says COPD but body repeatedly discusses cystic fibrosis)
+- slug/topic mismatch
+- repeated body content across unrelated lessons
+- duplicate intros across many lessons
+- wrong system terminology dominating the lesson
+- lesson embeddings/keyword similarity mismatch if available
+- obvious copy contamination from previously generated lessons
+
+Output:
+- list of suspected mismatched lessons
+- source lesson they may have been copied from
+- severity level
+
+7) AUTO-REPAIR WORKFLOW
+For mismatched lessons:
+- identify canonical intended lesson topic from slug/title/module
+- remove contaminated content
+- regenerate or restore correct content for that lesson only
+- do not duplicate content from prior lesson
+- ensure the regenerated content matches:
+  - lesson title
+  - system
+  - tier
+  - exam type
+  - locale
+
+8) PREVENTION RULES FOR FUTURE GENERATION
+Any future AI lesson generation must follow these rules:
+- first read the target lesson metadata
+- confirm topic, system, tier, and learning objectives
+- generate content only for that lesson
+- never use previous lesson body as default seed unless explicitly requested
+- never append to a lesson unless lesson identifiers match exactly
+- verify semantic match before saving
+
+Add a pre-save checklist:
+- Does the body clearly match the lesson title?
+- Does the body discuss the correct system/topic?
+- Does it avoid dominant terminology from unrelated lessons?
+- If not, block save and return error
+
+9) DATABASE / CONTENT MODEL HARDENING
+If current schema is too loose, improve it.
+
+Recommended fields:
+- id
+- lessonSlug
+- lessonTitle
+- courseSlug
+- moduleSlug
+- system
+- tier
+- examType
+- locale
+- contentBody
+- contentStatus
+- updatedAt
+- updatedBy
+- aiGenerated
+- sourcePrompt
+- revisionVersion
+
+Add unique constraints where appropriate so one lesson/locale/tier record cannot accidentally overwrite another.
+
+10) TESTING
+Add automated tests for:
+- route slug fetches correct lesson content
+- switching between lessons does not reuse old content
+- locale switching does not pull unrelated body text
+- admin editing saves to correct lesson only
+- AI generation saves to correct lesson only
+- mismatched identifiers are rejected
+- query cache invalidates correctly when route changes
+
+Include regression tests using real examples:
+- COPD lesson must not show metered dose inhaler lesson body
+- cardiac lessons must not show cystic fibrosis lesson body
+
+11) LOGGING + DEBUGGING
+Add structured logs for:
+- lesson content fetch request
+- returned lesson identifiers
+- validation pass/fail
+- save/update target identifiers
+- AI generation target identifiers
+
+This should make future mismatches easy to diagnose.
+
+12) REQUIRED OUTPUT
+After fixing, provide:
+- root cause found
+- files changed
+- schema changes
+- caching/state fixes made
+- lessons repaired
+- prevention mechanisms added
+- tests added
+
+DEFINITION OF DONE:
+- every lesson renders only its own correct content
+- no unrelated lesson text appears anywhere
+- admin/AI tools cannot save into the wrong lesson
+- cache/state does not bleed content across routes
+- integrity checker can detect future mismatches
+- regression tests cover this permanently
