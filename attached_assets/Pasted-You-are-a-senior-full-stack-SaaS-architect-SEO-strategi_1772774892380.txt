@@ -1,0 +1,1157 @@
+You are a senior full stack SaaS architect, SEO strategist, and EdTech growth engineer.
+
+Your task is to design and implement a COMPLETE subscription growth infrastructure for the NurseNest platform.
+
+NurseNest is a Canadian-focused nursing education platform that provides exam preparation for:
+
+REx-PN
+NCLEX-PN
+NCLEX-RN
+NGN
+Nurse Practitioner exams
+Allied health exams
+
+The tech stack is:
+
+Frontend:
+React
+Vite
+Tailwind
+Wouter router
+
+Backend:
+Node.js
+Express
+
+Database:
+PostgreSQL
+
+Payments:
+Stripe
+
+The platform already has:
+
+question banks
+lessons
+flashcards
+practice exams
+admin dashboard
+premium gated content
+
+Your goal is to design and implement systems that significantly increase:
+
+traffic
+user signups
+email capture
+subscription conversions
+student retention
+
+The system must be scalable and SEO optimized.
+
+Build the following systems.
+
+--------------------------------------------------
+
+SYSTEM 1: FREE DIAGNOSTIC EXAM FUNNEL
+
+Create a public landing page:
+
+/diagnostic
+
+This page should include:
+
+headline
+benefits
+exam selection
+
+REx-PN
+NCLEX-PN
+NCLEX-RN
+NGN
+NP
+
+Students can take a FREE 50 question diagnostic exam.
+
+Diagnostic exam features:
+
+timed exam
+exam simulation interface
+mixed topics
+exam difficulty distribution
+
+After completion generate a detailed readiness report.
+
+The readiness report must include:
+
+overall score
+percentile ranking
+predicted pass probability
+strength areas
+weak topic areas
+recommended study plan
+
+Example output:
+
+NurseNest Readiness Score: 62%
+
+Strength Areas:
+Infection control
+Medication safety
+
+Weak Areas:
+Fluid & electrolyte balance
+Cardiac pharmacology
+Pediatric growth milestones
+
+Predicted pass probability: 58%
+
+Next step recommendation:
+
+Complete 400 additional questions to reach 90% readiness.
+
+At the bottom display conversion CTA:
+
+Unlock the full NurseNest question bank.
+
+Include pricing display.
+
+--------------------------------------------------
+
+SYSTEM 2: STUDY PLAN GENERATOR
+
+Create an AI study plan generator.
+
+Endpoint:
+
+/api/study-plan
+
+User inputs:
+
+exam type
+exam date
+current readiness score
+
+Generate personalized study plan:
+
+14 day
+30 day
+60 day
+
+Each day includes:
+
+lesson
+flashcards
+practice questions
+mock exams
+
+Example:
+
+Day 1
+Cardiac assessment lesson
+30 practice questions
+
+Day 2
+Respiratory disorders
+flashcard review
+25 questions
+
+Allow users to save plan only with premium subscription.
+
+--------------------------------------------------
+
+SYSTEM 3: MASS SEO QUESTION PAGES
+
+Create SEO optimized practice question pages.
+
+Example URL structure:
+
+/rex-pn/practice-question/hyperkalemia-priority-intervention
+
+Each page must include:
+
+SEO title
+meta description
+schema markup
+question stem
+answer options
+correct answer explanation
+clinical pearl
+exam trap explanation
+
+At the bottom include:
+
+2 additional locked questions
+
+CTA:
+
+Unlock 2000 more practice questions.
+
+Automatically generate thousands of these pages from the question bank.
+
+--------------------------------------------------
+
+SYSTEM 4: DAILY QUESTION SYSTEM
+
+Create a daily question system.
+
+Endpoint:
+
+/daily-question
+
+Each day a new question is posted publicly.
+
+Users must create an account to view the answer explanation.
+
+Email capture integration.
+
+--------------------------------------------------
+
+SYSTEM 5: EMAIL CAPTURE SYSTEM
+
+Add email capture across the site.
+
+Examples:
+
+Free Nursing Cheat Sheets
+Free ECG Interpretation Guide
+Free REx-PN Question of the Day
+Free Diagnostic Exam
+
+Email sequence automation.
+
+Sequence:
+
+Day 1 welcome
+Day 2 study tips
+Day 3 practice question
+Day 5 exam strategy
+Day 7 conversion offer
+
+--------------------------------------------------
+
+SYSTEM 6: STUDENT PERFORMANCE DASHBOARD
+
+Create a student analytics dashboard.
+
+Features:
+
+progress tracking
+weak topic detection
+question accuracy
+study streaks
+exam readiness prediction
+
+Visualization components:
+
+score charts
+topic heatmaps
+progress graphs
+
+--------------------------------------------------
+
+SYSTEM 7: EXAM SIMULATION ENGINE
+
+Create adaptive exam simulation.
+
+Feature:
+
+CAT style testing
+
+Difficulty adjusts based on answers.
+
+Provide pass probability.
+
+Exam types:
+
+REx-PN
+NCLEX-RN
+NGN
+NP
+
+--------------------------------------------------
+
+SYSTEM 8: AFFILIATE PROGRAM
+
+Create an affiliate system.
+
+Features:
+
+affiliate dashboard
+unique referral links
+conversion tracking
+commission tracking
+
+Default commission:
+
+30%
+
+Admin must be able to adjust commission rates.
+
+--------------------------------------------------
+
+SYSTEM 9: MEDICAL VISUAL CONTENT LIBRARY
+
+Create a visual learning library.
+
+Categories:
+
+ECG interpretation
+ABG interpretation
+shock types comparison
+insulin pharmacology
+cardiac medications
+pediatric milestones
+lab values charts
+
+Images must be:
+
+downloadable
+shareable
+SEO optimized
+
+Each image page must include educational text and internal links.
+
+--------------------------------------------------
+
+SYSTEM 10: BLOG + STUDY PAGE ENGINE
+
+Create long form SEO study pages.
+
+Example:
+
+/rex-pn/hyperkalemia
+
+Each page should include:
+
+pathophysiology
+clinical signs
+nursing interventions
+lab values
+exam traps
+practice questions
+clinical pearls
+
+Minimum word count:
+
+2000 words.
+
+Include internal linking to:
+
+practice questions
+flashcards
+question banks
+premium content
+
+--------------------------------------------------
+
+SYSTEM 11: SOCIAL PROOF BLOCKS
+
+Add trust elements:
+
+student testimonials
+beta user feedback
+exam pass improvements
+
+Example:
+
+Students report average score improvement of 18%.
+
+--------------------------------------------------
+
+SYSTEM 12: PASS GUARANTEE FEATURE
+
+Create pass guarantee logic.
+
+If user completes:
+
+80% of question bank
+3 mock exams
+
+and fails exam
+
+offer refund eligibility.
+
+--------------------------------------------------
+
+SYSTEM 13: REDDIT + SOCIAL TRAFFIC LANDING PAGES
+
+Create optimized landing pages for traffic from:
+
+Reddit
+TikTok
+Instagram
+
+Examples:
+
+/free-nclex-questions
+/free-rexpn-practice-exam
+/free-nursing-cheat-sheets
+
+These pages must prioritize:
+
+email capture
+free diagnostic exam
+question previews.
+
+--------------------------------------------------
+
+SYSTEM 14: ADMIN AUTOPILOT CONTENT ENGINE
+
+Create admin panel automation tools.
+
+Tabs:
+
+Blog Generator
+Practice Question Generator
+Visual Diagram Generator
+Flashcard Generator
+Course Builder
+SEO Keyword Planner
+
+Each generator must integrate with the database and publish content automatically.
+
+--------------------------------------------------
+
+SYSTEM 15: SEO INFRASTRUCTURE
+
+Implement SEO best practices.
+
+Dynamic sitemap
+structured data schema
+OpenGraph tags
+internal linking engine
+keyword optimized headings
+
+Ensure fast page load.
+
+--------------------------------------------------
+
+SYSTEM 16: PERFORMANCE ANALYTICS
+
+Build analytics dashboard showing:
+
+traffic
+conversion rates
+email capture rate
+subscription rate
+most viewed topics
+highest converting pages
+
+--------------------------------------------------
+
+FINAL OBJECTIVE
+
+The system must create a scalable education platform capable of:
+
+mass SEO traffic
+high conversion funnels
+student engagement
+subscription growth
+
+Optimize for both:
+
+Canadian nursing exams
+US nursing exams
+
+Automatically adjust exam content based on user country.
+
+Ensure:
+
+clean UI
+fast performance
+SEO optimization
+mobile compatibility
+
+Generate complete backend routes, frontend pages, database schemas, and admin tools necessary to implement all systems.
+
+
+You are an elite SEO architect and EdTech growth strategist.
+
+Your task is to build a massive SEO content ecosystem for the NurseNest platform.
+
+NurseNest is a nursing exam preparation platform that supports:
+
+REx-PN
+NCLEX-PN
+NCLEX-RN
+NGN
+Nurse Practitioner exams
+Allied health exams
+
+The platform must dominate search traffic for nursing education topics.
+
+--------------------------------------------------
+
+GOAL
+
+Generate thousands of SEO optimized pages that attract nursing students searching for:
+
+practice questions
+nursing concepts
+lab values
+medications
+pathophysiology
+clinical skills
+exam preparation
+
+--------------------------------------------------
+
+CONTENT CLUSTERS
+
+Create topic clusters for each exam tier.
+
+RPN clusters
+RN clusters
+NP clusters
+
+Each cluster must include:
+
+pillar pages
+supporting articles
+practice questions
+flashcards
+visual diagrams
+
+--------------------------------------------------
+
+EXAMPLE CLUSTER STRUCTURE
+
+Pillar page
+
+Hyperkalemia Nursing Management
+
+Supporting pages
+
+Hyperkalemia practice questions
+Hyperkalemia ECG changes
+Hyperkalemia nursing interventions
+Hyperkalemia medications
+Hyperkalemia case study
+
+--------------------------------------------------
+
+PAGE STRUCTURE
+
+Every article must contain:
+
+SEO title
+meta description
+structured headings
+internal links
+practice questions
+clinical pearls
+exam traps
+
+Minimum word count:
+
+2000 words
+
+--------------------------------------------------
+
+QUESTION SEO PAGES
+
+Create thousands of individual practice question pages.
+
+Example URL
+
+/rex-pn/practice-question/hyperkalemia-priority-intervention
+
+Each page includes
+
+question
+answer explanation
+clinical pearl
+locked premium questions
+
+--------------------------------------------------
+
+VISUAL SEO PAGES
+
+Create diagram pages.
+
+Examples
+
+ECG interpretation guide
+ABG interpretation chart
+Shock types comparison
+Insulin pharmacology chart
+Cardiac medication classes
+
+Each page includes educational text and downloadable diagrams.
+
+--------------------------------------------------
+
+FREE TRAFFIC PAGES
+
+Create pages optimized for high traffic search terms.
+
+Examples
+
+Free NCLEX practice questions
+Free REx-PN practice exam
+Nursing lab values cheat sheet
+ECG interpretation for nurses
+
+Each page contains:
+
+free sample questions
+email capture
+CTA to diagnostic exam
+
+--------------------------------------------------
+
+INTERNAL LINKING
+
+All pages must link to:
+
+practice questions
+flashcards
+lessons
+premium question banks
+
+--------------------------------------------------
+
+SEO OBJECTIVE
+
+Generate an interconnected content network capable of ranking for thousands of nursing education keywords.
+
+Focus on long-tail keywords with high student search intent.
+
+--------------------------------------------------
+
+CONTENT QUALITY
+
+Content must be medically accurate, exam relevant, and written for nursing students preparing for licensing exams.
+
+Avoid filler text.
+
+Ensure clarity and educational value.
+
+--------------------------------------------------
+
+OUTPUT
+
+Generate structured content ready for publishing within the NurseNest platform.
+
+
+
+
+You are generating NEW, UNIQUE lesson pages for NurseNest.
+
+NON-NEGOTIABLE RULES
+1) Each output must be a brand-new page with a unique slug, unique title, and unique internal page_id.
+2) You MUST NOT link to, reuse, overwrite, or reference an existing lesson page unless explicitly given its page_id to update.
+3) You MUST NOT output a generic “same lesson” structure with only synonyms changed. Each page must differ meaningfully in scope, examples, questions, and subtopics.
+4) You MUST NOT point multiple tiers to the same lesson. RPN, RN, and NP must each have their own page for the same concept.
+
+PAGE IDENTITY (MUST PRINT AT TOP)
+Return a JSON header first with these exact fields:
+
+{
+  "page_type": "lesson",
+  "tier": "<RPN|RN|NP>",
+  "exam": "<REx-PN|NCLEX-PN|NCLEX-RN|NGN|NP>",
+  "topic_cluster": "<cluster name>",
+  "primary_keyword": "<keyword>",
+  "secondary_keywords": ["...", "...", "..."],
+  "intent": "<learn|review|exam-prep|clinical-skill>",
+  "canonical_slug": "<unique slug>",
+  "unique_page_id": "<UUID-like string or Tier-Topic-DateTime>",
+  "do_not_merge": true
+}
+
+UNIQUE SLUG RULES
+- Slug must include tier + intent + topic keyword.
+- Examples:
+  rpn-learn-hyperkalemia-nursing-interventions
+  rn-exam-prep-hyperkalemia-prioritization-delegation
+  np-clinical-hyperkalemia-differential-diagnosis-treatment
+
+UNIQUE CONTENT RULES
+- Each tier page must be different in depth and scope:
+  RPN: bedside care + monitoring + reporting + basic interventions
+  RN: prioritization + complex care planning + delegation + complications
+  NP: diagnosis + differential + prescribing + guidelines + follow-up
+
+LINKING RULES
+- Do NOT link to “the” hyperkalemia lesson. Only link to tier-matched lessons.
+- Internal links must be tier-scoped:
+  /rpn/... links only to /rpn/...
+  /rn/... links only to /rn/...
+  /np/... links only to /np/...
+
+STRUCTURE (MIN 1500 WORDS)
+- SEO title + meta description
+- Intro
+- Core concept explanation
+- Assessment
+- Interventions (tier appropriate)
+- Patient education
+- Exam traps and clinical pearls
+- 10 practice questions with rationales (tier appropriate)
+- Suggested visuals
+- 5 internal links (tier appropriate)
+
+VALIDATION (MUST DO BEFORE FINAL OUTPUT)
+Before finalizing, perform a self-check and explicitly output:
+- "PASS: unique slug"
+- "PASS: tier isolation"
+- "PASS: not referencing other tiers"
+- "PASS: internal links are tier-scoped"
+If any check fails, regenerate the page from scratch with a new slug and new page_id.
+
+OUTPUT
+1) JSON header
+2) Full page content in clean HTML or markdown (your choice, be consistent)
+
+Generate NEW lesson pages from this list of topics.
+
+CRITICAL: For each topic, create 3 separate pages: RPN, RN, NP.
+Each must have its own unique slug, unique_page_id, unique internal links, and tier-appropriate scope.
+
+Do not reuse any title pattern across tiers.
+Do not reuse the same introduction, examples, or questions across tiers.
+
+For each topic output 3 separate page objects:
+- RPN page object
+- RN page object
+- NP page object
+
+If the topic is the same, the tier page must still be unique in:
+- headings
+- examples/case vignette
+- interventions
+- exam traps
+- questions
+
+Return as an array: [ {page1}, {page2}, ... ].
+
+Audit the lesson system for collision bugs.
+
+Check:
+- routing patterns (tier included or not)
+- slug uniqueness rules
+- DB constraints and upserts
+- internal link resolver logic
+
+Identify the single most likely reason multiple pages map to the same lesson, and output:
+- exact code locations to change
+- the fixed logic
+- migration SQL (if needed)
+
+You are a senior full-stack performance engineer, SEO architect, and React optimization expert.
+Your task is to audit, refactor, and repair the NurseNest platform to solve performance problems, fix SEO issues, enforce unique lesson page architecture, and improve Google Core Web Vitals.
+The platform stack is:
+Frontend
+React + Vite + Tailwind + Wouter router
+Backend
+Node.js + Express
+Database
+PostgreSQL
+Domain
+https://www.nursenest.ca
+The site currently has the following Lighthouse metrics:
+Mobile:
+First Contentful Paint: 11.5 s
+Largest Contentful Paint: 21.2 s
+Total Blocking Time: 80 ms
+Speed Index: 11.5 s
+Page payload: 3.7 MB
+Desktop:
+Largest Contentful Paint: 3.3 s
+Total Blocking Time: 580 ms
+Performance score: ~55
+Major issues reported:
+Reduce unused JavaScript (~381 KB)
+Enormous network payload (~3.7 MB)
+Main-thread work ~3.1 s
+Long tasks detected
+Render blocking requests
+DOM size optimization needed
+Forced reflows
+Non-composited animations
+Cache lifetime issues
+Missing canonical tags
+Incorrect image aspect ratios
+Your mission is to refactor the application so that:
+Mobile performance score ≥ 90
+LCP < 2.5 seconds
+FCP < 1.8 seconds
+Page payload < 1.5 MB
+You must produce implementation-ready code changes and architecture improvements.
+ 
+PART 1 — PERFORMANCE OPTIMIZATION
+Analyze the React application and apply the following optimizations.
+Code splitting
+Convert large components into lazy-loaded chunks using React.lazy and dynamic imports.
+Example structure:
+lazy load pages
+lazy load admin dashboard
+lazy load lesson modules
+Ensure that only the minimal bundle loads on the homepage.
+ 
+Remove unused JavaScript
+Identify unused libraries and components.
+Reduce bundle size by removing dead imports.
+Ensure tree-shaking is working in Vite.
+ 
+Optimize images
+Convert all images to WebP or AVIF.
+Use responsive images.
+Implement lazy loading for images.
+Example:
+loading="lazy"
+Ensure images maintain correct aspect ratios to prevent CLS.
+ 
+Reduce network payload
+Compress all assets with Brotli or gzip.
+Enable HTTP compression on the Express server.
+Remove large unused fonts.
+Replace large PNG diagrams with optimized SVG.
+ 
+Reduce main-thread work
+Split heavy rendering tasks into smaller components.
+Avoid synchronous blocking loops.
+Memoize expensive React components.
+Use React.memo where possible.
+ 
+Fix animations
+Replace layout-based animations with GPU-friendly transforms.
+Use transform and opacity rather than top/left.
+ 
+Cache strategy
+Add proper cache headers for static assets.
+Example:
+Cache-Control: public, max-age=31536000, immutable
+Implement service worker caching for static assets.
+ 
+PART 2 — ROUTING AND LESSON ARCHITECTURE
+The current system sometimes links multiple pages to the same lesson.
+This must be fixed permanently.
+Implement tier-based routing.
+Routes must be structured as:
+/rpn/lessons/:slug
+/rn/lessons/:slug
+/np/lessons/:slug
+Each tier must be completely isolated.
+ 
+Database rules
+Add unique constraints:
+UNIQUE(tier, slug)
+Each lesson must have:
+lesson_id
+tier
+slug
+title
+content
+Never update lessons based on keyword matching.
+Only update lessons when lesson_id is explicitly provided.
+Otherwise always insert a new lesson.
+ 
+Internal linking rules
+RPN pages must only link to other RPN pages.
+RN pages must only link to RN pages.
+NP pages must only link to NP pages.
+If a page does not exist for that tier, link to the tier hub page instead.
+ 
+PART 3 — LESSON GENERATION STRUCTURE
+When generating lessons the AI must enforce tier isolation.
+Tier definitions:
+RPN
+Practical nurse scope
+Basic patient monitoring
+Foundational pharmacology
+Bedside care
+RN
+Advanced patient assessment
+Clinical decision making
+Delegation and prioritization
+NP
+Provider level knowledge
+Differential diagnosis
+Diagnostic reasoning
+Prescribing and treatment planning
+Lesson titles must match tier.
+Example:
+RPN
+“Monitoring Electrolyte Imbalances in Practical Nursing Practice”
+RN
+“Prioritizing Care for Patients with Electrolyte Imbalances”
+NP
+“Differential Diagnosis and Management of Electrolyte Disorders”
+Each lesson must be at least 1500 words and include:
+Introduction
+Pathophysiology
+Clinical assessment
+Interventions
+Patient education
+Exam tips
+Practice questions
+Before publishing a lesson the system must verify:
+The lesson does not reference another tier.
+ 
+PART 4 — SEO IMPROVEMENTS
+Fix all SEO issues reported by Lighthouse.
+Add canonical tags to all pages.
+Example:
+ 
+Structured data
+Add schema markup for:
+Article
+Educational content
+Practice questions
+ 
+Improve crawler readability
+Ensure proper heading hierarchy:
+H1
+H2
+H3
+Never skip levels.
+ 
+Sitemap improvements
+Generate dynamic sitemaps for each section.
+Examples:
+/sitemap-rpn.xml
+/sitemap-rn.xml
+/sitemap-np.xml
+ 
+PART 5 — ACCESSIBILITY FIXES
+Add labels to all form inputs.
+Ensure buttons have accessible names.
+Improve color contrast to WCAG AA standards.
+ 
+PART 6 — SECURITY BEST PRACTICES
+Add Content Security Policy headers.
+Add HSTS.
+Enable trusted types to mitigate DOM-based XSS.
+Enable COOP and CORP headers.
+ 
+PART 7 — FINAL VALIDATION
+After refactoring, confirm the system achieves:
+Mobile Lighthouse score ≥ 90
+Desktop Lighthouse score ≥ 95
+Verify:
+Unique lesson pages per tier
+Correct canonical URLs
+Optimized JavaScript bundle
+Optimized images
+Reduced payload size
+Improved LCP and FCP
+Output a list of all code changes required for the React frontend, Express backend, and database schema.
+Then generate the updated code snippets necessary to implement these fixes.
+The foolproof way to fix your performance + tier lesson collisions
+1) Get real evidence of what is slow (no guessing)
+Add these three measurements first, then optimize:
+•	Vite bundle analyzer to identify the biggest JS chunks
+•	Network waterfall on mobile (what blocks first paint)
+•	LCP element identification (what is actually your LCP)
+Do this immediately:
+•	run npm i -D rollup-plugin-visualizer
+•	add visualizer to vite.config.ts
+•	build and inspect the biggest chunks
+•	in Chrome DevTools Performance: record on slow 4G, identify LCP element + render blockers
+2) Fix the biggest cause of slow FCP/LCP: ship less JS on first load
+Rule: homepage must load only what it needs.
+•	Lazy-load every route page (admin, lesson pages, qbank, generators)
+•	Move heavy components behind dynamic import
+•	Do not import large libraries at the top-level (editors, markdown engines, chart libs, PDF libs, syntax highlighters, etc.)
+Wouter example (route-based code splitting):
+import { Route, Switch } from "wouter";
+import React from "react";
+
+const Home = React.lazy(() => import("./pages/Home"));
+const RpnLesson = React.lazy(() => import("./pages/rpn/Lesson"));
+const RnLesson = React.lazy(() => import("./pages/rn/Lesson"));
+const NpLesson = React.lazy(() => import("./pages/np/Lesson"));
+const Admin = React.lazy(() => import("./pages/admin/Admin"));
+
+function App() {
+  return (
+    <React.Suspense fallback={<div className="p-6">Loading…</div>}>
+      <Switch>
+        <Route path="/" component={Home} />
+
+        <Route path="/rpn/lessons/:slug" component={RpnLesson} />
+        <Route path="/rn/lessons/:slug" component={RnLesson} />
+        <Route path="/np/lessons/:slug" component={NpLesson} />
+
+        <Route path="/admin/:rest*" component={Admin} />
+      </Switch>
+    </React.Suspense>
+  );
+}
+export default App;
+3) Stop the LCP image from being slow
+Your payload is ~3.7MB. That’s almost always images + JS.
+Fix:
+•	Convert hero images + common thumbnails to AVIF/WebP
+•	Ensure correct width/height attributes (prevents CLS)
+•	For the LCP image: do not lazy-load, preload it, and use fetchpriority="high"
+<link rel="preload" as="image" href="/img/hero.avif" imagesrcset="/img/hero-640.avif 640w, /img/hero-1280.avif 1280w" imagesizes="100vw">
+<img
+  src="/img/hero-1280.avif"
+  srcSet="/img/hero-640.avif 640w, /img/hero-1280.avif 1280w"
+  sizes="100vw"
+  width={1280}
+  height={720}
+  fetchPriority="high"
+  decoding="async"
+  alt="NurseNest exam prep"
+/>
+For non-LCP images:
+<img loading="lazy" decoding="async" ... />
+4) Fix render blocking fonts (this is a silent killer)
+If you use Google Fonts or big font files:
+•	self-host fonts
+•	use font-display: swap
+•	preload only the single primary font file used above-the-fold
+5) Fix “No data” in Search Console “real users”
+That section is CrUX field data. “No data” usually means:
+•	not enough real-user traffic yet, or
+•	you’re not eligible for CrUX reporting on that origin/page set
+So you must rely on:
+•	Lighthouse lab runs
+•	your own RUM (real user monitoring)
+Add basic RUM (Web Vitals) to log LCP/FID/CLS to your backend.
+6) Compress + cache assets correctly (huge win)
+On Express:
+•	enable compression (Brotli/gzip)
+•	serve static with long cache for hashed assets
+import compression from "compression";
+app.use(compression());
+
+app.use("/assets", express.static("dist/assets", {
+  immutable: true,
+  maxAge: "1y",
+}));
+
+app.use(express.static("dist", {
+  maxAge: "1h",
+}));
+7) Kill unnecessary third-party scripts on initial load
+•	Load analytics after interaction or after first paint
+•	Avoid blocking tags in <head>
+•	Delay Stripe JS until checkout page
+8) Reduce DOM size + forced reflow culprits
+Your audits mention forced reflow + DOM size.
+Common causes:
+•	rendering large lesson lists on home
+•	big tables/charts
+•	measuring layout repeatedly during render
+Fix pattern:
+•	paginate/virtualize long lists
+•	remove “measurements during render”
+•	use content-visibility: auto on long content blocks
+.long-content {
+  content-visibility: auto;
+  contain-intrinsic-size: 1px 2000px;
+}
+ 
+Fix the “everything links to the same lesson” problem (permanent)
+9) Tier-based routing is mandatory
+You must not have a generic /lessons/:slug route.
+Use only:
+•	/rpn/lessons/:slug
+•	/rn/lessons/:slug
+•	/np/lessons/:slug
+10) DB constraint prevents collisions
+Add unique index:
+ALTER TABLE lessons
+ADD CONSTRAINT lessons_tier_slug_unique UNIQUE (tier, slug);
+11) Ban keyword-based upserts
+Only update when lesson_id is provided.
+Otherwise always INSERT.
+12) Tier-scoped internal link resolver
+When generating links, resolver must filter by tier:
+•	If tier page exists → link it
+•	If not → link tier hub (not another tier’s page)
+ 
+Canonical tag fix (your SEO audit shows it’s wrong)
+In an SPA, you need correct <head> per route. If you don’t SSR/prerender, bots sometimes see generic head, and Lighthouse flags canonical.
+Minimum fix:
+•	use react-helmet-async
+•	set canonical per route
+import { Helmet } from "react-helmet-async";
+
+export function LessonHead({ tier, slug, title }: { tier: string; slug: string; title: string }) {
+  const url = `https://www.nursenest.ca/${tier}/lessons/${slug}`;
+  return (
+    <Helmet>
+      <title>{title} | NurseNest</title>
+      <link rel="canonical" href={url} />
+      <meta name="description" content={`Study ${title} for ${tier.toUpperCase()} exams with practice questions.`} />
+    </Helmet>
+  );
+}
+Best fix (for performance + SEO):
+•	prerender critical landing pages (home, diagnostic, tier hubs) so first paint is instant and bots get real HTML.
+ 
+One single “do everything” prompt you can paste into your dev AI
+Paste this entire block into Replit AI / Cursor:
+You are a senior React/Vite performance engineer and SEO architect. You will modify my codebase (React + Vite + Tailwind + Wouter, Node/Express, Postgres) to achieve:
+
+Mobile Lighthouse ≥ 90
+FCP < 1.8s, LCP < 2.5s, CLS < 0.05
+Initial payload < 1.5MB
+No lesson collisions across tiers
+Correct canonical tags per page
+
+Context:
+Current Lighthouse shows mobile FCP ~11.5s, LCP ~21.2s, payload ~3.7MB, unused JS ~381KB, long tasks, forced reflow, non-composited animations, cache issues, wrong rel=canonical (points to root), incorrect image aspect ratios, “No data” in real user experience.
+
+TASKS (DO ALL):
+
+A) MEASUREMENT
+1) Add bundle analysis to Vite build (rollup visualizer). Output instructions to run and identify top offenders.
+2) Add basic Web Vitals RUM (LCP/CLS/INP) and send to /api/rum to log in DB for real user data.
+
+B) PERFORMANCE: JS
+3) Implement route-based code splitting with React.lazy for all pages (admin, lessons, qbank, generators, dashboards). Ensure homepage bundle is minimal.
+4) Remove/avoid importing heavy libraries in entry bundle; move them behind dynamic imports.
+5) Ensure Vite tree-shaking works and remove dead imports.
+
+C) PERFORMANCE: IMAGES
+6) Implement image pipeline guidance: convert hero + common images to AVIF/WebP, generate multiple sizes.
+7) Fix LCP image: preload it, no lazy load, add fetchpriority=high, and set explicit width/height.
+8) For all other images: loading=lazy, decoding=async; fix aspect ratio warnings.
+
+D) PERFORMANCE: NETWORK/CACHE
+9) Enable gzip/brotli compression on Express.
+10) Serve /assets with cache-control: immutable, max-age=31536000; ensure hashed filenames.
+11) Reduce render-blocking requests: defer third-party scripts, delay analytics until after first paint, load Stripe only on checkout.
+
+E) PERFORMANCE: DOM/RENDER
+12) Identify and fix forced reflow sources; remove layout thrashing; memoize expensive components.
+13) Reduce DOM size on homepage by paginating/virtualizing big lists; apply content-visibility: auto to long lesson pages.
+14) Replace non-composited animations with transform/opacity.
+
+F) LESSON ARCHITECTURE: TIER ISOLATION
+15) Enforce tier-based routes ONLY: /rpn/lessons/:slug, /rn/lessons/:slug, /np/lessons/:slug. Remove or redirect any generic /lessons/:slug route.
+16) Add DB unique constraint UNIQUE(tier, slug).
+17) Ensure lesson creation always INSERTS unless lesson_id is explicitly provided.
+18) Implement tier-scoped internal link resolver: only link within same tier; if missing, link to tier hub.
+
+G) SEO
+19) Add react-helmet-async and set canonical URL per route to the exact page (never root). Also fix heading order (H1 then H2 then H3).
+20) Add schema markup for lessons and practice questions where applicable.
+21) Generate sitemaps per tier and ensure correct canonical and indexability.
+
+OUTPUT REQUIREMENTS:
+- Provide exact code diffs or full updated file contents for:
+  vite.config.*
+  main entry/App router
+  Express server static serving + compression
+  Helmet provider usage and per-page canonical head component
+  DB migration SQL
+  Link resolver function
+  RUM endpoint + DB table
+- Provide a verification checklist to rerun Lighthouse (mobile throttling) and confirm improvements.
+- Do not hand-wave. Implement the changes.
+ 
+What I need from you to make this even more “drop-in exact”
+If you paste one URL you tested (like https://www.nursenest.ca/en) and tell me:
+•	where your Express server file is (server/index.ts? src/server.ts?)
+•	what table name you use for lessons (e.g., lessons, lesson_pages)
+…I can rewrite the above into exact file-by-file patches (routes, SQL migration, resolver function) tailored to your repo naming.
+But even without that, the prompt + code patterns above will directly fix the exa
+
