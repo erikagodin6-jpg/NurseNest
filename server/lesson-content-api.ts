@@ -10,6 +10,7 @@ type LessonMeta = {
   hasPostTest: boolean;
   medCount: number;
   image?: string;
+  isComplete: boolean;
 };
 
 let lessonData: Record<string, any> | null = null;
@@ -59,17 +60,22 @@ function deriveCategory(lesson: any): string {
 async function buildMetadata(): Promise<LessonMeta[]> {
   if (metadataCache) return metadataCache;
   const data = await loadLessonData();
-  metadataCache = Object.entries(data).map(([id, lesson]: [string, any]) => ({
-    id,
-    title: typeof lesson.title === "object" ? (lesson.title.en || lesson.title) : (lesson.title || id),
-    tier: deriveTier(id),
-    category: deriveCategory(lesson),
-    hasQuiz: Array.isArray(lesson.quiz) && lesson.quiz.length > 0,
-    hasPreTest: Array.isArray(lesson.preTest) && lesson.preTest.length > 0,
-    hasPostTest: Array.isArray(lesson.postTest) && lesson.postTest.length > 0,
-    medCount: Array.isArray(lesson.medications) ? lesson.medications.length : 0,
-    image: lesson.image,
-  }));
+  metadataCache = Object.entries(data).map(([id, lesson]: [string, any]) => {
+    const cellularContent = lesson.cellular?.content || "";
+    const isPlaceholder = typeof cellularContent === "string" && cellularContent.includes("[WRITE YOUR");
+    return {
+      id,
+      title: typeof lesson.title === "object" ? (lesson.title.en || lesson.title) : (lesson.title || id),
+      tier: deriveTier(id),
+      category: deriveCategory(lesson),
+      hasQuiz: Array.isArray(lesson.quiz) && lesson.quiz.length > 0,
+      hasPreTest: Array.isArray(lesson.preTest) && lesson.preTest.length > 0,
+      hasPostTest: Array.isArray(lesson.postTest) && lesson.postTest.length > 0,
+      medCount: Array.isArray(lesson.medications) ? lesson.medications.length : 0,
+      image: lesson.image,
+      isComplete: !isPlaceholder,
+    };
+  });
   return metadataCache;
 }
 

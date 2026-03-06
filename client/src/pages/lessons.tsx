@@ -3515,6 +3515,7 @@ export default function Lessons() {
   const [editingSystem, setEditingSystem] = useState<any>(null);
   const [systemModalTier, setSystemModalTier] = useState("rpn");
   const [lessonOverrides, setLessonOverrides] = useState<Record<string, any>>({});
+  const [completeLessons, setCompleteLessons] = useState<Set<string>>(new Set());
   const { toast } = useToast();
 
   const refreshOverrides = () => {
@@ -3526,6 +3527,18 @@ export default function Lessons() {
 
   useEffect(() => {
     refreshOverrides();
+    if (isAdmin) {
+      fetch("/api/lessons/meta")
+        .then((r) => r.ok ? r.json() : [])
+        .then((meta: { id: string; isComplete: boolean }[]) => {
+          const complete = new Set<string>();
+          for (const m of meta) {
+            if (m.isComplete) complete.add(m.id);
+          }
+          setCompleteLessons(complete);
+        })
+        .catch(() => {});
+    }
   }, []);
 
   useEffect(() => {
@@ -3743,7 +3756,7 @@ export default function Lessons() {
             <LecturesSection tier="rpn" onNavigate={setLocation} />
             <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-8">
               {[...preNursingSystems, ...fundamentalsSystems, ...delegationSystems, ...clinicalScenariosSystems, ...medMathSystems, ...rpnNonPharm].filter((system) => { if (selectedSystemFilter !== "all" && system.id !== selectedSystemFilter) return false; if (!lessonSearchQuery) return true; const q = lessonSearchQuery.toLowerCase(); const sysName = (system.name || system.title || "").toLowerCase(); return sysName.includes(q) || system.diseases?.some((d: any) => d.name?.toLowerCase().includes(q)) || system.lessons?.some((l: any) => l.title?.toLowerCase().includes(q)); }).map((system) => (
-                <LessonSystemCard key={system.id} system={system} tier="rpn" onSelect={handleLessonSelect} lessonOverrides={lessonOverrides} onOverridesChange={refreshOverrides} />
+                <LessonSystemCard key={system.id} system={system} tier="rpn" onSelect={handleLessonSelect} lessonOverrides={lessonOverrides} onOverridesChange={refreshOverrides} completeLessons={completeLessons} />
               ))}
               {customSystems.filter((s) => s.tier === "rpn" || !s.tier).map((cs) => (
                 <CustomSystemCard key={cs.id} system={cs} tier="rpn" isAdmin={isAdmin} onSelect={handleLessonSelect} onEdit={() => { setEditingSystem(cs); setSystemModalTier("rpn"); setShowSystemModal(true); }} onDelete={() => { if (confirm("Delete this system?")) deleteCustomSystem(cs.id); }} lessonOverrides={lessonOverrides} onOverridesChange={refreshOverrides} />
@@ -3758,7 +3771,7 @@ export default function Lessons() {
             <LecturesSection tier="rn" onNavigate={setLocation} />
             <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-8">
               {[...preNursingSystems, ...fundamentalsSystems, ...delegationSystems, ...clinicalScenariosSystems, ...medMathSystems, ...rnNonPharm].filter((system) => { if (selectedSystemFilter !== "all" && system.id !== selectedSystemFilter) return false; if (!lessonSearchQuery) return true; const q = lessonSearchQuery.toLowerCase(); const sysName = (system.name || system.title || "").toLowerCase(); return sysName.includes(q) || system.diseases?.some((d: any) => d.name?.toLowerCase().includes(q)) || system.lessons?.some((l: any) => l.title?.toLowerCase().includes(q)); }).map((system) => (
-                <LessonSystemCard key={system.id} system={system} tier="rn" onSelect={handleLessonSelect} lessonOverrides={lessonOverrides} onOverridesChange={refreshOverrides} />
+                <LessonSystemCard key={system.id} system={system} tier="rn" onSelect={handleLessonSelect} lessonOverrides={lessonOverrides} onOverridesChange={refreshOverrides} completeLessons={completeLessons} />
               ))}
               {customSystems.filter((s) => s.tier === "rn" || !s.tier).map((cs) => (
                 <CustomSystemCard key={cs.id} system={cs} tier="rn" isAdmin={isAdmin} onSelect={handleLessonSelect} onEdit={() => { setEditingSystem(cs); setSystemModalTier("rn"); setShowSystemModal(true); }} onDelete={() => { if (confirm("Delete this system?")) deleteCustomSystem(cs.id); }} lessonOverrides={lessonOverrides} onOverridesChange={refreshOverrides} />
@@ -3773,7 +3786,7 @@ export default function Lessons() {
             <LecturesSection tier="np" onNavigate={setLocation} />
             <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-8">
               {[...preNursingSystems, ...fundamentalsSystems, ...delegationSystems, ...clinicalScenariosSystems, ...medMathSystems, ...npNonPharm].filter((system) => { if (selectedSystemFilter !== "all" && system.id !== selectedSystemFilter) return false; if (!lessonSearchQuery) return true; const q = lessonSearchQuery.toLowerCase(); const sysName = (system.name || system.title || "").toLowerCase(); return sysName.includes(q) || system.diseases?.some((d: any) => d.name?.toLowerCase().includes(q)) || system.lessons?.some((l: any) => l.title?.toLowerCase().includes(q)); }).map((system) => (
-                <LessonSystemCard key={system.id} system={system} tier="np" onSelect={handleLessonSelect} lessonOverrides={lessonOverrides} onOverridesChange={refreshOverrides} />
+                <LessonSystemCard key={system.id} system={system} tier="np" onSelect={handleLessonSelect} lessonOverrides={lessonOverrides} onOverridesChange={refreshOverrides} completeLessons={completeLessons} />
               ))}
               {customSystems.filter((s) => s.tier === "np" || !s.tier).map((cs) => (
                 <CustomSystemCard key={cs.id} system={cs} tier="np" isAdmin={isAdmin} onSelect={handleLessonSelect} onEdit={() => { setEditingSystem(cs); setSystemModalTier("np"); setShowSystemModal(true); }} onDelete={() => { if (confirm("Delete this system?")) deleteCustomSystem(cs.id); }} lessonOverrides={lessonOverrides} onOverridesChange={refreshOverrides} />
@@ -3791,7 +3804,7 @@ export default function Lessons() {
                   <h2 className="text-lg font-bold text-gray-700 mb-4">{t("lessons.rpnPharmacology")}</h2>
                   <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-8">
                     {rpnSystems.filter(s => s.id.includes("pharmacology")).filter((system) => { if (!lessonSearchQuery) return true; const q = lessonSearchQuery.toLowerCase(); const sysName = (system.name || system.title || "").toLowerCase(); return sysName.includes(q) || system.diseases?.some((d: any) => d.name?.toLowerCase().includes(q)) || system.lessons?.some((l: any) => l.title?.toLowerCase().includes(q)); }).map((system) => (
-                      <LessonSystemCard key={system.id} system={system} tier="rpn" onSelect={(id) => setLocation(`/lessons/${id}`)} lessonOverrides={lessonOverrides} onOverridesChange={refreshOverrides} />
+                      <LessonSystemCard key={system.id} system={system} tier="rpn" onSelect={(id) => setLocation(`/lessons/${id}`)} lessonOverrides={lessonOverrides} onOverridesChange={refreshOverrides} completeLessons={completeLessons} />
                     ))}
                   </div>
                 </div>
@@ -3801,7 +3814,7 @@ export default function Lessons() {
                   <h2 className="text-lg font-bold text-gray-700 mb-4">{t("lessons.rnPharmacology")}</h2>
                   <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-8">
                     {rnSystems.filter(s => s.id.includes("pharmacology")).filter((system) => { if (!lessonSearchQuery) return true; const q = lessonSearchQuery.toLowerCase(); const sysName = (system.name || system.title || "").toLowerCase(); return sysName.includes(q) || system.diseases?.some((d: any) => d.name?.toLowerCase().includes(q)) || system.lessons?.some((l: any) => l.title?.toLowerCase().includes(q)); }).map((system) => (
-                      <LessonSystemCard key={system.id} system={system} tier="rn" onSelect={(id) => setLocation(`/lessons/${id}`)} lessonOverrides={lessonOverrides} onOverridesChange={refreshOverrides} />
+                      <LessonSystemCard key={system.id} system={system} tier="rn" onSelect={(id) => setLocation(`/lessons/${id}`)} lessonOverrides={lessonOverrides} onOverridesChange={refreshOverrides} completeLessons={completeLessons} />
                     ))}
                   </div>
                 </div>
@@ -3811,7 +3824,7 @@ export default function Lessons() {
                   <h2 className="text-lg font-bold text-gray-700 mb-4">{t("lessons.npPharmacology")}</h2>
                   <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-8">
                     {npSystems.filter(s => s.id.includes("pharmacology")).filter((system) => { if (!lessonSearchQuery) return true; const q = lessonSearchQuery.toLowerCase(); const sysName = (system.name || system.title || "").toLowerCase(); return sysName.includes(q) || system.diseases?.some((d: any) => d.name?.toLowerCase().includes(q)) || system.lessons?.some((l: any) => l.title?.toLowerCase().includes(q)); }).map((system) => (
-                      <LessonSystemCard key={system.id} system={system} tier="np" onSelect={(id) => setLocation(`/lessons/${id}`)} lessonOverrides={lessonOverrides} onOverridesChange={refreshOverrides} />
+                      <LessonSystemCard key={system.id} system={system} tier="np" onSelect={(id) => setLocation(`/lessons/${id}`)} lessonOverrides={lessonOverrides} onOverridesChange={refreshOverrides} completeLessons={completeLessons} />
                     ))}
                   </div>
                 </div>
@@ -3991,7 +4004,7 @@ function DifficultyBadge({ level }: { level: DifficultyLevel }) {
   );
 }
 
-function LessonSystemCard({ system, onSelect, tier, lessonOverrides, onOverridesChange }: { system: any, onSelect: (id: string) => void, tier: string, lessonOverrides?: Record<string, any>, onOverridesChange?: () => void }) {
+function LessonSystemCard({ system, onSelect, tier, lessonOverrides, onOverridesChange, completeLessons }: { system: any, onSelect: (id: string) => void, tier: string, lessonOverrides?: Record<string, any>, onOverridesChange?: () => void, completeLessons?: Set<string> }) {
   const { t, language } = useI18n();
   const { user } = useAuth();
   const { getImageUrl, refresh: refreshImages } = useSiteImages();
@@ -4137,6 +4150,12 @@ function LessonSystemCard({ system, onSelect, tier, lessonOverrides, onOverrides
                     <span className="font-medium text-gray-900 truncate">
                       {displayName}
                     </span>
+                  )}
+                  {isAdmin && completeLessons && completeLessons.has(disease.id) && (
+                    <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0" data-testid={`check-complete-${disease.id}`} />
+                  )}
+                  {isAdmin && completeLessons && !completeLessons.has(disease.id) && (
+                    <MinusCircle className="w-4 h-4 text-amber-400 shrink-0" data-testid={`check-incomplete-${disease.id}`} />
                   )}
                 </div>
                 <div className="flex items-center gap-2 shrink-0 ml-2">
