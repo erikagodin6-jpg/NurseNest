@@ -2,8 +2,6 @@ import { useState, useEffect, useRef, useMemo } from "react";
 import { useLocation } from "wouter";
 import { useQuery } from "@tanstack/react-query";
 import { Search, X, BookOpen, Stethoscope, Pill, FileText, ArrowRight, Layers, Newspaper } from "lucide-react";
-import { contentMap } from "@/data/lessons";
-import { clinicalConfusions } from "@/data/clinical-confusions";
 import { Input } from "@/components/ui/input";
 
 type SearchResult = {
@@ -13,36 +11,6 @@ type SearchResult = {
   path: string;
   snippet?: string;
 };
-
-function buildStaticIndex(): SearchResult[] {
-  const results: SearchResult[] = [];
-
-  Object.entries(contentMap).forEach(([id, lesson]) => {
-    results.push({
-      id,
-      title: lesson.title,
-      type: "lesson",
-      path: `/lessons/${id}`,
-      snippet: lesson.cellular?.content?.slice(0, 120),
-    });
-  });
-
-  if (Array.isArray(clinicalConfusions)) {
-    clinicalConfusions.forEach((topic: any) => {
-      if (topic.slug && topic.title) {
-        results.push({
-          id: topic.slug,
-          title: topic.title,
-          type: "clinical-clarity",
-          path: `/clinical-clarity/${topic.slug}`,
-          snippet: topic.description || topic.summary || "",
-        });
-      }
-    });
-  }
-
-  return results;
-}
 
 const TYPE_ICONS: Record<string, any> = {
   lesson: BookOpen,
@@ -68,7 +36,24 @@ export function GlobalSearch() {
   const containerRef = useRef<HTMLDivElement>(null);
   const [selectedIndex, setSelectedIndex] = useState(-1);
 
-  const staticIndex = useMemo(() => buildStaticIndex(), []);
+  const { data: lessonResults = [] } = useQuery<SearchResult[]>({
+    queryKey: ["/api/lessons/search", query],
+    queryFn: async () => {
+      if (!query || query.length < 2) return [];
+      const res = await fetch(`/api/lessons/search?q=${encodeURIComponent(query)}`);
+      if (!res.ok) return [];
+      const items = await res.json();
+      return items.map((m: any) => ({
+        id: m.id,
+        title: m.title,
+        type: "lesson" as const,
+        path: `/lessons/${m.id}`,
+        snippet: "",
+      }));
+    },
+    staleTime: 30_000,
+    enabled: open && query.length >= 2,
+  });
 
   const { data: contentItems = [] } = useQuery({
     queryKey: ["/api/search/content"],
@@ -104,7 +89,7 @@ export function GlobalSearch() {
   });
 
   const searchIndex = useMemo(() => {
-    const combined = [...staticIndex];
+    const combined = [...lessonResults];
 
     const seenSlugs = new Set(combined.map((r) => r.id));
 
@@ -148,7 +133,7 @@ export function GlobalSearch() {
     }
 
     return combined;
-  }, [staticIndex, contentItems, publicDecks]);
+  }, [lessonResults, contentItems, publicDecks]);
 
   const results = useMemo(() => {
     if (!query.trim() || query.length < 2) return [];

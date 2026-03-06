@@ -631,6 +631,9 @@ app.use((req, res, next) => {
   const { setupAutopilotRoutes } = await import("./autopilot");
   setupAutopilotRoutes(app);
 
+  const { setupLessonContentRoutes } = await import("./lesson-content-api");
+  setupLessonContentRoutes(app);
+
   const { setupSeoEngineRoutes } = await import("./seo-engine");
   setupSeoEngineRoutes(app);
 

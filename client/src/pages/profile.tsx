@@ -9,12 +9,9 @@ import { Textarea } from "@/components/ui/textarea";
 import { useAuth } from "@/lib/auth";
 import { useToast } from "@/hooks/use-toast";
 import { User, BookOpen, FileText, Crown, LogOut, Printer, Trash2, Plus, Pencil, X, RotateCcw, ChevronLeft, ChevronRight, Layers, Mail, ShoppingBag, Download, AlertCircle, Eye } from "lucide-react";
-import { contentMap } from "@/data/lessons";
 import { LocaleLink } from "@/lib/LocaleLink";
 
 function formatNoteTitle(lessonId: string): string {
-  const lesson = contentMap[lessonId];
-  if (lesson?.title) return lesson.title;
   if (lessonId.startsWith("anatomy-")) {
     return "Anatomy: " + lessonId.replace("anatomy-", "").split("-").map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(" ");
   }

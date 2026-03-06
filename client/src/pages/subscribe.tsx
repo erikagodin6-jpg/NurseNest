@@ -7,7 +7,8 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useAuth } from "@/lib/auth";
 import { useToast } from "@/hooks/use-toast";
-import { lessonCount, questionCount } from "@/data/lessons/index";
+const lessonCount = 867;
+const questionCount = 4200;
 import {
   Check, Shield, BookOpen, Brain, FileText, BarChart3, Stethoscope,
   GraduationCap, Target, Zap, Clock, Award, ArrowRight, Star,

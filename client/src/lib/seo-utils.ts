@@ -1,4 +1,4 @@
-import { contentMap, type LessonContent } from "@/data/lessons";
+import type { LessonContent } from "@/data/lessons/types";
 
 export function generateLessonSeoDescription(lessonId: string, lesson: LessonContent): string {
   const title = lesson.title;

@@ -80,10 +80,19 @@ The system supports a multi-career allied health architecture, with career confi
 
 ### Lesson Content Pipeline
 - **Content Standard**: 1500+ words per lesson; RPN scope = monitor/report/administer; pathophysiology, risk factors, condition-specific meds (3), clinical quiz questions (3).
-- **Injection Scripts**: `script/inject-batch-*.ts` replace placeholder content in `generated-batch-*.ts` files. Existing scripts: `inject-batch-renal.ts`, `inject-batch-endo.ts`, `inject-batch-infection.ts`, `inject-batch-heent.ts`, `inject-batch-heme-fluids.ts`.
-- **Completed Real Content Batches**: GI, Renal (kidney stones, UTI, hemodialysis, incontinence, diabetic nephropathy), Endocrine (Addison, Cushing, Graves, Hashimoto, diabetes insipidus), Infection (sepsis, C. diff, COVID-19, HIV, anaphylaxis), HEENT/Skin (glaucoma, macular degeneration, cellulitis, shingles), Heme/Fluids (aplastic anemia, hemophilia, thalassemia, hypoglycemia vs DKA, dehydration).
+- **Injection Scripts**: `script/inject-batch-*.ts` replace placeholder content in `generated-batch-*.ts` files. Existing scripts: `inject-batch-renal.ts`, `inject-batch-endo.ts`, `inject-batch-infection.ts`, `inject-batch-heent.ts`, `inject-batch-heme-fluids.ts`, `inject-batch-assessment-fluid.ts`.
+- **Completed Real Content Batches**: GI, Renal (kidney stones, UTI, hemodialysis, incontinence, diabetic nephropathy), Endocrine (Addison, Cushing, Graves, Hashimoto, diabetes insipidus), Infection (sepsis, C. diff, COVID-19, HIV, anaphylaxis), HEENT/Skin (glaucoma, macular degeneration, cellulitis, shingles), Heme/Fluids (aplastic anemia, hemophilia, thalassemia, hypoglycemia vs DKA, dehydration), Assessment/Fluid (abdominal assessment, acid-base balance, calcium imbalance, burn wounds, BPH).
 - **safeMerge pattern**: Real content files are listed BEFORE generated-batch files in `index.ts`, so real content overrides placeholders.
 - **Bug Fix Applied**: React hooks violation in `lesson-detail.tsx` fixed - 8 hooks moved above early return at line ~1790 to ensure consistent hook call order.
+
+### Performance: Lesson Content API
+- **Server-Side Lesson API** (`server/lesson-content-api.ts`): Serves lesson content via REST API instead of bundling 15MB+ of lesson data into client JavaScript.
+  - GET `/api/lessons/meta` - lightweight metadata (id, title, tier, category) for all lessons
+  - GET `/api/lessons/content/:slug` - full lesson content for a single lesson
+  - GET `/api/lessons/search?q=term` - search lessons by title/id
+  - GET `/api/lessons/count` - lesson and question counts
+- **Impact**: Main JS bundle reduced from 15.5MB to 76KB (99.5% reduction). Lesson content loads on-demand when a specific lesson page is visited.
+- **Changed Files**: lesson-detail.tsx (fetches from API), global-search.tsx (uses search API), profile.tsx (removed contentMap dep), exam-practice-landing.tsx (slug-based titles), seo-utils.ts (type-only import), getI18n.ts (accepts base lesson parameter), subscribe.tsx (static counts).
 
 ### Access Control / Paywalls
 - Tier system: free, rpn, rn, np, admin.

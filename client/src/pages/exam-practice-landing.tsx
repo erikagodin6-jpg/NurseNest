@@ -1,4 +1,5 @@
 import { useState, useMemo, useEffect } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
 import { SEO } from "@/components/seo";
@@ -8,7 +9,6 @@ import { Badge } from "@/components/ui/badge";
 import { useLocation } from "wouter";
 import { LocaleLink } from "@/lib/LocaleLink";
 import { BreadcrumbNav } from "@/components/breadcrumb-nav";
-import { contentMap } from "@/data/lessons";
 import { getPoolStats } from "@/lib/question-pool";
 import { SILO_CONFIGS } from "@/lib/silo-config";
 import {
@@ -178,11 +178,28 @@ function QuestionBankStats({ tier }: { tier: string }) {
   );
 }
 
+function formatLessonTitle(id: string): string {
+  return id.replace(/-rpn$|-rn$|-np$/, "").split("-").map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(" ");
+}
+
 function LessonSection({ sections }: { sections: { title: string; lessons: string[] }[] }) {
-  const validSections = sections.map(section => ({
-    ...section,
-    lessons: section.lessons.filter(id => contentMap[id]),
-  })).filter(section => section.lessons.length > 0);
+  const validSections = sections.filter(section => section.lessons.length > 0);
+
+  const { data: lessonMeta = [] } = useQuery<{ id: string; title: string }[]>({
+    queryKey: ["/api/lessons/meta"],
+    queryFn: async () => {
+      const res = await fetch("/api/lessons/meta");
+      if (!res.ok) return [];
+      return res.json();
+    },
+    staleTime: 5 * 60 * 1000,
+  });
+
+  const titleMap = useMemo(() => {
+    const map: Record<string, string> = {};
+    for (const m of lessonMeta) map[m.id] = m.title;
+    return map;
+  }, [lessonMeta]);
 
   if (validSections.length === 0) return null;
 
@@ -203,13 +220,11 @@ function LessonSection({ sections }: { sections: { title: string; lessons: strin
             <h4 className="text-sm font-semibold text-gray-700 mb-2">{section.title}</h4>
             <div className="grid sm:grid-cols-2 gap-2">
               {section.lessons.map(lessonId => {
-                const lesson = contentMap[lessonId];
-                if (!lesson) return null;
                 return (
                   <LocaleLink key={lessonId} href={`/lessons/${lessonId}`}>
                     <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-gray-50 hover:bg-gray-100 transition-colors text-sm group" data-testid={`link-lesson-${lessonId}`}>
                       <BookMarked className="w-4 h-4 text-gray-400 group-hover:text-primary shrink-0" />
-                      <span className="text-gray-700 group-hover:text-gray-900 truncate">{lesson.title}</span>
+                      <span className="text-gray-700 group-hover:text-gray-900 truncate">{titleMap[lessonId] || formatLessonTitle(lessonId)}</span>
                     </div>
                   </LocaleLink>
                 );

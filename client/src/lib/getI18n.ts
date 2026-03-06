@@ -1,5 +1,4 @@
 import type { LessonContent } from "@/data/lessons/types";
-import { contentMap } from "@/data/lessons";
 import type { LanguageCode } from "./i18n";
 
 export type I18nValue<T = string> = Partial<Record<LanguageCode, T>> & { en: T };
@@ -76,17 +75,16 @@ export async function loadTranslationLanguage(lang: string): Promise<void> {
   return promise;
 }
 
-export function getLessonTitle(lessonId: string, lang: LanguageCode): string {
+export function getLessonTitle(lessonId: string, lang: LanguageCode, baseLesson?: LessonContent | null): string {
   if (lang !== "en") {
     const translated = translationStore[lang]?.[lessonId]?.title;
     if (translated) return translated;
   }
-  const base = contentMap[lessonId];
-  return base?.title || "";
+  return baseLesson?.title || "";
 }
 
-export function getLessonI18n(lessonId: string, lang: LanguageCode): LessonContent | null {
-  const base = contentMap[lessonId];
+export function getLessonI18n(lessonId: string, lang: LanguageCode, baseLesson?: LessonContent | null): LessonContent | null {
+  const base = baseLesson ?? null;
   if (!base) return null;
   if (lang === "en") return base;
 

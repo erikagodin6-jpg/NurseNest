@@ -23,7 +23,6 @@ import { getLecturesForLesson } from "@/data/micro-lectures";
 import { getLessonNavigation, getLessonTier } from "@/lib/lesson-navigation";
 import { useToast } from "@/hooks/use-toast";
 import { getDifficulty, difficultyConfig } from "@/lib/difficulty";
-import { contentMap } from "@/data/lessons";
 import { getLessonI18n, loadTranslationLanguage, isTranslationLoaded } from "@/lib/getI18n";
 import { useAuth } from "@/lib/auth";
 import { canAccessTier } from "@/lib/access";
@@ -1662,9 +1661,9 @@ export default function LessonDetail() {
     const activeTier = previewTier || user?.tier || "free";
     if (user && activeTier !== 'admin' && tierFromId && tierFromId !== activeTier) {
       const targetId = `${activeTier}-${slugFromId}`;
-      if (contentMap[targetId]) {
-        setLocation(`/lessons/${targetId}`);
-      }
+      fetch(`/api/lessons/content/${targetId}`)
+        .then((r) => { if (r.ok) setLocation(`/lessons/${targetId}`); })
+        .catch(() => {});
     }
   }, [user, id, isTierPrefixed, tierFromId, slugFromId, setLocation, previewTier]);
 
@@ -1701,10 +1700,28 @@ export default function LessonDetail() {
     return () => window.removeEventListener("regionChange", handleRegionChange);
   }, []);
 
-  const baseLesson = useMemo(() => {
-    if (id && contentMap[id]) return contentMap[id];
-    return null;
+  const [apiLesson, setApiLesson] = useState<LessonContent | null>(null);
+  const [apiLoading, setApiLoading] = useState(true);
+
+  useEffect(() => {
+    if (!id) { setApiLoading(false); return; }
+    setApiLoading(true);
+    fetch(`/api/lessons/content/${id}`)
+      .then((r) => {
+        if (!r.ok) { setApiLesson(null); setApiLoading(false); return; }
+        return r.json();
+      })
+      .then((data) => {
+        if (data) {
+          const { id: _id, ...lesson } = data;
+          setApiLesson(lesson as LessonContent);
+        }
+        setApiLoading(false);
+      })
+      .catch(() => { setApiLesson(null); setApiLoading(false); });
   }, [id]);
+
+  const baseLesson = apiLesson;
 
   const [overrides, setOverrides] = useState<Partial<LessonContent> | null>(null);
   const [translating, setTranslating] = useState(false);
@@ -1779,7 +1796,7 @@ export default function LessonDetail() {
     if (!baseLesson || !id) return null;
     let content = overrides ? { ...baseLesson, ...overrides } as LessonContent : baseLesson;
     if (language !== "en" && translationsReady) {
-      const localized = getLessonI18n(id, language);
+      const localized = getLessonI18n(id, language, baseLesson);
       if (localized && localized !== baseLesson) {
         content = overrides ? { ...localized, ...overrides } as LessonContent : localized;
       }
@@ -1828,7 +1845,7 @@ export default function LessonDetail() {
   }, [lessonContent]);
 
   if (!baseLesson || !lessonContent) {
-    if (dbLoading) {
+    if (apiLoading || dbLoading) {
       return (
         <div className="min-h-screen bg-warmwhite flex flex-col font-sans text-gray-900">
           <Navigation />
