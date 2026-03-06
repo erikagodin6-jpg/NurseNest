@@ -268,6 +268,8 @@ The article MUST be at least 2000 words of body content (not counting references
 
   const MAX_ATTEMPTS = 3;
   let parsed: any = null;
+  let bestShortParsed: any = null;
+  let bestShortWordCount = 0;
   let lastError = "";
 
   for (let attempt = 1; attempt <= MAX_ATTEMPTS; attempt++) {
@@ -296,9 +298,29 @@ The article MUST be at least 2000 words of body content (not counting references
     const validationError = validatePost(parsed);
     if (!validationError) break;
 
+    if (validationError.startsWith("too short") && parsed.title && Array.isArray(parsed.content) && parsed.content.length >= 4) {
+      const wc = parseInt(validationError.match(/\d+/)?.[0] || "0");
+      if (wc > bestShortWordCount) {
+        bestShortParsed = parsed;
+        bestShortWordCount = wc;
+      }
+    }
+
     lastError = validationError;
     console.error(`Blog generation attempt ${attempt}/${MAX_ATTEMPTS} for "${selectedTopic}": ${validationError}`);
     parsed = null;
+  }
+
+  if (!parsed && bestShortParsed && bestShortWordCount >= 600) {
+    console.log(`Blog post "${selectedTopic}" short (${bestShortWordCount} words), expanding with follow-up call...`);
+    try {
+      const expandedContent = await expandBlogPost(bestShortParsed.content, bestShortParsed.title, citationStyle);
+      bestShortParsed.content = expandedContent;
+      parsed = bestShortParsed;
+      console.log(`Blog post "${selectedTopic}" expanded successfully`);
+    } catch (expandErr) {
+      console.error(`Blog expansion failed for "${selectedTopic}":`, expandErr);
+    }
   }
 
   if (!parsed) {
