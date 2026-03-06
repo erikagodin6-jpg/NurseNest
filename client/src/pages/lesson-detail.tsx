@@ -2713,22 +2713,26 @@ export default function LessonDetail() {
               const nav = getLessonNavigation(id || "");
               if (!nav) return null;
               return (
-                <>
-                  {nav.prev && (
-                    <LocaleLink href={`/lessons/${nav.prev.id}`}>
-                      <span className="inline-flex items-center gap-1.5 text-sm text-gray-500 hover:text-primary transition-colors cursor-pointer" data-testid="link-prev-lesson-top">
-                        <ArrowLeft className="w-3.5 h-3.5" /> <span className="hidden sm:inline">{nav.prev.name}</span><span className="sm:hidden">Prev</span>
-                      </span>
-                    </LocaleLink>
-                  )}
-                  {nav.next && (
-                    <LocaleLink href={`/lessons/${nav.next.id}`}>
-                      <span className="inline-flex items-center gap-1.5 text-sm text-gray-500 hover:text-primary transition-colors cursor-pointer" data-testid="link-next-lesson-top">
-                        <span className="hidden sm:inline">{nav.next.name}</span><span className="sm:hidden">Next</span> <ChevronRight className="w-3.5 h-3.5" />
-                      </span>
-                    </LocaleLink>
-                  )}
-                </>
+                <div className="flex items-center gap-3">
+                  <div className="w-[60px] sm:w-auto flex justify-start">
+                    {nav.prev ? (
+                      <LocaleLink href={`/lessons/${nav.prev.id}`}>
+                        <span className="inline-flex items-center gap-1.5 text-sm text-gray-500 hover:text-primary transition-colors cursor-pointer" data-testid="link-prev-lesson-top">
+                          <ArrowLeft className="w-3.5 h-3.5" /> <span className="hidden sm:inline">{nav.prev.name}</span><span className="sm:hidden">Prev</span>
+                        </span>
+                      </LocaleLink>
+                    ) : <span className="text-sm text-transparent select-none">Prev</span>}
+                  </div>
+                  <div className="w-[60px] sm:w-auto flex justify-end">
+                    {nav.next ? (
+                      <LocaleLink href={`/lessons/${nav.next.id}`}>
+                        <span className="inline-flex items-center gap-1.5 text-sm text-gray-500 hover:text-primary transition-colors cursor-pointer" data-testid="link-next-lesson-top">
+                          <span className="hidden sm:inline">{nav.next.name}</span><span className="sm:hidden">Next</span> <ChevronRight className="w-3.5 h-3.5" />
+                        </span>
+                      </LocaleLink>
+                    ) : <span className="text-sm text-transparent select-none">Next</span>}
+                  </div>
+                </div>
               );
             })()}
             <Button 
