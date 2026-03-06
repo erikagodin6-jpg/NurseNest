@@ -1,0 +1,162 @@
+Cardiovascular (Add)
+
+Heart Failure (Left vs Right)
+Acute Coronary Syndrome (ACS)
+Stable Angina
+Unstable Angina
+Myocardial Infarction (STEMI vs NSTEMI)
+Cardiogenic Shock
+Infective Endocarditis
+Pericardial Effusion
+Cardiac Tamponade
+Atrial Fibrillation
+Atrial Flutter
+Supraventricular Tachycardia (SVT)
+Ventricular Tachycardia
+Ventricular Fibrillation
+Asystole
+First-Degree AV Block
+Second-Degree AV Block Type I (Wenckebach)
+Second-Degree AV Block Type II
+Third-Degree AV Block (Complete Heart Block)
+Pacemaker Nursing Care
+Cardiac Catheterization Nursing Care
+Post-Angiography Nursing Care
+Hypertension
+Hypertensive Crisis
+Orthostatic Hypotension
+Deep Vein Thrombosis (DVT)
+Pulmonary Embolism
+Peripheral Artery Disease
+Abdominal Aortic Aneurysm
+Thoracic Aortic Aneurysm
+
+⸻
+
+Mental Health / Psychiatric Nursing (Add)
+
+Major Depressive Disorder
+Bipolar Disorder
+Schizophrenia
+Generalized Anxiety Disorder
+Panic Disorder
+Post-Traumatic Stress Disorder (PTSD)
+Obsessive Compulsive Disorder (OCD)
+Suicide Risk Assessment
+Crisis Intervention in Mental Health
+Violence Risk Assessment
+Alcohol Withdrawal Syndrome
+Substance Use Disorders
+Opioid Use Disorder
+Therapeutic Communication Techniques
+Trauma-Informed Care
+De-escalation Techniques in Psychiatric Emergencies
+Psychiatric Medications Overview
+Selective Serotonin Reuptake Inhibitors (SSRIs)
+Antipsychotic Medications
+Mood Stabilizers
+Involuntary Admission and Mental Health Legislation
+
+⸻
+
+Pharmacology (Add)
+
+ACE Inhibitors
+Angiotensin II Receptor Blockers (ARBs)
+Beta Blockers
+Calcium Channel Blockers
+Nitrates
+Digoxin
+Loop Diuretics
+Thiazide Diuretics
+Potassium-Sparing Diuretics
+Bronchodilators (Beta-Agonists)
+Anticholinergic Bronchodilators
+Inhaled Corticosteroids
+Systemic Corticosteroids
+Insulin Types and Mechanisms
+Oral Hypoglycemic Medications
+Thyroid Replacement Therapy
+Antithyroid Medications
+Antibiotic Classes Overview
+Antiviral Medications
+Antifungal Medications
+Anticonvulsants
+Parkinson Disease Medications
+High-Alert Medications
+Medication Reconciliation
+Safe Medication Administration Principles
+
+⸻
+
+Core Nursing Skills & Safety (Add)
+
+CPR Basics for Practical Nurses
+Code Blue Roles and Responsibilities
+Rapid Response Team Activation
+Airway Obstruction Management
+Medication Administration Rights
+Patient Identification Safety
+Fall Prevention Protocols
+Restraint Alternatives and Safety
+Infection Control Hierarchy
+ABCs Priority Framework
+Maslow Hierarchy in Nursing Prioritization
+Triage Principles
+Early Deterioration Recognition
+SBAR Communication Framework
+Legal Documentation Standards
+
+⸻
+
+Pediatrics (Add)
+
+Croup (Laryngotracheobronchitis)
+Epiglottitis
+Bronchiolitis
+Congenital Heart Disease Overview
+Tetralogy of Fallot
+Ventricular Septal Defect (VSD)
+Atrial Septal Defect (ASD)
+Failure to Thrive
+Pediatric Dehydration
+
+⸻
+
+Respiratory (Add)
+
+Acute Respiratory Distress Syndrome (ARDS)
+Pulmonary Embolism
+Pneumothorax
+Pleural Effusion
+Mechanical Ventilation Basics
+
+⸻
+
+Renal / Urinary (Add)
+
+Acute Kidney Injury (AKI)
+Chronic Kidney Disease (CKD)
+Nephrotic Syndrome
+Glomerulonephritis
+
+⸻
+
+Musculoskeletal (Add)
+
+Fracture Types and Nursing Management
+Osteoarthritis
+Rheumatoid Arthritis
+Gout
+Compartment Syndrome
+Amputation Care and Rehabilitation
+
+⸻
+
+Infection / Communicable Disease (Add)
+
+Norovirus Gastroenteritis
+Meningococcal Infection
+West Nile Virus
+Chickenpox (Varicella)
+Human Papillomavirus (HPV) Infection
