@@ -16,6 +16,22 @@ export const maternalNewbornAdvancedLessons: Record<string, LessonContent> = {
       "Maternal age extremes (under 17 or over 35)",
       "Gestational hypertension or preeclampsia"
     ],
+    diagnostics: [
+      "Assess fundal height and firmness: a firm fundus at or below the umbilicus is normal postpartum; a boggy or displaced fundus requires intervention",
+      "Monitor lochia amount, color, and odor: rubra (red, days 1-3), serosa (pink-brown, days 4-10), alba (white-yellow, days 11-21); saturation of more than one pad per hour is excessive",
+      "Perform APGAR scoring at 1 and 5 minutes after birth: appearance, pulse, grimace, activity, respiration (0-2 each, total 0-10)",
+      "Interpret fetal heart rate tracings: baseline 110-160 bpm, moderate variability and accelerations are reassuring; late decelerations and absent variability are non-reassuring",
+      "Assess newborn vital signs: heart rate 120-160, respiratory rate 30-60, temperature 36.5-37.5 degrees Celsius, blood glucose above 2.6 mmol/L",
+      "Monitor maternal vital signs for signs of hemorrhage: tachycardia is often the earliest sign, followed by hypotension and decreased urine output",
+    ],
+    management: [
+      "Perform fundal massage for uterine atony: place one hand on the fundus and massage firmly in a circular motion until the uterus becomes firm",
+      "Administer oxytocin as ordered for postpartum hemorrhage prevention and treatment",
+      "Initiate skin-to-skin contact and early breastfeeding within the first hour after birth to promote bonding and stimulate oxytocin release",
+      "Monitor newborn for signs of hypoglycemia: jitteriness, poor feeding, lethargy, hypothermia, seizures",
+      "Position newborn on back for sleep (ABCs of safe sleep: Alone, on Back, in Crib) to reduce SIDS risk",
+      "Educate mother on perineal care, breast care, and warning signs requiring immediate medical attention (heavy bleeding, fever, foul-smelling discharge, severe headache, visual changes)",
+    ],
     assessmentFindings: [
       "Boggy uterus on fundal palpation indicating atony",
       "Lochia rubra saturating more than one pad per hour",

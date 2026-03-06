@@ -18,6 +18,14 @@ export const culturalSafetyEquityLessons: Record<string, LessonContent> = {
       "Dietary and religious practices not accommodated in care plans",
       "Distrust of healthcare systems due to past harms",
     ],
+    diagnostics: [
+      "Conduct a cultural assessment on admission: preferred language, interpreter needs, spiritual or religious practices, dietary restrictions, decision-making preferences, and traditional healing practices",
+      "Use validated health literacy screening tools (e.g., Newest Vital Sign, REALM-SF) to assess the patient's ability to understand health information",
+      "Assess communication effectiveness: does the patient demonstrate understanding when using teach-back method?",
+      "Evaluate patient satisfaction and perceived safety using culturally appropriate feedback tools",
+      "Screen for social determinants of health: housing stability, food security, transportation access, social support, and financial barriers to care",
+      "Assess for signs of healthcare avoidance or delayed care-seeking related to past negative experiences with the healthcare system",
+    ],
     management: [
       "Use professional interpreters rather than family members for clinical communication",
       "Apply the teach-back method to verify patient understanding",

@@ -15,6 +15,14 @@ export const leadershipManagementLessons: Record<string, LessonContent> = {
       "Ineffective communication during handoff or shift change",
       "Working beyond scope without appropriate supervision"
     ],
+    diagnostics: [
+      "Evaluate delegation appropriateness using the five rights: right task, right circumstance, right person, right direction/communication, right supervision/evaluation",
+      "Assess team workload distribution: identify unbalanced assignments that may compromise patient safety",
+      "Audit incident reports for patterns: recurring events in the same unit or time period may indicate systemic issues rather than individual errors",
+      "Use root cause analysis (RCA) framework to investigate adverse events and near-misses beyond surface-level explanations",
+      "Assess communication effectiveness during handoff using standardized tools (SBAR) and identify gaps in information transfer",
+      "Evaluate staff competency through direct observation, return demonstration, and performance feedback to ensure safe task assignment",
+    ],
     management: [
       "Follow delegation guidelines specific to RPN scope of practice",
       "Use standardized handoff tools such as SBAR for communication",

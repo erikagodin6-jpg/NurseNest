@@ -17,6 +17,14 @@ export const healthPromotionScreeningLessons: Record<string, LessonContent> = {
       "Low health literacy",
       "Social isolation and lack of support systems",
     ],
+    diagnostics: [
+      "Review immunization records against current age-appropriate vaccination schedules and identify gaps requiring catch-up vaccines",
+      "Screen for fall risk using validated tools such as the Morse Fall Scale or Timed Up and Go test",
+      "Assess BMI and waist circumference as indicators of obesity-related health risk",
+      "Conduct a smoking history assessment including pack-years and readiness to quit using the Stages of Change model",
+      "Screen for depression and anxiety using validated tools (PHQ-9, GAD-7) as part of routine health promotion visits",
+      "Review age-appropriate cancer screening status: cervical (Pap test), breast (mammography), colorectal (FIT/colonoscopy), lung (low-dose CT for high-risk smokers)",
+    ],
     management: [
       "Implement age-appropriate vaccination schedules for routine childhood and adult immunizations",
       "Conduct fall risk assessment using the Morse Fall Scale",

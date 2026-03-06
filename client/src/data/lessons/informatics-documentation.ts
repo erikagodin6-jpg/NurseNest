@@ -8,6 +8,31 @@ export const informaticsDocumentationLessons: Record<string, LessonContent> = {
       content:
         "Electronic health records (EHRs) serve as the primary platform for clinical documentation in modern healthcare settings. RPNs must navigate EHR systems efficiently, understanding how to enter data accurately into designated fields, retrieve patient information, and document care in real time. Charting by exception (CBE) is a documentation method in which the nurse records only deviations from established norms or pre-set parameters, reducing redundancy while maintaining a complete clinical picture. Proper documentation principles require entries that are factual, objective, timely, legible, and free of blank spaces, with errors corrected using a single line through the incorrect entry along with initials and date."
     },
+    riskFactors: [
+      "Inaccurate or incomplete documentation leading to continuity-of-care errors and adverse patient outcomes",
+      "Copy-paste errors propagating incorrect information across multiple chart entries",
+      "Breaching patient confidentiality by leaving EHR sessions open or sharing login credentials",
+      "Failure to document in real time resulting in missed or inaccurate entries from memory recall",
+      "Using unapproved abbreviations that create ambiguity (e.g., U for units, QD vs QOD)",
+      "Inadequate documentation of patient refusal, leaving the nurse without legal proof of informed decision-making",
+    ],
+    diagnostics: [
+      "Audit documentation for completeness: every assessment, intervention, patient response, and communication must be recorded",
+      "Review charting for objectivity: entries should contain measurable data and direct observations, not subjective opinions or judgments",
+      "Verify timeliness: documentation should be completed at the time of care or as close to it as possible",
+      "Check for proper error correction: single line through incorrect entry, initialed and dated, with corrected entry following",
+      "Assess compliance with PHIPA/HIPAA requirements: are patient identifiers protected, screens locked when unattended, and printouts shredded?",
+      "Evaluate the use of standardized nursing terminology and approved abbreviations in all documentation entries",
+    ],
+    nursingActions: [
+      "Document assessments, interventions, and patient responses in real time using the EHR system",
+      "Use only facility-approved abbreviations; avoid ambiguous abbreviations on the Do Not Use list (U, IU, QD, QOD, trailing zeros, lack of leading zeros)",
+      "Correct charting errors with a single line through the incorrect entry, initial, date, and write the corrected entry",
+      "Log off EHR workstations when stepping away from the computer to protect patient confidentiality",
+      "Complete incident reports promptly using factual, objective language without assigning blame or including the report in the patient chart",
+      "Document patient refusal of treatment including the information provided, the patient's stated reason, and notification of the physician",
+      "Read back telephone and verbal orders to the prescriber for verification before entering into the chart",
+    ],
     management: [
       "Use charting by exception to document only significant deviations from normal findings",
       "Complete narrative documentation for complex or unusual patient situations",

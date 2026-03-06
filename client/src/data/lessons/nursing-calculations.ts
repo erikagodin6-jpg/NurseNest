@@ -16,6 +16,14 @@ export const nursingCalculationsLessons: Record<string, LessonContent> = {
       "Inaccurate measurement of liquid oral medications",
       "Failure to reconstitute medications according to manufacturer instructions"
     ],
+    diagnostics: [
+      "Verify safe dose range by calculating the ordered dose against the recommended mg/kg/day range from a current drug reference before administration",
+      "Calculate IV flow rate using the formula: volume (mL) divided by time (hours) for pump rate, or drops/min = (volume x drop factor) / time in minutes for gravity drip",
+      "Perform unit conversions accurately: 1 g = 1000 mg, 1 mg = 1000 mcg, 1 L = 1000 mL, 1 kg = 2.2 lb, 1 oz = 30 mL, 1 tsp = 5 mL, 1 tbsp = 15 mL",
+      "Verify insulin dose against sliding scale parameters by confirming the current blood glucose reading, matching it to the correct dose range, and having a second nurse independently verify the dose",
+      "Calculate intake and output totals accurately at the end of each shift and compare to the ordered fluid balance goals",
+      "Double-check all calculations using a second method (e.g., dimensional analysis to verify D/H x Q result) before administering high-alert medications",
+    ],
     management: [
       "Use the D/H x Q formula: Desired dose divided by dose on Hand multiplied by Quantity",
       "Convert all units to the same measurement system before calculating",

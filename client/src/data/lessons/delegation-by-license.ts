@@ -15,6 +15,14 @@ export const delegationByLicenseLessons: Record<string, LessonContent> = {
       "Lack of competency verification before accepting a delegated task",
       "Working without appropriate supervision when required",
     ],
+    diagnostics: [
+      "Assess task complexity against your own documented competencies before accepting delegation",
+      "Evaluate patient stability: stable and predictable outcomes are required for RPN-level care; unstable or complex patients require RN oversight",
+      "Verify delegation authority: confirm the delegating RN has assessed the patient and determined appropriate level of care",
+      "Review the five rights of delegation: right task, right circumstance, right person, right direction/communication, right supervision/evaluation",
+      "Assess UAP competency using direct observation and return demonstration before delegating tasks to unregulated care providers",
+      "Monitor outcomes of delegated tasks: reassess the patient after UAP completes care to verify safe and effective completion",
+    ],
     management: [
       "Verify competency before accepting any delegated task",
       "Confirm that the patient meets stability criteria for RPN-level care",

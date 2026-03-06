@@ -2220,6 +2220,14 @@ export const giAdvancedLessons: Record<string, LessonContent> = {
       "Caucasian ethnicity (highest prevalence)",
       "Age: can occur at any age but most commonly diagnosed in children and young adults"
     ],
+    diagnostics: [
+      "Upper endoscopy with esophageal biopsies is the definitive diagnostic test: look for esophageal rings (trachealization), white plaques (eosinophilic microabscesses), linear furrows, and edema",
+      "Histology showing 15 or more eosinophils per high-power field confirms the diagnosis",
+      "Allergy testing (skin prick testing and/or serum IgE panels) to identify potential food triggers",
+      "Barium swallow may show esophageal narrowing, rings, or strictures but is not diagnostic",
+      "Monitor weight, growth charts (in children), and nutritional status during dietary elimination therapy",
+      "Assess for other atopic conditions: asthma control, eczema severity, allergic rhinitis symptoms",
+    ],
     management: [
       "Dietary elimination therapy: remove common trigger foods (milk, wheat, eggs, soy, nuts, fish/shellfish)",
       "Swallowed topical corticosteroids (fluticasone or budesonide) to reduce esophageal eosinophilic inflammation",
@@ -2493,6 +2501,14 @@ export const giAdvancedLessons: Record<string, LessonContent> = {
       "Male sex (symptomatic cases are 2-3 times more common in males)",
       "Age under 2 years (most common age for symptomatic presentation)",
       "Presence of ectopic gastric tissue within the diverticulum (increases bleeding risk)"
+    ],
+    diagnostics: [
+      "Meckel's scan (technetium-99m pertechnetate scintigraphy): the radiotracer is taken up by ectopic gastric mucosa within the diverticulum, appearing as an abnormal focus of uptake in the right lower quadrant",
+      "Monitor hemoglobin and hematocrit for significant drops from rectal bleeding",
+      "Assess stool color and consistency: painless brick-red or maroon (currant jelly) stools are the hallmark presentation in children",
+      "Abdominal X-ray or CT scan if intestinal obstruction is suspected (volvulus, intussusception secondary to the diverticulum)",
+      "Monitor vital signs for signs of hypovolemic shock from significant bleeding: tachycardia, hypotension, poor capillary refill, decreased urine output",
+      "Type and crossmatch blood in case transfusion is needed for significant hemorrhage",
     ],
     management: [
       "Surgical resection (removal of the diverticulum) for symptomatic cases",

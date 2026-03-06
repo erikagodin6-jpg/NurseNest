@@ -16,6 +16,22 @@ export const legalEdgeCasesLessons: Record<string, LessonContent> = {
       "Posting patient information on social media platforms",
       "Failing to report suspected abuse or communicable disease",
     ],
+    diagnostics: [
+      "Assess patient capacity to provide informed consent: can the patient understand the information, appreciate how it applies to them, reason about options, and communicate a decision?",
+      "Verify the presence of a valid informed consent form signed by the patient or substitute decision-maker before assisting with any invasive procedure",
+      "Screen for indicators of potential abuse: unexplained injuries, inconsistent explanations, withdrawal, fear of caregiver, neglect of hygiene or nutrition",
+      "Review documentation for completeness and legal defensibility: are entries factual, objective, timely, and free of subjective opinions or blame?",
+      "Assess for situations requiring mandatory reporting: suspected child abuse, elder abuse, neglect, communicable disease, or fitness-to-drive concerns",
+      "Evaluate whether a delegated task falls within RPN scope by consulting the regulatory body's practice standards and authorized acts",
+    ],
+    management: [
+      "Obtain and document informed consent through the appropriate provider; the RPN may witness the signature but does not obtain consent for procedures requiring physician explanation",
+      "Report suspected abuse immediately to the appropriate authorities as mandated by law; do not investigate independently",
+      "Follow proper chain of command when reporting safety concerns: charge nurse, unit manager, regulatory body if internal reporting fails",
+      "Apply advance directive instructions as documented: do-not-resuscitate orders, power of attorney for personal care, living wills",
+      "Document incidents using factual, objective language in an incident report separate from the patient chart",
+      "Maintain professional boundaries at all times including avoidance of dual relationships, gift acceptance, and social media contact with patients",
+    ],
     nursingActions: [
       "Verify delegation authority before accepting any task from an RN",
       "Confirm informed consent is documented before assisting with procedures",

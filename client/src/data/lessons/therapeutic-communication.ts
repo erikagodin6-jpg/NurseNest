@@ -15,6 +15,14 @@ export const therapeuticCommunicationLessons: Record<string, LessonContent> = {
       "Personal stress or burnout impairing active listening ability",
       "Over-identification with the patient leading to boundary erosion"
     ],
+    diagnostics: [
+      "Assess patient communication preferences: preferred language, hearing or vision impairments, cognitive ability, emotional readiness to receive information",
+      "Evaluate the effectiveness of nurse-patient communication using the teach-back method: ask the patient to explain the information in their own words",
+      "Identify non-therapeutic communication patterns: giving false reassurance, using cliches, changing the subject, offering personal opinions, or asking 'why' questions that create defensiveness",
+      "Assess for barriers to therapeutic communication: pain, anxiety, sedation, sensory deficits, language differences, or cognitive impairment",
+      "Evaluate the phase of the therapeutic relationship (orientation, working, termination) to determine appropriate communication strategies",
+      "Screen for signs of boundary violations: excessive self-disclosure, gift-giving or receiving, social media contact with patients, or preferential treatment",
+    ],
     management: [
       "Use open-ended questions to encourage patient expression",
       "Practice active listening by maintaining appropriate eye contact and avoiding interruptions",
