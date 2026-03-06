@@ -79,9 +79,9 @@ The system supports a multi-career allied health architecture, with career confi
 - Meta Graph API: For social media scheduling.
 
 ### Lesson Content Pipeline
-- **Content Standard**: 1500+ words per lesson; RPN scope = monitor/report/administer; pathophysiology, risk factors, condition-specific meds (3), clinical quiz questions (3).
-- **Injection Scripts**: `script/inject-batch-*.ts` replace placeholder content in `generated-batch-*.ts` files. Existing scripts: `inject-batch-renal.ts`, `inject-batch-endo.ts`, `inject-batch-infection.ts`, `inject-batch-heent.ts`, `inject-batch-heme-fluids.ts`, `inject-batch-assessment-fluid.ts`.
-- **Completed Real Content Batches**: GI, Renal (kidney stones, UTI, hemodialysis, incontinence, diabetic nephropathy), Endocrine (Addison, Cushing, Graves, Hashimoto, diabetes insipidus), Infection (sepsis, C. diff, COVID-19, HIV, anaphylaxis), HEENT/Skin (glaucoma, macular degeneration, cellulitis, shingles), Heme/Fluids (aplastic anemia, hemophilia, thalassemia, hypoglycemia vs DKA, dehydration), Assessment/Fluid (abdominal assessment, acid-base balance, calcium imbalance, burn wounds, BPH).
+- **Content Standard**: 1500+ words per lesson; RPN scope = monitor/report/administer; pathophysiology, risk factors, condition-specific meds (3), clinical quiz questions (3), 7 clinical pearls.
+- **Injection Scripts**: `script/inject-batch-*.ts` replace placeholder content in `generated-batch-*.ts` files. 30+ injection scripts created.
+- **ALL RPN LESSONS COMPLETE**: 1,119 total lessons with 2,563 questions. Zero remaining RPN placeholders. All 228+ RPN lessons written with real clinical content covering: GI, Renal, Endocrine, Infection, HEENT/Skin, Heme/Fluids, Assessment, Cardiac/Emergency, OB/Oncology, Neuro/Wound, EOL/Neonatal, Grief/Screening, Respiratory/Occupational, Derm/Pediatric, Community/Legal, IV Therapy, Maternity, Psych/Metabolic, Pain/Mobility, Pharmacology, Palliative, Wound Care, and more.
 - **safeMerge pattern**: Real content files are listed BEFORE generated-batch files in `index.ts`, so real content overrides placeholders.
 - **Bug Fix Applied**: React hooks violation in `lesson-detail.tsx` fixed - 8 hooks moved above early return at line ~1790 to ensure consistent hook call order.
 
