@@ -202,6 +202,14 @@ import { generatedBatch100Lessons } from "./generated-batch-100";
 import { generatedBatch101Lessons } from "./generated-batch-101";
 import { generatedBatch102Lessons } from "./generated-batch-102";
 import { generatedBatch103Lessons } from "./generated-batch-103";
+import { generatedBatch104Lessons } from "./generated-batch-104";
+import { generatedBatch105Lessons } from "./generated-batch-105";
+import { generatedBatch106Lessons } from "./generated-batch-106";
+import { generatedBatch107Lessons } from "./generated-batch-107";
+import { generatedBatch108Lessons } from "./generated-batch-108";
+import { generatedBatch109Lessons } from "./generated-batch-109";
+import { generatedBatch110Lessons } from "./generated-batch-110";
+import { generatedBatch111Lessons } from "./generated-batch-111";
 
 import { bloodTransfusionReactionLessons } from "./blood-transfusion-reactions";
 import { bloodTransfusionReactionTypeLessons } from "./blood-transfusion-reaction-types";
@@ -482,6 +490,14 @@ export const contentMap: Record<string, LessonContent> = safeMerge({},
   generatedBatch101Lessons,
   generatedBatch102Lessons,
   generatedBatch103Lessons,
+  generatedBatch104Lessons,
+  generatedBatch105Lessons,
+  generatedBatch106Lessons,
+  generatedBatch107Lessons,
+  generatedBatch108Lessons,
+  generatedBatch109Lessons,
+  generatedBatch110Lessons,
+  generatedBatch111Lessons,
 );
 
 const TIER_SUFFIXES = ["-rpn", "-rn", "-np", "-basics-rpn", "-basics-rn", "-basics-np", "-advanced-np", "-management-np", "-basics", "-core"];

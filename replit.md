@@ -89,13 +89,30 @@ The application is built with Vite, React, and Express 5 on Node.js with TypeScr
 - **Value Pills**: Exam-Aligned Lessons, Clear Pathophysiology Explanations, Realistic Practice Questions, Track Your Study Progress
 - **Trust Statement**: "Trusted by nursing students preparing for REx-PN, NCLEX-RN, and NP certification exams."
 
+## Topic Mastery Dashboard Widget
+- **Widget**: `TopicMasteryWidget` in `dashboard.tsx` — shows per-body-system accuracy as horizontal progress bars
+- **API**: `GET /api/topic-mastery/:userId` — aggregates confidence_ratings by body_system
+- **Color coding**: green >=70%, amber 50-69%, red <50%
+- **Registration**: Added to WIDGET_COMPONENTS, WIDGET_ICONS (BarChart), WIDGET_I18N_KEYS, DEFAULT_WIDGETS
+
+## Clinical Case Studies
+- **Data**: `client/src/data/clinical-cases.ts` — 9 clinical cases total (3 original + 6 new)
+- **New cases**: Postpartum Hemorrhage, Pediatric Respiratory Emergency, Hyperkalemia Emergency, Acute MI with Complications, Anaphylaxis Management, Acute Ischemic Stroke Decision
+- **Structure**: ClinicalCase interface with 2-3 stages each, vitals/labs/assessmentFindings, 3 decisions per stage with isOptimal flag and mechanismExplanation
+- **Body systems**: Reproductive, Respiratory (pediatric), Renal, Cardiovascular, Immune, Neurological
+
 ## Lesson Content Status
-- **Total lessons**: 1,299+ across all tiers
-- **RPN (430 lessons)**: 100% complete - all fields populated with scope-appropriate content
-- **RN (301 lessons)**: 100% complete - all fields populated with scope-appropriate content  
-- **NP (1,037 lessons)**: 100% complete - all 841 cellular placeholders replaced with NP-level pathophysiology content (March 2026). Content organized by clinical domain with topic-specific advanced pathophysiology, differential diagnosis, diagnostic criteria, and prescribing rationale.
-- **Free tier (489 lessons)**: Complete
-- Content files: 115+ TypeScript files in `client/src/data/lessons/`
+- **Total lessons**: 1,422+ across all tiers (3,374 questions)
+- **RPN (569 lessons)**: 100% complete - all fields populated with scope-appropriate content
+- **RN (458 lessons)**: 100% complete - all fields populated with scope-appropriate content  
+- **NP (236 lessons)**: 100% complete - all cellular placeholders replaced with NP-level pathophysiology content
+- **Free tier (569 lessons)**: Complete
+- **Batch 107**: Critical Care & Emergency (13 lessons)
+- **Batch 108**: Pharmacology Classes (15 lessons)
+- **Batch 109**: Renal/Neuro/Respiratory (13 lessons)
+- **Batch 110**: Maternal/Pediatric/Mental Health (18 lessons)
+- **Batch 111**: Infection Control/Algorithms/Overviews (26 lessons)
+- Content files: 120+ TypeScript files in `client/src/data/lessons/`
 - NP lessons with JSON-quoted keys (np-clinical-units.ts, respiratory-missing-np.ts) use `"title"` format vs unquoted `title:` in batch files
 
 ## Regional Measurement Adaptation
