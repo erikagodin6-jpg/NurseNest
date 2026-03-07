@@ -40,6 +40,7 @@ export function Footer() {
               <li><LocaleLink href="/pricing" className="hover:text-primary transition-colors" data-testid="link-footer-pricing">{t("footer.pricing")}</LocaleLink></li>
               <li><LocaleLink href="/contact" className="hover:text-primary transition-colors" data-testid="link-footer-contact">{t("footer.contact")}</LocaleLink></li>
               <li><LocaleLink href="/feedback" className="hover:text-primary transition-colors" data-testid="link-footer-feedback">{t("footer.feedback")}</LocaleLink></li>
+              <li><LocaleLink href="/about" className="hover:text-primary transition-colors" data-testid="link-footer-about">About NurseNest</LocaleLink></li>
               <li><LocaleLink href="/for-institutions" className="hover:text-primary transition-colors" data-testid="link-footer-for-schools">For Schools</LocaleLink></li>
             </ul>
           </div>

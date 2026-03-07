@@ -35,9 +35,12 @@ export default function QuestionBank() {
 
   const userCanAccessTier = (questionTier: string) => {
     if (!questionTier || questionTier === "free") return true;
-    if (!user || !effectiveTier || effectiveTier === "free") return false;
+    if (!user || !effectiveTier || effectiveTier === "free") {
+      if (user?.testerAccess) return canAccessTier(effectiveTier, questionTier, user.testerAccess, user.testerExpiry);
+      return false;
+    }
     if (effectiveTier === "admin") return true;
-    return canAccessTier(effectiveTier, questionTier);
+    return canAccessTier(effectiveTier, questionTier, user?.testerAccess, user?.testerExpiry);
   };
 
   useEffect(() => {

@@ -197,11 +197,11 @@ export default function TermsPage() {
             <p className="text-gray-700 leading-relaxed">
               If you have any questions or concerns about these Terms of Use, please contact us at{" "}
               <a
-                href="mailto:support@nursenest.com"
+                href="mailto:support@nursenest.ca"
                 className="text-primary underline hover:text-primary/80"
                 data-testid="link-contact-email"
               >
-                support@nursenest.com
+                support@nursenest.ca
               </a>.
             </p>
           </section>

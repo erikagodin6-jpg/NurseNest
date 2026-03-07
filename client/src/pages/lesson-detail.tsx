@@ -2582,7 +2582,7 @@ export default function LessonDetail() {
   const ed = isEditing && editData ? editData : null;
 
   const lessonTier = getLessonTier(id || "");
-  const userHasAccess = canAccessTier(user?.tier, lessonTier);
+  const userHasAccess = canAccessTier(user?.tier, lessonTier, user?.testerAccess, user?.testerExpiry);
 
   const handleNoteChange = (value: string) => {
     setNoteContent(value);
@@ -2690,7 +2690,7 @@ export default function LessonDetail() {
       <Navigation />
       
       <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
-        <nav aria-label="Breadcrumb" className="mb-3 text-sm text-gray-500" data-testid="nav-breadcrumb">
+        <nav aria-label="Breadcrumb" className="mb-2 text-sm text-gray-500" data-testid="nav-breadcrumb">
           <ol className="flex items-center gap-1 flex-wrap">
             <li><LocaleLink href="/" className="hover:text-primary transition-colors">Home</LocaleLink></li>
             <li className="text-gray-300">/</li>
@@ -2702,7 +2702,7 @@ export default function LessonDetail() {
           </ol>
         </nav>
 
-        <div className="mb-3">
+        <div className="flex items-center justify-between mb-2">
           <LocaleLink href="/lessons">
             <Button variant="ghost" size="sm" className="group -ml-2 h-8 text-sm">
               <ArrowLeft className="mr-1.5 w-3.5 h-3.5 group-hover:-translate-x-1 transition-transform" />
@@ -2714,29 +2714,29 @@ export default function LessonDetail() {
         {(() => {
           const nav = getLessonNavigation(id || "");
           return (
-            <div className="grid grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center min-h-[36px] mb-4" data-testid="nav-prev-next">
-              <div className="flex justify-start overflow-hidden">
+            <div className="grid grid-cols-[minmax(0,1fr)_2rem_minmax(0,1fr)] items-center min-h-[36px] mb-4" data-testid="nav-prev-next">
+              <div className="min-w-0 overflow-hidden">
                 {nav?.prev ? (
                   <LocaleLink href={`/lessons/${nav.prev.id}`}>
-                    <span className="inline-flex items-center gap-1.5 text-sm text-gray-500 hover:text-primary transition-colors cursor-pointer whitespace-nowrap overflow-hidden text-ellipsis max-w-[240px]" data-testid="link-prev-lesson-top">
-                      <ArrowLeft className="w-3.5 h-3.5 shrink-0" />
-                      <span className="hidden sm:inline truncate">{nav.prev.name}</span>
+                    <span className="inline-flex items-center gap-1.5 text-sm text-gray-500 hover:text-primary transition-colors cursor-pointer max-w-full" data-testid="link-prev-lesson-top">
+                      <ChevronLeft className="w-3.5 h-3.5 shrink-0" />
+                      <span className="hidden sm:inline truncate" title={nav.prev.name}>{nav.prev.name}</span>
                       <span className="sm:hidden">Prev</span>
                     </span>
                   </LocaleLink>
-                ) : <span className="text-sm text-transparent select-none">Prev</span>}
+                ) : <span className="text-sm text-transparent select-none" aria-hidden="true">Prev</span>}
               </div>
-              <div className="w-8" />
-              <div className="flex justify-end overflow-hidden">
+              <div />
+              <div className="min-w-0 overflow-hidden flex justify-end">
                 {nav?.next ? (
                   <LocaleLink href={`/lessons/${nav.next.id}`}>
-                    <span className="inline-flex items-center gap-1.5 text-sm text-gray-500 hover:text-primary transition-colors cursor-pointer whitespace-nowrap overflow-hidden text-ellipsis max-w-[240px]" data-testid="link-next-lesson-top">
-                      <span className="hidden sm:inline truncate">{nav.next.name}</span>
+                    <span className="inline-flex items-center gap-1.5 text-sm text-gray-500 hover:text-primary transition-colors cursor-pointer max-w-full" data-testid="link-next-lesson-top">
+                      <span className="hidden sm:inline truncate" title={nav.next.name}>{nav.next.name}</span>
                       <span className="sm:hidden">Next</span>
                       <ChevronRight className="w-3.5 h-3.5 shrink-0" />
                     </span>
                   </LocaleLink>
-                ) : <span className="text-sm text-transparent select-none">Next</span>}
+                ) : <span className="text-sm text-transparent select-none" aria-hidden="true">Next</span>}
               </div>
             </div>
           );
@@ -2807,8 +2807,8 @@ export default function LessonDetail() {
         })()}
         <LessonImageManager lessonId={id || ""} section="header" isAdmin={user?.tier === "admin"} isEditing={isEditing} />
 
-        <div className="space-y-5">
-          <div className="grid grid-cols-1 md:grid-cols-[minmax(0,1fr)_200px] gap-x-6 gap-y-3 items-start">
+        <div className="space-y-4">
+          <div className="grid grid-cols-1 md:grid-cols-[1fr_220px] gap-x-6 gap-y-3 items-start">
             <div className="space-y-3 min-w-0">
               <div className="flex items-center gap-3">
                 {isPeds && (
@@ -2821,20 +2821,20 @@ export default function LessonDetail() {
                     <Beaker className="w-5 h-5" />
                   </div>
                 )}
-                <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 leading-tight">{lessonContent.title}</h1>
+                <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 leading-tight" data-testid="text-lesson-title">{lessonContent.title}</h1>
               </div>
               {(() => {
                 const diff = getDifficulty(id || "");
                 const config = difficultyConfig[diff];
                 return (
-                  <div className="flex items-center gap-2 flex-wrap">
-                    <span className="px-2.5 py-0.5 rounded-full bg-primary/10 text-primary text-xs font-bold">
+                  <div className="flex items-center gap-2 flex-wrap" data-testid="lesson-chips">
+                    <span className="px-2.5 py-0.5 rounded-full bg-primary/10 text-primary text-xs font-bold" data-testid="chip-tier">
                       {lessonTier === "np" ? "NP Focus" : lessonTier === "rn" ? "RN Focus" : "RPN Focus"}
                     </span>
                     <span data-testid="lesson-difficulty-badge" className={`px-2.5 py-0.5 rounded-full text-xs font-bold ${config.bg} ${config.color}`}>
                       Difficulty: {config.label}
                     </span>
-                    <span className="px-2.5 py-0.5 rounded-full bg-gray-100 text-gray-600 text-xs font-bold">
+                    <span className="px-2.5 py-0.5 rounded-full bg-gray-100 text-gray-600 text-xs font-bold" data-testid="chip-region">
                       {region === "CA" ? "Canadian Guidelines" : "US Guidelines"}
                     </span>
                   </div>
@@ -2842,7 +2842,7 @@ export default function LessonDetail() {
               })()}
             </div>
 
-            <div className="flex md:flex-col items-center md:items-stretch gap-2 md:pt-1">
+            <div className="flex md:flex-col items-center md:items-stretch gap-2 md:pt-1 w-full md:w-[220px]" data-testid="lesson-actions">
               <Button
                 variant={showNotes ? "default" : "outline"}
                 onClick={() => setShowNotes(!showNotes)}
@@ -2874,7 +2874,7 @@ export default function LessonDetail() {
                 <p className="text-sm text-gray-600 hidden sm:block">Pre-Test, Study, Post-Test. Track your clinical reasoning improvement.</p>
               </div>
               <div className="text-right shrink-0">
-                <p className="text-2xl font-bold text-primary">{postTestDone ? "100%" : preTestDone ? "50%" : "0%"}</p>
+                <p className="text-2xl font-bold text-primary" data-testid="text-progress-pct">{postTestDone ? "100%" : preTestDone ? "50%" : "0%"}</p>
                 <Progress value={postTestDone ? 100 : preTestDone ? 50 : 0} className="w-28 h-2" />
               </div>
             </CardContent>

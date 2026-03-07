@@ -97,13 +97,13 @@ export default function PrivacyPage() {
               <li><strong>Access:</strong> You may request a copy of the personal data we hold about you.</li>
               <li><strong>Correction:</strong> You may update or correct your account information at any time through your profile settings.</li>
               <li><strong>Deletion:</strong> You may request the deletion of your account and associated personal data by contacting our support team at{" "}
-                <a href="mailto:support@nursenest.com" className="text-primary underline hover:text-primary/80">support@nursenest.com</a>.
+                <a href="mailto:support@nursenest.ca" className="text-primary underline hover:text-primary/80">support@nursenest.ca</a>.
               </li>
               <li><strong>Data Portability:</strong> Where technically feasible, you may request your data in a portable format.</li>
             </ul>
             <p className="text-gray-700 leading-relaxed mt-3">
               To exercise any of these rights, please contact us at{" "}
-              <a href="mailto:support@nursenest.com" className="text-primary underline hover:text-primary/80">support@nursenest.com</a>.
+              <a href="mailto:support@nursenest.ca" className="text-primary underline hover:text-primary/80">support@nursenest.ca</a>.
             </p>
           </section>
 
@@ -111,7 +111,7 @@ export default function PrivacyPage() {
             <h2 className="text-2xl font-semibold text-primary mb-4">7. Children's Privacy</h2>
             <p className="text-gray-700 leading-relaxed">
               NurseNest is not intended for use by individuals under the age of 18. We do not knowingly collect personal information from children under 18. If we become aware that we have inadvertently collected personal data from a minor without appropriate parental consent, we will take steps to delete that information promptly. If you believe a child under 18 has provided us with personal information, please contact us at{" "}
-              <a href="mailto:support@nursenest.com" className="text-primary underline hover:text-primary/80">support@nursenest.com</a>.
+              <a href="mailto:support@nursenest.ca" className="text-primary underline hover:text-primary/80">support@nursenest.ca</a>.
             </p>
           </section>
 
@@ -127,11 +127,11 @@ export default function PrivacyPage() {
             <p className="text-gray-700 leading-relaxed">
               If you have any questions or concerns about this Privacy Policy or our data practices, please contact us at{" "}
               <a
-                href="mailto:support@nursenest.com"
+                href="mailto:support@nursenest.ca"
                 className="text-primary underline hover:text-primary/80"
                 data-testid="link-privacy-contact-email"
               >
-                support@nursenest.com
+                support@nursenest.ca
               </a>.
             </p>
           </section>

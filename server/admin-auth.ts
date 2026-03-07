@@ -97,6 +97,13 @@ export async function resolveAuthUser(req: any): Promise<any | null> {
   return null;
 }
 
+function isActiveTester(user: any): boolean {
+  if (!user.tester_access && !user.testerAccess) return false;
+  const expiry = user.tester_expiry || user.testerExpiry;
+  if (expiry && new Date(expiry) < new Date()) return false;
+  return true;
+}
+
 export function requireExactTier(requiredTier: string) {
   return async (req: any, res: any, next: any) => {
     const user = await resolveAuthUser(req);
@@ -107,6 +114,11 @@ export function requireExactTier(requiredTier: string) {
     const userTier = user.tier || "free";
 
     if (userTier === "admin") {
+      req.authUser = user;
+      return next();
+    }
+
+    if (isActiveTester(user)) {
       req.authUser = user;
       return next();
     }
@@ -134,7 +146,7 @@ export function requireAnyPaidTier() {
     const userTier = user.tier || "free";
     const paidTiers = new Set(["rpn", "rn", "np", "admin"]);
 
-    if (!paidTiers.has(userTier)) {
+    if (!paidTiers.has(userTier) && !isActiveTester(user)) {
       return res.status(403).json({
         error: "Premium feature - upgrade required",
         upgradeRequired: true,

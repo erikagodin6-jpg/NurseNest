@@ -1,4 +1,4 @@
-import { type User, type InsertUser, type Note, type InsertNote, type TestResult, type InsertTestResult, type UserProgress, type InsertUserProgress, type ContentItem, type InsertContentItem, type FeatureUsage, type UserFlashcard, type InsertUserFlashcard, type BlogConfig, type PageView, type InsertPageView, type UserFeedback, type InsertUserFeedback, type QotdHistory, type EmailSubscriber, type InsertEmailSubscriber, type SocialPost, type InsertSocialPost, type DashboardWidget, type InsertDashboardWidget, type SiteImage, type InsertSiteImage, type CustomPageModule, type InsertCustomPageModule, type AudioClip, type InsertAudioClip, type LessonAudioLink, type InsertLessonAudioLink, type ExamQuestion, type InsertExamQuestion, type QuestionTypeRegistryEntry, type InsertQuestionTypeRegistryEntry, type QuestionScheduleLog, type DigitalProduct, type InsertDigitalProduct, type ProductPurchase, type InsertProductPurchase, type QbankDraft, type InsertQbankDraft, type QbankRecipe, type InsertQbankRecipe, type DiagnosticAssessment, type InsertDiagnosticAssessment, type UserStats, type InsertUserStats, type StudyGroup, type InsertStudyGroup, type StudyGroupMember, type InsertStudyGroupMember, type QuestionAnalytics, type InsertQuestionAnalytics, type FriendRequest, type InsertFriendRequest, type FriendConnection, type InsertFriendConnection, type ProductGeneration, type InsertProductGeneration, type GeneratedQuestion, type InsertGeneratedQuestion, type GeneratorV2PresentationSettings, type InsertGeneratorV2PresentationSettings, users, notes, testResults, userProgress, contentItems, featureUsage, userFlashcards, blogConfig, pageViews, userFeedback, qotdHistory, emailSubscribers, socialPosts, dashboardWidgets, siteImages, customPageModules, audioClips, lessonAudioLinks, examQuestions, questionTypeRegistry, questionScheduleLog, digitalProducts, productPurchases, couponCodes, qbankDrafts, qbankRecipes, diagnosticAssessments, userStats, studyGroups, studyGroupMembers, questionAnalytics, friendRequests, friendConnections, productGenerations, generatedQuestions, generatorV2PresentationSettings, generationEvents, v2ContentBlocks } from "@shared/schema";
+import { type User, type InsertUser, type Note, type InsertNote, type TestResult, type InsertTestResult, type UserProgress, type InsertUserProgress, type ContentItem, type InsertContentItem, type FeatureUsage, type UserFlashcard, type InsertUserFlashcard, type BlogConfig, type PageView, type InsertPageView, type UserFeedback, type InsertUserFeedback, type QotdHistory, type EmailSubscriber, type InsertEmailSubscriber, type SocialPost, type InsertSocialPost, type DashboardWidget, type InsertDashboardWidget, type SiteImage, type InsertSiteImage, type CustomPageModule, type InsertCustomPageModule, type AudioClip, type InsertAudioClip, type LessonAudioLink, type InsertLessonAudioLink, type ExamQuestion, type InsertExamQuestion, type QuestionTypeRegistryEntry, type InsertQuestionTypeRegistryEntry, type QuestionScheduleLog, type DigitalProduct, type InsertDigitalProduct, type ProductPurchase, type InsertProductPurchase, type QbankDraft, type InsertQbankDraft, type QbankRecipe, type InsertQbankRecipe, type DiagnosticAssessment, type InsertDiagnosticAssessment, type UserStats, type InsertUserStats, type StudyGroup, type InsertStudyGroup, type StudyGroupMember, type InsertStudyGroupMember, type QuestionAnalytics, type InsertQuestionAnalytics, type FriendRequest, type InsertFriendRequest, type FriendConnection, type InsertFriendConnection, type ProductGeneration, type InsertProductGeneration, type GeneratedQuestion, type InsertGeneratedQuestion, type GeneratorV2PresentationSettings, type InsertGeneratorV2PresentationSettings, type TesterInviteCode, type InsertTesterInviteCode, type TesterFeedback, type InsertTesterFeedback, users, notes, testResults, userProgress, contentItems, featureUsage, userFlashcards, blogConfig, pageViews, userFeedback, qotdHistory, emailSubscribers, socialPosts, dashboardWidgets, siteImages, customPageModules, audioClips, lessonAudioLinks, examQuestions, questionTypeRegistry, questionScheduleLog, digitalProducts, productPurchases, couponCodes, qbankDrafts, qbankRecipes, diagnosticAssessments, userStats, studyGroups, studyGroupMembers, questionAnalytics, friendRequests, friendConnections, productGenerations, generatedQuestions, generatorV2PresentationSettings, generationEvents, v2ContentBlocks, testerInviteCodes, testerFeedback } from "@shared/schema";
 import { drizzle } from "drizzle-orm/node-postgres";
 import { eq, and, desc, sql, lte, ne, ilike, gte, count } from "drizzle-orm";
 import pg from "pg";
@@ -1130,6 +1130,57 @@ export class DatabaseStorage implements IStorage {
       return r;
     }
     const [r] = await db.insert(generatorV2PresentationSettings).values({ ...data, generationId }).returning();
+    return r;
+  }
+
+  async getTesterInviteCode(code: string): Promise<TesterInviteCode | undefined> {
+    const [r] = await db.select().from(testerInviteCodes).where(eq(testerInviteCodes.code, code));
+    return r;
+  }
+  async getTesterInviteCodeById(id: string): Promise<TesterInviteCode | undefined> {
+    const [r] = await db.select().from(testerInviteCodes).where(eq(testerInviteCodes.id, id));
+    return r;
+  }
+  async listTesterInviteCodes(): Promise<TesterInviteCode[]> {
+    return db.select().from(testerInviteCodes).orderBy(desc(testerInviteCodes.createdAt));
+  }
+  async createTesterInviteCode(data: InsertTesterInviteCode): Promise<TesterInviteCode> {
+    const [r] = await db.insert(testerInviteCodes).values(data).returning();
+    return r;
+  }
+  async updateTesterInviteCode(id: string, updates: Partial<InsertTesterInviteCode>): Promise<TesterInviteCode> {
+    const [r] = await db.update(testerInviteCodes).set(updates).where(eq(testerInviteCodes.id, id)).returning();
+    return r;
+  }
+  async incrementTesterInviteCodeUsage(code: string): Promise<void> {
+    await db.update(testerInviteCodes).set({ usedCount: sql`${testerInviteCodes.usedCount} + 1` }).where(eq(testerInviteCodes.code, code));
+  }
+  async deleteTesterInviteCode(id: string): Promise<void> {
+    await db.delete(testerInviteCodes).where(eq(testerInviteCodes.id, id));
+  }
+
+  async createTesterFeedback(data: InsertTesterFeedback): Promise<TesterFeedback> {
+    const [r] = await db.insert(testerFeedback).values(data).returning();
+    return r;
+  }
+  async listTesterFeedback(): Promise<TesterFeedback[]> {
+    return db.select().from(testerFeedback).orderBy(desc(testerFeedback.createdAt));
+  }
+  async getUserTesterFeedback(userId: string): Promise<TesterFeedback[]> {
+    return db.select().from(testerFeedback).where(eq(testerFeedback.userId, userId)).orderBy(desc(testerFeedback.createdAt));
+  }
+  async updateTesterFeedback(id: string, updates: Partial<{ status: string; adminResponse: string }>): Promise<TesterFeedback> {
+    const [r] = await db.update(testerFeedback).set({ ...updates, updatedAt: new Date() }).where(eq(testerFeedback.id, id)).returning();
+    return r;
+  }
+
+  async listTesterUsers(): Promise<User[]> {
+    return db.select().from(users).where(eq(users.testerAccess, true)).orderBy(desc(users.testerExpiry));
+  }
+  async setTesterAccess(userId: string, testerAccess: boolean, testerExpiry: Date | null, inviteCode?: string): Promise<User> {
+    const updates: any = { testerAccess, testerExpiry };
+    if (inviteCode !== undefined) updates.testerInviteCode = inviteCode;
+    const [r] = await db.update(users).set(updates).where(eq(users.id, userId)).returning();
     return r;
   }
 }

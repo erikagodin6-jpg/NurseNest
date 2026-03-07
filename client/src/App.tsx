@@ -11,6 +11,7 @@ import { CareerProvider } from "@/lib/career-context";
 import { SiteImagesProvider } from "@/components/admin-image-overlay";
 import { getLocaleFromPath, isValidLocale, DEFAULT_LOCALE } from "@/lib/locale-utils";
 import { AlliedApp } from "@/allied/allied-app";
+import { TesterBanner } from "@/components/tester-banner";
 
 function PreviewBanner() {
   const { previewTier, setPreviewTier, isAdmin } = useAuth();
@@ -102,6 +103,7 @@ const MockExamsPage = lazy(() => import("@/pages/mock-exams"));
 const MockExamSession = lazy(() => import("@/pages/mock-exam-session"));
 const MockExamReport = lazy(() => import("@/pages/mock-exam-report"));
 const ContactPage = lazy(() => import("@/pages/contact"));
+const AboutPage = lazy(() => import("@/pages/about"));
 const FeedbackPage = lazy(() => import("@/pages/feedback"));
 const QuestionOfTheDay = lazy(() => import("@/pages/question-of-the-day"));
 const QuestionBank = lazy(() => import("@/pages/question-bank"));
@@ -392,6 +394,7 @@ function AppRoutes() {
         <Route path="/question-of-the-day" component={QuestionOfTheDay} />
         <Route path="/question-bank" component={QuestionBank} />
         <Route path="/contact" component={ContactPage} />
+        <Route path="/about" component={AboutPage} />
         <Route path="/feedback" component={FeedbackPage} />
         <Route path="/free-practice" component={FreePracticePage} />
         <Route path="/quick-study" component={QuickStudyPage} />
@@ -688,6 +691,7 @@ function App() {
                 <TooltipProvider>
                   <Toaster />
                   <PreviewBanner />
+                  <TesterBanner />
                   <PageTracker />
                   <CopyProtection />
                   <AnalyticsTracker />

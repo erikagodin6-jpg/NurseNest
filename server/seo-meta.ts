@@ -32,6 +32,7 @@ const NOINDEX_PATHS = new Set([
   "/admin",
   "/content-editor",
   "/login",
+  "/register",
   "/profile",
   "/reports",
   "/dashboard",
@@ -41,6 +42,11 @@ const NOINDEX_PATHS = new Set([
   "/feedback",
   "/diagnostic-assessment",
   "/probability-simulator",
+  "/settings",
+  "/notes",
+  "/invite",
+  "/reset-password",
+  "/verify-email",
 ]);
 
 function isNoindexPath(path: string): boolean {
@@ -277,6 +283,10 @@ const staticPages: Record<string, { title: string; description: string }> = {
   "/compare/rex-pn-practice-questions-free": {
     title: "Free REx-PN Practice Questions 2025 | NurseNest Canada",
     description: "Access free REx-PN practice questions for Canadian practical nursing exam prep. Daily questions, detailed rationales, and full mock exams.",
+  },
+  "/about": {
+    title: "About NurseNest | Our Mission, Story & Editorial Standards",
+    description: "NurseNest is a nursing education platform founded by Erika Godin, RN. Clinically accurate, evidence-based exam preparation for RPN, RN, and NP students in Canada and the U.S.",
   },
   "/contact": {
     title: "Contact Us | NurseNest",

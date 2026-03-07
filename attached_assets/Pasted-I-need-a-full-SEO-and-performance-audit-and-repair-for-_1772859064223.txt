@@ -1,0 +1,130 @@
+I need a full SEO and performance audit and repair for my website. My Google Search Console impressions dropped from about 120 per day to around 13 per day. This happened while my site is still new and I also have thousands of pages that Google reports as “Discovered – currently not indexed”. I want a full technical fix so Google crawls, indexes, and ranks my pages properly.
+
+Context:
+The site is a learning platform with thousands of educational pages (lessons, study pages, practice questions, etc.). Many pages follow a similar structure but the content is unique. I need Google to treat these pages as high-quality educational resources and index them rather than suppress them.
+
+Primary problems to investigate and fix:
+- Large number of pages listed as “Discovered – currently not indexed”
+- Possible canonical tag problems
+- Possible duplicate page issues from language routes or alternate URLs
+- Very slow page performance (Largest Contentful Paint previously around 20 seconds)
+- Possible crawl budget issues
+- Possible thin or repetitive content signals
+- Weak internal linking between educational pages
+- Google may not understand page structure or educational intent
+
+Tasks to perform:
+
+1. SITE CRAWL AND INDEXING DIAGNOSIS
+Scan the entire codebase and determine why Google is discovering pages but not indexing them. Specifically check:
+- robots.txt
+- meta robots tags
+- canonical tags
+- sitemap configuration
+- pagination issues
+- duplicate URL patterns
+- alternate language URLs
+- redirect chains
+- soft 404 responses
+- pages returning incorrect HTTP status codes
+
+Fix any misconfigurations that could cause Google to skip indexing pages.
+
+2. CANONICAL TAG CORRECTION
+Ensure every page has a correct canonical tag pointing only to itself unless there is a real duplicate page. Fix situations where:
+- language variants incorrectly canonicalize to the wrong page
+- dynamic routes generate duplicate canonical URLs
+- multiple routes point to the same content
+
+3. SITEMAP OPTIMIZATION
+Generate a clean, high-quality sitemap that:
+- only includes indexable pages
+- excludes duplicate URLs
+- excludes parameterized URLs
+- excludes pagination duplicates
+- includes lastmod timestamps
+- splits large sitemaps into multiple files if necessary
+- creates a sitemap index
+
+Make sure the sitemap reflects only the pages we want Google to crawl and rank.
+
+4. INTERNAL LINKING STRUCTURE
+Improve internal linking so Google clearly understands the topical hierarchy of the site.
+
+Each educational page should link to:
+- related lessons
+- related study guides
+- related practice questions
+- higher level topic categories
+
+Implement contextual internal links within page content to strengthen topical authority.
+
+5. PAGE QUALITY SIGNALS
+Enhance pages so they appear as authoritative educational resources rather than thin or automated pages.
+
+Ensure each lesson page contains:
+- clear introduction
+- structured sections with headings
+- clinical explanations
+- tables or lists where appropriate
+- related content links
+- references or citations where applicable
+
+The goal is to make each page clearly valuable to learners and distinct from other pages.
+
+6. STRUCTURED DATA
+Add schema markup appropriate for educational medical content.
+
+Implement structured data such as:
+- Article schema
+- FAQ schema where applicable
+- Educational content schema
+- Breadcrumb schema
+
+Ensure structured data is valid and helps Google understand the educational purpose of each page.
+
+7. PERFORMANCE OPTIMIZATION
+My site currently loads very slowly and this may be reducing crawl frequency. Optimize performance across the site.
+
+Fix issues affecting:
+- Largest Contentful Paint
+- First Contentful Paint
+- JavaScript bundle size
+- render-blocking resources
+- image loading
+- hydration delays
+
+Implement:
+- code splitting
+- lazy loading
+- image optimization
+- caching where appropriate
+- removal of unnecessary scripts
+- preloading of critical resources
+
+The goal is to reduce LCP to under 2.5 seconds.
+
+8. CRAWL BUDGET OPTIMIZATION
+Because the site has many pages, improve crawl efficiency by:
+- preventing crawl of non-essential URLs
+- ensuring high-value pages are easy to discover
+- strengthening internal linking to key pages
+- eliminating duplicate or parameterized URLs
+
+9. SEARCH ENGINE FRIENDLY PAGE STRUCTURE
+Ensure every page has:
+- a clear H1 title
+- logical heading hierarchy
+- descriptive meta title
+- descriptive meta description
+- breadcrumb navigation
+- accessible structured layout
+
+10. FINAL REPORT
+After implementing improvements, provide a summary explaining:
+- what indexing issues were discovered
+- what changes were made
+- how the changes improve crawlability and indexing
+- what additional steps may help increase impressions over time
+
+The goal is to restore and then increase Google impressions by ensuring pages are high-quality, fast, properly linked, and clearly understood by search engines.

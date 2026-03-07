@@ -7,12 +7,14 @@ type User = {
   subscriptionStatus: string;
   email?: string;
   region?: string;
+  testerAccess?: boolean;
+  testerExpiry?: string | null;
 };
 
 type AuthContextType = {
   user: User | null;
   login: (username: string, password: string) => Promise<void>;
-  register: (username: string, password: string, email?: string) => Promise<void>;
+  register: (username: string, password: string, email?: string, inviteCode?: string) => Promise<void>;
   logout: () => void;
   refreshUser: () => Promise<void>;
   isLoading: boolean;
@@ -21,6 +23,7 @@ type AuthContextType = {
   setPreviewTier: (tier: string | null) => void;
   effectiveTier: string;
   isAdmin: boolean;
+  isTester: boolean;
 };
 
 const AuthContext = createContext<AuthContextType | null>(null);
@@ -137,16 +140,20 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       subscriptionStatus: data.subscriptionStatus,
       email: data.email,
       region: data.region,
+      testerAccess: data.testerAccess,
+      testerExpiry: data.testerExpiry,
     };
     setUser(userData);
     localStorage.setItem("nursenest-user", JSON.stringify(userData));
   }
 
-  async function register(username: string, password: string, email?: string) {
+  async function register(username: string, password: string, email?: string, inviteCode?: string) {
+    const body: any = { username, password, email };
+    if (inviteCode) body.inviteCode = inviteCode;
     const res = await fetch("/api/auth/register", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ username, password, email }),
+      body: JSON.stringify(body),
     });
 
     if (!res.ok) {
@@ -175,9 +182,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const isAdmin = user?.tier === "admin";
   const effectiveTier = previewTier ?? (user?.tier || "free");
 
+  const isTester = !!(user?.testerAccess && (!user.testerExpiry || new Date(user.testerExpiry) > new Date()));
+
   function hasAccess(requiredTier: string): boolean {
     if (!user) return false;
     if (isAdmin && !previewTier) return true;
+    if (isTester) return true;
     const hierarchy: Record<string, number> = { free: 0, rpn: 1, rn: 2, np: 3, admin: 4 };
     const userLevel = hierarchy[effectiveTier] ?? 0;
     const requiredLevel = hierarchy[requiredTier] ?? 0;
@@ -198,6 +208,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         setPreviewTier,
         effectiveTier,
         isAdmin,
+        isTester,
       }}
     >
       {children}

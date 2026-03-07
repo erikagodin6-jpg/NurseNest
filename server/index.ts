@@ -333,6 +333,10 @@ app.get("/sitemap.xml", async (_req, res) => {
   entries.push(sitemapUrl(base, "/nursing", "0.9", "monthly", enOnly, today));
   entries.push(sitemapUrl(base, "/nursing-specialties", "0.8", "monthly", enOnly, today));
   entries.push(sitemapUrl(base, "/faq", "0.5", "monthly", enOnly));
+  entries.push(sitemapUrl(base, "/about", "0.6", "monthly", enOnly));
+  entries.push(sitemapUrl(base, "/contact", "0.4", "monthly", enOnly));
+  entries.push(sitemapUrl(base, "/terms", "0.3", "yearly", enOnly));
+  entries.push(sitemapUrl(base, "/privacy", "0.3", "yearly", enOnly));
   entries.push(sitemapUrl(base, "/nclex-rn-practice-questions", "0.9", "weekly", enOnly, today));
   entries.push(sitemapUrl(base, "/nclex-pn-practice-questions", "0.9", "weekly", enOnly, today));
   entries.push(sitemapUrl(base, "/rex-pn-practice-questions", "0.9", "weekly", enOnly, today));

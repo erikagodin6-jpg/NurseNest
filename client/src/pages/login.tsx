@@ -10,7 +10,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useAuth } from "@/lib/auth";
 import { useToast } from "@/hooks/use-toast";
 import { useI18n } from "@/lib/i18n";
-import { GraduationCap, Mail, Lock, User } from "lucide-react";
+import { GraduationCap, Mail, Lock, User, Ticket } from "lucide-react";
 
 export default function LoginPage() {
   const [, navigate] = useLocation();
@@ -39,7 +39,7 @@ export default function LoginPage() {
     setIsLoading(true);
     const fd = new FormData(e.currentTarget);
     try {
-      await register(fd.get("username") as string, fd.get("password") as string, fd.get("email") as string);
+      await register(fd.get("username") as string, fd.get("password") as string, fd.get("email") as string, (fd.get("inviteCode") as string) || undefined);
       toast({ title: t("login.accountCreated") });
       navigate("/lessons");
     } catch (err: any) {
@@ -109,6 +109,13 @@ export default function LoginPage() {
                     <div className="relative">
                       <Lock className="absolute left-3 top-3 w-4 h-4 text-gray-400" />
                       <Input id="reg-password" name="password" type="password" placeholder={t("login.createPassword")} className="pl-10" required data-testid="input-register-password" />
+                    </div>
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="reg-invite" className="text-gray-500 text-xs">Invite Code (optional)</Label>
+                    <div className="relative">
+                      <Ticket className="absolute left-3 top-3 w-4 h-4 text-gray-400" />
+                      <Input id="reg-invite" name="inviteCode" placeholder="Enter beta invite code" className="pl-10" data-testid="input-register-invite-code" />
                     </div>
                   </div>
                   <Button type="submit" className="w-full" disabled={isLoading} data-testid="button-register">

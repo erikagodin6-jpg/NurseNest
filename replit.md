@@ -140,3 +140,23 @@ The application is built with Vite, React, and Express 5 on Node.js with TypeScr
   - Electrolytes: mEq/L → mmol/L (1:1)
   - WBC: cells/µL → ×10⁹/L (÷1000)
   - Weight: lbs → kg (×0.4536)
+
+## Tester Access System
+- **Schema**: `testerAccess` (boolean), `testerExpiry` (timestamp), `testerInviteCode` (text) on users table
+- **Invite Codes**: `tester_invite_codes` table — code, maxUses, usedCount, expiresAt, notes, tier, isActive
+- **Feedback**: `tester_feedback` table — userId, username, category, title, description, pageUrl, severity, status, adminResponse
+- **Registration**: Invite code field on registration form; valid codes grant tester access + tier for 30 days
+- **Middleware**: `requireAnyPaidTier()` and `requireExactTier()` in admin-auth.ts extended with `isActiveTester()` check
+- **Frontend**: `hasAccess()` in auth.tsx returns true for active testers; `canAccessTier()` in access.ts accepts optional testerAccess/testerExpiry params
+- **Banner**: `TesterBanner` component renders globally in App.tsx for active testers with feedback dialog
+- **Admin APIs**: CRUD at `/api/admin/tester/invite-codes`, `/api/admin/tester/users`, `/api/admin/tester/feedback`
+- **User APIs**: `POST /api/tester/feedback`, `GET /api/tester/feedback`, `POST /api/tester/validate-code`
+
+## Trust & Credibility Pages
+- **About Page**: `/about` — Founder bio (Erika Godin, RN), editorial standards, platform stats, timeline, values
+- **Contact**: `/contact` — Support form with categories, email support@nursenest.ca
+- **Terms**: `/terms` — Full terms of use, Ontario governing law
+- **Privacy**: `/privacy` — PIPEDA-compliant privacy policy
+- **FAQ**: `/faq` — i18n accordion with structured data
+- **Footer**: About NurseNest link added to Resources column
+- **SEO**: All trust pages in sitemap and seo-meta.ts staticPages

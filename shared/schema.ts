@@ -16,6 +16,9 @@ export const users = pgTable("users", {
   flashcardLimit: integer("flashcard_limit").default(300),
   planExpiresAt: timestamp("plan_expires_at"),
   careerType: text("career_type").default("nursing"),
+  testerAccess: boolean("tester_access").default(false),
+  testerExpiry: timestamp("tester_expiry"),
+  testerInviteCode: text("tester_invite_code"),
 });
 
 export const notes = pgTable("notes", {
@@ -2420,3 +2423,46 @@ export const flashcardReviews = pgTable("flashcard_reviews", {
 export const insertFlashcardReviewSchema = createInsertSchema(flashcardReviews).omit({ id: true, reviewedAt: true });
 export type FlashcardReview = typeof flashcardReviews.$inferSelect;
 export type InsertFlashcardReview = z.infer<typeof insertFlashcardReviewSchema>;
+
+export const testerInviteCodes = pgTable("tester_invite_codes", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  code: text("code").notNull().unique(),
+  maxUses: integer("max_uses").notNull().default(10),
+  usedCount: integer("used_count").notNull().default(0),
+  expiresAt: timestamp("expires_at"),
+  notes: text("notes"),
+  tier: text("tier").default("rn"),
+  isActive: boolean("is_active").default(true),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const insertTesterInviteCodeSchema = createInsertSchema(testerInviteCodes).omit({
+  id: true,
+  usedCount: true,
+  createdAt: true,
+});
+export type TesterInviteCode = typeof testerInviteCodes.$inferSelect;
+export type InsertTesterInviteCode = z.infer<typeof insertTesterInviteCodeSchema>;
+
+export const testerFeedback = pgTable("tester_feedback", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id").notNull(),
+  username: text("username"),
+  category: text("category").notNull().default("general"),
+  title: text("title").notNull(),
+  description: text("description").notNull(),
+  pageUrl: text("page_url"),
+  severity: text("severity").default("medium"),
+  status: text("status").default("new"),
+  adminResponse: text("admin_response"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export const insertTesterFeedbackSchema = createInsertSchema(testerFeedback).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+export type TesterFeedback = typeof testerFeedback.$inferSelect;
+export type InsertTesterFeedback = z.infer<typeof insertTesterFeedbackSchema>;

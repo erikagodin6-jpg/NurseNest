@@ -1,0 +1,115 @@
+I want you to fix the most likely root cause of my Google impression drop: URL/indexation dilution caused by too many low-value, duplicate, or weakly differentiated pages being discoverable by Google.
+
+My site is a large educational platform and Google Search Console shows a very high number of “Discovered – currently not indexed” pages, along with canonical issues and a major drop in impressions. I want you to refactor the site so Google focuses on indexing only my strongest, most valuable pages.
+
+Your job is to audit and fix the codebase with this exact goal:
+Make the site smaller, clearer, faster, and more index-worthy from Google’s perspective.
+
+Please do all of the following:
+
+1. AUDIT ALL INDEXABLE URL TYPES
+Identify every type of crawlable/indexable URL on the site, including:
+- lesson pages
+- study guides
+- question pages
+- category pages
+- language variants
+- search/filter pages
+- paginated pages
+- tag/archive pages
+- preview or utility pages
+- parameterized URLs
+- duplicate dynamic route versions
+
+Create a clear list of:
+- pages that should be indexable
+- pages that should be noindex
+- pages that should be excluded from sitemap
+- pages that should redirect or canonicalize elsewhere
+
+2. REDUCE INDEXATION DILUTION
+Implement a strategy so only high-value educational pages are indexable.
+Noindex or exclude low-value URLs such as:
+- thin archive pages
+- duplicate filtered pages
+- parameterized pages
+- weak tag/search results pages
+- preview/temporary/admin-like public pages
+- duplicate language or route variants that should not compete in Google
+
+3. FIX CANONICALS
+Ensure every indexable page has a correct self-referencing canonical unless it is a true duplicate that should consolidate into another page.
+Fix:
+- canonicals pointing to wrong language versions
+- multiple URLs serving same content
+- route inconsistencies
+- duplicate canonical generation in dynamic pages
+
+4. REBUILD THE SITEMAP STRATEGY
+Generate a sitemap system that includes only high-quality indexable pages.
+The sitemap must:
+- exclude noindex pages
+- exclude duplicates
+- exclude parameterized URLs
+- exclude low-value archives and thin pages
+- include only canonical URLs
+- include lastmod values
+- split into sitemap index if needed
+
+I want Google to see a clean set of premium, rank-worthy URLs only.
+
+5. STRENGTHEN HIGH-VALUE PAGE SIGNALS
+For all pages that remain indexable, improve their SEO quality signals by ensuring they have:
+- unique meta titles
+- unique meta descriptions
+- strong H1
+- clear heading hierarchy
+- meaningful on-page intro text
+- internal links to related pages
+- breadcrumb navigation
+- structured data where appropriate
+
+6. IMPROVE INTERNAL LINKING FOR CRAWL PRIORITY
+Strengthen crawl paths to the most important pages.
+Every major educational page should link to:
+- related lessons
+- broader topic hubs
+- associated practice content
+- adjacent learning content
+- supporting guides
+
+Make the site hierarchy obvious to search engines.
+
+7. IMPROVE PAGE UNIQUENESS
+Audit templates for pages that feel too repetitive or too similar across thousands of URLs.
+Where needed, enhance indexable pages so they are more clearly differentiated and more useful.
+Focus especially on:
+- lesson intros
+- learning objectives
+- clinical pearls
+- exam relevance
+- related content blocks
+- topic-specific summaries
+
+8. IMPROVE PERFORMANCE WHERE IT AFFECTS CRAWL
+Optimize the pages that remain indexable so they load faster and are easier for Google to crawl efficiently.
+Prioritize:
+- reducing LCP
+- reducing JS bundle size
+- lazy loading non-critical components
+- optimizing images
+- removing unnecessary client-side work above the fold
+
+9. IMPLEMENT A QUALITY-FIRST INDEXING STRATEGY
+I do not want Google trying to index everything at once.
+I want a quality-first approach where the best pages are prioritized and weaker pages are excluded until improved.
+
+10. FINAL OUTPUT
+After making changes, provide:
+- a list of all URL types found
+- what was made indexable vs noindex
+- what was removed from sitemap
+- what canonical fixes were applied
+- what internal linking improvements were added
+- what performance improvements were made
+- what likely caused the indexing dilution in the current codebase

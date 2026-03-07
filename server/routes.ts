@@ -2306,14 +2306,36 @@ Return ONLY a JSON array of flashcard objects, no other text.`;
   app.post("/api/auth/register", async (req, res) => {
     try {
       const data = insertUserSchema.parse(req.body);
+      const { inviteCode } = req.body;
       const existing = await storage.getUserByUsername(data.username);
       if (existing) return res.status(400).json({ error: "Username already taken" });
       const user = await storage.createUser(data);
+
+      if (inviteCode && typeof inviteCode === "string" && inviteCode.trim()) {
+        const normalizedCode = inviteCode.trim().toUpperCase();
+        const code = await storage.getTesterInviteCode(normalizedCode);
+        if (code && code.isActive && code.usedCount < code.maxUses && (!code.expiresAt || new Date(code.expiresAt) > new Date())) {
+          const expiryDate = new Date();
+          expiryDate.setDate(expiryDate.getDate() + 30);
+          await storage.setTesterAccess(user.id, true, expiryDate, normalizedCode);
+          await storage.incrementTesterInviteCodeUsage(normalizedCode);
+          user.testerAccess = true;
+          user.testerExpiry = expiryDate;
+          user.testerInviteCode = normalizedCode;
+          if (code.tier && code.tier !== "free") {
+            await storage.updateUserTier(user.id, code.tier);
+            user.tier = code.tier;
+          }
+        }
+      }
+
       res.json({
         id: user.id,
         username: user.username,
         tier: user.tier,
         subscriptionStatus: user.subscriptionStatus,
+        testerAccess: user.testerAccess,
+        testerExpiry: user.testerExpiry,
       });
     } catch (e: any) {
       res.status(400).json({ error: e.message });
@@ -2348,6 +2370,8 @@ Return ONLY a JSON array of flashcard objects, no other text.`;
         subscriptionStatus: user.subscriptionStatus,
         email: user.email,
         region: user.region,
+        testerAccess: user.testerAccess,
+        testerExpiry: user.testerExpiry,
       };
       if (user.tier === "admin") {
         const tokenData = signAdminToken(user.id, user.username);
@@ -2378,6 +2402,8 @@ Return ONLY a JSON array of flashcard objects, no other text.`;
         subscriptionStatus: user.subscriptionStatus,
         email: user.email,
         region: user.region,
+        testerAccess: user.testerAccess,
+        testerExpiry: user.testerExpiry,
       });
     } catch (e: any) {
       res.status(500).json({ error: e.message });
@@ -13008,6 +13034,177 @@ Return ONLY valid JSON with this exact structure:
     } catch (e: any) {
       console.error("[quick-study] Error:", e.message);
       res.status(500).json({ error: "Failed to build quick study session" });
+    }
+  });
+
+  // --------------------
+  // Tester Access Management (Admin)
+  // --------------------
+  app.get("/api/admin/tester/invite-codes", async (req, res) => {
+    const admin = await requireAdmin(req, res);
+    if (!admin) return;
+    try {
+      const codes = await storage.listTesterInviteCodes();
+      res.json(codes);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.post("/api/admin/tester/invite-codes", async (req, res) => {
+    const admin = await requireAdmin(req, res);
+    if (!admin) return;
+    try {
+      const { code, maxUses, expiresAt, notes, tier, isActive } = req.body;
+      if (!code || typeof code !== "string") return res.status(400).json({ error: "Code is required" });
+      const existing = await storage.getTesterInviteCode(code.trim());
+      if (existing) return res.status(400).json({ error: "Code already exists" });
+      const invite = await storage.createTesterInviteCode({
+        code: code.trim().toUpperCase(),
+        maxUses: maxUses || 10,
+        expiresAt: expiresAt ? new Date(expiresAt) : null,
+        notes: notes || null,
+        tier: tier || "rn",
+        isActive: isActive !== false,
+      });
+      res.json(invite);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.patch("/api/admin/tester/invite-codes/:id", async (req, res) => {
+    const admin = await requireAdmin(req, res);
+    if (!admin) return;
+    try {
+      const updated = await storage.updateTesterInviteCode(req.params.id, req.body);
+      res.json(updated);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.delete("/api/admin/tester/invite-codes/:id", async (req, res) => {
+    const admin = await requireAdmin(req, res);
+    if (!admin) return;
+    try {
+      await storage.deleteTesterInviteCode(req.params.id);
+      res.json({ success: true });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/admin/tester/users", async (req, res) => {
+    const admin = await requireAdmin(req, res);
+    if (!admin) return;
+    try {
+      const testerUsers = await storage.listTesterUsers();
+      res.json(testerUsers.map(u => ({
+        id: u.id,
+        username: u.username,
+        tier: u.tier,
+        testerAccess: u.testerAccess,
+        testerExpiry: u.testerExpiry,
+        testerInviteCode: u.testerInviteCode,
+      })));
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.patch("/api/admin/tester/users/:userId", async (req, res) => {
+    const admin = await requireAdmin(req, res);
+    if (!admin) return;
+    try {
+      const { testerAccess, testerExpiry } = req.body;
+      const updated = await storage.setTesterAccess(
+        req.params.userId,
+        testerAccess !== false,
+        testerExpiry ? new Date(testerExpiry) : null
+      );
+      res.json({
+        id: updated.id,
+        username: updated.username,
+        testerAccess: updated.testerAccess,
+        testerExpiry: updated.testerExpiry,
+      });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/admin/tester/feedback", async (req, res) => {
+    const admin = await requireAdmin(req, res);
+    if (!admin) return;
+    try {
+      const feedback = await storage.listTesterFeedback();
+      res.json(feedback);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.patch("/api/admin/tester/feedback/:id", async (req, res) => {
+    const admin = await requireAdmin(req, res);
+    if (!admin) return;
+    try {
+      const updated = await storage.updateTesterFeedback(req.params.id, req.body);
+      res.json(updated);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  // --------------------
+  // Tester Feedback (User-facing)
+  // --------------------
+  app.post("/api/tester/feedback", async (req, res) => {
+    const user = await resolveAuthUser(req);
+    if (!user) return res.status(401).json({ error: "Not authenticated" });
+    const isTester = user.tester_access && (!user.tester_expiry || new Date(user.tester_expiry) > new Date());
+    if (!isTester && user.tier !== "admin") return res.status(403).json({ error: "Tester access required" });
+    try {
+      const { category, title, description, pageUrl, severity } = req.body;
+      if (!title || !description) return res.status(400).json({ error: "Title and description are required" });
+      const feedback = await storage.createTesterFeedback({
+        userId: user.id,
+        username: user.username,
+        category: category || "general",
+        title,
+        description,
+        pageUrl: pageUrl || null,
+        severity: severity || "medium",
+      });
+      res.json(feedback);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/tester/feedback", async (req, res) => {
+    const user = await resolveAuthUser(req);
+    if (!user) return res.status(401).json({ error: "Not authenticated" });
+    try {
+      const feedback = await storage.getUserTesterFeedback(user.id);
+      res.json(feedback);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.post("/api/tester/validate-code", async (req, res) => {
+    try {
+      const { code } = req.body;
+      if (!code) return res.status(400).json({ valid: false, error: "Code is required" });
+      const invite = await storage.getTesterInviteCode(code.trim().toUpperCase());
+      if (!invite) return res.json({ valid: false, error: "Invalid invite code" });
+      if (!invite.isActive) return res.json({ valid: false, error: "This code is no longer active" });
+      if (invite.usedCount >= invite.maxUses) return res.json({ valid: false, error: "This code has reached its usage limit" });
+      if (invite.expiresAt && new Date(invite.expiresAt) < new Date()) return res.json({ valid: false, error: "This code has expired" });
+      res.json({ valid: true, tier: invite.tier });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
     }
   });
 
