@@ -859,6 +859,8 @@ const enTranslations: Record<string, string> = {
     "dashboard.widget.quickStudyDesc": "10-minute focused practice session",
     "dashboard.widget.reviewDue": "Review Due",
     "dashboard.widget.reviewDueDesc": "Flashcards scheduled for review today",
+    "dashboard.widget.topicMastery": "Topic Mastery",
+    "dashboard.widget.topicMasteryDesc": "Body system accuracy from practice questions",
     "dashboard.premium": "Premium",
     "dashboard.premiumDefault": "Upgrade to unlock this premium feature.",
     "dashboard.premiumPassProbability": "Upgrade to unlock predictive analytics.",

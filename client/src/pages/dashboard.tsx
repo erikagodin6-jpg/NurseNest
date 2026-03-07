@@ -16,7 +16,7 @@ import {
   Stethoscope, Pill, Activity, ClipboardList, Award, Target,
   ChevronUp, ChevronDown, BarChart3, Bookmark, Clock,
   Sparkles, ArrowRight, CheckCircle2, PlayCircle, Flame,
-  RotateCcw, Lock, Bot, Gauge, Lightbulb, CalendarClock, AlertTriangle
+  RotateCcw, Lock, Bot, Gauge, Lightbulb, CalendarClock, AlertTriangle, BarChart
 } from "lucide-react";
 import { canAccessFeature, type Feature } from "@/lib/entitlements";
 import { StudyMomentumPanel } from "@/components/study-momentum";
@@ -45,6 +45,7 @@ const WIDGET_ICONS: Record<string, any> = {
   study_workload: CalendarClock,
   quick_study: PlayCircle,
   review_due: RotateCcw,
+  topic_mastery: BarChart,
 };
 
 const WIDGET_COMPONENTS: Record<string, React.FC<{ user: any }>> = {
@@ -64,6 +65,7 @@ const WIDGET_COMPONENTS: Record<string, React.FC<{ user: any }>> = {
   study_workload: StudyWorkloadWidget,
   quick_study: QuickStudyWidget,
   review_due: ReviewDueWidget,
+  topic_mastery: TopicMasteryWidget,
 };
 
 const WIDGET_I18N_KEYS: Record<string, { label: string; desc: string }> = {
@@ -83,6 +85,7 @@ const WIDGET_I18N_KEYS: Record<string, { label: string; desc: string }> = {
   study_workload: { label: "dashboard.widget.studyWorkload", desc: "dashboard.widget.studyWorkloadDesc" },
   quick_study: { label: "dashboard.widget.quickStudy", desc: "dashboard.widget.quickStudyDesc" },
   review_due: { label: "dashboard.widget.reviewDue", desc: "dashboard.widget.reviewDueDesc" },
+  topic_mastery: { label: "dashboard.widget.topicMastery", desc: "dashboard.widget.topicMasteryDesc" },
 };
 
 const PREMIUM_WIDGET_FEATURES: Record<string, Feature> = {
@@ -116,6 +119,7 @@ const DEFAULT_WIDGETS: WidgetConfig[] = [
   { widgetType: "study_workload", position: 13, visible: true },
   { widgetType: "quick_study", position: 14, visible: true },
   { widgetType: "review_due", position: 15, visible: true },
+  { widgetType: "topic_mastery", position: 16, visible: true },
 ];
 
 const breadcrumbData = buildBreadcrumbStructuredData([
@@ -1285,6 +1289,83 @@ function ReviewDueWidget({ user }: { user: any }) {
       >
         <RotateCcw className="h-4 w-4 mr-1.5" /> Start Review
       </Button>
+    </div>
+  );
+}
+
+type MasteryData = { bodySystem: string; accuracy: number; total: number };
+
+function TopicMasteryWidget({ user }: { user: any }) {
+  const [data, setData] = useState<MasteryData[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [, navigate] = useLocation();
+
+  useEffect(() => {
+    if (!user?.id) { setLoading(false); return; }
+    fetch(`/api/topic-mastery/${user.id}`)
+      .then((r) => r.json())
+      .then((d) => { setData(d.systems || []); setLoading(false); })
+      .catch(() => setLoading(false));
+  }, [user?.id]);
+
+  if (loading) {
+    return (
+      <div className="text-center py-6" data-testid="widget-topic-mastery-loading">
+        <p className="text-xs text-muted-foreground">Loading mastery data...</p>
+      </div>
+    );
+  }
+
+  if (data.length === 0) {
+    return (
+      <div className="text-center py-5" data-testid="widget-topic-mastery-empty">
+        <BarChart className="h-8 w-8 mx-auto text-gray-300 mb-2" />
+        <p className="text-sm text-muted-foreground">Complete practice questions to see your topic mastery</p>
+        <Button
+          size="sm"
+          variant="outline"
+          onClick={() => navigate("/mock-exams")}
+          className="mt-3 rounded-xl"
+          data-testid="button-start-practice"
+        >
+          Start Practicing
+        </Button>
+      </div>
+    );
+  }
+
+  const barColor = (pct: number) =>
+    pct >= 70 ? "bg-emerald-500" : pct >= 50 ? "bg-amber-400" : "bg-red-400";
+  const labelColor = (pct: number) =>
+    pct >= 70 ? "text-emerald-700" : pct >= 50 ? "text-amber-700" : "text-red-600";
+
+  return (
+    <div className="space-y-2.5" data-testid="widget-topic-mastery">
+      {data.slice(0, 8).map((sys) => (
+        <div key={sys.bodySystem} className="group">
+          <div className="flex items-center justify-between mb-1">
+            <span className="text-xs font-medium text-[#2E3A59] truncate max-w-[140px]" data-testid={`mastery-label-${sys.bodySystem}`}>
+              {sys.bodySystem}
+            </span>
+            <span className={`text-xs font-semibold ${labelColor(sys.accuracy)}`} data-testid={`mastery-pct-${sys.bodySystem}`}>
+              {Math.round(sys.accuracy)}%
+            </span>
+          </div>
+          <div className="w-full h-2 bg-gray-100 rounded-full overflow-hidden">
+            <div
+              className={`h-full rounded-full transition-all duration-700 ${barColor(sys.accuracy)}`}
+              style={{ width: `${Math.min(100, Math.round(sys.accuracy))}%` }}
+              data-testid={`mastery-bar-${sys.bodySystem}`}
+            />
+          </div>
+          <p className="text-[10px] text-muted-foreground mt-0.5">{sys.total} question{sys.total !== 1 ? "s" : ""} attempted</p>
+        </div>
+      ))}
+      {data.length > 8 && (
+        <p className="text-[10px] text-muted-foreground text-center pt-1">
+          + {data.length - 8} more topic{data.length - 8 !== 1 ? "s" : ""}
+        </p>
+      )}
     </div>
   );
 }

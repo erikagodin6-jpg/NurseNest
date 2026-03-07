@@ -12798,6 +12798,32 @@ Return ONLY valid JSON with this exact structure:
     }
   });
 
+  app.get("/api/topic-mastery/:userId", async (req, res) => {
+    try {
+      const result = await pool.query(
+        `SELECT body_system,
+          COUNT(*) as total,
+          SUM(CASE WHEN was_correct THEN 1 ELSE 0 END) as correct,
+          ROUND(100.0 * SUM(CASE WHEN was_correct THEN 1 ELSE 0 END) / COUNT(*), 1) as accuracy
+        FROM confidence_ratings
+        WHERE user_id = $1 AND body_system IS NOT NULL AND body_system != ''
+        GROUP BY body_system
+        HAVING COUNT(*) >= 1
+        ORDER BY accuracy ASC`,
+        [req.params.userId]
+      );
+      const systems = result.rows.map((r: any) => ({
+        bodySystem: r.body_system,
+        accuracy: parseFloat(r.accuracy),
+        total: parseInt(r.total),
+        correct: parseInt(r.correct),
+      }));
+      res.json({ systems });
+    } catch (e: any) {
+      res.status(500).json({ error: "Failed to fetch topic mastery" });
+    }
+  });
+
   app.get("/api/exam-readiness/:userId", async (req, res) => {
     try {
       const stats = await pool.query(
