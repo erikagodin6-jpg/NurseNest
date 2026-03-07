@@ -1,0 +1,183 @@
+You are an expert conversion copywriter specializing in education technology and exam preparation platforms.
+
+Your task is to write the marketing content for the hero section of the NurseNest homepage.
+
+The goal of this hero section is to convince nursing students within 3 seconds that NurseNest will help them pass their licensing exam.
+
+The hero section should feel motivating, professional, and trustworthy, not salesy or gimmicky.
+
+------------------------------------------------
+
+PRODUCT CONTEXT
+
+NurseNest is an online nursing study platform that includes:
+
+comprehensive nursing lessons
+practice question banks
+flashcards
+exam simulations
+visual concept diagrams
+progress tracking
+adaptive study tools
+
+The platform supports multiple learner tiers:
+
+RPN
+RN
+NP
+
+Students use the platform to prepare for licensing exams such as NCLEX-RN and REx-PN.
+
+------------------------------------------------
+
+TARGET AUDIENCE
+
+Nursing students who feel:
+
+overwhelmed by content
+uncertain how to study
+anxious about passing their exam
+frustrated with textbooks that do not explain concepts clearly
+
+They want:
+
+clear explanations
+exam-focused study tools
+practice questions
+confidence before their exam
+
+------------------------------------------------
+
+TONE AND BRAND STYLE
+
+Write in a tone that is:
+
+encouraging
+professional
+clear
+confident
+supportive
+
+Avoid:
+
+overly hype marketing
+clickbait language
+corporate jargon
+generic buzzwords
+
+The writing should feel like a trusted study platform built by people who understand nursing education.
+
+------------------------------------------------
+
+CONTENT TO GENERATE
+
+Create the following hero content elements.
+
+1. Main headline
+
+The headline must focus on exam success.
+
+It should clearly communicate the outcome students want.
+
+Examples of headline styles:
+
+Pass Your Nursing Exam With Confidence
+
+The Smarter Way to Study for NCLEX and REx-PN
+
+Master Nursing Concepts the Way Licensing Exams Test Them
+
+Provide 5 headline options.
+
+------------------------------------------------
+
+2. Supporting subheadline
+
+Write a short paragraph explaining what NurseNest offers and how it helps students succeed.
+
+Keep it clear and concise.
+
+Mention lessons, practice questions, and exam preparation tools.
+
+Provide 3 variations.
+
+------------------------------------------------
+
+3. Primary call-to-action text
+
+Create CTA text encouraging students to begin studying immediately.
+
+Examples:
+
+Start Studying Free
+Begin Your Study Plan
+Start Your Free Lessons
+
+Provide 5 options.
+
+------------------------------------------------
+
+4. Secondary call-to-action text
+
+Create a second CTA that allows users to explore the platform before committing.
+
+Examples:
+
+Try Practice Questions
+Explore Lessons
+See How It Works
+
+Provide 5 options.
+
+------------------------------------------------
+
+5. Trust statement
+
+Write a short credibility line that appears under the hero buttons.
+
+Example:
+
+Trusted by nursing students preparing for NCLEX-RN, REx-PN, and NP certification exams.
+
+Provide 3 variations.
+
+------------------------------------------------
+
+6. Proof metrics
+
+Create a short list of platform credibility metrics.
+
+Examples:
+
+2400+ Nursing Lessons
+8000+ Practice Questions
+12 Body Systems
+Adaptive Exam Simulator
+
+Provide 5 metrics.
+
+------------------------------------------------
+
+7. Short value bullets
+
+Write 4 short benefit statements that highlight what makes NurseNest valuable.
+
+Examples:
+
+Exam-aligned lessons
+Clear pathophysiology explanations
+Realistic practice questions
+Track your study progress
+
+Each bullet should be under 10 words.
+
+------------------------------------------------
+
+FINAL GOAL
+
+The final hero messaging should make nursing students feel:
+
+this platform understands my exam
+this platform will help me learn faster
+this platform will help me pass
+I should start studying here now

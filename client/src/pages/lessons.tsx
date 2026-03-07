@@ -17,6 +17,10 @@ import { Textarea } from "@/components/ui/textarea";
 import { getLecturesForTier, type LectureMetadata } from "@/data/micro-lectures";
 import { AdminImageOverlay, useSiteImages } from "@/components/admin-image-overlay";
 import { useToast } from "@/hooks/use-toast";
+import { LessonLibraryHero } from "@/components/lesson-library-hero";
+import { FeaturedTopics } from "@/components/featured-topics";
+import { LessonProgressCard } from "@/components/lesson-progress-card";
+import { LessonLibraryCTA } from "@/components/lesson-library-cta";
 import { 
   Heart, 
   Wind, 
@@ -3657,63 +3661,7 @@ export default function Lessons() {
       />
       <Navigation />
       
-      <section className="relative overflow-hidden bg-gradient-to-br from-primary/5 via-white to-blue-50 border-b border-gray-100" data-testid="section-lessons-hero">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
-          <div className="text-center max-w-4xl mx-auto">
-            <div className="flex items-center justify-center gap-2 flex-wrap mb-6">
-              <span className="inline-flex items-center gap-1.5 bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-semibold" data-testid="badge-lessons-pill1">
-                <Stethoscope className="w-3.5 h-3.5" />
-                {t("lessons.hero.pill1")}
-              </span>
-              <span className="inline-flex items-center gap-1.5 bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-xs font-semibold" data-testid="badge-lessons-pill2">
-                <BarChart3 className="w-3.5 h-3.5" />
-                {t("lessons.hero.pill2")}
-              </span>
-              <span className="inline-flex items-center gap-1.5 bg-purple-100 text-purple-700 px-3 py-1 rounded-full text-xs font-semibold" data-testid="badge-lessons-pill3">
-                <GraduationCap className="w-3.5 h-3.5" />
-                {t("lessons.hero.pill3")}
-              </span>
-            </div>
-            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-5 leading-tight" data-testid="text-lessons-hero-title">
-              {t("lessons.hero.title")}
-            </h1>
-            <p className="text-lg text-gray-600 max-w-3xl mx-auto mb-8 leading-relaxed" data-testid="text-lessons-hero-subtitle">
-              {t("lessons.hero.subtitle")}
-            </p>
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-10">
-              <LocaleLink href="/register">
-                <span className="inline-flex items-center gap-2 bg-primary hover:brightness-110 text-white rounded-full px-8 py-3.5 font-semibold shadow-lg shadow-primary/20 transition-all hover:-translate-y-0.5 cursor-pointer text-base" data-testid="link-lessons-hero-cta">
-                  {t("lessons.hero.cta")}
-                  <ArrowRight className="w-4 h-4" />
-                </span>
-              </LocaleLink>
-              <LocaleLink href="/pricing">
-                <span className="inline-flex items-center gap-2 border-2 border-gray-300 hover:border-primary text-gray-700 hover:text-primary rounded-full px-8 py-3.5 font-semibold transition-all cursor-pointer text-base" data-testid="link-lessons-hero-cta2">
-                  {t("lessons.hero.cta2")}
-                </span>
-              </LocaleLink>
-            </div>
-            <div className="flex flex-wrap items-center justify-center gap-8 sm:gap-12">
-              <div className="text-center" data-testid="stat-lessons-count">
-                <div className="text-2xl sm:text-3xl font-bold text-primary">{t("lessons.hero.stat1")}</div>
-                <div className="text-sm text-gray-500 font-medium">{t("lessons.hero.stat1Label")}</div>
-              </div>
-              <div className="text-center" data-testid="stat-body-systems">
-                <div className="text-2xl sm:text-3xl font-bold text-primary">{t("lessons.hero.stat2")}</div>
-                <div className="text-sm text-gray-500 font-medium">{t("lessons.hero.stat2Label")}</div>
-              </div>
-              <div className="text-center" data-testid="stat-exam-tiers">
-                <div className="text-2xl sm:text-3xl font-bold text-primary">{t("lessons.hero.stat3")}</div>
-                <div className="text-sm text-gray-500 font-medium">{t("lessons.hero.stat3Label")}</div>
-              </div>
-              <div className="text-center" data-testid="stat-languages">
-                <div className="text-2xl sm:text-3xl font-bold text-primary">{t("lessons.hero.stat4")}</div>
-                <div className="text-sm text-gray-500 font-medium">{t("lessons.hero.stat4Label")}</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      <LessonLibraryHero activeTier={activeTab} />
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 w-full">
         <div className="mb-12 flex flex-col items-center gap-6">
@@ -3787,6 +3735,21 @@ export default function Lessons() {
               ));
             })()}
           </select>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-10">
+          <div className="lg:col-span-2">
+            <FeaturedTopics activeTier={activeTab} onNavigate={(path) => setLocation(path)} />
+          </div>
+          <div className="lg:col-span-1">
+            <LessonProgressCard
+              activeTier={activeTab}
+              systems={activeTab === "rpn" ? [...fundamentalsSystems, ...delegationSystems, ...clinicalScenariosSystems, ...medMathSystems, ...rpnNonPharm]
+                : activeTab === "rn" ? [...fundamentalsSystems, ...delegationSystems, ...clinicalScenariosSystems, ...medMathSystems, ...rnNonPharm]
+                : activeTab === "np" ? [...fundamentalsSystems, ...delegationSystems, ...clinicalScenariosSystems, ...medMathSystems, ...npNonPharm]
+                : []}
+            />
+          </div>
         </div>
 
         <Tabs value={activeTab} onValueChange={setActiveTab}>
@@ -3887,142 +3850,17 @@ export default function Lessons() {
           }}
         />
       )}
-      <section className="bg-gray-50 border-t border-gray-100" data-testid="section-lessons-why">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
-          <div className="text-center mb-12">
-            <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 text-primary text-sm font-semibold mb-4" data-testid="badge-lessons-why">
-              <Lightbulb className="w-4 h-4" />
-              {t("lessons.why.badge")}
-            </span>
-            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-4" data-testid="text-lessons-why-heading">
-              {t("lessons.why.heading")}
-            </h2>
-            <p className="text-lg text-gray-600 max-w-3xl mx-auto" data-testid="text-lessons-why-subtitle">
-              {t("lessons.why.subtitle")}
-            </p>
-          </div>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {[
-              { icon: Microscope, key: "1", color: "text-blue-600", bg: "bg-blue-50" },
-              { icon: Target, key: "2", color: "text-green-600", bg: "bg-green-50" },
-              { icon: BarChart3, key: "3", color: "text-purple-600", bg: "bg-purple-50" },
-              { icon: Sparkles, key: "4", color: "text-amber-600", bg: "bg-amber-50" },
-              { icon: Layers, key: "5", color: "text-rose-600", bg: "bg-rose-50" },
-              { icon: Database, key: "6", color: "text-cyan-600", bg: "bg-cyan-50" },
-            ].map((item) => (
-              <div key={item.key} className="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm hover:shadow-md transition-all" data-testid={`card-why-feature-${item.key}`}>
-                <div className={`w-12 h-12 rounded-xl ${item.bg} flex items-center justify-center mb-4`}>
-                  <item.icon className={`w-6 h-6 ${item.color}`} />
-                </div>
-                <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                  {t(`lessons.why.feature${item.key}.title`)}
-                </h3>
-                <p className="text-sm text-gray-600 leading-relaxed">
-                  {t(`lessons.why.feature${item.key}.desc`)}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="bg-white border-t border-gray-100" data-testid="section-lessons-competitor">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
-          <div className="text-center mb-12">
-            <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 text-primary text-sm font-semibold mb-4" data-testid="badge-lessons-competitor">
-              <Trophy className="w-4 h-4" />
-              {t("lessons.competitor.badge")}
-            </span>
-            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-4" data-testid="text-lessons-competitor-heading">
-              {t("lessons.competitor.heading")}
-            </h2>
-            <p className="text-lg text-gray-600 max-w-3xl mx-auto" data-testid="text-lessons-competitor-subtitle">
-              {t("lessons.competitor.subtitle")}
-            </p>
-          </div>
-          <div className="overflow-x-auto rounded-2xl border border-gray-200 shadow-sm">
-            <table className="w-full text-sm" data-testid="table-lessons-competitor">
-              <thead>
-                <tr className="bg-gray-50 border-b border-gray-200">
-                  <th className="text-left px-6 py-4 font-semibold text-gray-700">{t("lessons.competitor.feature")}</th>
-                  <th className="text-center px-6 py-4 font-bold text-primary">{t("lessons.competitor.nursenest")}</th>
-                  <th className="text-center px-6 py-4 font-semibold text-gray-500">{t("lessons.competitor.textbooks")}</th>
-                  <th className="text-center px-6 py-4 font-semibold text-gray-500">{t("lessons.competitor.youtube")}</th>
-                </tr>
-              </thead>
-              <tbody>
-                {[
-                  { key: "deepPatho", nn: "yes", tb: "limited", yt: "varies" },
-                  { key: "prePostTest", nn: "yes", tb: "no", yt: "no" },
-                  { key: "tiered", nn: "yes", tb: "no", yt: "no" },
-                  { key: "interactive", nn: "yes", tb: "no", yt: "limited" },
-                  { key: "rationales", nn: "yes", tb: "limited", yt: "varies" },
-                  { key: "multiLang", nn: "yes", tb: "no", yt: "limited" },
-                  { key: "updated", nn: "yes", tb: "no", yt: "varies" },
-                  { key: "mobileFirst", nn: "yes", tb: "no", yt: "yes" },
-                ].map((row, idx) => (
-                  <tr key={row.key} className={idx % 2 === 0 ? "bg-white" : "bg-gray-50/50"}>
-                    <td className="px-6 py-3.5 font-medium text-gray-700">{t(`lessons.competitor.${row.key}`)}</td>
-                    <td className="px-6 py-3.5 text-center">
-                      <CheckCircle2 className="w-5 h-5 text-green-500 mx-auto" />
-                    </td>
-                    <td className="px-6 py-3.5 text-center">
-                      {row.tb === "yes" ? <CheckCircle2 className="w-5 h-5 text-green-500 mx-auto" /> :
-                       row.tb === "no" ? <XCircle className="w-5 h-5 text-red-400 mx-auto" /> :
-                       <MinusCircle className="w-5 h-5 text-amber-400 mx-auto" />}
-                    </td>
-                    <td className="px-6 py-3.5 text-center">
-                      {row.yt === "yes" ? <CheckCircle2 className="w-5 h-5 text-green-500 mx-auto" /> :
-                       row.yt === "no" ? <XCircle className="w-5 h-5 text-red-400 mx-auto" /> :
-                       <MinusCircle className="w-5 h-5 text-amber-400 mx-auto" />}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </section>
-
-      <section className="bg-gradient-to-br from-primary/5 via-white to-blue-50 border-t border-gray-100" data-testid="section-lessons-conversion">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20 text-center">
-          <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-4" data-testid="text-lessons-conversion-heading">
-            {t("lessons.conversion.heading")}
-          </h2>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto mb-8" data-testid="text-lessons-conversion-subtitle">
-            {t("lessons.conversion.subtitle")}
-          </p>
-          <div className="flex flex-col items-center gap-3 mb-8 max-w-md mx-auto text-left">
-            {[1, 2, 3, 4].map((i) => (
-              <div key={i} className="flex items-start gap-3" data-testid={`text-lessons-conversion-feature-${i}`}>
-                <CheckCircle2 className="w-5 h-5 text-green-500 shrink-0 mt-0.5" />
-                <span className="text-sm text-gray-700">{t(`lessons.conversion.feature${i}`)}</span>
-              </div>
-            ))}
-          </div>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-6">
-            <LocaleLink href="/register">
-              <span className="inline-flex items-center gap-2 bg-primary hover:brightness-110 text-white rounded-full px-8 py-3.5 font-semibold shadow-lg shadow-primary/20 transition-all hover:-translate-y-0.5 cursor-pointer text-base" data-testid="link-lessons-conversion-cta">
-                {t("lessons.conversion.cta")}
-                <ArrowRight className="w-4 h-4" />
-              </span>
-            </LocaleLink>
-            <LocaleLink href="/pricing">
-              <span className="inline-flex items-center gap-2 border-2 border-gray-300 hover:border-primary text-gray-700 hover:text-primary rounded-full px-8 py-3.5 font-semibold transition-all cursor-pointer text-base" data-testid="link-lessons-conversion-cta2">
-                {t("lessons.conversion.cta2")}
-              </span>
-            </LocaleLink>
-          </div>
-          <p className="text-sm text-gray-500" data-testid="text-lessons-conversion-proof">
-            {t("lessons.conversion.proof")}
-          </p>
-        </div>
-      </section>
+      <LessonLibraryCTA activeTier={activeTab} />
 
       <AdminEditButton />
       <Footer />
     </div>
   );
+}
+
+function estimateStudyTime(difficulty: DifficultyLevel): string {
+  const minutes: Record<DifficultyLevel, number> = { 1: 5, 2: 7, 3: 10, 4: 13, 5: 18 };
+  return `${minutes[difficulty]} min`;
 }
 
 function DifficultyBadge({ level }: { level: DifficultyLevel }) {
@@ -4252,6 +4090,10 @@ function LessonSystemCard({ system, onSelect, tier, lessonOverrides, onOverrides
                       )}
                     </div>
                   )}
+                  <span className="hidden sm:flex items-center gap-0.5 text-[10px] text-gray-400" data-testid={`study-time-${disease.id}`}>
+                    <Clock className="w-3 h-3" />
+                    {estimateStudyTime(difficulty)}
+                  </span>
                   <DifficultyBadge level={difficulty} />
                   {disease.status === "Available" ? (
                     <ChevronRight className="w-4 h-4 text-primary group-hover:translate-x-1 transition-transform" />

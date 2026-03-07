@@ -97,69 +97,54 @@ function UserProfileDropdown({ user, logout, setLocation }: { user: any; logout:
         </div>
         <DropdownMenuSeparator />
         <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary" onClick={() => setLocation("/dashboard")} data-testid="menu-user-dashboard">
-          <BarChart className="w-4 h-4" />
           {t("nav.dashboard")}
         </DropdownMenuItem>
         <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary" onClick={() => setLocation("/profile")} data-testid="menu-user-profile">
-          <User className="w-4 h-4" />
           {t("nav.profile")}
         </DropdownMenuItem>
         <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary" onClick={() => setLocation("/reports")} data-testid="menu-user-reports">
-          <BarChart className="w-4 h-4" />
           {t("nav.reports")}
         </DropdownMenuItem>
         <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary" onClick={() => setLocation("/profile#notes")} data-testid="menu-user-notes">
-          <StickyNote className="w-4 h-4" />
           {t("nav.notes")}
         </DropdownMenuItem>
         {user.tier === "admin" && (
           <>
             <DropdownMenuSeparator />
             <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary" onClick={() => setLocation("/admin")} data-testid="menu-admin-dashboard">
-              <Shield className="w-4 h-4" />
               {t("nav.admin")}
             </DropdownMenuItem>
             <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary" onClick={() => setLocation("/content-editor")} data-testid="menu-content-editor">
-              <FileText className="w-4 h-4" />
               {t("nav.contentEditor")}
             </DropdownMenuItem>
             <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary" onClick={() => setLocation("/admin?tab=content-engine")} data-testid="menu-blog-manager">
-              <BookOpen className="w-4 h-4" />
               {t("nav.blogManager")}
             </DropdownMenuItem>
             <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary" onClick={() => setLocation("/admin/seo")} data-testid="menu-seo-dashboard">
-              <Globe className="w-4 h-4" />
               SEO Dashboard
             </DropdownMenuItem>
             <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary" onClick={() => setLocation("/admin/translations")} data-testid="menu-translations">
-              <Languages className="w-4 h-4" />
               Translations
             </DropdownMenuItem>
             <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary" onClick={() => setLocation("/admin/content-intelligence")} data-testid="menu-content-intelligence">
-              <BarChart3 className="w-4 h-4" />
               Content Intelligence
             </DropdownMenuItem>
             <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary" onClick={() => setLocation("/admin/cat")} data-testid="menu-cat-dashboard">
-              <Activity className="w-4 h-4" />
               CAT Analytics
             </DropdownMenuItem>
             <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary" onClick={() => setLocation("/admin/revenue")} data-testid="menu-revenue">
-              <DollarSign className="w-4 h-4" />
               Revenue Intelligence
             </DropdownMenuItem>
             <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary" onClick={() => setLocation("/admin/product-builder")} data-testid="menu-product-builder">
-              <Palette className="w-4 h-4" />
               Product Builder
             </DropdownMenuItem>
             <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary" onClick={() => setLocation("/admin/generator-v2")} data-testid="menu-generator-v2">
-              <FileStack className="w-4 h-4" />
               QBank Generator
             </DropdownMenuItem>
           </>
         )}
         <DropdownMenuSeparator />
         <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-red-500" onClick={() => { logout(); setLocation("/"); }} data-testid="menu-user-logout">
-          <LogOut className="w-4 h-4" />
           {t("nav.signout")}
         </DropdownMenuItem>
       </DropdownMenuContent>
@@ -287,10 +272,7 @@ export function Navigation() {
             onClick={() => handlePaidContent(label, item.key || item.label)}
             className="flex items-center justify-between gap-2 cursor-pointer text-gray-700 hover:text-primary hover:bg-primary/5 focus:bg-primary/5 focus:text-primary rounded-md py-2 px-3"
           >
-            <div className="flex items-center gap-2">
-              <item.icon className="w-4 h-4 text-primary/70" />
-              <span>{item.label}</span>
-            </div>
+            <span>{item.label}</span>
             {isPaid && !["Lessons", "Lectures", "Flashcards", "Clinical Clarity", "Clinical Skill Lab", "Simulators", "Exams"].includes(item.key || item.label) && <Lock className="w-3 h-3 text-gray-400" />}
           </DropdownMenuItem>
         ))}
