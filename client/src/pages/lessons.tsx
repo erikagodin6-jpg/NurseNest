@@ -296,7 +296,10 @@ export const rpnSystems = [
       { id: "korsakoff-syndrome-rpn", name: "Korsakoff Syndrome", status: "Available" },
       { id: "tardive-dyskinesia-rpn", name: "Tardive Dyskinesia", status: "Available" },
       { id: "acute-dystonic-reaction-rpn", name: "Acute Dystonic Reaction", status: "Available" },
-      { id: "syringomyelia-rpn", name: "Syringomyelia", status: "Available" }
+      { id: "syringomyelia-rpn", name: "Syringomyelia", status: "Available" },
+      { id: "alzheimer-disease-rpn", name: "Alzheimer Disease", status: "Available" },
+      { id: "guillain-barre-rpn", name: "Guillain-Barre Syndrome", status: "Available" },
+      { id: "myasthenia-gravis-rpn", name: "Myasthenia Gravis", status: "Available" }
     ]
   },
   {
@@ -347,7 +350,9 @@ export const rpnSystems = [
       { id: "eosinophilic-esophagitis-rpn", name: "Eosinophilic Esophagitis", status: "Available" },
       { id: "meckel-diverticulum-rpn", name: "Meckel Diverticulum", status: "Available" },
       { id: "sucralfate-rpn", name: "Sucralfate", status: "Available" },
-      { id: "ulcerative-colitis-rpn", name: "Ulcerative Colitis", status: "Available" }
+      { id: "ulcerative-colitis-rpn", name: "Ulcerative Colitis", status: "Available" },
+      { id: "pancreatitis-management-rpn", name: "Pancreatitis", status: "Available" },
+      { id: "cirrhosis-management-rpn", name: "Cirrhosis & Esophageal Varices", status: "Available" }
     ]
   },
   {
@@ -374,7 +379,8 @@ export const rpnSystems = [
       { id: "neurogenic-bladder-rpn", name: "Neurogenic Bladder", status: "Available" },
       { id: "renal-artery-stenosis-rpn", name: "Renal Artery Stenosis", status: "Available" },
       { id: "obstructive-uropathy-rpn", name: "Obstructive Uropathy", status: "Available" },
-      { id: "diabetic-nephropathy-rpn", name: "Diabetic Nephropathy", status: "Available" }
+      { id: "diabetic-nephropathy-rpn", name: "Diabetic Nephropathy", status: "Available" },
+      { id: "chronic-kidney-disease-rpn", name: "Chronic Kidney Disease", status: "Available" }
     ]
   },
   {
@@ -535,7 +541,11 @@ export const rpnSystems = [
       { id: "joint-replacement-basics", name: "Joint Replacement Basics", status: "Available" },
       { id: "body-mechanics", name: "Body Mechanics and Ergonomics", status: "Available" },
       { id: "fall-prevention", name: "Fall Prevention Strategies", status: "Available" },
-      { id: "rib-fractures-rpn", name: "Rib Fractures", status: "Available" }
+      { id: "rib-fractures-rpn", name: "Rib Fractures", status: "Available" },
+      { id: "gout-management-rpn", name: "Gout", status: "Available" },
+      { id: "osteoporosis-management-rpn", name: "Osteoporosis", status: "Available" },
+      { id: "compartment-syndrome-rpn", name: "Compartment Syndrome", status: "Available" },
+      { id: "rheumatoid-arthritis-rpn", name: "Rheumatoid Arthritis", status: "Available" }
     ]
   },
   {
@@ -576,7 +586,13 @@ export const rpnSystems = [
       { id: "patent-ductus-arteriosus-rpn", name: "Patent Ductus Arteriosus", status: "Available" },
       { id: "intestinal-malrotation-rpn", name: "Intestinal Malrotation", status: "Available" },
       { id: "febrile-seizures-rpn", name: "Febrile Seizures: Recognition & Monitoring", status: "Available" },
-      { id: "pediatric-dehydration-rpn", name: "Pediatric Dehydration: Assessment & Monitoring", status: "Available" }
+      { id: "pediatric-dehydration-rpn", name: "Pediatric Dehydration: Assessment & Monitoring", status: "Available" },
+      { id: "trisomy-21-management-rpn", name: "Trisomy 21 (Down Syndrome)", status: "Available" },
+      { id: "hypospadias-management-rpn", name: "Hypospadias", status: "Available" },
+      { id: "duchenne-md-management-rpn", name: "Duchenne Muscular Dystrophy", status: "Available" },
+      { id: "vp-shunt-management-rpn", name: "VP Shunt Management", status: "Available" },
+      { id: "tonsillectomy-care-rpn", name: "Tonsillectomy Care", status: "Available" },
+      { id: "newborn-diabetic-mother-rpn", name: "Newborn of Diabetic Mother", status: "Available" }
     ]
   },
   {
@@ -709,7 +725,10 @@ export const rpnSystems = [
       { id: "aspergillosis-basics-rpn", name: "Aspergillosis Basics", status: "Available" },
       { id: "rotavirus-rpn", name: "Rotavirus", status: "Available" },
       { id: "sepsis-management-rpn", name: "Sepsis: Early Recognition & Monitoring", status: "Available" },
-      { id: "antibiotic-stewardship-rpn", name: "Antibiotic Stewardship: Safe Administration", status: "Available" }
+      { id: "antibiotic-stewardship-rpn", name: "Antibiotic Stewardship: Safe Administration", status: "Available" },
+      { id: "chlamydia-management-rpn", name: "Chlamydia", status: "Available" },
+      { id: "syphilis-management-rpn", name: "Syphilis", status: "Available" },
+      { id: "bacterial-meningitis-rpn", name: "Bacterial Meningitis", status: "Available" }
     ]
   },
   {
@@ -1021,7 +1040,8 @@ export const rpnSystems = [
       { id: "cervical-cancer-basics-rpn", name: "Cervical Cancer Basics", status: "Available" },
       { id: "leukemia-basics-rpn", name: "Leukemia Basics", status: "Available" },
       { id: "lymphoma-basics-onc-rpn", name: "Lymphoma Basics", status: "Available" },
-      { id: "tumor-lysis-rpn", name: "Tumor Lysis Syndrome", status: "Available" }
+      { id: "tumor-lysis-rpn", name: "Tumor Lysis Syndrome", status: "Available" },
+      { id: "prostate-cancer-rpn", name: "Prostate Cancer", status: "Available" }
     ]
   },
   {
@@ -1252,7 +1272,10 @@ export const rnSystems = [
       { id: "tuberous-sclerosis-rn", name: "Tuberous Sclerosis", status: "Available" },
       { id: "neurofibromatosis-rn", name: "Neurofibromatosis Type 1 & 2", status: "Available" },
       { id: "pituitary-adenoma-syndromes-rn", name: "Pituitary Adenoma Syndromes", status: "Available" },
-      { id: "cerebral-salt-wasting-rn", name: "Cerebral Salt Wasting", status: "Available" }
+      { id: "cerebral-salt-wasting-rn", name: "Cerebral Salt Wasting", status: "Available" },
+      { id: "alzheimer-disease-rn", name: "Alzheimer Disease", status: "Available" },
+      { id: "guillain-barre-rn", name: "Guillain-Barre Syndrome", status: "Available" },
+      { id: "myasthenia-gravis-rn", name: "Myasthenia Gravis", status: "Available" }
     ]
   },
   {
@@ -1301,7 +1324,9 @@ export const rnSystems = [
       { id: "sma-syndrome-rn", name: "Superior Mesenteric Artery Syndrome", status: "Available" },
       { id: "whipple-disease-rn", name: "Whipple Disease", status: "Available" },
       { id: "celiac-crisis-rn", name: "Celiac Crisis", status: "Available" },
-      { id: "intestinal-ischemia-rn", name: "Intestinal Ischemia", status: "Available" }
+      { id: "intestinal-ischemia-rn", name: "Intestinal Ischemia", status: "Available" },
+      { id: "pancreatitis-management-rn", name: "Pancreatitis", status: "Available" },
+      { id: "cirrhosis-management-rn", name: "Cirrhosis & Esophageal Varices", status: "Available" }
     ]
   },
   {
@@ -1340,7 +1365,8 @@ export const rnSystems = [
       { id: "uric-acid-nephropathy-rn", name: "Uric Acid Nephropathy", status: "Available" },
       { id: "fanconi-syndrome-rn", name: "Fanconi Syndrome", status: "Available" },
       { id: "bartter-syndrome-rn", name: "Bartter Syndrome", status: "Available" },
-      { id: "gitelman-syndrome-rn", name: "Gitelman Syndrome", status: "Available" }
+      { id: "gitelman-syndrome-rn", name: "Gitelman Syndrome", status: "Available" },
+      { id: "chronic-kidney-disease-rn", name: "Chronic Kidney Disease", status: "Available" }
     ]
   },
   {
@@ -1553,7 +1579,13 @@ export const rnSystems = [
       { id: "tof-rn", name: "Tetralogy of Fallot (TOF)", status: "Available" },
       { id: "coarctation-of-aorta-rn", name: "Coarctation of the Aorta (CoA)", status: "Available" },
       { id: "febrile-seizures-rn", name: "Febrile Seizures: RN Assessment & Management", status: "Available" },
-      { id: "pediatric-dehydration-rn", name: "Pediatric Dehydration: Fluid Resuscitation Protocol", status: "Available" }
+      { id: "pediatric-dehydration-rn", name: "Pediatric Dehydration: Fluid Resuscitation Protocol", status: "Available" },
+      { id: "trisomy-21-management-rn", name: "Trisomy 21 (Down Syndrome)", status: "Available" },
+      { id: "hypospadias-management-rn", name: "Hypospadias", status: "Available" },
+      { id: "duchenne-md-management-rn", name: "Duchenne Muscular Dystrophy", status: "Available" },
+      { id: "vp-shunt-management-rn", name: "VP Shunt Management", status: "Available" },
+      { id: "tonsillectomy-care-rn", name: "Tonsillectomy Care", status: "Available" },
+      { id: "newborn-diabetic-mother-rn", name: "Newborn of Diabetic Mother", status: "Available" }
     ]
   },
   {
@@ -1676,7 +1708,24 @@ export const rnSystems = [
       { id: "fungal-sepsis-rn", name: "Fungal Sepsis", status: "Available" },
       { id: "blastomycosis-rn", name: "Blastomycosis", status: "Available" },
       { id: "sepsis-management-rn", name: "Sepsis: Protocol-Based Assessment & Bundle Management", status: "Available" },
-      { id: "antibiotic-stewardship-rn", name: "Antibiotic Stewardship: De-escalation & Monitoring", status: "Available" }
+      { id: "antibiotic-stewardship-rn", name: "Antibiotic Stewardship: De-escalation & Monitoring", status: "Available" },
+      { id: "chlamydia-management-rn", name: "Chlamydia", status: "Available" },
+      { id: "syphilis-management-rn", name: "Syphilis", status: "Available" },
+      { id: "bacterial-meningitis-rn", name: "Bacterial Meningitis", status: "Available" },
+      { id: "prostate-cancer-rn", name: "Prostate Cancer", status: "Available" }
+    ]
+  },
+  {
+    id: "musculoskeletal-rn",
+    title: "Musculoskeletal",
+    icon: Activity,
+    color: "text-indigo-600",
+    bgColor: "bg-indigo-50",
+    diseases: [
+      { id: "gout-management-rn", name: "Gout", status: "Available" },
+      { id: "osteoporosis-management-rn", name: "Osteoporosis", status: "Available" },
+      { id: "compartment-syndrome-rn", name: "Compartment Syndrome", status: "Available" },
+      { id: "rheumatoid-arthritis-rn", name: "Rheumatoid Arthritis", status: "Available" }
     ]
   },
   {
@@ -1948,7 +1997,10 @@ export const npSystems = [
       { id: "cavernous-sinus-thrombosis-np", name: "Cavernous Sinus Thrombosis: Diagnosis & Anticoagulation", status: "Available" },
       { id: "cerebral-venous-sinus-thrombosis-np", name: "Cerebral Venous Sinus Thrombosis: Risk Factors & Treatment", status: "Available" },
       { id: "brown-sequard-syndrome-np", name: "Brown-Séquard Syndrome: Hemisection Patterns", status: "Available" },
-      { id: "locked-in-syndrome-np", name: "Locked-In Syndrome: Assessment & Communication", status: "Available" }
+      { id: "locked-in-syndrome-np", name: "Locked-In Syndrome: Assessment & Communication", status: "Available" },
+      { id: "alzheimer-disease-np", name: "Alzheimer Disease", status: "Available" },
+      { id: "guillain-barre-np", name: "Guillain-Barre Syndrome", status: "Available" },
+      { id: "myasthenia-gravis-np", name: "Myasthenia Gravis", status: "Available" }
     ]
   },
   {
@@ -2017,7 +2069,8 @@ export const npSystems = [
       { id: "renal-tubular-acidosis-np", name: "Renal Tubular Acidosis: Types I–IV & Diagnostic Approach", status: "Available" },
       { id: "nephrolithiasis-prevention-np", name: "Nephrolithiasis Prevention: 24-Hour Urine & Dietary Strategies", status: "Available" },
       { id: "polycystic-kidney-management-np", name: "Polycystic Kidney Disease: Tolvaptan & Monitoring", status: "Available" },
-      { id: "tls-renal-injury-np", name: "Tumor Lysis Syndrome Renal Injury: Urate Nephropathy & Rasburicase", status: "Available" }
+      { id: "tls-renal-injury-np", name: "Tumor Lysis Syndrome Renal Injury: Urate Nephropathy & Rasburicase", status: "Available" },
+      { id: "chronic-kidney-disease-np", name: "Chronic Kidney Disease", status: "Available" }
     ]
   },
   {
@@ -2080,7 +2133,13 @@ export const npSystems = [
       { id: "neonatal-rds-np", name: "RDS: Surfactant Physiology", status: "Available" },
       { id: "neonatal-hie-np", name: "HIE: Therapeutic Hypothermia", status: "Available" },
       { id: "persistent-pulm-htn-np", name: "PPHN: Nitric Oxide Pathway", status: "Available" },
-      { id: "neonatal-abstinence-np", name: "NAS: Opioid Withdrawal Scoring", status: "Available" }
+      { id: "neonatal-abstinence-np", name: "NAS: Opioid Withdrawal Scoring", status: "Available" },
+      { id: "trisomy-21-management-np", name: "Trisomy 21 (Down Syndrome)", status: "Available" },
+      { id: "hypospadias-management-np", name: "Hypospadias", status: "Available" },
+      { id: "duchenne-md-management-np", name: "Duchenne Muscular Dystrophy", status: "Available" },
+      { id: "vp-shunt-management-np", name: "VP Shunt Management", status: "Available" },
+      { id: "tonsillectomy-care-np", name: "Tonsillectomy Care", status: "Available" },
+      { id: "newborn-diabetic-mother-np", name: "Newborn of Diabetic Mother", status: "Available" }
     ]
   },
   {
@@ -2147,7 +2206,11 @@ export const npSystems = [
       { id: "compartment-np", name: "Compartment Syndrome: Fasciotomy", status: "Available" },
       { id: "fat-embolism-np", name: "Fat Embolism Syndrome", status: "Available" },
       { id: "spinal-cord-injury-np", name: "Spinal Cord Injury: Autonomic Dysreflexia", status: "Available" },
-      { id: "rib-fractures-np", name: "Rib Fractures: Flail Chest & Regional Analgesia", status: "Available" }
+      { id: "rib-fractures-np", name: "Rib Fractures: Flail Chest & Regional Analgesia", status: "Available" },
+      { id: "gout-management-np", name: "Gout", status: "Available" },
+      { id: "osteoporosis-management-np", name: "Osteoporosis", status: "Available" },
+      { id: "compartment-syndrome-np", name: "Compartment Syndrome", status: "Available" },
+      { id: "rheumatoid-arthritis-np", name: "Rheumatoid Arthritis", status: "Available" }
     ]
   },
   {
@@ -2181,7 +2244,9 @@ export const npSystems = [
       { id: "eosinophilic-esophagitis-np", name: "Eosinophilic Esophagitis: Diagnosis & PPI/Elimination Diet", status: "Available" },
       { id: "sibo-np", name: "Small Intestinal Bacterial Overgrowth: Breath Testing & Treatment", status: "Available" },
       { id: "microscopic-colitis-np", name: "Microscopic Colitis: Collagenous vs Lymphocytic & Budesonide", status: "Available" },
-      { id: "celiac-workup-algorithm-np", name: "Celiac Disease Workup: tTG-IgA & Biopsy Algorithm", status: "Available" }
+      { id: "celiac-workup-algorithm-np", name: "Celiac Disease Workup: tTG-IgA & Biopsy Algorithm", status: "Available" },
+      { id: "pancreatitis-management-np", name: "Pancreatitis", status: "Available" },
+      { id: "cirrhosis-management-np", name: "Cirrhosis & Esophageal Varices", status: "Available" }
     ]
   },
   {
@@ -2347,7 +2412,11 @@ export const npSystems = [
       { id: "opportunistic-infections-hiv-np", name: "Opportunistic Infections in HIV: CD4 Thresholds & Prophylaxis", status: "Available" },
       { id: "mrsa-decolonization-np", name: "MRSA Decolonization: Mupirocin & CHG Protocols", status: "Available" },
       { id: "sepsis-management-np", name: "Sepsis: SOFA Scoring, Source Control & Vasopressor Selection", status: "Available" },
-      { id: "antibiotic-stewardship-np", name: "Antibiotic Stewardship: PK/PD Optimization & Resistance", status: "Available" }
+      { id: "antibiotic-stewardship-np", name: "Antibiotic Stewardship: PK/PD Optimization & Resistance", status: "Available" },
+      { id: "chlamydia-management-np", name: "Chlamydia", status: "Available" },
+      { id: "syphilis-management-np", name: "Syphilis", status: "Available" },
+      { id: "bacterial-meningitis-np", name: "Bacterial Meningitis", status: "Available" },
+      { id: "prostate-cancer-np", name: "Prostate Cancer", status: "Available" }
     ]
   },
   {

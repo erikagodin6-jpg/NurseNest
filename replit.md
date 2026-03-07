@@ -44,3 +44,17 @@ The application is built with Vite, React, and Express 5 on Node.js with TypeScr
 
 ### Social Media
 - Meta Graph API: For social media scheduling.
+
+## Lesson Content Batches
+- **Batches A-C**: Foundation lessons (original), blood transfusion reactions
+- **Batch D**: Cardiac & vascular emergencies (12 lessons)
+- **Batch E**: Respiratory & procedural emergencies (12 lessons)
+- **Batch F**: Obstetric complications (12 lessons)
+- **Batch G**: Mental health & behavioral (12 lessons)
+- **Batch H**: Pharmacology clinical applications (12 lessons)
+- **Batch I**: Pediatric conditions & congenital disorders - trisomy 21, hypospadias, duchenne MD, VP shunt (12 lessons)
+- **Batch J**: STI & infectious disease - chlamydia, syphilis, bacterial meningitis, prostate cancer (12 lessons)
+- **Batch K**: GI, hepatic & renal - pancreatitis, cirrhosis, CKD, tonsillectomy (12 lessons)
+- **Batch L**: Neurological - Alzheimer, Guillain-Barre, myasthenia gravis, newborn of diabetic mother (12 lessons)
+- **Batch M**: Musculoskeletal & oncology - gout, osteoporosis, compartment syndrome, rheumatoid arthritis (12 lessons)
+- **Tier counts**: free=569 rpn=509 rn=211 np=288 total=1,577 questions=3,810
