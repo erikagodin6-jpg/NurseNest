@@ -12646,6 +12646,199 @@ Return ONLY valid JSON with this exact structure:
     }
   });
 
+  app.get("/api/daily-goals/:userId", async (req, res) => {
+    try {
+      const today = new Date().toISOString().split("T")[0];
+      const result = await pool.query(
+        `SELECT * FROM daily_study_goals WHERE user_id = $1 AND date = $2 LIMIT 1`,
+        [req.params.userId, today]
+      );
+      if (result.rows.length === 0) {
+        return res.json({ userId: req.params.userId, date: today, lessonsTarget: 3, lessonsCompleted: 0, questionsTarget: 10, questionsCompleted: 0, minutesTarget: 30, minutesCompleted: 0 });
+      }
+      res.json(snakeToCamel(result.rows[0]));
+    } catch (e: any) {
+      res.status(500).json({ error: "Failed to fetch daily goals" });
+    }
+  });
+
+  app.post("/api/daily-goals", async (req, res) => {
+    try {
+      const { userId, lessonsTarget, questionsTarget, minutesTarget } = req.body;
+      if (!userId) return res.status(400).json({ error: "userId required" });
+      const today = new Date().toISOString().split("T")[0];
+      const existing = await pool.query(
+        `SELECT id FROM daily_study_goals WHERE user_id = $1 AND date = $2`,
+        [userId, today]
+      );
+      if (existing.rows.length > 0) {
+        await pool.query(
+          `UPDATE daily_study_goals SET lessons_target = COALESCE($2, lessons_target), questions_target = COALESCE($3, questions_target), minutes_target = COALESCE($4, minutes_target) WHERE id = $1`,
+          [existing.rows[0].id, lessonsTarget, questionsTarget, minutesTarget]
+        );
+      } else {
+        await pool.query(
+          `INSERT INTO daily_study_goals (id, user_id, date, lessons_target, questions_target, minutes_target) VALUES (gen_random_uuid(), $1, $2, $3, $4, $5)`,
+          [userId, today, lessonsTarget || 3, questionsTarget || 10, minutesTarget || 30]
+        );
+      }
+      const result = await pool.query(
+        `SELECT * FROM daily_study_goals WHERE user_id = $1 AND date = $2`,
+        [userId, today]
+      );
+      res.json(snakeToCamel(result.rows[0]));
+    } catch (e: any) {
+      res.status(500).json({ error: "Failed to save daily goals" });
+    }
+  });
+
+  app.post("/api/daily-goals/increment", async (req, res) => {
+    try {
+      const { userId, field } = req.body;
+      if (!userId || !field) return res.status(400).json({ error: "userId and field required" });
+      const validFields: Record<string, string> = { lessonsCompleted: "lessons_completed", questionsCompleted: "questions_completed", minutesCompleted: "minutes_completed" };
+      const dbField = validFields[field];
+      if (!dbField) return res.status(400).json({ error: "Invalid field" });
+      const today = new Date().toISOString().split("T")[0];
+      const existing = await pool.query(
+        `SELECT id FROM daily_study_goals WHERE user_id = $1 AND date = $2`,
+        [userId, today]
+      );
+      if (existing.rows.length === 0) {
+        await pool.query(
+          `INSERT INTO daily_study_goals (id, user_id, date, ${dbField}) VALUES (gen_random_uuid(), $1, $2, 1)`,
+          [userId, today]
+        );
+      } else {
+        await pool.query(
+          `UPDATE daily_study_goals SET ${dbField} = ${dbField} + 1 WHERE id = $1`,
+          [existing.rows[0].id]
+        );
+      }
+      const result = await pool.query(
+        `SELECT * FROM daily_study_goals WHERE user_id = $1 AND date = $2`,
+        [userId, today]
+      );
+      res.json(snakeToCamel(result.rows[0]));
+    } catch (e: any) {
+      res.status(500).json({ error: "Failed to increment goal" });
+    }
+  });
+
+  app.post("/api/confidence-rating", async (req, res) => {
+    try {
+      const { userId, questionId, confidence, wasCorrect, topic, bodySystem } = req.body;
+      if (!userId || !questionId || !confidence) return res.status(400).json({ error: "userId, questionId, confidence required" });
+      await pool.query(
+        `INSERT INTO confidence_ratings (id, user_id, question_id, confidence, was_correct, topic, body_system) VALUES (gen_random_uuid(), $1, $2, $3, $4, $5, $6)`,
+        [userId, questionId, confidence, wasCorrect || false, topic || null, bodySystem || null]
+      );
+      if (confidence === "guessing" || (confidence === "somewhat" && !wasCorrect)) {
+        const today = new Date().toISOString().split("T")[0];
+        await pool.query(
+          `INSERT INTO review_queue (id, user_id, item_type, item_id, reason, priority, scheduled_date) VALUES (gen_random_uuid(), $1, 'question', $2, $3, $4, $5)
+           ON CONFLICT DO NOTHING`,
+          [userId, questionId, confidence === "guessing" ? "low_confidence" : "incorrect_low_confidence", confidence === "guessing" ? 3 : 2, today]
+        );
+      }
+      res.json({ success: true });
+    } catch (e: any) {
+      res.status(500).json({ error: "Failed to save confidence rating" });
+    }
+  });
+
+  app.get("/api/review-queue/:userId", async (req, res) => {
+    try {
+      const today = new Date().toISOString().split("T")[0];
+      const result = await pool.query(
+        `SELECT * FROM review_queue WHERE user_id = $1 AND scheduled_date <= $2 AND completed = false ORDER BY priority DESC, created_at ASC LIMIT 50`,
+        [req.params.userId, today]
+      );
+      const questionCount = result.rows.filter(r => r.item_type === "question").length;
+      const lessonCount = result.rows.filter(r => r.item_type === "lesson").length;
+      res.json({ items: result.rows.map(snakeToCamel), questionCount, lessonCount, total: result.rows.length });
+    } catch (e: any) {
+      res.status(500).json({ error: "Failed to fetch review queue" });
+    }
+  });
+
+  app.post("/api/review-queue/complete", async (req, res) => {
+    try {
+      const { userId, itemId } = req.body;
+      if (!userId || !itemId) return res.status(400).json({ error: "userId and itemId required" });
+      await pool.query(
+        `UPDATE review_queue SET completed = true, completed_at = NOW() WHERE user_id = $1 AND item_id = $2 AND completed = false`,
+        [userId, itemId]
+      );
+      res.json({ success: true });
+    } catch (e: any) {
+      res.status(500).json({ error: "Failed to complete review item" });
+    }
+  });
+
+  app.get("/api/weak-areas/:userId", async (req, res) => {
+    try {
+      const result = await pool.query(
+        `SELECT body_system, topic,
+          COUNT(*) as total,
+          SUM(CASE WHEN was_correct THEN 1 ELSE 0 END) as correct,
+          ROUND(100.0 * SUM(CASE WHEN was_correct THEN 1 ELSE 0 END) / COUNT(*), 1) as accuracy,
+          SUM(CASE WHEN confidence = 'guessing' THEN 1 ELSE 0 END) as guessing_count
+        FROM confidence_ratings
+        WHERE user_id = $1
+        GROUP BY body_system, topic
+        HAVING COUNT(*) >= 3 AND ROUND(100.0 * SUM(CASE WHEN was_correct THEN 1 ELSE 0 END) / COUNT(*), 1) < 70
+        ORDER BY accuracy ASC
+        LIMIT 10`,
+        [req.params.userId]
+      );
+      res.json(result.rows.map(snakeToCamel));
+    } catch (e: any) {
+      res.status(500).json({ error: "Failed to fetch weak areas" });
+    }
+  });
+
+  app.get("/api/exam-readiness/:userId", async (req, res) => {
+    try {
+      const stats = await pool.query(
+        `SELECT * FROM user_stats WHERE user_id = $1`,
+        [req.params.userId]
+      );
+      const confidenceData = await pool.query(
+        `SELECT
+          COUNT(*) as total,
+          SUM(CASE WHEN was_correct THEN 1 ELSE 0 END) as correct,
+          SUM(CASE WHEN confidence = 'very_confident' THEN 1 ELSE 0 END) as very_confident,
+          SUM(CASE WHEN confidence = 'somewhat' THEN 1 ELSE 0 END) as somewhat,
+          SUM(CASE WHEN confidence = 'guessing' THEN 1 ELSE 0 END) as guessing
+        FROM confidence_ratings WHERE user_id = $1`,
+        [req.params.userId]
+      );
+      const s = stats.rows[0];
+      const c = confidenceData.rows[0];
+      const totalAnswered = s?.total_questions_answered || 0;
+      const totalCorrect = s?.total_correct || 0;
+      const accuracy = totalAnswered > 0 ? (totalCorrect / totalAnswered) * 100 : 0;
+      const confidenceTotal = parseInt(c?.total || "0");
+      const veryConfident = parseInt(c?.very_confident || "0");
+      const guessing = parseInt(c?.guessing || "0");
+      const confidenceScore = confidenceTotal > 0 ? ((veryConfident * 100 + (confidenceTotal - veryConfident - guessing) * 50) / confidenceTotal) : 50;
+      const coverageEstimate = Math.min(100, (totalAnswered / 200) * 100);
+      const readiness = Math.round(accuracy * 0.4 + confidenceScore * 0.3 + coverageEstimate * 0.3);
+      res.json({
+        readiness: Math.min(100, Math.max(0, readiness)),
+        accuracy: Math.round(accuracy),
+        totalAnswered,
+        totalCorrect,
+        confidenceScore: Math.round(confidenceScore),
+        coverageEstimate: Math.round(coverageEstimate),
+        streak: s?.study_streak || 0,
+      });
+    } catch (e: any) {
+      res.status(500).json({ error: "Failed to compute exam readiness" });
+    }
+  });
+
   return httpServer;
 }
 

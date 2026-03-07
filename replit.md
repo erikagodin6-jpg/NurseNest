@@ -45,6 +45,32 @@ The application is built with Vite, React, and Express 5 on Node.js with TypeScr
 ### Social Media
 - Meta Graph API: For social media scheduling.
 
+## Study Progress Momentum System
+- **Study Streak**: Tracked in `user_stats.study_streak` and `user_stats.last_study_date`
+- **Daily Goals**: `daily_study_goals` table — lessons/questions/minutes targets and completion tracking
+- **Confidence Ratings**: `confidence_ratings` table — "very_confident", "somewhat", "guessing" per question
+- **Review Queue**: `review_queue` table — auto-populated from low-confidence and incorrect answers
+- **Weak Area Detection**: API computes from confidence_ratings grouped by body_system/topic where accuracy < 70%
+- **Exam Readiness Score**: Computed from accuracy (40%), confidence (30%), coverage (30%)
+- **Dashboard Integration**: `StudyMomentumPanel` component shows streak, readiness, review due, daily goals, weak areas
+- **Confidence Modal**: `ConfidenceRatingModal` component for post-question confidence capture
+- **API Routes**: `/api/daily-goals/:userId`, `/api/confidence-rating`, `/api/review-queue/:userId`, `/api/weak-areas/:userId`, `/api/exam-readiness/:userId`
+
+## Lesson Library Redesign
+- **Tier-Adaptive Hero**: `lesson-library-hero.tsx` — RPN/RN/NP-specific headlines, stats, CTAs
+- **Featured Topics**: `featured-topics.tsx` — "Most Tested" topics per tier with difficulty and study time
+- **Progress Card**: `lesson-progress-card.tsx` — progress ring, continue where you left off, estimated remaining time
+- **Tier CTA**: `lesson-library-cta.tsx` — tier-specific 4-step "How NurseNest Helps You Pass" + final CTA
+- **Study Time Estimates**: Clock icon + estimated minutes on each lesson card based on difficulty level
+
+## Homepage Hero
+- **Headline**: "Pass Your Nursing Licensing Exam With Confidence" — covers ALL exam tiers
+- **Subheadline**: Mentions RPN, RN, NP + REx-PN, NCLEX-RN, NP certification
+- **CTAs**: "Start Studying Free" → /register, "Try Practice Questions" → /free-practice
+- **Proof Metrics**: Dynamic lesson count, question count, 12 body systems, Adaptive exam simulator
+- **Value Pills**: Exam-Aligned Lessons, Clear Pathophysiology Explanations, Realistic Practice Questions, Track Your Study Progress
+- **Trust Statement**: "Trusted by nursing students preparing for REx-PN, NCLEX-RN, and NP certification exams."
+
 ## Lesson Content Status
 - **Total lessons**: 1,299+ across all tiers
 - **RPN (430 lessons)**: 100% complete - all fields populated with scope-appropriate content

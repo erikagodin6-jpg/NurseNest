@@ -1,0 +1,393 @@
+You are a senior product designer, full-stack developer, and learning platform architect.
+
+Your task is to build the next major development phase of the NurseNest nursing education platform.
+
+NurseNest already contains a large library of structured nursing lessons.
+
+The next development phase must transform the platform into a complete exam-preparation system that combines lessons, questions, exam simulations, and adaptive study tools.
+
+The goal is to create a product that competes with premium exam platforms used by nursing students preparing for licensing exams.
+
+------------------------------------------------
+
+PRODUCT CONTEXT
+
+NurseNest is a nursing education platform designed to help students prepare for licensing exams.
+
+Supported learner tiers:
+
+RPN
+RN
+NP
+
+The platform includes:
+
+lesson content
+study guides
+practice questions
+exam simulations
+visual concept diagrams
+progress tracking
+adaptive study recommendations
+
+The platform should support exams such as NCLEX and REx-PN.
+
+------------------------------------------------
+
+DEVELOPMENT PRIORITIES
+
+The following systems must be implemented in priority order.
+
+------------------------------------------------
+
+SYSTEM 1 — QUESTION BANK
+
+Create a comprehensive question bank system.
+
+Features must include:
+
+question categories by body system
+difficulty levels
+exam blueprint tagging
+question types such as:
+multiple choice
+select all that apply
+prioritization
+delegation
+calculation
+
+User controls:
+
+tutor mode
+timed mode
+custom exam builder
+
+Filters must include:
+
+unused questions
+incorrect questions
+marked questions
+all questions
+
+Each question page must contain:
+
+question stem
+answer choices
+submit button
+explanation
+clinical pearl
+exam trap
+visual concept diagram
+
+------------------------------------------------
+
+SYSTEM 2 — EXAM SIMULATION MODE
+
+Create a realistic exam simulator.
+
+Features:
+
+timed exams
+question navigation
+flag for review
+progress bar
+submit exam
+score report
+
+Exam types:
+
+short quizzes
+full mock exams
+adaptive practice exams
+
+Score report must show:
+
+total score
+accuracy by system
+weak areas
+recommended next topics
+
+------------------------------------------------
+
+SYSTEM 3 — STUDENT PROGRESS DASHBOARD
+
+Create a dashboard that displays:
+
+lessons completed
+questions answered
+accuracy percentage
+systems mastered
+weak areas
+
+Example breakdown:
+
+Cardiovascular 82 percent
+Respiratory 67 percent
+Renal 55 percent
+
+Include visual progress bars.
+
+------------------------------------------------
+
+SYSTEM 4 — WEAK AREA DETECTION
+
+Track weak areas automatically.
+
+Criteria:
+
+low accuracy
+frequent incorrect answers
+low confidence answers
+
+Display a panel:
+
+Needs Review
+
+Example topics:
+
+Acid Base Disorders
+Heart Failure
+Shock
+
+Each item must include:
+
+Review Lesson button
+Practice Questions button
+
+------------------------------------------------
+
+SYSTEM 5 — ADAPTIVE STUDY RECOMMENDATIONS
+
+Create an intelligent study suggestion system.
+
+Example panel:
+
+Recommended Next Study
+
+Heart Failure
+Electrolyte Disorders
+Renal Failure
+
+Suggestions should be based on:
+
+weak areas
+recent activity
+incomplete lessons
+
+------------------------------------------------
+
+SYSTEM 6 — LESSON TO QUESTION LOOP
+
+After completing a lesson automatically offer:
+
+Practice Questions on this topic
+
+Provide a mini quiz of 3 to 5 questions.
+
+------------------------------------------------
+
+SYSTEM 7 — REVIEW QUEUE
+
+Create a daily review queue.
+
+Include:
+
+incorrect questions
+low confidence answers
+previously reviewed material
+
+Example UI:
+
+Review Due Today
+
+12 Questions
+5 Lessons
+
+Button:
+
+Start Review
+
+------------------------------------------------
+
+SYSTEM 8 — CONFIDENCE RATING
+
+After each question ask the student:
+
+How confident were you?
+
+Options:
+
+Very confident
+Somewhat confident
+Guessing
+
+Use confidence data to determine review scheduling.
+
+------------------------------------------------
+
+SYSTEM 9 — EXAM READINESS SCORE
+
+Calculate exam readiness based on:
+
+accuracy
+topic coverage
+question difficulty
+confidence ratings
+
+Display readiness percentage.
+
+Example:
+
+NCLEX Readiness
+
+72 percent
+
+------------------------------------------------
+
+SYSTEM 10 — STUDY STREAK AND DAILY GOALS
+
+Allow users to set daily study targets.
+
+Example:
+
+Today's Goal
+
+Study 3 lessons
+Practice 10 questions
+
+Track study streaks.
+
+Example:
+
+Study Streak
+7 days
+
+------------------------------------------------
+
+SYSTEM 11 — VISUAL CONCEPT PANELS
+
+Embed visual diagrams in lessons and question explanations.
+
+Examples:
+
+pathophysiology flow diagrams
+organ system diagrams
+clinical decision trees
+lab interpretation charts
+
+Use lightweight SVG graphics.
+
+------------------------------------------------
+
+SYSTEM 12 — FREE TO PAID CONVERSION SYSTEM
+
+Implement a conversion funnel.
+
+Allow free users to access:
+
+selected lessons
+limited questions
+preview content
+
+Lock advanced features behind subscription.
+
+Display call-to-action panels such as:
+
+Unlock Full Lesson
+Start Free Trial
+
+------------------------------------------------
+
+SYSTEM 13 — SEO CONTENT STRUCTURE
+
+Ensure lessons are SEO optimized.
+
+Include:
+
+structured headings
+internal links
+keyword-rich descriptions
+diagram alt text
+
+Example searchable topics:
+
+heart failure pathophysiology nursing
+acid base disorders nursing
+REx-PN cardiovascular review
+
+------------------------------------------------
+
+SYSTEM 14 — CONTENT ARCHITECTURE
+
+Implement a three layer content structure.
+
+Layer 1 system pages
+Layer 2 topic clusters
+Layer 3 individual lessons
+
+Add breadcrumb navigation.
+
+Example:
+
+Cardiovascular → Arrhythmias → Atrial Fibrillation
+
+------------------------------------------------
+
+SYSTEM 15 — MOBILE OPTIMIZATION
+
+Ensure all study features work smoothly on mobile devices.
+
+Include:
+
+touch-friendly buttons
+sticky navigation
+fast loading
+responsive diagrams
+
+------------------------------------------------
+
+TECH STACK
+
+Use the existing stack:
+
+React
+Vite
+Tailwind CSS
+
+Use reusable components for:
+
+question interface
+lesson interface
+progress dashboard
+exam simulator
+study recommendation panel
+review queue
+visual diagram component
+
+------------------------------------------------
+
+DESIGN RULES
+
+Maintain the NurseNest brand aesthetic.
+
+Use:
+
+soft pastel colors
+clean typography
+rounded UI components
+minimal clutter
+calming study environment
+
+Avoid:
+
+cartoonish visuals
+overly complex UI
+gaming style interfaces
+
+The interface should feel like a professional medical study platform.
+
+------------------------------------------------
+
+FINAL RESULT
+
+The final system should transform NurseNest from a simple lesson library into a complete nursing exam preparation platform with adaptive study tools, realistic practice exams, and intelligent learning guidance.

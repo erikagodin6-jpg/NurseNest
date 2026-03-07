@@ -19,6 +19,7 @@ import {
   RotateCcw, Lock, Bot, Gauge, Lightbulb, CalendarClock, AlertTriangle
 } from "lucide-react";
 import { canAccessFeature, type Feature } from "@/lib/entitlements";
+import { StudyMomentumPanel } from "@/components/study-momentum";
 
 type WidgetConfig = {
   widgetType: string;
@@ -268,6 +269,10 @@ export default function DashboardPage() {
             <li aria-current="page" className="font-medium text-foreground">{t("dashboard.breadcrumbDashboard")}</li>
           </ol>
         </nav>
+
+        <div className="mb-6">
+          <StudyMomentumPanel />
+        </div>
 
         <header className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 sm:mb-8">
           <div>

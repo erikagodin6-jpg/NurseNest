@@ -14,6 +14,7 @@ import { useAuth } from "@/lib/auth";
 import { canAccessTier } from "@/lib/access";
 import { useLocation } from "wouter";
 import { BreadcrumbNav } from "@/components/breadcrumb-nav";
+import { ConfidenceRatingModal } from "@/components/study-momentum";
 
 const FREE_PREVIEW_COUNT = 3;
 
@@ -27,6 +28,8 @@ export default function QuestionBank() {
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
   const [revealed, setRevealed] = useState(false);
   const [stats, setStats] = useState({ correct: 0, total: 0 });
+  const [showConfidence, setShowConfidence] = useState(false);
+  const [confidenceRated, setConfidenceRated] = useState(false);
   const [allQuestions, setAllQuestions] = useState<PooledQuestion[]>([]);
   const [loadingQuestions, setLoadingQuestions] = useState(true);
 
@@ -83,6 +86,15 @@ export default function QuestionBank() {
       correct: prev.correct + (selectedAnswer === question?.correct ? 1 : 0),
       total: prev.total + 1,
     }));
+    if (user) {
+      setShowConfidence(true);
+      setConfidenceRated(false);
+    }
+  };
+
+  const handleConfidenceClose = () => {
+    setShowConfidence(false);
+    setConfidenceRated(true);
   };
 
   const handleNext = () => {
@@ -93,6 +105,8 @@ export default function QuestionBank() {
     }
     setSelectedAnswer(null);
     setRevealed(false);
+    setShowConfidence(false);
+    setConfidenceRated(false);
   };
 
   const handlePrev = () => {
@@ -103,6 +117,8 @@ export default function QuestionBank() {
     }
     setSelectedAnswer(null);
     setRevealed(false);
+    setShowConfidence(false);
+    setConfidenceRated(false);
   };
 
   const handleReset = () => {
@@ -314,6 +330,16 @@ export default function QuestionBank() {
                         </p>
                         <p className="text-sm leading-relaxed text-gray-700" data-testid="text-qb-rationale">{question.rationale}</p>
                       </div>
+
+                      {showConfidence && question && selectedAnswer !== null && (
+                        <ConfidenceRatingModal
+                          questionId={`qb-${question.tier}-${currentIndex}`}
+                          wasCorrect={isCorrect}
+                          topic={question.bodySystem}
+                          bodySystem={question.bodySystem}
+                          onClose={handleConfidenceClose}
+                        />
+                      )}
 
                       <div className="flex gap-2">
                         <Button variant="outline" onClick={handlePrev} className="flex-1 border-gray-200 hover:bg-gray-50" data-testid="button-prev">

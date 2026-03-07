@@ -203,7 +203,7 @@ export default function Home() {
                 <Button 
                   size="lg" 
                   className="h-12 sm:h-14 px-6 sm:px-8 text-base sm:text-lg rounded-full bg-primary hover:brightness-110 shadow-lg shadow-primary/20 transition-[transform,box-shadow] hover:-translate-y-1 text-white w-full sm:w-auto" 
-                  onClick={() => setLocation("/free-practice")}
+                  onClick={() => setLocation("/register")}
                   data-testid="button-hero-start-free"
                 >
                   {t("home.hero.cta")}
@@ -213,7 +213,7 @@ export default function Home() {
                   size="lg" 
                   variant="outline" 
                   className="h-12 sm:h-14 px-6 sm:px-8 text-base sm:text-lg rounded-full border-2 border-primary/20 hover:bg-primary/5 hover:border-primary/40 text-gray-700 bg-white/50 w-full sm:w-auto" 
-                  onClick={() => setLocation("/mock-exams")}
+                  onClick={() => setLocation("/free-practice")}
                   data-testid="button-hero-browse"
                 >
                   <Target className="mr-2 w-4 sm:w-5 h-4 sm:h-5 text-primary" />
@@ -274,6 +274,25 @@ export default function Home() {
                   {t("home.hero.seeIncluded")}
                   <ChevronRight className="w-4 h-4 rotate-90" />
                 </button>
+              </div>
+
+              <div className="pt-6 flex flex-wrap items-center justify-center gap-8 sm:gap-12">
+                <div className="text-center" data-testid="stat-hero-lessons">
+                  <div className="text-2xl sm:text-3xl font-bold text-primary">{lessonCount > 0 ? `${lessonCount}+` : "2400+"}</div>
+                  <div className="text-xs text-gray-500 font-medium">Nursing Lessons</div>
+                </div>
+                <div className="text-center" data-testid="stat-hero-questions">
+                  <div className="text-2xl sm:text-3xl font-bold text-primary">{questionCount > 0 ? `${questionCount.toLocaleString()}+` : "8000+"}</div>
+                  <div className="text-xs text-gray-500 font-medium">Practice Questions</div>
+                </div>
+                <div className="text-center" data-testid="stat-hero-systems">
+                  <div className="text-2xl sm:text-3xl font-bold text-primary">12</div>
+                  <div className="text-xs text-gray-500 font-medium">Body Systems</div>
+                </div>
+                <div className="text-center" data-testid="stat-hero-simulator">
+                  <div className="text-2xl sm:text-3xl font-bold text-primary">Adaptive</div>
+                  <div className="text-xs text-gray-500 font-medium">Exam Simulator</div>
+                </div>
               </div>
 
               <div className="space-y-1 pt-2">

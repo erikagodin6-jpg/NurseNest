@@ -1,0 +1,108 @@
+You are a conversion copywriter for a nursing education platform.
+
+Write the marketing content for the hero section of the NurseNest homepage.
+
+Important rule:
+Do NOT market only one nursing exam.
+
+NurseNest supports multiple nursing exam tiers and the hero must clearly communicate this.
+
+The platform prepares students for:
+
+REx-PN
+NCLEX-RN
+NP certification exams
+
+The messaging must present NurseNest as a comprehensive nursing exam preparation platform.
+
+------------------------------------------------
+
+GOAL
+
+The hero section must convince nursing students that NurseNest can help them pass their licensing exam.
+
+Within 3 seconds a visitor should understand:
+
+this platform helps nursing students pass their exam
+it supports multiple nursing exam tiers
+it includes lessons, practice questions, and exam simulations
+
+------------------------------------------------
+
+HEADLINE REQUIREMENTS
+
+Write a headline that focuses on passing nursing licensing exams.
+
+Do NOT mention only one exam.
+
+Examples of correct structure:
+
+Pass Your Nursing Licensing Exam With Confidence
+
+or
+
+The Smarter Way to Study for Nursing Licensing Exams
+
+------------------------------------------------
+
+SUBHEADLINE REQUIREMENTS
+
+Explain that the platform supports multiple exams.
+
+Mention:
+
+RPN
+RN
+NP
+
+Mention example exams:
+
+REx-PN
+NCLEX-RN
+NP certification exams
+
+Explain that the platform includes:
+
+lessons
+practice questions
+exam simulations
+
+------------------------------------------------
+
+PROOF METRICS
+
+Include credibility metrics such as:
+
+number of lessons
+number of questions
+body systems covered
+exam simulation
+
+------------------------------------------------
+
+CALL TO ACTION
+
+Create two CTAs.
+
+Primary CTA:
+Start Studying Free
+
+Secondary CTA:
+Try Practice Questions
+
+------------------------------------------------
+
+TONE
+
+Professional
+Encouraging
+Clear
+Supportive
+
+Avoid hype marketing language.
+
+------------------------------------------------
+
+FINAL GOAL
+
+Students should immediately understand that NurseNest is a complete nursing exam preparation platform for multiple licensing exams, not just REx-PN.

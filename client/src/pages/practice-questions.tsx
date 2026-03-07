@@ -14,6 +14,7 @@ import {
   Activity, Pill, Baby, Droplets, Shield, Layers,
 } from "lucide-react";
 import { LocaleLink } from "@/lib/LocaleLink";
+import { ConfidenceRatingModal } from "@/components/study-momentum";
 
 const TIER_LABELS: Record<string, string> = {
   rpn: "RPN / REx-PN / LPN",
@@ -212,6 +213,8 @@ function QuizSession({ tier, systemSlug }: { tier: string; systemSlug: string })
   const [score, setScore] = useState(0);
   const [answered, setAnswered] = useState(0);
   const [completed, setCompleted] = useState(false);
+  const [showConfidence, setShowConfidence] = useState(false);
+  const [confidenceRated, setConfidenceRated] = useState(false);
 
   const current = questions[currentIndex];
   const tierLabel = TIER_LABELS[tier] || tier.toUpperCase();
@@ -225,6 +228,13 @@ function QuizSession({ tier, systemSlug }: { tier: string; systemSlug: string })
     if (optionIndex === current.correct) {
       setScore((s) => s + 1);
     }
+    setShowConfidence(true);
+    setConfidenceRated(false);
+  };
+
+  const handleConfidenceClose = () => {
+    setShowConfidence(false);
+    setConfidenceRated(true);
   };
 
   const handleNext = () => {
@@ -232,6 +242,8 @@ function QuizSession({ tier, systemSlug }: { tier: string; systemSlug: string })
       setCurrentIndex((i) => i + 1);
       setSelectedAnswer(null);
       setShowRationale(false);
+      setShowConfidence(false);
+      setConfidenceRated(false);
     } else {
       setCompleted(true);
     }
@@ -244,6 +256,8 @@ function QuizSession({ tier, systemSlug }: { tier: string; systemSlug: string })
     setScore(0);
     setAnswered(0);
     setCompleted(false);
+    setShowConfidence(false);
+    setConfidenceRated(false);
   };
 
   const faqStructuredData = {
@@ -412,7 +426,17 @@ function QuizSession({ tier, systemSlug }: { tier: string; systemSlug: string })
                     </div>
                   )}
 
-                  {showRationale && (
+                  {showConfidence && selectedAnswer !== null && (
+                    <ConfidenceRatingModal
+                      questionId={`${tier}-${systemSlug}-${currentIndex}`}
+                      wasCorrect={selectedAnswer === current.correct}
+                      topic={systemSlug}
+                      bodySystem={systemSlug}
+                      onClose={handleConfidenceClose}
+                    />
+                  )}
+
+                  {showRationale && confidenceRated && (
                     <Button
                       onClick={handleNext}
                       className="w-full h-12 bg-primary hover:brightness-110 text-white rounded-xl"

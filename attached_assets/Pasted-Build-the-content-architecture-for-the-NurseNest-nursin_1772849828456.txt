@@ -1,0 +1,101 @@
+Build the content architecture for the NurseNest nursing study platform using the official NCLEX test plan structure.
+
+All lessons, question banks, and study paths must align with the NCLEX Client Needs categories.
+
+------------------------------------------------
+
+TOP LEVEL STRUCTURE
+
+Create exam tiers:
+
+RPN
+RN
+NP
+
+------------------------------------------------
+
+CLIENT NEEDS CATEGORIES
+
+Organize content using the four NCLEX client needs categories:
+
+Safe and Effective Care Environment
+Health Promotion and Maintenance
+Psychosocial Integrity
+Physiological Integrity
+
+------------------------------------------------
+
+SUBCATEGORIES
+
+Safe and Effective Care Environment
+
+Management of Care
+Safety and Infection Prevention and Control
+
+Physiological Integrity
+
+Basic Care and Comfort
+Pharmacological and Parenteral Therapies
+Reduction of Risk Potential
+Physiological Adaptation
+
+------------------------------------------------
+
+LESSON ORGANIZATION
+
+Within each subcategory organize lessons based on clinical topics.
+
+Example:
+
+Physiological Adaptation
+
+Shock
+Heart Failure
+Respiratory Failure
+Sepsis
+Acute Kidney Injury
+
+------------------------------------------------
+
+QUESTION BANK DISTRIBUTION
+
+Ensure question distribution matches exam percentages.
+
+Example for RN:
+
+Management of Care 15–21 percent
+Safety and Infection Control 10–16 percent
+Health Promotion and Maintenance 6–12 percent
+Psychosocial Integrity 6–12 percent
+Basic Care and Comfort 6–12 percent
+Pharmacological Therapies 13–19 percent
+Reduction of Risk Potential 9–15 percent
+Physiological Adaptation 11–17 percent
+
+------------------------------------------------
+
+QUESTION STYLE
+
+Questions must test clinical judgment.
+
+Include patient scenarios with:
+
+vital signs
+lab values
+medication lists
+clinical changes
+
+Require students to prioritize nursing actions.
+
+------------------------------------------------
+
+OUTPUT
+
+Ensure every lesson and question is tagged with:
+
+Client Needs category
+Subcategory
+Body system
+Topic
+Difficulty
+Exam tier

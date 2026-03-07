@@ -2354,3 +2354,52 @@ export const pageViewsDaily = pgTable("page_views_daily", {
 ]);
 
 export type PageViewDaily = typeof pageViewsDaily.$inferSelect;
+
+export const dailyStudyGoals = pgTable("daily_study_goals", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id").notNull(),
+  date: text("date").notNull(),
+  lessonsTarget: integer("lessons_target").default(3),
+  lessonsCompleted: integer("lessons_completed").default(0),
+  questionsTarget: integer("questions_target").default(10),
+  questionsCompleted: integer("questions_completed").default(0),
+  minutesTarget: integer("minutes_target").default(30),
+  minutesCompleted: integer("minutes_completed").default(0),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const insertDailyStudyGoalSchema = createInsertSchema(dailyStudyGoals).omit({ id: true, createdAt: true });
+export type DailyStudyGoal = typeof dailyStudyGoals.$inferSelect;
+export type InsertDailyStudyGoal = z.infer<typeof insertDailyStudyGoalSchema>;
+
+export const confidenceRatings = pgTable("confidence_ratings", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id").notNull(),
+  questionId: varchar("question_id").notNull(),
+  confidence: text("confidence").notNull(),
+  wasCorrect: boolean("was_correct").default(false),
+  topic: text("topic"),
+  bodySystem: text("body_system"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const insertConfidenceRatingSchema = createInsertSchema(confidenceRatings).omit({ id: true, createdAt: true });
+export type ConfidenceRating = typeof confidenceRatings.$inferSelect;
+export type InsertConfidenceRating = z.infer<typeof insertConfidenceRatingSchema>;
+
+export const reviewQueue = pgTable("review_queue", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id").notNull(),
+  itemType: text("item_type").notNull(),
+  itemId: varchar("item_id").notNull(),
+  reason: text("reason").notNull(),
+  priority: integer("priority").default(1),
+  scheduledDate: text("scheduled_date").notNull(),
+  completed: boolean("completed").default(false),
+  completedAt: timestamp("completed_at"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const insertReviewQueueSchema = createInsertSchema(reviewQueue).omit({ id: true, createdAt: true });
+export type ReviewQueueItem = typeof reviewQueue.$inferSelect;
+export type InsertReviewQueueItem = z.infer<typeof insertReviewQueueSchema>;
