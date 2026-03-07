@@ -1,0 +1,209 @@
+Implement a "Study Progress Momentum System" across all NurseNest lesson pages.
+
+The goal of this system is to increase student engagement, retention, and daily study consistency.
+
+Students should always feel that they are making progress toward exam readiness.
+
+------------------------------------------------
+
+FEATURE 1 — STUDY PROGRESS CARD
+
+At the top of every lesson library page display a progress card showing:
+
+current system progress
+lessons completed
+lessons remaining
+estimated remaining study time
+
+Example UI:
+
+Cardiovascular System Progress
+
+60% Complete
+
+Completed Lessons: 14 / 23
+Estimated Remaining Time: 1h 40m
+
+Primary action button:
+Continue Learning
+
+The Continue Learning button should open the next recommended lesson in the sequence.
+
+------------------------------------------------
+
+FEATURE 2 — STRUCTURED STUDY PATH
+
+Each lesson category should include an optional structured learning path.
+
+Example:
+
+Cardiovascular Study Path
+
+1 Cardiac Anatomy
+2 Cardiac Cycle
+3 Blood Pressure Regulation
+4 Heart Failure
+5 Arrhythmias
+6 Myocardial Infarction
+
+Display progress visually with a progress bar.
+
+Users should see which lessons are completed and which are next.
+
+------------------------------------------------
+
+FEATURE 3 — LESSON COMPLETION
+
+When a user finishes a lesson:
+
+display a completion modal
+
+Example:
+
+Lesson Complete
+
+You just mastered:
+
+Cardiac Cycle
+
+Next Recommended Lesson:
+Blood Pressure Regulation
+
+Buttons:
+
+Continue Learning
+Return to Lesson Library
+
+------------------------------------------------
+
+FEATURE 4 — WEAK AREA TRACKING
+
+Create a weak-area detection system based on:
+
+incorrect questions
+revisited lessons
+low quiz scores
+
+Display a panel:
+
+Your Weak Areas
+
+Acid Base Disorders
+Heart Failure
+Shock Types
+
+Each item should have:
+
+Review Lesson button
+Practice Questions button
+
+------------------------------------------------
+
+FEATURE 5 — DAILY STUDY GOAL
+
+Add a daily study tracker.
+
+Example:
+
+Today's Goal
+Study 3 Lessons
+
+Completed
+Cardiac Cycle
+Blood Pressure Regulation
+
+Remaining
+Heart Failure
+
+This feature should reset daily.
+
+------------------------------------------------
+
+FEATURE 6 — SYSTEM MASTERY TRACKER
+
+Each major category should show mastery level.
+
+Example:
+
+Cardiovascular System
+Mastery Level: 82%
+
+Use a progress bar.
+
+------------------------------------------------
+
+FEATURE 7 — LESSON ESTIMATED TIME
+
+Every lesson card must show estimated completion time.
+
+Example:
+
+Acute Pericarditis
+Difficulty: Easy
+Study Time: 6 minutes
+
+------------------------------------------------
+
+FEATURE 8 — CONTINUE WHERE YOU LEFT OFF
+
+If the user has incomplete lessons display:
+
+Continue Learning
+
+Cardiovascular System
+40% Complete
+
+Resume Lesson →
+
+------------------------------------------------
+
+FEATURE 9 — PROGRESS STORAGE
+
+Track progress using:
+
+completed lessons
+time spent
+quiz results
+weak areas
+
+Persist progress in the user database.
+
+------------------------------------------------
+
+FEATURE 10 — MOBILE UX
+
+Ensure the progress system works perfectly on mobile.
+
+Use:
+
+sticky progress cards
+compact progress bars
+tap-friendly lesson cards
+
+------------------------------------------------
+
+DESIGN RULES
+
+The progress system must feel:
+
+professional
+motivating
+not childish
+clean and minimal
+consistent with NurseNest branding
+
+Use soft progress colors such as:
+
+lavender
+sage green
+soft teal
+
+Avoid gamified badges that look juvenile.
+
+------------------------------------------------
+
+FINAL RESULT
+
+Students should feel constant progress and momentum when using NurseNest.
+
+The system should make it psychologically easy for students to continue studying daily and move toward exam readiness.
