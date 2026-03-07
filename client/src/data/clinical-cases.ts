@@ -1,59 +1,12 @@
-export interface VitalSigns {
-  hr: number;
-  bp: string;
-  rr: number;
-  spo2: number;
-  temp: number;
-  pain?: number;
-}
+export type { VitalSigns, LabResult, CaseDecision, CaseStage, ClinicalCase } from "./clinical-case-types";
+import type { ClinicalCase } from "./clinical-case-types";
 
-export interface LabResult {
-  name: string;
-  value: string;
-  unit: string;
-  flag?: "high" | "low" | "critical";
-}
+import { clinicalCasesBatch2 } from "./clinical-cases-batch-2";
+import { clinicalCasesBatch3 } from "./clinical-cases-batch-3";
+import { clinicalCasesBatch4 } from "./clinical-cases-batch-4";
+import { clinicalCasesBatch5 } from "./clinical-cases-batch-5";
 
-export interface CaseDecision {
-  id: string;
-  text: string;
-  isOptimal: boolean;
-  consequence: string;
-  mechanismExplanation: string;
-  vitalChanges?: Partial<VitalSigns>;
-  newLabs?: LabResult[];
-  timeAdvance?: string;
-}
-
-export interface CaseStage {
-  id: string;
-  title: string;
-  narrative: string;
-  vitals: VitalSigns;
-  labs?: LabResult[];
-  assessmentFindings?: string[];
-  nursingPriority?: string;
-  decisions: CaseDecision[];
-  criticalThinking?: string;
-}
-
-export interface ClinicalCase {
-  id: string;
-  title: string;
-  patientProfile: string;
-  chiefComplaint: string;
-  category: string;
-  difficulty: "beginner" | "intermediate" | "advanced";
-  bodySystem: string;
-  stages: CaseStage[];
-  debriefing: {
-    keyLearning: string[];
-    mechanismSummary: string;
-    commonErrors: string[];
-  };
-}
-
-export const clinicalCases: ClinicalCase[] = [
+const baseClinicalCases: ClinicalCase[] = [
   {
     id: "sepsis-progression",
     title: "The Deteriorating Pneumonia Patient",
@@ -1217,4 +1170,12 @@ export const clinicalCases: ClinicalCase[] = [
       ],
     },
   },
+];
+
+export const clinicalCases: ClinicalCase[] = [
+  ...baseClinicalCases,
+  ...clinicalCasesBatch2,
+  ...clinicalCasesBatch3,
+  ...clinicalCasesBatch4,
+  ...clinicalCasesBatch5,
 ];

@@ -61,3 +61,19 @@ The application is built with Vite, React, and Express 5 on Node.js with TypeScr
 - **Batch O**: ENT & upper airway - rhinosinusitis, pharyngitis/strep, otitis externa, papilledema (12 lessons)
 - **Batch P**: Stress physiology & men's health advanced - HPA axis/cortisol, male infertility, BPH/TURP advanced, hearing loss differential (12 lessons)
 - **Tier counts**: free=569 rpn=521 rn=223 np=300 total=1,613 questions=3,915
+
+## Clinical Case Simulations
+- **Base cases (7)**: sepsis-progression, chest-pain-mi, dka-management, postpartum-hemorrhage, pediatric-respiratory-emergency, anaphylaxis-management, stroke-thrombolytic
+- **Batch 2 (7)**: gi-bleed-management, copd-exacerbation, hyperkalemia-emergency, hip-fracture-elderly, acute-pancreatitis, pulmonary-embolism, meningitis-assessment
+- **Batch 3 (6)**: heart-failure-acute, burns-management, opioid-overdose, diabetic-foot-ulcer, preeclampsia-management, sickle-cell-crisis
+- **Batch 4 (6)**: pneumothorax-tension, thyroid-storm, spinal-cord-injury, pediatric-dehydration, blood-transfusion-reaction, acute-mi-stemi
+- **Batch 5 (6)**: addisonian-crisis, status-epilepticus, c-diff-colitis, chest-tube-management, psychiatric-emergency, neonatal-distress
+- **Total**: 32 clinical case simulations
+- Types extracted to `client/src/data/clinical-case-types.ts` to avoid circular imports
+
+## Lesson Tier Differentiation
+- **RPN tab**: fundamentalsSystems + delegationSystems + clinicalScenariosSystems + medMathSystems + rpnNonPharm
+- **RN tab**: clinicalScenariosSystems + medMathSystems + rnNonPharm (no fundamentals/delegation)
+- **NP tab**: medMathSystems + npNonPharm (no fundamentals/delegation/clinical scenarios)
+- **Duplicate removal**: 38 lesson IDs that appeared in both rpnSystems and rnSystems were removed from rnSystems
+- **Fallback removed**: Tier-suffix content fallback in index.ts was removed to prevent placeholder content from showing base content

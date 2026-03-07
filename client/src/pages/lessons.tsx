@@ -1122,7 +1122,6 @@ export const rnSystems = [
       { id: "carotid-endarterectomy", name: "Carotid Endarterectomy", status: "Available" },
       { id: "dvt-management", name: "Deep Vein Thrombosis", status: "Available" },
       { id: "cardiogenic-shock", name: "Cardiogenic Shock", status: "Available" },
-      { id: "pacemaker-care", name: "Pacemakers: Types and Nursing Care", status: "Available" },
       { id: "arrhythmogenic-rv-cardiomyopathy-rn", name: "Arrhythmogenic Right Ventricular Cardiomyopathy", status: "Available" },
       { id: "restrictive-cardiomyopathy-rn", name: "Restrictive Cardiomyopathy", status: "Available" },
       { id: "noncompaction-cardiomyopathy-rn", name: "Noncompaction Cardiomyopathy", status: "Available" },
@@ -1246,7 +1245,6 @@ export const rnSystems = [
       { id: "increased-icp", name: "Increased ICP and TBI", status: "Available" },
       { id: "stroke-advanced", name: "Stroke & TIA Management", status: "Available" },
       { id: "seizure-safety", name: "Seizure Precautions", status: "Available" },
-      { id: "febrile-seizure", name: "Febrile Seizures", status: "Available" },
       { id: "subdural-hematoma", name: "Subdural Hematoma", status: "Available" },
       { id: "meniere-disease", name: "Meniere Disease", status: "Available" },
       { id: "duchenne-md", name: "Duchenne Muscular Dystrophy", status: "Available" },
@@ -1307,9 +1305,6 @@ export const rnSystems = [
       { id: "ercp-egd", name: "ERCP & EGD Procedures", status: "Available" },
       { id: "dumping-syndrome", name: "Dumping Syndrome", status: "Available" },
       { id: "celiac-disease", name: "Celiac Disease", status: "Available" },
-      { id: "viral-hepatitis", name: "Viral Hepatitis Overview", status: "Available" },
-      { id: "hepatitis-c", name: "Hepatitis C", status: "Available" },
-      { id: "chronic-hepatitis", name: "Chronic Hepatitis", status: "Available" },
       { id: "cholecystitis-rn", name: "Cholecystitis: RN Protocol-Based Assessment", status: "Available" },
       { id: "appendicitis-rn", name: "Appendicitis: RN Assessment & Perioperative Care", status: "Available" },
       { id: "bowel-obstruction-rn", name: "Bowel Obstruction: RN Assessment & Management", status: "Available" },
@@ -1434,25 +1429,6 @@ export const rnSystems = [
       { id: "malignant-hypercalcemia-rn", name: "Malignant Hypercalcemia", status: "Available" },
       { id: "multiple-myeloma-rn", name: "Multiple Myeloma", status: "Available" },
       { id: "mds-rn", name: "Myelodysplastic Syndromes (MDS)", status: "Available" },
-      { id: "ahtr-acute-hemolytic-transfusion-reaction", name: "Acute Hemolytic Transfusion Reaction (AHTR)", status: "Available" },
-      { id: "fnhtr-febrile-nonhemolytic-transfusion-reaction", name: "Febrile Non-Hemolytic Reaction (FNHTR)", status: "Available" },
-      { id: "allergic-transfusion-reaction", name: "Allergic Transfusion Reaction", status: "Available" },
-      { id: "anaphylactic-transfusion-reaction", name: "Anaphylactic Transfusion Reaction", status: "Available" },
-      { id: "taco-transfusion-associated-circulatory-overload", name: "TACO: Circulatory Overload", status: "Available" },
-      { id: "trali-transfusion-related-acute-lung-injury", name: "TRALI: Acute Lung Injury", status: "Available" },
-      { id: "septic-transfusion-reaction", name: "Septic Transfusion Reaction", status: "Available" },
-      { id: "hypotensive-transfusion-reaction", name: "Hypotensive Transfusion Reaction", status: "Available" },
-      { id: "acute-pain-transfusion-reaction", name: "Acute Pain Transfusion Reaction", status: "Available" },
-      { id: "non-immune-hemolysis-transfusion", name: "Non-Immune Hemolysis", status: "Available" },
-      { id: "air-embolism-transfusion", name: "Air Embolism During Transfusion", status: "Available" },
-      { id: "delayed-hemolytic-transfusion-reaction", name: "Delayed Hemolytic Reaction (DHTR)", status: "Available" },
-      { id: "post-transfusion-purpura", name: "Post-Transfusion Purpura (PTP)", status: "Available" },
-      { id: "ta-gvhd-transfusion-associated", name: "TA-GVHD: Graft-Versus-Host Disease", status: "Available" },
-      { id: "iron-overload-transfusion-hemosiderosis", name: "Iron Overload (Hemosiderosis)", status: "Available" },
-      { id: "transfusion-hyperkalemia", name: "Transfusion-Associated Hyperkalemia", status: "Available" },
-      { id: "transfusion-hypocalcemia-citrate-toxicity", name: "Citrate Toxicity & Hypocalcemia", status: "Available" },
-      { id: "transfusion-hypothermia", name: "Transfusion-Associated Hypothermia", status: "Available" },
-      { id: "dilutional-coagulopathy-massive-transfusion", name: "Dilutional Coagulopathy", status: "Available" },
       { id: "iron-deficiency-anemia-rn", name: "Iron Deficiency Anemia: RN Assessment & Management", status: "Available" },
       { id: "sickle-cell-crisis-rn", name: "Sickle Cell Crisis: Protocol-Based Management", status: "Available" }
     ]
@@ -1464,21 +1440,9 @@ export const rnSystems = [
     color: "text-emerald-600",
     bgColor: "bg-emerald-50",
     diseases: [
-      { id: "compartment-syndrome", name: "Compartment Syndrome", status: "Available" },
-      { id: "fibromyalgia", name: "Fibromyalgia", status: "Available" },
-      { id: "contracture", name: "Contracture", status: "Available" },
-      { id: "chronic-fatigue-syndrome", name: "Chronic Fatigue Syndrome", status: "Available" },
-      { id: "disuse-atrophy", name: "Disuse Atrophy", status: "Available" },
       { id: "scoliosis", name: "Scoliosis", status: "Available" },
-      { id: "hip-dysplasia", name: "Hip Dysplasia", status: "Available" },
-      { id: "clubfoot", name: "Clubfoot", status: "Available" },
-      { id: "rickets", name: "Rickets", status: "Available" },
-      { id: "syndactyly", name: "Syndactyly", status: "Available" },
-      { id: "polydactyly", name: "Polydactyly", status: "Available" },
       { id: "burn-management", name: "Burn Injury & Resuscitation", status: "Available" },
       { id: "pressure-injury", name: "Advanced Wound Care", status: "Available" },
-      { id: "vac-dressing", name: "VAC Dressing (Negative Pressure Wound Therapy)", status: "Available" },
-      { id: "fracture-sprain-care", name: "Fractures, Sprains, and Strains", status: "Available" },
       { id: "knee-arthroplasty", name: "Knee Arthroplasty", status: "Available" },
       { id: "osteomyelitis", name: "Osteomyelitis", status: "Available" },
       { id: "rheumatoid-arthritis", name: "Rheumatoid Arthritis", status: "Available" },
@@ -1668,27 +1632,6 @@ export const rnSystems = [
     diseases: [
       { id: "iv-therapy", name: "IV Therapy and Venipuncture", status: "Available" },
       { id: "blood-transfusion", name: "Blood Transfusion Administration", status: "Available" },
-      { id: "blood-transfusion-reactions", name: "Blood Transfusion Reactions: Complete Clinical Guide", status: "Available" },
-      { id: "abo-blood-type-compatibility", name: "ABO & Rh Blood Type Compatibility", status: "Available" },
-      { id: "ahtr-acute-hemolytic-transfusion-reaction", name: "Acute Hemolytic Transfusion Reaction (AHTR)", status: "Available" },
-      { id: "fnhtr-febrile-nonhemolytic-transfusion-reaction", name: "Febrile Non-Hemolytic Reaction (FNHTR)", status: "Available" },
-      { id: "allergic-transfusion-reaction", name: "Allergic Transfusion Reaction", status: "Available" },
-      { id: "anaphylactic-transfusion-reaction", name: "Anaphylactic Transfusion Reaction", status: "Available" },
-      { id: "taco-transfusion-associated-circulatory-overload", name: "TACO: Circulatory Overload", status: "Available" },
-      { id: "trali-transfusion-related-acute-lung-injury", name: "TRALI: Acute Lung Injury", status: "Available" },
-      { id: "septic-transfusion-reaction", name: "Septic Transfusion Reaction", status: "Available" },
-      { id: "hypotensive-transfusion-reaction", name: "Hypotensive Transfusion Reaction", status: "Available" },
-      { id: "acute-pain-transfusion-reaction", name: "Acute Pain Transfusion Reaction", status: "Available" },
-      { id: "non-immune-hemolysis-transfusion", name: "Non-Immune Hemolysis", status: "Available" },
-      { id: "air-embolism-transfusion", name: "Air Embolism During Transfusion", status: "Available" },
-      { id: "delayed-hemolytic-transfusion-reaction", name: "Delayed Hemolytic Reaction (DHTR)", status: "Available" },
-      { id: "post-transfusion-purpura", name: "Post-Transfusion Purpura (PTP)", status: "Available" },
-      { id: "ta-gvhd-transfusion-associated", name: "TA-GVHD: Graft-Versus-Host Disease", status: "Available" },
-      { id: "iron-overload-transfusion-hemosiderosis", name: "Iron Overload (Hemosiderosis)", status: "Available" },
-      { id: "transfusion-hyperkalemia", name: "Transfusion-Associated Hyperkalemia", status: "Available" },
-      { id: "transfusion-hypocalcemia-citrate-toxicity", name: "Citrate Toxicity & Hypocalcemia", status: "Available" },
-      { id: "transfusion-hypothermia", name: "Transfusion-Associated Hypothermia", status: "Available" },
-      { id: "dilutional-coagulopathy-massive-transfusion", name: "Dilutional Coagulopathy", status: "Available" },
       { id: "chest-tube-mgmt", name: "Chest Tube Management", status: "Available" },
       { id: "trach-care", name: "Tracheostomy Care and Suctioning", status: "Available" },
       { id: "thoracentesis", name: "Thoracentesis", status: "Available" },
@@ -3944,8 +3887,8 @@ export default function Lessons() {
             <option value="all">All Systems</option>
             {(() => {
               const currentSystems = activeTab === "rpn" ? [...fundamentalsSystems, ...delegationSystems, ...clinicalScenariosSystems, ...medMathSystems, ...rpnNonPharm]
-                : activeTab === "rn" ? [...fundamentalsSystems, ...delegationSystems, ...clinicalScenariosSystems, ...medMathSystems, ...rnNonPharm]
-                : activeTab === "np" ? [...fundamentalsSystems, ...delegationSystems, ...clinicalScenariosSystems, ...medMathSystems, ...npNonPharm]
+                : activeTab === "rn" ? [...clinicalScenariosSystems, ...medMathSystems, ...rnNonPharm]
+                : activeTab === "np" ? [...medMathSystems, ...npNonPharm]
                 : [];
               return currentSystems.map((s) => (
                 <option key={s.id} value={s.id}>{s.title || s.name} ({(s.diseases || s.lessons || []).length})</option>
@@ -3962,8 +3905,8 @@ export default function Lessons() {
             <LessonProgressCard
               activeTier={activeTab}
               systems={activeTab === "rpn" ? [...fundamentalsSystems, ...delegationSystems, ...clinicalScenariosSystems, ...medMathSystems, ...rpnNonPharm]
-                : activeTab === "rn" ? [...fundamentalsSystems, ...delegationSystems, ...clinicalScenariosSystems, ...medMathSystems, ...rnNonPharm]
-                : activeTab === "np" ? [...fundamentalsSystems, ...delegationSystems, ...clinicalScenariosSystems, ...medMathSystems, ...npNonPharm]
+                : activeTab === "rn" ? [...clinicalScenariosSystems, ...medMathSystems, ...rnNonPharm]
+                : activeTab === "np" ? [...medMathSystems, ...npNonPharm]
                 : []}
             />
           </div>
@@ -3988,7 +3931,7 @@ export default function Lessons() {
           <TabsContent value="rn" className="mt-0">
             <LecturesSection tier="rn" onNavigate={setLocation} />
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {[...fundamentalsSystems, ...delegationSystems, ...clinicalScenariosSystems, ...medMathSystems, ...rnNonPharm].filter((system) => { if (selectedSystemFilter !== "all" && system.id !== selectedSystemFilter) return false; if (!lessonSearchQuery) return true; const q = lessonSearchQuery.toLowerCase(); const sysName = (system.name || system.title || "").toLowerCase(); return sysName.includes(q) || system.diseases?.some((d: any) => d.name?.toLowerCase().includes(q)) || system.lessons?.some((l: any) => l.title?.toLowerCase().includes(q)); }).map((system) => (
+              {[...clinicalScenariosSystems, ...medMathSystems, ...rnNonPharm].filter((system) => { if (selectedSystemFilter !== "all" && system.id !== selectedSystemFilter) return false; if (!lessonSearchQuery) return true; const q = lessonSearchQuery.toLowerCase(); const sysName = (system.name || system.title || "").toLowerCase(); return sysName.includes(q) || system.diseases?.some((d: any) => d.name?.toLowerCase().includes(q)) || system.lessons?.some((l: any) => l.title?.toLowerCase().includes(q)); }).map((system) => (
                 <LessonSystemCard key={system.id} system={system} tier="rn" onSelect={handleLessonSelect} lessonOverrides={lessonOverrides} onOverridesChange={refreshOverrides} completeLessons={completeLessons} />
               ))}
               {customSystems.filter((s) => s.tier === "rn" || !s.tier).map((cs) => (
@@ -4003,7 +3946,7 @@ export default function Lessons() {
           <TabsContent value="np" className="mt-0">
             <LecturesSection tier="np" onNavigate={setLocation} />
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {[...fundamentalsSystems, ...delegationSystems, ...clinicalScenariosSystems, ...medMathSystems, ...npNonPharm].filter((system) => { if (selectedSystemFilter !== "all" && system.id !== selectedSystemFilter) return false; if (!lessonSearchQuery) return true; const q = lessonSearchQuery.toLowerCase(); const sysName = (system.name || system.title || "").toLowerCase(); return sysName.includes(q) || system.diseases?.some((d: any) => d.name?.toLowerCase().includes(q)) || system.lessons?.some((l: any) => l.title?.toLowerCase().includes(q)); }).map((system) => (
+              {[...medMathSystems, ...npNonPharm].filter((system) => { if (selectedSystemFilter !== "all" && system.id !== selectedSystemFilter) return false; if (!lessonSearchQuery) return true; const q = lessonSearchQuery.toLowerCase(); const sysName = (system.name || system.title || "").toLowerCase(); return sysName.includes(q) || system.diseases?.some((d: any) => d.name?.toLowerCase().includes(q)) || system.lessons?.some((l: any) => l.title?.toLowerCase().includes(q)); }).map((system) => (
                 <LessonSystemCard key={system.id} system={system} tier="np" onSelect={handleLessonSelect} lessonOverrides={lessonOverrides} onOverridesChange={refreshOverrides} completeLessons={completeLessons} />
               ))}
               {customSystems.filter((s) => s.tier === "np" || !s.tier).map((cs) => (
