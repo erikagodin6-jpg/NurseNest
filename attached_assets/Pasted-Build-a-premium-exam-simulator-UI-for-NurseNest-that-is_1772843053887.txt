@@ -1,0 +1,328 @@
+Build a premium exam simulator UI for NurseNest that is strongly inspired by real licensure exam workflows and high-end medical Qbank platforms, but is NOT a direct copy of UWorld, Pearson Vue, NCLEX, or any copyrighted interface. It must feel familiar to nursing students, clinically professional, calm, modern, feminine-soft, and fully aligned with the NurseNest brand aesthetic.
+
+GOAL
+Create a realistic exam-taking experience that feels like a real nursing licensure testing environment, while preserving NurseNest branding, polish, and usability across desktop, tablet, and mobile.
+
+CORE DESIGN DIRECTION
+The interface should feel:
+- exam-authentic
+- clean and distraction-free
+- modern clinical
+- premium educational SaaS
+- soft, polished, and trustworthy
+- feminine but not childish
+- optimized for long study sessions and reduced cognitive overload
+
+DO NOT:
+- copy any copyrighted platform exactly
+- reuse another company’s icon layout, wording, exact spacing, or exact component arrangement
+- use harsh neon colors
+- make it look cartoonish, playful, or overly “cute”
+
+INSTEAD:
+- create an original NurseNest exam UI system that borrows the best UX principles of real exam platforms:
+  - focused question area
+  - clear answer selection
+  - top status/navigation bar
+  - side or bottom tools area
+  - timer visibility
+  - flag/mark for review
+  - previous/next navigation
+  - exam progress visibility
+  - rationale mode after submission
+  - image/table/media support
+  - lab values and reference popups
+  - strikeout/highlight/noteboard/calculator functions
+  - confidence-building structure and pacing
+
+BRAND SYSTEM
+Use NurseNest brand styling throughout:
+- rounded corners but not overly rounded
+- soft shadows
+- premium card surfaces
+- subtle gradients only where appropriate
+- elegant whitespace
+- clean typography
+- soft pastel clinical palette
+- high contrast for readability
+- gentle brand accents for active states, selected answers, progress, toggles, and buttons
+
+Create 4 interchangeable NurseNest exam themes:
+1. Clinical Light
+   - ivory or soft white background
+   - cool gray text
+   - dusty lavender accents
+   - soft blue secondary accents
+2. Lavender Dream
+   - pale lavender surfaces
+   - muted plum text
+   - lilac active states
+   - very soft pink highlights
+3. Pastel Lilac
+   - white base
+   - pastel lilac primary
+   - powder blue secondary
+   - sage for success states
+4. Calm Night
+   - dark muted navy-lilac background
+   - off-white text
+   - lavender and dusty blue accents
+   - low-glare dark mode for long study sessions
+
+TYPOGRAPHY
+Use a modern sans-serif stack that feels professional and soft.
+Prioritize readability over decorative styling.
+Recommended style:
+- headings: modern, clean, slightly rounded
+- body: highly legible exam-reading font
+- strong hierarchy for stem, answer options, rationale headings, table headings, and tool labels
+
+Create a typography system with:
+- exam header labels
+- question stem text
+- option labels
+- rationale headings
+- rationale body
+- metadata text
+- timer and progress labels
+- tooltips and popup text
+
+INFORMATION ARCHITECTURE
+Design these major areas:
+
+1. EXAM SHELL
+- top exam status bar
+- main question panel
+- answer options panel
+- optional image/media/exhibit area
+- bottom navigation controls
+- collapsible utility tray or side tool panel
+- optional progress drawer
+- optional rationale panel after answer submission
+
+2. TEST CREATION / BUILD A QUIZ SCREEN
+Like a premium test generator, but in NurseNest style:
+- toggle for tutor mode vs timed mode
+- question filters:
+  - unused
+  - incorrect
+  - marked
+  - omitted
+  - correct
+- subject filters
+- system filters
+- difficulty filters
+- exam blueprint category filters
+- NGN question type filters
+- number of questions selector
+- generate exam CTA
+- recent presets
+- saved exam presets
+- smart recommendations like:
+  - weak areas
+  - continue last session
+  - simulate NCLEX readiness block
+
+3. EXAM TAKING VIEW
+Must include:
+- question number and total count
+- timer
+- flag/mark for review
+- previous and next buttons
+- submit/lock answer flow if appropriate
+- full question stem area with excellent readability
+- answer options with hover, selected, locked, and reviewed states
+- support for:
+  - multiple choice
+  - SATA
+  - matrix/grid
+  - cloze/dropdown
+  - bow tie
+  - ordered response
+  - hot spot
+  - case study panels
+- expandable patient chart / labs / orders / history / nurses notes
+- exhibit/image viewer
+- calculator
+- notes
+- highlight
+- strikeout
+- accessibility controls like text size and contrast mode
+
+4. TUTOR MODE RATIONALE VIEW
+After answering, show:
+- correct/incorrect state
+- concise explanation summary
+- deeper rationale
+- why each wrong answer is wrong
+- clinical pearl
+- exam trap
+- nursing priority takeaway
+- client need category / blueprint mapping
+- difficulty level
+- topic tags
+- option to save as flashcard or add to weak areas
+
+5. REVIEW MODE
+- see all questions in block
+- question status indicators
+- unanswered / correct / incorrect / marked
+- jump to specific question
+- final review before submission
+
+6. RESULTS / ANALYTICS
+- score summary
+- percentile style comparisons if enabled
+- category breakdown
+- time per question
+- weak topics
+- improvement trends
+- recommended next quizzes
+- convert mistakes into flashcards or remediation lessons
+
+VISUAL BEHAVIOR
+The UI should visually behave like a real exam environment:
+- minimal distractions during active testing
+- stronger focus ring around the active question
+- stable layout with minimal shift
+- sticky top bar
+- sticky bottom nav on mobile
+- progress shown clearly but unobtrusively
+- rationale panel appears smoothly
+- smooth state transitions
+- no flashy animations
+
+COMPONENTS TO DESIGN
+Create a full reusable component system for:
+- exam top bar
+- timer chip
+- question counter
+- progress pill / progress bar
+- mark for review button
+- answer choice card
+- selected option state
+- eliminated/strikeout option state
+- correct/incorrect state
+- rationale card
+- clinical pearl box
+- lab reference button
+- calculator modal
+- notes modal
+- exhibit/image modal
+- case study tabs
+- patient chart drawer
+- filter chips
+- accordion sections
+- toggle switches
+- primary CTA buttons
+- secondary buttons
+- icon buttons
+- analytics cards
+- review screen tiles
+
+NCLEX-LIKE EXPERIENCE REQUIREMENTS
+Without copying Pearson Vue exactly, make the experience feel familiar to NCLEX users:
+- one question at a time focus
+- clear navigation
+- large readable stem
+- clinical case data easy to access
+- minimal visual clutter
+- obvious answer states
+- polished but serious tone
+- timing and progression cues
+- psychologically calming design for anxious test-takers
+
+NURSENEST DIFFERENTIATORS
+Add original NurseNest upgrades that make it better than a generic exam UI:
+- “Clinical Pearl” insight box
+- “Why this matters in practice” mini section
+- “Confidence check” before moving on in tutor mode
+- “Turn into flashcard” action
+- “Save to review later” tray
+- “Nurse tip” sidebar for selected premium content
+- optional gentle motivational microcopy
+- personalized weak-area recommendations
+- visual category tags for RPN / RN / NP / NCLEX / REx-PN / US exams
+
+MOBILE UX
+Mobile is critical.
+Create a mobile-first responsive exam experience:
+- sticky bottom controls
+- collapsible tool drawer
+- swipe-friendly but safe interactions
+- no accidental next-question taps
+- readable answer cards
+- timer and question count always visible
+- case study tabs easy to switch
+- chart data accessible without clutter
+- one-handed usability where possible
+
+ACCESSIBILITY
+Must meet strong accessibility standards:
+- keyboard navigation
+- visible focus states
+- sufficient color contrast
+- screen-reader labels
+- no color-only meaning
+- adjustable text size
+- touch targets large enough on mobile
+
+TECHNICAL REQUIREMENTS
+Implement as reusable React components using the current NurseNest stack.
+Use:
+- Vite + React
+- TypeScript
+- Tailwind or existing design token system
+- clean component architecture
+- modular state management
+- reusable theme tokens
+- responsive layouts
+- performance optimized rendering
+- minimal layout shift
+- dark mode support
+
+Create:
+1. exam theme tokens
+2. reusable UI component library
+3. test generator page
+4. exam taking page
+5. tutor mode rationale panel
+6. review screen
+7. results dashboard
+8. mobile responsive variants
+
+DATA / FEATURE SUPPORT
+Ensure the UI can support:
+- question stem
+- answer choices
+- rationale text
+- media/image exhibits
+- charts/tables
+- labs
+- patient notes
+- timed blocks
+- tutor mode
+- unused/incorrect/marked/correct pools
+- category filters
+- case study questions
+- NGN interaction types
+- flagged questions
+- review-before-submit flow
+- analytics output
+
+OUTPUT FORMAT
+Provide:
+1. page architecture
+2. component hierarchy
+3. theme tokens
+4. complete UI implementation plan
+5. React component file structure
+6. polished production-ready frontend code
+7. sample mock data
+8. responsive behavior notes
+9. accessibility notes
+10. exact styling classes/tokens used
+
+FINAL QUALITY BAR
+This must look like a real premium nursing exam platform that could compete with top-tier products, but unmistakably belongs to NurseNest.
+It should feel exam-realistic, clinically polished, calm, elegant, conversion-friendly, and highly reusable across RPN, RN, NP, NCLEX, REx-PN, and allied health products.

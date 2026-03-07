@@ -1,0 +1,109 @@
+I need you to act as a senior technical SEO engineer and fix Google Search Console indexing issues for my site.
+
+Current GSC issues:
+- Discovered – currently not indexed: 17,659 pages
+- Crawled – currently not indexed: 143 pages
+- Alternative page with proper canonical tag: 531 pages
+- Page with redirect: 38 pages
+- Soft 404: 4 pages
+
+My goal:
+Reduce low-value crawl waste, strengthen indexability of important pages, clean up canonical/redirect issues, and improve the likelihood that Google indexes my priority pages.
+
+What I need you to do:
+1. Audit the entire app’s routing, sitemap generation, canonical tags, robots rules, meta robots tags, redirects, and internal linking.
+2. Find all URLs that are:
+   - duplicate or near-duplicate
+   - parameterized
+   - filtered/search/result pages
+   - paginated variants
+   - language variants
+   - thin pages
+   - placeholder pages
+   - tag/archive pages with little unique content
+   - empty lesson/category/product pages
+   - preview, draft, admin, login, checkout, cart, test-session, or account-state URLs
+3. Classify every URL pattern into one of these buckets:
+   - Index
+   - Canonicalize to another URL
+   - Redirect
+   - Noindex
+   - Block from crawl in robots.txt
+4. Prioritize crawl budget toward important pages only:
+   - core lessons
+   - question banks
+   - exam prep pages
+   - product pages
+   - core categories
+   - blog articles
+   - homepage and conversion pages
+5. Update sitemap generation so only canonical, indexable, high-value URLs are included.
+   - Exclude redirects
+   - Exclude noindex pages
+   - Exclude canonicalized duplicates
+   - Exclude thin/empty pages
+   - Exclude query parameter URLs
+6. Ensure every indexable page has:
+   - self-referencing canonical in server-rendered HTML
+   - unique title
+   - unique meta description
+   - one clear H1
+   - meaningful body content visible in initial HTML
+   - clean status 200
+   - no noindex tag
+7. For pages marked “Crawled – currently not indexed,” identify why Google may be declining them:
+   - thin content
+   - duplicate templates
+   - weak internal links
+   - low uniqueness
+   - soft-404-like empty states
+   - poor rendered content in JS
+   Then improve the templates so each page has substantial unique text content.
+8. For “Discovered – currently not indexed,” reduce URL volume and improve discoverability:
+   - tighten internal linking to priority pages
+   - reduce links to low-value pages
+   - remove junk URLs from sitemap
+   - make sure important pages are reachable within a few clicks
+   - ensure server performance is not causing crawl hesitation
+9. Fix all soft 404s:
+   - pages that do not exist must return real 404 or 410
+   - thin placeholder pages should either be improved, redirected, or set to noindex
+10. Audit redirect chains and loops:
+   - use single-hop redirects only
+   - update internal links to final destination URLs
+11. If the site uses client-side rendering, verify that important page content, canonical tags, meta tags, and internal links are available in server-rendered HTML or otherwise fully crawlable.
+12. Check multilingual implementation:
+   - correct canonical tags
+   - correct hreflang if present
+   - no duplicate translated URLs competing with each other
+13. Produce:
+   - a full findings report
+   - exact files to modify
+   - code patches
+   - updated robots.txt
+   - updated sitemap logic
+   - updated canonical logic
+   - updated status-code handling for 404/410
+   - internal linking improvements
+   - a list of URL patterns to noindex/block/redirect
+   - a final summary of why each change helps indexing
+
+Important constraints:
+- Do not give generic SEO advice.
+- Inspect my actual codebase and route structure.
+- Be opinionated and make the fixes.
+- Prefer simple, production-safe changes.
+- Do not block pages in robots.txt if they should instead be noindex or redirected.
+- Do not leave canonical tags inconsistent between HTML and JavaScript.
+- Keep only high-value canonical URLs in the sitemap.
+
+Output format:
+1. Executive summary
+2. URL pattern classification table
+3. Exact code changes by file
+4. New robots.txt
+5. New sitemap rules
+6. Canonical logic updates
+7. 404/410 handling fixes
+8. Internal linking fixes
+9. Post-fix validation checklist for Google Search Console
