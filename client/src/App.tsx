@@ -98,6 +98,7 @@ const ClinicalClarityDetail = lazy(() => import("@/pages/clinical-clarity-detail
 const CaseSimulationPage = lazy(() => import("@/pages/case-simulation"));
 const MedicationMasteryPage = lazy(() => import("@/pages/medication-mastery"));
 const SimulatorsPage = lazy(() => import("@/pages/simulators"));
+const OSCESkillsPage = lazy(() => import("@/pages/osce-skills"));
 const PreNursingPage = lazy(() => import("@/pages/pre-nursing"));
 const MockExamsPage = lazy(() => import("@/pages/mock-exams"));
 const MockExamSession = lazy(() => import("@/pages/mock-exam-session"));
@@ -317,6 +318,7 @@ function AppRoutes() {
         <Route path="/simulators/clinical-skills" component={SimulatorsPage} />
         <Route path="/simulators/osce" component={SimulatorsPage} />
         <Route path="/simulators/clinical-lab" component={SimulatorsPage} />
+        <Route path="/osce-skills" component={OSCESkillsPage} />
         <Route path="/new-grad" component={NewGradHub} />
         <Route path="/nursing" component={NursingHub} />
         <Route path="/nursing-specialties" component={NursingSpecialtiesHub} />

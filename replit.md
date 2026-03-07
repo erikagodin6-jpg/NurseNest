@@ -62,6 +62,15 @@ The application is built with Vite, React, and Express 5 on Node.js with TypeScr
 - **Batch P**: Stress physiology & men's health advanced - HPA axis/cortisol, male infertility, BPH/TURP advanced, hearing loss differential (12 lessons)
 - **Tier counts**: free=569 rpn=521 rn=223 np=300 total=1,613 questions=3,915
 
+## OSCE Skills Practice
+- **Route**: `/osce-skills`
+- **Total**: 13 interactive skill stations with step-ordering exercises
+- **Categories**: Assessment (5), Hygiene (1), Procedure (3), Drain & Tube Care (4)
+- **Stations**: head-to-toe-assessment, cardiovascular-assessment, respiratory-assessment, neurological-assessment, abdominal-assessment, musculoskeletal-assessment, hand-hygiene, catheter-insertion, catheter-removal, chest-tube-removal, chest-tube-care, jp-drain-care, continuous-bladder-irrigation
+- **Data files**: `client/src/data/osce-skills-data.ts` (9 stations), `client/src/data/osce-skills-data-2.ts` (4 stations)
+- **Page**: `client/src/pages/osce-skills.tsx`
+- **Features**: Category filtering, step ordering exercise, pass/fail scoring (70% + all critical steps), review mode with rationales and common errors
+
 ## Clinical Case Simulations
 - **Base cases (7)**: sepsis-progression, chest-pain-mi, dka-management, postpartum-hemorrhage, pediatric-respiratory-emergency, anaphylaxis-management, stroke-thrombolytic
 - **Batch 2 (7)**: gi-bleed-management, copd-exacerbation, hyperkalemia-emergency, hip-fracture-elderly, acute-pancreatitis, pulmonary-embolism, meningitis-assessment
