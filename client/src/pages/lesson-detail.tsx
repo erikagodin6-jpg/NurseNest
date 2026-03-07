@@ -2689,8 +2689,8 @@ export default function LessonDetail() {
       />
       <Navigation />
       
-      <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 w-full">
-        <nav aria-label="Breadcrumb" className="mb-4 text-sm text-gray-500" data-testid="nav-breadcrumb">
+      <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
+        <nav aria-label="Breadcrumb" className="mb-3 text-sm text-gray-500" data-testid="nav-breadcrumb">
           <ol className="flex items-center gap-1 flex-wrap">
             <li><LocaleLink href="/" className="hover:text-primary transition-colors">Home</LocaleLink></li>
             <li className="text-gray-300">/</li>
@@ -2698,54 +2698,49 @@ export default function LessonDetail() {
             <li className="text-gray-300">/</li>
             <li className="text-gray-400">{getLessonBodySystem(id || "")}</li>
             <li className="text-gray-300">/</li>
-            <li className="text-gray-900 font-medium">{lessonContent.title}</li>
+            <li className="text-gray-900 font-medium truncate max-w-[200px]">{lessonContent.title}</li>
           </ol>
         </nav>
-        <div className="flex items-center justify-between mb-8 flex-wrap gap-2">
+
+        <div className="mb-3">
           <LocaleLink href="/lessons">
-            <Button variant="ghost" className="group">
-              <ArrowLeft className="mr-2 w-4 h-4 group-hover:-translate-x-1 transition-transform" />
+            <Button variant="ghost" size="sm" className="group -ml-2 h-8 text-sm">
+              <ArrowLeft className="mr-1.5 w-3.5 h-3.5 group-hover:-translate-x-1 transition-transform" />
               Back to Overview
             </Button>
           </LocaleLink>
-          <div className="flex items-center gap-3">
-            {(() => {
-              const nav = getLessonNavigation(id || "");
-              if (!nav) return null;
-              return (
-                <div className="flex items-center gap-3">
-                  <div className="w-[60px] sm:w-auto flex justify-start">
-                    {nav.prev ? (
-                      <LocaleLink href={`/lessons/${nav.prev.id}`}>
-                        <span className="inline-flex items-center gap-1.5 text-sm text-gray-500 hover:text-primary transition-colors cursor-pointer" data-testid="link-prev-lesson-top">
-                          <ArrowLeft className="w-3.5 h-3.5" /> <span className="hidden sm:inline">{nav.prev.name}</span><span className="sm:hidden">Prev</span>
-                        </span>
-                      </LocaleLink>
-                    ) : <span className="text-sm text-transparent select-none">Prev</span>}
-                  </div>
-                  <div className="w-[60px] sm:w-auto flex justify-end">
-                    {nav.next ? (
-                      <LocaleLink href={`/lessons/${nav.next.id}`}>
-                        <span className="inline-flex items-center gap-1.5 text-sm text-gray-500 hover:text-primary transition-colors cursor-pointer" data-testid="link-next-lesson-top">
-                          <span className="hidden sm:inline">{nav.next.name}</span><span className="sm:hidden">Next</span> <ChevronRight className="w-3.5 h-3.5" />
-                        </span>
-                      </LocaleLink>
-                    ) : <span className="text-sm text-transparent select-none">Next</span>}
-                  </div>
-                </div>
-              );
-            })()}
-            <Button 
-              variant={showNotes ? "default" : "outline"} 
-              onClick={() => setShowNotes(!showNotes)}
-              className="gap-2"
-              data-testid="button-toggle-notes"
-            >
-              <StickyNote className="w-4 h-4" />
-              {showNotes ? "Hide Notes" : "My Notes"}
-            </Button>
-          </div>
         </div>
+
+        {(() => {
+          const nav = getLessonNavigation(id || "");
+          return (
+            <div className="grid grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center min-h-[36px] mb-4" data-testid="nav-prev-next">
+              <div className="flex justify-start overflow-hidden">
+                {nav?.prev ? (
+                  <LocaleLink href={`/lessons/${nav.prev.id}`}>
+                    <span className="inline-flex items-center gap-1.5 text-sm text-gray-500 hover:text-primary transition-colors cursor-pointer whitespace-nowrap overflow-hidden text-ellipsis max-w-[240px]" data-testid="link-prev-lesson-top">
+                      <ArrowLeft className="w-3.5 h-3.5 shrink-0" />
+                      <span className="hidden sm:inline truncate">{nav.prev.name}</span>
+                      <span className="sm:hidden">Prev</span>
+                    </span>
+                  </LocaleLink>
+                ) : <span className="text-sm text-transparent select-none">Prev</span>}
+              </div>
+              <div className="w-8" />
+              <div className="flex justify-end overflow-hidden">
+                {nav?.next ? (
+                  <LocaleLink href={`/lessons/${nav.next.id}`}>
+                    <span className="inline-flex items-center gap-1.5 text-sm text-gray-500 hover:text-primary transition-colors cursor-pointer whitespace-nowrap overflow-hidden text-ellipsis max-w-[240px]" data-testid="link-next-lesson-top">
+                      <span className="hidden sm:inline truncate">{nav.next.name}</span>
+                      <span className="sm:hidden">Next</span>
+                      <ChevronRight className="w-3.5 h-3.5 shrink-0" />
+                    </span>
+                  </LocaleLink>
+                ) : <span className="text-sm text-transparent select-none">Next</span>}
+              </div>
+            </div>
+          );
+        })()}
 
         {showNotes && (
           <div className="fixed bottom-4 right-4 z-40 w-80 sm:w-96 max-h-[70vh] shadow-2xl rounded-2xl border border-yellow-200 bg-yellow-50/95 backdrop-blur-lg overflow-hidden flex flex-col" data-testid="panel-sticky-notes">
@@ -2811,66 +2806,81 @@ export default function LessonDetail() {
           ) : null;
         })()}
         <LessonImageManager lessonId={id || ""} section="header" isAdmin={user?.tier === "admin"} isEditing={isEditing} />
-        <div className="space-y-8">
-          <div className="space-y-4">
-            <div className="flex items-center gap-4">
-               {isPeds && (
-                 <div className="w-12 h-12 rounded-2xl bg-pink-100 flex items-center justify-center text-pink-500">
-                    <Baby className="w-6 h-6" />
-                 </div>
-               )}
-               {isMeds && (
-                 <div className="w-12 h-12 rounded-2xl bg-amber-100 flex items-center justify-center text-amber-500">
-                    <Beaker className="w-6 h-6" />
-                 </div>
-               )}
-               <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900">{lessonContent.title}</h1>
-               {user?.tier === "admin" && !isEditing && (
-                 <Button
-                   variant="outline"
-                   size="sm"
-                   className="gap-2 text-xs"
-                   onClick={startEditing}
-                   data-testid="button-admin-edit-lesson"
-                 >
-                   <Pencil className="w-3 h-3" />
-                   Edit Inline
-                 </Button>
-               )}
+
+        <div className="space-y-5">
+          <div className="grid grid-cols-1 md:grid-cols-[minmax(0,1fr)_200px] gap-x-6 gap-y-3 items-start">
+            <div className="space-y-3 min-w-0">
+              <div className="flex items-center gap-3">
+                {isPeds && (
+                  <div className="w-10 h-10 rounded-xl bg-pink-100 flex items-center justify-center text-pink-500 shrink-0">
+                    <Baby className="w-5 h-5" />
+                  </div>
+                )}
+                {isMeds && (
+                  <div className="w-10 h-10 rounded-xl bg-amber-100 flex items-center justify-center text-amber-500 shrink-0">
+                    <Beaker className="w-5 h-5" />
+                  </div>
+                )}
+                <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 leading-tight">{lessonContent.title}</h1>
+              </div>
+              {(() => {
+                const diff = getDifficulty(id || "");
+                const config = difficultyConfig[diff];
+                return (
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <span className="px-2.5 py-0.5 rounded-full bg-primary/10 text-primary text-xs font-bold">
+                      {lessonTier === "np" ? "NP Focus" : lessonTier === "rn" ? "RN Focus" : "RPN Focus"}
+                    </span>
+                    <span data-testid="lesson-difficulty-badge" className={`px-2.5 py-0.5 rounded-full text-xs font-bold ${config.bg} ${config.color}`}>
+                      Difficulty: {config.label}
+                    </span>
+                    <span className="px-2.5 py-0.5 rounded-full bg-gray-100 text-gray-600 text-xs font-bold">
+                      {region === "CA" ? "Canadian Guidelines" : "US Guidelines"}
+                    </span>
+                  </div>
+                );
+              })()}
             </div>
-            {(() => {
-              const diff = getDifficulty(id || "");
-              const config = difficultyConfig[diff];
-              return (
-                <div className="flex items-center gap-4 flex-wrap">
-                  <span className="px-3 py-1 rounded-full bg-primary/10 text-primary text-sm font-bold">
-                    {lessonTier === "np" ? "NP Focus" : lessonTier === "rn" ? "RN Focus" : "RPN Focus"}
-                  </span>
-                  <span data-testid="lesson-difficulty-badge" className={`px-3 py-1 rounded-full text-sm font-bold ${config.bg} ${config.color}`}>
-                    Difficulty: {config.label}
-                  </span>
-                  <span className="px-3 py-1 rounded-full bg-gray-100 text-gray-600 text-sm font-bold">
-                    {region === "CA" ? "Canadian Guidelines" : "US Guidelines"}
-                  </span>
-                </div>
-              );
-            })()}
+
+            <div className="flex md:flex-col items-center md:items-stretch gap-2 md:pt-1">
+              <Button
+                variant={showNotes ? "default" : "outline"}
+                onClick={() => setShowNotes(!showNotes)}
+                className="gap-2 w-full justify-center h-9 text-sm"
+                data-testid="button-toggle-notes"
+              >
+                <StickyNote className="w-4 h-4" />
+                {showNotes ? "Hide Notes" : "My Notes"}
+              </Button>
+              {user?.tier === "admin" && !isEditing && (
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="gap-2 text-xs w-full justify-center h-9"
+                  onClick={startEditing}
+                  data-testid="button-admin-edit-lesson"
+                >
+                  <Pencil className="w-3 h-3" />
+                  Edit Inline
+                </Button>
+              )}
+            </div>
           </div>
 
           <Card className="bg-primary/5 border-none">
-            <CardContent className="p-6 flex items-center justify-between">
-              <div className="space-y-1">
-                <p className="text-sm font-bold text-primary uppercase tracking-wider">Learning Progress</p>
-                <p className="text-gray-600">Pre-Test → Study → Post-Test. Track your clinical reasoning improvement.</p>
+            <CardContent className="p-4 sm:p-5 flex items-center justify-between gap-4">
+              <div className="space-y-0.5 min-w-0">
+                <p className="text-xs font-bold text-primary uppercase tracking-wider">Learning Progress</p>
+                <p className="text-sm text-gray-600 hidden sm:block">Pre-Test, Study, Post-Test. Track your clinical reasoning improvement.</p>
               </div>
-              <div className="text-right">
+              <div className="text-right shrink-0">
                 <p className="text-2xl font-bold text-primary">{postTestDone ? "100%" : preTestDone ? "50%" : "0%"}</p>
-                <Progress value={postTestDone ? 100 : preTestDone ? 50 : 0} className="w-32 h-2" />
+                <Progress value={postTestDone ? 100 : preTestDone ? 50 : 0} className="w-28 h-2" />
               </div>
             </CardContent>
           </Card>
 
-          <div className="flex items-center justify-end gap-4 mb-2 text-xs text-gray-500" data-testid="test-visibility-toggles">
+          <div className="flex items-center justify-end gap-4 text-xs text-gray-500" data-testid="test-visibility-toggles">
             <label className="flex items-center gap-1.5 cursor-pointer select-none">
               <input
                 type="checkbox"

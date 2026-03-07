@@ -1,0 +1,214 @@
+Refactor the top section of my lesson page into a polished, premium, stable learning header that looks clean, intentional, and consistent across every lesson.
+
+Main objective:
+The lesson header must always look neat and structured. When the user clicks into different lessons, nothing important should shift around based on title length, chip count, button visibility, or previous/next lesson text length. The “next lesson” control especially must always stay in the exact same place.
+
+Current issues:
+- The next lesson button/link changes position between lessons
+- The header spacing feels uneven and content-driven
+- Long lesson names and varying metadata create visual jumpiness
+- “My Notes” and “Edit Inline” do not feel anchored cleanly
+- The top of the lesson page does not yet feel premium or productized enough
+
+Design direction:
+Make this look like a high-end modern learning platform. Clean, soft, premium, minimal, structured, and brand-consistent with NurseNest. It should feel elegant and calm, not busy. Keep rounded corners, soft spacing, subtle hierarchy, and excellent alignment. The layout should feel deliberately designed rather than automatically stacked.
+
+Required layout architecture:
+Build the lesson page top area as 6 clearly separated rows inside one centered container:
+
+1. Breadcrumb row
+2. Back to overview row
+3. Previous/Next lesson navigation row
+4. Main lesson hero row
+5. Progress card row
+6. Tabs row
+
+Use a max-width container and consistent horizontal padding.
+
+Recommended outer container:
+- max-width around 1200px to 1280px
+- centered
+- generous but controlled top and bottom spacing
+- consistent gap between rows
+
+ROW 1: BREADCRUMBS
+- Keep breadcrumbs small, clean, muted, and easy to scan
+- Use consistent spacing between breadcrumb items
+- Prevent wrapping when possible
+- Truncate very long final breadcrumb text if needed
+- This row should always have a consistent height
+
+ROW 2: BACK TO OVERVIEW
+- Place “Back to Overview” in its own row below the breadcrumbs
+- Keep it left aligned
+- Make it visually secondary but clearly clickable
+- Do not combine this with previous/next navigation
+
+ROW 3: PREVIOUS/NEXT LESSON NAVIGATION
+This row is the highest priority fix.
+
+Requirements:
+- Create a dedicated navigation row with a stable, fixed layout
+- Use a 3-column grid or equivalent stable structure:
+  - left section: previous lesson
+  - center: spacer or divider
+  - right section: next lesson
+- The right side next lesson control must always remain in the same horizontal spot
+- Do not let variable text length move this control
+- Both previous and next lesson labels should truncate with ellipsis instead of wrapping
+- Keep row height consistent across all lessons
+- Vertically center the navigation items
+- Add subtle hover affordance
+- Make the row feel intentional and premium rather than like floating text links
+
+Suggested implementation:
+- grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr)
+- previous aligned start
+- next aligned end
+- center column can be a divider, icon, or spacer
+- use overflow-hidden, text-ellipsis, whitespace-nowrap
+- set min-height for the row
+- set max-width constraints on text wrappers
+
+Also:
+- if a lesson has no previous or next lesson, preserve the layout using an invisible placeholder instead of collapsing the row
+- this row should never cause layout shift
+
+ROW 4: MAIN LESSON HERO
+This should be a stable 2-column layout on desktop.
+
+Desktop structure:
+- left column: lesson title and metadata
+- right column: action buttons
+
+Use CSS grid:
+- grid-template-columns: minmax(0, 1fr) 220px
+- gap: 24px or 32px
+- align-items: start
+
+Left column content:
+- lesson title
+- metadata chips directly below title
+
+Requirements:
+- lesson title should have a max readable width
+- allow multi-line title wrapping only within the left column
+- title must never collide with right action buttons
+- chip row should wrap only inside the left column
+- chip spacing should be tight and neat
+- maintain stable vertical spacing between title and chips
+
+Right column content:
+- “My Notes”
+- “Edit Inline”
+
+Requirements:
+- keep buttons in the exact same column position on every lesson
+- stack vertically with equal spacing
+- right-align the action column
+- buttons should be same width
+- buttons should feel intentional and premium
+- if one button is conditionally hidden, preserve layout integrity using a placeholder or reserved spacing
+- do not let button width depend on text content
+
+Visual polish for hero:
+- increase title prominence
+- improve line-height and spacing
+- give the header more breathing room
+- make the action column look like part of the same designed system, not floating items
+
+ROW 5: LEARNING PROGRESS CARD
+- Put the progress section in a dedicated full-width row below the hero
+- Keep it visually separated from the hero
+- Use a card-like container with soft border, subtle background, and rounded corners
+- Left side:
+  - Learning Progress label
+  - supporting text like “Pre-Test → Study → Post-Test. Track your clinical reasoning improvement.”
+- Right side:
+  - progress percentage
+  - progress bar
+- The percentage and bar should always align consistently
+- This row should not impact the hero layout above
+
+Make this card feel more premium:
+- slightly stronger border or surface
+- controlled internal padding
+- stronger visual hierarchy
+- cleaner alignment between label, text, percentage, and bar
+
+ROW 6: TABS
+- Place Pre-Test, Clinical Content, and Post-Test in a dedicated row below the progress card
+- Keep toggles like “Show Pre-Test” and “Show Post-Test” from shifting the tab alignment
+- Use a stable layout with a left section for tabs and a right section for optional controls
+- Tabs should have equal visual weight and balanced spacing
+- Selected tab should be clearly active
+- The row should feel like part of the lesson system, not loosely arranged controls
+
+Suggested tab row structure:
+- left side: tab buttons
+- right side: test visibility toggles
+- on smaller screens, stack cleanly without awkward wrapping
+
+RESPONSIVE REQUIREMENTS
+Tablet/mobile behavior:
+- Collapse hero to one column
+- Put action buttons below title/chips
+- Keep previous/next row as its own dedicated row
+- Preserve stable spacing and hierarchy
+- Prevent overlap, collision, and jumpiness
+- Tabs and toggles should wrap gracefully
+- Progress card should stack cleanly
+- Maintain premium appearance even when collapsed
+
+VISUAL CLEANUP REQUIREMENTS
+Please improve all of the following:
+- alignment consistency
+- vertical rhythm
+- spacing between sections
+- chip sizing and spacing
+- button sizing and consistency
+- whitespace balance
+- readability of long lesson titles
+- overall sense of polish
+
+Keep the aesthetic:
+- modern
+- soft
+- clean
+- premium
+- feminine-clinical NurseNest style
+- rounded corners
+- subtle borders
+- understated shadows if appropriate
+- no harsh or crowded UI
+
+TECHNICAL IMPLEMENTATION REQUIREMENTS
+Refactor this into reusable subcomponents:
+- LessonBreadcrumbs
+- LessonBackLink
+- LessonPrevNextNav
+- LessonHero
+- LessonMetaChips
+- LessonActions
+- LessonProgressCard
+- LessonTabs
+
+Implementation goals:
+- eliminate layout shift caused by variable content lengths
+- use CSS grid/flex intentionally
+- avoid content-driven button movement
+- add truncation utilities where needed
+- add min-height to rows that should remain stable
+- preserve placeholders when optional content is missing
+- avoid brittle absolute positioning
+- keep code clean and maintainable
+
+Please return:
+1. the updated component structure
+2. the updated JSX/TSX for the lesson header area
+3. the updated Tailwind/CSS classes
+4. any helper utilities or shared class patterns used for truncation, placeholders, or stable layout
+5. a brief explanation of how the new structure prevents the next lesson button from shifting
+
+Optional premium enhancement:
+If it fits the design, add a subtle lesson header card/container effect so the whole top section feels more elevated and product-grade without looking heavy.
