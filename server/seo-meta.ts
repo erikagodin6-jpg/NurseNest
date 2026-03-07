@@ -37,6 +37,10 @@ const NOINDEX_PATHS = new Set([
   "/dashboard",
   "/subscription/success",
   "/subscription/cancel",
+  "/upgrade",
+  "/feedback",
+  "/diagnostic-assessment",
+  "/probability-simulator",
 ]);
 
 function isNoindexPath(path: string): boolean {
@@ -46,6 +50,11 @@ function isNoindexPath(path: string): boolean {
   if (/^\/mock-exams\/[^/]+/.test(path)) return true;
   if (path.startsWith("/dashboard")) return true;
   if (path.startsWith("/flashcards/deck/")) return true;
+  if (path.startsWith("/trial/")) return true;
+  if (path.startsWith("/trial")) return true;
+  if (path.startsWith("/account")) return true;
+  if (path.startsWith("/checkout")) return true;
+  if (path.startsWith("/subscription")) return true;
   return false;
 }
 

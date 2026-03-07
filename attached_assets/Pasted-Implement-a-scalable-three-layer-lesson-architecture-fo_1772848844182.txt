@@ -1,0 +1,148 @@
+Implement a scalable three-layer lesson architecture for the NurseNest education platform.
+
+The goal is to support thousands of lessons while keeping navigation intuitive and SEO-friendly.
+
+------------------------------------------------
+
+CONTENT HIERARCHY
+
+Layer 1 — System Pages
+
+Create pillar pages for each body system.
+
+Examples:
+
+Cardiovascular
+Respiratory
+Renal
+Neurological
+Endocrine
+Immune
+Hematology
+Gastrointestinal
+
+Each system page must include:
+
+system overview
+clinical relevance
+exam importance
+list of topic clusters
+recommended study order
+
+------------------------------------------------
+
+Layer 2 — Topic Clusters
+
+Within each system create topic cluster pages.
+
+Example clusters for cardiovascular:
+
+Cardiac Physiology
+Heart Failure
+Coronary Artery Disease
+Arrhythmias
+Shock
+
+Cluster pages must include:
+
+overview of the topic
+short educational explanation
+list of lessons in that cluster
+recommended study sequence
+
+------------------------------------------------
+
+Layer 3 — Individual Lessons
+
+Each lesson page must contain:
+
+lesson title
+overview
+pathophysiology explanation
+diagram or concept visualization
+clinical relevance
+nursing assessment
+practice questions
+exam traps
+clinical pearls
+
+------------------------------------------------
+
+NAVIGATION SYSTEM
+
+Implement breadcrumb navigation.
+
+Example:
+
+Cardiovascular → Arrhythmias → Atrial Fibrillation
+
+Breadcrumbs should appear at the top of each lesson.
+
+------------------------------------------------
+
+RELATED LESSONS
+
+At the bottom of every lesson display:
+
+Related Lessons
+
+These should include lessons within the same cluster or system.
+
+------------------------------------------------
+
+STUDY PATH
+
+Cluster pages should include a recommended learning order.
+
+Example:
+
+1 Cardiac Conduction System
+2 Atrial Fibrillation
+3 Atrial Flutter
+4 Ventricular Tachycardia
+5 Ventricular Fibrillation
+
+------------------------------------------------
+
+SEO STRUCTURE
+
+System pages should act as pillar pages.
+
+Cluster pages should target specific topics.
+
+Individual lessons should target long-tail keywords.
+
+Example:
+
+System page:
+Cardiovascular Pathophysiology for Nursing Students
+
+Cluster page:
+Cardiac Arrhythmias Nursing Review
+
+Lesson page:
+Atrial Fibrillation Pathophysiology for Nursing
+
+------------------------------------------------
+
+TECHNICAL REQUIREMENTS
+
+Implement using:
+
+React
+Vite
+Tailwind CSS
+
+Ensure:
+
+clean URLs
+semantic headings
+internal linking
+fast loading
+mobile responsiveness
+
+------------------------------------------------
+
+FINAL RESULT
+
+The NurseNest platform should support thousands of lessons while maintaining clear navigation and strong SEO structure.

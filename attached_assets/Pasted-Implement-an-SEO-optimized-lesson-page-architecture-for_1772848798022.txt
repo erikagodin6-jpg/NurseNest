@@ -1,0 +1,169 @@
+Implement an SEO-optimized lesson page architecture for NurseNest.
+
+Each lesson page must serve two purposes:
+
+1) rank on Google for nursing education searches
+2) convert readers into subscribers
+
+------------------------------------------------
+
+LESSON PAGE STRUCTURE
+
+Every lesson page must contain two content layers:
+
+Public educational preview
+Subscriber-only advanced content
+
+------------------------------------------------
+
+SECTION 1 — SEO HERO
+
+Display lesson title using an H1 tag.
+
+Example:
+
+Heart Failure Pathophysiology for Nursing Students
+
+Below the title show:
+
+difficulty level
+estimated study time
+body system category
+exam relevance (RPN / RN / NP)
+
+------------------------------------------------
+
+SECTION 2 — OVERVIEW (PUBLIC)
+
+Provide a concise introduction explaining the concept.
+
+Example sections:
+
+What is the condition?
+Why it matters for nursing exams
+How it affects the body
+
+This section should be fully visible to non-subscribers.
+
+------------------------------------------------
+
+SECTION 3 — BASIC PATHOPHYSIOLOGY (PUBLIC)
+
+Explain the core mechanism using simple language.
+
+Include a small visual diagram or concept flow.
+
+Example:
+
+Left ventricular dysfunction
+↓
+decreased cardiac output
+↓
+increased pulmonary pressure
+↓
+pulmonary edema
+
+------------------------------------------------
+
+SECTION 4 — SIGNS AND SYMPTOMS (PUBLIC)
+
+Provide a brief list of key clinical findings.
+
+------------------------------------------------
+
+SECTION 5 — NURSING ASSESSMENT (PUBLIC)
+
+Explain what nurses should monitor.
+
+------------------------------------------------
+
+SECTION 6 — LOCKED CONTENT
+
+After the preview show a lock section.
+
+Title:
+
+Continue Learning
+
+Display locked modules such as:
+
+Advanced Pathophysiology
+Clinical Reasoning
+NCLEX-Style Practice Questions
+Interactive Diagrams
+Exam Traps
+Clinical Pearls
+
+Show a blurred preview to demonstrate depth.
+
+Include a call to action:
+
+Unlock Full Lesson
+
+------------------------------------------------
+
+SECTION 7 — PRACTICE QUESTIONS (LOCKED)
+
+Include 3–5 exam-style questions with rationales.
+
+------------------------------------------------
+
+SECTION 8 — VISUAL CONCEPT PANEL
+
+Embed a diagram explaining the concept.
+
+------------------------------------------------
+
+SECTION 9 — CONVERSION PANEL
+
+Display a subscription offer.
+
+Example:
+
+Preparing for NCLEX or REx-PN?
+
+NurseNest includes:
+
+2400+ lessons
+8000+ practice questions
+Adaptive exam simulator
+Flashcards and quizzes
+
+CTA:
+
+Start Free Trial
+
+------------------------------------------------
+
+SEO REQUIREMENTS
+
+Ensure the lesson page includes:
+
+semantic headings (H1 H2 H3)
+structured content
+internal links to related lessons
+image alt text
+keyword-rich descriptions
+
+------------------------------------------------
+
+TECHNICAL REQUIREMENTS
+
+Implement using:
+
+React
+Vite
+Tailwind CSS
+
+Ensure:
+
+fast loading
+mobile responsive
+clean HTML structure
+minimal layout shift
+
+------------------------------------------------
+
+FINAL RESULT
+
+Lesson pages should function as both high-quality nursing educational resources and high-converting subscription funnels.
