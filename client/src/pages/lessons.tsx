@@ -4027,17 +4027,12 @@ export default function Lessons() {
 
 function DifficultyBadge({ level }: { level: DifficultyLevel }) {
   const config = difficultyConfig[level];
-  const { t } = useI18n();
-  const labelKeys: Record<DifficultyLevel, string> = {
-    1: "difficulty.beginner",
-    2: "difficulty.easy",
-    3: "difficulty.moderate",
-    4: "difficulty.hard",
-    5: "difficulty.expert",
-  };
+  const shortLabels: Record<DifficultyLevel, string> = { 1: "B", 2: "E", 3: "M", 4: "H", 5: "X" };
+  const fullLabels: Record<DifficultyLevel, string> = { 1: "Beginner", 2: "Easy", 3: "Moderate", 4: "Hard", 5: "Expert" };
   return (
-    <span data-testid={`badge-difficulty-${level}`} className={cn("text-xs font-semibold px-2 py-0.5 rounded-full whitespace-nowrap", config.color, config.bg)}>
-      {t(labelKeys[level])}
+    <span data-testid={`badge-difficulty-${level}`} title={fullLabels[level]} className={cn("font-semibold rounded-full whitespace-nowrap text-[10px] leading-tight px-1.5 py-px", config.color, config.bg)}>
+      <span className="hidden sm:inline">{fullLabels[level]}</span>
+      <span className="sm:hidden">{shortLabels[level]}</span>
     </span>
   );
 }
@@ -4211,7 +4206,7 @@ function LessonSystemCard({ system, onSelect, tier, lessonOverrides, onOverrides
                       </Button>
                     </div>
                   ) : (
-                    <span className="text-sm font-medium text-gray-900 truncate">
+                    <span className="text-xs sm:text-sm font-medium text-gray-900 truncate">
                       {displayName}
                     </span>
                   )}
@@ -4222,7 +4217,7 @@ function LessonSystemCard({ system, onSelect, tier, lessonOverrides, onOverrides
                     <MinusCircle className="w-4 h-4 text-amber-400 shrink-0" data-testid={`check-incomplete-${disease.id}`} />
                   )}
                 </div>
-                <div className="flex items-center gap-2 shrink-0 ml-2">
+                <div className="flex items-center gap-1.5 shrink-0 ml-1">
                   {isAdmin && !isEditingThis && (
                     <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
                       <button
@@ -4259,9 +4254,9 @@ function LessonSystemCard({ system, onSelect, tier, lessonOverrides, onOverrides
                   )}
                   <DifficultyBadge level={difficulty} />
                   {disease.status === "Available" ? (
-                    <ChevronRight className="w-5 h-5 text-primary group-hover:translate-x-1 transition-transform" />
+                    <ChevronRight className="w-4 h-4 text-primary group-hover:translate-x-1 transition-transform" />
                   ) : (
-                    <Lock className="w-4 h-4 text-gray-400" />
+                    <Lock className="w-3.5 h-3.5 text-gray-400" />
                   )}
                 </div>
               </div>

@@ -1,0 +1,198 @@
+Implement a complete adaptive study system for NurseNest that combines lessons, questions, and review queues.
+
+The goal is to create a system that encourages daily study and long-term retention.
+
+------------------------------------------------
+
+FEATURE 1 — CONFIDENCE RATING
+
+After every question prompt the user:
+
+How confident were you?
+
+Options:
+
+Very confident
+Somewhat confident
+Guessing
+
+Store confidence data alongside question correctness.
+
+------------------------------------------------
+
+FEATURE 2 — SMART QUESTION TAGGING
+
+Use the following logic:
+
+Correct + Very Confident = mastered
+Correct + Guessing = weak knowledge
+Incorrect + Confident = misconception
+Incorrect + Guessing = learning stage
+
+Based on this classification schedule the question for review.
+
+------------------------------------------------
+
+FEATURE 3 — REVIEW QUEUE
+
+Create a daily review queue containing:
+
+incorrect questions
+low confidence answers
+weak topic questions
+previously scheduled review items
+
+Example UI:
+
+Review Due Today
+
+12 Questions
+5 Lessons
+
+Button:
+Start Review
+
+------------------------------------------------
+
+FEATURE 4 — LESSON → QUESTION LOOP
+
+After finishing a lesson automatically suggest:
+
+Practice Questions on this topic
+
+Display a mini quiz of 3–5 questions.
+
+------------------------------------------------
+
+FEATURE 5 — EXAM READINESS SCORE
+
+Calculate an exam readiness percentage based on:
+
+accuracy
+question difficulty
+topic coverage
+confidence ratings
+
+Example:
+
+NCLEX Readiness
+
+72%
+
+Topic breakdown:
+
+Cardiovascular 85%
+Respiratory 66%
+Renal 58%
+
+------------------------------------------------
+
+FEATURE 6 — WEAK AREA PANEL
+
+Show weak areas on the dashboard.
+
+Example:
+
+Needs Review
+
+Acid Base Disorders
+Heart Failure
+Shock Types
+
+Each item must have:
+
+Review Lesson button
+Practice Questions button
+
+------------------------------------------------
+
+FEATURE 7 — DAILY STUDY GOAL
+
+Allow users to set daily goals.
+
+Example:
+
+Today's Goal
+
+Study 3 Lessons
+Practice 10 Questions
+
+Track progress visually.
+
+------------------------------------------------
+
+FEATURE 8 — STUDY STREAK
+
+Track consecutive study days.
+
+Example:
+
+Study Streak
+
+7 Days
+
+Display this in the dashboard and lesson library.
+
+------------------------------------------------
+
+FEATURE 9 — QUICK STUDY MODE
+
+Create a quick study option.
+
+Example:
+
+Quick Study Session
+10 minutes
+
+3 Questions
+1 Lesson
+
+Designed for mobile users.
+
+------------------------------------------------
+
+FEATURE 10 — PROGRESS TRACKING
+
+Track:
+
+lessons completed
+questions answered
+accuracy
+weak topics
+confidence ratings
+
+Persist progress in the user database.
+
+------------------------------------------------
+
+FEATURE 11 — MOBILE EXPERIENCE
+
+Ensure the system works perfectly on mobile.
+
+Use:
+
+sticky progress indicators
+large tap targets
+simple review queue access
+quick study button
+
+------------------------------------------------
+
+DESIGN RULES
+
+The system must feel:
+
+professional
+motivating
+not childish
+consistent with NurseNest branding
+
+Avoid gamified visuals that feel like a mobile game.
+
+------------------------------------------------
+
+FINAL RESULT
+
+Students should feel continuous progress and clear direction when studying.
+
+The platform should automatically guide students toward exam readiness through adaptive lessons, questions, and review sessions.
