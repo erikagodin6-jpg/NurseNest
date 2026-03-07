@@ -399,18 +399,50 @@ function QuizSession({ tier, systemSlug }: { tier: string; systemSlug: string })
                         bgColor = "bg-primary/5";
                       }
 
+                      const letterLabel = String.fromCharCode(65 + i);
+                      const isSelected = selectedAnswer === i;
                       return (
                         <button
                           key={i}
                           onClick={() => handleAnswer(i)}
                           disabled={showRationale}
-                          className={`w-full text-left p-4 rounded-xl border-2 ${borderColor} ${bgColor} transition-all duration-200 flex items-start gap-3`}
+                          role="radio"
+                          aria-checked={isSelected}
+                          aria-label={`Option ${letterLabel}: ${option}`}
+                          className={`w-full text-left px-4 py-3.5 rounded transition-colors flex items-start gap-3 focus:outline-none focus:ring-2 focus:ring-[#BFA6F6]/40 focus:ring-offset-1 ${
+                            showRationale
+                              ? i === current.correct
+                                ? "bg-emerald-50/80 border-l-3 border-l-emerald-500"
+                                : isSelected
+                                ? "bg-red-50/80 border-l-3 border-l-red-400"
+                                : "opacity-60"
+                              : isSelected
+                              ? "bg-[#BFA6F6]/8 border-l-3 border-l-[#BFA6F6]"
+                              : "hover:bg-gray-50"
+                          }`}
                           data-testid={`button-option-${i}`}
                         >
-                          <span className="w-7 h-7 rounded-full bg-gray-100 flex items-center justify-center text-sm font-bold text-gray-600 shrink-0 mt-0.5">
-                            {String.fromCharCode(65 + i)}
+                          <span className={`mt-0.5 w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0 transition-colors ${
+                            showRationale
+                              ? i === current.correct
+                                ? "border-emerald-500 bg-emerald-500"
+                                : isSelected
+                                ? "border-red-400 bg-red-400"
+                                : "border-gray-300"
+                              : isSelected
+                              ? "border-[#BFA6F6] bg-[#BFA6F6]"
+                              : "border-gray-300"
+                          }`}>
+                            {(isSelected || (showRationale && i === current.correct)) && (
+                              <span className="w-2 h-2 rounded-full bg-white" />
+                            )}
                           </span>
-                          <span className="flex-1 text-sm leading-relaxed">{option}</span>
+                          <span className={`flex-1 text-sm sm:text-base leading-relaxed ${
+                            isSelected && !showRationale ? "text-[#2E3A59] font-medium" : "text-gray-700"
+                          }`}>
+                            <span className="font-semibold mr-1.5">{letterLabel}.</span>
+                            {option}
+                          </span>
                           {icon}
                         </button>
                       );

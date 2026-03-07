@@ -9,6 +9,7 @@ import type { PooledQuestion } from "@/lib/question-pool";
 import {
   initCAT, selectNextItem, updateAbility, shouldStop,
   getPassFailResult, getDomainBands, computeScaledScore,
+  getReadinessScore, getWeakAreas, getDifficultyDistribution,
   type CATState
 } from "@/lib/cat-engine";
 import {
@@ -161,6 +162,10 @@ function computeReport(
     overallPass = overallPercentage >= blueprintMeta.passingThreshold && failedDomains.length === 0;
   }
 
+  const readiness = catState ? getReadinessScore(catState) : null;
+  const catWeakAreas = catState ? getWeakAreas(catState) : [];
+  const difficultyDist = catState ? getDifficultyDistribution(catState) : null;
+
   return {
     score: correct,
     totalQuestions: questions.length,
@@ -184,6 +189,9 @@ function computeReport(
     examType,
     scaledScore,
     domainBands,
+    readiness,
+    catWeakAreas,
+    difficultyDist,
   };
 }
 
@@ -463,58 +471,68 @@ export default function MockExamSession() {
 
   return (
     <div className={`min-h-screen bg-gray-50 font-sans text-gray-900 ${user?.tier !== "admin" ? "select-none" : ""}`} onContextMenu={user?.tier !== "admin" ? (e) => e.preventDefault() : undefined}>
-      <div className="sticky top-0 z-50 bg-white border-b border-gray-200 shadow-sm">
-        <div className="max-w-4xl mx-auto px-4 py-3 flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <span className="text-sm font-bold text-gray-500 uppercase tracking-wider" data-testid="text-exam-progress">
+      <div className="sticky top-0 z-50 bg-white border-b border-gray-100" data-testid="exam-top-bar">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 py-2.5 flex items-center justify-between">
+          <div className="flex items-center gap-3 sm:gap-4">
+            <span className="text-sm font-semibold text-[#2E3A59]" data-testid="text-exam-progress">
               {progressLabel}
             </span>
             {showProgressBar && (
-              <Progress value={progressPercent} className="w-32 h-2 hidden sm:block" />
+              <Progress value={progressPercent} className="w-24 sm:w-32 h-1.5 hidden sm:block" />
             )}
-            <span className="text-xs text-gray-400">{answeredCount} answered</span>
           </div>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2 sm:gap-3">
             {strictMode && (
-              <span className="flex items-center gap-1 text-xs font-semibold text-red-600 bg-red-50 px-2 py-1 rounded-full" data-testid="badge-strict-mode">
+              <span className="flex items-center gap-1 text-xs font-semibold text-red-600 bg-red-50/80 px-2 py-0.5 rounded" data-testid="badge-strict-mode">
                 <Shield className="w-3 h-3" /> STRICT
               </span>
             )}
             {strictMode && tabSwitchCount > 0 && (
-              <span className="flex items-center gap-1 text-xs font-medium text-amber-600 bg-amber-50 px-2 py-1 rounded-full" data-testid="badge-tab-switches">
-                <Eye className="w-3 h-3" /> {tabSwitchCount} tab switch{tabSwitchCount !== 1 ? "es" : ""}
+              <span className="flex items-center gap-1 text-xs font-medium text-amber-600" data-testid="badge-tab-switches">
+                <Eye className="w-3 h-3" /> {tabSwitchCount}
               </span>
             )}
             <button
               onClick={() => { if (!strictMode) setPaused(!paused); }}
-              className={`flex items-center gap-1 text-sm ${strictMode ? "text-gray-300 cursor-not-allowed" : "text-gray-500 hover:text-gray-700"}`}
+              className={`flex items-center gap-1.5 text-sm ${strictMode ? "text-gray-300 cursor-not-allowed" : "text-gray-500 hover:text-gray-700"}`}
               data-testid="button-pause-timer"
               disabled={strictMode}
               title={strictMode ? "Timer cannot be paused in strict mode" : undefined}
             >
-              {paused ? <Play className="w-4 h-4" /> : <Pause className="w-4 h-4" />}
-              <span className={`font-mono font-bold ${paused ? "text-amber-600" : "text-gray-700"}`}>
+              {paused ? <Play className="w-3.5 h-3.5" /> : <Pause className="w-3.5 h-3.5" />}
+              <span className={`font-mono text-sm font-semibold ${paused ? "text-amber-600" : "text-[#2E3A59]"}`}>
                 {formatTime(timeSpent)}
               </span>
             </button>
 
             <button
+              onClick={() => toggleFlag(questions[currentQ]?.id)}
+              className={`p-1.5 rounded transition-colors ${
+                questions[currentQ] && flagged.includes(questions[currentQ].id) ? "text-amber-500" : "text-gray-300 hover:text-amber-500"
+              }`}
+              data-testid="button-flag-topbar"
+              aria-label="Flag question"
+            >
+              <Flag className="w-4 h-4" />
+            </button>
+
+            <button
               onClick={() => setShowNav(!showNav)}
-              className="text-sm text-primary font-medium hover:underline"
+              className="text-sm text-[#2E3A59] font-medium hover:text-[#BFA6F6] transition-colors"
               data-testid="button-question-nav"
             >
               Navigator
             </button>
 
             <Button
-              variant="destructive"
+              variant="outline"
               size="sm"
-              className="gap-1"
+              className="gap-1 text-xs border-gray-200 text-gray-600 hover:text-red-600 hover:border-red-200"
               onClick={() => setShowConfirmSubmit(true)}
               data-testid="button-submit-exam"
             >
-              <Send className="w-3 h-3" /> Submit
+              <Send className="w-3 h-3" /> End
             </Button>
           </div>
         </div>
@@ -656,102 +674,125 @@ export default function MockExamSession() {
         </div>
       )}
 
-      <main className="max-w-3xl mx-auto px-4 py-8">
+      <main className="max-w-3xl mx-auto px-4 sm:px-6 py-6 pb-24">
         {question && (
-          <div className="space-y-8">
+          <div className="space-y-6">
             <div className="flex items-start justify-between gap-4">
-              <div className="space-y-2 flex-1">
+              <div className="space-y-3 flex-1">
                 <div className="flex items-center gap-2">
-                  <span className="text-xs text-gray-400 font-medium">{question.bodySystem}</span>
+                  <span className="text-xs text-gray-400 font-medium uppercase tracking-wide">{question.bodySystem}</span>
                   {flagged.includes(question.id) && (
-                    <span className="text-xs bg-amber-100 text-amber-700 px-2 py-0.5 rounded-full font-medium">Flagged</span>
+                    <span className="text-xs bg-amber-50 text-amber-600 px-2 py-0.5 rounded font-medium">Flagged</span>
                   )}
                 </div>
-                <h2 className="text-xl font-bold text-gray-900 leading-relaxed" data-testid="text-question">
+                <h2 className="text-lg sm:text-xl font-semibold text-[#2E3A59] leading-relaxed" data-testid="text-question">
                   {question.question}
                 </h2>
               </div>
               <button
                 onClick={() => toggleFlag(question.id)}
-                className={`p-2 rounded-lg transition-colors ${
-                  flagged.includes(question.id) ? "bg-amber-100 text-amber-600" : "text-gray-300 hover:text-amber-500 hover:bg-amber-50"
+                className={`p-2 rounded transition-colors ${
+                  flagged.includes(question.id) ? "bg-amber-50 text-amber-600" : "text-gray-300 hover:text-amber-500"
                 }`}
                 data-testid="button-flag-question"
+                aria-label={flagged.includes(question.id) ? "Unflag question" : "Flag question for review"}
               >
                 <Flag className="w-5 h-5" />
               </button>
             </div>
 
-            <div className="grid gap-3">
+            <div className="space-y-1" role="radiogroup" aria-label="Answer options">
               {question.options.map((option, i) => {
                 const isSelected = answers[question.id] === i;
                 const isLocked = (strictMode || isCATExam) && answers[question.id] !== undefined;
+                const letterLabel = String.fromCharCode(65 + i);
                 return (
                   <button
                     key={i}
                     onClick={() => selectAnswer(question.id, i)}
-                    className={`w-full text-left p-5 rounded-xl border-2 transition-all flex items-start gap-3 ${
+                    disabled={isLocked && !isSelected}
+                    role="radio"
+                    aria-checked={isSelected}
+                    aria-label={`Option ${letterLabel}: ${option}`}
+                    className={`w-full text-left px-4 py-3.5 transition-colors flex items-start gap-3 rounded focus:outline-none focus:ring-2 focus:ring-[#BFA6F6]/40 focus:ring-offset-1 ${
                       isSelected
-                        ? "border-primary bg-primary/5 shadow-md"
+                        ? "bg-[#BFA6F6]/8 border-l-3 border-l-[#BFA6F6]"
                         : isLocked
-                        ? "border-gray-100 bg-gray-50 cursor-not-allowed opacity-60"
-                        : "border-gray-200 hover:border-gray-300 hover:bg-gray-50"
+                        ? "cursor-not-allowed opacity-50"
+                        : "hover:bg-gray-50"
                     }`}
                     data-testid={`button-option-${i}`}
                   >
-                    <div className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 text-sm font-bold ${
-                      isSelected ? "bg-primary text-white" : "bg-gray-100 text-gray-600"
+                    <span className={`mt-0.5 w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0 transition-colors ${
+                      isSelected
+                        ? "border-[#BFA6F6] bg-[#BFA6F6]"
+                        : "border-gray-300"
                     }`}>
-                      {String.fromCharCode(65 + i)}
-                    </div>
-                    <span className="pt-1">{option}</span>
+                      {isSelected && (
+                        <span className="w-2 h-2 rounded-full bg-white" />
+                      )}
+                    </span>
+                    <span className={`text-sm sm:text-base leading-relaxed ${
+                      isSelected ? "text-[#2E3A59] font-medium" : "text-gray-700"
+                    }`}>
+                      <span className="font-semibold mr-1.5">{letterLabel}.</span>
+                      {option}
+                    </span>
                   </button>
                 );
               })}
             </div>
-
-            <div className="flex items-center justify-between pt-4">
-              <Button
-                variant="outline"
-                onClick={() => { if (!disablePrevious) setCurrentQ(Math.max(0, currentQ - 1)); }}
-                disabled={disablePrevious}
-                className="gap-1"
-                data-testid="button-prev-question"
-                title={isCATExam ? "Cannot go back in CAT mode" : strictMode ? "Cannot go back in strict mode" : undefined}
-              >
-                <ChevronLeft className="w-4 h-4" /> Previous
-              </Button>
-
-              {isCATExam ? (
-                <Button
-                  onClick={handleNextQuestion}
-                  className="gap-1"
-                  disabled={answers[question.id] === undefined || catFinished}
-                  data-testid="button-next-question"
-                >
-                  Next <ChevronRight className="w-4 h-4" />
-                </Button>
-              ) : currentQ < questions.length - 1 ? (
-                <Button
-                  onClick={handleNextQuestion}
-                  className="gap-1"
-                  data-testid="button-next-question"
-                >
-                  Next <ChevronRight className="w-4 h-4" />
-                </Button>
-              ) : (
-                <Button
-                  onClick={() => setShowConfirmSubmit(true)}
-                  className="gap-1"
-                  data-testid="button-finish"
-                >
-                  Finish <Send className="w-4 h-4" />
-                </Button>
-              )}
-            </div>
           </div>
         )}
       </main>
+
+      {question && (
+        <div className="fixed bottom-0 left-0 right-0 z-40 bg-white border-t border-gray-200" data-testid="exam-bottom-bar">
+          <div className="max-w-3xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between">
+            <Button
+              variant="ghost"
+              onClick={() => { if (!disablePrevious) setCurrentQ(Math.max(0, currentQ - 1)); }}
+              disabled={disablePrevious}
+              className="gap-1 text-gray-600 hover:text-gray-900"
+              data-testid="button-prev-question"
+              title={isCATExam ? "Cannot go back in CAT mode" : strictMode ? "Cannot go back in strict mode" : undefined}
+            >
+              <ChevronLeft className="w-4 h-4" /> Previous
+            </Button>
+
+            <span className="text-xs text-gray-400 font-medium hidden sm:block">
+              {answeredCount} of {questions.length} answered
+            </span>
+
+            {isCATExam ? (
+              <Button
+                onClick={handleNextQuestion}
+                className="gap-1"
+                disabled={answers[question.id] === undefined || catFinished}
+                data-testid="button-next-question"
+              >
+                Next <ChevronRight className="w-4 h-4" />
+              </Button>
+            ) : currentQ < questions.length - 1 ? (
+              <Button
+                onClick={handleNextQuestion}
+                className="gap-1"
+                data-testid="button-next-question"
+              >
+                Next <ChevronRight className="w-4 h-4" />
+              </Button>
+            ) : (
+              <Button
+                onClick={() => setShowConfirmSubmit(true)}
+                className="gap-1"
+                data-testid="button-finish"
+              >
+                Finish <Send className="w-4 h-4" />
+              </Button>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 }

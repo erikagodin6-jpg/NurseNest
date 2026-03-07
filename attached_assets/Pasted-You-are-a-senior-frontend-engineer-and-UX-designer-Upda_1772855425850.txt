@@ -1,0 +1,125 @@
+You are a senior frontend engineer and UX designer.
+
+Update the NurseNest exam/test-taking UI so it feels more like the real nursing licensing exam environment, while still remaining legally distinct and fully in the NurseNest brand system.
+
+IMPORTANT:
+Do not redesign the whole exam experience from scratch.
+Keep the current test UI structure because it already looks good.
+Only refine the visual details and interaction patterns described below.
+
+GOAL
+Make the exam interface feel more authentic to the real exam environment by:
+1. adding a solid colored bar at the top
+2. adding a solid colored bar at the bottom
+3. removing boxed answer cards
+4. making answer choices display more like the real exam
+5. allowing the top and bottom colored bars to be fully customizable by theme or admin setting
+
+VISUAL REQUIREMENTS
+
+TOP AND BOTTOM BARS
+Add a full-width horizontal colored bar at the very top of the exam interface and another full-width horizontal colored bar at the very bottom of the exam interface.
+
+These bars should:
+- feel like the real exam shell
+- be simple, flat, and clean
+- have no heavy gradients
+- have no distracting effects
+- span edge to edge
+- remain visible on desktop and mobile
+- frame the exam content visually
+
+The bars must be customizable.
+
+Create a configurable theme variable or admin-controlled setting for:
+- examChromeColor
+or equivalent token name
+
+This color must control:
+- top exam bar
+- bottom exam bar
+- optional small related accents if appropriate
+
+The bar color should be easy to change globally without editing many files.
+
+DEFAULT COLOR SYSTEM
+Set up support for multiple configurable bar color presets, for example:
+- pastel lilac
+- soft periwinkle
+- muted teal
+- dusty rose
+- classic exam blue
+- neutral graphite
+
+The admin or theme system should be able to switch the bar color easily.
+
+ANSWER CHOICE STYLING
+Remove boxed card-style answer options.
+
+Do not display each answer inside a rounded rectangle card.
+
+Instead, style answer options more like a real exam interface:
+- plain text options on a clean white background
+- subtle spacing between choices
+- left-aligned radio button or checkbox style markers
+- minimal separators only if needed
+- no large colored tiles
+- no heavy borders around each answer
+- no shadowed answer containers
+- no oversized pill buttons
+
+The answer area should feel:
+- clean
+- serious
+- exam-authentic
+- distraction-free
+- highly readable
+
+ANSWER STATE BEHAVIOR
+Selected answers should be visually clear but subtle.
+
+Use:
+- a filled radio button style for single-answer items
+- checkbox style for SATA items
+- a light highlight or understated background tint only if needed
+- accessible focus states
+- no chunky boxes around options
+
+Do not make the answers feel like app buttons.
+They should feel like exam answer lines.
+
+LAYOUT DETAILS
+The main question area should remain centered and readable.
+The colored top and bottom bars should act as the shell framing the content.
+The answer options should sit in a clean vertical list under the question stem.
+
+Maintain:
+- excellent whitespace
+- strong readability
+- mobile responsiveness
+- accessibility
+- keyboard support
+
+LEGAL / DESIGN DISTINCTION
+The UI should feel exam-realistic and familiar, but it must remain original and not copy any proprietary interface pixel-for-pixel.
+
+IMPLEMENTATION REQUIREMENTS
+Use the current NurseNest stack and existing exam components.
+Refactor only what is needed.
+
+Please do all of the following:
+1. identify the current exam shell component
+2. add top and bottom chrome bars
+3. replace boxed answer components with clean exam-style answer rows
+4. create a reusable theme token or configurable setting for the bar color
+5. ensure the bar color can be changed easily later
+6. keep the rest of the good UI intact
+
+OUTPUT
+Provide:
+- the updated component structure
+- exact files to edit
+- the theme token implementation
+- the updated answer option styling
+- production-ready code
+- notes on how to change the bar color later

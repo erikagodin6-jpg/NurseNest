@@ -5,6 +5,8 @@ export interface CATResponse {
   itemId: string;
   isCorrect: boolean;
   abilityAtTime: number;
+  difficulty: number;
+  bodySystem: string;
 }
 
 export interface CATState {
@@ -13,11 +15,27 @@ export interface CATState {
   itemsAdministered: number;
   responses: CATResponse[];
   abilityHistory: number[];
+  bodySystemsSeen: Record<string, number>;
 }
 
 export interface DomainBand {
   domain: string;
   level: "Above Passing" | "Near Passing" | "Below Passing";
+  correct: number;
+  total: number;
+  percentage: number;
+}
+
+export type ReadinessLevel = "Below Passing Standard" | "Near Passing Standard" | "Above Passing Standard";
+
+export interface ReadinessScore {
+  level: ReadinessLevel;
+  score: number;
+  description: string;
+}
+
+export interface WeakArea {
+  topic: string;
   correct: number;
   total: number;
   percentage: number;
@@ -30,10 +48,15 @@ export function initCAT(): CATState {
     itemsAdministered: 0,
     responses: [],
     abilityHistory: [0],
+    bodySystemsSeen: {},
   };
 }
 
 function itemDifficulty(item: PooledQuestion): number {
+  if ((item as any).difficulty && typeof (item as any).difficulty === "number") {
+    const d = (item as any).difficulty as number;
+    return (d - 1) * 0.75 - 0.5;
+  }
   const id = item.id;
   let hash = 0;
   for (let i = 0; i < id.length; i++) {
@@ -53,11 +76,24 @@ export function selectNextItem(
 ): PooledQuestion | null {
   if (remainingItems.length === 0) return null;
 
+  const systemCounts = state.bodySystemsSeen;
+  const totalSeen = state.itemsAdministered;
+  const avgPerSystem = totalSeen > 0 ? totalSeen / Math.max(Object.keys(systemCounts).length, 1) : 0;
+
   const scored = remainingItems.map((item) => {
     const b = itemDifficulty(item);
     const dist = Math.abs(state.abilityEstimate - b);
-    const jitter = Math.random() * 0.3;
-    return { item, score: dist + jitter };
+
+    let diversityBonus = 0;
+    const sysCount = systemCounts[item.bodySystem] || 0;
+    if (sysCount < avgPerSystem * 0.5) {
+      diversityBonus = -0.3;
+    } else if (sysCount > avgPerSystem * 1.5 && totalSeen > 5) {
+      diversityBonus = 0.4;
+    }
+
+    const jitter = Math.random() * 0.2;
+    return { item, score: dist + diversityBonus + jitter };
   });
 
   scored.sort((a, b) => a.score - b.score);
@@ -75,7 +111,8 @@ export function updateAbility(
   const b = itemDifficulty(item);
   const p = logistic(state.abilityEstimate, b);
 
-  const stepSize = state.standardError * 0.5;
+  const recencyWeight = Math.min(1.0, 0.4 + (state.itemsAdministered * 0.02));
+  const stepSize = state.standardError * 0.5 * recencyWeight;
   const delta = isCorrect ? stepSize * (1 - p) : -stepSize * p;
   const newTheta = state.abilityEstimate + delta;
 
@@ -90,7 +127,12 @@ export function updateAbility(
     itemId: item.id,
     isCorrect,
     abilityAtTime: newTheta,
+    difficulty: b,
+    bodySystem: item.bodySystem,
   };
+
+  const newSystemsSeen = { ...state.bodySystemsSeen };
+  newSystemsSeen[item.bodySystem] = (newSystemsSeen[item.bodySystem] || 0) + 1;
 
   return {
     abilityEstimate: newTheta,
@@ -98,6 +140,7 @@ export function updateAbility(
     itemsAdministered: state.itemsAdministered + 1,
     responses: [...state.responses, newResponse],
     abilityHistory: [...state.abilityHistory, newTheta],
+    bodySystemsSeen: newSystemsSeen,
   };
 }
 
@@ -127,6 +170,61 @@ export function getPassFailResult(state: CATState): {
     return { passed: true, label: "PASS" };
   }
   return { passed: false, label: "FAIL" };
+}
+
+export function getReadinessScore(state: CATState): ReadinessScore {
+  const theta = state.abilityEstimate;
+  const score = Math.round(Math.max(0, Math.min(100, (theta + 2) * 25)));
+
+  if (theta >= 0.5) {
+    return {
+      level: "Above Passing Standard",
+      score,
+      description: "Your performance indicates strong exam readiness. Continue reviewing weak areas for maximum confidence.",
+    };
+  } else if (theta >= -0.3) {
+    return {
+      level: "Near Passing Standard",
+      score,
+      description: "You are approaching the passing threshold. Focus on your weakest topics to push above the standard.",
+    };
+  }
+  return {
+    level: "Below Passing Standard",
+    score,
+    description: "Additional study is recommended before attempting the licensing exam. Focus on foundational topics and high-yield content.",
+  };
+}
+
+export function getWeakAreas(state: CATState): WeakArea[] {
+  const topicStats: Record<string, { correct: number; total: number }> = {};
+
+  for (const r of state.responses) {
+    const system = r.bodySystem || "Unknown";
+    if (!topicStats[system]) topicStats[system] = { correct: 0, total: 0 };
+    topicStats[system].total++;
+    if (r.isCorrect) topicStats[system].correct++;
+  }
+
+  return Object.entries(topicStats)
+    .map(([topic, stats]) => ({
+      topic,
+      correct: stats.correct,
+      total: stats.total,
+      percentage: stats.total > 0 ? Math.round((stats.correct / stats.total) * 100) : 0,
+    }))
+    .filter((a) => a.total >= 2 && a.percentage < 65)
+    .sort((a, b) => a.percentage - b.percentage);
+}
+
+export function getDifficultyDistribution(state: CATState): { easy: number; moderate: number; hard: number } {
+  let easy = 0, moderate = 0, hard = 0;
+  for (const r of state.responses) {
+    if (r.difficulty < 0.5) easy++;
+    else if (r.difficulty < 1.5) moderate++;
+    else hard++;
+  }
+  return { easy, moderate, hard };
 }
 
 export function getDomainBands(

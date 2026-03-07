@@ -1,0 +1,110 @@
+You are a senior backend security engineer working on the NurseNest exam preparation platform.
+
+Your task is to implement strong question bank protection mechanisms to prevent scraping, copying, or redistribution of proprietary exam questions.
+
+The goal is to protect the intellectual property of NurseNest while maintaining a smooth user experience for legitimate students.
+
+---
+
+SERVER SIDE DELIVERY
+
+Ensure all questions are delivered dynamically from the backend.
+
+Questions must not be stored as static HTML in the frontend.
+
+Each request should return only the questions required for the current session.
+
+---
+
+QUESTION RANDOMIZATION
+
+Randomize question order for each exam or practice session.
+
+Users should not see questions in identical sequences.
+
+---
+
+ANSWER SHUFFLING
+
+Randomize answer choices for each question.
+
+Correct answers should appear in different positions for different users.
+
+---
+
+QUESTION VARIANTS
+
+Support multiple variants of the same question concept.
+
+Variants may change:
+
+lab values
+patient age
+symptom descriptions
+medication names
+
+This prevents leaked questions from compromising the entire bank.
+
+---
+
+SESSION WATERMARKING
+
+Add a dynamic watermark overlay on protected content.
+
+The watermark should include:
+
+user email
+user ID
+session ID
+timestamp
+
+The watermark should be semi-transparent and repeated across the screen.
+
+---
+
+SESSION MONITORING
+
+Monitor suspicious user behavior.
+
+Examples include:
+
+extremely fast answering
+excessive question requests
+unusual scraping patterns
+
+Flag suspicious sessions for review.
+
+---
+
+RATE LIMITING
+
+Limit how many questions can be requested within a given time window.
+
+Prevent automated scraping attempts.
+
+---
+
+CONTENT ACCESS CONTROL
+
+Ensure only authenticated users with valid subscriptions can access protected content.
+
+Implement secure API endpoints that require authentication tokens.
+
+---
+
+LOGGING
+
+Log the following data for security monitoring:
+
+question requests
+user session activity
+IP address
+device information
+
+This allows investigation if question leaks occur.
+
+---
+
+GOAL
+
+The final system should make it extremely difficult for anyone to copy, scrape, or redistribute the NurseNest question bank while maintaining a smooth study experience for legitimate users.

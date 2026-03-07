@@ -1,0 +1,336 @@
+You are a senior database architect, backend engineer, and assessment platform engineer.
+
+Design a production-ready PostgreSQL database architecture for the NurseNest nursing exam preparation platform.
+
+The platform must support very large educational datasets and scale to at least 50,000+ exam questions without performance degradation.
+
+The system must support the following features:
+
+lessons
+question bank
+flashcards
+clinical case studies
+adaptive exams
+progress tracking
+analytics dashboards
+subscription access control
+content protection
+admin content management
+
+---
+
+SYSTEM ARCHITECTURE REQUIREMENTS
+
+The architecture must separate the platform into three logical layers:
+
+Content Layer
+Stores educational assets.
+
+Delivery Layer
+Handles exam sessions, practice quizzes, and question delivery.
+
+Analytics Layer
+Handles user performance data, mastery scoring, and dashboards.
+
+Ensure the architecture keeps these layers loosely coupled.
+
+---
+
+DATABASE TECHNOLOGY
+
+Use PostgreSQL as the core relational database.
+
+Design tables with:
+
+proper indexing
+normalized relationships
+JSON support where appropriate
+scalability for large datasets
+
+---
+
+CONTENT LAYER TABLES
+
+Design the following core tables.
+
+lessons
+Stores lesson content.
+
+Fields:
+id
+title
+slug
+body_system
+topic
+difficulty
+lesson_text
+diagram_assets
+created_at
+updated_at
+status
+
+question_concepts
+Represents a clinical concept (e.g., hyperkalemia recognition).
+
+Fields:
+id
+title
+body_system
+topic
+exam_blueprint_category
+difficulty_range
+
+question_variants
+Different versions of a concept question.
+
+Fields:
+id
+concept_id
+question_text
+difficulty
+scope_level (RPN, RN, NP)
+question_type
+free_or_premium
+status
+
+question_options
+Stores answer choices.
+
+Fields:
+id
+question_variant_id
+option_letter
+option_text
+is_correct
+
+question_rationales
+Stores explanations.
+
+Fields:
+id
+question_variant_id
+correct_rationale
+incorrect_rationale_a
+incorrect_rationale_b
+incorrect_rationale_c
+incorrect_rationale_d
+clinical_pearl
+exam_trap
+
+question_tags
+Stores tagging metadata.
+
+Fields:
+question_variant_id
+tag_type
+tag_value
+
+flashcards
+Stores spaced repetition flashcards.
+
+Fields:
+id
+lesson_id
+question
+answer
+clinical_pearl
+difficulty
+
+case_studies
+Stores clinical scenario cases.
+
+Fields:
+id
+title
+body_system
+scenario_text
+patient_history
+vital_signs
+lab_results
+nursing_notes
+medications
+
+case_questions
+Questions linked to case studies.
+
+Fields:
+id
+case_id
+question_text
+question_type
+difficulty
+
+---
+
+DELIVERY LAYER TABLES
+
+exam_templates
+Defines exam structure.
+
+Fields:
+id
+name
+scope_level
+question_count
+difficulty_distribution
+time_limit
+
+exam_sessions
+Represents a user exam session.
+
+Fields:
+id
+user_id
+template_id
+started_at
+completed_at
+status
+
+exam_session_questions
+Stores the questions used in an exam.
+
+Fields:
+id
+session_id
+question_variant_id
+question_order
+difficulty
+
+user_responses
+Stores answers submitted by users.
+
+Fields:
+id
+session_id
+question_variant_id
+selected_option
+is_correct
+response_time
+
+---
+
+ANALYTICS LAYER TABLES
+
+user_topic_mastery
+Tracks mastery by topic.
+
+Fields:
+id
+user_id
+topic
+accuracy_rate
+questions_answered
+mastery_score
+
+user_system_mastery
+Tracks mastery by body system.
+
+Fields:
+id
+user_id
+body_system
+accuracy_rate
+mastery_score
+
+user_exam_readiness
+Stores readiness estimates.
+
+Fields:
+id
+user_id
+estimated_readiness_score
+confidence_level
+last_updated
+
+user_flashcard_progress
+Tracks spaced repetition.
+
+Fields:
+id
+user_id
+flashcard_id
+confidence_level
+next_review_date
+
+---
+
+INDEXING STRATEGY
+
+Create indexes for:
+
+question_variants difficulty
+question_tags tag_value
+lessons body_system
+exam_sessions user_id
+user_responses question_variant_id
+
+Use composite indexes where necessary to optimize exam assembly queries.
+
+---
+
+ADAPTIVE EXAM SUPPORT
+
+Design question selection logic that:
+
+filters eligible questions by
+scope level
+difficulty
+topic diversity
+unseen questions
+
+selects the next question based on the student’s estimated ability level.
+
+Ensure adaptive selection operates on pre-filtered pools rather than the entire question bank.
+
+---
+
+CACHING AND PERFORMANCE
+
+Recommend caching for:
+
+question pools
+exam templates
+lesson metadata
+dashboard analytics
+
+Explain where Redis or memory caching would be beneficial.
+
+---
+
+ADMIN CONTENT MANAGEMENT
+
+Design features for bulk admin operations:
+
+bulk question import
+difficulty adjustments
+retire or archive questions
+duplicate detection
+variant creation
+
+---
+
+SEARCH CAPABILITY
+
+Design a search index strategy for:
+
+lessons
+questions
+topics
+medical terms
+
+Search should support synonyms and abbreviations.
+
+---
+
+OUTPUT REQUIREMENTS
+
+Provide:
+
+complete PostgreSQL table schemas
+relationship diagrams
+indexing recommendations
+example SQL queries for exam assembly
+example adaptive question selection logic
+scaling recommendations for 50,000+ questions
+
+Ensure the architecture supports long-term growth without major redesign.

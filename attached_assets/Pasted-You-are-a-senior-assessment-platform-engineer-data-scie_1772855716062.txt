@@ -1,0 +1,203 @@
+You are a senior assessment platform engineer, data scientist, and exam simulation architect working on the NurseNest exam engine.
+
+Your task is to implement an adaptive testing system that simulates the experience of modern computer-adaptive nursing licensing exams.
+
+The goal is not to copy any proprietary exam algorithm, but to replicate the adaptive learning behavior where question difficulty adjusts based on the student’s performance.
+
+---
+
+PRIMARY GOAL
+
+The NurseNest adaptive exam engine should dynamically adjust question difficulty as the student answers questions.
+
+Students who answer correctly should gradually receive more difficult questions.
+
+Students who answer incorrectly should receive easier questions to accurately measure their ability level.
+
+The system should simulate the feeling of a real adaptive exam environment.
+
+---
+
+QUESTION DIFFICULTY LEVELS
+
+Each question in the database must include a difficulty rating.
+
+Difficulty categories:
+
+Easy
+Moderate
+Hard
+
+These tags must already exist in the question metadata.
+
+---
+
+INITIAL QUESTION SELECTION
+
+Adaptive exams should begin with a moderate-difficulty question.
+
+This establishes a baseline without overwhelming the student.
+
+---
+
+ADAPTIVE LOGIC
+
+After each question, update the student’s ability estimate.
+
+If the student answers correctly:
+
+Increase difficulty slightly.
+
+Example progression:
+Moderate → Moderate/Hard → Hard
+
+If the student answers incorrectly:
+
+Decrease difficulty slightly.
+
+Example progression:
+Moderate → Easy/Moderate → Easy
+
+The system should never jump multiple levels dramatically.
+
+Difficulty should adjust gradually.
+
+---
+
+ABILITY ESTIMATION
+
+Maintain a running estimate of student ability using recent question results.
+
+Example simplified model:
+
+Correct answers increase ability score.
+
+Incorrect answers decrease ability score.
+
+Recent answers should carry slightly more weight than older answers.
+
+---
+
+QUESTION POOL SELECTION
+
+When selecting the next question:
+
+Choose a question within the target difficulty range.
+
+Avoid repeating previously seen questions.
+
+Ensure topic diversity across the exam.
+
+---
+
+EXAM TERMINATION CONDITIONS
+
+Adaptive exams should end when one of the following conditions is met:
+
+maximum question count reached
+time limit reached
+ability estimate stabilizes within a confidence range
+
+Example:
+
+Minimum questions: 75
+Maximum questions: 145
+
+This simulates real adaptive exam behavior.
+
+---
+
+EXAM FEEDBACK
+
+After the exam, provide a detailed performance report including:
+
+overall score
+performance by body system
+performance by topic
+difficulty distribution of questions answered
+estimated exam readiness score
+
+---
+
+EXAM READINESS SCORE
+
+Calculate a readiness score that estimates the student’s likelihood of passing a licensing exam.
+
+Example categories:
+
+Below passing standard
+Near passing standard
+Above passing standard
+
+This helps students understand where they stand.
+
+---
+
+WEAK AREA IDENTIFICATION
+
+After the exam, identify the weakest clinical topics.
+
+Example:
+
+Electrolyte imbalances
+Cardiac rhythms
+Shock states
+
+Recommend targeted review lessons and questions.
+
+---
+
+REALISM REQUIREMENTS
+
+The adaptive exam experience should feel structured and professional.
+
+Maintain:
+
+clean exam UI
+minimal distractions
+consistent question pacing
+clear progress indicators
+
+---
+
+SYSTEM INTEGRATION
+
+Ensure the adaptive exam engine integrates with:
+
+the existing question bank
+user progress tracking
+topic mastery analytics
+study recommendation engine
+
+---
+
+DATA STORAGE
+
+Store the following data for each adaptive exam session:
+
+question IDs
+difficulty levels presented
+student answers
+response time
+ability score changes
+
+This allows future analytics and improvements.
+
+---
+
+USER EXPERIENCE
+
+Students should feel that the exam adjusts to their ability and provides a realistic preparation experience.
+
+The adaptive exam mode should feel more advanced than standard practice quizzes.
+
+---
+
+OUTPUT
+
+Provide:
+
+adaptive exam algorithm logic
+database schema adjustments if required
+integration points with the existing exam engine
+example pseudocode for the adaptive question selection system
