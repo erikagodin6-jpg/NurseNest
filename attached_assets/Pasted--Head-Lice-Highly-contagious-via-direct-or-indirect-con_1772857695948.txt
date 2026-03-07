@@ -1,0 +1,902 @@
+
+
+Head Lice
+-	Highly contagious via direct or indirect contact
+-	Features:
+o	Pruritis 
+o	Excoriation on the scalp
+o	Trouble sleeping
+o	Light coloured specks on the hair
+o	Nits may be seen in the hair and on the nape of the neck
+-	Tx:
+o	Apply medicated shampoo
+o	Leave on for 10 minutes and wash hair in the sink and use warm instead of hot water
+o	Use a comb to remove the nits
+o	Repeat shampoo 7-10 days after treatment to kill newly hatched lice 
+o	Soak all brushes, combs, and hair accessories in hot water for ten minutes 
+o	Screen all household members for lice
+o	Vacuum carpets, mattresses, and upholstered furniture
+o	Wash bedding in hot water and dry on the hottest setting 
+o	Throw all nonwashable items in a plastic bag for at least two weeks to kill the nits 
+o	Do not need to miss school 
+
+Impetigo
+-	Highly contagious bacterial skin infection in children
+-	Spread directly or indirectly 
+-	Enter cuts in skin and cause infection
+-	Features:
+o	Nonbullous form 
+	Papules  pustules  rapidly break into golden coloured thick adherent crusts
+o	Bullous impetigo
+	Fluid filled blisters or bullae rupture and have a brown thin crust 
+-	Nursing:
+o	Contact precautions
+o	Mupirocin (abx ointment) 
+o	Cephalexin orally
+o	Limit the spread of infection (hand hygiene, clean lesions appropriately)
+o	Remove the crusting after soaking lesions, then pat dry
+o	Wash hands before and after applying medication
+o	Cover draining lesions 
+o	Wash and dry linens separately on high heat
+o	Keep fingernails short 
+o	Avoid group activities for 24-48 hours after starting antibiotics to allow time for the antibacterial to work 
+o	Monitor for complications
+	Poststreptococcal glomerulonephritis
+•	Hematuria, hypertension, edema 
+	Rheumatic fever
+•	Arthritis, carditis, chorea (unintentional jerking movements of the extremities)
+	Subcutaneous nodules 
+	Erythema marginatum 
+	
+o	
+Hemolytic Uremic Syndrome
+-	Patho: caused by e coli 
+-	Life threatening condition 
+-	Most commonly seen in children less than 5
+-	After diarrheal illness results in triad of:
+o	Hemolytic anemia
+o	Thrombocytopenia
+o	Acute kidney injury 
+-	Features:
+o	Hemolytic anemia: tired, irritable, pallor
+o	Thrombocytopenia: decreased platelets = petechiae, purpura (larger bleeds), bruising
+o	AKI: decreased urine output, edema, hypertension (cannot filter blood so fluid overload)
+-	Nursing:
+o	Decrease the spread by implementing contact precautions
+o	Provide fluids to maintain fluid or electrolyte balance 
+o	Monitor for worsening AKI  anuria = red flag, communicate to HCP
+	Strict intake and output 
+	Treat hypertension with antihypertensives
+	Prepare for dialysis
+o	Administer blood products for anemia and thrombocytopenia
+o	Inform caregivers that most children resolve in 2-3 weeks 
+Hydrocephalus
+-	Buildup of CSF in brain
+-	Overproduction or impaired drainage
+-	Accumulation = dilated ventricles = compression = increased ICP
+-	Can progress to brain damage or death if left untreated 
+-	Features:
+o	Infant:
+	Bulging fontanel
+	Prominent scalp veins
+	Sunset eyes (late sign  cannot look upwards, has a continuous downward gaze)
+	High pitched shrill cry
+	Poor feeding or vomiting
+	Developmental delays
+	Increased head circumference 
+	Wide spaced suture lines 
+o	Older children/adults:
+	Signs of increased ICP
+	Headache, vomiting, drowsiness
+	Vision problems
+	Ataxia (poor muscle coordination)
+	Cushing’s triad: hypertension, bradycardia, hypoventilation 
+-	Dx:
+o	Infant: ultrasound (fontanel)
+o	Older children and adults: MRI or CT
+-	Management:
+o	Surgical intervention 
+o	Preop:
+	Seizure precaution
+	Daily head circumference managements
+	Intake and output 
+	Reposition head frequently to decrease pressure injuries 
+o	Surgery:
+	Temporaru external ventricular drainage device
+•	Drains excess CSF int a drainage bag
+	Ventriculoperitoneal shunt
+•	Inserted into ventricle and drains into peritoneum which reabsorbs fluid into the bloodstream 
+o	After surgery:	
+	Maintain flat or supine position for 24 hours then lay on nonoperative side to decrease pressure on VP shunt to prevent CSF overdrainage, ventricular collapse, and sudden drop in ICP.
+	Monitor for shunt malfunction  increase in head circumference and ICP (same as before shunt) 
+	Monitor for infection  fever
+	Monitor for abdominal tenderness  can lead to peritonitis 
+	Test surgical site drainage for glucose (halo sign)  immediately intervene, no glucose = normal (serosang)
+o	Discharge: 
+	Shunt will require revision surgeries 
+	Child should be active (swimming) 
+	Avoid contact sports (boxing)
+	Enroll in early childhood development programs 
+o	Monitor for shunt malfunction (teaching)
+	Fever, poor feeding, irritability 
+	Redness at surgical site 
+	Abdominal tenderness 
+	Teach them to report to HCP
+Pinworms
+-	Most common parasitic worm infection of intestines and rectum
+-	Transmitted to hands and under fingernails during scratching and then spread to common objects which are swallowed or inhaled and hatch in the intestine 
+-	Worms come out at night and lay eggs outside the rectum 
+-	Causes extreme itching 
+-	Common in daycare and classroom settings
+-	Features:
+o	Extreme perianal itching at night  excoriations
+o	Disturbed sleep
+o	Irritability
+o	Restlessness
+o	Nocturnal enuresis
+-	Management:
+o	Tape test – apply tape to rectum before they go to bed and take off in morning, put in glass jar and see if eggs hatch
+o	Antihelmintic medications if the kid is over 2
+	Pyrantel pamoate and albendazole
+	All members of the household should be treated
+o	Take initial dose and repeat in 2 weeks to complete eradication
+-	Teaching:
+o	Prevent reinfection
+o	Short fingernails, avoid nail biting 
+o	Wash hands thoroughly after using the toilet and before eating
+o	Shower rather than bathe every morning 
+o	One piece sleeping outfits to reduce scratching
+o	Wash linens, clothes, toys, blankets in hot water
+o	Eggs can live up to 2 weeks on surfaces 
+
+Conjunctivitis
+-	Inflammation 
+-	If newborns have it it needs to be reported immediately, can lead to blindness
+-	Children have three major causes:
+o	Allergies, viral infection, bacterial infection
+-	Features: 
+o	Inflamed conjunctiva
+o	Sandy sensation in eye
+o	Swollen lid
+o	Purulent drainage ie bacterial 
+o	Serous drainage (viral)
+o	Intense itching in both eyes (allergic)
+-	Treatment
+o	Treat the underlying cause 
+	Bacterial  administer antibiotics 
+	Viral  cold compress, saline eye drops
+	Allergic  allergen avoidance and antihistamines 
+o	Remove the accumulation of secretions 
+	Wipe from the inner canthus downward and outward away from the other eye
+	Separate linens, towels, washcloths 
+	Refrain from rubbing the eye
+	Apply mittens
+	Good handwashing 
+	Length of infection
+•	Bacterial  up to 24 hours after initiation of antibiotics
+•	Viral  until symptoms resolve (3-7 days)
+Metabolic Acidosis vs Alkalosis 
+-	Metabolic acidosis = kidneys are too acidic, too much acid or loss of base
+-	Metabolic alkalosis = too much base or loss of acid
+-	Metabolic acidosis
+o	Increase in acid from: 
+	Poor perfusion, carbon monoxide poisoning
+	Keto acids in DKA
+	Exogenous ingestion (aspirin, ethylene glycol)
+	Impaired renal excretion (kidney disease) 
+o	Losing base
+	Diarrhea 
+o	Features: 
+	Signs of hyperkalemia (potassium and acid love each other)
+	ECG monitoring
+	Tall tented T waves
+	Kussmaul respirations (fast deep breathing) to get rid of acid 
+	Diarrhea
+o	Nursing: 
+	Monitor labs (lactic acid)
+	Replace fluids and electrolytes
+	Medications
+•	Antidiarrheals 
+•	Sodium bicarb 
+-	Metabolic alkalosis
+o	Large amounts of GI loss 
+	Vomiting, NG tube suctioning 
+	Losing hydrochloric acid 
+	Chronic OTC antacids 
+	Medication like diuretics, thiazides, excess hydrogen loss
+o	Features:
+	No real symptoms, just unwell
+	Symptoms are due to underlying causes 
+	Low resps to make acid 
+o	Nursing:
+	Replace fluids and electrolytes
+	Avoid diuretics to hold onto hydrogen
+	Antiemetics 
+	Avoid suctioning to keep acid in the gut 
+
+Administering Eye Drops
+-	Place client in supine position with chin lifted
+-	Place cotton ball or tissue below eyelid and press downward to expose conjunctival sac
+-	Have client look up
+-	Hold medication in dominant hand and rest side of hand on forehead 
+-	Administer prescribed drops 
+-	If ointment, apply from inner lower eyelid to outer and then close eyes and rub eyelid with a cotton ball
+-	Nursing: 
+o	Observe eyes prior to administering medications 
+o	If administering ointment and drops do drops first, wait five mins, then ointment
+
+
+Blood Transfusions
+-	Replace lost blood or cellular components 
+-	Increase RBCs or hemoglobin 
+-	Types: 
+o	PRBC – symptomatic anemia, raise hgb and hematocrit
+o	FFP: DIC 
+o	Frozen RBC: autologous transfusions
+o	Platelets: thrombocytopenia 
+o	Albumin: expands blood volume – shelf stable, lasts for 5 years, does not need to follow blood tubing 
+o	Clotting factors: cryoprecipitate if client is lacking clotting factors
+-	Nursing:
+o	Verify ABO and Rh blood group compatibility 
+o	Large bore IV
+o	Filtered Y tubing 
+o	Use an infusion pump 
+o	Start at a slower rate in case person has a reaction 
+o	Normal saline is the only fluid compatible 
+o	Medications are never added to blood products 
+o	Tubing set should be changed for each unit of blood 
+o	Check the blood bag for the date of expiration 
+o	Inspect bag for leaks, color, clots, and bubbles
+o	If compromised, do not give, return to blood bank 
+o	Administer within 20-30 mins after receiving from bank 
+o	Return unused blood promptly 
+o	Do not put in the refrigerator unless it’s the specific one in the blood bank
+o	Verify consent and 2 client identifiers with nurse 
+o	Insert large gauge iv catheter
+o	Administer over 2-4 hours 
+o	Baseline vitals and 15 mins after initiation 
+-	Complications
+o	Circulatory overload
+o	Transfusion reactions
+o	Sepsis
+o	Infection transmission (HIV, hepatitis B/C)
+o	Hypocalcemia due to citrate in the blood which also releases potassium 
+o	Hyperkalemia  
+-	Transfusion reactions
+o	Assessment
+	Chills, fever, itching, rash
+	SOB, chest tightness
+•	Intervention: immediately stop transfusion, do not flush the blood in the tubing 
+•	Disconnect tubing and use new tubing and infuse NS and stay with patient, monitoring VS every 5 mins
+•	Administer emergency medications as prescribed 
+•	Collect urine and blood specimens 
+•	Do not throw away the bag or tubing and return to blood bank for further testing 
+•	Document appropriately and accordingly 
+•	Notify the HCP and charge nurse
+Circulatory Overload
+-	Often caused by rapid infusion of blood products
+o	Assessment:
+	Cough, dyspnea
+	Orthopnea, SOB, crackles, distended neck veins and bounding pulses
+	High BP, high heart rate
+	Do not stop infusion, slow the rate 
+	Place in high fowler, keep feet in a dependent position 
+	May need oxygen and diuretic, furosemide
+
+
+
+
+Dehydration
+-	Causes: 
+o	Fluid loss from GI tract (vomiting, diarrhea)
+o	Decreased oral intake 
+o	Sensible losses (skin or respiratory tract with hyperventilation)
+o	Burns/trauma
+o	Can rapidly progress to hypovolemic shock 
+o	Infants and younger children have a higher percentage of body water  dehydration occurs more quickly
+-	Types
+o	Serum sodium level determines the type of dehydration
+	Isotonic: losing equal amount of water and electrolytes 
+•	Greatest threat to life with shock
+•	Primary form of dehydration in children
+	Hypotonic:
+•	Losing more electrolytes than fluids (marathon runner)
+•	Sodium osmolality will be low 
+	Hypertonic:
+•	Water loss exceeds electrolyte loss 
+•	Diuretic use/misuse
+•	Patient will have hypernatremia
+-	Features:
+o	Based on degree of dehydration 
+o	Mild: 3-5% of weight loss – increased thirst, decreased intake, increased losses
+	Minimal abnormalities on exam
+o	Moderate (6-9%)
+	Decreased skin turgor, dry mucous membranes 
+	Sunken eyes/fontanelles
+	Body compensates with tachycardia decreased urine output 
+o	Severe: (>10% loss)
+	Emergency
+	Heading to hypovolemic shock
+	Listless, lethargic, unresponsive 
+	Weak pulse, hypotension, tachypnea
+	Decreased cap refill >2 seconds
+	Skin tenting oliguria/anuria
+-	Nursing: 
+o	Check cap refill, skin turgor, mucous membranes, fontanelles
+o	Daily weights 
+o	Rehydration therapy 
+	Mild to moderate: oral rehydration solution 
+	Severe: IV fluids 
+o	Advance diet as tolerated strict intake and output
+o	Monitoring serum electrolytes and replacing as lost
+o	Monitor urine output 
+
+Clean Catch Urine Specimen
+-	Urinalysis and cns
+-	Evaluate for UTI
+-	Only 30-60ml is required 
+-	Females:
+o	Perform hand hygiene and open the container, do not touch the inside 
+o	Spread the labia using the index finger and thumb of non dominant hand, cleanse vulva in front to back motion 
+o	Initiate the urine stream (do not catch this)
+o	Pass container into urine stream 
+o	Remove before flow ends 
+o	Replace cap and do not touch inner lid
+o	Repeat hand hygiene
+-	Males
+o	Hand hygiene and open, do not touch inside
+o	If uncircumcised, retract foreskin, cleanse urinary meatus
+o	Intiate the urine stream 
+o	Pass container into the stream and remove before flow ends
+o	Replace sterile cap 
+o	Repeat hand hygiene 
+-	Toddlers/Infants 
+o	Urine collection bag
+o	Nonsterile 
+o	Cleanse the perineum and the tip of the penis 
+o	CNS – sterile intermittent catheterization 
+-	Nursing:
+o	After collection – label per policy 
+o	Do not put the label on the lid 
+o	Send specimen to laboratory immediately 
+o	Document the collection of the specimen 
+o	Report findings to HCP 
+
+Hypercalcemia
+-	Calcium helps regulate nerve and muscle function 
+-	High levels of calcium in the blood (>10.5mg/dl or 2.62 mmol/L)
+-	Calcium is absorbed within GI tract and stored in bones and is eliminated by the kidneys 
+-	Any change in the process affects levels
+o	Causes:
+	Increased calcium absorption
+	Excessive intake of calcium and vitamin D
+	Decreased calcium excretion
+	Thiazide diuretics
+	Increased bone resorption of calcium 
+•	Parathyroid is responsible for increasing serum calcium levels expulsion and it also affects kidneys and tells it to reabsorb
+•	Calcitonin regulates calcium levels – opposite of parathyroid – helps to decrease levels of calcium 
+	Hyperparathyroidism 
+	Malignancy (bone cancer) 
+	Hemoconcentration from dehydration 
+-	Features:
+o	Symptomatic when calcium is over 3 
+o	Acts like a diuretic and sedative
+o	Symptoms: 
+	Polyuria  dehydration  polydipsia
+o	Calcium helps regulate nerve and muscle function 
+o	Decreased neuromuscular excitability – muscle weakness  paralysis  decreased reflexes
+o	Decreased intestinal paralysis  constipation
+o	Cardiac dysrhythmias
+o	Severe and rapid hypercalcemia  lethargy, confusion, stupor, coma 
+o	Monitor calcium and report over 2.62
+o	Treat underlying cause 
+o	Increase oral fluid intake 
+o	Administer normal saline, bisphosphonates and calcitonin 
+o	Discontinue calcium containing medications and thiazide diuretics 
+o	Continuous cardiac monitoring 
+o	Monitor LOC 
+
+Hyperkalemia
+-	High serum potassium over 5
+-	Major intracellular ion and maintains intracellular fluid volume 
+o	Causes:
+	Creates action potential on the cell membrane 
+	Large intake of potassium (oral or IV)
+	Reduced renal excretion of potassium in AKI or CKD, spironolactone, ACE inhibitors 
+	Metabolic acidosis (DKA)
+	Insulin deficiency/hyperglycemia 
+	Muscle injury (rhabdomyolysis)
+	Tumor lysis syndromes
+	Pseudohyperkalemia – during the process of storing blood the RBC may rupture and can lead to excessive levels of potassium inside of the sample so maintaining proper techniques is important 
+-	Features:
+o	Baseline ECG – tall peaked T waves and absence of p waves 
+o	Cardiac conduction problems – heart block
+o	Ascending muscle weakness  paralysis
+o	Lethal cardiac dysrhythmias
+	V- fib, asystole
+	Widened qrs complex 
+	St segment depression 
+o	If untreated or severe – leads to widened qrs and then asystole 
+o	Monitor serum electrolytes all throughout treatment 
+o	Continuous cardiac monitoring 
+o	Interventions to promote excretion 
+o	Potassium binders (patiromir, sodium polystyrene sulfonate (kayexalate))
+o	Dialysis for severe renal impairment
+o	Medications to drive potassium from blood into cells 
+	Insulin drives potassium into cells (regular insulin and iv dextrose)
+	Be careful with this as it can cause hypoglycemia 
+	Betaadrenergic agonists (albuterol)  not as effective 
+o	ECG changes  medications to stabilize myocardial cell membranes such as IV calcium gluconate 
+o	Encourage patient to avoid foods with high potassium
+	Fast  fish, avocado, spinach and strawberries, tomato
+	Bunny can carry many oranges  bananas cantaloupe, carrots, mushrooms, oranges
+	Roast potatoes, pork, beef: raisins, potatoes pork, beef
+Hypermagnesemia
+-	Normal range is 1.5-2.5 mEq/L 
+-	Second most abundant ICF electrolyte
+-	Usual role: muscle contraction at neuromuscular junction using acetylcholine 
+-	Inverse relationship with calcium 
+-	Works with potassium (if potassium goes up, so does magnesium)
+-	Excess intake – not dietary – magnesium containing antacids
+-	IV mag sulfate for preeclampsia
+-	Impaired excretion  kidney disease 
+-	Findings:
+o	Magnesium toxicity
+	Mild: nausea, flushing, headache, diminished DTR
+	Moderate: hypocalcemia, somnolence, absent DTR, hypotension, bradycardia 
+	Severe: flaccid quadriplegia, respiratory failure, cardiac arrest 
+-	Nursing:
+o	Address underlying cause
+o	Monitor serum magnesium
+o	Avoiding more intake
+	Magnesium rich-foods: spinach, broccoli, avocados, potatoes, whole grains
+	Magnesium containing meds
+o	Reverse, remove magnesium
+	Isotonic fluids
+	IV calcium gluconate
+o	Dialysis
+o	Cardiac monitor
+	Heart blocks 
+
+Hypernatremia
+-	Major extracellular cation outside of body cells
+-	Cell membrane function and action potential 
+-	Controls fluid movement 
+-	Sodium over 145 
+-	Pulls water from brain into cerebral veins  veins enlarge and rupture 
+-	Causes:
+o	Too much salt or losing too much water
+o	Excess sodium intake 
+o	Hypertonic nacl, IV sodium bicarb
+o	Near drowning in salt water
+o	Decreased sodium excretion  hyperaldosteronism, kidney disease
+o	Inadequate water intake 
+	Unconscious or cognitively impaired 
+	Prolonged fasting, NPO status
+	Excess water loss  diarrhea, vomiting, sweating, hyperventilating
+	Diabetes insipidus
+-	Features:
+o	Too much salt, not enough water
+o	Neurologic: early: lethargy, weakness, irritability 
+	Late: Twitching, seizures, coma 
+	Signs of dehydration: dry mucous membranes, increased thirst, decreased urination, increased heart rate 
+-	Nursing:
+o	Monitor serum sodium levels and report over 145
+o	Increase oral fluid intake and decrease dietary sodium intake
+o	Isotonic or hypotonic iv fluids (0.45 NACL)
+o	Monitor response to treatment
+o	Decrease sodium level slowly  rapidly decrease in sodium levels  cerebral edema and permanent neurologic complications
+o	Seizure precautions
+o	Monitor intake and output
+
+Hyperphosphatemia
+-	Normal range 2.7-4.5 
+-	Located in ICF
+-	Metabolizes calcium (inverse relationship)
+-	Muscle contraction 
+-	RBC function  holds cell membranes together
+-	Increased cellular release from tumor lysis syndrome 
+-	Rhabdomyolysis
+-	Decreased renal excretion
+-	Increased renal reabsorption
+-	Hypoparathyroidism (decreased pth)
+-	Features:
+o	Binds to calcium and lowers it so if its high, hypocalcemia
+o	Numbness and tinging 
+o	Muscle cramps, tetany (medical emergency)
+o	Laryngospasm  stridor (emergency)
+o	Chvosteks sign, trousseau sign 
+-	Nursing:
+o	Treat underlying cause
+o	Monitor serum levels
+o	Hypocalcemia  correct this as well (calcium gluconate IV)
+o	Monitor IV site
+o	Give phosphate binders
+	Calcium carbonate  always dissolved, never chew
+	Take with 8 oz of water  with meals or right after
+	Can cause constipation  hypoactive bowel sounds
+
+Hypocalcemia
+-	Calcium less than 2.25
+-	Pth: secreted by parathyroid gland and leads to increased serum calcium levels
+-	Calcitonin: decreased serum calcium 
+-	Causes: parathyroidectomy, thyroidectomy, radical neck surgery, vitamin d deficiency, intestinal malabsorption (celiac), phosphate binding calcium (CKD, tumor lysis syndrome)
+-	Features:
+o	Acts like a sedative normally  nerves and muscles are irritable when levels are low
+o	Peripheral neuromuscular excitability (tetany)  Chvostek and trousseau
+	Chvostek: tap facial nerve, spasm of facial muscles = positive response
+	Trousseau: venous stasis for three minutes, carpal spasm = positive response 
+o	Parasthesia (tingling of lips and fingers)
+o	Hyperreflexia (3+) normal is 2+
+o	Muscle cramps 
+o	Seizures
+o	Cardiac dysrhythmias 
+o	Severe  respiratory depression, laryngeal stridor (both life threatening)
+-	Nursing:
+o	Notify HCP
+o	IV calcium gluconate or chloride
+o	Seizure precautions
+o	ECG
+o	Continuous cardiac monitoring
+o	Respiratory status
+o	Monitor for adventitious breath sounds 
+o	Encourage calcium rich foods
+	Don’t let fish and tofu spoil
+	D: dairy
+	L: leafy greens
+	F: fish
+	A: almonds
+	T: tofu
+	S: soy products
+
+Hypokalemia
+-	Features: 
+o	Potassium less than 3.5
+o	Cardiac dysrhythmias: VT/VF = we will see changes first, like PACs, PVCs
+o	Muscle fatigue/cramps  flaccid paralysis 
+o	Altered smooth muscle  decreased bowel sounds, nausea and vomiting
+o	Constipation  ileus
+-	Causes:
+o	Increased losses 
+o	GI: diarrhea, vomiting, NG suction, diuretics, polyuria, hyperaldosteronism 
+o	Insulin administration
+o	Albuterol
+o	Alkalosis
+o	Direct relationship with H+ ions (if we lose hydrogen we lose potassium0
+-	Nursing:
+o	Monitor levels
+o	Cardiac monitor
+o	Decrease potassium excretion
+o	Avoid potassium wasting diuretics
+o	Correct hypomagnesemia 
+o	Minimize GI loss (antiemetics, antidiarrheals)
+o	Administer potassium chloride – only give orally or IV piggyback, never push 
+o	Do not exceed 10 mmol/hr
+o	Encourage potassium rich diet
+	Fast bunny can carry many oranges and roast potatoes pork and beef
+	Fish 
+	Avocado
+	Spinach
+	Strawberries
+	Tomato
+	Bananas
+	Cantaloupe
+	Carrots
+	Mushroom
+	Oranges
+	Raisins 
+	Potatoes
+	Pork
+	Beef 
+Hypomagnesemia
+-	If you have hypomagnesemia, you also have hypocalcemia
+-	Normal range 0.75-1.25
+-	Causes:
+o	Inadequate intake
+o	Malnutrition
+o	Alcohol use
+o	Proton pump inhibitors 
+o	Chronic laxatives
+o	Vomiting or diarrhea
+o	Malabsorption (IBS)
+o	Renal losses
+	Diuretics 
+o	Antibiotics (amphotericin)
+o	Aminoglycosides
+o	Insulin 
+-	Features:
+o	Identical to hypocalcemia
+o	Positive trousseau and Chvostek signs
+o	Muscle spasms
+o	Muscle cramps
+o	Hyperreflexia
+o	Seizures
+o	Cardiac dysrhythmias
+-	Nursing:
+o	Address underlying cause
+o	Magnesium supplements (oral or IV)
+o	Cardiac monitor
+o	Increase intake of mg foods – green vegetables, potatoes, whole grains 
+o	Restore calcium 
+o	Address gi and renal loss
+	Treat nausea, vomiting, diarrhea
+	Adjust diuretics 
+
+Hyponatremia
+-	Causes:
+o	Excess sodium loss
+o	Diarrhea
+o	Vomiting
+o	Ng suction
+o	Renal losses
+o	Diuretics
+o	Adrenal insufficiency
+o	Burns
+o	Excess water gain
+o	Hypotonic iv fluids 
+o	Siadh
+o	Heart failure
+o	Cirrhosis
+o	Polydipsia
+-	Features:
+o	Primarily neurologic 
+o	Cerebral edema
+o	Headache
+o	Nausea and vomiting
+o	Lethargy  confusion  seizures  coma
+-	Nursing: 
+o	Monitor levels
+o	Seizure precautions
+o	Treatment depends on cause
+	Excess sodium loss or low sodium
+	Replace sodium with normal saline 
+o	Fluid restrictions
+o	Loop diuretics 
+o	Monitor response to treatment
+o	Do not decrease too fast because it can cause osmotic demyelination syndrome = permanent nerve cell damage in brain 
+o	Monitor hourly input and output
+
+Enema Administration
+-	Promote intestinal peristalsis  evacuates feces from colon
+-	Indications:
+o	Endoscopic procedures (colonoscopy)
+o	Relief for constipation
+-	2 types:
+o	Cleansing – used to clean the bowel out 
+	Tap water: water intoxication and hyponatremia 
+	Soap suds: stimulate peristalsis by creating irritation/inflammation 
+	Normal saline – isotonic solution – less fluid absorption 
+	Hypertonic, small volume: prepackaged with rectal tip, contains sodium phosphate – easier to tolerate, helps ease passage of stool. Monitor for hyperphosphatemia 
+	To administer: inspect for distension,auscultate bowel sounds. 
+•	Place in sims position left lateral with right knee flexed
+•	Place waterproof pad under bum
+•	Hang enema no more than 12 inches above the rectum to prevent cramping 
+•	Lubricate the tube and insert 3-4 inches (7.5-10 cm) into the rectum, pointing the tip toward the umbilicus
+•	Open roller clamp slowly 
+•	Monitor for cramping or discomfort  temporarily stop for 15-30 seconds, encourage deep breathing and relax, resume at a slower rate
+•	Retain solution for as long as needed 
+o	Barium
+	Contrast medium  visualize the colon using fluoroscopic x-ray
+	Before: laxatives until colon is clear, clear liquid diet the day before, NPO for 8 hours, cramping and urge to defecate are expected
+	After: fluids and laxatives to expel barium, observe stool for contrast medium, stool may be white for up to 72 hours
+Foreign Body Aspiration
+o	Causes obstruction
+o	Commonly caused by small and round objects
+o	Hot dogs, candy, peanuts, popcorn, grapes
+o	Burst latex balloons, plastic beads, batteries, and coins
+o	Batteries may cause esophageal or tracheal corrosion
+o	Most common in children 1-3
+o	Medical emergency
+o	Nasal foreign body: unilateral purulent drainage that does not improve
+o	Features: 
+	Initially: universal choking sign – hands clutching neck, gagging, coughing, retractions, inability to talk, sweating, tachycardia
+	Later: cyanosis  unconsciousness
+o	Laryngotracheal obstruction:
+	Stridor and hoarseness
+o	Bronchial obstruction:
+	Paroxysmal cough, wheezing, asymmetrical breath sounds 
+	Other lung will be clear
+-	Nursing:
+o	Heimlich under age of 1
+o	Position baby face down with head lower than body and support the baby’s head with forearm against thigh, provide 5 back thrusts and turn baby up if still choking and give five chest thrusts on sternum with 2-3 fingers, repeat until needed or perform cpr if baby becomes unconscious 
+o	Adult: stand or kneel behind person and wrap arms around, place fist against abdomen above navel and give a quick upward thrust into the abdomen, repeat until necessary. 
+o	Never do a blind finger sweep (if you don’t see it) 
+o	If you see the object, take it out 
+o	Endoscopy and bronchoscopy may be needed to remove 
+o	Monitor for at least an hour afterwards for laryngeal edema 
+o	Prevention: keep small objects out of reach, educate about avoiding small round foods and cut longitudinally 
+-	
+
+Incentive Spirometer
+-	Deep inhalations expand the lungs 
+-	Inflates the alveoli 
+-	Uses:
+o	Atelectasis
+o	Prolonged bedrest
+o	Prevention of respiratory complications following abdominal surgery and spinal cord injury 
+o	Use 5-10 times every hour
+-	Nursing: 
+o	Give analgesics 
+o	Position in high fowler or sitting position
+o	Cough while using 
+o	Set the goal marker
+o	Piston moves when patient inhales 
+-	Teaching:
+o	exhale
+o	Place mouthpiece in the mouth 
+o	Inhale slowly to raise the piston to the goal marker
+o	Hold breath for 3 seconds
+o	Slowly exhale
+o	Cough at the end of the session 
+o	Document 
+
+Metered Dose Inhaler
+-	Allows for measured dose administration of inhaled medications
+-	Short acting beta agonists - albuterol
+-	Long acting beta agonists – salmeterol 
+-	Inhaled corticosteroids -fluticasone
+-	Shake canister for 3-5 seconds
+-	Tilt head back slightly and exhale slowly for 3-5 seconds
+-	Hold canister about 1.5 inches in front of open mouth
+-	Compress canister while inhaling slowly for 3-5 seconds
+-	Hold breath for 10 seconds
+-	Wait 1-2 mins before taking a second puff
+-	First puff dilates the bronchioles and allows easy passage of the second puff
+-	Can add a spacer if patient has a hard time coordinating
+-	Dry powder inhalers:
+o	Remove mouthpiece cover, do not shake
+o	Prepare medication inside inhaler
+o	Exhale
+o	Seal lips around mouthpiece
+o	Hold breath for 5-10 seconds
+o	Wait 20-30 seconds between puffs and 2-5 mins between medications
+
+Negative Pressure Wound Therapy
+-	uses an active suction that removes drainage and infectious organisms, increases circulation and helps to bring the edges of the wound together
+-	only for wounds with healthy granulation tissue
+-	surgically debride necrotic tissue prior to initiating therapy 
+-	requires routine sterile dressing therapy 
+-	administer analgesics prophylactically
+-	apply a skin protectant to the intact skin around the wound to help maintain an airtight seal
+-	sterile foam dressing should be cut to the shape and placed in the wound bed 
+-	cover with occlusive film dressing that extends 1-2 inches past wound bed
+-	attach vacuum tubing and then connect it to the closed unit
+-	observe compression of the foam dressing 
+
+Preparing a Sterile Field
+-	gather all supplies prior to procedure 
+-	clear area
+-	close door
+-	check sterile packaging integrity and expiration date
+-	position client 
+-	select work surface above waist level
+-	open the outer layer of the sterile package and place the package on the work surface
+-	grasp the outer surface of the outermost tab of the sterile package
+-	open the tab away from the body
+-	select the next available tab and pull it to the side 
+-	to add an item to the sterile field open the package and drop item onto the surface 
+-	open package and drop it onto the sterile field
+-	one inch perimeter border on sterile field that is unsterile 
+-	don sterile gloves
+-	use nondominant hand to grasp the cuff of the dominant hands glove and only touch the inside of the glove
+-	put on gloves
+
+Removal of sutures and staples
+-	remainsi n place until the wound has closed
+-	nurse may remove
+-	staple removal:
+o	check site, cleanse with prescribed solution
+o	remove every other staple to make sure the sides of the skin are not starting to pull apart
+o	remove remaining staples if skin remains closed 
+o	document number removed
+-	suture removal
+o	lift and pull suture off skin, cut closest to skin (you do not want to pull bacteria through a healing wound)
+o	pull nonexposed material through tissue
+o	document the wound 
+
+Seizure Precautions
+-	suction equipment
+-	supplemental oxygen, bag valve mask, endotracheal intubation supplies
+-	padded side rails
+-	loosened clothing
+-	bed in lowest position 
+-	low stimulus environment
+-	during a seizure:
+o	stay with the client
+o	note the start time of seizure
+o	remove or loosen restrictive clothing especially around neck or waste
+o	easre the client to the floor in an upright position 
+o	position to side lying to prevent aspiration
+o	protect head from injury
+o	place a pillow under the head or put the clients head on your lap
+o	administer oxygen as needed
+o	do not put anything in the clients mouth or give any foods or liquids during the seizure or in the postictal stage
+o	document the occurrence and the duration 
+
+Submersion Injury
+-	occurs when a client is underwater and unable to breath for a long time
+-	initial period of panic – loss of normal breathing pattern  holding breath, air hunger, struggling to stay above water
+-	children from ages 1-4 have the highest rates of submersion injury
+-	life threatening complications – 
+-	leading cause of accidental death in children
+-	risk:
+o	children less than 5
+o	minimal supervision around water
+o	inability to swim or overestimation of swimming abilities
+o	risk-taking behaviour
+o	substance abuse
+o	developmental or behavioural disorders
+o	seizure disorders
+-	Features:	
+o	Length of submersion dictates severity of impairment
+o	More than five minutes the prognosis Is poor
+o	Onset up to 24 hours after incident 
+o	Fatal event  due to respiratory and cardiac impairment
+o	Nonfatal event 
+	Mild impairment: breathing, paroxysmal coughing, fully alert
+	Moderate: difficulty breathing and or disoriented but conscious
+	Severe: not breathing or unconscious
+o	Hypoxia  hypoxic-ischemic brain injury 
+o	May initially be cognitively intact but then suffer from hypoxia due to edema
+o	Cardiac arrest
+o	Apnea
+o	Hypothermia: organ failure – weak thready pulse, cold water  ventricular dysrhythmia/PEA
+o	Aspiration  ARDS 
+	Reflex inspiratory efforts
+	Coughing when water contacts lower respiratory tract 
+-	Nursing:
+o	Obtaining length of submersion is critical
+o	First interventions:
+	Focus on ABCs 
+	Rescue and immediately resuscitate  administer rescue breaths first, then compressions  remove wet clothing
+	Emergency dept interventions: 
+•	Priority  airway management
+•	Monitor for signs of respiratory distress
+•	Administer oxygen
+•	Prepare for intubation and mechanical ventilation
+•	Monitor neurological status
+•	Initial and frequent neurological checks 
+•	If gcs is less than 8 = medical emergency = intubate and ventilate
+o	Hypothermia:
+	Monitor body temperature  slowly increase
+•	Passive rewarming  remove wet clothing and apply warm blankets and dry clothing
+	Active external rewarming
+•	Heating devices
+•	Warm water immersion
+	Severe cases: active internal rewarming
+•	Warm IV fluids
+•	Warmed humidified oxygen 
+-	Anticipatory guidance
+o	Properly fence swimming pools
+o	Supervise children closely around or near water 
+o	Wear a properly fitted floatation device 
+o	Teach children how to swim
+o	Avoid substance abuse while swimming or boating
+o	Children can drown in shallow water, even buckets and bathtubs 
+
+Cleft Lip and Palate
+-	Incomplete fusion of the palatine bones during fetal development = uncoordinated suck and swallow efforts
+-	Increased risk for aspiration
+-	Features:
+o	Poor suction
+o	Uncoordinated suck and swallow
+o	Complications:
+	Aspiration pneumonia
+	Risk for ear infections and hearing loss
+	Speech or language difficulties
+	Dental problems
+-	Nursing:
+o	Encourage bonding 
+o	Cannot breastfeed successfully
+o	Feed in upright position
+o	Burp after each ounce of formula 
+o	Require a cross cut nipple
+o	Position the nipple toward the back or side of the newborns mouth
+-	Management:
+o	Surgical repair
+o	6-12 months after birth 
+o	Postop care: 
+	Elbow restraints
+	Observe for excessive swallowing = fresh bleed
+	Do not offer straws, pacifiers, rigid eating utensils
+	Diet: soft foods and modified liquids

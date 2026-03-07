@@ -101,6 +101,15 @@ The application is built with Vite, React, and Express 5 on Node.js with TypeScr
 - **Structure**: ClinicalCase interface with 2-3 stages each, vitals/labs/assessmentFindings, 3 decisions per stage with isOptimal flag and mechanismExplanation
 - **Body systems**: Reproductive, Respiratory (pediatric), Renal, Cardiovascular, Immune, Neurological
 
+## Exam Question Bank
+- **Total questions**: 3,722+ across all tiers (database)
+- **RPN**: 1,644 questions (REX-PN) — cardiovascular, respiratory, neuro/gi/endo, peds/heme/pharm, expansion A-E
+- **RN**: 939 questions (NCLEX-RN) — med-surg, pharmacology, expansion A-D (sepsis, shock, critical care, delegation, maternal, mental health, oncology, infection control)
+- **NP**: 1,139 questions (AANP) — pharmacology, clinical management, expansion A-B, 55 exam batches
+- **Question format**: `{q, o[], a, r, s}` — stem, options, correct answer index, rationale, body system
+- **Migration script**: `script/migrate-questions-to-db.ts` — deduplicates via stem_hash
+- **Exam chrome color**: CSS variable `--exam-chrome-color: #C7B8FF` in `:root` for top/bottom exam bars
+
 ## Lesson Content Status
 - **Total lessons**: 1,422+ across all tiers (3,374 questions)
 - **RPN (569 lessons)**: 100% complete - all fields populated with scope-appropriate content

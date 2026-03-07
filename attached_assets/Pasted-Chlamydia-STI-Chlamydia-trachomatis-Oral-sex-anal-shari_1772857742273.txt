@@ -1,0 +1,533 @@
+Chlamydia
+-	STI
+-	Chlamydia trachomatis
+-	Oral sex, anal, sharing sex toys, mom to baby
+-	Risk:
+o	Age less than 25, multiple partners
+o	History of STI
+-	Also screen for gonorrhea – high rates of coinfection
+-	Features:
+o	Most are asymptomatic
+o	Urethritis
+o	Painful or burning urination
+o	Cervicitis – red inflamed cervix
+	Spotting or postcoital bleeding
+o	Men may have mild discharge – watery or mucoid, scant
+	Gonorrhea has copious or purulent discharge
+o	Unilateral scrotal swelling
+-	Complications:
+o	PID
+o	Infertility, ectopic pregnancy
+o	Pregnancy complications: preterm birth, passage of chlamydia to infant through eye infection
+o	Postpartum endometritis
+-	Dx:
+o	Nucleic acid amplification tets or urine sample or vaginal/cervical sample
+o	NAT
+o	Usually concurrent test for gonorrhea
+-	Tx:
+o	Doxycycline 
+o	Pregnant clients get azithromycin – take a urine pregnancy test
+o	Report to public health officials (gonorrhea as well)
+o	Test for other STI (HIV, syphilis)
+-	Teaching:
+o	Avoid intercourse for 7 days after abx
+o	Barrier contraception
+o	Minimize sexual partners
+o	Routine STI screening 3-12 months 
+
+Chronic Kidney Disease
+-	Excretory function: produce urine
+-	Hormonal: erythropoietin 
+-	Blood pressure control
+-	Irreversible, slow progressive disease  decreased glomerular filtration 
+-	5 stages: higher the number, the worse the function, based on GFR
+-	1-3 kidneys functioning (assess, monitor, prevention)
+-	4-5: kidneys severely impaired (dialysis, transplant)
+-	Causes: 
+o	DM, hypertension (most common)
+	Constant state of sugar in the blood, eradicates cells and tissues over time, damages renal arteries, causes scarring 
+o	Autoimmune disease
+o	Polycystic kidney disease
+-	Features:
+o	Volume overload – peripheral edema, rales, pulmonary edema, pleural effusions
+o	Increased BP – HTN
+o	Accumulation of urea and waste – lethargy, pruritis, sleep changes, peripheral neuropathy – toxins overflow from the blood vessels eventually and go into the interstitial space = dryness = itchy = open wounds 
+o	Alterations of electrolytes and acid-base buffer system 
+	High potassium and phosphorus
+	Low serum calcium 
+	Acidotic environment (metabolic acidosis)
+o	Loss of other kidney functions 
+	Anemia, hgb drops, lethargy, fatigue
+	Loss of vitamin d and calcium (vit d is activated through kidney)
+	Long term bone disease 
+-	Treatment:
+o	ACE inhibitors, angiotensin 2 receptor blockers (renin angiotensin system)
+o	Erythropoietin injections, iron 
+o	Diuretics (stages 1-3)  need the kidneys to still function   daily weights, input output
+o	Calcium and vit D
+o	Tx hyperkalemia: Oral intestinal potassium binders (kayexalate (can cause diarrhea))  sodium zirconium, patiromer
+o	Tx: hyperphosphatemia: Oral phosphate binders- calcium acetate/carbonate
+o	Tx metabolic acidosis: sodium bicarb
+o	Diet:
+	Low potassium, phosphate (berries, nuts, peanut butter, green leafy vegetables)
+	Low sodium and fluid restriction 
+	Modest protein restriction (chicken, plant based protein (legumes) fish, avoid red meat)
+-	Nursing
+o	Correct fluid and electrolyte imbalance
+o	Strict intake and output
+o	Daily weights
+o	Monitor electrolytes, especially potassium
+o	Administer diuretics for stages 1-3
+o	Assess lung, heart sounds, vital signs 
+o	Monitor for systemic complications as disease progresses
+o	In stages 4-5 – prepare for dialysis (HD or PD), EOL discussion
+
+Cirrhosis
+-	End stage liver disease
+-	Takes repeated injury to develop cirrhosis
+-	Irreversible scarring due to repeated inflammation, leads to fibrosis
+-	Decreased bilirubin metabolism 
+-	Decreased synthetic functionality = decreased protein synthesis
+o	PTT, albumin, estrogen cannot be metabolised
+o	Altered blood flow = portal vein hypertension (receives blood from esophagus, stomach, intestines, spleen = blood pools back to organs) 
+-	Risks:
+o	Alcohol, chronic viral hep B or C
+o	Non alcoholic fatty liver disease – obese clients
+-	Features:
+o	Esophageal varices, splenomegaly, ascites, caput medusae, anorectal varices
+o	Spider angiomata, gynecomastia (estrogen buildup)
+o	Loss of sexual hair, testicular atrophy, palmar erythema
+o	Jaundice, darkened urine, pale stool
+o	Ecchymosis, edema 
+o	Bruising
+o	Fluid buildup = albumin deficiency 
+-	Complications:
+o	Hepatic encephalopathy = buildup of ammonia, can lead to cerebral edema and hypertension
+o	Ascites – pressure on lungs, atelectasis, pneumonia
+o	Spontaneous bacterial peritonitis 
+o	GI bleeding, liver cancers
+-	Features:
+o	Anticipated labs: 
+	Increased:
+•	Bilirubin, PT, PTT, ALT, AST, serum ammonia
+	Decreased:
+•	Albumin, platelets, WBC, possibly hgb
+-	Nursing:
+o	Elevate HOB to minimize dyspnea
+o	Give diuretics – spironolactone or lasix
+o	Manage ascites 
+	Paracentesis, daily weight, abdo girth 
+	Implement sodium and fluid restrictions
+o	Signs of bleeding
+o	Monitor for hepatic encephalopathy – asterixis (tremor), confusion, altered mental status
+o	Do not give sedatives
+o	Avoid hepatotoxins: alcohol, acetaminophen 
+o	Vaccination against hepatitis a 
+o	Skin care (calamine) for jaundice
+Paracentesis
+-	Treat hypotension after paracentesis with a colloid solution (25% albumin IV)
+-	Check BP during and after procedure 
+-	Prevent hypertension 
+
+
+DVT:
+	Usually affects legs
+-	Diminished or blocked blood flow causes inflammation and edema at the site of blockage
+-	Predisposed by Virchow triad – altered blood flow (stasis), endothelial damage, hypercoagulable state = thrombosis 
+-	Risks:	
+o	Age 65 and older
+o	Immobility 
+o	Obesity 
+o	Oral contraceptives 
+o	Pregnancy
+	C-section
+o	Surgery
+o	Fractures
+o	Malignancy 
+-	Features: 
+o	Unilateral edema, pain, warmth, decreased sensation, swelling
+-	Dx: d-dimer, venous doppler ultrasound
+-	Nursing:
+o	Prevention: change positions, walk frequently 
+o	Perform leg exercises
+o	Avoid crossing legs or put a pillow behind the knees
+o	Wear compression stockings or moon boots
+o	Anticoagulants 
+o	Observe for evidence of bleeding 
+o	Fall risk 
+o	Neuro assessments, cap refill, pulse strength, might have to measure circumference of calf
+o	Monitor for PE – resp distress, decreased perfusion, SOB, pleuritic chest pain, sudden onset mental status changes
+o	If DVT, do not walk – can cause pulmonary embolism – start anticoagulation then ambulate
+o	Will be prescribed long term anticoagulation 
+o	Encourage fluid intake 
+
+DM type 1
+-	Chronic endocrine disorder
+-	Absolute deficiency in insulin production due to destruction of pancreatic beta cells
+-	Insulin required 
+-	Typically seen in children and young adults
+-	Features:
+o	Thin
+o	Hyperglycemia 
+o	Polyuria, polydipsia, polyphagia 
+o	Weight loss
+o	Ketoacidosis (can be initial presentation)
+o	Breathing fast, deep
+o	Blurred vision, nocturnal enuresis
+o	Vaginal candidiasis 
+-	Management:
+o	Consistent meal and snack with portions and compositions
+o	Frequent glucose monitoring
+o	Keep diary of glucose levels
+o	Lifelong insulin administration – requirements change with age – younger needs more insulin 
+o	Rotate insulin sites 
+o	Avoid inflammation, cellulitis, infection
+o	Carry glucose tablets at all times
+o	Wear medical alert bracelet
+o	Monitor for hypoglycemia and dka
+o	Extra food prior to exercise, 10-15 grams of carbs for every 30-45 mins 
+o	Monitor bg levels before, during, after exercise
+o	Ha1c every three months
+o	Do not withhold insulin during illness, infection, stress = higher metabolic need
+o	Store insulin in dry space but can be refrigerated after opening
+o	Test urine for ketones
+-	Hypoglycemia
+o	Blood glucose under 3.9
+o	Tx: oral glucose
+o	IM glucagon if unconscious
+o	Medical emergency 
+
+DM Type 2
+-	Not making enough insulin or the insulin isn’t working properly
+-	Pancreas is still making some insulin
+-	Insulin resistance- insulin receptors aren’t working, not enough of them, combination of both
+-	Insulin cannot take glucose into cells = hyperglycemia
+-	Liver releases too much or not enough glucose 
+-	Adipose tissue releases cytokines that cause inflammation and leads to DM
+-	Risks:
+o	Nonmodifiable: age above 45, family history, history of gestational diabetes
+o	Modifiable: obesity, inactivity, hyperlipidemia 
+o	Cigarette smoking
+-	Manifestations:
+o	Gradual onset, asymptomatic hyperglycemia 
+o	Polyuria, polyphagia, polydipsia 
+o	Blurry vision 
+-	Dx:
+o	Hgba1c above or equal to 6.5
+o	Fasting glucose above or equal to 7 mmol/L
+	Nothing to eat or drink for 8 hours
+o	Random glucose above 11.1
+o	Oral glucose tolerance test for pregnant clients
+-	Complications:
+o	Hyperlipidemia, hypertension
+o	Macrovascular: atherosclerosis, CAD, stroke, TIA, peripheral artery disease
+o	Microvascular: peripheral neuropathy, sensory neuropathies, retinopathy, nephropathy 
+o	Delayed wound healing 
+o	Recurrent infections = bacteria loves sugar
+o	Hyperosmolar hyperglycemia
+-	Nursing:
+o	How to use a glucometer
+o	Teach moderate activity, diet low in fat, high in fiber
+o	Weight loss 
+o	Avoid alcohol (hypoglycemia risk)
+o	Oral antidiabetic medications or insulin therapy 
+o	Treat hyperlipidemia – statins
+o	Monitor for hyperglycemia, HHS
+o	Proper foot care, inspect foot, report infection immediately, no open sandals, no overlapping toes, protective shows, wash with lukewarm water daily 
+o	Avoid heating pads 
+o	Sick day management – they tend not to take insulin but they can become hyperglycemic, continue as directed, monitor blood glucose frequently
+o	Routine eye exams 
+o	Stress reduction techniques 
+o	Prevent infections 
+
+HHS: 
+-	Life threatening 
+-	Dehydration, really concentrated blood 
+-	Water is pulled out of cells = dehydration
+-	Gradual onset
+-	Blood glucose above 33.3
+-	Caused by underlying infection, illness, medication 
+-	Polyuria
+-	Neurologic manifestations – lethargy, altered loc, coma
+-	Blurry vision
+-	IV fluids, IV insulin, electrolyte replacement
+
+Endocarditis
+-	Inflammation and infection of the inner layer of the heart, causes valve dysfunction
+-	Microemboli can travel to end capillaries 
+-	Large emboli can travel to other organs and block blood flow = stroke, necrosis, limb loss
+-	Risks:
+o	Recent dental procedure (tooth extraction)
+o	Prosthetic heart valves
+o	Congenital heart defects
+o	IV recreational drug use
+-	Features:
+o	Flu like symptoms – fever, malaise, myalgia, arthralgia
+o	New or worsening cardiac murmur
+o	Janeway lesions – nontender lesions on the skin
+o	Splinter hemorrhages – lines on skin
+o	Osler nodes: on hands and feet 
+-	Complications
+o	Valve problems
+o	Conduction abnormalities – dizziness, syncope
+o	Neurologic: stroke, weakness, speech problems
+o	Renal: abdominal pain, hematuria, glomerulonephritis, AKI
+o	MSK: vertebral osteomyelitis  back pain, septic arthritis  joint swelling, pain, redness
+o	Peripheral vascular occlusion  numbness, tingling and cyanosis in extremities
+o	Pulmonary infarction  common with right sided endocarditis, pleuritic chest pain, dyspnea, hemoptysis
+o	 
+o	Dx:
+	Elevated WBC, positive blood cultures, elevated erythrocyte sedimentation count
+	Echo 
+	ECG
+o	Nursing
+	Blood for culture and sensitivity 
+	IV abx long term – abx don’t penetrate well to the heart
+	Cvad – PICC (4-6 weeks)
+	Monitor for signs of embolisms and heart failure
+	Check temperature 
+	Teach client to check temperature and use Tylenol if needed 
+	Monitor IV catheter site for signs of infection 
+	Ensure appropriate dental hygiene 
+	Prophylactic antibiotics prior to dental work 
+Hemodialysis
+-	Mimics function of kidneys
+-	Removes waste and water
+-	Corrects electrolyte imbalances
+-	Restores acid base balance
+-	Requires:
+o	Access to the clints circulation
+o	Semipermeable membrane
+o	Dialysis solution
+o	Highly purified water
+-	Access:
+o	Three ways:
+	Central venous double lumen catheter (temp)
+	Arteriovenous fistula 
+	Arteriovenous graft – clients own system is not intact or fragile – uses synthetic graft
+-	Procedure
+o	Access the clients circulation 
+o	Administer heparin to the client through the line to prevent or reduce the risk of clots
+o	Flows through membrane in one direction 
+o	Dialysis solution flows in opposite direction
+o	Wastes are removed and electrolytes are corrected via diffusion
+o	Ultrafiltration removes excess water from the blood
+o	Blood returns to the client 
+-	Nursing:
+o	Administer anticoagulants 
+o	Monitor for bleeding
+o	Assess VS frequently predialysis and every 15 mins and at the end
+o	Hypotension may occur due to excess fluid removal
+o	Withhold antihypertensives prior to hemodialysis
+o	Obtain blood pressure on the arm opposite to the arm accessed
+o	Provide nutrition since they can eat before and during, especially if diabetic
+-	Complications:
+o	Air embolism – dyspnea and tachypnea, chest pain, anxiety, changes in consciousness, hypotension, reduced o2 sat 
+	Immediately clamp tubing, place in Trendelenburg on left side, administer high flow o2, notify HCP, medical emergency
+o	Disequilibrium syndrome – sudden change in composition of the ECF, solutes are removed from the blood too fast, more common in new client 
+	Cerebral edema, n+v, restlessness, agitation, confusion, seizures, death 
+•	Slow or stop dialysis, notify HCP, reduce environmental stimuli, prepare to administer hypertonic saline or mannitol, prepare to dialyze for shorter periods at reduced flow rates 
+o	Infection/sepsis 
+o	Cardiac arrhythmias (electrolyte imbalance)
+o	Catheter clotting
+
+Clozapine
+-	Atypical antipsychotic medication to treat schizophrenia that doesn’t respond to other treatment
+-	Associated with a risk for agranulocytosis (dangerously low WBC) 
+-	WBC must have WBC and ANC in normal limits before starting clozapine and must be continuously monitored
+
+Crutch Paralysis
+-	Reversible condition caused by excessive and prolonged pressure on the radial nerve at the axilla, due to crutches that are too long or leaning on top of the crutches when ambulating. Manifestations = weakness, numbness, tingling of the arm, wrist, hand
+-	Teach client to support body weight on the hands and arms, not the axillae, make sure there is a 1-2 inch space between the axilla and the crutch pad. 
+
+Sjogren Syndrome
+-	Chronic autoimmune disorder where moisture producing exocrine glands of the body are attacked by the white blood cells. Most commonly affected glandsa re the salivary and lacrimal glands, leading to dry eyes, dry mouth.
+-	Can lead to corneal ulcerations, dental caries, oral thrush. 
+-	Can also have dry skin and rashes, chronic dry cough, vaginal dryness and painful intercourse.
+-	Treatment: otc drops, prescription drops, wearing goggles, sugarless gum/candy/artificial saliva, regular dental appts, lubricants for vaginal dryness. Use humidifiers. Sip water. 
+-	Take lukewarm showers with mild soap, avoid decongestants. 
+-	Avoid coffee, alcohol, nicotine, acidic drinks. 
+
+Toxic Epidermal Necrolysis
+-	Severe form of Stevens Johnson syndrome – an immune mediated acute skin reaction triggered by certain medications (lamotrigine, rifampin). Initial manifestations are nonspecific and flu like (fever, fatigue), followed by a burn like rash and blistered lesions that often involve the mucous membranes. Care is similar to that of a burn patient. 
+-	Nursing:
+o	Apply sterile, moist dressings to areas of open skin due to shedding on the face, trunk, palms
+o	Ensuring the causative medication is discontinued to prevent further progression of symptoms
+o	Providing cotton blankets and maintaining a warm room temperature to prevent hypothermia 
+o	Administer lubricating eye drops or ointment to relieve dryness and prevent corneal abrasion and keratoconjunctivitis
+
+Surgical Site Infections
+-	Develop within days to weeks of a surgical procedure and are caused by introduction of microorganisms to the open wound, most commonly from skin flora or contamination of the surgical site. Clients with DM with a history of smoking have an increased risk of SSI due to delayed wound healing from altered tissue perfusion and collagen synthesis
+-	Clinical manifestations:
+o	Fever, purulent discharge, induration, erythema. 
+o	Paresthesia at the wound edges, dusky subq tissue, intense pain = necrotizing SSI
+-	Nursing:
+o	Administer broad spectrum abx
+o	Obtain a prescription for additional insulin if diabetic
+o	Prepare the client for urgent surgical debridement 
+o	No abdominal binder 
+Beta Blockers
+-	Reduce cardiac workload, decrease myocardial oxygen demand by decreasing blood pressure and decreasing HR
+
+ACE inhibitors
+-	Alter the RAAS, preventing release of aldosterone 
+-	Promote vasodilation and decrease BP 
+-	Decrease ventricular remodeling 
+
+Loop Diuretics
+-	Increase urine output and fluid excretion 
+-	Decrease BP and reduce pulmonary edema, increase o2 saturation, and decrease cardiac preload
+
+Autonomic Dysreflexia
+-	Acute unregulated sympathetic nervous system response to noxious stimuli (bladder distension, fecal impaction, constrictive clothing) that causes severe lifethreatening hypertension. 
+-	Blood pressure remains high
+-	Manifestations:
+o	HTN, bradycardia, severe headache, profuse diaphoresis, nausea. 
+o	Can lead to stroke, seizures, and MI. 
+o	First elevate the head of the bed 45 degrees or higher to reduce BP
+o	Then Assess for noxious stimuli 
+IV insertion
+-	Ideal placement is a straight vein on the nondominant arm 
+-	Veins located on the dorsal surface of the forearm (cephalic vein) are least prone to complications 
+
+Post-Liver Biopsy Care
+-	Client should lie on the right side for a minimum of 2 hours (to apply pressure and splint the puncture site) and then supine for an additional 12-14 hours
+
+Malabsorption Symptoms
+-	Muscle wasting, edema
+-	Weight loss
+-	Anemia (iron, folate, b12)
+-	Bone pain, muscle weakness, tetany (calcium, vit D)
+-	Hyperkeratosis, night blindness (vitamin A)
+-	Petechia, easy bruising (vitamin K)
+
+Gluten Free food
+-	Dairy (milk, cheese) 
+-	Fats and oils (avocado, butter)
+-	Grains (brown rice)
+-	Protein (black beans, meats, poultry)
+-	Fruits and vegetables (bananas, bell peppers, potato)
+-	Not gluten free: soy sauce, bread 
+
+Broca Aphasia
+-	Nonfluent aphasia resulting from damage to the frontal lobe. Clients can comprehend speech but demonstrate speech difficulties. Speech pattern often consists of short, limited phrases that make sense but display great effort and frequent omission of smaller words 
+-	Can become frustrated easily 
+-	Are aware of impediment
+
+Wernicke Aphasia
+-	Unaware of speech impairment 
+-	Damage to temporal portion of the brain 
+-	Long, meaningless speech pattern 
+
+Bell Palsy
+-	Damage to facial nerve VII
+-	Manifestations = facial asymmetry, droop, inability to close the eyelid, impaired chewing, intense facial pain worsened by cold 
+-	Chew on unaffected side to prevent choking 
+-	Use a warm moist compress for pain relief (not cold)
+-	Self-limiting – resolves in 3-6 months 
+
+
+Osteomalacia
+-	Reversible bone disorder that occurs when the body is unable to use calcium and phosphorus for bone calcification due to a vitamin D deficiency. Management focuses on increasing dietary intake of vitamin D, calcium (leafy green vegetables, dairy), phosphorus (organ meats, nuts, fish, poultry, whole grains)
+-	Encourage moderate physical activity
+-	Use assistive devices to prevent injury
+
+External Fixator
+-	Used to stabilize broken bones, metal pins are placed through the tissue into the bone and connect to the frame outside the skin
+-	Monitor for signs of neurovascular compromise and pin site infection which can lead to osteomyelitis
+-	Nursing:
+o	Assess pin sites for new, increased, purulent drainage and check for erythema, warmth, pain, breakdown
+o	Assess for compartment syndrome 
+o	Perform pin site care with a sterile cleaning solution (chlorhexidine, sterile normal saline), gauze
+o	Monitoring pins and device for loosening and report to hcp
+o	Promote early mobilization, may begin walking with PT the day after surgery 
+Hepatitis A
+-	Standard precautions
+-	Spread by fecal-oral route, contaminated food and water
+-	Symptoms: nausea, vomiting, anorexia, fever, RUQ pain 
+-	Dark urine after a few days, pale stools
+-	Jaundice, pruritis 
+-	Elevated LFTs
+
+Transferring a client
+-	Make sure client is wearing nonskid shoes
+-	Make sure the bed and chair brakes are locked
+-	Use a transfer belt 
+-	Transfer the client toward the stronger side. If the client is weak on the left, ask the client to pivot on the right. 
+
+Mitral Valve Prolapse
+-	May have palpitations, dizziness, lightheadedness
+-	Chest pain can occur but it has unknown etiology 
+-	Chest pain does not respond to antianginal treatments like nitrates
+-	Beta blockers may be prescribed for palpitations and chest pain
+-	Additional teaching:
+o	Adopt healthy eating habits
+o	Avoid caffeine
+o	Check medications for stimulants 
+o	Reduce stress and avoid alcohol use
+
+Thyroid Storm
+-	Acute thyrotoxicosis
+-	Complication of hyperthyroidism that occurs when the thyroid gland releases large amounts of thyroid hormones in response to stress 
+-	Thyroid storm is characterized by severe hypermetabolic symptoms including altered mentation, agitation, confusion, tachycardia, hyperthermia, cardiac dysthythmias. 
+-	Without treatment, can lead to seizures and coma
+
+Viral Rhinitis
+-	Highly infectious, mild upper respiratory infection most commonly caused by rhinovirus
+-	Self-limited and typically resolves within 1-2 weeks
+-	Risk factors: stress, allergies, spending time in crowds during winter months
+-	Symptoms: 
+o	Cough, sore throat 
+o	Headache
+o	Nasal congestion, runny nose, sneezing
+o	Low-grade fever
+o	Malaise 
+
+Ventricular Fibrillation
+-	Unorganized ventricular activity, nonperfusing rhythm, causes cardiac arrest
+-	Often results from degeneration of ventricular tachycardia 
+-	Irregular, chaotic
+-	Waveforms of varying shape and amplitude
+-	Absence of organized QRS
+-	IMMEDIATELY check the pulse, start CPR, and prepare for defib 
+
+Hyperthyroidism
+-	Leads to increased metabolic rate
+-	Adhere to high calorie diet (4000-5000 calories a day)
+-	Consumption of approximately 6 full meals and snacks a day. These should be packed with protein, carbs, and vitamins and minerals
+-	Avoid high-fiber foods as they may increase GI symptoms
+-	Avoid stimulants (caffeine, coffee, tea, soft drinks)
+-	Avoid spicy foods 
+
+Premature Ventricular Contractions
+-	Early contractions of the ventricles that originate from an ectopic focus and result in a wide distorted QRS complex 
+-	Usually harmless if occasional and can occur as a result of stimulants (caffeine, nicotine), digoxin, hyperkalemia, hypokalemia, and stress
+-	Can lead to life threatening dysrhythmias like v-tach and v-fib. Assess physiological response, including apical and radial pulse
+
+Peritonsillar abscess
+-	Results from tonsillitis or pharyngitis 
+-	Features: fever, muffled voice, trismus (inability to open the mouth), pooling of saliva, and deviation of the uvula to one side 
+-	Can lead to life threatening airway obstruction 
+-	Immediately assess and monitor for signs of airway obstruction
+
+Acute Prostatitis
+-	Inflammation of the prostate that is usually caused by a bacterial infection
+-	Symptoms: fever, rectogenital pain, burning, urinary hesitancy, and or urinary urgency 
+-	Management includes antimicrobial (ciprofloxacin) and anti inflammatory medications. Tamsulosin, alfuzosin, help relax the bladder and prostate. Suprapubic catheterization may be necessary for urinary retention in severe cases of acute prostatitis 
+-	Urethral catheterization is contraindicated due to the risk of additional pain and urethral inflammation 
+-	Teaching:
+o	Take stool softeners as prescribed to reduce straining 
+o	Take sitz baths to help relieve symptoms
+o	Ejaculation may reduce discomfort
+o	Ensure adequate hydration 
+
+Clopidogrel (Plavix)
+= antiplatelet, should be discontinued 5-7 days before surgery to decrease risk of bleeding 
+
+Succinylcholine
+-	Paralytic 
+-	Can cause malignant hyperthermia 
+-	Causes excessive calcium release leading to muscle contraction 
+-	To reverse, administer IV dantrolene
+-	
+

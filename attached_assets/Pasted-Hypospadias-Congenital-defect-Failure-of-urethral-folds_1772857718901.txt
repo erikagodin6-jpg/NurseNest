@@ -1,0 +1,737 @@
+Hypospadias
+-	Congenital defect 
+-	Failure of urethral folds to fuse in utero
+-	Abnormal urethral opening
+-	Usually develops on the underside of the penis 
+-	Features:
+o	Urethral opening between the glans and the perineum on the underside of the penis
+o	If left untreated can cause toilet training problems, frequent urinary tract infections
+o	Inability to achieve erections
+-	Nursing:
+o	Delay circumcision
+o	Prepare child for surgery age 6-12 months
+o	Temporary catheter is used to empty bladder
+o	Postop meds:
+	Abx
+	Analgesics
+	Antispasmodics or anticholinergic meds (oxybutynin)
+-	Teaching:
+o	Urinary diversion for 5-10 days
+o	No tub baths during this time
+o	Give sponge baths
+o	Avoid straddle toys and strenuous activity 
+o	Offer fluids frequently 
+
+Infant Botulism
+-	Type of food poisoning of clostridium botulinum spores
+-	Colonize in immature GI tract that inhibits release of acetylcholine = muscle paralysis 
+-	Features:
+o	Paralysis occurs symmetrically and from the top down 
+o	Hypotonia and decreased head control
+o	Ptosis
+o	Absent gag reflex
+o	Poor feeding
+o	Poor swallowing
+o	Constipation due to lack of peristalsis
+-	Nursing:
+o	Recognize symptoms early to avoid respiratory failure 
+o	Accessory muscle usage in infants or younger babies
+o	Nasal flaring
+o	Tripod position 
+o	IV botulism immune globulin (BIG IV)
+	Reduces severity and duration of symptoms
+o	Supportive care
+	Mechanical ventilation
+	Enteral tube feedings
+o	Prevention: avoid honey before age 12 months 
+
+
+Newborn Circumcision
+-	Methods:
+o	Clamp – deadens nerves and cuts
+o	Plastibell – falls off in a week due to cut off blood supply 
+-	Clinical significance
+o	Reduction of STI including HIV, prevention of STI 
+-	Typically performed for healthy newborns during first week
+-	Contraindications:
+o	Preterm infants – do not meet weight requirement 
+o	Sick newborn – can increase likelihood of complications 
+o	Hypospadias, epispadias 
+-	Complications:
+o	Hemorrhage
+o	Difficulty voiding (edema)
+-	Nursing:
+o	Prior to procedure
+	Education and consent – check that it has been done and is completed
+	Circumcision is a choice
+o	Apply topical numbing cream if prescribed
+o	During procedure:
+	Comfort/pain management
+	Swaddle upper body with warm blanket
+	Nonnutritive sucking 
+	Oral sucrose (brain can only process sugar or pain but not both at the same time)
+	Sterile technique
+o	Postprocedure
+	Apply loose fitting diapers 
+	Apply petroleum jelly with each diaper change 
+•	Not indicated for plastibell method
+	Monitor for infection – bleeding, edema, purulent discharge 
+	Active bleeding – apply gentle pressure with sterile gauze 
+	A few spots of blood on diaper is okay 
+	If bleeding does not stop – notify provider 
+	Monitor urinary output 
+	Do not use soap or alcohol based wipes
+	Do not remove plastibell device early 
+	Yellow exudate is normal – do not be concerned and do not remove forcefully 
+	Green discharge = infection 
+
+Postpartum Depression
+-	Perinatal mood disorder due to hormonal shifts following birth
+-	Symptoms occur within 4-6 weeks after birth
+-	Angry outburst
+-	Sleep disturbances
+-	Spontaneous episodes of sobbing
+-	Intense and persistent irritability and sadness
+-	Ruminations of guilt and an inadequacy as a parent
+-	Appetite changes and food cravings, leading to weight gain
+-	Lack of interest in the newborn 
+-	Thoughts of harming the newborn
+-	Contributing factors:
+o	History of depression
+o	Unintended pregnancy
+o	Lack of support
+o	Relationship conflict
+o	Adverse pregnancy outcomes or traumatic birth
+o	Sleep deprivation
+-	Nursing:
+o	Screen for postpartum depression 
+	Edinburgh postnatal depression screen
+	Assess for thoughts of suicide and infanticide
+	Observe interactions
+	Involve family in developing a plan
+	Antidepressants (SSRI)
+	Psychotherapy
+	Postpartum support group 
+
+Postpartum Hemorrhage
+-	Significant bleeding after delivery
+-	Obstetrical emergency
+-	Total blood loss over a litre of blood 
+-	Common causes: 4 Ts
+o	Tone
+o	Trauma
+o	Tissue 
+o	Thrombin
+-	Risks:
+-	Most common cause is atony
+o	Inadequate contraction of the uterus  relaxed uterus distended with blood
+o	Most likely to occur with someone with uterine fatigue (prolonged labor or infection)
+o	Uterine overdistension 
+o	Polyhydramnios
+o	Grand multiparity
+o	Hx of postpartum hemorrhage
+-	Features:
+o	Heavy vaginal bleeding
+o	Saturating more than one pad an hour
+o	Passage of large clots 
+o	Hypovolemia
+o	Tachycardia
+o	Hypotension
+o	Dizziness
+-	Nursing:
+o	Vital signs
+o	Assist client to void 
+o	Fundal massage 
+o	Medications:
+	Uterotonics:
+	Oxytocin 
+	Misoprostol
+	Methylergonovine
+	Carboprost
+	Fluid resuscitation
+	Blood transfusion
+Postpartum Psychosis
+-	Rare but is the most severe form of perinatal mood disorders
+-	Medical emergency
+-	Risk for suicide and infanticide
+-	Triggers:
+o	Rapid hormonal shifts following childbirth
+o	Decrease in estrogen and progesterone
+o	Sleep deprivation
+o	Typically manifests within 2 weeks postpartum
+-	Features:
+o	Depressive symptoms
+o	Withdrawal from others, tearfulness
+o	Accompanied by acute mania, abnormally increased energy levels, severe insomnia, agitation, disorganized behaviour
+o	Psychotic symptoms:
+	Paranoid delusions, hallucinations (often related to the infant)
+-	Risks:
+o	Obstetric complications
+o	Personal or family history of mental illness such as bipolar or postpartum psychosis
+o	Discontinuing psychiatric medications before pregnancy 
+-	Nursing:
+o	Inpatient hospitalization
+o	Pharmacological interventions
+o	Mood stabilizers (lithium or valproic acid)
+o	Antipsychotics (olanzapine)
+o	Benzos (alprazolam for severe insomnia)
+o	Assess for delusions, hallucinations, risk for suicide or infanticide
+Gestational Diabetes
+-	Pregestational – normal type one or type 2 diabetes 
+-	Gestational 
+o	Physiologic changes of pregnancy cause impaired blood glucose regulations  pancreas cannot compensate  gestational diabetes mellitus
+o	Screening around 24-48 weeks gestation when pregnancy related hyperglycemia peaks 
+o	Screening: one hour glucose challenge test
+o	No fasting prior to test
+o	Between 24-28 weeks gestation ingest sugar and then check blood glucose one hour after
+o	NPO for one hour after ingesting
+o	Diagnosis:
+	3 hour glucose test:
+	Required if 1 hour is elevated
+	Fasting required prior to test
+	Abnormal when 2 or more of the 4 levels are elevated
+o	Risks:
+	Obesity
+	Excessive weight gain during pregnancy
+	Family history of diabetes
+	Previous large for gestational age newborn 
+	Polycystic ovarian syndrome
+o	Complications:
+	Pregestational: Congenital heart and neural tube defects 
+	Gestational: maternal development of type 2 DM
+	Fetal macrosomia  shoulder dystocia 
+	Polyhydramnios 
+	Preeclampsia 
+	Stillbirth 
+	Newborns tend to have hypoglycemia – babys pancreas continues to make lots of insulin due to being used to high glucose environment
+o	Nursing:
+	Modify diet – carbs in moderation
+	Daily exercise
+	Monitor blood glucose
+	Signs and symptoms of hypoglycemia and hyperglycemia
+•	Hypoglycemia: 
+o	Altered mental status, shakiness, diaphoresis, clammy skin, tachycardia, hunger, weakness, fatigue
+	Insulin
+	Monitor
+	Daily fetal kick counts and report decreased movement
+	Blood pressure
+	Vaginal or urinary infections
+
+Agoraphobia
+-	Diagnostic criteria
+o	Intense fear and anxiety about being in situations or spaces without immediate help
+o	Causes: adverse childhood experiences, stressful life events, genetics 
+o	Features: 
+	Fear and anxiety present in over 2 situations for six or more months
+	Fear of public transportation
+	Open spaces
+	Crowds or standing in line
+	Might not be able to leave home 
+	Causes severe distress or impairment 
+	Irritability, sweating, tremors, muscle tension, tachycardia, heart palpitations
+o	Nursing:
+	Psychotherapy, CBT
+	Relaxation training
+	Deep breathing
+	Guided imagery 
+	Gradual exposure to promote desensitization 
+	Pharmacotherapy: 
+•	SSRI
+•	Benzodiazepines 
+•	Beta blockers 
+•	Identify basis of anxiety 
+	Never force contact
+	Do not leave client during periods of severe anxiety 
+
+Alcohol Withdrawal Syndrome
+-	CNS depressant
+-	Symptoms start 6-24 hours after last drink
+-	Wide range of symptoms
+-	Mild withdrawal symptoms
+-	Alcohol hallucinations
+-	Withdrawal seizures
+-	Delirium tremens (life threatening)
+-	Mild withdrawal: autonomic hyperactivity, anxiety, irritability, tremors, diaphoresis, headache, nausea or vomiting
+-	Moderate to severe: alcohol hallucinosis, auditory hallucinations, tactile sensations, visual disturbances – may have no other features – normal vital signs or just a slight increase
+-	Features:
+o	Lowers seizure threshold 
+-	Delirium tremens:
+o	Severe alcohol withdrawal 
+o	Extreme autonomic hyperactivity
+o	Fever
+o	Severe hypertension
+o	Drenching sweats
+o	Rapid onset altered mental status
+-	Nursing:
+o	Benzodiazepines
+o	Lorazepam (PO or IV)
+o	Diazepam or chlordiazepoxide 
+o	Replace vitamins: thiamine, folic acid 
+o	Fluid and electrolyte replacement 
+o	Normal saline 
+o	Magnesium, potassium, phosphorus
+o	Monitor cardiac rate and rhythm 
+o	Evaluate clients behaviour and severity of withdrawal
+	Standard assessment tool (CIWA)
+o	Calm, quiet environment with minimal lighting
+o	Long term recovery: naltrexone, identify relapse triggers, activities for stress relief 
+o	Set goals for personal growth 
+o	Express accountability for maladaptive drinking 
+o	
+Anorexia Nervosa
+-	Hormonal effects on brain, appetite and stress
+-	Cooccurring mental illnesses
+-	Ideal body type portrayed in the media
+-	Restrictive eating disorder
+-	Fasting, dieting, excessive exercise 
+-	May include purging 
+-	Most commonly seen in adolescents and young adults 
+-	Can lead to life threatening complications due to electrolyte imbalances and arrhythmias
+-	Features:
+o	Confusion, fainting
+o	Dry skin, lanugo, hair loss
+o	Decreased libido, amenorrhea
+o	Low BMI < 18.5
+o	Fatigue
+o	Cold intolerance
+o	Hypothermia – body is trying to conserve energy
+o	Hypotension
+o	Bradycardia
+o	Emaciation
+o	Constipation
+o	Muscle wasting, osteoporosis, stress fracture (decrease in calcium)
+-	Mental health features:
+o	Low self esteem and body dysmorphia
+o	Unusual or ritualistic behaviours around food
+o	Preoccupation with food activities
+o	Need for control
+o	Counting calories
+o	Manipulative behaviours
+o	Social withdrawal 
+o	May move food around the plate instead of eating
+-	Indications for hospitalization
+o	<70% of expected weight or BMI <15kg/m2
+o	Reintroduce nutrition slowly because of the risk of refeeding syndrome
+o	Hemodynamic instability 
+o	Refusal to eat
+o	Suicidal ideation
+o	Psychosis
+-	Nursing: 
+o	Assist with nutritional rehab 
+o	Assess for thoughts of suicide or self-harm
+o	Monitor for ECG changes
+o	Correct electrolyte imbalances
+o	IV fluids to increase blood pressure and perfusion
+o	Enteral feeding or parenteral nutrition
+o	CBT
+o	Reinforce parental monitoring during meals for adolescents 
+o	Monitor for changes in weight and caloric intake 
+
+Antisocial Personality Disorder
+-	Does not follow rules and regulations or social norms
+-	Feel that it doesn’t pertain to them
+-	Cluster b disorder
+-	Disregard rules, irresponsible behaviour, hostile, aggressive, volatile, do not take responsibility
+-	age of 18 or older 
+-	high rates of comorbid conditions like substance use or ADHD
+-	features: 
+o	violate rights of others, social norms, laws
+o	impulsive, irritable, aggressive
+o	hate authority
+o	consistently irresponsible, lies, deceitful
+o	lack of remorse
+-	nursing:
+o	treat comorbid conditions
+o	CBT
+o	Antipsychotics plus or minus mood stabilizers
+o	Monitor for suicide or self harm
+o	Set firm limits, reinforce rules and acceptable behaviour
+o	Respond consistently to client’s behaviour
+
+ADHD
+-	Deficiency in dopamine and norepinephrine
+-	Inattention, distractability, hyperactivity
+-	Symptoms at least six months
+-	Are present in at least 2 environments
+-	Genetic predisposition 
+-	Present before age 12
+-	Not better explained by substance use, mental disorder, medical condition
+-	Cause significant distress or impairment
+-	Features:
+o	Inattention >6 symptoms
+o	Difficulty maintaining focus
+o	Does not listen or follow instructions
+o	Forgetful, loses things
+o	Disorganized
+o	Hyperactive, impulsive
+o	Interrupts others, disrupts 
+o	Talks excessively
+o	Fidgeting
+o	Restlessness
+-	Nursing:
+o	Psychotherapy, behavioural therapy (positive reinforcement)
+o	Pharmacotherapy:
+	Stimulants:
+•	Methylphenidate, amphetamines
+	SNRI
+•	Atomoxetine 
+o	May need lifelong treatment, does not self-resolve
+o	Highly structured environment
+o	Consistent home and classroom environment
+o	Minimize distractions (turn off tv)
+o	Environmental and physical safety measures
+o	Regular and frequent breaks in activity 
+o	Medication teaching
+	Appetite suppression and weight loss
+	Take with or after meals rather than before 
+	Nutritious snacks in the evening frequent small meals with healthy on the go snacks
+	Administer medication early in the day 
+o	
+Avoidant Personality Disorder
+-	Cluster c
+-	Stem from an intense fear of criticism and rejection
+-	Present in a variety of environments 
+-	Causes impairment or distress 
+-	Similar to social anxiety disorder 
+-	Negative self-evaluation in comparison to others, feelings of personal inadequacy, fear rejection and criticism, limited intimate relationships, need a lot of reassurance and unconditional acceptance, avoids interpersonal contact 
+-	Low self-esteem
+-	Feelings of inferiority 
+-	Reluctant to try new activities because of fear of rejection of new people
+-	Can lead to depression, anxiety, anger because they cannot form relationships
+-	SSRI, SNRI
+-	Increase levels of serotonin and norepinephrine in the brain 
+-	Beta-adrenergic blockers can also help 
+-	Behavioural therapies – CBT – helps identify what causes anxiety and how to handle it
+-	Social skills training 
+
+Schizophrenia
+-	Complex psychiatric disorder where the person is unable to react with reality normally
+-	Genetics and environment play a major role
+-	Chronic condition caused by imbalances in the neurotransmitter dopamine
+-	Positive symptoms = dopamine excess
+-	Negative = dopamine deficit
+-	Features:
+o	Positive symptoms: 
+	Hallucinations – based on senses, false sensory perception in the absence of stimuli, auditory, hearing voices or noises, visual = seeing things or people, tactile – feeling bodily sensations, olfactory – smelling odors
+•	Monitor cues, ask about content of hallucination 
+•	Decrease stimuli or assist the client to another area
+•	Provide distraction – music with headphones
+•	Explain verbally what is real and what is unreal, do not joke or judge
+•	Engage through structures, small activities 
+•	Check for suicidal or homicidal ideation due to command hallucinations
+	Delusions- based on beliefs and ideas 
+•	Provide care with active listening and empathy 
+•	Do not argue or try to convince that the delusions are false
+•	Shift conversation on reality based topics rather than the delusion 
+•	Canned or prepackaged foods
+•	Open medication in front of the client 
+•	Check mouth and palms after medication administration 
+•	Positive reinforcement 
+	Disorganized thought/incoherent speech – derailment, made up words, diverges from the main topic, word salad: jumbling with no meaning, echolalia: repeats what they say over and over
+	Disorganized or agitated behaviour – catatonia (immobile, peculiar postures, unresponsive
+o	Negative
+	Apathy
+	Lack of motivation
+	Poor hygiene and self care deficits
+	Asociality = withdrawal
+	Depression
+	Affective flattening – emotional flattening/monotone speech
+	Anhedonia – inability to experience pleasure
+	Alogia: lack of speech
+-	Treatments:
+o	Antipsychotics – help with positive symptoms 
+	First generation (haloperidol) 
+•	Side effects
+	Second generation (atypical) 
+•	Apriprazole, olanzapine, quetiapine, risperidone
+o	Side effects: usually weight gain 
+o	Long acting – improves adherence 
+-	Nursing:
+o	General:
+	Build client trust 
+	Be honest and consistent in interactions
+	Frequent and short interaction times
+	Sit calmly in the clients room if needed
+	Avoid touching the client without informing 
+	Maintain a balanced neutral approach (not overly warm)
+	Explain procedures step by step
+	Initiate activities on a one on one basis  then small groups
+o	Negative symptoms:
+	Social skills training
+	Measure client readiness to engage with others
+	Praise progress towards increased interaction
+	Assist with ADLs
+	Catatonia: fluid and nutrition is priority 
+
+Obsessive Compulsive Disorder
+-	Deficiency of serotonin in the brain 
+-	Dx:
+o	Significant distress and impairment, compulsions are so distressing to patient they cannot carry out activities of daily living
+o	Time consuming over an hour a day
+o	Not better explained by substance abuse or other condition
+-	Features:
+o	Obsessions: persistent and intrusive thoughts, impulses, or images
+o	Attempts to suppress or ignore obsessive thoughts 
+o	Compulsions: ritualistic, repetitive behaviours performed to decrease stress/anxiety
+	Repeated hand washing  skin breakdown 
+o	Patients are aware that it is irrational but their stress and anxiety get so high they need to do the thing
+-	Nursing:	
+o	CBT
+	Anxiety triggers for ritualistic behaviours  relaxation/redirection techniques (deep breathing)
+	Allow them time to do the rituals then slowly decrease the time 
+	Initially allow time for and then begin to limit rituals
+	Positive reinforcement for non ritualistic behaviour 
+	Predictable, structured schedule 
+	SSRI
+	Tricyclic antidepressants 
+
+Social Anxiety Disorder
+-	Intense persistent fear of being embarrassed or judged by others in a social situation
+o	Large groups
+o	Public speaking
+o	Meeting, ordering food in a restaurant
+o	Eating or drinking in front of others 
+o	Out of proportion for the perceived threat
+o	Begins late childhood or early adolescence
+o	Stems from abuse, bullying, or another event and not caused by other disorders
+-	Features:
+o	Intense fear or anxiety
+o	Difficulty decision making and communicating
+o	Inability to focus or perform
+o	Physical symptoms:
+	Sweating
+	Dyspnea
+	Hyperventilation
+	Stomachache
+	Nausea and vomiting
+	Tachycardia
+	Palpitations 
+-	Tx:
+o	Psychotherapy 
+o	CBT
+o	Relaxation techniques
+o	Visualizing pleasant situations 
+o	Systematic desensitization 
+o	Discussing fear
+o	Gradual introduction to the fear 
+o	Meds: benzodiazepines, SSRI, beta blockers 
+
+Serotonin Syndrome
+-	Excess serotonergic activity in the brain 
+-	Does not occur naturally and is a result of taking meds or supplements
+-	Causes: 
+o	Antidepressants initiation or dose increase 
+	SSRI
+	SNRI
+	MAOI
+	Important to know there are many different drug interactions which can increase likelihood for serotonin syndrome
+	St Johns wort, tramadol, and ondansetron 
+	Cocaine, amphetamines 
+-	Symptoms:
+o	Onset within 2-72 hours 
+o	Autonomic hyperactivity 
+o	High fever, diarrhea, HTN, tachycardia, sweating
+o	Neuromuscular excitability
+	Tremors, clonus, hyperreflexia, shivering
+	Mental status changes 
+	Agitation, restlessness, confusion, hallucinations 
+o	Can lead to life-threatening complications such as CV shock, seizures, death 
+	Foot is moved into a dorsiflexion movement and then starts to shake 
+-	Nursing:
+o	Discontinue medications and other meds that will interfere
+o	Give benzodiazepines
+o	Make sure oxygen is over 94%
+o	Continuous cardiac monitoring 
+o	IV fluids to prevent rhabdomyolysis due to increased muscle contractility
+o	Clonus causes increased body temp so have ice packs and a cooling blanket available 
+o	Place pt on seizure precautions and monitor for seizures 
+
+Bipolar Disorder
+-	Bipolar 1: 
+o	Manic phases up to several days replaced by depression phases
+-	Bipolar 2: 
+o	Hypomanic and then followed by depression 
+-	Recurring and remitting episodes 
+-	Pathogenesis is unknown but there may be a biological and psychological factor
+-	Manic phase:
+o	DIG FAST: elevated, irritable or expansive mood plus the following:
+	Distractibility (cannot maintain focus)
+	Impulsivity or indiscretion
+	Grandiosity
+	Flight of ideas/racing thoughts 
+	Activity increase
+	Sleep deficit, decreased need for sleep 
+	Talkativeness/pressured speech (may not realize how much they are talking)
+o	Psychotic symptoms, delusions and hallucinations and marked functional impairment 
+-	Hypomanic phase:
+o	Similar to manic but less severe 
+o	Don’t need to be hospitalized as no functional impairment
+-	Depressive phase
+o	Daily sadness, difficulty concentration
+o	Eating problems
+o	Feeling worthless, hopeless or guilty
+o	Loss of pleasure in activities once enjoyed
+o	Difficulty sleeping 
+-	Management:
+o	Mood stabilizers 
+	Lithium, valproic acid (take a few weeks to be effective)
+o	Second generation antipsychotic
+	Risperidone, lurasidone, olanzapine, quetiapine
+-	Nursing
+o	Manic phase:
+	Safety and physiological needs (maslow – lower tiers)
+	High protein high calorie finger foods 
+	Supplements for weight loss, malnutrition
+	Daily weights 
+	Set limits on manipulative behaviour 
+	Positive reinforcement for appropriate behaviour 
+	Low stimulus environment to promote rest
+	Assist with personal hygiene – promote normal clothing
+	Check for psychotic symptoms – present reality without arguing – comfort and acknowledge, monitor for suicidal ideation, remove all hazardous items, assist in identifying feelings of frustration and aggression, encourage client to talk instead of acting out 
+	Teach client and family the cyclic nature of the symptoms 
+	Supportive services – crisis hotline, support groups, individual therapy 
+Bulimia Nervosa
+-	Overeating followed by vomiting, excessive exercise, laxatives, fasting
+-	Episodes are triggered by negative emotions 
+-	Can affect men and women 
+-	Features:
+o	Normal to elevated BMI
+o	Swollen salivary glands
+o	Enamel erosions
+o	Esophageal inflammations
+o	Russel sign – left knucle has demarcation – self inducing vomiting 
+o	Gastric reflux, dehydration, hypokalemia, metabolic alkalosis 
+o	Arrhythmias
+o	Hand calluses
+-	Nursing:
+o	Monitor for electrolyte imbalances
+o	Monitor the client during and after meals
+o	Structured meal schedule
+o	Monitor for an hour after eating
+o	Encourage the client to eat with others 
+o	Assess for self harm or suicide 
+o	Encourage diary or journal usage 
+
+Intimate Partner Violence
+-	Can be physical, emotional, verbal, sexual, financial
+-	Cuts across all social groups
+-	Risks:
+o	Perpetrator:
+	Controlling behaviour, blaming the survivor, has unrealistic expectations, violence outside the home, substance use, hx of injuring a partner, access to firearms, poor impulse control 
+o	Survivor
+	Attempts to leave relationship 
+	Seeks outside help
+	Pregnancy
+	Becomes more independent
+	Lack of support systems 
+o	Concerning signs:
+	Physical manifestations
+	Behavioural symptoms in survivor
+	Frequent visits to ER
+	Inconsistent explanation of injuries
+	STI
+	Overly attentive or intrusive partner
+-	Cycle of Violence
+o	Tension building:
+	Withdrawing affection, irritable, minor abuses occur
+	Abused tries to placate abuser, takes blame
+o	Acute battering phase:
+	Abuser exhibits violent behaviour, survivor may seek help or hide abuse
+o	Honeymoon
+	Abuser feels remorse and asks for forgiveness, gives affection, abused client accepts and stays 
+-	Nursing:
+o	Interview the client without the perpetrator present
+o	Establish trust, build therapeutic alliance
+o	Use open ended questions 
+o	Direct client focused questions
+o	Develop a safety plan 
+o	Provide resources
+o	Identify support systems
+o	Document findings on a body map 
+o	Assess for thoughts of self harm 
+o	Assess client readiness to end relationship
+
+Borderline Personality Disorder
+-	Cluster B (dramatic, emotional, erratic)
+-	Neurosis and psychosis
+-	Can also have bipolar, anxiety, depression
+-	Intense impulsivity – unstable relationships and poor self image
+-	Emotional dysregulation: mood swings
+-	Unstable relationships 
+-	Poor self image
+-	Lack a clear sense of self and have self image distortion that causes significant distress
+-	Starts in early adulthood 
+-	Features:
+o	Poor self image
+o	Intense fear of abandonment
+o	Splitting – coping mechanism to view others as wonderful or horrible, cant understand that both good and bad exist
+o	Mood instability 
+o	Inappropriate anger
+o	Transient paranoia or distrust 
+o	Others are out to get them 
+o	Impulsivity
+o	Suicidality, self harm
+-	Tx:
+o	Psychotherapy
+	Dialectical behavioural therapy to help with suicide and self harm
+	Cognitive behavioural therapy to change perception of themselves and others 
+o	Pharmacotherapy:
+	Atypical antipsychotics  decrease anger 
+•	Apripiprazole, quetiapine
+	Mood stabilizers
+•	Lithium, lamotrigine
+	SSRI
+•	Sertraline, escitalopram 
+-	Nursing:
+o	Therapeutic relationships
+o	Clients may show flattery or splitting to gain control or power so it is important to set limits with nonthreatening and firm tone 
+o	Client may try bargaining – respond with already referring to what has been established 
+o	Consistency across all staff members in enforcing limits 
+o	Appropriate boundaries
+o	Reinforce rules and expectations
+o	Explain consequences for unacceptable behaviour and should be aimed towards something the client values
+o	Monitor for self-harm behaviours 
+o	Encourage them to seek a staff member if they want to self harm
+o	Remain neutral in cleaning or dressing the wound 
+o	Encourage them to write down what they felt when they were doing it 
+Child Abuse and Neglect
+-	Risk:
+o	Caregiver background 
+o	Single parents or young parents 
+o	Hx psychiatric disorders, substance abuse disorders
+o	Lack of social support
+o	Unsafe or unstable home environment
+o	Child history of disabilities
+o	Unplanned or unwanted pregnancies
+-	Features:
+o	History of injury 
+o	Vague or changing details 
+o	Injury inconsistent with childs developmental age 
+o	Sibling blamed for injuries
+o	Caregiver behavior 
+	Argumentative, violent, defensive 
+	Lack of emotional interaction with child 
+	Inappropriate response to childs injury 
+	Delay in seeking medical care 
+o	Linear immersion burns
+o	Long bone fractures 
+o	Spiral fractures – outside twisting force
+o	Retinal hemorrhage or funduscopic examination 
+o	Intraoral injuries 
+o	Injury to genitalia, hands, back, ears 
+o	Apprehension, fear of caregiver
+o	Extreme withdrawal or aggressiveness
+o	Shaken baby syndrome:
+	Infants or newborns – intracranial trauma – cerebral edema and death 
+	No external evidence of trauma except where child was held
+	Symptoms: lethargic, listless, vomiting, not eating, child is inconsolable, bulging fontanels, large head circumference 
+	Retinal hemorrhage
+o	Sexual abuse: difficulty sitting or walking, torn, stained or bloody underclothing, pain, swelling, itching or unusual odor in genital area, bruising, bleeding, lacerations, in oral genital or anal area, positive STI or young pregnancy
+o	Neglect: poor hygiene, persistent hunger, malnutrition (poor weight gain), thin extremities, lack of subcutaneous fat, evidence of poor health care, frequent absences from school, reports of lack of supervision 
+-	Clinical interview 
+o	Speak with child in private using a direct, honest approach, be honest about reporting requirements, let them know how you’re going to keep them safe and not get them in trouble, ask open ended questions, avoid leading questions, allow child to disclose info at their own pace 
+o	Avoid making assumptions or communicating anger, shock, or disapproval, monitor childs affect while retelling events – concerning if child is not emotional or disturbed or happy. 
+-	Nursing:
+o	Report suspected findings to local authorities
+o	Sexual assault nurse performs assessment, document verbatim statements, document findings on body map, identify last time of abuse for forensic evaluation 
+o	Provide emotional support for children 

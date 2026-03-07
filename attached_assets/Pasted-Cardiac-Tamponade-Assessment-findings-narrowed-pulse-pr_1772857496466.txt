@@ -1,0 +1,89 @@
+Cardiac Tamponade
+-	Assessment findings: narrowed pulse pressure, muffled heart sounds, distended neck veins, decrease in systolic BP >10mmHg with inspiration (pulsus paradoxus) and hypotension that results from decreased cardiac output 
+
+Atrioventricular Canal Defect
+-	Associated with trisomy 21 (Down Syndrome)
+-	Assessment: loud murmur that requires no immediate action when vital signs are stable 
+
+Acute Coronary Syndrome
+-	Encompasses a range of cardiac events, including unstable angina and MI with or without ST-segment elevation
+-	Patients require immediate treatment to prevent continued ischemia of cardiac muscle
+-	Intravenous nitroglycerin is used to increase cardiac blood flow and provide pain relief for patients until a definitive plan is determined
+-	Nitro is a vasodilator so continuous hemodynamic monitoring is required to prevent hypotension
+-	Infusion rate is titrated by the nurse based on pain level and BP usually every 3-5 minutes until pain is relieved and BP is stable
+-	If systolic drops below <90 or falls >30mmHg below client baseline, the infusion rate should be decreased or stopped
+
+Epidural Block
+-	Inhibits SNS which causes peripheral vasodilation, which may produce significant hypotension. If a client exhibits hypotensive symptoms (lightheadedness, nausea) while receiving a block, the nurse should first assess BP to confirm the presence of hypotension before intervening
+-	If hypotension is present, initial nursing interventions include administering IV fluid bolis to increase blood volume and positioning the client in the left lateral position to alleviate pressure on the vena cava
+
+Acute Lumbosacral strain –
+-	 most common cause of back pain and is triggered by heavy lifting and or physical exertion with use of improper body mechanics. LSS is characterized by pain in the muscles supporting the lumbar spine and does not radiate below the knee. Clients have a negative straight-leg raising test and may have muscle tenderness, postural abnormalities, and limited range of motion, LSS are not associated with neurological deficits
+
+
+Lumbosacral disc herniation
+-	Occurs when an intervertebral disc ruptures and herniates most often between L4-L5 after lifting heacy weights or using improper body mechanics 
+-	The herniated disc compresses the nerve root, manifesting with radicular symptomrs, including lower back pain and paresthesia that radiates to the lower extremities. 
+-	Different lower extremity reflexes like the achilles reflex may become diminished or absent
+-	Clients have positive straight leg raising test due to nerve root compression 
+-	Sensations may be decreased in the corresponding nerve distribution
+
+Cauda Equina Syndrome
+-	Medical emergency marked by compression of multiple spinal nerve roots of the cauda equina 
+-	Caused by central lumbar disc herniation at L4-S1 and requires surgical decompression within 24-48 hours to prevent irreversible neurological damage
+-	Manifestations:
+o	Severe radicular back pain and progressive leg weakness in one or both legs plus at least one other symptoms 
+	Motor deficits in the lower extremities (flaccid paralysis, absent or diminished reflexes)
+	Patchy sensory loss in corresponding dermatones
+	Autonomic dysfunction
+
+Inguinal Hernia
+-	Protrusion of intraperitoneal contents through a weakened area in the abdomen
+-	Ay experience dull pain exacerbated by exercise or straining and a palpable bulge on assessment 
+-	Reducible if the organs can be returned into the cavity 
+
+Hiatal Hernia
+-	Conditions that increase intrabdominal pressure and weaken the muscles of the diaphragm may allow a portion of the stomach to herniate through an opening in the diaphragm causing a hiatal hernia 
+-	May be asymptomatic or may experience GERD, heartburn, dysphagia, pain
+-	Elevate head of the bed 
+-	Avoid foods and beverages that decrease pressure of the lower esophageal sphincter (chocolate, peppermint, tomatoes, caffeine) 
+-	Eat a low fat diet consisting of small frequent meals
+-	Avoid lifting and straining
+
+Mechanical bowel obstruction
+-	Caused by compressed loops of bowel incarcerated by the hernia 
+
+
+Lithium toxicity
+-	Acute
+o	GI: nausea, vomiting, diarrhea
+o	Neuro: occur later
+-	Chronic
+o	Neurologic: ataxia, sluggishness, confusion, agitation, neuromuscular excitability, tremor
+-	Prevention: avoid sodium depletion, low sodium intake precipitates lithium toxicity
+o	Eat regular diet and drink adequate fluids (2-3 L per day)
+o	Therapeutic level is 0.8-1.2 mEq/L
+o	Level >2 is considered critical
+-	Sodium levels affect the ability of the kidneys to excrete lithium. If sodium intake is limited the lithium is reabsorbed by the kidneys increasing the possibility of toxicity 
+-	
+
+Cisplatin
+-	Antineoplastic medicine that can cause renal toxicity 
+-	Look at BUN – if elevated may indicate decreased kidney function or dehydration 
+-	Elevated creatinine is also indicative of kidney injury
+-	Urine output is a good indicator of renal function 
+
+Residual limb care after knee amputation
+-	Client teaching:
+o	Clean limb daily with soap and water
+o	Monitor for signs of infection daily 
+o	Keep limb socks, warps, and appliances clean and dry
+o	Perform daily range of motion exercises to improve muscle strength and mobility
+-	Hip flexion contractures are common during the recovery process, teach the patient to lie prone several times a day and to avoid sitting in a chair for more than one hour
+
+Heparin 
+-	Titrated based on activated partial thromboplastin 
+-	Therapeutic target is 1.5-2 times the normal reference range of 30-40 seconds
+-	A value of over 100 would be considered critical and could result in life-threatening side effects. 
+-	Common sentinel events include epistaxis, hematuria, and GI bleeds
+

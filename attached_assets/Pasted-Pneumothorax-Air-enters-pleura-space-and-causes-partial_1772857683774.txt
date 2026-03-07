@@ -1,0 +1,971 @@
+Pneumothorax
+-	Air enters pleura space and causes partial or total collapse of the lung
+-	Normally negative pressure in the space but now there is air
+-	Can be caused by hole in chest wall (open)
+-	Closed (air enters after lung surgery
+-	Tension: closed but air enters and can’t get out – affected and possibly unaffected lungs collapse – trachea shifts to unaffected side
+-	Heart and great vessels are compromised
+-	Features:
+o	Progressive dyspnea 
+o	Restless, anxious
+o	Cyanosis
+o	Chest pain
+o	Hypotension, tachycardia (IVC not returning blood)
+o	Chest x-ray supports diagnosis only in stable clients
+-	Assessment
+o	Hyperressonance (low pitched)
+o	Diminished sounds on affected sides
+o	Decreased tactile fremitus
+o	Hypotension
+-	Nursing
+o	Three way occlusive dressing over sucking chest wound 
+o	Keep in fowler position if possible
+o	Prepare for chest tube insertion 
+	Air escapes
+	Air entry prevented 
+	Negative pleural pressure reestablished
+	Lung reexpands
+o	Administer pain medications
+
+Chest Drainage System
+-	Measure and collect fluid
+-	Water seal chamber
+-	Air exits through one way valve
+-	Tidaling is an expected finding until lung reexpands
+-	Bubbling = air leak = continuous = bad, if they cough or stand up, intermittent bubbling is okay
+-	Suction chamber 
+o	Administer pain medications
+o	Ensure that the system is closed and has no leaks or kinks from insertion site down to seal
+o	Ensure there are no dependent loops in the tubing
+o	Monitor volume and characteristics of drainage
+o	Notify HCP if drainage is more than 100 ml an hour and if its sudden bright red or free flowing
+o	Keep the collection device below the insertion site at all times 
+o	Do not strip tubing.- increases pressure
+o	Reinforce occlusive dressing
+o	Ensure that the appropriate chest x-rays are ordered and follow changes 
+o	
+o	
+-	 
+
+Pelvic Inflammatory Disease
+-	Patho
+-	Most common cause is untreated std (gonorrhea, chlamydia)
+-	Red inflamed cervix with purulent discharge
+-	Can be asymptomatic until it ascends into upper tract
+-	Bacterial infection from cerix  uterus, fallopian tubes, ovaries
+-	Risks:
+o	Younger women 15-25
+o	Inconsistent contraceptive use
+o	Multiple sexual parterners or known sti
+o	Placement of intrauterine device within the past 3 weeks
+o	History of: 
+	Gonorrhea, chlamydia or PID 
+-	Features
+o	Fevers, chills
+o	Painful intercourse 
+o	Cervical discharge
+o	Spotting after intercourse
+o	Pelvic or lower abdominal pain
+o	Cervical motion tenderness (exam finding)   excruciating pain 
+o	Bilateral lower abdominal or adenexnal tenderness
+-	Complications:
+o	Infertility due to scar tissue and inflammation 
+o	Ectopic pregnancy
+o	Fallopian tube abcess
+-	Nursing
+o	Abx
+o	Analgesics
+o	Iv fluids
+o	Bed rest in semi-fowler position 
+o	Heat the lower abdomen or sitz baths
+o	Reevaluate in 48-72 hours because an abscess can develop
+-	Not all patients who receive abx will be able to avoid infertility and ectopic pregnancy so the cornerstone of treatment is prevention 
+-	Education:
+o	Consistent barrier contraception use
+o	Regular sti screening
+o	Refrain from sex until treatment is completed
+o	Partner identification, testing, treatment 
+
+Pancreatitis
+-	Inflammation of pancreas
+-	Normally breaks down fat and regulates blood glucose levels
+-	Can happen with direct injury due to viruses, alcohol, medications
+-	Can also happen with pancreatic duct obstruction with cancer or gallstones
+-	Autodigestion of pancreatic tissue
+-	Can lead to impaired exocrine and endocrine function
+-	Risks:
+o	Alcohol – direct injury 
+o	Gallstones – obstruction – traps enzymes and causes pancreas to eat itself
+o	Thiazide diuretics
+o	Viral infections
+o	Trauma
+-	Features:
+o	Severe pain after eating in epigastric region or upper left abdomen
+o	Referred back pain
+o	Exacerbation when laying flat
+o	Pain may be relieved by leaning forward 
+o	Difficulty processing foods 
+o	Nausea and vomiting
+o	Elevated lipase and amylase levels 
+o	Ct scan may show inflammation
+-	Complications: 
+o	Inflammation causes systemic effects
+o	Release of cytokines = increased capillary permeability and vasodilation
+o	Hypovolemic shock due to third spacing
+o	ARDS
+o	Retroperitoneal hemorrhage (ecchymosis in flank around umbilicus)   Cullen sign
+o	Hypocalcemia (Chvostek or trousseau sign)
+o	Hyperglycemia 
+-	nursing
+o	pain management  administer IV opioids 
+o	IV fluids 
+o	Antiemetics 
+o	Initiate NPO
+o	Alcohol cessation 
+o	Monitor for hyperglycemia and give insulin prn 
+o	Hypocalcemia (calcium replacement)
+
+Chronic Pancreatitis
+-	Repeated inflammation that leads to fibrosis 
+-	Caused by alcohol, obstruction, CF, autoimmune
+-	Features:
+o	Chronic or episodic epigastric pain
+o	Malabsorption (steatorrhea, weight loss)
+o	DM (due to destruction of beta cells) 
+o	Asymptomatic (less common)
+-	Nursing
+o	Alcohol cessation
+o	Hyperglycemia (insulin)
+o	Diet: small, bland, frequent meals low in fat
+o	Pancreatic enzymes to break down fats that are ingested
+o	Take enzymes with meals or a snack
+o	Evaluate efficacy by observing the stools for steatorrhea
+o	Supplemental vitamins and minerals
+
+
+Angina 
+-	Chest pain in response ot MI or vasospasm
+-	3 types
+o	Chronic 
+	Occurs due to a fixed partial obstruction
+	Exertional angina 
+	Symptoms result when myocardial oxygen demand exceeds supply
+	Chest pain, nausea, and dyspnea
+	Relieved with rest or nitro
+	Usually has a stable pattern of onset, duration, severity, relieving factors 
+	Usually lasts up to five minutes 
+•	Nursing
+o	Treat as outpatient
+o	Decrease o2 demand, increase o2 supply
+o	Treat with beta blockers, calcium channel blockers, long acting nitrates to reduce stress on heart and vasodilate coronary arteries
+o	Acute pain: short acting nitro
+o	Treat underlying atherosclerosis 
+	Antiplatelet agents (clopidogrel or asa)
+	Statin therapy – reduce cholesterol levels 
+	If the cholesterol continues to rise, can progress to unstable angina or MI
+o	Unstable
+	Preinfarction angina
+	Rupture of usnstable plaque in coronary artery
+	Occurs with an unpredictable degree of exertion or emotion
+	Increases in occurrence, duration, severity
+	Can occur at rest or with minimal exertion
+	Pain may not be relieved with nitro
+	Can last longer than 10 mins
+•	Nursing:
+o	Position upright, provide 02 to reduce peripheral vascular resistance 
+o	BP will go down 
+o	Assess vitals and heart and lung sounds – clients can be hypertensive and go into crisis. If there is an increase the plaque can rupture and cause MI
+o	Obtain 12 lead ECG – St segment changes?
+o	Obtain cardiac biomarkers such as troponin – not an immediate result, redraw until peaks 
+o	Pain relief: nitro and IV opioid analgesic (morphine to reduce preload) 
+o	Coronary angiography if evidence of myocardial tissue damage 
+o	Prinzmetal/variant
+	Coronary vasospasm 
+	Occurs at rest or during sleep
+	Triggered by smoking
+	May or may not be related to blockage of coronary arteries 
+	Mimics an MI
+	ECG may show ST elevation similar to MI, temporary occlusion
+	Pain resolves in a few minutes
+	Collect blodowork and watch troponin
+•	Nursing
+o	Preventative measures -prescribed and scheduled long acting nitrates and calcium channel blockers to reduce spasms 
+o	Acute pain spasm: subling nitro or light exercise to increase blood flow and open coronary arteries 
+
+Aortic Dissection
+-	Tear develops in inner layer of aorta (intima)
+-	Blood surges through tear into the middle layer and the space fills with blood and separates (dissect)
+-	A false lumen forms 
+-	2 types:
+o	Type A – ascending (heart and above)
+	Sudden onset anterior chest pain, tearing, worst ever, ripping pain
+	May radiate to neck, jaw, upper back
+	Tachycardia, restless, anxious
+	Diaphoretic
+	Hypertension
+	Widening aorta on chest imagine
+	Most fatal
+o	Type B – subclavian artery (below heart) 
+	Abdominal or back pain
+	Complication: life-threatening aortic rupture  cardiac tamponade 
+	Brain  stroke
+	Bowel  ischemia
+	Kidneys  aki (decreased urinary output, increased BUN and creatinine)
+	Spinal cord  paralysis
+	Extremities  cold leg
+	Coronary arteries  MI 
+-	Risk:
+o	HTN (especially if they suddenly stop taking meds)
+o	Cocaine use (sudden increase in BP)
+o	Underlying aortopathy
+	Marfan syndrome
+-	Diagnostic Studies
+o	Widening aorta 
+o	CT scan
+o	TEE 
+-	Nursing: 
+o	Reduce HR and BP
+o	Administer betaadrenergic antagonist (labetalol or esmolol)
+o	Lower HR before BP or you will cause reflexive tachycardia 
+o	Keep client in semi fowler
+o	Cluster care, limit visitors, maintain quiet environment 
+o	Keep BP between 100-120 
+o	Arterial catheter may be needed (art line) for continuous monitoring 
+o	Continuous cardiac monitoring
+o	Opioid analgesics (morphine)
+o	Monitor for complications (stroke, cardiac tamponade, heart failure)
+o	Prepare for emergency surgery  - at least 2 IVs
+
+Alzheimer Disease
+-	Irreversible and progressive dementia
+-	Caused by neurodegenerative changes in the brain by abnormal protein buildup (betaamyloid and tau proteins) which results in cell damage and neuronal death 
+-	Likely due to genetic and environmental factors 
+-	Changes develop overtime so manifestations can vary
+-	Manifestations:
+o	Early:
+	Decline in short term memory and social skills 
+	Visuospatial deficits 
+	Language difficulties (may forget words)
+	Cognitive impairment (can’t focus or learn new skills = self-care deficit)
+o	Late
+	Neuropsychiatric symptoms
+•	Delusions or hallucinations
+	Noncognitive neurological deficits
+	Extrapyramidal motor movements
+	Myoclonus
+	Seizures
+	Loss of bladder or bowel control
+o	Dx:
+	No confirmatory test 
+	Rule out of other diseases
+•	Hypothyroidism, b12 deficiency, depression
+	MRI  diffuse atrophy (small brain)
+o	Nursing: 
+	Cognitive assessment (MMSE or MoCA)
+	Check clients level of orientation, attention, and recall 
+	Establish a baseline 
+	Cholinesterase inhibitors (anticholinergics)
+	Donepezil and rivastigmine
+	NMDA receptor antagonist – memantine to retain cognitive function 
+	Designate someone to administer medication or request medication in patch form 
+	Legal issues (living will, POA, EOL)
+	Structures and consistent daily routine to prevent anger and irritability
+	Establish normal daytime and nighttime cycle – decrease stimulation (caffeine) and watching TV late at night
+	Increase daytime exposure to light 
+	Reorient the client 
+	Establish a normal sleep cycle to promote overall well being 
+	Safety – door sensor, grab bar, 
+	Wander in a safe place 
+	Medical identification bracelet
+	Household hazards- gas appliances, throw rugs, toxic chemicals 
+	Install grab bars in shower and bathroom
+	Caregiver burden – respite care or LTC, support groups 
+o	Behaviour Management
+	Neuropsychiatric symptoms
+•	If experiencing, do not negate experience, establish reality and reorient the client. Reassure they are safe, use familiar music of photographs, directions one step at a time, stand near client, use eye contact, use visual cues and gestures 
+•	Do not challenge delusions  
+
+Bacterial Meningitis
+-	Life threatening
+-	Caused by Neisseria or strep 
+-	Features:
+o	Adults: 
+	Early: fever, headache vomiting 
+	Late: neck stiffness, brudzinkski (bend neck = knee flex), kernig (knee extension- can’t because of pain) 
+o	Peds: 
+	Early: fever, vomiting, headache
+	Late: rash, neck stiffness
+o	Neonates:
+	Early: poor feeding
+	Late: bulging fontanels 
+-	Dx:
+o	CSF exam, lumbar puncture
+	Cloudy (like a uti) 
+	High opening pressure = so much pressure, it squirts out 
+	High wbc count
+	High protein (inflammation)
+	Low glucose (bacteria eat sugar)
+	Positive culture 
+-	Complications:
+o	Increased icp = ischemia
+o	Brain herniation 
+o	Permanent functional impairment
+o	Intellectual and behavioural difficulties
+o	Seizures
+o	Hearing loss
+o	Death 
+-	Nursing:
+o	Lumbar puncture- monitor site 
+o	Pathogen specific abx
+o	Droplet precautions esp for Neisseria
+o	Decrease environmental stimuli 
+o	Frequent neuro assessments 
+o	Vaccination 
+o	Seizure precautions – wall suction
+Basal Cell Carcinoma
+-	Most common type of skin cancer from basal cells due to UV 
+-	Low risk of metastasis but can destroy skin
+-	Risk: 
+o	Overexposure to UV light, sun exposure, tanning, history of sunburns, outdoor occupation 
+o	Fair skin, red, blond hair, blue or green eyes, freckles, family history, numerous moles, older age
+-	Features:
+o	Develops in areas exposed to skin = head, neck, trunk
+o	Slow growing 
+o	Superficial: red pink macule or patch 
+	May not associate it with cancer because it looks normal 
+o	Nodular – skin coloured, pearly papule with telangiectasia (visible blood vessels)
+o	Develops central crater over time
+o	Progresses to ulceration with raised, pearly borders 
+-	Tx:
+o	Surgical excision or curettage and electrodesiccation 
+o	Performed by HCP 
+o	Prepare client
+-	Teaching:
+o	Prevention – frequent skin assessments 
+o	Educate on skin cancer prevention = avoid tanning beds, limit sun exposure between 10-4, wear protective clothing, apply broad spectrum sun screen SPF > 15 even if in shade 
+o	Apply 15-30 mins before exposure, reapply frequently especially if sweating or swimming
+o	Apply even on cloudy days 
+
+
+BPH
+-	Affects males over 50
+-	Gradual and abnormal prostate enlargement leading to voiding dysfunction due to compressed urethra 
+-	Happens slowly
+-	Cause is unknown/multifactorial 
+-	Risks: HTN, insulin resistance, obesity 
+-	Asymptomatic in early stages but as it enlarges we may see mild to moderate symptoms 
+-	Features:
+o	Weak urinary stream
+o	Intermittency
+o	Incomplete emptying
+o	Hesitancy
+o	Straining to void
+o	Frequency, urgency, nocturia, incontinence 
+-	Complications:
+o	Hydronephrosis
+o	Kidney dysfunction 
+o	Pyelonephrosis 
+o	Can affect both kidneys 
+o	UTI
+o	Cystitis 
+o	Hematuria 
+o	Hydroureter 
+o	Bladder hypertrophy 
+-	Dx:
+o	Yearly digital rectal exam
+o	Routine urinalysis for bacteria and WBC (infection)
+o	Routine lab tests = serum BUN and creatinine
+-	Tx:
+o	Tamsulosin, doxazosin (alpha 1 receptor blockers)
+	Relax smooth muscle in prostate and bladder neck 
+	Works immediately 
+o	Tell clients to expect orthostatic hypotension and client teaching
+o	Finasteride, dutasteride
+	Reduces prostate tissue volume but doesn’t decrease prostate size 
+	Hormonal manipulation 
+	Takes months to work and reduce symptoms
+o	Saw palmetto extract but this is no proven efficacy
+-	Nursing: 
+o	Collect urinalysis (hematuria, bactetiuria) 
+o	Assess for bladder distension
+o	Assess for high postvoid residual volume (bladder scan)
+o	Provide time and privacy while voiding 
+o	Avoid diuretics like alcohol and caffeine 
+o	Urinate frequently (every 2-3 hours)
+o	Avoid constipation (puts pressure on the bladder) 
+o	Encourage high fiber and lots of fluids 
+o	Avoid medications that cause urinary retention: anticholinergics, antihistamines, antidecongestants 
+TURP
+-	Provide and monitor continuous bladder irrigation
+-	Output should be light pink
+-	Dark red = increase flow rate
+-	Irrigate bladder with sterile water to dislodge clots 
+
+Cervical Cancer
+-	HPV, lack of immune clearance = cancer
+-	Leads to further abnormal cell changes and eventually cancer
+-	Can take several years
+-	Opportunity to prevent (vaccine), detect (pap), treat
+-	Risks: 
+o	Starts with HPV (STI) 
+o	Strains 16 or 18 = highly oncogenic
+o	Multiple sexual partners
+o	Early onset of sexual activity
+o	History of STI
+o	Using barrier contraception helps prevent
+o	Oral contraceptives increase the risk
+o	Immunosuppressed 
+o	Tobacco use
+-	Features:
+o	Asymptomatic
+o	Bleeding (postcoital or intermenstrual)
+o	Increased vaginal discharge 
+o	Inguinal lymphadenopathy
+o	Very late stage: pelvic and low back pain 
+-	Nursing
+o	Prepare for colposcopy/biopsy or surgery/radiation as indicated 
+o	HPV vaccine
+o	Routine pap and STI screening
+o	Barrier protection
+o	Smoking cessation
+
+COPD
+-	Progressive, irreversible, lower respiratory tract condition caused by: 
+o	Alveolar enlargement  air trapping 
+o	Inflammation and increased sputum production  airway obstruction 
+o	Swelling closes the airway 
+o	Leads to hyperinflation, flattens the diaphragm 
+-	Causes:
+o	Smoking 
+o	Air pollution, environmental exposure 
+o	Genetics (alpha 1 antitrypsin deficiency)
+o	History of recurrent respiratory illnesses in childhood 
+-	Features:
+o	Hypoxia 
+o	Respiratory complications 
+o	Dyspnea (exertional at first, then at rest)
+o	Wheezing
+o	Chronic cough with sputum production 
+o	Barrel chest as the lungs grow larger
+o	Fatigue 
+o	Decreased tissue perfusion = decreased energy
+o	Flattened diaphragm = accessory muscle usage
+o	Extremity clubbing 
+o	Diagnosis – spirometry 
+	Cxr
+	Abg  increased paco2 and decreased pa02
+	Co2 retention = respiratory acidosis 
+o	Complications: 
+	Right sided heart failure 
+	Pulmonary hypertension  right sided heart failure (cor pulmonale) 
+•	High jugular venous pressure (jugular vein distension)
+•	Ascites
+•	Peripheral edema
+•	Secondary polycythemia 
+•	Hypoxia  increased erythropoietin secretion 
+•	Bluish red mucus membranes and skin 
+•	High risk for pneumonia and ARDS
+o	Management
+	Tobacco cessartion
+	Inhaled bronchodilators (salmeterol, tiotropium)
+	Inhaled corticosteroids
+	Guaifenesin (expectorant)
+	Supplemental o2, maintain o2 around 90 with rest, exercise, and sleep
+	Too much o2 suppresses the oxygen drive 
+	Infection prevention, vaccines
+	Pulmonary rehab
+	Lung reduction surgery
+o	Management during exacerbation
+	Nebulized bronchodilators (albuterol and ipratropium)
+	Oral or IV corticosteroids
+	Abx
+	Bipap or intubation
+o	Nursing:
+	Teach huff coughing
+	Percussion and vibration
+	Postural drainage 
+	Huff coughing
+•	Inhale through nose, lean forward and exhale sharply 2-3 times 
+	Pursed lip breathing – opens airway and allows air to be expelled from the alveoli 
+	Cool mist humidifier maintain hydration
+	Sit upright 
+	Nutrition 
+	Drink fluids between meals
+	Small frequent meal
+
+Cushing
+-	Prolonged exposure to corticosteroids 
+-	Features:
+o	Anxiety, depression
+o	Hypertension, cardiac hypertrophy
+o	Thinning of scalp hair and skin
+o	Acne
+o	Hirsutism
+o	Abdominal striae
+o	Easy bruising
+o	Increased appetite
+o	Hyperglycemia
+o	Progressive obesity
+o	Moon face
+o	Osteoporosis
+o	Muscle wasting
+-	Teaching:
+o	Taper steroids if exogenous, but don’t stop suddenly as it can lead to addisons 
+o	Body changes may take months to reverse
+o	Monitor blood pressure
+o	Assess skin breakdown 
+o	Dietary: high-protein, daily intake of vitamin d and calcium 
+
+Enteral Feeding
+-	Providing nutrition to clients unable to eat or drink 
+-	Can be short term or long term 
+-	If long term may need a g-tube or a gj tube
+-	Nursing
+o	Verify tube placement prior to initiating enteral feeds
+o	Initial verification via x-ray 
+o	Mark tube at naris 
+o	Later check marking or measure gastric contents <3.5
+o	Warm feeding to room temperature to prevent cramping 
+o	Aspiration precautions (HOB elevated)
+o	Bolus – high fowler for 3-60 mins after feeding
+o	Assess for GI intolerance
+	Bowel sounds before feeding 
+	Abdominal distention and pain 
+o	Not common to test gastric contents, we check for symptoms now 
+o	Flush feeding tube to maintain tube patency before and after for medications and bolus feeds
+o	Flush every 4 hours for continuous feeding
+o	Do not mix or add medications to formula 
+o	Crush tablets if appropriate to find powder and dissolve in water 
+o	Site care
+o	Monitor for complications
+	Aspiration
+•	HOB elevated
+•	Tube placement
+	Metabolic
+•	Refeeding syndrome 
+•	Hyperglycemia +osmotic diuresis
+•	Electrolytes
+	Diarrhea 
+•	Slow feedings 
+•	Room temp feedings
+•	If WBC elevated, or fever, could be an infection
+•	Add fiber to feeding
+	Vomiting
+•	Check residuals
+•	If over 500 cc stop feeding and reassess 
+Gout
+-	Excess uric acid in synovial fluid 
+-	Risk: metabolic syndrome
+o	Hyper;ipidemia
+o	Dm
+o	High protein and high fat
+o	Excess alcohol intake
+o	Loop or thiazide diuretic therapy
+o	Polycythemia
+-	Features
+o	Severe pain
+o	Joint warmth
+o	Redness
+o	Swelling
+o	Fever
+o	Chronic gout: chalky white nodules, may progress to chunky white nodules
+-	Dx:	
+o	Elevated serum uric acid
+o	Synovial fluid analysis for uric acid syndrome
+-	Nursing
+o	Goal: reduce inflammation and pain
+o	NSAIDs, colchicine
+o	Care of affected joint = elevate, immobilize, ice, avoid pressure or touching of bed clothing 
+o	Provide adequate hydration 
+o	Reduce serum uric acid 
+o	Allopurinol to reduce formation of uric acid crystals = longterm but do not start during an acute exacerbation
+o	Instruct client to avoid high purine food – organ meats, wines, aged cheeses
+o	Encourage weight reduction
+o	Avoid alcohol consumption 
+
+Guillan Barre Syndrome
+-	Acute immune related polyneuropathy of peripheral nervous system 
+-	Affects peripheral nerves 
+-	Auto-immune disease 
+-	Commonly follows a respiratory or GI infection 
+-	Life threatening risk for respiratory failure as illness progresses
+-	Manifestations:
+o	Start in lower extremitries and moves up
+o	Diminished deep tendon reflexes
+o	Symmetric ascending muscle weakness
+o	Paresthesias
+o	Back pain
+o	Urinary retention/ileus
+o	Autonomic cardiovascular instability 
+o	Reflex tachycardia, orthostatic hypotension
+o	Dysrhythmias
+o	Blood pressure changes
+o	Respiratory failure  may lead to intubation 
+o	Dysphagia
+-	Tx:
+o	No cure
+o	Continuous cardiac monitoring
+o	Monitor for declining respiratory status
+o	Decreasing oxygenation, increased respiratory rate
+o	Resuscitative equipment readily available
+o	Bag valve mask, intubation supplies, suction equipment at bedside 
+o	Reposition every two hours to prevent skin breakdown
+o	Sequential compression devices to legs
+o	Complications related to decreased mobility
+	Ileus/urinary retention
+	DVT
+	Pressure injuries
+	Aspiration pneumonia 
+Iron Deficiency Anemia
+-	Reduction in RBC caused by lack of iron
+-	Iron is needed for Hgb synthesis 
+-	Results in microcytic and hypochromic rbc (hgb gives the red appearance) 
+-	Leading cause of anemia 
+-	Results from GI problems and also from blood loss
+-	Causes: 
+o	Decreased oral intake
+o	Vegetarian or vegan diets
+o	Decreased absorption of iron: celiac
+o	Blood loss – heavy menstruation, GI bleeding 
+o	Increased demand
+o	Pregnancy or lactation
+-	Risks: 
+o	Infants
+	Prematurity 
+	Delayed introduction of solids 
+	Exclusive breastfeeding after 6 months
+	Consumption of cows milk prior to 1 year of age
+	Excessive intake of cows milk after age 1
+-	Features:
+o	Initially asymptomatic and as it progreses:
+	Fatigue, weakness
+	Pale skin and mucous membranes
+	Shortness of breath on exertion
+	Tachycardia
+	Fissures at corners of mouth
+	Glossitis
+	Concave fingernails
+	Pica – pregnancy (but can happen to anyone)
+	Inflammation of the lips (bumps in the corner of the lips)
+-	Tx:
+o	Oral replacement with ferrous sulfate  until hgb levels are normal (1-2 months)
+	Take on an empty stomach 
+	Do not take with milk or antacids as they bind together 
+	Take between meals for maximal absorption 
+	Take with citrus juice (high in vitamin c and increase iron absorption)
+	Use a straw and brush teeth after taking
+	Increase fluid intake to prevent constipation
+	Black stools are expected 
+o	Diet: 
+	Meats and leafy green vegetables 
+	Poultry 
+	Nuts
+	Whole grains
+	Vitamin c: Citrus foods, tomatoes, strawberries 
+
+Myasthenia gravis (graves disease) 
+-	Autoimmune disorder 
+-	Impaired nerve impulse conduction and progressive muscle weakness
+-	Features:
+o	Fluctuating muscle weakness
+	Ocular: ptosis, diplopia
+	Bulbar: dysphagia, dysarthria
+	Respiratory: dyspnea (diaphragm and chest muscles)
+	Neck and limb weakness
+	Generalized fatigue 
+	Weakness is worse with exertion later in the day
+o	Exacerbation:
+	Stress
+	Infection
+	Temperature changes
+	Fluoroquinolones, aminoglycosides, magnesium sulfate
+	Associated with the presence of a tumor on the thymus 
+o	Diagnose: serum acetylcholine receptor antibodies, EMG
+-	Nursing:
+o	Administer pyridostigmine 
+o	Monitor for respiratory crisis (myasthenic crisis = life threatening)
+o	Dietary recommendations to conserve energy/prevent aspiration
+o	Prepare semisolid foods 
+o	Monitor for gurgling, coughing during meals
+o	Take medication before the meal 
+o	Encourage relaxation and stress reduction techniques 
+o	Do ADLS early in the day before they are fatigued
+o	Vaccinations
+-	Crisis:
+o	Severe oropharyngeal and respiratory muscle weakness
+o	Can lead to resp failure
+o	Intubation may be required
+o	Place client in semi fowlers
+o	Administer corticosteroids
+o	Prepare for IV immunoglobulin 
+o	Prepare for plasmapheresis or IV immunoglobulin 
+
+Osteoporosis
+-	Rate of bone resorption is faster than bone formation = porous bones
+-	Weak bones 
+-	Risk for fractures especially wrist, hip, vertebral column 
+-	Risk:
+o	Advanced age = women over 60
+o	Postmenopausal status
+o	Low estrogen (women)
+o	Men = low testosterone
+o	Low body weight, thin
+o	Smoking
+o	Excessive alcohol intake
+o	Sedentary lifestyle 
+o	Secondary osteoporosis = vitamin d deficiency, malabsorption 
+o	Glucocorticoid use
+-	Dx: no symptoms unless fracture is present 
+o	Loss of bone mass (DEXA scan)
+o	Low impact trauma  fracture
+o	Vertebral compression fracture:
+	Spontaneous with no trauma
+	Sudden back pain
+	Can be multiple fractures
+-	Complications:
+o	Multiple fractures can lead to kyphosis 
+o	(hunchback)
+o	Loss of height and worsening back pain 
+-	Nursing:
+o	Medications: vitamin D, calcium carbonate supplements, bisphosphonates
+o	Diet rich in calcium and vitamin d, milk, fish, tofu, almonds 
+o	Adequate sun exposure
+o	Smoking cessation
+o	Limit alcohol 
+o	Weight bearing exercises like walking every day 
+o	Fall prevention 
+
+Pleural Effusion
+-	Excess fluid in pleural space 
+-	Not a disease but an indication of disease
+-	Occurs secondary to:
+o	Heart failure
+o	Nephrotic syndrome
+o	Pneumonia
+o	Malignancy
+-	Features
+o	Dyspnea, cough
+o	Sharp, non-radiating chest pain  increases during inspiration
+o	Decreased breath sounds and movement of the chest on the affected side 
+o	Dullness to percussion 
+o	Tachycardia
+o	Diagnosed via CXR, diagnostic thoracentesis to test fluid for malignant cells or microorganisms
+-	Complication:
+o	Empyema – pus collection 
+o	The longer we have the PE the higher the chance of empyema developing
+	Fever, chills, toxic appearance
+	Weight loss
+	Decreased appetite
+	Leukocytosis
+-	Nursing
+o	Elevate HOB
+o	Therapeutic pleural drainage via thoracentesis 
+	Pt lays over the bed table 
+	Chest x ray after procedure
+	Monitor breath sounds
+	Encourage coughing and deep breathing
+Traction
+-	Used to realign long bones following complete fracture 
+-	Applies bidirectional pulling force to align and immobilize the fractured bones
+-	One side weights and the other side body weight or weights 
+-	Two main types: skin, skeletal
+-	Skin/buck
+o	Pulling force is applied directly to the skin by using boots, splints, tape
+o	Temporary measure. Usually the first type applied 
+o	Can only be used 48-72 hours before surgery or the use of long term skeletal fraction
+o	Can only use small weights to prevent nerve and tissue damage (5-10 lbs) or (2-3 with infants)
+o	Complications:
+	Skin breakdown
+	Detachment of traction device 
+	Monitor skin frequently 
+-	Weights:
+o	Pulling force realigns bone and prevents shortening of limbs
+o	Weight continuously suspended in the air, hanging freely off the edge of the bed because they need gravity 
+o	Supine position with foot of bed elevated 15 degrees
+o	Limb should remain straight and in a neutral position 
+-	Skeletal traction
+o	Traction is applied directly to the bone
+o	Can be used up to 4 months
+o	Larger weight can be sued 5-45 lbs or 2.3-20.4 kg
+o	Screws, wires, and or pins are surgically inserted directly into the fractured bone
+o	Pins are exposed and attached to a pulley system with free hanging weights
+o	Patient must be supine and perpendicular to the ends of the bed
+o	Affected extremity in proper body alignment
+o	HOB is flat or semi fowler but not higher than that
+o	Trapeze for upper body movement or for repositioning 
+o	Free-hanging weights 
+-	Halo external fixation device: static traction
+o	Stabilizes a cervical or high thoracic fracture
+o	Cannot have damage to ligaments or spinal cord
+o	Halo ring is applied around head and attached to vest when spine Is stable 
+o	Keep the correct sized wrench available at all times because it needs to be removed for CPR
+o	Keep vest clean and dry 
+o	Clean pin site daily
+-	Complications:
+o	Improperly maintained skeletal traction can cause bones to become misaligned 
+o	Muscle spasms
+o	Skeletal traction can lead to infection at pin site  osteomyelitis  make sure to clean pins daily 
+o	Skin breakdown 
+o	Prolonged immobilization
+	Atelectasis 
+	Constipation
+	DVT
+o	Nursing:
+	Check pins frequently to watch for infection
+	If it becomes infected increases risk for osteomyelitis or sepsis 
+	Check pulses and cap refill frequently 
+	Prevent immobility related complications
+	Incentive spirometer
+	High fiber diet, stool softeners, fluids
+	Anticoagulants
+	Monitor skin and reposition frequently
+	Promote urination with bedpan, urinal, intermittent catheterization 
+
+Transfusion Associated Circulatory Overload
+-	Life threatening blood transfusion reaction caused by rapid rate or from a client receiving a large amount of blood product over a certain period of time
+-	Circulatory cannot handle the volume
+-	Can happen during or 6-12 hours after transfusion
+-	Risk:
+o	Younger than 3, greater than 60
+o	Preexisting cardiac or kidney impairments
+-	Features: 
+o	Pulmonary edema  respiratory distress
+	Dyspnea, tachypnea, hypoxemia, crackles
+o	Jugular venous distension
+o	Peripheral edema
+o	Tachycardia
+o	Bounding pulses
+o	Hypertension
+-	Tx: 
+o	Stop transfusion immediately 
+o	Position in high fowler
+o	Supplemental oxygen
+o	Diuretics 
+o	Notify blood bank to test the blood
+o	Daily weights
+o	Intake output
+
+Hip Dysplasia (peds)
+-	Range of hip abnormalities as the hip joint is not securely joined
+-	Presents in infancy or at birth, on a spectrum
+-	Risk
+o	Large infant
+o	Breech position
+o	Family history of DDH
+o	Tight lower extremity swaddling
+	Hips should be bent up and out when swaddled 
+o	Positioning devices or car seats
+-	Features:
+o	Spectrum
+o	Asymmetrical gluteal or thigh folds 
+o	Limited ROM- wont be able to have hip abduction 
+o	Shortening of femur 
+o	If not diagnosed early on, there are signs that they may notice later on
+	Positive Trendelenburg sign
+•	Child stands on affected leg and picks up unaffected legs while being unable to bear weight while staying central
+•	Trunk moves asymmetrically
+-	Pavlik harness (0-6 months)
+o	Most common treatment 
+o	Hips are abducted and flexed
+o	Keep on 24 hours a day for 3-5 months 
+o	Take off when bathing but put right back on after 
+o	Avoid skin breakdown – check regularly
+o	Avoid lotions or creams
+o	Padding under the straps to avoid friction on skin
+o	Massage skin under straps to stimulate blood flow
+o	Wear shirt and socks under harness
+-	After 6 months of age = possible surgery
+o	Followed by spica cast
+o	Regular cast on affected joint
+	Keep cast dry and intact
+	Encourage not sticking anything in cast 
+	Proper skin hygiene
+	Sponge baths 
+	Check for skin breakdown 
+	No lotions or creams
+	Proper technique for diaper changes – limited range of motion 
+	
+Molluscum Contagiosum
+-	Caused by pox virus
+-	Affects anyone 
+-	Firm, skin coloured dome shaped papules
+-	Direct contact – skin to skin, sexual contact
+-	Contaminated objects, towels, surfaces
+-	Common in warm climates and daycares, schools
+-	Features:
+o	Asymptomatic
+o	Dome shaped with central umbilication
+o	Firm flesh coloured popular lesions
+o	Diameter 1-5 mm
+o	Can appear anywhere on the skin except for palms and soles 
+-	Nursing:
+o	Self-limiting = goes away on its own
+o	Resolves in few months in immunocompetent individuals (takes months to years)
+o	No treatment
+o	There are chemical removing agents tretinoin or cantharidin, cryotherapy, but this is cosmetic only 
+o	Treatment can be painful
+o	Can return to school or daycare immediately. 
+
+Tinea
+-	Superficial fungal infection
+-	Highly contagious 
+-	Transmission via direct contact or via surface objects
+-	Features: 
+o	Tinea corporis (ringworm)
+	Scaly, pruritic patch 
+	Circular or oval, known as ringworm
+o	Tinea capitis 
+	On scalp
+	Round scaly patches on the scalp, red and itchy, alopecia
+	Needs oral antifungal
+o	Tinea pedis (athlete’s foot) 
+	Scaly red itchy rash typically between the toes or on the sole of the foot
+o	Tinea unguium 
+	Thick, brittle, nail with yellow discoloration 
+	Needs oral antifungal
+o	Tinea cruris (jock itch)
+	Red itchy scaly patches in groin, most common in athletes 
+-	Nursing:
+o	Topical antifungal (miconazole)
+o	May need oral antifungal if the topical one doesn’t work 
+o	Keep skin clean and dry
+o	Avoid sharing personal items
+o	Clip nails short
+o	Change socks and underwear every day
+o	Wear shoes with good circulation 
+
+Varicella
+-	Caused by varicella zoster virus
+-	Causes two forms of illness
+-	Transmitted via direct contact and aerosol droplets 
+o	1-2 days before rash appears 
+o	Contagious until all lesions have crusted 
+-	Lesion stages: maculopapular (small red pimples), vesicular (blister), pustular (pus), crusting (no longer contagious)
+-	Prevention: vaccine
+-	Infection reactivation: herpes zoster
+o	Latency and travels to anterior root and can be reactivated with aging or immunosuppression 
+o	Shows up as shingles and is very painful – affects the nerves
+-	Features:
+o	Prodrome: mild cold
+	Low grade fever, fatigue, cough, anorexia
+o	Followed by: pruritic, maculopapular rash on face, trunk, extremities
+o	Crops of lesions in different stages 
+-	Nursing:
+o	Prevent secondary infections from scratching 
+o	Soothing lotions (calamine)
+o	Keep fingernails short 
+o	Mittens during sleep
+
+o	Avoid overheating 
+o	Wear loose fitting clothing 
+o	Bathe in cool oatmeal baths 
+o	Hand hygiene 
+-	Management
+o	Hospital setting
+	Airborne, droplet, and contact precautions
+	Immunocompromised child may need an antiviral such as acyclovir
+•	At risk for life threatening complications so implement acyclovir quickly
+	Supportive care like acetaminophen and gravol 
+	Isolate child until all lesions have crusted over 
+
+

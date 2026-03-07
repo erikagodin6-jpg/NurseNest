@@ -471,7 +471,7 @@ export default function MockExamSession() {
 
   return (
     <div className={`min-h-screen bg-gray-50 font-sans text-gray-900 ${user?.tier !== "admin" ? "select-none" : ""}`} onContextMenu={user?.tier !== "admin" ? (e) => e.preventDefault() : undefined}>
-      <div className="sticky top-0 z-50 bg-white border-b border-gray-100" data-testid="exam-top-bar">
+      <div className="sticky top-0 z-50 border-b border-black/5" style={{ backgroundColor: "var(--exam-chrome-color)" }} data-testid="exam-top-bar">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 py-2.5 flex items-center justify-between">
           <div className="flex items-center gap-3 sm:gap-4">
             <span className="text-sm font-semibold text-[#2E3A59]" data-testid="text-exam-progress">
@@ -747,7 +747,7 @@ export default function MockExamSession() {
       </main>
 
       {question && (
-        <div className="fixed bottom-0 left-0 right-0 z-40 bg-white border-t border-gray-200" data-testid="exam-bottom-bar">
+        <div className="fixed bottom-0 left-0 right-0 z-40 border-t border-black/5" style={{ backgroundColor: "var(--exam-chrome-color)" }} data-testid="exam-bottom-bar">
           <div className="max-w-3xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between">
             <Button
               variant="ghost"

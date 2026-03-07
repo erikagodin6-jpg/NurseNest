@@ -1,0 +1,90 @@
+Tonsillectomy
+-	Avoid contact sports or strenuous activity for at least 7-14 days after
+
+Increased ICP
+-	Elevate HOB to 30 with head and neck in neutral position to reduce venous congestion
+-	Maintain a calm environment
+-	Oxygenate before suctioning
+-	Administer stool softeners
+-	Manage pain while monitoring sedation
+-	Reduce fever while preventing shivering
+-	Do not cluster activities: can increase oxygen metabolism in the brain which increases the risk for irreversible brain damage in increased ICP
+
+TPN
+-	Infuse via central venous access devices only – can cause phlebitis
+-	Do not stop abruptly due to high concentration of dextrose. If disrupted, infuse d10w at the rate of TPN to prevent hypoglycemia
+-	Check blood glucose every 4-6 hours to maintain blood glucose levels
+-	Record daily weights and intake and output 
+
+Glyburide
+-	Treats DM2 which can cause low blood sugar if ingested by someone who doesn’t have diabetes 
+
+Parkinson Disease
+-	Characterized by bradykinesia, rigidity and tremors 
+-	Clients have an imbalance between dopamine and acetylcholine in which dopamine is not produced in high enough quantities to inhibit acetylcholine 
+-	Anticholinergic medications (benztropine, trihexyphenidyl) are commonly used to treat tremor 
+-	In clients with BPH, or glaucoma, caution must be taken as anticholinergic drugs can precipitate urinary retention and an acute glaucoma episode 
+
+Ventricular bigeminy
+-	Every other heartbeat is a PVC 
+-	Causes: electrolyte imbalances and ischemia 
+-	PVC in the presence of MI indicate ventricular irritability and increases the risk for a more lethal dysrhythmia (ventricular tachycardia, ventricular fibrillation) 
+-	Nurse should assess the client, administer amiodarone, and notify the HCP
+
+ACE inhibitors
+-	Increase serum potassium levels by decreasing urinary potassium excretion
+-	Decreases the excretion of aldosterone which promotes sodium retention and causes potassium excretion. When ACE inhibitor suppresses aldosterone, potassium rises, placing clients at risk for hyperkalemia especially when the patient has impaired renal function  
+-	Nurse should assess potassium level prior to administering ACE inhibitors 
+-	Teratogenic and can lead to fetal renal and cardiac abnormalities and are contraindicated in all stages of pregnancy 
+-	
+
+
+Extravasion
+-	Vesicants leak into tissue
+-	Manifestations: pain, swelling, pallor, coolness, fluid filled blisters around the site
+-	Elevate the extremity to reduce swelling, immediately discontinue the infusion, leave IV catheter to aspirate the medication and administer antidote
+-	Notify HCP
+-	Initiate new IV access in unaffected extremity
+-	Administer pain medication
+
+
+Glaucoma
+-	Primary open angle glaucoma is characterized by an increase in intraocular pressure and tunnel vision
+-	Signs develop slowly and patients have difficulty in dim light, increased sensitivity, halos around bright lights 
+-	Can lead to blindness
+
+Intussusception
+-	Segment of the intestine prolapses and then telescopes into an adjacent ssegment 
+-	Usually occurs in kids less than 6 
+-	Clinical manifestations: vomiting, stool changes, red, jelly like stools, acute episodes of abdominal pain, and sausage shaped mass palpated in the right upper quadrant 
+-	Sausage shaped abdominal mass
+-	RLQ feels empty because of the proximal intestinal obstruction
+-	Leads to edema, obstruction, inflammation
+-	As the obstruction progresses, mucus production increases and the mucus combines with blood in the intestines to produce red, jelly like stools
+-	Bilious vomiting may occur
+-	Can lead to ischemia, occult bleeding, increased leakage of mucus
+-	Without spontaneous resolution or intervention, worsening obstruction and increased pressure in the bowel can lead to bowel perforation and peritonitis
+-	Cause is unknown
+-	Surgery may be indicated if the air enema is not successful
+-	Spontaneous resolution is evidenced by normal brown stool 
+-	All symptoms, including cramping
+
+Antisocial personality disorder
+-	Characterized as a pattern of disregard for and violation of the rights of others and begins in early adolescence and persists into adulthood
+-	Clients are quick to anger, and become furious, vindictive and aggressive when they don’t get their way
+-	Are unable to recognize and accept responsibility for their malicious behaviours and do not seek care unless required 
+-	They have unlawful or inappropriate act
+-	Characterized by antagonistic and uninhibited behaviours including unlawful or inappropriate actions (sexual harassment) deceitfulness, impulsivity, lack of empathy, and manipulation for personal gain
+-	ions like sexual harassment, deceitfulness, impulsivity, lack of empathy, and manipulation of others for personal gain 
+
+Conversion Disorder
+-	Features:
+o	Neurological symptoms: weakness, paralysis, nonepileptic seizures, sensory disturbances
+o	Not intentionally produced
+o	Findings imcompatible with recognized neurological conditions
+o	Symptoms cause significant functional impairment
+o	Often precipitated by psychological stressor
+-	Treatment
+o	Education about the disorder
+o	Cognitive behavioural therapy
+o	Physical therapy for motor symptoms

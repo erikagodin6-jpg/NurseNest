@@ -15,6 +15,7 @@
   --color-card-fg-base: var(--color-softgray);
   --color-popover-base: #ffffff;
   --color-popover-fg-base: var(--color-softgray);
+  --exam-chrome-color: #C7B8FF;
 }
 
 /* Theme Definitions - Using [data-theme] for maximum stability with next-themes */

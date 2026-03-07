@@ -1,0 +1,81 @@
+Sepsis
+-	Exaggerated response to an infection in the bloodstream originating from a local infection that results in life-threatening organ impairment 
+-	Older adults are at an increased risk for sepsis due to normal age related decreases in immune and inflammatory response
+-	Older adults typically do not develop typical signs of infection like fever and leukocytosis
+-	Instead nurses must observe for and immediately report atypical indicators of infection (altered mental status, hypothermia, leukopenia) because early identification and intervention reduce mortality
+-	Causes cardiovascular collapse or impairs the body’s ability to maintain normal metabolic and cellular processes. 
+-	Manifestations:
+o	Fever or hypothermia – fever occurs as a response to infection, low body temp occurs as shock worsens to metabolic alterations and inadequate tissue perfusion
+o	Hypotension: systolic less than 90 or MAP less than 65 due to lactic acid accumulation and metabolic acidosis
+o	Prolonged capillary refill: refill more than 3 or 4 indicates inadequate tissue perfusion as a result of altered peripheral circulation and hypotension
+o	Tachycardia: compensates for decreased systemic vascular tone 
+o	WBC: immature neutrophils (bands) more than 8% 
+o	Clients may have decreased urine output due to decreased perfusion
+
+
+ARDS
+-	Refractory hypoxemia is the hallmark of acute respiratory distress
+-	Has a high mortality rate
+-	Can develop following a pulmonary insult (aspiration, pneumonia) or nonpulmonary insult (sepsis, multiple blood transfutions, trauma)
+-	Insult triggers massive inflammatory response that causes the lung tissue to release inflammatory mediators (leukotrienes, proteases) that cause damage to the alveolar capillary membrane 
+-	As a result the membrane becomes more permeable, and intravascular fluid then leaks into the alveolar space, resulting in noncardiogenic pulmonary edema
+-	Lungs become stiff and noncompliant, which makes ventilation and oxygenation less than optimal and results in increased work of breathing, tachypnea, and alkalosis, atelectasis, refractory hypoxemia
+-	Profound hypoxemia despite high concentrations of oxygen is a key sign of ARDs and is the most important assessment finding to report to the HCP 
+
+Allopurinol
+-	Prevention of gout
+-	Gout is the buildup of uric acid deposited in the joints that causes pain and inflammation
+-	Allopurinol helps to prevent uric acid deposits in the joints and the formation of uric acid kidney stones
+-	Any rash in the client taking allopurinol, even if mild, should be reported to the HCP
+-	Nurse should direct the patient to stop taking the medication immediately, schedule an appointment, and notify the HCP
+-	Rash may be followed by more severe hypersensitivity reactions that can be fatal including stevens, johnson syndrome and toxic epidermal necrolysis
+-	Avoid taking anticonvulsants (carbamazepine, phenytoin, lamotrigine) and sulfa antibiotics
+-	 Take with a full glass of water – fluid intake is important to prevent renal stones
+Statins
+-	Most preferred agents to reduce LDL, total cholesterol, and triglyceride levels
+-	An increase in HDL is also an expected outcome
+
+Pertussis
+-	Whooping cough
+-	Highly contagious, caused by Bordetella pertussis
+-	Spread through close contact, coughing, sneezing
+-	Once attached to client’s cilia in the upper respiratory tract, this bacterium releases a toxin that causes irritation and swelling
+-	To prevent transmission, implement standard and droplet precautions 
+-	Characterized by violent, spasmodic cough and a distinctive high-pitched whooping sound heard during inhalation 
+-	Coughing may continue until the client expectorates a thick mucus plug or vomits (posttussive emesis)
+-	Therefore the nurse should monitor for airway obstruction during coughing episodes, place clients on side if vomiting, and suction the airway and provide o2 as needed
+-	Treatment consists of antibiotics and other supportive measures such as humidified oxygen and oral fluids 
+-	small amounts of oral fluids help loosen mucus so it can be expectorated
+
+Guaiac fecal occult blood test
+-	used to assess for microscopic blood in the stool as a screening tool for colorectal cancer
+-	Steps:
+o	1. Assess for recent ingestion (within 3 days) of red meat or medications (vitamin C, aspirin, anticoagulants, iron, ibuprofen, corticosteroids) that may interfere with false test results
+o	Obtain supplies (hemoccult test paper, wooden applicator, hemoccult developer) wash hands, and apply nonsterile gloves
+o	Open the slides flap and use the wooden applicator to apply to separate stool samples to the boxes on the slide
+o	Collect from 2 different areas of the specimen as some portions of the stool may not contain microscopic blood
+o	Close the slide cover and allow the stool specimen to dry for 3-5 mins
+o	Open the back of the slide and apply two drops of developing solution to the boxes on the slide
+o	Assess the color within 30-60 seconds
+o	Positive result turns the test blue, indicating presence of microscopic blood in the stool
+o	Dispose of gloves
+o	Document
+Airborne precautions
+-	TB, chicken pox, herpes zoster, rubeola
+-	N95, negative pressure room, clean gloves, gown, goggles
+
+Major Depressive Dissorder
+-	5 or more symptoms must be present almost every day for at least 2 weeks and one symptom must be depressed mood or loss of interest or pleasure
+-	Signs: SIG-E-CAPS
+o	Sleep (increased or decreased)
+o	Interest deficit (anhedonia)
+o	Guilt (worthless, hopeless)
+o	Energy deficit 
+o	Concentration deficit
+o	Appetite (increased or decreased)
+o	Psychomotor retardation or agitation
+o	Suicidality
+Codeine 
+-	Narcotic analgesic used for acute pain or cough suppressant
+-	Depressing the cough reflex can cause accumulation of secretions in the presence of COPD leading to respiratory difficulty
+-	Can also depress the respiratory center and effort, therefore they should not be given to clients with respiratory disease (asthma, COPD)

@@ -1,0 +1,951 @@
+Wound Irrigation
+-	Flushing out debris and bacteria from an open wound to reduce risk of infection to promote healing
+-	Important for wounds sustained in an outdoor environment 
+-	Contamination with dirt increases the risk for infection 
+-	Tetanus grows in the dirt 
+-	Determine tetanus vaccination status 
+o	Steps:
+	Start with hand hygiene 
+	Assess for drainage and pain
+	Provide pain medication 30 mins before wound irrigation
+	Ensure a towel or absorbant pad is placed under 
+	Remove old dressing
+	Position wound to allow gravitational flow of solution
+	Flow should work with gravity
+	Open sterile supplies and put on gloves 
+	Select a 35 ml sterile syringe with a large bore angiocatheter for perfect pressure and fill with irrigating solution
+	Hold tip of syringe 1 inch above the wound to prevent the syringe from contaminating the wound 
+	Flush with low continuous pressure 
+	Irrigate down from the top edge of the wound
+	Flush until the solution is free from debris and exudate
+	Dry with sterile gauze
+	Apply dressing
+	Time date and initial dressing 
+
+
+Disseminated Intravascular Coagulation
+-	Life threatening disorder when there is widespread activation of coagulation cascade
+-	Consumption of clotting factors and platelets  abnormal clot 
+-	Causes:
+o	Trauma – MVC, surgery 
+	Body sends clots to clean the wound and they will be used up 
+o	Sepsis/infection – body recognizes bacteria as toxins and tries to get rid of them
+o	Stress 
+o	Obstetric – placental abruption, preeclampsia due to strained vessels, retained dead fetus 
+o	Malignancy – procoagulation factors are released which will summon clotting factors and use them all up and none are left for the rest of the body 
+-	Manifestations
+o	Internal manifestations will show first due to microthrombi that obstruct blood flow to kidneys
+	Renal insufficiency, hematuria, decreased urine output
+	External bleeding
+•	Gums, iv sites
+	Internal bleeding (petechiae, ecchymosis) 
+-	Lab findings
+o	Decreased platelet count, fibrinogen level
+o	Increased PR/INR, activated PTT, d-dimer 
+-	Treatment
+o	Supportive
+	Treat underlying cause 
+	Frequently assess for bleeding in urine or at iv sites 
+	Monitor platelets, pt, ptt
+	Replace clotting factors and FFP 
+	Replace platelets
+	PRBC
+	Administer oxygen as necessary
+	Monitor urine output and maintain >30ml/hour
+
+Cerebral Edema
+-	Excessive fluid in the brain 
+-	Caused by: increased CSF, obstruction, or impaired reabsorption
+o	Head trauma, surgery, masses, tumors, infecton, encephalopathy, vascular dysfunction
+-	Features
+o	Increased intracranial pressure
+o	Headache, vomiting
+o	Change in LOC
+o	Posturing: 
+	Decorticate (hands curled in)
+	Decerebrate (hands curled out)
+o	Hyperthermia
+o	Restlessness
+o	Unilateral dilated pupil (CN3 compression)
+o	Fixed bilateral pupils (brain stem herniation)
+o	Cushing triad: hypertension with widening pulse pressure, bradycardia, irregular respirations (usually slow)
+o	Late sign: brain herniation – medical emergency
+-	Nursing
+o	Maintain calm, nonstimulating environment
+o	HOB 30 degrees to facilitate drainage
+o	Head in a neutral position
+o	Monitor ICP, vital signs, neurological status
+o	Prpare for ETT 
+o	Administer hypertonic saline (fluid enters vascular space and leaves the brain tissue)
+o	Mannitol 
+o	Stool softener 
+o	Muscle relaxer
+
+C Diff
+-	Spore forming toxin producing gram positive bacteria
+-	Causes antibiotic associated colitis 
+-	Antibiotic use  altered normal healthy gut flor  colonization and overgrowth of C diff  produces toxin and spores
+-	Toxin causes current symptoms
+-	Spores survive and recur for months
+-	Spores from diarrhea can survive on skin and clothes for months
+-	Risks:
+o	Recent or prolonged abx use
+o	Age >65
+o	Current or recent hospitalization or LTC stay
+o	Use of PPI or immunosuppressants 
+-	Features
+o	Profuse watery diarrhea
+o	More than 3 loose stools in 24 hours
+o	Abdo pain and cramping
+o	Nausea and anorexia
+o	Fever
+o	Increased WBC
+o	Dehydration 
+o	Dx: stool sample, marked leukocytosis 
+-	Complications: 
+o	Dehydration  hypovolemic shock 
+o	Electrolyte abnormalities 
+	Hypokalemia, hyponatremia, and hypomagnesemia due to GI loss
+	Perianal skin breakdown
+	Presence of stool on skin  impaired skin integrity and contamination of wounds
+o	Toxic megacolon – live threatening perforation (type of ileus)
+-	Nursing
+o	Contact precautions
+o	Wash with soap and water instead of alcohol
+o	Administer antibiotics
+o	Vanco or fidaxomicin
+o	Measure orthostatic pulse and bp
+o	Monitor electrolytes and fluid status
+o	Assess for abdo distension and guarding for toxic megacolon 
+-	Teaching
+o	Recurrence is common
+o	Inform hcp of history of c diff when abx are prescribed
+o	Client can use skin barrier creams such as petroleum or zinc
+
+Compartment Syndrome 
+-	Limb threatening condition caused by significant pressure due to 
+o	Increased internal pressure due to bleeding or edema
+o	Decreased compartment size or external pressure
+	Restrictive dressings, casts
+o	Increased swelling = compression of arteries and nerves -> ischemia and impaired nerve function
+o	Can lead to loss of a limb
+-	Risk: burns (eschar), edema
+o	Eschar restricts tissue from expanding
+o	Msk injury (fracture or muscle destruction)
+o	Casts, splints
+o	Surgery 
+o	Snake bites
+o	Massive iv infiltration 
+-	Features:
+o	Paresthesia (tingling, numbness, burning)
+o	Pain unrelieved by medication
+o	Pallor
+o	Pressure
+	Taut skin, cast fits too tight
+o	Late signs: 
+	Pulselessness, poikilothermia (cold limb), paralysis 
+-	Complicatons
+o	Limb amputation
+o	Volkmann contracture 
+o	Irreversible nerve damage
+o	Long term weakness or loss of limb function 
+-	Nursing
+o	Place extremity at level of heart 
+o	If client has a cast or dressing remove it immediately 
+o	Possible emergency fasciotomy 
+	Monitor for signs of infection after 
+	Check for return of perfusion by cap refill and bilateral pulses
+o	ROM exercises to prevent contractures
+
+Esophageal Varices
+-	Varices – distended tortuous fragile blood vessel
+-	Veins drain blood from body and go to heart to be reoxygenated
+-	Blood from esophagus goes into portal vein, when there is cirrhosis the liver tissue enlarges and obstructs the blood into the portal vein = portal hypertension = blood backing up into stomach veins and leads to varices
+-	Pressure builds and becomes more distended and fragile and can rupture which leads to life threatening upper GI bleeds
+-	Cirrhosis patients may not know they have esophageal varices 
+-	Asymptomatic without rupture
+-	Diagnosed during endoscopy
+-	Manifestations of hemorrhage
+o	Vomiting bright red blood or clots 
+o	Can mimic an arterial bleed
+o	Risk for aspiration 
+o	Coffee ground emesis or melena
+o	Monitor for hypovolemic shock 
+	Tachycardia, paleness, hypotension
+-	Nursing
+o	NPO 
+o	Protect airway 
+o	Elevate HOB
+o	Patient may need to be intubated 
+o	Implement interventions that prevent hypovolemic shock 
+o	IV fluids 
+o	Bolus and continuous
+o	PRBC to maintain BP and improve perfusion
+o	Octreotide infusion (vasoconstriction around esophagus to control bleeding)
+o	PPI (panto)
+o	Prepare for EGD 
+	Sclerotherapy (meds to control bleeding)
+	Band ligation
+o	Blakemore tube
+	Like an NG but goes through oropharynx
+	Inflated to stop bleeding 
+OSA
+-	Airway becomes relaxed and obstructed during sleep 
+-	Apnea over 10 seconds 
+-	Hypopnea during sleep
+-	During apnea, desaturation and hypercapnia occur 
+-	Stimulates client to arouse and breath momentarily to restore airflow 
+-	Risk:
+o	Obesity
+o	All ages but as we get older especially over 65 we lose muscle tone in upper airway
+o	Neck circumference greater than 16 inches
+o	Worse with use of sedatives or alcohol
+-	Manifestations
+o	Loud snoring and apnea observed by others
+o	Can happen several hundred of times a night
+o	Awaken frequently and have a lack of sleep 
+o	Can have headaches and irritability 
+o	Decreased ability to concentrate and daytime sleepiness
+o	Use a sleep study to diagnose 
+o	Defining feature is apnea
+-	Complicatons
+o	Chronic loss of sleep can lead to 
+o	Negative work performance
+o	Mood changes
+o	Motor vehicle collisions 
+o	Hypercapnia
+o	Vasoconstriction
+o	Increased HR
+o	Can lead to CV issues like htn and heart failure (right due to pulmonary hypertension)
+o	Impotence 
+-	Interventions
+o	Positional therapy – sleep on side or eleveate head of bed
+o	Weight loss
+o	Limit sedatives/alcohol 3-4 hours prior to sleep 
+o	Reinforce dangers of driving due to lack of sleep
+o	CPAP (continuous positive airway pressure)
+	Steady flow of air to keep airway open 
+Borderline Parsonality Disorders
+-	Manipulative behaviour that is aimed at gaining control and power over a person or situation for personal gratification 
+-	Often use staff splitting or flattery
+-	Clients may use false information to tell on a staff member or act in a way that gives the impression of sincerity and caring towards staff members for personal gain 
+-	Nursing interventions:
+o	Setting limits that are realistic, nonpunitive, and enforceable
+o	Using a nonthreatening, firm tone when discussing limits and the consequences of unacceptable behaviours
+o	Standardizing policies and enforcing all unit, hospital, facility rules
+o	Ensuring consistency from all staff members in enforcing set limits
+
+Separation Anxiety
+-	Occurs from 6-30 months
+-	There are three stages
+o	Protest: child refuses attention from others, screams for the parent to return, and cries unconsolably
+o	Despair: child is withdrawn, quiet, uninterested in activities or meals, and displays younger behaviour 
+o	Detachment: child suddenly appears happy and interested in building relationships 
+-	Nurses must build trust and encourage connection with family and familiar environments even when they are absent
+-	Interventions: 
+o	Encourage the parents to leave favourite toys, books, pictures from home
+o	Establishing a daily schedule that is similar to the child’s home routine
+o	Maintaining a close, calming presence when the child is visibly upset
+o	Facilitating phone or video calls when parents are available
+o	Providing opportunities for the child to play and participate in activities
+
+Methotrexate
+-	Folate antimetabolite, antineoplastic, immunosuppressant drug used to treat various malignancies and as a nonbiologic disease modifying antirheumatic drug used to treat rheumatoid arthritis and psoriasis
+-	Can cause bone marrow suppression resulting in anemia, leukopenia, and thrombocytopenia 
+-	Leukopenia and its immunosuppressant effects can increase susceptibility to infection
+-	Clients should be educated about obtaining routine killed vaccines and avoiding crowds and persons with known infections 
+-	Alcohol should be avoided as it is hepatotoxic and drinking alcohol increases the risk for hepatotoxicity
+
+Cervical Cancer
+-	Malignancy of the cervix occurs near the meeting point of the vaginal and uterine epithelia located in the endocervical cancal
+-	Uterine epithelial cells in the area are rapidly and constantly replaced with squamous cells, a natural process that also increases the risk for abnormal cell changes and cancer
+-	The most significant risk factor is persistent infection with HPV, a common and often asymptomatic sexually transmitted infection that is identified in almost all clients with cervical cancer
+-	Other risk factors are related to the likelihood of acquiring hpv ability to clear infections, or factors that increase the cancer-causing effects of HPV infection, including
+o	History of sexually transmitted infections
+o	Engaging in sexual partners
+o	Early childbearing
+o	Smoking tobacco
+o	Immunosuppression 
+o	Long term use of oral contraceptives
+-	A patient who gave birth at age 16 (sexually active at an early age, early childbearing) and has had multiple sexual partners has three risk factors for cervical cancer
+
+Acute postinfectious glomerulonephritis
+-	Occurs when immune complexes are deposited in the glomeruli following with certain strains of bacteria 
+-	Patients have decreased renal blood flow and glomerular filtration, which causes excessive sodium and water retention leading to hypertension and edema
+-	Treatment includes sodium and fluid restriction to decrease circulating fluid volume and reduce edema 
+-	Hypotonic solutions can worsen edema in clients with apgn and lead to life threatening pulmonary or cerebral edema
+
+Vaginal hematoma
+-	Abnormal pooling of blood within the vaginal wall space 
+-	During delivery stretching of the vaginal canal can rupture blood vessels particularly in nulliparous clients who had an operative vaginal birth 
+-	Clients often have massive occult bleeding within the vaginal wall, resulting in minimal visible bleeding and a protruding vaginal mass
+-	This is often associated with rectal or vaginal pain or pressure 
+-	Uterine findings remain normal (fundus is firm and midline)
+
+MRSA
+-	Colonized on skin or in the nares
+-	Enters through openings in the skin and causes infection and potentially life threatening complications 
+-	Transmitted by direct contact with contaminated wound, drainage, or surface
+-	Nurse should use packaged premoistened cloths containing chlorhexidine to bathe the client to reduce the spread of infection 
+Oral Candidias (thrush)
+-	Candida albicans
+-	Manifestations: white on oral mucosa, palate, tongue 
+-	Patches are nonremovable and tend to bleed when touched 
+-	The baby may have difficulty sucking or feeding due to the associated pain
+-	Thrush is generally linked to antibiotic therapy or poor caregiver hand hygiene 
+-	The infection is usually self-limited but treatment with fungicide may quicken recovery
+
+Cholecystectomy
+-	Most common procedure for gallbladder removal
+-	Laparascope and grasping forceps are inserted through small puncture wounds in the abdomen
+-	The procedure is associated with decreased postoperative pain, better cosmetic results, shorter hospital stays, and fewer days for recovery compared with the open technique
+-	Surgical glue is a form of topical adhesive that approximates the edges of a wound
+-	Clients with surgically glued incisions may shower but not bath or swim
+o	Postop teaching
+	Resume activity slowly as tolerated, most can return to work in a week
+	Diet: low fat diet is recommended 
+•	Reg diet after a few weeks but weight loss is recommended
+	Incision care: showering day after surgery
+	Watch for infection signs
+
+Osteoporosis
+-	Msk disorder characterized by chronic progressive loss of bone tissue and reduced bone density 
+-	Clients should consume adequate amounts of calcium and vitamin d to promote growth and prevent bone loss
+-	Calcium rich foods (broccoli, almonds) are essential for bone health, additionally, foods high in vitamin d (tuna, egg yolks) are required for calcium reabsorption 
+-	Food items that are high in both calcium and vitamin d include dairy products and salmon
+
+
+Rib Fractures
+-	Focus on pain management and pulmonary hygiene techniques like coughing and deep breathing, incentive spirometry
+-	IV opioid analgesics are often prescribed to manage pain 
+
+Giving Drugs Via NG Tube
+-	Do not give enteric coated drugs, slow or extended release, sustained release drugs 
+
+Anticipatory Guidance
+-	Prepares clients and caregivers for future health needs and is useful throughout life 
+-	Goals should be client oriented, realistic, objective, measureable, and focued on preparing for future needs specific to the client
+
+Hepatitis
+-	Inflammation of the liver caused by infection, toxins, trauma resulting in impairment of liver function (bile production, detoxification of blood, metabolism). Nursing interventions for clients with acute viral hepatitis include: 
+o	Rest: 
+	Alternate periods of rest and activity to reduce metabolic demands and avoid fatigue
+	Avoid hepatotoxins like alcohol and Tylenol as they worsen injury to liver cells
+	Medications metabolized in the liver should be used cautiously to allow hepatocytes to heal 
+o	Nutrition:
+	Encourage low fat, small, frequent meals to decrease nausea and promote intake in clients with anorexia 
+	Anorexia is lowest in the morning so promote eating a larger breakfast
+	Provide oral care and avoid extremes in food temperature to increase appetite 
+	Promote water consumption and diets adequate in carbs and calories
+o	Infection Control
+	Hepatitis b is transmitted through sexual contact and infected blood, condoms should be used and clients should not share razors or toothbrushes
+
+Potasium Chloride Administration
+-	Do not give more than 10 mEq/hour when given through a PIV
+
+Assisting a Falling Client
+-	Step behind client and place the arms under the axillae or around the waist
+-	Place feet wide apart with knees bent 
+-	Place one food behind the other and extend the front leg
+-	Let the client slide down the extended leg to the floor
+
+Phototherapy
+-	Light is absorbed by the skin and converts bilirubin to water-soluble form, allowing it to be excreted in the stool and urine
+-	Client should be fully exposed, except for diaper and eye shields, when placed under the phototherapy lights
+-	Maintaining skin integrity is important because the breakdown of bilirubin can cause frequent stools and produce skin excoriation and breakdown 
+-	However lotions and ointments should not be applied because they can absorb heat an dcause burns 
+
+Rhabdomyolisis
+-	Muscle tissue is damaged and myoglobin is released into the blood due to the rapid breakdown of muscle cells 
+-	Common causes.= muscle injury due to overexertion, crush injuries, drug use, certain medications like statins
+-	Clients with manifestations of rhabdomyolysis (dark urine, muscle pain, markedly elevated creatinine kinase) require immediate follow up because myoglobin can be nephrotoxic in large quantitites and cause aki 
+-	Treatment – large volumes of IV fluids to dilure myoglobin in the blood and protet the kidneys from further damage 
+
+Chronic Kidney Disease
+-	Risk for fluid overload and hyperkalemia
+-	Clients should avoid salt substitutes which typically contain potassium chloride and may contribute to hyperkalemia 
+-	To avoid further complications and prevent progressive kidney damage, clients with CKD are advised to follow certain dietary restrictions including
+o	Sodium restriction: avoid high sodium foods such as cured meats, pickled foods, canned soups, frankfurters, cold cuts, soy sauce, and salad dressings
+o	Potassium restriction: avoid high potassium foods such as raw carrots, tomatoes and orange juice
+o	Avoid bran, peanut butter, raisins, saltines, milk 
+o	Fluid intake monitoring: include all foods including popsicles and gelatin
+o	Low protein diet: unless on hemo, where they should increase protein intake
+o	Low phosphorus diet: avoid foods high in phosphorus (chicken, turkey, dairy)
+
+Chronic Bronchitis
+-	Characterized by excessive mucus production, chronic cough, and recurrent respiratory tract infections
+o	Interventions:
+	Increase oral fluids to 2-3L a day
+	Use a cool mist humidifier
+	Take an expectorant (guaifenesin) to reduce the viscosity of thick secretions by increasing respiratory tract fluid
+	Practice abdominal breathing with a huff
+	Implement chest physio
+	Use handheld airway clearance devices
+
+Thyroid Storm
+-	Life threatening form of hyperthyroidism 
+-	Symptoms: fever, tachycardia, cardiac dysrhythmias, nausea, vomiting, diarrhea, altered mental status
+-	Management includes reducing fever, maintaining hydration, and preventing cardiac complications
+Anaphylaxis
+-	Immune mediated hypersensitivity reaction to an allergen that can rapidly progress to respiratory failure and cardiovascular collapse.
+-	Caused by release of histamine and other mediators such as nitric oxide, tryptase 
+-	Most concerning findings:
+o	Swelling of the lips and tongue (angioedema) which can rapidly progress to laryngeal edema and upper airway obstruction
+o	Bilateral wheezing, caused by air movement through a narrow airway and is indicative of bronchoconstriction
+o	Wheezing in the presence of labored breathing required immediate intervention to open the airway
+o	Hypotension which is caused by vasodilation and increased capillary permeability which can lead to anaphylactic shock
+-	Mediators result in urticaria due to localized vasodilation, severe bronchoconstriction, angioedema, upper airway obstruction, abdominal discomfort, hypotension
+-	First line treatment is epinephrine and the preferred route is im.
+-	Repeat every 5-15 mins if symptoms persist
+-	After epinephrine, administer corticosteroids like methylprednisolone to decrease airway inflammation and bronchodilators to dilate the small airways 
+-	Supportive measures include oxygen, fluid bolus, corticosteroids, bronchodilators
+-	Frequrently assess for stridor (high pitched, grating noise that indicates obstructed upper airway airflow and laryngeal edema)
+-	Request a prescription for an antihistamine to reduce urticaria and itching
+-	Ensure intubation equipment is ready 
+-	Document the allergy
+-	Client is at high risk for aspiration and choking so patient should be npo
+-	Anticipate observing the patient for 4-6 hours following resolution of symptoms because anaphylaxis can resolve and come back up to 36 hours after onset (biphasic reaction)
+
+Rheumatoid Arthritis
+-	Chronic autoimmune disorder characterized by inflammation and damage to synovial joints 
+-	This usually involves the wrists and proximal small joints of the fingers 
+-	Progressive fibrosis of joint membranes results in pain, deformities, swan neck, ulnar deviation, and stiffness especially in the morning. Over time, remodeling of joint capsules and associated pain reduce the ability to perform activities of daily living and engage in routine tasks 
+-	Disease modifying antirheumatic drugs improve long-term joint function and slow the progression of bony erosions and rheumatoid nodules 
+-	Methotrexate helps inhibit the growth of rapidly dividing inflammatory cells and is the preferred disease modifying treatment for most clients 
+-	Nsads and systemic glucocorticoids (prednisone) may also be prescribed for symptom management and pain control
+
+Atopic Dermatitis
+-	Chronic skin disorder characterized by pruritis, erythema, and dry skin
+-	The exact cause is unknown, although it may be associated with an impaired skin barrier and resulting immune response to invading allergens
+-	The primary goals of management are to alleviate pruritis and to keep skin hydrated to reduce scratching. Scratching can lead to excoriations and secondary infections
+-	Teaching includes:
+o	Bathing with tepid water and mild/gentle soap, hot water and long bubble baths should be avoided
+o	Patting skin gently after bathing, followed by immediate application of topical emollient to seal in moisture 
+o	Giving an oral antihistamine at bedtime to releve pruritis which tends to be worse at night
+o	Keep childs nails trimmed short 
+o	Dress in soft clothing like cotton 
+o	Long sleeves should be worn at night
+
+Azathioprine
+-	Immunosuppressant drug that can cause bone marrow depression and can increase the risk for infection
+-	It is prescribed to treat autoimmune conditions such as inflammatory bowel disease and to prevent organ transplant rejection 
+-	Fatigue and nausea can be expected as minor adverse effects that may be associated with the disease
+-	Leukopenia can be a severe adverse effect and should be reported to the hcp immediately
+
+Preconception Counselling
+- discuss pregnancies effect on preexisting health conditions and checking rubella immunity 
+- Pregnancy should be avoided for at least 4 weeks after vaccination
+- Folic acid supplementation at least 400 mcg a day for several months before pregnancy to - reduce the incidence of neural tube defects 
+- Understand no amount of alcohol is safe
+- Schedule or establish care with a dentist to prevent or treat periodontal disease
+
+HIV
+-	Viral infection of CD4 cells that results in progressive immune system impairment
+-	Most frequently transmitted via blood, uprotected sexual contact, shared needles, and parenteral equipment, or perinatally from mother to child
+-	Primary prevention and odification of risky behaviours are essential health care strategies for HIV because there is no known cure
+-	Preexposure prophylaxis is a preventative strategy in which antiretroviral therapy is prescribed for clients whose risk for contracting HIV is high 
+-	Emtricitabine/tenofir is a commonly used combination therapy for prep in high risk individuals 
+
+Infant Formula
+-	Readily available as ready to feed, concentrate, or powder
+-	Keep bottles, nipples, caps and other parts as clean as possible 
+-	Wash the tops of formula cans with hot water and soap prior to opening to prevent contamination
+-	Refrigerate any unused prepared formula or unused opened formula but use within 24 hours or discard to reduce the risk of bacterial growth
+-	Warm bottles in a pan of hot water or under warm tap water for several minutes nut not in the microwave
+-	Test formula temperature on the inner wrist before serving to the infant 
+-	Never overdilute or overconcentrate 
+-	Discard any formula left over because the saliva mixed with it fosters bacterial growth 
+-	Discard prepared formula after 24 hours
+
+Kidney Transplant
+-	Concerning findings following kidney transplant:
+o	Decreased urinary output which can indicate dehydeation, obstruction, or impaired kidney perfusion
+o	Fever, chills, malaise, arthralgia, and abdominal tenderness (at right iliac region) indicating potential infection or organ rejection
+o	Signs of fluid retention like pitting edema in lower extremities, hypertension indicating impaired GFR and kidney dysfunction
+-	Rejection:
+o	Onset is usually less than 6 months
+o	Exposure to donor antigens induces activation of t lymphocytes predominantly cell mediated
+o	Asymptomatic with increase in BUN and creatinine on routine laboratory examination
+o	Pain/tenderness of the transplanted kidney
+o	Symptoms of acute kidney injury (edema, dyspnea)
+o	Treatments include increasing immunosuppressants and or dose
+o	Rejection is reversible with the appropriate treatment 
+	Anticipate immunosuppressants and high dose corticosteroids to reduce the inflammatory response and minimize damage to the donated organ. Steroids can be tapered down as rejection resolves 
+	Prepare for dialysis until the transplanted kidney regains function 
+	
+
+
+
+Serotonin Syndrome
+-	Life threatening caused by excess serotonin 
+-	Tramadol can lead to serotonin syndrome when taken with ssri
+-	Clinical manifestations:
+o	Mental status changes (anxiety, restlessness, agitation) 
+o	Autonomic dysregulation (diaphoresis, tachycardia, hypertension, hyperthemia)
+o	Neuromuscular hyperactivity
+-	Treatment: 
+o	Discontinue serotonergic agents and administer a benzodiazepine to improve agitation and decrease muscle contraction (clonus) which reduces temperature
+
+Vaccines During Pregnancy
+-	Recommended: Tdap, inactivated influenza, rho immunoglobulin
+-	Indicated for high risk patients: hep b, hep a, pneumococcus, hemophilus influenza, meningococcus, varicella zoster immunoglobulin 
+-	Contraindicated: HPV, MMR, live attenuated influenza, varicella 
+
+Sulfasalazine (Azulfidine)
+-	Sulfonamide and nonbiologic disease modifying antirheumatic drug used for mild to moderate chronic inflammatory rheumatoid arthritis and IBS 
+-	Inhibits the production of prostaglandin 
+-	Sulfa medications share common side effects:
+o	Crystalluria causing kidney injury – drink lots of water
+o	Photosensitivity and risk for sunburn 
+o	Folic acid deficiency – eat folate rich foods
+o	Life threatening agranulocytosis: monitor CBC at start of therapy and report fever or sore throat 
+o	Stevens johnson syndrome: stop medicine if rash develops
+
+Metoclopramide (Reglan)
+-	Prescribed for the treatment of delayed gastric emptying, GERD, antiemetic
+-	Associated with extrapyramidal adverse effects including tardive dyskinesia especially in adults with long term use
+-	Call HCP immediately if patient develops:
+o	Protruding or twisting of tongue
+o	Lip smacking
+o	Puffing of cheeks
+o	Chewing movements
+o	Frowning or blinking of eyes
+o	Twisting fingers
+o	Twisted or rotated neck
+Severe Burns
+-	Priority is to ensure the airway is secure
+-	Nursing:
+o	IV analgesics
+o	Tetanus immunization as burn wounds are prone to tetanus
+o	Foley catheter to monitor urine output as genital burns cause edema and urinary retention
+o	Cleansing and debriding wounds – avoid skin disinfectants like chlorhexidine and poviodine based cleaning 
+	Use saline water or normal saline 
+o	Collect blood for carboxyhemoglobin level 
+o	Burn injury is a hypermetabolic process and clients need early supplemental nutrition so enteral nutrition is associated with multiple clinical benefits and preferred over IV nutrition
+-	Wound injuries:
+o	Administer IV analgesics
+o	Assess for drug allergies
+o	Gather sterile supplies
+o	Heat room to 85 
+-	Signs of infection
+o	Temperature instability 
+o	Progressive tachycardia
+o	Refractory hypotension
+o	Stress induced hyperglycemia
+o	New onset feeding intolerance like increased gastric residual may reflect abdominal hypoperfusion 
+
+Osteomyelitis
+-	Bone infection that occurs in pediatric clients due to hematogenous spread of bacteria through the bloodstream into the well-vascularized metaphysis of long bones (tibia)
+-	Inflammation compromises blood flow and forces the infectious exudate into cortical and periosteal bone causing necrosis 
+-	Eventually the areas of dead bone separate from living bone, forming sequestra
+-	Manifestations:
+o	Fever, pain, erythema, swelling
+-	Without treatment, sepsis can develop. Obtain a blood culture and sensitivity to determine the causative pathogen and administer antibiotics 
+
+Anticholinergics
+-	Dicyclomine 
+-	Used to relax smooth muscle and dry secretions 
+-	Adverse effects:
+o	Pupillary dilation
+o	Dry mouth
+o	Urinary retention
+o	Constipation 
+o	Decreased intestinal motility 
+	Can cause paralytic ileus
+
+Aortic Dissection
+-	Tear in the inner lining of the aorta that allows blood to surge between the layers of the arterial wall, separating and weakening the aortic wall
+-	Perfusion to vital organs may become impaired and the dissection can rapidly progress to life-threatening complications
+-	Surgical repair is required
+-	Before surgical repair it is priority to decrease the risk for rupture by maintaining normal pressure in the aorta so you should give IV beta blocker therapy to reduce blood pressure and heart rate
+
+Chronic Kidney Disease
+-	Patients frequently develop anemia due to decreased erythropoietin production by the kidneys and clients are typically treated with recombinant human erythropoietin to alleviate the symptoms of anemia by stimulating cells in bone marrow to produce more red blood cells 
+-	Erythropoietin therapy increases the risk for hypertension, stroke, MI, blood clots, and heart failure due to thickened blood related to the higher concentration of RBCs
+-	Uncontrolled hypertension is a contraindication to therapy so the nurse should check the clients BP before administering
+
+Myopia
+-	Nearsightedness
+-	Reduced visual acuity when viewing objects at a distance
+-	Occurs when the eye structure causes images to focus before they arrive at the retina 
+-	Patietns will hold objects close to their face
+-	Pediatric clients:
+o	Children report headache, dizziness, and the need to squint the eyes to see clearly 
+o	School performance may be affected
+
+Mastitis
+-	Infection and inflammation of breast tissue that results from inadequate milk duct drainage or poor breastfeeding technique 
+-	Manifestations: fever, muscle aches, breast pain, inflammation
+-	Interventions:
+o	Ensure adequate rest, nutrition, hydration, increase fluid intake
+o	Relieve pain with acetaminophen or NSAIDs
+o	Apply warm compress
+o	Ensure proper breastfeeding technique
+
+Scoliosis 
+-	Lateral curvature of the spine and spinal rotation 
+-	May result from congenital or pathologic conditions it is most often idiopathic 
+-	Most commonly first noticed during periods of rapid growth (early adolescence)
+-	Early detection and prompt treatment may reduce the need for surgical intervention
+
+Babinski Reflex
+-	Disappears when the kids turn 2
+
+Atropine
+-	Given to a person who is experiencing bradycardia 
+-	Atropine increases the heart rate by inhibing the action of the vagus nerve 
+-	A normal sinus rhythm and reversal of clinical symptoms indicate that the medication has had the desired effect
+
+Ulcerative Colitis
+-	Chronic inflammatory bowel disease characterized by inflammation and ulceration of the large intestine that results in abdominal pain, frequent bouts of bloody diarrhea, anorexia, and anemia
+-	Interventions:
+o	Managing pain
+o	Monitoring fluid balance
+o	Assessing treatment adherence
+o	Addressing psychosocial needs
+
+Hypothyroidism
+-	Endorine disorder identified by low thyroid hormone and high TSH. 
+-	Bradycardia, hypotension
+-	Hypothermia, cold intolerance
+-	Constipation
+-	Fragile, dry skin and hair loss
+-	Forgetfulness, slurred speech, confusion
+
+
+Sucralfate
+-	Forms a protective layer in the GI mucosa which provides a physical barrier against stomach acids and enzymes. It does not neutralize or reduce acid production but it is prescribed to treat and prevent both stomach and duodenal ulcers
+-	Taken on an empty stomach with a glass of water
+-	Antacids or other ppi, h2 blockers should be avoided within 30 mins of taking sucralfate to prevent altered absorption
+
+Epidural
+-	Type of regional anesthesia 
+-	Does not enter the csf but affects nerve roots as they enter and exit the spinal cord
+-	Most frequent adverse affect is hypotension which occurs due to the sympathetic blockade of the autonomic nervous system which causes vasodilation and necessities frequent blood pressure assessment 
+
+Respiratory Failure
+-	Manifestations: 
+o	Paradoxical breathing: abnormal movement of the chest on inspiration and outward movement on expiration. Indicates diaphragm muscle fatigue and use of respiratory accessory muscles
+o	Pao2 less than or equal to 60: indicates hypoxemia resulting from increased work of breathing, decreased gas exchange, hyperinflation and air trapping, and inability of the lungs to meet the bodys oxygen demand
+o	Paco2 more than or equal to 45 indicates hypercapnia and hypoventilation resulting from fatigue and labored breathing
+o	As initial tachypnea subsides and respiratory rate returns to normal paco2 rises and respiratory acidosis develops
+o	Mental status changes: restlessness confusion lethargy drowsiness
+o	Absence of wheezing and silent chest: no sound of air movement on auscultation: ominous signs indicating severe hyperinflation and air trapping in the lungs
+o	Single-word dyspnea: inability to speak more than one word before pausing to breathe due to shortness of breath
+
+Dumping Syndrome
+-	Following a partial gastrectomy, many clients experience dumping syndrome which occurs when gastric contents empty too rapidly into the duodenum, causing a fluid shift into the small intestine. This results in hypotension, abdominal pain, nausea or vomiting, dizzingess, generalized sweating, tachycardia. The symptoms usually diminish over time
+o	Recommendations:
+	Consume meals high in fat and protein and fiber that take more time to digest
+	Avoid consuming fluids with meals
+	Slowly consum small frequent meals
+	Avoid meals high in simple carbohydrates
+	Avoid sitting up after a meal because gravity increases gastric emptying 
+	Lying down after a meal is encouraged
+
+Isotonic Fluids
+-	Expand only the extracellular fluid and are used as fluid replacement for clients with fluid volume deficit
+-	Capillary refill indicates adequacy of circulation and perfusion 
+-	Capillary refill time over 3 seconds is abnormal and can indicate dehydration 
+-	Mottling is characterized by patches of pink, pale, and cyanotic skin and can indicate poor perfusion
+-	Clients in labor receive 500-1000 ml isotonic fluids prior to epidural anesthesia because vasodilation below the epidural site can occur and result in hypotension 
+
+
+
+Bumetanide
+-	Potent loop diuretic used to treat edema associated with heart failure and liver and renal disease 
+-	Inhibits absorption of sodium and water from the tubules and promotes renal excretion of water and potassium 
+
+Isoniazid
+-	First line antitubercular drug used to treat latent or active tuberculosis 
+o	Increased liver function tests can indicate development of drug induced hepatitis
+o	Can deplete the body of pyridoxine (vitamin b6) and cause peripheral neuropathy 
+o	Factors that increase the risk for b6 deficiency and peripheral neuropathy include advanced age, malnourishment, diabetes mellitus, and liver or renal disease 
+Irritable Bowel Syndrome
+-	Characterized by abdominal discomfort, diarrhea, constipation 
+-	Cause is unknown 
+-	IBS is diagnosed by ruling out other GI related disorders (lactose intolerance, food allergies, intestinal parasites)
+-	No cure but clients can improve symptoms by incorporating healthy options into their lifestyle including a
+o	Adding a daily probiotic supplement
+o	Adding moderate amounts of fiber
+o	Developing healthy coping skills
+o	Exercising regularly
+o	Avoiding foods that might exacerbate symptoms of IBS like high fat food and caffeinated beverages
+-	It is normal to see excessive mucus in the bowel 
+
+Uterine Inversion
+-	Rare, obstetrical emergency that occurs after birth when the uterine fundus collapses into the uterine cavity causing sudden hemorrhage, severe pelvic pain, and hypovolemic shock
+-	Successful manual replacement of the inverted uterus through the vaginal canal by the HCP is the first step in resolving the inversion and requires a soft, contracted uterus
+-	Tocolytics like terbutaline or inhaled anesthetics may be needed to assist with uterine relaxation
+-	Uterotonic medications like oxytoin must be delayed or discontinued until after the HCB has corrected the inversion 
+-	After uterine replacement, uterotonics are administered to reinforce its location in the pelvis and control further bleeding 
+
+Peritoneal Dialysis
+-	Dialysate is infused into the abdominal cavity and the tubing is then clamped to allow the fluid to dwell for a specified period. After the dwell time, the catheter is unclamped and clients are monitored closely for signs of respiratory distress that can result from instilling the dialysate too rapidly, overfilling of the abdomen, or fluid entering the thoracic cavity 
+-	Crackles can also occur if over time there is more dialysate infused than is removed
+
+Trichomoniasis
+-	-STD 
+-	Infected clients may be asymptomatic but usually seek care when a profuse, frothy, yellow green malodorous vaginal discharge is noted
+-	Pruritis, dysuria, and dyspareunia (pain during sex) may also occur
+-	Oral flagyl is the most common treatment
+o	Teaching:
+	 Abstain from sex until one week after treatment
+	Avoid drinking alcohol while on abx and for 3 days after completion of theripy because the combination can cause flushing, nausea and vomiting, and severe abdominal pain
+	Have partners treated simultaneously to avoid reinfection 
+	Use condoms
+	Know the potential side effects of metronidazole may include a metallic taste, GI upset, or dark coloured urine
+
+Hemodialysis
+-	Involves filtering blood in a closed system outside the body for the treatment of CKD
+-	Blood is passed through a semipermeable membrane with dialysis solution (dialysate) which creates an osmotic gradient that filters blood, removes excess fluid and waste and corrects electrolyte imbalances
+-	Air embolism is a life threatening complication of hemodialysis that occurs when air enters the blood stream through the hemodialysis catheter
+-	The air embolism displaces blood in the pulmonary vessels and causes dyspnea, chest pain, severe anxiety, changes in sensorium, hypotension, reduced oxygen saturation 
+-	The nurse should immediately clamp the access tubing to prevent additional air from entering circulation and should apply oxygen to relieve dyspnea
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ADHD
+-	Affects school performance, social relationships, career success
+-	Methylphenidate is a central nervous system stimuland used to treat adhd and narcolepsy
+-	It improvesfocus and attention by increasing levels of certain neurotransmitters in the brain
+-	Adverse effects include irritability, decreased appetite, hypertension, tachycardia, sleep disturbances, and jitteriness
+-	Extended release methylphenidate should be taken in the morning to minimize the risk of sleep disturbances
+-	Some dosage forms are taken 30-45 mins before meals because food can affect absorption, while others are taken with food. Do not take extra doses ifa. Dose is missed and avoid caffeine containing beverages 
+
+Cleansing enemas
+-	Relieve constipation by stimulating intestinal peristalsis
+-	Assist client to left lateral position with the right knee flexed (Sims)
+-	Hang the enema bag no more than 12 inches above the rectum to avoid rapid administration
+-	Lubricate the enema tubing and gently insert 3-4 inches into the rectum
+-	Insert the tube tip toward the umbilicus to prevent perforation
+-	Encourage the client to retain the enema 5-10 mins
+-	If the client reports cramping, use the roller clamp to briefly stop (30 seconds) the administration
+-	Administer warm temp or warmed because cold solutions can cause intestinal spasms and painful cramping 
+
+Lasix
+-	Potassium wasting diuretic 
+-	May need potassium supplementation
+
+Potassium
+-	Erosive substance that can cause pill-induced esophagitis 
+-	To prevent esophageal erosion, the client should take potassium tablets with plenty of water and remain sitting upright for 30 mins after ingestion to prevent the tablet becoming lodged in the esophagus or refluxing from the stomach
+-	Pill induced esophagitis is also common with tetracyclines and bisphosphonates so clients taking these medications should be given similar instructions
+
+Lead poisoning
+-	A common source is lead based paints found in houses built before 1978 
+-	Blood lead level screenings are recommended at ages 1 and two and up to age 6 if not previously tested
+-	Because lead poisoning particularly affects the neurological system and levels of 5 mcg and above are dangerous in young children due to immature development of the brain and nervous system 
+-	A mild to moderate increase can manifest with hyperactivity and impulsiveness, prolonged low level exposure can cause developmental delays, reading difficulties, and visual motor issues 
+-	Extremely elevated levels can lead to permanent cognitive impairment, seizures, blindness, death 
+
+Bulimia nervosa
+-	Eating disorder characterized of episodes of uncontrollable binge-eating followed by inappropriate compensatory behaviours to prevent weight gain 
+-	Compensatory behaviours include laxative or diuretic use, self-induced vomiting, excessive exercise 1-2 hours after binging
+-	Other signs may include self-induced vomiting (scars or calluses on the hand, enlarged parotid glands, erosion of tooth enamel, dental caries)
+-	Preoccupation with body image, weight, food, dieting
+
+CKD
+-	Progressive decrease in kidney function that results in decreased glomerular filtarion rate 
+-	Most commonly caused by poorly controlled diabetes and hypertension
+-	Decreased GFR results in fluid retention, electrolyte abnormalities, and accumulation of waste products in the blood
+-	Manifestations of worsening CKD include persistent metallic taste in the mouth due to increased serum ammonia levels, may have a urine odor in the breath, difficulty with memory and concentration due to accumulation of waste products, peripheral neuropathy, involuntary muscle movements, twitching, asterixis, encephalopathy, fluid overload, distended neck veins, edema, hypertension, decreased urine production, loss of appetite. 
+
+Lab tests with CKD
+-	Decreased GFR and calcium
+-	Increased BUN and creatinine, potassium 
+
+Dialysis
+-	Mimics the function of the kidneys by using a semipermeable membrane to filter blood and remove excess fluid, electrolytes, and waste products (urea). 
+
+Arteriovenous Fistula
+-	Maturation takes 2-4 months after which the AVF can sustain frequent access by large-bore needles during hemodialysis 
+-	Expected interventions: weigh before and after dialysis, assess distal pulses in the left arm before accessing the AVF to confirm adequate circulation, applying a pressure dressing to the avf after hemodialysis access is remomved due to the risk of bleeding from the arterial puncture. 
+-	Do not administer medications before 
+-	Do not place the blood pressure cuff above the fistula 
+
+Dialysis Access Steal Syndrome
+-	Complication of AVF formation that occurs when the anastomosed vein steals too much arterial blood resulting in ischemia to the hand 
+-	Manifestations: pain, numbness, tingling, cyanosis, decreased pulses, impaired motor function in the affected hand 
+-	Immediately notify HCP to prevent ischemia and amputation 
+
+Thoracentesis
+-	Needle is inserted into the pleural space to remove fluid for diagnostic or therapeutic purposes. Nurse places client in an upright sitting position on the side of the bed leaning over the bedside table with arms supported on pillows
+-	This ensures that the diaphragm is dependent, facilitates access to the pleural space through the intercostals, and promotes client comfort 
+
+Braces for Scoliosis
+-	Used to diminish the progression of deformed spinal curves in scoliosis 
+-	Braces do not cure the existing spinal deformities but do prevent further worsening 
+-	Molded plastic shells worn around the trunk of the body under the clients outer clothing 
+-	Due to the risk fo skin breakdown clients should wear a cotton t-shirt under the brace to decrease skin irritation and absorb sweat, compliance is a major problem in most adolescents as they are preoccupied with body image and appearance 
+-	Psychosocial issues are very important to discuss 
+-	Do not use lotion or powder under the brace
+-	Use the strength in the spinal muscles to promote stabilization throughout treatment
+-	Wear for 18-23 hours a day and remove for bathing and exercise. Never shower while wearing a hard brace as padding will absorb moisture and promote skin breakdown
+
+Fetal heart rate
+-	Baseline of 110-160, moderate variability, no decelerations, accelerations may be present or absent 
+-	Abnormal FHR findings: impaired fetal oxygenation which can lead to an abnormal fetal acid-base balance
+-	Late decelerations often occyr when uretoplacental blood flow to the fetus is decreased (uterine tachysystole, placental insufficiency), significant or prolonged decreases in fetal oxygenation can lead to fetal hypoxia characterized by persistent late decelerations and minimal variability. A FHR tracing with minimal variability and recurrent late decelerations is the most concerning finding 
+
+Postterm Gestation
+-	Associated with increased risk of complications 
+-	Placental aging may cause a decrease in the availability of nutrients and oxygen for the fetus and a decrease in amniotic fluid levels 
+-	Can cause placental insufficiency 
+-	Increases the risk of fetal heart rate tracing
+
+Intrapartum fetal heart rate monitoring
+-	VEAL CHOP
+-	Variable decelerations – cord compression/prolapse, oligohydramnios
+-	Early decelerations – head compression
+-	Accelerations – okay (normal)
+-	Late decelerations – placental insufficiency
+
+
+Late decelerations/variable heart rate nursing
+-	Administer IV fluid bolus
+-	Reposition client laterally 
+-	Discontinue IV oxytocin infusion 
+-	Place internal fetal scalp electrode 
+-	Prepare for cesarean birth if interventions don’t work 
+
+Maximizing fetal oxygenation during pushing with variable decelerations
+-	Push in lateral position to relieve pressure on the maternal inferior vena cava and optimize uteroplacental blood flow
+-	Use the open glottis pushing technique (slow exhalation while pushing) to promote maternal cardiac output and uteroplacental perfusion unlike closed glottis pushing 
+-	Push every other contraction 
+-	Shorter pushes 6-8 seconds promote fetal oxygenation 
+
+Perinatal Asphyxia 
+-	Caused by inadequate fetal oxygenation and can lead to poor cognitive outcomes of the newborn (learning disabilities, hypoxic ischemic encephalopathy, cerebral palsy)
+-	Newborn assessment findings associated with perinatal asphyxia includes 
+o	Low apgar scores less than 7 at 5 mins may indicate poor transition to extrauterine life due to perinatal asphyxia 
+o	Neonatal seizures- jerking movements that do not go away and oxular manifestations (rapid eye movement, excessive blinking) are findings that require further evaluation to determine if seizure activity is present because hypoxia induced brain damage may be the underlying cause 
+o	Acidemia: umbilical cord arterial blood can be analyzed to evaluate fetal oxygenation status in utero. A low arterial blood pH is caused by a lack of oxygen and lactic acid accumulation 
+
+Pavlik Harness
+-	Puts patients hips in a slightly flexed and abducted position 
+-	Worn for 3-5 months until the hip joint is stable 
+-	Teaching: dress client in shirt and knee socks to protect the skin before applying the straps, regularly assess the skin under the straps for redness or breakdown, apply the straps of the harness over the clients diaper to keep the harness clean and dry. Do not apply lotion or powder and keep the harness on at all times even diaper changes 
+
+Negative Pressure Wound Therapy
+-	Encourages healing by removing fluid, exudate, infectious organisms, and encourages circulation of blood to the wound bed 
+-	Sterile foam dressing is cut to fit the wound, is placed on the wound bed, and then covered with an occlusive dressing to create a seal. 
+-	Requires routine dressing changes the ensure appropriate device function and to allow evaluation of wound healing 
+-	Administer prophylactic analgesics to prevent discomfort, apply a skin protectant to intact skin around the wound to promote an air tight seal when the occlusive film dressing is placed and suction applied 
+-	Cut the foam dressing to the size and shape of the wound to ensure close contact with the wound bed and a strong seal suction when the vaccume assisted closure unit is connected and turned on 
+-	Apply the prescribed negative pressure and observe for compression of the foam dressing 
+-	Ensure no air leaks 
+
+Rhonchi
+-	Continuous, low pitched wheezes head on expiration that sound like moaning or snoring and originates from bronchi filled with thick mucus secretions or partial blockage
+-	Expected find in bronchitis due to infection and inflammation of the upper airways 
+
+Oxybutynin
+-	Anticholinergic that is frequently used to treat overactive bladder 
+-	Side effects: new onset constipation, dry mouth, flushing, heat intolerance, blurred vision, drowsiness
+-	Decreased sweat production may lead to hyperthermia 
+-	Increase fluids and bulk forming foods and avoid heat
+
+Acute Hemolytic Transfusion Reaction
+-	Caused by transfusion of mismatched blood 
+-	Results in antibody mediated hypersensitivity reaction that can be fatal.
+-	Clients have fever with chills, flank/back pain, and dark red urine as well as tachycardia and hypotension due to inflammatory cytokine release shortly following a transfusion. Angioedema and wheezing are not seen
+-	Positive direct coombs test (blood test for antibodies) 
+-	Hemolysis, increased LDH and increased indirect bilirubin 
+-	Complications: AKI, DIC 
+
+Anaphylactic transfusion reaction
+-	Occurs seconds to minutes after initiation of transfusion due to massive histamine release 
+-	Symptoms include respiratory distress (dyspnea, wheezing), skin changes, hives, flushing, abdominal pain, angioedema, and hypotension. Fever with chills is not common 
+
+Febrile nonhemolytic transfusion reaction
+-	Most common
+-	Benign occurrence caused by cytokine release from leukocytes within the donor blood product. Clinical manifestations include fever, chills, and malaise within 1-6 hours of transfusion initiation 
+-	No skin changes, hypotension, angioedema, or dark red urine 
+
+Levetiracetam
+-	Anticonvulsant medication that can be used to prevent and treat seizures in clients with brain tumors
+-	Causes minimal medication interactions compared to other anticonvulsants and is a preferred antieleptic medication
+
+Short acting insulin
+-	Reach peak effect 1.5-5 hours after administration peak 
+
+Tumor Lysis Syndrome
+-	Oncologic emergency that occurs when cancer treatment destroys a large number of cancer cells resulting in a massive release of intracellular components (potassium phosphate and nucleic acids) into circulation
+-	Nucleic acids overwhelm the kidneys leading to hyperuricemia and aki from uric acid crystal formation
+-	TLS prophylaxis includes hypouricemic medications to dissolve and prevent urate crystal formation that contributes to aki 
+-	A serum uric acid level within the normal range indicates education effectiveness
+
+Diabetes Insipidus
+-	Results in low levels of ADH which is produced by the hypothalamus and stored in the pituitary gland. The function of ADH is to concentrate urine by signaling the kidneys to retain water in the setting of thirst. When adh levels are insufficient the kidneys excrete large quantities of very dilute urine which causes hypernatremia and increased serum osmolality which leads to excessive thirst 
+-	Use of desmopressin in clients with DI will lower urinary output and cause the urine specific gravity to increase 
+
+Filgrastim
+-	Stimulates neutrophil production and is given prophylactically or if the client has an infection and more neutrophils are needed to fight it 
+
+Methadone
+-	Potent narcotic with a longer half life than its duration of action due to its lipophilic properties. The risk for overdose exists as clients can inadvertently take too many tablets for additional pain relief even though fat cells will continue to release high amounts of the drug into circulation 
+-	Early signs of toxicity include nausea, vomiting, and lethargy
+-	A client who falls asleep during stimulation requires additional observation and monitoring. Monitor resp rate, pulse ox, and ECG tracing. Respiratory depression and QT interval prolongation can lead to life threatening complications 
+
+Calcium Channel Blocker
+-	Nifedipine, amlodipine, felodipine, cicardipine 
+-	Vasodilators used to treat hypertension and chronic stable angina and promote relaxation of vascular smooth muscles leading to decreased systemic vascular resistance and arterial blood pressure 
+-	Most common adverse effects include dizziness, flushing, headache, peripheral edema, constipation
+-	Teaching: change positions slowly, elevate legs and use elastic compression stockings to reduce peripheral edema, exercise daily and increase fluids, fruits and vegetables, high fiber foods to prevent constipation 
+
+St Johns Wort
+-	Herbal supplement to treat depression and anxiety
+-	Mimics SSRIs
+-	Do not take in combination with another SSRI as it can cause serotonin syndrome 
+-	
+
+Aminoglycosides
+-	Gentamicin, tobramycin, amikacin
+-	Side effects include ototoxicity, nephrotoxicity 
+-	Assess for changes in the clients hearing, balance, urinary output 
+
+Tetracycline
+-	Take on an empty stomach 
+-	Avoid antacids or dairy products as they bind to the drug and decrease absorption
+-	Take with a full glass of water as they can cause esophaghitis and gastritis, the risk can be reduced by taking with a full glass of water and remaining upright after pill ingestion
+-	Photosensitivity 
+-	Decreases the effectiveness of oral contraceptives so use something else 
+
+Clozapine
+-	Atypical antipsychotic medication used to manage schizophrenia in clients who have not improved with other antipsychotic medications 
+-	Highly effective at controlling schizophrenia but it may cause severe life threatening adverse effects including agranulocytosis, cardiac disease and seizures 
+-	Agranulocytosis (decreased neutrophils) increases the risk for infection 
+-	Patients require serial monitoring of WBC and signs of infection which should be reported immediately 
+
+Trigeminal Neuralgia
+-	Sudden, sharp pain along the distribution of the trigeminal nerve
+-	Symptoms are usually unilateral and primarily in the maxillary and mandibular branches. Clients may experience chronic pain with periods of less severe pain or cluster attacks of pain between long periods without pain. Triggers can include washing the face, chewing food, brushing teeth, yawning, or talking. Pain is severe, intense, burning, or electric shock-like. The primary intervention for trigeminal neuralgia is consistent pain control with medications and lifestyle changes. The drug of choice is carbamazepine. It is a seizure medication but it is highly effective for neuropathic pain. Associated with agranulocytosis and infection risk. Advise clients to report any fever or sort throat.
+-	Behavioural interventions: oral care, using a soft bristled toothbrush, use lukewarm water, room should be kept at an even or moderate temp, have a soft diet, avoid rubbing or facial massage, use cotton pads to wash the face, avoid foods that are difficult to chew. Chew on the unaffected side of the mouth. 
+
+Clonidine
+-	Central cting alpha 2 agonise (clonidine and methyldopa) decrease the sympathetic response from the brainstem to the peripheral vessels resulting in decreased peripheral vascular resistance and vasodilation 
+-	Highly potent antihypertensive medication 
+-	Abrupt discontinuation can result in serious rebound hypertension due to the rapid surge of catecholamine secretion that was suppressed during therapy which may lead to dangerously high blood pressure and is accompanied by tachycardia nervousness and diaphoresis to avoid this potential adverse reaction, clonidine, should be tapered over 2-4 days 
+-	Common side effects include dizziness, drowsiness and dry mouth 
+
+Metabolic Acidosis
+-	Caused by an increase in the production of acid or the depletion of bicarb via the kidneys or GI tract. 
+-	Management includes administering IV sodium bicarbonate to correct 
+
+Hydromorphone
+-	Duration of action is 3-4 hours. The effects of naloxone start to wane at 20-40 mins after administration and its duration of action is approx. 90 mins. Therefore depending on the hydromorphone dose tis duration of action can continue beyond the duration of the naloxone. Repeat doses might be necessary. 

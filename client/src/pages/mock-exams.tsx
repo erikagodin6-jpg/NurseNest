@@ -275,18 +275,14 @@ export default function MockExamsPage() {
             <div className="space-y-3">
               <p className="text-sm font-bold text-gray-500 uppercase tracking-wider">{t("mockExams.examFocus")}</p>
               <div className="grid gap-2">
-                {tierOptions.map((tier) => {
-                  const isAllowed = allowedTiers.includes(tier.value);
+                {tierOptions.filter((tier) => allowedTiers.includes(tier.value)).map((tier) => {
                   const tierStats = tierStatsMap[tier.value] || { total: 0 };
                   return (
                     <button
                       key={tier.value}
-                      onClick={() => isAllowed && setSelectedTier(tier.value)}
-                      disabled={!isAllowed}
+                      onClick={() => setSelectedTier(tier.value)}
                       className={`p-4 rounded-xl border-2 text-left transition-all relative ${
-                        !isAllowed
-                          ? "border-gray-100 bg-gray-50 opacity-60 cursor-not-allowed"
-                          : selectedTier === tier.value
+                        selectedTier === tier.value
                           ? "border-primary bg-primary/5 shadow-md"
                           : "border-gray-200 hover:border-gray-300"
                       }`}
@@ -298,7 +294,6 @@ export default function MockExamsPage() {
                           <span className="text-sm text-gray-500 ml-2">{tier.desc}</span>
                           <span className="text-xs text-gray-400 block mt-1">{tierStats.total} {t("mockExams.questionsAvailable")}</span>
                         </div>
-                        {!isAllowed && <Lock className="w-4 h-4 text-gray-400" />}
                       </div>
                     </button>
                   );

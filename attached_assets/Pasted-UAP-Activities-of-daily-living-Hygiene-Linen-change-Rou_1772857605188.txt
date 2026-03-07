@@ -1,0 +1,96 @@
+UAP
+-	Activities of daily living
+-	Hygiene
+-	Linen change
+-	Routine, stable vital signs
+-	Documenting input/output
+-	Positioning 
+
+Tricyclic antidepressant effects and nursing
+-	CV:
+o	Dizziness, orthostatic hypotension, tachycardia
+	Teach to change positions slowly, avoid hot baths, showers, avoid alcohol, sedatives
+	Obtain baseline ECG 
+	Monitor BP and pulse
+o	Anticholinergic
+	Dry mouth, constipation, urinary retention or difficult initiating a urinary stream, blurred vision
+	Teach patient to drink sips of water, suck on ice chips, chew sugarless gum
+	Teach client to consume a high-fiber diet and large amounts of fluids 
+	Contact HCP if urinary problems persist or cause pain
+	Report changes in vision to HCP, reassure client that blurred vision is temporary
+o	Neuro: 
+	Drowsy, confusion
+•	Teach to use caution when driving or engaging in other activities requiring close concentration
+•	Ask HCP if medication can be administered prior to bedtime rather than morning
+o	Dermatological
+	Photosensitivity
+•	Teach client to wear sunscreen, sunglasses and protective clothing when outdoors 
+
+Acute Pediatric Epiglottitis
+-	Swelling of epiglottis and surrounding tissue
+-	Usually caused by haemophilus influenza type B
+-	Vaccination can prevent
+-	Medical EMERGENCY – swelling obstructs the airway
+-	Hits fast and hard – kids can act fine then have a sudden onset of symptoms
+-	Features:
+o	Fever, sore throat, extreme agitation, restlessness, anxiety
+o	Airway obstruction
+o	Tripod position- opens airway and helps airflow 
+o	4 Ds: drooling (cannot swallow secretions), muffled voice (dysphonia), dysphagia, distress (respiratory), tachypnea, retractions, stridor
+o	Accessory muscle usage, nasal flaring
+-	Interventions: maintain airway
+o	Prepare for intubation
+o	Tracheostomy if intubation is unsuccessful 
+o	Initiate cardiac monitoring and pulse oximetry
+o	Avoid supine and allow the child to remain in tripod
+o	Administer iv antibiotics and fluids, keep NPO
+o	Administer oxygen via mask or blow by to avoid further agitation
+o	Avoid placing foreign objects in mouth, no throat swab, no tongue temp probe due to risk of laryngeal spasm- can also be life threatening 
+Asthma
+-	Obstructive lung disease due to hyperactive airways, chronic inflammation, hypersecretion of mucus
+-	Lining becomes thickened 
+-	Airways are very sensitive and hyperreactive 
+-	Bronchioles contract and spasm leading to obstruction
+-	Exacerbating factors:
+o	Allergens
+o	Medications: beta blockers, aspirin
+o	Environmenta
+o	Exercise
+o	Stress, reflux
+-	Symptoms: mild classic symptoms which can be managed at home
+o	Chest tightness, difficulty breathing, wheezing, often audible
+o	Cough – dry or productive
+o	Severe symptoms: increased RR, retractions, accessory muscle usage 
+o	Hypoxemia
+o	Wheezing diminished or absent lung sounds – air is not moving through the airways and this is an emergency
+-	Diagnosed: spirometry – not a good measure of the obstruction in an acute exacerbation
+o	X-ray: hyperinflation, flattened diaphragm
+o	Reduced peak expiratory flow rate
+o	Arterial blood gas – increase in CO2 
+	Low pa02 and high paco2 indicates respiratory failure
+-	Nursing:
+o	High fowler
+o	Supplemental o2 if o2 is not over 90
+o	Bronchodilators
+o	Short acting beta 2 agonist (albuterol)
+o	Anticholinergic: ipratropium: opens bronchioles and dries up mucus 
+o	Corticosteroids to decrease inflammation 
+o	Auscultate before and after treatment 
+o	Monitor vital signs, pulse ox, and peak flow meter
+o	Peak flow meter:
+	Helps measure air they can push out of their lungs 
+	Green is good zone 
+	Yellow = mild symptoms
+	Red: severe obstruction – indicates acute exacerbation 
+o	Develop a maintenance asthma action plan 
+	Corticosteroid inhalers
+	Long acting beta agonist inhalers 
+	Use of bronchodilator before steroid inhaler 
+	SABA can be used as needed 
+Retinoblastoma
+-	Retinal tumor that can be unilateral or bilateral
+-	Most common eye malignancy
+-	Diagnosed in kids less than two and is first recognied when parents report that the pupil has a white glow (leukocoria)
+-	Light reflecting off the tumor causes the pupil to look white and can be visualized when taking a photograph with flash
+-	Treatment: depends on disease severity and may include radiation therapy or enucleation (removal of the eye) and fitting for a prosthesis
+-	Siblings should undergo regular ocular screening because some forms are hereditary

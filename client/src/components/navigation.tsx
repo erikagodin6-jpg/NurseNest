@@ -518,25 +518,21 @@ export function Navigation() {
             <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1 px-3">{t("nav.resources")}</p>
             <SheetClose asChild>
               <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => { setLocation("/shop"); try { fetch("/api/track/event", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ event: "nav_store_click", source: "mobile_nav" }) }).catch(() => {}); } catch {} }} data-testid="button-store-mobile">
-                <ShoppingBag className="w-4 h-4" />
                 {t("nav.store")}
               </Button>
             </SheetClose>
             <SheetClose asChild>
               <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/pricing")}>
-                <Tag className="w-4 h-4" />
                 {t("nav.pricing")}
               </Button>
             </SheetClose>
             <SheetClose asChild>
               <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/faq")}>
-                <HelpCircle className="w-4 h-4" />
                 {t("footer.faq")}
               </Button>
             </SheetClose>
             <SheetClose asChild>
               <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/for-institutions")} data-testid="link-mobile-for-schools">
-                <GraduationCap className="w-4 h-4" />
                 For Schools
               </Button>
             </SheetClose>
@@ -885,41 +881,37 @@ export function Navigation() {
 
               <Button
                 variant="ghost"
-                className="text-sm font-medium text-softgray hover:text-primary hover:bg-transparent flex items-center gap-1 px-2 lg:px-2.5"
+                className="text-sm font-medium text-softgray hover:text-primary hover:bg-transparent px-2 lg:px-2.5"
                 onClick={() => { setLocation("/shop"); try { fetch("/api/track/event", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ event: "nav_store_click", source: "desktop_nav" }) }).catch(() => {}); } catch {} }}
                 data-testid="button-store-nav"
               >
-                <ShoppingBag className="w-4 h-4" />
                 {t("nav.store")}
               </Button>
 
               <Button
                 variant="ghost"
-                className="text-sm font-medium text-softgray hover:text-primary hover:bg-transparent flex items-center gap-1 px-2 lg:px-2.5"
+                className="text-sm font-medium text-softgray hover:text-primary hover:bg-transparent px-2 lg:px-2.5"
                 onClick={() => setLocation("/pricing")}
                 data-testid="link-nav-pricing"
               >
-                <Tag className="w-4 h-4" />
                 {t("nav.pricing")}
               </Button>
 
               <Button
                 variant="ghost"
-                className="text-sm font-medium text-softgray hover:text-primary hover:bg-transparent flex items-center gap-1 px-2 lg:px-2.5"
+                className="text-sm font-medium text-softgray hover:text-primary hover:bg-transparent px-2 lg:px-2.5"
                 onClick={() => setLocation("/faq")}
                 data-testid="link-nav-faq"
               >
-                <HelpCircle className="w-4 h-4" />
                 {t("footer.faq")}
               </Button>
 
               <Button
                 variant="ghost"
-                className="text-sm font-medium text-softgray hover:text-primary hover:bg-transparent flex items-center gap-1 px-2 lg:px-2.5"
+                className="text-sm font-medium text-softgray hover:text-primary hover:bg-transparent px-2 lg:px-2.5"
                 onClick={() => setLocation("/for-institutions")}
                 data-testid="link-nav-for-schools"
               >
-                <GraduationCap className="w-4 h-4" />
                 For Schools
               </Button>
             </div>
@@ -1008,9 +1000,9 @@ export function Navigation() {
             <div className="flex items-center gap-2">
               <NavDropdown label={t("nav.learning")} items={learningItems} isPaid subBar />
               <NavDropdown label={t("nav.resources")} items={[
-                { icon: Tag, label: t("nav.pricing"), key: "Pricing" },
-                { icon: HelpCircle, label: t("footer.faq"), key: "FAQ" },
-                { icon: GraduationCap, label: "For Schools", key: "For Schools" },
+                { label: t("nav.pricing"), key: "Pricing" },
+                { label: t("footer.faq"), key: "FAQ" },
+                { label: "For Schools", key: "For Schools" },
               ]} subBar />
               <div className="hidden md:block w-48 lg:w-56">
                 <Suspense fallback={<div className="w-full h-7" />}>

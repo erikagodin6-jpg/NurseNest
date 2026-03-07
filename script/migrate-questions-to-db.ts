@@ -69,6 +69,11 @@ const QUESTION_FILES: { file: string; tier: string; exam: string; exportName: st
   { file: "np-pharmacology", tier: "np", exam: "AANP", exportName: "npPharmacologyQuestions" },
   { file: "np-clinical-management", tier: "np", exam: "AANP", exportName: "npClinicalManagementQuestions" },
   { file: "np-expansion-a", tier: "np", exam: "AANP", exportName: "npExpansionAQuestions" },
+  { file: "rpn-expansion-d", tier: "rpn", exam: "REX-PN", exportName: "rpnExpansionDQuestions" },
+  { file: "rpn-expansion-e", tier: "rpn", exam: "REX-PN", exportName: "rpnExpansionEQuestions" },
+  { file: "rn-expansion-c", tier: "rn", exam: "NCLEX-RN", exportName: "rnExpansionCQuestions" },
+  { file: "rn-expansion-d", tier: "rn", exam: "NCLEX-RN", exportName: "rnExpansionDQuestions" },
+  { file: "np-expansion-b", tier: "np", exam: "AANP", exportName: "npExpansionBQuestions" },
 ];
 
 for (let i = 1; i <= 55; i++) {

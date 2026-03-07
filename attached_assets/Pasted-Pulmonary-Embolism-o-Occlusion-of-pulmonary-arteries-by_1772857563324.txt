@@ -1,0 +1,83 @@
+Pulmonary Embolism
+o	Occlusion of pulmonary arteries by either blood clot, fat, air, amniotic fluid
+o	Blood clot from deep veins in leg or pelvis
+o	Fat: from fractured femur, hip
+o	Air: from injection of large air bolus through IC of arterial line
+o	Amniotic fluid: from around the time of delivery 
+-	Risks:
+o	Recent surgery or trauma
+o	Body sends clotting factors to heal the area 
+o	Inactivity, immobility
+	Venous stasis occurs, blood is sluggish 
+o	Pregnant
+	Hypercoaguagutable state – protects from hemorrhage after birth but also greatly increases the risk for thrombus formation Clients who have cesarean births are especially at risk for thrombus formation 
+o	Cesarean birth 
+o	History of DVT
+o	Malignancy – increased clotting factors
+o	Obesity (venous pooling)
+o	Oral contraceptives or hormone therapy
+o	Smoking (endothelial damage)
+o	Virchow triad
+	Three causes of blood clot
+•	Altered blood flow
+•	Endothelial damage
+•	Hypercoaguable state
+-	Features
+o	Dyspnea (most common)
+o	Pleuritic chest pain
+o	Hypoxemia
+o	Tachypnea
+o	Cough
+o	Hemoptysis
+o	Massive pulmonary embolism
+	Feeling of impending doom
+	Sudden change in mental status
+	Hypotension (artery is completely obstructed)
+-	Complications:
+o	Pulmonary infarction (red, wedge shaped infarcts)
+o	Rt sided heart failure 
+o	Pulmonary hypertension
+o	Obstructive shock 
+-	Diagnostic studies
+o	ABG
+o	 D-dimer blood tests
+o	CT pulmonary angiogram with IV contrast 
+o	Ventilation perfusion scan 
+	Normal ventilation but perfusion is decreased
+o	Duplex venous ultrasound of legs to look for blood clots 
+-	Nursing
+o	High fowler position to help them breathe better
+o	Administer:
+	Anticoagulants such as heparin (IV)
+	Analgesics (morphine) to decrease the workload of the heart and increase perfusion 
+	Supplemental oxygen 
+o	Anticipate fibrinolytics (clot busters) or embolectomy (removal of embolus) in clients with very large PE
+o	Teach the client the need for long-term oral anticoagulation
+	Rivaroxaban, apixaban
+	Warfarin 
+	If clients have hemophilia, GI bleed, etc anticoagulants and contraindicated so they may have a vena cava filter 
+APTT
+-	Normal on heparin is 60 seconds
+-	Heparin is used in unstable angina 
+-	Prevents the conversion of fibrinogen to fibrin and prothrombin to thrombin 
+-	Normal apt is 25-35 seconds
+-	On heparin you want apt to be 1.5-2 times the normal vaue 
+
+Epiglottitis
+-	Inflammation of the tissues surrounding the epiglottis 
+-	Can develop rapidly and obstruct the airway including the trachea
+-	Caused by haemophilus influenza type b
+-	Manifestations: sudden onset high fever, drooling, difficulty swallowing, agitation, lack of spontaneous cough, acute respiratory distress
+-	Priority action is to protect the airway because it can lead to respiratory arrest and death 
+-	Tripod position opens the airway and helps airflow 
+
+Iron deficiency anemia
+-	Most common chronic nutritional disorder in children
+-	Many causes: premature birth, insufficient dietary intake of iron, delayed introduction of solid foods, consumption of cow’s milk before age 1, and excessive intake of cow’s milk 
+
+Positive Pressure Ventilation
+-	Pushes air into the lungs using a mechanical ventilator 
+-	Can be used in acutely ill clients and can be delivered via endotracheal tube or face mask
+-	Increases intrathoracic pressure during inspiration which can compress the heart and thoracic vessels
+-	Reduces venous return, resulting in decreased cardiac output and hypotension
+-	Hypotensive effect is greater in the presence of hypovolemia (hemorrhage, hypovolemic shock) and decreased venous tone (septic shock, neurogenic shock)
