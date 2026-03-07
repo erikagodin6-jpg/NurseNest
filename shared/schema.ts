@@ -2403,3 +2403,20 @@ export const reviewQueue = pgTable("review_queue", {
 export const insertReviewQueueSchema = createInsertSchema(reviewQueue).omit({ id: true, createdAt: true });
 export type ReviewQueueItem = typeof reviewQueue.$inferSelect;
 export type InsertReviewQueueItem = z.infer<typeof insertReviewQueueSchema>;
+
+export const flashcardReviews = pgTable("flashcard_reviews", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id").notNull(),
+  cardId: varchar("card_id").notNull(),
+  deckId: varchar("deck_id").notNull(),
+  response: text("response").notNull(),
+  interval: integer("interval").default(1),
+  easeFactor: integer("ease_factor").default(250),
+  repetitions: integer("repetitions").default(0),
+  nextReviewDate: text("next_review_date").notNull(),
+  reviewedAt: timestamp("reviewed_at").defaultNow().notNull(),
+});
+
+export const insertFlashcardReviewSchema = createInsertSchema(flashcardReviews).omit({ id: true, reviewedAt: true });
+export type FlashcardReview = typeof flashcardReviews.$inferSelect;
+export type InsertFlashcardReview = z.infer<typeof insertFlashcardReviewSchema>;

@@ -1,0 +1,136 @@
+Critical care and emergency topics
+Septic shock
+Cardiogenic shock
+Obstructive shock
+Anaphylactic shock
+Stroke assessment (FAST and NIHSS)
+Acute respiratory failure
+Mechanical ventilation basics
+Ventilator alarms and troubleshooting
+Pulmonary embolism
+Massive hemorrhage protocol
+Rapid response team activation
+Trauma primary survey (ABCDE)
+Secondary trauma survey
+Post-operative complications recognition
+Acute deterioration recognition and escalation of care
+Pharmacology classes
+ACE inhibitors
+Angiotensin receptor blockers (ARBs)
+Beta blockers
+Calcium channel blockers
+Loop diuretics
+Thiazide diuretics
+Potassium-sparing diuretics
+Anticoagulants
+Antiplatelets
+Thrombolytics
+Insulin types and pharmacokinetics
+Oral hypoglycemics
+Opioids vs non-opioid analgesics
+Antibiotic classes and mechanisms
+Corticosteroids
+Bronchodilators
+Antipsychotic medications
+Antidepressants
+Mood stabilizers
+Anticonvulsants
+Renal and electrolyte emergencies
+Acute kidney injury staging and management
+Hyperkalemia emergency treatment
+Dialysis complications
+Uremia recognition
+Acid-base disorders overview
+Metabolic acidosis
+Metabolic alkalosis
+Respiratory acidosis
+Respiratory alkalosis
+Neurology core conditions
+Stroke types and pathophysiology
+Intracranial hemorrhage
+Guillain-Barré syndrome
+Parkinson disease
+Alzheimer disease
+Migraine vs cluster headache
+Status epilepticus
+Spinal cord injury management
+Increased intracranial pressure
+Respiratory high-yield conditions
+Pulmonary embolism pathophysiology and management
+Acute respiratory distress syndrome (ARDS)
+Respiratory failure types (Type I vs Type II)
+Chest trauma
+Ventilator associated pneumonia
+Respiratory distress recognition
+Maternal and obstetric complications
+Pre-eclampsia
+Eclampsia
+Gestational hypertension
+Fetal distress
+Shoulder dystocia
+Umbilical cord complications
+Placenta accreta spectrum
+Postpartum infection
+Pediatric core topics
+Pediatric dehydration
+Croup
+Epiglottitis
+Congenital heart disease overview
+Failure to thrive
+Sudden infant death syndrome
+Pediatric sepsis recognition
+Pediatric respiratory distress
+Mental health core disorders
+Major depressive disorder
+Bipolar disorder
+Schizophrenia
+Generalized anxiety disorder
+Panic disorder
+Obsessive compulsive disorder
+Substance use disorders
+Suicide risk assessment
+Therapeutic communication techniques
+Infection control and hospital safety
+Hospital acquired infections
+Central line infection prevention
+Catheter associated urinary tract infection
+Ventilator associated pneumonia prevention
+Antibiotic stewardship
+Isolation precautions advanced overview
+Clinical pattern recognition lessons
+Chest pain differential diagnosis
+Shortness of breath differential diagnosis
+Altered mental status differential diagnosis
+Fever workup and sepsis suspicion
+Syncope evaluation
+Shock recognition patterns
+Clinical algorithm lessons
+Sepsis protocol and early goal directed therapy
+ACLS cardiac arrest algorithm
+Stroke protocol and thrombolytic decision making
+DKA management algorithm
+Hyperkalemia treatment algorithm
+Chest pain emergency algorithm
+High value “overview” pillar lessons for SEO and exam preparation
+Shock overview
+Electrolyte imbalances overview
+Acid base disorders overview
+Heart failure overview
+Respiratory failure overview
+Renal failure overview
+Sepsis overview
+Cardiac dysrhythmias overview
+Study strategy and exam preparation lessons
+Clinical prioritization frameworks
+ABCs and emergency prioritization
+Delegation scenarios and exam traps
+NCLEX question strategies
+Common exam pitfalls in nursing questions
+Flashcard review topics for spaced repetition
+Electrolyte ECG patterns
+Acid base compensation patterns
+Shock hemodynamic profiles
+Common medication mechanisms
+Critical lab value recognition
+Emergency drug antidotes
+Vital sign red flag patterns

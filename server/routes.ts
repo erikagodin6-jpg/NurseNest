@@ -12839,6 +12839,152 @@ Return ONLY valid JSON with this exact structure:
     }
   });
 
+  app.post("/api/flashcard-review", async (req, res) => {
+    try {
+      const { userId, cardId, deckId, response } = req.body;
+      if (!userId || !cardId || !deckId || !response) {
+        return res.status(400).json({ error: "Missing required fields" });
+      }
+      const existing = await pool.query(
+        `SELECT * FROM flashcard_reviews WHERE user_id = $1 AND card_id = $2 ORDER BY reviewed_at DESC LIMIT 1`,
+        [userId, cardId]
+      );
+      const prev = existing.rows[0];
+      let interval = 1;
+      let easeFactor = prev ? prev.ease_factor : 250;
+      let repetitions = prev ? prev.repetitions : 0;
+
+      if (response === "wrong") {
+        interval = 1;
+        repetitions = 0;
+        easeFactor = Math.max(130, easeFactor - 20);
+      } else if (response === "unsure") {
+        interval = prev ? Math.max(3, Math.floor(prev.interval * 1.2)) : 3;
+        repetitions = repetitions + 1;
+        easeFactor = Math.max(130, easeFactor - 10);
+      } else {
+        repetitions = repetitions + 1;
+        if (repetitions <= 1) {
+          interval = 7;
+        } else {
+          interval = Math.min(90, Math.round(prev ? prev.interval * (easeFactor / 100) : 7));
+        }
+        easeFactor = Math.min(300, easeFactor + 10);
+      }
+
+      const today = new Date();
+      const nextDate = new Date(today);
+      nextDate.setDate(nextDate.getDate() + interval);
+      const nextReviewDate = nextDate.toISOString().split("T")[0];
+
+      await pool.query(
+        `INSERT INTO flashcard_reviews (id, user_id, card_id, deck_id, response, interval, ease_factor, repetitions, next_review_date)
+         VALUES (gen_random_uuid(), $1, $2, $3, $4, $5, $6, $7, $8)`,
+        [userId, cardId, deckId, response, interval, easeFactor, repetitions, nextReviewDate]
+      );
+
+      res.json({ nextReviewDate, interval, easeFactor, repetitions });
+    } catch (e: any) {
+      res.status(500).json({ error: "Failed to save flashcard review" });
+    }
+  });
+
+  app.get("/api/flashcard-review-due/:userId", async (req, res) => {
+    try {
+      const today = new Date().toISOString().split("T")[0];
+      const result = await pool.query(
+        `SELECT DISTINCT ON (fr.card_id) fr.card_id, fr.deck_id, fr.next_review_date, fr.interval, fr.response,
+          df.front, df.back, df.rationale, fd.title as deck_title
+         FROM flashcard_reviews fr
+         JOIN deck_flashcards df ON df.id = fr.card_id
+         JOIN flashcard_decks fd ON fd.id = fr.deck_id
+         WHERE fr.user_id = $1 AND fr.next_review_date <= $2
+         ORDER BY fr.card_id, fr.reviewed_at DESC`,
+        [req.params.userId, today]
+      );
+      res.json({
+        cards: result.rows.map(snakeToCamel),
+        count: result.rows.length,
+      });
+    } catch (e: any) {
+      res.status(500).json({ error: "Failed to fetch due flashcards" });
+    }
+  });
+
+  app.get("/api/quick-study/:userId", async (req, res) => {
+    try {
+      const userId = req.params.userId;
+      const tier = (req.query.tier as string) || "rpn";
+      const weakAreas = await pool.query(
+        `SELECT body_system, topic,
+          ROUND(100.0 * SUM(CASE WHEN was_correct THEN 1 ELSE 0 END) / COUNT(*), 1) as accuracy
+         FROM confidence_ratings
+         WHERE user_id = $1 AND body_system IS NOT NULL
+         GROUP BY body_system, topic
+         HAVING COUNT(*) >= 2 AND ROUND(100.0 * SUM(CASE WHEN was_correct THEN 1 ELSE 0 END) / COUNT(*), 1) < 70
+         ORDER BY accuracy ASC
+         LIMIT 5`,
+        [userId]
+      );
+      const weakSystems = weakAreas.rows.map((r: any) => r.body_system).filter(Boolean);
+
+      let questions: any[] = [];
+      if (weakSystems.length > 0) {
+        const examQ = await pool.query(
+          `SELECT id, stem, options, correct_answer, rationale, body_system, topic, difficulty
+           FROM exam_questions
+           WHERE tier = $1 AND body_system = ANY($2) AND status = 'published'
+           ORDER BY RANDOM()
+           LIMIT 7`,
+          [tier, weakSystems]
+        );
+        questions = examQ.rows;
+      }
+
+      if (questions.length < 5) {
+        const fillQ = await pool.query(
+          `SELECT id, stem, options, correct_answer, rationale, body_system, topic, difficulty
+           FROM exam_questions
+           WHERE tier = $1 AND status = 'published'
+           ORDER BY RANDOM()
+           LIMIT $2`,
+          [tier, 7 - questions.length]
+        );
+        const existingIds = new Set(questions.map((q: any) => q.id));
+        const newQs = fillQ.rows.filter((q: any) => !existingIds.has(q.id));
+        questions = [...questions, ...newQs];
+      }
+
+      const formatted: any[] = [];
+      for (const q of questions.slice(0, 7)) {
+        try {
+          let opts = Array.isArray(q.options) ? q.options : (typeof q.options === "string" ? JSON.parse(q.options) : []);
+          if (opts.length > 0 && typeof opts[0] === "object" && opts[0].text) {
+            opts = opts.map((o: any) => o.text);
+          }
+          if (!Array.isArray(opts) || opts.length === 0) continue;
+          let correct = Array.isArray(q.correct_answer) ? q.correct_answer : (typeof q.correct_answer === "string" ? JSON.parse(q.correct_answer) : q.correct_answer);
+          const correctIdx = Array.isArray(correct) ? correct[0] : (typeof correct === "number" ? correct : 0);
+          formatted.push({
+            id: q.id,
+            question: q.stem,
+            options: opts,
+            correct: correctIdx,
+            rationale: q.rationale || "",
+            bodySystem: q.body_system || "",
+            topic: q.topic || "",
+            difficulty: q.difficulty || 3,
+          });
+        } catch { }
+      }
+
+      res.json({ questions: formatted, count: formatted.length });
+    } catch (e: any) {
+      console.error("[quick-study] Error:", e.message);
+      res.status(500).json({ error: "Failed to build quick study session" });
+    }
+  });
+
   return httpServer;
 }
 

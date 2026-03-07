@@ -45,6 +45,24 @@ The application is built with Vite, React, and Express 5 on Node.js with TypeScr
 ### Social Media
 - Meta Graph API: For social media scheduling.
 
+## Exam Calculator
+- **Component**: `client/src/components/exam-calculator.tsx` — draggable floating panel with arithmetic, memory, keyboard support
+- **Integration**: Wired into `exam-console.tsx` replacing disabled calculator button
+- **Features**: Basic arithmetic (+, -, x, /), decimal, percentage, clear/backspace, memory (M+/M-/MR/MC), keyboard support
+
+## Spaced Repetition System
+- **Schema**: `flashcard_reviews` table — userId, cardId, deckId, response (knew_it/unsure/wrong), interval, easeFactor, nextReviewDate
+- **API Routes**: `POST /api/flashcard-review`, `GET /api/flashcard-review-due/:userId`
+- **Intervals**: wrong=1 day, unsure=3 days, knew_it=interval * easeFactor (min 7, max 90 days)
+- **UI**: 3-tier response buttons in `deck-views.tsx` with next-review-date labels
+- **Dashboard Widget**: `ReviewDueWidget` shows due count or "All caught up"
+
+## Quick Study Sessions
+- **Page**: `client/src/pages/quick-study.tsx` — 10-minute timed session with 5-7 questions from weak areas
+- **API**: `GET /api/quick-study/:userId?tier=rpn` — pulls from exam_questions prioritizing weak body systems
+- **Features**: Countdown timer, progress bar, confidence rating, end-of-session summary
+- **Dashboard Widget**: `QuickStudyWidget` with "Start Session" button
+
 ## Study Progress Momentum System
 - **Study Streak**: Tracked in `user_stats.study_streak` and `user_stats.last_study_date`
 - **Daily Goals**: `daily_study_goals` table — lessons/questions/minutes targets and completion tracking

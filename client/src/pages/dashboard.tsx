@@ -43,6 +43,8 @@ const WIDGET_ICONS: Record<string, any> = {
   ai_study_coach: Bot,
   intelligent_recommendations: Lightbulb,
   study_workload: CalendarClock,
+  quick_study: PlayCircle,
+  review_due: RotateCcw,
 };
 
 const WIDGET_COMPONENTS: Record<string, React.FC<{ user: any }>> = {
@@ -60,6 +62,8 @@ const WIDGET_COMPONENTS: Record<string, React.FC<{ user: any }>> = {
   ai_study_coach: AiStudyCoachWidget,
   intelligent_recommendations: IntelligentRecommendationsWidget,
   study_workload: StudyWorkloadWidget,
+  quick_study: QuickStudyWidget,
+  review_due: ReviewDueWidget,
 };
 
 const WIDGET_I18N_KEYS: Record<string, { label: string; desc: string }> = {
@@ -77,6 +81,8 @@ const WIDGET_I18N_KEYS: Record<string, { label: string; desc: string }> = {
   ai_study_coach: { label: "dashboard.widget.aiStudyCoach", desc: "dashboard.widget.aiStudyCoachDesc" },
   intelligent_recommendations: { label: "dashboard.widget.smartRecommendations", desc: "dashboard.widget.smartRecommendationsDesc" },
   study_workload: { label: "dashboard.widget.studyWorkload", desc: "dashboard.widget.studyWorkloadDesc" },
+  quick_study: { label: "dashboard.widget.quickStudy", desc: "dashboard.widget.quickStudyDesc" },
+  review_due: { label: "dashboard.widget.reviewDue", desc: "dashboard.widget.reviewDueDesc" },
 };
 
 const PREMIUM_WIDGET_FEATURES: Record<string, Feature> = {
@@ -108,6 +114,8 @@ const DEFAULT_WIDGETS: WidgetConfig[] = [
   { widgetType: "ai_study_coach", position: 11, visible: true },
   { widgetType: "intelligent_recommendations", position: 12, visible: true },
   { widgetType: "study_workload", position: 13, visible: true },
+  { widgetType: "quick_study", position: 14, visible: true },
+  { widgetType: "review_due", position: 15, visible: true },
 ];
 
 const breadcrumbData = buildBreadcrumbStructuredData([
@@ -1204,6 +1212,79 @@ function StudyWorkloadWidget({ user }: { user: any }) {
           </p>
         )}
       </div>
+    </div>
+  );
+}
+
+function QuickStudyWidget({ user }: { user: any }) {
+  const [, navigate] = useLocation();
+
+  return (
+    <div className="text-center py-3" data-testid="widget-content-quick-study">
+      <div className="w-14 h-14 rounded-full bg-[#BFA6F6]/15 flex items-center justify-center mx-auto mb-3">
+        <PlayCircle className="h-7 w-7 text-[#BFA6F6]" />
+      </div>
+      <h3 className="text-sm font-semibold mb-1">Quick Study</h3>
+      <p className="text-xs text-muted-foreground mb-4">10-minute focused session from your study areas</p>
+      <Button
+        size="sm"
+        onClick={() => navigate("/quick-study")}
+        className="bg-[#BFA6F6] hover:bg-[#BFA6F6]/90 text-white rounded-xl px-6"
+        data-testid="button-start-quick-study"
+      >
+        <PlayCircle className="h-4 w-4 mr-1.5" /> Start Session
+      </Button>
+    </div>
+  );
+}
+
+function ReviewDueWidget({ user }: { user: any }) {
+  const [dueCount, setDueCount] = useState<number | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [, navigate] = useLocation();
+
+  useEffect(() => {
+    if (!user?.id) { setLoading(false); return; }
+    fetch(`/api/flashcard-review-due/${user.id}`)
+      .then((r) => r.json())
+      .then((data) => { setDueCount(data.count || 0); setLoading(false); })
+      .catch(() => { setDueCount(null); setLoading(false); });
+  }, [user?.id]);
+
+  if (loading) {
+    return (
+      <div className="text-center py-6" data-testid="widget-content-review-due-loading">
+        <p className="text-xs text-muted-foreground">Loading review status...</p>
+      </div>
+    );
+  }
+
+  if (dueCount === null || dueCount === 0) {
+    return (
+      <div className="text-center py-4" data-testid="widget-content-review-due-empty">
+        <CheckCircle2 className="h-8 w-8 mx-auto text-emerald-500 mb-2" />
+        <p className="text-sm font-medium text-emerald-700">All caught up</p>
+        <p className="text-xs text-muted-foreground mt-1">No flashcards due for review today</p>
+      </div>
+    );
+  }
+
+  return (
+    <div className="text-center py-3" data-testid="widget-content-review-due">
+      <div className="w-14 h-14 rounded-full bg-amber-100 flex items-center justify-center mx-auto mb-3">
+        <RotateCcw className="h-7 w-7 text-amber-600" />
+      </div>
+      <h3 className="text-sm font-semibold mb-1">Review Due Today</h3>
+      <p className="text-2xl font-bold text-amber-600 mb-1">{dueCount}</p>
+      <p className="text-xs text-muted-foreground mb-4">flashcard{dueCount !== 1 ? "s" : ""} ready for review</p>
+      <Button
+        size="sm"
+        onClick={() => navigate("/flashcards")}
+        className="bg-amber-500 hover:bg-amber-600 text-white rounded-xl px-6"
+        data-testid="button-start-review"
+      >
+        <RotateCcw className="h-4 w-4 mr-1.5" /> Start Review
+      </Button>
     </div>
   );
 }

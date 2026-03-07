@@ -135,6 +135,7 @@ const QBankFactoryPage = lazy(() => import("@/pages/qbank-factory"));
 const AccountLibraryPage = lazy(() => import("@/pages/account-library"));
 const AdminTrustShowcase = lazy(() => import("@/pages/admin-trust-showcase"));
 const FreePracticePage = lazy(() => import("@/pages/free-practice"));
+const QuickStudyPage = lazy(() => import("@/pages/quick-study"));
 const PracticeQuestionsPage = lazy(() => import("@/pages/practice-questions"));
 const SubscribePage = lazy(() => import("@/pages/subscribe"));
 const OnboardingPlanPage = lazy(() => import("@/pages/onboarding-plan"));
@@ -393,6 +394,7 @@ function AppRoutes() {
         <Route path="/contact" component={ContactPage} />
         <Route path="/feedback" component={FeedbackPage} />
         <Route path="/free-practice" component={FreePracticePage} />
+        <Route path="/quick-study" component={QuickStudyPage} />
         <Route path="/practice-questions/:tier/:system" component={PracticeQuestionsPage} />
         <Route path="/practice-questions" component={PracticeQuestionsPage} />
         <Route path="/subscribe/:tier" component={SubscribePage} />

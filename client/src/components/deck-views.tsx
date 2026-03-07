@@ -1696,8 +1696,9 @@ export function DeckStudyLearn({
         e.preventDefault();
         if (!deckStudyFlipped) setDeckStudyFlipped!(true);
       }
-      if (deckStudyFlipped && (e.key === "ArrowRight" || e.key === "1")) handleDeckStudyAnswer!(true);
-      if (deckStudyFlipped && (e.key === "ArrowLeft" || e.key === "2")) handleDeckStudyAnswer!(false);
+      if (deckStudyFlipped && (e.key === "1" || e.key === "ArrowLeft")) handleDeckStudyAnswer!(false);
+      if (deckStudyFlipped && e.key === "2") handleDeckStudyAnswer!(true);
+      if (deckStudyFlipped && (e.key === "3" || e.key === "ArrowRight")) handleDeckStudyAnswer!(true);
     };
     window.addEventListener("keydown", handleKey);
     return () => window.removeEventListener("keydown", handleKey);
@@ -1765,21 +1766,69 @@ export function DeckStudyLearn({
 
       {deckStudyFlipped && (
         <div className="space-y-3">
-          <div className="flex gap-4 justify-center">
+          <p className="text-center text-xs text-gray-400 uppercase tracking-widest">How well did you know this?</p>
+          <div className="flex gap-3 justify-center">
             <Button
-              onClick={() => handleDeckStudyAnswer!(false)}
+              onClick={() => {
+                if (user?.id && card?.id && currentDeck?.id) {
+                  fetch("/api/flashcard-review", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ userId: user.id, cardId: card.id, deckId: currentDeck.id, response: "wrong" }),
+                  }).catch(() => {});
+                }
+                handleDeckStudyAnswer!(false);
+              }}
               variant="outline"
-              className="rounded-xl gap-2 px-8 py-6 border-red-200 text-red-600 hover:bg-red-50"
+              className="rounded-xl gap-2 px-5 py-6 border-red-200 text-red-600 hover:bg-red-50 flex-1"
               data-testid="button-missed"
             >
-              <XCircle className="w-5 h-5" /> Missed It
+              <XCircle className="w-5 h-5" />
+              <div className="text-left">
+                <div className="font-semibold text-sm">I got it wrong</div>
+                <div className="text-[10px] text-red-400">Review tomorrow</div>
+              </div>
             </Button>
             <Button
-              onClick={() => handleDeckStudyAnswer!(true)}
-              className="rounded-xl gap-2 px-8 py-6 bg-emerald-600 hover:bg-emerald-700"
+              onClick={() => {
+                if (user?.id && card?.id && currentDeck?.id) {
+                  fetch("/api/flashcard-review", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ userId: user.id, cardId: card.id, deckId: currentDeck.id, response: "unsure" }),
+                  }).catch(() => {});
+                }
+                handleDeckStudyAnswer!(true);
+              }}
+              variant="outline"
+              className="rounded-xl gap-2 px-5 py-6 border-amber-200 text-amber-600 hover:bg-amber-50 flex-1"
+              data-testid="button-unsure"
+            >
+              <RefreshCw className="w-5 h-5" />
+              <div className="text-left">
+                <div className="font-semibold text-sm">I was unsure</div>
+                <div className="text-[10px] text-amber-400">Review in 3 days</div>
+              </div>
+            </Button>
+            <Button
+              onClick={() => {
+                if (user?.id && card?.id && currentDeck?.id) {
+                  fetch("/api/flashcard-review", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ userId: user.id, cardId: card.id, deckId: currentDeck.id, response: "knew_it" }),
+                  }).catch(() => {});
+                }
+                handleDeckStudyAnswer!(true);
+              }}
+              className="rounded-xl gap-2 px-5 py-6 bg-emerald-600 hover:bg-emerald-700 flex-1"
               data-testid="button-got-it"
             >
-              <CheckCircle2 className="w-5 h-5" /> Got It
+              <CheckCircle2 className="w-5 h-5" />
+              <div className="text-left">
+                <div className="font-semibold text-sm">I knew this</div>
+                <div className="text-[10px] text-emerald-300">Review in 7+ days</div>
+              </div>
             </Button>
           </div>
           <div className="flex justify-center">
@@ -1848,8 +1897,9 @@ export function DeckStudyTest({
         e.preventDefault();
         if (!deckStudyFlipped) setDeckStudyFlipped!(true);
       }
-      if (deckStudyFlipped && (e.key === "ArrowRight" || e.key === "1")) handleDeckStudyAnswer!(true);
-      if (deckStudyFlipped && (e.key === "ArrowLeft" || e.key === "2")) handleDeckStudyAnswer!(false);
+      if (deckStudyFlipped && (e.key === "1" || e.key === "ArrowLeft")) handleDeckStudyAnswer!(false);
+      if (deckStudyFlipped && e.key === "2") handleDeckStudyAnswer!(true);
+      if (deckStudyFlipped && (e.key === "3" || e.key === "ArrowRight")) handleDeckStudyAnswer!(true);
     };
     window.addEventListener("keydown", handleKey);
     return () => window.removeEventListener("keydown", handleKey);

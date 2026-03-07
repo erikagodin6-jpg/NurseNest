@@ -33,6 +33,7 @@ import {
   StickyNote,
   BookOpen,
 } from "lucide-react";
+import { ExamCalculator } from "@/components/exam-calculator";
 
 export interface ExamQuestion {
   question: string;
@@ -298,6 +299,7 @@ export default function ExamConsoleLayout({
   const [highlightMode, setHighlightMode] = useState(false);
   const [highlights, setHighlights] = useState<string[]>([]);
   const [notes, setNotes] = useState("");
+  const [showCalculator, setShowCalculator] = useState(false);
   const [showShortcuts, setShowShortcuts] = useState(false);
   const [rightPanelOpen, setRightPanelOpen] = useState(!!exhibits?.length);
   const [showQuestionNav, setShowQuestionNav] = useState(false);
@@ -470,10 +472,10 @@ export default function ExamConsoleLayout({
           </Button>
 
           <Button
-            variant="ghost"
+            variant={showCalculator ? "default" : "ghost"}
             size="sm"
-            disabled
-            className="h-8 gap-1 opacity-50"
+            onClick={() => setShowCalculator(!showCalculator)}
+            className={`h-8 gap-1 ${showCalculator ? "bg-[#BFA6F6] hover:bg-[#BFA6F6]/90 text-white" : ""}`}
             data-testid="button-calculator"
           >
             <Calculator className="w-3.5 h-3.5" />
@@ -903,6 +905,10 @@ export default function ExamConsoleLayout({
           </div>
         )}
       </div>
+
+      {showCalculator && (
+        <ExamCalculator onClose={() => setShowCalculator(false)} />
+      )}
 
       <Dialog open={showShortcuts} onOpenChange={setShowShortcuts}>
         <DialogContent className="sm:max-w-md" data-testid="dialog-shortcuts">
