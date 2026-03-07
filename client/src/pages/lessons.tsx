@@ -216,7 +216,11 @@ export const rpnSystems = [
       { id: "mi-management-rpn", name: "MI Management: RPN Scope & Monitoring", status: "Available" },
       { id: "acute-pericarditis-rpn", name: "Acute Pericarditis", status: "Available" },
       { id: "constrictive-pericarditis-rpn", name: "Constrictive Pericarditis", status: "Available" },
-      { id: "viral-myocarditis-rpn", name: "Viral Myocarditis", status: "Available" }
+      { id: "viral-myocarditis-rpn", name: "Viral Myocarditis", status: "Available" },
+      { id: "cardiac-tamponade-rpn", name: "Cardiac Tamponade", status: "Available" },
+      { id: "aortic-dissection-rpn", name: "Aortic Dissection", status: "Available" },
+      { id: "pulmonary-embolism-rpn", name: "Pulmonary Embolism", status: "Available" },
+      { id: "fat-embolism-rpn", name: "Fat Embolism Syndrome", status: "Available" }
     ]
   },
   {
@@ -250,6 +254,10 @@ export const rpnSystems = [
       { id: "rhonchi-rpn", name: "Rhonchi: Assessment & Clinical Significance", status: "Available" },
       { id: "asbestosis-rpn", name: "Asbestosis", status: "Available" },
       { id: "acute-silicosis-rpn", name: "Acute Silicosis", status: "Available" },
+      { id: "pneumothorax-management-rpn", name: "Pneumothorax Management", status: "Available" },
+      { id: "chest-drainage-system-rpn", name: "Chest Drainage System", status: "Available" },
+      { id: "malignant-hyperthermia-rpn", name: "Malignant Hyperthermia", status: "Available" },
+      { id: "wound-irrigation-rpn", name: "Wound Irrigation", status: "Available" },
       { id: "black-lung-disease-rpn", name: "Black Lung Disease (Coal Workers' Pneumoconiosis)", status: "Available" },
       { id: "hypoventilation-syndromes-rpn", name: "Hypoventilation Syndromes", status: "Available" }
     ]
@@ -604,7 +612,9 @@ export const rpnSystems = [
       { id: "ovarian-hyperstimulation-rpn", name: "Ovarian Hyperstimulation Syndrome", status: "Available" },
       { id: "toxic-shock-gynecologic-rpn", name: "Toxic Shock Syndrome (Gynecologic)", status: "Available" },
       { id: "mastitis-rpn", name: "Mastitis", status: "Available" },
-      { id: "maternal-newborn-edge-rpn", name: "Maternal-Newborn Edge Cases", status: "Available" }
+      { id: "maternal-newborn-edge-rpn", name: "Maternal-Newborn Edge Cases", status: "Available" },
+      { id: "placenta-previa-management-rpn", name: "Placenta Previa: Clinical Management", status: "Available" },
+      { id: "rh-alloimmunization-rpn", name: "Rh Alloimmunization", status: "Available" }
     ]
   },
   {
@@ -649,7 +659,11 @@ export const rpnSystems = [
       { id: "general-adaptation", name: "General Adaptation Syndrome", status: "Available" },
       { id: "therapeutic-communication", name: "Therapeutic Communication", status: "Available" },
       { id: "crisis-intervention", name: "Crisis Intervention Basics", status: "Available" },
-      { id: "substance-abuse-basics", name: "Substance Abuse Overview", status: "Available" }
+      { id: "substance-abuse-basics", name: "Substance Abuse Overview", status: "Available" },
+      { id: "conduct-disorder-rpn", name: "Conduct Disorder", status: "Available" },
+      { id: "alcohol-withdrawal-rpn", name: "Alcohol Withdrawal", status: "Available" },
+      { id: "serotonin-syndrome-rpn", name: "Serotonin Syndrome", status: "Available" },
+      { id: "intimate-partner-violence-rpn", name: "Intimate Partner Violence", status: "Available" }
     ]
   },
   {
@@ -738,7 +752,11 @@ export const rpnSystems = [
       { id: "methotrexate-safety-rpn", name: "Methotrexate Safety", status: "Available" },
       { id: "oxybutynin-rpn", name: "Oxybutynin (Ditropan)", status: "Available" },
       { id: "levetiracetam-rpn", name: "Levetiracetam (Keppra)", status: "Available" },
-      { id: "short-acting-insulin-rpn", name: "Regular Insulin (Humulin R/Novolin R)", status: "Available" }
+      { id: "short-acting-insulin-rpn", name: "Regular Insulin (Humulin R/Novolin R)", status: "Available" },
+      { id: "vancomycin-therapy-rpn", name: "Vancomycin Therapy", status: "Available" },
+      { id: "insulin-pump-management-rpn", name: "Insulin Pump Management", status: "Available" },
+      { id: "anticoagulation-therapy-rpn", name: "Anticoagulation Therapy", status: "Available" },
+      { id: "opioid-management-rpn", name: "Opioid Management", status: "Available" }
     ]
   },
   {
@@ -1104,7 +1122,11 @@ export const rnSystems = [
       { id: "ie-embolic-stroke-rn", name: "Infective Endocarditis with Embolic Stroke", status: "Available" },
       { id: "mechanical-circulatory-support-rn", name: "Mechanical Circulatory Support Complications", status: "Available" },
       { id: "pulmonary-valve-stenosis-rn", name: "Pulmonary Valve Stenosis", status: "Available" },
-      { id: "carotid-body-tumor-rn", name: "Carotid Body Tumor", status: "Available" }
+      { id: "carotid-body-tumor-rn", name: "Carotid Body Tumor", status: "Available" },
+      { id: "cardiac-tamponade-rn", name: "Cardiac Tamponade: Assessment & Monitoring", status: "Available" },
+      { id: "aortic-dissection-rn", name: "Aortic Dissection: RN Clinical Management", status: "Available" },
+      { id: "pulmonary-embolism-rn", name: "Pulmonary Embolism: RN Assessment Protocol", status: "Available" },
+      { id: "fat-embolism-rn", name: "Fat Embolism: RN Recognition & Response", status: "Available" }
     ]
   },
   {
@@ -1168,6 +1190,10 @@ export const rnSystems = [
       { id: "bronchopulmonary-dysplasia-rn", name: "Bronchopulmonary Dysplasia (Advanced)", status: "Available" },
       { id: "pulmonary-sequestration-rn", name: "Pulmonary Sequestration", status: "Available" },
       { id: "tracheomalacia-rn", name: "Tracheomalacia", status: "Available" },
+      { id: "pneumothorax-management-rn", name: "Pneumothorax: Clinical Management", status: "Available" },
+      { id: "chest-drainage-system-rn", name: "Chest Drainage System: RN Management", status: "Available" },
+      { id: "malignant-hyperthermia-rn", name: "Malignant Hyperthermia: RN Emergency Response", status: "Available" },
+      { id: "wound-irrigation-rn", name: "Wound Irrigation: Clinical Protocol", status: "Available" },
       { id: "subglottic-stenosis-rn", name: "Subglottic Stenosis", status: "Available" },
       { id: "vocal-cord-paralysis-rn", name: "Vocal Cord Paralysis", status: "Available" },
       { id: "lymphangioleiomyomatosis-rn", name: "Lymphangioleiomyomatosis (LAM)", status: "Available" },
@@ -1449,7 +1475,11 @@ export const rnSystems = [
       { id: "vaginal-hematoma", name: "Vaginal Hematoma", status: "Available" },
       { id: "fetal-oxygenation-pushing", name: "Fetal Oxygenation During Pushing with Variable Decels", status: "Available" },
       { id: "vasa-previa-rn", name: "Vasa Previa", status: "Available" },
-      { id: "gestational-trophoblastic-disease-rn", name: "Gestational Trophoblastic Disease (Advanced)", status: "Available" }
+      { id: "gestational-trophoblastic-disease-rn", name: "Gestational Trophoblastic Disease (Advanced)", status: "Available" },
+      { id: "placenta-previa-management-rn", name: "Placenta Previa: RN Clinical Management", status: "Available" },
+      { id: "umbilical-cord-prolapse-rn", name: "Umbilical Cord Prolapse: RN Emergency Response", status: "Available" },
+      { id: "hyperemesis-gravidarum-rn", name: "Hyperemesis Gravidarum: RN Assessment", status: "Available" },
+      { id: "rh-alloimmunization-rn", name: "Rh Alloimmunization: RN Management", status: "Available" }
     ]
   },
   {
@@ -1551,7 +1581,11 @@ export const rnSystems = [
       { id: "opioid-withdrawal", name: "Opioid Withdrawal", status: "Available" },
       { id: "serotonin-syndrome", name: "Serotonin Syndrome", status: "Available" },
       { id: "antisocial-pd", name: "Antisocial Personality Disorder", status: "Available" },
-      { id: "conduct-disorder", name: "Conduct Disorder", status: "Available" }
+      { id: "conduct-disorder", name: "Conduct Disorder", status: "Available" },
+      { id: "conduct-disorder-rn", name: "Conduct Disorder: RN Assessment & Interventions", status: "Available" },
+      { id: "alcohol-withdrawal-rn", name: "Alcohol Withdrawal: CIWA Protocol", status: "Available" },
+      { id: "serotonin-syndrome-rn", name: "Serotonin Syndrome: RN Recognition", status: "Available" },
+      { id: "intimate-partner-violence-rn", name: "Intimate Partner Violence: RN Screening", status: "Available" }
     ]
   },
   {
@@ -1571,7 +1605,11 @@ export const rnSystems = [
       { id: "allopurinol-safety", name: "Allopurinol", status: "Available" },
       { id: "methotrexate-safety", name: "Methotrexate", status: "Available" },
       { id: "methadone-safety", name: "Methadone", status: "Available" },
-      { id: "ccb-safety", name: "Calcium Channel Blockers", status: "Available" }
+      { id: "ccb-safety", name: "Calcium Channel Blockers", status: "Available" },
+      { id: "vancomycin-therapy-rn", name: "Vancomycin Therapy: Trough Monitoring", status: "Available" },
+      { id: "insulin-pump-management-rn", name: "Insulin Pump: Clinical Management", status: "Available" },
+      { id: "anticoagulation-therapy-rn", name: "Anticoagulation: Heparin & Warfarin Protocols", status: "Available" },
+      { id: "opioid-management-rn", name: "Opioid Management: PCA & Monitoring", status: "Available" }
     ]
   },
   {
@@ -1847,7 +1885,11 @@ export const npSystems = [
       { id: "effusive-constrictive-pericarditis-np", name: "Effusive-Constrictive Pericarditis: Hemodynamics & Management", status: "Available" },
       { id: "libman-sacks-endocarditis-np", name: "Libman-Sacks Endocarditis: SLE-Associated Valve Disease", status: "Available" },
       { id: "endomyocardial-fibrosis-np", name: "Endomyocardial Fibrosis: Tropical Cardiomyopathy", status: "Available" },
-      { id: "culture-negative-ie-np", name: "Culture-Negative Infective Endocarditis: Diagnostic Approach", status: "Available" }
+      { id: "culture-negative-ie-np", name: "Culture-Negative Infective Endocarditis: Diagnostic Approach", status: "Available" },
+      { id: "cardiac-tamponade-np", name: "Cardiac Tamponade: Pericardiocentesis & Advanced Management", status: "Available" },
+      { id: "aortic-dissection-np", name: "Aortic Dissection: Stanford Classification & Prescribing", status: "Available" },
+      { id: "pulmonary-embolism-np", name: "Pulmonary Embolism: Wells Criteria & Thrombolysis", status: "Available" },
+      { id: "fat-embolism-np", name: "Fat Embolism: Gurd's Criteria & ARDS Management", status: "Available" }
     ]
   },
   {
@@ -1873,7 +1915,11 @@ export const npSystems = [
       { id: "occupational-lung-disease-np", name: "Occupational Lung Disease: Asbestosis & Silicosis", status: "Available" },
       { id: "ventilator-associated-pneumonia-np", name: "Ventilator-Associated Pneumonia: Prevention & Treatment", status: "Available" },
       { id: "tracheobronchial-injury-np", name: "Tracheobronchial Injury: Diagnosis & Surgical Management", status: "Available" },
-      { id: "hemothorax-management-np", name: "Hemothorax: Chest Tube & Surgical Intervention", status: "Available" }
+      { id: "hemothorax-management-np", name: "Hemothorax: Chest Tube & Surgical Intervention", status: "Available" },
+      { id: "pneumothorax-management-np", name: "Pneumothorax: Needle Decompression & Chest Tube", status: "Available" },
+      { id: "chest-drainage-system-np", name: "Chest Drainage: Advanced Management & Prescribing", status: "Available" },
+      { id: "malignant-hyperthermia-np", name: "Malignant Hyperthermia: Dantrolene Protocol & Pharmacogenomics", status: "Available" },
+      { id: "wound-irrigation-np", name: "Wound Irrigation: Advanced Wound Management", status: "Available" }
     ]
   },
   {
@@ -2017,7 +2063,11 @@ export const npSystems = [
       { id: "twin-to-twin-transfusion-np", name: "Twin-to-Twin Transfusion Syndrome: Staging & Laser Therapy", status: "Available" },
       { id: "cord-prolapse-management-np", name: "Cord Prolapse Management: Emergency Delivery", status: "Available" },
       { id: "dic-obstetrics-np", name: "DIC in Obstetrics: Etiology & Coagulation Replacement", status: "Available" },
-      { id: "vaginal-hematoma-np", name: "Vaginal Hematoma: Surgical Management & Embolization", status: "Available" }
+      { id: "vaginal-hematoma-np", name: "Vaginal Hematoma: Surgical Management & Embolization", status: "Available" },
+      { id: "placenta-previa-management-np", name: "Placenta Previa: NP Advanced Management", status: "Available" },
+      { id: "umbilical-cord-prolapse-np", name: "Umbilical Cord Prolapse: NP Emergency Management", status: "Available" },
+      { id: "hyperemesis-gravidarum-np", name: "Hyperemesis Gravidarum: NP Prescribing", status: "Available" },
+      { id: "rh-alloimmunization-np", name: "Rh Alloimmunization: NP Advanced Management", status: "Available" }
     ]
   },
   {
@@ -2067,7 +2117,11 @@ export const npSystems = [
       { id: "thrombolytics-np", name: "Thrombolytics: Fibrinolytic Pathway", status: "Available" },
       { id: "methotrexate-safety-np", name: "Methotrexate: Molecular Pharmacology & Pharmacogenomics", status: "Available" },
       { id: "endocannabinoid-pharmacology-np", name: "Endocannabinoid Pharmacology: ECS, CB1/CB2 & Prescribing", status: "Available" },
-      { id: "pharmacotherapeutics-principles-np", name: "Pharmacotherapeutics: Core Principles & OTC Management", status: "Available" }
+      { id: "pharmacotherapeutics-principles-np", name: "Pharmacotherapeutics: Core Principles & OTC Management", status: "Available" },
+      { id: "vancomycin-therapy-np", name: "Vancomycin: AUC-Guided Dosing & Pharmacokinetics", status: "Available" },
+      { id: "insulin-pump-management-np", name: "Insulin Pump: Prescribing & Hybrid Closed-Loop", status: "Available" },
+      { id: "anticoagulation-therapy-np", name: "Anticoagulation: DOAC Prescribing & Reversal Agents", status: "Available" },
+      { id: "opioid-management-np", name: "Opioid Prescribing: MME Calculations & Buprenorphine", status: "Available" }
     ]
   },
   {
@@ -2173,7 +2227,11 @@ export const npSystems = [
       { id: "eating-disorder-management-np", name: "Eating Disorder Management: Medical Stabilization & Refeeding", status: "Available" },
       { id: "insomnia-pharmacotherapy-np", name: "Insomnia Pharmacotherapy: CBT-I & Medication Selection", status: "Available" },
       { id: "geriatric-depression-np", name: "Geriatric Depression: Late-Onset & Medication Considerations", status: "Available" },
-      { id: "personality-disorder-assessment-np", name: "Personality Disorder Assessment: Cluster A/B/C & DBT Referral", status: "Available" }
+      { id: "personality-disorder-assessment-np", name: "Personality Disorder Assessment: Cluster A/B/C & DBT Referral", status: "Available" },
+      { id: "conduct-disorder-np", name: "Conduct Disorder: NP Differential & Pharmacotherapy", status: "Available" },
+      { id: "alcohol-withdrawal-np", name: "Alcohol Withdrawal: NP Prescribing & MAT", status: "Available" },
+      { id: "serotonin-syndrome-np", name: "Serotonin Syndrome: Hunter Criteria & Cyproheptadine", status: "Available" },
+      { id: "intimate-partner-violence-np", name: "Intimate Partner Violence: NP Forensic Assessment", status: "Available" }
     ]
   },
   {

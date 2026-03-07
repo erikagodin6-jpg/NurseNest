@@ -214,6 +214,11 @@ import { generatedBatch111Lessons } from "./generated-batch-111";
 import { clinicalConditionsBatchALessons } from "./clinical-conditions-batch-a";
 import { clinicalConditionsBatchBLessons } from "./clinical-conditions-batch-b";
 import { clinicalConditionsBatchCLessons } from "./clinical-conditions-batch-c";
+import { clinicalConditionsBatchDLessons } from "./clinical-conditions-batch-d";
+import { clinicalConditionsBatchELessons } from "./clinical-conditions-batch-e";
+import { clinicalConditionsBatchFLessons } from "./clinical-conditions-batch-f";
+import { clinicalConditionsBatchGLessons } from "./clinical-conditions-batch-g";
+import { clinicalConditionsBatchHLessons } from "./clinical-conditions-batch-h";
 import { bloodTransfusionReactionLessons } from "./blood-transfusion-reactions";
 import { bloodTransfusionReactionTypeLessons } from "./blood-transfusion-reaction-types";
 import { bloodTransfusionReactionTypesExtendedLessons } from "./blood-transfusion-reaction-types-extended";
@@ -390,6 +395,11 @@ export const contentMap: Record<string, LessonContent> = safeMerge({},
   clinicalConditionsBatchALessons,
   clinicalConditionsBatchBLessons,
   clinicalConditionsBatchCLessons,
+  clinicalConditionsBatchDLessons,
+  clinicalConditionsBatchELessons,
+  clinicalConditionsBatchFLessons,
+  clinicalConditionsBatchGLessons,
+  clinicalConditionsBatchHLessons,
   rrtLessons,
   paramedicLessons,
   mltLessons,
