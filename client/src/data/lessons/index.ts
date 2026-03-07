@@ -230,6 +230,7 @@ import { clinicalConditionsBatchPLessons } from "./clinical-conditions-batch-p";
 import { bloodTransfusionReactionLessons } from "./blood-transfusion-reactions";
 import { bloodTransfusionReactionTypeLessons } from "./blood-transfusion-reaction-types";
 import { bloodTransfusionReactionTypesExtendedLessons } from "./blood-transfusion-reaction-types-extended";
+import { cbiLessons } from "./continuous-bladder-irrigation";
 
 export type { LessonContent } from "./types";
 
@@ -416,6 +417,7 @@ export const contentMap: Record<string, LessonContent> = safeMerge({},
   clinicalConditionsBatchNLessons,
   clinicalConditionsBatchOLessons,
   clinicalConditionsBatchPLessons,
+  cbiLessons,
   rrtLessons,
   paramedicLessons,
   mltLessons,

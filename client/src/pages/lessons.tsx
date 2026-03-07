@@ -382,7 +382,8 @@ export const rpnSystems = [
       { id: "diabetic-nephropathy-rpn", name: "Diabetic Nephropathy", status: "Available" },
       { id: "chronic-kidney-disease-rpn", name: "Chronic Kidney Disease", status: "Available" },
       { id: "male-infertility-rpn", name: "Male Infertility", status: "Available" },
-      { id: "bph-turp-rpn", name: "BPH/TURP: Advanced Management", status: "Available" }
+      { id: "bph-turp-rpn", name: "BPH/TURP: Advanced Management", status: "Available" },
+      { id: "continuous-bladder-irrigation-rpn", name: "Continuous Bladder Irrigation (CBI)", status: "Available" }
     ]
   },
   {
@@ -1375,7 +1376,8 @@ export const rnSystems = [
       { id: "gitelman-syndrome-rn", name: "Gitelman Syndrome", status: "Available" },
       { id: "chronic-kidney-disease-rn", name: "Chronic Kidney Disease", status: "Available" },
       { id: "male-infertility-rn", name: "Male Infertility: Assessment & Diagnostics", status: "Available" },
-      { id: "bph-turp-rn", name: "BPH/TURP: Pre/Post-Op Assessment", status: "Available" }
+      { id: "bph-turp-rn", name: "BPH/TURP: Pre/Post-Op Assessment", status: "Available" },
+      { id: "continuous-bladder-irrigation-rn", name: "Continuous Bladder Irrigation (CBI)", status: "Available" }
     ]
   },
   {
@@ -2049,7 +2051,8 @@ export const npSystems = [
       { id: "tls-renal-injury-np", name: "Tumor Lysis Syndrome Renal Injury: Urate Nephropathy & Rasburicase", status: "Available" },
       { id: "chronic-kidney-disease-np", name: "Chronic Kidney Disease", status: "Available" },
       { id: "male-infertility-np", name: "Male Infertility: Workup & Treatment", status: "Available" },
-      { id: "bph-turp-np", name: "BPH/TURP: Pharmacology & Surgical Decision-Making", status: "Available" }
+      { id: "bph-turp-np", name: "BPH/TURP: Pharmacology & Surgical Decision-Making", status: "Available" },
+      { id: "continuous-bladder-irrigation-np", name: "Continuous Bladder Irrigation: Ordering & Management", status: "Available" }
     ]
   },
   {
