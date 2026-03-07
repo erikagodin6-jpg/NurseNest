@@ -32,6 +32,10 @@ import {
   Info,
   Lock,
   Sparkles,
+  Bone,
+  Stethoscope,
+  ShieldCheck,
+  Baby,
 } from "lucide-react";
 import { medications, moaCategories, medBodySystems, type Medication } from "@/data/medications";
 
@@ -42,6 +46,10 @@ const systemIcons: Record<string, any> = {
   Endocrine: Gauge,
   Renal: Droplets,
   Hematology: Syringe,
+  Musculoskeletal: Bone,
+  GI: Stethoscope,
+  "Anti-infective": ShieldCheck,
+  Maternity: Baby,
 };
 
 const severityConfig: Record<string, { bg: string; text: string }> = {

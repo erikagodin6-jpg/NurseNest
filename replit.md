@@ -71,6 +71,14 @@ The application is built with Vite, React, and Express 5 on Node.js with TypeScr
 - **Total**: 32 clinical case simulations
 - Types extracted to `client/src/data/clinical-case-types.ts` to avoid circular imports
 
+## Medication Mastery
+- **Total**: 60 medications (8 original + 52 new across 4 batches)
+- **Batch A** (13): Cardiovascular & Respiratory — amlodipine, digoxin, amiodarone, nitroglycerin, dopamine, epinephrine, atropine, adenosine, clopidogrel, albuterol, ipratropium, fluticasone, montelukast
+- **Batch B** (13): Neurological & Psychiatric — phenytoin, levetiracetam, lorazepam, haloperidol, sertraline, lithium, naloxone, sumatriptan, donepezil, carbidopa-levodopa, gabapentin, quetiapine, diazepam
+- **Batch C** (13): Endocrine, GI, Anti-infective — metformin, glipizide, prednisone, hydrocortisone, omeprazole, ondansetron, metoclopramide, vancomycin, gentamicin, ciprofloxacin, metronidazole, fluconazole, acyclovir
+- **Batch D** (13): Renal, Pain, Blood, Maternity — spironolactone, hydrochlorothiazide, mannitol, enoxaparin, alteplase, acetaminophen, ibuprofen, ketorolac, fentanyl, hydromorphone, magnesium-sulfate, oxytocin, terbutaline
+- **Body systems**: Cardiovascular, Respiratory, Neurological, Endocrine, Renal, Hematology, Musculoskeletal, GI, Anti-infective, Maternity
+
 ## Lesson Tier Differentiation
 - **RPN tab**: fundamentalsSystems + delegationSystems + clinicalScenariosSystems + medMathSystems + rpnNonPharm
 - **RN tab**: clinicalScenariosSystems + medMathSystems + rnNonPharm (no fundamentals/delegation)

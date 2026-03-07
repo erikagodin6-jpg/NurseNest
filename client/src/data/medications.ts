@@ -26,7 +26,7 @@ export interface Medication {
   relatedLessons: { id: string; title: string }[];
 }
 
-export const medications: Medication[] = [
+const baseMedications: Medication[] = [
   {
     id: "metoprolol",
     genericName: "Metoprolol",
@@ -289,6 +289,19 @@ export const medications: Medication[] = [
     bodySystem: "Endocrine",
     relatedLessons: [{ id: "dka-management", title: "DKA Management" }, { id: "electrolyte-emergencies", title: "Electrolyte Emergencies" }],
   },
+];
+
+import { medicationsBatchA } from "./medications-batch-a";
+import { medicationsBatchB } from "./medications-batch-b";
+import { medicationsBatchC } from "./medications-batch-c";
+import { medicationsBatchD } from "./medications-batch-d";
+
+export const medications: Medication[] = [
+  ...baseMedications,
+  ...medicationsBatchA,
+  ...medicationsBatchB,
+  ...medicationsBatchC,
+  ...medicationsBatchD,
 ];
 
 export const moaCategories = Array.from(new Set(medications.map(m => m.moaCategory)));
