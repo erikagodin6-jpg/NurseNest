@@ -79,6 +79,15 @@ The application is built with Vite, React, and Express 5 on Node.js with TypeScr
 - **Batch D** (13): Renal, Pain, Blood, Maternity — spironolactone, hydrochlorothiazide, mannitol, enoxaparin, alteplase, acetaminophen, ibuprofen, ketorolac, fentanyl, hydromorphone, magnesium-sulfate, oxytocin, terbutaline
 - **Body systems**: Cardiovascular, Respiratory, Neurological, Endocrine, Renal, Hematology, Musculoskeletal, GI, Anti-infective, Maternity
 
+## ABG/Electrolyte Simulator
+- **Total**: 64 cases (33 electrolyte + 31 ABG)
+- **Original**: 8 electrolyte + 6 ABG = 14 cases inline in electrolyte-abg-simulator.tsx
+- **Electrolyte Batch 1** (13): hypophosphatemia, hyperphosphatemia, hypokalemia-diuretic, hypernatremia-diabetes-insipidus, hyponatremia-siadh, hypercalcemia-malignancy, hypocalcemia-parathyroidectomy, hypermagnesemia-renal, hypomagnesemia-alcoholism, metabolic-acidosis-ckd, hyperkalemia-crush-injury, hyponatremia-exercise, hypocalcemia-pancreatitis
+- **Electrolyte Batch 2** (12): hyperkalemia-ace-inhibitor, hypokalemia-vomiting, hypernatremia-tube-feeding, hyponatremia-heart-failure, hypercalcemia-thiazide, hypocalcemia-massive-transfusion, hyperchloremia, hypochloremia, hypokalemia-insulin-dka, tumor-lysis-syndrome, milk-alkali-syndrome, hypernatremia-lithium
+- **ABG Batch 1** (13): acute-asthma, pe-hyperventilation, salicylate-toxicity, renal-tubular-acidosis, methanol-ingestion, chronic-vomiting-abg, opioid-overdose-abg, ards-abg, liver-failure-abg, near-drowning, post-surgical-abg, high-altitude, vent-settings-abg
+- **ABG Batch 2** (12): ethylene-glycol, copd-acute-on-chronic, burns-inhalation, massive-transfusion-abg, guillain-barre-abg, diabetic-mixed, pyloric-stenosis, pneumonia-abg, cyanide-poisoning, addisons-crisis-abg, pregnancy-abg, malignant-hyperthermia
+- Data files: `client/src/data/electrolyte-cases-batch-{1,2}.ts`, `client/src/data/abg-cases-batch-{1,2}.ts`
+
 ## Lesson Tier Differentiation
 - **RPN tab**: fundamentalsSystems + delegationSystems + clinicalScenariosSystems + medMathSystems + rpnNonPharm
 - **RN tab**: clinicalScenariosSystems + medMathSystems + rnNonPharm (no fundamentals/delegation)

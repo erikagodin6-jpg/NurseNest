@@ -24,6 +24,10 @@ import {
 } from "lucide-react";
 import { AdminEditButton } from "@/components/admin-edit-button";
 import { BreadcrumbNav } from "@/components/breadcrumb-nav";
+import { electrolyteCasesBatch1 } from "@/data/electrolyte-cases-batch-1";
+import { electrolyteCasesBatch2 } from "@/data/electrolyte-cases-batch-2";
+import { abgCasesBatch1 } from "@/data/abg-cases-batch-1";
+import { abgCasesBatch2 } from "@/data/abg-cases-batch-2";
 
 const paidTiers = ["rpn", "rn", "np", "admin", "all_access"];
 
@@ -59,7 +63,7 @@ interface ABGCase {
   examTrap: string;
 }
 
-const electrolyteCases: ElectrolyteCase[] = [
+const baseElectrolyteCases: ElectrolyteCase[] = [
   {
     id: "hyperkalemia",
     title: "Case 1: Muscle Weakness & Cardiac Changes",
@@ -247,7 +251,13 @@ const electrolyteCases: ElectrolyteCase[] = [
   },
 ];
 
-const abgCases: ABGCase[] = [
+const electrolyteCases: ElectrolyteCase[] = [
+  ...baseElectrolyteCases,
+  ...(electrolyteCasesBatch1 as ElectrolyteCase[]),
+  ...(electrolyteCasesBatch2 as ElectrolyteCase[]),
+];
+
+const baseAbgCases: ABGCase[] = [
   {
     id: "copd-retention",
     title: "Case 1: COPD with CO₂ Retention",
@@ -459,6 +469,12 @@ const abgCases: ABGCase[] = [
     rationale: "This is the most dangerous ABG pattern  -  MIXED disorder with BOTH systems causing acidosis simultaneously. The clue: In a known COPD patient with baseline CO₂ ~58 and HCO₃⁻ ~32, a drop in HCO₃⁻ to 18 means something ELSE is consuming bicarb (sepsis → lactic acidosis). Neither system can compensate for the other. This patient needs ICU management: likely intubation for respiratory failure, plus sepsis treatment for the metabolic component.",
     examTrap: "Mixed disorder exam trap: Always compare the CURRENT ABG to the patient's BASELINE. A COPD patient with HCO₃⁻ of 18 is NOT normal  -  their baseline should be ~30-32. The drop in HCO₃⁻ reveals the hidden metabolic acidosis. Without knowing the baseline, you'd miss the mixed disorder and call it 'simple respiratory acidosis.'",
   },
+];
+
+const abgCases: ABGCase[] = [
+  ...baseAbgCases,
+  ...(abgCasesBatch1 as ABGCase[]),
+  ...(abgCasesBatch2 as ABGCase[]),
 ];
 
 function ElectrolyteSection({ country }: { country: CountryMode }) {
