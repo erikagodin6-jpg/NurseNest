@@ -31,13 +31,38 @@ import {
   BookOpen,
   Bone,
   Activity,
+  Shield,
+  Thermometer,
+  Pill,
+  Syringe,
+  Monitor,
+  ArrowDown,
+  Utensils,
+  Square,
+  Baby,
+  MessageCircle,
+  Home,
+  Bandage,
 } from "lucide-react";
-import { osceSkillStations, type OSCESkillStation, type OSCEStep } from "@/data/osce-skills-data";
+import { osceSkillStations, type OSCESkillStation, type OSCEStep, type OSCECategory } from "@/data/osce-skills-data";
 import { osceSkillStations2 } from "@/data/osce-skills-data-2";
+import { osceSkillStations3 } from "@/data/osce-skills-data-3";
+import { osceSkillStations4 } from "@/data/osce-skills-data-4";
+import { osceSkillStations5 } from "@/data/osce-skills-data-5";
+import { osceSkillStations6 } from "@/data/osce-skills-data-6";
+import { osceSkillStations7 } from "@/data/osce-skills-data-7";
 
 const paidTiers = ["rpn", "rn", "np", "admin", "all_access"];
 
-const allStations: OSCESkillStation[] = [...osceSkillStations, ...osceSkillStations2];
+const allStations: OSCESkillStation[] = [
+  ...osceSkillStations,
+  ...osceSkillStations2,
+  ...osceSkillStations3,
+  ...osceSkillStations4,
+  ...osceSkillStations5,
+  ...osceSkillStations6,
+  ...osceSkillStations7,
+];
 
 const iconMap: Record<string, any> = {
   User,
@@ -52,6 +77,20 @@ const iconMap: Record<string, any> = {
   ClipboardList,
   Bone,
   Activity,
+  Shield,
+  Thermometer,
+  Pill,
+  Syringe,
+  Monitor,
+  AlertTriangle,
+  ArrowDown,
+  Utensils,
+  Square,
+  Baby,
+  MessageCircle,
+  Home,
+  BookOpen,
+  Bandage,
 };
 
 const categoryColors: Record<string, { bg: string; text: string; border: string }> = {
@@ -59,6 +98,15 @@ const categoryColors: Record<string, { bg: string; text: string; border: string 
   Hygiene: { bg: "bg-emerald-50", text: "text-emerald-700", border: "border-emerald-200" },
   Procedure: { bg: "bg-purple-50", text: "text-purple-700", border: "border-purple-200" },
   "Drain & Tube Care": { bg: "bg-amber-50", text: "text-amber-700", border: "border-amber-200" },
+  "Core Skills": { bg: "bg-indigo-50", text: "text-indigo-700", border: "border-indigo-200" },
+  "Acute Care": { bg: "bg-rose-50", text: "text-rose-700", border: "border-rose-200" },
+  "Maternal & Newborn": { bg: "bg-pink-50", text: "text-pink-700", border: "border-pink-200" },
+  "Pediatric": { bg: "bg-cyan-50", text: "text-cyan-700", border: "border-cyan-200" },
+  "Mental Health": { bg: "bg-violet-50", text: "text-violet-700", border: "border-violet-200" },
+  "Communication": { bg: "bg-teal-50", text: "text-teal-700", border: "border-teal-200" },
+  "Geriatric Care": { bg: "bg-orange-50", text: "text-orange-700", border: "border-orange-200" },
+  "Community Health": { bg: "bg-lime-50", text: "text-lime-700", border: "border-lime-200" },
+  "Critical Care": { bg: "bg-red-50", text: "text-red-700", border: "border-red-200" },
 };
 
 const difficultyColors: Record<string, { bg: string; text: string }> = {
@@ -67,7 +115,7 @@ const difficultyColors: Record<string, { bg: string; text: string }> = {
   Advanced: { bg: "bg-rose-50", text: "text-rose-700" },
 };
 
-type Category = "All" | "Assessment" | "Hygiene" | "Procedure" | "Drain & Tube Care";
+type Category = "All" | OSCECategory;
 
 function shuffleArray<T>(arr: T[]): T[] {
   const shuffled = [...arr];
@@ -88,7 +136,11 @@ function StationGrid({
   setCategory: (c: Category) => void;
 }) {
   const filtered = category === "All" ? allStations : allStations.filter((s) => s.category === category);
-  const categories: Category[] = ["All", "Assessment", "Hygiene", "Procedure", "Drain & Tube Care"];
+  const categories: Category[] = [
+    "All", "Core Skills", "Assessment", "Procedure", "Acute Care",
+    "Maternal & Newborn", "Pediatric", "Mental Health", "Communication",
+    "Geriatric Care", "Community Health", "Critical Care", "Hygiene", "Drain & Tube Care",
+  ];
 
   return (
     <div>
@@ -270,7 +322,7 @@ function StepOrderingExercise({
           <h2 className="text-2xl font-bold text-[#2E3A59]" data-testid="text-station-title">
             {station.title}
           </h2>
-          <div className="flex gap-2 mt-1">
+          <div className="flex flex-wrap gap-2 mt-1">
             <span className={`text-xs px-2 py-0.5 rounded-full ${catColor.bg} ${catColor.text}`}>
               {station.category}
             </span>
@@ -279,6 +331,16 @@ function StepOrderingExercise({
             >
               {station.difficulty}
             </span>
+            {station.examLevel && (
+              <span className="text-xs px-2 py-0.5 rounded-full bg-[#BFA6F6]/10 text-[#BFA6F6]">
+                {station.examLevel}
+              </span>
+            )}
+            {station.timeLimit && (
+              <span className="text-xs px-2 py-0.5 rounded-full bg-gray-100 text-gray-600">
+                {station.timeLimit}
+              </span>
+            )}
           </div>
         </div>
       </div>
@@ -313,6 +375,30 @@ function StepOrderingExercise({
               </div>
             </CardContent>
           </Card>
+
+          {station.candidateInstructions && (
+            <Card className="border-[#2E3A59]/10">
+              <CardContent className="p-6">
+                <h3 className="font-semibold text-[#2E3A59] mb-3 flex items-center gap-2">
+                  <ClipboardList className="w-5 h-5 text-[#BFA6F6]" />
+                  Candidate Instructions
+                </h3>
+                <p className="text-[#2E3A59]/80 leading-relaxed text-sm">{station.candidateInstructions}</p>
+              </CardContent>
+            </Card>
+          )}
+
+          {station.patientActorScript && (
+            <Card className="border-[#2E3A59]/10">
+              <CardContent className="p-6">
+                <h3 className="font-semibold text-[#2E3A59] mb-3 flex items-center gap-2">
+                  <User className="w-5 h-5 text-[#BFA6F6]" />
+                  Standardized Patient Script
+                </h3>
+                <p className="text-[#2E3A59]/80 leading-relaxed text-sm italic">{station.patientActorScript}</p>
+              </CardContent>
+            </Card>
+          )}
 
           <div className="bg-[#BFA6F6]/5 border border-[#BFA6F6]/20 rounded-xl p-4">
             <p className="text-sm text-[#2E3A59]/70">
@@ -616,6 +702,86 @@ function StepOrderingExercise({
               </ul>
             </CardContent>
           </Card>
+
+          {station.criticalFailCriteria && station.criticalFailCriteria.length > 0 && (
+            <Card className="border-rose-200 bg-rose-50/30">
+              <CardContent className="p-6">
+                <h3 className="font-semibold text-rose-700 mb-3 flex items-center gap-2">
+                  <XCircle className="w-5 h-5 text-rose-500" />
+                  Critical Fail Criteria
+                </h3>
+                <ul className="space-y-2">
+                  {station.criticalFailCriteria.map((crit, idx) => (
+                    <li key={idx} className="flex items-start gap-2 text-sm text-rose-700/80">
+                      <AlertTriangle className="w-4 h-4 text-rose-400 flex-shrink-0 mt-0.5" />
+                      {crit}
+                    </li>
+                  ))}
+                </ul>
+              </CardContent>
+            </Card>
+          )}
+
+          {station.examinerChecklist && station.examinerChecklist.length > 0 && (
+            <Card className="border-[#2E3A59]/10">
+              <CardContent className="p-6">
+                <h3 className="font-semibold text-[#2E3A59] mb-3 flex items-center gap-2">
+                  <ClipboardList className="w-5 h-5 text-[#BFA6F6]" />
+                  Examiner Marking Checklist
+                </h3>
+                <div className="space-y-1">
+                  {station.examinerChecklist.map((item, idx) => (
+                    <div key={idx} className="flex items-center justify-between py-2 border-b border-[#2E3A59]/5 last:border-0">
+                      <span className="text-sm text-[#2E3A59]/80">{item.action}</span>
+                      <span className="text-xs font-semibold bg-[#BFA6F6]/10 text-[#BFA6F6] px-2 py-0.5 rounded-full">{item.marks} {item.marks === 1 ? "mark" : "marks"}</span>
+                    </div>
+                  ))}
+                  <div className="flex items-center justify-between pt-3 font-semibold text-[#2E3A59]">
+                    <span>Total</span>
+                    <span>{station.examinerChecklist.reduce((sum, i) => sum + i.marks, 0)} marks</span>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          )}
+
+          {station.examinerQuestions && station.examinerQuestions.length > 0 && (
+            <Card className="border-[#2E3A59]/10">
+              <CardContent className="p-6">
+                <h3 className="font-semibold text-[#2E3A59] mb-3 flex items-center gap-2">
+                  <BookOpen className="w-5 h-5 text-[#BFA6F6]" />
+                  Examiner Questions
+                </h3>
+                <div className="space-y-4">
+                  {station.examinerQuestions.map((q, idx) => (
+                    <div key={idx} className="bg-[#BFA6F6]/5 rounded-lg p-4">
+                      <p className="text-sm font-medium text-[#2E3A59] mb-2">{idx + 1}. {q.question}</p>
+                      <p className="text-sm text-[#2E3A59]/70">{q.answer}</p>
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+          )}
+
+          {station.teachingPoints && station.teachingPoints.length > 0 && (
+            <Card className="border-[#2E3A59]/10">
+              <CardContent className="p-6">
+                <h3 className="font-semibold text-[#2E3A59] mb-3 flex items-center gap-2">
+                  <Lightbulb className="w-5 h-5 text-amber-500" />
+                  Teaching Points
+                </h3>
+                <ul className="space-y-2">
+                  {station.teachingPoints.map((point, idx) => (
+                    <li key={idx} className="flex items-start gap-2 text-sm text-[#2E3A59]/70">
+                      <CheckCircle className="w-4 h-4 text-amber-500 flex-shrink-0 mt-0.5" />
+                      {point}
+                    </li>
+                  ))}
+                </ul>
+              </CardContent>
+            </Card>
+          )}
 
           <div className="bg-[#BFA6F6]/5 border border-[#BFA6F6]/20 rounded-xl p-4">
             <p className="text-sm text-[#2E3A59]/70">

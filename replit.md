@@ -64,12 +64,12 @@ The application is built with Vite, React, and Express 5 on Node.js with TypeScr
 
 ## OSCE Skills Practice
 - **Route**: `/osce-skills`
-- **Total**: 13 interactive skill stations with step-ordering exercises
-- **Categories**: Assessment (5), Hygiene (1), Procedure (3), Drain & Tube Care (4)
-- **Stations**: head-to-toe-assessment, cardiovascular-assessment, respiratory-assessment, neurological-assessment, abdominal-assessment, musculoskeletal-assessment, hand-hygiene, catheter-insertion, catheter-removal, chest-tube-removal, chest-tube-care, jp-drain-care, continuous-bladder-irrigation
-- **Data files**: `client/src/data/osce-skills-data.ts` (9 stations), `client/src/data/osce-skills-data-2.ts` (4 stations)
+- **Total**: 69 interactive skill stations with step-ordering exercises
+- **Categories (13)**: Core Skills (5), Assessment (6), Procedure (14), Drain & Tube Care (4), Hygiene (1), Acute Care (11), Maternal & Newborn (5), Pediatric (5), Mental Health (4), Communication (5), Geriatric Care (3), Community Health (3), Critical Care (4)
+- **Data files**: `osce-skills-data.ts` (9), `osce-skills-data-2.ts` (4), `osce-skills-data-3.ts` (11), `osce-skills-data-4.ts` (11), `osce-skills-data-5.ts` (10), `osce-skills-data-6.ts` (9), `osce-skills-data-7.ts` (15)
 - **Page**: `client/src/pages/osce-skills.tsx`
-- **Features**: Category filtering, step ordering exercise, pass/fail scoring (70% + all critical steps), review mode with rationales and common errors
+- **Enriched fields**: examLevel, timeLimit, candidateInstructions, patientActorScript, examinerChecklist, criticalFailCriteria, examinerQuestions, teachingPoints
+- **Features**: Category filtering (13 tabs), step ordering exercise, pass/fail scoring (70% + all critical steps), review mode with rationales, examiner checklist, examiner questions, teaching points, critical fail criteria, standardized patient scripts
 
 ## Clinical Case Simulations
 - **Base cases (7)**: sepsis-progression, chest-pain-mi, dka-management, postpartum-hemorrhage, pediatric-respiratory-emergency, anaphylaxis-management, stroke-thrombolytic

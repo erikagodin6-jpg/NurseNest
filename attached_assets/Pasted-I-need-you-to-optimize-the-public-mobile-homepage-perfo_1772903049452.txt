@@ -1,0 +1,94 @@
+I need you to optimize the public mobile homepage performance of my Vite + React site, especially for Lighthouse/PageSpeed Insights on slow 4G mobile.
+
+Current PageSpeed Insights mobile results for https://www.nursenest.ca/en:
+- Performance: 64
+- FCP: 4.6 s
+- LCP: 7.2 s
+- TBT: 110 ms
+- CLS: 0
+- Speed Index: 4.8 s
+
+Lighthouse flags:
+- Render-blocking requests
+- Reduce unused JavaScript (~187 KiB)
+- Avoid long main-thread tasks
+- Avoid non-composited animations
+- Optimize DOM size
+- Canonical issue on /en page
+
+Your task:
+Audit and refactor the homepage and shared landing-page layout for mobile-first performance without breaking branding.
+
+Goals:
+1. Get LCP under 2.5–3.0s on mobile as much as possible
+2. Improve FCP significantly
+3. Keep CLS at 0
+4. Reduce JS loaded on initial homepage render
+5. Keep visual design polished and premium
+
+Implement all of the following:
+
+A. Identify and optimize the LCP element
+- Find the largest above-the-fold element on the homepage
+- If it is an image, convert it to responsive WebP/AVIF delivery
+- Serve a smaller mobile image
+- Add explicit width and height
+- Preload only the single true LCP image
+- Do not lazy-load the LCP image
+- If using a CSS background image for the hero, replace it with an img/picture-based implementation if that improves LCP
+
+B. Reduce above-the-fold weight
+- Simplify the mobile hero so only the core headline, subtext, CTA, and one visual load immediately
+- Move nonessential sections lower
+- Defer heavy carousels, testimonials, large tabbed sections, and complex widgets below the fold
+- Do not render offscreen marketing sections until needed
+
+C. Reduce unused JavaScript
+- Code-split all below-the-fold homepage sections with dynamic imports / React.lazy
+- Lazy-load modal components, chat widgets, analytics-heavy widgets, and video embeds
+- Remove unused imports and large icon bundles from the landing page
+- Ensure admin-only and subscriber-only code is not bundled into the public homepage
+- Split route-level and section-level bundles where appropriate
+
+D. Eliminate render-blocking resources
+- Inline critical CSS for the immediate above-the-fold content
+- Defer noncritical CSS where safe
+- Add font-display: swap to all custom fonts
+- Reduce font variants/weights loaded on the homepage
+- Preload only the single most important font file if necessary
+- Defer nonessential scripts until after initial render
+
+E. Fix animation performance
+- Replace animations on layout-affecting properties with transform and opacity only
+- Reduce or disable expensive mobile animations
+- Remove unnecessary animation from the hero and above-the-fold cards
+
+F. Reduce DOM size
+- Limit the number of initially rendered cards/items/sections on mobile
+- Avoid rendering hidden drawers, accordions, modals, and tab panels until opened
+- Virtualize or lazy-render long lists if present
+
+G. Fix technical SEO canonical issue
+- Ensure the /en homepage uses a self-referencing canonical:
+  https://www.nursenest.ca/en
+- Do not point the /en page canonical to the root domain homepage unless that is truly the canonical equivalent
+- Review language route canonical logic and ensure each language page self-canonicalizes correctly
+
+H. Accessibility cleanup while touching the code
+- Add accessible names to icon-only buttons
+- Associate all select elements with labels
+- Fix heading order to be sequential
+- Improve low-contrast text where practical without breaking branding
+
+I. Best-practice/security cleanup if easy to implement
+- Review image aspect ratio rendering issues
+- Add or improve CSP, HSTS, COOP, and Trusted Types where appropriate without breaking the app
+- Generate source maps for debugging in the proper environment only
+
+Deliverables:
+1. Explain the homepage bottlenecks you found
+2. Show exactly which files/components were changed
+3. Apply the changes directly
+4. Summarize the expected Lighthouse/PageSpeed gains
+5. Keep all edits production-safe and mobile-first
+6. Do not give me generic advice only — actually refactor the code

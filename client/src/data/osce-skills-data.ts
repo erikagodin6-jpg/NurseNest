@@ -5,10 +5,35 @@ export interface OSCEStep {
   criticalStep: boolean;
 }
 
+export type OSCECategory =
+  | "Assessment"
+  | "Hygiene"
+  | "Procedure"
+  | "Drain & Tube Care"
+  | "Core Skills"
+  | "Acute Care"
+  | "Maternal & Newborn"
+  | "Pediatric"
+  | "Mental Health"
+  | "Communication"
+  | "Geriatric Care"
+  | "Community Health"
+  | "Critical Care";
+
+export interface ExaminerChecklistItem {
+  action: string;
+  marks: number;
+}
+
+export interface ExaminerQuestion {
+  question: string;
+  answer: string;
+}
+
 export interface OSCESkillStation {
   id: string;
   title: string;
-  category: "Assessment" | "Hygiene" | "Procedure" | "Drain & Tube Care";
+  category: OSCECategory;
   difficulty: "Beginner" | "Intermediate" | "Advanced";
   icon: string;
   description: string;
@@ -18,6 +43,14 @@ export interface OSCESkillStation {
   commonErrors: string[];
   passingCriteria: string;
   clinicalPearls: string[];
+  examLevel?: string;
+  timeLimit?: string;
+  candidateInstructions?: string;
+  patientActorScript?: string;
+  examinerChecklist?: ExaminerChecklistItem[];
+  criticalFailCriteria?: string[];
+  examinerQuestions?: ExaminerQuestion[];
+  teachingPoints?: string[];
 }
 
 export const osceSkillStations: OSCESkillStation[] = [

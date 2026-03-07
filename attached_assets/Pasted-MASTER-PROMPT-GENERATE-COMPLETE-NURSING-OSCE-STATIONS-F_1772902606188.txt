@@ -1,0 +1,241 @@
+MASTER PROMPT — GENERATE COMPLETE NURSING OSCE STATIONS FOR NURSENEST
+
+You are an expert nursing educator, clinical examiner, and OSCE developer designing high-fidelity Objective Structured Clinical Examination (OSCE) stations for nursing students and nurses preparing for REx-PN, NCLEX-RN, NCLEX-PN, and advanced clinical competency exams.
+
+Your task is to generate COMPLETE OSCE STATIONS that simulate real clinical exam environments used in nursing schools and licensing exams.
+
+Each OSCE station must be structured exactly as follows and must be clinically accurate, realistic, and evidence-based.
+
+STATION FORMAT STRUCTURE
+
+1. Station Title
+
+Example: Acute Respiratory Distress Assessment
+
+2. Exam Level
+
+Specify:
+• RPN / LPN
+• RN
+• NP (advanced)
+
+3. Time Limit
+
+Example:
+8 minutes clinical interaction
+2 minutes post-station questions
+
+4. Scenario Overview
+
+Provide a short scenario describing the patient situation. Include:
+• age
+• presenting complaint
+• setting (ER, ward, clinic, home care)
+• relevant history
+
+Example:
+A 65-year-old male presents with increasing shortness of breath and cough over 2 days. You are the nurse assigned to assess him in the emergency department.
+
+5. Candidate Instructions
+
+Clear instructions for the student.
+
+Example:
+You are the nurse responsible for assessing this patient. Perform an appropriate focused assessment, identify urgent concerns, and communicate your findings to the examiner.
+
+6. Patient Actor Script
+
+Provide instructions for the standardized patient including:
+• symptoms
+• emotional tone
+• responses to questions
+• vital signs
+• physical findings
+
+Example:
+Patient appears anxious and breathless. Speaks in short sentences.
+
+7. Available Equipment
+
+List all equipment available in the station such as:
+• stethoscope
+• BP cuff
+• pulse oximeter
+• oxygen mask
+• IV pump
+• medication chart
+• dressing supplies
+
+8. Expected Student Actions
+
+Provide step-by-step actions students should perform.
+
+Include:
+
+Introduction
+Hand hygiene
+Patient identification
+Focused assessment
+Clinical reasoning
+Interventions
+Communication
+
+9. Examiner Marking Checklist
+
+Create a detailed scoring checklist with marks.
+
+Example:
+
+Introduces self and confirms patient identity (1)
+Performs hand hygiene (1)
+Assesses airway (1)
+Assesses respiratory rate (1)
+Auscultates lungs (2)
+Recognizes respiratory distress (2)
+Initiates oxygen therapy (2)
+Escalates care appropriately (2)
+
+Total score: 20
+
+10. Critical Fail Criteria
+
+Identify actions that cause automatic station failure.
+
+Examples:
+• ignores airway compromise
+• administers incorrect medication
+• breaks sterile technique
+• fails to identify patient
+
+11. Examiner Questions
+
+Include 3–5 post-station questions testing clinical reasoning.
+
+Example:
+What are the likely causes of this patient’s symptoms?
+
+12. Teaching Points
+
+Provide explanations for correct actions and key clinical learning.
+
+13. Visual Infographic Suggestions
+
+Provide ideas for diagrams that could accompany the OSCE.
+
+Examples:
+• respiratory assessment diagram
+• ABCDE assessment flowchart
+• oxygen delivery device comparison
+
+END FORMAT
+
+Now generate OSCE stations for ALL of the following skills and scenarios.
+
+CORE OSCE STATIONS
+
+Primary Survey (ABCDE)
+Full Head-to-Toe Assessment
+Focused Respiratory Assessment
+Cardiovascular Assessment
+Neurological Assessment
+Abdominal Assessment
+Pain Assessment
+Vital Signs and Interpretation
+Oxygen Therapy Initiation
+Medication Administration Safety
+
+PROCEDURAL SKILLS
+
+IV insertion
+IV pump programming
+IV site complication assessment
+Subcutaneous injection
+Intramuscular injection
+Blood glucose monitoring
+Urinary catheter insertion
+Wound dressing change
+Sterile field setup
+Nasogastric tube insertion
+Tracheostomy suctioning
+Enteral feeding administration
+
+ACUTE CARE SCENARIOS
+
+Respiratory distress
+Acute asthma attack
+Pulmonary embolism
+Pneumonia assessment
+Sepsis recognition
+Hypovolemic shock
+Cardiac chest pain
+Myocardial infarction recognition
+Stroke recognition
+Anaphylaxis
+Post-operative hemorrhage
+
+MATERNAL & NEWBORN
+
+Postpartum hemorrhage
+Newborn assessment
+Breastfeeding assessment
+Pre-eclampsia recognition
+Labour triage assessment
+
+PEDIATRIC
+
+Croup assessment
+Bronchiolitis
+Pediatric fever
+Dehydration assessment
+Pediatric asthma
+
+MENTAL HEALTH
+
+Suicide risk assessment
+Panic attack management
+Delirium assessment
+Dementia communication
+
+COMMUNICATION STATIONS
+
+Breaking bad news
+Discharge teaching
+Medication teaching
+Informed consent discussion
+Family communication during deterioration
+
+GERIATRIC CARE
+
+Fall risk assessment
+Delirium vs dementia assessment
+Polypharmacy review
+
+COMMUNITY HEALTH
+
+Home safety assessment
+Chronic disease management
+Vaccination counseling
+
+ADVANCED CRITICAL CARE
+
+Septic shock management
+Rapid deterioration recognition
+Cardiac arrest initial response
+Massive transfusion protocol
+
+For each station generate:
+
+• realistic clinical scenario
+• examiner rubric
+• student instructions
+• standardized patient script
+• clinical reasoning questions
+
+Ensure:
+
+• evidence-based medicine
+• alignment with REx-PN and NCLEX clinical judgment models
+• emphasis on patient safety
+• inclusion of communication skills
+
+Produce at least 30–50 OSCE stations.
