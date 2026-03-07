@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, lazy, Suspense } from "react";
 import { getExamConstants, type Region as ConstRegion } from "@shared/constants";
 import { Navigation } from "@/components/navigation";
 import { SEO } from "@/components/seo";
@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { useLocation } from "wouter";
 import { useI18n } from "@/lib/i18n";
+import { LazySection } from "@/components/lazy-section";
 import {
   Accordion,
   AccordionContent,
@@ -178,16 +179,19 @@ export default function Home() {
       <main className="flex-grow">
         {/* Hero Section */}
         <section className="relative overflow-hidden py-20 lg:py-28" data-testid="hero-section">
-          <div className="absolute top-0 left-0 w-full h-full overflow-hidden -z-10 pointer-events-none">
+          <div className="absolute top-0 left-0 w-full h-full overflow-hidden -z-10 pointer-events-none hidden md:block">
             <div className="absolute top-[-10%] right-[-5%] w-[500px] h-[500px] rounded-full bg-primary/10 blur-3xl" />
             <div className="absolute bottom-[10%] left-[-10%] w-[600px] h-[600px] rounded-full bg-secondary/30 blur-3xl" />
             <div className="absolute top-[40%] left-[50%] transform -translate-x-1/2 w-[800px] h-[800px] rounded-full bg-accent-foreground/10 blur-3xl" />
           </div>
+          <div className="absolute top-0 left-0 w-full h-full overflow-hidden -z-10 pointer-events-none md:hidden">
+            <div className="absolute top-[20%] left-[30%] w-[300px] h-[300px] rounded-full bg-primary/8 blur-2xl" />
+          </div>
 
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center max-w-4xl mx-auto space-y-8 animate-in fade-in slide-in-from-bottom-8 duration-700">
+            <div className="text-center max-w-4xl mx-auto space-y-8 md:animate-in md:fade-in md:slide-in-from-bottom-8 md:duration-700">
               <div className="inline-flex items-center gap-2 px-3 sm:px-4 py-2 rounded-full bg-white border border-primary/20 shadow-sm mb-2 max-w-[90vw]">
-                <span className="flex h-2 w-2 rounded-full bg-emerald-500 animate-pulse shrink-0"></span>
+                <span className="flex h-2 w-2 rounded-full bg-emerald-500 md:animate-pulse shrink-0"></span>
                 <span className="text-xs sm:text-sm font-medium text-gray-600 truncate">{t("home.new.announcement")}</span>
               </div>
               
@@ -576,6 +580,7 @@ export default function Home() {
         </section>
 
         {/* Personalized Study Tools Section */}
+        <LazySection minHeight="600px" rootMargin="300px">
         <section className="py-16 bg-gradient-to-b from-primary/5 via-violet-50/30 to-white border-t border-primary/10" data-testid="section-study-tools">
           <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-10">
@@ -1213,8 +1218,10 @@ export default function Home() {
             </div>
           </div>
         </section>
+        </LazySection>
 
         {/* What You Can Study Section */}
+        <LazySection minHeight="800px" rootMargin="200px">
         <section className="py-24 bg-white/50 backdrop-blur-sm relative z-10" data-testid="section-study-topics">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center max-w-3xl mx-auto mb-6">
@@ -1841,6 +1848,7 @@ export default function Home() {
           
           <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-r from-primary/5 to-accent-foreground/5 rounded-full blur-3xl -z-10 opacity-40" />
         </section>
+        </LazySection>
       </main>
 
       {isAdmin && heroStats?.breakdown && (

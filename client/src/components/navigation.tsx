@@ -318,7 +318,7 @@ export function Navigation() {
   const MobileNav = () => (
     <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
       <SheetTrigger asChild>
-        <Button variant="ghost" size="icon" className="md:hidden text-softgray h-8 w-8 -ml-1">
+        <Button variant="ghost" size="icon" className="md:hidden text-softgray h-8 w-8 -ml-1" aria-label="Open menu">
           <Menu className="w-5 h-5" />
         </Button>
       </SheetTrigger>
@@ -328,7 +328,7 @@ export function Navigation() {
             <SheetTitle className="text-left flex items-center justify-between">
               <ThemedLogo width={160} />
               <SheetClose asChild>
-                <Button variant="ghost" size="icon" className="h-8 w-8">
+                <Button variant="ghost" size="icon" className="h-8 w-8" aria-label="Close menu">
                   <X className="w-4 h-4" />
                 </Button>
               </SheetClose>

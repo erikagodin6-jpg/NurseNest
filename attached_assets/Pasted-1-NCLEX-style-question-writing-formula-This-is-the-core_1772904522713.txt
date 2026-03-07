@@ -1,0 +1,364 @@
+1. NCLEX-style question-writing formula
+This is the core structure exam-style nursing questions follow. If NurseNest uses this consistently, your bank will feel far more professional.
+Formula
+Patient context + relevant cues + distractor cues + priority ask + plausible options + rationale-rich feedback
+Step-by-step build
+A. Start with a realistic patient frame
+Include:
+age
+setting
+major history
+current problem
+Example:
+A 67-year-old client arrives to the emergency department with worsening shortness of breath and bilateral leg swelling. The client has a history of heart failure and hypertension.
+B. Add 3 to 6 meaningful cues
+These cues should help solve the question.
+Examples:
+BP 168/94
+HR 112
+SpO2 89%
+crackles at lung bases
+2+ pitting edema
+weight gain of 2.5 kg in 3 days
+C. Add 1 to 2 distractor cues
+These make the question harder without making it unfair.
+Examples:
+mild anxiety
+decreased appetite
+poor sleep
+old diagnosis that is not the main issue
+D. Ask a priority-based question
+Best stems:
+Which action should the nurse take first?
+Which finding requires immediate follow-up?
+Which prescription should the nurse question?
+Which client should the nurse assess first?
+Which response by the client indicates understanding?
+E. Build answer options with one clear best answer
+Wrong answers should be tempting because they are:
+partially true
+appropriate but not priority
+correct for the wrong condition
+correct later, but not now
+F. Tie the answer to a decision framework
+Most strong questions are solved by:
+ABCs
+acute vs chronic
+stable vs unstable
+safety vs comfort
+least restrictive / least invasive
+nursing process: assess before implement
+G. Teach through the rationale
+The rationale is where the learning happens.
+2. The exact question-writing template
+Use this for every question your AI generates.
+QUESTION WRITING TEMPLATE
+
+1. Exam Level
+RPN / RN / NP
+
+2. Topic
+Example: Heart Failure
+
+3. System
+Example: Cardiovascular
+
+4. Difficulty
+Easy / Moderate / Hard / Very Hard
+
+5. Question Type
+Single Best Answer / SATA / Priority / Next Best Action / NGN
+
+6. Clinical Scenario
+Write a realistic clinical vignette with:
+- age
+- sex/gender if relevant
+- setting
+- history
+- current symptoms
+- vitals
+- labs if appropriate
+- 1 to 2 distractor cues
+
+7. Question Stem
+Ask a clinical judgment question, not a trivia question.
+
+8. Answer Options
+Provide 4 options for standard MCQ, 5 to 6 if needed.
+Only one must be clearly best unless SATA.
+
+9. Correct Answer
+State the correct option.
+
+10. Correct Answer Rationale
+Explain:
+- why it is correct
+- what cue(s) make it correct
+- what framework solves it
+
+11. Incorrect Answer Rationales
+For each wrong option explain:
+- why it is tempting
+- why it is wrong
+- when it might be appropriate in another scenario
+
+12. Clinical Pearl
+Give one high-yield takeaway.
+
+13. Exam Strategy Tip
+Explain how to approach similar questions.
+
+14. Flashcard Summary
+One-sentence memory hook.
+
+15. Tags
+Topic, system, difficulty, framework, trap, exam level
+3. How UWorld-style explanations are structured
+This is the part that makes a premium qbank feel premium.
+Ideal explanation order
+A. Start with the correct answer
+Very clear. No fluff.
+Example:
+Correct answer: Administer IV furosemide.
+B. Explain the core reason
+One short paragraph:
+what the scenario is really showing
+why this answer is priority
+what the nurse should recognize
+Example:
+This client is showing acute fluid overload related to heart failure, as evidenced by crackles, hypoxemia, edema, and recent weight gain. IV furosemide is the priority because it rapidly reduces excess fluid and improves pulmonary congestion.
+C. Explain the clinical pattern
+Teach the pattern students should recognize again later.
+Example:
+Dyspnea + crackles + edema + weight gain = fluid overload until proven otherwise.
+D. Explain why each wrong answer is wrong
+This is critical. Every distractor should teach something.
+Good wrong-answer rationales do one of these:
+correct idea, wrong priority
+appropriate later, not first
+inappropriate because unsafe
+based on a common misconception
+E. Add an exam strategy note
+Example:
+In priority questions, choose the intervention that addresses airway or breathing compromise before comfort measures.
+F. Add a clinical pearl
+Example:
+Clients with acute heart failure often present with rapid weight gain and pulmonary crackles before severe peripheral symptoms develop.
+4. UWorld-style rationale formula you should use in NurseNest
+Use this exact sequence:
+CORRECT ANSWER
+State the correct answer clearly.
+
+WHY IT IS CORRECT
+Explain the disease process, the clinical cues, and the priority action.
+
+WHY THE OTHER OPTIONS ARE WRONG
+Explain each one separately.
+For each distractor include:
+- why a student might pick it
+- why it is not best here
+- when it could be right in another setting
+
+CLINICAL PEARL
+One exam-relevant takeaway.
+
+TEST-TAKING STRATEGY
+State the framework used:
+ABCs, acute vs chronic, stable vs unstable, assess before implement, safety first.
+
+MEMORY HOOK
+One short recall phrase.
+5. The 12 UI tricks that keep students studying longer
+These are the highest-value UX patterns for qbanks.
+1. One-screen flow
+Do not move students to another page after they answer.
+Keep:
+question
+answers
+rationale
+next question
+on one screen.
+2. Instant feedback
+The moment they submit:
+selected answer shows
+correct answer highlights
+rationale appears
+3. Progress bar
+Always show progress:
+Question 12 of 50
+68% complete
+This keeps momentum high.
+4. Confidence rating
+After each question ask:
+Not confident
+Somewhat confident
+Very confident
+This is huge for analytics and false-confidence detection.
+5. Difficulty label only after answering
+Do not show difficulty before the question.
+Show it after submission as part of feedback.
+6. “Why this was wrong” section
+Separate this from the main rationale.
+Students love targeted correction.
+7. Streaks and momentum
+Show:
+6 correct in a row
+12 questions completed today
+Not childish. Just subtle.
+8. Weak-area surfacing
+After 5 to 10 questions, suggest:
+You are struggling with acid-base balance
+Review hyperkalemia next
+9. Save to review / save as flashcard
+Every question should allow:
+bookmark
+mark incorrect for later
+save pearl to flashcards
+10. Review mode after quiz
+After a session, let them review by:
+all incorrect only
+all marked questions
+hardest questions
+weakest topic
+11. Minimal friction between questions
+Make “Next question” immediate.
+No unnecessary popups.
+12. Explanation layering
+Do not dump a giant wall of text.
+Use:
+short answer summary
+expandable deeper explanation
+pearl
+strategy tip
+This keeps students from feeling overwhelmed.
+6. Best UI layout for NurseNest qbank
+Use this structure:
+Top bar
+quiz mode
+progress
+timer optional
+bookmark button
+Main card
+topic tag
+question stem
+scenario
+labs/vitals nicely boxed
+answer options
+After submit
+Show in this order:
+Correct answer
+Why it is correct
+Why each other option is wrong
+Clinical pearl
+Exam strategy
+Confidence check
+Next question
+Right sidebar or collapsible panel
+notes
+saved flashcards
+calculator
+lab values
+test-taking tips
+On mobile, this becomes bottom sheets or accordions.
+7. Prompt to generate NCLEX-style questions with UWorld-style explanations
+You are an elite nursing exam writer creating premium licensing-style questions for REx-PN, NCLEX-RN, NCLEX-PN, and NP exams.
+
+Your task is to generate exam questions that feel like a top-tier commercial qbank.
+
+Requirements:
+
+- Use realistic patient scenarios
+- Test clinical judgment, prioritization, safety, and pathophysiology
+- Avoid trivia and pure memorization
+- Use one clear best answer unless question type is SATA or NGN
+- Make distractors plausible and based on common learner mistakes
+
+For each question output the following fields:
+
+1. exam_level
+2. topic
+3. system
+4. difficulty
+5. question_type
+6. framework_used
+7. clinical_trap
+8. scenario
+9. question_stem
+10. answer_options
+11. correct_answer
+12. why_correct
+13. why_option_a_is_wrong
+14. why_option_b_is_wrong
+15. why_option_c_is_wrong
+16. why_option_d_is_wrong
+17. clinical_pearl
+18. exam_strategy_tip
+19. memory_hook
+20. related_concepts
+
+Question-writing rules:
+- Include age, setting, symptoms, relevant history, and meaningful cues
+- Include distractor cues without making the question unfair
+- Make the question solvable using frameworks like ABCs, acute vs chronic, stable vs unstable, assess before implement, or safety first
+- Make rationales teach the learner how to think
+- Explain not only why the correct answer is right, but why each incorrect option is tempting and when it might be appropriate in another scenario
+
+Generate 25 questions in one batch.
+Distribute across:
+- cardiovascular
+- respiratory
+- endocrine
+- neuro
+- GI
+- renal
+- infectious disease
+- pharmacology
+- peds
+- maternity
+- mental health
+- critical care
+8. Prompt to generate the UI and product logic for this system
+Build a premium nursing qbank interface for NurseNest inspired by the best features of commercial exam-prep platforms, but with original branding and UI.
+
+Requirements:
+- Single-question view
+- One-screen answer and rationale flow
+- Progress bar
+- Bookmark button
+- Confidence rating after answer
+- Save to flashcards
+- Review incorrect only mode
+- Weak-area recommendations
+- Clean mobile-first responsive layout
+- Fast transitions between questions
+- Support for standard MCQ, SATA, priority, next-best-action, and NGN-style items
+
+After a student submits an answer, show:
+1. Correct answer
+2. Why it is correct
+3. Why each other option is wrong
+4. Clinical pearl
+5. Exam strategy
+6. Confidence selector
+7. Next question button
+
+Also build:
+- quiz results screen
+- weak area analytics
+- bookmarked questions page
+- review incorrect questions mode
+- flashcard extraction from pearls
+- adaptive difficulty hooks for future CAT mode
+
+Style requirements:
+- premium, calm, modern clinical design
+- polished but not childish
+- clean spacing
+- soft pastel NurseNest branding
+- highly readable on mobile
+9. The most important principle
+The real product is not:
+question → answer
+It is:
+question → mistake analysis → concept repair → repeated exposure
+That is what makes students stay.

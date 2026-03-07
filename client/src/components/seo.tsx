@@ -54,7 +54,13 @@ export function SEO({ title, description, keywords, canonicalPath, ogType = "web
       const { locale: currentLocale, pathWithoutLocale } = getLocaleFromPath(canonicalPath);
       const basePath = pathWithoutLocale === "/" ? "" : pathWithoutLocale;
 
-      const canonicalUrl = basePath ? `${SITE_DOMAIN}${basePath}` : `${SITE_DOMAIN}/`;
+      const currentPath = window.location.pathname;
+      const { locale: activeLocale } = getLocaleFromPath(currentPath);
+      const localePrefix = activeLocale && activeLocale !== "en" ? `/${activeLocale}` : "/en";
+      const canonicalUrl = basePath
+        ? `${SITE_DOMAIN}${localePrefix}${basePath}`
+        : `${SITE_DOMAIN}${localePrefix}`;
+
       setMeta("og:url", canonicalUrl, true);
       let link = document.querySelector('link[rel="canonical"]') as HTMLLinkElement;
       if (!link) {
