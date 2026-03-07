@@ -111,16 +111,15 @@ The application is built with Vite, React, and Express 5 on Node.js with TypeScr
 - **Exam chrome color**: CSS variable `--exam-chrome-color: #C7B8FF` in `:root` for top/bottom exam bars
 
 ## Lesson Content Status
-- **Total lessons**: 1,422+ across all tiers (3,374 questions)
-- **RPN (569 lessons)**: 100% complete - all fields populated with scope-appropriate content
-- **RN (458 lessons)**: 100% complete - all fields populated with scope-appropriate content  
-- **NP (236 lessons)**: 100% complete - all cellular placeholders replaced with NP-level pathophysiology content
+- **Total lessons**: 1,459+ across all tiers (3,463 questions)
+- **RPN (471 lessons)**: 100% complete - all fields populated with scope-appropriate content
+- **RN (171 lessons)**: 100% complete - all fields populated with scope-appropriate content  
+- **NP (248 lessons)**: 100% complete - all cellular placeholders replaced with NP-level pathophysiology content
 - **Free tier (569 lessons)**: Complete
-- **Batch 107**: Critical Care & Emergency (13 lessons)
-- **Batch 108**: Pharmacology Classes (15 lessons)
-- **Batch 109**: Renal/Neuro/Respiratory (13 lessons)
-- **Batch 110**: Maternal/Pediatric/Mental Health (18 lessons)
-- **Batch 111**: Infection Control/Algorithms/Overviews (26 lessons)
+- **Clinical Conditions Batch A**: Cardiovascular/Surgical (13 lessons: heart-failure, AAA, MI, cholecystitis, appendicitis, bowel-obstruction)
+- **Clinical Conditions Batch B**: Pediatric/Hematology (12 lessons: febrile-seizures, iron-deficiency-anemia, sickle-cell-crisis, pediatric-dehydration)
+- **Clinical Conditions Batch C**: Endocrine/Infection (12 lessons: dka-management, thyroid-storm, sepsis-management, antibiotic-stewardship)
+- **Batch 107-111**: Critical Care, Pharmacology, Renal/Neuro/Resp, Maternal/Peds/MH, Infection Control
 - Content files: 120+ TypeScript files in `client/src/data/lessons/`
 - NP lessons with JSON-quoted keys (np-clinical-units.ts, respiratory-missing-np.ts) use `"title"` format vs unquoted `title:` in batch files
 

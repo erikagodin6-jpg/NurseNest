@@ -1945,7 +1945,8 @@ export const npSystems = [
       { id: "diabetes-technology-np", name: "Diabetes Technology: CGM, Insulin Pumps & Closed-Loop Systems", status: "Available" },
       { id: "gestational-diabetes-screening-np", name: "Gestational Diabetes Screening: OGTT & Management Protocol", status: "Available" },
       { id: "thyroid-cancer-surveillance-np", name: "Thyroid Cancer Surveillance: Thyroglobulin & Imaging Follow-Up", status: "Available" },
-      { id: "stress-hpa-axis-np", name: "Stress Response: HPA Axis Dysregulation & Clinical Consequences", status: "Available" }
+      { id: "stress-hpa-axis-np", name: "Stress Response: HPA Axis Dysregulation & Clinical Consequences", status: "Available" },
+      { id: "dka-management-np", name: "DKA: Anion Gap, Insulin Protocol & Cerebral Edema", status: "Available" }
     ]
   },
   {
@@ -1993,7 +1994,9 @@ export const npSystems = [
       { id: "factor-v-leiden-np", name: "Factor V Leiden: Thrombophilia Screening & Management", status: "Available" },
       { id: "febrile-neutropenia-np", name: "Febrile Neutropenia: Risk Stratification & Empiric Coverage", status: "Available" },
       { id: "cml-management-np", name: "CML: BCR-ABL & Tyrosine Kinase Inhibitors", status: "Available" },
-      { id: "lymphoma-workup-np", name: "Lymphoma Workup: Hodgkin vs Non-Hodgkin & Ann Arbor Staging", status: "Available" }
+      { id: "lymphoma-workup-np", name: "Lymphoma Workup: Hodgkin vs Non-Hodgkin & Ann Arbor Staging", status: "Available" },
+      { id: "iron-deficiency-anemia-np", name: "Iron Deficiency Anemia: Differential Diagnosis & Prescribing", status: "Available" },
+      { id: "sickle-cell-crisis-np", name: "Sickle Cell Crisis: Disease-Modifying Therapies & Gene Therapy", status: "Available" }
     ]
   },
   {
@@ -2284,7 +2287,9 @@ export const npSystems = [
       { id: "ie-prophylaxis-np", name: "Infective Endocarditis Prophylaxis: AHA Guidelines & High-Risk", status: "Available" },
       { id: "travel-medicine-np", name: "Travel Medicine: Prophylaxis, Malaria & Traveler's Diarrhea", status: "Available" },
       { id: "opportunistic-infections-hiv-np", name: "Opportunistic Infections in HIV: CD4 Thresholds & Prophylaxis", status: "Available" },
-      { id: "mrsa-decolonization-np", name: "MRSA Decolonization: Mupirocin & CHG Protocols", status: "Available" }
+      { id: "mrsa-decolonization-np", name: "MRSA Decolonization: Mupirocin & CHG Protocols", status: "Available" },
+      { id: "sepsis-management-np", name: "Sepsis: SOFA Scoring, Source Control & Vasopressor Selection", status: "Available" },
+      { id: "antibiotic-stewardship-np", name: "Antibiotic Stewardship: PK/PD Optimization & Resistance", status: "Available" }
     ]
   },
   {
@@ -3321,7 +3326,9 @@ export const npSystems = [
       { id: "pediatric-obesity-management-np", name: "Pediatric Obesity Management: BMI Percentiles & Lifestyle", status: "Available" },
       { id: "febrile-infant-algorithm-np", name: "Febrile Infant Algorithm: Rochester & Step-by-Step Criteria", status: "Available" },
       { id: "neonatal-jaundice-workup-np", name: "Neonatal Jaundice Workup: Bhutani Nomogram & Phototherapy", status: "Available" },
-      { id: "pediatric-asthma-management-np", name: "Pediatric Asthma Management: NAEPP Step Therapy", status: "Available" }
+      { id: "pediatric-asthma-management-np", name: "Pediatric Asthma Management: NAEPP Step Therapy", status: "Available" },
+      { id: "febrile-seizures-np", name: "Febrile Seizures: Workup, Prophylaxis & Differential", status: "Available" },
+      { id: "pediatric-dehydration-np", name: "Pediatric Dehydration: Dysnatremia Correction & IV Protocol", status: "Available" }
     ]
   },
   {
