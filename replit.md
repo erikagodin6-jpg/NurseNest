@@ -57,4 +57,7 @@ The application is built with Vite, React, and Express 5 on Node.js with TypeScr
 - **Batch K**: GI, hepatic & renal - pancreatitis, cirrhosis, CKD, tonsillectomy (12 lessons)
 - **Batch L**: Neurological - Alzheimer, Guillain-Barre, myasthenia gravis, newborn of diabetic mother (12 lessons)
 - **Batch M**: Musculoskeletal & oncology - gout, osteoporosis, compartment syndrome, rheumatoid arthritis (12 lessons)
-- **Tier counts**: free=569 rpn=509 rn=211 np=288 total=1,577 questions=3,810
+- **Batch N**: Vestibular & balance disorders - BPPV, Meniere's disease, labyrinthitis, Ramsay-Hunt syndrome (12 lessons)
+- **Batch O**: ENT & upper airway - rhinosinusitis, pharyngitis/strep, otitis externa, papilledema (12 lessons)
+- **Batch P**: Stress physiology & men's health advanced - HPA axis/cortisol, male infertility, BPH/TURP advanced, hearing loss differential (12 lessons)
+- **Tier counts**: free=569 rpn=521 rn=223 np=300 total=1,613 questions=3,915

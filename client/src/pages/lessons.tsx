@@ -380,7 +380,9 @@ export const rpnSystems = [
       { id: "renal-artery-stenosis-rpn", name: "Renal Artery Stenosis", status: "Available" },
       { id: "obstructive-uropathy-rpn", name: "Obstructive Uropathy", status: "Available" },
       { id: "diabetic-nephropathy-rpn", name: "Diabetic Nephropathy", status: "Available" },
-      { id: "chronic-kidney-disease-rpn", name: "Chronic Kidney Disease", status: "Available" }
+      { id: "chronic-kidney-disease-rpn", name: "Chronic Kidney Disease", status: "Available" },
+      { id: "male-infertility-rpn", name: "Male Infertility", status: "Available" },
+      { id: "bph-turp-rpn", name: "BPH/TURP: Advanced Management", status: "Available" }
     ]
   },
   {
@@ -413,7 +415,8 @@ export const rpnSystems = [
       { id: "metabolic-syndrome-rpn", name: "Metabolic Syndrome", status: "Available" },
       { id: "pseudohypoparathyroidism-rpn", name: "Pseudohypoparathyroidism", status: "Available" },
       { id: "dka-management-rpn", name: "DKA: Recognition & Monitoring", status: "Available" },
-      { id: "thyroid-storm-rpn", name: "Thyroid Storm: Emergency Recognition", status: "Available" }
+      { id: "thyroid-storm-rpn", name: "Thyroid Storm: Emergency Recognition", status: "Available" },
+      { id: "hpa-axis-stress-rpn", name: "HPA Axis & Cortisol Stress Response", status: "Available" }
     ]
   },
   {
@@ -511,7 +514,16 @@ export const rpnSystems = [
       { id: "erysipelas-rpn", name: "Erysipelas", status: "Available" },
       { id: "cellulitis-standalone-rpn", name: "Cellulitis", status: "Available" },
       { id: "hidradenitis-suppurativa-rpn", name: "Hidradenitis Suppurativa", status: "Available" },
-      { id: "bullous-pemphigoid-rpn", name: "Bullous Pemphigoid", status: "Available" }
+      { id: "bullous-pemphigoid-rpn", name: "Bullous Pemphigoid", status: "Available" },
+      { id: "bppv-management-rpn", name: "BPPV: Benign Paroxysmal Positional Vertigo", status: "Available" },
+      { id: "menieres-disease-rpn", name: "Meniere's Disease", status: "Available" },
+      { id: "labyrinthitis-rpn", name: "Labyrinthitis & Vestibular Neuritis", status: "Available" },
+      { id: "ramsay-hunt-rpn", name: "Ramsay-Hunt Syndrome", status: "Available" },
+      { id: "rhinosinusitis-rpn", name: "Rhinosinusitis", status: "Available" },
+      { id: "pharyngitis-management-rpn", name: "Pharyngitis & Strep Throat", status: "Available" },
+      { id: "otitis-externa-rpn", name: "Otitis Externa", status: "Available" },
+      { id: "papilledema-rpn", name: "Papilledema", status: "Available" },
+      { id: "hearing-loss-differential-rpn", name: "Hearing Loss: Conductive vs Sensorineural", status: "Available" }
     ]
   },
   {
@@ -1366,7 +1378,9 @@ export const rnSystems = [
       { id: "fanconi-syndrome-rn", name: "Fanconi Syndrome", status: "Available" },
       { id: "bartter-syndrome-rn", name: "Bartter Syndrome", status: "Available" },
       { id: "gitelman-syndrome-rn", name: "Gitelman Syndrome", status: "Available" },
-      { id: "chronic-kidney-disease-rn", name: "Chronic Kidney Disease", status: "Available" }
+      { id: "chronic-kidney-disease-rn", name: "Chronic Kidney Disease", status: "Available" },
+      { id: "male-infertility-rn", name: "Male Infertility: Assessment & Diagnostics", status: "Available" },
+      { id: "bph-turp-rn", name: "BPH/TURP: Pre/Post-Op Assessment", status: "Available" }
     ]
   },
   {
@@ -1384,7 +1398,8 @@ export const rnSystems = [
       { id: "dm-type1", name: "Diabetes Mellitus Type 1", status: "Available" },
       { id: "dm-type2", name: "Diabetes Mellitus Type 2", status: "Available" },
       { id: "dka-management-rn", name: "DKA: Protocol-Based Assessment & Titration", status: "Available" },
-      { id: "thyroid-storm-rn", name: "Thyroid Storm: Assessment & Emergency Protocol", status: "Available" }
+      { id: "thyroid-storm-rn", name: "Thyroid Storm: Assessment & Emergency Protocol", status: "Available" },
+      { id: "hpa-axis-stress-rn", name: "HPA Axis & Stress Response: Assessment", status: "Available" }
     ]
   },
   {
@@ -1887,6 +1902,24 @@ export const rnSystems = [
       { id: "pemphigus-vulgaris-rn", name: "Pemphigus Vulgaris", status: "Available" },
       { id: "necrotizing-soft-tissue-infection-rn", name: "Necrotizing Soft Tissue Infection", status: "Available" }
     ]
+  },
+  {
+    id: "heent-rn",
+    title: "HEENT & ENT",
+    icon: Eye,
+    color: "text-emerald-600",
+    bgColor: "bg-emerald-50",
+    diseases: [
+      { id: "bppv-management-rn", name: "BPPV: Clinical Assessment & Dix-Hallpike", status: "Available" },
+      { id: "menieres-disease-rn", name: "Meniere's Disease: Assessment & Monitoring", status: "Available" },
+      { id: "labyrinthitis-rn", name: "Labyrinthitis & Vestibular Neuritis", status: "Available" },
+      { id: "ramsay-hunt-rn", name: "Ramsay-Hunt Syndrome", status: "Available" },
+      { id: "rhinosinusitis-rn", name: "Rhinosinusitis: Viral vs Bacterial Assessment", status: "Available" },
+      { id: "pharyngitis-management-rn", name: "Pharyngitis: Centor Criteria & Rapid Testing", status: "Available" },
+      { id: "otitis-externa-rn", name: "Otitis Externa: Assessment & Wick Placement", status: "Available" },
+      { id: "papilledema-rn", name: "Papilledema: Fundoscopic Findings & ICP", status: "Available" },
+      { id: "hearing-loss-differential-rn", name: "Hearing Loss: Weber & Rinne Testing", status: "Available" }
+    ]
   }
 ];
 
@@ -2044,7 +2077,8 @@ export const npSystems = [
       { id: "gestational-diabetes-screening-np", name: "Gestational Diabetes Screening: OGTT & Management Protocol", status: "Available" },
       { id: "thyroid-cancer-surveillance-np", name: "Thyroid Cancer Surveillance: Thyroglobulin & Imaging Follow-Up", status: "Available" },
       { id: "stress-hpa-axis-np", name: "Stress Response: HPA Axis Dysregulation & Clinical Consequences", status: "Available" },
-      { id: "dka-management-np", name: "DKA: Anion Gap, Insulin Protocol & Cerebral Edema", status: "Available" }
+      { id: "dka-management-np", name: "DKA: Anion Gap, Insulin Protocol & Cerebral Edema", status: "Available" },
+      { id: "hpa-axis-stress-np", name: "HPA Axis: Cortisol Dysregulation & Prescribing", status: "Available" }
     ]
   },
   {
@@ -2070,7 +2104,9 @@ export const npSystems = [
       { id: "nephrolithiasis-prevention-np", name: "Nephrolithiasis Prevention: 24-Hour Urine & Dietary Strategies", status: "Available" },
       { id: "polycystic-kidney-management-np", name: "Polycystic Kidney Disease: Tolvaptan & Monitoring", status: "Available" },
       { id: "tls-renal-injury-np", name: "Tumor Lysis Syndrome Renal Injury: Urate Nephropathy & Rasburicase", status: "Available" },
-      { id: "chronic-kidney-disease-np", name: "Chronic Kidney Disease", status: "Available" }
+      { id: "chronic-kidney-disease-np", name: "Chronic Kidney Disease", status: "Available" },
+      { id: "male-infertility-np", name: "Male Infertility: Workup & Treatment", status: "Available" },
+      { id: "bph-turp-np", name: "BPH/TURP: Pharmacology & Surgical Decision-Making", status: "Available" }
     ]
   },
   {
@@ -2267,6 +2303,24 @@ export const npSystems = [
       { id: "squamous-cell-carcinoma-np", name: "Squamous Cell Carcinoma: Staging & Mohs Referral", status: "Available" },
       { id: "dermatitis-herpetiformis-np", name: "Dermatitis Herpetiformis: Celiac Association & Dapsone", status: "Available" },
       { id: "integumentary-pathophysiology-np", name: "Integumentary Pathophysiology: Epidermal Barrier & Atopic Dermatitis", status: "Available" }
+    ]
+  },
+  {
+    id: "heent-np",
+    title: "HEENT & ENT",
+    icon: Eye,
+    color: "text-emerald-700",
+    bgColor: "bg-emerald-50",
+    diseases: [
+      { id: "bppv-management-np", name: "BPPV: Epley Maneuver & Differential Diagnosis", status: "Available" },
+      { id: "menieres-disease-np", name: "Meniere's Disease: Endolymphatic Hydrops & Prescribing", status: "Available" },
+      { id: "labyrinthitis-np", name: "Labyrinthitis: Vestibular vs Central Differential", status: "Available" },
+      { id: "ramsay-hunt-np", name: "Ramsay-Hunt Syndrome: VZV Reactivation & Antiviral Therapy", status: "Available" },
+      { id: "rhinosinusitis-np", name: "Rhinosinusitis: Antibiotic Stewardship & CT Criteria", status: "Available" },
+      { id: "pharyngitis-management-np", name: "Pharyngitis: GAS Testing & Antibiotic Prescribing", status: "Available" },
+      { id: "otitis-externa-np", name: "Otitis Externa: Malignant OE Differential & Prescribing", status: "Available" },
+      { id: "papilledema-np", name: "Papilledema: ICP Workup & Neuroimaging", status: "Available" },
+      { id: "hearing-loss-differential-np", name: "Hearing Loss: Audiometric Interpretation & Referral", status: "Available" }
     ]
   },
   {

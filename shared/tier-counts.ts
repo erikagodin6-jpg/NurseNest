@@ -1,9 +1,9 @@
 export const tierCounts = {
     free: 569,
-    rpn: 509,
-    rn: 211,
-    np: 288,
-    totalStatic: 1577,
-    questionCount: 3810,
-    computedAt: "2026-03-07T09:42:09.293Z",
+    rpn: 521,
+    rn: 223,
+    np: 300,
+    totalStatic: 1613,
+    questionCount: 3915,
+    computedAt: "2026-03-07T10:07:03.380Z",
   };
