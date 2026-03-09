@@ -1,7 +1,7 @@
 # NurseNest - Complete Nursing Learning Platform
 
 ## Overview
-NurseNest is an interactive and adaptive learning platform designed for nursing and allied health students across 17 career verticals (RPN/LVN, RN, NP, etc.). It provides comprehensive learning resources, exam preparation for NCLEX, REX-PN, and other allied health exams, performance analytics, and AI-powered content generation. The platform aims to enhance clinical reasoning, improve nursing knowledge, and critical thinking to ultimately improve patient care outcomes through a robust and region-aware learning environment.
+NurseNest is an adaptive learning platform for nursing and allied health students across 17 career verticals. It provides comprehensive learning resources, exam preparation (NCLEX, REX-PN, etc.), performance analytics, and AI-powered content generation. The platform aims to enhance clinical reasoning, nursing knowledge, and critical thinking to improve patient care outcomes through a robust and region-aware learning environment.
 
 ## User Preferences
 - Preferred communication style: Simple, everyday language.
@@ -20,7 +20,7 @@ NurseNest is an interactive and adaptive learning platform designed for nursing 
 The platform uses React with TypeScript, Wouter for routing, shadcn/ui with Radix UI, and Tailwind CSS v4, supporting 20 themes and DM Sans typography. Key UI components include `ContentGate`, `PauseAndThink`, `ProgressiveDisclosure`, `CuriosityHook`, and `KnowledgeCheck`. A digital product builder provides a Canva-style editor with drag-and-drop, AI image, and content generation. The design system features premium visuals, dual-tone top bars, and watermarked PDF previews.
 
 ### Technical Implementations
-The application is built with Vite, React, and Express 5 on Node.js with TypeScript. TanStack React Query manages server state via a RESTful API. Authentication uses username/password with session management. A subscription system supports regional pricing. Core features include interactive learning modules, a mock exam engine with stratified random sampling and Strict Exam Mode, and an admin dashboard for analytics and content management. AI integration includes OpenAI-powered blog automation, custom i18n for 15 languages, an Adaptive CAT Engine, Pass Probability Projection Engine, and Next Best Action Engine. Exam blueprints are database-driven. Content is organized by body system for various nursing levels, with pre/post-test questions. A 3-step onboarding process generates personalized study plans. Admin tools like QBank Factory and Product Generator V2 facilitate AI-driven content generation. Programmatic SEO practice question pages and an allied health architecture support 14 career verticals. NGN question types and a partial credit scoring engine are implemented. Lesson content is served via a server-side API for client-side optimization. SEO features include 301 redirects, sitemap generation, and related articles. Access control uses a tier system (free, rpn, rn, np, admin). The platform also includes a Spaced Repetition System with a `flashcard_reviews` schema, an Exam Calculator, Quick Study Sessions pulling from weak areas, and a Study Progress Momentum System tracking streaks, goals, confidence, and exam readiness. The Lesson Library features tier-adaptive heroes, featured topics, progress cards, and study time estimates. Clinical Case Studies provide multi-stage scenarios with decision points. Regional measurement adaptation dynamically converts content units based on user region (e.g., US vs. CA). A Tester Access System manages invite codes and gathers feedback.
+The application is built with Vite, React, and Express 5 on Node.js with TypeScript. TanStack React Query manages server state via a RESTful API. Authentication uses username/password with session management. A subscription system supports regional pricing. Core features include interactive learning modules, a mock exam engine with stratified random sampling and Strict Exam Mode, and an admin dashboard for analytics and content management. AI integration includes OpenAI-powered blog automation, custom i18n for 15 languages, an Adaptive CAT Engine, Pass Probability Projection Engine, and Next Best Action Engine. Exam blueprints are database-driven. Content is organized by body system for various nursing levels, with pre/post-test questions. A 3-step onboarding process generates personalized study plans. Admin tools like QBank Factory and Product Generator V2 facilitate AI-driven content generation. Programmatic SEO practice question pages and an allied health architecture support 14 career verticals. NGN question types and a partial credit scoring engine are implemented. Lesson content is served via a server-side API for client-side optimization. SEO features include 301 redirects, sitemap generation, and related articles. Access control uses a tier system (free, rpn, rn, np, admin). The platform also includes a Spaced Repetition System, an Exam Calculator, Quick Study Sessions pulling from weak areas, and a Study Progress Momentum System. The Lesson Library features tier-adaptive heroes, featured topics, progress cards, and study time estimates. Clinical Case Studies provide multi-stage scenarios with decision points. Regional measurement adaptation dynamically converts content units based on user region. A Tester Access System manages invite codes and gathers feedback.
 
 ## External Dependencies
 
@@ -44,85 +44,3 @@ The application is built with Vite, React, and Express 5 on Node.js with TypeScr
 
 ### Social Media
 - Meta Graph API: For social media scheduling.
-
-## Lesson Content Batches
-- **Batches A-C**: Foundation lessons (original), blood transfusion reactions
-- **Batch D**: Cardiac & vascular emergencies (12 lessons)
-- **Batch E**: Respiratory & procedural emergencies (12 lessons)
-- **Batch F**: Obstetric complications (12 lessons)
-- **Batch G**: Mental health & behavioral (12 lessons)
-- **Batch H**: Pharmacology clinical applications (12 lessons)
-- **Batch I**: Pediatric conditions & congenital disorders - trisomy 21, hypospadias, duchenne MD, VP shunt (12 lessons)
-- **Batch J**: STI & infectious disease - chlamydia, syphilis, bacterial meningitis, prostate cancer (12 lessons)
-- **Batch K**: GI, hepatic & renal - pancreatitis, cirrhosis, CKD, tonsillectomy (12 lessons)
-- **Batch L**: Neurological - Alzheimer, Guillain-Barre, myasthenia gravis, newborn of diabetic mother (12 lessons)
-- **Batch M**: Musculoskeletal & oncology - gout, osteoporosis, compartment syndrome, rheumatoid arthritis (12 lessons)
-- **Batch N**: Vestibular & balance disorders - BPPV, Meniere's disease, labyrinthitis, Ramsay-Hunt syndrome (12 lessons)
-- **Batch O**: ENT & upper airway - rhinosinusitis, pharyngitis/strep, otitis externa, papilledema (12 lessons)
-- **Batch P**: Stress physiology & men's health advanced - HPA axis/cortisol, male infertility, BPH/TURP advanced, hearing loss differential (12 lessons)
-- **Tier counts**: free=569 rpn=522 rn=224 np=301 total=1,616 questions=3,921 (includes 51 premium UWorld-style)
-
-## Premium Question Bank (UWorld-Style)
-- **Total premium questions**: 51 with full UWorld-style fields
-- **Schema fields**: scenario, clinical_pearl, exam_strategy, memory_hook, framework_used, clinical_trap, distractor_rationales (jsonb)
-- **Body systems covered**: Cardiovascular (7), Endocrine (6), Neurological (5), Respiratory (4), Mental Health (4), Gastrointestinal (3), Pediatrics (2), Obstetrics (2), Musculoskeletal, Renal, Hematologic, Immune/Respiratory, Nutrition/Mental Health, and more
-- **UI**: UWorld-style explanation display in `client/src/pages/question-bank.tsx` — shows correct answer highlight, rationale, distractor rationales per option, clinical pearl (violet card), exam strategy (blue card), memory hook (amber card), difficulty/framework metadata
-- **Generator**: `script/generate-premium-qbank.ts` — uses gpt-4o, generates 5 per API call
-- **API**: `/api/qbank/exam-set` returns all new fields; client types updated in `client/src/lib/qbank-api.ts`
-
-## Mobile Performance Optimizations
-- **LazySection**: `client/src/components/lazy-section.tsx` — IntersectionObserver wrapper, 2 groups below fold (study-tools→free-learning, study-topics→final-cta)
-- **Hero**: blur-3xl hidden on mobile (`hidden md:block`), simpler blur-2xl for mobile; animations restricted to `md:animate-in`
-- **Fonts**: DM Sans weights reduced to 400/500/600/700; Playfair Display/Lora split into separate deferred stylesheet
-- **Accessibility**: aria-labels on mobile menu icon buttons
-- **SEO**: Self-canonicalizing locale routes (e.g., /en → https://www.nursenest.ca/en)
-
-## OSCE Skills Practice
-- **Route**: `/osce-skills`
-- **Total**: 69 interactive skill stations with step-ordering exercises
-- **Categories (13)**: Core Skills (5), Assessment (6), Procedure (14), Drain & Tube Care (4), Hygiene (1), Acute Care (11), Maternal & Newborn (5), Pediatric (5), Mental Health (4), Communication (5), Geriatric Care (3), Community Health (3), Critical Care (4)
-- **Data files**: `osce-skills-data.ts` (9), `osce-skills-data-2.ts` (4), `osce-skills-data-3.ts` (11), `osce-skills-data-4.ts` (11), `osce-skills-data-5.ts` (10), `osce-skills-data-6.ts` (9), `osce-skills-data-7.ts` (15)
-- **Page**: `client/src/pages/osce-skills.tsx`
-- **Enriched fields**: examLevel, timeLimit, candidateInstructions, patientActorScript, examinerChecklist, criticalFailCriteria, examinerQuestions, teachingPoints
-- **Features**: Category filtering (13 tabs), step ordering exercise, pass/fail scoring (70% + all critical steps), review mode with rationales, examiner checklist, examiner questions, teaching points, critical fail criteria, standardized patient scripts
-
-## Clinical Case Simulations
-- **Base cases (7)**: sepsis-progression, chest-pain-mi, dka-management, postpartum-hemorrhage, pediatric-respiratory-emergency, anaphylaxis-management, stroke-thrombolytic
-- **Batch 2 (7)**: gi-bleed-management, copd-exacerbation, hyperkalemia-emergency, hip-fracture-elderly, acute-pancreatitis, pulmonary-embolism, meningitis-assessment
-- **Batch 3 (6)**: heart-failure-acute, burns-management, opioid-overdose, diabetic-foot-ulcer, preeclampsia-management, sickle-cell-crisis
-- **Batch 4 (6)**: pneumothorax-tension, thyroid-storm, spinal-cord-injury, pediatric-dehydration, blood-transfusion-reaction, acute-mi-stemi
-- **Batch 5 (6)**: addisonian-crisis, status-epilepticus, c-diff-colitis, chest-tube-management, psychiatric-emergency, neonatal-distress
-- **Total**: 32 clinical case simulations
-- Types extracted to `client/src/data/clinical-case-types.ts` to avoid circular imports
-
-## Medication Mastery
-- **Total**: 60 medications (8 original + 52 new across 4 batches)
-- **Batch A** (13): Cardiovascular & Respiratory — amlodipine, digoxin, amiodarone, nitroglycerin, dopamine, epinephrine, atropine, adenosine, clopidogrel, albuterol, ipratropium, fluticasone, montelukast
-- **Batch B** (13): Neurological & Psychiatric — phenytoin, levetiracetam, lorazepam, haloperidol, sertraline, lithium, naloxone, sumatriptan, donepezil, carbidopa-levodopa, gabapentin, quetiapine, diazepam
-- **Batch C** (13): Endocrine, GI, Anti-infective — metformin, glipizide, prednisone, hydrocortisone, omeprazole, ondansetron, metoclopramide, vancomycin, gentamicin, ciprofloxacin, metronidazole, fluconazole, acyclovir
-- **Batch D** (13): Renal, Pain, Blood, Maternity — spironolactone, hydrochlorothiazide, mannitol, enoxaparin, alteplase, acetaminophen, ibuprofen, ketorolac, fentanyl, hydromorphone, magnesium-sulfate, oxytocin, terbutaline
-- **Body systems**: Cardiovascular, Respiratory, Neurological, Endocrine, Renal, Hematology, Musculoskeletal, GI, Anti-infective, Maternity
-
-## ABG/Electrolyte Simulator
-- **Total**: 64 cases (33 electrolyte + 31 ABG)
-- **Original**: 8 electrolyte + 6 ABG = 14 cases inline in electrolyte-abg-simulator.tsx
-- **Electrolyte Batch 1** (13): hypophosphatemia, hyperphosphatemia, hypokalemia-diuretic, hypernatremia-diabetes-insipidus, hyponatremia-siadh, hypercalcemia-malignancy, hypocalcemia-parathyroidectomy, hypermagnesemia-renal, hypomagnesemia-alcoholism, metabolic-acidosis-ckd, hyperkalemia-crush-injury, hyponatremia-exercise, hypocalcemia-pancreatitis
-- **Electrolyte Batch 2** (12): hyperkalemia-ace-inhibitor, hypokalemia-vomiting, hypernatremia-tube-feeding, hyponatremia-heart-failure, hypercalcemia-thiazide, hypocalcemia-massive-transfusion, hyperchloremia, hypochloremia, hypokalemia-insulin-dka, tumor-lysis-syndrome, milk-alkali-syndrome, hypernatremia-lithium
-- **ABG Batch 1** (13): acute-asthma, pe-hyperventilation, salicylate-toxicity, renal-tubular-acidosis, methanol-ingestion, chronic-vomiting-abg, opioid-overdose-abg, ards-abg, liver-failure-abg, near-drowning, post-surgical-abg, high-altitude, vent-settings-abg
-- **ABG Batch 2** (12): ethylene-glycol, copd-acute-on-chronic, burns-inhalation, massive-transfusion-abg, guillain-barre-abg, diabetic-mixed, pyloric-stenosis, pneumonia-abg, cyanide-poisoning, addisons-crisis-abg, pregnancy-abg, malignant-hyperthermia
-- Data files: `client/src/data/electrolyte-cases-batch-{1,2}.ts`, `client/src/data/abg-cases-batch-{1,2}.ts`
-
-## Lesson Tier Differentiation
-- **RPN tab**: fundamentalsSystems + delegationSystems + clinicalScenariosSystems + medMathSystems + rpnNonPharm
-- **RN tab**: clinicalScenariosSystems + medMathSystems + rnNonPharm (no fundamentals/delegation)
-- **NP tab**: medMathSystems + npNonPharm (no fundamentals/delegation/clinical scenarios)
-- **Duplicate removal**: 38 lesson IDs that appeared in both rpnSystems and rnSystems were removed from rnSystems
-- **Fallback removed**: Tier-suffix content fallback in index.ts was removed to prevent placeholder content from showing base content
-
-## Lesson Access Gating (Implemented)
-- **Backend** (`server/lesson-content-api.ts`): `/api/lessons/meta`, `/api/lessons/content/:slug`, `/api/lessons/search` all filter by user tier using `getAllowedLessonTiers()`
-- **Backend** (`server/routes.ts`): `/api/content` endpoint adds tier filter when type=lesson
-- **Frontend tabs** (`lessons.tsx`): `showAllTabs` is admin-only; free/unauthenticated users see RPN/RN/NP preview tabs with upgrade banner; paid users see only their tier tab + pharmacology
-- **Frontend detail** (`lesson-detail.tsx`): `canAccessTier()` check blocks unauthorized access with locked paywall and upgrade CTA
-- **Frontend helpers** (`client/src/lib/access.ts`): `getAllowedLessonTiers()`, `filterContentByTier()` centralized access helpers
-- **Access rules**: free→["free","general"], rpn→["free","general","rpn"], rn→["free","general","rn"], np→["free","general","np"], admin→all

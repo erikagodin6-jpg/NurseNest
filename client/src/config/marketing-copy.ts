@@ -66,15 +66,85 @@ export interface TrackCardCopy {
   accentClass: string;
 }
 
+export interface TrackHowItWorksStep {
+  step: string;
+  title: string;
+  description: string;
+}
+
+export interface TrackOutcome {
+  before: string;
+  after: string;
+}
+
+export interface TrackComparisonPoint {
+  feature: string;
+  generic: string;
+  nursenest: string;
+}
+
+export interface TrackFeatureCard {
+  title: string;
+  description: string;
+  icon: string;
+}
+
+export interface TrackAnnouncementBar {
+  message: string;
+  ctaText: string;
+  ctaPath: string;
+}
+
+export interface TrackFinalCta {
+  headline: string;
+  description: string;
+  primaryCta: string;
+  primaryCtaPath: string;
+  secondaryCta: string;
+  secondaryCtaPath: string;
+  reassurance: string;
+}
+
+export interface TrackDashboardPreview {
+  headline: string;
+  description: string;
+  highlights: string[];
+}
+
+export interface TrackProblemSection {
+  headline: string;
+  description: string;
+  cards: TrackPainPoint[];
+}
+
+export interface TrackOutcomesSection {
+  headline: string;
+  description: string;
+  outcomes: TrackOutcome[];
+}
+
+export interface TrackTrustStrip {
+  items: string[];
+}
+
 export interface MarketingCopy {
   track: MarketingTrack;
   hero: TrackHeroCopy;
+  announcementBar?: TrackAnnouncementBar;
+  trustStrip?: TrackTrustStrip;
+  problemSection?: TrackProblemSection;
   painPoints: TrackPainPoint[];
   solution: {
     headline: string;
     description: string;
     features: TrackFeatureBullet[];
   };
+  featureCards?: TrackFeatureCard[];
+  howItWorks?: TrackHowItWorksStep[];
+  dashboardPreview?: TrackDashboardPreview;
+  outcomesSection?: TrackOutcomesSection;
+  comparison?: TrackComparisonPoint[];
+  finalCta?: TrackFinalCta;
   valueProp: TrackValueProp;
   testimonials: TrackTestimonial[];
   faq: TrackFaqItem[];
@@ -167,18 +237,41 @@ const generalCopy: MarketingCopy = {
 
 const rpnCopy: MarketingCopy = {
   track: "rpn",
+  announcementBar: {
+    message: "Practical nursing learners are passing with focused, scope-specific prep",
+    ctaText: "Start Free Practice",
+    ctaPath: "/free-practice",
+  },
+  trustStrip: {
+    items: [
+      "500+ RPN-scope questions",
+      "15+ body systems covered",
+      "Built for Canadian REx-PN prep",
+      "Used by practical nursing students across Canada",
+    ],
+  },
   hero: {
     headline: "Practical nursing exam prep built for clarity and confidence",
     subheadline: "Focused support for practical nursing learners who want clear, high-yield review without feeling overwhelmed. Realistic RPN-style practice designed for predictable care, escalation, and exam readiness.",
-    primaryCta: "Start RPN Prep",
-    primaryCtaPath: "/pricing/rpn",
-    secondaryCta: "Try Free RPN Questions",
-    secondaryCtaPath: "/free-practice",
+    primaryCta: "Start RPN Practice",
+    primaryCtaPath: "/pricing?track=rpn",
+    secondaryCta: "Explore RPN Lessons",
+    secondaryCtaPath: "/lessons",
     stats: [
       { label: "RPN Questions", value: "500+" },
       { label: "Body Systems", value: "15+" },
       { label: "Practice Exams", value: "Unlimited" },
       { label: "Focus Areas", value: "9" },
+    ],
+  },
+  problemSection: {
+    headline: "Studying for practical nursing should not feel this scattered",
+    description: "Most nursing prep platforms are built for RN learners. When you are studying for the RPN, the mismatch creates real problems.",
+    cards: [
+      { title: "Resources built for the wrong level", description: "Most question banks are calibrated for RN-level complexity. Practicing at the wrong depth leads to confusion instead of progress." },
+      { title: "Generic content wastes your time", description: "When study material mixes RPN, RN, and NP content together, you spend more time filtering than learning." },
+      { title: "Studying feels overwhelming", description: "Without a clear, organized path that matches your scope, it is easy to feel lost in material that does not match what your exam tests." },
+      { title: "Hard to know if you are ready", description: "Without analytics calibrated to your exam blueprint, you cannot tell whether you are actually prepared or just going through the motions." },
     ],
   },
   painPoints: [
@@ -196,6 +289,59 @@ const rpnCopy: MarketingCopy = {
       { title: "Confidence-Building Practice", description: "Graduated difficulty and supportive rationales that build your clinical reasoning step by step.", icon: "Target" },
     ],
   },
+  featureCards: [
+    { title: "RPN Practice Exams", description: "Timed, exam-style tests that mirror the format, scope, and difficulty of the REx-PN. Build endurance and test readiness under realistic conditions.", icon: "ClipboardCheck" },
+    { title: "Focused Lessons", description: "Structured lessons organized by body system, covering foundational care, safe nursing actions, and predictable patient scenarios relevant to practical nursing.", icon: "BookOpen" },
+    { title: "Flashcards", description: "Quick-review cards for medications, lab values, and common conditions. Designed for spaced repetition and efficient memorization of high-yield content.", icon: "Layers" },
+    { title: "Study Plan", description: "A guided study path that organizes your prep by body system and competency area, so you always know what to review next.", icon: "Map" },
+    { title: "Progress Tracking", description: "See your performance across RPN blueprint categories. Identify weak areas and track improvement over time with clear, visual analytics.", icon: "BarChart3" },
+    { title: "Daily Practice", description: "Short daily question sets on medication safety, foundational care, and safe nursing actions to keep your skills sharp between study sessions.", icon: "Calendar" },
+  ],
+  howItWorks: [
+    { step: "1", title: "Choose your focus", description: "Select the body system or competency area you want to review. Start with your weakest areas or follow the guided study path." },
+    { step: "2", title: "Practice realistic RPN questions", description: "Answer questions calibrated for practical nursing scope. Each question comes with detailed rationales that explain the reasoning behind the correct answer." },
+    { step: "3", title: "Review weak areas", description: "Your dashboard highlights areas where you need more practice. Focus your time on the topics that will make the biggest difference on exam day." },
+    { step: "4", title: "Build readiness", description: "Track your progress across all blueprint categories. Take full-length practice exams to build confidence and test your readiness before the real exam." },
+  ],
+  dashboardPreview: {
+    headline: "Your study progress, organized and clear",
+    description: "The RPN dashboard keeps everything in one place — your progress by body system, weak areas to review, study streaks, and exam readiness scores. No guesswork, no scattered notes, just a clear view of where you stand.",
+    highlights: [
+      "Progress by RPN blueprint category",
+      "Weak-area identification with recommended review",
+      "Study streak and consistency tracking",
+      "Exam readiness score with trend analysis",
+      "Recent activity and next-step guidance",
+    ],
+  },
+  outcomesSection: {
+    headline: "From scattered studying to focused confidence",
+    description: "NurseNest RPN Prep transforms how you prepare for your practical nursing exam.",
+    outcomes: [
+      { before: "Overwhelmed by mixed-level content", after: "Studying only what matches your RPN scope" },
+      { before: "Scattered across random resources", after: "Following one organized, guided study path" },
+      { before: "Unsure which topics to focus on", after: "Weak areas clearly identified with targeted review" },
+      { before: "Guessing at exam readiness", after: "Tracking progress with blueprint-aligned analytics" },
+      { before: "Practicing questions designed for RN exams", after: "Answering questions calibrated for practical nursing" },
+    ],
+  },
+  comparison: [
+    { feature: "Question scope", generic: "Mixed RPN/RN/NP questions", nursenest: "Questions calibrated specifically for RPN scope" },
+    { feature: "Content depth", generic: "One size fits all complexity", nursenest: "Foundational depth matched to practical nursing" },
+    { feature: "Progress tracking", generic: "Generic overall score", nursenest: "Blueprint-category analytics for RPN" },
+    { feature: "Study guidance", generic: "No structured path", nursenest: "Guided study plan by body system" },
+    { feature: "Rationales", generic: "Brief explanations", nursenest: "Step-by-step reasoning with scope-specific context" },
+    { feature: "Exam relevance", generic: "Generic nursing format", nursenest: "REx-PN style questions and format" },
+  ],
+  finalCta: {
+    headline: "Your RPN exam prep starts here",
+    description: "Join practical nursing learners who are building exam confidence with focused, scope-specific preparation. Start with free practice or unlock the full RPN study path.",
+    primaryCta: "Build Your Foundations",
+    primaryCtaPath: "/pricing?track=rpn",
+    secondaryCta: "Try Free RPN Questions",
+    secondaryCtaPath: "/free-practice",
+    reassurance: "No commitment required. Start with free practice and upgrade when you are ready.",
+  },
   valueProp: {
     headline: "Practical nursing exam prep built for foundations, safe care, medication safety, and confidence",
     bullets: [
@@ -205,15 +351,19 @@ const rpnCopy: MarketingCopy = {
     ],
   },
   testimonials: [
-    { quote: "Finally found something that was not too overwhelming. The questions actually match what I need to know for the RPN exam.", name: "Sarah M.", role: "RPN Student", track: "rpn" },
-    { quote: "The practical nursing focus made such a difference. I felt like this platform actually understood my exam path.", name: "Priya K.", role: "RPN Graduate", track: "rpn" },
-    { quote: "The medication safety drills helped me feel so much more confident. I passed on my first attempt.", name: "Jessica L.", role: "RPN Student", track: "rpn" },
+    { quote: "I tried two other platforms before NurseNest, and they were clearly built for RN students. The questions here actually match what I need to know for my RPN exam. I finally feel like I am studying the right material.", name: "Sarah M.", role: "RPN Student, Ontario", track: "rpn" },
+    { quote: "The medication safety focus is exactly what helped me feel confident going into the REx-PN. The rationales explain things clearly and the progress tracker keeps me on track. I passed on my first attempt.", name: "Priya K.", role: "RPN Graduate", track: "rpn" },
+    { quote: "What I love about NurseNest is that it does not overwhelm me. The study path tells me exactly what to review next, and the questions are at my level. I actually look forward to studying now.", name: "Jessica L.", role: "Practical Nursing Student", track: "rpn" },
   ],
   faq: [
     { question: "Is this designed specifically for practical nursing learners?", answer: "Yes. NurseNest RPN Prep is built entirely around the practical nursing scope. Questions, exams, and analytics are calibrated for RPN-level reasoning, not RN or NP complexity." },
-    { question: "Are the questions appropriate for RPN-level scope and reasoning?", answer: "Absolutely. Every question targets foundational care, medication safety, predictable conditions, and safe nursing actions — the exact skills tested on practical nursing exams." },
-    { question: "Does this help with foundations, medication safety, and safe care decisions?", answer: "Yes. These are core focus areas in the RPN question bank, with dedicated practice sets and progress tracking for each." },
-    { question: "Will this help me prepare for the REx-PN?", answer: "Yes. The content is aligned with practical nursing exam blueprints, covering the competency areas and question styles you will encounter." },
+    { question: "Are the questions appropriate for RPN-level scope?", answer: "Every question targets foundational care, medication safety, predictable conditions, and safe nursing actions. The difficulty and clinical depth match what you will encounter on practical nursing exams." },
+    { question: "Will this help me prepare for the REx-PN?", answer: "Yes. The content is aligned with practical nursing exam blueprints, covering the competency areas and question styles you will encounter on the REx-PN." },
+    { question: "Does this help with medication safety?", answer: "Medication safety is one of the core focus areas in the RPN question bank, with dedicated practice sets, flashcards, and progress tracking for medication-related topics." },
+    { question: "How is this different from generic nursing prep platforms?", answer: "Most platforms use one question bank for all nursing levels. NurseNest separates content by scope, so RPN learners only see questions, lessons, and analytics matched to practical nursing — not RN or NP material." },
+    { question: "Can I track my progress by exam blueprint category?", answer: "Yes. Your dashboard shows performance across all RPN blueprint categories, identifies weak areas, and tracks your improvement over time." },
+    { question: "Is there a free option to try before subscribing?", answer: "Yes. You can access free practice questions, sample lessons, and explore the platform before committing to a subscription." },
+    { question: "Can I study on my phone?", answer: "NurseNest is fully responsive and works on phones, tablets, and desktop computers. Study wherever and whenever works best for you." },
   ],
   pricing: {
     headline: "RPN exam prep built for your success",
@@ -251,18 +401,41 @@ const rpnCopy: MarketingCopy = {
 
 const rnCopy: MarketingCopy = {
   track: "rn",
+  announcementBar: {
+    message: "RN learners are building stronger clinical judgment with NurseNest",
+    ctaText: "Try Free Practice",
+    ctaPath: "/free-practice",
+  },
+  trustStrip: {
+    items: [
+      "700+ RN-scope questions",
+      "8 exam blueprint domains",
+      "Clinical judgment and prioritization focus",
+      "Built for NCLEX-RN readiness",
+    ],
+  },
   hero: {
     headline: "RN readiness starts with better clinical judgment practice",
     subheadline: "A deeper question bank and smarter readiness tools for RN learners who need more than memorization. Train the way RN exams actually test: trends, competing priorities, and safest-next-action reasoning.",
-    primaryCta: "Start RN Prep",
-    primaryCtaPath: "/pricing/rn",
-    secondaryCta: "Try Free RN Questions",
+    primaryCta: "Start RN Practice",
+    primaryCtaPath: "/pricing?track=rn",
+    secondaryCta: "Try Clinical Judgment Questions",
     secondaryCtaPath: "/free-practice",
     stats: [
       { label: "RN Questions", value: "700+" },
       { label: "Clinical Systems", value: "15+" },
       { label: "Practice Exams", value: "Unlimited" },
       { label: "Exam Domains", value: "8" },
+    ],
+  },
+  problemSection: {
+    headline: "Memorization alone will not pass the RN exam",
+    description: "RN exams test how you think under pressure — prioritization, delegation, and clinical judgment. Most study tools are not built for that.",
+    cards: [
+      { title: "Passive studying is not translating", description: "You have read the notes, watched the videos, and highlighted the textbook. But when it comes to exam-style questions, the answers still feel uncertain." },
+      { title: "Prioritization is harder than expected", description: "Knowing the content is not the same as knowing which patient to see first. RN exams test your ability to make decisions under competing demands." },
+      { title: "Generic question banks miss the point", description: "If the questions do not challenge your clinical judgment, delegation reasoning, and safest-next-action thinking, they are preparing you for the wrong exam." },
+      { title: "No clear way to measure readiness", description: "Studying without domain-level analytics means guessing at whether you are actually ready or just familiar with the material." },
     ],
   },
   painPoints: [
@@ -280,6 +453,59 @@ const rnCopy: MarketingCopy = {
       { title: "Readiness Analytics", description: "See your performance across all 8 RN exam domains with detailed trend analysis and weak-area identification.", icon: "BarChart3" },
     ],
   },
+  featureCards: [
+    { title: "RN Practice Exams", description: "Full-length, timed exams that mirror NCLEX-RN format and complexity. Build stamina and test readiness across all 8 blueprint domains.", icon: "ClipboardCheck" },
+    { title: "Clinical Judgment Drills", description: "Targeted practice on interpreting clinical data, recognizing deterioration patterns, and making evidence-based decisions under time pressure.", icon: "Brain" },
+    { title: "Prioritization Review", description: "Dedicated practice on multi-patient scenarios, delegation decisions, and safest-next-action reasoning — the skills your exam actually tests.", icon: "Target" },
+    { title: "Systems-Based Lessons", description: "In-depth lessons organized by body system, covering pathophysiology, assessment findings, interventions, and clinical decision-making for RN scope.", icon: "BookOpen" },
+    { title: "Flashcards", description: "Spaced-repetition cards for pharmacology, lab values, and clinical decision frameworks. Review efficiently and retain high-yield content.", icon: "Layers" },
+    { title: "Readiness Analytics", description: "Track your performance across all 8 exam domains with trend analysis, weak-area identification, and projected readiness scoring.", icon: "BarChart3" },
+  ],
+  howItWorks: [
+    { step: "1", title: "Assess where you stand", description: "Take a diagnostic practice exam to identify your strongest and weakest domains across the RN exam blueprint." },
+    { step: "2", title: "Practice realistic RN questions", description: "Work through questions designed for clinical judgment, prioritization, and management of care — the way your exam actually tests." },
+    { step: "3", title: "Analyze weak areas", description: "Your dashboard reveals exactly which domains need attention, with detailed performance breakdowns and trend tracking." },
+    { step: "4", title: "Build RN readiness", description: "Follow targeted review paths, retake domain-specific exams, and track your readiness score as you improve." },
+  ],
+  dashboardPreview: {
+    headline: "Performance analytics built for serious exam prep",
+    description: "The RN dashboard shows your readiness across all 8 exam domains, identifies your weakest areas, and tracks your improvement over time. Every metric is designed to answer one question: are you ready?",
+    highlights: [
+      "8-domain exam readiness breakdown",
+      "Performance trend analysis over time",
+      "Weak-area identification with targeted review",
+      "Clinical judgment score tracking",
+      "Projected exam readiness with confidence intervals",
+    ],
+  },
+  outcomesSection: {
+    headline: "From memorizing facts to thinking like an RN",
+    description: "NurseNest RN Prep transforms passive studying into active clinical reasoning practice.",
+    outcomes: [
+      { before: "Memorizing content without applying it", after: "Practicing clinical judgment under realistic conditions" },
+      { before: "Second-guessing prioritization answers", after: "Confidently working through competing priorities" },
+      { before: "Weak exam confidence despite hours of studying", after: "Clear readiness metrics showing measurable improvement" },
+      { before: "Using study tools that do not match your exam", after: "Practicing with questions calibrated for RN-level reasoning" },
+      { before: "No clarity on what to study next", after: "Targeted review based on domain-level analytics" },
+    ],
+  },
+  comparison: [
+    { feature: "Clinical reasoning", generic: "Simple recall and recognition", nursenest: "Clinical judgment and prioritization focus" },
+    { feature: "Question complexity", generic: "Basic single-concept questions", nursenest: "Multi-factor decision-making scenarios" },
+    { feature: "Exam alignment", generic: "Generic nursing format", nursenest: "8-domain NCLEX-RN blueprint alignment" },
+    { feature: "Analytics depth", generic: "Overall percentage score", nursenest: "Domain-level readiness with trend analysis" },
+    { feature: "Delegation practice", generic: "Rarely included", nursenest: "Dedicated management-of-care question sets" },
+    { feature: "Readiness assessment", generic: "No clear readiness metric", nursenest: "Projected readiness score with confidence tracking" },
+  ],
+  finalCta: {
+    headline: "Stronger clinical judgment starts with better practice",
+    description: "Join RN learners who are moving beyond memorization into real exam-style reasoning. Start with free practice or unlock the full RN readiness path.",
+    primaryCta: "Build RN Readiness",
+    primaryCtaPath: "/pricing?track=rn",
+    secondaryCta: "Try Free RN Questions",
+    secondaryCtaPath: "/free-practice",
+    reassurance: "Start free. Upgrade when you are ready for the full experience.",
+  },
   valueProp: {
     headline: "RN exam prep built for clinical judgment, prioritization, management of care, and high-yield practice",
     bullets: [
@@ -289,15 +515,19 @@ const rnCopy: MarketingCopy = {
     ],
   },
   testimonials: [
-    { quote: "The prioritization questions were exactly what I needed. Other platforms felt too easy — this one actually challenged my reasoning.", name: "Michael T.", role: "RN Student", track: "rn" },
-    { quote: "The clinical judgment practice helped me connect concepts to decision-making. I felt so much more prepared walking into my exam.", name: "Aisha R.", role: "RN Graduate", track: "rn" },
-    { quote: "More realistic than passive studying. The readiness analytics showed me exactly where I needed to focus.", name: "David C.", role: "RN Student", track: "rn" },
+    { quote: "The prioritization questions were exactly what I needed. Other platforms felt too easy — this one actually challenged me to think through competing demands instead of just picking the textbook answer.", name: "Michael T.", role: "RN Student, Toronto", track: "rn" },
+    { quote: "I was struggling with clinical judgment questions until I started using NurseNest. The way they break down the reasoning behind each answer helped me understand how to think through complex scenarios, not just memorize them.", name: "Aisha R.", role: "RN Graduate", track: "rn" },
+    { quote: "The readiness analytics were a game changer. I could see exactly which domains were dragging my score down, and the targeted review pulled me up from borderline to confident. I walked into my exam knowing I was ready.", name: "David C.", role: "BScN Student", track: "rn" },
   ],
   faq: [
     { question: "Are these questions focused on clinical judgment and prioritization?", answer: "Yes. The RN question bank emphasizes clinical judgment, prioritization, management of care, and complex decision-making — the reasoning skills your exam actually tests." },
     { question: "Is this more advanced than simple recall-based studying?", answer: "Absolutely. Our questions require you to weigh competing priorities, consider multiple patients, and think through delegation and safest-next-action scenarios." },
     { question: "Can I track weak areas and readiness trends?", answer: "Yes. The RN dashboard tracks your performance across all 8 exam blueprint domains and shows detailed trend analysis over time." },
     { question: "How does this compare to other RN prep platforms?", answer: "Most platforms use a generic question bank for all nursing levels. NurseNest RN Prep is specifically calibrated for RN-level complexity, with questions that match the clinical depth and reasoning style of your exam." },
+    { question: "Does this cover management of care and delegation?", answer: "Yes. Management of care is the largest domain on the RN exam, and NurseNest includes dedicated question sets on leadership, delegation, supervision, and clinical management decisions." },
+    { question: "Will this help me with NCLEX-RN preparation?", answer: "Yes. The content is aligned with the NCLEX-RN test plan, covering all 8 client needs categories with exam-appropriate clinical complexity." },
+    { question: "Can I take full-length practice exams?", answer: "Yes. You can take unlimited full-length, timed practice exams that mirror the format and difficulty of the actual RN exam." },
+    { question: "Is there a free option?", answer: "Yes. You can access free practice questions, sample exams, and explore the platform before subscribing to the full RN study path." },
   ],
   pricing: {
     headline: "RN exam prep that matches your exam's complexity",
@@ -335,18 +565,41 @@ const rnCopy: MarketingCopy = {
 
 const npCopy: MarketingCopy = {
   track: "np",
+  announcementBar: {
+    message: "Graduate-level board prep for nurse practitioners who demand more",
+    ctaText: "Explore Advanced Cases",
+    ctaPath: "/free-practice",
+  },
+  trustStrip: {
+    items: [
+      "300+ NP board-style questions",
+      "12+ clinical domains",
+      "Diagnostic reasoning and prescribing focus",
+      "Built for FNP, AGNP, and NP certification",
+    ],
+  },
   hero: {
     headline: "Advanced NP board prep for serious clinical reasoning",
     subheadline: "Graduate-level clinical case practice designed for serious NP exam readiness. Strengthen differentials, pharmacotherapeutics, and evidence-informed decision-making in one premium study environment.",
     primaryCta: "Start NP Board Prep",
-    primaryCtaPath: "/pricing/np",
-    secondaryCta: "Try Free NP Questions",
+    primaryCtaPath: "/pricing?track=np",
+    secondaryCta: "Explore Advanced Cases",
     secondaryCtaPath: "/free-practice",
     stats: [
       { label: "NP Questions", value: "300+" },
       { label: "Clinical Domains", value: "12+" },
       { label: "Board-Style Cases", value: "Unlimited" },
       { label: "Diagnostic Focus", value: "Advanced" },
+    ],
+  },
+  problemSection: {
+    headline: "Generic nursing prep was never designed for advanced practice",
+    description: "NP board exams demand graduate-level reasoning — differential diagnosis, prescribing decisions, and management planning. Most study platforms fall short.",
+    cards: [
+      { title: "Entry-level resources feel too basic", description: "Most nursing prep platforms are designed for RN or RPN scope. Advanced practice learners need case complexity and clinical depth that basic question banks cannot provide." },
+      { title: "Recall questions do not build diagnostic reasoning", description: "NP boards test your ability to narrow differentials, select appropriate workups, and make prescribing decisions — skills that require deeper practice than recall." },
+      { title: "Management planning is hard to practice", description: "Creating treatment plans, weighing pharmacotherapeutic options, and making evidence-informed management decisions requires structured, case-based practice." },
+      { title: "Scattered resources waste graduate-level time", description: "Juggling textbooks, generic question banks, and unstructured notes is an inefficient use of the limited study time available to graduate learners." },
     ],
   },
   painPoints: [
@@ -364,6 +617,59 @@ const npCopy: MarketingCopy = {
       { title: "Advanced Analytics", description: "Track your performance across NP exam domains with detailed insights into diagnostic reasoning and management accuracy.", icon: "BarChart3" },
     ],
   },
+  featureCards: [
+    { title: "NP Board-Style Exams", description: "Full-length, timed exams mirroring NP certification format with graduate-level clinical complexity and multi-system reasoning scenarios.", icon: "ClipboardCheck" },
+    { title: "Diagnostic Reasoning Cases", description: "Work through complex patient presentations, narrow differential diagnoses, select appropriate diagnostic workups, and develop management plans.", icon: "Stethoscope" },
+    { title: "Advanced Assessment Review", description: "Detailed lessons on advanced health assessment, focused physical exam findings, and diagnostic interpretation at the provider level.", icon: "Activity" },
+    { title: "Prescribing Practice", description: "Pharmacotherapeutic decision-making exercises covering drug selection, dosing, contraindications, monitoring parameters, and patient education.", icon: "Pill" },
+    { title: "Management Planning Tools", description: "Case-based practice on developing comprehensive treatment plans, referral decisions, follow-up intervals, and patient counseling strategies.", icon: "Map" },
+    { title: "Board Readiness Analytics", description: "Track your diagnostic reasoning accuracy, prescribing decision quality, and overall board readiness across all NP exam domains.", icon: "BarChart3" },
+  ],
+  howItWorks: [
+    { step: "1", title: "Identify weak domains", description: "Take a diagnostic assessment to evaluate your performance across NP exam domains — from pharmacology to differential reasoning to management planning." },
+    { step: "2", title: "Practice advanced cases", description: "Work through graduate-level clinical scenarios that test differential diagnosis, prescribing decisions, and evidence-informed management." },
+    { step: "3", title: "Review reasoning and management", description: "Each case includes detailed rationales explaining the clinical reasoning, workup rationale, and management logic behind the correct approach." },
+    { step: "4", title: "Build board readiness", description: "Track your improvement across all NP domains, retake targeted exams, and build confidence with board-specific analytics." },
+  ],
+  dashboardPreview: {
+    headline: "Board readiness analytics at the graduate level",
+    description: "The NP dashboard provides advanced performance insights across diagnostic reasoning, prescribing accuracy, and management planning — the domains your boards actually test. See where you stand and where to focus.",
+    highlights: [
+      "Domain-level board readiness scoring",
+      "Diagnostic reasoning accuracy tracking",
+      "Prescribing decision quality metrics",
+      "Management planning performance trends",
+      "Targeted review recommendations by domain",
+    ],
+  },
+  outcomesSection: {
+    headline: "From basic review to board-level clinical reasoning",
+    description: "NurseNest NP Board Prep transforms your preparation from passive content review to active diagnostic and management reasoning practice.",
+    outcomes: [
+      { before: "Using entry-level nursing resources for advanced study", after: "Practicing with graduate-level clinical case complexity" },
+      { before: "Struggling to practice differential reasoning", after: "Working through structured diagnostic reasoning exercises" },
+      { before: "Unclear board prep structure", after: "Following a domain-organized study path with readiness metrics" },
+      { before: "Guessing at prescribing decisions", after: "Strengthening pharmacotherapeutic reasoning with detailed rationales" },
+      { before: "No insight into management planning ability", after: "Tracking diagnostic, prescribing, and management accuracy over time" },
+    ],
+  },
+  comparison: [
+    { feature: "Clinical complexity", generic: "Entry-level nursing questions", nursenest: "Graduate-level diagnostic reasoning cases" },
+    { feature: "Prescribing practice", generic: "Not included", nursenest: "Pharmacotherapeutic decision-making exercises" },
+    { feature: "Differential reasoning", generic: "Simple recall questions", nursenest: "Structured differential diagnosis drills" },
+    { feature: "Management planning", generic: "Rarely covered", nursenest: "Case-based treatment planning practice" },
+    { feature: "Analytics", generic: "Basic score tracking", nursenest: "Domain-level board readiness with reasoning insights" },
+    { feature: "Content level", generic: "Mixed RPN/RN/NP", nursenest: "Exclusively advanced practice scope" },
+  ],
+  finalCta: {
+    headline: "Your NP boards demand more. So should your prep.",
+    description: "Join advanced practice learners who are building board readiness with graduate-level diagnostic reasoning, prescribing practice, and management planning tools.",
+    primaryCta: "Strengthen Diagnostic Reasoning",
+    primaryCtaPath: "/pricing?track=np",
+    secondaryCta: "Explore Advanced Cases",
+    secondaryCtaPath: "/free-practice",
+    reassurance: "Start with free practice. Upgrade when you are ready for the complete board prep experience.",
+  },
   valueProp: {
     headline: "Advanced board-style preparation for diagnostic reasoning, advanced assessment, prescribing, and management planning",
     bullets: [
@@ -373,15 +679,19 @@ const npCopy: MarketingCopy = {
     ],
   },
   testimonials: [
-    { quote: "More advanced than generic nursing resources. The diagnostic reasoning cases pushed me to think like a provider, not just a nurse.", name: "Dr. Chen W.", role: "FNP Student", track: "np" },
-    { quote: "The prescribing review and differential practice were exactly what I needed for boards. Nothing else comes close to this depth.", name: "Amanda S.", role: "AGNP Graduate", track: "np" },
-    { quote: "Stronger clinical management reasoning than any other platform I tried. This is real board-level preparation.", name: "Robert J.", role: "NP Student", track: "np" },
+    { quote: "I was using two other platforms and neither had the clinical depth I needed. NurseNest pushed me to reason through differentials and prescribing decisions the way boards actually test. This is real provider-level preparation.", name: "Dr. Chen W.", role: "FNP Student", track: "np" },
+    { quote: "The prescribing review and differential practice were exactly what I needed for boards. The rationales explain the clinical reasoning behind each decision, not just the correct answer. Nothing else comes close to this depth.", name: "Amanda S.", role: "AGNP Graduate", track: "np" },
+    { quote: "As someone who already has years of RN experience, I needed prep that matched my level. NurseNest treats you like a graduate learner, not a nursing student. The management planning cases were particularly strong.", name: "Robert J.", role: "NP Student, Alberta", track: "np" },
   ],
   faq: [
     { question: "Are the questions advanced enough for NP board preparation?", answer: "Yes. The NP question bank features graduate-level clinical scenarios requiring differential diagnosis, workup selection, prescribing decisions, and management planning." },
-    { question: "Does the platform cover differential diagnosis, prescribing, and management?", answer: "Absolutely. These are core pillars of the NP prep experience, with dedicated practice sets and analytics for each area." },
-    { question: "Is the content graduate-level?", answer: "Yes. Every question, case, and rationale is written at the advanced practice level. This is not repackaged entry-level nursing content." },
+    { question: "Does the platform cover differential diagnosis and prescribing?", answer: "Absolutely. These are core pillars of the NP prep experience, with dedicated practice sets and detailed rationales for each area." },
+    { question: "Is the content truly graduate-level?", answer: "Yes. Every question, case, and rationale is written at the advanced practice level. This is not repackaged entry-level nursing content — it is built specifically for NP scope and reasoning." },
     { question: "Which NP certifications does this cover?", answer: "The content is designed for family nurse practitioner (FNP), adult-gerontology (AGNP), and general NP board preparation. The clinical reasoning skills transfer across certification types." },
+    { question: "Does this include pharmacotherapeutic practice?", answer: "Yes. The NP prep includes dedicated prescribing exercises covering drug selection, dosing, contraindications, monitoring parameters, and patient education — the pharmacotherapy decisions your boards test." },
+    { question: "Can I track my diagnostic reasoning accuracy?", answer: "Yes. The NP dashboard tracks your performance across diagnostic reasoning, prescribing decisions, and management planning domains with detailed trend analysis." },
+    { question: "Is the management planning practice case-based?", answer: "Yes. Management planning exercises use realistic patient scenarios that require you to develop treatment plans, make referral decisions, and plan follow-up — the same skills your boards demand." },
+    { question: "Is there a free option to try before committing?", answer: "Yes. You can access free practice questions, sample advanced cases, and explore the platform before subscribing to the full NP board prep path." },
   ],
   pricing: {
     headline: "NP board prep at the level your exam demands",

@@ -152,6 +152,7 @@ const CareerAISimulator = lazy(() => import("@/pages/career-tools/career-ai-simu
 const AdminCareersPage = lazy(() => import("@/pages/admin-careers"));
 const NewGradHub = lazy(() => import("@/pages/new-grad-hub"));
 const NursingHub = lazy(() => import("@/pages/nursing-hub"));
+const TrackLandingPage = lazy(() => import("@/pages/marketing/TrackLandingPage"));
 const NursingSpecialtiesHub = lazy(() => import("@/pages/nursing-specialties-hub"));
 const RexPnHub = lazy(() => import("@/pages/rex-pn-hub"));
 const RexPnExamFormat = lazy(() => import("@/pages/rex-pn-exam-format"));
@@ -320,6 +321,9 @@ function AppRoutes() {
         <Route path="/simulators/clinical-lab" component={SimulatorsPage} />
         <Route path="/osce-skills" component={OSCESkillsPage} />
         <Route path="/new-grad" component={NewGradHub} />
+        <Route path="/rpn">{() => <TrackLandingPage track="rpn" />}</Route>
+        <Route path="/rn">{() => <TrackLandingPage track="rn" />}</Route>
+        <Route path="/np">{() => <TrackLandingPage track="np" />}</Route>
         <Route path="/nursing" component={NursingHub} />
         <Route path="/nursing-specialties" component={NursingSpecialtiesHub} />
         <Route path="/pre-nursing" component={PreNursingPage} />
