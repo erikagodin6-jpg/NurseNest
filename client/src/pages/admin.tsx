@@ -47,6 +47,7 @@ import {
   Ticket,
   ToggleLeft,
   ToggleRight,
+  Database,
 } from "lucide-react";
 
 type AdminData = {
@@ -1575,6 +1576,14 @@ export default function AdminPage() {
                   </div>
 
                   <div className="flex gap-3 flex-wrap" data-testid="section-quick-tools">
+                    <a
+                      href="/admin/content-manager"
+                      className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-green-50 border border-green-200 text-green-700 text-sm font-medium hover:bg-green-100 transition"
+                      data-testid="link-content-manager"
+                    >
+                      <Database className="w-4 h-4" />
+                      Content Manager
+                    </a>
                     <a
                       href="/admin/generator-v2"
                       className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-50 border border-blue-200 text-blue-700 text-sm font-medium hover:bg-blue-100 transition"

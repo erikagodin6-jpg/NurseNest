@@ -269,8 +269,18 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
         FROM digital_products WHERE is_active = true
       `);
 
+      const examQResult = await pool.query(`
+        SELECT
+          COALESCE(SUM(CASE WHEN tier = 'rpn' THEN 1 ELSE 0 END), 0) AS rpn_eq,
+          COALESCE(SUM(CASE WHEN tier = 'rn' THEN 1 ELSE 0 END), 0) AS rn_eq,
+          COALESCE(SUM(CASE WHEN tier = 'np' THEN 1 ELSE 0 END), 0) AS np_eq,
+          COUNT(*) AS total_eq
+        FROM exam_questions WHERE status = 'published'
+      `);
+
       const db = dbResult.rows[0] || { rpn_db: 0, rn_db: 0, np_db: 0, free_db: 0, total_db: 0 };
       const store = storeResult.rows[0] || { store_questions: 0, store_products: 0 };
+      const eq = examQResult.rows[0] || { rpn_eq: 0, rn_eq: 0, np_eq: 0, total_eq: 0 };
 
       const rpnLessons = tierCounts.rpn + Number(db.rpn_db);
       const rnLessons = tierCounts.rn + Number(db.rn_db);
@@ -280,7 +290,8 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
       const paidLessons = rpnLessons + rnLessons + npLessons;
       const storeQuestionCount = Number(store.store_questions);
       const storeProductCount = Number(store.store_products);
-      const totalQuestions = tierCounts.questionCount + storeQuestionCount;
+      const examQuestionCount = Number(eq.total_eq);
+      const totalQuestions = tierCounts.questionCount + storeQuestionCount + examQuestionCount;
 
       const stats = {
         rpnLessons,
@@ -302,6 +313,10 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
           rnDb: Number(db.rn_db),
           npDb: Number(db.np_db),
           freeDb: Number(db.free_db),
+          rpnExamQ: Number(eq.rpn_eq),
+          rnExamQ: Number(eq.rn_eq),
+          npExamQ: Number(eq.np_eq),
+          totalExamQ: examQuestionCount,
         },
       };
 
@@ -9149,6 +9164,413 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
         [ids]
       );
       res.json({ approved: result.rowCount });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  // ====== CONTENT MANAGEMENT: EXAM QUESTIONS ======
+  app.get("/api/admin/qbank/manage", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const page = parseInt(req.query.page as string) || 1;
+      const limit = Math.min(parseInt(req.query.limit as string) || 50, 200);
+      const offset = (page - 1) * limit;
+      const status = req.query.status as string;
+      const tier = req.query.tier as string;
+      const bodySystem = req.query.bodySystem as string;
+      const search = req.query.search as string;
+
+      const conditions: string[] = [];
+      const params: any[] = [];
+      let paramIdx = 1;
+
+      if (status && status !== "all") {
+        conditions.push(`status = $${paramIdx++}`);
+        params.push(status);
+      }
+      if (tier) {
+        conditions.push(`tier = $${paramIdx++}`);
+        params.push(tier);
+      }
+      if (bodySystem) {
+        conditions.push(`body_system = $${paramIdx++}`);
+        params.push(bodySystem);
+      }
+      if (search) {
+        conditions.push(`stem ILIKE $${paramIdx++}`);
+        params.push(`%${search}%`);
+      }
+
+      const where = conditions.length > 0 ? `WHERE ${conditions.join(" AND ")}` : "";
+      const countResult = await pool.query(`SELECT COUNT(*)::int as total FROM exam_questions ${where}`, params);
+      const total = countResult.rows[0]?.total || 0;
+
+      const result = await pool.query(
+        `SELECT id, tier, exam, question_type, status, stem, body_system, topic, difficulty, created_at, updated_at, published_at
+         FROM exam_questions ${where}
+         ORDER BY created_at DESC
+         LIMIT $${paramIdx++} OFFSET $${paramIdx++}`,
+        [...params, limit, offset]
+      );
+
+      const statusCounts = await pool.query(
+        `SELECT status, COUNT(*)::int as count FROM exam_questions GROUP BY status`
+      );
+
+      res.json({
+        items: result.rows.map(snakeToCamel),
+        total,
+        page,
+        totalPages: Math.ceil(total / limit),
+        statusCounts: Object.fromEntries(statusCounts.rows.map((r: any) => [r.status, r.count])),
+      });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.put("/api/admin/qbank/:id", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const { stem, options, correctAnswer, rationale, tier, exam, bodySystem, topic, subtopic, difficulty, status, tags } = req.body;
+      const sets: string[] = ["updated_at = NOW()"];
+      const params: any[] = [];
+      let idx = 1;
+
+      if (stem !== undefined) { sets.push(`stem = $${idx++}`); params.push(stem); }
+      if (options !== undefined) { sets.push(`options = $${idx++}`); params.push(JSON.stringify(options)); }
+      if (correctAnswer !== undefined) { sets.push(`correct_answer = $${idx++}`); params.push(JSON.stringify(correctAnswer)); }
+      if (rationale !== undefined) { sets.push(`rationale = $${idx++}`); params.push(rationale); }
+      if (tier !== undefined) { sets.push(`tier = $${idx++}`); params.push(tier); }
+      if (exam !== undefined) { sets.push(`exam = $${idx++}`); params.push(exam); }
+      if (bodySystem !== undefined) { sets.push(`body_system = $${idx++}`); params.push(bodySystem); }
+      if (topic !== undefined) { sets.push(`topic = $${idx++}`); params.push(topic); }
+      if (subtopic !== undefined) { sets.push(`subtopic = $${idx++}`); params.push(subtopic); }
+      if (difficulty !== undefined) { sets.push(`difficulty = $${idx++}`); params.push(difficulty); }
+      if (tags !== undefined) { sets.push(`tags = $${idx++}`); params.push(tags); }
+      if (status !== undefined) {
+        sets.push(`status = $${idx++}`);
+        params.push(status);
+        if (status === "published") {
+          sets.push(`published_at = COALESCE(published_at, NOW())`);
+        }
+      }
+
+      params.push(req.params.id);
+      const result = await pool.query(
+        `UPDATE exam_questions SET ${sets.join(", ")} WHERE id = $${idx} RETURNING *`,
+        params
+      );
+      if (!result.rows.length) return res.status(404).json({ error: "Question not found" });
+      heroStatsCache = null;
+      res.json(snakeToCamel(result.rows[0]));
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.post("/api/admin/qbank/:id/duplicate", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const result = await pool.query(
+        `INSERT INTO exam_questions (tier, exam, question_type, status, stem, options, correct_answer, rationale, difficulty, tags, body_system, topic, subtopic, region_scope, career_type, scenario, clinical_pearl, exam_strategy, memory_hook, framework_used, clinical_trap, distractor_rationales)
+         SELECT tier, exam, question_type, 'draft', stem || ' [COPY]', options, correct_answer, rationale, difficulty, tags, body_system, topic, subtopic, region_scope, career_type, scenario, clinical_pearl, exam_strategy, memory_hook, framework_used, clinical_trap, distractor_rationales
+         FROM exam_questions WHERE id = $1 RETURNING id`,
+        [req.params.id]
+      );
+      if (!result.rows.length) return res.status(404).json({ error: "Question not found" });
+      res.json({ id: result.rows[0].id });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.delete("/api/admin/qbank/:id", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const result = await pool.query(`DELETE FROM exam_questions WHERE id = $1`, [req.params.id]);
+      heroStatsCache = null;
+      res.json({ deleted: result.rowCount });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.post("/api/admin/qbank/bulk-publish", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const { ids } = req.body;
+      if (!ids?.length) return res.status(400).json({ error: "ids required" });
+      const result = await pool.query(
+        `UPDATE exam_questions SET status = 'published', published_at = COALESCE(published_at, NOW()), updated_at = NOW()
+         WHERE id = ANY($1) AND status != 'published'`,
+        [ids]
+      );
+      heroStatsCache = null;
+      res.json({ published: result.rowCount });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.post("/api/admin/qbank/bulk-unpublish", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const { ids } = req.body;
+      if (!ids?.length) return res.status(400).json({ error: "ids required" });
+      const result = await pool.query(
+        `UPDATE exam_questions SET status = 'draft', updated_at = NOW()
+         WHERE id = ANY($1) AND status = 'published'`,
+        [ids]
+      );
+      heroStatsCache = null;
+      res.json({ unpublished: result.rowCount });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.post("/api/admin/qbank/bulk-archive", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const { ids } = req.body;
+      if (!ids?.length) return res.status(400).json({ error: "ids required" });
+      const result = await pool.query(
+        `UPDATE exam_questions SET status = 'archived', updated_at = NOW()
+         WHERE id = ANY($1)`,
+        [ids]
+      );
+      heroStatsCache = null;
+      res.json({ archived: result.rowCount });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.post("/api/admin/qbank/bulk-delete", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const { ids } = req.body;
+      if (!ids?.length) return res.status(400).json({ error: "ids required" });
+      const result = await pool.query(`DELETE FROM exam_questions WHERE id = ANY($1)`, [ids]);
+      heroStatsCache = null;
+      res.json({ deleted: result.rowCount });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  // ====== CONTENT MANAGEMENT: FLASHCARD BANK ======
+  app.get("/api/admin/flashcard-bank/manage", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const page = parseInt(req.query.page as string) || 1;
+      const limit = Math.min(parseInt(req.query.limit as string) || 50, 200);
+      const offset = (page - 1) * limit;
+      const status = req.query.status as string;
+      const tier = req.query.tier as string;
+      const category = req.query.category as string;
+      const search = req.query.search as string;
+
+      const conditions: string[] = [];
+      const params: any[] = [];
+      let paramIdx = 1;
+
+      if (status && status !== "all") {
+        conditions.push(`status = $${paramIdx++}`);
+        params.push(status);
+      }
+      if (tier) {
+        conditions.push(`tier = $${paramIdx++}`);
+        params.push(tier);
+      }
+      if (category) {
+        conditions.push(`category = $${paramIdx++}`);
+        params.push(category);
+      }
+      if (search) {
+        conditions.push(`(front ILIKE $${paramIdx} OR back ILIKE $${paramIdx})`);
+        params.push(`%${search}%`);
+        paramIdx++;
+      }
+
+      const where = conditions.length > 0 ? `WHERE ${conditions.join(" AND ")}` : "";
+      const countResult = await pool.query(`SELECT COUNT(*)::int as total FROM flashcard_bank ${where}`, params);
+      const total = countResult.rows[0]?.total || 0;
+
+      const result = await pool.query(
+        `SELECT id, front, back, category, tier, status, difficulty, created_at, updated_at
+         FROM flashcard_bank ${where}
+         ORDER BY created_at DESC
+         LIMIT $${paramIdx++} OFFSET $${paramIdx++}`,
+        [...params, limit, offset]
+      );
+
+      const statusCounts = await pool.query(
+        `SELECT status, COUNT(*)::int as count FROM flashcard_bank GROUP BY status`
+      );
+
+      res.json({
+        items: result.rows.map(snakeToCamel),
+        total,
+        page,
+        totalPages: Math.ceil(total / limit),
+        statusCounts: Object.fromEntries(statusCounts.rows.map((r: any) => [r.status, r.count])),
+      });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.put("/api/admin/flashcard-bank/:id", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const { front, back, category, tier, status, difficulty, rationale } = req.body;
+      const sets: string[] = ["updated_at = NOW()"];
+      const params: any[] = [];
+      let idx = 1;
+
+      if (front !== undefined) { sets.push(`front = $${idx++}`); params.push(front); }
+      if (back !== undefined) { sets.push(`back = $${idx++}`); params.push(back); }
+      if (category !== undefined) { sets.push(`category = $${idx++}`); params.push(category); }
+      if (tier !== undefined) { sets.push(`tier = $${idx++}`); params.push(tier); }
+      if (difficulty !== undefined) { sets.push(`difficulty = $${idx++}`); params.push(difficulty); }
+      if (rationale !== undefined) { sets.push(`rationale = $${idx++}`); params.push(rationale); }
+      if (status !== undefined) {
+        sets.push(`status = $${idx++}`);
+        params.push(status);
+      }
+
+      params.push(req.params.id);
+      const result = await pool.query(
+        `UPDATE flashcard_bank SET ${sets.join(", ")} WHERE id = $${idx} RETURNING *`,
+        params
+      );
+      if (!result.rows.length) return res.status(404).json({ error: "Flashcard not found" });
+      res.json(snakeToCamel(result.rows[0]));
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.delete("/api/admin/flashcard-bank/:id", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const result = await pool.query(`DELETE FROM flashcard_bank WHERE id = $1`, [req.params.id]);
+      res.json({ deleted: result.rowCount });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.post("/api/admin/flashcard-bank/bulk-publish", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const { ids } = req.body;
+      if (!ids?.length) return res.status(400).json({ error: "ids required" });
+      const result = await pool.query(
+        `UPDATE flashcard_bank SET status = 'published', updated_at = NOW()
+         WHERE id = ANY($1) AND status != 'published'`,
+        [ids]
+      );
+      res.json({ published: result.rowCount });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.post("/api/admin/flashcard-bank/bulk-unpublish", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const { ids } = req.body;
+      if (!ids?.length) return res.status(400).json({ error: "ids required" });
+      const result = await pool.query(
+        `UPDATE flashcard_bank SET status = 'draft', updated_at = NOW()
+         WHERE id = ANY($1) AND status = 'published'`,
+        [ids]
+      );
+      res.json({ unpublished: result.rowCount });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.post("/api/admin/flashcard-bank/bulk-archive", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const { ids } = req.body;
+      if (!ids?.length) return res.status(400).json({ error: "ids required" });
+      const result = await pool.query(
+        `UPDATE flashcard_bank SET status = 'archived', updated_at = NOW()
+         WHERE id = ANY($1)`,
+        [ids]
+      );
+      res.json({ archived: result.rowCount });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.post("/api/admin/flashcard-bank/bulk-delete", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const { ids } = req.body;
+      if (!ids?.length) return res.status(400).json({ error: "ids required" });
+      const result = await pool.query(`DELETE FROM flashcard_bank WHERE id = ANY($1)`, [ids]);
+      res.json({ deleted: result.rowCount });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  // ====== PUBLIC FLASHCARD BANK API ======
+  app.get("/api/flashcard-bank", async (req, res) => {
+    try {
+      const tier = req.query.tier as string;
+      const category = req.query.category as string;
+      const limit = Math.min(parseInt(req.query.limit as string) || 100, 500);
+
+      const conditions = ["status = 'published'"];
+      const params: any[] = [];
+      let paramIdx = 1;
+
+      if (tier) {
+        const allowedTiers = ["free"];
+        if (tier === "rpn" || tier === "rn" || tier === "np" || tier === "admin") allowedTiers.push(tier);
+        if (tier === "admin") allowedTiers.push("rpn", "rn", "np");
+        conditions.push(`tier = ANY($${paramIdx++})`);
+        params.push(allowedTiers);
+      }
+      if (category) {
+        conditions.push(`category = $${paramIdx++}`);
+        params.push(category);
+      }
+
+      const where = conditions.join(" AND ");
+      const result = await pool.query(
+        `SELECT id, front, back, category, tier, difficulty, rationale
+         FROM flashcard_bank WHERE ${where}
+         ORDER BY category, created_at DESC
+         LIMIT $${paramIdx++}`,
+        [...params, limit]
+      );
+      res.json(result.rows.map(snakeToCamel));
     } catch (e: any) {
       res.status(500).json({ error: e.message });
     }

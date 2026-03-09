@@ -162,6 +162,7 @@ async function runBatchGeneration(params: {
   rationaleMinWords: number;
   dryRun: boolean;
   ingest: boolean;
+  autoPublish?: boolean;
   model: string;
   triggeredBy: string;
   scheduleId?: string;
@@ -267,7 +268,7 @@ async function runBatchGeneration(params: {
     );
 
     if (params.ingest && !params.dryRun && validationReport.valid) {
-      await ingestQuestions(runId, accepted, rendered.variant, params.templateKey);
+      await ingestQuestions(runId, accepted, rendered.variant, params.templateKey, params.autoPublish);
     }
 
     return {
@@ -289,19 +290,20 @@ async function runBatchGeneration(params: {
   }
 }
 
-async function ingestQuestions(runId: string, questions: any[], variant: any, templateKey: string): Promise<void> {
+async function ingestQuestions(runId: string, questions: any[], variant: any, templateKey: string, autoPublish = false): Promise<void> {
   const isNursing = templateKey === "ngn_batch_v1";
   const isAllied = templateKey === "allied_batch_v1";
+  const initialStatus = autoPublish ? "published" : "draft";
 
   for (const q of questions) {
     if (isNursing || templateKey === "cnpe_v1" || templateKey === "np_us_v1") {
       const tier = variant.examKey.includes("PN") ? "rpn" : "rn";
       const region = variant.region === "Canada" ? "CAN" : "US";
       await pool.query(
-        `INSERT INTO exam_questions (tier, exam, question_type, status, stem, options, correct_answer, rationale, difficulty, tags, body_system, topic, subtopic, region_scope, career_type)
-         VALUES ($1, $2, $3, 'draft', $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, 'nursing')`,
+        `INSERT INTO exam_questions (tier, exam, question_type, status, ${autoPublish ? "published_at," : ""} stem, options, correct_answer, rationale, difficulty, tags, body_system, topic, subtopic, region_scope, career_type)
+         VALUES ($1, $2, $3, $4, ${autoPublish ? "NOW()," : ""} $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, 'nursing')`,
         [
-          tier, variant.examKey, q.questionType || "MCQ", q.stem,
+          tier, variant.examKey, q.questionType || "MCQ", initialStatus, q.stem,
           JSON.stringify(q.options || []), JSON.stringify(q.correctAnswer || []),
           q.rationale || q.rationaleLong || "", q.difficulty || 3,
           q.tags || [], q.bodySystem || q.domain || q.clientNeedDomain || null,
@@ -351,6 +353,7 @@ export function setupQBankGenerator(app: Express): void {
         rationaleMinWords = 250,
         dryRun = true,
         ingest = false,
+        autoPublish = false,
         model = "gpt-4o-mini",
       } = req.body;
 
@@ -365,6 +368,7 @@ export function setupQBankGenerator(app: Express): void {
         rationaleMinWords: Math.max(100, Math.min(rationaleMinWords, 1000)),
         dryRun,
         ingest: ingest && !dryRun,
+        autoPublish: autoPublish && ingest && !dryRun,
         model,
         triggeredBy: "manual",
       });
@@ -487,8 +491,9 @@ export function setupQBankGenerator(app: Express): void {
       const variants = typeof template?.variants === "string" ? JSON.parse(template.variants) : template?.variants;
       const variant = variants?.find((v: any) => v.variantKey === run.variant_key) || { examKey: run.exam_key, region: run.region, variantKey: run.variant_key };
 
-      await ingestQuestions(run.id, items, variant, run.template_key);
-      res.json({ success: true, ingested: items.length });
+      const autoPublish = req.body.autoPublish === true;
+      await ingestQuestions(run.id, items, variant, run.template_key, autoPublish);
+      res.json({ success: true, ingested: items.length, autoPublished: autoPublish });
     } catch (err: any) {
       res.status(500).json({ error: err.message });
     }
