@@ -118,3 +118,11 @@ The application is built with Vite, React, and Express 5 on Node.js with TypeScr
 - **NP tab**: medMathSystems + npNonPharm (no fundamentals/delegation/clinical scenarios)
 - **Duplicate removal**: 38 lesson IDs that appeared in both rpnSystems and rnSystems were removed from rnSystems
 - **Fallback removed**: Tier-suffix content fallback in index.ts was removed to prevent placeholder content from showing base content
+
+## Lesson Access Gating (Implemented)
+- **Backend** (`server/lesson-content-api.ts`): `/api/lessons/meta`, `/api/lessons/content/:slug`, `/api/lessons/search` all filter by user tier using `getAllowedLessonTiers()`
+- **Backend** (`server/routes.ts`): `/api/content` endpoint adds tier filter when type=lesson
+- **Frontend tabs** (`lessons.tsx`): `showAllTabs` is admin-only; free/unauthenticated users see RPN/RN/NP preview tabs with upgrade banner; paid users see only their tier tab + pharmacology
+- **Frontend detail** (`lesson-detail.tsx`): `canAccessTier()` check blocks unauthorized access with locked paywall and upgrade CTA
+- **Frontend helpers** (`client/src/lib/access.ts`): `getAllowedLessonTiers()`, `filterContentByTier()` centralized access helpers
+- **Access rules**: free→["free","general"], rpn→["free","general","rpn"], rn→["free","general","rn"], np→["free","general","np"], admin→all

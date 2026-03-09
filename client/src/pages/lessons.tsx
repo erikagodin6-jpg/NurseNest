@@ -3953,7 +3953,7 @@ export default function Lessons() {
                 <AddSystemCard onClick={() => { setEditingSystem(null); setSystemModalTier("rpn"); setShowSystemModal(true); }} />
               )}
             </div>
-            <DbLessonsSection lessons={dbLessons.filter(l => !l.tier || l.tier === "free" || l.tier === "rpn")} />
+            <DbLessonsSection lessons={dbLessons.filter(l => l.tier === "free" || l.tier === "rpn")} />
           </TabsContent>
           <TabsContent value="rn" className="mt-0">
             <LecturesSection tier="rn" onNavigate={setLocation} />
@@ -3968,7 +3968,7 @@ export default function Lessons() {
                 <AddSystemCard onClick={() => { setEditingSystem(null); setSystemModalTier("rn"); setShowSystemModal(true); }} />
               )}
             </div>
-            <DbLessonsSection lessons={dbLessons.filter(l => !l.tier || l.tier === "free" || l.tier === "rn")} />
+            <DbLessonsSection lessons={dbLessons.filter(l => l.tier === "free" || l.tier === "rn")} />
           </TabsContent>
           <TabsContent value="np" className="mt-0">
             <LecturesSection tier="np" onNavigate={setLocation} />
@@ -3983,7 +3983,7 @@ export default function Lessons() {
                 <AddSystemCard onClick={() => { setEditingSystem(null); setSystemModalTier("np"); setShowSystemModal(true); }} />
               )}
             </div>
-            <DbLessonsSection lessons={dbLessons.filter(l => !l.tier || l.tier === "free" || l.tier === "np")} />
+            <DbLessonsSection lessons={dbLessons.filter(l => l.tier === "free" || l.tier === "np")} />
           </TabsContent>
           <TabsContent value="pharmacology" className="mt-0">
             <div className="space-y-10">

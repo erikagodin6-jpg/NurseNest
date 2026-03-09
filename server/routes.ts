@@ -45,6 +45,7 @@ import { regionMiddleware, getEffectiveRegion, isRegionAllowed, getDefaultRegion
 import { languageMiddleware, getTranslatedFields, getTranslationStatus, getBulkTranslatedTitles, getAvailableLanguages, simpleHash } from "./translation-helpers";
 import { checkAiLimits, recordAiUsage, getAiConfig, setAiConfig } from "./ai-safety";
 import { requireAdmin, signAdminToken, verifyAdminToken, resolveAuthUser, requireExactTier, requireAnyPaidTier } from "./admin-auth";
+import { getAllowedContentTiers } from "../shared/tier-config";
 import rateLimit from "express-rate-limit";
 
 async function logAudit(req: any, actor: any, entityType: string, entityId: string | null, action: string, beforeJson?: any, afterJson?: any) {
@@ -3311,8 +3312,12 @@ Rules:
     try {
       const region = req.region || "US";
       const regionFilter = buildRegionFilter(region);
+      const userTier = await extractUserTier(req);
+      const allowedTiers = getAllowedContentTiers(userTier);
+      const tierPlaceholders = allowedTiers.map((_, i) => `$${i + 1}`).join(", ");
       const result = await pool.query(
-        `SELECT id, title, slug, category, body_system, tier, summary, tags, seo_description, published_at, updated_at, region_scope FROM content_items WHERE status = 'published' AND type = 'lesson' AND ${regionFilter} ORDER BY published_at DESC NULLS LAST`
+        `SELECT id, title, slug, category, body_system, tier, summary, tags, seo_description, published_at, updated_at, region_scope FROM content_items WHERE status = 'published' AND type = 'lesson' AND ${regionFilter} AND (tier IS NULL OR tier IN (${tierPlaceholders})) ORDER BY published_at DESC NULLS LAST`,
+        allowedTiers
       );
       const items = snakeToCamel(result.rows);
 

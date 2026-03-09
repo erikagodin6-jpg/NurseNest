@@ -1716,6 +1716,7 @@ export default function LessonDetail() {
     const controller = new AbortController();
     fetch(`/api/lessons/content/${id}`, { signal: controller.signal })
       .then((r) => {
+        if (r.status === 403) { setApiLesson(null); setApiLoading(false); return; }
         if (!r.ok) { setApiLesson(null); setApiLoading(false); return; }
         return r.json();
       })
