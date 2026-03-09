@@ -51,8 +51,8 @@ The application is built with Vite, React, and Express 5 on Node.js with TypeScr
 - Tier derived from slug suffix: `-rpn`, `-rn`, `-np`, or `"general"`
 - System cards in `lessons.tsx` show lesson count badges and progress bars (completed/total)
 - Lesson counts: free=564, rpn=521, rn=244, np=316, total=1645 (as of Mar 2026)
-- DB exam questions: rpn=1933, rn=1387, np=1519, total=4839 (as of Mar 2026)
-- Question files in `client/src/data/exam-questions/`: rpn-expansion-[a-f], rn-expansion-[a-g], np-expansion-[a-c], pn-us-batch-01, rn-us-batch-01, np-us-batch-01, rpn-cases-01, rn-cases-01, np-cases-01, cnple-batch-[01-03], us-cases-01, plus 56 np-exam-batch files
+- DB exam questions: rpn=1985, rn=1437, np=1587, total=5009 (as of Mar 2026)
+- Question files in `client/src/data/exam-questions/`: rpn-expansion-[a-g], rn-expansion-[a-h], np-expansion-[a-d], pn-us-batch-01, rn-us-batch-01, np-us-batch-01, rpn-cases-01, rn-cases-01, np-cases-01, cnple-batch-[01-03], us-cases-01, plus 56 np-exam-batch files
 - Exam blueprints: REX-PN (CA), NCLEX-PN (US), NCLEX-RN (US), NCLEX-RN-CA (CA), CNPLE (CA), AANP (US), ANCC (US), plus readiness exams with CA variants
 - DB tables `allied_lessons` and `content_items` are empty; all content is static TS
 

@@ -10,8 +10,8 @@ export const npExpansionDQuestions: ExamQuestion[] = [
   },
   {
     q: "A 42-year-old woman presents with recurrent right upper quadrant pain after fatty meals, nausea, and mild jaundice. Total bilirubin is 52 µmol/L, direct bilirubin 38 µmol/L, ALT 180 U/L, AST 150 U/L, ALP 340 U/L, and GGT 280 U/L. Abdominal ultrasound shows a dilated common bile duct at 12 mm with cholelithiasis but no intrahepatic ductal dilatation. What is the most appropriate next step?",
-    o: ["ERCP for choledocholithiasis evaluation and stone extraction before cholecystectomy", "Immediate laparoscopic cholecystectomy without biliary imaging", "MRCP to confirm choledocholithiasis before proceeding to ERCP", "Start ursodeoxycholic acid for gallstone dissolution"],
-    a: 2,
+    o: ["ERCP for choledocholithiasis evaluation and stone extraction before cholecystectomy", "Immediate laparoscopic cholecystectomy without biliary imaging", "Start ursodeoxycholic acid for gallstone dissolution", "MRCP to confirm choledocholithiasis before proceeding to ERCP"],
+    a: 3,
     r: "The clinical picture of obstructive jaundice with elevated conjugated bilirubin, transaminases, and cholestatic enzymes combined with a dilated CBD and gallstones strongly suggests choledocholithiasis. MRCP is a non-invasive imaging modality with high sensitivity (95%) and specificity (97%) for detecting CBD stones. It allows confirmation before proceeding to therapeutic ERCP, avoiding unnecessary invasive procedures if no stone is present. Direct ERCP without confirmation is reasonable if clinical probability is very high, but MRCP reduces unnecessary ERCP by 30-50%. Cholecystectomy alone without addressing CBD stones risks cholangitis. Ursodeoxycholic acid is ineffective for acute obstruction.",
     s: "GI"
   },
@@ -24,57 +24,57 @@ export const npExpansionDQuestions: ExamQuestion[] = [
   },
   {
     q: "A 67-year-old female presents with a 3-month history of alternating diarrhoea and constipation, rectal bleeding, and 6 kg weight loss. She has iron deficiency anaemia with haemoglobin of 88 g/L. Colonoscopy reveals a partially obstructing mass in the sigmoid colon. Biopsy confirms moderately differentiated adenocarcinoma. CT abdomen/pelvis shows no distant metastases. CEA is 12.4 ng/mL. What is the most appropriate treatment approach?",
-    o: ["Surgical resection with en bloc lymphadenectomy followed by adjuvant chemotherapy based on final pathological staging", "Start neoadjuvant chemotherapy before considering surgical resection", "Endoscopic polypectomy of the mass with surveillance colonoscopy", "Palliative colostomy only due to partial obstruction"],
-    a: 0,
+    o: ["Palliative colostomy only due to partial obstruction", "Start neoadjuvant chemotherapy before considering surgical resection", "Endoscopic polypectomy of the mass with surveillance colonoscopy", "Surgical resection with en bloc lymphadenectomy followed by adjuvant chemotherapy based on final pathological staging"],
+    a: 3,
     r: "Sigmoid colon adenocarcinoma without distant metastases is potentially curable with surgical resection. En bloc resection with adequate lymph node harvest (minimum 12 nodes) provides both therapeutic benefit and accurate staging. Elevated CEA serves as a baseline for post-surgical surveillance. Adjuvant chemotherapy (typically FOLFOX) is recommended for stage III disease (node-positive) and considered for high-risk stage II. Neoadjuvant chemotherapy is standard for rectal cancer but not typically for colon cancer unless locally advanced and unresectable. Endoscopic removal is inappropriate for invasive carcinoma. Palliative colostomy alone is inadequate when curative resection is possible.",
     s: "GI"
   },
   {
     q: "A 35-year-old male presents with epigastric pain radiating to the back, nausea, and vomiting. He reports heavy alcohol consumption over the past week. Lipase is 1,240 U/L (normal < 160 U/L). CT abdomen with contrast shows peripancreatic fat stranding with no necrosis. What severity classification tool should guide management, and what is the most appropriate initial treatment?",
-    o: ["Classify using the Revised Atlanta Classification; manage with aggressive IV crystalloid resuscitation, NPO status, analgesics, and monitoring for organ failure", "Start empiric IV meropenem for presumed infected pancreatic necrosis", "Perform urgent ERCP for presumed biliary obstruction", "Initiate total parenteral nutrition immediately to rest the pancreas"],
-    a: 0,
+    o: ["Perform urgent ERCP for presumed biliary obstruction", "Start empiric IV meropenem for presumed infected pancreatic necrosis", "Classify using the Revised Atlanta Classification; manage with aggressive IV crystalloid resuscitation, NPO status, analgesics, and monitoring for organ failure", "Initiate total parenteral nutrition immediately to rest the pancreas"],
+    a: 2,
     r: "This presentation is acute alcoholic pancreatitis. The Revised Atlanta Classification stratifies severity: mild (no organ failure or local complications), moderately severe (transient organ failure <48 hours or local complications), and severe (persistent organ failure >48 hours). Initial management consists of aggressive goal-directed IV fluid resuscitation with lactated Ringer's solution (shown to reduce SIRS), NPO initially with early oral feeding when tolerated, adequate analgesia, and close monitoring for organ failure. Prophylactic antibiotics are not recommended without evidence of infected necrosis. ERCP is indicated for biliary pancreatitis with cholangitis, not alcoholic pancreatitis. Early enteral nutrition is preferred over TPN when feeding is needed.",
     s: "GI"
   },
   {
     q: "A 48-year-old male with chronic hepatitis C (genotype 1a) and compensated cirrhosis (Child-Pugh A) presents for treatment. His HCV RNA is 2.4 million IU/mL. He has no prior treatment history. Platelet count is 112 × 10⁹/L, albumin 38 g/L, bilirubin 22 µmol/L, and INR 1.1. What is the most appropriate treatment?",
-    o: ["Glecaprevir/pibrentasvir or sofosbuvir/velpatasvir for 12 weeks as pan-genotypic direct-acting antiviral therapy", "Pegylated interferon plus ribavirin for 48 weeks", "Defer treatment until decompensation occurs to avoid hepatotoxicity", "Start lamivudine 150 mg daily"],
-    a: 0,
+    o: ["Defer treatment until decompensation occurs to avoid hepatotoxicity", "Pegylated interferon plus ribavirin for 48 weeks", "Glecaprevir/pibrentasvir or sofosbuvir/velpatasvir for 12 weeks as pan-genotypic direct-acting antiviral therapy", "Start lamivudine 150 mg daily"],
+    a: 2,
     r: "Current guidelines recommend direct-acting antiviral (DAA) therapy for all patients with chronic HCV infection. Pan-genotypic regimens such as glecaprevir/pibrentasvir or sofosbuvir/velpatasvir achieve sustained virological response rates exceeding 95% across all genotypes, including in compensated cirrhosis. Treatment duration is typically 12 weeks for treatment-naïve patients with compensated cirrhosis. Interferon-based therapy is obsolete due to inferior efficacy, significant side effects, and prolonged duration. Deferring treatment allows ongoing hepatic fibrosis progression. Lamivudine is an antiviral for hepatitis B, not hepatitis C.",
     s: "GI"
   },
   {
     q: "A 62-year-old male presents with chronic watery diarrhoea, flushing episodes, and wheezing. He has been experiencing these symptoms intermittently for 6 months. Urinalysis shows elevated 24-hour 5-HIAA at 85 mg (normal < 6 mg). CT abdomen reveals a 3-cm mass in the terminal ileum with multiple hepatic lesions. What is the most likely diagnosis?",
-    o: ["Carcinoid syndrome secondary to metastatic neuroendocrine tumour with hepatic metastases", "Irritable bowel syndrome with concurrent asthma", "VIPoma causing Verner-Morrison syndrome", "Zollinger-Ellison syndrome from gastrinoma"],
-    a: 0,
+    o: ["Irritable bowel syndrome with concurrent asthma", "Carcinoid syndrome secondary to metastatic neuroendocrine tumour with hepatic metastases", "VIPoma causing Verner-Morrison syndrome", "Zollinger-Ellison syndrome from gastrinoma"],
+    a: 1,
     r: "The classic triad of flushing, diarrhoea, and wheezing with markedly elevated urinary 5-HIAA is pathognomonic for carcinoid syndrome. Carcinoid syndrome occurs when serotonin and other vasoactive substances from a neuroendocrine tumour bypass hepatic metabolism, which typically occurs with hepatic metastases. The terminal ileum is the most common site for midgut carcinoid tumours. IBS does not cause flushing or elevated 5-HIAA. VIPoma causes profuse watery diarrhoea with hypokalaemia but not flushing or elevated 5-HIAA. Zollinger-Ellison syndrome presents with peptic ulcers and diarrhoea from gastric acid hypersecretion, not flushing.",
     s: "GI"
   },
   {
     q: "A 29-year-old woman with Crohn disease affecting the terminal ileum presents with worsening abdominal pain, diarrhoea, and perianal fistula despite optimised mesalamine therapy. She has failed a 12-week course of budesonide. Inflammatory markers show CRP 42 mg/L and fecal calprotectin 680 µg/g. What is the most appropriate next step?",
-    o: ["Initiate anti-TNF therapy such as infliximab or adalimumab, which addresses both luminal disease and perianal fistula", "Continue mesalamine at higher doses and add metronidazole", "Schedule immediate surgical resection of the terminal ileum", "Start oral prednisone 60 mg daily as maintenance therapy"],
-    a: 0,
+    o: ["Start oral prednisone 60 mg daily as maintenance therapy", "Continue mesalamine at higher doses and add metronidazole", "Schedule immediate surgical resection of the terminal ileum", "Initiate anti-TNF therapy such as infliximab or adalimumab, which addresses both luminal disease and perianal fistula"],
+    a: 3,
     r: "This patient has moderate-to-severe Crohn disease with perianal fistula failing conventional therapy. Anti-TNF agents (infliximab, adalimumab) are the standard of care for this presentation, with strong evidence for both mucosal healing in luminal disease and fistula closure. Infliximab has the most robust data for perianal fistulising disease. Increasing mesalamine is unlikely to be effective, as mesalamine has limited efficacy in ileal Crohn disease. Metronidazole alone is inadequate for complex fistulising disease. Surgery should be considered for stricturing complications but is not first-line for inflammatory disease. Systemic corticosteroids are not appropriate as maintenance therapy due to adverse effects and inability to maintain remission.",
     s: "GI"
   },
   {
     q: "A 32-year-old male returning from Southeast Asia 10 days ago presents with high-grade fever (40.2°C), severe headache, myalgias, and a maculopapular rash on the trunk and extremities. CBC shows leukopenia (WBC 2.8 × 10⁹/L) and thrombocytopaenia (platelets 68 × 10⁹/L). Haematocrit is rising. Tourniquet test is positive. What is the most likely diagnosis and appropriate management?",
-    o: ["Dengue haemorrhagic fever; manage with IV isotonic crystalloid resuscitation, haematocrit monitoring, and platelet transfusion only for active bleeding", "Malaria; start IV artesunate immediately", "Typhoid fever; start IV ceftriaxone", "Chikungunya; manage with NSAIDs for joint pain"],
-    a: 0,
+    o: ["Chikungunya; manage with NSAIDs for joint pain", "Malaria; start IV artesunate immediately", "Typhoid fever; start IV ceftriaxone", "Dengue haemorrhagic fever; manage with IV isotonic crystalloid resuscitation, haematocrit monitoring, and platelet transfusion only for active bleeding"],
+    a: 3,
     r: "The combination of high fever, rash, leukopenia, thrombocytopaenia, rising haematocrit indicating plasma leakage, and a positive tourniquet test in a traveller from a dengue-endemic area is classic for dengue haemorrhagic fever. Management is supportive: isotonic crystalloid resuscitation to address plasma leakage, close haematocrit monitoring (rising haematocrit indicates worsening capillary leak), and platelet transfusion reserved for active bleeding, not prophylactically. Malaria presents with cyclical fevers and parasitaemia on blood smear. Typhoid fever features a sustained fever with relative bradycardia. Chikungunya predominantly causes arthralgia and does not typically cause significant thrombocytopaenia or plasma leakage. NSAIDs are contraindicated in dengue due to bleeding risk.",
     s: "Infectious Disease"
   },
   {
     q: "A 45-year-old HIV-positive male with a CD4 count of 62 cells/µL presents with 3 weeks of progressive dyspnoea, dry cough, and low-grade fever. Chest radiograph shows bilateral diffuse interstitial infiltrates. Room air SpO2 is 88%. LDH is elevated at 520 U/L. What is the most appropriate treatment?",
-    o: ["IV trimethoprim-sulfamethoxazole plus adjunctive corticosteroids given the severe hypoxaemia (PaO2 < 70 mmHg)", "Start atovaquone suspension as first-line therapy", "Begin empiric treatment for bacterial community-acquired pneumonia with ceftriaxone and azithromycin", "Start fluconazole for presumed pulmonary cryptococcosis"],
-    a: 0,
+    o: ["Start atovaquone suspension as first-line therapy", "IV trimethoprim-sulfamethoxazole plus adjunctive corticosteroids given the severe hypoxaemia (PaO2 < 70 mmHg)", "Begin empiric treatment for bacterial community-acquired pneumonia with ceftriaxone and azithromycin", "Start fluconazole for presumed pulmonary cryptococcosis"],
+    a: 1,
     r: "This presentation is classic Pneumocystis jirovecii pneumonia (PCP): severely immunocompromised HIV patient (CD4 < 200), subacute onset of dyspnoea with dry cough, bilateral interstitial infiltrates, elevated LDH, and significant hypoxaemia. IV TMP-SMX is first-line therapy for PCP. Adjunctive corticosteroids (prednisone 40 mg twice daily for 5 days, then taper) are indicated when PaO2 < 70 mmHg or SpO2 < 92% on room air, as they reduce mortality. Atovaquone is second-line for mild-to-moderate disease in patients who cannot tolerate TMP-SMX. Typical bacterial pneumonia is less likely given the subacute course and bilateral infiltrates. Pulmonary cryptococcosis usually presents with nodular lesions rather than diffuse interstitial disease.",
     s: "Infectious Disease"
   },
   {
     q: "A 28-year-old female presents with a 5-day history of fever, sore throat, fatigue, and posterior cervical lymphadenopathy. Examination reveals tonsillar exudates and splenomegaly. Monospot test is positive. CBC shows atypical lymphocytosis (22%). ALT is 124 U/L. She was prescribed amoxicillin 3 days ago by another provider and now has a diffuse maculopapular rash. What is the most appropriate management?",
-    o: ["Discontinue amoxicillin, provide supportive care with rest and hydration, advise avoidance of contact sports, and monitor liver function", "Switch to azithromycin for the presumed streptococcal pharyngitis", "Start IV acyclovir for severe EBV infection", "Prescribe oral prednisone 1 mg/kg for 7 days for the rash and hepatitis"],
-    a: 0,
+    o: ["Start IV acyclovir for severe EBV infection", "Switch to azithromycin for the presumed streptococcal pharyngitis", "Discontinue amoxicillin, provide supportive care with rest and hydration, advise avoidance of contact sports, and monitor liver function", "Prescribe oral prednisone 1 mg/kg for 7 days for the rash and hepatitis"],
+    a: 2,
     r: "This is classic infectious mononucleosis caused by Epstein-Barr virus: fever, pharyngitis, lymphadenopathy, splenomegaly, positive Monospot (heterophile antibodies), and atypical lymphocytosis. The rash developed after amoxicillin administration, which occurs in 70-100% of EBV patients given aminopenicillins (not a true allergy). Amoxicillin should be stopped. Management is supportive. Contact sports must be avoided for 3-4 weeks due to splenic rupture risk. Liver enzymes should be monitored as EBV hepatitis is common. Azithromycin is unnecessary as this is viral, not bacterial. Acyclovir has no proven benefit in uncomplicated mononucleosis. Corticosteroids are reserved for airway compromise or severe complications.",
     s: "Infectious Disease"
   },
@@ -108,22 +108,22 @@ export const npExpansionDQuestions: ExamQuestion[] = [
   },
   {
     q: "A 60-year-old male presents with a 3-day history of progressive right lower extremity erythema, warmth, swelling, and pain. He has a temperature of 38.8°C. Examination reveals a well-demarcated, raised, erythematous plaque on the anterior shin with associated lymphangitic streaking. He has no history of MRSA. Blood cultures are drawn. What is the most appropriate empiric antibiotic?",
-    o: ["IV cefazolin or oral cephalexin depending on clinical severity, targeting beta-haemolytic streptococci as the most common pathogen in non-purulent cellulitis", "Oral trimethoprim-sulfamethoxazole monotherapy", "IV vancomycin empirically regardless of severity", "Topical mupirocin ointment applied three times daily"],
-    a: 0,
+    o: ["IV vancomycin empirically regardless of severity", "Oral trimethoprim-sulfamethoxazole monotherapy", "IV cefazolin or oral cephalexin depending on clinical severity, targeting beta-haemolytic streptococci as the most common pathogen in non-purulent cellulitis", "Topical mupirocin ointment applied three times daily"],
+    a: 2,
     r: "Non-purulent cellulitis with lymphangitic streaking is most commonly caused by beta-haemolytic streptococci (primarily Group A Streptococcus). IDSA guidelines recommend beta-lactam antibiotics: IV cefazolin or nafcillin for severe cases requiring hospitalisation, or oral cephalexin or dicloxacillin for mild-to-moderate outpatient cases. TMP-SMX has poor streptococcal coverage and should not be used as monotherapy for non-purulent cellulitis. IV vancomycin is reserved for purulent cellulitis with MRSA risk factors or failure of initial beta-lactam therapy. Topical therapy is inadequate for cellulitis with systemic signs of infection. Blood cultures are low-yield in uncomplicated cellulitis but appropriate given the fever.",
     s: "Infectious Disease"
   },
   {
     q: "A 32-year-old nulliparous woman presents with heavy menstrual bleeding (menorrhagia) lasting 9-10 days per cycle for the past 8 months. She soaks through a pad every 1-2 hours on her heaviest days. Haemoglobin is 98 g/L with microcytic indices. Pelvic ultrasound reveals a 4-cm intramural fibroid and a 3-cm submucosal fibroid distorting the endometrial cavity. She desires future fertility. What is the most appropriate management?",
-    o: ["Hysteroscopic myomectomy for the submucosal fibroid, which is the primary cause of menorrhagia, with iron supplementation", "Total abdominal hysterectomy for definitive treatment", "Start oral combined contraceptive pill as sole management", "Uterine artery embolisation as first-line treatment"],
-    a: 0,
+    o: ["Start oral combined contraceptive pill as sole management", "Total abdominal hysterectomy for definitive treatment", "Hysteroscopic myomectomy for the submucosal fibroid, which is the primary cause of menorrhagia, with iron supplementation", "Uterine artery embolisation as first-line treatment"],
+    a: 2,
     r: "Submucosal fibroids are the most likely cause of heavy menstrual bleeding because they distort the endometrial cavity, increasing the endometrial surface area and disrupting normal haemostatic mechanisms. Hysteroscopic myomectomy is the treatment of choice for submucosal fibroids in women desiring future fertility, as it is minimally invasive, preserves the uterus, and has high success rates for symptom resolution. Iron supplementation addresses the concurrent iron deficiency anaemia. Hysterectomy is definitive but inappropriate when future fertility is desired. OCPs may temporarily reduce bleeding but do not address the anatomical cause. Uterine artery embolisation can compromise future fertility and is generally not first-line in women wishing to conceive.",
     s: "Women's Health"
   },
   {
     q: "A 25-year-old woman presents at 34 weeks gestation with a blood pressure of 158/102 mmHg on two readings 4 hours apart. She has 2+ proteinuria on dipstick, confirmed with a spot protein-to-creatinine ratio of 0.42 g/mmol (normal < 0.03). She reports a new-onset headache and right upper quadrant pain. Platelet count is 92 × 10⁹/L, AST 186 U/L, and LDH 680 U/L. What is the most appropriate immediate management?",
-    o: ["Administer IV magnesium sulfate for seizure prophylaxis, IV labetalol for blood pressure control, administer betamethasone, and plan delivery within 24-48 hours", "Observe with outpatient blood pressure monitoring and repeat labs in 1 week", "Start oral nifedipine and discharge home with close follow-up", "Immediate caesarean section without stabilisation"],
-    a: 0,
+    o: ["Immediate caesarean section without stabilisation", "Observe with outpatient blood pressure monitoring and repeat labs in 1 week", "Start oral nifedipine and discharge home with close follow-up", "Administer IV magnesium sulfate for seizure prophylaxis, IV labetalol for blood pressure control, administer betamethasone, and plan delivery within 24-48 hours"],
+    a: 3,
     r: "This patient has severe preeclampsia with features of HELLP syndrome (haemolysis with elevated LDH, elevated liver enzymes, low platelets) at 34 weeks gestation. Management priorities are: IV magnesium sulfate loading dose 4-6 g then 1-2 g/hour for eclampsia prevention; IV labetalol or hydralazine for acute blood pressure control to prevent hypertensive crisis; antenatal corticosteroids (betamethasone 12 mg IM × 2 doses, 24 hours apart) for fetal lung maturity; and delivery within 24-48 hours after maternal stabilisation. Outpatient management is inappropriate with severe features. Immediate caesarean without stabilisation risks uncontrolled hypertension and seizures. Delivery is the definitive treatment for preeclampsia.",
     s: "Women's Health"
   },
@@ -136,15 +136,15 @@ export const npExpansionDQuestions: ExamQuestion[] = [
   },
   {
     q: "A 30-year-old woman presents requesting contraception. She has a history of migraine with aura, BMI of 22, and no other medical conditions. She is a non-smoker. She prefers a long-acting reversible method. What is the most appropriate recommendation?",
-    o: ["Levonorgestrel-releasing intrauterine system or etonogestrel subdermal implant, as combined hormonal contraceptives are contraindicated with migraine with aura", "Combined oral contraceptive pill with a low oestrogen dose (20 µg ethinyl estradiol)", "Transdermal combined contraceptive patch", "Depot medroxyprogesterone acetate injection every 12 weeks"],
-    a: 0,
+    o: ["Combined oral contraceptive pill with a low oestrogen dose (20 µg ethinyl estradiol)", "Levonorgestrel-releasing intrauterine system or etonogestrel subdermal implant, as combined hormonal contraceptives are contraindicated with migraine with aura", "Transdermal combined contraceptive patch", "Depot medroxyprogesterone acetate injection every 12 weeks"],
+    a: 1,
     r: "Migraine with aura is a WHO Medical Eligibility Criteria Category 4 (unacceptable health risk) contraindication for all combined hormonal contraceptives (pill, patch, ring) due to significantly increased stroke risk. Progestogen-only methods are safe (Category 1-2). The levonorgestrel IUS provides highly effective long-acting contraception with additional benefits of reduced menstrual bleeding. The etonogestrel implant is equally appropriate. Both are LARC methods matching her preference. DMPA is acceptable but has concerns regarding bone density with long-term use in young women and is not truly long-acting (requires quarterly injections). Combined hormonal methods regardless of oestrogen dose are absolutely contraindicated.",
     s: "Women's Health"
   },
   {
     q: "A 28-year-old woman at 12 weeks gestation presents with vaginal spotting. Ultrasound reveals a viable intrauterine pregnancy with a subchorionic haematoma measuring 3 × 2 cm. Cervical os is closed. Haemoglobin is 118 g/L. Blood type is O negative. She has no abdominal pain. What is the most appropriate management?",
-    o: ["Administer Rh immunoglobulin (anti-D), provide reassurance with activity modification, and schedule follow-up ultrasound in 2-3 weeks", "Perform emergent dilation and curettage for threatened abortion", "Admit for bed rest and IV progesterone supplementation", "Prescribe oral tranexamic acid 500 mg three times daily"],
-    a: 0,
+    o: ["Perform emergent dilation and curettage for threatened abortion", "Administer Rh immunoglobulin (anti-D), provide reassurance with activity modification, and schedule follow-up ultrasound in 2-3 weeks", "Admit for bed rest and IV progesterone supplementation", "Prescribe oral tranexamic acid 500 mg three times daily"],
+    a: 1,
     r: "This is a threatened miscarriage with subchorionic haematoma in an Rh-negative patient. Anti-D immunoglobulin (Rh immunoglobulin) must be administered to prevent Rh alloimmunisation in any Rh-negative woman with vaginal bleeding during pregnancy. The majority of subchorionic haematomas resolve spontaneously without adverse pregnancy outcomes. Management is conservative: pelvic rest, avoidance of heavy lifting, and follow-up ultrasound to confirm resolution and fetal viability. D&C is not indicated with a viable pregnancy and closed cervix. Bed rest has no proven benefit. Progesterone supplementation is not indicated for subchorionic haematoma. Tranexamic acid use in pregnancy for this indication lacks sufficient evidence.",
     s: "Women's Health"
   },
@@ -157,134 +157,134 @@ export const npExpansionDQuestions: ExamQuestion[] = [
   },
   {
     q: "A 62-year-old postmenopausal woman presents with painless vaginal bleeding. She has a BMI of 38 and type 2 diabetes. She has not taken hormone replacement therapy. Transvaginal ultrasound shows an endometrial thickness of 14 mm. What is the most appropriate next step?",
-    o: ["Endometrial biopsy via office pipelle sampling or hysteroscopy with directed biopsy to exclude endometrial malignancy", "Reassurance and repeat ultrasound in 6 months", "Start progestogen therapy empirically without tissue sampling", "CT abdomen and pelvis for staging"],
-    a: 0,
+    o: ["Reassurance and repeat ultrasound in 6 months", "Endometrial biopsy via office pipelle sampling or hysteroscopy with directed biopsy to exclude endometrial malignancy", "Start progestogen therapy empirically without tissue sampling", "CT abdomen and pelvis for staging"],
+    a: 1,
     r: "Postmenopausal bleeding requires evaluation to exclude endometrial cancer. Risk factors include obesity (excess peripheral aromatisation of androgens to oestrogen), diabetes, and nulliparity. An endometrial thickness >4 mm on transvaginal ultrasound in a postmenopausal woman with bleeding warrants tissue sampling. Office pipelle endometrial biopsy is the standard first-line investigation with 90-98% sensitivity for endometrial cancer. Hysteroscopy with directed biopsy provides the highest diagnostic accuracy. Reassurance without biopsy is inappropriate given the thickened endometrium and bleeding. Empiric progestogen without tissue diagnosis could mask underlying malignancy. CT staging is premature before histological diagnosis.",
     s: "Women's Health"
   },
   {
     q: "A 4-month-old infant presents with noisy breathing that worsens when supine and during feeding or crying. The stridor is primarily inspiratory. The infant is gaining weight appropriately and has no cyanosis or significant retractions. Flexible laryngoscopy shows omega-shaped epiglottis with collapse of supraglottic structures during inspiration. What is the most appropriate management?",
-    o: ["Reassurance and observation, as most cases of laryngomalacia resolve spontaneously by 12-18 months of age", "Immediate tracheostomy for airway protection", "Start inhaled budesonide for chronic airway inflammation", "Refer for emergent supraglottoplasty"],
-    a: 0,
+    o: ["Immediate tracheostomy for airway protection", "Reassurance and observation, as most cases of laryngomalacia resolve spontaneously by 12-18 months of age", "Start inhaled budesonide for chronic airway inflammation", "Refer for emergent supraglottoplasty"],
+    a: 1,
     r: "Laryngomalacia is the most common cause of stridor in infants, accounting for 60-75% of congenital laryngeal anomalies. The classic omega-shaped epiglottis with supraglottic collapse on flexible laryngoscopy confirms the diagnosis. In mild-to-moderate cases (the majority), symptoms peak at 6-8 months and resolve by 12-18 months as the laryngeal cartilage matures. This infant is gaining weight appropriately without respiratory distress, indicating mild disease. Tracheostomy is reserved for severe airway obstruction not amenable to supraglottoplasty. Inhaled steroids are not effective for structural laryngomalacia. Supraglottoplasty is indicated only for severe cases with failure to thrive, apnoea, or significant respiratory distress.",
     s: "Pediatrics"
   },
   {
     q: "A 3-year-old child presents with a 5-day history of high fever (39.5°C), bilateral non-exudative conjunctival injection, strawberry tongue, erythema of the palms and soles, and a polymorphous truncal rash. There is a unilateral cervical lymph node measuring 2.5 cm. CRP is 85 mg/L and ESR is 72 mm/hr. What is the most appropriate treatment?",
-    o: ["IV immunoglobulin 2 g/kg as a single infusion plus high-dose aspirin, with echocardiography to evaluate for coronary artery aneurysms", "Start IV ceftriaxone for presumed bacterial infection", "Prescribe oral ibuprofen and reassure that this is a viral exanthem", "Administer IV methylprednisolone as first-line monotherapy"],
-    a: 0,
+    o: ["Prescribe oral ibuprofen and reassure that this is a viral exanthem", "Start IV ceftriaxone for presumed bacterial infection", "IV immunoglobulin 2 g/kg as a single infusion plus high-dose aspirin, with echocardiography to evaluate for coronary artery aneurysms", "Administer IV methylprednisolone as first-line monotherapy"],
+    a: 2,
     r: "This presentation meets the classic diagnostic criteria for Kawasaki disease: fever ≥5 days plus ≥4 of 5 principal features (conjunctival injection, oral mucosal changes, extremity changes, polymorphous rash, cervical lymphadenopathy). IVIG 2 g/kg as a single infusion within 10 days of fever onset reduces the incidence of coronary artery aneurysms from 25% to <5%. High-dose aspirin (80-100 mg/kg/day) is given during the acute phase for anti-inflammatory effect, then low-dose aspirin (3-5 mg/kg/day) for 6-8 weeks. Echocardiography should be performed at diagnosis, 2 weeks, and 6-8 weeks. This is not a bacterial infection. Corticosteroids are adjunctive in refractory cases, not first-line monotherapy.",
     s: "Pediatrics"
   },
   {
     q: "A 6-year-old boy presents with periorbital and pretibial oedema, abdominal distension, and decreased urine output. Urinalysis shows 4+ protein and oval fat bodies. Serum albumin is 16 g/L, cholesterol is 10.8 mmol/L, and creatinine is normal. Complement levels (C3, C4) are normal. What is the most likely diagnosis and initial treatment?",
-    o: ["Minimal change disease; initiate oral prednisolone 2 mg/kg/day (max 60 mg) for 4-6 weeks without renal biopsy", "Focal segmental glomerulosclerosis; start cyclosporine immediately", "Membranous nephropathy; perform renal biopsy before treatment", "Post-streptococcal glomerulonephritis; start penicillin"],
-    a: 0,
+    o: ["Post-streptococcal glomerulonephritis; start penicillin", "Focal segmental glomerulosclerosis; start cyclosporine immediately", "Membranous nephropathy; perform renal biopsy before treatment", "Minimal change disease; initiate oral prednisolone 2 mg/kg/day (max 60 mg) for 4-6 weeks without renal biopsy"],
+    a: 3,
     r: "In children aged 2-12 years, nephrotic syndrome (heavy proteinuria, hypoalbuminaemia, hyperlipidaemia, oedema) is most commonly caused by minimal change disease (80-85%). Normal complement levels help exclude post-infectious glomerulonephritis and membranoproliferative GN. Per KDIGO guidelines, empiric corticosteroid therapy is appropriate without biopsy in this typical presentation, as 90% of MCD responds to steroids. Prednisolone 2 mg/kg/day (max 60 mg) for 4-6 weeks, followed by alternate-day tapering. Renal biopsy is reserved for steroid-resistant cases, atypical features, or age >12 years. FSGS and membranous nephropathy are less common in children and require biopsy for diagnosis. PSGN presents with nephritic syndrome (haematuria, low C3).",
     s: "Pediatrics"
   },
   {
     q: "An 8-year-old girl presents with a 3-week history of polydipsia, polyuria, and 4 kg weight loss. Random blood glucose is 22.4 mmol/L. Venous blood gas shows pH 7.18, bicarbonate 8 mmol/L, and pCO2 22 mmHg. Serum ketones are strongly positive. She is alert but tachypnoeic with Kussmaul breathing. What is the priority in initial management?",
-    o: ["Initiate IV normal saline bolus 10-20 mL/kg over 1-2 hours, then start continuous IV insulin infusion at 0.05-0.1 units/kg/hour with close electrolyte monitoring", "Administer subcutaneous rapid-acting insulin correction dose and start oral fluids", "Start IV insulin bolus before fluid resuscitation", "Administer IV sodium bicarbonate to correct the acidosis immediately"],
-    a: 0,
+    o: ["Administer subcutaneous rapid-acting insulin correction dose and start oral fluids", "Initiate IV normal saline bolus 10-20 mL/kg over 1-2 hours, then start continuous IV insulin infusion at 0.05-0.1 units/kg/hour with close electrolyte monitoring", "Start IV insulin bolus before fluid resuscitation", "Administer IV sodium bicarbonate to correct the acidosis immediately"],
+    a: 1,
     r: "This is new-onset type 1 diabetes presenting with diabetic ketoacidosis (hyperglycaemia, metabolic acidosis pH <7.3, ketonemia). In paediatric DKA management, fluid resuscitation is the first priority before insulin. IV 0.9% NaCl 10-20 mL/kg over 1-2 hours corrects dehydration, followed by continuous IV insulin at 0.05-0.1 units/kg/hour (no bolus dose in children due to cerebral oedema risk). Potassium replacement is essential and should begin once urine output is confirmed, as insulin drives potassium intracellularly. Subcutaneous insulin is inappropriate in DKA. IV insulin boluses increase cerebral oedema risk in paediatric DKA. Sodium bicarbonate is contraindicated in most paediatric DKA as it increases cerebral oedema risk and is reserved for pH <6.9 with haemodynamic instability.",
     s: "Pediatrics"
   },
   {
     q: "A 2-month-old infant presents to the emergency department with fever of 38.6°C, irritability, and poor feeding for 12 hours. The infant was born at full term with no complications. Examination reveals a bulging anterior fontanelle. WBC is 18.4 × 10⁹/L. What is the most appropriate initial management?",
-    o: ["Obtain blood cultures, urinalysis, and lumbar puncture, then start empiric IV ampicillin and cefotaxime pending culture results", "Prescribe oral amoxicillin and discharge with paediatric follow-up in 24 hours", "Obtain blood cultures and start IV ceftriaxone monotherapy", "Observe for 4-6 hours with antipyretics before deciding on investigation"],
-    a: 0,
+    o: ["Obtain blood cultures and start IV ceftriaxone monotherapy", "Prescribe oral amoxicillin and discharge with paediatric follow-up in 24 hours", "Obtain blood cultures, urinalysis, and lumbar puncture, then start empiric IV ampicillin and cefotaxime pending culture results", "Observe for 4-6 hours with antipyretics before deciding on investigation"],
+    a: 2,
     r: "A febrile infant under 90 days old with irritability and a bulging fontanelle requires urgent evaluation for bacterial meningitis and sepsis. The full sepsis workup includes blood cultures, urinalysis with culture, and lumbar puncture. Empiric antibiotics must cover the common neonatal pathogens: Group B Streptococcus, E. coli, and Listeria monocytogenes. Ampicillin covers Listeria and GBS, while cefotaxime covers gram-negative organisms including E. coli. Ceftriaxone alone misses Listeria (which is resistant to cephalosporins). Oral antibiotics and outpatient management are inappropriate for a young febrile infant with meningeal signs. Observation without investigation delays treatment for a potentially life-threatening infection.",
     s: "Pediatrics"
   },
   {
     q: "A 5-year-old boy is brought to the clinic with recurrent episodes of inattention, staring blankly for 10-15 seconds, and lip smacking. His teacher reports that he 'zones out' multiple times daily. There is no post-ictal confusion. EEG shows generalised 3-Hz spike-and-wave discharges. What is the most appropriate first-line treatment?",
-    o: ["Ethosuximide as first-line monotherapy for childhood absence epilepsy", "Carbamazepine as first-line monotherapy", "No treatment unless seizures increase in frequency", "Phenytoin as first-line monotherapy"],
-    a: 0,
+    o: ["Phenytoin as first-line monotherapy", "Carbamazepine as first-line monotherapy", "No treatment unless seizures increase in frequency", "Ethosuximide as first-line monotherapy for childhood absence epilepsy"],
+    a: 3,
     r: "This presentation is classic childhood absence epilepsy: brief episodes of impaired awareness (10-30 seconds), automatisms (lip smacking), no post-ictal confusion, and multiple daily episodes. The EEG hallmark is generalised 3-Hz spike-and-wave discharges. Ethosuximide is the recommended first-line treatment for childhood absence epilepsy based on the landmark NIH-funded study showing superiority over valproate in terms of fewer attentional side effects, and superiority over lamotrigine in seizure control. Carbamazepine is contraindicated as it can worsen absence seizures. Untreated absence seizures impair learning and social functioning. Phenytoin is also contraindicated in absence epilepsy as it may exacerbate seizures.",
     s: "Pediatrics"
   },
   {
     q: "A 22-year-old male university student presents with a 6-month history of social withdrawal, auditory hallucinations (voices commenting on his behaviour), suspiciousness that classmates are plotting against him, and declining academic performance. He has flat affect and disorganised speech. Urine toxicology screen is negative. What is the most appropriate initial pharmacological treatment?",
-    o: ["Start a second-generation antipsychotic such as risperidone or aripiprazole at a low dose with gradual titration", "Start clozapine as first-line treatment for fastest symptom resolution", "Prescribe lorazepam as primary treatment for the psychotic symptoms", "Start fluoxetine for the negative symptoms and flat affect"],
-    a: 0,
+    o: ["Start fluoxetine for the negative symptoms and flat affect", "Start clozapine as first-line treatment for fastest symptom resolution", "Prescribe lorazepam as primary treatment for the psychotic symptoms", "Start a second-generation antipsychotic such as risperidone or aripiprazole at a low dose with gradual titration"],
+    a: 3,
     r: "This presentation meets DSM-5 criteria for schizophrenia: ≥2 symptoms (hallucinations, delusions, disorganised speech) for ≥6 months with functional decline. Second-generation antipsychotics (risperidone, aripiprazole, olanzapine, quetiapine) are first-line due to lower extrapyramidal side effect risk compared to first-generation agents. Start at low doses and titrate gradually. Clozapine is reserved for treatment-resistant schizophrenia (failure of ≥2 adequate antipsychotic trials) due to the risk of agranulocytosis requiring monitoring. Benzodiazepines may be adjunctive for acute agitation but do not treat psychotic symptoms. SSRIs alone are ineffective for psychotic symptoms; they may be adjunctive for comorbid depression.",
     s: "Psychiatry"
   },
   {
     q: "A 42-year-old woman with bipolar I disorder presents during a depressive episode. She reports persistent low mood, hypersomnia, anhedonia, and suicidal ideation for 3 weeks. She is currently on lithium with a serum level of 0.72 mmol/L (therapeutic range 0.6-1.2 mmol/L). What is the most appropriate pharmacological adjustment?",
-    o: ["Add quetiapine as adjunctive therapy, which has the strongest evidence for acute bipolar depression", "Start fluoxetine monotherapy and discontinue lithium", "Increase lithium dose to achieve a level of 1.4 mmol/L", "Add bupropion as monotherapy without a mood stabiliser"],
-    a: 0,
+    o: ["Increase lithium dose to achieve a level of 1.4 mmol/L", "Start fluoxetine monotherapy and discontinue lithium", "Add quetiapine as adjunctive therapy, which has the strongest evidence for acute bipolar depression", "Add bupropion as monotherapy without a mood stabiliser"],
+    a: 2,
     r: "Bipolar depression is treated differently from unipolar depression. Quetiapine (both immediate and extended-release) has the strongest evidence base for acute bipolar depression in both bipolar I and II, demonstrated in the BOLDER trials. It can be added to existing mood stabiliser therapy. Other evidence-based options include lurasidone and the olanzapine-fluoxetine combination. Antidepressant monotherapy without a mood stabiliser is contraindicated in bipolar disorder due to the risk of manic switch. The current lithium level is within therapeutic range, and increasing above 1.2 mmol/L risks toxicity without additional depression benefit. Bupropion without a mood stabiliser carries manic switch risk.",
     s: "Psychiatry"
   },
   {
     q: "A 35-year-old woman presents with recurrent episodes of binge eating followed by self-induced vomiting, occurring 4-5 times per week for the past year. She has dental erosion, bilateral parotid gland enlargement, and calluses on her knuckles (Russell sign). BMI is 23. Serum potassium is 2.9 mmol/L and bicarbonate is 32 mmol/L. What is the most appropriate initial treatment approach?",
-    o: ["Cognitive-behavioural therapy specifically adapted for bulimia nervosa plus fluoxetine 60 mg daily, with potassium replacement", "Hospitalise for refeeding and complete nutritional rehabilitation", "Start olanzapine for appetite regulation", "Prescribe ondansetron to reduce purging behaviour as monotherapy"],
-    a: 0,
+    o: ["Hospitalise for refeeding and complete nutritional rehabilitation", "Cognitive-behavioural therapy specifically adapted for bulimia nervosa plus fluoxetine 60 mg daily, with potassium replacement", "Start olanzapine for appetite regulation", "Prescribe ondansetron to reduce purging behaviour as monotherapy"],
+    a: 1,
     r: "This presentation is bulimia nervosa, purging type. CBT specifically adapted for bulimia nervosa (CBT-BN) is the gold-standard psychological treatment with the strongest evidence base. Fluoxetine at 60 mg/day (higher than typical depression dosing) is the only FDA-approved medication for bulimia nervosa and augments CBT effectiveness. The hypokalaemic metabolic alkalosis results from purging (loss of HCl and potassium). Potassium replacement is essential to prevent cardiac arrhythmias. Hospitalisation for refeeding is unnecessary at BMI 23 without acute medical instability. Olanzapine is not indicated for bulimia nervosa. Ondansetron has limited evidence and is not a standard treatment.",
     s: "Psychiatry"
   },
   {
     q: "A 70-year-old male presents with his wife who reports that he has been increasingly forgetful over the past 18 months. He gets lost driving to familiar places, repeats questions, and has difficulty managing finances. MMSE score is 20/30. He is independent in basic ADLs but needs assistance with instrumental ADLs. MRI brain shows generalised cortical atrophy with hippocampal volume loss. TSH and B12 are normal. What is the most appropriate pharmacological management?",
-    o: ["Start a cholinesterase inhibitor such as donepezil 5 mg daily, with dose titration after 4-6 weeks", "Start memantine 20 mg daily as first-line monotherapy", "Prescribe haloperidol for cognitive stabilisation", "No pharmacological treatment is indicated at this stage"],
-    a: 0,
+    o: ["Start memantine 20 mg daily as first-line monotherapy", "Start a cholinesterase inhibitor such as donepezil 5 mg daily, with dose titration after 4-6 weeks", "Prescribe haloperidol for cognitive stabilisation", "No pharmacological treatment is indicated at this stage"],
+    a: 1,
     r: "This presentation is consistent with mild-to-moderate Alzheimer disease based on the progressive cognitive decline, impaired IADLs with preserved basic ADLs, MMSE score (mild-moderate range 10-24), and MRI findings of cortical atrophy with hippocampal involvement. Cholinesterase inhibitors (donepezil, rivastigmine, galantamine) are first-line pharmacotherapy for mild-to-moderate Alzheimer disease. Donepezil is started at 5 mg daily and titrated to 10 mg after 4-6 weeks if tolerated. They provide modest symptomatic improvement and may slow functional decline. Memantine is indicated for moderate-to-severe disease and can be added to a cholinesterase inhibitor later. Antipsychotics are not indicated for cognitive symptoms. Withholding treatment at this stage delays potential benefit.",
     s: "Psychiatry"
   },
   {
     q: "A 28-year-old woman with a history of recurrent major depressive episodes presents for medication management. She previously achieved remission on sertraline 200 mg daily but developed significant weight gain and sexual dysfunction. She wants to switch to an alternative antidepressant. She has no history of seizures, eating disorders, or hypertension. What is the most appropriate alternative?",
-    o: ["Bupropion XL 150-300 mg daily, which has a favourable profile for weight and sexual function", "Switch to venlafaxine 75 mg daily for fewer sexual side effects", "Start phenelzine 15 mg three times daily as an MAOI with fewer side effects", "Switch to mirtazapine 30 mg daily for weight-neutral treatment"],
-    a: 0,
+    o: ["Start phenelzine 15 mg three times daily as an MAOI with fewer side effects", "Switch to venlafaxine 75 mg daily for fewer sexual side effects", "Bupropion XL 150-300 mg daily, which has a favourable profile for weight and sexual function", "Switch to mirtazapine 30 mg daily for weight-neutral treatment"],
+    a: 2,
     r: "Bupropion is a norepinephrine-dopamine reuptake inhibitor with the lowest rates of sexual dysfunction among antidepressants and is weight-neutral or associated with modest weight loss. It is an ideal switch for patients who developed sexual dysfunction and weight gain on SSRIs. The absence of seizure disorder and eating disorder history confirms safety. Venlafaxine (SNRI) has similar or higher rates of sexual dysfunction compared to SSRIs. MAOIs have significant dietary restrictions and drug interactions, making them inappropriate as a routine switch. Mirtazapine commonly causes weight gain (more than SSRIs) due to antihistaminic properties, making it a poor choice for this patient's concerns.",
     s: "Psychiatry"
   },
   {
     q: "A 19-year-old female is brought to the emergency department after a suicide attempt by medication overdose. She reports chronic feelings of emptiness, intense and unstable relationships, fear of abandonment, impulsivity (binge spending, risky sexual behaviour), and self-harm with cutting for the past 3 years. She has no psychotic symptoms. What is the most effective long-term treatment?",
-    o: ["Dialectical behaviour therapy as the primary evidence-based treatment for borderline personality disorder", "Start olanzapine as primary treatment for emotional dysregulation", "Long-term benzodiazepine therapy for chronic anxiety management", "Intensive psychodynamic psychotherapy 5 times per week as sole treatment"],
-    a: 0,
+    o: ["Start olanzapine as primary treatment for emotional dysregulation", "Dialectical behaviour therapy as the primary evidence-based treatment for borderline personality disorder", "Long-term benzodiazepine therapy for chronic anxiety management", "Intensive psychodynamic psychotherapy 5 times per week as sole treatment"],
+    a: 1,
     r: "This presentation meets DSM-5 criteria for borderline personality disorder: chronic emptiness, unstable relationships, fear of abandonment, impulsivity, self-harm, and identity disturbance. Dialectical behaviour therapy (DBT) is the gold-standard, evidence-based treatment for BPD, with the strongest evidence for reducing self-harm, suicidal behaviour, and emergency department visits. It combines individual therapy with skills training in mindfulness, distress tolerance, emotion regulation, and interpersonal effectiveness. Antipsychotics may provide modest benefit for specific symptoms but are not primary treatment. Benzodiazepines are generally contraindicated in BPD due to disinhibition, dependence risk, and potential paradoxical worsening. Intensive psychodynamic therapy has some evidence but DBT has the strongest empirical support.",
     s: "Psychiatry"
   },
   {
     q: "An 82-year-old woman living alone presents after a fall. She reports 3 falls in the past 6 months. Current medications include amlodipine 10 mg, hydrochlorothiazide 25 mg, zopiclone 7.5 mg nightly, and diazepam 5 mg twice daily. Orthostatic vitals show a systolic blood pressure drop of 28 mmHg on standing with dizziness. Gait is unsteady with wide base. What is the most important initial intervention?",
-    o: ["Deprescribe zopiclone and diazepam as benzodiazepines and sedative-hypnotics are the highest-risk medications for falls in older adults", "Add a walker and refer for physiotherapy without medication changes", "Increase hydrochlorothiazide to improve blood pressure control", "Start fludrocortisone for orthostatic hypotension"],
-    a: 0,
+    o: ["Start fludrocortisone for orthostatic hypotension", "Add a walker and refer for physiotherapy without medication changes", "Increase hydrochlorothiazide to improve blood pressure control", "Deprescribe zopiclone and diazepam as benzodiazepines and sedative-hypnotics are the highest-risk medications for falls in older adults"],
+    a: 3,
     r: "Recurrent falls in elderly patients require comprehensive assessment including medication review, orthostatic hypotension evaluation, gait assessment, and environmental modification. Benzodiazepines (diazepam) and Z-drugs (zopiclone) are among the highest-risk medications for falls in older adults per the Beers Criteria and STOPP criteria. They impair balance, cognition, and reaction time. Diazepam is particularly inappropriate in the elderly due to its long half-life (20-100 hours) and active metabolites. Deprescribing these medications is the single most impactful intervention. Physiotherapy and assistive devices are important but do not address the medication-related root cause. Increasing diuretics would worsen orthostatic hypotension. Fludrocortisone addresses only one contributing factor.",
     s: "Geriatrics"
   },
   {
     q: "A 78-year-old male presents with urinary incontinence, gait disturbance described as 'magnetic gait' (difficulty lifting feet from the floor), and progressive cognitive decline over 6 months. MRI brain shows ventriculomegaly out of proportion to cortical atrophy. What is the most likely diagnosis and appropriate diagnostic confirmation?",
-    o: ["Normal pressure hydrocephalus; large-volume lumbar puncture (30-50 mL) with gait assessment before and after CSF removal", "Alzheimer disease; start donepezil immediately", "Parkinson disease; start carbidopa-levodopa", "Vascular dementia; start aspirin and statin therapy"],
-    a: 0,
+    o: ["Vascular dementia; start aspirin and statin therapy", "Alzheimer disease; start donepezil immediately", "Parkinson disease; start carbidopa-levodopa", "Normal pressure hydrocephalus; large-volume lumbar puncture (30-50 mL) with gait assessment before and after CSF removal"],
+    a: 3,
     r: "The classic triad of normal pressure hydrocephalus (NPH) is gait disturbance (magnetic gait, typically the earliest and most responsive symptom), urinary incontinence, and cognitive decline ('wet, wobbly, and wacky'). MRI showing ventriculomegaly disproportionate to sulcal atrophy supports the diagnosis. The diagnostic and prognostic test is a large-volume lumbar puncture (removing 30-50 mL CSF), followed by assessment of gait improvement within 1-4 hours. Clinical improvement predicts a positive response to ventriculoperitoneal shunt placement. Alzheimer disease has cortical atrophy proportionate to ventricular enlargement. Parkinson disease presents with tremor, rigidity, and bradykinesia. Vascular dementia shows white matter ischaemic changes.",
     s: "Geriatrics"
   },
   {
     q: "A 75-year-old woman is admitted for hip fracture repair. On postoperative day 2, she becomes acutely confused, agitated, and pulling at her IV lines. She is disoriented to time and place with fluctuating consciousness. She was cognitively intact preoperatively. She is on morphine PCA, diphenhydramine for sleep, and has a Foley catheter. What is the most appropriate initial management?",
-    o: ["Identify and treat reversible causes: reduce opioids, discontinue diphenhydramine, remove Foley catheter if possible, and implement non-pharmacological delirium prevention", "Start haloperidol 5 mg IM every 4 hours for agitation", "Order CT brain to rule out stroke before any intervention", "Apply physical restraints to prevent line removal"],
-    a: 0,
+    o: ["Start haloperidol 5 mg IM every 4 hours for agitation", "Identify and treat reversible causes: reduce opioids, discontinue diphenhydramine, remove Foley catheter if possible, and implement non-pharmacological delirium prevention", "Order CT brain to rule out stroke before any intervention", "Apply physical restraints to prevent line removal"],
+    a: 1,
     r: "This is postoperative delirium, characterised by acute onset, fluctuating course, inattention, and altered consciousness in a previously intact patient. The priority is identifying and treating reversible causes. Opioids (morphine, especially with active metabolites in the elderly) and anticholinergic medications (diphenhydramine is on the Beers Criteria) are common precipitants. The Foley catheter is a source of discomfort and infection risk. Non-pharmacological interventions (reorientation, sleep hygiene, mobilisation, adequate hydration) are first-line. Low-dose haloperidol or quetiapine may be considered for severe agitation risking patient safety, but 5 mg is too high for an elderly patient. CT brain may be considered if focal neurological signs are present. Physical restraints worsen delirium.",
     s: "Geriatrics"
   },
   {
     q: "An 84-year-old male presents with progressive functional decline, 8 kg unintentional weight loss over 4 months, fatigue, and decreased grip strength. He has difficulty rising from a chair without using his arms and walks slower than 0.6 m/s. BMI is 19.2. He is on 12 medications. What syndrome does this presentation represent, and what is the most important intervention?",
-    o: ["Frailty syndrome; comprehensive geriatric assessment with exercise prescription (resistance and balance training), nutritional optimisation, and medication review for polypharmacy", "Sarcopaenia only; prescribe testosterone replacement therapy", "Depression; start citalopram 20 mg daily", "Cachexia from occult malignancy; order whole-body PET-CT immediately"],
-    a: 0,
+    o: ["Depression; start citalopram 20 mg daily", "Sarcopaenia only; prescribe testosterone replacement therapy", "Frailty syndrome; comprehensive geriatric assessment with exercise prescription (resistance and balance training), nutritional optimisation, and medication review for polypharmacy", "Cachexia from occult malignancy; order whole-body PET-CT immediately"],
+    a: 2,
     r: "This patient meets Fried's frailty phenotype criteria: weight loss, exhaustion/fatigue, low grip strength, slow walking speed, and low physical activity (3 or more of 5 criteria = frail). Frailty is a geriatric syndrome of decreased physiological reserve increasing vulnerability to stressors. Evidence-based interventions include: structured exercise programmes (resistance training most effective for improving muscle strength and function), nutritional optimisation with adequate protein intake (1.2-1.5 g/kg/day), and comprehensive medication review to deprescribe inappropriate medications. Testosterone is not recommended for frailty. While depression should be screened for, the full clinical picture suggests frailty. Malignancy screening is reasonable but should not delay functional interventions.",
     s: "Geriatrics"
   },
   {
     q: "A 79-year-old female with osteoporosis (T-score -3.2 at lumbar spine) and a recent vertebral compression fracture presents for treatment initiation. She has stage 3b CKD with an eGFR of 38 mL/min/1.73m². She has no history of osteonecrosis of the jaw, atypical femoral fractures, or oesophageal disorders. Calcium and 25-hydroxyvitamin D are replete. What is the most appropriate osteoporosis treatment?",
-    o: ["Denosumab 60 mg subcutaneously every 6 months, as it does not require dose adjustment for renal impairment", "Oral alendronate 70 mg weekly", "IV zoledronic acid 5 mg annually", "Teriparatide 20 µg daily subcutaneous injection"],
-    a: 0,
+    o: ["Oral alendronate 70 mg weekly", "Denosumab 60 mg subcutaneously every 6 months, as it does not require dose adjustment for renal impairment", "IV zoledronic acid 5 mg annually", "Teriparatide 20 µg daily subcutaneous injection"],
+    a: 1,
     r: "In patients with severe osteoporosis (T-score ≤-2.5 with fracture) and CKD stage 3b-5, bisphosphonates (alendronate, zoledronic acid) are generally not recommended when eGFR is below 30-35 mL/min due to accumulation and nephrotoxicity risk. While this patient's eGFR of 38 is borderline, denosumab is the preferred choice because it is a RANK ligand inhibitor that does not undergo renal clearance and requires no dose adjustment in CKD. However, patients with CKD must be monitored for hypocalcaemia. Teriparatide is effective for severe osteoporosis but is also limited in severe CKD due to concerns about adynamic bone disease. Adequate calcium and vitamin D supplementation is essential with denosumab.",
     s: "Geriatrics"
   },
   {
     q: "An 88-year-old male with advanced heart failure (NYHA Class IV), severe COPD on home oxygen, and moderate dementia is admitted with pneumonia. His advance directive states 'no intubation, no CPR.' Despite IV antibiotics for 72 hours, he continues to deteriorate with increasing dyspnoea and respiratory distress. His daughter, who is his substitute decision-maker, asks about comfort measures. What is the most appropriate palliative intervention for his dyspnoea?",
-    o: ["Low-dose morphine (1-2 mg IV/SC every 4 hours as needed) for dyspnoea relief, with ongoing oxygen therapy for comfort", "Increase IV antibiotics to maximum doses and add a second broad-spectrum agent", "Initiate non-invasive positive pressure ventilation despite the advance directive", "Discontinue all medications and provide only spiritual care"],
-    a: 0,
+    o: ["Increase IV antibiotics to maximum doses and add a second broad-spectrum agent", "Low-dose morphine (1-2 mg IV/SC every 4 hours as needed) for dyspnoea relief, with ongoing oxygen therapy for comfort", "Initiate non-invasive positive pressure ventilation despite the advance directive", "Discontinue all medications and provide only spiritual care"],
+    a: 1,
     r: "In a patient with goals of care focused on comfort, dyspnoea management is a priority. Low-dose opioids (morphine 1-2 mg IV/SC every 4 hours PRN) are the evidence-based treatment for refractory dyspnoea in palliative care, working through central respiratory chemoreceptor modulation to reduce the sensation of breathlessness without clinically significant respiratory depression at these doses. Supplemental oxygen provides comfort in hypoxaemic patients. Escalating antibiotics contradicts the shift to comfort-focused care. NIPPV may prolong dying without improving comfort and contradicts the spirit of the advance directive. Discontinuing all medications, including symptom-management drugs, would increase suffering and is not appropriate palliative care.",
     s: "Geriatrics"
   },
@@ -297,22 +297,22 @@ export const npExpansionDQuestions: ExamQuestion[] = [
   },
   {
     q: "A 55-year-old male presents with sudden onset of severe tearing chest pain radiating to the back. Blood pressure is 198/110 mmHg in the right arm and 152/88 mmHg in the left arm. CT angiography shows a Stanford type B aortic dissection extending from the left subclavian artery to the abdominal aorta without malperfusion syndrome. What is the most appropriate initial management?",
-    o: ["IV esmolol infusion to achieve heart rate < 60 bpm and systolic blood pressure 100-120 mmHg, with ICU admission for medical management", "Emergent surgical repair via open thoracotomy", "Emergent thoracic endovascular aortic repair (TEVAR)", "Start oral metoprolol 50 mg and discharge with outpatient follow-up in 1 week"],
-    a: 0,
+    o: ["Emergent surgical repair via open thoracotomy", "IV esmolol infusion to achieve heart rate < 60 bpm and systolic blood pressure 100-120 mmHg, with ICU admission for medical management", "Emergent thoracic endovascular aortic repair (TEVAR)", "Start oral metoprolol 50 mg and discharge with outpatient follow-up in 1 week"],
+    a: 1,
     r: "Uncomplicated Stanford type B aortic dissection (originating distal to the left subclavian artery) without malperfusion, rupture, or rapid expansion is managed medically. The priority is aggressive blood pressure and heart rate control to reduce aortic wall shear stress: IV beta-blocker (esmolol preferred due to short half-life and easy titration) targeting HR <60 bpm and SBP 100-120 mmHg. ICU monitoring is essential. The blood pressure discrepancy between arms confirms involvement of arch branch vessels. Emergent surgery is indicated for Stanford type A dissections (ascending aorta) or complicated type B (malperfusion, rupture, refractory pain). TEVAR may be considered for complicated type B. Oral medication and outpatient management are inadequate for acute dissection.",
     s: "Cardiovascular"
   },
   {
     q: "A 62-year-old female presents with new-onset exertional angina. She has diabetes, hypertension, and hyperlipidaemia. Coronary angiography reveals 80% stenosis of the left anterior descending artery and 70% stenosis of the right coronary artery. Left ventricular function is normal. SYNTAX score is 18. What is the most appropriate revascularisation strategy?",
-    o: ["Percutaneous coronary intervention with drug-eluting stents, given the low SYNTAX score indicating less complex coronary anatomy", "Coronary artery bypass grafting as first-line for all multivessel disease", "Medical management alone without revascularisation", "Hybrid approach with CABG to LAD and PCI to RCA"],
-    a: 0,
+    o: ["Coronary artery bypass grafting as first-line for all multivessel disease", "Percutaneous coronary intervention with drug-eluting stents, given the low SYNTAX score indicating less complex coronary anatomy", "Medical management alone without revascularisation", "Hybrid approach with CABG to LAD and PCI to RCA"],
+    a: 1,
     r: "The SYNTAX trial established that for multivessel coronary artery disease, the SYNTAX score guides revascularisation strategy. A low SYNTAX score (≤22) indicates less complex coronary anatomy where PCI with drug-eluting stents achieves comparable outcomes to CABG. For intermediate (23-32) and high (≥33) SYNTAX scores, CABG is preferred due to lower rates of major adverse cardiac events. This patient's score of 18 favours PCI. However, in diabetic patients with multivessel disease, the FREEDOM trial showed CABG superiority; clinical decision-making must integrate individual risk factors. Medical management alone is insufficient for symptomatic significant stenosis. Hybrid approaches are emerging but not yet standard of care for this presentation.",
     s: "Cardiovascular"
   },
   {
     q: "A 48-year-old male presents with palpitations and lightheadedness. ECG shows a regular wide-complex tachycardia at 180 bpm. Blood pressure is 92/60 mmHg. He is diaphoretic but conscious. What is the most appropriate immediate management?",
-    o: ["Synchronised cardioversion at 100-200J biphasic, as this is an unstable wide-complex tachycardia", "Administer IV adenosine 6 mg rapid push", "Administer IV verapamil 5 mg over 2 minutes", "Start IV amiodarone 150 mg over 10 minutes"],
-    a: 0,
+    o: ["Start IV amiodarone 150 mg over 10 minutes", "Administer IV adenosine 6 mg rapid push", "Administer IV verapamil 5 mg over 2 minutes", "Synchronised cardioversion at 100-200J biphasic, as this is an unstable wide-complex tachycardia"],
+    a: 3,
     r: "This patient has an unstable wide-complex tachycardia (haemodynamic instability evidenced by hypotension and diaphoresis). Per ACLS guidelines, unstable tachycardia of any type requires immediate synchronised cardioversion. Wide-complex tachycardia should be presumed ventricular tachycardia until proven otherwise. Adenosine is used for stable regular narrow-complex tachycardia and may be considered for stable regular wide-complex tachycardia if SVT with aberrancy is suspected, but it is not appropriate in haemodynamic instability. Verapamil is absolutely contraindicated in wide-complex tachycardia as it can cause cardiovascular collapse if VT is present. IV amiodarone is appropriate for stable wide-complex tachycardia but not for unstable patients requiring cardioversion.",
     s: "Cardiovascular"
   },
@@ -332,8 +332,8 @@ export const npExpansionDQuestions: ExamQuestion[] = [
   },
   {
     q: "A 45-year-old non-smoking female presents with progressive dyspnoea over 2 years. CT chest shows diffuse ground-glass opacities with fine reticulation and traction bronchiectasis in a basal and peripheral distribution. Pulmonary function tests show FVC 58% predicted, DLCO 42% predicted, with an FEV1/FVC ratio of 0.85. ANA, RF, anti-CCP, and anti-Scl-70 are all negative. Surgical lung biopsy shows usual interstitial pneumonia pattern. What is the most appropriate treatment?",
-    o: ["Start antifibrotic therapy with pirfenidone or nintedanib to slow disease progression", "Start prednisone 1 mg/kg daily for immunosuppressive treatment", "Start azathioprine and prednisone combination therapy", "No treatment is available; refer for palliative care only"],
-    a: 0,
+    o: ["Start azathioprine and prednisone combination therapy", "Start prednisone 1 mg/kg daily for immunosuppressive treatment", "Start antifibrotic therapy with pirfenidone or nintedanib to slow disease progression", "No treatment is available; refer for palliative care only"],
+    a: 2,
     r: "This presentation is idiopathic pulmonary fibrosis (IPF): progressive dyspnoea, UIP pattern on biopsy, restrictive physiology with severely reduced DLCO, and negative connective tissue disease markers. Antifibrotic agents (pirfenidone and nintedanib) are the standard of care for IPF, demonstrated in the ASCEND (pirfenidone) and INPULSIS (nintedanib) trials to significantly slow decline in FVC. Immunosuppressive therapy with prednisone and azathioprine is harmful in IPF, as the PANTHER-IPF trial was stopped early due to increased mortality and hospitalisations. The combination of prednisone, azathioprine, and NAC is contraindicated. While IPF has a poor prognosis (median survival 3-5 years), antifibrotics slow progression and lung transplant evaluation should be considered given her age and severity.",
     s: "Respiratory"
   },
@@ -346,8 +346,8 @@ export const npExpansionDQuestions: ExamQuestion[] = [
   },
   {
     q: "A 60-year-old male with severe persistent asthma presents for management review. Despite adherence to high-dose ICS/LABA (fluticasone 500 µg/salmeterol 50 µg twice daily), he continues to have weekly symptoms, nocturnal awakenings, and 2 exacerbations requiring systemic corticosteroids in the past 3 months. Blood eosinophils are 520 cells/µL. Total IgE is 280 IU/mL. Spirometry shows FEV1 62% predicted with 14% reversibility. What is the most appropriate add-on therapy?",
-    o: ["Add a biologic agent targeting the eosinophilic pathway, such as mepolizumab (anti-IL-5) or dupilumab (anti-IL-4Rα), given the eosinophilic severe asthma phenotype", "Double the ICS dose to fluticasone 1000 µg twice daily", "Add oral prednisone 10 mg daily as maintenance therapy", "Add oral montelukast and discontinue the LABA"],
-    a: 0,
+    o: ["Add oral montelukast and discontinue the LABA", "Double the ICS dose to fluticasone 1000 µg twice daily", "Add oral prednisone 10 mg daily as maintenance therapy", "Add a biologic agent targeting the eosinophilic pathway, such as mepolizumab (anti-IL-5) or dupilumab (anti-IL-4Rα), given the eosinophilic severe asthma phenotype"],
+    a: 3,
     r: "This patient has severe eosinophilic asthma uncontrolled on Step 4 GINA therapy. Blood eosinophils ≥300 cells/µL identify the type 2 (eosinophilic) phenotype. Biologic therapies targeting this pathway have transformed severe asthma management: mepolizumab (anti-IL-5) reduces exacerbations by 50% in eosinophilic asthma; dupilumab (anti-IL-4Rα) reduces exacerbations and improves lung function across type 2 biomarker-high patients; benralizumab (anti-IL-5Rα) depletes eosinophils directly. Doubling ICS beyond high-dose provides minimal additional benefit with increased side effects. Chronic oral corticosteroids carry unacceptable long-term toxicity (osteoporosis, diabetes, adrenal suppression) and should be avoided when biologics are available. Montelukast alone is insufficient for severe uncontrolled asthma.",
     s: "Respiratory"
   },
@@ -360,8 +360,8 @@ export const npExpansionDQuestions: ExamQuestion[] = [
   },
   {
     q: "A 38-year-old male presents with a 2-day history of right-sided pleuritic chest pain, fever (38.9°C), and productive cough with rust-coloured sputum. Chest radiograph shows right lower lobe consolidation with a small pleural effusion. WBC is 16.8 × 10⁹/L. CRB-65 score is 0. He has no drug allergies. What is the most appropriate management?",
-    o: ["Outpatient treatment with amoxicillin 1 g three times daily for 5-7 days, targeting Streptococcus pneumoniae as the most likely pathogen", "Admit to hospital for IV piperacillin-tazobactam", "Prescribe oral ciprofloxacin 500 mg twice daily for 10 days", "Prescribe azithromycin 500 mg daily for 3 days as monotherapy"],
-    a: 0,
+    o: ["Prescribe oral ciprofloxacin 500 mg twice daily for 10 days", "Admit to hospital for IV piperacillin-tazobactam", "Outpatient treatment with amoxicillin 1 g three times daily for 5-7 days, targeting Streptococcus pneumoniae as the most likely pathogen", "Prescribe azithromycin 500 mg daily for 3 days as monotherapy"],
+    a: 2,
     r: "This is community-acquired pneumonia in a young, previously healthy adult. The CRB-65 score of 0 (no confusion, respiratory rate <30, BP adequate, age <65) indicates low severity suitable for outpatient management. Rust-coloured sputum is classic for Streptococcus pneumoniae. Per BTS and CTS guidelines, amoxicillin (or amoxicillin high-dose) is first-line for low-severity CAP targeting pneumococcus. Duration of 5-7 days is adequate for uncomplicated CAP. Hospital admission with IV broad-spectrum antibiotics is unnecessary for low-severity disease. Ciprofloxacin has poor pneumococcal coverage. Azithromycin monotherapy is acceptable in areas with low macrolide resistance but amoxicillin is preferred in many guidelines. The small pleural effusion should be monitored but does not change initial outpatient management.",
     s: "Respiratory"
   },
@@ -374,8 +374,8 @@ export const npExpansionDQuestions: ExamQuestion[] = [
   },
   {
     q: "A 56-year-old female presents with a 6-week history of bloody diarrhoea, abdominal cramping, and an unintentional weight loss of 5 kg. She recently returned from a 3-month trip to India. Stool microscopy shows trophozoites with ingested red blood cells. Stool culture for bacterial pathogens is negative. Abdominal ultrasound shows a 6-cm hypoechoic lesion in the right lobe of the liver. What is the most appropriate treatment?",
-    o: ["Metronidazole 750 mg three times daily for 7-10 days for invasive amoebiasis, followed by paromomycin to eliminate intraluminal cysts", "Oral vancomycin for presumed C. difficile colitis", "Percutaneous drainage of the liver abscess without antimicrobial therapy", "Trimethoprim-sulfamethoxazole for 14 days"],
-    a: 0,
+    o: ["Trimethoprim-sulfamethoxazole for 14 days", "Oral vancomycin for presumed C. difficile colitis", "Percutaneous drainage of the liver abscess without antimicrobial therapy", "Metronidazole 750 mg three times daily for 7-10 days for invasive amoebiasis, followed by paromomycin to eliminate intraluminal cysts"],
+    a: 3,
     r: "The combination of bloody diarrhoea with trophozoites containing ingested erythrocytes (pathognomonic for Entamoeba histolytica) and a liver abscess in a traveller from an endemic area is classic invasive amoebiasis with amoebic liver abscess. Treatment requires metronidazole (or tinidazole) as a tissue amoebicide to treat the invasive disease, followed by a luminal agent (paromomycin or diloxanide furoate) to eliminate intraluminal cysts and prevent relapse. Percutaneous drainage is reserved for large abscesses (>5 cm) at risk of rupture or failure to respond to medical therapy within 72 hours, but antimicrobial therapy is always required. C. difficile does not cause liver abscesses. TMP-SMX is not effective against E. histolytica.",
     s: "Infectious Disease"
   },
@@ -388,64 +388,64 @@ export const npExpansionDQuestions: ExamQuestion[] = [
   },
   {
     q: "A 34-year-old woman presents with anxiety, tremor, heat intolerance, weight loss of 6 kg over 3 months, and palpitations. Examination reveals diffuse thyroid enlargement, lid lag, and bilateral proptosis. TSH is <0.01 mIU/L, free T4 is 52 pmol/L (normal 10-25), and free T3 is 18.4 pmol/L (normal 3.5-6.5). TSH receptor antibodies are strongly positive. What is the most appropriate initial pharmacological management?",
-    o: ["Start methimazole 20-30 mg daily with a beta-blocker (propranolol 40-80 mg three times daily) for symptom control", "Start propylthiouracil 300 mg three times daily as first-line therapy", "Administer radioactive iodine ablation immediately", "Start levothyroxine to suppress TSH further"],
-    a: 0,
+    o: ["Administer radioactive iodine ablation immediately", "Start propylthiouracil 300 mg three times daily as first-line therapy", "Start methimazole 20-30 mg daily with a beta-blocker (propranolol 40-80 mg three times daily) for symptom control", "Start levothyroxine to suppress TSH further"],
+    a: 2,
     r: "This is Graves disease: diffuse goitre, ophthalmopathy (proptosis, lid lag), severely elevated free T4 and T3, suppressed TSH, and positive TSH receptor antibodies. Methimazole is first-line antithyroid drug due to once-daily dosing, faster onset, and lower hepatotoxicity risk compared to PTU. PTU is reserved for first trimester pregnancy or thyroid storm. A beta-blocker (propranolol preferred as it also inhibits peripheral T4-to-T3 conversion) controls adrenergic symptoms (tremor, tachycardia, anxiety) while awaiting antithyroid drug effect. Radioactive iodine is a definitive treatment option but should not be administered during active ophthalmopathy as it can worsen eye disease. Levothyroxine would worsen hyperthyroidism.",
     s: "Endocrine"
   },
   {
     q: "A 52-year-old woman with a history of gastric bypass surgery 5 years ago presents with fatigue, numbness and tingling in her hands and feet, unsteady gait, and glossitis. CBC shows haemoglobin 96 g/L with MCV 112 fL. Peripheral smear reveals hypersegmented neutrophils and macro-ovalocytes. Serum B12 is 82 pmol/L (normal 148-590). Folate is normal. What is the most appropriate treatment?",
-    o: ["IM cyanocobalamin 1000 µg daily for 7 days, then weekly for 4 weeks, then monthly indefinitely due to irreversible malabsorption", "Oral vitamin B12 1000 µg daily", "Oral folic acid 5 mg daily", "Iron supplementation with ferrous sulfate 325 mg three times daily"],
-    a: 0,
+    o: ["Oral vitamin B12 1000 µg daily", "IM cyanocobalamin 1000 µg daily for 7 days, then weekly for 4 weeks, then monthly indefinitely due to irreversible malabsorption", "Oral folic acid 5 mg daily", "Iron supplementation with ferrous sulfate 325 mg three times daily"],
+    a: 1,
     r: "Post-gastric bypass patients develop vitamin B12 deficiency due to bypassed intrinsic factor-producing parietal cells in the stomach and decreased acid-pepsin digestion needed to release B12 from food. The presentation of macrocytic anaemia with hypersegmented neutrophils and neurological symptoms (peripheral neuropathy, subacute combined degeneration) is classic. IM (intramuscular) B12 is required rather than oral supplementation because the malabsorption is anatomical and permanent. The loading regimen ensures rapid repletion of depleted stores. Lifelong monthly injections are necessary. Oral B12 relies on passive absorption (1% of dose) which is unreliable post-bypass. Folate supplementation without B12 can mask haematological recovery while allowing neurological deterioration to progress. Iron deficiency may coexist but does not explain macrocytosis.",
     s: "Hematology"
   },
   {
     q: "A 44-year-old male presents with a 2-week history of progressive bilateral lower extremity weakness, areflexia, and paraesthesias ascending from the feet. He had a gastrointestinal illness 3 weeks prior. Examination reveals symmetric weakness (3/5 in lower extremities, 4/5 in upper extremities), absent deep tendon reflexes, and intact sensation to light touch. Lumbar puncture shows albumino-cytologic dissociation (protein 1.8 g/L, WBC 3 cells/µL). What is the most appropriate treatment?",
-    o: ["IV immunoglobulin 0.4 g/kg/day for 5 days, with close monitoring of respiratory function including serial forced vital capacity measurements", "High-dose oral prednisone 60 mg daily for 4 weeks", "Start gabapentin for neuropathic pain as primary treatment", "Observe without treatment as the condition is self-limiting"],
-    a: 0,
+    o: ["Start gabapentin for neuropathic pain as primary treatment", "High-dose oral prednisone 60 mg daily for 4 weeks", "IV immunoglobulin 0.4 g/kg/day for 5 days, with close monitoring of respiratory function including serial forced vital capacity measurements", "Observe without treatment as the condition is self-limiting"],
+    a: 2,
     r: "This is Guillain-Barré syndrome (acute inflammatory demyelinating polyradiculoneuropathy): ascending symmetric weakness, areflexia, preceding infectious illness, and albumino-cytologic dissociation on CSF analysis. IVIG (0.4 g/kg/day for 5 days) or plasma exchange are equally effective first-line treatments and should be initiated for patients with significant weakness (unable to walk independently) or rapidly progressing symptoms. Corticosteroids are NOT effective for GBS and may delay recovery. Serial FVC monitoring is critical because respiratory failure occurs in 30% of patients; intubation is considered when FVC falls below 20 mL/kg or negative inspiratory force is less than -20 cmH2O. While GBS is typically monophasic, observation without immunotherapy risks respiratory failure and prolonged disability.",
     s: "Neurological"
   },
   {
     q: "A 55-year-old male with metastatic non-small cell lung cancer on pembrolizumab immunotherapy presents with fatigue, weakness, nausea, and postural hypotension for 5 days. Serum sodium is 128 mmol/L, potassium is 5.8 mmol/L, and random cortisol is 42 nmol/L (normal AM cortisol 170-540 nmol/L). TSH and free T4 are normal. What is the most likely diagnosis and immediate treatment?",
-    o: ["Immune checkpoint inhibitor-induced primary adrenal insufficiency; administer IV hydrocortisone 100 mg bolus followed by 50 mg every 8 hours", "SIADH from lung cancer; start fluid restriction", "Hypothyroidism from pembrolizumab; start levothyroxine", "Tumour-related hyperkalaemia; administer IV calcium gluconate"],
-    a: 0,
+    o: ["Tumour-related hyperkalaemia; administer IV calcium gluconate", "SIADH from lung cancer; start fluid restriction", "Hypothyroidism from pembrolizumab; start levothyroxine", "Immune checkpoint inhibitor-induced primary adrenal insufficiency; administer IV hydrocortisone 100 mg bolus followed by 50 mg every 8 hours"],
+    a: 3,
     r: "Immune checkpoint inhibitors (pembrolizumab, nivolumab) can cause immune-related adverse events affecting any endocrine gland. The combination of hyponatraemia, hyperkalaemia, low cortisol, hypotension, and fatigue in a patient on immunotherapy is classic for immune-mediated adrenal insufficiency (adrenalitis). Primary adrenal insufficiency shows mineralocorticoid deficiency (hyperkalaemia, hyponatraemia) unlike secondary (pituitary) insufficiency where aldosterone is preserved. Immediate treatment is IV stress-dose hydrocortisone (100 mg bolus then 50 mg q8h), IV normal saline for volume repletion, and monitoring. Once stable, transition to oral hydrocortisone with fludrocortisone for mineralocorticoid replacement. SIADH causes hyponatraemia but not hyperkalaemia. TSH and free T4 are normal, excluding hypothyroidism. Pembrolizumab should be held until the endocrinopathy is managed.",
     s: "Endocrine"
   },
   {
     q: "A 68-year-old female with type 2 diabetes, hypertension, and CKD stage 3a (eGFR 52 mL/min) presents with a spot urine albumin-to-creatinine ratio of 42 mg/mmol (moderately increased albuminuria). She is currently on metformin 1000 mg BID, lisinopril 20 mg daily, and amlodipine 5 mg daily. Blood pressure is 138/82 mmHg. HbA1c is 7.4%. What is the most important medication addition for renal protection?",
-    o: ["Add an SGLT2 inhibitor such as dapagliflozin or empagliflozin, which provides renal protection independent of glycaemic control", "Increase lisinopril to maximum dose and add losartan for dual RAAS blockade", "Add spironolactone 50 mg daily for additional proteinuria reduction", "Switch metformin to a sulfonylurea for better glycaemic control"],
-    a: 0,
+    o: ["Add spironolactone 50 mg daily for additional proteinuria reduction", "Increase lisinopril to maximum dose and add losartan for dual RAAS blockade", "Add an SGLT2 inhibitor such as dapagliflozin or empagliflozin, which provides renal protection independent of glycaemic control", "Switch metformin to a sulfonylurea for better glycaemic control"],
+    a: 2,
     r: "SGLT2 inhibitors have transformed CKD management. The DAPA-CKD and EMPA-KIDNEY trials demonstrated significant reductions in CKD progression, cardiovascular events, and kidney failure independent of diabetes status. In a diabetic patient with CKD and albuminuria already on ACEi, adding an SGLT2 inhibitor provides the greatest additional renal protection. Their renoprotective mechanisms include reducing glomerular hyperfiltration (tubuloglomerular feedback), decreasing albuminuria, and reducing interstitial fibrosis. Dual RAAS blockade (ACEi + ARB) is not recommended due to increased hyperkalaemia and AKI risk without additional renal benefit (ONTARGET trial). Spironolactone at high doses with ACEi increases hyperkalaemia risk, though finerenone (non-steroidal MRA) is emerging as an option. Sulfonylureas do not provide renal protection.",
     s: "Renal"
   },
   {
     q: "A 9-year-old girl presents with a 3-day history of cola-coloured urine, periorbital oedema, and decreased urine output. Blood pressure is 142/92 mmHg. She had a sore throat 2 weeks ago. Urinalysis shows RBC casts, proteinuria (1+), and haematuria (3+). Serum C3 is low and C4 is normal. ASO titre is elevated at 480 IU/mL. Creatinine is mildly elevated. What is the most likely diagnosis and management?",
-    o: ["Post-streptococcal glomerulonephritis; manage supportively with salt and fluid restriction, antihypertensives, and diuretics with monitoring of renal function and complement levels", "IgA nephropathy; start immunosuppressive therapy with corticosteroids", "Lupus nephritis; start cyclophosphamide", "Membranoproliferative glomerulonephritis; perform renal biopsy immediately"],
-    a: 0,
+    o: ["Membranoproliferative glomerulonephritis; perform renal biopsy immediately", "IgA nephropathy; start immunosuppressive therapy with corticosteroids", "Lupus nephritis; start cyclophosphamide", "Post-streptococcal glomerulonephritis; manage supportively with salt and fluid restriction, antihypertensives, and diuretics with monitoring of renal function and complement levels"],
+    a: 3,
     r: "This is classic post-streptococcal glomerulonephritis (PSGN): nephritic syndrome (haematuria with RBC casts, mild proteinuria, oedema, hypertension, decreased GFR) following a streptococcal pharyngitis by 1-3 weeks. Low C3 with normal C4 indicates alternative complement pathway activation, characteristic of PSGN. Elevated ASO confirms recent streptococcal infection. Management is primarily supportive: sodium and fluid restriction, loop diuretics for oedema, and antihypertensives for blood pressure control. Renal biopsy is not routinely needed when the presentation is classic. Most children recover fully within 6-8 weeks with normalisation of complement. IgA nephropathy presents with synpharyngitic haematuria (concurrent, not delayed). Lupus nephritis has low C3 and C4. MPGN requires biopsy for diagnosis.",
     s: "Pediatrics"
   },
   {
     q: "A 46-year-old woman with generalised anxiety disorder on escitalopram 20 mg daily presents requesting a medication change because of persistent sexual dysfunction (anorgasmia) and 8 kg weight gain over the past year. She has achieved good anxiety control and does not want to risk symptom recurrence. She has no history of seizures. What is the most appropriate pharmacological switch strategy?",
-    o: ["Cross-taper to buspirone 15-30 mg daily in divided doses, which is effective for GAD without sexual dysfunction or weight gain", "Abruptly discontinue escitalopram and start bupropion the next day", "Add sildenafil as needed for sexual dysfunction while continuing escitalopram", "Switch to venlafaxine for fewer sexual side effects"],
-    a: 0,
+    o: ["Add sildenafil as needed for sexual dysfunction while continuing escitalopram", "Abruptly discontinue escitalopram and start bupropion the next day", "Cross-taper to buspirone 15-30 mg daily in divided doses, which is effective for GAD without sexual dysfunction or weight gain", "Switch to venlafaxine for fewer sexual side effects"],
+    a: 2,
     r: "Buspirone is a 5-HT1A partial agonist with FDA approval for generalised anxiety disorder. It has no associated sexual dysfunction, is weight-neutral, and has no dependence potential. It is an ideal alternative for patients who develop intolerable sexual side effects on SSRIs while needing ongoing anxiolytic therapy. A cross-taper strategy (gradually reducing escitalopram while titrating buspirone) minimises SSRI discontinuation syndrome and anxiety breakthrough. Abrupt SSRI discontinuation causes withdrawal symptoms. Bupropion is excellent for depression but has limited evidence for GAD. Venlafaxine (SNRI) has equal or higher rates of sexual dysfunction compared to SSRIs. Sildenafil addresses erectile dysfunction but not anorgasmia, and does not address weight gain.",
     s: "Psychiatry"
   },
   {
     q: "A 72-year-old male with Parkinson disease managed on carbidopa-levodopa develops visual hallucinations of people in his home. He is aware the hallucinations are not real (retained insight). He has no signs of delirium, and no medication changes have been made recently. Cognition is mildly impaired (MMSE 24/30). What is the most appropriate pharmacological intervention if non-pharmacological measures fail?",
-    o: ["Pimavanserin 34 mg daily, which is specifically approved for Parkinson disease psychosis without worsening motor symptoms", "Add haloperidol 2 mg twice daily", "Start olanzapine 5 mg at bedtime", "Increase carbidopa-levodopa dose to suppress the hallucinations"],
-    a: 0,
+    o: ["Increase carbidopa-levodopa dose to suppress the hallucinations", "Add haloperidol 2 mg twice daily", "Start olanzapine 5 mg at bedtime", "Pimavanserin 34 mg daily, which is specifically approved for Parkinson disease psychosis without worsening motor symptoms"],
+    a: 3,
     r: "Parkinson disease psychosis (PDP) occurs in up to 50% of PD patients, often as a medication side effect or due to disease-related cortical Lewy body pathology. Pimavanserin is a selective serotonin 5-HT2A inverse agonist specifically FDA-approved for PDP. Critically, it does not block dopamine D2 receptors and therefore does not worsen parkinsonism. Haloperidol and other typical antipsychotics are absolutely contraindicated in PD as they block D2 receptors, dramatically worsening motor symptoms and potentially causing neuroleptic malignant syndrome. Olanzapine also worsens motor function. Quetiapine at low doses is an alternative off-label option with minimal D2 antagonism. Increasing levodopa would worsen hallucinations. First steps include ruling out delirium and reducing anticholinergic medications.",
     s: "Geriatrics"
   },
   {
     q: "A 26-year-old woman at 28 weeks gestation presents with blood pressure readings of 148/94 mmHg and 152/96 mmHg taken 6 hours apart. She has no proteinuria, no symptoms, and normal laboratory values including platelets, liver enzymes, and creatinine. She had normal blood pressures prior to 20 weeks gestation. What is the most appropriate management?",
-    o: ["Diagnose gestational hypertension, initiate antihypertensive therapy with labetalol or nifedipine, and perform close maternal-fetal surveillance", "Start IV magnesium sulfate for eclampsia prophylaxis", "Induce labour immediately at 28 weeks", "Reassure and schedule routine prenatal follow-up in 4 weeks"],
-    a: 0,
+    o: ["Start IV magnesium sulfate for eclampsia prophylaxis", "Diagnose gestational hypertension, initiate antihypertensive therapy with labetalol or nifedipine, and perform close maternal-fetal surveillance", "Induce labour immediately at 28 weeks", "Reassure and schedule routine prenatal follow-up in 4 weeks"],
+    a: 1,
     r: "Gestational hypertension is defined as new-onset hypertension (≥140/90 mmHg on two occasions ≥4 hours apart) after 20 weeks gestation without proteinuria or other features of preeclampsia. Current guidelines (ACOG, SOGC) recommend antihypertensive therapy when BP is persistently ≥140/90 mmHg based on the CHAP trial showing improved maternal and fetal outcomes. Labetalol and long-acting nifedipine are first-line agents in pregnancy. Close surveillance includes serial blood pressure monitoring, weekly laboratory assessment for preeclampsia evolution, and fetal growth assessment. Magnesium sulfate is reserved for preeclampsia with severe features or eclampsia. Delivery at 28 weeks is premature for stable gestational hypertension without severe features (delivery typically at 37 weeks). Routine 4-week follow-up is inadequate given the risk of progression to preeclampsia.",
     s: "Women's Health"
   },
@@ -465,15 +465,15 @@ export const npExpansionDQuestions: ExamQuestion[] = [
   },
   {
     q: "A 30-year-old female presents with recurrent painful oral ulcers, genital ulcers, and anterior uveitis. She also has a history of pathergy (hyperreactive skin response to minor trauma) and erythema nodosum on her lower extremities. She is of Turkish descent. What is the most likely diagnosis?",
-    o: ["Behçet disease, a systemic vasculitis characterised by recurrent oral and genital ulceration with ocular inflammation", "Systemic lupus erythematosus", "Herpes simplex virus infection", "Reactive arthritis (Reiter syndrome)"],
-    a: 0,
+    o: ["Herpes simplex virus infection", "Systemic lupus erythematosus", "Behçet disease, a systemic vasculitis characterised by recurrent oral and genital ulceration with ocular inflammation", "Reactive arthritis (Reiter syndrome)"],
+    a: 2,
     r: "Behçet disease is a systemic vasculitis most prevalent along the ancient Silk Road (Turkey, Middle East, East Asia). The International Study Group criteria require recurrent oral ulceration (≥3 times in 12 months) plus two of: recurrent genital ulceration, eye lesions (anterior/posterior uveitis, retinal vasculitis), skin lesions (erythema nodosum, pseudofolliculitis), or positive pathergy test. This patient meets criteria with oral ulcers, genital ulcers, uveitis, pathergy, and erythema nodosum. SLE can cause oral ulcers but presents with malar rash, arthritis, serositis, and positive ANA. HSV causes genital and oral ulcers but not uveitis or pathergy. Reactive arthritis involves urethritis, conjunctivitis (not uveitis), and arthritis with different mucocutaneous features.",
     s: "Rheumatology"
   },
   {
     q: "A 7-year-old boy presents with a 2-month history of limp and right hip pain radiating to the knee. He is afebrile. Examination shows limited internal rotation and abduction of the right hip with a Trendelenburg gait. Radiographs of the hip show femoral head fragmentation and increased density. ESR and CRP are normal. What is the most likely diagnosis?",
-    o: ["Legg-Calvé-Perthes disease (avascular necrosis of the femoral head), requiring orthopaedic referral for containment treatment", "Septic arthritis of the hip requiring urgent surgical drainage", "Slipped capital femoral epiphysis", "Transient synovitis with spontaneous resolution expected"],
-    a: 0,
+    o: ["Transient synovitis with spontaneous resolution expected", "Septic arthritis of the hip requiring urgent surgical drainage", "Slipped capital femoral epiphysis", "Legg-Calvé-Perthes disease (avascular necrosis of the femoral head), requiring orthopaedic referral for containment treatment"],
+    a: 3,
     r: "Legg-Calvé-Perthes disease is idiopathic avascular necrosis of the femoral capital epiphysis occurring predominantly in boys aged 4-10 years. The chronic onset of hip pain (often referred to the knee), limited range of motion (especially internal rotation and abduction), and radiographic findings of femoral head fragmentation and increased density are diagnostic. Normal inflammatory markers distinguish this from septic arthritis. Septic arthritis presents acutely with fever, severe pain, refusal to bear weight, and elevated ESR/CRP. SCFE occurs in older children (10-16 years) and shows posterior displacement of the epiphysis. Transient synovitis is acute, self-limiting, and radiographs are normal. Treatment depends on age and severity: younger children have better prognosis; containment methods (abduction bracing or surgical osteotomy) maintain femoral head coverage within the acetabulum.",
     s: "Musculoskeletal"
   }

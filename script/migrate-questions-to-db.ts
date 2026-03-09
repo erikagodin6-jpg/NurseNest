@@ -99,6 +99,9 @@ QUESTION_FILES.push({ file: "cnple-batch-03", tier: "np", exam: "CNPLE", exportN
 QUESTION_FILES.push({ file: "us-cases-01", tier: "rn", exam: "NCLEX-RN", exportName: "usCases01Questions" });
 QUESTION_FILES.push({ file: "rn-expansion-f", tier: "rn", exam: "NCLEX-RN", exportName: "rnExpansionFQuestions" });
 QUESTION_FILES.push({ file: "rn-expansion-g", tier: "rn", exam: "NCLEX-RN", exportName: "rnExpansionGQuestions" });
+QUESTION_FILES.push({ file: "rn-expansion-h", tier: "rn", exam: "NCLEX-RN", exportName: "rnExpansionHQuestions" });
+QUESTION_FILES.push({ file: "rpn-expansion-g", tier: "rpn", exam: "REX-PN", exportName: "rpnExpansionGQuestions" });
+QUESTION_FILES.push({ file: "np-expansion-d", tier: "np", exam: "AANP", exportName: "npExpansionDQuestions" });
 
 for (let i = 1; i <= 56; i++) {
   const pad = String(i).padStart(2, "0");
