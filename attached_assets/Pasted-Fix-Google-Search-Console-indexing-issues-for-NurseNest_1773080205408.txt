@@ -1,0 +1,176 @@
+Fix Google Search Console indexing issues for NurseNest.
+
+Problem:
+
+Google Search Console shows many pages as:
+
+"Discovered – currently not indexed"
+
+Goal:
+
+Improve crawlability, indexing, and SEO performance.
+
+---
+
+## STEP 1: FIX SITEMAP
+
+Create a dynamic sitemap generator.
+
+File:
+
+/sitemap.xml
+
+Include only important pages:
+
+• lessons
+• blog posts
+• practice question pages
+• category pages
+
+Limit sitemap to 5000 URLs per file.
+
+If pages exceed 5000:
+
+create:
+
+sitemap1.xml
+sitemap2.xml
+sitemap3.xml
+
+Then create:
+
+sitemap-index.xml
+
+---
+
+## STEP 2: REMOVE LOW QUALITY PAGES
+
+Exclude thin pages from indexing.
+
+Examples:
+
+admin pages
+duplicate question pages
+empty pages
+test routes
+
+Add:
+
+<meta name="robots" content="noindex">
+
+---
+
+## STEP 3: IMPROVE INTERNAL LINKING
+
+Each page must link to:
+
+• related lessons
+• related practice questions
+• category pages
+
+Example:
+
+Hypertension lesson page should link to:
+
+Hypertension practice questions
+Hypertension medications
+Cardiology category
+
+---
+
+## STEP 4: ADD STRUCTURED DATA
+
+Add schema markup.
+
+Example:
+
+Article schema
+
+FAQ schema
+
+Practice question schema
+
+Example:
+
+{
+"@context": "https://schema.org",
+"@type": "Article",
+"headline": "Hypertension Nursing Management",
+"author": "NurseNest",
+"datePublished": "2026-01-01"
+}
+
+---
+
+## STEP 5: IMPROVE PAGE QUALITY
+
+Ensure indexed pages have:
+
+• at least 800–1200 words
+• headings
+• structured content
+• internal links
+
+Google will ignore thin content pages.
+
+---
+
+## STEP 6: PREVENT DUPLICATES
+
+Add canonical tags.
+
+Example:
+
+<link rel="canonical" href="https://nursenest.ca/lesson/hypertension">
+
+---
+
+## STEP 7: ADD AUTOMATIC INDEXING
+
+Create a function that automatically pings Google when a new page is published.
+
+Use:
+
+IndexNow or Google Indexing API.
+
+Example endpoint:
+
+POST /api/notify-google
+
+---
+
+## STEP 8: CREATE CATEGORY HUBS
+
+Create major category pages:
+
+/cardiology
+/pharmacology
+/lab-values
+/mental-health
+/womens-health
+
+Each hub should link to related lessons and question pages.
+
+---
+
+## STEP 9: IMPROVE CRAWL DEPTH
+
+Ensure every important page is reachable within:
+
+3 clicks from homepage.
+
+---
+
+## STEP 10: VERIFY RESULTS
+
+After deployment:
+
+• resubmit sitemap in Google Search Console
+• request indexing for key pages
+• monitor coverage report
+
+---
+
+## FINAL GOAL
+
+Reduce "discovered not indexed" pages and increase organic traffic by improving crawlability and page quality.

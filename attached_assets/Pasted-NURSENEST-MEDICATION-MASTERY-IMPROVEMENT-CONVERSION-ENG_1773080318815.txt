@@ -1,0 +1,326 @@
+NURSENEST MEDICATION MASTERY IMPROVEMENT + CONVERSION ENGINE
+
+You are improving the "Medication Mastery System" feature on NurseNest to increase engagement, reduce bounce rate, and convert visitors into active users and subscribers.
+
+The goal is to transform Medication Mastery from a static page into an interactive learning system that immediately provides value to nursing students preparing for licensing exams.
+
+STACK
+Frontend: React (Vite)
+Backend: Express
+Database: existing project database
+Payments: Stripe
+
+---
+
+## PRIMARY OBJECTIVES
+
+1. Reduce bounce rate on the Medication Mastery page
+2. Immediately engage visitors with interactive content
+3. Encourage users to create accounts
+4. Increase time spent on the page
+5. Improve SEO ranking for medication-related searches
+6. Position Medication Mastery as a flagship feature of NurseNest
+
+---
+
+## STEP 1: INTERACTIVE HERO SECTION
+
+When users land on the Medication Mastery page they should immediately see:
+
+Title:
+
+Medication Mastery System
+
+Subtitle:
+
+Master the 200 medications most tested on nursing exams.
+
+Primary CTA buttons:
+
+Start 10-Question Medication Quiz
+Start Flashcards
+Mechanism of Action Trainer
+
+Users must be able to try the first 5–10 questions without creating an account.
+
+After the free questions show:
+
+Create a free account to continue mastering medications.
+
+---
+
+## STEP 2: MEDICATION QUIZ SYSTEM
+
+Create a medication quiz engine with question types including:
+
+• mechanism of action
+• therapeutic use
+• major side effects
+• contraindications
+• nursing considerations
+• lab monitoring
+• medication interactions
+
+Example question:
+
+A patient taking lisinopril develops a persistent dry cough. What is the best action?
+
+Provide answer options A–D and rationale.
+
+---
+
+## STEP 3: MEDICATION FLASHCARD MODE
+
+Create flashcards for each medication containing:
+
+Medication name
+
+Drug class
+
+Mechanism of action
+
+Major indications
+
+Major side effects
+
+Nursing considerations
+
+Exam tips
+
+Flashcards should allow:
+
+flip card animation
+next card navigation
+mark as mastered
+
+---
+
+## STEP 4: MEDICATION GROUPS
+
+Organize medications into categories:
+
+Cardiology medications
+Endocrine medications
+Antibiotics
+Psychiatric medications
+Respiratory medications
+Pain medications
+GI medications
+Emergency medications
+
+Each group becomes its own study path and SEO page.
+
+---
+
+## STEP 5: MEDICATION PROGRESS TRACKER
+
+Create a progress dashboard for each user showing:
+
+ACE inhibitors mastery %
+Beta blockers mastery %
+Antibiotics mastery %
+Psych medications mastery %
+
+Show visual progress bars.
+
+---
+
+## STEP 6: EXAM PROBABILITY TAGS
+
+Each medication should display an exam probability tag:
+
+Very High Exam Probability
+High Exam Probability
+Moderate Probability
+
+These tags should be based on frequency of testing in nursing exams.
+
+---
+
+## STEP 7: MEMORY TRICKS
+
+Allow each medication card to include memory aids.
+
+Example:
+
+Metoprolol
+
+Memory Trick:
+
+METO slows the METRO train (heart).
+
+Students should be able to bookmark helpful tricks.
+
+---
+
+## STEP 8: MEDICATION COMPARISON TABLES
+
+Allow comparison tables for commonly confused medications.
+
+Example:
+
+Metoprolol vs Propranolol
+
+Include:
+
+beta selectivity
+major uses
+side effects
+
+---
+
+## STEP 9: DAILY MEDICATION CHALLENGE
+
+Display a daily medication question on the page.
+
+Example:
+
+Today's Medication Challenge
+
+Warfarin
+
+Which lab value must be monitored?
+
+Provide explanation and link to full Medication Mastery system.
+
+---
+
+## STEP 10: EXAM TIPS SECTION
+
+Add a section titled:
+
+Medication Exam Tips
+
+Examples:
+
+ACE inhibitors commonly cause dry cough and hyperkalemia.
+
+Loop diuretics increase potassium loss.
+
+Warfarin requires INR monitoring.
+
+---
+
+## STEP 11: SEO OPTIMIZATION
+
+Automatically generate SEO pages for medications.
+
+Example URLs:
+
+/medications/metformin
+/medications/lisinopril
+/medications/warfarin
+
+Each page should contain:
+
+overview
+mechanism
+side effects
+nursing considerations
+practice questions
+flashcards
+
+Include structured data markup for SEO.
+
+---
+
+## STEP 12: INTERNAL LINKING
+
+Medication pages should link to:
+
+related disease lessons
+practice question banks
+pharmacology quizzes
+
+Example:
+
+Metformin page links to diabetes lesson.
+
+---
+
+## STEP 13: MISTAKE ANALYZER
+
+After quiz completion show:
+
+Common mistake explanation.
+
+Example:
+
+Many students confuse ACE inhibitors with ARBs when identifying cough side effects.
+
+---
+
+## STEP 14: PASS PROBABILITY SCORE
+
+Based on quiz results calculate:
+
+Medication exam readiness score.
+
+Example:
+
+Your medication mastery score: 68%
+
+---
+
+## STEP 15: LEARNING LEVEL SYSTEM
+
+Create levels for medication learning:
+
+Level 1 – Mechanisms
+Level 2 – Side effects
+Level 3 – Clinical use
+Level 4 – Exam questions
+
+Users progress through levels.
+
+---
+
+## STEP 16: SOCIAL PROOF
+
+Display platform usage statistics such as:
+
+Thousands of nursing students use Medication Mastery to prepare for exams.
+
+---
+
+## STEP 17: CONVERSION STRATEGY
+
+Allow visitors to complete:
+
+5 free questions
+
+Then prompt:
+
+Create a free account to continue learning.
+
+---
+
+## STEP 18: PERFORMANCE ANALYTICS
+
+Track user progress including:
+
+questions answered
+accuracy rate
+strongest medication categories
+weakest medication categories
+
+---
+
+## STEP 19: FEATURE POSITIONING
+
+Medication Mastery should be marketed as:
+
+One of the most powerful pharmacology learning tools for nursing exams.
+
+---
+
+## STEP 20: FINAL GOAL
+
+The Medication Mastery System should become a highly interactive learning tool that:
+
+• keeps users engaged
+• reduces bounce rate
+• increases time on site
+• drives user registrations
+• strengthens NurseNest SEO visibility
+• improves exam preparation outcomes
