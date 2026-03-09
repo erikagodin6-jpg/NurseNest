@@ -2307,7 +2307,7 @@ Return ONLY a JSON array of flashcard objects, no other text.`;
   app.post("/api/auth/register", async (req, res) => {
     try {
       const data = insertUserSchema.parse(req.body);
-      const { inviteCode } = req.body;
+      const { inviteCode, referralCode: refCode } = req.body;
       const existing = await storage.getUserByUsername(data.username);
       if (existing) return res.status(400).json({ error: "Username already taken" });
       const user = await storage.createUser(data);
@@ -2326,6 +2326,23 @@ Return ONLY a JSON array of flashcard objects, no other text.`;
           if (code.tier && code.tier !== "free") {
             await storage.updateUserTier(user.id, code.tier);
             user.tier = code.tier;
+          }
+          try {
+            await storage.generateReferralCode(user.id);
+          } catch (e) {
+            console.error("Failed to generate referral code for new tester:", e);
+          }
+        }
+      }
+
+      if (refCode && typeof refCode === "string" && refCode.trim()) {
+        const normalizedRef = refCode.trim().toUpperCase();
+        if (normalizedRef.startsWith("NN-REF-")) {
+          const referrer = await storage.getUserByReferralCode(normalizedRef);
+          if (referrer) {
+            await storage.setReferredBy(user.id, normalizedRef);
+            await storage.incrementReferralUses(normalizedRef);
+            user.referredBy = normalizedRef;
           }
         }
       }
@@ -2512,8 +2529,29 @@ Return ONLY a JSON array of flashcard objects, no other text.`;
       const bnplPaymentMethods: string[] = ["card", "klarna", "afterpay_clearpay"];
       if (!isCAD) bnplPaymentMethods.push("affirm");
 
+      let referralCouponId: string | undefined;
+      if (user.referredBy && !user.referralDiscountUsed) {
+        try {
+          const coupons = await stripe.coupons.list({ limit: 100 });
+          const existing = coupons.data.find((c: any) => c.metadata?.type === "nursenest_referral" && c.valid);
+          if (existing) {
+            referralCouponId = existing.id;
+          } else {
+            const coupon = await stripe.coupons.create({
+              percent_off: 10,
+              duration: "once",
+              name: "Referral Discount - 10% Off",
+              metadata: { type: "nursenest_referral" },
+            });
+            referralCouponId = coupon.id;
+          }
+        } catch (couponErr) {
+          console.error("Failed to create/find referral coupon:", couponErr);
+        }
+      }
+
       if (selectedDuration === "one-time" || tier === "lab-values" || tier === "med-math" || tier === "practice-tools") {
-        const session = await stripe.checkout.sessions.create({
+        const sessionOpts: any = {
           customer: customerId,
           payment_method_types: amount >= 100 ? bnplPaymentMethods : ["card"],
           line_items: [
@@ -2530,15 +2568,19 @@ Return ONLY a JSON array of flashcard objects, no other text.`;
             },
           ],
           mode: "payment",
-          allow_promotion_codes: true,
+          allow_promotion_codes: !referralCouponId,
           success_url: `${baseUrl}/subscription/success?session_id={CHECKOUT_SESSION_ID}&tier=${tier}`,
           cancel_url: `${baseUrl}/pricing`,
-          metadata: { userId: user.id, tier, duration: selectedDuration },
-        });
+          metadata: { userId: user.id, tier, duration: selectedDuration, referredBy: user.referredBy || "" },
+        };
+        if (referralCouponId) {
+          sessionOpts.discounts = [{ coupon: referralCouponId }];
+        }
+        const session = await stripe.checkout.sessions.create(sessionOpts);
         return res.json({ url: session.url });
       }
 
-      const session = await stripe.checkout.sessions.create({
+      const subscriptionOpts: any = {
         customer: customerId,
         payment_method_types: ["card"],
         line_items: [
@@ -2556,11 +2598,15 @@ Return ONLY a JSON array of flashcard objects, no other text.`;
           },
         ],
         mode: "subscription",
-        allow_promotion_codes: true,
+        allow_promotion_codes: !referralCouponId,
         success_url: `${baseUrl}/subscription/success?session_id={CHECKOUT_SESSION_ID}&tier=${tier}`,
         cancel_url: `${baseUrl}/pricing`,
-        metadata: { userId: user.id, tier, duration: selectedDuration },
-      });
+        metadata: { userId: user.id, tier, duration: selectedDuration, referredBy: user.referredBy || "" },
+      };
+      if (referralCouponId) {
+        subscriptionOpts.discounts = [{ coupon: referralCouponId }];
+      }
+      const session = await stripe.checkout.sessions.create(subscriptionOpts);
 
       res.json({ url: session.url });
     } catch (e: any) {
@@ -2581,6 +2627,14 @@ Return ONLY a JSON array of flashcard objects, no other text.`;
           subscriptionStatus: "active",
           tier,
         });
+        const paidUser = await storage.getUser(userId);
+        if (paidUser?.referredBy && !paidUser.referralDiscountUsed) {
+          try {
+            await storage.markReferralDiscountUsed(userId);
+          } catch (e) {
+            console.error("Failed to mark referral discount used:", e);
+          }
+        }
         res.json({ success: true, tier });
       } else {
         res.json({ success: false });
@@ -13154,6 +13208,13 @@ Return ONLY valid JSON with this exact structure:
         testerAccess !== false,
         testerExpiry ? new Date(testerExpiry) : null
       );
+      if (testerAccess !== false && !updated.referralCode) {
+        try {
+          await storage.generateReferralCode(req.params.userId);
+        } catch (e) {
+          console.error("Failed to auto-generate referral code:", e);
+        }
+      }
       res.json({
         id: updated.id,
         username: updated.username,
@@ -13234,6 +13295,59 @@ Return ONLY valid JSON with this exact structure:
       if (invite.usedCount >= invite.maxUses) return res.json({ valid: false, error: "This code has reached its usage limit" });
       if (invite.expiresAt && new Date(invite.expiresAt) < new Date()) return res.json({ valid: false, error: "This code has expired" });
       res.json({ valid: true, tier: invite.tier });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  // --------------------
+  // Referral System
+  // --------------------
+  app.get("/api/referral/my-code", async (req, res) => {
+    try {
+      const userId = req.headers["x-user-id"] as string;
+      if (!userId) return res.status(401).json({ error: "Not authenticated" });
+      const user = await storage.getUser(userId);
+      if (!user) return res.status(404).json({ error: "User not found" });
+      res.json({
+        referralCode: user.referralCode || null,
+        referralUses: user.referralUses || 0,
+        isTester: !!(user.testerAccess && (!user.testerExpiry || new Date(user.testerExpiry) > new Date())),
+      });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.post("/api/referral/generate", async (req, res) => {
+    try {
+      const userId = req.headers["x-user-id"] as string;
+      if (!userId) return res.status(401).json({ error: "Not authenticated" });
+      const user = await storage.getUser(userId);
+      if (!user) return res.status(404).json({ error: "User not found" });
+      const isActiveTester = !!(user.testerAccess && (!user.testerExpiry || new Date(user.testerExpiry) > new Date()));
+      if (!isActiveTester && user.tier === "free") {
+        return res.status(403).json({ error: "Only beta testers or paid subscribers can generate referral codes" });
+      }
+      if (user.referralCode) {
+        return res.json({ referralCode: user.referralCode });
+      }
+      const code = await storage.generateReferralCode(userId);
+      res.json({ referralCode: code });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.post("/api/referral/validate", async (req, res) => {
+    try {
+      const { code } = req.body;
+      if (!code || typeof code !== "string") return res.json({ valid: false, error: "Referral code is required" });
+      const normalized = code.trim().toUpperCase();
+      if (!normalized.startsWith("NN-REF-")) return res.json({ valid: false, error: "Invalid referral code format" });
+      const referrer = await storage.getUserByReferralCode(normalized);
+      if (!referrer) return res.json({ valid: false, error: "Invalid referral code" });
+      res.json({ valid: true, referrerUsername: referrer.username });
     } catch (e: any) {
       res.status(500).json({ error: e.message });
     }

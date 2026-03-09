@@ -1183,6 +1183,41 @@ export class DatabaseStorage implements IStorage {
     const [r] = await db.update(users).set(updates).where(eq(users.id, userId)).returning();
     return r;
   }
+
+  async generateReferralCode(userId: string): Promise<string> {
+    const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+    let code: string;
+    let attempts = 0;
+    do {
+      code = "NN-REF-";
+      for (let i = 0; i < 6; i++) {
+        code += chars[Math.floor(Math.random() * chars.length)];
+      }
+      const existing = await db.select().from(users).where(eq(users.referralCode, code));
+      if (existing.length === 0) break;
+      attempts++;
+    } while (attempts < 10);
+
+    const [r] = await db.update(users).set({ referralCode: code }).where(eq(users.id, userId)).returning();
+    return r.referralCode!;
+  }
+
+  async getUserByReferralCode(code: string): Promise<User | undefined> {
+    const [r] = await db.select().from(users).where(eq(users.referralCode, code.trim().toUpperCase()));
+    return r;
+  }
+
+  async incrementReferralUses(referralCode: string): Promise<void> {
+    await db.update(users).set({ referralUses: sql`COALESCE(referral_uses, 0) + 1` }).where(eq(users.referralCode, referralCode));
+  }
+
+  async setReferredBy(userId: string, referralCode: string): Promise<void> {
+    await db.update(users).set({ referredBy: referralCode }).where(eq(users.id, userId));
+  }
+
+  async markReferralDiscountUsed(userId: string): Promise<void> {
+    await db.update(users).set({ referralDiscountUsed: true }).where(eq(users.id, userId));
+  }
 }
 
 export const storage = new DatabaseStorage();

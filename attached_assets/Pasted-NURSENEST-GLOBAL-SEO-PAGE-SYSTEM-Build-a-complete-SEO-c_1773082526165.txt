@@ -1,0 +1,319 @@
+NURSENEST GLOBAL SEO PAGE SYSTEM
+
+Build a complete SEO content architecture for NurseNest that creates indexable pages for every exam, tier, and country while keeping the exam tools behind authentication.
+
+STACK
+Frontend: React (Vite)
+Backend: Express
+Database: existing project database
+
+---
+
+## PRIMARY GOAL
+
+Increase organic traffic by creating high-quality SEO landing pages targeting nursing exam preparation searches.
+
+Each page must:
+
+• rank for exam-specific keywords
+• contain educational content
+• include sample practice questions
+• encourage signups
+• link to NurseNest study tools
+
+---
+
+## STEP 1: CREATE EXAM LANDING PAGES
+
+Create SEO landing pages for each exam and region.
+
+NCLEX-RN
+
+URL:
+/nclex-rn/mock-exam
+
+Target keywords:
+
+NCLEX mock exam
+NCLEX practice test
+NCLEX simulator
+NCLEX RN practice exam
+
+---
+
+NCLEX-PN
+
+URL:
+/nclex-pn/mock-exam
+
+Target keywords:
+
+NCLEX PN practice test
+NCLEX PN mock exam
+NCLEX PN questions
+
+---
+
+REx-PN (Canada)
+
+URL:
+/rex-pn/mock-exam
+
+Target keywords:
+
+REx-PN practice test
+REx-PN mock exam
+Canadian practical nurse exam
+
+---
+
+Canadian NP Exam
+
+URL:
+/canada-np/mock-exam
+
+Target keywords:
+
+Canadian NP exam practice
+CNPLE mock exam
+nurse practitioner exam Canada
+
+---
+
+US NP Board Exams
+
+URL:
+/us-np/mock-exam
+
+Target keywords:
+
+AANP practice exam
+ANCC nurse practitioner exam practice
+NP board exam questions
+
+---
+
+## STEP 2: CREATE EXAM HUB PAGES
+
+Create index hub pages for each exam category.
+
+Examples:
+
+/nclex-rn
+/nclex-pn
+/rex-pn
+/canada-np
+/us-np
+
+Each hub should link to:
+
+mock exam simulator
+practice questions
+study guides
+medication mastery
+lab values guide
+
+---
+
+## STEP 3: CREATE SUPPORTING SEO STUDY PAGES
+
+Each exam hub should contain supporting pages.
+
+Examples:
+
+/nclex-rn/practice-questions
+/nclex-rn/pharmacology
+/nclex-rn/lab-values
+/nclex-rn/study-guide
+
+/rex-pn/practice-questions
+/rex-pn/pharmacology
+/rex-pn/lab-values
+
+/canada-np/practice-questions
+/canada-np/diagnostic-reasoning
+/canada-np/clinical-cases
+
+---
+
+## STEP 4: CREATE CONDITION HUBS
+
+Create pages targeting common nursing conditions.
+
+Examples:
+
+/conditions/hypertension
+/conditions/diabetes
+/conditions/asthma
+/conditions/copd
+/conditions/heart-failure
+/conditions/sepsis
+/conditions/pneumonia
+
+Each condition page should include:
+
+overview
+pathophysiology
+clinical presentation
+diagnostics
+medications
+nursing interventions
+practice questions
+
+---
+
+## STEP 5: CREATE MEDICATION SEO PAGES
+
+Create medication study pages.
+
+Examples:
+
+/medications/metformin
+/medications/lisinopril
+/medications/warfarin
+/medications/insulin
+/medications/amiodarone
+
+Each page must include:
+
+drug class
+mechanism of action
+indications
+side effects
+contraindications
+nursing considerations
+exam tips
+practice questions
+
+---
+
+## STEP 6: CREATE LAB VALUE SEO PAGES
+
+Create lab interpretation pages.
+
+Examples:
+
+/lab-values/sodium
+/lab-values/potassium
+/lab-values/troponin
+/lab-values/creatinine
+/lab-values/inr
+
+Each page should include:
+
+normal range
+causes of high values
+causes of low values
+clinical significance
+nursing interventions
+practice questions
+
+---
+
+## STEP 7: PAGE CONTENT STRUCTURE
+
+Every SEO page must include:
+
+H1 title with keyword
+introduction paragraph
+educational sections with headings
+bullet lists for readability
+tables where appropriate
+practice questions section
+internal links to related pages
+call to action encouraging signup
+
+Minimum content length:
+
+800–1200 words.
+
+---
+
+## STEP 8: SAMPLE QUESTIONS
+
+Include 3–5 example questions on each page.
+
+Visitors should be able to answer them without login.
+
+After completing the questions show:
+
+Create a free NurseNest account to unlock full practice exams.
+
+---
+
+## STEP 9: FAQ SECTION
+
+Each page must include FAQ questions such as:
+
+How many questions are on the NCLEX exam?
+
+How hard is the REx-PN exam?
+
+What medications should nurses memorize?
+
+What lab values are most important for nurses?
+
+Implement FAQ schema markup.
+
+---
+
+## STEP 10: STRUCTURED DATA
+
+Add schema markup to each page:
+
+FAQ schema
+Article schema
+Educational content schema
+
+---
+
+## STEP 11: INTERNAL LINKING SYSTEM
+
+Ensure each page links to related pages.
+
+Example:
+
+Hypertension page links to:
+
+lisinopril medication page
+cardiology practice questions
+pharmacology study guide
+
+Medication pages link back to condition pages.
+
+---
+
+## STEP 12: FREE CONTENT FOR VISITORS
+
+Allow visitors to try:
+
+5 practice questions
+
+before requiring signup.
+
+---
+
+## STEP 13: LOGIN PROTECTION
+
+Keep the real exam engine behind authentication.
+
+Example route:
+
+/dashboard/mock-exam-engine
+
+SEO pages should link to this tool after signup.
+
+---
+
+## FINAL RESULT
+
+NurseNest will have a scalable SEO system including:
+
+exam landing pages
+exam hubs
+study guides
+condition hubs
+medication pages
+lab value pages
+
+These pages will rank in Google for thousands of nursing exam preparation searches and direct students into the NurseNest learning platform.

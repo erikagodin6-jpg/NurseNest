@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { useLocation } from "wouter";
 import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
@@ -10,7 +10,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useAuth } from "@/lib/auth";
 import { useToast } from "@/hooks/use-toast";
 import { useI18n } from "@/lib/i18n";
-import { GraduationCap, Mail, Lock, User, Ticket } from "lucide-react";
+import { GraduationCap, Mail, Lock, User, Ticket, Gift } from "lucide-react";
 
 export default function LoginPage() {
   const [, navigate] = useLocation();
@@ -18,6 +18,16 @@ export default function LoginPage() {
   const { toast } = useToast();
   const { t } = useI18n();
   const [isLoading, setIsLoading] = useState(false);
+
+  const refCodeFromUrl = useMemo(() => {
+    const params = new URLSearchParams(window.location.search);
+    const ref = params.get("ref") || "";
+    if (ref) {
+      sessionStorage.setItem("nursenest-ref", ref);
+      return ref;
+    }
+    return sessionStorage.getItem("nursenest-ref") || "";
+  }, []);
 
   async function handleLogin(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -39,7 +49,8 @@ export default function LoginPage() {
     setIsLoading(true);
     const fd = new FormData(e.currentTarget);
     try {
-      await register(fd.get("username") as string, fd.get("password") as string, fd.get("email") as string, (fd.get("inviteCode") as string) || undefined);
+      const refCode = (fd.get("referralCode") as string) || refCodeFromUrl || undefined;
+      await register(fd.get("username") as string, fd.get("password") as string, fd.get("email") as string, (fd.get("inviteCode") as string) || undefined, refCode);
       toast({ title: t("login.accountCreated") });
       navigate("/lessons");
     } catch (err: any) {
@@ -117,6 +128,16 @@ export default function LoginPage() {
                       <Ticket className="absolute left-3 top-3 w-4 h-4 text-gray-400" />
                       <Input id="reg-invite" name="inviteCode" placeholder="Enter beta invite code" className="pl-10" data-testid="input-register-invite-code" />
                     </div>
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="reg-referral" className="text-gray-500 text-xs">Referral Code (optional)</Label>
+                    <div className="relative">
+                      <Gift className="absolute left-3 top-3 w-4 h-4 text-gray-400" />
+                      <Input id="reg-referral" name="referralCode" placeholder="NN-REF-XXXXXX" defaultValue={refCodeFromUrl} className="pl-10" data-testid="input-register-referral-code" />
+                    </div>
+                    {refCodeFromUrl && (
+                      <p className="text-xs text-green-600 font-medium">Referral code applied - you'll get 10% off your first subscription!</p>
+                    )}
                   </div>
                   <Button type="submit" className="w-full" disabled={isLoading} data-testid="button-register">
                     {isLoading ? t("login.creatingAccount") : t("login.createAccount")}

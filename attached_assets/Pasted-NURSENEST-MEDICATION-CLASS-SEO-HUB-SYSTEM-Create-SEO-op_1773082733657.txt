@@ -1,0 +1,242 @@
+NURSENEST MEDICATION CLASS SEO HUB SYSTEM
+
+Create SEO-optimized pharmacology class hub pages for NurseNest that target high-volume nursing pharmacology search queries.
+
+These pages should rank in Google and act as hubs linking to individual medication pages and practice questions.
+
+STACK
+Frontend: React (Vite)
+Backend: Express
+Database: existing database
+
+---
+
+## PRIMARY GOAL
+
+Increase organic traffic by creating authoritative pharmacology class pages that nursing students search for when studying medications.
+
+These pages should rank for keywords like:
+
+ACE inhibitors nursing
+beta blockers nursing
+diuretics nursing pharmacology
+antibiotics nursing study guide
+insulin types nursing
+
+---
+
+## CREATE THE FOLLOWING MEDICATION CLASS PAGES
+
+ACE Inhibitors
+
+URL:
+/pharmacology/ace-inhibitors
+
+Target keywords:
+
+ACE inhibitors nursing
+ACE inhibitor drugs list
+ACE inhibitors mechanism of action
+
+---
+
+Beta Blockers
+
+URL:
+/pharmacology/beta-blockers
+
+Target keywords:
+
+beta blockers nursing
+beta blocker drugs list
+beta blockers mechanism
+
+---
+
+Diuretics
+
+URL:
+/pharmacology/diuretics
+
+Target keywords:
+
+diuretics nursing pharmacology
+loop diuretics vs thiazide
+furosemide nursing considerations
+
+---
+
+Antibiotics
+
+URL:
+/pharmacology/antibiotics
+
+Target keywords:
+
+antibiotics nursing pharmacology
+most common antibiotics nursing exam
+antibiotic drug classes
+
+---
+
+Insulin
+
+URL:
+/pharmacology/insulin-types
+
+Target keywords:
+
+types of insulin nursing
+insulin pharmacology nursing
+rapid acting vs long acting insulin
+
+---
+
+Psychiatric Medications
+
+URL:
+/pharmacology/psych-medications
+
+Target keywords:
+
+psych medications nursing
+antidepressants nursing pharmacology
+antipsychotics nursing
+
+---
+
+Cardiac Medications
+
+URL:
+/pharmacology/cardiac-medications
+
+Target keywords:
+
+cardiac drugs nursing
+heart medications nursing
+antiarrhythmics nursing
+
+---
+
+## PAGE CONTENT STRUCTURE
+
+Each medication class page must include:
+
+H1 title with keyword
+
+Example:
+
+ACE Inhibitors Nursing Pharmacology Guide
+
+Introduction explaining the medication class.
+
+---
+
+## SECTIONS
+
+Overview of the drug class
+
+Mechanism of action
+
+Common medications in the class
+
+Example list:
+
+lisinopril
+enalapril
+ramipril
+captopril
+
+---
+
+Clinical uses
+
+Side effects
+
+Contraindications
+
+Nursing considerations
+
+Monitoring parameters
+
+Exam tips
+
+---
+
+## COMPARISON TABLE
+
+Include tables comparing medications in the class.
+
+Example:
+
+Drug | Indication | Key Side Effect
+
+---
+
+## PRACTICE QUESTIONS
+
+Include 3–5 pharmacology practice questions related to the medication class.
+
+Allow visitors to answer them without login.
+
+After the questions show:
+
+Create a free NurseNest account to unlock full pharmacology question banks.
+
+---
+
+## INTERNAL LINKS
+
+Each medication class page must link to:
+
+individual medication pages
+
+Example:
+
+/medications/lisinopril
+/medications/metoprolol
+/medications/furosemide
+
+Also link to:
+
+Medication Mastery System
+Pharmacology practice questions
+Exam simulator
+
+---
+
+## FAQ SECTION
+
+Include frequently searched questions such as:
+
+What are ACE inhibitors used for?
+
+What is the difference between ACE inhibitors and ARBs?
+
+What lab values must nurses monitor when giving diuretics?
+
+---
+
+## STRUCTURED DATA
+
+Add schema markup including:
+
+FAQ schema
+Article schema
+Educational content schema
+
+---
+
+## CONTENT LENGTH
+
+Each medication class page must contain at least:
+
+800–1200 words
+
+This helps Google rank the page.
+
+---
+
+## FINAL RESULT
+
+NurseNest will have pharmacology class hub pages that rank for major nursing pharmacology searches and drive students to medication pages, practice questions, and the Medication Mastery system.

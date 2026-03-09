@@ -1,0 +1,202 @@
+NURSENEST MEDICATION SEO PAGE SYSTEM WITH PREMIUM LOCKING
+
+Create SEO-optimized medication pages for NurseNest that attract search traffic while keeping premium study tools behind authentication.
+
+STACK
+Frontend: React (Vite)
+Backend: Express
+Database: existing project database
+
+---
+
+## PRIMARY GOAL
+
+Build medication pages that rank in Google for nursing pharmacology searches while converting visitors into NurseNest users.
+
+Educational medication content should remain public for SEO.
+
+Premium learning tools should remain behind login.
+
+---
+
+## URL STRUCTURE
+
+Create medication pages using this format:
+
+/medications/{drug-name}
+
+Examples:
+
+/medications/metformin
+/medications/lisinopril
+/medications/warfarin
+/medications/amiodarone
+/medications/furosemide
+
+These pages must be indexable by search engines.
+
+---
+
+## PUBLIC CONTENT (SEO CONTENT)
+
+The following sections must remain fully public.
+
+H1 Title
+
+Example:
+
+Metformin Nursing Pharmacology Guide
+
+---
+
+Introduction
+
+Overview of the medication and why it is important for nursing exams.
+
+---
+
+Drug Class
+
+Explain medication classification.
+
+---
+
+Mechanism of Action
+
+Explain pharmacological mechanism.
+
+---
+
+Indications
+
+Clinical uses.
+
+---
+
+Side Effects
+
+Common and serious side effects.
+
+---
+
+Contraindications
+
+When the drug should not be used.
+
+---
+
+Nursing Considerations
+
+What nurses must monitor when administering the medication.
+
+---
+
+Exam Tips
+
+Include high-yield facts for licensing exams.
+
+---
+
+FAQ SECTION
+
+Example questions:
+
+What is metformin used for?
+
+What are the nursing considerations for metformin?
+
+What lab values should nurses monitor?
+
+---
+
+## FREE PRACTICE QUESTIONS
+
+Include 2–3 practice questions that visitors can answer without login.
+
+Example question format:
+
+Multiple choice
+
+After these questions display:
+
+Unlock the full pharmacology question bank by creating a free NurseNest account.
+
+---
+
+## PREMIUM CONTENT (LOCKED)
+
+Lock the following sections behind login:
+
+Additional practice questions
+
+Example:
+
+20+ medication questions
+
+Clinical case scenarios
+
+Advanced pharmacology review
+
+Medication mastery flashcards
+
+Exam simulation questions
+
+---
+
+## PAYWALL BEHAVIOR
+
+If user is not logged in:
+
+Display blurred content preview.
+
+Show message:
+
+Create a free NurseNest account to unlock full pharmacology practice.
+
+---
+
+## INTERNAL LINKING
+
+Each medication page must link to:
+
+pharmacology class hub pages
+
+Example:
+
+/pharmacology/ace-inhibitors
+
+Also link to:
+
+Medication Mastery System
+Pharmacology practice questions
+Exam simulator
+
+---
+
+## STRUCTURED DATA
+
+Add schema markup including:
+
+FAQ schema
+Article schema
+Educational content schema
+
+---
+
+## CONTENT REQUIREMENTS
+
+Each medication page must contain:
+
+800–1200 words of educational content.
+
+Content must be unique and structured with headings and bullet lists.
+
+---
+
+## FINAL RESULT
+
+Medication pages will rank in Google for pharmacology searches.
+
+Visitors will receive free educational content and sample questions.
+
+Premium practice tools remain protected behind authentication.

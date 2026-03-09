@@ -19,6 +19,10 @@ export const users = pgTable("users", {
   testerAccess: boolean("tester_access").default(false),
   testerExpiry: timestamp("tester_expiry"),
   testerInviteCode: text("tester_invite_code"),
+  referralCode: text("referral_code").unique(),
+  referralUses: integer("referral_uses").default(0),
+  referredBy: text("referred_by"),
+  referralDiscountUsed: boolean("referral_discount_used").default(false),
 });
 
 export const notes = pgTable("notes", {

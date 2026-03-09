@@ -55,3 +55,14 @@ The application is built with Vite, React, and Express 5 on Node.js with TypeScr
 - Question files in `client/src/data/exam-questions/`: rpn-expansion-[a-f], rn-expansion-[a-e], np-expansion-[a-c], pn-us-batch-01, rn-us-batch-01, np-us-batch-01, rpn-cases-01, rn-cases-01, np-cases-01, cnple-batch-[01-03], us-cases-01, plus 56 np-exam-batch files
 - Exam blueprints: REX-PN (CA), NCLEX-PN (US), NCLEX-RN (US), NCLEX-RN-CA (CA), CNPLE (CA), AANP (US), ANCC (US), plus readiness exams with CA variants
 - DB tables `allied_lessons` and `content_items` are empty; all content is static TS
+
+## Referral Discount System
+- Users table has `referral_code` (unique, format NN-REF-XXXXXX), `referral_uses`, `referred_by`, `referral_discount_used` columns
+- Storage methods: `generateReferralCode`, `getUserByReferralCode`, `incrementReferralUses`, `setReferredBy`, `markReferralDiscountUsed`
+- API routes: `GET /api/referral/my-code`, `POST /api/referral/generate`, `POST /api/referral/validate`
+- Referral code auto-generated when: tester access granted via admin, or user registers with valid invite code
+- Registration (`POST /api/auth/register`) accepts optional `referralCode` param, links `referredBy` and increments referrer's uses
+- Stripe checkout applies 10% "once" coupon for users with `referredBy` set and `referralDiscountUsed` is false; marked as used after successful payment in verify-session
+- `/refer` page shows code, share link (`nursenest.ca/signup?ref=CODE`), copy buttons, referral stats, how-it-works
+- `/signup?ref=CODE` redirects to `/login` preserving query params; App.tsx captures `ref` into sessionStorage before locale redirect
+- Login page reads `ref` from URL or sessionStorage fallback, pre-fills referral code input on registration tab

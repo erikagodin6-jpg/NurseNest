@@ -78,6 +78,7 @@ const LoginPage = lazy(() => import("@/pages/login"));
 const ProfilePage = lazy(() => import("@/pages/profile"));
 const SubscriptionSuccess = lazy(() => import("@/pages/subscription-success"));
 const PricingPage = lazy(() => import("@/pages/pricing"));
+const ReferPage = lazy(() => import("@/pages/refer"));
 const FAQPage = lazy(() => import("@/pages/faq"));
 const AnatomyPage = lazy(() => import("@/pages/anatomy"));
 const TermsPage = lazy(() => import("@/pages/terms"));
@@ -388,6 +389,8 @@ function AppRoutes() {
         <Route path="/profile" component={ProfilePage} />
         <Route path="/subscription/success" component={SubscriptionSuccess} />
         <Route path="/pricing" component={PricingPage} />
+        <Route path="/refer" component={ReferPage} />
+        <Route path="/signup">{() => { window.location.href = `/login${window.location.search}`; return null; }}</Route>
         <Route path="/trial/session/:id" component={TrialSession} />
         <Route path="/trial/results/:id" component={TrialResults} />
         <Route path="/trial/upgrade" component={TrialUpgrade} />
@@ -655,6 +658,14 @@ function handleDevModeSwitch(): void {
 }
 
 handleDevModeSwitch();
+
+(function captureReferralCode() {
+  const params = new URLSearchParams(window.location.search);
+  const ref = params.get("ref");
+  if (ref) {
+    sessionStorage.setItem("nursenest-ref", ref);
+  }
+})();
 
 function isAlliedHostname(): boolean {
   const h = window.location.hostname.toLowerCase();

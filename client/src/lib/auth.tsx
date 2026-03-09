@@ -147,9 +147,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     localStorage.setItem("nursenest-user", JSON.stringify(userData));
   }
 
-  async function register(username: string, password: string, email?: string, inviteCode?: string) {
+  async function register(username: string, password: string, email?: string, inviteCode?: string, referralCode?: string) {
     const body: any = { username, password, email };
     if (inviteCode) body.inviteCode = inviteCode;
+    if (referralCode) body.referralCode = referralCode;
     const res = await fetch("/api/auth/register", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
