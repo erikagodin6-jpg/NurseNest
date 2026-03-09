@@ -42,6 +42,11 @@ import {
   CheckCircle2,
   XCircle,
   Zap,
+  Copy,
+  Check,
+  Ticket,
+  ToggleLeft,
+  ToggleRight,
 } from "lucide-react";
 
 type AdminData = {
@@ -129,7 +134,7 @@ export default function AdminPage() {
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const tab = params.get("tab");
-    if (tab && ["overview", "users", "activity", "content-engine", "analytics", "promotions", "feedback", "social", "audit", "deck-moderation", "ai-safety"].includes(tab)) {
+    if (tab && ["overview", "users", "activity", "content-engine", "analytics", "promotions", "feedback", "social", "audit", "deck-moderation", "ai-safety", "beta-testers"].includes(tab)) {
       setActiveTab(tab as any);
     }
   }, []);
@@ -146,7 +151,7 @@ export default function AdminPage() {
   const [sortField, setSortField] = useState<string>("lastActivity");
   const [sortDir, setSortDir] = useState<"asc" | "desc">("desc");
   const [activeTab, setActiveTab] = useState<
-    "overview" | "users" | "activity" | "content-engine" | "analytics" | "promotions" | "feedback" | "social" | "audit" | "deck-moderation" | "ai-safety"
+    "overview" | "users" | "activity" | "content-engine" | "analytics" | "promotions" | "feedback" | "social" | "audit" | "deck-moderation" | "ai-safety" | "beta-testers"
   >("overview");
 
   const [blogConfig, setBlogConfig] = useState<any>(null);
@@ -228,6 +233,20 @@ export default function AdminPage() {
   const [batchFcDeck, setBatchFcDeck] = useState("");
   const [batchFcLoading, setBatchFcLoading] = useState(false);
   const [batchFcResult, setBatchFcResult] = useState<any>(null);
+
+  const [betaCodes, setBetaCodes] = useState<any[]>([]);
+  const [betaCodesLoading, setBetaCodesLoading] = useState(false);
+  const [betaUsers, setBetaUsers] = useState<any[]>([]);
+  const [betaUsersLoading, setBetaUsersLoading] = useState(false);
+  const [betaNewCode, setBetaNewCode] = useState("");
+  const [betaNewTier, setBetaNewTier] = useState("rpn");
+  const [betaNewMaxUses, setBetaNewMaxUses] = useState(25);
+  const [betaNewDurationDays, setBetaNewDurationDays] = useState(30);
+  const [betaNewNotes, setBetaNewNotes] = useState("");
+  const [betaCreating, setBetaCreating] = useState(false);
+  const [betaCopied, setBetaCopied] = useState<string | null>(null);
+  const [betaFeedback, setBetaFeedback] = useState<any[]>([]);
+  const [betaFeedbackLoading, setBetaFeedbackLoading] = useState(false);
 
   // -------------------------------
   // ✅ ADMIN VERIFY (FIXED)
@@ -360,6 +379,11 @@ export default function AdminPage() {
     }
     if (activeTab === "ai-safety" && !aiConfig && !aiConfigLoading) {
       fetchAiConfig();
+    }
+    if (activeTab === "beta-testers") {
+      if (betaCodes.length === 0 && !betaCodesLoading) fetchBetaCodes();
+      if (betaUsers.length === 0 && !betaUsersLoading) fetchBetaUsers();
+      if (betaFeedback.length === 0 && !betaFeedbackLoading) fetchBetaFeedback();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeTab]);
@@ -577,6 +601,123 @@ export default function AdminPage() {
     } catch {} finally {
       setAiConfigSaving(false);
     }
+  }
+
+  function getAdminCreds(): { username: string; password: string } | null {
+    try {
+      const stored = localStorage.getItem("nursenest-credentials");
+      return stored ? JSON.parse(stored) : null;
+    } catch { return null; }
+  }
+
+  async function fetchBetaCodes() {
+    setBetaCodesLoading(true);
+    try {
+      const creds = getAdminCreds();
+      if (!creds) return;
+      const res = await fetch(`/api/admin/tester/invite-codes?username=${encodeURIComponent(creds.username)}&password=${encodeURIComponent(creds.password)}`);
+      if (res.ok) setBetaCodes(await res.json());
+    } catch {} finally {
+      setBetaCodesLoading(false);
+    }
+  }
+
+  async function fetchBetaUsers() {
+    setBetaUsersLoading(true);
+    try {
+      const creds = getAdminCreds();
+      if (!creds) return;
+      const res = await fetch(`/api/admin/tester/users?username=${encodeURIComponent(creds.username)}&password=${encodeURIComponent(creds.password)}`);
+      if (res.ok) setBetaUsers(await res.json());
+    } catch {} finally {
+      setBetaUsersLoading(false);
+    }
+  }
+
+  async function fetchBetaFeedback() {
+    setBetaFeedbackLoading(true);
+    try {
+      const creds = getAdminCreds();
+      if (!creds) return;
+      const res = await fetch(`/api/admin/tester/feedback?username=${encodeURIComponent(creds.username)}&password=${encodeURIComponent(creds.password)}`);
+      if (res.ok) setBetaFeedback(await res.json());
+    } catch {} finally {
+      setBetaFeedbackLoading(false);
+    }
+  }
+
+  function generateBetaCode(): string {
+    const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+    let code = "NN-BETA-";
+    for (let i = 0; i < 6; i++) {
+      code += chars[Math.floor(Math.random() * chars.length)];
+    }
+    return code;
+  }
+
+  async function createBetaCode() {
+    setBetaCreating(true);
+    try {
+      const creds = getAdminCreds();
+      if (!creds) return;
+      const code = betaNewCode.trim() || generateBetaCode();
+      const expiresAt = new Date();
+      expiresAt.setDate(expiresAt.getDate() + betaNewDurationDays);
+      const res = await fetch("/api/admin/tester/invite-codes", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          username: creds.username,
+          password: creds.password,
+          code,
+          maxUses: betaNewMaxUses,
+          tier: betaNewTier,
+          notes: betaNewNotes || undefined,
+          expiresAt: expiresAt.toISOString(),
+        }),
+      });
+      if (res.ok) {
+        setBetaNewCode("");
+        setBetaNewNotes("");
+        setBetaNewMaxUses(25);
+        setBetaNewDurationDays(30);
+        fetchBetaCodes();
+      }
+    } catch {} finally {
+      setBetaCreating(false);
+    }
+  }
+
+  async function toggleBetaCode(id: string, isActive: boolean) {
+    try {
+      const creds = getAdminCreds();
+      if (!creds) return;
+      await fetch(`/api/admin/tester/invite-codes/${id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username: creds.username, password: creds.password, isActive: !isActive }),
+      });
+      fetchBetaCodes();
+    } catch {}
+  }
+
+  async function deleteBetaCode(id: string) {
+    try {
+      const creds = getAdminCreds();
+      if (!creds) return;
+      await fetch(`/api/admin/tester/invite-codes/${id}?username=${encodeURIComponent(creds.username)}&password=${encodeURIComponent(creds.password)}`, {
+        method: "DELETE",
+      });
+      fetchBetaCodes();
+    } catch {}
+  }
+
+  async function copyBetaCode(code: string) {
+    try {
+      await navigator.clipboard.writeText(code);
+      setBetaCopied(code);
+      setTimeout(() => setBetaCopied(null), 2000);
+    } catch {}
   }
 
   async function fetchPromotions() {
@@ -1258,7 +1399,7 @@ export default function AdminPage() {
             <>
               {/* Tab Navigation */}
               <div className="flex gap-1 mb-8 bg-white rounded-lg border border-primary/10 p-1 overflow-x-auto" data-testid="nav-admin-tabs">
-                {(["overview", "users", "activity", "content-engine", "analytics", "promotions", "feedback", "social", "audit", "deck-moderation", "ai-safety"] as const).map((tab) => (
+                {(["overview", "users", "activity", "content-engine", "analytics", "promotions", "feedback", "social", "audit", "deck-moderation", "ai-safety", "beta-testers"] as const).map((tab) => (
                   <button
                     key={tab}
                     onClick={() => setActiveTab(tab)}
@@ -1278,6 +1419,7 @@ export default function AdminPage() {
                     {tab === "audit" && "Audit Log"}
                     {tab === "deck-moderation" && "Deck Reports"}
                     {tab === "ai-safety" && "AI Safety"}
+                    {tab === "beta-testers" && "Beta Testers"}
                   </button>
                 ))}
               </div>
@@ -3996,6 +4138,281 @@ export default function AdminPage() {
                       </div>
                     </CardContent>
                   </Card>
+                </div>
+              )}
+
+              {activeTab === "beta-testers" && (
+                <div className="space-y-6">
+                  <div className="flex items-center justify-between">
+                    <h2 className="text-xl font-bold text-gray-800" data-testid="text-beta-heading">Beta Tester Access Codes</h2>
+                    <Button size="sm" variant="outline" onClick={() => { fetchBetaCodes(); fetchBetaUsers(); fetchBetaFeedback(); }} data-testid="button-refresh-beta">
+                      <RefreshCw className="w-4 h-4 mr-1" />
+                      Refresh
+                    </Button>
+                  </div>
+
+                  <Card className="border border-primary/10">
+                    <CardHeader>
+                      <CardTitle className="text-lg flex items-center gap-2">
+                        <Plus className="w-5 h-5 text-primary" />
+                        Generate New Access Code
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-4">
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-1">Code (auto-generated if blank)</label>
+                          <Input
+                            value={betaNewCode}
+                            onChange={(e) => setBetaNewCode(e.target.value.toUpperCase())}
+                            placeholder="NN-BETA-XXXXXX"
+                            data-testid="input-beta-code"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-1">Tier</label>
+                          <select
+                            value={betaNewTier}
+                            onChange={(e) => setBetaNewTier(e.target.value)}
+                            className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm"
+                            data-testid="select-beta-tier"
+                          >
+                            <option value="free">Free</option>
+                            <option value="rpn">RPN</option>
+                            <option value="rn">RN</option>
+                            <option value="np">NP</option>
+                          </select>
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-1">Max Uses</label>
+                          <Input
+                            type="number"
+                            value={betaNewMaxUses}
+                            onChange={(e) => setBetaNewMaxUses(Math.max(1, parseInt(e.target.value) || 1))}
+                            min={1}
+                            data-testid="input-beta-max-uses"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-1">Duration (days)</label>
+                          <Input
+                            type="number"
+                            value={betaNewDurationDays}
+                            onChange={(e) => setBetaNewDurationDays(Math.max(1, parseInt(e.target.value) || 1))}
+                            min={1}
+                            data-testid="input-beta-duration"
+                          />
+                        </div>
+                        <div className="lg:col-span-2">
+                          <label className="block text-sm font-medium text-gray-700 mb-1">Notes (optional)</label>
+                          <Input
+                            value={betaNewNotes}
+                            onChange={(e) => setBetaNewNotes(e.target.value)}
+                            placeholder="e.g., Batch for March cohort"
+                            data-testid="input-beta-notes"
+                          />
+                        </div>
+                      </div>
+                      <Button
+                        onClick={createBetaCode}
+                        disabled={betaCreating}
+                        className="w-full"
+                        data-testid="button-create-beta-code"
+                      >
+                        {betaCreating ? (
+                          <><RefreshCw className="w-4 h-4 animate-spin mr-2" /> Creating...</>
+                        ) : (
+                          <><Ticket className="w-4 h-4 mr-2" /> Generate Access Code</>
+                        )}
+                      </Button>
+                    </CardContent>
+                  </Card>
+
+                  <Card className="border border-primary/10">
+                    <CardHeader>
+                      <CardTitle className="text-lg flex items-center gap-2">
+                        <Ticket className="w-5 h-5 text-primary" />
+                        Active Codes ({betaCodes.filter((c: any) => c.isActive).length})
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent className="p-0">
+                      {betaCodesLoading ? (
+                        <div className="flex items-center justify-center py-10">
+                          <RefreshCw className="w-8 h-8 text-primary animate-spin" />
+                        </div>
+                      ) : betaCodes.length === 0 ? (
+                        <p className="text-sm text-gray-400 text-center py-8" data-testid="text-no-beta-codes">No access codes created yet.</p>
+                      ) : (
+                        <div className="divide-y">
+                          {betaCodes.map((code: any, idx: number) => (
+                            <div key={code.id} className={`p-4 ${!code.isActive ? "opacity-60 bg-gray-50" : ""}`} data-testid={`beta-code-row-${idx}`}>
+                              <div className="flex items-center justify-between gap-4 flex-wrap">
+                                <div className="flex items-center gap-3 min-w-0">
+                                  <span className="font-mono text-sm font-bold tracking-wider bg-gray-100 px-3 py-1.5 rounded-lg border" data-testid={`text-beta-code-${idx}`}>
+                                    {code.code}
+                                  </span>
+                                  <Button
+                                    variant="ghost"
+                                    size="icon"
+                                    className="h-8 w-8"
+                                    onClick={() => copyBetaCode(code.code)}
+                                    data-testid={`button-copy-beta-${idx}`}
+                                  >
+                                    {betaCopied === code.code ? <Check className="w-4 h-4 text-green-600" /> : <Copy className="w-4 h-4" />}
+                                  </Button>
+                                  <Badge variant={code.isActive ? "default" : "secondary"} data-testid={`badge-beta-status-${idx}`}>
+                                    {code.isActive ? "Active" : "Inactive"}
+                                  </Badge>
+                                  <Badge variant="outline" className="text-xs">
+                                    {code.tier?.toUpperCase() || "FREE"}
+                                  </Badge>
+                                </div>
+                                <div className="flex items-center gap-2">
+                                  <Button
+                                    variant="ghost"
+                                    size="sm"
+                                    onClick={() => toggleBetaCode(code.id, code.isActive)}
+                                    data-testid={`button-toggle-beta-${idx}`}
+                                  >
+                                    {code.isActive ? <ToggleRight className="w-4 h-4 text-green-600 mr-1" /> : <ToggleLeft className="w-4 h-4 text-gray-400 mr-1" />}
+                                    {code.isActive ? "Deactivate" : "Activate"}
+                                  </Button>
+                                  <Button
+                                    variant="ghost"
+                                    size="sm"
+                                    className="text-red-500 hover:text-red-700"
+                                    onClick={() => deleteBetaCode(code.id)}
+                                    data-testid={`button-delete-beta-${idx}`}
+                                  >
+                                    <Trash2 className="w-4 h-4 mr-1" />
+                                    Delete
+                                  </Button>
+                                </div>
+                              </div>
+                              <div className="flex items-center gap-4 mt-2 text-xs text-gray-500">
+                                <span data-testid={`text-beta-uses-${idx}`}>Uses: {code.usedCount || 0} / {code.maxUses}</span>
+                                <span>Created: {code.createdAt ? new Date(code.createdAt).toLocaleDateString() : "N/A"}</span>
+                                {code.expiresAt && (
+                                  <span className={new Date(code.expiresAt) < new Date() ? "text-red-500 font-medium" : ""}>
+                                    {new Date(code.expiresAt) < new Date() ? "Expired" : `Expires: ${new Date(code.expiresAt).toLocaleDateString()}`}
+                                  </span>
+                                )}
+                                {code.notes && <span className="italic">"{code.notes}"</span>}
+                              </div>
+                              <div className="mt-2">
+                                <div className="w-full bg-gray-200 rounded-full h-1.5">
+                                  <div
+                                    className="bg-primary rounded-full h-1.5 transition-all"
+                                    style={{ width: `${Math.min(100, ((code.usedCount || 0) / (code.maxUses || 1)) * 100)}%` }}
+                                  />
+                                </div>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </CardContent>
+                  </Card>
+
+                  <Card className="border border-primary/10">
+                    <CardHeader>
+                      <CardTitle className="text-lg flex items-center gap-2">
+                        <Users className="w-5 h-5 text-primary" />
+                        Active Beta Testers ({betaUsers.length})
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent className="p-0">
+                      {betaUsersLoading ? (
+                        <div className="flex items-center justify-center py-10">
+                          <RefreshCw className="w-8 h-8 text-primary animate-spin" />
+                        </div>
+                      ) : betaUsers.length === 0 ? (
+                        <p className="text-sm text-gray-400 text-center py-8">No beta testers yet.</p>
+                      ) : (
+                        <div className="overflow-x-auto">
+                          <table className="w-full text-sm">
+                            <thead>
+                              <tr className="border-b bg-gray-50">
+                                <th className="text-left px-4 py-2 font-medium text-gray-600">Username</th>
+                                <th className="text-left px-4 py-2 font-medium text-gray-600">Tier</th>
+                                <th className="text-left px-4 py-2 font-medium text-gray-600">Invite Code</th>
+                                <th className="text-left px-4 py-2 font-medium text-gray-600">Referral Code</th>
+                                <th className="text-left px-4 py-2 font-medium text-gray-600">Referrals</th>
+                                <th className="text-left px-4 py-2 font-medium text-gray-600">Expiry</th>
+                                <th className="text-left px-4 py-2 font-medium text-gray-600">Status</th>
+                              </tr>
+                            </thead>
+                            <tbody className="divide-y">
+                              {betaUsers.map((u: any, idx: number) => {
+                                const isExpired = u.testerExpiry && new Date(u.testerExpiry) < new Date();
+                                return (
+                                  <tr key={u.id} className={isExpired ? "opacity-60" : ""} data-testid={`beta-user-row-${idx}`}>
+                                    <td className="px-4 py-2 font-medium">{u.username}</td>
+                                    <td className="px-4 py-2">
+                                      <Badge variant="outline">{u.tier?.toUpperCase() || "FREE"}</Badge>
+                                    </td>
+                                    <td className="px-4 py-2 font-mono text-xs">{u.testerInviteCode || "-"}</td>
+                                    <td className="px-4 py-2 font-mono text-xs">{u.referralCode || "-"}</td>
+                                    <td className="px-4 py-2">{u.referralUses || 0}</td>
+                                    <td className="px-4 py-2 text-xs">
+                                      {u.testerExpiry ? new Date(u.testerExpiry).toLocaleDateString() : "No expiry"}
+                                    </td>
+                                    <td className="px-4 py-2">
+                                      <Badge variant={isExpired ? "secondary" : "default"}>
+                                        {isExpired ? "Expired" : "Active"}
+                                      </Badge>
+                                    </td>
+                                  </tr>
+                                );
+                              })}
+                            </tbody>
+                          </table>
+                        </div>
+                      )}
+                    </CardContent>
+                  </Card>
+
+                  {betaFeedback.length > 0 && (
+                    <Card className="border border-primary/10">
+                      <CardHeader>
+                        <CardTitle className="text-lg flex items-center gap-2">
+                          <MessageSquare className="w-5 h-5 text-primary" />
+                          Tester Feedback ({betaFeedback.length})
+                        </CardTitle>
+                      </CardHeader>
+                      <CardContent className="p-0">
+                        <div className="divide-y">
+                          {betaFeedback.map((fb: any, idx: number) => (
+                            <div key={fb.id} className="p-4" data-testid={`beta-feedback-row-${idx}`}>
+                              <div className="flex items-start justify-between gap-4">
+                                <div className="min-w-0">
+                                  <div className="flex items-center gap-2 mb-1">
+                                    <span className="font-medium text-sm">{fb.username || "Unknown"}</span>
+                                    <Badge variant={fb.category === "bug" ? "destructive" : fb.category === "feature" ? "default" : "secondary"} className="text-xs">
+                                      {fb.category || "General"}
+                                    </Badge>
+                                    {fb.severity && (
+                                      <Badge variant="outline" className="text-xs">
+                                        {fb.severity}
+                                      </Badge>
+                                    )}
+                                    <Badge variant={fb.status === "resolved" ? "default" : "outline"} className="text-xs">
+                                      {fb.status || "pending"}
+                                    </Badge>
+                                  </div>
+                                  {fb.title && <p className="text-sm font-medium text-gray-800 mb-1">{fb.title}</p>}
+                                  <p className="text-sm text-gray-700">{fb.description || fb.message || ""}</p>
+                                  <p className="text-xs text-gray-400 mt-1">
+                                    {fb.createdAt ? new Date(fb.createdAt).toLocaleString() : ""}
+                                  </p>
+                                </div>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </CardContent>
+                    </Card>
+                  )}
                 </div>
               )}
 

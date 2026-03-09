@@ -66,3 +66,11 @@ The application is built with Vite, React, and Express 5 on Node.js with TypeScr
 - `/refer` page shows code, share link (`nursenest.ca/signup?ref=CODE`), copy buttons, referral stats, how-it-works
 - `/signup?ref=CODE` redirects to `/login` preserving query params; App.tsx captures `ref` into sessionStorage before locale redirect
 - Login page reads `ref` from URL or sessionStorage fallback, pre-fills referral code input on registration tab
+
+## Beta Tester Access Code Management (Admin Dashboard)
+- Admin dashboard tab "Beta Testers" at `/admin?tab=beta-testers`
+- Uses existing `tester_invite_codes` table and API routes (`GET/POST/PATCH/DELETE /api/admin/tester/invite-codes`)
+- Generate codes (format NN-BETA-XXXXXX, auto-generated or custom), set tier/maxUses/duration/notes
+- View all codes with usage progress bars, copy to clipboard, activate/deactivate, delete
+- View active beta testers table with username, tier, invite code used, referral code, referral count, expiry, status
+- View tester feedback with category, severity, title, description, and status badges

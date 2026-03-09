@@ -13192,6 +13192,8 @@ Return ONLY valid JSON with this exact structure:
         testerAccess: u.testerAccess,
         testerExpiry: u.testerExpiry,
         testerInviteCode: u.testerInviteCode,
+        referralCode: u.referralCode,
+        referralUses: u.referralUses,
       })));
     } catch (e: any) {
       res.status(500).json({ error: e.message });
