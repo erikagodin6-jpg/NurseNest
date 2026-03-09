@@ -173,6 +173,12 @@ export function Navigation() {
     Stethoscope, Wind, Ambulance, Pill, Microscope, ScanLine,
   };
 
+  const setRegion = (newRegion: "US" | "CA") => {
+    setRegionState(newRegion);
+    localStorage.setItem("nursenest-region", newRegion);
+    window.dispatchEvent(new Event("regionChange"));
+  };
+
   const handleLanguageChange = (langCode: typeof language) => {
     setLanguage(langCode);
   };
@@ -581,10 +587,25 @@ export function Navigation() {
             <div className="h-[1px] bg-gray-100 my-2" />
 
             <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1 px-3">{t("nav.regionTheme")}</p>
-            <div className="flex items-center gap-2 px-3 mb-2">
-              <span className="text-xs font-bold text-primary bg-primary/5 rounded-full px-2 py-0.5 border border-primary/10" data-testid="text-region-indicator-mobile">
-                {region === "CA" ? "🇨🇦 Canada" : "🇺🇸 United States"}
-              </span>
+            <div className="flex items-center gap-1 px-3 mb-2 bg-gray-100 rounded-full p-0.5 w-fit">
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setRegion("US")}
+                className={cn("h-6 px-2 rounded-full text-[10px] font-bold transition-all", region === "US" ? "bg-white shadow-sm text-primary" : "text-gray-400 hover:text-gray-600")}
+                data-testid="button-region-us-mobile"
+              >
+                US
+              </Button>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setRegion("CA")}
+                className={cn("h-6 px-2 rounded-full text-[10px] font-bold transition-all", region === "CA" ? "bg-white shadow-sm text-primary" : "text-gray-400 hover:text-gray-600")}
+                data-testid="button-region-ca-mobile"
+              >
+                CA
+              </Button>
             </div>
             <div className="flex flex-wrap gap-2 px-3 mb-1">
               {themes.map((t) => (
@@ -952,10 +973,26 @@ export function Navigation() {
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-56 p-2 max-h-[80vh] overflow-y-auto">
-                <div className="flex items-center gap-2 px-2 mb-2">
-                  <span className="text-xs font-bold text-primary" data-testid="text-region-indicator-desktop">
-                    {region === "CA" ? "Canada" : "United States"}
-                  </span>
+                <p className="text-[10px] font-bold text-gray-400 uppercase px-2 my-2 tracking-widest">{t("nav.regionTheme")}</p>
+                <div className="flex items-center gap-1 px-2 mb-2 bg-gray-100 rounded-full p-0.5 w-fit">
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => setRegion("US")}
+                    className={cn("h-6 px-2.5 rounded-full text-[11px] font-bold transition-all", region === "US" ? "bg-primary text-white shadow-sm" : "text-primary/60 hover:text-primary hover:bg-primary/5")}
+                    data-testid="button-region-us-desktop"
+                  >
+                    US
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => setRegion("CA")}
+                    className={cn("h-6 px-2.5 rounded-full text-[11px] font-bold transition-all", region === "CA" ? "bg-primary text-white shadow-sm" : "text-primary/60 hover:text-primary hover:bg-primary/5")}
+                    data-testid="button-region-ca-desktop"
+                  >
+                    CA
+                  </Button>
                 </div>
                 <DropdownMenuSeparator />
                 <p className="text-[10px] font-bold text-gray-400 uppercase px-2 my-2 tracking-widest">{t("nav.selectTheme")}</p>
