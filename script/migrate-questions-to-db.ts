@@ -77,25 +77,18 @@ const QUESTION_FILES: { file: string; tier: string; exam: string; exportName: st
 ];
 
 QUESTION_FILES.push({
-  file: "rpn-expansion-f",
-  tier: "rpn",
-  exam: "REX-PN",
-  exportName: "rpnExpansionFQuestions",
-});
-
-QUESTION_FILES.push({
   file: "rn-expanded-batch",
   tier: "rn",
   exam: "NCLEX-RN",
   exportName: "rnExpandedBatchQuestions",
 });
 
-QUESTION_FILES.push({ file: "rn-expansion-e", tier: "rn", exam: "NCLEX-RN", exportName: "rnExpansionEQuestions" });
-
 QUESTION_FILES.push({ file: "rpn-expansion-f", tier: "rpn", exam: "REX-PN", exportName: "rpnExpansionFQuestions" });
 QUESTION_FILES.push({ file: "rn-expansion-e", tier: "rn", exam: "NCLEX-RN", exportName: "rnExpansionEQuestions" });
 QUESTION_FILES.push({ file: "np-expansion-c", tier: "np", exam: "AANP", exportName: "npExpansionCQuestions" });
 QUESTION_FILES.push({ file: "pn-us-batch-01", tier: "rpn", exam: "NCLEX-PN", exportName: "pnUsBatch01Questions" });
+QUESTION_FILES.push({ file: "rn-us-batch-01", tier: "rn", exam: "NCLEX-RN", exportName: "rnUsBatch01Questions" });
+QUESTION_FILES.push({ file: "np-us-batch-01", tier: "np", exam: "AANP", exportName: "npUsBatch01Questions" });
 
 for (let i = 1; i <= 56; i++) {
   const pad = String(i).padStart(2, "0");
