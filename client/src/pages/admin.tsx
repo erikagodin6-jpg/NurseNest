@@ -881,38 +881,98 @@ export default function AdminPage() {
     if (topicLines.length === 0) return;
 
     setBlogGenerating(true);
+    const allResults: any[] = [];
     setBatchProgress({ current: 0, total: topicLines.length, results: [] });
-    try {
-      const res = await fetch("/api/blog/generate-batch", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          username, password,
-          topics: topicLines,
-          citationStyle: blogConfig?.citationStyle || "apa7",
-          scheduleStartDate: batchStartDate || undefined,
-          postsPerDay: batchPostsPerDay,
-          publishAllNow: batchPublishAll,
-          smartSchedule: batchScheduleMode === "smart" && !batchPublishAll,
-        }),
-      });
-      if (res.ok) {
-        const data = await res.json();
-        setBatchProgress({ current: data.total, total: data.total, results: data.results });
-        alert(`Batch complete: ${data.generated}/${data.total} posts generated and queued.`);
-        setBatchTopics("");
-        fetchBlogPosts();
-        fetchPublishQueue();
-        fetchOccupiedDays();
+
+    const perDay = Math.max(1, Math.min(10, batchPostsPerDay || 1));
+    const startDate = batchStartDate ? new Date(batchStartDate + "T09:00:00") : new Date();
+    const useSmartSchedule = batchScheduleMode === "smart" && !batchPublishAll;
+
+    let scheduleDates: string[] = [];
+    if (!batchPublishAll) {
+      if (useSmartSchedule) {
+        try {
+          const occRes = await fetch(`/api/blog/occupied-days?username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`);
+          const occupiedSet = new Set<string>();
+          if (occRes.ok) {
+            const occData = await occRes.json();
+            (occData.occupiedDays || []).forEach((d: string) => occupiedSet.add(d));
+          }
+          const totalSlotsNeeded = Math.ceil(topicLines.length / perDay);
+          const cursor = new Date(startDate);
+          const freeDays: string[] = [];
+          while (freeDays.length < totalSlotsNeeded) {
+            const dayStr = cursor.toISOString().slice(0, 10);
+            if (!occupiedSet.has(dayStr)) freeDays.push(dayStr);
+            cursor.setDate(cursor.getDate() + 1);
+            if (freeDays.length === 0 && cursor.getTime() - startDate.getTime() > 365 * 86400000) break;
+          }
+          for (let i = 0; i < topicLines.length; i++) {
+            const slotInDay = i % perDay;
+            const dayIdx = Math.floor(i / perDay);
+            const dayStr = freeDays[Math.min(dayIdx, freeDays.length - 1)] || freeDays[freeDays.length - 1];
+            const d = new Date(dayStr + "T09:00:00");
+            d.setHours(9 + slotInDay * 2, 0, 0, 0);
+            scheduleDates.push(d.toISOString());
+          }
+        } catch {
+          for (let i = 0; i < topicLines.length; i++) {
+            const d = new Date(startDate);
+            d.setDate(d.getDate() + Math.floor(i / perDay));
+            d.setHours(9 + (i % perDay) * 2, 0, 0, 0);
+            scheduleDates.push(d.toISOString());
+          }
+        }
       } else {
-        const err = await res.json().catch(() => ({}));
-        alert(err.error || "Batch generation failed");
+        for (let i = 0; i < topicLines.length; i++) {
+          const d = new Date(startDate);
+          d.setDate(d.getDate() + Math.floor(i / perDay));
+          d.setHours(9 + (i % perDay) * 2, 0, 0, 0);
+          scheduleDates.push(d.toISOString());
+        }
       }
-    } catch {
-      alert("Batch generation failed");
-    } finally {
-      setBlogGenerating(false);
     }
+
+    let successCount = 0;
+    for (let i = 0; i < topicLines.length; i++) {
+      setBatchProgress({ current: i, total: topicLines.length, results: [...allResults] });
+      try {
+        const res = await fetch("/api/blog/generate-batch", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            username, password,
+            topics: [topicLines[i]],
+            citationStyle: blogConfig?.citationStyle || "apa7",
+            publishAllNow: batchPublishAll,
+            overrideDates: scheduleDates.length > i ? [scheduleDates[i]] : undefined,
+          }),
+        });
+        if (res.ok) {
+          const data = await res.json();
+          const result = data.results?.[0] || { index: i, status: "success" };
+          result.index = i;
+          allResults.push(result);
+          if (result.status === "success") successCount++;
+        } else {
+          const err = await res.json().catch(() => ({}));
+          allResults.push({ index: i, status: "failed", topic: topicLines[i], error: err.error || "Request failed" });
+        }
+      } catch {
+        allResults.push({ index: i, status: "failed", topic: topicLines[i], error: "Network error or timeout" });
+      }
+      setBatchProgress({ current: i + 1, total: topicLines.length, results: [...allResults] });
+    }
+
+    setBatchProgress({ current: topicLines.length, total: topicLines.length, results: allResults });
+    alert(`Batch complete: ${successCount}/${topicLines.length} posts generated.`);
+    if (successCount > 0) {
+      setBatchTopics("");
+      fetchBlogPosts();
+      fetchPublishQueue();
+      fetchOccupiedDays();
+    }
+    setBlogGenerating(false);
   }
 
   async function fetchOccupiedDays() {

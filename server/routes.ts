@@ -2343,6 +2343,18 @@ Return ONLY a JSON array of flashcard objects, no other text.`;
             await storage.setReferredBy(user.id, normalizedRef);
             await storage.incrementReferralUses(normalizedRef);
             user.referredBy = normalizedRef;
+
+            try {
+              const now = new Date();
+              const currentExpiry = referrer.testerExpiry ? new Date(referrer.testerExpiry) : null;
+              const baseDate = currentExpiry && currentExpiry > now ? currentExpiry : now;
+              const newExpiry = new Date(baseDate);
+              newExpiry.setDate(newExpiry.getDate() + 7);
+              await storage.setTesterAccess(referrer.id, true, newExpiry);
+              console.log(`[Referral] Granted 7 premium days to referrer ${referrer.id} (expires ${newExpiry.toISOString()})`);
+            } catch (rewardErr) {
+              console.error("[Referral] Failed to grant premium days to referrer:", rewardErr);
+            }
           }
         }
       }
@@ -6104,7 +6116,6 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
 
           if (useOverride && overrideDates[i]) {
             scheduledDate = new Date(overrideDates[i]);
-            scheduledDate.setHours(9 + slotInDay * 2, 0, 0, 0);
           } else if (smartSchedule && !publishAllNow && availableDays.length > 0) {
             const dayIndex = Math.floor(slotCounter / perDay);
             const dayStr = availableDays[Math.min(dayIndex, availableDays.length - 1)];

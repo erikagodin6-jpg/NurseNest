@@ -62,8 +62,9 @@ The application is built with Vite, React, and Express 5 on Node.js with TypeScr
 - API routes: `GET /api/referral/my-code`, `POST /api/referral/generate`, `POST /api/referral/validate`
 - Referral code auto-generated when: tester access granted via admin, or user registers with valid invite code
 - Registration (`POST /api/auth/register`) accepts optional `referralCode` param, links `referredBy` and increments referrer's uses
-- Stripe checkout applies 10% "once" coupon for users with `referredBy` set and `referralDiscountUsed` is false; marked as used after successful payment in verify-session
-- `/refer` page shows code, share link (`nursenest.ca/signup?ref=CODE`), copy buttons, referral stats, how-it-works
+- **Referral rewards**: Friend gets 15% off first subscription (Stripe coupon `percent_off: 15`, requires exact match). Referrer gets 7 free premium days (`testerAccess=true`, expiry extended/stacked).
+- Stripe checkout applies 15% "once" coupon for users with `referredBy` set and `referralDiscountUsed` is false; marked as used after successful payment in verify-session
+- `/refer` page shows code, share link (`nursenest.ca/signup?ref=CODE`), copy buttons, 3-column referral stats (friends referred, 15% discount, premium days earned), 4-step how-it-works
 - `/signup?ref=CODE` redirects to `/login` preserving query params; App.tsx captures `ref` into sessionStorage before locale redirect
 - Login page reads `ref` from URL or sessionStorage fallback, pre-fills referral code input on registration tab
 
@@ -71,6 +72,14 @@ The application is built with Vite, React, and Express 5 on Node.js with TypeScr
 - Admin dashboard tab "Beta Testers" at `/admin?tab=beta-testers`
 - Uses existing `tester_invite_codes` table and API routes (`GET/POST/PATCH/DELETE /api/admin/tester/invite-codes`)
 - Generate codes (format NN-BETA-XXXXXX, auto-generated or custom), set tier/maxUses/duration/notes
-- View all codes with usage progress bars, copy to clipboard, activate/deactivate, delete
+- Batch code generation: `POST /api/admin/tester/invite-codes/batch` (count, tier, maxUses, durationDays, notes), up to 500 codes at once
+- `usedBy` tracking: `tester_invite_codes.used_by` stores user ID on redemption
+- View all codes with usage progress bars, copy to clipboard, activate/deactivate, delete, "Redeemed" indicator
 - View active beta testers table with username, tier, invite code used, referral code, referral count, expiry, status
 - View tester feedback with category, severity, title, description, and status badges
+
+## Blog Batch Generator
+- `POST /api/blog/generate-batch` generates blog posts via OpenAI (gpt-4o-mini, 16k tokens)
+- Frontend sends topics one-at-a-time to avoid HTTP timeout (each post takes ~30s)
+- Schedule dates pre-computed on frontend and passed via `overrideDates` to preserve postsPerDay/smartSchedule semantics
+- Smart schedule mode fetches occupied days from `/api/blog/occupied-days` and fills free days only

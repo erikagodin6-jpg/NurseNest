@@ -180,7 +180,7 @@ export default function ReferPage() {
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                     <div className="bg-primary/5 rounded-xl p-5 text-center">
                       <div className="text-3xl font-bold text-primary" data-testid="text-referral-count">{referralUses}</div>
                       <div className="text-sm text-gray-500 mt-1">Friends Referred</div>
@@ -188,6 +188,10 @@ export default function ReferPage() {
                     <div className="bg-green-50 rounded-xl p-5 text-center">
                       <div className="text-3xl font-bold text-green-600">15%</div>
                       <div className="text-sm text-gray-500 mt-1">Discount for Each Friend</div>
+                    </div>
+                    <div className="bg-blue-50 rounded-xl p-5 text-center">
+                      <div className="text-3xl font-bold text-blue-600" data-testid="text-referral-days">{referralUses * 7}</div>
+                      <div className="text-sm text-gray-500 mt-1">Premium Days Earned</div>
                     </div>
                   </div>
                 </CardContent>
@@ -214,6 +218,12 @@ export default function ReferPage() {
                         <span className="text-xs font-bold text-primary">3</span>
                       </div>
                       <p>They receive 15% off their first subscription payment automatically at checkout.</p>
+                    </div>
+                    <div className="flex items-start gap-3">
+                      <div className="w-6 h-6 rounded-full bg-primary/20 flex items-center justify-center shrink-0 mt-0.5">
+                        <span className="text-xs font-bold text-primary">4</span>
+                      </div>
+                      <p>You receive 7 free days of premium access for each friend who signs up.</p>
                     </div>
                   </div>
                 </CardContent>
