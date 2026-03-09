@@ -1,0 +1,539 @@
+I need to refactor the entire NurseNest platform into a strict, production-ready role-gated architecture so every content type is separated correctly by tier and no user can see content outside their allowed role.
+
+Current problem:
+Role gating keeps breaking across the platform. Exams were leaking across tiers, lessons were moved into free, and the system is no longer reliably separating content by role. I need a single master architecture that enforces access control everywhere, not patch-by-patch.
+
+GOAL:
+Create a durable platform-wide role-gating system for all user-facing and admin-facing content.
+
+Canonical roles:
+- free
+- rpn
+- rn
+- np
+- admin
+
+Canonical tiers:
+- free
+- rpn
+- rn
+- np
+
+The platform must enforce tier separation across:
+- navigation
+- dashboards
+- lessons
+- exams
+- question banks
+- quizzes
+- exam simulations
+- flashcards
+- study plans
+- case studies
+- recommendations
+- search
+- progress analytics
+- route access
+- API responses
+- related content widgets
+- homepage personalization for logged-in users
+- upgrade prompts
+- admin preview mode
+
+==================================================
+PART 1 — SINGLE SOURCE OF TRUTH
+==================================================
+
+Create a centralized access control system.
+
+Implement:
+- roleAccessConfig.ts
+- getAllowedTiersForRole(role)
+- canAccessTier(role, tier)
+- canAccessContent(user, contentItem)
+- filterContentForRole(user, contentList)
+- getDefaultTierForRole(role)
+- getDefaultDashboardForRole(role)
+- getDefaultRoutesForRole(role)
+
+This must be the single source of truth used across frontend and backend.
+
+Example default rules:
+- free -> ["free"]
+- rpn -> ["free", "rpn"]
+- rn -> ["free", "rn"] by default, optional ["rpn"] review only if explicitly enabled
+- np -> ["free", "np"] by default, optional ["rn"] review only if explicitly enabled
+- admin -> ["free", "rpn", "rn", "np"]
+
+Cross-tier visibility must never happen by accident.
+If cross-tier review is allowed, it must be explicit in config.
+
+==================================================
+PART 2 — UNIVERSAL CONTENT MODEL
+==================================================
+
+Every user-facing content object must support shared access metadata.
+
+For all content types add:
+- id
+- title
+- slug
+- contentType
+- tier
+- allowedRoles
+- isPublished
+- isFreePreview
+- isLocked
+- category
+- subcategory
+- tags
+- createdBy
+- updatedAt
+
+Supported contentType values:
+- lesson
+- exam
+- question
+- questionBank
+- quiz
+- examSimulation
+- flashcardDeck
+- studyPlan
+- caseStudy
+- recommendationBlock
+- dashboardWidget
+- article
+- resource
+
+Critical rule:
+No content should silently default to free if tier is missing.
+If tier is missing:
+- do not expose it publicly
+- flag it for admin review
+- mark it as uncategorized/unpublished
+
+==================================================
+PART 3 — ROLE ACCESS RULES
+==================================================
+
+Enforce strict visibility by role.
+
+FREE:
+- can see only free content and intentional free previews
+- cannot access paid tier routes or APIs
+- can see locked upgrade prompts only where intentionally designed
+
+RPN:
+- can see free + rpn content
+- cannot see rn or np content
+- cannot see rn or np titles in search, recommendations, or related content
+
+RN:
+- can see free + rn content
+- cannot see np content
+- cannot see rpn content unless explicit review mode is enabled in config
+
+NP:
+- can see free + np content
+- cannot see rpn content by default
+- cannot see rn content unless explicit review mode is enabled in config
+
+ADMIN:
+- can see all
+- can filter all
+- can preview the product as any role
+
+==================================================
+PART 4 — FRONTEND GLOBAL FILTERING
+==================================================
+
+Refactor all frontend content rendering to use shared role-aware filters before rendering.
+
+Apply filtering to:
+- sidebar nav
+- top nav
+- dashboard cards
+- lesson libraries
+- exam libraries
+- quiz cards
+- flashcard decks
+- study plans
+- case study lists
+- progress widgets
+- search results
+- related resources
+- “continue learning”
+- recommendation carousels
+- homepage widgets for logged-in users
+- upgrade panels
+- footer links if tier-specific
+
+All components should call a shared helper:
+filterContentForRole(user, items)
+
+Do not let components manually invent their own access logic.
+
+==================================================
+PART 5 — BACKEND ENFORCEMENT
+==================================================
+
+Protect all API routes using the same centralized access logic.
+
+Add authorization checks to endpoints such as:
+- /api/lessons
+- /api/lessons/:slug
+- /api/exams
+- /api/exams/:id
+- /api/questions
+- /api/question-bank
+- /api/quizzes
+- /api/exam-simulation
+- /api/flashcards
+- /api/study-plans
+- /api/case-studies
+- /api/recommendations
+- /api/search
+- /api/dashboard
+- /api/progress
+- /api/resources
+- /api/articles
+- any endpoint returning user-facing content
+
+Rules:
+- collection endpoints must omit unauthorized content
+- detail endpoints must return 403 if unauthorized
+- search must never leak unauthorized titles or metadata
+- recommendation endpoints must only return allowed content
+- dashboard endpoints must return role-specific widgets only
+
+Never rely only on frontend hiding.
+
+==================================================
+PART 6 — ROLE-NATIVE ROUTING
+==================================================
+
+Create role-specific route spaces where appropriate.
+
+Examples:
+/free/dashboard
+/free/lessons
+/free/quizzes
+
+/rpn/dashboard
+/rpn/lessons
+/rpn/exams
+/rpn/question-bank
+/rpn/flashcards
+/rpn/study-plan
+/rpn/progress
+
+/rn/dashboard
+/rn/lessons
+/rn/exams
+/rn/question-bank
+/rn/clinical-judgment
+/rn/flashcards
+/rn/study-plan
+/rn/progress
+
+/np/dashboard
+/np/lessons
+/np/exams
+/np/question-bank
+/np/advanced-cases
+/np/flashcards
+/np/study-plan
+/np/progress
+
+/admin/dashboard
+/admin/content
+/admin/analytics
+/admin/role-preview
+
+Add route guards:
+- redirect free users out of paid routes
+- redirect rpn users out of rn/np routes
+- redirect rn users out of np routes
+- redirect users to their own dashboard by default
+- support admin preview mode safely
+
+==================================================
+PART 7 — ROLE-NATIVE NAVIGATION
+==================================================
+
+Navigation must be generated from role config, not hardcoded generic menus.
+
+FREE nav:
+- Home
+- Free Practice
+- Sample Lessons
+- Pricing
+- Upgrade
+
+RPN nav:
+- Dashboard
+- RPN Lessons
+- RPN Exams
+- Question Bank
+- Flashcards
+- Study Plan
+- Progress
+
+RN nav:
+- Dashboard
+- RN Lessons
+- RN Exams
+- Clinical Judgment
+- Question Bank
+- Flashcards
+- Study Plan
+- Progress
+
+NP nav:
+- Dashboard
+- NP Lessons
+- NP Exams
+- Advanced Cases
+- Diagnostic Reasoning
+- Question Bank
+- Flashcards
+- Study Plan
+- Progress
+
+ADMIN nav:
+- Dashboard
+- Content
+- Users
+- Analytics
+- Role Preview
+- Settings
+
+No user should see nav items for another role.
+
+==================================================
+PART 8 — DASHBOARD ISOLATION
+==================================================
+
+Create role-specific dashboards driven by role config.
+
+FREE dashboard:
+- sample content
+- preview progress
+- upgrade prompts
+
+RPN dashboard:
+- RPN readiness
+- foundations progress
+- medication safety
+- recommended RPN lessons/exams
+
+RN dashboard:
+- RN readiness
+- clinical judgment
+- prioritization
+- recommended RN lessons/exams
+
+NP dashboard:
+- NP board readiness
+- diagnostic reasoning
+- prescribing confidence
+- recommended NP cases/exams
+
+ADMIN dashboard:
+- platform analytics
+- content inventory
+- missing metadata alerts
+- tier leakage alerts
+
+Recommendations and widgets must be filtered by role before rendering.
+
+==================================================
+PART 9 — SEARCH, RELATED CONTENT, AND RECOMMENDATIONS
+==================================================
+
+Fix all discovery systems.
+
+Search:
+- only indexes content the role can access at query time
+- does not leak restricted titles
+- does not leak restricted tags or snippets
+
+Related content:
+- only shows same-role or explicitly allowed content
+- does not suggest other tiers accidentally
+
+Recommendations:
+- role-aware
+- performance-aware
+- content-type aware
+- never cross-tier unless config explicitly allows it
+
+Autocomplete:
+- role-aware
+- no tier leakage
+
+==================================================
+PART 10 — ADMIN CONTENT MANAGEMENT
+==================================================
+
+Refactor admin content builder so every content type requires explicit access metadata.
+
+For every content form require:
+- contentType
+- tier
+- allowedRoles
+- isPublished
+- isFreePreview
+- category
+- tags
+
+Validation:
+- cannot publish without tier
+- cannot save with invalid allowedRoles
+- cannot mark content free accidentally through fallback logic
+- missing tier content is hidden from users until fixed
+
+Admin filters:
+- by content type
+- by tier
+- by published status
+- by free preview
+- by missing metadata
+- by uncategorized
+- by possible leakage risk
+
+==================================================
+PART 11 — MIGRATION + CLEANUP
+==================================================
+
+Create a migration script for all existing content.
+
+For each item:
+1. determine contentType
+2. infer intended tier from category, route, title, tags, and current placement
+3. assign tier
+4. assign allowedRoles
+5. set isFreePreview only when intentional
+6. unpublish uncertain records
+7. flag uncertain items for admin review
+
+Audit these content areas specifically:
+- lessons
+- exams
+- question banks
+- quizzes
+- flashcards
+- study plans
+- case studies
+- dashboard widgets
+- recommendation blocks
+- articles/resources
+
+Any content with missing or ambiguous tier:
+- unpublish it
+- remove it from user-facing APIs
+- show it in admin review queue
+
+==================================================
+PART 12 — PREVENT BAD FALLBACKS
+==================================================
+
+Audit and remove dangerous logic such as:
+- item.tier || "free"
+- defaultRole = "free"
+- render to all if missing role
+- public queries without role filters
+- search index built without access awareness
+- recommendation engines without role checks
+- route components that do not validate user role
+
+Replace all with explicit access checks.
+
+==================================================
+PART 13 — ROLE-AWARE COPY + LABELS
+==================================================
+
+Ensure all labels reflect the user’s role.
+
+Examples:
+RPN:
+- RPN Lessons
+- RPN Exams
+- Practical Nursing Progress
+
+RN:
+- RN Lessons
+- RN Readiness Exams
+- Clinical Judgment Progress
+
+NP:
+- NP Lessons
+- NP Board Prep
+- Diagnostic Reasoning Progress
+
+FREE:
+- Free Lessons
+- Sample Practice
+- Upgrade for Full Access
+
+No cross-tier wording should appear in the wrong experience.
+
+==================================================
+PART 14 — OBSERVABILITY + SAFETY CHECKS
+==================================================
+
+Add logging and monitoring for tier leakage.
+
+Log events such as:
+- unauthorized route attempt
+- unauthorized API request
+- content missing tier metadata
+- search leakage prevention triggered
+- recommendation filtered due to role mismatch
+
+Create admin diagnostics:
+- leaked content audit
+- missing tier audit
+- unpublished ambiguous content audit
+- preview-by-role audit
+
+==================================================
+PART 15 — TEST COVERAGE
+==================================================
+
+Add comprehensive tests.
+
+Test:
+1. free user only sees free content
+2. rpn only sees rpn + free
+3. rn only sees rn + free unless review mode enabled
+4. np only sees np + free unless review mode enabled
+5. admin sees all
+6. search does not leak unauthorized content
+7. related content does not leak unauthorized tiers
+8. recommendations do not leak unauthorized tiers
+9. route guards redirect correctly
+10. missing-tier content does not become public
+11. APIs return 403 or filtered responses correctly
+12. admin preview works without changing real permissions
+
+==================================================
+PART 16 — IMPLEMENTATION REQUIREMENT
+==================================================
+
+Implement this as a durable, production-ready role-gating architecture across the whole platform.
+
+Return:
+1. centralized access-control config
+2. updated universal content schema
+3. backend guard middleware
+4. frontend filtering helpers
+5. route guard system
+6. admin content-builder validation
+7. migration scripts
+8. search/recommendation fixes
+9. monitoring/audit utilities
+10. test coverage
+
+Do not patch individual pages.
+Build a unified role-gated NurseNest architecture so every part of the platform consistently shows the right content to the right learner and never defaults to free or cross-tier visibility by accident.

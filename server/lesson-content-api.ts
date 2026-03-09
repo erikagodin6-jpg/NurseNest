@@ -1,5 +1,39 @@
 import type { Express, Request, Response } from "express";
 import { adaptLessonContent } from "./region-adapt-content";
+import { resolveAuthUser } from "./admin-auth";
+
+function getPreviewFromToken(token: string): { mode: string } | null {
+  if (!token) return null;
+  try {
+    const decoded = Buffer.from(token, "base64").toString("utf-8");
+    const parsed = JSON.parse(decoded);
+    if (parsed.mode && typeof parsed.mode === "string") return parsed;
+  } catch {}
+  return null;
+}
+
+async function extractLessonUserTier(req: Request): Promise<string> {
+  const user = await resolveAuthUser(req as any);
+  if (!user) return "free";
+  if (user.tier === "admin") {
+    const previewToken = ((req as any).cookies?.nursenest_preview || "") as string;
+    const preview = getPreviewFromToken(previewToken);
+    if (preview) return preview.mode;
+    return "admin";
+  }
+  return user.tier || "free";
+}
+
+function getAllowedLessonTiers(userTier: string): string[] {
+  if (userTier === "admin") return ["free", "general", "rpn", "rn", "np"];
+  if (userTier === "free" || !userTier) return ["free", "general"];
+  return ["free", "general", userTier];
+}
+
+function canUserAccessLesson(userTier: string, lessonTier: string): boolean {
+  const allowed = getAllowedLessonTiers(userTier);
+  return allowed.includes(lessonTier);
+}
 
 type LessonMeta = {
   id: string;
@@ -81,11 +115,14 @@ async function buildMetadata(): Promise<LessonMeta[]> {
 }
 
 export function setupLessonContentRoutes(app: Express): void {
-  app.get("/api/lessons/meta", async (_req: Request, res: Response) => {
+  app.get("/api/lessons/meta", async (req: Request, res: Response) => {
     try {
-      const meta = await buildMetadata();
-      res.setHeader("Cache-Control", "public, max-age=300");
-      res.json(meta);
+      const userTier = await extractLessonUserTier(req);
+      const allMeta = await buildMetadata();
+      const allowed = getAllowedLessonTiers(userTier);
+      const filtered = allMeta.filter(m => allowed.includes(m.tier));
+      res.setHeader("Cache-Control", "private, max-age=60");
+      res.json(filtered);
     } catch (err: any) {
       console.error("[LessonAPI] meta error:", err.message);
       res.status(500).json({ error: "Failed to load lesson metadata" });
@@ -100,10 +137,20 @@ export function setupLessonContentRoutes(app: Express): void {
       if (!lesson) {
         return res.status(404).json({ error: "Lesson not found" });
       }
+      const lessonTier = deriveTier(slug);
+      const userTier = await extractLessonUserTier(req);
+      if (!canUserAccessLesson(userTier, lessonTier)) {
+        return res.status(403).json({
+          error: "Access denied",
+          code: "LESSON_TIER_LOCKED",
+          requiredTier: lessonTier,
+          userTier,
+        });
+      }
       const region = (req as any).region || "US";
       const adapted = adaptLessonContent(lesson, region);
       res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
-      res.json({ id: slug, ...adapted });
+      res.json({ id: slug, tier: lessonTier, ...adapted });
     } catch (err: any) {
       console.error("[LessonAPI] content error:", err.message);
       res.status(500).json({ error: "Failed to load lesson content" });
@@ -116,11 +163,14 @@ export function setupLessonContentRoutes(app: Express): void {
       if (!q || q.length < 2) {
         return res.json([]);
       }
+      const userTier = await extractLessonUserTier(req);
+      const allowed = getAllowedLessonTiers(userTier);
       const meta = await buildMetadata();
       const results = meta
+        .filter((m) => allowed.includes(m.tier))
         .filter((m) => m.title.toLowerCase().includes(q) || m.id.toLowerCase().includes(q))
         .slice(0, 20);
-      res.setHeader("Cache-Control", "public, max-age=60");
+      res.setHeader("Cache-Control", "private, max-age=60");
       res.json(results);
     } catch (err: any) {
       console.error("[LessonAPI] search error:", err.message);

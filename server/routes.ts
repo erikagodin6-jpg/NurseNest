@@ -3404,10 +3404,25 @@ Rules:
         q += " ORDER BY published_at DESC NULLS LAST";
         const result = await pool.query(q, params);
         items = snakeToCamel(result.rows);
-        console.log(`[Content API] Returned ${items.length} items for type=${type || "all"}, region=${region}`);
       } catch (sqlErr: any) {
         console.error("[Content API] SQL error:", sqlErr.message);
       }
+
+      if (type === "lesson" || type === "lessons") {
+        const userTier = await extractUserTier(req);
+        const effectiveTier = userTier || "free";
+        const allowedTiers = effectiveTier === "admin"
+          ? ["free", "general", "rpn", "rn", "np"]
+          : effectiveTier === "free"
+            ? ["free", "general"]
+            : ["free", "general", effectiveTier];
+        items = items.filter((item: any) => {
+          const t = item.tier || "free";
+          return allowedTiers.includes(t);
+        });
+      }
+
+      console.log(`[Content API] Returned ${items.length} items for type=${type || "all"}, region=${region}`);
 
       const lang = req.lang || "en";
       if (lang !== "en" && items.length > 0) {

@@ -32,3 +32,26 @@ export function getUserTierOnly(userTier: string | null | undefined): string | n
   if (userTier === "admin") return null;
   return userTier;
 }
+
+export function getAllowedLessonTiers(userTier: string | null | undefined): string[] {
+  if (!userTier || userTier === "free") return ["free", "general"];
+  if (userTier === "admin") return ["free", "general", "rpn", "rn", "np"];
+  return ["free", "general", userTier];
+}
+
+export function filterContentByTier<T extends { tier?: string }>(
+  items: T[],
+  userTier: string | null | undefined,
+  testerAccess?: boolean,
+  testerExpiry?: string | null
+): T[] {
+  const allowed = new Set(
+    testerAccess && (!testerExpiry || new Date(testerExpiry) > new Date())
+      ? ["free", "general", "rpn", "rn", "np"]
+      : getAllowedLessonTiers(userTier)
+  );
+  return items.filter(item => {
+    const t = item.tier || "free";
+    return allowed.has(t);
+  });
+}

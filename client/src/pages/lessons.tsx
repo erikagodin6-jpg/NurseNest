@@ -3698,7 +3698,7 @@ export default function Lessons() {
   const isAdmin = userTier === "admin";
   const previewTier = isAdmin ? (localStorage.getItem("nursenest-admin-preview") || null) : null;
   const effectiveTier = previewTier || userTier;
-  const showAllTabs = effectiveTier === "free" || effectiveTier === "admin" || !user;
+  const showAllTabs = effectiveTier === "admin";
 
   useEffect(() => {
     if (language === "en") { setTranslationsReady(true); return; }
@@ -3709,7 +3709,8 @@ export default function Lessons() {
     return () => { cancelled = true; };
   }, [language]);
 
-  const defaultTab = showAllTabs ? "rpn" : effectiveTier;
+  const isFreeUser = !user || effectiveTier === "free";
+  const defaultTab = showAllTabs ? "rpn" : isFreeUser ? "rpn" : effectiveTier;
   const [activeTab, setActiveTab] = useState(defaultTab);
   const [lessonSearchQuery, setLessonSearchQuery] = useState("");
   const [selectedSystemFilter, setSelectedSystemFilter] = useState<string>("all");
@@ -3833,20 +3834,26 @@ export default function Lessons() {
             <p className="text-lg text-gray-600 max-w-3xl mx-auto">{t("lessons.subtitle")}</p>
           </div>
           <Tabs value={activeTab} onValueChange={(v) => { setActiveTab(v); setSelectedSystemFilter("all"); }} className="w-full md:w-auto">
-            <TabsList className={cn("bg-gray-100 rounded-full p-1", showAllTabs ? "grid grid-cols-4 w-full md:w-[700px]" : "grid grid-cols-2 w-full md:w-[350px]")}>
+            <TabsList className={cn("bg-gray-100 rounded-full p-1", showAllTabs ? "grid grid-cols-4 w-full md:w-[700px]" : isFreeUser ? "grid grid-cols-3 w-full md:w-[525px]" : "grid grid-cols-2 w-full md:w-[350px]")}>
               {showAllTabs ? (
                 <>
-                  <TabsTrigger value="rpn" className="rounded-full data-[state=active]:bg-white data-[state=active]:shadow-sm text-xs sm:text-sm">{t("lessons.rpn")}</TabsTrigger>
-                  <TabsTrigger value="rn" className="rounded-full data-[state=active]:bg-white data-[state=active]:shadow-sm text-xs sm:text-sm">{t("lessons.rn")}</TabsTrigger>
-                  <TabsTrigger value="np" className="rounded-full data-[state=active]:bg-white data-[state=active]:shadow-sm text-purple-700 font-bold text-xs sm:text-sm">{t("lessons.np")}</TabsTrigger>
-                  <TabsTrigger value="pharmacology" className="rounded-full data-[state=active]:bg-white data-[state=active]:shadow-sm text-indigo-700 font-semibold text-xs sm:text-sm">{t("lessons.pharmacology")}</TabsTrigger>
+                  <TabsTrigger value="rpn" className="rounded-full data-[state=active]:bg-white data-[state=active]:shadow-sm text-xs sm:text-sm" data-testid="tab-rpn">{t("lessons.rpn")}</TabsTrigger>
+                  <TabsTrigger value="rn" className="rounded-full data-[state=active]:bg-white data-[state=active]:shadow-sm text-xs sm:text-sm" data-testid="tab-rn">{t("lessons.rn")}</TabsTrigger>
+                  <TabsTrigger value="np" className="rounded-full data-[state=active]:bg-white data-[state=active]:shadow-sm text-purple-700 font-bold text-xs sm:text-sm" data-testid="tab-np">{t("lessons.np")}</TabsTrigger>
+                  <TabsTrigger value="pharmacology" className="rounded-full data-[state=active]:bg-white data-[state=active]:shadow-sm text-indigo-700 font-semibold text-xs sm:text-sm" data-testid="tab-pharmacology">{t("lessons.pharmacology")}</TabsTrigger>
+                </>
+              ) : isFreeUser ? (
+                <>
+                  <TabsTrigger value="rpn" className="rounded-full data-[state=active]:bg-white data-[state=active]:shadow-sm text-xs sm:text-sm" data-testid="tab-rpn-preview">RPN Preview</TabsTrigger>
+                  <TabsTrigger value="rn" className="rounded-full data-[state=active]:bg-white data-[state=active]:shadow-sm text-xs sm:text-sm" data-testid="tab-rn-preview">RN Preview</TabsTrigger>
+                  <TabsTrigger value="np" className="rounded-full data-[state=active]:bg-white data-[state=active]:shadow-sm text-xs sm:text-sm" data-testid="tab-np-preview">NP Preview</TabsTrigger>
                 </>
               ) : (
                 <>
-                  <TabsTrigger value={effectiveTier} className="rounded-full data-[state=active]:bg-white data-[state=active]:shadow-sm text-xs sm:text-sm">
+                  <TabsTrigger value={effectiveTier} className="rounded-full data-[state=active]:bg-white data-[state=active]:shadow-sm text-xs sm:text-sm" data-testid={`tab-${effectiveTier}`}>
                     {effectiveTier === "rpn" ? t("lessons.rpn") : effectiveTier === "rn" ? t("lessons.rn") : t("lessons.np")} {t("lessons.lessons")}
                   </TabsTrigger>
-                  <TabsTrigger value="pharmacology" className="rounded-full data-[state=active]:bg-white data-[state=active]:shadow-sm text-indigo-700 font-semibold text-xs sm:text-sm">{t("lessons.pharmacology")}</TabsTrigger>
+                  <TabsTrigger value="pharmacology" className="rounded-full data-[state=active]:bg-white data-[state=active]:shadow-sm text-indigo-700 font-semibold text-xs sm:text-sm" data-testid="tab-pharmacology">{t("lessons.pharmacology")}</TabsTrigger>
                 </>
               )}
             </TabsList>
@@ -3899,6 +3906,23 @@ export default function Lessons() {
             })()}
           </select>
         </div>
+
+        {isFreeUser && (
+          <div className="mb-8 p-6 rounded-2xl bg-gradient-to-r from-primary/5 via-white to-primary/5 border border-primary/20 text-center" data-testid="banner-lesson-upgrade">
+            <h3 className="text-lg font-bold text-gray-900 mb-2">Unlock the Full Lesson Library</h3>
+            <p className="text-sm text-gray-600 mb-4 max-w-2xl mx-auto">
+              You are viewing a preview of available lessons. Subscribe to access the complete {activeTab === "rpn" ? "RPN" : activeTab === "rn" ? "RN" : "NP"} lesson library with detailed content, quizzes, and progress tracking.
+            </p>
+            <Button
+              size="sm"
+              className="rounded-full bg-primary hover:brightness-110 text-white px-6"
+              onClick={() => setLocation("/pricing")}
+              data-testid="button-lesson-upgrade"
+            >
+              View Plans
+            </Button>
+          </div>
+        )}
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-10">
           <div className="lg:col-span-2">
