@@ -76,7 +76,14 @@ const QUESTION_FILES: { file: string; tier: string; exam: string; exportName: st
   { file: "np-expansion-b", tier: "np", exam: "AANP", exportName: "npExpansionBQuestions" },
 ];
 
-for (let i = 1; i <= 55; i++) {
+QUESTION_FILES.push({
+  file: "rn-expanded-batch",
+  tier: "rn",
+  exam: "NCLEX-RN",
+  exportName: "rnExpandedBatchQuestions",
+});
+
+for (let i = 1; i <= 56; i++) {
   const pad = String(i).padStart(2, "0");
   QUESTION_FILES.push({
     file: `np-exam-batch-${pad}`,

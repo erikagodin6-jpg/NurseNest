@@ -1395,7 +1395,10 @@ export const rnSystems = [
       { id: "dm-type2", name: "Diabetes Mellitus Type 2", status: "Available" },
       { id: "dka-management-rn", name: "DKA: Protocol-Based Assessment & Titration", status: "Available" },
       { id: "thyroid-storm-rn", name: "Thyroid Storm: Assessment & Emergency Protocol", status: "Available" },
-      { id: "hpa-axis-stress-rn", name: "HPA Axis & Stress Response: Assessment", status: "Available" }
+      { id: "hpa-axis-stress-rn", name: "HPA Axis & Stress Response: Assessment", status: "Available" },
+      { id: "adrenal-crisis-rn", name: "Adrenal Crisis (Addisonian Crisis): Emergency Recognition", status: "Available" },
+      { id: "endocrine-pheochromocytoma-rn", name: "Pheochromocytoma: Catecholamine-Secreting Tumor", status: "Available" },
+      { id: "diabetes-insipidus-siadh-rn", name: "DI vs. SIADH: Fluid & Electrolyte Opposites", status: "Available" }
     ]
   },
   {
@@ -1527,7 +1530,12 @@ export const rnSystems = [
       { id: "neonatal-sepsis", name: "Neonatal Sepsis Recognition", status: "Available" },
       { id: "hyperbilirubinemia", name: "Hyperbilirubinemia & Phototherapy", status: "Available" },
       { id: "nec-necrotizing", name: "Necrotizing Enterocolitis (NEC)", status: "Available" },
-      { id: "newborn-circumcision", name: "Newborn Circumcision", status: "Available" }
+      { id: "newborn-circumcision", name: "Newborn Circumcision", status: "Available" },
+      { id: "neonatal-jaundice-management-rn", name: "Neonatal Jaundice: Phototherapy & Exchange Transfusion", status: "Available" },
+      { id: "neonatal-sepsis-early-onset-rn", name: "Early-Onset Neonatal Sepsis", status: "Available" },
+      { id: "neonatal-respiratory-distress-rn", name: "Neonatal Respiratory Distress Syndrome", status: "Available" },
+      { id: "neonatal-necrotizing-enterocolitis-rn", name: "Necrotizing Enterocolitis: Early Detection", status: "Available" },
+      { id: "neonatal-congenital-heart-defects-rn", name: "Congenital Heart Defects: Cyanotic vs. Acyanotic", status: "Available" }
     ]
   },
   {
@@ -1638,7 +1646,14 @@ export const rnSystems = [
       { id: "thoracentesis", name: "Thoracentesis", status: "Available" },
       { id: "hemodialysis-care", name: "Hemodialysis: Procedure and Complications", status: "Available" },
       { id: "postmortem-care", name: "Postmortem Care", status: "Available" },
-      { id: "burn-care-advanced", name: "Burn Injury Care", status: "Available" }
+      { id: "burn-care-advanced", name: "Burn Injury Care", status: "Available" },
+      { id: "blood-transfusion-reactions-rn", name: "Blood Transfusion: Administration & Reaction Management", status: "Available" },
+      { id: "central-line-care-rn", name: "Central Line Care: CLABSI Prevention Bundle", status: "Available" },
+      { id: "chest-tube-management-rn", name: "Chest Tube Management: Drainage Systems", status: "Available" },
+      { id: "tracheostomy-care-rn", name: "Tracheostomy Care: Routine & Emergency Management", status: "Available" },
+      { id: "nasogastric-tube-management-rn", name: "Nasogastric Tube: Insertion Verification & Maintenance", status: "Available" },
+      { id: "urinary-catheter-care-rn", name: "Indwelling Urinary Catheter: CAUTI Prevention", status: "Available" },
+      { id: "infection-control-ppe-rn", name: "Infection Control: Transmission-Based Precautions & PPE", status: "Available" }
     ]
   },
   {
@@ -1844,7 +1859,12 @@ export const rnSystems = [
       { id: "sjs-advanced-rn", name: "Stevens-Johnson Syndrome (Advanced)", status: "Available" },
       { id: "ten-advanced-rn", name: "Toxic Epidermal Necrolysis (Advanced)", status: "Available" },
       { id: "pemphigus-vulgaris-rn", name: "Pemphigus Vulgaris", status: "Available" },
-      { id: "necrotizing-soft-tissue-infection-rn", name: "Necrotizing Soft Tissue Infection", status: "Available" }
+      { id: "necrotizing-soft-tissue-infection-rn", name: "Necrotizing Soft Tissue Infection", status: "Available" },
+      { id: "contact-dermatitis-rn", name: "Contact Dermatitis: Allergic vs. Irritant", status: "Available" },
+      { id: "pressure-injury-prevention-staging-rn", name: "Pressure Injury Prevention & Staging", status: "Available" },
+      { id: "wound-dehiscence-evisceration-rn", name: "Wound Dehiscence & Evisceration: Emergency Response", status: "Available" },
+      { id: "burns-classification-rn", name: "Burn Injury Classification & Fluid Resuscitation", status: "Available" },
+      { id: "melanoma-skin-cancer-screening-rn", name: "Melanoma & Skin Cancer: Screening & Detection", status: "Available" }
     ]
   },
   {
@@ -2174,7 +2194,11 @@ export const npSystems = [
       { id: "central-line-np", name: "Central Line Insertion & Bundle", status: "Available" },
       { id: "lumbar-puncture-np", name: "Lumbar Puncture & CSF Analysis", status: "Available" },
       { id: "abg-sampling-np", name: "ABG Sampling & Interpretation", status: "Available" },
-      { id: "mechanical-vent-np", name: "Mechanical Ventilation Management", status: "Available" }
+      { id: "mechanical-vent-np", name: "Mechanical Ventilation Management", status: "Available" },
+      { id: "joint-injection-technique-np", name: "Joint & Soft Tissue Injection: Technique & Indications", status: "Available" },
+      { id: "lumbar-puncture-technique-np", name: "Lumbar Puncture: Indications, Technique & Interpretation", status: "Available" },
+      { id: "skin-biopsy-techniques-np", name: "Skin Biopsy: Punch, Shave & Excisional Techniques", status: "Available" },
+      { id: "incision-drainage-abscess-np", name: "Incision & Drainage of Cutaneous Abscess", status: "Available" }
     ]
   },
   {
@@ -2383,7 +2407,8 @@ export const npSystems = [
       { id: "palliative-sedation-np", name: "Palliative Sedation: Indications & Protocols", status: "Available" },
       { id: "prognostication-np", name: "Prognostication: Tools & Communication", status: "Available" },
       { id: "hospice-eligibility-np", name: "Hospice Eligibility: LCD Criteria & Referral", status: "Available" },
-      { id: "pain-crisis-management-np", name: "Pain Crisis Management: Rapid Titration", status: "Available" }
+      { id: "pain-crisis-management-np", name: "Pain Crisis Management: Rapid Titration", status: "Available" },
+      { id: "advance-directives-ethics-np", name: "Advance Directives & Goals-of-Care Conversations", status: "Available" }
     ]
   },
   {
@@ -2459,7 +2484,10 @@ export const npSystems = [
       { id: "falls-prevention-np", name: "Falls Prevention: Evidence-Based Interventions", status: "Available" },
       { id: "pressure-injury-prevention-np", name: "Pressure Injury Prevention: Braden & Bundles", status: "Available" },
       { id: "urinary-incontinence-np", name: "Urinary Incontinence: Types & Management", status: "Available" },
-      { id: "osteoporosis-advanced-np", name: "Osteoporosis: FRAX, Bisphosphonates & Denosumab", status: "Available" }
+      { id: "osteoporosis-advanced-np", name: "Osteoporosis: FRAX, Bisphosphonates & Denosumab", status: "Available" },
+      { id: "geriatric-polypharmacy-np", name: "Geriatric Polypharmacy: Deprescribing & Medication Safety", status: "Available" },
+      { id: "geriatric-falls-prevention-np", name: "Fall Risk Assessment & Multifactorial Prevention", status: "Available" },
+      { id: "geriatric-delirium-np", name: "Delirium in Older Adults: Assessment & Management", status: "Available" }
     ]
   },
   {
@@ -2475,7 +2503,8 @@ export const npSystems = [
       { id: "pca-management-np", name: "PCA Management: Programming & Safety", status: "Available" },
       { id: "neuropathic-pain-np", name: "Neuropathic Pain: Gabapentinoids & TCAs", status: "Available" },
       { id: "chronic-pain-assessment-np", name: "Chronic Pain Assessment: Functional & Psychosocial", status: "Available" },
-      { id: "opioid-tapering-np", name: "Opioid Tapering: CDC Guidelines & Strategies", status: "Available" }
+      { id: "opioid-tapering-np", name: "Opioid Tapering: CDC Guidelines & Strategies", status: "Available" },
+      { id: "palliative-pain-management-np", name: "Palliative Pain Management: Multimodal Approach", status: "Available" }
     ]
   },
   {
@@ -2646,7 +2675,9 @@ export const npSystems = [
       { id: "ventilator-bundle-np", name: "Ventilator Bundle", status: "Available" },
       { id: "icu-delirium-management-np", name: "ICU Delirium Management", status: "Available" },
       { id: "icu-nutrition-np", name: "ICU Nutrition", status: "Available" },
-      { id: "early-mobilization-icu-np", name: "Early Mobilization ICU", status: "Available" }
+      { id: "early-mobilization-icu-np", name: "Early Mobilization ICU", status: "Available" },
+      { id: "critical-care-ventilator-weaning-np", name: "Mechanical Ventilation Weaning: Assessment & Protocols", status: "Available" },
+      { id: "hemodynamic-monitoring-advanced-np", name: "Hemodynamic Monitoring: Invasive & Non-Invasive", status: "Available" }
     ]
   },
   {
@@ -3454,7 +3485,10 @@ export const npSystems = [
       { id: "neonatal-jaundice-workup-np", name: "Neonatal Jaundice Workup: Bhutani Nomogram & Phototherapy", status: "Available" },
       { id: "pediatric-asthma-management-np", name: "Pediatric Asthma Management: NAEPP Step Therapy", status: "Available" },
       { id: "febrile-seizures-np", name: "Febrile Seizures: Workup, Prophylaxis & Differential", status: "Available" },
-      { id: "pediatric-dehydration-np", name: "Pediatric Dehydration: Dysnatremia Correction & IV Protocol", status: "Available" }
+      { id: "pediatric-dehydration-np", name: "Pediatric Dehydration: Dysnatremia Correction & IV Protocol", status: "Available" },
+      { id: "pediatric-weight-based-dosing-np", name: "Pediatric Weight-Based Dosing & Medication Safety", status: "Available" },
+      { id: "pediatric-fever-management-np", name: "Pediatric Fever: Age-Stratified Evaluation & Management", status: "Available" },
+      { id: "acute-kidney-injury-management-np", name: "Acute Kidney Injury: Classification & Management", status: "Available" }
     ]
   },
   {

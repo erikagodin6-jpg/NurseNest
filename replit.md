@@ -50,5 +50,5 @@ The application is built with Vite, React, and Express 5 on Node.js with TypeScr
 - `safeMerge()` in `index.ts` deduplicates at merge time; `isPlaceholder()` filters generic/template content
 - Tier derived from slug suffix: `-rpn`, `-rn`, `-np`, or `"general"`
 - System cards in `lessons.tsx` show lesson count badges and progress bars (completed/total)
-- Lesson counts: free=564, rpn=521, rn=224, np=302, total=1611, questions=3921 (as of Mar 2026)
+- Lesson counts: free=564, rpn=521, rn=244, np=316, total=1645, questions=3989 (as of Mar 2026)
 - DB tables `allied_lessons` and `content_items` are empty; all content is static TS

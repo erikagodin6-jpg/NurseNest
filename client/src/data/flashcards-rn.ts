@@ -3239,4 +3239,404 @@ export const rnFlashcards: FlashcardData[] = [
     category: "Emergency",
     difficulty: 3
   },
+  {
+    id: "rn-cv-q16",
+    type: "question",
+    question: "A client receiving heparin has a platelet count that dropped from 210,000 to 85,000 over the past 5 days. What complication should the nurse suspect?",
+    options: ["Disseminated intravascular coagulation", "Heparin-induced thrombocytopenia (HIT)", "Idiopathic thrombocytopenic purpura", "Aplastic anemia"],
+    correctIndex: 1,
+    answer: "Heparin-induced thrombocytopenia (HIT) occurs when heparin triggers antibodies against platelet factor 4, causing platelet activation and paradoxical thrombosis. A >50% drop in platelets 5-10 days after heparin initiation is classic. Discontinue all heparin products immediately and start a direct thrombin inhibitor (argatroban).",
+    category: "Cardiovascular",
+    difficulty: 3
+  },
+  {
+    id: "rn-cv-q17",
+    type: "question",
+    question: "A client with a mechanical heart valve asks about anticoagulation. What is the target INR for mechanical valve replacement?",
+    options: ["1.5-2.0", "2.0-3.0", "2.5-3.5", "3.5-4.5"],
+    correctIndex: 2,
+    answer: "Mechanical heart valve replacement requires a target INR of 2.5-3.5, which is higher than the standard 2.0-3.0 for atrial fibrillation or DVT/PE. Lifelong warfarin is required. Bioprosthetic valves may only need short-term anticoagulation.",
+    category: "Cardiovascular",
+    difficulty: 2
+  },
+  {
+    id: "rn-resp-q19",
+    type: "question",
+    question: "A client after a motor vehicle accident develops sudden-onset dyspnea, absent breath sounds on the left, and subcutaneous emphysema. What is the priority intervention?",
+    options: ["Obtain a chest X-ray", "Administer oxygen via face mask", "Prepare for chest tube insertion", "Position client in high Fowler's"],
+    correctIndex: 2,
+    answer: "Absent breath sounds, acute dyspnea, and subcutaneous emphysema (crepitus under the skin) after trauma indicate pneumothorax. A chest tube (thoracostomy) is the priority to re-expand the collapsed lung. A tension pneumothorax requires emergent needle decompression at the 2nd intercostal space, midclavicular line.",
+    category: "Respiratory",
+    difficulty: 3
+  },
+  {
+    id: "rn-resp-q20",
+    type: "question",
+    question: "A client with ARDS has a PaO2/FiO2 ratio of 120 mmHg. How is this classified?",
+    options: ["Mild ARDS", "Moderate ARDS", "Severe ARDS", "Not ARDS"],
+    correctIndex: 1,
+    answer: "ARDS severity is classified by PaO2/FiO2 ratio: Mild 200-300, Moderate 100-200, Severe <100. A ratio of 120 is moderate ARDS. Management includes lung-protective ventilation with low tidal volumes (6 mL/kg), permissive hypercapnia, PEEP optimization, and prone positioning for severe cases.",
+    category: "Respiratory",
+    difficulty: 3
+  },
+  {
+    id: "rn-neuro-q18",
+    type: "question",
+    question: "A client with a traumatic brain injury has a Glasgow Coma Scale score of 6. What does this indicate?",
+    options: ["Mild brain injury", "Moderate brain injury", "Severe brain injury requiring intubation", "Normal neurological function"],
+    correctIndex: 2,
+    answer: "GCS ranges from 3-15. Severe TBI is GCS ≤8, moderate is 9-12, mild is 13-15. A GCS ≤8 indicates the client cannot protect their airway and requires endotracheal intubation. The three components are Eye opening (1-4), Verbal response (1-5), and Motor response (1-6).",
+    category: "Neurological",
+    difficulty: 2
+  },
+  {
+    id: "rn-neuro-q19",
+    type: "question",
+    question: "A client post-craniotomy develops clear fluid draining from the nose. What test should the nurse perform?",
+    options: ["Culture the drainage", "Test for glucose using a test strip", "Apply nasal packing immediately", "Suction the nares"],
+    correctIndex: 1,
+    answer: "Clear nasal drainage (rhinorrhea) after cranial surgery may indicate a cerebrospinal fluid (CSF) leak from a dural tear. CSF tests positive for glucose (regular nasal mucus does not). The 'halo sign' (clear ring around blood on linen) also suggests CSF. Never pack the nose or suction, as this increases infection risk. Notify the provider immediately.",
+    category: "Neurological",
+    difficulty: 2
+  },
+  {
+    id: "rn-gi-q17",
+    type: "question",
+    question: "A client with cirrhosis develops asterixis. What does this assessment finding indicate?",
+    options: ["Hypoglycemia", "Hepatic encephalopathy", "Portal hypertension", "Hepatorenal syndrome"],
+    correctIndex: 1,
+    answer: "Asterixis (liver flap) is an involuntary flapping tremor of the hands when wrists are dorsiflexed. It is a hallmark sign of hepatic encephalopathy caused by elevated ammonia levels. Treatment includes lactulose (promotes ammonia excretion through stool) and rifaximin (reduces ammonia-producing gut bacteria). Restrict protein intake during acute episodes.",
+    category: "GI",
+    difficulty: 2
+  },
+  {
+    id: "rn-gi-q18",
+    type: "question",
+    question: "A client with a nasogastric tube has coffee-ground emesis. What does this finding suggest?",
+    options: ["Active arterial bleeding", "Old or digested blood in the stomach", "Bile reflux", "Normal gastric contents"],
+    correctIndex: 1,
+    answer: "Coffee-ground emesis indicates old blood that has been partially digested by gastric acid (oxidized hemoglobin). It suggests upper GI bleeding that may be slower or has partially stopped. Bright red hematemesis indicates active, fresh bleeding. Both require urgent assessment, NPO status, IV access, and preparation for possible endoscopy.",
+    category: "GI",
+    difficulty: 1
+  },
+  {
+    id: "rn-endo-q17",
+    type: "question",
+    question: "A client with Addison's disease presents with bronze skin pigmentation, weakness, and hypotension. Which hormone replacement is critical?",
+    options: ["Insulin", "Levothyroxine", "Hydrocortisone and fludrocortisone", "Growth hormone"],
+    correctIndex: 2,
+    answer: "Addison's disease (primary adrenal insufficiency) results in deficient cortisol and aldosterone. Hydrocortisone replaces cortisol, and fludrocortisone replaces aldosterone. Bronze hyperpigmentation results from excess ACTH stimulating melanocytes. Clients must increase steroid doses during illness or stress to prevent adrenal crisis (Addisonian crisis).",
+    category: "Endocrine",
+    difficulty: 2
+  },
+  {
+    id: "rn-endo-q18",
+    type: "question",
+    question: "A client with pheochromocytoma is scheduled for surgery. Which medication class must be given BEFORE beta-blockers?",
+    options: ["ACE inhibitors", "Alpha-adrenergic blockers", "Calcium channel blockers", "Diuretics"],
+    correctIndex: 1,
+    answer: "In pheochromocytoma (catecholamine-secreting adrenal tumor), alpha-blockers (phenoxybenzamine) must be started 10-14 days before surgery to prevent hypertensive crisis. Beta-blockers are added AFTER adequate alpha blockade. Giving beta-blockers first causes unopposed alpha stimulation, leading to severe hypertension.",
+    category: "Endocrine",
+    difficulty: 3
+  },
+  {
+    id: "rn-peds-q16",
+    type: "question",
+    question: "A 3-year-old with suspected epiglottitis presents with drooling, tripod positioning, and stridor. What is the priority nursing action?",
+    options: ["Inspect the throat with a tongue blade", "Obtain a throat culture", "Keep the child calm, maintain airway, and prepare for intubation", "Administer a nebulized bronchodilator"],
+    correctIndex: 2,
+    answer: "Epiglottitis is a life-threatening emergency. NEVER examine the throat or place anything in the mouth as this can cause complete airway obstruction. Keep the child calm in a position of comfort (usually sitting upright). Prepare emergency airway equipment, notify anesthesia, and keep a tracheostomy tray at bedside.",
+    category: "Pediatrics",
+    difficulty: 3
+  },
+  {
+    id: "rn-peds-q17",
+    type: "question",
+    question: "An infant with pyloric stenosis presents with projectile vomiting. Which electrolyte imbalance should the nurse anticipate?",
+    options: ["Hyperkalemia and metabolic acidosis", "Hypochloremic metabolic alkalosis", "Hypernatremia and respiratory acidosis", "Hypocalcemia and metabolic acidosis"],
+    correctIndex: 1,
+    answer: "Pyloric stenosis causes persistent vomiting of gastric acid (HCl), resulting in loss of hydrogen and chloride ions. This leads to hypochloremic, hypokalemic metabolic alkalosis. The infant presents with projectile, non-bilious vomiting, olive-shaped mass in the RUQ, and visible peristaltic waves. Treatment is pyloromyotomy after fluid/electrolyte correction.",
+    category: "Pediatrics",
+    difficulty: 3
+  },
+  {
+    id: "rn-mat-q16",
+    type: "question",
+    question: "A client at 28 weeks gestation with Rh-negative blood type has a negative antibody screen. What should the nurse administer?",
+    options: ["Rubella vaccine", "RhoGAM (Rh immunoglobulin)", "Oxytocin", "Magnesium sulfate"],
+    correctIndex: 1,
+    answer: "RhoGAM is administered at 28 weeks gestation and within 72 hours after delivery (if the newborn is Rh-positive) to prevent Rh sensitization. RhoGAM prevents the mother from developing antibodies against Rh-positive fetal red blood cells. It is also given after any event with potential fetomaternal hemorrhage (amniocentesis, trauma, miscarriage).",
+    category: "Maternity",
+    difficulty: 1
+  },
+  {
+    id: "rn-mat-q17",
+    type: "question",
+    question: "A client receiving magnesium sulfate for preeclampsia has a respiratory rate of 10/min and absent deep tendon reflexes. What is the priority action?",
+    options: ["Continue the infusion and monitor", "Stop the magnesium sulfate and administer calcium gluconate", "Increase the infusion rate", "Position the client on the left side"],
+    correctIndex: 1,
+    answer: "Respiratory depression (<12/min) and absent DTRs are signs of magnesium toxicity. Stop the infusion immediately and administer the antidote: calcium gluconate 1g IV. Also monitor urine output (should be ≥30 mL/hr). Therapeutic magnesium level is 4-7 mEq/L. Loss of DTRs occurs at 7-10 mEq/L, respiratory arrest at 12+ mEq/L.",
+    category: "Maternity",
+    difficulty: 2
+  },
+  {
+    id: "rn-mh-q16",
+    type: "question",
+    question: "A client on lithium for bipolar disorder reports tremors, nausea, and diarrhea. The serum lithium level is 2.0 mEq/L. What should the nurse do?",
+    options: ["Administer the next scheduled dose", "Hold lithium and notify the provider immediately", "Give an extra dose of lithium", "Encourage the client to increase sodium intake"],
+    correctIndex: 1,
+    answer: "The therapeutic lithium range is 0.6-1.2 mEq/L. A level of 2.0 mEq/L is toxic. Early toxicity signs include GI symptoms (nausea, vomiting, diarrhea), fine hand tremors, and muscle weakness. Severe toxicity (>2.5) causes seizures, coma, and cardiac arrhythmias. Hold the medication, hydrate the client, and notify the provider for emergent management.",
+    category: "Mental Health",
+    difficulty: 2
+  },
+  {
+    id: "rn-mh-q17",
+    type: "question",
+    question: "A client with anorexia nervosa has been on a refeeding protocol for 24 hours. Which complication should the nurse monitor for?",
+    options: ["Hyperkalemia", "Refeeding syndrome with hypophosphatemia", "Hypernatremia", "Metabolic alkalosis"],
+    correctIndex: 1,
+    answer: "Refeeding syndrome occurs when severely malnourished clients are refed too rapidly. Insulin surge drives phosphorus, potassium, and magnesium into cells, causing dangerous hypophosphatemia. This can lead to cardiac arrhythmias, respiratory failure, seizures, and death. Refeed slowly, monitor electrolytes (especially phosphorus) every 12 hours, and supplement as needed.",
+    category: "Mental Health",
+    difficulty: 3
+  },
+  {
+    id: "rn-pharm-q18",
+    type: "question",
+    question: "A client is prescribed metformin for type 2 diabetes. What is the most serious adverse effect the nurse should teach about?",
+    options: ["Hypoglycemia", "Weight gain", "Lactic acidosis", "Hepatotoxicity"],
+    correctIndex: 2,
+    answer: "Lactic acidosis is a rare but potentially fatal complication of metformin. Risk increases with renal impairment, dehydration, alcohol use, and IV contrast dye use. Hold metformin 48 hours before and after contrast studies. Monitor renal function regularly. Metformin alone rarely causes hypoglycemia and is weight-neutral or causes modest weight loss.",
+    category: "Pharmacology",
+    difficulty: 2
+  },
+  {
+    id: "rn-pharm-q19",
+    type: "question",
+    question: "A client on warfarin asks about foods to avoid. Which dietary instruction is most accurate?",
+    options: ["Avoid all green vegetables completely", "Maintain consistent vitamin K intake rather than avoiding it entirely", "Increase vitamin K foods to counteract the drug", "Diet does not affect warfarin therapy"],
+    correctIndex: 1,
+    answer: "Clients on warfarin should maintain CONSISTENT vitamin K intake, not eliminate it entirely. Sudden increases or decreases in vitamin K-rich foods (leafy greens, broccoli, liver) can alter INR levels unpredictably. Consistency allows for stable dose adjustments. Also avoid cranberry juice and alcohol, which can potentiate warfarin's effect.",
+    category: "Pharmacology",
+    difficulty: 1
+  },
+  {
+    id: "rn-renal-q9",
+    type: "question",
+    question: "A client with end-stage renal disease on hemodialysis has an arteriovenous fistula in the left arm. Which nursing action is correct?",
+    options: ["Take blood pressure in the left arm", "Palpate the fistula for a thrill and auscultate for a bruit", "Draw blood from the fistula between dialysis sessions", "Apply a tourniquet above the fistula site"],
+    correctIndex: 1,
+    answer: "Assess the AV fistula for a palpable thrill (vibration) and audible bruit (swooshing sound), which indicate patency. NEVER take blood pressure, draw blood, or start an IV in the access arm. Avoid restrictive clothing or positioning. Report absence of thrill/bruit immediately as it may indicate clotting.",
+    category: "Renal/GU",
+    difficulty: 1
+  },
+  {
+    id: "rn-renal-q10",
+    type: "question",
+    question: "A client with acute kidney injury has a potassium level of 6.8 mEq/L. Which medication should the nurse prepare to administer FIRST?",
+    options: ["Oral kayexalate", "IV calcium gluconate", "IV insulin with dextrose", "Oral potassium supplements"],
+    correctIndex: 1,
+    answer: "IV calcium gluconate is administered FIRST for critical hyperkalemia to stabilize the cardiac membrane and prevent life-threatening arrhythmias. It does not lower potassium but protects the heart. Then IV insulin with D50 shifts potassium intracellularly. Kayexalate removes potassium via the GI tract but acts slowly. Monitor ECG for peaked T waves, widened QRS.",
+    category: "Renal/GU",
+    difficulty: 3
+  },
+  {
+    id: "rn-fe-q13",
+    type: "question",
+    question: "A client with SIADH has a serum sodium of 118 mEq/L. What is the priority nursing intervention?",
+    options: ["Encourage fluid intake", "Implement fluid restriction", "Administer hypertonic saline rapidly", "Increase dietary sodium"],
+    correctIndex: 1,
+    answer: "SIADH causes excess ADH secretion leading to water retention and dilutional hyponatremia. Fluid restriction (800-1000 mL/day) is the primary treatment. Severe hyponatremia (<120) with symptoms may require hypertonic saline (3% NaCl), but it must be infused SLOWLY to prevent osmotic demyelination syndrome (central pontine myelinolysis). Correct no faster than 8-12 mEq/L per 24 hours.",
+    category: "Fluid & Electrolytes",
+    difficulty: 3
+  },
+  {
+    id: "rn-fe-q14",
+    type: "question",
+    question: "A client receiving a blood transfusion develops fever, chills, and flank pain within 15 minutes. What type of reaction is this?",
+    options: ["Febrile non-hemolytic reaction", "Acute hemolytic transfusion reaction", "Allergic reaction", "Circulatory overload"],
+    correctIndex: 1,
+    answer: "Acute hemolytic transfusion reaction occurs from ABO incompatibility. Signs include fever, chills, flank/back pain, hypotension, hemoglobinuria (dark urine), and DIC. STOP the transfusion immediately, maintain IV access with normal saline, send the blood bag and new blood samples to the lab. This is a medical emergency.",
+    category: "Fluid & Electrolytes",
+    difficulty: 2
+  },
+  {
+    id: "rn-pain-q11",
+    type: "question",
+    question: "A client receiving patient-controlled analgesia (PCA) with morphine has a respiratory rate of 8/min and is difficult to arouse. What is the priority action?",
+    options: ["Administer the next PCA dose", "Stop the PCA and administer naloxone (Narcan)", "Encourage coughing and deep breathing", "Increase the PCA dose"],
+    correctIndex: 1,
+    answer: "Respiratory depression (RR <10/min) with excessive sedation indicates opioid overdose. Stop the PCA immediately and administer naloxone (Narcan), an opioid antagonist. Naloxone has a shorter half-life than most opioids, so re-sedation may occur; continue monitoring closely. Keep resuscitation equipment at bedside.",
+    category: "Pain Management",
+    difficulty: 2
+  },
+  {
+    id: "rn-pain-q12",
+    type: "question",
+    question: "A client reports severe pain rated 9/10 but is laughing and talking on the phone. What is the most appropriate nursing action?",
+    options: ["Document that the client does not appear to be in pain", "Accept and treat the client's self-report of pain", "Confront the client about inconsistent behavior", "Withhold analgesics until objective signs are present"],
+    correctIndex: 1,
+    answer: "Pain is whatever the client says it is (McCaffery definition). Self-report is the most reliable indicator of pain. Behavioral coping mechanisms (laughing, distraction) do not negate the existence of pain. Cultural background and individual coping strategies influence how pain is expressed. Document the client's self-report and treat accordingly.",
+    category: "Pain Management",
+    difficulty: 1
+  },
+  {
+    id: "rn-onc-q14",
+    type: "question",
+    question: "A client receiving chemotherapy has an absolute neutrophil count (ANC) of 400 cells/mm³. What precaution should the nurse implement?",
+    options: ["Standard precautions only", "Contact precautions", "Neutropenic precautions (protective isolation)", "Airborne precautions"],
+    correctIndex: 2,
+    answer: "An ANC <500 cells/mm³ indicates severe neutropenia and high infection risk. Implement neutropenic precautions: private room, strict hand hygiene, no fresh flowers or raw foods, avoid crowds, no rectal temperatures or suppositories, monitor for subtle signs of infection (fever may be the ONLY sign). No live vaccines.",
+    category: "Oncology",
+    difficulty: 2
+  },
+  {
+    id: "rn-onc-q15",
+    type: "question",
+    question: "A client with cancer develops tumor lysis syndrome. Which lab abnormality is characteristic?",
+    options: ["Hypokalemia, hypocalcemia, hypouricemia", "Hyperkalemia, hyperphosphatemia, hyperuricemia, hypocalcemia", "Hypernatremia, hypokalemia, hypercalcemia", "Normal electrolytes with elevated WBC"],
+    correctIndex: 1,
+    answer: "Tumor lysis syndrome occurs when rapid cancer cell destruction releases intracellular contents: potassium (hyperkalemia), phosphorus (hyperphosphatemia), uric acid (hyperuricemia), and nucleic acids. Phosphorus binds calcium causing hypocalcemia. This can lead to cardiac arrhythmias, seizures, and renal failure. Prevention: IV hydration and allopurinol or rasburicase before chemotherapy.",
+    category: "Oncology",
+    difficulty: 3
+  },
+  {
+    id: "rn-ger-q13",
+    type: "question",
+    question: "An 82-year-old client admitted for a hip fracture becomes acutely confused and agitated at night. What is the most likely cause?",
+    options: ["Dementia", "Delirium", "Depression", "Normal aging"],
+    correctIndex: 1,
+    answer: "Delirium is characterized by acute onset, fluctuating course, and altered level of consciousness. It is commonly triggered by hospitalization, infection, medications, pain, or metabolic disturbances in elderly clients. Unlike dementia (gradual onset, chronic), delirium is usually REVERSIBLE when the underlying cause is treated. Sundowning (evening worsening) is common.",
+    category: "Geriatrics",
+    difficulty: 1
+  },
+  {
+    id: "rn-ger-q14",
+    type: "question",
+    question: "Which medication class should be avoided or used cautiously in elderly clients according to the Beers Criteria?",
+    options: ["Acetaminophen", "Benzodiazepines", "Stool softeners", "Low-dose aspirin"],
+    correctIndex: 1,
+    answer: "The Beers Criteria identifies potentially inappropriate medications for older adults. Benzodiazepines increase fall risk, cognitive impairment, delirium, and respiratory depression in the elderly. Other drugs to avoid include anticholinergics, first-generation antihistamines (diphenhydramine), long-acting sulfonylureas, and muscle relaxants. Use the lowest effective dose and shortest duration when alternatives are unavailable.",
+    category: "Geriatrics",
+    difficulty: 1
+  },
+  {
+    id: "rn-ic-q11",
+    type: "question",
+    question: "A client with Clostridium difficile infection is placed on which type of isolation precautions?",
+    options: ["Airborne precautions", "Droplet precautions", "Contact precautions with soap and water hand hygiene", "Standard precautions only"],
+    correctIndex: 2,
+    answer: "C. difficile requires contact precautions: gown and gloves, dedicated equipment, private room. Critically, hand hygiene must be with SOAP AND WATER because alcohol-based sanitizers do NOT kill C. difficile spores. Bleach-based disinfectants are required for environmental cleaning. Common cause: antibiotic-associated diarrhea, especially after fluoroquinolones and clindamycin.",
+    category: "Infection Control",
+    difficulty: 1
+  },
+  {
+    id: "rn-ic-q12",
+    type: "question",
+    question: "A nurse is exposed to a needlestick injury from a patient with unknown HIV status. What is the priority action?",
+    options: ["Wait for the source patient's HIV test results", "Begin post-exposure prophylaxis (PEP) within 2 hours", "Apply alcohol to the wound", "Complete an incident report only"],
+    correctIndex: 1,
+    answer: "Post-exposure prophylaxis (PEP) should be initiated as soon as possible, ideally within 2 hours and no later than 72 hours after exposure. PEP consists of a 28-day antiretroviral regimen. Immediately wash the wound with soap and water, report to occupational health, baseline labs (HIV, HBV, HCV), and complete an incident report. Do NOT squeeze the wound.",
+    category: "Infection Control",
+    difficulty: 2
+  },
+  {
+    id: "rn-del-q12",
+    type: "question",
+    question: "An RN has four clients to assess. Which client should the nurse see FIRST?",
+    options: ["Client 2 hours post-appendectomy with pain rated 5/10", "Client with type 1 diabetes reporting cold sweats and tremors", "Client with COPD requesting a breathing treatment", "Client requesting discharge instructions"],
+    correctIndex: 1,
+    answer: "Cold sweats and tremors in a diabetic client suggest hypoglycemia, a potentially life-threatening emergency. This client needs immediate glucose assessment and treatment (15g rapid-acting carbohydrate or IV dextrose if unconscious). Use the ABCs and unstable-before-stable framework: acute physiological instability takes priority over pain management, routine treatments, or discharge planning.",
+    category: "Delegation/Prioritization",
+    difficulty: 1
+  },
+  {
+    id: "rn-del-q13",
+    type: "question",
+    question: "Which task can the RN safely delegate to an unlicensed assistive personnel (UAP)?",
+    options: ["Administering PRN medications", "Obtaining vital signs on a stable postoperative client", "Teaching a newly diagnosed diabetic about insulin injection", "Assessing a wound for signs of infection"],
+    correctIndex: 1,
+    answer: "UAPs can perform routine tasks on stable clients: vital signs, I&O measurement, bathing, feeding, ambulation, and blood glucose monitoring. The RN retains assessment, evaluation, teaching, medication administration, and care of unstable clients. Use the 5 Rights of Delegation: Right task, Right circumstance, Right person, Right direction/communication, Right supervision.",
+    category: "Delegation/Prioritization",
+    difficulty: 1
+  },
+  {
+    id: "rn-comm-q9",
+    type: "question",
+    question: "A public health nurse is planning a community education program about fall prevention for elderly clients. Which setting is most appropriate?",
+    options: ["Acute care hospital", "Senior community center", "Pediatric clinic", "Emergency department"],
+    correctIndex: 1,
+    answer: "Community health nursing focuses on population-based care in settings where clients live, work, and gather. A senior community center is the most appropriate venue to reach the target population for fall prevention education. Primary prevention strategies include exercise programs (balance and strength training), home safety assessments, medication reviews, and vision screening.",
+    category: "Community Health",
+    difficulty: 1
+  },
+  {
+    id: "rn-comm-q10",
+    type: "question",
+    question: "A home health nurse identifies that a client's home has throw rugs, poor lighting, and no grab bars in the bathroom. What is the priority nursing action?",
+    options: ["Remove all the hazards immediately without permission", "Document the findings and develop a safety plan with the client", "Report the client to adult protective services", "Discontinue home health services"],
+    correctIndex: 1,
+    answer: "The nurse should assess and document environmental hazards, then collaborate with the client to develop a safety plan. Client autonomy must be respected. Recommendations include removing throw rugs, improving lighting, installing grab bars and non-slip mats, securing electrical cords, and ensuring smoke detectors are functional. Fall prevention is a primary nursing priority in home care.",
+    category: "Community Health",
+    difficulty: 1
+  },
+  {
+    id: "rn-safe-q19",
+    type: "question",
+    question: "A nurse discovers that a medication error occurred but the client was not harmed. What is the most appropriate action?",
+    options: ["Do not report since the client was unharmed", "Complete an incident/occurrence report and notify the provider", "Document the error in the nurses' notes only", "Discuss the error only during shift report"],
+    correctIndex: 1,
+    answer: "ALL medication errors must be reported regardless of whether harm occurred. Complete an incident/occurrence report (NOT filed in the medical record), notify the provider, assess the client, and document the client's condition in the medical record. Near-miss reporting supports a culture of safety and quality improvement. Never blame the individual; focus on system improvements.",
+    category: "Safety & Ethics",
+    difficulty: 1
+  },
+  {
+    id: "rn-safe-q20",
+    type: "question",
+    question: "A competent adult client with terminal cancer refuses further treatment. The client's family insists on continuing chemotherapy. What is the nurse's obligation?",
+    options: ["Support the family's wishes to continue treatment", "Advocate for the client's right to refuse treatment", "Consult the ethics committee before honoring the client's wishes", "Convince the client to reconsider"],
+    correctIndex: 1,
+    answer: "A competent adult has the right to refuse any treatment, including life-sustaining interventions (autonomy). The nurse's role is to advocate for the client's informed decision. Document the refusal, ensure the client understands the consequences, and support the family through therapeutic communication. The family cannot override a competent client's decision.",
+    category: "Safety & Ethics",
+    difficulty: 1
+  },
+  {
+    id: "rn-cc-q16",
+    type: "question",
+    question: "A client in the ICU develops a systolic blood pressure of 70 mmHg, tachycardia, cold clammy skin, and decreased urine output after abdominal surgery. Which type of shock should the nurse suspect?",
+    options: ["Cardiogenic shock", "Hypovolemic shock", "Septic shock", "Anaphylactic shock"],
+    correctIndex: 1,
+    answer: "Post-surgical hypotension with tachycardia, cold/clammy skin, and oliguria indicates hypovolemic shock from hemorrhage. The compensatory sympathetic response causes tachycardia and peripheral vasoconstriction (cool extremities). Treatment: 2 large-bore IVs, rapid crystalloid infusion, blood products, and surgical re-exploration if bleeding continues. Monitor lactate and base deficit.",
+    category: "Critical Care",
+    difficulty: 2
+  },
+  {
+    id: "rn-emerg-q16",
+    type: "question",
+    question: "A client arrives in the emergency department after ingesting a large amount of acetaminophen 2 hours ago. What is the antidote?",
+    options: ["Flumazenil", "Naloxone", "N-acetylcysteine (Mucomyst)", "Protamine sulfate"],
+    correctIndex: 2,
+    answer: "N-acetylcysteine (NAC/Mucomyst) is the antidote for acetaminophen overdose. It replenishes glutathione stores and prevents hepatotoxicity. Most effective when given within 8 hours of ingestion. Check acetaminophen level at 4 hours post-ingestion and plot on the Rumack-Matthew nomogram. Toxic dose is >150 mg/kg. Monitor liver function tests and INR.",
+    category: "Emergency",
+    difficulty: 2
+  },
+  {
+    id: "rn-emerg-q17",
+    type: "question",
+    question: "During a mass casualty event using triage, a victim is walking and has minor lacerations. What triage color tag is assigned?",
+    options: ["Red (immediate)", "Yellow (delayed)", "Green (minor/walking wounded)", "Black (expectant/deceased)"],
+    correctIndex: 2,
+    answer: "In mass casualty triage (START triage), GREEN tag is for walking wounded with minor injuries that can wait for treatment. RED is immediate/life-threatening, YELLOW is delayed but serious (can wait 1-2 hours), BLACK is expectant/deceased (unsurvivable injuries or no signs of life). The first step is to direct all walking victims to a designated area (GREEN).",
+    category: "Emergency",
+    difficulty: 1
+  },
+  {
+    id: "rn-safe-q21",
+    type: "question",
+    question: "A nurse witnesses a coworker diverting controlled substances. What is the nurse's legal and ethical obligation?",
+    options: ["Confront the coworker privately and ask them to stop", "Report the suspected diversion to the nurse manager and follow facility policy", "Ignore it to avoid workplace conflict", "Wait until there is definitive proof before taking action"],
+    correctIndex: 1,
+    answer: "Nurses have a legal and ethical obligation to report suspected drug diversion immediately to the nurse manager, supervisor, or facility compliance officer per facility policy. Failure to report can result in disciplinary action by the Board of Nursing and potential loss of licensure. Many facilities have employee assistance programs (EAPs) and alternative-to-discipline programs for impaired nurses. Document objectively and maintain confidentiality.",
+    category: "Safety & Ethics",
+    difficulty: 1
+  },
 ];

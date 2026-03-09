@@ -231,6 +231,8 @@ import { bloodTransfusionReactionLessons } from "./blood-transfusion-reactions";
 import { bloodTransfusionReactionTypeLessons } from "./blood-transfusion-reaction-types";
 import { bloodTransfusionReactionTypesExtendedLessons } from "./blood-transfusion-reaction-types-extended";
 import { cbiLessons } from "./continuous-bladder-irrigation";
+import { rnExpandedLessons } from "./rn-expanded-content";
+import { npExpandedLessons } from "./np-expanded-content";
 
 export type { LessonContent } from "./types";
 
@@ -570,6 +572,8 @@ export const contentMap: Record<string, LessonContent> = safeMerge({},
   generatedBatch109Lessons,
   generatedBatch110Lessons,
   generatedBatch111Lessons,
+  rnExpandedLessons,
+  npExpandedLessons,
 );
 
 
