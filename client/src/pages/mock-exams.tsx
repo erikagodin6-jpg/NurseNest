@@ -19,7 +19,7 @@ import {
 } from "lucide-react";
 import { AdminEditButton } from "@/components/admin-edit-button";
 import { BreadcrumbNav } from "@/components/breadcrumb-nav";
-import { getTierConfig, getAllowedExamTiers } from "@shared/tier-config";
+import { getTierConfig } from "@shared/tier-config";
 
 function getAuthHeaders(): Record<string, string> {
   try {
@@ -32,18 +32,20 @@ function getAuthHeaders(): Record<string, string> {
   return {};
 }
 
-function getAllowedTiers(userTier: string | undefined, isAdmin: boolean, previewActive: boolean): string[] {
-  if (isAdmin && !previewActive) return ["rpn", "rn", "np"];
-  if (!userTier || userTier === "free") return [];
-  return getAllowedExamTiers(userTier);
+function getPrimaryExamTier(userTier: string | undefined, isAdmin: boolean, previewActive: boolean): string | null {
+  if (isAdmin && !previewActive) return null;
+  if (!userTier || userTier === "free") return null;
+  return userTier;
 }
 
 export default function MockExamsPage() {
   const { user, effectiveTier, isAdmin, previewTier } = useAuth();
   const { t } = useI18n();
   const [, navigate] = useLocation();
-  const allowedTiers = getAllowedTiers(effectiveTier, isAdmin, !!previewTier);
-  const [selectedTier, setSelectedTier] = useState(allowedTiers[0] || "rpn");
+  const primaryExamTier = getPrimaryExamTier(effectiveTier, isAdmin, !!previewTier);
+  const isAdminWithAllTiers = isAdmin && !previewTier;
+  const allowedTiers = isAdminWithAllTiers ? ["rpn", "rn", "np"] : primaryExamTier ? [primaryExamTier] : [];
+  const [selectedTier, setSelectedTier] = useState(primaryExamTier || (isAdminWithAllTiers ? "rpn" : "rpn"));
   const [selectedLength, setSelectedLength] = useState(75);
   const [selectedSystems, setSelectedSystems] = useState<string[]>([]);
   const [strictMode, setStrictMode] = useState(false);
@@ -277,32 +279,53 @@ export default function MockExamsPage() {
             </div>
 
             <div className="space-y-3">
-              <p className="text-sm font-bold text-gray-500 uppercase tracking-wider">{t("mockExams.examFocus")}</p>
-              <div className="grid gap-2">
-                {tierOptions.filter((tier) => allowedTiers.includes(tier.value)).map((tier) => {
-                  const tierStats = tierStatsMap[tier.value] || { total: 0 };
-                  return (
-                    <button
-                      key={tier.value}
-                      onClick={() => setSelectedTier(tier.value)}
-                      className={`p-4 rounded-xl border-2 text-left transition-all relative ${
-                        selectedTier === tier.value
-                          ? "border-primary bg-primary/5 shadow-md"
-                          : "border-gray-200 hover:border-gray-300"
-                      }`}
-                      data-testid={`button-tier-${tier.value}`}
-                    >
-                      <div className="flex items-center justify-between">
+              {isAdminWithAllTiers && (
+                <>
+                  <p className="text-sm font-bold text-gray-500 uppercase tracking-wider">{t("mockExams.examFocus")}</p>
+                  <div className="grid gap-2">
+                    {tierOptions.filter((tier) => allowedTiers.includes(tier.value)).map((tier) => {
+                      const tierStats = tierStatsMap[tier.value] || { total: 0 };
+                      return (
+                        <button
+                          key={tier.value}
+                          onClick={() => setSelectedTier(tier.value)}
+                          className={`p-4 rounded-xl border-2 text-left transition-all relative ${
+                            selectedTier === tier.value
+                              ? "border-primary bg-primary/5 shadow-md"
+                              : "border-gray-200 hover:border-gray-300"
+                          }`}
+                          data-testid={`button-tier-${tier.value}`}
+                        >
+                          <div className="flex items-center justify-between">
+                            <div>
+                              <span className="font-bold text-gray-900">{tier.label}</span>
+                              <span className="text-sm text-gray-500 ml-2">{tier.desc}</span>
+                              <span className="text-xs text-gray-400 block mt-1">{tierStats.total} {t("mockExams.questionsAvailable")}</span>
+                            </div>
+                          </div>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </>
+              )}
+              {primaryExamTier && !isAdminWithAllTiers && (() => {
+                const tierInfo = tierOptions.find(t => t.value === primaryExamTier);
+                const tierStats = tierStatsMap[primaryExamTier] || { total: 0 };
+                return (
+                  <Card className="border-none shadow-sm bg-primary/5 border-l-4 border-l-primary">
+                    <CardContent className="p-4">
+                      <div className="flex items-center gap-2">
+                        <GraduationCap className="w-5 h-5 text-primary shrink-0" />
                         <div>
-                          <span className="font-bold text-gray-900">{tier.label}</span>
-                          <span className="text-sm text-gray-500 ml-2">{tier.desc}</span>
-                          <span className="text-xs text-gray-400 block mt-1">{tierStats.total} {t("mockExams.questionsAvailable")}</span>
+                          <p className="text-sm font-semibold text-gray-900">{tierInfo?.label} Exam Track</p>
+                          <p className="text-xs text-gray-500">{tierStats.total} {t("mockExams.questionsAvailable")}</p>
                         </div>
                       </div>
-                    </button>
-                  );
-                })}
-              </div>
+                    </CardContent>
+                  </Card>
+                );
+              })()}
               {!user && (
                 <p className="text-sm text-gray-500 text-center py-2">
                   <LocaleLink href="/login" className="text-primary font-medium hover:underline">{t("mockExams.signIn")}</LocaleLink> {t("mockExams.signInPrompt")}
