@@ -3639,4 +3639,825 @@ export const rnFlashcards: FlashcardData[] = [
     category: "Safety & Ethics",
     difficulty: 1
   },
+  // ============================================================
+  // MUSCULOSKELETAL (15 cards)
+  // ============================================================
+  {
+    id: "rn-msk-q1",
+    type: "question",
+    question: "A client with a newly applied long-leg cast reports increasing pain unrelieved by elevation and prescribed analgesics. The nurse notes the toes are pale, cool, and the client reports tingling. What is the priority nursing action?",
+    options: ["Elevate the extremity higher on pillows", "Administer a stronger analgesic as ordered", "Notify the healthcare provider immediately for possible compartment syndrome", "Apply ice packs around the cast"],
+    correctIndex: 2,
+    answer: "The classic signs of compartment syndrome include the 5 P's: Pain (disproportionate and unrelieved by analgesics), Pallor, Pulselessness, Paresthesia (tingling/numbness), and Paralysis. This is a surgical emergency requiring immediate notification of the provider. The cast may need to be bivalved or removed. Delay can lead to permanent nerve damage, muscle necrosis, and limb loss. Elevation and ice alone will not resolve compartment syndrome.",
+    category: "Musculoskeletal",
+    difficulty: 3
+  },
+  {
+    id: "rn-msk-q2",
+    type: "question",
+    question: "A client is in Buck's traction for a fractured hip awaiting surgical repair. Which nursing assessment finding requires immediate intervention?",
+    options: ["The weights are hanging freely off the bed", "The client reports mild discomfort at the fracture site", "The traction rope is caught on the edge of the pulley", "The client's foot on the affected side is in a neutral position"],
+    correctIndex: 2,
+    answer: "Traction must be maintained continuously with ropes riding freely over pulleys and weights hanging freely. A rope caught on the pulley edge disrupts the line of pull, rendering the traction ineffective and potentially causing pain, malalignment, or muscle spasm. The nurse should immediately free the rope to restore proper traction. Weights hanging freely and neutral foot positioning are expected findings.",
+    category: "Musculoskeletal",
+    difficulty: 2
+  },
+  {
+    id: "rn-msk-q3",
+    type: "question",
+    question: "A nurse is caring for a client 1 day after total hip arthroplasty (posterior approach). Which client action requires immediate correction?",
+    options: ["Using a raised toilet seat", "Sitting in a chair with hips at 90 degrees", "Crossing the legs while sitting in bed", "Using an abduction pillow while sleeping"],
+    correctIndex: 2,
+    answer: "After posterior-approach total hip arthroplasty, the client must avoid hip flexion beyond 90 degrees, adduction (crossing legs), and internal rotation to prevent prosthetic dislocation. Crossing legs causes adduction past midline, directly risking dislocation. A raised toilet seat prevents excessive flexion, an abduction pillow maintains proper alignment, and sitting with hips at 90 degrees (not beyond) is acceptable.",
+    category: "Musculoskeletal",
+    difficulty: 2
+  },
+  {
+    id: "rn-msk-q4",
+    type: "question",
+    question: "A client with a fractured femur is being treated with skeletal traction via a Steinmann pin. The nurse notes serous drainage at the pin site. What is the appropriate nursing action?",
+    options: ["Remove the pin immediately and notify the provider", "Clean the pin site with sterile saline or prescribed solution per protocol", "Apply antibiotic ointment and cover with an occlusive dressing", "Discontinue traction and reposition the client"],
+    correctIndex: 1,
+    answer: "Small amounts of serous drainage at pin sites are expected findings. The nurse should perform pin site care per facility protocol, typically cleaning with sterile saline or chlorhexidine. Signs of infection (purulent drainage, erythema, warmth, fever) require provider notification. The nurse should never remove the pin or discontinue traction without a provider order, as this would compromise fracture alignment.",
+    category: "Musculoskeletal",
+    difficulty: 2
+  },
+  {
+    id: "rn-msk-q5",
+    type: "question",
+    question: "A client with rheumatoid arthritis (RA) reports morning stiffness lasting over 2 hours. Which medication class is MOST likely to modify disease progression?",
+    options: ["NSAIDs such as ibuprofen", "Opioid analgesics such as morphine", "Disease-modifying antirheumatic drugs (DMARDs) such as methotrexate", "Muscle relaxants such as cyclobenzaprine"],
+    correctIndex: 2,
+    answer: "DMARDs such as methotrexate are the cornerstone of RA treatment because they slow disease progression and joint destruction by modifying the underlying immune response. NSAIDs provide symptom relief but do not alter disease progression. Opioids manage pain but carry addiction risk and do not modify the disease. Muscle relaxants address spasm, not the autoimmune inflammatory process. Prolonged morning stiffness (>1 hour) is characteristic of RA.",
+    category: "Musculoskeletal",
+    difficulty: 2
+  },
+  {
+    id: "rn-msk-q6",
+    type: "question",
+    question: "A client with osteoporosis asks the nurse about preventing fractures. Which statement by the client indicates understanding of the teaching?",
+    options: ["I will avoid all physical activity to prevent falls", "I will take my calcium supplement with my iron pill to save time", "I will do weight-bearing exercises like walking 30 minutes daily", "I will drink more coffee since it helps bone density"],
+    correctIndex: 2,
+    answer: "Weight-bearing exercises such as walking stimulate osteoblast activity and increase bone density, reducing fracture risk. Avoiding all activity leads to further bone loss. Calcium and iron should be taken at different times as they compete for absorption. Caffeine increases urinary calcium excretion and can contribute to bone loss. Additional recommendations include adequate vitamin D, fall prevention strategies, and avoiding smoking and excessive alcohol.",
+    category: "Musculoskeletal",
+    difficulty: 2
+  },
+  {
+    id: "rn-msk-q7",
+    type: "question",
+    question: "A client post-laminectomy reports a clear drainage on the surgical dressing. The nurse tests the drainage with a glucose reagent strip and obtains a positive result. What should the nurse suspect?",
+    options: ["Normal serosanguineous wound drainage", "Cerebrospinal fluid (CSF) leak", "Allergic reaction to the dressing material", "Wound infection with exudate"],
+    correctIndex: 1,
+    answer: "Clear drainage from a spinal surgery site that tests positive for glucose is highly suspicious for a cerebrospinal fluid (CSF) leak. CSF contains glucose while serous wound drainage typically does not. A CSF leak increases the risk of meningitis and requires immediate notification of the surgeon. The client should be positioned flat, the area should not be covered with an occlusive dressing, and the provider may order bed rest and hydration. Normal wound drainage is serosanguineous, not glucose-positive.",
+    category: "Musculoskeletal",
+    difficulty: 3
+  },
+  {
+    id: "rn-msk-q8",
+    type: "question",
+    question: "A client with a below-knee amputation (BKA) is 2 days post-op. Which position should the nurse encourage to prevent hip flexion contracture?",
+    options: ["Elevate the residual limb on two pillows at all times", "Maintain the client in a prone position for 20-30 minutes several times daily", "Keep the knee flexed on a pillow continuously", "Position the client in a high Fowler's position"],
+    correctIndex: 1,
+    answer: "Prone positioning for 20-30 minutes several times daily helps prevent hip flexion contractures after a BKA by extending the hip joint. Continuous elevation on pillows after the first 24-48 hours promotes hip flexion contracture. Keeping the knee flexed also promotes contracture. High Fowler's position does not specifically address hip extension. The residual limb may be elevated briefly for edema control in the first 24 hours but not continuously after that.",
+    category: "Musculoskeletal",
+    difficulty: 2
+  },
+  {
+    id: "rn-msk-q9",
+    type: "question",
+    question: "A client reports sudden, severe pain and swelling in the great toe. Serum uric acid is 10.2 mg/dL (normal: 3.5-7.2). Which dietary modification should the nurse recommend?",
+    options: ["Increase intake of organ meats and shellfish", "Limit fluid intake to 1000 mL per day", "Avoid high-purine foods such as red meat, organ meats, and alcohol", "Increase consumption of dried beans and lentils"],
+    correctIndex: 2,
+    answer: "Elevated uric acid with acute great toe inflammation (podagra) indicates gout. The nurse should recommend avoiding high-purine foods including organ meats, red meat, shellfish, and alcohol (especially beer) which increase uric acid production. Fluid intake should be increased to 2-3 liters daily to promote uric acid excretion. Dried beans and lentils are moderate-purine foods that should be limited. Organ meats and shellfish are the highest purine foods and should be avoided.",
+    category: "Musculoskeletal",
+    difficulty: 2
+  },
+  {
+    id: "rn-msk-q10",
+    type: "question",
+    question: "A client is admitted with a fat embolism syndrome 48 hours after a long bone fracture. Which is the earliest clinical manifestation the nurse should monitor for?",
+    options: ["Sudden chest pain with hemoptysis", "Petechial rash on the chest, axillae, and conjunctivae", "Altered mental status and restlessness", "Severe hypotension and tachycardia"],
+    correctIndex: 2,
+    answer: "Altered mental status and restlessness are the earliest signs of fat embolism syndrome (FES) because fat globules cross the blood-brain barrier and cause cerebral hypoxia. FES typically develops 24-72 hours after a long bone fracture. Petechial rash is a classic but later sign, appearing on the chest, axillae, and conjunctivae. Respiratory symptoms (dyspnea, tachypnea) and cardiovascular instability develop subsequently. Early recognition and supportive care (oxygen, fluids) are critical.",
+    category: "Musculoskeletal",
+    difficulty: 3
+  },
+  {
+    id: "rn-msk-q11",
+    type: "question",
+    question: "A nurse is teaching a client about crutch walking using a three-point gait. The client has a non-weight-bearing left leg. What is the correct sequence?",
+    options: ["Move both crutches and the affected leg forward, then the unaffected leg", "Move the left crutch, then the right crutch, then swing both legs forward", "Move the right crutch and left leg forward, then the left crutch and right leg", "Move both crutches forward, then swing both legs through"],
+    correctIndex: 0,
+    answer: "In a three-point gait for non-weight-bearing, both crutches and the affected (non-weight-bearing) leg advance together, then the unaffected (strong) leg steps through. This gait pattern allows the crutches to bear the weight that the affected leg cannot. A two-point gait alternates opposite crutch and leg. A four-point gait moves each crutch and leg independently. Swing-through gait involves swinging both legs past the crutches.",
+    category: "Musculoskeletal",
+    difficulty: 2
+  },
+  {
+    id: "rn-msk-q12",
+    type: "question",
+    question: "A client with systemic lupus erythematosus (SLE) is prescribed hydroxychloroquine. Which follow-up assessment is essential with this medication?",
+    options: ["Annual renal biopsy", "Regular ophthalmologic examinations", "Monthly bone density scans", "Weekly liver function tests"],
+    correctIndex: 1,
+    answer: "Hydroxychloroquine can cause irreversible retinal toxicity (maculopathy), so clients must have baseline and regular ophthalmologic examinations (typically every 6-12 months after 5 years of use or sooner with risk factors). Early detection of retinal changes allows discontinuation before vision loss becomes permanent. While SLE can affect the kidneys, renal biopsy is not a routine monitoring requirement for hydroxychloroquine. Bone density and liver function are not primary concerns with this medication.",
+    category: "Musculoskeletal",
+    difficulty: 3
+  },
+  {
+    id: "rn-msk-q13",
+    type: "question",
+    question: "A client with a cervical spinal cord injury at C4 is being admitted to the ICU. Which complication should the nurse anticipate as the HIGHEST priority?",
+    options: ["Urinary retention requiring catheterization", "Autonomic dysreflexia causing hypertension", "Respiratory failure requiring mechanical ventilation", "Deep vein thrombosis from immobility"],
+    correctIndex: 2,
+    answer: "A C4 spinal cord injury affects the phrenic nerve (C3-C5) which innervates the diaphragm. Loss of diaphragmatic function causes respiratory failure, which is the highest-priority and most immediately life-threatening complication. The client will likely require mechanical ventilation. Autonomic dysreflexia occurs in injuries above T6 but develops after spinal shock resolves. Urinary retention and DVT are important but not as immediately life-threatening as respiratory failure.",
+    category: "Musculoskeletal",
+    difficulty: 3
+  },
+  {
+    id: "rn-msk-q14",
+    type: "question",
+    question: "A client in a body cast reports a burning sensation under the cast near the abdomen after eating. What does the nurse suspect?",
+    options: ["Normal skin irritation from the cast material", "Superior mesenteric artery (SMA) syndrome", "Allergic contact dermatitis to the plaster", "Anxiety-related gastrointestinal symptoms"],
+    correctIndex: 1,
+    answer: "Superior mesenteric artery (SMA) syndrome, or cast syndrome, occurs when a body cast compresses the duodenum between the SMA and the aorta, causing intestinal obstruction. Symptoms include abdominal distension, nausea, vomiting (especially after eating), and a burning sensation. It is a potentially life-threatening complication. The nurse should notify the provider, position the client prone or on the right side, and prepare for possible cast windowing or removal. Simple skin irritation would not correlate with eating.",
+    category: "Musculoskeletal",
+    difficulty: 3
+  },
+  {
+    id: "rn-msk-q15",
+    type: "question",
+    question: "A nurse is assessing a client who fell and reports hip pain. The affected leg is shortened and externally rotated. What does this finding most likely indicate?",
+    options: ["Posterior hip dislocation", "Femoral neck fracture (hip fracture)", "Muscle strain of the hip adductors", "Pelvic fracture with bladder injury"],
+    correctIndex: 1,
+    answer: "A shortened, externally rotated leg is the classic presentation of a femoral neck (hip) fracture, common in elderly clients with osteoporosis after a fall. Posterior hip dislocation typically presents with internal rotation, flexion, and adduction. Muscle strain would not cause limb shortening. Pelvic fracture may present with pelvic instability and hematuria but does not typically cause external rotation and shortening. X-ray confirmation and surgical intervention (hemiarthroplasty or ORIF) are usually required.",
+    category: "Musculoskeletal",
+    difficulty: 2
+  },
+  // ============================================================
+  // PERIOPERATIVE (15 cards)
+  // ============================================================
+  {
+    id: "rn-periop-q1",
+    type: "question",
+    question: "A client scheduled for surgery states, 'I don't really understand what the surgeon is going to do.' What is the nurse's BEST response?",
+    options: ["Explain the surgical procedure in detail to the client", "Have the client sign the consent form and reassure them", "Notify the surgeon that the client needs further explanation before consent", "Tell the client to look up the procedure online"],
+    correctIndex: 2,
+    answer: "Informed consent requires that the client understands the procedure, risks, benefits, and alternatives. It is the surgeon's responsibility to explain the procedure. The nurse's role is to witness the consent and advocate for the client. If the client does not understand, the nurse must notify the surgeon to provide further explanation before consent is obtained. Having the client sign without understanding violates informed consent principles and is legally and ethically wrong.",
+    category: "Perioperative",
+    difficulty: 2
+  },
+  {
+    id: "rn-periop-q2",
+    type: "question",
+    question: "During surgery, the client's temperature rapidly rises to 104°F (40°C), with muscle rigidity and tachycardia. What is the priority intervention?",
+    options: ["Apply cooling blankets and administer acetaminophen", "Administer dantrolene sodium IV as ordered", "Increase IV fluid rate and administer antipyretics", "Stop all anesthetics and transport to the ICU"],
+    correctIndex: 1,
+    answer: "Malignant hyperthermia is a life-threatening reaction to volatile inhalational anesthetics (e.g., sevoflurane) or succinylcholine, causing uncontrolled skeletal muscle metabolism. Dantrolene sodium is the specific antidote that acts by inhibiting calcium release from the sarcoplasmic reticulum. All triggering agents must be discontinued immediately, but dantrolene administration is the priority pharmacological intervention. Cooling measures are supportive but secondary. Without dantrolene, mortality is extremely high.",
+    category: "Perioperative",
+    difficulty: 3
+  },
+  {
+    id: "rn-periop-q3",
+    type: "question",
+    question: "A nurse in the PACU notes that a post-operative client's oxygen saturation drops to 88% and the client is making snoring respirations. What is the priority action?",
+    options: ["Administer naloxone (Narcan) immediately", "Perform a jaw-thrust maneuver and open the airway", "Increase the IV fluid rate", "Obtain an arterial blood gas immediately"],
+    correctIndex: 1,
+    answer: "Snoring respirations with desaturation in the PACU suggest upper airway obstruction, commonly from the tongue falling back against the posterior pharynx due to residual anesthetic effects. The priority is airway management using a jaw-thrust or chin-lift maneuver to open the airway. Positioning the client in a lateral or side-lying position can also help. Naloxone would be indicated for opioid-induced respiratory depression (slow, shallow breathing) not obstruction. ABG and fluids do not address the immediate airway problem.",
+    category: "Perioperative",
+    difficulty: 2
+  },
+  {
+    id: "rn-periop-q4",
+    type: "question",
+    question: "A client is 5 days post-abdominal surgery. While coughing, the client reports feeling a 'pop' and the nurse observes loops of intestine protruding through the incision. What is the priority action?",
+    options: ["Push the intestine back into the abdomen and apply a dry sterile dressing", "Cover the wound with a sterile saline-moistened dressing and call the surgeon immediately", "Apply a tight abdominal binder and elevate the head of bed", "Administer IV pain medication and prepare for wound culture"],
+    correctIndex: 1,
+    answer: "Evisceration (protrusion of abdominal organs through the surgical incision) is a surgical emergency. The nurse should cover the exposed organs with a large sterile dressing moistened with sterile normal saline to prevent tissue desiccation and infection. The surgeon must be notified immediately for emergency surgical closure. Never push organs back into the abdomen as this risks contamination and organ damage. Place the client in low Fowler's position with knees bent to reduce abdominal tension.",
+    category: "Perioperative",
+    difficulty: 3
+  },
+  {
+    id: "rn-periop-q5",
+    type: "question",
+    question: "A preoperative nurse is reviewing a client's medication list. The client takes warfarin daily. Which action should the nurse take?",
+    options: ["Administer the warfarin as scheduled on the morning of surgery", "Verify that the warfarin was discontinued as ordered (typically 5-7 days before surgery) and check the INR", "Hold the warfarin only on the day of surgery", "Switch the client to aspirin on the morning of surgery"],
+    correctIndex: 1,
+    answer: "Warfarin must typically be discontinued 5-7 days before elective surgery to allow the INR to normalize (below 1.5 for most procedures) and reduce bleeding risk. The nurse should verify the medication was held as ordered and check the INR level. Administering warfarin on the day of surgery increases hemorrhage risk. Holding only one day is insufficient as warfarin has a long half-life (36-42 hours). Aspirin also impairs platelet function and is not a substitute. Some clients may need bridging with heparin, per provider orders.",
+    category: "Perioperative",
+    difficulty: 2
+  },
+  {
+    id: "rn-periop-q6",
+    type: "question",
+    question: "A post-operative client has a Jackson-Pratt (JP) drain in place. The nurse notes the drainage has changed from serosanguineous to bright red, and the bulb is filling rapidly. What should the nurse do?",
+    options: ["Empty the drain and recompress the bulb as routine", "Document the drainage and continue monitoring every 8 hours", "Notify the surgeon immediately as this may indicate hemorrhage", "Remove the drain and apply a pressure dressing"],
+    correctIndex: 2,
+    answer: "A sudden change to bright red drainage that fills the JP drain bulb rapidly is suggestive of active hemorrhage at the surgical site. This requires immediate notification of the surgeon for evaluation and potential return to the operating room. Routine emptying and documentation are insufficient responses to this acute change. The nurse should never remove a drain without a provider order. The nurse should also assess vital signs for signs of hypovolemic shock (tachycardia, hypotension).",
+    category: "Perioperative",
+    difficulty: 2
+  },
+  {
+    id: "rn-periop-q7",
+    type: "question",
+    question: "Which preoperative assessment finding should the nurse report to the anesthesiologist before proceeding with surgery?",
+    options: ["Blood pressure of 128/78 mmHg", "History of seasonal allergies to pollen", "Client reports drinking herbal supplement St. John's Wort daily", "Client last ate a light meal 10 hours ago"],
+    correctIndex: 2,
+    answer: "St. John's Wort can interact with anesthetic agents, causing prolonged sedation, serotonin syndrome, and altered drug metabolism through CYP450 enzyme induction. It should be discontinued 2-3 weeks before surgery. The anesthesiologist must be notified to adjust the anesthetic plan. The blood pressure is within normal range. Pollen allergies are not directly relevant to anesthesia (latex or medication allergies would be). NPO for 10 hours after a light meal meets fasting guidelines.",
+    category: "Perioperative",
+    difficulty: 3
+  },
+  {
+    id: "rn-periop-q8",
+    type: "question",
+    question: "A nurse is counting surgical sponges before wound closure. The count reveals one sponge is missing. What is the appropriate action?",
+    options: ["Close the wound and obtain a post-operative X-ray", "Repeat the count, search the field, and notify the surgeon before closure", "Document the missing sponge and continue with the procedure", "Ask the scrub technician to account for the sponge after surgery"],
+    correctIndex: 1,
+    answer: "An incorrect surgical count is a never event. The nurse must immediately stop the closure process, repeat the count, thoroughly search the surgical field, drapes, linen, and trash, and notify the surgeon. An intraoperative X-ray may be obtained to locate a retained sponge if the count cannot be reconciled. Closing the wound with a potentially retained sponge places the client at risk for infection, abscess, and additional surgery. This must be resolved before wound closure.",
+    category: "Perioperative",
+    difficulty: 2
+  },
+  {
+    id: "rn-periop-q9",
+    type: "question",
+    question: "A client in the PACU is shivering and has a temperature of 95.5°F (35.3°C). What is the MOST appropriate nursing intervention?",
+    options: ["Administer meperidine (Demerol) 25 mg IV as ordered for post-anesthetic shivering", "Apply warm blankets only and continue monitoring", "Initiate rapid rewarming with a heating pad directly on the skin", "Administer IV acetaminophen for temperature regulation"],
+    correctIndex: 0,
+    answer: "Post-anesthetic shivering is common and can increase oxygen consumption by 200-400%, placing stress on the cardiovascular and respiratory systems. Meperidine (Demerol) in low doses is the most effective pharmacological treatment for post-anesthetic shivering and is commonly ordered in PACU protocols. Warm blankets (forced-air warming devices like Bair Hugger) are also used but may not stop shivering quickly enough. Direct heating pads risk burns on anesthetized skin. Acetaminophen treats fever, not hypothermia-related shivering.",
+    category: "Perioperative",
+    difficulty: 3
+  },
+  {
+    id: "rn-periop-q10",
+    type: "question",
+    question: "A post-operative client has not voided for 8 hours. The nurse palpates a distended, firm bladder above the symphysis pubis. What is the priority intervention?",
+    options: ["Encourage the client to drink more fluids", "Perform a bladder scan and catheterize if volume exceeds 300-400 mL per protocol", "Wait until 12 hours post-op before intervening", "Apply warm compresses to the lower abdomen and wait"],
+    correctIndex: 1,
+    answer: "Urinary retention is common post-operatively due to anesthetic effects on bladder smooth muscle and the detrusor muscle. A palpable, distended bladder with inability to void for 8 hours requires bladder scanning to confirm volume. If volume exceeds 300-400 mL (per facility protocol), straight catheterization is indicated to prevent bladder overdistension, which can cause permanent damage. Conservative measures (running water, warm compresses) can be tried briefly but should not delay catheterization when retention is confirmed.",
+    category: "Perioperative",
+    difficulty: 2
+  },
+  {
+    id: "rn-periop-q11",
+    type: "question",
+    question: "A nurse is performing a surgical time-out. Which elements are essential to verify? Select the BEST answer.",
+    options: ["Client's insurance information, surgeon's schedule, and OR room number", "Correct client identity, correct surgical site and side, correct procedure, and relevant imaging displayed", "Anesthesia type, estimated blood loss, and post-operative bed assignment", "Client's advance directive status, pharmacy formulary, and discharge plan"],
+    correctIndex: 1,
+    answer: "The surgical time-out (per The Joint Commission Universal Protocol) requires verification of correct client identity, correct surgical site/side (confirmed with site marking), correct procedure, relevant imaging/test results, and any applicable implants or special requirements. This prevents wrong-site, wrong-procedure, and wrong-patient surgical errors. Insurance information, scheduling, bed assignments, and formulary status are administrative details not part of the safety time-out. All team members must participate and agree before the incision.",
+    category: "Perioperative",
+    difficulty: 2
+  },
+  {
+    id: "rn-periop-q12",
+    type: "question",
+    question: "A client with a surgical wound has redness, warmth, purulent drainage, and a temperature of 101.8°F (38.8°C) on post-op day 4. What does the nurse suspect?",
+    options: ["Normal inflammatory response to surgical healing", "Surgical site infection (SSI)", "Allergic reaction to suture material", "Hematoma formation under the incision"],
+    correctIndex: 1,
+    answer: "Purulent drainage, erythema, warmth, and fever developing on post-op day 3-5 are classic signs of surgical site infection (SSI). The normal inflammatory response occurs in the first 24-48 hours and does not produce purulent drainage. The nurse should obtain a wound culture as ordered, monitor vital signs, and prepare for possible antibiotic therapy. Allergic reactions to sutures typically present with localized reaction without purulence. Hematomas present as firm, discolored swelling without purulent drainage.",
+    category: "Perioperative",
+    difficulty: 2
+  },
+  {
+    id: "rn-periop-q13",
+    type: "question",
+    question: "A nurse is preparing a client for surgery. The client states they have a latex allergy. Which fruit allergies should the nurse also assess for due to cross-reactivity?",
+    options: ["Apples, grapes, and blueberries", "Bananas, avocados, kiwi, and chestnuts", "Oranges, lemons, and grapefruit", "Strawberries, watermelon, and pineapple"],
+    correctIndex: 1,
+    answer: "Latex allergy has well-documented cross-reactivity with certain tropical fruits including bananas, avocados, kiwi, and chestnuts due to shared proteins (chitinases). Clients with latex allergy who consume these foods may experience anaphylaxis. The OR team must use non-latex gloves, equipment, and supplies. Citrus fruits, berries, and other fruits listed are not significantly cross-reactive with latex. All members of the surgical team must be notified of the latex allergy.",
+    category: "Perioperative",
+    difficulty: 2
+  },
+  {
+    id: "rn-periop-q14",
+    type: "question",
+    question: "A post-operative client on a patient-controlled analgesia (PCA) pump with morphine has a respiratory rate of 8 breaths per minute and is difficult to arouse. What is the priority action?",
+    options: ["Turn off the PCA pump and administer naloxone (Narcan) as ordered", "Reduce the PCA dose and continue monitoring", "Administer oxygen via nasal cannula and reassess in 15 minutes", "Stimulate the client by calling their name and rubbing the sternum"],
+    correctIndex: 0,
+    answer: "Respiratory rate below 10 with excessive sedation indicates opioid overdose requiring immediate intervention. The nurse must stop the PCA pump to prevent further opioid delivery and administer naloxone (Narcan), the opioid antagonist, as ordered. Naloxone reverses respiratory depression within 1-2 minutes IV. Simply reducing the dose or adding oxygen does not address the acute respiratory depression. Sternal rub may temporarily arouse the client but does not treat the underlying opioid toxicity. Continue monitoring respiratory status as naloxone has a shorter half-life than morphine.",
+    category: "Perioperative",
+    difficulty: 3
+  },
+  {
+    id: "rn-periop-q15",
+    type: "question",
+    question: "A client is scheduled for surgery at 0800. At 0600, the client reports taking a sip of water to swallow their blood pressure medication. What should the nurse do?",
+    options: ["Cancel the surgery immediately", "Notify the anesthesiologist and document the intake", "Proceed with surgery as planned since a sip of water is insignificant", "Induce vomiting to empty the stomach"],
+    correctIndex: 1,
+    answer: "Current ASA (American Society of Anesthesiologists) fasting guidelines allow clear liquids up to 2 hours before elective surgery. A sip of water with an essential medication (such as an antihypertensive) is generally acceptable. However, the nurse must notify the anesthesiologist so they can assess the situation and make an informed decision about proceeding. The nurse should document the intake accurately. Canceling surgery is premature, and inducing vomiting creates aspiration risk. Essential cardiac and blood pressure medications are often continued with a sip of water per provider orders.",
+    category: "Perioperative",
+    difficulty: 2
+  },
+  // ============================================================
+  // WOUND CARE (10 cards)
+  // ============================================================
+  {
+    id: "rn-wound-q1",
+    type: "question",
+    question: "A nurse is staging a pressure injury and observes full-thickness tissue loss with visible subcutaneous fat, but bone, tendon, and muscle are not exposed. What stage is this pressure injury?",
+    options: ["Stage 1", "Stage 2", "Stage 3", "Stage 4"],
+    correctIndex: 2,
+    answer: "Stage 3 pressure injuries involve full-thickness tissue loss where subcutaneous fat may be visible, but bone, tendon, and muscle are NOT exposed. Undermining and tunneling may be present. Stage 1 is intact skin with non-blanchable redness. Stage 2 involves partial-thickness skin loss presenting as a shallow open ulcer or blister. Stage 4 involves full-thickness tissue loss WITH exposed bone, tendon, or muscle. Unstageable injuries have the wound bed obscured by slough or eschar.",
+    category: "Wound Care",
+    difficulty: 2
+  },
+  {
+    id: "rn-wound-q2",
+    type: "question",
+    question: "A client with a large abdominal wound is being treated with negative pressure wound therapy (wound VAC). The nurse notes the seal has broken. What is the priority action?",
+    options: ["Document the finding and wait for the wound care nurse", "Reapply the seal to maintain continuous negative pressure", "Remove the wound VAC and apply wet-to-dry dressings", "Irrigate the wound with normal saline before reapplying"],
+    correctIndex: 1,
+    answer: "A broken seal in wound VAC therapy disrupts the negative pressure, rendering the therapy ineffective. The nurse should reapply the seal immediately to restore continuous negative pressure, which promotes wound healing by removing excess exudate, reducing edema, promoting granulation tissue, and increasing blood flow. Waiting for the wound care nurse delays treatment. Removing the VAC and switching to wet-to-dry dressings requires a provider order. The wound should not be irrigated unnecessarily when the seal simply needs reapplication.",
+    category: "Wound Care",
+    difficulty: 2
+  },
+  {
+    id: "rn-wound-q3",
+    type: "question",
+    question: "A client is admitted with partial-thickness burns covering the entire anterior trunk and both arms. Using the Rule of Nines, what is the estimated total body surface area (TBSA) burned?",
+    options: ["27%", "36%", "45%", "54%"],
+    correctIndex: 1,
+    answer: "Using the Rule of Nines for adults: the anterior trunk is 18%, and each arm is 9% (both arms = 18%). Total TBSA = 18% + 18% = 36%. This classification is important for fluid resuscitation calculations (Parkland formula: 4 mL × kg × %TBSA). Burns >20% TBSA in adults require IV fluid resuscitation. The posterior trunk is also 18%, each leg is 18%, the head is 9%, and the perineum is 1%. Accurate TBSA estimation guides treatment decisions.",
+    category: "Wound Care",
+    difficulty: 2
+  },
+  {
+    id: "rn-wound-q4",
+    type: "question",
+    question: "A client with a deep wound has yellow, stringy tissue in the wound bed. The nurse documents this as which type of tissue?",
+    options: ["Granulation tissue", "Epithelial tissue", "Slough (fibrinous tissue)", "Eschar"],
+    correctIndex: 2,
+    answer: "Slough is yellow, tan, or gray stringy/mucinous tissue that represents dead tissue in the wound bed. It must be removed (debrided) for wound healing to progress. Granulation tissue is beefy red, moist, and bumpy, indicating healthy wound healing. Epithelial tissue is pink/pearl and represents new skin growth from wound edges. Eschar is black or brown, hard, leathery necrotic tissue. The nurse should document the percentage of wound bed covered by each tissue type and collaborate with the wound care team for debridement.",
+    category: "Wound Care",
+    difficulty: 2
+  },
+  {
+    id: "rn-wound-q5",
+    type: "question",
+    question: "A nurse is caring for a client with a skin graft donor site. Which assessment finding indicates a complication requiring intervention?",
+    options: ["Pink, moist donor site with scant serous drainage", "Donor site covered with a transparent film dressing", "Foul-smelling purulent drainage and increasing erythema at the donor site", "Mild itching reported by the client at the healing donor site"],
+    correctIndex: 2,
+    answer: "Foul-smelling purulent drainage with erythema at the donor site indicates infection, which compromises healing and can spread systemically. The nurse should notify the provider, obtain wound cultures as ordered, and anticipate antibiotic therapy. Pink, moist tissue with serous drainage is a normal healing response. Transparent film dressings are appropriate for donor sites. Mild itching indicates healing. Donor site infection can also threaten the survival of the graft at the recipient site.",
+    category: "Wound Care",
+    difficulty: 2
+  },
+  {
+    id: "rn-wound-q6",
+    type: "question",
+    question: "A client has a wound healing by secondary intention. The nurse measures the wound and notes it is 4 cm long, 2 cm wide, and 1.5 cm deep with tunneling at the 3 o'clock position extending 2 cm. How should the nurse document this?",
+    options: ["Large wound with tunneling, needs surgical consult", "4 cm × 2 cm × 1.5 cm wound with 2 cm tunneling at 3 o'clock", "Open wound, healing well, moderate depth", "Approximately 5 cm wound with undermining noted"],
+    correctIndex: 1,
+    answer: "Wound documentation must be precise and include length (head to toe) × width (side to side) × depth, along with any tunneling or undermining described using clock position (12 o'clock = toward head, 6 o'clock = toward feet). Tunneling is a channel extending from the wound, while undermining is tissue destruction under intact wound edges. Subjective descriptions like 'large' or 'moderate' are not clinically useful. Accurate documentation enables tracking of wound healing progress and guides treatment decisions.",
+    category: "Wound Care",
+    difficulty: 2
+  },
+  {
+    id: "rn-wound-q7",
+    type: "question",
+    question: "A client with major burns is being resuscitated using the Parkland formula. The client weighs 80 kg with 40% TBSA burns. How much IV lactated Ringer's solution should be administered in the first 8 hours?",
+    options: ["3,200 mL", "6,400 mL", "12,800 mL", "9,600 mL"],
+    correctIndex: 1,
+    answer: "The Parkland formula is 4 mL × body weight (kg) × %TBSA burned = total fluid for first 24 hours. For this client: 4 × 80 × 40 = 12,800 mL total in 24 hours. Half of this amount (6,400 mL) is given in the first 8 hours from the time of the burn (not from hospital arrival), and the remaining half is given over the next 16 hours. Lactated Ringer's solution is the preferred crystalloid. Fluid resuscitation is guided by urine output (0.5-1 mL/kg/hr in adults).",
+    category: "Wound Care",
+    difficulty: 3
+  },
+  {
+    id: "rn-wound-q8",
+    type: "question",
+    question: "A nurse is selecting a wound dressing for a wound with heavy exudate and a clean, granulating wound bed. Which dressing is MOST appropriate?",
+    options: ["Hydrogel dressing", "Alginate dressing", "Transparent film dressing", "Dry gauze dressing"],
+    correctIndex: 1,
+    answer: "Alginate dressings are derived from seaweed and are highly absorbent, making them ideal for wounds with heavy exudate. They form a gel-like covering over the wound that maintains a moist environment while absorbing large amounts of drainage. Hydrogels donate moisture and are used for dry wounds. Transparent film dressings are for wounds with minimal exudate and are not absorbent. Dry gauze can adhere to the wound bed and damage granulation tissue upon removal. Matching the dressing to wound moisture level optimizes healing.",
+    category: "Wound Care",
+    difficulty: 2
+  },
+  {
+    id: "rn-wound-q9",
+    type: "question",
+    question: "A client with circumferential full-thickness burns on the right forearm develops loss of radial pulse and increasing pain. What emergency procedure does the nurse anticipate?",
+    options: ["Fasciotomy of the forearm", "Escharotomy of the burned tissue", "Skin grafting to the affected area", "Amputation of the forearm"],
+    correctIndex: 1,
+    answer: "Circumferential full-thickness burns create a constricting band of inelastic eschar that restricts blood flow as underlying tissue swells. Escharotomy is an emergency bedside incision through the eschar to release the constriction and restore circulation. Loss of pulses and increasing pain indicate vascular compromise requiring emergent intervention. Fasciotomy is for compartment syndrome in unburned tissue. Skin grafting is a later reconstructive procedure. Amputation is a last resort. Escharotomy does not require anesthesia because full-thickness burns destroy nerve endings.",
+    category: "Wound Care",
+    difficulty: 3
+  },
+  {
+    id: "rn-wound-q10",
+    type: "question",
+    question: "A nurse is performing wound irrigation. What is the recommended pressure for wound cleansing to remove debris without damaging granulation tissue?",
+    options: ["1-2 psi using a bulb syringe", "4-15 psi using a 35 mL syringe with a 19-gauge angiocatheter", "25-30 psi using a high-pressure jet lavage", "No pressure; pour saline gently over the wound"],
+    correctIndex: 1,
+    answer: "The recommended irrigation pressure is 4-15 psi (pounds per square inch), achieved by using a 35 mL syringe with a 19-gauge angiocatheter or needle. This pressure is sufficient to remove bacteria and debris without damaging delicate granulation tissue. Pressure below 4 psi (bulb syringe) is insufficient for effective cleansing. Pressure above 15 psi can drive bacteria deeper into the wound and damage healthy tissue. Gentle pouring does not provide adequate mechanical cleansing force.",
+    category: "Wound Care",
+    difficulty: 3
+  },
+  // ============================================================
+  // HEMATOLOGY/ONCOLOGY (10 cards)
+  // ============================================================
+  {
+    id: "rn-hemonc-q1",
+    type: "question",
+    question: "A client receiving a blood transfusion develops fever, chills, flank pain, and dark urine 15 minutes after the transfusion began. What is the priority nursing action?",
+    options: ["Slow the transfusion rate and administer acetaminophen", "Stop the transfusion immediately, maintain IV access with normal saline, and notify the provider", "Administer diphenhydramine and continue the transfusion", "Obtain a urine specimen and continue the transfusion at a slower rate"],
+    correctIndex: 1,
+    answer: "Fever, chills, flank pain, and dark urine (hemoglobinuria) are classic signs of an acute hemolytic transfusion reaction caused by ABO incompatibility. The transfusion must be stopped immediately. The IV line should be kept open with normal saline using new tubing. The provider and blood bank must be notified immediately. The nurse should send the blood bag, tubing, and blood/urine samples to the lab. This reaction can lead to DIC, renal failure, and death if not treated promptly. Never slow or continue a transfusion when hemolysis is suspected.",
+    category: "Hematology/Oncology",
+    difficulty: 3
+  },
+  {
+    id: "rn-hemonc-q2",
+    type: "question",
+    question: "A client with disseminated intravascular coagulation (DIC) has a platelet count of 22,000/mm³, elevated D-dimer, prolonged PT/INR, and bleeding from multiple sites. What treatment does the nurse anticipate?",
+    options: ["Administer heparin to stop the clotting cascade", "Transfuse platelets, fresh frozen plasma, and cryoprecipitate as ordered while treating the underlying cause", "Administer vitamin K and protamine sulfate", "Apply pressure to bleeding sites only and await spontaneous resolution"],
+    correctIndex: 1,
+    answer: "DIC involves simultaneous widespread clotting and bleeding due to consumption of clotting factors and platelets. Treatment focuses on replacing consumed components (platelets, FFP for clotting factors, cryoprecipitate for fibrinogen) AND treating the underlying cause (sepsis, trauma, obstetric complications). Heparin may be used in some cases to interrupt the clotting cascade but is controversial and provider-dependent. Vitamin K and protamine are specific reversal agents, not DIC treatments. Waiting is dangerous with active hemorrhage.",
+    category: "Hematology/Oncology",
+    difficulty: 3
+  },
+  {
+    id: "rn-hemonc-q3",
+    type: "question",
+    question: "A client receiving chemotherapy has a white blood cell count of 1,200/mm³ with an absolute neutrophil count (ANC) of 400/mm³. Which precaution is MOST important?",
+    options: ["Maintain strict hand hygiene and implement neutropenic precautions", "Administer live vaccines to boost the immune system", "Place the client on contact isolation for C. difficile", "Allow fresh flowers and raw fruits in the client's room"],
+    correctIndex: 0,
+    answer: "An ANC below 500/mm³ indicates severe neutropenia with high infection risk. Neutropenic precautions include strict hand hygiene (most important), private room, avoiding fresh flowers/plants (harbor Aspergillus), avoiding raw/uncooked foods, no rectal temperatures, and monitoring for subtle signs of infection (neutropenic clients may not mount a typical fever/WBC response). Live vaccines are absolutely contraindicated in immunosuppressed clients. Contact isolation is for specific infections, not neutropenia.",
+    category: "Hematology/Oncology",
+    difficulty: 2
+  },
+  {
+    id: "rn-hemonc-q4",
+    type: "question",
+    question: "A client with leukemia develops tumor lysis syndrome (TLS) after starting chemotherapy. Which lab values does the nurse expect to find?",
+    options: ["Low potassium, low phosphorus, high calcium", "High potassium, high phosphorus, high uric acid, low calcium", "Normal potassium, high sodium, low magnesium", "Low potassium, low uric acid, high calcium"],
+    correctIndex: 1,
+    answer: "Tumor lysis syndrome occurs when massive cancer cell destruction releases intracellular contents into the bloodstream, causing hyperkalemia (potassium released from cells), hyperphosphatemia (phosphorus released from cells), hyperuricemia (purine breakdown to uric acid), and hypocalcemia (calcium binds to excess phosphorus). These electrolyte derangements can cause fatal cardiac arrhythmias, acute kidney injury, and seizures. Treatment includes aggressive IV hydration, allopurinol or rasburicase, and electrolyte management. TLS is most common with hematologic malignancies.",
+    category: "Hematology/Oncology",
+    difficulty: 3
+  },
+  {
+    id: "rn-hemonc-q5",
+    type: "question",
+    question: "A nurse suspects chemotherapy extravasation when the client reports burning pain at the IV site and the nurse observes swelling. What is the priority action?",
+    options: ["Apply warm compresses and increase the IV flow rate", "Stop the infusion immediately, aspirate residual drug, and notify the oncologist", "Flush the line with normal saline to dilute the medication", "Continue the infusion and elevate the extremity"],
+    correctIndex: 1,
+    answer: "Chemotherapy extravasation (leakage of vesicant drug into surrounding tissue) can cause severe tissue necrosis. The nurse must immediately stop the infusion, aspirate any residual drug from the catheter before removing it, and notify the oncologist. Specific antidotes may be required (e.g., dexrazoxane for anthracycline extravasation, hyaluronidase for vinca alkaloids). Never flush the line as this pushes more drug into the tissue. Warm or cold compresses depend on the specific agent. Document the event thoroughly and follow facility extravasation protocol.",
+    category: "Hematology/Oncology",
+    difficulty: 3
+  },
+  {
+    id: "rn-hemonc-q6",
+    type: "question",
+    question: "A client is receiving a platelet transfusion. Which assessment finding indicates the transfusion is effective?",
+    options: ["Increased bleeding time", "Decreased platelet count on follow-up CBC", "Cessation of petechiae and decreased oozing from mucous membranes", "Increased prothrombin time (PT)"],
+    correctIndex: 2,
+    answer: "Effective platelet transfusion is evidenced by clinical improvement: cessation of petechiae, decreased bleeding/oozing, and a rising platelet count on post-transfusion CBC. Bleeding time should decrease (not increase) as platelet function improves. A decreased platelet count would indicate ineffectiveness or refractoriness. PT measures coagulation factor function, not platelet activity; PT is corrected by FFP, not platelets. One unit of platelets typically raises the count by 5,000-10,000/mm³.",
+    category: "Hematology/Oncology",
+    difficulty: 2
+  },
+  {
+    id: "rn-hemonc-q7",
+    type: "question",
+    question: "A client with cancer reports fatigue, pallor, and dyspnea on exertion. Hemoglobin is 7.2 g/dL. The provider orders packed red blood cells (PRBCs). What is the correct administration procedure?",
+    options: ["Infuse PRBCs through a standard IV set with dextrose solution", "Infuse PRBCs through a blood administration set with normal saline, complete within 4 hours", "Infuse PRBCs rapidly over 30 minutes to correct anemia quickly", "Infuse PRBCs with lactated Ringer's solution using a microdrip set"],
+    correctIndex: 1,
+    answer: "PRBCs must be administered through a blood administration set with a 170-260 micron filter, using only normal saline (0.9% NaCl) as the compatible solution. Dextrose causes red blood cell hemolysis, and lactated Ringer's contains calcium which can cause clotting. Each unit must be completed within 4 hours to reduce bacterial contamination risk. Rapid infusion can cause fluid overload and transfusion-associated circulatory overload (TACO). Vital signs should be monitored before, during (15 minutes), and after the transfusion.",
+    category: "Hematology/Oncology",
+    difficulty: 2
+  },
+  {
+    id: "rn-hemonc-q8",
+    type: "question",
+    question: "A client receiving chemotherapy asks why they need to have blood drawn before each treatment cycle. What is the BEST nursing response?",
+    options: ["It is hospital policy to check labs on all clients", "Blood work checks if your bone marrow is recovering enough to safely receive the next treatment", "We need to check your blood sugar before chemotherapy", "It helps us schedule your appointments more efficiently"],
+    correctIndex: 1,
+    answer: "Pre-chemotherapy labs (CBC with differential, metabolic panel, liver/kidney function) are essential to ensure the client's bone marrow has recovered sufficiently (adequate WBC, ANC, platelet, and hemoglobin levels) to safely tolerate the next cycle. If counts are too low (nadir), treatment may be delayed or doses adjusted to prevent life-threatening myelosuppression. This is a critical safety measure, not just policy. The nurse should explain in understandable terms to promote informed participation in care.",
+    category: "Hematology/Oncology",
+    difficulty: 2
+  },
+  {
+    id: "rn-hemonc-q9",
+    type: "question",
+    question: "A nurse is caring for a client with sickle cell disease experiencing a vaso-occlusive crisis. Which intervention is the HIGHEST priority?",
+    options: ["Restrict fluid intake to prevent fluid overload", "Administer aggressive IV hydration and pain management", "Apply cold compresses to painful areas", "Encourage ambulation to prevent DVT"],
+    correctIndex: 1,
+    answer: "Vaso-occlusive (pain) crisis occurs when sickled red blood cells clump and obstruct blood flow, causing ischemia and severe pain. Priority interventions include aggressive IV hydration (to reduce blood viscosity and promote circulation), effective pain management (often requiring IV opioids), oxygen supplementation (to prevent further sickling), and rest. Fluid restriction worsens sickling. Cold compresses cause vasoconstriction which worsens the crisis; warm compresses may be used. Ambulation during acute crisis increases pain and oxygen demand.",
+    category: "Hematology/Oncology",
+    difficulty: 2
+  },
+  {
+    id: "rn-hemonc-q10",
+    type: "question",
+    question: "A client with Hodgkin lymphoma is scheduled for radiation therapy to the chest. Which side effect should the nurse teach the client to expect?",
+    options: ["Hair loss on the scalp", "Esophagitis and sore throat", "Peripheral neuropathy in the feet", "Diarrhea and abdominal cramping"],
+    correctIndex: 1,
+    answer: "Radiation side effects are local to the treatment field. Chest/mediastinal radiation affects the esophagus, causing esophagitis, dysphagia, and sore throat. Hair loss occurs only in the irradiated area (chest hair, not scalp). Peripheral neuropathy is a chemotherapy side effect (e.g., vincristine, cisplatin), not radiation. Diarrhea occurs with abdominal/pelvic radiation, not chest radiation. Other chest radiation effects include pneumonitis, cough, and skin changes in the treatment field. Teaching clients about site-specific effects promotes self-management.",
+    category: "Hematology/Oncology",
+    difficulty: 2
+  },
+  // ============================================================
+  // COMMUNITY/PUBLIC HEALTH (10 cards)
+  // ============================================================
+  {
+    id: "rn-commhealth-q1",
+    type: "question",
+    question: "A community health nurse receives a report of three confirmed cases of measles in a school. What is the nurse's FIRST action?",
+    options: ["Close the school immediately for deep cleaning", "Identify and contact all exposed individuals for post-exposure prophylaxis evaluation", "Administer antibiotics to all students prophylactically", "Wait for additional cases to confirm an outbreak"],
+    correctIndex: 1,
+    answer: "The first action in outbreak investigation is case identification and contact tracing. The nurse must identify all exposed individuals to determine who needs post-exposure prophylaxis (MMR vaccine within 72 hours or immune globulin within 6 days of exposure). Measles is highly contagious (airborne transmission). Closing the school may be necessary but contact tracing is the immediate priority. Antibiotics are ineffective against viruses. Waiting for more cases delays containment and allows further spread. The nurse must also report to the local health department.",
+    category: "Community/Public Health",
+    difficulty: 2
+  },
+  {
+    id: "rn-commhealth-q2",
+    type: "question",
+    question: "A nurse is performing tuberculosis (TB) screening. A client's Mantoux tuberculin skin test (TST) shows 12 mm of induration at 48 hours. The client has no known risk factors. How does the nurse interpret this result?",
+    options: ["Positive result; the client has active TB disease", "Negative result; only reactions of 15 mm or greater are positive in clients with no risk factors", "Positive result; the client needs further evaluation with chest X-ray", "Inconclusive; repeat the test in 2 weeks"],
+    correctIndex: 1,
+    answer: "TST interpretation depends on risk category. Induration of 5 mm or greater is positive for HIV-positive clients, recent TB contacts, and immunosuppressed clients. Induration of 10 mm or greater is positive for healthcare workers, recent immigrants, and certain high-risk groups. Induration of 15 mm or greater is positive for persons with no known risk factors. This client has 12 mm with no risk factors, which falls below the 15 mm threshold and is therefore interpreted as negative. A positive TST indicates TB exposure, not necessarily active disease. If the result had been positive, a chest X-ray would be the next step to evaluate for active TB.",
+    category: "Community/Public Health",
+    difficulty: 3
+  },
+  {
+    id: "rn-commhealth-q3",
+    type: "question",
+    question: "A nurse is providing immunization teaching to parents of a 2-month-old infant. Which vaccines are recommended at this well-child visit?",
+    options: ["MMR, varicella, and hepatitis A", "DTaP, IPV, Hib, PCV13, rotavirus, and hepatitis B (2nd dose)", "Only hepatitis B (3rd dose)", "Influenza and meningococcal vaccines only"],
+    correctIndex: 1,
+    answer: "At 2 months of age, the CDC immunization schedule recommends: DTaP (diphtheria, tetanus, pertussis), IPV (inactivated polio), Hib (Haemophilus influenzae type b), PCV13 (pneumococcal conjugate), rotavirus (oral), and hepatitis B (2nd dose if not yet given). MMR and varicella are given at 12-15 months. Hepatitis A starts at 12 months. Influenza is given starting at 6 months. Meningococcal vaccine is given at 11-12 years. The nurse should educate parents about expected side effects and when to seek medical attention.",
+    category: "Community/Public Health",
+    difficulty: 2
+  },
+  {
+    id: "rn-commhealth-q4",
+    type: "question",
+    question: "During a community disaster, a nurse uses START triage. A victim is not breathing after repositioning the airway. What triage tag color is assigned?",
+    options: ["Red (immediate)", "Yellow (delayed)", "Green (minor)", "Black (expectant/deceased)"],
+    correctIndex: 3,
+    answer: "In START (Simple Triage and Rapid Treatment) triage, if a victim is not breathing even after repositioning the airway (opening the airway with a head tilt-chin lift or jaw thrust), the victim is tagged BLACK (expectant/deceased). In mass casualty situations, resources are allocated to save the most lives, so individuals who are not breathing despite basic airway intervention are classified as unsalvageable. RED is for immediate life threats that are salvageable. YELLOW is delayed but serious. GREEN is for walking wounded with minor injuries.",
+    category: "Community/Public Health",
+    difficulty: 2
+  },
+  {
+    id: "rn-commhealth-q5",
+    type: "question",
+    question: "A nurse suspects child abuse when examining a 3-year-old with bruises in various stages of healing on the buttocks and back. What is the nurse's legal obligation?",
+    options: ["Confront the parent and ask for an explanation first", "Document the findings and report to Child Protective Services (CPS) immediately", "Wait for the physician to confirm abuse before reporting", "Contact law enforcement only if the child discloses abuse"],
+    correctIndex: 1,
+    answer: "Nurses are mandated reporters by law and must report suspected child abuse immediately to Child Protective Services (CPS) or the appropriate reporting agency. The nurse does not need to confirm abuse; reasonable suspicion is sufficient. Bruises in various healing stages on non-bony prominences (buttocks, back) in a young child are highly suspicious for non-accidental trauma. The nurse should document findings objectively (size, color, location of bruises) and not confront the parent, as this may endanger the child further. Waiting for physician confirmation or disclosure delays protection.",
+    category: "Community/Public Health",
+    difficulty: 2
+  },
+  {
+    id: "rn-commhealth-q6",
+    type: "question",
+    question: "A public health nurse is planning a disease prevention program. Which activity represents PRIMARY prevention?",
+    options: ["Screening for hypertension at a community health fair", "Providing immunizations at a flu vaccine clinic", "Rehabilitating a stroke client to regain mobility", "Performing mammography screening for breast cancer"],
+    correctIndex: 1,
+    answer: "Primary prevention aims to prevent disease BEFORE it occurs through health promotion and disease prevention activities. Immunizations prevent infectious diseases from developing. Screening (hypertension, mammography) is secondary prevention, which aims to detect disease early for prompt treatment. Rehabilitation is tertiary prevention, which aims to restore function and prevent complications after disease has occurred. Other primary prevention examples include health education, seatbelt use, nutrition counseling, and exercise promotion.",
+    category: "Community/Public Health",
+    difficulty: 2
+  },
+  {
+    id: "rn-commhealth-q7",
+    type: "question",
+    question: "A nurse is teaching a community group about lead poisoning prevention. Which children are at HIGHEST risk?",
+    options: ["Children who live in homes built after 2000", "Children ages 1-5 who live in homes built before 1978 with peeling paint", "Teenagers who consume processed foods", "Infants who are exclusively breastfed"],
+    correctIndex: 1,
+    answer: "Children ages 1-5 are at highest risk for lead poisoning due to hand-to-mouth behavior and developing neurological systems. Homes built before 1978 may contain lead-based paint (banned in the US in 1978). Peeling paint produces lead-contaminated dust and paint chips that children ingest. Lead causes irreversible neurodevelopmental damage including cognitive impairment, behavioral problems, and learning disabilities. Screening blood lead levels are recommended for at-risk children. Lead exposure can also occur through contaminated water, soil, and imported toys or ceramics.",
+    category: "Community/Public Health",
+    difficulty: 2
+  },
+  {
+    id: "rn-commhealth-q8",
+    type: "question",
+    question: "A nurse is managing a client with active pulmonary TB on directly observed therapy (DOT). What does DOT involve?",
+    options: ["The client self-administers medication and reports compliance weekly", "A healthcare worker watches the client swallow each dose of medication", "The client receives monthly injections of TB medication at the clinic", "The client's family members administer and document the medication"],
+    correctIndex: 1,
+    answer: "Directly Observed Therapy (DOT) requires a healthcare worker to physically watch the client swallow each dose of anti-TB medication. This strategy ensures compliance with the lengthy treatment regimen (typically 6-9 months of multiple drugs: isoniazid, rifampin, pyrazinamide, ethambutol). Non-adherence leads to treatment failure and development of multidrug-resistant TB (MDR-TB), a major public health threat. DOT is the WHO-recommended standard of care for TB treatment. Self-reporting is unreliable for ensuring compliance.",
+    category: "Community/Public Health",
+    difficulty: 2
+  },
+  {
+    id: "rn-commhealth-q9",
+    type: "question",
+    question: "A home health nurse visits an elderly client and finds expired medications, spoiled food, and the client appears underweight and unkempt. The client lives with an adult child. What should the nurse do?",
+    options: ["Clean the home and organize the medications for the client", "Report suspected elder neglect to Adult Protective Services (APS)", "Speak to the adult child and ask them to improve care", "Schedule more frequent nursing visits and monitor the situation"],
+    correctIndex: 1,
+    answer: "The findings of expired medications, spoiled food, malnutrition, and poor hygiene in an elderly client living with a caregiver are indicators of elder neglect, a form of elder abuse. Nurses are mandated reporters and must report suspected elder abuse or neglect to Adult Protective Services (APS) immediately. The nurse should document objective findings, not confront the caregiver (which may escalate the situation), and ensure the client's immediate safety needs are addressed. Simply monitoring or cleaning does not fulfill the legal obligation to report.",
+    category: "Community/Public Health",
+    difficulty: 2
+  },
+  {
+    id: "rn-commhealth-q10",
+    type: "question",
+    question: "A public health nurse is developing an emergency preparedness plan for a bioterrorism event involving anthrax exposure. Which prophylactic medication should be available for exposed individuals?",
+    options: ["Oseltamivir (Tamiflu)", "Ciprofloxacin or doxycycline", "Acyclovir", "Metronidazole"],
+    correctIndex: 1,
+    answer: "Ciprofloxacin (fluoroquinolone) or doxycycline (tetracycline) are the recommended prophylactic antibiotics for anthrax exposure (Bacillus anthracis). Post-exposure prophylaxis should begin immediately and continue for 60 days. Oseltamivir is an antiviral for influenza. Acyclovir treats herpes viruses. Metronidazole treats anaerobic bacterial and protozoal infections. The Strategic National Stockpile maintains supplies of these antibiotics for bioterrorism response. The anthrax vaccine may also be administered as part of post-exposure prophylaxis.",
+    category: "Community/Public Health",
+    difficulty: 3
+  },
+  // ============================================================
+  // INTEGUMENTARY (10 cards)
+  // ============================================================
+  {
+    id: "rn-integ-q1",
+    type: "question",
+    question: "A client develops widespread erythema, blistering of the skin and mucous membranes, and desquamation after starting a new medication. The nurse suspects Stevens-Johnson syndrome (SJS). What is the priority intervention?",
+    options: ["Apply topical corticosteroids to all affected areas", "Discontinue the offending medication immediately and notify the provider", "Administer oral antihistamines and monitor for improvement", "Apply adhesive bandages to ruptured blisters"],
+    correctIndex: 1,
+    answer: "Stevens-Johnson syndrome is a severe, potentially life-threatening hypersensitivity reaction often triggered by medications (sulfonamides, anticonvulsants, allopurinol, NSAIDs, antibiotics). The priority is immediate discontinuation of the suspected causative drug. SJS affects less than 10% of body surface area; toxic epidermal necrolysis (TEN) affects more than 30%. Treatment is primarily supportive (similar to burn care): fluid resuscitation, wound care, pain management, and prevention of infection. Transfer to a burn unit may be required. Mortality ranges from 5-30%.",
+    category: "Integumentary",
+    difficulty: 3
+  },
+  {
+    id: "rn-integ-q2",
+    type: "question",
+    question: "A nurse is assessing a client with suspected cellulitis on the lower leg. Which assessment findings support this diagnosis?",
+    options: ["Well-demarcated, raised, red borders with a clear center", "Diffuse redness, warmth, swelling, and tenderness that spreads outward from the center", "Circular rash with central clearing (bull's-eye appearance)", "Small, painless vesicles in a linear pattern"],
+    correctIndex: 1,
+    answer: "Cellulitis is a bacterial skin infection (usually Staphylococcus or Streptococcus) presenting with diffuse erythema, warmth, edema, and tenderness that spreads outward without well-defined borders. It typically affects the lower extremities. Well-demarcated raised borders suggest erysipelas (a superficial cellulitis). Bull's-eye rash (erythema migrans) is characteristic of Lyme disease. Linear vesicles suggest contact dermatitis (such as poison ivy). Treatment includes systemic antibiotics, elevation, and monitoring for systemic infection signs.",
+    category: "Integumentary",
+    difficulty: 2
+  },
+  {
+    id: "rn-integ-q3",
+    type: "question",
+    question: "A client presents with a painful, vesicular rash in a dermatomal distribution on the right thorax. The client reports a history of chickenpox as a child. What condition does the nurse suspect?",
+    options: ["Contact dermatitis", "Herpes simplex type 1", "Herpes zoster (shingles)", "Impetigo"],
+    correctIndex: 2,
+    answer: "Herpes zoster (shingles) is caused by reactivation of the varicella-zoster virus (VZV) that has remained dormant in dorsal root ganglia after primary chickenpox infection. It presents as a painful, vesicular rash following a single dermatome (does not cross midline). The thoracic dermatomes are most commonly affected. Contact dermatitis is caused by irritants or allergens. Herpes simplex typically affects the mouth or genitals. Impetigo causes honey-crusted lesions. Treatment includes antivirals (acyclovir, valacyclovir) ideally within 72 hours of rash onset. Airborne and contact precautions are needed.",
+    category: "Integumentary",
+    difficulty: 2
+  },
+  {
+    id: "rn-integ-q4",
+    type: "question",
+    question: "A nurse is teaching a client about skin self-examination for melanoma. Which mnemonic helps identify suspicious moles?",
+    options: ["FAST (Face, Arms, Speech, Time)", "ABCDE (Asymmetry, Border irregularity, Color variation, Diameter >6mm, Evolving)", "PQRST (Provokes, Quality, Region, Severity, Time)", "RACE (Rescue, Activate, Contain, Extinguish)"],
+    correctIndex: 1,
+    answer: "The ABCDE mnemonic is used for melanoma assessment: Asymmetry (one half does not match the other), Border irregularity (edges are ragged or blurred), Color variation (multiple shades of brown, black, red, white, or blue), Diameter greater than 6 mm (pencil eraser size), and Evolving (changing in size, shape, or color over time). Any lesion meeting these criteria requires dermatologic evaluation and possible biopsy. Early detection significantly improves melanoma prognosis. The other mnemonics apply to stroke assessment (FAST), pain assessment (PQRST), and fire safety (RACE).",
+    category: "Integumentary",
+    difficulty: 2
+  },
+  {
+    id: "rn-integ-q5",
+    type: "question",
+    question: "A client with eczema (atopic dermatitis) asks the nurse about managing flare-ups. Which instruction is MOST appropriate?",
+    options: ["Take long, hot showers to soothe the itching", "Apply topical corticosteroids as prescribed and use fragrance-free emollients daily", "Wear wool clothing to keep skin warm and dry", "Scrub the affected areas vigorously to remove scales"],
+    correctIndex: 1,
+    answer: "Management of atopic dermatitis includes topical corticosteroids to reduce inflammation during flares and daily application of fragrance-free emollients to maintain the skin moisture barrier. Hot showers strip natural oils and worsen dryness and itching. Wool and synthetic fabrics irritate eczematous skin; soft cotton is preferred. Vigorous scrubbing damages the compromised skin barrier and triggers more inflammation. Other recommendations include avoiding known triggers (allergens, stress), lukewarm baths, patting skin dry, and applying moisturizer within 3 minutes of bathing.",
+    category: "Integumentary",
+    difficulty: 2
+  },
+  {
+    id: "rn-integ-q6",
+    type: "question",
+    question: "A nurse is assessing a client with contact dermatitis from poison ivy. Which characteristic finding does the nurse expect?",
+    options: ["Symmetrical, scaling plaques on extensor surfaces", "Linear vesicular eruption in the pattern of plant contact with intense pruritus", "Honey-colored crusted lesions on the face", "Deep, painful nodules under the skin without surface changes"],
+    correctIndex: 1,
+    answer: "Allergic contact dermatitis from poison ivy (urushiol oil) presents with intensely pruritic, linear or streaky vesicular eruptions in the pattern where the plant contacted the skin. It is a type IV delayed hypersensitivity reaction occurring 24-72 hours after exposure. Symmetrical scaling plaques on extensor surfaces suggest psoriasis. Honey-colored crusts are characteristic of impetigo. Deep painful nodules suggest furuncles or cystic acne. Treatment includes removal of the allergen, cool compresses, topical corticosteroids, oral antihistamines, and systemic steroids for severe cases.",
+    category: "Integumentary",
+    difficulty: 2
+  },
+  {
+    id: "rn-integ-q7",
+    type: "question",
+    question: "A client with psoriasis is prescribed methotrexate. Which laboratory test is essential to monitor during treatment?",
+    options: ["Serum glucose levels", "Liver function tests (LFTs)", "Thyroid function tests", "Serum lipid panel"],
+    correctIndex: 1,
+    answer: "Methotrexate is hepatotoxic and can cause liver fibrosis and cirrhosis with long-term use. Regular monitoring of liver function tests (AST, ALT, albumin) is essential, along with CBC (methotrexate causes myelosuppression) and renal function tests (the drug is renally excreted). Baseline and periodic liver biopsies may be recommended for cumulative doses. Clients should avoid alcohol which compounds hepatotoxicity. Methotrexate is also teratogenic, so pregnancy must be avoided. Serum glucose, thyroid, and lipid panels are not primary monitoring targets for methotrexate.",
+    category: "Integumentary",
+    difficulty: 3
+  },
+  {
+    id: "rn-integ-q8",
+    type: "question",
+    question: "A client presents with a skin lesion that has pearly, rolled borders with central ulceration and telangiectasia. What type of skin cancer does the nurse suspect?",
+    options: ["Melanoma", "Basal cell carcinoma", "Squamous cell carcinoma", "Kaposi sarcoma"],
+    correctIndex: 1,
+    answer: "Basal cell carcinoma (BCC) is the most common skin cancer and classically presents with pearly, waxy, translucent nodules with rolled borders, central ulceration, and visible telangiectasia (small blood vessels). BCC is slow-growing and rarely metastasizes but causes local tissue destruction. It is most common on sun-exposed areas (face, ears, neck). Melanoma presents with asymmetric, multicolored lesions. Squamous cell carcinoma appears as scaly, red, crusted lesions. Kaposi sarcoma presents as purple/brown macules or plaques associated with HIV/AIDS.",
+    category: "Integumentary",
+    difficulty: 2
+  },
+  {
+    id: "rn-integ-q9",
+    type: "question",
+    question: "A nurse is caring for a client with a full-thickness burn injury. Which phase of burn care focuses on fluid resuscitation and preventing hypovolemic shock?",
+    options: ["Rehabilitation phase", "Emergent (resuscitative) phase", "Acute (wound healing) phase", "Pre-hospital phase"],
+    correctIndex: 1,
+    answer: "The emergent (resuscitative) phase begins at the time of injury and lasts 24-48 hours. The primary focus is fluid resuscitation to prevent hypovolemic shock caused by massive fluid shifts from the intravascular space to the interstitial space (third spacing). The Parkland formula guides fluid replacement. Other priorities include airway management, pain control, and preventing hypothermia. The acute phase follows and focuses on wound care, infection prevention, and nutritional support. The rehabilitation phase focuses on restoring function and preventing contractures.",
+    category: "Integumentary",
+    difficulty: 2
+  },
+  {
+    id: "rn-integ-q10",
+    type: "question",
+    question: "A client is diagnosed with scabies. Which teaching point is essential for the nurse to include?",
+    options: ["Only the client needs treatment; household members are not affected", "Apply permethrin cream from the neck down, leave on for 8-14 hours, and treat all close contacts simultaneously", "Scabies resolves on its own without treatment within a few days", "The client should take oral antifungal medication for 2 weeks"],
+    correctIndex: 1,
+    answer: "Scabies is caused by the Sarcoptes scabiei mite and is highly contagious through direct skin contact. Treatment involves applying permethrin 5% cream from the neck down (including under fingernails), leaving it on for 8-14 hours, then washing it off. All household members and close contacts must be treated simultaneously to prevent reinfestation. Bedding and clothing should be washed in hot water and dried on high heat. Itching may persist for 2-4 weeks after treatment due to residual hypersensitivity. Scabies requires treatment and does not resolve spontaneously. Antifungals are not effective.",
+    category: "Integumentary",
+    difficulty: 2
+  },
+  // ============================================================
+  // ETHICS/LEGAL (10 cards)
+  // ============================================================
+  {
+    id: "rn-ethics-q1",
+    type: "question",
+    question: "A client with terminal cancer has a valid advance directive that specifies 'do not resuscitate' (DNR). The client's family insists that 'everything be done.' What should the nurse do?",
+    options: ["Follow the family's wishes since they are present and the client cannot speak for themselves", "Follow the advance directive and notify the healthcare provider of the family's concerns", "Initiate CPR if the client codes since the family requests it", "Tell the family to get a lawyer to change the advance directive"],
+    correctIndex: 1,
+    answer: "A valid advance directive represents the client's autonomous wishes and takes legal precedence over family requests when the client cannot speak for themselves. The nurse must honor the DNR order while also providing supportive care and addressing the family's emotional needs. The nurse should notify the healthcare provider about the family's concerns so the provider can have a goals-of-care discussion with the family. Initiating CPR against a valid DNR violates the client's rights. A palliative care or ethics consult may help resolve the conflict.",
+    category: "Ethics/Legal",
+    difficulty: 3
+  },
+  {
+    id: "rn-ethics-q2",
+    type: "question",
+    question: "A nurse receives a phone call from a client's employer asking about the client's diagnosis and expected return to work. What is the nurse's appropriate response?",
+    options: ["Provide the diagnosis since the employer needs to plan for staffing", "Decline to confirm or deny that the person is a client, citing HIPAA privacy regulations", "Share only the expected return date but not the diagnosis", "Transfer the call to the physician to handle the inquiry"],
+    correctIndex: 1,
+    answer: "HIPAA (Health Insurance Portability and Accountability Act) prohibits disclosure of any protected health information (PHI) without the client's written authorization. This includes confirming or denying that someone is a client at the facility. The nurse cannot share any information—diagnosis, treatment, or expected return—with the employer. If the client has signed a specific release for their employer, then only the information specified in the release can be shared. The nurse should document the inquiry attempt and inform the client.",
+    category: "Ethics/Legal",
+    difficulty: 2
+  },
+  {
+    id: "rn-ethics-q3",
+    type: "question",
+    question: "A client is found wandering in the hallway and attempting to leave the hospital against medical advice. The client is confused and has been deemed to lack decision-making capacity. What should the nurse do?",
+    options: ["Allow the client to leave since all clients have the right to refuse treatment", "Apply bilateral wrist restraints immediately without a provider order", "Redirect the client back to bed, ensure safety, notify the provider, and document the assessment of impaired decision-making capacity", "Call security to physically remove the client from the hallway"],
+    correctIndex: 2,
+    answer: "A client who lacks decision-making capacity (due to confusion, altered mental status, delirium) cannot make informed decisions about leaving. The nurse should redirect the client to safety using the least restrictive intervention, notify the provider for a capacity evaluation and possible restraint order if necessary, ensure the environment is safe, and document the assessment findings. Restraints require a provider order and are used only as a last resort. Allowing an incapacitated client to leave poses a safety risk. Physical force by security should only be used in imminent danger situations.",
+    category: "Ethics/Legal",
+    difficulty: 3
+  },
+  {
+    id: "rn-ethics-q4",
+    type: "question",
+    question: "A nurse must apply wrist restraints on an agitated client who is pulling at life-sustaining IV lines. Which action is correct regarding restraint use?",
+    options: ["Apply the restraints and obtain a provider order within 24 hours", "Obtain a provider order, reassess the client every 1-2 hours, release restraints every 2 hours for circulation checks and ROM exercises", "Tie the restraints in a tight knot to the bed frame to prevent removal", "Apply restraints and leave them in place until the client is calm"],
+    correctIndex: 1,
+    answer: "Restraint use requires a provider order (cannot be a standing or PRN order) with specific time limits (4 hours for adults in non-behavioral situations). The nurse must assess the client every 1-2 hours (per facility policy) for circulation, sensation, movement, and skin integrity. Restraints should be released every 2 hours for circulation checks, ROM exercises, toileting, nutrition, and hydration. Restraints are tied with quick-release knots to the bed frame (not side rails) to allow rapid removal in emergencies. Continuous restraint use without reassessment and release violates patient safety standards.",
+    category: "Ethics/Legal",
+    difficulty: 2
+  },
+  {
+    id: "rn-ethics-q5",
+    type: "question",
+    question: "A nurse is caring for a client who is brain dead and whose family has consented to organ donation. Which nursing action is appropriate?",
+    options: ["Discontinue all life-sustaining measures immediately after brain death is declared", "Maintain hemodynamic stability and organ perfusion until organ procurement is coordinated", "Ask the family to select which organs they wish to donate", "Notify the funeral home before contacting the organ procurement organization"],
+    correctIndex: 1,
+    answer: "After brain death is declared and organ donation consent is obtained, the nurse must maintain hemodynamic stability (fluids, vasopressors, ventilator support) to preserve organ perfusion until the organ procurement organization (OPO) coordinates retrieval. The OPO manages all aspects of organ allocation and donor management. The family consents to donation but does not select specific organs; organ suitability is determined medically. The OPO must be notified before any cessation of life support. This is a time-sensitive process to preserve organ viability.",
+    category: "Ethics/Legal",
+    difficulty: 3
+  },
+  {
+    id: "rn-ethics-q6",
+    type: "question",
+    question: "A nurse accidentally administers the wrong medication to a client. The client shows no adverse effects. What is the nurse's FIRST action?",
+    options: ["Do not document the error since the client was not harmed", "Assess the client, notify the provider, complete an incident report, and document the event in the medical record", "Ask a colleague to help cover up the mistake", "Wait to see if the client develops any adverse effects before reporting"],
+    correctIndex: 1,
+    answer: "All medication errors must be reported regardless of whether harm occurred. The nurse should first assess the client for any adverse effects, then notify the healthcare provider immediately so appropriate monitoring or interventions can be ordered. An incident (occurrence) report must be completed per facility policy for quality improvement and risk management. The error and nursing actions taken should be documented factually in the medical record (but the incident report itself is not referenced in the chart). Concealing errors is unethical and potentially dangerous.",
+    category: "Ethics/Legal",
+    difficulty: 2
+  },
+  {
+    id: "rn-ethics-q7",
+    type: "question",
+    question: "A 16-year-old client comes to the clinic requesting treatment for a sexually transmitted infection. The client asks the nurse not to tell their parents. What is the nurse's legal obligation?",
+    options: ["Refuse to treat the minor without parental consent", "Treat the client confidentially since minors can consent to STI treatment in most jurisdictions", "Call the parents before providing treatment", "Report the STI to the school administration"],
+    correctIndex: 1,
+    answer: "In most US jurisdictions, minors can consent to treatment for sexually transmitted infections, substance abuse, mental health services, and reproductive health care without parental consent. These are exceptions to the general requirement for parental consent for minor treatment. The nurse should maintain confidentiality regarding the visit. Reporting STIs to schools violates confidentiality. However, mandatory reporting requirements (e.g., suspected abuse) still apply. The nurse should be familiar with their specific state laws regarding minor consent.",
+    category: "Ethics/Legal",
+    difficulty: 2
+  },
+  {
+    id: "rn-ethics-q8",
+    type: "question",
+    question: "A nurse is assigned to care for a client whose treatment the nurse finds morally objectionable based on personal beliefs. What is the appropriate action?",
+    options: ["Refuse to care for the client and leave the unit", "Provide substandard care to express disapproval", "Notify the charge nurse and request reassignment while ensuring the client's care is not compromised", "Tell the client about the moral objections to their treatment"],
+    correctIndex: 2,
+    answer: "Nurses have the right to conscientious objection but must ensure that client care is not abandoned or compromised. The appropriate action is to notify the charge nurse of the conflict and request reassignment. The nurse must continue providing care until an appropriate replacement is available. Abandoning the client (leaving without replacement) is a violation of the Nurse Practice Act. Providing substandard care or expressing personal moral judgments to clients is unethical and constitutes unprofessional conduct. The ANA Code of Ethics supports both patient advocacy and nurse integrity.",
+    category: "Ethics/Legal",
+    difficulty: 2
+  },
+  {
+    id: "rn-ethics-q9",
+    type: "question",
+    question: "A nurse delegates vital sign measurement to a certified nursing assistant (CNA). The CNA reports a blood pressure of 78/50 mmHg on a post-surgical client. What is the nurse's responsibility?",
+    options: ["Accept the CNA's report and document it without further action", "Verify the blood pressure personally, assess the client, and take appropriate action", "Tell the CNA to recheck the blood pressure and report back later", "Delegate the assessment to another RN since the CNA already reported it"],
+    correctIndex: 1,
+    answer: "The delegating nurse retains accountability for client outcomes even when tasks are delegated. A blood pressure of 78/50 mmHg is critically low and may indicate hypovolemic shock in a post-surgical client. The nurse must personally verify the reading, perform a comprehensive assessment (level of consciousness, heart rate, urine output, surgical drain output, skin color/temperature), and initiate appropriate interventions (notify the provider, prepare for fluid resuscitation). Delegation does not transfer accountability. The five rights of delegation include right task, right circumstance, right person, right supervision, and right direction.",
+    category: "Ethics/Legal",
+    difficulty: 2
+  },
+  {
+    id: "rn-ethics-q10",
+    type: "question",
+    question: "A client's medical record needs to be corrected because the nurse documented on the wrong client's chart. What is the correct procedure for making this correction?",
+    options: ["Use white-out to cover the incorrect entry", "Draw a single line through the error, write 'mistaken entry,' date, time, and initial it", "Remove the page from the chart and rewrite it correctly", "Delete the electronic entry completely and re-enter the correct information"],
+    correctIndex: 1,
+    answer: "The correct procedure for correcting a paper medical record error is to draw a single line through the incorrect entry (so it remains legible), write 'mistaken entry' or 'error' above or beside it, and add the date, time, and nurse's initials. In electronic health records, addendums are used and original entries are preserved with an audit trail. White-out, removing pages, and completely deleting entries are considered alteration or destruction of medical records, which is illegal and can constitute evidence tampering. Medical records are legal documents that may be used in court.",
+    category: "Ethics/Legal",
+    difficulty: 2
+  },
 ];

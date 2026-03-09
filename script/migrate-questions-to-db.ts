@@ -97,6 +97,8 @@ QUESTION_FILES.push({ file: "cnple-batch-01", tier: "np", exam: "CNPLE", exportN
 QUESTION_FILES.push({ file: "cnple-batch-02", tier: "np", exam: "CNPLE", exportName: "cnpleBatch02Questions" });
 QUESTION_FILES.push({ file: "cnple-batch-03", tier: "np", exam: "CNPLE", exportName: "cnpleBatch03Questions" });
 QUESTION_FILES.push({ file: "us-cases-01", tier: "rn", exam: "NCLEX-RN", exportName: "usCases01Questions" });
+QUESTION_FILES.push({ file: "rn-expansion-f", tier: "rn", exam: "NCLEX-RN", exportName: "rnExpansionFQuestions" });
+QUESTION_FILES.push({ file: "rn-expansion-g", tier: "rn", exam: "NCLEX-RN", exportName: "rnExpansionGQuestions" });
 
 for (let i = 1; i <= 56; i++) {
   const pad = String(i).padStart(2, "0");
