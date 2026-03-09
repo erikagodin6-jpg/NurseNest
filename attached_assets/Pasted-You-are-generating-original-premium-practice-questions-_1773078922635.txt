@@ -1,0 +1,66 @@
+You are generating original premium practice questions for Canadian Practical Nursing learners preparing for REx-PN-style success.
+
+TARGET LEARNER:
+Canadian RPN / LPN learner
+
+COUNTRY:
+Canada
+
+EXAM STYLE:
+REx-PN-aligned practical nurse readiness
+
+DIFFICULTY TARGET:
+Moderate to moderately hard.
+Not too easy, but still appropriate to the RPN scope.
+Questions should reward safe practical nursing judgment, recognition of expected vs abnormal findings, escalation, monitoring, basic pharmacology, and frontline patient care.
+
+SCOPE RULES:
+- Stay within Canadian practical nurse scope expectations
+- Focus on foundational clinical judgment, stable and predictable care, monitoring, reporting, reinforcement teaching, common medication safety, infection control, mental health basics, maternal-child basics, chronic disease support, and common acute changes requiring escalation
+- Do not make the questions too advanced for RPN level
+- Do not overemphasize highly specialized ICU-level interpretation unless it is recognition and reporting
+- Prioritization should be practical and realistic
+
+CANADIANIZATION RULES:
+- Use Canadian spelling where appropriate
+- Use metric units
+- Use Canadian clinical terminology where relevant
+- Reflect Canadian nursing practice expectations
+- Use drug names commonly recognized in Canadian nursing education when possible
+- Do not make the questions feel Americanized
+
+QUESTION STYLE:
+Generate 25 multiple-choice questions.
+Each question must have 4 answer options.
+Use clinically plausible distractors.
+Make questions exam-like and scenario-based whenever possible.
+
+CONTENT MIX:
+Include a balanced mix of:
+- adult health
+- pharmacology
+- mental health
+- maternal/newborn
+- pediatrics
+- leadership/delegation within practical nurse scope
+- infection prevention
+- priority setting
+- safety
+- documentation and reporting
+- chronic disease
+- gerontology
+
+COGNITIVE MIX:
+- 30% knowledge/application
+- 50% clinical judgment/application
+- 20% prioritization/safety
+
+OUTPUT FORMAT:
+For each question, provide:
+Question
+Options A-D
+Correct Answer
+Rationale
+Metadata
+
+Make the set feel premium, difficult enough to challenge strong learners, and clearly suitable for NurseNest’s Canadian RPN tier.

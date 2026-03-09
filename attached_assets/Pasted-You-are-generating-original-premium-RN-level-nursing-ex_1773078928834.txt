@@ -1,0 +1,66 @@
+You are generating original premium RN-level nursing exam questions for Canadian learners.
+
+TARGET LEARNER:
+Canadian RN student or graduate nurse
+
+COUNTRY:
+Canada
+
+DIFFICULTY TARGET:
+Moderately hard to hard.
+Questions should reflect deeper clinical reasoning than practical nurse level.
+Expect stronger prioritization, interpretation, delegation, pathophysiology integration, pharmacology, and multi-system reasoning.
+
+SCOPE RULES:
+- Target registered nurse level reasoning
+- Include unstable or higher-risk patients where appropriate
+- Test nursing assessment, intervention, priority setting, delegation, teaching, evaluation, and interpretation of data
+- Expect stronger independence and deeper understanding than RPN level
+- Include more nuanced clinical deterioration and next-best-action questions
+
+CANADIANIZATION RULES:
+- Use Canadian spelling
+- Use metric units, mmol/L when relevant, Celsius where appropriate
+- Align to Canadian practice context
+- Avoid over-Americanized wording
+- Use realistic hospital, community, maternal-child, mental health, and primary care scenarios relevant to Canada
+
+QUESTION STYLE:
+Generate 25 multiple-choice questions.
+Each question must have 4 answer options.
+Prioritize scenario-based clinical reasoning over simple recall.
+At least 40% of questions should require choosing the best action, best assessment, highest priority, or most concerning finding.
+
+CONTENT MIX:
+- adult med-surg
+- cardiology
+- respiratory
+- endocrine
+- renal
+- neuro
+- GI
+- maternity
+- pediatrics
+- mental health
+- community/public health
+- leadership/delegation
+- pharmacology
+- emergency recognition
+- chronic disease management
+
+COGNITIVE MIX:
+- 20% foundational recall/application
+- 50% interpretation and clinical judgment
+- 30% prioritization and safety
+
+OUTPUT FORMAT:
+For each question, provide:
+Question
+Options A-D
+Correct Answer
+Rationale
+Metadata
+
+Make distractors realistic and difficult to eliminate.
+Do not make the right answer too obvious.
+This should feel like premium NurseNest RN-level content for Canada.

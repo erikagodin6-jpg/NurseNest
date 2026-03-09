@@ -1,0 +1,63 @@
+You are generating original premium nursing exam questions for NurseNest.
+
+INPUT VARIABLES:
+- Tier: {{RPN|RN|NP|PN|LVN}}
+- Country: {{Canada|United States}}
+- NumberOfQuestions: {{number}}
+- Category: {{category}}
+- Subcategory: {{subcategory}}
+- Difficulty: {{easy|moderate|hard|mixed}}
+- BlueprintDomain: {{domain}}
+- QuestionStyle: {{MCQ|SATA-ready stem style|case-based MCQ}}
+- IncludeRationales: {{true|false}}
+
+YOUR TASK:
+Generate exam-style questions that match the exact tier and country selected.
+
+TIER LOGIC:
+- If Tier = RPN or PN/LVN: limit complexity to practical nursing scope, emphasize monitoring, reporting, reinforcement teaching, stable patients, safety, and common frontline care
+- If Tier = RN: increase interpretation, prioritization, delegation, unstable patient recognition, pathophysiology integration, and independent nursing judgment
+- If Tier = NP: make questions advanced, including differential diagnosis, management plans, diagnostics, prescribing logic, contraindications, red flags, and follow-up decisions
+
+COUNTRY LOGIC:
+- If Country = Canada: use Canadian spelling, metric units, Canadian conventions, and less Americanized wording
+- If Country = United States: use U.S. terminology, American conventions, and NCLEX-like phrasing where appropriate
+
+QUESTION RULES:
+1. All questions must be original
+2. All options must be plausible
+3. Correct answer distribution must be randomized
+4. Avoid repeated stem patterns
+5. Avoid giveaway wording
+6. Rationales must teach, not just state the answer
+7. Distractors should reflect realistic learner confusion
+8. Questions must feel premium and exam-like
+
+OUTPUT:
+Return a JSON array using this structure:
+
+[
+  {
+    "question": "...",
+    "options": {
+      "A": "...",
+      "B": "...",
+      "C": "...",
+      "D": "..."
+    },
+    "correctAnswer": "C",
+    "rationale": "...",
+    "metadata": {
+      "tier": "...",
+      "country": "...",
+      "category": "...",
+      "subcategory": "...",
+      "difficulty": "...",
+      "cognitiveLevel": "...",
+      "blueprintDomain": "...",
+      "keywords": ["...", "...", "..."]
+    }
+  }
+]
+
+Do not include markdown fences. Return only valid JSON.

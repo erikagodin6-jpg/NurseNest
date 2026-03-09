@@ -15,11 +15,23 @@ import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import {
   GraduationCap, Clock, FileText, BarChart3, ChevronRight,
-  Brain, Target, Trophy, ArrowRight, History, Lock, ShieldAlert, Shield, Zap, Gift
+  Brain, Target, Trophy, ArrowRight, History, Lock, ShieldAlert, Shield, Zap, Gift,
+  Check, Palette
 } from "lucide-react";
 import { AdminEditButton } from "@/components/admin-edit-button";
 import { BreadcrumbNav } from "@/components/breadcrumb-nav";
 import { getTierConfig } from "@shared/tier-config";
+
+const EXAM_THEMES = [
+  { id: "pastelLilac", name: "Pastel Lilac", color: "#C8B6FF" },
+  { id: "softRose", name: "Soft Rose", color: "#F4A6B5" },
+  { id: "skyBlue", name: "Sky Blue", color: "#A9D6FF" },
+  { id: "mintClinical", name: "Mint Clinical", color: "#A8E6CF" },
+  { id: "warmPeach", name: "Warm Peach", color: "#FFD6A5" },
+  { id: "nursenestPurple", name: "Classic NurseNest", color: "#8A6BFF" },
+  { id: "minimalNeutral", name: "Minimal Neutral", color: "#CBD5E1" },
+  { id: "highContrast", name: "High Contrast", color: "#4F46E5" },
+];
 
 function getAuthHeaders(): Record<string, string> {
   try {
@@ -53,6 +65,8 @@ export default function MockExamsPage() {
   const [history, setHistory] = useState<any[]>([]);
   const [examMode, setExamMode] = useState<"official" | "practice">("official");
   const [selectedBlueprint, setSelectedBlueprint] = useState<string>("");
+  const [showThemeCustomizer, setShowThemeCustomizer] = useState(false);
+  const [examTheme, setExamTheme] = useState(() => localStorage.getItem("examTheme") || "nursenestPurple");
 
   const availableBlueprints = getAvailableBlueprintsForTier(selectedTier);
 
@@ -607,7 +621,7 @@ export default function MockExamsPage() {
             <Button
               size="lg"
               className="w-full h-14 text-lg rounded-full gap-2"
-              onClick={startExam}
+              onClick={() => setShowThemeCustomizer(true)}
               disabled={starting || !user || allowedTiers.length === 0 || !allowedTiers.includes(selectedTier) || (examMode === "official" && !selectedBlueprint)}
               data-testid="button-start-exam"
             >
@@ -698,6 +712,103 @@ export default function MockExamsPage() {
       </main>
       <AdminEditButton pageName="mock-exams" />
       <Footer />
+
+      {showThemeCustomizer && (
+        <div className="fixed inset-0 z-50 bg-black/60 flex items-center justify-center p-4" onClick={() => setShowThemeCustomizer(false)}>
+          <Card className="border-none shadow-2xl max-w-lg w-full animate-in fade-in zoom-in-95 duration-200" onClick={(e) => e.stopPropagation()}>
+            <CardContent className="p-6 sm:p-8 space-y-6">
+              <div className="text-center space-y-2">
+                <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-3">
+                  <Palette className="w-6 h-6 text-primary" />
+                </div>
+                <h2 className="text-xl font-bold text-[#2E3A59]" data-testid="text-theme-customizer-title">Customize Your Exam Interface</h2>
+                <p className="text-sm text-gray-500">Choose a colour theme that helps you stay focused. Your selection will only apply to this exam session.</p>
+              </div>
+
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                {EXAM_THEMES.map((theme) => {
+                  const isSelected = examTheme === theme.id;
+                  return (
+                    <button
+                      key={theme.id}
+                      onClick={() => setExamTheme(theme.id)}
+                      data-testid={`button-exam-theme-${theme.id}`}
+                      className={`relative rounded-xl border-2 p-0 overflow-hidden transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md ${
+                        isSelected
+                          ? "border-[#2E3A59] shadow-lg ring-2 ring-[#2E3A59]/20"
+                          : "border-gray-200 hover:border-gray-300"
+                      }`}
+                    >
+                      <div className="h-8 w-full" style={{ backgroundColor: theme.color }} />
+                      <div className="px-2 py-2.5 bg-white">
+                        <span className="text-xs font-semibold text-[#2E3A59] leading-tight block">{theme.name}</span>
+                      </div>
+                      {isSelected && (
+                        <div className="absolute top-1.5 right-1.5 w-5 h-5 rounded-full bg-[#2E3A59] flex items-center justify-center">
+                          <Check className="w-3 h-3 text-white" />
+                        </div>
+                      )}
+                    </button>
+                  );
+                })}
+              </div>
+
+              <div className="rounded-lg border border-gray-100 bg-gray-50 p-3">
+                <p className="text-xs font-medium text-gray-500 mb-2">Preview</p>
+                <div className="rounded-lg overflow-hidden shadow-sm border border-gray-200">
+                  <div className="h-8 flex items-center px-3 gap-2" style={{ backgroundColor: EXAM_THEMES.find(t => t.id === examTheme)?.color || "#8A6BFF" }}>
+                    <span className="text-[10px] font-semibold text-[#2E3A59]">Q 4 of 60</span>
+                    <div className="flex-1 h-1.5 bg-white/30 rounded-full overflow-hidden">
+                      <div className="h-full w-1/3 rounded-full" style={{ backgroundColor: "#2E3A59" }} />
+                    </div>
+                    <span className="text-[10px] font-mono text-[#2E3A59]">12:34</span>
+                  </div>
+                  <div className="bg-white p-2.5 space-y-1.5">
+                    <div className="h-2 bg-gray-200 rounded w-3/4" />
+                    <div className="h-2 bg-gray-100 rounded w-1/2" />
+                    <div className="flex gap-1.5 mt-2">
+                      <div className="h-5 flex-1 rounded border border-gray-200" />
+                      <div className="h-5 flex-1 rounded" style={{ backgroundColor: (EXAM_THEMES.find(t => t.id === examTheme)?.color || "#8A6BFF") + "20", borderLeft: `2px solid ${EXAM_THEMES.find(t => t.id === examTheme)?.color || "#8A6BFF"}` }} />
+                    </div>
+                  </div>
+                  <div className="h-7 flex items-center justify-between px-3" style={{ backgroundColor: EXAM_THEMES.find(t => t.id === examTheme)?.color || "#8A6BFF" }}>
+                    <span className="text-[9px] font-medium text-[#2E3A59]/60">Previous</span>
+                    <span className="text-[9px] font-semibold text-white bg-[#2E3A59]/80 rounded px-2 py-0.5">Next</span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex gap-3">
+                <Button
+                  variant="outline"
+                  className="flex-1 h-12 rounded-full"
+                  onClick={() => setShowThemeCustomizer(false)}
+                  data-testid="button-cancel-theme"
+                >
+                  Back
+                </Button>
+                <Button
+                  className="flex-1 h-12 rounded-full text-base font-semibold gap-2"
+                  onClick={() => {
+                    const selectedTheme = EXAM_THEMES.find(t => t.id === examTheme);
+                    if (selectedTheme) {
+                      localStorage.setItem("examTheme", selectedTheme.id);
+                      localStorage.setItem("examThemeColor", selectedTheme.color);
+                    }
+                    setShowThemeCustomizer(false);
+                    startExam();
+                  }}
+                  disabled={starting}
+                  data-testid="button-begin-exam"
+                >
+                  {starting ? "Preparing..." : "Begin Exam"}
+                  <ArrowRight className="w-5 h-5" />
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      )}
     </div>
   );
 }

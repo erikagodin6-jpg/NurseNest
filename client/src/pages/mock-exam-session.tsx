@@ -28,6 +28,10 @@ function getAuthHeaders(): Record<string, string> {
   return {};
 }
 
+function getExamAccentColor(): string {
+  return localStorage.getItem("examThemeColor") || "#C7B8FF";
+}
+
 function formatTime(seconds: number): string {
   const h = Math.floor(seconds / 3600);
   const m = Math.floor((seconds % 3600) / 60);
@@ -221,6 +225,15 @@ export default function MockExamSession() {
   const [allPoolQuestions, setAllPoolQuestions] = useState<PooledQuestion[]>([]);
   const lastBreakRef = useRef(0);
   const timerRef = useRef<NodeJS.Timeout>(undefined);
+  const [accentColor] = useState(() => getExamAccentColor());
+
+  useEffect(() => {
+    document.documentElement.style.setProperty("--exam-accent", accentColor);
+    document.documentElement.style.setProperty("--exam-chrome-color", accentColor);
+    return () => {
+      document.documentElement.style.removeProperty("--exam-accent");
+    };
+  }, [accentColor]);
 
   const isCATExam = blueprintMeta?.examType === "cat";
   const isLinearScaled = blueprintMeta?.examType === "linear-scaled";
@@ -478,7 +491,12 @@ export default function MockExamSession() {
               {progressLabel}
             </span>
             {showProgressBar && (
-              <Progress value={progressPercent} className="w-24 sm:w-32 h-1.5 hidden sm:block" />
+              <div className="w-24 sm:w-32 h-1.5 hidden sm:block rounded-full overflow-hidden bg-white/30">
+                <div
+                  className="h-full rounded-full transition-all duration-300"
+                  style={{ width: `${progressPercent}%`, backgroundColor: "#2E3A59" }}
+                />
+              </div>
             )}
           </div>
 
@@ -519,7 +537,10 @@ export default function MockExamSession() {
 
             <button
               onClick={() => setShowNav(!showNav)}
-              className="text-sm text-[#2E3A59] font-medium hover:text-[#BFA6F6] transition-colors"
+              className="text-sm text-[#2E3A59] font-medium transition-colors"
+              style={{ ["--tw-hover-color" as any]: accentColor }}
+              onMouseEnter={(e) => (e.currentTarget.style.color = accentColor)}
+              onMouseLeave={(e) => (e.currentTarget.style.color = "#2E3A59")}
               data-testid="button-question-nav"
             >
               Navigator
@@ -581,7 +602,7 @@ export default function MockExamSession() {
                       }}
                       disabled={disableNav}
                       className={`w-9 h-9 rounded-lg text-xs font-bold transition-all ${
-                        isCurrent ? "ring-2 ring-primary ring-offset-1" : ""
+                        isCurrent ? "ring-2 ring-offset-1" : ""
                       } ${
                         disableNav ? "opacity-40 cursor-not-allowed" : ""
                       } ${
@@ -589,6 +610,7 @@ export default function MockExamSession() {
                         isAnswered ? "bg-emerald-500 text-white" :
                         "bg-gray-100 text-gray-600 hover:bg-gray-200"
                       }`}
+                      style={isCurrent ? { ["--tw-ring-color" as any]: accentColor } : undefined}
                       data-testid={`button-nav-q-${i}`}
                     >
                       {i + 1}
@@ -714,20 +736,22 @@ export default function MockExamSession() {
                     role="radio"
                     aria-checked={isSelected}
                     aria-label={`Option ${letterLabel}: ${option}`}
-                    className={`w-full text-left px-4 py-3.5 transition-colors flex items-start gap-3 rounded focus:outline-none focus:ring-2 focus:ring-[#BFA6F6]/40 focus:ring-offset-1 ${
-                      isSelected
-                        ? "bg-[#BFA6F6]/8 border-l-3 border-l-[#BFA6F6]"
-                        : isLocked
-                        ? "cursor-not-allowed opacity-50"
-                        : "hover:bg-gray-50"
+                    className={`w-full text-left px-4 py-3.5 transition-colors flex items-start gap-3 rounded focus:outline-none focus:ring-2 focus:ring-offset-1 ${
+                      isLocked && !isSelected ? "cursor-not-allowed opacity-50" : "hover:bg-gray-50"
                     }`}
+                    style={isSelected ? {
+                      backgroundColor: accentColor + "14",
+                      borderLeft: `3px solid ${accentColor}`,
+                      boxShadow: `inset 0 0 0 0 transparent`,
+                    } : undefined}
                     data-testid={`button-option-${i}`}
                   >
-                    <span className={`mt-0.5 w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0 transition-colors ${
-                      isSelected
-                        ? "border-[#BFA6F6] bg-[#BFA6F6]"
-                        : "border-gray-300"
-                    }`}>
+                    <span
+                      className={`mt-0.5 w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0 transition-colors ${
+                        !isSelected ? "border-gray-300" : ""
+                      }`}
+                      style={isSelected ? { borderColor: accentColor, backgroundColor: accentColor } : undefined}
+                    >
                       {isSelected && (
                         <span className="w-2 h-2 rounded-full bg-white" />
                       )}
@@ -767,7 +791,8 @@ export default function MockExamSession() {
             {isCATExam ? (
               <Button
                 onClick={handleNextQuestion}
-                className="gap-1"
+                className="gap-1 text-white font-semibold"
+                style={{ backgroundColor: accentColor, borderRadius: "10px" }}
                 disabled={answers[question.id] === undefined || catFinished}
                 data-testid="button-next-question"
               >
@@ -776,7 +801,8 @@ export default function MockExamSession() {
             ) : currentQ < questions.length - 1 ? (
               <Button
                 onClick={handleNextQuestion}
-                className="gap-1"
+                className="gap-1 text-white font-semibold"
+                style={{ backgroundColor: accentColor, borderRadius: "10px" }}
                 data-testid="button-next-question"
               >
                 Next <ChevronRight className="w-4 h-4" />
@@ -784,7 +810,8 @@ export default function MockExamSession() {
             ) : (
               <Button
                 onClick={() => setShowConfirmSubmit(true)}
-                className="gap-1"
+                className="gap-1 text-white font-semibold"
+                style={{ backgroundColor: accentColor, borderRadius: "10px" }}
                 data-testid="button-finish"
               >
                 Finish <Send className="w-4 h-4" />
