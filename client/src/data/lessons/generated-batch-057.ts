@@ -179,48 +179,6 @@ export const generatedBatch057Lessons: Record<string, LessonContent> = {
       },
     ]
   },
-  "malignant-hyperthermia-rn": {
-    title: "Malignant Hyperthermia (Advanced)",
-    cellular: { title: "Pathophysiology of Malignant Hyperthermia (Advanced)", content: "Malignant hyperthermia (MH) is a pharmacogenetic crisis triggered by volatile inhalational anesthetic agents (sevoflurane, desflurane, isoflurane) or succinylcholine in genetically susceptible individuals carrying mutations in the RYR1 gene encoding the skeletal muscle ryanodine receptor. The mutant ryanodine receptor on the sarcoplasmic reticulum loses its ability to regulate calcium release, causing uncontrolled, massive calcium efflux into the myoplasm. Sustained elevated intracellular calcium activates maximal actin-myosin cross-bridge cycling (producing rigidity), aerobic metabolism acceleration (producing hyperthermia and tachycardia), and eventually anaerobic glycolysis (producing metabolic acidosis, hyperkalemia from cell membrane breakdown, and rhabdomyolysis with myoglobinuria). Early signs include unexplained tachycardia, rising end-tidal CO2 despite increased ventilation, masseter muscle rigidity after succinylcholine, and metabolic acidosis. The RN recognizes early warning signs, immediately discontinues all triggering agents, administers dantrolene sodium (2.5 mg/kg IV push, repeated every 5-10 minutes up to 10 mg/kg), initiates aggressive cooling measures (iced saline lavage, cooling blankets), hyperventilates with 100% FiO2, monitors for and treats hyperkalemia, monitors urine output and administers IV fluids to prevent myoglobin-induced renal failure, and sends CK and myoglobin levels." },
-    riskFactors: ["Advanced age or extremes of age","Family history of malignant hyperthermia or related conditions","Chronic comorbidities (hypertension, diabetes, obesity)","Sedentary lifestyle and poor nutritional status","Tobacco, alcohol, or substance use","Immunocompromised state or prolonged medication use"],
-    diagnostics: ["Perform comprehensive physical assessment and document findings","Monitor and trend vital signs, lab values, and diagnostic results","Recognize abnormal findings and report promptly to provider","Collect and prepare specimens for laboratory analysis","Interpret basic diagnostic findings within nursing scope"],
-    management: ["Implement ordered treatments and evaluate patient response","Administer medications safely and monitor for therapeutic and adverse effects","Coordinate interdisciplinary care and communicate plan changes","Prioritize interventions based on clinical urgency using clinical judgment","Evaluate outcomes and modify nursing care plan accordingly"],
-    nursingActions: ["Perform comprehensive assessment and interpret findings for changes in condition","Implement evidence-based interventions and evaluate outcomes per established protocols","Initiate protocol-based interventions and coordinate care based on assessment findings","Develop and implement patient education plans regarding condition management","Document all interventions, assessments, and patient responses accurately","Maintain safe environment and follow infection prevention protocols"],
-    assessmentFindings: ["Changes in vital signs including temperature, pulse, blood pressure, and respirations","Alterations in level of consciousness, orientation, or cognitive function","Pain assessment using validated tools (onset, location, duration, character, severity)","Skin assessment including color, turgor, moisture, integrity, and temperature","Functional status changes including mobility, self-care ability, and nutritional intake"],
-    signs: {
-      left: ["Changes in vital sign trends","Altered mental status or confusion","Pain or discomfort reported by patient","Skin changes (pallor, diaphoresis, cyanosis, jaundice)","Abnormal laboratory values"],
-      right: ["Fever or hypothermia","Edema (peripheral, periorbital, or generalized)","Adventitious breath sounds or respiratory distress","Gastrointestinal symptoms (nausea, vomiting, distension)","Changes in urine output or characteristics"]
-    },
-    medications: [{
-      name: "Metoprolol",
-      type: "Beta-blocker",
-      action: "Blocks beta-1 adrenergic receptors to reduce heart rate and blood pressure",
-      sideEffects: "Bradycardia, hypotension, fatigue, dizziness",
-      contra: "Severe bradycardia, heart block, decompensated heart failure, cardiogenic shock",
-      pearl: "Do not stop abruptly; taper to prevent rebound hypertension and tachycardia"
-    }],
-    pearls: ["Always assess for allergies before administering any new medication","Document baseline assessment findings to enable accurate trending","Use the SBAR format for structured clinical communication with the healthcare team","Consider age-specific and population-specific variations in normal findings","Never ignore a sudden change in patient condition, even if vital signs appear stable","Verify two patient identifiers before any medication administration or procedure"],
-    quiz: [
-      {
-        question: "A nurse is caring for a patient with malignant hyperthermia. Which assessment finding requires immediate intervention?",
-        options: ["Sudden change in level of consciousness","Mild discomfort rated 3/10 on pain scale","Stable vital signs within normal limits","Patient requesting information about their condition"],
-        correct: 0,
-        rationale: "A sudden change in level of consciousness may indicate a serious complication such as hemorrhage, hypoxia, or neurological deterioration and requires immediate assessment and intervention."
-      },
-      {
-        question: "Which nursing action is most appropriate when managing a patient with malignant hyperthermia?",
-        options: ["Perform comprehensive assessment and interpret findings for changes in condition","Delay assessment until the next scheduled time","Administer PRN medications without assessment","Transfer care without communicating relevant findings"],
-        correct: 0,
-        rationale: "Ongoing assessment and timely intervention are fundamental to safe patient care. Delaying assessment, administering medications without assessment, or failing to communicate findings can compromise patient safety."
-      },
-      {
-        question: "The patient asks about their malignant hyperthermia diagnosis. What is the best initial nursing response?",
-        options: ["Avoid discussing the diagnosis and redirect the conversation","Provide all available information regardless of patient readiness","Assess the patient's current understanding and address their specific concerns","Tell the patient to wait for the physician to explain everything"],
-        correct: 2,
-        rationale: "Assessing the patient's current understanding allows the nurse to provide targeted, accurate education at the appropriate level, supporting informed decision-making and reducing anxiety."
-      },
-    ]
-  },
   "mallory-weiss-tear-rn": {
     title: "Mallory-Weiss Tear",
     cellular: { title: "Pathophysiology of Mallory-Weiss Tear", content: "A Mallory-Weiss tear is a longitudinal mucosal laceration at the gastroesophageal junction (GEJ) or gastric cardia caused by sudden increases in intra-abdominal pressure against a closed glottis, most commonly from forceful retching or vomiting. The pathophysiology involves acute mechanical stress on the GEJ mucosa: as intra-abdominal pressure rises dramatically during retching, the gastric fundus herniates through the diaphragmatic hiatus, stretching the mucosal junction beyond its tensile strength. The tear typically involves the mucosa and submucosa without penetrating the muscularis propria (distinguishing it from Boerhaave syndrome, which is full-thickness esophageal rupture). Risk factors include alcoholism, bulimia, violent vomiting from any cause, hiatal hernia, and retching during endoscopy. The tear disrupts submucosal arteries, producing hematemesis that is typically self-limited (90% stop spontaneously) but can be massive if a large artery is involved. The RN monitors vital signs for hemodynamic instability, assesses hematemesis volume and character, obtains IV access and type-and-screen, monitors hemoglobin, administers IV proton pump inhibitors, provides antiemetic therapy to prevent further retching, and assists with endoscopic intervention (injection, cauterization, or clipping) for ongoing hemorrhage." },

@@ -153,48 +153,6 @@ export const generatedBatch053Lessons: Record<string, LessonContent> = {
       },
     ]
   },
-  "iron-deficiency-anemia-np": {
-    title: "Iron Deficiency Anemia",
-    cellular: { title: "Pathophysiology of Iron Deficiency Anemia", content: "The nurse practitioner evaluates and manages Iron Deficiency Anemia through systematic interpretation of hematological studies and evidence-based management. Assessment includes focused history (bleeding or bruising history, fatigue, dyspnea, dietary assessment, medication review including anticoagulants and antiplatelet agents, family history of bleeding or clotting disorders), physical examination (pallor, petechiae, ecchymoses, lymphadenopathy, hepatosplenomegaly), and interpretation of laboratory studies (CBC with differential and peripheral blood smear morphology, reticulocyte count and index for anemia classification as hypo- versus hyperproliferative, iron studies including ferritin/TIBC/serum iron/transferrin saturation, vitamin B12 and folate levels, coagulation studies including PT/INR/aPTT/fibrinogen/D-dimer, and specialized testing as indicated). The NP classifies anemia by mechanism (decreased production, increased destruction, blood loss) and morphology (microcytic, normocytic, macrocytic) to guide targeted investigation and treatment. For coagulation disorders, the NP distinguishes primary hemostasis defects (platelet disorders -- mucocutaneous bleeding) from secondary hemostasis defects (coagulation factor deficiencies -- deep tissue/joint bleeding). Pharmacotherapy includes iron replacement (oral versus IV based on severity and tolerance), erythropoiesis-stimulating agents, anticoagulation management (warfarin with INR monitoring, DOAC selection and dosing, LMWH bridging), transfusion medicine principles, and management of anticoagulation reversal in bleeding emergencies." },
-    riskFactors: ["Advanced age or extremes of age","Family history of iron deficiency anemia or related conditions","Chronic comorbidities (hypertension, diabetes, obesity)","Sedentary lifestyle and poor nutritional status","Tobacco, alcohol, or substance use","Immunocompromised state or prolonged medication use"],
-    diagnostics: ["Order and interpret CBC, BMP, and disease-specific labs","Review imaging studies (X-ray, CT, MRI, ultrasound) as indicated","Perform focused physical examination with advanced assessment techniques","Apply clinical decision rules and scoring tools","Order specialty consultations when findings exceed scope"],
-    management: ["Prescribe first-line pharmacotherapy based on current clinical guidelines","Develop individualized treatment plan with measurable outcomes","Order follow-up diagnostic testing to monitor treatment response","Refer to specialist when condition is refractory or complex","Adjust therapy based on patient response and adverse effects"],
-    nursingActions: ["Order and interpret diagnostic studies for changes in condition","Prescribe pharmacological and non-pharmacological therapies per established protocols","Formulate differential diagnosis and treatment plan based on assessment findings","Counsel patients on disease management and prevention regarding condition management","Document all interventions, assessments, and patient responses accurately","Maintain safe environment and follow infection prevention protocols"],
-    assessmentFindings: ["Changes in vital signs including temperature, pulse, blood pressure, and respirations","Alterations in level of consciousness, orientation, or cognitive function","Pain assessment using validated tools (onset, location, duration, character, severity)","Skin assessment including color, turgor, moisture, integrity, and temperature","Functional status changes including mobility, self-care ability, and nutritional intake"],
-    signs: {
-      left: ["Changes in vital sign trends","Altered mental status or confusion","Pain or discomfort reported by patient","Skin changes (pallor, diaphoresis, cyanosis, jaundice)","Abnormal laboratory values"],
-      right: ["Fever or hypothermia","Edema (peripheral, periorbital, or generalized)","Adventitious breath sounds or respiratory distress","Gastrointestinal symptoms (nausea, vomiting, distension)","Changes in urine output or characteristics"]
-    },
-    medications: [{
-      name: "Enoxaparin",
-      type: "Low-molecular-weight heparin (LMWH)",
-      action: "Inhibits factor Xa and thrombin via antithrombin III activation",
-      sideEffects: "Bleeding, thrombocytopenia, injection site bruising, elevated liver enzymes",
-      contra: "Active major bleeding, HIT, epidural/spinal anesthesia within dosing window",
-      pearl: "Inject subcutaneously into abdomen; do not expel air bubble; monitor anti-Xa levels in renal impairment"
-    }],
-    pearls: ["Always assess for allergies before administering any new medication","Document baseline assessment findings to enable accurate trending","Use the SBAR format for structured clinical communication with the healthcare team","Consider age-specific and population-specific variations in normal findings","Never ignore a sudden change in patient condition, even if vital signs appear stable","Verify two patient identifiers before any medication administration or procedure"],
-    quiz: [
-      {
-        question: "A nurse is caring for a patient with iron deficiency anemia. Which assessment finding requires immediate intervention?",
-        options: ["Sudden change in level of consciousness","Mild discomfort rated 3/10 on pain scale","Stable vital signs within normal limits","Patient requesting information about their condition"],
-        correct: 0,
-        rationale: "A sudden change in level of consciousness may indicate a serious complication such as hemorrhage, hypoxia, or neurological deterioration and requires immediate assessment and intervention."
-      },
-      {
-        question: "Which nursing action is most appropriate when managing a patient with iron deficiency anemia?",
-        options: ["Order and interpret diagnostic studies for changes in condition","Delay assessment until the next scheduled time","Administer PRN medications without assessment","Transfer care without communicating relevant findings"],
-        correct: 0,
-        rationale: "Ongoing assessment and timely intervention are fundamental to safe patient care. Delaying assessment, administering medications without assessment, or failing to communicate findings can compromise patient safety."
-      },
-      {
-        question: "The patient asks about their iron deficiency anemia diagnosis. What is the best initial nursing response?",
-        options: ["Avoid discussing the diagnosis and redirect the conversation","Provide all available information regardless of patient readiness","Assess the patient's current understanding and address their specific concerns","Tell the patient to wait for the physician to explain everything"],
-        correct: 2,
-        rationale: "Assessing the patient's current understanding allows the nurse to provide targeted, accurate education at the appropriate level, supporting informed decision-making and reducing anxiety."
-      },
-    ]
-  },
   "iron-deficiency-nutrition": {
     title: "Iron Deficiency Nutrition",
     cellular: { title: "Pathophysiology of Iron Deficiency Nutrition", content: "[WRITE YOUR PATHOPHYSIOLOGY AND INTRODUCTION HERE]" },

@@ -447,48 +447,6 @@ export const generatedBatch041Lessons: Record<string, LessonContent> = {
       },
     ]
   },
-  "guillain-barre-np": {
-    title: "Guillain–Barré Syndrome",
-    cellular: { title: "Pathophysiology of Guillain–Barré Syndrome", content: "The nurse practitioner evaluates and manages Guillain–Barré Syndrome through systematic neurological assessment and advanced understanding of central and peripheral nervous system pathophysiology. The NP performs comprehensive neurological examination including mental status evaluation (level of consciousness, orientation, attention, language, memory), cranial nerve assessment, motor examination (strength grading 0-5, tone, pronator drift, coordination), sensory evaluation (light touch, pain/temperature, proprioception, vibration), deep tendon reflexes (grading 0-4+, pathological reflexes including Babinski), cerebellar testing (finger-to-nose, heel-to-shin, rapid alternating movements, Romberg), and gait assessment. Localization of neurological lesions guides differential diagnosis: upper motor neuron signs (spasticity, hyperreflexia, Babinski positive) versus lower motor neuron signs (flaccidity, hyporeflexia, fasciculations, muscle atrophy). The NP interprets neuroimaging (CT for acute hemorrhage and mass lesions, MRI for detailed parenchymal assessment, MRA/CTA for vascular pathology), electrodiagnostic studies (EEG for seizure evaluation, EMG/NCS for peripheral nerve and muscle disorders), and relevant laboratory investigations. Management integrates acute stabilization, targeted pharmacotherapy based on pathophysiological mechanism, neuroprotective strategies, rehabilitation coordination, and determination of emergent versus urgent versus routine neurological referral." },
-    riskFactors: ["Advanced age or extremes of age","Family history of guillain barre or related conditions","Chronic comorbidities (hypertension, diabetes, obesity)","Sedentary lifestyle and poor nutritional status","Tobacco, alcohol, or substance use","Immunocompromised state or prolonged medication use"],
-    diagnostics: ["Order and interpret CBC, BMP, and disease-specific labs","Review imaging studies (X-ray, CT, MRI, ultrasound) as indicated","Perform focused physical examination with advanced assessment techniques","Apply clinical decision rules and scoring tools","Order specialty consultations when findings exceed scope"],
-    management: ["Prescribe first-line pharmacotherapy based on current clinical guidelines","Develop individualized treatment plan with measurable outcomes","Order follow-up diagnostic testing to monitor treatment response","Refer to specialist when condition is refractory or complex","Adjust therapy based on patient response and adverse effects"],
-    nursingActions: ["Order and interpret diagnostic studies for changes in condition","Prescribe pharmacological and non-pharmacological therapies per established protocols","Formulate differential diagnosis and treatment plan based on assessment findings","Counsel patients on disease management and prevention regarding condition management","Document all interventions, assessments, and patient responses accurately","Maintain safe environment and follow infection prevention protocols"],
-    assessmentFindings: ["Changes in vital signs including temperature, pulse, blood pressure, and respirations","Alterations in level of consciousness, orientation, or cognitive function","Pain assessment using validated tools (onset, location, duration, character, severity)","Skin assessment including color, turgor, moisture, integrity, and temperature","Functional status changes including mobility, self-care ability, and nutritional intake"],
-    signs: {
-      left: ["Changes in vital sign trends","Altered mental status or confusion","Pain or discomfort reported by patient","Skin changes (pallor, diaphoresis, cyanosis, jaundice)","Abnormal laboratory values"],
-      right: ["Fever or hypothermia","Edema (peripheral, periorbital, or generalized)","Adventitious breath sounds or respiratory distress","Gastrointestinal symptoms (nausea, vomiting, distension)","Changes in urine output or characteristics"]
-    },
-    medications: [{
-      name: "Acetaminophen",
-      type: "Analgesic/Antipyretic",
-      action: "Inhibits cyclooxygenase enzymes in the CNS to reduce pain and fever",
-      sideEffects: "Hepatotoxicity at high doses, nausea, rash (rare)",
-      contra: "Severe hepatic impairment, active liver disease, alcohol use disorder",
-      pearl: "Maximum 4g/day in healthy adults, 2g/day with liver disease; found in many combination products - check all sources"
-    }],
-    pearls: ["Always assess for allergies before administering any new medication","Document baseline assessment findings to enable accurate trending","Use the SBAR format for structured clinical communication with the healthcare team","Consider age-specific and population-specific variations in normal findings","Never ignore a sudden change in patient condition, even if vital signs appear stable","Verify two patient identifiers before any medication administration or procedure"],
-    quiz: [
-      {
-        question: "A nurse is caring for a patient with guillain barre. Which assessment finding requires immediate intervention?",
-        options: ["Sudden change in level of consciousness","Mild discomfort rated 3/10 on pain scale","Stable vital signs within normal limits","Patient requesting information about their condition"],
-        correct: 0,
-        rationale: "A sudden change in level of consciousness may indicate a serious complication such as hemorrhage, hypoxia, or neurological deterioration and requires immediate assessment and intervention."
-      },
-      {
-        question: "Which nursing action is most appropriate when managing a patient with guillain barre?",
-        options: ["Order and interpret diagnostic studies for changes in condition","Delay assessment until the next scheduled time","Administer PRN medications without assessment","Transfer care without communicating relevant findings"],
-        correct: 0,
-        rationale: "Ongoing assessment and timely intervention are fundamental to safe patient care. Delaying assessment, administering medications without assessment, or failing to communicate findings can compromise patient safety."
-      },
-      {
-        question: "The patient asks about their guillain barre diagnosis. What is the best initial nursing response?",
-        options: ["Avoid discussing the diagnosis and redirect the conversation","Provide all available information regardless of patient readiness","Assess the patient's current understanding and address their specific concerns","Tell the patient to wait for the physician to explain everything"],
-        correct: 2,
-        rationale: "Assessing the patient's current understanding allows the nurse to provide targeted, accurate education at the appropriate level, supporting informed decision-making and reducing anxiety."
-      },
-    ]
-  },
   "gynecological-exam-np": {
     title: "Gynecological Assessment and Cervical Screening",
     cellular: { title: "Pathophysiology of Gynecological Assessment and Cervical Screening", content: "The nurse practitioner applies advanced diagnostic reasoning to Gynecological Assessment and Cervical Screening, integrating clinical assessment with evidence-based investigation to establish diagnoses and guide management. The NP utilizes Bayesian reasoning, adjusting pre-test probability based on history and physical examination findings, then selecting diagnostic tests with understanding of their operating characteristics (sensitivity, specificity, positive and negative likelihood ratios, positive and negative predictive values in the context of disease prevalence). Test interpretation accounts for pre-analytical variables (specimen handling, timing, patient preparation), analytical accuracy (reference ranges, assay interference), and clinical context (false positives and negatives, incidental findings). The NP applies clinical prediction rules and validated scoring systems to standardize decision-making and reduce diagnostic error. Imaging selection follows evidence-based appropriateness criteria (ACR Appropriateness Criteria, Choosing Wisely recommendations), balancing diagnostic yield against radiation exposure, cost, and potential for incidental findings that may lead to unnecessary further investigation. The NP integrates point-of-care testing and bedside assessment techniques with laboratory and imaging studies to formulate a comprehensive diagnostic impression, determine appropriate management, and identify criteria for specialist consultation." },

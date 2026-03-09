@@ -37,24 +37,6 @@ export const respiratoryLessons: Record<string, LessonContent> = {
     pearls: ["Silent chest = imminent respiratory arrest", "Peak Flow Meter helps track control", "Avoid beta-blockers in asthma patients"],
     quiz: [{ question: "Most critical finding in asthma attack?", options: ["Loud wheezing", "Silent chest", "Productive cough", "HR of 100"], correct: 1, rationale: "A silent chest means NO air is moving, signaling immediate respiratory failure." }]
   },
-  "peds-respiratory": {
-    title: "Pediatric Respiratory: RSV & Croup",
-    cellular: { title: "Airway Narrowing", content: "Infant airways are much smaller and more prone to obstruction from inflammation and mucus. RSV (Bronchiolitis) affects the lower airways, while Croup (Laryngotracheobronchitis) affects the upper airway." },
-    riskFactors: ["Age < 2 years", "Premature birth", "Exposure to tobacco smoke", "Daycare attendance", "Lack of breastfeeding", "Immunodeficiency", "Congenital heart disease", "Crowded living conditions"],
-    diagnostics: ["Expect nasal wash for RSV testing", "Monitor oxygen saturation continuously", "Expect chest X-ray (steeple sign for croup)", "Monitor respiratory rate and effort closely", "Expect CBC if bacterial infection suspected", "Monitor hydration status (mucous membranes, fontanelle)"],
-    management: ["Maintain humidified oxygen as ordered", "Suction nares with bulb syringe before feeding (RSV)", "Position with head elevated for breathing ease", "Provide cool mist or cold air for croup as ordered", "Maintain IV fluids if oral intake is inadequate", "Maintain droplet/contact precautions for RSV"],
-    nursingActions: ["Monitor respiratory rate, effort, and oxygen saturation continuously", "Report signs of respiratory distress (retractions, nasal flaring, grunting)", "Assess hydration status and feeding tolerance", "Suction as needed before feedings", "Monitor for signs of dehydration (decreased wet diapers, dry mucous membranes)", "Provide small, frequent feedings as tolerated", "Educate parents on hand hygiene and infection prevention"],
-    signs: {
-      left: ["RSV: Wheezing/Crackles", "Copious Secretions", "Nasal Flaring", "Retractions"],
-      right: ["Croup: Barking Cough", "Inspiratory Stridor", "Steeple Sign on X-ray", "Agitation"]
-    },
-    medications: [
-      { name: "Ribavirin", type: "Antiviral", action: "Inhibits viral replication", sideEffects: "Blurred vision", contra: "Pregnancy (teratogenic)", pearl: "Used only in severe RSV cases." },
-      { name: "Dexamethasone", type: "Corticosteroid", action: "Reduces upper airway edema", sideEffects: "Hyperglycemia", contra: "Active infection", pearl: "Standard for moderate-to-severe croup." }
-    ],
-    pearls: ["RSV: Suctioning before feeding is the priority", "Croup: Cool mist or cold air can help relieve symptoms", "Monitor for dehydration due to poor feeding"],
-    quiz: [{ question: "Priority nursing intervention for a baby with RSV?", options: ["Deep suctioning", "Bulb suctioning of nares", "Starting an IV", "Chest physiotherapy"], correct: 1, rationale: "Babies are nose-breathers; clearing the nares with a bulb syringe before feeding is the priority to ensure oxygenation and nutrition." }]
-  },
   "epiglottitis-peds": {
     title: "Epiglottitis: Airway Emergency",
     cellular: { title: "Supraglottic Inflammation", content: "A life-threatening bacterial infection (often H. influenzae type b) causing sudden, massive swelling of the epiglottis, which can completely occlude the airway within minutes." },
