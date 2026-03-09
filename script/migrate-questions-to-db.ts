@@ -102,6 +102,9 @@ QUESTION_FILES.push({ file: "rn-expansion-g", tier: "rn", exam: "NCLEX-RN", expo
 QUESTION_FILES.push({ file: "rn-expansion-h", tier: "rn", exam: "NCLEX-RN", exportName: "rnExpansionHQuestions" });
 QUESTION_FILES.push({ file: "rpn-expansion-g", tier: "rpn", exam: "REX-PN", exportName: "rpnExpansionGQuestions" });
 QUESTION_FILES.push({ file: "np-expansion-d", tier: "np", exam: "AANP", exportName: "npExpansionDQuestions" });
+QUESTION_FILES.push({ file: "rn-expansion-i", tier: "rn", exam: "NCLEX-RN", exportName: "rnExpansionIQuestions" });
+QUESTION_FILES.push({ file: "rpn-expansion-h", tier: "rpn", exam: "REX-PN", exportName: "rpnExpansionHQuestions" });
+QUESTION_FILES.push({ file: "np-expansion-e", tier: "np", exam: "AANP", exportName: "npExpansionEQuestions" });
 
 for (let i = 1; i <= 56; i++) {
   const pad = String(i).padStart(2, "0");
