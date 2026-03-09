@@ -168,24 +168,6 @@ export const proceduresLessons: Record<string, LessonContent> = {
     pearls: ["Weight-bearing exercise strengthens bones", "Fall prevention is critical", "DEXA screening recommended for women >65", "Avoid bending and twisting movements"],
     quiz: [{ question: "How should a patient take Alendronate?", options: ["With food and then lie down", "Crushed and mixed with juice", "Upright with full glass of water, remain upright 30 min", "At bedtime with milk"], correct: 2, rationale: "Alendronate must be taken upright with a full glass of water, and the patient must remain upright for at least 30 minutes to prevent esophageal erosion." }]
   },
-  "scoliosis-basics": {
-    title: "Scoliosis",
-    cellular: { title: "Spinal Curvature", content: "Lateral curvature of the spine >10 degrees. Most common: adolescent idiopathic scoliosis (AIS), typically detected age 10-15 during growth spurts. More common in females. Adams forward bend test is screening method." },
-    riskFactors: ["Female sex (higher progression risk)", "Family history of scoliosis", "Adolescent growth spurt period", "Neuromuscular conditions (cerebral palsy, muscular dystrophy)", "Connective tissue disorders (Marfan syndrome)", "Skeletal immaturity (Risser sign 0-2)"],
-    diagnostics: ["Expect Adams forward bend test for school screening", "Monitor Cobb angle measurement on spinal X-ray", "Expect full-length standing spinal X-ray", "Monitor Risser sign for skeletal maturity assessment", "Expect MRI if neurological symptoms or atypical curve", "Monitor curve progression during growth spurts"],
-    management: ["Observe and monitor curves < 25 degrees every 6 months", "Apply Boston brace for curves 25-45 degrees in growing adolescents", "Ensure brace compliance 18-23 hours per day", "Prepare for spinal fusion surgery if curve > 45-50 degrees", "Provide emotional support for body image concerns", "Encourage physical activity as tolerated"],
-    nursingActions: ["Assess brace fit and skin integrity under brace", "Monitor compliance with brace wear schedule", "Provide emotional support for adolescent body image concerns", "Report pain, neurological changes, or respiratory compromise", "Post-surgery: log-roll only, monitor neurovascular status", "Educate on activity restrictions and follow-up schedule", "Screen siblings for scoliosis (family history increases risk)"],
-    signs: {
-      left: ["Asymmetric shoulders/hips", "Rib hump on forward bending"],
-      right: ["Uneven waistline", "One scapula more prominent"]
-    },
-    medications: [
-      { name: "NSAIDs", type: "Pain Management", action: "Anti-inflammatory for associated pain", sideEffects: "GI upset, renal effects", contra: "Renal impairment, GI bleeding", pearl: "No medications treat the curve itself. Pain management only as needed." },
-      { name: "Boston Brace", type: "Orthotic Device", action: "Prevents curve progression for curves 25-45 degrees", sideEffects: "Skin irritation, body image concerns", contra: "Skeletal maturity (brace no longer effective)", pearl: "Wear 18-23 hours/day for effectiveness. Compliance is critical." }
-    ],
-    pearls: ["School screening programs for early detection", "Monitor closely during growth spurts", "Brace compliance is key to preventing surgery", "Post-surgical care: log-roll only, monitor neurological status"],
-    quiz: [{ question: "When is bracing indicated for scoliosis?", options: ["Curves less than 10 degrees", "Curves 25-45 degrees in growing adolescents", "All curves regardless of degree", "Only after skeletal maturity"], correct: 1, rationale: "Bracing is indicated for curves between 25-45 degrees in skeletally immature (still growing) adolescents to prevent further curve progression. Smaller curves are monitored, and larger curves may need surgery." }]
-  },
   "inhaled-spacers": {
     title: "Inhaled Spacers",
     cellular: { title: "Medication Delivery Optimization", content: "Spacers are holding chambers that slow the velocity of aerosolized medication from MDIs, allowing more drug to reach the lungs instead of depositing in the oropharynx. Reduces systemic absorption and side effects (thrush from corticosteroids, tachycardia from bronchodilators)." },

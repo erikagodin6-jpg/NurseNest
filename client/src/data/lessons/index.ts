@@ -252,22 +252,26 @@ function isPlaceholder(lesson: LessonContent): boolean {
     "Advanced age or extremes of age",
     "Family history of",
     "Sedentary lifestyle and poor nutritional status",
+    "Chronic comorbidities (hypertension, diabetes, obesity)",
+    "Tobacco, alcohol, or substance use",
+    "Immunocompromised state or prolonged medication use",
   ];
   const rf = lesson.riskFactors || [];
   const genericRfCount = rf.filter((r: string) =>
     genericRiskFactors.some(g => r.startsWith(g) || r.includes(g))
   ).length;
-  if (genericRfCount >= 2) return true;
+  if (genericRfCount >= 3) return true;
 
   const meds = lesson.medications || [];
-  const genericMedNames = ["Levetiracetam", "Metformin"];
+  const genericMedNames = ["Levetiracetam", "Metformin", "Acetaminophen"];
   const title = (lesson.title || "").toLowerCase();
   for (const med of meds) {
     if (genericMedNames.includes(med.name)) {
       const isRelevant =
         (med.name === "Levetiracetam" && (title.includes("seizure") || title.includes("epilep") || title.includes("anticonvulsant"))) ||
-        (med.name === "Metformin" && (title.includes("diabet") || title.includes("metformin") || title.includes("glucose") || title.includes("endocrin")));
-      if (!isRelevant) return true;
+        (med.name === "Metformin" && (title.includes("diabet") || title.includes("metformin") || title.includes("glucose") || title.includes("endocrin"))) ||
+        (med.name === "Acetaminophen" && (title.includes("pain") || title.includes("fever") || title.includes("analges") || title.includes("acetaminophen")));
+      if (!isRelevant && meds.length === 1) return true;
     }
   }
 
@@ -275,12 +279,46 @@ function isPlaceholder(lesson: LessonContent): boolean {
     "Perform comprehensive assessment and interpret findings for changes in condition",
     "Implement evidence-based interventions and evaluate outcomes per established protocols",
     "Reinforce patient teaching as delegated regarding condition management",
+    "Order and interpret diagnostic studies for changes in condition",
+    "Prescribe pharmacological and non-pharmacological therapies per established protocols",
+    "Formulate differential diagnosis and treatment plan based on assessment findings",
+    "Counsel patients on disease management and prevention regarding condition management",
+    "Document all interventions, assessments, and patient responses accurately",
   ];
   const na = lesson.nursingActions || [];
   const genericNaCount = na.filter((a: string) =>
     genericNursingActions.some(g => a.startsWith(g))
   ).length;
   if (genericNaCount >= 2) return true;
+
+  const genericAssessmentFindings = [
+    "Changes in vital signs including temperature, pulse, blood pressure, and respirations",
+    "Alterations in level of consciousness, orientation, or cognitive function",
+    "Pain assessment using validated tools (onset, location, duration, character, severity)",
+    "Skin assessment including color, turgor, moisture, integrity, and temperature",
+    "Functional status changes including mobility, self-care ability, and nutritional intake",
+  ];
+  const af = lesson.assessmentFindings || [];
+  const genericAfCount = af.filter((a: string) =>
+    genericAssessmentFindings.some(g => a.startsWith(g))
+  ).length;
+  if (genericAfCount >= 4) return true;
+
+  if (content.includes("The nurse practitioner applies advanced clinical reasoning to the assessment and management") &&
+      content.includes("integrating comprehensive pathophysiological knowledge with evidence-based diagnostic")) return true;
+
+  const genericQuizPatterns = [
+    "Which assessment finding requires immediate intervention",
+    "Which nursing action is most appropriate when managing a patient with",
+    "What is the best initial nursing response",
+  ];
+  const quiz = lesson.quiz || [];
+  if (quiz.length > 0) {
+    const genericQuizCount = quiz.filter((q) =>
+      genericQuizPatterns.some(p => q.question.includes(p))
+    ).length;
+    if (genericQuizCount >= 2 && quiz.length <= 3) return true;
+  }
 
   return false;
 }

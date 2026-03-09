@@ -195,48 +195,6 @@ export const generatedBatch044Lessons: Record<string, LessonContent> = {
       },
     ]
   },
-  "hepatitis-management": {
-    title: "Hepatitis",
-    cellular: { title: "Pathophysiology of Hepatitis", content: "[WRITE YOUR PATHOPHYSIOLOGY AND INTRODUCTION HERE]" },
-    riskFactors: ["Advanced age or extremes of age","Family history of hepatitis management or related conditions","Chronic comorbidities (hypertension, diabetes, obesity)","Sedentary lifestyle and poor nutritional status","Tobacco, alcohol, or substance use","Immunocompromised state or prolonged medication use"],
-    diagnostics: ["Perform focused assessment and report findings to supervising nurse","Monitor vital signs and report deviations from baseline","Collect specimens as directed and label accurately","Document assessment findings and communicate changes promptly","Recognize and report signs of deterioration"],
-    management: ["Administer medications as ordered and document administration","Implement comfort measures and basic supportive care","Follow established care protocols and report patient responses","Assist with activities of daily living and mobility as appropriate","Report changes in patient condition to the registered nurse promptly"],
-    nursingActions: ["Order and interpret diagnostic studies for changes in condition","Prescribe pharmacological and non-pharmacological therapies per established protocols","Formulate differential diagnosis and treatment plan based on assessment findings","Counsel patients on disease management and prevention regarding condition management","Document all interventions, assessments, and patient responses accurately","Maintain safe environment and follow infection prevention protocols"],
-    assessmentFindings: ["Changes in vital signs including temperature, pulse, blood pressure, and respirations","Alterations in level of consciousness, orientation, or cognitive function","Pain assessment using validated tools (onset, location, duration, character, severity)","Skin assessment including color, turgor, moisture, integrity, and temperature","Functional status changes including mobility, self-care ability, and nutritional intake"],
-    signs: {
-      left: ["Changes in vital sign trends","Altered mental status or confusion","Pain or discomfort reported by patient","Skin changes (pallor, diaphoresis, cyanosis, jaundice)","Abnormal laboratory values"],
-      right: ["Fever or hypothermia","Edema (peripheral, periorbital, or generalized)","Adventitious breath sounds or respiratory distress","Gastrointestinal symptoms (nausea, vomiting, distension)","Changes in urine output or characteristics"]
-    },
-    medications: [{
-      name: "Omeprazole",
-      type: "Proton pump inhibitor (PPI)",
-      action: "Irreversibly inhibits hydrogen-potassium ATPase pump in gastric parietal cells",
-      sideEffects: "Headache, diarrhea, abdominal pain, risk of C. difficile, hypomagnesemia",
-      contra: "Concomitant use with rilpivirine; caution with long-term use",
-      pearl: "Take 30 minutes before meals; long-term use requires monitoring of magnesium and B12"
-    }],
-    pearls: ["Always assess for allergies before administering any new medication","Document baseline assessment findings to enable accurate trending","Use the SBAR format for structured clinical communication with the healthcare team","Consider age-specific and population-specific variations in normal findings","Never ignore a sudden change in patient condition, even if vital signs appear stable","Verify two patient identifiers before any medication administration or procedure"],
-    quiz: [
-      {
-        question: "A nurse is caring for a patient with hepatitis management. Which assessment finding requires immediate intervention?",
-        options: ["Sudden change in level of consciousness","Mild discomfort rated 3/10 on pain scale","Stable vital signs within normal limits","Patient requesting information about their condition"],
-        correct: 0,
-        rationale: "A sudden change in level of consciousness may indicate a serious complication such as hemorrhage, hypoxia, or neurological deterioration and requires immediate assessment and intervention."
-      },
-      {
-        question: "Which nursing action is most appropriate when managing a patient with hepatitis management?",
-        options: ["Order and interpret diagnostic studies for changes in condition","Delay assessment until the next scheduled time","Administer PRN medications without assessment","Transfer care without communicating relevant findings"],
-        correct: 0,
-        rationale: "Ongoing assessment and timely intervention are fundamental to safe patient care. Delaying assessment, administering medications without assessment, or failing to communicate findings can compromise patient safety."
-      },
-      {
-        question: "The patient asks about their hepatitis management diagnosis. What is the best initial nursing response?",
-        options: ["Avoid discussing the diagnosis and redirect the conversation","Provide all available information regardless of patient readiness","Assess the patient's current understanding and address their specific concerns","Tell the patient to wait for the physician to explain everything"],
-        correct: 2,
-        rationale: "Assessing the patient's current understanding allows the nurse to provide targeted, accurate education at the appropriate level, supporting informed decision-making and reducing anxiety."
-      },
-    ]
-  },
   "hepatitis-treatment-overview-np": {
     title: "Hepatitis Treatment Overview",
     cellular: { title: "Pathophysiology of Hepatitis Treatment Overview", content: "The nurse practitioner evaluates and manages Hepatitis Treatment Overview through advanced understanding of gastrointestinal and hepatobiliary pathophysiology, diagnostic algorithms, and evidence-based treatment strategies. Assessment includes focused GI history (pain characterization using OLDCARTS, alarm features including unintentional weight loss, dysphagia, GI bleeding, change in bowel habits in patients over 50, family history of GI malignancy), systematic abdominal examination (inspection, auscultation, percussion, palpation with provocative maneuvers as indicated), and interpretation of laboratory studies (liver panel with pattern recognition for hepatocellular versus cholestatic injury, pancreatic enzymes, celiac serologies, inflammatory markers, tumor markers when indicated) and imaging (abdominal ultrasound, CT, MRI/MRCP, endoscopic findings). The NP applies diagnostic algorithms to differentiate surgical from medical causes of abdominal pathology, manages acid-related disorders with appropriate PPI prescribing (considering risks of long-term use including C. difficile, fractures, magnesium depletion), prescribes evidence-based pharmacotherapy for functional and inflammatory GI conditions, coordinates endoscopic evaluation and screening colonoscopy per guidelines, and manages hepatic disease including viral hepatitis screening and treatment, non-alcoholic fatty liver disease risk reduction, and cirrhosis complications. Referral criteria for gastroenterology and hepatology are applied based on disease complexity and specialist procedure needs." },

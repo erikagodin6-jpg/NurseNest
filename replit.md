@@ -44,3 +44,11 @@ The application is built with Vite, React, and Express 5 on Node.js with TypeScr
 
 ### Social Media
 - Meta Graph API: For social media scheduling.
+
+## Lesson Library Architecture
+- All lesson data is in static TS files under `client/src/data/lessons/`
+- `safeMerge()` in `index.ts` deduplicates at merge time; `isPlaceholder()` filters generic/template content
+- Tier derived from slug suffix: `-rpn`, `-rn`, `-np`, or `"general"`
+- System cards in `lessons.tsx` show lesson count badges and progress bars (completed/total)
+- Lesson counts: free=564, rpn=521, rn=224, np=302, total=1611, questions=3921 (as of Mar 2026)
+- DB tables `allied_lessons` and `content_items` are empty; all content is static TS

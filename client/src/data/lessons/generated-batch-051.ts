@@ -208,48 +208,6 @@ export const generatedBatch051Lessons: Record<string, LessonContent> = {
       },
     ]
   },
-  "infectious-disease-prescribing-np": {
-    title: "Antibiotic Selection Logic",
-    cellular: { title: "Pathophysiology of Antibiotic Selection Logic", content: "The nurse practitioner manages Antibiotic Selection Logic through evidence-based antimicrobial prescribing, infection prevention, and antimicrobial stewardship principles. Assessment includes exposure and travel history, immunization status, immunocompromised state evaluation, focused physical examination for infection source identification, and interpretation of microbiological studies (Gram stain, culture and sensitivity, molecular diagnostics including PCR, serological testing, and inflammatory biomarkers including procalcitonin for bacterial versus viral differentiation). The NP applies principles of empiric antimicrobial selection based on most likely pathogens, local resistance patterns (antibiogram), infection site and severity, and patient-specific factors (allergies, renal/hepatic function, drug interactions, pregnancy status). The NP de-escalates therapy based on culture results and clinical response, selects appropriate duration of therapy per current guidelines, monitors for treatment response and adverse effects (including C. difficile risk, nephrotoxicity, hepatotoxicity, drug-specific monitoring such as vancomycin trough levels), and applies infection prevention and control measures. Antimicrobial stewardship competencies include avoiding unnecessary antibiotic prescribing for viral infections, using narrow-spectrum agents when possible, implementing IV-to-oral conversion, and educating patients on appropriate antibiotic use and completion of prescribed courses." },
-    riskFactors: ["Advanced age or extremes of age","Family history of infectious disease prescribing or related conditions","Chronic comorbidities (hypertension, diabetes, obesity)","Sedentary lifestyle and poor nutritional status","Tobacco, alcohol, or substance use","Immunocompromised state or prolonged medication use"],
-    diagnostics: ["Order and interpret CBC, BMP, and disease-specific labs","Review imaging studies (X-ray, CT, MRI, ultrasound) as indicated","Perform focused physical examination with advanced assessment techniques","Apply clinical decision rules and scoring tools","Order specialty consultations when findings exceed scope"],
-    management: ["Prescribe first-line pharmacotherapy based on current clinical guidelines","Develop individualized treatment plan with measurable outcomes","Order follow-up diagnostic testing to monitor treatment response","Refer to specialist when condition is refractory or complex","Adjust therapy based on patient response and adverse effects"],
-    nursingActions: ["Order and interpret diagnostic studies for changes in condition","Prescribe pharmacological and non-pharmacological therapies per established protocols","Formulate differential diagnosis and treatment plan based on assessment findings","Counsel patients on disease management and prevention regarding condition management","Document all interventions, assessments, and patient responses accurately","Maintain safe environment and follow infection prevention protocols"],
-    assessmentFindings: ["Changes in vital signs including temperature, pulse, blood pressure, and respirations","Alterations in level of consciousness, orientation, or cognitive function","Pain assessment using validated tools (onset, location, duration, character, severity)","Skin assessment including color, turgor, moisture, integrity, and temperature","Functional status changes including mobility, self-care ability, and nutritional intake"],
-    signs: {
-      left: ["Changes in vital sign trends","Altered mental status or confusion","Pain or discomfort reported by patient","Skin changes (pallor, diaphoresis, cyanosis, jaundice)","Abnormal laboratory values"],
-      right: ["Fever or hypothermia","Edema (peripheral, periorbital, or generalized)","Adventitious breath sounds or respiratory distress","Gastrointestinal symptoms (nausea, vomiting, distension)","Changes in urine output or characteristics"]
-    },
-    medications: [{
-      name: "Ceftriaxone",
-      type: "Third-generation cephalosporin",
-      action: "Inhibits bacterial cell wall synthesis by binding to penicillin-binding proteins",
-      sideEffects: "Diarrhea, rash, injection site pain, pseudolithiasis (biliary sludge)",
-      contra: "Neonates with hyperbilirubinemia; do not co-infuse with calcium-containing solutions in neonates",
-      pearl: "Broad-spectrum coverage; commonly used empirically for community-acquired pneumonia and meningitis"
-    }],
-    pearls: ["Always assess for allergies before administering any new medication","Document baseline assessment findings to enable accurate trending","Use the SBAR format for structured clinical communication with the healthcare team","Consider age-specific and population-specific variations in normal findings","Never ignore a sudden change in patient condition, even if vital signs appear stable","Verify two patient identifiers before any medication administration or procedure"],
-    quiz: [
-      {
-        question: "A nurse is caring for a patient with infectious disease prescribing. Which assessment finding requires immediate intervention?",
-        options: ["Sudden change in level of consciousness","Mild discomfort rated 3/10 on pain scale","Stable vital signs within normal limits","Patient requesting information about their condition"],
-        correct: 0,
-        rationale: "A sudden change in level of consciousness may indicate a serious complication such as hemorrhage, hypoxia, or neurological deterioration and requires immediate assessment and intervention."
-      },
-      {
-        question: "Which nursing action is most appropriate when managing a patient with infectious disease prescribing?",
-        options: ["Order and interpret diagnostic studies for changes in condition","Delay assessment until the next scheduled time","Administer PRN medications without assessment","Transfer care without communicating relevant findings"],
-        correct: 0,
-        rationale: "Ongoing assessment and timely intervention are fundamental to safe patient care. Delaying assessment, administering medications without assessment, or failing to communicate findings can compromise patient safety."
-      },
-      {
-        question: "The patient asks about their infectious disease prescribing diagnosis. What is the best initial nursing response?",
-        options: ["Avoid discussing the diagnosis and redirect the conversation","Provide all available information regardless of patient readiness","Assess the patient's current understanding and address their specific concerns","Tell the patient to wait for the physician to explain everything"],
-        correct: 2,
-        rationale: "Assessing the patient's current understanding allows the nurse to provide targeted, accurate education at the appropriate level, supporting informed decision-making and reducing anxiety."
-      },
-    ]
-  },
   "infectious-disease-rn": {
     title: "HIV",
     cellular: { title: "Pathophysiology of HIV", content: "Human immunodeficiency virus (HIV) is a retrovirus that selectively infects CD4+ T-helper lymphocytes by binding its gp120 envelope glycoprotein to the CD4 receptor and CCR5 or CXCR4 co-receptors on the host cell surface. After entry, reverse transcriptase converts viral RNA to DNA, which integrase incorporates into the host genome as a provirus. Active viral replication produces billions of virions daily, progressively depleting the CD4+ T-cell population from normal levels (500-1500 cells/microL) and destroying the adaptive immune system's ability to coordinate cellular immunity. Without treatment, CD4 count decline leads to AIDS (CD4 less than 200 cells/microL or AIDS-defining illness), with susceptibility to opportunistic infections (Pneumocystis jirovecii pneumonia below 200, Toxoplasma encephalitis below 100, CMV retinitis and Mycobacterium avium complex below 50 cells/microL). The RN monitors CD4 count and viral load, administers and educates about antiretroviral therapy (combination ART targeting multiple steps in viral replication), monitors for immune reconstitution inflammatory syndrome (IRIS), assesses for opportunistic infections based on CD4 thresholds, manages prophylactic medications (TMP-SMX when CD4 less than 200), and addresses adherence, stigma, and psychosocial needs." },

@@ -250,48 +250,6 @@ export const generatedBatch025Lessons: Record<string, LessonContent> = {
       },
     ]
   },
-  "cv-core-physiology-np": {
-    title: "Cardiac Conduction System",
-    cellular: { title: "Pathophysiology of Cardiac Conduction System", content: "The nurse practitioner applies advanced cardiovascular pathophysiology to the assessment and management of Cardiac Conduction System. Understanding the underlying hemodynamic, electrophysiological, and structural mechanisms enables evidence-based diagnostic workup and targeted pharmacotherapy. The NP performs comprehensive cardiovascular assessment including focused history (onset, character, exacerbating and relieving factors, associated symptoms, functional classification), cardiac examination (JVP assessment, precordial auscultation with characterization of heart sounds and murmurs, peripheral vascular assessment), and interprets diagnostic studies (12-lead ECG with recognition of ischemic changes, arrhythmias, and conduction abnormalities; echocardiographic parameters including ejection fraction, wall motion abnormalities, valvular function, and chamber dimensions; relevant laboratory markers). Differential diagnosis requires systematic consideration of cardiac and non-cardiac etiologies with overlapping presentations. The NP formulates a management plan integrating guideline-directed medical therapy (selecting appropriate agents based on mechanism of action, contraindications, drug interactions, and renal/hepatic function), risk factor modification, patient education on warning signs requiring urgent evaluation, and determination of specialist referral criteria. Treatment monitoring includes regular assessment of therapeutic response, adverse effects, and adjustment of therapy based on clinical outcomes and objective measures." },
-    riskFactors: ["Advanced age or extremes of age","Family history of cv core physiology or related conditions","Chronic comorbidities (hypertension, diabetes, obesity)","Sedentary lifestyle and poor nutritional status","Tobacco, alcohol, or substance use","Immunocompromised state or prolonged medication use"],
-    diagnostics: ["Order and interpret CBC, BMP, and disease-specific labs","Review imaging studies (X-ray, CT, MRI, ultrasound) as indicated","Perform focused physical examination with advanced assessment techniques","Apply clinical decision rules and scoring tools","Order specialty consultations when findings exceed scope"],
-    management: ["Prescribe first-line pharmacotherapy based on current clinical guidelines","Develop individualized treatment plan with measurable outcomes","Order follow-up diagnostic testing to monitor treatment response","Refer to specialist when condition is refractory or complex","Adjust therapy based on patient response and adverse effects"],
-    nursingActions: ["Order and interpret diagnostic studies for changes in condition","Prescribe pharmacological and non-pharmacological therapies per established protocols","Formulate differential diagnosis and treatment plan based on assessment findings","Counsel patients on disease management and prevention regarding condition management","Document all interventions, assessments, and patient responses accurately","Maintain safe environment and follow infection prevention protocols"],
-    assessmentFindings: ["Changes in vital signs including temperature, pulse, blood pressure, and respirations","Alterations in level of consciousness, orientation, or cognitive function","Pain assessment using validated tools (onset, location, duration, character, severity)","Skin assessment including color, turgor, moisture, integrity, and temperature","Functional status changes including mobility, self-care ability, and nutritional intake"],
-    signs: {
-      left: ["Changes in vital sign trends","Altered mental status or confusion","Pain or discomfort reported by patient","Skin changes (pallor, diaphoresis, cyanosis, jaundice)","Abnormal laboratory values"],
-      right: ["Fever or hypothermia","Edema (peripheral, periorbital, or generalized)","Adventitious breath sounds or respiratory distress","Gastrointestinal symptoms (nausea, vomiting, distension)","Changes in urine output or characteristics"]
-    },
-    medications: [{
-      name: "Metoprolol",
-      type: "Beta-blocker",
-      action: "Blocks beta-1 adrenergic receptors to reduce heart rate and blood pressure",
-      sideEffects: "Bradycardia, hypotension, fatigue, dizziness",
-      contra: "Severe bradycardia, heart block, decompensated heart failure, cardiogenic shock",
-      pearl: "Do not stop abruptly; taper to prevent rebound hypertension and tachycardia"
-    }],
-    pearls: ["Always assess for allergies before administering any new medication","Document baseline assessment findings to enable accurate trending","Use the SBAR format for structured clinical communication with the healthcare team","Consider age-specific and population-specific variations in normal findings","Never ignore a sudden change in patient condition, even if vital signs appear stable","Verify two patient identifiers before any medication administration or procedure"],
-    quiz: [
-      {
-        question: "A nurse is caring for a patient with cv core physiology. Which assessment finding requires immediate intervention?",
-        options: ["Sudden change in level of consciousness","Mild discomfort rated 3/10 on pain scale","Stable vital signs within normal limits","Patient requesting information about their condition"],
-        correct: 0,
-        rationale: "A sudden change in level of consciousness may indicate a serious complication such as hemorrhage, hypoxia, or neurological deterioration and requires immediate assessment and intervention."
-      },
-      {
-        question: "Which nursing action is most appropriate when managing a patient with cv core physiology?",
-        options: ["Order and interpret diagnostic studies for changes in condition","Delay assessment until the next scheduled time","Administer PRN medications without assessment","Transfer care without communicating relevant findings"],
-        correct: 0,
-        rationale: "Ongoing assessment and timely intervention are fundamental to safe patient care. Delaying assessment, administering medications without assessment, or failing to communicate findings can compromise patient safety."
-      },
-      {
-        question: "The patient asks about their cv core physiology diagnosis. What is the best initial nursing response?",
-        options: ["Avoid discussing the diagnosis and redirect the conversation","Provide all available information regardless of patient readiness","Assess the patient's current understanding and address their specific concerns","Tell the patient to wait for the physician to explain everything"],
-        correct: 2,
-        rationale: "Assessing the patient's current understanding allows the nurse to provide targeted, accurate education at the appropriate level, supporting informed decision-making and reducing anxiety."
-      },
-    ]
-  },
   "cyanide-poisoning-np": {
     title: "Cyanide Poisoning",
     cellular: { title: "Pathophysiology of Cyanide Poisoning", content: "The nurse practitioner evaluates and manages Cyanide Poisoning through systematic toxicological assessment and evidence-based management algorithms. Assessment includes focused toxicological history (substance(s) involved, amount, route, timing of exposure, co-ingestants, suicidal intent versus accidental exposure), recognition of toxidromes (sympathomimetic, anticholinergic, cholinergic, opioid, sedative-hypnotic, serotonin syndrome), and targeted diagnostics (serum drug levels when applicable, acetaminophen and salicylate levels in all intentional ingestions, ECG for QRS and QTc prolongation, blood gas, basic metabolic panel with anion gap calculation, osmolar gap calculation when toxic alcohol exposure is suspected). The NP applies the initial management framework: stabilize ABCs, decontamination when appropriate (activated charcoal within 1-2 hours of ingestion for most substances if airway is protected and no contraindications; whole bowel irrigation for sustained-release preparations, body packing, or iron/lithium), enhanced elimination techniques (urinary alkalinization for salicylates, hemodialysis for methanol, ethylene glycol, lithium, salicylates), and specific antidote administration (N-acetylcysteine for acetaminophen, naloxone for opioids, flumazenil for benzodiazepines with caution, atropine and pralidoxime for organophosphates, fomepizole for toxic alcohols, digoxin-specific antibody fragments for digoxin, glucagon for beta-blocker and calcium channel blocker overdose). The NP assesses suicide risk, implements psychiatric safety precautions, coordinates Poison Control Center consultation, and determines appropriate level of care and monitoring." },

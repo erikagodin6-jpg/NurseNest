@@ -1,48 +1,6 @@
 import type { LessonContent } from "./types";
 
 export const generatedBatch008Lessons: Record<string, LessonContent> = {
-  "antisocial-pd": {
-    title: "Antisocial Personality Disorder",
-    cellular: { title: "Pathophysiology of Antisocial Personality Disorder", content: "[WRITE YOUR PATHOPHYSIOLOGY AND INTRODUCTION HERE]" },
-    riskFactors: ["Advanced age or extremes of age","Family history of antisocial pd or related conditions","Chronic comorbidities (hypertension, diabetes, obesity)","Sedentary lifestyle and poor nutritional status","Tobacco, alcohol, or substance use","Immunocompromised state or prolonged medication use"],
-    diagnostics: ["Perform focused assessment and report findings to supervising nurse","Monitor vital signs and report deviations from baseline","Collect specimens as directed and label accurately","Document assessment findings and communicate changes promptly","Recognize and report signs of deterioration"],
-    management: ["Administer medications as ordered and document administration","Implement comfort measures and basic supportive care","Follow established care protocols and report patient responses","Assist with activities of daily living and mobility as appropriate","Report changes in patient condition to the registered nurse promptly"],
-    nursingActions: ["Order and interpret diagnostic studies for changes in condition","Prescribe pharmacological and non-pharmacological therapies per established protocols","Formulate differential diagnosis and treatment plan based on assessment findings","Counsel patients on disease management and prevention regarding condition management","Document all interventions, assessments, and patient responses accurately","Maintain safe environment and follow infection prevention protocols"],
-    assessmentFindings: ["Changes in vital signs including temperature, pulse, blood pressure, and respirations","Alterations in level of consciousness, orientation, or cognitive function","Pain assessment using validated tools (onset, location, duration, character, severity)","Skin assessment including color, turgor, moisture, integrity, and temperature","Functional status changes including mobility, self-care ability, and nutritional intake"],
-    signs: {
-      left: ["Changes in vital sign trends","Altered mental status or confusion","Pain or discomfort reported by patient","Skin changes (pallor, diaphoresis, cyanosis, jaundice)","Abnormal laboratory values"],
-      right: ["Fever or hypothermia","Edema (peripheral, periorbital, or generalized)","Adventitious breath sounds or respiratory distress","Gastrointestinal symptoms (nausea, vomiting, distension)","Changes in urine output or characteristics"]
-    },
-    medications: [{
-      name: "Acetaminophen",
-      type: "Analgesic/Antipyretic",
-      action: "Inhibits cyclooxygenase enzymes in the CNS to reduce pain and fever",
-      sideEffects: "Hepatotoxicity at high doses, nausea, rash (rare)",
-      contra: "Severe hepatic impairment, active liver disease, alcohol use disorder",
-      pearl: "Maximum 4g/day in healthy adults, 2g/day with liver disease; found in many combination products - check all sources"
-    }],
-    pearls: ["Always assess for allergies before administering any new medication","Document baseline assessment findings to enable accurate trending","Use the SBAR format for structured clinical communication with the healthcare team","Consider age-specific and population-specific variations in normal findings","Never ignore a sudden change in patient condition, even if vital signs appear stable","Verify two patient identifiers before any medication administration or procedure"],
-    quiz: [
-      {
-        question: "A nurse is caring for a patient with antisocial pd. Which assessment finding requires immediate intervention?",
-        options: ["Sudden change in level of consciousness","Mild discomfort rated 3/10 on pain scale","Stable vital signs within normal limits","Patient requesting information about their condition"],
-        correct: 0,
-        rationale: "A sudden change in level of consciousness may indicate a serious complication such as hemorrhage, hypoxia, or neurological deterioration and requires immediate assessment and intervention."
-      },
-      {
-        question: "Which nursing action is most appropriate when managing a patient with antisocial pd?",
-        options: ["Order and interpret diagnostic studies for changes in condition","Delay assessment until the next scheduled time","Administer PRN medications without assessment","Transfer care without communicating relevant findings"],
-        correct: 0,
-        rationale: "Ongoing assessment and timely intervention are fundamental to safe patient care. Delaying assessment, administering medications without assessment, or failing to communicate findings can compromise patient safety."
-      },
-      {
-        question: "The patient asks about their antisocial pd diagnosis. What is the best initial nursing response?",
-        options: ["Avoid discussing the diagnosis and redirect the conversation","Provide all available information regardless of patient readiness","Assess the patient's current understanding and address their specific concerns","Tell the patient to wait for the physician to explain everything"],
-        correct: 2,
-        rationale: "Assessing the patient's current understanding allows the nurse to provide targeted, accurate education at the appropriate level, supporting informed decision-making and reducing anxiety."
-      },
-    ]
-  },
   "antisynthetase-syndrome-np": {
     title: "Antisynthetase Syndrome: Anti-Jo-1 & ILD Association",
     cellular: { title: "Pathophysiology of Antisynthetase Syndrome: Anti-Jo-1 & ILD Association", content: "The nurse practitioner applies advanced clinical reasoning to the assessment and management of Antisynthetase Syndrome: Anti-Jo-1 & ILD Association, integrating comprehensive pathophysiological knowledge with evidence-based diagnostic and therapeutic decision-making at the independent practitioner level. Assessment includes focused history using structured frameworks (OLDCARTS for symptom analysis, comprehensive review of systems), targeted physical examination with provocative maneuvers as indicated, and interpretation of relevant diagnostic studies (laboratory investigations, imaging, and specialized testing). The NP formulates a differential diagnosis using systematic clinical reasoning, applies validated clinical prediction rules and scoring systems to guide investigation and management, and selects evidence-based pharmacotherapy based on mechanism of action, pharmacokinetic/pharmacodynamic principles, patient-specific factors (age, renal and hepatic function, comorbidities, drug interactions, pregnancy status, allergies), and current clinical practice guidelines. Management integrates pharmacological and non-pharmacological interventions, patient education with health literacy assessment, shared decision-making, and appropriate follow-up monitoring. The NP identifies red flags requiring urgent investigation or intervention, determines criteria for specialist referral or emergency department transfer, coordinates interprofessional collaborative care, and implements quality improvement strategies to optimize patient outcomes." },

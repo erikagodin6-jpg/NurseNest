@@ -1248,7 +1248,6 @@ export const rnSystems = [
       { id: "seizure-safety", name: "Seizure Precautions", status: "Available" },
       { id: "subdural-hematoma", name: "Subdural Hematoma", status: "Available" },
       { id: "meniere-disease", name: "Meniere Disease", status: "Available" },
-      { id: "duchenne-md", name: "Duchenne Muscular Dystrophy", status: "Available" },
       { id: "spina-bifida", name: "Spina Bifida (Myelomeningocele)", status: "Available" },
       { id: "myasthenia-gravis", name: "Myasthenia Gravis", status: "Available" },
       { id: "guillain-barre", name: "Guillain-Barre Syndrome", status: "Available" },
@@ -1593,7 +1592,7 @@ export const rnSystems = [
       { id: "agoraphobia", name: "Agoraphobia", status: "Available" },
       { id: "opioid-withdrawal", name: "Opioid Withdrawal", status: "Available" },
       { id: "serotonin-syndrome", name: "Serotonin Syndrome", status: "Available" },
-      { id: "antisocial-pd", name: "Antisocial Personality Disorder", status: "Available" },
+      { id: "antisocial-personality-disorder", name: "Antisocial Personality Disorder", status: "Available" },
       { id: "conduct-disorder", name: "Conduct Disorder", status: "Available" },
       { id: "conduct-disorder-rn", name: "Conduct Disorder: RN Assessment & Interventions", status: "Available" },
       { id: "alcohol-withdrawal-rn", name: "Alcohol Withdrawal: CIWA Protocol", status: "Available" },
@@ -1683,7 +1682,7 @@ export const rnSystems = [
     bgColor: "bg-indigo-50",
     diseases: [
       { id: "gout-management-rn", name: "Gout", status: "Available" },
-      { id: "osteoporosis-management-rn", name: "Osteoporosis", status: "Available" },
+      { id: "osteoporosis-rn", name: "Osteoporosis", status: "Available" },
       { id: "compartment-syndrome-rn", name: "Compartment Syndrome", status: "Available" },
       { id: "rheumatoid-arthritis-rn", name: "Rheumatoid Arthritis", status: "Available" }
     ]
@@ -2633,7 +2632,7 @@ export const npSystems = [
     color: "text-red-700",
     bgColor: "bg-red-50",
     diseases: [
-      { id: "ecmo-management-np", name: "ECMO Management", status: "Available" },
+      { id: "ecmo-complications-rn", name: "ECMO Complications", status: "Available" },
       { id: "intra-aortic-balloon-pump-np", name: "Intra-Aortic Balloon Pump", status: "Available" },
       { id: "targeted-temperature-management-np", name: "Targeted Temperature Management", status: "Available" },
       { id: "brain-death-determination-np", name: "Brain Death Determination Criteria", status: "Available" },
@@ -2828,7 +2827,7 @@ export const npSystems = [
     color: "text-yellow-700",
     bgColor: "bg-yellow-50",
     diseases: [
-      { id: "differential-diagnosis-frameworks-np", name: "Differential Diagnosis Frameworks", status: "Available" },
+      { id: "np-testbank-differential-diagnosis", name: "Differential Diagnosis Frameworks", status: "Available" },
       { id: "red-flag-mechanisms-np", name: "Red Flag Mechanisms: Why Symptoms Are Dangerous", status: "Available" },
       { id: "multi-system-disease-interaction-np", name: "Multi-System Disease Interaction: DM + CKD + HF", status: "Available" },
       { id: "metabolic-syndrome-np", name: "Metabolic Syndrome", status: "Available" },
@@ -4183,8 +4182,23 @@ function LessonSystemCard({ system, onSelect, tier, lessonOverrides, onOverrides
         <div className={cn("p-2 rounded-lg bg-white shadow-sm", system.color)}>
           <system.icon className="w-4 h-4" />
         </div>
-        <CardTitle className="text-base font-bold text-gray-900">{system.title}</CardTitle>
-        <span className="ml-auto text-xs text-gray-400 font-normal">{system.diseases.length}</span>
+        <div className="flex-1 min-w-0">
+          <CardTitle className="text-base font-bold text-gray-900">{system.title}</CardTitle>
+          {completeLessons && (() => {
+            const completed = system.diseases.filter((d: any) => completeLessons.has(d.id)).length;
+            const total = system.diseases.length;
+            const pct = total > 0 ? Math.round((completed / total) * 100) : 0;
+            return completed > 0 ? (
+              <div className="flex items-center gap-2 mt-1">
+                <div className="h-1 flex-1 bg-gray-200 rounded-full overflow-hidden">
+                  <div className="h-full bg-emerald-500 rounded-full transition-all" style={{ width: `${pct}%` }} />
+                </div>
+                <span className="text-[10px] text-gray-400 whitespace-nowrap">{completed}/{total}</span>
+              </div>
+            ) : null;
+          })()}
+        </div>
+        <Badge variant="secondary" className="text-[10px] font-medium bg-gray-100 text-gray-500 shrink-0" data-testid={`badge-count-${system.id}`}>{system.diseases.length} {system.diseases.length === 1 ? "lesson" : "lessons"}</Badge>
       </CardHeader>
       <CardContent className="pt-3 px-4 pb-4">
         <CollapsibleLessonList diseases={system.diseases} systemId={system.id}>

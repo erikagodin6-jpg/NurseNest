@@ -1,48 +1,6 @@
 import type { LessonContent } from "./types";
 
 export const generatedBatch056Lessons: Record<string, LessonContent> = {
-  "liver-function-np": {
-    title: "Liver Function",
-    cellular: { title: "Pathophysiology of Liver Function", content: "The nurse practitioner evaluates and manages Liver Function through advanced understanding of gastrointestinal and hepatobiliary pathophysiology, diagnostic algorithms, and evidence-based treatment strategies. Assessment includes focused GI history (pain characterization using OLDCARTS, alarm features including unintentional weight loss, dysphagia, GI bleeding, change in bowel habits in patients over 50, family history of GI malignancy), systematic abdominal examination (inspection, auscultation, percussion, palpation with provocative maneuvers as indicated), and interpretation of laboratory studies (liver panel with pattern recognition for hepatocellular versus cholestatic injury, pancreatic enzymes, celiac serologies, inflammatory markers, tumor markers when indicated) and imaging (abdominal ultrasound, CT, MRI/MRCP, endoscopic findings). The NP applies diagnostic algorithms to differentiate surgical from medical causes of abdominal pathology, manages acid-related disorders with appropriate PPI prescribing (considering risks of long-term use including C. difficile, fractures, magnesium depletion), prescribes evidence-based pharmacotherapy for functional and inflammatory GI conditions, coordinates endoscopic evaluation and screening colonoscopy per guidelines, and manages hepatic disease including viral hepatitis screening and treatment, non-alcoholic fatty liver disease risk reduction, and cirrhosis complications. Referral criteria for gastroenterology and hepatology are applied based on disease complexity and specialist procedure needs." },
-    riskFactors: ["Advanced age or extremes of age","Family history of liver function or related conditions","Chronic comorbidities (hypertension, diabetes, obesity)","Sedentary lifestyle and poor nutritional status","Tobacco, alcohol, or substance use","Immunocompromised state or prolonged medication use"],
-    diagnostics: ["Order and interpret CBC, BMP, and disease-specific labs","Review imaging studies (X-ray, CT, MRI, ultrasound) as indicated","Perform focused physical examination with advanced assessment techniques","Apply clinical decision rules and scoring tools","Order specialty consultations when findings exceed scope"],
-    management: ["Prescribe first-line pharmacotherapy based on current clinical guidelines","Develop individualized treatment plan with measurable outcomes","Order follow-up diagnostic testing to monitor treatment response","Refer to specialist when condition is refractory or complex","Adjust therapy based on patient response and adverse effects"],
-    nursingActions: ["Order and interpret diagnostic studies for changes in condition","Prescribe pharmacological and non-pharmacological therapies per established protocols","Formulate differential diagnosis and treatment plan based on assessment findings","Counsel patients on disease management and prevention regarding condition management","Document all interventions, assessments, and patient responses accurately","Maintain safe environment and follow infection prevention protocols"],
-    assessmentFindings: ["Changes in vital signs including temperature, pulse, blood pressure, and respirations","Alterations in level of consciousness, orientation, or cognitive function","Pain assessment using validated tools (onset, location, duration, character, severity)","Skin assessment including color, turgor, moisture, integrity, and temperature","Functional status changes including mobility, self-care ability, and nutritional intake"],
-    signs: {
-      left: ["Changes in vital sign trends","Altered mental status or confusion","Pain or discomfort reported by patient","Skin changes (pallor, diaphoresis, cyanosis, jaundice)","Abnormal laboratory values"],
-      right: ["Fever or hypothermia","Edema (peripheral, periorbital, or generalized)","Adventitious breath sounds or respiratory distress","Gastrointestinal symptoms (nausea, vomiting, distension)","Changes in urine output or characteristics"]
-    },
-    medications: [{
-      name: "Omeprazole",
-      type: "Proton pump inhibitor (PPI)",
-      action: "Irreversibly inhibits hydrogen-potassium ATPase pump in gastric parietal cells",
-      sideEffects: "Headache, diarrhea, abdominal pain, risk of C. difficile, hypomagnesemia",
-      contra: "Concomitant use with rilpivirine; caution with long-term use",
-      pearl: "Take 30 minutes before meals; long-term use requires monitoring of magnesium and B12"
-    }],
-    pearls: ["Always assess for allergies before administering any new medication","Document baseline assessment findings to enable accurate trending","Use the SBAR format for structured clinical communication with the healthcare team","Consider age-specific and population-specific variations in normal findings","Never ignore a sudden change in patient condition, even if vital signs appear stable","Verify two patient identifiers before any medication administration or procedure"],
-    quiz: [
-      {
-        question: "A nurse is caring for a patient with liver function. Which assessment finding requires immediate intervention?",
-        options: ["Sudden change in level of consciousness","Mild discomfort rated 3/10 on pain scale","Stable vital signs within normal limits","Patient requesting information about their condition"],
-        correct: 0,
-        rationale: "A sudden change in level of consciousness may indicate a serious complication such as hemorrhage, hypoxia, or neurological deterioration and requires immediate assessment and intervention."
-      },
-      {
-        question: "Which nursing action is most appropriate when managing a patient with liver function?",
-        options: ["Order and interpret diagnostic studies for changes in condition","Delay assessment until the next scheduled time","Administer PRN medications without assessment","Transfer care without communicating relevant findings"],
-        correct: 0,
-        rationale: "Ongoing assessment and timely intervention are fundamental to safe patient care. Delaying assessment, administering medications without assessment, or failing to communicate findings can compromise patient safety."
-      },
-      {
-        question: "The patient asks about their liver function diagnosis. What is the best initial nursing response?",
-        options: ["Avoid discussing the diagnosis and redirect the conversation","Provide all available information regardless of patient readiness","Assess the patient's current understanding and address their specific concerns","Tell the patient to wait for the physician to explain everything"],
-        correct: 2,
-        rationale: "Assessing the patient's current understanding allows the nurse to provide targeted, accurate education at the appropriate level, supporting informed decision-making and reducing anxiety."
-      },
-    ]
-  },
   "lochia-assessment-rpn": {
         title: "Lochia Assessment for Practical Nurses",
         cellular: { title: "Physiology of Postpartum Uterine Involution and Lochia", content: "Lochia is the vaginal discharge that occurs following childbirth, composed of blood, decidual tissue (the endometrial lining that supported the pregnancy), white blood cells, mucus, and bacteria. This discharge is a normal physiological process that reflects the healing of the placental attachment site on the uterine wall. During pregnancy, the uterus enlarges from approximately 60 grams to nearly 1,000 grams at term. After delivery of the placenta, the process of involution begins -- the uterus contracts and progressively returns to its pre-pregnant size over approximately 6 weeks. The placental site, which was richly vascularized to support fetal circulation, now represents a large wound approximately 8-10 centimeters in diameter on the inner uterine wall. Hemostasis at this site is achieved primarily through myometrial contraction, which compresses the spiral arteries that previously supplied the placenta. These uterine contractions, often called afterpains, are the primary mechanism preventing postpartum hemorrhage. Oxytocin released from the posterior pituitary gland (and administered therapeutically) stimulates these contractions. The lochia progresses through three predictable stages that reflect the healing process: lochia rubra (red, blood-heavy discharge occurring days 1-3 postpartum), lochia serosa (pinkish-brown, serosanguinous discharge occurring days 4-10), and lochia alba (whitish-yellow, mucoid discharge occurring from day 10 to approximately 6 weeks postpartum). Any deviation from this expected progression -- particularly a return to bright red bleeding after lochia has transitioned to serosa, passage of large clots (greater than a golf ball), saturation of a perineal pad in less than one hour, or foul-smelling discharge -- requires immediate assessment and reporting. Subinvolution occurs when the uterus fails to return to its pre-pregnant size and position, often caused by retained placental fragments, uterine infection (endometritis), or uterine fibroids. A boggy (soft, poorly contracted) uterine fundus is the most significant physical finding associated with uterine atony and represents the leading cause of early postpartum hemorrhage, accounting for approximately 70-80% of cases." },
