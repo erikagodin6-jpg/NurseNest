@@ -7,7 +7,7 @@ import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
 import { SEO } from "@/components/seo";
 import { getExamQuestions, type PooledQuestion } from "@/lib/question-pool";
-import { CheckCircle2, XCircle, Filter, RotateCcw, ChevronLeft, ChevronRight, Trophy, Target, Lock, Crown } from "lucide-react";
+import { CheckCircle2, XCircle, Filter, RotateCcw, ChevronLeft, ChevronRight, Trophy, Target, Lock, Crown, Lightbulb, Crosshair, BookOpen, Bookmark } from "lucide-react";
 import { AdminEditButton } from "@/components/admin-edit-button";
 import { LocaleLink } from "@/lib/LocaleLink";
 import { useAuth } from "@/lib/auth";
@@ -327,12 +327,77 @@ export default function QuestionBank() {
                     </Button>
                   ) : (
                     <div className="space-y-4">
-                      <div className={`p-4 rounded-lg ${isCorrect ? "bg-green-50 border border-green-200" : "bg-amber-50 border border-amber-200"}`}>
-                        <p className={`font-bold mb-1 ${isCorrect ? "text-green-800" : "text-amber-800"}`} data-testid="text-qb-result">
-                          {isCorrect ? "Correct!" : "Review the rationale:"}
+                      <div className={`p-4 rounded-lg ${isCorrect ? "bg-green-50 border border-green-200" : "bg-amber-50 border border-amber-200"}`} data-testid="section-result-header">
+                        <p className={`font-bold text-base ${isCorrect ? "text-green-800" : "text-amber-800"}`} data-testid="text-qb-result">
+                          {isCorrect ? "Correct!" : "Incorrect"}
                         </p>
+                        <p className="text-sm font-medium text-gray-700 mt-1">
+                          Correct Answer: {String.fromCharCode(65 + question.correct)}. {question.options[question.correct]}
+                        </p>
+                      </div>
+
+                      <div className="p-4 rounded-lg bg-white border border-gray-200" data-testid="section-rationale">
+                        <p className="text-sm font-bold text-gray-800 mb-2 uppercase tracking-wide">Why This Is Correct</p>
                         <p className="text-sm leading-relaxed text-gray-700" data-testid="text-qb-rationale">{question.rationale}</p>
                       </div>
+
+                      {question.distractorRationales && Object.keys(question.distractorRationales).length > 0 && (
+                        <div className="p-4 rounded-lg bg-gray-50 border border-gray-200" data-testid="section-distractor-rationales">
+                          <p className="text-sm font-bold text-gray-800 mb-3 uppercase tracking-wide">Why Other Options Are Wrong</p>
+                          <div className="space-y-3">
+                            {question.options.map((opt, idx) => {
+                              if (idx === question.correct) return null;
+                              const key = String.fromCharCode(65 + idx);
+                              const rationale = question.distractorRationales?.[key] || question.distractorRationales?.[key.toLowerCase()] || question.distractorRationales?.[String(idx)];
+                              if (!rationale) return null;
+                              return (
+                                <div key={idx} className="pl-3 border-l-2 border-gray-300">
+                                  <p className="text-sm font-semibold text-gray-700">{key}. {opt}</p>
+                                  <p className="text-sm text-gray-600 mt-0.5 leading-relaxed">{rationale}</p>
+                                </div>
+                              );
+                            })}
+                          </div>
+                        </div>
+                      )}
+
+                      {question.clinicalPearl && (
+                        <div className="p-4 rounded-lg bg-violet-50 border border-violet-200" data-testid="section-clinical-pearl">
+                          <div className="flex items-center gap-2 mb-2">
+                            <Lightbulb className="h-4 w-4 text-violet-600" />
+                            <p className="text-sm font-bold text-violet-800 uppercase tracking-wide">Clinical Pearl</p>
+                          </div>
+                          <p className="text-sm leading-relaxed text-violet-900">{question.clinicalPearl}</p>
+                        </div>
+                      )}
+
+                      {question.examStrategy && (
+                        <div className="p-4 rounded-lg bg-blue-50 border border-blue-200" data-testid="section-exam-strategy">
+                          <div className="flex items-center gap-2 mb-2">
+                            <Crosshair className="h-4 w-4 text-blue-600" />
+                            <p className="text-sm font-bold text-blue-800 uppercase tracking-wide">Exam Strategy</p>
+                          </div>
+                          <p className="text-sm leading-relaxed text-blue-900">{question.examStrategy}</p>
+                        </div>
+                      )}
+
+                      {question.memoryHook && (
+                        <div className="p-4 rounded-lg bg-amber-50 border border-amber-200" data-testid="section-memory-hook">
+                          <div className="flex items-center gap-2 mb-2">
+                            <Bookmark className="h-4 w-4 text-amber-600" />
+                            <p className="text-sm font-bold text-amber-800 uppercase tracking-wide">Memory Hook</p>
+                          </div>
+                          <p className="text-sm leading-relaxed text-amber-900 font-medium italic">{question.memoryHook}</p>
+                        </div>
+                      )}
+
+                      {revealed && question.difficulty && (
+                        <div className="flex items-center gap-3 text-xs text-gray-500 pt-1">
+                          <span>Difficulty: {["", "Easy", "Moderate", "Hard", "Very Hard", "Expert"][question.difficulty] || question.difficulty}/5</span>
+                          {question.frameworkUsed && <span>Framework: {question.frameworkUsed}</span>}
+                          {question.questionType && <span>Type: {question.questionType}</span>}
+                        </div>
+                      )}
 
                       {showConfidence && question && selectedAnswer !== null && (
                         <ConfidenceRatingModal

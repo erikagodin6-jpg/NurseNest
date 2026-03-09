@@ -10,6 +10,13 @@ export interface ServerQuestion {
   difficulty: number | null;
   correctAnswer?: number[];
   rationale?: string;
+  scenario?: string;
+  clinicalPearl?: string;
+  examStrategy?: string;
+  memoryHook?: string;
+  frameworkUsed?: string;
+  clinicalTrap?: string;
+  distractorRationales?: Record<string, string>;
 }
 
 export interface QBankResponse {

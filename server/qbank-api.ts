@@ -249,7 +249,7 @@ export function setupQBankRoutes(app: Express) {
       const count = Math.min(parseInt(req.query.count as string) || 25, 200);
       const bodySystems = req.query.bodySystems ? (req.query.bodySystems as string).split(",") : [];
 
-      let query = `SELECT id, tier, exam, question_type, stem, options, correct_answer, rationale, body_system, topic, difficulty
+      let query = `SELECT id, tier, exam, question_type, stem, options, correct_answer, rationale, body_system, topic, difficulty, scenario, clinical_pearl, exam_strategy, memory_hook, framework_used, clinical_trap, distractor_rationales
                    FROM exam_questions
                    WHERE tier = $1 AND status = 'published'`;
       const params: any[] = [queryTier];
@@ -279,6 +279,13 @@ export function setupQBankRoutes(app: Express) {
           bodySystem: row.body_system,
           topic: row.topic,
           difficulty: row.difficulty,
+          scenario: row.scenario,
+          clinicalPearl: row.clinical_pearl,
+          examStrategy: row.exam_strategy,
+          memoryHook: row.memory_hook,
+          frameworkUsed: row.framework_used,
+          clinicalTrap: row.clinical_trap,
+          distractorRationales: typeof row.distractor_rationales === "string" ? JSON.parse(row.distractor_rationales) : row.distractor_rationales,
         })),
         count: result.rows.length,
         tier: queryTier,

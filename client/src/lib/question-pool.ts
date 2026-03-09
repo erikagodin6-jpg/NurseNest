@@ -10,6 +10,16 @@ export interface PooledQuestion {
   correct: number;
   rationale: string;
   source: "quiz" | "preTest" | "postTest";
+  scenario?: string;
+  clinicalPearl?: string;
+  examStrategy?: string;
+  memoryHook?: string;
+  frameworkUsed?: string;
+  clinicalTrap?: string;
+  distractorRationales?: Record<string, string>;
+  topic?: string;
+  difficulty?: number;
+  questionType?: string;
 }
 
 function serverToPooled(sq: ServerQuestion): PooledQuestion {
@@ -24,6 +34,16 @@ function serverToPooled(sq: ServerQuestion): PooledQuestion {
     correct: Array.isArray(correctAnswer) ? correctAnswer[0] : 0,
     rationale: sq.rationale || "",
     source: "quiz",
+    scenario: sq.scenario,
+    clinicalPearl: sq.clinicalPearl,
+    examStrategy: sq.examStrategy,
+    memoryHook: sq.memoryHook,
+    frameworkUsed: sq.frameworkUsed,
+    clinicalTrap: sq.clinicalTrap,
+    distractorRationales: sq.distractorRationales,
+    topic: sq.topic,
+    difficulty: sq.difficulty ?? undefined,
+    questionType: sq.questionType,
   };
 }
 

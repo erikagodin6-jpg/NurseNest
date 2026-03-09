@@ -60,7 +60,22 @@ The application is built with Vite, React, and Express 5 on Node.js with TypeScr
 - **Batch N**: Vestibular & balance disorders - BPPV, Meniere's disease, labyrinthitis, Ramsay-Hunt syndrome (12 lessons)
 - **Batch O**: ENT & upper airway - rhinosinusitis, pharyngitis/strep, otitis externa, papilledema (12 lessons)
 - **Batch P**: Stress physiology & men's health advanced - HPA axis/cortisol, male infertility, BPH/TURP advanced, hearing loss differential (12 lessons)
-- **Tier counts**: free=569 rpn=521 rn=223 np=300 total=1,613 questions=3,915
+- **Tier counts**: free=569 rpn=522 rn=224 np=301 total=1,616 questions=3,921 (includes 51 premium UWorld-style)
+
+## Premium Question Bank (UWorld-Style)
+- **Total premium questions**: 51 with full UWorld-style fields
+- **Schema fields**: scenario, clinical_pearl, exam_strategy, memory_hook, framework_used, clinical_trap, distractor_rationales (jsonb)
+- **Body systems covered**: Cardiovascular (7), Endocrine (6), Neurological (5), Respiratory (4), Mental Health (4), Gastrointestinal (3), Pediatrics (2), Obstetrics (2), Musculoskeletal, Renal, Hematologic, Immune/Respiratory, Nutrition/Mental Health, and more
+- **UI**: UWorld-style explanation display in `client/src/pages/question-bank.tsx` — shows correct answer highlight, rationale, distractor rationales per option, clinical pearl (violet card), exam strategy (blue card), memory hook (amber card), difficulty/framework metadata
+- **Generator**: `script/generate-premium-qbank.ts` — uses gpt-4o, generates 5 per API call
+- **API**: `/api/qbank/exam-set` returns all new fields; client types updated in `client/src/lib/qbank-api.ts`
+
+## Mobile Performance Optimizations
+- **LazySection**: `client/src/components/lazy-section.tsx` — IntersectionObserver wrapper, 2 groups below fold (study-tools→free-learning, study-topics→final-cta)
+- **Hero**: blur-3xl hidden on mobile (`hidden md:block`), simpler blur-2xl for mobile; animations restricted to `md:animate-in`
+- **Fonts**: DM Sans weights reduced to 400/500/600/700; Playfair Display/Lora split into separate deferred stylesheet
+- **Accessibility**: aria-labels on mobile menu icon buttons
+- **SEO**: Self-canonicalizing locale routes (e.g., /en → https://www.nursenest.ca/en)
 
 ## OSCE Skills Practice
 - **Route**: `/osce-skills`
