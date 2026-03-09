@@ -5,6 +5,7 @@ import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
 import { SEO } from "@/components/seo";
 import { buildBreadcrumbStructuredData } from "@/lib/structured-data";
+import { getTierConfig } from "@shared/tier-config";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/lib/auth";
@@ -470,33 +471,57 @@ function WelcomeWidget({ user }: { user: any }) {
   const { t } = useI18n();
   const hour = new Date().getHours();
   const greeting = hour < 12 ? t("dashboard.greeting.morning") : hour < 17 ? t("dashboard.greeting.afternoon") : t("dashboard.greeting.evening");
-  const tierLabel: Record<string, string> = {
-    free: t("dashboard.tier.free"),
-    rpn: t("dashboard.tier.rpn"),
-    rn: t("dashboard.tier.rn"),
-    np: t("dashboard.tier.np"),
-    admin: t("dashboard.tier.admin"),
+  const config = getTierConfig(user.tier || "free");
+
+  const tierQuickActions: Record<string, Array<{ label: string; path: string; icon: any; variant?: "default" | "outline" }>> = {
+    free: [
+      { label: "Try Free Practice", path: "/question-bank", icon: FlaskConical, variant: "default" },
+      { label: "Browse Lessons", path: "/lessons", icon: BookOpen, variant: "outline" },
+      { label: "View Plans", path: "/pricing", icon: Award, variant: "outline" },
+    ],
+    rpn: [
+      { label: config.examNames.practice, path: "/mock-exams", icon: ClipboardList, variant: "default" },
+      { label: "Question Bank", path: "/question-bank", icon: FlaskConical, variant: "outline" },
+      { label: "Flashcards", path: "/flashcard-study", icon: Brain, variant: "outline" },
+      { label: "Lessons", path: "/lessons", icon: BookOpen, variant: "outline" },
+    ],
+    rn: [
+      { label: config.examNames.practice, path: "/mock-exams", icon: ClipboardList, variant: "default" },
+      { label: "Question Bank", path: "/question-bank", icon: FlaskConical, variant: "outline" },
+      { label: "Flashcards", path: "/flashcard-study", icon: Brain, variant: "outline" },
+      { label: "Question of the Day", path: "/question-of-the-day", icon: Target, variant: "outline" },
+    ],
+    np: [
+      { label: config.examNames.practice, path: "/mock-exams", icon: ClipboardList, variant: "default" },
+      { label: "Question Bank", path: "/question-bank", icon: FlaskConical, variant: "outline" },
+      { label: "Flashcards", path: "/flashcard-study", icon: Brain, variant: "outline" },
+      { label: "Question of the Day", path: "/question-of-the-day", icon: Target, variant: "outline" },
+    ],
+    admin: [
+      { label: "Mock Exams", path: "/mock-exams", icon: ClipboardList, variant: "default" },
+      { label: "Question Bank", path: "/question-bank", icon: FlaskConical, variant: "outline" },
+      { label: "Admin Panel", path: "/admin", icon: Activity, variant: "outline" },
+      { label: "Question of the Day", path: "/question-of-the-day", icon: Target, variant: "outline" },
+    ],
   };
+
+  const actions = tierQuickActions[user.tier] || tierQuickActions.free;
 
   return (
     <div data-testid="widget-content-welcome">
       <p className="text-lg font-semibold mb-1">{greeting}, {user.username}!</p>
-      <p className="text-sm text-muted-foreground mb-4">
-        {t("dashboard.plan")} <span className="font-medium text-foreground">{tierLabel[user.tier] || user.tier}</span>
+      <p className="text-sm text-muted-foreground mb-1">
+        {config.dashboardSubtitle}
+      </p>
+      <p className="text-xs text-muted-foreground mb-4">
+        {t("dashboard.plan")} <span className="font-medium text-foreground">{config.displayName}</span>
       </p>
       <div className="flex flex-wrap gap-2">
-        <Button size="sm" variant="default" onClick={() => navigate("/lessons")} data-testid="button-go-lessons">
-          <BookOpen className="h-4 w-4 mr-1.5" /> {t("dashboard.goLessons")}
-        </Button>
-        <Button size="sm" variant="outline" onClick={() => navigate("/flashcards")} data-testid="button-go-flashcards">
-          <Brain className="h-4 w-4 mr-1.5" /> {t("dashboard.goFlashcards")}
-        </Button>
-        <Button size="sm" variant="outline" onClick={() => navigate("/mock-exams")} data-testid="button-go-mock-exams">
-          <ClipboardList className="h-4 w-4 mr-1.5" /> {t("dashboard.goMockExams")}
-        </Button>
-        <Button size="sm" variant="outline" onClick={() => navigate("/question-of-the-day")} data-testid="button-go-qotd">
-          <Target className="h-4 w-4 mr-1.5" /> {t("dashboard.goQotd")}
-        </Button>
+        {actions.map((action) => (
+          <Button key={action.path} size="sm" variant={action.variant || "outline"} onClick={() => navigate(action.path)} data-testid={`button-go-${action.path.replace(/\//g, "")}`}>
+            <action.icon className="h-4 w-4 mr-1.5" /> {action.label}
+          </Button>
+        ))}
       </div>
     </div>
   );

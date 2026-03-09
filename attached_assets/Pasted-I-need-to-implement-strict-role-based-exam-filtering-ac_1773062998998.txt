@@ -1,0 +1,189 @@
+I need to implement strict role-based exam filtering across the platform.
+
+Current problem:
+When a user logs in as RPN/LVN and navigates to:
+Menu → RPN/LVN → Exams
+
+the exam selection page still shows:
+- RN exams
+- NP exams
+
+This should NEVER happen.
+
+Role access rules:
+
+FREE users
+- Can only see free preview exams
+
+RPN/LVN users
+- Can ONLY see RPN/LVN exams
+- Must NOT see RN or NP exams
+
+RN users
+- Can see RN exams
+- May optionally see RPN review exams
+- Must NOT see NP exams
+
+NP users
+- Can see NP exams
+- Can also see RN exams
+
+Admin
+- Can see all exams
+
+--------------------------------------------------
+
+STEP 1 — Ensure role is available globally
+
+Make sure the logged in user object includes:
+
+user.role
+
+Possible values:
+"free"
+"rpn"
+"rn"
+"np"
+"admin"
+
+--------------------------------------------------
+
+STEP 2 — Update exam filtering logic
+
+Inside the exam selector component:
+
+ExamSelector.tsx
+
+Filter the exams before rendering:
+
+Example logic:
+
+const visibleExams = exams.filter(exam => {
+  if (!user) return exam.tier === "free";
+
+  if (user.role === "rpn") {
+    return exam.tier === "rpn";
+  }
+
+  if (user.role === "rn") {
+    return exam.tier === "rn" || exam.tier === "rpn";
+  }
+
+  if (user.role === "np") {
+    return ["np","rn"].includes(exam.tier);
+  }
+
+  if (user.role === "admin") {
+    return true;
+  }
+
+  return false;
+});
+
+Only render visibleExams.
+
+--------------------------------------------------
+
+STEP 3 — Remove tier selection UI for restricted roles
+
+If the logged in user is RPN:
+
+Hide exam tier dropdown entirely.
+
+Instead automatically set:
+
+selectedTier = "rpn"
+
+If RN:
+
+selectedTier = "rn"
+
+If NP:
+
+selectedTier = "np"
+
+--------------------------------------------------
+
+STEP 4 — Protect backend routes
+
+In Express API routes:
+
+/api/exams
+
+Add role validation.
+
+Example:
+
+if (req.user.role === "rpn" && exam.tier !== "rpn") {
+  return res.status(403).json({ error: "Unauthorized exam tier" });
+}
+
+--------------------------------------------------
+
+STEP 5 — Prevent manual URL bypass
+
+If someone tries to access:
+
+/exam/rn
+/exam/np
+
+while logged in as RPN:
+
+Redirect to:
+
+/rpn/exams
+
+--------------------------------------------------
+
+STEP 6 — Update menu logic
+
+Navigation should also be role aware.
+
+If user.role === "rpn"
+Show:
+
+Dashboard
+RPN Exams
+Flashcards
+Progress
+
+Hide:
+
+RN Exams
+NP Exams
+
+--------------------------------------------------
+
+STEP 7 — Add exam tier field to database if missing
+
+Each exam must contain:
+
+tier:
+"rpn"
+"rn"
+"np"
+"free"
+
+--------------------------------------------------
+
+STEP 8 — Test cases
+
+RPN login:
+Only RPN exams visible
+
+RN login:
+RN exams visible
+
+NP login:
+NP exams visible
+
+Admin:
+Everything visible
+
+--------------------------------------------------
+
+Ensure this logic is applied globally to:
+- exams
+- practice tests
+- exam simulation
+- question banks

@@ -6206,6 +6206,14 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
         effectiveExamTier = preview ? preview.mode : "admin";
       }
 
+      if (effectiveExamTier !== "admin" && effectiveExamTier !== "free") {
+        const { getAllowedExamTiers } = await import("../shared/tier-config");
+        const allowedTiers = getAllowedExamTiers(effectiveExamTier);
+        if (!allowedTiers.includes(tier)) {
+          return res.status(403).json({ error: "Unauthorized exam tier", code: "TIER_MISMATCH" });
+        }
+      }
+
       const isReadiness = examMode === "readiness";
       const isOfficial = examMode === "official";
       const isPaidRequired = isOfficial || (!isReadiness && totalQuestions > 25);

@@ -1,0 +1,762 @@
+I need to redesign the NurseNest marketing and conversion system so the homepage, landing pages, pricing pages, upgrade prompts, and checkout flow are role-aware and track-specific.
+
+Current problem:
+The platform is becoming more tier-native inside the product, but the marketing and conversion experience still feels too generic. I do not want RPN/LVN, RN, and NP users to land on the same generalized messaging and then have to figure out whether NurseNest is meant for them. I want each audience to immediately feel seen, understood, and guided toward the exact product that matches their exam path.
+
+GOAL:
+Build a role-aware marketing and conversion architecture for:
+- Free / undecided visitors
+- RPN/LVN visitors
+- RN visitors
+- NP visitors
+- Returning logged-in users upgrading from free to paid
+
+The experience should feel premium, clear, personalized, conversion-focused, and emotionally aligned with the learner’s stage, goals, and exam pressure.
+
+==================================================
+PART 1 — CORE CONVERSION PRINCIPLE
+==================================================
+
+Implement a role-aware marketing system where marketing pages and upgrade flows dynamically adapt based on:
+- selected track
+- detected user role
+- current subscription
+- last viewed tier
+- onboarding choice
+- URL route
+- query param
+- saved preference
+
+The system must support:
+- generic entry for first-time visitors
+- guided selection into RPN / RN / NP paths
+- persistent track memory after selection
+- track-specific landing pages
+- track-specific pricing and upgrade messaging
+- track-specific checkout summaries
+- role-matched testimonials and value propositions
+
+The marketing experience must not feel one-size-fits-all.
+It should feel like NurseNest deeply understands each learner’s exam journey.
+
+==================================================
+PART 2 — AUDIENCE SEGMENTS
+==================================================
+
+Create separate messaging systems for these audiences:
+
+1. UNDECIDED / GENERAL VISITOR
+- not logged in
+- has not selected a tier yet
+- may not know the difference between tracks
+- needs guidance into the right pathway
+
+2. RPN/LVN VISITOR
+- practical nursing learner
+- preparing for REx-PN, CPNRE-style practical nursing review, or equivalent PN/LVN prep path depending on the site configuration
+- wants foundational, exam-relevant, confidence-building prep
+
+3. RN VISITOR
+- preparing for RN-level licensure exam / readiness
+- wants deeper clinical judgment, prioritization, management of care, and stronger exam simulation
+
+4. NP VISITOR
+- advanced practice learner
+- wants graduate-level board prep, advanced assessment, diagnostic reasoning, prescribing, and management planning
+
+5. FREE LOGGED-IN USER
+- has already entered the product
+- may have used free quizzes or sample lessons
+- needs a stronger upgrade flow tailored to their selected track and usage behavior
+
+==================================================
+PART 3 — TRACK-SPECIFIC VALUE PROPOSITIONS
+==================================================
+
+Create distinct value propositions for each track.
+
+GENERAL / UNDECIDED value prop:
+- Find the study path built for your nursing level
+- One platform, tailored prep for practical nursing, RN readiness, and NP board-style learning
+- Choose your track and start with the right tools
+
+RPN/LVN value prop:
+- Practical nursing exam prep built for foundations, safe care, medication safety, and confidence
+- Focused support for practical nursing learners who want clear, high-yield review without feeling overwhelmed
+- Realistic RPN-style practice designed for predictable care, escalation, and exam readiness
+
+RN value prop:
+- RN exam prep built for clinical judgment, prioritization, management of care, and high-yield practice
+- A deeper question bank and smarter readiness tools for RN learners who need more than memorization
+- Train the way RN exams actually test: trends, competing priorities, and safest-next-action reasoning
+
+NP value prop:
+- Advanced board-style preparation for diagnostic reasoning, advanced assessment, prescribing, and management planning
+- Graduate-level clinical case practice designed for serious NP exam readiness
+- Strengthen differentials, pharmacotherapeutics, and evidence-informed decision-making in one premium study environment
+
+==================================================
+PART 4 — ROUTE STRUCTURE FOR MARKETING
+==================================================
+
+Create a marketing route system with separate landing experiences.
+
+Examples:
+/                          -> general homepage
+/rpn                       -> RPN landing page
+/rn                        -> RN landing page
+/np                        -> NP landing page
+
+/pricing                   -> general pricing selector
+/pricing/rpn               -> RPN pricing page
+/pricing/rn                -> RN pricing page
+/pricing/np                -> NP pricing page
+
+/upgrade                   -> generic upgrade router
+/upgrade/rpn               -> RPN upgrade page
+/upgrade/rn                -> RN upgrade page
+/upgrade/np                -> NP upgrade page
+
+/checkout/rpn
+/checkout/rn
+/checkout/np
+
+Track should persist via:
+- user profile selection
+- local storage
+- cookie
+- onboarding answer
+- query param override when needed
+
+If user has chosen a track already, default future marketing pages to that track.
+
+==================================================
+PART 5 — GENERAL HOMEPAGE REDESIGN
+==================================================
+
+The main homepage should act as a polished entry point into the correct path.
+
+Sections on the general homepage:
+1. Hero section with broad positioning
+2. Track selector cards for RPN / RN / NP
+3. “Built for your level” explanation
+4. Feature overview with tier-aware framing
+5. Social proof / testimonials segmented by track
+6. Compare pathways section
+7. Preview of dashboards or exam experiences by track
+8. CTA to choose a study path
+
+Hero headline examples:
+- Nursing exam prep, tailored to your track
+- One beautiful study platform. Three role-specific prep paths.
+- Choose the NurseNest path built for your level: RPN, RN, or NP
+
+Hero subheadline:
+NurseNest gives nursing learners a more personalized way to study — with track-specific exams, question banks, dashboards, and progress tools designed for your exact level of practice.
+
+Primary CTA:
+Choose Your Track
+
+Secondary CTA:
+Explore Free Practice
+
+Add three prominent cards:
+- RPN / LVN Prep
+- RN Prep
+- NP Board Prep
+
+Each card should have:
+- short audience description
+- core benefits
+- CTA to its landing page
+
+==================================================
+PART 6 — TRACK-SPECIFIC LANDING PAGES
+==================================================
+
+Create separate dedicated landing pages for RPN, RN, and NP.
+
+RPN LANDING PAGE SECTIONS:
+1. Hero:
+   - RPN exam prep built for practical nursing learners
+   - clear, confidence-building, foundation-focused messaging
+2. Pain points:
+   - generic resources feel overwhelming
+   - too many tools are built around RN or U.S.-only framing
+   - practical nursing learners need targeted prep
+3. Solution:
+   - RPN-native question bank
+   - safe care and medication safety review
+   - practical nursing dashboards and readiness tools
+4. Feature highlights:
+   - RPN exams
+   - focused quizzes
+   - flashcards
+   - progress tracking
+   - weak-topic review
+5. “Built for REx-PN readiness” or configurable exam framing
+6. testimonials from practical nursing audience
+7. pricing CTA
+8. free preview CTA
+
+RN LANDING PAGE SECTIONS:
+1. Hero:
+   - RN exam prep built for clinical judgment and prioritization
+2. Pain points:
+   - too much passive studying
+   - not enough realistic prioritization practice
+   - question banks often lack true exam-style reasoning
+3. Solution:
+   - RN-native exams
+   - prioritization drills
+   - management of care practice
+   - readiness analytics
+4. Feature highlights:
+   - RN question bank
+   - clinical judgment exams
+   - system-based review
+   - progress analytics
+5. testimonials from RN audience
+6. pricing CTA
+7. free preview CTA
+
+NP LANDING PAGE SECTIONS:
+1. Hero:
+   - advanced board prep for diagnostic reasoning and management
+2. Pain points:
+   - generic nursing prep is too basic
+   - advanced practice learners need case complexity and clinical depth
+   - serious board prep requires more than recall questions
+3. Solution:
+   - advanced cases
+   - differential diagnosis drills
+   - prescribing and management practice
+   - advanced analytics
+4. Feature highlights:
+   - NP question bank
+   - diagnostic reasoning exams
+   - prescribing review
+   - board readiness tools
+5. testimonials from advanced learners
+6. pricing CTA
+7. free preview CTA
+
+==================================================
+PART 7 — ROLE-AWARE HERO COPY SYSTEM
+==================================================
+
+Create a centralized marketing copy config.
+
+Example:
+marketingCopyConfig = {
+  general: {...},
+  rpn: {...},
+  rn: {...},
+  np: {...}
+}
+
+This config should control:
+- headlines
+- subheadlines
+- CTA text
+- feature bullets
+- objections
+- testimonials category
+- pricing blurbs
+- FAQ emphasis
+- checkout reassurance text
+
+Examples:
+
+RPN headlines:
+- Practical nursing exam prep built for clarity and confidence
+- Study smarter for RPN success
+- Focused practical nursing prep without the overwhelm
+
+RN headlines:
+- RN readiness starts with better clinical judgment practice
+- Train for RN-level decision-making
+- Go beyond memorization with exam-style reasoning
+
+NP headlines:
+- Advanced NP board prep for serious clinical reasoning
+- Practice differential diagnosis, prescribing, and management
+- Graduate-level prep in a platform designed for advanced learners
+
+==================================================
+PART 8 — FEATURE POSITIONING BY TRACK
+==================================================
+
+The same features can exist across the platform, but their framing must change by track.
+
+Shared platform features may include:
+- exams
+- question bank
+- flashcards
+- lessons
+- progress dashboards
+- weak-topic review
+- daily questions
+- AI-assisted study tools if enabled
+
+RPN framing:
+- Build your foundations
+- Strengthen safe care decisions
+- Focus on common conditions and practical nursing implications
+- Reinforce medication safety and escalation
+
+RN framing:
+- Sharpen clinical judgment
+- Practice prioritization under pressure
+- Improve management of care performance
+- Build readiness with higher-complexity question sets
+
+NP framing:
+- Strengthen advanced assessment
+- Improve differential diagnosis
+- Refine pharmacotherapeutic decisions
+- Practice evidence-informed management planning
+
+==================================================
+PART 9 — TRACK SELECTOR EXPERIENCE
+==================================================
+
+Build a “Choose Your Track” experience for undecided visitors.
+
+This can appear:
+- on homepage
+- during sign-up
+- in onboarding
+- on generic pricing page
+
+Track selector cards must clearly explain:
+- who the track is for
+- what kind of questions they’ll get
+- what the dashboard focuses on
+- what exam style the product emphasizes
+
+Example card summaries:
+
+RPN card:
+For practical nursing learners who want focused review, safer care reasoning, and confidence-building exam practice.
+
+RN card:
+For RN learners who need stronger prioritization, clinical judgment, and realistic readiness practice.
+
+NP card:
+For advanced practice learners who need graduate-level diagnostic reasoning, prescribing, and management preparation.
+
+On selection:
+- store preferredTrack
+- redirect to track-specific landing or pricing page
+- customize future messaging
+
+==================================================
+PART 10 — ROLE-AWARE PRICING PAGES
+==================================================
+
+Create separate pricing pages or a single pricing page that re-skins based on track.
+
+Pricing content should not only show prices.
+It should explain what that specific learner gets.
+
+RPN pricing page copy should emphasize:
+- practical nursing exam focus
+- foundational mastery
+- confidence and clarity
+- RPN-specific question bank and exams
+
+RN pricing page copy should emphasize:
+- RN-level question bank
+- prioritization and clinical judgment
+- stronger readiness analytics
+- deeper exam simulation
+
+NP pricing page copy should emphasize:
+- advanced board-level cases
+- diagnostic and prescribing depth
+- premium advanced practice preparation
+- high-complexity clinical reasoning
+
+Each pricing page should include:
+- monthly / yearly if applicable
+- what’s included
+- who it is for
+- why it is worth it
+- free vs paid comparison
+- role-specific FAQ
+- CTA to checkout
+
+==================================================
+PART 11 — PLAN NAMES AND PACKAGE FRAMING
+==================================================
+
+Package names should feel role-aware.
+
+Examples:
+General:
+- Free
+- Core
+- Premium
+
+Better approach:
+RPN:
+- RPN Starter
+- RPN Core
+- RPN Premium
+
+RN:
+- RN Starter
+- RN Core
+- RN Premium
+
+NP:
+- NP Starter
+- NP Core
+- NP Premium
+
+Or if you want fewer plans:
+- Free Preview
+- Full Access
+
+But the plan description changes by track.
+
+Example:
+Full Access for RPN:
+Unlock full RPN practice exams, question banks, flashcards, study plans, and progress analytics.
+
+Full Access for RN:
+Unlock RN clinical judgment exams, prioritization drills, question bank access, flashcards, and readiness analytics.
+
+Full Access for NP:
+Unlock advanced NP cases, diagnostic reasoning exams, prescribing review, management practice, and board-readiness analytics.
+
+==================================================
+PART 12 — ROLE-AWARE UPGRADE PROMPTS
+==================================================
+
+Upgrade prompts inside the platform should adapt based on:
+- user role
+- selected track
+- behavior
+- page context
+- performance gaps
+
+Examples:
+
+RPN upgrade prompt:
+Unlock full RPN exams, medication safety drills, practical nursing review sets, and detailed progress tracking.
+
+RN upgrade prompt:
+Unlock full RN readiness exams, clinical judgment drills, prioritization practice, and deeper performance analytics.
+
+NP upgrade prompt:
+Unlock advanced board-style cases, diagnostic reasoning practice, prescribing review, and advanced analytics.
+
+Upgrade prompts should appear in:
+- locked exam cards
+- free dashboard
+- after free quiz completion
+- progress widgets
+- question bank limits
+- onboarding summary
+- pricing comparison tables
+
+Do not use one generic “Upgrade to Premium” block everywhere.
+
+==================================================
+PART 13 — ROLE-AWARE CHECKOUT FLOW
+==================================================
+
+The checkout page should confirm the exact track-specific product being purchased.
+
+Examples:
+RPN checkout summary:
+You are unlocking full access to NurseNest RPN Prep, including RPN exams, focused review, flashcards, study tools, and readiness tracking.
+
+RN checkout summary:
+You are unlocking full access to NurseNest RN Prep, including clinical judgment exams, prioritization practice, question banks, flashcards, and readiness analytics.
+
+NP checkout summary:
+You are unlocking full access to NurseNest NP Board Prep, including advanced cases, diagnostic reasoning exams, prescribing and management review, and board-readiness analytics.
+
+Checkout should show:
+- plan name
+- billing frequency
+- included features
+- selected track
+- reassurance text
+- money-back or policy text if applicable
+- account track confirmation
+
+If someone enters checkout from the wrong route for their role, fix the route and show the correct checkout.
+
+==================================================
+PART 14 — TESTIMONIAL SEGMENTATION
+==================================================
+
+Testimonials and proof blocks should be role-aware.
+
+RPN testimonial themes:
+- finally found something not too overwhelming
+- felt built for practical nursing
+- helped build confidence
+- stronger understanding of safe care and common conditions
+
+RN testimonial themes:
+- better prioritization
+- more realistic than passive studying
+- helped connect concepts to decision-making
+- felt closer to real exam reasoning
+
+NP testimonial themes:
+- more advanced than generic nursing resources
+- better diagnostic thinking
+- stronger clinical management reasoning
+- useful for board-style prep
+
+Do not show NP testimonials on the RPN page or vice versa unless intentionally placed in a broader brand-trust section.
+
+==================================================
+PART 15 — FAQ SEGMENTATION
+==================================================
+
+Each track needs its own FAQ emphasis.
+
+RPN FAQ examples:
+- Is this designed specifically for practical nursing learners?
+- Are the questions appropriate for RPN-level scope and reasoning?
+- Does this help with foundations, medication safety, and safe care decisions?
+
+RN FAQ examples:
+- Are these questions focused on clinical judgment and prioritization?
+- Is this more advanced than simple recall-based studying?
+- Can I track weak areas and readiness trends?
+
+NP FAQ examples:
+- Are the questions advanced enough for NP board preparation?
+- Does the platform cover differential diagnosis, prescribing, and management?
+- Is the content graduate-level?
+
+==================================================
+PART 16 — ROLE-AWARE EMAIL / POST-SIGNUP MESSAGING
+==================================================
+
+After signup or trial start, tailor welcome screens and post-signup messages by track.
+
+RPN welcome:
+Welcome to NurseNest RPN Prep. Start with your foundations review, medication safety set, or first RPN practice exam.
+
+RN welcome:
+Welcome to NurseNest RN Prep. Start with a clinical judgment quiz, prioritization drill, or your first RN readiness exam.
+
+NP welcome:
+Welcome to NurseNest NP Board Prep. Start with an advanced case set, diagnostic reasoning drill, or first board-readiness exam.
+
+==================================================
+PART 17 — RETURNING USER CONVERSION LOGIC
+==================================================
+
+If a free user has already shown strong track intent, stop sending them generic messaging.
+
+Examples:
+- If they mostly viewed RPN pages, show RPN upgrade prompts
+- If they completed RN quizzes, show RN pricing blocks
+- If they browsed NP cases, show NP conversion messaging
+
+Implement logic:
+getMarketingTrack(user, browsingHistory, onboardingData, lastViewedContent)
+
+Priority order:
+1. explicit chosen track
+2. paid role
+3. onboarding answer
+4. recent content behavior
+5. query param
+6. fallback general
+
+==================================================
+PART 18 — COMPONENT ARCHITECTURE
+==================================================
+
+Refactor frontend marketing components for track-aware rendering.
+
+Suggested structure:
+/config/marketingCopyConfig.ts
+/config/pricingConfig.ts
+/utils/getMarketingTrack.ts
+/components/marketing/
+  - TrackHero
+  - TrackFeatures
+  - TrackTestimonials
+  - TrackPricing
+  - TrackFAQ
+  - TrackUpgradePrompt
+  - TrackCheckoutSummary
+/pages/marketing/
+  - HomePage
+  - RpnLandingPage
+  - RnLandingPage
+  - NpLandingPage
+  - PricingPage
+  - UpgradePage
+  - CheckoutPage
+
+Use config-driven rendering.
+Do not hardcode all copy separately inside each page if a shared system can control it cleanly.
+
+==================================================
+PART 19 — BRAND + VISUAL STRATEGY
+==================================================
+
+Stay fully inside the NurseNest master brand:
+- pastel polished premium aesthetic
+- rounded cards
+- soft modern clinical style
+- elegant feminine-leaning but professional design
+- trustworthy and not childish
+
+Then create subtle conversion-page accents by track:
+
+RPN marketing feel:
+- supportive
+- accessible
+- calming
+- confidence-building
+
+RN marketing feel:
+- sharper
+- more performance-oriented
+- stronger exam-readiness energy
+
+NP marketing feel:
+- more elevated
+- more advanced
+- more professional and analytical
+
+Do not fragment the brand.
+Do create distinct emotional tones.
+
+==================================================
+PART 20 — ANALYTICS + CONVERSION TRACKING
+==================================================
+
+Track conversion metrics by audience segment.
+
+Events to track:
+- homepage track card clicked
+- landing page viewed by track
+- pricing page viewed by track
+- upgrade CTA clicked by track
+- checkout started by track
+- checkout completed by track
+- free-to-paid conversion by track
+- bounce rate by track landing page
+- plan selection by track
+
+Create dashboards so admin can see:
+- which audience converts best
+- where each audience drops off
+- whether RPN / RN / NP messaging is performing differently
+
+==================================================
+PART 21 — ADMIN EDITING CAPABILITY
+==================================================
+
+In admin, allow marketing copy editing by track.
+
+Editable per track:
+- hero headline
+- hero subheadline
+- feature bullets
+- CTA labels
+- testimonial selection
+- FAQ entries
+- pricing blurbs
+- checkout reassurance text
+
+Admin should be able to preview:
+- homepage as general
+- landing page as RPN
+- landing page as RN
+- landing page as NP
+- pricing pages by track
+- upgrade modals by track
+- checkout summary by track
+
+==================================================
+PART 22 — UX QUALITY RULES
+==================================================
+
+Follow these strict rules:
+
+1. No generic conversion copy when track intent is known
+If the system knows the learner wants RPN, RN, or NP, show track-specific value immediately.
+
+2. No cross-track confusion
+Do not use RN language on RPN pages.
+Do not use beginner wording on NP pages.
+
+3. The user should feel understood within 3 seconds
+The headline, subheadline, and CTA should instantly signal “this is for me.”
+
+4. Free users must see a clear path forward
+Guide them to the correct track and then to a clear upgrade action.
+
+5. Paid users should feel like they bought a precise product
+Checkout and post-purchase messaging must reinforce exactly what they unlocked.
+
+==================================================
+PART 23 — TEST CASES
+==================================================
+
+Test these scenarios:
+
+1. Undecided new visitor:
+- lands on homepage
+- selects RN card
+- gets RN-specific landing page
+- pricing and checkout remain RN-specific
+
+2. RPN visitor:
+- lands directly on /rpn
+- sees RPN-native copy, testimonials, FAQ, and pricing
+- upgrade prompts remain RPN-specific
+
+3. RN free user:
+- completes free RN quiz
+- sees RN-focused upgrade prompts
+- checkout summary reflects RN prep
+
+4. NP visitor:
+- lands on NP page
+- sees advanced board-prep language
+- pricing and checkout stay advanced and track-specific
+
+5. Logged-in paid RPN user:
+- should not see generic acquisition messaging everywhere
+- should see account-aware upsell only where appropriate
+
+6. Admin preview:
+- can preview all track landing pages and conversion flows
+
+==================================================
+PART 24 — IMPLEMENTATION REQUIREMENT
+==================================================
+
+Implement this as a production-ready marketing and conversion system.
+
+Return:
+1. route structure
+2. marketingCopyConfig architecture
+3. role-aware pricing system
+4. track selector flow
+5. upgrade prompt system
+6. checkout summary logic
+7. testimonial / FAQ segmentation
+8. analytics event plan
+9. admin preview / editing system
+10. refactor plan and test coverage
+
+Do not provide a shallow copy update.
+Build a durable role-aware conversion architecture so NurseNest markets itself like three premium nursing-prep products inside one cohesive brand.

@@ -1,0 +1,506 @@
+I need to redesign the entire exam generation and delivery system so that every user tier gets its own distinct question bank, exam style, difficulty profile, and clinical reasoning depth.
+
+Current problem:
+The platform is not sufficiently separating RPN/LVN, RN, and NP exam content. I need strict tier-based differentiation so that:
+- RPN/LVN users get RPN/LVN-level questions only
+- RN users get RN-level questions only
+- NP users get NP-level questions only
+- Different tiers must NOT share the same question wording, same rationales, same clinical complexity, or same distractor style unless explicitly configured for review products
+- Difficulty must scale appropriately by tier
+- The experience must feel like three distinct exam ecosystems, not one bank with labels
+
+GOAL:
+Build a robust multi-tier exam system that supports:
+1. Separate exam blueprints by tier
+2. Separate question difficulty models by tier
+3. Separate cognitive depth by tier
+4. Separate distractor generation by tier
+5. Separate rationale style by tier
+6. Separate UI labels and metadata by tier
+7. Separate backend filtering and authorization by tier
+8. Optional admin controls for overlap rules
+
+==================================================
+PART 1 — DEFINE EXAM TIERS
+==================================================
+
+Create a strict canonical examTier system:
+
+type ExamTier = "free" | "rpn" | "rn" | "np";
+
+Every question, exam, practice test, exam simulation, flashcard-derived quiz, and case study must have:
+- examTier
+- difficultyLevel
+- cognitiveLevel
+- blueprintCategory
+- subtopic
+- audience
+- sourceType
+- isCrossListed (boolean)
+- allowedRoles
+
+Example question schema:
+{
+  id: string,
+  stem: string,
+  options: [{ id: "A" | "B" | "C" | "D", text: string }],
+  correctAnswer: "A" | "B" | "C" | "D",
+  rationale: string,
+  examTier: "rpn" | "rn" | "np" | "free",
+  difficultyLevel: "easy" | "moderate" | "hard" | "very_hard",
+  cognitiveLevel: "recall" | "application" | "analysis" | "advanced_clinical_judgment",
+  blueprintCategory: string,
+  subtopic: string,
+  audience: string,
+  sourceType: "manual" | "ai_generated" | "imported" | "admin_created",
+  isCrossListed: boolean,
+  allowedRoles: string[],
+  tags: string[],
+  estimatedTimeSeconds: number
+}
+
+==================================================
+PART 2 — TIER DIFFERENTIATION RULES
+==================================================
+
+Implement hard-coded content standards for each tier.
+
+RPN/LVN tier:
+- Focus on foundational nursing knowledge
+- Emphasize stable or predictable patient scenarios
+- Prioritize direct recognition, safe intervention, focused assessment, basic pharmacology, and common disease management
+- Questions should test safe practical nursing judgment, prioritization within predictable settings, and recognition of when to escalate
+- Distractors should be plausible but somewhat more concrete and less abstract
+- Stem length should generally be shorter to moderate
+- Case complexity should be lower
+- Lab interpretation should stay more straightforward
+- Pharmacology should focus more on common medications, adverse effects, contraindications, monitoring, and nursing implications
+- SATA or matrix style can exist if enabled, but standard multiple choice should remain common
+- Difficulty mix recommendation:
+  easy 20%
+  moderate 50%
+  hard 25%
+  very_hard 5%
+
+RN tier:
+- Focus on broader clinical judgment, prioritization, delegation, unstable patient recognition, higher complexity assessment, pathophysiology integration, and more nuanced nursing interventions
+- Include more layered scenarios than RPN
+- Increase ambiguity between answer choices
+- Require stronger interpretation of labs, symptoms, trends, and safest next action
+- Include multi-step reasoning and prioritization
+- Distractors should be intentionally close and realistic
+- Stem length moderate to long
+- More scenario-based questions
+- Difficulty mix recommendation:
+  easy 10%
+  moderate 40%
+  hard 35%
+  very_hard 15%
+
+NP tier:
+- Focus on advanced assessment, differential diagnosis, diagnostic reasoning, evidence-based management, pharmacotherapeutics, interpretation of diagnostics, and advanced clinical decision-making
+- Questions must be clinically dense and graduate level
+- Distractors should reflect errors in diagnostic reasoning, inappropriate workups, incorrect prescribing, incomplete management, or missed red flags
+- Use more advanced case vignettes
+- Require synthesis rather than recall
+- Include nuanced patient factors: age, comorbidities, contraindications, sequencing, follow-up, and guideline-informed decisions
+- Difficulty mix recommendation:
+  easy 5%
+  moderate 25%
+  hard 40%
+  very_hard 30%
+
+Admin:
+- Can preview all tiers
+- Can filter by tier
+- Can manually cross-list specific content if desired
+
+==================================================
+PART 3 — QUESTION GENERATION RULES
+==================================================
+
+When generating questions, use tier-aware generation prompts.
+
+RPN question generation rules:
+- Use simpler clinical layers
+- Emphasize safe nursing actions
+- Prefer one best answer based on foundational knowledge
+- Avoid excessive diagnostic ambiguity
+- Focus on recognition, action, monitoring, teaching, and escalation
+
+RN question generation rules:
+- Use richer scenarios
+- Require prioritization and more advanced interpretation
+- Include unstable trends, competing priorities, and delegation/scope considerations
+- Increase similarity between distractors
+- Test clinical judgment more heavily than recall
+
+NP question generation rules:
+- Use advanced clinical language
+- Require diagnosis, workup, prescribing judgment, contraindication awareness, and follow-up planning
+- Include guideline-consistent management logic where appropriate
+- Test clinical reasoning depth, not memorization alone
+- Rationales should discuss why other options are wrong at an advanced level
+
+Build separate generator functions:
+- generateRpnQuestion()
+- generateRnQuestion()
+- generateNpQuestion()
+
+Do not use one generic generator with superficial labels.
+
+==================================================
+PART 4 — DIFFICULTY ENGINE
+==================================================
+
+Create a difficulty engine that is tier-aware.
+
+Difficulty must not mean only “harder facts.”
+Difficulty should be based on:
+- ambiguity of distractors
+- number of reasoning steps
+- severity and instability of scenario
+- amount of data interpretation required
+- complexity of prioritization
+- overlap of plausible answer choices
+- pharmacology complexity
+- diagnostic complexity
+- guideline nuance for NP tier
+
+Implement a scoring model:
+
+difficultyScore =
+  scenarioComplexity +
+  distractorCloseness +
+  clinicalJudgmentDepth +
+  interpretationLoad +
+  prioritizationBurden +
+  pharmacologyComplexity +
+  diagnosticNuance
+
+Then map score ranges to:
+- easy
+- moderate
+- hard
+- very_hard
+
+Make score thresholds configurable by tier because a “hard RPN” question is not the same as a “hard NP” question.
+
+==================================================
+PART 5 — BLUEPRINT MAPPING
+==================================================
+
+Create separate blueprint maps for each tier.
+
+RPN blueprint:
+- foundational nursing care
+- health assessment
+- medication safety
+- predictable conditions
+- basic maternal-child concepts if applicable
+- mental health basics
+- safety/infection prevention
+- chronic/common conditions
+- escalation and reporting
+
+RN blueprint:
+- management of care
+- safety and infection control
+- health promotion and maintenance
+- psychosocial integrity
+- physiological integrity
+- reduction of risk potential
+- pharmacological therapies
+- complex care and prioritization
+
+NP blueprint:
+- advanced assessment
+- diagnosis/differential diagnosis
+- diagnostics/labs/imaging
+- pharmacotherapeutics
+- treatment planning
+- follow-up/monitoring
+- health promotion and prevention
+- chronic disease management
+- urgent/emergent recognition
+- specialty-specific advanced practice domains where applicable
+
+Each exam or quiz generator must only pull from the blueprint for that selected tier.
+
+==================================================
+PART 6 — BACKEND ACCESS CONTROL
+==================================================
+
+Enforce tier restrictions on the backend.
+
+Users:
+- free user: only free content
+- rpn user: only rpn content plus any explicitly allowed free/rpn preview content
+- rn user: rn content, optionally selected rpn review content if configured
+- np user: np content and optionally rn review content if configured
+- admin: all content
+
+Add backend guards to all relevant routes:
+- /api/exams
+- /api/questions
+- /api/question-bank
+- /api/exam-simulation
+- /api/practice-tests
+- /api/recommendations
+
+Example rule:
+if user.role === "rpn", do not return rn or np content
+if user.role === "rn", do not return np content
+if user.role === "np", allow np and optionally rn review content
+if user.role === "free", return free only
+
+Never rely only on frontend filtering.
+
+==================================================
+PART 7 — FRONTEND FILTERING
+==================================================
+
+Update the frontend so users only see content for their own tier.
+
+RPN user:
+- sees only RPN labels, RPN exams, RPN practice tests, RPN dashboard language
+- never sees RN or NP category cards
+- never sees RN or NP filters in dropdowns
+
+RN user:
+- sees RN content
+- can optionally see an “RPN review” section only if enabled by admin
+
+NP user:
+- sees NP content
+- can optionally see RN review if enabled
+
+Hide any tier selector that should not be user-editable.
+For fixed-role users, auto-select the tier from their account role.
+
+Example:
+if user.role === "rpn", selectedTier = "rpn"
+if user.role === "rn", selectedTier = "rn"
+if user.role === "np", selectedTier = "np"
+
+==================================================
+PART 8 — SEPARATE RATIONALE STYLES
+==================================================
+
+Rationales must differ by tier as well.
+
+RPN rationale style:
+- concise but educational
+- focus on safety, recognition, and nursing action
+- explain why the best answer is safest or most appropriate
+- briefly explain major distractors
+
+RN rationale style:
+- moderate to detailed
+- emphasize prioritization, patient safety, interpretation, and nursing judgment
+- explain why competing options are attractive but incorrect
+- include subtle reasoning where needed
+
+NP rationale style:
+- detailed and advanced
+- explain diagnostic and management reasoning
+- discuss why the correct answer fits best clinically
+- explain contraindications, guideline reasoning, alternative management, or why distractors fail logically
+
+==================================================
+PART 9 — ADMIN CONTENT BUILDER
+==================================================
+
+In the admin dashboard, update content creation forms so admins must choose:
+- examTier
+- difficultyLevel
+- cognitiveLevel
+- blueprintCategory
+- subtopic
+- rationaleDepth
+- allowedRoles
+- overlap permissions
+
+Add validation so an admin cannot save a question without selecting a tier.
+
+Add admin preview by role:
+- preview as free
+- preview as rpn
+- preview as rn
+- preview as np
+- preview as admin
+
+==================================================
+PART 10 — CONTENT OVERLAP RULES
+==================================================
+
+Implement controlled overlap instead of accidental overlap.
+
+Default:
+- no shared stems across tiers
+- no shared answer sets across tiers
+- no shared rationales across tiers
+
+If the same topic exists in multiple tiers, rewrite it at the correct complexity level.
+
+Example:
+Topic: heart failure
+
+RPN version:
+- identify worsening symptoms
+- safe nursing action
+- common medication teaching
+
+RN version:
+- interpret change in status, prioritize intervention, monitor response, consider fluid status and hemodynamics
+
+NP version:
+- differentiate HF exacerbation from other causes of dyspnea, choose workup, adjust pharmacotherapy, identify red flags and follow-up
+
+Do not clone the same question into three tiers.
+
+==================================================
+PART 11 — EXAM ASSEMBLY RULES
+==================================================
+
+When assembling an exam:
+1. Determine user role
+2. Determine tier
+3. Pull only questions matching allowed tier
+4. Apply blueprint distribution for that tier
+5. Apply difficulty distribution for that tier
+6. Avoid duplicate stems, repeated concepts, or near-duplicate distractors
+7. Shuffle answer positions intelligently so correct answers are not biased toward A or B
+8. Ensure psychometric variety across the exam
+
+Add a function:
+buildTieredExam({
+  userRole,
+  tier,
+  blueprint,
+  targetQuestionCount,
+  difficultyDistribution,
+  examMode
+})
+
+==================================================
+PART 12 — QUALITY CONTROL CHECKS
+==================================================
+
+Create automated validation checks:
+
+validateQuestionTier(question):
+- confirms metadata is complete
+- confirms difficulty aligns with tier
+- confirms rationale depth aligns with tier
+- confirms allowedRoles is correct
+- confirms distractor quality meets minimum standard
+
+validateExamAssembly(exam):
+- no unauthorized tier content
+- no duplicate stems
+- no answer pattern bias
+- blueprint coverage correct
+- difficulty distribution correct
+
+==================================================
+PART 13 — MIGRATION
+==================================================
+
+Audit all existing question records.
+
+For every existing question:
+- assign a tier if missing
+- assign difficulty if missing
+- assign cognitive level if missing
+- mark questions requiring rewrite if they were previously generic
+- flag cross-tier duplicates for review
+
+Create a migration script to:
+1. add new schema fields
+2. backfill where possible
+3. flag low-quality legacy questions
+4. prevent legacy generic questions from being served until categorized
+
+==================================================
+PART 14 — USER EXPERIENCE
+==================================================
+
+Make the product feel role-native.
+
+RPN interface wording examples:
+- RPN Exam Prep
+- RPN Practice Exams
+- REx-PN Focused Review
+- Foundations and Safe Care
+
+RN interface wording examples:
+- RN Exam Prep
+- Clinical Judgment Exams
+- RN Readiness Exams
+- Advanced Prioritization Practice
+
+NP interface wording examples:
+- NP Board Prep
+- Advanced Clinical Case Exams
+- Diagnostic Reasoning Exams
+- Prescribing and Management Practice
+
+Do not mix labels across roles.
+
+==================================================
+PART 15 — TEST CASES
+==================================================
+
+Test the following:
+
+1. RPN user login:
+- only RPN exams visible
+- only RPN questions returned from APIs
+- no RN/NP cards shown
+- exam difficulty feels RPN appropriate
+
+2. RN user login:
+- only RN content visible unless RPN review is intentionally enabled
+- no NP content shown
+- exams are more complex than RPN
+
+3. NP user login:
+- only NP content visible plus optional RN review if enabled
+- NP exams use advanced reasoning and graduate-level difficulty
+
+4. Admin:
+- can view all
+- can filter all
+- can preview by role
+
+5. Manual URL test:
+- RPN cannot access RN or NP exam endpoints or pages
+- RN cannot access NP content
+
+==================================================
+PART 16 — IMPLEMENTATION REQUIREMENT
+==================================================
+
+Refactor existing code now so this system is actually enforced across:
+- menu navigation
+- exam selector
+- question delivery
+- exam simulation
+- practice tests
+- content generation
+- admin content builder
+- recommendation widgets
+- dashboard analytics by tier
+
+Return:
+1. updated data model
+2. backend guard logic
+3. frontend filtering logic
+4. generator architecture
+5. migration script
+6. admin UI updates
+7. test coverage
+
+Do not provide a superficial patch.
+Implement a durable, production-ready multi-tier exam architecture that makes each tier truly distinct in content difficulty, reasoning depth, and exam experience.

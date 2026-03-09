@@ -1,5 +1,6 @@
 import { useState, useEffect, lazy, Suspense } from "react";
 import { getExamConstants, type Region as ConstRegion } from "@shared/constants";
+import { getTierConfig } from "@shared/tier-config";
 import { useLocation } from "wouter";
 import { LocaleLink } from "@/lib/LocaleLink";
 import { 
@@ -73,7 +74,7 @@ function UserProfileDropdown({ user, logout, setLocation }: { user: any; logout:
     staleTime: 60000,
   });
 
-  const tierLabel = user.tier === "admin" ? "Admin" : user.tier === "rpn" ? "RPN/LVN" : user.tier === "rn" ? "RN" : user.tier === "np" ? "NP" : "Free";
+  const tierLabel = getTierConfig(user.tier || "free").displayName;
 
   return (
     <DropdownMenu>
@@ -280,7 +281,8 @@ export function Navigation() {
     </DropdownMenu>
   );
 
-  const learningItems = [
+  const tierConfig = getTierConfig(effectiveTier);
+  const allLearningItems = [
     { icon: BookOpen, label: t("nav.lessons"), key: "Lessons" },
     { icon: Play, label: t("nav.lectures"), key: "Lectures" },
     { icon: Layers, label: t("nav.flashcards"), key: "Flashcards" },
@@ -289,6 +291,22 @@ export function Navigation() {
     { icon: Stethoscope, label: t("nav.simulators"), key: "Simulators" },
     { icon: FileText, label: t("nav.exams"), key: "Exams" },
   ];
+  const tierNavKeys = new Set(tierConfig.navItems.map(n => n.key));
+  const navKeyMapping: Record<string, string> = {
+    "Lessons": "Lessons",
+    "Lectures": "Lessons",
+    "Flashcards": "Flashcards",
+    "Clinical Clarity": "ClinicalJudgment",
+    "Clinical Skill Lab": "DiagnosticReasoning",
+    "Simulators": "AdvancedCases",
+    "Exams": "Exams",
+  };
+  const learningItems = (effectiveTier && effectiveTier !== "free" && effectiveTier !== "admin")
+    ? allLearningItems.filter(item => {
+        const mappedKey = navKeyMapping[item.key] || item.key;
+        return tierNavKeys.has(item.key) || tierNavKeys.has(mappedKey) || item.key === "Lessons" || item.key === "Exams";
+      })
+    : allLearningItems;
 
   const designations = getExamConstants(region as ConstRegion).designations;
 

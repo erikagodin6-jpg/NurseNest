@@ -2,6 +2,7 @@ import type { Express } from "express";
 import { pool } from "./storage";
 import { resolveAuthUser } from "./admin-auth";
 import rateLimit from "express-rate-limit";
+import { getAllowedExamTiers } from "../shared/tier-config";
 
 function getPreviewTier(req: any, userTier: string): string {
   if (userTier !== "admin") return userTier;
@@ -35,7 +36,9 @@ export function setupQBankRoutes(app: Express) {
         queryTier = (req.query.tier as string) || "rpn";
         if (!["rpn", "rn", "np"].includes(queryTier)) queryTier = "rpn";
       } else {
-        queryTier = userTier;
+        const requestedTier = (req.query.tier as string) || userTier;
+        const allowed = getAllowedExamTiers(userTier);
+        queryTier = allowed.includes(requestedTier) ? requestedTier : (allowed[0] || userTier);
       }
 
       const limit = Math.min(parseInt(req.query.limit as string) || 50, 50);
@@ -243,7 +246,9 @@ export function setupQBankRoutes(app: Express) {
         queryTier = (req.query.tier as string) || "rpn";
         if (!["rpn", "rn", "np"].includes(queryTier)) queryTier = "rpn";
       } else {
-        queryTier = userTier;
+        const requestedTier = (req.query.tier as string) || userTier;
+        const allowed = getAllowedExamTiers(userTier);
+        queryTier = allowed.includes(requestedTier) ? requestedTier : (allowed[0] || userTier);
       }
 
       const count = Math.min(parseInt(req.query.count as string) || 25, 200);

@@ -19,6 +19,7 @@ import {
 } from "lucide-react";
 import { AdminEditButton } from "@/components/admin-edit-button";
 import { BreadcrumbNav } from "@/components/breadcrumb-nav";
+import { getTierConfig, getAllowedExamTiers } from "@shared/tier-config";
 
 function getAuthHeaders(): Record<string, string> {
   try {
@@ -34,13 +35,7 @@ function getAuthHeaders(): Record<string, string> {
 function getAllowedTiers(userTier: string | undefined, isAdmin: boolean, previewActive: boolean): string[] {
   if (isAdmin && !previewActive) return ["rpn", "rn", "np"];
   if (!userTier || userTier === "free") return [];
-  if (userTier === "admin") return ["rpn", "rn", "np"];
-  const tierMap: Record<string, string[]> = {
-    rpn: ["rpn"],
-    rn: ["rn"],
-    np: ["np"],
-  };
-  return tierMap[userTier] || [];
+  return getAllowedExamTiers(userTier);
 }
 
 export default function MockExamsPage() {
@@ -89,8 +84,9 @@ export default function MockExamsPage() {
   }, [selectedTier]);
 
   useEffect(() => {
+    const tiersToFetch = allowedTiers.length > 0 ? tierOptions.filter(t => allowedTiers.includes(t.value)) : tierOptions;
     Promise.all(
-      tierOptions.map(async (t) => {
+      tiersToFetch.map(async (t) => {
         const s = await getPoolStats(t.value);
         return [t.value, { total: s.total }] as const;
       })
@@ -187,9 +183,17 @@ export default function MockExamsPage() {
     ? Math.max(...completedExams.map((h) => h.report?.percentage || 0))
     : null;
 
+  const activeTierConfig = getTierConfig(effectiveTier);
+  const tierSpecificTitle = (effectiveTier && effectiveTier !== "free" && effectiveTier !== "admin")
+    ? activeTierConfig.examPrepLabel
+    : t("mockExams.pageTitle");
+  const tierSpecificSubtitle = (effectiveTier && effectiveTier !== "free" && effectiveTier !== "admin")
+    ? `${activeTierConfig.readinessLabel} - ${activeTierConfig.tone.split(",")[0].trim()} exam preparation`
+    : t("mockExams.pageSubtitle");
+
   return (
     <div className="min-h-screen bg-warmwhite flex flex-col font-sans text-gray-900">
-      <SEO title="Mock Exams - NurseNest" description="Practice with realistic nursing exam simulations. Timed mock exams with detailed post-exam reporting." canonicalPath="/mock-exams" />
+      <SEO title={`${tierSpecificTitle} - NurseNest`} description="Practice with realistic nursing exam simulations. Timed mock exams with detailed post-exam reporting." canonicalPath="/mock-exams" />
       <Navigation />
 
       <main className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12 w-full flex-1">
@@ -198,9 +202,9 @@ export default function MockExamsPage() {
           <div className="w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center mx-auto">
             <GraduationCap className="w-10 h-10 text-primary" />
           </div>
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold" data-testid="text-mock-exam-title">{t("mockExams.pageTitle")}</h1>
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold" data-testid="text-mock-exam-title">{tierSpecificTitle}</h1>
           <p className="text-gray-500 text-lg max-w-xl mx-auto">
-            {t("mockExams.pageSubtitle")}
+            {tierSpecificSubtitle}
           </p>
         </div>
 

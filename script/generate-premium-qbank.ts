@@ -1,25 +1,16 @@
 import OpenAI from "openai";
 import { pool } from "../server/storage";
 import crypto from "crypto";
+import { TIER_GENERATION_PROMPTS } from "../shared/tier-config";
 
 const openai = new OpenAI({
   apiKey: process.env.AI_INTEGRATIONS_OPENAI_API_KEY,
   baseURL: process.env.AI_INTEGRATIONS_OPENAI_BASE_URL,
 });
 
-const SYSTEM_PROMPT = `You are an elite nursing exam question writer with 20+ years of experience creating premium licensing-style questions for REx-PN, NCLEX-RN, and NCLEX-PN exams.
-
-Your questions MUST:
-- Use realistic patient scenarios with age, setting, history, current symptoms, vitals, and labs when appropriate
-- Test clinical judgment, prioritization, safety, and pathophysiology understanding
-- NEVER test pure memorization or trivia
-- Include 1-2 distractor cues that add realism without making the question unfair
-- Have one clear best answer (unless SATA)
-- Make all distractors plausible based on common learner mistakes
-- Be solvable using frameworks: ABCs, acute vs chronic, stable vs unstable, assess before implement, safety first, least restrictive
-
+const BASE_OUTPUT_FORMAT = `
 For EACH question you must output a JSON object with these exact fields:
-- exam_level: "RPN" or "RN"
+- exam_level: "RPN" or "RN" or "NP"
 - topic: specific clinical topic
 - system: body system (Cardiovascular, Respiratory, Neurological, Endocrine, GI, Renal, Hematology, Musculoskeletal, Infectious Disease, Maternity, Pediatric, Mental Health, Pharmacology, Critical Care)
 - difficulty: 1-5 (1=Easy, 2=Moderate, 3=Hard, 4=Very Hard, 5=Expert)
@@ -30,11 +21,27 @@ For EACH question you must output a JSON object with these exact fields:
 - stem: the actual question being asked
 - options: array of 4 answer strings
 - correct_answer_index: 0-based index of correct option
-- rationale: detailed explanation of why the correct answer is right, including what cues lead to it and what framework solves it (minimum 200 words)
-- distractor_rationales: object mapping option letters (A, B, C, D) to explanations of why each wrong option is tempting and when it might be appropriate in another scenario
+- rationale: detailed explanation of why the correct answer is right (minimum 200 words)
+- distractor_rationales: object mapping option letters (A, B, C, D) to explanations of why each wrong option is tempting
 - clinical_pearl: one high-yield clinical takeaway
 - exam_strategy: how to approach similar questions on the exam
 - memory_hook: one-sentence recall phrase for the key concept`;
+
+function getTierSystemPrompt(tier: "rpn" | "rn" | "np"): string {
+  const config = TIER_GENERATION_PROMPTS[tier];
+  return `${config.systemPrompt}
+
+${config.focusAreas}
+
+${config.stemStyle}
+
+${config.distractorStyle}
+
+Rationale style: ${config.rationaleGuidance}
+${BASE_OUTPUT_FORMAT}`;
+}
+
+const SYSTEM_PROMPT = getTierSystemPrompt("rn");
 
 interface GeneratedQuestion {
   exam_level: string;
@@ -190,10 +197,14 @@ function parseJsonArray(text: string): any[] {
 async function generateBatch(config: typeof BATCH_CONFIGS[0]): Promise<GeneratedQuestion[]> {
   console.log(`[QBank] Generating batch: ${config.name} (${config.count} questions)...`);
 
+  const batchTier = config.prompt.toLowerCase().includes("(np") ? "np"
+    : config.prompt.toLowerCase().includes("(rpn") ? "rpn" : "rn";
+  const systemPrompt = getTierSystemPrompt(batchTier as "rpn" | "rn" | "np");
+
   const response = await openai.chat.completions.create({
     model: "gpt-4o",
     messages: [
-      { role: "system", content: SYSTEM_PROMPT },
+      { role: "system", content: systemPrompt },
       {
         role: "user",
         content: `${config.prompt}\n\nReturn ONLY a valid JSON array of ${config.count} question objects. No markdown, no explanation outside the JSON.`,
@@ -242,8 +253,10 @@ async function insertQuestion(q: GeneratedQuestion): Promise<string | null> {
     return null;
   }
 
-  const tier = q.exam_level?.toLowerCase() === "rpn" ? "rpn" : "rn";
-  const exam = tier === "rpn" ? "REx-PN" : "NCLEX-RN";
+  const levelLower = q.exam_level?.toLowerCase() || "rn";
+  const tier = levelLower === "rpn" ? "rpn" : levelLower === "np" ? "np" : "rn";
+  const examMap: Record<string, string> = { rpn: "REx-PN", rn: "NCLEX-RN", np: "NP-Board" };
+  const exam = examMap[tier] || "NCLEX-RN";
   const questionType = q.question_type || "MCQ";
 
   const fullStem = q.scenario ? `${q.scenario}\n\n${q.stem}` : q.stem;

@@ -13,6 +13,7 @@ import { LocaleLink } from "@/lib/LocaleLink";
 import { useAuth } from "@/lib/auth";
 import { canAccessTier } from "@/lib/access";
 import { useLocation } from "wouter";
+import { getTierConfig, getAllowedExamTiers } from "@shared/tier-config";
 import { BreadcrumbNav } from "@/components/breadcrumb-nav";
 import { ConfidenceRatingModal } from "@/components/study-momentum";
 
@@ -22,7 +23,9 @@ export default function QuestionBank() {
   const { user, effectiveTier } = useAuth();
   const [, setLocation] = useLocation();
   const [questionMode, setQuestionMode] = useState<"mcq" | "bowtie">("mcq");
-  const [tierFilter, setTierFilter] = useState<string>("all");
+  const allowedQBankTiers = getAllowedExamTiers(effectiveTier || "free");
+  const defaultTierFilter = allowedQBankTiers.length === 1 ? allowedQBankTiers[0] : (allowedQBankTiers.length > 0 ? allowedQBankTiers[0] : "all");
+  const [tierFilter, setTierFilter] = useState<string>(defaultTierFilter);
   const [systemFilter, setSystemFilter] = useState<string>("all");
   const [currentIndex, setCurrentIndex] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
@@ -44,7 +47,15 @@ export default function QuestionBank() {
   };
 
   useEffect(() => {
-    const tier = tierFilter === "all" ? (effectiveTier || "rpn") : tierFilter;
+    let tier = tierFilter;
+    if (tier === "all") {
+      tier = allowedQBankTiers.length > 0 ? allowedQBankTiers[0] : (effectiveTier || "rpn");
+    }
+    if (allowedQBankTiers.length > 0 && !allowedQBankTiers.includes(tier)) {
+      tier = allowedQBankTiers[0];
+      setTierFilter(tier);
+      return;
+    }
     setLoadingQuestions(true);
     getExamQuestions(tier, 50).then((questions) => {
       setAllQuestions(questions);
@@ -133,11 +144,15 @@ export default function QuestionBank() {
 
   const isCorrect = selectedAnswer === question?.correct;
   const accuracy = stats.total > 0 ? Math.round((stats.correct / stats.total) * 100) : 0;
+  const qbTierConfig = getTierConfig(effectiveTier);
+  const qbTitle = (effectiveTier && effectiveTier !== "free" && effectiveTier !== "admin")
+    ? qbTierConfig.questionBankLabel
+    : "Question Bank";
 
   return (
     <>
       <SEO
-        title="Nursing Question Bank - Practice Questions"
+        title={`${qbTitle} - Practice Questions`}
         description="Practice thousands of nursing questions with instant rationale. Filter by tier (RPN, RN, NP) and body system. Prepare for NCLEX and Canadian nursing exams."
         canonicalPath="/question-bank"
         keywords="nursing question bank, practice questions, NCLEX prep, nursing exam questions, RPN questions, RN questions, NP questions"
@@ -150,7 +165,7 @@ export default function QuestionBank() {
           <BreadcrumbNav />
           <div className="text-center mb-6">
             <h1 className="text-3xl md:text-4xl font-bold mb-2 text-gray-900" data-testid="text-qb-title">
-              Question Bank
+              {qbTitle}
             </h1>
             <p className="text-gray-500">
               Practice {accessibleQuestions.length.toLocaleString()} of {filtered.length.toLocaleString()} questions with detailed rationales
@@ -160,17 +175,19 @@ export default function QuestionBank() {
           <div className="flex flex-wrap items-center gap-3 mb-6">
             <div className="flex items-center gap-2">
               <Filter className="h-4 w-4 text-gray-400" />
+              {allowedQBankTiers.length !== 1 && (
               <Select value={tierFilter} onValueChange={(v) => { setTierFilter(v); setCurrentIndex(0); setSelectedAnswer(null); setRevealed(false); }}>
                 <SelectTrigger className="w-[140px] border-gray-200 bg-white" data-testid="select-tier">
                   <SelectValue placeholder="Tier" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="all">All Tiers</SelectItem>
-                  <SelectItem value="rpn">RPN/LVN</SelectItem>
-                  <SelectItem value="rn">RN</SelectItem>
-                  <SelectItem value="np">NP</SelectItem>
+                  {allowedQBankTiers.length === 0 && <SelectItem value="all">All Tiers</SelectItem>}
+                  {allowedQBankTiers.map(t => (
+                    <SelectItem key={t} value={t}>{t === "rpn" ? "RPN/LVN" : t.toUpperCase()}</SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
+              )}
 
               <Select value={systemFilter} onValueChange={(v) => { setSystemFilter(v); setCurrentIndex(0); setSelectedAnswer(null); setRevealed(false); }}>
                 <SelectTrigger className="w-[180px] border-gray-200 bg-white" data-testid="select-system">
