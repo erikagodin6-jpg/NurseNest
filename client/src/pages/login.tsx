@@ -136,7 +136,7 @@ export default function LoginPage() {
                       <Input id="reg-referral" name="referralCode" placeholder="NN-REF-XXXXXX" defaultValue={refCodeFromUrl} className="pl-10" data-testid="input-register-referral-code" />
                     </div>
                     {refCodeFromUrl && (
-                      <p className="text-xs text-green-600 font-medium">Referral code applied - you'll get 10% off your first subscription!</p>
+                      <p className="text-xs text-green-600 font-medium">Referral code applied - you'll get 15% off your first subscription!</p>
                     )}
                   </div>
                   <Button type="submit" className="w-full" disabled={isLoading} data-testid="button-register">

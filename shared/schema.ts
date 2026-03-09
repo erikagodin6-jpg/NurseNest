@@ -2444,6 +2444,7 @@ export const testerInviteCodes = pgTable("tester_invite_codes", {
   notes: text("notes"),
   tier: text("tier").default("rn"),
   isActive: boolean("is_active").default(true),
+  usedBy: text("used_by"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 

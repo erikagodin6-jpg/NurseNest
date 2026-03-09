@@ -2319,7 +2319,7 @@ Return ONLY a JSON array of flashcard objects, no other text.`;
           const expiryDate = new Date();
           expiryDate.setDate(expiryDate.getDate() + 30);
           await storage.setTesterAccess(user.id, true, expiryDate, normalizedCode);
-          await storage.incrementTesterInviteCodeUsage(normalizedCode);
+          await storage.incrementTesterInviteCodeUsage(normalizedCode, user.id);
           user.testerAccess = true;
           user.testerExpiry = expiryDate;
           user.testerInviteCode = normalizedCode;
@@ -2533,14 +2533,14 @@ Return ONLY a JSON array of flashcard objects, no other text.`;
       if (user.referredBy && !user.referralDiscountUsed) {
         try {
           const coupons = await stripe.coupons.list({ limit: 100 });
-          const existing = coupons.data.find((c: any) => c.metadata?.type === "nursenest_referral" && c.valid);
-          if (existing) {
-            referralCouponId = existing.id;
+          const existing15 = coupons.data.find((c: any) => c.metadata?.type === "nursenest_referral" && c.valid && c.percent_off === 15);
+          if (existing15) {
+            referralCouponId = existing15.id;
           } else {
             const coupon = await stripe.coupons.create({
-              percent_off: 10,
+              percent_off: 15,
               duration: "once",
-              name: "Referral Discount - 10% Off",
+              name: "Referral Discount - 15% Off",
               metadata: { type: "nursenest_referral" },
             });
             referralCouponId = coupon.id;
@@ -13153,6 +13153,44 @@ Return ONLY valid JSON with this exact structure:
         isActive: isActive !== false,
       });
       res.json(invite);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.post("/api/admin/tester/invite-codes/batch", async (req, res) => {
+    const admin = await requireAdmin(req, res);
+    if (!admin) return;
+    try {
+      const { count, maxUses, tier, notes, durationDays } = req.body;
+      const qty = Math.min(Math.max(1, parseInt(count) || 1), 500);
+      const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+      const expiresAt = new Date();
+      expiresAt.setDate(expiresAt.getDate() + (parseInt(durationDays) || 30));
+      const created: any[] = [];
+      const existingCodes = new Set((await storage.listTesterInviteCodes()).map((c: any) => c.code));
+      for (let i = 0; i < qty; i++) {
+        let code: string;
+        let attempts = 0;
+        do {
+          code = "NN-BETA-";
+          for (let j = 0; j < 6; j++) {
+            code += chars[Math.floor(Math.random() * chars.length)];
+          }
+          attempts++;
+        } while (existingCodes.has(code) && attempts < 20);
+        existingCodes.add(code);
+        const invite = await storage.createTesterInviteCode({
+          code,
+          maxUses: parseInt(maxUses) || 1,
+          expiresAt,
+          notes: notes || `Batch ${new Date().toISOString().slice(0, 10)}`,
+          tier: tier || "rn",
+          isActive: true,
+        });
+        created.push(invite);
+      }
+      res.json({ count: created.length, codes: created });
     } catch (e: any) {
       res.status(500).json({ error: e.message });
     }

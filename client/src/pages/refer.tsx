@@ -108,7 +108,7 @@ export default function ReferPage() {
             <CardContent className="pt-8 pb-8">
               <Gift className="w-12 h-12 text-primary mx-auto mb-4" />
               <h2 className="text-xl font-bold mb-2">Sign in to access your referral code</h2>
-              <p className="text-gray-500 text-sm mb-6">Beta testers and subscribers can share their referral code to give friends 10% off.</p>
+              <p className="text-gray-500 text-sm mb-6">Beta testers and subscribers can share their referral code to give friends 15% off.</p>
               <Button onClick={() => navigate("/login")} className="w-full" data-testid="button-refer-login">
                 Sign In <ArrowRight className="w-4 h-4 ml-2" />
               </Button>
@@ -130,7 +130,7 @@ export default function ReferPage() {
               <Gift className="w-8 h-8 text-primary" />
             </div>
             <h1 className="text-3xl font-bold" data-testid="text-refer-heading">Refer a Friend</h1>
-            <p className="text-gray-500 mt-2">Share your referral code and give your friends 10% off their subscription.</p>
+            <p className="text-gray-500 mt-2">Share your referral code and give your friends 15% off their subscription.</p>
           </div>
 
           {loading ? (
@@ -186,7 +186,7 @@ export default function ReferPage() {
                       <div className="text-sm text-gray-500 mt-1">Friends Referred</div>
                     </div>
                     <div className="bg-green-50 rounded-xl p-5 text-center">
-                      <div className="text-3xl font-bold text-green-600">10%</div>
+                      <div className="text-3xl font-bold text-green-600">15%</div>
                       <div className="text-sm text-gray-500 mt-1">Discount for Each Friend</div>
                     </div>
                   </div>
@@ -213,7 +213,7 @@ export default function ReferPage() {
                       <div className="w-6 h-6 rounded-full bg-primary/20 flex items-center justify-center shrink-0 mt-0.5">
                         <span className="text-xs font-bold text-primary">3</span>
                       </div>
-                      <p>They receive 10% off their first subscription payment automatically at checkout.</p>
+                      <p>They receive 15% off their first subscription payment automatically at checkout.</p>
                     </div>
                   </div>
                 </CardContent>

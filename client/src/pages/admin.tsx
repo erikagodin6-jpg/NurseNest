@@ -247,6 +247,14 @@ export default function AdminPage() {
   const [betaCopied, setBetaCopied] = useState<string | null>(null);
   const [betaFeedback, setBetaFeedback] = useState<any[]>([]);
   const [betaFeedbackLoading, setBetaFeedbackLoading] = useState(false);
+  const [betaBatchCount, setBetaBatchCount] = useState(10);
+  const [betaBatchTier, setBetaBatchTier] = useState("rn");
+  const [betaBatchMaxUses, setBetaBatchMaxUses] = useState(1);
+  const [betaBatchDuration, setBetaBatchDuration] = useState(30);
+  const [betaBatchNotes, setBetaBatchNotes] = useState("");
+  const [betaBatchLoading, setBetaBatchLoading] = useState(false);
+  const [betaBatchResult, setBetaBatchResult] = useState<any>(null);
+  const [betaAllCopied, setBetaAllCopied] = useState(false);
 
   // -------------------------------
   // ✅ ADMIN VERIFY (FIXED)
@@ -717,6 +725,49 @@ export default function AdminPage() {
       await navigator.clipboard.writeText(code);
       setBetaCopied(code);
       setTimeout(() => setBetaCopied(null), 2000);
+    } catch {}
+  }
+
+  async function generateBatchCodes() {
+    setBetaBatchLoading(true);
+    setBetaBatchResult(null);
+    try {
+      const creds = getAdminCreds();
+      if (!creds) return;
+      const res = await fetch("/api/admin/tester/invite-codes/batch", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          username: creds.username,
+          password: creds.password,
+          count: betaBatchCount,
+          maxUses: betaBatchMaxUses,
+          tier: betaBatchTier,
+          durationDays: betaBatchDuration,
+          notes: betaBatchNotes || undefined,
+        }),
+      });
+      if (res.ok) {
+        const data = await res.json();
+        setBetaBatchResult(data);
+        fetchBetaCodes();
+      } else {
+        const err = await res.json();
+        setBetaBatchResult({ error: err.error || "Failed to generate batch" });
+      }
+    } catch {
+      setBetaBatchResult({ error: "Network error" });
+    } finally {
+      setBetaBatchLoading(false);
+    }
+  }
+
+  async function copyAllCodes(codes: any[]) {
+    try {
+      const text = codes.map((c: any) => c.code).join("\n");
+      await navigator.clipboard.writeText(text);
+      setBetaAllCopied(true);
+      setTimeout(() => setBetaAllCopied(false), 2000);
     } catch {}
   }
 
@@ -4228,11 +4279,125 @@ export default function AdminPage() {
                     </CardContent>
                   </Card>
 
+                  <Card className="border border-primary/10 bg-gradient-to-r from-primary/5 to-primary/10">
+                    <CardHeader>
+                      <CardTitle className="text-lg flex items-center gap-2">
+                        <Layers className="w-5 h-5 text-primary" />
+                        Batch Generate Codes
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <p className="text-sm text-gray-600 mb-4">Generate multiple single-use beta codes at once. Each code can be distributed to individual testers.</p>
+                      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 mb-4">
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-1">Quantity (1-500)</label>
+                          <Input
+                            type="number"
+                            value={betaBatchCount}
+                            onChange={(e) => setBetaBatchCount(Math.min(500, Math.max(1, parseInt(e.target.value) || 1)))}
+                            min={1}
+                            max={500}
+                            data-testid="input-batch-count"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-1">Tier</label>
+                          <select
+                            value={betaBatchTier}
+                            onChange={(e) => setBetaBatchTier(e.target.value)}
+                            className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm"
+                            data-testid="select-batch-tier"
+                          >
+                            <option value="free">Free</option>
+                            <option value="rpn">RPN</option>
+                            <option value="rn">RN</option>
+                            <option value="np">NP</option>
+                          </select>
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-1">Max Uses Each</label>
+                          <Input
+                            type="number"
+                            value={betaBatchMaxUses}
+                            onChange={(e) => setBetaBatchMaxUses(Math.max(1, parseInt(e.target.value) || 1))}
+                            min={1}
+                            data-testid="input-batch-max-uses"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-1">Duration (days)</label>
+                          <Input
+                            type="number"
+                            value={betaBatchDuration}
+                            onChange={(e) => setBetaBatchDuration(Math.max(1, parseInt(e.target.value) || 1))}
+                            min={1}
+                            data-testid="input-batch-duration"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-1">Notes</label>
+                          <Input
+                            value={betaBatchNotes}
+                            onChange={(e) => setBetaBatchNotes(e.target.value)}
+                            placeholder="e.g., March cohort"
+                            data-testid="input-batch-notes"
+                          />
+                        </div>
+                      </div>
+                      <Button
+                        onClick={generateBatchCodes}
+                        disabled={betaBatchLoading}
+                        className="w-full"
+                        data-testid="button-generate-batch"
+                      >
+                        {betaBatchLoading ? (
+                          <><RefreshCw className="w-4 h-4 animate-spin mr-2" /> Generating {betaBatchCount} codes...</>
+                        ) : (
+                          <><Layers className="w-4 h-4 mr-2" /> Generate {betaBatchCount} Codes</>
+                        )}
+                      </Button>
+                      {betaBatchResult && (
+                        <div className={`mt-4 p-4 rounded-lg border ${betaBatchResult.error ? "border-red-200 bg-red-50" : "border-green-200 bg-green-50"}`}>
+                          {betaBatchResult.error ? (
+                            <p className="text-sm text-red-700" data-testid="text-batch-error">{betaBatchResult.error}</p>
+                          ) : (
+                            <div>
+                              <div className="flex items-center justify-between mb-3">
+                                <p className="text-sm font-medium text-green-800" data-testid="text-batch-success">
+                                  Generated {betaBatchResult.count} codes successfully
+                                </p>
+                                <Button
+                                  size="sm"
+                                  variant="outline"
+                                  onClick={() => copyAllCodes(betaBatchResult.codes)}
+                                  data-testid="button-copy-all-batch"
+                                >
+                                  {betaAllCopied ? <Check className="w-4 h-4 text-green-600 mr-1" /> : <Copy className="w-4 h-4 mr-1" />}
+                                  {betaAllCopied ? "Copied" : "Copy All Codes"}
+                                </Button>
+                              </div>
+                              <div className="max-h-48 overflow-y-auto space-y-1">
+                                {betaBatchResult.codes?.map((c: any, i: number) => (
+                                  <div key={i} className="flex items-center justify-between bg-white rounded px-3 py-1.5 text-xs border">
+                                    <span className="font-mono font-bold tracking-wider">{c.code}</span>
+                                    <Button variant="ghost" size="icon" className="h-6 w-6" onClick={() => copyBetaCode(c.code)}>
+                                      {betaCopied === c.code ? <Check className="w-3 h-3 text-green-600" /> : <Copy className="w-3 h-3" />}
+                                    </Button>
+                                  </div>
+                                ))}
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      )}
+                    </CardContent>
+                  </Card>
+
                   <Card className="border border-primary/10">
                     <CardHeader>
                       <CardTitle className="text-lg flex items-center gap-2">
                         <Ticket className="w-5 h-5 text-primary" />
-                        Active Codes ({betaCodes.filter((c: any) => c.isActive).length})
+                        All Codes ({betaCodes.length}) -- Active: {betaCodes.filter((c: any) => c.isActive).length} -- Used: {betaCodes.filter((c: any) => c.usedCount > 0).length}
                       </CardTitle>
                     </CardHeader>
                     <CardContent className="p-0">
@@ -4291,6 +4456,7 @@ export default function AdminPage() {
                               </div>
                               <div className="flex items-center gap-4 mt-2 text-xs text-gray-500">
                                 <span data-testid={`text-beta-uses-${idx}`}>Uses: {code.usedCount || 0} / {code.maxUses}</span>
+                                {code.usedBy && <span className="text-green-600 font-medium">Redeemed</span>}
                                 <span>Created: {code.createdAt ? new Date(code.createdAt).toLocaleDateString() : "N/A"}</span>
                                 {code.expiresAt && (
                                   <span className={new Date(code.expiresAt) < new Date() ? "text-red-500 font-medium" : ""}>

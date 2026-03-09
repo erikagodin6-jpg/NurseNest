@@ -1152,8 +1152,10 @@ export class DatabaseStorage implements IStorage {
     const [r] = await db.update(testerInviteCodes).set(updates).where(eq(testerInviteCodes.id, id)).returning();
     return r;
   }
-  async incrementTesterInviteCodeUsage(code: string): Promise<void> {
-    await db.update(testerInviteCodes).set({ usedCount: sql`${testerInviteCodes.usedCount} + 1` }).where(eq(testerInviteCodes.code, code));
+  async incrementTesterInviteCodeUsage(code: string, userId?: string): Promise<void> {
+    const updates: any = { usedCount: sql`${testerInviteCodes.usedCount} + 1` };
+    if (userId) updates.usedBy = userId;
+    await db.update(testerInviteCodes).set(updates).where(eq(testerInviteCodes.code, code));
   }
   async deleteTesterInviteCode(id: string): Promise<void> {
     await db.delete(testerInviteCodes).where(eq(testerInviteCodes.id, id));
