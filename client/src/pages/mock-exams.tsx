@@ -482,7 +482,7 @@ export default function MockExamsPage() {
                       if (!user) { navigate("/login"); return; }
                       setStarting(true);
                       try {
-                        const result = await getReadinessExamQuestions(selectedTier);
+                        const result = await getReadinessExamQuestions(selectedTier, userRegion);
                         const res = await fetch("/api/mock-exams/start", {
                           method: "POST",
                           headers: { "Content-Type": "application/json", ...getAuthHeaders() },

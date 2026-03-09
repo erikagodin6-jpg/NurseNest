@@ -501,8 +501,8 @@ function getDomainForQuestion(q: PooledQuestion, tier: string): string {
   return map[q.bodySystem] || Object.values(map)[0] || "General";
 }
 
-export async function getReadinessExamQuestions(tier: string): Promise<{ questions: PooledQuestion[]; blueprint: ExamBlueprint; domainAssignments: Record<string, string> }> {
-  const blueprint = getReadinessExamForTier(tier);
+export async function getReadinessExamQuestions(tier: string, region?: "US" | "CA"): Promise<{ questions: PooledQuestion[]; blueprint: ExamBlueprint; domainAssignments: Record<string, string> }> {
+  const blueprint = getReadinessExamForTier(tier, region);
   if (!blueprint) throw new Error(`No readiness exam for tier: ${tier}`);
 
   const allQuestions = await getExamQuestions(blueprint.tier, blueprint.totalQuestions * 3);

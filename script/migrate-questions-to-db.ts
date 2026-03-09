@@ -90,6 +90,14 @@ QUESTION_FILES.push({ file: "pn-us-batch-01", tier: "rpn", exam: "NCLEX-PN", exp
 QUESTION_FILES.push({ file: "rn-us-batch-01", tier: "rn", exam: "NCLEX-RN", exportName: "rnUsBatch01Questions" });
 QUESTION_FILES.push({ file: "np-us-batch-01", tier: "np", exam: "AANP", exportName: "npUsBatch01Questions" });
 
+QUESTION_FILES.push({ file: "rpn-cases-01", tier: "rpn", exam: "REX-PN", exportName: "rpnCases01Questions" });
+QUESTION_FILES.push({ file: "rn-cases-01", tier: "rn", exam: "NCLEX-RN", exportName: "rnCases01Questions" });
+QUESTION_FILES.push({ file: "np-cases-01", tier: "np", exam: "AANP", exportName: "npCases01Questions" });
+QUESTION_FILES.push({ file: "cnple-batch-01", tier: "np", exam: "CNPLE", exportName: "cnpleBatch01Questions" });
+QUESTION_FILES.push({ file: "cnple-batch-02", tier: "np", exam: "CNPLE", exportName: "cnpleBatch02Questions" });
+QUESTION_FILES.push({ file: "cnple-batch-03", tier: "np", exam: "CNPLE", exportName: "cnpleBatch03Questions" });
+QUESTION_FILES.push({ file: "us-cases-01", tier: "rn", exam: "NCLEX-RN", exportName: "usCases01Questions" });
+
 for (let i = 1; i <= 56; i++) {
   const pad = String(i).padStart(2, "0");
   QUESTION_FILES.push({
