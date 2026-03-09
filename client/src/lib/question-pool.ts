@@ -95,6 +95,7 @@ export interface ExamBlueprint {
   examCode: string;
   examName: string;
   tier: string;
+  region: "CA" | "US";
   totalQuestions: number;
   timeLimit: number;
   passingThreshold: number;
@@ -221,6 +222,7 @@ export const EXAM_BLUEPRINTS: Record<string, ExamBlueprint> = {
     examCode: "REX-PN",
     examName: "REx-PN Computer Adaptive Test",
     tier: "rpn",
+    region: "CA",
     totalQuestions: 90,
     timeLimit: 180,
     passingThreshold: 0,
@@ -242,6 +244,7 @@ export const EXAM_BLUEPRINTS: Record<string, ExamBlueprint> = {
     examCode: "NCLEX-PN",
     examName: "NCLEX-PN Computer Adaptive Test",
     tier: "rpn",
+    region: "US",
     totalQuestions: 85,
     timeLimit: 180,
     passingThreshold: 0,
@@ -258,10 +261,11 @@ export const EXAM_BLUEPRINTS: Record<string, ExamBlueprint> = {
     ],
     difficultyMix: { high: 0.20, moderate: 0.60, foundational: 0.20 },
   },
-  "NCLEX-RN": {
-    examCode: "NCLEX-RN",
-    examName: "NCLEX-RN / NGN Computer Adaptive Test",
+  "NCLEX-RN-CA": {
+    examCode: "NCLEX-RN-CA",
+    examName: "NCLEX-RN / NGN (Canadian Administration)",
     tier: "rn",
+    region: "CA",
     totalQuestions: 85,
     timeLimit: 180,
     passingThreshold: 0,
@@ -282,10 +286,57 @@ export const EXAM_BLUEPRINTS: Record<string, ExamBlueprint> = {
     ],
     difficultyMix: { high: 0.20, moderate: 0.60, foundational: 0.20 },
   },
+  "NCLEX-RN": {
+    examCode: "NCLEX-RN",
+    examName: "NCLEX-RN / NGN Computer Adaptive Test",
+    tier: "rn",
+    region: "US",
+    totalQuestions: 85,
+    timeLimit: 180,
+    passingThreshold: 0,
+    domainPassThreshold: 0,
+    examType: "cat",
+    minQuestions: 60,
+    maxQuestions: 85,
+    showQuestionCount: false,
+    domains: [
+      { name: "Management of Care", weight: 0.19 },
+      { name: "Safety and Infection Control", weight: 0.12 },
+      { name: "Health Promotion and Maintenance", weight: 0.09 },
+      { name: "Psychosocial Integrity", weight: 0.09 },
+      { name: "Basic Care and Comfort", weight: 0.09 },
+      { name: "Pharmacological Therapies", weight: 0.15 },
+      { name: "Reduction of Risk Potential", weight: 0.12 },
+      { name: "Physiological Adaptation", weight: 0.14 },
+    ],
+    difficultyMix: { high: 0.20, moderate: 0.60, foundational: 0.20 },
+  },
+  "CNPLE": {
+    examCode: "CNPLE",
+    examName: "Canadian NP Licensure Exam (CNPLE)",
+    tier: "np",
+    region: "CA",
+    totalQuestions: 180,
+    timeLimit: 300,
+    passingThreshold: 0,
+    domainPassThreshold: 0,
+    examType: "linear-scaled",
+    showQuestionCount: true,
+    scaledScoreRange: { min: 200, max: 800, passScore: 500 },
+    domains: [
+      { name: "Health Assessment", weight: 0.25 },
+      { name: "Diagnosis", weight: 0.20 },
+      { name: "Therapeutics", weight: 0.25 },
+      { name: "Health Promotion & Disease Prevention", weight: 0.15 },
+      { name: "Professional Role & Responsibility", weight: 0.15 },
+    ],
+    difficultyMix: { high: 0.25, moderate: 0.55, foundational: 0.20 },
+  },
   "AANP": {
     examCode: "AANP",
     examName: "AANP Certification Exam",
     tier: "np",
+    region: "US",
     totalQuestions: 150,
     timeLimit: 240,
     passingThreshold: 0,
@@ -306,6 +357,7 @@ export const EXAM_BLUEPRINTS: Record<string, ExamBlueprint> = {
     examCode: "ANCC",
     examName: "ANCC Certification Exam",
     tier: "np",
+    region: "US",
     totalQuestions: 150,
     timeLimit: 240,
     passingThreshold: 0,
@@ -329,6 +381,7 @@ export const READINESS_EXAMS: Record<string, ExamBlueprint> = {
     examCode: "READINESS-RPN",
     examName: "RPN Readiness Check",
     tier: "rpn",
+    region: "CA",
     totalQuestions: 25,
     timeLimit: 45,
     passingThreshold: 65,
@@ -344,10 +397,11 @@ export const READINESS_EXAMS: Record<string, ExamBlueprint> = {
     ],
     difficultyMix: { high: 0.15, moderate: 0.65, foundational: 0.20 },
   },
-  "READINESS-RN": {
-    examCode: "READINESS-RN",
+  "READINESS-RN-CA": {
+    examCode: "READINESS-RN-CA",
     examName: "RN Readiness Check",
     tier: "rn",
+    region: "CA",
     totalQuestions: 25,
     timeLimit: 45,
     passingThreshold: 65,
@@ -366,10 +420,54 @@ export const READINESS_EXAMS: Record<string, ExamBlueprint> = {
     ],
     difficultyMix: { high: 0.15, moderate: 0.65, foundational: 0.20 },
   },
+  "READINESS-RN": {
+    examCode: "READINESS-RN",
+    examName: "RN Readiness Check",
+    tier: "rn",
+    region: "US",
+    totalQuestions: 25,
+    timeLimit: 45,
+    passingThreshold: 65,
+    domainPassThreshold: 0,
+    examType: "readiness",
+    showQuestionCount: true,
+    domains: [
+      { name: "Management of Care", weight: 0.19 },
+      { name: "Safety and Infection Control", weight: 0.12 },
+      { name: "Health Promotion and Maintenance", weight: 0.09 },
+      { name: "Psychosocial Integrity", weight: 0.09 },
+      { name: "Basic Care and Comfort", weight: 0.09 },
+      { name: "Pharmacological Therapies", weight: 0.15 },
+      { name: "Reduction of Risk Potential", weight: 0.12 },
+      { name: "Physiological Adaptation", weight: 0.14 },
+    ],
+    difficultyMix: { high: 0.15, moderate: 0.65, foundational: 0.20 },
+  },
+  "READINESS-NP-CA": {
+    examCode: "READINESS-NP-CA",
+    examName: "NP Readiness Check",
+    tier: "np",
+    region: "CA",
+    totalQuestions: 25,
+    timeLimit: 45,
+    passingThreshold: 65,
+    domainPassThreshold: 0,
+    examType: "readiness",
+    showQuestionCount: true,
+    domains: [
+      { name: "Health Assessment", weight: 0.25 },
+      { name: "Diagnosis", weight: 0.20 },
+      { name: "Therapeutics", weight: 0.25 },
+      { name: "Health Promotion & Disease Prevention", weight: 0.15 },
+      { name: "Professional Role & Responsibility", weight: 0.15 },
+    ],
+    difficultyMix: { high: 0.15, moderate: 0.65, foundational: 0.20 },
+  },
   "READINESS-NP": {
     examCode: "READINESS-NP",
     examName: "NP Readiness Check",
     tier: "np",
+    region: "US",
     totalQuestions: 25,
     timeLimit: 45,
     passingThreshold: 65,
@@ -387,7 +485,11 @@ export const READINESS_EXAMS: Record<string, ExamBlueprint> = {
   },
 };
 
-export function getReadinessExamForTier(tier: string): ExamBlueprint | null {
+export function getReadinessExamForTier(tier: string, region?: "US" | "CA"): ExamBlueprint | null {
+  if (region === "CA") {
+    const caCode = `READINESS-${tier.toUpperCase()}-CA`;
+    if (READINESS_EXAMS[caCode]) return READINESS_EXAMS[caCode];
+  }
   const code = `READINESS-${tier.toUpperCase()}`;
   return READINESS_EXAMS[code] || null;
 }
@@ -441,8 +543,12 @@ export async function getReadinessExamQuestions(tier: string): Promise<{ questio
   };
 }
 
-export function getAvailableBlueprintsForTier(tier: string): ExamBlueprint[] {
-  return Object.values(EXAM_BLUEPRINTS).filter(bp => bp.tier === tier);
+export function getAvailableBlueprintsForTier(tier: string, region?: "US" | "CA"): ExamBlueprint[] {
+  return Object.values(EXAM_BLUEPRINTS).filter(bp => {
+    if (bp.tier !== tier) return false;
+    if (region && bp.region !== region) return false;
+    return true;
+  });
 }
 
 export async function getOfficialExamQuestions(blueprintCode: string): Promise<{ questions: PooledQuestion[]; blueprint: ExamBlueprint; domainAssignments: Record<string, string> }> {

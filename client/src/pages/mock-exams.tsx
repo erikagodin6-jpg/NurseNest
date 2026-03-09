@@ -67,15 +67,28 @@ export default function MockExamsPage() {
   const [selectedBlueprint, setSelectedBlueprint] = useState<string>("");
   const [showThemeCustomizer, setShowThemeCustomizer] = useState(false);
   const [examTheme, setExamTheme] = useState(() => localStorage.getItem("examTheme") || "nursenestPurple");
-
-  const availableBlueprints = getAvailableBlueprintsForTier(selectedTier);
+  const [userRegion, setUserRegion] = useState<"US" | "CA">(() => (localStorage.getItem("nursenest-region") as "US" | "CA") || "US");
 
   useEffect(() => {
-    const bps = getAvailableBlueprintsForTier(selectedTier);
+    const handleRegionChange = () => {
+      setUserRegion((localStorage.getItem("nursenest-region") as "US" | "CA") || "US");
+    };
+    window.addEventListener("regionChange", handleRegionChange);
+    window.addEventListener("storage", handleRegionChange);
+    return () => {
+      window.removeEventListener("regionChange", handleRegionChange);
+      window.removeEventListener("storage", handleRegionChange);
+    };
+  }, []);
+
+  const availableBlueprints = getAvailableBlueprintsForTier(selectedTier, userRegion);
+
+  useEffect(() => {
+    const bps = getAvailableBlueprintsForTier(selectedTier, userRegion);
     if (bps.length > 0) {
       setSelectedBlueprint(bps[0].examCode);
     }
-  }, [selectedTier]);
+  }, [selectedTier, userRegion]);
 
   const examLengths = [
     { count: 25, label: t("mockExams.quickReview"), time: t("mockExams.quickReviewTime"), desc: t("mockExams.quickReviewDesc") },
@@ -463,7 +476,7 @@ export default function MockExamsPage() {
                   <div className="absolute inset-0 flex items-center"><span className="w-full border-t" /></div>
                   <div className="relative flex justify-center text-xs uppercase"><span className="bg-warmwhite px-2 text-gray-400">or try for free</span></div>
                 </div>
-                {getReadinessExamForTier(selectedTier) && (
+                {getReadinessExamForTier(selectedTier, userRegion) && (
                   <button
                     onClick={async () => {
                       if (!user) { navigate("/login"); return; }

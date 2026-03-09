@@ -5937,8 +5937,9 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
       const { topic, citationStyle } = req.body;
       const post = await generateBlogPost(topic, citationStyle || "apa7");
 
-      const isDup = await storage.checkDuplicateSlug(post.slug);
-      const finalSlug = isDup ? `${post.slug}-${Date.now()}` : post.slug;
+      const safeSlug = post.slug.toLowerCase().replace(/[^a-z0-9\s-]/g, "").replace(/\s+/g, "-").replace(/-+/g, "-").replace(/^-|-$/g, "") || `blog-${Date.now()}`;
+      const isDup = await storage.checkDuplicateSlug(safeSlug);
+      const finalSlug = isDup ? `${safeSlug}-${Date.now()}` : safeSlug;
 
       const created = await storage.createContentItem({
         title: post.title,
@@ -5961,6 +5962,7 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
 
       res.json(created);
     } catch (e: any) {
+      console.error("Blog generation error:", e);
       res.status(500).json({ error: e.message });
     }
   });
@@ -6039,8 +6041,9 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
 
         try {
           const post = await generateBlogPost(topicText.trim(), citationStyle || "apa7");
-          const isDup = await storage.checkDuplicateSlug(post.slug);
-          const finalSlug = isDup ? `${post.slug}-${Date.now()}` : post.slug;
+          const safeSlugBatch = post.slug.toLowerCase().replace(/[^a-z0-9\s-]/g, "").replace(/\s+/g, "-").replace(/-+/g, "-").replace(/^-|-$/g, "") || `blog-${Date.now()}`;
+          const isDup = await storage.checkDuplicateSlug(safeSlugBatch);
+          const finalSlug = isDup ? `${safeSlugBatch}-${Date.now()}` : safeSlugBatch;
 
           let scheduledDate: Date;
           const slotInDay = slotCounter % perDay;

@@ -339,13 +339,33 @@ Include 4-8 APA 7 in-text citations and references. Each paragraph must be at le
     );
   }
 
+  function sanitizeSlug(raw: string): string {
+    return raw
+      .toLowerCase()
+      .replace(/[^a-z0-9\s-]/g, "")
+      .replace(/\s+/g, "-")
+      .replace(/-+/g, "-")
+      .replace(/^-|-$/g, "");
+  }
+
+  function sanitizeCategory(raw: string): string {
+    return raw.replace(/[^a-zA-Z0-9\s-]/g, "").trim() || "nursing-education";
+  }
+
+  function sanitizeTitle(raw: string): string {
+    return stripDashes(raw).replace(/[\u0000-\u001F\u007F-\u009F]/g, "").trim();
+  }
+
+  const rawSlug = parsed.slug || selectedTopic.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+  const safeSlug = sanitizeSlug(rawSlug) || `blog-${Date.now()}`;
+
   return {
-    title: parsed.title || selectedTopic,
-    slug: parsed.slug || selectedTopic.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, ""),
+    title: sanitizeTitle(parsed.title || selectedTopic),
+    slug: safeSlug,
     summary: parsed.summary || "",
     content: parsed.content || [],
-    tags: parsed.tags || [],
-    seoTitle: parsed.seoTitle || parsed.title || selectedTopic,
+    tags: (parsed.tags || []).map((t: string) => sanitizeCategory(t)),
+    seoTitle: sanitizeTitle(parsed.seoTitle || parsed.title || selectedTopic),
     seoDescription: parsed.seoDescription || parsed.summary || "",
     seoKeywords: parsed.seoKeywords || [],
     primaryKeyword: parsed.primaryKeyword || "",
