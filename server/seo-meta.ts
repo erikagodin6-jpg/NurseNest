@@ -344,6 +344,42 @@ const staticPages: Record<string, { title: string; description: string }> = {
     title: "Question Bank - 1,200+ Nursing Practice Questions | NurseNest",
     description: "Practice with 1,200+ nursing questions organized by body system and tier. Instant rationale display and progress tracking for NCLEX and REX-PN prep. New questions added weekly.",
   },
+  "/nclex-rn/mock-exam": {
+    title: "NCLEX-RN Mock Exam Simulator | Free Practice Test | NurseNest",
+    description: "Take a realistic NCLEX-RN mock exam with computer adaptive testing simulation. 145 practice questions, detailed rationales, and performance analytics aligned to the 2024-2026 NCLEX-RN test plan.",
+  },
+  "/nclex-pn/mock-exam": {
+    title: "NCLEX-PN Mock Exam Simulator | Free Practice Test | NurseNest",
+    description: "Prepare for the NCLEX-PN with a realistic mock exam simulator. 150 practice questions with computer adaptive testing, rationales, and analytics for LPN/LVN students.",
+  },
+  "/rex-pn/mock-exam": {
+    title: "REx-PN Mock Exam Simulator | Free Practice Test | NurseNest Canada",
+    description: "Practice the Canadian REx-PN exam with a realistic mock simulator. 170 questions covering competencies tested on the Regulatory Exam for Practical Nurses in Canada.",
+  },
+  "/canada-np/mock-exam": {
+    title: "Canadian NP Exam (CNPLE) Mock Simulator | NurseNest Canada",
+    description: "Prepare for the Canadian Nurse Practitioner Licensing Exam (CNPLE) with a realistic mock exam. 200 advanced practice questions with rationales for NP students in Canada.",
+  },
+  "/us-np/mock-exam": {
+    title: "US NP Certification Exam Mock Simulator (AANP/ANCC) | NurseNest",
+    description: "Practice for AANP or ANCC nurse practitioner certification with a realistic mock exam. 175 advanced practice questions covering FNP, AGNP, and specialty content.",
+  },
+  "/nclex-rn": {
+    title: "NCLEX-RN Exam Prep Hub | Study Guides, Mock Exams & Practice Questions | NurseNest",
+    description: "Your complete NCLEX-RN exam prep hub. Access mock exams, practice questions, pharmacology flashcards, study guides, and lab value review all in one place.",
+  },
+  "/nclex-pn": {
+    title: "NCLEX-PN Exam Prep Hub | Study Guides, Mock Exams & Practice Questions | NurseNest",
+    description: "Your complete NCLEX-PN exam prep hub. Access mock exams, practice questions, pharmacology flashcards, study guides, and lab value review for LPN/LVN students.",
+  },
+  "/canada-np": {
+    title: "Canadian NP (CNPLE) Exam Prep Hub | NurseNest Canada",
+    description: "Your complete Canadian Nurse Practitioner exam prep hub. Access CNPLE mock exams, advanced practice questions, pharmacology review, and study guides.",
+  },
+  "/us-np": {
+    title: "US NP Certification (AANP/ANCC) Exam Prep Hub | NurseNest",
+    description: "Your complete US Nurse Practitioner certification exam prep hub. Access AANP/ANCC mock exams, advanced practice questions, and study guides.",
+  },
   "/nclex-rn-practice-questions": {
     title: "NCLEX-RN Practice Questions | Free RN Exam Prep | NurseNest",
     description: "Practice NCLEX-RN questions with detailed rationales. System-based question banks, timed mock exams, and clinical judgment cases aligned to the 2024-2026 NCLEX-RN test plan.",
@@ -589,6 +625,45 @@ export function getPageMeta(pathname: string): PageMeta {
     return {
       title: `${readable} | NurseNest`,
       description: `${readable} - nursing education content on NurseNest. Evidence-based learning for RPN/LVN, RN, and NP students.`,
+      canonical,
+      noindex,
+      breadcrumbs,
+    };
+  }
+
+  const conditionMatch = cleanPath.match(/^\/conditions\/(.+)$/);
+  if (conditionMatch) {
+    const slug = conditionMatch[1];
+    const readable = slugToTitle(slug);
+    return {
+      title: `${readable} - Nursing Study Guide | Pathophysiology & Interventions | NurseNest`,
+      description: `Learn about ${readable.toLowerCase()} for nursing exams. Pathophysiology, clinical presentation, diagnostics, medications, and nursing interventions. NCLEX and REX-PN exam prep.`,
+      canonical,
+      noindex,
+      breadcrumbs,
+    };
+  }
+
+  const medicationMatch = cleanPath.match(/^\/medications\/(.+)$/);
+  if (medicationMatch) {
+    const slug = medicationMatch[1];
+    const readable = slugToTitle(slug);
+    return {
+      title: `${readable} - Nursing Pharmacology Guide | Drug Class, MOA & Side Effects | NurseNest`,
+      description: `Study ${readable.toLowerCase()} for nursing exams. Drug class, mechanism of action, indications, side effects, contraindications, and nursing considerations for NCLEX and REX-PN prep.`,
+      canonical,
+      noindex,
+      breadcrumbs,
+    };
+  }
+
+  const labValueMatch = cleanPath.match(/^\/lab-values\/(.+)$/);
+  if (labValueMatch) {
+    const slug = labValueMatch[1];
+    const readable = slugToTitle(slug);
+    return {
+      title: `${readable} - Lab Value Interpretation | Normal Range & Clinical Significance | NurseNest`,
+      description: `Master ${readable.toLowerCase()} lab value interpretation for nursing exams. Normal ranges, high/low causes, clinical significance, and nursing interventions for NCLEX and REX-PN prep.`,
       canonical,
       noindex,
       breadcrumbs,

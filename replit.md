@@ -78,6 +78,15 @@ The application is built with Vite, React, and Express 5 on Node.js with TypeScr
 - View active beta testers table with username, tier, invite code used, referral code, referral count, expiry, status
 - View tester feedback with category, severity, title, description, and status badges
 
+## SEO Page System
+- **Exam Landing Pages**: `/nclex-rn/mock-exam`, `/nclex-pn/mock-exam`, `/rex-pn/mock-exam`, `/canada-np/mock-exam`, `/us-np/mock-exam` — reusable `exam-landing.tsx` with interactive sample questions, FAQ, structured data (FAQPage, Article, EducationalOccupationalCredential)
+- **Exam Hub Pages**: `/nclex-rn`, `/nclex-pn`, `/canada-np`, `/us-np` — reusable `exam-hub.tsx` with internal linking grids, key stats, cross-links (note: `/rex-pn` uses existing `RexPnHub`)
+- **Condition Pages**: `/conditions/:slug` (7: hypertension, diabetes, asthma, copd, heart-failure, sepsis, pneumonia) — `condition-page.tsx` with MedicalCondition structured data
+- **Medication Pages**: `/medications/:slug` (5: metformin, lisinopril, warfarin, insulin, amiodarone) — `medication-page.tsx` with Drug structured data
+- **Lab Value Pages**: `/lab-values/:slug` (5: sodium, potassium, troponin, creatinine, inr) — `lab-value-page.tsx`
+- Data files: `client/src/data/seo-exam-data.ts`, `seo-conditions.ts`, `seo-medications.ts`, `seo-lab-values.ts`
+- All pages in sitemap.xml and server-side meta injection (seo-meta.ts)
+
 ## Blog Batch Generator
 - `POST /api/blog/generate-batch` generates blog posts via OpenAI (gpt-4o-mini, 16k tokens)
 - Frontend sends topics one-at-a-time to avoid HTTP timeout (each post takes ~30s)

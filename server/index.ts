@@ -346,6 +346,32 @@ app.get("/sitemap.xml", async (_req, res) => {
   entries.push(sitemapUrl(base, "/glossary", "0.8", "monthly", enOnly, today));
   entries.push(sitemapUrl(base, "/medication-mastery", "0.7", "monthly", enOnly, today));
 
+  entries.push(sitemapUrl(base, "/nclex-rn/mock-exam", "0.9", "weekly", enOnly, today));
+  entries.push(sitemapUrl(base, "/nclex-pn/mock-exam", "0.9", "weekly", enOnly, today));
+  entries.push(sitemapUrl(base, "/rex-pn/mock-exam", "0.9", "weekly", enOnly, today));
+  entries.push(sitemapUrl(base, "/canada-np/mock-exam", "0.9", "weekly", enOnly, today));
+  entries.push(sitemapUrl(base, "/us-np/mock-exam", "0.9", "weekly", enOnly, today));
+
+  entries.push(sitemapUrl(base, "/nclex-rn", "0.8", "monthly", enOnly, today));
+  entries.push(sitemapUrl(base, "/nclex-pn", "0.8", "monthly", enOnly, today));
+  entries.push(sitemapUrl(base, "/canada-np", "0.8", "monthly", enOnly, today));
+  entries.push(sitemapUrl(base, "/us-np", "0.8", "monthly", enOnly, today));
+
+  const seoConditions = ["hypertension", "diabetes", "asthma", "copd", "heart-failure", "sepsis", "pneumonia"];
+  for (const c of seoConditions) {
+    entries.push(sitemapUrl(base, `/conditions/${c}`, "0.8", "monthly", enOnly, today));
+  }
+
+  const seoMedications = ["metformin", "lisinopril", "warfarin", "insulin", "amiodarone"];
+  for (const m of seoMedications) {
+    entries.push(sitemapUrl(base, `/medications/${m}`, "0.8", "monthly", enOnly, today));
+  }
+
+  const seoLabValues = ["sodium", "potassium", "troponin", "creatinine", "inr"];
+  for (const l of seoLabValues) {
+    entries.push(sitemapUrl(base, `/lab-values/${l}`, "0.8", "monthly", enOnly, today));
+  }
+
   const glossaryTermSlugs = [
     "auscultation","blood-pressure","bradycardia","tachycardia","cardiac-output","stroke-volume","preload","afterload",
     "myocardial-infarction","heart-failure","pulmonary-embolism","deep-vein-thrombosis","atrial-fibrillation","sinus-rhythm",

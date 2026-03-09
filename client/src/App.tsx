@@ -173,6 +173,11 @@ const TrialUpgrade = lazy(() => import("@/pages/trial-upgrade"));
 const AlliedHomePage = lazy(() => import("@/allied/pages/allied-home"));
 const ForInstitutions = lazy(() => import("@/pages/for-institutions"));
 const AdminInstitutions = lazy(() => import("@/pages/admin-institutions"));
+const ExamLandingPage = lazy(() => import("@/pages/exam-landing"));
+const ExamHubPage = lazy(() => import("@/pages/exam-hub"));
+const ConditionPage = lazy(() => import("@/pages/condition-page"));
+const MedicationPage = lazy(() => import("@/pages/medication-page"));
+const LabValuePage = lazy(() => import("@/pages/lab-value-page"));
 
 function PageTracker() {
   usePageTracker();
@@ -416,6 +421,18 @@ function AppRoutes() {
         <Route path="/pharmacology/pricing" component={PharmacologyHub} />
         <Route path="/pharmacology/faq" component={PharmacologyHub} />
         <Route path="/pharmacology" component={PharmacologyHub} />
+        <Route path="/nclex-rn/mock-exam" component={ExamLandingPage} />
+        <Route path="/nclex-pn/mock-exam" component={ExamLandingPage} />
+        <Route path="/rex-pn/mock-exam" component={ExamLandingPage} />
+        <Route path="/canada-np/mock-exam" component={ExamLandingPage} />
+        <Route path="/us-np/mock-exam" component={ExamLandingPage} />
+        <Route path="/nclex-rn" component={ExamHubPage} />
+        <Route path="/nclex-pn" component={ExamHubPage} />
+        <Route path="/canada-np" component={ExamHubPage} />
+        <Route path="/us-np" component={ExamHubPage} />
+        <Route path="/conditions/:slug" component={ConditionPage} />
+        <Route path="/medications/:slug" component={MedicationPage} />
+        <Route path="/lab-values/:slug" component={LabValuePage} />
         <Route path="/nclex-rn-practice-questions" component={NclexRnPracticePage} />
         <Route path="/nclex-pn-practice-questions" component={NclexPnPracticePage} />
         <Route path="/rex-pn-practice-questions" component={RexPnPracticePage} />
