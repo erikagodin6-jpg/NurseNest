@@ -2617,6 +2617,113 @@ export const insertImagingExamAttemptQuestionSchema = createInsertSchema(imaging
 export type ImagingExamAttemptQuestion = typeof imagingExamAttemptQuestions.$inferSelect;
 export type InsertImagingExamAttemptQuestion = z.infer<typeof insertImagingExamAttemptQuestionSchema>;
 
+export const pharmtechLessons = pgTable("pharmtech_lessons", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  slug: text("slug").notNull().unique(),
+  externalId: text("external_id").unique(),
+  title: text("title").notNull(),
+  category: text("category").notNull(),
+  summary: text("summary"),
+  body: text("body").notNull().default(""),
+  objectives: text("objectives").array().default(sql`'{}'::text[]`),
+  keyPoints: text("key_points").array().default(sql`'{}'::text[]`),
+  commonMistakes: text("common_mistakes").array().default(sql`'{}'::text[]`),
+  relatedDeckSlugs: text("related_deck_slugs").array().default(sql`'{}'::text[]`),
+  seoTitle: text("seo_title"),
+  seoDescription: text("seo_description"),
+  published: boolean("published").default(false),
+  sortOrder: integer("sort_order").default(0),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export const insertPharmtechLessonSchema = createInsertSchema(pharmtechLessons).omit({ id: true, createdAt: true, updatedAt: true });
+export type PharmtechLesson = typeof pharmtechLessons.$inferSelect;
+export type InsertPharmtechLesson = z.infer<typeof insertPharmtechLessonSchema>;
+
+export const pharmtechFlashcardDecks = pgTable("pharmtech_flashcard_decks", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  slug: text("slug").notNull().unique(),
+  externalId: text("external_id").unique(),
+  title: text("title").notNull(),
+  description: text("description").default(""),
+  category: text("category").notNull(),
+  lessonSlug: text("lesson_slug"),
+  cardCount: integer("card_count").default(0),
+  published: boolean("published").default(false),
+  sortOrder: integer("sort_order").default(0),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export const insertPharmtechFlashcardDeckSchema = createInsertSchema(pharmtechFlashcardDecks).omit({ id: true, createdAt: true, updatedAt: true, cardCount: true });
+export type PharmtechFlashcardDeck = typeof pharmtechFlashcardDecks.$inferSelect;
+export type InsertPharmtechFlashcardDeck = z.infer<typeof insertPharmtechFlashcardDeckSchema>;
+
+export const pharmtechFlashcards = pgTable("pharmtech_flashcards", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  deckId: varchar("deck_id").notNull(),
+  front: text("front").notNull(),
+  back: text("back").notNull(),
+  sortOrder: integer("sort_order").default(0),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const insertPharmtechFlashcardSchema = createInsertSchema(pharmtechFlashcards).omit({ id: true, createdAt: true });
+export type PharmtechFlashcard = typeof pharmtechFlashcards.$inferSelect;
+export type InsertPharmtechFlashcard = z.infer<typeof insertPharmtechFlashcardSchema>;
+
+export const pharmtechQuestions = pgTable("pharmtech_questions", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  externalId: text("external_id").unique(),
+  stem: text("stem").notNull(),
+  options: jsonb("options").notNull().default(sql`'[]'::jsonb`),
+  correctIndex: integer("correct_index").notNull(),
+  rationale: text("rationale").notNull(),
+  category: text("category").notNull(),
+  difficulty: integer("difficulty").notNull().default(2),
+  lessonSlug: text("lesson_slug"),
+  published: boolean("published").default(false),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const insertPharmtechQuestionSchema = createInsertSchema(pharmtechQuestions).omit({ id: true, createdAt: true });
+export type PharmtechQuestion = typeof pharmtechQuestions.$inferSelect;
+export type InsertPharmtechQuestion = z.infer<typeof insertPharmtechQuestionSchema>;
+
+export const pharmtechExams = pgTable("pharmtech_exams", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  slug: text("slug").notNull().unique(),
+  externalId: text("external_id").unique(),
+  title: text("title").notNull(),
+  description: text("description").default(""),
+  questionIds: text("question_ids").array().default(sql`'{}'::text[]`),
+  timeLimitMinutes: integer("time_limit_minutes").default(60),
+  passingScore: integer("passing_score").default(70),
+  published: boolean("published").default(false),
+  sortOrder: integer("sort_order").default(0),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const insertPharmtechExamSchema = createInsertSchema(pharmtechExams).omit({ id: true, createdAt: true });
+export type PharmtechExam = typeof pharmtechExams.$inferSelect;
+export type InsertPharmtechExam = z.infer<typeof insertPharmtechExamSchema>;
+
+export const pharmtechExamAttempts = pgTable("pharmtech_exam_attempts", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id"),
+  examId: varchar("exam_id").notNull(),
+  mode: text("mode").notNull().default("timed"),
+  answers: jsonb("answers").default(sql`'{}'::jsonb`),
+  flagged: jsonb("flagged").default(sql`'[]'::jsonb`),
+  score: integer("score"),
+  totalQuestions: integer("total_questions").notNull(),
+  timeSpentSeconds: integer("time_spent_seconds"),
+  status: text("status").notNull().default("in_progress"),
+  startedAt: timestamp("started_at").defaultNow().notNull(),
+  completedAt: timestamp("completed_at"),
+});
+
 export const imagingPositioningEntries = pgTable("imaging_positioning_entries", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
   country: text("country").notNull().default("canada"),
@@ -3034,6 +3141,7 @@ export const paramedicStudyGuides = pgTable("paramedic_study_guides", {
 export const insertParamedicStudyGuideSchema = createInsertSchema(paramedicStudyGuides).omit({ id: true, createdAt: true, updatedAt: true });
 export type ParamedicStudyGuide = typeof paramedicStudyGuides.$inferSelect;
 export type InsertParamedicStudyGuide = z.infer<typeof insertParamedicStudyGuideSchema>;
+
 export const mltImportHistory = pgTable("mlt_import_history", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
   importType: text("import_type").notNull(),
@@ -3060,6 +3168,10 @@ export const insertMltImportHistorySchema = createInsertSchema(mltImportHistory)
 
 export type MltImportHistory = typeof mltImportHistory.$inferSelect;
 export type InsertMltImportHistory = z.infer<typeof insertMltImportHistorySchema>;
+
+export const insertPharmtechExamAttemptSchema = createInsertSchema(pharmtechExamAttempts).omit({ id: true, startedAt: true });
+export type PharmtechExamAttempt = typeof pharmtechExamAttempts.$inferSelect;
+export type InsertPharmtechExamAttempt = z.infer<typeof insertPharmtechExamAttemptSchema>;
 
 export const mltLabImages = pgTable("mlt_lab_images", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),

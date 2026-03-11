@@ -137,6 +137,17 @@ The MLT (Medical Laboratory Technology) section provides country-specific exam p
 - **Admin panel** (`client/src/allied/components/scenario-admin.tsx`): Create, edit, preview, publish/unpublish, delete scenarios with visual decision point editor (mark correct answers). Accessible via "Scenarios" tab in allied admin dashboard
 - **Routes**: `/careers/paramedic/scenarios` (hub), `/careers/paramedic/scenarios/:slug` (player)
 
+## Pharmacy Technician Section (Allied)
+- **Database tables**: `pharmtech_lessons`, `pharmtech_flashcard_decks`, `pharmtech_flashcards`, `pharmtech_questions`, `pharmtech_exams`, `pharmtech_exam_attempts` — all with UUID primary keys
+- **Backend API**: `server/pharmtech-routes.ts` — public endpoints at `/api/pharmtech/*`, admin CRUD at `/api/admin/pharmtech/*` with `requireAdmin` middleware
+- **Frontend pages**: 7 pages under `client/src/allied/pages/pharmtech-*.tsx` — hub, lessons (library+detail), flashcards (decks+flipcard), exams (list+timed/tutor modes+review), practice questions, study guide, admin
+- **Routes**: Registered in `client/src/allied/allied-routes.tsx` under `/pharmacy-technician/...`
+- **Seed data**: `server/pharmtech-seed.ts` — 10 lessons, 8 flashcard decks (101 cards), 202 questions, 6 exams
+- **Access control**: Free users get 10 practice questions (server-side LIMIT), Pro users get full access. Exams/flashcards/lessons are publicly available
+- **Branding**: Green/emerald color scheme (`green-600`, `emerald-50`) for pharmacy tech content
+- **Exam modes**: Timed mode (countdown timer, navigator panel, flagging), Tutor mode (rationale shown after each answer)
+- **Admin**: Content manager at `/admin/allied-content/pharmacy-technician` with publish/unpublish and delete for all content types
+
 ## Referral Discount System
 - Users table has `referral_code` (unique, format NN-REF-XXXXXX), `referral_uses`, `referred_by`, `referral_discount_used` columns
 - Storage methods: `generateReferralCode`, `getUserByReferralCode`, `incrementReferralUses`, `setReferredBy`, `markReferralDiscountUsed`
