@@ -161,6 +161,7 @@ const RexPnStrategies = lazy(() => import("@/pages/rex-pn-strategies"));
 const RexPnWellness = lazy(() => import("@/pages/rex-pn-wellness"));
 const PharmacologyHub = lazy(() => import("@/pages/pharmacology-hub"));
 const AdminContentManager = lazy(() => import("@/pages/admin-content-manager"));
+const AdminQBankImport = lazy(() => import("@/pages/admin-qbank-import"));
 const AdminNgnGenerator = lazy(() => import("@/pages/admin-ngn-generator"));
 const AdminAutopilot = lazy(() => import("@/pages/admin-autopilot"));
 const AdminPageviews = lazy(() => import("@/pages/admin-pageviews"));
@@ -361,6 +362,7 @@ function AppRoutes() {
         <Route path="/admin/revenue" component={AdminRevenueDashboard} />
         <Route path="/admin/pipeline" component={AdminPipelineDashboard} />
         <Route path="/admin/content-manager" component={AdminContentManager} />
+        <Route path="/admin/qbank/import" component={AdminQBankImport} />
         <Route path="/admin/qbank/ngn-generator" component={AdminNgnGenerator} />
         <Route path="/admin/autopilot" component={AdminAutopilot} />
         <Route path="/admin/pageviews" component={AdminPageviews} />

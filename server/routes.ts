@@ -9539,6 +9539,146 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
     }
   });
 
+  // ====== QUESTION BANK IMPORT PIPELINE ======
+  app.post("/api/admin/qbank/import", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+
+      const { questions, autoPublish } = req.body;
+      if (!Array.isArray(questions) || questions.length === 0) {
+        return res.status(400).json({ error: "questions array is required and must not be empty" });
+      }
+      if (questions.length > 500) {
+        return res.status(400).json({ error: "Maximum 500 questions per import" });
+      }
+
+      const VALID_ANSWERS = ["A", "B", "C", "D"];
+      const VALID_DIFFICULTIES = ["easy", "moderate", "hard"];
+      const VALID_EXAMS = ["NCLEX-PN", "REx-PN", "NCLEX-RN", "AANP", "ANCC"];
+      const VALID_COUNTRIES = ["US", "Canada"];
+      const difficultyMap: Record<string, number> = { easy: 2, moderate: 3, hard: 4 };
+      const answerMap: Record<string, number> = { A: 0, B: 1, C: 2, D: 3 };
+      const examToTier: Record<string, string> = {
+        "NCLEX-PN": "rpn", "REx-PN": "rpn", "NCLEX-RN": "rn", "AANP": "np", "ANCC": "np"
+      };
+      const countryToRegion: Record<string, string> = { US: "US", Canada: "CAN" };
+
+      const errors: { index: number; reason: string }[] = [];
+      const validated: any[] = [];
+      const seenStems = new Set<string>();
+
+      for (let i = 0; i < questions.length; i++) {
+        const q = questions[i];
+        if (!q || typeof q !== "object") {
+          errors.push({ index: i, reason: "invalid entry (not an object)" });
+          continue;
+        }
+        const reasons: string[] = [];
+
+        if (!q.question || typeof q.question !== "string" || q.question.trim().length < 10) {
+          reasons.push("question is required (min 10 chars)");
+        }
+        if (!q.option_a?.trim()) reasons.push("option_a is empty");
+        if (!q.option_b?.trim()) reasons.push("option_b is empty");
+        if (!q.option_c?.trim()) reasons.push("option_c is empty");
+        if (!q.option_d?.trim()) reasons.push("option_d is empty");
+        if (!q.correct_answer || !VALID_ANSWERS.includes(q.correct_answer.toUpperCase())) {
+          reasons.push("correct_answer must be A, B, C, or D");
+        }
+        if (!q.rationale || typeof q.rationale !== "string" || q.rationale.trim().length < 20) {
+          reasons.push("rationale is required (min 20 chars)");
+        }
+        if (!q.difficulty || !VALID_DIFFICULTIES.includes(q.difficulty.toLowerCase())) {
+          reasons.push("difficulty must be easy, moderate, or hard");
+        }
+        if (!q.exam || !VALID_EXAMS.includes(q.exam)) {
+          reasons.push(`exam must be one of: ${VALID_EXAMS.join(", ")}`);
+        }
+        if (!q.country || !VALID_COUNTRIES.includes(q.country)) {
+          reasons.push("country must be US or Canada");
+        }
+
+        const stemNorm = (q.question || "").trim().toLowerCase().replace(/\s+/g, " ");
+        if (seenStems.has(stemNorm)) {
+          reasons.push("duplicate question in this batch");
+        }
+
+        if (reasons.length > 0) {
+          errors.push({ index: i, reason: reasons.join("; ") });
+          continue;
+        }
+
+        seenStems.add(stemNorm);
+        const answer = q.correct_answer.toUpperCase();
+        validated.push({
+          originalIndex: i,
+          tier: examToTier[q.exam] || "rpn",
+          exam: q.exam,
+          questionType: (q.question_type || "standard").toLowerCase().replace(/_/g, " "),
+          status: autoPublish ? "published" : "draft",
+          stem: q.question.trim(),
+          options: [q.option_a.trim(), q.option_b.trim(), q.option_c.trim(), q.option_d.trim()],
+          correctAnswer: answerMap[answer],
+          rationale: q.rationale.trim(),
+          difficulty: difficultyMap[q.difficulty.toLowerCase()] || 3,
+          bodySystem: q.category || null,
+          topic: q.client_needs || null,
+          subtopic: q.topic || null,
+          regionScope: countryToRegion[q.country] || "BOTH",
+          stemHash: crypto.createHash("md5").update(stemNorm).digest("hex"),
+        });
+      }
+
+      let inserted = 0;
+      let skipped = 0;
+      const insertErrors: { index: number; reason: string }[] = [];
+
+      for (let i = 0; i < validated.length; i++) {
+        const v = validated[i];
+        try {
+          const existing = await pool.query(
+            `SELECT id FROM exam_questions WHERE stem_hash = $1`,
+            [v.stemHash]
+          );
+          if (existing.rows.length > 0) {
+            skipped++;
+            continue;
+          }
+
+          await pool.query(
+            `INSERT INTO exam_questions (tier, exam, question_type, status, ${autoPublish ? "published_at," : ""} stem, options, correct_answer, rationale, difficulty, body_system, topic, subtopic, region_scope, career_type, stem_hash)
+             VALUES ($1, $2, $3, $4, ${autoPublish ? "NOW()," : ""} $5, $6, $7, $8, $9, $10, $11, $12, $13, 'nursing', $14)`,
+            [
+              v.tier, v.exam, v.questionType, v.status,
+              v.stem, JSON.stringify(v.options), JSON.stringify(v.correctAnswer),
+              v.rationale, v.difficulty, v.bodySystem, v.topic, v.subtopic,
+              v.regionScope, v.stemHash,
+            ]
+          );
+          inserted++;
+        } catch (dbErr: any) {
+          insertErrors.push({ index: v.originalIndex, reason: dbErr.message });
+        }
+      }
+
+      heroStatsCache = null;
+
+      console.log(`[QBank Import] ${inserted} inserted, ${skipped} skipped (duplicates), ${errors.length} validation errors, ${insertErrors.length} insert errors`);
+
+      res.json({
+        success: true,
+        total: questions.length,
+        inserted,
+        skipped,
+        validationErrors: errors,
+        insertErrors,
+      });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
   // ====== PUBLIC FLASHCARD BANK API ======
   app.get("/api/flashcard-bank", async (req, res) => {
     try {
