@@ -97,6 +97,8 @@ The MLT (Medical Laboratory Technology) section provides country-specific exam p
   - Toggle question status (published/archived) without deletion
   - Analytics tab with breakdowns by category, difficulty, exam type, region, and status
 - **Exam Mode Answer Shuffling**: Answer options are randomly shuffled per-question in exam sessions while preserving correct answer tracking (Fisher-Yates shuffle with original index mapping)
+- **QBank Stats/Body-Systems are public**: `/api/qbank/stats` and `/api/qbank/body-systems` allow unauthenticated/free users to see question counts and body systems (read-only metadata). The `/api/qbank/exam-set` endpoint still requires paid-tier auth to actually fetch questions.
+- **Medical Imaging Content**: 20 positioning entries, 8 physics topics, 45 flashcards seeded in `imaging_positioning_entries`, `imaging_physics_topics`, `imaging_flashcards` tables. Schema uses actual DB columns: `projection_name`, `body_part`, `patient_position`, `central_ray`, `sid`, `anatomy_demonstrated`, `tips` for positioning; `title`, `content`, `formulas` (jsonb), `key_concepts` (text[]) for physics; `front`, `back`, `category`, `body_part`, `difficulty` for flashcards.
 - **Study Mode Filters**: Question bank study mode supports filtering by body system, difficulty level (1-5), exam type, and topic via server-side filtering
 - **QBank Filter API**: GET `/api/qbank/filters?tier=rpn` returns available filter options (body systems, difficulty levels, exams, topics) for the selected tier
 - **QBank Analytics API**: GET `/api/admin/qbank/analytics?tier=rpn` returns category/difficulty/exam/region/status breakdowns (parameterized SQL, no injection risk)

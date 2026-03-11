@@ -95,7 +95,7 @@ export async function getAvailableBodySystems(tier: string): Promise<string[]> {
 
 export async function getPoolStats(tier: string): Promise<{ total: number; systems: Record<string, number> }> {
   try {
-    const stats = await fetchQBankStats();
+    const stats = await fetchQBankStats(tier === "all" ? undefined : tier);
     const systems: Record<string, number> = {};
     for (const bs of stats.bodySystems) {
       systems[bs.body_system] = parseInt(bs.count);

@@ -168,8 +168,9 @@ export async function submitAttempt(questionId: string, selectedOption: number):
   return res.json();
 }
 
-export async function fetchQBankStats(): Promise<QBankStats> {
-  const res = await fetch("/api/qbank/stats", {
+export async function fetchQBankStats(tier?: string): Promise<QBankStats> {
+  const query = tier ? `?tier=${tier}` : "";
+  const res = await fetch(`/api/qbank/stats${query}`, {
     headers: getAuthHeaders(),
   });
   if (!res.ok) {

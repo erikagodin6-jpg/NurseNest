@@ -254,16 +254,20 @@ export function setupQBankRoutes(app: Express) {
   app.get("/api/qbank/stats", async (req: any, res) => {
     try {
       const user = await resolveAuthUser(req);
-      if (!user) {
-        return res.status(401).json({ error: "Authentication required" });
-      }
+      const userTier = user?.tier || "free";
 
-      const userTier = user.tier || "free";
-      if (userTier === "free") {
-        return res.status(403).json({ error: "Upgrade required" });
-      }
+      const requestedTier = (req.query.tier as string) || null;
+      let queryTier: string | null;
 
-      const queryTier = userTier === "admin" ? null : userTier;
+      if (userTier === "admin") {
+        queryTier = requestedTier && ["rpn", "rn", "np"].includes(requestedTier) ? requestedTier : null;
+      } else if (requestedTier && ["rpn", "rn", "np"].includes(requestedTier)) {
+        queryTier = requestedTier;
+      } else if (userTier !== "free") {
+        queryTier = userTier;
+      } else {
+        queryTier = requestedTier && ["rpn", "rn", "np"].includes(requestedTier) ? requestedTier : "rpn";
+      }
 
       let query: string;
       let params: any[];
@@ -304,18 +308,16 @@ export function setupQBankRoutes(app: Express) {
   app.get("/api/qbank/body-systems", async (req: any, res) => {
     try {
       const user = await resolveAuthUser(req);
-      if (!user) {
-        return res.status(401).json({ error: "Authentication required" });
-      }
+      const userTier = user?.tier || "free";
 
-      const userTier = user.tier || "free";
       let queryTier: string;
       if (userTier === "admin") {
         queryTier = (req.query.tier as string) || "rpn";
-      } else if (userTier === "free") {
-        return res.status(403).json({ error: "Upgrade required" });
-      } else {
+      } else if (userTier !== "free") {
         queryTier = userTier;
+      } else {
+        const requested = (req.query.tier as string) || "rpn";
+        queryTier = ["rpn", "rn", "np"].includes(requested) ? requested : "rpn";
       }
 
       const result = await pool.query(
