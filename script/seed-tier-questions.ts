@@ -273,14 +273,14 @@ async function insertBatch(questions: Question[]): Promise<number> {
     let idx = 1;
 
     for (const q of batch) {
-      values.push(`($${idx},$${idx+1},$${idx+2},$${idx+3},$${idx+4},$${idx+5},$${idx+6},$${idx+7},$${idx+8},$${idx+9},$${idx+10},$${idx+11})`);
+      values.push(`($${idx},$${idx+1},$${idx+2},$${idx+3},$${idx+4},$${idx+5}::jsonb,$${idx+6}::jsonb,$${idx+7},$${idx+8}::integer,$${idx+9},$${idx+10},$${idx+11})`);
       params.push(q.tier, q.exam, q.questionType, q.status, q.stem, JSON.stringify(q.options), JSON.stringify(q.correctAnswer), q.rationale, q.difficulty, q.bodySystem, q.regionScope, q.stemHash);
       idx += 12;
     }
 
     const sql = `INSERT INTO exam_questions (tier, exam, question_type, status, stem, options, correct_answer, rationale, difficulty, body_system, region_scope, stem_hash)
-                 VALUES ${values.join(",")}
-                 ON CONFLICT (stem_hash) DO NOTHING`;
+                 SELECT v.* FROM (VALUES ${values.join(",")}) AS v(tier,exam,question_type,status,stem,options,correct_answer,rationale,difficulty,body_system,region_scope,stem_hash)
+                 WHERE NOT EXISTS (SELECT 1 FROM exam_questions e WHERE e.stem_hash = v.stem_hash)`;
 
     const result = await pool.query(sql, params);
     inserted += result.rowCount || 0;
