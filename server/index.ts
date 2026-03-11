@@ -758,6 +758,10 @@ app.use((req, res, next) => {
         seedParamedicContent(p).catch((e: any) => console.error("[Paramedic Seed] Failed:", e.message));
       });
     });
+
+    import("./startup-data-migrations").then(({ runStartupDataMigrations }) => {
+      runStartupDataMigrations().catch((e: any) => console.error("[Startup Migrations] Failed:", e.message));
+    }).catch((e: any) => console.error("[Startup Migrations] Import failed:", e.message));
   });
 
   // Scheduler loop

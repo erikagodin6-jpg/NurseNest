@@ -373,10 +373,12 @@ function AssetsPanel({ countryFilter }: { countryFilter: string }) {
     assetType: "radiograph",
     country: "canada",
     modality: "",
-    bodyPart: "",
+    bodyRegion: "",
+    projection: "",
     seoTitle: "",
     thumbnailUrl: "",
-    fullImageUrl: "",
+    teachingUrl: "",
+    examUrl: "",
     examType: "",
   });
 
@@ -392,7 +394,7 @@ function AssetsPanel({ countryFilter }: { countryFilter: string }) {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/imaging/assets"] });
       setShowUploadForm(false);
-      setUploadForm({ assetType: "radiograph", country: "canada", modality: "", bodyPart: "", seoTitle: "", thumbnailUrl: "", fullImageUrl: "", examType: "" });
+      setUploadForm({ assetType: "radiograph", country: "canada", modality: "", bodyRegion: "", projection: "", seoTitle: "", thumbnailUrl: "", teachingUrl: "", examUrl: "", examType: "" });
     },
   });
 
@@ -476,14 +478,25 @@ function AssetsPanel({ countryFilter }: { countryFilter: string }) {
               />
             </div>
             <div>
-              <label className="text-xs font-medium text-gray-500">Body Part</label>
+              <label className="text-xs font-medium text-gray-500">Body Region</label>
               <input
                 type="text"
-                value={uploadForm.bodyPart}
-                onChange={e => setUploadForm(p => ({ ...p, bodyPart: e.target.value }))}
+                value={uploadForm.bodyRegion}
+                onChange={e => setUploadForm(p => ({ ...p, bodyRegion: e.target.value }))}
                 className="w-full mt-1 px-3 py-2 border border-gray-200 rounded-lg text-sm"
                 placeholder="e.g., Chest, Hand, Spine"
-                data-testid="input-asset-body-part"
+                data-testid="input-asset-body-region"
+              />
+            </div>
+            <div>
+              <label className="text-xs font-medium text-gray-500">Projection</label>
+              <input
+                type="text"
+                value={uploadForm.projection}
+                onChange={e => setUploadForm(p => ({ ...p, projection: e.target.value }))}
+                className="w-full mt-1 px-3 py-2 border border-gray-200 rounded-lg text-sm"
+                placeholder="e.g., PA, AP, Lateral"
+                data-testid="input-asset-projection"
               />
             </div>
             <div>
@@ -508,15 +521,26 @@ function AssetsPanel({ countryFilter }: { countryFilter: string }) {
                 data-testid="input-asset-thumbnail"
               />
             </div>
-            <div className="sm:col-span-2">
-              <label className="text-xs font-medium text-gray-500">Full Image URL</label>
+            <div>
+              <label className="text-xs font-medium text-gray-500">Teaching Image URL</label>
               <input
                 type="url"
-                value={uploadForm.fullImageUrl}
-                onChange={e => setUploadForm(p => ({ ...p, fullImageUrl: e.target.value }))}
+                value={uploadForm.teachingUrl}
+                onChange={e => setUploadForm(p => ({ ...p, teachingUrl: e.target.value }))}
                 className="w-full mt-1 px-3 py-2 border border-gray-200 rounded-lg text-sm"
                 placeholder="https://..."
-                data-testid="input-asset-full-image"
+                data-testid="input-asset-teaching-url"
+              />
+            </div>
+            <div>
+              <label className="text-xs font-medium text-gray-500">Exam Image URL</label>
+              <input
+                type="url"
+                value={uploadForm.examUrl}
+                onChange={e => setUploadForm(p => ({ ...p, examUrl: e.target.value }))}
+                className="w-full mt-1 px-3 py-2 border border-gray-200 rounded-lg text-sm"
+                placeholder="https://..."
+                data-testid="input-asset-exam-url"
               />
             </div>
           </div>
