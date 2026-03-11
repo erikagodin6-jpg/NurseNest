@@ -1,7 +1,18 @@
-import { type User, type InsertUser, type Note, type InsertNote, type TestResult, type InsertTestResult, type UserProgress, type InsertUserProgress, type ContentItem, type InsertContentItem, type FeatureUsage, type UserFlashcard, type InsertUserFlashcard, type BlogConfig, type PageView, type InsertPageView, type UserFeedback, type InsertUserFeedback, type QotdHistory, type EmailSubscriber, type InsertEmailSubscriber, type SocialPost, type InsertSocialPost, type DashboardWidget, type InsertDashboardWidget, type SiteImage, type InsertSiteImage, type CustomPageModule, type InsertCustomPageModule, type AudioClip, type InsertAudioClip, type LessonAudioLink, type InsertLessonAudioLink, type ExamQuestion, type InsertExamQuestion, type QuestionTypeRegistryEntry, type InsertQuestionTypeRegistryEntry, type QuestionScheduleLog, type DigitalProduct, type InsertDigitalProduct, type ProductPurchase, type InsertProductPurchase, type QbankDraft, type InsertQbankDraft, type QbankRecipe, type InsertQbankRecipe, type DiagnosticAssessment, type InsertDiagnosticAssessment, type UserStats, type InsertUserStats, type StudyGroup, type InsertStudyGroup, type StudyGroupMember, type InsertStudyGroupMember, type QuestionAnalytics, type InsertQuestionAnalytics, type FriendRequest, type InsertFriendRequest, type FriendConnection, type InsertFriendConnection, type ProductGeneration, type InsertProductGeneration, type GeneratedQuestion, type InsertGeneratedQuestion, type GeneratorV2PresentationSettings, type InsertGeneratorV2PresentationSettings, type TesterInviteCode, type InsertTesterInviteCode, type TesterFeedback, type InsertTesterFeedback, type MltLabImage, type InsertMltLabImage, type MltLabImageLink, type InsertMltLabImageLink, type MltImageDrillAttempt, type InsertMltImageDrillAttempt, type ImagingQuestion, type InsertImagingQuestion, type ImageAsset, type InsertImageAsset, type ImagingFlashcard, type InsertImagingFlashcard, type ImagingCaseStudy, type InsertImagingCaseStudy, type ImagingExamAttempt, type InsertImagingExamAttempt, type ImagingExamAttemptQuestion, type InsertImagingExamAttemptQuestion, type ImagingPositioningEntry, type InsertImagingPositioningEntry, type ImagingPhysicsTopic, type InsertImagingPhysicsTopic, type QuestionBankItem, type InsertQuestionBankItem, type QuestionBankResult, type InsertQuestionBankResult, users, notes, testResults, userProgress, contentItems, featureUsage, userFlashcards, blogConfig, pageViews, userFeedback, qotdHistory, emailSubscribers, socialPosts, dashboardWidgets, siteImages, customPageModules, audioClips, lessonAudioLinks, examQuestions, questionTypeRegistry, questionScheduleLog, digitalProducts, productPurchases, couponCodes, qbankDrafts, qbankRecipes, diagnosticAssessments, userStats, studyGroups, studyGroupMembers, questionAnalytics, friendRequests, friendConnections, productGenerations, generatedQuestions, generatorV2PresentationSettings, generationEvents, v2ContentBlocks, testerInviteCodes, testerFeedback, imagingQuestions, imageAssets, imagingFlashcards, imagingCaseStudies, imagingExamAttempts, imagingExamAttemptQuestions, imagingPositioningEntries, imagingPhysicsTopics, questionBank, questionBankResults, mltLabImages, mltLabImageLinks, mltImageDrillAttempts } from "@shared/schema";
+import { type User, type InsertUser, type Note, type InsertNote, type TestResult, type InsertTestResult, type UserProgress, type InsertUserProgress, type ContentItem, type InsertContentItem, type FeatureUsage, type UserFlashcard, type InsertUserFlashcard, type BlogConfig, type PageView, type InsertPageView, type UserFeedback, type InsertUserFeedback, type QotdHistory, type EmailSubscriber, type InsertEmailSubscriber, type SocialPost, type InsertSocialPost, type DashboardWidget, type InsertDashboardWidget, type SiteImage, type InsertSiteImage, type CustomPageModule, type InsertCustomPageModule, type AudioClip, type InsertAudioClip, type LessonAudioLink, type InsertLessonAudioLink, type ExamQuestion, type InsertExamQuestion, type QuestionTypeRegistryEntry, type InsertQuestionTypeRegistryEntry, type QuestionScheduleLog, type DigitalProduct, type InsertDigitalProduct, type ProductPurchase, type InsertProductPurchase, type QbankDraft, type InsertQbankDraft, type QbankRecipe, type InsertQbankRecipe, type DiagnosticAssessment, type InsertDiagnosticAssessment, type UserStats, type InsertUserStats, type StudyGroup, type InsertStudyGroup, type StudyGroupMember, type InsertStudyGroupMember, type QuestionAnalytics, type InsertQuestionAnalytics, type FriendRequest, type InsertFriendRequest, type FriendConnection, type InsertFriendConnection, type ProductGeneration, type InsertProductGeneration, type GeneratedQuestion, type InsertGeneratedQuestion, type GeneratorV2PresentationSettings, type InsertGeneratorV2PresentationSettings, type TesterInviteCode, type InsertTesterInviteCode, type TesterFeedback, type InsertTesterFeedback, type MltLabImage, type InsertMltLabImage, type MltLabImageLink, type InsertMltLabImageLink, type MltImageDrillAttempt, type InsertMltImageDrillAttempt, type ImagingQuestion, type InsertImagingQuestion, type ImageAsset, type InsertImageAsset, type ImagingFlashcard, type InsertImagingFlashcard, type ImagingCaseStudy, type InsertImagingCaseStudy, type ImagingExamAttempt, type InsertImagingExamAttempt, type ImagingExamAttemptQuestion, type InsertImagingExamAttemptQuestion, type ImagingPositioningEntry, type CaseStudy, type InsertCaseStudy, type CaseStudyStep, type InsertCaseStudyStep, type CaseStudyQuestion, type InsertCaseStudyQuestion, type InsertImagingPositioningEntry, type ImagingPhysicsTopic, type InsertImagingPhysicsTopic, type QuestionBankItem, type InsertQuestionBankItem, type QuestionBankResult, type InsertQuestionBankResult, users, notes, testResults, userProgress, contentItems, featureUsage, userFlashcards, blogConfig, pageViews, userFeedback, qotdHistory, emailSubscribers, socialPosts, dashboardWidgets, siteImages, customPageModules, audioClips, lessonAudioLinks, examQuestions, questionTypeRegistry, questionScheduleLog, digitalProducts, productPurchases, couponCodes, qbankDrafts, qbankRecipes, diagnosticAssessments, userStats, studyGroups, studyGroupMembers, questionAnalytics, friendRequests, friendConnections, productGenerations, generatedQuestions, generatorV2PresentationSettings, generationEvents, v2ContentBlocks, testerInviteCodes, testerFeedback, imagingQuestions, imageAssets, imagingFlashcards, imagingCaseStudies, imagingExamAttempts, imagingExamAttemptQuestions, imagingPositioningEntries, imagingPhysicsTopics, questionBank, questionBankResults, mltLabImages, mltLabImageLinks, mltImageDrillAttempts } from "@shared/schema";
 import { drizzle } from "drizzle-orm/node-postgres";
 import { eq, and, desc, sql, lte, ne, ilike, gte, count } from "drizzle-orm";
 import pg from "pg";
+
+function snakeToCamel(obj: any): any {
+  if (Array.isArray(obj)) return obj.map(snakeToCamel);
+  if (obj === null || typeof obj !== "object") return obj;
+  const result: any = {};
+  for (const [key, value] of Object.entries(obj)) {
+    const camelKey = key.replace(/_([a-z])/g, (_, c) => c.toUpperCase());
+    result[camelKey] = value;
+  }
+  return result;
+}
 
 export interface IStorage {
   getUser(id: string): Promise<User | undefined>;
@@ -232,6 +243,23 @@ export interface IStorage {
   createMltImageDrillAttempt(attempt: InsertMltImageDrillAttempt): Promise<MltImageDrillAttempt>;
   getUserMltImageDrillAttempts(userId: string): Promise<MltImageDrillAttempt[]>;
   updateMltImageDrillAttempt(id: string, updates: Partial<InsertMltImageDrillAttempt>): Promise<MltImageDrillAttempt>;
+
+  getAllCaseStudies(filters?: { tier?: string; status?: string; difficulty?: string }): Promise<CaseStudy[]>;
+  getCaseStudy(id: string): Promise<CaseStudy | undefined>;
+  createCaseStudy(data: InsertCaseStudy): Promise<CaseStudy>;
+  updateCaseStudy(id: string, updates: Partial<InsertCaseStudy>): Promise<CaseStudy>;
+  deleteCaseStudy(id: string): Promise<void>;
+  getCaseStudySteps(caseId: string): Promise<CaseStudyStep[]>;
+  getCaseStudyStep(id: string): Promise<CaseStudyStep | undefined>;
+  createCaseStudyStep(data: InsertCaseStudyStep): Promise<CaseStudyStep>;
+  updateCaseStudyStep(id: string, updates: Partial<InsertCaseStudyStep>): Promise<CaseStudyStep>;
+  deleteCaseStudyStep(id: string): Promise<void>;
+  getCaseStudyQuestions(stepId: string): Promise<CaseStudyQuestion[]>;
+  getCaseStudyQuestion(id: string): Promise<CaseStudyQuestion | undefined>;
+  createCaseStudyQuestion(data: InsertCaseStudyQuestion): Promise<CaseStudyQuestion>;
+  updateCaseStudyQuestion(id: string, updates: Partial<InsertCaseStudyQuestion>): Promise<CaseStudyQuestion>;
+  deleteCaseStudyQuestion(id: string): Promise<void>;
+  getCaseStudyFull(id: string): Promise<{ study: CaseStudy; steps: (CaseStudyStep & { questions: CaseStudyQuestion[] })[] } | undefined>;
 }
 
 const pool = new pg.Pool({ connectionString: process.env.DATABASE_URL });
@@ -1640,6 +1668,145 @@ export class DatabaseStorage implements IStorage {
   async updateMltImageDrillAttempt(id: string, updates: Partial<InsertMltImageDrillAttempt>): Promise<MltImageDrillAttempt> {
     const [updated] = await db.update(mltImageDrillAttempts).set(updates).where(eq(mltImageDrillAttempts.id, id)).returning();
     return updated;
+  }
+
+  async getAllCaseStudies(filters?: { tier?: string; status?: string; difficulty?: string }): Promise<CaseStudy[]> {
+    const paramValues: any[] = [];
+    const parts: string[] = [];
+    if (filters?.tier) { paramValues.push(filters.tier); parts.push(`tier = $${paramValues.length}`); }
+    if (filters?.status) { paramValues.push(filters.status); parts.push(`status = $${paramValues.length}`); }
+    if (filters?.difficulty) { paramValues.push(filters.difficulty); parts.push(`difficulty = $${paramValues.length}`); }
+    const where = parts.length > 0 ? `WHERE ${parts.join(" AND ")}` : "";
+    const r = await pool.query(`SELECT * FROM case_studies ${where} ORDER BY created_at DESC`, paramValues);
+    return r.rows.map(snakeToCamel) as CaseStudy[];
+  }
+
+  async getCaseStudy(id: string): Promise<CaseStudy | undefined> {
+    const r = await pool.query("SELECT * FROM case_studies WHERE id = $1", [id]);
+    return r.rows[0] ? snakeToCamel(r.rows[0]) as CaseStudy : undefined;
+  }
+
+  async createCaseStudy(data: InsertCaseStudy): Promise<CaseStudy> {
+    const r = await pool.query(
+      `INSERT INTO case_studies (id, title, tier, difficulty, body_system, category, scenario_intro, status, region_scope, created_at, updated_at)
+       VALUES (gen_random_uuid(), $1, $2, $3, $4, $5, $6, $7, $8, NOW(), NOW()) RETURNING *`,
+      [data.title, data.tier || 'rpn', data.difficulty || 'moderate', data.bodySystem || null, data.category || null, data.scenarioIntro, data.status || 'draft', data.regionScope || 'BOTH']
+    );
+    return snakeToCamel(r.rows[0]) as CaseStudy;
+  }
+
+  async updateCaseStudy(id: string, updates: Partial<InsertCaseStudy>): Promise<CaseStudy> {
+    const sets: string[] = [];
+    const vals: any[] = [];
+    let idx = 1;
+    if (updates.title !== undefined) { sets.push(`title = $${idx++}`); vals.push(updates.title); }
+    if (updates.tier !== undefined) { sets.push(`tier = $${idx++}`); vals.push(updates.tier); }
+    if (updates.difficulty !== undefined) { sets.push(`difficulty = $${idx++}`); vals.push(updates.difficulty); }
+    if (updates.bodySystem !== undefined) { sets.push(`body_system = $${idx++}`); vals.push(updates.bodySystem); }
+    if (updates.category !== undefined) { sets.push(`category = $${idx++}`); vals.push(updates.category); }
+    if (updates.scenarioIntro !== undefined) { sets.push(`scenario_intro = $${idx++}`); vals.push(updates.scenarioIntro); }
+    if (updates.status !== undefined) { sets.push(`status = $${idx++}`); vals.push(updates.status); }
+    if (updates.regionScope !== undefined) { sets.push(`region_scope = $${idx++}`); vals.push(updates.regionScope); }
+    sets.push(`updated_at = NOW()`);
+    vals.push(id);
+    const r = await pool.query(`UPDATE case_studies SET ${sets.join(", ")} WHERE id = $${idx} RETURNING *`, vals);
+    return snakeToCamel(r.rows[0]) as CaseStudy;
+  }
+
+  async deleteCaseStudy(id: string): Promise<void> {
+    const steps = await pool.query("SELECT id FROM case_study_steps WHERE case_id = $1", [id]);
+    for (const step of steps.rows) {
+      await pool.query("DELETE FROM case_study_questions WHERE case_step_id = $1", [step.id]);
+    }
+    await pool.query("DELETE FROM case_study_steps WHERE case_id = $1", [id]);
+    await pool.query("DELETE FROM case_studies WHERE id = $1", [id]);
+  }
+
+  async getCaseStudySteps(caseId: string): Promise<CaseStudyStep[]> {
+    const r = await pool.query("SELECT * FROM case_study_steps WHERE case_id = $1 ORDER BY step_number ASC", [caseId]);
+    return r.rows.map(snakeToCamel) as CaseStudyStep[];
+  }
+
+  async getCaseStudyStep(id: string): Promise<CaseStudyStep | undefined> {
+    const r = await pool.query("SELECT * FROM case_study_steps WHERE id = $1", [id]);
+    return r.rows[0] ? snakeToCamel(r.rows[0]) as CaseStudyStep : undefined;
+  }
+
+  async createCaseStudyStep(data: InsertCaseStudyStep): Promise<CaseStudyStep> {
+    const r = await pool.query(
+      `INSERT INTO case_study_steps (id, case_id, step_number, clinical_update_text, exhibit_data)
+       VALUES (gen_random_uuid(), $1, $2, $3, $4) RETURNING *`,
+      [data.caseId, data.stepNumber, data.clinicalUpdateText, JSON.stringify(data.exhibitData || {})]
+    );
+    return snakeToCamel(r.rows[0]) as CaseStudyStep;
+  }
+
+  async updateCaseStudyStep(id: string, updates: Partial<InsertCaseStudyStep>): Promise<CaseStudyStep> {
+    const sets: string[] = [];
+    const vals: any[] = [];
+    let idx = 1;
+    if (updates.stepNumber !== undefined) { sets.push(`step_number = $${idx++}`); vals.push(updates.stepNumber); }
+    if (updates.clinicalUpdateText !== undefined) { sets.push(`clinical_update_text = $${idx++}`); vals.push(updates.clinicalUpdateText); }
+    if (updates.exhibitData !== undefined) { sets.push(`exhibit_data = $${idx++}`); vals.push(JSON.stringify(updates.exhibitData)); }
+    vals.push(id);
+    const r = await pool.query(`UPDATE case_study_steps SET ${sets.join(", ")} WHERE id = $${idx} RETURNING *`, vals);
+    return snakeToCamel(r.rows[0]) as CaseStudyStep;
+  }
+
+  async deleteCaseStudyStep(id: string): Promise<void> {
+    await pool.query("DELETE FROM case_study_questions WHERE case_step_id = $1", [id]);
+    await pool.query("DELETE FROM case_study_steps WHERE id = $1", [id]);
+  }
+
+  async getCaseStudyQuestions(stepId: string): Promise<CaseStudyQuestion[]> {
+    const r = await pool.query("SELECT * FROM case_study_questions WHERE case_step_id = $1 ORDER BY id ASC", [stepId]);
+    return r.rows.map(snakeToCamel) as CaseStudyQuestion[];
+  }
+
+  async getCaseStudyQuestion(id: string): Promise<CaseStudyQuestion | undefined> {
+    const r = await pool.query("SELECT * FROM case_study_questions WHERE id = $1", [id]);
+    return r.rows[0] ? snakeToCamel(r.rows[0]) as CaseStudyQuestion : undefined;
+  }
+
+  async createCaseStudyQuestion(data: InsertCaseStudyQuestion): Promise<CaseStudyQuestion> {
+    const r = await pool.query(
+      `INSERT INTO case_study_questions (id, case_step_id, question_text, question_type, answer_options, correct_answer, rationale, points)
+       VALUES (gen_random_uuid(), $1, $2, $3, $4, $5, $6, $7) RETURNING *`,
+      [data.caseStepId, data.questionText, data.questionType || 'multiple_choice', JSON.stringify(data.answerOptions || []), JSON.stringify(data.correctAnswer || []), data.rationale || null, data.points || 1]
+    );
+    return snakeToCamel(r.rows[0]) as CaseStudyQuestion;
+  }
+
+  async updateCaseStudyQuestion(id: string, updates: Partial<InsertCaseStudyQuestion>): Promise<CaseStudyQuestion> {
+    const sets: string[] = [];
+    const vals: any[] = [];
+    let idx = 1;
+    if (updates.questionText !== undefined) { sets.push(`question_text = $${idx++}`); vals.push(updates.questionText); }
+    if (updates.questionType !== undefined) { sets.push(`question_type = $${idx++}`); vals.push(updates.questionType); }
+    if (updates.answerOptions !== undefined) { sets.push(`answer_options = $${idx++}`); vals.push(JSON.stringify(updates.answerOptions)); }
+    if (updates.correctAnswer !== undefined) { sets.push(`correct_answer = $${idx++}`); vals.push(JSON.stringify(updates.correctAnswer)); }
+    if (updates.rationale !== undefined) { sets.push(`rationale = $${idx++}`); vals.push(updates.rationale); }
+    if (updates.points !== undefined) { sets.push(`points = $${idx++}`); vals.push(updates.points); }
+    vals.push(id);
+    const r = await pool.query(`UPDATE case_study_questions SET ${sets.join(", ")} WHERE id = $${idx} RETURNING *`, vals);
+    return snakeToCamel(r.rows[0]) as CaseStudyQuestion;
+  }
+
+  async deleteCaseStudyQuestion(id: string): Promise<void> {
+    await pool.query("DELETE FROM case_study_questions WHERE id = $1", [id]);
+  }
+
+  async getCaseStudyFull(id: string): Promise<{ study: CaseStudy; steps: (CaseStudyStep & { questions: CaseStudyQuestion[] })[] } | undefined> {
+    const study = await this.getCaseStudy(id);
+    if (!study) return undefined;
+    const steps = await this.getCaseStudySteps(id);
+    const stepsWithQuestions = await Promise.all(
+      steps.map(async (step) => {
+        const questions = await this.getCaseStudyQuestions(step.id);
+        return { ...step, questions };
+      })
+    );
+    return { study, steps: stepsWithQuestions };
   }
 }
 

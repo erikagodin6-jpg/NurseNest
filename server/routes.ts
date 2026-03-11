@@ -188,6 +188,15 @@ async function resolveTierFromRequest(req: any): Promise<string> {
   return user.tier || "free";
 }
 
+async function isAdminUser(req: any): Promise<boolean> {
+  try {
+    const user = await resolveAuthUser(req);
+    return user?.tier === "admin";
+  } catch {
+    return false;
+  }
+}
+
 export async function registerRoutes(httpServer: Server, app: Express): Promise<Server> {
   registerObjectStorageRoutes(app);
   registerMltAdminRoutes(app);
@@ -14902,6 +14911,170 @@ Return ONLY valid JSON with this exact structure:
     } catch (e: any) {
       console.error("MLT analytics event error:", e.message);
       res.status(400).json({ error: "Failed to record event" });
+    }
+  });
+
+  // Clinical Case Study Routes
+  app.get("/api/case-studies", async (req, res) => {
+    try {
+      const filters: any = {};
+      if (req.query.tier) filters.tier = req.query.tier;
+      if (req.query.status) filters.status = req.query.status;
+      if (req.query.difficulty) filters.difficulty = req.query.difficulty;
+      const studies = await storage.getAllCaseStudies(filters);
+      res.json(studies);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/case-studies/:id", async (req, res) => {
+    try {
+      const study = await storage.getCaseStudy(req.params.id);
+      if (!study) return res.status(404).json({ error: "Case study not found" });
+      const isAdmin = await isAdminUser(req);
+      if (study.status !== "published" && !isAdmin) return res.status(404).json({ error: "Case study not found" });
+      res.json(study);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/case-studies/:id/full", async (req, res) => {
+    try {
+      const full = await storage.getCaseStudyFull(req.params.id);
+      if (!full) return res.status(404).json({ error: "Case study not found" });
+      const isAdmin = await isAdminUser(req);
+      if (full.study.status !== "published" && !isAdmin) return res.status(404).json({ error: "Case study not found" });
+      res.json(full);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.post("/api/case-studies", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const { title, tier, difficulty, bodySystem, category, scenarioIntro, status, regionScope } = req.body;
+      if (!title || !scenarioIntro) return res.status(400).json({ error: "Title and scenario intro are required" });
+      const study = await storage.createCaseStudy({ title, tier, difficulty, bodySystem, category, scenarioIntro, status, regionScope });
+      res.json(study);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.patch("/api/case-studies/:id", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const study = await storage.updateCaseStudy(req.params.id, req.body);
+      res.json(study);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.delete("/api/case-studies/:id", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      await storage.deleteCaseStudy(req.params.id);
+      res.json({ ok: true });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/case-studies/:id/steps", async (req, res) => {
+    try {
+      const steps = await storage.getCaseStudySteps(req.params.id);
+      res.json(steps);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.post("/api/case-studies/:id/steps", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const { stepNumber, clinicalUpdateText, exhibitData } = req.body;
+      if (!clinicalUpdateText) return res.status(400).json({ error: "Clinical update text is required" });
+      const step = await storage.createCaseStudyStep({ caseId: req.params.id, stepNumber: stepNumber || 1, clinicalUpdateText, exhibitData });
+      res.json(step);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.patch("/api/case-study-steps/:id", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const step = await storage.updateCaseStudyStep(req.params.id, req.body);
+      res.json(step);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.delete("/api/case-study-steps/:id", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      await storage.deleteCaseStudyStep(req.params.id);
+      res.json({ ok: true });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/case-study-steps/:id/questions", async (req, res) => {
+    try {
+      const questions = await storage.getCaseStudyQuestions(req.params.id);
+      res.json(questions);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.post("/api/case-study-steps/:id/questions", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const { questionText, questionType, answerOptions, correctAnswer, rationale, points } = req.body;
+      if (!questionText) return res.status(400).json({ error: "Question text is required" });
+      const validTypes = ["multiple_choice", "multiple_response", "bowtie", "priority", "drag_drop", "fill_blank"];
+      if (questionType && !validTypes.includes(questionType)) return res.status(400).json({ error: `Invalid question type. Must be one of: ${validTypes.join(", ")}` });
+      if (correctAnswer === undefined || correctAnswer === null) return res.status(400).json({ error: "Correct answer is required" });
+      const question = await storage.createCaseStudyQuestion({ caseStepId: req.params.id, questionText, questionType: questionType || "multiple_choice", answerOptions: answerOptions || [], correctAnswer, rationale, points: points || 1 });
+      res.json(question);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.patch("/api/case-study-questions/:id", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const question = await storage.updateCaseStudyQuestion(req.params.id, req.body);
+      res.json(question);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.delete("/api/case-study-questions/:id", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      await storage.deleteCaseStudyQuestion(req.params.id);
+      res.json({ ok: true });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
     }
   });
 

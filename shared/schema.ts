@@ -3212,6 +3212,20 @@ export const mltLabImages = pgTable("mlt_lab_images", {
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
 });
 
+export const caseStudies = pgTable("case_studies", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  title: text("title").notNull(),
+  tier: text("tier").notNull().default("rpn"),
+  difficulty: text("difficulty").notNull().default("moderate"),
+  bodySystem: text("body_system"),
+  category: text("category"),
+  scenarioIntro: text("scenario_intro").notNull(),
+  status: text("status").notNull().default("draft"),
+  regionScope: text("region_scope").default("BOTH"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
 export const insertMltLabImageSchema = createInsertSchema(mltLabImages).omit({ id: true, createdAt: true, updatedAt: true });
 export type MltLabImage = typeof mltLabImages.$inferSelect;
 export type InsertMltLabImage = z.infer<typeof insertMltLabImageSchema>;
@@ -3439,3 +3453,34 @@ export const mltCatSettings = pgTable("mlt_cat_settings", {
 export type MltCatSettings = typeof mltCatSettings.$inferSelect;
 export const insertMltCatSettingsSchema = createInsertSchema(mltCatSettings).omit({ id: true, updatedAt: true });
 export type InsertMltCatSettings = z.infer<typeof insertMltCatSettingsSchema>;
+
+export const insertCaseStudySchema = createInsertSchema(caseStudies).omit({ id: true, createdAt: true, updatedAt: true });
+export type CaseStudy = typeof caseStudies.$inferSelect;
+export type InsertCaseStudy = z.infer<typeof insertCaseStudySchema>;
+
+export const caseStudySteps = pgTable("case_study_steps", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  caseId: varchar("case_id").notNull(),
+  stepNumber: integer("step_number").notNull(),
+  clinicalUpdateText: text("clinical_update_text").notNull(),
+  exhibitData: jsonb("exhibit_data").default(sql`'{}'::jsonb`),
+});
+
+export const insertCaseStudyStepSchema = createInsertSchema(caseStudySteps).omit({ id: true });
+export type CaseStudyStep = typeof caseStudySteps.$inferSelect;
+export type InsertCaseStudyStep = z.infer<typeof insertCaseStudyStepSchema>;
+
+export const caseStudyQuestions = pgTable("case_study_questions", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  caseStepId: varchar("case_step_id").notNull(),
+  questionText: text("question_text").notNull(),
+  questionType: text("question_type").notNull().default("multiple_choice"),
+  answerOptions: jsonb("answer_options").default(sql`'[]'::jsonb`),
+  correctAnswer: jsonb("correct_answer").default(sql`'[]'::jsonb`),
+  rationale: text("rationale"),
+  points: integer("points").default(1),
+});
+
+export const insertCaseStudyQuestionSchema = createInsertSchema(caseStudyQuestions).omit({ id: true });
+export type CaseStudyQuestion = typeof caseStudyQuestions.$inferSelect;
+export type InsertCaseStudyQuestion = z.infer<typeof insertCaseStudyQuestionSchema>;
