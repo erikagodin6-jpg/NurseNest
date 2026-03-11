@@ -10,6 +10,10 @@ import { useAuth } from "@/lib/auth";
 import { useLocation } from "wouter";
 import { Search, Edit2, Archive, CheckCircle, X, ChevronLeft, ChevronRight, BarChart3, Save } from "lucide-react";
 
+function formatStatus(status: string): string {
+  return status.replace(/_/g, " ").replace(/\b\w/g, c => c.toUpperCase());
+}
+
 function getAuthHeaders(): Record<string, string> {
   try {
     const creds = localStorage.getItem("nursenest-credentials");
@@ -275,7 +279,7 @@ export default function AdminQBankManage() {
                           <SelectValue />
                         </SelectTrigger>
                         <SelectContent>
-                          <SelectItem value="all">All Status</SelectItem>
+                          <SelectItem value="all">All Statuses</SelectItem>
                           <SelectItem value="published">Published</SelectItem>
                           <SelectItem value="archived">Archived</SelectItem>
                           <SelectItem value="draft">Draft</SelectItem>
@@ -309,7 +313,7 @@ export default function AdminQBankManage() {
                             <Badge
                               className={`shrink-0 text-xs ${q.status === "published" ? "bg-green-100 text-green-700" : q.status === "archived" ? "bg-red-100 text-red-700" : "bg-gray-100 text-gray-600"}`}
                             >
-                              {q.status}
+                              {formatStatus(q.status)}
                             </Badge>
                           </div>
                         ))}
@@ -345,7 +349,7 @@ export default function AdminQBankManage() {
                       </div>
                       <div className="flex gap-2 mt-2">
                         <Badge className={editingQuestion.status === "published" ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700"}>
-                          {editingQuestion.status}
+                          {formatStatus(editingQuestion.status)}
                         </Badge>
                         <Button
                           variant="outline"
@@ -548,7 +552,7 @@ export default function AdminQBankManage() {
                           <div key={s.status} className="flex items-center justify-between" data-testid={`row-status-${s.status}`}>
                             <div className="flex items-center gap-2">
                               <div className={`w-2.5 h-2.5 rounded-full ${s.status === "published" ? "bg-green-500" : s.status === "archived" ? "bg-red-400" : "bg-gray-300"}`} />
-                              <span className="text-sm capitalize">{s.status}</span>
+                              <span className="text-sm">{formatStatus(s.status)}</span>
                             </div>
                             <span className="text-sm font-medium">{s.count.toLocaleString()}</span>
                           </div>

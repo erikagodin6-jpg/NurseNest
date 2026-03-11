@@ -313,7 +313,7 @@ export default function QuestionBank() {
           {accessibleQuestions.length === 0 ? (
             <Card className="border-gray-200 bg-white">
               <CardContent className="p-8 text-center">
-                <p className="text-gray-500">{isTierLocked ? "Subscribe to access these questions." : "No questions match your filters. Try adjusting the tier or body system selection."}</p>
+                <p className="text-gray-500">{isTierLocked ? "Subscribe to access these questions." : "No questions match your filters. Try adjusting your filter selections."}</p>
               </CardContent>
             </Card>
           ) : question ? (
