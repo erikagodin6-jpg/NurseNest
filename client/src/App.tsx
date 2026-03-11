@@ -419,8 +419,8 @@ function AppRoutes() {
         <Route path="/subscription/success" component={SubscriptionSuccess} />
         <Route path="/pricing" component={PricingPage} />
         <Route path="/refer" component={ReferPage} />
-        <Route path="/signup">{() => { window.location.href = `/login${window.location.search}`; return null; }}</Route>
-        <Route path="/register">{() => { window.location.href = `/login${window.location.search}`; return null; }}</Route>
+        <Route path="/signup">{() => <Redirect to={`/login${window.location.search}`} />}</Route>
+        <Route path="/register">{() => <Redirect to={`/login${window.location.search}`} />}</Route>
         <Route path="/trial/session/:id" component={TrialSession} />
         <Route path="/trial/results/:id" component={TrialResults} />
         <Route path="/trial/upgrade" component={TrialUpgrade} />
