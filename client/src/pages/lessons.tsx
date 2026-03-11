@@ -818,12 +818,21 @@ export const rpnSystems = [
       { id: "uterine-prolapse-rpn", name: "Uterine Prolapse", status: "Available" },
       { id: "benign-ovarian-cysts-rpn", name: "Benign Ovarian Cysts", status: "Available" },
       { id: "endometrial-polyp-rpn", name: "Endometrial Polyp", status: "Available" },
-      { id: "balanitis-rpn", name: "Balanitis", status: "Available" },
       { id: "breast-cancer-rpn", name: "Breast Cancer", status: "Available" },
-      { id: "cryptorchidism-rpn", name: "Cryptorchidism", status: "Available" },
       { id: "endometriosis-rpn", name: "Endometriosis", status: "Available" },
       { id: "galactorrhea-rpn", name: "Galactorrhea", status: "Available" },
-      { id: "infertility-rpn", name: "Infertility", status: "Available" },
+      { id: "infertility-rpn", name: "Infertility", status: "Available" }
+    ]
+  },
+  {
+    id: "mens-health-rpn",
+    title: "Men's Health",
+    icon: Users,
+    color: "text-blue-500",
+    bgColor: "bg-blue-50",
+    diseases: [
+      { id: "balanitis-rpn", name: "Balanitis", status: "Available" },
+      { id: "cryptorchidism-rpn", name: "Cryptorchidism", status: "Available" },
       { id: "orchitis-rpn", name: "Orchitis", status: "Available" },
       { id: "penile-cancer-rpn", name: "Penile Cancer", status: "Available" },
       { id: "phimosis-rpn", name: "Phimosis", status: "Available" },
@@ -1502,7 +1511,6 @@ export const rnSystems = [
       { id: "polycystic-ovary-syndrome", name: "Polycystic Ovary Syndrome (PCOS)", status: "Available" },
       { id: "ovarian-cysts", name: "Ovarian Cysts", status: "Available" },
       { id: "uterine-fibroids", name: "Uterine Fibroids (Leiomyomas)", status: "Available" },
-      { id: "cervical-cancer", name: "Cervical Cancer", status: "Available" },
       { id: "ovarian-cancer", name: "Ovarian Cancer", status: "Available" },
       { id: "pelvic-inflammatory-disease", name: "Pelvic Inflammatory Disease", status: "Available" },
       { id: "delayed-puberty", name: "Delayed Puberty", status: "Available" },
@@ -1644,7 +1652,6 @@ export const rnSystems = [
       { id: "chest-tube-mgmt", name: "Chest Tube Management", status: "Available" },
       { id: "trach-care", name: "Tracheostomy Care and Suctioning", status: "Available" },
       { id: "thoracentesis", name: "Thoracentesis", status: "Available" },
-      { id: "hemodialysis-care", name: "Hemodialysis: Procedure and Complications", status: "Available" },
       { id: "postmortem-care", name: "Postmortem Care", status: "Available" },
       { id: "burn-care-advanced", name: "Burn Injury Care", status: "Available" },
       { id: "blood-transfusion-reactions-rn", name: "Blood Transfusion: Administration & Reaction Management", status: "Available" },
@@ -1697,7 +1704,6 @@ export const rnSystems = [
     bgColor: "bg-indigo-50",
     diseases: [
       { id: "gout-management-rn", name: "Gout", status: "Available" },
-      { id: "osteoporosis-rn", name: "Osteoporosis", status: "Available" },
       { id: "compartment-syndrome-rn", name: "Compartment Syndrome", status: "Available" },
       { id: "rheumatoid-arthritis-rn", name: "Rheumatoid Arthritis", status: "Available" }
     ]
@@ -1844,7 +1850,6 @@ export const rnSystems = [
       { id: "methanol-toxicity-rn", name: "Methanol Toxicity", status: "Available" },
       { id: "lithium-toxicity-rn", name: "Lithium Toxicity", status: "Available" },
       { id: "digoxin-toxicity-rn", name: "Digoxin Toxicity", status: "Available" },
-      { id: "malignant-hyperthermia-rn", name: "Malignant Hyperthermia (Advanced)", status: "Available" },
       { id: "serotonin-syndrome-tox-rn", name: "Serotonin Syndrome (Toxicology)", status: "Available" },
       { id: "nms-rn", name: "Neuroleptic Malignant Syndrome (NMS)", status: "Available" }
     ]
@@ -2209,7 +2214,6 @@ export const npSystems = [
     bgColor: "bg-emerald-50",
     diseases: [
       { id: "compartment-np", name: "Compartment Syndrome: Fasciotomy", status: "Available" },
-      { id: "fat-embolism-np", name: "Fat Embolism Syndrome", status: "Available" },
       { id: "spinal-cord-injury-np", name: "Spinal Cord Injury: Autonomic Dysreflexia", status: "Available" },
       { id: "rib-fractures-np", name: "Rib Fractures: Flail Chest & Regional Analgesia", status: "Available" },
       { id: "gout-management-np", name: "Gout", status: "Available" },
@@ -2250,8 +2254,7 @@ export const npSystems = [
       { id: "sibo-np", name: "Small Intestinal Bacterial Overgrowth: Breath Testing & Treatment", status: "Available" },
       { id: "microscopic-colitis-np", name: "Microscopic Colitis: Collagenous vs Lymphocytic & Budesonide", status: "Available" },
       { id: "celiac-workup-algorithm-np", name: "Celiac Disease Workup: tTG-IgA & Biopsy Algorithm", status: "Available" },
-      { id: "pancreatitis-management-np", name: "Pancreatitis", status: "Available" },
-      { id: "cirrhosis-management-np", name: "Cirrhosis & Esophageal Varices", status: "Available" }
+      { id: "pancreatitis-management-np", name: "Pancreatitis", status: "Available" }
     ]
   },
   {
@@ -2348,6 +2351,21 @@ export const npSystems = [
       { id: "uterine-prolapse-np", name: "Uterine Prolapse: POP-Q & Surgical Repair", status: "Available" },
       { id: "benign-ovarian-cysts-np", name: "Benign Ovarian Cysts: IOTA Rules & RMI Scoring", status: "Available" },
       { id: "endometrial-polyp-np", name: "Endometrial Polyp: Molecular Proliferation & Malignancy Risk", status: "Available" },
+      { id: "infertility-workup-np", name: "Infertility Workup: Female & Male Factor Evaluation", status: "Available" },
+      { id: "recurrent-pregnancy-loss-np", name: "Recurrent Pregnancy Loss: Antiphospholipid & Genetic Workup", status: "Available" },
+      { id: "preconception-counseling-np", name: "Preconception Counseling: Optimization & Medication Review", status: "Available" },
+      { id: "breast-cancer-screening-np", name: "Breast Cancer Screening: Mammography & Risk Assessment Models", status: "Available" },
+      { id: "contraception-prescribing-np", name: "Contraception Prescribing: CDC MEC & Method Selection", status: "Available" },
+      { id: "menopause-pharmacotherapy-np", name: "Menopause Pharmacotherapy: Vasomotor Symptom Management", status: "Available" }
+    ]
+  },
+  {
+    id: "mens-health-np",
+    title: "Men's Health",
+    icon: Users,
+    color: "text-blue-600",
+    bgColor: "bg-blue-50",
+    diseases: [
       { id: "priapism-np", name: "Priapism: Ischemic vs Nonischemic & Corporal Aspiration", status: "Available" },
       { id: "balanitis-np", name: "Balanitis: Etiology & Treatment Algorithms", status: "Available" },
       { id: "penile-cancer-np", name: "Penile Cancer: Staging & Surgical Management", status: "Available" },
@@ -2355,13 +2373,6 @@ export const npSystems = [
       { id: "orchitis-np", name: "Orchitis: Viral vs Bacterial & Fertility Implications", status: "Available" },
       { id: "prostatitis-np", name: "Prostatitis: NIH Classification & Targeted Therapy", status: "Available" },
       { id: "mens-health-ed-np", name: "Erectile Dysfunction: Neurovascular Pathophysiology & PDE5 Prescribing", status: "Available" },
-      { id: "testosterone-deficiency-np", name: "Testosterone Deficiency: Hypogonadism Evaluation & HRT", status: "Available" },
-      { id: "infertility-workup-np", name: "Infertility Workup: Female & Male Factor Evaluation", status: "Available" },
-      { id: "recurrent-pregnancy-loss-np", name: "Recurrent Pregnancy Loss: Antiphospholipid & Genetic Workup", status: "Available" },
-      { id: "preconception-counseling-np", name: "Preconception Counseling: Optimization & Medication Review", status: "Available" },
-      { id: "breast-cancer-screening-np", name: "Breast Cancer Screening: Mammography & Risk Assessment Models", status: "Available" },
-      { id: "contraception-prescribing-np", name: "Contraception Prescribing: CDC MEC & Method Selection", status: "Available" },
-      { id: "menopause-pharmacotherapy-np", name: "Menopause Pharmacotherapy: Vasomotor Symptom Management", status: "Available" }
     ]
   },
   {
@@ -2661,7 +2672,6 @@ export const npSystems = [
     color: "text-red-700",
     bgColor: "bg-red-50",
     diseases: [
-      { id: "ecmo-complications-rn", name: "ECMO Complications", status: "Available" },
       { id: "intra-aortic-balloon-pump-np", name: "Intra-Aortic Balloon Pump", status: "Available" },
       { id: "targeted-temperature-management-np", name: "Targeted Temperature Management", status: "Available" },
       { id: "brain-death-determination-np", name: "Brain Death Determination Criteria", status: "Available" },
@@ -3344,7 +3354,6 @@ export const npSystems = [
       { id: "iron-studies-np", name: "Iron Studies", status: "Available" },
       { id: "pt-inr-aptt-np", name: "PT/INR/aPTT Interpretation", status: "Available" },
       { id: "d-dimer-logic-np", name: "D-Dimer Logic", status: "Available" },
-      { id: "iron-deficiency-anemia-np", name: "Iron Deficiency Anemia", status: "Available" },
       { id: "b12-deficiency-np", name: "B12 Deficiency", status: "Available" },
       { id: "anemia-chronic-disease-np", name: "Anemia of Chronic Disease", status: "Available" },
       { id: "sickle-cell-np", name: "Sickle Cell Disease", status: "Available" },
@@ -3579,10 +3588,8 @@ export const npSystems = [
     color: "text-red-700",
     bgColor: "bg-red-50",
     diseases: [
-      { id: "aortic-dissection-np", name: "Aortic Dissection", status: "Available" },
       { id: "hypertrophic-cardiomyopathy-np", name: "Hypertrophic Cardiomyopathy", status: "Available" },
       { id: "spontaneous-pneumothorax-np", name: "Spontaneous Pneumothorax", status: "Available" },
-      { id: "guillain-barre-np", name: "Guillain–Barré Syndrome", status: "Available" },
       { id: "celiac-disease-atypical-np", name: "Celiac Disease: Atypical Presentation", status: "Available" },
       { id: "wernicke-encephalopathy-np", name: "Wernicke Encephalopathy", status: "Available" },
       { id: "creutzfeldt-jakob-np", name: "Creutzfeldt-Jakob Disease", status: "Available" },
