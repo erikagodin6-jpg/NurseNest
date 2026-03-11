@@ -426,10 +426,10 @@ export default function ExamConsoleLayout({
   const optionLabels = ["A", "B", "C", "D", "E"];
 
   return (
-    <div className="min-h-screen bg-gray-50 font-sans text-gray-900 flex flex-col">
-      <div className="sticky top-0 z-40 bg-white border-b border-gray-200 shadow-sm h-12 flex items-center px-4">
+    <div className="min-h-screen bg-warmwhite font-sans text-gray-900 flex flex-col">
+      <div className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-gray-200/60 shadow-sm h-12 flex items-center px-4">
         <div className="flex items-center gap-3 flex-1">
-          <div className="flex items-center gap-1.5 text-sm text-gray-600" data-testid="text-timer">
+          <div className="flex items-center gap-1.5 text-sm text-gray-600 bg-gray-50 px-2.5 py-1 rounded-lg" data-testid="text-timer">
             <Clock className="w-4 h-4" />
             <span className="font-mono font-semibold">
               {timerSeconds !== undefined ? formatTimer(timerSeconds) : "--:--"}
@@ -528,17 +528,17 @@ export default function ExamConsoleLayout({
           }`}
         >
           <div className="max-w-3xl mx-auto space-y-6">
-            <Card className="border border-gray-200 shadow-sm">
+            <Card className="premium-card border-0 shadow-md">
               <CardContent className="p-5 md:p-6">
                 <div className="flex items-start gap-3 mb-4">
                   <Badge
                     variant="outline"
-                    className="shrink-0 font-semibold text-sm px-2.5 py-0.5"
+                    className="shrink-0 font-semibold text-sm px-2.5 py-0.5 rounded-lg border-primary/20 bg-primary/5 text-primary"
                   >
                     Q{questionNumber}
                   </Badge>
                   {flagged && (
-                    <Badge className="bg-amber-100 text-amber-700 border-amber-300 shrink-0">
+                    <Badge className="bg-amber-100 text-amber-700 border-amber-300 shrink-0 rounded-lg">
                       <Flag className="w-3 h-3 mr-1" />
                       Flagged
                     </Badge>
@@ -585,7 +585,7 @@ export default function ExamConsoleLayout({
               </CardContent>
             </Card>
 
-            <div className="space-y-2">
+            <div className="space-y-2.5">
               {options.map((option, index) => {
                 const isSelected = selectedAnswer === index;
                 const isStruck = struckOptions.has(index);
@@ -596,19 +596,19 @@ export default function ExamConsoleLayout({
                   isSelected &&
                   correctAnswer !== index;
 
-                let borderColor = "border-gray-200 hover:border-primary/50";
-                let bgColor = "bg-white hover:bg-gray-50";
+                let borderColor = "border-gray-200/80 hover:border-primary/40 hover:bg-primary/3";
+                let bgColor = "bg-white";
                 if (isSelected && !showExplanation) {
                   borderColor = "border-primary";
                   bgColor = "bg-primary/5";
                 }
                 if (isCorrectOption) {
-                  borderColor = "border-green-500";
-                  bgColor = "bg-green-50";
+                  borderColor = "border-emerald-400";
+                  bgColor = "bg-emerald-50/60";
                 }
                 if (isWrongSelected) {
-                  borderColor = "border-red-500";
-                  bgColor = "bg-red-50";
+                  borderColor = "border-red-300";
+                  bgColor = "bg-red-50/50";
                 }
 
                 return (
@@ -619,26 +619,26 @@ export default function ExamConsoleLayout({
                       e.preventDefault();
                       toggleStrike(index);
                     }}
-                    className={`w-full text-left p-4 rounded-lg border-2 transition-all flex items-start gap-3 ${borderColor} ${bgColor} ${
+                    className={`w-full text-left p-4 rounded-2xl border-2 transition-all duration-200 flex items-start gap-3 ${borderColor} ${bgColor} ${
                       isStruck ? "line-through opacity-50" : ""
                     }`}
                     data-testid={`radio-option-${index}`}
                   >
                     <span
-                      className={`shrink-0 w-7 h-7 rounded-full border-2 flex items-center justify-center text-sm font-bold transition-colors ${
+                      className={`shrink-0 w-8 h-8 rounded-xl border-2 flex items-center justify-center text-sm font-bold transition-all duration-200 ${
                         isSelected
                           ? "bg-primary border-primary text-white"
                           : "border-gray-300 text-gray-500"
-                      } ${isCorrectOption ? "bg-green-500 border-green-500 text-white" : ""} ${
+                      } ${isCorrectOption ? "bg-emerald-500 border-emerald-500 text-white" : ""} ${
                         isWrongSelected
-                          ? "bg-red-500 border-red-500 text-white"
+                          ? "bg-red-400 border-red-400 text-white"
                           : ""
                       }`}
                     >
                       {optionLabels[index] || index + 1}
                     </span>
                     <span
-                      className={`flex-1 text-sm ${
+                      className={`flex-1 text-sm leading-relaxed ${
                         isStruck ? "text-gray-400" : "text-gray-700"
                       }`}
                     >
@@ -653,20 +653,20 @@ export default function ExamConsoleLayout({
             </div>
 
             {showExplanation && explanation && (
-              <Card className="border-blue-200 bg-blue-50">
+              <Card className="rounded-2xl border border-violet-200/60 bg-gradient-to-br from-violet-50/80 to-purple-50/40">
                 <CardContent className="p-5">
-                  <h4 className="font-semibold text-blue-900 mb-2 flex items-center gap-2">
+                  <h4 className="font-bold text-violet-900 mb-2 flex items-center gap-2 text-sm uppercase tracking-wide">
                     <HelpCircle className="w-4 h-4" />
                     Explanation
                   </h4>
-                  <p className="text-sm text-blue-800 leading-relaxed">
+                  <p className="text-sm text-gray-700 leading-relaxed">
                     {explanation}
                   </p>
                   {(() => {
                     const img = explanationContext ? getQuestionImage(explanationContext) : undefined;
                     return img ? (
-                      <div className="mt-4">
-                        <img src={img} alt={explanationContext?.topic || explanationContext?.bodySystem || "Clinical reference"} className="rounded-lg border border-blue-200 max-h-72 w-auto mx-auto" loading="lazy" data-testid="img-rationale" />
+                      <div className="mt-4 rounded-xl border border-gray-200/60 overflow-hidden bg-gray-50/50 p-3">
+                        <img src={img} alt={explanationContext?.topic || explanationContext?.bodySystem || "Clinical reference"} className="rounded-lg max-h-72 w-auto mx-auto" loading="lazy" data-testid="img-rationale" />
                       </div>
                     ) : null;
                   })()}
@@ -815,13 +815,13 @@ export default function ExamConsoleLayout({
         </div>
       )}
 
-      <div className="sticky bottom-0 z-40 bg-white border-t border-gray-200 shadow-sm">
-        <div className="px-4 py-2 flex items-center justify-between h-14">
+      <div className="sticky bottom-0 z-40 bg-white/95 backdrop-blur-md border-t border-gray-200/60 shadow-sm">
+        <div className="px-4 py-2.5 flex items-center justify-between h-14">
           <Button
             variant="outline"
             onClick={onPrevious}
             disabled={questionNumber <= 1}
-            className="gap-1.5"
+            className="gap-1.5 rounded-xl border-gray-200"
             data-testid="button-prev-question"
           >
             <ChevronLeft className="w-4 h-4" />
@@ -833,10 +833,10 @@ export default function ExamConsoleLayout({
               variant="ghost"
               size="sm"
               onClick={() => setShowQuestionNav(!showQuestionNav)}
-              className="text-xs text-gray-500 gap-1"
+              className="text-xs text-gray-500 gap-1 rounded-lg bg-gray-50 px-3"
               data-testid="button-question-navigator"
             >
-              <span className="font-mono">
+              <span className="font-mono font-semibold">
                 {questionNumber}/{totalQuestions}
               </span>
             </Button>
@@ -845,7 +845,7 @@ export default function ExamConsoleLayout({
           {isLastQuestion ? (
             <Button
               onClick={onComplete}
-              className="gap-1.5 bg-green-600 hover:bg-green-700"
+              className="gap-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 shadow-sm"
               data-testid="button-submit-trial"
             >
               <Send className="w-4 h-4" />
@@ -854,7 +854,7 @@ export default function ExamConsoleLayout({
           ) : (
             <Button
               onClick={onNext}
-              className="gap-1.5"
+              className="gap-1.5 rounded-xl bg-primary hover:bg-primary/90 shadow-sm"
               data-testid="button-next-question"
             >
               <span className="hidden sm:inline">Next</span>
@@ -864,7 +864,7 @@ export default function ExamConsoleLayout({
         </div>
 
         {showQuestionNav && (
-          <div className="border-t border-gray-100 px-4 py-3 bg-gray-50">
+          <div className="border-t border-gray-100 px-4 py-3 bg-gray-50/80">
             <div className="flex flex-wrap gap-1.5 max-w-3xl mx-auto">
               {Array.from({ length: totalQuestions }, (_, i) => {
                 const status = questionStatuses[i];
@@ -890,7 +890,7 @@ export default function ExamConsoleLayout({
                         setShowQuestionNav(false);
                       }
                     }}
-                    className={`w-8 h-8 rounded text-xs font-bold transition-all ${bgClass}`}
+                    className={`w-8 h-8 rounded-lg text-xs font-bold transition-all ${bgClass}`}
                     data-testid={`button-nav-q-${i}`}
                   >
                     {i + 1}
@@ -900,16 +900,16 @@ export default function ExamConsoleLayout({
             </div>
             <div className="flex items-center justify-center gap-4 mt-2 text-xs text-gray-400">
               <span className="flex items-center gap-1">
-                <div className="w-2.5 h-2.5 rounded bg-emerald-500" /> Answered
+                <div className="w-2.5 h-2.5 rounded-sm bg-emerald-500" /> Answered
               </span>
               <span className="flex items-center gap-1">
-                <div className="w-2.5 h-2.5 rounded bg-amber-400" /> Flagged
+                <div className="w-2.5 h-2.5 rounded-sm bg-amber-400" /> Flagged
               </span>
               <span className="flex items-center gap-1">
-                <div className="w-2.5 h-2.5 rounded bg-gray-200" /> Unanswered
+                <div className="w-2.5 h-2.5 rounded-sm bg-gray-200" /> Unanswered
               </span>
               <span className="flex items-center gap-1">
-                <div className="w-2.5 h-2.5 rounded ring-2 ring-primary" />{" "}
+                <div className="w-2.5 h-2.5 rounded-sm ring-2 ring-primary" />{" "}
                 Current
               </span>
             </div>

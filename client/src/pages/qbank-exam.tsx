@@ -18,6 +18,12 @@ import {
   Play,
   RotateCcw,
 } from "lucide-react";
+import {
+  AnswerOption,
+  PremiumBadge,
+  StudyProgressBar,
+  ScoreCircle,
+} from "@/components/premium-study";
 
 function getAuthHeaders(): Record<string, string> {
   try {
@@ -185,13 +191,15 @@ export default function QBankExamPage() {
 
   if (!user) {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white dark:from-gray-950 dark:to-gray-900">
+      <div className="min-h-screen bg-warmwhite">
         <Navigation />
         <div className="container mx-auto px-4 py-12 text-center">
-          <AlertTriangle className="h-12 w-12 text-yellow-500 mx-auto mb-4" />
+          <div className="w-14 h-14 rounded-2xl bg-amber-100 flex items-center justify-center mx-auto mb-4">
+            <AlertTriangle className="h-7 w-7 text-amber-500" />
+          </div>
           <h2 className="text-xl font-bold mb-2">Login Required</h2>
           <p className="text-gray-500 mb-4">Please log in to access exam mode.</p>
-          <Button onClick={() => setLocation("/login")} data-testid="button-go-login">Go to Login</Button>
+          <Button onClick={() => setLocation("/login")} className="rounded-xl" data-testid="button-go-login">Go to Login</Button>
         </div>
       </div>
     );
@@ -204,26 +212,28 @@ export default function QBankExamPage() {
   const scorePercent = questions.length > 0 ? Math.round((correctCount / questions.length) * 100) : 0;
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white dark:from-gray-950 dark:to-gray-900">
+    <div className="min-h-screen bg-warmwhite">
       <Navigation />
       <div className="container mx-auto px-4 py-6 max-w-4xl">
         {phase === "setup" && (
-          <Card>
+          <Card className="premium-card border-0 shadow-md">
             <CardHeader>
-              <CardTitle className="flex items-center gap-2" data-testid="text-exam-setup-title">
-                <Play className="h-5 w-5 text-blue-600" />
+              <CardTitle className="flex items-center gap-2.5" data-testid="text-exam-setup-title">
+                <div className="w-9 h-9 rounded-xl bg-blue-100 flex items-center justify-center">
+                  <Play className="h-5 w-5 text-blue-600" />
+                </div>
                 Exam Mode
               </CardTitle>
             </CardHeader>
-            <CardContent className="space-y-4">
-              <p className="text-gray-600 dark:text-gray-300 text-sm">
+            <CardContent className="space-y-5">
+              <p className="text-gray-500 text-sm leading-relaxed">
                 Simulate a timed exam with randomized questions and shuffled answer choices. Your region determines which exam bank you see
                 ({user.region === "CA" ? "REx-PN" : "NCLEX-PN"}).
               </p>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div>
-                  <label className="text-sm font-medium mb-1 block">Number of Questions</label>
-                  <select value={questionCount} onChange={(e) => setQuestionCount(Number(e.target.value))} className="w-full border rounded px-3 py-2 bg-white dark:bg-gray-800" data-testid="select-question-count">
+                  <label className="text-sm font-medium text-gray-600 mb-1.5 block">Number of Questions</label>
+                  <select value={questionCount} onChange={(e) => setQuestionCount(Number(e.target.value))} className="w-full border border-gray-200 rounded-xl px-3 py-2.5 bg-white text-sm" data-testid="select-question-count">
                     <option value={10}>10 questions</option>
                     <option value={25}>25 questions</option>
                     <option value={50}>50 questions</option>
@@ -232,12 +242,12 @@ export default function QBankExamPage() {
                   </select>
                 </div>
                 <div>
-                  <label className="text-sm font-medium mb-1 block">Category (optional)</label>
-                  <Input value={filterCategory} onChange={(e) => setFilterCategory(e.target.value)} placeholder="e.g. Pharmacology" data-testid="input-exam-category" />
+                  <label className="text-sm font-medium text-gray-600 mb-1.5 block">Category (optional)</label>
+                  <Input value={filterCategory} onChange={(e) => setFilterCategory(e.target.value)} placeholder="e.g. Pharmacology" className="rounded-xl border-gray-200" data-testid="input-exam-category" />
                 </div>
                 <div>
-                  <label className="text-sm font-medium mb-1 block">Difficulty (optional)</label>
-                  <select value={filterDifficulty} onChange={(e) => setFilterDifficulty(e.target.value)} className="w-full border rounded px-3 py-2 bg-white dark:bg-gray-800" data-testid="select-exam-difficulty">
+                  <label className="text-sm font-medium text-gray-600 mb-1.5 block">Difficulty (optional)</label>
+                  <select value={filterDifficulty} onChange={(e) => setFilterDifficulty(e.target.value)} className="w-full border border-gray-200 rounded-xl px-3 py-2.5 bg-white text-sm" data-testid="select-exam-difficulty">
                     <option value="">All</option>
                     <option value="easy">Easy</option>
                     <option value="moderate">Moderate</option>
@@ -246,8 +256,8 @@ export default function QBankExamPage() {
                   </select>
                 </div>
               </div>
-              {error && <div className="text-red-500 text-sm flex items-center gap-1" data-testid="text-exam-error"><AlertTriangle className="h-4 w-4" />{error}</div>}
-              <Button onClick={startExam} disabled={loading} className="w-full" data-testid="button-start-exam">
+              {error && <div className="text-red-500 text-sm flex items-center gap-2 bg-red-50 rounded-xl p-3" data-testid="text-exam-error"><AlertTriangle className="h-4 w-4 shrink-0" />{error}</div>}
+              <Button onClick={startExam} disabled={loading} className="w-full rounded-xl py-5 bg-primary hover:bg-primary/90 text-white font-semibold shadow-sm shadow-primary/20" data-testid="button-start-exam">
                 {loading ? "Loading..." : "Start Exam"}
               </Button>
             </CardContent>
@@ -256,75 +266,73 @@ export default function QBankExamPage() {
 
         {phase === "exam" && currentQ && (
           <>
-            <div className="flex items-center justify-between mb-4">
-              <div className="flex items-center gap-3">
-                <Badge variant="outline" className="text-sm" data-testid="text-question-progress">
-                  {currentIdx + 1} / {questions.length}
-                </Badge>
-                <Badge variant="outline" className="text-sm flex items-center gap-1" data-testid="text-timer">
-                  <Clock className="h-3 w-3" />{formatTime(timer)}
-                </Badge>
+            <div className="sticky top-0 z-40 bg-white/95 backdrop-blur-md rounded-2xl shadow-sm border border-gray-200/40 px-4 py-3 mb-4">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <PremiumBadge variant="default" data-testid="text-question-progress">
+                    {currentIdx + 1} / {questions.length}
+                  </PremiumBadge>
+                  <div className="flex items-center gap-1.5 text-sm font-mono font-semibold text-gray-600 bg-gray-50 px-2.5 py-1 rounded-lg" data-testid="text-timer">
+                    <Clock className="h-3.5 w-3.5" />{formatTime(timer)}
+                  </div>
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className="text-xs text-gray-400">{answeredCount} answered</span>
+                  <Button size="sm" variant={currentAnswer?.flagged ? "destructive" : "outline"} onClick={() => toggleFlag(currentQ.id)} className="rounded-xl text-xs h-8" data-testid="button-flag">
+                    <Flag className="h-3 w-3 mr-1" />{currentAnswer?.flagged ? "Flagged" : "Flag"}
+                  </Button>
+                </div>
               </div>
-              <div className="flex items-center gap-2">
-                <Badge variant="outline" className="text-xs">{answeredCount} answered</Badge>
-                <Button size="sm" variant={currentAnswer?.flagged ? "destructive" : "outline"} onClick={() => toggleFlag(currentQ.id)} data-testid="button-flag">
-                  <Flag className="h-3 w-3 mr-1" />{currentAnswer?.flagged ? "Flagged" : "Flag"}
-                </Button>
-              </div>
+              <StudyProgressBar value={((currentIdx + 1) / questions.length) * 100} variant="indigo" className="mt-2" />
             </div>
 
-            <Card className="mb-4">
+            <Card className="premium-card border-0 shadow-lg mb-4 animate-fade-in-up">
               <CardContent className="p-6">
-                <div className="flex items-center gap-2 mb-3">
-                  <Badge variant="outline" className="text-xs">{currentQ.category}</Badge>
-                  <Badge variant="outline" className="text-xs">{currentQ.difficulty}</Badge>
+                <div className="flex items-center gap-2 mb-3 flex-wrap">
+                  <PremiumBadge variant="system">{currentQ.category}</PremiumBadge>
+                  <PremiumBadge variant="difficulty">{currentQ.difficulty}</PremiumBadge>
                 </div>
-                <p className="text-lg font-medium mb-6 text-gray-900 dark:text-white" data-testid="text-current-question">{currentQ.question}</p>
+                <p className="text-lg font-medium mb-6 text-gray-900 leading-relaxed" data-testid="text-current-question">{currentQ.question}</p>
                 <div className="space-y-3">
-                  {(shuffledOptions.get(currentQ.id) || []).map((opt) => (
-                    <button
+                  {(shuffledOptions.get(currentQ.id) || []).map((opt, idx) => (
+                    <AnswerOption
                       key={opt.key}
+                      index={idx}
+                      text={opt.text}
+                      isSelected={currentAnswer?.selected === opt.key}
                       onClick={() => selectAnswer(currentQ.id, opt.key)}
-                      className={`w-full text-left p-4 rounded-lg border-2 transition-all ${
-                        currentAnswer?.selected === opt.key
-                          ? "border-blue-500 bg-blue-50 dark:bg-blue-900/20"
-                          : "border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600"
-                      }`}
                       data-testid={`button-option-${opt.key}`}
-                    >
-                      <span className="font-semibold mr-2">{opt.key}.</span>
-                      {opt.text}
-                    </button>
+                    />
                   ))}
                 </div>
               </CardContent>
             </Card>
 
-            <div className="flex items-center justify-between">
-              <Button variant="outline" onClick={() => setCurrentIdx((i) => Math.max(0, i - 1))} disabled={currentIdx === 0} data-testid="button-prev">
+            <div className="flex items-center justify-between gap-3">
+              <Button variant="outline" onClick={() => setCurrentIdx((i) => Math.max(0, i - 1))} disabled={currentIdx === 0} className="rounded-xl border-gray-200" data-testid="button-prev">
                 <ArrowLeft className="h-4 w-4 mr-1" />Previous
               </Button>
               {currentIdx === questions.length - 1 ? (
-                <Button onClick={submitExam} className="bg-green-600 hover:bg-green-700" data-testid="button-submit-exam">
-                  <CheckCircle2 className="h-4 w-4 mr-1" />Submit Exam
+                <Button onClick={submitExam} className="rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white shadow-sm gap-2" data-testid="button-submit-exam">
+                  <CheckCircle2 className="h-4 w-4" />Submit Exam
                 </Button>
               ) : (
-                <Button onClick={() => setCurrentIdx((i) => Math.min(questions.length - 1, i + 1))} data-testid="button-next">
+                <Button onClick={() => setCurrentIdx((i) => Math.min(questions.length - 1, i + 1))} className="rounded-xl bg-primary hover:bg-primary/90 text-white shadow-sm" data-testid="button-next">
                   Next<ArrowRight className="h-4 w-4 ml-1" />
                 </Button>
               )}
             </div>
 
-            <div className="mt-4 flex flex-wrap gap-1">
+            <div className="mt-4 flex flex-wrap gap-1.5">
               {questions.map((q, i) => {
                 const a = answers.get(q.id);
                 return (
                   <button
                     key={q.id}
                     onClick={() => setCurrentIdx(i)}
-                    className={`w-8 h-8 text-xs rounded font-medium border ${
-                      i === currentIdx ? "ring-2 ring-blue-500" : ""
-                    } ${a?.selected ? "bg-blue-100 dark:bg-blue-900/30 border-blue-300" : "bg-white dark:bg-gray-800 border-gray-200"} ${
+                    className={`w-8 h-8 text-xs rounded-lg font-medium border transition-all duration-150 ${
+                      i === currentIdx ? "ring-2 ring-primary ring-offset-1" : ""
+                    } ${a?.selected ? "bg-primary/10 border-primary/30 text-primary font-semibold" : "bg-white border-gray-200 text-gray-500"} ${
                       a?.flagged ? "border-red-400" : ""
                     }`}
                     data-testid={`button-nav-${i}`}
@@ -338,37 +346,40 @@ export default function QBankExamPage() {
         )}
 
         {phase === "results" && (
-          <div className="space-y-6">
-            <Card>
+          <div className="space-y-6 animate-fade-in-up">
+            <Card className="premium-card border-0 shadow-md">
               <CardHeader>
-                <CardTitle className="flex items-center gap-2" data-testid="text-results-title">
-                  <BarChart3 className="h-5 w-5 text-blue-600" />Exam Results
+                <CardTitle className="flex items-center gap-2.5" data-testid="text-results-title">
+                  <div className="w-9 h-9 rounded-xl bg-blue-100 flex items-center justify-center">
+                    <BarChart3 className="h-5 w-5 text-blue-600" />
+                  </div>
+                  Exam Results
                 </CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-                  <div className="text-center">
-                    <div className={`text-3xl font-bold ${scorePercent >= 70 ? "text-green-600" : "text-red-600"}`} data-testid="text-score">{scorePercent}%</div>
-                    <div className="text-xs text-gray-500">Score</div>
+                  <div className="text-center p-4 bg-gray-50/80 rounded-2xl">
+                    <div className={`text-3xl font-black ${scorePercent >= 70 ? "text-emerald-600" : "text-red-500"}`} data-testid="text-score">{scorePercent}%</div>
+                    <div className="text-xs text-gray-500 mt-1">Score</div>
                   </div>
-                  <div className="text-center">
-                    <div className="text-3xl font-bold text-blue-600" data-testid="text-correct-count">{correctCount}/{questions.length}</div>
-                    <div className="text-xs text-gray-500">Correct</div>
+                  <div className="text-center p-4 bg-gray-50/80 rounded-2xl">
+                    <div className="text-3xl font-black text-primary" data-testid="text-correct-count">{correctCount}/{questions.length}</div>
+                    <div className="text-xs text-gray-500 mt-1">Correct</div>
                   </div>
-                  <div className="text-center">
-                    <div className="text-3xl font-bold text-purple-600" data-testid="text-time-spent">{formatTime(timer)}</div>
-                    <div className="text-xs text-gray-500">Time</div>
+                  <div className="text-center p-4 bg-gray-50/80 rounded-2xl">
+                    <div className="text-3xl font-black text-gray-600" data-testid="text-time-spent">{formatTime(timer)}</div>
+                    <div className="text-xs text-gray-500 mt-1">Time</div>
                   </div>
-                  <div className="text-center">
-                    <div className={`text-3xl font-bold ${scorePercent >= 70 ? "text-green-600" : "text-red-600"}`} data-testid="text-pass-fail">
+                  <div className="text-center p-4 bg-gray-50/80 rounded-2xl">
+                    <div className={`text-3xl font-black ${scorePercent >= 70 ? "text-emerald-600" : "text-red-500"}`} data-testid="text-pass-fail">
                       {scorePercent >= 70 ? "PASS" : "FAIL"}
                     </div>
-                    <div className="text-xs text-gray-500">Status</div>
+                    <div className="text-xs text-gray-500 mt-1">Status</div>
                   </div>
                 </div>
                 <div className="flex gap-3 justify-center">
-                  <Button onClick={() => { setPhase("setup"); setQuestions([]); setAnswers(new Map()); }} data-testid="button-new-exam">
-                    <RotateCcw className="h-4 w-4 mr-1" />New Exam
+                  <Button onClick={() => { setPhase("setup"); setQuestions([]); setAnswers(new Map()); }} className="rounded-xl gap-2 bg-primary hover:bg-primary/90 shadow-sm" data-testid="button-new-exam">
+                    <RotateCcw className="h-4 w-4" />New Exam
                   </Button>
                 </div>
               </CardContent>
@@ -378,13 +389,15 @@ export default function QBankExamPage() {
               {questions.map((q, i) => {
                 const a = answers.get(q.id);
                 return (
-                  <Card key={q.id} className={a?.correct ? "border-green-200 dark:border-green-800" : "border-red-200 dark:border-red-800"} data-testid={`card-result-${i}`}>
-                    <CardContent className="p-4">
-                      <div className="flex items-start gap-2 mb-2">
-                        {a?.correct ? <CheckCircle2 className="h-5 w-5 text-green-600 flex-shrink-0 mt-0.5" /> : <XCircle className="h-5 w-5 text-red-600 flex-shrink-0 mt-0.5" />}
-                        <p className="font-medium text-sm">{q.question}</p>
+                  <Card key={q.id} className={`rounded-2xl border ${a?.correct ? "border-emerald-200/60 bg-emerald-50/20" : "border-red-200/60 bg-red-50/20"}`} data-testid={`card-result-${i}`}>
+                    <CardContent className="p-5">
+                      <div className="flex items-start gap-3 mb-3">
+                        <div className={`shrink-0 w-6 h-6 rounded-lg flex items-center justify-center mt-0.5 ${a?.correct ? "bg-emerald-500" : "bg-red-400"}`}>
+                          {a?.correct ? <CheckCircle2 className="h-3.5 w-3.5 text-white" /> : <XCircle className="h-3.5 w-3.5 text-white" />}
+                        </div>
+                        <p className="font-medium text-sm text-gray-900 leading-relaxed">{q.question}</p>
                       </div>
-                      <div className="grid grid-cols-2 gap-1 text-xs ml-7 mb-2">
+                      <div className="grid grid-cols-2 gap-1.5 text-xs ml-9 mb-3">
                         {[
                           { key: "A", text: q.optionA },
                           { key: "B", text: q.optionB },
@@ -393,14 +406,14 @@ export default function QBankExamPage() {
                         ].map((opt) => (
                           <span
                             key={opt.key}
-                            className={`${opt.key === q.correctAnswer ? "text-green-600 font-bold" : ""} ${opt.key === a?.selected && !a?.correct ? "text-red-500 line-through" : ""}`}
+                            className={`px-2 py-1 rounded-lg ${opt.key === q.correctAnswer ? "text-emerald-700 font-bold bg-emerald-50" : ""} ${opt.key === a?.selected && !a?.correct ? "text-red-500 line-through bg-red-50" : ""}`}
                           >
                             {opt.key}: {opt.text}
                           </span>
                         ))}
                       </div>
-                      <div className="ml-7 text-xs text-gray-600 dark:text-gray-300 bg-gray-50 dark:bg-gray-800 p-2 rounded">
-                        <strong>Rationale:</strong> {q.rationale}
+                      <div className="ml-9 text-xs text-gray-600 bg-gray-50/80 p-3 rounded-xl leading-relaxed">
+                        <strong className="text-gray-700">Rationale:</strong> {q.rationale}
                       </div>
                     </CardContent>
                   </Card>

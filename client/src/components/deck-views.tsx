@@ -379,18 +379,18 @@ export function DeckHub({
           </p>
         </div>
         {isGuest ? (
-          <Button onClick={() => setLocation("/signup")} className="rounded-xl gap-2" data-testid="button-signup-decks">
+          <Button onClick={() => setLocation("/signup")} className="rounded-xl gap-2 shadow-sm" data-testid="button-signup-decks">
             Sign Up to Create Decks
           </Button>
         ) : (
-          <Button onClick={() => setShowCreate(!showCreate)} className="rounded-xl gap-2" data-testid="button-new-deck">
+          <Button onClick={() => setShowCreate(!showCreate)} className="rounded-xl gap-2 bg-primary hover:bg-primary/90 shadow-sm shadow-primary/20" data-testid="button-new-deck">
             <Plus className="w-4 h-4" /> New Deck
           </Button>
         )}
       </div>
 
       {showCreate && !isGuest && (
-        <Card className="border-2 border-primary/20 shadow-lg">
+        <Card className="premium-card border-0 shadow-lg">
           <CardContent className="p-5 space-y-4">
             <div className="flex gap-1 bg-gray-100 rounded-xl p-1">
               <button
@@ -653,7 +653,7 @@ export function DeckHub({
         </Card>
       )}
 
-      <div className="flex gap-1 bg-gray-100 rounded-xl p-1">
+      <div className="flex gap-1 bg-gray-100/80 rounded-2xl p-1">
         {(isGuest
           ? ([["browse", "Browse Public"]] as const)
           : ([["my", "My Decks"], ["browse", "Browse Public"], ["saved", "Saved"]] as const)
@@ -665,7 +665,7 @@ export function DeckHub({
               if (key === "browse") fetchPublicDecks!();
               if (key === "saved") fetchSavedDecks!();
             }}
-            className={cn("flex-1 px-4 py-2 rounded-lg text-sm font-medium transition-colors",
+            className={cn("flex-1 px-4 py-2.5 rounded-xl text-sm font-medium transition-all duration-200",
               deckTab === key ? "bg-white text-gray-900 shadow-sm" : "text-gray-500 hover:text-gray-700"
             )}
             data-testid={`tab-deck-${key}`}
@@ -844,7 +844,7 @@ export function DeckHub({
           {sortDecks(deckTab === "my" ? myDecks : deckTab === "browse" ? publicDecks : savedDecksList, deckSortBy)?.map((deck: any) => (
             <Card
               key={deck.id}
-              className="border border-gray-200 hover:border-primary/30 hover:shadow-md transition-all cursor-pointer group"
+              className="premium-card-interactive border-0 shadow-sm hover:shadow-md transition-all duration-200 cursor-pointer group"
               onClick={() => {
                 setCurrentDeck!(deck);
                 fetchDeckCards!(deck.id);
@@ -856,23 +856,25 @@ export function DeckHub({
                 <div className="flex items-start justify-between mb-2">
                   <h3 className="font-bold text-gray-900 text-sm group-hover:text-primary transition-colors line-clamp-1">{deck.title}</h3>
                   <div className="flex items-center gap-1 shrink-0">
-                    {deck.isUpgraded && <Badge className="bg-amber-100 text-amber-700 text-[10px] border-none">PRO</Badge>}
+                    {deck.isUpgraded && <Badge className="bg-gradient-to-r from-amber-100 to-amber-200 text-amber-700 text-[10px] border-none rounded-lg">PRO</Badge>}
                     {deck.visibility === "public" && <Globe className="w-3 h-3 text-gray-400" />}
                     {deck.visibility === "private" && <EyeOff className="w-3 h-3 text-gray-400" />}
                   </div>
                 </div>
                 {deck.description && <p className="text-xs text-gray-500 line-clamp-2 mb-3">{deck.description}</p>}
                 <div className="flex items-center justify-between">
-                  <span className="text-[10px] text-gray-400">{deck.cardCount || 0} cards</span>
+                  <span className="text-[10px] text-gray-400 font-medium">{deck.cardCount || 0} cards</span>
                   <ChevronRight className="w-4 h-4 text-gray-300 group-hover:text-primary transition-colors" />
                 </div>
               </CardContent>
             </Card>
           ))}
           {((deckTab === "my" ? myDecks : deckTab === "browse" ? publicDecks : savedDecksList)?.length || 0) === 0 && (
-            <div className="col-span-full text-center py-12">
-              <Layers className="w-10 h-10 text-gray-300 mx-auto mb-3" />
-              <p className="text-gray-500 text-sm">
+            <div className="col-span-full text-center py-16">
+              <div className="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center mx-auto mb-4">
+                <Layers className="w-8 h-8 text-primary/40" />
+              </div>
+              <p className="text-gray-500 text-sm font-medium">
                 {deckTab === "my" ? "No decks yet. Create your first study deck!" :
                  deckTab === "browse" ? "No public decks found." : "No saved decks yet."}
               </p>
@@ -971,7 +973,7 @@ export function DeckView({
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center gap-2 bg-white border rounded-xl px-4 py-2.5 shadow-sm">
+      <div className="flex items-center gap-2 bg-white/90 backdrop-blur-sm border border-gray-200/60 rounded-2xl px-4 py-2.5 shadow-sm">
         <button onClick={() => setView("decks")} className="flex items-center gap-1.5 text-sm font-medium text-primary hover:text-primary/80 transition" data-testid="button-back-decks">
           <Home className="w-4 h-4" />
           <span>My Flashcards</span>
@@ -979,10 +981,10 @@ export function DeckView({
         <ChevronRight className="w-3.5 h-3.5 text-gray-300" />
         <span className="text-sm font-semibold text-gray-700 truncate max-w-[280px]">{currentDeck.title}</span>
         <div className="ml-auto flex items-center gap-2">
-          <Button variant="outline" size="sm" onClick={() => setView("decks")} className="h-8 text-xs gap-1.5 rounded-lg" data-testid="button-back-library">
+          <Button variant="outline" size="sm" onClick={() => setView("decks")} className="h-8 text-xs gap-1.5 rounded-xl border-gray-200" data-testid="button-back-library">
             <ArrowLeft className="w-3.5 h-3.5" /> All Decks
           </Button>
-          <Button size="sm" onClick={() => setView("decks")} className="h-8 text-xs gap-1.5 rounded-lg" data-testid="button-create-new-deck-from-view">
+          <Button size="sm" onClick={() => setView("decks")} className="h-8 text-xs gap-1.5 rounded-xl shadow-sm" data-testid="button-create-new-deck-from-view">
             <Plus className="w-3.5 h-3.5" /> New Deck
           </Button>
         </div>
@@ -1228,8 +1230,8 @@ export function DeckView({
       )}
 
       {deckStats && deckStats.totalSessions > 0 && (
-        <Card className="border-none bg-gradient-to-br from-indigo-50 to-purple-50" data-testid="card-deck-progress">
-          <CardContent className="p-4 space-y-3">
+        <Card className="premium-card border-0 bg-gradient-to-br from-primary/5 to-purple-50/60" data-testid="card-deck-progress">
+          <CardContent className="p-5 space-y-3">
             <div className="flex items-center justify-between">
               <span className="text-sm font-semibold text-gray-800">Your Progress</span>
               <span className="text-[10px] text-gray-400">{deckStats.totalSessions} session{deckStats.totalSessions !== 1 ? "s" : ""}</span>
@@ -1351,16 +1353,16 @@ export function DeckView({
         </div>
       )}
 
-      <div className="space-y-2">
+      <div className="space-y-2.5">
         {deckCards?.map((card: any, i: number) => (
-          <Card key={card.id} className="border-gray-200" data-testid={`card-deck-card-${card.id}`}>
+          <Card key={card.id} className="premium-card-interactive border-0 shadow-sm" data-testid={`card-deck-card-${card.id}`}>
             <CardContent className="p-4">
               <div className="flex items-start justify-between gap-4">
                 <div className="flex-1 min-w-0">
-                  <span className="text-[10px] text-gray-400 font-medium">{i + 1}.</span>
+                  <span className="text-[10px] text-primary/60 font-bold">{i + 1}.</span>
                   <p className="text-sm font-medium text-gray-900 mt-0.5">{card.front}</p>
-                  <p className="text-xs text-gray-500 mt-1">{card.back}</p>
-                  {card.rationale && <p className="text-[10px] text-gray-400 mt-1 italic">{card.rationale}</p>}
+                  <p className="text-xs text-gray-500 mt-1 leading-relaxed">{card.back}</p>
+                  {card.rationale && <p className="text-[10px] text-gray-400 mt-1.5 italic">{card.rationale}</p>}
                 </div>
               </div>
             </CardContent>
@@ -1414,7 +1416,7 @@ export function DeckEditor({
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center gap-2 bg-white border rounded-xl px-4 py-2.5 shadow-sm flex-wrap">
+      <div className="flex items-center gap-2 bg-white/90 backdrop-blur-sm border border-gray-200/60 rounded-2xl px-4 py-2.5 shadow-sm flex-wrap">
         <button onClick={() => setView("decks")} className="flex items-center gap-1.5 text-sm font-medium text-primary hover:text-primary/80 transition" data-testid="button-back-decks-from-edit">
           <Home className="w-4 h-4" />
           <span>My Flashcards</span>
@@ -1426,10 +1428,10 @@ export function DeckEditor({
         <ChevronRight className="w-3.5 h-3.5 text-gray-300" />
         <span className="text-sm font-semibold text-gray-700">Edit</span>
         <div className="ml-auto flex items-center gap-2">
-          <Button variant="outline" size="sm" onClick={() => setView("deck-view")} className="h-8 text-xs gap-1.5 rounded-lg" data-testid="button-back-to-deck">
+          <Button variant="outline" size="sm" onClick={() => setView("deck-view")} className="h-8 text-xs gap-1.5 rounded-xl border-gray-200" data-testid="button-back-to-deck">
             <ArrowLeft className="w-3.5 h-3.5" /> Back to Deck
           </Button>
-          <Button variant="outline" size="sm" onClick={() => setView("decks")} className="h-8 text-xs gap-1.5 rounded-lg" data-testid="button-back-library-from-edit">
+          <Button variant="outline" size="sm" onClick={() => setView("decks")} className="h-8 text-xs gap-1.5 rounded-xl border-gray-200" data-testid="button-back-library-from-edit">
             <Home className="w-3.5 h-3.5" /> All Decks
           </Button>
         </div>
@@ -1708,7 +1710,7 @@ export function DeckStudyLearn({
 
   return (
     <div className="space-y-6 max-w-2xl mx-auto">
-      <div className="flex items-center gap-2 bg-white border rounded-xl px-4 py-2.5 shadow-sm flex-wrap">
+      <div className="flex items-center gap-2 bg-white/90 backdrop-blur-sm border border-gray-200/60 rounded-2xl px-4 py-2.5 shadow-sm flex-wrap">
         <button onClick={() => setView("decks")} className="flex items-center gap-1.5 text-sm font-medium text-primary hover:text-primary/80 transition" data-testid="button-exit-to-decks">
           <Home className="w-4 h-4" />
           <span className="hidden sm:inline">My Flashcards</span>
@@ -1721,43 +1723,45 @@ export function DeckStudyLearn({
         <span className="text-sm font-semibold text-gray-700">Learn</span>
         <div className="ml-auto flex items-center gap-4 text-sm">
           <span className="text-emerald-600 font-medium">{deckStudyCorrect} correct</span>
-          <span className="text-red-500 font-medium">{deckStudyIncorrect} missed</span>
-          <span className="text-gray-400">{deckStudyIndex! + 1} / {total}</span>
+          <span className="text-red-400 font-medium">{deckStudyIncorrect} missed</span>
+          <span className="text-gray-400 font-mono">{deckStudyIndex! + 1} / {total}</span>
         </div>
       </div>
 
-      <div className="w-full h-2 bg-gray-200 rounded-full overflow-hidden">
-        <div className="h-full bg-emerald-500 rounded-full transition-all duration-300" style={{ width: `${progress}%` }} />
+      <div className="w-full h-2.5 bg-gray-100 rounded-full overflow-hidden">
+        <div className="h-full bg-gradient-to-r from-emerald-400 to-emerald-500 rounded-full transition-all duration-500 ease-out" style={{ width: `${progress}%` }} />
       </div>
 
       {card.retry && (
-        <div className="flex items-center gap-2 text-xs text-amber-600 bg-amber-50 px-3 py-2 rounded-lg">
-          <RefreshCw className="w-3 h-3" /> Retry card - you missed this one earlier
+        <div className="flex items-center gap-2 text-xs text-amber-700 bg-amber-50/80 border border-amber-200/60 px-4 py-2.5 rounded-xl">
+          <RefreshCw className="w-3.5 h-3.5" /> Retry card — you missed this one earlier
         </div>
       )}
 
       <div
-        className="min-h-[350px] cursor-pointer"
+        className="min-h-[350px] cursor-pointer perspective-1000"
         onClick={() => !deckStudyFlipped && setDeckStudyFlipped!(true)}
       >
         <Card className={cn(
-          "border-none shadow-xl rounded-3xl min-h-[350px] flex flex-col items-center justify-center p-8 text-center transition-all",
-          deckStudyFlipped ? "bg-primary text-white" : "bg-white"
+          "border-none shadow-xl rounded-3xl min-h-[350px] flex flex-col items-center justify-center p-8 md:p-10 text-center transition-all duration-300",
+          deckStudyFlipped
+            ? "bg-gradient-to-br from-primary to-purple-600 text-white shadow-primary/20"
+            : "bg-white shadow-gray-200/60"
         )}>
           {!deckStudyFlipped ? (
             <>
-              <span className="text-[10px] font-bold text-primary uppercase tracking-widest mb-6">Question</span>
-              <h2 className="text-xl sm:text-2xl font-bold text-gray-900 leading-relaxed">{card.front}</h2>
+              <span className="text-[10px] font-bold text-primary uppercase tracking-[0.2em] mb-6">Question</span>
+              <h2 className="text-xl sm:text-2xl font-bold text-gray-900 leading-relaxed max-w-lg">{card.front}</h2>
               <div className="mt-8 text-xs text-gray-400 uppercase tracking-widest animate-pulse flex items-center gap-2">
                 <RefreshCw className="w-3 h-3" /> Tap or press Space to reveal
               </div>
             </>
           ) : (
             <>
-              <span className="text-[10px] font-bold text-white/60 uppercase tracking-widest mb-6">Answer</span>
-              <p className="text-xl font-medium leading-relaxed">{card.back}</p>
+              <span className="text-[10px] font-bold text-white/50 uppercase tracking-[0.2em] mb-6">Answer</span>
+              <p className="text-xl font-medium leading-relaxed max-w-lg">{card.back}</p>
               {card.rationale && (
-                <p className="text-sm text-white/70 mt-4 italic max-w-lg">{card.rationale}</p>
+                <p className="text-sm text-white/60 mt-4 italic max-w-lg leading-relaxed">{card.rationale}</p>
               )}
             </>
           )}
@@ -1766,7 +1770,7 @@ export function DeckStudyLearn({
 
       {deckStudyFlipped && (
         <div className="space-y-3">
-          <p className="text-center text-xs text-gray-400 uppercase tracking-widest">How well did you know this?</p>
+          <p className="text-center text-xs text-gray-400 uppercase tracking-[0.15em] font-medium">How well did you know this?</p>
           <div className="flex gap-3 justify-center">
             <Button
               onClick={() => {
@@ -1780,7 +1784,7 @@ export function DeckStudyLearn({
                 handleDeckStudyAnswer!(false);
               }}
               variant="outline"
-              className="rounded-xl gap-2 px-5 py-6 border-red-200 text-red-600 hover:bg-red-50 flex-1"
+              className="rounded-2xl gap-2 px-5 py-6 border-2 border-red-200/80 text-red-600 hover:bg-red-50/60 hover:border-red-300 flex-1 transition-all duration-200"
               data-testid="button-missed"
             >
               <XCircle className="w-5 h-5" />
@@ -1801,7 +1805,7 @@ export function DeckStudyLearn({
                 handleDeckStudyAnswer!(true);
               }}
               variant="outline"
-              className="rounded-xl gap-2 px-5 py-6 border-amber-200 text-amber-600 hover:bg-amber-50 flex-1"
+              className="rounded-2xl gap-2 px-5 py-6 border-2 border-amber-200/80 text-amber-600 hover:bg-amber-50/60 hover:border-amber-300 flex-1 transition-all duration-200"
               data-testid="button-unsure"
             >
               <RefreshCw className="w-5 h-5" />
@@ -1821,7 +1825,7 @@ export function DeckStudyLearn({
                 }
                 handleDeckStudyAnswer!(true);
               }}
-              className="rounded-xl gap-2 px-5 py-6 bg-emerald-600 hover:bg-emerald-700 flex-1"
+              className="rounded-2xl gap-2 px-5 py-6 bg-emerald-600 hover:bg-emerald-700 flex-1 shadow-sm shadow-emerald-200 transition-all duration-200"
               data-testid="button-got-it"
             >
               <CheckCircle2 className="w-5 h-5" />
@@ -1911,7 +1915,7 @@ export function DeckStudyTest({
 
   return (
     <div className="space-y-6 max-w-2xl mx-auto">
-      <div className="flex items-center gap-2 bg-white border rounded-xl px-4 py-2.5 shadow-sm flex-wrap">
+      <div className="flex items-center gap-2 bg-white/90 backdrop-blur-sm border border-gray-200/60 rounded-2xl px-4 py-2.5 shadow-sm flex-wrap">
         <button onClick={() => setView("decks")} className="flex items-center gap-1.5 text-sm font-medium text-primary hover:text-primary/80 transition" data-testid="button-exit-to-decks-test">
           <Home className="w-4 h-4" />
           <span className="hidden sm:inline">My Flashcards</span>
@@ -1924,36 +1928,38 @@ export function DeckStudyTest({
         <span className="text-sm font-semibold text-gray-700">Test</span>
         <div className="ml-auto flex items-center gap-4 text-sm">
           <span className="flex items-center gap-1 text-gray-500"><Timer className="w-4 h-4" /> {formatTime(elapsed)}</span>
-          <span className="text-gray-400">{deckStudyIndex! + 1} / {total}</span>
+          <span className="text-gray-400 font-mono">{deckStudyIndex! + 1} / {total}</span>
         </div>
       </div>
 
-      <div className="w-full h-2 bg-gray-200 rounded-full overflow-hidden">
-        <div className="h-full bg-indigo-500 rounded-full transition-all duration-300" style={{ width: `${progress}%` }} />
+      <div className="w-full h-2.5 bg-gray-100 rounded-full overflow-hidden">
+        <div className="h-full bg-gradient-to-r from-indigo-400 to-indigo-500 rounded-full transition-all duration-500 ease-out" style={{ width: `${progress}%` }} />
       </div>
 
       <div
-        className="min-h-[350px] cursor-pointer"
+        className="min-h-[350px] cursor-pointer perspective-1000"
         onClick={() => !deckStudyFlipped && setDeckStudyFlipped!(true)}
       >
         <Card className={cn(
-          "border-none shadow-xl rounded-3xl min-h-[350px] flex flex-col items-center justify-center p-8 text-center transition-all",
-          deckStudyFlipped ? "bg-indigo-600 text-white" : "bg-white"
+          "border-none shadow-xl rounded-3xl min-h-[350px] flex flex-col items-center justify-center p-8 md:p-10 text-center transition-all duration-300",
+          deckStudyFlipped
+            ? "bg-gradient-to-br from-indigo-500 to-indigo-700 text-white shadow-indigo-200/40"
+            : "bg-white shadow-gray-200/60"
         )}>
           {!deckStudyFlipped ? (
             <>
-              <span className="text-[10px] font-bold text-indigo-500 uppercase tracking-widest mb-6">Test Mode</span>
-              <h2 className="text-xl sm:text-2xl font-bold text-gray-900 leading-relaxed">{card.front}</h2>
+              <span className="text-[10px] font-bold text-indigo-500 uppercase tracking-[0.2em] mb-6">Test Mode</span>
+              <h2 className="text-xl sm:text-2xl font-bold text-gray-900 leading-relaxed max-w-lg">{card.front}</h2>
               <div className="mt-8 text-xs text-gray-400 uppercase tracking-widest animate-pulse flex items-center gap-2">
                 <RefreshCw className="w-3 h-3" /> Tap or press Space to reveal
               </div>
             </>
           ) : (
             <>
-              <span className="text-[10px] font-bold text-white/60 uppercase tracking-widest mb-6">Answer</span>
-              <p className="text-xl font-medium leading-relaxed">{card.back}</p>
+              <span className="text-[10px] font-bold text-white/50 uppercase tracking-[0.2em] mb-6">Answer</span>
+              <p className="text-xl font-medium leading-relaxed max-w-lg">{card.back}</p>
               {card.rationale && (
-                <p className="text-sm text-white/70 mt-4 italic max-w-lg">{card.rationale}</p>
+                <p className="text-sm text-white/60 mt-4 italic max-w-lg leading-relaxed">{card.rationale}</p>
               )}
             </>
           )}
@@ -1965,14 +1971,14 @@ export function DeckStudyTest({
           <Button
             onClick={() => handleDeckStudyAnswer!(false)}
             variant="outline"
-            className="rounded-xl gap-2 px-8 py-6 border-red-200 text-red-600 hover:bg-red-50"
+            className="rounded-2xl gap-2 px-8 py-6 border-2 border-red-200/80 text-red-600 hover:bg-red-50/60 hover:border-red-300 transition-all duration-200"
             data-testid="button-test-wrong"
           >
             <XCircle className="w-5 h-5" /> Wrong
           </Button>
           <Button
             onClick={() => handleDeckStudyAnswer!(true)}
-            className="rounded-xl gap-2 px-8 py-6 bg-emerald-600 hover:bg-emerald-700"
+            className="rounded-2xl gap-2 px-8 py-6 bg-emerald-600 hover:bg-emerald-700 shadow-sm shadow-emerald-200 transition-all duration-200"
             data-testid="button-test-correct"
           >
             <CheckCircle2 className="w-5 h-5" /> Correct
@@ -1997,11 +2003,12 @@ export function DeckReportCard({
 
   return (
     <div className="space-y-6 max-w-2xl mx-auto">
-      <div className="text-center">
+      <div className="text-center py-4">
         <div className={cn(
-          "w-24 h-24 rounded-full flex items-center justify-center mx-auto mb-4 text-3xl font-black",
-          percentage >= 80 ? "bg-emerald-100 text-emerald-600" :
-          percentage >= 60 ? "bg-amber-100 text-amber-600" : "bg-red-100 text-red-600"
+          "w-28 h-28 rounded-3xl flex items-center justify-center mx-auto mb-5 text-3xl font-black shadow-lg",
+          percentage >= 80 ? "bg-gradient-to-br from-emerald-400 to-emerald-600 text-white shadow-emerald-200/40" :
+          percentage >= 60 ? "bg-gradient-to-br from-amber-400 to-amber-600 text-white shadow-amber-200/40" :
+          "bg-gradient-to-br from-red-400 to-red-600 text-white shadow-red-200/40"
         )}>
           {percentage}%
         </div>
@@ -2010,36 +2017,38 @@ export function DeckReportCard({
       </div>
 
       <div className="grid grid-cols-3 gap-4">
-        <Card className="text-center border-none bg-emerald-50">
+        <Card className="text-center premium-card border-0 bg-emerald-50/60">
           <CardContent className="p-4">
             <p className="text-2xl font-bold text-emerald-600">{deckStudyCorrect}</p>
-            <p className="text-xs text-emerald-700">Correct</p>
+            <p className="text-xs text-emerald-700 font-medium">Correct</p>
           </CardContent>
         </Card>
-        <Card className="text-center border-none bg-red-50">
+        <Card className="text-center premium-card border-0 bg-red-50/60">
           <CardContent className="p-4">
             <p className="text-2xl font-bold text-red-500">{deckStudyIncorrect}</p>
-            <p className="text-xs text-red-700">Missed</p>
+            <p className="text-xs text-red-700 font-medium">Missed</p>
           </CardContent>
         </Card>
-        <Card className="text-center border-none bg-gray-50">
+        <Card className="text-center premium-card border-0 bg-gray-50/60">
           <CardContent className="p-4">
             <p className="text-2xl font-bold text-gray-600">{formatTime(timeSeconds)}</p>
-            <p className="text-xs text-gray-500">Time</p>
+            <p className="text-xs text-gray-500 font-medium">Time</p>
           </CardContent>
         </Card>
       </div>
 
       {missedCards.length > 0 && (
-        <Card className="border-red-100">
+        <Card className="premium-card border-0 shadow-sm">
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm text-red-700">Cards to Review ({missedCards.length})</CardTitle>
+            <CardTitle className="text-sm text-red-600 flex items-center gap-2">
+              <XCircle className="w-4 h-4" /> Cards to Review ({missedCards.length})
+            </CardTitle>
           </CardHeader>
-          <CardContent className="space-y-2">
+          <CardContent className="space-y-2.5">
             {missedCards.map((card: any) => (
-              <div key={card.id} className="text-sm border-b border-red-50 pb-2 last:border-0">
+              <div key={card.id} className="text-sm border-b border-gray-100 pb-2.5 last:border-0">
                 <p className="font-medium text-gray-900">{card.front}</p>
-                <p className="text-gray-500 text-xs">{card.back}</p>
+                <p className="text-gray-500 text-xs mt-0.5 leading-relaxed">{card.back}</p>
               </div>
             ))}
           </CardContent>
@@ -2047,13 +2056,13 @@ export function DeckReportCard({
       )}
 
       <div className="flex gap-3 justify-center">
-        <Button onClick={() => startDeckStudy!("learn")} className="rounded-xl gap-2 bg-emerald-600 hover:bg-emerald-700" data-testid="button-study-again">
+        <Button onClick={() => startDeckStudy!("learn")} className="rounded-2xl gap-2 bg-emerald-600 hover:bg-emerald-700 shadow-sm shadow-emerald-200" data-testid="button-study-again">
           <RefreshCw className="w-4 h-4" /> Study Again
         </Button>
-        <Button variant="outline" onClick={() => setView("deck-view")} className="rounded-xl" data-testid="button-back-to-deck">
+        <Button variant="outline" onClick={() => setView("deck-view")} className="rounded-2xl border-gray-200" data-testid="button-back-to-deck">
           Back to Deck
         </Button>
-        <Button variant="outline" onClick={() => setView("decks")} className="rounded-xl" data-testid="button-all-decks">
+        <Button variant="outline" onClick={() => setView("decks")} className="rounded-2xl border-gray-200" data-testid="button-all-decks">
           All Decks
         </Button>
       </div>

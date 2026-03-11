@@ -1,0 +1,711 @@
+Build a premium NurseNest testing and flashcard platform that feels like a serious commercial exam prep product with the polish, trust, structure, and study workflow quality of top-tier question banks, while remaining fully original and aligned to NurseNest branding. Do not create a generic quiz page. Do not create a cluttered student-project interface. Build this like a real paid study platform with clean architecture, polished UI, strong mobile responsiveness, and scalable learning features.
+
+Main objective:
+Transform the current flashcard and test bank experience into a full premium study system with:
+- UWorld-level professionalism in layout and interaction quality
+- structured rationales with images and captions
+- tutor mode and exam mode
+- analytics and performance tracking
+- bookmarking and custom review sets
+- flashcards with spaced repetition foundations
+- premium mobile experience
+- clean reusable component architecture
+- future-ready adaptive learning support
+- strong NurseNest visual identity
+
+This is not a simple styling request.
+This is a full product redesign and refactor.
+
+Brand and visual direction:
+Keep everything aligned with NurseNest:
+- soft pastel clinical aesthetic
+- premium educational SaaS feel
+- rounded corners
+- elegant shadows
+- subtle borders
+- clean white and light neutral surfaces
+- lilac, lavender, teal, blush, soft clinical blue accents
+- calm, focused, feminine-modern, credible
+- zero visual clutter
+- consistent spacing and typography
+- polished and conversion-friendly
+
+Do not:
+- copy UWorld directly
+- use loud saturated colors
+- create cheap dashboard-looking cards
+- use cramped layouts
+- allow horizontal overflow
+- create messy filter bars
+- use inconsistent button styles
+- dump rationale text into one paragraph
+- make mobile feel like a squeezed desktop view
+
+Core product areas to build or refactor:
+1. study dashboard
+2. question bank list page
+3. quiz builder / custom test creation
+4. single question page
+5. rationale panel
+6. test review page
+7. performance analytics page
+8. flashcard deck page
+9. flashcard study page
+10. bookmarks / incorrect / flagged review sets
+11. study history page
+12. mobile study experience
+13. admin-side content model support for rationale images and metadata
+
+Create or refactor reusable components:
+- StudyPageShell
+- StudyHeader
+- StudyModeToggle
+- TopicFilterBar
+- QuestionBankCard
+- QuestionHeader
+- QuestionStemCard
+- AnswerChoiceList
+- AnswerChoiceCard
+- QuestionActionBar
+- RationalePanel
+- RationaleSection
+- RationaleSummaryCard
+- RationaleImageBlock
+- IncorrectOptionCard
+- RelatedLessonLinks
+- ExamPearlCallout
+- StudySidebar
+- FlashcardDeckCard
+- FlashcardShell
+- FlashcardFront
+- FlashcardBack
+- FlashcardControls
+- PerformanceSummaryCard
+- WeakAreaCard
+- ProgressPill
+- BookmarkButton
+- FlagButton
+- MobileBottomActionBar
+- ReviewSetCard
+- QuizResultsOverview
+- ConfidenceRatingControl
+- StudyHistoryRow
+- SkeletonLoaderStudy
+- EmptyStateStudy
+
+PART 1: STUDY DASHBOARD
+
+Build a polished study dashboard that acts as the main entry point.
+
+Include:
+- welcome header
+- current program/exam track
+- continue studying card
+- recent decks/tests
+- recommended next topics
+- weak areas summary
+- study streak
+- questions completed
+- average score
+- bookmarked questions count
+- incorrect questions count
+- quick actions for:
+  - start custom quiz
+  - resume last session
+  - review incorrect
+  - study flashcards
+  - study by topic
+
+Dashboard should feel premium and motivating, not gamified in a childish way.
+
+PART 2: QUESTION BANK LIST PAGE
+
+Create a premium question bank browsing page with:
+- search
+- filters for topic/system/category
+- filters for difficulty
+- filters for question type
+- filters for answered/unanswered/correct/incorrect/bookmarked/flagged
+- mode selector
+- sort options
+- pagination or lazy load
+
+Each question bank/deck card should clearly show:
+- title
+- topic
+- number of questions
+- difficulty mix
+- completion status
+- last studied
+- saved/bookmarked availability
+- optional image count if visual questions are included
+
+The layout should feel calm and organized.
+Filters should be structured and mobile-friendly.
+No cluttered chips scattered everywhere.
+
+PART 3: CUSTOM QUIZ BUILDER
+
+Create a professional custom quiz builder.
+
+Allow users to generate quizzes based on:
+- topic/system
+- subtopic
+- difficulty
+- question type
+- number of questions
+- only incorrect questions
+- only bookmarked questions
+- only unseen questions
+- mixed mode
+- timed exam mode
+- tutor mode
+
+UX requirements:
+- clear step-by-step card layout
+- elegant toggles, sliders, and selectors
+- smart defaults
+- mobile-friendly stacked form
+- preview of estimated quiz composition
+- start button with strong CTA
+
+PART 4: TUTOR MODE VS EXAM MODE
+
+Implement a clear distinction between Tutor Mode and Exam Mode.
+
+Tutor Mode:
+- rationale shown after each question
+- images shown in rationale
+- answer review immediately visible
+- optional confidence rating after answer
+- allow note-taking and highlighting if those features already exist or can be added later
+
+Exam Mode:
+- no rationale until the end
+- timed experience
+- lock answer after submission
+- test navigation follows exam settings
+- final score and review page at the end
+- cleaner, more focused exam-taking view
+
+The mode selector should appear before quiz start and also be visible in the study header during the session.
+
+PART 5: SINGLE QUESTION PAGE
+
+Build a premium single question page.
+
+Layout:
+A. Top header
+- mode label
+- topic badge
+- difficulty badge
+- question number / total
+- subtle progress bar
+- timer if in exam mode
+- bookmark and flag actions
+- report issue if supported
+- calm compact premium layout
+
+B. Main question stem card
+- clear typography hierarchy
+- optional case vignette block
+- support for labs, tables, bullets, medication lists, timelines, ordered information
+- support associated question image/media in a dedicated media section
+- excellent spacing and readability
+- semantic formatting for long stems
+
+C. Answer choices
+- each answer option must be a polished card
+- distinct hover/focus/selected/correct/incorrect states
+- accessible keyboard navigation
+- support single best answer, SATA, ordered response, image-based answer choices, and advanced item types if present
+- answer choices should feel like premium test controls, not default radio buttons
+
+D. Side support panel on desktop
+- related topic tags
+- notes shortcut
+- question metadata
+- saved/flagged state
+- maybe related concepts or lesson links
+Keep it secondary and visually quiet.
+
+E. Bottom action area
+- submit answer
+- previous
+- next
+- save
+- flag
+- end session if appropriate
+On mobile use sticky bottom actions if that improves usability.
+
+PART 6: RATIONALE PANEL
+
+This is one of the highest priorities.
+
+After submission in tutor mode, show a rich rationale experience.
+
+A. Summary header
+- Correct or Incorrect badge
+- “Correct answer: X”
+- concise explanation summary
+- optional confidence vs actual result if confidence feature enabled
+
+B. Structured rationale sections
+Break the rationale into separate premium subsections:
+- Why this is correct
+- Why the other options are wrong
+- Key clinical takeaway
+- Exam pearl
+- Related concept
+- Clinical significance where applicable
+
+Do not render as one big paragraph.
+
+C. Incorrect option analysis
+Render wrong options in separate mini-cards:
+- option label
+- whether user selected it
+- concise explanation of why it is wrong
+- visually scannable
+
+D. Rationale image/media integration
+If a question has associated site images, render them directly in rationale.
+
+Support fields like:
+- imageUrl
+- imageAlt
+- imageCaption
+- imageDescription
+- rationaleMedia[]
+- rationaleImages[]
+- relatedVisuals[]
+- explanationMedia[]
+
+Each media item should support:
+- url
+- alt
+- caption
+- description
+- sortOrder
+- type
+
+Media rendering requirements:
+- elegant media card
+- image displayed cleanly
+- caption directly below
+- description/explanation below or beside
+- multiple images supported in stacked or responsive grid format
+- lazy loading
+- lightbox or expand if appropriate
+- graceful broken-image fallback
+- no empty container if no image exists
+- mobile-perfect scaling
+
+E. Related lessons/resources
+If lesson links exist, show them beneath rationale:
+- related lesson title
+- system/topic tag
+- short reason it is relevant
+
+F. Exam pearl / memory tip callout
+Create a special callout component for:
+- exam pearls
+- memory tips
+- quick mnemonics
+- classic findings
+This should look premium and valuable.
+
+PART 7: IMAGE-BASED QUESTION SUPPORT
+
+Improve image-based questions sitewide.
+
+Support question-associated media for:
+- ECGs
+- chest X-rays
+- anatomy diagrams
+- pathophysiology illustrations
+- ventilator waveforms
+- skin findings
+- medication charts
+- lab interpretation visuals
+
+Requirements:
+- question media displayed cleanly in question stem card
+- zoom support or open-larger support if appropriate
+- preserved aspect ratio
+- image alt text and accessibility
+- caption support
+- mobile scaling
+- no layout breakage
+
+PART 8: PERFORMANCE ANALYTICS
+
+Create a premium analytics and review experience.
+
+After quiz completion show:
+- overall score
+- number correct
+- number incorrect
+- unanswered if relevant
+- average time per question
+- score by topic/system
+- score by difficulty
+- score by question type
+- confidence vs accuracy if enabled
+- flagged question count
+- bookmarked question count
+- percentile placeholder if real comparative data exists later
+- weak areas
+- recommended next study topics
+
+Visuals:
+- clean cards
+- calm progress bars
+- doughnut/bar/line charts only if they are elegant and actually useful
+- no cluttered analytics dashboard
+
+Also include:
+- review incorrect questions CTA
+- create flashcards from weak areas CTA
+- retake quiz CTA
+- go to lessons CTA
+
+PART 9: STUDY HISTORY
+
+Create a study history page showing:
+- date
+- session type
+- mode
+- topic
+- score
+- number of questions
+- time spent
+- review status
+- resume or review link
+
+Allow filtering by:
+- topic
+- mode
+- date
+- score range
+
+Must be clean and readable on mobile.
+
+PART 10: BOOKMARKS, FLAGS, AND REVIEW SETS
+
+Create a premium review system for:
+- bookmarked questions
+- flagged questions
+- incorrect questions
+- unseen questions
+- custom saved review sets
+
+Users should be able to:
+- save questions
+- flag confusing questions
+- generate quizzes from those sets
+- rename custom review sets if supported
+
+Each review set should appear as a polished card with:
+- name
+- count
+- last used
+- quick actions
+
+PART 11: FLASHCARD SYSTEM
+
+Redesign flashcards into a premium learning tool.
+
+A. Flashcard deck page
+- deck title
+- topic/system tags
+- number of cards
+- mastery progress
+- due cards count if spaced repetition supported
+- last studied
+- continue button
+- restart button
+- filtered study options
+
+B. Flashcard study view
+- beautiful centered card
+- front and back states
+- excellent spacing
+- progress indicator
+- deck controls
+- previous / next / flip / save / difficult / shuffle
+- premium microinteractions
+- mobile-perfect touch experience
+
+C. Flashcard back content
+- answer/definition
+- structured explanation
+- clinical pearl
+- linked image block if available
+- caption and description
+- related concept link if available
+
+D. Flashcard image/media support
+- render associated images elegantly
+- responsive scaling
+- optional expand
+- caption and description beneath
+
+PART 12: SPACED REPETITION FOUNDATIONS
+
+If possible, implement or scaffold spaced repetition logic.
+
+Each flashcard can be rated:
+- Again
+- Hard
+- Good
+- Easy
+
+Store:
+- lastReviewedAt
+- nextReviewAt
+- easeFactor
+- interval
+- repetitionCount
+
+If full algorithm is too much right now, at minimum build the UI and data model scaffolding so it can be activated later.
+
+PART 13: CONFIDENCE RATING
+
+After answering a question in tutor mode, optionally ask:
+- Very confident
+- Somewhat confident
+- Guess
+
+Store this and use it in analytics:
+- confident but wrong
+- guessed but correct
+- low-confidence topics
+
+This increases educational value and perceived sophistication.
+
+PART 14: HIGHLIGHTS AND NOTES
+
+If feasible, add note-taking and highlighting support.
+
+Allow users to:
+- add a personal note to a question
+- save notes
+- revisit notes later
+
+If text highlighting is too large for now, at minimum create:
+- Add note button
+- note modal or side panel
+- save note to question/session
+
+PART 15: MOBILE EXPERIENCE
+
+This is critical.
+The mobile experience should feel like a polished native study app.
+
+Requirements:
+- no horizontal overflow anywhere
+- no sideways page movement
+- cards always fit viewport
+- filters collapse cleanly
+- answer choices stack elegantly
+- sticky bottom action bar if helpful
+- rationale sections stack cleanly
+- captions readable
+- modals fit viewport
+- top header compact and sticky only if it improves UX
+- touch targets large enough
+- no overcrowded desktop carryover layout
+
+On mobile:
+- use stacked layout
+- keep actions accessible
+- ensure keyboard opening does not break layout
+- ensure long stems and long rationales remain readable
+- ensure images and charts scale cleanly
+
+PART 16: ACCESSIBILITY
+
+Ensure:
+- keyboard accessibility
+- semantic headings
+- aria labels
+- visible focus states
+- proper contrast
+- alt text support
+- screen-reader-readable answer states
+- reduced motion compatibility
+- clear error and empty states
+
+PART 17: DESIGN SYSTEM CLEANUP
+
+Standardize:
+- border radius scale
+- spacing scale
+- typography scale
+- muted text styles
+- badge styles
+- button hierarchy
+- shadows
+- card patterns
+- section spacing
+- icon sizing
+- input styling
+
+This should become a real internal design system for the study product, not one-off styles.
+
+PART 18: DATA MODEL / SCHEMA IMPROVEMENTS
+
+If needed, update schema so questions can support:
+- questionText
+- stemBlocks
+- answerOptions
+- correctAnswer
+- rationale
+- rationaleSections
+- incorrectOptionExplanations
+- keyTakeaway
+- examPearl
+- difficulty
+- questionType
+- topic
+- subtopic
+- tags
+- media[]
+- rationaleMedia[]
+- imageCaption
+- imageDescription
+- explanationMedia[]
+- bookmark state
+- flag state
+- note support
+- confidence rating
+
+If needed, update flashcard schema so cards can support:
+- front
+- back
+- explanation
+- topic
+- tags
+- media[]
+- caption
+- description
+- pearl
+- spaced repetition metadata
+
+PART 19: ADMIN SUPPORT
+
+If admin editing exists, improve admin forms so content admins can:
+- attach rationale images
+- add image captions
+- add image descriptions
+- reorder rationale media
+- attach flashcard images
+- define rationale subsections
+- enter exam pearl text
+- enter incorrect option explanations
+- set difficulty and question type
+
+Admin UI does not need to be flashy, but it must be usable and structured.
+
+PART 20: SKELETON STATES, EMPTY STATES, AND ERROR STATES
+
+Create polished states for:
+- loading a question
+- loading rationales
+- loading analytics
+- no questions found
+- no bookmarks yet
+- no incorrect questions yet
+- no flashcards due yet
+- missing images
+- failed media load
+
+These states should feel intentional and premium.
+
+PART 21: RECOMMENDATION ENGINE SCAFFOLD
+
+If possible, add a simple recommendation engine:
+- suggest next topics based on weak areas
+- suggest flashcards from missed questions
+- suggest related lessons after quizzes
+- suggest remediation sets from low-scoring topics
+
+This can start rule-based.
+
+PART 22: TECHNICAL IMPLEMENTATION STANDARDS
+
+Do not patch random CSS.
+Actually refactor.
+
+Requirements:
+- identify current components and cleanly replace weak layouts
+- move repeated styles into shared components or tokens
+- keep logic modular
+- do not break routing
+- do not break existing progress/bookmarks/filtering
+- preserve current data where possible
+- implement new reusable components
+- write maintainable code
+- use responsive best practices
+- avoid duplicated layout logic
+
+If using React, structure components cleanly and separate:
+- UI components
+- page containers
+- hooks/state logic
+- utilities
+- schema/types
+- media mapping
+- analytics calculations
+
+PART 23: TESTING / QA CHECKLIST
+
+Before marking complete, verify:
+- desktop question view
+- mobile question view
+- long question stems
+- very long answer choices
+- rationale with one image
+- rationale with multiple images
+- rationale with no image
+- flashcard with image
+- flashcard without image
+- quiz builder on mobile
+- analytics on mobile
+- bookmarks and review sets
+- tutor mode flow
+- exam mode flow
+- timers if present
+- no horizontal overflow
+- no clipped buttons
+- no broken modals
+- no layout jumping
+
+PART 24: FILE OUTPUT EXPECTATIONS
+
+When done:
+- show exactly which files were changed
+- list any new components created
+- list schema changes
+- list any admin changes
+- list any migration/data mapping work
+- list any known follow-up opportunities
+
+Do not just provide suggestions.
+Implement the redesign and refactor.
+
+Priority order:
+1. premium question page
+2. structured rationale panel
+3. rationale image rendering using existing site visuals and captions/descriptions
+4. tutor mode vs exam mode
+5. analytics page
+6. flashcard redesign
+7. bookmarks/incorrect review sets
+8. mobile perfection
+9. design system cleanup
+10. admin/schema support for scalable content
+
+Final quality bar:
+The finished result should feel like a real exam prep business product that users would trust immediately and pay for confidently. It should be clean, premium, highly readable, and cohesive across desktop and mobile. It should not feel generic, cluttered, amateur, or patched together.
