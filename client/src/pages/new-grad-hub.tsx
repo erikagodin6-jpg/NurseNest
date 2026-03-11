@@ -134,6 +134,10 @@ export default function NewGradHub() {
         canonicalPath="/new-grad"
         structuredData={courseStructuredData}
         additionalStructuredData={[faqStructuredData]}
+        breadcrumbs={[
+          { name: "Home", url: "https://www.nursenest.ca" },
+          { name: "New Grad RN Hub", url: "https://www.nursenest.ca/new-grad" },
+        ]}
       />
 
       <section className="relative py-16 sm:py-20 overflow-hidden" data-testid="section-hero">

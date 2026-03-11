@@ -107,7 +107,10 @@ export function SEO({ title, description, keywords, canonicalPath, ogType = "web
     }
 
     if (additionalStructuredData) {
-      additionalStructuredData.forEach((data, i) => {
+      const filtered = additionalStructuredData.filter(
+        (data) => data["@type"] !== "BreadcrumbList"
+      );
+      filtered.forEach((data, i) => {
         const id = `structured-data-${i}`;
         let script = document.getElementById(id) as HTMLScriptElement;
         if (!script) {

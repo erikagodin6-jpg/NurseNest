@@ -111,6 +111,11 @@ export default function MedicationPage() {
         ogType="article"
         structuredData={drugStructuredData}
         additionalStructuredData={[faqStructuredData]}
+        breadcrumbs={[
+          { name: "Home", url: "https://www.nursenest.ca" },
+          { name: "Medications", url: "https://www.nursenest.ca/medications" },
+          { name: med.genericName, url: `https://www.nursenest.ca/medications/${med.slug}` },
+        ]}
       />
       <Navigation />
 

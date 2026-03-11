@@ -198,6 +198,10 @@ export default function NursingHub() {
         canonicalPath="/nursing"
         structuredData={courseStructuredData}
         additionalStructuredData={[faqStructuredData]}
+        breadcrumbs={[
+          { name: "Home", url: "https://www.nursenest.ca" },
+          { name: "Nursing Exam Prep", url: "https://www.nursenest.ca/nursing" },
+        ]}
       />
 
       <section className="relative py-16 sm:py-20 overflow-hidden" data-testid="section-hero">

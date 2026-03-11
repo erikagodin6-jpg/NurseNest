@@ -175,6 +175,11 @@ export default function LabValuePage() {
         ogType="article"
         structuredData={structuredData}
         additionalStructuredData={[faqStructuredData]}
+        breadcrumbs={[
+          { name: "Home", url: "https://www.nursenest.ca" },
+          { name: "Lab Values", url: "https://www.nursenest.ca/lab-values" },
+          { name: labData.name, url: `https://www.nursenest.ca/lab-values/${labData.slug}` },
+        ]}
       />
 
       <div className="min-h-screen bg-gray-50">

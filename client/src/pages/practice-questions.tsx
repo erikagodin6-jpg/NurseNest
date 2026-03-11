@@ -305,7 +305,12 @@ function QuizSession({ tier, systemSlug }: { tier: string; systemSlug: string })
         keywords={`free ${seoTier} ${systemName} practice questions, ${systemName.toLowerCase()} nursing questions, free nursing exam practice`}
         canonicalPath={`/practice-questions/${tier}/${systemSlug}`}
         structuredData={faqStructuredData}
-        
+        breadcrumbs={[
+          { name: "Home", url: "https://www.nursenest.ca/" },
+          { name: "Free Practice Questions", url: "https://www.nursenest.ca/practice-questions" },
+          { name: tierLabel, url: `https://www.nursenest.ca/practice-questions/${tier}` },
+          { name: systemName, url: `https://www.nursenest.ca/practice-questions/${tier}/${systemSlug}` },
+        ]}
       />
       <Navigation />
       <main className="flex-1">
