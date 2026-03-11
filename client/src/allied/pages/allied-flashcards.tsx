@@ -2,7 +2,8 @@ import { useState, useMemo } from "react";
 import { useParams, Link } from "wouter";
 import { CAREER_CONFIGS, type CareerConfig } from "@shared/careers";
 import { AlliedSEO } from "@/allied/allied-seo";
-import { Brain, ChevronRight, RotateCcw, ChevronLeft, ChevronRight as ChevronRightIcon, ThumbsUp, ThumbsDown, Eye } from "lucide-react";
+import { Brain, ChevronRight, RotateCcw, ChevronLeft, ChevronRight as ChevronRightIcon, ThumbsUp, ThumbsDown, Eye, Layers } from "lucide-react";
+import { pharmacyTechDecks, type FlashcardDeck } from "@/data/pharmacy-tech-flashcards";
 
 const ALLIED_CAREER_MAP: Record<string, CareerConfig> = {
   rrt: CAREER_CONFIGS.rrt, paramedic: CAREER_CONFIGS.paramedic,
@@ -19,10 +20,6 @@ function generateFlashcards(career: CareerConfig) {
     paramedic: {
       fronts: ["Normal adult heart rate range?", "Glasgow Coma Scale range?", "SAMPLE history stands for?", "First-line drug for anaphylaxis?", "Normal capillary refill time?", "Signs of tension pneumothorax?", "APGAR score components?", "Rule of Nines for adult trunk?", "Cushing's triad indicates?", "Dose of epinephrine in cardiac arrest?"],
       backs: ["60-100 bpm", "3-15", "Signs/Symptoms, Allergies, Medications, Past history, Last meal, Events", "Epinephrine (IM 0.3-0.5mg 1:1000)", "Less than 2 seconds", "Tracheal deviation, absent breath sounds, JVD, hypotension, tachycardia", "Appearance, Pulse, Grimace, Activity, Respiration", "36% (18% front, 18% back)", "Increased ICP (hypertension, bradycardia, irregular respirations)", "1mg (1:10,000) IV/IO every 3-5 minutes"],
-    },
-    "pharmacy-tech": {
-      fronts: ["1 grain equals how many mg?", "What is a laminar flow hood used for?", "NDC number structure?", "Sig code 'bid' means?", "What is compounding?", "Schedule II drug examples?", "What does DAW mean?", "Normal saline concentration?", "Dilution formula?", "What are auxiliary labels?"],
-      backs: ["64.8 mg (approximately 65 mg)", "Sterile compounding - provides HEPA-filtered air", "5-4-2 digit format (Labeler-Product-Package)", "Twice daily (bis in die)", "Preparing a customized medication for a patient", "Oxycodone, morphine, fentanyl, methylphenidate", "Dispense As Written", "0.9% NaCl", "C1V1 = C2V2", "Additional warning/instruction labels placed on prescriptions"],
     },
     mlt: {
       fronts: ["Normal WBC count range?", "What does ESR measure?", "Blood type with no antigens?", "Normal platelet count?", "What is a critical value?", "Westgard rule 1-2s means?", "Normal hemoglobin for adult male?", "What is a differential count?", "Direct vs indirect Coombs test?", "Normal glucose range (fasting)?"],
@@ -44,12 +41,25 @@ function generateFlashcards(career: CareerConfig) {
 export default function AlliedFlashcardsPage() {
   const params = useParams<{ careerSlug: string }>();
   const career = ALLIED_CAREER_MAP[params.careerSlug || ""];
+  const isPharmacyTech = career?.slug === "pharmacy-tech";
   const [currentIdx, setCurrentIdx] = useState(0);
   const [flipped, setFlipped] = useState(false);
   const [known, setKnown] = useState<Set<number>>(new Set());
   const [unknown, setUnknown] = useState<Set<number>>(new Set());
+  const [selectedDeckId, setSelectedDeckId] = useState<string | null>(null);
+  const [showDeckSelector, setShowDeckSelector] = useState(isPharmacyTech);
 
-  const cards = useMemo(() => career ? generateFlashcards(career) : [], [career?.id]);
+  const cards = useMemo(() => {
+    if (!career) return [];
+    if (isPharmacyTech) {
+      if (selectedDeckId) {
+        const deck = pharmacyTechDecks.find(d => d.id === selectedDeckId);
+        return deck ? deck.cards.map(c => ({ ...c, domain: deck.category })) : [];
+      }
+      return pharmacyTechDecks.flatMap(deck => deck.cards.map(c => ({ ...c, domain: deck.category })));
+    }
+    return generateFlashcards(career);
+  }, [career?.id, selectedDeckId, isPharmacyTech]);
 
   if (!career) {
     return <div className="max-w-2xl mx-auto px-4 py-20 text-center"><h1 className="text-2xl font-bold">Career Not Found</h1></div>;
@@ -86,6 +96,65 @@ export default function AlliedFlashcardsPage() {
     setUnknown(new Set());
   };
 
+  const selectDeck = (deckId: string | null) => {
+    setSelectedDeckId(deckId);
+    setShowDeckSelector(false);
+    reset();
+  };
+
+  const selectedDeckName = selectedDeckId
+    ? pharmacyTechDecks.find(d => d.id === selectedDeckId)?.name || "All Decks"
+    : "All Decks";
+
+  if (isPharmacyTech && showDeckSelector) {
+    const totalCards = pharmacyTechDecks.reduce((sum, d) => sum + d.cards.length, 0);
+    return (
+      <>
+      <AlliedSEO
+        title={`${career.name} Flashcards - 18 Study Decks, 300+ Cards`}
+        description={`Master ${career.name} concepts with 18 spaced repetition flashcard decks and 300+ cards covering Top 200 Drugs, dosage calculations, pharmacy law, compounding, and more.`}
+        keywords={`${career.name} flashcards, PTCB flashcards, pharmacy tech study cards, top 200 drugs flashcards, pharmacy math flashcards`}
+        canonicalPath={`/career/${params.careerSlug}/flashcards`}
+      />
+      <div className="max-w-5xl mx-auto px-4 py-8" data-testid="allied-flashcards-page">
+        <div className="flex items-center gap-2 text-sm text-gray-500 mb-6">
+          <Link href={`/careers/${career.slug}`} className="hover:text-teal-600">{career.shortName}</Link>
+          <ChevronRight className="w-3.5 h-3.5" />
+          <span className="text-teal-700 font-medium">Flashcards</span>
+        </div>
+
+        <div className="mb-8">
+          <h1 className="text-2xl font-bold text-gray-900" data-testid="text-flashcards-title">{career.shortName} Flashcards</h1>
+          <p className="text-gray-500 text-sm mt-1">{pharmacyTechDecks.length} decks · {totalCards} cards · Spaced repetition learning</p>
+        </div>
+
+        <button onClick={() => selectDeck(null)} className="w-full mb-6 bg-gradient-to-r from-teal-600 to-cyan-600 text-white rounded-2xl p-5 text-left hover:from-teal-700 hover:to-cyan-700 transition-all" data-testid="button-all-decks">
+          <div className="flex items-center gap-3">
+            <Layers className="w-6 h-6" />
+            <div>
+              <div className="font-semibold text-lg">Study All Decks</div>
+              <div className="text-teal-100 text-sm">{totalCards} cards across all topics — shuffle mode</div>
+            </div>
+          </div>
+        </button>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {pharmacyTechDecks.map(deck => (
+            <button key={deck.id} onClick={() => selectDeck(deck.id)} className="bg-white rounded-xl border border-gray-100 p-4 text-left hover:border-teal-200 hover:shadow-md transition-all" data-testid={`deck-card-${deck.id}`}>
+              <div className="flex items-center gap-2 mb-2">
+                <span className="px-2 py-0.5 bg-teal-50 text-teal-700 rounded text-xs font-medium">{deck.category}</span>
+                <span className="text-xs text-gray-400">{deck.cards.length} cards</span>
+              </div>
+              <h3 className="font-semibold text-gray-900 text-sm mb-1">{deck.name}</h3>
+              <p className="text-xs text-gray-500 line-clamp-2">{deck.description}</p>
+            </button>
+          ))}
+        </div>
+      </div>
+      </>
+    );
+  }
+
   return (
     <>
     <AlliedSEO
@@ -98,17 +167,33 @@ export default function AlliedFlashcardsPage() {
       <div className="flex items-center gap-2 text-sm text-gray-500 mb-6">
         <Link href={`/careers/${career.slug}`} className="hover:text-teal-600">{career.shortName}</Link>
         <ChevronRight className="w-3.5 h-3.5" />
-        <span className="text-teal-700 font-medium">Flashcards</span>
+        {isPharmacyTech && (
+          <>
+            <button onClick={() => setShowDeckSelector(true)} className="hover:text-teal-600">Flashcards</button>
+            <ChevronRight className="w-3.5 h-3.5" />
+            <span className="text-teal-700 font-medium">{selectedDeckName}</span>
+          </>
+        )}
+        {!isPharmacyTech && <span className="text-teal-700 font-medium">Flashcards</span>}
       </div>
 
       <div className="flex items-center justify-between mb-6">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900" data-testid="text-flashcards-title">{career.shortName} Flashcards</h1>
+          <h1 className="text-2xl font-bold text-gray-900" data-testid="text-flashcards-title">
+            {isPharmacyTech ? selectedDeckName : `${career.shortName} Flashcards`}
+          </h1>
           <p className="text-gray-500 text-sm mt-1">{cards.length} cards - Spaced repetition learning</p>
         </div>
-        <button onClick={reset} className="flex items-center gap-1 px-3 py-1.5 bg-gray-100 rounded-lg text-sm text-gray-600 hover:bg-gray-200" data-testid="button-reset">
-          <RotateCcw className="w-3.5 h-3.5" /> Reset
-        </button>
+        <div className="flex gap-2">
+          {isPharmacyTech && (
+            <button onClick={() => setShowDeckSelector(true)} className="flex items-center gap-1 px-3 py-1.5 bg-teal-50 rounded-lg text-sm text-teal-700 hover:bg-teal-100" data-testid="button-switch-deck">
+              <Layers className="w-3.5 h-3.5" /> Decks
+            </button>
+          )}
+          <button onClick={reset} className="flex items-center gap-1 px-3 py-1.5 bg-gray-100 rounded-lg text-sm text-gray-600 hover:bg-gray-200" data-testid="button-reset">
+            <RotateCcw className="w-3.5 h-3.5" /> Reset
+          </button>
+        </div>
       </div>
 
       <div className="flex items-center gap-4 text-sm text-gray-600 mb-6">

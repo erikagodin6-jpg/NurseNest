@@ -114,6 +114,12 @@ export function AlliedRoutes() {
         <Route path="/pharmacy-technician-practice-questions">{() => <AlliedSeoLanding pageSlug="pharmacy-technician-practice-questions" />}</Route>
         <Route path="/pharmacy-technician-mock-exam">{() => <AlliedSeoLanding pageSlug="pharmacy-technician-mock-exam" />}</Route>
         <Route path="/pharmacy-technician-study-guide">{() => <AlliedSeoLanding pageSlug="pharmacy-technician-study-guide" />}</Route>
+        <Route path="/pharmacy-technician-top-200-drugs-flashcards">{() => <AlliedSeoLanding pageSlug="pharmacy-technician-top-200-drugs-flashcards" />}</Route>
+        <Route path="/pharmacy-technician-dosage-calculations-practice">{() => <AlliedSeoLanding pageSlug="pharmacy-technician-dosage-calculations-practice" />}</Route>
+        <Route path="/pharmacy-technician-dosage-calculations">{() => <AlliedSeoLanding pageSlug="pharmacy-technician-dosage-calculations" />}</Route>
+        <Route path="/pharmacy-technician-pharmacy-law-and-ethics">{() => <AlliedSeoLanding pageSlug="pharmacy-technician-pharmacy-law-and-ethics" />}</Route>
+        <Route path="/pharmacy-technician-medication-safety">{() => <AlliedSeoLanding pageSlug="pharmacy-technician-medication-safety" />}</Route>
+        <Route path="/pharmacy-technician-top-200-drugs">{() => <AlliedSeoLanding pageSlug="pharmacy-technician-top-200-drugs" />}</Route>
         <Route path="/rrt-practice-questions">{() => <AlliedSeoLanding pageSlug="rrt-practice-questions" />}</Route>
         <Route path="/rrt-mock-exam">{() => <AlliedSeoLanding pageSlug="rrt-mock-exam" />}</Route>
         <Route path="/rrt-study-guide">{() => <AlliedSeoLanding pageSlug="rrt-study-guide" />}</Route>

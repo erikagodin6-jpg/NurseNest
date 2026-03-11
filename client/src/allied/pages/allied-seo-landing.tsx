@@ -11,7 +11,7 @@ import { AlliedSEO } from "@/allied/allied-seo";
 interface SEOPageConfig {
   slug: string;
   careerSlug: string;
-  pageType: "practice-questions" | "mock-exam" | "study-guide";
+  pageType: "practice-questions" | "mock-exam" | "study-guide" | "flashcards" | "category";
   title: string;
   metaDescription: string;
   h1: string;
@@ -402,7 +402,161 @@ const SEO_PAGES: SEOPageConfig[] = [
       { q: "Is this for the CSMLS exam?", a: "Yes. Content is aligned with the CSMLS National Certification Examination competencies and uses SI units throughout." },
       { q: "Does this cover provincial regulation?", a: "Our Canadian track covers CSMLS national standards and provides a framework for understanding provincial MLT regulation across Canada." }
     ]
-  }
+  },
+  {
+    slug: "pharmacy-technician-top-200-drugs-flashcards",
+    careerSlug: "pharmacy-tech",
+    pageType: "flashcards",
+    title: "Top 200 Drugs Flashcards for Pharmacy Technicians | PTCB Prep",
+    metaDescription: "Master the top 200 prescribed drugs with interactive flashcards. Brand/generic names, drug classes, indications, and key side effects for PTCB and ExCPT exam prep.",
+    h1: "Top 200 Drugs Flashcards for Pharmacy Technicians",
+    heroSubtitle: "Interactive spaced-repetition flashcards covering the most prescribed medications — brand/generic names, classifications, indications, mechanisms, and critical side effects you need for certification.",
+    sections: [
+      {
+        heading: "Why Memorizing the Top 200 Drugs Matters",
+        content: "The PTCB and ExCPT exams heavily test your knowledge of the most commonly prescribed medications. Knowing brand/generic name pairs, drug classes, primary indications, and key safety information for the top 200 drugs is essential for passing. Our flashcard system uses spaced repetition to ensure long-term retention — not just short-term cramming."
+      },
+      {
+        heading: "What Each Flashcard Covers",
+        content: "Each card tests one drug with its brand name, generic name, drug class, primary indication, mechanism of action, and critical side effects or contraindications. Cards are organized by therapeutic category: cardiovascular, endocrine, CNS, respiratory, GI, anti-infective, and more — matching how drugs are tested on the exam."
+      },
+      {
+        heading: "Spaced Repetition for Maximum Retention",
+        content: "Our flashcard engine tracks which drugs you know well and which ones you struggle with. Cards you miss reappear more frequently, while mastered cards space out over longer intervals. This scientifically proven method helps you retain hundreds of drug names and facts with less total study time."
+      },
+      {
+        heading: "Beyond Just Names: Clinical Context",
+        content: "Each flashcard includes clinical context — common dosing, drug interactions, monitoring parameters, and patient counseling points. This deeper understanding helps you answer application-level questions on the exam, not just recall questions."
+      }
+    ],
+    faqs: [
+      { q: "How many drug flashcards are included?", a: "Our pharmacy tech flashcard library includes 300+ cards across 18 decks. The Top 200 Drugs deck alone has 25 high-yield cards covering the most tested medications, with additional drug cards spread across other decks." },
+      { q: "Do the flashcards cover both brand and generic names?", a: "Yes. Every drug flashcard includes both the brand name and generic name, along with the drug class, primary indication, and key clinical facts. You'll be tested on both directions — given the brand, recall the generic, and vice versa." },
+      { q: "How does spaced repetition work?", a: "When you mark a card as 'Got It,' it reappears after a longer interval. Cards marked 'Review Again' come back sooner. Over time, the system optimizes your review schedule so you study efficiently — spending more time on challenging drugs and less on ones you've mastered." },
+      { q: "Are the drugs organized by category?", a: "Yes. Drugs are grouped by therapeutic class (cardiovascular, CNS, endocrine, anti-infective, etc.) matching how they're tested on the PTCB exam. You can study all cards or focus on specific categories." },
+      { q: "Can I use these flashcards on my phone?", a: "Absolutely. The flashcard interface is fully responsive and works on phones, tablets, and computers. Study during breaks, on your commute, or at your desk." },
+      { q: "Are these aligned with the PTCB exam?", a: "Yes. The drug selection is based on the most commonly tested medications on the PTCB and ExCPT exams, mapped to the Medications knowledge area of the PTCE blueprint." }
+    ]
+  },
+  {
+    slug: "pharmacy-technician-dosage-calculations-practice",
+    careerSlug: "pharmacy-tech",
+    pageType: "practice-questions",
+    title: "Pharmacy Technician Dosage Calculations Practice | Step-by-Step Solutions",
+    metaDescription: "Practice pharmacy math with 60+ dosage calculation problems. Step-by-step solutions for dilutions, drip rates, day supply, pediatric dosing, and compounding math.",
+    h1: "Pharmacy Technician Dosage Calculations Practice",
+    heroSubtitle: "Master pharmacy math with 60+ calculation problems featuring worked step-by-step solutions — covering dilutions, IV drip rates, day supply, pediatric dosing, alligation, and compounding math.",
+    sections: [
+      {
+        heading: "Why Dosage Calculations Are Critical",
+        content: "Pharmacy math represents a significant portion of the PTCB exam and is essential for daily pharmacy practice. Calculation errors can directly harm patients. Our practice problems cover every type of math you'll encounter: ratio/proportion, dilutions (C1V1=C2V2), day supply calculations, weight-based dosing, drip rate calculations, alligation, and compounding measurements."
+      },
+      {
+        heading: "Step-by-Step Worked Solutions",
+        content: "Every calculation problem includes a detailed step-by-step solution showing exactly how to set up and solve the problem. We don't just give you the answer — we walk you through the method so you can apply the same approach to any similar problem on your exam. Each solution includes the formula used, unit conversions, and common pitfalls to avoid."
+      },
+      {
+        heading: "Progressive Difficulty Levels",
+        content: "Problems range from basic unit conversions (Level 1) to complex multi-step calculations like TPN compounding and alligation (Level 5). Start with easier problems to build confidence, then work up to exam-level difficulty. Our adaptive system remembers which calculation types challenge you most."
+      },
+      {
+        heading: "Real-World Pharmacy Scenarios",
+        content: "Our calculation problems are set in realistic pharmacy contexts: reconstituting antibiotics, calculating insulin doses, determining day supply for insurance billing, converting between measurement systems, and compounding prescriptions. This context-based approach mirrors how math appears on the actual exam."
+      }
+    ],
+    faqs: [
+      { q: "How many dosage calculation problems are available?", a: "We have 60+ dedicated dosage calculation practice problems with detailed step-by-step solutions. Additional math problems are integrated throughout the full question bank of 700+ questions." },
+      { q: "What types of calculations are covered?", a: "Everything tested on the PTCB: ratio/proportion, dilutions, day supply, drip rates, weight-based dosing, concentration conversions (%, ratio strength, mg/mL), alligation, compounding math, and business math (markup, inventory turnover)." },
+      { q: "Do the solutions show all the steps?", a: "Yes. Every problem includes a complete worked solution showing the formula, setup, unit conversions, and final answer. We also explain why each step is necessary and common mistakes to avoid." },
+      { q: "Can I focus on specific calculation types?", a: "Yes. Use the category filter to focus on specific calculation types like drip rates, day supply, or concentration math. The system tracks your performance by calculation type so you can target your weakest areas." },
+      { q: "What if I'm terrible at math?", a: "Start with Level 1 problems that cover basic conversions and simple proportions. Our step-by-step solutions teach you the method, and the spaced repetition system ensures you practice each type until it becomes automatic. Most students see significant improvement within 2-3 weeks." },
+      { q: "Are these calculations realistic?", a: "Yes. Problems use real drug names, actual concentrations, and realistic pharmacy scenarios. The same types of calculations you'll perform daily as a pharmacy technician." }
+    ]
+  },
+  {
+    slug: "pharmacy-technician-dosage-calculations",
+    careerSlug: "pharmacy-tech",
+    pageType: "category",
+    title: "Pharmacy Technician Dosage Calculations | Complete Study Guide & Practice",
+    metaDescription: "Master pharmacy dosage calculations for the PTCB exam. Practice drip rates, day supply, dilutions, pediatric dosing, alligation, and compounding math with detailed solutions.",
+    h1: "Pharmacy Technician Dosage Calculations",
+    heroSubtitle: "Everything you need to master pharmacy math — from basic conversions to complex compounding calculations, with practice problems and step-by-step solutions.",
+    sections: [
+      { heading: "Essential Conversion Factors", content: "Every pharmacy calculation starts with unit conversions. Master the critical conversions: 1 tsp = 5 mL, 1 tbsp = 15 mL, 1 oz = 30 mL, 1 kg = 2.2 lbs, 1 grain = 65 mg, 1 L = 1000 mL. These form the foundation for every calculation type you'll encounter on the PTCB exam." },
+      { heading: "Day Supply Calculations", content: "Insurance billing requires accurate day supply calculations. For tablets: quantity ÷ daily dose. For liquids: total volume ÷ daily volume. For inhalers: total actuations ÷ daily puffs. PRN medications use the maximum daily dose. Our practice problems cover all common day supply scenarios." },
+      { heading: "IV Drip Rate & Flow Rate", content: "Calculate IV infusion parameters: flow rate (mL/hr) = volume ÷ time in hours. Drip rate (gtt/min) = (volume × drop factor) ÷ time in minutes. With microdrip sets (60 gtt/mL), the gtt/min equals the mL/hr rate. Practice with real-world infusion scenarios." },
+      { heading: "Dilution & Concentration Math", content: "Master C1V1 = C2V2 for dilution problems. Convert between %, ratio strength, and mg/mL. Remember: 1% = 10 mg/mL = 1:100. Alligation is used to mix two concentrations to achieve a desired intermediate strength." }
+    ],
+    faqs: [
+      { q: "What math is on the PTCB exam?", a: "The PTCB tests conversions, ratio/proportion, day supply, drip rates, dilutions, concentration calculations, weight-based dosing, and business math. Calculations appear throughout the exam, not just in one section." },
+      { q: "How many calculation questions are on the PTCB?", a: "Approximately 10-15% of PTCB questions involve calculations. However, pharmacology questions also require understanding of dosing, making math skills critical for a larger portion of the exam." },
+      { q: "What calculator can I use on the PTCB?", a: "An on-screen calculator is provided during the PTCB exam. Practice using a basic calculator rather than relying on a scientific calculator's advanced functions." },
+      { q: "What's the hardest calculation type?", a: "Most students find alligation and multi-step compounding calculations most challenging. Our practice problems build up to these complex types progressively." }
+    ]
+  },
+  {
+    slug: "pharmacy-technician-pharmacy-law-and-ethics",
+    careerSlug: "pharmacy-tech",
+    pageType: "category",
+    title: "Pharmacy Law & Ethics for Technicians | DEA, HIPAA, OBRA-90 Guide",
+    metaDescription: "Complete pharmacy law review for PTCB exam prep. DEA controlled substance regulations, HIPAA compliance, OBRA-90 requirements, and federal pharmacy law essentials.",
+    h1: "Pharmacy Law & Ethics for Pharmacy Technicians",
+    heroSubtitle: "Master federal pharmacy regulations — DEA controlled substance scheduling, HIPAA patient privacy, OBRA-90 counseling requirements, and drug safety laws tested on the PTCB exam.",
+    sections: [
+      { heading: "DEA Controlled Substance Regulations", content: "Understand the five DEA schedules, prescribing and dispensing requirements for each, refill rules (C-II: no refills; C-III to C-V: 5 refills in 6 months), DEA Forms 222, 106, and 41, partial fill rules, emergency dispensing, and transfer regulations. This is high-yield PTCB content." },
+      { heading: "HIPAA Privacy and Security", content: "Protected Health Information (PHI) includes any individually identifiable health data. Understand the Privacy Rule (who can access PHI), Security Rule (electronic safeguards), Breach Notification Rule, patient rights, and the minimum necessary standard. Violations carry civil and criminal penalties." },
+      { heading: "OBRA-90 and Patient Counseling", content: "OBRA-90 mandates prospective Drug Utilization Review (DUR) and pharmacist counseling for all Medicaid prescriptions. DUR checks include drug-drug interactions, therapeutic duplication, incorrect dosing, and clinical abuse. Understanding OBRA-90 is essential for PTCB success." },
+      { heading: "Key Federal Laws", content: "Review the Pure Food and Drug Act (1906), FD&C Act (1938), Durham-Humphrey Amendment (Rx vs OTC), Kefauver-Harris Amendment (efficacy requirement), Poison Prevention Packaging Act, Drug Price Competition Act (generics), and the Dietary Supplement Health and Education Act." }
+    ],
+    faqs: [
+      { q: "How much of the PTCB is pharmacy law?", a: "Federal Requirements make up 12.5% of the PTCB exam. However, law knowledge is also tested within other domains — making it approximately 15-20% of total exam content when combined." },
+      { q: "Do I need to know state laws?", a: "The PTCB tests federal law only. However, your state board exam (if required) will test state-specific regulations. When state and federal laws conflict, the stricter law applies." },
+      { q: "What DEA forms should I know?", a: "Know DEA Form 222 (ordering C-II), Form 106 (theft/loss reporting), Form 41 (destruction), and the biennial inventory requirement. Also know DEA number format and validation." },
+      { q: "Is ethics tested separately?", a: "Ethics is woven throughout the exam, not a separate section. Understanding professional responsibilities, patient confidentiality, and appropriate scope of practice is tested in context." }
+    ]
+  },
+  {
+    slug: "pharmacy-technician-medication-safety",
+    careerSlug: "pharmacy-tech",
+    pageType: "category",
+    title: "Medication Safety for Pharmacy Technicians | Error Prevention & ISMP Guidelines",
+    metaDescription: "Learn medication safety principles for the PTCB exam. ISMP high-alert drugs, Tall Man Lettering, error prevention strategies, and quality improvement in pharmacy practice.",
+    h1: "Medication Safety for Pharmacy Technicians",
+    heroSubtitle: "Master medication error prevention — high-alert medications, look-alike/sound-alike drugs, Tall Man Lettering, ISMP guidelines, and quality improvement processes tested on the PTCB exam.",
+    sections: [
+      { heading: "High-Alert Medications", content: "ISMP high-alert medications have heightened risk of causing significant harm if used in error. Key categories: insulin, anticoagulants (warfarin, heparin), opioids, chemotherapy, concentrated electrolytes (KCl, NaCl 23.4%), and neuromuscular blocking agents. Know the extra safeguards required for each." },
+      { heading: "Look-Alike Sound-Alike (LASA) Prevention", content: "Tall Man Lettering visually differentiates confusable drug names: hydrALAZINE vs hydrOXYzine, predniSONE vs prednisoLONE, vinCRIStine vs vinBLAStine. Know the ISMP LASA list and strategies like shelf separation, alert labels, and automated verification." },
+      { heading: "Medication Error Prevention", content: "The Five Rights (patient, drug, dose, route, time), barcode medication administration (BCMA), independent double checks, error reporting systems, root cause analysis, and the Swiss cheese model of accident causation. A just culture encourages reporting without punitive consequences." },
+      { heading: "Quality Improvement in Pharmacy", content: "Continuous Quality Improvement (CQI) uses data to identify patterns, implement changes, and measure results. Understand MedWatch adverse event reporting, medication guide requirements, REMS programs, and how pharmacies use near-miss reporting to prevent future errors." }
+    ],
+    faqs: [
+      { q: "How much of the PTCB covers safety?", a: "Patient Safety and Quality Assurance makes up 26.25% of the PTCB exam — the second-largest domain. This includes medication error prevention, high-alert drugs, ISMP guidelines, and quality improvement." },
+      { q: "What are the most important high-alert drugs to know?", a: "Focus on insulin, warfarin, heparin, opioids, concentrated KCl, neuromuscular blockers, methotrexate (weekly vs daily dosing error), and chemotherapy agents. Know what makes each high-alert and the safety measures required." },
+      { q: "What is Tall Man Lettering?", a: "A safety strategy using capital letters to highlight differences between look-alike drug names. The ISMP maintains an official list. Examples: hydrALAZINE/hydrOXYzine, DOBUTamine/DOPamine, buPROPion/busPIRone." },
+      { q: "Do I need to know ISMP guidelines?", a: "Yes. The PTCB tests knowledge of ISMP's Do Not Use abbreviation list, high-alert medication list, LASA drug list, and error prevention strategies. These are essential pharmacy safety standards." }
+    ]
+  },
+  {
+    slug: "pharmacy-technician-top-200-drugs",
+    careerSlug: "pharmacy-tech",
+    pageType: "category",
+    title: "Top 200 Drugs for Pharmacy Technicians | Brand/Generic Names & Drug Classes",
+    metaDescription: "Master the top 200 prescribed drugs for the PTCB exam. Brand/generic name pairs, drug classes, indications, mechanisms, side effects, and clinical pearls.",
+    h1: "Top 200 Drugs for Pharmacy Technicians",
+    heroSubtitle: "Complete guide to the most commonly prescribed medications — brand/generic name pairs, drug classifications, primary indications, key side effects, and drug interactions for PTCB certification.",
+    sections: [
+      { heading: "Cardiovascular Drugs", content: "Master the major CV drug classes: ACE inhibitors (-pril), ARBs (-sartan), beta-blockers (-olol), CCBs (-dipine), statins (-statin), diuretics, and anticoagulants. Know brand/generic pairs, mechanisms, key side effects (ACE-I cough, statin myopathy), and monitoring parameters." },
+      { heading: "CNS and Psychiatric Medications", content: "Key classes: SSRIs, SNRIs, atypical antidepressants, benzodiazepines (C-IV), antipsychotics, anticonvulsants, and ADHD medications. Know black box warnings (suicidality with antidepressants), drug interactions (serotonin syndrome risk), and controlled substance scheduling." },
+      { heading: "Endocrine and Metabolic Drugs", content: "Diabetes medications (metformin, sulfonylureas, insulins, GLP-1 agonists, SGLT2 inhibitors, DPP-4 inhibitors), thyroid drugs (levothyroxine), osteoporosis treatments (bisphosphonates), and hormone therapies. Know mechanisms, monitoring, and key counseling points." },
+      { heading: "Anti-Infective Agents", content: "Antibiotics by class: penicillins (-cillin), cephalosporins (cef-), fluoroquinolones (-floxacin), macrolides (-mycin), tetracyclines (-cycline). Plus antifungals (-azole), antivirals (-vir), and key interactions (fluoroquinolone chelation, warfarin-azole interaction)." }
+    ],
+    faqs: [
+      { q: "Do I really need to memorize 200 drugs?", a: "The PTCB Medications domain is 40% of the exam — the largest section. Knowing the top 200 drugs' brand/generic names, classes, and key facts is the single most impactful study strategy." },
+      { q: "What's the best way to learn drug names?", a: "Use our flashcards with spaced repetition. Focus on drug class suffixes first (-pril, -sartan, -olol, -statin) to identify classes quickly. Then learn the top 5 drugs in each class with brand names." },
+      { q: "Are OTC drugs included?", a: "Yes. Common OTC medications like PPIs, H2 blockers, NSAIDs, antihistamines, and cough/cold products are included since they appear frequently on the PTCB exam." },
+      { q: "How are the drugs organized?", a: "Drugs are grouped by therapeutic category matching the PTCB blueprint: cardiovascular, CNS, endocrine, anti-infective, respiratory, GI, and more. This helps you see relationships between drugs in the same class." }
+    ]
+  },
 ];
 
 function getPageBySlug(slug: string): SEOPageConfig | undefined {

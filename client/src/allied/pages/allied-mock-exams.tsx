@@ -15,6 +15,13 @@ const EXAM_TYPES = [
   { id: "mini", name: "Mini Mock", questions: 25, time: 30, free: true, desc: "Quick 25-question practice exam" },
   { id: "standard", name: "Standard Exam", questions: 75, time: 90, free: false, desc: "Full-length timed exam weighted to blueprint" },
   { id: "comprehensive", name: "Comprehensive", questions: 150, time: 180, free: false, desc: "Marathon exam covering all domains" },
+  { id: "mock2", name: "Mock Exam 2", questions: 90, time: 110, free: false, desc: "PTCB-style 90-question exam with adaptive difficulty" },
+  { id: "mock3", name: "Mock Exam 3", questions: 90, time: 110, free: false, desc: "Fresh 90-question set for repeated practice" },
+  { id: "calculations", name: "Calculations Mastery", questions: 40, time: 60, free: false, desc: "Focused on dosage calculations and pharmacy math" },
+  { id: "safety-law", name: "Safety & Law", questions: 50, time: 60, free: false, desc: "Patient safety, regulations, and controlled substances" },
+  { id: "pharmacology-focus", name: "Pharmacology Focus", questions: 60, time: 75, free: false, desc: "Drug classes, interactions, and top 200 drugs" },
+  { id: "sterile-compounding", name: "Sterile & Compounding", questions: 40, time: 50, free: false, desc: "USP 795/797/800 and compounding techniques" },
+  { id: "rapid-review", name: "Rapid Review", questions: 50, time: 45, free: false, desc: "Fast-paced review across all domains" },
 ];
 
 export default function AlliedMockExamsPage() {
@@ -51,6 +58,13 @@ export default function AlliedMockExamsPage() {
     />
   );
 
+  const CATEGORY_FOCUSED_EXAMS: Record<string, string[]> = {
+    "calculations": ["Dosage Calculations"],
+    "safety-law": ["Patient Safety", "Regulations/Law"],
+    "pharmacology-focus": ["Pharmacology", "Drug Interactions", "Drug Classifications"],
+    "sterile-compounding": ["Sterile Products", "Compounding"],
+  };
+
   const startExam = (examId: string) => {
     const examType = EXAM_TYPES.find(e => e.id === examId);
     if (!examType) return;
@@ -58,19 +72,32 @@ export default function AlliedMockExamsPage() {
     if (examType.free && !isPro && freeMocksUsed >= FREE_MOCK_LIMIT) return;
 
     const pool = getCareerQuestionPool(career.id) || [];
-    const domains = career.domains;
-    const questionsPerDomain = Math.ceil(examType.questions / domains.length);
+    const focusCategories = CATEGORY_FOCUSED_EXAMS[examId];
     const selected: any[] = [];
 
-    for (const domain of domains) {
-      const domainQs = pool.filter((q: any) => q.category === domain);
-      const shuffled = domainQs.sort(() => Math.random() - 0.5);
-      selected.push(...shuffled.slice(0, questionsPerDomain));
-    }
+    if (focusCategories) {
+      const focusPool = pool.filter((q: any) => focusCategories.includes(q.category)).sort(() => Math.random() - 0.5);
+      selected.push(...focusPool.slice(0, examType.questions));
+      if (selected.length < examType.questions) {
+        const remaining = pool.filter((q: any) => !selected.includes(q)).sort(() => Math.random() - 0.5);
+        while (selected.length < examType.questions && remaining.length > 0) {
+          selected.push(remaining.pop()!);
+        }
+      }
+    } else {
+      const domains = career.domains;
+      const questionsPerDomain = Math.ceil(examType.questions / domains.length);
 
-    const remaining = pool.filter((q: any) => !selected.includes(q)).sort(() => Math.random() - 0.5);
-    while (selected.length < examType.questions && remaining.length > 0) {
-      selected.push(remaining.pop()!);
+      for (const domain of domains) {
+        const domainQs = pool.filter((q: any) => q.category === domain);
+        const shuffled = domainQs.sort(() => Math.random() - 0.5);
+        selected.push(...shuffled.slice(0, questionsPerDomain));
+      }
+
+      const remaining = pool.filter((q: any) => !selected.includes(q)).sort(() => Math.random() - 0.5);
+      while (selected.length < examType.questions && remaining.length > 0) {
+        selected.push(remaining.pop()!);
+      }
     }
 
     setQuestions(selected.slice(0, examType.questions));
@@ -86,7 +113,7 @@ export default function AlliedMockExamsPage() {
 
   const handleAnswer = (optIdx: number) => {
     setAnswers(a => ({ ...a, [currentIdx]: optIdx }));
-    const isCorrect = optIdx === questions[currentIdx]?.correctAnswer;
+    const isCorrect = optIdx === (questions[currentIdx]?.correctIndex ?? questions[currentIdx]?.correctAnswer);
     if (isCorrect) {
       const newStreak = consecutiveCorrect + 1;
       setConsecutiveCorrect(newStreak);
@@ -105,14 +132,14 @@ export default function AlliedMockExamsPage() {
   };
 
   if (finished) {
-    const correct = Object.entries(answers).filter(([idx, ans]) => questions[Number(idx)]?.correctAnswer === ans).length;
+    const correct = Object.entries(answers).filter(([idx, ans]) => (questions[Number(idx)]?.correctIndex ?? questions[Number(idx)]?.correctAnswer) === ans).length;
     const total = questions.length;
     const pct = Math.round((correct / total) * 100);
     const domainScores: Record<string, { correct: number; total: number }> = {};
     questions.forEach((q, i) => {
       if (!domainScores[q.category]) domainScores[q.category] = { correct: 0, total: 0 };
       domainScores[q.category].total++;
-      if (answers[i] === q.correctAnswer) domainScores[q.category].correct++;
+      if (answers[i] === (q.correctIndex ?? q.correctAnswer)) domainScores[q.category].correct++;
     });
 
     return (

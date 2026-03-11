@@ -84,7 +84,7 @@ export default function AlliedQBankPage() {
     setSelectedAnswer(optIdx);
     if (mode === "tutor") {
       setAnswered(true);
-      const isCorrect = optIdx === current.correctAnswer;
+      const isCorrect = optIdx === (current.correctIndex ?? current.correctAnswer);
       setScore(s => ({ correct: s.correct + (isCorrect ? 1 : 0), total: s.total + 1 }));
       setStreak(isCorrect ? streak + 1 : 0);
       if (!isPro && career) {
@@ -98,7 +98,7 @@ export default function AlliedQBankPage() {
   const handleNext = () => {
     if (mode === "exam" && !answered) {
       setAnswered(true);
-      const isCorrect = selectedAnswer === current.correctAnswer;
+      const isCorrect = selectedAnswer === (current.correctIndex ?? current.correctAnswer);
       setScore(s => ({ correct: s.correct + (isCorrect ? 1 : 0), total: s.total + 1 }));
     }
     if (currentIndex < questions.length - 1) {
@@ -118,6 +118,7 @@ export default function AlliedQBankPage() {
 
   const startRapidDrill = () => {
     setRapidDrill(true);
+    setCategoryQuizActive(false);
     setDrillTimer(0);
     setScore({ correct: 0, total: 0 });
     setStreak(0);
@@ -126,6 +127,37 @@ export default function AlliedQBankPage() {
     setAnswered(false);
     const pool = getCareerQuestionPool(career.id) || [];
     const shuffled = [...pool].sort(() => Math.random() - 0.5).slice(0, 10);
+    setQuestions(shuffled);
+  };
+
+  const [categoryQuizActive, setCategoryQuizActive] = useState(false);
+
+  const startQuick10 = () => {
+    setRapidDrill(true);
+    setCategoryQuizActive(false);
+    setDrillTimer(0);
+    setScore({ correct: 0, total: 0 });
+    setStreak(0);
+    setCurrentIndex(0);
+    setSelectedAnswer(null);
+    setAnswered(false);
+    const pool = getCareerQuestionPool(career.id) || [];
+    const shuffled = [...pool].sort(() => Math.random() - 0.5).slice(0, 10);
+    setQuestions(shuffled);
+  };
+
+  const startCategoryQuiz = (category: string) => {
+    setRapidDrill(true);
+    setCategoryQuizActive(true);
+    setDrillTimer(0);
+    setScore({ correct: 0, total: 0 });
+    setStreak(0);
+    setCurrentIndex(0);
+    setSelectedAnswer(null);
+    setAnswered(false);
+    const pool = getCareerQuestionPool(career.id) || [];
+    const categoryQs = pool.filter((q: any) => q.category === category);
+    const shuffled = [...categoryQs].sort(() => Math.random() - 0.5).slice(0, 10);
     setQuestions(shuffled);
   };
 
@@ -156,6 +188,9 @@ export default function AlliedQBankPage() {
           <button onClick={() => setShowFilters(!showFilters)} className="px-3 py-1.5 rounded-lg text-sm font-medium bg-gray-100 text-gray-700 hover:bg-gray-200 flex items-center gap-1" data-testid="button-filters">
             <Filter className="w-3.5 h-3.5" /> Filters
           </button>
+          <button onClick={startQuick10} className="px-3 py-1.5 rounded-lg text-sm font-medium bg-teal-600 text-white hover:bg-teal-700 flex items-center gap-1" data-testid="button-quick-10">
+            <Zap className="w-3.5 h-3.5" /> Quick 10
+          </button>
           <button onClick={startRapidDrill} className="px-3 py-1.5 rounded-lg text-sm font-medium bg-teal-600 text-white hover:bg-teal-700 flex items-center gap-1" data-testid="button-rapid-drill">
             <Zap className="w-3.5 h-3.5" /> Rapid Drill
           </button>
@@ -163,24 +198,36 @@ export default function AlliedQBankPage() {
       </div>
 
       {showFilters && (
-        <div className="bg-gray-50 rounded-xl border border-gray-100 p-4 mb-6 flex flex-wrap gap-4" data-testid="qbank-filters">
-          <div>
-            <label className="text-xs font-medium text-gray-500 mb-1 block">Difficulty</label>
-            <select value={difficulty || ""} onChange={e => setDifficulty(e.target.value ? Number(e.target.value) : null)} className="px-3 py-1.5 rounded-lg border border-gray-200 text-sm" data-testid="select-difficulty">
-              <option value="">All</option>
-              {[1, 2, 3, 4, 5].map(d => <option key={d} value={d}>Level {d}</option>)}
-            </select>
+        <div className="bg-gray-50 rounded-xl border border-gray-100 p-4 mb-6 space-y-4" data-testid="qbank-filters">
+          <div className="flex flex-wrap gap-4">
+            <div>
+              <label className="text-xs font-medium text-gray-500 mb-1 block">Difficulty</label>
+              <select value={difficulty || ""} onChange={e => setDifficulty(e.target.value ? Number(e.target.value) : null)} className="px-3 py-1.5 rounded-lg border border-gray-200 text-sm" data-testid="select-difficulty">
+                <option value="">All</option>
+                {[1, 2, 3, 4, 5].map(d => <option key={d} value={d}>Level {d}</option>)}
+              </select>
+            </div>
+            <div>
+              <label className="text-xs font-medium text-gray-500 mb-1 block">Topic</label>
+              <select value={topic} onChange={e => setTopic(e.target.value)} className="px-3 py-1.5 rounded-lg border border-gray-200 text-sm" data-testid="select-topic">
+                <option value="">All Topics</option>
+                {career.domains.map(d => <option key={d} value={d}>{d}</option>)}
+              </select>
+            </div>
+            <button onClick={() => { setDifficulty(null); setTopic(""); }} className="self-end px-3 py-1.5 text-sm text-gray-500 hover:text-gray-700 flex items-center gap-1" data-testid="button-clear-filters">
+              <RotateCcw className="w-3.5 h-3.5" /> Clear
+            </button>
           </div>
           <div>
-            <label className="text-xs font-medium text-gray-500 mb-1 block">Topic</label>
-            <select value={topic} onChange={e => setTopic(e.target.value)} className="px-3 py-1.5 rounded-lg border border-gray-200 text-sm" data-testid="select-topic">
-              <option value="">All Topics</option>
-              {career.domains.map(d => <option key={d} value={d}>{d}</option>)}
-            </select>
+            <label className="text-xs font-medium text-gray-500 mb-2 block">Category Quiz (10 questions)</label>
+            <div className="flex flex-wrap gap-2">
+              {career.domains.map(d => (
+                <button key={d} onClick={() => startCategoryQuiz(d)} className="px-3 py-1.5 rounded-lg text-xs font-medium bg-white border border-gray-200 text-gray-700 hover:border-teal-300 hover:bg-teal-50 transition-colors" data-testid={`button-category-quiz-${d}`}>
+                  {d}
+                </button>
+              ))}
+            </div>
           </div>
-          <button onClick={() => { setDifficulty(null); setTopic(""); }} className="self-end px-3 py-1.5 text-sm text-gray-500 hover:text-gray-700 flex items-center gap-1" data-testid="button-clear-filters">
-            <RotateCcw className="w-3.5 h-3.5" /> Clear
-          </button>
         </div>
       )}
 
@@ -284,7 +331,7 @@ export default function AlliedQBankPage() {
 
           <div className="space-y-3">
             {current.options.map((opt: string, idx: number) => {
-              const isCorrect = idx === current.correctAnswer;
+              const isCorrect = idx === (current.correctIndex ?? current.correctAnswer);
               const isSelected = selectedAnswer === idx;
               let borderClass = "border-gray-200 hover:border-teal-300";
               let bgClass = "bg-white hover:bg-teal-50/30";
