@@ -10,6 +10,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { getQuestionImage } from "@/lib/system-images";
 import {
   Clock,
   Flag,
@@ -68,6 +69,7 @@ export interface ExamConsoleLayoutProps {
   exhibits?: ExhibitImage[];
   showExplanation?: boolean;
   explanation?: string;
+  explanationContext?: { topic?: string; subtopic?: string; bodySystem?: string };
   correctAnswer?: number;
   questionStatuses?: AnswerStatus[];
   onNavigateToQuestion?: (index: number) => void;
@@ -290,6 +292,7 @@ export default function ExamConsoleLayout({
   exhibits,
   showExplanation = false,
   explanation,
+  explanationContext,
   correctAnswer,
   questionStatuses = [],
   onNavigateToQuestion,
@@ -659,6 +662,14 @@ export default function ExamConsoleLayout({
                   <p className="text-sm text-blue-800 leading-relaxed">
                     {explanation}
                   </p>
+                  {(() => {
+                    const img = explanationContext ? getQuestionImage(explanationContext) : undefined;
+                    return img ? (
+                      <div className="mt-4">
+                        <img src={img} alt={explanationContext?.topic || explanationContext?.bodySystem || "Clinical reference"} className="rounded-lg border border-blue-200 max-h-72 w-auto mx-auto" loading="lazy" data-testid="img-rationale" />
+                      </div>
+                    ) : null;
+                  })()}
                 </CardContent>
               </Card>
             )}

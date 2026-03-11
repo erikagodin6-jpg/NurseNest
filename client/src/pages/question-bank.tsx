@@ -8,6 +8,7 @@ import { Footer } from "@/components/footer";
 import { SEO } from "@/components/seo";
 import { getExamQuestions, type PooledQuestion } from "@/lib/question-pool";
 import { fetchFilterOptions, type FilterOptions } from "@/lib/qbank-api";
+import { getQuestionImage } from "@/lib/system-images";
 import { CheckCircle2, XCircle, Filter, RotateCcw, ChevronLeft, ChevronRight, Trophy, Target, Lock, Crown, Lightbulb, Crosshair, BookOpen, Bookmark, Clock, GraduationCap, PenLine, BarChart3 } from "lucide-react";
 import { AdminEditButton } from "@/components/admin-edit-button";
 import { LocaleLink } from "@/lib/LocaleLink";
@@ -372,6 +373,12 @@ export default function QuestionBank() {
                         </div>
                       ))}
                       <p className="text-xs text-gray-600 mt-2 italic">{r.question.rationale}</p>
+                      {(() => {
+                        const img = getQuestionImage({ topic: r.question.topic, subtopic: r.question.subtopic, bodySystem: r.question.bodySystem });
+                        return img ? (
+                          <img src={img} alt={r.question.topic || r.question.bodySystem || "Clinical reference"} className="mt-2 rounded border border-gray-200 max-h-48 w-auto" loading="lazy" />
+                        ) : null;
+                      })()}
                     </div>
                   </div>
                 ))}
@@ -813,6 +820,14 @@ export default function QuestionBank() {
                           <div className="p-4 rounded-lg bg-white border border-gray-200" data-testid="section-rationale">
                             <p className="text-sm font-bold text-gray-800 mb-2 uppercase tracking-wide">Why This Is Correct</p>
                             <p className="text-sm leading-relaxed text-gray-700" data-testid="text-qb-rationale">{question.rationale}</p>
+                            {(() => {
+                              const img = getQuestionImage({ topic: question.topic, subtopic: question.subtopic, bodySystem: question.bodySystem });
+                              return img ? (
+                                <div className="mt-4">
+                                  <img src={img} alt={question.topic || question.bodySystem || "Clinical reference"} className="rounded-lg border border-gray-200 max-h-72 w-auto mx-auto" loading="lazy" data-testid="img-rationale" />
+                                </div>
+                              ) : null;
+                            })()}
                           </div>
 
                           {question.distractorRationales && Object.keys(question.distractorRationales).length > 0 && (

@@ -8,6 +8,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { BreadcrumbNav } from "@/components/breadcrumb-nav";
 import { getExamQuestions, type PooledQuestion } from "@/lib/question-pool";
+import { getQuestionImage } from "@/lib/system-images";
 import {
   ArrowRight, CheckCircle2, XCircle, BookOpen, Target,
   ChevronRight, RotateCcw, Heart, Brain, Wind, Stethoscope,
@@ -455,6 +456,14 @@ function QuizSession({ tier, systemSlug }: { tier: string; systemSlug: string })
                         <BookOpen className="w-4 h-4" /> Rationale
                       </h3>
                       <p className="text-sm text-blue-800 leading-relaxed">{current.rationale}</p>
+                      {(() => {
+                        const img = getQuestionImage({ topic: current.topic, subtopic: current.subtopic, bodySystem: current.bodySystem });
+                        return img ? (
+                          <div className="mt-4">
+                            <img src={img} alt={current.topic || current.bodySystem || "Clinical reference"} className="rounded-lg border border-blue-200 max-h-72 w-auto mx-auto" loading="lazy" data-testid="img-rationale" />
+                          </div>
+                        ) : null;
+                      })()}
                     </div>
                   )}
 

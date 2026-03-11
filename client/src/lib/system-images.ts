@@ -1244,6 +1244,22 @@ const categoryImageMap: Record<string, string> = {
   "Immune": illustrationInflammatoryResponse,
 };
 
+export function getQuestionImage(opts: { topic?: string; subtopic?: string; bodySystem?: string }): string | undefined {
+  const candidates = [opts.subtopic, opts.topic].filter(Boolean) as string[];
+  for (const term of candidates) {
+    const slug = term.toLowerCase().replace(/[\s/,]+/g, "-").replace(/[^a-z0-9-]/g, "");
+    const direct = lessonSpecificImages[slug];
+    if (direct) return direct;
+    const fromLesson = getLessonImage(slug);
+    if (fromLesson) return fromLesson;
+  }
+  if (opts.bodySystem) {
+    const img = getCategoryImage(opts.bodySystem);
+    if (img) return img;
+  }
+  return undefined;
+}
+
 export function getCategoryImage(category: string): string | undefined {
   if (categoryImageMap[category]) return categoryImageMap[category];
 
