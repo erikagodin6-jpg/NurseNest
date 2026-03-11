@@ -32,6 +32,7 @@ import illustrationBrainAbscessV2 from "@/assets/lesson-brain-abscess-new.png";
 import illustrationBrainAbscessV3 from "@/assets/images/brain-abscess-v3.png";
 import illustrationDeliriumDementia from "@/assets/lesson-delirium-dementia.png";
 import illustrationDeliriumDementiaV2 from "@/assets/lesson-delirium-dementia-new.png";
+import illustrationDeliriumDementiaV3 from "@/assets/images/delirium-dementia-v3.png";
 import illustrationAcuteDystonicReaction from "@/assets/lesson-acute-dystonic-reaction.png";
 import illustrationAcuteDystonicReactionV2 from "@/assets/images/acute-dystonic-reaction-v2.png";
 import illustrationALS from "@/assets/lesson-als.png";
@@ -43,6 +44,7 @@ import illustrationAchalasiaV2 from "@/assets/images/achalasia-v2.png";
 import illustrationAnalFissureV2 from "@/assets/images/anal-fissure-v2.png";
 import illustrationCranialNerves from "@/assets/lesson-cranial-nerves.png";
 import illustrationCranialNervesV2 from "@/assets/lesson-cranial-nerves-new.png";
+import illustrationCranialNervesV3 from "@/assets/images/cranial-nerves-v3.png";
 import illustrationCranialNervePathology from "@/assets/lesson-cranial-nerve-pathology.png";
 import illustrationCranialNervePathologyV2 from "@/assets/images/cranial-nerve-pathology-v2.png";
 import illustrationTrigeminalNeuralgia from "@/assets/lesson-trigeminal-neuralgia.png";
@@ -276,6 +278,10 @@ import illustrationCirrhosisV2 from "@/assets/images/cirrhosis-v2.png";
 import illustrationCholecystectomyV2 from "@/assets/images/cholecystectomy-v2.png";
 import illustrationChronicHepatitisV2 from "@/assets/images/chronic-hepatitis-v2.png";
 import illustrationCdiffV2 from "@/assets/images/cdiff-v2.png";
+import illustrationCrohnsV2 from "@/assets/images/crohns-v2.png";
+import illustrationDiverticulitisV2 from "@/assets/images/diverticulitis-v2.png";
+import illustrationDysphagiaV2 from "@/assets/images/dysphagia-v2.png";
+import illustrationEosinophilicEsophagitisV2 from "@/assets/images/eosinophilic-esophagitis-v2.png";
 import illustrationPancreatitisPatho from "@/assets/lesson-pancreatitis-patho.png";
 import illustrationParkinsonsPatho from "@/assets/lesson-parkinsons-patho.png";
 import illustrationMSPatho from "@/assets/lesson-ms-patho.png";
@@ -431,11 +437,17 @@ const lessonSpecificImages: Record<string, string> = {
   "alzheimer-disease-rn": illustrationAlzheimersV2,
   "alzheimer-disease-np": illustrationAlzheimersV2,
   "alzheimers-disease": illustrationAlzheimersV2,
-  "delirium-vs-dementia": illustrationDeliriumDementiaV2,
-  "delirium": illustrationDeliriumDementiaV2,
-  "dementia-care": illustrationDeliriumDementiaV2,
-  "cranial-nerve-assessment": illustrationCranialNervesV2,
-  "cranial-nerves": illustrationCranialNervesV2,
+  "delirium-vs-dementia": illustrationDeliriumDementiaV3,
+  "delirium-vs-dementia-rpn": illustrationDeliriumDementiaV3,
+  "delirium-vs-dementia-rn": illustrationDeliriumDementiaV3,
+  "delirium-vs-dementia-np": illustrationDeliriumDementiaV3,
+  "delirium": illustrationDeliriumDementiaV3,
+  "dementia-care": illustrationDeliriumDementiaV3,
+  "cranial-nerve-assessment": illustrationCranialNervesV3,
+  "cranial-nerves": illustrationCranialNervesV3,
+  "cranial-nerves-rpn": illustrationCranialNervesV3,
+  "cranial-nerves-rn": illustrationCranialNervesV3,
+  "cranial-nerves-np": illustrationCranialNervesV3,
   "cranial-nerve-pathology": illustrationCranialNervePathologyV2,
   "cranial-nerve-pathology-rpn": illustrationCranialNervePathologyV2,
   "cranial-nerve-pathology-rn": illustrationCranialNervePathologyV2,
@@ -670,6 +682,21 @@ const lessonSpecificImages: Record<string, string> = {
   "anal-fissure-rn": illustrationAnalFissureV2,
   "anal-fissure-np": illustrationAnalFissureV2,
   "anal-fissure-management": illustrationAnalFissureV2,
+  "diverticulitis": illustrationDiverticulitisV2,
+  "diverticulitis-rpn": illustrationDiverticulitisV2,
+  "diverticulitis-rn": illustrationDiverticulitisV2,
+  "diverticulitis-np": illustrationDiverticulitisV2,
+  "diverticulitis-management": illustrationDiverticulitisV2,
+  "diverticular-disease": illustrationDiverticulitisV2,
+  "dysphagia": illustrationDysphagiaV2,
+  "dysphagia-rpn": illustrationDysphagiaV2,
+  "dysphagia-rn": illustrationDysphagiaV2,
+  "dysphagia-np": illustrationDysphagiaV2,
+  "dysphagia-management": illustrationDysphagiaV2,
+  "eosinophilic-esophagitis": illustrationEosinophilicEsophagitisV2,
+  "eosinophilic-esophagitis-rpn": illustrationEosinophilicEsophagitisV2,
+  "eosinophilic-esophagitis-rn": illustrationEosinophilicEsophagitisV2,
+  "eosinophilic-esophagitis-np": illustrationEosinophilicEsophagitisV2,
   "c-diff": illustrationCdiffV2,
   "c-diff-rpn": illustrationCdiffV2,
   "c-diff-rn": illustrationCdiffV2,
@@ -911,7 +938,11 @@ const lessonSpecificImages: Record<string, string> = {
 
   "ulcerative-colitis": illustrationUCPatho,
   "ulcerative-colitis-management": illustrationUCPatho,
-  "crohns-disease": illustrationUCPatho,
+  "crohns-disease": illustrationCrohnsV2,
+  "crohns-disease-rpn": illustrationCrohnsV2,
+  "crohns-disease-rn": illustrationCrohnsV2,
+  "crohns-disease-np": illustrationCrohnsV2,
+  "crohns": illustrationCrohnsV2,
   "ibd-management": illustrationUCPatho,
 
   "peptic-ulcer-basics-rpn": illustrationPepticUlcerPatho,
@@ -1156,14 +1187,18 @@ export function getLessonImage(lessonId: string): string | undefined {
   if (lessonId.includes("concussion") || lessonId.includes("tbi")) return illustrationConcussionV3;
   if (lessonId.includes("carpal-tunnel")) return illustrationCarpalTunnelV3;
   if (lessonId.includes("trigeminal")) return illustrationTrigeminalNeuralgia;
-  if (lessonId.includes("cranial-nerve")) return illustrationCranialNervesV2;
-  if (lessonId.includes("delirium") || lessonId.includes("dementia")) return illustrationDeliriumDementiaV2;
+  if (lessonId.includes("cranial-nerve")) return illustrationCranialNervesV3;
+  if (lessonId.includes("delirium") || lessonId.includes("dementia")) return illustrationDeliriumDementiaV3;
   if (lessonId.includes("cerebral-edema")) return illustrationCerebralEdemaV3;
   if (lessonId.includes("cardiac-tamponade")) return illustrationCardiacTamponadeV2;
   if (lessonId.includes("c-diff") || lessonId.includes("cdiff") || lessonId.includes("clostridium") || lessonId.includes("clostridioides")) return illustrationCdiffV2;
   if (lessonId.includes("chronic-hepatitis") || lessonId.includes("hepatitis-management")) return illustrationChronicHepatitisV2;
   if (lessonId.includes("cirrhosis")) return illustrationCirrhosisV2;
   if (lessonId.includes("cholecystectomy")) return illustrationCholecystectomyV2;
+  if (lessonId.includes("diverticulit")) return illustrationDiverticulitisV2;
+  if (lessonId.includes("dysphagia")) return illustrationDysphagiaV2;
+  if (lessonId.includes("eosinophilic")) return illustrationEosinophilicEsophagitisV2;
+  if (lessonId.includes("crohns") || lessonId.includes("crohn")) return illustrationCrohnsV2;
   if (lessonId.includes("cranial-nerve-pathology")) return illustrationCranialNervePathologyV2;
   if (lessonId.includes("brain-abscess")) return illustrationBrainAbscessV3;
   if (lessonId.includes("appendicitis")) return illustrationAppendicitisV2;
