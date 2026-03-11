@@ -29,6 +29,7 @@ import illustrationMSV2 from "@/assets/lesson-multiple-sclerosis-new.png";
 import illustrationStroke from "@/assets/lesson-stroke.png";
 import illustrationBrainAbscess from "@/assets/lesson-brain-abscess.png";
 import illustrationBrainAbscessV2 from "@/assets/lesson-brain-abscess-new.png";
+import illustrationBrainAbscessV3 from "@/assets/images/brain-abscess-v3.png";
 import illustrationDeliriumDementia from "@/assets/lesson-delirium-dementia.png";
 import illustrationDeliriumDementiaV2 from "@/assets/lesson-delirium-dementia-new.png";
 import illustrationAcuteDystonicReaction from "@/assets/lesson-acute-dystonic-reaction.png";
@@ -58,6 +59,7 @@ import illustrationHydrocephalus from "@/assets/lesson-hydrocephalus.png";
 import illustrationKorsakoffSyndrome from "@/assets/lesson-korsakoff-syndrome.png";
 import illustrationBellsPalsy from "@/assets/lesson-bells-palsy.png";
 import illustrationBellsPalsyV2 from "@/assets/lesson-bells-palsy-new.png";
+import illustrationBellsPalsyV3 from "@/assets/images/bells-palsy-v3.png";
 import illustrationCysticFibrosis from "@/assets/lesson-cystic-fibrosis.png";
 import illustrationWhoopingCough from "@/assets/lesson-whooping-cough.png";
 import illustrationBronchiectasis from "@/assets/lesson-bronchiectasis.png";
@@ -190,6 +192,7 @@ import illustrationViralMyocarditis from "@/assets/lesson-viral-myocarditis.png"
 
 import illustrationBecksTriad from "@/assets/lesson-becks-triad.png";
 import illustrationBecksTriadV2 from "@/assets/lesson-becks-triad-new.png";
+import illustrationBecksTriadV3 from "@/assets/images/becks-triad-v3.png";
 import illustrationBrainAnatomy from "@/assets/lesson-brain-anatomy.png";
 import illustrationCardiacTamponade from "@/assets/lesson-cardiac-tamponade.png";
 import illustrationFatEmbolism from "@/assets/lesson-fat-embolism.png";
@@ -284,6 +287,9 @@ import illustrationPPHPatho from "@/assets/lesson-pph-patho.png";
 import illustrationUCPatho from "@/assets/lesson-uc-patho.png";
 import illustrationPepticUlcerPatho from "@/assets/lesson-peptic-ulcer-patho.png";
 import illustrationBowelObstructionPatho from "@/assets/lesson-bowel-obstruction-patho.png";
+import illustrationBowelObstructionV2 from "@/assets/images/bowel-obstruction-v2.png";
+import illustrationAppendicitisV2 from "@/assets/images/appendicitis-v2.png";
+import illustrationBarrettEsophagusV2 from "@/assets/images/barrett-esophagus-v2.png";
 import illustrationCushingsPatho from "@/assets/lesson-cushings-patho.png";
 import illustrationSIADHDIPatho from "@/assets/lesson-siadh-di-patho.png";
 import illustrationRetinalDetachmentPatho from "@/assets/lesson-retinal-detachment-patho.png";
@@ -398,7 +404,10 @@ const lessonSpecificImages: Record<string, string> = {
   "parkinsons": illustrationParkinsons,
   "multiple-sclerosis": illustrationMSV2,
   "ms-management": illustrationMSV2,
-  "brain-abscess": illustrationBrainAbscessV2,
+  "brain-abscess": illustrationBrainAbscessV3,
+  "brain-abscess-rpn": illustrationBrainAbscessV3,
+  "brain-abscess-rn": illustrationBrainAbscessV3,
+  "brain-abscess-np": illustrationBrainAbscessV3,
   "acute-dystonic-reaction-rpn": illustrationAcuteDystonicReactionV2,
   "acute-dystonic-reaction": illustrationAcuteDystonicReactionV2,
   "acute-dystonic-reaction-rn": illustrationAcuteDystonicReactionV2,
@@ -427,7 +436,10 @@ const lessonSpecificImages: Record<string, string> = {
   "concussion": illustrationConcussionV2,
   "concussion-management": illustrationConcussionV2,
   "tbi-management": illustrationConcussion,
-  "bells-palsy": illustrationBellsPalsyV2,
+  "bells-palsy": illustrationBellsPalsyV3,
+  "bells-palsy-rpn": illustrationBellsPalsyV3,
+  "bells-palsy-rn": illustrationBellsPalsyV3,
+  "bells-palsy-np": illustrationBellsPalsyV3,
   "cp-management": illustrationCerebralEdema,
   "breast-cancer": illustrationTumor,
   "cervical-cancer": illustrationTumor,
@@ -441,7 +453,10 @@ const lessonSpecificImages: Record<string, string> = {
   "cardiac-tamponade-np": illustrationCardiacTamponade,
   "cardiac-tamponade-mgmt-np": illustrationCardiacTamponade,
   "cardiac-tamponade": illustrationCardiacTamponade,
-  "becks-triad": illustrationBecksTriadV2,
+  "becks-triad": illustrationBecksTriadV3,
+  "becks-triad-rpn": illustrationBecksTriadV3,
+  "becks-triad-rn": illustrationBecksTriadV3,
+  "becks-triad-np": illustrationBecksTriadV3,
   "pericardial-tamponade": illustrationBecksTriadV2,
   "fat-embolism": illustrationFatEmbolism,
   "fat-embolism-syndrome": illustrationFatEmbolism,
@@ -637,7 +652,20 @@ const lessonSpecificImages: Record<string, string> = {
   "gi-bleed": illustrationGIAnatomy,
   "cirrhosis-management": illustrationGIAnatomy,
   "acute-pancreatitis": illustrationGIAnatomy,
-  "bowel-obstruction": illustrationGIAnatomy,
+  "bowel-obstruction": illustrationBowelObstructionV2,
+  "bowel-obstruction-rpn": illustrationBowelObstructionV2,
+  "bowel-obstruction-rn": illustrationBowelObstructionV2,
+  "bowel-obstruction-np": illustrationBowelObstructionV2,
+  "appendicitis": illustrationAppendicitisV2,
+  "appendicitis-rpn": illustrationAppendicitisV2,
+  "appendicitis-rn": illustrationAppendicitisV2,
+  "appendicitis-np": illustrationAppendicitisV2,
+  "appendicitis-management": illustrationAppendicitisV2,
+  "barrett-esophagus": illustrationBarrettEsophagusV2,
+  "barrett-esophagus-rpn": illustrationBarrettEsophagusV2,
+  "barrett-esophagus-rn": illustrationBarrettEsophagusV2,
+  "barrett-esophagus-np": illustrationBarrettEsophagusV2,
+  "barretts-esophagus": illustrationBarrettEsophagusV2,
   "peptic-ulcer": illustrationGIAnatomy,
   "ibs-basics": illustrationGIAnatomy,
   "ngtube-care": illustrationGIAnatomy,
@@ -1077,7 +1105,7 @@ export function getLessonImage(lessonId: string): string | undefined {
   if (lessonId.includes("parkinson")) return illustrationParkinsons;
   if (lessonId.includes("multiple-sclerosis") || lessonId === "ms-management") return illustrationMSV2;
   if (lessonId.includes("stroke")) return illustrationStroke;
-  if (lessonId.includes("bells-palsy")) return illustrationBellsPalsyV2;
+  if (lessonId.includes("bells-palsy")) return illustrationBellsPalsyV3;
   if (lessonId.includes("dystonic")) return illustrationAcuteDystonicReactionV2;
   if (lessonId.includes("als-") || lessonId === "als") return illustrationALSV2;
   if (lessonId.includes("alzheimer")) return illustrationAlzheimersV2;
@@ -1091,7 +1119,11 @@ export function getLessonImage(lessonId: string): string | undefined {
   if (lessonId.includes("cranial-nerve")) return illustrationCranialNervesV2;
   if (lessonId.includes("delirium") || lessonId.includes("dementia")) return illustrationDeliriumDementiaV2;
   if (lessonId.includes("cerebral-edema")) return illustrationCerebralEdemaV2;
-  if (lessonId.includes("brain-abscess")) return illustrationBrainAbscessV2;
+  if (lessonId.includes("brain-abscess")) return illustrationBrainAbscessV3;
+  if (lessonId.includes("appendicitis")) return illustrationAppendicitisV2;
+  if (lessonId.includes("barrett") && lessonId.includes("esophag")) return illustrationBarrettEsophagusV2;
+  if (lessonId.includes("bowel-obstruction")) return illustrationBowelObstructionV2;
+  if (lessonId.includes("becks-triad")) return illustrationBecksTriadV3;
   if (lessonId.includes("icp")) return illustrationICPV2;
   if (lessonId.includes("febrile-seizure")) return illustrationFebrileSeizures;
   if (lessonId.includes("hydrocephalus")) return illustrationHydrocephalus;
