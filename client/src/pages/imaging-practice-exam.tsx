@@ -31,6 +31,7 @@ export default function ImagingPracticeExamPage() {
 
   const [phase, setPhase] = useState<"setup" | "exam" | "review">("setup");
   const [selectedCategories, setSelectedCategories] = useState<Set<string>>(new Set(CATEGORIES));
+  const [selectedDifficulty, setSelectedDifficulty] = useState<"all" | "1" | "2" | "3">("all");
   const [questionCount, setQuestionCount] = useState(50);
   const [timeLimit, setTimeLimit] = useState(60);
   const [examQuestions, setExamQuestions] = useState<any[]>([]);
@@ -45,10 +46,12 @@ export default function ImagingPracticeExamPage() {
   });
 
   const matchingCount = useMemo(() => {
-    return allQuestions.filter((q: any) =>
-      selectedCategories.has(q.category || q.topic)
-    ).length;
-  }, [allQuestions, selectedCategories]);
+    return allQuestions.filter((q: any) => {
+      const catMatch = selectedCategories.has(q.category || q.topic);
+      const diffMatch = selectedDifficulty === "all" || String(q.difficulty) === selectedDifficulty;
+      return catMatch && diffMatch;
+    }).length;
+  }, [allQuestions, selectedCategories, selectedDifficulty]);
 
   const canStart = matchingCount > 0 && !!user;
 
@@ -76,9 +79,11 @@ export default function ImagingPracticeExamPage() {
   }, [phase, timeRemaining]);
 
   const startExam = useCallback(() => {
-    const pool = allQuestions.filter((q: any) =>
-      selectedCategories.has(q.category || q.topic)
-    );
+    const pool = allQuestions.filter((q: any) => {
+      const catMatch = selectedCategories.has(q.category || q.topic);
+      const diffMatch = selectedDifficulty === "all" || String(q.difficulty) === selectedDifficulty;
+      return catMatch && diffMatch;
+    });
     const shuffled = [...pool].sort(() => Math.random() - 0.5);
     const selected = shuffled.slice(0, Math.min(questionCount, pool.length));
     setExamQuestions(selected);
@@ -87,7 +92,7 @@ export default function ImagingPracticeExamPage() {
     setFlagged(new Set());
     setTimeRemaining(timeLimit * 60);
     setPhase("exam");
-  }, [allQuestions, selectedCategories, questionCount, timeLimit]);
+  }, [allQuestions, selectedCategories, selectedDifficulty, questionCount, timeLimit]);
 
   const getOptions = (q: any) => [
     { label: "A", text: q.optionA },
@@ -347,6 +352,24 @@ export default function ImagingPracticeExamPage() {
                 data-testid={`topic-${t}`}
               >
                 {t}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <div className="bg-white border border-gray-100 rounded-xl p-6 mb-6">
+          <h3 className="font-semibold text-gray-900 mb-4">Difficulty</h3>
+          <div className="flex flex-wrap gap-2">
+            {([["all", "All Levels"], ["1", "Easy"], ["2", "Medium"], ["3", "Hard"]] as const).map(([val, label]) => (
+              <button
+                key={val}
+                onClick={() => setSelectedDifficulty(val as any)}
+                className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
+                  selectedDifficulty === val ? "bg-indigo-600 text-white" : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                }`}
+                data-testid={`difficulty-${val}`}
+              >
+                {label}
               </button>
             ))}
           </div>

@@ -651,10 +651,10 @@ function PositioningPanel({ countryFilter, statusFilter }: { countryFilter: stri
             <div key={e.id} className="bg-white border border-gray-100 rounded-xl p-4" data-testid={`positioning-${e.id}`}>
               <div className="flex items-start justify-between gap-3">
                 <div className="flex-1 min-w-0">
-                  <p className="text-sm font-medium text-gray-900 mb-1">{e.bodyRegion} - {e.projection}</p>
-                  {e.patientPosition && <p className="text-xs text-gray-500 mb-2">{e.patientPosition}</p>}
+                  <p className="text-sm font-medium text-gray-900 mb-1">{e.bodyPart} - {e.projectionName}</p>
+                  {e.patientPosition && <p className="text-xs text-gray-500 mb-2 line-clamp-2">{e.patientPosition}</p>}
                   <div className="flex flex-wrap gap-2 text-xs">
-                    <span className="px-2 py-0.5 bg-gray-100 rounded">{e.country}</span>
+                    {e.bodyPart && <span className="px-2 py-0.5 bg-gray-100 rounded">{e.bodyPart}</span>}
                     <span className={`px-2 py-0.5 rounded ${STATUS_COLORS[e.status] || "bg-gray-100"}`}>{e.status}</span>
                   </div>
                 </div>
