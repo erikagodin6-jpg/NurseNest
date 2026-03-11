@@ -31,6 +31,21 @@ The application is built with Vite, React, and Express 5 on Node.js with TypeScr
 - **SEO Page System**: Includes dynamically generated landing pages for mock exams, hub pages for nursing certifications, and dedicated pages for medical conditions, medications, and lab values, all with structured data and comprehensive SEO metadata.
 - **Paramedic SEO Content Engine**: Generates and manages various SEO content types (Topic, Category, Glossary, Comparison, Study Guides) for paramedic content, supporting internal linking and structured data.
 
+### MLT Exam Engines
+The MLT (Medical Laboratory Technologist) exam system provides four modes:
+1. **Canada CSMLS Exam** - Fixed-length 120-question realistic exam (3 hours)
+2. **USA ASCP CAT Exam** - Computer Adaptive Testing with 60-130 questions, IRT-based ability estimation
+3. **Adaptive Practice** - Smart remediation with sub-modes (quick quiz, weak-area drill, mixed discipline, image drill)
+4. **Practice Exam** - Customizable practice with timed/tutor/review modes, topic filtering
+
+Key files:
+- `server/mlt-adaptive-engine.ts` - IRT-based ability estimation, CAT stop logic, anti-gaming detection, simulation
+- `server/mlt-exam-routes.ts` - All MLT exam API routes (start, answer, navigate, flag, complete, history, admin CAT)
+- `shared/mlt-exam-types.ts` - Shared types and constants
+- `client/src/allied/pages/mlt/` - 8 frontend pages (hub, Canada exam, USA CAT, adaptive practice, practice exam, results, admin CAT, history)
+- DB tables: `mlt_exam_sessions`, `mlt_cat_settings` (created via raw SQL, not drizzle push)
+- Questions sourced from `allied_questions` table (career_type ILIKE '%mlt%')
+
 ## External Dependencies
 
 ### Database

@@ -41,6 +41,14 @@ const ParamedicStudyGuidePage = lazy(() => import("./pages/paramedic-seo-page").
 const ParamedicExamPrepPage = lazy(() => import("./pages/paramedic-seo-page").then(m => ({ default: m.ParamedicExamPrepPage })));
 const MltImageLibrary = lazy(() => import("./pages/mlt/mlt-image-library"));
 const MltImageDrill = lazy(() => import("./pages/mlt/mlt-image-drill"));
+const MltExamHub = lazy(() => import("./pages/mlt/mlt-exam-hub"));
+const MltCanadaExam = lazy(() => import("./pages/mlt/mlt-canada-exam"));
+const MltUsaCatExam = lazy(() => import("./pages/mlt/mlt-usa-cat-exam"));
+const MltAdaptivePractice = lazy(() => import("./pages/mlt/mlt-adaptive-practice"));
+const MltPracticeExam = lazy(() => import("./pages/mlt/mlt-practice-exam"));
+const MltExamResults = lazy(() => import("./pages/mlt/mlt-exam-results"));
+const MltExamHistory = lazy(() => import("./pages/mlt/mlt-exam-history"));
+const MltAdminCat = lazy(() => import("./pages/mlt/mlt-admin-cat"));
 
 function LoadingFallback() {
   return (
@@ -111,7 +119,14 @@ export function AlliedRoutes() {
         <Route path="/paramedic/scenarios" component={ParamedicScenariosHub} />
         <Route path="/paramedic/practice-exams" component={ParamedicPracticeExamsHub} />
         <Route path="/paramedic" component={ParamedicLanding} />
-        <Route path="/mlt" component={MltLanding} />
+        <Route path="/mlt/exams" component={MltExamHub} />
+        <Route path="/mlt/exam/canada_realistic" component={MltCanadaExam} />
+        <Route path="/mlt/exam/usa_cat" component={MltUsaCatExam} />
+        <Route path="/mlt/exam/adaptive_practice" component={MltAdaptivePractice} />
+        <Route path="/mlt/exam/practice_exam" component={MltPracticeExam} />
+        <Route path="/mlt/exam/results/:sessionId" component={MltExamResults} />
+        <Route path="/mlt/exam/history" component={MltExamHistory} />
+        <Route path="/mlt/admin/cat" component={MltAdminCat} />
         <Route path="/mlt/blog/:slug">{() => <MltBlog isPost />}</Route>
         <Route path="/mlt/blog">{() => <MltBlog />}</Route>
         <Route path="/mlt/canada/exam-prep">{() => <MltCountryPage country="canada" pageType="exam-prep" />}</Route>
@@ -128,6 +143,7 @@ export function AlliedRoutes() {
         <Route path="/mlt/usa/study-plan">{() => <MltCountryPage country="usa" pageType="study-plan" />}</Route>
         <Route path="/mlt/usa/free-questions">{() => <MltCountryPage country="usa" pageType="free-questions" />}</Route>
         <Route path="/mlt/usa/faq">{() => <MltCountryPage country="usa" pageType="faq" />}</Route>
+        <Route path="/mlt" component={MltLanding} />
         <Route path="/careers/:careerSlug/mock-exams" component={AlliedMockExams} />
         <Route path="/careers/:careerSlug/dashboard" component={AlliedDashboard} />
         <Route path="/careers/:careerSlug/study-plan" component={AlliedStudyPlan} />

@@ -3182,3 +3182,57 @@ export const MLT_DRILL_TYPES = [
   "qc_issue",
   "specimen_rejection",
 ] as const;
+
+export const mltExamSessions = pgTable("mlt_exam_sessions", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id").notNull(),
+  mode: text("mode").notNull(),
+  country: text("country").notNull(),
+  subMode: text("sub_mode"),
+  practiceMode: text("practice_mode"),
+  totalQuestions: integer("total_questions").notNull(),
+  timeLimit: integer("time_limit").notNull(),
+  status: text("status").notNull().default("in_progress"),
+  score: integer("score"),
+  correctCount: integer("correct_count"),
+  abilityEstimate: doublePrecision("ability_estimate").default(0),
+  abilityHistory: jsonb("ability_history").default(sql`'[]'::jsonb`),
+  responseHistory: jsonb("response_history").default(sql`'[]'::jsonb`),
+  questionIds: jsonb("question_ids").default(sql`'[]'::jsonb`),
+  flaggedIds: jsonb("flagged_ids").default(sql`'[]'::jsonb`),
+  coverageAchieved: jsonb("coverage_achieved").default(sql`'{}'::jsonb`),
+  weakAreaMap: jsonb("weak_area_map").default(sql`'{}'::jsonb`),
+  strongAreaMap: jsonb("strong_area_map").default(sql`'{}'::jsonb`),
+  stabilityScore: doublePrecision("stability_score").default(1),
+  catParams: jsonb("cat_params"),
+  report: jsonb("report"),
+  topics: text("topics").array().default(sql`'{}'::text[]`),
+  currentIndex: integer("current_index").default(0),
+  startedAt: timestamp("started_at").defaultNow().notNull(),
+  completedAt: timestamp("completed_at"),
+});
+
+export const insertMltExamSessionSchema = createInsertSchema(mltExamSessions).omit({
+  id: true,
+  startedAt: true,
+});
+export type MltExamSession = typeof mltExamSessions.$inferSelect;
+export type InsertMltExamSession = z.infer<typeof insertMltExamSessionSchema>;
+
+export const mltCatSettings = pgTable("mlt_cat_settings", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  minQuestions: integer("min_questions").default(60),
+  maxQuestions: integer("max_questions").default(130),
+  timeLimit: integer("time_limit").default(150),
+  stabilityThreshold: doublePrecision("stability_threshold").default(0.3),
+  exposureMax: doublePrecision("exposure_max").default(0.25),
+  contentTargets: jsonb("content_targets").default(sql`'{}'::jsonb`),
+  abilityCapPerQuestion: doublePrecision("ability_cap_per_question").default(0.5),
+  rapidGuessThresholdMs: integer("rapid_guess_threshold_ms").default(3000),
+  noBacktracking: boolean("no_backtracking").default(true),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export type MltCatSettings = typeof mltCatSettings.$inferSelect;
+export const insertMltCatSettingsSchema = createInsertSchema(mltCatSettings).omit({ id: true, updatedAt: true });
+export type InsertMltCatSettings = z.infer<typeof insertMltCatSettingsSchema>;
