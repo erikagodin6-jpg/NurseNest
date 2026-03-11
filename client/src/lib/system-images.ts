@@ -26,9 +26,11 @@ import illustrationTracheostomy from "@/assets/lesson-tracheostomy.png";
 
 import illustrationParkinsons from "@/assets/lesson-parkinsons.png";
 import illustrationParkinsonsV2 from "@/assets/images/parkinsons-v2.png";
+import illustrationParkinsonsV3 from "@/assets/images/parkinsons-v3.png";
 import illustrationMS from "@/assets/lesson-ms.png";
 import illustrationMSV2 from "@/assets/lesson-multiple-sclerosis-new.png";
 import illustrationMultipleSclerosisV3 from "@/assets/images/multiple-sclerosis-v2.png";
+import illustrationMultipleSclerosisV4 from "@/assets/images/multiple-sclerosis-v4.png";
 import illustrationStroke from "@/assets/lesson-stroke.png";
 import illustrationStrokeFastV2 from "@/assets/images/stroke-fast-v2.png";
 import illustrationBrainAbscess from "@/assets/lesson-brain-abscess.png";
@@ -64,6 +66,7 @@ import illustrationCerebralEdemaV2 from "@/assets/lesson-cerebral-edema-new.png"
 import illustrationCerebralEdemaV3 from "@/assets/images/cerebral-edema-v3.png";
 import illustrationMyastheniaGravis from "@/assets/lesson-myasthenia-gravis.png";
 import illustrationMyastheniaGravisV2 from "@/assets/images/myasthenia-gravis-v2.png";
+import illustrationMyastheniaGravisV3 from "@/assets/images/myasthenia-gravis-v3.png";
 import illustrationConcussion from "@/assets/lesson-concussion.png";
 import illustrationConcussionV3 from "@/assets/images/concussion-v3.png";
 import illustrationConcussionV2 from "@/assets/lesson-concussion-new.png";
@@ -73,6 +76,7 @@ import illustrationHydrocephalus from "@/assets/lesson-hydrocephalus.png";
 import illustrationHydrocephalusV2 from "@/assets/images/hydrocephalus-v2.png";
 import illustrationKorsakoffSyndrome from "@/assets/lesson-korsakoff-syndrome.png";
 import illustrationKorsakoffV2 from "@/assets/images/korsakoff-v2.png";
+import illustrationKorsakoffV3 from "@/assets/images/korsakoff-v3.png";
 import illustrationBellsPalsy from "@/assets/lesson-bells-palsy.png";
 import illustrationBellsPalsyV2 from "@/assets/lesson-bells-palsy-new.png";
 import illustrationBellsPalsyV3 from "@/assets/images/bells-palsy-v3.png";
@@ -229,13 +233,16 @@ import illustrationInhaledSpacersV3 from "@/assets/images/inhaled-spacers-v3.png
 import illustrationMalignantHyperthermiaNew from "@/assets/lesson-malignant-hyperthermia-new.png";
 import illustrationMalignantHyperthermiaV2 from "@/assets/lesson-malignant-hyperthermia-new2.png";
 import illustrationMalignantHyperthermiaV3 from "@/assets/images/malignant-hyperthermia-v3.png";
+import illustrationMalignantHyperthermiaV4 from "@/assets/images/malignant-hyperthermia-v4.png";
 import illustrationOxygenTherapy from "@/assets/lesson-oxygen-therapy.png";
 import illustrationOxygenTherapyV2 from "@/assets/lesson-oxygen-therapy-new.png";
 import illustrationOxygenTherapyV3 from "@/assets/lesson-oxygen-therapy-new2.png";
 import illustrationOxygenTherapyV4 from "@/assets/images/oxygen-therapy-v4.png";
+import illustrationOxygenTherapyV5 from "@/assets/images/oxygen-therapy-v5.png";
 import illustrationPeakFlow from "@/assets/lesson-peak-flow.png";
 import illustrationPeakFlowV2 from "@/assets/lesson-peak-flow-new.png";
 import illustrationPeakFlowV3 from "@/assets/images/peak-flow-v3.png";
+import illustrationPeakFlowV4 from "@/assets/images/peak-flow-v4.png";
 import illustrationPertussisNew from "@/assets/lesson-pertussis.jpeg";
 import illustrationPertussisV2 from "@/assets/lesson-pertussis-new.jpeg";
 import illustrationPertussisV3 from "@/assets/images/pertussis-v3.png";
@@ -243,8 +250,11 @@ import illustrationPleurisyNew from "@/assets/lesson-pleurisy-new.png";
 import illustrationPleurisyV2 from "@/assets/lesson-pleurisy-v2.png";
 import illustrationPleurisyV3 from "@/assets/images/pleurisy-v3.png";
 import illustrationNarcolepsyV2 from "@/assets/images/narcolepsy-v2.png";
+import illustrationNarcolepsyV3 from "@/assets/images/narcolepsy-v3.png";
 import illustrationPediatricSeizuresV2 from "@/assets/images/pediatric-seizures-v2.png";
+import illustrationPediatricSeizuresV3 from "@/assets/images/pediatric-seizures-v3.png";
 import illustrationPeripheralNeuropathyV2 from "@/assets/images/peripheral-neuropathy-v2.png";
+import illustrationPeripheralNeuropathyV3 from "@/assets/images/peripheral-neuropathy-v3.png";
 import illustrationPneumoniaV2 from "@/assets/lesson-pneumonia-new.png";
 import illustrationPneumoniaV3 from "@/assets/images/pneumonia-v3.png";
 import illustrationPneumothorax from "@/assets/lesson-pneumothorax.png";
@@ -316,7 +326,9 @@ import illustrationMSPatho from "@/assets/lesson-ms-patho.png";
 import illustrationIBSV2 from "@/assets/images/ibs-v2.png";
 import illustrationIschemicColitisV2 from "@/assets/images/ischemic-colitis-v2.png";
 import illustrationMalabsorptionV2 from "@/assets/images/malabsorption-v2.png";
+import illustrationMalabsorptionV3 from "@/assets/images/malabsorption-v3.png";
 import illustrationMeckelDiverticulumV2 from "@/assets/images/meckel-diverticulum-v2.png";
+import illustrationMeckelDiverticulumV3 from "@/assets/images/meckel-diverticulum-v3.png";
 import illustrationThyroidPatho from "@/assets/lesson-thyroid-patho.png";
 import illustrationAddisonsPatho from "@/assets/lesson-addisons-patho.png";
 
@@ -479,16 +491,16 @@ const lessonSpecificImages: Record<string, string> = {
   "icp-rpn": illustrationICPV3,
   "icp-rn": illustrationICPV3,
   "icp-np": illustrationICPV3,
-  "parkinsons-disease": illustrationParkinsonsV2,
-  "parkinsons": illustrationParkinsonsV2,
-  "parkinsons-rpn": illustrationParkinsonsV2,
-  "parkinsons-rn": illustrationParkinsonsV2,
-  "parkinsons-np": illustrationParkinsonsV2,
-  "multiple-sclerosis": illustrationMultipleSclerosisV3,
-  "ms-management": illustrationMultipleSclerosisV3,
-  "multiple-sclerosis-rpn": illustrationMultipleSclerosisV3,
-  "multiple-sclerosis-rn": illustrationMultipleSclerosisV3,
-  "multiple-sclerosis-np": illustrationMultipleSclerosisV3,
+  "parkinsons-disease": illustrationParkinsonsV3,
+  "parkinsons": illustrationParkinsonsV3,
+  "parkinsons-rpn": illustrationParkinsonsV3,
+  "parkinsons-rn": illustrationParkinsonsV3,
+  "parkinsons-np": illustrationParkinsonsV3,
+  "multiple-sclerosis": illustrationMultipleSclerosisV4,
+  "ms-management": illustrationMultipleSclerosisV4,
+  "multiple-sclerosis-rpn": illustrationMultipleSclerosisV4,
+  "multiple-sclerosis-rn": illustrationMultipleSclerosisV4,
+  "multiple-sclerosis-np": illustrationMultipleSclerosisV4,
   "brain-abscess": illustrationBrainAbscessV3,
   "brain-abscess-rpn": illustrationBrainAbscessV3,
   "brain-abscess-rn": illustrationBrainAbscessV3,
@@ -535,11 +547,11 @@ const lessonSpecificImages: Record<string, string> = {
   "cerebral-edema-rpn": illustrationCerebralEdemaV3,
   "cerebral-edema-rn": illustrationCerebralEdemaV3,
   "cerebral-edema-np": illustrationCerebralEdemaV3,
-  "myasthenia-gravis": illustrationMyastheniaGravisV2,
-  "myasthenia-gravis-rpn": illustrationMyastheniaGravisV2,
-  "myasthenia-gravis-rn": illustrationMyastheniaGravisV2,
-  "myasthenia-gravis-np": illustrationMyastheniaGravisV2,
-  "myasthenic-crisis": illustrationMyastheniaGravisV2,
+  "myasthenia-gravis": illustrationMyastheniaGravisV3,
+  "myasthenia-gravis-rpn": illustrationMyastheniaGravisV3,
+  "myasthenia-gravis-rn": illustrationMyastheniaGravisV3,
+  "myasthenia-gravis-np": illustrationMyastheniaGravisV3,
+  "myasthenic-crisis": illustrationMyastheniaGravisV3,
   "concussion": illustrationConcussionV3,
   "concussion-management": illustrationConcussionV3,
   "concussion-rpn": illustrationConcussionV3,
@@ -574,19 +586,19 @@ const lessonSpecificImages: Record<string, string> = {
   "fat-embolism-rn": illustrationFatEmbolismV2,
   "fat-embolism-np": illustrationFatEmbolismV2,
   "compartment-syndrome": illustrationGangrene,
-  "malignant-hyperthermia": illustrationMalignantHyperthermiaV3,
-  "malignant-hyperthermia-rpn": illustrationMalignantHyperthermiaV3,
-  "malignant-hyperthermia-rn": illustrationMalignantHyperthermiaV3,
-  "malignant-hyperthermia-np": illustrationMalignantHyperthermiaV3,
+  "malignant-hyperthermia": illustrationMalignantHyperthermiaV4,
+  "malignant-hyperthermia-rpn": illustrationMalignantHyperthermiaV4,
+  "malignant-hyperthermia-rn": illustrationMalignantHyperthermiaV4,
+  "malignant-hyperthermia-np": illustrationMalignantHyperthermiaV4,
   "psoriasis": illustrationAtopicDermatitis2,
   "eczema-atopic-dermatitis": illustrationAtopicDermatitis,
   "herpes-zoster-shingles": illustrationShingles,
   "ards-management": illustrationAsthma,
-  "oxygen-therapy": illustrationOxygenTherapyV4,
-  "oxygen-therapy-rpn": illustrationOxygenTherapyV4,
-  "oxygen-therapy-rn": illustrationOxygenTherapyV4,
-  "oxygen-therapy-np": illustrationOxygenTherapyV4,
-  "oxygen-delivery": illustrationOxygenTherapyV4,
+  "oxygen-therapy": illustrationOxygenTherapyV5,
+  "oxygen-therapy-rpn": illustrationOxygenTherapyV5,
+  "oxygen-therapy-rn": illustrationOxygenTherapyV5,
+  "oxygen-therapy-np": illustrationOxygenTherapyV5,
+  "oxygen-delivery": illustrationOxygenTherapyV5,
   "tension-pneumothorax": illustrationPneumothoraxV2,
   "chest-tube-management": illustrationPneumothoraxV2,
   "pneumothorax": illustrationPneumothoraxV2,
@@ -644,27 +656,27 @@ const lessonSpecificImages: Record<string, string> = {
   "inhaled-spacers-np": illustrationInhaledSpacersV3,
   "inhaler-technique": illustrationInhaledSpacersV3,
   "mdi-spacer": illustrationInhaledSpacersV3,
-  "peak-flow": illustrationPeakFlowV3,
-  "peak-flow-rpn": illustrationPeakFlowV3,
-  "peak-flow-rn": illustrationPeakFlowV3,
-  "peak-flow-np": illustrationPeakFlowV3,
-  "peak-flow-monitoring": illustrationPeakFlowV3,
-  "peak-flow-monitoring-rpn": illustrationPeakFlowV3,
-  "asthma-action-plan": illustrationPeakFlowV3,
-  "narcolepsy": illustrationNarcolepsyV2,
-  "narcolepsy-rpn": illustrationNarcolepsyV2,
-  "narcolepsy-rn": illustrationNarcolepsyV2,
-  "narcolepsy-np": illustrationNarcolepsyV2,
-  "pediatric-seizures": illustrationPediatricSeizuresV2,
-  "pediatric-seizures-rpn": illustrationPediatricSeizuresV2,
-  "pediatric-seizures-rn": illustrationPediatricSeizuresV2,
-  "pediatric-seizures-np": illustrationPediatricSeizuresV2,
-  "pediatric-seizure": illustrationPediatricSeizuresV2,
-  "peripheral-neuropathy": illustrationPeripheralNeuropathyV2,
-  "peripheral-neuropathy-rpn": illustrationPeripheralNeuropathyV2,
-  "peripheral-neuropathy-rn": illustrationPeripheralNeuropathyV2,
-  "peripheral-neuropathy-np": illustrationPeripheralNeuropathyV2,
-  "diabetic-neuropathy": illustrationPeripheralNeuropathyV2,
+  "peak-flow": illustrationPeakFlowV4,
+  "peak-flow-rpn": illustrationPeakFlowV4,
+  "peak-flow-rn": illustrationPeakFlowV4,
+  "peak-flow-np": illustrationPeakFlowV4,
+  "peak-flow-monitoring": illustrationPeakFlowV4,
+  "peak-flow-monitoring-rpn": illustrationPeakFlowV4,
+  "asthma-action-plan": illustrationPeakFlowV4,
+  "narcolepsy": illustrationNarcolepsyV3,
+  "narcolepsy-rpn": illustrationNarcolepsyV3,
+  "narcolepsy-rn": illustrationNarcolepsyV3,
+  "narcolepsy-np": illustrationNarcolepsyV3,
+  "pediatric-seizures": illustrationPediatricSeizuresV3,
+  "pediatric-seizures-rpn": illustrationPediatricSeizuresV3,
+  "pediatric-seizures-rn": illustrationPediatricSeizuresV3,
+  "pediatric-seizures-np": illustrationPediatricSeizuresV3,
+  "pediatric-seizure": illustrationPediatricSeizuresV3,
+  "peripheral-neuropathy": illustrationPeripheralNeuropathyV3,
+  "peripheral-neuropathy-rpn": illustrationPeripheralNeuropathyV3,
+  "peripheral-neuropathy-rn": illustrationPeripheralNeuropathyV3,
+  "peripheral-neuropathy-np": illustrationPeripheralNeuropathyV3,
+  "diabetic-neuropathy": illustrationPeripheralNeuropathyV3,
   "abg-basics": illustrationABGReferenceNew,
   "abg-interpretation-rn": illustrationABGReferenceNew,
   "abg-interpretation": illustrationABGReferenceNew,
@@ -796,11 +808,11 @@ const lessonSpecificImages: Record<string, string> = {
   "hydrocephalus-rpn": illustrationHydrocephalusV2,
   "hydrocephalus-rn": illustrationHydrocephalusV2,
   "hydrocephalus-np": illustrationHydrocephalusV2,
-  "korsakoff-syndrome-rpn": illustrationKorsakoffV2,
-  "korsakoff-syndrome": illustrationKorsakoffV2,
-  "korsakoff-syndrome-rn": illustrationKorsakoffV2,
-  "korsakoff-syndrome-np": illustrationKorsakoffV2,
-  "wernicke-korsakoff": illustrationKorsakoffV2,
+  "korsakoff-syndrome-rpn": illustrationKorsakoffV3,
+  "korsakoff-syndrome": illustrationKorsakoffV3,
+  "korsakoff-syndrome-rn": illustrationKorsakoffV3,
+  "korsakoff-syndrome-np": illustrationKorsakoffV3,
+  "wernicke-korsakoff": illustrationKorsakoffV3,
   "wernicke-encephalopathy": illustrationWernickeV2,
   "wernicke-encephalopathy-rpn": illustrationWernickeV2,
   "wernicke-encephalopathy-rn": illustrationWernickeV2,
@@ -908,16 +920,16 @@ const lessonSpecificImages: Record<string, string> = {
   "ischemic-colitis-rpn": illustrationIschemicColitisV2,
   "ischemic-colitis-rn": illustrationIschemicColitisV2,
   "ischemic-colitis-np": illustrationIschemicColitisV2,
-  "malabsorption": illustrationMalabsorptionV2,
-  "malabsorption-rpn": illustrationMalabsorptionV2,
-  "malabsorption-rn": illustrationMalabsorptionV2,
-  "malabsorption-np": illustrationMalabsorptionV2,
-  "malabsorption-syndrome": illustrationMalabsorptionV2,
-  "meckel-diverticulum": illustrationMeckelDiverticulumV2,
-  "meckel-diverticulum-rpn": illustrationMeckelDiverticulumV2,
-  "meckel-diverticulum-rn": illustrationMeckelDiverticulumV2,
-  "meckel-diverticulum-np": illustrationMeckelDiverticulumV2,
-  "meckels-diverticulum": illustrationMeckelDiverticulumV2,
+  "malabsorption": illustrationMalabsorptionV3,
+  "malabsorption-rpn": illustrationMalabsorptionV3,
+  "malabsorption-rn": illustrationMalabsorptionV3,
+  "malabsorption-np": illustrationMalabsorptionV3,
+  "malabsorption-syndrome": illustrationMalabsorptionV3,
+  "meckel-diverticulum": illustrationMeckelDiverticulumV3,
+  "meckel-diverticulum-rpn": illustrationMeckelDiverticulumV3,
+  "meckel-diverticulum-rn": illustrationMeckelDiverticulumV3,
+  "meckel-diverticulum-np": illustrationMeckelDiverticulumV3,
+  "meckels-diverticulum": illustrationMeckelDiverticulumV3,
   "ngtube-care": illustrationGIAnatomy,
   "catheterization": illustrationRenalAnatomy,
   "electrolyte-safety": illustrationRenalAnatomy,
@@ -1086,9 +1098,9 @@ const lessonSpecificImages: Record<string, string> = {
   "pancreatitis-management": illustrationPancreatitisPatho,
   "chronic-pancreatitis": illustrationPancreatitisPatho,
 
-  "parkinsons-management": illustrationParkinsonsV2,
+  "parkinsons-management": illustrationParkinsonsV3,
 
-  "ms-basics": illustrationMultipleSclerosisV3,
+  "ms-basics": illustrationMultipleSclerosisV4,
 
   "hypothyroidism-basics": illustrationThyroidPatho,
   "hyperthyroidism-basics": illustrationThyroidPatho,
@@ -1188,7 +1200,7 @@ const lessonSpecificImages: Record<string, string> = {
   "fetal-monitoring-basics-rpn": illustrationFetalMonitoringPatho,
   "fetal-monitoring": illustrationFetalMonitoringPatho,
 
-  "malignant-hyperthermia-management": illustrationMalignantHyperthermiaV3,
+  "malignant-hyperthermia-management": illustrationMalignantHyperthermiaV4,
 
   "shock-types-recognition-rpn": illustrationShockTypesV2,
   "shock-types": illustrationShockTypesV2,
@@ -1382,8 +1394,8 @@ export function getSystemImage(systemId: string): string | undefined {
 
 export function getLessonImage(lessonId: string): string | undefined {
   if (lessonSpecificImages[lessonId]) return lessonSpecificImages[lessonId];
-  if (lessonId.includes("parkinson")) return illustrationParkinsonsV2;
-  if (lessonId.includes("multiple-sclerosis") || lessonId === "ms-management" || lessonId === "ms-basics") return illustrationMultipleSclerosisV3;
+  if (lessonId.includes("parkinson")) return illustrationParkinsonsV3;
+  if (lessonId.includes("multiple-sclerosis") || lessonId === "ms-management" || lessonId === "ms-basics") return illustrationMultipleSclerosisV4;
   if (lessonId.includes("stroke")) return illustrationStrokeFastV2;
   if (lessonId.includes("bells-palsy")) return illustrationBellsPalsyV3;
   if (lessonId.includes("dystonic")) return illustrationAcuteDystonicReactionV2;
@@ -1392,7 +1404,7 @@ export function getLessonImage(lessonId: string): string | undefined {
   if (lessonId.includes("achalasia")) return illustrationAchalasiaV2;
   if (lessonId.includes("anal-fissure") || lessonId.includes("analfissure")) return illustrationAnalFissureV2;
   if (lessonId.includes("abdominal-assessment")) return illustrationAbdominalAssessmentV2;
-  if (lessonId.includes("myasthenia")) return illustrationMyastheniaGravisV2;
+  if (lessonId.includes("myasthenia")) return illustrationMyastheniaGravisV3;
   if (lessonId.includes("concussion") || lessonId.includes("tbi")) return illustrationConcussionV3;
   if (lessonId.includes("carpal-tunnel")) return illustrationCarpalTunnelV3;
   if (lessonId.includes("trigeminal")) return illustrationTrigeminalNeuralgiaV2;
@@ -1417,7 +1429,7 @@ export function getLessonImage(lessonId: string): string | undefined {
   if (lessonId.includes("icp")) return illustrationICPV3;
   if (lessonId.includes("febrile-seizure")) return illustrationFebrileSeizuresV2;
   if (lessonId.includes("hydrocephalus")) return illustrationHydrocephalusV2;
-  if (lessonId.includes("korsakoff")) return illustrationKorsakoffV2;
+  if (lessonId.includes("korsakoff")) return illustrationKorsakoffV3;
   if (lessonId.includes("guillain-barre") || lessonId.includes("gbs")) return illustrationGuillainBarreV3;
   if (lessonId.includes("cystic-fibrosis") || lessonId === "cf-management") return illustrationCysticFibrosis;
   if (lessonId.includes("pertussis") || lessonId.includes("whooping")) return illustrationPertussisV3;
@@ -1485,17 +1497,17 @@ export function getLessonImage(lessonId: string): string | undefined {
   if (lessonId.includes("hypoventilation")) return illustrationHypoventilationV3;
   if (lessonId.includes("spirometry")) return illustrationIncentiveSpirometryV3;
   if (lessonId.includes("spacer") || lessonId.includes("inhaler")) return illustrationInhaledSpacersV3;
-  if (lessonId.includes("peak-flow")) return illustrationPeakFlowV3;
-  if (lessonId.includes("oxygen-therapy") || lessonId.includes("oxygen-delivery")) return illustrationOxygenTherapyV4;
+  if (lessonId.includes("peak-flow")) return illustrationPeakFlowV4;
+  if (lessonId.includes("oxygen-therapy") || lessonId.includes("oxygen-delivery")) return illustrationOxygenTherapyV5;
   if (lessonId.includes("pulmonary-embolism") || lessonId.includes("pe-")) return illustrationPulmonaryEmbolismV3;
-  if (lessonId.includes("narcolepsy")) return illustrationNarcolepsyV2;
-  if (lessonId.includes("pediatric-seizure")) return illustrationPediatricSeizuresV2;
-  if (lessonId.includes("peripheral-neuropathy") || lessonId.includes("diabetic-neuropathy")) return illustrationPeripheralNeuropathyV2;
-  if (lessonId.includes("malignant-hyperthermia")) return illustrationMalignantHyperthermiaV3;
+  if (lessonId.includes("narcolepsy")) return illustrationNarcolepsyV3;
+  if (lessonId.includes("pediatric-seizure")) return illustrationPediatricSeizuresV3;
+  if (lessonId.includes("peripheral-neuropathy") || lessonId.includes("diabetic-neuropathy")) return illustrationPeripheralNeuropathyV3;
+  if (lessonId.includes("malignant-hyperthermia")) return illustrationMalignantHyperthermiaV4;
   if (lessonId.includes("ibs") || lessonId.includes("irritable-bowel")) return illustrationIBSV2;
   if (lessonId.includes("ischemic-colitis")) return illustrationIschemicColitisV2;
-  if (lessonId.includes("malabsorption")) return illustrationMalabsorptionV2;
-  if (lessonId.includes("meckel") || lessonId.includes("meckels")) return illustrationMeckelDiverticulumV2;
+  if (lessonId.includes("malabsorption")) return illustrationMalabsorptionV3;
+  if (lessonId.includes("meckel") || lessonId.includes("meckels")) return illustrationMeckelDiverticulumV3;
   if (lessonId.includes("pertussis") || lessonId.includes("whooping")) return illustrationPertussisV3;
   if (lessonId.includes("pleurisy") || lessonId.includes("pleural")) return illustrationPleurisyV3;
   if (lessonId.includes("pneumothorax")) return illustrationPneumothoraxV2;
