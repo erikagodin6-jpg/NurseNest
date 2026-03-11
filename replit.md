@@ -45,6 +45,15 @@ The application is built with Vite, React, and Express 5 on Node.js with TypeScr
 ### Social Media
 - Meta Graph API: For social media scheduling.
 
+## MLT Platform
+The MLT (Medical Laboratory Technology) section provides country-specific exam preparation for CSMLS (Canada) and ASCP (USA) certifications. Key files:
+- `shared/mlt-taxonomy.ts`: All 16 lab disciplines, subdisciplines, blueprint categories, difficulty/cognitive levels, country/exam tracks
+- `shared/schema.ts`: MLT-specific tables — `mlt_questions`, `mlt_flashcards`, `mlt_lessons`, `mlt_study_plans`
+- `client/src/allied/pages/mlt-landing.tsx`: Main `/mlt` landing page with country selection
+- `client/src/allied/pages/mlt-country-page.tsx`: All `/mlt/{canada|usa}/{page}` sub-routes
+- `client/src/allied/pages/mlt-blog.tsx`: Blog structure at `/mlt/blog` and `/mlt/blog/:slug`
+- Routes registered in `client/src/allied/allied-routes.tsx`
+
 ## Lesson Library Architecture
 - All lesson data is in static TS files under `client/src/data/lessons/`
 - `safeMerge()` in `index.ts` deduplicates at merge time; `isPlaceholder()` filters generic/template content

@@ -353,7 +353,7 @@ export const REGION_EXAM_CONFIGS: Record<string, Record<Region, RegionExamConfig
         "Hematology": 25,
         "Clinical Chemistry": 25,
         "Microbiology": 20,
-        "Immunohematology/Blood Banking": 15,
+        "Immunohematology / Blood Banking": 15,
         "Urinalysis & Body Fluids": 10,
         "Laboratory Operations": 5,
       },

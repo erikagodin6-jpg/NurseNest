@@ -27,6 +27,9 @@ const ParamedicExamsHub = lazy(() => import("./pages/paramedic/paramedic-exams-h
 const ParamedicFlashcardsHub = lazy(() => import("./pages/paramedic/paramedic-flashcards-hub"));
 const ParamedicScenariosHub = lazy(() => import("./pages/paramedic/paramedic-scenarios-hub"));
 const ParamedicPracticeExamsHub = lazy(() => import("./pages/paramedic/paramedic-practice-exams-hub"));
+const MltLanding = lazy(() => import("./pages/mlt-landing"));
+const MltCountryPage = lazy(() => import("./pages/mlt-country-page"));
+const MltBlog = lazy(() => import("./pages/mlt-blog"));
 
 function LoadingFallback() {
   return (
@@ -77,6 +80,23 @@ export function AlliedRoutes() {
         <Route path="/paramedic/scenarios" component={ParamedicScenariosHub} />
         <Route path="/paramedic/practice-exams" component={ParamedicPracticeExamsHub} />
         <Route path="/paramedic" component={ParamedicLanding} />
+        <Route path="/mlt" component={MltLanding} />
+        <Route path="/mlt/blog/:slug">{() => <MltBlog isPost />}</Route>
+        <Route path="/mlt/blog">{() => <MltBlog />}</Route>
+        <Route path="/mlt/canada/exam-prep">{() => <MltCountryPage country="canada" pageType="exam-prep" />}</Route>
+        <Route path="/mlt/canada/lessons">{() => <MltCountryPage country="canada" pageType="lessons" />}</Route>
+        <Route path="/mlt/canada/flashcards">{() => <MltCountryPage country="canada" pageType="flashcards" />}</Route>
+        <Route path="/mlt/canada/practice-exams">{() => <MltCountryPage country="canada" pageType="practice-exams" />}</Route>
+        <Route path="/mlt/canada/study-plan">{() => <MltCountryPage country="canada" pageType="study-plan" />}</Route>
+        <Route path="/mlt/canada/free-questions">{() => <MltCountryPage country="canada" pageType="free-questions" />}</Route>
+        <Route path="/mlt/canada/faq">{() => <MltCountryPage country="canada" pageType="faq" />}</Route>
+        <Route path="/mlt/usa/exam-prep">{() => <MltCountryPage country="usa" pageType="exam-prep" />}</Route>
+        <Route path="/mlt/usa/lessons">{() => <MltCountryPage country="usa" pageType="lessons" />}</Route>
+        <Route path="/mlt/usa/flashcards">{() => <MltCountryPage country="usa" pageType="flashcards" />}</Route>
+        <Route path="/mlt/usa/practice-exams">{() => <MltCountryPage country="usa" pageType="practice-exams" />}</Route>
+        <Route path="/mlt/usa/study-plan">{() => <MltCountryPage country="usa" pageType="study-plan" />}</Route>
+        <Route path="/mlt/usa/free-questions">{() => <MltCountryPage country="usa" pageType="free-questions" />}</Route>
+        <Route path="/mlt/usa/faq">{() => <MltCountryPage country="usa" pageType="faq" />}</Route>
         <Route path="/careers/:careerSlug/mock-exams" component={AlliedMockExams} />
         <Route path="/careers/:careerSlug/dashboard" component={AlliedDashboard} />
         <Route path="/careers/:careerSlug/study-plan" component={AlliedStudyPlan} />

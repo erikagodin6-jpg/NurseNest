@@ -2686,3 +2686,151 @@ export const insertQuestionBankResultSchema = createInsertSchema(questionBankRes
 
 export type QuestionBankResult = typeof questionBankResults.$inferSelect;
 export type InsertQuestionBankResult = z.infer<typeof insertQuestionBankResultSchema>;
+
+export const mltDisciplines = pgTable("mlt_disciplines", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  key: text("key").notNull().unique(),
+  label: text("label").notNull(),
+  shortLabel: text("short_label"),
+  icon: text("icon"),
+  colorHex: text("color_hex"),
+  description: text("description"),
+  subdisciplines: jsonb("subdisciplines").default(sql`'[]'::jsonb`),
+  blueprintCategoriesCanada: jsonb("blueprint_categories_canada").default(sql`'[]'::jsonb`),
+  blueprintCategoriesUsa: jsonb("blueprint_categories_usa").default(sql`'[]'::jsonb`),
+  sortOrder: integer("sort_order").default(0),
+  active: boolean("active").default(true),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export const insertMltDisciplineSchema = createInsertSchema(mltDisciplines).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+export type MltDiscipline = typeof mltDisciplines.$inferSelect;
+export type InsertMltDiscipline = z.infer<typeof insertMltDisciplineSchema>;
+
+export const mltQuestions = pgTable("mlt_questions", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  countryTrack: text("country_track").notNull().default("both"),
+  examTrack: text("exam_track").notNull().default("both"),
+  discipline: text("discipline").notNull(),
+  subdiscipline: text("subdiscipline"),
+  blueprintCategory: text("blueprint_category"),
+  difficulty: text("difficulty").notNull().default("intermediate"),
+  cognitiveLevel: text("cognitive_level").notNull().default("application"),
+  stem: text("stem").notNull(),
+  options: jsonb("options").notNull().default(sql`'[]'::jsonb`),
+  correctAnswer: text("correct_answer").notNull(),
+  rationale: text("rationale").notNull(),
+  distractorRationales: jsonb("distractor_rationales").default(sql`'{}'::jsonb`),
+  tags: text("tags").array().default(sql`'{}'::text[]`),
+  adaptiveEligible: boolean("adaptive_eligible").default(true),
+  examEligible: boolean("exam_eligible").default(true),
+  imageUrl: text("image_url"),
+  imageAlt: text("image_alt"),
+  imageCaption: text("image_caption"),
+  hasImageStimulus: boolean("has_image_stimulus").default(false),
+  references: text("references").array().default(sql`'{}'::text[]`),
+  status: text("status").default("draft"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export const insertMltQuestionSchema = createInsertSchema(mltQuestions).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+export type MltQuestion = typeof mltQuestions.$inferSelect;
+export type InsertMltQuestion = z.infer<typeof insertMltQuestionSchema>;
+
+export const mltFlashcards = pgTable("mlt_flashcards", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  discipline: text("discipline").notNull(),
+  countryTrack: text("country_track").notNull().default("both"),
+  deckTitle: text("deck_title").notNull(),
+  cardType: text("card_type").notNull().default("term-definition"),
+  front: text("front").notNull(),
+  back: text("back").notNull(),
+  hint: text("hint"),
+  mnemonic: text("mnemonic"),
+  imageUrl: text("image_url"),
+  imageAlt: text("image_alt"),
+  tags: text("tags").array().default(sql`'{}'::text[]`),
+  difficulty: text("difficulty").default("intermediate"),
+  sortOrder: integer("sort_order").default(0),
+  status: text("status").default("draft"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export const insertMltFlashcardSchema = createInsertSchema(mltFlashcards).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+export type MltFlashcard = typeof mltFlashcards.$inferSelect;
+export type InsertMltFlashcard = z.infer<typeof insertMltFlashcardSchema>;
+
+export const mltLessons = pgTable("mlt_lessons", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  title: text("title").notNull(),
+  slug: text("slug").notNull().unique(),
+  moduleTitle: text("module_title").notNull(),
+  topicTitle: text("topic_title").notNull(),
+  discipline: text("discipline").notNull(),
+  disciplines: text("disciplines").array().default(sql`'{}'::text[]`),
+  countryTrack: text("country_track").notNull().default("both"),
+  difficulty: text("difficulty").default("intermediate"),
+  blueprintCategories: text("blueprint_categories").array().default(sql`'{}'::text[]`),
+  content: jsonb("content").default(sql`'[]'::jsonb`),
+  summary: text("summary"),
+  objectives: text("objectives").array().default(sql`'{}'::text[]`),
+  glossaryTerms: jsonb("glossary_terms").default(sql`'[]'::jsonb`),
+  endOfLessonQuizId: varchar("end_of_lesson_quiz_id"),
+  relatedLessonIds: text("related_lesson_ids").array().default(sql`'{}'::text[]`),
+  estimatedMinutes: integer("estimated_minutes").default(15),
+  sortOrder: integer("sort_order").default(0),
+  tier: text("tier").default("free"),
+  status: text("status").default("draft"),
+  seoTitle: text("seo_title"),
+  seoDescription: text("seo_description"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export const insertMltLessonSchema = createInsertSchema(mltLessons).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+export type MltLesson = typeof mltLessons.$inferSelect;
+export type InsertMltLesson = z.infer<typeof insertMltLessonSchema>;
+
+export const mltStudyPlans = pgTable("mlt_study_plans", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  title: text("title").notNull(),
+  countryTrack: text("country_track").notNull().default("both"),
+  examTrack: text("exam_track").notNull().default("both"),
+  durationWeeks: integer("duration_weeks").notNull().default(8),
+  difficulty: text("difficulty").default("intermediate"),
+  weeklyPlan: jsonb("weekly_plan").default(sql`'[]'::jsonb`),
+  checkpoints: jsonb("checkpoints").default(sql`'[]'::jsonb`),
+  resourceLinks: jsonb("resource_links").default(sql`'[]'::jsonb`),
+  disciplines: text("disciplines").array().default(sql`'{}'::text[]`),
+  description: text("description"),
+  status: text("status").default("draft"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export const insertMltStudyPlanSchema = createInsertSchema(mltStudyPlans).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+export type MltStudyPlan = typeof mltStudyPlans.$inferSelect;
+export type InsertMltStudyPlan = z.infer<typeof insertMltStudyPlanSchema>;
