@@ -1,0 +1,264 @@
+Generate and insert a batch of RPN/LVN nursing exam questions into the NurseNest question bank and make sure they are available on the published site.
+
+IMPORTANT REQUIREMENTS
+
+The questions must:
+• be saved in the real database used by the live site
+• be marked as published
+• appear on the production site
+• not exist only in preview/dev
+• be retrievable by the production API
+• appear in the live question counts
+
+Fields must include:
+examTier: "RPN_LVN"
+isPublished: true
+status: "published"
+visibility: "public"
+
+Also ensure the questions appear in:
+• practice exams
+• flashcard question mode
+• adaptive question banks
+• review mode
+
+------------------------------------
+
+QUESTION FORMAT
+
+Each question must include:
+
+questionText  
+answerOptions (A–D or A–E)  
+correctAnswer  
+rationaleCorrect  
+rationaleIncorrectOptions  
+topic  
+subtopic  
+difficulty  
+tags  
+rationaleMedia (optional)
+
+------------------------------------
+
+IMAGE REQUIREMENT
+
+If a question relates to anatomy, pathology, ECG, disease mechanisms, or diagrams, attach images that already exist on the NurseNest website.
+
+The rationale page must automatically display these images.
+
+Use the following structure:
+
+rationaleMedia:
+
+imageUrl  
+imageAlt  
+imageCaption  
+imageDescription
+
+Example:
+
+rationaleMedia: [
+{
+imageUrl: "/images/renal/renal-artery-stenosis-diagram.png",
+imageAlt: "Renal artery stenosis pathophysiology",
+imageCaption: "Narrowing of the renal artery leading to decreased renal perfusion",
+imageDescription: "Reduced renal perfusion activates the renin-angiotensin-aldosterone system, increasing blood pressure."
+}
+]
+
+If images are not relevant, leave rationaleMedia empty.
+
+------------------------------------
+
+RATIONALE STRUCTURE
+
+Each question must include:
+
+1. Correct answer explanation
+2. Why each incorrect option is wrong
+3. Clinical takeaway
+4. Optional exam pearl
+
+Example format:
+
+Correct Answer Explanation:
+<explanation>
+
+Incorrect Options:
+A: <why wrong>
+B: <why wrong>
+C: <why wrong>
+D: <why wrong>
+
+Clinical Takeaway:
+<short teaching point>
+
+Exam Pearl:
+<optional tip>
+
+------------------------------------
+
+BATCH SIZE
+
+Generate 20 RPN/LVN exam questions per batch.
+
+Distribute across topics:
+
+• fundamentals
+• pharmacology
+• cardiovascular
+• respiratory
+• renal
+• endocrine
+• GI
+• infection control
+• mental health
+• pediatrics
+• maternity
+• geriatrics
+• safety
+• wound care
+• fluid & electrolytes
+• diabetes
+• medication administration
+
+Difficulty mix:
+
+40% easy  
+40% moderate  
+20% difficult
+
+------------------------------------
+
+INSERTION LOGIC
+
+Insert the questions into the production database.
+
+Ensure:
+
+isPublished = true  
+status = published  
+examTier = RPN_LVN  
+
+Verify after insertion:
+
+• total RPN/LVN questions in DB
+• total published questions
+• total returned by API
+• total visible on the live site
+
+------------------------------------
+
+EXAMPLE QUESTIONS
+
+Question 1
+
+A nurse is caring for a client with heart failure who develops sudden weight gain of 2 kg in 24 hours. What is the priority nursing action?
+
+A Encourage increased oral fluids  
+B Assess lung sounds and oxygen saturation  
+C Administer potassium supplements  
+D Restrict physical activity
+
+Correct Answer: B
+
+Correct Answer Explanation:
+Sudden weight gain in heart failure often indicates fluid retention. Assessing lung sounds and oxygen saturation helps identify pulmonary edema or worsening heart failure.
+
+Incorrect Options:
+A: Increasing fluids would worsen fluid overload.
+C: Potassium supplements are not indicated without lab evidence of hypokalemia.
+D: While rest may be helpful, assessment of respiratory status is the priority.
+
+Clinical Takeaway:
+Rapid weight gain in heart failure usually indicates fluid retention and risk of pulmonary edema.
+
+Exam Pearl:
+A weight gain of more than 1–2 kg in 24 hours in heart failure patients suggests fluid overload.
+
+------------------------------------
+
+Question 2
+
+A nurse is assessing a client with suspected renal artery stenosis. Which finding would most strongly support this diagnosis?
+
+A Low blood pressure
+B Resistant hypertension
+C Bradycardia
+D Polyuria
+
+Correct Answer: B
+
+Correct Answer Explanation:
+Renal artery stenosis decreases renal perfusion, activating the renin-angiotensin-aldosterone system and causing resistant hypertension.
+
+Incorrect Options:
+A: Hypotension is not typical of renal artery stenosis.
+C: Bradycardia is unrelated to renal artery stenosis.
+D: Polyuria is not a characteristic finding.
+
+Clinical Takeaway:
+Renal artery stenosis commonly presents with resistant hypertension due to RAAS activation.
+
+Exam Pearl:
+A sudden increase in creatinine after starting an ACE inhibitor may indicate bilateral renal artery stenosis.
+
+rationaleMedia:
+[
+{
+imageUrl: "/images/renal/renal-artery-stenosis-diagram.png",
+imageAlt: "Renal artery stenosis diagram",
+imageCaption: "Narrowed renal artery reduces blood flow to the kidney",
+imageDescription: "Reduced renal perfusion activates the RAAS system, causing hypertension."
+}
+]
+
+------------------------------------
+
+Question 3
+
+A nurse is caring for a client receiving furosemide. Which electrolyte imbalance is the client most at risk for?
+
+A Hyperkalemia
+B Hypokalemia
+C Hypercalcemia
+D Hypernatremia
+
+Correct Answer: B
+
+Correct Answer Explanation:
+Furosemide is a loop diuretic that increases potassium excretion, placing the patient at risk for hypokalemia.
+
+Incorrect Options:
+A: Hyperkalemia is more commonly associated with potassium-sparing diuretics.
+C: Loop diuretics actually increase calcium excretion.
+D: Hypernatremia is not the primary electrolyte imbalance associated with furosemide.
+
+Clinical Takeaway:
+Loop diuretics commonly cause hypokalemia due to increased urinary potassium loss.
+
+Exam Pearl:
+Monitor potassium levels closely in patients receiving loop diuretics.
+
+------------------------------------
+
+Continue generating similar questions until 20 questions are created in this batch.
+
+------------------------------------
+
+FINAL STEP
+
+After inserting the questions:
+
+1. Confirm they are published
+2. Confirm they appear in the production API
+3. Confirm they appear in the live question bank counts
+4. Confirm they can be used in flashcard mode
+5. Confirm rationale images render on the explanation page
+
+Output:
+
+• number of questions inserted
+• topics covered
+• confirmation they are visible on the published site
