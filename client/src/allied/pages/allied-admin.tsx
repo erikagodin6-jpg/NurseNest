@@ -10,10 +10,11 @@ import {
 } from "lucide-react";
 import { useAuth } from "@/lib/auth";
 import { useToast } from "@/hooks/use-toast";
+import { ScenarioAdminPanel } from "@/allied/components/scenario-admin";
 
 const ALLIED_CAREERS = ["rrt", "paramedic", "pharmacyTech", "mlt", "imaging", "psychotherapist", "socialWorker", "addictionsCounsellor", "occupationalTherapy", "physicalTherapy"] as const;
 
-type Tab = "overview" | "generate" | "questions" | "revision" | "analytics" | "blueprints" | "automations" | "drafts" | "store" | "qbank";
+type Tab = "overview" | "generate" | "questions" | "revision" | "analytics" | "blueprints" | "automations" | "drafts" | "store" | "qbank" | "scenarios";
 
 interface PipelineStats {
   totalQuestions: number;
@@ -353,6 +354,7 @@ export default function AlliedAdminPage() {
     { id: "blueprints", label: "Blueprints", icon: Target },
     { id: "store", label: "Store", icon: Archive },
     { id: "qbank", label: "QBank", icon: Shield },
+    { id: "scenarios", label: "Scenarios", icon: Target },
   ];
 
   return (
@@ -1176,6 +1178,10 @@ export default function AlliedAdminPage() {
             </div>
           </div>
         </div>
+      )}
+
+      {tab === "scenarios" && (
+        <ScenarioAdminPanel />
       )}
     </div>
   );

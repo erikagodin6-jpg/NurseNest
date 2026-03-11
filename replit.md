@@ -104,6 +104,15 @@ The MLT (Medical Laboratory Technology) section provides country-specific exam p
 - **API Routes**: `/api/question-bank/items`, `/api/question-bank/import`, `/api/question-bank/exam`, `/api/question-bank/study`, `/api/question-bank/results`, `/api/question-bank/analytics`, `/api/question-bank/admin/all`
 - **Auth**: Admin routes use `requireAdmin`, user routes use `resolveAuthUser` with `nursenest-credentials` localStorage
 
+## Paramedic EMS Scenario Simulation System
+- **Database**: `paramedic_scenarios` table with fields for dispatch info, scene description, scene safety, primary/secondary assessment, vital signs (JSONB), patient history (JSONB), decision points (JSONB array with choices and correct answers), correct interventions, common errors, debrief, learning objectives, and related lesson slugs
+- **Segmentation**: contentDomain (paramedic), professionTrack (PCP/ACP/NREMT/EMT/General), region, visibilityTier, difficulty (1-5), examRelevance
+- **API routes** (`server/allied-scenarios.ts`): CRUD endpoints at `/api/allied/scenarios`, fetch by slug at `/api/allied/scenarios/by-slug/:slug`, categories list, admin listing with search/filter, status toggle (publish/unpublish/archive)
+- **Frontend scenario player** (`client/src/allied/pages/paramedic-scenario-player.tsx`): Stepwise progressive reveal through Dispatch → Scene → Primary Assessment → Vitals → Secondary Assessment → History → Decision Points → Debrief. Decision points lock after answering with correct/incorrect feedback. Debrief shows score, clinical summary, learning objectives, correct interventions, common errors, and related lessons.
+- **Scenarios hub** (`client/src/allied/pages/paramedic-scenarios-hub.tsx`): Lists published scenarios with category/track/difficulty filters
+- **Admin panel** (`client/src/allied/components/scenario-admin.tsx`): Create, edit, preview, publish/unpublish, delete scenarios with visual decision point editor (mark correct answers). Accessible via "Scenarios" tab in allied admin dashboard
+- **Routes**: `/careers/paramedic/scenarios` (hub), `/careers/paramedic/scenarios/:slug` (player)
+
 ## Referral Discount System
 - Users table has `referral_code` (unique, format NN-REF-XXXXXX), `referral_uses`, `referred_by`, `referral_discount_used` columns
 - Storage methods: `generateReferralCode`, `getUserByReferralCode`, `incrementReferralUses`, `setReferredBy`, `markReferralDiscountUsed`

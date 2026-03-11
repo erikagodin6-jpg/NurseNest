@@ -2633,6 +2633,35 @@ export const imagingPositioningEntries = pgTable("imaging_positioning_entries", 
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
 });
 
+export const paramedicScenarios = pgTable("paramedic_scenarios", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  title: text("title").notNull(),
+  slug: text("slug").notNull().unique(),
+  contentDomain: text("content_domain").notNull().default("paramedic"),
+  professionTrack: text("profession_track").notNull().default("General"),
+  region: text("region").default("BOTH"),
+  visibilityTier: text("visibility_tier").default("free"),
+  difficulty: integer("difficulty").notNull().default(3),
+  examRelevance: text("exam_relevance").default("medium"),
+  category: text("category").notNull().default("Medical Emergencies"),
+  dispatchInfo: text("dispatch_info").notNull(),
+  sceneDescription: text("scene_description").notNull(),
+  sceneSafety: text("scene_safety").notNull(),
+  primaryAssessment: text("primary_assessment").notNull(),
+  secondaryAssessment: text("secondary_assessment").notNull(),
+  vitalSigns: jsonb("vital_signs").notNull().default(sql`'{}'::jsonb`),
+  history: jsonb("history").notNull().default(sql`'{}'::jsonb`),
+  decisionPoints: jsonb("decision_points").notNull().default(sql`'[]'::jsonb`),
+  correctInterventions: text("correct_interventions").array().default(sql`'{}'::text[]`),
+  commonErrors: text("common_errors").array().default(sql`'{}'::text[]`),
+  debrief: text("debrief").notNull().default(""),
+  learningObjectives: text("learning_objectives").array().default(sql`'{}'::text[]`),
+  relatedLessonSlugs: text("related_lesson_slugs").array().default(sql`'{}'::text[]`),
+  status: text("status").default("draft"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
 export const insertImagingPositioningEntrySchema = createInsertSchema(imagingPositioningEntries).omit({ id: true, createdAt: true, updatedAt: true });
 export type ImagingPositioningEntry = typeof imagingPositioningEntries.$inferSelect;
 export type InsertImagingPositioningEntry = z.infer<typeof insertImagingPositioningEntrySchema>;
@@ -2663,6 +2692,14 @@ export const insertQuestionBankSchema = createInsertSchema(questionBank).omit({
 
 export type QuestionBankItem = typeof questionBank.$inferSelect;
 export type InsertQuestionBankItem = z.infer<typeof insertQuestionBankSchema>;
+
+export const insertParamedicScenarioSchema = createInsertSchema(paramedicScenarios).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+export type ParamedicScenario = typeof paramedicScenarios.$inferSelect;
+export type InsertParamedicScenario = z.infer<typeof insertParamedicScenarioSchema>;
 
 export const questionBankResults = pgTable("question_bank_results", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),

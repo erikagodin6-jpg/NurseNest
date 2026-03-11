@@ -10,6 +10,8 @@ const AlliedDashboard = lazy(() => import("./pages/allied-dashboard"));
 const AlliedStudyPlan = lazy(() => import("./pages/allied-study-plan"));
 const AlliedFlashcards = lazy(() => import("./pages/allied-flashcards"));
 const AlliedSims = lazy(() => import("./pages/allied-sims"));
+const ParamedicScenariosHub = lazy(() => import("./pages/paramedic-scenarios-hub"));
+const ParamedicScenarioPlayer = lazy(() => import("./pages/paramedic-scenario-player"));
 const AlliedTools = lazy(() => import("./pages/allied-tools"));
 const AlliedPricing = lazy(() => import("./pages/allied-pricing"));
 const AlliedAdmin = lazy(() => import("./pages/allied-admin"));
@@ -101,6 +103,8 @@ export function AlliedRoutes() {
         <Route path="/careers/:careerSlug/dashboard" component={AlliedDashboard} />
         <Route path="/careers/:careerSlug/study-plan" component={AlliedStudyPlan} />
         <Route path="/careers/:careerSlug/flashcards" component={AlliedFlashcards} />
+        <Route path="/careers/paramedic/scenarios/:slug" component={ParamedicScenarioPlayer} />
+        <Route path="/careers/paramedic/scenarios" component={ParamedicScenariosHub} />
         <Route path="/careers/:careerSlug/sims" component={AlliedSims} />
         <Route path="/careers/:careerSlug/tools" component={AlliedTools} />
         <Route path="/careers/:careerSlug" component={CareerLanding} />
