@@ -162,10 +162,19 @@ import illustrationIncentiveSpirometry from "@/assets/lesson-incentive-spirometr
 import illustrationInhaledSpacers from "@/assets/lesson-inhaled-spacers.png";
 import illustrationMalignantHyperthermiaNew from "@/assets/lesson-malignant-hyperthermia-new.png";
 import illustrationOxygenTherapy from "@/assets/lesson-oxygen-therapy.png";
+import illustrationOxygenTherapyV2 from "@/assets/lesson-oxygen-therapy-new.png";
 import illustrationPeakFlow from "@/assets/lesson-peak-flow.png";
+import illustrationPeakFlowV2 from "@/assets/lesson-peak-flow-new.png";
 import illustrationPertussisNew from "@/assets/lesson-pertussis.jpeg";
+import illustrationPertussisV2 from "@/assets/lesson-pertussis-new.jpeg";
 import illustrationPleurisyNew from "@/assets/lesson-pleurisy-new.png";
+import illustrationPleurisyV2 from "@/assets/lesson-pleurisy-v2.png";
+import illustrationPneumoniaV2 from "@/assets/lesson-pneumonia-new.png";
+import illustrationPneumothorax from "@/assets/lesson-pneumothorax.png";
 import illustrationPulmonaryEmbolism from "@/assets/lesson-pulmonary-embolism.png";
+import illustrationPulmonaryEmbolismV2 from "@/assets/lesson-pulmonary-embolism-new.png";
+import illustrationPulmonaryFibrosis from "@/assets/lesson-pulmonary-fibrosis.png";
+import illustrationRSVNew from "@/assets/lesson-rsv-new.png";
 import illustrationABGReferenceNew from "@/assets/lesson-abg-reference-new.png";
 import illustrationAcuteSilicosisNew from "@/assets/lesson-acute-silicosis-new.jpeg";
 import illustrationBuergersDiseaseNew from "@/assets/lesson-buergers-disease-new.png";
@@ -295,9 +304,9 @@ const lessonSpecificImages: Record<string, string> = {
   "cellulitis": illustrationWound,
   "cardiogenic-shock": illustrationShockTypes,
   "aaa-rupture": illustrationCardiacCycleNew,
-  "pe-dvt": illustrationPulmonaryEmbolism,
-  "pe-recognition": illustrationPulmonaryEmbolism,
-  "pulmonary-embolism": illustrationPulmonaryEmbolism,
+  "pe-dvt": illustrationPulmonaryEmbolismV2,
+  "pe-recognition": illustrationPulmonaryEmbolismV2,
+  "pulmonary-embolism": illustrationPulmonaryEmbolismV2,
   "cardiac-monitoring": illustrationCardioversion,
   "cardiac-rhythm-rn": illustrationCardioversion,
   "cardiac-auscultation-rn": illustrationCardiacAuscultationNew,
@@ -307,11 +316,12 @@ const lessonSpecificImages: Record<string, string> = {
   "respiratory-rpn": illustrationCOPDPathology,
   "respiratory-rn": illustrationCOPDPathology,
   "respiratory-np": illustrationCOPDPathology,
-  "pneumonia-basics": illustrationPneumonia,
-  "pneumonia-management": illustrationPneumonia,
-  "pneumonia-community": illustrationPneumonia,
-  "pneumonia-hospital": illustrationPneumonia2,
-  "pneumonia-aspiration": illustrationPneumonia2,
+  "pneumonia-basics": illustrationPneumoniaV2,
+  "pneumonia-management": illustrationPneumoniaV2,
+  "pneumonia-community": illustrationPneumoniaV2,
+  "pneumonia-hospital": illustrationPneumoniaV2,
+  "pneumonia-aspiration": illustrationPneumoniaV2,
+  "pneumonia": illustrationPneumoniaV2,
   "active-tb": illustrationTuberculosis,
   "tuberculosis": illustrationTuberculosis,
   "latent-tb": illustrationTuberculosis,
@@ -369,23 +379,31 @@ const lessonSpecificImages: Record<string, string> = {
   "eczema-atopic-dermatitis": illustrationAtopicDermatitis,
   "herpes-zoster-shingles": illustrationShingles,
   "ards-management": illustrationAsthma,
-  "oxygen-therapy": illustrationOxygenTherapy,
-  "oxygen-delivery": illustrationOxygenTherapy,
+  "oxygen-therapy": illustrationOxygenTherapyV2,
+  "oxygen-delivery": illustrationOxygenTherapyV2,
+  "pneumothorax": illustrationPneumothorax,
+  "tension-pneumothorax": illustrationPneumothorax,
+  "chest-tube-management": illustrationPneumothorax,
+  "pulmonary-fibrosis": illustrationPulmonaryFibrosis,
+  "interstitial-lung-disease": illustrationPulmonaryFibrosis,
+  "ild": illustrationPulmonaryFibrosis,
   "chest-tube-care": illustrationCOPDPathology,
   "cystic-fibrosis": illustrationCysticFibrosis,
   "cf-management": illustrationCysticFibrosis,
-  "pertussis-basics": illustrationPertussisNew,
-  "pertussis": illustrationPertussisNew,
-  "whooping-cough": illustrationPertussisNew,
+  "pertussis-basics": illustrationPertussisV2,
+  "pertussis": illustrationPertussisV2,
+  "whooping-cough": illustrationPertussisV2,
   "bronchiectasis": illustrationBronchiectasis,
   "bronchiectasis-management": illustrationBronchiectasis,
-  "pleurisy": illustrationPleurisyNew,
-  "pleural-effusion": illustrationPleurisyNew,
+  "pleurisy": illustrationPleurisyV2,
+  "pleural-effusion": illustrationPleurisyV2,
   "chest-physiotherapy": illustrationChestPhysio,
   "chest-physio": illustrationChestPhysio,
   "postural-drainage": illustrationChestPhysio,
-  "rsv-management": illustrationRSV,
-  "rsv-bronchiolitis": illustrationRSV,
+  "rsv-management": illustrationRSVNew,
+  "rsv-bronchiolitis": illustrationRSVNew,
+  "rsv": illustrationRSVNew,
+  "rsv-basics": illustrationRSVNew,
   "hemoptysis": illustrationHemoptysis,
   "hemoptysis-management": illustrationHemoptysis,
   "hypoventilation": illustrationHypoventilation,
@@ -396,9 +414,9 @@ const lessonSpecificImages: Record<string, string> = {
   "inhaled-spacers": illustrationInhaledSpacers,
   "inhaler-technique": illustrationInhaledSpacers,
   "mdi-spacer": illustrationInhaledSpacers,
-  "peak-flow": illustrationPeakFlow,
-  "peak-flow-monitoring": illustrationPeakFlow,
-  "asthma-action-plan": illustrationPeakFlow,
+  "peak-flow": illustrationPeakFlowV2,
+  "peak-flow-monitoring": illustrationPeakFlowV2,
+  "asthma-action-plan": illustrationPeakFlowV2,
   "abg-basics": illustrationABGReferenceNew,
   "abg-interpretation-rn": illustrationABGReferenceNew,
   "abg-interpretation": illustrationABGReferenceNew,
@@ -962,11 +980,13 @@ export function getLessonImage(lessonId: string): string | undefined {
   if (lessonId.includes("brain-abscess")) return illustrationBrainAbscess;
   if (lessonId.includes("icp")) return illustrationICP;
   if (lessonId.includes("cystic-fibrosis") || lessonId === "cf-management") return illustrationCysticFibrosis;
-  if (lessonId.includes("pertussis") || lessonId.includes("whooping")) return illustrationWhoopingCough;
+  if (lessonId.includes("pertussis") || lessonId.includes("whooping")) return illustrationPertussisV2;
   if (lessonId.includes("bronchiect")) return illustrationBronchiectasis;
-  if (lessonId.includes("pleurisy") || lessonId.includes("pleural-effusion")) return illustrationPleurisy;
+  if (lessonId.includes("pleurisy") || lessonId.includes("pleural-effusion")) return illustrationPleurisyV2;
   if (lessonId.includes("chest-physio") || lessonId.includes("postural-drainage")) return illustrationChestPhysio;
-  if (lessonId.includes("rsv")) return illustrationRSV;
+  if (lessonId.includes("rsv")) return illustrationRSVNew;
+  if (lessonId.includes("pneumothorax")) return illustrationPneumothorax;
+  if (lessonId.includes("pulmonary-fibrosis") || lessonId.includes("interstitial-lung")) return illustrationPulmonaryFibrosis;
   if (lessonId.includes("hemoptysis")) return illustrationHemoptysis;
   if (lessonId.includes("inflammat")) return illustrationInflammatoryResponse;
   if (lessonId.includes("retinal-detach")) return illustrationRetinalDetachment;
@@ -1016,14 +1036,16 @@ export function getLessonImage(lessonId: string): string | undefined {
   if (lessonId.includes("hypoventilation")) return illustrationHypoventilation;
   if (lessonId.includes("spirometry")) return illustrationIncentiveSpirometry;
   if (lessonId.includes("spacer") || lessonId.includes("inhaler")) return illustrationInhaledSpacers;
-  if (lessonId.includes("peak-flow")) return illustrationPeakFlow;
-  if (lessonId.includes("oxygen-therapy") || lessonId.includes("oxygen-delivery")) return illustrationOxygenTherapy;
-  if (lessonId.includes("pulmonary-embolism") || lessonId.includes("pe-")) return illustrationPulmonaryEmbolism;
+  if (lessonId.includes("peak-flow")) return illustrationPeakFlowV2;
+  if (lessonId.includes("oxygen-therapy") || lessonId.includes("oxygen-delivery")) return illustrationOxygenTherapyV2;
+  if (lessonId.includes("pulmonary-embolism") || lessonId.includes("pe-")) return illustrationPulmonaryEmbolismV2;
   if (lessonId.includes("malignant-hyperthermia")) return illustrationMalignantHyperthermiaNew;
-  if (lessonId.includes("pertussis") || lessonId.includes("whooping")) return illustrationPertussisNew;
-  if (lessonId.includes("pleurisy") || lessonId.includes("pleural")) return illustrationPleurisyNew;
+  if (lessonId.includes("pertussis") || lessonId.includes("whooping")) return illustrationPertussisV2;
+  if (lessonId.includes("pleurisy") || lessonId.includes("pleural")) return illustrationPleurisyV2;
+  if (lessonId.includes("pneumothorax")) return illustrationPneumothorax;
+  if (lessonId.includes("pulmonary-fibrosis") || lessonId.includes("interstitial-lung")) return illustrationPulmonaryFibrosis;
   if (lessonId.includes("asthma")) return illustrationAsthma;
-  if (lessonId.includes("pneumonia")) return illustrationPneumonia;
+  if (lessonId.includes("pneumonia")) return illustrationPneumoniaV2;
   if (lessonId.includes("tuberculosis") || lessonId.includes("tb-")) return illustrationTuberculosis;
   if (lessonId.includes("tracheostomy")) return illustrationTracheostomy;
   if (lessonId.includes("kidney") || lessonId.includes("renal") || lessonId.includes("dialysis") || lessonId.includes("crrt")) return illustrationKidneys;
