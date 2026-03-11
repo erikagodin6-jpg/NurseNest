@@ -4,7 +4,6 @@ import { useLocation } from "wouter";
 import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
 import { SEO } from "@/components/seo";
-import { buildBreadcrumbStructuredData } from "@/lib/structured-data";
 import { getTierConfig } from "@shared/tier-config";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -122,11 +121,6 @@ const DEFAULT_WIDGETS: WidgetConfig[] = [
   { widgetType: "review_due", position: 15, visible: true },
   { widgetType: "topic_mastery", position: 16, visible: true },
 ];
-
-const breadcrumbData = buildBreadcrumbStructuredData([
-  { name: "Home", url: "https://www.nursenest.ca/" },
-  { name: "Dashboard", url: "https://www.nursenest.ca/dashboard" },
-]);
 
 export default function DashboardPage() {
   const { user, effectiveTier } = useAuth();
@@ -263,15 +257,18 @@ export default function DashboardPage() {
         description="Your personalized nursing learning dashboard. Track study progress, review flashcards, access clinical tools, and prepare for NCLEX exams all in one place."
         keywords="nursing dashboard, NCLEX study tracker, nursing education progress, clinical learning tools"
         canonicalPath="/dashboard"
-        structuredData={breadcrumbData}
-        additionalStructuredData={[{
+        structuredData={{
           "@context": "https://schema.org",
           "@type": "WebPage",
           "name": "NurseNest Dashboard",
           "description": "Personalized nursing student learning dashboard with progress tracking, exam stats, and clinical tools.",
           "url": "https://www.nursenest.ca/dashboard",
           "isPartOf": { "@type": "WebSite", "name": "NurseNest", "url": "https://www.nursenest.ca" },
-        }]}
+        }}
+        breadcrumbs={[
+          { name: "Home", url: "https://www.nursenest.ca/" },
+          { name: "Dashboard", url: "https://www.nursenest.ca/dashboard" },
+        ]}
       />
       <Navigation />
       <main className="container mx-auto px-4 py-6 sm:py-8 max-w-7xl" role="main" aria-label="Learning Dashboard">

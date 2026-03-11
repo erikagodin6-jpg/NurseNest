@@ -28,7 +28,7 @@ import { useAuth } from "@/lib/auth";
 import { canAccessTier } from "@/lib/access";
 import type { LessonContent, QuizQuestion } from "@/data/lessons/types";
 import { generateLessonSeoDescription, generateLessonKeywords, buildLessonStructuredData, getLessonBodySystem, buildArticleStructuredData, buildCourseStructuredData } from "@/lib/seo-utils";
-import { buildBreadcrumbStructuredData, buildFaqFromQuizQuestions } from "@/lib/structured-data";
+import { buildFaqFromQuizQuestions } from "@/lib/structured-data";
 import { trackMilestone } from "@/components/upgrade-prompt";
 import { getInternalLinksForLesson } from "@/data/internal-links";
 import { LessonQuizEmbed } from "@/components/lesson-quiz-embed";
@@ -2676,13 +2676,13 @@ export default function LessonDetail() {
         canonicalPath={`/lessons/${id}`}
         ogType="article"
         structuredData={buildLessonStructuredData(id || "", lessonContent, lessonTier === "free")}
+        breadcrumbs={[
+          { name: "Home", url: "https://www.nursenest.ca/" },
+          { name: "Lessons", url: "https://www.nursenest.ca/lessons" },
+          { name: getLessonBodySystem(id || ""), url: "https://www.nursenest.ca/lessons" },
+          { name: lessonContent.title, url: `https://www.nursenest.ca/lessons/${id}` },
+        ]}
         additionalStructuredData={[
-          buildBreadcrumbStructuredData([
-            { name: "Home", url: "https://www.nursenest.ca/" },
-            { name: "Lessons", url: "https://www.nursenest.ca/lessons" },
-            { name: getLessonBodySystem(id || ""), url: "https://www.nursenest.ca/lessons" },
-            { name: lessonContent.title, url: `https://www.nursenest.ca/lessons/${id}` },
-          ]),
           buildArticleStructuredData(id || "", lessonContent),
           buildCourseStructuredData(id || "", lessonContent),
           ...(lessonContent.quiz && lessonContent.quiz.length > 0 ? [buildFaqFromQuizQuestions(lessonContent.quiz)] : []),

@@ -274,17 +274,6 @@ function QuizSession({ tier, systemSlug }: { tier: string; systemSlug: string })
     })),
   };
 
-  const breadcrumbStructuredData = {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    itemListElement: [
-      { "@type": "ListItem", position: 1, name: "Home", item: "https://www.nursenest.ca/" },
-      { "@type": "ListItem", position: 2, name: "Free Practice Questions", item: "https://www.nursenest.ca/practice-questions" },
-      { "@type": "ListItem", position: 3, name: tierLabel, item: `https://www.nursenest.ca/practice-questions/${tier}` },
-      { "@type": "ListItem", position: 4, name: systemName, item: `https://www.nursenest.ca/practice-questions/${tier}/${systemSlug}` },
-    ],
-  };
-
   if (questions.length === 0) {
     return (
       <div className="min-h-screen bg-warmwhite flex flex-col font-sans text-gray-900">
@@ -316,7 +305,7 @@ function QuizSession({ tier, systemSlug }: { tier: string; systemSlug: string })
         keywords={`free ${seoTier} ${systemName} practice questions, ${systemName.toLowerCase()} nursing questions, free nursing exam practice`}
         canonicalPath={`/practice-questions/${tier}/${systemSlug}`}
         structuredData={faqStructuredData}
-        additionalStructuredData={[breadcrumbStructuredData]}
+        
       />
       <Navigation />
       <main className="flex-1">

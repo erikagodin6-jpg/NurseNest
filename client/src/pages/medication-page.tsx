@@ -7,7 +7,6 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { useLocation } from "wouter";
-import { buildBreadcrumbStructuredData } from "@/lib/structured-data";
 import { seoMedications } from "@/data/seo-medications";
 import {
   Pill,
@@ -102,12 +101,6 @@ export default function MedicationPage() {
     ],
   };
 
-  const breadcrumbData = buildBreadcrumbStructuredData([
-    { name: "Home", url: "https://www.nursenest.ca" },
-    { name: "Medications", url: "https://www.nursenest.ca/medications" },
-    { name: med.genericName, url: `https://www.nursenest.ca/medications/${med.slug}` },
-  ]);
-
   return (
     <>
       <SEO
@@ -117,7 +110,7 @@ export default function MedicationPage() {
         canonicalPath={`/medications/${med.slug}`}
         ogType="article"
         structuredData={drugStructuredData}
-        additionalStructuredData={[faqStructuredData, breadcrumbData]}
+        additionalStructuredData={[faqStructuredData]}
       />
       <Navigation />
 

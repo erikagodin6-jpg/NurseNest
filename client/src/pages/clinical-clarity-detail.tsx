@@ -141,16 +141,12 @@ export default function ClinicalClarityDetail() {
             "name": confusion.bodySystem,
           },
         }}
+        breadcrumbs={[
+          { name: "Home", url: "https://www.nursenest.ca/" },
+          { name: "Clinical Clarity", url: "https://www.nursenest.ca/clinical-clarity" },
+          { name: confusion.question, url: `https://www.nursenest.ca/clinical-clarity/${confusion.slug}` },
+        ]}
         additionalStructuredData={[
-          {
-            "@context": "https://schema.org",
-            "@type": "BreadcrumbList",
-            "itemListElement": [
-              { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.nursenest.ca/" },
-              { "@type": "ListItem", "position": 2, "name": "Clinical Clarity", "item": "https://www.nursenest.ca/clinical-clarity" },
-              { "@type": "ListItem", "position": 3, "name": confusion.question },
-            ],
-          },
           {
             "@context": "https://schema.org",
             "@type": "FAQPage",

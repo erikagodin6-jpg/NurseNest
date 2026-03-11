@@ -165,31 +165,6 @@ export default function LabValuePage() {
     })),
   };
 
-  const breadcrumbData = {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    itemListElement: [
-      {
-        "@type": "ListItem",
-        position: 1,
-        name: "Home",
-        item: "https://www.nursenest.ca",
-      },
-      {
-        "@type": "ListItem",
-        position: 2,
-        name: "Lab Values",
-        item: "https://www.nursenest.ca/lab-values",
-      },
-      {
-        "@type": "ListItem",
-        position: 3,
-        name: labData.name,
-        item: `https://www.nursenest.ca/lab-values/${labData.slug}`,
-      },
-    ],
-  };
-
   return (
     <>
       <SEO
@@ -199,7 +174,7 @@ export default function LabValuePage() {
         canonicalPath={`/lab-values/${labData.slug}`}
         ogType="article"
         structuredData={structuredData}
-        additionalStructuredData={[faqStructuredData, breadcrumbData]}
+        additionalStructuredData={[faqStructuredData]}
       />
 
       <div className="min-h-screen bg-gray-50">

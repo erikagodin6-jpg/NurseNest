@@ -45,7 +45,6 @@ import {
 } from "lucide-react";
 import { useAuth } from "@/lib/auth";
 import { useI18n } from "@/lib/i18n";
-import { buildBreadcrumbStructuredData } from "@/lib/structured-data";
 import type { ContentItem } from "@shared/schema";
 
 interface ContentBlock {
@@ -741,20 +740,6 @@ export default function ContentPage() {
         url: `${baseUrl}/learn/${slug}`,
       };
 
-  const breadcrumbData = buildBreadcrumbStructuredData(
-    isBlogType
-      ? [
-          { name: "Home", url: `${baseUrl}/` },
-          { name: "Blog", url: `${baseUrl}/blog` },
-          { name: contentItem!.title, url: `${baseUrl}/learn/${slug}` },
-        ]
-      : [
-          { name: "Home", url: `${baseUrl}/` },
-          { name: "Learn", url: `${baseUrl}/lessons` },
-          { name: contentItem!.title, url: `${baseUrl}/learn/${slug}` },
-        ],
-  );
-
   const tierLabel =
     contentItem!.tier === "np" ? "NP" : contentItem!.tier === "rn" ? "RN" : contentItem!.tier === "free" ? "Free" : "RPN";
 
@@ -769,7 +754,19 @@ export default function ContentPage() {
         noindex={language !== "en"}
         keywords={tags.length > 0 ? tags.join(", ") : (contentItem!.category ? `${contentItem!.category}, nursing, ${contentItem!.tier || "education"}` : undefined)}
         structuredData={structuredData}
-        additionalStructuredData={[breadcrumbData]}
+        breadcrumbs={
+          isBlogType
+            ? [
+                { name: "Home", url: `${baseUrl}/` },
+                { name: "Blog", url: `${baseUrl}/blog` },
+                { name: contentItem!.title, url: `${baseUrl}/learn/${slug}` },
+              ]
+            : [
+                { name: "Home", url: `${baseUrl}/` },
+                { name: "Learn", url: `${baseUrl}/lessons` },
+                { name: contentItem!.title, url: `${baseUrl}/learn/${slug}` },
+              ]
+        }
       />
       <Navigation />
 

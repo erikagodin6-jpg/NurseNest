@@ -211,25 +211,6 @@ export default function ExamHub() {
     },
   };
 
-  const breadcrumbSchema = {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    itemListElement: [
-      {
-        "@type": "ListItem",
-        position: 1,
-        name: "Home",
-        item: "https://www.nursenest.ca",
-      },
-      {
-        "@type": "ListItem",
-        position: 2,
-        name: `${hub.title} Study Hub`,
-        item: `https://www.nursenest.ca/${hub.slug}`,
-      },
-    ],
-  };
-
   return (
     <div className="min-h-screen bg-background">
       <Navigation />
@@ -239,7 +220,7 @@ export default function ExamHub() {
         keywords={hub.keywords.join(", ")}
         canonicalPath={`/${hub.slug}`}
         structuredData={webPageSchema}
-        additionalStructuredData={[breadcrumbSchema]}
+        
       />
 
       <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 pb-16">

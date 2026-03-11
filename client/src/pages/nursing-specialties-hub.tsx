@@ -183,17 +183,11 @@ export default function NursingSpecialtiesHub() {
           "numberOfCredits": 9,
           "educationalLevel": "Advanced",
         }}
-        additionalStructuredData={[
-          faqStructuredData,
-          {
-            "@context": "https://schema.org",
-            "@type": "BreadcrumbList",
-            "itemListElement": [
-              { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.nursenest.ca" },
-              { "@type": "ListItem", "position": 2, "name": "Nursing Specialties", "item": "https://www.nursenest.ca/nursing-specialties" },
-            ],
-          },
+        breadcrumbs={[
+          { name: "Home", url: "https://www.nursenest.ca" },
+          { name: "Nursing Specialties", url: "https://www.nursenest.ca/nursing-specialties" },
         ]}
+        additionalStructuredData={[faqStructuredData]}
       />
 
       <section className="relative py-16 sm:py-20 overflow-hidden" data-testid="section-hero">

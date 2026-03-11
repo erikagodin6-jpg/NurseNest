@@ -2,7 +2,7 @@ import { Link } from "wouter";
 import { SEO } from "@/components/seo";
 import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
-import { buildFaqStructuredData, buildBreadcrumbStructuredData } from "@/lib/structured-data";
+import { buildFaqStructuredData } from "@/lib/structured-data";
 import { useState } from "react";
 import {
   ArrowRight, BookOpen, FileText, Brain, Zap, GraduationCap,
@@ -173,11 +173,6 @@ export default function NursingHub() {
     FAQ_DATA.map(f => ({ question: f.question, answer: f.answer }))
   );
 
-  const breadcrumbStructuredData = buildBreadcrumbStructuredData([
-    { name: "Home", url: "https://www.nursenest.ca" },
-    { name: "Nursing Exam Prep", url: "https://www.nursenest.ca/nursing" },
-  ]);
-
   const courseStructuredData = {
     "@context": "https://schema.org",
     "@type": "Course",
@@ -202,7 +197,7 @@ export default function NursingHub() {
         keywords="nursing exam prep, NCLEX-RN, REX-PN, NP exam, nursing practice questions, mock nursing exam, nursing study guide, NCLEX prep, nursing flashcards, nursing certification"
         canonicalPath="/nursing"
         structuredData={courseStructuredData}
-        additionalStructuredData={[faqStructuredData, breadcrumbStructuredData]}
+        additionalStructuredData={[faqStructuredData]}
       />
 
       <section className="relative py-16 sm:py-20 overflow-hidden" data-testid="section-hero">

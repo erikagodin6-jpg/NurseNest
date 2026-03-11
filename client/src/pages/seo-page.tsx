@@ -9,7 +9,6 @@ import { useI18n } from "@/lib/i18n";
 import { useAuth } from "@/lib/auth";
 import { ChevronRight, BookOpen, FileText, HelpCircle, Link as LinkIcon, ArrowLeft } from "lucide-react";
 import { useLocation } from "wouter";
-import { buildBreadcrumbStructuredData } from "@/lib/structured-data";
 
 type FAQ = { q: string; a: string };
 type TOCItem = { id: string; title: string; level: number };
@@ -117,19 +116,21 @@ export default function SeoPage() {
     "mainEntityOfPage": { "@type": "WebPage", "@id": `https://www.nursenest.ca/${page.languageCode}/study-guide/${page.slug}` }
   };
 
-  const breadcrumbSchema = buildBreadcrumbStructuredData([
-    { name: "Home", url: `https://www.nursenest.ca/${page.languageCode}` },
-    { name: "Study Guides", url: `https://www.nursenest.ca/${page.languageCode}/study-guide` },
-    { name: page.title, url: `https://www.nursenest.ca/${page.languageCode}/study-guide/${page.slug}` },
-  ]);
-
   return (
     <>
       <Navigation />
-      <SEO title={page.metaTitle || page.title} description={page.metaDescription || ""} canonicalPath={`/study-guide/${page.slug}`} />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }} />
-      {faqSchema && <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />}
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
+      <SEO
+        title={page.metaTitle || page.title}
+        description={page.metaDescription || ""}
+        canonicalPath={`/study-guide/${page.slug}`}
+        structuredData={articleSchema}
+        additionalStructuredData={faqSchema ? [faqSchema] : undefined}
+        breadcrumbs={[
+          { name: "Home", url: `https://www.nursenest.ca/${page.languageCode}` },
+          { name: "Study Guides", url: `https://www.nursenest.ca/${page.languageCode}/study-guide` },
+          { name: page.title, url: `https://www.nursenest.ca/${page.languageCode}/study-guide/${page.slug}` },
+        ]}
+      />
 
       {page.hreflangLinks && page.hreflangLinks.length > 0 && (
         <>{page.hreflangLinks.map(h => (

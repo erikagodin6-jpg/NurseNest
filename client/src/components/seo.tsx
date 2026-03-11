@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { SUPPORTED_LOCALES, getLocaleFromPath } from "@/lib/locale-utils";
+import { buildBreadcrumbs, buildBreadcrumbJsonLd, type BreadcrumbItem } from "@/lib/breadcrumb-builder";
 
 const SITE_DOMAIN = "https://www.nursenest.ca";
 
@@ -12,9 +13,11 @@ interface SEOProps {
   noindex?: boolean;
   structuredData?: Record<string, any>;
   additionalStructuredData?: Record<string, any>[];
+  breadcrumbs?: BreadcrumbItem[];
+  noBreadcrumbs?: boolean;
 }
 
-export function SEO({ title, description, keywords, canonicalPath, ogType = "website", noindex, structuredData, additionalStructuredData }: SEOProps) {
+export function SEO({ title, description, keywords, canonicalPath, ogType = "website", noindex, structuredData, additionalStructuredData, breadcrumbs, noBreadcrumbs }: SEOProps) {
   useEffect(() => {
     const fullTitle = title.includes("NurseNest") ? title : `${title} | NurseNest`;
     document.title = fullTitle;
@@ -118,6 +121,26 @@ export function SEO({ title, description, keywords, canonicalPath, ogType = "web
       });
     }
 
+    if (!noindex && !noBreadcrumbs) {
+      const currentPath = window.location.pathname;
+      const items = breadcrumbs && breadcrumbs.length > 0
+        ? breadcrumbs
+        : buildBreadcrumbs(currentPath, { title });
+
+      if (items.length >= 2) {
+        const jsonLd = buildBreadcrumbJsonLd(items);
+        const existing = document.getElementById("breadcrumb-jsonld");
+        if (existing) existing.remove();
+
+        const script = document.createElement("script");
+        script.id = "breadcrumb-jsonld";
+        script.type = "application/ld+json";
+        script.textContent = JSON.stringify(jsonLd);
+        document.head.appendChild(script);
+        scriptIds.push("breadcrumb-jsonld");
+      }
+    }
+
     return () => {
       const mainScript = document.getElementById("structured-data");
       if (mainScript) mainScript.remove();
@@ -131,7 +154,7 @@ export function SEO({ title, description, keywords, canonicalPath, ogType = "web
         if (robotsMeta) robotsMeta.remove();
       }
     };
-  }, [title, description, keywords, canonicalPath, ogType, noindex, structuredData, additionalStructuredData]);
+  }, [title, description, keywords, canonicalPath, ogType, noindex, structuredData, additionalStructuredData, breadcrumbs, noBreadcrumbs]);
 
   return null;
 }

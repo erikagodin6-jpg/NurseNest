@@ -176,6 +176,11 @@ export default function ConditionPage() {
         canonicalPath={`/conditions/${condition.slug}`}
         structuredData={medicalConditionSchema}
         additionalStructuredData={[faqSchema]}
+        breadcrumbs={[
+          { name: "Home", url: "https://www.nursenest.ca/" },
+          { name: "Lessons", url: "https://www.nursenest.ca/lessons" },
+          { name: condition.name, url: `https://www.nursenest.ca/conditions/${condition.slug}` },
+        ]}
       />
 
       <div className="min-h-screen bg-gray-50">

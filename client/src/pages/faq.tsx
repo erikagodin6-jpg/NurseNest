@@ -11,7 +11,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { buildFaqStructuredData, buildBreadcrumbStructuredData } from "@/lib/structured-data";
+import { buildFaqStructuredData } from "@/lib/structured-data";
 
 interface FaqItem {
   id: string;
@@ -108,11 +108,9 @@ export default function FAQPage() {
         keywords="NurseNest FAQ, nursing education questions, NCLEX prep FAQ, nursing student help, subscription questions"
         canonicalPath="/faq"
         structuredData={buildFaqStructuredData(allFaqs)}
-        additionalStructuredData={[
-          buildBreadcrumbStructuredData([
-            { name: "Home", url: "https://www.nursenest.ca/" },
-            { name: "FAQ", url: "https://www.nursenest.ca/faq" },
-          ]),
+        breadcrumbs={[
+          { name: "Home", url: "https://www.nursenest.ca/" },
+          { name: "FAQ", url: "https://www.nursenest.ca/faq" },
         ]}
       />
       <Navigation />

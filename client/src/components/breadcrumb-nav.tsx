@@ -1,7 +1,7 @@
-import { useEffect, useMemo } from "react";
+import { useMemo } from "react";
 import { useLocation } from "wouter";
 import { LocaleLink } from "@/lib/LocaleLink";
-import { buildBreadcrumbs, buildBreadcrumbJsonLd, type BreadcrumbItem } from "@/lib/breadcrumb-builder";
+import { buildBreadcrumbs, type BreadcrumbItem } from "@/lib/breadcrumb-builder";
 
 interface BreadcrumbNavProps {
   items?: BreadcrumbItem[];
@@ -16,25 +16,6 @@ export function BreadcrumbNav({ items: customItems, title, className = "" }: Bre
     if (customItems && customItems.length > 0) return customItems;
     return buildBreadcrumbs(location, { title });
   }, [customItems, location, title]);
-
-  useEffect(() => {
-    if (items.length < 2) return;
-
-    const jsonLd = buildBreadcrumbJsonLd(items);
-    const script = document.createElement("script");
-    script.id = "breadcrumb-jsonld";
-    script.type = "application/ld+json";
-    script.textContent = JSON.stringify(jsonLd);
-
-    const existing = document.getElementById("breadcrumb-jsonld");
-    if (existing) existing.remove();
-    document.head.appendChild(script);
-
-    return () => {
-      const el = document.getElementById("breadcrumb-jsonld");
-      if (el) el.remove();
-    };
-  }, [items]);
 
   if (items.length < 2) return null;
 

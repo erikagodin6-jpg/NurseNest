@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useLocation } from "wouter";
 import { SEO } from "@/components/seo";
 import { LocaleLink } from "@/lib/LocaleLink";
-import { buildBreadcrumbStructuredData, buildFaqStructuredData } from "@/lib/structured-data";
+import { buildFaqStructuredData } from "@/lib/structured-data";
 import { SEO_EXAM_PAGES, type SeoExamPageConfig, type SeoSampleQuestion } from "@/data/seo-exam-data";
 import {
   ChevronDown,
@@ -167,12 +167,6 @@ export default function ExamLandingPage() {
     },
   };
 
-  const breadcrumbData = buildBreadcrumbStructuredData([
-    { name: "Home", url: "https://www.nursenest.ca" },
-    { name: "Practice Exams", url: "https://www.nursenest.ca/mock-exams" },
-    { name: examData.examName, url: `https://www.nursenest.ca/${examData.slug}` },
-  ]);
-
   const adaptiveLabel = examData.formatDetails.adaptiveOrFixed === "adaptive"
     ? "Computer Adaptive Testing (CAT)"
     : examData.formatDetails.adaptiveOrFixed === "fixed"
@@ -188,7 +182,12 @@ export default function ExamLandingPage() {
         canonicalPath={`/${examData.slug}`}
         ogType="article"
         structuredData={articleSchema}
-        additionalStructuredData={[faqStructuredData, credentialSchema, breadcrumbData]}
+        additionalStructuredData={[faqStructuredData, credentialSchema]}
+        breadcrumbs={[
+          { name: "Home", url: "https://www.nursenest.ca" },
+          { name: "Practice Exams", url: "https://www.nursenest.ca/mock-exams" },
+          { name: examData.examName, url: `https://www.nursenest.ca/${examData.slug}` },
+        ]}
       />
 
       <div className="min-h-screen bg-gray-50">

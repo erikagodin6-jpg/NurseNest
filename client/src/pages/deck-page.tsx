@@ -136,16 +136,6 @@ export default function DeckPage() {
     }
   };
 
-  const breadcrumbData = {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    "itemListElement": [
-      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.nursenest.ca" },
-      { "@type": "ListItem", "position": 2, "name": "Flashcards", "item": "https://www.nursenest.ca/flashcards" },
-      { "@type": "ListItem", "position": 3, "name": deck.title, "item": shareUrl }
-    ]
-  };
-
   return (
     <div className="min-h-screen bg-gradient-to-b from-primary/5 to-white">
       <Navigation />
@@ -156,7 +146,11 @@ export default function DeckPage() {
         keywords={`${deck.title}, nursing flashcards, NCLEX study cards, nursing exam prep, free flashcards, ${(deck.tags || []).join(", ")}`}
         canonicalPath={`/flashcards/deck/${params.slug}`}
         structuredData={structuredData}
-        additionalStructuredData={[breadcrumbData]}
+        breadcrumbs={[
+          { name: "Home", url: "https://www.nursenest.ca" },
+          { name: "Flashcards", url: "https://www.nursenest.ca/flashcards" },
+          { name: deck.title, url: `https://www.nursenest.ca/flashcards/deck/${params.slug}` },
+        ]}
       />
 
       <main className="max-w-4xl mx-auto px-4 sm:px-6 py-8 sm:py-12">

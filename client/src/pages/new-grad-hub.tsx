@@ -3,7 +3,7 @@ import { Link } from "wouter";
 import { SEO } from "@/components/seo";
 import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
-import { buildFaqStructuredData, buildBreadcrumbStructuredData } from "@/lib/structured-data";
+import { buildFaqStructuredData } from "@/lib/structured-data";
 import {
   ArrowRight, BookOpen, FileText, Brain, Zap, GraduationCap,
   CheckCircle2, ChevronRight, Check, X, HelpCircle,
@@ -102,11 +102,6 @@ const faqStructuredData = buildFaqStructuredData(
   FAQ_DATA.map(f => ({ question: f.question, answer: f.answer }))
 );
 
-const breadcrumbStructuredData = buildBreadcrumbStructuredData([
-  { name: "Home", url: "https://www.nursenest.ca" },
-  { name: "New Grad RN Hub", url: "https://www.nursenest.ca/new-grad" },
-]);
-
 const courseStructuredData = {
   "@context": "https://schema.org",
   "@type": "Course",
@@ -138,7 +133,7 @@ export default function NewGradHub() {
         keywords="new grad nurse, new graduate RN, nursing interview prep, nursing resume, STAR framework nursing, first year nurse, nurse career transition, nursing job search, new grad RN tips"
         canonicalPath="/new-grad"
         structuredData={courseStructuredData}
-        additionalStructuredData={[faqStructuredData, breadcrumbStructuredData]}
+        additionalStructuredData={[faqStructuredData]}
       />
 
       <section className="relative py-16 sm:py-20 overflow-hidden" data-testid="section-hero">

@@ -10,7 +10,6 @@ import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useI18n } from "@/lib/i18n";
-import { buildBreadcrumbStructuredData } from "@/lib/structured-data";
 import {
   BookOpen,
   Search,
@@ -192,11 +191,6 @@ export default function BlogPage() {
     ...(blogPostingItems.length > 0 ? { blogPost: blogPostingItems } : {}),
   };
 
-  const breadcrumbData = buildBreadcrumbStructuredData([
-    { name: "Home", url: `${baseUrl}/` },
-    { name: "Blog", url: `${baseUrl}/blog` },
-  ]);
-
   function getCategoryLabel(cat: string): string {
     const key = CATEGORY_KEYS[cat];
     return key ? t(key) : cat;
@@ -210,7 +204,10 @@ export default function BlogPage() {
         canonicalPath="/blog"
         keywords="nursing blog, clinical reasoning, pharmacology, NCLEX prep, REX-PN, lab interpretation, nursing education, RPN, RN, NP"
         structuredData={structuredData}
-        additionalStructuredData={[breadcrumbData]}
+        breadcrumbs={[
+          { name: "Home", url: "https://www.nursenest.ca/" },
+          { name: "Blog", url: "https://www.nursenest.ca/blog" },
+        ]}
       />
       <Navigation />
 

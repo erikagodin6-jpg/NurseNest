@@ -7,7 +7,7 @@ import { useI18n } from "@/lib/i18n";
 import { getLessonTitle, loadTranslationLanguage, isTranslationLoaded } from "@/lib/getI18n";
 import { Footer } from "@/components/footer";
 import { LocaleLink } from "@/lib/LocaleLink";
-import { buildBreadcrumbStructuredData, buildCatalogStructuredData } from "@/lib/structured-data";
+import { buildCatalogStructuredData } from "@/lib/structured-data";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -3849,11 +3849,9 @@ export default function Lessons() {
           rpnSystems.flatMap((s) => s.diseases.map((d) => ({ id: d.id, name: d.name })))
             .concat(rnSystems.flatMap((s) => s.diseases.map((d) => ({ id: d.id, name: d.name }))))
         )}
-        additionalStructuredData={[
-          buildBreadcrumbStructuredData([
-            { name: "Home", url: "https://www.nursenest.ca/" },
-            { name: "Lessons", url: "https://www.nursenest.ca/lessons" },
-          ]),
+        breadcrumbs={[
+          { name: "Home", url: "https://www.nursenest.ca/" },
+          { name: "Lessons", url: "https://www.nursenest.ca/lessons" },
         ]}
       />
       <Navigation />
