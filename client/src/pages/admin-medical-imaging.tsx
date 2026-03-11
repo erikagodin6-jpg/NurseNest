@@ -167,12 +167,12 @@ function QuestionsPanel({ countryFilter, statusFilter }: { countryFilter: string
             <div key={q.id} className="bg-white border border-gray-100 rounded-xl p-4" data-testid={`question-${q.id}`}>
               <div className="flex items-start justify-between gap-3">
                 <div className="flex-1 min-w-0">
-                  <p className="text-sm font-medium text-gray-900 mb-1 line-clamp-2">{q.questionStem}</p>
+                  <p className="text-sm font-medium text-gray-900 mb-1 line-clamp-2">{q.question}</p>
                   <div className="flex flex-wrap gap-2 text-xs">
                     <span className="px-2 py-0.5 bg-gray-100 rounded">{q.country}</span>
-                    <span className="px-2 py-0.5 bg-gray-100 rounded">{q.examType}</span>
+                    {q.exam && <span className="px-2 py-0.5 bg-gray-100 rounded">{q.exam}</span>}
                     <span className="px-2 py-0.5 bg-gray-100 rounded">{q.topic}</span>
-                    <span className="px-2 py-0.5 bg-gray-100 rounded">{q.difficulty}</span>
+                    <span className="px-2 py-0.5 bg-gray-100 rounded">Difficulty: {q.difficulty}</span>
                     <span className={`px-2 py-0.5 rounded ${STATUS_COLORS[q.status] || "bg-gray-100"}`}>{q.status}</span>
                   </div>
                 </div>
@@ -206,14 +206,19 @@ function QuestionForm({ onClose }: { onClose: () => void }) {
   const queryClient = useQueryClient();
   const [form, setForm] = useState({
     country: "canada",
-    examType: "camrt",
+    exam: "camrt",
     topic: "",
-    subtopic: "",
-    difficulty: "medium",
-    questionType: "multiple_choice",
-    questionStem: "",
-    correctAnswer: "",
+    category: "",
+    difficulty: 2,
+    question: "",
+    optionA: "",
+    optionB: "",
+    optionC: "",
+    optionD: "",
+    correctAnswer: "A",
     rationale: "",
+    bodyPart: "",
+    modality: "",
   });
 
   const createMutation = useMutation({
@@ -232,25 +237,40 @@ function QuestionForm({ onClose }: { onClose: () => void }) {
           <option value="canada">Canada</option>
           <option value="usa">USA</option>
         </select>
-        <select value={form.examType} onChange={e => setForm({ ...form, examType: e.target.value })} className="px-3 py-2 border rounded-lg text-sm" data-testid="input-question-examType">
+        <select value={form.exam} onChange={e => setForm({ ...form, exam: e.target.value })} className="px-3 py-2 border rounded-lg text-sm" data-testid="input-question-exam">
           <option value="camrt">CAMRT</option>
           <option value="arrt">ARRT</option>
         </select>
         <input placeholder="Topic" value={form.topic} onChange={e => setForm({ ...form, topic: e.target.value })} className="px-3 py-2 border rounded-lg text-sm" data-testid="input-question-topic" />
-        <select value={form.difficulty} onChange={e => setForm({ ...form, difficulty: e.target.value })} className="px-3 py-2 border rounded-lg text-sm" data-testid="input-question-difficulty">
-          <option value="easy">Easy</option>
-          <option value="medium">Medium</option>
-          <option value="hard">Hard</option>
+        <select value={String(form.difficulty)} onChange={e => setForm({ ...form, difficulty: parseInt(e.target.value) })} className="px-3 py-2 border rounded-lg text-sm" data-testid="input-question-difficulty">
+          <option value="1">Easy (1)</option>
+          <option value="2">Medium (2)</option>
+          <option value="3">Hard (3)</option>
         </select>
       </div>
-      <textarea placeholder="Question Stem" value={form.questionStem} onChange={e => setForm({ ...form, questionStem: e.target.value })} className="w-full px-3 py-2 border rounded-lg text-sm mb-3" rows={3} data-testid="input-question-stem" />
       <div className="grid grid-cols-2 gap-3 mb-3">
-        <input placeholder="Correct Answer" value={form.correctAnswer} onChange={e => setForm({ ...form, correctAnswer: e.target.value })} className="px-3 py-2 border rounded-lg text-sm" data-testid="input-question-answer" />
-        <input placeholder="Subtopic (optional)" value={form.subtopic} onChange={e => setForm({ ...form, subtopic: e.target.value })} className="px-3 py-2 border rounded-lg text-sm" data-testid="input-question-subtopic" />
+        <input placeholder="Category" value={form.category} onChange={e => setForm({ ...form, category: e.target.value })} className="px-3 py-2 border rounded-lg text-sm" data-testid="input-question-category" />
+        <input placeholder="Body Part (optional)" value={form.bodyPart} onChange={e => setForm({ ...form, bodyPart: e.target.value })} className="px-3 py-2 border rounded-lg text-sm" data-testid="input-question-bodypart" />
       </div>
-      <textarea placeholder="Rationale (optional)" value={form.rationale} onChange={e => setForm({ ...form, rationale: e.target.value })} className="w-full px-3 py-2 border rounded-lg text-sm mb-3" rows={2} data-testid="input-question-rationale" />
+      <textarea placeholder="Question text" value={form.question} onChange={e => setForm({ ...form, question: e.target.value })} className="w-full px-3 py-2 border rounded-lg text-sm mb-3" rows={3} data-testid="input-question-text" />
+      <div className="grid grid-cols-2 gap-3 mb-3">
+        <input placeholder="Option A" value={form.optionA} onChange={e => setForm({ ...form, optionA: e.target.value })} className="px-3 py-2 border rounded-lg text-sm" data-testid="input-option-a" />
+        <input placeholder="Option B" value={form.optionB} onChange={e => setForm({ ...form, optionB: e.target.value })} className="px-3 py-2 border rounded-lg text-sm" data-testid="input-option-b" />
+        <input placeholder="Option C" value={form.optionC} onChange={e => setForm({ ...form, optionC: e.target.value })} className="px-3 py-2 border rounded-lg text-sm" data-testid="input-option-c" />
+        <input placeholder="Option D" value={form.optionD} onChange={e => setForm({ ...form, optionD: e.target.value })} className="px-3 py-2 border rounded-lg text-sm" data-testid="input-option-d" />
+      </div>
+      <div className="grid grid-cols-2 gap-3 mb-3">
+        <select value={form.correctAnswer} onChange={e => setForm({ ...form, correctAnswer: e.target.value })} className="px-3 py-2 border rounded-lg text-sm" data-testid="input-correct-answer">
+          <option value="A">A</option>
+          <option value="B">B</option>
+          <option value="C">C</option>
+          <option value="D">D</option>
+        </select>
+        <input placeholder="Modality (optional)" value={form.modality} onChange={e => setForm({ ...form, modality: e.target.value })} className="px-3 py-2 border rounded-lg text-sm" data-testid="input-question-modality" />
+      </div>
+      <textarea placeholder="Rationale" value={form.rationale} onChange={e => setForm({ ...form, rationale: e.target.value })} className="w-full px-3 py-2 border rounded-lg text-sm mb-3" rows={2} data-testid="input-question-rationale" />
       <div className="flex gap-2">
-        <button onClick={() => createMutation.mutate(form)} disabled={!form.questionStem || !form.topic || !form.correctAnswer} className="px-4 py-2 bg-indigo-600 text-white rounded-lg text-sm font-medium hover:bg-indigo-700 disabled:opacity-50" data-testid="button-save-question">
+        <button onClick={() => createMutation.mutate(form)} disabled={!form.question || !form.optionA || !form.optionB || !form.optionC || !form.optionD || !form.correctAnswer} className="px-4 py-2 bg-indigo-600 text-white rounded-lg text-sm font-medium hover:bg-indigo-700 disabled:opacity-50" data-testid="button-save-question">
           Save Question
         </button>
         <button onClick={onClose} className="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg text-sm font-medium hover:bg-gray-300" data-testid="button-cancel-question">
