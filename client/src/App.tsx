@@ -93,6 +93,8 @@ const QBankStudyPage = lazy(() => import("@/pages/qbank-study"));
 const QBankPreviewPage = lazy(() => import("@/pages/qbank-preview"));
 const GeneratorV2Page = lazy(() => import("@/pages/generator-v2"));
 const DashboardPage = lazy(() => import("@/pages/dashboard"));
+const MltStudentDashboard = lazy(() => import("@/allied/pages/mlt-student-dashboard"));
+import { MltSEOPage } from "@/allied/pages/mlt-seo-pages";
 const ContentEditorPage = lazy(() => import("@/pages/content-editor"));
 const MedMathPage = lazy(() => import("@/pages/med-math"));
 const LabValuesPage = lazy(() => import("@/pages/lab-values"));
@@ -495,6 +497,23 @@ function AppRoutes() {
         <Route path="/pharmacy-tech/pricing" component={PricingPage} />
         <Route path="/pharmacy-tech/dashboard" component={DashboardPage} />
         <Route path="/pharmacy-tech" component={AlliedHomePage} />
+
+        <Route path="/dashboard/mlt/canada" component={MltStudentDashboard} />
+        <Route path="/dashboard/mlt/usa" component={MltStudentDashboard} />
+        <Route path="/dashboard/mlt/exam" component={MltStudentDashboard} />
+        <Route path="/dashboard/mlt/flashcards" component={MltStudentDashboard} />
+        <Route path="/dashboard/mlt/lessons" component={MltStudentDashboard} />
+        <Route path="/dashboard/mlt/performance" component={MltStudentDashboard} />
+        <Route path="/dashboard/mlt/wrong-answers" component={MltStudentDashboard} />
+        <Route path="/dashboard/mlt/study-plan" component={MltStudentDashboard} />
+        <Route path="/dashboard/mlt" component={MltStudentDashboard} />
+
+        <Route path="/mlt/canada/practice-questions">{() => <MltSEOPage country="canada" pageType="practice-questions" />}</Route>
+        <Route path="/mlt/usa/practice-questions">{() => <MltSEOPage country="usa" pageType="practice-questions" />}</Route>
+        <Route path="/mlt/exam-prep">{() => <MltSEOPage country="both" pageType="exam-prep" />}</Route>
+        <Route path="/mlt/study-guide">{() => <MltSEOPage country="both" pageType="study-guide" />}</Route>
+        <Route path="/mlt/mock-exam">{() => <MltSEOPage country="both" pageType="mock-exam" />}</Route>
+        <Route path="/mlt/flashcard-prep">{() => <MltSEOPage country="both" pageType="flashcards" />}</Route>
 
         <Route path="/mlt/question-bank" component={QuestionBank} />
         <Route path="/mlt/flashcards/deck/:slug" component={DeckPage} />

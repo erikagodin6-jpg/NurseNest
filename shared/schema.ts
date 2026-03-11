@@ -3248,6 +3248,97 @@ export const insertMltImageDrillAttemptSchema = createInsertSchema(mltImageDrill
 export type MltImageDrillAttempt = typeof mltImageDrillAttempts.$inferSelect;
 export type InsertMltImageDrillAttempt = z.infer<typeof insertMltImageDrillAttemptSchema>;
 
+export const mltWrongAnswers = pgTable("mlt_wrong_answers", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id").notNull(),
+  questionId: varchar("question_id").notNull(),
+  discipline: text("discipline").notNull(),
+  subdiscipline: text("subdiscipline"),
+  selectedAnswer: text("selected_answer").notNull(),
+  correctAnswer: text("correct_answer").notNull(),
+  stem: text("stem").notNull(),
+  rationale: text("rationale"),
+  tags: text("tags").array().default(sql`'{}'::text[]`),
+  reviewed: boolean("reviewed").default(false),
+  bookmarked: boolean("bookmarked").default(false),
+  retryCount: integer("retry_count").default(0),
+  lastRetryCorrect: boolean("last_retry_correct"),
+  sourceType: text("source_type").default("practice"),
+  sourceId: varchar("source_id"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const insertMltWrongAnswerSchema = createInsertSchema(mltWrongAnswers).omit({ id: true, createdAt: true });
+export type MltWrongAnswer = typeof mltWrongAnswers.$inferSelect;
+export type InsertMltWrongAnswer = z.infer<typeof insertMltWrongAnswerSchema>;
+
+export const mltRemediationLinks = pgTable("mlt_remediation_links", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  sourceType: text("source_type").notNull(),
+  sourceId: varchar("source_id").notNull(),
+  targetType: text("target_type").notNull(),
+  targetId: varchar("target_id").notNull(),
+  discipline: text("discipline").notNull(),
+  topic: text("topic"),
+  subtopic: text("subtopic"),
+  relevanceScore: doublePrecision("relevance_score").default(0),
+  matchType: text("match_type").default("auto"),
+  tags: text("tags").array().default(sql`'{}'::text[]`),
+  adminOverride: boolean("admin_override").default(false),
+  active: boolean("active").default(true),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const insertMltRemediationLinkSchema = createInsertSchema(mltRemediationLinks).omit({ id: true, createdAt: true });
+export type MltRemediationLink = typeof mltRemediationLinks.$inferSelect;
+export type InsertMltRemediationLink = z.infer<typeof insertMltRemediationLinkSchema>;
+
+export const mltBlogPosts = pgTable("mlt_blog_posts", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  title: text("title").notNull(),
+  slug: text("slug").notNull().unique(),
+  excerpt: text("excerpt"),
+  content: jsonb("content").default(sql`'[]'::jsonb`),
+  discipline: text("discipline"),
+  tags: text("tags").array().default(sql`'{}'::text[]`),
+  countryTrack: text("country_track").default("both"),
+  seoTitle: text("seo_title"),
+  seoDescription: text("seo_description"),
+  seoKeywords: text("seo_keywords").array().default(sql`'{}'::text[]`),
+  relatedLessonIds: text("related_lesson_ids").array().default(sql`'{}'::text[]`),
+  relatedFlashcardIds: text("related_flashcard_ids").array().default(sql`'{}'::text[]`),
+  readTime: integer("read_time").default(5),
+  authorName: text("author_name"),
+  featuredImage: text("featured_image"),
+  status: text("status").default("draft"),
+  publishedAt: timestamp("published_at"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export const insertMltBlogPostSchema = createInsertSchema(mltBlogPosts).omit({ id: true, createdAt: true, updatedAt: true });
+export type MltBlogPost = typeof mltBlogPosts.$inferSelect;
+export type InsertMltBlogPost = z.infer<typeof insertMltBlogPostSchema>;
+
+export const mltAnalyticsEvents = pgTable("mlt_analytics_events", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id"),
+  sessionId: text("session_id"),
+  eventType: text("event_type").notNull(),
+  eventCategory: text("event_category").notNull(),
+  eventAction: text("event_action").notNull(),
+  eventLabel: text("event_label"),
+  eventValue: integer("event_value"),
+  metadata: jsonb("metadata").default(sql`'{}'::jsonb`),
+  page: text("page"),
+  country: text("country"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const insertMltAnalyticsEventSchema = createInsertSchema(mltAnalyticsEvents).omit({ id: true, createdAt: true });
+export type MltAnalyticsEvent = typeof mltAnalyticsEvents.$inferSelect;
+export type InsertMltAnalyticsEvent = z.infer<typeof insertMltAnalyticsEventSchema>;
+
 export const MLT_IMAGE_TYPES = [
   "hematology_cell_morphology",
   "microbiology_gram_stain",

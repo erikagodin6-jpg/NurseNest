@@ -14884,6 +14884,27 @@ Return ONLY valid JSON with this exact structure:
     } catch (e: any) { res.status(500).json({ error: e.message }); }
   });
 
+  app.post("/api/mlt/analytics/event", async (req, res) => {
+    try {
+      const { eventType, eventCategory, eventAction, eventLabel, eventValue, metadata, page, country, sessionId, userId } = req.body;
+      if (!eventType || !eventCategory || !eventAction) {
+        return res.status(400).json({ error: "eventType, eventCategory, and eventAction are required" });
+      }
+      const validCategories = ["page_view", "quiz", "lesson", "flashcard", "exam", "conversion", "study_plan", "wrong_answer", "remediation"];
+      if (!validCategories.includes(eventCategory)) {
+        return res.status(400).json({ error: "Invalid eventCategory" });
+      }
+      await pool.query(
+        `INSERT INTO mlt_analytics_events (event_type, event_category, event_action, event_label, event_value, metadata, page, country, session_id, user_id) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)`,
+        [eventType, eventCategory, eventAction, eventLabel || null, eventValue || null, JSON.stringify(metadata || {}), page || null, country || null, sessionId || null, userId || null]
+      );
+      res.status(201).json({ ok: true });
+    } catch (e: any) {
+      console.error("MLT analytics event error:", e.message);
+      res.status(400).json({ error: "Failed to record event" });
+    }
+  });
+
   return httpServer;
 }
 
