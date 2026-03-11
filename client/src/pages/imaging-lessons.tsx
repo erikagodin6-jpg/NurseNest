@@ -190,7 +190,24 @@ function PhysicsContent({ item }: { item: any }) {
         {item.difficulty != null && <span className="px-2 py-0.5 bg-gray-100 text-gray-600 text-xs rounded">Level {item.difficulty}</span>}
       </div>
       {item.content && (
-        <p className="text-sm text-gray-700 mb-2 whitespace-pre-line">{item.content}</p>
+        typeof item.content === "string" ? (
+          <p className="text-sm text-gray-700 mb-2 whitespace-pre-line">{item.content}</p>
+        ) : Array.isArray(item.content) ? (
+          <ul className="text-sm text-gray-700 mb-2 list-disc list-inside space-y-1">
+            {item.content.map((c: any, i: number) => (
+              <li key={i}>{typeof c === "string" ? c : JSON.stringify(c)}</li>
+            ))}
+          </ul>
+        ) : typeof item.content === "object" && item.content !== null ? (
+          <div className="text-sm text-gray-700 mb-2 space-y-1">
+            {Object.entries(item.content).map(([key, val]: [string, any]) => (
+              <div key={key}>
+                <span className="font-medium text-gray-900">{key}: </span>
+                <span className="whitespace-pre-line">{typeof val === "string" ? val : JSON.stringify(val)}</span>
+              </div>
+            ))}
+          </div>
+        ) : null
       )}
       {item.keyConcepts && Array.isArray(item.keyConcepts) && item.keyConcepts.length > 0 && (
         <div className="mb-2">
