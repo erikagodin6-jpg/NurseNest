@@ -304,8 +304,8 @@ import illustrationATPGlycolysis from "@/assets/images/atp-glycolysis.png";
 import illustrationATPMolecule from "@/assets/images/atp-molecule-structure.png";
 
 const lessonSpecificImages: Record<string, string> = {
-  "infective-endocarditis": illustrationEndocarditisSigns,
-  "peripheral-artery-disease": illustrationPADArtery,
+  "infective-endocarditis-signs": illustrationEndocarditisSigns,
+  "peripheral-artery-disease-overview": illustrationPADArtery,
   "pacemaker-care": illustrationPacemaker,
   "dysrhythmias": illustrationCardioversion,
   "mi-management": illustrationCardiacCycleUpdated,
@@ -442,7 +442,6 @@ const lessonSpecificImages: Record<string, string> = {
   "ards-management": illustrationAsthma,
   "oxygen-therapy": illustrationOxygenTherapyV3,
   "oxygen-delivery": illustrationOxygenTherapyV2,
-  "pneumothorax": illustrationPneumothorax,
   "tension-pneumothorax": illustrationPneumothorax,
   "chest-tube-management": illustrationPneumothorax,
   "pulmonary-fibrosis": illustrationPulmonaryFibrosis,
@@ -596,7 +595,6 @@ const lessonSpecificImages: Record<string, string> = {
   "lung-auscultation": illustrationRespiratoryAnatomy,
   "oxygen-therapy-basics": illustrationRespiratoryAnatomy,
   "osa-management": illustrationRespiratoryAnatomy,
-  "inhaled-spacers": illustrationInhaledSpacersV2,
   "peak-flow-monitoring-rpn": illustrationRespiratoryAnatomy,
   "spinal-cord-injury": illustrationNeurologicalAnatomy,
   "status-epilepticus": illustrationNeurologicalAnatomy,
@@ -611,7 +609,6 @@ const lessonSpecificImages: Record<string, string> = {
   "wernicke-korsakoff": illustrationKorsakoffSyndrome,
   "guillain-barre": illustrationGuillainBarreV2,
   "meningitis": illustrationNeurologicalAnatomy,
-  "als-management": illustrationNeurologicalAnatomy,
   "abdominal-assessment": illustrationGIAnatomy,
   "gi-bleed": illustrationGIAnatomy,
   "cirrhosis-management": illustrationGIAnatomy,
@@ -743,7 +740,7 @@ const lessonSpecificImages: Record<string, string> = {
   "sepsis-basics": illustrationSepsisPatho,
   "septic-shock": illustrationSepsisPatho,
 
-  "pulmonary-embolism": illustrationPEPatho,
+  "pulmonary-embolism-patho": illustrationPEPatho,
 
   "icp-basics": illustrationICPV2,
 
@@ -869,7 +866,7 @@ const lessonSpecificImages: Record<string, string> = {
   "tracheostomy-basics-rpn": illustrationTracheostomyPatho,
 
   "chest-tube": illustrationChestTubePatho,
-  "pneumothorax": illustrationChestTubePatho,
+  "pneumothorax-chest-tube": illustrationChestTubePatho,
 
 };
 

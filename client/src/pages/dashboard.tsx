@@ -683,10 +683,12 @@ function ExamStatsWidget({ user }: { user: any }) {
   const { t } = useI18n();
 
   useEffect(() => {
-    fetch(`/api/mock-exams/history/${user.id}`)
-      .then((r) => r.json())
-      .then((data: any[]) => setStats(data.slice(0, 5)))
-      .catch(() => {});
+    import("@/lib/qbank-api").then(({ getAuthHeaders }) => {
+      fetch(`/api/mock-exams/history/${user.id}`, { headers: getAuthHeaders() })
+        .then((r) => r.json())
+        .then((data: any[]) => setStats(data.slice(0, 5)))
+        .catch(() => {});
+    });
   }, [user.id]);
 
   if (stats.length === 0) {
@@ -862,8 +864,11 @@ function RecommendedWidget({ user }: { user: any }) {
   const [examStats, setExamStats] = useState<any[]>([]);
 
   useEffect(() => {
-    fetch(`/api/progress/${user.id}`).then((r) => r.json()).then(setProgress).catch(() => {});
-    fetch(`/api/mock-exams/history/${user.id}`).then((r) => r.json()).then(setExamStats).catch(() => {});
+    import("@/lib/qbank-api").then(({ getAuthHeaders }) => {
+      const h = getAuthHeaders();
+      fetch(`/api/progress/${user.id}`, { headers: h }).then((r) => r.json()).then(setProgress).catch(() => {});
+      fetch(`/api/mock-exams/history/${user.id}`, { headers: h }).then((r) => r.json()).then(setExamStats).catch(() => {});
+    });
   }, [user.id]);
 
   const completedCount = progress.filter((p: any) => p.completed).length;

@@ -33,16 +33,7 @@ const EXAM_THEMES = [
   { id: "highContrast", name: "High Contrast", color: "#4F46E5" },
 ];
 
-function getAuthHeaders(): Record<string, string> {
-  try {
-    const creds = localStorage.getItem("nursenest-credentials");
-    if (creds) {
-      const { username, password } = JSON.parse(creds);
-      return { "x-username": username, "x-password": password };
-    }
-  } catch {}
-  return {};
-}
+import { getAuthHeaders } from "@/lib/qbank-api";
 
 function getPrimaryExamTier(userTier: string | undefined, isAdmin: boolean, previewActive: boolean): string | null {
   if (isAdmin && !previewActive) return null;

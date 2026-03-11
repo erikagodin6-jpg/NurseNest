@@ -130,6 +130,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       delete data.accessToken;
       delete data.expiresInSeconds;
     }
+    if (data?.userToken) {
+      localStorage.setItem("nursenest-user-token", data.userToken);
+      delete data.userToken;
+      delete data.userTokenExpiry;
+    }
     if (data?.tier === "admin") {
       await syncPreviewFromServer();
     }
@@ -174,6 +179,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setPreviewTier(null);
     localStorage.removeItem("nursenest-user");
     localStorage.removeItem("nursenest-credentials");
+    localStorage.removeItem("nursenest-user-token");
     localStorage.removeItem("nursenest-admin-api-key");
     clearAdminToken();
   }

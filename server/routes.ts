@@ -60,7 +60,7 @@ import { registerMltExamRoutes } from "./mlt-exam-routes";
 import { regionMiddleware, getEffectiveRegion, isRegionAllowed, getDefaultRegionScope, canChangeRegionScope, buildRegionFilter, type Region, type RegionScope } from "./region";
 import { languageMiddleware, getTranslatedFields, getTranslationStatus, getBulkTranslatedTitles, getAvailableLanguages, simpleHash } from "./translation-helpers";
 import { checkAiLimits, recordAiUsage, getAiConfig, setAiConfig } from "./ai-safety";
-import { requireAdmin, signAdminToken, verifyAdminToken, resolveAuthUser, requireExactTier, requireAnyPaidTier } from "./admin-auth";
+import { requireAdmin, signAdminToken, signUserToken, verifyAdminToken, resolveAuthUser, requireExactTier, requireAnyPaidTier } from "./admin-auth";
 import { validateQuestionBankImport, getCountryForUserRegion, getExamTypeForCountry } from "./question-bank-validation";
 import { getAllowedContentTiers } from "../shared/tier-config";
 import rateLimit from "express-rate-limit";
@@ -2454,6 +2454,9 @@ Return ONLY a JSON array of flashcard objects, no other text.`;
         response.accessToken = tokenData.accessToken;
         response.expiresInSeconds = tokenData.expiresInSeconds;
       }
+      const ut = signUserToken(user.id, user.username);
+      response.userToken = ut.userToken;
+      response.userTokenExpiry = ut.expiresInSeconds;
       res.json(response);
     } catch (e: any) {
       res.status(400).json({ error: e.message });

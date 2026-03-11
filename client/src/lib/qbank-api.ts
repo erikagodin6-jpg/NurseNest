@@ -48,10 +48,11 @@ export interface QBankStats {
   tier: string;
 }
 
-function getAuthHeaders(): Record<string, string> {
+export function getAuthHeaders(): Record<string, string> {
   try {
+    const expiresAt = sessionStorage.getItem("nn_admin_expires_at");
     const token = sessionStorage.getItem("nn_admin_access_token");
-    if (token) {
+    if (token && (!expiresAt || Date.now() < Number(expiresAt))) {
       return { "Authorization": `Bearer ${token}` };
     }
   } catch {}
@@ -59,8 +60,14 @@ function getAuthHeaders(): Record<string, string> {
     const creds = localStorage.getItem("nursenest-credentials");
     if (creds) {
       const { username, password } = JSON.parse(creds);
-      return { "x-username": username, "x-password": password };
+      if (username && password) {
+        return { "x-username": username, "x-password": password };
+      }
     }
+  } catch {}
+  try {
+    const userToken = localStorage.getItem("nursenest-user-token");
+    if (userToken) return { "x-user-token": userToken };
   } catch {}
   return {};
 }

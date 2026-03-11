@@ -19,6 +19,24 @@ export function signAdminToken(adminId: string, username: string): { accessToken
   return { accessToken, expiresInSeconds: TOKEN_EXPIRY_SECONDS };
 }
 
+const USER_TOKEN_EXPIRY = 86400 * 30;
+
+export function signUserToken(userId: string, username: string): { userToken: string; expiresInSeconds: number } {
+  const payload = { sub: userId, username, role: "user" as const };
+  const userToken = jwt.sign(payload, JWT_SECRET(), { expiresIn: USER_TOKEN_EXPIRY });
+  return { userToken, expiresInSeconds: USER_TOKEN_EXPIRY };
+}
+
+export function verifyUserToken(token: string): { sub: string; username: string; role: string } | null {
+  try {
+    const decoded = jwt.verify(token, JWT_SECRET()) as any;
+    if (!decoded.sub) return null;
+    return decoded;
+  } catch {
+    return null;
+  }
+}
+
 export function verifyAdminToken(token: string): AdminTokenPayload | null {
   try {
     const decoded = jwt.verify(token, JWT_SECRET()) as AdminTokenPayload;
@@ -92,6 +110,15 @@ export async function resolveAuthUser(req: any): Promise<any | null> {
   if (qUsername && qPassword) {
     const r = await pool.query("SELECT * FROM users WHERE username = $1 AND password = $2", [qUsername, qPassword]);
     if (r.rows[0]) return r.rows[0];
+  }
+
+  const userToken = String(req.headers?.["x-user-token"] || "");
+  if (userToken) {
+    const decoded = verifyUserToken(userToken);
+    if (decoded) {
+      const r = await pool.query("SELECT * FROM users WHERE id = $1", [decoded.sub]);
+      if (r.rows[0]) return r.rows[0];
+    }
   }
 
   return null;

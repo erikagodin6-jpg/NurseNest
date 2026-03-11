@@ -16,16 +16,7 @@ import {
   Share2, Download, Copy, ShieldCheck, Lock
 } from "lucide-react";
 
-function getAuthHeaders(): Record<string, string> {
-  try {
-    const creds = localStorage.getItem("nursenest-credentials");
-    if (creds) {
-      const { username, password } = JSON.parse(creds);
-      return { "x-username": username, "x-password": password };
-    }
-  } catch {}
-  return {};
-}
+import { getAuthHeaders } from "@/lib/qbank-api";
 
 function formatDuration(seconds: number): string {
   const h = Math.floor(seconds / 3600);

@@ -73,8 +73,8 @@ function PracticeQuestionsIndex() {
       const results: { tier: string; system: string; count: number }[] = [];
       for (const tier of tiers) {
         try {
-          const { fetchQBankStats } = await import("@/lib/qbank-api");
-          const res = await fetch(`/api/qbank/body-systems?tier=${tier}`);
+          const { fetchQBankStats, getAuthHeaders } = await import("@/lib/qbank-api");
+          const res = await fetch(`/api/qbank/body-systems?tier=${tier}`, { headers: getAuthHeaders() });
           if (res.ok) {
             const data = await res.json();
             for (const system of data.bodySystems || []) {
