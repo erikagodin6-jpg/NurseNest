@@ -181,6 +181,10 @@ const ExamHubPage = lazy(() => import("@/pages/exam-hub"));
 const ConditionPage = lazy(() => import("@/pages/condition-page"));
 const MedicationPage = lazy(() => import("@/pages/medication-page"));
 const LabValuePage = lazy(() => import("@/pages/lab-value-page"));
+const MedicalImagingHub = lazy(() => import("@/pages/medical-imaging-hub"));
+const MedicalImagingCanadaPage = lazy(() => import("@/pages/medical-imaging-country").then(m => ({ default: m.MedicalImagingCanada })));
+const MedicalImagingUSAPage = lazy(() => import("@/pages/medical-imaging-country").then(m => ({ default: m.MedicalImagingUSA })));
+const AdminMedicalImaging = lazy(() => import("@/pages/admin-medical-imaging"));
 
 function PageTracker() {
   usePageTracker();
@@ -370,7 +374,11 @@ function AppRoutes() {
         <Route path="/admin/pageviews" component={AdminPageviews} />
         <Route path="/admin/seo-visual-autopilot" component={AdminSeoAutopilot} />
         <Route path="/admin/institutions" component={AdminInstitutions} />
+        <Route path="/admin/medical-imaging" component={AdminMedicalImaging} />
         <Route path="/for-institutions" component={ForInstitutions} />
+        <Route path="/medical-imaging/canada" component={MedicalImagingCanadaPage} />
+        <Route path="/medical-imaging/usa" component={MedicalImagingUSAPage} />
+        <Route path="/medical-imaging" component={MedicalImagingHub} />
         <Route path="/order-of-the-draw" component={OrderOfTheDraw} />
         <Route path="/infographics/:slug" component={InfographicLibrary} />
         <Route path="/infographics" component={InfographicLibrary} />

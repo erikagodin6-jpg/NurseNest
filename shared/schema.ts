@@ -2478,3 +2478,158 @@ export const insertTesterFeedbackSchema = createInsertSchema(testerFeedback).omi
 });
 export type TesterFeedback = typeof testerFeedback.$inferSelect;
 export type InsertTesterFeedback = z.infer<typeof insertTesterFeedbackSchema>;
+
+export const imagingQuestions = pgTable("imaging_questions", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  country: text("country").notNull().default("canada"),
+  examType: text("exam_type").notNull().default("camrt"),
+  topic: text("topic").notNull(),
+  subtopic: text("subtopic"),
+  difficulty: text("difficulty").notNull().default("medium"),
+  questionType: text("question_type").notNull().default("multiple_choice"),
+  questionStem: text("question_stem").notNull(),
+  answerOptions: jsonb("answer_options").default(sql`'[]'::jsonb`),
+  correctAnswer: text("correct_answer").notNull(),
+  rationale: text("rationale"),
+  imageRefs: text("image_refs").array().default(sql`'{}'::text[]`),
+  eligibilityFlags: text("eligibility_flags").array().default(sql`'{}'::text[]`),
+  status: text("status").notNull().default("draft"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export const insertImagingQuestionSchema = createInsertSchema(imagingQuestions).omit({ id: true, createdAt: true, updatedAt: true });
+export type ImagingQuestion = typeof imagingQuestions.$inferSelect;
+export type InsertImagingQuestion = z.infer<typeof insertImagingQuestionSchema>;
+
+export const imageAssets = pgTable("image_assets", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  assetType: text("asset_type").notNull().default("radiograph"),
+  country: text("country").notNull().default("canada"),
+  examType: text("exam_type"),
+  modality: text("modality"),
+  bodyRegion: text("body_region"),
+  projection: text("projection"),
+  teachingUrl: text("teaching_url"),
+  examUrl: text("exam_url"),
+  thumbnailUrl: text("thumbnail_url"),
+  approvalStatus: text("approval_status").notNull().default("pending"),
+  seoTitle: text("seo_title"),
+  seoDescription: text("seo_description"),
+  seoKeywords: text("seo_keywords").array().default(sql`'{}'::text[]`),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export const insertImageAssetSchema = createInsertSchema(imageAssets).omit({ id: true, createdAt: true, updatedAt: true });
+export type ImageAsset = typeof imageAssets.$inferSelect;
+export type InsertImageAsset = z.infer<typeof insertImageAssetSchema>;
+
+export const imagingFlashcards = pgTable("imaging_flashcards", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  country: text("country").notNull().default("canada"),
+  examType: text("exam_type").notNull().default("camrt"),
+  topic: text("topic").notNull(),
+  front: text("front").notNull(),
+  back: text("back").notNull(),
+  rationale: text("rationale"),
+  difficulty: text("difficulty").default("medium"),
+  imageRef: text("image_ref"),
+  status: text("status").notNull().default("draft"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export const insertImagingFlashcardSchema = createInsertSchema(imagingFlashcards).omit({ id: true, createdAt: true, updatedAt: true });
+export type ImagingFlashcard = typeof imagingFlashcards.$inferSelect;
+export type InsertImagingFlashcard = z.infer<typeof insertImagingFlashcardSchema>;
+
+export const imagingCaseStudies = pgTable("imaging_case_studies", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  country: text("country").notNull().default("canada"),
+  examType: text("exam_type").notNull().default("camrt"),
+  title: text("title").notNull(),
+  clinicalHistory: text("clinical_history").notNull(),
+  findings: jsonb("findings").default(sql`'[]'::jsonb`),
+  diagnosis: text("diagnosis"),
+  discussionPoints: jsonb("discussion_points").default(sql`'[]'::jsonb`),
+  imageRefs: text("image_refs").array().default(sql`'{}'::text[]`),
+  difficulty: text("difficulty").default("medium"),
+  status: text("status").notNull().default("draft"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export const insertImagingCaseStudySchema = createInsertSchema(imagingCaseStudies).omit({ id: true, createdAt: true, updatedAt: true });
+export type ImagingCaseStudy = typeof imagingCaseStudies.$inferSelect;
+export type InsertImagingCaseStudy = z.infer<typeof insertImagingCaseStudySchema>;
+
+export const imagingExamAttempts = pgTable("imaging_exam_attempts", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id").notNull(),
+  country: text("country").notNull().default("canada"),
+  examType: text("exam_type").notNull().default("camrt"),
+  totalQuestions: integer("total_questions").notNull(),
+  score: integer("score"),
+  timeSpent: integer("time_spent"),
+  status: text("status").notNull().default("in_progress"),
+  report: jsonb("report").default(sql`'{}'::jsonb`),
+  startedAt: timestamp("started_at").defaultNow().notNull(),
+  completedAt: timestamp("completed_at"),
+});
+
+export const insertImagingExamAttemptSchema = createInsertSchema(imagingExamAttempts).omit({ id: true, startedAt: true });
+export type ImagingExamAttempt = typeof imagingExamAttempts.$inferSelect;
+export type InsertImagingExamAttempt = z.infer<typeof insertImagingExamAttemptSchema>;
+
+export const imagingExamAttemptQuestions = pgTable("imaging_exam_attempt_questions", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  attemptId: varchar("attempt_id").notNull(),
+  questionId: varchar("question_id").notNull(),
+  userAnswer: text("user_answer"),
+  isCorrect: boolean("is_correct"),
+  timeSpent: integer("time_spent"),
+  flagged: boolean("flagged").default(false),
+});
+
+export const insertImagingExamAttemptQuestionSchema = createInsertSchema(imagingExamAttemptQuestions).omit({ id: true });
+export type ImagingExamAttemptQuestion = typeof imagingExamAttemptQuestions.$inferSelect;
+export type InsertImagingExamAttemptQuestion = z.infer<typeof insertImagingExamAttemptQuestionSchema>;
+
+export const imagingPositioningEntries = pgTable("imaging_positioning_entries", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  country: text("country").notNull().default("canada"),
+  bodyRegion: text("body_region").notNull(),
+  projection: text("projection").notNull(),
+  patientPosition: text("patient_position"),
+  centralRay: text("central_ray"),
+  structures: text("structures").array().default(sql`'{}'::text[]`),
+  criticalAnatomy: text("critical_anatomy"),
+  commonErrors: text("common_errors").array().default(sql`'{}'::text[]`),
+  imageRef: text("image_ref"),
+  status: text("status").notNull().default("draft"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export const insertImagingPositioningEntrySchema = createInsertSchema(imagingPositioningEntries).omit({ id: true, createdAt: true, updatedAt: true });
+export type ImagingPositioningEntry = typeof imagingPositioningEntries.$inferSelect;
+export type InsertImagingPositioningEntry = z.infer<typeof insertImagingPositioningEntrySchema>;
+
+export const imagingPhysicsTopics = pgTable("imaging_physics_topics", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  country: text("country").notNull().default("canada"),
+  title: text("title").notNull(),
+  category: text("category").notNull(),
+  content: jsonb("content").default(sql`'[]'::jsonb`),
+  keyFormulas: jsonb("key_formulas").default(sql`'[]'::jsonb`),
+  examRelevance: text("exam_relevance"),
+  difficulty: text("difficulty").default("medium"),
+  status: text("status").notNull().default("draft"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export const insertImagingPhysicsTopicSchema = createInsertSchema(imagingPhysicsTopics).omit({ id: true, createdAt: true, updatedAt: true });
+export type ImagingPhysicsTopic = typeof imagingPhysicsTopics.$inferSelect;
+export type InsertImagingPhysicsTopic = z.infer<typeof insertImagingPhysicsTopicSchema>;

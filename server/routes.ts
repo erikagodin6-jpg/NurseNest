@@ -36,6 +36,14 @@ import {
   insertInstitutionLeadSchema,
   insertInstitutionSchema,
   insertInstitutionInviteCodeSchema,
+  insertImagingQuestionSchema,
+  insertImageAssetSchema,
+  insertImagingFlashcardSchema,
+  insertImagingCaseStudySchema,
+  insertImagingExamAttemptSchema,
+  insertImagingExamAttemptQuestionSchema,
+  insertImagingPositioningEntrySchema,
+  insertImagingPhysicsTopicSchema,
 } from "@shared/schema";
 import { getUncachableStripeClient, getStripePublishableKey } from "./stripeClient";
 import { createPaypalOrder, capturePaypalOrder, loadPaypalDefault, isPaypalConfigured } from "./paypal";
@@ -13964,6 +13972,449 @@ Return ONLY valid JSON with this exact structure:
     } catch (e: any) {
       res.status(500).json({ error: e.message });
     }
+  });
+
+  // ===== Medical Imaging API Routes =====
+
+  app.get("/api/imaging/questions", async (req, res) => {
+    try {
+      const { country, examType, topic, difficulty, status } = req.query;
+      const filters: any = {};
+      if (country) filters.country = String(country);
+      if (examType) filters.examType = String(examType);
+      if (topic) filters.topic = String(topic);
+      if (difficulty) filters.difficulty = String(difficulty);
+      if (status) filters.status = String(status);
+      const questions = await storage.getAllImagingQuestions(filters);
+      res.json(questions);
+    } catch (e: any) { res.status(500).json({ error: e.message }); }
+  });
+
+  app.get("/api/imaging/questions/:id", async (req, res) => {
+    try {
+      const q = await storage.getImagingQuestion(req.params.id);
+      if (!q) return res.status(404).json({ error: "Not found" });
+      res.json(q);
+    } catch (e: any) { res.status(500).json({ error: e.message }); }
+  });
+
+  app.post("/api/imaging/questions", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const parsed = insertImagingQuestionSchema.parse(req.body);
+      const q = await storage.createImagingQuestion(parsed);
+      res.status(201).json(q);
+    } catch (e: any) { res.status(400).json({ error: e.message }); }
+  });
+
+  app.post("/api/imaging/questions/bulk", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const { questions } = req.body;
+      if (!Array.isArray(questions)) return res.status(400).json({ error: "questions must be an array" });
+      const parsed = questions.map((q: any) => insertImagingQuestionSchema.parse(q));
+      const result = await storage.createImagingQuestionsBulk(parsed);
+      res.status(201).json({ created: result.length, questions: result });
+    } catch (e: any) { res.status(400).json({ error: e.message }); }
+  });
+
+  app.patch("/api/imaging/questions/:id", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const q = await storage.updateImagingQuestion(req.params.id, req.body);
+      res.json(q);
+    } catch (e: any) { res.status(400).json({ error: e.message }); }
+  });
+
+  app.delete("/api/imaging/questions/:id", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      await storage.deleteImagingQuestion(req.params.id);
+      res.json({ ok: true });
+    } catch (e: any) { res.status(500).json({ error: e.message }); }
+  });
+
+  app.get("/api/imaging/assets", async (req, res) => {
+    try {
+      const { country, assetType, modality, approvalStatus } = req.query;
+      const filters: any = {};
+      if (country) filters.country = String(country);
+      if (assetType) filters.assetType = String(assetType);
+      if (modality) filters.modality = String(modality);
+      if (approvalStatus) filters.approvalStatus = String(approvalStatus);
+      const assets = await storage.getAllImageAssets(filters);
+      res.json(assets);
+    } catch (e: any) { res.status(500).json({ error: e.message }); }
+  });
+
+  app.get("/api/imaging/assets/:id", async (req, res) => {
+    try {
+      const a = await storage.getImageAsset(req.params.id);
+      if (!a) return res.status(404).json({ error: "Not found" });
+      res.json(a);
+    } catch (e: any) { res.status(500).json({ error: e.message }); }
+  });
+
+  app.post("/api/imaging/assets", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const parsed = insertImageAssetSchema.parse(req.body);
+      const a = await storage.createImageAsset(parsed);
+      res.status(201).json(a);
+    } catch (e: any) { res.status(400).json({ error: e.message }); }
+  });
+
+  app.patch("/api/imaging/assets/:id", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const a = await storage.updateImageAsset(req.params.id, req.body);
+      res.json(a);
+    } catch (e: any) { res.status(400).json({ error: e.message }); }
+  });
+
+  app.delete("/api/imaging/assets/:id", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      await storage.deleteImageAsset(req.params.id);
+      res.json({ ok: true });
+    } catch (e: any) { res.status(500).json({ error: e.message }); }
+  });
+
+  app.get("/api/imaging/flashcards", async (req, res) => {
+    try {
+      const { country, examType, topic, status } = req.query;
+      const filters: any = {};
+      if (country) filters.country = String(country);
+      if (examType) filters.examType = String(examType);
+      if (topic) filters.topic = String(topic);
+      if (status) filters.status = String(status);
+      const flashcards = await storage.getAllImagingFlashcards(filters);
+      res.json(flashcards);
+    } catch (e: any) { res.status(500).json({ error: e.message }); }
+  });
+
+  app.get("/api/imaging/flashcards/:id", async (req, res) => {
+    try {
+      const f = await storage.getImagingFlashcard(req.params.id);
+      if (!f) return res.status(404).json({ error: "Not found" });
+      res.json(f);
+    } catch (e: any) { res.status(500).json({ error: e.message }); }
+  });
+
+  app.post("/api/imaging/flashcards", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const parsed = insertImagingFlashcardSchema.parse(req.body);
+      const f = await storage.createImagingFlashcard(parsed);
+      res.status(201).json(f);
+    } catch (e: any) { res.status(400).json({ error: e.message }); }
+  });
+
+  app.post("/api/imaging/flashcards/bulk", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const { flashcards } = req.body;
+      if (!Array.isArray(flashcards)) return res.status(400).json({ error: "flashcards must be an array" });
+      const parsed = flashcards.map((f: any) => insertImagingFlashcardSchema.parse(f));
+      const result = await storage.createImagingFlashcardsBulk(parsed);
+      res.status(201).json({ created: result.length, flashcards: result });
+    } catch (e: any) { res.status(400).json({ error: e.message }); }
+  });
+
+  app.patch("/api/imaging/flashcards/:id", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const f = await storage.updateImagingFlashcard(req.params.id, req.body);
+      res.json(f);
+    } catch (e: any) { res.status(400).json({ error: e.message }); }
+  });
+
+  app.delete("/api/imaging/flashcards/:id", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      await storage.deleteImagingFlashcard(req.params.id);
+      res.json({ ok: true });
+    } catch (e: any) { res.status(500).json({ error: e.message }); }
+  });
+
+  app.get("/api/imaging/case-studies", async (req, res) => {
+    try {
+      const { country, examType, status } = req.query;
+      const filters: any = {};
+      if (country) filters.country = String(country);
+      if (examType) filters.examType = String(examType);
+      if (status) filters.status = String(status);
+      const studies = await storage.getAllImagingCaseStudies(filters);
+      res.json(studies);
+    } catch (e: any) { res.status(500).json({ error: e.message }); }
+  });
+
+  app.get("/api/imaging/case-studies/:id", async (req, res) => {
+    try {
+      const c = await storage.getImagingCaseStudy(req.params.id);
+      if (!c) return res.status(404).json({ error: "Not found" });
+      res.json(c);
+    } catch (e: any) { res.status(500).json({ error: e.message }); }
+  });
+
+  app.post("/api/imaging/case-studies", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const parsed = insertImagingCaseStudySchema.parse(req.body);
+      const c = await storage.createImagingCaseStudy(parsed);
+      res.status(201).json(c);
+    } catch (e: any) { res.status(400).json({ error: e.message }); }
+  });
+
+  app.patch("/api/imaging/case-studies/:id", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const c = await storage.updateImagingCaseStudy(req.params.id, req.body);
+      res.json(c);
+    } catch (e: any) { res.status(400).json({ error: e.message }); }
+  });
+
+  app.delete("/api/imaging/case-studies/:id", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      await storage.deleteImagingCaseStudy(req.params.id);
+      res.json({ ok: true });
+    } catch (e: any) { res.status(500).json({ error: e.message }); }
+  });
+
+  app.get("/api/imaging/exam-attempts/:id", async (req, res) => {
+    try {
+      const user = await resolveAuthUser(req);
+      if (!user) return res.status(401).json({ error: "Authentication required" });
+      const a = await storage.getImagingExamAttempt(req.params.id);
+      if (!a) return res.status(404).json({ error: "Not found" });
+      if (a.userId !== String(user.id) && !user.isAdmin) return res.status(403).json({ error: "Forbidden" });
+      res.json(a);
+    } catch (e: any) { res.status(500).json({ error: e.message }); }
+  });
+
+  app.get("/api/imaging/exam-attempts/user/:userId", async (req, res) => {
+    try {
+      const user = await resolveAuthUser(req);
+      if (!user) return res.status(401).json({ error: "Authentication required" });
+      if (req.params.userId !== String(user.id) && !user.isAdmin) return res.status(403).json({ error: "Forbidden" });
+      const attempts = await storage.getUserImagingExamAttempts(req.params.userId);
+      res.json(attempts);
+    } catch (e: any) { res.status(500).json({ error: e.message }); }
+  });
+
+  app.post("/api/imaging/exam-attempts", async (req, res) => {
+    try {
+      const user = await resolveAuthUser(req);
+      if (!user) return res.status(401).json({ error: "Authentication required" });
+      const parsed = insertImagingExamAttemptSchema.parse({ ...req.body, userId: String(user.id) });
+      const a = await storage.createImagingExamAttempt(parsed);
+      res.status(201).json(a);
+    } catch (e: any) { res.status(400).json({ error: e.message }); }
+  });
+
+  app.patch("/api/imaging/exam-attempts/:id", async (req, res) => {
+    try {
+      const user = await resolveAuthUser(req);
+      if (!user) return res.status(401).json({ error: "Authentication required" });
+      const existing = await storage.getImagingExamAttempt(req.params.id);
+      if (!existing) return res.status(404).json({ error: "Not found" });
+      if (existing.userId !== String(user.id) && !user.isAdmin) return res.status(403).json({ error: "Forbidden" });
+      const a = await storage.updateImagingExamAttempt(req.params.id, req.body);
+      res.json(a);
+    } catch (e: any) { res.status(400).json({ error: e.message }); }
+  });
+
+  app.get("/api/imaging/exam-attempts/:attemptId/questions", async (req, res) => {
+    try {
+      const user = await resolveAuthUser(req);
+      if (!user) return res.status(401).json({ error: "Authentication required" });
+      const attempt = await storage.getImagingExamAttempt(req.params.attemptId);
+      if (!attempt) return res.status(404).json({ error: "Not found" });
+      if (attempt.userId !== String(user.id) && !user.isAdmin) return res.status(403).json({ error: "Forbidden" });
+      const questions = await storage.getImagingExamAttemptQuestions(req.params.attemptId);
+      res.json(questions);
+    } catch (e: any) { res.status(500).json({ error: e.message }); }
+  });
+
+  app.post("/api/imaging/exam-attempts/:attemptId/questions", async (req, res) => {
+    try {
+      const user = await resolveAuthUser(req);
+      if (!user) return res.status(401).json({ error: "Authentication required" });
+      const attempt = await storage.getImagingExamAttempt(req.params.attemptId);
+      if (!attempt) return res.status(404).json({ error: "Not found" });
+      if (attempt.userId !== String(user.id) && !user.isAdmin) return res.status(403).json({ error: "Forbidden" });
+      const parsed = insertImagingExamAttemptQuestionSchema.parse({ ...req.body, attemptId: req.params.attemptId });
+      const q = await storage.createImagingExamAttemptQuestion(parsed);
+      res.status(201).json(q);
+    } catch (e: any) { res.status(400).json({ error: e.message }); }
+  });
+
+  app.patch("/api/imaging/exam-attempt-questions/:id", async (req, res) => {
+    try {
+      const user = await resolveAuthUser(req);
+      if (!user) return res.status(401).json({ error: "Authentication required" });
+      const q = await storage.updateImagingExamAttemptQuestion(req.params.id, req.body);
+      res.json(q);
+    } catch (e: any) { res.status(400).json({ error: e.message }); }
+  });
+
+  app.get("/api/imaging/positioning", async (req, res) => {
+    try {
+      const { country, bodyRegion, status } = req.query;
+      const filters: any = {};
+      if (country) filters.country = String(country);
+      if (bodyRegion) filters.bodyRegion = String(bodyRegion);
+      if (status) filters.status = String(status);
+      const entries = await storage.getAllImagingPositioningEntries(filters);
+      res.json(entries);
+    } catch (e: any) { res.status(500).json({ error: e.message }); }
+  });
+
+  app.get("/api/imaging/positioning/:id", async (req, res) => {
+    try {
+      const e = await storage.getImagingPositioningEntry(req.params.id);
+      if (!e) return res.status(404).json({ error: "Not found" });
+      res.json(e);
+    } catch (e: any) { res.status(500).json({ error: e.message }); }
+  });
+
+  app.post("/api/imaging/positioning", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const parsed = insertImagingPositioningEntrySchema.parse(req.body);
+      const e = await storage.createImagingPositioningEntry(parsed);
+      res.status(201).json(e);
+    } catch (e: any) { res.status(400).json({ error: e.message }); }
+  });
+
+  app.patch("/api/imaging/positioning/:id", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const e = await storage.updateImagingPositioningEntry(req.params.id, req.body);
+      res.json(e);
+    } catch (e: any) { res.status(400).json({ error: e.message }); }
+  });
+
+  app.delete("/api/imaging/positioning/:id", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      await storage.deleteImagingPositioningEntry(req.params.id);
+      res.json({ ok: true });
+    } catch (e: any) { res.status(500).json({ error: e.message }); }
+  });
+
+  app.get("/api/imaging/physics", async (req, res) => {
+    try {
+      const { country, category, status } = req.query;
+      const filters: any = {};
+      if (country) filters.country = String(country);
+      if (category) filters.category = String(category);
+      if (status) filters.status = String(status);
+      const topics = await storage.getAllImagingPhysicsTopics(filters);
+      res.json(topics);
+    } catch (e: any) { res.status(500).json({ error: e.message }); }
+  });
+
+  app.get("/api/imaging/physics/:id", async (req, res) => {
+    try {
+      const t = await storage.getImagingPhysicsTopic(req.params.id);
+      if (!t) return res.status(404).json({ error: "Not found" });
+      res.json(t);
+    } catch (e: any) { res.status(500).json({ error: e.message }); }
+  });
+
+  app.post("/api/imaging/physics", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const parsed = insertImagingPhysicsTopicSchema.parse(req.body);
+      const t = await storage.createImagingPhysicsTopic(parsed);
+      res.status(201).json(t);
+    } catch (e: any) { res.status(400).json({ error: e.message }); }
+  });
+
+  app.patch("/api/imaging/physics/:id", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const t = await storage.updateImagingPhysicsTopic(req.params.id, req.body);
+      res.json(t);
+    } catch (e: any) { res.status(400).json({ error: e.message }); }
+  });
+
+  app.delete("/api/imaging/physics/:id", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      await storage.deleteImagingPhysicsTopic(req.params.id);
+      res.json({ ok: true });
+    } catch (e: any) { res.status(500).json({ error: e.message }); }
+  });
+
+  app.patch("/api/imaging/questions/:id/status", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const { status } = req.body;
+      const validStatuses = ["draft", "pending_review", "approved", "published", "archived"];
+      if (!status || !validStatuses.includes(status)) return res.status(400).json({ error: `Invalid status. Must be one of: ${validStatuses.join(", ")}` });
+      const q = await storage.updateImagingQuestion(req.params.id, { status });
+      res.json(q);
+    } catch (e: any) { res.status(400).json({ error: e.message }); }
+  });
+
+  app.patch("/api/imaging/flashcards/:id/status", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const { status } = req.body;
+      const validStatuses = ["draft", "pending_review", "approved", "published", "archived"];
+      if (!status || !validStatuses.includes(status)) return res.status(400).json({ error: `Invalid status. Must be one of: ${validStatuses.join(", ")}` });
+      const f = await storage.updateImagingFlashcard(req.params.id, { status });
+      res.json(f);
+    } catch (e: any) { res.status(400).json({ error: e.message }); }
+  });
+
+  app.patch("/api/imaging/case-studies/:id/status", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const { status } = req.body;
+      const validStatuses = ["draft", "pending_review", "approved", "published", "archived"];
+      if (!status || !validStatuses.includes(status)) return res.status(400).json({ error: `Invalid status. Must be one of: ${validStatuses.join(", ")}` });
+      const c = await storage.updateImagingCaseStudy(req.params.id, { status });
+      res.json(c);
+    } catch (e: any) { res.status(400).json({ error: e.message }); }
+  });
+
+  app.patch("/api/imaging/assets/:id/approval", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const { approvalStatus } = req.body;
+      const validStatuses = ["pending", "approved", "rejected"];
+      if (!approvalStatus || !validStatuses.includes(approvalStatus)) return res.status(400).json({ error: `Invalid status. Must be one of: ${validStatuses.join(", ")}` });
+      const a = await storage.updateImageAsset(req.params.id, { approvalStatus });
+      res.json(a);
+    } catch (e: any) { res.status(400).json({ error: e.message }); }
   });
 
   return httpServer;
