@@ -754,6 +754,9 @@ app.use((req, res, next) => {
       import("./seed-seo-clusters").then(({ seedSEOClusters }) => {
         seedSEOClusters(p).catch((e: any) => console.error("[SEO Seed] Failed:", e.message));
       });
+      import("./seed-paramedic-content").then(({ seedParamedicContent }) => {
+        seedParamedicContent(p).catch((e: any) => console.error("[Paramedic Seed] Failed:", e.message));
+      });
     });
   });
 
