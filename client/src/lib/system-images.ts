@@ -149,7 +149,11 @@ import illustrationPADArtery from "@/assets/lesson-pad-artery.png";
 import illustrationRaynaudsSigns from "@/assets/lesson-raynauds-signs.png";
 import illustrationRheumaticFeverSigns from "@/assets/lesson-rheumatic-fever-signs.jpeg";
 import illustrationShockTypes from "@/assets/lesson-shock-types.png";
+import illustrationShockTypesV2 from "@/assets/lesson-shock-types-new.png";
 import illustrationVaricoseVeinsAnatomy from "@/assets/lesson-varicose-veins-anatomy.png";
+import illustrationVaricoseVeinsV2 from "@/assets/lesson-varicose-veins-new.png";
+import illustrationVenousInsufficiencyV2 from "@/assets/lesson-venous-insufficiency-new.jpeg";
+import illustrationViralMyocarditis from "@/assets/lesson-viral-myocarditis.png";
 
 import illustrationBecksTriad from "@/assets/lesson-becks-triad.png";
 import illustrationBrainAnatomy from "@/assets/lesson-brain-anatomy.png";
@@ -298,11 +302,16 @@ const lessonSpecificImages: Record<string, string> = {
   "rhabdomyolysis": illustrationKidneys,
   "av-fistula": illustrationKidneys,
   "dialysis-steal": illustrationKidneys,
-  "shock-syndromes": illustrationShockTypes,
+  "shock-syndromes": illustrationShockTypesV2,
   "sepsis-mastery": illustrationShock,
   "burn-management": illustrationWound,
   "cellulitis": illustrationWound,
-  "cardiogenic-shock": illustrationShockTypes,
+  "cardiogenic-shock": illustrationShockTypesV2,
+  "hypovolemic-shock": illustrationShockTypesV2,
+  "distributive-shock": illustrationShockTypesV2,
+  "obstructive-shock": illustrationShockTypesV2,
+  "neurogenic-shock": illustrationShockTypesV2,
+  "anaphylactic-shock": illustrationShockTypesV2,
   "aaa-rupture": illustrationCardiacCycleNew,
   "pe-dvt": illustrationPulmonaryEmbolismV2,
   "pe-recognition": illustrationPulmonaryEmbolismV2,
@@ -496,8 +505,13 @@ const lessonSpecificImages: Record<string, string> = {
   "kawasaki": illustrationKawasakiDisease,
   "raynauds": illustrationRaynaudsSigns,
   "raynauds-phenomenon": illustrationRaynaudsSigns,
-  "varicose-veins": illustrationVaricoseVeinsAnatomy,
-  "venous-insufficiency": illustrationVenousInsufficiency,
+  "varicose-veins": illustrationVaricoseVeinsV2,
+  "varicose-vein-management": illustrationVaricoseVeinsV2,
+  "venous-insufficiency": illustrationVenousInsufficiencyV2,
+  "chronic-venous-insufficiency": illustrationVenousInsufficiencyV2,
+  "venous-stasis": illustrationVenousInsufficiencyV2,
+  "myocarditis": illustrationViralMyocarditis,
+  "viral-myocarditis": illustrationViralMyocarditis,
   "rheumatic-fever": illustrationRheumaticFeverSigns,
   "cardiac-cycle-hemodynamics": illustrationCardiacCycleNew,
   "conduction-system": illustrationConductionSystem,
@@ -775,7 +789,8 @@ const lessonSpecificImages: Record<string, string> = {
 
   "malignant-hyperthermia-management": illustrationMalignantHyperthermia,
 
-  "shock-types-recognition-rpn": illustrationShockTypes,
+  "shock-types-recognition-rpn": illustrationShockTypesV2,
+  "shock-types": illustrationShockTypesV2,
 
   "chest-pain-differential-rpn": illustrationChestPainDifferential,
 
@@ -1016,8 +1031,9 @@ export function getLessonImage(lessonId: string): string | undefined {
   if (lessonId.includes("kawasaki")) return illustrationKawasakiDisease;
   if (lessonId.includes("scabies")) return illustrationScabies;
   if (lessonId.includes("raynaud")) return illustrationRaynaudsSigns;
-  if (lessonId.includes("varicose")) return illustrationVaricoseVeinsAnatomy;
-  if (lessonId.includes("venous-insuff")) return illustrationVenousInsufficiency;
+  if (lessonId.includes("varicose")) return illustrationVaricoseVeinsV2;
+  if (lessonId.includes("venous-insuff") || lessonId.includes("venous-stasis")) return illustrationVenousInsufficiencyV2;
+  if (lessonId.includes("myocarditis")) return illustrationViralMyocarditis;
   if (lessonId.includes("buerger")) return illustrationBuergersDiseaseNew;
   if (lessonId.includes("cardiomyopathy")) return illustrationCardiomyopathyUpdated;
   if (lessonId.includes("pericarditis")) return illustrationPericarditis;
@@ -1029,7 +1045,7 @@ export function getLessonImage(lessonId: string): string | undefined {
   if (lessonId.includes("chest-pain")) return illustrationChestPainDifferential;
   if (lessonId.includes("endocarditis")) return illustrationEndocarditisSigns;
   if (lessonId.includes("rheumatic")) return illustrationRheumaticFeverSigns;
-  if (lessonId.includes("shock") || lessonId.includes("dysrhythmia")) return illustrationShockTypes;
+  if (lessonId.includes("shock") || lessonId.includes("dysrhythmia")) return illustrationShockTypesV2;
   if (lessonId.includes("heart-failure") || lessonId.includes("hf-")) return illustrationLeftHeartFailure;
   if (lessonId.includes("abg") || lessonId.includes("acid-base")) return illustrationABGReferenceNew;
   if (lessonId.includes("copd") || lessonId.includes("emphysema")) return illustrationCOPDPathology;
