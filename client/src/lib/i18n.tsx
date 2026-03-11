@@ -41,13 +41,13 @@ import("./i18n-translations").then((m) => {
 type I18nContextType = {
   language: LanguageCode;
   setLanguage: (lang: LanguageCode) => void;
-  t: (key: string) => string;
+  t: (key: string, vars?: Record<string, string>) => string;
 };
 
 const I18nContext = createContext<I18nContextType>({
   language: "en",
   setLanguage: () => {},
-  t: (key: string) => key,
+  t: (key: string, _vars?: Record<string, string>) => key,
 });
 
 function localeToLanguage(locale: SupportedLocale): LanguageCode {
@@ -115,14 +115,20 @@ export function I18nProvider({ children }: { children: ReactNode }) {
     localStorage.setItem("nursenest-language", language);
   }, [language]);
 
-  const t = (key: string): string => {
-    const val = translations[language]?.[key] || translations.en[key];
+  const t = (key: string, vars?: Record<string, string>): string => {
+    let val = translations[language]?.[key] || translations.en[key];
     if (!val && typeof window !== "undefined" && (window as any).__DEV_MODE !== false) {
       if (process.env.NODE_ENV === "development" || import.meta.env?.DEV) {
         console.warn(`[i18n] Missing translation key: "${key}" for language "${language}"`);
       }
     }
-    return val || key;
+    val = val || key;
+    if (vars) {
+      for (const [k, v] of Object.entries(vars)) {
+        val = val.replace(new RegExp(`\\{\\{${k}\\}\\}`, "g"), v);
+      }
+    }
+    return val;
   };
 
   if (!ready) return null;

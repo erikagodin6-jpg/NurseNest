@@ -20,7 +20,16 @@ NurseNest is an adaptive learning platform designed for nursing and allied healt
 The platform utilizes React with TypeScript, Wouter for routing, shadcn/ui with Radix UI, and Tailwind CSS v4, supporting 20 themes and DM Sans typography. Key UI components include `ContentGate`, `PauseAndThink`, `ProgressiveDisclosure`, `CuriosityHook`, and `KnowledgeCheck`. A digital product builder offers a Canva-style editor with drag-and-drop, AI image, and content generation capabilities. The design system incorporates premium visuals, dual-tone top bars, and watermarked PDF previews.
 
 ### Technical Implementations
-The application is built with Vite, React, and Express 5 on Node.js with TypeScript. Server state is managed by TanStack React Query via a RESTful API. Authentication uses username/password with session management, and a subscription system supports regional pricing. Core features include interactive learning modules, a mock exam engine with stratified random sampling and Strict Exam Mode, and an admin dashboard. AI integrations encompass OpenAI-powered blog automation, custom i18n for 15 languages, an Adaptive CAT Engine, Pass Probability Projection Engine, and Next Best Action Engine. Exam blueprints are database-driven, and content is organized by body system for various nursing levels. The platform includes a 3-step onboarding process for personalized study plans, admin tools like QBank Factory and Product Generator V2 for AI-driven content generation, and programmatic SEO for practice question pages. It supports NGN question types, a partial credit scoring engine, and a Spaced Repetition System. Content access is controlled via a tier system (free, rpn, rn, np, admin).
+The application is built with Vite, React, and Express 5 on Node.js with TypeScript. Server state is managed by TanStack React Query via a RESTful API. Authentication uses username/password with session management, and a subscription system supports regional pricing. Core features include interactive learning modules, a mock exam engine with stratified random sampling and Strict Exam Mode, and an admin dashboard. AI integrations encompass OpenAI-powered blog automation, custom i18n for 15 languages, an Adaptive CAT Engine, Pass Probability Projection Engine, and Next Best Action Engine. Exam blueprints are database-driven, and content is organized by body system for various nursing levels, incorporating pre/post-test questions. The platform includes a 3-step onboarding process for personalized study plans, admin tools like QBank Factory and Product Generator V2 for AI-driven content generation, and programmatic SEO for practice question pages. It supports NGN question types, a partial credit scoring engine, and a Spaced Repetition System. Content access is controlled via a tier system (free, rpn, rn, np, admin). Other features include 301 redirects, sitemap generation, related articles, Exam Calculator, Quick Study Sessions, and a Study Progress Momentum System. The Lesson Library provides tier-adaptive heroes, featured topics, progress cards, and study time estimates. Clinical Case Studies offer multi-stage scenarios with decision points, and regional measurement adaptation converts units dynamically. A Tester Access System manages invite codes and gathers feedback.
+
+### Feature Specifications
+- **Question Bank System**: Supports Admin, Exam, Study, and Browse modes. Features JSON import with extensive validation, inline editing, status toggling, timed exams with shuffling, immediate rationale in study mode, and analytics. Enforces content safety rules based on user tier and region.
+- **Paramedic EMS Scenario Simulation System**: Manages interactive paramedic scenarios with detailed dispatch, assessment, decision points, and debriefing. Scenarios are segmented by content domain, profession track, region, visibility, difficulty, and exam relevance. Includes a frontend player and an admin panel for scenario creation and management.
+- **Referral Discount System**: Users can generate unique referral codes. Friends receive a 15% discount on their first subscription, and referrers earn 7 free premium days. The system tracks uses and integrates with Stripe for discount application.
+- **Beta Tester Access Code Management**: Admin dashboard functionality for generating, managing, and tracking beta invite codes with customizable tiers, usage limits, and durations.
+- **Paramedic Landing & Hub Pages**: Dedicated SEO-optimized pages for paramedic careers, including landing pages, exam-specific pages, and content hubs for lessons, exams, flashcards, and scenarios.
+- **SEO Page System**: Includes dynamically generated landing pages for mock exams, hub pages for nursing certifications, and dedicated pages for medical conditions, medications, and lab values, all with structured data and comprehensive SEO metadata.
+- **Paramedic SEO Content Engine**: Generates and manages various SEO content types (Topic, Category, Glossary, Comparison, Study Guides) for paramedic content, supporting internal linking and structured data.
 
 ## External Dependencies
 
@@ -38,9 +47,9 @@ The application is built with Vite, React, and Express 5 on Node.js with TypeScr
 - **Dates**: `date-fns`
 
 ### AI/Content Generation
-- **OpenAI**: Used for blog posts, AI flashcards, lesson content, AI medical images, micro-lectures, and a 5-step content pipeline.
-- **Test Bank Generator**: Ensures strict question count and JSON schema validation.
-- **NGN QBank Generator**: Admin batch generation system with multiple prompt templates and strict validation.
+- OpenAI: Used for blog posts, AI flashcards, lesson content, AI medical images, micro-lectures, and a 5-step content pipeline.
+- Test Bank Generator: Ensures strict question count and JSON schema validation.
+- NGN QBank Generator: Admin batch generation system with multiple prompt templates and strict validation.
 
 ### Social Media
 - Meta Graph API: For social media scheduling.

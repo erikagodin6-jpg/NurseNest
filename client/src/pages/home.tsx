@@ -200,7 +200,7 @@ export default function Home() {
               </h1>
               
               <p className="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed" data-testid="text-hero-subheading">
-                {t("home.hero.subtitle")}
+                {t("home.hero.subtitle", { designation: rpnLabel, examName: examLabel })}
               </p>
               
               <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3 sm:gap-4 pt-2 px-4 sm:px-0">

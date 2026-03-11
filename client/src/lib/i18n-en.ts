@@ -18,7 +18,7 @@ const enTranslations: Record<string, string> = {
     "nav.contentEditor": "Content Editor",
     "nav.blogManager": "Blog Manager",
     "home.hero.title": "Pass Your Nursing Licensing Exam With Confidence",
-    "home.hero.subtitle": "Comprehensive exam preparation for RPN, RN, and NP students. Structured lessons, thousands of practice questions, and realistic exam simulations designed to help you master the concepts tested on the REx-PN, NCLEX-RN, and NP certification exams.",
+    "home.hero.subtitle": "Comprehensive exam preparation for {{designation}}, RN, and NP students. Structured lessons, thousands of practice questions, and realistic exam simulations designed to help you master the concepts tested on the {{examName}}, NCLEX-RN, and NP certification exams.",
     "home.hero.cta": "Start Studying Free",
     "home.hero.cta2": "Try Practice Questions",
     "home.hero.reassurance": "No subscription required to start  |  Instant access  |  Cancel anytime",
