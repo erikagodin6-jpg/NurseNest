@@ -98,6 +98,17 @@ The application is built with Vite, React, and Express 5 on Node.js with TypeScr
 - View active beta testers table with username, tier, invite code used, referral code, referral count, expiry, status
 - View tester feedback with category, severity, title, description, and status badges
 
+## Paramedic Landing & Hub Pages
+- Dedicated paramedic routes under `/paramedic` (separate from generic `/careers/paramedic`)
+- **Landing page**: `/paramedic` — 10-section conversion page (hero, who-this-is-for, pain points, features, topics, study path, free preview, exam pathways, trust, final CTA)
+- **Exam-specific pages**: `/paramedic/pcp` (PCP Canada), `/paramedic/acp` (Advanced Care), `/paramedic/nremt` (US National Registry)
+- **Hub pages**: `/paramedic/lessons`, `/paramedic/exams`, `/paramedic/flashcards`, `/paramedic/scenarios`, `/paramedic/practice-exams`
+- Reusable conversion components in `client/src/allied/pages/paramedic/components.tsx`: HeroCTA, StudyPathSteps, TrackCard, PainPointCard, FeatureCard, TopicCategoryCard, FreePreviewBlock, ExamPathCard, TrustBlock, FinalCTASection, FAQSection, ContentCard, FilterChip, HubHero
+- All pages have unique SEO metadata (title, description, keywords, OG tags, canonical URLs, structured data)
+- Pages pull real content from `paramedic-questions.ts` (500 questions, 10 categories) and `paramedic-lessons.ts` (10 lessons)
+- NurseNest brand colors: soft lavender/purple gradients, teal accents, clinical white
+- Routes registered in `client/src/allied/allied-routes.tsx` before career wildcard routes
+
 ## SEO Page System
 - **Exam Landing Pages**: `/nclex-rn/mock-exam`, `/nclex-pn/mock-exam`, `/rex-pn/mock-exam`, `/canada-np/mock-exam`, `/us-np/mock-exam` — reusable `exam-landing.tsx` with interactive sample questions, FAQ, structured data (FAQPage, Article, EducationalOccupationalCredential)
 - **Exam Hub Pages**: `/nclex-rn`, `/nclex-pn`, `/canada-np`, `/us-np` — reusable `exam-hub.tsx` with internal linking grids, key stats, cross-links (note: `/rex-pn` uses existing `RexPnHub`)

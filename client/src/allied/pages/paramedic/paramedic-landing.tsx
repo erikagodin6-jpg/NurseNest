@@ -1,0 +1,212 @@
+import { Link } from "wouter";
+import {
+  Ambulance, BookOpen, Brain, FileText, Zap, Target, Clock,
+  ArrowRight, CheckCircle2, AlertTriangle, Search, Shuffle,
+  Calendar, GraduationCap, TrendingUp, Shield, Layers, Heart
+} from "lucide-react";
+import { AlliedSEO } from "@/allied/allied-seo";
+import {
+  HeroCTA, StudyPathSteps, TrackCard, PainPointCard, FeatureCard,
+  TopicCategoryCard, FreePreviewBlock, ExamPathCard, TrustBlock,
+  FinalCTASection
+} from "./components";
+import { paramedicQuestions } from "@/data/career-questions/paramedic-questions";
+
+const CATEGORY_COUNTS: Record<string, number> = {};
+paramedicQuestions.forEach(q => {
+  CATEGORY_COUNTS[q.category] = (CATEGORY_COUNTS[q.category] || 0) + 1;
+});
+
+const ACTUAL_CATEGORIES = Object.keys(CATEGORY_COUNTS).sort((a, b) => (CATEGORY_COUNTS[b] || 0) - (CATEGORY_COUNTS[a] || 0));
+
+const TOPIC_CATEGORIES = ACTUAL_CATEGORIES.slice(0, 8).map(name => ({
+  title: name,
+  questionCount: CATEGORY_COUNTS[name],
+}));
+
+const STUDY_STEPS = [
+  { step: 1, title: "Take the Diagnostic", description: "A free 15-question assessment identifies your strengths and gaps across all paramedic domains.", icon: Target },
+  { step: 2, title: "Follow Your Study Plan", description: "Get a personalized daily schedule targeting your weakest areas first, calibrated to your exam date.", icon: Calendar },
+  { step: 3, title: "Practice & Review", description: "Work through adaptive questions, flashcards, and clinical scenarios with 600+ word rationales.", icon: BookOpen },
+  { step: 4, title: "Simulate Exam Day", description: "Take timed, blueprint-weighted mock exams and track your readiness score over time.", icon: GraduationCap },
+];
+
+export default function ParamedicLandingPage() {
+  return (
+    <div data-testid="paramedic-landing-page">
+      <AlliedSEO
+        title="Paramedic Exam Prep — PCP, ACP & NREMT Practice Questions | NurseNest"
+        description="Prepare for your paramedic certification exam with 500+ adaptive practice questions, clinical scenarios, ACLS/PALS drills, and blueprint-weighted mock exams. Covers NREMT, COPR, PCP, and ACP exam tracks."
+        keywords="paramedic exam prep, NREMT practice questions, PCP exam canada, ACP exam, paramedic practice test, paramedic flashcards, paramedic study guide, EMS certification"
+        canonicalPath="/paramedic"
+        structuredData={{
+          "@context": "https://schema.org",
+          "@type": "Course",
+          "name": "Paramedic Certification Exam Prep",
+          "description": "Comprehensive paramedic exam preparation with adaptive question banks, clinical scenarios, and blueprint-weighted mock exams for NREMT, COPR, PCP, and ACP certifications.",
+          "provider": { "@type": "Organization", "name": "NurseNest Allied", "url": "https://allied.nursenest.ca" }
+        }}
+      />
+
+      <HeroCTA
+        badge="Paramedic Exam Academy"
+        title="Pass Your Paramedic Exam"
+        titleHighlight="with Confidence"
+        subtitle="Adaptive question banks, clinical scenarios, ACLS/PALS drills, and blueprint-weighted mock exams — built for PCP, ACP, and NREMT learners who need more than just a question bank."
+        primaryCTA={{ label: "Start Free Diagnostic", href: "/diagnostic?career=paramedic" }}
+        secondaryCTA={{ label: "Explore Study Tools", href: "/paramedic/lessons" }}
+      />
+
+      <section className="py-16 sm:py-20 bg-white" data-testid="section-who-this-is-for">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold text-gray-900 mb-3">Who This Is For</h2>
+            <p className="text-gray-600 max-w-xl mx-auto">Whether you are starting your PCP program or preparing for an advanced care paramedic exam, NurseNest meets you where you are.</p>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <TrackCard
+              title="PCP Students"
+              description="Primary Care Paramedic learners preparing for COPR or provincial exams in Canada."
+              examNames={["COPR", "Provincial PCP"]}
+              href="/paramedic/pcp"
+              color="#7C3AED"
+              icon={Ambulance}
+            />
+            <TrackCard
+              title="ACP Candidates"
+              description="Advanced Care Paramedics studying ACLS, PALS, pharmacology, and 12-lead interpretation."
+              examNames={["ACP Provincial", "COPR ACP"]}
+              href="/paramedic/acp"
+              color="#0D9488"
+              icon={Heart}
+            />
+            <TrackCard
+              title="NREMT Candidates"
+              description="US-based paramedic students preparing for the National Registry cognitive and psychomotor exams."
+              examNames={["NREMT Paramedic"]}
+              href="/paramedic/nremt"
+              color="#2563EB"
+              icon={Shield}
+            />
+            <TrackCard
+              title="EMT-B Upgraders"
+              description="EMTs transitioning to the paramedic level who need to fill knowledge gaps efficiently."
+              examNames={["EMT to Paramedic"]}
+              href="/paramedic/lessons"
+              color="#D97706"
+              icon={TrendingUp}
+            />
+          </div>
+        </div>
+      </section>
+
+      <section className="py-16 sm:py-20 bg-gradient-to-b from-purple-50/30 to-white" data-testid="section-pain-points">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold text-gray-900 mb-3">We Know What's Holding You Back</h2>
+            <p className="text-gray-600 max-w-xl mx-auto">Paramedic exam prep is fragmented, outdated, and rarely clinical enough. NurseNest changes that.</p>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <PainPointCard icon={AlertTriangle} title="Shallow Rationales" description="Most question banks give you 'A is correct' with one sentence. You need to understand the clinical reasoning to apply knowledge under pressure." />
+            <PainPointCard icon={Search} title="No Weak-Area Targeting" description="Studying random questions wastes time. You need a system that identifies your gaps and drills them until they're strengths." />
+            <PainPointCard icon={Shuffle} title="Content That Doesn't Match Your Exam" description="Generic EMS prep doesn't distinguish PCP from ACP from NREMT. Your study material should match your specific certification track." />
+            <PainPointCard icon={Clock} title="No Structured Study Plan" description="You know you need to study, but you don't know where to start or how to allocate your limited time before exam day." />
+            <PainPointCard icon={Layers} title="Scattered Resources" description="Textbooks, YouTube, random apps — juggling multiple resources means gaps in your coverage and no unified progress tracking." />
+            <PainPointCard icon={FileText} title="No Realistic Exam Simulation" description="You've never experienced a timed, blueprint-weighted mock exam that mirrors the actual test format and difficulty." />
+          </div>
+        </div>
+      </section>
+
+      <section className="py-16 sm:py-20 bg-white" data-testid="section-how-nursenest-helps">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold text-gray-900 mb-3">How NurseNest Helps You Pass</h2>
+            <p className="text-gray-600 max-w-xl mx-auto">Six integrated study tools, one platform, zero guesswork.</p>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <FeatureCard icon={BookOpen} title="Adaptive Question Bank" description="500+ paramedic-specific questions with 600+ word clinical rationales. Covers trauma, medical, cardiac, pediatric, OB, and pharmacology." />
+            <FeatureCard icon={FileText} title="Blueprint-Weighted Mocks" description="Timed mock exams weighted to NREMT, COPR, or provincial blueprints. Get a readiness score and domain-level breakdown." />
+            <FeatureCard icon={Brain} title="Spaced Repetition Flashcards" description="Master drug dosages, protocols, and assessment mnemonics with flashcards that adapt to your recall accuracy." />
+            <FeatureCard icon={Zap} title="Clinical Scenarios" description="Unfolding dispatch-to-disposition scenarios with branching decisions and detailed clinical debriefs." />
+            <FeatureCard icon={Target} title="Weak-Area Targeting" description="Our analytics engine identifies your lowest-performing domains and auto-generates targeted drills until you improve." />
+            <FeatureCard icon={GraduationCap} title="Personalized Study Plan" description="Enter your exam date, available study hours, and diagnostic results. Get a day-by-day plan that adapts weekly." />
+          </div>
+        </div>
+      </section>
+
+      <section className="py-16 sm:py-20 bg-gradient-to-b from-teal-50/30 to-white" data-testid="section-topic-categories">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold text-gray-900 mb-3">Topic Categories</h2>
+            <p className="text-gray-600 max-w-xl mx-auto">Questions and lessons organized by the clinical domains tested on your paramedic certification exam.</p>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            {TOPIC_CATEGORIES.map(tc => (
+              <TopicCategoryCard
+                key={tc.title}
+                title={tc.title}
+                questionCount={tc.questionCount}
+                href={`/qbank?career=paramedic&category=${encodeURIComponent(tc.title)}`}
+              />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <StudyPathSteps steps={STUDY_STEPS} />
+
+      <FreePreviewBlock
+        title="Try It Free — No Account Required"
+        subtitle="Experience the depth of NurseNest paramedic prep before you commit. Start with a free diagnostic and 5 practice questions."
+        previewItems={[
+          { label: "15-Question Diagnostic", description: "See your readiness score across all paramedic domains" },
+          { label: "5 Practice Questions", description: "Experience our 600+ word clinical rationales" },
+          { label: "1 Mock Exam", description: "Take a full-length timed mock to feel the exam format" },
+        ]}
+        ctaHref="/diagnostic?career=paramedic"
+        ctaLabel="Start Free Diagnostic"
+      />
+
+      <section className="py-16 sm:py-20 bg-white" data-testid="section-exam-pathways">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold text-gray-900 mb-3">Choose Your Exam Pathway</h2>
+            <p className="text-gray-600 max-w-xl mx-auto">Each pathway is tailored with exam-specific content, blueprint weighting, and targeted study materials.</p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <ExamPathCard
+              title="PCP Exam Prep (Canada)"
+              description="Primary Care Paramedic certification prep aligned with COPR and provincial licensing standards."
+              features={["COPR blueprint alignment", "Canadian pharmacology & protocols", "Provincial scope-of-practice focus", "BLS and primary care scenarios"]}
+              href="/paramedic/pcp"
+              badge="Canada"
+            />
+            <ExamPathCard
+              title="ACP Exam Prep"
+              description="Advanced Care Paramedic study materials covering ACLS, PALS, advanced pharmacology, and 12-lead ECG."
+              features={["Advanced cardiac & pharmacology", "12-lead ECG interpretation drills", "ACLS/PALS algorithm mastery", "Critical care transport scenarios"]}
+              href="/paramedic/acp"
+              badge="Advanced"
+            />
+            <ExamPathCard
+              title="NREMT Paramedic Exam"
+              description="National Registry paramedic cognitive exam preparation with US-focused protocols and pharmacology."
+              features={["NREMT cognitive exam blueprint", "US pharmacology & protocols", "Adaptive CAT-style simulation", "Psychomotor skills reference"]}
+              href="/paramedic/nremt"
+              badge="United States"
+            />
+          </div>
+        </div>
+      </section>
+
+      <TrustBlock />
+
+      <FinalCTASection
+        title="Your Paramedic Exam Is Coming. Are You Ready?"
+        subtitle="Start with a free diagnostic to see exactly where you stand. Then follow your personalized study plan to exam-day confidence."
+        primaryCTA={{ label: "Start Free Diagnostic", href: "/diagnostic?career=paramedic" }}
+        secondaryCTA={{ label: "View Pricing", href: "/pricing" }}
+      />
+    </div>
+  );
+}

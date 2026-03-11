@@ -18,6 +18,15 @@ const AlliedDiagnostic = lazy(() => import("./pages/allied-diagnostic"));
 const AlliedInstitutions = lazy(() => import("./pages/allied-institutions"));
 const AlliedInstitutionsFAQ = lazy(() => import("./pages/allied-institutions-faq"));
 const AlliedFacultyDashboard = lazy(() => import("./pages/allied-faculty-dashboard"));
+const ParamedicLanding = lazy(() => import("./pages/paramedic/paramedic-landing"));
+const ParamedicPCP = lazy(() => import("./pages/paramedic/paramedic-pcp"));
+const ParamedicACP = lazy(() => import("./pages/paramedic/paramedic-acp"));
+const ParamedicNREMT = lazy(() => import("./pages/paramedic/paramedic-nremt"));
+const ParamedicLessonsHub = lazy(() => import("./pages/paramedic/paramedic-lessons-hub"));
+const ParamedicExamsHub = lazy(() => import("./pages/paramedic/paramedic-exams-hub"));
+const ParamedicFlashcardsHub = lazy(() => import("./pages/paramedic/paramedic-flashcards-hub"));
+const ParamedicScenariosHub = lazy(() => import("./pages/paramedic/paramedic-scenarios-hub"));
+const ParamedicPracticeExamsHub = lazy(() => import("./pages/paramedic/paramedic-practice-exams-hub"));
 
 function LoadingFallback() {
   return (
@@ -59,6 +68,15 @@ export function AlliedRoutes() {
         <Route path="/paramedic-canada">{() => <AlliedSeoLanding pageSlug="paramedic-canada" />}</Route>
         <Route path="/mlt-us">{() => <AlliedSeoLanding pageSlug="mlt-us" />}</Route>
         <Route path="/mlt-canada">{() => <AlliedSeoLanding pageSlug="mlt-canada" />}</Route>
+        <Route path="/paramedic/pcp" component={ParamedicPCP} />
+        <Route path="/paramedic/acp" component={ParamedicACP} />
+        <Route path="/paramedic/nremt" component={ParamedicNREMT} />
+        <Route path="/paramedic/lessons" component={ParamedicLessonsHub} />
+        <Route path="/paramedic/exams" component={ParamedicExamsHub} />
+        <Route path="/paramedic/flashcards" component={ParamedicFlashcardsHub} />
+        <Route path="/paramedic/scenarios" component={ParamedicScenariosHub} />
+        <Route path="/paramedic/practice-exams" component={ParamedicPracticeExamsHub} />
+        <Route path="/paramedic" component={ParamedicLanding} />
         <Route path="/careers/:careerSlug/mock-exams" component={AlliedMockExams} />
         <Route path="/careers/:careerSlug/dashboard" component={AlliedDashboard} />
         <Route path="/careers/:careerSlug/study-plan" component={AlliedStudyPlan} />
