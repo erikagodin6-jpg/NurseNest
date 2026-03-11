@@ -131,6 +131,26 @@ import illustrationHematologyAnatomy from "@/assets/lesson-hematology-anatomy.pn
 import illustrationMaternityAnatomy from "@/assets/lesson-maternity-anatomy.png";
 import illustrationNeonatalAnatomy from "@/assets/lesson-neonatal-anatomy.png";
 
+import illustrationABGReference from "@/assets/lesson-abg-reference.png";
+import illustrationAcuteSilicosis from "@/assets/lesson-acute-silicosis.jpeg";
+import illustrationBuergersDisease from "@/assets/lesson-buergers-disease.png";
+import illustrationCardiacAuscultation from "@/assets/lesson-cardiac-auscultation.png";
+import illustrationCardiacCycleNew from "@/assets/lesson-cardiac-cycle.png";
+import illustrationCardiomyopathyNew from "@/assets/lesson-cardiomyopathy.png";
+import illustrationConductionSystem from "@/assets/lesson-conduction-system.png";
+import illustrationEndocarditisSigns from "@/assets/lesson-endocarditis-signs.png";
+import illustrationErythemaMarginatum from "@/assets/lesson-erythema-marginatum.png";
+import illustrationHypertensionNew from "@/assets/lesson-hypertension.png";
+import illustrationKawasakiDisease from "@/assets/lesson-kawasaki-disease.png";
+import illustrationLeftHeartFailure from "@/assets/lesson-left-heart-failure.png";
+import illustrationPericarditis from "@/assets/lesson-pericarditis.png";
+import illustrationPADSymptoms from "@/assets/lesson-pad-symptoms.png";
+import illustrationPADArtery from "@/assets/lesson-pad-artery.png";
+import illustrationRaynaudsSigns from "@/assets/lesson-raynauds-signs.png";
+import illustrationRheumaticFeverSigns from "@/assets/lesson-rheumatic-fever-signs.jpeg";
+import illustrationShockTypes from "@/assets/lesson-shock-types.png";
+import illustrationVaricoseVeinsAnatomy from "@/assets/lesson-varicose-veins-anatomy.png";
+
 import illustrationEcgRhythm from "@/assets/lesson-ecg-rhythm.png";
 import illustrationLiverCirrhosis from "@/assets/lesson-liver-cirrhosis.png";
 import illustrationGallbladder from "@/assets/lesson-gallbladder.png";
@@ -215,15 +235,15 @@ import illustrationATPGlycolysis from "@/assets/images/atp-glycolysis.png";
 import illustrationATPMolecule from "@/assets/images/atp-molecule-structure.png";
 
 const lessonSpecificImages: Record<string, string> = {
-  "infective-endocarditis": illustrationEndocarditis,
-  "peripheral-artery-disease": illustrationPAD,
+  "infective-endocarditis": illustrationEndocarditisSigns,
+  "peripheral-artery-disease": illustrationPADArtery,
   "pacemaker-care": illustrationPacemaker,
   "dysrhythmias": illustrationCardioversion,
-  "mi-management": illustrationCardiacCycle,
-  "mi-acute": illustrationCardiacCycle,
-  "cardiovascular-rpn": illustrationCardiacCycle,
-  "cardiovascular-rn": illustrationCardiacCycle,
-  "cardiovascular-np": illustrationCardiacCycle,
+  "mi-management": illustrationCardiacCycleNew,
+  "mi-acute": illustrationCardiacCycleNew,
+  "cardiovascular-rpn": illustrationCardiacCycleNew,
+  "cardiovascular-rn": illustrationCardiacCycleNew,
+  "cardiovascular-np": illustrationCardiacCycleNew,
   "chf-basics": illustrationHeartFailureAnatomy,
   "hf-advanced": illustrationHeartFailureAnatomy,
   "heart-failure": illustrationHeartFailureAnatomy,
@@ -247,20 +267,20 @@ const lessonSpecificImages: Record<string, string> = {
   "rhabdomyolysis": illustrationKidneys,
   "av-fistula": illustrationKidneys,
   "dialysis-steal": illustrationKidneys,
-  "shock-syndromes": illustrationShock,
+  "shock-syndromes": illustrationShockTypes,
   "sepsis-mastery": illustrationShock,
   "burn-management": illustrationWound,
   "cellulitis": illustrationWound,
-  "cardiogenic-shock": illustrationShock,
-  "aaa-rupture": illustrationCardiacCycle,
+  "cardiogenic-shock": illustrationShockTypes,
+  "aaa-rupture": illustrationCardiacCycleNew,
   "pe-dvt": illustrationVenousInsufficiency,
   "pe-recognition": illustrationVenousInsufficiency,
   "cardiac-monitoring": illustrationCardioversion,
   "cardiac-rhythm-rn": illustrationCardioversion,
-  "cardiac-auscultation-rn": illustrationCardiacCycle,
-  "hypertension-management": illustrationCardiacCycle,
-  "aortic-dissection": illustrationCardiacCycle,
-  "carotid-endarterectomy": illustrationPAD,
+  "cardiac-auscultation-rn": illustrationCardiacAuscultation,
+  "hypertension-management": illustrationHypertensionNew,
+  "aortic-dissection": illustrationCardiacCycleNew,
+  "carotid-endarterectomy": illustrationPADSymptoms,
   "respiratory-rpn": illustrationCOPD,
   "respiratory-rn": illustrationCOPD,
   "respiratory-np": illustrationCOPD,
@@ -334,8 +354,8 @@ const lessonSpecificImages: Record<string, string> = {
   "rsv-bronchiolitis": illustrationRSV,
   "hemoptysis": illustrationHemoptysis,
   "hemoptysis-management": illustrationHemoptysis,
-  "abg-basics": illustrationElectrolytes,
-  "abg-interpretation-rn": illustrationElectrolytes,
+  "abg-basics": illustrationABGReference,
+  "abg-interpretation-rn": illustrationABGReference,
   "contact-dermatitis": illustrationAtopicDermatitis2,
   "stevens-johnson-syndrome": illustrationSJS,
   "urticaria": illustrationAtopicDermatitis,
@@ -407,15 +427,26 @@ const lessonSpecificImages: Record<string, string> = {
   "epiglottitis": illustrationEpiglottitis,
   "osteoporosis": illustrationOsteoporosis,
   "osteoporosis-basics": illustrationOsteoporosis,
-  "kawasaki-disease": illustrationKawasaki,
-  "kawasaki": illustrationKawasaki,
-  "raynauds": illustrationRaynauds,
-  "raynauds-phenomenon": illustrationRaynauds,
-  "varicose-veins": illustrationVaricoseVeins,
+  "kawasaki-disease": illustrationKawasakiDisease,
+  "kawasaki": illustrationKawasakiDisease,
+  "raynauds": illustrationRaynaudsSigns,
+  "raynauds-phenomenon": illustrationRaynaudsSigns,
+  "varicose-veins": illustrationVaricoseVeinsAnatomy,
   "venous-insufficiency": illustrationVenousInsufficiency,
-  "rheumatic-fever": illustrationRheumaticFever,
-  "cardiac-cycle-hemodynamics": illustrationCardiovascularAnatomy,
-  "conduction-system": illustrationCardiovascularAnatomy,
+  "rheumatic-fever": illustrationRheumaticFeverSigns,
+  "cardiac-cycle-hemodynamics": illustrationCardiacCycleNew,
+  "conduction-system": illustrationConductionSystem,
+  "buergers-disease-rpn": illustrationBuergersDisease,
+  "buergers-disease": illustrationBuergersDisease,
+  "cardiomyopathy-basics-rpn": illustrationCardiomyopathyNew,
+  "cardiomyopathy-differential-np": illustrationCardiomyopathyNew,
+  "cardiomyopathy": illustrationCardiomyopathyNew,
+  "pericarditis": illustrationPericarditis,
+  "erythema-multiforme-rpn": illustrationErythemaMarginatum,
+  "left-heart-failure": illustrationLeftHeartFailure,
+  "left-sided-heart-failure": illustrationLeftHeartFailure,
+  "acute-silicosis": illustrationAcuteSilicosis,
+  "silicosis": illustrationAcuteSilicosis,
   "cardiac-assessment-ecg": illustrationCardiovascularAnatomy,
   "cardioversion-defib": illustrationCardiovascularAnatomy,
   "dvt-management": illustrationCardiovascularAnatomy,
@@ -670,7 +701,7 @@ const lessonSpecificImages: Record<string, string> = {
   "hemodialysis-basics-rpn": illustrationAVFistulaPatho,
   "peritoneal-dialysis-basics-rpn": illustrationAVFistulaPatho,
 
-  "endocarditis-basics-rpn": illustrationEndocarditisPatho,
+  "endocarditis-basics-rpn": illustrationEndocarditisSigns,
 
   "gestational-diabetes-management": illustrationGestationalDiabetesPatho,
 
@@ -679,7 +710,7 @@ const lessonSpecificImages: Record<string, string> = {
 
   "malignant-hyperthermia-management": illustrationMalignantHyperthermia,
 
-  "shock-types-recognition-rpn": illustrationCardiogenicShockPatho,
+  "shock-types-recognition-rpn": illustrationShockTypes,
 
   "chest-pain-differential-rpn": illustrationChestPainDifferential,
 
@@ -915,22 +946,30 @@ export function getLessonImage(lessonId: string): string | undefined {
   if (lessonId.includes("varicella") || lessonId.includes("chickenpox")) return illustrationVaricella;
   if (lessonId.includes("epiglottitis")) return illustrationEpiglottitis;
   if (lessonId.includes("osteoporosis")) return illustrationOsteoporosis;
-  if (lessonId.includes("kawasaki")) return illustrationKawasaki;
+  if (lessonId.includes("kawasaki")) return illustrationKawasakiDisease;
   if (lessonId.includes("scabies")) return illustrationScabies;
-  if (lessonId.includes("raynaud")) return illustrationRaynauds;
-  if (lessonId.includes("varicose")) return illustrationVaricoseVeins;
+  if (lessonId.includes("raynaud")) return illustrationRaynaudsSigns;
+  if (lessonId.includes("varicose")) return illustrationVaricoseVeinsAnatomy;
   if (lessonId.includes("venous-insuff")) return illustrationVenousInsufficiency;
+  if (lessonId.includes("buerger")) return illustrationBuergersDisease;
+  if (lessonId.includes("cardiomyopathy")) return illustrationCardiomyopathyNew;
+  if (lessonId.includes("pericarditis")) return illustrationPericarditis;
+  if (lessonId.includes("silicosis")) return illustrationAcuteSilicosis;
+  if (lessonId.includes("auscultation")) return illustrationCardiacAuscultation;
+  if (lessonId.includes("hypertension")) return illustrationHypertensionNew;
   if (lessonId.includes("chest-pain")) return illustrationChestPainDifferential;
-  if (lessonId.includes("endocarditis")) return illustrationEndocarditis;
-  if (lessonId.includes("rheumatic")) return illustrationRheumaticFever;
-  if (lessonId.includes("shock") || lessonId.includes("dysrhythmia")) return illustrationShock;
+  if (lessonId.includes("endocarditis")) return illustrationEndocarditisSigns;
+  if (lessonId.includes("rheumatic")) return illustrationRheumaticFeverSigns;
+  if (lessonId.includes("shock") || lessonId.includes("dysrhythmia")) return illustrationShockTypes;
+  if (lessonId.includes("heart-failure") || lessonId.includes("hf-")) return illustrationLeftHeartFailure;
+  if (lessonId.includes("abg") || lessonId.includes("acid-base")) return illustrationABGReference;
   if (lessonId.includes("copd") || lessonId.includes("emphysema")) return illustrationCOPD;
   if (lessonId.includes("asthma")) return illustrationAsthma;
   if (lessonId.includes("pneumonia")) return illustrationPneumonia;
   if (lessonId.includes("tuberculosis") || lessonId.includes("tb-")) return illustrationTuberculosis;
   if (lessonId.includes("tracheostomy")) return illustrationTracheostomy;
   if (lessonId.includes("kidney") || lessonId.includes("renal") || lessonId.includes("dialysis") || lessonId.includes("crrt")) return illustrationKidneys;
-  if (lessonId.includes("electrolyte") || lessonId.includes("acid-base")) return illustrationElectrolytes;
+  if (lessonId.includes("electrolyte")) return illustrationElectrolytes;
   if (lessonId.includes("tumor") || lessonId.includes("cancer") || lessonId.includes("chemo") || lessonId.includes("oncol")) return illustrationTumor;
   if (lessonId.includes("wound") || lessonId.includes("burn") || lessonId.includes("cellulitis")) return illustrationWound;
   if (lessonId.includes("bacteria") || lessonId.includes("infection")) return illustrationBacteria;
