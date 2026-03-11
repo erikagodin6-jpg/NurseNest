@@ -27,7 +27,11 @@ import illustrationParkinsons from "@/assets/lesson-parkinsons.png";
 import illustrationMS from "@/assets/lesson-ms.png";
 import illustrationStroke from "@/assets/lesson-stroke.png";
 import illustrationBrainAbscess from "@/assets/lesson-brain-abscess.png";
+import illustrationBrainAbscessV2 from "@/assets/lesson-brain-abscess-new.png";
 import illustrationDeliriumDementia from "@/assets/lesson-delirium-dementia.png";
+import illustrationAcuteDystonicReaction from "@/assets/lesson-acute-dystonic-reaction.png";
+import illustrationALS from "@/assets/lesson-als.png";
+import illustrationAlzheimers from "@/assets/lesson-alzheimers.png";
 import illustrationCranialNerves from "@/assets/lesson-cranial-nerves.png";
 import illustrationTrigeminalNeuralgia from "@/assets/lesson-trigeminal-neuralgia.png";
 import illustrationICP from "@/assets/lesson-icp.png";
@@ -36,6 +40,7 @@ import illustrationCerebralEdema from "@/assets/lesson-cerebral-edema.png";
 import illustrationMyastheniaGravis from "@/assets/lesson-myasthenia-gravis.png";
 import illustrationConcussion from "@/assets/lesson-concussion.png";
 import illustrationBellsPalsy from "@/assets/lesson-bells-palsy.png";
+import illustrationBellsPalsyV2 from "@/assets/lesson-bells-palsy-new.png";
 import illustrationCysticFibrosis from "@/assets/lesson-cystic-fibrosis.png";
 import illustrationWhoopingCough from "@/assets/lesson-whooping-cough.png";
 import illustrationBronchiectasis from "@/assets/lesson-bronchiectasis.png";
@@ -167,6 +172,7 @@ import illustrationVenousInsufficiencyV2 from "@/assets/lesson-venous-insufficie
 import illustrationViralMyocarditis from "@/assets/lesson-viral-myocarditis.png";
 
 import illustrationBecksTriad from "@/assets/lesson-becks-triad.png";
+import illustrationBecksTriadV2 from "@/assets/lesson-becks-triad-new.png";
 import illustrationBrainAnatomy from "@/assets/lesson-brain-anatomy.png";
 import illustrationCardiacTamponade from "@/assets/lesson-cardiac-tamponade.png";
 import illustrationFatEmbolism from "@/assets/lesson-fat-embolism.png";
@@ -369,7 +375,16 @@ const lessonSpecificImages: Record<string, string> = {
   "parkinsons": illustrationParkinsons,
   "multiple-sclerosis": illustrationMS,
   "ms-management": illustrationMS,
-  "brain-abscess": illustrationBrainAbscess,
+  "brain-abscess": illustrationBrainAbscessV2,
+  "acute-dystonic-reaction-rpn": illustrationAcuteDystonicReaction,
+  "acute-dystonic-reaction": illustrationAcuteDystonicReaction,
+  "als-basics-rpn": illustrationALS,
+  "als-management": illustrationALS,
+  "als-management-np": illustrationALS,
+  "alzheimer-disease": illustrationAlzheimers,
+  "alzheimer-disease-rpn": illustrationAlzheimers,
+  "alzheimer-disease-rn": illustrationAlzheimers,
+  "alzheimer-disease-np": illustrationAlzheimers,
   "delirium-vs-dementia": illustrationDeliriumDementia,
   "delirium": illustrationDeliriumDementia,
   "dementia-care": illustrationDeliriumDementia,
@@ -383,7 +398,7 @@ const lessonSpecificImages: Record<string, string> = {
   "concussion": illustrationConcussion,
   "concussion-management": illustrationConcussion,
   "tbi-management": illustrationConcussion,
-  "bells-palsy": illustrationBellsPalsy,
+  "bells-palsy": illustrationBellsPalsyV2,
   "cp-management": illustrationCerebralEdema,
   "breast-cancer": illustrationTumor,
   "cervical-cancer": illustrationTumor,
@@ -397,8 +412,8 @@ const lessonSpecificImages: Record<string, string> = {
   "cardiac-tamponade-np": illustrationCardiacTamponade,
   "cardiac-tamponade-mgmt-np": illustrationCardiacTamponade,
   "cardiac-tamponade": illustrationCardiacTamponade,
-  "becks-triad": illustrationBecksTriad,
-  "pericardial-tamponade": illustrationBecksTriad,
+  "becks-triad": illustrationBecksTriadV2,
+  "pericardial-tamponade": illustrationBecksTriadV2,
   "fat-embolism": illustrationFatEmbolism,
   "fat-embolism-syndrome": illustrationFatEmbolism,
   "compartment-syndrome": illustrationGangrene,
@@ -1014,7 +1029,10 @@ export function getLessonImage(lessonId: string): string | undefined {
   if (lessonId.includes("parkinson")) return illustrationParkinsons;
   if (lessonId.includes("multiple-sclerosis") || lessonId === "ms-management") return illustrationMS;
   if (lessonId.includes("stroke")) return illustrationStroke;
-  if (lessonId.includes("bells-palsy")) return illustrationBellsPalsy;
+  if (lessonId.includes("bells-palsy")) return illustrationBellsPalsyV2;
+  if (lessonId.includes("dystonic")) return illustrationAcuteDystonicReaction;
+  if (lessonId.includes("als-") || lessonId === "als") return illustrationALS;
+  if (lessonId.includes("alzheimer")) return illustrationAlzheimers;
   if (lessonId.includes("myasthenia")) return illustrationMyastheniaGravis;
   if (lessonId.includes("concussion") || lessonId.includes("tbi")) return illustrationConcussion;
   if (lessonId.includes("carpal-tunnel")) return illustrationCarpalTunnel;
@@ -1022,7 +1040,7 @@ export function getLessonImage(lessonId: string): string | undefined {
   if (lessonId.includes("cranial-nerve")) return illustrationCranialNerves;
   if (lessonId.includes("delirium") || lessonId.includes("dementia")) return illustrationDeliriumDementia;
   if (lessonId.includes("cerebral-edema")) return illustrationCerebralEdema;
-  if (lessonId.includes("brain-abscess")) return illustrationBrainAbscess;
+  if (lessonId.includes("brain-abscess")) return illustrationBrainAbscessV2;
   if (lessonId.includes("icp")) return illustrationICP;
   if (lessonId.includes("cystic-fibrosis") || lessonId === "cf-management") return illustrationCysticFibrosis;
   if (lessonId.includes("pertussis") || lessonId.includes("whooping")) return illustrationPertussisV2;
