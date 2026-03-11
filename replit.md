@@ -60,6 +60,15 @@ The application is built with Vite, React, and Express 5 on Node.js with TypeScr
   - Maps exams to tiers: NCLEX-PN/REx-PN→rpn, NCLEX-RN→rn, AANP/ANCC→np
   - POST /api/admin/qbank/import with autoPublish flag
   - Returns detailed report: inserted, skipped (duplicates), validation errors, insert errors
+- **Question Bank Management**: Admin page at `/admin/qbank/manage` for individual question editing and status management
+  - Search/filter questions by tier (RPN/RN/NP) and status (published/archived/draft)
+  - Edit individual question fields: stem, options, correct answer, rationale, difficulty, body system, topic, exam, region
+  - Toggle question status (published/archived) without deletion
+  - Analytics tab with breakdowns by category, difficulty, exam type, region, and status
+- **Exam Mode Answer Shuffling**: Answer options are randomly shuffled per-question in exam sessions while preserving correct answer tracking (Fisher-Yates shuffle with original index mapping)
+- **Study Mode Filters**: Question bank study mode supports filtering by body system, difficulty level (1-5), exam type, and topic via server-side filtering
+- **QBank Filter API**: GET `/api/qbank/filters?tier=rpn` returns available filter options (body systems, difficulty levels, exams, topics) for the selected tier
+- **QBank Analytics API**: GET `/api/admin/qbank/analytics?tier=rpn` returns category/difficulty/exam/region/status breakdowns (parameterized SQL, no injection risk)
 - Content publishing: Admin Content Manager at `/admin/content-manager` for bulk publish/unpublish/archive/delete of exam questions and flashcard bank items
 - Deployment build includes `npx tsx script/migrate-questions-to-db.ts` to sync questions to production DB
 - Hero stats now include exam_questions count (rpnExamQ, rnExamQ, npExamQ, totalExamQ in breakdown)

@@ -52,8 +52,8 @@ export async function requireAdmin(req: any, res: any): Promise<any> {
     }
   }
 
-  const username = String(req.body?.username || req.query?.username || "");
-  const password = String(req.body?.password || req.query?.password || "");
+  const username = String(req.headers?.["x-username"] || req.body?.username || req.query?.username || "");
+  const password = String(req.headers?.["x-password"] || req.body?.password || req.query?.password || "");
   if (username && password) {
     const r = await pool.query("SELECT * FROM users WHERE username = $1 AND password = $2 AND tier = 'admin'", [username, password]);
     if (r.rows[0]) return r.rows[0];

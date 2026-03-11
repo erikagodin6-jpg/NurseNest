@@ -56,12 +56,21 @@ function shuffleArray<T>(array: T[]): T[] {
   return arr;
 }
 
-export async function getExamQuestions(tier: string, count: number, bodySystems?: string[]): Promise<PooledQuestion[]> {
+export async function getExamQuestions(tier: string, count: number, bodySystems?: string[], filters?: {
+  difficulty?: number;
+  exam?: string;
+  topic?: string;
+  regionScope?: string;
+}): Promise<PooledQuestion[]> {
   try {
     const result = await fetchExamSet({
       count,
       bodySystems,
       tier: tier === "all" ? undefined : tier,
+      difficulty: filters?.difficulty,
+      exam: filters?.exam,
+      topic: filters?.topic,
+      regionScope: filters?.regionScope,
     });
     return result.questions.map(serverToPooled);
   } catch (e) {

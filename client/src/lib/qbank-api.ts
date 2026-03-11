@@ -85,6 +85,10 @@ export async function fetchExamSet(params: {
   count?: number;
   bodySystems?: string[];
   tier?: string;
+  difficulty?: number;
+  exam?: string;
+  topic?: string;
+  regionScope?: string;
 }): Promise<ExamSetResponse> {
   const query = new URLSearchParams();
   if (params.count) query.set("count", String(params.count));
@@ -92,6 +96,10 @@ export async function fetchExamSet(params: {
     query.set("bodySystems", params.bodySystems.join(","));
   }
   if (params.tier) query.set("tier", params.tier);
+  if (params.difficulty) query.set("difficulty", String(params.difficulty));
+  if (params.exam) query.set("exam", params.exam);
+  if (params.topic) query.set("topic", params.topic);
+  if (params.regionScope) query.set("regionScope", params.regionScope);
 
   const res = await fetch(`/api/qbank/exam-set?${query.toString()}`, {
     headers: getAuthHeaders(),
@@ -100,6 +108,22 @@ export async function fetchExamSet(params: {
     const err = await res.json().catch(() => ({ error: "Request failed" }));
     throw new Error(err.error || "Failed to fetch exam set");
   }
+  return res.json();
+}
+
+export async function fetchFilters(tier?: string): Promise<{
+  bodySystems: string[];
+  difficulties: { value: number; label: string }[];
+  exams: string[];
+  topics: string[];
+}> {
+  const query = new URLSearchParams();
+  if (tier) query.set("tier", tier);
+
+  const res = await fetch(`/api/qbank/filters?${query.toString()}`, {
+    headers: getAuthHeaders(),
+  });
+  if (!res.ok) return { bodySystems: [], difficulties: [], exams: [], topics: [] };
   return res.json();
 }
 

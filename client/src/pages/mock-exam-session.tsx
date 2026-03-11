@@ -32,6 +32,20 @@ function getExamAccentColor(): string {
   return localStorage.getItem("examThemeColor") || "#C7B8FF";
 }
 
+function createOptionShuffleMap(questions: PooledQuestion[]): Record<string, number[]> {
+  const map: Record<string, number[]> = {};
+  for (const q of questions) {
+    if (!q.options || q.options.length <= 1) continue;
+    const indices = q.options.map((_, i) => i);
+    for (let i = indices.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [indices[i], indices[j]] = [indices[j], indices[i]];
+    }
+    map[q.id] = indices;
+  }
+  return map;
+}
+
 function formatTime(seconds: number): string {
   const h = Math.floor(seconds / 3600);
   const m = Math.floor((seconds % 3600) / 60);
@@ -223,6 +237,7 @@ export default function MockExamSession() {
   const [catState, setCatState] = useState<CATState | null>(null);
   const [catFinished, setCatFinished] = useState(false);
   const [allPoolQuestions, setAllPoolQuestions] = useState<PooledQuestion[]>([]);
+  const [optionShuffleMap, setOptionShuffleMap] = useState<Record<string, number[]>>({});
   const lastBreakRef = useRef(0);
   const timerRef = useRef<NodeJS.Timeout>(undefined);
   const [accentColor] = useState(() => getExamAccentColor());
@@ -282,6 +297,7 @@ export default function MockExamSession() {
             const administeredIds = new Set(existingCat.responses.map(r => r.itemId));
             const administeredQuestions = allQuestions.filter(q => administeredIds.has(q.id));
             setQuestions(administeredQuestions);
+            setOptionShuffleMap(createOptionShuffleMap(administeredQuestions));
             setCurrentQ(administeredQuestions.length - 1);
             setCatState(existingCat);
           } else {
@@ -289,6 +305,7 @@ export default function MockExamSession() {
             const firstItem = selectNextItem(freshCat, allQuestions);
             if (firstItem) {
               setQuestions([firstItem]);
+              setOptionShuffleMap(createOptionShuffleMap([firstItem]));
               setCurrentQ(0);
             }
             setCatState(freshCat);
@@ -296,6 +313,7 @@ export default function MockExamSession() {
           }
         } else {
           setQuestions(allQuestions);
+          setOptionShuffleMap(createOptionShuffleMap(allQuestions));
         }
 
         setAnswers(data.answers || {});
@@ -405,6 +423,7 @@ export default function MockExamSession() {
 
     if (nextItem) {
       setQuestions(prev => [...prev, nextItem]);
+      setOptionShuffleMap(prev => ({ ...prev, ...createOptionShuffleMap([nextItem]) }));
       setCurrentQ(prev => prev + 1);
     } else {
       setCatFinished(true);
@@ -724,14 +743,15 @@ export default function MockExamSession() {
             </div>
 
             <div className="space-y-1" role="radiogroup" aria-label="Answer options">
-              {question.options.map((option, i) => {
-                const isSelected = answers[question.id] === i;
+              {(optionShuffleMap[question.id] || question.options.map((_, i) => i)).map((originalIdx, displayIdx) => {
+                const option = question.options[originalIdx];
+                const isSelected = answers[question.id] === originalIdx;
                 const isLocked = (strictMode || isCATExam) && answers[question.id] !== undefined;
-                const letterLabel = String.fromCharCode(65 + i);
+                const letterLabel = String.fromCharCode(65 + displayIdx);
                 return (
                   <button
-                    key={i}
-                    onClick={() => selectAnswer(question.id, i)}
+                    key={originalIdx}
+                    onClick={() => selectAnswer(question.id, originalIdx)}
                     disabled={isLocked && !isSelected}
                     role="radio"
                     aria-checked={isSelected}
@@ -744,7 +764,7 @@ export default function MockExamSession() {
                       borderLeft: `3px solid ${accentColor}`,
                       boxShadow: `inset 0 0 0 0 transparent`,
                     } : undefined}
-                    data-testid={`button-option-${i}`}
+                    data-testid={`button-option-${displayIdx}`}
                   >
                     <span
                       className={`mt-0.5 w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0 transition-colors ${

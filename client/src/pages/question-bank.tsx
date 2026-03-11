@@ -7,6 +7,7 @@ import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
 import { SEO } from "@/components/seo";
 import { getExamQuestions, type PooledQuestion } from "@/lib/question-pool";
+import { fetchFilters } from "@/lib/qbank-api";
 import { CheckCircle2, XCircle, Filter, RotateCcw, ChevronLeft, ChevronRight, Trophy, Target, Lock, Crown, Lightbulb, Crosshair, BookOpen, Bookmark } from "lucide-react";
 import { AdminEditButton } from "@/components/admin-edit-button";
 import { LocaleLink } from "@/lib/LocaleLink";
@@ -27,6 +28,9 @@ export default function QuestionBank() {
   const defaultTierFilter = allowedQBankTiers.length === 1 ? allowedQBankTiers[0] : (allowedQBankTiers.length > 0 ? allowedQBankTiers[0] : "all");
   const [tierFilter, setTierFilter] = useState<string>(defaultTierFilter);
   const [systemFilter, setSystemFilter] = useState<string>("all");
+  const [difficultyFilter, setDifficultyFilter] = useState<string>("all");
+  const [examFilter, setExamFilter] = useState<string>("all");
+  const [topicFilter, setTopicFilter] = useState<string>("all");
   const [currentIndex, setCurrentIndex] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
   const [revealed, setRevealed] = useState(false);
@@ -35,6 +39,12 @@ export default function QuestionBank() {
   const [confidenceRated, setConfidenceRated] = useState(false);
   const [allQuestions, setAllQuestions] = useState<PooledQuestion[]>([]);
   const [loadingQuestions, setLoadingQuestions] = useState(true);
+  const [filterOptions, setFilterOptions] = useState<{
+    bodySystems: string[];
+    difficulties: { value: number; label: string }[];
+    exams: string[];
+    topics: string[];
+  }>({ bodySystems: [], difficulties: [], exams: [], topics: [] });
 
   const userCanAccessTier = (questionTier: string) => {
     if (!questionTier || questionTier === "free") return true;
@@ -56,21 +66,23 @@ export default function QuestionBank() {
       setTierFilter(tier);
       return;
     }
+    fetchFilters(tier).then(setFilterOptions).catch(() => {});
     setLoadingQuestions(true);
-    getExamQuestions(tier, 50).then((questions) => {
+    const filters: any = {};
+    if (difficultyFilter !== "all") filters.difficulty = parseInt(difficultyFilter);
+    if (examFilter !== "all") filters.exam = examFilter;
+    if (topicFilter !== "all") filters.topic = topicFilter;
+    const systems = systemFilter !== "all" ? [systemFilter] : undefined;
+    getExamQuestions(tier, 50, systems, Object.keys(filters).length > 0 ? filters : undefined).then((questions) => {
       setAllQuestions(questions);
       setCurrentIndex(0);
       setSelectedAnswer(null);
       setRevealed(false);
       setLoadingQuestions(false);
     }).catch(() => setLoadingQuestions(false));
-  }, [tierFilter, effectiveTier]);
+  }, [tierFilter, effectiveTier, difficultyFilter, examFilter, topicFilter, systemFilter]);
 
-  const filtered = useMemo(() => {
-    let q = allQuestions;
-    if (systemFilter !== "all") q = q.filter(x => x.bodySystem === systemFilter);
-    return q;
-  }, [allQuestions, systemFilter]);
+  const filtered = allQuestions;
 
   const isTierLocked = tierFilter !== "all" && !userCanAccessTier(tierFilter);
   const accessibleQuestions = useMemo(() => {
@@ -81,10 +93,7 @@ export default function QuestionBank() {
     return filtered;
   }, [filtered, user, effectiveTier, isTierLocked]);
 
-  const bodySystems = useMemo(() => {
-    const systems = new Set(allQuestions.map(q => q.bodySystem));
-    return Array.from(systems).sort();
-  }, [allQuestions]);
+  const bodySystems = filterOptions.bodySystems;
 
   const question = accessibleQuestions[currentIndex];
 
@@ -189,7 +198,7 @@ export default function QuestionBank() {
               </Select>
               )}
 
-              <Select value={systemFilter} onValueChange={(v) => { setSystemFilter(v); setCurrentIndex(0); setSelectedAnswer(null); setRevealed(false); }}>
+              <Select value={systemFilter} onValueChange={(v) => { setSystemFilter(v); }}>
                 <SelectTrigger className="w-[180px] border-gray-200 bg-white" data-testid="select-system">
                   <SelectValue placeholder="Body System" />
                 </SelectTrigger>
@@ -200,6 +209,46 @@ export default function QuestionBank() {
                   ))}
                 </SelectContent>
               </Select>
+
+              <Select value={difficultyFilter} onValueChange={(v) => { setDifficultyFilter(v); }}>
+                <SelectTrigger className="w-[140px] border-gray-200 bg-white" data-testid="select-difficulty">
+                  <SelectValue placeholder="Difficulty" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">All Levels</SelectItem>
+                  {filterOptions.difficulties.map(d => (
+                    <SelectItem key={d.value} value={String(d.value)}>{d.label}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+
+              {filterOptions.exams.length > 1 && (
+                <Select value={examFilter} onValueChange={(v) => { setExamFilter(v); }}>
+                  <SelectTrigger className="w-[150px] border-gray-200 bg-white" data-testid="select-exam">
+                    <SelectValue placeholder="Exam Type" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">All Exams</SelectItem>
+                    {filterOptions.exams.map(e => (
+                      <SelectItem key={e} value={e}>{e}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              )}
+
+              {filterOptions.topics.length > 0 && (
+                <Select value={topicFilter} onValueChange={(v) => { setTopicFilter(v); }}>
+                  <SelectTrigger className="w-[180px] border-gray-200 bg-white" data-testid="select-topic">
+                    <SelectValue placeholder="Topic" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">All Topics</SelectItem>
+                    {filterOptions.topics.map(t => (
+                      <SelectItem key={t} value={t}>{t}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              )}
             </div>
 
             <div className="ml-auto flex items-center gap-4">
