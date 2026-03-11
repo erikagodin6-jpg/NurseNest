@@ -32,8 +32,14 @@ import illustrationBrainAbscessV2 from "@/assets/lesson-brain-abscess-new.png";
 import illustrationDeliriumDementia from "@/assets/lesson-delirium-dementia.png";
 import illustrationDeliriumDementiaV2 from "@/assets/lesson-delirium-dementia-new.png";
 import illustrationAcuteDystonicReaction from "@/assets/lesson-acute-dystonic-reaction.png";
+import illustrationAcuteDystonicReactionV2 from "@/assets/images/acute-dystonic-reaction-v2.png";
 import illustrationALS from "@/assets/lesson-als.png";
+import illustrationALSV2 from "@/assets/images/als-v2.png";
 import illustrationAlzheimers from "@/assets/lesson-alzheimers.png";
+import illustrationAlzheimersV2 from "@/assets/images/alzheimers-v2.png";
+import illustrationAbdominalAssessmentV2 from "@/assets/images/abdominal-assessment-v2.png";
+import illustrationAchalasiaV2 from "@/assets/images/achalasia-v2.png";
+import illustrationAnalFissureV2 from "@/assets/images/anal-fissure-v2.png";
 import illustrationCranialNerves from "@/assets/lesson-cranial-nerves.png";
 import illustrationCranialNervesV2 from "@/assets/lesson-cranial-nerves-new.png";
 import illustrationCranialNervePathology from "@/assets/lesson-cranial-nerve-pathology.png";
@@ -393,15 +399,20 @@ const lessonSpecificImages: Record<string, string> = {
   "multiple-sclerosis": illustrationMSV2,
   "ms-management": illustrationMSV2,
   "brain-abscess": illustrationBrainAbscessV2,
-  "acute-dystonic-reaction-rpn": illustrationAcuteDystonicReaction,
-  "acute-dystonic-reaction": illustrationAcuteDystonicReaction,
-  "als-basics-rpn": illustrationALS,
-  "als-management": illustrationALS,
-  "als-management-np": illustrationALS,
-  "alzheimer-disease": illustrationAlzheimers,
-  "alzheimer-disease-rpn": illustrationAlzheimers,
-  "alzheimer-disease-rn": illustrationAlzheimers,
-  "alzheimer-disease-np": illustrationAlzheimers,
+  "acute-dystonic-reaction-rpn": illustrationAcuteDystonicReactionV2,
+  "acute-dystonic-reaction": illustrationAcuteDystonicReactionV2,
+  "acute-dystonic-reaction-rn": illustrationAcuteDystonicReactionV2,
+  "acute-dystonic-reaction-np": illustrationAcuteDystonicReactionV2,
+  "als-basics-rpn": illustrationALSV2,
+  "als-management": illustrationALSV2,
+  "als-management-np": illustrationALSV2,
+  "als-management-rn": illustrationALSV2,
+  "als-basics": illustrationALSV2,
+  "alzheimer-disease": illustrationAlzheimersV2,
+  "alzheimer-disease-rpn": illustrationAlzheimersV2,
+  "alzheimer-disease-rn": illustrationAlzheimersV2,
+  "alzheimer-disease-np": illustrationAlzheimersV2,
+  "alzheimers-disease": illustrationAlzheimersV2,
   "delirium-vs-dementia": illustrationDeliriumDementiaV2,
   "delirium": illustrationDeliriumDementiaV2,
   "dementia-care": illustrationDeliriumDementiaV2,
@@ -609,7 +620,20 @@ const lessonSpecificImages: Record<string, string> = {
   "wernicke-korsakoff": illustrationKorsakoffSyndrome,
   "guillain-barre": illustrationGuillainBarreV2,
   "meningitis": illustrationNeurologicalAnatomy,
-  "abdominal-assessment": illustrationGIAnatomy,
+  "abdominal-assessment": illustrationAbdominalAssessmentV2,
+  "abdominal-assessment-rpn": illustrationAbdominalAssessmentV2,
+  "abdominal-assessment-rn": illustrationAbdominalAssessmentV2,
+  "abdominal-assessment-np": illustrationAbdominalAssessmentV2,
+  "achalasia": illustrationAchalasiaV2,
+  "achalasia-rpn": illustrationAchalasiaV2,
+  "achalasia-rn": illustrationAchalasiaV2,
+  "achalasia-np": illustrationAchalasiaV2,
+  "achalasia-management": illustrationAchalasiaV2,
+  "anal-fissure": illustrationAnalFissureV2,
+  "anal-fissure-rpn": illustrationAnalFissureV2,
+  "anal-fissure-rn": illustrationAnalFissureV2,
+  "anal-fissure-np": illustrationAnalFissureV2,
+  "anal-fissure-management": illustrationAnalFissureV2,
   "gi-bleed": illustrationGIAnatomy,
   "cirrhosis-management": illustrationGIAnatomy,
   "acute-pancreatitis": illustrationGIAnatomy,
@@ -1054,9 +1078,12 @@ export function getLessonImage(lessonId: string): string | undefined {
   if (lessonId.includes("multiple-sclerosis") || lessonId === "ms-management") return illustrationMSV2;
   if (lessonId.includes("stroke")) return illustrationStroke;
   if (lessonId.includes("bells-palsy")) return illustrationBellsPalsyV2;
-  if (lessonId.includes("dystonic")) return illustrationAcuteDystonicReaction;
-  if (lessonId.includes("als-") || lessonId === "als") return illustrationALS;
-  if (lessonId.includes("alzheimer")) return illustrationAlzheimers;
+  if (lessonId.includes("dystonic")) return illustrationAcuteDystonicReactionV2;
+  if (lessonId.includes("als-") || lessonId === "als") return illustrationALSV2;
+  if (lessonId.includes("alzheimer")) return illustrationAlzheimersV2;
+  if (lessonId.includes("achalasia")) return illustrationAchalasiaV2;
+  if (lessonId.includes("anal-fissure") || lessonId.includes("analfissure")) return illustrationAnalFissureV2;
+  if (lessonId.includes("abdominal-assessment")) return illustrationAbdominalAssessmentV2;
   if (lessonId.includes("myasthenia")) return illustrationMyastheniaGravis;
   if (lessonId.includes("concussion") || lessonId.includes("tbi")) return illustrationConcussionV2;
   if (lessonId.includes("carpal-tunnel")) return illustrationCarpalTunnelV2;
