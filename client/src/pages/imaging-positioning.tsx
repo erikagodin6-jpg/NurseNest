@@ -19,8 +19,8 @@ export default function ImagingPositioningPage() {
   const [expanded, setExpanded] = useState<Set<string>>(new Set());
 
   const { data: entries = [], isLoading } = useQuery({
-    queryKey: ["/api/imaging/positioning"],
-    queryFn: () => fetch(`/api/imaging/positioning?status=published`).then(r => r.json()),
+    queryKey: ["/api/imaging/positioning", country],
+    queryFn: () => fetch(`/api/imaging/positioning?status=published&country=${country}`).then(r => r.json()),
   });
 
   const filtered = useMemo(() => {

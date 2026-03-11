@@ -20,8 +20,8 @@ export default function ImagingFlashcardsPage() {
   const [completed, setCompleted] = useState<Set<number>>(new Set());
 
   const { data: flashcards = [], isLoading } = useQuery({
-    queryKey: ["/api/imaging/flashcards"],
-    queryFn: () => fetch(`/api/imaging/flashcards?status=published`).then(r => r.json()),
+    queryKey: ["/api/imaging/flashcards", country],
+    queryFn: () => fetch(`/api/imaging/flashcards?status=published&country=${country}`).then(r => r.json()),
   });
 
   const categories = useMemo(() => {

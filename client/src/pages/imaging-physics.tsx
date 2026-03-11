@@ -18,8 +18,8 @@ export default function ImagingPhysicsPage() {
   const [expanded, setExpanded] = useState<Set<string>>(new Set());
 
   const { data: topics = [], isLoading } = useQuery({
-    queryKey: ["/api/imaging/physics"],
-    queryFn: () => fetch(`/api/imaging/physics?status=published`).then(r => r.json()),
+    queryKey: ["/api/imaging/physics", country],
+    queryFn: () => fetch(`/api/imaging/physics?status=published&country=${country}`).then(r => r.json()),
   });
 
   const categories = useMemo(() => {
@@ -131,7 +131,18 @@ export default function ImagingPhysicsPage() {
                 {expanded.has(topic.id) && (
                   <div className="border-t border-gray-100 p-4 bg-gray-50/50">
                     {topic.content && (
-                      <p className="text-sm text-gray-700 mb-4 whitespace-pre-line">{topic.content}</p>
+                      typeof topic.content === "string" ? (
+                        <p className="text-sm text-gray-700 mb-4 whitespace-pre-line">{topic.content}</p>
+                      ) : typeof topic.content === "object" && topic.content !== null ? (
+                        <div className="text-sm text-gray-700 mb-4 space-y-2">
+                          {Object.entries(topic.content).map(([key, val]: [string, any]) => (
+                            <div key={key}>
+                              <span className="font-medium text-gray-900">{key}: </span>
+                              <span className="whitespace-pre-line">{typeof val === "string" ? val : JSON.stringify(val)}</span>
+                            </div>
+                          ))}
+                        </div>
+                      ) : null
                     )}
 
                     {topic.keyConcepts && Array.isArray(topic.keyConcepts) && topic.keyConcepts.length > 0 && (

@@ -31,12 +31,12 @@ export default function ImagingLessonsPage() {
 
   const { data: positioning = [] } = useQuery({
     queryKey: ["/api/imaging/positioning", country],
-    queryFn: () => fetch(`/api/imaging/positioning?status=published`).then(r => r.json()),
+    queryFn: () => fetch(`/api/imaging/positioning?status=published&country=${country}`).then(r => r.json()),
   });
 
   const { data: physics = [] } = useQuery({
     queryKey: ["/api/imaging/physics", country],
-    queryFn: () => fetch(`/api/imaging/physics?status=published`).then(r => r.json()),
+    queryFn: () => fetch(`/api/imaging/physics?status=published&country=${country}`).then(r => r.json()),
   });
 
   const moduleContent: Record<string, any[]> = {
