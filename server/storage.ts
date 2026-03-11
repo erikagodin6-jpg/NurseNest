@@ -1,4 +1,4 @@
-import { type User, type InsertUser, type Note, type InsertNote, type TestResult, type InsertTestResult, type UserProgress, type InsertUserProgress, type ContentItem, type InsertContentItem, type FeatureUsage, type UserFlashcard, type InsertUserFlashcard, type BlogConfig, type PageView, type InsertPageView, type UserFeedback, type InsertUserFeedback, type QotdHistory, type EmailSubscriber, type InsertEmailSubscriber, type SocialPost, type InsertSocialPost, type DashboardWidget, type InsertDashboardWidget, type SiteImage, type InsertSiteImage, type CustomPageModule, type InsertCustomPageModule, type AudioClip, type InsertAudioClip, type LessonAudioLink, type InsertLessonAudioLink, type ExamQuestion, type InsertExamQuestion, type QuestionTypeRegistryEntry, type InsertQuestionTypeRegistryEntry, type QuestionScheduleLog, type DigitalProduct, type InsertDigitalProduct, type ProductPurchase, type InsertProductPurchase, type QbankDraft, type InsertQbankDraft, type QbankRecipe, type InsertQbankRecipe, type DiagnosticAssessment, type InsertDiagnosticAssessment, type UserStats, type InsertUserStats, type StudyGroup, type InsertStudyGroup, type StudyGroupMember, type InsertStudyGroupMember, type QuestionAnalytics, type InsertQuestionAnalytics, type FriendRequest, type InsertFriendRequest, type FriendConnection, type InsertFriendConnection, type ProductGeneration, type InsertProductGeneration, type GeneratedQuestion, type InsertGeneratedQuestion, type GeneratorV2PresentationSettings, type InsertGeneratorV2PresentationSettings, type TesterInviteCode, type InsertTesterInviteCode, type TesterFeedback, type InsertTesterFeedback, type ImagingQuestion, type InsertImagingQuestion, type ImageAsset, type InsertImageAsset, type ImagingFlashcard, type InsertImagingFlashcard, type ImagingCaseStudy, type InsertImagingCaseStudy, type ImagingExamAttempt, type InsertImagingExamAttempt, type ImagingExamAttemptQuestion, type InsertImagingExamAttemptQuestion, type ImagingPositioningEntry, type InsertImagingPositioningEntry, type ImagingPhysicsTopic, type InsertImagingPhysicsTopic, users, notes, testResults, userProgress, contentItems, featureUsage, userFlashcards, blogConfig, pageViews, userFeedback, qotdHistory, emailSubscribers, socialPosts, dashboardWidgets, siteImages, customPageModules, audioClips, lessonAudioLinks, examQuestions, questionTypeRegistry, questionScheduleLog, digitalProducts, productPurchases, couponCodes, qbankDrafts, qbankRecipes, diagnosticAssessments, userStats, studyGroups, studyGroupMembers, questionAnalytics, friendRequests, friendConnections, productGenerations, generatedQuestions, generatorV2PresentationSettings, generationEvents, v2ContentBlocks, testerInviteCodes, testerFeedback, imagingQuestions, imageAssets, imagingFlashcards, imagingCaseStudies, imagingExamAttempts, imagingExamAttemptQuestions, imagingPositioningEntries, imagingPhysicsTopics } from "@shared/schema";
+import { type User, type InsertUser, type Note, type InsertNote, type TestResult, type InsertTestResult, type UserProgress, type InsertUserProgress, type ContentItem, type InsertContentItem, type FeatureUsage, type UserFlashcard, type InsertUserFlashcard, type BlogConfig, type PageView, type InsertPageView, type UserFeedback, type InsertUserFeedback, type QotdHistory, type EmailSubscriber, type InsertEmailSubscriber, type SocialPost, type InsertSocialPost, type DashboardWidget, type InsertDashboardWidget, type SiteImage, type InsertSiteImage, type CustomPageModule, type InsertCustomPageModule, type AudioClip, type InsertAudioClip, type LessonAudioLink, type InsertLessonAudioLink, type ExamQuestion, type InsertExamQuestion, type QuestionTypeRegistryEntry, type InsertQuestionTypeRegistryEntry, type QuestionScheduleLog, type DigitalProduct, type InsertDigitalProduct, type ProductPurchase, type InsertProductPurchase, type QbankDraft, type InsertQbankDraft, type QbankRecipe, type InsertQbankRecipe, type DiagnosticAssessment, type InsertDiagnosticAssessment, type UserStats, type InsertUserStats, type StudyGroup, type InsertStudyGroup, type StudyGroupMember, type InsertStudyGroupMember, type QuestionAnalytics, type InsertQuestionAnalytics, type FriendRequest, type InsertFriendRequest, type FriendConnection, type InsertFriendConnection, type ProductGeneration, type InsertProductGeneration, type GeneratedQuestion, type InsertGeneratedQuestion, type GeneratorV2PresentationSettings, type InsertGeneratorV2PresentationSettings, type TesterInviteCode, type InsertTesterInviteCode, type TesterFeedback, type InsertTesterFeedback, type ImagingQuestion, type InsertImagingQuestion, type ImageAsset, type InsertImageAsset, type ImagingFlashcard, type InsertImagingFlashcard, type ImagingCaseStudy, type InsertImagingCaseStudy, type ImagingExamAttempt, type InsertImagingExamAttempt, type ImagingExamAttemptQuestion, type InsertImagingExamAttemptQuestion, type ImagingPositioningEntry, type InsertImagingPositioningEntry, type ImagingPhysicsTopic, type InsertImagingPhysicsTopic, type QuestionBankItem, type InsertQuestionBankItem, type QuestionBankResult, type InsertQuestionBankResult, users, notes, testResults, userProgress, contentItems, featureUsage, userFlashcards, blogConfig, pageViews, userFeedback, qotdHistory, emailSubscribers, socialPosts, dashboardWidgets, siteImages, customPageModules, audioClips, lessonAudioLinks, examQuestions, questionTypeRegistry, questionScheduleLog, digitalProducts, productPurchases, couponCodes, qbankDrafts, qbankRecipes, diagnosticAssessments, userStats, studyGroups, studyGroupMembers, questionAnalytics, friendRequests, friendConnections, productGenerations, generatedQuestions, generatorV2PresentationSettings, generationEvents, v2ContentBlocks, testerInviteCodes, testerFeedback, imagingQuestions, imageAssets, imagingFlashcards, imagingCaseStudies, imagingExamAttempts, imagingExamAttemptQuestions, imagingPositioningEntries, imagingPhysicsTopics, questionBank, questionBankResults } from "@shared/schema";
 import { drizzle } from "drizzle-orm/node-postgres";
 import { eq, and, desc, sql, lte, ne, ilike, gte, count } from "drizzle-orm";
 import pg from "pg";
@@ -208,6 +208,17 @@ export interface IStorage {
   createImagingPhysicsTopic(t: InsertImagingPhysicsTopic): Promise<ImagingPhysicsTopic>;
   updateImagingPhysicsTopic(id: string, updates: Partial<InsertImagingPhysicsTopic>): Promise<ImagingPhysicsTopic>;
   deleteImagingPhysicsTopic(id: string): Promise<void>;
+
+  getQuestionBankItems(filters?: { country?: string; examType?: string; category?: string; difficulty?: string; topic?: string; status?: string }): Promise<QuestionBankItem[]>;
+  getQuestionBankItem(id: string): Promise<QuestionBankItem | undefined>;
+  createQuestionBankItem(item: InsertQuestionBankItem): Promise<QuestionBankItem>;
+  createQuestionBankItemsBulk(items: InsertQuestionBankItem[]): Promise<QuestionBankItem[]>;
+  updateQuestionBankItem(id: string, updates: Partial<InsertQuestionBankItem>): Promise<QuestionBankItem>;
+  toggleQuestionBankItemStatus(id: string): Promise<QuestionBankItem>;
+  getQuestionBankRandomSubset(filters: { country: string; examType: string; category?: string; difficulty?: string }, count: number): Promise<QuestionBankItem[]>;
+  createQuestionBankResult(result: InsertQuestionBankResult): Promise<QuestionBankResult>;
+  getUserQuestionBankResults(userId: string): Promise<QuestionBankResult[]>;
+  getQuestionBankAnalytics(): Promise<{ category: string; difficulty: string; totalAttempts: number; correctRate: number }[]>;
 }
 
 const pool = new pg.Pool({ connectionString: process.env.DATABASE_URL });
@@ -1450,6 +1461,102 @@ export class DatabaseStorage implements IStorage {
   }
   async deleteImagingPhysicsTopic(id: string): Promise<void> {
     await db.delete(imagingPhysicsTopics).where(eq(imagingPhysicsTopics.id, id));
+  }
+
+  async getQuestionBankItems(filters?: { country?: string; examType?: string; category?: string; difficulty?: string; topic?: string; status?: string }): Promise<QuestionBankItem[]> {
+    const conditions = [];
+    if (filters?.country) conditions.push(eq(questionBank.country, filters.country));
+    if (filters?.examType) conditions.push(eq(questionBank.examType, filters.examType));
+    if (filters?.category) conditions.push(eq(questionBank.category, filters.category));
+    if (filters?.difficulty) conditions.push(eq(questionBank.difficulty, filters.difficulty));
+    if (filters?.topic) conditions.push(eq(questionBank.topic, filters.topic));
+    if (filters?.status) conditions.push(eq(questionBank.status, filters.status));
+    if (conditions.length > 0) {
+      return db.select().from(questionBank).where(and(...conditions)).orderBy(desc(questionBank.createdAt));
+    }
+    return db.select().from(questionBank).orderBy(desc(questionBank.createdAt));
+  }
+
+  async getQuestionBankItem(id: string): Promise<QuestionBankItem | undefined> {
+    const [item] = await db.select().from(questionBank).where(eq(questionBank.id, id));
+    return item;
+  }
+
+  async createQuestionBankItem(item: InsertQuestionBankItem): Promise<QuestionBankItem> {
+    const [created] = await db.insert(questionBank).values(item).returning();
+    return created;
+  }
+
+  async createQuestionBankItemsBulk(items: InsertQuestionBankItem[]): Promise<QuestionBankItem[]> {
+    if (items.length === 0) return [];
+    const created = await db.insert(questionBank).values(items).returning();
+    return created;
+  }
+
+  async updateQuestionBankItem(id: string, updates: Partial<InsertQuestionBankItem>): Promise<QuestionBankItem> {
+    const [updated] = await db.update(questionBank).set({ ...updates, updatedAt: new Date() }).where(eq(questionBank.id, id)).returning();
+    return updated;
+  }
+
+  async toggleQuestionBankItemStatus(id: string): Promise<QuestionBankItem> {
+    const item = await this.getQuestionBankItem(id);
+    if (!item) throw new Error("Question not found");
+    const newStatus = item.status === "active" ? "disabled" : "active";
+    const [updated] = await db.update(questionBank).set({ status: newStatus, updatedAt: new Date() }).where(eq(questionBank.id, id)).returning();
+    return updated;
+  }
+
+  async getQuestionBankRandomSubset(filters: { country: string; examType: string; category?: string; difficulty?: string }, count: number): Promise<QuestionBankItem[]> {
+    const conditions = [
+      eq(questionBank.country, filters.country),
+      eq(questionBank.examType, filters.examType),
+      eq(questionBank.status, "active"),
+    ];
+    if (filters.category) conditions.push(eq(questionBank.category, filters.category));
+    if (filters.difficulty) conditions.push(eq(questionBank.difficulty, filters.difficulty));
+    return db.select().from(questionBank).where(and(...conditions)).orderBy(sql`RANDOM()`).limit(count);
+  }
+
+  async createQuestionBankResult(result: InsertQuestionBankResult): Promise<QuestionBankResult> {
+    const [created] = await db.insert(questionBankResults).values(result).returning();
+    return created;
+  }
+
+  async getUserQuestionBankResults(userId: string): Promise<QuestionBankResult[]> {
+    return db.select().from(questionBankResults).where(eq(questionBankResults.userId, userId)).orderBy(desc(questionBankResults.createdAt));
+  }
+
+  async getQuestionBankAnalytics(): Promise<{ category: string; difficulty: string; totalAttempts: number; correctRate: number }[]> {
+    const results = await db.select().from(questionBankResults);
+    const aggregated: Record<string, { total: number; correctSum: number; count: number }> = {};
+    for (const r of results) {
+      const catBreakdown = (r.categoryBreakdown || {}) as Record<string, { total: number; correct: number }>;
+      const diffBreakdown = (r.difficultyBreakdown || {}) as Record<string, { total: number; correct: number }>;
+      for (const [cat, data] of Object.entries(catBreakdown)) {
+        for (const [diff, dData] of Object.entries(diffBreakdown)) {
+          const key = `${cat}||${diff}`;
+          if (!aggregated[key]) aggregated[key] = { total: 0, correctSum: 0, count: 0 };
+          aggregated[key].count++;
+        }
+        const key = `${cat}||all`;
+        if (!aggregated[key]) aggregated[key] = { total: 0, correctSum: 0, count: 0 };
+        aggregated[key].total += data.total;
+        aggregated[key].correctSum += data.correct;
+        aggregated[key].count++;
+      }
+    }
+    const output: { category: string; difficulty: string; totalAttempts: number; correctRate: number }[] = [];
+    for (const [key, data] of Object.entries(aggregated)) {
+      const [category, difficulty] = key.split("||");
+      if (difficulty !== "all") continue;
+      output.push({
+        category,
+        difficulty: "all",
+        totalAttempts: data.total,
+        correctRate: data.total > 0 ? Math.round((data.correctSum / data.total) * 1000) / 10 : 0,
+      });
+    }
+    return output.sort((a, b) => a.category.localeCompare(b.category));
   }
 }
 

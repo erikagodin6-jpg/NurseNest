@@ -83,6 +83,18 @@ The application is built with Vite, React, and Express 5 on Node.js with TypeScr
 - Exam blueprints: REX-PN (CA), NCLEX-PN (US), NCLEX-RN (US), NCLEX-RN-CA (CA), CNPLE (CA), AANP (US), ANCC (US), plus readiness exams with CA variants
 - DB tables `allied_lessons` and `content_items` are empty; all content is static TS
 
+## Question Bank System
+- **DB Tables**: `question_bank` (questions with MCQ options, correct answer, rationale, category, difficulty, exam_type, country, topic, client_needs, status) and `question_bank_results` (per-user session results with category/difficulty breakdowns)
+- **Validation**: `server/question-bank-validation.ts` — 19 validation rules including non-empty checks, enum validation, country↔exam consistency (NCLEX-PN↔US, REx-PN↔CA), duplicate detection
+- **Safety Rules**: LVN users (region=US) see NCLEX-PN/US questions only; RPN users (region=CA) see REx-PN/CA questions only
+- **Modes**: Admin (`/admin/question-bank`), Exam (`/qbank/exam`), Study (`/qbank/study`), Browse (`/qbank/browse`)
+- **Admin**: JSON import with validation feedback, inline edit, enable/disable toggle, filtering by country/exam type/status/category
+- **Exam Mode**: Timed, randomized questions with shuffled answers, question navigator with flagging, detailed results with pass/fail and category breakdown
+- **Study Mode**: One-at-a-time practice with immediate rationale feedback, session statistics
+- **Browse**: Question preview with expandable answer reveal, analytics tab with category distribution and performance stats
+- **API Routes**: `/api/question-bank/items`, `/api/question-bank/import`, `/api/question-bank/exam`, `/api/question-bank/study`, `/api/question-bank/results`, `/api/question-bank/analytics`, `/api/question-bank/admin/all`
+- **Auth**: Admin routes use `requireAdmin`, user routes use `resolveAuthUser` with `nursenest-credentials` localStorage
+
 ## Referral Discount System
 - Users table has `referral_code` (unique, format NN-REF-XXXXXX), `referral_uses`, `referred_by`, `referral_discount_used` columns
 - Storage methods: `generateReferralCode`, `getUserByReferralCode`, `incrementReferralUses`, `setReferredBy`, `markReferralDiscountUsed`

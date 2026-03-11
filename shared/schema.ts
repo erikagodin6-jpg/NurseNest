@@ -2540,6 +2540,27 @@ export const imagingFlashcards = pgTable("imaging_flashcards", {
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
 });
 
+export const questionBank = pgTable("question_bank", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  question: text("question").notNull(),
+  optionA: text("option_a").notNull(),
+  optionB: text("option_b").notNull(),
+  optionC: text("option_c").notNull(),
+  optionD: text("option_d").notNull(),
+  correctAnswer: text("correct_answer").notNull(),
+  rationale: text("rationale").notNull(),
+  category: text("category").notNull(),
+  difficulty: text("difficulty").notNull(),
+  examType: text("exam_type").notNull(),
+  country: text("country").notNull(),
+  questionType: text("question_type").notNull(),
+  clientNeeds: text("client_needs").notNull(),
+  topic: text("topic").notNull(),
+  status: text("status").notNull().default("active"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
 export const insertImagingFlashcardSchema = createInsertSchema(imagingFlashcards).omit({ id: true, createdAt: true, updatedAt: true });
 export type ImagingFlashcard = typeof imagingFlashcards.$inferSelect;
 export type InsertImagingFlashcard = z.infer<typeof insertImagingFlashcardSchema>;
@@ -2633,3 +2654,35 @@ export const imagingPhysicsTopics = pgTable("imaging_physics_topics", {
 export const insertImagingPhysicsTopicSchema = createInsertSchema(imagingPhysicsTopics).omit({ id: true, createdAt: true, updatedAt: true });
 export type ImagingPhysicsTopic = typeof imagingPhysicsTopics.$inferSelect;
 export type InsertImagingPhysicsTopic = z.infer<typeof insertImagingPhysicsTopicSchema>;
+
+export const insertQuestionBankSchema = createInsertSchema(questionBank).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
+export type QuestionBankItem = typeof questionBank.$inferSelect;
+export type InsertQuestionBankItem = z.infer<typeof insertQuestionBankSchema>;
+
+export const questionBankResults = pgTable("question_bank_results", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id").notNull(),
+  mode: text("mode").notNull(),
+  examType: text("exam_type").notNull(),
+  country: text("country").notNull(),
+  totalQuestions: integer("total_questions").notNull(),
+  correctCount: integer("correct_count").notNull(),
+  timeSpent: integer("time_spent"),
+  answers: jsonb("answers").default(sql`'[]'::jsonb`),
+  categoryBreakdown: jsonb("category_breakdown").default(sql`'{}'::jsonb`),
+  difficultyBreakdown: jsonb("difficulty_breakdown").default(sql`'{}'::jsonb`),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const insertQuestionBankResultSchema = createInsertSchema(questionBankResults).omit({
+  id: true,
+  createdAt: true,
+});
+
+export type QuestionBankResult = typeof questionBankResults.$inferSelect;
+export type InsertQuestionBankResult = z.infer<typeof insertQuestionBankResultSchema>;

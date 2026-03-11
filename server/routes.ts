@@ -53,6 +53,7 @@ import { regionMiddleware, getEffectiveRegion, isRegionAllowed, getDefaultRegion
 import { languageMiddleware, getTranslatedFields, getTranslationStatus, getBulkTranslatedTitles, getAvailableLanguages, simpleHash } from "./translation-helpers";
 import { checkAiLimits, recordAiUsage, getAiConfig, setAiConfig } from "./ai-safety";
 import { requireAdmin, signAdminToken, verifyAdminToken, resolveAuthUser, requireExactTier, requireAnyPaidTier } from "./admin-auth";
+import { validateQuestionBankImport, getCountryForUserRegion, getExamTypeForCountry } from "./question-bank-validation";
 import { getAllowedContentTiers } from "../shared/tier-config";
 import rateLimit from "express-rate-limit";
 
@@ -14430,6 +14431,167 @@ Return ONLY valid JSON with this exact structure:
       const a = await storage.updateImageAsset(req.params.id, { approvalStatus });
       res.json(a);
     } catch (e: any) { res.status(400).json({ error: e.message }); }
+  });
+
+  // ── Question Bank API Routes ──
+  app.get("/api/question-bank/items", async (req, res) => {
+    try {
+      const user = await resolveAuthUser(req);
+      const filters: any = {};
+      if (req.query.category) filters.category = req.query.category;
+      if (req.query.difficulty) filters.difficulty = req.query.difficulty;
+      if (req.query.topic) filters.topic = req.query.topic;
+      if (req.query.status) filters.status = req.query.status;
+      if (req.query.examType) filters.examType = req.query.examType;
+      if (req.query.country) filters.country = req.query.country;
+      if (user?.region && !req.query.country) {
+        const country = getCountryForUserRegion(user.region);
+        if (country) {
+          filters.country = country;
+          filters.examType = getExamTypeForCountry(country);
+        }
+      }
+      const items = await storage.getQuestionBankItems(filters);
+      res.json(items);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/question-bank/items/:id", async (req, res) => {
+    try {
+      const item = await storage.getQuestionBankItem(req.params.id);
+      if (!item) return res.status(404).json({ error: "Question not found" });
+      res.json(item);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.post("/api/question-bank/import", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const { questions } = req.body;
+      if (!Array.isArray(questions)) return res.status(400).json({ error: "questions must be an array" });
+      const result = validateQuestionBankImport(questions);
+      let imported: any[] = [];
+      if (result.valid.length > 0) {
+        imported = await storage.createQuestionBankItemsBulk(result.valid);
+      }
+      res.json({ ...result, importedCount: imported.length });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.put("/api/question-bank/items/:id", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const existing = await storage.getQuestionBankItem(req.params.id);
+      if (!existing) return res.status(404).json({ error: "Question not found" });
+      const updated = await storage.updateQuestionBankItem(req.params.id, req.body);
+      res.json(updated);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.post("/api/question-bank/items/:id/toggle", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const updated = await storage.toggleQuestionBankItemStatus(req.params.id);
+      res.json(updated);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/question-bank/exam", async (req, res) => {
+    try {
+      const user = await resolveAuthUser(req);
+      if (!user) return res.status(401).json({ error: "Authentication required" });
+      const country = getCountryForUserRegion(user.region);
+      if (!country) return res.status(400).json({ error: "User region not set. Please update your profile." });
+      const examType = getExamTypeForCountry(country);
+      const count = Math.min(parseInt(req.query.count as string) || 25, 100);
+      const filters: any = { country, examType };
+      if (req.query.category) filters.category = req.query.category;
+      if (req.query.difficulty) filters.difficulty = req.query.difficulty;
+      const questions = await storage.getQuestionBankRandomSubset(filters, count);
+      res.json(questions);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/question-bank/study", async (req, res) => {
+    try {
+      const user = await resolveAuthUser(req);
+      if (!user) return res.status(401).json({ error: "Authentication required" });
+      const country = getCountryForUserRegion(user.region);
+      if (!country) return res.status(400).json({ error: "User region not set. Please update your profile." });
+      const examType = getExamTypeForCountry(country);
+      const count = Math.min(parseInt(req.query.count as string) || 10, 50);
+      const filters: any = { country, examType };
+      if (req.query.category) filters.category = req.query.category;
+      if (req.query.difficulty) filters.difficulty = req.query.difficulty;
+      const questions = await storage.getQuestionBankRandomSubset(filters, count);
+      res.json(questions);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.post("/api/question-bank/results", async (req, res) => {
+    try {
+      const user = await resolveAuthUser(req);
+      if (!user) return res.status(401).json({ error: "Authentication required" });
+      const result = await storage.createQuestionBankResult({ ...req.body, userId: user.id });
+      res.json(result);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/question-bank/results", async (req, res) => {
+    try {
+      const user = await resolveAuthUser(req);
+      if (!user) return res.status(401).json({ error: "Authentication required" });
+      const results = await storage.getUserQuestionBankResults(user.id);
+      res.json(results);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/question-bank/analytics", async (req, res) => {
+    try {
+      const analytics = await storage.getQuestionBankAnalytics();
+      res.json(analytics);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/question-bank/admin/all", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const filters: any = {};
+      if (req.query.category) filters.category = req.query.category;
+      if (req.query.difficulty) filters.difficulty = req.query.difficulty;
+      if (req.query.examType) filters.examType = req.query.examType;
+      if (req.query.country) filters.country = req.query.country;
+      if (req.query.status) filters.status = req.query.status;
+      if (req.query.topic) filters.topic = req.query.topic;
+      const items = await storage.getQuestionBankItems(filters);
+      res.json(items);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
   });
 
   return httpServer;

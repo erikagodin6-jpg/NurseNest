@@ -87,6 +87,10 @@ const DisclaimerPage = lazy(() => import("@/pages/disclaimer"));
 const RefundPolicyPage = lazy(() => import("@/pages/refund-policy"));
 const StartFreePage = lazy(() => import("@/pages/start-free"));
 const AdminPage = lazy(() => import("@/pages/admin"));
+const AdminQuestionBankPage = lazy(() => import("@/pages/admin-question-bank"));
+const QBankExamPage = lazy(() => import("@/pages/qbank-exam"));
+const QBankStudyPage = lazy(() => import("@/pages/qbank-study"));
+const QBankPreviewPage = lazy(() => import("@/pages/qbank-preview"));
 const GeneratorV2Page = lazy(() => import("@/pages/generator-v2"));
 const DashboardPage = lazy(() => import("@/pages/dashboard"));
 const ContentEditorPage = lazy(() => import("@/pages/content-editor"));
@@ -319,6 +323,10 @@ function AppRoutes() {
         <Route path="/med-math" component={MedMathPage} />
         <Route path="/lab-values" component={LabValuesPage} />
         <Route path="/admin" component={AdminPage} />
+        <Route path="/admin/question-bank" component={AdminQuestionBankPage} />
+        <Route path="/qbank/exam" component={QBankExamPage} />
+        <Route path="/qbank/study" component={QBankStudyPage} />
+        <Route path="/qbank/browse" component={QBankPreviewPage} />
         <Route path="/admin/generator-v2" component={GeneratorV2Page} />
         <Route path="/:locale/admin/generator-v2" component={GeneratorV2Page} />
         <Route path="/content-editor" component={ContentEditorPage} />
