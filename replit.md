@@ -51,7 +51,14 @@ The application is built with Vite, React, and Express 5 on Node.js with TypeScr
 - Tier derived from slug suffix: `-rpn`, `-rn`, `-np`, or `"general"`
 - System cards in `lessons.tsx` show lesson count badges and progress bars (completed/total)
 - Lesson counts: free=564, rpn=521, rn=244, np=316, total=1645 (as of Mar 2026)
-- DB exam questions: rpn=2058+83=2141, rn=1493, np=1638, total=5272 (as of Mar 2026); 3604 published, 1668 needs_review
+- DB exam questions: rpn=2141, rn=1493, np=1638, total=5272 (as of Mar 2026); 3604 published, 1668 needs_review
+- Question Bank modes: Study (immediate rationale, filters) and Exam (timer, randomized Q/A, hidden rationale until submit, performance summary)
+- Question status values: "published", "draft", "disabled" (soft-disable), "archived", "needs_review"
+- Safety rules enforced server-side: LVN users never see REx-PN, Canadian RPN never see NCLEX-PN, region_scope filtering (US/CAN/BOTH)
+- Region mapping: users.region "CA" → region_scope "CAN"; users.region "US" → region_scope "US"
+- Admin batch import: `/api/admin/qbank/import` accepts batch-keyed JSON `{ "batch_name": [...] }`
+- Filter options endpoint: `/api/qbank/filter-options` returns exams, categories, difficulties, topics for a tier
+- Login flow stores credentials in localStorage("nursenest-credentials") for QBank API auth
 - Question files in `client/src/data/exam-questions/`: rpn-expansion-[a-h], rn-expansion-[a-i], np-expansion-[a-e], pn-us-batch-01, rn-us-batch-01, np-us-batch-01, rpn-cases-01, rn-cases-01, np-cases-01, cnple-batch-[01-03], us-cases-01, plus 56 np-exam-batch files
 - **Question Bank Import Pipeline**: Admin page at `/admin/qbank/import` for bulk JSON import of questions
   - Accepts JSON format: `{question, option_a-d, correct_answer (A/B/C/D), rationale, category, difficulty, exam, country, question_type, client_needs, topic}`

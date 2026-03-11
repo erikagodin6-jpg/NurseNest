@@ -9553,9 +9553,22 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
       const admin = await requireAdmin(req, res);
       if (!admin) return;
 
-      const { questions, autoPublish } = req.body;
-      if (!Array.isArray(questions) || questions.length === 0) {
-        return res.status(400).json({ error: "questions array is required and must not be empty" });
+      const { questions: rawQuestions, autoPublish } = req.body;
+      let questions: any[];
+      if (Array.isArray(rawQuestions)) {
+        questions = rawQuestions;
+      } else if (rawQuestions && typeof rawQuestions === "object") {
+        questions = [];
+        for (const [batchKey, batchArr] of Object.entries(rawQuestions)) {
+          if (Array.isArray(batchArr)) {
+            questions.push(...batchArr);
+          }
+        }
+      } else {
+        return res.status(400).json({ error: "questions must be an array or a batch-keyed object (e.g., { \"american_lvn_batch_1\": [...] })" });
+      }
+      if (questions.length === 0) {
+        return res.status(400).json({ error: "No questions found in the provided data" });
       }
       if (questions.length > 500) {
         return res.status(400).json({ error: "Maximum 500 questions per import" });
@@ -9619,12 +9632,14 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
 
         seenStems.add(stemNorm);
         const answer = q.correct_answer.toUpperCase();
+        const qStatus = q.status?.toLowerCase();
+        const finalStatus = qStatus === "disabled" ? "disabled" : (autoPublish ? "published" : "draft");
         validated.push({
           originalIndex: i,
           tier: examToTier[q.exam] || "rpn",
           exam: q.exam,
           questionType: (q.question_type || "standard").toLowerCase().replace(/_/g, " "),
-          status: autoPublish ? "published" : "draft",
+          status: finalStatus,
           stem: q.question.trim(),
           options: [q.option_a.trim(), q.option_b.trim(), q.option_c.trim(), q.option_d.trim()],
           correctAnswer: answerMap[answer],

@@ -52,6 +52,7 @@ export function setupQBankRoutes(app: Express) {
 
       const search = req.query.search as string;
       const statusFilter = req.query.status as string;
+      const userRegion = user.region || "US";
 
       let query = `SELECT id, tier, exam, question_type, stem, options, body_system, topic, difficulty, region_scope, status
                    FROM exam_questions
@@ -65,6 +66,18 @@ export function setupQBankRoutes(app: Express) {
         paramIdx++;
       } else if (userTier !== "admin") {
         query += ` AND status = 'published'`;
+      }
+
+      if (userTier !== "admin") {
+        const safeRegion = userRegion === "CA" ? "CAN" : "US";
+        query += ` AND (region_scope = $${paramIdx} OR region_scope = 'BOTH')`;
+        params.push(safeRegion);
+        paramIdx++;
+        if (userRegion === "CA") {
+          query += ` AND exam != 'NCLEX-PN'`;
+        } else {
+          query += ` AND exam != 'REx-PN'`;
+        }
       }
 
       if (search && userTier === "admin") {
@@ -130,6 +143,17 @@ export function setupQBankRoutes(app: Express) {
       } else if (userTier !== "admin") {
         countQuery += ` AND status = 'published'`;
       }
+      if (userTier !== "admin") {
+        const safeRegion = userRegion === "CA" ? "CAN" : "US";
+        countQuery += ` AND (region_scope = $${countIdx} OR region_scope = 'BOTH')`;
+        countParams.push(safeRegion);
+        countIdx++;
+        if (userRegion === "CA") {
+          countQuery += ` AND exam != 'NCLEX-PN'`;
+        } else {
+          countQuery += ` AND exam != 'REx-PN'`;
+        }
+      }
       if (search && userTier === "admin") {
         countQuery += ` AND stem ILIKE $${countIdx}`;
         countParams.push(`%${search}%`);
@@ -179,12 +203,27 @@ export function setupQBankRoutes(app: Express) {
       }
 
       const queryTier = userTier === "admin" ? undefined : userTier;
-      let query = `SELECT id, tier, stem, options, correct_answer, rationale, body_system FROM exam_questions WHERE id = $1`;
+      let query = `SELECT id, tier, stem, options, correct_answer, rationale, body_system FROM exam_questions WHERE id = $1 AND status = 'published'`;
       const params: any[] = [questionId];
+      let paramIdx = 2;
 
       if (queryTier) {
-        query += ` AND tier = $2`;
+        query += ` AND tier = $${paramIdx}`;
         params.push(queryTier);
+        paramIdx++;
+      }
+
+      if (userTier !== "admin") {
+        const userRegion = user.region || "US";
+        const safeRegion = userRegion === "CA" ? "CAN" : "US";
+        query += ` AND (region_scope = $${paramIdx} OR region_scope = 'BOTH')`;
+        params.push(safeRegion);
+        paramIdx++;
+        if (userRegion === "CA") {
+          query += ` AND exam != 'NCLEX-PN'`;
+        } else {
+          query += ` AND exam != 'REx-PN'`;
+        }
       }
 
       const result = await pool.query(query, params);
@@ -317,12 +356,12 @@ export function setupQBankRoutes(app: Express) {
 
       const count = Math.min(parseInt(req.query.count as string) || 25, 200);
       const bodySystems = req.query.bodySystems ? (req.query.bodySystems as string).split(",") : [];
-      const difficulty = req.query.difficulty ? parseInt(req.query.difficulty as string) : null;
-      const exam = req.query.exam as string | undefined;
-      const topic = req.query.topic as string | undefined;
-      const regionScope = req.query.regionScope as string | undefined;
+      const examFilter = req.query.exam as string;
+      const difficultyFilter = req.query.difficulty as string;
+      const topicFilter = req.query.topic as string;
+      const regionFilter = req.query.region as string;
 
-      let query = `SELECT id, tier, exam, question_type, stem, options, correct_answer, rationale, body_system, topic, difficulty, scenario, clinical_pearl, exam_strategy, memory_hook, framework_used, clinical_trap, distractor_rationales, region_scope
+      let query = `SELECT id, tier, exam, question_type, stem, options, correct_answer, rationale, body_system, topic, subtopic, difficulty, region_scope, scenario, clinical_pearl, exam_strategy, memory_hook, framework_used, clinical_trap, distractor_rationales
                    FROM exam_questions
                    WHERE tier = $1 AND status = 'published'`;
       const params: any[] = [queryTier];
@@ -334,28 +373,46 @@ export function setupQBankRoutes(app: Express) {
         paramIdx++;
       }
 
-      if (difficulty && difficulty >= 1 && difficulty <= 5) {
-        query += ` AND difficulty = $${paramIdx}`;
-        params.push(difficulty);
-        paramIdx++;
-      }
-
-      if (exam) {
+      if (examFilter) {
         query += ` AND exam = $${paramIdx}`;
-        params.push(exam);
+        params.push(examFilter);
         paramIdx++;
       }
 
-      if (topic) {
-        query += ` AND topic = $${paramIdx}`;
-        params.push(topic);
+      if (difficultyFilter) {
+        const diffMap: Record<string, number> = { easy: 2, moderate: 3, hard: 4 };
+        const diffVal = diffMap[difficultyFilter.toLowerCase()];
+        if (diffVal) {
+          query += ` AND difficulty = $${paramIdx}`;
+          params.push(diffVal);
+          paramIdx++;
+        }
+      }
+
+      if (topicFilter) {
+        query += ` AND (topic ILIKE $${paramIdx} OR subtopic ILIKE $${paramIdx})`;
+        params.push(`%${topicFilter}%`);
         paramIdx++;
       }
 
-      if (regionScope) {
-        query += ` AND region_scope = $${paramIdx}`;
-        params.push(regionScope);
+      const userRegion = user.region || "US";
+      if (userTier !== "admin") {
+        const safeRegion = userRegion === "CA" ? "CAN" : "US";
+        query += ` AND (region_scope = $${paramIdx} OR region_scope = 'BOTH')`;
+        params.push(safeRegion);
         paramIdx++;
+      } else if (regionFilter) {
+        query += ` AND (region_scope = $${paramIdx} OR region_scope = 'BOTH')`;
+        params.push(regionFilter);
+        paramIdx++;
+      }
+
+      if (userTier !== "admin") {
+        if (userRegion === "CA") {
+          query += ` AND exam != 'NCLEX-PN'`;
+        } else {
+          query += ` AND exam != 'REx-PN'`;
+        }
       }
 
       query += ` ORDER BY RANDOM() LIMIT $${paramIdx}`;
@@ -375,7 +432,9 @@ export function setupQBankRoutes(app: Express) {
           rationale: row.rationale,
           bodySystem: row.body_system,
           topic: row.topic,
+          subtopic: row.subtopic,
           difficulty: row.difficulty,
+          regionScope: row.region_scope,
           scenario: row.scenario,
           clinicalPearl: row.clinical_pearl,
           examStrategy: row.exam_strategy,
@@ -617,6 +676,60 @@ export function setupQBankRoutes(app: Express) {
         difficulties: difficulties.rows.map((r: any) => ({ value: r.difficulty, label: diffLabels[r.difficulty] || `Level ${r.difficulty}` })),
         exams: exams.rows.map((r: any) => r.exam),
         topics: topics.rows.map((r: any) => r.topic),
+        tier: queryTier,
+      });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/qbank/filter-options", qbankLimiter, async (req: any, res) => {
+    try {
+      const user = await resolveAuthUser(req);
+      if (!user) {
+        return res.status(401).json({ error: "Authentication required" });
+      }
+
+      const userTier = user.tier || "free";
+      let queryTier: string;
+      if (userTier === "admin") {
+        queryTier = (req.query.tier as string) || "rpn";
+      } else if (userTier === "free") {
+        return res.status(403).json({ error: "Upgrade required" });
+      } else {
+        queryTier = userTier;
+      }
+
+      const userRegion = user.region || "US";
+      let safetyFilter = "";
+      const filterParams: any[] = [queryTier];
+      if (userTier !== "admin") {
+        const safeRegion = userRegion === "CA" ? "CAN" : "US";
+        safetyFilter = ` AND (region_scope = $2 OR region_scope = 'BOTH')`;
+        if (userRegion === "CA") {
+          safetyFilter += ` AND exam != 'NCLEX-PN'`;
+        } else {
+          safetyFilter += ` AND exam != 'REx-PN'`;
+        }
+        filterParams.push(safeRegion);
+      }
+
+      const baseWhere = `tier = $1 AND status = 'published'${safetyFilter}`;
+
+      const [exams, categories, difficulties, topics] = await Promise.all([
+        pool.query(`SELECT DISTINCT exam FROM exam_questions WHERE ${baseWhere} ORDER BY exam`, filterParams),
+        pool.query(`SELECT DISTINCT body_system FROM exam_questions WHERE ${baseWhere} AND body_system IS NOT NULL ORDER BY body_system`, filterParams),
+        pool.query(`SELECT DISTINCT difficulty FROM exam_questions WHERE ${baseWhere} AND difficulty IS NOT NULL ORDER BY difficulty`, filterParams),
+        pool.query(`SELECT DISTINCT subtopic FROM exam_questions WHERE ${baseWhere} AND subtopic IS NOT NULL ORDER BY subtopic`, filterParams),
+      ]);
+
+      const diffLabels: Record<number, string> = { 1: "easy", 2: "easy", 3: "moderate", 4: "hard", 5: "expert" };
+
+      res.json({
+        exams: exams.rows.map((r: any) => r.exam),
+        categories: categories.rows.map((r: any) => r.body_system),
+        difficulties: difficulties.rows.map((r: any) => ({ value: r.difficulty, label: diffLabels[r.difficulty] || String(r.difficulty) })),
+        topics: topics.rows.map((r: any) => r.subtopic),
         tier: queryTier,
       });
     } catch (e: any) {

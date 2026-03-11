@@ -94,7 +94,7 @@ export default function AdminQBankImport() {
         return;
       }
       if (arr.length === 0) {
-        setParseError("Empty array");
+        setParseError("No questions found in the data. Supports flat arrays or batch-keyed objects.");
         return;
       }
       setParsed(arr);
@@ -203,7 +203,7 @@ export default function AdminQBankImport() {
             </div>
 
             <Textarea
-              placeholder={'Paste JSON array here...\n[\n  {\n    "question": "...",\n    "option_a": "...",\n    ...\n  }\n]'}
+              placeholder={'Paste JSON here (flat array or batch-keyed object)...\n[\n  { "question": "...", "option_a": "...", ... }\n]\n\nor\n\n{\n  "american_lvn_batch_1": [...],\n  "canadian_rpn_batch_1": [...]\n}'}
               value={jsonText}
               onChange={e => handleParse(e.target.value)}
               className="font-mono text-xs min-h-[200px]"

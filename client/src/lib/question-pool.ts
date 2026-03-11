@@ -5,6 +5,7 @@ export interface PooledQuestion {
   lessonId: string;
   bodySystem: string;
   tier: string;
+  exam?: string;
   question: string;
   options: string[];
   correct: number;
@@ -18,8 +19,10 @@ export interface PooledQuestion {
   clinicalTrap?: string;
   distractorRationales?: Record<string, string>;
   topic?: string;
+  subtopic?: string;
   difficulty?: number;
   questionType?: string;
+  regionScope?: string;
 }
 
 function serverToPooled(sq: ServerQuestion): PooledQuestion {
@@ -29,6 +32,7 @@ function serverToPooled(sq: ServerQuestion): PooledQuestion {
     lessonId: "exam-bank",
     bodySystem: sq.bodySystem || "General",
     tier: sq.tier,
+    exam: sq.exam,
     question: sq.stem,
     options: sq.options,
     correct: Array.isArray(correctAnswer) ? correctAnswer[0] : 0,
@@ -42,8 +46,10 @@ function serverToPooled(sq: ServerQuestion): PooledQuestion {
     clinicalTrap: sq.clinicalTrap,
     distractorRationales: sq.distractorRationales,
     topic: sq.topic,
+    subtopic: sq.subtopic,
     difficulty: sq.difficulty ?? undefined,
     questionType: sq.questionType,
+    regionScope: sq.regionScope,
   };
 }
 
@@ -56,21 +62,21 @@ function shuffleArray<T>(array: T[]): T[] {
   return arr;
 }
 
-export async function getExamQuestions(tier: string, count: number, bodySystems?: string[], filters?: {
-  difficulty?: number;
-  exam?: string;
-  topic?: string;
-  regionScope?: string;
-}): Promise<PooledQuestion[]> {
+export async function getExamQuestions(
+  tier: string,
+  count: number,
+  bodySystems?: string[],
+  filters?: { exam?: string; difficulty?: string; topic?: string; region?: string }
+): Promise<PooledQuestion[]> {
   try {
     const result = await fetchExamSet({
       count,
       bodySystems,
       tier: tier === "all" ? undefined : tier,
-      difficulty: filters?.difficulty,
       exam: filters?.exam,
+      difficulty: filters?.difficulty,
       topic: filters?.topic,
-      regionScope: filters?.regionScope,
+      region: filters?.region,
     });
     return result.questions.map(serverToPooled);
   } catch (e) {

@@ -7,7 +7,9 @@ export interface ServerQuestion {
   options: string[];
   bodySystem: string;
   topic: string;
+  subtopic?: string;
   difficulty: number | null;
+  regionScope?: string;
   correctAnswer?: number[];
   rationale?: string;
   scenario?: string;
@@ -48,6 +50,12 @@ export interface QBankStats {
 
 function getAuthHeaders(): Record<string, string> {
   try {
+    const token = sessionStorage.getItem("nn_admin_access_token");
+    if (token) {
+      return { "Authorization": `Bearer ${token}` };
+    }
+  } catch {}
+  try {
     const creds = localStorage.getItem("nursenest-credentials");
     if (creds) {
       const { username, password } = JSON.parse(creds);
@@ -85,10 +93,10 @@ export async function fetchExamSet(params: {
   count?: number;
   bodySystems?: string[];
   tier?: string;
-  difficulty?: number;
   exam?: string;
+  difficulty?: string;
   topic?: string;
-  regionScope?: string;
+  region?: string;
 }): Promise<ExamSetResponse> {
   const query = new URLSearchParams();
   if (params.count) query.set("count", String(params.count));
@@ -96,10 +104,10 @@ export async function fetchExamSet(params: {
     query.set("bodySystems", params.bodySystems.join(","));
   }
   if (params.tier) query.set("tier", params.tier);
-  if (params.difficulty) query.set("difficulty", String(params.difficulty));
   if (params.exam) query.set("exam", params.exam);
+  if (params.difficulty) query.set("difficulty", params.difficulty);
   if (params.topic) query.set("topic", params.topic);
-  if (params.regionScope) query.set("regionScope", params.regionScope);
+  if (params.region) query.set("region", params.region);
 
   const res = await fetch(`/api/qbank/exam-set?${query.toString()}`, {
     headers: getAuthHeaders(),
@@ -111,19 +119,22 @@ export async function fetchExamSet(params: {
   return res.json();
 }
 
-export async function fetchFilters(tier?: string): Promise<{
-  bodySystems: string[];
-  difficulties: { value: number; label: string }[];
+export interface FilterOptions {
   exams: string[];
+  categories: string[];
+  difficulties: { value: number; label: string }[];
   topics: string[];
-}> {
-  const query = new URLSearchParams();
-  if (tier) query.set("tier", tier);
+  tier: string;
+}
 
-  const res = await fetch(`/api/qbank/filters?${query.toString()}`, {
+export async function fetchFilterOptions(tier?: string): Promise<FilterOptions> {
+  const query = tier ? `?tier=${tier}` : "";
+  const res = await fetch(`/api/qbank/filter-options${query}`, {
     headers: getAuthHeaders(),
   });
-  if (!res.ok) return { bodySystems: [], difficulties: [], exams: [], topics: [] };
+  if (!res.ok) {
+    return { exams: [], categories: [], difficulties: [], topics: [], tier: tier || "" };
+  }
   return res.json();
 }
 

@@ -133,6 +133,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     if (data?.tier === "admin") {
       await syncPreviewFromServer();
     }
+    localStorage.setItem("nursenest-credentials", JSON.stringify({ username, password }));
     const userData: User = {
       id: data.id,
       username: data.username,
@@ -163,6 +164,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
 
     const data = (await res.json()) as User;
+    localStorage.setItem("nursenest-credentials", JSON.stringify({ username, password }));
     setUser(data);
     localStorage.setItem("nursenest-user", JSON.stringify(data));
   }
