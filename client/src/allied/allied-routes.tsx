@@ -10,7 +10,6 @@ const AlliedDashboard = lazy(() => import("./pages/allied-dashboard"));
 const AlliedStudyPlan = lazy(() => import("./pages/allied-study-plan"));
 const AlliedFlashcards = lazy(() => import("./pages/allied-flashcards"));
 const AlliedSims = lazy(() => import("./pages/allied-sims"));
-const ParamedicScenariosHub = lazy(() => import("./pages/paramedic-scenarios-hub"));
 const ParamedicScenarioPlayer = lazy(() => import("./pages/paramedic-scenario-player"));
 const AlliedTools = lazy(() => import("./pages/allied-tools"));
 const AlliedPricing = lazy(() => import("./pages/allied-pricing"));

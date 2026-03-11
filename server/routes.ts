@@ -9548,6 +9548,36 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
     }
   });
 
+  // ====== SEED QUESTIONS FROM ATTACHED DATA FILES ======
+  app.post("/api/admin/questions/seed", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+
+      const { seedQuestions } = await import("./seed-questions");
+      const result = await seedQuestions();
+
+      heroStatsCache = null;
+
+      await logAudit(req, admin, "question_seed", null, "seed_questions", null, {
+        total: result.total,
+        inserted: result.inserted,
+        skipped: result.skipped,
+        errors: result.errors,
+      });
+
+      console.log(`[Question Seed] ${result.inserted} inserted, ${result.skipped} skipped, ${result.errors} errors`);
+
+      res.json({
+        success: true,
+        ...result,
+      });
+    } catch (e: any) {
+      console.error("[Question Seed] Error:", e);
+      res.status(500).json({ error: e.message });
+    }
+  });
+
   // ====== QUESTION BANK IMPORT PIPELINE ======
   app.post("/api/admin/qbank/import", async (req, res) => {
     try {
