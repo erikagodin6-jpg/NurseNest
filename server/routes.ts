@@ -2424,7 +2424,7 @@ Return ONLY a JSON array of flashcard objects, no other text.`;
     message: { error: "Too many login attempts. Please try again in a minute." },
     standardHeaders: true,
     legacyHeaders: false,
-    validate: { xForwardedForHeader: false, trustProxy: false },
+    validate: { xForwardedForHeader: true, trustProxy: true },
   });
 
   app.post("/api/auth/login", loginLimiter, async (req, res) => {

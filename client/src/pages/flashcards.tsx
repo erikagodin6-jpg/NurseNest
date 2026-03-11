@@ -3989,108 +3989,73 @@ export default function Flashcards() {
       />
       <Navigation />
       
-      <main className="max-w-5xl mx-auto px-4 py-12 w-full flex-1 flex flex-col items-center">
-        <div className="mb-8 text-center">
-          <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4 tracking-tight">{t("flashcards.activeSession")}</h1>
-          <div className="flex items-center justify-center gap-4">
-            <div className="flex items-center gap-2 text-xs text-amber-600 bg-amber-50 px-3 py-1 rounded-full border border-amber-100">
+      <main className="max-w-4xl mx-auto px-4 py-8 sm:py-12 w-full flex-1 flex flex-col">
+        <div className="mb-6 flex items-center justify-between">
+          <div>
+            <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 tracking-tight">{t("flashcards.activeSession")}</h1>
+            <p className="text-sm text-gray-500 mt-1">{catLabel(currentCard.category)} &middot; {currentCard.type} {t("flashcards.mode")}</p>
+          </div>
+          <div className="flex items-center gap-4 text-sm text-gray-500">
+            <div className="flex items-center gap-1.5 text-xs text-gray-400">
               <ShieldAlert className="w-3 h-3" />
               {t("flashcards.captureRestricted")}
             </div>
-            <div className="text-xs font-bold text-gray-400 uppercase tracking-widest">
-              {currentCard.type} {t("flashcards.mode")}
+            <div className="flex items-center gap-1">
+              <span className="font-semibold text-gray-900">{currentIndex + 1}</span>
+              <span>/</span>
+              <span>{sessionCards.length}</span>
             </div>
           </div>
         </div>
 
-        <div className="w-full grid lg:grid-cols-5 gap-8 flex-1 items-start">
-          <div className="lg:col-span-1 space-y-4">
-             <Card className="border-none shadow-sm bg-white p-4">
-               <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">{t("flashcards.sessionProgress")}</p>
-               <p className="text-2xl font-bold text-primary">{currentIndex + 1} <span className="text-gray-300 text-lg">/ {sessionCards.length}</span></p>
-               <div className="w-full bg-gray-100 h-1.5 rounded-full mt-2 overflow-hidden">
-                 <div 
-                   className="bg-primary h-full transition-all duration-500" 
-                   style={{ width: `${((currentIndex + 1) / sessionCards.length) * 100}%` }}
-                 />
-               </div>
-             </Card>
-             <Card className="border-none shadow-sm bg-indigo-50 p-4 border border-indigo-100">
-               <p className="text-[10px] font-bold text-indigo-400 uppercase tracking-widest mb-1">{t("flashcards.topic")}</p>
-               <p className="text-sm font-bold text-indigo-900">{catLabel(currentCard.category)}</p>
-             </Card>
-             <Button 
-                variant="outline" 
-                className={cn(
-                  "w-full rounded-xl gap-2 h-12 transition-all",
-                  bookmarks.includes(currentCard.id) ? "bg-indigo-50 text-indigo-600 border-indigo-200" : ""
-                )}
-                onClick={() => toggleBookmark(currentCard.id)}
-                data-testid="button-bookmark"
-              >
-                {bookmarks.includes(currentCard.id) ? (
-                  <><BookmarkCheck className="w-4 h-4 fill-current" /> {t("flashcards.savedForReview")}</>
-                ) : (
-                  <><Bookmark className="w-4 h-4" /> {t("flashcards.saveForReview")}</>
-                )}
-              </Button>
-              <Button 
-                variant="outline" 
-                className={cn(
-                  "w-full rounded-xl gap-2 h-12 transition-all",
-                  mastered.includes(currentCard.id) ? "bg-emerald-50 text-emerald-600 border-emerald-200" : ""
-                )}
-                onClick={() => toggleMastered(currentCard.id)}
-                data-testid="button-mastered"
-              >
-                {mastered.includes(currentCard.id) ? (
-                  <><CheckCircle2 className="w-4 h-4 fill-current" /> {t("flashcards.mastered")}</>
-                ) : (
-                  <><Trophy className="w-4 h-4" /> {t("flashcards.markAsMastered")}</>
-                )}
-              </Button>
-          </div>
+        <div className="w-full bg-gray-200 h-1 rounded-full mb-8 overflow-hidden">
+          <div
+            className="bg-gray-900 h-full transition-all duration-500"
+            style={{ width: `${((currentIndex + 1) / sessionCards.length) * 100}%` }}
+          />
+        </div>
 
-          <div className="lg:col-span-4 space-y-6">
+        <div className="w-full flex-1 flex flex-col gap-6">
+          <div className="flex-1">
             {currentCard.type === "question" ? (
-              <Card className="border-none shadow-xl bg-white overflow-hidden rounded-3xl min-h-[500px] flex flex-col animate-in slide-in-from-right-4 duration-300">
+              <Card className="border border-gray-200 shadow-sm bg-white overflow-hidden rounded-2xl min-h-[460px] flex flex-col animate-in fade-in duration-200">
                 <div className="grid md:grid-cols-2 flex-1">
-                  <div className="bg-gray-50 flex flex-col items-center justify-center p-8 border-r border-gray-100 relative overflow-hidden">
+                  <div className="bg-gray-50 flex flex-col items-center justify-center p-8 border-r border-gray-100">
                     {(currentCard.image || getCategoryImage(currentCard.category || "")) ? (
-                      <ProtectedImage 
-                        src={currentCard.image || getCategoryImage(currentCard.category || "") || ""} 
+                      <ProtectedImage
+                        src={currentCard.image || getCategoryImage(currentCard.category || "") || ""}
                         alt={`Clinical flashcard illustration for ${catLabel(currentCard.category || "nursing")}  -  NurseNest`}
                         title={`NurseNest ${catLabel(currentCard.category || "Nursing")} Flashcard`}
-                        className="w-64 h-64 object-contain rounded-2xl shadow-sm"
+                        className="w-56 h-56 object-contain rounded-xl"
                         data-testid={`img-flashcard-${currentCard.id}`}
                       />
                     ) : (
-                      <div className="w-64 h-64 bg-gray-200 rounded-2xl flex items-center justify-center">
-                         <BookOpen className="w-12 h-12 text-gray-400" />
+                      <div className="w-56 h-56 bg-gray-100 rounded-xl flex items-center justify-center">
+                        <BookOpen className="w-10 h-10 text-gray-300" />
                       </div>
                     )}
                   </div>
 
-                  <div className="p-8 md:p-12 flex flex-col">
-                    <h2 className="text-xl font-bold text-gray-900 mb-8 leading-snug">{currentCard.question}</h2>
-                    <div className="space-y-3 flex-1">
+                  <div className="p-6 sm:p-8 flex flex-col">
+                    <h2 className="text-lg font-semibold text-gray-900 mb-6 leading-snug">{currentCard.question}</h2>
+                    <div className="space-y-2.5 flex-1">
                       {currentCard.options?.map((option, idx) => {
                         const isSelected = selectedOption === idx;
                         const isCorrect = idx === currentCard.correctIndex;
-                        let variantClasses = "border-gray-100 hover:border-primary/30 hover:bg-primary/5 text-gray-700";
+                        let variantClasses = "border-gray-200 hover:border-gray-400 hover:bg-gray-50 text-gray-700";
                         if (showRationale) {
-                          if (isCorrect) variantClasses = "border-emerald-500 bg-emerald-50 text-emerald-900";
-                          else if (isSelected) variantClasses = "border-rose-500 bg-rose-50 text-rose-900";
-                          else variantClasses = "border-gray-50 bg-gray-50/50 text-gray-400 opacity-50";
+                          if (isCorrect) variantClasses = "border-gray-900 bg-gray-900 text-white";
+                          else if (isSelected) variantClasses = "border-red-300 bg-red-50 text-red-700";
+                          else variantClasses = "border-gray-100 bg-gray-50 text-gray-400";
                         }
                         return (
                           <button
                             key={idx}
                             disabled={showRationale}
                             onClick={() => handleOptionClick(idx)}
-                            className={cn("w-full text-left p-4 rounded-xl border-2 transition-all flex items-start gap-3 text-sm font-medium", variantClasses)}
+                            className={cn("w-full text-left p-3.5 rounded-lg border transition-all flex items-start gap-3 text-sm", variantClasses)}
                           >
-                            <span className="shrink-0 w-6 h-6 rounded-full border border-current flex items-center justify-center text-[10px] font-bold">
+                            <span className="shrink-0 w-6 h-6 rounded-full border border-current flex items-center justify-center text-[10px] font-semibold">
                               {String.fromCharCode(65 + idx)}
                             </span>
                             {option}
@@ -4099,59 +4064,96 @@ export default function Flashcards() {
                       })}
                     </div>
                     {showRationale && (
-                      <div className="mt-8 p-6 bg-primary/5 border border-primary/10 rounded-2xl animate-in fade-in slide-in-from-bottom-2 duration-500">
-                        <p className="text-[10px] font-bold text-primary uppercase tracking-widest mb-2">{t("flashcards.rationale")}</p>
-                        <p className="text-sm text-gray-700 leading-relaxed font-medium">{currentCard.answer}</p>
+                      <div className="mt-6 p-5 bg-gray-50 border border-gray-200 rounded-xl animate-in fade-in duration-300">
+                        <p className="text-[10px] font-semibold text-gray-500 uppercase tracking-widest mb-2">{t("flashcards.rationale")}</p>
+                        <p className="text-sm text-gray-700 leading-relaxed">{currentCard.answer}</p>
                       </div>
                     )}
                   </div>
                 </div>
-                <div className="px-8 py-4 bg-gray-50 border-t border-gray-100 flex items-center justify-between">
-                  <Button variant="ghost" onClick={() => setView("setup")} className="text-gray-400">{t("flashcards.exitSession")}</Button>
-                  <Button variant="ghost" onClick={handleNext} className="text-primary gap-2">{t("flashcards.nextCard")} <ChevronRight className="w-4 h-4" /></Button>
-                </div>
               </Card>
             ) : (
-              <div 
-                className="w-full h-[500px] relative cursor-pointer group perspective-1000"
+              <div
+                className="w-full h-[460px] relative cursor-pointer group perspective-1000"
                 onClick={() => setIsFlipped(!isFlipped)}
               >
                 <div className={cn(
                   "w-full h-full transition-all duration-700 [transform-style:preserve-3d]",
                   isFlipped ? "[transform:rotateY(180deg)]" : ""
                 )}>
-                  {/* Front: Term */}
-                  <Card className="absolute inset-0 w-full h-full backface-hidden bg-white border-none shadow-xl rounded-[40px] flex flex-col items-center justify-center p-6 sm:p-12 text-center overflow-hidden">
-                    <div className="absolute top-0 left-0 w-full h-2 bg-primary/20" />
+                  <Card className="absolute inset-0 w-full h-full backface-hidden bg-white border border-gray-200 shadow-sm rounded-2xl flex flex-col items-center justify-center p-6 sm:p-10 text-center overflow-hidden">
+                    <div className="absolute top-0 left-0 w-full h-1 bg-gray-900" />
                     {(currentCard.image || getCategoryImage(currentCard.category || "")) && (
                       <ProtectedImage
                         src={currentCard.image || getCategoryImage(currentCard.category || "") || ""}
                         alt={`${currentCard.category} illustration`}
-                        className="w-20 h-20 object-contain rounded-xl mb-4 opacity-60"
+                        className="w-16 h-16 object-contain rounded-lg mb-4 opacity-50"
                         data-testid={`img-term-${currentCard.id}`}
                       />
                     )}
-                    <span className="text-[10px] font-bold text-primary uppercase tracking-widest mb-8">{t("flashcards.clinicalTerminology")}</span>
-                    <h2 className="text-2xl sm:text-3xl md:text-4xl font-black text-gray-900 leading-tight">{currentCard.question}</h2>
-                    <div className="mt-12 flex items-center gap-2 text-gray-400 text-xs font-bold uppercase tracking-widest animate-pulse">
-                      <RefreshCw className="w-4 h-4" />
+                    <span className="text-[10px] font-semibold text-gray-400 uppercase tracking-widest mb-6">{t("flashcards.clinicalTerminology")}</span>
+                    <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 leading-tight max-w-lg">{currentCard.question}</h2>
+                    <div className="mt-10 flex items-center gap-2 text-gray-400 text-xs font-medium uppercase tracking-widest animate-pulse">
+                      <RefreshCw className="w-3.5 h-3.5" />
                       {t("flashcards.tapToDefine")}
                     </div>
                   </Card>
 
-                  {/* Back: Definition */}
-                  <Card className="absolute inset-0 w-full h-full backface-hidden [transform:rotateY(180deg)] bg-primary text-white border-none shadow-xl rounded-[40px] flex flex-col items-center justify-center p-6 sm:p-12 text-center">
-                    <h3 className="text-[10px] font-bold text-white/60 uppercase tracking-widest mb-8">{t("flashcards.clinicalDefinition")}</h3>
-                    <p className="text-2xl font-medium leading-relaxed max-w-lg">{currentCard.answer}</p>
-                    <div className="mt-12 pt-8 border-t border-white/10 w-full flex justify-center gap-8">
-                       <Button variant="ghost" className="text-white hover:bg-white/10" onClick={(e) => { e.stopPropagation(); handleNext(); }}>
-                         {t("flashcards.gotIt")} <ChevronRight className="w-4 h-4 ml-2" />
-                       </Button>
+                  <Card className="absolute inset-0 w-full h-full backface-hidden [transform:rotateY(180deg)] bg-gray-900 text-white border-none shadow-sm rounded-2xl flex flex-col items-center justify-center p-6 sm:p-10 text-center">
+                    <h3 className="text-[10px] font-semibold text-white/50 uppercase tracking-widest mb-6">{t("flashcards.clinicalDefinition")}</h3>
+                    <p className="text-xl sm:text-2xl font-medium leading-relaxed max-w-lg">{currentCard.answer}</p>
+                    <div className="mt-10 pt-6 border-t border-white/10 w-full flex justify-center">
+                      <Button variant="ghost" className="text-white hover:bg-white/10" onClick={(e) => { e.stopPropagation(); handleNext(); }}>
+                        {t("flashcards.gotIt")} <ChevronRight className="w-4 h-4 ml-2" />
+                      </Button>
                     </div>
                   </Card>
                 </div>
               </div>
             )}
+          </div>
+
+          <div className="flex items-center justify-between gap-3 pt-2 flex-wrap">
+            <Button variant="ghost" size="sm" onClick={() => setView("setup")} className="text-gray-400 hover:text-gray-600" data-testid="button-exit-session">
+              {t("flashcards.exitSession")}
+            </Button>
+            <div className="flex items-center gap-2">
+              <Button
+                variant="outline"
+                size="sm"
+                className={cn(
+                  "gap-1.5 transition-all",
+                  bookmarks.includes(currentCard.id) ? "bg-gray-900 text-white border-gray-900 hover:bg-gray-800" : "text-gray-600"
+                )}
+                onClick={() => toggleBookmark(currentCard.id)}
+                data-testid="button-bookmark"
+              >
+                {bookmarks.includes(currentCard.id) ? (
+                  <><BookmarkCheck className="w-3.5 h-3.5" /> {t("flashcards.savedForReview")}</>
+                ) : (
+                  <><Bookmark className="w-3.5 h-3.5" /> {t("flashcards.saveForReview")}</>
+                )}
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                className={cn(
+                  "gap-1.5 transition-all",
+                  mastered.includes(currentCard.id) ? "bg-gray-900 text-white border-gray-900 hover:bg-gray-800" : "text-gray-600"
+                )}
+                onClick={() => toggleMastered(currentCard.id)}
+                data-testid="button-mastered"
+              >
+                {mastered.includes(currentCard.id) ? (
+                  <><CheckCircle2 className="w-3.5 h-3.5" /> {t("flashcards.mastered")}</>
+                ) : (
+                  <><Trophy className="w-3.5 h-3.5" /> {t("flashcards.markAsMastered")}</>
+                )}
+              </Button>
+            </div>
+            <Button variant="ghost" size="sm" onClick={handleNext} className="text-gray-900 gap-1.5 font-medium" data-testid="button-next-card">
+              {t("flashcards.nextCard")} <ChevronRight className="w-4 h-4" />
+            </Button>
           </div>
         </div>
       </main>

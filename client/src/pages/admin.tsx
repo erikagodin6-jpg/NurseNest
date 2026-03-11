@@ -48,6 +48,8 @@ import {
   ToggleLeft,
   ToggleRight,
   Database,
+  Lock,
+  User as UserIcon,
 } from "lucide-react";
 
 type AdminData = {
@@ -129,7 +131,7 @@ function formatLessonId(id: string) {
 }
 
 export default function AdminPage() {
-  const { user, previewTier, setPreviewTier, isAdmin: authIsAdmin } = useAuth();
+  const { user, login, previewTier, setPreviewTier, isAdmin: authIsAdmin } = useAuth();
   const [, setLocation] = useLocation();
 
   useEffect(() => {
@@ -1319,11 +1321,39 @@ export default function AdminPage() {
         <Navigation />
         <div className="flex-grow flex items-center justify-center">
           <Card className="max-w-md w-full mx-4">
-            <CardContent className="p-8 text-center">
-              <Shield className="w-12 h-12 text-red-400 mx-auto mb-4" />
-              <h2 className="text-xl font-bold text-gray-900 mb-2">Access Denied</h2>
-              <p className="text-gray-500">This page is restricted to administrators.</p>
-              <p className="text-xs text-gray-400 mt-3">
+            <CardContent className="p-8">
+              <div className="text-center mb-6">
+                <Shield className="w-12 h-12 text-red-400 mx-auto mb-4" />
+                <h2 className="text-xl font-bold text-gray-900 mb-2">Access Denied</h2>
+                <p className="text-gray-500">This page is restricted to administrators.</p>
+              </div>
+              <form
+                className="space-y-4"
+                data-testid="admin-login-form"
+                onSubmit={async (e) => {
+                  e.preventDefault();
+                  const fd = new FormData(e.currentTarget);
+                  const u = fd.get("username") as string;
+                  const p = fd.get("password") as string;
+                  try {
+                    await login(u, p);
+                  } catch {}
+                }}
+              >
+                <p className="text-sm font-medium text-gray-700 text-center">Sign in as admin</p>
+                <div className="relative">
+                  <UserIcon className="absolute left-3 top-3 w-4 h-4 text-gray-400" />
+                  <Input name="username" placeholder="Username" className="pl-10" required data-testid="input-admin-username" />
+                </div>
+                <div className="relative">
+                  <Lock className="absolute left-3 top-3 w-4 h-4 text-gray-400" />
+                  <Input name="password" type="password" placeholder="Password" className="pl-10" required data-testid="input-admin-password" />
+                </div>
+                <Button type="submit" className="w-full" data-testid="button-admin-login">
+                  Sign In
+                </Button>
+              </form>
+              <p className="text-xs text-gray-400 mt-4 text-center">
                 Debug: current tier={(user as any)?.tier ?? "none"} | role={(user as any)?.role ?? "none"} | isAdmin=
                 {String((user as any)?.isAdmin ?? "none")}
               </p>

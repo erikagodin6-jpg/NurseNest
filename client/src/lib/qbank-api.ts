@@ -50,8 +50,8 @@ export interface QBankStats {
 
 export function getAuthHeaders(): Record<string, string> {
   try {
-    const expiresAt = sessionStorage.getItem("nn_admin_expires_at");
-    const token = sessionStorage.getItem("nn_admin_access_token");
+    const expiresAt = localStorage.getItem("nn_admin_expires_at");
+    const token = localStorage.getItem("nn_admin_access_token");
     if (token && (!expiresAt || Date.now() < Number(expiresAt))) {
       return { "Authorization": `Bearer ${token}` };
     }
@@ -68,6 +68,13 @@ export function getAuthHeaders(): Record<string, string> {
   try {
     const userToken = localStorage.getItem("nursenest-user-token");
     if (userToken) return { "x-user-token": userToken };
+  } catch {}
+  try {
+    const stored = localStorage.getItem("nursenest-user");
+    if (stored) {
+      const { id } = JSON.parse(stored);
+      if (id) return { "x-user-id": id };
+    }
   } catch {}
   return {};
 }

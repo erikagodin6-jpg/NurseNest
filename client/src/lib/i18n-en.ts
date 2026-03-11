@@ -392,7 +392,7 @@ const enTranslations: Record<string, string> = {
     "flashcards.sessionProgress": "Session Progress",
     "flashcards.topic": "Topic",
     "flashcards.savedForReview": "Saved for Review",
-    "flashcards.saveForReview": "Save for Difficult Review",
+    "flashcards.saveForReview": "Save for Review",
     "flashcards.mastered": "Mastered",
     "flashcards.markAsMastered": "Mark as Mastered",
     "flashcards.tapToReveal": "Tap to reveal",

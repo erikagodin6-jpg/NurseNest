@@ -30,12 +30,12 @@ const AuthContext = createContext<AuthContextType | null>(null);
 
 export function getAdminAccessToken(): string | null {
   try {
-    const token = sessionStorage.getItem("nn_admin_access_token");
-    const expiresAt = sessionStorage.getItem("nn_admin_expires_at");
+    const token = localStorage.getItem("nn_admin_access_token");
+    const expiresAt = localStorage.getItem("nn_admin_expires_at");
     if (!token) return null;
     if (expiresAt && Date.now() > Number(expiresAt)) {
-      sessionStorage.removeItem("nn_admin_access_token");
-      sessionStorage.removeItem("nn_admin_expires_at");
+      localStorage.removeItem("nn_admin_access_token");
+      localStorage.removeItem("nn_admin_expires_at");
       return null;
     }
     return token;
@@ -46,8 +46,8 @@ export function getAdminAccessToken(): string | null {
 
 export function clearAdminToken() {
   try {
-    sessionStorage.removeItem("nn_admin_access_token");
-    sessionStorage.removeItem("nn_admin_expires_at");
+    localStorage.removeItem("nn_admin_access_token");
+    localStorage.removeItem("nn_admin_expires_at");
   } catch {}
 }
 
@@ -124,9 +124,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
     const data = (await res.json()) as any;
     if (data?.accessToken) {
-      sessionStorage.setItem("nn_admin_access_token", data.accessToken);
+      localStorage.setItem("nn_admin_access_token", data.accessToken);
       const expiresAt = Date.now() + (data.expiresInSeconds || 1800) * 1000;
-      sessionStorage.setItem("nn_admin_expires_at", String(expiresAt));
+      localStorage.setItem("nn_admin_expires_at", String(expiresAt));
       delete data.accessToken;
       delete data.expiresInSeconds;
     }
