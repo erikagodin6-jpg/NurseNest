@@ -170,6 +170,37 @@ ${urls.join("\n")}
 </urlset>`;
 }
 
+export async function generateAlliedSitemapAsync(baseUrl: string): Promise<string> {
+  const staticXml = generateAlliedSitemap(baseUrl);
+  const urls: string[] = [];
+
+  try {
+    const { pool: dbPool } = require("./storage");
+    const paramedicTables: Record<string, string> = {
+      paramedic_topic_pages: "/paramedic/topic",
+      paramedic_category_pages: "/paramedic/category",
+      paramedic_glossary_entries: "/paramedic/glossary",
+      paramedic_comparison_pages: "/paramedic/compare",
+      paramedic_study_guides: "/paramedic/study-guide",
+    };
+    for (const [tbl, prefix] of Object.entries(paramedicTables)) {
+      try {
+        const result = await dbPool.query(
+          `SELECT slug, updated_at FROM ${tbl} WHERE status = 'published' AND content_domain = 'paramedic' AND (is_noindex IS NULL OR is_noindex = false)`
+        );
+        for (const row of result.rows) {
+          const lm = new Date(row.updated_at).toISOString().split("T")[0];
+          urls.push(`<url><loc>${baseUrl}${prefix}/${row.slug}</loc><changefreq>weekly</changefreq><priority>0.7</priority><lastmod>${lm}</lastmod></url>`);
+        }
+      } catch {}
+    }
+  } catch {}
+
+  if (urls.length === 0) return staticXml;
+
+  return staticXml.replace("</urlset>", urls.join("\n") + "\n</urlset>");
+}
+
 export function generateNewGradSitemap(baseUrl: string): string {
   const now = new Date().toISOString().split("T")[0];
   const urls: string[] = [];

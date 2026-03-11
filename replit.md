@@ -155,6 +155,19 @@ The MLT (Medical Laboratory Technology) section provides country-specific exam p
 - Data files: `client/src/data/seo-exam-data.ts`, `seo-conditions.ts`, `seo-medications.ts`, `seo-lab-values.ts`
 - All pages in sitemap.xml and server-side meta injection (seo-meta.ts)
 
+## Paramedic SEO Content Engine
+- 5 content types: Topic Pages, Category Pages, Glossary Entries, Comparison Pages, Study Guides
+- DB tables: `paramedic_topic_pages`, `paramedic_category_pages`, `paramedic_glossary_entries`, `paramedic_comparison_pages`, `paramedic_study_guides`
+- All tables enforce `contentDomain = 'paramedic'` at query level
+- Public routes: `/paramedic/topic/:slug`, `/paramedic/category/:slug`, `/paramedic/glossary/:slug`, `/paramedic/compare/:slug`, `/paramedic/study-guide/:slug`, `/paramedic/exam-prep/:slug`
+- Admin: Paramedic SEO Manager at `/admin/paramedic-seo` with CRUD, SEO validation, internal link previews
+- API: `/api/paramedic-seo/{type}` (admin CRUD), `/api/paramedic-seo/public/{type}/:slug` (public fetch)
+- Internal linking engine: auto-connects topics↔categories, topics↔glossary, cornerstone content, sibling topics
+- Sitemap: Published pages included via `generateAlliedSitemapAsync()` and `/api/paramedic-seo/sitemap-urls`
+- Structured data: Article, FAQPage, BreadcrumbList, DefinedTerm, ItemList schemas
+- SEO components in `client/src/allied/components/paramedic-seo-components.tsx`
+- Server routes in `server/paramedic-seo.ts`
+
 ## Blog Batch Generator
 - `POST /api/blog/generate-batch` generates blog posts via OpenAI (gpt-4o-mini, 16k tokens)
 - Frontend sends topics one-at-a-time to avoid HTTP timeout (each post takes ~30s)

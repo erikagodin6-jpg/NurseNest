@@ -31,6 +31,13 @@ const ParamedicPracticeExamsHub = lazy(() => import("./pages/paramedic/paramedic
 const MltLanding = lazy(() => import("./pages/mlt-landing"));
 const MltCountryPage = lazy(() => import("./pages/mlt-country-page"));
 const MltBlog = lazy(() => import("./pages/mlt-blog"));
+const ParamedicSeoAdmin = lazy(() => import("./pages/paramedic-seo-admin"));
+const ParamedicSeoPage = lazy(() => import("./pages/paramedic-seo-page").then(m => ({ default: m.ParamedicTopicPage })));
+const ParamedicCategoryPage = lazy(() => import("./pages/paramedic-seo-page").then(m => ({ default: m.ParamedicCategoryPage })));
+const ParamedicGlossaryPage = lazy(() => import("./pages/paramedic-seo-page").then(m => ({ default: m.ParamedicGlossaryPage })));
+const ParamedicComparisonPage = lazy(() => import("./pages/paramedic-seo-page").then(m => ({ default: m.ParamedicComparisonPage })));
+const ParamedicStudyGuidePage = lazy(() => import("./pages/paramedic-seo-page").then(m => ({ default: m.ParamedicStudyGuidePage })));
+const ParamedicExamPrepPage = lazy(() => import("./pages/paramedic-seo-page").then(m => ({ default: m.ParamedicExamPrepPage })));
 
 function LoadingFallback() {
   return (
@@ -56,6 +63,13 @@ export function AlliedRoutes() {
         <Route path="/diagnostic" component={AlliedDiagnostic} />
         <Route path="/qbank" component={AlliedQBank} />
         <Route path="/admin/allied" component={AlliedAdmin} />
+        <Route path="/admin/paramedic-seo" component={ParamedicSeoAdmin} />
+        <Route path="/paramedic/topic/:slug" component={ParamedicSeoPage} />
+        <Route path="/paramedic/category/:slug" component={ParamedicCategoryPage} />
+        <Route path="/paramedic/glossary/:slug" component={ParamedicGlossaryPage} />
+        <Route path="/paramedic/compare/:slug" component={ParamedicComparisonPage} />
+        <Route path="/paramedic/study-guide/:slug" component={ParamedicStudyGuidePage} />
+        <Route path="/paramedic/exam-prep/:slug" component={ParamedicExamPrepPage} />
         <Route path="/pharmacy-technician-practice-questions">{() => <AlliedSeoLanding pageSlug="pharmacy-technician-practice-questions" />}</Route>
         <Route path="/pharmacy-technician-mock-exam">{() => <AlliedSeoLanding pageSlug="pharmacy-technician-mock-exam" />}</Route>
         <Route path="/pharmacy-technician-study-guide">{() => <AlliedSeoLanding pageSlug="pharmacy-technician-study-guide" />}</Route>

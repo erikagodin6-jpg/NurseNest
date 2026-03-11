@@ -2871,3 +2871,166 @@ export const insertMltStudyPlanSchema = createInsertSchema(mltStudyPlans).omit({
 });
 export type MltStudyPlan = typeof mltStudyPlans.$inferSelect;
 export type InsertMltStudyPlan = z.infer<typeof insertMltStudyPlanSchema>;
+
+export const paramedicTopicPages = pgTable("paramedic_topic_pages", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  contentDomain: text("content_domain").notNull().default("paramedic"),
+  professionTrack: text("profession_track").notNull().default("paramedic"),
+  region: text("region").default("BOTH"),
+  visibilityTier: text("visibility_tier").default("free"),
+  difficulty: text("difficulty").default("intermediate"),
+  examRelevance: text("exam_relevance").default("medium"),
+  status: text("status").notNull().default("draft"),
+  title: text("title").notNull(),
+  slug: text("slug").notNull().unique(),
+  seoTitle: text("seo_title"),
+  metaDescription: text("meta_description"),
+  canonicalUrl: text("canonical_url"),
+  targetKeyword: text("target_keyword"),
+  secondaryKeywords: text("secondary_keywords").array().default(sql`'{}'::text[]`),
+  categoryId: varchar("category_id"),
+  sections: jsonb("sections").default(sql`'[]'::jsonb`),
+  faq: jsonb("faq").default(sql`'[]'::jsonb`),
+  examTips: jsonb("exam_tips").default(sql`'[]'::jsonb`),
+  clinicalPearls: jsonb("clinical_pearls").default(sql`'[]'::jsonb`),
+  relatedLessonIds: text("related_lesson_ids").array().default(sql`'{}'::text[]`),
+  isCornerstone: boolean("is_cornerstone").default(false),
+  isNoindex: boolean("is_noindex").default(false),
+  wordCount: integer("word_count").default(0),
+  manualLinks: jsonb("manual_links").default(sql`'[]'::jsonb`),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+  publishedAt: timestamp("published_at"),
+});
+
+export const insertParamedicTopicPageSchema = createInsertSchema(paramedicTopicPages).omit({ id: true, createdAt: true, updatedAt: true });
+export type ParamedicTopicPage = typeof paramedicTopicPages.$inferSelect;
+export type InsertParamedicTopicPage = z.infer<typeof insertParamedicTopicPageSchema>;
+
+export const paramedicCategoryPages = pgTable("paramedic_category_pages", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  contentDomain: text("content_domain").notNull().default("paramedic"),
+  professionTrack: text("profession_track").notNull().default("paramedic"),
+  region: text("region").default("BOTH"),
+  visibilityTier: text("visibility_tier").default("free"),
+  difficulty: text("difficulty").default("intermediate"),
+  examRelevance: text("exam_relevance").default("medium"),
+  status: text("status").notNull().default("draft"),
+  title: text("title").notNull(),
+  slug: text("slug").notNull().unique(),
+  seoTitle: text("seo_title"),
+  metaDescription: text("meta_description"),
+  canonicalUrl: text("canonical_url"),
+  description: text("description"),
+  heroImage: text("hero_image"),
+  featuredTopicIds: text("featured_topic_ids").array().default(sql`'{}'::text[]`),
+  sortOrder: integer("sort_order").default(0),
+  isCornerstone: boolean("is_cornerstone").default(false),
+  isNoindex: boolean("is_noindex").default(false),
+  manualLinks: jsonb("manual_links").default(sql`'[]'::jsonb`),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+  publishedAt: timestamp("published_at"),
+});
+
+export const insertParamedicCategoryPageSchema = createInsertSchema(paramedicCategoryPages).omit({ id: true, createdAt: true, updatedAt: true });
+export type ParamedicCategoryPage = typeof paramedicCategoryPages.$inferSelect;
+export type InsertParamedicCategoryPage = z.infer<typeof insertParamedicCategoryPageSchema>;
+
+export const paramedicGlossaryEntries = pgTable("paramedic_glossary_entries", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  contentDomain: text("content_domain").notNull().default("paramedic"),
+  professionTrack: text("profession_track").notNull().default("paramedic"),
+  region: text("region").default("BOTH"),
+  visibilityTier: text("visibility_tier").default("free"),
+  difficulty: text("difficulty").default("beginner"),
+  examRelevance: text("exam_relevance").default("medium"),
+  status: text("status").notNull().default("draft"),
+  term: text("term").notNull(),
+  slug: text("slug").notNull().unique(),
+  seoTitle: text("seo_title"),
+  metaDescription: text("meta_description"),
+  canonicalUrl: text("canonical_url"),
+  definition: text("definition").notNull().default(""),
+  extendedDescription: text("extended_description"),
+  abbreviation: text("abbreviation"),
+  relatedTermSlugs: text("related_term_slugs").array().default(sql`'{}'::text[]`),
+  categoryId: varchar("category_id"),
+  usageExamples: jsonb("usage_examples").default(sql`'[]'::jsonb`),
+  isCornerstone: boolean("is_cornerstone").default(false),
+  isNoindex: boolean("is_noindex").default(false),
+  manualLinks: jsonb("manual_links").default(sql`'[]'::jsonb`),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+  publishedAt: timestamp("published_at"),
+});
+
+export const insertParamedicGlossaryEntrySchema = createInsertSchema(paramedicGlossaryEntries).omit({ id: true, createdAt: true, updatedAt: true });
+export type ParamedicGlossaryEntry = typeof paramedicGlossaryEntries.$inferSelect;
+export type InsertParamedicGlossaryEntry = z.infer<typeof insertParamedicGlossaryEntrySchema>;
+
+export const paramedicComparisonPages = pgTable("paramedic_comparison_pages", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  contentDomain: text("content_domain").notNull().default("paramedic"),
+  professionTrack: text("profession_track").notNull().default("paramedic"),
+  region: text("region").default("BOTH"),
+  visibilityTier: text("visibility_tier").default("free"),
+  difficulty: text("difficulty").default("intermediate"),
+  examRelevance: text("exam_relevance").default("high"),
+  status: text("status").notNull().default("draft"),
+  title: text("title").notNull(),
+  slug: text("slug").notNull().unique(),
+  seoTitle: text("seo_title"),
+  metaDescription: text("meta_description"),
+  canonicalUrl: text("canonical_url"),
+  itemA: text("item_a").notNull().default(""),
+  itemB: text("item_b").notNull().default(""),
+  comparisonPoints: jsonb("comparison_points").default(sql`'[]'::jsonb`),
+  summary: text("summary"),
+  faq: jsonb("faq").default(sql`'[]'::jsonb`),
+  categoryId: varchar("category_id"),
+  isCornerstone: boolean("is_cornerstone").default(false),
+  isNoindex: boolean("is_noindex").default(false),
+  manualLinks: jsonb("manual_links").default(sql`'[]'::jsonb`),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+  publishedAt: timestamp("published_at"),
+});
+
+export const insertParamedicComparisonPageSchema = createInsertSchema(paramedicComparisonPages).omit({ id: true, createdAt: true, updatedAt: true });
+export type ParamedicComparisonPage = typeof paramedicComparisonPages.$inferSelect;
+export type InsertParamedicComparisonPage = z.infer<typeof insertParamedicComparisonPageSchema>;
+
+export const paramedicStudyGuides = pgTable("paramedic_study_guides", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  contentDomain: text("content_domain").notNull().default("paramedic"),
+  professionTrack: text("profession_track").notNull().default("paramedic"),
+  region: text("region").default("BOTH"),
+  visibilityTier: text("visibility_tier").default("free"),
+  difficulty: text("difficulty").default("intermediate"),
+  examRelevance: text("exam_relevance").default("high"),
+  status: text("status").notNull().default("draft"),
+  title: text("title").notNull(),
+  slug: text("slug").notNull().unique(),
+  seoTitle: text("seo_title"),
+  metaDescription: text("meta_description"),
+  canonicalUrl: text("canonical_url"),
+  estimatedMinutes: integer("estimated_minutes").default(30),
+  objectives: jsonb("objectives").default(sql`'[]'::jsonb`),
+  sections: jsonb("sections").default(sql`'[]'::jsonb`),
+  checklist: jsonb("checklist").default(sql`'[]'::jsonb`),
+  faq: jsonb("faq").default(sql`'[]'::jsonb`),
+  miniQuiz: jsonb("mini_quiz").default(sql`'[]'::jsonb`),
+  relatedLessonIds: text("related_lesson_ids").array().default(sql`'{}'::text[]`),
+  categoryId: varchar("category_id"),
+  isCornerstone: boolean("is_cornerstone").default(false),
+  isNoindex: boolean("is_noindex").default(false),
+  manualLinks: jsonb("manual_links").default(sql`'[]'::jsonb`),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+  publishedAt: timestamp("published_at"),
+});
+
+export const insertParamedicStudyGuideSchema = createInsertSchema(paramedicStudyGuides).omit({ id: true, createdAt: true, updatedAt: true });
+export type ParamedicStudyGuide = typeof paramedicStudyGuides.$inferSelect;
+export type InsertParamedicStudyGuide = z.infer<typeof insertParamedicStudyGuideSchema>;

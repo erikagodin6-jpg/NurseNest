@@ -527,7 +527,7 @@ app.get("/sitemap_index.xml", async (_req, res) => {
   res.status(200).send(xml);
 });
 
-import { generateAlliedSitemap, generateNewGradSitemap } from "./allied-middleware";
+import { generateAlliedSitemap, generateNewGradSitemap, generateAlliedSitemapAsync } from "./allied-middleware";
 
 app.get("/sitemap-newgrad.xml", (req, res) => {
   const newGradBase = "https://newgrad.nursenest.ca";
@@ -537,15 +537,22 @@ app.get("/sitemap-newgrad.xml", (req, res) => {
   res.status(200).send(xml);
 });
 
-app.get("/sitemap-allied.xml", (req, res) => {
+app.get("/sitemap-allied.xml", async (req, res) => {
   if (!req.isAllied && process.env.NODE_ENV === "production") {
     return res.status(404).send("Not found");
   }
   const alliedBase = "https://allied.nursenest.ca";
-  const xml = generateAlliedSitemap(alliedBase);
-  res.setHeader("Content-Type", "application/xml; charset=utf-8");
-  res.setHeader("Cache-Control", "public, max-age=3600");
-  res.status(200).send(xml);
+  try {
+    const xml = await generateAlliedSitemapAsync(alliedBase);
+    res.setHeader("Content-Type", "application/xml; charset=utf-8");
+    res.setHeader("Cache-Control", "public, max-age=3600");
+    res.status(200).send(xml);
+  } catch {
+    const xml = generateAlliedSitemap(alliedBase);
+    res.setHeader("Content-Type", "application/xml; charset=utf-8");
+    res.setHeader("Cache-Control", "public, max-age=3600");
+    res.status(200).send(xml);
+  }
 });
 
 app.get("/sitemap-:lang.xml", async (req, res) => {
@@ -691,6 +698,9 @@ app.use((req, res, next) => {
 
   const { setupSeoEngineRoutes } = await import("./seo-engine");
   setupSeoEngineRoutes(app);
+
+  const { registerParamedicSeoRoutes } = await import("./paramedic-seo");
+  registerParamedicSeoRoutes(app);
 
   const { setupQBankRoutes } = await import("./qbank-api");
   setupQBankRoutes(app);
