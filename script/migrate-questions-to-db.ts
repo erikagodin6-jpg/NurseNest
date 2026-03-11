@@ -16,6 +16,22 @@ interface ClientExamQuestion {
   dr?: string[];
 }
 
+interface ClientBowtieQuestion {
+  id: string;
+  scenario: string;
+  centerOptions: string[];
+  centerCorrect: number;
+  leftFindings: string[];
+  leftCorrect: number[];
+  leftSelectCount: number;
+  rightActions: string[];
+  rightCorrect: number[];
+  rightSelectCount: number;
+  rationale: { condition: string; findings: string; actions: string };
+  bodySystem: string;
+  tier: string;
+}
+
 function hashStem(stem: string): string {
   return crypto.createHash("sha256").update(stem.trim().toLowerCase()).digest("hex").substring(0, 32);
 }
@@ -53,6 +69,61 @@ async function insertBatch(questions: ClientExamQuestion[], tier: string, source
 
   return { inserted, skipped };
 }
+
+async function insertBowtieBatch(questions: ClientBowtieQuestion[], tier: string, sourceFile: string, exam: string) {
+  let inserted = 0;
+  let skipped = 0;
+
+  for (const q of questions) {
+    const contentHash = hashStem(q.scenario);
+    const existing = await pool.query("SELECT id FROM exam_questions WHERE stem_hash = $1", [contentHash]);
+    if (existing.rows.length > 0) {
+      skipped++;
+      continue;
+    }
+
+    const options = JSON.stringify({
+      centerOptions: q.centerOptions,
+      leftFindings: q.leftFindings,
+      rightActions: q.rightActions,
+    });
+
+    const correctAnswer = JSON.stringify({
+      centerCorrect: q.centerCorrect,
+      leftCorrect: q.leftCorrect,
+      leftSelectCount: q.leftSelectCount,
+      rightCorrect: q.rightCorrect,
+      rightSelectCount: q.rightSelectCount,
+    });
+
+    const rationale = `Condition: ${q.rationale.condition}\nFindings: ${q.rationale.findings}\nActions: ${q.rationale.actions}`;
+
+    await pool.query(
+      `INSERT INTO exam_questions (tier, exam, question_type, status, stem, options, correct_answer, rationale, body_system, stem_hash)
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)`,
+      [
+        tier,
+        exam,
+        "bowtie",
+        "published",
+        q.scenario,
+        options,
+        correctAnswer,
+        rationale,
+        q.bodySystem,
+        contentHash,
+      ]
+    );
+    inserted++;
+  }
+
+  return { inserted, skipped };
+}
+
+const BOWTIE_FILES: { file: string; tier: string; exam: string; exportName: string }[] = [
+  { file: "rpn-bowtie-batch-02", tier: "rpn", exam: "REX-PN", exportName: "rpnBowtieBatch02Questions" },
+  { file: "pn-us-bowtie-01", tier: "rpn", exam: "NCLEX-PN", exportName: "pnUsBowtieBatch01Questions" },
+];
 
 const QUESTION_FILES: { file: string; tier: string; exam: string; exportName: string }[] = [
   { file: "rpn-cardiovascular", tier: "rpn", exam: "REX-PN", exportName: "rpnCardiovascularQuestions" },
@@ -105,6 +176,8 @@ QUESTION_FILES.push({ file: "np-expansion-d", tier: "np", exam: "AANP", exportNa
 QUESTION_FILES.push({ file: "rn-expansion-i", tier: "rn", exam: "NCLEX-RN", exportName: "rnExpansionIQuestions" });
 QUESTION_FILES.push({ file: "rpn-expansion-h", tier: "rpn", exam: "REX-PN", exportName: "rpnExpansionHQuestions" });
 QUESTION_FILES.push({ file: "np-expansion-e", tier: "np", exam: "AANP", exportName: "npExpansionEQuestions" });
+QUESTION_FILES.push({ file: "rpn-expansion-i", tier: "rpn", exam: "REX-PN", exportName: "rpnExpansionIQuestions" });
+QUESTION_FILES.push({ file: "pn-us-batch-02", tier: "rpn", exam: "NCLEX-PN", exportName: "pnUsBatch02Questions" });
 
 for (let i = 1; i <= 56; i++) {
   const pad = String(i).padStart(2, "0");
@@ -140,6 +213,23 @@ async function main() {
         continue;
       }
       const { inserted, skipped } = await insertBatch(questions, entry.tier, entry.file, entry.exam);
+      totalInserted += inserted;
+      totalSkipped += skipped;
+      console.log(`${entry.file}: ${inserted} inserted, ${skipped} skipped (${questions.length} total)`);
+    } catch (e: any) {
+      console.error(`ERROR ${entry.file}: ${e.message}`);
+    }
+  }
+
+  for (const entry of BOWTIE_FILES) {
+    try {
+      const mod = await import(`../client/src/data/exam-questions/${entry.file}.ts`);
+      const questions: ClientBowtieQuestion[] = mod[entry.exportName];
+      if (!questions || !Array.isArray(questions)) {
+        console.log(`SKIP ${entry.file}: export ${entry.exportName} not found`);
+        continue;
+      }
+      const { inserted, skipped } = await insertBowtieBatch(questions, entry.tier, entry.file, entry.exam);
       totalInserted += inserted;
       totalSkipped += skipped;
       console.log(`${entry.file}: ${inserted} inserted, ${skipped} skipped (${questions.length} total)`);
