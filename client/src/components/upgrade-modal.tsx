@@ -99,7 +99,7 @@ export function UpgradeModal({ isOpen, onClose, trigger }: UpgradeModalProps) {
   return (
     <Dialog open={isOpen} onOpenChange={(open) => { if (!open) handleClose(); }}>
       <DialogContent
-        className="sm:max-w-lg p-0 overflow-hidden"
+        className="sm:max-w-lg p-0 overflow-hidden !max-h-[90vh] !overflow-y-auto"
         data-testid="upgrade-modal"
       >
         <div className="bg-gradient-to-br from-primary/5 via-primary/10 to-primary/5 px-6 pt-6 pb-4">

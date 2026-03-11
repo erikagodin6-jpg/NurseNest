@@ -518,7 +518,7 @@ export default function Home() {
               ))}
             </div>
 
-            <div className="flex items-center justify-center gap-8 text-sm text-gray-500">
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-8 text-sm text-gray-500">
               <div className="flex items-center gap-2">
                 <div className="flex -space-x-2">
                   {["bg-blue-400", "bg-emerald-400", "bg-purple-400", "bg-amber-400"].map((bg, i) => (

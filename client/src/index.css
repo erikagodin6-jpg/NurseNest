@@ -597,11 +597,33 @@
   }
 }
 
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  overflow-x: hidden;
+}
+
 body {
+  overflow-x: hidden;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+}
+
+img, video, svg, canvas, iframe {
+  max-width: 100%;
+  height: auto;
+}
+
+@media (max-width: 768px) {
+  .container {
+    max-width: 100% !important;
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+  }
 }
 
 input, textarea, [contenteditable="true"], .allow-select {

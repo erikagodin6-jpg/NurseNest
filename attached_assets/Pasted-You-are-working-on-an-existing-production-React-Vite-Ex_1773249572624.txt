@@ -1,0 +1,356 @@
+You are working on an existing production React + Vite + Express website for NurseNest. Do a full frontend audit and fix the issues below carefully. Do not remove working features. Do not simplify the design. Preserve the NurseNest brand aesthetic, existing content structure, pastel clinical style, rounded UI, and overall feel. Your job is to make the site polished, mobile-safe, and production-ready.
+
+IMPORTANT
+Do not just patch one page. Audit the entire site, shared components, layout wrappers, homepage, modals, lesson pages, navigation, and route system. Find root causes and fix them properly at the component and layout level so the issues do not keep happening elsewhere.
+
+PRIMARY OBJECTIVES
+
+1. Fix all mobile responsiveness issues across the site
+2. Eliminate horizontal scrolling and sideways page movement on mobile
+3. Fix all popups/modals/dialogs so they fully fit and function on mobile screens
+4. Fix broken or non-working homepage links and route targets
+5. Put lesson content behind a paywall while keeping the main lessons listing page public and SEO-friendly
+
+PART 1: FULL MOBILE RESPONSIVENESS AUDIT
+
+Audit every page, section, and shared component for responsiveness problems.
+
+Required breakpoints to test:
+- 320px
+- 360px
+- 375px
+- 390px
+- 414px
+- 768px
+- 1024px
+- 1280px
+- 1440px
+
+Fix the following everywhere they occur:
+- horizontal overflow
+- elements wider than the viewport
+- content pushing the page left or right
+- cards or buttons cut off on small screens
+- text overflowing containers
+- fixed pixel widths that break on mobile
+- grids that do not collapse correctly
+- large padding/margins that break layout on phones
+- images, SVGs, icons, charts, tables, or embeds overflowing their parent
+- absolute/fixed-position elements sitting outside the visible area
+- sticky or floating UI that overlaps content badly on mobile
+
+Global requirements:
+- `html, body` must not allow unintended horizontal scrolling
+- apply `box-sizing: border-box` consistently
+- all main wrappers should respect viewport width
+- all media must scale responsively
+- long text, URLs, labels, and pills must wrap safely
+- buttons must resize or stack on mobile instead of overflowing
+- navigation must remain usable on small screens
+- all sections must feel balanced and not cramped
+
+Explicitly inspect:
+- homepage hero
+- top nav
+- dropdowns
+- cards
+- pricing sections
+- category grids
+- lesson cards
+- dashboard widgets
+- forms
+- footer
+- subscription/paywall sections
+- auth pages
+- any reusable card, dialog, tab, and button components
+
+PART 2: ELIMINATE SIDEWAYS PAGE MOVEMENT ON MOBILE
+
+Right now the screen shifts left and right when scrolling down on mobile. That is not acceptable.
+
+Find the exact causes and fix them properly.
+
+Likely root causes to inspect:
+- `100vw` creating overflow
+- negative margins
+- transformed elements
+- oversized gradients/background decorations
+- absolute positioned blobs/shapes
+- carousels or sliders
+- modal open-state body locking bugs
+- hidden off-canvas elements still affecting layout
+- child elements ignoring parent width
+- flex rows that never wrap
+- min-width values that are too large
+- fixed-width buttons or cards
+
+Rules:
+- the user should only scroll vertically on mobile
+- no page should drag horizontally
+- no hidden decorative element should increase page width
+- off-canvas or animated elements must be clipped safely
+- background effects must not create overflow
+
+PART 3: FIX POPUPS / MODALS / DIALOGS / SHEETS FOR MOBILE
+
+The popups do not fit on mobile. Fix every popup system-wide.
+
+This includes:
+- modals
+- dialogs
+- popups
+- sheets
+- drawers
+- overlays
+- confirmation dialogs
+- login/signup popups
+- upgrade/paywall popups
+- filter popups
+- form popups
+- any reusable Radix/shadcn dialog-like components if present
+
+Required mobile behavior:
+- every popup must fully fit within the viewport width
+- popups must never run off the left or right side of the screen
+- popups must never be too tall to use
+- if content is tall, the popup body must scroll internally
+- the page behind the popup must not shift sideways
+- close button must always remain visible
+- form fields, dropdowns, and buttons inside popups must remain usable
+- action buttons must stack or resize on narrow screens
+- popup padding must reduce appropriately on mobile
+- headings and text must wrap properly
+- users must not need to pinch, zoom, or scroll sideways to use a popup
+
+Implementation expectations:
+- use responsive width logic such as `width: min(92vw, <desktop max>)`
+- use safe `max-width`
+- use `max-height` relative to viewport, such as `85vh` to `90vh`
+- create internal scroll regions for modal content when needed
+- ensure overlay and portal rendering do not create layout bugs
+- lock background scroll correctly when popup is open
+- prevent body padding compensation from causing horizontal shifts
+- audit z-index and clipping issues
+- ensure keyboard focus and accessibility still work
+
+If the current site uses multiple inconsistent popup implementations, refactor them into one shared responsive modal/dialog system so every popup inherits correct mobile behavior.
+
+PART 4: FIX BROKEN HOMEPAGE LINKS AND ROUTING
+
+Audit every clickable item on the homepage and fix anything that does not work.
+
+Inspect:
+- top nav links
+- logo link
+- hero buttons
+- CTA buttons
+- “learn more” buttons
+- lesson cards
+- flashcard links
+- exam links
+- product/store links
+- category cards
+- subscription buttons
+- footer links
+- any clickable banners or promo cards
+
+Requirements:
+- every click target must point to a valid route or valid action
+- use the existing Wouter routing system correctly
+- fix outdated route strings, missing paths, mismatched slugs, and broken hrefs
+- ensure internal navigation works
+- ensure direct browser refresh on routed pages also works
+- add a graceful 404 or fallback page if missing
+- during development, log route mismatches or invalid route references clearly
+
+Also verify:
+- routes match the actual page/component structure
+- dynamic routes work correctly
+- mobile nav links work the same as desktop nav links
+- buttons do not silently fail because of missing handlers
+
+PART 5: LESSON PAYWALL LOGIC
+
+Keep the main lessons page public so users can browse what is available. But the actual lesson content must be premium.
+
+Public lessons listing page should show:
+- lesson title
+- short description
+- category
+- difficulty if available
+- estimated study time
+- thumbnail or preview image
+- maybe a very short snippet
+- lock badge if premium
+
+Public users can browse the lesson catalog, but cannot read the full lesson body.
+
+On an individual lesson page for non-paid users:
+- show the lesson title
+- show the lesson description
+- show basic metadata
+- show a short preview snippet only
+- hide, blur, truncate, or lock the full lesson content
+- show a clear upgrade/paywall section
+
+The upgrade section should feel branded and polished and include:
+- lock icon
+- headline such as “Unlock full lessons, flashcards, and exam questions”
+- short value bullets
+- upgrade CTA button
+- link to pricing/subscription page
+
+PART 6: ROLE-BASED ACCESS CONTROL
+
+Use the existing role system if present. Extend it cleanly instead of replacing it.
+
+Roles:
+- free
+- student
+- rpn
+- rn
+- np
+- admin
+
+Access rules:
+- `free` users cannot see full premium lesson content
+- paid roles can access full lesson content according to the existing subscription model
+- `admin` always has access to everything
+
+Do not hardcode logic in random pages. Centralize access checks in reusable utilities/components where possible.
+
+PART 7: REUSABLE PAYWALL COMPONENT
+
+Create or improve a reusable gated-content component.
+
+Suggested component:
+`<PaywallGate />`
+
+Suggested props:
+- `userRole`
+- `allowedRoles`
+- `previewContent`
+- `fullContent`
+- `contentType`
+- `title`
+- `upgradeHref`
+- `showBlurPreview`
+- `previewLength`
+
+Expected behavior:
+- if the user has access, render full content
+- if the user does not have access, render preview content plus a branded upgrade card
+- do not duplicate paywall UI across multiple pages
+- keep the component reusable for future gating of flashcards, exams, or downloads
+
+PART 8: SEO REQUIREMENTS
+
+Do not damage lesson SEO.
+
+Search engines should still be able to index:
+- lesson titles
+- descriptions
+- category labels
+- metadata
+- preview snippet
+- clean URLs
+- structured page headings
+
+Only the premium body content should be restricted.
+
+Ensure:
+- lesson listing pages remain crawlable
+- locked lesson pages still have useful metadata
+- noindex is not accidentally applied unless intentionally desired
+- title tags and meta descriptions remain meaningful
+- internal linking to lesson pages still works
+
+PART 9: DESIGN / UX REQUIREMENTS
+
+Keep the NurseNest visual style:
+- soft pastel palette
+- feminine but clinical and professional
+- rounded cards and inputs
+- subtle shadows
+- soft gradients only if they do not break layout
+- clean spacing
+- polished mobile layout
+- no cramped or awkward stacking
+- no oversized buttons on small screens
+- no text collisions
+- no overflowing lock/paywall cards
+- popups should match the site visually and not look like generic default dialogs
+
+PART 10: IMPLEMENTATION STANDARDS
+
+Do not make shallow edits. Fix root causes.
+
+Expected engineering approach:
+- audit shared layout wrappers first
+- audit global CSS and utility classes
+- refactor repeated broken patterns into shared responsive components
+- remove hardcoded widths where harmful
+- use fluid sizing and responsive constraints
+- keep code clean and maintainable
+- avoid duplicating modal or paywall logic
+- preserve accessibility and keyboard navigation
+- preserve desktop quality while improving mobile behavior
+
+PART 11: QUALITY ASSURANCE CHECKLIST
+
+Before finishing, verify all of the following:
+
+Mobile layout:
+- no horizontal scrolling on any main page
+- no sideways page dragging while scrolling vertically
+- no cut-off cards, buttons, headings, or sections
+- text wraps correctly
+- images and media fit inside their containers
+
+Popups/modals:
+- all popups fit on 320px to 414px screens
+- no popup extends beyond the viewport
+- popup body scrolls internally if tall
+- close button is always visible
+- popup forms are fully usable
+- opening a popup does not shift the page sideways
+
+Routing:
+- all homepage links work
+- nav links work
+- footer links work
+- hero CTAs work
+- direct refresh on routes works
+- invalid routes fail gracefully
+
+Paywall:
+- lessons index page remains public
+- lesson titles and descriptions are visible
+- free users cannot access full lesson body
+- paid users can access full lesson body
+- admin can access everything
+- paywall card appears correctly on desktop and mobile
+
+SEO:
+- lesson metadata remains indexable
+- preview content remains visible
+- locked pages still have useful structured content
+
+PART 12: REQUIRED OUTPUT
+
+After making changes, provide:
+
+1. Summary of what was broken
+2. Root causes found
+3. Exact files changed
+4. Exact components added or refactored
+5. Code changes made
+6. Responsive/modal strategy used
+7. Paywall logic strategy used
+8. Routing fixes made
+9. QA/testing summary
+10. Any remaining edge cases that should still be manually reviewed
+
+IMPORTANT FINAL INSTRUCTION
+
+Do not give a vague summary. Actually inspect and fix the codebase thoroughly. Prioritize production-quality fixes, reusable patterns, clean mobile behavior, functional routing, and a polished premium paywall experience that fits the NurseNest brand.
