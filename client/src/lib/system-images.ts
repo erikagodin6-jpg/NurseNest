@@ -321,6 +321,8 @@ import illustrationDiverticulitisV2 from "@/assets/images/diverticulitis-v2.png"
 import illustrationDysphagiaV2 from "@/assets/images/dysphagia-v2.png";
 import illustrationEosinophilicEsophagitisV2 from "@/assets/images/eosinophilic-esophagitis-v2.png";
 import illustrationPancreatitisPatho from "@/assets/lesson-pancreatitis-patho.png";
+import illustrationPancreatitisV2 from "@/assets/images/pancreatitis-v2.png";
+import illustrationPancreaticPseudocystV2 from "@/assets/images/pancreatic-pseudocyst-v2.png";
 import illustrationParkinsonsPatho from "@/assets/lesson-parkinsons-patho.png";
 import illustrationMSPatho from "@/assets/lesson-ms-patho.png";
 import illustrationIBSV2 from "@/assets/images/ibs-v2.png";
@@ -355,7 +357,17 @@ import illustrationGlaucomaPatho from "@/assets/lesson-glaucoma-patho.png";
 import illustrationPPHPatho from "@/assets/lesson-pph-patho.png";
 
 import illustrationUCPatho from "@/assets/lesson-uc-patho.png";
+import illustrationUlcerativeColitisV2 from "@/assets/images/ulcerative-colitis-v2.png";
 import illustrationPepticUlcerPatho from "@/assets/lesson-peptic-ulcer-patho.png";
+import illustrationPepticUlcerV2 from "@/assets/images/peptic-ulcer-v2.png";
+import illustrationBPHV2 from "@/assets/images/bph-v2.png";
+import illustrationCBIV2 from "@/assets/images/cbi-v2.png";
+import illustrationCKDV2 from "@/assets/images/ckd-v2.png";
+import illustrationMicroscopicColitisV2 from "@/assets/images/microscopic-colitis-v2.png";
+import illustrationNGTubeV2 from "@/assets/images/ng-tube-v2.png";
+import illustrationRectalMedicationV2 from "@/assets/images/rectal-medication-v2.png";
+import illustrationShortBowelV2 from "@/assets/images/short-bowel-v2.png";
+import illustrationStomaCareV2 from "@/assets/images/stoma-care-v2.png";
 import illustrationBowelObstructionPatho from "@/assets/lesson-bowel-obstruction-patho.png";
 import illustrationBowelObstructionV2 from "@/assets/images/bowel-obstruction-v2.png";
 import illustrationAppendicitisV2 from "@/assets/images/appendicitis-v2.png";
@@ -414,7 +426,12 @@ const lessonSpecificImages: Record<string, string> = {
   "hodgkin-lymphoma": illustrationTumor,
   "non-hodgkin-lymphoma": illustrationTumor,
   "aki-management": illustrationKidneys,
-  "ckd-management": illustrationKidneys,
+  "ckd-management": illustrationCKDV2,
+  "ckd": illustrationCKDV2,
+  "chronic-kidney-disease": illustrationCKDV2,
+  "chronic-kidney-disease-rpn": illustrationCKDV2,
+  "chronic-kidney-disease-rn": illustrationCKDV2,
+  "chronic-kidney-disease-np": illustrationCKDV2,
   "rhabdomyolysis": illustrationKidneys,
   "av-fistula": illustrationKidneys,
   "dialysis-steal": illustrationKidneys,
@@ -893,7 +910,7 @@ const lessonSpecificImages: Record<string, string> = {
   "cirrhosis-rpn": illustrationCirrhosisV2,
   "cirrhosis-rn": illustrationCirrhosisV2,
   "cirrhosis-np": illustrationCirrhosisV2,
-  "acute-pancreatitis": illustrationGIAnatomy,
+  "acute-pancreatitis": illustrationPancreatitisV2,
   "bowel-obstruction": illustrationBowelObstructionV2,
   "bowel-obstruction-rpn": illustrationBowelObstructionV2,
   "bowel-obstruction-rn": illustrationBowelObstructionV2,
@@ -908,7 +925,13 @@ const lessonSpecificImages: Record<string, string> = {
   "barrett-esophagus-rn": illustrationBarrettEsophagusV2,
   "barrett-esophagus-np": illustrationBarrettEsophagusV2,
   "barretts-esophagus": illustrationBarrettEsophagusV2,
-  "peptic-ulcer": illustrationGIAnatomy,
+  "peptic-ulcer": illustrationPepticUlcerV2,
+  "peptic-ulcer-rpn": illustrationPepticUlcerV2,
+  "peptic-ulcer-rn": illustrationPepticUlcerV2,
+  "peptic-ulcer-np": illustrationPepticUlcerV2,
+  "peptic-ulcer-disease": illustrationPepticUlcerV2,
+  "gastric-ulcer": illustrationPepticUlcerV2,
+  "duodenal-ulcer": illustrationPepticUlcerV2,
   "ibs-basics": illustrationIBSV2,
   "ibs": illustrationIBSV2,
   "ibs-rpn": illustrationIBSV2,
@@ -930,10 +953,21 @@ const lessonSpecificImages: Record<string, string> = {
   "meckel-diverticulum-rn": illustrationMeckelDiverticulumV3,
   "meckel-diverticulum-np": illustrationMeckelDiverticulumV3,
   "meckels-diverticulum": illustrationMeckelDiverticulumV3,
-  "ngtube-care": illustrationGIAnatomy,
+  "ngtube-care": illustrationNGTubeV2,
+  "ng-tube": illustrationNGTubeV2,
+  "ng-tube-rpn": illustrationNGTubeV2,
+  "ng-tube-rn": illustrationNGTubeV2,
+  "ng-tube-np": illustrationNGTubeV2,
+  "nasogastric-tube": illustrationNGTubeV2,
   "catheterization": illustrationRenalAnatomy,
   "electrolyte-safety": illustrationRenalAnatomy,
-  "bph-management": illustrationRenalAnatomy,
+  "bph-management": illustrationBPHV2,
+  "bph": illustrationBPHV2,
+  "bph-rpn": illustrationBPHV2,
+  "bph-rn": illustrationBPHV2,
+  "bph-np": illustrationBPHV2,
+  "benign-prostatic-hyperplasia": illustrationBPHV2,
+  "prostate-enlargement": illustrationBPHV2,
   "kidney-stone-basics-rpn": illustrationRenalAnatomy,
   "acute-glomerulonephritis": illustrationRenalAnatomy,
   "hormonal-regulation": illustrationEndocrineAnatomy,
@@ -1095,8 +1129,16 @@ const lessonSpecificImages: Record<string, string> = {
   "cirrhosis-pathophysiology": illustrationCirrhosisPatho,
   "hepatic-encephalopathy": illustrationCirrhosisPatho,
 
-  "pancreatitis-management": illustrationPancreatitisPatho,
-  "chronic-pancreatitis": illustrationPancreatitisPatho,
+  "pancreatitis-management": illustrationPancreatitisV2,
+  "pancreatitis": illustrationPancreatitisV2,
+  "pancreatitis-rpn": illustrationPancreatitisV2,
+  "pancreatitis-rn": illustrationPancreatitisV2,
+  "pancreatitis-np": illustrationPancreatitisV2,
+  "chronic-pancreatitis": illustrationPancreatitisV2,
+  "pancreatic-pseudocyst": illustrationPancreaticPseudocystV2,
+  "pancreatic-pseudocyst-rpn": illustrationPancreaticPseudocystV2,
+  "pancreatic-pseudocyst-rn": illustrationPancreaticPseudocystV2,
+  "pancreatic-pseudocyst-np": illustrationPancreaticPseudocystV2,
 
   "parkinsons-management": illustrationParkinsonsV3,
 
@@ -1157,8 +1199,12 @@ const lessonSpecificImages: Record<string, string> = {
 
   "postpartum-hemorrhage-basics-rpn": illustrationPPHPatho,
 
-  "ulcerative-colitis": illustrationUCPatho,
-  "ulcerative-colitis-management": illustrationUCPatho,
+  "ulcerative-colitis": illustrationUlcerativeColitisV2,
+  "ulcerative-colitis-rpn": illustrationUlcerativeColitisV2,
+  "ulcerative-colitis-rn": illustrationUlcerativeColitisV2,
+  "ulcerative-colitis-np": illustrationUlcerativeColitisV2,
+  "ulcerative-colitis-management": illustrationUlcerativeColitisV2,
+  "uc-management": illustrationUlcerativeColitisV2,
   "crohns-disease": illustrationCrohnsV2,
   "crohns-disease-rpn": illustrationCrohnsV2,
   "crohns-disease-rn": illustrationCrohnsV2,
@@ -1166,8 +1212,37 @@ const lessonSpecificImages: Record<string, string> = {
   "crohns": illustrationCrohnsV2,
   "ibd-management": illustrationUCPatho,
 
-  "peptic-ulcer-basics-rpn": illustrationPepticUlcerPatho,
-  "gastric-ulcer": illustrationPepticUlcerPatho,
+  "peptic-ulcer-basics-rpn": illustrationPepticUlcerV2,
+  "microscopic-colitis": illustrationMicroscopicColitisV2,
+  "microscopic-colitis-rpn": illustrationMicroscopicColitisV2,
+  "microscopic-colitis-rn": illustrationMicroscopicColitisV2,
+  "microscopic-colitis-np": illustrationMicroscopicColitisV2,
+  "collagenous-colitis": illustrationMicroscopicColitisV2,
+  "lymphocytic-colitis": illustrationMicroscopicColitisV2,
+  "continuous-bladder-irrigation": illustrationCBIV2,
+  "cbi": illustrationCBIV2,
+  "cbi-rpn": illustrationCBIV2,
+  "cbi-rn": illustrationCBIV2,
+  "cbi-np": illustrationCBIV2,
+  "bladder-irrigation": illustrationCBIV2,
+  "rectal-medication": illustrationRectalMedicationV2,
+  "rectal-medication-rpn": illustrationRectalMedicationV2,
+  "rectal-medication-rn": illustrationRectalMedicationV2,
+  "rectal-medication-np": illustrationRectalMedicationV2,
+  "rectal-administration": illustrationRectalMedicationV2,
+  "suppository": illustrationRectalMedicationV2,
+  "short-bowel-syndrome": illustrationShortBowelV2,
+  "short-bowel-syndrome-rpn": illustrationShortBowelV2,
+  "short-bowel-syndrome-rn": illustrationShortBowelV2,
+  "short-bowel-syndrome-np": illustrationShortBowelV2,
+  "short-bowel": illustrationShortBowelV2,
+  "stoma-care": illustrationStomaCareV2,
+  "stoma-care-rpn": illustrationStomaCareV2,
+  "stoma-care-rn": illustrationStomaCareV2,
+  "stoma-care-np": illustrationStomaCareV2,
+  "ostomy-care": illustrationStomaCareV2,
+  "colostomy-care": illustrationStomaCareV2,
+  "ileostomy-care": illustrationStomaCareV2,
 
   "bowel-obstruction-management": illustrationBowelObstructionPatho,
   "acute-abdomen": illustrationBowelObstructionPatho,
@@ -1481,6 +1556,18 @@ export function getLessonImage(lessonId: string): string | undefined {
   if (lessonId.includes("hemorrhoid")) return illustrationHemorrhoidsV2;
   if (lessonId.includes("hepatitis") && !lessonId.includes("chronic")) return illustrationHepatitisV2;
   if (lessonId.includes("hiatal-hernia")) return illustrationHiatalHerniaV2;
+  if (lessonId.includes("bph") || lessonId.includes("prostatic-hyperplasia") || lessonId.includes("prostate-enlarge")) return illustrationBPHV2;
+  if (lessonId.includes("bladder-irrigation") || lessonId.includes("cbi")) return illustrationCBIV2;
+  if (lessonId.includes("chronic-kidney") || lessonId.includes("ckd")) return illustrationCKDV2;
+  if (lessonId.includes("microscopic-colitis") || lessonId.includes("collagenous-colitis") || lessonId.includes("lymphocytic-colitis")) return illustrationMicroscopicColitisV2;
+  if (lessonId.includes("ngtube") || lessonId.includes("ng-tube") || lessonId.includes("nasogastric")) return illustrationNGTubeV2;
+  if (lessonId.includes("pancreatic-pseudocyst")) return illustrationPancreaticPseudocystV2;
+  if (lessonId.includes("pancreatitis")) return illustrationPancreatitisV2;
+  if (lessonId.includes("peptic-ulcer") || lessonId.includes("gastric-ulcer") || lessonId.includes("duodenal-ulcer")) return illustrationPepticUlcerV2;
+  if (lessonId.includes("rectal-med") || lessonId.includes("suppository") || lessonId.includes("rectal-admin")) return illustrationRectalMedicationV2;
+  if (lessonId.includes("short-bowel")) return illustrationShortBowelV2;
+  if (lessonId.includes("stoma-care") || lessonId.includes("ostomy") || lessonId.includes("colostomy") || lessonId.includes("ileostomy")) return illustrationStomaCareV2;
+  if (lessonId.includes("ulcerative-colitis") || lessonId.includes("uc-management")) return illustrationUlcerativeColitisV2;
   if (lessonId.includes("silicosis")) return illustrationAcuteSilicosisNew;
   if (lessonId.includes("auscultation")) return illustrationCardiacAuscultationNew;
   if (lessonId.includes("hypertension")) return illustrationHypertensionV2;
