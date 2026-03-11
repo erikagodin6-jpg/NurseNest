@@ -1,7 +1,7 @@
 # NurseNest - Complete Nursing Learning Platform
 
 ## Overview
-NurseNest is an adaptive learning platform for nursing and allied health students across 17 career verticals. It provides comprehensive learning resources, exam preparation (NCLEX, REX-PN, etc.), performance analytics, and AI-powered content generation. The platform aims to enhance clinical reasoning, nursing knowledge, and critical thinking to improve patient care outcomes through a robust and region-aware learning environment.
+NurseNest is an adaptive learning platform designed for nursing and allied health students across 17 career verticals. Its primary purpose is to deliver comprehensive learning resources, exam preparation (e.g., NCLEX, REX-PN), performance analytics, and AI-powered content generation. The platform aims to improve clinical reasoning, nursing knowledge, and critical thinking, ultimately leading to enhanced patient care outcomes through a region-aware and robust learning environment.
 
 ## User Preferences
 - Preferred communication style: Simple, everyday language.
@@ -17,10 +17,10 @@ NurseNest is an adaptive learning platform for nursing and allied health student
 ## System Architecture
 
 ### UI/UX Decisions
-The platform uses React with TypeScript, Wouter for routing, shadcn/ui with Radix UI, and Tailwind CSS v4, supporting 20 themes and DM Sans typography. Key UI components include `ContentGate`, `PauseAndThink`, `ProgressiveDisclosure`, `CuriosityHook`, and `KnowledgeCheck`. A digital product builder provides a Canva-style editor with drag-and-drop, AI image, and content generation. The design system features premium visuals, dual-tone top bars, and watermarked PDF previews.
+The platform utilizes React with TypeScript, Wouter for routing, shadcn/ui with Radix UI, and Tailwind CSS v4, supporting 20 themes and DM Sans typography. Key UI components include `ContentGate`, `PauseAndThink`, `ProgressiveDisclosure`, `CuriosityHook`, and `KnowledgeCheck`. A digital product builder offers a Canva-style editor with drag-and-drop, AI image, and content generation capabilities. The design system incorporates premium visuals, dual-tone top bars, and watermarked PDF previews.
 
 ### Technical Implementations
-The application is built with Vite, React, and Express 5 on Node.js with TypeScript. TanStack React Query manages server state via a RESTful API. Authentication uses username/password with session management. A subscription system supports regional pricing. Core features include interactive learning modules, a mock exam engine with stratified random sampling and Strict Exam Mode, and an admin dashboard for analytics and content management. AI integration includes OpenAI-powered blog automation, custom i18n for 15 languages, an Adaptive CAT Engine, Pass Probability Projection Engine, and Next Best Action Engine. Exam blueprints are database-driven. Content is organized by body system for various nursing levels, with pre/post-test questions. A 3-step onboarding process generates personalized study plans. Admin tools like QBank Factory and Product Generator V2 facilitate AI-driven content generation. Programmatic SEO practice question pages and an allied health architecture support 14 career verticals. NGN question types and a partial credit scoring engine are implemented. Lesson content is served via a server-side API for client-side optimization. SEO features include 301 redirects, sitemap generation, and related articles. Access control uses a tier system (free, rpn, rn, np, admin). The platform also includes a Spaced Repetition System, an Exam Calculator, Quick Study Sessions pulling from weak areas, and a Study Progress Momentum System. The Lesson Library features tier-adaptive heroes, featured topics, progress cards, and study time estimates. Clinical Case Studies provide multi-stage scenarios with decision points. Regional measurement adaptation dynamically converts content units based on user region. A Tester Access System manages invite codes and gathers feedback.
+The application is built with Vite, React, and Express 5 on Node.js with TypeScript. Server state is managed by TanStack React Query via a RESTful API. Authentication uses username/password with session management, and a subscription system supports regional pricing. Core features include interactive learning modules, a mock exam engine with stratified random sampling and Strict Exam Mode, and an admin dashboard. AI integrations encompass OpenAI-powered blog automation, custom i18n for 15 languages, an Adaptive CAT Engine, Pass Probability Projection Engine, and Next Best Action Engine. Exam blueprints are database-driven, and content is organized by body system for various nursing levels. The platform includes a 3-step onboarding process for personalized study plans, admin tools like QBank Factory and Product Generator V2 for AI-driven content generation, and programmatic SEO for practice question pages. It supports NGN question types, a partial credit scoring engine, and a Spaced Repetition System. Content access is controlled via a tier system (free, rpn, rn, np, admin).
 
 ## External Dependencies
 
@@ -173,3 +173,11 @@ The MLT (Medical Laboratory Technology) section provides country-specific exam p
 - Frontend sends topics one-at-a-time to avoid HTTP timeout (each post takes ~30s)
 - Schedule dates pre-computed on frontend and passed via `overrideDates` to preserve postsPerDay/smartSchedule semantics
 - Smart schedule mode fetches occupied days from `/api/blog/occupied-days` and fills free days only
+
+### MLT Admin Content Studio
+- **Route**: `/admin/mlt` with sub-routes for questions, flashcards, lessons, import, seo, publish
+- **API**: All routes under `/api/admin/mlt/*` in `server/mlt-admin-routes.ts`
+- **Features**: Question CRUD with full metadata, bulk import (JSON/CSV/structured text), import validation with Jaccard duplicate detection (>70% similarity threshold), import history with rollback, content distribution dashboard, flashcard/lesson CRUD, SEO panel, publish status bar
+- **DB**: Uses existing `allied_questions`, `allied_flashcards`, `allied_lessons` tables filtered by `career_type='mlt'`, plus `mlt_import_history` table for tracking imports
+- **Disciplines**: 10 MLT domains (Hematology, Clinical Chemistry, Microbiology, Blood Banking, Urinalysis, Immunology/Serology, Molecular Diagnostics, Lab Operations, Quality Assurance, Body Fluids)
+- **Frontend**: `client/src/allied/pages/mlt-admin.tsx` — single-page tabbed interface with URL-derived tab state

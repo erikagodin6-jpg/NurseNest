@@ -3034,3 +3034,29 @@ export const paramedicStudyGuides = pgTable("paramedic_study_guides", {
 export const insertParamedicStudyGuideSchema = createInsertSchema(paramedicStudyGuides).omit({ id: true, createdAt: true, updatedAt: true });
 export type ParamedicStudyGuide = typeof paramedicStudyGuides.$inferSelect;
 export type InsertParamedicStudyGuide = z.infer<typeof insertParamedicStudyGuideSchema>;
+export const mltImportHistory = pgTable("mlt_import_history", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  importType: text("import_type").notNull(),
+  fileName: text("file_name"),
+  totalRows: integer("total_rows").notNull().default(0),
+  successCount: integer("success_count").notNull().default(0),
+  errorCount: integer("error_count").notNull().default(0),
+  warningCount: integer("warning_count").notNull().default(0),
+  duplicateCount: integer("duplicate_count").notNull().default(0),
+  importedIds: jsonb("imported_ids").default(sql`'[]'::jsonb`),
+  errors: jsonb("errors").default(sql`'[]'::jsonb`),
+  warnings: jsonb("warnings").default(sql`'[]'::jsonb`),
+  status: text("status").notNull().default("completed"),
+  importedBy: varchar("imported_by"),
+  rolledBack: boolean("rolled_back").default(false),
+  rolledBackAt: timestamp("rolled_back_at"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const insertMltImportHistorySchema = createInsertSchema(mltImportHistory).omit({
+  id: true,
+  createdAt: true,
+});
+
+export type MltImportHistory = typeof mltImportHistory.$inferSelect;
+export type InsertMltImportHistory = z.infer<typeof insertMltImportHistorySchema>;

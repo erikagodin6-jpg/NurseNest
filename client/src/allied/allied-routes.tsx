@@ -14,6 +14,7 @@ const ParamedicScenarioPlayer = lazy(() => import("./pages/paramedic-scenario-pl
 const AlliedTools = lazy(() => import("./pages/allied-tools"));
 const AlliedPricing = lazy(() => import("./pages/allied-pricing"));
 const AlliedAdmin = lazy(() => import("./pages/allied-admin"));
+const MltAdmin = lazy(() => import("./pages/mlt-admin"));
 const AlliedSeoLanding = lazy(() => import("./pages/allied-seo-landing"));
 const AlliedDiagnostic = lazy(() => import("./pages/allied-diagnostic"));
 const AlliedInstitutions = lazy(() => import("./pages/allied-institutions"));
@@ -70,6 +71,16 @@ export function AlliedRoutes() {
         <Route path="/paramedic/compare/:slug" component={ParamedicComparisonPage} />
         <Route path="/paramedic/study-guide/:slug" component={ParamedicStudyGuidePage} />
         <Route path="/paramedic/exam-prep/:slug" component={ParamedicExamPrepPage} />
+        <Route path="/admin/mlt" component={MltAdmin} />
+        <Route path="/admin/mlt/questions" component={MltAdmin} />
+        <Route path="/admin/mlt/flashcards" component={MltAdmin} />
+        <Route path="/admin/mlt/lessons" component={MltAdmin} />
+        <Route path="/admin/mlt/exams" component={MltAdmin} />
+        <Route path="/admin/mlt/uploads" component={MltAdmin} />
+        <Route path="/admin/mlt/seo" component={MltAdmin} />
+        <Route path="/admin/mlt/publish" component={MltAdmin} />
+        <Route path="/admin/mlt/import" component={MltAdmin} />
+        <Route path="/admin/mlt/import/history" component={MltAdmin} />
         <Route path="/pharmacy-technician-practice-questions">{() => <AlliedSeoLanding pageSlug="pharmacy-technician-practice-questions" />}</Route>
         <Route path="/pharmacy-technician-mock-exam">{() => <AlliedSeoLanding pageSlug="pharmacy-technician-mock-exam" />}</Route>
         <Route path="/pharmacy-technician-study-guide">{() => <AlliedSeoLanding pageSlug="pharmacy-technician-study-guide" />}</Route>
