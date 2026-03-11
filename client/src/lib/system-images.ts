@@ -25,20 +25,31 @@ import illustrationTracheostomy from "@/assets/lesson-tracheostomy.png";
 
 import illustrationParkinsons from "@/assets/lesson-parkinsons.png";
 import illustrationMS from "@/assets/lesson-ms.png";
+import illustrationMSV2 from "@/assets/lesson-multiple-sclerosis-new.png";
 import illustrationStroke from "@/assets/lesson-stroke.png";
 import illustrationBrainAbscess from "@/assets/lesson-brain-abscess.png";
 import illustrationBrainAbscessV2 from "@/assets/lesson-brain-abscess-new.png";
 import illustrationDeliriumDementia from "@/assets/lesson-delirium-dementia.png";
+import illustrationDeliriumDementiaV2 from "@/assets/lesson-delirium-dementia-new.png";
 import illustrationAcuteDystonicReaction from "@/assets/lesson-acute-dystonic-reaction.png";
 import illustrationALS from "@/assets/lesson-als.png";
 import illustrationAlzheimers from "@/assets/lesson-alzheimers.png";
 import illustrationCranialNerves from "@/assets/lesson-cranial-nerves.png";
+import illustrationCranialNervesV2 from "@/assets/lesson-cranial-nerves-new.png";
+import illustrationCranialNervePathology from "@/assets/lesson-cranial-nerve-pathology.png";
 import illustrationTrigeminalNeuralgia from "@/assets/lesson-trigeminal-neuralgia.png";
 import illustrationICP from "@/assets/lesson-icp.png";
+import illustrationICPV2 from "@/assets/lesson-icp-new.png";
 import illustrationCarpalTunnel from "@/assets/lesson-carpal-tunnel.png";
+import illustrationCarpalTunnelV2 from "@/assets/lesson-carpal-tunnel-new.png";
 import illustrationCerebralEdema from "@/assets/lesson-cerebral-edema.png";
+import illustrationCerebralEdemaV2 from "@/assets/lesson-cerebral-edema-new.png";
 import illustrationMyastheniaGravis from "@/assets/lesson-myasthenia-gravis.png";
 import illustrationConcussion from "@/assets/lesson-concussion.png";
+import illustrationConcussionV2 from "@/assets/lesson-concussion-new.png";
+import illustrationFebrileSeizures from "@/assets/lesson-febrile-seizures.png";
+import illustrationHydrocephalus from "@/assets/lesson-hydrocephalus.png";
+import illustrationKorsakoffSyndrome from "@/assets/lesson-korsakoff-syndrome.png";
 import illustrationBellsPalsy from "@/assets/lesson-bells-palsy.png";
 import illustrationBellsPalsyV2 from "@/assets/lesson-bells-palsy-new.png";
 import illustrationCysticFibrosis from "@/assets/lesson-cystic-fibrosis.png";
@@ -179,11 +190,16 @@ import illustrationFatEmbolism from "@/assets/lesson-fat-embolism.png";
 import illustrationCOPDPathology from "@/assets/lesson-copd-pathology.png";
 
 import illustrationHypoventilation from "@/assets/lesson-hypoventilation.png";
+import illustrationHypoventilationV2 from "@/assets/lesson-hypoventilation-new.png";
 import illustrationIncentiveSpirometry from "@/assets/lesson-incentive-spirometry.png";
+import illustrationIncentiveSpirometryV2 from "@/assets/lesson-incentive-spirometry-new.png";
 import illustrationInhaledSpacers from "@/assets/lesson-inhaled-spacers.png";
+import illustrationInhaledSpacersV2 from "@/assets/lesson-inhaled-spacers-new.png";
 import illustrationMalignantHyperthermiaNew from "@/assets/lesson-malignant-hyperthermia-new.png";
+import illustrationMalignantHyperthermiaV2 from "@/assets/lesson-malignant-hyperthermia-new2.png";
 import illustrationOxygenTherapy from "@/assets/lesson-oxygen-therapy.png";
 import illustrationOxygenTherapyV2 from "@/assets/lesson-oxygen-therapy-new.png";
+import illustrationOxygenTherapyV3 from "@/assets/lesson-oxygen-therapy-new2.png";
 import illustrationPeakFlow from "@/assets/lesson-peak-flow.png";
 import illustrationPeakFlowV2 from "@/assets/lesson-peak-flow-new.png";
 import illustrationPertussisNew from "@/assets/lesson-pertussis.jpeg";
@@ -235,6 +251,7 @@ import illustrationShinglesDermatome from "@/assets/lesson-shingles-dermatome.pn
 import illustrationCellulitisPatho from "@/assets/lesson-cellulitis-patho.png";
 import illustrationCompartmentSyndrome from "@/assets/lesson-compartment-syndrome.png";
 import illustrationGBSPatho from "@/assets/lesson-gbs-patho.png";
+import illustrationGuillainBarreV2 from "@/assets/lesson-guillain-barre-new.png";
 
 import illustrationARDSPatho from "@/assets/lesson-ards-patho.png";
 import illustrationPneumoniaPatho from "@/assets/lesson-pneumonia-patho.png";
@@ -373,8 +390,8 @@ const lessonSpecificImages: Record<string, string> = {
   "increased-icp-np": illustrationICP,
   "parkinsons-disease": illustrationParkinsons,
   "parkinsons": illustrationParkinsons,
-  "multiple-sclerosis": illustrationMS,
-  "ms-management": illustrationMS,
+  "multiple-sclerosis": illustrationMSV2,
+  "ms-management": illustrationMSV2,
   "brain-abscess": illustrationBrainAbscessV2,
   "acute-dystonic-reaction-rpn": illustrationAcuteDystonicReaction,
   "acute-dystonic-reaction": illustrationAcuteDystonicReaction,
@@ -385,18 +402,19 @@ const lessonSpecificImages: Record<string, string> = {
   "alzheimer-disease-rpn": illustrationAlzheimers,
   "alzheimer-disease-rn": illustrationAlzheimers,
   "alzheimer-disease-np": illustrationAlzheimers,
-  "delirium-vs-dementia": illustrationDeliriumDementia,
-  "delirium": illustrationDeliriumDementia,
-  "dementia-care": illustrationDeliriumDementia,
-  "cranial-nerve-assessment": illustrationCranialNerves,
-  "cranial-nerves": illustrationCranialNerves,
+  "delirium-vs-dementia": illustrationDeliriumDementiaV2,
+  "delirium": illustrationDeliriumDementiaV2,
+  "dementia-care": illustrationDeliriumDementiaV2,
+  "cranial-nerve-assessment": illustrationCranialNervesV2,
+  "cranial-nerves": illustrationCranialNervesV2,
+  "cranial-nerve-pathology": illustrationCranialNervePathology,
   "trigeminal-neuralgia": illustrationTrigeminalNeuralgia,
-  "carpal-tunnel": illustrationCarpalTunnel,
-  "carpal-tunnel-syndrome": illustrationCarpalTunnel,
-  "cerebral-edema": illustrationCerebralEdema,
+  "carpal-tunnel": illustrationCarpalTunnelV2,
+  "carpal-tunnel-syndrome": illustrationCarpalTunnelV2,
+  "cerebral-edema": illustrationCerebralEdemaV2,
   "myasthenia-gravis": illustrationMyastheniaGravis,
-  "concussion": illustrationConcussion,
-  "concussion-management": illustrationConcussion,
+  "concussion": illustrationConcussionV2,
+  "concussion-management": illustrationConcussionV2,
   "tbi-management": illustrationConcussion,
   "bells-palsy": illustrationBellsPalsyV2,
   "cp-management": illustrationCerebralEdema,
@@ -417,12 +435,12 @@ const lessonSpecificImages: Record<string, string> = {
   "fat-embolism": illustrationFatEmbolism,
   "fat-embolism-syndrome": illustrationFatEmbolism,
   "compartment-syndrome": illustrationGangrene,
-  "malignant-hyperthermia": illustrationMalignantHyperthermiaNew,
+  "malignant-hyperthermia": illustrationMalignantHyperthermiaV2,
   "psoriasis": illustrationAtopicDermatitis2,
   "eczema-atopic-dermatitis": illustrationAtopicDermatitis,
   "herpes-zoster-shingles": illustrationShingles,
   "ards-management": illustrationAsthma,
-  "oxygen-therapy": illustrationOxygenTherapyV2,
+  "oxygen-therapy": illustrationOxygenTherapyV3,
   "oxygen-delivery": illustrationOxygenTherapyV2,
   "pneumothorax": illustrationPneumothorax,
   "tension-pneumothorax": illustrationPneumothorax,
@@ -449,14 +467,14 @@ const lessonSpecificImages: Record<string, string> = {
   "rsv-basics": illustrationRSVNew,
   "hemoptysis": illustrationHemoptysis,
   "hemoptysis-management": illustrationHemoptysis,
-  "hypoventilation": illustrationHypoventilation,
-  "hypoventilation-syndrome": illustrationHypoventilation,
+  "hypoventilation": illustrationHypoventilationV2,
+  "hypoventilation-syndrome": illustrationHypoventilationV2,
   "obesity-hypoventilation": illustrationHypoventilation,
-  "incentive-spirometry": illustrationIncentiveSpirometry,
-  "spirometry": illustrationIncentiveSpirometry,
-  "inhaled-spacers": illustrationInhaledSpacers,
-  "inhaler-technique": illustrationInhaledSpacers,
-  "mdi-spacer": illustrationInhaledSpacers,
+  "incentive-spirometry": illustrationIncentiveSpirometryV2,
+  "spirometry": illustrationIncentiveSpirometryV2,
+  "inhaled-spacers": illustrationInhaledSpacersV2,
+  "inhaler-technique": illustrationInhaledSpacersV2,
+  "mdi-spacer": illustrationInhaledSpacersV2,
   "peak-flow": illustrationPeakFlowV2,
   "peak-flow-monitoring": illustrationPeakFlowV2,
   "asthma-action-plan": illustrationPeakFlowV2,
@@ -578,11 +596,20 @@ const lessonSpecificImages: Record<string, string> = {
   "lung-auscultation": illustrationRespiratoryAnatomy,
   "oxygen-therapy-basics": illustrationRespiratoryAnatomy,
   "osa-management": illustrationRespiratoryAnatomy,
-  "inhaled-spacers": illustrationRespiratoryAnatomy,
+  "inhaled-spacers": illustrationInhaledSpacersV2,
   "peak-flow-monitoring-rpn": illustrationRespiratoryAnatomy,
   "spinal-cord-injury": illustrationNeurologicalAnatomy,
   "status-epilepticus": illustrationNeurologicalAnatomy,
-  "guillain-barre": illustrationNeurologicalAnatomy,
+  "febrile-seizure": illustrationFebrileSeizures,
+  "febrile-seizures-rpn": illustrationFebrileSeizures,
+  "febrile-seizures-rn": illustrationFebrileSeizures,
+  "febrile-seizures-np": illustrationFebrileSeizures,
+  "hydrocephalus": illustrationHydrocephalus,
+  "hydrocephalus-basics-rpn": illustrationHydrocephalus,
+  "korsakoff-syndrome-rpn": illustrationKorsakoffSyndrome,
+  "korsakoff-syndrome": illustrationKorsakoffSyndrome,
+  "wernicke-korsakoff": illustrationKorsakoffSyndrome,
+  "guillain-barre": illustrationGuillainBarreV2,
   "meningitis": illustrationNeurologicalAnatomy,
   "als-management": illustrationNeurologicalAnatomy,
   "abdominal-assessment": illustrationGIAnatomy,
@@ -718,7 +745,7 @@ const lessonSpecificImages: Record<string, string> = {
 
   "pulmonary-embolism": illustrationPEPatho,
 
-  "icp-basics": illustrationICPPatho,
+  "icp-basics": illustrationICPV2,
 
   "preeclampsia-eclampsia": illustrationPreeclampsiaPatho,
   "gestational-hypertension": illustrationPreeclampsiaPatho,
@@ -740,8 +767,8 @@ const lessonSpecificImages: Record<string, string> = {
 
   "compartment-syndrome-management": illustrationCompartmentSyndrome,
 
-  "guillain-barre-syndrome": illustrationGBSPatho,
-  "gbs-management": illustrationGBSPatho,
+  "guillain-barre-syndrome": illustrationGuillainBarreV2,
+  "gbs-management": illustrationGuillainBarreV2,
 
   "ards-basics": illustrationARDSPatho,
 
@@ -832,7 +859,7 @@ const lessonSpecificImages: Record<string, string> = {
   "fetal-monitoring-basics-rpn": illustrationFetalMonitoringPatho,
   "fetal-monitoring": illustrationFetalMonitoringPatho,
 
-  "malignant-hyperthermia-management": illustrationMalignantHyperthermia,
+  "malignant-hyperthermia-management": illustrationMalignantHyperthermiaV2,
 
   "shock-types-recognition-rpn": illustrationShockTypesV2,
   "shock-types": illustrationShockTypesV2,
@@ -1027,21 +1054,25 @@ export function getSystemImage(systemId: string): string | undefined {
 export function getLessonImage(lessonId: string): string | undefined {
   if (lessonSpecificImages[lessonId]) return lessonSpecificImages[lessonId];
   if (lessonId.includes("parkinson")) return illustrationParkinsons;
-  if (lessonId.includes("multiple-sclerosis") || lessonId === "ms-management") return illustrationMS;
+  if (lessonId.includes("multiple-sclerosis") || lessonId === "ms-management") return illustrationMSV2;
   if (lessonId.includes("stroke")) return illustrationStroke;
   if (lessonId.includes("bells-palsy")) return illustrationBellsPalsyV2;
   if (lessonId.includes("dystonic")) return illustrationAcuteDystonicReaction;
   if (lessonId.includes("als-") || lessonId === "als") return illustrationALS;
   if (lessonId.includes("alzheimer")) return illustrationAlzheimers;
   if (lessonId.includes("myasthenia")) return illustrationMyastheniaGravis;
-  if (lessonId.includes("concussion") || lessonId.includes("tbi")) return illustrationConcussion;
-  if (lessonId.includes("carpal-tunnel")) return illustrationCarpalTunnel;
+  if (lessonId.includes("concussion") || lessonId.includes("tbi")) return illustrationConcussionV2;
+  if (lessonId.includes("carpal-tunnel")) return illustrationCarpalTunnelV2;
   if (lessonId.includes("trigeminal")) return illustrationTrigeminalNeuralgia;
-  if (lessonId.includes("cranial-nerve")) return illustrationCranialNerves;
-  if (lessonId.includes("delirium") || lessonId.includes("dementia")) return illustrationDeliriumDementia;
-  if (lessonId.includes("cerebral-edema")) return illustrationCerebralEdema;
+  if (lessonId.includes("cranial-nerve")) return illustrationCranialNervesV2;
+  if (lessonId.includes("delirium") || lessonId.includes("dementia")) return illustrationDeliriumDementiaV2;
+  if (lessonId.includes("cerebral-edema")) return illustrationCerebralEdemaV2;
   if (lessonId.includes("brain-abscess")) return illustrationBrainAbscessV2;
-  if (lessonId.includes("icp")) return illustrationICP;
+  if (lessonId.includes("icp")) return illustrationICPV2;
+  if (lessonId.includes("febrile-seizure")) return illustrationFebrileSeizures;
+  if (lessonId.includes("hydrocephalus")) return illustrationHydrocephalus;
+  if (lessonId.includes("korsakoff")) return illustrationKorsakoffSyndrome;
+  if (lessonId.includes("guillain-barre") || lessonId.includes("gbs")) return illustrationGuillainBarreV2;
   if (lessonId.includes("cystic-fibrosis") || lessonId === "cf-management") return illustrationCysticFibrosis;
   if (lessonId.includes("pertussis") || lessonId.includes("whooping")) return illustrationPertussisV2;
   if (lessonId.includes("bronchiect")) return illustrationBronchiectasis;
@@ -1100,13 +1131,13 @@ export function getLessonImage(lessonId: string): string | undefined {
   if (lessonId.includes("conduction-system") || lessonId.includes("cardiac-conduction")) return illustrationConductionSystemV2;
   if (lessonId.includes("abg") || lessonId.includes("acid-base")) return illustrationABGReferenceNew;
   if (lessonId.includes("copd") || lessonId.includes("emphysema")) return illustrationCOPDPathology;
-  if (lessonId.includes("hypoventilation")) return illustrationHypoventilation;
-  if (lessonId.includes("spirometry")) return illustrationIncentiveSpirometry;
-  if (lessonId.includes("spacer") || lessonId.includes("inhaler")) return illustrationInhaledSpacers;
+  if (lessonId.includes("hypoventilation")) return illustrationHypoventilationV2;
+  if (lessonId.includes("spirometry")) return illustrationIncentiveSpirometryV2;
+  if (lessonId.includes("spacer") || lessonId.includes("inhaler")) return illustrationInhaledSpacersV2;
   if (lessonId.includes("peak-flow")) return illustrationPeakFlowV2;
-  if (lessonId.includes("oxygen-therapy") || lessonId.includes("oxygen-delivery")) return illustrationOxygenTherapyV2;
+  if (lessonId.includes("oxygen-therapy") || lessonId.includes("oxygen-delivery")) return illustrationOxygenTherapyV3;
   if (lessonId.includes("pulmonary-embolism") || lessonId.includes("pe-")) return illustrationPulmonaryEmbolismV2;
-  if (lessonId.includes("malignant-hyperthermia")) return illustrationMalignantHyperthermiaNew;
+  if (lessonId.includes("malignant-hyperthermia")) return illustrationMalignantHyperthermiaV2;
   if (lessonId.includes("pertussis") || lessonId.includes("whooping")) return illustrationPertussisV2;
   if (lessonId.includes("pleurisy") || lessonId.includes("pleural")) return illustrationPleurisyV2;
   if (lessonId.includes("pneumothorax")) return illustrationPneumothorax;
