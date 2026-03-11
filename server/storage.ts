@@ -1,4 +1,4 @@
-import { type User, type InsertUser, type Note, type InsertNote, type TestResult, type InsertTestResult, type UserProgress, type InsertUserProgress, type ContentItem, type InsertContentItem, type FeatureUsage, type UserFlashcard, type InsertUserFlashcard, type BlogConfig, type PageView, type InsertPageView, type UserFeedback, type InsertUserFeedback, type QotdHistory, type EmailSubscriber, type InsertEmailSubscriber, type SocialPost, type InsertSocialPost, type DashboardWidget, type InsertDashboardWidget, type SiteImage, type InsertSiteImage, type CustomPageModule, type InsertCustomPageModule, type AudioClip, type InsertAudioClip, type LessonAudioLink, type InsertLessonAudioLink, type ExamQuestion, type InsertExamQuestion, type QuestionTypeRegistryEntry, type InsertQuestionTypeRegistryEntry, type QuestionScheduleLog, type DigitalProduct, type InsertDigitalProduct, type ProductPurchase, type InsertProductPurchase, type QbankDraft, type InsertQbankDraft, type QbankRecipe, type InsertQbankRecipe, type DiagnosticAssessment, type InsertDiagnosticAssessment, type UserStats, type InsertUserStats, type StudyGroup, type InsertStudyGroup, type StudyGroupMember, type InsertStudyGroupMember, type QuestionAnalytics, type InsertQuestionAnalytics, type FriendRequest, type InsertFriendRequest, type FriendConnection, type InsertFriendConnection, type ProductGeneration, type InsertProductGeneration, type GeneratedQuestion, type InsertGeneratedQuestion, type GeneratorV2PresentationSettings, type InsertGeneratorV2PresentationSettings, type TesterInviteCode, type InsertTesterInviteCode, type TesterFeedback, type InsertTesterFeedback, type ImagingQuestion, type InsertImagingQuestion, type ImageAsset, type InsertImageAsset, type ImagingFlashcard, type InsertImagingFlashcard, type ImagingCaseStudy, type InsertImagingCaseStudy, type ImagingExamAttempt, type InsertImagingExamAttempt, type ImagingExamAttemptQuestion, type InsertImagingExamAttemptQuestion, type ImagingPositioningEntry, type InsertImagingPositioningEntry, type ImagingPhysicsTopic, type InsertImagingPhysicsTopic, type QuestionBankItem, type InsertQuestionBankItem, type QuestionBankResult, type InsertQuestionBankResult, users, notes, testResults, userProgress, contentItems, featureUsage, userFlashcards, blogConfig, pageViews, userFeedback, qotdHistory, emailSubscribers, socialPosts, dashboardWidgets, siteImages, customPageModules, audioClips, lessonAudioLinks, examQuestions, questionTypeRegistry, questionScheduleLog, digitalProducts, productPurchases, couponCodes, qbankDrafts, qbankRecipes, diagnosticAssessments, userStats, studyGroups, studyGroupMembers, questionAnalytics, friendRequests, friendConnections, productGenerations, generatedQuestions, generatorV2PresentationSettings, generationEvents, v2ContentBlocks, testerInviteCodes, testerFeedback, imagingQuestions, imageAssets, imagingFlashcards, imagingCaseStudies, imagingExamAttempts, imagingExamAttemptQuestions, imagingPositioningEntries, imagingPhysicsTopics, questionBank, questionBankResults } from "@shared/schema";
+import { type User, type InsertUser, type Note, type InsertNote, type TestResult, type InsertTestResult, type UserProgress, type InsertUserProgress, type ContentItem, type InsertContentItem, type FeatureUsage, type UserFlashcard, type InsertUserFlashcard, type BlogConfig, type PageView, type InsertPageView, type UserFeedback, type InsertUserFeedback, type QotdHistory, type EmailSubscriber, type InsertEmailSubscriber, type SocialPost, type InsertSocialPost, type DashboardWidget, type InsertDashboardWidget, type SiteImage, type InsertSiteImage, type CustomPageModule, type InsertCustomPageModule, type AudioClip, type InsertAudioClip, type LessonAudioLink, type InsertLessonAudioLink, type ExamQuestion, type InsertExamQuestion, type QuestionTypeRegistryEntry, type InsertQuestionTypeRegistryEntry, type QuestionScheduleLog, type DigitalProduct, type InsertDigitalProduct, type ProductPurchase, type InsertProductPurchase, type QbankDraft, type InsertQbankDraft, type QbankRecipe, type InsertQbankRecipe, type DiagnosticAssessment, type InsertDiagnosticAssessment, type UserStats, type InsertUserStats, type StudyGroup, type InsertStudyGroup, type StudyGroupMember, type InsertStudyGroupMember, type QuestionAnalytics, type InsertQuestionAnalytics, type FriendRequest, type InsertFriendRequest, type FriendConnection, type InsertFriendConnection, type ProductGeneration, type InsertProductGeneration, type GeneratedQuestion, type InsertGeneratedQuestion, type GeneratorV2PresentationSettings, type InsertGeneratorV2PresentationSettings, type TesterInviteCode, type InsertTesterInviteCode, type TesterFeedback, type InsertTesterFeedback, type MltLabImage, type InsertMltLabImage, type MltLabImageLink, type InsertMltLabImageLink, type MltImageDrillAttempt, type InsertMltImageDrillAttempt, type ImagingQuestion, type InsertImagingQuestion, type ImageAsset, type InsertImageAsset, type ImagingFlashcard, type InsertImagingFlashcard, type ImagingCaseStudy, type InsertImagingCaseStudy, type ImagingExamAttempt, type InsertImagingExamAttempt, type ImagingExamAttemptQuestion, type InsertImagingExamAttemptQuestion, type ImagingPositioningEntry, type InsertImagingPositioningEntry, type ImagingPhysicsTopic, type InsertImagingPhysicsTopic, type QuestionBankItem, type InsertQuestionBankItem, type QuestionBankResult, type InsertQuestionBankResult, users, notes, testResults, userProgress, contentItems, featureUsage, userFlashcards, blogConfig, pageViews, userFeedback, qotdHistory, emailSubscribers, socialPosts, dashboardWidgets, siteImages, customPageModules, audioClips, lessonAudioLinks, examQuestions, questionTypeRegistry, questionScheduleLog, digitalProducts, productPurchases, couponCodes, qbankDrafts, qbankRecipes, diagnosticAssessments, userStats, studyGroups, studyGroupMembers, questionAnalytics, friendRequests, friendConnections, productGenerations, generatedQuestions, generatorV2PresentationSettings, generationEvents, v2ContentBlocks, testerInviteCodes, testerFeedback, imagingQuestions, imageAssets, imagingFlashcards, imagingCaseStudies, imagingExamAttempts, imagingExamAttemptQuestions, imagingPositioningEntries, imagingPhysicsTopics, questionBank, questionBankResults, mltLabImages, mltLabImageLinks, mltImageDrillAttempts } from "@shared/schema";
 import { drizzle } from "drizzle-orm/node-postgres";
 import { eq, and, desc, sql, lte, ne, ilike, gte, count } from "drizzle-orm";
 import pg from "pg";
@@ -219,6 +219,19 @@ export interface IStorage {
   createQuestionBankResult(result: InsertQuestionBankResult): Promise<QuestionBankResult>;
   getUserQuestionBankResults(userId: string): Promise<QuestionBankResult[]>;
   getQuestionBankAnalytics(): Promise<{ category: string; difficulty: string; totalAttempts: number; correctRate: number }[]>;
+
+  getAllMltLabImages(filters?: { discipline?: string; imageType?: string; status?: string; approvalExam?: boolean; approvalLesson?: boolean }): Promise<MltLabImage[]>;
+  getMltLabImage(id: string): Promise<MltLabImage | undefined>;
+  createMltLabImage(image: InsertMltLabImage): Promise<MltLabImage>;
+  updateMltLabImage(id: string, updates: Partial<InsertMltLabImage>): Promise<MltLabImage>;
+  deleteMltLabImage(id: string): Promise<void>;
+  getMltLabImageLinks(imageId: string): Promise<MltLabImageLink[]>;
+  getMltLabImageLinksForTarget(linkedType: string, linkedId: string): Promise<(MltLabImageLink & { image: MltLabImage })[]>;
+  createMltLabImageLink(link: InsertMltLabImageLink): Promise<MltLabImageLink>;
+  deleteMltLabImageLink(id: string): Promise<void>;
+  createMltImageDrillAttempt(attempt: InsertMltImageDrillAttempt): Promise<MltImageDrillAttempt>;
+  getUserMltImageDrillAttempts(userId: string): Promise<MltImageDrillAttempt[]>;
+  updateMltImageDrillAttempt(id: string, updates: Partial<InsertMltImageDrillAttempt>): Promise<MltImageDrillAttempt>;
 }
 
 const pool = new pg.Pool({ connectionString: process.env.DATABASE_URL });
@@ -1557,6 +1570,76 @@ export class DatabaseStorage implements IStorage {
       });
     }
     return output.sort((a, b) => a.category.localeCompare(b.category));
+  }
+
+  async getAllMltLabImages(filters?: { discipline?: string; imageType?: string; status?: string; approvalExam?: boolean; approvalLesson?: boolean }): Promise<MltLabImage[]> {
+    const conditions: any[] = [];
+    if (filters?.discipline) conditions.push(eq(mltLabImages.discipline, filters.discipline));
+    if (filters?.imageType) conditions.push(eq(mltLabImages.imageType, filters.imageType));
+    if (filters?.status) conditions.push(eq(mltLabImages.status, filters.status));
+    if (filters?.approvalExam !== undefined) conditions.push(eq(mltLabImages.approvalExam, filters.approvalExam));
+    if (filters?.approvalLesson !== undefined) conditions.push(eq(mltLabImages.approvalLesson, filters.approvalLesson));
+    if (conditions.length > 0) {
+      return db.select().from(mltLabImages).where(and(...conditions)).orderBy(desc(mltLabImages.createdAt));
+    }
+    return db.select().from(mltLabImages).orderBy(desc(mltLabImages.createdAt));
+  }
+
+  async getMltLabImage(id: string): Promise<MltLabImage | undefined> {
+    const [img] = await db.select().from(mltLabImages).where(eq(mltLabImages.id, id));
+    return img;
+  }
+
+  async createMltLabImage(image: InsertMltLabImage): Promise<MltLabImage> {
+    const [created] = await db.insert(mltLabImages).values(image).returning();
+    return created;
+  }
+
+  async updateMltLabImage(id: string, updates: Partial<InsertMltLabImage>): Promise<MltLabImage> {
+    const [updated] = await db.update(mltLabImages).set({ ...updates, updatedAt: new Date() }).where(eq(mltLabImages.id, id)).returning();
+    return updated;
+  }
+
+  async deleteMltLabImage(id: string): Promise<void> {
+    await db.delete(mltLabImageLinks).where(eq(mltLabImageLinks.imageId, id));
+    await db.delete(mltLabImages).where(eq(mltLabImages.id, id));
+  }
+
+  async getMltLabImageLinks(imageId: string): Promise<MltLabImageLink[]> {
+    return db.select().from(mltLabImageLinks).where(eq(mltLabImageLinks.imageId, imageId)).orderBy(mltLabImageLinks.sortOrder);
+  }
+
+  async getMltLabImageLinksForTarget(linkedType: string, linkedId: string): Promise<(MltLabImageLink & { image: MltLabImage })[]> {
+    const links = await db.select().from(mltLabImageLinks).where(and(eq(mltLabImageLinks.linkedType, linkedType), eq(mltLabImageLinks.linkedId, linkedId))).orderBy(mltLabImageLinks.sortOrder);
+    const results: (MltLabImageLink & { image: MltLabImage })[] = [];
+    for (const link of links) {
+      const [img] = await db.select().from(mltLabImages).where(eq(mltLabImages.id, link.imageId));
+      if (img) results.push({ ...link, image: img });
+    }
+    return results;
+  }
+
+  async createMltLabImageLink(link: InsertMltLabImageLink): Promise<MltLabImageLink> {
+    const [created] = await db.insert(mltLabImageLinks).values(link).returning();
+    return created;
+  }
+
+  async deleteMltLabImageLink(id: string): Promise<void> {
+    await db.delete(mltLabImageLinks).where(eq(mltLabImageLinks.id, id));
+  }
+
+  async createMltImageDrillAttempt(attempt: InsertMltImageDrillAttempt): Promise<MltImageDrillAttempt> {
+    const [created] = await db.insert(mltImageDrillAttempts).values(attempt).returning();
+    return created;
+  }
+
+  async getUserMltImageDrillAttempts(userId: string): Promise<MltImageDrillAttempt[]> {
+    return db.select().from(mltImageDrillAttempts).where(eq(mltImageDrillAttempts.userId, userId)).orderBy(desc(mltImageDrillAttempts.createdAt));
+  }
+
+  async updateMltImageDrillAttempt(id: string, updates: Partial<InsertMltImageDrillAttempt>): Promise<MltImageDrillAttempt> {
+    const [updated] = await db.update(mltImageDrillAttempts).set(updates).where(eq(mltImageDrillAttempts.id, id)).returning();
+    return updated;
   }
 }
 

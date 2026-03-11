@@ -177,6 +177,17 @@ The MLT (Medical Laboratory Technology) section provides country-specific exam p
 - SEO components in `client/src/allied/components/paramedic-seo-components.tsx`
 - Server routes in `server/paramedic-seo.ts`
 
+## MLT Lab Image & Microscopy System
+- **DB Tables**: `mlt_lab_images` (image metadata with 16 image types across 12 disciplines), `mlt_lab_image_links` (relational linking to questions/flashcards/lessons), `mlt_image_drill_attempts` (user drill practice history)
+- **Admin Image Library**: `/admin/mlt/images` — upload, metadata editing, discipline/tag/stain-type assignment, approval status (exam/lesson/flashcard/public), search/filter, bulk operations
+- **Image Types**: hematology_cell_morphology, microbiology_gram_stain, microbiology_colony_morphology, urinalysis_sediment, urinalysis_chemical, blood_bank_reactions, blood_bank_antibody_panel, clinical_chemistry_qc, clinical_chemistry_electrophoresis, coagulation, parasitology, mycology, body_fluid_analysis, immunology_serology, molecular_diagnostics, specimen_processing
+- **Disciplines**: hematology, microbiology, urinalysis, blood_banking, clinical_chemistry, coagulation, parasitology, mycology, body_fluids, immunology, molecular, specimen_processing
+- **Components**: `LabImageViewer` (zoom, pan, fullscreen, mobile responsive, keyboard accessible, skeleton loading), `AnnotatedImageViewer` (pin markers, tooltips, numbered callouts, show/hide toggle, exam mode hidden annotations), `SideBySideViewer`, `ImageLayout` (single/side-by-side/stacked/image-plus-table)
+- **Image Drill Modes**: `/mlt/image-drill` and `/careers/mlt/image-drill` — 10 drill types (identify_cell, identify_organism, identify_crystal, identify_cast, identify_artifact, identify_stain, identify_colony, identify_reaction, qc_issue, specimen_rejection)
+- **API Routes**: `GET/POST/PATCH/DELETE /api/mlt/lab-images`, `POST /api/mlt/lab-images/upload`, `POST /api/mlt/lab-images/bulk-update`, `GET/POST/DELETE /api/mlt/lab-image-links`, `GET /api/mlt/lab-images/meta`, `GET /api/mlt/image-drill/images`, `POST /api/mlt/image-drill/attempt`, `GET /api/mlt/image-drill/history`
+- **Upload**: Multer-based with file type validation (JPEG, PNG, WebP, TIFF), 20MB size limit, object storage integration
+- **Seeded**: 12 placeholder lab image records with rich metadata (cells, organisms, crystals, casts, QC charts) for admin replacement
+
 ## Blog Batch Generator
 - `POST /api/blog/generate-batch` generates blog posts via OpenAI (gpt-4o-mini, 16k tokens)
 - Frontend sends topics one-at-a-time to avoid HTTP timeout (each post takes ~30s)

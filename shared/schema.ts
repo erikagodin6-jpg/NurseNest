@@ -3060,3 +3060,125 @@ export const insertMltImportHistorySchema = createInsertSchema(mltImportHistory)
 
 export type MltImportHistory = typeof mltImportHistory.$inferSelect;
 export type InsertMltImportHistory = z.infer<typeof insertMltImportHistorySchema>;
+
+export const mltLabImages = pgTable("mlt_lab_images", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  imageUrl: text("image_url").notNull(),
+  thumbnailUrl: text("thumbnail_url"),
+  optimizedUrl: text("optimized_url"),
+  altText: text("alt_text"),
+  caption: text("caption"),
+  imageType: text("image_type").notNull().default("hematology_cell_morphology"),
+  discipline: text("discipline").notNull().default("hematology"),
+  specimen: text("specimen"),
+  stainType: text("stain_type"),
+  organism: text("organism"),
+  cellType: text("cell_type"),
+  crystalType: text("crystal_type"),
+  castType: text("cast_type"),
+  artifactType: text("artifact_type"),
+  annotationData: jsonb("annotation_data").default(sql`'[]'::jsonb`),
+  copyrightInfo: text("copyright_info"),
+  licenseType: text("license_type").default("internal"),
+  tags: text("tags").array().default(sql`'{}'::text[]`),
+  approvalExam: boolean("approval_exam").default(false),
+  approvalLesson: boolean("approval_lesson").default(false),
+  approvalFlashcard: boolean("approval_flashcard").default(false),
+  approvalPublic: boolean("approval_public").default(false),
+  qualityScore: integer("quality_score").default(0),
+  magnification: text("magnification"),
+  normalAbnormal: text("normal_abnormal").default("abnormal"),
+  clinicalSignificance: text("clinical_significance"),
+  fileName: text("file_name"),
+  fileSize: integer("file_size"),
+  width: integer("width"),
+  height: integer("height"),
+  mimeType: text("mime_type"),
+  uploadedBy: text("uploaded_by"),
+  status: text("status").notNull().default("pending"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export const insertMltLabImageSchema = createInsertSchema(mltLabImages).omit({ id: true, createdAt: true, updatedAt: true });
+export type MltLabImage = typeof mltLabImages.$inferSelect;
+export type InsertMltLabImage = z.infer<typeof insertMltLabImageSchema>;
+
+export const mltLabImageLinks = pgTable("mlt_lab_image_links", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  imageId: varchar("image_id").notNull(),
+  linkedType: text("linked_type").notNull(),
+  linkedId: varchar("linked_id").notNull(),
+  role: text("role").default("primary"),
+  layoutType: text("layout_type").default("single"),
+  sortOrder: integer("sort_order").default(0),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const insertMltLabImageLinkSchema = createInsertSchema(mltLabImageLinks).omit({ id: true, createdAt: true });
+export type MltLabImageLink = typeof mltLabImageLinks.$inferSelect;
+export type InsertMltLabImageLink = z.infer<typeof insertMltLabImageLinkSchema>;
+
+export const mltImageDrillAttempts = pgTable("mlt_image_drill_attempts", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id").notNull(),
+  drillType: text("drill_type").notNull(),
+  discipline: text("discipline").notNull(),
+  totalQuestions: integer("total_questions").notNull(),
+  correctCount: integer("correct_count").default(0),
+  timeSpent: integer("time_spent"),
+  answers: jsonb("answers").default(sql`'[]'::jsonb`),
+  completedAt: timestamp("completed_at"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const insertMltImageDrillAttemptSchema = createInsertSchema(mltImageDrillAttempts).omit({ id: true, createdAt: true });
+export type MltImageDrillAttempt = typeof mltImageDrillAttempts.$inferSelect;
+export type InsertMltImageDrillAttempt = z.infer<typeof insertMltImageDrillAttemptSchema>;
+
+export const MLT_IMAGE_TYPES = [
+  "hematology_cell_morphology",
+  "microbiology_gram_stain",
+  "microbiology_colony_morphology",
+  "urinalysis_sediment",
+  "urinalysis_chemical",
+  "blood_bank_reactions",
+  "blood_bank_antibody_panel",
+  "clinical_chemistry_qc",
+  "clinical_chemistry_electrophoresis",
+  "coagulation",
+  "parasitology",
+  "mycology",
+  "body_fluid_analysis",
+  "immunology_serology",
+  "molecular_diagnostics",
+  "specimen_processing",
+] as const;
+
+export const MLT_DISCIPLINES = [
+  "hematology",
+  "microbiology",
+  "urinalysis",
+  "blood_banking",
+  "clinical_chemistry",
+  "coagulation",
+  "parasitology",
+  "mycology",
+  "body_fluids",
+  "immunology",
+  "molecular",
+  "specimen_processing",
+] as const;
+
+export const MLT_DRILL_TYPES = [
+  "identify_cell",
+  "identify_organism",
+  "identify_crystal",
+  "identify_cast",
+  "identify_artifact",
+  "identify_stain",
+  "identify_colony",
+  "identify_reaction",
+  "qc_issue",
+  "specimen_rejection",
+] as const;

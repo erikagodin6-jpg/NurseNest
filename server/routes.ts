@@ -44,6 +44,12 @@ import {
   insertImagingExamAttemptQuestionSchema,
   insertImagingPositioningEntrySchema,
   insertImagingPhysicsTopicSchema,
+  insertMltLabImageSchema,
+  insertMltLabImageLinkSchema,
+  insertMltImageDrillAttemptSchema,
+  MLT_IMAGE_TYPES,
+  MLT_DISCIPLINES,
+  MLT_DRILL_TYPES,
 } from "@shared/schema";
 import { getUncachableStripeClient, getStripePublishableKey } from "./stripeClient";
 import { createPaypalOrder, capturePaypalOrder, loadPaypalDefault, isPaypalConfigured } from "./paypal";
@@ -14624,6 +14630,253 @@ Return ONLY valid JSON with this exact structure:
     } catch (e: any) {
       res.status(500).json({ error: e.message });
     }
+  });
+
+  // MLT Lab Image Library
+  const mltImageUpload = multer({
+    storage: multer.memoryStorage(),
+    limits: { fileSize: 20 * 1024 * 1024 },
+    fileFilter: (_req: any, file: any, cb: any) => {
+      const allowed = ["image/jpeg", "image/png", "image/webp", "image/tiff"];
+      if (allowed.includes(file.mimetype)) cb(null, true);
+      else cb(new Error("Only JPEG, PNG, WebP, and TIFF images are allowed"));
+    },
+  });
+
+  app.get("/api/mlt/lab-images", async (req, res) => {
+    try {
+      const { discipline, imageType, status, approvalExam, approvalLesson } = req.query;
+      const filters: any = {};
+      if (discipline) filters.discipline = String(discipline);
+      if (imageType) filters.imageType = String(imageType);
+      if (status) filters.status = String(status);
+      if (approvalExam !== undefined) filters.approvalExam = approvalExam === "true";
+      if (approvalLesson !== undefined) filters.approvalLesson = approvalLesson === "true";
+      const images = await storage.getAllMltLabImages(filters);
+      res.json(images);
+    } catch (e: any) { res.status(500).json({ error: e.message }); }
+  });
+
+  app.get("/api/mlt/lab-images/meta", (_req, res) => {
+    res.json({ imageTypes: MLT_IMAGE_TYPES, disciplines: MLT_DISCIPLINES, drillTypes: MLT_DRILL_TYPES });
+  });
+
+  app.get("/api/mlt/lab-images/:id", async (req, res) => {
+    try {
+      const img = await storage.getMltLabImage(req.params.id);
+      if (!img) return res.status(404).json({ error: "Not found" });
+      res.json(img);
+    } catch (e: any) { res.status(500).json({ error: e.message }); }
+  });
+
+  app.post("/api/mlt/lab-images", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const parsed = insertMltLabImageSchema.parse(req.body);
+      const img = await storage.createMltLabImage(parsed);
+      await logAudit(req, admin, "mlt_lab_image", img.id, "create", null, img);
+      res.status(201).json(img);
+    } catch (e: any) { res.status(400).json({ error: e.message }); }
+  });
+
+  app.post("/api/mlt/lab-images/upload", mltImageUpload.single("image"), async (req: any, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      if (!req.file) return res.status(400).json({ error: "No image file provided" });
+      const file = req.file;
+      const ext = file.originalname.split(".").pop()?.toLowerCase() || "jpg";
+      const uniqueName = `mlt-lab-${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
+      const objectPath = `public/mlt-lab-images/${uniqueName}`;
+
+      let bucketId = process.env.REPLIT_DEFAULT_BUCKET_ID;
+      if (!bucketId) {
+        const searchPaths = process.env.PUBLIC_OBJECT_SEARCH_PATHS;
+        if (searchPaths) {
+          try {
+            const parsed = JSON.parse(searchPaths);
+            if (parsed.length > 0) {
+              const { bucketName } = parseStoragePath(parsed[0]);
+              bucketId = bucketName;
+            }
+          } catch {}
+        }
+      }
+
+      if (!bucketId) {
+        return res.status(500).json({ error: "Object storage not configured" });
+      }
+
+      const { Client } = await import("@replit/object-storage");
+      const client = new Client();
+      await client.uploadFromBytes(objectPath, file.buffer);
+
+      const imageUrl = `/api/object-storage/${bucketId}/${objectPath}`;
+      const thumbnailUrl = imageUrl;
+
+      const metadata: any = {
+        imageUrl,
+        thumbnailUrl,
+        optimizedUrl: imageUrl,
+        fileName: file.originalname,
+        fileSize: file.size,
+        mimeType: file.mimetype,
+        uploadedBy: admin.username,
+        status: "pending",
+      };
+
+      if (req.body.discipline) metadata.discipline = req.body.discipline;
+      if (req.body.imageType) metadata.imageType = req.body.imageType;
+      if (req.body.altText) metadata.altText = req.body.altText;
+      if (req.body.caption) metadata.caption = req.body.caption;
+
+      const parsed = insertMltLabImageSchema.parse(metadata);
+      const img = await storage.createMltLabImage(parsed);
+      await logAudit(req, admin, "mlt_lab_image", img.id, "upload", null, { fileName: file.originalname });
+      res.status(201).json(img);
+    } catch (e: any) {
+      console.error("MLT image upload error:", e);
+      res.status(400).json({ error: e.message });
+    }
+  });
+
+  app.patch("/api/mlt/lab-images/:id", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const allowedFields = ["altText", "caption", "imageType", "discipline", "specimen", "stainType", "organism", "cellType", "crystalType", "castType", "artifactType", "annotationData", "copyrightInfo", "licenseType", "tags", "approvalExam", "approvalLesson", "approvalFlashcard", "approvalPublic", "qualityScore", "magnification", "normalAbnormal", "clinicalSignificance", "status"];
+      const updates: any = {};
+      for (const key of allowedFields) { if (req.body[key] !== undefined) updates[key] = req.body[key]; }
+      const before = await storage.getMltLabImage(req.params.id);
+      if (!before) return res.status(404).json({ error: "Image not found" });
+      const img = await storage.updateMltLabImage(req.params.id, updates);
+      await logAudit(req, admin, "mlt_lab_image", img.id, "update", before, img);
+      res.json(img);
+    } catch (e: any) { res.status(400).json({ error: e.message }); }
+  });
+
+  app.delete("/api/mlt/lab-images/:id", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      await storage.deleteMltLabImage(req.params.id);
+      await logAudit(req, admin, "mlt_lab_image", req.params.id, "delete", null, null);
+      res.json({ ok: true });
+    } catch (e: any) { res.status(500).json({ error: e.message }); }
+  });
+
+  app.post("/api/mlt/lab-images/bulk-update", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const { ids, updates } = req.body;
+      if (!Array.isArray(ids) || ids.length === 0) return res.status(400).json({ error: "ids must be a non-empty array" });
+      if (ids.length > 100) return res.status(400).json({ error: "Maximum 100 images per bulk update" });
+      const allowedFields = ["status", "approvalExam", "approvalLesson", "approvalFlashcard", "approvalPublic", "discipline", "imageType", "qualityScore"];
+      const safeUpdates: any = {};
+      for (const key of allowedFields) { if (updates[key] !== undefined) safeUpdates[key] = updates[key]; }
+      const results = [];
+      for (const id of ids) {
+        const img = await storage.updateMltLabImage(id, safeUpdates);
+        results.push(img);
+      }
+      await logAudit(req, admin, "mlt_lab_image", null, "bulk_update", { ids }, { updates: safeUpdates });
+      res.json({ updated: results.length, images: results });
+    } catch (e: any) { res.status(400).json({ error: e.message }); }
+  });
+
+  app.get("/api/mlt/lab-images/:id/links", async (req, res) => {
+    try {
+      const links = await storage.getMltLabImageLinks(req.params.id);
+      res.json(links);
+    } catch (e: any) { res.status(500).json({ error: e.message }); }
+  });
+
+  app.post("/api/mlt/lab-image-links", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const parsed = insertMltLabImageLinkSchema.parse(req.body);
+      const link = await storage.createMltLabImageLink(parsed);
+      res.status(201).json(link);
+    } catch (e: any) { res.status(400).json({ error: e.message }); }
+  });
+
+  app.delete("/api/mlt/lab-image-links/:id", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      await storage.deleteMltLabImageLink(req.params.id);
+      res.json({ ok: true });
+    } catch (e: any) { res.status(500).json({ error: e.message }); }
+  });
+
+  app.get("/api/mlt/lab-images/for/:linkedType/:linkedId", async (req, res) => {
+    try {
+      const links = await storage.getMltLabImageLinksForTarget(req.params.linkedType, req.params.linkedId);
+      res.json(links);
+    } catch (e: any) { res.status(500).json({ error: e.message }); }
+  });
+
+  app.get("/api/mlt/image-drill/images", async (req, res) => {
+    try {
+      const { discipline, drillType } = req.query;
+      const filters: any = { status: "approved" };
+      if (discipline) filters.discipline = String(discipline);
+      if (drillType) {
+        const drillTypeMap: Record<string, string> = {
+          identify_cell: "hematology_cell_morphology",
+          identify_organism: "microbiology_gram_stain",
+          identify_crystal: "urinalysis_sediment",
+          identify_cast: "urinalysis_sediment",
+          identify_stain: "microbiology_gram_stain",
+          identify_colony: "microbiology_colony_morphology",
+          identify_reaction: "blood_bank_reactions",
+          identify_artifact: "urinalysis_sediment",
+          qc_issue: "clinical_chemistry_qc",
+          specimen_rejection: "specimen_processing",
+        };
+        const imgType = drillTypeMap[String(drillType)];
+        if (imgType) filters.imageType = imgType;
+      }
+      const images = await storage.getAllMltLabImages(filters);
+      res.json(images);
+    } catch (e: any) { res.status(500).json({ error: e.message }); }
+  });
+
+  app.post("/api/mlt/image-drill/attempt", async (req, res) => {
+    try {
+      const user = await resolveAuthUser(req as any);
+      if (!user) return res.status(401).json({ error: "Login required" });
+      const parsed = insertMltImageDrillAttemptSchema.parse({ ...req.body, userId: user.id });
+      const attempt = await storage.createMltImageDrillAttempt(parsed);
+      res.status(201).json(attempt);
+    } catch (e: any) { res.status(400).json({ error: e.message }); }
+  });
+
+  app.patch("/api/mlt/image-drill/attempt/:id", async (req, res) => {
+    try {
+      const user = await resolveAuthUser(req as any);
+      if (!user) return res.status(401).json({ error: "Login required" });
+      const existing = await pool.query("SELECT user_id FROM mlt_image_drill_attempts WHERE id = $1", [req.params.id]);
+      if (existing.rows.length === 0) return res.status(404).json({ error: "Attempt not found" });
+      if (existing.rows[0].user_id !== user.id) return res.status(403).json({ error: "Not authorized" });
+      const allowed = ["correctCount", "timeSpent", "answers", "completedAt"];
+      const safe: any = {};
+      for (const key of allowed) { if (req.body[key] !== undefined) safe[key] = req.body[key]; }
+      const attempt = await storage.updateMltImageDrillAttempt(req.params.id, safe);
+      res.json(attempt);
+    } catch (e: any) { res.status(400).json({ error: e.message }); }
+  });
+
+  app.get("/api/mlt/image-drill/history", async (req, res) => {
+    try {
+      const user = await resolveAuthUser(req as any);
+      if (!user) return res.status(401).json({ error: "Login required" });
+      const attempts = await storage.getUserMltImageDrillAttempts(user.id);
+      res.json(attempts);
+    } catch (e: any) { res.status(500).json({ error: e.message }); }
   });
 
   return httpServer;

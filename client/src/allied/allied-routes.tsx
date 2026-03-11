@@ -39,6 +39,8 @@ const ParamedicGlossaryPage = lazy(() => import("./pages/paramedic-seo-page").th
 const ParamedicComparisonPage = lazy(() => import("./pages/paramedic-seo-page").then(m => ({ default: m.ParamedicComparisonPage })));
 const ParamedicStudyGuidePage = lazy(() => import("./pages/paramedic-seo-page").then(m => ({ default: m.ParamedicStudyGuidePage })));
 const ParamedicExamPrepPage = lazy(() => import("./pages/paramedic-seo-page").then(m => ({ default: m.ParamedicExamPrepPage })));
+const MltImageLibrary = lazy(() => import("./pages/mlt/mlt-image-library"));
+const MltImageDrill = lazy(() => import("./pages/mlt/mlt-image-drill"));
 
 function LoadingFallback() {
   return (
@@ -97,6 +99,9 @@ export function AlliedRoutes() {
         <Route path="/paramedic-canada">{() => <AlliedSeoLanding pageSlug="paramedic-canada" />}</Route>
         <Route path="/mlt-us">{() => <AlliedSeoLanding pageSlug="mlt-us" />}</Route>
         <Route path="/mlt-canada">{() => <AlliedSeoLanding pageSlug="mlt-canada" />}</Route>
+        <Route path="/admin/mlt/images" component={MltImageLibrary} />
+        <Route path="/mlt/image-drill" component={MltImageDrill} />
+        <Route path="/careers/mlt/image-drill" component={MltImageDrill} />
         <Route path="/paramedic/pcp" component={ParamedicPCP} />
         <Route path="/paramedic/acp" component={ParamedicACP} />
         <Route path="/paramedic/nremt" component={ParamedicNREMT} />
