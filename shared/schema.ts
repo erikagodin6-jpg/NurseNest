@@ -3484,3 +3484,56 @@ export const caseStudyQuestions = pgTable("case_study_questions", {
 export const insertCaseStudyQuestionSchema = createInsertSchema(caseStudyQuestions).omit({ id: true });
 export type CaseStudyQuestion = typeof caseStudyQuestions.$inferSelect;
 export type InsertCaseStudyQuestion = z.infer<typeof insertCaseStudyQuestionSchema>;
+
+export const paramedicBulkImports = pgTable("paramedic_bulk_imports", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  contentType: text("content_type").notNull(),
+  inputFormat: text("input_format").notNull(),
+  totalItems: integer("total_items").notNull().default(0),
+  validItems: integer("valid_items").default(0),
+  errorItems: integer("error_items").default(0),
+  publishedItems: integer("published_items").default(0),
+  status: text("status").default("draft"),
+  mappingTemplate: jsonb("mapping_template"),
+  validationResults: jsonb("validation_results"),
+  adminId: varchar("admin_id"),
+  adminName: text("admin_name"),
+  rollbackData: jsonb("rollback_data"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  completedAt: timestamp("completed_at"),
+});
+
+export const paramedicBulkImportItems = pgTable("paramedic_bulk_import_items", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  importId: varchar("import_id").notNull(),
+  rowIndex: integer("row_index").notNull(),
+  contentType: text("content_type").notNull(),
+  contentDomain: text("content_domain").notNull().default("paramedic"),
+  rawData: jsonb("raw_data").notNull(),
+  mappedData: jsonb("mapped_data"),
+  normalizedData: jsonb("normalized_data"),
+  validationStatus: text("validation_status").default("pending"),
+  validationErrors: jsonb("validation_errors"),
+  publishedId: varchar("published_id"),
+  status: text("status").default("draft"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const paramedicFieldMappingTemplates = pgTable("paramedic_field_mapping_templates", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  name: text("name").notNull(),
+  contentType: text("content_type").notNull(),
+  mappings: jsonb("mappings").notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const insertParamedicBulkImportSchema = createInsertSchema(paramedicBulkImports).omit({ id: true, createdAt: true });
+export const insertParamedicBulkImportItemSchema = createInsertSchema(paramedicBulkImportItems).omit({ id: true, createdAt: true });
+export const insertParamedicFieldMappingTemplateSchema = createInsertSchema(paramedicFieldMappingTemplates).omit({ id: true, createdAt: true });
+
+export type ParamedicBulkImport = typeof paramedicBulkImports.$inferSelect;
+export type InsertParamedicBulkImport = z.infer<typeof insertParamedicBulkImportSchema>;
+export type ParamedicBulkImportItem = typeof paramedicBulkImportItems.$inferSelect;
+export type InsertParamedicBulkImportItem = z.infer<typeof insertParamedicBulkImportItemSchema>;
+export type ParamedicFieldMappingTemplate = typeof paramedicFieldMappingTemplates.$inferSelect;
+export type InsertParamedicFieldMappingTemplate = z.infer<typeof insertParamedicFieldMappingTemplateSchema>;

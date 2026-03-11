@@ -15,6 +15,7 @@ const AlliedTools = lazy(() => import("./pages/allied-tools"));
 const AlliedPricing = lazy(() => import("./pages/allied-pricing"));
 const AlliedAdmin = lazy(() => import("./pages/allied-admin"));
 const MltAdmin = lazy(() => import("./pages/mlt-admin"));
+const ParamedicBulkUpload = lazy(() => import("./pages/paramedic-bulk-upload"));
 const AlliedSeoLanding = lazy(() => import("./pages/allied-seo-landing"));
 const AlliedDiagnostic = lazy(() => import("./pages/allied-diagnostic"));
 const AlliedInstitutions = lazy(() => import("./pages/allied-institutions"));
@@ -102,6 +103,7 @@ export function AlliedRoutes() {
         <Route path="/admin/mlt/import" component={MltAdmin} />
         <Route path="/admin/mlt/import/history" component={MltAdmin} />
         <Route path="/admin/allied-content/pharmacy-technician" component={PharmtechAdmin} />
+        <Route path="/admin/paramedic-bulk-upload" component={ParamedicBulkUpload} />
         <Route path="/pharmacy-technician" component={PharmtechHub} />
         <Route path="/pharmacy-technician/lessons/:slug" component={PharmtechLessons} />
         <Route path="/pharmacy-technician/lessons" component={PharmtechLessons} />

@@ -395,6 +395,16 @@ export default function AlliedAdminPage() {
         </div>
       </div>
 
+      <div className="mb-4">
+        <a
+          href="/admin/paramedic-bulk-upload"
+          className="inline-flex items-center gap-2 px-4 py-2 bg-red-50 text-red-700 rounded-lg text-sm font-medium hover:bg-red-100 border border-red-200"
+          data-testid="link-bulk-upload"
+        >
+          <Database className="w-4 h-4" /> Paramedic Bulk Upload Manager
+        </a>
+      </div>
+
       <div className="flex gap-3 mb-6 items-center">
         <select
           value={selectedCareer}

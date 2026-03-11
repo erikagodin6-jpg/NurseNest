@@ -7,6 +7,7 @@ import { registerRoutes } from "./routes";
 import { registerAlliedPipelineRoutes } from "./allied-pipeline";
 import { registerAutomationRoutes } from "./allied-automations";
 import { registerScenarioRoutes } from "./allied-scenarios";
+import { registerParamedicBulkUploadRoutes } from "./paramedic-bulk-upload";
 import { serveStatic } from "./static";
 
 import { runMigrations } from "stripe-replit-sync";
@@ -677,6 +678,7 @@ app.use((req, res, next) => {
   registerAlliedPipelineRoutes(app);
   registerAutomationRoutes(app);
   registerScenarioRoutes(app);
+  registerParamedicBulkUploadRoutes(app);
 
   const { registerScheduleRoutes } = await import("./qbank-scheduler");
   registerScheduleRoutes(app);
