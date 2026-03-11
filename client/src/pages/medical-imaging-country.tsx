@@ -31,11 +31,11 @@ const COUNTRY_CONFIGS: Record<string, CountryConfig> = {
     accentBg: "bg-red-50",
     description: "Prepare for the CAMRT certification exam with Canada-specific radiographic positioning, radiation safety regulations (CNSC guidelines), patient care protocols, and image evaluation criteria aligned with Canadian practice standards.",
     sections: [
-      { title: "Lessons & Study Guides", description: "Comprehensive lessons covering all CAMRT exam domains including radiographic procedures, radiation protection, patient care, and equipment operation.", icon: BookOpen, href: "/medical-imaging/canada/lessons", available: false },
-      { title: "Flashcards", description: "Spaced-repetition flashcards for anatomy landmarks, positioning criteria, physics formulas, and radiation safety standards.", icon: Zap, href: "/medical-imaging/canada/flashcards", available: false },
-      { title: "Practice Exams", description: "Timed practice exams weighted to the CAMRT blueprint with detailed rationales and performance analytics.", icon: FileText, href: "/medical-imaging/canada/practice-exams", available: false },
-      { title: "Adaptive Exam", description: "AI-adaptive exam that adjusts difficulty based on your performance to pinpoint exact knowledge gaps.", icon: Brain, href: "/medical-imaging/canada/adaptive-exam", available: false },
-      { title: "Case Studies", description: "Real-world radiographic case studies with image interpretation, clinical correlation, and diagnostic reasoning exercises.", icon: Star, href: "/medical-imaging/canada/case-studies", available: false },
+      { title: "Lessons & Study Guides", description: "Comprehensive lessons covering all CAMRT exam domains including radiographic procedures, radiation protection, patient care, and equipment operation.", icon: BookOpen, href: "/medical-imaging/canada/lessons", available: true },
+      { title: "Flashcards", description: "Spaced-repetition flashcards for anatomy landmarks, positioning criteria, physics formulas, and radiation safety standards.", icon: Zap, href: "/medical-imaging/canada/flashcards", available: true },
+      { title: "Practice Exams", description: "Timed practice exams weighted to the CAMRT blueprint with detailed rationales and performance analytics.", icon: FileText, href: "/medical-imaging/canada/practice-exams", available: true },
+      { title: "Positioning Guide", description: "Complete radiographic positioning reference with patient positions, central ray directions, and critical anatomy for every projection.", icon: Radio, href: "/medical-imaging/canada/positioning", available: true },
+      { title: "Physics Review", description: "Radiation physics topics covering X-ray production, interactions, image quality, and safety with key formulas.", icon: Brain, href: "/medical-imaging/canada/physics", available: true },
       { title: "Progress Tracker", description: "Track your readiness across all exam domains with predicted pass probability and personalized study recommendations.", icon: BarChart3, href: "/medical-imaging/canada/progress", available: false },
     ],
     quickStart: [
@@ -56,11 +56,11 @@ const COUNTRY_CONFIGS: Record<string, CountryConfig> = {
     accentBg: "bg-blue-50",
     description: "Prepare for the ARRT certification exam with USA-specific radiographic positioning, NRC radiation safety regulations, patient care standards, and image evaluation criteria aligned with ASRT practice standards.",
     sections: [
-      { title: "Lessons & Study Guides", description: "Comprehensive lessons covering all ARRT exam content specifications including image production, procedures, patient care, and safety.", icon: BookOpen, href: "/medical-imaging/usa/lessons", available: false },
-      { title: "Flashcards", description: "Spaced-repetition flashcards for anatomy, positioning, physics concepts, and radiation protection standards.", icon: Zap, href: "/medical-imaging/usa/flashcards", available: false },
-      { title: "Practice Exams", description: "Timed practice exams weighted to the ARRT content specifications with detailed rationales and score breakdowns.", icon: FileText, href: "/medical-imaging/usa/practice-exams", available: false },
-      { title: "Adaptive Exam", description: "AI-adaptive exam engine that calibrates to your skill level and targets your weakest content areas.", icon: Brain, href: "/medical-imaging/usa/adaptive-exam", available: false },
-      { title: "Case Studies", description: "Clinical case studies with real radiographic images for image critique, pathology identification, and clinical decision-making.", icon: Star, href: "/medical-imaging/usa/case-studies", available: false },
+      { title: "Lessons & Study Guides", description: "Comprehensive lessons covering all ARRT exam content specifications including image production, procedures, patient care, and safety.", icon: BookOpen, href: "/medical-imaging/usa/lessons", available: true },
+      { title: "Flashcards", description: "Spaced-repetition flashcards for anatomy, positioning, physics concepts, and radiation protection standards.", icon: Zap, href: "/medical-imaging/usa/flashcards", available: true },
+      { title: "Practice Exams", description: "Timed practice exams weighted to the ARRT content specifications with detailed rationales and score breakdowns.", icon: FileText, href: "/medical-imaging/usa/practice-exams", available: true },
+      { title: "Positioning Guide", description: "Complete radiographic positioning reference with patient positions, central ray directions, and critical anatomy for every projection.", icon: Radio, href: "/medical-imaging/usa/positioning", available: true },
+      { title: "Physics Review", description: "Radiation physics topics covering X-ray production, interactions, image quality, and safety with key formulas.", icon: Brain, href: "/medical-imaging/usa/physics", available: true },
       { title: "Progress Tracker", description: "Dashboard tracking your mastery across all ARRT content categories with readiness prediction.", icon: BarChart3, href: "/medical-imaging/usa/progress", available: false },
     ],
     quickStart: [

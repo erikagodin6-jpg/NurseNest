@@ -1323,9 +1323,9 @@ export class DatabaseStorage implements IStorage {
   async getAllImagingQuestions(filters?: { country?: string; examType?: string; topic?: string; difficulty?: string; status?: string }): Promise<ImagingQuestion[]> {
     const conditions = [];
     if (filters?.country) conditions.push(eq(imagingQuestions.country, filters.country));
-    if (filters?.examType) conditions.push(eq(imagingQuestions.examType, filters.examType));
+    if (filters?.examType) conditions.push(eq(imagingQuestions.exam, filters.examType));
     if (filters?.topic) conditions.push(eq(imagingQuestions.topic, filters.topic));
-    if (filters?.difficulty) conditions.push(eq(imagingQuestions.difficulty, filters.difficulty));
+    if (filters?.difficulty) conditions.push(eq(imagingQuestions.difficulty, Number(filters.difficulty)));
     if (filters?.status) conditions.push(eq(imagingQuestions.status, filters.status));
     if (conditions.length > 0) return db.select().from(imagingQuestions).where(and(...conditions)).orderBy(desc(imagingQuestions.updatedAt));
     return db.select().from(imagingQuestions).orderBy(desc(imagingQuestions.updatedAt));
@@ -1377,9 +1377,7 @@ export class DatabaseStorage implements IStorage {
 
   async getAllImagingFlashcards(filters?: { country?: string; examType?: string; topic?: string; status?: string }): Promise<ImagingFlashcard[]> {
     const conditions = [];
-    if (filters?.country) conditions.push(eq(imagingFlashcards.country, filters.country));
-    if (filters?.examType) conditions.push(eq(imagingFlashcards.examType, filters.examType));
-    if (filters?.topic) conditions.push(eq(imagingFlashcards.topic, filters.topic));
+    if (filters?.topic) conditions.push(eq(imagingFlashcards.category, filters.topic));
     if (filters?.status) conditions.push(eq(imagingFlashcards.status, filters.status));
     if (conditions.length > 0) return db.select().from(imagingFlashcards).where(and(...conditions)).orderBy(desc(imagingFlashcards.updatedAt));
     return db.select().from(imagingFlashcards).orderBy(desc(imagingFlashcards.updatedAt));
@@ -1458,8 +1456,7 @@ export class DatabaseStorage implements IStorage {
 
   async getAllImagingPositioningEntries(filters?: { country?: string; bodyRegion?: string; status?: string }): Promise<ImagingPositioningEntry[]> {
     const conditions = [];
-    if (filters?.country) conditions.push(eq(imagingPositioningEntries.country, filters.country));
-    if (filters?.bodyRegion) conditions.push(eq(imagingPositioningEntries.bodyRegion, filters.bodyRegion));
+    if (filters?.bodyRegion) conditions.push(eq(imagingPositioningEntries.bodyPart, filters.bodyRegion));
     if (filters?.status) conditions.push(eq(imagingPositioningEntries.status, filters.status));
     if (conditions.length > 0) return db.select().from(imagingPositioningEntries).where(and(...conditions)).orderBy(desc(imagingPositioningEntries.updatedAt));
     return db.select().from(imagingPositioningEntries).orderBy(desc(imagingPositioningEntries.updatedAt));
@@ -1482,7 +1479,6 @@ export class DatabaseStorage implements IStorage {
 
   async getAllImagingPhysicsTopics(filters?: { country?: string; category?: string; status?: string }): Promise<ImagingPhysicsTopic[]> {
     const conditions = [];
-    if (filters?.country) conditions.push(eq(imagingPhysicsTopics.country, filters.country));
     if (filters?.category) conditions.push(eq(imagingPhysicsTopics.category, filters.category));
     if (filters?.status) conditions.push(eq(imagingPhysicsTopics.status, filters.status));
     if (conditions.length > 0) return db.select().from(imagingPhysicsTopics).where(and(...conditions)).orderBy(desc(imagingPhysicsTopics.updatedAt));

@@ -2481,21 +2481,23 @@ export type InsertTesterFeedback = z.infer<typeof insertTesterFeedbackSchema>;
 
 export const imagingQuestions = pgTable("imaging_questions", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
-  country: text("country").notNull().default("canada"),
-  examType: text("exam_type").notNull().default("camrt"),
-  topic: text("topic").notNull(),
-  subtopic: text("subtopic"),
-  difficulty: text("difficulty").notNull().default("medium"),
-  questionType: text("question_type").notNull().default("multiple_choice"),
-  questionStem: text("question_stem").notNull(),
-  answerOptions: jsonb("answer_options").default(sql`'[]'::jsonb`),
-  correctAnswer: text("correct_answer").notNull(),
-  rationale: text("rationale"),
-  imageRefs: text("image_refs").array().default(sql`'{}'::text[]`),
-  eligibilityFlags: text("eligibility_flags").array().default(sql`'{}'::text[]`),
-  status: text("status").notNull().default("draft"),
-  createdAt: timestamp("created_at").defaultNow().notNull(),
-  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+  question: text("question").notNull(),
+  optionA: text("option_a").notNull(),
+  optionB: text("option_b").notNull(),
+  optionC: text("option_c").notNull(),
+  optionD: text("option_d").notNull(),
+  correctAnswer: varchar("correct_answer", { length: 1 }).notNull(),
+  rationale: text("rationale").notNull(),
+  modality: varchar("modality", { length: 100 }),
+  bodyPart: varchar("body_part", { length: 100 }),
+  category: varchar("category", { length: 100 }),
+  difficulty: integer("difficulty").default(2),
+  exam: varchar("exam", { length: 50 }),
+  country: varchar("country", { length: 50 }),
+  topic: varchar("topic", { length: 200 }),
+  status: varchar("status", { length: 20 }).default("draft"),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
 });
 
 export const insertImagingQuestionSchema = createInsertSchema(imagingQuestions).omit({ id: true, createdAt: true, updatedAt: true });
@@ -2527,17 +2529,16 @@ export type InsertImageAsset = z.infer<typeof insertImageAssetSchema>;
 
 export const imagingFlashcards = pgTable("imaging_flashcards", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
-  country: text("country").notNull().default("canada"),
-  examType: text("exam_type").notNull().default("camrt"),
-  topic: text("topic").notNull(),
   front: text("front").notNull(),
   back: text("back").notNull(),
-  rationale: text("rationale"),
-  difficulty: text("difficulty").default("medium"),
-  imageRef: text("image_ref"),
-  status: text("status").notNull().default("draft"),
-  createdAt: timestamp("created_at").defaultNow().notNull(),
-  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+  modality: varchar("modality", { length: 100 }),
+  bodyPart: varchar("body_part", { length: 100 }),
+  category: varchar("category", { length: 100 }),
+  difficulty: integer("difficulty").default(2),
+  imageUrl: text("image_url"),
+  status: varchar("status", { length: 20 }).default("draft"),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
 });
 
 export const questionBank = pgTable("question_bank", {
@@ -2726,18 +2727,19 @@ export const pharmtechExamAttempts = pgTable("pharmtech_exam_attempts", {
 
 export const imagingPositioningEntries = pgTable("imaging_positioning_entries", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
-  country: text("country").notNull().default("canada"),
-  bodyRegion: text("body_region").notNull(),
-  projection: text("projection").notNull(),
-  patientPosition: text("patient_position"),
-  centralRay: text("central_ray"),
-  structures: text("structures").array().default(sql`'{}'::text[]`),
-  criticalAnatomy: text("critical_anatomy"),
-  commonErrors: text("common_errors").array().default(sql`'{}'::text[]`),
-  imageRef: text("image_ref"),
-  status: text("status").notNull().default("draft"),
-  createdAt: timestamp("created_at").defaultNow().notNull(),
-  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+  projectionName: varchar("projection_name", { length: 200 }).notNull(),
+  bodyPart: varchar("body_part", { length: 100 }).notNull(),
+  patientPosition: text("patient_position").notNull(),
+  centralRay: text("central_ray").notNull(),
+  filmSize: varchar("film_size", { length: 50 }),
+  sid: varchar("sid", { length: 50 }),
+  technicalFactors: text("technical_factors"),
+  anatomyDemonstrated: text("anatomy_demonstrated"),
+  tips: text("tips"),
+  imageUrl: text("image_url"),
+  status: varchar("status", { length: 20 }).default("draft"),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
 });
 
 export const paramedicScenarios = pgTable("paramedic_scenarios", {
@@ -2775,16 +2777,16 @@ export type InsertImagingPositioningEntry = z.infer<typeof insertImagingPosition
 
 export const imagingPhysicsTopics = pgTable("imaging_physics_topics", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
-  country: text("country").notNull().default("canada"),
-  title: text("title").notNull(),
-  category: text("category").notNull(),
-  content: jsonb("content").default(sql`'[]'::jsonb`),
-  keyFormulas: jsonb("key_formulas").default(sql`'[]'::jsonb`),
-  examRelevance: text("exam_relevance"),
-  difficulty: text("difficulty").default("medium"),
-  status: text("status").notNull().default("draft"),
-  createdAt: timestamp("created_at").defaultNow().notNull(),
-  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+  title: varchar("title", { length: 300 }).notNull(),
+  content: text("content").notNull(),
+  category: varchar("category", { length: 100 }),
+  modality: varchar("modality", { length: 100 }),
+  keyConcepts: text("key_concepts").array().default(sql`'{}'::text[]`),
+  formulas: jsonb("formulas").default(sql`'[]'::jsonb`),
+  difficulty: integer("difficulty").default(2),
+  status: varchar("status", { length: 20 }).default("draft"),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
 });
 
 export const insertImagingPhysicsTopicSchema = createInsertSchema(imagingPhysicsTopics).omit({ id: true, createdAt: true, updatedAt: true });
