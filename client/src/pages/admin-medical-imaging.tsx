@@ -368,12 +368,34 @@ function AssetsPanel({ countryFilter }: { countryFilter: string }) {
   const params = new URLSearchParams();
   if (countryFilter) params.set("country", countryFilter);
 
+  const [showUploadForm, setShowUploadForm] = useState(false);
+  const [uploadForm, setUploadForm] = useState({
+    assetType: "radiograph",
+    country: "canada",
+    modality: "",
+    bodyPart: "",
+    seoTitle: "",
+    thumbnailUrl: "",
+    fullImageUrl: "",
+    examType: "",
+  });
+
   const { data: assets = [], isLoading } = useQuery({
     queryKey: ["/api/imaging/assets", countryFilter],
     queryFn: () => fetch(`/api/imaging/assets?${params}`).then(r => r.json()),
   });
 
   const queryClient = useQueryClient();
+  const createMutation = useMutation({
+    mutationFn: (data: typeof uploadForm) =>
+      apiRequest("POST", "/api/imaging/assets", data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/imaging/assets"] });
+      setShowUploadForm(false);
+      setUploadForm({ assetType: "radiograph", country: "canada", modality: "", bodyPart: "", seoTitle: "", thumbnailUrl: "", fullImageUrl: "", examType: "" });
+    },
+  });
+
   const approvalMutation = useMutation({
     mutationFn: ({ id, approvalStatus }: { id: string; approvalStatus: string }) =>
       apiRequest("PATCH", `/api/imaging/assets/${id}/approval`, { approvalStatus }),
@@ -387,13 +409,136 @@ function AssetsPanel({ countryFilter }: { countryFilter: string }) {
 
   return (
     <div data-testid="panel-assets">
-      <h2 className="text-lg font-semibold text-gray-900 mb-4">Image Assets ({assets.length})</h2>
+      <div className="flex items-center justify-between mb-4">
+        <h2 className="text-lg font-semibold text-gray-900">Image Assets ({assets.length})</h2>
+        <button
+          onClick={() => setShowUploadForm(!showUploadForm)}
+          className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-indigo-600 text-white rounded-lg text-sm font-medium hover:bg-indigo-700"
+          data-testid="button-add-asset"
+        >
+          {showUploadForm ? <X className="w-4 h-4" /> : <Plus className="w-4 h-4" />}
+          {showUploadForm ? "Cancel" : "Add Asset"}
+        </button>
+      </div>
+
+      {showUploadForm && (
+        <div className="bg-gray-50 border border-gray-200 rounded-xl p-4 mb-4" data-testid="form-upload-asset">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-3">
+            <div>
+              <label className="text-xs font-medium text-gray-500">Title</label>
+              <input
+                type="text"
+                value={uploadForm.seoTitle}
+                onChange={e => setUploadForm(p => ({ ...p, seoTitle: e.target.value }))}
+                className="w-full mt-1 px-3 py-2 border border-gray-200 rounded-lg text-sm"
+                placeholder="e.g., PA Chest Radiograph - Normal"
+                data-testid="input-asset-title"
+              />
+            </div>
+            <div>
+              <label className="text-xs font-medium text-gray-500">Asset Type</label>
+              <select
+                value={uploadForm.assetType}
+                onChange={e => setUploadForm(p => ({ ...p, assetType: e.target.value }))}
+                className="w-full mt-1 px-3 py-2 border border-gray-200 rounded-lg text-sm"
+                data-testid="select-asset-type"
+              >
+                <option value="radiograph">Radiograph</option>
+                <option value="ct_scan">CT Scan</option>
+                <option value="mri">MRI</option>
+                <option value="ultrasound">Ultrasound</option>
+                <option value="diagram">Diagram</option>
+                <option value="anatomy">Anatomy</option>
+              </select>
+            </div>
+            <div>
+              <label className="text-xs font-medium text-gray-500">Country</label>
+              <select
+                value={uploadForm.country}
+                onChange={e => setUploadForm(p => ({ ...p, country: e.target.value }))}
+                className="w-full mt-1 px-3 py-2 border border-gray-200 rounded-lg text-sm"
+                data-testid="select-asset-country"
+              >
+                <option value="canada">Canada</option>
+                <option value="usa">USA</option>
+                <option value="both">Both</option>
+              </select>
+            </div>
+            <div>
+              <label className="text-xs font-medium text-gray-500">Modality</label>
+              <input
+                type="text"
+                value={uploadForm.modality}
+                onChange={e => setUploadForm(p => ({ ...p, modality: e.target.value }))}
+                className="w-full mt-1 px-3 py-2 border border-gray-200 rounded-lg text-sm"
+                placeholder="e.g., X-ray, CT, MRI"
+                data-testid="input-asset-modality"
+              />
+            </div>
+            <div>
+              <label className="text-xs font-medium text-gray-500">Body Part</label>
+              <input
+                type="text"
+                value={uploadForm.bodyPart}
+                onChange={e => setUploadForm(p => ({ ...p, bodyPart: e.target.value }))}
+                className="w-full mt-1 px-3 py-2 border border-gray-200 rounded-lg text-sm"
+                placeholder="e.g., Chest, Hand, Spine"
+                data-testid="input-asset-body-part"
+              />
+            </div>
+            <div>
+              <label className="text-xs font-medium text-gray-500">Exam Type</label>
+              <input
+                type="text"
+                value={uploadForm.examType}
+                onChange={e => setUploadForm(p => ({ ...p, examType: e.target.value }))}
+                className="w-full mt-1 px-3 py-2 border border-gray-200 rounded-lg text-sm"
+                placeholder="e.g., CAMRT, ARRT"
+                data-testid="input-asset-exam"
+              />
+            </div>
+            <div className="sm:col-span-2">
+              <label className="text-xs font-medium text-gray-500">Thumbnail URL</label>
+              <input
+                type="url"
+                value={uploadForm.thumbnailUrl}
+                onChange={e => setUploadForm(p => ({ ...p, thumbnailUrl: e.target.value }))}
+                className="w-full mt-1 px-3 py-2 border border-gray-200 rounded-lg text-sm"
+                placeholder="https://..."
+                data-testid="input-asset-thumbnail"
+              />
+            </div>
+            <div className="sm:col-span-2">
+              <label className="text-xs font-medium text-gray-500">Full Image URL</label>
+              <input
+                type="url"
+                value={uploadForm.fullImageUrl}
+                onChange={e => setUploadForm(p => ({ ...p, fullImageUrl: e.target.value }))}
+                className="w-full mt-1 px-3 py-2 border border-gray-200 rounded-lg text-sm"
+                placeholder="https://..."
+                data-testid="input-asset-full-image"
+              />
+            </div>
+          </div>
+          <button
+            onClick={() => createMutation.mutate(uploadForm)}
+            disabled={!uploadForm.seoTitle || createMutation.isPending}
+            className="inline-flex items-center gap-1.5 px-4 py-2 bg-green-600 text-white rounded-lg text-sm font-medium hover:bg-green-700 disabled:opacity-40"
+            data-testid="button-submit-asset"
+          >
+            <Upload className="w-4 h-4" />
+            {createMutation.isPending ? "Saving..." : "Save Asset"}
+          </button>
+        </div>
+      )}
+
       {isLoading ? (
         <div className="text-center py-8 text-gray-500">Loading...</div>
-      ) : assets.length === 0 ? (
+      ) : assets.length === 0 && !showUploadForm ? (
         <div className="text-center py-12 text-gray-400 bg-gray-50 rounded-xl">
           <Image className="w-10 h-10 mx-auto mb-3 opacity-40" />
           <p className="font-medium">No image assets found</p>
+          <p className="text-sm mt-1">Click "Add Asset" to upload your first image</p>
         </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
