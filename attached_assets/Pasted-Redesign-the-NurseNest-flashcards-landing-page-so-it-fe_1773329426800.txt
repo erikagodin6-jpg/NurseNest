@@ -1,0 +1,278 @@
+Redesign the NurseNest flashcards landing page so it feels like a premium clinical study platform with a focused exam-prep experience.
+
+Important:
+Do not copy UWorld branding, wording, layout one-for-one, or any proprietary/trademarked design elements.
+Instead, create an original NurseNest design that captures the same strengths:
+- clean
+- focused
+- premium
+- calm
+- academically serious
+- high-trust
+- low clutter
+- study-first
+- conversion-friendly
+
+The current flashcards landing page feels too busy, too long, too promotional, and too scattered. It currently looks more like a generic website landing page than a polished exam-prep interface. I want it redesigned so it feels more like a serious study platform students trust immediately.
+
+CURRENT PROBLEMS TO FIX
+
+1. Too much clutter above the fold
+- There are too many badges, stats, chips, buttons, and sections competing for attention.
+- The page does not guide the eye well.
+- The topic list is overwhelming and visually noisy.
+
+2. It feels too much like a marketing homepage
+- Sections like “Why NurseNest Flashcards,” comparison tables, repeated feature blocks, and repeated navigation-style blocks make the page feel busy.
+- I want this to feel more like a student dashboard / study launcher.
+
+3. Weak visual hierarchy
+- The important action should be starting a flashcard session.
+- Right now too many things have similar visual weight.
+- The page should guide users quickly toward choosing topic, mode, and starting.
+
+4. The layout does not feel premium enough
+- It needs more polish, spacing, restraint, and intentional structure.
+- It should feel more clinically professional and less like a template.
+
+5. Too many topic chips shown at once
+- The huge wall of topics is visually exhausting.
+- It needs better organization, collapsing, grouping, or searchable filtering.
+
+REDESIGN GOAL
+
+Create a flashcards landing page that feels like a premium nursing exam-prep study launcher.
+
+The page should feel:
+- calm
+- clean
+- high trust
+- clinically polished
+- modern
+- feminine but professional
+- conversion oriented
+- organized
+- easy to scan
+- much less crowded
+
+DESIGN DIRECTION
+
+Use the NurseNest brand aesthetic but make it more refined:
+- soft pastel clinical palette
+- elegant whites / very pale lilac / muted lavender / subtle blush accents
+- rounded corners
+- soft layered shadows
+- restrained borders
+- clean typography
+- more whitespace
+- fewer visual interruptions
+- less “homepage promo block” energy
+- more “open your study session now” energy
+
+PAGE STRUCTURE TO BUILD
+
+Replace the current long cluttered layout with this structure:
+
+1. HERO / STUDY LAUNCHER SECTION
+This should be the main focus above the fold.
+
+Left side:
+- clear title such as “Master Nursing Flashcards”
+- short supporting text focused on clinical accuracy, exam alignment, and efficient studying
+- small trust indicators only if useful, not oversized
+- 1 main CTA: Start Studying
+- 1 secondary CTA: View Plans
+
+Right side:
+- premium configuration panel card
+- this is the real focal point
+- make it look like a polished study setup panel, not a generic filter box
+
+Configuration card should include:
+- card type selector
+- topic selector
+- exam tier selector if applicable (RPN / RN / NP / RRT etc. depending on role/page context)
+- study mode selector (Learn / Test / Mixed)
+- number of cards
+- optional difficulty or source filter if already supported
+- start session button
+- resume last session button if available
+- clean visual grouping and spacing
+
+2. TOPIC SELECTION EXPERIENCE
+The current giant wall of chips is not good.
+
+Redesign topic selection to be much better:
+- searchable topic selector
+- grouped by category/system
+- collapsible sections
+- multi-select support
+- clear selected count
+- option to “select recommended topics”
+- option to “show all”
+- option to “clear all”
+
+Possible groups:
+- Core Nursing Systems
+- Adult Health
+- Pediatrics
+- Maternal / Neonatal
+- Pharmacology
+- Fundamentals
+- Critical Care / Emergency
+- Mental Health
+- NP Advanced Topics
+- Specialty Areas
+
+Do not dump 50+ chips all at once in a way that overwhelms the user.
+
+3. STUDY MODES SECTION
+Create a clean, elegant section explaining modes briefly with cards:
+- Learn Mode
+- Test Mode
+- CAT Prep / Exam Style if relevant
+
+Each card should be visually consistent and concise.
+Do not over-explain.
+This section should support the main CTA, not distract from it.
+
+4. PERSONAL PROGRESS / QUICK ACCESS SECTION
+If user is logged in, create a clean dashboard-style strip for:
+- Continue last session
+- Flagged cards
+- Mastered cards
+- My decks
+- Recent topics
+- Weak areas
+
+This should look like a modern study dashboard, not like random buttons stacked on the page.
+
+5. MY FLASHCARDS / STUDY DECKS SECTION
+Condense and simplify.
+Right now this feels repetitive.
+
+Make one elegant section for user-generated study tools:
+- Create custom deck
+- Import CSV
+- View my decks
+- Shared decks
+- Accuracy reviewed content note
+
+Keep this concise and useful.
+
+6. REMOVE OR DE-EMPHASIZE EXCESS MARKETING BLOCKS
+Reduce or remove the following from the main flashcards landing page:
+- oversized comparison tables
+- repeated promo sections
+- repeated “more ways to study” grids
+- long repetitive footer-like content in the main body
+- anything that interrupts the user from starting a session
+
+If comparison content is still wanted, move it lower or to a separate marketing page.
+
+7. MAKE IT FEEL MORE LIKE A SERIOUS STUDY TOOL
+The experience should prioritize:
+- topic selection
+- mode selection
+- study launch
+- progress continuation
+- confidence/trust
+
+The page should not feel like a blog homepage or generic SaaS site.
+
+COPY DIRECTION
+
+Rewrite the copy to be tighter and more premium.
+
+Avoid:
+- too many exclamation points
+- generic marketing fluff
+- repetitive wording
+- long blocks of text
+
+Use concise, high-trust language like:
+- Clinically reviewed flashcards for focused nursing exam prep
+- Build targeted sessions by topic, mode, and exam level
+- Study smarter with flagged review, mastery tracking, and custom decks
+
+Do not copy competitor phrasing.
+
+UI / UX REQUIREMENTS
+
+- Strong above-the-fold experience
+- Cleaner spacing between sections
+- Fewer sections overall
+- Better typography hierarchy
+- Larger breathing room around important cards
+- Better mobile responsiveness
+- Sticky start session panel on mobile if helpful
+- Avoid horizontal overflow
+- Reduce visual density significantly
+- Make primary CTA obvious
+- Make filters feel premium, not cramped
+- Use subtle icons only where helpful
+- Use elegant loading and empty states
+
+SPECIFIC VISUAL CHANGES
+
+- Increase whitespace
+- Reduce the amount of text visible at once
+- Replace giant walls of filter chips with smarter filtering UI
+- Improve button styles
+- Improve card styling
+- Create cleaner section headings
+- Use softer visual separation
+- Make the whole page feel less noisy and more premium
+- Make it feel like students can start studying within seconds
+
+INFORMATION ARCHITECTURE
+
+Prioritize this order:
+1. Start studying
+2. Configure session
+3. Resume progress
+4. Review decks / flagged cards
+5. Learn about modes
+6. Everything else
+
+Not this order:
+1. Brand promo
+2. Marketing claims
+3. giant list of everything
+4. comparison table
+5. actual studying controls
+
+TECHNICAL TASKS
+
+- Refactor the flashcards landing page component structure
+- Audit repeated sections and remove redundancy
+- Improve responsiveness on desktop and mobile
+- Ensure role-based topic sets still work correctly
+- Make filters and topic groups data-driven
+- Preserve existing functionality while improving the UI
+- Keep performance good
+- Do not break logged-in user progress features
+- Ensure dark/light or brand theme consistency if supported
+- Make the design production ready on the published site
+
+IMPORTANT BRAND / LEGAL NOTE
+
+Create a premium, study-focused interface inspired by the strengths of serious exam-prep tools, but do not clone or imitate any specific competitor’s exact layout, copy, or proprietary UI.
+
+ACCEPTANCE CRITERIA
+
+This redesign is complete only when:
+1. The flashcards page feels significantly cleaner and more premium
+2. The page feels like a focused study launcher, not a cluttered marketing page
+3. Topic selection is organized and no longer appears as an overwhelming wall of chips
+4. The main CTA and session configuration are the clear focus above the fold
+5. Repetitive marketing content is reduced or moved lower
+6. Logged-in users can quickly continue studying
+7. The design is polished on desktop and mobile
+8. The final result feels like a high-trust nursing exam-prep product, with original NurseNest branding and not a copy of another platform
+
+After implementing, summarize:
+- what sections were removed or condensed
+- how the new layout hierarchy works
+- how topic selection was improved
+- how the design now feels more premium and study-focused
