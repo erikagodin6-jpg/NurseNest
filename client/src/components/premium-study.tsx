@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 import {
   CheckCircle2, XCircle, Lightbulb, Crosshair, Bookmark,
   ChevronLeft, ChevronRight, Target, Trophy, RotateCcw,
-  Clock, BookOpen, Flag, GraduationCap
+  Clock, BookOpen, Flag, GraduationCap, Star, AlertCircle
 } from "lucide-react";
 
 export function StudyPageShell({ children, className }: { children: ReactNode; className?: string }) {
@@ -110,13 +110,16 @@ export function AnswerOption({
 
   let containerCls = "border-gray-200 hover:border-primary/40 hover:bg-primary/[0.03] hover:shadow-sm";
   let circleCls = "border-gray-300 text-gray-500 bg-white";
+  let statusIcon: ReactNode = null;
 
   if (isCorrect) {
-    containerCls = "border-emerald-300 bg-emerald-50/50 shadow-sm";
-    circleCls = "border-emerald-500 text-white bg-emerald-500";
+    containerCls = "shadow-sm answer-correct-state";
+    circleCls = "text-white answer-correct-circle";
+    statusIcon = <CheckCircle2 className="h-4 w-4 shrink-0 theme-icon" />;
   } else if (isWrong) {
     containerCls = "border-red-200 bg-red-50/40";
     circleCls = "border-red-400 text-white bg-red-400";
+    statusIcon = <XCircle className="h-4.5 w-4.5 text-red-500 shrink-0" />;
   } else if (isRevealed && !isSelected) {
     containerCls = "border-gray-100 opacity-45";
   } else if (isSelected && !isRevealed) {
@@ -140,10 +143,10 @@ export function AnswerOption({
         "shrink-0 w-8 h-8 rounded-lg border-[1.5px] flex items-center justify-center text-sm font-semibold transition-all duration-200",
         circleCls
       )}>
-        {letter}
+        {isCorrect ? <CheckCircle2 className="h-4 w-4" /> : isWrong ? <XCircle className="h-4 w-4" /> : letter}
       </span>
-      <span className="flex-1 text-[15px] leading-relaxed text-slate-800">{text}</span>
-      {iconEl}
+      <span className="flex-1 text-[15px] leading-relaxed text-foreground">{text}</span>
+      {iconEl || statusIcon}
     </button>
   );
 }
@@ -162,14 +165,14 @@ export function ResultHeader({
       className={cn(
         "px-4 py-3 rounded-xl flex items-center gap-3",
         isCorrect
-          ? "bg-emerald-50/60 border border-emerald-200/50"
+          ? "result-correct-bg border"
           : "bg-amber-50/50 border border-amber-200/50"
       )}
       data-testid={testId}
     >
       <div className={cn(
         "shrink-0 w-8 h-8 rounded-lg flex items-center justify-center",
-        isCorrect ? "bg-emerald-500" : "bg-amber-500"
+        isCorrect ? "result-correct-icon-bg" : "bg-amber-500"
       )}>
         {isCorrect
           ? <CheckCircle2 className="h-4 w-4 text-white" />
@@ -178,11 +181,11 @@ export function ResultHeader({
       <div className="flex-1 min-w-0">
         <p className={cn(
           "font-semibold text-sm",
-          isCorrect ? "text-emerald-700" : "text-amber-700"
+          isCorrect ? "theme-text" : "text-amber-700"
         )} data-testid={testId ? `${testId}-label` : undefined}>
           {isCorrect ? "Correct!" : "Incorrect"}
         </p>
-        <p className="text-sm text-gray-600 mt-0.5 leading-relaxed">{correctText}</p>
+        <p className="text-sm mt-0.5 leading-relaxed text-muted-foreground">{correctText}</p>
       </div>
     </div>
   );
@@ -242,26 +245,39 @@ export function RationaleSection({
 export function RationaleImageBlock({
   src,
   alt,
+  caption,
+  description,
   "data-testid": testId,
 }: {
   src: string;
   alt: string;
+  caption?: string;
+  description?: string;
   "data-testid"?: string;
 }) {
   return (
-    <div className="mt-3 rounded-xl border border-gray-200/80 overflow-hidden bg-gray-50/50">
-      <div className="px-3 py-1.5 border-b border-gray-200/60 bg-white/60">
-        <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider">Clinical Reference</p>
+    <div className="mt-3 rounded-xl border border-gray-200/80 overflow-hidden rationale-image-bg">
+      <div className="px-4 py-2 border-b border-gray-200/60 bg-white/80">
+        <p className="text-xs font-bold uppercase tracking-wider theme-text flex items-center gap-1.5">
+          <Target className="w-3 h-3" />
+          Clinical Reference
+        </p>
       </div>
-      <div className="p-2 flex justify-center">
+      <div className="p-4 flex justify-center">
         <img
           src={src}
           alt={alt}
-          className="rounded-lg max-h-[200px] w-auto object-contain"
+          className="rounded-xl max-h-[240px] w-auto object-contain shadow-sm"
           loading="lazy"
           data-testid={testId}
         />
       </div>
+      {(caption || description) && (
+        <div className="px-4 pb-3 space-y-1">
+          {caption && <p className="text-xs font-semibold text-foreground">{caption}</p>}
+          {description && <p className="text-xs leading-relaxed text-muted-foreground">{description}</p>}
+        </div>
+      )}
     </div>
   );
 }
@@ -386,7 +402,7 @@ export function StudyProgressBar({
 }) {
   const barColors = {
     primary: "bg-primary",
-    emerald: "bg-emerald-500",
+    emerald: "themed-progress-fill",
     indigo: "bg-indigo-500",
     gray: "bg-gray-700",
   };
@@ -536,13 +552,13 @@ export function FlashcardRatingButtons({
         )}
         <Button
           onClick={onCorrect}
-          className="rounded-2xl gap-2.5 px-5 py-6 bg-emerald-600 hover:bg-emerald-700 flex-1 transition-all duration-200 hover:shadow-sm"
+          className="rounded-2xl gap-2.5 px-5 py-6 bg-primary hover:bg-primary/90 text-primary-foreground flex-1 transition-all duration-200 hover:shadow-sm"
           data-testid={correctTestId}
         >
           <CheckCircle2 className="w-5 h-5" />
           <div className="text-left">
             <div className="font-semibold text-sm">I knew this</div>
-            <div className="text-[10px] text-emerald-300">Review in 7+ days</div>
+            <div className="text-[10px] opacity-70">Review in 7+ days</div>
           </div>
         </Button>
       </div>
@@ -602,6 +618,87 @@ export function EmptyState({
       <h3 className="text-lg font-bold text-gray-900">{title}</h3>
       {description && <p className="text-gray-500 text-sm max-w-md mx-auto">{description}</p>}
       {children}
+    </div>
+  );
+}
+
+export function QuestionContextHeader({
+  focusArea,
+  topic,
+  className,
+  "data-testid": testId,
+}: {
+  focusArea?: string;
+  topic?: string;
+  className?: string;
+  "data-testid"?: string;
+}) {
+  if (!focusArea && !topic) return null;
+  return (
+    <div className={cn("flex items-center gap-2 flex-wrap", className)} data-testid={testId}>
+      {focusArea && (
+        <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-[11px] font-semibold tracking-wide theme-badge-bg theme-text">
+          <Crosshair className="w-3 h-3" />
+          {focusArea}
+        </span>
+      )}
+      {topic && (
+        <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-gray-100/80 text-[11px] font-medium text-muted-foreground">
+          {topic}
+        </span>
+      )}
+    </div>
+  );
+}
+
+export function KeyTakeawayBox({
+  children,
+  className,
+  "data-testid": testId,
+}: {
+  children: ReactNode;
+  className?: string;
+  "data-testid"?: string;
+}) {
+  return (
+    <div className={cn("key-takeaway-box rounded-xl p-3 border", className)} data-testid={testId}>
+      <div className="flex items-center gap-1.5 mb-1.5">
+        <Star className="w-3.5 h-3.5 theme-icon" />
+        <span className="text-[10px] font-bold uppercase tracking-widest theme-text">Key Takeaway</span>
+      </div>
+      <div className="text-sm leading-relaxed text-foreground">{children}</div>
+    </div>
+  );
+}
+
+export function ThemedProgressBar({
+  current,
+  total,
+  className,
+  "data-testid": testId,
+}: {
+  current: number;
+  total: number;
+  className?: string;
+  "data-testid"?: string;
+}) {
+  const pct = total > 0 ? ((current) / total) * 100 : 0;
+  return (
+    <div className={cn("space-y-1.5", className)} data-testid={testId}>
+      <div className="flex items-center justify-between">
+        <span className="text-xs font-semibold text-foreground">
+          Question {current} of {total}
+        </span>
+        <span className="text-[11px] font-medium tabular-nums text-muted-foreground">
+          {Math.round(pct)}%
+        </span>
+      </div>
+      <div className="h-2 bg-secondary rounded-full overflow-hidden">
+        <div
+          className="h-full rounded-full transition-all duration-500 ease-out themed-progress-fill"
+          style={{ width: `${Math.min(100, Math.max(0, pct))}%` }}
+        />
+      </div>
     </div>
   );
 }
