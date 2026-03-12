@@ -173,6 +173,7 @@ export function generateAlliedSitemap(baseUrl: string): string {
   for (const slug of drugClassSlugs) {
     urls.push(`<url><loc>${baseUrl}/pharmacy-technician/drug-classes/${slug}</loc><changefreq>monthly</changefreq><priority>0.7</priority><lastmod>${now}</lastmod></url>`);
   }
+  urls.push(`<url><loc>${baseUrl}/pharmacy-technician/practice-exam-questions</loc><changefreq>weekly</changefreq><priority>0.8</priority><lastmod>${now}</lastmod></url>`);
 
   return `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">

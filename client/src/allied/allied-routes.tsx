@@ -61,6 +61,7 @@ const PharmtechAdmin = lazy(() => import("./pages/pharmtech-admin"));
 const PharmtechReview = lazy(() => import("./pages/pharmtech-review"));
 const PharmtechDrugClassesHub = lazy(() => import("./pages/pharmtech-drug-classes"));
 const PharmtechDrugClassDetail = lazy(() => import("./pages/pharmtech-drug-classes").then(m => ({ default: m.PharmtechDrugClassDetail })));
+const PharmtechPracticeExamSeo = lazy(() => import("./pages/pharmtech-practice-exam-seo"));
 const MltStudentDashboard = lazy(() => import("./pages/mlt-student-dashboard"));
 import { MltSEOPage } from "./pages/mlt-seo-pages";
 
@@ -122,6 +123,7 @@ export function AlliedRoutes() {
         <Route path="/pharmacy-technician/review/:attemptId" component={PharmtechReview} />
         <Route path="/pharmacy-technician/exams/:slug" component={PharmtechExams} />
         <Route path="/pharmacy-technician/exams" component={PharmtechExams} />
+        <Route path="/pharmacy-technician/practice-exam-questions" component={PharmtechPracticeExamSeo} />
         <Route path="/pharmacy-technician/practice-questions" component={PharmtechPractice} />
         <Route path="/pharmacy-technician/study-guide" component={PharmtechStudyGuide} />
         <Route path="/pharmacy-technician-practice-questions">{() => <AlliedSeoLanding pageSlug="pharmacy-technician-practice-questions" />}</Route>

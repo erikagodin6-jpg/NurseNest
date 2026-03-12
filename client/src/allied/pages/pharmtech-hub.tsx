@@ -90,6 +90,9 @@ export default function PharmtechHubPage() {
                 <Link href="/pharmacy-technician/practice-questions" className="inline-flex items-center gap-2 px-6 py-3 bg-white text-green-700 rounded-xl text-sm font-semibold border border-green-200 hover:bg-green-50 transition-all" data-testid="button-practice-questions">
                   <BookOpen className="w-4 h-4" /> Practice Questions
                 </Link>
+                <Link href="/pharmacy-technician/practice-exam-questions" className="inline-flex items-center gap-2 px-6 py-3 bg-white text-green-700 rounded-xl text-sm font-semibold border border-green-200 hover:bg-green-50 transition-all" data-testid="button-practice-exam-questions">
+                  <FileText className="w-4 h-4" /> Practice Exam Questions
+                </Link>
               </div>
             </div>
             {stats && (
