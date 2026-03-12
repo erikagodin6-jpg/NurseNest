@@ -75,8 +75,7 @@ import { BreadcrumbNav } from "@/components/breadcrumb-nav";
 import heartImg from "@/assets/images/heart-flashcard.png";
 import pedsImg from "@/assets/images/peds-flashcard.png";
 import oncologyImg from "@/assets/images/oncology-flashcard.png";
-import { rnFlashcards } from "@/data/flashcards-rn";
-import { npFlashcards } from "@/data/flashcards-np";
+import { Target, Brain } from "lucide-react";
 
 type CardType = "question" | "term";
 
@@ -1661,7 +1660,7 @@ export default function Flashcards() {
   const { user, effectiveTier } = useAuth();
   const [, setLocation] = useLocation();
   const { t } = useI18n();
-  const [view, setView] = useState<"setup" | "study" | "report" | "bookmarks" | "mastered" | "mycards" | "mycards-study" | "decks" | "deck-view" | "deck-edit" | "deck-study-learn" | "deck-study-test" | "deck-report" | "browse-decks" | "admin-sets" | "admin-set-study" | "exam-flashcards" | "exam-report">("setup");
+  const [view, setView] = useState<"setup" | "study" | "report" | "bookmarks" | "mastered" | "mycards" | "mycards-study" | "decks" | "deck-view" | "deck-edit" | "deck-study-learn" | "deck-study-test" | "deck-report" | "browse-decks" | "admin-sets" | "admin-set-study" | "exam-flashcards" | "exam-report" | "adaptive-learn" | "adaptive-test" | "adaptive-report" | "admin-exam-manager">("setup");
   const [selectedType, setSelectedType] = useState<CardType | "all">("all");
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [cardSortBy, setCardSortBy] = useState<"default" | "alpha-asc" | "alpha-desc" | "category" | "shuffle">("default");
@@ -1691,6 +1690,34 @@ export default function Flashcards() {
   const [examMastered, setExamMastered] = useState<string[]>(() => JSON.parse(localStorage.getItem("nursenest-exam-mastered") || "[]"));
   const [examHasResumable, setExamHasResumable] = useState(false);
 
+  const [adaptiveCards, setAdaptiveCards] = useState<any[]>([]);
+  const [adaptiveLoading, setAdaptiveLoading] = useState(false);
+  const [adaptiveIndex, setAdaptiveIndex] = useState(0);
+  const [adaptiveMode, setAdaptiveMode] = useState<"learn" | "test">("learn");
+  const [adaptiveSelectedOption, setAdaptiveSelectedOption] = useState<number | null>(null);
+  const [adaptiveShowRationale, setAdaptiveShowRationale] = useState(false);
+  const [adaptiveResults, setAdaptiveResults] = useState<{ id: string; correct: boolean; topic: string; bodySystem: string; confidence: string }[]>([]);
+  const [adaptiveBookmarks, setAdaptiveBookmarks] = useState<string[]>(() => JSON.parse(localStorage.getItem("nursenest-adaptive-bookmarks") || "[]"));
+  const [adaptiveConfidence, setAdaptiveConfidence] = useState<string | null>(null);
+  const [adaptiveSources, setAdaptiveSources] = useState<Record<string, number>>({});
+  const [adaptiveWeakAreas, setAdaptiveWeakAreas] = useState<any[]>([]);
+  const [adaptiveSummary, setAdaptiveSummary] = useState<any>(null);
+  const [adaptiveSubmitted, setAdaptiveSubmitted] = useState(false);
+
+  const [adminExamQuestions, setAdminExamQuestions] = useState<any[]>([]);
+  const [adminExamLoading, setAdminExamLoading] = useState(false);
+  const [adminExamTier, setAdminExamTier] = useState<string>("all");
+  const [adminExamTopic, setAdminExamTopic] = useState<string>("all");
+  const [adminExamDifficulty, setAdminExamDifficulty] = useState<string>("all");
+  const [adminExamBodySystem, setAdminExamBodySystem] = useState<string>("all");
+  const [adminExamPage, setAdminExamPage] = useState(0);
+  const [adminExamTotal, setAdminExamTotal] = useState(0);
+  const [adminConvertingIds, setAdminConvertingIds] = useState<Set<string>>(new Set());
+  const [adminFilterTopics, setAdminFilterTopics] = useState<string[]>([]);
+  const [adminFilterSystems, setAdminFilterSystems] = useState<string[]>([]);
+  const [adminTierCounts, setAdminTierCounts] = useState<Record<string, number>>({});
+  const [adminCompleteness, setAdminCompleteness] = useState<any>(null);
+
   const [customCards, setCustomCards] = useState<CustomCard[]>([]);
   const [customCardsLoading, setCustomCardsLoading] = useState(false);
   const [newQuestion, setNewQuestion] = useState("");
@@ -1708,32 +1735,8 @@ export default function Flashcards() {
   const isPaid = user && effectiveTier !== "free" && ((user as any).subscriptionStatus === "active" || ((user as any).tier === "admin" && effectiveTier !== "free"));
 
   const allCards = useMemo(() => {
-    const userTier = effectiveTier;
-    const cards: Flashcard[] = [...baseCards];
-    if (userTier === "rn" || userTier === "np" || userTier === "admin") {
-      cards.push(...rnFlashcards.map(fc => ({
-        id: fc.id,
-        type: fc.type as CardType,
-        question: fc.question,
-        options: fc.options,
-        correctIndex: fc.correctIndex,
-        answer: fc.answer,
-        category: fc.category,
-      })));
-    }
-    if (userTier === "np" || userTier === "admin") {
-      cards.push(...npFlashcards.map(fc => ({
-        id: fc.id,
-        type: fc.type as CardType,
-        question: fc.question,
-        options: fc.options,
-        correctIndex: fc.correctIndex,
-        answer: fc.answer,
-        category: fc.category,
-      })));
-    }
-    return cards;
-  }, [user]);
+    return baseCards.filter(c => c.type === "question");
+  }, []);
 
   const [myDecks, setMyDecks] = useState<any[]>([]);
   const [publicDecks, setPublicDecks] = useState<any[]>([]);
@@ -2383,6 +2386,158 @@ export default function Flashcards() {
     }
   }, [view, examFlashcards.length, fetchExamFlashcards]);
 
+  const fetchAdaptiveSession = useCallback(async (mode: "learn" | "test") => {
+    if (!user || !effectiveTier || effectiveTier === "free") return;
+    setAdaptiveLoading(true);
+    setAdaptiveCards([]);
+    setAdaptiveIndex(0);
+    setAdaptiveSelectedOption(null);
+    setAdaptiveShowRationale(false);
+    setAdaptiveResults([]);
+    setAdaptiveConfidence(null);
+    setAdaptiveSummary(null);
+    setAdaptiveSubmitted(false);
+    try {
+      const tier = effectiveTier === "admin" ? "rn" : effectiveTier;
+      const res = await fetch(`/api/adaptive-flashcard-session/${user.id}?tier=${tier}&mode=${mode}&size=20`);
+      if (res.ok) {
+        const data = await res.json();
+        setAdaptiveCards(data.cards || []);
+        setAdaptiveSources(data.sources || {});
+        setAdaptiveWeakAreas(data.weakAreas || []);
+      }
+    } catch {} finally {
+      setAdaptiveLoading(false);
+    }
+  }, [user, effectiveTier]);
+
+  const handleAdaptiveAnswer = useCallback(async (selectedIdx: number) => {
+    if (!user || adaptiveCards.length === 0) return;
+    const card = adaptiveCards[adaptiveIndex];
+    const isCorrect = card.correctIndex === selectedIdx || (Array.isArray(card.correctAnswer) && card.correctAnswer.includes(selectedIdx));
+    setAdaptiveSelectedOption(selectedIdx);
+    if (adaptiveMode === "learn") {
+      setAdaptiveShowRationale(true);
+    } else {
+      setAdaptiveSubmitted(true);
+    }
+    const result = { id: card.id, correct: isCorrect, topic: card.topic || "", bodySystem: card.bodySystem || "", confidence: "" };
+    setAdaptiveResults(prev => [...prev, result]);
+  }, [user, adaptiveCards, adaptiveIndex, adaptiveMode]);
+
+  const submitTestAnswer = useCallback(() => {
+    setAdaptiveShowRationale(true);
+  }, []);
+
+  const recordAdaptiveConfidence = useCallback(async (confidence: string) => {
+    if (!user || adaptiveCards.length === 0) return;
+    const card = adaptiveCards[adaptiveIndex];
+    const lastResult = adaptiveResults[adaptiveResults.length - 1];
+    if (!lastResult) return;
+    setAdaptiveConfidence(confidence);
+    setAdaptiveResults(prev => {
+      const updated = [...prev];
+      updated[updated.length - 1] = { ...updated[updated.length - 1], confidence };
+      return updated;
+    });
+    try {
+      await fetch("/api/flashcard-session/answer", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          userId: user.id,
+          questionId: card.id,
+          selectedIndex: adaptiveSelectedOption,
+          wasCorrect: lastResult.correct,
+          confidence,
+          topic: card.topic,
+          bodySystem: card.bodySystem,
+          tier: effectiveTier === "admin" ? "rn" : effectiveTier,
+        }),
+      });
+    } catch {}
+  }, [user, adaptiveCards, adaptiveIndex, adaptiveResults, adaptiveSelectedOption, effectiveTier]);
+
+  const handleAdaptiveNext = useCallback(() => {
+    if (adaptiveIndex < adaptiveCards.length - 1) {
+      setAdaptiveIndex(prev => prev + 1);
+      setAdaptiveSelectedOption(null);
+      setAdaptiveShowRationale(false);
+      setAdaptiveConfidence(null);
+      setAdaptiveSubmitted(false);
+    } else {
+      fetchAdaptiveSummary();
+      setView("adaptive-report");
+    }
+  }, [adaptiveIndex, adaptiveCards.length]);
+
+  const fetchAdaptiveSummary = useCallback(async () => {
+    if (!user) return;
+    try {
+      const res = await fetch("/api/flashcard-session/summary", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          userId: user.id,
+          results: adaptiveResults,
+          tier: effectiveTier === "admin" ? "rn" : effectiveTier,
+        }),
+      });
+      if (res.ok) {
+        const data = await res.json();
+        setAdaptiveSummary(data);
+      }
+    } catch {}
+  }, [user, adaptiveResults, effectiveTier]);
+
+  const fetchAdminExamQuestions = useCallback(async (tierFilter?: string, topicFilter?: string, diffFilter?: string, bsFilter?: string, pg?: number) => {
+    if (user?.tier !== "admin") return;
+    setAdminExamLoading(true);
+    try {
+      const t = tierFilter ?? adminExamTier;
+      const tp = topicFilter ?? adminExamTopic;
+      const d = diffFilter ?? adminExamDifficulty;
+      const bs = bsFilter ?? adminExamBodySystem;
+      const p = pg ?? adminExamPage;
+      const params = new URLSearchParams({ tier: t, topic: tp, difficulty: d, bodySystem: bs, page: String(p), limit: "50" });
+      const res = await fetch(`/api/admin/exam-questions?${params}`, { credentials: "include" });
+      if (res.ok) {
+        const data = await res.json();
+        setAdminExamQuestions(data.questions || []);
+        setAdminExamTotal(data.total || 0);
+        if (data.topics) setAdminFilterTopics(data.topics);
+        if (data.bodySystems) setAdminFilterSystems(data.bodySystems);
+        if (data.tierCounts) setAdminTierCounts(data.tierCounts);
+        if (data.completeness) setAdminCompleteness(data.completeness);
+      }
+    } catch {} finally {
+      setAdminExamLoading(false);
+    }
+  }, [user, adminExamTier, adminExamTopic, adminExamDifficulty, adminExamBodySystem, adminExamPage]);
+
+  const handleAdminConvert = useCallback(async () => {
+    if (user?.tier !== "admin") return;
+    setAdminConvertingIds(new Set(["converting"]));
+    try {
+      const res = await fetch("/api/admin/convert-to-flashcard", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({}),
+        credentials: "include",
+      });
+      if (res.ok) {
+        const data = await res.json();
+        alert(`Conversion complete: ${data.created || 0} new flashcard decks synced`);
+      } else {
+        alert("Conversion failed");
+      }
+    } catch {
+      alert("Conversion error");
+    } finally {
+      setAdminConvertingIds(new Set());
+    }
+  }, [user]);
+
   const handleValidateAndSave = async () => {
     if (!user || !newQuestion.trim() || !newAnswer.trim()) return;
     setValidating(true);
@@ -2827,7 +2982,7 @@ export default function Flashcards() {
                   </div>
 
                   {user?.tier === "admin" && (
-                    <div className="mt-4">
+                    <div className="mt-4 flex items-center gap-2">
                       <Button
                         variant="ghost"
                         size="sm"
@@ -2837,6 +2992,16 @@ export default function Flashcards() {
                       >
                         <Pencil className="w-3 h-3" />
                         Manage Content
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        className="gap-2 text-xs text-muted-foreground hover:text-foreground/60"
+                        onClick={() => { fetchAdminExamQuestions(); setView("admin-exam-manager"); }}
+                        data-testid="button-admin-exam-manager"
+                      >
+                        <ShieldAlert className="w-3 h-3" />
+                        Exam Question Manager
                       </Button>
                     </div>
                   )}
@@ -3468,14 +3633,34 @@ export default function Flashcards() {
                 <button
                   onClick={() => {
                     if (!isPaid) { setLocation("/pricing"); return; }
-                    setExamStudyIndex(0);
-                    setExamSelectedOption(null);
-                    setExamShowRationale(false);
-                    setExamSessionResults([]);
-                    setView("exam-flashcards");
+                    setAdaptiveMode("learn");
+                    fetchAdaptiveSession("learn");
+                    setView("adaptive-learn");
+                  }}
+                  className="group flex flex-col items-start p-4 bg-white rounded-2xl border border-blue-100/60 hover:border-blue-200 hover:shadow-md transition-all text-left relative"
+                  data-testid="card-adaptive-learn"
+                >
+                  {!isPaid && (
+                    <div className="absolute top-2 right-2">
+                      <Lock className="w-3 h-3 text-muted-foreground/60" />
+                    </div>
+                  )}
+                  <div className="w-9 h-9 rounded-xl bg-blue-50 flex items-center justify-center mb-3">
+                    <BookOpen className="w-4 h-4 text-blue-500" />
+                  </div>
+                  <span className="text-xs font-semibold text-foreground/70 mb-0.5">Adaptive Learn</span>
+                  <span className="text-[11px] text-muted-foreground">Exam-style, personalized</span>
+                </button>
+
+                <button
+                  onClick={() => {
+                    if (!isPaid) { setLocation("/pricing"); return; }
+                    setAdaptiveMode("test");
+                    fetchAdaptiveSession("test");
+                    setView("adaptive-test");
                   }}
                   className="group flex flex-col items-start p-4 bg-white rounded-2xl border border-rose-100/60 hover:border-rose-200 hover:shadow-md transition-all text-left relative"
-                  data-testid="card-exam-flashcards"
+                  data-testid="card-adaptive-test"
                 >
                   {!isPaid && (
                     <div className="absolute top-2 right-2">
@@ -3485,10 +3670,8 @@ export default function Flashcards() {
                   <div className="w-9 h-9 rounded-xl bg-rose-50 flex items-center justify-center mb-3">
                     <ShieldAlert className="w-4 h-4 text-rose-500" />
                   </div>
-                  <span className="text-xs font-semibold text-foreground/70 mb-0.5">CAT Exam Prep</span>
-                  <span className="text-[11px] text-muted-foreground">
-                    {examFlashcardTotal > 0 ? `${examFlashcardTotal.toLocaleString()} cards` : "Exam style"}
-                  </span>
+                  <span className="text-xs font-semibold text-foreground/70 mb-0.5">Adaptive Test</span>
+                  <span className="text-[11px] text-muted-foreground">Exam prep, no hints</span>
                 </button>
               </div>
 
@@ -3526,7 +3709,70 @@ export default function Flashcards() {
             </div>
           </section>
 
-          {/* ===== SECTION 6: Why NurseNest Flashcards ===== */}
+          {/* ===== SECTION 6: Adaptive Study Modes ===== */}
+          <section className="py-14 bg-white border-b border-violet-50" data-testid="section-study-modes">
+            <div className="max-w-5xl mx-auto px-4 sm:px-6">
+              <div className="text-center mb-10">
+                <h2 className="text-2xl sm:text-3xl font-bold text-foreground mb-3">Adaptive Study Modes</h2>
+                <p className="text-muted-foreground text-sm sm:text-base max-w-2xl mx-auto leading-relaxed">
+                  Exam questions are prioritized based on your weak areas, missed questions, and spaced repetition schedule.
+                </p>
+              </div>
+              <div className="grid sm:grid-cols-3 gap-5">
+                <button
+                  onClick={() => {
+                    if (!isPaid) { setLocation("/pricing"); return; }
+                    setAdaptiveMode("learn");
+                    fetchAdaptiveSession("learn");
+                    setView("adaptive-learn");
+                  }}
+                  className="p-5 rounded-2xl bg-gradient-to-b from-blue-50/60 to-white border border-blue-100/50 hover:border-blue-200 hover:shadow-md transition-all text-left relative"
+                  data-testid="button-learn-mode"
+                >
+                  {!isPaid && <div className="absolute top-3 right-3"><Lock className="w-3 h-3 text-muted-foreground/60" /></div>}
+                  <div className="w-10 h-10 rounded-xl bg-blue-100 flex items-center justify-center mb-3">
+                    <BookOpen className="w-5 h-5 text-blue-600" />
+                  </div>
+                  <h3 className="text-sm font-bold text-foreground mb-1">Learn Mode</h3>
+                  <p className="text-xs text-muted-foreground leading-relaxed">
+                    Exam-style questions with immediate answer reveal, rationale, clinical pearls, and lesson links.
+                  </p>
+                </button>
+
+                <button
+                  onClick={() => {
+                    if (!isPaid) { setLocation("/pricing"); return; }
+                    setAdaptiveMode("test");
+                    fetchAdaptiveSession("test");
+                    setView("adaptive-test");
+                  }}
+                  className="p-5 rounded-2xl bg-gradient-to-b from-rose-50/60 to-white border border-rose-100/50 hover:border-rose-200 hover:shadow-md transition-all text-left relative"
+                  data-testid="button-test-mode"
+                >
+                  {!isPaid && <div className="absolute top-3 right-3"><Lock className="w-3 h-3 text-muted-foreground/60" /></div>}
+                  <div className="w-10 h-10 rounded-xl bg-rose-100 flex items-center justify-center mb-3">
+                    <ShieldAlert className="w-5 h-5 text-rose-600" />
+                  </div>
+                  <h3 className="text-sm font-bold text-foreground mb-1">Test Mode</h3>
+                  <p className="text-xs text-muted-foreground leading-relaxed">
+                    Answer first, then reveal rationale. No timer pressure. Tracks confidence and weak areas.
+                  </p>
+                </button>
+
+                <div className="p-5 rounded-2xl bg-gradient-to-b from-violet-50/60 to-white border border-violet-100/50 text-left">
+                  <div className="w-10 h-10 rounded-xl bg-violet-100 flex items-center justify-center mb-3">
+                    <Target className="w-5 h-5 text-violet-600" />
+                  </div>
+                  <h3 className="text-sm font-bold text-foreground mb-1">Adaptive Engine</h3>
+                  <p className="text-xs text-muted-foreground leading-relaxed">
+                    Cards are prioritized based on your missed questions, weak areas, and spaced repetition schedule.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* ===== SECTION 6b: Why NurseNest Flashcards ===== */}
           <section className="py-14 bg-white border-b border-violet-50" data-testid="section-why-nursenest">
             <div className="max-w-5xl mx-auto px-4 sm:px-6">
               <div className="text-center mb-10">
@@ -5180,6 +5426,756 @@ export default function Flashcards() {
             </div>
           </div>
         </main>
+      </div>
+    );
+  }
+
+  if (view === "admin-exam-manager" && user?.tier === "admin") {
+    const totalPages = Math.ceil(adminExamTotal / 50);
+    const cmp = adminCompleteness;
+    const pct = (n: number, t: number) => t > 0 ? Math.round((n / t) * 100) : 0;
+
+    return (
+      <div className="min-h-screen bg-warmwhite flex flex-col font-sans">
+        <Navigation />
+        <main className="max-w-6xl mx-auto px-4 py-8 w-full flex-1">
+          <Button variant="ghost" className="mb-6 gap-2" onClick={() => setView("setup")} data-testid="button-back-admin-exam">
+            <ArrowLeft className="w-4 h-4" /> Back to Flashcards
+          </Button>
+
+          <div className="mb-6">
+            <h1 className="text-2xl font-bold text-foreground" data-testid="text-admin-exam-title">Exam Question Manager</h1>
+            <p className="text-sm text-muted-foreground mt-1">
+              {adminExamTotal.toLocaleString()} questions matching filters
+              {Object.keys(adminTierCounts).length > 0 && (
+                <span className="ml-2">
+                  ({Object.entries(adminTierCounts).map(([t, c]) => `${t.toUpperCase()}: ${c.toLocaleString()}`).join(", ")})
+                </span>
+              )}
+            </p>
+          </div>
+
+          {cmp && (
+            <Card className="border border-border shadow-sm bg-card rounded-xl mb-6 overflow-hidden" data-testid="card-completeness">
+              <div className="px-5 pt-3 pb-2 border-b border-border">
+                <h3 className="text-xs font-semibold text-foreground uppercase tracking-wider flex items-center gap-2">
+                  <BarChart3 className="w-3.5 h-3.5 text-primary" /> Content Completeness
+                </h3>
+              </div>
+              <CardContent className="px-5 py-3">
+                <div className="grid grid-cols-2 sm:grid-cols-5 gap-3">
+                  {[
+                    { label: "Rationale", value: cmp.withRationale, color: "emerald" },
+                    { label: "Clinical Pearl", value: cmp.withPearl, color: "amber" },
+                    { label: "Exam Strategy", value: cmp.withStrategy, color: "blue" },
+                    { label: "Memory Hook", value: cmp.withHook, color: "violet" },
+                    { label: "Distractors", value: cmp.withDistractors, color: "rose" },
+                  ].map(item => {
+                    const p = pct(item.value, cmp.total);
+                    return (
+                      <div key={item.label} className="text-center" data-testid={`stat-completeness-${item.label.toLowerCase().replace(/\s/g, "-")}`}>
+                        <p className={`text-lg font-bold text-${item.color}-600`}>{p}%</p>
+                        <p className="text-[10px] text-muted-foreground font-medium">{item.label}</p>
+                        <p className="text-[9px] text-muted-foreground/60">{item.value}/{cmp.total}</p>
+                      </div>
+                    );
+                  })}
+                </div>
+              </CardContent>
+            </Card>
+          )}
+
+          <Card className="border border-border shadow-sm bg-card rounded-xl mb-6 overflow-hidden" data-testid="card-admin-filters">
+            <CardContent className="px-5 py-4">
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                <div>
+                  <label className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wider block mb-1">Tier</label>
+                  <select
+                    value={adminExamTier}
+                    onChange={e => { setAdminExamTier(e.target.value); setAdminExamPage(0); fetchAdminExamQuestions(e.target.value, undefined, undefined, undefined, 0); }}
+                    className="w-full h-9 px-3 rounded-lg border border-border bg-background text-sm"
+                    data-testid="select-admin-tier"
+                  >
+                    <option value="all">All Tiers</option>
+                    <option value="rn">RN</option>
+                    <option value="rpn">RPN/LPN</option>
+                    <option value="np">NP</option>
+                    <option value="free">Free</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wider block mb-1">Topic</label>
+                  <select
+                    value={adminExamTopic}
+                    onChange={e => { setAdminExamTopic(e.target.value); setAdminExamPage(0); fetchAdminExamQuestions(undefined, e.target.value, undefined, undefined, 0); }}
+                    className="w-full h-9 px-3 rounded-lg border border-border bg-background text-sm"
+                    data-testid="select-admin-topic"
+                  >
+                    <option value="all">All Topics</option>
+                    {adminFilterTopics.map(t => <option key={t} value={t}>{t}</option>)}
+                  </select>
+                </div>
+                <div>
+                  <label className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wider block mb-1">Body System</label>
+                  <select
+                    value={adminExamBodySystem}
+                    onChange={e => { setAdminExamBodySystem(e.target.value); setAdminExamPage(0); fetchAdminExamQuestions(undefined, undefined, undefined, e.target.value, 0); }}
+                    className="w-full h-9 px-3 rounded-lg border border-border bg-background text-sm"
+                    data-testid="select-admin-body-system"
+                  >
+                    <option value="all">All Body Systems</option>
+                    {adminFilterSystems.map(s => <option key={s} value={s}>{s}</option>)}
+                  </select>
+                </div>
+                <div>
+                  <label className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wider block mb-1">Difficulty</label>
+                  <select
+                    value={adminExamDifficulty}
+                    onChange={e => { setAdminExamDifficulty(e.target.value); setAdminExamPage(0); fetchAdminExamQuestions(undefined, undefined, e.target.value, undefined, 0); }}
+                    className="w-full h-9 px-3 rounded-lg border border-border bg-background text-sm"
+                    data-testid="select-admin-difficulty"
+                  >
+                    <option value="all">All Levels</option>
+                    {[1,2,3,4,5].map(d => <option key={d} value={String(d)}>Level {d}</option>)}
+                  </select>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          <div className="flex items-center justify-between mb-4">
+            <Button
+              variant="outline"
+              size="sm"
+              className="gap-1.5 text-xs"
+              onClick={() => handleAdminConvert()}
+              disabled={adminConvertingIds.size > 0}
+              data-testid="button-convert-all"
+            >
+              <RefreshCw className={cn("w-3 h-3", adminConvertingIds.size > 0 && "animate-spin")} />
+              Sync Flashcard Decks
+            </Button>
+            <div className="flex items-center gap-2">
+              <Button variant="outline" size="sm" disabled={adminExamPage === 0} onClick={() => { const p = adminExamPage - 1; setAdminExamPage(p); fetchAdminExamQuestions(undefined, undefined, undefined, undefined, p); }} data-testid="button-admin-prev">
+                <ChevronLeft className="w-4 h-4" />
+              </Button>
+              <span className="text-xs text-muted-foreground font-medium" data-testid="text-admin-page">
+                Page {adminExamPage + 1} of {totalPages || 1}
+              </span>
+              <Button variant="outline" size="sm" disabled={adminExamPage >= totalPages - 1} onClick={() => { const p = adminExamPage + 1; setAdminExamPage(p); fetchAdminExamQuestions(undefined, undefined, undefined, undefined, p); }} data-testid="button-admin-next">
+                <ChevronRight className="w-4 h-4" />
+              </Button>
+            </div>
+          </div>
+
+          {adminExamLoading ? (
+            <div className="flex items-center justify-center py-16">
+              <RefreshCw className="w-6 h-6 text-primary animate-spin" />
+            </div>
+          ) : adminExamQuestions.length === 0 ? (
+            <div className="text-center py-16 bg-card rounded-2xl border border-dashed border-border">
+              <BookOpen className="w-10 h-10 text-muted-foreground/40 mx-auto mb-3" />
+              <p className="text-muted-foreground">No questions match your filters</p>
+            </div>
+          ) : (
+            <div className="space-y-3">
+              {adminExamQuestions.map((q: any) => {
+                const hasRationale = q.rationale && q.rationale.length > 0;
+                const hasPearl = q.clinicalPearl && q.clinicalPearl.length > 0;
+                const hasStrategy = q.examStrategy && q.examStrategy.length > 0;
+                const hasHook = q.memoryHook && q.memoryHook.length > 0;
+                const hasDistractors = q.distractorRationales && Object.keys(q.distractorRationales).length > 0;
+                const fieldCount = [hasRationale, hasPearl, hasStrategy, hasHook, hasDistractors].filter(Boolean).length;
+
+                return (
+                  <Card key={q.id} className="border border-border shadow-sm bg-card rounded-xl overflow-hidden" data-testid={`card-admin-question-${q.id}`}>
+                    <div className="p-4">
+                      <div className="flex items-start gap-3">
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center gap-1.5 mb-1.5 flex-wrap">
+                            <span className="text-[10px] font-bold text-primary uppercase px-1.5 py-0.5 bg-primary/5 rounded">{q.tier}</span>
+                            {q.bodySystem && <span className="text-[10px] text-muted-foreground bg-secondary px-1.5 py-0.5 rounded">{q.bodySystem}</span>}
+                            {q.topic && <span className="text-[10px] text-muted-foreground bg-secondary px-1.5 py-0.5 rounded">{q.topic}</span>}
+                            {q.difficulty && (
+                              <span className={cn("text-[10px] font-semibold px-1.5 py-0.5 rounded", q.difficulty <= 2 ? "bg-emerald-50 text-emerald-600" : q.difficulty >= 4 ? "bg-red-50 text-red-600" : "bg-amber-50 text-amber-600")}>
+                                D{q.difficulty}
+                              </span>
+                            )}
+                            <span className={cn("text-[10px] font-medium px-1.5 py-0.5 rounded", fieldCount >= 4 ? "bg-emerald-50 text-emerald-600" : fieldCount >= 2 ? "bg-amber-50 text-amber-600" : "bg-red-50 text-red-600")} data-testid={`badge-completeness-${q.id}`}>
+                              {fieldCount}/5 fields
+                            </span>
+                          </div>
+                          <p className="text-sm text-foreground leading-snug line-clamp-2" data-testid={`text-question-stem-${q.id}`}>{q.stem}</p>
+                          <div className="flex items-center gap-1 mt-2 flex-wrap">
+                            {hasRationale && <span className="text-[9px] text-emerald-600 bg-emerald-50 px-1 py-0.5 rounded">Rationale</span>}
+                            {hasPearl && <span className="text-[9px] text-amber-600 bg-amber-50 px-1 py-0.5 rounded">Pearl</span>}
+                            {hasStrategy && <span className="text-[9px] text-blue-600 bg-blue-50 px-1 py-0.5 rounded">Strategy</span>}
+                            {hasHook && <span className="text-[9px] text-violet-600 bg-violet-50 px-1 py-0.5 rounded">Hook</span>}
+                            {hasDistractors && <span className="text-[9px] text-rose-600 bg-rose-50 px-1 py-0.5 rounded">Distractors</span>}
+                          </div>
+                        </div>
+                        <span className="shrink-0 text-[9px] text-muted-foreground/60 font-mono" data-testid={`text-qid-${q.id}`}>
+                          {q.id.substring(0, 8)}
+                        </span>
+                      </div>
+                    </div>
+                  </Card>
+                );
+              })}
+            </div>
+          )}
+        </main>
+        <Footer />
+      </div>
+    );
+  }
+
+  if (view === "adaptive-learn" || view === "adaptive-test") {
+    const aCard = adaptiveCards[adaptiveIndex];
+    const isLearnMode = view === "adaptive-learn";
+
+    const toggleAdaptiveBookmark = (id: string) => {
+      const updated = adaptiveBookmarks.includes(id) ? adaptiveBookmarks.filter(b => b !== id) : [...adaptiveBookmarks, id];
+      setAdaptiveBookmarks(updated);
+      localStorage.setItem("nursenest-adaptive-bookmarks", JSON.stringify(updated));
+    };
+
+    const getRelatedLessonForCard = (card: any) => {
+      const catMap: Record<string, { slug: string; title: string }> = {
+        "Cardiovascular": { slug: "cardiovascular", title: "Cardiovascular Nursing" },
+        "Respiratory": { slug: "respiratory", title: "Respiratory System" },
+        "Neurological": { slug: "neurological", title: "Neurological Nursing" },
+        "Pharmacology": { slug: "pharmacology", title: "Pharmacology Essentials" },
+        "Pediatrics": { slug: "pediatrics", title: "Pediatric Nursing" },
+        "Oncology": { slug: "oncology", title: "Oncology Nursing" },
+        "GI": { slug: "gastrointestinal", title: "Gastrointestinal Nursing" },
+        "Gastrointestinal": { slug: "gastrointestinal", title: "Gastrointestinal Nursing" },
+        "Renal": { slug: "renal", title: "Renal & Urinary Nursing" },
+        "Musculoskeletal": { slug: "musculoskeletal", title: "Musculoskeletal Nursing" },
+        "Skin": { slug: "integumentary", title: "Integumentary & Wound Care" },
+        "Infection": { slug: "infection-control", title: "Infection Control" },
+        "Maternal": { slug: "maternal", title: "Maternal & Newborn Nursing" },
+        "Neonatal": { slug: "maternal", title: "Maternal & Newborn Nursing" },
+        "Psychiatry": { slug: "mental-health", title: "Mental Health Nursing" },
+        "Mental Health": { slug: "mental-health", title: "Mental Health Nursing" },
+        "Hematology": { slug: "hematology", title: "Hematology & Oncology" },
+        "Endocrine": { slug: "endocrine", title: "Endocrine System" },
+        "Fundamentals": { slug: "fundamentals", title: "Nursing Fundamentals" },
+      };
+      return catMap[card.bodySystem] || catMap[card.topic] || null;
+    };
+
+    if (adaptiveLoading) {
+      return (
+        <div className="min-h-screen bg-warmwhite flex flex-col font-sans">
+          <Navigation />
+          <main className="max-w-4xl mx-auto px-4 py-24 w-full flex-1 flex items-center justify-center">
+            <div className="text-center">
+              <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-4" />
+              <p className="text-muted-foreground font-medium" data-testid="text-adaptive-loading">Building your personalized study session...</p>
+              <p className="text-xs text-muted-foreground/60 mt-2">Analyzing your weak areas and selecting priority cards</p>
+            </div>
+          </main>
+          <Footer />
+        </div>
+      );
+    }
+
+    if (!aCard || adaptiveCards.length === 0) {
+      return (
+        <div className="min-h-screen bg-warmwhite flex flex-col font-sans">
+          <Navigation />
+          <main className="max-w-4xl mx-auto px-4 py-24 w-full flex-1 text-center">
+            <ShieldAlert className="w-12 h-12 text-muted-foreground/60 mx-auto mb-4" />
+            <h2 className="text-2xl font-bold text-foreground mb-2" data-testid="text-no-adaptive-cards">No Exam Cards Available</h2>
+            <p className="text-muted-foreground mb-6">No exam questions are available for your tier. Please try again later.</p>
+            <Button onClick={() => setView("setup")} data-testid="button-back-adaptive">Back to Flashcards</Button>
+          </main>
+          <Footer />
+        </div>
+      );
+    }
+
+    const lastResult = adaptiveResults[adaptiveResults.length - 1];
+    const hasAnswered = adaptiveSelectedOption !== null;
+    const needsConfidence = adaptiveShowRationale && !adaptiveConfidence;
+    const sourceLabel = aCard.source === "review_queue" ? "Review" : aCard.source === "weak_area" ? "Weak Area" : aCard.source === "srs_due" ? "SRS Due" : "New";
+    const sourceBg = aCard.source === "review_queue" ? "bg-amber-50 text-amber-700" : aCard.source === "weak_area" ? "bg-red-50 text-red-700" : aCard.source === "srs_due" ? "bg-blue-50 text-blue-700" : "bg-emerald-50 text-emerald-700";
+
+    return (
+      <div className={`min-h-screen bg-gradient-to-b from-rose-50/30 via-white to-slate-50 flex flex-col font-sans ${user?.tier !== "admin" ? "select-none" : ""}`}>
+        <Navigation />
+        <main className={cn("mx-auto px-4 py-4 sm:py-8 w-full flex-1 flex flex-col", adaptiveShowRationale ? "max-w-[1200px]" : "max-w-[820px]")}>
+          <div className="mb-4 flex items-center justify-between">
+            <div>
+              <h1 className="text-xl sm:text-2xl font-bold text-foreground tracking-tight" data-testid="text-adaptive-title">
+                {isLearnMode ? "Learn Mode" : "Test Mode"}
+              </h1>
+              <p className="text-xs text-muted-foreground mt-1">
+                {aCard.bodySystem || "General"} &middot; {aCard.topic || "Exam Question"}
+                {aCard.difficulty && <span> &middot; Difficulty {aCard.difficulty}</span>}
+              </p>
+            </div>
+            <div className="flex items-center gap-3 text-sm text-muted-foreground">
+              <span className={cn("inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold", sourceBg)} data-testid="badge-card-source">
+                {aCard.source === "review_queue" && <RefreshCw className="w-3 h-3" />}
+                {aCard.source === "weak_area" && <Target className="w-3 h-3" />}
+                {sourceLabel}
+              </span>
+              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-rose-50 text-rose-600 text-xs font-semibold" data-testid="badge-tier">
+                <ShieldAlert className="w-3 h-3" />
+                {(aCard.tier || effectiveTier)?.toUpperCase()}
+              </span>
+              <div className="flex items-center gap-1">
+                <span className="font-semibold text-foreground" data-testid="text-card-index">{adaptiveIndex + 1}</span>
+                <span>/</span>
+                <span data-testid="text-card-total">{adaptiveCards.length}</span>
+              </div>
+            </div>
+          </div>
+
+          <div className="w-full bg-secondary h-1.5 rounded-full mb-5 overflow-hidden">
+            <div className="bg-rose-500 h-full rounded-full transition-all duration-500" style={{ width: `${((adaptiveIndex + 1) / adaptiveCards.length) * 100}%` }} data-testid="progress-adaptive" />
+          </div>
+
+          <div className="w-full flex-1 flex flex-col gap-4">
+            <div className="flex-1">
+              {adaptiveShowRationale ? (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-5 animate-in fade-in duration-300" data-testid="section-adaptive-review">
+                  <div className="flex flex-col gap-4">
+                    <Card className="border border-border shadow-sm bg-card overflow-hidden rounded-2xl flex flex-col" data-testid="card-adaptive-question-review">
+                      <div className="p-5 sm:p-6 flex flex-col flex-1">
+                        <h2 className="text-base sm:text-lg font-semibold text-foreground mb-4 leading-snug" data-testid="text-adaptive-stem">{aCard.question}</h2>
+                        <div className="space-y-2 flex-1">
+                          {aCard.options?.map((option: string, idx: number) => {
+                            const isSelected = adaptiveSelectedOption === idx;
+                            const isCorrect = aCard.correctIndex === idx || (Array.isArray(aCard.correctAnswer) && aCard.correctAnswer.includes(idx));
+                            let variantClasses = "border-border bg-secondary text-muted-foreground";
+                            if (isCorrect) variantClasses = "border-emerald-500 bg-emerald-50 text-emerald-900 ring-2 ring-emerald-200";
+                            else if (isSelected) variantClasses = "border-red-300 bg-red-50 text-red-700";
+                            return (
+                              <button key={idx} disabled className={cn("w-full text-left p-3 rounded-lg border transition-all flex items-start gap-3 text-sm", variantClasses)} data-testid={`button-adaptive-option-review-${idx}`}>
+                                <span className="shrink-0 w-5 h-5 rounded-full border border-current flex items-center justify-center text-[10px] font-semibold">
+                                  {String.fromCharCode(65 + idx)}
+                                </span>
+                                {option}
+                              </button>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    </Card>
+                  </div>
+
+                  <div className="flex flex-col gap-3.5">
+                    <Card className="border border-border shadow-sm bg-card rounded-2xl overflow-hidden">
+                      <div className="px-5 pt-4 pb-2 flex items-center gap-2.5 border-b border-border">
+                        <div className="w-6 h-6 rounded-lg bg-primary/10 flex items-center justify-center">
+                          <BookOpen className="w-3 h-3 text-primary" />
+                        </div>
+                        <h3 className="text-xs font-semibold text-primary tracking-wide">Rationale & Review</h3>
+                      </div>
+                      <CardContent className="px-5 py-4 space-y-3.5" data-testid="section-adaptive-rationale">
+                        <div className="bg-emerald-50/50 rounded-lg border border-emerald-100/60 p-3">
+                          <p className="text-[10px] font-semibold text-emerald-600 uppercase tracking-widest mb-1.5 flex items-center gap-1">
+                            <CheckCircle2 className="w-3 h-3" /> Correct Answer Rationale
+                          </p>
+                          <p className="text-sm text-foreground/70 leading-relaxed" data-testid="text-adaptive-rationale">{aCard.rationale}</p>
+                        </div>
+
+                        {aCard.distractorRationales && Object.keys(aCard.distractorRationales).length > 0 && (
+                          <div className="bg-card rounded-lg border border-border p-3">
+                            <p className="text-[10px] font-semibold text-muted-foreground uppercase tracking-widest mb-2.5">Why Other Options Are Incorrect</p>
+                            <div className="space-y-2">
+                              {Object.entries(aCard.distractorRationales).map(([key, rationale]) => (
+                                <div key={key} className="flex gap-2 text-sm">
+                                  <span className="shrink-0 w-5 h-5 rounded-full bg-rose-50 flex items-center justify-center text-[9px] font-bold text-rose-400 mt-0.5">
+                                    {key.replace(/^option_?/i, "").charAt(0).toUpperCase() || key.charAt(0).toUpperCase()}
+                                  </span>
+                                  <p className="text-foreground/60 leading-relaxed">{rationale as string}</p>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        )}
+
+                        {aCard.clinicalPearl && (
+                          <div className="bg-gradient-to-r from-amber-50/70 to-rose-50/50 rounded-lg border border-amber-100/50 p-3">
+                            <p className="text-[10px] font-semibold text-amber-600 uppercase tracking-widest mb-1.5 flex items-center gap-1">
+                              <Sparkles className="w-3 h-3" /> Clinical Pearl
+                            </p>
+                            <p className="text-sm text-foreground/70 leading-relaxed" data-testid="text-clinical-pearl">{aCard.clinicalPearl}</p>
+                          </div>
+                        )}
+
+                        {aCard.examStrategy && (
+                          <div className="bg-blue-50/50 rounded-lg border border-blue-100/60 p-3">
+                            <p className="text-[10px] font-semibold text-blue-600 uppercase tracking-widest mb-1.5 flex items-center gap-1">
+                              <Lightbulb className="w-3 h-3" /> Exam Strategy
+                            </p>
+                            <p className="text-sm text-foreground/70 leading-relaxed">{aCard.examStrategy}</p>
+                          </div>
+                        )}
+
+                        {aCard.memoryHook && (
+                          <div className="bg-violet-50/50 rounded-lg border border-violet-100/60 p-3">
+                            <p className="text-[10px] font-semibold text-violet-600 uppercase tracking-widest mb-1.5 flex items-center gap-1">
+                              <Brain className="w-3 h-3" /> Memory Hook
+                            </p>
+                            <p className="text-sm text-foreground/70 leading-relaxed">{aCard.memoryHook}</p>
+                          </div>
+                        )}
+
+                        {(() => {
+                          const lesson = getRelatedLessonForCard(aCard);
+                          if (!lesson) return null;
+                          return (
+                            <div className="bg-primary/5 rounded-lg border border-primary/20 p-3">
+                              <p className="text-[10px] font-semibold text-primary uppercase tracking-widest mb-2 flex items-center gap-1">
+                                <Layers className="w-3 h-3" /> Review Lesson
+                              </p>
+                              <a
+                                href={`/en/lessons/${lesson.slug}`}
+                                className="flex items-center gap-2 text-sm text-primary hover:text-primary/80 hover:underline"
+                                data-testid="link-adaptive-lesson"
+                              >
+                                <ChevronRight className="w-3 h-3" />
+                                <span>{lesson.title}</span>
+                              </a>
+                            </div>
+                          );
+                        })()}
+                      </CardContent>
+                    </Card>
+
+                    {needsConfidence && (
+                      <Card className="border-2 border-primary/30 shadow-md bg-card rounded-2xl overflow-hidden animate-in slide-in-from-bottom-2 duration-300" data-testid="card-confidence-rating">
+                        <div className="px-5 pt-4 pb-2 flex items-center gap-2.5 border-b border-border">
+                          <h3 className="text-xs font-semibold text-foreground tracking-wide">How confident were you?</h3>
+                        </div>
+                        <CardContent className="px-5 py-4">
+                          <div className="grid grid-cols-3 gap-2">
+                            <button
+                              onClick={() => recordAdaptiveConfidence("guessing")}
+                              className="p-3 rounded-xl border border-red-200 bg-red-50/50 hover:bg-red-100 transition-all text-center"
+                              data-testid="button-confidence-guessing"
+                            >
+                              <span className="text-lg">🎲</span>
+                              <p className="text-xs font-semibold text-red-700 mt-1">Guessing</p>
+                            </button>
+                            <button
+                              onClick={() => recordAdaptiveConfidence("somewhat")}
+                              className="p-3 rounded-xl border border-amber-200 bg-amber-50/50 hover:bg-amber-100 transition-all text-center"
+                              data-testid="button-confidence-somewhat"
+                            >
+                              <span className="text-lg">🤔</span>
+                              <p className="text-xs font-semibold text-amber-700 mt-1">Somewhat</p>
+                            </button>
+                            <button
+                              onClick={() => recordAdaptiveConfidence("very_confident")}
+                              className="p-3 rounded-xl border border-emerald-200 bg-emerald-50/50 hover:bg-emerald-100 transition-all text-center"
+                              data-testid="button-confidence-confident"
+                            >
+                              <span className="text-lg">💪</span>
+                              <p className="text-xs font-semibold text-emerald-700 mt-1">Confident</p>
+                            </button>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    )}
+                  </div>
+                </div>
+              ) : (
+                <Card className="border border-border shadow-sm bg-card overflow-hidden rounded-2xl min-h-[460px] flex flex-col animate-in fade-in duration-200" data-testid="card-adaptive-question">
+                  <div className="p-6 sm:p-8 flex flex-col flex-1">
+                    {aCard.previouslyAnswered && (
+                      <div className={cn("mb-3 px-3 py-1.5 rounded-lg text-xs font-medium inline-flex items-center gap-1.5 self-start", aCard.previouslyCorrect ? "bg-emerald-50 text-emerald-700" : "bg-amber-50 text-amber-700")} data-testid="badge-previously-answered">
+                        <RefreshCw className="w-3 h-3" />
+                        Previously {aCard.previouslyCorrect ? "correct" : "incorrect"}
+                      </div>
+                    )}
+                    <h2 className="text-lg font-semibold text-foreground mb-6 leading-snug" data-testid="text-adaptive-question">{aCard.question}</h2>
+                    <div className="space-y-2.5 flex-1">
+                      {aCard.options?.map((option: string, idx: number) => {
+                        const isSelected = adaptiveSelectedOption === idx;
+                        let variantClasses = "border-border hover:border-border/80 hover:bg-secondary text-foreground/70";
+                        if (isSelected && !isLearnMode) variantClasses = "border-primary bg-primary/5 text-primary ring-2 ring-primary/20";
+                        return (
+                          <button
+                            key={idx}
+                            disabled={isLearnMode ? hasAnswered : adaptiveSubmitted}
+                            onClick={() => handleAdaptiveAnswer(idx)}
+                            className={cn("w-full text-left p-3.5 rounded-lg border transition-all flex items-start gap-3 text-sm", variantClasses)}
+                            data-testid={`button-adaptive-option-${idx}`}
+                          >
+                            <span className="shrink-0 w-6 h-6 rounded-full border border-current flex items-center justify-center text-[10px] font-semibold">
+                              {String.fromCharCode(65 + idx)}
+                            </span>
+                            {option}
+                          </button>
+                        );
+                      })}
+                    </div>
+                    {!isLearnMode && adaptiveSubmitted && !adaptiveShowRationale && (
+                      <div className="mt-4 pt-4 border-t border-border">
+                        <Button onClick={submitTestAnswer} className="w-full h-11 rounded-xl font-semibold bg-primary hover:bg-primary/90 shadow-sm" data-testid="button-submit-test-answer">
+                          Reveal Answer & Rationale
+                        </Button>
+                      </div>
+                    )}
+                  </div>
+                </Card>
+              )}
+            </div>
+
+            <div className="flex items-center justify-between gap-3 pt-2 flex-wrap">
+              <Button variant="ghost" size="sm" onClick={() => setView("setup")} className="text-muted-foreground hover:text-foreground/60" data-testid="button-exit-adaptive">
+                Exit Session
+              </Button>
+              <div className="flex items-center gap-2">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className={cn("gap-1.5 transition-all rounded-lg", adaptiveBookmarks.includes(aCard.id) ? "bg-primary text-primary-foreground border-primary hover:bg-primary/90" : "text-foreground/60")}
+                  onClick={() => toggleAdaptiveBookmark(aCard.id)}
+                  data-testid="button-adaptive-bookmark"
+                >
+                  {adaptiveBookmarks.includes(aCard.id) ? <><BookmarkCheck className="w-3.5 h-3.5" /> Saved</> : <><Bookmark className="w-3.5 h-3.5" /> Save</>}
+                </Button>
+              </div>
+              <Button
+                size="sm"
+                disabled={!adaptiveConfidence}
+                onClick={handleAdaptiveNext}
+                className="bg-primary hover:bg-primary/90 text-primary-foreground gap-1.5 font-medium rounded-lg text-xs h-8 px-4 shadow-sm"
+                data-testid="button-adaptive-next"
+              >
+                {adaptiveIndex < adaptiveCards.length - 1 ? "Next Card" : "Finish"} <ChevronRight className="w-4 h-4" />
+              </Button>
+            </div>
+          </div>
+        </main>
+      </div>
+    );
+  }
+
+  if (view === "adaptive-report") {
+    const reportCorrect = adaptiveResults.filter(r => r.correct).length;
+    const reportTotal = adaptiveResults.length;
+    const reportScore = reportTotal > 0 ? Math.round((reportCorrect / reportTotal) * 100) : 0;
+
+    const topicBreakdown: Record<string, { correct: number; total: number }> = {};
+    const systemBreakdown: Record<string, { correct: number; total: number }> = {};
+    for (const r of adaptiveResults) {
+      const t = r.topic || "Unknown";
+      const bs = r.bodySystem || "Unknown";
+      if (!topicBreakdown[t]) topicBreakdown[t] = { correct: 0, total: 0 };
+      if (!systemBreakdown[bs]) systemBreakdown[bs] = { correct: 0, total: 0 };
+      topicBreakdown[t].total++;
+      systemBreakdown[bs].total++;
+      if (r.correct) { topicBreakdown[t].correct++; systemBreakdown[bs].correct++; }
+    }
+
+    const confCounts = { guessing: 0, somewhat: 0, very_confident: 0 };
+    for (const r of adaptiveResults) {
+      if (r.confidence === "guessing") confCounts.guessing++;
+      else if (r.confidence === "somewhat") confCounts.somewhat++;
+      else if (r.confidence === "very_confident") confCounts.very_confident++;
+    }
+
+    const weakTopicsInSession = Object.entries(systemBreakdown)
+      .map(([bs, data]) => ({ bodySystem: bs, accuracy: data.total > 0 ? Math.round((data.correct / data.total) * 100) : 0, total: data.total }))
+      .filter(x => x.accuracy < 70)
+      .sort((a, b) => a.accuracy - b.accuracy);
+
+    const lessonRecommendations: { title: string; slug: string }[] = [];
+    const catMap: Record<string, { slug: string; title: string }> = {
+      "Cardiovascular": { slug: "cardiovascular", title: "Cardiovascular Nursing" },
+      "Respiratory": { slug: "respiratory", title: "Respiratory System" },
+      "Neurological": { slug: "neurological", title: "Neurological Nursing" },
+      "Pharmacology": { slug: "pharmacology", title: "Pharmacology Essentials" },
+      "Pediatrics": { slug: "pediatrics", title: "Pediatric Nursing" },
+      "Oncology": { slug: "oncology", title: "Oncology Nursing" },
+      "GI": { slug: "gastrointestinal", title: "Gastrointestinal Nursing" },
+      "Renal": { slug: "renal", title: "Renal & Urinary Nursing" },
+      "Maternal": { slug: "maternal", title: "Maternal & Newborn Nursing" },
+      "Endocrine": { slug: "endocrine", title: "Endocrine System" },
+      "Hematology": { slug: "hematology", title: "Hematology & Oncology" },
+      "Infection": { slug: "infection-control", title: "Infection Control" },
+      "Mental Health": { slug: "mental-health", title: "Mental Health Nursing" },
+      "Psychiatry": { slug: "mental-health", title: "Mental Health Nursing" },
+      "Fundamentals": { slug: "fundamentals", title: "Nursing Fundamentals" },
+    };
+    for (const w of weakTopicsInSession.slice(0, 3)) {
+      const lesson = catMap[w.bodySystem];
+      if (lesson && !lessonRecommendations.find(l => l.slug === lesson.slug)) {
+        lessonRecommendations.push(lesson);
+      }
+    }
+
+    return (
+      <div className="min-h-screen bg-gradient-to-b from-rose-50/30 via-white to-slate-50 flex flex-col font-sans">
+        <Navigation />
+        <main className="max-w-3xl mx-auto px-4 py-12 w-full">
+          <div className="text-center mb-10">
+            <div className="w-20 h-20 bg-rose-100 rounded-full flex items-center justify-center mx-auto mb-6 animate-bounce">
+              <Trophy className="w-10 h-10 text-rose-500" />
+            </div>
+            <h1 className="text-3xl font-bold text-foreground mb-2" data-testid="text-adaptive-report-title">
+              {adaptiveMode === "learn" ? "Learn" : "Test"} Session Complete
+            </h1>
+            <p className="text-foreground/60">Adaptive study session results</p>
+          </div>
+
+          <div className="grid grid-cols-3 gap-4 mb-8">
+            <Card className="border-none shadow-md bg-card p-6 rounded-2xl text-center">
+              <p className="text-xs font-bold text-muted-foreground uppercase tracking-widest mb-2">Accuracy</p>
+              <p className={cn("text-4xl font-black", reportScore >= 70 ? "text-emerald-500" : reportScore >= 50 ? "text-amber-500" : "text-red-500")} data-testid="text-adaptive-accuracy">{reportScore}%</p>
+            </Card>
+            <Card className="border-none shadow-md bg-card p-6 rounded-2xl text-center">
+              <p className="text-xs font-bold text-muted-foreground uppercase tracking-widest mb-2">Correct</p>
+              <p className="text-4xl font-black text-emerald-500" data-testid="text-adaptive-correct">{reportCorrect}</p>
+            </Card>
+            <Card className="border-none shadow-md bg-card p-6 rounded-2xl text-center">
+              <p className="text-xs font-bold text-muted-foreground uppercase tracking-widest mb-2">Total</p>
+              <p className="text-4xl font-black text-foreground" data-testid="text-adaptive-total">{reportTotal}</p>
+            </Card>
+          </div>
+
+          {Object.keys(systemBreakdown).length > 0 && (
+            <Card className="border border-border shadow-sm bg-card rounded-2xl mb-6 overflow-hidden" data-testid="card-topic-breakdown">
+              <div className="px-5 pt-4 pb-2 border-b border-border">
+                <h3 className="text-sm font-semibold text-foreground flex items-center gap-2">
+                  <BarChart3 className="w-4 h-4 text-primary" /> Accuracy by Body System
+                </h3>
+              </div>
+              <CardContent className="px-5 py-4">
+                <div className="space-y-3">
+                  {Object.entries(systemBreakdown)
+                    .sort(([, a], [, b]) => {
+                      const accA = a.total > 0 ? (a.correct / a.total) * 100 : 0;
+                      const accB = b.total > 0 ? (b.correct / b.total) * 100 : 0;
+                      return accA - accB;
+                    })
+                    .map(([system, data]) => {
+                      const acc = data.total > 0 ? Math.round((data.correct / data.total) * 100) : 0;
+                      return (
+                        <div key={system} data-testid={`row-system-${system.replace(/\s+/g, "-").toLowerCase()}`}>
+                          <div className="flex justify-between items-center mb-1">
+                            <span className="text-sm font-medium text-foreground/70">{system}</span>
+                            <span className={cn("text-xs font-semibold", acc >= 70 ? "text-emerald-600" : acc >= 50 ? "text-amber-600" : "text-red-600")}>
+                              {acc}% ({data.correct}/{data.total})
+                            </span>
+                          </div>
+                          <div className="w-full bg-secondary h-2 rounded-full overflow-hidden">
+                            <div
+                              className={cn("h-full rounded-full transition-all", acc >= 70 ? "bg-emerald-400" : acc >= 50 ? "bg-amber-400" : "bg-red-400")}
+                              style={{ width: `${acc}%` }}
+                            />
+                          </div>
+                        </div>
+                      );
+                    })}
+                </div>
+              </CardContent>
+            </Card>
+          )}
+
+          {confCounts.guessing + confCounts.somewhat + confCounts.very_confident > 0 && (
+            <Card className="border border-border shadow-sm bg-card rounded-2xl mb-6 overflow-hidden" data-testid="card-confidence-breakdown">
+              <div className="px-5 pt-4 pb-2 border-b border-border">
+                <h3 className="text-sm font-semibold text-foreground flex items-center gap-2">
+                  <Brain className="w-4 h-4 text-violet-500" /> Confidence Distribution
+                </h3>
+              </div>
+              <CardContent className="px-5 py-4">
+                <div className="grid grid-cols-3 gap-3">
+                  <div className="text-center p-3 rounded-xl bg-red-50/50 border border-red-100">
+                    <p className="text-2xl font-bold text-red-600">{confCounts.guessing}</p>
+                    <p className="text-xs text-red-600/70 font-medium">Guessing</p>
+                  </div>
+                  <div className="text-center p-3 rounded-xl bg-amber-50/50 border border-amber-100">
+                    <p className="text-2xl font-bold text-amber-600">{confCounts.somewhat}</p>
+                    <p className="text-xs text-amber-600/70 font-medium">Somewhat</p>
+                  </div>
+                  <div className="text-center p-3 rounded-xl bg-emerald-50/50 border border-emerald-100">
+                    <p className="text-2xl font-bold text-emerald-600">{confCounts.very_confident}</p>
+                    <p className="text-xs text-emerald-600/70 font-medium">Confident</p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          )}
+
+          {weakTopicsInSession.length > 0 && (
+            <Card className="border border-border shadow-sm bg-card rounded-2xl mb-6 overflow-hidden" data-testid="card-weak-areas">
+              <div className="px-5 pt-4 pb-2 border-b border-border">
+                <h3 className="text-sm font-semibold text-foreground flex items-center gap-2">
+                  <Target className="w-4 h-4 text-red-500" /> Areas Needing Review
+                </h3>
+              </div>
+              <CardContent className="px-5 py-4">
+                <div className="space-y-2">
+                  {weakTopicsInSession.map(w => (
+                    <div key={w.bodySystem} className="flex items-center justify-between p-2.5 rounded-lg bg-red-50/50 border border-red-100">
+                      <span className="text-sm font-medium text-foreground/70">{w.bodySystem}</span>
+                      <span className="text-xs font-semibold text-red-600">{w.accuracy}%</span>
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+          )}
+
+          {lessonRecommendations.length > 0 && (
+            <Card className="border border-primary/20 shadow-sm bg-primary/5 rounded-2xl mb-8 overflow-hidden" data-testid="card-lesson-recommendations">
+              <div className="px-5 pt-4 pb-2 border-b border-primary/10">
+                <h3 className="text-sm font-semibold text-primary flex items-center gap-2">
+                  <BookOpen className="w-4 h-4" /> Recommended Lessons
+                </h3>
+              </div>
+              <CardContent className="px-5 py-4 space-y-2">
+                {lessonRecommendations.map(lesson => (
+                  <a key={lesson.slug} href={`/en/lessons/${lesson.slug}`} className="flex items-center gap-2 text-sm text-primary hover:text-primary/80 hover:underline p-2 rounded-lg hover:bg-primary/5 transition-colors" data-testid={`link-recommended-lesson-${lesson.slug}`}>
+                    <ChevronRight className="w-3 h-3" />
+                    <span>{lesson.title}</span>
+                  </a>
+                ))}
+              </CardContent>
+            </Card>
+          )}
+
+          <div className="space-y-3 mt-6">
+            <Button
+              className="w-full h-14 rounded-2xl text-lg font-bold bg-rose-500 hover:bg-rose-600"
+              onClick={() => {
+                setAdaptiveMode(adaptiveMode);
+                fetchAdaptiveSession(adaptiveMode);
+                setView(adaptiveMode === "learn" ? "adaptive-learn" : "adaptive-test");
+              }}
+              data-testid="button-adaptive-new-session"
+            >
+              Start New {adaptiveMode === "learn" ? "Learn" : "Test"} Session
+            </Button>
+            <Button
+              variant="outline"
+              className="w-full h-12 rounded-2xl text-base font-semibold"
+              onClick={() => {
+                const other = adaptiveMode === "learn" ? "test" : "learn";
+                setAdaptiveMode(other);
+                fetchAdaptiveSession(other);
+                setView(other === "learn" ? "adaptive-learn" : "adaptive-test");
+              }}
+              data-testid="button-adaptive-switch-mode"
+            >
+              Switch to {adaptiveMode === "learn" ? "Test" : "Learn"} Mode
+            </Button>
+            <Button variant="outline" className="w-full h-12 rounded-2xl text-base font-semibold border-border" onClick={() => setView("setup")} data-testid="button-adaptive-back-setup">
+              Back to Flashcards
+            </Button>
+          </div>
+        </main>
+        <Footer />
       </div>
     );
   }

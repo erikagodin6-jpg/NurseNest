@@ -14434,6 +14434,505 @@ Return ONLY valid JSON with this exact structure:
   });
 
   // --------------------
+  // Adaptive Flashcard Session API
+  // --------------------
+  app.get("/api/adaptive-flashcard-session/:userId", async (req, res) => {
+    try {
+      const authUser = await resolveAuthUser(req);
+      if (!authUser) return res.status(401).json({ error: "Authentication required" });
+      const userId = authUser.id;
+      const tier = (req.query.tier as string) || "rpn";
+      const mode = (req.query.mode as string) || "learn";
+      const sessionSize = Math.min(parseInt(req.query.size as string) || 20, 50);
+      const topicFilter = req.query.topic as string;
+      const bodySystemFilter = req.query.bodySystem as string;
+
+      const collectedIds = new Set<string>();
+      const prioritized: any[] = [];
+
+      const reviewQueueResult = await pool.query(
+        `SELECT rq.item_id FROM review_queue rq
+         JOIN exam_questions eq ON eq.id = rq.item_id
+         WHERE rq.user_id = $1 AND rq.completed = false AND rq.item_type = 'question'
+           AND eq.tier = $2 AND eq.status = 'published' AND eq.career_type = 'nursing'
+         ORDER BY rq.priority DESC, rq.created_at ASC
+         LIMIT $3`,
+        [userId, tier, Math.ceil(sessionSize * 0.3)]
+      );
+      for (const row of reviewQueueResult.rows) {
+        if (!collectedIds.has(row.item_id)) {
+          collectedIds.add(row.item_id);
+          prioritized.push({ id: row.item_id, source: "review_queue" });
+        }
+      }
+
+      const weakAreasResult = await pool.query(
+        `SELECT body_system, topic FROM confidence_ratings
+         WHERE user_id = $1 AND body_system IS NOT NULL
+         GROUP BY body_system, topic
+         HAVING COUNT(*) >= 2 AND ROUND(100.0 * SUM(CASE WHEN was_correct THEN 1 ELSE 0 END) / COUNT(*), 1) < 70
+         ORDER BY ROUND(100.0 * SUM(CASE WHEN was_correct THEN 1 ELSE 0 END) / COUNT(*), 1) ASC
+         LIMIT 10`,
+        [userId]
+      );
+      const weakSystems = weakAreasResult.rows.map((r: any) => r.body_system).filter(Boolean);
+      const weakTopics = weakAreasResult.rows.map((r: any) => r.topic).filter(Boolean);
+
+      if (weakSystems.length > 0 && collectedIds.size < sessionSize) {
+        const needed = Math.min(Math.ceil(sessionSize * 0.3), sessionSize - collectedIds.size);
+        const excludeIds = Array.from(collectedIds);
+        const weakQ = await pool.query(
+          `SELECT id FROM exam_questions
+           WHERE tier = $1 AND status = 'published' AND career_type = 'nursing'
+             AND body_system = ANY($2)
+             ${excludeIds.length > 0 ? `AND id != ALL($4)` : ""}
+           ORDER BY RANDOM()
+           LIMIT $3`,
+          excludeIds.length > 0 ? [tier, weakSystems, needed, excludeIds] : [tier, weakSystems, needed]
+        );
+        for (const row of weakQ.rows) {
+          if (!collectedIds.has(row.id)) {
+            collectedIds.add(row.id);
+            prioritized.push({ id: row.id, source: "weak_area" });
+          }
+        }
+      }
+
+      const today = new Date().toISOString().split("T")[0];
+      if (collectedIds.size < sessionSize) {
+        const needed = Math.min(Math.ceil(sessionSize * 0.2), sessionSize - collectedIds.size);
+        const excludeIds = Array.from(collectedIds);
+        const srsQ = await pool.query(
+          `SELECT DISTINCT ON (fr.card_id) fr.card_id FROM flashcard_reviews fr
+           JOIN exam_questions eq ON eq.id = fr.card_id
+           WHERE fr.user_id = $1 AND fr.next_review_date <= $2
+             AND eq.tier = $3 AND eq.status = 'published'
+             ${excludeIds.length > 0 ? `AND fr.card_id != ALL($5)` : ""}
+           ORDER BY fr.card_id, fr.reviewed_at DESC
+           LIMIT $4`,
+          excludeIds.length > 0 ? [userId, today, tier, needed, excludeIds] : [userId, today, tier, needed]
+        );
+        for (const row of srsQ.rows) {
+          if (!collectedIds.has(row.card_id)) {
+            collectedIds.add(row.card_id);
+            prioritized.push({ id: row.card_id, source: "srs_due" });
+          }
+        }
+      }
+
+      if (collectedIds.size < sessionSize) {
+        const remaining = sessionSize - collectedIds.size;
+        const excludeIds = Array.from(collectedIds);
+        const freshParams: any[] = [tier, remaining];
+        let paramCounter = 3;
+        let excludeClause = "";
+        let topicClause = "";
+        let bodySystemClause = "";
+        let weakSystemClause = "";
+
+        if (excludeIds.length > 0) {
+          excludeClause = `AND id != ALL($${paramCounter})`;
+          freshParams.push(excludeIds);
+          paramCounter++;
+        }
+        if (topicFilter) {
+          topicClause = `AND topic = $${paramCounter}`;
+          freshParams.push(topicFilter);
+          paramCounter++;
+        }
+        if (bodySystemFilter) {
+          bodySystemClause = `AND body_system = $${paramCounter}`;
+          freshParams.push(bodySystemFilter);
+          paramCounter++;
+        }
+        if (weakSystems.length > 0) {
+          weakSystemClause = `CASE WHEN body_system = ANY($${paramCounter}) THEN 0 ELSE 1 END,`;
+          freshParams.push(weakSystems);
+          paramCounter++;
+        }
+
+        const freshQuery = `SELECT id FROM exam_questions
+           WHERE tier = $1 AND status = 'published' AND career_type = 'nursing'
+             ${excludeClause} ${topicClause} ${bodySystemClause}
+           ORDER BY ${weakSystemClause} RANDOM()
+           LIMIT $2`;
+        const freshQ = await pool.query(freshQuery, freshParams);
+        for (const row of freshQ.rows) {
+          if (!collectedIds.has(row.id)) {
+            collectedIds.add(row.id);
+            prioritized.push({ id: row.id, source: "fresh" });
+          }
+        }
+      }
+
+      if (prioritized.length === 0) {
+        return res.json({ cards: [], sessionSize: 0, sources: {} });
+      }
+
+      const allIds = prioritized.map(p => p.id);
+      const questionsResult = await pool.query(
+        `SELECT id, tier, stem, options, correct_answer, rationale, body_system, topic, subtopic,
+                difficulty, question_type, clinical_pearl, exam_strategy, distractor_rationales,
+                region_scope, scenario, memory_hook, framework_used, clinical_trap
+         FROM exam_questions WHERE id = ANY($1)`,
+        [allIds]
+      );
+      const questionMap = new Map<string, any>();
+      for (const q of questionsResult.rows) questionMap.set(q.id, q);
+
+      const answeredResult = await pool.query(
+        `SELECT question_id, was_correct, confidence FROM confidence_ratings
+         WHERE user_id = $1 AND question_id = ANY($2)
+         ORDER BY created_at DESC`,
+        [userId, allIds]
+      );
+      const answeredMap = new Map<string, any>();
+      for (const a of answeredResult.rows) {
+        if (!answeredMap.has(a.question_id)) answeredMap.set(a.question_id, a);
+      }
+
+      const cards: any[] = [];
+      for (const entry of prioritized) {
+        const q = questionMap.get(entry.id);
+        if (!q || !q.stem || !q.options) continue;
+
+        let opts = Array.isArray(q.options) ? q.options : [];
+        if (opts.length > 0 && typeof opts[0] === "object" && opts[0].text) {
+          opts = opts.map((o: any) => o.text);
+        }
+        if (opts.length === 0) continue;
+
+        let correct = Array.isArray(q.correct_answer) ? q.correct_answer : (typeof q.correct_answer === "number" ? [q.correct_answer] : [0]);
+        const correctIdx = correct[0] ?? 0;
+
+        let distractorRationales = q.distractor_rationales;
+        if (distractorRationales && typeof distractorRationales === "string") {
+          try { distractorRationales = JSON.parse(distractorRationales); } catch { distractorRationales = null; }
+        }
+
+        const prevAnswer = answeredMap.get(q.id);
+
+        cards.push({
+          id: q.id,
+          question: q.stem,
+          options: opts,
+          correctIndex: correctIdx,
+          correctAnswer: correct,
+          rationale: q.rationale || "",
+          bodySystem: q.body_system || "",
+          topic: q.topic || "",
+          subtopic: q.subtopic || "",
+          difficulty: q.difficulty || 3,
+          tier: q.tier,
+          questionType: q.question_type || "mcq",
+          clinicalPearl: q.clinical_pearl || null,
+          examStrategy: q.exam_strategy || null,
+          distractorRationales: distractorRationales || null,
+          scenario: q.scenario || null,
+          memoryHook: q.memory_hook || null,
+          source: entry.source,
+          previouslyAnswered: !!prevAnswer,
+          previouslyCorrect: prevAnswer?.was_correct || false,
+          previousConfidence: prevAnswer?.confidence || null,
+        });
+      }
+
+      const sources: Record<string, number> = {};
+      for (const c of cards) { sources[c.source] = (sources[c.source] || 0) + 1; }
+
+      res.json({
+        cards,
+        sessionSize: cards.length,
+        sources,
+        weakAreas: weakAreasResult.rows.map((r: any) => ({ bodySystem: r.body_system, topic: r.topic })),
+        mode,
+      });
+    } catch (e: any) {
+      console.error("[adaptive-flashcard-session] Error:", e.message);
+      res.status(500).json({ error: "Failed to build adaptive flashcard session" });
+    }
+  });
+
+  app.post("/api/flashcard-session/answer", async (req, res) => {
+    try {
+      const authUser = await resolveAuthUser(req);
+      if (!authUser) return res.status(401).json({ error: "Authentication required" });
+      const userId = authUser.id;
+      const { questionId, selectedIndex, confidence, topic, bodySystem, tier } = req.body;
+      if (!questionId) return res.status(400).json({ error: "questionId required" });
+
+      const questionRow = await pool.query(
+        `SELECT correct_answer, options FROM exam_questions WHERE id = $1`,
+        [questionId]
+      );
+      let wasCorrect = false;
+      if (questionRow.rows.length > 0) {
+        const correctAnswer = questionRow.rows[0].correct_answer;
+        const correct = Array.isArray(correctAnswer) ? correctAnswer : (typeof correctAnswer === "number" ? [correctAnswer] : [0]);
+        wasCorrect = correct.includes(selectedIndex);
+      }
+
+      const confLevel = confidence || (wasCorrect ? "confident" : "somewhat");
+      await pool.query(
+        `INSERT INTO confidence_ratings (id, user_id, question_id, confidence, was_correct, topic, body_system)
+         VALUES (gen_random_uuid(), $1, $2, $3, $4, $5, $6)`,
+        [userId, questionId, confLevel, wasCorrect || false, topic || null, bodySystem || null]
+      );
+
+      if (!wasCorrect || confLevel === "guessing") {
+        const todayStr = new Date().toISOString().split("T")[0];
+        const reason = !wasCorrect ? "incorrect" : "low_confidence";
+        const priority = !wasCorrect ? 2 : 3;
+        await pool.query(
+          `INSERT INTO review_queue (id, user_id, item_type, item_id, reason, priority, scheduled_date)
+           VALUES (gen_random_uuid(), $1, 'question', $2, $3, $4, $5)
+           ON CONFLICT DO NOTHING`,
+          [userId, questionId, reason, priority, todayStr]
+        );
+      }
+
+      if (wasCorrect) {
+        await pool.query(
+          `UPDATE review_queue SET completed = true, completed_at = NOW()
+           WHERE user_id = $1 AND item_id = $2 AND completed = false`,
+          [userId, questionId]
+        );
+      }
+
+      const existingReview = await pool.query(
+        `SELECT * FROM flashcard_reviews WHERE user_id = $1 AND card_id = $2 ORDER BY reviewed_at DESC LIMIT 1`,
+        [userId, questionId]
+      );
+      const prev = existingReview.rows[0];
+      let interval = 1;
+      let easeFactor = prev ? prev.ease_factor : 250;
+      let repetitions = prev ? prev.repetitions : 0;
+
+      const response = wasCorrect ? (confLevel === "very_confident" ? "correct" : "unsure") : "wrong";
+
+      if (response === "wrong") {
+        interval = 1;
+        repetitions = 0;
+        easeFactor = Math.max(130, easeFactor - 20);
+      } else if (response === "unsure") {
+        interval = prev ? Math.max(3, Math.floor(prev.interval * 1.2)) : 3;
+        repetitions = repetitions + 1;
+        easeFactor = Math.max(130, easeFactor - 10);
+      } else {
+        repetitions = repetitions + 1;
+        if (repetitions <= 1) interval = 7;
+        else interval = Math.min(90, Math.round(prev ? prev.interval * (easeFactor / 100) : 7));
+        easeFactor = Math.min(300, easeFactor + 10);
+      }
+
+      const nextDate = new Date();
+      nextDate.setDate(nextDate.getDate() + interval);
+      const nextReviewDate = nextDate.toISOString().split("T")[0];
+
+      await pool.query(
+        `INSERT INTO flashcard_reviews (id, user_id, card_id, deck_id, response, interval, ease_factor, repetitions, next_review_date)
+         VALUES (gen_random_uuid(), $1, $2, $3, $4, $5, $6, $7, $8)`,
+        [userId, questionId, `adaptive-${tier || "nursing"}`, response, interval, easeFactor, repetitions, nextReviewDate]
+      );
+
+      res.json({ success: true, nextReviewDate, interval, easeFactor });
+    } catch (e: any) {
+      console.error("[flashcard-session/answer] Error:", e.message);
+      res.status(500).json({ error: "Failed to record answer" });
+    }
+  });
+
+  app.post("/api/flashcard-session/summary", async (req, res) => {
+    try {
+      const authUser = await resolveAuthUser(req);
+      if (!authUser) return res.status(401).json({ error: "Authentication required" });
+      const userId = authUser.id;
+      const { results, tier } = req.body;
+      if (!Array.isArray(results)) return res.status(400).json({ error: "results array required" });
+
+      const topicBreakdown: Record<string, { correct: number; total: number }> = {};
+      const bodySystemBreakdown: Record<string, { correct: number; total: number }> = {};
+
+      for (const r of results) {
+        const t = r.topic || "Unknown";
+        const bs = r.bodySystem || "Unknown";
+        if (!topicBreakdown[t]) topicBreakdown[t] = { correct: 0, total: 0 };
+        if (!bodySystemBreakdown[bs]) bodySystemBreakdown[bs] = { correct: 0, total: 0 };
+        topicBreakdown[t].total++;
+        bodySystemBreakdown[bs].total++;
+        if (r.correct) {
+          topicBreakdown[t].correct++;
+          bodySystemBreakdown[bs].correct++;
+        }
+      }
+
+      const totalCorrect = results.filter((r: any) => r.correct).length;
+      const totalQuestions = results.length;
+      const accuracy = totalQuestions > 0 ? Math.round((totalCorrect / totalQuestions) * 100) : 0;
+
+      const weakAreas = await pool.query(
+        `SELECT body_system, topic,
+          COUNT(*) as total,
+          ROUND(100.0 * SUM(CASE WHEN was_correct THEN 1 ELSE 0 END) / COUNT(*), 1) as accuracy
+         FROM confidence_ratings
+         WHERE user_id = $1 AND body_system IS NOT NULL
+         GROUP BY body_system, topic
+         HAVING COUNT(*) >= 2 AND ROUND(100.0 * SUM(CASE WHEN was_correct THEN 1 ELSE 0 END) / COUNT(*), 1) < 70
+         ORDER BY accuracy ASC
+         LIMIT 5`,
+        [userId]
+      );
+
+      const confDist = await pool.query(
+        `SELECT confidence, COUNT(*) as cnt FROM confidence_ratings
+         WHERE user_id = $1
+         GROUP BY confidence`,
+        [userId]
+      );
+      const confidenceDistribution: Record<string, number> = {};
+      for (const row of confDist.rows) confidenceDistribution[row.confidence] = parseInt(row.cnt);
+
+      const weakSystemsList = weakAreas.rows.map((r: any) => ({
+        bodySystem: r.body_system,
+        topic: r.topic,
+        accuracy: parseFloat(r.accuracy),
+        total: parseInt(r.total),
+      }));
+
+      const topicResults = Object.entries(topicBreakdown).map(([topic, data]) => ({
+        topic,
+        correct: data.correct,
+        total: data.total,
+        accuracy: data.total > 0 ? Math.round((data.correct / data.total) * 100) : 0,
+      })).sort((a, b) => a.accuracy - b.accuracy);
+
+      const bodySystemResults = Object.entries(bodySystemBreakdown).map(([bodySystem, data]) => ({
+        bodySystem,
+        correct: data.correct,
+        total: data.total,
+        accuracy: data.total > 0 ? Math.round((data.correct / data.total) * 100) : 0,
+      })).sort((a, b) => a.accuracy - b.accuracy);
+
+      const recommendedTopics = weakSystemsList.slice(0, 3).map((w: any) => w.bodySystem || w.topic);
+
+      res.json({
+        accuracy,
+        totalCorrect,
+        totalQuestions,
+        topicResults,
+        bodySystemResults,
+        weakAreas: weakSystemsList,
+        confidenceDistribution,
+        recommendedTopics,
+      });
+    } catch (e: any) {
+      console.error("[flashcard-session/summary] Error:", e.message);
+      res.status(500).json({ error: "Failed to generate session summary" });
+    }
+  });
+
+  app.get("/api/admin/exam-questions", async (req, res) => {
+    const admin = await requireAdmin(req, res);
+    if (!admin) return;
+    try {
+      const { tier, topic, difficulty, bodySystem, page = "0", limit = "50" } = req.query as Record<string, string>;
+      const pageNum = parseInt(page) || 0;
+      const limitNum = Math.min(parseInt(limit) || 50, 100);
+      const offset = pageNum * limitNum;
+
+      const conditions: string[] = ["status = 'published'"];
+      const params: any[] = [];
+      let paramIdx = 1;
+
+      if (tier && tier !== "all") { conditions.push(`tier = $${paramIdx++}`); params.push(tier); }
+      if (topic && topic !== "all") { conditions.push(`topic = $${paramIdx++}`); params.push(topic); }
+      if (bodySystem && bodySystem !== "all") { conditions.push(`body_system = $${paramIdx++}`); params.push(bodySystem); }
+      if (difficulty && difficulty !== "all") { conditions.push(`difficulty = $${paramIdx++}`); params.push(parseInt(difficulty)); }
+
+      const whereClause = conditions.length > 0 ? `WHERE ${conditions.join(" AND ")}` : "";
+
+      const rows = await pool.query(
+        `SELECT id, tier, stem, options, correct_answer, rationale, difficulty, body_system, topic, subtopic, clinical_pearl, exam_strategy, memory_hook, distractor_rationales, tags, status, question_type FROM exam_questions ${whereClause} ORDER BY created_at DESC LIMIT $${paramIdx++} OFFSET $${paramIdx++}`,
+        [...params, limitNum, offset]
+      );
+
+      const countResult = await pool.query(
+        `SELECT COUNT(*)::int AS count FROM exam_questions ${whereClause}`,
+        params
+      );
+
+      const total = countResult.rows[0]?.count || 0;
+
+      const distinctTopics = await pool.query(
+        `SELECT DISTINCT topic FROM exam_questions WHERE status = 'published' AND topic IS NOT NULL ORDER BY topic`
+      );
+
+      const distinctSystems = await pool.query(
+        `SELECT DISTINCT body_system FROM exam_questions WHERE status = 'published' AND body_system IS NOT NULL ORDER BY body_system`
+      );
+
+      const tierCounts = await pool.query(
+        `SELECT tier, COUNT(*)::int AS count FROM exam_questions WHERE status = 'published' GROUP BY tier ORDER BY tier`
+      );
+
+      const completenessResult = await pool.query(
+        `SELECT COUNT(*)::int AS total, COUNT(CASE WHEN rationale IS NOT NULL AND rationale != '' THEN 1 END)::int AS with_rationale, COUNT(CASE WHEN clinical_pearl IS NOT NULL AND clinical_pearl != '' THEN 1 END)::int AS with_pearl, COUNT(CASE WHEN exam_strategy IS NOT NULL AND exam_strategy != '' THEN 1 END)::int AS with_strategy, COUNT(CASE WHEN memory_hook IS NOT NULL AND memory_hook != '' THEN 1 END)::int AS with_hook, COUNT(CASE WHEN distractor_rationales IS NOT NULL THEN 1 END)::int AS with_distractors FROM exam_questions ${whereClause}`,
+        params
+      );
+
+      res.json({
+        questions: rows.rows.map((q: any) => ({
+          id: q.id,
+          tier: q.tier,
+          stem: q.stem,
+          options: q.options,
+          correctAnswer: q.correct_answer,
+          rationale: q.rationale,
+          difficulty: q.difficulty,
+          bodySystem: q.body_system,
+          topic: q.topic,
+          subtopic: q.subtopic,
+          clinicalPearl: q.clinical_pearl,
+          examStrategy: q.exam_strategy,
+          memoryHook: q.memory_hook,
+          distractorRationales: q.distractor_rationales,
+          tags: q.tags,
+          status: q.status,
+          questionType: q.question_type,
+        })),
+        total,
+        page: pageNum,
+        topics: distinctTopics.rows.map((t: any) => t.topic).filter(Boolean),
+        bodySystems: distinctSystems.rows.map((s: any) => s.body_system).filter(Boolean),
+        tierCounts: Object.fromEntries(tierCounts.rows.map((t: any) => [t.tier, t.count])),
+        completeness: completenessResult.rows[0] ? {
+          total: completenessResult.rows[0].total,
+          withRationale: completenessResult.rows[0].with_rationale,
+          withPearl: completenessResult.rows[0].with_pearl,
+          withStrategy: completenessResult.rows[0].with_strategy,
+          withHook: completenessResult.rows[0].with_hook,
+          withDistractors: completenessResult.rows[0].with_distractors,
+        } : null,
+      });
+    } catch (e: any) {
+      console.error("[admin/exam-questions] Error:", e.message);
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.post("/api/admin/convert-to-flashcard", async (req, res) => {
+    const admin = await requireAdmin(req, res);
+    if (!admin) return;
+    try {
+      const { mapExamQuestionsToFlashcards } = await import("./exam-flashcard-mapper");
+      const result = await mapExamQuestionsToFlashcards();
+      res.json({ success: true, created: result.created || 0, ...result });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  // --------------------
   // Tester Access Management (Admin)
   // --------------------
   app.get("/api/admin/tester/invite-codes", async (req, res) => {
