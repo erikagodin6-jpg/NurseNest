@@ -172,6 +172,7 @@ const AdminUniversalImport = lazy(() => import("@/pages/admin-universal-import")
 const ProfessionHubPage = lazy(() => import("@/pages/profession-hub"));
 const AdminQBankImport = lazy(() => import("@/pages/admin-qbank-import"));
 const AdminQBankManage = lazy(() => import("@/pages/admin-qbank-manage"));
+const AdminFlashcardStudio = lazy(() => import("@/pages/admin-flashcard-studio"));
 const AdminNgnGenerator = lazy(() => import("@/pages/admin-ngn-generator"));
 const AdminAutopilot = lazy(() => import("@/pages/admin-autopilot"));
 const AdminPageviews = lazy(() => import("@/pages/admin-pageviews"));
@@ -414,6 +415,7 @@ function AppRoutes() {
         <Route path="/admin/content-manager" component={AdminContentManager} />
         <Route path="/admin/qbank/import" component={AdminQBankImport} />
         <Route path="/admin/qbank/manage" component={AdminQBankManage} />
+        <Route path="/admin/flashcard-studio" component={AdminFlashcardStudio} />
         <Route path="/admin/qbank/ngn-generator" component={AdminNgnGenerator} />
         <Route path="/admin/autopilot" component={AdminAutopilot} />
         <Route path="/admin/pageviews" component={AdminPageviews} />

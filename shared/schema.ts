@@ -1091,6 +1091,9 @@ export const flashcardBank = pgTable("flashcard_bank", {
   category: text("category"),
   blueprintCategory: text("blueprint_category"),
   updatedAt: timestamp("updated_at").defaultNow(),
+  highYield: boolean("high_yield").default(false),
+  isFoundational: boolean("is_foundational").default(false),
+  blueprintCategory: text("blueprint_category"),
 });
 
 export const insertFlashcardBankSchema = createInsertSchema(flashcardBank).omit({ id: true, createdAt: true });

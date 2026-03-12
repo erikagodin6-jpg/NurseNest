@@ -10085,6 +10085,537 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
     }
   });
 
+  // ====== FLASHCARD ADMIN CONTENT STUDIO ======
+
+  app.post("/api/admin/flashcard-bank/create", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const {
+        tier, front, back, questionType, options, correctAnswer,
+        rationaleCorrect, distractorRationales, clinicalTakeaway, examPearl,
+        rationaleMedia, lessonLinks, difficulty, bodySystem, topic, subtopic,
+        regionScope, category, tagsJson, highYield, isFoundational,
+        blueprintCategory, sourceType, flashcardEnabled, careerType
+      } = req.body;
+
+      const validationErrors: string[] = [];
+      const validationWarnings: string[] = [];
+      if (!tier) validationErrors.push("Tier is required");
+      if (!front || front.trim().length < 5) validationErrors.push("Question stem (front) is required (min 5 chars)");
+      if (!rationaleCorrect && !back) validationErrors.push("Rationale is required");
+      if (!lessonLinks || (Array.isArray(lessonLinks) && lessonLinks.length === 0)) {
+        validationWarnings.push("Lesson link is missing");
+      }
+      if (rationaleMedia && Array.isArray(rationaleMedia) && rationaleMedia.length > 0 && topic) {
+        const imgKeywords = rationaleMedia.map((m: any) => (m.imageAlt || m.imageCaption || "").toLowerCase()).join(" ");
+        const topicLower = (topic || "").toLowerCase();
+        if (imgKeywords.length > 0 && topicLower.length > 0 && !imgKeywords.includes(topicLower.split(" ")[0])) {
+          validationWarnings.push("Possible image-topic mismatch");
+        }
+      }
+      if (validationErrors.length > 0) {
+        return res.status(400).json({ errors: validationErrors, warnings: validationWarnings });
+      }
+
+      const contentHash = crypto.createHash("sha256")
+        .update(`manual:${tier}:${(front || "").trim()}`)
+        .digest("hex").slice(0, 32);
+
+      const backText = back || (() => {
+        const parts: string[] = [];
+        if (options && correctAnswer !== undefined) {
+          const opts = Array.isArray(options) ? options : [];
+          const idx = Array.isArray(correctAnswer) ? correctAnswer[0] : correctAnswer;
+          if (opts[idx]) parts.push(`Correct: ${typeof opts[idx] === "object" ? opts[idx].text : opts[idx]}`);
+        }
+        if (rationaleCorrect) parts.push(rationaleCorrect);
+        if (clinicalTakeaway) parts.push(`Clinical Pearl: ${clinicalTakeaway}`);
+        return parts.join("\n") || front;
+      })();
+
+      const result = await pool.query(
+        `INSERT INTO flashcard_bank (
+          tier, front, back, question_type, options, correct_answer,
+          rationale_correct, distractor_rationales, clinical_takeaway, exam_pearl,
+          rationale_media, lesson_links, difficulty, body_system, topic, subtopic,
+          region_scope, category, tags_json, high_yield, is_foundational,
+          blueprint_category, source_type, flashcard_enabled, career_type,
+          content_hash, status
+        ) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20,$21,$22,$23,$24,$25,$26,$27)
+        RETURNING *`,
+        [
+          tier, front.trim(), backText, questionType || "mcq",
+          JSON.stringify(options || []), JSON.stringify(correctAnswer),
+          rationaleCorrect || null, JSON.stringify(distractorRationales || {}),
+          clinicalTakeaway || null, examPearl || null,
+          JSON.stringify(rationaleMedia || []), JSON.stringify(lessonLinks || []),
+          difficulty || null, bodySystem || null, topic || null, subtopic || null,
+          regionScope || "BOTH", category || bodySystem || "General",
+          JSON.stringify(tagsJson || []), highYield || false, isFoundational || false,
+          blueprintCategory || null, sourceType || "manual",
+          flashcardEnabled !== false, careerType || "nursing",
+          contentHash, "draft"
+        ]
+      );
+      res.json({ item: snakeToCamel(result.rows[0]), warnings: validationWarnings });
+    } catch (e: any) {
+      if (e.message?.includes("unique") || e.code === "23505") {
+        return res.status(409).json({ error: "Duplicate flashcard content detected" });
+      }
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.put("/api/admin/flashcard-bank/:id/full", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const {
+        tier, front, back, questionType, options, correctAnswer,
+        rationaleCorrect, distractorRationales, clinicalTakeaway, examPearl,
+        rationaleMedia, lessonLinks, difficulty, bodySystem, topic, subtopic,
+        regionScope, category, tagsJson, highYield, isFoundational,
+        blueprintCategory, status, flashcardEnabled, sourceType
+      } = req.body;
+
+      const validationErrors: string[] = [];
+      const validationWarnings: string[] = [];
+      if (tier !== undefined && !tier) validationErrors.push("Tier cannot be empty");
+      if (front !== undefined && (!front || front.trim().length < 5)) validationErrors.push("Front must be at least 5 chars");
+      if (rationaleCorrect !== undefined && !rationaleCorrect && !back) validationErrors.push("Rationale is required");
+      if (lessonLinks !== undefined && Array.isArray(lessonLinks) && lessonLinks.length === 0) {
+        validationWarnings.push("Lesson link is missing");
+      }
+      if (validationErrors.length > 0) {
+        return res.status(400).json({ errors: validationErrors, warnings: validationWarnings });
+      }
+
+      const sets: string[] = ["updated_at = NOW()"];
+      const params: any[] = [];
+      let idx = 1;
+      const addField = (col: string, val: any) => {
+        if (val !== undefined) { sets.push(`${col} = $${idx++}`); params.push(val); }
+      };
+      addField("tier", tier);
+      addField("front", front?.trim());
+      addField("back", back);
+      addField("question_type", questionType);
+      addField("options", options !== undefined ? JSON.stringify(options) : undefined);
+      addField("correct_answer", correctAnswer !== undefined ? JSON.stringify(correctAnswer) : undefined);
+      addField("rationale_correct", rationaleCorrect);
+      addField("distractor_rationales", distractorRationales !== undefined ? JSON.stringify(distractorRationales) : undefined);
+      addField("clinical_takeaway", clinicalTakeaway);
+      addField("exam_pearl", examPearl);
+      addField("rationale_media", rationaleMedia !== undefined ? JSON.stringify(rationaleMedia) : undefined);
+      addField("lesson_links", lessonLinks !== undefined ? JSON.stringify(lessonLinks) : undefined);
+      addField("difficulty", difficulty);
+      addField("body_system", bodySystem);
+      addField("topic", topic);
+      addField("subtopic", subtopic);
+      addField("region_scope", regionScope);
+      addField("category", category);
+      addField("tags_json", tagsJson !== undefined ? JSON.stringify(tagsJson) : undefined);
+      addField("high_yield", highYield);
+      addField("is_foundational", isFoundational);
+      addField("blueprint_category", blueprintCategory);
+      addField("status", status);
+      addField("flashcard_enabled", flashcardEnabled);
+      addField("source_type", sourceType);
+
+      params.push(req.params.id);
+      const result = await pool.query(
+        `UPDATE flashcard_bank SET ${sets.join(", ")} WHERE id = $${idx} RETURNING *`,
+        params
+      );
+      if (!result.rows.length) return res.status(404).json({ error: "Not found" });
+      res.json({ item: snakeToCamel(result.rows[0]), warnings: validationWarnings });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/admin/flashcard-bank/studio/list", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const page = parseInt(req.query.page as string) || 1;
+      const limit = Math.min(parseInt(req.query.limit as string) || 25, 200);
+      const offset = (page - 1) * limit;
+      const { status, tier, topic: topicFilter, difficulty: diffFilter, sourceType: srcFilter, search, highYield: hyFilter } = req.query as Record<string, string>;
+
+      const conditions: string[] = [];
+      const params: any[] = [];
+      let paramIdx = 1;
+
+      if (status && status !== "all") { conditions.push(`status = $${paramIdx++}`); params.push(status); }
+      if (tier && tier !== "all") { conditions.push(`tier = $${paramIdx++}`); params.push(tier); }
+      if (topicFilter) { conditions.push(`(topic ILIKE $${paramIdx} OR subtopic ILIKE $${paramIdx})`); params.push(`%${topicFilter}%`); paramIdx++; }
+      if (diffFilter && diffFilter !== "all") { conditions.push(`difficulty = $${paramIdx++}`); params.push(parseInt(diffFilter)); }
+      if (srcFilter && srcFilter !== "all") { conditions.push(`source_type = $${paramIdx++}`); params.push(srcFilter); }
+      if (hyFilter === "true") { conditions.push(`high_yield = true`); }
+      if (search) {
+        conditions.push(`(front ILIKE $${paramIdx} OR back ILIKE $${paramIdx} OR topic ILIKE $${paramIdx})`);
+        params.push(`%${search}%`);
+        paramIdx++;
+      }
+
+      const where = conditions.length > 0 ? `WHERE ${conditions.join(" AND ")}` : "";
+      const countResult = await pool.query(`SELECT COUNT(*)::int as total FROM flashcard_bank ${where}`, params);
+      const total = countResult.rows[0]?.total || 0;
+
+      const result = await pool.query(
+        `SELECT id, front, tier, status, difficulty, body_system, topic, subtopic,
+                source_type, high_yield, is_foundational, blueprint_category,
+                question_type, category, created_at, updated_at,
+                rationale_correct IS NOT NULL as has_rationale,
+                jsonb_array_length(COALESCE(lesson_links, '[]'::jsonb)) > 0 as has_lessons,
+                jsonb_array_length(COALESCE(rationale_media, '[]'::jsonb)) > 0 as has_images
+         FROM flashcard_bank ${where}
+         ORDER BY updated_at DESC NULLS LAST
+         LIMIT $${paramIdx++} OFFSET $${paramIdx++}`,
+        [...params, limit, offset]
+      );
+
+      const statusCounts = await pool.query(
+        `SELECT status, COUNT(*)::int as count FROM flashcard_bank GROUP BY status`
+      );
+      const tierCounts = await pool.query(
+        `SELECT tier, COUNT(*)::int as count FROM flashcard_bank GROUP BY tier ORDER BY tier`
+      );
+
+      res.json({
+        items: result.rows.map(snakeToCamel),
+        total,
+        page,
+        totalPages: Math.ceil(total / limit),
+        statusCounts: Object.fromEntries(statusCounts.rows.map((r: any) => [r.status, r.count])),
+        tierCounts: Object.fromEntries(tierCounts.rows.map((r: any) => [r.tier, r.count])),
+      });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.post("/api/admin/flashcard-bank/convert-questions", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const { questionIds, preview } = req.body;
+      if (!questionIds?.length) return res.status(400).json({ error: "questionIds required" });
+
+      const { rows: questions } = await pool.query(
+        `SELECT id, tier, stem, options, correct_answer, rationale, body_system, topic, subtopic,
+                difficulty, question_type, clinical_pearl, exam_strategy, distractor_rationales,
+                region_scope, career_type, tags, status
+         FROM exam_questions WHERE id = ANY($1)`,
+        [questionIds]
+      );
+
+      if (questions.length === 0) return res.status(404).json({ error: "No questions found" });
+
+      const previews: any[] = [];
+      let created = 0;
+      let skipped = 0;
+      const errors: { id: string; reason: string }[] = [];
+
+      for (const q of questions) {
+        const contentHash = crypto.createHash("sha256").update(`cat-exam:${q.tier}:${q.stem}`).digest("hex").slice(0, 32);
+
+        const { rows: existing } = await pool.query(
+          `SELECT id FROM flashcard_bank WHERE content_hash = $1`, [contentHash]
+        );
+        if (existing.length > 0) {
+          skipped++;
+          errors.push({ id: q.id, reason: "Already converted (duplicate hash)" });
+          continue;
+        }
+
+        const opts = Array.isArray(q.options) ? q.options : [];
+        const correctIdx = Array.isArray(q.correct_answer) ? q.correct_answer[0] : q.correct_answer;
+        let rationaleCorrect = q.rationale || "";
+        let distractorRationales = q.distractor_rationales;
+        if (!distractorRationales && opts.length > 0) {
+          const drs: Record<string, string> = {};
+          opts.forEach((opt: any, i: number) => {
+            if (i !== correctIdx) {
+              const optText = typeof opt === "object" ? opt.text || String(opt) : String(opt);
+              drs[optText] = "This option is incorrect for this clinical scenario.";
+            }
+          });
+          distractorRationales = drs;
+        }
+
+        const front = q.stem;
+        const backParts: string[] = [];
+        if (opts.length > 0 && correctIdx !== undefined && correctIdx !== null) {
+          const correctOption = typeof opts[correctIdx] === "object" ? opts[correctIdx].text || opts[correctIdx] : opts[correctIdx];
+          backParts.push(`Correct Answer: ${correctOption}`);
+        }
+        if (q.rationale) backParts.push(`Rationale: ${q.rationale}`);
+        if (q.clinical_pearl) backParts.push(`Clinical Pearl: ${q.clinical_pearl}`);
+        const back = backParts.join("\n");
+
+        const converted = {
+          tier: q.tier,
+          front,
+          back,
+          contentHash,
+          questionType: q.question_type || "mcq",
+          options: q.options,
+          correctAnswer: q.correct_answer,
+          rationaleCorrect,
+          distractorRationales,
+          clinicalTakeaway: q.clinical_pearl || null,
+          examPearl: q.exam_strategy || null,
+          difficulty: q.difficulty,
+          bodySystem: q.body_system,
+          topic: q.topic,
+          subtopic: q.subtopic,
+          regionScope: q.region_scope || "BOTH",
+          category: q.body_system || "General",
+          sourceType: "cat_exam",
+          sourceQuestionId: q.id,
+          careerType: q.career_type || "nursing",
+        };
+
+        if (preview) {
+          previews.push(converted);
+        } else {
+          try {
+            await pool.query(
+              `INSERT INTO flashcard_bank (
+                tier, front, back, content_hash, status, source_type, source_question_id,
+                question_type, options, correct_answer, rationale_correct, distractor_rationales,
+                clinical_takeaway, exam_pearl, difficulty, body_system, topic, subtopic,
+                region_scope, flashcard_enabled, category, career_type
+              ) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20,$21,$22)`,
+              [
+                converted.tier, converted.front, converted.back, converted.contentHash,
+                "draft", "cat_exam", q.id,
+                converted.questionType, JSON.stringify(converted.options), JSON.stringify(converted.correctAnswer),
+                converted.rationaleCorrect, JSON.stringify(converted.distractorRationales),
+                converted.clinicalTakeaway, converted.examPearl,
+                converted.difficulty, converted.bodySystem, converted.topic, converted.subtopic,
+                converted.regionScope, true, converted.category, converted.careerType
+              ]
+            );
+            created++;
+          } catch (err: any) {
+            errors.push({ id: q.id, reason: err.message });
+          }
+        }
+      }
+
+      if (preview) {
+        return res.json({ previews, total: questions.length, wouldCreate: previews.length, wouldSkip: skipped, errors });
+      }
+      res.json({ total: questions.length, created, skipped, errors });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/admin/flashcard-bank/exam-questions-for-convert", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const tier = req.query.tier as string;
+      const limit = Math.min(parseInt(req.query.limit as string) || 50, 200);
+      const offset = parseInt(req.query.offset as string) || 0;
+
+      const conditions = ["status = 'published'", "career_type = 'nursing'"];
+      const params: any[] = [];
+      let paramIdx = 1;
+      if (tier) { conditions.push(`tier = $${paramIdx++}`); params.push(tier); }
+
+      const where = conditions.join(" AND ");
+      const { rows } = await pool.query(
+        `SELECT eq.id, eq.tier, eq.stem, eq.body_system, eq.topic, eq.difficulty, eq.question_type,
+                EXISTS(SELECT 1 FROM flashcard_bank fb WHERE fb.source_question_id = eq.id) as already_converted
+         FROM exam_questions eq WHERE ${where}
+         ORDER BY eq.created_at DESC
+         LIMIT $${paramIdx++} OFFSET $${paramIdx++}`,
+        [...params, limit, offset]
+      );
+      const countResult = await pool.query(
+        `SELECT COUNT(*)::int as total FROM exam_questions WHERE ${where}`, params
+      );
+      res.json({ questions: rows.map(snakeToCamel), total: countResult.rows[0]?.total || 0 });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.post("/api/admin/flashcard-bank/bulk-import-cards", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const { cards, autoPublish } = req.body;
+      if (!cards || !Array.isArray(cards) || cards.length === 0) {
+        return res.status(400).json({ error: "cards array required" });
+      }
+      if (cards.length > 500) {
+        return res.status(400).json({ error: "Maximum 500 cards per import" });
+      }
+
+      const validationErrors: { index: number; reason: string }[] = [];
+      const validated: any[] = [];
+
+      for (let i = 0; i < cards.length; i++) {
+        const c = cards[i];
+        const reasons: string[] = [];
+        if (!c.tier) reasons.push("tier is required");
+        if (!c.front || c.front.trim().length < 5) reasons.push("front/question stem required (min 5 chars)");
+        if (!c.rationaleCorrect && !c.back) reasons.push("rationale or back is required");
+        if (reasons.length > 0) {
+          validationErrors.push({ index: i, reason: reasons.join("; ") });
+          continue;
+        }
+
+        const backText = c.back || c.rationaleCorrect || c.front;
+        const contentHash = crypto.createHash("sha256")
+          .update(`import:${c.tier}:${(c.front || "").trim()}`)
+          .digest("hex").slice(0, 32);
+
+        validated.push({
+          tier: c.tier,
+          front: c.front.trim(),
+          back: backText,
+          contentHash,
+          questionType: c.questionType || c.question_type || "mcq",
+          options: c.options || [],
+          correctAnswer: c.correctAnswer || c.correct_answer,
+          rationaleCorrect: c.rationaleCorrect || c.rationale_correct || c.rationale || null,
+          distractorRationales: c.distractorRationales || c.distractor_rationales || {},
+          clinicalTakeaway: c.clinicalTakeaway || c.clinical_takeaway || c.clinicalPearl || null,
+          examPearl: c.examPearl || c.exam_pearl || null,
+          difficulty: c.difficulty || null,
+          bodySystem: c.bodySystem || c.body_system || null,
+          topic: c.topic || null,
+          subtopic: c.subtopic || null,
+          regionScope: c.regionScope || c.region_scope || "BOTH",
+          category: c.category || c.bodySystem || c.body_system || "General",
+          tagsJson: c.tagsJson || c.tags || [],
+          highYield: c.highYield || c.high_yield || false,
+          isFoundational: c.isFoundational || c.is_foundational || false,
+          blueprintCategory: c.blueprintCategory || c.blueprint_category || null,
+          sourceType: "import",
+          careerType: c.careerType || c.career_type || "nursing",
+        });
+      }
+
+      let inserted = 0;
+      let skipped = 0;
+      const insertErrors: { index: number; reason: string }[] = [];
+
+      for (let i = 0; i < validated.length; i++) {
+        const v = validated[i];
+        try {
+          await pool.query(
+            `INSERT INTO flashcard_bank (
+              tier, front, back, content_hash, status, source_type,
+              question_type, options, correct_answer, rationale_correct, distractor_rationales,
+              clinical_takeaway, exam_pearl, difficulty, body_system, topic, subtopic,
+              region_scope, category, tags_json, high_yield, is_foundational,
+              blueprint_category, flashcard_enabled, career_type
+            ) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20,$21,$22,$23,$24,$25)`,
+            [
+              v.tier, v.front, v.back, v.contentHash,
+              autoPublish ? "published" : "draft", v.sourceType,
+              v.questionType, JSON.stringify(v.options), JSON.stringify(v.correctAnswer),
+              v.rationaleCorrect, JSON.stringify(v.distractorRationales),
+              v.clinicalTakeaway, v.examPearl,
+              v.difficulty, v.bodySystem, v.topic, v.subtopic,
+              v.regionScope, v.category, JSON.stringify(v.tagsJson),
+              v.highYield, v.isFoundational, v.blueprintCategory,
+              true, v.careerType
+            ]
+          );
+          inserted++;
+        } catch (err: any) {
+          if (err.code === "23505") {
+            skipped++;
+          } else {
+            insertErrors.push({ index: i, reason: err.message });
+          }
+        }
+      }
+
+      res.json({
+        success: true,
+        total: cards.length,
+        inserted,
+        skipped,
+        validationErrors,
+        insertErrors,
+      });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.post("/api/admin/flashcard-bank/bulk-set-flags", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const { ids, highYield, isFoundational } = req.body;
+      if (!ids?.length) return res.status(400).json({ error: "ids required" });
+
+      const sets: string[] = ["updated_at = NOW()"];
+      const params: any[] = [];
+      let idx = 1;
+      if (highYield !== undefined) { sets.push(`high_yield = $${idx++}`); params.push(highYield); }
+      if (isFoundational !== undefined) { sets.push(`is_foundational = $${idx++}`); params.push(isFoundational); }
+
+      params.push(ids);
+      const result = await pool.query(
+        `UPDATE flashcard_bank SET ${sets.join(", ")} WHERE id = ANY($${idx}) RETURNING id`,
+        params
+      );
+      res.json({ updated: result.rowCount });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/admin/flashcard-bank/preview-by-tier", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const tier = req.query.tier as string || "rn";
+      const limit = Math.min(parseInt(req.query.limit as string) || 10, 50);
+
+      const { rows } = await pool.query(
+        `SELECT id, front, back, options, correct_answer, rationale_correct,
+                distractor_rationales, clinical_takeaway, exam_pearl,
+                rationale_media, lesson_links, difficulty, body_system, topic,
+                high_yield, is_foundational, question_type, blueprint_category
+         FROM flashcard_bank
+         WHERE tier = $1 AND status = 'published' AND flashcard_enabled = true
+         ORDER BY RANDOM()
+         LIMIT $2`,
+        [tier, limit]
+      );
+
+      res.json({ tier, cards: rows.map(snakeToCamel), count: rows.length });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/admin/flashcard-bank/detail/:id", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const result = await pool.query(`SELECT * FROM flashcard_bank WHERE id = $1`, [req.params.id]);
+      if (!result.rows.length) return res.status(404).json({ error: "Not found" });
+      res.json(snakeToCamel(result.rows[0]));
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
   // ====== SEED QUESTIONS FROM ATTACHED DATA FILES ======
   app.post("/api/admin/questions/seed", async (req, res) => {
     try {
