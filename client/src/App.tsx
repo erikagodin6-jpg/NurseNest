@@ -167,6 +167,9 @@ const RexPnStrategies = lazy(() => import("@/pages/rex-pn-strategies"));
 const RexPnWellness = lazy(() => import("@/pages/rex-pn-wellness"));
 const PharmacologyHub = lazy(() => import("@/pages/pharmacology-hub"));
 const AdminContentManager = lazy(() => import("@/pages/admin-content-manager"));
+const AdminProfessionsPage = lazy(() => import("@/pages/admin-professions"));
+const AdminUniversalImport = lazy(() => import("@/pages/admin-universal-import"));
+const ProfessionHubPage = lazy(() => import("@/pages/profession-hub"));
 const AdminQBankImport = lazy(() => import("@/pages/admin-qbank-import"));
 const AdminQBankManage = lazy(() => import("@/pages/admin-qbank-manage"));
 const AdminNgnGenerator = lazy(() => import("@/pages/admin-ngn-generator"));
@@ -675,6 +678,9 @@ function AppRoutes() {
 
         {/* Admin Career Management */}
         <Route path="/admin/careers" component={AdminCareersPage} />
+        <Route path="/admin/professions" component={AdminProfessionsPage} />
+        <Route path="/admin/universal-import" component={AdminUniversalImport} />
+        <Route path="/profession/:slug" component={ProfessionHubPage} />
 
         {/* Career AI Tools - RRT */}
         <Route path="/rrt/abg-engine">{() => <CareerAISimulator toolId="abg-engine" />}</Route>

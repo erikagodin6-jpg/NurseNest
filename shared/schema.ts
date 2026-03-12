@@ -4152,3 +4152,132 @@ export const imagingPreviewConfig = pgTable("imaging_preview_config", {
 });
 
 export type ImagingPreviewConfig = typeof imagingPreviewConfig.$inferSelect;
+
+export const professions = pgTable("professions", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  slug: text("slug").notNull().unique(),
+  name: text("name").notNull(),
+  shortName: text("short_name").notNull(),
+  description: text("description").notNull().default(""),
+  icon: text("icon").default("BookOpen"),
+  color: text("color").default("#6C63FF"),
+  colorAccent: text("color_accent").default("#E8E6FF"),
+  routePrefix: text("route_prefix").notNull(),
+  examNames: text("exam_names").array().default(sql`'{}'::text[]`),
+  domains: text("domains").array().default(sql`'{}'::text[]`),
+  tiers: jsonb("tiers").default(sql`'[]'::jsonb`),
+  modules: jsonb("modules").default(sql`'{"lessons":true,"flashcards":true,"practiceExams":true,"adaptiveExams":true,"imageAssets":true,"seoPages":true,"studyPacks":true}'::jsonb`),
+  pricing: jsonb("pricing").default(sql`'{}'::jsonb`),
+  country: text("country").default("ALL"),
+  status: text("status").default("draft"),
+  sortOrder: integer("sort_order").default(0),
+  questionCount: integer("question_count").default(0),
+  userCount: integer("user_count").default(0),
+  imageUrl: text("image_url"),
+  hubTitle: text("hub_title"),
+  hubDescription: text("hub_description"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+  launchedAt: timestamp("launched_at"),
+});
+
+export const insertProfessionSchema = createInsertSchema(professions).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+  launchedAt: true,
+  questionCount: true,
+  userCount: true,
+});
+export type Profession = typeof professions.$inferSelect;
+export type InsertProfession = z.infer<typeof insertProfessionSchema>;
+
+export const IMPORT_QUESTION_TYPES = [
+  "single_best_answer",
+  "multiple_response",
+  "image_interpretation",
+  "case_based",
+  "comparison",
+  "sequencing",
+  "drag_and_drop",
+] as const;
+
+export const IMPORT_STATUSES = [
+  "pending",
+  "validating",
+  "validated",
+  "previewing",
+  "importing",
+  "completed",
+  "failed",
+  "cancelled",
+] as const;
+
+export const questionBankImports = pgTable("question_bank_imports", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  fileName: text("file_name").notNull(),
+  fileFormat: text("file_format").notNull(),
+  fileSize: integer("file_size").default(0),
+  professionId: varchar("profession_id"),
+  professionSlug: text("profession_slug"),
+  status: text("status").default("pending"),
+  totalRows: integer("total_rows").default(0),
+  validRows: integer("valid_rows").default(0),
+  errorRows: integer("error_rows").default(0),
+  warningRows: integer("warning_rows").default(0),
+  duplicateRows: integer("duplicate_rows").default(0),
+  importedRows: integer("imported_rows").default(0),
+  skippedRows: integer("skipped_rows").default(0),
+  duplicateStrategy: text("duplicate_strategy").default("skip"),
+  validationReport: jsonb("validation_report").default(sql`'{"errors":[],"warnings":[]}'::jsonb`),
+  previewData: jsonb("preview_data").default(sql`'[]'::jsonb`),
+  mappedTopics: jsonb("mapped_topics").default(sql`'[]'::jsonb`),
+  importedBy: varchar("imported_by"),
+  importedByUsername: text("imported_by_username"),
+  startedAt: timestamp("started_at"),
+  completedAt: timestamp("completed_at"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export const insertQuestionBankImportSchema = createInsertSchema(questionBankImports).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+  startedAt: true,
+  completedAt: true,
+  importedRows: true,
+  skippedRows: true,
+});
+export type QuestionBankImport = typeof questionBankImports.$inferSelect;
+export type InsertQuestionBankImport = z.infer<typeof insertQuestionBankImportSchema>;
+
+export const questionBankImportRows = pgTable("question_bank_import_rows", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  importId: varchar("import_id").notNull(),
+  rowNumber: integer("row_number").notNull(),
+  status: text("status").default("pending"),
+  questionId: text("question_id"),
+  profession: text("profession"),
+  country: text("country"),
+  examType: text("exam_type"),
+  topic: text("topic"),
+  subtopic: text("subtopic"),
+  difficulty: integer("difficulty"),
+  questionType: text("question_type"),
+  questionText: text("question_text"),
+  optionA: text("option_a"),
+  optionB: text("option_b"),
+  optionC: text("option_c"),
+  optionD: text("option_d"),
+  optionE: text("option_e"),
+  correctAnswer: text("correct_answer"),
+  rationale: text("rationale"),
+  imageReference: text("image_reference"),
+  tags: text("tags"),
+  eligibilityFlags: text("eligibility_flags"),
+  errors: jsonb("errors").default(sql`'[]'::jsonb`),
+  warnings: jsonb("warnings").default(sql`'[]'::jsonb`),
+  duplicateOf: varchar("duplicate_of"),
+  createdExamQuestionId: varchar("created_exam_question_id"),
+});
