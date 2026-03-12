@@ -21,7 +21,14 @@ export const rnFlashcards: FlashcardData[] = [
     correctIndex: 2,
     answer: "Sudden severe headache with altered mental status after tPA administration suggests intracranial hemorrhage, the most lethal complication of thrombolytic therapy. The nurse must stop the infusion immediately, obtain a stat CT scan, and prepare for emergency intervention. This takes priority over mild bleeding from IV sites or hemodynamic changes.",
     category: "Cardiovascular",
-    difficulty: 3
+    difficulty: 3,
+    optionRationales: [
+      "A blood pressure of 148/92 mmHg is mildly elevated but not immediately life-threatening post-tPA. While hypertension should be managed to reduce bleeding risk, it does not represent the acute emergency that intracranial hemorrhage does. BP parameters post-tPA are typically maintained below 180/105 mmHg.",
+      "Minor oozing from IV insertion sites is a common and expected side effect of thrombolytic therapy due to the systemic fibrinolytic state. This can be managed with direct pressure and does not require stopping the infusion unless bleeding is uncontrolled.",
+      "",
+      "Bradycardia at 56 bpm may be a reperfusion arrhythmia, which is actually a positive sign indicating successful thrombolysis and restoration of coronary blood flow. Unless the client is symptomatic with hypotension, this does not require immediate intervention."
+    ],
+    clinicalPearl: "After administering tPA, perform neurological checks every 15 minutes for the first 2 hours, then every 30 minutes for 6 hours, then hourly for 16 hours. Any sudden change in neurological status (headache, vision changes, confusion, weakness) warrants immediate CT scan and discontinuation of the infusion. The window for intervention in hemorrhagic stroke is narrow."
   },
   {
     id: "rn-cv-q2",
@@ -31,7 +38,14 @@ export const rnFlashcards: FlashcardData[] = [
     correctIndex: 0,
     answer: "When a temporary pacemaker fails to capture (pacing spikes present without QRS response), increasing the mA output increases the electrical current delivered to the myocardium, which may restore capture. If increasing output fails, checking lead connections, repositioning the client, and notifying the physician are next steps. Atropine may be used as a bridge but does not fix the capture problem.",
     category: "Cardiovascular",
-    difficulty: 3
+    difficulty: 3,
+    optionRationales: [
+      "",
+      "Defibrillation is used for ventricular fibrillation or pulseless ventricular tachycardia, not for bradycardia with failure to capture. The client has a dangerously slow rate but is not in a shockable rhythm. Defibrillation would be inappropriate and potentially harmful in this situation.",
+      "IV atropine 0.5 mg can temporarily increase heart rate by blocking vagal tone, but it does not address the underlying problem of pacemaker failure to capture. It is a temporizing measure, not the priority action when the pacemaker itself can be adjusted to restore function.",
+      "Repositioning to the left lateral position might help if lead displacement is the cause of failure to capture, but this is not the first action. Increasing mA output is a quicker, less invasive intervention that addresses the most common cause of capture failure."
+    ],
+    clinicalPearl: "Remember the three types of pacemaker malfunction: failure to fire (no pacing spike seen), failure to capture (spike present but no QRS), and failure to sense (pacemaker fires despite intrinsic rhythm). Each requires a different intervention. For capture failure, increase mA; for sensing failure, increase sensitivity (lower the mV threshold)."
   },
   {
     id: "rn-cv-q3",
@@ -41,7 +55,13 @@ export const rnFlashcards: FlashcardData[] = [
     correctIndex: 3,
     answer: "A pulsatile mass at the femoral puncture site after cardiac catheterization suggests a pseudoaneurysm, where blood leaks through the arterial wall into a contained space. Back pain may indicate retroperitoneal extension. The nurse should assess vital signs, mark the mass borders, apply manual pressure, and notify the cardiologist urgently. Ultrasound-guided compression or surgical repair may be needed.",
     category: "Cardiovascular",
-    difficulty: 3
+    difficulty: 3,
+    optionRationales: [
+      "Post-procedure discomfort is typically mild soreness at the puncture site, not severe back pain with a pulsatile mass. A pulsatile mass is never a normal finding and always warrants immediate investigation. Dismissing this as normal could delay critical treatment.",
+      "Retroperitoneal hemorrhage can cause back/flank pain but would not typically present with a pulsatile groin mass. Retroperitoneal bleeding is more often occult, presenting with hemodynamic instability (tachycardia, hypotension) and a dropping hemoglobin without visible external signs.",
+      "DVT presents with unilateral leg swelling, warmth, and tenderness — not a pulsatile mass. DVT formation would not cause a pulsatile mass at the arterial puncture site. Additionally, DVT typically develops hours to days after the procedure, not in the immediate post-procedure period."
+    ],
+    clinicalPearl: "After femoral cardiac catheterization, assess the puncture site every 15 minutes for the first hour, then every 30 minutes. Check for the 5 P's of arterial compromise: Pain, Pallor, Pulselessness, Paresthesia, and Paralysis. Mark any hematoma borders with a pen and time-stamp to track expansion. A bruit heard over the site may indicate pseudoaneurysm or AV fistula formation."
   },
   {
     id: "rn-cv-q4",
@@ -51,7 +71,14 @@ export const rnFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "Milrinone is a phosphodiesterase-3 inhibitor that provides both inotropic (increased contractility) and vasodilatory effects. A therapeutic response is improved cardiac output demonstrated by: decreased compensatory tachycardia, improved urine output (better renal perfusion), improved mental status, and decreased pulmonary congestion. Unlike dobutamine, milrinone may actually decrease blood pressure due to vasodilation.",
     category: "Cardiovascular",
-    difficulty: 3
+    difficulty: 3,
+    optionRationales: [
+      "Milrinone causes vasodilation, so a significant increase in blood pressure would be unexpected and more consistent with a different medication response. In fact, hypotension is a common adverse effect of milrinone. The therapeutic goal is improved cardiac output, not elevated BP.",
+      "",
+      "Peripheral neuropathy is not related to heart failure or milrinone therapy. Neuropathy is associated with conditions like diabetes mellitus, vitamin B12 deficiency, or neurotoxic medications. This finding would not be expected to change with milrinone administration.",
+      "A decreased respiratory rate alone without improved oxygenation may indicate respiratory depression rather than a therapeutic cardiac response. A true therapeutic response would show improved oxygen saturation, decreased crackles, and reduced work of breathing along with rate changes."
+    ],
+    clinicalPearl: "Milrinone is often called an 'inodilator' because it increases contractility (positive inotropy) AND causes vasodilation. Key nursing considerations: monitor for hypotension (most common adverse effect), assess for arrhythmias (especially ventricular), check platelet counts (thrombocytopenia can occur), and monitor I&O closely. It is preferred over dobutamine in patients on beta-blockers because its mechanism bypasses beta receptors."
   },
   {
     id: "rn-cv-q5",
@@ -61,7 +88,14 @@ export const rnFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "Syncope on exertion in aortic stenosis indicates that the left ventricle cannot increase cardiac output to meet exercise demands, causing cerebral hypoperfusion. This is one of the classic triad of aortic stenosis symptoms (angina, syncope, heart failure) and signals severe disease with increased risk of sudden cardiac death. Urgent surgical referral is warranted.",
     category: "Cardiovascular",
-    difficulty: 3
+    difficulty: 3,
+    optionRationales: [
+      "A systolic crescendo-decrescendo murmur is the hallmark auscultatory finding of aortic stenosis and is expected in this diagnosis. While it confirms the disease, it is a diagnostic finding rather than a warning sign of imminent decompensation. The severity of the murmur does not always correlate with disease severity.",
+      "",
+      "Pulsus parvus et tardus (weak, delayed carotid upstroke) is a classic physical examination finding of severe aortic stenosis that reflects the reduced and delayed ejection of blood through the narrowed valve. While it indicates severity, it is a chronic finding and does not carry the same ominous prognostic significance as exertional syncope.",
+      "An S4 heart sound reflects atrial contraction against a stiff, hypertrophied ventricle — common in long-standing aortic stenosis due to pressure overload. It indicates diastolic dysfunction but is an expected compensation and does not suggest imminent cardiac decompensation like syncope does."
+    ],
+    clinicalPearl: "The classic symptom triad of aortic stenosis follows a predictable pattern: Angina appears first (average survival 5 years without surgery), followed by Syncope (average survival 3 years), and finally Heart Failure (average survival 2 years). Once any of these symptoms appear, the prognosis worsens dramatically without valve replacement. Remember: AS = Angina → Syncope → heart failure (in order of appearance)."
   },
   {
     id: "rn-cv-q6",

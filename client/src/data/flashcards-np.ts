@@ -17,7 +17,14 @@ export const npFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "ACC/AHA guidelines recommend replacing ACEi/ARB with sacubitril/valsartan (ARNI) in patients with HFrEF who remain symptomatic on optimal doses of ACEi, beta-blocker, and MRA. The PARADIGM-HF trial demonstrated a 20% relative risk reduction in cardiovascular death and HF hospitalization. Must wash out ACEi for 36 hours before starting ARNI to prevent angioedema. Contraindicated in patients with a history of angioedema.",
     category: "Advanced Pharmacology",
-    difficulty: 3
+    difficulty: 3,
+    optionRationales: [
+      "Switching from lisinopril to losartan is a lateral move within the RAAS blockade class (ACEi to ARB) and does not provide the additional mortality benefit of an ARNI. This switch would be appropriate if the patient developed ACEi-related cough, but the question asks about optimizing GDMT for mortality reduction.",
+      "",
+      "Amlodipine is a dihydropyridine CCB that reduces afterload but has no mortality benefit in HFrEF. While amlodipine is safe in heart failure (unlike verapamil and diltiazem), adding it does not address the guideline-directed need for ARNI therapy in symptomatic HFrEF.",
+      "Increasing carvedilol to 50 mg BID is appropriate titration to target dose, but it does not replace the need for ARNI therapy. The four pillars of GDMT for HFrEF are: ARNI (or ACEi/ARB), beta-blocker, MRA, and SGLT2 inhibitor. This patient needs ARNI optimization as the priority change."
+    ],
+    clinicalPearl: "The four pillars of GDMT for HFrEF (remember: 'ABMS') are: ARNI (sacubitril/valsartan), Beta-blocker (carvedilol, metoprolol succinate, or bisoprolol), MRA (spironolactone or eplerenone), and SGLT2 inhibitor (dapagliflozin or empagliflozin). All four have Class I evidence for mortality reduction. When switching from ACEi to ARNI, the 36-hour washout is critical to prevent life-threatening angioedema."
   },
   {
     id: "np-pharm-q2",

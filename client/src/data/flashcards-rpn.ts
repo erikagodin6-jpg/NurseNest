@@ -85,6 +85,9 @@ export type FlashcardData = {
   category: string;
   difficulty: number;
   image?: string;
+  detailedRationale?: string;
+  optionRationales?: string[];
+  clinicalPearl?: string;
 };
 
 export const rpnFlashcards: FlashcardData[] = [
@@ -99,7 +102,14 @@ export const rpnFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "Paroxysmal nocturnal dyspnea (PND) occurs when a client with heart failure wakes suddenly from sleep with severe shortness of breath. Fluid redistributes to the lungs when lying flat. Orthopnea is difficulty breathing while lying flat but does not involve sudden awakening.",
     category: "Cardiovascular",
-    difficulty: 2
+    difficulty: 2,
+    optionRationales: [
+      "Orthopnea is difficulty breathing while lying flat, which is relieved by sitting upright. While related to heart failure, it differs from PND in that the client has continuous difficulty lying flat rather than waking suddenly from sleep. Orthopnea is typically graded by the number of pillows needed (2-pillow orthopnea, etc.).",
+      "",
+      "Sleep apnea involves periodic cessation of breathing during sleep due to airway obstruction (obstructive) or central nervous system dysfunction (central). It is not directly caused by fluid redistribution from heart failure, though central sleep apnea can coexist with heart failure.",
+      "Cheyne-Stokes respiration is a pattern of progressively deeper breathing alternating with periods of apnea. While it can occur in heart failure, it describes a breathing pattern rather than the sudden awakening with dyspnea that characterizes PND."
+    ],
+    clinicalPearl: "To differentiate PND from orthopnea on exams: PND involves sudden awakening 1-2 hours after falling asleep with severe dyspnea and often requires sitting upright or standing at an open window for relief. Orthopnea is inability to breathe comfortably when recumbent and is present from the moment of lying down. Both are left-sided heart failure symptoms caused by pulmonary congestion."
   },
   {
     id: "rpn-cv-q2",
@@ -109,7 +119,14 @@ export const rpnFlashcards: FlashcardData[] = [
     correctIndex: 2,
     answer: "ACE inhibitors (e.g., lisinopril, enalapril) are first-line for hypertensive clients with diabetes because they provide renal protection by reducing intraglomerular pressure and slowing progression of diabetic nephropathy.",
     category: "Cardiovascular",
-    difficulty: 2
+    difficulty: 2,
+    optionRationales: [
+      "Beta blockers can mask hypoglycemia symptoms (tachycardia, tremor) in diabetic clients, making them a less ideal first-line choice. They may also worsen insulin resistance. While useful as add-on therapy, they are not preferred as initial monotherapy for diabetic hypertension.",
+      "Calcium channel blockers (amlodipine, nifedipine) effectively lower blood pressure but do not provide the same renal protective benefits as ACE inhibitors. They are considered second-line or add-on agents for diabetic hypertension unless there is a contraindication to ACE inhibitors.",
+      "",
+      "Alpha blockers (prazosin, doxazosin) are not recommended as first-line antihypertensives. The ALLHAT trial showed increased heart failure risk with doxazosin. They are primarily used for benign prostatic hyperplasia (BPH) with a secondary benefit of blood pressure reduction."
+    ],
+    clinicalPearl: "ACE inhibitors end in '-pril' (lisinopril, enalapril, ramipril). If a client develops the classic ACE inhibitor dry cough, switch to an ARB ('-sartan' drugs like losartan, valsartan) which provides similar renal protection without the cough. Both ACE inhibitors and ARBs are contraindicated in pregnancy (Category D) and in bilateral renal artery stenosis."
   },
   {
     id: "rpn-cv-q3",

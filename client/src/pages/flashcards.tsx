@@ -2508,6 +2508,7 @@ export default function Flashcards() {
     "Respiratory": { slug: "respiratory", title: "Respiratory System" },
     "Neurological": { slug: "neurological", title: "Neurological Nursing" },
     "Pharmacology": { slug: "pharmacology", title: "Pharmacology Essentials" },
+    "Advanced Pharmacology": { slug: "pharmacology", title: "Pharmacology Essentials" },
     "Pediatrics": { slug: "pediatrics", title: "Pediatric Nursing" },
     "Oncology": { slug: "oncology", title: "Oncology Nursing" },
     "GI": { slug: "gastrointestinal", title: "Gastrointestinal Nursing" },
@@ -2517,19 +2518,41 @@ export default function Flashcards() {
     "Musculoskeletal": { slug: "musculoskeletal", title: "Musculoskeletal Nursing" },
     "Skin": { slug: "integumentary", title: "Integumentary & Wound Care" },
     "Wound Care": { slug: "integumentary", title: "Integumentary & Wound Care" },
+    "Dermatology": { slug: "integumentary", title: "Integumentary & Wound Care" },
+    "Integumentary": { slug: "integumentary", title: "Integumentary & Wound Care" },
     "Infection": { slug: "infection-control", title: "Infection Control" },
     "Infection Control": { slug: "infection-control", title: "Infection Control" },
     "Maternal": { slug: "maternal", title: "Maternal & Newborn Nursing" },
     "Maternity": { slug: "maternal", title: "Maternal & Newborn Nursing" },
     "Neonatal": { slug: "maternal", title: "Maternal & Newborn Nursing" },
+    "OB/Maternity": { slug: "maternal", title: "Maternal & Newborn Nursing" },
+    "Postpartum": { slug: "maternal", title: "Maternal & Newborn Nursing" },
     "Psychiatry": { slug: "mental-health", title: "Mental Health Nursing" },
     "Mental Health": { slug: "mental-health", title: "Mental Health Nursing" },
+    "Behavioral Health": { slug: "mental-health", title: "Mental Health Nursing" },
     "Hematology": { slug: "hematology", title: "Hematology & Oncology" },
     "Endocrine": { slug: "endocrine", title: "Endocrine System" },
     "Fundamentals": { slug: "fundamentals", title: "Nursing Fundamentals" },
+    "Nursing Fundamentals": { slug: "fundamentals", title: "Nursing Fundamentals" },
     "Fluid & Electrolytes": { slug: "fluid-electrolytes", title: "Fluid & Electrolyte Balance" },
+    "Electrolytes": { slug: "fluid-electrolytes", title: "Fluid & Electrolyte Balance" },
     "Safety & Ethics": { slug: "safety-ethics", title: "Safety & Ethical Practice" },
+    "Ethics": { slug: "safety-ethics", title: "Safety & Ethical Practice" },
     "Delegation": { slug: "delegation", title: "Delegation & Prioritization" },
+    "Leadership": { slug: "delegation", title: "Delegation & Prioritization" },
+    "Emergency": { slug: "emergency", title: "Emergency Nursing" },
+    "Trauma": { slug: "emergency", title: "Emergency Nursing" },
+    "Pain Management": { slug: "pain-management", title: "Pain Management" },
+    "Nutrition": { slug: "nutrition", title: "Nutrition & Diet Therapy" },
+    "Lab Values": { slug: "lab-fundamentals", title: "Lab Value Fundamentals" },
+    "Assessment": { slug: "assessment", title: "Health Assessment" },
+    "Differential Diagnosis": { slug: "assessment", title: "Health Assessment" },
+    "Clinical Assessment": { slug: "assessment", title: "Health Assessment" },
+    "Reproductive": { slug: "reproductive", title: "Reproductive Health" },
+    "Eye & Ear": { slug: "eye-ear", title: "Eye & Ear Disorders" },
+    "Ophthalmology": { slug: "eye-ear", title: "Eye & Ear Disorders" },
+    "Immune": { slug: "infection-control", title: "Infection Control" },
+    "Immunology": { slug: "infection-control", title: "Infection Control" },
   };
 
   const getRelatedLesson = (category: string) => categoryLessonMap[category] || null;
@@ -2541,14 +2564,25 @@ export default function Flashcards() {
     if (!card.options || card.correctIndex === undefined) return "";
     if (optionIndex === card.correctIndex) return "";
     const option = card.options[optionIndex];
+    const correctOption = card.options[card.correctIndex];
     const optionLower = option.toLowerCase();
-    if (optionLower.includes("immediately") || optionLower.includes("within 2 hour"))
-      return "This timing is inappropriate and could compromise patient safety or recovery.";
-    if (optionLower.includes("not") || optionLower.includes("avoid") || optionLower.includes("never"))
-      return "This action contradicts evidence-based practice for this clinical scenario.";
-    if (optionLower.includes("only") || optionLower.includes("always"))
-      return "This absolute statement does not account for the clinical nuances of this situation.";
-    return "While this may be relevant in other contexts, it is not the priority intervention in this clinical scenario.";
+    const correctLower = correctOption?.toLowerCase() || "";
+
+    if (optionLower.includes("immediately") || optionLower.includes("within 2 hour") || optionLower.includes("stat"))
+      return `This option suggests an inappropriate timeline. In this clinical scenario, the priority is "${correctOption?.substring(0, 60)}..." because it addresses the most critical patient need. Rushing with this intervention could compromise patient safety or delay the correct response.`;
+    if (optionLower.includes("not") || optionLower.includes("avoid") || optionLower.includes("never") || optionLower.includes("contraindicated"))
+      return `This action contradicts evidence-based practice guidelines for this clinical presentation. The correct approach involves ${correctLower.substring(0, 50)}..., which is supported by current clinical standards and research evidence.`;
+    if (optionLower.includes("only") || optionLower.includes("always") || optionLower.includes("all "))
+      return `Absolute statements rarely apply in clinical nursing practice. This option oversimplifies the clinical decision-making required here. The correct answer accounts for the specific nuances of the patient's presentation and prioritizes appropriately.`;
+    if (optionLower.includes("monitor") || optionLower.includes("observe") || optionLower.includes("continue"))
+      return `While ongoing monitoring is important in nursing care, this clinical scenario requires a more active intervention. Simply monitoring or continuing current care would delay the necessary response and could lead to patient deterioration.`;
+    if (optionLower.includes("administer") || optionLower.includes("give") || optionLower.includes("inject"))
+      return `This medication or intervention is not the first-line treatment for this clinical presentation. The correct answer reflects the evidence-based priority intervention that addresses the underlying pathophysiology more effectively.`;
+    if (optionLower.includes("position") || optionLower.includes("elevate") || optionLower.includes("lower"))
+      return `While positioning is an important nursing intervention, this specific position or maneuver does not address the primary clinical concern in this scenario. The correct intervention takes priority because it directly impacts patient outcomes.`;
+    if (optionLower.includes("notify") || optionLower.includes("call") || optionLower.includes("report"))
+      return `Communication with the healthcare team is essential, but in this scenario there is a nursing intervention that should be performed first. Delaying the correct action to notify the provider could compromise patient safety.`;
+    return `Although this option may seem clinically reasonable, it does not represent the priority nursing action for this specific scenario. The correct answer addresses the most immediate patient need based on evidence-based practice guidelines and clinical priority frameworks.`;
   };
 
   const [topicSearch, setTopicSearch] = useState("");
@@ -4359,13 +4393,13 @@ export default function Flashcards() {
     }
 
     return (
-      <div className={`min-h-screen bg-warmwhite flex flex-col font-sans ${user?.tier !== "admin" ? "select-none" : ""}`}>
+      <div className={`min-h-screen bg-gradient-to-b from-rose-50/30 via-white to-slate-50 flex flex-col font-sans ${user?.tier !== "admin" ? "select-none" : ""}`}>
         <Navigation />
-        <main className="max-w-[820px] mx-auto px-4 py-8 sm:py-12 w-full flex-1 flex flex-col">
-          <div className="mb-6 flex items-center justify-between">
+        <main className={cn("mx-auto px-4 py-4 sm:py-8 w-full flex-1 flex flex-col", examShowRationale ? "max-w-[1200px]" : "max-w-[820px]")}>
+          <div className="mb-4 flex items-center justify-between">
             <div>
-              <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 tracking-tight" data-testid="text-exam-session-title">CAT Exam Study Cards</h1>
-              <p className="text-sm text-gray-500 mt-1">
+              <h1 className="text-xl sm:text-2xl font-bold text-gray-900 tracking-tight" data-testid="text-exam-session-title">CAT Exam Study Cards</h1>
+              <p className="text-xs text-gray-500 mt-1">
                 {examCard.bodySystem || examCard.category} &middot; {examCard.difficulty ? `Difficulty ${examCard.difficulty}` : "Exam Question"}
                 {examCard.topic && <span> &middot; {examCard.topic}</span>}
               </p>
@@ -4383,128 +4417,178 @@ export default function Flashcards() {
             </div>
           </div>
 
-          <div className="w-full bg-gray-200 h-1 rounded-full mb-8 overflow-hidden">
+          <div className="w-full bg-rose-100/60 h-1.5 rounded-full mb-5 overflow-hidden">
             <div
-              className="bg-rose-500 h-full transition-all duration-500"
+              className="bg-rose-500 h-full rounded-full transition-all duration-500"
               style={{ width: `${((examStudyIndex + 1) / examFlashcards.length) * 100}%` }}
             />
           </div>
 
-          <div className="w-full flex-1 flex flex-col gap-6">
+          <div className="w-full flex-1 flex flex-col gap-4">
             <div className="flex-1">
-              <Card className="border border-gray-200 shadow-sm bg-white overflow-hidden rounded-2xl min-h-[460px] flex flex-col animate-in fade-in duration-200" data-testid="card-exam-question">
-                <div className="p-6 sm:p-8 flex flex-col flex-1">
-                  <h2 className="text-lg font-semibold text-gray-900 mb-6 leading-snug" data-testid="text-exam-question-stem">{examCard.front}</h2>
-                  <div className="space-y-2.5 flex-1">
-                    {examCard.options?.map((option: any, idx: number) => {
-                      const optionText = typeof option === "string" ? option : option.text || option.label || String(option);
-                      const isSelected = examSelectedOption === idx;
-                      const isCorrect = examCard.correctAnswer.includes(idx);
-                      let variantClasses = "border-gray-200 hover:border-gray-400 hover:bg-gray-50 text-gray-700";
-                      if (examShowRationale) {
-                        if (isCorrect) variantClasses = "border-emerald-500 bg-emerald-50 text-emerald-900 ring-2 ring-emerald-200";
-                        else if (isSelected) variantClasses = "border-red-300 bg-red-50 text-red-700";
-                        else variantClasses = "border-gray-100 bg-gray-50 text-gray-400";
-                      }
-                      return (
-                        <button
-                          key={idx}
-                          disabled={examShowRationale}
-                          onClick={() => handleExamOptionClick(idx)}
-                          className={cn("w-full text-left p-3.5 rounded-lg border transition-all flex items-start gap-3 text-sm", variantClasses)}
-                          data-testid={`button-exam-option-${idx}`}
-                        >
-                          <span className="shrink-0 w-6 h-6 rounded-full border border-current flex items-center justify-center text-[10px] font-semibold">
-                            {String.fromCharCode(65 + idx)}
-                          </span>
-                          {optionText}
-                        </button>
-                      );
-                    })}
+              {examShowRationale ? (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-5 animate-in fade-in duration-300" data-testid="section-exam-review-layout">
+                  <div className="flex flex-col gap-4">
+                    <Card className="border border-violet-200/80 shadow-sm bg-white overflow-hidden rounded-2xl flex flex-col" data-testid="card-exam-question">
+                      <div className="p-5 sm:p-6 flex flex-col flex-1">
+                        <h2 className="text-base sm:text-lg font-semibold text-gray-900 mb-4 leading-snug" data-testid="text-exam-question-stem">{examCard.front}</h2>
+                        <div className="space-y-2 flex-1">
+                          {examCard.options?.map((option: any, idx: number) => {
+                            const optionText = typeof option === "string" ? option : option.text || option.label || String(option);
+                            const isSelected = examSelectedOption === idx;
+                            const isCorrect = examCard.correctAnswer.includes(idx);
+                            let variantClasses = "border-gray-100 bg-gray-50 text-gray-400";
+                            if (isCorrect) variantClasses = "border-emerald-500 bg-emerald-50 text-emerald-900 ring-2 ring-emerald-200";
+                            else if (isSelected) variantClasses = "border-red-300 bg-red-50 text-red-700";
+                            return (
+                              <button
+                                key={idx}
+                                disabled={true}
+                                className={cn("w-full text-left p-3 rounded-lg border transition-all flex items-start gap-3 text-sm", variantClasses)}
+                                data-testid={`button-exam-option-${idx}`}
+                              >
+                                <span className="shrink-0 w-5 h-5 rounded-full border border-current flex items-center justify-center text-[10px] font-semibold">
+                                  {String.fromCharCode(65 + idx)}
+                                </span>
+                                {optionText}
+                              </button>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    </Card>
                   </div>
 
-                  {examShowRationale && (
-                    <div className="mt-6 space-y-4 animate-in fade-in duration-300" data-testid="section-exam-rationale">
-                      <div className="p-5 bg-emerald-50 border border-emerald-200 rounded-xl">
-                        <p className="text-[10px] font-semibold text-emerald-600 uppercase tracking-widest mb-2 flex items-center gap-1">
-                          <CheckCircle2 className="w-3 h-3" /> Correct Answer Rationale
-                        </p>
-                        <p className="text-sm text-gray-700 leading-relaxed">{examCard.rationaleCorrect || examCard.back}</p>
+                  <div className="flex flex-col gap-3.5">
+                    {examCard.rationaleMedia && examCard.rationaleMedia.length > 0 && (
+                      <div className="rounded-xl overflow-hidden border border-violet-200/60 md:block hidden">
+                        <div className="grid grid-cols-1 gap-2 p-3 bg-gray-50/50">
+                          {examCard.rationaleMedia.map((media: any, i: number) => (
+                            <div key={i} className="rounded-lg overflow-hidden border border-gray-100">
+                              <img src={media.imageUrl} alt={media.imageAlt || "Clinical image"} className="w-full h-32 object-contain bg-gray-50" />
+                              {media.imageCaption && <p className="text-xs text-gray-500 p-2">{media.imageCaption}</p>}
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    <Card className="border border-violet-200/60 shadow-sm bg-gradient-to-b from-violet-50/30 via-white to-rose-50/20 rounded-2xl overflow-hidden">
+                      <div className="px-5 pt-4 pb-2 flex items-center gap-2.5 border-b border-violet-200/40">
+                        <div className="w-6 h-6 rounded-lg bg-violet-100/80 flex items-center justify-center">
+                          <BookOpen className="w-3 h-3 text-violet-600" />
+                        </div>
+                        <h3 className="text-xs font-semibold text-violet-700 tracking-wide">Rationale & Review</h3>
                       </div>
 
-                      {examCard.distractorRationales && Object.keys(examCard.distractorRationales).length > 0 && (
-                        <div className="p-5 bg-gray-50 border border-gray-200 rounded-xl">
-                          <p className="text-[10px] font-semibold text-gray-500 uppercase tracking-widest mb-3">Why Other Options Are Incorrect</p>
-                          <div className="space-y-2">
-                            {Object.entries(examCard.distractorRationales).map(([key, rationale]) => (
-                              <div key={key} className="flex gap-2 text-sm">
-                                <span className="shrink-0 w-5 h-5 rounded-full bg-gray-200 flex items-center justify-center text-[9px] font-bold text-gray-600 mt-0.5">
-                                  {key.replace(/^option_?/i, "").charAt(0).toUpperCase() || key.charAt(0).toUpperCase()}
-                                </span>
-                                <p className="text-gray-600 leading-relaxed">{rationale}</p>
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-                      )}
-
-                      {examCard.clinicalTakeaway && (
-                        <div className="p-5 bg-blue-50 border border-blue-200 rounded-xl">
-                          <p className="text-[10px] font-semibold text-blue-600 uppercase tracking-widest mb-2 flex items-center gap-1">
-                            <BookOpen className="w-3 h-3" /> Clinical Takeaway
+                      <CardContent className="px-5 py-4 space-y-3.5" data-testid="section-exam-rationale">
+                        <div className="bg-emerald-50/50 rounded-lg border border-emerald-100/60 p-3">
+                          <p className="text-[10px] font-semibold text-emerald-600 uppercase tracking-widest mb-1.5 flex items-center gap-1">
+                            <CheckCircle2 className="w-3 h-3" /> Correct Answer Rationale
                           </p>
-                          <p className="text-sm text-gray-700 leading-relaxed">{examCard.clinicalTakeaway}</p>
+                          <p className="text-sm text-gray-700 leading-relaxed">{examCard.rationaleCorrect || examCard.back}</p>
                         </div>
-                      )}
 
-                      {examCard.examPearl && (
-                        <div className="p-5 bg-amber-50 border border-amber-200 rounded-xl">
-                          <p className="text-[10px] font-semibold text-amber-600 uppercase tracking-widest mb-2 flex items-center gap-1">
-                            <Sparkles className="w-3 h-3" /> Exam Pearl
-                          </p>
-                          <p className="text-sm text-gray-700 leading-relaxed">{examCard.examPearl}</p>
-                        </div>
-                      )}
-
-                      {examCard.rationaleMedia && examCard.rationaleMedia.length > 0 && (
-                        <div className="p-5 bg-white border border-gray-200 rounded-xl">
-                          <p className="text-[10px] font-semibold text-gray-500 uppercase tracking-widest mb-3">Related Images</p>
-                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                            {examCard.rationaleMedia.map((media: any, i: number) => (
-                              <div key={i} className="rounded-lg overflow-hidden border border-gray-100">
-                                <img src={media.imageUrl} alt={media.imageAlt || "Clinical image"} className="w-full h-32 object-contain bg-gray-50" />
-                                {media.imageCaption && <p className="text-xs text-gray-500 p-2">{media.imageCaption}</p>}
-                              </div>
-                            ))}
+                        {examCard.distractorRationales && Object.keys(examCard.distractorRationales).length > 0 && (
+                          <div className="bg-white rounded-lg border border-violet-100/80 p-3">
+                            <p className="text-[10px] font-semibold text-slate-600 uppercase tracking-widest mb-2.5">Why Other Options Are Incorrect</p>
+                            <div className="space-y-2">
+                              {Object.entries(examCard.distractorRationales).map(([key, rationale]) => (
+                                <div key={key} className="flex gap-2 text-sm">
+                                  <span className="shrink-0 w-5 h-5 rounded-full bg-rose-50 flex items-center justify-center text-[9px] font-bold text-rose-400 mt-0.5">
+                                    {key.replace(/^option_?/i, "").charAt(0).toUpperCase() || key.charAt(0).toUpperCase()}
+                                  </span>
+                                  <p className="text-gray-600 leading-relaxed">{rationale}</p>
+                                </div>
+                              ))}
+                            </div>
                           </div>
-                        </div>
-                      )}
+                        )}
 
-                      {examCard.lessonLinks && examCard.lessonLinks.length > 0 && (
-                        <div className="p-5 bg-indigo-50 border border-indigo-200 rounded-xl">
-                          <p className="text-[10px] font-semibold text-indigo-600 uppercase tracking-widest mb-3 flex items-center gap-1">
-                            <Layers className="w-3 h-3" /> Related Lessons
-                          </p>
-                          <div className="space-y-2">
-                            {examCard.lessonLinks.map((link: any, i: number) => (
-                              <a
-                                key={i}
-                                href={link.lessonUrl}
-                                className="flex items-center gap-2 text-sm text-indigo-700 hover:text-indigo-900 hover:underline"
-                                data-testid={`link-exam-lesson-${i}`}
-                              >
-                                <ChevronRight className="w-3 h-3" />
-                                <span>{link.lessonTitle}</span>
-                                {link.relevanceNote && <span className="text-xs text-gray-400 ml-1">({link.relevanceNote})</span>}
-                              </a>
-                            ))}
+                        {examCard.clinicalTakeaway && (
+                          <div className="bg-blue-50/50 rounded-lg border border-blue-100/60 p-3">
+                            <p className="text-[10px] font-semibold text-blue-600 uppercase tracking-widest mb-1.5 flex items-center gap-1">
+                              <BookOpen className="w-3 h-3" /> Clinical Takeaway
+                            </p>
+                            <p className="text-sm text-gray-700 leading-relaxed">{examCard.clinicalTakeaway}</p>
                           </div>
-                        </div>
-                      )}
-                    </div>
-                  )}
+                        )}
+
+                        {examCard.examPearl && (
+                          <div className="bg-gradient-to-r from-amber-50/70 to-rose-50/50 rounded-lg border border-amber-100/50 p-3">
+                            <p className="text-[10px] font-semibold text-amber-600 uppercase tracking-widest mb-1.5 flex items-center gap-1">
+                              <Sparkles className="w-3 h-3" /> Exam Pearl
+                            </p>
+                            <p className="text-sm text-gray-700 leading-relaxed">{examCard.examPearl}</p>
+                          </div>
+                        )}
+
+                        {examCard.rationaleMedia && examCard.rationaleMedia.length > 0 && (
+                          <div className="rounded-lg overflow-hidden border border-violet-100/80 md:hidden">
+                            <div className="grid grid-cols-1 gap-2 p-3 bg-gray-50/50">
+                              {examCard.rationaleMedia.map((media: any, i: number) => (
+                                <div key={i} className="rounded-lg overflow-hidden border border-gray-100">
+                                  <img src={media.imageUrl} alt={media.imageAlt || "Clinical image"} className="w-full h-32 object-contain bg-gray-50" />
+                                  {media.imageCaption && <p className="text-xs text-gray-500 p-2">{media.imageCaption}</p>}
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        )}
+
+                        {examCard.lessonLinks && examCard.lessonLinks.length > 0 && (
+                          <div className="bg-violet-50/30 rounded-lg border border-violet-100/60 p-3">
+                            <p className="text-[10px] font-semibold text-violet-600 uppercase tracking-widest mb-2 flex items-center gap-1">
+                              <Layers className="w-3 h-3" /> Related Lessons
+                            </p>
+                            <div className="space-y-1.5">
+                              {examCard.lessonLinks.map((link: any, i: number) => (
+                                <a
+                                  key={i}
+                                  href={link.lessonUrl}
+                                  className="flex items-center gap-2 text-sm text-violet-700 hover:text-violet-900 hover:underline"
+                                  data-testid={`link-exam-lesson-${i}`}
+                                >
+                                  <ChevronRight className="w-3 h-3" />
+                                  <span>{link.lessonTitle}</span>
+                                  {link.relevanceNote && <span className="text-xs text-gray-400 ml-1">({link.relevanceNote})</span>}
+                                </a>
+                              ))}
+                            </div>
+                          </div>
+                        )}
+                      </CardContent>
+                    </Card>
+                  </div>
                 </div>
-              </Card>
+              ) : (
+                <Card className="border border-gray-200 shadow-sm bg-white overflow-hidden rounded-2xl min-h-[460px] flex flex-col animate-in fade-in duration-200" data-testid="card-exam-question">
+                  <div className="p-6 sm:p-8 flex flex-col flex-1">
+                    <h2 className="text-lg font-semibold text-gray-900 mb-6 leading-snug" data-testid="text-exam-question-stem">{examCard.front}</h2>
+                    <div className="space-y-2.5 flex-1">
+                      {examCard.options?.map((option: any, idx: number) => {
+                        const optionText = typeof option === "string" ? option : option.text || option.label || String(option);
+                        const isSelected = examSelectedOption === idx;
+                        let variantClasses = "border-gray-200 hover:border-gray-400 hover:bg-gray-50 text-gray-700";
+                        return (
+                          <button
+                            key={idx}
+                            disabled={false}
+                            onClick={() => handleExamOptionClick(idx)}
+                            className={cn("w-full text-left p-3.5 rounded-lg border transition-all flex items-start gap-3 text-sm", variantClasses)}
+                            data-testid={`button-exam-option-${idx}`}
+                          >
+                            <span className="shrink-0 w-6 h-6 rounded-full border border-current flex items-center justify-center text-[10px] font-semibold">
+                              {String.fromCharCode(65 + idx)}
+                            </span>
+                            {optionText}
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+                </Card>
+              )}
             </div>
 
             <div className="flex items-center justify-between gap-3 pt-2 flex-wrap">
@@ -4516,8 +4600,8 @@ export default function Flashcards() {
                   variant="outline"
                   size="sm"
                   className={cn(
-                    "gap-1.5 transition-all",
-                    examBookmarks.includes(examCard.id) ? "bg-gray-900 text-white border-gray-900 hover:bg-gray-800" : "text-gray-600"
+                    "gap-1.5 transition-all rounded-lg",
+                    examBookmarks.includes(examCard.id) ? "bg-violet-50 text-violet-700 border-violet-200 hover:bg-violet-100" : "text-gray-600"
                   )}
                   onClick={() => toggleExamBookmark(examCard.id)}
                   data-testid="button-exam-bookmark"
@@ -4532,8 +4616,8 @@ export default function Flashcards() {
                   variant="outline"
                   size="sm"
                   className={cn(
-                    "gap-1.5 transition-all",
-                    examMastered.includes(examCard.id) ? "bg-gray-900 text-white border-gray-900 hover:bg-gray-800" : "text-gray-600"
+                    "gap-1.5 transition-all rounded-lg",
+                    examMastered.includes(examCard.id) ? "bg-emerald-50 text-emerald-700 border-emerald-200 hover:bg-emerald-100" : "text-gray-600"
                   )}
                   onClick={() => toggleExamMastered(examCard.id)}
                   data-testid="button-exam-mastered"
@@ -4545,13 +4629,12 @@ export default function Flashcards() {
                   )}
                 </Button>
               </div>
-              <Button variant="ghost" size="sm" onClick={handleExamNext} className="text-gray-900 gap-1.5 font-medium" data-testid="button-exam-next">
+              <Button size="sm" onClick={handleExamNext} className="bg-violet-600 hover:bg-violet-700 text-white gap-1.5 font-medium rounded-lg text-xs h-8 px-4 shadow-sm" data-testid="button-exam-next">
                 {examStudyIndex < examFlashcards.length - 1 ? "Next Card" : "Finish"} <ChevronRight className="w-4 h-4" />
               </Button>
             </div>
           </div>
         </main>
-        <Footer />
       </div>
     );
   }
@@ -4673,10 +4756,10 @@ export default function Flashcards() {
       />
       <Navigation />
 
-      <main className="max-w-[820px] mx-auto px-4 py-6 sm:py-10 w-full flex-1 flex flex-col">
-        <div className="mb-5 flex items-center justify-between flex-wrap gap-2">
+      <main className={cn("mx-auto px-4 py-4 sm:py-8 w-full flex-1 flex flex-col", showRationale && currentCard.type === "question" ? "max-w-[1200px]" : "max-w-[820px]")}>
+        <div className="mb-4 flex items-center justify-between flex-wrap gap-2">
           <div>
-            <h1 className="text-xl sm:text-2xl font-bold text-slate-800 tracking-tight">{t("flashcards.activeSession")}</h1>
+            <h1 className="text-lg sm:text-xl font-bold text-slate-800 tracking-tight">{t("flashcards.activeSession")}</h1>
             <p className="text-xs text-slate-400 mt-1 flex items-center gap-1.5">
               <span className="inline-flex items-center px-2 py-0.5 rounded-md bg-violet-50 text-violet-600 text-[10px] font-semibold border border-violet-100">{catLabel(currentCard.category)}</span>
               <span className="text-slate-300">&middot;</span>
@@ -4706,132 +4789,169 @@ export default function Flashcards() {
           <div className="flex-1">
             {currentCard.type === "question" ? (
               <>
-                <Card className="border border-slate-100 shadow-md bg-white overflow-hidden rounded-2xl flex flex-col animate-in fade-in duration-200">
-                  <CardContent className="px-6 sm:px-8 py-6 flex flex-col flex-1">
-                    <h2 className="text-lg sm:text-xl font-semibold text-slate-800 mb-6 leading-relaxed" data-testid="text-study-question">{currentCard.question}</h2>
-                    <div className="space-y-2.5 flex-1">
-                      {currentCard.options?.map((option, idx) => {
-                        const isSelected = selectedOption === idx;
-                        const isCorrectOpt = idx === currentCard.correctIndex;
-                        return (
-                          <AnswerOption
-                            key={idx}
-                            index={idx}
-                            text={option}
-                            isSelected={isSelected}
-                            isCorrect={showRationale && isCorrectOpt}
-                            isWrong={showRationale && isSelected && !isCorrectOpt}
-                            isRevealed={showRationale}
-                            disabled={showRationale}
-                            onClick={() => handleOptionClick(idx)}
-                            iconEl={
-                              showRationale && isCorrectOpt
-                                ? <CheckCircle2 className="h-5 w-5 text-emerald-600 shrink-0" />
-                                : showRationale && isSelected && !isCorrectOpt
-                                  ? <XCircle className="h-5 w-5 text-red-500 shrink-0" />
-                                  : undefined
-                            }
-                          />
-                        );
-                      })}
+                {showRationale ? (
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-5 animate-in fade-in duration-300" data-testid="section-study-review-layout">
+                    <div className="flex flex-col gap-4">
+                      <Card className="border border-violet-200/80 shadow-sm bg-white overflow-hidden rounded-2xl flex flex-col">
+                        <CardContent className="px-5 sm:px-6 py-5 flex flex-col flex-1">
+                          <h2 className="text-base sm:text-lg font-semibold text-slate-800 mb-4 leading-relaxed" data-testid="text-study-question">{currentCard.question}</h2>
+                          <div className="space-y-2 flex-1">
+                            {currentCard.options?.map((option, idx) => {
+                              const isSelected = selectedOption === idx;
+                              const isCorrectOpt = idx === currentCard.correctIndex;
+                              return (
+                                <AnswerOption
+                                  key={idx}
+                                  index={idx}
+                                  text={option}
+                                  isSelected={isSelected}
+                                  isCorrect={isCorrectOpt}
+                                  isWrong={isSelected && !isCorrectOpt}
+                                  isRevealed={true}
+                                  disabled={true}
+                                  onClick={() => {}}
+                                  iconEl={
+                                    isCorrectOpt
+                                      ? <CheckCircle2 className="h-5 w-5 text-emerald-600 shrink-0" />
+                                      : isSelected && !isCorrectOpt
+                                        ? <XCircle className="h-5 w-5 text-red-500 shrink-0" />
+                                        : undefined
+                                  }
+                                />
+                              );
+                            })}
+                          </div>
+                        </CardContent>
+                      </Card>
                     </div>
-                  </CardContent>
-                </Card>
 
-                {showRationale && (
-                  <div className="mt-5 animate-in fade-in slide-in-from-bottom-2 duration-300">
-                    <Card className="border border-violet-100/80 shadow-md bg-gradient-to-b from-violet-50/50 to-white rounded-2xl overflow-hidden">
-                      <div className="px-6 sm:px-8 pt-5 pb-2 flex items-center gap-2.5 border-b border-violet-100/60">
-                        <div className="w-7 h-7 rounded-lg bg-violet-100 flex items-center justify-center">
-                          <BookOpen className="w-3.5 h-3.5 text-violet-600" />
+                    <div className="flex flex-col gap-3.5">
+                      {(currentCard.image || getCategoryImage(currentCard.category || "")) && (
+                        <div className="rounded-xl overflow-hidden border border-violet-200/60 md:block hidden">
+                          <RationaleImageBlock
+                            src={currentCard.image || getCategoryImage(currentCard.category || "") || ""}
+                            alt={`Clinical reference for ${currentCard.category || "nursing"}`}
+                            data-testid={`img-rationale-${currentCard.id}`}
+                          />
                         </div>
-                        <h3 className="text-sm font-semibold text-violet-800">Rationale & Review</h3>
-                      </div>
+                      )}
 
-                      <CardContent className="px-6 sm:px-8 py-5 space-y-5">
-                        <div>
-                          <div className="flex items-center gap-2 mb-2">
-                            <CheckCircle2 className="w-4 h-4 text-emerald-500" />
-                            <span className="text-xs font-semibold text-emerald-700 uppercase tracking-wide">Correct Answer</span>
+                      <Card className="border border-violet-200/60 shadow-sm bg-gradient-to-b from-violet-50/30 via-white to-rose-50/20 rounded-2xl overflow-hidden">
+                        <div className="px-5 pt-4 pb-2 flex items-center gap-2.5 border-b border-violet-200/40">
+                          <div className="w-6 h-6 rounded-lg bg-violet-100/80 flex items-center justify-center">
+                            <BookOpen className="w-3 h-3 text-violet-600" />
                           </div>
-                          <p className="text-sm font-medium text-slate-800 pl-6">
-                            {currentCard.options?.[currentCard.correctIndex ?? 0]}
-                          </p>
+                          <h3 className="text-xs font-semibold text-violet-700 tracking-wide">Rationale & Review</h3>
                         </div>
 
-                        <div className="bg-white rounded-xl border border-slate-100 p-4">
-                          <div className="flex items-center gap-2 mb-2">
-                            <Lightbulb className="w-4 h-4 text-amber-500" />
-                            <span className="text-xs font-semibold text-slate-600 uppercase tracking-wide">Why This Is Correct</span>
-                          </div>
-                          <p className="text-sm text-slate-600 leading-relaxed">{currentCard.answer}</p>
-                        </div>
-
-                        {currentCard.options && currentCard.options.length > 1 && (
-                          <div className="bg-white rounded-xl border border-slate-100 p-4">
-                            <div className="flex items-center gap-2 mb-3">
-                              <XCircle className="w-4 h-4 text-rose-400" />
-                              <span className="text-xs font-semibold text-slate-600 uppercase tracking-wide">Why Other Options Are Incorrect</span>
-                            </div>
-                            <div className="space-y-2.5">
-                              {currentCard.options.map((opt, idx) => {
-                                if (idx === currentCard.correctIndex) return null;
-                                const letter = String.fromCharCode(65 + idx);
-                                return (
-                                  <div key={idx} className="flex gap-2.5">
-                                    <span className="text-[11px] font-bold text-slate-400 bg-slate-50 w-5 h-5 rounded flex items-center justify-center shrink-0 mt-0.5">{letter}</span>
-                                    <div>
-                                      <p className="text-xs font-medium text-slate-700">{opt}</p>
-                                      <p className="text-xs text-slate-400 mt-0.5 leading-relaxed">{generateOptionRationale(currentCard, idx)}</p>
-                                    </div>
-                                  </div>
-                                );
-                              })}
-                            </div>
-                          </div>
-                        )}
-
-                        {(currentCard.clinicalPearl || currentCard.answer) && (
-                          <div className="bg-amber-50/60 rounded-xl border border-amber-100/60 p-4">
+                        <CardContent className="px-5 py-4 space-y-3.5">
+                          <div className="bg-emerald-50/50 rounded-lg border border-emerald-100/60 p-3">
                             <div className="flex items-center gap-2 mb-1.5">
-                              <Zap className="w-3.5 h-3.5 text-amber-600" />
-                              <span className="text-xs font-semibold text-amber-800">Clinical Pearl</span>
+                              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" />
+                              <span className="text-[10px] font-semibold text-emerald-700 uppercase tracking-wide">Correct Answer</span>
                             </div>
-                            <p className="text-xs text-amber-700 leading-relaxed">
-                              {currentCard.clinicalPearl || `For ${catLabel(currentCard.category)} questions, focus on priority assessment and immediate nursing interventions. Consider which action addresses the most critical patient need first.`}
+                            <p className="text-sm font-medium text-slate-800 pl-5">
+                              {currentCard.options?.[currentCard.correctIndex ?? 0]}
                             </p>
                           </div>
-                        )}
 
-                        {(currentCard.image || getCategoryImage(currentCard.category || "")) && (
-                          <div className="rounded-xl overflow-hidden border border-slate-100">
-                            <RationaleImageBlock
-                              src={currentCard.image || getCategoryImage(currentCard.category || "") || ""}
-                              alt={`Clinical reference for ${currentCard.category || "nursing"}`}
-                              data-testid={`img-rationale-${currentCard.id}`}
-                            />
+                          <div className="bg-white rounded-lg border border-violet-100/80 p-3">
+                            <div className="flex items-center gap-2 mb-1.5">
+                              <Lightbulb className="w-3.5 h-3.5 text-amber-500" />
+                              <span className="text-[10px] font-semibold text-slate-600 uppercase tracking-wide">Why This Is Correct</span>
+                            </div>
+                            <p className="text-sm text-slate-600 leading-relaxed">{currentCard.detailedRationale || currentCard.answer}</p>
                           </div>
-                        )}
 
-                        {relatedLesson && (
-                          <LocaleLink
-                            href={`/lessons/${relatedLesson.slug}`}
-                            className="flex items-center gap-3 p-3.5 rounded-xl border border-violet-100 bg-violet-50/40 hover:bg-violet-50 transition-colors group"
-                            data-testid={`link-related-lesson-${currentCard.id}`}
-                          >
-                            <div className="w-8 h-8 rounded-lg bg-violet-100 flex items-center justify-center shrink-0">
-                              <BookOpen className="w-4 h-4 text-violet-600" />
+                          {currentCard.options && currentCard.options.length > 1 && (
+                            <div className="bg-white rounded-lg border border-violet-100/80 p-3">
+                              <div className="flex items-center gap-2 mb-2.5">
+                                <XCircle className="w-3.5 h-3.5 text-rose-400" />
+                                <span className="text-[10px] font-semibold text-slate-600 uppercase tracking-wide">Why Other Options Are Incorrect</span>
+                              </div>
+                              <div className="space-y-2">
+                                {currentCard.options.map((opt, idx) => {
+                                  if (idx === currentCard.correctIndex) return null;
+                                  const letter = String.fromCharCode(65 + idx);
+                                  return (
+                                    <div key={idx} className="flex gap-2 pl-1">
+                                      <span className="text-[10px] font-bold text-rose-300 bg-rose-50 w-5 h-5 rounded flex items-center justify-center shrink-0 mt-0.5">{letter}</span>
+                                      <div>
+                                        <p className="text-xs font-medium text-slate-700">{opt}</p>
+                                        <p className="text-xs text-slate-500 mt-0.5 leading-relaxed">{generateOptionRationale(currentCard, idx)}</p>
+                                      </div>
+                                    </div>
+                                  );
+                                })}
+                              </div>
                             </div>
-                            <div className="flex-1 min-w-0">
-                              <p className="text-[11px] font-medium text-violet-500 uppercase tracking-wide">Review Related Lesson</p>
-                              <p className="text-sm font-medium text-violet-800 truncate">{relatedLesson.title}</p>
+                          )}
+
+                          <div className="bg-gradient-to-r from-amber-50/70 to-rose-50/50 rounded-lg border border-amber-100/50 p-3">
+                            <div className="flex items-center gap-2 mb-1.5">
+                              <Zap className="w-3.5 h-3.5 text-amber-600" />
+                              <span className="text-[10px] font-semibold text-amber-800">Clinical Pearl / Exam Tip</span>
                             </div>
-                            <ChevronRight className="w-4 h-4 text-violet-300 group-hover:text-violet-500 transition-colors shrink-0" />
-                          </LocaleLink>
-                        )}
-                      </CardContent>
-                    </Card>
+                            <p className="text-xs text-amber-700 leading-relaxed">
+                              {currentCard.clinicalPearl || `For ${catLabel(currentCard.category)} questions, focus on priority assessment and immediate nursing interventions. Always identify the most critical patient need first, then select the intervention that addresses it directly. Remember the ABCs (Airway, Breathing, Circulation) and Maslow's hierarchy when prioritizing.`}
+                            </p>
+                          </div>
+
+                          {(currentCard.image || getCategoryImage(currentCard.category || "")) && (
+                            <div className="rounded-lg overflow-hidden border border-violet-100/80 md:hidden">
+                              <RationaleImageBlock
+                                src={currentCard.image || getCategoryImage(currentCard.category || "") || ""}
+                                alt={`Clinical reference for ${currentCard.category || "nursing"}`}
+                                data-testid={`img-rationale-mobile-${currentCard.id}`}
+                              />
+                            </div>
+                          )}
+
+                          {relatedLesson && (
+                            <LocaleLink
+                              href={`/lessons/${relatedLesson.slug}`}
+                              className="flex items-center gap-2.5 p-3 rounded-lg border border-violet-100/80 bg-violet-50/30 hover:bg-violet-50/60 transition-colors group"
+                              data-testid={`link-related-lesson-${currentCard.id}`}
+                            >
+                              <div className="w-7 h-7 rounded-lg bg-violet-100/80 flex items-center justify-center shrink-0">
+                                <BookOpen className="w-3.5 h-3.5 text-violet-600" />
+                              </div>
+                              <div className="flex-1 min-w-0">
+                                <p className="text-[10px] font-medium text-violet-500 uppercase tracking-wide">Related Lesson</p>
+                                <p className="text-sm font-medium text-violet-800 truncate">{relatedLesson.title}</p>
+                              </div>
+                              <ChevronRight className="w-3.5 h-3.5 text-violet-300 group-hover:text-violet-500 transition-colors shrink-0" />
+                            </LocaleLink>
+                          )}
+                        </CardContent>
+                      </Card>
+                    </div>
                   </div>
+                ) : (
+                  <Card className="border border-slate-100 shadow-md bg-white overflow-hidden rounded-2xl flex flex-col animate-in fade-in duration-200">
+                    <CardContent className="px-6 sm:px-8 py-6 flex flex-col flex-1">
+                      <h2 className="text-lg sm:text-xl font-semibold text-slate-800 mb-6 leading-relaxed" data-testid="text-study-question">{currentCard.question}</h2>
+                      <div className="space-y-2.5 flex-1">
+                        {currentCard.options?.map((option, idx) => {
+                          const isSelected = selectedOption === idx;
+                          const isCorrectOpt = idx === currentCard.correctIndex;
+                          return (
+                            <AnswerOption
+                              key={idx}
+                              index={idx}
+                              text={option}
+                              isSelected={isSelected}
+                              isCorrect={false}
+                              isWrong={false}
+                              isRevealed={false}
+                              disabled={false}
+                              onClick={() => handleOptionClick(idx)}
+                            />
+                          );
+                        })}
+                      </div>
+                    </CardContent>
+                  </Card>
                 )}
               </>
             ) : (
