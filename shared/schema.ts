@@ -3986,3 +3986,97 @@ export const imagingImageBriefs = pgTable("imaging_image_briefs", {
 export const insertImagingImageBriefSchema = createInsertSchema(imagingImageBriefs).omit({ id: true, createdAt: true, updatedAt: true, completedAt: true });
 export type ImagingImageBrief = typeof imagingImageBriefs.$inferSelect;
 export type InsertImagingImageBrief = z.infer<typeof insertImagingImageBriefSchema>;
+
+export const imagingSeoPages = pgTable("imaging_seo_pages", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  slug: text("slug").notNull().unique(),
+  country: text("country").notNull(),
+  pageType: text("page_type").notNull(),
+  topic: text("topic"),
+  subtopic: text("subtopic"),
+  examType: text("exam_type"),
+  title: text("title").notNull(),
+  metaTitle: text("meta_title"),
+  metaDescription: text("meta_description"),
+  introHtml: text("intro_html"),
+  contentHtml: text("content_html"),
+  faqJson: jsonb("faq_json").default(sql`'[]'::jsonb`),
+  internalLinksJson: jsonb("internal_links_json").default(sql`'[]'::jsonb`),
+  ctaJson: jsonb("cta_json").default(sql`'{}'::jsonb`),
+  sampleQuestionsJson: jsonb("sample_questions_json").default(sql`'[]'::jsonb`),
+  tags: text("tags").array().default(sql`'{}'::text[]`),
+  primaryKeyword: text("primary_keyword"),
+  secondaryKeywords: text("secondary_keywords").array().default(sql`'{}'::text[]`),
+  schemaMarkupJson: jsonb("schema_markup_json"),
+  status: text("status").default("draft"),
+  publishedAt: timestamp("published_at"),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+  lastReviewedAt: timestamp("last_reviewed_at"),
+  nextReviewAt: timestamp("next_review_at"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const insertImagingSeoPageSchema = createInsertSchema(imagingSeoPages).omit({ id: true, createdAt: true, updatedAt: true });
+export type ImagingSeoPage = typeof imagingSeoPages.$inferSelect;
+export type InsertImagingSeoPage = z.infer<typeof insertImagingSeoPageSchema>;
+
+export const imagingBlogArticles = pgTable("imaging_blog_articles", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  slug: text("slug").notNull().unique(),
+  country: text("country").notNull(),
+  articleType: text("article_type").notNull(),
+  category: text("category"),
+  title: text("title").notNull(),
+  metaTitle: text("meta_title"),
+  metaDescription: text("meta_description"),
+  summary: text("summary"),
+  contentHtml: text("content_html"),
+  tags: text("tags").array().default(sql`'{}'::text[]`),
+  primaryKeyword: text("primary_keyword"),
+  secondaryKeywords: text("secondary_keywords").array().default(sql`'{}'::text[]`),
+  relatedSeoPageSlugs: text("related_seo_page_slugs").array().default(sql`'{}'::text[]`),
+  relatedArticleSlugs: text("related_article_slugs").array().default(sql`'{}'::text[]`),
+  schemaMarkupJson: jsonb("schema_markup_json"),
+  readTimeMinutes: integer("read_time_minutes").default(5),
+  status: text("status").default("draft"),
+  publishedAt: timestamp("published_at"),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+  lastReviewedAt: timestamp("last_reviewed_at"),
+  nextReviewAt: timestamp("next_review_at"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const insertImagingBlogArticleSchema = createInsertSchema(imagingBlogArticles).omit({ id: true, createdAt: true, updatedAt: true });
+export type ImagingBlogArticle = typeof imagingBlogArticles.$inferSelect;
+export type InsertImagingBlogArticle = z.infer<typeof insertImagingBlogArticleSchema>;
+
+export const IMAGING_SEO_PAGE_TYPES = [
+  "practice-questions",
+  "positioning-guide",
+  "artifact-recognition",
+  "physics-study",
+  "exam-prep",
+  "study-guide",
+  "topic-overview",
+] as const;
+
+export const IMAGING_BLOG_ARTICLE_TYPES = [
+  "how-to-guide",
+  "study-strategy",
+  "concept-explanation",
+  "common-mistakes",
+  "comparison",
+  "beginner-roadmap",
+  "faq",
+] as const;
+
+export const IMAGING_BLOG_CATEGORIES = [
+  "Radiographic Positioning",
+  "Radiation Physics",
+  "Image Artifacts",
+  "Patient Care",
+  "Radiation Safety",
+  "Equipment & Technology",
+  "Exam Strategies",
+  "Career Development",
+] as const;

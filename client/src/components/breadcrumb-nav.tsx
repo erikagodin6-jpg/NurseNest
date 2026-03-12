@@ -26,7 +26,8 @@ export function BreadcrumbNav({ items: customItems, title, className = "" }: Bre
       <ol className="flex items-center gap-1 flex-wrap">
         {items.map((item, i) => {
           const isLast = i === items.length - 1;
-          const localPath = item.url.startsWith(DOMAIN) ? item.url.slice(DOMAIN.length) || "/" : item.url;
+          const itemUrl = item.url || "/";
+          const localPath = itemUrl.startsWith(DOMAIN) ? itemUrl.slice(DOMAIN.length) || "/" : itemUrl;
           return (
             <li key={i} className="flex items-center gap-1">
               {i > 0 && <span className="text-gray-300" aria-hidden="true">/</span>}

@@ -347,6 +347,53 @@ app.get("/sitemap.xml", async (_req, res) => {
   entries.push(sitemapUrl(base, "/glossary", "0.8", "monthly", enOnly, today));
   entries.push(sitemapUrl(base, "/medication-mastery", "0.7", "monthly", enOnly, today));
 
+  entries.push(sitemapUrl(base, "/medical-imaging", "0.9", "weekly", enOnly, today));
+  entries.push(sitemapUrl(base, "/medical-imaging/canada", "0.9", "weekly", enOnly, today));
+  entries.push(sitemapUrl(base, "/medical-imaging/usa", "0.9", "weekly", enOnly, today));
+  entries.push(sitemapUrl(base, "/medical-imaging/blog", "0.8", "daily", enOnly, today));
+  entries.push(sitemapUrl(base, "/medical-imaging/canada/lessons", "0.8", "weekly", enOnly, today));
+  entries.push(sitemapUrl(base, "/medical-imaging/canada/positioning", "0.8", "weekly", enOnly, today));
+  entries.push(sitemapUrl(base, "/medical-imaging/canada/physics", "0.8", "weekly", enOnly, today));
+  entries.push(sitemapUrl(base, "/medical-imaging/canada/flashcards", "0.8", "weekly", enOnly, today));
+  entries.push(sitemapUrl(base, "/medical-imaging/canada/practice-exams", "0.8", "weekly", enOnly, today));
+  entries.push(sitemapUrl(base, "/medical-imaging/canada/exam-simulator", "0.8", "weekly", enOnly, today));
+  entries.push(sitemapUrl(base, "/medical-imaging/usa/lessons", "0.8", "weekly", enOnly, today));
+  entries.push(sitemapUrl(base, "/medical-imaging/usa/positioning", "0.8", "weekly", enOnly, today));
+  entries.push(sitemapUrl(base, "/medical-imaging/usa/physics", "0.8", "weekly", enOnly, today));
+  entries.push(sitemapUrl(base, "/medical-imaging/usa/flashcards", "0.8", "weekly", enOnly, today));
+  entries.push(sitemapUrl(base, "/medical-imaging/usa/practice-exams", "0.8", "weekly", enOnly, today));
+  entries.push(sitemapUrl(base, "/medical-imaging/usa/exam-simulator", "0.8", "weekly", enOnly, today));
+  entries.push(sitemapUrl(base, "/radiography-practice-questions", "0.9", "weekly", enOnly, today));
+  entries.push(sitemapUrl(base, "/radiography-positioning-guide", "0.9", "weekly", enOnly, today));
+  entries.push(sitemapUrl(base, "/radiography-artifact-recognition", "0.9", "weekly", enOnly, today));
+
+  try {
+    const { pool: sitemapPool } = await import("./storage");
+    const seoPages = await sitemapPool.query(
+      `SELECT slug, country, updated_at FROM imaging_seo_pages WHERE status = 'published' ORDER BY updated_at DESC LIMIT 500`
+    ).catch(() => ({ rows: [] }));
+    for (const page of seoPages.rows) {
+      const lastmod = page.updated_at ? new Date(page.updated_at).toISOString().split("T")[0] : today;
+      entries.push(sitemapUrl(base, `/medical-imaging/${page.country}/seo/${page.slug}`, "0.7", "weekly", enOnly, lastmod));
+    }
+    const blogArticles = await sitemapPool.query(
+      `SELECT slug, updated_at FROM imaging_blog_articles WHERE status = 'published' ORDER BY updated_at DESC LIMIT 500`
+    ).catch(() => ({ rows: [] }));
+    for (const article of blogArticles.rows) {
+      const lastmod = article.updated_at ? new Date(article.updated_at).toISOString().split("T")[0] : today;
+      entries.push(sitemapUrl(base, `/medical-imaging/blog/${article.slug}`, "0.7", "weekly", enOnly, lastmod));
+    }
+    const posEntries = await sitemapPool.query(
+      `SELECT slug, country, updated_at FROM imaging_positioning_entries WHERE status = 'published' ORDER BY updated_at DESC LIMIT 500`
+    ).catch(() => ({ rows: [] }));
+    for (const entry of posEntries.rows) {
+      const lastmod = entry.updated_at ? new Date(entry.updated_at).toISOString().split("T")[0] : today;
+      entries.push(sitemapUrl(base, `/medical-imaging/${entry.country}/positioning/${entry.slug}`, "0.7", "monthly", enOnly, lastmod));
+    }
+  } catch (e) {
+    console.error("Imaging sitemap error:", e);
+  }
+
   entries.push(sitemapUrl(base, "/nclex-rn/mock-exam", "0.9", "weekly", enOnly, today));
   entries.push(sitemapUrl(base, "/nclex-pn/mock-exam", "0.9", "weekly", enOnly, today));
   entries.push(sitemapUrl(base, "/rex-pn/mock-exam", "0.9", "weekly", enOnly, today));

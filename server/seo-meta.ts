@@ -400,6 +400,34 @@ const staticPages: Record<string, { title: string; description: string }> = {
     title: "Free Nursing Practice Questions | Start Studying Now | NurseNest",
     description: "Try 10 free nursing practice questions with instant rationales. No sign-up required. Test your clinical knowledge before committing to a study plan.",
   },
+  "/medical-imaging": {
+    title: "Medical Imaging Academy - CAMRT & ARRT Exam Prep | NurseNest",
+    description: "Prepare for CAMRT and ARRT radiography certification exams. Practice questions, positioning guides, physics review, flashcards, and adaptive exam simulators for Canada and USA.",
+  },
+  "/medical-imaging/canada": {
+    title: "CAMRT Radiography Exam Prep - Canada | NurseNest",
+    description: "Prepare for the CAMRT certification exam with Canada-specific radiographic positioning, radiation safety, patient care, and image evaluation aligned with Canadian practice standards.",
+  },
+  "/medical-imaging/usa": {
+    title: "ARRT Radiography Exam Prep - USA | NurseNest",
+    description: "Prepare for the ARRT certification exam with USA-specific radiographic positioning, NRC radiation safety, patient care, and image evaluation aligned with ASRT practice standards.",
+  },
+  "/medical-imaging/blog": {
+    title: "Medical Imaging Blog - Study Guides & Articles | NurseNest",
+    description: "Educational articles, how-to guides, and study strategies for radiography students preparing for CAMRT and ARRT certification exams.",
+  },
+  "/radiography-practice-questions": {
+    title: "Radiography Practice Questions - Free CAMRT & ARRT Exam Prep | NurseNest",
+    description: "Practice radiography exam questions for CAMRT and ARRT certification. Timed practice exams, detailed rationales, and performance analytics for radiologic technologists.",
+  },
+  "/radiography-positioning-guide": {
+    title: "Radiographic Positioning Guide - Complete Reference | NurseNest",
+    description: "Complete radiographic positioning reference with patient positions, central ray directions, anatomy demonstrated, and evaluation criteria for every projection.",
+  },
+  "/radiography-artifact-recognition": {
+    title: "Radiographic Artifact Recognition - Identify & Prevent | NurseNest",
+    description: "Learn to identify, prevent, and correct radiographic image artifacts. Covers motion artifacts, equipment artifacts, processing errors, and patient-related artifacts.",
+  },
   "/login": {
     title: "Log In | NurseNest",
     description: "Log in to your NurseNest account to access nursing lessons, flashcards, and exam prep tools.",

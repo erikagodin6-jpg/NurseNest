@@ -1,9 +1,11 @@
 import { useRoute, Link } from "wouter";
+import { useQuery } from "@tanstack/react-query";
 import { SEO } from "@/components/seo";
 import { BreadcrumbNav } from "@/components/breadcrumb-nav";
 import {
   BookOpen, FileText, Zap, Brain, Star, ArrowRight,
-  CheckCircle2, Radio, BarChart3, Lock, Target
+  CheckCircle2, Radio, BarChart3, Lock, Target, TrendingUp,
+  GraduationCap, Image, Lightbulb, Award, Newspaper
 } from "lucide-react";
 
 interface CountryConfig {
@@ -74,6 +76,142 @@ const COUNTRY_CONFIGS: Record<string, CountryConfig> = {
     seoKeywords: "ARRT exam prep, radiography certification USA, ARRT practice questions, radiologic technologist exam, X-ray tech certification, ARRT study guide, radiography board exam",
   },
 };
+
+function DiscoveryModules({ country, config }: { country: string; config: CountryConfig }) {
+  const { data: discovery } = useQuery({
+    queryKey: ["/api/imaging-seo/discovery", country],
+    queryFn: async () => {
+      const res = await fetch(`/api/imaging-seo/discovery/${country}`);
+      return res.json();
+    },
+  });
+
+  const modules = [
+    {
+      key: "popular",
+      title: "Most Popular Topics",
+      icon: TrendingUp,
+      items: discovery?.popularTopics || [],
+      renderItem: (item: any) => (
+        <Link href={`/medical-imaging/${country}/seo/${item.slug}`} className="block p-3 bg-white rounded-lg border border-gray-100 hover:border-indigo-200 hover:shadow-sm transition-all text-sm font-medium text-gray-700 hover:text-indigo-600" data-testid={`link-popular-${item.slug}`}>
+          {item.title}
+        </Link>
+      ),
+    },
+    {
+      key: "beginner",
+      title: "Recommended for Beginners",
+      icon: GraduationCap,
+      items: discovery?.beginnerResources || [],
+      renderItem: (item: any) => (
+        <Link href={`/medical-imaging/${country}/seo/${item.slug}`} className="block p-3 bg-white rounded-lg border border-gray-100 hover:border-green-200 hover:shadow-sm transition-all text-sm font-medium text-gray-700 hover:text-green-600" data-testid={`link-beginner-${item.slug}`}>
+          {item.title}
+        </Link>
+      ),
+    },
+    {
+      key: "articles",
+      title: "Study Guides & Articles",
+      icon: Newspaper,
+      items: discovery?.latestArticles || [],
+      renderItem: (item: any) => (
+        <Link href={`/medical-imaging/blog/${item.slug}`} className="block p-3 bg-white rounded-lg border border-gray-100 hover:border-blue-200 hover:shadow-sm transition-all" data-testid={`link-article-${item.slug}`}>
+          <span className="text-sm font-medium text-gray-700 hover:text-blue-600">{item.title}</span>
+          {item.readTimeMinutes && <span className="block text-xs text-gray-400 mt-0.5">{item.readTimeMinutes} min read</span>}
+        </Link>
+      ),
+    },
+    {
+      key: "exam",
+      title: "Exam Readiness Tools",
+      icon: Award,
+      items: discovery?.examReadiness || [],
+      renderItem: (item: any) => (
+        <Link href={`/medical-imaging/${country}/seo/${item.slug}`} className="block p-3 bg-white rounded-lg border border-gray-100 hover:border-purple-200 hover:shadow-sm transition-all text-sm font-medium text-gray-700 hover:text-purple-600" data-testid={`link-exam-${item.slug}`}>
+          {item.title}
+        </Link>
+      ),
+    },
+  ];
+
+  const hasContent = modules.some(m => m.items.length > 0);
+  const stats = discovery?.stats;
+
+  return (
+    <section className="py-14 bg-gray-50" data-testid={`${country}-discovery`}>
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center mb-10">
+          <h2 className="text-2xl font-bold text-gray-900 mb-3">Discover & Explore</h2>
+          <p className="text-gray-600">Find the right study resources for your {config.exam} preparation</p>
+        </div>
+
+        {stats && (stats.positioningGuides > 0 || stats.practiceQuestions > 0 || stats.flashcards > 0) && (
+          <div className="grid grid-cols-3 gap-4 max-w-lg mx-auto mb-10">
+            <div className="text-center bg-white rounded-xl border border-gray-100 p-4" data-testid="stat-positioning">
+              <div className="text-2xl font-bold text-indigo-600">{stats.positioningGuides}</div>
+              <div className="text-xs text-gray-500">Positioning Guides</div>
+            </div>
+            <div className="text-center bg-white rounded-xl border border-gray-100 p-4" data-testid="stat-questions">
+              <div className="text-2xl font-bold text-indigo-600">{stats.practiceQuestions}</div>
+              <div className="text-xs text-gray-500">Practice Questions</div>
+            </div>
+            <div className="text-center bg-white rounded-xl border border-gray-100 p-4" data-testid="stat-flashcards">
+              <div className="text-2xl font-bold text-indigo-600">{stats.flashcards}</div>
+              <div className="text-xs text-gray-500">Flashcards</div>
+            </div>
+          </div>
+        )}
+
+        {hasContent ? (
+          <div className="grid md:grid-cols-2 gap-6">
+            {modules.filter(m => m.items.length > 0).map(mod => {
+              const Icon = mod.icon;
+              return (
+                <div key={mod.key} className="bg-white rounded-2xl border border-gray-100 p-6" data-testid={`discovery-${mod.key}`}>
+                  <h3 className="flex items-center gap-2 font-semibold text-gray-900 mb-4">
+                    <Icon className="w-5 h-5 text-indigo-500" /> {mod.title}
+                  </h3>
+                  <div className="space-y-2">
+                    {mod.items.slice(0, 4).map((item: any, i: number) => (
+                      <div key={i}>{mod.renderItem(item)}</div>
+                    ))}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        ) : (
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+            <Link href={`/medical-imaging/${country}/practice-exams`} className="flex flex-col items-center gap-2 p-5 bg-white rounded-xl border border-gray-100 hover:shadow-md hover:border-indigo-200 transition-all text-center" data-testid="link-discover-practice">
+              <FileText className="w-6 h-6 text-indigo-500" />
+              <span className="text-sm font-medium text-gray-700">Practice Questions</span>
+            </Link>
+            <Link href={`/medical-imaging/${country}/positioning`} className="flex flex-col items-center gap-2 p-5 bg-white rounded-xl border border-gray-100 hover:shadow-md hover:border-indigo-200 transition-all text-center" data-testid="link-discover-positioning">
+              <Radio className="w-6 h-6 text-indigo-500" />
+              <span className="text-sm font-medium text-gray-700">Positioning Guide</span>
+            </Link>
+            <Link href={`/medical-imaging/${country}/flashcards`} className="flex flex-col items-center gap-2 p-5 bg-white rounded-xl border border-gray-100 hover:shadow-md hover:border-indigo-200 transition-all text-center" data-testid="link-discover-flashcards">
+              <Zap className="w-6 h-6 text-indigo-500" />
+              <span className="text-sm font-medium text-gray-700">Flashcards</span>
+            </Link>
+            <Link href={`/medical-imaging/${country}/physics`} className="flex flex-col items-center gap-2 p-5 bg-white rounded-xl border border-gray-100 hover:shadow-md hover:border-indigo-200 transition-all text-center" data-testid="link-discover-physics">
+              <Brain className="w-6 h-6 text-indigo-500" />
+              <span className="text-sm font-medium text-gray-700">Physics Review</span>
+            </Link>
+            <Link href="/medical-imaging/blog" className="flex flex-col items-center gap-2 p-5 bg-white rounded-xl border border-gray-100 hover:shadow-md hover:border-indigo-200 transition-all text-center" data-testid="link-discover-blog">
+              <Newspaper className="w-6 h-6 text-indigo-500" />
+              <span className="text-sm font-medium text-gray-700">Study Guides</span>
+            </Link>
+            <Link href="/radiography-practice-questions" className="flex flex-col items-center gap-2 p-5 bg-white rounded-xl border border-gray-100 hover:shadow-md hover:border-indigo-200 transition-all text-center" data-testid="link-discover-free">
+              <Lightbulb className="w-6 h-6 text-indigo-500" />
+              <span className="text-sm font-medium text-gray-700">Free Resources</span>
+            </Link>
+          </div>
+        )}
+      </div>
+    </section>
+  );
+}
 
 export function MedicalImagingCanada() {
   return <MedicalImagingCountryPage country="canada" />;
@@ -220,6 +358,8 @@ function MedicalImagingCountryPage({ country }: { country: string }) {
           </div>
         </div>
       </section>
+
+      <DiscoveryModules country={country} config={config} />
 
       <section className="py-14 bg-white" data-testid={`${country}-progress-placeholder`}>
         <div className="max-w-4xl mx-auto px-4 text-center">
