@@ -4,6 +4,7 @@ import { CAREER_CONFIGS } from "@shared/careers";
 import { useRegion } from "@/allied/use-region";
 import { AlliedSEO } from "@/allied/allied-seo";
 import { useAuth } from "@/lib/auth";
+import { mltStudyPlans, type MltStudyPlan } from "@/data/mlt-study-plans";
 import { trackMltPageView, trackMltConversionEvent, trackMltUpgradePromptShown, trackMltUpgradeClick } from "@/allied/mlt-analytics";
 import {
   BarChart3, Target, TrendingUp, Clock, Flame, Calendar, ChevronRight,
@@ -1067,17 +1068,38 @@ function WrongAnswersTab({ isFree, onUpgrade }: { isFree: boolean; onUpgrade: ()
 }
 
 function StudyPlanTab({ isFree, onUpgrade }: { isFree: boolean; onUpgrade: () => void }) {
-  const plan = getMockStudyPlan();
-  const completedWeeks = plan.weeks.filter((w) => w.status === "completed").length;
-  const progressPercent = Math.round((completedWeeks / plan.totalWeeks) * 100);
+  const [selectedPlanId, setSelectedPlanId] = useState(mltStudyPlans[0]?.id || "");
+  const selectedPlan = mltStudyPlans.find(p => p.id === selectedPlanId) || mltStudyPlans[0];
+  const simulatedCurrentWeek = Math.min(3, selectedPlan.totalWeeks);
+  const progressPercent = Math.round((simulatedCurrentWeek / selectedPlan.totalWeeks) * 100);
 
   return (
     <div className="space-y-6">
+      <div className="bg-white rounded-xl border border-gray-100 p-4 mb-2" data-testid="study-plan-selector">
+        <h3 className="font-semibold text-gray-900 mb-3 flex items-center gap-2">
+          <Calendar className="w-5 h-5 text-purple-500" /> Choose Your Study Plan
+        </h3>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          {mltStudyPlans.map(plan => (
+            <button
+              key={plan.id}
+              onClick={() => setSelectedPlanId(plan.id)}
+              className={`text-left p-3 rounded-lg border transition-all ${selectedPlanId === plan.id ? "border-purple-300 bg-purple-50" : "border-gray-100 bg-gray-50 hover:border-purple-200"}`}
+              data-testid={`plan-option-${plan.id}`}
+            >
+              <div className="text-sm font-medium text-gray-800">{plan.name}</div>
+              <div className="text-xs text-gray-500 mt-1">{plan.totalWeeks} weeks · {plan.hoursPerWeek} hrs/week · {plan.targetExam}</div>
+            </button>
+          ))}
+        </div>
+      </div>
+
       <div className="bg-gradient-to-r from-purple-50 to-indigo-50 rounded-xl border border-purple-100 p-5" data-testid="study-plan-header">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
           <div>
-            <h3 className="font-semibold text-gray-900 text-lg">{plan.title}</h3>
-            <p className="text-sm text-gray-600">Week {plan.currentWeek} of {plan.totalWeeks}</p>
+            <h3 className="font-semibold text-gray-900 text-lg">{selectedPlan.name}</h3>
+            <p className="text-sm text-gray-600">{selectedPlan.description}</p>
+            <p className="text-xs text-gray-500 mt-1">Week {simulatedCurrentWeek} of {selectedPlan.totalWeeks} · {selectedPlan.hoursPerWeek} hrs/week</p>
           </div>
           <div className="flex items-center gap-4">
             <div className="text-right">
@@ -1096,73 +1118,65 @@ function StudyPlanTab({ isFree, onUpgrade }: { isFree: boolean; onUpgrade: () =>
           <Calendar className="w-5 h-5 text-purple-500" /> Weekly Schedule
         </h3>
         <div className="space-y-3">
-          {plan.weeks.map((week) => (
-            <div key={week.week} className={`flex items-center gap-4 px-4 py-3 rounded-lg ${week.status === "in_progress" ? "bg-purple-50 border border-purple-100" : week.status === "completed" ? "bg-green-50" : "bg-gray-50"}`} data-testid={`week-${week.week}`}>
-              <div className="w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold flex-shrink-0" style={{
-                backgroundColor: week.status === "completed" ? "#dcfce7" : week.status === "in_progress" ? "#f3e8ff" : "#f3f4f6",
-                color: week.status === "completed" ? "#16a34a" : week.status === "in_progress" ? "#9333ea" : "#9ca3af",
-              }}>
-                {week.status === "completed" ? <CheckCircle2 className="w-5 h-5" /> : `W${week.week}`}
-              </div>
-              <div className="flex-1 min-w-0">
-                <div className="text-sm font-medium text-gray-800">{week.topic}</div>
-                <div className="text-xs text-gray-500">{week.completed}/{week.tasks} tasks</div>
-              </div>
-              {week.status === "in_progress" && (
-                <div className="w-20">
-                  <div className="w-full bg-purple-200 rounded-full h-1.5">
-                    <div className="h-1.5 rounded-full bg-purple-500" style={{ width: `${(week.completed / week.tasks) * 100}%` }} />
-                  </div>
+          {selectedPlan.weeks.map((week) => {
+            const weekStatus = week.week < simulatedCurrentWeek ? "completed" : week.week === simulatedCurrentWeek ? "in_progress" : "upcoming";
+            const totalTasks = week.days.reduce((sum, d) => sum + d.tasks.length, 0);
+            const completedTasks = weekStatus === "completed" ? totalTasks : weekStatus === "in_progress" ? Math.round(totalTasks * 0.5) : 0;
+            return (
+              <div key={week.week} className={`flex items-center gap-4 px-4 py-3 rounded-lg ${weekStatus === "in_progress" ? "bg-purple-50 border border-purple-100" : weekStatus === "completed" ? "bg-green-50" : "bg-gray-50"}`} data-testid={`week-${week.week}`}>
+                <div className="w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold flex-shrink-0" style={{
+                  backgroundColor: weekStatus === "completed" ? "#dcfce7" : weekStatus === "in_progress" ? "#f3e8ff" : "#f3f4f6",
+                  color: weekStatus === "completed" ? "#16a34a" : weekStatus === "in_progress" ? "#9333ea" : "#9ca3af",
+                }}>
+                  {weekStatus === "completed" ? <CheckCircle2 className="w-5 h-5" /> : `W${week.week}`}
                 </div>
-              )}
-              {week.status === "completed" && (
-                <span className="text-xs text-green-600 font-medium">Done</span>
-              )}
-              {week.status === "upcoming" && (
-                <span className="text-xs text-gray-400">Upcoming</span>
-              )}
-            </div>
-          ))}
+                <div className="flex-1 min-w-0">
+                  <div className="text-sm font-medium text-gray-800">{week.title}</div>
+                  <div className="text-xs text-gray-500">{week.focus} · {completedTasks}/{totalTasks} tasks</div>
+                </div>
+                {weekStatus === "in_progress" && (
+                  <div className="w-20">
+                    <div className="w-full bg-purple-200 rounded-full h-1.5">
+                      <div className="h-1.5 rounded-full bg-purple-500" style={{ width: `${(completedTasks / totalTasks) * 100}%` }} />
+                    </div>
+                  </div>
+                )}
+                {weekStatus === "completed" && (
+                  <span className="text-xs text-green-600 font-medium">Done</span>
+                )}
+                {weekStatus === "upcoming" && (
+                  <span className="text-xs text-gray-400">Upcoming</span>
+                )}
+              </div>
+            );
+          })}
         </div>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-        <div className="bg-white rounded-xl border border-gray-100 p-5" data-testid="checkpoints">
-          <h3 className="font-semibold text-gray-900 mb-4 flex items-center gap-2">
-            <Target className="w-5 h-5 text-purple-500" /> Checkpoints
-          </h3>
-          <div className="space-y-3">
-            {plan.checkpoints.map((cp, i) => (
-              <div key={i} className="flex items-center justify-between px-3 py-2 bg-gray-50 rounded-lg" data-testid={`checkpoint-${i}`}>
-                <div>
-                  <div className="text-sm font-medium text-gray-700">Week {cp.week}: {cp.name}</div>
-                </div>
-                {cp.score !== null ? (
-                  <span className={`text-sm font-bold ${cp.passed ? "text-green-600" : "text-red-600"}`}>{cp.score}%</span>
-                ) : (
-                  <span className="text-xs text-gray-400">Pending</span>
-                )}
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <div className="bg-white rounded-xl border border-gray-100 p-5" data-testid="linked-resources">
-          <h3 className="font-semibold text-gray-900 mb-4 flex items-center gap-2">
-            <BookMarked className="w-5 h-5 text-purple-500" /> Linked Resources
-          </h3>
+      <div className="bg-white rounded-xl border border-gray-100 p-5" data-testid="daily-breakdown">
+        <h3 className="font-semibold text-gray-900 mb-4 flex items-center gap-2">
+          <ClipboardList className="w-5 h-5 text-purple-500" /> Today's Tasks (Week {simulatedCurrentWeek})
+        </h3>
+        {selectedPlan.weeks[simulatedCurrentWeek - 1] && (
           <div className="space-y-2">
-            {plan.resources.map((res, i) => (
-              <Link key={i} href={res.link} className="flex items-center gap-3 px-3 py-2 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors" data-testid={`resource-${i}`}>
-                {res.type === "lesson" ? <BookOpen className="w-4 h-4 text-purple-500" /> : res.type === "flashcard" ? <Brain className="w-4 h-4 text-blue-500" /> : <ClipboardList className="w-4 h-4 text-green-500" />}
-                <div>
-                  <div className="text-sm text-gray-700">{res.title}</div>
-                  <div className="text-xs text-gray-500">{res.discipline}</div>
+            {selectedPlan.weeks[simulatedCurrentWeek - 1].days.slice(0, 3).flatMap(day =>
+              day.tasks.map((task, ti) => (
+                <div key={`${day.day}-${ti}`} className="flex items-center gap-3 px-3 py-2 bg-gray-50 rounded-lg" data-testid={`task-${day.day}-${ti}`}>
+                  {task.type === "lesson" ? <BookOpen className="w-4 h-4 text-purple-500 flex-shrink-0" /> :
+                   task.type === "flashcards" ? <Brain className="w-4 h-4 text-blue-500 flex-shrink-0" /> :
+                   task.type === "qbank" ? <ClipboardList className="w-4 h-4 text-green-500 flex-shrink-0" /> :
+                   task.type === "mock" ? <FileText className="w-4 h-4 text-orange-500 flex-shrink-0" /> :
+                   task.type === "review" ? <Eye className="w-4 h-4 text-amber-500 flex-shrink-0" /> :
+                   <RefreshCw className="w-4 h-4 text-gray-400 flex-shrink-0" />}
+                  <div className="flex-1 min-w-0">
+                    <div className="text-sm text-gray-700 truncate">{task.description}</div>
+                    <div className="text-xs text-gray-400">{day.label} · {task.duration}</div>
+                  </div>
                 </div>
-              </Link>
-            ))}
+              ))
+            )}
           </div>
-        </div>
+        )}
       </div>
 
       {isFree && <UpgradeBanner onUpgrade={onUpgrade} location="study-plan" />}

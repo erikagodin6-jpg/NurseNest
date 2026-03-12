@@ -915,5 +915,510 @@ Sensitivity and specificity are fundamental to interpreting all serological resu
       { question: "What advantage does 4th-generation HIV testing have over antibody-only assays?", options: ["It detects only HIV-2", "It detects p24 antigen during acute infection before antibodies develop, shortening the diagnostic window", "It eliminates the need for confirmatory testing", "It is less expensive than antibody-only assays"], correctIndex: 1, rationale: "Fourth-generation HIV tests simultaneously detect HIV-1/2 antibodies AND HIV-1 p24 antigen. The p24 antigen appears in blood approximately 2 weeks after infection, weeks before antibodies develop. This dramatically shortens the window period and allows detection of acute HIV infection when the patient is most infectious." },
       { question: "An ANA is reported positive at 1:640 with a homogeneous pattern. What autoimmune disease does this pattern most strongly suggest?", options: ["Scleroderma (anti-centromere expected)", "Drug-induced lupus (anti-histone expected)", "Systemic lupus erythematosus (anti-dsDNA association)", "Sjogren syndrome (anti-SSA/SSB expected)"], correctIndex: 2, rationale: "A homogeneous ANA pattern is most commonly associated with SLE and drug-induced lupus. At a titer of 1:640, this is a clinically significant result. The homogeneous pattern reflects antibodies against DNA-histone complexes (nucleosomes). Reflex testing for anti-dsDNA and anti-Smith antibodies would be indicated, as both are highly specific for SLE." }
     ]
+  },
+
+  "molecular-diagnostics-mlt": {
+    title: "Molecular Diagnostics for MLT",
+    cellular: `Molecular diagnostics has transformed clinical laboratory medicine by enabling direct detection of nucleic acids (DNA and RNA) from pathogens, genetic mutations, and biomarkers. The polymerase chain reaction (PCR) remains the cornerstone of molecular testing. PCR amplifies a specific DNA segment through repeated thermal cycling: denaturation at 94-98°C separates double-stranded DNA, annealing at 50-65°C allows primers to bind complementary sequences, and extension at 72°C enables Taq polymerase to synthesize new strands. After 30-40 cycles, a single copy of target DNA is amplified to over one billion copies.
+
+Real-time PCR (qPCR) adds quantitative capability by monitoring fluorescence during amplification. The cycle threshold (Ct) value — the cycle at which fluorescence exceeds background — is inversely proportional to the amount of starting target. Lower Ct values indicate higher viral or bacterial loads. TaqMan probes provide specificity through sequence-specific hydrolysis, while SYBR Green intercalates any double-stranded DNA (less specific but more economical).
+
+Reverse transcriptase PCR (RT-PCR) converts RNA targets to complementary DNA (cDNA) before amplification, enabling detection of RNA viruses (SARS-CoV-2, HIV, HCV, influenza) and gene expression analysis. This two-step process is essential because PCR can only amplify DNA templates.
+
+Nucleic acid extraction is a critical pre-analytical step. Silica-column or magnetic-bead methods isolate and purify DNA/RNA while removing PCR inhibitors such as hemoglobin, heparin, melanin, and bile salts. Inhibitor carryover is the most common cause of false-negative molecular results.
+
+Contamination prevention requires strict laboratory design: physically separated pre-amplification and post-amplification areas with unidirectional workflow, dedicated equipment, UV decontamination, aerosol-resistant pipette tips, and uracil-N-glycosylase (UNG) systems that destroy carryover amplicons from previous runs.
+
+Next-generation sequencing (NGS) performs massively parallel sequencing of millions of DNA fragments simultaneously. Clinical applications include tumor profiling for targeted therapy selection, inherited disease diagnosis through whole exome sequencing, antimicrobial resistance gene detection, and metagenomic pathogen identification. Sanger sequencing remains the gold standard for confirming individual point mutations but is limited to ~800 bp reads.
+
+FISH (Fluorescence In Situ Hybridization) uses fluorescent-labeled DNA probes to detect specific chromosomal abnormalities directly on cells. Key applications include BCR-ABL detection in CML, HER2 amplification in breast cancer, and prenatal aneuploidy screening.`,
+    riskFactors: [
+      "PCR inhibitors in specimen (hemoglobin, heparin, melanin, bile salts) causing false-negative results",
+      "Amplicon contamination from previous PCR runs causing false-positive results",
+      "Improper specimen collection or transport degrading nucleic acids before extraction",
+      "Incorrect primer design producing non-specific amplification or primer dimers",
+      "RNA degradation by ubiquitous RNases if specimen not stabilized immediately",
+      "Failure to include proper controls (positive, negative, internal) invalidating the run"
+    ],
+    diagnostics: [
+      "Qualitative PCR for pathogen detection (GC/CT, GBS, respiratory viral panels)",
+      "Quantitative PCR for viral load monitoring (HIV, HCV, HBV, CMV, EBV)",
+      "RT-PCR for RNA virus detection (SARS-CoV-2, influenza, RSV)",
+      "FISH for chromosomal abnormalities (BCR-ABL, HER2, trisomies)",
+      "NGS panels for tumor profiling and pharmacogenomics",
+      "Sanger sequencing for mutation confirmation",
+      "16S rRNA sequencing for bacterial identification from sterile sites"
+    ],
+    signs: [
+      "Low Ct value on qPCR indicating high pathogen load requiring clinical correlation",
+      "Failed internal control with negative target suggesting PCR inhibition and need for re-extraction",
+      "Positive no-template control indicating amplicon contamination requiring decontamination",
+      "BCR-ABL fusion detected by FISH confirming chronic myelogenous leukemia diagnosis",
+      "Rising viral load on serial quantitative PCR indicating treatment failure or resistance",
+      "Discordant qualitative and quantitative results requiring investigation of specimen integrity"
+    ],
+    nursingActions: [
+      "Validate that all controls (positive, negative, internal) are acceptable before releasing patient results",
+      "Maintain strict unidirectional workflow from extraction to amplification to detection",
+      "Monitor Ct values in context of specimen type and clinical presentation for appropriate interpretation",
+      "Report viral load results with appropriate units (copies/mL or IU/mL) and lower limit of detection",
+      "Investigate and document all instances of positive no-template controls before rerunning affected specimens",
+      "Ensure nucleic acid extraction removes PCR inhibitors by monitoring internal control amplification"
+    ],
+    medications: [
+      { name: "Imatinib (Gleevec)", dose: "400 mg PO daily for chronic phase CML", route: "Oral", purpose: "Tyrosine kinase inhibitor targeting BCR-ABL fusion protein detected by molecular testing" },
+      { name: "Sofosbuvir/Velpatasvir (Epclusa)", dose: "400/100 mg PO daily × 12 weeks", route: "Oral", purpose: "Pan-genotypic HCV DAA therapy guided by HCV genotyping and monitored by quantitative HCV RNA PCR" },
+      { name: "Oseltamivir (Tamiflu)", dose: "75 mg PO BID × 5 days", route: "Oral", purpose: "Neuraminidase inhibitor for influenza A/B diagnosed by RT-PCR respiratory panel" }
+    ],
+    pearls: [
+      "A negative PCR does not rule out infection if the internal control also fails — PCR inhibition must be excluded by re-extraction and retesting",
+      "Ct values are NOT interchangeable between different PCR platforms or reagent systems — each assay has its own validated cutoffs",
+      "HIV viral load must be undetectable (<20 copies/mL) on two consecutive tests 4 weeks apart to confirm treatment success",
+      "16S rRNA sequencing can identify bacteria that fail to grow on conventional culture — essential for sterile site infections with negative cultures",
+      "Pharmacogenomic testing for CYP2C19 should be performed BEFORE prescribing clopidogrel — poor metabolizers have significantly reduced antiplatelet effect",
+      "Digital PCR provides absolute quantification without a standard curve and has better precision than qPCR for low copy number targets like circulating tumor DNA"
+    ],
+    quiz: [
+      { question: "A qPCR run shows the following: patient specimen Ct = 28, positive control Ct = 22, negative control Ct = none, internal control Ct = 30. How should the result be interpreted?", options: ["Invalid run — positive control Ct too low", "Valid positive — all controls acceptable", "Invalid — internal control Ct too high", "Contamination detected — negative control positive"], correctIndex: 1, rationale: "All controls are acceptable: positive control amplified (Ct 22), negative control showed no amplification (no Ct), and internal control amplified (Ct 30 is within normal range for IC). The patient specimen Ct of 28 represents a valid positive result. The run meets all quality criteria for result release." },
+      { question: "A patient specimen gives a negative result for the target pathogen, but the internal control also fails to amplify. What is the correct action?", options: ["Report as negative — target was not detected", "Report as positive — assume the target consumed all reagents", "Re-extract the specimen and repeat testing to rule out PCR inhibition", "Repeat the PCR with the same extract at a higher annealing temperature"], correctIndex: 2, rationale: "When the internal control fails to amplify, PCR inhibition is the most likely cause. Inhibitors from the specimen (hemoglobin, heparin, etc.) may have prevented amplification of both the target AND the internal control. The result cannot be reported as negative because a true positive may have been missed. Re-extraction removes inhibitors and allows valid retesting." },
+      { question: "What is the purpose of the UNG (uracil-N-glycosylase) system in PCR?", options: ["To increase the sensitivity of PCR amplification", "To destroy carryover amplicons from previous runs, preventing contamination", "To stabilize RNA templates during reverse transcription", "To improve primer specificity at the annealing step"], correctIndex: 1, rationale: "The UNG system prevents amplicon carryover contamination. During PCR, dUTP is incorporated instead of dTTP. Before each new run, UNG enzyme degrades any uracil-containing DNA (carryover from previous runs) while leaving native DNA (thymidine-containing) intact. UNG is then heat-inactivated during the initial denaturation step, protecting newly synthesized amplicons." },
+      { question: "Which molecular method provides absolute quantification without requiring a standard curve?", options: ["Real-time PCR (qPCR)", "Digital PCR (dPCR)", "Sanger sequencing", "FISH"], correctIndex: 1, rationale: "Digital PCR partitions the sample into thousands of individual reactions. Each partition either contains the target (positive) or not (negative). Using Poisson statistics, the absolute number of target copies is calculated without reference to a standard curve. This provides better precision than qPCR for low-copy targets and is less affected by PCR inhibitors." },
+      { question: "A FISH analysis shows the BCR-ABL fusion signal in 92% of interphase cells. What diagnosis does this support?", options: ["Acute lymphoblastic leukemia", "Chronic myelogenous leukemia", "Acute promyelocytic leukemia", "Chronic lymphocytic leukemia"], correctIndex: 1, rationale: "The BCR-ABL fusion gene results from the t(9;22) translocation (Philadelphia chromosome) and is the hallmark of chronic myelogenous leukemia (CML). While BCR-ABL can also be found in a subset of ALL cases, the high percentage (92%) of positive cells in a chronic presentation is characteristic of CML. Treatment with imatinib (tyrosine kinase inhibitor) is guided by this molecular finding." }
+    ]
+  },
+
+  "histotechnology-fundamentals-mlt": {
+    title: "Histotechnology Fundamentals",
+    cellular: `Histotechnology is the science of tissue preparation for microscopic examination. The process transforms fresh tissue into thin, stained sections that reveal cellular architecture and pathological changes. Understanding each step is essential for producing high-quality slides and recognizing artifacts that may mimic disease.
+
+Fixation is the first and most critical step. Ten percent neutral buffered formalin (NBF) — which is actually 4% formaldehyde in phosphate buffer at pH 7.0 — cross-links proteins to preserve tissue morphology and prevent autolysis. The standard fixation protocol requires a 10:1 formalin-to-tissue volume ratio for 6-72 hours, with 24 hours being optimal. Under-fixation produces poor morphology and weak immunohistochemistry (IHC) staining, while over-fixation causes excessive protein cross-linking that masks antigenic epitopes (requiring antigen retrieval techniques to unmask them for IHC).
+
+Tissue processing follows fixation through three stages: dehydration using ascending grades of ethanol (70% → 80% → 95% → 100%) removes water from tissue; clearing with xylene (or xylene substitutes) replaces alcohol and makes tissue transparent; and infiltration with molten paraffin wax penetrates the cleared tissue, providing support for sectioning. Modern automated tissue processors complete this cycle overnight.
+
+Embedding orients the fixed, processed tissue in a paraffin block. Proper orientation is crucial — the pathologist needs specific tissue planes to make an accurate diagnosis. The microtome then cuts paraffin blocks into sections typically 4-5 µm thick (thinner sections of 2-3 µm for renal biopsies and IHC). Sections are floated on a water bath at 40-45°C to remove wrinkles, then mounted on glass slides.
+
+Hematoxylin and Eosin (H&E) is the universal routine stain. Hematoxylin (a basic dye) stains nuclei blue-purple by binding to acidic structures (DNA, RNA). Eosin (an acidic dye) stains cytoplasm and extracellular proteins pink-red by binding to basic structures. Together, H&E reveals general tissue architecture, cellular morphology, and most pathological changes.
+
+Special stains target specific tissue components: PAS stains glycogen and carbohydrates magenta; GMS (Grocott Methenamine Silver) stains fungal cell walls black; Masson Trichrome differentiates collagen (blue) from muscle (red); Congo Red detects amyloid (apple-green birefringence under polarized light); Prussian Blue detects iron deposits; and Oil Red O stains neutral lipids on frozen sections.
+
+Immunohistochemistry (IHC) uses antibodies to detect specific proteins in tissue sections. The indirect method is most common: an unlabeled primary antibody binds the target antigen, then a labeled secondary antibody binds the primary antibody (signal amplification). Chromogens such as DAB (brown) or AEC (red) produce the visible color. IHC is essential for tumor classification, prognostic markers (ER, PR, HER2, Ki-67 in breast cancer), and infectious agent detection.
+
+Frozen sections provide rapid intraoperative diagnosis (10-15 minutes) by freezing tissue on a cryostat at -20°C and cutting without paraffin embedding. While morphology is inferior to paraffin sections, frozen sections are indispensable for surgical margin assessment, preliminary tumor identification, and fat stains (lipids dissolve during paraffin processing).`,
+    riskFactors: [
+      "Under-fixation causing poor morphology and weak IHC staining from inadequate protein cross-linking",
+      "Formalin exposure — classified carcinogen requiring fume hood use and proper ventilation at all times",
+      "Improper tissue orientation during embedding leading to incorrect diagnostic planes",
+      "Thick sections from dull microtome blades creating interpretation difficulties",
+      "Over-decalcification destroying tissue morphology and DNA for molecular testing",
+      "Freezing artifact in frozen sections mimicking pathological changes"
+    ],
+    diagnostics: [
+      "H&E staining for routine tissue architecture and morphology assessment",
+      "PAS stain for glycogen, mucin, and fungal detection (magenta positive)",
+      "GMS (silver stain) for definitive fungal identification in tissue (black on green)",
+      "Masson Trichrome for fibrosis assessment in liver, heart, and kidney biopsies",
+      "Congo Red for amyloid detection with apple-green birefringence under polarized light",
+      "IHC panels for tumor classification and prognostic marker assessment",
+      "Frozen section for intraoperative surgical margin evaluation"
+    ],
+    signs: [
+      "Nuclear detail crisp with well-differentiated H&E staining indicating proper fixation and processing",
+      "PAS-positive magenta material in tissue confirming glycogen or fungal polysaccharides present",
+      "Apple-green birefringence under polarized light on Congo Red stain confirming amyloid deposition",
+      "Blue collagen on Masson Trichrome indicating fibrosis in liver or cardiac biopsy",
+      "Black fungal hyphae on GMS stain against green background confirming invasive fungal infection",
+      "Strong membrane staining (3+) for HER2 by IHC indicating eligibility for trastuzumab therapy"
+    ],
+    nursingActions: [
+      "Ensure all tissue specimens are placed in 10% NBF at 10:1 volume ratio immediately after surgical removal",
+      "Orient tissue specimens correctly during embedding to provide the diagnostic plane requested by pathology",
+      "Cut paraffin sections at 4-5 µm thickness and verify section quality before staining",
+      "Perform and document daily QC on staining reagents and automated stainers before processing patient slides",
+      "Apply appropriate antigen retrieval method (HIER or EIER) before IHC based on antibody manufacturer recommendations",
+      "Communicate frozen section results to the operating room accurately and promptly within the 15-minute target"
+    ],
+    medications: [
+      { name: "Trastuzumab (Herceptin)", dose: "Loading: 8 mg/kg IV; Maintenance: 6 mg/kg IV every 3 weeks", route: "Intravenous", purpose: "Anti-HER2 therapy for breast cancer with HER2 3+ by IHC or FISH-amplified" },
+      { name: "Tamoxifen", dose: "20 mg PO daily × 5-10 years", route: "Oral", purpose: "Selective estrogen receptor modulator for ER-positive breast cancer confirmed by IHC" },
+      { name: "Colchicine", dose: "0.5-0.6 mg PO daily or BID", route: "Oral", purpose: "Anti-inflammatory for amyloidosis-associated conditions identified by Congo Red staining" }
+    ],
+    pearls: [
+      "10% neutral buffered formalin is actually only 4% formaldehyde — the '10%' refers to the dilution of the commercial 37-40% formaldehyde stock solution",
+      "Oil Red O REQUIRES frozen sections because lipids are dissolved and lost during the xylene clearing step of routine paraffin processing",
+      "The apple-green birefringence of amyloid on Congo Red under polarized light is PATHOGNOMONIC — no other substance produces this appearance",
+      "HER2 IHC scoring: 0/1+ = negative, 2+ = equivocal (reflex to FISH), 3+ = positive (strong complete membrane staining in >10% of cells)",
+      "EDTA is the gentlest decalcification agent — it preserves morphology, antigens for IHC, and DNA for molecular testing, unlike strong acids",
+      "Always check the frozen section diagnosis against the final permanent section diagnosis — frozen section accuracy is ~97% but can miss subtle findings"
+    ],
+    quiz: [
+      { question: "A tissue specimen is received in the histology lab after being in 10% NBF for only 2 hours. What is the expected consequence?", options: ["Excellent morphology with enhanced staining quality", "Under-fixation causing poor morphology and weak IHC results", "Over-fixation with excessive antigen masking", "No effect — 2 hours is sufficient for most specimens"], correctIndex: 1, rationale: "Two hours of fixation is generally insufficient for most tissue specimens. Under-fixation results in incomplete protein cross-linking, producing poor morphological preservation (autolysis may continue) and weak or absent IHC staining because antigens are not properly stabilized. The standard recommendation is 6-72 hours (24 hours optimal) in 10% NBF at a 10:1 volume ratio." },
+      { question: "Which special stain would you select to evaluate the degree of liver fibrosis?", options: ["PAS (Periodic Acid-Schiff)", "GMS (Grocott Methenamine Silver)", "Masson Trichrome", "Oil Red O"], correctIndex: 2, rationale: "Masson Trichrome differentiates collagen (fibrosis) in blue/green from muscle and hepatocytes in red, with nuclei in black/dark blue. It is the standard special stain for grading liver fibrosis and cirrhosis. PAS detects glycogen/carbohydrates, GMS detects fungi, and Oil Red O detects lipids (requires frozen section)." },
+      { question: "A pathologist requests immunohistochemistry on a heavily fixed tissue block. The IHC result shows no staining. What is the most likely cause?", options: ["Wrong antibody selected for the target antigen", "Antigen masking from over-fixation requiring antigen retrieval", "Tissue necrosis destroying all cellular antigens", "Incorrect section thickness preventing antibody penetration"], correctIndex: 1, rationale: "Over-fixation (prolonged formalin exposure) causes excessive protein cross-linking that masks (hides) antigenic epitopes, preventing antibody binding in IHC. The solution is antigen retrieval: Heat-Induced Epitope Retrieval (HIER) using citrate buffer (pH 6.0) or EDTA (pH 9.0) breaks cross-links to expose hidden antigens. Enzyme-Induced Epitope Retrieval (EIER) using proteinase K is an alternative for some antibodies." },
+      { question: "What is the advantage of frozen section over routine paraffin-embedded sections?", options: ["Superior morphological detail and staining quality", "Ability to detect lipids and provide rapid intraoperative diagnosis", "Better antigen preservation for immunohistochemistry", "Thinner sections enabling higher resolution microscopy"], correctIndex: 1, rationale: "Frozen sections provide two unique advantages: (1) Rapid turnaround (10-15 minutes vs. overnight for paraffin) enabling intraoperative surgical decisions, and (2) preservation of lipids that are dissolved during xylene clearing in routine processing (enabling Oil Red O fat stains). However, morphology is inferior to paraffin sections, and freezing artifact may complicate interpretation." },
+      { question: "A Congo Red stain shows salmon-pink deposits under light microscopy. Under polarized light, the deposits show apple-green birefringence. What is the diagnosis?", options: ["Glycogen storage disease", "Hemochromatosis (iron overload)", "Amyloidosis", "Lipid storage disease"], correctIndex: 2, rationale: "Congo Red staining with apple-green birefringence under polarized light is pathognomonic for amyloid deposits. Amyloid is composed of misfolded proteins arranged in beta-pleated sheets. The Congo Red dye aligns along these sheets, producing the characteristic birefringence. This finding is diagnostic regardless of amyloid type (AL, AA, or hereditary) and guides further classification by immunohistochemistry or mass spectrometry." }
+    ]
+  },
+
+  "parasitology-mycology-mlt": {
+    title: "Parasitology and Mycology",
+    cellular: `Parasitology and mycology are essential disciplines for the medical laboratory technologist. Parasitic infections affect billions of people worldwide, and fungal infections are increasingly prevalent in immunocompromised patients. The laboratory plays a critical role in definitive diagnosis through direct microscopic examination, culture, antigen detection, and molecular testing.
+
+The ova and parasites (O&P) examination is the standard method for detecting intestinal parasites. A complete O&P includes three components: direct wet mount (saline for motility and iodine for morphologic detail), concentration by formalin-ethyl acetate sedimentation (increases sensitivity for ova and cysts), and permanent stained smear using trichrome or iron hematoxylin stain (reveals detailed internal morphology of protozoan trophozoites and cysts). Because parasites shed intermittently, three specimens collected on alternate days significantly increase detection sensitivity.
+
+Key intestinal protozoa include Giardia lamblia (pear-shaped trophozoite with bilateral symmetry, two nuclei resembling an 'old man face,' and four pairs of flagella), Entamoeba histolytica (indistinguishable from nonpathogenic E. dispar by light microscopy — trophozoites with ingested RBCs are pathognomonic for E. histolytica), and Cryptosporidium parvum (small oocysts 4-6 µm detected by modified acid-fast stain, appearing as pink spheres against a blue background).
+
+Blood parasites include Plasmodium species (malaria) identified on Giemsa-stained thick and thin blood smears. The thick smear concentrates parasites for detection, while the thin smear preserves RBC morphology for species identification. P. falciparum shows multiple ring forms and banana-shaped gametocytes; P. vivax shows enlarged RBCs with Schüffner dots; P. malariae shows characteristic band-form trophozoites and rosette schizonts.
+
+Helminth infections are diagnosed by identifying characteristic eggs in stool. Ascaris lumbricoides produces large, round, mammillated eggs. Trichuris trichiura (whipworm) produces barrel-shaped eggs with bipolar plugs. Hookworm eggs are thin-shelled and oval with a morula stage. Enterobius vermicularis (pinworm) eggs are detected by the scotch tape (cellophane tape) test, NOT by standard O&P, because eggs are deposited perianally.
+
+Mycology focuses on the identification and classification of clinically significant fungi. Dermatophytes (Trichophyton, Microsporum, Epidermophyton) cause superficial skin, hair, and nail infections (tinea). KOH preparation dissolves keratin to reveal septate hyphae, and culture on Sabouraud Dextrose Agar (SDA) at 25-30°C produces characteristic colony morphology and conidia.
+
+Dimorphic fungi exhibit temperature-dependent morphology: mold form at 25°C (environmental temperature) and yeast form at 37°C (body temperature). The five major dimorphic fungi — Histoplasma capsulatum, Blastomyces dermatitidis, Coccidioides immitis, Paracoccidioides brasiliensis, and Talaromyces marneffei — are all Biosafety Level 3 (BSL-3) organisms requiring handling in a biological safety cabinet.
+
+Opportunistic fungi include Candida species (germ tube test for C. albicans identification, CHROMagar for speciation), Aspergillus (septate hyphae with 45° dichotomous branching in tissue), and Mucor/Rhizopus (non-septate, wide, ribbon-like hyphae with 90° branching). Cryptococcus neoformans produces a large polysaccharide capsule visualized by India ink (negative staining) and detected by latex agglutination for cryptococcal antigen (CrAg) in CSF.
+
+Pneumocystis jirovecii (formerly P. carinii) is an atypical fungus that causes pneumonia in severely immunocompromised patients (HIV with CD4 <200 cells/µL). It does not grow on routine fungal culture. Diagnosis requires GMS staining (crushed ping-pong ball/helmet-shaped cysts), DFA with monoclonal antibodies, or PCR on bronchoalveolar lavage specimens.`,
+    riskFactors: [
+      "Immunocompromised status (HIV, transplant, chemotherapy) increasing susceptibility to opportunistic fungi and parasites",
+      "Travel to endemic regions for malaria, histoplasmosis, coccidioidomycosis, or tropical parasites",
+      "Contaminated water sources transmitting Giardia, Cryptosporidium, and Entamoeba",
+      "BSL-3 dimorphic fungi requiring biological safety cabinet — never open plates on bench",
+      "Single stool specimen insufficient — intermittent shedding requires three specimens on alternate days",
+      "Delayed specimen processing allowing trophozoite degradation and morphologic distortion"
+    ],
+    diagnostics: [
+      "O&P examination (wet mount, concentration, permanent stain) for intestinal parasites",
+      "Modified acid-fast stain for Cryptosporidium and Cyclospora oocysts",
+      "Giemsa-stained thick and thin blood smears for malaria species identification",
+      "KOH preparation with calcofluor white for rapid fungal element detection",
+      "Germ tube test at 37°C for rapid Candida albicans identification",
+      "GMS and DFA staining for Pneumocystis jirovecii in BAL specimens",
+      "India ink and CrAg latex agglutination for Cryptococcus in CSF"
+    ],
+    signs: [
+      "Banana-shaped gametocytes on thin smear confirming Plasmodium falciparum malaria",
+      "Pear-shaped trophozoite with two nuclei and bilateral symmetry identifying Giardia lamblia",
+      "Septate hyphae with 45° branching on GMS stain indicating Aspergillus species in tissue",
+      "Non-septate wide ribbon-like hyphae with 90° branching indicating mucormycosis",
+      "Clear halo around yeast on India ink preparation indicating Cryptococcus neoformans capsule",
+      "Mammillated round eggs in stool concentration identifying Ascaris lumbricoides infection"
+    ],
+    nursingActions: [
+      "Process O&P specimens promptly — trophozoites degrade rapidly in unpreserved specimens",
+      "Collect three stool specimens on alternate days to maximize parasite detection sensitivity",
+      "Handle all suspected dimorphic fungal cultures in a BSC and alert the supervisor immediately",
+      "Perform germ tube test on yeast isolates from sterile sites for rapid C. albicans identification",
+      "Use thick smear for malaria detection and thin smear for species identification on every malaria workup",
+      "Request scotch tape preparation for suspected Enterobius — standard O&P will NOT detect pinworm eggs"
+    ],
+    medications: [
+      { name: "Metronidazole (Flagyl)", dose: "500-750 mg PO TID × 5-10 days", route: "Oral", purpose: "First-line treatment for Giardia lamblia and invasive Entamoeba histolytica amebiasis" },
+      { name: "Amphotericin B", dose: "0.5-1.5 mg/kg/day IV", route: "Intravenous", purpose: "Broad-spectrum antifungal for severe invasive fungal infections including Aspergillus and mucormycosis" },
+      { name: "TMP-SMX (Bactrim)", dose: "15-20 mg/kg/day TMP component IV or PO", route: "IV or Oral", purpose: "First-line treatment and prophylaxis for Pneumocystis jirovecii pneumonia in immunocompromised patients" }
+    ],
+    pearls: [
+      "Mold in the cold, yeast in the heat — dimorphic fungi grow as mold at 25°C and yeast at 37°C (body temperature)",
+      "Septate + narrow + 45° branching = Aspergillus; Non-septate + wide + 90° branching = Mucor/Rhizopus — this distinction directs antifungal therapy",
+      "Cryptosporidium oocysts are only 4-6 µm — they are ACID-FAST and stain PINK on modified acid-fast stain against a blue background",
+      "The India ink test for Cryptococcus has only ~50% sensitivity — cryptococcal antigen (CrAg) lateral flow assay is 95-99% sensitive and is now preferred",
+      "Entamoeba histolytica and E. dispar look IDENTICAL under the microscope — only trophozoites with ingested RBCs confirm histolytica; otherwise use EIA or PCR",
+      "Pneumocystis jirovecii CANNOT be cultured on any fungal media — diagnosis requires special stains (GMS, DFA) or PCR on respiratory specimens"
+    ],
+    quiz: [
+      { question: "A stool O&P shows a pear-shaped organism with bilateral symmetry, two nuclei, and four pairs of flagella. What is the identification?", options: ["Entamoeba histolytica trophozoite", "Giardia lamblia trophozoite", "Cryptosporidium oocyst", "Trichomonas vaginalis trophozoite"], correctIndex: 1, rationale: "The description is classic for Giardia lamblia trophozoite: pear-shaped, bilaterally symmetrical, two nuclei ('old man face' appearance), four pairs of flagella (8 total), and a ventral sucking disk. E. histolytica trophozoites are ameboid with a single nucleus. Cryptosporidium appears as tiny spherical oocysts (4-6 µm). Trichomonas has a single nucleus and undulating membrane." },
+      { question: "A yeast isolate from blood culture produces germ tubes when incubated in serum at 37°C for 2.5 hours. What is the most likely identification?", options: ["Candida glabrata", "Candida albicans", "Cryptococcus neoformans", "Candida krusei"], correctIndex: 1, rationale: "The germ tube test is a rapid (2-3 hour) presumptive identification for Candida albicans. Germ tubes are true hyphae extensions from yeast cells without a constriction at the point of origin. C. albicans is the only common Candida species that produces germ tubes (C. dubliniensis also does but is uncommon). C. glabrata, C. krusei, and Cryptococcus are germ tube negative." },
+      { question: "In tissue sections, you observe septate hyphae with dichotomous branching at 45-degree angles. What organism is most likely?", options: ["Mucor species", "Aspergillus species", "Candida albicans", "Blastomyces dermatitidis"], correctIndex: 1, rationale: "Septate hyphae with dichotomous (45°) branching is the characteristic tissue morphology of Aspergillus species. Mucor/Rhizopus shows non-septate (pauciseptate), wide, ribbon-like hyphae with irregular 90° branching. Candida appears as yeast with pseudohyphae. Blastomyces appears as large, broad-based budding yeast in tissue. The branching angle is the key differentiator between Aspergillus and Mucor." },
+      { question: "What staining method is used to detect Cryptosporidium oocysts in stool?", options: ["Gram stain", "Wright-Giemsa stain", "Modified acid-fast stain", "India ink preparation"], correctIndex: 2, rationale: "Cryptosporidium oocysts are detected by modified acid-fast stain (using carbol fuchsin). The oocysts stain PINK/RED against a blue (methylene blue) or green (malachite green) background. They are small (4-6 µm) and round. Gram stain is for bacteria, Wright-Giemsa for blood parasites, and India ink for Cryptococcus neoformans (a yeast, not a parasite)." },
+      { question: "An immunocompromised patient has a positive BAL specimen showing crushed ping-pong ball shaped structures on GMS stain. What is the organism?", options: ["Aspergillus fumigatus", "Candida albicans", "Pneumocystis jirovecii", "Histoplasma capsulatum"], correctIndex: 2, rationale: "Crushed ping-pong ball or helmet-shaped cysts on GMS (silver) stain in a BAL specimen from an immunocompromised patient is the classic description of Pneumocystis jirovecii (formerly P. carinii). P. jirovecii does not grow on routine fungal culture. GMS stains the cyst wall black against a green background. DFA with monoclonal antibodies is the most sensitive staining method for Pneumocystis." }
+    ]
+  },
+
+  "advanced-blood-banking-mlt": {
+    title: "Advanced Blood Banking and Transfusion Medicine",
+    cellular: `Advanced blood banking encompasses antibody identification, complex crossmatching, component therapy, transfusion reactions, and quality management of the blood supply. Building on the fundamentals of ABO/Rh typing, this module addresses the clinical scenarios that make transfusion medicine one of the most patient-safety-critical disciplines in laboratory medicine.
+
+Antibody identification uses a panel of 10-16 group O reagent red blood cells with known antigen profiles. Patient serum is tested against each panel cell at three phases: immediate spin (IS) for IgM antibodies, 37°C incubation for warm-reactive IgG antibodies, and the anti-human globulin (AHG) phase for clinically significant antibodies that require the Coombs reagent to demonstrate agglutination. The pattern of positive and negative reactions is matched against the antigen profile to identify the antibody. The rule of three requires that the identified antibody be positive with at least 3 antigen-positive cells and negative with at least 3 antigen-negative cells for statistical confidence.
+
+Clinically significant antibodies are typically IgG, react at 37°C/AHG phase, and can cause hemolytic transfusion reactions (HTR) or hemolytic disease of the fetus and newborn (HDFN). The most important blood group systems after ABO and Rh are: Kell (anti-K is highly immunogenic and suppresses erythropoiesis), Duffy (anti-Fy^a shows dosage), Kidd (anti-Jk^a and anti-Jk^b are notorious for causing delayed hemolytic transfusion reactions because they decline below detectable levels and reappear rapidly upon re-exposure), and MNSs (anti-M is usually clinically insignificant IgM; anti-S and anti-s are clinically significant IgG).
+
+Transfusion reactions require immediate recognition and laboratory investigation. Acute hemolytic transfusion reaction (AHTR) is the most feared — typically caused by ABO incompatibility from clerical error. Symptoms include fever, chills, flank pain, hemoglobinuria, hypotension, and DIC. The laboratory workup includes: clerical check (verify all labels), visual inspection for hemolysis, DAT on post-reaction specimen, ABO/Rh recheck on pre- and post-reaction specimens, and antibody screen. Febrile non-hemolytic transfusion reactions (FNHTR) are the most common adverse reaction, caused by cytokines or WBC antibodies, and prevented by leukoreduction.
+
+TRALI (Transfusion-Related Acute Lung Injury) is the leading cause of transfusion-related mortality. It presents as acute respiratory distress within 6 hours of transfusion with bilateral pulmonary infiltrates and no evidence of circulatory overload. Caused by donor anti-HLA or anti-neutrophil antibodies activating recipient neutrophils in the pulmonary vasculature.
+
+Hemolytic disease of the fetus and newborn (HDFN) occurs when maternal IgG antibodies cross the placenta and destroy fetal RBCs. RhIG (RhoGAM) prevents anti-D immunization in Rh-negative mothers. The standard dose of 300 µg covers up to 30 mL of fetal whole blood. The Kleihauer-Betke (KB) acid elution test quantifies fetomaternal hemorrhage to determine if additional RhIG doses are needed.
+
+Blood component therapy follows specific indications: packed RBCs for symptomatic anemia or acute hemorrhage; platelets for thrombocytopenia or platelet dysfunction; FFP for coagulation factor replacement in active bleeding or warfarin reversal; and cryoprecipitate for fibrinogen replacement (DIC, massive transfusion) and factor VIII/vWF replacement. Each component has specific storage requirements and expiration times that must be strictly followed.
+
+Irradiation of cellular blood components (25 Gy gamma radiation) prevents transfusion-associated graft-versus-host disease (TA-GVHD) by inactivating donor lymphocytes. Required for: stem cell transplant patients, intrauterine transfusions, directed donations from blood relatives, and severely immunocompromised patients.`,
+    riskFactors: [
+      "Clerical error in patient identification — the number one cause of fatal ABO-incompatible transfusions",
+      "Kidd antibodies declining below detection threshold and causing delayed hemolytic transfusion reactions on re-exposure",
+      "Failure to detect fetomaternal hemorrhage requiring additional RhIG doses beyond the standard 300 µg",
+      "Transfusing non-irradiated blood to immunocompromised patients risking TA-GVHD",
+      "Bacterial contamination of platelet concentrates stored at 20-24°C (highest risk component)",
+      "Exceeding the 30-minute rule for RBC issue or the 4-hour transfusion completion limit"
+    ],
+    diagnostics: [
+      "Antibody panel identification using 10-16 cell panels at IS, 37°C, and AHG phases",
+      "DAT (Direct Antiglobulin Test) for in vivo antibody/complement coating on RBCs",
+      "IAT (Indirect Antiglobulin Test) for unexpected serum antibodies",
+      "Kleihauer-Betke acid elution test for fetomaternal hemorrhage quantification",
+      "Elution techniques to remove and identify antibodies bound to RBCs",
+      "Adsorption studies to separate multiple antibodies or remove autoantibodies"
+    ],
+    signs: [
+      "Post-transfusion fever, chills, flank pain, and red/brown urine indicating acute hemolytic transfusion reaction",
+      "Positive DAT on post-transfusion specimen with negative pre-transfusion DAT confirming immune-mediated hemolysis",
+      "Bilateral pulmonary infiltrates within 6 hours of transfusion without volume overload indicating TRALI",
+      "Hemoglobin drop 3-10 days after transfusion with new positive antibody screen indicating delayed hemolytic reaction",
+      "Pink-staining fetal cells on KB test against ghost maternal cells indicating fetomaternal hemorrhage",
+      "Temperature rise ≥1°C during transfusion with negative hemolysis workup consistent with FNHTR"
+    ],
+    nursingActions: [
+      "Perform two-person verification of patient identity against blood product labels at EVERY transfusion — no exceptions",
+      "Apply the rule of three in antibody identification — positive with ≥3 antigen-positive cells and negative with ≥3 antigen-negative cells",
+      "Stop transfusion immediately at first sign of acute reaction — do NOT discard the unit or tubing",
+      "Complete the Kleihauer-Betke test and calculate additional RhIG doses when FMH exceeds 30 mL fetal whole blood",
+      "Ensure irradiated products are provided for all designated patient populations (transplant, intrauterine, directed donation)",
+      "Monitor platelet storage at 20-24°C with continuous agitation and do not exceed 5-day expiration"
+    ],
+    medications: [
+      { name: "RhIG (RhoGAM)", dose: "300 µg IM (covers 30 mL fetal whole blood); 50 µg microdose for first trimester", route: "Intramuscular", purpose: "Prevention of Rh D alloimmunization in Rh-negative mothers carrying Rh-positive fetuses" },
+      { name: "Diphenhydramine (Benadryl)", dose: "25-50 mg IV/PO", route: "IV or Oral", purpose: "Pre-medication for patients with history of allergic transfusion reactions (urticaria)" },
+      { name: "Acetaminophen", dose: "650 mg PO", route: "Oral", purpose: "Pre-medication for patients with history of febrile non-hemolytic transfusion reactions" }
+    ],
+    pearls: [
+      "The two most important things in blood banking are POSITIVE PATIENT IDENTIFICATION and POSITIVE PATIENT IDENTIFICATION — clerical error kills more patients than any antibody",
+      "Kidd antibodies are the 'tricky' antibodies — they disappear below detection, then cause devastating delayed hemolytic reactions upon re-exposure (anamnestic response)",
+      "One standard dose of RhIG (300 µg) covers 30 mL of fetal WHOLE blood or 15 mL of fetal PACKED RBCs — calculate additional doses from the KB percentage",
+      "TRALI is distinguished from TACO (Transfusion-Associated Circulatory Overload) by the absence of volume overload — TRALI has normal or low BNP; TACO has elevated BNP",
+      "Platelets are the highest-risk component for bacterial contamination because they are stored at room temperature (20-24°C) — bacterial culture or PRT is required",
+      "When autoantibodies mask alloantibodies, perform autologous adsorption (patient's own cells) or allogeneic adsorption (phenotypically matched donor cells) to remove the autoantibody and reveal underlying alloantibodies"
+    ],
+    quiz: [
+      { question: "A patient receives a unit of RBCs and develops fever, chills, flank pain, and dark urine within 15 minutes. What is the FIRST laboratory action?", options: ["Perform an antibody panel identification", "Verify patient and unit identification (clerical check) and perform visual hemolysis check", "Draw blood for bilirubin and haptoglobin levels", "Prepare additional crossmatched units for continued transfusion"], correctIndex: 1, rationale: "The first action in any suspected hemolytic transfusion reaction is the clerical check — verify that the patient identification matches all labels on the blood product, the transfusion tag, and the original blood bank records. Clerical error (wrong blood to wrong patient) is the #1 cause of fatal ABO-incompatible transfusions. Simultaneously, visually inspect the post-reaction plasma/serum for hemolysis (pink/red discoloration)." },
+      { question: "An antibody identification panel shows reactivity at the AHG phase with all Jk(a+) cells and no reactivity with Jk(a-) cells. The patient was transfused 7 days ago and now has an unexplained hemoglobin drop. What is the most likely antibody?", options: ["Anti-K", "Anti-Jk^a causing a delayed hemolytic transfusion reaction", "Anti-D", "Anti-Le^a"], correctIndex: 1, rationale: "This is a classic delayed hemolytic transfusion reaction caused by anti-Jk^a. Kidd antibodies are notorious for: (1) declining below detectable levels between transfusions, (2) rapid anamnestic response upon re-exposure, (3) complement activation causing extravascular and intravascular hemolysis 3-10 days post-transfusion. The antibody panel pattern (positive with Jk(a+) cells, negative with Jk(a-) cells at AHG) confirms anti-Jk^a identification." },
+      { question: "A Kleihauer-Betke test shows 1.8% fetal cells. The mother weighs 70 kg (estimated blood volume 5000 mL). How many vials of RhIG (300 µg each) are needed?", options: ["1 vial", "3 vials (2 calculated + 1 extra)", "4 vials", "No RhIG needed — the percentage is too low"], correctIndex: 2, rationale: "Calculation: Fetal whole blood = % fetal cells × maternal blood volume = 0.018 × 5000 mL = 90 mL. Each vial of RhIG covers 30 mL fetal whole blood. 90/30 = 3.0 vials. When the result is a whole number, add one additional vial as a safety margin. Therefore, 4 vials are needed. When the remainder is >0, always round up and add one. When exactly divisible, add one extra (90/30 = 3.0 + 1 = 4 vials)." },
+      { question: "What distinguishes TRALI from TACO in a post-transfusion patient with respiratory distress?", options: ["TRALI has elevated BNP; TACO has normal BNP", "TRALI has no evidence of volume overload and normal/low BNP; TACO has signs of fluid overload and elevated BNP", "TRALI occurs >24 hours after transfusion; TACO occurs within 1 hour", "TRALI is caused by bacterial contamination; TACO is an immune reaction"], correctIndex: 1, rationale: "TRALI (Transfusion-Related Acute Lung Injury) is non-cardiogenic pulmonary edema caused by donor antibodies activating recipient neutrophils. It occurs within 6 hours, has bilateral infiltrates, no JVD, normal/low BNP, and normal/low CVP. TACO (Transfusion-Associated Circulatory Overload) is cardiogenic — signs of volume overload (JVD, elevated BNP, elevated CVP, response to diuretics). Treatment differs: TRALI = supportive; TACO = diuretics." },
+      { question: "When is irradiation of blood products required?", options: ["For all patients receiving more than 4 units of RBCs", "For bone marrow transplant recipients, intrauterine transfusions, and directed donations from blood relatives", "Only for neonatal transfusions", "Whenever the patient has a positive antibody screen"], correctIndex: 1, rationale: "Irradiation (25 Gy) inactivates donor T-lymphocytes to prevent transfusion-associated graft-versus-host disease (TA-GVHD), which is nearly always fatal. Required for: bone marrow/stem cell transplant recipients (before and after transplant), intrauterine transfusions, directed donations from blood relatives (shared HLA types), patients with Hodgkin lymphoma, congenital immunodeficiency, and HLA-matched platelet recipients." }
+    ]
+  },
+
+  "specimen-management-phlebotomy-mlt": {
+    title: "Specimen Management and Phlebotomy Science",
+    cellular: `Specimen management encompasses the pre-analytical phase of laboratory testing — from test ordering through specimen collection, transport, processing, and storage. This phase accounts for 60-70% of all laboratory errors, making it the most critical area for quality improvement. Understanding proper specimen collection and handling is essential for every laboratory professional, as even the most sophisticated analytical instrument cannot correct a poorly collected specimen.
+
+The venipuncture procedure begins with positive patient identification using two unique identifiers (full name and date of birth, or name and medical record number). The correct order of draw prevents additive carryover between tubes: blood cultures (SPS) → light blue (citrate) → red/gold (serum) → green (heparin) → lavender (EDTA) → gray (fluoride/oxalate). This sequence ensures that additives from one tube do not contaminate subsequent tubes — EDTA carryover into a citrate tube would falsely prolong coagulation times, and tissue thromboplastin from a traumatic draw can activate clotting factors.
+
+Tube selection is determined by the ordered test: EDTA (lavender/purple) chelates calcium to prevent clotting and preserves cell morphology for CBC, differential, reticulocyte count, ESR, and hemoglobin A1c. Sodium citrate (light blue) reversibly chelates calcium for coagulation studies — the 9:1 blood-to-anticoagulant ratio is critical, and under-filled tubes must be rejected. Lithium heparin (green) inhibits thrombin for stat chemistry panels and blood gases. Sodium fluoride/potassium oxalate (gray) inhibits glycolysis to preserve glucose. Serum separator tubes (gold/SST) contain a gel barrier and clot activator for routine chemistry and serology.
+
+Specimen rejection criteria protect patients from erroneous results: hemolyzed specimens (most common rejection reason — hemolysis releases RBC contents including potassium, LDH, AST, phosphorus, and magnesium), clotted EDTA or citrate specimens, under-filled citrate tubes, mislabeled or unlabeled specimens, incorrect tube type, expired specimens, and specimens drawn from IV-contaminated sites. Every rejection represents a pre-analytical error that was caught before causing patient harm.
+
+Specimen processing involves centrifugation to separate cellular components from serum or plasma. Standard centrifugation is 1,000-2,000g for 10-15 minutes. For platelet-poor plasma (coagulation testing), centrifuge at 1,500g for 15 minutes. Glucose specimens should be centrifuged within 30 minutes or collected in fluoride tubes to prevent glycolysis (glucose decreases 5-7% per hour in whole blood). Coagulation specimens for heparin monitoring must be processed within 1 hour.
+
+Pre-analytical variables affecting test results include: tourniquet time (>1 minute causes hemoconcentration), patient position (upright vs. supine — standing increases proteins by 5-15%), fasting status (lipemia interferes with spectrophotometric assays), exercise (elevates CK, LDH, lactate), diurnal variation (cortisol peaks in morning, iron peaks in morning), and medications (heparin, biotin).
+
+Critical value reporting is a patient safety protocol requiring immediate physician notification of life-threatening results. Common critical values include: glucose <40 or >450 mg/dL, potassium <2.5 or >6.5 mEq/L, sodium <120 or >160 mEq/L, calcium <6.0 or >13.0 mg/dL, hemoglobin <7.0 g/dL, WBC <2,000 or >30,000/µL, and platelets <50,000/µL. The notification must include read-back confirmation and documentation of time, person notified, and result communicated.
+
+Laboratory safety encompasses biological, chemical, and physical hazards. Standard Precautions treat all blood and body fluids as potentially infectious. The Safety Data Sheet (SDS) provides comprehensive hazard information for every chemical in the laboratory. Sharps must be disposed of in puncture-resistant containers without recapping. Fire safety follows the RACE (Rescue, Alarm, Contain, Extinguish/Evacuate) and PASS (Pull, Aim, Squeeze, Sweep) protocols. Needlestick injuries require immediate wound cleansing, reporting, source patient testing, and post-exposure prophylaxis within 2 hours for HIV exposure.`,
+    riskFactors: [
+      "Patient misidentification — the most dangerous pre-analytical error, leading to wrong blood in tube (WBIT) events",
+      "Hemolyzed specimens causing falsely elevated potassium, LDH, AST, and interference with colorimetric assays",
+      "Under-filled citrate tubes producing falsely prolonged PT and aPTT from excess anticoagulant",
+      "Drawing from an IV arm without proper protocol — specimen contaminated with infusate",
+      "Prolonged tourniquet application (>1 minute) causing hemoconcentration and falsely elevated proteins",
+      "Delayed processing of glucose or coagulation specimens leading to in vitro changes"
+    ],
+    diagnostics: [
+      "Order of draw verification to prevent additive cross-contamination",
+      "Specimen adequacy assessment (volume, hemolysis index, lipemia index, icterus index)",
+      "Delta check comparison with previous patient results to detect mislabeling",
+      "Critical value identification and immediate physician notification with read-back",
+      "Hemolysis, lipemia, and icterus interference indices on automated chemistry analyzers",
+      "Chain of custody documentation for forensic and drug-testing specimens"
+    ],
+    signs: [
+      "Pink or red serum/plasma after centrifugation indicating hemolysis requiring specimen rejection or result qualification",
+      "Milky or turbid specimen indicating lipemia that may interfere with spectrophotometric assays",
+      "Clot observed in EDTA or citrate tube indicating improper mixing and need for recollection",
+      "Delta check failure flagging potential specimen mislabeling requiring patient verification",
+      "MCHC >36 g/dL triggering investigation for cold agglutinins, lipemia, or true spherocytosis",
+      "Glucose result significantly lower than expected suggesting delayed processing and in vitro glycolysis"
+    ],
+    nursingActions: [
+      "Verify patient identity using two unique identifiers before EVERY blood draw — full name AND date of birth or MRN",
+      "Follow the correct order of draw: cultures → citrate → serum → heparin → EDTA → fluoride to prevent additive carryover",
+      "Release tourniquet within 1 minute and as soon as blood flow is established to prevent hemoconcentration",
+      "Reject and request recollection for hemolyzed, clotted, mislabeled, or under-filled specimens — never process known errors",
+      "Process glucose specimens within 30 minutes or use fluoride tubes to prevent glycolytic glucose loss",
+      "Document and communicate critical values immediately with read-back confirmation and time of notification"
+    ],
+    medications: [
+      { name: "Heparin (IV infusion)", dose: "Variable per protocol (units/hour)", route: "Intravenous", purpose: "Anticoagulant therapy that contaminates specimens drawn from or near heparinized lines — causes falsely prolonged aPTT" },
+      { name: "Biotin (Vitamin B7)", dose: "Variable — supplements 5-10 mg/day", route: "Oral", purpose: "High-dose biotin interferes with streptavidin-biotin immunoassays causing false results for troponin, TSH, and other analytes" },
+      { name: "Epinephrine (for needlestick PEP)", dose: "Per HIV PEP protocol (tenofovir/emtricitabine + raltegravir)", route: "Oral", purpose: "Post-exposure prophylaxis initiated within 2 hours of high-risk needlestick exposure to prevent HIV seroconversion" }
+    ],
+    pearls: [
+      "The number one cause of specimen rejection is HEMOLYSIS — caused by traumatic draw, small-gauge needle, vigorous mixing, or pneumatic tube transport",
+      "Under-filled citrate tubes have excess anticoagulant relative to plasma volume, causing FALSELY PROLONGED coagulation results — always reject and recollect",
+      "Cold agglutinins cause a triad of instrument flags: falsely elevated MCV, falsely decreased RBC count, and MCHC >36 g/dL — warm the specimen to 37°C and rerun",
+      "The 60-70% of laboratory errors occur in the pre-analytical phase — proper specimen collection is the single most impactful quality improvement target",
+      "Potassium is the most commonly hemolysis-affected analyte because RBC potassium concentration is 23× higher than plasma — even mild hemolysis causes significant falsely elevated K⁺",
+      "For forensic/drug testing, chain of custody requires witnessed collection, tamper-evident seals, and documented signatures at EVERY transfer — any break voids the specimen"
+    ],
+    quiz: [
+      { question: "A phlebotomist draws blood in the following order: lavender EDTA, light blue citrate, gold SST. What error occurred?", options: ["No error — this is the correct order of draw", "Citrate tube drawn after EDTA — EDTA carryover may falsely prolong PT/aPTT", "SST drawn last — serum specimens must always be drawn first", "EDTA drawn first — EDTA tubes must always be drawn last"], correctIndex: 1, rationale: "The light blue citrate tube was drawn AFTER the lavender EDTA tube, violating the correct order of draw. EDTA carryover from the previous tube into the citrate tube chelates additional calcium beyond what the citrate is designed to chelate, causing falsely prolonged PT and aPTT. The correct order is: cultures → citrate → serum/SST → heparin → EDTA → fluoride." },
+      { question: "A stat potassium result is 7.2 mEq/L. The specimen appears hemolyzed. What is the correct action?", options: ["Report the result with a hemolysis comment", "Report the critical value and notify the physician", "Reject the specimen and request a recollection", "Average the result with the patient's previous potassium"], correctIndex: 2, rationale: "Hemolysis causes falsely elevated potassium because RBC potassium (150 mEq/L) leaks into the plasma/serum. A K⁺ of 7.2 on a hemolyzed specimen is unreliable and cannot be reported or acted upon — it may represent a true critical value OR a pre-analytical artifact. The correct action is to REJECT the hemolyzed specimen and request a careful recollection to obtain a valid result." },
+      { question: "A coagulation specimen (blue-top tube) is received that is only 60% filled. What should you do?", options: ["Process it and report results with a comment about fill volume", "Reject the specimen and request a properly filled recollection", "Add additional citrate to compensate for the fill volume", "Process it only if the PT is within normal limits"], correctIndex: 1, rationale: "Under-filled citrate tubes have excess anticoagulant (citrate) relative to the reduced plasma volume. This excess citrate chelates more calcium than intended, causing FALSELY PROLONGED PT and aPTT results. The tube must be filled to at least 90% of the stated volume to maintain the critical 9:1 blood-to-citrate ratio. Under-filled coagulation specimens must ALWAYS be rejected — there is no correction factor." },
+      { question: "A patient's chemistry panel shows dramatically different results from their specimen drawn yesterday. The delta check flags multiple analytes. What is the most likely pre-analytical cause?", options: ["Instrument malfunction affecting all analytes simultaneously", "Natural biological variation between consecutive days", "Specimen mislabeling — wrong blood in tube (WBIT) from another patient", "Reagent lot change affecting multiple chemistry analytes"], correctIndex: 2, rationale: "When delta checks flag multiple analytes simultaneously with dramatic changes from previous results, the most likely cause is specimen mislabeling (wrong blood in tube, WBIT). A single patient's biology rarely changes across multiple unrelated analytes simultaneously. The delta check system is specifically designed to catch these identification errors. Investigation requires patient re-identification and new specimen collection to verify." },
+      { question: "A blood glucose specimen collected in a red-top tube (no preservative) is processed 3 hours after collection. The glucose result is 62 mg/dL. The patient is not diabetic. What happened?", options: ["The result is accurate — patient may have reactive hypoglycemia", "In vitro glycolysis decreased the true glucose value during the 3-hour delay", "The red-top tube additive interfered with glucose measurement", "The specimen was hemolyzed, causing falsely decreased glucose"], correctIndex: 1, rationale: "Glucose decreases 5-7% per hour in unprocessed whole blood due to glycolysis by RBCs and WBCs. Over 3 hours, glucose may have decreased 15-21% from the true value. If the original glucose was ~75-80 mg/dL (normal), the 3-hour delay would produce a falsely low result of ~62 mg/dL. Solutions: centrifuge within 30 minutes to separate cells from serum, or use a gray-top (sodium fluoride) tube that inhibits glycolysis." }
+    ]
+  },
+
+  "laboratory-safety-regulations-mlt": {
+    title: "Laboratory Safety and Regulatory Compliance",
+    cellular: `Laboratory safety and regulatory compliance form the foundation of laboratory practice. Every laboratory professional must understand and follow safety protocols, quality standards, and regulatory requirements to protect patients, staff, and the public. This module covers the major regulatory frameworks, safety practices, and quality management systems that govern medical laboratory operations in both Canada and the United States.
+
+Regulatory bodies and accreditation agencies establish the standards for laboratory quality. In the United States, CLIA (Clinical Laboratory Improvement Amendments of 1988) sets federal requirements for all clinical laboratories. CLIA classifies tests into three complexity levels: waived (simple tests with minimal risk of error, such as urine dipstick and glucose meters), moderate complexity (most routine laboratory tests), and high complexity (advanced testing requiring specialized training). The College of American Pathologists (CAP) provides voluntary accreditation through peer inspection using comprehensive checklists.
+
+In Canada, Accreditation Canada (formerly CCHSA) provides healthcare accreditation including laboratory services. ISO 15189 is the international standard for medical laboratory quality and competence, increasingly adopted by Canadian laboratories. Provincial regulatory bodies (e.g., CMLTO in Ontario, CSMLS nationally) set professional standards and certification requirements for medical laboratory technologists.
+
+Quality management systems in the laboratory encompass three phases. The pre-analytical phase (60-70% of errors) includes test ordering, patient identification, specimen collection, transport, and processing. The analytical phase (10-15% of errors) covers instrument performance, reagent integrity, calibration, and quality control. The post-analytical phase (20-25% of errors) includes result verification, reporting, critical value communication, and interpretation.
+
+Quality control (QC) uses control materials with known analyte concentrations to monitor analytical performance. Levey-Jennings charts plot QC values over time against the mean ±1SD, ±2SD, and ±3SD lines. Westgard rules provide objective criteria for accepting or rejecting QC runs: 1₂s is a warning rule, 1₃s rejects for random error, 2₂s rejects for systematic shift, R₄s rejects for random error, 4₁s rejects for systematic trend, and 10x̄ rejects for systematic bias. Patient results must NEVER be released when QC is out of range.
+
+Proficiency testing (PT) is mandatory external quality assessment where the laboratory analyzes unknown specimens and compares results to peer laboratories. Unacceptable PT performance requires root cause analysis and corrective action. PT specimens must be tested using the same methods as patient specimens — it is a federal offense under CLIA to refer PT specimens to another laboratory or treat them differently.
+
+Laboratory safety addresses biological, chemical, physical, and fire hazards. Standard Precautions (replacing Universal Precautions) treat ALL blood, body fluids, secretions, excretions, non-intact skin, and mucous membranes as potentially infectious regardless of diagnosis. Minimum PPE includes laboratory coat, gloves, and eye protection when splash risk exists.
+
+The Globally Harmonized System (GHS) standardizes chemical hazard communication through Safety Data Sheets (SDS) with 16 sections and standardized pictograms. Key pictograms include: flame (flammable), skull and crossbones (acute toxicity), health hazard (carcinogen/chronic toxicity), corrosion (corrosive), and exclamation mark (irritant).
+
+Fire safety follows the RACE protocol (Rescue endangered persons, Activate the alarm, Contain the fire by closing doors, Extinguish or Evacuate) and PASS technique for extinguisher use (Pull pin, Aim at base of fire, Squeeze handle, Sweep side to side). Class A extinguishers are for ordinary combustibles, Class B for flammable liquids, and Class C for electrical fires.
+
+Bloodborne pathogen exposure management requires immediate wound cleansing, supervisor notification, documentation, source patient testing (HIV, HBV, HCV), baseline employee testing, and post-exposure prophylaxis (PEP) initiation within 2 hours for significant HIV exposure. Follow-up testing occurs at 6 weeks, 3 months, and 6 months post-exposure.`,
+    riskFactors: [
+      "Failure to follow Standard Precautions treating all specimens as potentially infectious",
+      "Needlestick injuries from improper sharps handling — NEVER recap, bend, or break needles",
+      "Chemical exposure from spills without proper PPE or without consulting the SDS",
+      "Releasing patient results when QC is out of range — can cause patient harm from erroneous results",
+      "Non-compliance with PT requirements leading to loss of accreditation and laboratory closure",
+      "Failure to report critical values promptly — delays in life-threatening result communication"
+    ],
+    diagnostics: [
+      "Daily QC analysis with Levey-Jennings charts and Westgard rule application",
+      "Proficiency testing participation with peer comparison and corrective action for failures",
+      "Method validation studies (precision, accuracy, linearity, reportable range, reference range verification)",
+      "Competency assessment for all testing personnel (six elements annually under CLIA)",
+      "Root cause analysis (RCA) for adverse events and near-miss incidents",
+      "Internal audits and document control for SOP compliance"
+    ],
+    signs: [
+      "QC value exceeding ±3SD (1₃s rule) indicating random error requiring run rejection and troubleshooting",
+      "Progressive drift of QC values toward one side of the mean suggesting systematic calibration shift",
+      "PT score below the acceptable threshold requiring immediate root cause analysis and corrective action",
+      "Multiple delta check failures suggesting possible systematic patient identification errors",
+      "Specimen rejection rate exceeding benchmark indicating pre-analytical process breakdown",
+      "Turnaround time exceeding targets suggesting workflow bottlenecks requiring investigation"
+    ],
+    nursingActions: [
+      "Apply Westgard rules to every QC run and NEVER release patient results when QC fails",
+      "Treat proficiency testing specimens identically to patient specimens — test with routine methods by routine staff",
+      "Perform root cause analysis for every QC failure, PT error, and adverse event to prevent recurrence",
+      "Maintain current SDS for every chemical in the laboratory and know the location of eye wash and safety shower",
+      "Report and document needlestick injuries immediately — PEP for HIV must begin within 2 hours",
+      "Complete all six elements of competency assessment annually for each test system as required by CLIA"
+    ],
+    medications: [
+      { name: "Tenofovir/Emtricitabine + Raltegravir (HIV PEP)", dose: "Per institutional PEP protocol × 28 days", route: "Oral", purpose: "Post-exposure prophylaxis for significant occupational HIV exposure, initiated within 2 hours" },
+      { name: "Hepatitis B Immune Globulin (HBIG)", dose: "0.06 mL/kg IM within 24 hours of exposure", route: "Intramuscular", purpose: "Post-exposure prophylaxis for unvaccinated workers exposed to HBsAg-positive blood" },
+      { name: "Hepatitis B Vaccine", dose: "Three-dose series: 0, 1, and 6 months", route: "Intramuscular", purpose: "Pre-exposure prophylaxis required for all laboratory workers with blood/body fluid exposure risk" }
+    ],
+    pearls: [
+      "The 1₃s Westgard rule is the first REJECTION rule — a single QC value exceeding 3 standard deviations requires the run to be rejected and patient results withheld",
+      "60-70% of laboratory errors occur in the PRE-ANALYTICAL phase — investing in proper specimen collection and handling has the greatest impact on laboratory quality",
+      "Under CLIA, it is a FEDERAL OFFENSE to refer PT specimens to another laboratory or to use methods different from routine patient testing on PT specimens",
+      "Standard Precautions replaced Universal Precautions and apply to ALL blood and body fluids from ALL patients — not just those with known infections",
+      "The coefficient of variation (CV) normalizes standard deviation as a percentage of the mean, allowing comparison of precision across different analyte concentrations",
+      "Root cause analysis asks 'WHY' five times to drill past symptoms to the true underlying cause — fixing the symptom without addressing the root cause leads to recurrence"
+    ],
+    quiz: [
+      { question: "A Levey-Jennings chart shows the last 10 consecutive QC values all falling above the mean (within ±2SD). Which Westgard rule is violated?", options: ["1₃s — one value exceeds 3 standard deviations", "R₄s — range between two values exceeds 4 standard deviations", "10x̄ — 10 consecutive values on the same side of the mean", "1₂s — one value exceeds 2 standard deviations"], correctIndex: 2, rationale: "The 10x̄ (10-times-x-bar) rule is violated when 10 consecutive QC values fall on the same side of the mean, regardless of how close they are to the mean. This indicates a systematic error (bias) — the instrument is consistently measuring high (or low). Even though no individual value exceeds 2SD, the pattern is non-random and indicates calibration drift or reagent deterioration requiring corrective action." },
+      { question: "What is the most common phase of laboratory testing where errors occur?", options: ["Pre-analytical phase (specimen collection, transport, processing)", "Analytical phase (instrument analysis, QC)", "Post-analytical phase (result reporting, interpretation)", "Administrative phase (test ordering, billing)"], correctIndex: 0, rationale: "The pre-analytical phase accounts for 60-70% of all laboratory errors. This includes patient misidentification, improper specimen collection (hemolysis, wrong tube, under-filled), transport delays (glucose glycolysis, coagulation factor degradation), and processing errors. Analytical errors account for only 10-15%, and post-analytical errors for 20-25%. Improving the pre-analytical phase has the greatest impact on overall laboratory quality." },
+      { question: "A laboratory worker sustains a needlestick from a patient with known HIV infection. What is the priority action?", options: ["Complete an incident report form before doing anything else", "Wait for the source patient's viral load results before deciding on PEP", "Wash the wound with soap and water and initiate PEP within 2 hours", "Apply a bandage and continue working — the risk of transmission is low"], correctIndex: 2, rationale: "For a significant occupational exposure to HIV-positive blood, the immediate priorities are: (1) wash the wound thoroughly with soap and water, (2) report to the supervisor and occupational health, and (3) initiate post-exposure prophylaxis (PEP) within 2 HOURS — do not wait for viral load results. PEP effectiveness decreases significantly if delayed beyond 72 hours. The 3-drug regimen (tenofovir/emtricitabine + raltegravir) is continued for 28 days." },
+      { question: "During a CAP inspection, the inspector asks to see documentation that PT specimens were tested by routine methods using routine staff. Why is this requirement important?", options: ["To reduce the cost of proficiency testing materials", "To ensure PT results reflect the laboratory's actual routine performance for patient testing", "To prevent laboratory staff from spending too much time on PT specimens", "To ensure PT specimens are processed faster than patient specimens"], correctIndex: 1, rationale: "PT specimens must mirror patient testing conditions because the purpose of proficiency testing is to evaluate the laboratory's actual routine performance. If PT specimens receive special treatment (extra care, different methods, non-routine staff), the results do not reflect the quality of everyday patient testing. Under CLIA, treating PT specimens differently from patient specimens is considered fraudulent and can result in sanctions, including loss of certification." },
+      { question: "What Westgard rule violation indicates random error?", options: ["2₂s and 4₁s", "1₃s and R₄s", "10x̄ and 4₁s", "2₂s and 10x̄"], correctIndex: 1, rationale: "Random error rules: 1₃s (single value >3SD) and R₄s (range between 2 values within a run exceeds 4SD). These indicate imprecision — unpredictable variation from run to run. Causes include pipetting errors, bubbles, and electrical fluctuations. Systematic error rules: 2₂s (2 consecutive >2SD same side), 4₁s (4 consecutive >1SD same side), and 10x̄ (10 consecutive same side of mean). These indicate consistent bias from calibration drift, reagent deterioration, or temperature changes." }
+    ]
+  },
+
+  "advanced-coagulation-mlt": {
+    title: "Advanced Coagulation and Hemostasis",
+    cellular: `Advanced coagulation testing extends beyond the basic PT and aPTT to encompass mixing studies, factor assays, inhibitor identification, platelet function analysis, and thrombophilia evaluation. This module addresses the complex clinical scenarios and troubleshooting algorithms that distinguish competent laboratory professionals in the hemostasis laboratory.
+
+The mixing study is the cornerstone of prolonged PT/aPTT investigation. When a coagulation time is prolonged, the critical question is: is it a factor deficiency or an inhibitor? A 1:1 mix of patient plasma with normal pooled plasma (NPP) is tested. If the prolonged time corrects to within 5 seconds of NPP, a factor deficiency is present — the NPP provides the missing factor(s). If the time does NOT correct, an inhibitor is present — an antibody in the patient plasma neutralizes factors in the NPP. Time-dependent inhibitors (factor VIII inhibitors) may show initial correction at 0 minutes but become prolonged after 2-hour incubation at 37°C.
+
+Factor VIII inhibitors (acquired hemophilia) are quantified using the Bethesda assay. Patient plasma is serially diluted and mixed 1:1 with NPP, then incubated at 37°C for 2 hours. Residual factor VIII activity is measured. One Bethesda Unit (BU) is defined as the inhibitor concentration that inactivates 50% of factor VIII activity. Low titer (<5 BU): may respond to high-dose factor VIII. High titer (≥5 BU): requires bypassing agents (FEIBA, rFVIIa).
+
+Lupus anticoagulant (LA) presents a clinical paradox: it prolongs the aPTT in vitro but causes thrombosis in vivo. LA is a phospholipid-dependent inhibitor that interferes with phospholipid-dependent coagulation assays. The diagnostic criteria include: (1) prolonged phospholipid-dependent screening test (DRVVT or SCT), (2) failure to correct on mixing with NPP, and (3) confirmation by adding excess phospholipid (which shortens the clotting time by overcoming the inhibitor).
+
+The DIC (Disseminated Intravascular Coagulation) laboratory profile represents simultaneous activation of coagulation and fibrinolysis: prolonged PT and aPTT, decreased fibrinogen (<100 mg/dL), elevated D-dimer and FDP, thrombocytopenia, and schistocytes on peripheral smear. The ISTH DIC scoring system provides objective diagnostic criteria. DIC is always secondary to an underlying condition — sepsis, trauma, obstetric complications, malignancy, or snake envenomation.
+
+Von Willebrand disease (vWD) is the most common inherited bleeding disorder, affecting 1% of the population. vWF serves dual roles: mediating platelet adhesion to damaged endothelium (via GP Ib) and carrying factor VIII in circulation (protecting it from degradation). Type 1 (80% of cases) is a quantitative decrease in vWF. Type 2 encompasses qualitative defects (2A, 2B, 2M, 2N subtypes). Type 3 is rare complete absence. Laboratory evaluation includes vWF antigen, vWF activity (ristocetin cofactor), factor VIII activity, and vWF multimer analysis.
+
+Platelet function testing evaluates primary hemostasis. The PFA-100 (Platelet Function Analyzer) has largely replaced the bleeding time as an in vitro screen for platelet dysfunction. It measures closure time as citrated whole blood is aspirated through a membrane coated with collagen/epinephrine (CEPI) or collagen/ADP (CADP). Prolonged CEPI with normal CADP suggests aspirin effect. Prolonged both suggests vWD or platelet function defect.
+
+Thrombophilia evaluation identifies inherited and acquired risk factors for venous thromboembolism: Factor V Leiden (activated protein C resistance), prothrombin G20210A mutation, antithrombin deficiency, protein C deficiency, protein S deficiency, and antiphospholipid syndrome. Testing should be performed at appropriate timing — not during acute thrombosis or anticoagulant therapy, as results may be unreliable.`,
+    riskFactors: [
+      "Under-filled citrate tubes causing falsely prolonged results — the most common pre-analytical coagulation error",
+      "Heparin contamination from IV lines causing unexpectedly prolonged aPTT with normal PT",
+      "Time-dependent inhibitors showing false correction at 0 minutes but prolongation after 2-hour incubation",
+      "Factor lability — factors V and VIII degrade at room temperature, requiring timely processing",
+      "High hematocrit (>55%) requiring citrate volume adjustment to maintain 9:1 blood-to-anticoagulant ratio",
+      "Testing for thrombophilia during acute thrombosis or on anticoagulants producing unreliable results"
+    ],
+    diagnostics: [
+      "Mixing study algorithm to differentiate factor deficiency from inhibitors",
+      "Bethesda assay for quantification of factor VIII inhibitor strength",
+      "DRVVT screening and confirmation for lupus anticoagulant detection",
+      "ISTH DIC scoring system (PT, platelets, fibrinogen, D-dimer) for DIC diagnosis",
+      "vWF antigen, activity, factor VIII, and multimer analysis for vWD classification",
+      "PFA-100 closure time for primary hemostasis evaluation",
+      "Thrombophilia panel: Factor V Leiden, PT G20210A, AT, Protein C, Protein S, APL antibodies"
+    ],
+    signs: [
+      "Mixing study corrects = factor deficiency → order specific factor assays",
+      "Mixing study does NOT correct = inhibitor → test for LA or specific factor inhibitor",
+      "Prolonged aPTT with normal PT and normal bleeding time = factor XII deficiency (no bleeding risk)",
+      "Prolonged aPTT with in vivo thrombosis = lupus anticoagulant (phospholipid-dependent inhibitor)",
+      "PT and aPTT prolonged with low fibrinogen and elevated D-dimer and low platelets = DIC profile",
+      "Prolonged PFA-100 CEPI with normal CADP = aspirin effect on platelet function"
+    ],
+    nursingActions: [
+      "Process heparin monitoring aPTT within 1 hour — heparin is neutralized by PF4 released from platelets in vitro",
+      "Perform mixing studies at both 0 minutes and after 2-hour 37°C incubation to detect time-dependent inhibitors",
+      "Calculate citrate volume adjustment for patients with hematocrit >55% before processing coagulation specimens",
+      "Apply the ISTH DIC scoring system using current PT, platelet count, fibrinogen, and D-dimer values",
+      "Report Bethesda assay results in BU with clinical interpretation for factor inhibitor management",
+      "Verify that thrombophilia testing is NOT performed during acute thrombosis or while patient is on anticoagulant therapy"
+    ],
+    medications: [
+      { name: "Desmopressin (DDAVP)", dose: "0.3 µg/kg IV over 30 minutes", route: "Intravenous", purpose: "Releases vWF and factor VIII from endothelial stores for mild vWD Type 1 and mild Hemophilia A" },
+      { name: "FEIBA (Factor VIII Inhibitor Bypassing Activity)", dose: "50-100 units/kg IV every 6-12 hours", route: "Intravenous", purpose: "Bypassing agent for bleeding in patients with high-titer factor VIII inhibitors (≥5 BU)" },
+      { name: "Warfarin (Coumadin)", dose: "2-10 mg PO daily (dose adjusted by INR)", route: "Oral", purpose: "Vitamin K antagonist monitored by PT/INR targeting 2.0-3.0 for most indications or 2.5-3.5 for mechanical valves" }
+    ],
+    pearls: [
+      "A mixing study that corrects at 0 minutes but prolongs at 2 hours indicates a TIME-DEPENDENT inhibitor — most commonly a factor VIII inhibitor (acquired hemophilia)",
+      "The lupus anticoagulant paradox: PROLONGS aPTT in vitro (phospholipid-dependent assay interference) but causes THROMBOSIS in vivo (not bleeding)",
+      "Factor XII deficiency prolongs the aPTT dramatically but does NOT cause bleeding — factor XII is not needed for in vivo hemostasis",
+      "One Bethesda Unit = amount of inhibitor that destroys 50% of factor VIII in 2 hours at 37°C — higher BU = more potent inhibitor = harder to treat",
+      "DIC is NEVER a primary diagnosis — always look for the underlying cause: sepsis, trauma, obstetric complications, malignancy, or snake envenomation",
+      "The PFA-100 CEPI closure time is prolonged by aspirin (irreversibly inhibits COX-1 for the lifetime of the platelet, ~10 days) — useful for monitoring aspirin compliance"
+    ],
+    quiz: [
+      { question: "A patient's aPTT is 65 seconds (reference: 25-35). A 1:1 mix with normal pooled plasma gives an aPTT of 32 seconds. What does this indicate?", options: ["A lupus anticoagulant is present", "A factor deficiency is present — the normal plasma corrected the prolonged aPTT", "A factor VIII inhibitor is present", "Heparin contamination is the cause"], correctIndex: 1, rationale: "The mixing study CORRECTED — the 1:1 mix (32 seconds) is within 5 seconds of the normal range (25-35 seconds). Correction indicates a factor DEFICIENCY, not an inhibitor. The normal pooled plasma provided the missing factor(s), normalizing the clotting time. The next step is to order specific factor assays (VIII, IX, XI, XII) to identify which factor is deficient. If the mix had NOT corrected, an inhibitor would be suspected." },
+      { question: "An aPTT mixing study corrects at immediate testing (0 min) but the aPTT becomes prolonged again after 2-hour incubation at 37°C. What type of inhibitor is present?", options: ["Lupus anticoagulant (immediate-acting)", "Time-dependent inhibitor — most likely a factor VIII inhibitor", "Heparin contamination", "Non-specific protein interference"], correctIndex: 1, rationale: "Time-dependent inhibitors initially appear to correct because the inhibitor requires time to fully neutralize the factor. At 0 minutes, enough factor activity remains for a normal clotting time. After 2 hours at 37°C, the inhibitor has progressively inactivated factor VIII, and the aPTT prolongs again. This pattern is characteristic of acquired hemophilia (factor VIII autoantibodies). Quantify with the Bethesda assay. Lupus anticoagulant is an immediate-acting inhibitor that does NOT correct even at 0 minutes." },
+      { question: "The ISTH DIC scoring system uses which combination of tests?", options: ["aPTT, factor VIII, vWF antigen, and factor V", "PT, platelet count, fibrinogen, and D-dimer/FDP", "PT, aPTT, thrombin time, and reptilase time", "Bleeding time, PFA-100, platelet aggregation, and vWF"], correctIndex: 1, rationale: "The ISTH DIC scoring system uses four readily available tests: PT (≥3 sec prolonged scores points), Platelet count (<100K and <50K score points), Fibrinogen (<100 mg/dL scores points), and D-dimer/FDP (moderate and strong elevation score points). A score ≥5 indicates overt DIC. This scoring system provides an objective, reproducible diagnostic tool that can be serially monitored to track DIC progression or resolution." },
+      { question: "A patient has a prolonged aPTT, a positive DRVVT screen, no correction on mixing, and the DRVVT corrects when excess phospholipid is added. What is the diagnosis?", options: ["Factor VIII deficiency", "Lupus anticoagulant", "Acquired hemophilia A", "Vitamin K deficiency"], correctIndex: 1, rationale: "This meets all three criteria for lupus anticoagulant: (1) prolonged phospholipid-dependent screening test (DRVVT screen positive), (2) mixing study does not correct (inhibitor behavior), and (3) confirmation by correction with excess phospholipid (excess phospholipid overwhelms the LA, proving it is phospholipid-dependent, not factor-specific). Despite prolonging the aPTT in vitro, LA is associated with thrombosis in vivo." },
+      { question: "A patient on unfractionated heparin has an aPTT of >150 seconds. The PT is normal. The thrombin time is markedly prolonged. The reptilase time is normal. What does the normal reptilase time confirm?", options: ["The patient has a factor deficiency, not heparin effect", "Heparin is the cause of prolongation — reptilase is not inhibited by heparin", "The patient has dysfibrinogenemia", "The thrombin time result is erroneous"], correctIndex: 1, rationale: "Reptilase (from snake venom) converts fibrinogen to fibrin through a different mechanism than thrombin and is NOT inhibited by heparin-antithrombin complexes. A prolonged thrombin time with a NORMAL reptilase time confirms that heparin is the cause of the prolonged clotting times, not a fibrinogen abnormality. If reptilase were also prolonged, a fibrinogen defect (dysfibrinogenemia) or elevated FDPs would be suspected." }
+    ]
   }
 };
