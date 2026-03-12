@@ -1,10 +1,12 @@
 import { Link } from "wouter";
+import { useQuery } from "@tanstack/react-query";
 import { SEO } from "@/components/seo";
 import { BreadcrumbNav } from "@/components/breadcrumb-nav";
 import { ImagingUpgradeCTA } from "@/components/imaging-paywall";
 import {
   Radio, ArrowRight, BookOpen, FileText, Brain, Zap, CheckCircle2,
-  TrendingUp, MapPin, GraduationCap, Clock, Star, ShoppingBag, Crown, CreditCard
+  TrendingUp, MapPin, GraduationCap, Clock, Star, ShoppingBag, Crown, CreditCard,
+  Target, Share2, Mail
 } from "lucide-react";
 
 const COUNTRY_CARDS = [
@@ -200,6 +202,96 @@ export default function MedicalImagingHub() {
             <Link href="/medical-imaging/account" className="inline-flex items-center gap-2 px-6 py-3 bg-white border border-gray-200 text-gray-700 rounded-xl text-sm font-medium hover:bg-gray-50 transition-colors" data-testid="link-hub-account">
               <Crown className="w-4 h-4" /> My Account
             </Link>
+          </div>
+        </div>
+      </section>
+
+      <section className="py-12 bg-white" data-testid="imaging-growth-tools">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-10">
+            <h2 className="text-3xl font-bold text-gray-900 mb-3">Free Study Tools</h2>
+            <p className="text-gray-600 max-w-xl mx-auto">Get started with our free tools designed to assess your readiness and create a personalized study plan.</p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <Link href="/radiography-readiness-quiz" className="block group" data-testid="link-readiness-quiz">
+              <div className="bg-gradient-to-br from-indigo-50 to-purple-50 rounded-xl border border-indigo-100 p-6 hover:shadow-lg transition-all h-full">
+                <Target className="w-8 h-8 text-indigo-600 mb-3" />
+                <h3 className="text-lg font-semibold text-gray-900 mb-2">Readiness Quiz</h3>
+                <p className="text-sm text-gray-600 mb-3">Take a free 15-question quiz to assess your radiography knowledge across key exam domains.</p>
+                <span className="text-sm text-indigo-600 font-medium flex items-center gap-1 group-hover:gap-2 transition-all">Start Quiz <ArrowRight className="w-4 h-4" /></span>
+              </div>
+            </Link>
+            <Link href="/medical-imaging/study-plan-generator" className="block group" data-testid="link-study-plan-gen">
+              <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-xl border border-green-100 p-6 hover:shadow-lg transition-all h-full">
+                <BookOpen className="w-8 h-8 text-green-600 mb-3" />
+                <h3 className="text-lg font-semibold text-gray-900 mb-2">Study Plan Generator</h3>
+                <p className="text-sm text-gray-600 mb-3">Get a personalized week-by-week study schedule based on your exam date and confidence level.</p>
+                <span className="text-sm text-green-600 font-medium flex items-center gap-1 group-hover:gap-2 transition-all">Create Plan <ArrowRight className="w-4 h-4" /></span>
+              </div>
+            </Link>
+            <Link href="/medical-imaging/canada/flashcards" className="block group" data-testid="link-flashcard-decks">
+              <div className="bg-gradient-to-br from-amber-50 to-orange-50 rounded-xl border border-amber-100 p-6 hover:shadow-lg transition-all h-full">
+                <Zap className="w-8 h-8 text-amber-600 mb-3" />
+                <h3 className="text-lg font-semibold text-gray-900 mb-2">Quick Review Flashcards</h3>
+                <p className="text-sm text-gray-600 mb-3">Study positioning landmarks, physics formulas, and radiography terminology with interactive flashcards.</p>
+                <span className="text-sm text-amber-600 font-medium flex items-center gap-1 group-hover:gap-2 transition-all">Browse Flashcards <ArrowRight className="w-4 h-4" /></span>
+              </div>
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      <section className="py-12 bg-gradient-to-b from-gray-50 to-white" data-testid="imaging-content-carousels">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-10">
+            <h2 className="text-3xl font-bold text-gray-900 mb-3">Explore Learning Resources</h2>
+            <p className="text-gray-600 max-w-xl mx-auto">Browse our curated collections of study materials across all imaging exam topics.</p>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {[
+              { title: "Most Popular Topics", icon: TrendingUp, color: "text-blue-600", bg: "bg-blue-50", link: "/medical-imaging/canada/lessons" },
+              { title: "Best for Beginners", icon: GraduationCap, color: "text-green-600", bg: "bg-green-50", link: "/medical-imaging/canada/lessons" },
+              { title: "Image-Based Practice", icon: FileText, color: "text-purple-600", bg: "bg-purple-50", link: "/medical-imaging/canada/practice-exams" },
+              { title: "Positioning Practice", icon: MapPin, color: "text-red-600", bg: "bg-red-50", link: "/medical-imaging/canada/positioning" },
+              { title: "Quick Review Flashcards", icon: Zap, color: "text-amber-600", bg: "bg-amber-50", link: "/medical-imaging/canada/flashcards" },
+              { title: "Physics Review", icon: Brain, color: "text-indigo-600", bg: "bg-indigo-50", link: "/medical-imaging/canada/physics" },
+            ].map((carousel) => (
+              <Link key={carousel.title} href={carousel.link} className="group" data-testid={`carousel-${carousel.title.toLowerCase().replace(/\s+/g, "-")}`}>
+                <div className="flex items-center gap-3 p-4 rounded-xl border border-gray-100 bg-white hover:shadow-md hover:border-indigo-200 transition-all">
+                  <div className={`p-2.5 rounded-lg ${carousel.bg}`}>
+                    <carousel.icon className={`w-5 h-5 ${carousel.color}`} />
+                  </div>
+                  <div className="flex-1">
+                    <h4 className="font-medium text-gray-900 text-sm">{carousel.title}</h4>
+                  </div>
+                  <ArrowRight className="w-4 h-4 text-gray-400 group-hover:text-indigo-500 group-hover:translate-x-0.5 transition-all" />
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="py-12 bg-white border-t border-gray-100" data-testid="imaging-community-share">
+        <div className="max-w-4xl mx-auto px-4 text-center">
+          <div className="bg-gradient-to-r from-indigo-600 to-purple-600 rounded-2xl p-8 text-white">
+            <Share2 className="w-8 h-8 mx-auto mb-3 opacity-80" />
+            <h2 className="text-2xl font-bold mb-2">Share With Classmates</h2>
+            <p className="text-white/80 mb-4 max-w-md mx-auto text-sm">Invite 3 classmates to unlock free flashcard decks. Invite 5 to unlock a practice exam. Invite 10 for temporary premium access.</p>
+            <div className="flex justify-center gap-3">
+              <button
+                onClick={() => {
+                  const text = "Check out this radiography exam prep resource — free practice questions, positioning guides, and study plans!";
+                  const url = window.location.href;
+                  if (navigator.share) navigator.share({ title: "Medical Imaging Exam Prep", text, url }).catch(() => {});
+                  else navigator.clipboard.writeText(`${text} ${url}`).catch(() => {});
+                }}
+                className="inline-flex items-center gap-2 bg-white/20 hover:bg-white/30 px-5 py-2.5 rounded-lg text-sm font-medium transition-colors"
+                data-testid="button-share-hub"
+              >
+                <Share2 className="w-4 h-4" /> Share This Page
+              </button>
+            </div>
           </div>
         </div>
       </section>

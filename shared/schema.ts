@@ -4050,6 +4050,93 @@ export const insertImagingBlogArticleSchema = createInsertSchema(imagingBlogArti
 export type ImagingBlogArticle = typeof imagingBlogArticles.$inferSelect;
 export type InsertImagingBlogArticle = z.infer<typeof insertImagingBlogArticleSchema>;
 
+export const imagingLeads = pgTable("imaging_leads", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  email: text("email").notNull(),
+  name: text("name"),
+  source: text("source").notNull().default("general"),
+  trigger: text("trigger").default("manual"),
+  examType: text("exam_type"),
+  country: text("country"),
+  quizScore: integer("quiz_score"),
+  quizData: jsonb("quiz_data"),
+  referralCode: text("referral_code"),
+  referredBy: text("referred_by"),
+  status: text("status").default("active"),
+  tags: text("tags").array().default(sql`'{}'::text[]`),
+  convertedToUser: boolean("converted_to_user").default(false),
+  userId: varchar("user_id"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export const insertImagingLeadSchema = createInsertSchema(imagingLeads).omit({ id: true, createdAt: true, updatedAt: true });
+export type ImagingLead = typeof imagingLeads.$inferSelect;
+export type InsertImagingLead = z.infer<typeof insertImagingLeadSchema>;
+
+export const imagingNurtureSequences = pgTable("imaging_nurture_sequences", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  name: text("name").notNull(),
+  trigger: text("trigger").notNull(),
+  steps: jsonb("steps").notNull().default(sql`'[]'::jsonb`),
+  isActive: boolean("is_active").default(true),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export type ImagingNurtureSequence = typeof imagingNurtureSequences.$inferSelect;
+
+export const imagingNurtureEnrollments = pgTable("imaging_nurture_enrollments", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  leadId: varchar("lead_id").notNull(),
+  sequenceId: varchar("sequence_id").notNull(),
+  currentStep: integer("current_step").default(0),
+  status: text("status").default("active"),
+  nextSendAt: timestamp("next_send_at"),
+  completedAt: timestamp("completed_at"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export type ImagingNurtureEnrollment = typeof imagingNurtureEnrollments.$inferSelect;
+
+export const imagingReferrals = pgTable("imaging_referrals", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  referrerEmail: text("referrer_email").notNull(),
+  referrerCode: text("referrer_code").notNull(),
+  referredEmail: text("referred_email").notNull(),
+  status: text("status").default("pending"),
+  rewardGranted: text("reward_granted"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export type ImagingReferral = typeof imagingReferrals.$inferSelect;
+
+export const imagingMarketingEvents = pgTable("imaging_marketing_events", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  eventType: text("event_type").notNull(),
+  page: text("page"),
+  sessionId: text("session_id"),
+  leadId: varchar("lead_id"),
+  metadata: jsonb("metadata").default(sql`'{}'::jsonb`),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export type ImagingMarketingEvent = typeof imagingMarketingEvents.$inferSelect;
+
+export const imagingStudyPlans = pgTable("imaging_study_plans", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  email: text("email"),
+  leadId: varchar("lead_id"),
+  examType: text("exam_type").notNull(),
+  examDate: text("exam_date"),
+  hoursPerWeek: integer("hours_per_week").notNull(),
+  confidenceLevel: text("confidence_level").notNull(),
+  planData: jsonb("plan_data").notNull().default(sql`'{}'::jsonb`),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export type ImagingStudyPlan = typeof imagingStudyPlans.$inferSelect;
+
 export const IMAGING_SEO_PAGE_TYPES = [
   "practice-questions",
   "positioning-guide",

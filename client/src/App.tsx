@@ -217,6 +217,9 @@ const ImagingBlog = lazy(() => import("@/pages/imaging-blog"));
 const RadiographyPracticeQuestionsLanding = lazy(() => import("@/pages/imaging-seo-landing").then(m => ({ default: m.RadiographyPracticeQuestions })));
 const RadiographyPositioningGuideLanding = lazy(() => import("@/pages/imaging-seo-landing").then(m => ({ default: m.RadiographyPositioningGuide })));
 const RadiographyArtifactRecognitionLanding = lazy(() => import("@/pages/imaging-seo-landing").then(m => ({ default: m.RadiographyArtifactRecognition })));
+const ImagingStudyPlanGenerator = lazy(() => import("@/pages/imaging-study-plan-generator"));
+const RadiographyReadinessQuiz = lazy(() => import("@/pages/radiography-readiness-quiz"));
+const ImagingMarketingDashboard = lazy(() => import("@/pages/imaging-marketing-dashboard"));
 
 function PageTracker() {
   usePageTracker();
@@ -416,6 +419,9 @@ function AppRoutes() {
         <Route path="/admin/case-studies" component={AdminCaseStudiesPage} />
         <Route path="/clinical-case-studies" component={ClinicalCaseStudyPage} />
         <Route path="/for-institutions" component={ForInstitutions} />
+        <Route path="/medical-imaging/study-plan-generator" component={ImagingStudyPlanGenerator} />
+        <Route path="/radiography-readiness-quiz" component={RadiographyReadinessQuiz} />
+        <Route path="/admin/imaging-marketing" component={ImagingMarketingDashboard} />
         <Route path="/radiography-practice-questions" component={RadiographyPracticeQuestionsLanding} />
         <Route path="/radiography-positioning-guide" component={RadiographyPositioningGuideLanding} />
         <Route path="/radiography-artifact-recognition" component={RadiographyArtifactRecognitionLanding} />
