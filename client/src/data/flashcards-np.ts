@@ -1,5 +1,5 @@
 import type { FlashcardData } from "./flashcards-rpn";
-import { imgUlcerativeColitis, imgVonWillebrand, imgSIADH, imgSickleCellCrisis, imgVitiligo, imgUrethralStricture, imgVestibularNeuritis } from "./flashcards-rpn";
+import { imgUlcerativeColitis, imgVonWillebrand, imgSIADH, imgSickleCellCrisis, imgVitiligo, imgUrethralStricture, imgVestibularNeuritis, imgAddisons, imgBPH } from "./flashcards-rpn";
 import illustrationShinglesV2 from "@/assets/images/shingles-v2.png";
 import illustrationRetinalDetachmentV2 from "@/assets/images/retinal-detachment-v2.png";
 import illustrationRheumatoidArthritis from "@/assets/images/rheumatoid-arthritis.png";
@@ -647,6 +647,7 @@ export const npFlashcards: FlashcardData[] = [
     options: ["Immediate surgical referral for TURP", "Alpha-blocker (tamsulosin) for symptom relief and/or 5-alpha reductase inhibitor (finasteride) for large prostates", "Antibiotics for presumed prostatitis", "Watchful waiting only, regardless of symptom severity"],
     correctIndex: 1,
     answer: "Benign prostatic hyperplasia (BPH) with moderate-severe LUTS (IPSS >7) is initially treated with alpha-blockers (tamsulosin, alfuzosin) for rapid symptom relief (relaxes prostatic smooth muscle). For larger prostates (>30-40g), add a 5-alpha reductase inhibitor (finasteride, dutasteride) which shrinks the gland over 6-12 months and reduces risk of acute urinary retention. Combination therapy is superior for large prostates. Surgical referral (TURP, laser) for refractory symptoms or complications (retention, recurrent UTI, bladder stones, renal insufficiency).",
+    image: imgBPH,
     category: "Primary Care",
     difficulty: 2
   },
@@ -1388,6 +1389,7 @@ export const npFlashcards: FlashcardData[] = [
     options: ["Oral hydrocortisone 20 mg", "IV hydrocortisone 100 mg bolus, then 50 mg every 8 hours, plus aggressive IV fluids", "IV dexamethasone and vasopressors only", "Fludrocortisone alone"],
     correctIndex: 1,
     answer: "Adrenal crisis (acute adrenal insufficiency) is a life-threatening emergency requiring immediate IV hydrocortisone 100 mg bolus followed by 50 mg q8h, aggressive IV normal saline for volume resuscitation, and dextrose if hypoglycemic. Triggers include abrupt steroid withdrawal, infection, surgery, or trauma in patients with known adrenal insufficiency. Patients should carry emergency injection kits and wear medical alert identification.",
+    image: imgAddisons,
     category: "Endocrine NP",
     difficulty: 3
   },

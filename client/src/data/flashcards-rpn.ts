@@ -17,8 +17,20 @@ import illustrationRenalCalculi from "@/assets/images/renal-calculi.png";
 import illustrationShinglesV2 from "@/assets/images/shingles-v2.png";
 import illustrationRheumatoidArthritis from "@/assets/images/rheumatoid-arthritis.png";
 import illustrationScoliosis from "@/assets/images/scoliosis.png";
+import imgAddisons from "@assets/c76038a7-89d5-40c5-ba1f-837a6b77833f_1773269538451.png";
+import imgAplasticAnemia from "@assets/aplasticanemia_1773269538451.png";
+import imgAcuteHemolyticReaction from "@assets/acutehemolyticreaction_1773269538451.png";
+import imgAllergicTransfusion from "@assets/allergictransfusionreaction_1773269538451.png";
+import imgAirEmbolism from "@assets/airembolism_1773269538451.png";
+import imgCBI from "@assets/CBI_1773269538451.png";
+import imgCastCareTraction from "@assets/castcareandtraction_1773269538451.png";
+import imgAlopecia from "@assets/alopecia_1773269538451.png";
+import imgBPH from "@assets/BPH_1773269538451.png";
+import imgAtopicDermatitis from "@assets/atopicdermatitis_1773269538451.png";
+import imgAcromegaly from "@assets/acromegaly_1773269538451.png";
+import imgBPPV from "@assets/BPPV_1773269538451.png";
 
-export { imgUlcerativeColitis, imgVonWillebrand, imgUrinaryCatheterization, imgSIADH, imgSickleCellCrisis, imgStomaCare, imgThalassemia, imgThrombocytopenia, imgThyroidStorm, imgTRALI, imgVitiligo, imgUrethralStricture, imgVestibularNeuritis };
+export { imgUlcerativeColitis, imgVonWillebrand, imgUrinaryCatheterization, imgSIADH, imgSickleCellCrisis, imgStomaCare, imgThalassemia, imgThrombocytopenia, imgThyroidStorm, imgTRALI, imgVitiligo, imgUrethralStricture, imgVestibularNeuritis, imgAddisons, imgAplasticAnemia, imgAcuteHemolyticReaction, imgAllergicTransfusion, imgAirEmbolism, imgCBI, imgCastCareTraction, imgAlopecia, imgBPH, imgAtopicDermatitis, imgAcromegaly, imgBPPV };
 
 export type FlashcardData = {
   id: string;
@@ -923,6 +935,7 @@ export const rpnFlashcards: FlashcardData[] = [
     options: ["Dysuria", "Hesitancy", "Nocturia", "Polyuria"],
     correctIndex: 1,
     answer: "Hesitancy is difficulty starting the urine stream. BPH symptoms (LUTS): Hesitancy, weak stream, frequency, urgency, nocturia, incomplete emptying, post-void dribbling. Treatment: Alpha blockers (tamsulosin), 5-alpha reductase inhibitors (finasteride), or surgery (TURP).",
+    image: imgBPH,
     category: "Renal/GU",
     difficulty: 2
   },
@@ -1030,6 +1043,7 @@ export const rpnFlashcards: FlashcardData[] = [
     type: "term",
     question: "Addison's Disease (Adrenal Insufficiency)",
     answer: "Insufficient production of cortisol and aldosterone. Signs: Hypotension, hypoglycemia, hyperkalemia, hyponatremia, bronze/tan skin pigmentation, fatigue, weight loss. Adrenal crisis: Severe hypotension, shock. Treatment: Lifelong corticosteroid replacement (hydrocortisone), fludrocortisone (mineralocorticoid). Never abruptly stop steroids.",
+    image: imgAddisons,
     category: "Endocrine",
     difficulty: 3
   },
@@ -1145,6 +1159,7 @@ export const rpnFlashcards: FlashcardData[] = [
     options: ["Slow the transfusion rate", "Administer diphenhydramine", "Stop the transfusion immediately and keep the line open with NS", "Continue and monitor"],
     correctIndex: 2,
     answer: "These are signs of an acute hemolytic transfusion reaction (ABO incompatibility). Immediately: STOP the transfusion, keep IV open with NS (new tubing), notify provider and blood bank, send blood bag and client blood samples for analysis, monitor for DIC and renal failure.",
+    image: imgAcuteHemolyticReaction,
     category: "Hematology",
     difficulty: 2
   },
@@ -1220,6 +1235,7 @@ export const rpnFlashcards: FlashcardData[] = [
     options: ["Stop the transfusion permanently", "Slow the transfusion, administer antihistamine, monitor", "Increase the rate to finish quickly", "Ignore it; hives are normal"],
     correctIndex: 1,
     answer: "Mild allergic reaction (urticaria only without systemic symptoms): Slow or temporarily stop the transfusion, administer antihistamine (diphenhydramine) as ordered. If symptoms resolve, the transfusion may be restarted cautiously. If anaphylaxis develops, stop permanently.",
+    image: imgAllergicTransfusion,
     category: "Hematology",
     difficulty: 2
   },
@@ -2793,6 +2809,7 @@ export const rpnFlashcards: FlashcardData[] = [
     type: "term",
     question: "Aplastic Anemia",
     answer: "Bone marrow failure resulting in pancytopenia (decreased RBCs, WBCs, platelets). Causes: Autoimmune, medications (chloramphenicol), radiation, chemicals (benzene). Signs: Fatigue, bleeding, infections. Treatment: Bone marrow transplant, immunosuppressants, supportive care (transfusions, antibiotics).",
+    image: imgAplasticAnemia,
     category: "Hematology",
     difficulty: 3
   },
@@ -4763,6 +4780,7 @@ export const rpnFlashcards: FlashcardData[] = [
     options: ["The medication targets only cancer cells", "Chemotherapy affects all rapidly dividing cells, including hair follicles", "Hair loss is unrelated to treatment", "It is an allergic reaction"],
     correctIndex: 1,
     answer: "Chemotherapy is cytotoxic to all rapidly dividing cells (cancer cells AND normal cells). Rapidly dividing normal cells affected: Hair follicles (alopecia), GI mucosa (mucositis, nausea), bone marrow (myelosuppression). Hair loss is usually temporary: regrowth begins 3-6 months after completing treatment.",
+    image: imgAlopecia,
     category: "Oncology",
     difficulty: 1
   },
@@ -4886,6 +4904,7 @@ export const rpnFlashcards: FlashcardData[] = [
     options: ["Decrease corticosteroid dose", "Double or triple the corticosteroid dose (stress dosing)", "Stop all medications", "No change needed"],
     correctIndex: 1,
     answer: "During physiological stress, the body normally increases cortisol production. Clients with Addison's cannot do this: risk of adrenal crisis (severe hypotension, shock, death). Stress dosing: Double or triple the usual corticosteroid dose during illness, surgery, or significant stress. Gradually return to normal dose.",
+    image: imgAddisons,
     category: "Endocrine",
     difficulty: 3
   },
@@ -5606,6 +5625,7 @@ export const rpnFlashcards: FlashcardData[] = [
     options: ["When the output is clear", "When the drainage becomes darker red or has clots", "Every hour routinely", "Only when the client reports pain"],
     correctIndex: 1,
     answer: "CBI maintains catheter patency and prevents clot obstruction after TURP. Increase irrigation rate if drainage is dark red or contains clots. Decrease if output is light pink or clear. Maintain catheter traction as ordered. Monitor for TURP syndrome (hyponatremia from irrigation fluid absorption): Confusion, nausea, HTN.",
+    image: imgCBI,
     category: "Renal/GU",
     difficulty: 3
   },

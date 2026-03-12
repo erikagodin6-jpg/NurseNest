@@ -1,5 +1,5 @@
 import type { FlashcardData } from "./flashcards-rpn";
-import { imgUlcerativeColitis, imgSIADH, imgSickleCellCrisis, imgStomaCare, imgThrombocytopenia, imgUrinaryCatheterization, imgVitiligo, imgUrethralStricture, imgVestibularNeuritis } from "./flashcards-rpn";
+import { imgUlcerativeColitis, imgSIADH, imgSickleCellCrisis, imgStomaCare, imgThrombocytopenia, imgUrinaryCatheterization, imgVitiligo, imgUrethralStricture, imgVestibularNeuritis, imgAddisons, imgAcuteHemolyticReaction, imgAtopicDermatitis, imgBPH, imgCastCareTraction, imgAcromegaly } from "./flashcards-rpn";
 import imgStevensJohnson from "@assets/stevensjohnsonssyndrome_1773268456011.png";
 import illustrationPressureInjuriesV2 from "@/assets/images/pressure-injuries-v2.png";
 import illustrationPressureInjuryStagesV2 from "@/assets/images/pressure-injury-stages-v2.png";
@@ -608,6 +608,7 @@ export const rnFlashcards: FlashcardData[] = [
     options: ["Slow the transfusion rate and administer acetaminophen", "STOP the transfusion immediately, keep the IV line open with NS, and notify the blood bank", "Continue the transfusion and monitor closely", "Administer diphenhydramine and restart the transfusion"],
     correctIndex: 1,
     answer: "Fever, flank pain, and tea-colored urine (hemoglobinuria) indicate an acute hemolytic transfusion reaction, a life-threatening emergency caused by ABO incompatibility. The nurse must STOP the transfusion immediately, keep the IV open with NS (new tubing), send the blood bag and tubing to the blood bank for analysis, and draw blood samples (direct Coombs test, free hemoglobin). Monitor for DIC, renal failure, and shock.",
+    image: imgAcuteHemolyticReaction,
     category: "GI",
     difficulty: 2
   },
@@ -732,6 +733,7 @@ export const rnFlashcards: FlashcardData[] = [
     options: ["Hypothyroidism", "Growth hormone-secreting pituitary adenoma", "Adrenal cortical hyperplasia", "Parathyroid hyperplasia"],
     correctIndex: 1,
     answer: "Acromegaly is caused by excessive growth hormone (GH) from a pituitary adenoma in adults (after epiphyseal closure). Features include enlargement of hands, feet, jaw (prognathism), coarsening of facial features, headaches, and visual field defects (bitemporal hemianopsia) from tumor compression of the optic chiasm. Diagnosis is via elevated IGF-1 and failure to suppress GH with oral glucose tolerance test.",
+    image: imgAcromegaly,
     category: "Endocrine",
     difficulty: 2
   },
@@ -752,6 +754,7 @@ export const rnFlashcards: FlashcardData[] = [
     options: ["Stopping suddenly would cause the original disease to return immediately", "Long-term steroids suppress your adrenal glands. Stopping suddenly can cause a life-threatening adrenal crisis because your body cannot produce enough cortisol on its own", "The medication needs to be gradually reduced to prevent allergic reactions", "Stopping suddenly would cause rebound weight gain"],
     correctIndex: 1,
     answer: "Chronic exogenous corticosteroid use suppresses the hypothalamic-pituitary-adrenal (HPA) axis through negative feedback. The adrenal glands atrophy and cannot produce adequate cortisol if the medication is stopped abruptly. Adrenal crisis (Addisonian crisis) presents with severe hypotension, hypoglycemia, hyperkalemia, and cardiovascular collapse. Tapering allows the HPA axis to gradually recover endogenous cortisol production.",
+    image: imgAddisons,
     category: "Endocrine",
     difficulty: 2
   },
@@ -792,6 +795,7 @@ export const rnFlashcards: FlashcardData[] = [
     options: ["Na+ 148, K+ 3.0, glucose 180", "Na+ 122, K+ 6.4, glucose 48", "Na+ 140, K+ 4.0, glucose 100", "Na+ 155, K+ 2.8, glucose 350"],
     correctIndex: 1,
     answer: "Addisonian crisis (acute adrenal insufficiency) produces the classic triad: hyponatremia (cortisol and aldosterone deficiency impair sodium retention), hyperkalemia (aldosterone deficiency reduces potassium excretion), and hypoglycemia (cortisol is needed for gluconeogenesis). Treatment is IV hydrocortisone (addresses both cortisol and mineralocorticoid deficiency) and aggressive NS fluid resuscitation.",
+    image: imgAddisons,
     category: "Endocrine",
     difficulty: 3
   },
@@ -3345,6 +3349,7 @@ export const rnFlashcards: FlashcardData[] = [
     options: ["Insulin", "Levothyroxine", "Hydrocortisone and fludrocortisone", "Growth hormone"],
     correctIndex: 2,
     answer: "Addison's disease (primary adrenal insufficiency) results in deficient cortisol and aldosterone. Hydrocortisone replaces cortisol, and fludrocortisone replaces aldosterone. Bronze hyperpigmentation results from excess ACTH stimulating melanocytes. Clients must increase steroid doses during illness or stress to prevent adrenal crisis (Addisonian crisis).",
+    image: imgAddisons,
     category: "Endocrine",
     difficulty: 2
   },
@@ -3476,6 +3481,7 @@ export const rnFlashcards: FlashcardData[] = [
     options: ["Febrile non-hemolytic reaction", "Acute hemolytic transfusion reaction", "Allergic reaction", "Circulatory overload"],
     correctIndex: 1,
     answer: "Acute hemolytic transfusion reaction occurs from ABO incompatibility. Signs include fever, chills, flank/back pain, hypotension, hemoglobinuria (dark urine), and DIC. STOP the transfusion immediately, maintain IV access with normal saline, send the blood bag and new blood samples to the lab. This is a medical emergency.",
+    image: imgAcuteHemolyticReaction,
     category: "Fluid & Electrolytes",
     difficulty: 2
   },
@@ -3679,6 +3685,7 @@ export const rnFlashcards: FlashcardData[] = [
     options: ["The weights are hanging freely off the bed", "The client reports mild discomfort at the fracture site", "The traction rope is caught on the edge of the pulley", "The client's foot on the affected side is in a neutral position"],
     correctIndex: 2,
     answer: "Traction must be maintained continuously with ropes riding freely over pulleys and weights hanging freely. A rope caught on the pulley edge disrupts the line of pull, rendering the traction ineffective and potentially causing pain, malalignment, or muscle spasm. The nurse should immediately free the rope to restore proper traction. Weights hanging freely and neutral foot positioning are expected findings.",
+    image: imgCastCareTraction,
     category: "Musculoskeletal",
     difficulty: 2
   },
@@ -3699,6 +3706,7 @@ export const rnFlashcards: FlashcardData[] = [
     options: ["Remove the pin immediately and notify the provider", "Clean the pin site with sterile saline or prescribed solution per protocol", "Apply antibiotic ointment and cover with an occlusive dressing", "Discontinue traction and reposition the client"],
     correctIndex: 1,
     answer: "Small amounts of serous drainage at pin sites are expected findings. The nurse should perform pin site care per facility protocol, typically cleaning with sterile saline or chlorhexidine. Signs of infection (purulent drainage, erythema, warmth, fever) require provider notification. The nurse should never remove the pin or discontinue traction without a provider order, as this would compromise fracture alignment.",
+    image: imgCastCareTraction,
     category: "Musculoskeletal",
     difficulty: 2
   },
@@ -4080,6 +4088,7 @@ export const rnFlashcards: FlashcardData[] = [
     options: ["Slow the transfusion rate and administer acetaminophen", "Stop the transfusion immediately, maintain IV access with normal saline, and notify the provider", "Administer diphenhydramine and continue the transfusion", "Obtain a urine specimen and continue the transfusion at a slower rate"],
     correctIndex: 1,
     answer: "Fever, chills, flank pain, and dark urine (hemoglobinuria) are classic signs of an acute hemolytic transfusion reaction caused by ABO incompatibility. The transfusion must be stopped immediately. The IV line should be kept open with normal saline using new tubing. The provider and blood bank must be notified immediately. The nurse should send the blood bag, tubing, and blood/urine samples to the lab. This reaction can lead to DIC, renal failure, and death if not treated promptly. Never slow or continue a transfusion when hemolysis is suspected.",
+    image: imgAcuteHemolyticReaction,
     category: "Hematology/Oncology",
     difficulty: 3
   },
@@ -4329,6 +4338,7 @@ export const rnFlashcards: FlashcardData[] = [
     options: ["Take long, hot showers to soothe the itching", "Apply topical corticosteroids as prescribed and use fragrance-free emollients daily", "Wear wool clothing to keep skin warm and dry", "Scrub the affected areas vigorously to remove scales"],
     correctIndex: 1,
     answer: "Management of atopic dermatitis includes topical corticosteroids to reduce inflammation during flares and daily application of fragrance-free emollients to maintain the skin moisture barrier. Hot showers strip natural oils and worsen dryness and itching. Wool and synthetic fabrics irritate eczematous skin; soft cotton is preferred. Vigorous scrubbing damages the compromised skin barrier and triggers more inflammation. Other recommendations include avoiding known triggers (allergens, stress), lukewarm baths, patting skin dry, and applying moisturizer within 3 minutes of bathing.",
+    image: imgAtopicDermatitis,
     category: "Integumentary",
     difficulty: 2
   },

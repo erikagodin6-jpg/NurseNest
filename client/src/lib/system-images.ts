@@ -94,11 +94,11 @@ import illustrationRetinalDetachment from "@/assets/lesson-retinal-detachment.pn
 import illustrationPressureInjuries from "@/assets/lesson-pressure-injuries.png";
 import illustrationInnateImmunity from "@/assets/lesson-innate-immunity.png";
 import illustrationConjunctivitis from "@/assets/lesson-conjunctivitis.png";
-import illustrationAplasticAnemia from "@/assets/lesson-aplastic-anemia.png";
-import illustrationAlopecia from "@/assets/lesson-alopecia.png";
+import illustrationAplasticAnemia from "@/assets/aplasticanemia_1773269538451.png";
+import illustrationAlopecia from "@/assets/alopecia_1773269538451.png";
 import illustrationPemphigus from "@/assets/lesson-pemphigus.png";
 import illustrationPolycythemia from "@/assets/lesson-polycythemia.png";
-import illustrationAtopicDermatitis from "@/assets/lesson-atopic-dermatitis.png";
+import illustrationAtopicDermatitis from "@/assets/atopicdermatitis_1773269538451.png";
 import illustrationOtitis from "@/assets/lesson-otitis.png";
 import illustrationSJS from "@/assets/lesson-sjs.png";
 import illustrationAdaptiveImmunity from "@/assets/lesson-adaptive-immunity.png";
@@ -332,7 +332,7 @@ import illustrationMalabsorptionV3 from "@/assets/images/malabsorption-v3.png";
 import illustrationMeckelDiverticulumV2 from "@/assets/images/meckel-diverticulum-v2.png";
 import illustrationMeckelDiverticulumV3 from "@/assets/images/meckel-diverticulum-v3.png";
 import illustrationThyroidPatho from "@/assets/lesson-thyroid-patho.png";
-import illustrationAddisonsPatho from "@/assets/lesson-addisons-patho.png";
+import illustrationAddisonsPatho from "@/assets/c76038a7-89d5-40c5-ba1f-837a6b77833f_1773269538451.png";
 
 import illustrationElectrolyteCardiac from "@/assets/lesson-electrolyte-cardiac.png";
 import illustrationGIBleedPatho from "@/assets/lesson-gi-bleed-patho.png";
@@ -360,8 +360,8 @@ import illustrationUCPatho from "@/assets/lesson-uc-patho.png";
 import illustrationUlcerativeColitisV2 from "@/assets/images/ulcerative-colitis-v2.png";
 import illustrationPepticUlcerPatho from "@/assets/lesson-peptic-ulcer-patho.png";
 import illustrationPepticUlcerV2 from "@/assets/images/peptic-ulcer-v2.png";
-import illustrationBPHV2 from "@/assets/images/bph-v2.png";
-import illustrationCBIV2 from "@/assets/images/cbi-v2.png";
+import illustrationBPHV2 from "@/assets/BPH_1773269538451.png";
+import illustrationCBIV2 from "@/assets/CBI_1773269538451.png";
 import illustrationCKDV2 from "@/assets/images/ckd-v2.png";
 import illustrationMicroscopicColitisV2 from "@/assets/images/microscopic-colitis-v2.png";
 import illustrationNGTubeV2 from "@/assets/images/ng-tube-v2.png";
@@ -433,6 +433,19 @@ import illustrationTinnitus from "@assets/tinnitis_1773268456011.png";
 import illustrationTRALI from "@assets/TRALI_1773268456011.png";
 import illustrationTransfusionHyperkalemia from "@assets/transfusionassociatedhyperkalemia_1773268456011.png";
 import illustrationTransfusionHypothermia from "@assets/transfusionassociatedhypothermia_1773268456011.png";
+
+import illustrationABOCompatibility from "@assets/abo_1773269538451.png";
+import illustrationAcromegaly from "@assets/acromegaly_1773269538451.png";
+import illustrationAcuteHemolyticReaction from "@assets/acutehemolyticreaction_1773269538451.png";
+import illustrationAcutePainTransfusion from "@assets/acutepaintransfusionreaction_1773269538451.png";
+import illustrationAdrenalGland from "@assets/adrenalgland_1773269538451.png";
+import illustrationAirEmbolismTransfusion from "@assets/airembolism_1773269538451.png";
+import illustrationAllergicTransfusion from "@assets/allergictransfusionreaction_1773269538451.png";
+import illustrationAnaphylacticTransfusion from "@assets/anaphylactictransfusion_1773269538451.png";
+import illustrationBiliaryAtresia from "@assets/biliaryatresia_1773269538451.png";
+import illustrationBPPV from "@assets/BPPV_1773269538451.png";
+import illustrationBullousPemphigoid from "@assets/bullouspemphigoid_1773269538451.png";
+import illustrationCastCareTraction from "@assets/castcareandtraction_1773269538451.png";
 
 const lessonSpecificImages: Record<string, string> = {
   "infective-endocarditis-signs": illustrationEndocarditisSigns,
@@ -1029,8 +1042,14 @@ const lessonSpecificImages: Record<string, string> = {
   "scoliosis": illustrationScoliosis,
   "hip-dysplasia": illustrationMusculoskeletalAnatomy,
   "fracture-types": illustrationMusculoskeletalAnatomy,
-  "cast-care": illustrationMusculoskeletalAnatomy,
-  "traction": illustrationMusculoskeletalAnatomy,
+  "cast-care": illustrationCastCareTraction,
+  "traction": illustrationCastCareTraction,
+  "cast-care-rpn": illustrationCastCareTraction,
+  "cast-care-rn": illustrationCastCareTraction,
+  "cast-care-np": illustrationCastCareTraction,
+  "traction-rpn": illustrationCastCareTraction,
+  "traction-rn": illustrationCastCareTraction,
+  "traction-np": illustrationCastCareTraction,
   "rom-exercises": illustrationMusculoskeletalAnatomy,
   "body-mechanics": illustrationMusculoskeletalAnatomy,
   "iron-deficiency-anemia": illustrationHematologyAnatomy,
@@ -1101,6 +1120,38 @@ const lessonSpecificImages: Record<string, string> = {
 
   "blood-transfusion-rpn": illustrationBloodTyping,
   "blood-typing": illustrationBloodTyping,
+
+  "abo-blood-type-compatibility": illustrationABOCompatibility,
+  "abo-compatibility": illustrationABOCompatibility,
+  "abo-blood-type-compatibility-rpn": illustrationABOCompatibility,
+  "abo-blood-type-compatibility-rn": illustrationABOCompatibility,
+  "abo-blood-type-compatibility-np": illustrationABOCompatibility,
+
+  "ahtr-acute-hemolytic-transfusion-reaction": illustrationAcuteHemolyticReaction,
+  "acute-hemolytic-transfusion-reaction": illustrationAcuteHemolyticReaction,
+  "hemolytic-transfusion-rpn": illustrationAcuteHemolyticReaction,
+  "hemolytic-transfusion-rn": illustrationAcuteHemolyticReaction,
+  "hemolytic-transfusion-np": illustrationAcuteHemolyticReaction,
+
+  "acute-pain-transfusion-reaction": illustrationAcutePainTransfusion,
+  "acute-pain-transfusion-reaction-rpn": illustrationAcutePainTransfusion,
+  "acute-pain-transfusion-reaction-rn": illustrationAcutePainTransfusion,
+  "acute-pain-transfusion-reaction-np": illustrationAcutePainTransfusion,
+
+  "air-embolism-transfusion": illustrationAirEmbolismTransfusion,
+  "air-embolism-transfusion-rpn": illustrationAirEmbolismTransfusion,
+  "air-embolism-transfusion-rn": illustrationAirEmbolismTransfusion,
+  "air-embolism-transfusion-np": illustrationAirEmbolismTransfusion,
+
+  "allergic-transfusion-reaction": illustrationAllergicTransfusion,
+  "allergic-transfusion-reaction-rpn": illustrationAllergicTransfusion,
+  "allergic-transfusion-reaction-rn": illustrationAllergicTransfusion,
+  "allergic-transfusion-reaction-np": illustrationAllergicTransfusion,
+
+  "anaphylactic-transfusion-reaction": illustrationAnaphylacticTransfusion,
+  "anaphylactic-transfusion-reaction-rpn": illustrationAnaphylacticTransfusion,
+  "anaphylactic-transfusion-reaction-rn": illustrationAnaphylacticTransfusion,
+  "anaphylactic-transfusion-reaction-np": illustrationAnaphylacticTransfusion,
 
   "insulin-safety": illustrationPancreasInsulin,
   "hypoglycemia-vs-dka-rpn": illustrationPancreasInsulin,
@@ -1194,6 +1245,34 @@ const lessonSpecificImages: Record<string, string> = {
 
   "adrenal-crisis": illustrationAddisonsPatho,
   "addisons-disease": illustrationAddisonsPatho,
+  "adrenal-gland": illustrationAdrenalGland,
+  "adrenal-gland-rpn": illustrationAdrenalGland,
+  "adrenal-gland-rn": illustrationAdrenalGland,
+  "adrenal-gland-np": illustrationAdrenalGland,
+  "addisons-pathophysiology": illustrationAdrenalGland,
+
+  "acromegaly": illustrationAcromegaly,
+  "acromegaly-basics-rpn": illustrationAcromegaly,
+  "acromegaly-basics-rn": illustrationAcromegaly,
+  "acromegaly-basics-np": illustrationAcromegaly,
+  "acromegaly-rpn": illustrationAcromegaly,
+  "acromegaly-rn": illustrationAcromegaly,
+  "acromegaly-np": illustrationAcromegaly,
+
+  "biliary-atresia": illustrationBiliaryAtresia,
+  "biliary-atresia-rpn": illustrationBiliaryAtresia,
+  "biliary-atresia-rn": illustrationBiliaryAtresia,
+  "biliary-atresia-np": illustrationBiliaryAtresia,
+
+  "bppv-management-rpn": illustrationBPPV,
+  "bppv-management-rn": illustrationBPPV,
+  "bppv-management-np": illustrationBPPV,
+  "bppv": illustrationBPPV,
+
+  "bullous-pemphigoid": illustrationBullousPemphigoid,
+  "bullous-pemphigoid-rpn": illustrationBullousPemphigoid,
+  "bullous-pemphigoid-rn": illustrationBullousPemphigoid,
+  "bullous-pemphigoid-np": illustrationBullousPemphigoid,
 
   "electrolyte-imbalance": illustrationElectrolyteCardiac,
   "hyperkalemia": illustrationElectrolyteCardiac,
@@ -1674,6 +1753,18 @@ export function getLessonImage(lessonId: string): string | undefined {
   if (lessonId.includes("conjunctiv") || lessonId.includes("pink-eye")) return illustrationConjunctivitis;
   if (lessonId.includes("aplastic")) return illustrationAplasticAnemia;
   if (lessonId.includes("alopecia") || lessonId.includes("hair-loss")) return illustrationAlopecia;
+  if (lessonId.includes("abo-blood") || lessonId.includes("abo-compat")) return illustrationABOCompatibility;
+  if (lessonId.includes("acromegal")) return illustrationAcromegaly;
+  if (lessonId.includes("hemolytic-transfusion") || lessonId.includes("hemolytic-reaction")) return illustrationAcuteHemolyticReaction;
+  if (lessonId.includes("acute-pain-transfusion")) return illustrationAcutePainTransfusion;
+  if (lessonId.includes("air-embolism-transfusion") || lessonId.includes("air-embolism")) return illustrationAirEmbolismTransfusion;
+  if (lessonId.includes("allergic-transfusion")) return illustrationAllergicTransfusion;
+  if (lessonId.includes("anaphylactic-transfusion")) return illustrationAnaphylacticTransfusion;
+  if (lessonId.includes("biliary-atresia")) return illustrationBiliaryAtresia;
+  if (lessonId.includes("bppv") || lessonId.includes("benign-paroxysmal")) return illustrationBPPV;
+  if (lessonId.includes("bullous-pemphigoid")) return illustrationBullousPemphigoid;
+  if (lessonId.includes("cast-care") || lessonId.includes("traction")) return illustrationCastCareTraction;
+  if (lessonId.includes("adrenal-gland")) return illustrationAdrenalGland;
   if (lessonId.includes("pemphigus")) return illustrationPemphigus;
   if (lessonId.includes("polycythem")) return illustrationPolycythemia;
   if (lessonId.includes("atopic") || lessonId.includes("eczema")) return illustrationAtopicDermatitis;
