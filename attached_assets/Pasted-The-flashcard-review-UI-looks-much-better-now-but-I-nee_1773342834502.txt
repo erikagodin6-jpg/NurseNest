@@ -1,0 +1,283 @@
+The flashcard review UI looks much better now, but I need one more major refinement on the published site.
+
+MAIN REQUIREMENTS
+
+1. The full reviewed card must fit on one screen without scrolling
+2. The rationale image must be correct for the topic/question
+3. Wrong images must never appear (example: asthma card showing a COPD image is unacceptable)
+4. The layout must be optimized specifically so I can take clean screenshots of the entire reviewed card for content, marketing, and product previews
+
+This is a viewport/layout optimization task plus an image-mapping correction task for the published NurseNest flashcard review experience.
+
+PRIMARY GOAL
+
+After a user answers a card, the full reviewed flashcard should fit within a standard desktop/laptop viewport without needing to scroll.
+
+I need to be able to capture a screenshot of the entire reviewed card, including:
+- question
+- answer options
+- rationale and review
+- correct answer
+- why it is correct
+- why the others are incorrect
+- clinical pearl
+- related lesson
+- rationale image
+
+All of that should appear in one clean screenshot-ready frame.
+
+CURRENT PROBLEMS
+
+1. Still too tall
+- The review layout is improved, but it still extends too far vertically
+- I do not want to scroll to capture the full reviewed card
+- I need the full review state to fit in one screenshot on a normal screen
+
+2. Wrong image mapping
+- Some cards are showing incorrect images
+- Example: asthma card is showing a COPD image
+- This is not acceptable
+- Images must match the specific topic/question/rationale
+- If the correct image is not available, show no image rather than a wrong image
+
+3. Generic distractor explanations still need to be smarter
+- The “why other options are incorrect” area is improved in structure, but it still sounds too generic in some cases
+- I want option-specific rationales, not filler language that could apply to any question
+
+SCREEN FIT / VIEWPORT REQUIREMENTS
+
+Optimize the reviewed flashcard for a standard desktop viewport so the entire reviewed state fits without scrolling.
+
+Target viewport:
+- approximately 1440x900
+- also test common laptop heights around 800–900 px
+
+DESKTOP LAYOUT REQUIREMENT
+Use a compact, premium split layout after answer submission.
+
+Required layout direction:
+- left panel = question and answers
+- right panel = rationale and image
+
+Suggested structure:
+
+LEFT PANEL
+- active session header (compact)
+- question number / progress
+- topic badge
+- question stem
+- answer options with selected/correct states
+- compact action row at bottom if needed
+
+RIGHT PANEL
+- rationale image near top
+- correct answer
+- why this is correct
+- why other options are incorrect
+- clinical pearl
+- related lesson
+- compact next/flag/master controls if better placed here
+
+Make this a true side-by-side review frame on desktop.
+
+IMPORTANT:
+- do not stack everything vertically on desktop after answering
+- reduce unnecessary top/bottom padding
+- reduce oversized gaps between headings
+- make section spacing tighter but still readable
+- keep the entire reviewed card contained in a screenshot-friendly canvas
+
+SCREENSHOT MODE MINDSET
+
+Design the reviewed card like a polished study slide/card that can be screenshotted in one frame.
+
+The reviewed card should feel like:
+- a premium educational panel
+- clean enough to share
+- visually balanced
+- complete in one captured image
+
+This is not just for UX, it is also for content capture and marketing screenshots.
+
+ACTIVE SESSION HEADER CHANGES
+
+Make the top header more compact during review mode.
+
+Reduce height of:
+- large navigation bars
+- extra spacing above the card
+- oversized “Active Session” area
+
+Possible approach:
+- compact study header in active review mode
+- minimize global site nav while inside a flashcard session
+- reduce visual chrome that wastes vertical space
+
+FOOTER / DISTRACTION CONTROL
+
+While inside active flashcard review:
+- hide the large sitewide footer
+- hide large study tools promo blocks
+- hide anything not necessary for the review state
+
+The active review screen should be self-contained and screenshot-ready.
+
+RATIONALE PANEL COMPACTION
+
+Keep the rationale detailed, but format it more efficiently.
+
+Use compact content blocks such as:
+- short section headers
+- tighter paragraph spacing
+- concise but specific text
+- option explanations in a compact accordion or 2-column micro-grid if needed
+
+Possible structure:
+- Correct answer
+- Why correct
+- Why others are incorrect
+- Clinical pearl
+- Related lesson
+
+Do not let these sections become giant tall blocks if they can be formatted more efficiently.
+
+WHY OTHER OPTIONS ARE INCORRECT REQUIREMENT
+
+The explanations for incorrect answers must be specific to the option.
+
+Do not use generic filler like:
+- “Although this option may seem clinically reasonable...”
+- “It does not represent the priority nursing action...”
+
+Instead write option-specific reasoning.
+
+Example for hyperkalemia question:
+A. Furosemide
+- can help remove potassium through the kidneys, but it does not immediately stabilize the cardiac membrane in severe hyperkalemia
+B. Sodium Polystyrene
+- removes potassium more slowly and is not the immediate first-line option to protect the heart
+D. Insulin/Dextrose
+- shifts potassium into cells effectively, but calcium gluconate is prioritized first when the question asks what protects the heart
+
+This is the level of specificity required.
+
+IMAGE ACCURACY REQUIREMENTS
+
+The image system is still wrong on some cards. Fix it completely.
+
+Rules:
+1. Never show an image from a related-but-different condition
+   - asthma must not show COPD
+   - tamponade must not show torsades unless directly relevant
+   - neonatal sepsis must not show an unrelated newborn image if a specific sepsis image exists
+
+2. Use exact topic/question mapping
+   - image should match the actual card concept
+   - prioritize subtopic-level mapping over broad category mapping
+
+3. If there is uncertainty, do not guess
+   - if exact mapped image is unavailable, show no image
+   - do not fall back to a vaguely similar disease image
+
+4. Prefer newest published mapped image
+   - use current uploaded published asset
+   - stop using legacy/fallback/cached mismatched images
+
+IMAGE MAPPING LOGIC TO IMPLEMENT
+
+Audit and correct the mapping logic for flashcard rationale images.
+
+Preferred mapping order:
+1. explicit question-level rationaleImage
+2. explicit subtopic-level mapped image
+3. exact diagnosis/topic match
+4. no image
+
+Do NOT use:
+- broad specialty-level fallback images that can be clinically wrong
+- random old assets from the same category
+- nearest-match disease images unless they are exact
+
+Example:
+Question topic = asthma exacerbation
+Allowed image:
+- asthma inhaler diagram
+- wheezing/bronchospasm diagram
+- asthma pathophysiology image
+Not allowed:
+- COPD emphysema image
+- chronic bronchitis image
+- generic respiratory disease image that teaches the wrong condition
+
+UI CHANGES TO MAKE EVERYTHING FIT
+
+Please tighten all of the following in review mode:
+- header height
+- top page padding
+- card padding
+- space between question and answer options
+- space between rationale sections
+- large button sizes if they waste vertical room
+- spacing under image
+- spacing above lesson link
+- footer presence
+
+Use:
+- compact but premium controls
+- smaller but still readable headings
+- well-managed line lengths
+- split panel proportions that keep everything visible
+
+Add a max-height, viewport-aware review container if needed.
+
+For example:
+- review frame height based on viewport
+- contained internal layout
+- side-by-side columns sized for screenshot capture
+- only use internal scrolling as a last resort
+- priority is fitting the full reviewed card in one visible page
+
+MOBILE NOTE
+
+This request is about desktop screenshotability first.
+Keep mobile responsive, but prioritize making desktop reviewed cards fit cleanly on one screen.
+
+TECHNICAL TASKS
+
+Audit and update:
+- active session layout
+- reviewed flashcard layout
+- question/rationale panel proportions
+- global nav behavior during active session
+- footer suppression during active session
+- image mapping and asset fallback logic
+- rationale generation for distractors
+- published production behavior
+
+If needed, create a dedicated reviewed-card layout component such as:
+- FlashcardReviewFrame
+- ReviewSplitPanel
+- RationaleImagePanel
+- CompactSessionHeader
+
+ACCEPTANCE CRITERIA
+
+This task is complete only when:
+1. a full reviewed flashcard fits on one standard desktop/laptop screen without page scrolling
+2. the layout is clearly split and screenshot-friendly
+3. the question and rationale are visible together
+4. the rationale image is visible in the same frame
+5. the rationale image is clinically correct for the specific question/topic
+6. no wrong fallback images appear
+7. if the correct image is unavailable, no image is shown
+8. incorrect option rationales are specific, not generic filler
+9. the large footer/promo sections are hidden or minimized during active review
+10. the published site reflects all of these fixes, not just preview
+
+After implementing, summarize:
+- what was changed to make the full review fit on one screen
+- the exact desktop layout used
+- how image mapping was corrected
+- what fallback image behavior now is
+- how distractor rationales were made more specific
+- what global UI elements were hidden/minimized during active session
