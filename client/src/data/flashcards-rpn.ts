@@ -72,8 +72,15 @@ import imgHashimotoThyroiditis from "@assets/hashimotothyroiditis_1773269471822.
 import imgHeadLice from "@assets/headlice_1773269471822.png";
 import imgHemolyticUremicSyndrome from "@assets/hemolyticuremicsyndrome_1773269471822.png";
 import imgHemophilia from "@assets/hemophilia_1773269471822.png";
+import imgPyloricStenosis from "@assets/pyloricstenosis_1773340609815.png";
+import imgPlacentalAbruption from "@assets/placentalabruption_1773340609815.png";
+import imgPostpartumHemorrhage from "@assets/postpartumhemorrhage_1773340609815.png";
+import imgPatentDuctusArteriosus from "@assets/patentductusarteriosus_1773340609815.png";
+import imgPavlikHarness from "@assets/pavlik_1773340609815.png";
+import imgPlacentaPrevia from "@assets/placentaprevia_1773340609815.png";
+import imgNeuroblastoma from "@assets/neuroblastoma_1773340609815.png";
 
-export { imgUlcerativeColitis, imgVonWillebrand, imgUrinaryCatheterization, imgSIADH, imgSickleCellCrisis, imgStomaCare, imgThalassemia, imgThrombocytopenia, imgThyroidStorm, imgTRALI, imgVitiligo, imgUrethralStricture, imgVestibularNeuritis, imgAddisons, imgAplasticAnemia, imgAcuteHemolyticReaction, imgAllergicTransfusion, imgAirEmbolism, imgCBI, imgCastCareTraction, imgAlopecia, imgBPH, imgAtopicDermatitis, imgAcromegaly, imgBPPV, imgNGTube, imgPancreatitis, imgPeritonealDialysis, imgPolycysticKidney, imgPolycythemia, imgPepticUlcer, imgOsteoporosis, imgCellulitis, imgCKD, imgClubfoot, imgCompartmentSyndrome, imgConjunctivitis, imgContracture, imgCushings, imgDelayedHemolyticReaction, imgDevHipDysplasia, imgDiabetes, imgDiabetesInsipidus, imgDiabeticNephropathy, imgDIC, imgDisuseAtrophy, imgDuchenne, imgEpiglottitis, imgEpistaxis, imgErysipelas, imgErythemaMultiforme, imgFallPrevention, imgFebrileNeutropenia, imgFebrileNonhemolytic, imgFibromyalgia, imgForeignBodyAspiration, imgFractureTypes, imgFungalInfections, imgGalactosemia, imgGlaucoma, imgGlomerulonephritis, imgGout, imgGraftVsHost, imgGravesDisease, imgHashimotoThyroiditis, imgHeadLice, imgHemolyticUremicSyndrome, imgHemophilia };
+export { imgUlcerativeColitis, imgVonWillebrand, imgUrinaryCatheterization, imgSIADH, imgSickleCellCrisis, imgStomaCare, imgThalassemia, imgThrombocytopenia, imgThyroidStorm, imgTRALI, imgVitiligo, imgUrethralStricture, imgVestibularNeuritis, imgAddisons, imgAplasticAnemia, imgAcuteHemolyticReaction, imgAllergicTransfusion, imgAirEmbolism, imgCBI, imgCastCareTraction, imgAlopecia, imgBPH, imgAtopicDermatitis, imgAcromegaly, imgBPPV, imgNGTube, imgPancreatitis, imgPeritonealDialysis, imgPolycysticKidney, imgPolycythemia, imgPepticUlcer, imgOsteoporosis, imgCellulitis, imgCKD, imgClubfoot, imgCompartmentSyndrome, imgConjunctivitis, imgContracture, imgCushings, imgDelayedHemolyticReaction, imgDevHipDysplasia, imgDiabetes, imgDiabetesInsipidus, imgDiabeticNephropathy, imgDIC, imgDisuseAtrophy, imgDuchenne, imgEpiglottitis, imgEpistaxis, imgErysipelas, imgErythemaMultiforme, imgFallPrevention, imgFebrileNeutropenia, imgFebrileNonhemolytic, imgFibromyalgia, imgForeignBodyAspiration, imgFractureTypes, imgFungalInfections, imgGalactosemia, imgGlaucoma, imgGlomerulonephritis, imgGout, imgGraftVsHost, imgGravesDisease, imgHashimotoThyroiditis, imgHeadLice, imgHemolyticUremicSyndrome, imgHemophilia, imgPyloricStenosis, imgPlacentalAbruption, imgPostpartumHemorrhage, imgPatentDuctusArteriosus, imgPavlikHarness, imgPlacentaPrevia, imgNeuroblastoma };
 
 export type FlashcardData = {
   id: string;
@@ -1596,7 +1603,8 @@ export const rpnFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "Pyloric stenosis: Non-bilious projectile vomiting in infants 2-6 weeks old. Olive-shaped mass in RUQ, visible peristaltic waves. Diagnosis: Ultrasound. Treatment: Pyloromyotomy (Fredet-Ramstedt). Pre-op priority: Correct fluid/electrolyte imbalances (metabolic alkalosis).",
     category: "Pediatrics",
-    difficulty: 2
+    difficulty: 2,
+    image: imgPyloricStenosis
   },
   {
     id: "rpn-peds-q4",
@@ -1730,7 +1738,8 @@ export const rpnFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "Placental abruption: Premature separation of the placenta from the uterine wall. Signs: Painful, dark red bleeding, rigid board-like abdomen, uterine tenderness, fetal distress. Risk factors: HTN, trauma, cocaine use. Emergency: Monitor for DIC and prepare for delivery.",
     category: "Maternity",
-    difficulty: 2
+    difficulty: 2,
+    image: imgPlacentalAbruption
   },
   {
     id: "rpn-mat-q3",
@@ -1778,7 +1787,8 @@ export const rpnFlashcards: FlashcardData[] = [
     question: "Postpartum Hemorrhage (PPH)",
     answer: "Blood loss > 500 mL (vaginal) or > 1000 mL (C-section) within 24 hours. Most common cause: Uterine atony (4 T's: Tone, Tissue, Trauma, Thrombin). Priority: Fundal massage, oxytocin, methylergonovine, carboprost. Monitor: VS, fundal height/firmness, pad count.",
     category: "Maternity",
-    difficulty: 2
+    difficulty: 2,
+    image: imgPostpartumHemorrhage
   },
   {
     id: "rpn-mat-t2",
@@ -2975,7 +2985,8 @@ export const rpnFlashcards: FlashcardData[] = [
     question: "Patent Ductus Arteriosus (PDA)",
     answer: "The ductus arteriosus fails to close after birth, allowing blood to flow from the aorta to the pulmonary artery (left-to-right shunt). Signs: Continuous 'machinery-like' murmur, bounding pulses, widened pulse pressure. Treatment: Indomethacin (NSAID that promotes closure) or surgical ligation.",
     category: "Pediatrics",
-    difficulty: 3
+    difficulty: 3,
+    image: imgPatentDuctusArteriosus
   },
   {
     id: "rpn-peds-q13",
@@ -4499,7 +4510,7 @@ export const rpnFlashcards: FlashcardData[] = [
     answer: "Abnormal hip development ranging from subluxation to dislocation. Screening: Ortolani test (clunk as hip reduces) and Barlow test (hip dislocates with pressure). Signs: Asymmetric thigh folds, limited abduction, leg length discrepancy. Treatment: Pavlik harness (infants), spica cast, surgery for older children.",
     category: "Pediatrics",
     difficulty: 2,
-    image: imgDevHipDysplasia
+    image: imgPavlikHarness
   },
   {
     id: "rpn-peds-q20",

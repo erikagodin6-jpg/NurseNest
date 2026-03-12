@@ -1,5 +1,5 @@
 import type { FlashcardData } from "./flashcards-rpn";
-import { imgUlcerativeColitis, imgSIADH, imgSickleCellCrisis, imgStomaCare, imgThrombocytopenia, imgUrinaryCatheterization, imgVitiligo, imgUrethralStricture, imgVestibularNeuritis, imgAddisons, imgAcuteHemolyticReaction, imgAtopicDermatitis, imgBPH, imgCastCareTraction, imgAcromegaly, imgNGTube, imgPancreatitis, imgPeritonealDialysis, imgPepticUlcer, imgOsteoporosis, imgCellulitis, imgCKD, imgClubfoot, imgCompartmentSyndrome, imgConjunctivitis, imgContracture, imgCushings, imgDelayedHemolyticReaction, imgDevHipDysplasia, imgDiabetes, imgDiabetesInsipidus, imgDiabeticNephropathy, imgDIC, imgDisuseAtrophy, imgDuchenne, imgEpiglottitis, imgEpistaxis, imgErysipelas, imgFallPrevention, imgHeadLice, imgHemophilia, imgGravesDisease, imgGout } from "./flashcards-rpn";
+import { imgUlcerativeColitis, imgSIADH, imgSickleCellCrisis, imgStomaCare, imgThrombocytopenia, imgUrinaryCatheterization, imgVitiligo, imgUrethralStricture, imgVestibularNeuritis, imgAddisons, imgAcuteHemolyticReaction, imgAtopicDermatitis, imgBPH, imgCastCareTraction, imgAcromegaly, imgNGTube, imgPancreatitis, imgPeritonealDialysis, imgPepticUlcer, imgOsteoporosis, imgCellulitis, imgCKD, imgClubfoot, imgCompartmentSyndrome, imgConjunctivitis, imgContracture, imgCushings, imgDelayedHemolyticReaction, imgDevHipDysplasia, imgDiabetes, imgDiabetesInsipidus, imgDiabeticNephropathy, imgDIC, imgDisuseAtrophy, imgDuchenne, imgEpiglottitis, imgEpistaxis, imgErysipelas, imgFallPrevention, imgHeadLice, imgHemophilia, imgGravesDisease, imgGout, imgPyloricStenosis, imgPlacentaPrevia, imgPostpartumHemorrhage } from "./flashcards-rpn";
 import imgStevensJohnson from "@assets/stevensjohnsonssyndrome_1773268456011.png";
 import illustrationPressureInjuriesV2 from "@/assets/images/pressure-injuries-v2.png";
 import illustrationPressureInjuryStagesV2 from "@/assets/images/pressure-injury-stages-v2.png";
@@ -1277,7 +1277,8 @@ export const rnFlashcards: FlashcardData[] = [
     correctIndex: 2,
     answer: "Digital vaginal examination is ABSOLUTELY CONTRAINDICATED in suspected placenta previa because the examiner's fingers can disrupt the placenta where it covers or is near the cervical os, causing massive, life-threatening hemorrhage. Diagnosis is confirmed by transabdominal ultrasound. External fetal monitoring and gentle abdominal palpation are safe and appropriate.",
     category: "Maternity",
-    difficulty: 2
+    difficulty: 2,
+    image: imgPlacentaPrevia
   },
   {
     id: "rn-mat-q3",
@@ -1317,7 +1318,8 @@ export const rnFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "A boggy, displaced fundus suggests uterine atony (the most common cause of postpartum hemorrhage) and a full bladder displacing the uterus. The FIRST action is to massage the fundus to stimulate contraction and have the client empty their bladder (full bladder prevents uterine contraction). If the fundus does not firm with massage and emptying the bladder, then administer uterotonics (oxytocin, methylergonovine, carboprost) and notify the provider.",
     category: "Maternity",
-    difficulty: 2
+    difficulty: 2,
+    image: imgPostpartumHemorrhage
   },
   {
     id: "rn-mat-q7",
@@ -1584,7 +1586,8 @@ export const rnFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "Pyloric stenosis presents with non-bilious projectile vomiting (the obstruction is above the ampulla of Vater where bile enters) that typically begins at 2-6 weeks of age. An olive-shaped mass may be palpated in the right upper quadrant (hypertrophied pylorus). The infant is characteristically hungry after vomiting. Visible gastric peristaltic waves may be seen. Labs show hypochloremic metabolic alkalosis. Treatment is pyloromyotomy.",
     category: "Pediatrics",
-    difficulty: 2
+    difficulty: 2,
+    image: imgPyloricStenosis
   },
   {
     id: "rn-peds-q3",
@@ -3437,7 +3440,8 @@ export const rnFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "Pyloric stenosis causes persistent vomiting of gastric acid (HCl), resulting in loss of hydrogen and chloride ions. This leads to hypochloremic, hypokalemic metabolic alkalosis. The infant presents with projectile, non-bilious vomiting, olive-shaped mass in the RUQ, and visible peristaltic waves. Treatment is pyloromyotomy after fluid/electrolyte correction.",
     category: "Pediatrics",
-    difficulty: 3
+    difficulty: 3,
+    image: imgPyloricStenosis
   },
   {
     id: "rn-mat-q16",

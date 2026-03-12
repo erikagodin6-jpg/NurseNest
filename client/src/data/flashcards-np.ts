@@ -1,5 +1,5 @@
 import type { FlashcardData } from "./flashcards-rpn";
-import { imgUlcerativeColitis, imgVonWillebrand, imgSIADH, imgSickleCellCrisis, imgVitiligo, imgUrethralStricture, imgVestibularNeuritis, imgAddisons, imgBPH, imgPancreatitis, imgOsteoporosis, imgCellulitis, imgCKD, imgClubfoot, imgCompartmentSyndrome, imgConjunctivitis, imgContracture, imgCushings, imgDelayedHemolyticReaction, imgDevHipDysplasia, imgDiabetes, imgDiabetesInsipidus, imgDiabeticNephropathy, imgDIC, imgDisuseAtrophy, imgDuchenne, imgEpiglottitis, imgEpistaxis, imgErysipelas, imgGlaucoma, imgGlomerulonephritis, imgGravesDisease, imgHashimotoThyroiditis, imgForeignBodyAspiration, imgFibromyalgia, imgHemolyticUremicSyndrome } from "./flashcards-rpn";
+import { imgUlcerativeColitis, imgVonWillebrand, imgSIADH, imgSickleCellCrisis, imgVitiligo, imgUrethralStricture, imgVestibularNeuritis, imgAddisons, imgBPH, imgPancreatitis, imgOsteoporosis, imgCellulitis, imgCKD, imgClubfoot, imgCompartmentSyndrome, imgConjunctivitis, imgContracture, imgCushings, imgDelayedHemolyticReaction, imgDevHipDysplasia, imgDiabetes, imgDiabetesInsipidus, imgDiabeticNephropathy, imgDIC, imgDisuseAtrophy, imgDuchenne, imgEpiglottitis, imgEpistaxis, imgErysipelas, imgGlaucoma, imgGlomerulonephritis, imgGravesDisease, imgHashimotoThyroiditis, imgForeignBodyAspiration, imgFibromyalgia, imgHemolyticUremicSyndrome, imgNeuroblastoma, imgPyloricStenosis, imgPlacentaPrevia } from "./flashcards-rpn";
 import illustrationShinglesV2 from "@/assets/images/shingles-v2.png";
 import illustrationRetinalDetachmentV2 from "@/assets/images/retinal-detachment-v2.png";
 import illustrationRheumatoidArthritis from "@/assets/images/rheumatoid-arthritis.png";
@@ -363,7 +363,8 @@ export const npFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "Neuroblastoma is the most common extracranial solid tumor in children, arising from neural crest cells. Key differentiators from Wilms tumor: neuroblastoma crosses the midline (Wilms does not), produces catecholamine metabolites (elevated VMA/HVA), and may present with periorbital ecchymosis ('raccoon eyes' from orbital metastases). Wilms tumor presents as a unilateral flank mass that does NOT cross midline, with hematuria and hypertension. Both tumors cause abdominal masses, but the clinical and lab features distinguish them.",
     category: "Differential Diagnosis",
-    difficulty: 3
+    difficulty: 3,
+    image: imgNeuroblastoma
   },
   // ============================================================
   // DIAGNOSTIC REASONING (18 cards)
@@ -1664,7 +1665,8 @@ export const npFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "Painless bright red vaginal bleeding in the third trimester is classic for placenta previa (placenta covering the cervical os). NEVER perform a digital cervical exam as this can cause catastrophic hemorrhage. Confirm diagnosis with transabdominal ultrasound. Management includes bed rest, IV access, type and crossmatch, monitoring fetal status, and planning delivery (C-section for complete previa). Betamethasone if <37 weeks.",
     category: "Women's Health NP",
-    difficulty: 3
+    difficulty: 3,
+    image: imgPlacentaPrevia
   },
   {
     id: "np-womens-q14",
@@ -1851,7 +1853,8 @@ export const npFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "Pyloric stenosis is caused by hypertrophy of the pyloric sphincter muscle. Classic presentation: non-bilious projectile vomiting in a 2-6 week old (firstborn male most common), hungry after vomiting, palpable 'olive' in RUQ, visible peristaltic waves. Diagnosed by ultrasound (pyloric muscle thickness >4mm, length >16mm). Labs show hypochloremic, hypokalemic metabolic alkalosis. Treatment: surgical pyloromyotomy (Ramstedt procedure) after fluid/electrolyte correction.",
     category: "Pediatric NP",
-    difficulty: 2
+    difficulty: 2,
+    image: imgPyloricStenosis
   },
   {
     id: "np-peds-q20",

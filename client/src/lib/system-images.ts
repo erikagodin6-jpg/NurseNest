@@ -519,6 +519,25 @@ import illustrationHeadLiceNew from "@assets/headlice_1773269471822.png";
 import illustrationHemolyticUremicSyndrome from "@assets/hemolyticuremicsyndrome_1773269471822.png";
 import illustrationHemophiliaNew from "@assets/hemophilia_1773269471822.png";
 
+import illustrationNeonatalFeeding from "@assets/neonatalfeeding_1773340609815.png";
+import illustrationNeonatalHypoglycemia from "@assets/neonatalhypoglycemia_1773340609815.png";
+import illustrationNeonatalJaundice from "@assets/neonataljaundice_1773340609815.png";
+import illustrationNeonatalSepsis from "@assets/neonatalsepsis_1773340609815.png";
+import illustrationNeuroblastoma from "@assets/neuroblastoma_1773340609815.png";
+import illustrationNewbornDiabeticMother from "@assets/newbornofdiabeticmother_1773340609815.png";
+import illustrationOsteogenesisImperfecta from "@assets/osteogenesisimperfecta_1773340609815.png";
+import illustrationOvarianHyperstimulation from "@assets/ovarianhyperstimulation_1773340609815.png";
+import illustrationPatentDuctusArteriosus from "@assets/patentductusarteriosus_1773340609815.png";
+import illustrationPavlikHarness from "@assets/pavlik_1773340609815.png";
+import illustrationPediatricVitals from "@assets/pediatric_vitals_chart_fixed_1773340609815.png";
+import illustrationPediatricDehydration from "@assets/pediatricdehydration_1773340609815.png";
+import illustrationPinwormsNew from "@assets/pinworms_1773340609815.png";
+import illustrationPKU from "@assets/pku_1773340609815.png";
+import illustrationPlacentalAbruption from "@assets/placentalabruption_1773340609815.png";
+import illustrationPlacentaPrevia from "@assets/placentaprevia_1773340609815.png";
+import illustrationPostpartumHemorrhage from "@assets/postpartumhemorrhage_1773340609815.png";
+import illustrationPyloricStenosis from "@assets/pyloricstenosis_1773340609815.png";
+
 const lessonSpecificImages: Record<string, string> = {
   "infective-endocarditis-signs": illustrationEndocarditisSigns,
   "peripheral-artery-disease-overview": illustrationPADArtery,
@@ -891,8 +910,8 @@ const lessonSpecificImages: Record<string, string> = {
   "homeostasis": illustrationHomeostasis,
   "feedback-loops": illustrationHomeostasis,
   "homeostasis-feedback": illustrationHomeostasis,
-  "pinworms": illustrationPinworms,
-  "enterobiasis": illustrationPinworms,
+  "pinworms": illustrationPinwormsNew,
+  "enterobiasis": illustrationPinwormsNew,
   "head-lice": illustrationHeadLice,
   "pediculosis": illustrationHeadLice,
   "varicella": illustrationVaricella,
@@ -1167,15 +1186,40 @@ const lessonSpecificImages: Record<string, string> = {
   "preeclampsia": illustrationMaternityAnatomy,
   "gestational-diabetes": illustrationMaternityAnatomy,
   "fetal-monitoring-rn": illustrationMaternityAnatomy,
-  "placenta-previa-abruption": illustrationMaternityAnatomy,
-  "postpartum-hemorrhage": illustrationMaternityAnatomy,
+  "placenta-previa-abruption": illustrationPlacentalAbruption,
+  "postpartum-hemorrhage": illustrationPostpartumHemorrhage,
+  "postpartum-hemorrhage-rpn": illustrationPostpartumHemorrhage,
+  "postpartum-hemorrhage-rn": illustrationPostpartumHemorrhage,
+  "postpartum-hemorrhage-np": illustrationPostpartumHemorrhage,
+  "pph": illustrationPostpartumHemorrhage,
+  "pph-rpn": illustrationPostpartumHemorrhage,
+  "pph-rn": illustrationPostpartumHemorrhage,
+  "pph-np": illustrationPostpartumHemorrhage,
   "newborn-assessment": illustrationNeonatalAnatomy,
   "neonatal-thermoreg": illustrationNeonatalAnatomy,
-  "neonatal-feeding": illustrationNeonatalAnatomy,
-  "neonatal-jaundice-basics": illustrationNeonatalAnatomy,
+  "neonatal-feeding": illustrationNeonatalFeeding,
+  "neonatal-feeding-rpn": illustrationNeonatalFeeding,
+  "neonatal-feeding-rn": illustrationNeonatalFeeding,
+  "neonatal-feeding-np": illustrationNeonatalFeeding,
+  "neonatal-jaundice-basics": illustrationNeonatalJaundice,
   "neonatal-respiratory-distress": illustrationNeonatalAnatomy,
-  "neonatal-sepsis": illustrationNeonatalAnatomy,
-  "hyperbilirubinemia": illustrationNeonatalAnatomy,
+  "neonatal-sepsis": illustrationNeonatalSepsis,
+  "neonatal-sepsis-rpn": illustrationNeonatalSepsis,
+  "neonatal-sepsis-rn": illustrationNeonatalSepsis,
+  "neonatal-sepsis-np": illustrationNeonatalSepsis,
+  "neonatal-sepsis-early-onset-rn": illustrationNeonatalSepsis,
+  "hyperbilirubinemia": illustrationNeonatalJaundice,
+  "hyperbilirubinemia-rpn": illustrationNeonatalJaundice,
+  "hyperbilirubinemia-rn": illustrationNeonatalJaundice,
+  "hyperbilirubinemia-np": illustrationNeonatalJaundice,
+  "neonatal-hypoglycemia": illustrationNeonatalHypoglycemia,
+  "neonatal-hypoglycemia-rpn": illustrationNeonatalHypoglycemia,
+  "neonatal-hypoglycemia-rn": illustrationNeonatalHypoglycemia,
+  "neonatal-hypoglycemia-np": illustrationNeonatalHypoglycemia,
+  "hypoglycemia-neonatal": illustrationNeonatalHypoglycemia,
+  "hypoglycemia-neonatal-rpn": illustrationNeonatalHypoglycemia,
+  "hypoglycemia-neonatal-rn": illustrationNeonatalHypoglycemia,
+  "hypoglycemia-neonatal-np": illustrationNeonatalHypoglycemia,
   "rn-testbank-cardiovascular": illustrationCardiovascularAnatomy,
   "rn-testbank-respiratory": illustrationRespiratoryAnatomy,
   "rn-testbank-maternal-child": illustrationMaternityAnatomy,
@@ -1421,14 +1465,20 @@ const lessonSpecificImages: Record<string, string> = {
   "tardive-dyskinesia-rn": illustrationTardiveDyskinesiaV2,
   "tardive-dyskinesia-np": illustrationTardiveDyskinesiaV2,
 
-  "placenta-previa": illustrationPlacentaPatho,
-  "placental-abruption": illustrationPlacentaPatho,
+  "placenta-previa": illustrationPlacentaPrevia,
+  "placenta-previa-rpn": illustrationPlacentaPrevia,
+  "placenta-previa-rn": illustrationPlacentaPrevia,
+  "placenta-previa-np": illustrationPlacentaPrevia,
+  "placental-abruption": illustrationPlacentalAbruption,
+  "placental-abruption-rpn": illustrationPlacentalAbruption,
+  "placental-abruption-rn": illustrationPlacentalAbruption,
+  "placental-abruption-np": illustrationPlacentalAbruption,
 
   "meningitis-management": illustrationMeningitisPatho,
 
   "glaucoma-rpn": illustrationGlaucomaPatho,
 
-  "postpartum-hemorrhage-basics-rpn": illustrationPPHPatho,
+  "postpartum-hemorrhage-basics-rpn": illustrationPostpartumHemorrhage,
 
   "ulcerative-colitis": illustrationUlcerativeColitisV2,
   "ulcerative-colitis-rpn": illustrationUlcerativeColitisV2,
@@ -1492,7 +1542,10 @@ const lessonSpecificImages: Record<string, string> = {
   "dvt-basics": illustrationDVTPatho,
   "pad-claudication": illustrationDVTPatho,
 
-  "neonatal-jaundice": illustrationNeonatalJaundicePatho,
+  "neonatal-jaundice": illustrationNeonatalJaundice,
+  "neonatal-jaundice-rpn": illustrationNeonatalJaundice,
+  "neonatal-jaundice-rn": illustrationNeonatalJaundice,
+  "neonatal-jaundice-np": illustrationNeonatalJaundice,
 
   "breast-cancer-management": illustrationBreastCancerPatho,
 
@@ -1808,6 +1861,82 @@ const lessonSpecificImages: Record<string, string> = {
   "hemophilia-np": illustrationHemophiliaNew,
   "hemophilia-a": illustrationHemophiliaNew,
   "hemophilia-b": illustrationHemophiliaNew,
+
+  "neuroblastoma": illustrationNeuroblastoma,
+  "neuroblastoma-rpn": illustrationNeuroblastoma,
+  "neuroblastoma-rn": illustrationNeuroblastoma,
+  "neuroblastoma-np": illustrationNeuroblastoma,
+
+  "newborn-diabetic-mother": illustrationNewbornDiabeticMother,
+  "newborn-diabetic-mother-rpn": illustrationNewbornDiabeticMother,
+  "newborn-diabetic-mother-rn": illustrationNewbornDiabeticMother,
+  "newborn-diabetic-mother-np": illustrationNewbornDiabeticMother,
+  "infant-diabetic-mother": illustrationNewbornDiabeticMother,
+
+  "osteogenesis-imperfecta": illustrationOsteogenesisImperfecta,
+  "osteogenesis-imperfecta-rpn": illustrationOsteogenesisImperfecta,
+  "osteogenesis-imperfecta-rn": illustrationOsteogenesisImperfecta,
+  "osteogenesis-imperfecta-np": illustrationOsteogenesisImperfecta,
+
+  "ohss": illustrationOvarianHyperstimulation,
+  "ohss-rpn": illustrationOvarianHyperstimulation,
+  "ohss-rn": illustrationOvarianHyperstimulation,
+  "ohss-np": illustrationOvarianHyperstimulation,
+  "ovarian-hyperstimulation": illustrationOvarianHyperstimulation,
+  "ovarian-hyperstimulation-rpn": illustrationOvarianHyperstimulation,
+  "ovarian-hyperstimulation-rn": illustrationOvarianHyperstimulation,
+  "ovarian-hyperstimulation-np": illustrationOvarianHyperstimulation,
+
+  "patent-ductus-arteriosus": illustrationPatentDuctusArteriosus,
+  "patent-ductus-arteriosus-rpn": illustrationPatentDuctusArteriosus,
+  "patent-ductus-arteriosus-rn": illustrationPatentDuctusArteriosus,
+  "patent-ductus-arteriosus-np": illustrationPatentDuctusArteriosus,
+  "pda": illustrationPatentDuctusArteriosus,
+  "pda-rpn": illustrationPatentDuctusArteriosus,
+  "pda-rn": illustrationPatentDuctusArteriosus,
+  "pda-np": illustrationPatentDuctusArteriosus,
+
+  "pavlik-harness": illustrationPavlikHarness,
+  "pavlik-harness-rpn": illustrationPavlikHarness,
+  "pavlik-harness-rn": illustrationPavlikHarness,
+  "pavlik-harness-np": illustrationPavlikHarness,
+
+  "pediatric-vital-signs": illustrationPediatricVitals,
+  "pediatric-vital-signs-rpn": illustrationPediatricVitals,
+  "pediatric-vital-signs-rn": illustrationPediatricVitals,
+  "pediatric-vital-signs-np": illustrationPediatricVitals,
+  "vital-signs-pediatric": illustrationPediatricVitals,
+  "vital-signs-pediatric-rpn": illustrationPediatricVitals,
+  "vital-signs-pediatric-rn": illustrationPediatricVitals,
+  "vital-signs-pediatric-np": illustrationPediatricVitals,
+
+  "pediatric-dehydration": illustrationPediatricDehydration,
+  "pediatric-dehydration-rpn": illustrationPediatricDehydration,
+  "pediatric-dehydration-rn": illustrationPediatricDehydration,
+  "pediatric-dehydration-np": illustrationPediatricDehydration,
+  "dehydration-pediatric": illustrationPediatricDehydration,
+  "dehydration-pediatric-rpn": illustrationPediatricDehydration,
+  "dehydration-pediatric-rn": illustrationPediatricDehydration,
+  "dehydration-pediatric-np": illustrationPediatricDehydration,
+
+  "pinworm": illustrationPinwormsNew,
+  "pinworm-rpn": illustrationPinwormsNew,
+  "pinworm-rn": illustrationPinwormsNew,
+  "pinworm-np": illustrationPinwormsNew,
+
+  "phenylketonuria": illustrationPKU,
+  "phenylketonuria-rpn": illustrationPKU,
+  "phenylketonuria-rn": illustrationPKU,
+  "phenylketonuria-np": illustrationPKU,
+  "pku": illustrationPKU,
+  "pku-rpn": illustrationPKU,
+  "pku-rn": illustrationPKU,
+  "pku-np": illustrationPKU,
+
+  "pyloric-stenosis": illustrationPyloricStenosis,
+  "pyloric-stenosis-rpn": illustrationPyloricStenosis,
+  "pyloric-stenosis-rn": illustrationPyloricStenosis,
+  "pyloric-stenosis-np": illustrationPyloricStenosis,
 };
 
 const systemImageMap: Record<string, string> = {
@@ -2131,7 +2260,7 @@ export function getLessonImage(lessonId: string): string | undefined {
   if (lessonId.includes("stevens-johnson") || lessonId.includes("sjs")) return illustrationStevensJohnsonNew;
   if (lessonId.includes("cell-struct") || lessonId.includes("cell-bio")) return illustrationCellStructure;
   if (lessonId.includes("homeostasis") || lessonId.includes("feedback-loop")) return illustrationHomeostasis;
-  if (lessonId.includes("pinworm") || lessonId.includes("enterobias")) return illustrationPinworms;
+  if (lessonId.includes("pinworm") || lessonId.includes("enterobias")) return illustrationPinwormsNew;
   if (lessonId.includes("head-lice") || lessonId.includes("pediculosis")) return illustrationHeadLiceNew;
   if (lessonId.includes("impetigo")) return illustrationImpetigo;
   if (lessonId.includes("varicella") || lessonId.includes("chickenpox")) return illustrationVaricella;
@@ -2276,6 +2405,23 @@ export function getLessonImage(lessonId: string): string | undefined {
   if (lessonId.includes("cushing")) return illustrationCushingsNew;
   if (lessonId.includes("delayed-hemolytic") || lessonId.includes("delayed-transfusion")) return illustrationDelayedHemolyticReaction;
   if (lessonId.includes("hip-dysplasia") || lessonId.includes("developmental-hip")) return illustrationDevHipDysplasia;
+  if (lessonId.includes("pavlik")) return illustrationPavlikHarness;
+  if (lessonId.includes("neuroblastoma")) return illustrationNeuroblastoma;
+  if (lessonId.includes("newborn-diabetic") || lessonId.includes("infant-diabetic")) return illustrationNewbornDiabeticMother;
+  if (lessonId.includes("osteogenesis-imperfecta")) return illustrationOsteogenesisImperfecta;
+  if (lessonId.includes("ohss") || lessonId.includes("ovarian-hyperstim")) return illustrationOvarianHyperstimulation;
+  if (lessonId.includes("patent-ductus") || lessonId === "pda" || lessonId.startsWith("pda-")) return illustrationPatentDuctusArteriosus;
+  if (lessonId.includes("pediatric-vital") || lessonId.includes("vital-signs-pediatric")) return illustrationPediatricVitals;
+  if (lessonId.includes("pediatric-dehydrat") || lessonId.includes("dehydration-pediatric")) return illustrationPediatricDehydration;
+  if (lessonId.includes("phenylketonuria") || lessonId === "pku" || lessonId.startsWith("pku-")) return illustrationPKU;
+  if (lessonId.includes("placental-abruption")) return illustrationPlacentalAbruption;
+  if (lessonId.includes("placenta-previa")) return illustrationPlacentaPrevia;
+  if (lessonId.includes("postpartum-hemorrhage") || lessonId.includes("pph")) return illustrationPostpartumHemorrhage;
+  if (lessonId.includes("pyloric-stenosis")) return illustrationPyloricStenosis;
+  if (lessonId.includes("neonatal-feeding")) return illustrationNeonatalFeeding;
+  if (lessonId.includes("neonatal-hypoglycemia") || lessonId.includes("hypoglycemia-neonatal")) return illustrationNeonatalHypoglycemia;
+  if (lessonId.includes("neonatal-jaundice") || lessonId.includes("hyperbilirubinemia")) return illustrationNeonatalJaundice;
+  if (lessonId.includes("neonatal-sepsis")) return illustrationNeonatalSepsis;
   if (lessonId.includes("diabetes-insipidus")) return illustrationDiabetesInsipidusNew;
   if (lessonId.includes("diabetic-nephropathy")) return illustrationDiabeticNephropathy;
   if (lessonId.includes("disseminated-intravascular") || lessonId === "dic" || lessonId.includes("dic-")) return illustrationDICNew;
