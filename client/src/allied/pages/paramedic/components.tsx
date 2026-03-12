@@ -2,8 +2,9 @@ import { Link } from "wouter";
 import {
   ArrowRight, CheckCircle2, Star, Shield, Users, Award,
   BookOpen, Brain, FileText, Zap, Target, Clock, TrendingUp,
-  GraduationCap, type LucideIcon
+  GraduationCap, Globe, AlertCircle, type LucideIcon
 } from "lucide-react";
+import { useParamedicRegion, type ParamedicRegion } from "@/allied/contexts/paramedic-region-context";
 
 interface HeroCTAProps {
   badge: string;
@@ -416,5 +417,64 @@ export function HubHero({ title, subtitle, breadcrumbs }: HubHeroProps) {
         <p className="text-lg text-gray-600 max-w-2xl" data-testid="text-hub-subtitle">{subtitle}</p>
       </div>
     </section>
+  );
+}
+
+export function RegionSelector() {
+  const { region, setRegion } = useParamedicRegion();
+  return (
+    <div className="inline-flex items-center gap-2 bg-white border border-gray-200 rounded-full px-1 py-1 shadow-sm" data-testid="region-selector">
+      <button
+        onClick={() => setRegion("CA")}
+        className={`flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-medium transition-all ${
+          region === "CA"
+            ? "bg-red-50 text-red-700 border border-red-200"
+            : "text-gray-500 hover:text-gray-700"
+        }`}
+        data-testid="button-region-ca"
+      >
+        <span className="text-base">🇨🇦</span>
+        Canada
+      </button>
+      <button
+        onClick={() => setRegion("US")}
+        className={`flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-medium transition-all ${
+          region === "US"
+            ? "bg-blue-50 text-blue-700 border border-blue-200"
+            : "text-gray-500 hover:text-gray-700"
+        }`}
+        data-testid="button-region-us"
+      >
+        <span className="text-base">🇺🇸</span>
+        United States
+      </button>
+    </div>
+  );
+}
+
+export function RegionNotesCallout({ caNote, usNote }: { caNote?: string; usNote?: string }) {
+  const { region, isCanada } = useParamedicRegion();
+  const note = isCanada ? caNote : usNote;
+  if (!note) return null;
+
+  return (
+    <div
+      className={`rounded-xl border p-4 my-4 flex items-start gap-3 ${
+        isCanada
+          ? "bg-red-50 border-red-200"
+          : "bg-blue-50 border-blue-200"
+      }`}
+      data-testid="region-notes-callout"
+    >
+      <Globe className={`w-5 h-5 mt-0.5 flex-shrink-0 ${isCanada ? "text-red-500" : "text-blue-500"}`} />
+      <div>
+        <h4 className={`text-sm font-semibold mb-1 ${isCanada ? "text-red-800" : "text-blue-800"}`}>
+          {isCanada ? "Canadian Context" : "US Context"}
+        </h4>
+        <p className={`text-sm leading-relaxed ${isCanada ? "text-red-900" : "text-blue-900"}`}>
+          {note}
+        </p>
+      </div>
+    </div>
   );
 }

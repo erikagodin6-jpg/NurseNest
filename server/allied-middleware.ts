@@ -207,6 +207,20 @@ export async function generateAlliedSitemapAsync(baseUrl: string): Promise<strin
     }
   } catch {}
 
+  try {
+    const { paramedicQuestions } = await import("../client/src/data/career-questions/paramedic-questions");
+    const topicSlugs = new Set<string>();
+    for (const q of paramedicQuestions as any[]) {
+      const slug = q.topic.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+      topicSlugs.add(slug);
+    }
+    const now = new Date().toISOString().split("T")[0];
+    urls.push(`<url><loc>${baseUrl}/paramedic/questions</loc><changefreq>weekly</changefreq><priority>0.8</priority><lastmod>${now}</lastmod></url>`);
+    for (const slug of topicSlugs) {
+      urls.push(`<url><loc>${baseUrl}/paramedic/questions/${slug}</loc><changefreq>weekly</changefreq><priority>0.6</priority><lastmod>${now}</lastmod></url>`);
+    }
+  } catch {}
+
   if (urls.length === 0) return staticXml;
 
   return staticXml.replace("</urlset>", urls.join("\n") + "\n</urlset>");

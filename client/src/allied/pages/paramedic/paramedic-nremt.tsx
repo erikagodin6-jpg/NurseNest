@@ -1,7 +1,7 @@
 import { AlliedSEO } from "@/allied/allied-seo";
 import {
   HeroCTA, FreePreviewBlock, TrustBlock, FinalCTASection,
-  FAQSection, TopicCategoryCard, FeatureCard
+  FAQSection, TopicCategoryCard, FeatureCard, RegionNotesCallout
 } from "./components";
 import {
   BookOpen, FileText, Brain, Zap, Target, Shield, Ambulance, TrendingUp
@@ -82,6 +82,15 @@ export default function ParamedicNREMTPage() {
               <TopicCategoryCard key={t.title} title={t.title} questionCount={t.questionCount} href={`/qbank?career=paramedic&category=${encodeURIComponent(t.title)}`} />
             ))}
           </div>
+        </div>
+      </section>
+
+      <section className="py-8 bg-white" data-testid="section-nremt-region-notes">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <RegionNotesCallout
+            caNote="The NREMT certification is a US credential. Canadian paramedic students should use the PCP or ACP exam tracks instead. Canadian certifications follow COPR standards and provincial licensing requirements."
+            usNote="The NREMT uses Computer Adaptive Testing (CAT) for the cognitive exam. All content uses US drug names, conventional lab units (mg/dL), and protocols consistent with US EMS standards. State-specific requirements may apply for licensure."
+          />
         </div>
       </section>
 

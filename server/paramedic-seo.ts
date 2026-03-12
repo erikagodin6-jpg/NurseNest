@@ -331,6 +331,27 @@ export function registerParamedicSeoRoutes(app: Express) {
         }
       }
 
+      try {
+        const { paramedicQuestions } = await import("../client/src/data/career-questions/paramedic-questions");
+        const topicSlugs = new Set<string>();
+        for (const q of paramedicQuestions as any[]) {
+          const slug = q.topic.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+          topicSlugs.add(slug);
+        }
+        urls.push({
+          loc: "/paramedic/questions",
+          lastmod: new Date().toISOString().split("T")[0],
+          priority: "0.8",
+        });
+        for (const slug of topicSlugs) {
+          urls.push({
+            loc: `/paramedic/questions/${slug}`,
+            lastmod: new Date().toISOString().split("T")[0],
+            priority: "0.6",
+          });
+        }
+      } catch {}
+
       res.json(urls);
     } catch (e: any) {
       res.status(500).json({ error: e.message });

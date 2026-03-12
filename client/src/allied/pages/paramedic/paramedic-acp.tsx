@@ -1,7 +1,7 @@
 import { AlliedSEO } from "@/allied/allied-seo";
 import {
   HeroCTA, FreePreviewBlock, TrustBlock, FinalCTASection,
-  FAQSection, TopicCategoryCard, FeatureCard
+  FAQSection, TopicCategoryCard, FeatureCard, RegionNotesCallout
 } from "./components";
 import {
   BookOpen, FileText, Brain, Zap, Target, Heart, Activity, Shield
@@ -82,6 +82,15 @@ export default function ParamedicACPPage() {
               <TopicCategoryCard key={t.title} title={t.title} questionCount={t.questionCount} href={`/qbank?career=paramedic&category=${encodeURIComponent(t.title)}`} />
             ))}
           </div>
+        </div>
+      </section>
+
+      <section className="py-8 bg-white" data-testid="section-acp-region-notes">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <RegionNotesCallout
+            caNote="Canadian ACP scope includes RSI, surgical airways, chest decompression, and an expanded pharmacological formulary under COPR ACP competencies. All lab values use SI units. Provincial ACP licensing requirements may vary."
+            usNote="In the US, paramedic-level scope includes many ACP interventions. NREMT Paramedic certification covers advanced airway, cardiac, and pharmacology. Scope specifics vary by state protocol. Lab values use conventional US units (mg/dL)."
+          />
         </div>
       </section>
 

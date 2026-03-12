@@ -1,4 +1,6 @@
-export interface CareerQuestion {
+export type RegionScope = "CA" | "US" | "BOTH";
+
+  export interface CareerQuestion {
     id: string;
     stem: string;
     options: string[];
@@ -7,6 +9,7 @@ export interface CareerQuestion {
     difficulty: number;
     category: string;
     topic: string;
+    regionScope?: RegionScope;
   }
 
   export const paramedicQuestions: CareerQuestion[] = [

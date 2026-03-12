@@ -5,6 +5,7 @@ import {
   Breadcrumbs, SEOHero, ClinicalPearlCard, ExamTipCard, FAQAccordion,
   ComparisonHighlights, ConversionCTA, RelatedContentRail,
   StudyGuideChecklist, MiniQuizBlock, CategoryFeatureGrid, TopicSummaryCard,
+  PracticeQuestionsLink,
 } from "../components/paramedic-seo-components";
 import { Loader2 } from "lucide-react";
 
@@ -179,6 +180,7 @@ export function ParamedicTopicPage() {
           <ExamTipCard key={i} tip={tip} />
         ))}
         <FAQAccordion items={data.faq || []} />
+        <PracticeQuestionsLink />
         <RelatedContentRail links={relatedLinks} />
         <ConversionCTA />
       </div>
@@ -214,6 +216,7 @@ export function ParamedicCategoryPage() {
       <SEOHero title={data.title} subtitle={data.description} />
       <div className="max-w-4xl mx-auto px-4 py-8">
         <CategoryFeatureGrid topics={childTopics} />
+        <PracticeQuestionsLink />
         <RelatedContentRail links={relatedLinks} />
         <ConversionCTA />
       </div>
@@ -266,6 +269,7 @@ export function ParamedicGlossaryPage() {
             </ul>
           </div>
         )}
+        <PracticeQuestionsLink />
         <RelatedContentRail links={relatedLinks} />
         <ConversionCTA />
       </div>
@@ -302,6 +306,7 @@ export function ParamedicComparisonPage() {
       <div className="max-w-4xl mx-auto px-4 py-8">
         <ComparisonHighlights itemA={data.itemA} itemB={data.itemB} points={data.comparisonPoints || []} />
         <FAQAccordion items={data.faq || []} />
+        <PracticeQuestionsLink />
         <RelatedContentRail links={relatedLinks} />
         <ConversionCTA />
       </div>
@@ -352,6 +357,7 @@ export function ParamedicStudyGuidePage() {
         <StudyGuideChecklist items={data.checklist || []} />
         <MiniQuizBlock questions={data.miniQuiz || []} />
         <FAQAccordion items={data.faq || []} />
+        <PracticeQuestionsLink />
         <RelatedContentRail links={relatedLinks} />
         <ConversionCTA />
       </div>

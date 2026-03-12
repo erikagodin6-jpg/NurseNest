@@ -209,6 +209,9 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
   const { registerParamedicWaveformRoutes } = await import("./paramedic-waveform-routes");
   registerParamedicWaveformRoutes(app);
 
+  const { registerParamedicQuestionsRoutes } = await import("./paramedic-questions-api");
+  registerParamedicQuestionsRoutes(app);
+
   app.use((req, res, next) => {
     if (req.headers.host === 'nursenest.ca') {
       return res.redirect(301, 'https://www.nursenest.ca' + req.url);

@@ -1,7 +1,7 @@
 import { AlliedSEO } from "@/allied/allied-seo";
 import {
   HeroCTA, FreePreviewBlock, TrustBlock, FinalCTASection,
-  FAQSection, TopicCategoryCard, FeatureCard
+  FAQSection, TopicCategoryCard, FeatureCard, RegionNotesCallout
 } from "./components";
 import {
   BookOpen, FileText, Brain, Zap, Target, Shield, Ambulance, Heart
@@ -82,6 +82,15 @@ export default function ParamedicPCPPage() {
               <TopicCategoryCard key={t.title} title={t.title} questionCount={t.questionCount} href={`/qbank?career=paramedic&category=${encodeURIComponent(t.title)}`} />
             ))}
           </div>
+        </div>
+      </section>
+
+      <section className="py-8 bg-white" data-testid="section-pcp-region-notes">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <RegionNotesCallout
+            caNote="In Canada, paramedics follow COPR scope of practice standards. PCP certification is governed by provincial regulatory bodies, and drug formularies use Canadian generic names and SI units (mmol/L for glucose, µmol/L for creatinine)."
+            usNote="In the US, EMT scope of practice varies by state EMS protocols. The NREMT certification provides national standardization, but individual state requirements may differ. Lab values use conventional units (mg/dL for glucose)."
+          />
         </div>
       </section>
 

@@ -305,3 +305,26 @@ export function CategoryFeatureGrid({ topics }: { topics: { title: string; slug:
 export function SchemaInjector({ schemas }: { schemas: Record<string, any>[] }) {
   return null;
 }
+
+export function PracticeQuestionsLink() {
+  return (
+    <div className="bg-gradient-to-r from-purple-50 to-teal-50 border border-purple-200 rounded-xl p-5 my-6" data-testid="practice-questions-link">
+      <div className="flex items-start gap-3">
+        <BookOpen className="w-6 h-6 text-purple-600 mt-0.5 flex-shrink-0" />
+        <div>
+          <h3 className="font-semibold text-gray-900 mb-1">Practice Questions by Topic</h3>
+          <p className="text-sm text-gray-600 mb-3">
+            Test your knowledge with 500+ paramedic practice questions organized by clinical topic. Each question includes detailed rationales.
+          </p>
+          <a
+            href="/paramedic/questions"
+            className="inline-flex items-center gap-1.5 text-sm font-semibold text-teal-700 hover:text-teal-800 transition-colors"
+            data-testid="link-practice-questions"
+          >
+            Browse all question topics <ArrowRight className="w-4 h-4" />
+          </a>
+        </div>
+      </div>
+    </div>
+  );
+}
