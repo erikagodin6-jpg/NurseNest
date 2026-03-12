@@ -238,10 +238,22 @@ export function setupQBankRoutes(app: Express) {
         try {
           correctAnswer = JSON.parse(correctAnswer);
           if (typeof correctAnswer === "string") {
-            correctAnswer = [letterMap[correctAnswer.toUpperCase()] ?? 0];
+            const mapped = letterMap[correctAnswer.toUpperCase()];
+            if (mapped !== undefined) {
+              correctAnswer = [mapped];
+            } else {
+              console.warn(`[attempt] Question ${questionId}: unrecognized correct_answer string "${correctAnswer}", defaulting to [0]`);
+              correctAnswer = [0];
+            }
           }
         } catch {
-          correctAnswer = [letterMap[correctAnswer.toUpperCase()] ?? 0];
+          const mapped = letterMap[correctAnswer.toUpperCase()];
+          if (mapped !== undefined) {
+            correctAnswer = [mapped];
+          } else {
+            console.warn(`[attempt] Question ${questionId}: unparseable correct_answer "${correctAnswer}", defaulting to [0]`);
+            correctAnswer = [0];
+          }
         }
       }
       if (typeof correctAnswer === "number") correctAnswer = [correctAnswer];
@@ -445,10 +457,22 @@ export function setupQBankRoutes(app: Express) {
             try {
               parsedCorrect = JSON.parse(parsedCorrect);
               if (typeof parsedCorrect === "string") {
-                parsedCorrect = [letterMap[parsedCorrect.toUpperCase()] ?? 0];
+                const mapped = letterMap[parsedCorrect.toUpperCase()];
+                if (mapped !== undefined) {
+                  parsedCorrect = [mapped];
+                } else {
+                  console.warn(`[exam-set] Question ${row.id}: unrecognized correct_answer string "${parsedCorrect}", defaulting to [0]`);
+                  parsedCorrect = [0];
+                }
               }
             } catch {
-              parsedCorrect = [letterMap[parsedCorrect.toUpperCase()] ?? 0];
+              const mapped = letterMap[parsedCorrect.toUpperCase()];
+              if (mapped !== undefined) {
+                parsedCorrect = [mapped];
+              } else {
+                console.warn(`[exam-set] Question ${row.id}: unparseable correct_answer "${parsedCorrect}", defaulting to [0]`);
+                parsedCorrect = [0];
+              }
             }
           }
           if (typeof parsedCorrect === "number") parsedCorrect = [parsedCorrect];
