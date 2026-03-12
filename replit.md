@@ -69,9 +69,10 @@ Built with Vite, React, and Express 5 on Node.js with TypeScript, the applicatio
 The `@assets/` alias is a Vite-only resolve alias that works in client builds but NOT in server-side `tsx` execution. Files in `client/src/data/lessons/` are dynamically imported by `server/lesson-content-api.ts` at runtime via `tsx`. **Never add `@assets/` imports to lesson data files** — this will crash the server.
 
 ### Exam Question Bank
-- Total published questions: 7,520 (RPN=3,017, RN=2,501, NP=2,002)
+- Total published questions: 7,520+ (RPN=3,017, RN=2,501, NP=2,002) plus prompts3 imports
 - Schema: `exam_questions` table with tier, exam, question_type, status, stem, options (jsonb), correct_answer (jsonb int array), rationale, difficulty, body_system, region_scope, stem_hash
 - Seed scripts in `script/` use WHERE NOT EXISTS deduplication pattern
+- `server/seed-prompts3.ts`: Imports 60 questions from prompts3 file (20 bowtie NCLEX-PN/REx-PN, 30 RRT MCQ → allied_questions, 10 RN NGN mixed types). Triggered via POST /api/admin/questions/seed-prompts3. Uses stem_hash dedup.
 - CAT question image coverage via `categoryImageMap` in `client/src/lib/system-images.ts`
 
 ### Startup
