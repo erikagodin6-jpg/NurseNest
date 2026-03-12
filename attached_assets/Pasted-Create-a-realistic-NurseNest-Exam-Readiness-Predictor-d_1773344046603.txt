@@ -1,0 +1,142 @@
+Create a realistic NurseNest “Exam Readiness Predictor” dashboard for demo/admin screenshot purposes.
+
+This is not real student data. It is a premium visual mockup for hero page and marketing use.
+
+TITLE
+
+Exam Readiness Predictor
+
+Student Name:
+Emily Chen (Demo Student)
+
+Exam Track:
+RN / NCLEX Preparation
+
+PRIMARY HERO CARD
+
+Create a large premium card showing:
+
+Predicted Readiness
+81%
+
+Readiness Level
+Approaching Exam Ready
+
+Suggested Timeline
+2–3 more weeks of targeted review
+
+Confidence Estimate
+Moderate to Strong
+
+Probability of Passing if Testing Soon
+78%
+
+Use a circular gauge or large progress meter in soft NurseNest pastel colors.
+
+READINESS BREAKDOWN
+
+Display a breakdown by category:
+
+Clinical Judgment – 84%
+Pharmacology – 73%
+Prioritization – 79%
+Adult Health – 82%
+Pediatrics – 80%
+Maternal / Newborn – 75%
+Mental Health – 77%
+Safety / Infection Control – 86%
+
+Use elegant horizontal bars.
+
+PASSING READINESS FACTORS PANEL
+
+Display a card titled:
+
+Factors Helping Readiness
+
+Include:
+- Consistent recent study activity
+- Stronger trend in cardiovascular and infection topics
+- Good completion rate on flashcard review
+- Improved performance on prioritization questions
+- High engagement with lessons and remediation
+
+RISK FACTORS PANEL
+
+Display a card titled:
+
+Factors Limiting Readiness
+
+Include:
+- Pharmacology accuracy still below target
+- ECG interpretation remains inconsistent
+- Confidence lower in renal emergency questions
+- Sepsis-related response timing needs reinforcement
+- Maternal/newborn content less frequently reviewed
+
+TREND CHART
+
+Create a line chart showing predicted readiness over time:
+
+Week 1 – 62%
+Week 2 – 67%
+Week 3 – 71%
+Week 4 – 76%
+Week 5 – 81%
+
+Overlay:
+- accuracy trend
+- confidence trend
+
+AI ACTION PLAN
+
+Display a premium recommendation panel:
+
+To Increase Readiness Faster
+
+1. Complete 30 pharmacology flashcards
+2. Review lesson: Emergency Electrolyte Management
+3. Practice 15 ECG interpretation cards
+4. Repeat flagged sepsis questions
+5. Complete one mixed weak-area session daily for 7 days
+
+Add CTA buttons:
+- Start Readiness Plan
+- Review Weak Areas
+- Open Suggested Lessons
+
+EXAM TIMING CARD
+
+Display a smaller card called:
+
+Recommended Testing Window
+
+Suggested Exam Window:
+Within 2–4 weeks if current progress continues
+
+Best Improvement Opportunity:
+Pharmacology + Renal emergency prioritization
+
+Estimated Gain with 7 More Study Days:
++4% readiness
+
+VISUAL STYLE
+
+Use premium NurseNest design:
+- pastel lavender, mint, blush, pale blue
+- rounded analytics cards
+- soft shadows
+- clean charts
+- polished typography
+- realistic ed-tech dashboard feel
+
+This must look believable, advanced, and screenshot-ready.
+
+ACCEPTANCE CRITERIA
+
+The dashboard must:
+- look like a real predictive analytics tool
+- include a large readiness score
+- show strengths and weak points
+- include actionable next steps
+- be suitable for website hero screenshots and product marketing
