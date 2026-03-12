@@ -232,17 +232,21 @@ export function setupQBankRoutes(app: Express) {
       }
 
       const question = result.rows[0];
+      const letterMap: Record<string, number> = { A: 0, B: 1, C: 2, D: 3 };
       let correctAnswer = question.correct_answer;
       if (typeof correctAnswer === "string") {
-        try { correctAnswer = JSON.parse(correctAnswer); } catch {
-          const letterMap: Record<string, number> = { A: 0, B: 1, C: 2, D: 3 };
+        try {
+          correctAnswer = JSON.parse(correctAnswer);
+          if (typeof correctAnswer === "string") {
+            correctAnswer = [letterMap[correctAnswer.toUpperCase()] ?? 0];
+          }
+        } catch {
           correctAnswer = [letterMap[correctAnswer.toUpperCase()] ?? 0];
         }
       }
       if (typeof correctAnswer === "number") correctAnswer = [correctAnswer];
-      const isCorrect = Array.isArray(correctAnswer)
-        ? correctAnswer.includes(selectedOption)
-        : selectedOption === correctAnswer;
+      if (!Array.isArray(correctAnswer)) correctAnswer = [0];
+      const isCorrect = correctAnswer.includes(selectedOption);
 
       res.json({
         correct: isCorrect,
@@ -438,11 +442,17 @@ export function setupQBankRoutes(app: Express) {
 
           let parsedCorrect = row.correct_answer;
           if (typeof parsedCorrect === "string") {
-            try { parsedCorrect = JSON.parse(parsedCorrect); } catch {
+            try {
+              parsedCorrect = JSON.parse(parsedCorrect);
+              if (typeof parsedCorrect === "string") {
+                parsedCorrect = [letterMap[parsedCorrect.toUpperCase()] ?? 0];
+              }
+            } catch {
               parsedCorrect = [letterMap[parsedCorrect.toUpperCase()] ?? 0];
             }
           }
           if (typeof parsedCorrect === "number") parsedCorrect = [parsedCorrect];
+          if (!Array.isArray(parsedCorrect)) parsedCorrect = [0];
 
           let parsedDistractorRationales = row.distractor_rationales;
           if (typeof parsedDistractorRationales === "string") {

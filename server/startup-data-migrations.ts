@@ -233,8 +233,8 @@ export async function runStartupDataMigrations() {
 
       try {
         const fixResult = await fixCorrectAnswerData(pool);
-        if (fixResult.stringFixed > 0 || fixResult.numberFixed > 0) {
-          console.log(`[Startup Migration] Fixed correct_answer data: ${fixResult.stringFixed} strings, ${fixResult.numberFixed} numbers converted to arrays`);
+        if (fixResult.stringFixed > 0 || fixResult.numberFixed > 0 || fixResult.optionsFixed > 0) {
+          console.log(`[Startup Migration] Fixed exam data: ${fixResult.stringFixed} correct_answer strings, ${fixResult.numberFixed} correct_answer numbers, ${fixResult.optionsFixed} options strings converted`);
         }
         const verify = await verifyCorrectAnswerData(pool);
         if (!verify.valid) {

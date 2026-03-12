@@ -1,8 +1,6 @@
 import pg from "pg";
 
-const letterToIndex: Record<string, number> = { A: 0, B: 1, C: 2, D: 3 };
-
-export async function fixCorrectAnswerData(pool: pg.Pool): Promise<{ stringFixed: number; numberFixed: number }> {
+export async function fixCorrectAnswerData(pool: pg.Pool): Promise<{ stringFixed: number; numberFixed: number; optionsFixed: number }> {
   const stringResult = await pool.query(`
     UPDATE exam_questions
     SET correct_answer = CASE
@@ -10,9 +8,9 @@ export async function fixCorrectAnswerData(pool: pg.Pool): Promise<{ stringFixed
       WHEN correct_answer::text = '"B"' THEN '[1]'::jsonb
       WHEN correct_answer::text = '"C"' THEN '[2]'::jsonb
       WHEN correct_answer::text = '"D"' THEN '[3]'::jsonb
+      ELSE '[0]'::jsonb
     END
     WHERE jsonb_typeof(correct_answer) = 'string'
-      AND correct_answer::text IN ('"A"', '"B"', '"C"', '"D"')
   `);
 
   const numberResult = await pool.query(`
@@ -21,9 +19,16 @@ export async function fixCorrectAnswerData(pool: pg.Pool): Promise<{ stringFixed
     WHERE jsonb_typeof(correct_answer) = 'number'
   `);
 
+  const optionsResult = await pool.query(`
+    UPDATE exam_questions
+    SET options = jsonb_build_array(options)
+    WHERE jsonb_typeof(options) = 'string'
+  `);
+
   return {
     stringFixed: stringResult.rowCount ?? 0,
     numberFixed: numberResult.rowCount ?? 0,
+    optionsFixed: optionsResult.rowCount ?? 0,
   };
 }
 
