@@ -65,6 +65,7 @@ Built with Vite, React, and Express 5 on Node.js with TypeScript, the applicatio
 - OpenAI: Utilized for blog posts, AI flashcards, lesson content, AI medical images, micro-lectures, and a 5-step content pipeline.
 - Test Bank Generator: Ensures strict question count and JSON schema validation.
 - NGN QBank Generator: Admin batch generation system with multiple prompt templates and strict validation.
+- MLT Question Pipeline: Automated AI generation engine (`server/mlt-question-pipeline.ts`) producing clinically accurate MCQs across 16 disciplines for Canada CSMLS and USA ASCP certification tracks. Features Jaccard-similarity anti-duplication (threshold 0.70), discipline distribution weighting, batch orchestration with rollback support, and admin dashboard API at `/api/admin/mlt/pipeline/*`. Seed batch of 178+ questions generated across all disciplines.
 
 ### Social Media
 - Meta Graph API: For social media scheduling.

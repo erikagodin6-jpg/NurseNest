@@ -3222,6 +3222,34 @@ export const insertMltImportHistorySchema = createInsertSchema(mltImportHistory)
 export type MltImportHistory = typeof mltImportHistory.$inferSelect;
 export type InsertMltImportHistory = z.infer<typeof insertMltImportHistorySchema>;
 
+export const mltGenerationBatches = pgTable("mlt_generation_batches", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  countryTrack: text("country_track").notNull().default("both"),
+  requestedCount: integer("requested_count").notNull(),
+  generatedCount: integer("generated_count").default(0),
+  acceptedCount: integer("accepted_count").default(0),
+  rejectedCount: integer("rejected_count").default(0),
+  tokensUsed: integer("tokens_used").default(0),
+  discipline: text("discipline"),
+  disciplineBreakdown: jsonb("discipline_breakdown"),
+  difficultyBreakdown: jsonb("difficulty_breakdown"),
+  cognitiveBreakdown: jsonb("cognitive_breakdown"),
+  rejectionReasons: jsonb("rejection_reasons"),
+  status: text("status").default("running"),
+  errorMessage: text("error_message"),
+  triggeredBy: text("triggered_by"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  completedAt: timestamp("completed_at"),
+});
+
+export const insertMltGenerationBatchSchema = createInsertSchema(mltGenerationBatches).omit({
+  id: true,
+  createdAt: true,
+});
+
+export type MltGenerationBatch = typeof mltGenerationBatches.$inferSelect;
+export type InsertMltGenerationBatch = z.infer<typeof insertMltGenerationBatchSchema>;
+
 export const insertPharmtechExamAttemptSchema = createInsertSchema(pharmtechExamAttempts).omit({ id: true, startedAt: true });
 export type PharmtechExamAttempt = typeof pharmtechExamAttempts.$inferSelect;
 export type InsertPharmtechExamAttempt = z.infer<typeof insertPharmtechExamAttemptSchema>;

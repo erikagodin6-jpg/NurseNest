@@ -57,6 +57,7 @@ import { createPaypalOrder, capturePaypalOrder, loadPaypalDefault, isPaypalConfi
 import { generateBlogPost, runBlogScheduler, expandAllShortPosts } from "./blog-automation";
 import { registerObjectStorageRoutes } from "./replit_integrations/object_storage";
 import { registerMltAdminRoutes } from "./mlt-admin-routes";
+import { registerMltPipelineRoutes } from "./mlt-question-pipeline";
 import { registerMltExamRoutes } from "./mlt-exam-routes";
 import { registerMltRemediationRoutes } from "./mlt-remediation-routes";
 import { regionMiddleware, getEffectiveRegion, isRegionAllowed, getDefaultRegionScope, canChangeRegionScope, buildRegionFilter, type Region, type RegionScope } from "./region";
@@ -202,6 +203,7 @@ async function isAdminUser(req: any): Promise<boolean> {
 export async function registerRoutes(httpServer: Server, app: Express): Promise<Server> {
   registerObjectStorageRoutes(app);
   registerMltAdminRoutes(app);
+  registerMltPipelineRoutes(app);
   registerMltExamRoutes(app);
   registerMltRemediationRoutes(app);
 
