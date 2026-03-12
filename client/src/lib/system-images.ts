@@ -1490,6 +1490,61 @@ const lessonSpecificImages: Record<string, string> = {
   "placental-abruption-rn": illustrationPlacentalAbruption,
   "placental-abruption-np": illustrationPlacentalAbruption,
 
+  "neonatal-hypoglycemia": illustrationNeonatalHypoglycemia,
+  "neonatal-hypoglycemia-rpn": illustrationNeonatalHypoglycemia,
+  "neonatal-hypoglycemia-rn": illustrationNeonatalHypoglycemia,
+  "neonatal-hypoglycemia-np": illustrationNeonatalHypoglycemia,
+
+  "neuroblastoma": illustrationNeuroblastoma,
+  "neuroblastoma-rpn": illustrationNeuroblastoma,
+  "neuroblastoma-rn": illustrationNeuroblastoma,
+  "neuroblastoma-np": illustrationNeuroblastoma,
+
+  "newborn-diabetic-mother": illustrationNewbornDiabeticMother,
+  "infant-diabetic-mother": illustrationNewbornDiabeticMother,
+  "idm": illustrationNewbornDiabeticMother,
+
+  "osteogenesis-imperfecta": illustrationOsteogenesisImperfecta,
+  "osteogenesis-imperfecta-rpn": illustrationOsteogenesisImperfecta,
+  "osteogenesis-imperfecta-rn": illustrationOsteogenesisImperfecta,
+  "osteogenesis-imperfecta-np": illustrationOsteogenesisImperfecta,
+
+  "ovarian-hyperstimulation": illustrationOvarianHyperstimulation,
+  "ohss": illustrationOvarianHyperstimulation,
+  "ovarian-hyperstimulation-syndrome": illustrationOvarianHyperstimulation,
+
+  "patent-ductus-arteriosus": illustrationPatentDuctusArteriosus,
+  "pda": illustrationPatentDuctusArteriosus,
+  "patent-ductus-arteriosus-rpn": illustrationPatentDuctusArteriosus,
+  "patent-ductus-arteriosus-rn": illustrationPatentDuctusArteriosus,
+  "patent-ductus-arteriosus-np": illustrationPatentDuctusArteriosus,
+
+  "pavlik-harness": illustrationPavlikHarness,
+  "ddh-treatment": illustrationPavlikHarness,
+
+  "pediatric-vitals": illustrationPediatricVitals,
+  "pediatric-vital-signs": illustrationPediatricVitals,
+  "pediatric-vitals-chart": illustrationPediatricVitals,
+
+  "pediatric-dehydration": illustrationPediatricDehydration,
+  "pediatric-dehydration-rpn": illustrationPediatricDehydration,
+  "pediatric-dehydration-rn": illustrationPediatricDehydration,
+  "pediatric-dehydration-np": illustrationPediatricDehydration,
+
+  "phenylketonuria": illustrationPKU,
+  "pku": illustrationPKU,
+  "pku-rpn": illustrationPKU,
+  "pku-rn": illustrationPKU,
+  "pku-np": illustrationPKU,
+
+  "pyloric-stenosis": illustrationPyloricStenosis,
+  "pyloric-stenosis-rpn": illustrationPyloricStenosis,
+  "pyloric-stenosis-rn": illustrationPyloricStenosis,
+  "pyloric-stenosis-np": illustrationPyloricStenosis,
+  "pyloromyotomy": illustrationPyloricStenosis,
+
+  "postpartum-hemorrhage-management": illustrationPostpartumHemorrhage,
+
   "meningitis-management": illustrationMeningitisPatho,
 
   "glaucoma-rpn": illustrationGlaucomaPatho,
@@ -2486,6 +2541,7 @@ export function getLessonImage(lessonId: string): string | undefined {
   if (lessonId.includes("contracture")) return illustrationContracture;
   if (lessonId.includes("cushing")) return illustrationCushingsNew;
   if (lessonId.includes("delayed-hemolytic") || lessonId.includes("delayed-transfusion")) return illustrationDelayedHemolyticReaction;
+  if (lessonId.includes("pavlik") || lessonId.includes("ddh-treat")) return illustrationPavlikHarness;
   if (lessonId.includes("hip-dysplasia") || lessonId.includes("developmental-hip")) return illustrationDevHipDysplasia;
   if (lessonId.includes("pavlik")) return illustrationPavlikHarness;
   if (lessonId.includes("neuroblastoma")) return illustrationNeuroblastoma;
@@ -2515,6 +2571,22 @@ export function getLessonImage(lessonId: string): string | undefined {
   if (lessonId.includes("wound") || lessonId.includes("burn")) return illustrationWound;
   if (lessonId.includes("bacteria") || lessonId.includes("infection")) return illustrationBacteria;
   if (lessonId.includes("virus") || lessonId.includes("viral")) return illustrationVirus;
+  if (lessonId.includes("neonatal-feed")) return illustrationNeonatalFeeding;
+  if (lessonId.includes("neonatal-hypoglyc")) return illustrationNeonatalHypoglycemia;
+  if (lessonId.includes("neonatal-jaundice")) return illustrationNeonatalJaundice;
+  if (lessonId.includes("neonatal-sepsis")) return illustrationNeonatalSepsis;
+  if (lessonId.includes("neuroblastom")) return illustrationNeuroblastoma;
+  if (lessonId.includes("newborn-diabetic") || lessonId.includes("infant-diabetic")) return illustrationNewbornDiabeticMother;
+  if (lessonId.includes("osteogenesis-imperfect")) return illustrationOsteogenesisImperfecta;
+  if (lessonId.includes("ovarian-hyperstim") || lessonId.includes("ohss")) return illustrationOvarianHyperstimulation;
+  if (lessonId.includes("patent-ductus") || lessonId.includes("pda")) return illustrationPatentDuctusArteriosus;
+  if (lessonId.includes("pediatric-vital")) return illustrationPediatricVitals;
+  if (lessonId.includes("pediatric-dehydrat")) return illustrationPediatricDehydration;
+  if (lessonId.includes("phenylketonur") || lessonId.includes("pku")) return illustrationPKU;
+  if (lessonId.includes("pyloric-stenos") || lessonId.includes("pyloromyotom")) return illustrationPyloricStenosis;
+  if (lessonId.includes("placenta-previa")) return illustrationPlacentaPrevia;
+  if (lessonId.includes("placental-abrupt")) return illustrationPlacentalAbruption;
+  if (lessonId.includes("postpartum-hemorrh") || lessonId.includes("pph")) return illustrationPostpartumHemorrhage;
   if (lessonId.includes("maternity") || lessonId.includes("pregnan") || lessonId.includes("postpartum")) return illustrationMaternity;
   if (lessonId.includes("pediatr") || lessonId.includes("neonat")) return illustrationPediatrics;
   if (lessonId.includes("mental") || lessonId.includes("psych") || lessonId.includes("anxiety") || lessonId.includes("depress")) return illustrationMentalHealth;

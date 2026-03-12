@@ -45,6 +45,17 @@ import imgContracture from "@assets/contracture_1773269507783.png";
 import imgCushings from "@assets/cushings_1773269507783.png";
 import imgDelayedHemolyticReaction from "@assets/delayedhemolyticreaction_1773269507783.png";
 import imgDevHipDysplasia from "@assets/developmentalhipdysplasia_1773269507783.png";
+import imgNeonatalFeeding from "@assets/neonatalfeeding_1773340572673.png";
+import imgNeonatalHypoglycemia from "@assets/neonatalhypoglycemia_1773340572673.png";
+import imgNeonatalJaundice from "@assets/neonataljaundice_1773340572673.png";
+import imgNeonatalSepsis from "@assets/neonatalsepsis_1773340572673.png";
+import imgNewbornDiabeticMother from "@assets/newbornofdiabeticmother_1773340572673.png";
+import imgOsteogenesisImperfecta from "@assets/osteogenesisimperfecta_1773340572673.png";
+import imgOvarianHyperstimulation from "@assets/ovarianhyperstimulation_1773340572673.png";
+import imgPediatricVitalsChart from "@assets/pediatric_vitals_chart_fixed_1773340572673.png";
+import imgPediatricDehydration from "@assets/pediatricdehydration_1773340572673.png";
+import imgPinworms from "@assets/pinworms_1773340572673.png";
+import imgPKU from "@assets/pku_1773340572673.png";
 import imgDiabetes from "@assets/diabetes_1773269507783.png";
 import imgDiabetesInsipidus from "@assets/diabetesinsipidus_1773269507783.png";
 import imgDiabeticNephropathy from "@assets/diabeticnephropathy_1773269507783.png";
@@ -104,7 +115,7 @@ import imgMastitis from "@assets/mastitis_1773340649073.png";
 import imgMeconiumAspiration from "@assets/meconiumaspiration_1773340649073.png";
 import imgMeconiumIleus from "@assets/meconiumileus_1773340649073.png";
 
-export { imgUlcerativeColitis, imgVonWillebrand, imgUrinaryCatheterization, imgSIADH, imgSickleCellCrisis, imgStomaCare, imgThalassemia, imgThrombocytopenia, imgThyroidStorm, imgTRALI, imgVitiligo, imgUrethralStricture, imgVestibularNeuritis, imgAddisons, imgAplasticAnemia, imgAcuteHemolyticReaction, imgAllergicTransfusion, imgAirEmbolism, imgCBI, imgCastCareTraction, imgAlopecia, imgBPH, imgAtopicDermatitis, imgAcromegaly, imgBPPV, imgNGTube, imgPancreatitis, imgPeritonealDialysis, imgPolycysticKidney, imgPolycythemia, imgPepticUlcer, imgOsteoporosis, imgCellulitis, imgCKD, imgClubfoot, imgCompartmentSyndrome, imgConjunctivitis, imgContracture, imgCushings, imgDelayedHemolyticReaction, imgDevHipDysplasia, imgDiabetes, imgDiabetesInsipidus, imgDiabeticNephropathy, imgDIC, imgDisuseAtrophy, imgDuchenne, imgEpiglottitis, imgEpistaxis, imgErysipelas, imgErythemaMultiforme, imgFallPrevention, imgFebrileNeutropenia, imgFebrileNonhemolytic, imgFibromyalgia, imgForeignBodyAspiration, imgFractureTypes, imgFungalInfections, imgGalactosemia, imgGlaucoma, imgGlomerulonephritis, imgGout, imgGraftVsHost, imgGravesDisease, imgHashimotoThyroiditis, imgHeadLice, imgHemolyticUremicSyndrome, imgHemophilia, imgPyloricStenosis, imgPlacentalAbruption, imgPostpartumHemorrhage, imgPatentDuctusArteriosus, imgPavlikHarness, imgPlacentaPrevia, imgNeuroblastoma, imgReye, imgRhIncompatibility, imgROP, imgSeparationAnxiety, imgSerotoninSyndrome, imgStagesOfLabor, imgSubstanceAbuse, imgThermoregulation, imgTonsillectomy, imgToxicShockSyndrome, imgTrisomy21, imgTurnerSyndrome, imgUmbilicalCordCare, imgUmbilicalCordProlapse, imgVaginalHematoma, imgVaricella, imgVPShunt, imgHyperemesisGravidarum, imgInfantReflexes, imgIntussusception, imgLeadPoisoning, imgMastitis, imgMeconiumAspiration, imgMeconiumIleus };
+export { imgUlcerativeColitis, imgVonWillebrand, imgUrinaryCatheterization, imgSIADH, imgSickleCellCrisis, imgStomaCare, imgThalassemia, imgThrombocytopenia, imgThyroidStorm, imgTRALI, imgVitiligo, imgUrethralStricture, imgVestibularNeuritis, imgAddisons, imgAplasticAnemia, imgAcuteHemolyticReaction, imgAllergicTransfusion, imgAirEmbolism, imgCBI, imgCastCareTraction, imgAlopecia, imgBPH, imgAtopicDermatitis, imgAcromegaly, imgBPPV, imgNGTube, imgPancreatitis, imgPeritonealDialysis, imgPolycysticKidney, imgPolycythemia, imgPepticUlcer, imgOsteoporosis, imgCellulitis, imgCKD, imgClubfoot, imgCompartmentSyndrome, imgConjunctivitis, imgContracture, imgCushings, imgDelayedHemolyticReaction, imgDevHipDysplasia, imgDiabetes, imgDiabetesInsipidus, imgDiabeticNephropathy, imgDIC, imgDisuseAtrophy, imgDuchenne, imgEpiglottitis, imgEpistaxis, imgErysipelas, imgErythemaMultiforme, imgFallPrevention, imgFebrileNeutropenia, imgFebrileNonhemolytic, imgFibromyalgia, imgForeignBodyAspiration, imgFractureTypes, imgFungalInfections, imgGalactosemia, imgGlaucoma, imgGlomerulonephritis, imgGout, imgGraftVsHost, imgGravesDisease, imgHashimotoThyroiditis, imgHeadLice, imgHemolyticUremicSyndrome, imgHemophilia, imgNeonatalFeeding, imgNeonatalHypoglycemia, imgNeonatalJaundice, imgNeonatalSepsis, imgNeuroblastoma, imgNewbornDiabeticMother, imgOsteogenesisImperfecta, imgOvarianHyperstimulation, imgPatentDuctusArteriosus, imgPavlikHarness, imgPediatricVitalsChart, imgPediatricDehydration, imgPinworms, imgPKU, imgPlacentalAbruption, imgPlacentaPrevia, imgPostpartumHemorrhage, imgPyloricStenosis, imgReye, imgRhIncompatibility, imgROP, imgSeparationAnxiety, imgSerotoninSyndrome, imgStagesOfLabor, imgSubstanceAbuse, imgThermoregulation, imgTonsillectomy, imgToxicShockSyndrome, imgTrisomy21, imgTurnerSyndrome, imgUmbilicalCordCare, imgUmbilicalCordProlapse, imgVaginalHematoma, imgVaricella, imgVPShunt, imgHyperemesisGravidarum, imgInfantReflexes, imgIntussusception, imgLeadPoisoning, imgMastitis, imgMeconiumAspiration, imgMeconiumIleus };
 
 export type FlashcardData = {
   id: string;
@@ -3026,7 +3037,8 @@ export const rpnFlashcards: FlashcardData[] = [
     correctIndex: 2,
     answer: "Infant dehydration signs: Sunken fontanelle, decreased tears, dry mucous membranes, decreased urine output (< 1 mL/kg/hr), poor skin turgor, tachycardia, sunken eyes, lethargy. Severe: Capillary refill > 3 seconds, weak pulse, mottling.",
     category: "Pediatrics",
-    difficulty: 1
+    difficulty: 1,
+    image: imgPediatricDehydration
   },
   // ============================================================
   // ADDITIONAL MATERNITY
