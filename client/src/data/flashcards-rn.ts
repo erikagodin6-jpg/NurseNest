@@ -1,5 +1,5 @@
 import type { FlashcardData } from "./flashcards-rpn";
-import { imgUlcerativeColitis, imgSIADH, imgSickleCellCrisis, imgStomaCare, imgThrombocytopenia, imgUrinaryCatheterization, imgVitiligo, imgUrethralStricture, imgVestibularNeuritis, imgAddisons, imgAcuteHemolyticReaction, imgAtopicDermatitis, imgBPH, imgCastCareTraction, imgAcromegaly, imgNGTube, imgPancreatitis, imgPeritonealDialysis, imgPepticUlcer, imgOsteoporosis } from "./flashcards-rpn";
+import { imgUlcerativeColitis, imgSIADH, imgSickleCellCrisis, imgStomaCare, imgThrombocytopenia, imgUrinaryCatheterization, imgVitiligo, imgUrethralStricture, imgVestibularNeuritis, imgAddisons, imgAcuteHemolyticReaction, imgAtopicDermatitis, imgBPH, imgCastCareTraction, imgAcromegaly, imgNGTube, imgPancreatitis, imgPeritonealDialysis, imgPepticUlcer, imgOsteoporosis, imgCellulitis, imgCKD, imgClubfoot, imgCompartmentSyndrome, imgConjunctivitis, imgContracture, imgCushings, imgDelayedHemolyticReaction, imgDevHipDysplasia, imgDiabetes, imgDiabetesInsipidus, imgDiabeticNephropathy, imgDIC, imgDisuseAtrophy, imgDuchenne, imgEpiglottitis, imgEpistaxis, imgErysipelas } from "./flashcards-rpn";
 import imgStevensJohnson from "@assets/stevensjohnsonssyndrome_1773268456011.png";
 import illustrationPressureInjuriesV2 from "@/assets/images/pressure-injuries-v2.png";
 import illustrationPressureInjuryStagesV2 from "@/assets/images/pressure-injury-stages-v2.png";
@@ -832,7 +832,8 @@ export const rnFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "DDAVP replaces the deficient ADH, promoting water reabsorption in the collecting ducts. Effective treatment is indicated by decreased urine output (from massive polyuria to normal volumes), increased urine specific gravity (from very dilute <1.005 to more concentrated), decreased serum osmolality, normalized serum sodium, and decreased thirst. Monitor for water intoxication (hyponatremia) from over-treatment.",
     category: "Endocrine",
-    difficulty: 2
+    difficulty: 2,
+    image: imgDiabetesInsipidus
   },
   {
     id: "rn-endo-q15",
@@ -887,7 +888,8 @@ export const rnFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "Sevelamer is a non-calcium, non-aluminum phosphate binder that must be taken WITH meals. It works by binding dietary phosphorus in the GI tract, preventing absorption. Unlike calcium-based binders, sevelamer does not contribute to calcium overload or vascular calcification. Taking it without food would be ineffective as there is no dietary phosphorus to bind. It must not be crushed.",
     category: "Renal/GU",
-    difficulty: 2
+    difficulty: 2,
+    image: imgCKD
   },
   {
     id: "rn-renal-q4",
@@ -918,7 +920,8 @@ export const rnFlashcards: FlashcardData[] = [
     correctIndex: 0,
     answer: "The CKD diet restricts sodium (2,000 mg/day to control BP and edema), potassium (to prevent hyperkalemia), phosphorus (to prevent renal osteodystrophy), and moderate protein (to reduce uremic waste production). Calories should be adequate to prevent malnutrition. Once on dialysis, protein requirements increase. A renal dietitian should be involved in individualized meal planning.",
     category: "Renal/GU",
-    difficulty: 2
+    difficulty: 2,
+    image: imgCKD
   },
   {
     id: "rn-renal-q7",
@@ -1535,7 +1538,8 @@ export const rnFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "NEVER examine the throat or use a tongue depressor in suspected epiglottitis. Manipulation of the inflamed epiglottis can cause complete airway obstruction and respiratory arrest. The child should remain calm, in the position of comfort (usually tripod/sitting), with humidified oxygen and preparation for emergency intubation by the most skilled provider available. IV antibiotics (ceftriaxone) are given after airway is secured.",
     category: "Pediatrics",
-    difficulty: 2
+    difficulty: 2,
+    image: imgEpiglottitis
   },
   {
     id: "rn-peds-q2",
@@ -2535,7 +2539,8 @@ export const rnFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "Severe hyperkalemia (>6.5 mEq/L) with ECG changes is life-threatening. IV calcium gluconate is given first to stabilize the cardiac membrane (cardioprotective). It does not lower potassium but prevents fatal dysrhythmias. Then give insulin/dextrose, sodium bicarbonate, and kayexalate to actually lower potassium. Prepare for possible dialysis.",
     category: "Fluid & Electrolytes",
-    difficulty: 3
+    difficulty: 3,
+    image: imgCKD
   },
   {
     id: "rn-fe-q2",
@@ -2945,7 +2950,8 @@ export const rnFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "DIC involves simultaneous clotting and bleeding. Clotting factors and platelets are consumed (decreased platelets, decreased fibrinogen, prolonged PT/PTT), while fibrin degradation products (D-dimer, FDP) are elevated from clot breakdown. Treatment addresses the underlying cause (sepsis, obstetric complications) and replaces blood products as needed.",
     category: "Critical Care",
-    difficulty: 3
+    difficulty: 3,
+    image: imgDIC
   },
   {
     id: "rn-emerg-q9",
@@ -3006,7 +3012,8 @@ export const rnFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "Diabetes insipidus is characterized by insufficient ADH, causing massive diuresis of dilute urine (specific gravity <1.005) and dehydration with hypernatremia. Treatment includes desmopressin (synthetic ADH) for central DI, adequate fluid replacement, and monitoring I&O (may produce 5-20 L of urine per day). This is the opposite of SIADH.",
     category: "Fluid & Electrolytes",
-    difficulty: 2
+    difficulty: 2,
+    image: imgDiabetesInsipidus
   },
   {
     id: "rn-pain-q6",
@@ -3208,7 +3215,8 @@ export const rnFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "Neurovascular assessment (5 Ps: Pain, Pulse, Pallor, Paresthesia, Paralysis) of the affected extremity is the priority to detect compartment syndrome or vascular compromise. Assess and compare to the unaffected limb. Also monitor for DVT (immobility risk), fat embolism syndrome (long bone fracture), and delirium in elderly post-fracture patients.",
     category: "Geriatrics",
-    difficulty: 2
+    difficulty: 2,
+    image: imgCompartmentSyndrome
   },
   {
     id: "rn-comm-q8",
@@ -3381,7 +3389,8 @@ export const rnFlashcards: FlashcardData[] = [
     correctIndex: 2,
     answer: "Epiglottitis is a life-threatening emergency. NEVER examine the throat or place anything in the mouth as this can cause complete airway obstruction. Keep the child calm in a position of comfort (usually sitting upright). Prepare emergency airway equipment, notify anesthesia, and keep a tracheostomy tray at bedside.",
     category: "Pediatrics",
-    difficulty: 3
+    difficulty: 3,
+    image: imgEpiglottitis
   },
   {
     id: "rn-peds-q17",
@@ -3686,6 +3695,7 @@ export const rnFlashcards: FlashcardData[] = [
     correctIndex: 2,
     answer: "The classic signs of compartment syndrome include the 5 P's: Pain (disproportionate and unrelieved by analgesics), Pallor, Pulselessness, Paresthesia (tingling/numbness), and Paralysis. This is a surgical emergency requiring immediate notification of the provider. The cast may need to be bivalved or removed. Delay can lead to permanent nerve damage, muscle necrosis, and limb loss. Elevation and ice alone will not resolve compartment syndrome.",
     category: "Musculoskeletal",
+    image: imgCompartmentSyndrome,
     difficulty: 3
   },
   {
@@ -3759,7 +3769,8 @@ export const rnFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "Prone positioning for 20-30 minutes several times daily helps prevent hip flexion contractures after a BKA by extending the hip joint. Continuous elevation on pillows after the first 24-48 hours promotes hip flexion contracture. Keeping the knee flexed also promotes contracture. High Fowler's position does not specifically address hip extension. The residual limb may be elevated briefly for edema control in the first 24 hours but not continuously after that.",
     category: "Musculoskeletal",
-    difficulty: 2
+    difficulty: 2,
+    image: imgContracture
   },
   {
     id: "rn-msk-q9",
@@ -4076,7 +4087,8 @@ export const rnFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "Circumferential full-thickness burns create a constricting band of inelastic eschar that restricts blood flow as underlying tissue swells. Escharotomy is an emergency bedside incision through the eschar to release the constriction and restore circulation. Loss of pulses and increasing pain indicate vascular compromise requiring emergent intervention. Fasciotomy is for compartment syndrome in unburned tissue. Skin grafting is a later reconstructive procedure. Amputation is a last resort. Escharotomy does not require anesthesia because full-thickness burns destroy nerve endings.",
     category: "Wound Care",
-    difficulty: 3
+    difficulty: 3,
+    image: imgCompartmentSyndrome
   },
   {
     id: "rn-wound-q10",
@@ -4110,7 +4122,8 @@ export const rnFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "DIC involves simultaneous widespread clotting and bleeding due to consumption of clotting factors and platelets. Treatment focuses on replacing consumed components (platelets, FFP for clotting factors, cryoprecipitate for fibrinogen) AND treating the underlying cause (sepsis, trauma, obstetric complications). Heparin may be used in some cases to interrupt the clotting cascade but is controversial and provider-dependent. Vitamin K and protamine are specific reversal agents, not DIC treatments. Waiting is dangerous with active hemorrhage.",
     category: "Hematology/Oncology",
-    difficulty: 3
+    difficulty: 3,
+    image: imgDIC
   },
   {
     id: "rn-hemonc-q3",
@@ -4318,7 +4331,8 @@ export const rnFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "Cellulitis is a bacterial skin infection (usually Staphylococcus or Streptococcus) presenting with diffuse erythema, warmth, edema, and tenderness that spreads outward without well-defined borders. It typically affects the lower extremities. Well-demarcated raised borders suggest erysipelas (a superficial cellulitis). Bull's-eye rash (erythema migrans) is characteristic of Lyme disease. Linear vesicles suggest contact dermatitis (such as poison ivy). Treatment includes systemic antibiotics, elevation, and monitoring for systemic infection signs.",
     category: "Integumentary",
-    difficulty: 2
+    difficulty: 2,
+    image: imgCellulitis
   },
   {
     id: "rn-integ-q3",

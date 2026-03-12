@@ -482,6 +482,24 @@ import illustrationPolycysticKidney from "@assets/polycystickidney_1773269379973
 import illustrationPolycythemiaV2 from "@assets/polycythemia_1773269379973.png";
 import illustrationPolydactyly from "@assets/polydactyly_1773269379973.png";
 import illustrationPostTransfusionPurpura from "@assets/posttransfusionpurpura_1773269379973.png";
+import illustrationCellulitisNew from "@assets/cellulitis_1773269507783.png";
+import illustrationCKDNew from "@assets/CKD_1773269507783.jpeg";
+import illustrationClubfoot from "@assets/clubfoot_1773269507783.png";
+import illustrationCompartmentSyndromeNew from "@assets/compartmentsyndrome_1773269507783.png";
+import illustrationConjunctivitisNew from "@assets/conjunctivitis_1773269507783.png";
+import illustrationContracture from "@assets/contracture_1773269507783.png";
+import illustrationCushingsNew from "@assets/cushings_1773269507783.png";
+import illustrationDelayedHemolyticReaction from "@assets/delayedhemolyticreaction_1773269507783.png";
+import illustrationDevHipDysplasia from "@assets/developmentalhipdysplasia_1773269507783.png";
+import illustrationDiabetesAcrossAges from "@assets/diabetes_1773269507783.png";
+import illustrationDiabetesInsipidusNew from "@assets/diabetesinsipidus_1773269507783.png";
+import illustrationDiabeticNephropathy from "@assets/diabeticnephropathy_1773269507783.png";
+import illustrationDICNew from "@assets/DIC_1773269507783.png";
+import illustrationDisuseAtrophy from "@assets/disuseatrophy_1773269507783.png";
+import illustrationDuchenne from "@assets/duchenne_1773269507783.png";
+import illustrationEpiglottitisNew from "@assets/epiglottitis_1773269507783.png";
+import illustrationEpistaxis from "@assets/epistaxis_1773269507783.png";
+import illustrationErysipelas from "@assets/erysipelas_1773269507783.png";
 
 const lessonSpecificImages: Record<string, string> = {
   "infective-endocarditis-signs": illustrationEndocarditisSigns,
@@ -512,19 +530,22 @@ const lessonSpecificImages: Record<string, string> = {
   "hodgkin-lymphoma": illustrationTumor,
   "non-hodgkin-lymphoma": illustrationTumor,
   "aki-management": illustrationKidneys,
-  "ckd-management": illustrationCKDV2,
-  "ckd": illustrationCKDV2,
-  "chronic-kidney-disease": illustrationCKDV2,
-  "chronic-kidney-disease-rpn": illustrationCKDV2,
-  "chronic-kidney-disease-rn": illustrationCKDV2,
-  "chronic-kidney-disease-np": illustrationCKDV2,
+  "ckd-management": illustrationCKDNew,
+  "ckd": illustrationCKDNew,
+  "chronic-kidney-disease": illustrationCKDNew,
+  "chronic-kidney-disease-rpn": illustrationCKDNew,
+  "chronic-kidney-disease-rn": illustrationCKDNew,
+  "chronic-kidney-disease-np": illustrationCKDNew,
   "rhabdomyolysis": illustrationKidneys,
   "av-fistula": illustrationKidneys,
   "dialysis-steal": illustrationKidneys,
   "shock-syndromes": illustrationShockTypesV2,
   "sepsis-mastery": illustrationShock,
   "burn-management": illustrationWound,
-  "cellulitis": illustrationWound,
+  "cellulitis": illustrationCellulitisNew,
+  "cellulitis-rpn": illustrationCellulitisNew,
+  "cellulitis-rn": illustrationCellulitisNew,
+  "cellulitis-np": illustrationCellulitisNew,
   "cardiogenic-shock": illustrationShockTypesV2,
   "hypovolemic-shock": illustrationShockTypesV2,
   "distributive-shock": illustrationShockTypesV2,
@@ -688,7 +709,10 @@ const lessonSpecificImages: Record<string, string> = {
   "fat-embolism-rpn": illustrationFatEmbolismV2,
   "fat-embolism-rn": illustrationFatEmbolismV2,
   "fat-embolism-np": illustrationFatEmbolismV2,
-  "compartment-syndrome": illustrationGangrene,
+  "compartment-syndrome": illustrationCompartmentSyndromeNew,
+  "compartment-syndrome-rpn": illustrationCompartmentSyndromeNew,
+  "compartment-syndrome-rn": illustrationCompartmentSyndromeNew,
+  "compartment-syndrome-np": illustrationCompartmentSyndromeNew,
   "malignant-hyperthermia": illustrationMalignantHyperthermiaV4,
   "malignant-hyperthermia-rpn": illustrationMalignantHyperthermiaV4,
   "malignant-hyperthermia-rn": illustrationMalignantHyperthermiaV4,
@@ -805,8 +829,11 @@ const lessonSpecificImages: Record<string, string> = {
   "adaptive-immunity": illustrationAdaptiveImmunity,
   "adaptive-immune-system": illustrationAdaptiveImmunity,
   "immune-response": illustrationInnateImmunity,
-  "conjunctivitis": illustrationConjunctivitis,
-  "pink-eye": illustrationConjunctivitis,
+  "conjunctivitis": illustrationConjunctivitisNew,
+  "conjunctivitis-rpn": illustrationConjunctivitisNew,
+  "conjunctivitis-rn": illustrationConjunctivitisNew,
+  "conjunctivitis-np": illustrationConjunctivitisNew,
+  "pink-eye": illustrationConjunctivitisNew,
   "aplastic-anemia": illustrationAplasticAnemia,
   "alopecia": illustrationAlopecia,
   "alopecia-areata": illustrationAlopecia,
@@ -853,7 +880,10 @@ const lessonSpecificImages: Record<string, string> = {
   "varicella": illustrationVaricella,
   "chickenpox": illustrationVaricella,
   "varicella-rash-stages": illustrationVaricellaStages,
-  "epiglottitis": illustrationEpiglottitis,
+  "epiglottitis": illustrationEpiglottitisNew,
+  "epiglottitis-rpn": illustrationEpiglottitisNew,
+  "epiglottitis-rn": illustrationEpiglottitisNew,
+  "epiglottitis-np": illustrationEpiglottitisNew,
   "osteoporosis": illustrationOsteoporosisV2,
   "osteoporosis-basics": illustrationOsteoporosisV2,
   "osteoporosis-management": illustrationOsteoporosisV2,
@@ -1069,7 +1099,14 @@ const lessonSpecificImages: Record<string, string> = {
   "dka-hhns": illustrationEndocrineAnatomy,
   "adrenal-insufficiency": illustrationEndocrineAnatomy,
   "thyroidectomy": illustrationEndocrineAnatomy,
-  "cushing-syndrome": illustrationEndocrineAnatomy,
+  "cushing-syndrome": illustrationCushingsNew,
+  "cushing-syndrome-rpn": illustrationCushingsNew,
+  "cushing-syndrome-rn": illustrationCushingsNew,
+  "cushing-syndrome-np": illustrationCushingsNew,
+  "cushings-syndrome": illustrationCushingsNew,
+  "cushings-syndrome-rpn": illustrationCushingsNew,
+  "cushings-syndrome-rn": illustrationCushingsNew,
+  "cushings-syndrome-np": illustrationCushingsNew,
   "dm-type1": illustrationEndocrineAnatomy,
   "dm-type2": illustrationEndocrineAnatomy,
   "diabetes-lifespan": illustrationEndocrineAnatomy,
@@ -1077,7 +1114,14 @@ const lessonSpecificImages: Record<string, string> = {
   "joint-replacement-basics": illustrationMusculoskeletalAnatomy,
   "scoliosis-basics": illustrationScoliosis,
   "scoliosis": illustrationScoliosis,
-  "hip-dysplasia": illustrationMusculoskeletalAnatomy,
+  "hip-dysplasia": illustrationDevHipDysplasia,
+  "hip-dysplasia-rpn": illustrationDevHipDysplasia,
+  "hip-dysplasia-rn": illustrationDevHipDysplasia,
+  "hip-dysplasia-np": illustrationDevHipDysplasia,
+  "developmental-hip-dysplasia": illustrationDevHipDysplasia,
+  "developmental-hip-dysplasia-rpn": illustrationDevHipDysplasia,
+  "developmental-hip-dysplasia-rn": illustrationDevHipDysplasia,
+  "developmental-hip-dysplasia-np": illustrationDevHipDysplasia,
   "fracture-types": illustrationMusculoskeletalAnatomy,
   "cast-care": illustrationCastCareTraction,
   "traction": illustrationCastCareTraction,
@@ -1243,9 +1287,9 @@ const lessonSpecificImages: Record<string, string> = {
   "shingles-rn": illustrationShinglesV2,
   "shingles-np": illustrationShinglesV2,
 
-  "cellulitis-management": illustrationCellulitisPatho,
+  "cellulitis-management": illustrationCellulitisNew,
 
-  "compartment-syndrome-management": illustrationCompartmentSyndrome,
+  "compartment-syndrome-management": illustrationCompartmentSyndromeNew,
 
   "guillain-barre-syndrome": illustrationGuillainBarreV3,
   "gbs-management": illustrationGuillainBarreV3,
@@ -1256,7 +1300,16 @@ const lessonSpecificImages: Record<string, string> = {
 
   "myasthenia-management": illustrationMGPatho,
 
-  "dic-management": illustrationDICPatho,
+  "dic-management": illustrationDICNew,
+  "dic": illustrationDICNew,
+  "dic-basics": illustrationDICNew,
+  "dic-rpn": illustrationDICNew,
+  "dic-rn": illustrationDICNew,
+  "dic-np": illustrationDICNew,
+  "disseminated-intravascular-coagulation": illustrationDICNew,
+  "disseminated-intravascular-coagulation-rpn": illustrationDICNew,
+  "disseminated-intravascular-coagulation-rn": illustrationDICNew,
+  "disseminated-intravascular-coagulation-np": illustrationDICNew,
 
   "cirrhosis-pathophysiology": illustrationCirrhosisPatho,
   "hepatic-encephalopathy": illustrationCirrhosisPatho,
@@ -1407,7 +1460,7 @@ const lessonSpecificImages: Record<string, string> = {
   "bowel-obstruction-management": illustrationBowelObstructionPatho,
   "acute-abdomen": illustrationBowelObstructionPatho,
 
-  "cushings-management": illustrationCushingsPatho,
+  "cushings-management": illustrationCushingsNew,
 
   "siadh-basics-rpn": illustrationSIADHDIPatho,
   "diabetes-insipidus-basics-rpn": illustrationSIADHDIPatho,
@@ -1568,6 +1621,69 @@ const lessonSpecificImages: Record<string, string> = {
   "polycythemia-rpn": illustrationPolycythemiaV2,
   "polycythemia-rn": illustrationPolycythemiaV2,
   "polycythemia-np": illustrationPolycythemiaV2,
+
+  "clubfoot": illustrationClubfoot,
+  "clubfoot-rpn": illustrationClubfoot,
+  "clubfoot-rn": illustrationClubfoot,
+  "clubfoot-np": illustrationClubfoot,
+  "talipes-equinovarus": illustrationClubfoot,
+  "talipes-equinovarus-rpn": illustrationClubfoot,
+  "talipes-equinovarus-rn": illustrationClubfoot,
+  "talipes-equinovarus-np": illustrationClubfoot,
+
+  "contracture": illustrationContracture,
+  "contracture-rpn": illustrationContracture,
+  "contracture-rn": illustrationContracture,
+  "contracture-np": illustrationContracture,
+  "contracture-prevention": illustrationContracture,
+
+  "delayed-hemolytic-reaction": illustrationDelayedHemolyticReaction,
+  "delayed-hemolytic-reaction-rpn": illustrationDelayedHemolyticReaction,
+  "delayed-hemolytic-reaction-rn": illustrationDelayedHemolyticReaction,
+  "delayed-hemolytic-reaction-np": illustrationDelayedHemolyticReaction,
+  "delayed-hemolytic-transfusion-reaction": illustrationDelayedHemolyticReaction,
+
+  "diabetes-across-ages": illustrationDiabetesAcrossAges,
+  "diabetes-across-ages-rpn": illustrationDiabetesAcrossAges,
+  "diabetes-across-ages-rn": illustrationDiabetesAcrossAges,
+  "diabetes-across-ages-np": illustrationDiabetesAcrossAges,
+  "diabetes-mellitus": illustrationDiabetesAcrossAges,
+  "diabetes-mellitus-rpn": illustrationDiabetesAcrossAges,
+  "diabetes-mellitus-rn": illustrationDiabetesAcrossAges,
+  "diabetes-mellitus-np": illustrationDiabetesAcrossAges,
+
+  "diabetes-insipidus": illustrationDiabetesInsipidusNew,
+  "diabetes-insipidus-rpn": illustrationDiabetesInsipidusNew,
+  "diabetes-insipidus-rn": illustrationDiabetesInsipidusNew,
+  "diabetes-insipidus-np": illustrationDiabetesInsipidusNew,
+
+  "diabetic-nephropathy": illustrationDiabeticNephropathy,
+  "diabetic-nephropathy-rpn": illustrationDiabeticNephropathy,
+  "diabetic-nephropathy-rn": illustrationDiabeticNephropathy,
+  "diabetic-nephropathy-np": illustrationDiabeticNephropathy,
+
+  "disuse-atrophy": illustrationDisuseAtrophy,
+  "disuse-atrophy-rpn": illustrationDisuseAtrophy,
+  "disuse-atrophy-rn": illustrationDisuseAtrophy,
+  "disuse-atrophy-np": illustrationDisuseAtrophy,
+
+  "duchenne-muscular-dystrophy": illustrationDuchenne,
+  "duchenne-muscular-dystrophy-rpn": illustrationDuchenne,
+  "duchenne-muscular-dystrophy-rn": illustrationDuchenne,
+  "duchenne-muscular-dystrophy-np": illustrationDuchenne,
+  "duchenne": illustrationDuchenne,
+
+  "epistaxis": illustrationEpistaxis,
+  "epistaxis-rpn": illustrationEpistaxis,
+  "epistaxis-rn": illustrationEpistaxis,
+  "epistaxis-np": illustrationEpistaxis,
+  "nosebleed": illustrationEpistaxis,
+
+  "erysipelas": illustrationErysipelas,
+  "erysipelas-rpn": illustrationErysipelas,
+  "erysipelas-rn": illustrationErysipelas,
+  "erysipelas-np": illustrationErysipelas,
+
 };
 
 const systemImageMap: Record<string, string> = {
@@ -1864,7 +1980,7 @@ export function getLessonImage(lessonId: string): string | undefined {
   if (lessonId.includes("pressure-injur") || lessonId.includes("pressure-ulcer") || lessonId.includes("bedsore")) return illustrationPressureInjuriesV2;
   if (lessonId.includes("innate-immun")) return illustrationInnateImmunity;
   if (lessonId.includes("adaptive-immun")) return illustrationAdaptiveImmunity;
-  if (lessonId.includes("conjunctiv") || lessonId.includes("pink-eye")) return illustrationConjunctivitis;
+  if (lessonId.includes("conjunctiv") || lessonId.includes("pink-eye")) return illustrationConjunctivitisNew;
   if (lessonId.includes("aplastic")) return illustrationAplasticAnemia;
   if (lessonId.includes("alopecia") || lessonId.includes("hair-loss")) return illustrationAlopecia;
   if (lessonId.includes("abo-blood") || lessonId.includes("abo-compat")) return illustrationABOCompatibility;
@@ -1895,7 +2011,7 @@ export function getLessonImage(lessonId: string): string | undefined {
   if (lessonId.includes("head-lice") || lessonId.includes("pediculosis")) return illustrationHeadLice;
   if (lessonId.includes("impetigo")) return illustrationImpetigo;
   if (lessonId.includes("varicella") || lessonId.includes("chickenpox")) return illustrationVaricella;
-  if (lessonId.includes("epiglottitis")) return illustrationEpiglottitis;
+  if (lessonId.includes("epiglottitis")) return illustrationEpiglottitisNew;
   if (lessonId.includes("osteoporosis")) return illustrationOsteoporosisV2;
   if (lessonId.includes("kawasaki")) return illustrationKawasakiV2;
   if (lessonId.includes("scabies")) return illustrationScabiesV2;
@@ -1915,7 +2031,7 @@ export function getLessonImage(lessonId: string): string | undefined {
   if (lessonId.includes("hiatal-hernia")) return illustrationHiatalHerniaV2;
   if (lessonId.includes("bph") || lessonId.includes("prostatic-hyperplasia") || lessonId.includes("prostate-enlarge")) return illustrationBPHV2;
   if (lessonId.includes("bladder-irrigation") || lessonId.includes("cbi")) return illustrationCBIV2;
-  if (lessonId.includes("chronic-kidney") || lessonId.includes("ckd")) return illustrationCKDV2;
+  if (lessonId.includes("chronic-kidney") || lessonId.includes("ckd")) return illustrationCKDNew;
   if (lessonId.includes("microscopic-colitis") || lessonId.includes("collagenous-colitis") || lessonId.includes("lymphocytic-colitis")) return illustrationMicroscopicColitisV2;
   if (lessonId.includes("ngtube") || lessonId.includes("ng-tube") || lessonId.includes("nasogastric")) return illustrationNGTubeV3;
   if (lessonId.includes("pancreatic-pseudocyst")) return illustrationPancreaticPseudocystV3;
@@ -2013,7 +2129,22 @@ export function getLessonImage(lessonId: string): string | undefined {
   if (lessonId.includes("kidney") || lessonId.includes("renal") || lessonId.includes("dialysis") || lessonId.includes("crrt")) return illustrationKidneys;
   if (lessonId.includes("electrolyte")) return illustrationElectrolytes;
   if (lessonId.includes("tumor") || lessonId.includes("cancer") || lessonId.includes("chemo") || lessonId.includes("oncol")) return illustrationTumor;
-  if (lessonId.includes("wound") || lessonId.includes("burn") || lessonId.includes("cellulitis")) return illustrationWound;
+  if (lessonId.includes("cellulitis")) return illustrationCellulitisNew;
+  if (lessonId.includes("clubfoot") || lessonId.includes("talipes")) return illustrationClubfoot;
+  if (lessonId.includes("compartment-syndrome") || lessonId.includes("compartment_syndrome")) return illustrationCompartmentSyndromeNew;
+  if (lessonId.includes("contracture")) return illustrationContracture;
+  if (lessonId.includes("cushing")) return illustrationCushingsNew;
+  if (lessonId.includes("delayed-hemolytic") || lessonId.includes("delayed-transfusion")) return illustrationDelayedHemolyticReaction;
+  if (lessonId.includes("hip-dysplasia") || lessonId.includes("developmental-hip")) return illustrationDevHipDysplasia;
+  if (lessonId.includes("diabetes-insipidus")) return illustrationDiabetesInsipidusNew;
+  if (lessonId.includes("diabetic-nephropathy")) return illustrationDiabeticNephropathy;
+  if (lessonId.includes("disseminated-intravascular") || lessonId === "dic" || lessonId.includes("dic-")) return illustrationDICNew;
+  if (lessonId.includes("disuse-atrophy") || lessonId.includes("disuse_atrophy")) return illustrationDisuseAtrophy;
+  if (lessonId.includes("duchenne") || lessonId.includes("muscular-dystrophy")) return illustrationDuchenne;
+  if (lessonId.includes("epistaxis") || lessonId.includes("nosebleed")) return illustrationEpistaxis;
+  if (lessonId.includes("erysipelas")) return illustrationErysipelas;
+  if (lessonId.includes("diabetes-across") || lessonId.includes("diabetes-mellitus")) return illustrationDiabetesAcrossAges;
+  if (lessonId.includes("wound") || lessonId.includes("burn")) return illustrationWound;
   if (lessonId.includes("bacteria") || lessonId.includes("infection")) return illustrationBacteria;
   if (lessonId.includes("virus") || lessonId.includes("viral")) return illustrationVirus;
   if (lessonId.includes("maternity") || lessonId.includes("pregnan") || lessonId.includes("postpartum")) return illustrationMaternity;

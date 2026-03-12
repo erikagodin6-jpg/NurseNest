@@ -36,8 +36,26 @@ import imgPolycysticKidney from "@assets/polycystickidney_1773269379973.png";
 import imgPolycythemia from "@assets/polycythemia_1773269379973.png";
 import imgPepticUlcer from "@assets/pepticulcer_1773269379973.png";
 import imgOsteoporosis from "@assets/osteoporosis_1773269379973.png";
+import imgCellulitis from "@assets/cellulitis_1773269507783.png";
+import imgCKD from "@assets/CKD_1773269507783.jpeg";
+import imgClubfoot from "@assets/clubfoot_1773269507783.png";
+import imgCompartmentSyndrome from "@assets/compartmentsyndrome_1773269507783.png";
+import imgConjunctivitis from "@assets/conjunctivitis_1773269507783.png";
+import imgContracture from "@assets/contracture_1773269507783.png";
+import imgCushings from "@assets/cushings_1773269507783.png";
+import imgDelayedHemolyticReaction from "@assets/delayedhemolyticreaction_1773269507783.png";
+import imgDevHipDysplasia from "@assets/developmentalhipdysplasia_1773269507783.png";
+import imgDiabetes from "@assets/diabetes_1773269507783.png";
+import imgDiabetesInsipidus from "@assets/diabetesinsipidus_1773269507783.png";
+import imgDiabeticNephropathy from "@assets/diabeticnephropathy_1773269507783.png";
+import imgDIC from "@assets/DIC_1773269507783.png";
+import imgDisuseAtrophy from "@assets/disuseatrophy_1773269507783.png";
+import imgDuchenne from "@assets/duchenne_1773269507783.png";
+import imgEpiglottitis from "@assets/epiglottitis_1773269507783.png";
+import imgEpistaxis from "@assets/epistaxis_1773269507783.png";
+import imgErysipelas from "@assets/erysipelas_1773269507783.png";
 
-export { imgUlcerativeColitis, imgVonWillebrand, imgUrinaryCatheterization, imgSIADH, imgSickleCellCrisis, imgStomaCare, imgThalassemia, imgThrombocytopenia, imgThyroidStorm, imgTRALI, imgVitiligo, imgUrethralStricture, imgVestibularNeuritis, imgAddisons, imgAplasticAnemia, imgAcuteHemolyticReaction, imgAllergicTransfusion, imgAirEmbolism, imgCBI, imgCastCareTraction, imgAlopecia, imgBPH, imgAtopicDermatitis, imgAcromegaly, imgBPPV, imgNGTube, imgPancreatitis, imgPeritonealDialysis, imgPolycysticKidney, imgPolycythemia, imgPepticUlcer, imgOsteoporosis };
+export { imgUlcerativeColitis, imgVonWillebrand, imgUrinaryCatheterization, imgSIADH, imgSickleCellCrisis, imgStomaCare, imgThalassemia, imgThrombocytopenia, imgThyroidStorm, imgTRALI, imgVitiligo, imgUrethralStricture, imgVestibularNeuritis, imgAddisons, imgAplasticAnemia, imgAcuteHemolyticReaction, imgAllergicTransfusion, imgAirEmbolism, imgCBI, imgCastCareTraction, imgAlopecia, imgBPH, imgAtopicDermatitis, imgAcromegaly, imgBPPV, imgNGTube, imgPancreatitis, imgPeritonealDialysis, imgPolycysticKidney, imgPolycythemia, imgPepticUlcer, imgOsteoporosis, imgCellulitis, imgCKD, imgClubfoot, imgCompartmentSyndrome, imgConjunctivitis, imgContracture, imgCushings, imgDelayedHemolyticReaction, imgDevHipDysplasia, imgDiabetes, imgDiabetesInsipidus, imgDiabeticNephropathy, imgDIC, imgDisuseAtrophy, imgDuchenne, imgEpiglottitis, imgEpistaxis, imgErysipelas };
 
 export type FlashcardData = {
   id: string;
@@ -928,7 +946,8 @@ export const rpnFlashcards: FlashcardData[] = [
     question: "Chronic Kidney Disease (CKD) Stages",
     answer: "Staged by GFR: Stage 1: GFR ≥ 90 (kidney damage with normal function). Stage 2: GFR 60-89. Stage 3: GFR 30-59. Stage 4: GFR 15-29. Stage 5: GFR < 15 (end-stage, dialysis/transplant needed). Complications: Anemia, bone disease, hyperkalemia, fluid overload.",
     category: "Renal/GU",
-    difficulty: 3
+    difficulty: 3,
+    image: imgCKD
   },
   {
     id: "rpn-renal-t3",
@@ -1064,7 +1083,8 @@ export const rpnFlashcards: FlashcardData[] = [
     question: "Cushing's Syndrome",
     answer: "Excess cortisol. Causes: Long-term corticosteroid therapy (most common) or adrenal/pituitary tumor. Signs: Moon face, buffalo hump, truncal obesity, striae, hypertension, hyperglycemia, hypokalemia, immunosuppression, osteoporosis. Treatment: Taper steroids if iatrogenic, surgery if tumor.",
     category: "Endocrine",
-    difficulty: 2
+    difficulty: 2,
+    image: imgCushings
   },
   {
     id: "rpn-endo-t3",
@@ -1081,7 +1101,8 @@ export const rpnFlashcards: FlashcardData[] = [
     question: "Diabetes Insipidus (DI)",
     answer: "Deficiency of ADH (central) or kidneys unresponsive to ADH (nephrogenic) → massive water loss. Signs: Polyuria (up to 20L/day), polydipsia, very dilute urine (low specific gravity < 1.005), hypernatremia, dehydration. Treatment: Central DI: Desmopressin (DDAVP). Monitor I&O closely.",
     category: "Endocrine",
-    difficulty: 3
+    difficulty: 3,
+    image: imgDiabetesInsipidus
   },
   {
     id: "rpn-endo-q6",
@@ -1201,7 +1222,8 @@ export const rpnFlashcards: FlashcardData[] = [
     question: "DIC (Disseminated Intravascular Coagulation)",
     answer: "Widespread activation of the clotting cascade causing simultaneous clotting and bleeding. Causes: Sepsis, trauma, obstetric complications, cancer. Lab findings: Low platelets, low fibrinogen, elevated D-dimer, prolonged PT/PTT. Treatment: Treat underlying cause, blood products, heparin (controversial).",
     category: "Hematology",
-    difficulty: 4
+    difficulty: 4,
+    image: imgDIC
   },
   {
     id: "rpn-heme-t2",
@@ -1525,7 +1547,8 @@ export const rpnFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "Croup: Viral, age 6 mo-3 yrs, gradual onset, barking (seal-like) cough, stridor, hoarseness, steeple sign on X-ray. Treatment: Cool mist humidification, racemic epinephrine, corticosteroids (dexamethasone). Epiglottitis: Bacterial, sudden onset, drooling, no cough, thumb sign on X-ray: do NOT examine throat.",
     category: "Pediatrics",
-    difficulty: 2
+    difficulty: 2,
+    image: imgEpiglottitis
   },
   {
     id: "rpn-peds-q3",
@@ -1591,7 +1614,8 @@ export const rpnFlashcards: FlashcardData[] = [
     correctIndex: 2,
     answer: "NEVER examine the throat of a child with suspected epiglottitis using a tongue depressor: this can trigger complete airway obstruction. Keep the child calm, in an upright position (tripod), and have emergency intubation/tracheostomy equipment immediately available.",
     category: "Pediatrics",
-    difficulty: 2
+    difficulty: 2,
+    image: imgEpiglottitis
   },
   {
     id: "rpn-peds-t3",
@@ -3473,7 +3497,8 @@ export const rpnFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "Healthy kidneys produce erythropoietin (EPO), which stimulates RBC production. In CKD, EPO production decreases, causing anemia. Synthetic EPO (epoetin alfa/darbepoetin) stimulates RBC production. Also supplement iron if needed. Monitor Hgb (target 10-12 g/dL: avoid overcorrection due to thrombosis risk).",
     category: "Renal/GU",
-    difficulty: 2
+    difficulty: 2,
+    image: imgCKD
   },
   {
     id: "rpn-heme-q10",
@@ -4164,7 +4189,8 @@ export const rpnFlashcards: FlashcardData[] = [
     correctIndex: 2,
     answer: "GFR 15-29 mL/min = Stage 4 CKD (severe reduction). Client should be referred to a nephrologist for dialysis planning and education about options (hemodialysis, peritoneal dialysis, transplant). Stage 5 (ESRD): GFR < 15, dialysis or transplant needed.",
     category: "Renal/GU",
-    difficulty: 3
+    difficulty: 3,
+    image: imgCKD
   },
   {
     id: "rpn-renal-t8",
@@ -4431,7 +4457,8 @@ export const rpnFlashcards: FlashcardData[] = [
     question: "Developmental Dysplasia of the Hip (DDH)",
     answer: "Abnormal hip development ranging from subluxation to dislocation. Screening: Ortolani test (clunk as hip reduces) and Barlow test (hip dislocates with pressure). Signs: Asymmetric thigh folds, limited abduction, leg length discrepancy. Treatment: Pavlik harness (infants), spica cast, surgery for older children.",
     category: "Pediatrics",
-    difficulty: 2
+    difficulty: 2,
+    image: imgDevHipDysplasia
   },
   {
     id: "rpn-peds-q20",
@@ -4441,7 +4468,8 @@ export const rpnFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "Epistaxis management: Have the child sit upright and lean slightly forward (prevents swallowing blood → nausea/vomiting). Pinch the soft cartilaginous portion of the nose continuously for 10-15 minutes. Apply ice to the bridge. Do NOT tilt head back (aspiration risk). Seek medical attention if bleeding persists > 20 minutes.",
     category: "Pediatrics",
-    difficulty: 1
+    difficulty: 1,
+    image: imgEpistaxis
   },
   {
     id: "rpn-peds-q21",
@@ -4743,7 +4771,8 @@ export const rpnFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "Circumferential full-thickness burns create a tight, inelastic eschar that can act like a tourniquet, compromising circulation (compartment syndrome). Escharotomy: Surgical incision through the eschar to release pressure and restore circulation. Fasciotomy may be needed if compartment syndrome develops.",
     category: "Wound Care",
-    difficulty: 4
+    difficulty: 4,
+    image: imgCompartmentSyndrome
   },
   {
     id: "rpn-wound-q12",
@@ -5634,7 +5663,8 @@ export const rpnFlashcards: FlashcardData[] = [
     question: "Renal Diet Summary",
     answer: "CKD diet restrictions: Low potassium (avoid bananas, oranges, potatoes), low phosphorus (avoid dairy, cola, processed foods), low sodium (< 2g/day), adequate protein (varies by stage: higher in dialysis, lower in pre-dialysis), fluid restriction. Phosphate binders taken WITH meals. Calcium and vitamin D supplementation.",
     category: "Renal/GU",
-    difficulty: 2
+    difficulty: 2,
+    image: imgCKD
   },
   {
     id: "rpn-renal-q18",

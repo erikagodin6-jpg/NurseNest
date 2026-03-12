@@ -1,5 +1,5 @@
 import type { FlashcardData } from "./flashcards-rpn";
-import { imgUlcerativeColitis, imgVonWillebrand, imgSIADH, imgSickleCellCrisis, imgVitiligo, imgUrethralStricture, imgVestibularNeuritis, imgAddisons, imgBPH, imgPancreatitis, imgOsteoporosis } from "./flashcards-rpn";
+import { imgUlcerativeColitis, imgVonWillebrand, imgSIADH, imgSickleCellCrisis, imgVitiligo, imgUrethralStricture, imgVestibularNeuritis, imgAddisons, imgBPH, imgPancreatitis, imgOsteoporosis, imgCellulitis, imgCKD, imgClubfoot, imgCompartmentSyndrome, imgConjunctivitis, imgContracture, imgCushings, imgDelayedHemolyticReaction, imgDevHipDysplasia, imgDiabetes, imgDiabetesInsipidus, imgDiabeticNephropathy, imgDIC, imgDisuseAtrophy, imgDuchenne, imgEpiglottitis, imgEpistaxis, imgErysipelas } from "./flashcards-rpn";
 import illustrationShinglesV2 from "@/assets/images/shingles-v2.png";
 import illustrationRetinalDetachmentV2 from "@/assets/images/retinal-detachment-v2.png";
 import illustrationRheumatoidArthritis from "@/assets/images/rheumatoid-arthritis.png";
@@ -427,7 +427,8 @@ export const npFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "The Endocrine Society recommends at least TWO of three screening tests for Cushing syndrome: (1) 24-hour urinary free cortisol (elevated in Cushing), (2) late-night salivary cortisol (loss of diurnal rhythm), or (3) 1 mg overnight dexamethasone suppression test (failure to suppress cortisol below 1.8 μg/dL). Random cortisol is unreliable due to diurnal variation and stress response. ACTH and MRI are used AFTER confirming hypercortisolism to determine the cause (ACTH-dependent vs. independent).",
     category: "Diagnostic Reasoning",
-    difficulty: 3
+    difficulty: 3,
+    image: imgCushings
   },
   {
     id: "np-diag-q8",
@@ -508,7 +509,8 @@ export const npFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "CKD causes a cascade: failing kidneys cannot convert 25-OH vitamin D to active 1,25-(OH)2 vitamin D → decreased intestinal calcium absorption → hypocalcemia → parathyroid glands respond with elevated PTH (secondary hyperparathyroidism). Failing kidneys also cannot excrete phosphorus → hyperphosphatemia → further calcium deposition and hypocalcemia. Treatment: phosphate binders with meals, active vitamin D (calcitriol), and cinacalcet (calcimimetic) if PTH remains elevated. Unlike primary hyperparathyroidism, which shows HYPERcalcemia.",
     category: "Diagnostic Reasoning",
-    difficulty: 2
+    difficulty: 2,
+    image: imgCKD
   },
   {
     id: "np-diag-q16",
@@ -1365,7 +1367,8 @@ export const npFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "Iatrogenic Cushing syndrome is diagnosed clinically based on exogenous glucocorticoid use and cushingoid features. The 24-hour urine free cortisol and midnight salivary cortisol will be elevated. However, the dexamethasone suppression test is used to diagnose endogenous Cushing syndrome, not iatrogenic. ACTH will be suppressed in iatrogenic cases (exogenous steroids suppress the HPA axis). Management involves gradual taper to prevent adrenal crisis.",
     category: "Endocrine NP",
-    difficulty: 3
+    difficulty: 3,
+    image: imgCushings
   },
   {
     id: "np-endo-q7",
@@ -2083,7 +2086,8 @@ export const npFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "CKD stage 3 requires comprehensive monitoring: eGFR and UACR every 3-6 months, electrolytes (hyperkalemia risk), calcium/phosphorus/PTH (mineral bone disease), hemoglobin (anemia of CKD from decreased erythropoietin), lipid panel, and blood pressure optimization (<130/80). Refer to nephrology at stage 4 (eGFR <30) or earlier if rapid decline (>5 mL/min/year). Avoid nephrotoxins (NSAIDs, contrast dye, aminoglycosides). SGLT2 inhibitors slow CKD progression.",
     category: "Family NP",
-    difficulty: 2
+    difficulty: 2,
+    image: imgCKD
   },
   {
     id: "np-diff-q21",
