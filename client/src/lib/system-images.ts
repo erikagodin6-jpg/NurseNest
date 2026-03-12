@@ -446,6 +446,24 @@ import illustrationBiliaryAtresia from "@assets/biliaryatresia_1773269538451.png
 import illustrationBPPV from "@assets/BPPV_1773269538451.png";
 import illustrationBullousPemphigoid from "@assets/bullouspemphigoid_1773269538451.png";
 import illustrationCastCareTraction from "@assets/castcareandtraction_1773269538451.png";
+import illustrationNGTubeV3 from "@assets/Ngtube_1773269379973.jpeg";
+import illustrationNonImmuneHemolysis from "@assets/nonimmunehemolysis_1773269379973.png";
+import illustrationObstructiveUropathy from "@assets/obstructiveuropathy_1773269379973.png";
+import illustrationOsteoporosisV2 from "@assets/osteoporosis_1773269379973.png";
+import illustrationOtitisExternaV2 from "@assets/otitisexterna_1773269379973.png";
+import illustrationPancreaticFunctioning from "@assets/pancreaticfunctioning_1773269379973.png";
+import illustrationPancreaticPseudocystV3 from "@assets/pancreaticpseudocyst_1773269379973.jpeg";
+import illustrationPancreatitisV3 from "@assets/pancreatitis_1773269379973.png";
+import illustrationPapilledema from "@assets/papilledema_1773269379973.png";
+import illustrationPemphigusV2 from "@assets/pemphigus_1773269379973.png";
+import illustrationPepticUlcerV3 from "@assets/pepticulcer_1773269379973.png";
+import illustrationPeritonealDialysis from "@assets/peritonealdialysis_1773269379973.png";
+import illustrationPharyngitis from "@assets/pharyngitis_1773269379973.png";
+import illustrationPituitaryGlands from "@assets/pituitaryglands_1773269379973.png";
+import illustrationPolycysticKidney from "@assets/polycystickidney_1773269379973.png";
+import illustrationPolycythemiaV2 from "@assets/polycythemia_1773269379973.png";
+import illustrationPolydactyly from "@assets/polydactyly_1773269379973.png";
+import illustrationPostTransfusionPurpura from "@assets/posttransfusionpurpura_1773269379973.png";
 
 const lessonSpecificImages: Record<string, string> = {
   "infective-endocarditis-signs": illustrationEndocarditisSigns,
@@ -753,7 +771,7 @@ const lessonSpecificImages: Record<string, string> = {
   "urticaria": illustrationAtopicDermatitis,
   "scabies": illustrationScabiesV2,
   "impetigo": illustrationImpetigo,
-  "pemphigus-vulgaris": illustrationPemphigus,
+  "pemphigus-vulgaris": illustrationPemphigusV2,
   "melanoma": illustrationTumor,
   "toxic-epidermal-necrolysis": illustrationSJS,
   "inflammatory-response": illustrationInflammatoryResponse,
@@ -775,13 +793,13 @@ const lessonSpecificImages: Record<string, string> = {
   "alopecia": illustrationAlopecia,
   "alopecia-areata": illustrationAlopecia,
   "hair-loss": illustrationAlopecia,
-  "pemphigus": illustrationPemphigus,
-  "polycythemia": illustrationPolycythemia,
-  "polycythemia-vera": illustrationPolycythemia,
+  "pemphigus": illustrationPemphigusV2,
+  "polycythemia": illustrationPolycythemiaV2,
+  "polycythemia-vera": illustrationPolycythemiaV2,
   "atopic-dermatitis": illustrationAtopicDermatitis,
   "eczema": illustrationAtopicDermatitis2,
   "otitis-media": illustrationOtitis,
-  "otitis-externa": illustrationOtitis,
+  "otitis-externa": illustrationOtitisExternaV2,
   "ear-infection": illustrationOtitis,
   "herpes-simplex": illustrationHerpesSimplex,
   "hsv": illustrationHerpesSimplex,
@@ -818,8 +836,8 @@ const lessonSpecificImages: Record<string, string> = {
   "chickenpox": illustrationVaricella,
   "varicella-rash-stages": illustrationVaricellaStages,
   "epiglottitis": illustrationEpiglottitis,
-  "osteoporosis": illustrationOsteoporosis,
-  "osteoporosis-basics": illustrationOsteoporosis,
+  "osteoporosis": illustrationOsteoporosisV2,
+  "osteoporosis-basics": illustrationOsteoporosisV2,
   "kawasaki-disease": illustrationKawasakiV2,
   "kawasaki": illustrationKawasakiV2,
   "kawasaki-disease-management": illustrationKawasakiV2,
@@ -960,7 +978,7 @@ const lessonSpecificImages: Record<string, string> = {
   "cirrhosis-rpn": illustrationCirrhosisV2,
   "cirrhosis-rn": illustrationCirrhosisV2,
   "cirrhosis-np": illustrationCirrhosisV2,
-  "acute-pancreatitis": illustrationPancreatitisV2,
+  "acute-pancreatitis": illustrationPancreatitisV3,
   "bowel-obstruction": illustrationBowelObstructionV2,
   "bowel-obstruction-rpn": illustrationBowelObstructionV2,
   "bowel-obstruction-rn": illustrationBowelObstructionV2,
@@ -975,13 +993,13 @@ const lessonSpecificImages: Record<string, string> = {
   "barrett-esophagus-rn": illustrationBarrettEsophagusV2,
   "barrett-esophagus-np": illustrationBarrettEsophagusV2,
   "barretts-esophagus": illustrationBarrettEsophagusV2,
-  "peptic-ulcer": illustrationPepticUlcerV2,
-  "peptic-ulcer-rpn": illustrationPepticUlcerV2,
-  "peptic-ulcer-rn": illustrationPepticUlcerV2,
-  "peptic-ulcer-np": illustrationPepticUlcerV2,
-  "peptic-ulcer-disease": illustrationPepticUlcerV2,
-  "gastric-ulcer": illustrationPepticUlcerV2,
-  "duodenal-ulcer": illustrationPepticUlcerV2,
+  "peptic-ulcer": illustrationPepticUlcerV3,
+  "peptic-ulcer-rpn": illustrationPepticUlcerV3,
+  "peptic-ulcer-rn": illustrationPepticUlcerV3,
+  "peptic-ulcer-np": illustrationPepticUlcerV3,
+  "peptic-ulcer-disease": illustrationPepticUlcerV3,
+  "gastric-ulcer": illustrationPepticUlcerV3,
+  "duodenal-ulcer": illustrationPepticUlcerV3,
   "ibs-basics": illustrationIBSV2,
   "ibs": illustrationIBSV2,
   "ibs-rpn": illustrationIBSV2,
@@ -1003,12 +1021,12 @@ const lessonSpecificImages: Record<string, string> = {
   "meckel-diverticulum-rn": illustrationMeckelDiverticulumV3,
   "meckel-diverticulum-np": illustrationMeckelDiverticulumV3,
   "meckels-diverticulum": illustrationMeckelDiverticulumV3,
-  "ngtube-care": illustrationNGTubeV2,
-  "ng-tube": illustrationNGTubeV2,
-  "ng-tube-rpn": illustrationNGTubeV2,
-  "ng-tube-rn": illustrationNGTubeV2,
-  "ng-tube-np": illustrationNGTubeV2,
-  "nasogastric-tube": illustrationNGTubeV2,
+  "ngtube-care": illustrationNGTubeV3,
+  "ng-tube": illustrationNGTubeV3,
+  "ng-tube-rpn": illustrationNGTubeV3,
+  "ng-tube-rn": illustrationNGTubeV3,
+  "ng-tube-np": illustrationNGTubeV3,
+  "nasogastric-tube": illustrationNGTubeV3,
   "catheterization": illustrationRenalAnatomy,
   "electrolyte-safety": illustrationRenalAnatomy,
   "bph-management": illustrationBPHV2,
@@ -1025,9 +1043,9 @@ const lessonSpecificImages: Record<string, string> = {
   "acute-glomerulonephritis": illustrationRenalAnatomy,
   "hormonal-regulation": illustrationEndocrineAnatomy,
   "thyroid-function": illustrationEndocrineAnatomy,
-  "pancreatic-function": illustrationEndocrineAnatomy,
+  "pancreatic-function": illustrationPancreaticFunctioning,
   "adrenal-function": illustrationEndocrineAnatomy,
-  "pituitary-function": illustrationEndocrineAnatomy,
+  "pituitary-function": illustrationPituitaryGlands,
   "siadh-di": illustrationEndocrineAnatomy,
   "dka-hhns": illustrationEndocrineAnatomy,
   "adrenal-insufficiency": illustrationEndocrineAnatomy,
@@ -1224,16 +1242,16 @@ const lessonSpecificImages: Record<string, string> = {
   "cirrhosis-pathophysiology": illustrationCirrhosisPatho,
   "hepatic-encephalopathy": illustrationCirrhosisPatho,
 
-  "pancreatitis-management": illustrationPancreatitisV2,
-  "pancreatitis": illustrationPancreatitisV2,
-  "pancreatitis-rpn": illustrationPancreatitisV2,
-  "pancreatitis-rn": illustrationPancreatitisV2,
-  "pancreatitis-np": illustrationPancreatitisV2,
-  "chronic-pancreatitis": illustrationPancreatitisV2,
-  "pancreatic-pseudocyst": illustrationPancreaticPseudocystV2,
-  "pancreatic-pseudocyst-rpn": illustrationPancreaticPseudocystV2,
-  "pancreatic-pseudocyst-rn": illustrationPancreaticPseudocystV2,
-  "pancreatic-pseudocyst-np": illustrationPancreaticPseudocystV2,
+  "pancreatitis-management": illustrationPancreatitisV3,
+  "pancreatitis": illustrationPancreatitisV3,
+  "pancreatitis-rpn": illustrationPancreatitisV3,
+  "pancreatitis-rn": illustrationPancreatitisV3,
+  "pancreatitis-np": illustrationPancreatitisV3,
+  "chronic-pancreatitis": illustrationPancreatitisV3,
+  "pancreatic-pseudocyst": illustrationPancreaticPseudocystV3,
+  "pancreatic-pseudocyst-rpn": illustrationPancreaticPseudocystV3,
+  "pancreatic-pseudocyst-rn": illustrationPancreaticPseudocystV3,
+  "pancreatic-pseudocyst-np": illustrationPancreaticPseudocystV3,
 
   "parkinsons-management": illustrationParkinsonsV3,
 
@@ -1335,7 +1353,7 @@ const lessonSpecificImages: Record<string, string> = {
   "crohns": illustrationCrohnsV2,
   "ibd-management": illustrationUCPatho,
 
-  "peptic-ulcer-basics-rpn": illustrationPepticUlcerV2,
+  "peptic-ulcer-basics-rpn": illustrationPepticUlcerV3,
   "microscopic-colitis": illustrationMicroscopicColitisV2,
   "microscopic-colitis-rpn": illustrationMicroscopicColitisV2,
   "microscopic-colitis-rn": illustrationMicroscopicColitisV2,
@@ -1391,7 +1409,7 @@ const lessonSpecificImages: Record<string, string> = {
   "rhabdomyolysis-management": illustrationRhabdomyolysisPatho,
 
   "hemodialysis-basics-rpn": illustrationAVFistulaPatho,
-  "peritoneal-dialysis-basics-rpn": illustrationAVFistulaPatho,
+  "peritoneal-dialysis-basics-rpn": illustrationPeritonealDialysis,
 
   "endocarditis-basics-rpn": illustrationEndocarditisSigns,
 
@@ -1454,6 +1472,73 @@ const lessonSpecificImages: Record<string, string> = {
   "rheumatoid-arthritis-rpn": illustrationRheumatoidArthritis,
   "rheumatoid-arthritis-rn": illustrationRheumatoidArthritis,
   "rheumatoid-arthritis-np": illustrationRheumatoidArthritis,
+
+  "papilledema": illustrationPapilledema,
+  "papilledema-rpn": illustrationPapilledema,
+  "papilledema-rn": illustrationPapilledema,
+  "papilledema-np": illustrationPapilledema,
+
+  "pharyngitis": illustrationPharyngitis,
+  "pharyngitis-rpn": illustrationPharyngitis,
+  "pharyngitis-rn": illustrationPharyngitis,
+  "pharyngitis-np": illustrationPharyngitis,
+  "strep-pharyngitis": illustrationPharyngitis,
+
+  "polycystic-kidney-disease": illustrationPolycysticKidney,
+  "polycystic-kidney-disease-rpn": illustrationPolycysticKidney,
+  "polycystic-kidney-disease-rn": illustrationPolycysticKidney,
+  "polycystic-kidney-disease-np": illustrationPolycysticKidney,
+  "pkd": illustrationPolycysticKidney,
+
+  "polydactyly": illustrationPolydactyly,
+  "polydactyly-rpn": illustrationPolydactyly,
+  "polydactyly-rn": illustrationPolydactyly,
+  "polydactyly-np": illustrationPolydactyly,
+
+  "post-transfusion-purpura": illustrationPostTransfusionPurpura,
+  "post-transfusion-purpura-rpn": illustrationPostTransfusionPurpura,
+  "post-transfusion-purpura-rn": illustrationPostTransfusionPurpura,
+  "post-transfusion-purpura-np": illustrationPostTransfusionPurpura,
+
+  "non-immune-hemolysis": illustrationNonImmuneHemolysis,
+  "non-immune-hemolysis-rpn": illustrationNonImmuneHemolysis,
+  "non-immune-hemolysis-rn": illustrationNonImmuneHemolysis,
+  "non-immune-hemolysis-np": illustrationNonImmuneHemolysis,
+  "nonimmune-hemolysis": illustrationNonImmuneHemolysis,
+
+  "obstructive-uropathy": illustrationObstructiveUropathy,
+  "obstructive-uropathy-rpn": illustrationObstructiveUropathy,
+  "obstructive-uropathy-rn": illustrationObstructiveUropathy,
+  "obstructive-uropathy-np": illustrationObstructiveUropathy,
+
+  "peritoneal-dialysis": illustrationPeritonealDialysis,
+  "peritoneal-dialysis-rpn": illustrationPeritonealDialysis,
+  "peritoneal-dialysis-rn": illustrationPeritonealDialysis,
+  "peritoneal-dialysis-np": illustrationPeritonealDialysis,
+
+  "osteoporosis": illustrationOsteoporosisV2,
+  "osteoporosis-rpn": illustrationOsteoporosisV2,
+  "osteoporosis-rn": illustrationOsteoporosisV2,
+  "osteoporosis-np": illustrationOsteoporosisV2,
+  "osteoporosis-management": illustrationOsteoporosisV2,
+
+  "otitis-externa": illustrationOtitisExternaV2,
+  "otitis-externa-rpn": illustrationOtitisExternaV2,
+  "otitis-externa-rn": illustrationOtitisExternaV2,
+  "otitis-externa-np": illustrationOtitisExternaV2,
+
+  "pituitary-glands": illustrationPituitaryGlands,
+  "pituitary-adenoma": illustrationPituitaryGlands,
+  "acromegaly": illustrationPituitaryGlands,
+  "acromegaly-rpn": illustrationPituitaryGlands,
+  "acromegaly-rn": illustrationPituitaryGlands,
+  "acromegaly-np": illustrationPituitaryGlands,
+
+  "polycythemia-vera": illustrationPolycythemiaV2,
+  "polycythemia": illustrationPolycythemiaV2,
+  "polycythemia-rpn": illustrationPolycythemiaV2,
+  "polycythemia-rn": illustrationPolycythemiaV2,
+  "polycythemia-np": illustrationPolycythemiaV2,
 };
 
 const systemImageMap: Record<string, string> = {
@@ -1514,11 +1599,11 @@ const systemImageMap: Record<string, string> = {
   "hematology-oncology-rpn": illustrationHematology,
   "hematology-pharmacology-rpn": illustrationHematology,
 
-  "musculoskeletal": illustrationOsteoporosis,
-  "musculoskeletal-rpn": illustrationOsteoporosis,
-  "musculoskeletal-rn": illustrationOsteoporosis,
-  "musculoskeletal-np": illustrationOsteoporosis,
-  "orthopedic-rpn": illustrationOsteoporosis,
+  "musculoskeletal": illustrationOsteoporosisV2,
+  "musculoskeletal-rpn": illustrationOsteoporosisV2,
+  "musculoskeletal-rn": illustrationOsteoporosisV2,
+  "musculoskeletal-np": illustrationOsteoporosisV2,
+  "orthopedic-rpn": illustrationOsteoporosisV2,
 
   "immune": illustrationInflammatoryResponse,
   "immune-system": illustrationInflammatoryResponse,
@@ -1765,9 +1850,10 @@ export function getLessonImage(lessonId: string): string | undefined {
   if (lessonId.includes("bullous-pemphigoid")) return illustrationBullousPemphigoid;
   if (lessonId.includes("cast-care") || lessonId.includes("traction")) return illustrationCastCareTraction;
   if (lessonId.includes("adrenal-gland")) return illustrationAdrenalGland;
-  if (lessonId.includes("pemphigus")) return illustrationPemphigus;
-  if (lessonId.includes("polycythem")) return illustrationPolycythemia;
+  if (lessonId.includes("pemphigus")) return illustrationPemphigusV2;
+  if (lessonId.includes("polycythem")) return illustrationPolycythemiaV2;
   if (lessonId.includes("atopic") || lessonId.includes("eczema")) return illustrationAtopicDermatitis;
+  if (lessonId.includes("otitis-externa")) return illustrationOtitisExternaV2;
   if (lessonId.includes("otitis") || lessonId.includes("ear-infect")) return illustrationOtitis;
   if (lessonId.includes("herpes-simplex") || lessonId.includes("hsv") || lessonId.includes("cold-sore")) return illustrationHerpesSimplex;
   if (lessonId.includes("glaucoma")) return illustrationGlaucoma;
@@ -1781,7 +1867,7 @@ export function getLessonImage(lessonId: string): string | undefined {
   if (lessonId.includes("impetigo")) return illustrationImpetigo;
   if (lessonId.includes("varicella") || lessonId.includes("chickenpox")) return illustrationVaricella;
   if (lessonId.includes("epiglottitis")) return illustrationEpiglottitis;
-  if (lessonId.includes("osteoporosis")) return illustrationOsteoporosis;
+  if (lessonId.includes("osteoporosis")) return illustrationOsteoporosisV2;
   if (lessonId.includes("kawasaki")) return illustrationKawasakiV2;
   if (lessonId.includes("scabies")) return illustrationScabiesV2;
   if (lessonId.includes("raynaud")) return illustrationRaynaudsV2;
@@ -1802,10 +1888,10 @@ export function getLessonImage(lessonId: string): string | undefined {
   if (lessonId.includes("bladder-irrigation") || lessonId.includes("cbi")) return illustrationCBIV2;
   if (lessonId.includes("chronic-kidney") || lessonId.includes("ckd")) return illustrationCKDV2;
   if (lessonId.includes("microscopic-colitis") || lessonId.includes("collagenous-colitis") || lessonId.includes("lymphocytic-colitis")) return illustrationMicroscopicColitisV2;
-  if (lessonId.includes("ngtube") || lessonId.includes("ng-tube") || lessonId.includes("nasogastric")) return illustrationNGTubeV2;
-  if (lessonId.includes("pancreatic-pseudocyst")) return illustrationPancreaticPseudocystV2;
-  if (lessonId.includes("pancreatitis")) return illustrationPancreatitisV2;
-  if (lessonId.includes("peptic-ulcer") || lessonId.includes("gastric-ulcer") || lessonId.includes("duodenal-ulcer")) return illustrationPepticUlcerV2;
+  if (lessonId.includes("ngtube") || lessonId.includes("ng-tube") || lessonId.includes("nasogastric")) return illustrationNGTubeV3;
+  if (lessonId.includes("pancreatic-pseudocyst")) return illustrationPancreaticPseudocystV3;
+  if (lessonId.includes("pancreatitis")) return illustrationPancreatitisV3;
+  if (lessonId.includes("peptic-ulcer") || lessonId.includes("gastric-ulcer") || lessonId.includes("duodenal-ulcer")) return illustrationPepticUlcerV3;
   if (lessonId.includes("rectal-med") || lessonId.includes("suppository") || lessonId.includes("rectal-admin")) return illustrationRectalMedicationV3;
   if (lessonId.includes("short-bowel")) return illustrationShortBowelV3;
   if (lessonId.includes("pseudohypoparathyroid")) return illustrationPseudohypoparathyroidism;
@@ -1875,6 +1961,16 @@ export function getLessonImage(lessonId: string): string | undefined {
   if (lessonId.includes("urinary-catheter")) return illustrationUrinaryCatheterization;
   if (lessonId.includes("transfusion-hyperkalemia")) return illustrationTransfusionHyperkalemia;
   if (lessonId.includes("transfusion-hypothermia")) return illustrationTransfusionHypothermia;
+  if (lessonId.includes("papilledema")) return illustrationPapilledema;
+  if (lessonId.includes("pharyngitis") || lessonId.includes("strep-throat")) return illustrationPharyngitis;
+  if (lessonId.includes("polycystic-kidney") || lessonId.includes("pkd")) return illustrationPolycysticKidney;
+  if (lessonId.includes("polydactyly")) return illustrationPolydactyly;
+  if (lessonId.includes("post-transfusion-purpura")) return illustrationPostTransfusionPurpura;
+  if (lessonId.includes("non-immune-hemolysis") || lessonId.includes("nonimmune-hemolysis")) return illustrationNonImmuneHemolysis;
+  if (lessonId.includes("obstructive-uropathy")) return illustrationObstructiveUropathy;
+  if (lessonId.includes("peritoneal-dialysis")) return illustrationPeritonealDialysis;
+  if (lessonId.includes("pancreatic-function")) return illustrationPancreaticFunctioning;
+  if (lessonId.includes("pituitary") || lessonId.includes("acromegaly")) return illustrationPituitaryGlands;
   if (lessonId.includes("kidney") || lessonId.includes("renal") || lessonId.includes("dialysis") || lessonId.includes("crrt")) return illustrationKidneys;
   if (lessonId.includes("electrolyte")) return illustrationElectrolytes;
   if (lessonId.includes("tumor") || lessonId.includes("cancer") || lessonId.includes("chemo") || lessonId.includes("oncol")) return illustrationTumor;
@@ -2079,7 +2175,7 @@ const categoryImageMap: Record<string, string> = {
   "GU / Renal": illustrationKidneys,
   "Endocrine": illustrationHomeostasis,
   "Hematology": illustrationHematology,
-  "Musculoskeletal": illustrationOsteoporosis,
+  "Musculoskeletal": illustrationOsteoporosisV2,
   "Skin": illustrationWound,
   "Infection": illustrationBacteria,
   "Pharmacology": illustrationPharmacology,

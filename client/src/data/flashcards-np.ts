@@ -1,8 +1,9 @@
 import type { FlashcardData } from "./flashcards-rpn";
-import { imgUlcerativeColitis, imgVonWillebrand, imgSIADH, imgSickleCellCrisis, imgVitiligo, imgUrethralStricture, imgVestibularNeuritis, imgAddisons, imgBPH } from "./flashcards-rpn";
+import { imgUlcerativeColitis, imgVonWillebrand, imgSIADH, imgSickleCellCrisis, imgVitiligo, imgUrethralStricture, imgVestibularNeuritis, imgAddisons, imgBPH, imgPancreatitis, imgOsteoporosis } from "./flashcards-rpn";
 import illustrationShinglesV2 from "@/assets/images/shingles-v2.png";
 import illustrationRetinalDetachmentV2 from "@/assets/images/retinal-detachment-v2.png";
 import illustrationRheumatoidArthritis from "@/assets/images/rheumatoid-arthritis.png";
+import imgPharyngitis from "@assets/pharyngitis_1773269379973.png";
 
 export const npFlashcards: FlashcardData[] = [
   // ============================================================
@@ -187,7 +188,8 @@ export const npFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "After 5+ years of bisphosphonate therapy, a drug holiday should be considered in patients at moderate fracture risk with stable or improved DEXA scores. Prolonged use increases risk of atypical femoral fractures and osteonecrosis of the jaw. Bisphosphonates persist in bone for years, providing residual benefit during holidays. High-risk patients (prior fragility fracture, T-score ≤ -2.5) may benefit from longer treatment or transition to anabolic agents (teriparatide, romosozumab). Reassess with DEXA in 2-3 years during holiday.",
     category: "Advanced Pharmacology",
-    difficulty: 2
+    difficulty: 2,
+    image: imgOsteoporosis
   },
   {
     id: "np-pharm-q19",
@@ -775,7 +777,8 @@ export const npFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "Paradise criteria for tonsillectomy: ≥7 episodes in 1 year, ≥5/year for 2 years, or ≥3/year for 3 years, each with specific documentation (fever, tonsillar exudate, positive GAS culture, or treatment with antibiotics). This child meets criteria with 7 episodes in 1 year. AAP/AAO-HNS guidelines support tonsillectomy in these cases. Watchful waiting is an alternative if the family prefers, as recurrence often decreases naturally. Penicillin allergy should be documented; amoxicillin or penicillin V remains first-line for GAS pharyngitis.",
     category: "Pediatric NP",
-    difficulty: 2
+    difficulty: 2,
+    image: imgPharyngitis
   },
   {
     id: "np-peds-q3",
@@ -805,7 +808,8 @@ export const npFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "PSGN is a classic post-infectious glomerulonephritis occurring 1-3 weeks after GAS pharyngitis or 3-6 weeks after GAS skin infection. The nephritic syndrome presentation (hematuria/cola-colored urine, edema, hypertension) with low C3 (consumed by immune complex deposition) following documented streptococcal infection is diagnostic. ASO titer or anti-DNase B confirms prior strep exposure. Treatment is supportive: sodium and fluid restriction, loop diuretics for edema, antihypertensives. C3 should normalize within 6-8 weeks; persistent low C3 suggests alternative diagnosis (MPGN, lupus nephritis).",
     category: "Pediatric NP",
-    difficulty: 2
+    difficulty: 2,
+    image: imgPharyngitis
   },
   {
     id: "np-peds-q6",
@@ -1370,7 +1374,8 @@ export const npFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "Bisphosphonates (alendronate, risedronate, zoledronic acid) are first-line for osteoporosis and reduce both vertebral and hip fracture risk. Take oral bisphosphonates on an empty stomach with a full glass of water, remain upright for 30 minutes to prevent esophageal erosion. For very high fracture risk, anabolic agents (teriparatide, romosozumab) may be considered first. Denosumab is an alternative for bisphosphonate-intolerant patients.",
     category: "Endocrine NP",
-    difficulty: 2
+    difficulty: 2,
+    image: imgOsteoporosis
   },
   {
     id: "np-endo-q8",
@@ -1445,7 +1450,8 @@ export const npFlashcards: FlashcardData[] = [
     correctIndex: 2,
     answer: "Ranson criteria predict severity and mortality in acute pancreatitis. Score ≥3 indicates severe pancreatitis. Score of 6 carries approximately 40% mortality. On admission criteria: age >55, WBC >16,000, glucose >200, LDH >350, AST >250. At 48 hours: HCT drop >10%, BUN rise >5, Ca <8, PaO2 <60, base deficit >4, fluid sequestration >6L. CT severity index (Balthazar) is also used for prognosis.",
     category: "Acute Care NP",
-    difficulty: 3
+    difficulty: 3,
+    image: imgPancreatitis
   },
   {
     id: "np-acute-q19",

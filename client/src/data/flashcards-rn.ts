@@ -1,5 +1,5 @@
 import type { FlashcardData } from "./flashcards-rpn";
-import { imgUlcerativeColitis, imgSIADH, imgSickleCellCrisis, imgStomaCare, imgThrombocytopenia, imgUrinaryCatheterization, imgVitiligo, imgUrethralStricture, imgVestibularNeuritis, imgAddisons, imgAcuteHemolyticReaction, imgAtopicDermatitis, imgBPH, imgCastCareTraction, imgAcromegaly } from "./flashcards-rpn";
+import { imgUlcerativeColitis, imgSIADH, imgSickleCellCrisis, imgStomaCare, imgThrombocytopenia, imgUrinaryCatheterization, imgVitiligo, imgUrethralStricture, imgVestibularNeuritis, imgAddisons, imgAcuteHemolyticReaction, imgAtopicDermatitis, imgBPH, imgCastCareTraction, imgAcromegaly, imgNGTube, imgPancreatitis, imgPeritonealDialysis, imgPepticUlcer, imgOsteoporosis } from "./flashcards-rpn";
 import imgStevensJohnson from "@assets/stevensjohnsonssyndrome_1773268456011.png";
 import illustrationPressureInjuriesV2 from "@/assets/images/pressure-injuries-v2.png";
 import illustrationPressureInjuryStagesV2 from "@/assets/images/pressure-injury-stages-v2.png";
@@ -7,6 +7,7 @@ import illustrationShinglesV2 from "@/assets/images/shingles-v2.png";
 import illustrationScabiesV2 from "@/assets/images/scabies-v2.png";
 import illustrationRibFractures from "@/assets/images/rib-fractures.png";
 import illustrationRheumatoidArthritis from "@/assets/images/rheumatoid-arthritis.png";
+import imgPituitaryGlands from "@assets/pituitaryglands_1773269379973.png";
 
 export const rnFlashcards: FlashcardData[] = [
   // ============================================================
@@ -599,7 +600,8 @@ export const rnFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "Zollinger-Ellison syndrome is caused by a gastrin-secreting tumor (gastrinoma) that produces massive gastric acid hypersecretion. Diagnosis is confirmed by a markedly elevated fasting serum gastrin level (often >1,000 pg/mL) and a positive secretin stimulation test (paradoxical rise in gastrin after secretin injection, which normally suppresses gastrin). Treatment includes high-dose PPIs and surgical tumor resection.",
     category: "GI",
-    difficulty: 3
+    difficulty: 3,
+    image: imgPepticUlcer
   },
   {
     id: "rn-gi-q9",
@@ -661,7 +663,8 @@ export const rnFlashcards: FlashcardData[] = [
     correctIndex: 2,
     answer: "Ranson's criteria predict the severity and mortality of acute pancreatitis. A score of 0-2 indicates mild disease with less than 5% mortality. A score of 3-4 indicates moderate severity with 15-20% mortality. A score of 5-6 indicates severe pancreatitis with mortality exceeding 40%. A score above 6 carries near 100% mortality. The client needs ICU admission with aggressive fluid resuscitation and close monitoring for organ failure.",
     category: "GI",
-    difficulty: 3
+    difficulty: 3,
+    image: imgPancreatitis
   },
   {
     id: "rn-gi-q15",
@@ -735,7 +738,8 @@ export const rnFlashcards: FlashcardData[] = [
     answer: "Acromegaly is caused by excessive growth hormone (GH) from a pituitary adenoma in adults (after epiphyseal closure). Features include enlargement of hands, feet, jaw (prognathism), coarsening of facial features, headaches, and visual field defects (bitemporal hemianopsia) from tumor compression of the optic chiasm. Diagnosis is via elevated IGF-1 and failure to suppress GH with oral glucose tolerance test.",
     image: imgAcromegaly,
     category: "Endocrine",
-    difficulty: 2
+    difficulty: 2,
+    image: imgPituitaryGlands
   },
   {
     id: "rn-endo-q6",
@@ -756,7 +760,8 @@ export const rnFlashcards: FlashcardData[] = [
     answer: "Chronic exogenous corticosteroid use suppresses the hypothalamic-pituitary-adrenal (HPA) axis through negative feedback. The adrenal glands atrophy and cannot produce adequate cortisol if the medication is stopped abruptly. Adrenal crisis (Addisonian crisis) presents with severe hypotension, hypoglycemia, hyperkalemia, and cardiovascular collapse. Tapering allows the HPA axis to gradually recover endogenous cortisol production.",
     image: imgAddisons,
     category: "Endocrine",
-    difficulty: 2
+    difficulty: 2,
+    image: imgPituitaryGlands
   },
   {
     id: "rn-endo-q8",
@@ -843,6 +848,7 @@ export const rnFlashcards: FlashcardData[] = [
     id: "rn-endo-q16",
     type: "question",
     question: "A client post-transsphenoidal hypophysectomy is instructed to avoid which activities? Select the most critical instruction.",
+    image: imgPituitaryGlands,
     options: ["Avoid lying flat for 2 weeks", "Do not bend, strain, cough forcefully, or blow the nose to prevent CSF leak", "Avoid all dairy products", "Do not take thyroid medication for 6 months"],
     correctIndex: 1,
     answer: "After transsphenoidal surgery (through the nose/sinus to access the pituitary), the surgical site is at risk for CSF leak. Activities that increase intracranial pressure (bending, straining, coughing, sneezing, blowing the nose) can disrupt the repair and cause CSF rhinorrhea. The client should also avoid brushing teeth for 2 weeks (use mouthwash instead) and report any clear nasal drainage (test for glucose to identify CSF).",
@@ -900,7 +906,8 @@ export const rnFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "Slow dialysate outflow commonly results from catheter malposition, kinking, or obstruction by fibrin clots. Constipation is another frequent cause as a full colon can compress the catheter. The nurse should reposition the client (side to side, sit upright), check tubing for kinks, and assess bowel function. If obstruction persists, catheter flushing with heparinized saline per protocol may be needed.",
     category: "Renal/GU",
-    difficulty: 2
+    difficulty: 2,
+    image: imgPeritonealDialysis
   },
   {
     id: "rn-renal-q6",
@@ -3189,7 +3196,8 @@ export const rnFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "Bisphosphonates (alendronate) must be taken on an empty stomach first thing in the morning with 8 oz of plain water. Remain upright (sitting or standing) for at least 30 minutes to prevent esophageal irritation, erosion, or ulceration. Do not eat, drink, or take other medications for 30 minutes. Do not crush or chew. Taking with food or milk dramatically reduces absorption.",
     category: "Geriatrics",
-    difficulty: 1
+    difficulty: 1,
+    image: imgOsteoporosis
   },
   {
     id: "rn-ger-q12",
@@ -3340,7 +3348,8 @@ export const rnFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "Coffee-ground emesis indicates old blood that has been partially digested by gastric acid (oxidized hemoglobin). It suggests upper GI bleeding that may be slower or has partially stopped. Bright red hematemesis indicates active, fresh bleeding. Both require urgent assessment, NPO status, IV access, and preparation for possible endoscopy.",
     category: "GI",
-    difficulty: 1
+    difficulty: 1,
+    image: imgNGTube
   },
   {
     id: "rn-endo-q17",

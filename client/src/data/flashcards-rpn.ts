@@ -29,8 +29,15 @@ import imgBPH from "@assets/BPH_1773269538451.png";
 import imgAtopicDermatitis from "@assets/atopicdermatitis_1773269538451.png";
 import imgAcromegaly from "@assets/acromegaly_1773269538451.png";
 import imgBPPV from "@assets/BPPV_1773269538451.png";
+import imgNGTube from "@assets/Ngtube_1773269379973.jpeg";
+import imgPancreatitis from "@assets/pancreatitis_1773269379973.png";
+import imgPeritonealDialysis from "@assets/peritonealdialysis_1773269379973.png";
+import imgPolycysticKidney from "@assets/polycystickidney_1773269379973.png";
+import imgPolycythemia from "@assets/polycythemia_1773269379973.png";
+import imgPepticUlcer from "@assets/pepticulcer_1773269379973.png";
+import imgOsteoporosis from "@assets/osteoporosis_1773269379973.png";
 
-export { imgUlcerativeColitis, imgVonWillebrand, imgUrinaryCatheterization, imgSIADH, imgSickleCellCrisis, imgStomaCare, imgThalassemia, imgThrombocytopenia, imgThyroidStorm, imgTRALI, imgVitiligo, imgUrethralStricture, imgVestibularNeuritis, imgAddisons, imgAplasticAnemia, imgAcuteHemolyticReaction, imgAllergicTransfusion, imgAirEmbolism, imgCBI, imgCastCareTraction, imgAlopecia, imgBPH, imgAtopicDermatitis, imgAcromegaly, imgBPPV };
+export { imgUlcerativeColitis, imgVonWillebrand, imgUrinaryCatheterization, imgSIADH, imgSickleCellCrisis, imgStomaCare, imgThalassemia, imgThrombocytopenia, imgThyroidStorm, imgTRALI, imgVitiligo, imgUrethralStricture, imgVestibularNeuritis, imgAddisons, imgAplasticAnemia, imgAcuteHemolyticReaction, imgAllergicTransfusion, imgAirEmbolism, imgCBI, imgCastCareTraction, imgAlopecia, imgBPH, imgAtopicDermatitis, imgAcromegaly, imgBPPV, imgNGTube, imgPancreatitis, imgPeritonealDialysis, imgPolycysticKidney, imgPolycythemia, imgPepticUlcer, imgOsteoporosis };
 
 export type FlashcardData = {
   id: string;
@@ -709,7 +716,8 @@ export const rpnFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "Duodenal ulcer pain occurs 2-3 hours after eating and is RELIEVED by food (food buffers acid). Gastric ulcer pain occurs DURING eating or 30-60 minutes after (food stimulates acid production on the already irritated stomach lining).",
     category: "GI",
-    difficulty: 2
+    difficulty: 2,
+    image: imgPepticUlcer
   },
   {
     id: "rpn-gi-q3",
@@ -750,7 +758,8 @@ export const rpnFlashcards: FlashcardData[] = [
     correctIndex: 2,
     answer: "The fetal position (side-lying with knees drawn to chest) relieves pressure on the inflamed pancreas. Also: NPO status, NG tube if vomiting, IV fluids, pain management (avoid morphine: may cause sphincter of Oddi spasm; use meperidine or hydromorphone).",
     category: "GI",
-    difficulty: 2
+    difficulty: 2,
+    image: imgPancreatitis
   },
   {
     id: "rpn-gi-q7",
@@ -770,7 +779,8 @@ export const rpnFlashcards: FlashcardData[] = [
     correctIndex: 2,
     answer: "An NG tube in bowel obstruction decompresses the stomach by removing gas and fluid, relieving distension, nausea, and vomiting. Keep NPO, monitor I&O, and assess bowel sounds. Surgical intervention may be needed for complete obstruction.",
     category: "GI",
-    difficulty: 2
+    difficulty: 2,
+    image: imgNGTube
   },
   {
     id: "rpn-gi-t1",
@@ -947,7 +957,8 @@ export const rpnFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "Cloudy peritoneal dialysis effluent is the hallmark of peritonitis, the most common complication. Also assess for abdominal pain, fever, and rebound tenderness. Treatment: Intraperitoneal antibiotics. Normal effluent should be clear to pale yellow.",
     category: "Renal/GU",
-    difficulty: 2
+    difficulty: 2,
+    image: imgPeritonealDialysis
   },
   {
     id: "rpn-renal-t4",
@@ -3483,7 +3494,8 @@ export const rpnFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "Bisphosphonates (alendronate) can cause esophageal irritation/ulceration. Instructions: Take first thing in morning on empty stomach, with a full glass of plain water only, remain upright (sitting/standing) for at least 30 minutes. Do not eat, drink, or take other medications for 30 minutes.",
     category: "Pharmacology",
-    difficulty: 2
+    difficulty: 2,
+    image: imgOsteoporosis
   },
   {
     id: "rpn-peds-q15",
@@ -4109,7 +4121,8 @@ export const rpnFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "First verify NG tube placement (X-ray gold standard; pH testing, aspiration of gastric contents). Then irrigate with 30-60 mL NS as ordered to clear any blockage. Check for kinks in tubing. Reposition client. Document findings. Never reposition blindly.",
     category: "GI",
-    difficulty: 2
+    difficulty: 2,
+    image: imgNGTube
   },
   {
     id: "rpn-gi-t10",
@@ -4158,7 +4171,8 @@ export const rpnFlashcards: FlashcardData[] = [
     question: "Polycystic Kidney Disease (PKD)",
     answer: "Genetic disorder with multiple fluid-filled cysts in the kidneys, causing progressive enlargement and loss of function. Autosomal dominant (most common adult form). Signs: Flank pain, HTN, hematuria, palpable enlarged kidneys, UTIs. Progresses to ESRD. Tolvaptan may slow progression.",
     category: "Renal/GU",
-    difficulty: 3
+    difficulty: 3,
+    image: imgPolycysticKidney
   },
   {
     id: "rpn-renal-q15",
@@ -4279,7 +4293,8 @@ export const rpnFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "Polycythemia vera: Overproduction of RBCs, WBCs, and platelets. High viscosity increases clot risk. Treatment: Phlebotomy to maintain hematocrit < 45%. Also: Low-dose aspirin, hydroxyurea, adequate hydration. Signs: Ruddy complexion, headache, dizziness, pruritus (especially after hot bath), splenomegaly.",
     category: "Hematology",
-    difficulty: 3
+    difficulty: 3,
+    image: imgPolycythemia
   },
   // ============================================================
   // BATCH 2 - PHARMACOLOGY EXPANSION
@@ -5169,7 +5184,8 @@ export const rpnFlashcards: FlashcardData[] = [
     question: "Pancreatitis Lab Values",
     answer: "Elevated: Serum lipase (most specific), serum amylase, WBC, blood glucose (pancreas can't produce insulin), bilirubin (if biliary obstruction). Decreased: Serum calcium (saponification: fat necrosis binds calcium). Ranson's criteria or APACHE II score used to assess severity.",
     category: "GI",
-    difficulty: 3
+    difficulty: 3,
+    image: imgPancreatitis
   },
   {
     id: "rpn-endo-t11",
