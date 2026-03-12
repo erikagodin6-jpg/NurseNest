@@ -1,4 +1,5 @@
 import pg from "pg";
+import { fixCorrectAnswerData, verifyCorrectAnswerData } from "./migrations/fix-correct-answer-data";
 
 export let lastStartupMigrationTimestamp: string | null = null;
 
@@ -228,6 +229,19 @@ export async function runStartupDataMigrations() {
         }
       } catch (wfErr: any) {
         console.log(`[Startup Migration] Waveform seed skipped: ${wfErr.message}`);
+      }
+
+      try {
+        const fixResult = await fixCorrectAnswerData(pool);
+        if (fixResult.stringFixed > 0 || fixResult.numberFixed > 0) {
+          console.log(`[Startup Migration] Fixed correct_answer data: ${fixResult.stringFixed} strings, ${fixResult.numberFixed} numbers converted to arrays`);
+        }
+        const verify = await verifyCorrectAnswerData(pool);
+        if (!verify.valid) {
+          console.warn(`[Startup Migration] correct_answer types still non-array:`, verify.counts);
+        }
+      } catch (caErr: any) {
+        console.error(`[Startup Migration] correct_answer fix error: ${caErr.message}`);
       }
 
       lastStartupMigrationTimestamp = new Date().toISOString();
