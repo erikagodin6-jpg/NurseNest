@@ -368,8 +368,8 @@ export function DeckHub({
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-2xl font-bold text-gray-900" data-testid="text-decks-title">Study Decks</h2>
-          <p className="text-gray-500 text-sm mt-1">
+          <h2 className="text-2xl font-bold text-foreground" data-testid="text-decks-title">Study Decks</h2>
+          <p className="text-muted-foreground text-sm mt-1">
             {isGuest
               ? "Browse public decks or sign up to create your own"
               : entitlement?.isPremium
@@ -392,11 +392,11 @@ export function DeckHub({
       {showCreate && !isGuest && (
         <Card className="premium-card border-0 shadow-lg">
           <CardContent className="p-5 space-y-4">
-            <div className="flex gap-1 bg-gray-100 rounded-xl p-1">
+            <div className="flex gap-1 bg-secondary rounded-xl p-1">
               <button
                 onClick={() => setCreateMode("ai")}
                 className={cn("flex-1 px-3 py-2 text-xs font-semibold rounded-lg flex items-center justify-center gap-1.5 transition-colors",
-                  createMode === "ai" ? "bg-purple-600 text-white shadow-sm" : "text-gray-500 hover:bg-gray-200"
+                  createMode === "ai" ? "bg-primary text-primary-foreground shadow-sm" : "text-foreground/60 hover:bg-secondary/80"
                 )}
                 data-testid="button-create-mode-ai"
               >
@@ -405,7 +405,7 @@ export function DeckHub({
               <button
                 onClick={() => setCreateMode("notes")}
                 className={cn("flex-1 px-3 py-2 text-xs font-semibold rounded-lg flex items-center justify-center gap-1.5 transition-colors",
-                  createMode === "notes" ? "bg-blue-600 text-white shadow-sm" : "text-gray-500 hover:bg-gray-200"
+                  createMode === "notes" ? "bg-primary text-primary-foreground shadow-sm" : "text-foreground/60 hover:bg-secondary/80"
                 )}
                 data-testid="button-create-mode-notes"
               >
@@ -414,7 +414,7 @@ export function DeckHub({
               <button
                 onClick={() => setCreateMode("manual")}
                 className={cn("flex-1 px-3 py-2 text-xs font-semibold rounded-lg flex items-center justify-center gap-1.5 transition-colors",
-                  createMode === "manual" ? "bg-primary text-white shadow-sm" : "text-gray-500 hover:bg-gray-200"
+                  createMode === "manual" ? "bg-primary text-primary-foreground shadow-sm" : "text-muted-foreground hover:bg-secondary/80"
                 )}
                 data-testid="button-create-mode-manual"
               >
@@ -425,31 +425,31 @@ export function DeckHub({
             {createMode === "ai" ? (
               <div className="space-y-3">
                 <div className="flex items-center gap-2">
-                  <Sparkles className="w-4 h-4 text-purple-600" />
-                  <h3 className="text-sm font-bold text-purple-800">Smart Flashcard Generator</h3>
+                  <Sparkles className="w-4 h-4 text-primary" />
+                  <h3 className="text-sm font-bold text-primary">Smart Flashcard Generator</h3>
                 </div>
-                <p className="text-xs text-purple-600">Enter any nursing topic and will create a medically verified study deck for you instantly.</p>
+                <p className="text-xs text-primary/80">Enter any nursing topic and will create a medically verified study deck for you instantly.</p>
                 <Input
                   placeholder="e.g., Cardiac medications and their side effects"
                   value={aiTopic}
                   onChange={(e: any) => setAiTopic(e.target.value)}
-                  className="rounded-xl border-purple-200 focus:border-purple-400"
+                  className="rounded-xl border-border focus:border-primary"
                   onKeyDown={(e: any) => { if (e.key === "Enter" && aiTopic.trim() && !aiCreating) handleCreateWithAI(); }}
                   disabled={aiCreating}
                   data-testid="input-ai-topic"
                 />
                 <div className="flex items-center gap-3">
-                  <label className="text-xs text-gray-500">Cards:</label>
+                  <label className="text-xs text-muted-foreground">Cards:</label>
                   <select
                     value={aiCardCount}
                     onChange={(e: any) => setAiCardCount(parseInt(e.target.value))}
-                    className="text-xs border rounded-lg px-2 py-1.5 bg-white"
+                    className="text-xs border rounded-lg px-2 py-1.5 bg-card"
                     data-testid="select-ai-card-count"
                   >
                     {[5, 10, 15, 20, 25, 30, 40, 50, 75, 100, 150, 200, 300].map(n => <option key={n} value={n}>{n}{n > 25 ? " (premium)" : ""} cards</option>)}
                   </select>
                   <div className="flex-1" />
-                  <label className="text-xs text-gray-500">Visibility:</label>
+                  <label className="text-xs text-muted-foreground">Visibility:</label>
                   <div className="flex rounded-lg border overflow-hidden">
                     {[
                       { v: "private", icon: EyeOff, label: "Private" },
@@ -459,7 +459,7 @@ export function DeckHub({
                         key={v}
                         onClick={() => setNewDeckVisibility!(v)}
                         className={cn("px-2.5 py-1 text-xs font-medium flex items-center gap-1 transition-colors",
-                          newDeckVisibility === v ? "bg-primary text-white" : "bg-white text-gray-500 hover:bg-gray-50"
+                          newDeckVisibility === v ? "bg-primary text-primary-foreground" : "bg-card text-foreground/50 hover:bg-secondary"
                         )}
                         data-testid={`button-ai-visibility-${v}`}
                       >
@@ -477,7 +477,7 @@ export function DeckHub({
                   <Button
                     onClick={handleCreateWithAI}
                     disabled={!aiTopic.trim() || aiCreating}
-                    className="rounded-xl gap-2 bg-purple-600 hover:bg-purple-700"
+                    className="rounded-xl gap-2 bg-primary hover:bg-primary/90"
                     data-testid="button-create-ai-deck"
                   >
                     {aiCreating ? (
@@ -500,7 +500,7 @@ export function DeckHub({
                     <button
                       key={topic}
                       onClick={() => setAiTopic(topic)}
-                      className="text-[11px] text-left text-purple-600 hover:text-purple-800 hover:bg-purple-50 rounded-lg px-2.5 py-1.5 border border-purple-100 transition-colors"
+                      className="text-[11px] text-left text-primary hover:text-primary/80 hover:bg-secondary rounded-lg px-2.5 py-1.5 border border-border transition-colors"
                       disabled={aiCreating}
                       data-testid={`button-topic-${topic.toLowerCase().replace(/\s+/g, "-")}`}
                     >
@@ -528,7 +528,7 @@ export function DeckHub({
                   <label htmlFor="notes-file-upload" className="cursor-pointer flex flex-col items-center gap-2">
                     <Upload className="w-8 h-8 text-blue-300" />
                     <span className="text-xs text-blue-600 font-medium">Click to upload a text file</span>
-                    <span className="text-[10px] text-gray-400">.txt, .md, .csv, .rtf, .pdf, .doc, .docx (max 5 MB)</span>
+                    <span className="text-[10px] text-muted-foreground">.txt, .md, .csv, .rtf, .pdf, .doc, .docx (max 5 MB)</span>
                   </label>
                   {notesFileName && (
                     <div className="mt-2 inline-flex items-center gap-1.5 bg-blue-50 text-blue-700 text-xs font-medium px-3 py-1.5 rounded-lg" data-testid="text-notes-filename">
@@ -539,7 +539,7 @@ export function DeckHub({
                 </div>
                 <div className="relative">
                   <div className="absolute inset-x-0 top-0 flex items-center justify-center -translate-y-1/2">
-                    <span className="bg-white px-2 text-[10px] text-gray-400">or paste your notes below</span>
+                    <span className="bg-card px-2 text-[10px] text-foreground/40">or paste your notes below</span>
                   </div>
                 </div>
                 <Textarea
@@ -550,20 +550,20 @@ export function DeckHub({
                   data-testid="textarea-notes-content"
                 />
                 {notesText && (
-                  <p className="text-[10px] text-gray-400" data-testid="text-notes-char-count">{notesText.length.toLocaleString()} characters</p>
+                  <p className="text-[10px] text-muted-foreground" data-testid="text-notes-char-count">{notesText.length.toLocaleString()} characters</p>
                 )}
                 <div className="flex items-center gap-3">
-                  <label className="text-xs text-gray-500">Cards:</label>
+                  <label className="text-xs text-muted-foreground">Cards:</label>
                   <select
                     value={notesCardCount}
                     onChange={(e: any) => setNotesCardCount(parseInt(e.target.value))}
-                    className="text-xs border rounded-lg px-2 py-1.5 bg-white"
+                    className="text-xs border rounded-lg px-2 py-1.5 bg-card"
                     data-testid="select-notes-card-count"
                   >
                     {[5, 10, 15, 20, 25, 30, 40, 50, 75, 100, 150, 200, 300].map(n => <option key={n} value={n}>{n}{n > 25 ? " (premium)" : ""} cards</option>)}
                   </select>
                   <div className="flex-1" />
-                  <label className="text-xs text-gray-500">Visibility:</label>
+                  <label className="text-xs text-muted-foreground">Visibility:</label>
                   <div className="flex rounded-lg border overflow-hidden">
                     {[
                       { v: "private", icon: EyeOff, label: "Private" },
@@ -573,7 +573,7 @@ export function DeckHub({
                         key={v}
                         onClick={() => setNewDeckVisibility!(v)}
                         className={cn("px-2.5 py-1 text-xs font-medium flex items-center gap-1 transition-colors",
-                          newDeckVisibility === v ? "bg-primary text-white" : "bg-white text-gray-500 hover:bg-gray-50"
+                          newDeckVisibility === v ? "bg-primary text-primary-foreground" : "bg-card text-foreground/50 hover:bg-secondary"
                         )}
                         data-testid={`button-notes-visibility-${v}`}
                       >
@@ -605,7 +605,7 @@ export function DeckHub({
               </div>
             ) : (
               <div className="space-y-3">
-                <h3 className="text-sm font-bold text-gray-700">Create Empty Deck</h3>
+                <h3 className="text-sm font-bold text-foreground/70">Create Empty Deck</h3>
                 <Input
                   placeholder="Deck title (e.g., Cardiac Medications)"
                   value={newDeckTitle}
@@ -621,7 +621,7 @@ export function DeckHub({
                   data-testid="input-deck-description"
                 />
                 <div className="flex items-center gap-3">
-                  <label className="text-xs text-gray-500">Visibility:</label>
+                  <label className="text-xs text-muted-foreground">Visibility:</label>
                   <div className="flex rounded-lg border overflow-hidden">
                     {[
                       { v: "private", icon: EyeOff, label: "Private" },
@@ -632,7 +632,7 @@ export function DeckHub({
                         key={v}
                         onClick={() => setNewDeckVisibility!(v)}
                         className={cn("px-3 py-1.5 text-xs font-medium flex items-center gap-1.5 transition-colors",
-                          newDeckVisibility === v ? "bg-primary text-white" : "bg-white text-gray-500 hover:bg-gray-50"
+                          newDeckVisibility === v ? "bg-primary text-primary-foreground" : "bg-card text-foreground/50 hover:bg-secondary"
                         )}
                         data-testid={`button-visibility-${v}`}
                       >
@@ -653,7 +653,7 @@ export function DeckHub({
         </Card>
       )}
 
-      <div className="flex gap-1 bg-gray-100/80 rounded-2xl p-1">
+      <div className="flex gap-1 bg-secondary/80 rounded-2xl p-1">
         {(isGuest
           ? ([["browse", "Browse Public"]] as const)
           : ([["my", "My Decks"], ["browse", "Browse Public"], ["saved", "Saved"]] as const)
@@ -666,7 +666,7 @@ export function DeckHub({
               if (key === "saved") fetchSavedDecks!();
             }}
             className={cn("flex-1 px-4 py-2.5 rounded-xl text-sm font-medium transition-all duration-200",
-              deckTab === key ? "bg-white text-gray-900 shadow-sm" : "text-gray-500 hover:text-gray-700"
+              deckTab === key ? "bg-card text-foreground shadow-sm" : "text-foreground/60 hover:text-foreground/80"
             )}
             data-testid={`tab-deck-${key}`}
           >
@@ -678,7 +678,7 @@ export function DeckHub({
       <div className="flex items-center gap-2 flex-wrap">
         {deckTab === "browse" && (
           <div className="relative flex-1 min-w-[200px]">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
             <Input
               placeholder="Search public decks..."
               value={deckSearchQuery}
@@ -690,11 +690,11 @@ export function DeckHub({
           </div>
         )}
         <div className="flex items-center gap-1.5 ml-auto">
-          <ArrowUpDown className="w-3.5 h-3.5 text-gray-400" />
+          <ArrowUpDown className="w-3.5 h-3.5 text-muted-foreground" />
           <select
             value={deckSortBy}
             onChange={(e) => setDeckSortBy(e.target.value as DeckSortOption)}
-            className="text-xs border rounded-lg px-2 py-1.5 bg-white text-gray-700 cursor-pointer"
+            className="text-xs border rounded-lg px-2 py-1.5 bg-card text-foreground/70 cursor-pointer"
             data-testid="select-deck-sort"
           >
             {SORT_OPTIONS.map(opt => (
@@ -727,12 +727,12 @@ export function DeckHub({
                 <Users className="w-4 h-4 text-blue-600" />
                 <h3 className="text-sm font-bold text-blue-900">Study Groups</h3>
               </div>
-              <span className="text-[10px] text-gray-400">Invite friends to study together</span>
+              <span className="text-[10px] text-muted-foreground">Invite friends to study together</span>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
               <div className="space-y-2">
-                <label className="text-xs font-medium text-gray-500">Create New Group</label>
+                <label className="text-xs font-medium text-muted-foreground">Create New Group</label>
                 <div className="flex gap-2">
                   <Input
                     placeholder="Group name..."
@@ -749,7 +749,7 @@ export function DeckHub({
                 </div>
               </div>
               <div className="space-y-2">
-                <label className="text-xs font-medium text-gray-500">Join with Invite Code</label>
+                <label className="text-xs font-medium text-muted-foreground">Join with Invite Code</label>
                 <div className="flex gap-2">
                   <Input
                     placeholder="Enter code (e.g. B4X9KL)"
@@ -769,12 +769,12 @@ export function DeckHub({
             </div>
 
             {studyGroups.length > 0 && (
-              <div className="space-y-2 pt-2 border-t border-gray-100">
-                <label className="text-[10px] font-medium text-gray-400 uppercase tracking-widest">Your Groups</label>
+              <div className="space-y-2 pt-2 border-t border-border">
+                <label className="text-[10px] font-medium text-muted-foreground uppercase tracking-widest">Your Groups</label>
                 {studyGroups.map((group: any) => (
-                  <div key={group.id} className="bg-gray-50 rounded-xl border border-gray-100 overflow-hidden">
+                  <div key={group.id} className="bg-secondary rounded-xl border border-border overflow-hidden">
                     <div
-                      className="flex items-center justify-between p-3 cursor-pointer hover:bg-gray-100 transition-colors"
+                      className="flex items-center justify-between p-3 cursor-pointer hover:bg-secondary transition-colors"
                       onClick={() => {
                         const newId = expandedGroup === group.id ? null : group.id;
                         setExpandedGroup(newId);
@@ -784,12 +784,12 @@ export function DeckHub({
                     >
                       <div className="flex items-center gap-2">
                         <Users className="w-3.5 h-3.5 text-blue-500" />
-                        <span className="text-sm font-medium text-gray-800">{group.name}</span>
+                        <span className="text-sm font-medium text-foreground">{group.name}</span>
                       </div>
                       <div className="flex items-center gap-2">
                         <button
                           onClick={(e) => { e.stopPropagation(); copyInviteCode(group.inviteCode); }}
-                          className="flex items-center gap-1 px-2 py-0.5 bg-white rounded border text-[10px] font-mono text-gray-600 hover:border-blue-300 transition-colors"
+                          className="flex items-center gap-1 px-2 py-0.5 bg-card rounded border text-[10px] font-mono text-foreground/60 hover:border-primary/30 transition-colors"
                           data-testid={`button-copy-code-${group.id}`}
                         >
                           {copiedCode === group.inviteCode ? "Copied!" : group.inviteCode}
@@ -803,24 +803,24 @@ export function DeckHub({
                           <Link2 className="w-2.5 h-2.5" />
                           Share Link
                         </button>
-                        <ChevronRight className={cn("w-3.5 h-3.5 text-gray-400 transition-transform", expandedGroup === group.id && "rotate-90")} />
+                        <ChevronRight className={cn("w-3.5 h-3.5 text-muted-foreground transition-transform", expandedGroup === group.id && "rotate-90")} />
                       </div>
                     </div>
                     {expandedGroup === group.id && (
-                      <div className="px-3 pb-3 border-t border-gray-100">
+                      <div className="px-3 pb-3 border-t border-border">
                         <div className="pt-2 space-y-1">
                           {groupMembers[group.id]?.length > 0 ? (
                             groupMembers[group.id].map((member: any, i: number) => (
-                              <div key={member.userId || i} className="flex items-center justify-between py-1.5 px-2 rounded-lg hover:bg-white text-xs">
-                                <span className="font-medium text-gray-700">{member.username || `Member ${i + 1}`}</span>
-                                <div className="flex items-center gap-3 text-gray-400">
+                              <div key={member.userId || i} className="flex items-center justify-between py-1.5 px-2 rounded-lg hover:bg-card text-xs">
+                                <span className="font-medium text-foreground/70">{member.username || `Member ${i + 1}`}</span>
+                                <div className="flex items-center gap-3 text-muted-foreground">
                                   {member.accuracy != null && <span>{Math.round(member.accuracy)}% accuracy</span>}
                                   {member.questionsAnswered != null && <span>{member.questionsAnswered} Qs</span>}
                                 </div>
                               </div>
                             ))
                           ) : (
-                            <p className="text-xs text-gray-400 py-2">Loading members...</p>
+                            <p className="text-xs text-muted-foreground py-2">Loading members...</p>
                           )}
                         </div>
                       </div>
@@ -831,14 +831,14 @@ export function DeckHub({
             )}
 
             {studyGroups.length === 0 && (
-              <p className="text-xs text-gray-400 text-center py-2">No study groups yet. Create one or join with an invite code to study with friends.</p>
+              <p className="text-xs text-muted-foreground text-center py-2">No study groups yet. Create one or join with an invite code to study with friends.</p>
             )}
           </CardContent>
         </Card>
       )}
 
       {deckLoading ? (
-        <div className="text-center py-12 text-gray-400">Loading decks...</div>
+        <div className="text-center py-12 text-muted-foreground">Loading decks...</div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {sortDecks(deckTab === "my" ? myDecks : deckTab === "browse" ? publicDecks : savedDecksList, deckSortBy)?.map((deck: any) => (
@@ -854,17 +854,17 @@ export function DeckHub({
             >
               <CardContent className="p-4">
                 <div className="flex items-start justify-between mb-2">
-                  <h3 className="font-bold text-gray-900 text-sm group-hover:text-primary transition-colors line-clamp-1">{deck.title}</h3>
+                  <h3 className="font-bold text-foreground text-sm group-hover:text-primary transition-colors line-clamp-1">{deck.title}</h3>
                   <div className="flex items-center gap-1 shrink-0">
                     {deck.isUpgraded && <Badge className="bg-gradient-to-r from-amber-100 to-amber-200 text-amber-700 text-[10px] border-none rounded-lg">PRO</Badge>}
-                    {deck.visibility === "public" && <Globe className="w-3 h-3 text-gray-400" />}
-                    {deck.visibility === "private" && <EyeOff className="w-3 h-3 text-gray-400" />}
+                    {deck.visibility === "public" && <Globe className="w-3 h-3 text-muted-foreground" />}
+                    {deck.visibility === "private" && <EyeOff className="w-3 h-3 text-muted-foreground" />}
                   </div>
                 </div>
-                {deck.description && <p className="text-xs text-gray-500 line-clamp-2 mb-3">{deck.description}</p>}
+                {deck.description && <p className="text-xs text-muted-foreground line-clamp-2 mb-3">{deck.description}</p>}
                 <div className="flex items-center justify-between">
-                  <span className="text-[10px] text-gray-400 font-medium">{deck.cardCount || 0} cards</span>
-                  <ChevronRight className="w-4 h-4 text-gray-300 group-hover:text-primary transition-colors" />
+                  <span className="text-[10px] text-muted-foreground font-medium">{deck.cardCount || 0} cards</span>
+                  <ChevronRight className="w-4 h-4 text-muted-foreground/60 group-hover:text-primary transition-colors" />
                 </div>
               </CardContent>
             </Card>
@@ -874,7 +874,7 @@ export function DeckHub({
               <div className="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center mx-auto mb-4">
                 <Layers className="w-8 h-8 text-primary/40" />
               </div>
-              <p className="text-gray-500 text-sm font-medium">
+              <p className="text-muted-foreground text-sm font-medium">
                 {deckTab === "my" ? "No decks yet. Create your first study deck!" :
                  deckTab === "browse" ? "No public decks found." : "No saved decks yet."}
               </p>
@@ -973,15 +973,15 @@ export function DeckView({
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center gap-2 bg-white/90 backdrop-blur-sm border border-gray-200/60 rounded-2xl px-4 py-2.5 shadow-sm">
+      <div className="flex items-center gap-2 bg-card/90 backdrop-blur-sm border border-border/60 rounded-2xl px-4 py-2.5 shadow-sm">
         <button onClick={() => setView("decks")} className="flex items-center gap-1.5 text-sm font-medium text-primary hover:text-primary/80 transition" data-testid="button-back-decks">
           <Home className="w-4 h-4" />
           <span>My Flashcards</span>
         </button>
-        <ChevronRight className="w-3.5 h-3.5 text-gray-300" />
-        <span className="text-sm font-semibold text-gray-700 truncate max-w-[280px]">{currentDeck.title}</span>
+        <ChevronRight className="w-3.5 h-3.5 text-foreground/30" />
+        <span className="text-sm font-semibold text-foreground/70 truncate max-w-[280px]">{currentDeck.title}</span>
         <div className="ml-auto flex items-center gap-2">
-          <Button variant="outline" size="sm" onClick={() => setView("decks")} className="h-8 text-xs gap-1.5 rounded-xl border-gray-200" data-testid="button-back-library">
+          <Button variant="outline" size="sm" onClick={() => setView("decks")} className="h-8 text-xs gap-1.5 rounded-xl border-border" data-testid="button-back-library">
             <ArrowLeft className="w-3.5 h-3.5" /> All Decks
           </Button>
           <Button size="sm" onClick={() => setView("decks")} className="h-8 text-xs gap-1.5 rounded-xl shadow-sm" data-testid="button-create-new-deck-from-view">
@@ -992,23 +992,23 @@ export function DeckView({
 
       <div className="flex items-start justify-between flex-wrap gap-4">
         <div>
-          <h2 className="text-2xl font-bold text-gray-900" data-testid="text-deck-title">{currentDeck.title}</h2>
-          {currentDeck.description && <p className="text-gray-500 text-sm mt-1">{currentDeck.description}</p>}
-          <div className="flex items-center gap-3 mt-2 text-xs text-gray-400">
+          <h2 className="text-2xl font-bold text-foreground" data-testid="text-deck-title">{currentDeck.title}</h2>
+          {currentDeck.description && <p className="text-muted-foreground text-sm mt-1">{currentDeck.description}</p>}
+          <div className="flex items-center gap-3 mt-2 text-xs text-muted-foreground">
             <span>{deckCards?.length || 0} cards</span>
             {currentDeck.isUpgraded && <Badge className="bg-amber-100 text-amber-700 text-[10px] border-none">PRO</Badge>}
             {(isOwner || isAdmin) ? (
               <div className="relative">
                 <button
                   onClick={() => setVisibilityMenuOpen(!visibilityMenuOpen)}
-                  className="flex items-center gap-1 px-2 py-1 rounded-lg border border-gray-200 hover:border-primary/30 hover:bg-primary/5 transition text-xs font-medium text-gray-600"
+                  className="flex items-center gap-1 px-2 py-1 rounded-lg border border-border hover:border-primary/30 hover:bg-primary/5 transition text-xs font-medium text-foreground/60"
                   data-testid="button-visibility-toggle"
                 >
                   {visibilityChanging ? <Loader2 className="w-3 h-3 animate-spin" /> : (
                     <>
                       {currentDeck.visibility === "public" ? <Globe className="w-3 h-3 text-emerald-500" /> :
                        currentDeck.visibility === "unlisted" ? <Eye className="w-3 h-3 text-amber-500" /> :
-                       <EyeOff className="w-3 h-3 text-gray-400" />}
+                       <EyeOff className="w-3 h-3 text-muted-foreground" />}
                       {currentDeck.visibility === "public" ? "Public" :
                        currentDeck.visibility === "unlisted" ? "Unlisted" : "Private"}
                       <ChevronRight className={cn("w-3 h-3 transition-transform", visibilityMenuOpen && "rotate-90")} />
@@ -1018,38 +1018,38 @@ export function DeckView({
                 {visibilityMenuOpen && (
                   <>
                     <div className="fixed inset-0 z-40" onClick={() => setVisibilityMenuOpen(false)} />
-                    <div className="absolute left-0 top-full mt-1 z-50 bg-white border border-gray-200 rounded-xl shadow-lg py-1 min-w-[180px]" data-testid="menu-visibility">
+                    <div className="absolute left-0 top-full mt-1 z-50 bg-card border border-border rounded-xl shadow-lg py-1 min-w-[180px]" data-testid="menu-visibility">
                       <button
                         onClick={() => changeVisibility("private")}
-                        className={cn("w-full flex items-center gap-2.5 px-3 py-2 text-left text-sm hover:bg-gray-50 transition", currentDeck.visibility === "private" && "bg-primary/5 text-primary font-medium")}
+                        className={cn("w-full flex items-center gap-2.5 px-3 py-2 text-left text-sm hover:bg-secondary transition", currentDeck.visibility === "private" && "bg-primary/5 text-primary font-medium")}
                         data-testid="button-set-private"
                       >
-                        <EyeOff className="w-4 h-4 text-gray-400" />
+                        <EyeOff className="w-4 h-4 text-muted-foreground" />
                         <div>
                           <div className="font-medium">Private</div>
-                          <div className="text-[10px] text-gray-400">Only you can see this deck</div>
+                          <div className="text-[10px] text-muted-foreground">Only you can see this deck</div>
                         </div>
                       </button>
                       <button
                         onClick={() => changeVisibility("unlisted")}
-                        className={cn("w-full flex items-center gap-2.5 px-3 py-2 text-left text-sm hover:bg-gray-50 transition", currentDeck.visibility === "unlisted" && "bg-primary/5 text-primary font-medium")}
+                        className={cn("w-full flex items-center gap-2.5 px-3 py-2 text-left text-sm hover:bg-secondary transition", currentDeck.visibility === "unlisted" && "bg-primary/5 text-primary font-medium")}
                         data-testid="button-set-unlisted"
                       >
                         <Eye className="w-4 h-4 text-amber-500" />
                         <div>
                           <div className="font-medium">Unlisted</div>
-                          <div className="text-[10px] text-gray-400">Anyone with the link can access</div>
+                          <div className="text-[10px] text-muted-foreground">Anyone with the link can access</div>
                         </div>
                       </button>
                       <button
                         onClick={() => changeVisibility("public")}
-                        className={cn("w-full flex items-center gap-2.5 px-3 py-2 text-left text-sm hover:bg-gray-50 transition", currentDeck.visibility === "public" && "bg-primary/5 text-primary font-medium")}
+                        className={cn("w-full flex items-center gap-2.5 px-3 py-2 text-left text-sm hover:bg-secondary transition", currentDeck.visibility === "public" && "bg-primary/5 text-primary font-medium")}
                         data-testid="button-set-public"
                       >
                         <Globe className="w-4 h-4 text-emerald-500" />
                         <div>
                           <div className="font-medium">Public</div>
-                          <div className="text-[10px] text-gray-400">Visible in browse and searchable</div>
+                          <div className="text-[10px] text-muted-foreground">Visible in browse and searchable</div>
                         </div>
                       </button>
                     </div>
@@ -1069,10 +1069,10 @@ export function DeckView({
         <div className="flex flex-wrap gap-2">
           {(deckCards?.length || 0) >= 2 && (
             <>
-              <Button onClick={() => startDeckStudy!("learn")} className="rounded-xl gap-2 bg-emerald-600 hover:bg-emerald-700" data-testid="button-learn-mode">
+              <Button onClick={() => startDeckStudy!("learn")} className="rounded-xl gap-2 bg-primary hover:bg-primary/90" data-testid="button-learn-mode">
                 <BookOpen className="w-4 h-4" /> Learn
               </Button>
-              <Button onClick={() => startDeckStudy!("test")} className="rounded-xl gap-2 bg-indigo-600 hover:bg-indigo-700" data-testid="button-test-mode">
+              <Button onClick={() => startDeckStudy!("test")} className="rounded-xl gap-2 bg-primary/80 hover:bg-primary/70" data-testid="button-test-mode">
                 <Timer className="w-4 h-4" /> Test
               </Button>
             </>
@@ -1135,13 +1135,13 @@ export function DeckView({
 
       {deleteConfirmOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40" onClick={() => setDeleteConfirmOpen(false)}>
-          <div className="bg-white rounded-2xl shadow-2xl max-w-sm w-full mx-4 p-6 space-y-4" onClick={e => e.stopPropagation()} data-testid="modal-delete-deck">
+          <div className="bg-card rounded-2xl shadow-2xl max-w-sm w-full mx-4 p-6 space-y-4" onClick={e => e.stopPropagation()} data-testid="modal-delete-deck">
             <div className="text-center">
               <div className="w-12 h-12 rounded-full bg-red-100 flex items-center justify-center mx-auto mb-3">
                 <Trash2 className="w-6 h-6 text-red-500" />
               </div>
-              <h3 className="text-lg font-bold text-gray-900">Delete Deck</h3>
-              <p className="text-sm text-gray-500 mt-1">
+              <h3 className="text-lg font-bold text-foreground">Delete Deck</h3>
+              <p className="text-sm text-muted-foreground mt-1">
                 This will permanently delete <strong>{currentDeck?.title}</strong> and all its cards and study history.
               </p>
             </div>
@@ -1189,12 +1189,12 @@ export function DeckView({
       )}
 
       {shareUrl && (
-        <div className="flex items-center gap-2 p-3 bg-gray-50 rounded-xl border border-gray-200">
+        <div className="flex items-center gap-2 p-3 bg-secondary rounded-xl border border-border">
           <div className="flex-1 min-w-0">
             <input
               readOnly
               value={shareUrl}
-              className="w-full bg-transparent text-sm text-gray-600 border-none outline-none truncate"
+              className="w-full bg-transparent text-sm text-foreground/60 border-none outline-none truncate"
               onClick={(e) => (e.target as HTMLInputElement).select()}
               data-testid="input-share-url"
             />
@@ -1230,43 +1230,43 @@ export function DeckView({
       )}
 
       {deckStats && deckStats.totalSessions > 0 && (
-        <Card className="premium-card border-0 bg-gradient-to-br from-primary/5 to-purple-50/60" data-testid="card-deck-progress">
+        <Card className="premium-card border-0 bg-gradient-to-br from-primary/5 to-secondary/60" data-testid="card-deck-progress">
           <CardContent className="p-5 space-y-3">
             <div className="flex items-center justify-between">
-              <span className="text-sm font-semibold text-gray-800">Your Progress</span>
-              <span className="text-[10px] text-gray-400">{deckStats.totalSessions} session{deckStats.totalSessions !== 1 ? "s" : ""}</span>
+              <span className="text-sm font-semibold text-foreground">Your Progress</span>
+              <span className="text-[10px] text-muted-foreground">{deckStats.totalSessions} session{deckStats.totalSessions !== 1 ? "s" : ""}</span>
             </div>
             <div className="grid grid-cols-4 gap-2">
               <div className="text-center">
-                <p className="text-lg font-bold text-indigo-600" data-testid="text-accuracy">{deckStats.accuracy}%</p>
-                <p className="text-[9px] text-gray-500">Accuracy</p>
+                <p className="text-lg font-bold text-primary" data-testid="text-accuracy">{deckStats.accuracy}%</p>
+                <p className="text-[9px] text-muted-foreground">Accuracy</p>
               </div>
               <div className="text-center">
                 <p className="text-lg font-bold text-emerald-600" data-testid="text-mastered">{deckStats.masteredCount}</p>
-                <p className="text-[9px] text-gray-500">Mastered</p>
+                <p className="text-[9px] text-muted-foreground">Mastered</p>
               </div>
               <div className="text-center">
                 <p className="text-lg font-bold text-amber-600" data-testid="text-learning">{deckStats.learningCount}</p>
-                <p className="text-[9px] text-gray-500">Learning</p>
+                <p className="text-[9px] text-muted-foreground">Learning</p>
               </div>
               <div className="text-center">
-                <p className="text-lg font-bold text-purple-600" data-testid="text-streak">{deckStats.streak}</p>
-                <p className="text-[9px] text-gray-500">Day Streak</p>
+                <p className="text-lg font-bold text-primary" data-testid="text-streak">{deckStats.streak}</p>
+                <p className="text-[9px] text-muted-foreground">Day Streak</p>
               </div>
             </div>
             {deckStats.totalCards > 0 && (
               <div className="space-y-1">
-                <div className="flex justify-between text-[10px] text-gray-500">
+                <div className="flex justify-between text-[10px] text-muted-foreground">
                   <span>Mastery</span>
                   <span>{Math.round((deckStats.masteredCount / deckStats.totalCards) * 100)}%</span>
                 </div>
-                <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
-                  <div className="h-full bg-gradient-to-r from-indigo-500 to-emerald-500 rounded-full transition-all duration-500" style={{ width: `${Math.round((deckStats.masteredCount / deckStats.totalCards) * 100)}%` }} data-testid="progress-mastery" />
+                <div className="h-2 bg-secondary rounded-full overflow-hidden">
+                  <div className="h-full bg-gradient-to-r from-primary to-emerald-500 rounded-full transition-all duration-500" style={{ width: `${Math.round((deckStats.masteredCount / deckStats.totalCards) * 100)}%` }} data-testid="progress-mastery" />
                 </div>
               </div>
             )}
             {deckStats.lastStudiedAt && (
-              <p className="text-[10px] text-gray-400">Last studied {new Date(deckStats.lastStudiedAt).toLocaleDateString()}</p>
+              <p className="text-[10px] text-muted-foreground">Last studied {new Date(deckStats.lastStudiedAt).toLocaleDateString()}</p>
             )}
           </CardContent>
         </Card>
@@ -1277,7 +1277,7 @@ export function DeckView({
           <Button
             variant="outline"
             onClick={() => setShowAiPanel(!showAiPanel)}
-            className="w-full rounded-xl gap-2 border-purple-200 bg-purple-50 text-purple-700 hover:bg-purple-100 py-3"
+            className="w-full rounded-xl gap-2 border-border bg-secondary text-primary hover:bg-secondary/80 py-3"
             data-testid="button-ai-generate-deck-view"
           >
             <Sparkles className="w-4 h-4" />
@@ -1285,26 +1285,26 @@ export function DeckView({
           </Button>
 
           {showAiPanel && (
-            <Card className="border-purple-200 bg-purple-50/30" data-testid="card-ai-generate-deckview">
+            <Card className="border-border bg-secondary/30" data-testid="card-ai-generate-deckview">
               <CardContent className="p-4 space-y-3">
                 <div className="flex items-center gap-2">
-                  <Sparkles className="w-4 h-4 text-purple-600" />
-                  <span className="text-sm font-semibold text-purple-800">Smart Flashcard Generator</span>
+                  <Sparkles className="w-4 h-4 text-primary" />
+                  <span className="text-sm font-semibold text-primary">Smart Flashcard Generator</span>
                 </div>
-                <p className="text-xs text-purple-600">Enter a nursing topic and will create study-ready flashcards for you.</p>
+                <p className="text-xs text-primary/80">Enter a nursing topic and will create study-ready flashcards for you.</p>
                 <div className="flex gap-2">
                   <Input
                     placeholder="e.g. Cardiac medications, Diabetes management, Pediatric milestones..."
                     value={aiGeneratePrompt || ""}
                     onChange={(e) => setAiGeneratePrompt?.(e.target.value)}
-                    className="text-sm bg-white flex-1"
+                    className="text-sm bg-card flex-1"
                     onKeyDown={(e) => { if (e.key === "Enter" && aiGeneratePrompt?.trim()) aiGenerateCards?.(); }}
                     data-testid="input-ai-generate-prompt-deckview"
                   />
                   <select
                     value={aiGenerateCount || 10}
                     onChange={(e) => setAiGenerateCount?.(parseInt(e.target.value))}
-                    className="bg-white border border-gray-200 rounded-lg px-2 text-sm"
+                    className="bg-card border border-border rounded-lg px-2 text-sm"
                     data-testid="select-ai-generate-count-deckview"
                   >
                     {[5, 10, 15, 20, 25, 30, 40, 50].map(n => <option key={n} value={n}>{n}{n > 25 ? " (premium)" : ""} cards</option>)}
@@ -1313,7 +1313,7 @@ export function DeckView({
                 <Button
                   onClick={aiGenerateCards}
                   disabled={aiGenerating || !aiGeneratePrompt?.trim()}
-                  className="w-full gap-2 bg-purple-600 hover:bg-purple-700 rounded-xl"
+                  className="w-full gap-2 bg-primary hover:bg-primary/90 rounded-xl"
                   data-testid="button-ai-generate-deckview"
                 >
                   {aiGenerating ? <><Layers className="w-4 h-4 animate-spin" /> Generating...</> : <><Sparkles className="w-4 h-4" /> Generate Cards</>}
@@ -1324,24 +1324,24 @@ export function DeckView({
                 {aiGeneratedCards && aiGeneratedCards.length > 0 && (
                   <div className="space-y-2 mt-2">
                     <div className="flex items-center justify-between">
-                      <p className="text-xs font-semibold text-purple-700">{aiGeneratedCards.length} cards generated — review before adding:</p>
-                      <Button size="sm" onClick={addAiGeneratedCards} className="gap-1 bg-emerald-600 hover:bg-emerald-700 text-xs rounded-lg" data-testid="button-add-ai-cards-deckview">
+                      <p className="text-xs font-semibold text-primary">{aiGeneratedCards.length} cards generated — review before adding:</p>
+                      <Button size="sm" onClick={addAiGeneratedCards} className="gap-1 bg-primary hover:bg-primary/90 text-xs rounded-lg" data-testid="button-add-ai-cards-deckview">
                         <Plus className="w-3 h-3" /> Add All to Deck
                       </Button>
                     </div>
                     <div className="max-h-[400px] overflow-y-auto space-y-2">
                       {aiGeneratedCards.map((card, idx) => (
-                        <div key={idx} className="bg-white rounded-lg border border-purple-100 p-3 relative group">
+                        <div key={idx} className="bg-card rounded-lg border border-border p-3 relative group">
                           <button
                             onClick={() => removeAiGeneratedCard?.(idx)}
-                            className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 text-gray-400 hover:text-red-500 transition-opacity"
+                            className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 text-muted-foreground hover:text-red-500 transition-opacity"
                             data-testid={`button-remove-ai-card-${idx}`}
                           >
                             <XCircle className="w-4 h-4" />
                           </button>
-                          <p className="text-sm font-medium text-gray-900">{card.front}</p>
-                          <p className="text-xs text-gray-600 mt-1">{card.back}</p>
-                          {card.rationale && <p className="text-[10px] text-gray-400 mt-1 italic">{card.rationale}</p>}
+                          <p className="text-sm font-medium text-foreground">{card.front}</p>
+                          <p className="text-xs text-foreground/60 mt-1">{card.back}</p>
+                          {card.rationale && <p className="text-[10px] text-muted-foreground mt-1 italic">{card.rationale}</p>}
                         </div>
                       ))}
                     </div>
@@ -1360,9 +1360,9 @@ export function DeckView({
               <div className="flex items-start justify-between gap-4">
                 <div className="flex-1 min-w-0">
                   <span className="text-[10px] text-primary/60 font-bold">{i + 1}.</span>
-                  <p className="text-sm font-medium text-gray-900 mt-0.5">{card.front}</p>
-                  <p className="text-xs text-gray-500 mt-1 leading-relaxed">{card.back}</p>
-                  {card.rationale && <p className="text-[10px] text-gray-400 mt-1.5 italic">{card.rationale}</p>}
+                  <p className="text-sm font-medium text-foreground mt-0.5">{card.front}</p>
+                  <p className="text-xs text-muted-foreground mt-1 leading-relaxed">{card.back}</p>
+                  {card.rationale && <p className="text-[10px] text-muted-foreground mt-1.5 italic">{card.rationale}</p>}
                 </div>
               </div>
             </CardContent>
@@ -1370,12 +1370,12 @@ export function DeckView({
         ))}
         {(!deckCards || deckCards.length === 0) && (
           <div className="text-center py-12 space-y-4">
-            <Sparkles className="w-10 h-10 text-purple-300 mx-auto" />
-            <p className="text-gray-500 text-sm font-medium">This deck is empty</p>
-            <p className="text-gray-400 text-xs max-w-md mx-auto">Use the Smart Generator above to create flashcards on any nursing topic, or add cards manually.</p>
+            <Sparkles className="w-10 h-10 text-primary/30 mx-auto" />
+            <p className="text-muted-foreground text-sm font-medium">This deck is empty</p>
+            <p className="text-muted-foreground text-xs max-w-md mx-auto">Use the Smart Generator above to create flashcards on any nursing topic, or add cards manually.</p>
             <div className="flex gap-3 justify-center">
               {isOwner && !showAiPanel && (
-                <Button variant="outline" onClick={() => setShowAiPanel(true)} className="gap-2 border-purple-200 text-purple-700 hover:bg-purple-50 rounded-xl" data-testid="button-ai-generate-empty">
+                <Button variant="outline" onClick={() => setShowAiPanel(true)} className="gap-2 border-border text-primary hover:bg-secondary rounded-xl" data-testid="button-ai-generate-empty">
                   <Sparkles className="w-4 h-4" /> Generate Automatically
                 </Button>
               )}
@@ -1416,33 +1416,33 @@ export function DeckEditor({
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center gap-2 bg-white/90 backdrop-blur-sm border border-gray-200/60 rounded-2xl px-4 py-2.5 shadow-sm flex-wrap">
+      <div className="flex items-center gap-2 bg-card/90 backdrop-blur-sm border border-border/60 rounded-2xl px-4 py-2.5 shadow-sm flex-wrap">
         <button onClick={() => setView("decks")} className="flex items-center gap-1.5 text-sm font-medium text-primary hover:text-primary/80 transition" data-testid="button-back-decks-from-edit">
           <Home className="w-4 h-4" />
           <span>My Flashcards</span>
         </button>
-        <ChevronRight className="w-3.5 h-3.5 text-gray-300" />
+        <ChevronRight className="w-3.5 h-3.5 text-muted-foreground/60" />
         <button onClick={() => setView("deck-view")} className="text-sm font-medium text-primary hover:text-primary/80 transition truncate max-w-[200px]" data-testid="button-back-deck-view">
           {currentDeck.title}
         </button>
-        <ChevronRight className="w-3.5 h-3.5 text-gray-300" />
-        <span className="text-sm font-semibold text-gray-700">Edit</span>
+        <ChevronRight className="w-3.5 h-3.5 text-muted-foreground/60" />
+        <span className="text-sm font-semibold text-foreground/70">Edit</span>
         <div className="ml-auto flex items-center gap-2">
-          <Button variant="outline" size="sm" onClick={() => setView("deck-view")} className="h-8 text-xs gap-1.5 rounded-xl border-gray-200" data-testid="button-back-to-deck">
+          <Button variant="outline" size="sm" onClick={() => setView("deck-view")} className="h-8 text-xs gap-1.5 rounded-xl border-border" data-testid="button-back-to-deck">
             <ArrowLeft className="w-3.5 h-3.5" /> Back to Deck
           </Button>
-          <Button variant="outline" size="sm" onClick={() => setView("decks")} className="h-8 text-xs gap-1.5 rounded-xl border-gray-200" data-testid="button-back-library-from-edit">
+          <Button variant="outline" size="sm" onClick={() => setView("decks")} className="h-8 text-xs gap-1.5 rounded-xl border-border" data-testid="button-back-library-from-edit">
             <Home className="w-3.5 h-3.5" /> All Decks
           </Button>
         </div>
       </div>
 
-      <div className="flex items-center gap-3 text-xs text-gray-500 flex-wrap">
+      <div className="flex items-center gap-3 text-xs text-muted-foreground flex-wrap">
         <span>{deckCards?.length || 0} cards</span>
-        <span className={cn("font-medium", limitInfo.used >= limitInfo.max ? "text-red-500" : "text-gray-500")}>
+        <span className={cn("font-medium", limitInfo.used >= limitInfo.max ? "text-red-500" : "text-muted-foreground")}>
           {limitInfo.used} / {limitInfo.max} {currentDeck.isUpgraded ? "deck" : "total"} cards used
         </span>
-        <Button size="sm" variant="outline" onClick={() => { setShowAiGenerate(!showAiGenerate); if (showCsvImport) setShowCsvImport!(false); }} className="h-7 text-xs gap-1 ml-auto bg-purple-50 border-purple-200 text-purple-700 hover:bg-purple-100" data-testid="button-ai-generate-toggle">
+        <Button size="sm" variant="outline" onClick={() => { setShowAiGenerate(!showAiGenerate); if (showCsvImport) setShowCsvImport!(false); }} className="h-7 text-xs gap-1 ml-auto bg-secondary border-border text-primary hover:bg-secondary/80" data-testid="button-ai-generate-toggle">
           <Sparkles className="w-3 h-3" /> Auto Generate
         </Button>
         <Button size="sm" variant="outline" onClick={() => { setShowCsvImport!(!showCsvImport); if (showAiGenerate) setShowAiGenerate(false); }} className="h-7 text-xs gap-1" data-testid="button-csv-import">
@@ -1451,27 +1451,27 @@ export function DeckEditor({
       </div>
 
       {showAiGenerate && (
-        <Card className="border-purple-200 bg-purple-50/30" data-testid="card-ai-generate">
+        <Card className="border-border bg-secondary/30" data-testid="card-ai-generate">
           <CardContent className="p-4 space-y-3">
             <div className="flex items-center gap-2">
-              <Sparkles className="w-4 h-4 text-purple-600" />
-              <h3 className="text-sm font-bold text-purple-800">Smart Flashcard Generator</h3>
+              <Sparkles className="w-4 h-4 text-primary" />
+              <h3 className="text-sm font-bold text-primary">Smart Flashcard Generator</h3>
             </div>
-            <p className="text-xs text-gray-600">Describe what you want to study and will create flashcards for you.</p>
+            <p className="text-xs text-foreground/60">Describe what you want to study and will create flashcards for you.</p>
             <Textarea
               placeholder="e.g., Cardiac medications including beta blockers, ACE inhibitors, and antiarrhythmics with their mechanisms of action and side effects"
               value={aiGeneratePrompt}
               onChange={(e) => setAiGeneratePrompt!(e.target.value)}
-              className="min-h-[80px] text-sm bg-white"
+              className="min-h-[80px] text-sm bg-card"
               data-testid="input-ai-generate-prompt"
             />
             <div className="flex items-center gap-3">
               <div className="flex items-center gap-2">
-                <label className="text-xs text-gray-500 whitespace-nowrap">Cards:</label>
+                <label className="text-xs text-muted-foreground whitespace-nowrap">Cards:</label>
                 <select
                   value={aiGenerateCount}
                   onChange={(e) => setAiGenerateCount!(parseInt(e.target.value))}
-                  className="text-xs border rounded-lg px-2 py-1.5 bg-white"
+                  className="text-xs border rounded-lg px-2 py-1.5 bg-card"
                   data-testid="select-ai-generate-count"
                 >
                   <option value={5}>5</option>
@@ -1488,7 +1488,7 @@ export function DeckEditor({
                 size="sm"
                 onClick={aiGenerateCards}
                 disabled={aiGenerating || !aiGeneratePrompt?.trim()}
-                className="gap-1 bg-purple-600 hover:bg-purple-700"
+                className="gap-1 bg-primary hover:bg-primary/90"
                 data-testid="button-ai-generate"
               >
                 {aiGenerating ? (
@@ -1505,7 +1505,7 @@ export function DeckEditor({
             </div>
 
             {!isPaid && (
-              <div className="flex items-center gap-2 text-xs text-gray-500 bg-gray-50 rounded-lg px-3 py-2" data-testid="text-ai-card-limit">
+              <div className="flex items-center gap-2 text-xs text-muted-foreground bg-secondary rounded-lg px-3 py-2" data-testid="text-ai-card-limit">
                 <span>Free plan: {limitInfo.used} / {limitInfo.max} cards used</span>
                 {limitInfo.used >= limitInfo.max && (
                   <span className="text-red-500 font-medium">— limit reached</span>
@@ -1526,21 +1526,21 @@ export function DeckEditor({
             )}
 
             {aiGeneratedCards && aiGeneratedCards.length > 0 && (
-              <div className="space-y-2 pt-2 border-t border-purple-200">
+              <div className="space-y-2 pt-2 border-t border-border">
                 <div className="flex items-center justify-between">
-                  <p className="text-xs font-semibold text-purple-700">{aiGeneratedCards.length} cards generated — review before adding:</p>
-                  <Button size="sm" onClick={addAiGeneratedCards} className="gap-1 bg-emerald-600 hover:bg-emerald-700" data-testid="button-add-ai-cards">
+                  <p className="text-xs font-semibold text-primary">{aiGeneratedCards.length} cards generated — review before adding:</p>
+                  <Button size="sm" onClick={addAiGeneratedCards} className="gap-1 bg-primary hover:bg-primary/90" data-testid="button-add-ai-cards">
                     <Plus className="w-3 h-3" /> Add All to Deck
                   </Button>
                 </div>
                 <div className="max-h-[300px] overflow-y-auto space-y-2 pr-1">
                   {aiGeneratedCards.map((card, idx) => (
-                    <div key={idx} className="bg-white rounded-lg border border-purple-100 p-3 text-sm" data-testid={`ai-card-preview-${idx}`}>
+                    <div key={idx} className="bg-card rounded-lg border border-border p-3 text-sm" data-testid={`ai-card-preview-${idx}`}>
                       <div className="flex items-start justify-between gap-2">
                         <div className="flex-1 min-w-0">
-                          <p className="font-medium text-gray-900">{card.front}</p>
-                          <p className="text-gray-600 mt-1">{card.back}</p>
-                          {card.rationale && <p className="text-xs text-gray-400 mt-1 italic">{card.rationale}</p>}
+                          <p className="font-medium text-foreground">{card.front}</p>
+                          <p className="text-foreground/60 mt-1">{card.back}</p>
+                          {card.rationale && <p className="text-xs text-muted-foreground mt-1 italic">{card.rationale}</p>}
                         </div>
                         <Button
                           size="sm"
@@ -1564,7 +1564,7 @@ export function DeckEditor({
       {showCsvImport && (
         <Card className="border-primary/20">
           <CardContent className="p-4 space-y-2">
-            <p className="text-xs text-gray-600">Paste CSV data (front, back, rationale per line):</p>
+            <p className="text-xs text-foreground/60">Paste CSV data (front, back, rationale per line):</p>
             <Textarea
               placeholder={"What is normal saline?, 0.9% NaCl isotonic solution, Used for fluid resuscitation\nWhat is D5W?, 5% dextrose in water, Provides free water and calories"}
               value={csvImportText}
@@ -1582,10 +1582,10 @@ export function DeckEditor({
 
       <Card className="border-2 border-primary/20">
         <CardContent className="p-4 space-y-3">
-          <h3 className="text-sm font-bold text-gray-700">Add New Card</h3>
+          <h3 className="text-sm font-bold text-foreground/70">Add New Card</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
             <div>
-              <label className="text-[10px] text-gray-400 font-bold uppercase tracking-widest block mb-1">Front (Question/Term)</label>
+              <label className="text-[10px] text-muted-foreground font-bold uppercase tracking-widest block mb-1">Front (Question/Term)</label>
               <Textarea
                 placeholder="e.g., What is the antidote for heparin?"
                 value={newCardFront}
@@ -1595,7 +1595,7 @@ export function DeckEditor({
               />
             </div>
             <div>
-              <label className="text-[10px] text-gray-400 font-bold uppercase tracking-widest block mb-1">Back (Answer/Definition)</label>
+              <label className="text-[10px] text-muted-foreground font-bold uppercase tracking-widest block mb-1">Back (Answer/Definition)</label>
               <Textarea
                 placeholder="e.g., Protamine sulfate"
                 value={newCardBack}
@@ -1606,7 +1606,7 @@ export function DeckEditor({
             </div>
           </div>
           <div>
-            <label className="text-[10px] text-gray-400 font-bold uppercase tracking-widest block mb-1">Rationale (Optional)</label>
+            <label className="text-[10px] text-muted-foreground font-bold uppercase tracking-widest block mb-1">Rationale (Optional)</label>
             <Input
               placeholder="Why this is the correct answer..."
               value={newCardRationale}
@@ -1639,15 +1639,15 @@ export function DeckEditor({
 
       <div className="space-y-2">
         {deckCards?.map((card: any, i: number) => (
-          <Card key={card.id} className="border-gray-200" data-testid={`card-edit-${card.id}`}>
+          <Card key={card.id} className="border-border" data-testid={`card-edit-${card.id}`}>
             <CardContent className="p-3">
               <div className="flex items-start justify-between gap-3">
                 <div className="flex-1 min-w-0">
                   <div className="flex items-baseline gap-2">
-                    <span className="text-[10px] text-gray-400 font-medium shrink-0">{i + 1}.</span>
+                    <span className="text-[10px] text-muted-foreground font-medium shrink-0">{i + 1}.</span>
                     <div>
-                      <p className="text-sm font-medium text-gray-900">{card.front}</p>
-                      <p className="text-xs text-gray-500 mt-0.5">{card.back}</p>
+                      <p className="text-sm font-medium text-foreground">{card.front}</p>
+                      <p className="text-xs text-muted-foreground mt-0.5">{card.back}</p>
                     </div>
                   </div>
                 </div>
@@ -1710,26 +1710,26 @@ export function DeckStudyLearn({
 
   return (
     <div className="space-y-6 max-w-2xl mx-auto">
-      <div className="flex items-center gap-2 bg-white/90 backdrop-blur-sm border border-gray-200/60 rounded-2xl px-4 py-2.5 shadow-sm flex-wrap">
+      <div className="flex items-center gap-2 bg-card/90 backdrop-blur-sm border border-border/60 rounded-2xl px-4 py-2.5 shadow-sm flex-wrap">
         <button onClick={() => setView("decks")} className="flex items-center gap-1.5 text-sm font-medium text-primary hover:text-primary/80 transition" data-testid="button-exit-to-decks">
           <Home className="w-4 h-4" />
           <span className="hidden sm:inline">My Flashcards</span>
         </button>
-        <ChevronRight className="w-3.5 h-3.5 text-gray-300" />
+        <ChevronRight className="w-3.5 h-3.5 text-foreground/30" />
         <button onClick={() => setView("deck-view")} className="text-sm font-medium text-primary hover:text-primary/80 transition truncate max-w-[160px]" data-testid="button-exit-learn">
           {currentDeck?.title || "Deck"}
         </button>
-        <ChevronRight className="w-3.5 h-3.5 text-gray-300" />
-        <span className="text-sm font-semibold text-gray-700">Learn</span>
+        <ChevronRight className="w-3.5 h-3.5 text-foreground/30" />
+        <span className="text-sm font-semibold text-foreground/70">Learn</span>
         <div className="ml-auto flex items-center gap-4 text-sm">
           <span className="text-emerald-600 font-medium">{deckStudyCorrect} correct</span>
           <span className="text-red-400 font-medium">{deckStudyIncorrect} missed</span>
-          <span className="text-gray-400 font-mono">{deckStudyIndex! + 1} / {total}</span>
+          <span className="text-muted-foreground font-mono">{deckStudyIndex! + 1} / {total}</span>
         </div>
       </div>
 
-      <div className="w-full h-2.5 bg-gray-100 rounded-full overflow-hidden">
-        <div className="h-full bg-gradient-to-r from-emerald-400 to-emerald-500 rounded-full transition-all duration-500 ease-out" style={{ width: `${progress}%` }} />
+      <div className="w-full h-2.5 bg-secondary rounded-full overflow-hidden">
+        <div className="h-full bg-gradient-to-r from-primary/80 to-primary rounded-full transition-all duration-500 ease-out" style={{ width: `${progress}%` }} />
       </div>
 
       {card.retry && (
@@ -1745,23 +1745,23 @@ export function DeckStudyLearn({
         <Card className={cn(
           "border-none shadow-xl rounded-3xl min-h-[350px] flex flex-col items-center justify-center p-8 md:p-10 text-center transition-all duration-300",
           deckStudyFlipped
-            ? "bg-gradient-to-br from-primary to-purple-600 text-white shadow-primary/20"
-            : "bg-white shadow-gray-200/60"
+            ? "bg-gradient-to-br from-primary to-primary/80 text-primary-foreground shadow-primary/20"
+            : "bg-card shadow-border/60"
         )}>
           {!deckStudyFlipped ? (
             <>
               <span className="text-[10px] font-bold text-primary uppercase tracking-[0.2em] mb-6">Question</span>
-              <h2 className="text-xl sm:text-2xl font-bold text-gray-900 leading-relaxed max-w-lg">{card.front}</h2>
-              <div className="mt-8 text-xs text-gray-400 uppercase tracking-widest animate-pulse flex items-center gap-2">
+              <h2 className="text-xl sm:text-2xl font-bold text-foreground leading-relaxed max-w-lg">{card.front}</h2>
+              <div className="mt-8 text-xs text-foreground/40 uppercase tracking-widest animate-pulse flex items-center gap-2">
                 <RefreshCw className="w-3 h-3" /> Tap or press Space to reveal
               </div>
             </>
           ) : (
             <>
-              <span className="text-[10px] font-bold text-white/50 uppercase tracking-[0.2em] mb-6">Answer</span>
+              <span className="text-[10px] font-bold text-primary-foreground/50 uppercase tracking-[0.2em] mb-6">Answer</span>
               <p className="text-xl font-medium leading-relaxed max-w-lg">{card.back}</p>
               {card.rationale && (
-                <p className="text-sm text-white/60 mt-4 italic max-w-lg leading-relaxed">{card.rationale}</p>
+                <p className="text-sm text-primary-foreground/60 mt-4 italic max-w-lg leading-relaxed">{card.rationale}</p>
               )}
             </>
           )}
@@ -1770,7 +1770,7 @@ export function DeckStudyLearn({
 
       {deckStudyFlipped && (
         <div className="space-y-3">
-          <p className="text-center text-xs text-gray-400 uppercase tracking-[0.15em] font-medium">How well did you know this?</p>
+          <p className="text-center text-xs text-muted-foreground uppercase tracking-[0.15em] font-medium">How well did you know this?</p>
           <div className="flex gap-3 justify-center">
             <Button
               onClick={() => {
@@ -1841,7 +1841,7 @@ export function DeckStudyLearn({
               size="sm"
               onClick={verifyCardAccuracy}
               disabled={aiVerifying}
-              className="text-xs text-gray-400 hover:text-primary gap-1.5"
+              className="text-xs text-muted-foreground hover:text-primary gap-1.5"
               data-testid="button-verify-accuracy"
             >
               <Sparkles className="w-3 h-3" />
@@ -1871,7 +1871,7 @@ export function DeckStudyLearn({
         </div>
       )}
 
-      <p className="text-center text-[10px] text-gray-400">
+      <p className="text-center text-[10px] text-muted-foreground">
         Keyboard: Space/Enter to flip | Right Arrow/1 = Got it | Left Arrow/2 = Missed
       </p>
     </div>
@@ -1915,25 +1915,25 @@ export function DeckStudyTest({
 
   return (
     <div className="space-y-6 max-w-2xl mx-auto">
-      <div className="flex items-center gap-2 bg-white/90 backdrop-blur-sm border border-gray-200/60 rounded-2xl px-4 py-2.5 shadow-sm flex-wrap">
+      <div className="flex items-center gap-2 bg-card/90 backdrop-blur-sm border border-border/60 rounded-2xl px-4 py-2.5 shadow-sm flex-wrap">
         <button onClick={() => setView("decks")} className="flex items-center gap-1.5 text-sm font-medium text-primary hover:text-primary/80 transition" data-testid="button-exit-to-decks-test">
           <Home className="w-4 h-4" />
           <span className="hidden sm:inline">My Flashcards</span>
         </button>
-        <ChevronRight className="w-3.5 h-3.5 text-gray-300" />
+        <ChevronRight className="w-3.5 h-3.5 text-muted-foreground/60" />
         <button onClick={() => setView("deck-view")} className="text-sm font-medium text-primary hover:text-primary/80 transition truncate max-w-[160px]" data-testid="button-exit-test">
           {currentDeck?.title || "Deck"}
         </button>
-        <ChevronRight className="w-3.5 h-3.5 text-gray-300" />
-        <span className="text-sm font-semibold text-gray-700">Test</span>
+        <ChevronRight className="w-3.5 h-3.5 text-muted-foreground/60" />
+        <span className="text-sm font-semibold text-foreground/70">Test</span>
         <div className="ml-auto flex items-center gap-4 text-sm">
-          <span className="flex items-center gap-1 text-gray-500"><Timer className="w-4 h-4" /> {formatTime(elapsed)}</span>
-          <span className="text-gray-400 font-mono">{deckStudyIndex! + 1} / {total}</span>
+          <span className="flex items-center gap-1 text-muted-foreground"><Timer className="w-4 h-4" /> {formatTime(elapsed)}</span>
+          <span className="text-muted-foreground font-mono">{deckStudyIndex! + 1} / {total}</span>
         </div>
       </div>
 
-      <div className="w-full h-2.5 bg-gray-100 rounded-full overflow-hidden">
-        <div className="h-full bg-gradient-to-r from-indigo-400 to-indigo-500 rounded-full transition-all duration-500 ease-out" style={{ width: `${progress}%` }} />
+      <div className="w-full h-2.5 bg-secondary rounded-full overflow-hidden">
+        <div className="h-full bg-gradient-to-r from-primary/70 to-primary rounded-full transition-all duration-500 ease-out" style={{ width: `${progress}%` }} />
       </div>
 
       <div
@@ -1943,23 +1943,23 @@ export function DeckStudyTest({
         <Card className={cn(
           "border-none shadow-xl rounded-3xl min-h-[350px] flex flex-col items-center justify-center p-8 md:p-10 text-center transition-all duration-300",
           deckStudyFlipped
-            ? "bg-gradient-to-br from-indigo-500 to-indigo-700 text-white shadow-indigo-200/40"
-            : "bg-white shadow-gray-200/60"
+            ? "bg-gradient-to-br from-primary/90 to-primary text-primary-foreground shadow-primary/20"
+            : "bg-card shadow-border/60"
         )}>
           {!deckStudyFlipped ? (
             <>
-              <span className="text-[10px] font-bold text-indigo-500 uppercase tracking-[0.2em] mb-6">Test Mode</span>
-              <h2 className="text-xl sm:text-2xl font-bold text-gray-900 leading-relaxed max-w-lg">{card.front}</h2>
-              <div className="mt-8 text-xs text-gray-400 uppercase tracking-widest animate-pulse flex items-center gap-2">
+              <span className="text-[10px] font-bold text-primary uppercase tracking-[0.2em] mb-6">Test Mode</span>
+              <h2 className="text-xl sm:text-2xl font-bold text-foreground leading-relaxed max-w-lg">{card.front}</h2>
+              <div className="mt-8 text-xs text-foreground/40 uppercase tracking-widest animate-pulse flex items-center gap-2">
                 <RefreshCw className="w-3 h-3" /> Tap or press Space to reveal
               </div>
             </>
           ) : (
             <>
-              <span className="text-[10px] font-bold text-white/50 uppercase tracking-[0.2em] mb-6">Answer</span>
+              <span className="text-[10px] font-bold text-primary-foreground/50 uppercase tracking-[0.2em] mb-6">Answer</span>
               <p className="text-xl font-medium leading-relaxed max-w-lg">{card.back}</p>
               {card.rationale && (
-                <p className="text-sm text-white/60 mt-4 italic max-w-lg leading-relaxed">{card.rationale}</p>
+                <p className="text-sm text-primary-foreground/60 mt-4 italic max-w-lg leading-relaxed">{card.rationale}</p>
               )}
             </>
           )}
@@ -2012,8 +2012,8 @@ export function DeckReportCard({
         )}>
           {percentage}%
         </div>
-        <h2 className="text-2xl font-bold text-gray-900">Session Complete</h2>
-        <p className="text-gray-500 text-sm mt-1">{currentDeck?.title}</p>
+        <h2 className="text-2xl font-bold text-foreground">Session Complete</h2>
+        <p className="text-muted-foreground text-sm mt-1">{currentDeck?.title}</p>
       </div>
 
       <div className="grid grid-cols-3 gap-4">
@@ -2029,10 +2029,10 @@ export function DeckReportCard({
             <p className="text-xs text-red-700 font-medium">Missed</p>
           </CardContent>
         </Card>
-        <Card className="text-center premium-card border-0 bg-gray-50/60">
+        <Card className="text-center premium-card border-0 bg-secondary/60">
           <CardContent className="p-4">
-            <p className="text-2xl font-bold text-gray-600">{formatTime(timeSeconds)}</p>
-            <p className="text-xs text-gray-500 font-medium">Time</p>
+            <p className="text-2xl font-bold text-foreground">{formatTime(timeSeconds)}</p>
+            <p className="text-xs text-muted-foreground font-medium">Time</p>
           </CardContent>
         </Card>
       </div>
@@ -2046,9 +2046,9 @@ export function DeckReportCard({
           </CardHeader>
           <CardContent className="space-y-2.5">
             {missedCards.map((card: any) => (
-              <div key={card.id} className="text-sm border-b border-gray-100 pb-2.5 last:border-0">
-                <p className="font-medium text-gray-900">{card.front}</p>
-                <p className="text-gray-500 text-xs mt-0.5 leading-relaxed">{card.back}</p>
+              <div key={card.id} className="text-sm border-b border-border pb-2.5 last:border-0">
+                <p className="font-medium text-foreground">{card.front}</p>
+                <p className="text-muted-foreground text-xs mt-0.5 leading-relaxed">{card.back}</p>
               </div>
             ))}
           </CardContent>
@@ -2056,13 +2056,13 @@ export function DeckReportCard({
       )}
 
       <div className="flex gap-3 justify-center">
-        <Button onClick={() => startDeckStudy!("learn")} className="rounded-2xl gap-2 bg-emerald-600 hover:bg-emerald-700 shadow-sm shadow-emerald-200" data-testid="button-study-again">
+        <Button onClick={() => startDeckStudy!("learn")} className="rounded-2xl gap-2 bg-primary hover:bg-primary/90 shadow-sm shadow-primary/20" data-testid="button-study-again">
           <RefreshCw className="w-4 h-4" /> Study Again
         </Button>
-        <Button variant="outline" onClick={() => setView("deck-view")} className="rounded-2xl border-gray-200" data-testid="button-back-to-deck">
+        <Button variant="outline" onClick={() => setView("deck-view")} className="rounded-2xl border-border" data-testid="button-back-to-deck">
           Back to Deck
         </Button>
-        <Button variant="outline" onClick={() => setView("decks")} className="rounded-2xl border-gray-200" data-testid="button-all-decks">
+        <Button variant="outline" onClick={() => setView("decks")} className="rounded-2xl border-border" data-testid="button-all-decks">
           All Decks
         </Button>
       </div>

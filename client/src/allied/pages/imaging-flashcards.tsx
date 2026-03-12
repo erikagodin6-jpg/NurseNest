@@ -189,33 +189,33 @@ export default function ImagingFlashcardsPage() {
           }}
         />
         <div className="max-w-5xl mx-auto px-4 py-8" data-testid="imaging-flashcards-page">
-          <div className="flex items-center gap-2 text-sm text-gray-500 mb-6">
-            <Link href="/" className="hover:text-teal-600">Home</Link>
+          <div className="flex items-center gap-2 text-sm text-foreground/60 mb-6">
+            <Link href="/" className="hover:text-primary">Home</Link>
             <ChevronRight className="w-3.5 h-3.5" />
-            <Link href={`/medical-imaging/${country}`} className="hover:text-teal-600">Medical Imaging</Link>
+            <Link href={`/medical-imaging/${country}`} className="hover:text-primary">Medical Imaging</Link>
             <ChevronRight className="w-3.5 h-3.5" />
-            <span className="text-teal-700 font-medium">Flashcards</span>
+            <span className="text-primary font-medium">Flashcards</span>
           </div>
 
           <div className="mb-8">
-            <h1 className="text-2xl font-bold text-gray-900" data-testid="text-flashcards-title">Radiography Flashcards</h1>
-            <p className="text-gray-500 text-sm mt-1">{IMAGING_FLASHCARD_DECKS.length} decks · {totalCards} cards · Spaced repetition learning</p>
+            <h1 className="text-2xl font-bold text-foreground" data-testid="text-flashcards-title">Radiography Flashcards</h1>
+            <p className="text-muted-foreground text-sm mt-1">{IMAGING_FLASHCARD_DECKS.length} decks · {totalCards} cards · Spaced repetition learning</p>
           </div>
 
-          <div className="bg-gradient-to-r from-teal-50 to-cyan-50 rounded-2xl p-5 mb-6 border border-teal-100">
+          <div className="bg-gradient-to-r from-primary/5 to-secondary rounded-2xl p-5 mb-6 border border-border">
             <div className="flex items-center gap-6 text-sm">
-              <div><span className="text-gray-500">Reviewed:</span> <span className="font-bold text-teal-700" data-testid="text-reviewed-count">{totalReviewed}</span></div>
-              <div><span className="text-gray-500">Mastered:</span> <span className="font-bold text-green-600">{easyCount}</span></div>
-              <div><span className="text-gray-500">Needs Work:</span> <span className="font-bold text-red-600">{hardCount}</span></div>
+              <div><span className="text-foreground/60">Reviewed:</span> <span className="font-bold text-primary" data-testid="text-reviewed-count">{totalReviewed}</span></div>
+              <div><span className="text-muted-foreground">Mastered:</span> <span className="font-bold text-green-600">{easyCount}</span></div>
+              <div><span className="text-muted-foreground">Needs Work:</span> <span className="font-bold text-red-600">{hardCount}</span></div>
             </div>
           </div>
 
-          <button onClick={() => selectDeck(null)} className="w-full mb-6 bg-gradient-to-r from-teal-600 to-cyan-600 text-white rounded-2xl p-5 text-left hover:from-teal-700 hover:to-cyan-700 transition-all" data-testid="button-all-decks">
+          <button onClick={() => selectDeck(null)} className="w-full mb-6 bg-gradient-to-r from-primary to-primary/80 text-primary-foreground rounded-2xl p-5 text-left hover:from-primary/90 hover:to-primary/70 transition-all" data-testid="button-all-decks">
             <div className="flex items-center gap-3">
               <Layers className="w-6 h-6" />
               <div>
                 <div className="font-semibold text-lg">Study All Decks</div>
-                <div className="text-teal-100 text-sm">{totalCards} cards across all topics</div>
+                <div className="text-primary-foreground/70 text-sm">{totalCards} cards across all topics</div>
               </div>
             </div>
           </button>
@@ -224,16 +224,16 @@ export default function ImagingFlashcardsPage() {
             {filteredDecks.map(deck => {
               const deckReviewed = deck.cards.filter(c => progress[`card-${c.id}`]).length;
               return (
-                <button key={deck.id} onClick={() => selectDeck(deck.id)} className="bg-white rounded-xl border border-gray-100 p-4 text-left hover:border-teal-200 hover:shadow-md transition-all" data-testid={`deck-card-${deck.id}`}>
+                <button key={deck.id} onClick={() => selectDeck(deck.id)} className="bg-card rounded-xl border border-border p-4 text-left hover:border-primary/30 hover:shadow-md transition-all" data-testid={`deck-card-${deck.id}`}>
                   <div className="flex items-center justify-between mb-2">
-                    <span className="px-2 py-0.5 bg-teal-50 text-teal-700 rounded text-xs font-medium">{deck.topic}</span>
-                    <span className="text-xs text-gray-400">{deck.cards.length} cards</span>
+                    <span className="px-2 py-0.5 bg-primary/10 text-primary rounded text-xs font-medium">{deck.topic}</span>
+                    <span className="text-xs text-muted-foreground">{deck.cards.length} cards</span>
                   </div>
-                  <h3 className="font-semibold text-gray-900 text-sm mb-1">{deck.name}</h3>
-                  <p className="text-xs text-gray-500 line-clamp-2 mb-2">{deck.description}</p>
+                  <h3 className="font-semibold text-foreground text-sm mb-1">{deck.name}</h3>
+                  <p className="text-xs text-muted-foreground line-clamp-2 mb-2">{deck.description}</p>
                   {deckReviewed > 0 && (
-                    <div className="w-full bg-gray-100 rounded-full h-1">
-                      <div className="bg-teal-500 h-1 rounded-full" style={{ width: `${(deckReviewed / deck.cards.length) * 100}%` }} />
+                    <div className="w-full bg-secondary rounded-full h-1">
+                      <div className="bg-primary h-1 rounded-full" style={{ width: `${(deckReviewed / deck.cards.length) * 100}%` }} />
                     </div>
                   )}
                 </button>
@@ -253,52 +253,52 @@ export default function ImagingFlashcardsPage() {
         canonicalPath={`/medical-imaging/${country}/flashcards`}
       />
       <div className="max-w-3xl mx-auto px-4 py-8" data-testid="imaging-flashcards-study">
-        <div className="flex items-center gap-2 text-sm text-gray-500 mb-6">
-          <Link href="/" className="hover:text-teal-600">Home</Link>
+        <div className="flex items-center gap-2 text-sm text-foreground/60 mb-6">
+          <Link href="/" className="hover:text-primary">Home</Link>
           <ChevronRight className="w-3.5 h-3.5" />
-          <button onClick={() => setShowDeckBrowser(true)} className="hover:text-teal-600">Flashcards</button>
+          <button onClick={() => setShowDeckBrowser(true)} className="hover:text-primary">Flashcards</button>
           <ChevronRight className="w-3.5 h-3.5" />
-          <span className="text-teal-700 font-medium">{selectedDeck?.name || "All Decks"}</span>
+          <span className="text-primary font-medium">{selectedDeck?.name || "All Decks"}</span>
         </div>
 
         <div className="flex items-center justify-between mb-6">
           <div>
-            <h1 className="text-2xl font-bold text-gray-900">{selectedDeck?.name || "All Flashcards"}</h1>
-            <p className="text-gray-500 text-sm mt-1">{cards.length} cards · Spaced repetition</p>
+            <h1 className="text-2xl font-bold text-foreground">{selectedDeck?.name || "All Flashcards"}</h1>
+            <p className="text-muted-foreground text-sm mt-1">{cards.length} cards · Spaced repetition</p>
           </div>
           <div className="flex gap-2">
-            <button onClick={() => setShowDeckBrowser(true)} className="flex items-center gap-1 px-3 py-1.5 bg-teal-50 rounded-lg text-sm text-teal-700 hover:bg-teal-100" data-testid="button-switch-deck">
+            <button onClick={() => setShowDeckBrowser(true)} className="flex items-center gap-1 px-3 py-1.5 bg-primary/10 rounded-lg text-sm text-primary hover:bg-primary/20" data-testid="button-switch-deck">
               <Layers className="w-3.5 h-3.5" /> Decks
             </button>
-            <button onClick={reset} className="flex items-center gap-1 px-3 py-1.5 bg-gray-100 rounded-lg text-sm text-gray-600 hover:bg-gray-200" data-testid="button-reset">
+            <button onClick={reset} className="flex items-center gap-1 px-3 py-1.5 bg-secondary rounded-lg text-sm text-foreground/60 hover:bg-secondary/80" data-testid="button-reset">
               <RotateCcw className="w-3.5 h-3.5" /> Reset
             </button>
           </div>
         </div>
 
-        <div className="flex items-center gap-4 text-sm text-gray-600 mb-4">
+        <div className="flex items-center gap-4 text-sm text-foreground/60 mb-4">
           <span>Card {currentIdx + 1} of {cards.length}</span>
         </div>
 
-        <div className="w-full bg-gray-100 rounded-full h-1.5 mb-6">
-          <div className="bg-teal-500 h-1.5 rounded-full transition-all" style={{ width: `${((currentIdx + 1) / cards.length) * 100}%` }} />
+        <div className="w-full bg-secondary rounded-full h-1.5 mb-6">
+          <div className="bg-primary h-1.5 rounded-full transition-all" style={{ width: `${((currentIdx + 1) / cards.length) * 100}%` }} />
         </div>
 
         {current && (
           <div className="mb-6">
             <div
               onClick={() => setFlipped(!flipped)}
-              className="bg-white rounded-2xl border border-gray-100 p-8 sm:p-12 min-h-[280px] flex flex-col items-center justify-center cursor-pointer hover:shadow-md transition-all select-none"
+              className="bg-card rounded-2xl border border-border p-8 sm:p-12 min-h-[280px] flex flex-col items-center justify-center cursor-pointer hover:shadow-md transition-all select-none"
               data-testid="flashcard"
             >
               <div className="flex items-center gap-2 mb-4">
-                <span className="px-2 py-0.5 bg-gray-100 text-gray-500 rounded text-xs">{current.difficulty}</span>
-                <span className="px-2 py-0.5 bg-teal-50 text-teal-600 rounded text-xs">{flipped ? "Answer" : "Question"}</span>
+                <span className="px-2 py-0.5 bg-secondary text-foreground/60 rounded text-xs">{current.difficulty}</span>
+                <span className="px-2 py-0.5 bg-primary/10 text-primary rounded text-xs">{flipped ? "Answer" : "Question"}</span>
               </div>
-              <p className="text-lg sm:text-xl text-gray-900 font-medium text-center leading-relaxed" data-testid="text-card-content">
+              <p className="text-lg sm:text-xl text-foreground font-medium text-center leading-relaxed" data-testid="text-card-content">
                 {flipped ? current.back : current.front}
               </p>
-              <div className="flex items-center gap-1 text-gray-400 text-xs mt-6">
+              <div className="flex items-center gap-1 text-muted-foreground text-xs mt-6">
                 <Eye className="w-3.5 h-3.5" /> Click to {flipped ? "see question" : "reveal answer"}
               </div>
             </div>
@@ -306,7 +306,7 @@ export default function ImagingFlashcardsPage() {
         )}
 
         <div className="flex items-center justify-between mb-4">
-          <button onClick={prev} disabled={currentIdx === 0} className="flex items-center gap-1 px-4 py-2.5 text-sm font-medium text-gray-600 hover:text-gray-800 disabled:opacity-30" data-testid="button-prev-card">
+          <button onClick={prev} disabled={currentIdx === 0} className="flex items-center gap-1 px-4 py-2.5 text-sm font-medium text-foreground/60 hover:text-foreground disabled:opacity-30" data-testid="button-prev-card">
             <ChevronLeft className="w-4 h-4" /> Previous
           </button>
           <div className="flex gap-2">
@@ -320,7 +320,7 @@ export default function ImagingFlashcardsPage() {
               <ThumbsUp className="w-4 h-4" /> Easy
             </button>
           </div>
-          <button onClick={next} disabled={currentIdx === cards.length - 1} className="flex items-center gap-1 px-4 py-2.5 text-sm font-medium text-gray-600 hover:text-gray-800 disabled:opacity-30" data-testid="button-next-card">
+          <button onClick={next} disabled={currentIdx === cards.length - 1} className="flex items-center gap-1 px-4 py-2.5 text-sm font-medium text-foreground/60 hover:text-foreground disabled:opacity-30" data-testid="button-next-card">
             Next <ChevronRight className="w-4 h-4" />
           </button>
         </div>
