@@ -762,6 +762,17 @@ app.use((req, res, next) => {
     import("./startup-data-migrations").then(({ runStartupDataMigrations }) => {
       runStartupDataMigrations().catch((e: any) => console.error("[Startup Migrations] Failed:", e.message));
     }).catch((e: any) => console.error("[Startup Migrations] Import failed:", e.message));
+
+    import("./seed-exam-questions").then(async ({ seedExamQuestions }) => {
+      const { pool: seedPool } = await import("./storage");
+      seedExamQuestions(seedPool)
+        .then(() => {
+          import("./seed-cat-flashcards").then(({ seedCatFlashcards }) => {
+            seedCatFlashcards(seedPool).catch((e: any) => console.error("[CATFlashcards] Failed:", e.message));
+          });
+        })
+        .catch((e: any) => console.error("[ExamSeed] Failed:", e.message));
+    }).catch((e: any) => console.error("[ExamSeed] Import failed:", e.message));
   });
 
   // Scheduler loop

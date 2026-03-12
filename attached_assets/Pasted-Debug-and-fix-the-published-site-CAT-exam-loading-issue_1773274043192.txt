@@ -1,0 +1,117 @@
+Debug and fix the published-site CAT exam loading issue.
+
+Problem:
+On the published live site, I am logged in and I can open the CAT exam page. The custom colour window/modal appears, but after that the actual exam does not populate or load. The user gets stuck before the exam starts.
+
+I need you to trace this end to end and fix the real root cause on production, not just preview.
+
+Main goal:
+Make the CAT exam fully load on the published site after the custom colour modal step.
+
+Investigate this systematically.
+
+1. Trace the full start-exam flow
+- identify the CAT exam page component
+- identify the custom colour modal component
+- identify what happens when the user clicks continue/start after choosing colours
+- trace the exact flow from modal submit to exam initialization
+- find the route transition, state update, API call, and session creation logic
+
+2. Add debugging around the modal submit step
+Log:
+- selected colours/theme payload
+- exam tier
+- exam ID or exam slug
+- user ID/session state
+- whether startExam() or equivalent function is called
+- whether route navigation occurs
+- whether question fetch is triggered
+- whether CAT session creation succeeds
+
+3. Inspect browser-side failures
+- check for frontend errors after modal submit
+- fix any undefined/null state issues
+- inspect failed promises
+- inspect route state/hydration issues
+- inspect whether the exam container is waiting on data that never arrives
+
+4. Trace the production API calls after modal submit
+- identify the endpoint used to initialize the CAT exam
+- identify the endpoint used to fetch the first CAT question
+- identify the endpoint used to create/load CAT session state
+- log request payloads and responses
+- determine whether the published site gets:
+  - 401/403
+  - 500
+  - empty response
+  - invalid exam/session object
+  - missing question set
+- fix the failing endpoint or request handling
+
+5. Check auth/session issues in production
+Even though the user is logged in, verify:
+- auth cookies/session are actually available to the CAT start endpoint
+- middleware is not blocking the request
+- the user tier/subscription check is not silently failing
+- session persistence survives the modal submit flow
+- protected routes are not redirecting silently in the background
+
+6. Check production CAT data/config
+Verify production has all required CAT exam data:
+- CAT question pool exists
+- CAT blueprint/config exists
+- adaptive settings exist
+- exam tier slug matches production data
+- first question can be selected
+- exam metadata is valid
+- question count is not zero
+- no production filter is excluding the CAT question set
+
+7. Check for route/param mismatches
+- verify exam slug, tier key, region key, and CAT identifiers used after modal submit
+- confirm the published site is not passing an incorrect or undefined key
+- normalize any casing or slug mismatches
+- ensure modal state does not overwrite or drop required route params
+
+8. Inspect loading-state logic
+- determine whether the exam is actually loading but the UI never exits loading/empty state
+- find any conditions like:
+  examSession && firstQuestion && examConfig
+  that may fail because one property is missing
+- fix empty-state handling so the UI shows a real error instead of silently blanking
+
+9. Fix the issue fully
+Possible fixes may include:
+- repairing the modal submit handler
+- correctly triggering exam initialization after theme save
+- fixing missing route params
+- fixing production API/auth issues
+- fixing null state handling
+- fixing CAT config retrieval
+- fixing question fetch logic
+- fixing session creation logic
+- fixing loading-state conditions
+
+10. Add robust error handling
+If exam initialization fails, do not leave the user stuck on a blank state.
+Show a clear error message and log enough detail to debug production safely.
+
+11. Verify published-site behavior
+After the fix, confirm:
+- user can open CAT exam on published site
+- custom colour modal works
+- clicking continue/start initializes the exam
+- first question loads
+- exam UI populates fully
+- no blank state remains
+- progress/session starts correctly
+- mobile and desktop both work
+
+Output required:
+1. exact root cause
+2. why the colour modal appeared but the exam did not load
+3. files changed
+4. any API/auth/data fixes made
+5. any production env or config issues found
+6. confirmation that the CAT exam now loads on the published site
+7. whether I need to redeploy or run any migration
