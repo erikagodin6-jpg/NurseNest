@@ -4,7 +4,7 @@ import { BookOpen, Brain, FileText, GraduationCap, ChevronRight, Pill, CheckCirc
 import { AlliedSEO } from "@/allied/allied-seo";
 
 const TOPIC_CARDS = [
-  { title: "Pharmacology & Drug Classifications", slug: "pharmacology", desc: "Top 200 drugs, brand/generic names, drug classes, mechanisms of action, and therapeutic uses", icon: Pill },
+  { title: "Pharmacology & Drug Classifications", slug: "drug-classes", desc: "Top 200 drugs, brand/generic names, drug classes, mechanisms of action, and therapeutic uses", icon: Pill, href: "/pharmacy-technician/drug-classes" },
   { title: "Dosage Calculations", slug: "dosage-calculations", desc: "Unit conversions, concentration calculations, drip rates, pediatric dosing, and compounding math", icon: Target },
   { title: "Pharmacy Law & Regulations", slug: "pharmacy-law", desc: "DEA schedules, HIPAA, state and federal regulations, record keeping, and controlled substances", icon: FileText },
   { title: "Sterile & Non-Sterile Compounding", slug: "compounding", desc: "USP 795/797/800, beyond-use dating, aseptic technique, hazardous drug handling", icon: Sparkles },
@@ -116,7 +116,7 @@ export default function PharmtechHubPage() {
           <p className="text-gray-500 mb-8">Explore all the domains covered on the PTCB and ExCPT certification exams.</p>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {TOPIC_CARDS.map(topic => (
-              <Link key={topic.slug} href="/pharmacy-technician/study-guide" className="group bg-white rounded-2xl border border-gray-100 p-6 hover:shadow-lg hover:border-green-200 transition-all" data-testid={`card-topic-${topic.slug}`}>
+              <Link key={topic.slug} href={(topic as any).href || "/pharmacy-technician/study-guide"} className="group bg-white rounded-2xl border border-gray-100 p-6 hover:shadow-lg hover:border-green-200 transition-all" data-testid={`card-topic-${topic.slug}`}>
                 <div className="w-10 h-10 rounded-xl bg-green-50 flex items-center justify-center mb-4 group-hover:bg-green-100 transition-colors">
                   <topic.icon className="w-5 h-5 text-green-600" />
                 </div>

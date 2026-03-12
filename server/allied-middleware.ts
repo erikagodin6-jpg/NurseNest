@@ -147,6 +147,11 @@ export function generateAlliedSitemap(baseUrl: string): string {
     "rrt-study-guide",
   ];
 
+  const drugClassSlugs = [
+    "ace-inhibitors", "beta-blockers", "statins", "antibiotics",
+    "antidiabetic-drugs", "antidepressants", "antihistamines",
+  ];
+
   const urls: string[] = [];
   const now = new Date().toISOString().split("T")[0];
 
@@ -162,6 +167,11 @@ export function generateAlliedSitemap(baseUrl: string): string {
 
   for (const page of seoLandingPages) {
     urls.push(`<url><loc>${baseUrl}/${page}</loc><changefreq>monthly</changefreq><priority>0.8</priority><lastmod>${now}</lastmod></url>`);
+  }
+
+  urls.push(`<url><loc>${baseUrl}/pharmacy-technician/drug-classes</loc><changefreq>weekly</changefreq><priority>0.8</priority><lastmod>${now}</lastmod></url>`);
+  for (const slug of drugClassSlugs) {
+    urls.push(`<url><loc>${baseUrl}/pharmacy-technician/drug-classes/${slug}</loc><changefreq>monthly</changefreq><priority>0.7</priority><lastmod>${now}</lastmod></url>`);
   }
 
   return `<?xml version="1.0" encoding="UTF-8"?>

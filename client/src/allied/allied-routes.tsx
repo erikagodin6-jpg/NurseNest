@@ -59,6 +59,8 @@ const PharmtechPractice = lazy(() => import("./pages/pharmtech-practice"));
 const PharmtechStudyGuide = lazy(() => import("./pages/pharmtech-study-guide"));
 const PharmtechAdmin = lazy(() => import("./pages/pharmtech-admin"));
 const PharmtechReview = lazy(() => import("./pages/pharmtech-review"));
+const PharmtechDrugClassesHub = lazy(() => import("./pages/pharmtech-drug-classes"));
+const PharmtechDrugClassDetail = lazy(() => import("./pages/pharmtech-drug-classes").then(m => ({ default: m.PharmtechDrugClassDetail })));
 const MltStudentDashboard = lazy(() => import("./pages/mlt-student-dashboard"));
 import { MltSEOPage } from "./pages/mlt-seo-pages";
 
@@ -110,6 +112,8 @@ export function AlliedRoutes() {
         <Route path="/admin/allied-content/pharmacy-technician/import" component={PharmtechAdmin} />
         <Route path="/admin/allied-content/pharmacy-technician" component={PharmtechAdmin} />
         <Route path="/admin/paramedic-bulk-upload" component={ParamedicBulkUpload} />
+        <Route path="/pharmacy-technician/drug-classes/:slug" component={PharmtechDrugClassDetail} />
+        <Route path="/pharmacy-technician/drug-classes" component={PharmtechDrugClassesHub} />
         <Route path="/pharmacy-technician" component={PharmtechHub} />
         <Route path="/pharmacy-technician/lessons/:slug" component={PharmtechLessons} />
         <Route path="/pharmacy-technician/lessons" component={PharmtechLessons} />
