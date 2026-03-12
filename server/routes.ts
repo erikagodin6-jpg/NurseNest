@@ -14359,6 +14359,104 @@ Return ONLY valid JSON with this exact structure:
     }
   });
 
+  // Adaptive flashcard engine routes
+  const adaptiveEngine = await import("./adaptive-engine");
+  const validConfidence = ["confident", "unsure", "guess"] as const;
+  const validModes = ["learn", "test", "rapid-review", "weak-areas", "before-exam-cram", "spaced-repetition"] as const;
+  const validTiers = ["free", "rpn", "rn", "np"] as const;
+
+  app.post("/api/adaptive/record-response", async (req, res) => {
+    try {
+      const authUser = await resolveAuthUser(req);
+      if (!authUser) return res.status(401).json({ error: "Authentication required" });
+      const userId = authUser.id;
+      const { cardId, isCorrect, confidence, selectedOption, timeSpent, studyMode } = req.body;
+      if (!cardId || typeof isCorrect !== "boolean") {
+        return res.status(400).json({ error: "cardId and isCorrect are required" });
+      }
+      const safeConfidence = validConfidence.includes(confidence) ? confidence : "unsure";
+      const safeTimeSpent = typeof timeSpent === "number" && timeSpent >= 0 ? Math.min(timeSpent, 600) : undefined;
+      await adaptiveEngine.recordCardResponse({
+        userId, cardId, isCorrect,
+        confidence: safeConfidence,
+        selectedOption: typeof selectedOption === "string" ? selectedOption.substring(0, 500) : undefined,
+        timeSpent: safeTimeSpent,
+        studyMode: validModes.includes(studyMode) ? studyMode : undefined,
+      });
+      res.json({ success: true });
+    } catch (e: any) {
+      console.error("[Adaptive] record-response error:", e.message);
+      res.status(500).json({ error: "Failed to record response" });
+    }
+  });
+
+  app.get("/api/adaptive/mastery/:userId", async (req, res) => {
+    try {
+      const authUser = await resolveAuthUser(req);
+      if (!authUser) return res.status(401).json({ error: "Authentication required" });
+      const userId = authUser.id;
+      const profile = await adaptiveEngine.getMasteryProfile(userId);
+      res.json(profile);
+    } catch (e: any) {
+      console.error("[Adaptive] mastery error:", e.message);
+      res.status(500).json({ error: "Failed to fetch mastery profile" });
+    }
+  });
+
+  app.get("/api/adaptive/weak-areas/:userId", async (req, res) => {
+    try {
+      const authUser = await resolveAuthUser(req);
+      if (!authUser) return res.status(401).json({ error: "Authentication required" });
+      const userId = authUser.id;
+      const areas = await adaptiveEngine.getWeakAreas(userId);
+      res.json(areas);
+    } catch (e: any) {
+      console.error("[Adaptive] weak-areas error:", e.message);
+      res.status(500).json({ error: "Failed to fetch weak areas" });
+    }
+  });
+
+  app.get("/api/adaptive/next-cards/:userId", async (req, res) => {
+    try {
+      const authUser = await resolveAuthUser(req);
+      if (!authUser) return res.status(401).json({ error: "Authentication required" });
+      const userId = authUser.id;
+      const tierParam = (req.query.tier as string) || "rpn";
+      const tier = validTiers.includes(tierParam as any) ? tierParam : "rpn";
+      const modeParam = (req.query.mode as string) || "learn";
+      const mode = validModes.includes(modeParam as any) ? modeParam : "learn";
+      const limit = Math.min(Math.max(parseInt(req.query.limit as string) || 20, 1), 100);
+      const difficultyParam = req.query.difficulty ? parseInt(req.query.difficulty as string) : undefined;
+      const filters = {
+        topic: typeof req.query.topic === "string" ? req.query.topic : undefined,
+        bodySystem: typeof req.query.bodySystem === "string" ? req.query.bodySystem : undefined,
+        difficulty: difficultyParam && difficultyParam >= 1 && difficultyParam <= 5 ? difficultyParam : undefined,
+        blueprintCategory: typeof req.query.blueprintCategory === "string" ? req.query.blueprintCategory : undefined,
+        questionType: typeof req.query.questionType === "string" ? req.query.questionType : undefined,
+        flaggedOnly: req.query.flaggedOnly === "true",
+        missedOnly: req.query.missedOnly === "true",
+      };
+      const cards = await adaptiveEngine.getNextCards(userId, tier, mode as any, limit, filters);
+      res.json({ cards, total: cards.length });
+    } catch (e: any) {
+      console.error("[Adaptive] next-cards error:", e.message);
+      res.status(500).json({ error: "Failed to fetch cards" });
+    }
+  });
+
+  app.get("/api/adaptive/dashboard/:userId", async (req, res) => {
+    try {
+      const authUser = await resolveAuthUser(req);
+      if (!authUser) return res.status(401).json({ error: "Authentication required" });
+      const userId = authUser.id;
+      const dashboard = await adaptiveEngine.getDashboard(userId);
+      res.json(dashboard);
+    } catch (e: any) {
+      console.error("[Adaptive] dashboard error:", e.message);
+      res.status(500).json({ error: "Failed to fetch dashboard" });
+    }
+  });
+
   app.get("/api/quick-study/:userId", async (req, res) => {
     try {
       const userId = req.params.userId;

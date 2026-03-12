@@ -75,7 +75,9 @@ import { BreadcrumbNav } from "@/components/breadcrumb-nav";
 import heartImg from "@/assets/images/heart-flashcard.png";
 import pedsImg from "@/assets/images/peds-flashcard.png";
 import oncologyImg from "@/assets/images/oncology-flashcard.png";
-import { Target, Brain } from "lucide-react";
+import { rnFlashcards } from "@/data/flashcards-rn";
+import { npFlashcards } from "@/data/flashcards-np";
+import { AdaptiveStudyHub } from "@/components/adaptive-study";
 
 type CardType = "question" | "term";
 
@@ -1660,7 +1662,7 @@ export default function Flashcards() {
   const { user, effectiveTier } = useAuth();
   const [, setLocation] = useLocation();
   const { t } = useI18n();
-  const [view, setView] = useState<"setup" | "study" | "report" | "bookmarks" | "mastered" | "mycards" | "mycards-study" | "decks" | "deck-view" | "deck-edit" | "deck-study-learn" | "deck-study-test" | "deck-report" | "browse-decks" | "admin-sets" | "admin-set-study" | "exam-flashcards" | "exam-report" | "adaptive-learn" | "adaptive-test" | "adaptive-report" | "admin-exam-manager">("setup");
+  const [view, setView] = useState<"setup" | "study" | "report" | "bookmarks" | "mastered" | "mycards" | "mycards-study" | "decks" | "deck-view" | "deck-edit" | "deck-study-learn" | "deck-study-test" | "deck-report" | "browse-decks" | "admin-sets" | "admin-set-study" | "exam-flashcards" | "exam-report" | "adaptive-learn" | "adaptive-test" | "adaptive-report" | "admin-exam-manager" | "adaptive">("setup");
   const [selectedType, setSelectedType] = useState<CardType | "all">("all");
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [cardSortBy, setCardSortBy] = useState<"default" | "alpha-asc" | "alpha-desc" | "category" | "shuffle">("default");
@@ -2872,6 +2874,20 @@ export default function Flashcards() {
     setExpandedGroups(prev => prev.includes(label) ? prev.filter(l => l !== label) : [...prev, label]);
   };
 
+  if (view === "adaptive") {
+    return (
+      <div className="min-h-screen bg-warmwhite flex flex-col font-sans">
+        <Navigation />
+        <AdaptiveStudyHub
+          userId={user?.id || ""}
+          userTier={effectiveTier || user?.tier || "free"}
+          onBack={() => setView("setup")}
+        />
+        <Footer />
+      </div>
+    );
+  }
+
   if (view === "setup") {
     return (
       <div className="min-h-screen bg-gradient-to-b from-violet-50/40 via-white to-blue-50/30 flex flex-col font-sans">
@@ -3463,6 +3479,26 @@ export default function Flashcards() {
                       {bookmarks.length} flagged
                     </span>
                   )}
+                </button>
+
+                <button
+                  onClick={() => {
+                    if (!user) { setLocation("/pricing"); return; }
+                    setView("adaptive");
+                  }}
+                  className="group p-6 rounded-2xl border border-rose-100 bg-gradient-to-b from-rose-50/50 to-violet-50/50 hover:shadow-lg hover:border-rose-200 transition-all text-left relative"
+                  data-testid="card-adaptive-study"
+                >
+                  <div className="absolute top-3 right-3">
+                    <Sparkles className="w-3.5 h-3.5 text-rose-400" />
+                  </div>
+                  <div className="w-11 h-11 rounded-2xl bg-rose-100 flex items-center justify-center mb-4 group-hover:scale-105 transition-transform">
+                    <Brain className="w-5 h-5 text-rose-600" />
+                  </div>
+                  <h3 className="text-sm font-bold text-rose-700 mb-1.5">Adaptive Study</h3>
+                  <p className="text-xs text-rose-500/70 leading-relaxed">
+                    6 modes · Smart engine · Confidence tracking
+                  </p>
                 </button>
 
                 <button

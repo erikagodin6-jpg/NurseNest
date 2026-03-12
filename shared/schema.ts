@@ -1088,6 +1088,7 @@ export const flashcardBank = pgTable("flashcard_bank", {
   regionScope: text("region_scope").default("BOTH"),
   flashcardEnabled: boolean("flashcard_enabled").default(false),
   category: text("category"),
+  blueprintCategory: text("blueprint_category"),
   updatedAt: timestamp("updated_at").defaultNow(),
 });
 
@@ -2446,6 +2447,7 @@ export const flashcardReviews = pgTable("flashcard_reviews", {
   interval: integer("interval").default(1),
   easeFactor: integer("ease_factor").default(250),
   repetitions: integer("repetitions").default(0),
+  confidence: text("confidence").default("unsure"),
   nextReviewDate: text("next_review_date").notNull(),
   reviewedAt: timestamp("reviewed_at").defaultNow().notNull(),
 });
@@ -4467,3 +4469,40 @@ export const flashcardPreviewUsage = pgTable("flashcard_preview_usage", {
 });
 
 export type FlashcardPreviewUsage = typeof flashcardPreviewUsage.$inferSelect;
+
+export const userCardResponses = pgTable("user_card_responses", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id").notNull(),
+  cardId: varchar("card_id").notNull(),
+  isCorrect: boolean("is_correct").notNull(),
+  confidence: text("confidence").notNull().default("unsure"),
+  selectedOption: integer("selected_option"),
+  timeSpent: integer("time_spent"),
+  studyMode: text("study_mode").default("learn"),
+  reviewedAt: timestamp("reviewed_at").defaultNow().notNull(),
+});
+
+export const insertUserCardResponseSchema = createInsertSchema(userCardResponses).omit({ id: true, reviewedAt: true });
+export type UserCardResponse = typeof userCardResponses.$inferSelect;
+export type InsertUserCardResponse = z.infer<typeof insertUserCardResponseSchema>;
+
+export const userMasteryProfiles = pgTable("user_mastery_profiles", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id").notNull(),
+  tier: text("tier").notNull(),
+  topic: text("topic"),
+  subtopic: text("subtopic"),
+  blueprintCategory: text("blueprint_category"),
+  questionType: text("question_type"),
+  totalAttempts: integer("total_attempts").default(0),
+  correctCount: integer("correct_count").default(0),
+  avgConfidence: doublePrecision("avg_confidence").default(0),
+  lastReviewedAt: timestamp("last_reviewed_at"),
+  masteryLevel: doublePrecision("mastery_level").default(0),
+  nextDueAt: timestamp("next_due_at"),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+export const insertUserMasteryProfileSchema = createInsertSchema(userMasteryProfiles).omit({ id: true, updatedAt: true });
+export type UserMasteryProfile = typeof userMasteryProfiles.$inferSelect;
+export type InsertUserMasteryProfile = z.infer<typeof insertUserMasteryProfileSchema>;
