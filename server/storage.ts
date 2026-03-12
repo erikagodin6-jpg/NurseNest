@@ -210,6 +210,7 @@ export interface IStorage {
 
   getAllImagingPositioningEntries(filters?: { country?: string; bodyRegion?: string; status?: string }): Promise<ImagingPositioningEntry[]>;
   getImagingPositioningEntry(id: string): Promise<ImagingPositioningEntry | undefined>;
+  getImagingPositioningEntryBySlug(slug: string, country?: string): Promise<ImagingPositioningEntry | undefined>;
   createImagingPositioningEntry(e: InsertImagingPositioningEntry): Promise<ImagingPositioningEntry>;
   updateImagingPositioningEntry(id: string, updates: Partial<InsertImagingPositioningEntry>): Promise<ImagingPositioningEntry>;
   deleteImagingPositioningEntry(id: string): Promise<void>;
@@ -1457,13 +1458,20 @@ export class DatabaseStorage implements IStorage {
 
   async getAllImagingPositioningEntries(filters?: { country?: string; bodyRegion?: string; status?: string }): Promise<ImagingPositioningEntry[]> {
     const conditions = [];
-    if (filters?.bodyRegion) conditions.push(eq(imagingPositioningEntries.bodyPart, filters.bodyRegion));
+    if (filters?.country) conditions.push(eq(imagingPositioningEntries.country, filters.country));
+    if (filters?.bodyRegion) conditions.push(eq(imagingPositioningEntries.bodyRegion, filters.bodyRegion));
     if (filters?.status) conditions.push(eq(imagingPositioningEntries.status, filters.status));
     if (conditions.length > 0) return db.select().from(imagingPositioningEntries).where(and(...conditions)).orderBy(desc(imagingPositioningEntries.updatedAt));
     return db.select().from(imagingPositioningEntries).orderBy(desc(imagingPositioningEntries.updatedAt));
   }
   async getImagingPositioningEntry(id: string): Promise<ImagingPositioningEntry | undefined> {
     const [r] = await db.select().from(imagingPositioningEntries).where(eq(imagingPositioningEntries.id, id));
+    return r;
+  }
+  async getImagingPositioningEntryBySlug(slug: string, country?: string): Promise<ImagingPositioningEntry | undefined> {
+    const conditions = [eq(imagingPositioningEntries.slug, slug), eq(imagingPositioningEntries.status, "published")];
+    if (country) conditions.push(eq(imagingPositioningEntries.country, country));
+    const [r] = await db.select().from(imagingPositioningEntries).where(and(...conditions));
     return r;
   }
   async createImagingPositioningEntry(e: InsertImagingPositioningEntry): Promise<ImagingPositioningEntry> {

@@ -163,6 +163,38 @@ export async function runStartupDataMigrations() {
         console.log(`[Startup Migration] Imaging questions already seeded (${imgCount})`);
       }
 
+      try {
+        await client.query(`ALTER TABLE imaging_positioning_entries ADD COLUMN IF NOT EXISTS slug text NOT NULL DEFAULT ''`);
+        await client.query(`ALTER TABLE imaging_positioning_entries ADD COLUMN IF NOT EXISTS body_region text DEFAULT ''`);
+        await client.query(`ALTER TABLE imaging_positioning_entries ADD COLUMN IF NOT EXISTS country text DEFAULT 'canada'`);
+        await client.query(`ALTER TABLE imaging_positioning_entries ADD COLUMN IF NOT EXISTS exam_relevance text DEFAULT 'medium'`);
+        await client.query(`ALTER TABLE imaging_positioning_entries ADD COLUMN IF NOT EXISTS body_part_position text`);
+        await client.query(`ALTER TABLE imaging_positioning_entries ADD COLUMN IF NOT EXISTS central_ray_direction text`);
+        await client.query(`ALTER TABLE imaging_positioning_entries ADD COLUMN IF NOT EXISTS detector_placement text`);
+        await client.query(`ALTER TABLE imaging_positioning_entries ADD COLUMN IF NOT EXISTS collimation_guidance text`);
+        await client.query(`ALTER TABLE imaging_positioning_entries ADD COLUMN IF NOT EXISTS breathing_instructions text`);
+        await client.query(`ALTER TABLE imaging_positioning_entries ADD COLUMN IF NOT EXISTS common_errors jsonb DEFAULT '[]'::jsonb`);
+        await client.query(`ALTER TABLE imaging_positioning_entries ADD COLUMN IF NOT EXISTS evaluation_criteria text`);
+        await client.query(`ALTER TABLE imaging_positioning_entries ADD COLUMN IF NOT EXISTS clinical_notes text`);
+        await client.query(`ALTER TABLE imaging_positioning_entries ADD COLUMN IF NOT EXISTS exam_tips text`);
+        await client.query(`ALTER TABLE imaging_positioning_entries ADD COLUMN IF NOT EXISTS teaching_image_url text`);
+        await client.query(`ALTER TABLE imaging_positioning_entries ADD COLUMN IF NOT EXISTS exam_image_url text`);
+        await client.query(`ALTER TABLE imaging_positioning_entries ADD COLUMN IF NOT EXISTS positioning_diagram_url text`);
+        await client.query(`ALTER TABLE imaging_positioning_entries ADD COLUMN IF NOT EXISTS incorrect_image_url text`);
+        await client.query(`ALTER TABLE imaging_positioning_entries ADD COLUMN IF NOT EXISTS positioning_errors jsonb DEFAULT '[]'::jsonb`);
+        await client.query(`ALTER TABLE imaging_positioning_entries ADD COLUMN IF NOT EXISTS quiz_questions jsonb DEFAULT '[]'::jsonb`);
+        await client.query(`ALTER TABLE imaging_positioning_entries ADD COLUMN IF NOT EXISTS label_overlays jsonb DEFAULT '[]'::jsonb`);
+        await client.query(`ALTER TABLE imaging_positioning_entries ADD COLUMN IF NOT EXISTS learning_steps jsonb DEFAULT '[]'::jsonb`);
+        await client.query(`ALTER TABLE imaging_positioning_entries ADD COLUMN IF NOT EXISTS seo_title text`);
+        await client.query(`ALTER TABLE imaging_positioning_entries ADD COLUMN IF NOT EXISTS seo_description text`);
+        console.log(`[Startup Migration] Ensured positioning entry columns exist`);
+      } catch (colErr: any) {
+        console.log(`[Startup Migration] Positioning column migration: ${colErr.message}`);
+      }
+
+      await client.query(`UPDATE imaging_positioning_entries SET slug = lower(replace(replace(projection_name, ' ', '-'), '(', '')) WHERE slug = '' OR slug IS NULL`);
+      await client.query(`UPDATE imaging_positioning_entries SET body_region = body_part WHERE (body_region = '' OR body_region IS NULL) AND body_part IS NOT NULL`);
+
       const { rows: [{ count: posCount }] } = await client.query(
         "SELECT count(*) as count FROM imaging_positioning_entries WHERE status = 'published'"
       );
@@ -171,9 +203,10 @@ export async function runStartupDataMigrations() {
         for (const e of POSITIONING_ENTRIES) {
           const ex = await client.query("SELECT id FROM imaging_positioning_entries WHERE body_part=$1 AND projection_name=$2 LIMIT 1", [e.bodyPart, e.projectionName]);
           if (ex.rows.length > 0) continue;
+          const slug = e.projectionName.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
           await client.query(
-            `INSERT INTO imaging_positioning_entries (projection_name, body_part, patient_position, central_ray, sid, film_size, anatomy_demonstrated, tips, status) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,'published')`,
-            [e.projectionName, e.bodyPart, e.patientPosition, e.centralRay, e.sid || null, e.filmSize || null, e.anatomyDemonstrated || null, e.tips || null]
+            `INSERT INTO imaging_positioning_entries (slug, projection_name, body_part, body_region, country, patient_position, central_ray, sid, film_size, anatomy_demonstrated, tips, status) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,'published')`,
+            [slug, e.projectionName, e.bodyPart, e.bodyPart, 'canada', e.patientPosition, e.centralRay, e.sid || null, e.filmSize || null, e.anatomyDemonstrated || null, e.tips || null]
           );
           posCreated++;
         }

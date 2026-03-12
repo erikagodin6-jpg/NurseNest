@@ -14785,6 +14785,15 @@ Return ONLY valid JSON with this exact structure:
     } catch (e: any) { res.status(500).json({ error: e.message }); }
   });
 
+  app.get("/api/imaging/positioning/by-slug/:slug", async (req, res) => {
+    try {
+      const country = req.query.country ? String(req.query.country) : undefined;
+      const e = await storage.getImagingPositioningEntryBySlug(req.params.slug, country);
+      if (!e) return res.status(404).json({ error: "Not found" });
+      res.json(e);
+    } catch (e: any) { res.status(500).json({ error: e.message }); }
+  });
+
   app.get("/api/imaging/positioning/:id", async (req, res) => {
     try {
       const e = await storage.getImagingPositioningEntry(req.params.id);

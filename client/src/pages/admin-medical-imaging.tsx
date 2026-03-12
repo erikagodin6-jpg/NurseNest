@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
 import { useAuth } from "@/lib/auth";
@@ -620,6 +620,10 @@ function AssetsPanel({ countryFilter }: { countryFilter: string }) {
 }
 
 function PositioningPanel({ countryFilter, statusFilter }: { countryFilter: string; statusFilter: string }) {
+  const [showForm, setShowForm] = useState(false);
+  const [editingId, setEditingId] = useState<string | null>(null);
+  const [expandedId, setExpandedId] = useState<string | null>(null);
+
   const params = new URLSearchParams();
   if (countryFilter) params.set("country", countryFilter);
   if (statusFilter) params.set("status", statusFilter);
@@ -635,37 +639,338 @@ function PositioningPanel({ countryFilter, statusFilter }: { countryFilter: stri
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ["/api/imaging/positioning"] }),
   });
 
+  const statusMutation = useMutation({
+    mutationFn: ({ id, status }: { id: string; status: string }) =>
+      apiRequest("PATCH", `/api/imaging/positioning/${id}`, { status }),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["/api/imaging/positioning"] }),
+  });
+
   return (
     <div data-testid="panel-positioning">
-      <h2 className="text-lg font-semibold text-gray-900 mb-4">Positioning Entries ({entries.length})</h2>
+      <div className="flex items-center justify-between mb-4">
+        <h2 className="text-lg font-semibold text-gray-900">Positioning Entries ({entries.length})</h2>
+        <button onClick={() => { setShowForm(!showForm); setEditingId(null); }} className="inline-flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white rounded-lg text-sm font-medium hover:bg-indigo-700" data-testid="button-add-positioning">
+          <Plus className="w-4 h-4" /> Add Entry
+        </button>
+      </div>
+
+      {showForm && <PositioningForm editId={editingId} onClose={() => { setShowForm(false); setEditingId(null); }} />}
+
       {isLoading ? (
         <div className="text-center py-8 text-gray-500">Loading...</div>
       ) : entries.length === 0 ? (
         <div className="text-center py-12 text-gray-400 bg-gray-50 rounded-xl">
           <MapPin className="w-10 h-10 mx-auto mb-3 opacity-40" />
           <p className="font-medium">No positioning entries found</p>
+          <p className="text-sm mt-1">Click "Add Entry" to create your first positioning guide</p>
         </div>
       ) : (
         <div className="space-y-3">
           {entries.map((e: any) => (
             <div key={e.id} className="bg-white border border-gray-100 rounded-xl p-4" data-testid={`positioning-${e.id}`}>
               <div className="flex items-start justify-between gap-3">
-                <div className="flex-1 min-w-0">
-                  <p className="text-sm font-medium text-gray-900 mb-1">{e.bodyPart} - {e.projectionName}</p>
+                <div className="flex-1 min-w-0 cursor-pointer" onClick={() => setExpandedId(expandedId === e.id ? null : e.id)}>
+                  <p className="text-sm font-medium text-gray-900 mb-1">{e.bodyPart} — {e.projectionName}</p>
                   {e.patientPosition && <p className="text-xs text-gray-500 mb-2 line-clamp-2">{e.patientPosition}</p>}
                   <div className="flex flex-wrap gap-2 text-xs">
-                    {e.bodyPart && <span className="px-2 py-0.5 bg-gray-100 rounded">{e.bodyPart}</span>}
+                    {e.country && <span className="px-2 py-0.5 bg-blue-50 text-blue-700 rounded">{e.country}</span>}
+                    {e.bodyRegion && <span className="px-2 py-0.5 bg-gray-100 rounded">{e.bodyRegion}</span>}
+                    {e.slug && <span className="px-2 py-0.5 bg-gray-100 rounded font-mono text-[10px]">/{e.slug}</span>}
                     <span className={`px-2 py-0.5 rounded ${STATUS_COLORS[e.status] || "bg-gray-100"}`}>{e.status}</span>
                   </div>
                 </div>
-                <button onClick={() => deleteMutation.mutate(e.id)} className="p-1.5 text-red-400 hover:text-red-600 hover:bg-red-50 rounded" data-testid={`button-delete-positioning-${e.id}`}>
-                  <Trash2 className="w-4 h-4" />
-                </button>
+                <div className="flex items-center gap-1 flex-shrink-0">
+                  <select
+                    value={e.status}
+                    onChange={ev => statusMutation.mutate({ id: e.id, status: ev.target.value })}
+                    className="text-xs border border-gray-200 rounded px-2 py-1"
+                    data-testid={`select-status-positioning-${e.id}`}
+                  >
+                    <option value="draft">Draft</option>
+                    <option value="published">Published</option>
+                    <option value="archived">Archived</option>
+                  </select>
+                  <button onClick={() => { setEditingId(e.id); setShowForm(true); }} className="p-1.5 text-indigo-400 hover:text-indigo-600 hover:bg-indigo-50 rounded" data-testid={`button-edit-positioning-${e.id}`}>
+                    <Edit2 className="w-4 h-4" />
+                  </button>
+                  <button onClick={() => deleteMutation.mutate(e.id)} className="p-1.5 text-red-400 hover:text-red-600 hover:bg-red-50 rounded" data-testid={`button-delete-positioning-${e.id}`}>
+                    <Trash2 className="w-4 h-4" />
+                  </button>
+                </div>
               </div>
+              {expandedId === e.id && (
+                <div className="mt-3 pt-3 border-t border-gray-100 grid grid-cols-2 gap-3 text-xs">
+                  <div><span className="font-semibold text-gray-500">Central Ray:</span> <span className="text-gray-700">{e.centralRay}</span></div>
+                  <div><span className="font-semibold text-gray-500">SID:</span> <span className="text-gray-700">{e.sid || "—"}</span></div>
+                  <div><span className="font-semibold text-gray-500">Anatomy:</span> <span className="text-gray-700">{e.anatomyDemonstrated || "—"}</span></div>
+                  <div><span className="font-semibold text-gray-500">Film Size:</span> <span className="text-gray-700">{e.filmSize || "—"}</span></div>
+                  {e.tips && <div className="col-span-2"><span className="font-semibold text-gray-500">Tips:</span> <span className="text-gray-700">{e.tips}</span></div>}
+                </div>
+              )}
             </div>
           ))}
         </div>
       )}
+    </div>
+  );
+}
+
+function PositioningForm({ editId, onClose }: { editId: string | null; onClose: () => void }) {
+  const queryClient = useQueryClient();
+  const [form, setForm] = useState({
+    projectionName: "", slug: "", bodyPart: "", bodyRegion: "", country: "canada",
+    examRelevance: "medium", patientPosition: "", bodyPartPosition: "", centralRay: "",
+    centralRayDirection: "", filmSize: "", sid: "", detectorPlacement: "", collimationGuidance: "",
+    breathingInstructions: "", technicalFactors: "", anatomyDemonstrated: "", evaluationCriteria: "",
+    clinicalNotes: "", tips: "", examTips: "", teachingImageUrl: "", examImageUrl: "",
+    positioningDiagramUrl: "", incorrectImageUrl: "", seoTitle: "", seoDescription: "", status: "draft",
+  });
+
+  const { data: existing } = useQuery({
+    queryKey: ["/api/imaging/positioning", editId],
+    queryFn: () => editId ? fetch(`/api/imaging/positioning/${editId}`).then(r => r.json()) : null,
+    enabled: !!editId,
+  });
+
+  const [jsonFields, setJsonFields] = useState({
+    commonErrors: "[]",
+    positioningErrors: "[]",
+    quizQuestions: "[]",
+    labelOverlays: "[]",
+    learningSteps: "[]",
+  });
+
+  useEffect(() => {
+    if (existing) {
+      setForm({
+        projectionName: existing.projectionName || "", slug: existing.slug || "",
+        bodyPart: existing.bodyPart || "", bodyRegion: existing.bodyRegion || "",
+        country: existing.country || "canada", examRelevance: existing.examRelevance || "medium",
+        patientPosition: existing.patientPosition || "", bodyPartPosition: existing.bodyPartPosition || "",
+        centralRay: existing.centralRay || "", centralRayDirection: existing.centralRayDirection || "",
+        filmSize: existing.filmSize || "", sid: existing.sid || "",
+        detectorPlacement: existing.detectorPlacement || "", collimationGuidance: existing.collimationGuidance || "",
+        breathingInstructions: existing.breathingInstructions || "", technicalFactors: existing.technicalFactors || "",
+        anatomyDemonstrated: existing.anatomyDemonstrated || "", evaluationCriteria: existing.evaluationCriteria || "",
+        clinicalNotes: existing.clinicalNotes || "", tips: existing.tips || "",
+        examTips: existing.examTips || "", teachingImageUrl: existing.teachingImageUrl || "",
+        examImageUrl: existing.examImageUrl || "", positioningDiagramUrl: existing.positioningDiagramUrl || "",
+        incorrectImageUrl: existing.incorrectImageUrl || "", seoTitle: existing.seoTitle || "",
+        seoDescription: existing.seoDescription || "", status: existing.status || "draft",
+      });
+      setJsonFields({
+        commonErrors: JSON.stringify(existing.commonErrors || [], null, 2),
+        positioningErrors: JSON.stringify(existing.positioningErrors || [], null, 2),
+        quizQuestions: JSON.stringify(existing.quizQuestions || [], null, 2),
+        labelOverlays: JSON.stringify(existing.labelOverlays || [], null, 2),
+        learningSteps: JSON.stringify(existing.learningSteps || [], null, 2),
+      });
+    }
+  }, [existing]);
+
+  const createMutation = useMutation({
+    mutationFn: (data: any) => editId
+      ? apiRequest("PATCH", `/api/imaging/positioning/${editId}`, data)
+      : apiRequest("POST", "/api/imaging/positioning", data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/imaging/positioning"] });
+      onClose();
+    },
+  });
+
+  const autoSlug = () => {
+    if (!form.slug && form.projectionName) {
+      setForm(p => ({ ...p, slug: form.projectionName.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '') }));
+    }
+  };
+
+  const set = (k: string) => (e: any) => setForm(p => ({ ...p, [k]: e.target.value }));
+
+  return (
+    <div className="bg-gray-50 border border-gray-200 rounded-xl p-4 mb-6" data-testid="form-positioning">
+      <div className="flex items-center justify-between mb-4">
+        <h3 className="font-semibold text-gray-900">{editId ? "Edit" : "New"} Positioning Entry</h3>
+        <button onClick={onClose} className="p-1 text-gray-400 hover:text-gray-600"><X className="w-4 h-4" /></button>
+      </div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+        <div>
+          <label className="text-xs font-medium text-gray-500">Projection Name *</label>
+          <input value={form.projectionName} onChange={set("projectionName")} onBlur={autoSlug}
+            className="w-full mt-1 px-3 py-2 border border-gray-200 rounded-lg text-sm" placeholder="e.g., PA Erect Chest"
+            data-testid="input-pos-projection-name" />
+        </div>
+        <div>
+          <label className="text-xs font-medium text-gray-500">Slug *</label>
+          <input value={form.slug} onChange={set("slug")}
+            className="w-full mt-1 px-3 py-2 border border-gray-200 rounded-lg text-sm font-mono" placeholder="pa-erect-chest"
+            data-testid="input-pos-slug" />
+        </div>
+        <div>
+          <label className="text-xs font-medium text-gray-500">Body Part *</label>
+          <input value={form.bodyPart} onChange={set("bodyPart")}
+            className="w-full mt-1 px-3 py-2 border border-gray-200 rounded-lg text-sm" placeholder="e.g., Chest"
+            data-testid="input-pos-body-part" />
+        </div>
+        <div>
+          <label className="text-xs font-medium text-gray-500">Body Region</label>
+          <select value={form.bodyRegion} onChange={set("bodyRegion")} className="w-full mt-1 px-3 py-2 border border-gray-200 rounded-lg text-sm" data-testid="select-pos-body-region">
+            <option value="">Select Region</option>
+            {["Chest", "Upper Extremity", "Lower Extremity", "Spine", "Abdomen", "Pelvis/Hip", "Shoulder", "Skull"].map(r => (
+              <option key={r} value={r}>{r}</option>
+            ))}
+          </select>
+        </div>
+        <div>
+          <label className="text-xs font-medium text-gray-500">Country</label>
+          <select value={form.country} onChange={set("country")} className="w-full mt-1 px-3 py-2 border border-gray-200 rounded-lg text-sm" data-testid="select-pos-country">
+            <option value="canada">Canada</option>
+            <option value="usa">USA</option>
+          </select>
+        </div>
+        <div>
+          <label className="text-xs font-medium text-gray-500">Exam Relevance</label>
+          <select value={form.examRelevance} onChange={set("examRelevance")} className="w-full mt-1 px-3 py-2 border border-gray-200 rounded-lg text-sm" data-testid="select-pos-relevance">
+            <option value="low">Low</option>
+            <option value="medium">Medium</option>
+            <option value="high">High</option>
+          </select>
+        </div>
+        <div className="sm:col-span-2 lg:col-span-3">
+          <label className="text-xs font-medium text-gray-500">Patient Position *</label>
+          <textarea value={form.patientPosition} onChange={set("patientPosition")} rows={2}
+            className="w-full mt-1 px-3 py-2 border border-gray-200 rounded-lg text-sm" placeholder="Patient stands upright facing..."
+            data-testid="input-pos-patient-position" />
+        </div>
+        <div className="sm:col-span-2 lg:col-span-3">
+          <label className="text-xs font-medium text-gray-500">Central Ray *</label>
+          <textarea value={form.centralRay} onChange={set("centralRay")} rows={2}
+            className="w-full mt-1 px-3 py-2 border border-gray-200 rounded-lg text-sm" placeholder="Perpendicular to T7..."
+            data-testid="input-pos-central-ray" />
+        </div>
+        <div>
+          <label className="text-xs font-medium text-gray-500">SID</label>
+          <input value={form.sid} onChange={set("sid")} className="w-full mt-1 px-3 py-2 border border-gray-200 rounded-lg text-sm" placeholder="72 inches" data-testid="input-pos-sid" />
+        </div>
+        <div>
+          <label className="text-xs font-medium text-gray-500">Film/IR Size</label>
+          <input value={form.filmSize} onChange={set("filmSize")} className="w-full mt-1 px-3 py-2 border border-gray-200 rounded-lg text-sm" placeholder="14x17" data-testid="input-pos-film-size" />
+        </div>
+        <div>
+          <label className="text-xs font-medium text-gray-500">Status</label>
+          <select value={form.status} onChange={set("status")} className="w-full mt-1 px-3 py-2 border border-gray-200 rounded-lg text-sm" data-testid="select-pos-status">
+            <option value="draft">Draft</option>
+            <option value="published">Published</option>
+            <option value="archived">Archived</option>
+          </select>
+        </div>
+        <div className="sm:col-span-2 lg:col-span-3">
+          <label className="text-xs font-medium text-gray-500">Body Part Position</label>
+          <textarea value={form.bodyPartPosition} onChange={set("bodyPartPosition")} rows={2}
+            className="w-full mt-1 px-3 py-2 border border-gray-200 rounded-lg text-sm" data-testid="input-pos-body-part-position" />
+        </div>
+        <div>
+          <label className="text-xs font-medium text-gray-500">Central Ray Direction</label>
+          <input value={form.centralRayDirection} onChange={set("centralRayDirection")} className="w-full mt-1 px-3 py-2 border border-gray-200 rounded-lg text-sm" data-testid="input-pos-cr-direction" />
+        </div>
+        <div>
+          <label className="text-xs font-medium text-gray-500">Detector Placement</label>
+          <input value={form.detectorPlacement} onChange={set("detectorPlacement")} className="w-full mt-1 px-3 py-2 border border-gray-200 rounded-lg text-sm" data-testid="input-pos-detector" />
+        </div>
+        <div>
+          <label className="text-xs font-medium text-gray-500">Collimation Guidance</label>
+          <input value={form.collimationGuidance} onChange={set("collimationGuidance")} className="w-full mt-1 px-3 py-2 border border-gray-200 rounded-lg text-sm" data-testid="input-pos-collimation" />
+        </div>
+        <div>
+          <label className="text-xs font-medium text-gray-500">Breathing Instructions</label>
+          <input value={form.breathingInstructions} onChange={set("breathingInstructions")} className="w-full mt-1 px-3 py-2 border border-gray-200 rounded-lg text-sm" data-testid="input-pos-breathing" />
+        </div>
+        <div className="sm:col-span-2 lg:col-span-3">
+          <label className="text-xs font-medium text-gray-500">Anatomy Demonstrated</label>
+          <textarea value={form.anatomyDemonstrated} onChange={set("anatomyDemonstrated")} rows={2}
+            className="w-full mt-1 px-3 py-2 border border-gray-200 rounded-lg text-sm" data-testid="input-pos-anatomy" />
+        </div>
+        <div className="sm:col-span-2 lg:col-span-3">
+          <label className="text-xs font-medium text-gray-500">Evaluation Criteria</label>
+          <textarea value={form.evaluationCriteria} onChange={set("evaluationCriteria")} rows={2}
+            className="w-full mt-1 px-3 py-2 border border-gray-200 rounded-lg text-sm" data-testid="input-pos-evaluation" />
+        </div>
+        <div className="sm:col-span-2 lg:col-span-3">
+          <label className="text-xs font-medium text-gray-500">Tips</label>
+          <textarea value={form.tips} onChange={set("tips")} rows={2}
+            className="w-full mt-1 px-3 py-2 border border-gray-200 rounded-lg text-sm" data-testid="input-pos-tips" />
+        </div>
+        <div className="sm:col-span-2 lg:col-span-3">
+          <label className="text-xs font-medium text-gray-500">Exam Tips</label>
+          <textarea value={form.examTips} onChange={set("examTips")} rows={2}
+            className="w-full mt-1 px-3 py-2 border border-gray-200 rounded-lg text-sm" data-testid="input-pos-exam-tips" />
+        </div>
+        <div>
+          <label className="text-xs font-medium text-gray-500">Teaching Image URL</label>
+          <input value={form.teachingImageUrl} onChange={set("teachingImageUrl")} className="w-full mt-1 px-3 py-2 border border-gray-200 rounded-lg text-sm" data-testid="input-pos-teaching-img" />
+        </div>
+        <div>
+          <label className="text-xs font-medium text-gray-500">Exam Image URL</label>
+          <input value={form.examImageUrl} onChange={set("examImageUrl")} className="w-full mt-1 px-3 py-2 border border-gray-200 rounded-lg text-sm" data-testid="input-pos-exam-img" />
+        </div>
+        <div>
+          <label className="text-xs font-medium text-gray-500">Diagram URL</label>
+          <input value={form.positioningDiagramUrl} onChange={set("positioningDiagramUrl")} className="w-full mt-1 px-3 py-2 border border-gray-200 rounded-lg text-sm" data-testid="input-pos-diagram" />
+        </div>
+        <div>
+          <label className="text-xs font-medium text-gray-500">Incorrect Image URL</label>
+          <input value={form.incorrectImageUrl} onChange={set("incorrectImageUrl")} className="w-full mt-1 px-3 py-2 border border-gray-200 rounded-lg text-sm" data-testid="input-pos-incorrect-img" />
+        </div>
+        <div>
+          <label className="text-xs font-medium text-gray-500">SEO Title</label>
+          <input value={form.seoTitle} onChange={set("seoTitle")} className="w-full mt-1 px-3 py-2 border border-gray-200 rounded-lg text-sm" data-testid="input-pos-seo-title" />
+        </div>
+        <div>
+          <label className="text-xs font-medium text-gray-500">SEO Description</label>
+          <input value={form.seoDescription} onChange={set("seoDescription")} className="w-full mt-1 px-3 py-2 border border-gray-200 rounded-lg text-sm" data-testid="input-pos-seo-desc" />
+        </div>
+      </div>
+      <div className="mt-4 space-y-3">
+        <h4 className="text-sm font-semibold text-gray-700">Interactive Content (JSON)</h4>
+        <p className="text-xs text-gray-400">Enter valid JSON arrays for the interactive module fields below.</p>
+        {(["learningSteps", "positioningErrors", "quizQuestions", "labelOverlays", "commonErrors"] as const).map(field => (
+          <div key={field}>
+            <label className="text-xs font-medium text-gray-500">{field.replace(/([A-Z])/g, ' $1').replace(/^./, s => s.toUpperCase())}</label>
+            <textarea
+              value={jsonFields[field]}
+              onChange={e => setJsonFields(p => ({ ...p, [field]: e.target.value }))}
+              rows={4}
+              className={`w-full mt-1 px-3 py-2 border rounded-lg text-xs font-mono ${(() => { try { JSON.parse(jsonFields[field]); return "border-gray-200"; } catch { return "border-red-400 bg-red-50"; } })()}`}
+              data-testid={`input-pos-${field}`}
+            />
+          </div>
+        ))}
+      </div>
+      <div className="mt-4 flex gap-2">
+        <button
+          onClick={() => {
+            const data: any = { ...form };
+            if (!data.slug) data.slug = data.projectionName.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+            if (!data.bodyRegion) data.bodyRegion = data.bodyPart;
+            Object.keys(data).forEach(k => { if (data[k] === "") delete data[k]; });
+            if (!data.projectionName || !data.bodyPart || !data.patientPosition || !data.centralRay) return;
+            try {
+              data.commonErrors = JSON.parse(jsonFields.commonErrors);
+              data.positioningErrors = JSON.parse(jsonFields.positioningErrors);
+              data.quizQuestions = JSON.parse(jsonFields.quizQuestions);
+              data.labelOverlays = JSON.parse(jsonFields.labelOverlays);
+              data.learningSteps = JSON.parse(jsonFields.learningSteps);
+            } catch { return; }
+            createMutation.mutate(data);
+          }}
+          disabled={!form.projectionName || !form.bodyPart || !form.patientPosition || !form.centralRay || createMutation.isPending}
+          className="inline-flex items-center gap-1.5 px-4 py-2 bg-green-600 text-white rounded-lg text-sm font-medium hover:bg-green-700 disabled:opacity-40"
+          data-testid="button-submit-positioning"
+        >
+          <Check className="w-4 h-4" />
+          {createMutation.isPending ? "Saving..." : editId ? "Update Entry" : "Create Entry"}
+        </button>
+        <button onClick={onClose} className="px-4 py-2 text-sm text-gray-600 bg-gray-100 rounded-lg hover:bg-gray-200" data-testid="button-cancel-positioning">Cancel</button>
+      </div>
     </div>
   );
 }

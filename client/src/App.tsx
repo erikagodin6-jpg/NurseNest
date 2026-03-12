@@ -194,6 +194,7 @@ const AdminMedicalImaging = lazy(() => import("@/pages/admin-medical-imaging"));
 const AdminDatabaseStatus = lazy(() => import("@/pages/admin-database-status"));
 const ImagingLessonsPage = lazy(() => import("@/pages/imaging-lessons"));
 const ImagingPositioningPage = lazy(() => import("@/pages/imaging-positioning"));
+const ImagingPositioningDetailPage = lazy(() => import("@/pages/imaging-positioning-detail"));
 const ImagingPhysicsPage = lazy(() => import("@/pages/imaging-physics"));
 const ImagingFlashcardsPage = lazy(() => import("@/pages/imaging-flashcards"));
 const ImagingPracticeExamPage = lazy(() => import("@/pages/imaging-practice-exam"));
@@ -398,6 +399,7 @@ function AppRoutes() {
         <Route path="/clinical-case-studies" component={ClinicalCaseStudyPage} />
         <Route path="/for-institutions" component={ForInstitutions} />
         <Route path="/medical-imaging/:country/lessons" component={ImagingLessonsPage} />
+        <Route path="/medical-imaging/:country/positioning/:projectionSlug" component={ImagingPositioningDetailPage} />
         <Route path="/medical-imaging/:country/positioning" component={ImagingPositioningPage} />
         <Route path="/medical-imaging/:country/physics" component={ImagingPhysicsPage} />
         <Route path="/medical-imaging/:country/flashcards" component={ImagingFlashcardsPage} />
