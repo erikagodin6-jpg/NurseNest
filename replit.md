@@ -40,6 +40,7 @@ Built with Vite, React, and Express 5 on Node.js with TypeScript, the applicatio
 - **Blog Batch Generator**: Automates the generation of blog posts via OpenAI with smart scheduling.
 - **MLT Admin Content Studio**: Comprehensive admin interface for managing MLT content (questions, flashcards, lessons) with CRUD, bulk import, validation, and content distribution dashboards.
 - **Paramedic Bulk Upload Manager**: Admin tool for importing large amounts of paramedic content (questions, flashcards, lessons, scenarios, etc.) via JSON, CSV, or text, with field mapping, validation, and version control.
+- **Paramedic ECG/Waveform Library**: SVG-based ECG strip and cardiac monitor rendering system with 25 seeded rhythm types (NSR, AFib, VTach, VFib, heart blocks, STEMI patterns, capnography). Browsable library at `/paramedic/ecg-library` with search/filter, detail views with monitor toggle. Admin CRUD at `/admin/paramedic-waveforms`. DB table: `paramedic_waveform_assets`. Auto-seeded on startup.
 
 ## External Dependencies
 

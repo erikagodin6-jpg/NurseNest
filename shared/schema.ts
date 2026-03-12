@@ -3571,3 +3571,35 @@ export type ParamedicBulkImportItem = typeof paramedicBulkImportItems.$inferSele
 export type InsertParamedicBulkImportItem = z.infer<typeof insertParamedicBulkImportItemSchema>;
 export type ParamedicFieldMappingTemplate = typeof paramedicFieldMappingTemplates.$inferSelect;
 export type InsertParamedicFieldMappingTemplate = z.infer<typeof insertParamedicFieldMappingTemplateSchema>;
+
+export const paramedicWaveformAssets = pgTable("paramedic_waveform_assets", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  waveformType: text("waveform_type").notNull(),
+  name: text("name").notNull(),
+  slug: text("slug").notNull().unique(),
+  category: text("category").notNull(),
+  svgPathData: jsonb("svg_path_data").notNull(),
+  clinicalAnnotations: jsonb("clinical_annotations").default(sql`'{}'::jsonb`),
+  identifyingFeatures: text("identifying_features").array().default(sql`'{}'::text[]`),
+  associatedConditions: text("associated_conditions").array().default(sql`'{}'::text[]`),
+  treatmentNotes: text("treatment_notes"),
+  rate: text("rate"),
+  regularity: text("regularity"),
+  clinicalSignificance: text("clinical_significance"),
+  difficulty: text("difficulty").default("beginner"),
+  visibilityTier: text("visibility_tier").default("free"),
+  contentDomain: text("content_domain").notNull().default("paramedic"),
+  sortOrder: integer("sort_order").default(0),
+  status: text("status").default("published"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export const insertParamedicWaveformAssetSchema = createInsertSchema(paramedicWaveformAssets).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
+export type ParamedicWaveformAsset = typeof paramedicWaveformAssets.$inferSelect;
+export type InsertParamedicWaveformAsset = z.infer<typeof insertParamedicWaveformAssetSchema>;

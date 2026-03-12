@@ -30,6 +30,8 @@ const ParamedicExamsHub = lazy(() => import("./pages/paramedic/paramedic-exams-h
 const ParamedicFlashcardsHub = lazy(() => import("./pages/paramedic/paramedic-flashcards-hub"));
 const ParamedicScenariosHub = lazy(() => import("./pages/paramedic/paramedic-scenarios-hub"));
 const ParamedicPracticeExamsHub = lazy(() => import("./pages/paramedic/paramedic-practice-exams-hub"));
+const ParamedicECGLibrary = lazy(() => import("./pages/paramedic/ecg-library"));
+const ParamedicECGAdmin = lazy(() => import("./pages/paramedic/ecg-admin"));
 const MltLanding = lazy(() => import("./pages/mlt-landing"));
 const MltCountryPage = lazy(() => import("./pages/mlt-country-page"));
 const MltBlog = lazy(() => import("./pages/mlt-blog"));
@@ -176,6 +178,8 @@ export function AlliedRoutes() {
         <Route path="/paramedic/flashcards" component={ParamedicFlashcardsHub} />
         <Route path="/paramedic/scenarios" component={ParamedicScenariosHub} />
         <Route path="/paramedic/practice-exams" component={ParamedicPracticeExamsHub} />
+        <Route path="/paramedic/ecg-library" component={ParamedicECGLibrary} />
+        <Route path="/admin/paramedic-waveforms" component={ParamedicECGAdmin} />
         <Route path="/paramedic" component={ParamedicLanding} />
         <Route path="/mlt/exams" component={MltExamHub} />
         <Route path="/mlt/exam/canada_realistic" component={MltCanadaExam} />

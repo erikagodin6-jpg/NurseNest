@@ -218,6 +218,18 @@ export async function runStartupDataMigrations() {
         console.log(`[Startup Migration] Flashcards already seeded (${fcCount})`);
       }
 
+      try {
+        const { seedWaveformData } = await import("./paramedic-waveform-routes");
+        const wfCount = await seedWaveformData();
+        if (wfCount > 0) {
+          console.log(`[Startup Migration] Seeded ${wfCount} paramedic waveforms`);
+        } else {
+          console.log(`[Startup Migration] Paramedic waveforms already seeded`);
+        }
+      } catch (wfErr: any) {
+        console.log(`[Startup Migration] Waveform seed skipped: ${wfErr.message}`);
+      }
+
       lastStartupMigrationTimestamp = new Date().toISOString();
       console.log(`[Startup Migration] Completed at ${lastStartupMigrationTimestamp}`);
       const dbHost = (process.env.DATABASE_URL || "").replace(/\/\/.*@/, "//***@").split("/")[2] || "unknown";
