@@ -176,6 +176,8 @@ const AdminFlashcardStudio = lazy(() => import("@/pages/admin-flashcard-studio")
 const AdminNgnGenerator = lazy(() => import("@/pages/admin-ngn-generator"));
 const AdminAutopilot = lazy(() => import("@/pages/admin-autopilot"));
 const AdminPageviews = lazy(() => import("@/pages/admin-pageviews"));
+const StudyCoachingDashboard = lazy(() => import("@/pages/study-coaching-dashboard"));
+const AdminStudyAnalytics = lazy(() => import("@/pages/admin-study-analytics"));
 const AdminSeoAutopilot = lazy(() => import("@/pages/admin-seo-autopilot"));
 const OrderOfTheDraw = lazy(() => import("@/pages/order-of-the-draw"));
 const InfographicLibrary = lazy(() => import("@/pages/infographic-library"));
@@ -434,6 +436,8 @@ function AppRoutes() {
         <Route path="/admin/imaging-marketing" component={ImagingMarketingDashboard} />
         <Route path="/admin/demo-weak-areas" component={DemoWeakAreas} />
         <Route path="/admin/demo-study-plan" component={DemoStudyPlanPage} />
+        <Route path="/admin/study-analytics" component={AdminStudyAnalytics} />
+        <Route path="/study-coach" component={StudyCoachingDashboard} />
         <Route path="/radiography-practice-questions" component={RadiographyPracticeQuestionsLanding} />
         <Route path="/radiography-positioning-guide" component={RadiographyPositioningGuideLanding} />
         <Route path="/radiography-artifact-recognition" component={RadiographyArtifactRecognitionLanding} />

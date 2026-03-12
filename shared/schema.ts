@@ -4511,3 +4511,148 @@ export const userMasteryProfiles = pgTable("user_mastery_profiles", {
 export const insertUserMasteryProfileSchema = createInsertSchema(userMasteryProfiles).omit({ id: true, updatedAt: true });
 export type UserMasteryProfile = typeof userMasteryProfiles.$inferSelect;
 export type InsertUserMasteryProfile = z.infer<typeof insertUserMasteryProfileSchema>;
+
+export const studentStudyProfiles = pgTable("student_study_profiles", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id").notNull().unique(),
+  totalQuestionsAnswered: integer("total_questions_answered").default(0),
+  totalCorrect: integer("total_correct").default(0),
+  totalIncorrect: integer("total_incorrect").default(0),
+  avgTimePerQuestion: integer("avg_time_per_question").default(0),
+  flashcardsStudied: integer("flashcards_studied").default(0),
+  lessonsViewed: integer("lessons_viewed").default(0),
+  practiceExamsCompleted: integer("practice_exams_completed").default(0),
+  adaptiveExamsCompleted: integer("adaptive_exams_completed").default(0),
+  currentStreak: integer("current_streak").default(0),
+  longestStreak: integer("longest_streak").default(0),
+  lastStudyDate: text("last_study_date"),
+  weeklyGoalHours: integer("weekly_goal_hours").default(10),
+  weeklyHoursLogged: doublePrecision("weekly_hours_logged").default(0),
+  weeklyGoalResetDate: text("weekly_goal_reset_date"),
+  totalStudyMinutes: integer("total_study_minutes").default(0),
+  examDate: timestamp("exam_date"),
+  hoursPerWeek: integer("hours_per_week").default(10),
+  readinessScore: integer("readiness_score").default(0),
+  readinessLevel: text("readiness_level").default("not_ready"),
+  passProbability: integer("pass_probability").default(0),
+  examPrepModeActive: boolean("exam_prep_mode_active").default(false),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export const insertStudentStudyProfileSchema = createInsertSchema(studentStudyProfiles).omit({ id: true, createdAt: true, updatedAt: true });
+export type StudentStudyProfile = typeof studentStudyProfiles.$inferSelect;
+export type InsertStudentStudyProfile = z.infer<typeof insertStudentStudyProfileSchema>;
+
+export const topicMasteryScores = pgTable("topic_mastery_scores", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id").notNull(),
+  topic: text("topic").notNull(),
+  subtopic: text("subtopic"),
+  totalAttempts: integer("total_attempts").default(0),
+  correctCount: integer("correct_count").default(0),
+  masteryPercent: doublePrecision("mastery_percent").default(0),
+  masteryLabel: text("mastery_label").default("weak"),
+  recentAccuracy: doublePrecision("recent_accuracy").default(0),
+  avgTimeSeconds: integer("avg_time_seconds").default(0),
+  lastAttemptAt: timestamp("last_attempt_at"),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export const insertTopicMasteryScoreSchema = createInsertSchema(topicMasteryScores).omit({ id: true, updatedAt: true });
+export type TopicMasteryScore = typeof topicMasteryScores.$inferSelect;
+export type InsertTopicMasteryScore = z.infer<typeof insertTopicMasteryScoreSchema>;
+
+export const spacedRepetitionCards = pgTable("spaced_repetition_cards", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id").notNull(),
+  cardId: varchar("card_id").notNull(),
+  deckId: varchar("deck_id"),
+  easeFactor: doublePrecision("ease_factor").default(2.5),
+  interval: integer("interval").default(1),
+  repetitions: integer("repetitions").default(0),
+  nextReviewAt: timestamp("next_review_at").defaultNow().notNull(),
+  lastReviewedAt: timestamp("last_reviewed_at"),
+  status: text("status").default("new"),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export const insertSpacedRepetitionCardSchema = createInsertSchema(spacedRepetitionCards).omit({ id: true, updatedAt: true });
+export type SpacedRepetitionCard = typeof spacedRepetitionCards.$inferSelect;
+export type InsertSpacedRepetitionCard = z.infer<typeof insertSpacedRepetitionCardSchema>;
+
+export const weakAreaAlerts = pgTable("weak_area_alerts", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id").notNull(),
+  topic: text("topic").notNull(),
+  alertType: text("alert_type").notNull().default("repeated_struggle"),
+  message: text("message").notNull(),
+  dismissed: boolean("dismissed").default(false),
+  recommendedActions: jsonb("recommended_actions").default(sql`'[]'::jsonb`),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export type WeakAreaAlert = typeof weakAreaAlerts.$inferSelect;
+
+export const studyMilestones = pgTable("study_milestones", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id").notNull(),
+  milestoneType: text("milestone_type").notNull(),
+  title: text("title").notNull(),
+  description: text("description"),
+  earnedAt: timestamp("earned_at").defaultNow().notNull(),
+  seen: boolean("seen").default(false),
+});
+
+export type StudyMilestone = typeof studyMilestones.$inferSelect;
+
+export const generatedCourses = pgTable("generated_courses", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  blueprintId: varchar("blueprint_id"),
+  examCode: text("exam_code").notNull(),
+  title: text("title").notNull(),
+  description: text("description"),
+  status: text("status").default("draft"),
+  structure: jsonb("structure").default(sql`'[]'::jsonb`),
+  totalLessons: integer("total_lessons").default(0),
+  totalFlashcards: integer("total_flashcards").default(0),
+  totalQuestions: integer("total_questions").default(0),
+  seoPages: jsonb("seo_pages").default(sql`'[]'::jsonb`),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export const insertGeneratedCourseSchema = createInsertSchema(generatedCourses).omit({ id: true, createdAt: true, updatedAt: true });
+export type GeneratedCourse = typeof generatedCourses.$inferSelect;
+export type InsertGeneratedCourse = z.infer<typeof insertGeneratedCourseSchema>;
+
+export const accuracyTrends = pgTable("accuracy_trends", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id").notNull(),
+  date: text("date").notNull(),
+  questionsAnswered: integer("questions_answered").default(0),
+  correctCount: integer("correct_count").default(0),
+  accuracy: doublePrecision("accuracy").default(0),
+  studyMinutes: integer("study_minutes").default(0),
+});
+
+export type AccuracyTrend = typeof accuracyTrends.$inferSelect;
+
+export const customPracticeSessions = pgTable("custom_practice_sessions", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id").notNull(),
+  status: text("status").default("pending"),
+  totalQuestions: integer("total_questions").default(20),
+  weakTopicCount: integer("weak_topic_count").default(0),
+  moderateTopicCount: integer("moderate_topic_count").default(0),
+  strongTopicCount: integer("strong_topic_count").default(0),
+  includesImages: boolean("includes_images").default(false),
+  questions: jsonb("questions").default(sql`'[]'::jsonb`),
+  score: integer("score"),
+  completedAt: timestamp("completed_at"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const insertCustomPracticeSessionSchema = createInsertSchema(customPracticeSessions).omit({ id: true, createdAt: true });
+export type CustomPracticeSession = typeof customPracticeSessions.$inferSelect;
+export type InsertCustomPracticeSession = z.infer<typeof insertCustomPracticeSessionSchema>;

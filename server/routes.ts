@@ -242,6 +242,9 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
   const { registerImagingGrowthRoutes } = await import("./imaging-growth-routes");
   registerImagingGrowthRoutes(app);
 
+  const { registerStudyCoachingRoutes } = await import("./study-coaching-routes");
+  registerStudyCoachingRoutes(app);
+
   app.use((req, res, next) => {
     if (req.headers.host === 'nursenest.ca') {
       return res.redirect(301, 'https://www.nursenest.ca' + req.url);
