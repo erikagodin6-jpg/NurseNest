@@ -133,9 +133,17 @@ export default function ImagingPhysicsPage() {
                     {topic.content && (
                       typeof topic.content === "string" ? (
                         <p className="text-sm text-gray-700 mb-4 whitespace-pre-line">{topic.content}</p>
+                      ) : Array.isArray(topic.content) ? (
+                        <ul className="text-sm text-gray-700 mb-4 space-y-1 list-disc pl-5">
+                          {topic.content.map((item: string | Record<string, unknown>, idx: number) => (
+                            <li key={idx} className="whitespace-pre-line">
+                              {typeof item === "string" ? item : JSON.stringify(item)}
+                            </li>
+                          ))}
+                        </ul>
                       ) : typeof topic.content === "object" && topic.content !== null ? (
                         <div className="text-sm text-gray-700 mb-4 space-y-2">
-                          {Object.entries(topic.content).map(([key, val]: [string, any]) => (
+                          {Object.entries(topic.content).map(([key, val]: [string, unknown]) => (
                             <div key={key}>
                               <span className="font-medium text-gray-900">{key}: </span>
                               <span className="whitespace-pre-line">{typeof val === "string" ? val : JSON.stringify(val)}</span>

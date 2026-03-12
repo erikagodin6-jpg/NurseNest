@@ -1,7 +1,6 @@
 import { useState, useRef, useCallback, useEffect } from "react";
 import {
-  ZoomIn, ZoomOut, Maximize2, Minimize2, RotateCcw,
-  Move, ArrowLeft, ArrowRight, X
+  ZoomIn, ZoomOut, Maximize2, Minimize2, RotateCcw
 } from "lucide-react";
 
 interface ImageViewerProps {
