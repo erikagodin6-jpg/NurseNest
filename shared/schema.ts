@@ -4656,3 +4656,74 @@ export const customPracticeSessions = pgTable("custom_practice_sessions", {
 export const insertCustomPracticeSessionSchema = createInsertSchema(customPracticeSessions).omit({ id: true, createdAt: true });
 export type CustomPracticeSession = typeof customPracticeSessions.$inferSelect;
 export type InsertCustomPracticeSession = z.infer<typeof insertCustomPracticeSessionSchema>;
+
+export const userCardStats = pgTable("user_card_stats", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id").notNull(),
+  cardId: varchar("card_id").notNull(),
+  timesSeen: integer("times_seen").default(0).notNull(),
+  timesCorrect: integer("times_correct").default(0).notNull(),
+  timesIncorrect: integer("times_incorrect").default(0).notNull(),
+  lastSeenAt: timestamp("last_seen_at"),
+  lastAnsweredAt: timestamp("last_answered_at"),
+  averageResponseTime: doublePrecision("average_response_time").default(0),
+  confidenceRating: text("confidence_rating").default("unsure"),
+  flagged: boolean("flagged").default(false).notNull(),
+  mastered: boolean("mastered").default(false).notNull(),
+  streakCorrect: integer("streak_correct").default(0).notNull(),
+  streakIncorrect: integer("streak_incorrect").default(0).notNull(),
+  masteryState: text("mastery_state").default("new").notNull(),
+  nextReviewAt: timestamp("next_review_at"),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+export const insertUserCardStatsSchema = createInsertSchema(userCardStats).omit({ id: true, updatedAt: true });
+export type UserCardStats = typeof userCardStats.$inferSelect;
+export type InsertUserCardStats = z.infer<typeof insertUserCardStatsSchema>;
+
+export const studySessionStats = pgTable("study_session_stats", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id").notNull(),
+  sessionType: text("session_type").notNull().default("recommended"),
+  sessionAccuracy: doublePrecision("session_accuracy").default(0),
+  sessionTopics: jsonb("session_topics").default(sql`'[]'::jsonb`),
+  sessionDuration: integer("session_duration").default(0),
+  cardsReviewed: integer("cards_reviewed").default(0),
+  weakCardsEncountered: integer("weak_cards_encountered").default(0),
+  masteryChanges: jsonb("mastery_changes").default(sql`'[]'::jsonb`),
+  tier: text("tier"),
+  startedAt: timestamp("started_at").defaultNow().notNull(),
+  completedAt: timestamp("completed_at"),
+});
+
+export const insertStudySessionStatsSchema = createInsertSchema(studySessionStats).omit({ id: true, startedAt: true });
+export type StudySessionStats = typeof studySessionStats.$inferSelect;
+export type InsertStudySessionStats = z.infer<typeof insertStudySessionStatsSchema>;
+
+export const adaptiveConfig = pgTable("adaptive_config", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  configKey: text("config_key").notNull().unique(),
+  weakTopicWeight: integer("weak_topic_weight").default(4),
+  incorrectHistoryWeight: integer("incorrect_history_weight").default(5),
+  lowConfidenceWeight: integer("low_confidence_weight").default(4),
+  flaggedWeight: integer("flagged_weight").default(3),
+  notSeenWeight: integer("not_seen_weight").default(2),
+  masteredPenalty: integer("mastered_penalty").default(-5),
+  correctStreakPenalty: integer("correct_streak_penalty").default(-4),
+  intervalIncorrect: doublePrecision("interval_incorrect").default(1),
+  intervalUnsure: doublePrecision("interval_unsure").default(3),
+  intervalConfident: doublePrecision("interval_confident").default(10),
+  intervalMastered: doublePrecision("interval_mastered").default(30),
+  weakTopicThreshold: doublePrecision("weak_topic_threshold").default(0.7),
+  weakSubtopicThreshold: doublePrecision("weak_subtopic_threshold").default(0.65),
+  masteryThresholdImproving: doublePrecision("mastery_threshold_improving").default(0.5),
+  masteryThresholdNearlyMastered: doublePrecision("mastery_threshold_nearly_mastered").default(0.7),
+  masteryThresholdMastered: doublePrecision("mastery_threshold_mastered").default(0.85),
+  highYieldTags: jsonb("high_yield_tags").default(sql`'[]'::jsonb`),
+  blueprintWeighting: jsonb("blueprint_weighting").default(sql`'{}'::jsonb`),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+export const insertAdaptiveConfigSchema = createInsertSchema(adaptiveConfig).omit({ id: true, updatedAt: true });
+export type AdaptiveConfig = typeof adaptiveConfig.$inferSelect;
+export type InsertAdaptiveConfig = z.infer<typeof insertAdaptiveConfigSchema>;

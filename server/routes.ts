@@ -14898,7 +14898,7 @@ Return ONLY valid JSON with this exact structure:
   // Adaptive flashcard engine routes
   const adaptiveEngine = await import("./adaptive-engine");
   const validConfidence = ["confident", "unsure", "guess"] as const;
-  const validModes = ["learn", "test", "rapid-review", "weak-areas", "before-exam-cram", "spaced-repetition"] as const;
+  const validModes = ["learn", "test", "rapid-review", "weak-areas", "before-exam-cram", "spaced-repetition", "recommended", "weakAreas", "dueForReview", "flagged", "rapidReview", "mixedAdaptive", "preExamBoost"] as const;
   const validTiers = ["free", "rpn", "rn", "np"] as const;
 
   app.post("/api/adaptive/record-response", async (req, res) => {
@@ -14906,20 +14906,21 @@ Return ONLY valid JSON with this exact structure:
       const authUser = await resolveAuthUser(req);
       if (!authUser) return res.status(401).json({ error: "Authentication required" });
       const userId = authUser.id;
-      const { cardId, isCorrect, confidence, selectedOption, timeSpent, studyMode } = req.body;
+      const { cardId, isCorrect, confidence, selectedOption, timeSpent, studyMode, sessionId } = req.body;
       if (!cardId || typeof isCorrect !== "boolean") {
         return res.status(400).json({ error: "cardId and isCorrect are required" });
       }
       const safeConfidence = validConfidence.includes(confidence) ? confidence : "unsure";
       const safeTimeSpent = typeof timeSpent === "number" && timeSpent >= 0 ? Math.min(timeSpent, 600) : undefined;
-      await adaptiveEngine.recordCardResponse({
+      const result = await adaptiveEngine.recordCardResponse({
         userId, cardId, isCorrect,
         confidence: safeConfidence,
-        selectedOption: typeof selectedOption === "string" ? selectedOption.substring(0, 500) : undefined,
+        selectedOption: typeof selectedOption === "number" ? selectedOption : undefined,
         timeSpent: safeTimeSpent,
-        studyMode: validModes.includes(studyMode) ? studyMode : undefined,
+        studyMode: studyMode || undefined,
+        sessionId: sessionId || undefined,
       });
-      res.json({ success: true });
+      res.json({ success: true, masteryState: result.masteryState, nextReviewAt: result.nextReviewAt });
     } catch (e: any) {
       console.error("[Adaptive] record-response error:", e.message);
       res.status(500).json({ error: "Failed to record response" });
@@ -14960,7 +14961,7 @@ Return ONLY valid JSON with this exact structure:
       const tierParam = (req.query.tier as string) || "rpn";
       const tier = validTiers.includes(tierParam as any) ? tierParam : "rpn";
       const modeParam = (req.query.mode as string) || "learn";
-      const mode = validModes.includes(modeParam as any) ? modeParam : "learn";
+      const mode = modeParam;
       const limit = Math.min(Math.max(parseInt(req.query.limit as string) || 20, 1), 100);
       const difficultyParam = req.query.difficulty ? parseInt(req.query.difficulty as string) : undefined;
       const filters = {
@@ -14990,6 +14991,136 @@ Return ONLY valid JSON with this exact structure:
     } catch (e: any) {
       console.error("[Adaptive] dashboard error:", e.message);
       res.status(500).json({ error: "Failed to fetch dashboard" });
+    }
+  });
+
+  app.get("/api/adaptive/session-types", async (_req, res) => {
+    try {
+      const types = await adaptiveEngine.getSessionTypes();
+      res.json(types);
+    } catch (e: any) {
+      res.status(500).json({ error: "Failed to fetch session types" });
+    }
+  });
+
+  app.post("/api/adaptive/session/start", async (req, res) => {
+    try {
+      const authUser = await resolveAuthUser(req);
+      if (!authUser) return res.status(401).json({ error: "Authentication required" });
+      const { sessionType, tier } = req.body;
+      const sessionId = await adaptiveEngine.createStudySession(authUser.id, sessionType || "recommended", tier);
+      res.json({ sessionId });
+    } catch (e: any) {
+      res.status(500).json({ error: "Failed to start session" });
+    }
+  });
+
+  app.post("/api/adaptive/session/complete", async (req, res) => {
+    try {
+      const authUser = await resolveAuthUser(req);
+      if (!authUser) return res.status(401).json({ error: "Authentication required" });
+      const { sessionId, accuracy, topics, duration, cardsReviewed, weakCards, masteryChanges } = req.body;
+      if (!sessionId) return res.status(400).json({ error: "sessionId required" });
+      await adaptiveEngine.completeStudySession(sessionId, {
+        accuracy: accuracy || 0,
+        topics: topics || [],
+        duration: duration || 0,
+        cardsReviewed: cardsReviewed || 0,
+        weakCards: weakCards || 0,
+        masteryChanges: masteryChanges || [],
+      });
+      res.json({ success: true });
+    } catch (e: any) {
+      res.status(500).json({ error: "Failed to complete session" });
+    }
+  });
+
+  app.post("/api/adaptive/flag-card", async (req, res) => {
+    try {
+      const authUser = await resolveAuthUser(req);
+      if (!authUser) return res.status(401).json({ error: "Authentication required" });
+      const { cardId, flagged } = req.body;
+      if (!cardId) return res.status(400).json({ error: "cardId required" });
+      await adaptiveEngine.flagCard(authUser.id, cardId, flagged !== false);
+      res.json({ success: true });
+    } catch (e: any) {
+      res.status(500).json({ error: "Failed to flag card" });
+    }
+  });
+
+  app.post("/api/adaptive/mark-mastered", async (req, res) => {
+    try {
+      const authUser = await resolveAuthUser(req);
+      if (!authUser) return res.status(401).json({ error: "Authentication required" });
+      const { cardId, mastered } = req.body;
+      if (!cardId) return res.status(400).json({ error: "cardId required" });
+      await adaptiveEngine.markCardMastered(authUser.id, cardId, mastered !== false);
+      res.json({ success: true });
+    } catch (e: any) {
+      res.status(500).json({ error: "Failed to mark mastered" });
+    }
+  });
+
+  app.post("/api/adaptive/study-again-soon", async (req, res) => {
+    try {
+      const authUser = await resolveAuthUser(req);
+      if (!authUser) return res.status(401).json({ error: "Authentication required" });
+      const { cardId } = req.body;
+      if (!cardId) return res.status(400).json({ error: "cardId required" });
+      await adaptiveEngine.requestStudyAgainSoon(authUser.id, cardId);
+      res.json({ success: true });
+    } catch (e: any) {
+      res.status(500).json({ error: "Failed to schedule study again" });
+    }
+  });
+
+  app.get("/api/adaptive/card-stats/:cardId", async (req, res) => {
+    try {
+      const authUser = await resolveAuthUser(req);
+      if (!authUser) return res.status(401).json({ error: "Authentication required" });
+      const stats = await adaptiveEngine.getCardStats(authUser.id, req.params.cardId);
+      res.json(stats || { cardId: req.params.cardId, timesSeen: 0, timesCorrect: 0, timesIncorrect: 0, masteryState: "new", flagged: false, mastered: false });
+    } catch (e: any) {
+      res.status(500).json({ error: "Failed to fetch card stats" });
+    }
+  });
+
+  app.get("/api/adaptive/admin/analytics", async (req, res) => {
+    try {
+      const authUser = await resolveAuthUser(req);
+      if (!authUser) return res.status(401).json({ error: "Authentication required" });
+      const user = await storage.getUser(authUser.id);
+      if (!user || user.tier !== "admin") return res.status(403).json({ error: "Admin access required" });
+      const analytics = await adaptiveEngine.getAdminAnalytics();
+      res.json(analytics);
+    } catch (e: any) {
+      res.status(500).json({ error: "Failed to fetch admin analytics" });
+    }
+  });
+
+  app.get("/api/adaptive/admin/config", async (req, res) => {
+    try {
+      const authUser = await resolveAuthUser(req);
+      if (!authUser) return res.status(401).json({ error: "Authentication required" });
+      const user = await storage.getUser(authUser.id);
+      if (!user || user.tier !== "admin") return res.status(403).json({ error: "Admin access required" });
+      const config = await adaptiveEngine.getAdaptiveConfigData();
+      res.json(config);
+    } catch (e: any) {
+      res.status(500).json({ error: "Failed to fetch config" });
+    }
+  });
+
+  app.put("/api/adaptive/admin/config", async (req, res) => {
+    try {
+      const authUser = await resolveAuthUser(req);
+      if (!authUser) return res.status(401).json({ error: "Authentication required" });
+      const user = await storage.getUser(authUser.id);
+      if (!user || user.tier !== "admin") return res.status(403).json({ error: "Admin access required" });
+      const updated = await adaptiveEngine.updateAdaptiveConfig(req.body);
+      res.json(updated);
+    } catch (e: any) {
+      res.status(500).json({ error: "Failed to update config" });
     }
   });
 
