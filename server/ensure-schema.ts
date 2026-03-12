@@ -244,6 +244,48 @@ export async function ensureSchemaSync(pool: pg.Pool): Promise<void> {
     await client.query(`ALTER TABLE deck_flashcards ADD COLUMN IF NOT EXISTS clinical_pearl text`);
     await client.query(`ALTER TABLE allied_flashcards ADD COLUMN IF NOT EXISTS clinical_pearl text`);
 
+    await client.query(`
+      CREATE TABLE IF NOT EXISTS practice_quiz_pages (
+        id varchar PRIMARY KEY DEFAULT gen_random_uuid(),
+        slug text NOT NULL UNIQUE,
+        title text NOT NULL,
+        meta_description text NOT NULL,
+        h1 text NOT NULL,
+        intro_text text,
+        topic text NOT NULL,
+        subtopic text,
+        body_system text,
+        career_type text DEFAULT 'nursing',
+        exam_type text,
+        difficulty text DEFAULT 'mixed',
+        question_count integer DEFAULT 10,
+        question_ids text[] DEFAULT '{}'::text[],
+        related_page_slugs text[] DEFAULT '{}'::text[],
+        keywords text[] DEFAULT '{}'::text[],
+        structured_data jsonb DEFAULT '{}'::jsonb,
+        is_auto_generated boolean DEFAULT true,
+        status text DEFAULT 'published',
+        view_count integer DEFAULT 0,
+        created_at timestamp NOT NULL DEFAULT now(),
+        updated_at timestamp NOT NULL DEFAULT now()
+      );
+    `);
+
+    await client.query(`
+      CREATE TABLE IF NOT EXISTS push_subscriptions (
+        id varchar PRIMARY KEY DEFAULT gen_random_uuid(),
+        user_id varchar,
+        endpoint text NOT NULL UNIQUE,
+        p256dh text NOT NULL,
+        auth text NOT NULL,
+        reminder_time text DEFAULT '09:00',
+        enable_daily_reminder boolean DEFAULT true,
+        enable_exam_reminder boolean DEFAULT true,
+        enable_flashcard_reminder boolean DEFAULT true,
+        created_at timestamp NOT NULL DEFAULT now()
+      );
+    `);
+
     await client.query("COMMIT");
     console.log("[SchemaSync] Ensured all tables and columns exist");
   } catch (err: any) {

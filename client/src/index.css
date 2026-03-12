@@ -825,3 +825,7 @@ input, textarea, [contenteditable="true"], .allow-select {
 [data-theme="dark-academia"] .bg-red-50\/50 {
   background-color: hsl(var(--muted)) !important;
 }
+
+.safe-area-bottom {
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}

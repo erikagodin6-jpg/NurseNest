@@ -65,6 +65,7 @@ const Home = lazy(() => import("@/pages/home"));
 import { UpgradePrompt } from "@/components/upgrade-prompt";
 import { PWAInstallPrompt } from "@/components/pwa-install-prompt";
 import { ExitIntentModal } from "@/components/exit-intent-modal";
+import { MobileBottomNav } from "@/components/mobile-study-shell";
 import AnalyticsTracker from "@/components/analytics-tracker";
 import { usePageTracker } from "@/hooks/use-page-tracker";
 
@@ -229,6 +230,8 @@ const DemoWeakAreas = lazy(() => import("@/pages/demo-weak-areas"));
 const DemoStudyPlanPage = lazy(() => import("@/pages/demo-study-plan"));
 const ExamReadinessDemo = lazy(() => import("@/pages/exam-readiness-demo"));
 const DemoLearningProgress = lazy(() => import("@/pages/demo-learning-progress"));
+const SeoPracticeQuiz = lazy(() => import("@/pages/seo-practice-quiz"));
+const OfflineStudyPage = lazy(() => import("@/pages/offline-study"));
 
 function PageTracker() {
   usePageTracker();
@@ -534,6 +537,8 @@ function AppRoutes() {
         <Route path="/nclex-pn-practice-questions" component={NclexPnPracticePage} />
         <Route path="/rex-pn-practice-questions" component={RexPnPracticePage} />
         <Route path="/np-exam-practice-questions" component={NpExamPracticePage} />
+        <Route path="/quiz/:slug" component={SeoPracticeQuiz} />
+        <Route path="/offline-study" component={OfflineStudyPage} />
         <Route path="/glossary/:term" component={GlossaryPage} />
         <Route path="/glossary" component={GlossaryPage} />
 
@@ -847,6 +852,7 @@ function App() {
                   <CopyProtection />
                   <AnalyticsTracker />
                   <LocaleRouter />
+                  <MobileBottomNav />
                   <UpgradePrompt />
                   <PWAInstallPrompt />
                   <ExitIntentModal />

@@ -3,11 +3,10 @@ import App from "./App";
 import "./index.css";
 
 if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.getRegistrations().then((regs) => {
-    regs.forEach((r) => r.unregister());
-  });
-  caches.keys().then((names) => {
-    names.forEach((n) => caches.delete(n));
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/sw.js').catch((err) => {
+      console.warn('Service worker registration failed:', err);
+    });
   });
 }
 
