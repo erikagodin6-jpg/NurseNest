@@ -225,6 +225,7 @@ const ImagingMarketingDashboard = lazy(() => import("@/pages/imaging-marketing-d
 const DemoWeakAreas = lazy(() => import("@/pages/demo-weak-areas"));
 const DemoStudyPlanPage = lazy(() => import("@/pages/demo-study-plan"));
 const ExamReadinessDemo = lazy(() => import("@/pages/exam-readiness-demo"));
+const DemoLearningProgress = lazy(() => import("@/pages/demo-learning-progress"));
 
 function PageTracker() {
   usePageTracker();
@@ -456,6 +457,7 @@ function AppRoutes() {
         <Route path="/infographics/:slug" component={InfographicLibrary} />
         <Route path="/infographics" component={InfographicLibrary} />
         <Route path="/demo/exam-readiness" component={ExamReadinessDemo} />
+        <Route path="/demo/learning-progress" component={DemoLearningProgress} />
         <Route path="/diagnostic-assessment" component={DiagnosticAssessmentPage} />
         <Route path="/admin/qbank-factory" component={QBankFactoryPage} />
         <Route path="/account/library" component={AccountLibraryPage} />
