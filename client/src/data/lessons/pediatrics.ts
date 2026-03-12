@@ -1,4 +1,5 @@
 import type { LessonContent } from "./types";
+import { imgSeparationAnxiety, imgReye, imgVaricella } from "../flashcards-rpn";
 
 export const pediatricsLessons: Record<string, LessonContent> = {
   "kawasaki-critical": {
@@ -70,6 +71,7 @@ export const pediatricsLessons: Record<string, LessonContent> = {
   },
   "separation-anxiety": {
     title: "Separation Anxiety",
+    image: imgSeparationAnxiety,
     cellular: { title: "Developmental vs Pathological", content: "Normal developmental stage peaking 10-18 months. Pathological when excessive/persistent beyond age, causing significant distress/impairment. Related to attachment theory - child fears loss of caregiver." },
     riskFactors: ["Family history of anxiety disorders", "Overprotective parenting style", "Recent loss or change (divorce, move, death)", "Temperament (shy, inhibited)", "Traumatic event (hospitalization, accident)", "Insecure attachment"],
     diagnostics: ["Expect clinical interview and behavioral observation", "Monitor severity of symptoms and functional impairment", "Expect anxiety screening tools (SCARED, Screen for Anxiety)", "Assess for comorbid conditions (depression, other anxiety disorders)", "Expect developmental history review"],
@@ -88,6 +90,7 @@ export const pediatricsLessons: Record<string, LessonContent> = {
   },
   "separation-anxiety-rn": {
     title: "Separation Anxiety Disorder: RN Clinical Decision-Making",
+    image: imgSeparationAnxiety,
     cellular: { title: "Attachment Theory & Neurobiological Basis", content: "Separation anxiety disorder (SAD) involves pathological activation of the attachment system beyond developmental norms. John Bowlby's attachment theory explains how disrupted caregiver-child bonds create internal working models of insecurity that persist into later childhood. Neurobiologically, the amygdala serves as the fear-processing center and becomes hyperactivated in SAD, triggering the hypothalamic-pituitary-adrenal (HPA) axis. This results in excessive cortisol release, maintaining a state of chronic hyperarousal. The prefrontal cortex, responsible for fear extinction and emotional regulation, shows reduced connectivity with the amygdala in anxious children, impairing their ability to modulate fear responses. Developmental neurobiology research demonstrates that the critical period for attachment formation (6-24 months) coincides with rapid amygdala maturation, and adverse experiences during this window can alter neural circuitry governing threat detection and safety signaling. Insecure attachment patterns (anxious-ambivalent) are strongly associated with later development of SAD, as the child internalizes unpredictable caregiver availability as a template for future relationships." },
     riskFactors: ["Insecure-ambivalent attachment pattern", "Family history of anxiety disorders or panic disorder", "Overprotective or enmeshed parenting style", "Traumatic separation experience (hospitalization, parental deployment, divorce)", "Temperamental behavioral inhibition", "Comorbid generalized anxiety or social anxiety disorder", "Maternal anxiety disorder (modeling and genetic transmission)", "Recent life transition (school change, relocation, new sibling)"],
     diagnostics: ["Expect SCARED (Screen for Child Anxiety Related Disorders) assessment tool to be administered", "Monitor functional impairment across domains (school attendance, peer relationships, sleep)", "Expect clinical interview assessing DSM-5 criteria (excessive worry about separation lasting 4+ weeks in children)", "Assess for somatic complaints pattern (Monday morning stomachaches, headaches before school)", "Expect developmental history and attachment quality assessment", "Monitor for comorbid conditions (depression, school refusal, selective mutism)"],
@@ -144,6 +147,7 @@ export const pediatricsLessons: Record<string, LessonContent> = {
   },
   "varicella": {
     title: "Varicella (Chickenpox)",
+    image: imgVaricella,
     cellular: { title: "Varicella-Zoster Virus (VZV)", content: "Varicella is caused by the Varicella-Zoster Virus (VZV), a member of the herpesvirus family. The virus enters through the respiratory tract and conjunctivae, replicates in regional lymph nodes, and spreads via primary viremia to the liver and spleen. Secondary viremia seeds the skin, producing the characteristic vesicular rash. The virus then becomes latent in dorsal root ganglia and can reactivate later in life as herpes zoster (shingles). Transmission occurs via airborne droplets and direct contact with vesicular fluid. The incubation period is 10-21 days, and the patient is contagious from 1-2 days before rash onset until all lesions have crusted over." },
     riskFactors: ["No prior varicella vaccination","No history of chickenpox","Immunocompromised state","Exposure to infected individual","Age < 12 years (most common)","Pregnancy (risk of congenital varicella)"],
     diagnostics: ["Visual assessment of rash characteristics (crops in different stages)","Temperature monitoring","Assess for secondary bacterial infection of lesions","Monitor respiratory status in immunocompromised patients"],

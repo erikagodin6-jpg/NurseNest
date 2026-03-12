@@ -1,4 +1,5 @@
 import type { LessonContent } from "./types";
+import { imgThermoregulation, imgROP, imgUmbilicalCordCare } from "../flashcards-rpn";
 
 export const neonatalLessons: Record<string, LessonContent> = {
   "newborn-assessment": {
@@ -21,6 +22,7 @@ export const neonatalLessons: Record<string, LessonContent> = {
   },
   "neonatal-thermoreg": {
     title: "Thermoregulation in Neonates",
+    image: imgThermoregulation,
     cellular: { title: "Brown Fat Metabolism", content: "Neonates are highly vulnerable to cold stress due to their large body surface area relative to mass, thin skin, and limited subcutaneous fat. They cannot shiver; instead, they rely on non-shivering thermogenesis via brown fat (brown adipose tissue) located between the scapulae, around the kidneys, and along the great vessels. Brown fat metabolism generates heat through uncoupled oxidative phosphorylation but rapidly depletes oxygen and glucose reserves. Cold stress triggers a cascade: increased oxygen consumption, hypoglycemia, metabolic acidosis, and potentially pulmonary vasoconstriction with respiratory distress." },
     riskFactors: ["Premature birth (large body surface area to mass ratio)", "Low birth weight", "Small for gestational age", "Wet skin after delivery", "Cold delivery room", "Delayed skin-to-skin contact", "Hypothyroidism", "Sepsis"],
     diagnostics: ["Monitor axillary temperature every 30-60 minutes during rewarming", "Monitor blood glucose (cold stress depletes glycogen stores)", "Expect ABG if respiratory distress develops (metabolic acidosis)", "Expect CBC if sepsis suspected as cause of temperature instability", "Monitor oxygen saturation (cold stress increases O2 consumption)", "Monitor weight (for fluid status assessment)"],

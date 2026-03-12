@@ -1,5 +1,5 @@
 import type { FlashcardData } from "./flashcards-rpn";
-import { imgUlcerativeColitis, imgSIADH, imgSickleCellCrisis, imgStomaCare, imgThrombocytopenia, imgUrinaryCatheterization, imgVitiligo, imgUrethralStricture, imgVestibularNeuritis, imgAddisons, imgAcuteHemolyticReaction, imgAtopicDermatitis, imgBPH, imgCastCareTraction, imgAcromegaly, imgNGTube, imgPancreatitis, imgPeritonealDialysis, imgPepticUlcer, imgOsteoporosis, imgCellulitis, imgCKD, imgClubfoot, imgCompartmentSyndrome, imgConjunctivitis, imgContracture, imgCushings, imgDelayedHemolyticReaction, imgDevHipDysplasia, imgDiabetes, imgDiabetesInsipidus, imgDiabeticNephropathy, imgDIC, imgDisuseAtrophy, imgDuchenne, imgEpiglottitis, imgEpistaxis, imgErysipelas, imgFallPrevention, imgHeadLice, imgHemophilia, imgGravesDisease, imgGout, imgPyloricStenosis, imgPlacentaPrevia, imgPostpartumHemorrhage } from "./flashcards-rpn";
+import { imgUlcerativeColitis, imgSIADH, imgSickleCellCrisis, imgStomaCare, imgThrombocytopenia, imgUrinaryCatheterization, imgVitiligo, imgUrethralStricture, imgVestibularNeuritis, imgAddisons, imgAcuteHemolyticReaction, imgAtopicDermatitis, imgBPH, imgCastCareTraction, imgAcromegaly, imgNGTube, imgPancreatitis, imgPeritonealDialysis, imgPepticUlcer, imgOsteoporosis, imgCellulitis, imgCKD, imgClubfoot, imgCompartmentSyndrome, imgConjunctivitis, imgContracture, imgCushings, imgDelayedHemolyticReaction, imgDevHipDysplasia, imgDiabetes, imgDiabetesInsipidus, imgDiabeticNephropathy, imgDIC, imgDisuseAtrophy, imgDuchenne, imgEpiglottitis, imgEpistaxis, imgErysipelas, imgFallPrevention, imgHeadLice, imgHemophilia, imgGravesDisease, imgGout, imgPyloricStenosis, imgPlacentaPrevia, imgPostpartumHemorrhage, imgSerotoninSyndrome, imgVaricella, imgRhIncompatibility } from "./flashcards-rpn";
 import imgStevensJohnson from "@assets/stevensjohnsonssyndrome_1773268456011.png";
 import illustrationPressureInjuriesV2 from "@/assets/images/pressure-injuries-v2.png";
 import illustrationPressureInjuryStagesV2 from "@/assets/images/pressure-injury-stages-v2.png";
@@ -1364,6 +1364,7 @@ export const rnFlashcards: FlashcardData[] = [
   {
     id: "rn-mat-q11",
     type: "question",
+    image: imgRhIncompatibility,
     question: "A nurse is caring for a postpartum client who is Rh-negative and delivered an Rh-positive baby. When should RhoGAM be administered?",
     options: ["Within 72 hours after delivery", "At the 6-week postpartum visit", "Only if the mother has a positive indirect Coombs test", "RhoGAM is not needed after delivery"],
     correctIndex: 0,
@@ -1417,6 +1418,7 @@ export const rnFlashcards: FlashcardData[] = [
   {
     id: "rn-mh-q1",
     type: "question",
+    image: imgSerotoninSyndrome,
     question: "A client with major depressive disorder being treated with an SSRI develops hyperthermia, muscle rigidity, altered mental status, and clonus. What does the nurse suspect?",
     options: ["Neuroleptic malignant syndrome", "Serotonin syndrome", "Malignant hyperthermia", "Anticholinergic toxicity"],
     correctIndex: 1,
@@ -1910,6 +1912,7 @@ export const rnFlashcards: FlashcardData[] = [
   {
     id: "rn-ic-q4",
     type: "question",
+    image: imgVaricella,
     question: "A nurse is caring for a client with varicella (chickenpox). Which isolation precautions are required?",
     options: ["Standard precautions only", "Contact precautions only", "Airborne AND contact precautions", "Droplet precautions only"],
     correctIndex: 2,

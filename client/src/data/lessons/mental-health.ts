@@ -1,4 +1,5 @@
 import type { LessonContent } from "./types";
+import { imgSubstanceAbuse } from "../flashcards-rpn";
 
 export const mentalHealthLessons: Record<string, LessonContent> = {
   "schizophrenia": {
@@ -521,6 +522,7 @@ export const mentalHealthLessons: Record<string, LessonContent> = {
 
   "alcohol-withdrawal": {
     title: "Alcohol Withdrawal",
+    image: imgSubstanceAbuse,
     cellular: {
       title: "GABA Downregulation and Glutamate Upregulation",
       content: "Chronic alcohol consumption enhances inhibitory GABA-A receptor activity and suppresses excitatory NMDA glutamate receptors, creating a neurochemical equilibrium dependent on alcohol's presence. When alcohol is abruptly removed, the brain is left with downregulated (desensitized) GABA receptors providing insufficient inhibition and upregulated glutamate receptors producing excessive excitation. This excitatory-inhibitory imbalance causes CNS hyperexcitability manifesting as autonomic hyperactivity (tachycardia, hypertension, diaphoresis, hyperthermia), psychomotor agitation, tremors, and seizures. In severe cases, unopposed glutamate excitotoxicity and noradrenergic storm produce delirium tremens (DTs), characterized by global confusion, visual and tactile hallucinations, and life-threatening autonomic instability occurring 48-96 hours after the last drink. Kindling phenomenon means each successive withdrawal episode becomes more severe than the previous."

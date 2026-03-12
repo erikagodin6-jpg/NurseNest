@@ -1,4 +1,5 @@
 import type { LessonContent } from "./types";
+import { imgTonsillectomy } from "../flashcards-rpn";
 
 export const clinicalConditionsBatchKLessons: Record<string, LessonContent> = {
   "pancreatitis-management-rpn": {
@@ -745,6 +746,7 @@ export const clinicalConditionsBatchKLessons: Record<string, LessonContent> = {
 
   "tonsillectomy-care-rpn": {
     title: "Tonsillectomy Care: RPN Monitoring",
+    image: imgTonsillectomy,
     cellular: {
       title: "Tonsil Tissue and Surgical Healing",
       content: "Tonsillectomy is the surgical removal of the palatine tonsils, performed most commonly for recurrent tonsillitis or obstructive sleep apnea in children. The tonsillar fossa is a highly vascular area supplied by branches of the external carotid artery. After surgical excision, a fibrin clot (white eschar) forms over the wound bed and sloughs off naturally over 7-10 days. The greatest risk is post-operative hemorrhage, which can occur within the first 24 hours (primary) or 5-10 days post-operatively (secondary) when the eschar separates. The RPN monitors for bleeding, pain, hydration status, and dietary progression, reporting concerns immediately."
@@ -818,6 +820,7 @@ export const clinicalConditionsBatchKLessons: Record<string, LessonContent> = {
 
   "tonsillectomy-care-rn": {
     title: "Tonsillectomy Care: RN Clinical Management",
+    image: imgTonsillectomy,
     cellular: {
       title: "Surgical Hemostasis and Wound Healing",
       content: "Tonsillectomy involves dissection and removal of the palatine tonsils from the pharyngeal musculature. The tonsillar fossa receives its blood supply primarily from the tonsillar branch of the facial artery, ascending pharyngeal artery, and dorsal lingual artery. Intraoperative hemostasis is achieved through electrocautery, suture ligation, or chemical cauterization. A fibrin eschar forms over the wound bed within 24 hours and provides a biological dressing during the 10-14 day healing period. Primary hemorrhage occurs within the first 24 hours from inadequate hemostasis. Secondary hemorrhage occurs at days 5-10 when the eschar separates from the healing granulation tissue below. The RN must implement comprehensive hemorrhage surveillance, manage multimodal analgesia, ensure adequate hydration, coordinate discharge education, and recognize signs of airway compromise."
@@ -903,6 +906,7 @@ export const clinicalConditionsBatchKLessons: Record<string, LessonContent> = {
 
   "tonsillectomy-care-np": {
     title: "Tonsillectomy Care: NP Prescriptive Management",
+    image: imgTonsillectomy,
     cellular: {
       title: "Evidence-Based Perioperative Management",
       content: "Tonsillectomy remains one of the most common surgical procedures in pediatric and adult otolaryngology. Indications include recurrent acute tonsillitis meeting Paradise criteria (≥7 episodes in 1 year, ≥5/year for 2 years, ≥3/year for 3 years), peritonsillar abscess, obstructive sleep-disordered breathing, and suspected malignancy. Surgical techniques include cold dissection, electrocautery, coblation, and intracapsular (partial) tonsillectomy. Post-operative hemorrhage is the most significant complication, occurring in 2-4% of cases. Post-operative hemorrhage is classified as primary (<24 hours, from inadequate surgical hemostasis) or secondary (5-10 days, from premature eschar separation). The NP must perform pre-operative risk assessment, prescribe evidence-based perioperative protocols, manage post-operative analgesia according to current guidelines, and coordinate follow-up for complications."

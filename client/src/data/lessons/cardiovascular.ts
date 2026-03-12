@@ -1,4 +1,5 @@
 import type { LessonContent } from "./types";
+import { imgToxicShockSyndrome } from "../flashcards-rpn";
 
 export const cardiovascularLessons: Record<string, LessonContent> = {
   "aaa-rupture": {
@@ -718,6 +719,7 @@ export const cardiovascularLessons: Record<string, LessonContent> = {
   },
   "toxic-shock-syndrome-rpn": {
     title: "Toxic Shock Syndrome",
+    image: imgToxicShockSyndrome,
     cellular: { title: "Superantigen-Mediated Shock", content: "Toxic shock syndrome is caused by bacterial superantigen toxins (TSST-1 from S. aureus or streptococcal pyrogenic exotoxins) that bypass normal antigen processing and activate massive T-cell proliferation. This triggers a cytokine storm causing widespread vasodilation, capillary leak, and multi-organ failure." },
     riskFactors: ["Tampon use (prolonged, super-absorbent)", "Nasal packing", "Wound infections", "Post-surgical infections", "Skin or soft tissue infections", "Burns"],
     diagnostics: ["Expect blood cultures and wound cultures", "Monitor vital signs for shock", "Expect CBC, metabolic panel, liver function tests", "Monitor for coagulopathy", "Expect creatine kinase if myositis suspected"],

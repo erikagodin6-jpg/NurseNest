@@ -1,8 +1,10 @@
 import type { LessonContent } from "./types";
+import { imgTrisomy21, imgVPShunt } from "../flashcards-rpn";
 
 export const clinicalConditionsBatchILessons: Record<string, LessonContent> = {
   "trisomy-21-management-rpn": {
     title: "Trisomy 21 (Down Syndrome): RPN Monitoring",
+    image: imgTrisomy21,
     cellular: {
       title: "Chromosomal Nondisjunction",
       content: "Trisomy 21, or Down syndrome, results from an extra copy of chromosome 21 due to nondisjunction during meiosis. This chromosomal abnormality leads to overexpression of genes on chromosome 21, affecting multiple organ systems. The extra genetic material disrupts normal development, causing characteristic physical features, intellectual disability, and increased risk of congenital heart defects. Down syndrome is the most common chromosomal cause of intellectual disability. The RPN assists with monitoring growth and development, supporting feeding, and reporting changes in respiratory or cardiac status."
@@ -75,6 +77,7 @@ export const clinicalConditionsBatchILessons: Record<string, LessonContent> = {
 
   "trisomy-21-management-rn": {
     title: "Trisomy 21 (Down Syndrome): RN Clinical Management",
+    image: imgTrisomy21,
     cellular: {
       title: "Pathophysiology of Trisomy 21",
       content: "Trisomy 21 occurs when nondisjunction during meiosis produces a gamete with an extra chromosome 21, resulting in 47 chromosomes instead of 46. The overexpression of genes on chromosome 21 leads to disrupted embryogenesis affecting the cardiac septum (endocardial cushion defects), craniofacial development, GI tract (duodenal atresia, Hirschsprung disease), and central nervous system (reduced neuronal density). Approximately 95% of cases are full trisomy 21, while 3-4% result from Robertsonian translocation and 1-2% from mosaicism. The RN must coordinate comprehensive multidisciplinary care, manage cardiac and respiratory complications, perform developmental screening, and educate families on long-term health surveillance."
@@ -155,6 +158,7 @@ export const clinicalConditionsBatchILessons: Record<string, LessonContent> = {
 
   "trisomy-21-management-np": {
     title: "Trisomy 21 (Down Syndrome): NP Prescriptive Management",
+    image: imgTrisomy21,
     cellular: {
       title: "Advanced Genetics and Multi-System Pathophysiology",
       content: "Trisomy 21 results from meiotic nondisjunction (95%), Robertsonian translocation (3-4%), or mosaicism (1-2%), producing an extra copy of chromosome 21 with overexpression of over 300 genes. The DSCR (Down Syndrome Critical Region) on 21q22 drives many phenotypic features. Overexpression of DYRK1A contributes to intellectual disability, while COL6A1 and COL6A2 overexpression affects connective tissue integrity. Cardiac septal development is disrupted by altered VEGF-A signaling, resulting in endocardial cushion defects. The NP must manage the full spectrum of health surveillance including prescribing thyroid replacement, managing cardiac follow-up, screening for hematologic malignancies, evaluating for atlantoaxial instability, and coordinating transition to adult care."
@@ -697,6 +701,7 @@ export const clinicalConditionsBatchILessons: Record<string, LessonContent> = {
 
   "vp-shunt-management-rpn": {
     title: "Ventriculoperitoneal Shunt: RPN Monitoring",
+    image: imgVPShunt,
     cellular: {
       title: "CSF Diversion for Hydrocephalus",
       content: "A ventriculoperitoneal (VP) shunt is a surgically implanted device that diverts excess cerebrospinal fluid (CSF) from the ventricles of the brain to the peritoneal cavity, where it is reabsorbed. Hydrocephalus occurs when CSF production exceeds absorption, or when flow is obstructed, causing ventricular dilation and increased intracranial pressure (ICP). The shunt system consists of a proximal catheter (in the ventricle), a one-way valve, and a distal catheter (in the peritoneum). The RPN monitors for signs of shunt malfunction and increased ICP, reports changes immediately, and assists with pre- and post-operative care."
@@ -773,6 +778,7 @@ export const clinicalConditionsBatchILessons: Record<string, LessonContent> = {
 
   "vp-shunt-management-rn": {
     title: "Ventriculoperitoneal Shunt: RN Clinical Management",
+    image: imgVPShunt,
     cellular: {
       title: "Hydrocephalus Pathophysiology and CSF Dynamics",
       content: "Hydrocephalus results from imbalanced CSF dynamics: the choroid plexus produces approximately 500 mL/day of CSF, which flows from the lateral ventricles through the foramina of Monro, third ventricle, cerebral aqueduct, fourth ventricle, and into the subarachnoid space for reabsorption by arachnoid granulations. Obstruction at any point (obstructive/non-communicating) or impaired absorption (communicating) causes ventricular dilation and elevated ICP. The VP shunt bypasses the obstruction by directing CSF from a ventricular catheter through a pressure-regulated valve to the peritoneal cavity. The RN manages comprehensive pre- and post-operative care, monitors for shunt complications (malfunction, infection, overdrainage), performs neurological assessments, and educates families on long-term shunt management."
@@ -856,6 +862,7 @@ export const clinicalConditionsBatchILessons: Record<string, LessonContent> = {
 
   "vp-shunt-management-np": {
     title: "Ventriculoperitoneal Shunt: NP Prescriptive Management",
+    image: imgVPShunt,
     cellular: {
       title: "Advanced CSF Dynamics and Shunt Physiology",
       content: "CSF is produced at 0.35 mL/min (~500 mL/day) primarily by the choroid plexus via active transport of Na+, Cl-, and HCO3- with osmotic water movement. Normal ICP is 5-15 mmHg in adults and 1.5-6 mmHg in infants. CSF absorption occurs at arachnoid granulations via pressure-dependent bulk flow. VP shunts use differential pressure valves (low, medium, high pressure), flow-regulated valves, or programmable valves (adjustable externally with magnetic tools) to regulate CSF drainage. The NP manages the complete spectrum of shunt-dependent hydrocephalus: prescribing pre-operative medications, managing shunt valve pressure settings, treating shunt infections with targeted antimicrobial therapy, evaluating for endoscopic third ventriculostomy (ETV) candidacy, and managing long-term complications including slit ventricle syndrome, overdrainage, and shunt dependency."

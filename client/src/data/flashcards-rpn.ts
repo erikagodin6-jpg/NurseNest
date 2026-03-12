@@ -79,8 +79,25 @@ import imgPatentDuctusArteriosus from "@assets/patentductusarteriosus_1773340609
 import imgPavlikHarness from "@assets/pavlik_1773340609815.png";
 import imgPlacentaPrevia from "@assets/placentaprevia_1773340609815.png";
 import imgNeuroblastoma from "@assets/neuroblastoma_1773340609815.png";
+import imgReye from "@assets/reye_1773340545537.png";
+import imgRhIncompatibility from "@assets/Rhincompatibility_1773340545537.png";
+import imgROP from "@assets/ROP_1773340545537.png";
+import imgSeparationAnxiety from "@assets/separationanxiety_1773340545537.png";
+import imgSerotoninSyndrome from "@assets/serotoninsyndrome_1773340545537.png";
+import imgStagesOfLabor from "@assets/stagesoflabor_1773340545537.png";
+import imgSubstanceAbuse from "@assets/substanceabuse_1773340545537.png";
+import imgThermoregulation from "@assets/Thermoregulation_1773340545537.png";
+import imgTonsillectomy from "@assets/tonsillectomy_1773340545537.png";
+import imgToxicShockSyndrome from "@assets/toxicshocksyndrome_1773340545537.png";
+import imgTrisomy21 from "@assets/trisomy21_1773340545537.png";
+import imgTurnerSyndrome from "@assets/turnersyndrome_1773340545537.png";
+import imgUmbilicalCordCare from "@assets/umbilicalcordcare_1773340545537.png";
+import imgUmbilicalCordProlapse from "@assets/umbilicalcordprolapse_1773340545537.png";
+import imgVaginalHematoma from "@assets/vaginalhematoma_1773340545537.png";
+import imgVaricella from "@assets/varicella_1773340545537.png";
+import imgVPShunt from "@assets/VPshunt_1773340545537.png";
 
-export { imgUlcerativeColitis, imgVonWillebrand, imgUrinaryCatheterization, imgSIADH, imgSickleCellCrisis, imgStomaCare, imgThalassemia, imgThrombocytopenia, imgThyroidStorm, imgTRALI, imgVitiligo, imgUrethralStricture, imgVestibularNeuritis, imgAddisons, imgAplasticAnemia, imgAcuteHemolyticReaction, imgAllergicTransfusion, imgAirEmbolism, imgCBI, imgCastCareTraction, imgAlopecia, imgBPH, imgAtopicDermatitis, imgAcromegaly, imgBPPV, imgNGTube, imgPancreatitis, imgPeritonealDialysis, imgPolycysticKidney, imgPolycythemia, imgPepticUlcer, imgOsteoporosis, imgCellulitis, imgCKD, imgClubfoot, imgCompartmentSyndrome, imgConjunctivitis, imgContracture, imgCushings, imgDelayedHemolyticReaction, imgDevHipDysplasia, imgDiabetes, imgDiabetesInsipidus, imgDiabeticNephropathy, imgDIC, imgDisuseAtrophy, imgDuchenne, imgEpiglottitis, imgEpistaxis, imgErysipelas, imgErythemaMultiforme, imgFallPrevention, imgFebrileNeutropenia, imgFebrileNonhemolytic, imgFibromyalgia, imgForeignBodyAspiration, imgFractureTypes, imgFungalInfections, imgGalactosemia, imgGlaucoma, imgGlomerulonephritis, imgGout, imgGraftVsHost, imgGravesDisease, imgHashimotoThyroiditis, imgHeadLice, imgHemolyticUremicSyndrome, imgHemophilia, imgPyloricStenosis, imgPlacentalAbruption, imgPostpartumHemorrhage, imgPatentDuctusArteriosus, imgPavlikHarness, imgPlacentaPrevia, imgNeuroblastoma };
+export { imgUlcerativeColitis, imgVonWillebrand, imgUrinaryCatheterization, imgSIADH, imgSickleCellCrisis, imgStomaCare, imgThalassemia, imgThrombocytopenia, imgThyroidStorm, imgTRALI, imgVitiligo, imgUrethralStricture, imgVestibularNeuritis, imgAddisons, imgAplasticAnemia, imgAcuteHemolyticReaction, imgAllergicTransfusion, imgAirEmbolism, imgCBI, imgCastCareTraction, imgAlopecia, imgBPH, imgAtopicDermatitis, imgAcromegaly, imgBPPV, imgNGTube, imgPancreatitis, imgPeritonealDialysis, imgPolycysticKidney, imgPolycythemia, imgPepticUlcer, imgOsteoporosis, imgCellulitis, imgCKD, imgClubfoot, imgCompartmentSyndrome, imgConjunctivitis, imgContracture, imgCushings, imgDelayedHemolyticReaction, imgDevHipDysplasia, imgDiabetes, imgDiabetesInsipidus, imgDiabeticNephropathy, imgDIC, imgDisuseAtrophy, imgDuchenne, imgEpiglottitis, imgEpistaxis, imgErysipelas, imgErythemaMultiforme, imgFallPrevention, imgFebrileNeutropenia, imgFebrileNonhemolytic, imgFibromyalgia, imgForeignBodyAspiration, imgFractureTypes, imgFungalInfections, imgGalactosemia, imgGlaucoma, imgGlomerulonephritis, imgGout, imgGraftVsHost, imgGravesDisease, imgHashimotoThyroiditis, imgHeadLice, imgHemolyticUremicSyndrome, imgHemophilia, imgPyloricStenosis, imgPlacentalAbruption, imgPostpartumHemorrhage, imgPatentDuctusArteriosus, imgPavlikHarness, imgPlacentaPrevia, imgNeuroblastoma, imgReye, imgRhIncompatibility, imgROP, imgSeparationAnxiety, imgSerotoninSyndrome, imgStagesOfLabor, imgSubstanceAbuse, imgThermoregulation, imgTonsillectomy, imgToxicShockSyndrome, imgTrisomy21, imgTurnerSyndrome, imgUmbilicalCordCare, imgUmbilicalCordProlapse, imgVaginalHematoma, imgVaricella, imgVPShunt };
 
 export type FlashcardData = {
   id: string;
@@ -1454,6 +1471,7 @@ export const rpnFlashcards: FlashcardData[] = [
   {
     id: "rpn-pharm-q8",
     type: "question",
+    image: imgSerotoninSyndrome,
     question: "What is the primary concern when a client takes both an SSRI and a MAOI?",
     options: ["Hepatotoxicity", "Nephrotoxicity", "Serotonin syndrome", "Tardive dyskinesia"],
     correctIndex: 2,
@@ -1704,6 +1722,7 @@ export const rpnFlashcards: FlashcardData[] = [
     type: "term",
     question: "Reye's Syndrome",
     answer: "Acute encephalopathy and fatty liver degeneration in children following viral illness (influenza, varicella). Associated with aspirin use in children. Signs: Persistent vomiting, confusion, liver dysfunction, increased ICP. Prevention: NEVER give aspirin to children < 19 years (except Kawasaki disease).",
+    image: imgReye,
     category: "Pediatrics",
     difficulty: 2
   },
@@ -1744,6 +1763,7 @@ export const rpnFlashcards: FlashcardData[] = [
   {
     id: "rpn-mat-q3",
     type: "question",
+    image: imgStagesOfLabor,
     question: "What are the four stages of labor?",
     options: ["Dilation, delivery, placenta, recovery", "Latent, active, transition, pushing", "Onset, progression, birth, bonding", "Early, mid, late, postpartum"],
     correctIndex: 0,
@@ -3053,6 +3073,7 @@ export const rpnFlashcards: FlashcardData[] = [
   {
     id: "rpn-mh-q11",
     type: "question",
+    image: imgSubstanceAbuse,
     question: "A client with substance use disorder says, 'I can stop drinking anytime I want.' Which defense mechanism is this?",
     options: ["Projection", "Denial", "Rationalization", "Sublimation"],
     correctIndex: 1,
@@ -4155,6 +4176,7 @@ export const rpnFlashcards: FlashcardData[] = [
     type: "term",
     question: "Hydrocephalus",
     answer: "Excessive accumulation of CSF in the ventricles. Types: Communicating (impaired absorption) and non-communicating/obstructive (blocked flow). Infants: Enlarging head, bulging fontanelle, sunset eyes. Adults: Headache, altered LOC, gait changes. Treatment: VP (ventriculoperitoneal) shunt. Monitor for infection and malfunction.",
+    image: imgVPShunt,
     category: "Neurological",
     difficulty: 3
   },
@@ -6398,6 +6420,7 @@ export const rpnFlashcards: FlashcardData[] = [
     type: "term",
     question: "Tonsillectomy Post-Op Care",
     answer: "Position: Side-lying or prone to facilitate drainage. Diet: Clear cool liquids → soft foods. Avoid: Red/brown liquids (mask bleeding), straws (suction/irritation), acidic/citrus, crunchy/rough foods. Monitor for: Frequent swallowing (sign of bleeding: most dangerous complication), hemorrhage (immediate or 5-10 days post-op). Pain management: Avoid aspirin.",
+    image: imgTonsillectomy,
     category: "Pediatrics",
     difficulty: 2
   },

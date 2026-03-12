@@ -1,4 +1,5 @@
 import type { LessonContent } from "./types";
+import { imgStagesOfLabor, imgRhIncompatibility } from "../flashcards-rpn";
 
 export const maternityLessons: Record<string, LessonContent> = {
   "fetal-monitoring-advanced": {
@@ -42,6 +43,7 @@ export const maternityLessons: Record<string, LessonContent> = {
   },
   "labor-stages": {
     title: "Stages of Labor",
+    image: imgStagesOfLabor,
     cellular: { title: "Cervical Changes & Uterine Contractions", content: "Labor progresses through four stages driven by coordinated uterine contractions. Stage 1: Cervical effacement and dilation (0-10cm) with three phases: Latent (0-6cm, mild contractions q5-30min), Active (6-8cm, moderate contractions q3-5min), and Transition (8-10cm, strong contractions q2-3min lasting 60-90sec). Stage 2: Complete dilation to delivery of the infant. Stage 3: Delivery of the placenta (5-30 minutes). Stage 4: Recovery period (first 1-2 hours postpartum) with close monitoring for hemorrhage." },
     riskFactors: ["Premature rupture of membranes", "Oxytocin induction/augmentation", "Multiple gestation", "Polyhydramnios", "Uterine anomalies", "Previous cesarean section", "Maternal exhaustion", "Fetal malpresentation"],
     diagnostics: ["Monitor cervical dilation and effacement during vaginal exams", "Monitor fetal heart rate continuously during active labor", "Monitor contraction pattern (frequency, duration, intensity)", "Expect amniotic fluid assessment (color, amount, odor) at rupture", "Monitor maternal vital signs every 30-60 minutes in labor", "Expect GBS status to be verified for antibiotic prophylaxis"],

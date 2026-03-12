@@ -1,4 +1,5 @@
 import type { LessonContent } from "./types";
+import { imgTonsillectomy } from "../flashcards-rpn";
 
 export const generatedBatch096Lessons: Record<string, LessonContent> = {
   "thyroid-disorders-patho-np": {
@@ -520,6 +521,7 @@ export const generatedBatch096Lessons: Record<string, LessonContent> = {
   },
   "tonsillectomy": {
     title: "Tonsillectomy",
+    image: imgTonsillectomy,
     cellular: { title: "Pathophysiology of Tonsillectomy", content: "[WRITE YOUR PATHOPHYSIOLOGY AND INTRODUCTION HERE]" },
     riskFactors: ["Advanced age or extremes of age","Family history of tonsillectomy or related conditions","Chronic comorbidities (hypertension, diabetes, obesity)","Sedentary lifestyle and poor nutritional status","Tobacco, alcohol, or substance use","Immunocompromised state or prolonged medication use"],
     diagnostics: ["Perform focused assessment and report findings to supervising nurse","Monitor vital signs and report deviations from baseline","Collect specimens as directed and label accurately","Document assessment findings and communicate changes promptly","Recognize and report signs of deterioration"],

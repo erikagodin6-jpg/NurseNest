@@ -1,5 +1,5 @@
 import type { FlashcardData } from "./flashcards-rpn";
-import { imgUlcerativeColitis, imgVonWillebrand, imgSIADH, imgSickleCellCrisis, imgVitiligo, imgUrethralStricture, imgVestibularNeuritis, imgAddisons, imgBPH, imgPancreatitis, imgOsteoporosis, imgCellulitis, imgCKD, imgClubfoot, imgCompartmentSyndrome, imgConjunctivitis, imgContracture, imgCushings, imgDelayedHemolyticReaction, imgDevHipDysplasia, imgDiabetes, imgDiabetesInsipidus, imgDiabeticNephropathy, imgDIC, imgDisuseAtrophy, imgDuchenne, imgEpiglottitis, imgEpistaxis, imgErysipelas, imgGlaucoma, imgGlomerulonephritis, imgGravesDisease, imgHashimotoThyroiditis, imgForeignBodyAspiration, imgFibromyalgia, imgHemolyticUremicSyndrome, imgNeuroblastoma, imgPyloricStenosis, imgPlacentaPrevia } from "./flashcards-rpn";
+import { imgUlcerativeColitis, imgVonWillebrand, imgSIADH, imgSickleCellCrisis, imgVitiligo, imgUrethralStricture, imgVestibularNeuritis, imgAddisons, imgBPH, imgPancreatitis, imgOsteoporosis, imgCellulitis, imgCKD, imgClubfoot, imgCompartmentSyndrome, imgConjunctivitis, imgContracture, imgCushings, imgDelayedHemolyticReaction, imgDevHipDysplasia, imgDiabetes, imgDiabetesInsipidus, imgDiabeticNephropathy, imgDIC, imgDisuseAtrophy, imgDuchenne, imgEpiglottitis, imgEpistaxis, imgErysipelas, imgGlaucoma, imgGlomerulonephritis, imgGravesDisease, imgHashimotoThyroiditis, imgForeignBodyAspiration, imgFibromyalgia, imgHemolyticUremicSyndrome, imgNeuroblastoma, imgPyloricStenosis, imgPlacentaPrevia, imgSerotoninSyndrome, imgTonsillectomy } from "./flashcards-rpn";
 import illustrationShinglesV2 from "@/assets/images/shingles-v2.png";
 import illustrationRetinalDetachmentV2 from "@/assets/images/retinal-detachment-v2.png";
 import illustrationRheumatoidArthritis from "@/assets/images/rheumatoid-arthritis.png";
@@ -792,7 +792,7 @@ export const npFlashcards: FlashcardData[] = [
     answer: "Paradise criteria for tonsillectomy: ≥7 episodes in 1 year, ≥5/year for 2 years, or ≥3/year for 3 years, each with specific documentation (fever, tonsillar exudate, positive GAS culture, or treatment with antibiotics). This child meets criteria with 7 episodes in 1 year. AAP/AAO-HNS guidelines support tonsillectomy in these cases. Watchful waiting is an alternative if the family prefers, as recurrence often decreases naturally. Penicillin allergy should be documented; amoxicillin or penicillin V remains first-line for GAS pharyngitis.",
     category: "Pediatric NP",
     difficulty: 2,
-    image: imgPharyngitis
+    image: imgTonsillectomy
   },
   {
     id: "np-peds-q3",
@@ -965,6 +965,7 @@ export const npFlashcards: FlashcardData[] = [
   {
     id: "np-psych-q6",
     type: "question",
+    image: imgSerotoninSyndrome,
     question: "A patient on sertraline 200 mg for depression is prescribed tramadol for pain by another provider. The NP notices this combination on medication reconciliation. What is the concern?",
     options: ["No significant interaction exists", "Risk of serotonin syndrome from combined serotonergic activity; tramadol inhibits serotonin reuptake and this combination should be avoided", "Tramadol reduces the effectiveness of sertraline", "Sertraline causes tramadol to be ineffective"],
     correctIndex: 1,
@@ -2271,6 +2272,7 @@ export const npFlashcards: FlashcardData[] = [
   {
     id: "np-psych-q26",
     type: "question",
+    image: imgSerotoninSyndrome,
     question: "A patient on an SSRI (fluoxetine) is also prescribed tramadol for pain. What potentially life-threatening interaction should the NP consider?",
     options: ["Hypertensive crisis", "Serotonin syndrome", "Stevens-Johnson syndrome", "Neuroleptic malignant syndrome"],
     correctIndex: 1,
