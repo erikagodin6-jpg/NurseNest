@@ -773,6 +773,13 @@ app.use((req, res, next) => {
       seedExamQuestions(seedPool)
         .then(async () => {
           try {
+            const { seedRRTQuestions } = await import("./seed-rrt-questions");
+            await seedRRTQuestions(seedPool).catch((e: any) => console.error("[RRTSeed] Failed:", e.message));
+          } catch (e: any) {
+            console.error("[RRTSeed] Import failed:", e.message);
+          }
+
+          try {
             const { seedCatFlashcards } = await import("./seed-cat-flashcards");
             await seedCatFlashcards(seedPool).catch((e: any) => console.error("[CATFlashcards] Failed:", e.message));
           } catch (e: any) {
