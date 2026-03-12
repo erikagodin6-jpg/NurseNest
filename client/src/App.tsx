@@ -230,6 +230,7 @@ const DemoWeakAreas = lazy(() => import("@/pages/demo-weak-areas"));
 const DemoStudyPlanPage = lazy(() => import("@/pages/demo-study-plan"));
 const ExamReadinessDemo = lazy(() => import("@/pages/exam-readiness-demo"));
 const DemoLearningProgress = lazy(() => import("@/pages/demo-learning-progress"));
+const DemoAdaptiveReport = lazy(() => import("@/pages/demo-adaptive-report"));
 const SeoPracticeQuiz = lazy(() => import("@/pages/seo-practice-quiz"));
 const OfflineStudyPage = lazy(() => import("@/pages/offline-study"));
 
@@ -431,6 +432,7 @@ function AppRoutes() {
         <Route path="/admin/image-library" component={AdminImageLibrary} />
         <Route path="/admin/database-status" component={AdminDatabaseStatus} />
         <Route path="/admin/demo-progress" component={AdminDemoProgress} />
+        <Route path="/admin/demo-adaptive-report" component={DemoAdaptiveReport} />
         <Route path="/admin/case-studies" component={AdminCaseStudiesPage} />
         <Route path="/clinical-case-studies" component={ClinicalCaseStudyPage} />
         <Route path="/for-institutions" component={ForInstitutions} />

@@ -1,0 +1,514 @@
+Build a complete set of premium, fake-but-realistic demo screens inside the NurseNest admin/demo environment so I can take high-end marketing screenshots for the homepage hero section, landing pages, ads, feature sections, and social graphics.
+
+CRITICAL PURPOSE
+These screens are for presentation and screenshots only.
+They must NOT pull live student data, modify production analytics, create fake real user records, or interfere with actual subscriptions/progress.
+Everything should be isolated, seeded demo data only, controlled by an admin-only “Demo Screenshot Mode”.
+
+OVERALL GOAL
+Create a believable premium nursing education SaaS demo experience that visually communicates:
+- adaptive learning intelligence
+- personalized readiness
+- strong analytics
+- high-quality exam practice
+- smart recommendations
+- mastery tracking
+- premium content ecosystem
+- student success transformation
+
+These demo screens should look polished enough that I can immediately use them for:
+- hero section screenshots
+- homepage feature sections
+- pricing page visuals
+- landing page conversion sections
+- ad creatives
+- app mockups
+- social posts
+- email banners
+
+DESIGN DIRECTION
+Use the NurseNest aesthetic throughout:
+- premium pastel clinical aesthetic
+- feminine but professional
+- soft lilac, blush, pale teal, lavender, cloud white
+- rounded cards
+- elegant shadows
+- DM Sans typography if available
+- very clean spacing
+- premium SaaS dashboard feel
+- modern exam-prep / medical-learning interface
+- no cartoon styling
+- no harsh dark UI unless an optional variant is already supported
+- no cluttered admin look
+
+PALETTE SUGGESTION
+- page background: #FCFAFF
+- main card bg: #FFFFFF
+- soft border: #EEE7F7
+- heading text: #2D3748
+- body text: #6B7280
+- primary lilac: #CDB4FF
+- secondary lavender: #E9D8FD
+- blush: #FDE2E4
+- pale teal: #D9F0EF
+- mint success: #D8F3DC
+- warning peach: #FDE7D8
+- focus rose: #F4C7D7
+
+GLOBAL REQUIREMENTS
+Create a demo screenshot system with:
+1. admin-only toggle: “Enable Demo Screenshot Mode”
+2. seeded fake profiles
+3. multiple screenshot-ready pages
+4. easy switching between profiles
+5. polished desktop layout
+6. responsive tablet/mobile screenshot variants
+7. no production data usage
+
+DEMO PROFILES
+Seed at least these 4 demo profiles:
+1. RN / NCLEX-RN learner
+2. RPN / REx-PN learner
+3. NP learner
+4. Allied Health learner
+
+DEFAULT PROFILE
+Use this as the default:
+- Name: Olivia Martin
+- Initials: OM
+- Track: RN / NCLEX-RN
+- Institution: NurseNest Demo Learner
+- Exam Date: April 28, 2026
+- Readiness Score: 78%
+- Predicted Pass Probability: 84%
+- Adaptive Difficulty: 7.4 / 10
+- Questions Completed: 1,284
+- Study Time: 42.6 hours
+- Study Streak: 18 days
+- CAT Simulations: 6
+- Flashcards Reviewed: 932
+- Lessons Completed: 27
+
+CREATE THESE DEMO SCREENS
+
+SCREEN 1: ADAPTIVE PERFORMANCE DASHBOARD
+Create a beautiful premium “Adaptive Performance Report” page.
+
+Must include:
+- student identity header
+- exam track
+- target exam date
+- overall readiness card
+- predicted pass probability
+- adaptive difficulty level
+- study streak
+- total questions completed
+- total time studied
+- large readiness gauge
+- “On Track” / “Adaptive Plan Active” / “High Engagement” badges
+- upward growth trend line chart
+- category performance breakdown
+- strongest areas
+- weakest areas
+- question type performance
+- study behaviour metrics
+- smart recommendations panel
+- confidence/mastery matrix
+- bottom CTA section
+
+CATEGORY BREAKDOWN EXAMPLES
+- Pharmacology — 62% — Needs Review — 214 questions
+- Medical-Surgical — 81% — Strong — 338 questions
+- Maternity — 72% — Improving — 104 questions
+- Pediatrics — 74% — Improving — 126 questions
+- Mental Health — 77% — Stable — 96 questions
+- Fundamentals — 79% — Strong — 201 questions
+- Leadership / Prioritization — 59% — Focus Area — 98 questions
+- Critical Thinking / NGN — 69% — Moderate — 107 questions
+
+QUESTION TYPES
+- Multiple Choice
+- SATA
+- Bowtie
+- Case Study
+- Drag and Drop
+- Matrix / Cloze
+- Prioritization
+
+SMART RECOMMENDATIONS
+- Focus on Pharmacology and Prioritization over the next 5 sessions
+- Complete 2 NGN case studies in Pediatrics
+- Review high-miss endocrine flashcards
+- Repeat moderate-difficulty SATA set
+- Schedule a 75-question adaptive readiness check
+
+SCREEN 2: EXAM REVIEW / TEST ANALYTICS PAGE
+Create a realistic post-exam review screen showing what a student sees after completing a practice test or CAT-style session.
+
+Page title ideas:
+- Exam Review Summary
+- Adaptive Session Analysis
+- Readiness Check Results
+
+Must include:
+- score summary card
+- test type
+- number of questions
+- time used
+- percentile style badge
+- pass-readiness interpretation
+- category-by-category performance
+- question type analysis
+- time-per-question analytics
+- confidence vs correctness breakdown
+- “Items missed most often”
+- “What to review next”
+- “Recommended lesson links”
+- “Recommended flashcard deck”
+- “Try another adaptive session” CTA
+
+Make it look premium and highly believable.
+
+Example fake data:
+- Session Score: 74%
+- 75 questions completed
+- 1 hour 32 min
+- High difficulty mix
+- Readiness interpretation: Borderline but improving
+- Common misses: delegation, insulin timing, pediatric respiratory priorities
+
+SCREEN 3: FLASHCARD MASTERY PAGE
+Create a fake flashcard analytics/mastery page that looks extremely polished.
+
+Must include:
+- deck title
+- cards studied
+- mastered cards
+- needs review cards
+- confidence trend
+- spaced repetition streak
+- due today count
+- mastery by topic
+- retention estimate
+- study consistency chart
+- “Recommended next deck”
+- “Continue review” CTA
+
+Example data:
+- Deck: Pharmacology Essentials
+- Total cards: 240
+- Mastered: 156
+- In progress: 58
+- Needs review: 26
+- Retention estimate: 82%
+- Review streak: 12 days
+- Due today: 34
+
+Visually show:
+- soft progress bars
+- circular mastery rings
+- pastel mini charts
+- tagged weak concepts like:
+  - insulin onset/peak
+  - anticoagulant reversal
+  - pediatric dosage ranges
+
+SCREEN 4: PERSONALIZED STUDY PLAN PAGE
+Create a premium “AI Study Plan” or “Smart Study Plan” page.
+
+Must include:
+- weekly plan cards
+- personalized focus blocks
+- target readiness milestone
+- estimated hours this week
+- recommended mix of:
+  - questions
+  - flashcards
+  - lessons
+  - case studies
+- progress check boxes
+- mini calendar/timeline
+- “Next milestone” banner
+- “This week’s focus” card
+- “High yield review topics” card
+
+Example content:
+Week Focus:
+- 2 pharmacology drills
+- 1 pediatrics case study
+- 40 SATA questions
+- endocrine flashcard review
+- 1 readiness mini-check
+
+Make this page screenshot-ready and aspirational, like the platform is intelligently guiding the learner.
+
+SCREEN 5: LESSON / RATIONALE SCREEN
+Create a premium lesson/rationale detail page for screenshot use.
+
+This screen should show:
+- question stem at top
+- answer choices
+- correct answer highlighted
+- rationale panel
+- why other answers are incorrect
+- linked lesson tags
+- related flashcards
+- clinical pearl box
+- exam blueprint category tags
+- difficulty badge
+- estimated learning time
+- save/review later buttons
+
+Make it feel like:
+- premium exam prep content
+- clinically smart
+- educationally rigorous
+- easy to screenshot for feature sections
+
+Example sidebar modules:
+- Linked Lesson: Heart Failure Essentials
+- Flashcards: Loop Diuretics / RAAS / Pulmonary Edema
+- Blueprint: Physiological Integrity
+- Cognitive Skill: Priority Setting
+
+SCREEN 6: STUDENT OVERVIEW / ACCOUNT SNAPSHOT
+Create a fake student profile/account panel that looks premium and useful.
+
+Must include:
+- learner name
+- subscription tier badge
+- active exam path
+- current readiness
+- monthly progress
+- streak
+- completed content
+- saved weak areas
+- upcoming milestones
+- resume where you left off card
+
+This is useful for hero page and account feature screenshots.
+
+SCREEN 7: PERFORMANCE HEATMAP / FOCUS GRID
+Create a beautiful visual “topic mastery heatmap” or focus grid.
+
+Example rows:
+- cardio
+- respiratory
+- neuro
+- endocrine
+- renal
+- pharmacology
+- maternity
+- peds
+- leadership
+- mental health
+
+Columns:
+- exposure
+- accuracy
+- confidence
+- mastery
+- urgency
+
+Use elegant shaded pastel blocks and tags like:
+- strong
+- improving
+- unstable
+- high priority
+
+This will make the platform look sophisticated and data-driven.
+
+SCREEN 8: CAT EXAM IN-PROGRESS SCREEN
+Create a fake but realistic in-progress adaptive exam screen for screenshots.
+
+Must include:
+- question number
+- timer
+- progress indicator
+- question stem
+- answer choices
+- clean minimal exam layout
+- option to flag question
+- calculator/lab values/tools button row if appropriate
+- very professional exam environment styling
+
+Important:
+This should look like a real premium testing interface, not a cluttered admin page.
+Make it ideal for a hero screenshot showing “real exam simulation”.
+
+Also create versions of the question UI for:
+- multiple choice
+- SATA
+- bowtie / NGN style
+- case study panel
+
+SCREEN 9: NGN / CASE STUDY SCREEN
+Create a fake next-gen style item interface with:
+- patient overview
+- vitals
+- labs
+- nursing notes
+- provider orders
+- tabs or segmented cards
+- question panel
+- bowtie / matrix / prioritization style item blocks
+
+This screen is extremely useful for marketing because it instantly signals modern exam prep quality.
+
+Make it polished and readable for screenshots.
+
+SCREEN 10: PREMIUM SUBSCRIPTION / VALUE SCREEN
+Create a fake but realistic subscription/value dashboard card or page showing:
+- plan name
+- included features
+- questions available
+- flashcards available
+- lessons available
+- adaptive exams available
+- study packs/downloadables
+- streak perks / progress sync / analytics
+- premium badge
+
+This should help with screenshots for pricing and feature comparisons.
+
+SCREEN 11: MOBILE APP-LIKE VIEW STATES
+Create compact responsive screenshot states that look beautiful on a phone-sized layout.
+
+Need mobile versions of:
+- adaptive dashboard summary
+- exam question screen
+- flashcard mastery
+- study plan snapshot
+
+This is for:
+- hero section device mockups
+- social creatives
+- mobile responsiveness visuals
+
+SCREEN 12: HERO CROPPED SHOWCASE STRIP
+Create a special composed page or hidden route that shows 4–6 mini polished dashboard cards arranged perfectly for screenshotting in a homepage hero crop.
+
+For example:
+- readiness card
+- growth chart
+- weak areas card
+- recommendation card
+- mastery card
+- flashcard card
+
+This layout should be intentionally optimized for banner crops and layered hero graphics.
+
+SCREENSHOT-SPECIFIC QUALITY RULES
+All screens must be:
+- extremely polished above the fold
+- aligned perfectly
+- consistent in radius, spacing, shadows, and font sizes
+- readable at screenshot size
+- premium looking when cropped
+- realistic enough to feel like a real student platform
+- visually varied enough that hero page screenshots do not all look the same
+
+ALSO ADD THESE MICRO-COMPONENTS
+Create reusable components such as:
+- stat cards
+- progress rings
+- small line charts
+- mastery bars
+- badge pills
+- recommendation pills
+- mini heatmap cells
+- clean sidebar info cards
+- soft CTA buttons
+- exam header bar
+- rationale blocks
+
+ADMIN CONTROLS
+Inside admin, add a section called:
+“Demo Screenshot Studio”
+
+Inside it, provide:
+- toggle: Enable Demo Screenshot Mode
+- profile selector:
+  - RN Demo
+  - RPN Demo
+  - NP Demo
+  - Allied Health Demo
+- screen selector:
+  - Adaptive Dashboard
+  - Exam Review
+  - Flashcard Mastery
+  - Study Plan
+  - Lesson/Rationale
+  - Student Overview
+  - Heatmap
+  - CAT Exam
+  - NGN Case Study
+  - Premium Plan
+  - Mobile Preview
+  - Hero Showcase Strip
+- optional compact mode
+- optional “Hide admin chrome for screenshot” toggle
+
+VERY IMPORTANT
+When screenshot mode is active:
+- do not fetch live learner data
+- do not show real names
+- do not show actual emails
+- do not show actual subscription/payment data
+- do not affect any production metrics
+- render seeded demo JSON only
+
+FAKE DATA RULES
+All demo data should be believable and consistent.
+Do not use lorem ipsum.
+Do not use nonsense metrics.
+Use realistic nursing topics, realistic progress values, realistic weak areas, realistic study patterns, and realistic adaptive recommendations.
+
+TECHNICAL ORGANIZATION
+Please implement this cleanly and modularly with files such as:
+- DemoScreenshotStudio.tsx
+- DemoAdaptiveDashboard.tsx
+- DemoExamReview.tsx
+- DemoFlashcardMastery.tsx
+- DemoStudyPlan.tsx
+- DemoLessonRationale.tsx
+- DemoStudentOverview.tsx
+- DemoHeatmap.tsx
+- DemoCatExam.tsx
+- DemoNGNCaseStudy.tsx
+- DemoPremiumValue.tsx
+- DemoMobilePreview.tsx
+- DemoHeroShowcase.tsx
+- demoProfiles.ts
+- demoScreenshotData.ts
+- reusable stat/chart/ui components as needed
+
+CHARTS
+If a chart library already exists in the project, use it.
+If not, use a lightweight compatible chart solution already supported by the stack.
+Charts should be minimal, elegant, pastel, and screenshot-friendly.
+
+DM SANS
+Use DM Sans globally for these screens if the project already has it or can easily support it.
+
+DO NOT
+- do not connect to production DB for demo records
+- do not generate backend fake user inserts
+- do not make childish school-style report cards
+- do not use harsh saturated colours
+- do not create cluttered tables everywhere
+- do not make the whole thing look like raw admin analytics
+- do not break existing admin routes
+- do not make the mobile views sloppy
+- do not add obvious “fake” labels to the UI
+- do not make charts tiny or unreadable
+
+FINAL DELIVERABLE
+At the end, tell me:
+1. which files were created/edited
+2. what route/path to open for the Demo Screenshot Studio
+3. how to enable Demo Screenshot Mode
+4. how to switch between demo learner profiles
+5. which screens are best for homepage hero screenshots
+6. which screens are best for pricing/features sections
+7. which screens are best for mobile mockups
