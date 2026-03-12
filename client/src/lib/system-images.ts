@@ -396,6 +396,24 @@ import illustrationATPElectronTransport from "@/assets/images/atp-electron-trans
 import illustrationATPKrebsCycle from "@/assets/images/atp-krebs-cycle.png";
 import illustrationATPGlycolysis from "@/assets/images/atp-glycolysis.png";
 import illustrationATPMolecule from "@/assets/images/atp-molecule-structure.png";
+import illustrationPressureInjuriesV2 from "@/assets/images/pressure-injuries-v2.png";
+import illustrationPressureInjuryStagesV2 from "@/assets/images/pressure-injury-stages-v2.png";
+import illustrationPseudohypoparathyroidism from "@/assets/images/pseudohypoparathyroidism.png";
+import illustrationRamsayHuntAnatomy from "@/assets/images/ramsay-hunt-anatomy.png";
+import illustrationRamsayHuntSymptoms from "@/assets/images/ramsay-hunt-symptoms.png";
+import illustrationRectalMedicationV3 from "@/assets/images/rectal-medication-v3.png";
+import illustrationRenalArteryStenosis from "@/assets/images/renal-artery-stenosis.png";
+import illustrationRenalCalculi from "@/assets/images/renal-calculi.png";
+import illustrationRetinalDetachmentV2 from "@/assets/images/retinal-detachment-v2.png";
+import illustrationRheumatoidArthritis from "@/assets/images/rheumatoid-arthritis.png";
+import illustrationRhinosinusitis from "@/assets/images/rhinosinusitis.png";
+import illustrationRibFractures from "@/assets/images/rib-fractures.png";
+import illustrationRickets from "@/assets/images/rickets.png";
+import illustrationScabiesV2 from "@/assets/images/scabies-v2.png";
+import illustrationScoliosis from "@/assets/images/scoliosis.png";
+import illustrationSepticTransfusionReaction from "@/assets/images/septic-transfusion-reaction.png";
+import illustrationShinglesV2 from "@/assets/images/shingles-v2.png";
+import illustrationShortBowelV3 from "@/assets/images/short-bowel-v3.png";
 
 import illustrationUlcerativeColitis from "@assets/ulcerativecolitis_1773268105077.png";
 import illustrationUrethralStricture from "@assets/urethralstricture_1773268105077.png";
@@ -628,7 +646,7 @@ const lessonSpecificImages: Record<string, string> = {
   "malignant-hyperthermia-np": illustrationMalignantHyperthermiaV4,
   "psoriasis": illustrationAtopicDermatitis2,
   "eczema-atopic-dermatitis": illustrationAtopicDermatitis,
-  "herpes-zoster-shingles": illustrationShingles,
+  "herpes-zoster-shingles": illustrationShinglesV2,
   "ards-management": illustrationAsthma,
   "oxygen-therapy": illustrationOxygenTherapyV5,
   "oxygen-therapy-rpn": illustrationOxygenTherapyV5,
@@ -720,18 +738,19 @@ const lessonSpecificImages: Record<string, string> = {
   "contact-dermatitis": illustrationAtopicDermatitis2,
   "stevens-johnson-syndrome": illustrationSJS,
   "urticaria": illustrationAtopicDermatitis,
-  "scabies": illustrationScabies,
+  "scabies": illustrationScabiesV2,
   "impetigo": illustrationImpetigo,
   "pemphigus-vulgaris": illustrationPemphigus,
   "melanoma": illustrationTumor,
   "toxic-epidermal-necrolysis": illustrationSJS,
   "inflammatory-response": illustrationInflammatoryResponse,
   "inflammation": illustrationInflammatoryResponse,
-  "retinal-detachment": illustrationRetinalDetachment,
-  "pressure-injuries": illustrationPressureInjuries,
-  "pressure-ulcers": illustrationPressureInjuries,
-  "pressure-injury-staging": illustrationPressureInjuries,
-  "bedsores": illustrationPressureInjuries,
+  "retinal-detachment": illustrationRetinalDetachmentV2,
+  "pressure-injuries": illustrationPressureInjuriesV2,
+  "pressure-ulcers": illustrationPressureInjuriesV2,
+  "pressure-injury-staging": illustrationPressureInjuryStagesV2,
+  "pressure-injury-stages": illustrationPressureInjuryStagesV2,
+  "bedsores": illustrationPressureInjuriesV2,
   "innate-immunity": illustrationInnateImmunity,
   "innate-immune-system": illustrationInnateImmunity,
   "adaptive-immunity": illustrationAdaptiveImmunity,
@@ -772,9 +791,9 @@ const lessonSpecificImages: Record<string, string> = {
   "atp-molecule": illustrationATPMolecule,
   "atp-synthesis": illustrationATPMolecule,
   "vitiligo": illustrationVitiligo,
-  "herpes-zoster": illustrationShingles,
-  "shingles": illustrationShingles,
-  "varicella-zoster": illustrationShingles,
+  "herpes-zoster": illustrationShinglesV2,
+  "shingles": illustrationShinglesV2,
+  "varicella-zoster": illustrationShinglesV2,
   "homeostasis": illustrationHomeostasis,
   "feedback-loops": illustrationHomeostasis,
   "homeostasis-feedback": illustrationHomeostasis,
@@ -987,7 +1006,10 @@ const lessonSpecificImages: Record<string, string> = {
   "bph-np": illustrationBPHV2,
   "benign-prostatic-hyperplasia": illustrationBPHV2,
   "prostate-enlargement": illustrationBPHV2,
-  "kidney-stone-basics-rpn": illustrationRenalAnatomy,
+  "kidney-stone-basics-rpn": illustrationRenalCalculi,
+  "kidney-stones": illustrationRenalCalculi,
+  "renal-calculi": illustrationRenalCalculi,
+  "nephrolithiasis": illustrationRenalCalculi,
   "acute-glomerulonephritis": illustrationRenalAnatomy,
   "hormonal-regulation": illustrationEndocrineAnatomy,
   "thyroid-function": illustrationEndocrineAnatomy,
@@ -1004,7 +1026,8 @@ const lessonSpecificImages: Record<string, string> = {
   "diabetes-lifespan": illustrationEndocrineAnatomy,
   "fracture-sprain-care": illustrationMusculoskeletalAnatomy,
   "joint-replacement-basics": illustrationMusculoskeletalAnatomy,
-  "scoliosis-basics": illustrationMusculoskeletalAnatomy,
+  "scoliosis-basics": illustrationScoliosis,
+  "scoliosis": illustrationScoliosis,
   "hip-dysplasia": illustrationMusculoskeletalAnatomy,
   "fracture-types": illustrationMusculoskeletalAnatomy,
   "cast-care": illustrationMusculoskeletalAnatomy,
@@ -1086,7 +1109,7 @@ const lessonSpecificImages: Record<string, string> = {
 
   "sle-autoimmune": illustrationAutoimmune,
   "autoimmune-disorders": illustrationAutoimmune,
-  "rheumatoid-arthritis": illustrationAutoimmune,
+  "rheumatoid-arthritis": illustrationRheumatoidArthritis,
 
   "mental-health-basics": illustrationNeurotransmitters,
   "depression-anxiety": illustrationNeurotransmitters,
@@ -1128,7 +1151,10 @@ const lessonSpecificImages: Record<string, string> = {
 
   "psoriasis-management": illustrationPsoriasisPatho,
 
-  "shingles-herpes-zoster-rpn": illustrationShinglesDermatome,
+  "shingles-herpes-zoster-rpn": illustrationShinglesV2,
+  "shingles-rpn": illustrationShinglesV2,
+  "shingles-rn": illustrationShinglesV2,
+  "shingles-np": illustrationShinglesV2,
 
   "cellulitis-management": illustrationCellulitisPatho,
 
@@ -1244,17 +1270,17 @@ const lessonSpecificImages: Record<string, string> = {
   "cbi-rn": illustrationCBIV2,
   "cbi-np": illustrationCBIV2,
   "bladder-irrigation": illustrationCBIV2,
-  "rectal-medication": illustrationRectalMedicationV2,
-  "rectal-medication-rpn": illustrationRectalMedicationV2,
-  "rectal-medication-rn": illustrationRectalMedicationV2,
-  "rectal-medication-np": illustrationRectalMedicationV2,
-  "rectal-administration": illustrationRectalMedicationV2,
-  "suppository": illustrationRectalMedicationV2,
-  "short-bowel-syndrome": illustrationShortBowelV2,
-  "short-bowel-syndrome-rpn": illustrationShortBowelV2,
-  "short-bowel-syndrome-rn": illustrationShortBowelV2,
-  "short-bowel-syndrome-np": illustrationShortBowelV2,
-  "short-bowel": illustrationShortBowelV2,
+  "rectal-medication": illustrationRectalMedicationV3,
+  "rectal-medication-rpn": illustrationRectalMedicationV3,
+  "rectal-medication-rn": illustrationRectalMedicationV3,
+  "rectal-medication-np": illustrationRectalMedicationV3,
+  "rectal-administration": illustrationRectalMedicationV3,
+  "suppository": illustrationRectalMedicationV3,
+  "short-bowel-syndrome": illustrationShortBowelV3,
+  "short-bowel-syndrome-rpn": illustrationShortBowelV3,
+  "short-bowel-syndrome-rn": illustrationShortBowelV3,
+  "short-bowel-syndrome-np": illustrationShortBowelV3,
+  "short-bowel": illustrationShortBowelV3,
   "stoma-care": illustrationStomaCareV2,
   "stoma-care-rpn": illustrationStomaCareV2,
   "stoma-care-rn": illustrationStomaCareV2,
@@ -1271,7 +1297,9 @@ const lessonSpecificImages: Record<string, string> = {
   "siadh-basics-rpn": illustrationSIADHDIPatho,
   "diabetes-insipidus-basics-rpn": illustrationSIADHDIPatho,
 
-  "retinal-detachment-rpn": illustrationRetinalDetachmentPatho,
+  "retinal-detachment-rpn": illustrationRetinalDetachmentV2,
+  "retinal-detachment-rn": illustrationRetinalDetachmentV2,
+  "retinal-detachment-np": illustrationRetinalDetachmentV2,
 
   "aortic-dissection-management": illustrationAorticDissectionPatho,
 
@@ -1306,6 +1334,48 @@ const lessonSpecificImages: Record<string, string> = {
   "chest-tube": illustrationChestTubePatho,
   "pneumothorax-chest-tube": illustrationChestTubePatho,
 
+  "pseudohypoparathyroidism": illustrationPseudohypoparathyroidism,
+  "pseudohypoparathyroidism-rpn": illustrationPseudohypoparathyroidism,
+  "pseudohypoparathyroidism-rn": illustrationPseudohypoparathyroidism,
+  "pseudohypoparathyroidism-np": illustrationPseudohypoparathyroidism,
+  "ramsay-hunt": illustrationRamsayHuntAnatomy,
+  "ramsay-hunt-syndrome": illustrationRamsayHuntAnatomy,
+  "ramsay-hunt-rpn": illustrationRamsayHuntSymptoms,
+  "ramsay-hunt-rn": illustrationRamsayHuntSymptoms,
+  "ramsay-hunt-np": illustrationRamsayHuntSymptoms,
+  "renal-artery-stenosis": illustrationRenalArteryStenosis,
+  "renal-artery-stenosis-rpn": illustrationRenalArteryStenosis,
+  "renal-artery-stenosis-rn": illustrationRenalArteryStenosis,
+  "renal-artery-stenosis-np": illustrationRenalArteryStenosis,
+  "rhinosinusitis": illustrationRhinosinusitis,
+  "rhinosinusitis-rpn": illustrationRhinosinusitis,
+  "rhinosinusitis-rn": illustrationRhinosinusitis,
+  "rhinosinusitis-np": illustrationRhinosinusitis,
+  "sinusitis": illustrationRhinosinusitis,
+  "rib-fractures": illustrationRibFractures,
+  "rib-fracture": illustrationRibFractures,
+  "rib-fractures-rpn": illustrationRibFractures,
+  "rib-fractures-rn": illustrationRibFractures,
+  "rib-fractures-np": illustrationRibFractures,
+  "flail-chest": illustrationRibFractures,
+  "rickets": illustrationRickets,
+  "rickets-rpn": illustrationRickets,
+  "rickets-rn": illustrationRickets,
+  "rickets-np": illustrationRickets,
+  "vitamin-d-deficiency": illustrationRickets,
+  "scabies-rpn": illustrationScabiesV2,
+  "scabies-rn": illustrationScabiesV2,
+  "scabies-np": illustrationScabiesV2,
+  "septic-transfusion-reaction": illustrationSepticTransfusionReaction,
+  "transfusion-reaction": illustrationSepticTransfusionReaction,
+  "septic-transfusion": illustrationSepticTransfusionReaction,
+  "blood-transfusion-reaction": illustrationSepticTransfusionReaction,
+  "pressure-injuries-rpn": illustrationPressureInjuriesV2,
+  "pressure-injuries-rn": illustrationPressureInjuriesV2,
+  "pressure-injuries-np": illustrationPressureInjuriesV2,
+  "rheumatoid-arthritis-rpn": illustrationRheumatoidArthritis,
+  "rheumatoid-arthritis-rn": illustrationRheumatoidArthritis,
+  "rheumatoid-arthritis-np": illustrationRheumatoidArthritis,
 };
 
 const systemImageMap: Record<string, string> = {
@@ -1597,8 +1667,9 @@ export function getLessonImage(lessonId: string): string | undefined {
   if (lessonId.includes("pulmonary-fibrosis") || lessonId.includes("interstitial-lung")) return illustrationPulmonaryFibrosisV2;
   if (lessonId.includes("hemoptysis")) return illustrationHemoptysis;
   if (lessonId.includes("inflammat")) return illustrationInflammatoryResponse;
-  if (lessonId.includes("retinal-detach")) return illustrationRetinalDetachment;
-  if (lessonId.includes("pressure-injur") || lessonId.includes("pressure-ulcer") || lessonId.includes("bedsore")) return illustrationPressureInjuries;
+  if (lessonId.includes("retinal-detach")) return illustrationRetinalDetachmentV2;
+  if (lessonId.includes("pressure-injury-stag")) return illustrationPressureInjuryStagesV2;
+  if (lessonId.includes("pressure-injur") || lessonId.includes("pressure-ulcer") || lessonId.includes("bedsore")) return illustrationPressureInjuriesV2;
   if (lessonId.includes("innate-immun")) return illustrationInnateImmunity;
   if (lessonId.includes("adaptive-immun")) return illustrationAdaptiveImmunity;
   if (lessonId.includes("conjunctiv") || lessonId.includes("pink-eye")) return illustrationConjunctivitis;
@@ -1611,7 +1682,7 @@ export function getLessonImage(lessonId: string): string | undefined {
   if (lessonId.includes("herpes-simplex") || lessonId.includes("hsv") || lessonId.includes("cold-sore")) return illustrationHerpesSimplex;
   if (lessonId.includes("glaucoma")) return illustrationGlaucoma;
   if (lessonId.includes("vitiligo")) return illustrationVitiligoNew;
-  if (lessonId.includes("shingles") || lessonId.includes("herpes-zoster") || lessonId.includes("varicella-zoster")) return illustrationShingles;
+  if (lessonId.includes("shingles") || lessonId.includes("herpes-zoster") || lessonId.includes("varicella-zoster")) return illustrationShinglesV2;
   if (lessonId.includes("stevens-johnson") || lessonId.includes("sjs")) return illustrationStevensJohnsonNew;
   if (lessonId.includes("cell-struct") || lessonId.includes("cell-bio")) return illustrationCellStructure;
   if (lessonId.includes("homeostasis") || lessonId.includes("feedback-loop")) return illustrationHomeostasis;
@@ -1622,7 +1693,7 @@ export function getLessonImage(lessonId: string): string | undefined {
   if (lessonId.includes("epiglottitis")) return illustrationEpiglottitis;
   if (lessonId.includes("osteoporosis")) return illustrationOsteoporosis;
   if (lessonId.includes("kawasaki")) return illustrationKawasakiV2;
-  if (lessonId.includes("scabies")) return illustrationScabies;
+  if (lessonId.includes("scabies")) return illustrationScabiesV2;
   if (lessonId.includes("raynaud")) return illustrationRaynaudsV2;
   if (lessonId.includes("varicose")) return illustrationVaricoseVeinsV2;
   if (lessonId.includes("venous-insuff") || lessonId.includes("venous-stasis")) return illustrationVenousInsufficiencyV2;
@@ -1645,8 +1716,18 @@ export function getLessonImage(lessonId: string): string | undefined {
   if (lessonId.includes("pancreatic-pseudocyst")) return illustrationPancreaticPseudocystV2;
   if (lessonId.includes("pancreatitis")) return illustrationPancreatitisV2;
   if (lessonId.includes("peptic-ulcer") || lessonId.includes("gastric-ulcer") || lessonId.includes("duodenal-ulcer")) return illustrationPepticUlcerV2;
-  if (lessonId.includes("rectal-med") || lessonId.includes("suppository") || lessonId.includes("rectal-admin")) return illustrationRectalMedicationV2;
-  if (lessonId.includes("short-bowel")) return illustrationShortBowelV2;
+  if (lessonId.includes("rectal-med") || lessonId.includes("suppository") || lessonId.includes("rectal-admin")) return illustrationRectalMedicationV3;
+  if (lessonId.includes("short-bowel")) return illustrationShortBowelV3;
+  if (lessonId.includes("pseudohypoparathyroid")) return illustrationPseudohypoparathyroidism;
+  if (lessonId.includes("ramsay-hunt")) return illustrationRamsayHuntAnatomy;
+  if (lessonId.includes("renal-artery-stenos")) return illustrationRenalArteryStenosis;
+  if (lessonId.includes("renal-calcul") || lessonId.includes("kidney-stone") || lessonId.includes("nephrolithias")) return illustrationRenalCalculi;
+  if (lessonId.includes("rhinosinusit") || lessonId.includes("sinusitis")) return illustrationRhinosinusitis;
+  if (lessonId.includes("rib-fractur") || lessonId.includes("flail-chest")) return illustrationRibFractures;
+  if (lessonId.includes("rickets") || lessonId.includes("vitamin-d-deficien")) return illustrationRickets;
+  if (lessonId.includes("scoliosis")) return illustrationScoliosis;
+  if (lessonId.includes("septic-transfus") || lessonId.includes("transfusion-reaction")) return illustrationSepticTransfusionReaction;
+  if (lessonId.includes("rheumatoid-arthr")) return illustrationRheumatoidArthritis;
   if (lessonId.includes("stoma-care") || lessonId.includes("ostomy") || lessonId.includes("colostomy") || lessonId.includes("ileostomy")) return illustrationStomaCareNew;
   if (lessonId.includes("ulcerative-colitis") || lessonId.includes("uc-management")) return illustrationUlcerativeColitis;
   if (lessonId.includes("silicosis")) return illustrationAcuteSilicosisNew;

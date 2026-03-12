@@ -1,6 +1,12 @@
 import type { FlashcardData } from "./flashcards-rpn";
 import { imgUlcerativeColitis, imgSIADH, imgSickleCellCrisis, imgStomaCare, imgThrombocytopenia, imgUrinaryCatheterization, imgVitiligo, imgUrethralStricture, imgVestibularNeuritis } from "./flashcards-rpn";
 import imgStevensJohnson from "@assets/stevensjohnsonssyndrome_1773268456011.png";
+import illustrationPressureInjuriesV2 from "@/assets/images/pressure-injuries-v2.png";
+import illustrationPressureInjuryStagesV2 from "@/assets/images/pressure-injury-stages-v2.png";
+import illustrationShinglesV2 from "@/assets/images/shingles-v2.png";
+import illustrationScabiesV2 from "@/assets/images/scabies-v2.png";
+import illustrationRibFractures from "@/assets/images/rib-fractures.png";
+import illustrationRheumatoidArthritis from "@/assets/images/rheumatoid-arthritis.png";
 
 export const rnFlashcards: FlashcardData[] = [
   // ============================================================
@@ -1014,7 +1020,8 @@ export const rnFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "Methotrexate is a folate antagonist that inhibits dihydrofolate reductase. Folic acid supplementation (1 mg daily, taken on days when methotrexate is NOT taken) reduces side effects including stomatitis, GI upset, hepatotoxicity, and bone marrow suppression without reducing the drug's efficacy. Leucovorin (folinic acid) is used for methotrexate toxicity rescue, not routine supplementation.",
     category: "Pharmacology",
-    difficulty: 2
+    difficulty: 2,
+    image: illustrationRheumatoidArthritis
   },
   {
     id: "rn-pharm-q10",
@@ -2435,7 +2442,8 @@ export const rnFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "Flail chest occurs when three or more adjacent ribs are fractured in two or more places, creating a free-floating segment that moves paradoxically (inward during inspiration, outward during expiration). This severely impairs ventilation. Treatment includes pain management, positive pressure ventilation, and possible surgical fixation.",
     category: "Emergency",
-    difficulty: 3
+    difficulty: 3,
+    image: illustrationRibFractures
   },
   {
     id: "rn-emerg-q2",
@@ -3207,7 +3215,8 @@ export const rnFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "Stage 2 pressure injury involves partial-thickness loss of skin with exposed dermis. The wound bed is pink/red and moist, and may present as an intact or ruptured serum-filled blister. Stage 1 is intact skin with non-blanchable erythema. Stage 3 involves full-thickness skin loss with visible fat. Stage 4 involves exposed bone/muscle/tendon.",
     category: "Safety & Ethics",
-    difficulty: 1
+    difficulty: 1,
+    image: illustrationPressureInjuryStagesV2
   },
   {
     id: "rn-cc-q14",
@@ -3701,7 +3710,8 @@ export const rnFlashcards: FlashcardData[] = [
     correctIndex: 2,
     answer: "DMARDs such as methotrexate are the cornerstone of RA treatment because they slow disease progression and joint destruction by modifying the underlying immune response. NSAIDs provide symptom relief but do not alter disease progression. Opioids manage pain but carry addiction risk and do not modify the disease. Muscle relaxants address spasm, not the autoimmune inflammatory process. Prolonged morning stiffness (>1 hour) is characteristic of RA.",
     category: "Musculoskeletal",
-    difficulty: 2
+    difficulty: 2,
+    image: illustrationRheumatoidArthritis
   },
   {
     id: "rn-msk-q6",
@@ -3967,7 +3977,8 @@ export const rnFlashcards: FlashcardData[] = [
     correctIndex: 2,
     answer: "Stage 3 pressure injuries involve full-thickness tissue loss where subcutaneous fat may be visible, but bone, tendon, and muscle are NOT exposed. Undermining and tunneling may be present. Stage 1 is intact skin with non-blanchable redness. Stage 2 involves partial-thickness skin loss presenting as a shallow open ulcer or blister. Stage 4 involves full-thickness tissue loss WITH exposed bone, tendon, or muscle. Unstageable injuries have the wound bed obscured by slough or eschar.",
     category: "Wound Care",
-    difficulty: 2
+    difficulty: 2,
+    image: illustrationPressureInjuryStagesV2
   },
   {
     id: "rn-wound-q2",
@@ -4298,7 +4309,8 @@ export const rnFlashcards: FlashcardData[] = [
     correctIndex: 2,
     answer: "Herpes zoster (shingles) is caused by reactivation of the varicella-zoster virus (VZV) that has remained dormant in dorsal root ganglia after primary chickenpox infection. It presents as a painful, vesicular rash following a single dermatome (does not cross midline). The thoracic dermatomes are most commonly affected. Contact dermatitis is caused by irritants or allergens. Herpes simplex typically affects the mouth or genitals. Impetigo causes honey-crusted lesions. Treatment includes antivirals (acyclovir, valacyclovir) ideally within 72 hours of rash onset. Airborne and contact precautions are needed.",
     category: "Integumentary",
-    difficulty: 2
+    difficulty: 2,
+    image: illustrationShinglesV2
   },
   {
     id: "rn-integ-q4",
@@ -4368,7 +4380,8 @@ export const rnFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "Scabies is caused by the Sarcoptes scabiei mite and is highly contagious through direct skin contact. Treatment involves applying permethrin 5% cream from the neck down (including under fingernails), leaving it on for 8-14 hours, then washing it off. All household members and close contacts must be treated simultaneously to prevent reinfestation. Bedding and clothing should be washed in hot water and dried on high heat. Itching may persist for 2-4 weeks after treatment due to residual hypersensitivity. Scabies requires treatment and does not resolve spontaneously. Antifungals are not effective.",
     category: "Integumentary",
-    difficulty: 2
+    difficulty: 2,
+    image: illustrationScabiesV2
   },
   // ============================================================
   // ETHICS/LEGAL (10 cards)

@@ -11,6 +11,12 @@ import imgTRALI from "@assets/TRALI_1773268456011.png";
 import imgVitiligo from "@assets/vitiligo_1773268105077.png";
 import imgUrethralStricture from "@assets/urethralstricture_1773268105077.png";
 import imgVestibularNeuritis from "@assets/vestibularneuritis_1773268105077.png";
+import illustrationPressureInjuriesV2 from "@/assets/images/pressure-injuries-v2.png";
+import illustrationPressureInjuryStagesV2 from "@/assets/images/pressure-injury-stages-v2.png";
+import illustrationRenalCalculi from "@/assets/images/renal-calculi.png";
+import illustrationShinglesV2 from "@/assets/images/shingles-v2.png";
+import illustrationRheumatoidArthritis from "@/assets/images/rheumatoid-arthritis.png";
+import illustrationScoliosis from "@/assets/images/scoliosis.png";
 
 export { imgUlcerativeColitis, imgVonWillebrand, imgUrinaryCatheterization, imgSIADH, imgSickleCellCrisis, imgStomaCare, imgThalassemia, imgThrombocytopenia, imgThyroidStorm, imgTRALI, imgVitiligo, imgUrethralStricture, imgVestibularNeuritis };
 
@@ -863,7 +869,8 @@ export const rpnFlashcards: FlashcardData[] = [
     correctIndex: 2,
     answer: "Calcium oxalate stones are the most common (70-80% of all kidney stones). Prevention: Increase fluid intake (2-3L/day), limit oxalate-rich foods (spinach, tea, chocolate, nuts), limit sodium, maintain adequate calcium intake (dietary, not supplements).",
     category: "Renal/GU",
-    difficulty: 2
+    difficulty: 2,
+    image: illustrationRenalCalculi
   },
   {
     id: "rpn-renal-q4",
@@ -2243,7 +2250,8 @@ export const rpnFlashcards: FlashcardData[] = [
     correctIndex: 2,
     answer: "Pressure injury staging: Stage 1: Non-blanchable redness, intact skin. Stage 2: Partial-thickness, blister or shallow open ulcer. Stage 3: Full-thickness loss into subcutaneous tissue (may see fat). Stage 4: Full-thickness with exposed bone, tendon, or muscle. Unstageable: Covered by slough/eschar.",
     category: "Wound Care",
-    difficulty: 2
+    difficulty: 2,
+    image: illustrationPressureInjuryStagesV2
   },
   {
     id: "rpn-wound-q2",
@@ -2297,7 +2305,8 @@ export const rpnFlashcards: FlashcardData[] = [
     question: "Braden Scale",
     answer: "Standardized tool for assessing pressure injury risk. Six categories: Sensory perception, moisture, activity, mobility, nutrition, friction/shear. Each scored 1-4 (friction/shear 1-3). Total score ≤ 18: At risk. ≤ 12: High risk. ≤ 9: Very high risk. Lower score = higher risk.",
     category: "Wound Care",
-    difficulty: 2
+    difficulty: 2,
+    image: illustrationPressureInjuriesV2
   },
   {
     id: "rpn-wound-q5",
@@ -2307,7 +2316,8 @@ export const rpnFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "Reposition immobile clients every 2 hours (at minimum). Use pressure-relieving devices (specialized mattresses, heel protectors). Avoid positioning directly on bony prominences (sacrum, heels, trochanters). Keep skin clean and dry. Ensure adequate nutrition (protein, vitamin C, zinc).",
     category: "Wound Care",
-    difficulty: 1
+    difficulty: 1,
+    image: illustrationPressureInjuriesV2
   },
   {
     id: "rpn-wound-t4",
@@ -2764,7 +2774,8 @@ export const rpnFlashcards: FlashcardData[] = [
     correctIndex: 2,
     answer: "Renal colic is intensely painful. Priority: Pain management (NSAIDs like ketorolac or opioids), strain ALL urine to collect the stone for analysis (determines type and prevention strategy), increase fluid intake (2-3L/day), monitor for obstruction and infection.",
     category: "Renal/GU",
-    difficulty: 2
+    difficulty: 2,
+    image: illustrationRenalCalculi
   },
   {
     id: "rpn-renal-t6",
@@ -2958,7 +2969,8 @@ export const rpnFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "Localized herpes zoster (shingles): Contact precautions (cover lesions). Disseminated herpes zoster (widespread or immunocompromised client): Airborne AND contact precautions. The varicella-zoster virus can become airborne in disseminated disease. Susceptible staff should not enter the room.",
     category: "Infection Control",
-    difficulty: 3
+    difficulty: 3,
+    image: illustrationShinglesV2
   },
   {
     id: "rpn-ic-t5",
@@ -3022,7 +3034,8 @@ export const rpnFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "Leave intact blisters alone: they provide a natural biological dressing that promotes healing and prevents infection. Apply a transparent film or hydrocolloid dressing. If the blister ruptures, gently cleanse and apply an appropriate wound dressing.",
     category: "Wound Care",
-    difficulty: 2
+    difficulty: 2,
+    image: illustrationPressureInjuriesV2
   },
   {
     id: "rpn-wound-t6",
@@ -3093,7 +3106,8 @@ export const rpnFlashcards: FlashcardData[] = [
     question: "Osteoarthritis vs Rheumatoid Arthritis",
     answer: "OA: Degenerative, wear-and-tear, asymmetric, weight-bearing joints, worse with activity, Heberden's/Bouchard's nodes, no systemic symptoms. RA: Autoimmune, symmetric, small joints (hands/wrists first), morning stiffness > 30 min, systemic (fatigue, fever), positive RF/anti-CCP. Both common in elderly.",
     category: "Gerontology",
-    difficulty: 2
+    difficulty: 2,
+    image: illustrationRheumatoidArthritis
   },
   // ============================================================
   // MORE CARDIOVASCULAR
@@ -3977,7 +3991,8 @@ export const rpnFlashcards: FlashcardData[] = [
     question: "Obstructive vs Restrictive Lung Disease",
     answer: "Obstructive (difficulty getting air OUT): Asthma, COPD, bronchiectasis. Decreased FEV1/FVC ratio. Air trapping. Restrictive (difficulty getting air IN): Pulmonary fibrosis, scoliosis, obesity, neuromuscular disease. Decreased total lung capacity. FEV1/FVC ratio normal or increased.",
     category: "Respiratory",
-    difficulty: 3
+    difficulty: 3,
+    image: illustrationScoliosis
   },
   {
     id: "rpn-resp-q23",
@@ -4146,7 +4161,8 @@ export const rpnFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "Alpha blockers (tamsulosin) relax smooth muscle in the ureter, widening the lumen to help small stones (< 10mm) pass spontaneously (medical expulsive therapy). Also used for BPH. Stones > 10mm or causing obstruction/infection typically require surgical intervention (lithotripsy, ureteroscopy).",
     category: "Renal/GU",
-    difficulty: 3
+    difficulty: 3,
+    image: illustrationRenalCalculi
   },
   // ============================================================
   // BATCH 2 - ENDOCRINE EXPANSION
@@ -4675,7 +4691,8 @@ export const rpnFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "Unstageable pressure injury: The true depth cannot be determined because the wound base is obscured by slough (yellow, tan, gray, green, brown) and/or eschar (tan, brown, black). Must debride to determine the actual stage. Exception: Stable eschar on heels should NOT be removed (acts as biological cover).",
     category: "Wound Care",
-    difficulty: 3
+    difficulty: 3,
+    image: illustrationPressureInjuryStagesV2
   },
   {
     id: "rpn-wound-t7",
@@ -4960,7 +4977,8 @@ export const rpnFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "Deep tissue injury: Intact or non-intact skin with persistent non-blanchable deep purple/maroon discoloration or epidermal separation revealing a dark wound bed or blood-filled blister. Caused by damage of underlying tissue from pressure and/or shear. May evolve rapidly to a deeper stage. NOT the same as Stage 1.",
     category: "Wound Care",
-    difficulty: 3
+    difficulty: 3,
+    image: illustrationPressureInjuriesV2
   },
   {
     id: "rpn-pain-q12",
@@ -5665,7 +5683,8 @@ export const rpnFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "Methotrexate is a folate antagonist. Supplementing with folic acid (1 mg daily, not on methotrexate day) reduces side effects (mouth sores, nausea, hair thinning) without reducing effectiveness. Also monitor: CBC (bone marrow suppression), LFTs (hepatotoxicity), renal function. Avoid alcohol. Teratogenic: effective contraception required.",
     category: "Pharmacology",
-    difficulty: 3
+    difficulty: 3,
+    image: illustrationRheumatoidArthritis
   },
   {
     id: "rpn-pharm-t17",

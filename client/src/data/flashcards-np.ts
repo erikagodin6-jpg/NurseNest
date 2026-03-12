@@ -1,5 +1,8 @@
 import type { FlashcardData } from "./flashcards-rpn";
 import { imgUlcerativeColitis, imgVonWillebrand, imgSIADH, imgSickleCellCrisis, imgVitiligo, imgUrethralStricture, imgVestibularNeuritis } from "./flashcards-rpn";
+import illustrationShinglesV2 from "@/assets/images/shingles-v2.png";
+import illustrationRetinalDetachmentV2 from "@/assets/images/retinal-detachment-v2.png";
+import illustrationRheumatoidArthritis from "@/assets/images/rheumatoid-arthritis.png";
 
 export const npFlashcards: FlashcardData[] = [
   // ============================================================
@@ -133,7 +136,8 @@ export const npFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "Methotrexate-induced pneumonitis is a potentially life-threatening hypersensitivity reaction occurring in 2-8% of patients, typically within the first year of therapy. It presents with dry cough, dyspnea, fever, and bilateral ground-glass or reticular opacities. Diagnosis requires excluding infection (PCP, CMV). Treatment: immediately discontinue methotrexate, start systemic corticosteroids, and provide supportive care. The patient should never be rechallenged with methotrexate. Consider alternative DMARDs.",
     category: "Advanced Pharmacology",
-    difficulty: 3
+    difficulty: 3,
+    image: illustrationRheumatoidArthritis
   },
   {
     id: "np-pharm-q14",
@@ -440,7 +444,8 @@ export const npFlashcards: FlashcardData[] = [
     correctIndex: 2,
     answer: "Anti-CCP antibodies have 95-98% specificity for rheumatoid arthritis, making them far more specific than RF (which is positive in many conditions: HCV, Sjögren's, endocarditis, and healthy elderly). Anti-CCP is also prognostic: high titers predict more erosive, aggressive disease. The 2010 ACR/EULAR classification criteria use anti-CCP as a major criterion. Positive anti-CCP with symmetric small joint polyarthritis and prolonged morning stiffness is essentially diagnostic of RA.",
     category: "Diagnostic Reasoning",
-    difficulty: 2
+    difficulty: 2,
+    image: illustrationRheumatoidArthritis
   },
   {
     id: "np-diag-q10",
@@ -1997,7 +2002,8 @@ export const npFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "Herpes zoster results from reactivation of varicella-zoster virus in dorsal root ganglia. Characterized by painful, vesicular rash in a unilateral dermatomal distribution that does not cross midline. Treatment: valacyclovir 1g TID or acyclovir 800 mg 5x/day for 7 days, ideally within 72 hours. Postherpetic neuralgia (pain persisting >90 days) is the most common complication; treated with gabapentin, pregabalin, or lidocaine patches. Shingrix vaccine recommended for adults ≥50.",
     category: "Primary Care NP",
-    difficulty: 1
+    difficulty: 1,
+    image: illustrationShinglesV2
   },
   {
     id: "np-primary-q25",
@@ -2057,7 +2063,8 @@ export const npFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "Sudden painless monocular vision loss with a 'curtain or shade' sensation is classic for retinal detachment. This is an ophthalmologic emergency requiring immediate referral. Rhegmatogenous retinal detachment (most common) involves a retinal tear allowing vitreous fluid underneath the retina. Risk factors: high myopia, prior cataract surgery, trauma, family history. Preceding symptoms include floaters and photopsia (flashing lights). Delay in treatment leads to permanent vision loss.",
     category: "Family NP",
-    difficulty: 2
+    difficulty: 2,
+    image: illustrationRetinalDetachmentV2
   },
   {
     id: "np-family-q16",
@@ -2077,7 +2084,8 @@ export const npFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "Rheumatoid arthritis presents with symmetric inflammatory polyarthritis affecting small joints (MCP, PIP, wrists). Morning stiffness >30-60 minutes (vs <30 minutes in OA) is characteristic. Lab findings: positive RF and anti-CCP antibodies (most specific), elevated ESR/CRP. X-ray: periarticular osteopenia, joint space narrowing, erosions. OA affects DIP joints, is asymmetric, and improves with rest. Early DMARD therapy (methotrexate first-line) prevents joint destruction.",
     category: "Differential Diagnosis",
-    difficulty: 2
+    difficulty: 2,
+    image: illustrationRheumatoidArthritis
   },
   {
     id: "np-cardio-q13",
