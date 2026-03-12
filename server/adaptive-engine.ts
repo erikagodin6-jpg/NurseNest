@@ -1,4 +1,5 @@
 import { pool } from "./storage";
+import { fisherYatesShuffle, weightedInterleaveShuffle, shuffleOptions } from "../shared/shuffle";
 
 interface CardResponse {
   userId: string;
@@ -201,21 +202,22 @@ export async function getNextCards(
     params.push(filters.questionType);
   }
 
-  const whereClause = conditions.join(" AND ");
-  let orderClause = "RANDOM()";
   let extraJoin = "";
-  let extraConditions = "";
+  let orderClause = "RANDOM()";
 
+  const recentCardIds = await getRecentCardIds(userId, 20);
+  const fetchMultiplier = recentCardIds.length > 0 ? 3 : 1;
+
+  let weakTopicNames: string[] = [];
   switch (mode) {
     case "weak": {
       const weakTopics = await getWeakAreas(userId, 20);
       if (weakTopics.length > 0) {
-        const weakTopicNames = weakTopics.map(w => w.topic);
+        weakTopicNames = weakTopics.map(w => w.topic);
         conditions.push(`(fb.topic = ANY($${paramIdx}) OR fb.category = ANY($${paramIdx}))`);
         params.push(weakTopicNames);
         paramIdx++;
       }
-      orderClause = "RANDOM()";
       break;
     }
     case "spaced": {
@@ -233,12 +235,6 @@ export async function getNextCards(
       orderClause = `COALESCE(fb.difficulty, 3) DESC, RANDOM()`;
       break;
     }
-    case "learn":
-    case "test":
-    case "rapid":
-    default:
-      orderClause = "RANDOM()";
-      break;
   }
 
   if (filters?.missedOnly) {
@@ -249,23 +245,115 @@ export async function getNextCards(
     params.push(userId);
   }
 
+  const historyJoin = `LEFT JOIN (
+    SELECT card_id,
+           COUNT(*) as response_count,
+           SUM(CASE WHEN is_correct = false THEN 1 ELSE 0 END) as incorrect_count,
+           bool_or(confidence = 'guess') as was_guessed
+    FROM user_card_responses WHERE user_id = $${paramIdx++}
+    GROUP BY card_id
+  ) hist ON hist.card_id = fb.id`;
+  params.push(userId);
+
+  let recentExclusionClause = "";
+  if (recentCardIds.length > 0) {
+    recentExclusionClause = `AND fb.id != ALL($${paramIdx++})`;
+    params.push(recentCardIds);
+  }
+
   const finalWhere = conditions.join(" AND ");
+  const fetchLimit = limit * fetchMultiplier;
   const query = `
     SELECT fb.id, fb.front, fb.back, fb.category, fb.tier, fb.difficulty,
            fb.question_type, fb.options, fb.correct_answer, fb.rationale_correct,
            fb.distractor_rationales, fb.clinical_takeaway, fb.exam_pearl,
            fb.rationale_media, fb.lesson_links, fb.body_system, fb.topic, fb.subtopic,
-           fb.region_scope, fb.blueprint_category
+           fb.region_scope, fb.blueprint_category,
+           COALESCE(hist.incorrect_count, 0) as _incorrect_count,
+           COALESCE(hist.was_guessed, false) as _was_guessed
     FROM flashcard_bank fb
     ${extraJoin}
-    WHERE ${finalWhere}
+    ${historyJoin}
+    WHERE ${finalWhere} ${recentExclusionClause}
     ORDER BY ${orderClause}
     LIMIT $${paramIdx++}
   `;
-  params.push(limit);
+  params.push(fetchLimit);
 
   const result = await pool.query(query, params);
-  return result.rows.map(snakeToCamel);
+  let cards = result.rows;
+
+  if (recentCardIds.length > 0 && cards.length < limit) {
+    const existingIds = new Set(cards.map((c: any) => c.id));
+    const fallbackParams = [...params];
+    fallbackParams[fallbackParams.length - 1] = limit - cards.length;
+    const recentIdx = params.indexOf(recentCardIds);
+    if (recentIdx >= 0) {
+      const fallbackConditions = conditions.join(" AND ");
+      const fallbackQuery = `
+        SELECT fb.id, fb.front, fb.back, fb.category, fb.tier, fb.difficulty,
+               fb.question_type, fb.options, fb.correct_answer, fb.rationale_correct,
+               fb.distractor_rationales, fb.clinical_takeaway, fb.exam_pearl,
+               fb.rationale_media, fb.lesson_links, fb.body_system, fb.topic, fb.subtopic,
+               fb.region_scope, fb.blueprint_category,
+               COALESCE(hist.incorrect_count, 0) as _incorrect_count,
+               COALESCE(hist.was_guessed, false) as _was_guessed
+        FROM flashcard_bank fb
+        ${extraJoin}
+        ${historyJoin}
+        WHERE ${fallbackConditions} AND fb.id = ANY($${recentIdx + 1})
+        ORDER BY RANDOM()
+        LIMIT ${limit - cards.length}
+      `;
+      try {
+        const fallbackResult = await pool.query(fallbackQuery, params.slice(0, -1));
+        const fallbackCards = fallbackResult.rows.filter((c: any) => !existingIds.has(c.id));
+        cards = [...cards, ...fallbackCards];
+      } catch {}
+    }
+  }
+
+  const weakTopicSet = new Set(weakTopicNames);
+  const weighted = weightedInterleaveShuffle(cards, (card: any) => {
+    let weight = 0;
+    if (card._incorrect_count > 0) weight += 3;
+    if (card._was_guessed) weight += 2;
+    if (weakTopicSet.size > 0 && (weakTopicSet.has(card.topic) || weakTopicSet.has(card.category))) weight += 2;
+    return weight;
+  });
+
+  const finalCards = weighted.slice(0, limit).map((card: any) => {
+    const { _incorrect_count, _was_guessed, ...cleanCard } = card;
+    const camelCard = snakeToCamel(cleanCard);
+
+    if (camelCard.options && Array.isArray(camelCard.options) && camelCard.options.length > 1 && camelCard.correctAnswer !== undefined) {
+      const correctIdx = typeof camelCard.correctAnswer === 'number' ? camelCard.correctAnswer : parseInt(camelCard.correctAnswer);
+      if (!isNaN(correctIdx) && correctIdx >= 0 && correctIdx < camelCard.options.length) {
+        const { shuffledOptions, newCorrectIndex, permutation } = shuffleOptions(camelCard.options, correctIdx);
+        camelCard.options = shuffledOptions;
+        camelCard.correctAnswer = newCorrectIndex;
+        if (camelCard.distractorRationales && Array.isArray(camelCard.distractorRationales)) {
+          const origRationales = [...camelCard.distractorRationales];
+          camelCard.distractorRationales = permutation.map((origIdx: number) => origRationales[origIdx] || null);
+        }
+      }
+    }
+
+    return camelCard;
+  });
+
+  return finalCards;
+}
+
+async function getRecentCardIds(userId: string, count: number): Promise<string[]> {
+  const result = await pool.query(
+    `SELECT card_id FROM user_card_responses
+     WHERE user_id = $1
+     ORDER BY reviewed_at DESC
+     LIMIT $2`,
+    [userId, count]
+  );
+  return result.rows.map((r: any) => r.card_id);
 }
 
 export async function getDashboard(userId: string): Promise<DashboardData> {

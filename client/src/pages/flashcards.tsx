@@ -1,4 +1,5 @@
 import { useState, useEffect, useMemo, useCallback } from "react";
+import { fisherYatesShuffle } from "@shared/shuffle";
 import { Navigation } from "@/components/navigation";
 import { SEO } from "@/components/seo";
 import { AdminEditButton } from "@/components/admin-edit-button";
@@ -2105,7 +2106,7 @@ export default function Flashcards() {
 
   const startDeckStudy = async (mode: "learn" | "test") => {
     if (!currentDeck || deckCards.length === 0) return;
-    const shuffled = [...deckCards].sort(() => Math.random() - 0.5);
+    const shuffled = fisherYatesShuffle([...deckCards]);
     setDeckStudyQueue(shuffled);
     setDeckStudyIndex(0);
     setDeckStudyFlipped(false);
@@ -2681,7 +2682,7 @@ export default function Flashcards() {
       case "alpha-asc": filtered = [...filtered].sort((a, b) => (a.question || "").localeCompare(b.question || "")); break;
       case "alpha-desc": filtered = [...filtered].sort((a, b) => (b.question || "").localeCompare(a.question || "")); break;
       case "category": filtered = [...filtered].sort((a, b) => (a.category || "").localeCompare(b.category || "")); break;
-      case "shuffle": filtered = [...filtered].sort(() => Math.random() - 0.5); break;
+      case "shuffle": filtered = fisherYatesShuffle([...filtered]); break;
       default: break;
     }
     return filtered;

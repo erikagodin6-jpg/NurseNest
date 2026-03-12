@@ -1,5 +1,6 @@
 import type { CareerType } from "@shared/careers";
 import { CAREER_CONFIGS } from "@shared/careers";
+import { fisherYatesShuffle } from "@shared/shuffle";
 
 export interface CareerPooledQuestion {
   id: string;
@@ -75,7 +76,7 @@ export function getCareerExamQuestions(
   if (categories && categories.length > 0) {
     filtered = filtered.filter(q => categories.includes(q.category));
   }
-  const shuffled = [...filtered].sort(() => Math.random() - 0.5);
+  const shuffled = fisherYatesShuffle([...filtered]);
   return shuffled.slice(0, count);
 }
 

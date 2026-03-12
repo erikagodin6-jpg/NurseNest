@@ -1,4 +1,5 @@
 import { useState, useMemo, useEffect, useCallback } from "react";
+import { fisherYatesShuffle } from "@shared/shuffle";
 import { useQuery } from "@tanstack/react-query";
 import { Link, useRoute } from "wouter";
 import { useAuth } from "@/lib/auth";
@@ -84,7 +85,7 @@ export default function ImagingPracticeExamPage() {
       const diffMatch = selectedDifficulty === "all" || String(q.difficulty) === selectedDifficulty;
       return catMatch && diffMatch;
     });
-    const shuffled = [...pool].sort(() => Math.random() - 0.5);
+    const shuffled = fisherYatesShuffle([...pool]);
     const selected = shuffled.slice(0, Math.min(questionCount, pool.length));
     setExamQuestions(selected);
     setCurrentQ(0);

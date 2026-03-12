@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect, useCallback } from "react";
+import { fisherYatesShuffle } from "@shared/shuffle";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
@@ -110,7 +111,7 @@ function AudioPlayerCard({ clip, allClips }: { clip: AudioClipData; allClips: Au
   };
 
   const quizOptions = quizMode
-    ? allClips.filter(c => c.category === clip.category && c.id !== clip.id).slice(0, 3).map(c => c.title).concat(clip.title).sort(() => Math.random() - 0.5)
+    ? fisherYatesShuffle(allClips.filter(c => c.category === clip.category && c.id !== clip.id).slice(0, 3).map(c => c.title).concat(clip.title))
     : [];
 
   return (

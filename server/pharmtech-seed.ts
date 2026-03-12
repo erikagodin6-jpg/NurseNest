@@ -1,4 +1,5 @@
 import { getDevPool } from "./db";
+import { fisherYatesShuffle } from "../shared/shuffle";
 
 const pool = getDevPool();
 
@@ -575,7 +576,7 @@ async function seed() {
   ];
 
   // Distribute questions to exams
-  const shuffled = [...questionIds].sort(() => Math.random() - 0.5);
+  const shuffled = fisherYatesShuffle([...questionIds]);
   let qIdx = 0;
   for (let i = 0; i < examDefs.length; i++) {
     const e = examDefs[i];

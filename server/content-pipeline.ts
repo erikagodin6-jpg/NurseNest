@@ -1,6 +1,7 @@
 import { db } from "./storage";
 import { examQuestions, flashcardBank, generationJobs, verificationReports, aiCache } from "@shared/schema";
 import { eq, and, sql, inArray, desc } from "drizzle-orm";
+import { fisherYatesShuffle } from "../shared/shuffle";
 import OpenAI from "openai";
 import crypto from "crypto";
 
@@ -83,7 +84,7 @@ function distributeTopics(count: number): Array<{ system: string; count: number 
   const base = Math.floor(count / BODY_SYSTEMS.length);
   let remainder = count - base * BODY_SYSTEMS.length;
 
-  const shuffled = [...BODY_SYSTEMS].sort(() => Math.random() - 0.5);
+  const shuffled = fisherYatesShuffle([...BODY_SYSTEMS]);
   return shuffled.map((system) => {
     let allocated = base;
     if (remainder > 0) {

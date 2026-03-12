@@ -7,6 +7,7 @@ import nodePath from "path";
 import multer from "multer";
 import { storage, DatabaseStorage, pool } from "./storage";
 import { mapExamQuestionsToFlashcards, getExamFlashcardStats } from "./exam-flashcard-mapper";
+import { fisherYatesShuffle, shuffleOptions } from "../shared/shuffle";
 
 function parseStoragePath(path: string): { bucketName: string; objectName: string } {
   if (!path.startsWith("/")) path = `/${path}`;
@@ -10422,7 +10423,7 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
                 rationale_media, lesson_links, body_system, topic, subtopic,
                 region_scope, flashcard_enabled, source_question_id
          FROM flashcard_bank WHERE ${where}
-         ORDER BY category, created_at DESC
+         ORDER BY RANDOM()
          LIMIT $${paramIdx++} OFFSET $${paramIdx++}`,
         [...params, limit, offset]
       );
@@ -14549,6 +14550,15 @@ Return ONLY valid JSON with this exact structure:
       const collectedIds = new Set<string>();
       const prioritized: any[] = [];
 
+      const recentIds20 = await pool.query(
+        `SELECT question_id FROM confidence_ratings
+         WHERE user_id = $1
+         ORDER BY created_at DESC
+         LIMIT 20`,
+        [userId]
+      );
+      const recentCardIds = new Set(recentIds20.rows.map((r: any) => r.question_id));
+
       const reviewQueueResult = await pool.query(
         `SELECT rq.item_id FROM review_queue rq
          JOIN exam_questions eq ON eq.id = rq.item_id
@@ -14629,9 +14639,11 @@ Return ONLY valid JSON with this exact structure:
         let bodySystemClause = "";
         let weakSystemClause = "";
 
-        if (excludeIds.length > 0) {
+        const allExcludeIds = [...excludeIds, ...Array.from(recentCardIds)];
+        const uniqueExcludeIds = [...new Set(allExcludeIds)];
+        if (uniqueExcludeIds.length > 0) {
           excludeClause = `AND id != ALL($${paramCounter})`;
-          freshParams.push(excludeIds);
+          freshParams.push(uniqueExcludeIds);
           paramCounter++;
         }
         if (topicFilter) {
@@ -14702,11 +14714,22 @@ Return ONLY valid JSON with this exact structure:
         if (opts.length === 0) continue;
 
         let correct = Array.isArray(q.correct_answer) ? q.correct_answer : (typeof q.correct_answer === "number" ? [q.correct_answer] : [0]);
-        const correctIdx = correct[0] ?? 0;
+        let correctIdx = correct[0] ?? 0;
 
         let distractorRationales = q.distractor_rationales;
         if (distractorRationales && typeof distractorRationales === "string") {
           try { distractorRationales = JSON.parse(distractorRationales); } catch { distractorRationales = null; }
+        }
+
+        if (opts.length > 1 && correctIdx >= 0 && correctIdx < opts.length) {
+          const { shuffledOptions, newCorrectIndex, permutation } = shuffleOptions(opts, correctIdx);
+          opts = shuffledOptions;
+          correctIdx = newCorrectIndex;
+          correct = [newCorrectIndex];
+          if (distractorRationales && Array.isArray(distractorRationales)) {
+            const origRationales = [...distractorRationales];
+            distractorRationales = permutation.map((origIdx: number) => origRationales[origIdx] || null);
+          }
         }
 
         const prevAnswer = answeredMap.get(q.id);
@@ -14736,12 +14759,14 @@ Return ONLY valid JSON with this exact structure:
         });
       }
 
+      const shuffledCards = fisherYatesShuffle(cards);
+
       const sources: Record<string, number> = {};
-      for (const c of cards) { sources[c.source] = (sources[c.source] || 0) + 1; }
+      for (const c of shuffledCards) { sources[c.source] = (sources[c.source] || 0) + 1; }
 
       res.json({
-        cards,
-        sessionSize: cards.length,
+        cards: shuffledCards,
+        sessionSize: shuffledCards.length,
         sources,
         weakAreas: weakAreasResult.rows.map((r: any) => ({ bodySystem: r.body_system, topic: r.topic })),
         mode,

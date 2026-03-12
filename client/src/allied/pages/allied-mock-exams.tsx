@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { fisherYatesShuffle } from "@shared/shuffle";
 import { useParams, Link, useLocation } from "wouter";
 import { CAREER_CONFIGS, type CareerConfig } from "@shared/careers";
 import { FileText, Clock, BarChart3, ChevronRight, Play, Lock, CheckCircle2, Target, AlertTriangle, Zap } from "lucide-react";
@@ -76,10 +77,10 @@ export default function AlliedMockExamsPage() {
     const selected: any[] = [];
 
     if (focusCategories) {
-      const focusPool = pool.filter((q: any) => focusCategories.includes(q.category)).sort(() => Math.random() - 0.5);
+      const focusPool = fisherYatesShuffle(pool.filter((q: any) => focusCategories.includes(q.category)));
       selected.push(...focusPool.slice(0, examType.questions));
       if (selected.length < examType.questions) {
-        const remaining = pool.filter((q: any) => !selected.includes(q)).sort(() => Math.random() - 0.5);
+        const remaining = fisherYatesShuffle(pool.filter((q: any) => !selected.includes(q)));
         while (selected.length < examType.questions && remaining.length > 0) {
           selected.push(remaining.pop()!);
         }
@@ -90,11 +91,11 @@ export default function AlliedMockExamsPage() {
 
       for (const domain of domains) {
         const domainQs = pool.filter((q: any) => q.category === domain);
-        const shuffled = domainQs.sort(() => Math.random() - 0.5);
+        const shuffled = fisherYatesShuffle(domainQs);
         selected.push(...shuffled.slice(0, questionsPerDomain));
       }
 
-      const remaining = pool.filter((q: any) => !selected.includes(q)).sort(() => Math.random() - 0.5);
+      const remaining = fisherYatesShuffle(pool.filter((q: any) => !selected.includes(q)));
       while (selected.length < examType.questions && remaining.length > 0) {
         selected.push(remaining.pop()!);
       }

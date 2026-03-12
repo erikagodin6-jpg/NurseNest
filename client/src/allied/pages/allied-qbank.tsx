@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { fisherYatesShuffle } from "@shared/shuffle";
 import { Link, useSearch } from "wouter";
 import { CAREER_CONFIGS, type CareerConfig } from "@shared/careers";
 import { BookOpen, Filter, ChevronRight, CheckCircle2, XCircle, Clock, Zap, ChevronLeft, Lock, RotateCcw, Flag, Bookmark, AlertTriangle } from "lucide-react";
@@ -126,7 +127,7 @@ export default function AlliedQBankPage() {
     setSelectedAnswer(null);
     setAnswered(false);
     const pool = getCareerQuestionPool(career.id) || [];
-    const shuffled = [...pool].sort(() => Math.random() - 0.5).slice(0, 10);
+    const shuffled = fisherYatesShuffle([...pool]).slice(0, 10);
     setQuestions(shuffled);
   };
 
@@ -142,7 +143,7 @@ export default function AlliedQBankPage() {
     setSelectedAnswer(null);
     setAnswered(false);
     const pool = getCareerQuestionPool(career.id) || [];
-    const shuffled = [...pool].sort(() => Math.random() - 0.5).slice(0, 10);
+    const shuffled = fisherYatesShuffle([...pool]).slice(0, 10);
     setQuestions(shuffled);
   };
 
@@ -157,7 +158,7 @@ export default function AlliedQBankPage() {
     setAnswered(false);
     const pool = getCareerQuestionPool(career.id) || [];
     const categoryQs = pool.filter((q: any) => q.category === category);
-    const shuffled = [...categoryQs].sort(() => Math.random() - 0.5).slice(0, 10);
+    const shuffled = fisherYatesShuffle([...categoryQs]).slice(0, 10);
     setQuestions(shuffled);
   };
 

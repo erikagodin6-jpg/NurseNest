@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
+import { fisherYatesShuffle } from "@shared/shuffle";
 import { Link, useParams } from "wouter";
 import { Brain, ChevronRight, ArrowRight, RotateCcw, ChevronLeft, Shuffle } from "lucide-react";
 import { AlliedSEO } from "@/allied/allied-seo";
@@ -71,7 +72,7 @@ function DeckDetail() {
   }, [slug]);
 
   const handleShuffle = useCallback(() => {
-    setCards(prev => [...prev].sort(() => Math.random() - 0.5));
+    setCards(prev => fisherYatesShuffle([...prev]));
     setCurrentIndex(0);
     setFlipped(false);
   }, []);

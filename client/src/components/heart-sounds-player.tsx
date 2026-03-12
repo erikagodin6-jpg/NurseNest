@@ -1,4 +1,5 @@
 import { useState, useRef, useCallback, useEffect } from "react";
+import { fisherYatesShuffle } from "@shared/shuffle";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
@@ -783,7 +784,7 @@ function HeartSoundCard({ sound, allSounds }: { sound: HeartSoundConfig; allSoun
   };
 
   const quizOptions = quizMode
-    ? allSounds.filter(s => s.id !== sound.id).slice(0, 3).map(s => s.name).concat(sound.name).sort(() => Math.random() - 0.5)
+    ? fisherYatesShuffle(allSounds.filter(s => s.id !== sound.id).slice(0, 3).map(s => s.name).concat(sound.name))
     : [];
 
   return (

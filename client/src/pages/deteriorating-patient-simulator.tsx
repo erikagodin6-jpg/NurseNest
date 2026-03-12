@@ -1,5 +1,6 @@
 import { LocaleLink } from "@/lib/LocaleLink";
 import { useState, useEffect, useCallback, useMemo } from "react";
+import { fisherYatesShuffle } from "@shared/shuffle";
 import { Navigation } from "@/components/navigation";
 import { SEO } from "@/components/seo";
 import { Footer } from "@/components/footer";
@@ -1403,7 +1404,7 @@ function ScenarioSelector({
   onCountryChange: (c: CountryMode) => void;
   onUnitChange: (u: UnitMode) => void;
 }) {
-  const shuffled = useMemo(() => [...scenarios].sort(() => Math.random() - 0.5), []);
+  const shuffled = useMemo(() => fisherYatesShuffle([...scenarios]), []);
 
   return (
     <div>

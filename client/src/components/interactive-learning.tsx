@@ -1,4 +1,5 @@
 import { useState, useCallback, useRef, useMemo } from "react";
+import { fisherYatesShuffle } from "@shared/shuffle";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import {
@@ -221,7 +222,7 @@ export function MatchingExercise({
   const [matched, setMatched] = useState<Map<string, string>>(new Map());
   const [incorrect, setIncorrect] = useState<string | null>(null);
   const [shuffledDefs, setShuffledDefs] = useState(() =>
-    [...pairs].sort(() => Math.random() - 0.5)
+    fisherYatesShuffle([...pairs])
   );
 
   const handleTermClick = (termId: string) => {
@@ -248,7 +249,7 @@ export function MatchingExercise({
     setMatched(new Map());
     setSelectedTerm(null);
     setIncorrect(null);
-    setShuffledDefs([...pairs].sort(() => Math.random() - 0.5));
+    setShuffledDefs(fisherYatesShuffle([...pairs]));
   };
 
   const allMatched = matched.size === pairs.length;
@@ -528,7 +529,7 @@ export function StepSequencing({
   steps: SequenceStep[];
 }) {
   const [userOrder, setUserOrder] = useState<SequenceStep[]>(() =>
-    [...steps].sort(() => Math.random() - 0.5)
+    fisherYatesShuffle([...steps])
   );
   const [checked, setChecked] = useState(false);
   const [dragIndex, setDragIndex] = useState<number | null>(null);
@@ -554,7 +555,7 @@ export function StepSequencing({
   };
 
   const reset = () => {
-    setUserOrder([...steps].sort(() => Math.random() - 0.5));
+    setUserOrder(fisherYatesShuffle([...steps]));
     setChecked(false);
   };
 
