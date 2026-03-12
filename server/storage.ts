@@ -1,6 +1,6 @@
 import { type User, type InsertUser, type Note, type InsertNote, type TestResult, type InsertTestResult, type UserProgress, type InsertUserProgress, type ContentItem, type InsertContentItem, type FeatureUsage, type UserFlashcard, type InsertUserFlashcard, type BlogConfig, type PageView, type InsertPageView, type UserFeedback, type InsertUserFeedback, type QotdHistory, type EmailSubscriber, type InsertEmailSubscriber, type SocialPost, type InsertSocialPost, type DashboardWidget, type InsertDashboardWidget, type SiteImage, type InsertSiteImage, type CustomPageModule, type InsertCustomPageModule, type AudioClip, type InsertAudioClip, type LessonAudioLink, type InsertLessonAudioLink, type ExamQuestion, type InsertExamQuestion, type QuestionTypeRegistryEntry, type InsertQuestionTypeRegistryEntry, type QuestionScheduleLog, type DigitalProduct, type InsertDigitalProduct, type ProductPurchase, type InsertProductPurchase, type QbankDraft, type InsertQbankDraft, type QbankRecipe, type InsertQbankRecipe, type DiagnosticAssessment, type InsertDiagnosticAssessment, type UserStats, type InsertUserStats, type StudyGroup, type InsertStudyGroup, type StudyGroupMember, type InsertStudyGroupMember, type QuestionAnalytics, type InsertQuestionAnalytics, type FriendRequest, type InsertFriendRequest, type FriendConnection, type InsertFriendConnection, type ProductGeneration, type InsertProductGeneration, type GeneratedQuestion, type InsertGeneratedQuestion, type GeneratorV2PresentationSettings, type InsertGeneratorV2PresentationSettings, type TesterInviteCode, type InsertTesterInviteCode, type TesterFeedback, type InsertTesterFeedback, type MltLabImage, type InsertMltLabImage, type MltLabImageLink, type InsertMltLabImageLink, type MltImageDrillAttempt, type InsertMltImageDrillAttempt, type ImagingQuestion, type InsertImagingQuestion, type ImageAsset, type InsertImageAsset, type ImagingFlashcard, type InsertImagingFlashcard, type ImagingCaseStudy, type InsertImagingCaseStudy, type ImagingExamAttempt, type InsertImagingExamAttempt, type ImagingExamAttemptQuestion, type InsertImagingExamAttemptQuestion, type ImagingPositioningEntry, type CaseStudy, type InsertCaseStudy, type CaseStudyStep, type InsertCaseStudyStep, type CaseStudyQuestion, type InsertCaseStudyQuestion, type InsertImagingPositioningEntry, type ImagingPhysicsTopic, type InsertImagingPhysicsTopic, type QuestionBankItem, type InsertQuestionBankItem, type QuestionBankResult, type InsertQuestionBankResult, users, notes, testResults, userProgress, contentItems, featureUsage, userFlashcards, blogConfig, pageViews, userFeedback, qotdHistory, emailSubscribers, socialPosts, dashboardWidgets, siteImages, customPageModules, audioClips, lessonAudioLinks, examQuestions, questionTypeRegistry, questionScheduleLog, digitalProducts, productPurchases, couponCodes, qbankDrafts, qbankRecipes, diagnosticAssessments, userStats, studyGroups, studyGroupMembers, questionAnalytics, friendRequests, friendConnections, productGenerations, generatedQuestions, generatorV2PresentationSettings, generationEvents, v2ContentBlocks, testerInviteCodes, testerFeedback, imagingQuestions, imageAssets, imagingFlashcards, imagingCaseStudies, imagingExamAttempts, imagingExamAttemptQuestions, imagingPositioningEntries, imagingPhysicsTopics, questionBank, questionBankResults, mltLabImages, mltLabImageLinks, mltImageDrillAttempts } from "@shared/schema";
 import { drizzle } from "drizzle-orm/node-postgres";
-import { eq, and, desc, sql, lte, ne, ilike, gte, count } from "drizzle-orm";
+import { eq, and, or, desc, sql, lte, ne, ilike, gte, count } from "drizzle-orm";
 import pg from "pg";
 
 function snakeToCamel(obj: any): any {
@@ -1379,6 +1379,12 @@ export class DatabaseStorage implements IStorage {
 
   async getAllImagingFlashcards(filters?: { country?: string; examType?: string; topic?: string; status?: string }): Promise<ImagingFlashcard[]> {
     const conditions = [];
+    if (filters?.country) {
+      conditions.push(
+        or(eq(imagingFlashcards.country, filters.country), eq(imagingFlashcards.country, "both"))!
+      );
+    }
+    if (filters?.examType) conditions.push(eq(imagingFlashcards.examType, filters.examType));
     if (filters?.topic) conditions.push(eq(imagingFlashcards.category, filters.topic));
     if (filters?.status) conditions.push(eq(imagingFlashcards.status, filters.status));
     if (conditions.length > 0) return db.select().from(imagingFlashcards).where(and(...conditions)).orderBy(desc(imagingFlashcards.updatedAt));
@@ -1488,6 +1494,7 @@ export class DatabaseStorage implements IStorage {
 
   async getAllImagingPhysicsTopics(filters?: { country?: string; category?: string; status?: string }): Promise<ImagingPhysicsTopic[]> {
     const conditions = [];
+    if (filters?.country) conditions.push(eq(imagingPhysicsTopics.country, filters.country));
     if (filters?.category) conditions.push(eq(imagingPhysicsTopics.category, filters.category));
     if (filters?.status) conditions.push(eq(imagingPhysicsTopics.status, filters.status));
     if (conditions.length > 0) return db.select().from(imagingPhysicsTopics).where(and(...conditions)).orderBy(desc(imagingPhysicsTopics.updatedAt));

@@ -149,6 +149,34 @@ export async function ensureSchemaSync(pool: pg.Pool): Promise<void> {
       await client.query(`ALTER TABLE flashcard_bank ADD COLUMN IF NOT EXISTS ${col} ${def}`);
     }
 
+    const imagingFlashcardCols: [string, string][] = [
+      ["country", "text DEFAULT 'both'"],
+      ["exam_type", "text"],
+      ["topic", "text"],
+    ];
+    for (const [col, def] of imagingFlashcardCols) {
+      await client.query(`ALTER TABLE imaging_flashcards ADD COLUMN IF NOT EXISTS ${col} ${def}`);
+    }
+
+    const physicsCols: [string, string][] = [
+      ["slug", "text NOT NULL DEFAULT ''"],
+      ["explanation", "text"],
+      ["country", "text DEFAULT 'both'"],
+      ["exam_type", "text"],
+      ["exam_traps", "jsonb DEFAULT '[]'::jsonb"],
+      ["memory_aid", "text"],
+      ["clinical_relevance", "text"],
+      ["factor_relationships", "jsonb DEFAULT '[]'::jsonb"],
+      ["diagram_config", "jsonb DEFAULT '{}'::jsonb"],
+      ["quiz_items", "jsonb DEFAULT '[]'::jsonb"],
+      ["sort_order", "integer DEFAULT 0"],
+      ["seo_title", "text"],
+      ["seo_description", "text"],
+    ];
+    for (const [col, def] of physicsCols) {
+      await client.query(`ALTER TABLE imaging_physics_topics ADD COLUMN IF NOT EXISTS ${col} ${def}`);
+    }
+
     await client.query("COMMIT");
     console.log("[SchemaSync] Ensured all tables and columns exist");
   } catch (err: any) {

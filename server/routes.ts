@@ -14881,6 +14881,55 @@ Return ONLY valid JSON with this exact structure:
     } catch (e: any) { res.status(500).json({ error: e.message }); }
   });
 
+  app.post("/api/imaging/physics/generate", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const { generateImagingPhysicsTopic } = await import("./imaging-content-pipeline");
+      const { title, category, country, difficulty, modality } = req.body;
+      if (!title || !category || !country) return res.status(400).json({ error: "title, category, and country are required" });
+      const generated = await generateImagingPhysicsTopic({ title, category, country, difficulty: difficulty || 2, modality });
+      const saved = await storage.createImagingPhysicsTopic({ ...generated, status: "draft" });
+      res.json(saved);
+    } catch (e: any) { res.status(500).json({ error: e.message }); }
+  });
+
+  app.post("/api/imaging/physics/generate-bulk", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const { bulkGeneratePhysicsTopics } = await import("./imaging-content-pipeline");
+      const { topics, country, difficulty } = req.body;
+      if (!topics || !country) return res.status(400).json({ error: "topics array and country are required" });
+      const result = await bulkGeneratePhysicsTopics({ topics, country, difficulty });
+      res.json(result);
+    } catch (e: any) { res.status(500).json({ error: e.message }); }
+  });
+
+  app.post("/api/imaging/flashcards/generate", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const { bulkGenerateFlashcards } = await import("./imaging-content-pipeline");
+      const { topic, category, country, count } = req.body;
+      if (!topic || !category || !country) return res.status(400).json({ error: "topic, category, and country are required" });
+      const result = await bulkGenerateFlashcards({ topic, category, country, count: count || 10 });
+      res.json(result);
+    } catch (e: any) { res.status(500).json({ error: e.message }); }
+  });
+
+  app.post("/api/imaging/quiz/generate", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const { generateImagingQuizQuestions } = await import("./imaging-content-pipeline");
+      const { topic, category, country, count } = req.body;
+      if (!topic || !category || !country) return res.status(400).json({ error: "topic, category, and country are required" });
+      const questions = await generateImagingQuizQuestions({ topic, category, country, count: count || 5 });
+      res.json({ questions });
+    } catch (e: any) { res.status(500).json({ error: e.message }); }
+  });
+
   app.patch("/api/imaging/questions/:id/status", async (req, res) => {
     try {
       const admin = await requireAdmin(req, res);

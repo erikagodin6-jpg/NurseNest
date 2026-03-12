@@ -72,6 +72,10 @@ const PharmtechPracticeExamSeo = lazy(() => import("./pages/pharmtech-practice-e
 const PharmtechAdaptivePractice = lazy(() => import("./pages/pharmtech-adaptive-practice"));
 const PharmtechStudyPlan = lazy(() => import("./pages/pharmtech-study-plan"));
 const MltStudentDashboard = lazy(() => import("./pages/mlt-student-dashboard"));
+const ImagingPhysicsListing = lazy(() => import("./pages/imaging-physics-listing"));
+const ImagingPhysicsTopic = lazy(() => import("./pages/imaging-physics-topic"));
+const ImagingFlashcardsPage = lazy(() => import("./pages/imaging-flashcards"));
+const ImagingSeoLanding = lazy(() => import("./pages/imaging-seo-landing"));
 import { MltSEOPage } from "./pages/mlt-seo-pages";
 
 function LoadingFallback() {
@@ -155,6 +159,10 @@ export function AlliedRoutes() {
         <Route path="/pharmacy-tech-canada">{() => <AlliedSeoLanding pageSlug="pharmacy-tech-canada" />}</Route>
         <Route path="/rrt-us">{() => <AlliedSeoLanding pageSlug="rrt-us" />}</Route>
         <Route path="/rrt-canada">{() => <AlliedSeoLanding pageSlug="rrt-canada" />}</Route>
+        <Route path="/medical-imaging/:country/physics/:topicSlug" component={ImagingPhysicsTopic} />
+        <Route path="/medical-imaging/:country/physics" component={ImagingPhysicsListing} />
+        <Route path="/medical-imaging/:country/flashcards" component={ImagingFlashcardsPage} />
+        <Route path="/medical-imaging/:country/:pageType">{(params) => <ImagingSeoLanding />}</Route>
         <Route path="/imaging-us">{() => <AlliedSeoLanding pageSlug="imaging-us" />}</Route>
         <Route path="/imaging-canada">{() => <AlliedSeoLanding pageSlug="imaging-canada" />}</Route>
         <Route path="/paramedic-us">{() => <AlliedSeoLanding pageSlug="paramedic-us" />}</Route>

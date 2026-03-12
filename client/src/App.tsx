@@ -196,6 +196,7 @@ const ImagingLessonsPage = lazy(() => import("@/pages/imaging-lessons"));
 const ImagingPositioningPage = lazy(() => import("@/pages/imaging-positioning"));
 const ImagingPositioningDetailPage = lazy(() => import("@/pages/imaging-positioning-detail"));
 const ImagingPhysicsPage = lazy(() => import("@/pages/imaging-physics"));
+const ImagingPhysicsTopicPage = lazy(() => import("@/pages/imaging-physics-topic"));
 const ImagingFlashcardsPage = lazy(() => import("@/pages/imaging-flashcards"));
 const ImagingPracticeExamPage = lazy(() => import("@/pages/imaging-practice-exam"));
 const ImagingExamSimulatorPage = lazy(() => import("@/pages/imaging-exam-simulator"));
@@ -402,6 +403,7 @@ function AppRoutes() {
         <Route path="/medical-imaging/:country/lessons" component={ImagingLessonsPage} />
         <Route path="/medical-imaging/:country/positioning/:projectionSlug" component={ImagingPositioningDetailPage} />
         <Route path="/medical-imaging/:country/positioning" component={ImagingPositioningPage} />
+        <Route path="/medical-imaging/:country/physics/:topicSlug" component={ImagingPhysicsTopicPage} />
         <Route path="/medical-imaging/:country/physics" component={ImagingPhysicsPage} />
         <Route path="/medical-imaging/:country/flashcards" component={ImagingFlashcardsPage} />
         <Route path="/medical-imaging/:country/practice-exams" component={ImagingPracticeExamPage} />
