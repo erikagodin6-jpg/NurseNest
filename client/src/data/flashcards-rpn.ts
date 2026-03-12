@@ -1,3 +1,12 @@
+import imgAlcoholWithdrawal from "@assets/alcoholwithdrawal_1773340419064.png";
+import imgAmnioticFluid from "@assets/amnioticfluid_1773340419064.png";
+import imgAntepartum from "@assets/antepartum_1773340419064.png";
+import imgAnxiety from "@assets/anxiety_1773340419064.png";
+import imgAPGAR from "@assets/APGAR_1773340419064.png";
+import imgBacterialMeningitis from "@assets/bacterialmeningitis_1773340419064.png";
+import imgBreastfeeding from "@assets/breastfeeding_1773340419064.png";
+import imgCSection from "@assets/c-section_1773340419064.png";
+import imgDepression from "@assets/depression_1773340419064.png";
 import imgUlcerativeColitis from "@assets/ulcerativecolitis_1773268105077.png";
 import imgVonWillebrand from "@assets/vonwillebrand_1773268105077.png";
 import imgUrinaryCatheterization from "@assets/urinarycatheterization_1773268105077.png";
@@ -743,7 +752,8 @@ export const rpnFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "Kernig's sign (resistance/pain with leg extension when hip is flexed) and Brudzinski's sign (involuntary hip/knee flexion when neck is flexed) are specific to meningeal irritation. Also assess for nuchal rigidity, photophobia, and headache.",
     category: "Neurological",
-    difficulty: 2
+    difficulty: 2,
+    image: imgBacterialMeningitis
   },
   {
     id: "rpn-neuro-q9",
@@ -1798,7 +1808,8 @@ export const rpnFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "Severe preeclampsia signs: BP ≥ 160/110, proteinuria, headache, visual changes, epigastric pain, hyperreflexia. Magnesium sulfate is given to prevent/treat seizures (eclampsia). Monitor: DTRs, respiratory rate (> 12), urine output (> 30 mL/hr). Antidote: Calcium gluconate.",
     category: "Maternity",
-    difficulty: 2
+    difficulty: 2,
+    image: imgAntepartum
   },
   {
     id: "rpn-mat-q5",
@@ -1808,7 +1819,8 @@ export const rpnFlashcards: FlashcardData[] = [
     correctIndex: 2,
     answer: "APGAR scoring: Appearance (color): Blue extremities = 1. Pulse (HR): > 100 = 2. Grimace (reflex): Grimace = 1. Activity (tone): Some flexion = 1. Respiration: Slow/irregular = 1. Weak/irregular = 1. Total = 2+1+1+1+2 = 7. Score 7-10 normal, 4-6 needs intervention, 0-3 critical.",
     category: "Maternity",
-    difficulty: 2
+    difficulty: 2,
+    image: imgAPGAR
   },
   {
     id: "rpn-mat-q6",
@@ -1865,7 +1877,8 @@ export const rpnFlashcards: FlashcardData[] = [
     question: "Breastfeeding Assessment (LATCH Score)",
     answer: "L: Latch (how well baby grasps). A: Audible swallowing. T: Type of nipple. C: Comfort (breast/nipple). H: Hold (positioning). Each scored 0-2. Proper latch: Wide mouth, lips flanged out, areola covered, rhythmic suck-swallow pattern. Signs of adequate feeding: 6-8 wet diapers/day by day 5.",
     category: "Maternity",
-    difficulty: 2
+    difficulty: 2,
+    image: imgBreastfeeding
   },
   {
     id: "rpn-mat-q9",
@@ -1903,7 +1916,8 @@ export const rpnFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "Pathological jaundice: Appears within the first 24 hours of life. Causes: ABO/Rh incompatibility, infection, hemolytic disease. Requires immediate investigation and treatment. Physiological jaundice appears after 24 hours (day 2-3) and is usually benign.",
     category: "Maternity",
-    difficulty: 2
+    difficulty: 2,
+    image: imgBreastfeeding
   },
   // ============================================================
   // MENTAL HEALTH (45+ cards)
@@ -1970,7 +1984,8 @@ export const rpnFlashcards: FlashcardData[] = [
     question: "Alcohol Withdrawal Timeline",
     answer: "6-12 hours: Tremors, anxiety, nausea, insomnia. 12-24 hours: Hallucinations (visual/tactile). 24-48 hours: Seizures. 48-72 hours: Delirium tremens (DTs): agitation, confusion, tachycardia, hypertension, fever, diaphoresis. DTs can be fatal. Treatment: Benzodiazepines (chlordiazepoxide, lorazepam), thiamine, IV fluids.",
     category: "Mental Health",
-    difficulty: 3
+    difficulty: 3,
+    image: imgAlcoholWithdrawal
   },
   {
     id: "rpn-mh-q5",
@@ -1980,7 +1995,8 @@ export const rpnFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "Guide the client through slow, controlled breathing (inhale 4 counts, exhale 6-8 counts). Grounding techniques (5-4-3-2-1: name 5 things you see, 4 you hear, etc.) help redirect focus. Paper bag rebreathing is no longer recommended due to risk of hypoxia. Stay with the client.",
     category: "Mental Health",
-    difficulty: 2
+    difficulty: 2,
+    image: imgAnxiety
   },
   {
     id: "rpn-mh-q6",
@@ -2111,7 +2127,8 @@ export const rpnFlashcards: FlashcardData[] = [
     question: "Droplet Precautions",
     answer: "For pathogens transmitted by large respiratory droplets (travel < 3 feet). Conditions: Influenza, pertussis, bacterial meningitis, mumps, rubella, strep pharyngitis. PPE: Surgical mask within 3 feet. Private room (door can remain open). No N95 needed. Place surgical mask on client during transport.",
     category: "Infection Control",
-    difficulty: 2
+    difficulty: 2,
+    image: imgBacterialMeningitis
   },
   {
     id: "rpn-ic-q5",
@@ -3060,7 +3077,8 @@ export const rpnFlashcards: FlashcardData[] = [
     question: "Gestational Diabetes Mellitus (GDM)",
     answer: "Glucose intolerance first identified during pregnancy. Screened at 24-28 weeks. Risks: Macrosomia (large baby), birth injury, neonatal hypoglycemia, preeclampsia. Management: Diet modification, exercise, blood glucose monitoring, insulin if needed (oral agents controversial). Resolves postpartum but increases Type 2 DM risk.",
     category: "Maternity",
-    difficulty: 2
+    difficulty: 2,
+    image: imgAntepartum
   },
   {
     id: "rpn-mat-q13",
@@ -4610,7 +4628,8 @@ export const rpnFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "Apgar 4-6: Moderately depressed, requires active intervention. Steps: Dry and stimulate, clear airway if needed, positive pressure ventilation with room air or oxygen. Reassess at 5 minutes. Apgar 0-3: Severely depressed, requires aggressive resuscitation (intubation, chest compressions, medications).",
     category: "Maternity",
-    difficulty: 2
+    difficulty: 2,
+    image: imgAPGAR
   },
   {
     id: "rpn-mat-q19",
@@ -4620,7 +4639,8 @@ export const rpnFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "After rupture of membranes (ROM): Immediately assess FHR (risk of cord prolapse, especially if presenting part is not engaged). Note: Time of rupture, color/odor/amount of fluid (clear = reassuring, green = meconium, foul-smelling = infection). Risk of infection increases after 18 hours (prolonged ROM).",
     category: "Maternity",
-    difficulty: 2
+    difficulty: 2,
+    image: imgAmnioticFluid
   },
   {
     id: "rpn-mat-t8",
@@ -4628,7 +4648,8 @@ export const rpnFlashcards: FlashcardData[] = [
     question: "Amniocentesis",
     answer: "Transabdominal needle insertion into amniotic sac to obtain fluid sample. Indications: Genetic testing (usually 15-20 weeks), fetal lung maturity (L/S ratio ≥ 2:1), Rh sensitization. Risks: Infection, bleeding, fetal injury, preterm labor. Post-procedure: Monitor for contractions, leaking fluid, bleeding. Rh-negative mothers receive RhoGAM.",
     category: "Maternity",
-    difficulty: 3
+    difficulty: 3,
+    image: imgAmnioticFluid
   },
   {
     id: "rpn-mat-q20",
@@ -5308,7 +5329,8 @@ export const rpnFlashcards: FlashcardData[] = [
     question: "Meningitis Comparison",
     answer: "Bacterial: Acute onset, high fever, nuchal rigidity, petechial rash (N. meningitidis), cloudy CSF, high WBC, high protein, low glucose. Droplet precautions. Treated with IV antibiotics. Viral: Gradual onset, milder symptoms, clear CSF, normal glucose. Standard precautions. Supportive treatment.",
     category: "Neurological",
-    difficulty: 3
+    difficulty: 3,
+    image: imgBacterialMeningitis
   },
   {
     id: "rpn-gi-t11",
@@ -6472,7 +6494,8 @@ export const rpnFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "CBT with systematic exposure is the gold standard for social anxiety disorder. Gradual, controlled exposure to feared social situations combined with cognitive restructuring (challenging negative thought patterns). SSRIs (sertraline, paroxetine) are first-line medications. Combination CBT + SSRI often most effective.",
     category: "Mental Health",
-    difficulty: 2
+    difficulty: 2,
+    image: imgAnxiety
   },
   {
     id: "rpn-ic-t10",

@@ -535,6 +535,24 @@ import illustrationMolarPregnancy from "@assets/molarpregnancy_1773340649073.png
 import illustrationNEC from "@assets/Nec_1773340649073.png";
 import illustrationNeonatalVitalSigns from "@assets/neonatal_vitals_chart_fixed_1773340649073.png";
 import illustrationNeonatalAbstinence from "@assets/neonatalabstinence_1773340649073.png";
+import illustrationAlcoholWithdrawal from "@assets/alcoholwithdrawal_1773340419064.png";
+import illustrationAmnioticFluid from "@assets/amnioticfluid_1773340419064.png";
+import illustrationAntepartum from "@assets/antepartum_1773340419064.png";
+import illustrationAnxiety from "@assets/anxiety_1773340419064.png";
+import illustrationAPGAR from "@assets/APGAR_1773340419064.png";
+import illustrationAspergillosis from "@assets/aspergillosis_1773340419064.png";
+import illustrationBacterialMeningitis from "@assets/bacterialmeningitis_1773340419064.png";
+import illustrationBreastfeeding from "@assets/breastfeeding_1773340419064.png";
+import illustrationBronchopulmonaryDysplasia from "@assets/bronchopulmonarydysplasia_1773340419064.png";
+import illustrationCSectionCare from "@assets/c-section_1773340419064.png";
+import illustrationCarSeatSafety from "@assets/carseatsafety_1773340419064.png";
+import illustrationChlamydia from "@assets/chlamydia_1773340419064.png";
+import illustrationCircumcision from "@assets/circumcision_1773340419064.png";
+import illustrationCMV from "@assets/CMV_1773340419064.png";
+import illustrationCongenitalHypothyroidism from "@assets/congenitalhypothyroidism_1773340419064.png";
+import illustrationCovid19 from "@assets/covid19_1773340419064.png";
+import illustrationDengue from "@assets/dengue_1773340419064.png";
+import illustrationDepression from "@assets/depression_1773340419064.png";
 
 import illustrationNeonatalFeeding from "@assets/neonatalfeeding_1773340609815.png";
 import illustrationNeonatalHypoglycemia from "@assets/neonatalhypoglycemia_1773340609815.png";
@@ -2074,6 +2092,69 @@ const lessonSpecificImages: Record<string, string> = {
   "neonatal-abstinence-basics-rpn": illustrationNeonatalAbstinence,
   "neonatal-abstinence-np": illustrationNeonatalAbstinence,
   "neonatal-abstinence": illustrationNeonatalAbstinence,
+
+  "alcohol-withdrawal": illustrationAlcoholWithdrawal,
+  "alcohol-withdrawal-rpn": illustrationAlcoholWithdrawal,
+  "alcohol-withdrawal-rn": illustrationAlcoholWithdrawal,
+  "alcohol-withdrawal-np": illustrationAlcoholWithdrawal,
+
+  "amniotic-fluid-imbalances-rpn": illustrationAmnioticFluid,
+  "amniotic-fluid-embolism-np": illustrationAmnioticFluid,
+
+  "placenta-previa-abruption": illustrationAntepartum,
+  "placenta-previa-management-rpn": illustrationAntepartum,
+  "placenta-previa-management-rn": illustrationAntepartum,
+  "placenta-previa-management-np": illustrationAntepartum,
+  "gestational-diabetes": illustrationAntepartum,
+  "preeclampsia": illustrationAntepartum,
+  "maternity-expanded": illustrationAntepartum,
+
+  "anxiety-disorders": illustrationAnxiety,
+  "anxiety-disorders-core-np": illustrationAnxiety,
+  "anxiety-disorders-patho-np": illustrationAnxiety,
+  "anxiety-ssri-firstline-np": illustrationAnxiety,
+
+  "newborn-assessment": illustrationAPGAR,
+  "apgar-assessment-rpn": illustrationAPGAR,
+
+  "aspergillosis-basics-rpn": illustrationAspergillosis,
+
+  "bacterial-meningitis-rpn": illustrationBacterialMeningitis,
+  "bacterial-meningitis-rn": illustrationBacterialMeningitis,
+  "bacterial-meningitis-np": illustrationBacterialMeningitis,
+
+  "breastfeeding-basics": illustrationBreastfeeding,
+
+  "bronchopulmonary-dysplasia-rpn": illustrationBronchopulmonaryDysplasia,
+  "bronchopulmonary-dysplasia-rn": illustrationBronchopulmonaryDysplasia,
+
+  "postpartum-hemorrhage": illustrationCSectionCare,
+  "postpartum-hemorrhage-basics-rpn": illustrationCSectionCare,
+  "cesarean-section-care-rpn": illustrationCSectionCare,
+
+  "car-seat-safety-rpn": illustrationCarSeatSafety,
+
+  "chlamydia-management-rpn": illustrationChlamydia,
+  "chlamydia-management-rn": illustrationChlamydia,
+  "chlamydia-management-np": illustrationChlamydia,
+
+  "newborn-circumcision": illustrationCircumcision,
+  "circumcision-care-rpn": illustrationCircumcision,
+
+  "cytomegalovirus-rpn": illustrationCMV,
+
+  "congenital-hypothyroidism-rpn": illustrationCongenitalHypothyroidism,
+
+  "covid-basics-rpn": illustrationCovid19,
+
+  "dengue-basics-rpn": illustrationDengue,
+
+  "depression-basics": illustrationDepression,
+  "depression-core-np": illustrationDepression,
+  "depression-neurobiology-np": illustrationDepression,
+  "psych-core-np": illustrationDepression,
+  "psychiatric-pathophysiology-np": illustrationDepression,
+  "postpartum-depression-care": illustrationDepression,
 };
 
 const systemImageMap: Record<string, string> = {

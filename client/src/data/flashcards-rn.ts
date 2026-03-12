@@ -1,6 +1,13 @@
 import type { FlashcardData } from "./flashcards-rpn";
 import { imgUlcerativeColitis, imgSIADH, imgSickleCellCrisis, imgStomaCare, imgThrombocytopenia, imgUrinaryCatheterization, imgVitiligo, imgUrethralStricture, imgVestibularNeuritis, imgAddisons, imgAcuteHemolyticReaction, imgAtopicDermatitis, imgBPH, imgCastCareTraction, imgAcromegaly, imgNGTube, imgPancreatitis, imgPeritonealDialysis, imgPepticUlcer, imgOsteoporosis, imgCellulitis, imgCKD, imgClubfoot, imgCompartmentSyndrome, imgConjunctivitis, imgContracture, imgCushings, imgDelayedHemolyticReaction, imgDevHipDysplasia, imgDiabetes, imgDiabetesInsipidus, imgDiabeticNephropathy, imgDIC, imgDisuseAtrophy, imgDuchenne, imgEpiglottitis, imgEpistaxis, imgErysipelas, imgFallPrevention, imgHeadLice, imgHemophilia, imgGravesDisease, imgGout, imgPyloricStenosis, imgPlacentaPrevia, imgPostpartumHemorrhage, imgSerotoninSyndrome, imgVaricella, imgRhIncompatibility, imgIntussusception, imgLeadPoisoning } from "./flashcards-rpn";
 import imgImpetigo from "@assets/impetigo_1773340649073.png";
+import imgAntepartum from "@assets/antepartum_1773340419064.png";
+import imgAnxiety from "@assets/anxiety_1773340419064.png";
+import imgAPGAR from "@assets/APGAR_1773340419064.png";
+import imgBacterialMeningitis from "@assets/bacterialmeningitis_1773340419064.png";
+import imgCSection from "@assets/c-section_1773340419064.png";
+import imgCarSeatSafety from "@assets/carseatsafety_1773340419064.png";
+import imgDepression from "@assets/depression_1773340419064.png";
 import imgStevensJohnson from "@assets/stevensjohnsonssyndrome_1773268456011.png";
 import illustrationPressureInjuriesV2 from "@/assets/images/pressure-injuries-v2.png";
 import illustrationPressureInjuryStagesV2 from "@/assets/images/pressure-injury-stages-v2.png";
@@ -422,7 +429,8 @@ export const rnFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "Kernig sign is positive when the client experiences pain and resistance when the examiner attempts to extend the knee while the hip is flexed at 90 degrees. This stretches the inflamed meninges along the spinal cord, producing pain. Along with Brudzinski sign (involuntary hip flexion when the neck is flexed) and nuchal rigidity, it indicates meningeal irritation.",
     category: "Neurological",
-    difficulty: 2
+    difficulty: 2,
+    image: imgBacterialMeningitis
   },
   {
     id: "rn-neuro-q5",
@@ -1299,7 +1307,8 @@ export const rnFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "These findings indicate magnesium toxicity: respiratory depression (RR <12), absent DTRs, and oliguria (urine <30 mL/hr). The magnesium infusion must be stopped immediately and calcium gluconate (10 mL of 10% solution = 1 g) administered IV over 3-5 minutes as the antidote. Calcium gluconate directly antagonizes the neuromuscular blocking effects of magnesium. Therapeutic magnesium level is 4-7 mEq/L; toxic effects begin at 7-10 mEq/L.",
     category: "Maternity",
-    difficulty: 3
+    difficulty: 3,
+    image: imgAntepartum
   },
   {
     id: "rn-mat-q5",
@@ -1309,7 +1318,8 @@ export const rnFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "Apgar scoring: Heart rate 80 (below 100) = 1; Respiratory effort (slow/irregular) = 1; Muscle tone (some flexion) = 1; Reflex irritability (grimace) = 1; Color (blue body) = 0. Total = 4. A score of 4-6 indicates moderate depression requiring stimulation and possibly assisted ventilation. Scores below 4 require aggressive resuscitation. The 5-minute Apgar determines if interventions are effective.",
     category: "Maternity",
-    difficulty: 2
+    difficulty: 2,
+    image: imgAPGAR
   },
   {
     id: "rn-mat-q6",
@@ -1330,7 +1340,8 @@ export const rnFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "PID, particularly from Chlamydia trachomatis or Neisseria gonorrhoeae, causes tubal scarring and adhesions that impede the fertilized egg's passage through the fallopian tube, dramatically increasing ectopic pregnancy risk. Other risk factors include previous ectopic pregnancy, tubal surgery, IUD use, endometriosis, and smoking. Classic presentation: unilateral lower abdominal pain, vaginal bleeding, and positive pregnancy test.",
     category: "Maternity",
-    difficulty: 2
+    difficulty: 2,
+    image: imgCSection
   },
   {
     id: "rn-mat-q8",
@@ -1355,6 +1366,7 @@ export const rnFlashcards: FlashcardData[] = [
   {
     id: "rn-mat-q10",
     type: "question",
+    image: imgAntepartum,
     question: "A nurse is caring for a client diagnosed with HELLP syndrome. Which set of lab values is consistent with this diagnosis?",
     options: ["Elevated liver enzymes, low platelets, elevated LDH", "Normal liver enzymes, high platelets, low LDH", "Elevated liver enzymes, normal platelets, low WBC", "Low liver enzymes, low platelets, high albumin"],
     correctIndex: 0,
@@ -1401,7 +1413,8 @@ export const rnFlashcards: FlashcardData[] = [
     correctIndex: 2,
     answer: "Foul-smelling lochia with fever suggests endometritis (postpartum uterine infection), a significant complication that requires prompt antibiotic therapy. Risk factors include cesarean delivery, prolonged rupture of membranes, multiple vaginal examinations, and chorioamnionitis. The nurse should assess the fundus (tender, boggy), obtain cultures, and anticipate IV antibiotic therapy (commonly clindamycin plus gentamicin).",
     category: "Maternity",
-    difficulty: 2
+    difficulty: 2,
+    image: imgCSection
   },
   {
     id: "rn-mat-q15",
@@ -1411,7 +1424,8 @@ export const rnFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "The hallmark distinction between gestational hypertension and preeclampsia is the presence of proteinuria (>300 mg in 24-hour urine or protein/creatinine ratio >0.3). Preeclampsia may also present without proteinuria if accompanied by thrombocytopenia, elevated liver enzymes, renal insufficiency, pulmonary edema, or cerebral/visual symptoms. Lab work including liver enzymes, platelets, and creatinine should also be obtained.",
     category: "Maternity",
-    difficulty: 2
+    difficulty: 2,
+    image: imgAntepartum
   },
   // ============================================================
   // MENTAL HEALTH (15 cards)
@@ -1505,7 +1519,8 @@ export const rnFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "SSRIs (sertraline, escitalopram, paroxetine) are first-line for long-term anxiety management. They modify serotonin signaling without physical dependence risk. Benzodiazepines (lorazepam, alprazolam, clonazepam) provide rapid relief for acute anxiety but carry risks of tolerance, physical dependence, withdrawal seizures, and cognitive impairment with long-term use. They are best used short-term while SSRIs take effect (2-4 weeks).",
     category: "Mental Health",
-    difficulty: 2
+    difficulty: 2,
+    image: imgAnxiety
   },
   {
     id: "rn-mh-q10",
@@ -1525,7 +1540,8 @@ export const rnFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "This is the most dangerous period of antidepressant therapy. SSRIs often improve energy and psychomotor function before improving mood and hopelessness. A previously immobilized depressed client now has the energy to carry out a suicide plan while still feeling hopeless. Close monitoring and safety assessment are critical during the first 2-4 weeks of antidepressant therapy and during dose changes. This is why a black box warning exists for SSRIs in young adults.",
     category: "Mental Health",
-    difficulty: 3
+    difficulty: 3,
+    image: imgDepression
   },
   {
     id: "rn-mh-q12",
@@ -1545,7 +1561,8 @@ export const rnFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "Modern ECT uses brief general anesthesia (methohexital or propofol) and a short-acting neuromuscular blocker (succinylcholine) to prevent injury from seizure-induced muscle contractions. Glycopyrrolate or atropine may be given to reduce secretions and prevent bradycardia. The client is pre-oxygenated and ventilated during the procedure. Common side effects include temporary confusion and memory loss. ECT is highly effective for treatment-resistant depression.",
     category: "Mental Health",
-    difficulty: 2
+    difficulty: 2,
+    image: imgDepression
   },
   {
     id: "rn-mh-q14",
@@ -1632,7 +1649,8 @@ export const rnFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "Current AAP guidelines recommend rear-facing car seats for as long as possible, at least until age 2 or until the child exceeds the rear-facing height and weight limits of the seat. Rear-facing provides the best protection for the infant's head, neck, and spine in a frontal crash. The car seat must always be in the back seat. Never place a rear-facing car seat in front of an active airbag.",
     category: "Pediatrics",
-    difficulty: 1
+    difficulty: 1,
+    image: imgCarSeatSafety
   },
   {
     id: "rn-peds-q7",
@@ -1952,7 +1970,8 @@ export const rnFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "Neisseria meningitidis (meningococcal meningitis) is transmitted via respiratory droplets and requires droplet precautions (surgical mask within 3-6 feet). Precautions are maintained until 24 hours after initiation of effective antibiotic therapy (ceftriaxone or penicillin G). Close contacts need chemoprophylaxis (ciprofloxacin, rifampin, or ceftriaxone) within 24 hours of identification to prevent secondary cases.",
     category: "Infection Control",
-    difficulty: 2
+    difficulty: 2,
+    image: imgBacterialMeningitis
   },
   {
     id: "rn-ic-q8",

@@ -5,6 +5,11 @@ import imgIntestinalMalrotation from "@assets/intestinalmalrotation_177334064907
 import illustrationShinglesV2 from "@/assets/images/shingles-v2.png";
 import illustrationRetinalDetachmentV2 from "@/assets/images/retinal-detachment-v2.png";
 import illustrationRheumatoidArthritis from "@/assets/images/rheumatoid-arthritis.png";
+import imgAntepartum from "@assets/antepartum_1773340419064.png";
+import imgAnxiety from "@assets/anxiety_1773340419064.png";
+import imgAPGAR from "@assets/APGAR_1773340419064.png";
+import imgChlamydia from "@assets/chlamydia_1773340419064.png";
+import imgDepression from "@assets/depression_1773340419064.png";
 import imgPharyngitis from "@assets/pharyngitis_1773269379973.png";
 
 export const npFlashcards: FlashcardData[] = [
@@ -955,7 +960,8 @@ export const npFlashcards: FlashcardData[] = [
     correctIndex: 2,
     answer: "Benzodiazepines are relatively CONTRAINDICATED in patients with substance use disorders due to: (1) cross-tolerance with alcohol (both enhance GABA), (2) high addiction potential, (3) risk of fatal respiratory depression when combined with alcohol, (4) reinforcement of substance-seeking behavior. First-line anxiolytics for GAD with comorbid AUD: SSRIs (sertraline, escitalopram) or buspirone (no abuse potential, no interaction with alcohol). Gabapentin may be considered for both anxiety and alcohol cravings. Naltrexone should be offered for AUD treatment.",
     category: "Psychiatric NP",
-    difficulty: 2
+    difficulty: 2,
+    image: imgAnxiety
   },
   {
     id: "np-psych-q5",
@@ -1009,7 +1015,8 @@ export const npFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "CDC 2021 STI guidelines now recommend doxycycline 100 mg BID for 7 days as preferred treatment for chlamydia (superior efficacy over single-dose azithromycin). Alternative: azithromycin 1g single dose. ALL sexual partners within the past 60 days must be treated. Expedited partner therapy (EPT) — providing prescriptions or medications for the partner through the patient without examining the partner — is legal in most states and improves partner treatment rates. Test of cure is recommended in pregnant patients at 4 weeks. Retest the patient at 3 months for reinfection.",
     category: "Women's Health",
-    difficulty: 2
+    difficulty: 2,
+    image: imgChlamydia
   },
   {
     id: "np-wh-q3",
@@ -1588,7 +1595,8 @@ export const npFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "SSRIs (sertraline and paroxetine are FDA-approved for PTSD) are first-line pharmacotherapy. Benzodiazepines are NOT recommended for PTSD (may worsen outcomes, interfere with fear extinction, high abuse potential). Prazosin may be added for PTSD-related nightmares. Venlafaxine (SNRI) is also evidence-based. Trauma-focused psychotherapies (CPT, PE, EMDR) should be offered concurrently.",
     category: "Psychiatric NP",
-    difficulty: 2
+    difficulty: 2,
+    image: imgAnxiety
   },
   {
     id: "np-psych-q20",
@@ -1713,7 +1721,8 @@ export const npFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "A 1-hour glucose challenge test ≥190 mg/dL (some guidelines use ≥200) is diagnostic of gestational diabetes without needing a 3-hour OGTT. Values between 130-189 require confirmation with a 3-hour OGTT. Management starts with dietary modification (carbohydrate counting, medical nutrition therapy), glucose monitoring 4x daily, and insulin if targets are not met. Metformin may be used but insulin is preferred.",
     category: "Women's Health NP",
-    difficulty: 3
+    difficulty: 3,
+    image: imgAntepartum
   },
   {
     id: "np-womens-q18",
@@ -1881,7 +1890,8 @@ export const npFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "The AAP recommends developmental screening at 9, 18, and 30 months using validated tools such as the ASQ-3 (Ages and Stages Questionnaire). The ASQ-3 is parent-completed, covers communication, gross motor, fine motor, problem-solving, and personal-social domains. Autism-specific screening (M-CHAT-R/F) is recommended at 18 and 24 months. The Denver II is a surveillance tool but less commonly used as a primary screener.",
     category: "Pediatric NP",
-    difficulty: 1
+    difficulty: 1,
+    image: imgAPGAR
   },
   {
     id: "np-peds-q22",
@@ -2273,7 +2283,8 @@ export const npFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "SSRIs (sertraline, escitalopram) and SNRIs (venlafaxine, duloxetine) are first-line pharmacotherapy for GAD per APA guidelines. They are effective, well-tolerated, and non-addictive. Buspirone is an alternative first-line agent. Benzodiazepines should be reserved for short-term acute relief only due to dependence risk, cognitive impairment, and fall risk (especially in elderly). Combine pharmacotherapy with CBT for optimal outcomes.",
     category: "Psychiatric NP",
-    difficulty: 1
+    difficulty: 1,
+    image: imgAnxiety
   },
   {
     id: "np-psych-q26",
