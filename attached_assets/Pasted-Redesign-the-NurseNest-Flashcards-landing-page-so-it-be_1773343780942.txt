@@ -1,0 +1,290 @@
+Redesign the NurseNest Flashcards landing page so it becomes a premium study launcher with built-in paywall conversion logic.
+
+IMPORTANT
+The flashcards are behind a paywall for full access, but the page should still feel like a real study tool, not a generic pricing page.
+
+The goal is to maximize:
+- trust
+- product understanding
+- free-to-paid conversion
+- study session starts
+- premium perceived value
+
+Do not build a landing page that is only marketing text.
+Build a page that previews the flashcard experience and encourages users to start a free preview or unlock full access.
+
+CORE POSITIONING
+
+NurseNest flashcards are:
+- exam-style clinical questions
+- tier specific (RPN, RN, NP)
+- untimed
+- rationale-based
+- adaptive to weak areas
+- connected to lessons
+
+This should be obvious within the first screen.
+
+PAGE STRATEGY
+
+This page must act as:
+1. product explanation
+2. study launcher
+3. premium preview
+4. paywall conversion page
+
+VISUAL STYLE
+
+Use premium NurseNest styling:
+- pastel lavender
+- mint
+- blush
+- soft clinical blue
+- rounded cards
+- soft shadows
+- elegant spacing
+- modern clinical learning platform feel
+
+The page should feel calm, premium, and trustworthy.
+
+SECTION 1 — HERO WITH PAYWALL-AWARE CTA
+
+Headline:
+Clinical Flashcards Built Like Exam Questions
+
+Subheadline:
+Practice tier-specific clinical questions with full rationales, lesson links, and adaptive review for RPN, RN, and NP exam prep.
+
+Primary CTA:
+Start Free Preview
+
+Secondary CTA:
+Unlock Full Flashcards
+
+Optional small text under buttons:
+Preview a sample set free. Upgrade for full access to all flashcards, weak-area review, and saved progress.
+
+Hero visual:
+Show a polished flashcard review mockup:
+- question and answer choices on left
+- rationale, image, and lesson link on right
+
+Include compact feature badges:
+- Exam-style questions
+- Full rationales
+- Tier-specific
+- Adaptive learning
+
+SECTION 2 — HOW FLASHCARDS WORK
+
+Use 3 to 4 concise premium cards:
+
+1. Exam-Style Questions
+Each flashcard works like an untimed practice question with answer choices and review.
+
+2. Learn With Rationales
+See why the correct answer is right and why the others are wrong.
+
+3. Tier-Specific Content
+RPN, RN, and NP users study different flashcard banks.
+
+4. Adaptive Review
+Weak topics are surfaced more often so users improve faster.
+
+SECTION 3 — CHOOSE YOUR TIER
+
+Display large premium cards for:
+- RPN
+- RN
+- NP
+
+Each card includes:
+- short tier description
+- sample topics
+- flashcard count preview if available
+- button: Preview RPN / Preview RN / Preview NP
+
+If the user is logged in and already assigned a tier, highlight that tier by default.
+
+SECTION 4 — FREE VS PREMIUM ACCESS
+
+Create a clean comparison section, but do not make it look cheap or cluttered.
+
+FREE PREVIEW
+- limited flashcard sample
+- selected topics only
+- limited daily/session access
+- view sample rationales
+- no full adaptive review
+- limited saved progress
+
+PREMIUM ACCESS
+- full flashcard bank
+- all tiers/topics available based on subscription rules
+- full rationales
+- incorrect option explanations
+- weak areas mode
+- adaptive review
+- saved progress
+- flagged/mastered cards
+- lesson-linked remediation
+- premium study modes
+
+Make the premium value obvious.
+
+SECTION 5 — INTERACTIVE PREVIEW AREA
+
+Add a sample flashcard preview section on the landing page.
+
+Show:
+- one sample question
+- answer choices
+- locked/preview rationale behavior
+- optional sample rationale reveal
+
+Possible preview flow:
+- user clicks an answer
+- sees a partial rationale
+- sees CTA to unlock full flashcards
+
+Alternative:
+Allow 3 to 5 free sample cards before upgrade prompt.
+
+This section should make the product feel real and valuable.
+
+SECTION 6 — WHY IT IS BETTER THAN GENERIC FLASHCARDS
+
+Use concise cards:
+- built like exam questions
+- detailed rationale
+- lesson-linked review
+- tier-specific logic
+- adaptive reinforcement
+
+Do not compare directly to any brand by name.
+Keep it original and professional.
+
+SECTION 7 — STUDY MODES
+
+Display clean cards for:
+- Learn Mode
+- Test Mode
+- Weak Areas Mode
+- Rapid Review
+
+If some modes are premium-only, label them subtly:
+- Included in Premium
+- Premium Feature
+
+SECTION 8 — TOPIC EXPLORER
+
+Let users browse sample topic groups such as:
+- Cardiovascular
+- Respiratory
+- Pharmacology
+- Neurology
+- Pediatrics
+- Critical Care
+- Maternal
+- Infection
+
+Users should be able to click into a sample topic preview.
+Do not unlock the full bank unless they have access.
+
+SECTION 9 — PROGRESS / ADAPTIVE VALUE SECTION
+
+Explain that premium access includes:
+- mastery tracking
+- weak-area identification
+- smarter review queues
+- lesson recommendations
+
+Use a visual dashboard preview card.
+
+SECTION 10 — FINAL CTA
+
+Headline:
+Start Your Flashcard Review
+
+Text:
+Try a sample set free or unlock the full NurseNest flashcard system for tier-specific exam practice and rationale-based learning.
+
+Primary CTA:
+Start Free Preview
+
+Secondary CTA:
+Unlock Full Flashcards
+
+PAYWALL UX REQUIREMENTS
+
+Build the paywall so it converts well.
+
+Do NOT:
+- hard lock everything before the user understands the product
+- send users straight to pricing without previewing value
+- hide what makes the product different
+
+DO:
+- allow free preview/sample cards
+- show premium features clearly
+- let users experience the interface before upgrading
+- upsell after value is demonstrated
+
+GATING LOGIC
+
+If user is free:
+- allow limited preview cards
+- limit advanced modes
+- show upgrade prompts after sample usage
+- allow topic browsing but not full launch
+
+If user is paid:
+- full flashcard launcher available
+- full topic access
+- full adaptive modes
+- full rationale system
+- save progress normally
+
+If user is not logged in:
+- allow limited preview
+- encourage sign-up before full launch
+- preserve selected tier/topic if possible
+
+UX REQUIREMENTS
+
+- multiple study-start buttons across the page
+- clear premium upgrade points
+- minimal clutter
+- mobile responsive
+- premium visual design
+- fast load
+- strong above-the-fold clarity
+
+SEO KEYWORDS
+
+Include naturally:
+- nursing flashcards
+- NCLEX flashcards
+- RPN flashcards
+- RN exam questions
+- NP certification prep
+- clinical nursing questions
+- exam-style nursing flashcards
+
+ACCEPTANCE CRITERIA
+
+This page is complete when:
+1. users immediately understand flashcards are exam-style question cards
+2. users can preview the product before paying
+3. premium benefits are obvious
+4. tier-specific content is clearly communicated
+5. the page feels like a study launcher, not just a sales page
+6. free users are encouraged to upgrade through product experience, not only marketing copy
+7. the page matches NurseNest’s premium pastel clinical brand
+
+After implementing, summarize:
+- how free preview works
+- how premium access is presented
+- where upgrade prompts appear
+- how tier-specific messaging is shown
+- how the landing page supports both conversion and study flow

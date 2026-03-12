@@ -1,0 +1,219 @@
+Redesign the NurseNest Flashcards landing page so it clearly communicates that flashcards are tier-specific clinical exam questions with rationales.
+
+This page must function as a study launcher, not a marketing page.
+
+The page should feel similar in seriousness to professional exam prep platforms but must remain original to NurseNest.
+
+MAIN GOAL
+
+The page must clearly communicate that:
+
+Flashcards are:
+• exam-style clinical questions  
+• tier specific (RPN, RN, NP)  
+• untimed practice mode  
+• include full rationales  
+• adapt to the learner’s weak areas  
+
+This page should immediately guide the user to **start studying**, not overwhelm them with information.
+
+VISUAL STYLE
+
+Use NurseNest aesthetic:
+
+• soft pastel clinical palette  
+• lavender / mint / blush / light blue accents  
+• rounded cards  
+• soft shadows  
+• modern clinical UI  
+• clean whitespace  
+• premium educational feel  
+
+Avoid clutter and long text blocks.
+
+PAGE STRUCTURE
+
+SECTION 1 — HERO / STUDY LAUNCHER
+
+Headline:
+
+"Clinical Flashcards That Think Like Exam Questions"
+
+Subheadline:
+
+"Practice unlimited exam-style questions with full rationales. Designed for RPN, RN, and NP exam preparation."
+
+Primary CTA:
+Start Flashcard Session
+
+Secondary CTA:
+Explore Topics
+
+Hero visual:
+Show a flashcard question UI mockup with rationale beside it.
+
+Add small credibility indicators:
+
+• Exam-style questions  
+• Tier-specific content  
+• Full rationales  
+• Adaptive learning  
+
+SECTION 2 — HOW FLASHCARDS WORK
+
+Three clean cards explaining the system:
+
+CARD 1  
+Exam-Style Questions  
+Flashcards are not simple definitions. Each card is a clinical exam question with answer choices.
+
+CARD 2  
+Learn With Rationales  
+Every card includes detailed explanations, incorrect option analysis, and clinical pearls.
+
+CARD 3  
+Adaptive Learning  
+NurseNest automatically surfaces cards from your weakest topics so you improve faster.
+
+SECTION 3 — CHOOSE YOUR NURSING TIER
+
+Large card selector for:
+
+RPN / Practical Nursing  
+RN / NCLEX  
+NP Advanced Practice  
+
+Each card explains briefly:
+
+RPN:
+Foundations, safety, prioritization, common medications.
+
+RN:
+Advanced pathophysiology, prioritization, clinical reasoning.
+
+NP:
+Diagnostics, treatment decisions, differential diagnosis.
+
+CTA under each:
+Study RPN Flashcards
+Study RN Flashcards
+Study NP Flashcards
+
+SECTION 4 — STUDY MODES
+
+Display cards explaining modes:
+
+Learn Mode  
+Answer and immediately see full explanations.
+
+Test Mode  
+Untimed exam-style practice questions.
+
+Weak Areas Mode  
+Focus on topics you miss most.
+
+Rapid Review Mode  
+Quick high-yield review sessions.
+
+SECTION 5 — TOPIC FILTER
+
+Add a clean topic selector with categories:
+
+Cardiovascular  
+Respiratory  
+Pharmacology  
+Neurology  
+Endocrine  
+Infection  
+Renal  
+Pediatrics  
+Maternal  
+Critical Care  
+
+Allow users to filter flashcards by:
+
+• topic  
+• subtopic  
+• exam tier  
+• difficulty  
+
+CTA:
+
+Start Custom Flashcard Session
+
+SECTION 6 — WHY NURSENEST FLASHCARDS
+
+Use 4 icon cards:
+
+Tier-Specific Questions  
+Content written for your specific licensing exam.
+
+Clinical Reasoning Focus  
+Questions mirror real exam scenarios.
+
+Adaptive Review  
+Weak areas appear more often.
+
+Lesson Integration  
+Each card links to a deeper clinical lesson.
+
+SECTION 7 — SCREENSHOT PREVIEW
+
+Show example flashcard layout:
+
+Left panel:
+Question and answer choices
+
+Right panel:
+Rationale
+Incorrect option explanations
+Clinical pearl
+Related lesson link
+
+Explain briefly:
+
+"Flashcards combine question banks with active recall to maximize retention."
+
+SECTION 8 — FINAL CTA
+
+Headline:
+
+Start Practicing Clinical Flashcards
+
+Text:
+
+Build clinical judgment, strengthen weak topics, and review exam concepts faster.
+
+Button:
+
+Start Flashcard Session
+
+UX REQUIREMENTS
+
+• page must load quickly  
+• responsive mobile layout  
+• tier selection persists across sessions  
+• flashcard session launches directly from page  
+• avoid long scrolling blocks  
+• maintain clear visual hierarchy  
+
+SEO NOTES
+
+Include keywords naturally:
+
+nursing flashcards  
+NCLEX flashcards  
+RPN exam flashcards  
+RN exam questions  
+NP certification prep  
+clinical nursing practice questions
+
+ACCEPTANCE CRITERIA
+
+The page is complete when:
+
+• users clearly understand flashcards are exam questions  
+• tiers are visibly different  
+• users can launch flashcard sessions quickly  
+• the page feels premium and uncluttered  
+• the design matches NurseNest brand aesthetic
