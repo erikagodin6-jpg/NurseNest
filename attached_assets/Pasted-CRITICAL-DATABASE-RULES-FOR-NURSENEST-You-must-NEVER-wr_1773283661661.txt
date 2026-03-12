@@ -1,0 +1,79 @@
+CRITICAL DATABASE RULES FOR NURSENEST
+
+You must NEVER write generated content only to the development database if the goal is for it to appear on the published site.
+
+From now on, follow these rules exactly:
+
+1. Published-site content must be written to the PRODUCTION / PUBLISHED database, not only the development database.
+2. If the app uses separate development and production databases, any question bank content intended for live users must be inserted into production first, or inserted into both databases in the same operation.
+3. Development-only inserts are NOT acceptable for question generation, exam banks, flashcards, lessons, or rationale content unless I explicitly say “dev only”.
+4. Before generating or inserting any questions, first detect which database connection the published site is using.
+5. Print and verify:
+   - current DATABASE_URL target
+   - whether the environment is development or production
+   - which database the published site reads from
+6. If development and production are different, create a sync-safe workflow so that:
+   - writes go to production for live content
+   - or writes go to both databases in a transaction-safe migration process
+7. Never tell me content was added unless it is confirmed in the published database used by the live site.
+8. After every insert job, verify live counts by querying the actual published database and return the exact totals by category.
+9. If there is a mismatch between development and production, stop all other work and sync production so the published site reflects the true counts.
+10. Make the database behavior consistent across local preview, Replit preview, and deployed production so the same content is visible everywhere unless I explicitly request separate environments.
+
+IMMEDIATE TASK
+
+You already found that the databases are out of sync.
+
+Current counts:
+Development:
+- RPN: 3017
+- RN: 3209
+- NP: 2002
+- RRT: 232
+- Total: 8460
+
+Production:
+- RPN: 1052
+- RN: 1352
+- NP: 999
+- RRT: 232
+- Total: 3635
+
+That means production is missing:
+- RPN: 1965
+- RN: 1857
+- NP: 1003
+- RRT: 0
+- Total missing: 4825
+
+Do the following now:
+
+A. Identify the exact schema and unique keys for the question tables.
+B. Compare development vs production by stable unique identifier, not by row count alone.
+C. Copy only the missing records from development into the production database.
+D. Avoid duplicates by using upsert logic or conflict handling.
+E. Confirm final production totals after sync.
+F. Confirm that the published website is reading those updated production totals.
+G. Show me the final live counts visible to the published site.
+H. Add a permanent safeguard so future generated questions intended for the live site are written to production or both databases, never dev-only.
+
+REQUIRED IMPLEMENTATION DETAILS
+
+- Trace which environment variables are used in local, preview, and deployed environments.
+- Inspect database client initialization and ensure production deployments cannot silently point at a different database than the published app expects.
+- If the code branches on NODE_ENV or deployment state, make the logic explicit and safe.
+- Add a shared database config module with clear rules for:
+  - development
+  - preview
+  - production
+- Add logging that prints which database target is being used during inserts.
+- Add an admin-only database status panel showing:
+  - current environment
+  - connected database name/host
+  - counts per exam tier
+  - last sync timestamp
+- Add a one-click admin sync action only if safe, idempotent, and restricted to admins.
+
+SUCCESS CONDITION
+
+The published site must show the true production counts after sync, and all future question-generation tasks for live content must update the published database rather than only the development database.
