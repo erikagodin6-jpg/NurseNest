@@ -4942,7 +4942,7 @@ Rules:
 
   app.post("/api/decks/:id/cards", async (req, res) => {
     try {
-      const { userId, front, back, rationale, tags, difficulty } = req.body;
+      const { userId, front, back, rationale, clinicalPearl, tags, difficulty } = req.body;
       if (!userId || !front || !back) return res.status(400).json({ error: "userId, front, and back required" });
       const deckCheck = await pool.query(`SELECT * FROM flashcard_decks WHERE id = $1`, [req.params.id]);
       if (deckCheck.rows.length === 0) return res.status(404).json({ error: "Deck not found" });
@@ -4968,9 +4968,9 @@ Rules:
         }
       }
       const result = await pool.query(
-        `INSERT INTO deck_flashcards (id, deck_id, front, back, rationale, tags, difficulty, sort_order, created_at, updated_at)
-         VALUES (gen_random_uuid(), $1, $2, $3, $4, $5, $6, (SELECT COALESCE(MAX(sort_order), 0) + 1 FROM deck_flashcards WHERE deck_id = $1), NOW(), NOW()) RETURNING *`,
-        [req.params.id, front, back, rationale || null, JSON.stringify(tags || []), difficulty || "medium"]
+        `INSERT INTO deck_flashcards (id, deck_id, front, back, rationale, clinical_pearl, tags, difficulty, sort_order, created_at, updated_at)
+         VALUES (gen_random_uuid(), $1, $2, $3, $4, $5, $6, $7, (SELECT COALESCE(MAX(sort_order), 0) + 1 FROM deck_flashcards WHERE deck_id = $1), NOW(), NOW()) RETURNING *`,
+        [req.params.id, front, back, rationale || null, clinicalPearl || null, JSON.stringify(tags || []), difficulty || "medium"]
       );
       await pool.query(`UPDATE flashcard_decks SET card_count = (SELECT COUNT(*) FROM deck_flashcards WHERE deck_id = $1), updated_at = NOW() WHERE id = $1`, [req.params.id]);
       res.json(snakeToCamel(result.rows[0]));
@@ -4981,7 +4981,7 @@ Rules:
 
   app.put("/api/decks/:deckId/cards/:cardId", async (req, res) => {
     try {
-      const { userId, front, back, rationale, tags, difficulty, aiCheckStatus, aiCheckSummary, aiCheckConfidence, userOverride } = req.body;
+      const { userId, front, back, rationale, clinicalPearl, tags, difficulty, aiCheckStatus, aiCheckSummary, aiCheckConfidence, userOverride } = req.body;
       const deckCheck = await pool.query(`SELECT owner_id FROM flashcard_decks WHERE id = $1`, [req.params.deckId]);
       if (deckCheck.rows.length === 0) return res.status(404).json({ error: "Deck not found" });
       if (deckCheck.rows[0].owner_id !== userId) return res.status(403).json({ error: "Not your deck" });
@@ -4990,6 +4990,7 @@ Rules:
       if (front !== undefined) { params.push(front); updates.push(`front = $${params.length}`); }
       if (back !== undefined) { params.push(back); updates.push(`back = $${params.length}`); }
       if (rationale !== undefined) { params.push(rationale); updates.push(`rationale = $${params.length}`); }
+      if (clinicalPearl !== undefined) { params.push(clinicalPearl); updates.push(`clinical_pearl = $${params.length}`); }
       if (tags !== undefined) { params.push(JSON.stringify(tags)); updates.push(`tags = $${params.length}`); }
       if (difficulty !== undefined) { params.push(difficulty); updates.push(`difficulty = $${params.length}`); }
       if (aiCheckStatus !== undefined) { params.push(aiCheckStatus); updates.push(`ai_check_status = $${params.length}`); }
@@ -5054,9 +5055,9 @@ Rules:
         const back = c.back || c.answer || "";
         if (!front || !back) continue;
         await pool.query(
-          `INSERT INTO deck_flashcards (id, deck_id, front, back, rationale, tags, difficulty, sort_order, created_at, updated_at)
-           VALUES (gen_random_uuid(), $1, $2, $3, $4, $5, $6, $7, NOW(), NOW())`,
-          [req.params.id, front, back, c.rationale || null, JSON.stringify(c.tags || []), c.difficulty || "medium", i]
+          `INSERT INTO deck_flashcards (id, deck_id, front, back, rationale, clinical_pearl, tags, difficulty, sort_order, created_at, updated_at)
+           VALUES (gen_random_uuid(), $1, $2, $3, $4, $5, $6, $7, $8, NOW(), NOW())`,
+          [req.params.id, front, back, c.rationale || null, c.clinicalPearl || null, JSON.stringify(c.tags || []), c.difficulty || "medium", i]
         );
         imported++;
       }
@@ -5159,11 +5160,11 @@ Be conservative: if uncertain, use "unknown". Only "pass" for clearly accurate c
             messages: [
               {
                 role: "system",
-                content: `You are a nursing education flashcard generator for NurseNest. Generate high-quality, exam-ready flashcards for nursing students. ${regionNote} Each card should test a specific concept with a clear question and concise, accurate answer. Include a brief rationale explaining why the answer is correct. Return ONLY valid JSON.`,
+                content: `You are a nursing education flashcard generator for NurseNest. Generate high-quality, exam-ready flashcards for nursing students. ${regionNote} Each card should test a specific concept with a clear question and concise, accurate answer. Include a brief rationale explaining why the answer is correct. Include a clinical pearl — a concise, high-yield clinical fact or tip that helps students remember and apply the concept. Return ONLY valid JSON.`,
               },
               {
                 role: "user",
-                content: `Generate exactly ${batchCount} nursing flashcards about: ${topicVariation}\n\nReturn as JSON: {"cards":[{"front":"question text","back":"answer text","rationale":"brief explanation"}]}`,
+                content: `Generate exactly ${batchCount} nursing flashcards about: ${topicVariation}\n\nReturn as JSON: {"cards":[{"front":"question text","back":"answer text","rationale":"brief explanation","clinicalPearl":"high-yield clinical tip"}]}`,
               },
             ],
             response_format: { type: "json_object" },
@@ -5251,11 +5252,11 @@ Be conservative: if uncertain, use "unknown". Only "pass" for clearly accurate c
         messages: [
           {
             role: "system",
-            content: `You are a nursing education flashcard generator for NurseNest. You will be given a student's study notes and must convert them into high-quality, exam-ready flashcards. ${regionNote} Extract the most important concepts, facts, and clinical details from the notes. Each card should test a specific concept with a clear question and concise, accurate answer. Include a brief rationale. Return ONLY valid JSON.`,
+            content: `You are a nursing education flashcard generator for NurseNest. You will be given a student's study notes and must convert them into high-quality, exam-ready flashcards. ${regionNote} Extract the most important concepts, facts, and clinical details from the notes. Each card should test a specific concept with a clear question and concise, accurate answer. Include a brief rationale. Include a clinical pearl — a concise, high-yield clinical fact or tip. Return ONLY valid JSON.`,
           },
           {
             role: "user",
-            content: `Convert the following study notes into exactly ${numCards} flashcards. Focus on the most testable and clinically important content:\n\n---\n${truncatedNotes}\n---\n\nReturn as JSON: {"cards":[{"front":"question text","back":"answer text","rationale":"brief explanation"}]}`,
+            content: `Convert the following study notes into exactly ${numCards} flashcards. Focus on the most testable and clinically important content:\n\n---\n${truncatedNotes}\n---\n\nReturn as JSON: {"cards":[{"front":"question text","back":"answer text","rationale":"brief explanation","clinicalPearl":"high-yield clinical tip"}]}`,
           },
         ],
         response_format: { type: "json_object" },
@@ -5447,9 +5448,9 @@ Be conservative: if uncertain, use "unknown". Only "pass" for clearly accurate c
       const cards = await pool.query(`SELECT * FROM deck_flashcards WHERE deck_id = $1 ORDER BY sort_order`, [req.params.id]);
       for (const card of cards.rows) {
         await pool.query(
-          `INSERT INTO deck_flashcards (id, deck_id, front, back, rationale, tags, difficulty, sort_order, created_at, updated_at)
-           VALUES (gen_random_uuid(), $1, $2, $3, $4, $5, $6, $7, NOW(), NOW())`,
-          [newDeck.rows[0].id, card.front, card.back, card.rationale, card.tags, card.difficulty, card.sort_order]
+          `INSERT INTO deck_flashcards (id, deck_id, front, back, rationale, clinical_pearl, tags, difficulty, sort_order, created_at, updated_at)
+           VALUES (gen_random_uuid(), $1, $2, $3, $4, $5, $6, $7, $8, NOW(), NOW())`,
+          [newDeck.rows[0].id, card.front, card.back, card.rationale, card.clinical_pearl, card.tags, card.difficulty, card.sort_order]
         );
       }
       await pool.query(`UPDATE flashcard_decks SET card_count = (SELECT COUNT(*) FROM deck_flashcards WHERE deck_id = $1) WHERE id = $1`, [newDeck.rows[0].id]);

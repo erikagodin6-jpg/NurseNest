@@ -241,6 +241,9 @@ export async function ensureSchemaSync(pool: pg.Pool): Promise<void> {
       await client.query(`ALTER TABLE imaging_physics_topics ADD COLUMN IF NOT EXISTS ${col} ${def}`);
     }
 
+    await client.query(`ALTER TABLE deck_flashcards ADD COLUMN IF NOT EXISTS clinical_pearl text`);
+    await client.query(`ALTER TABLE allied_flashcards ADD COLUMN IF NOT EXISTS clinical_pearl text`);
+
     await client.query("COMMIT");
     console.log("[SchemaSync] Ensured all tables and columns exist");
   } catch (err: any) {

@@ -5,11 +5,11 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import {
-  ChevronRight, ChevronLeft, ArrowLeft, Plus, Search, Trash2, Pencil, Loader2,
+  ChevronRight, ChevronLeft, ChevronDown, ArrowLeft, Plus, Search, Trash2, Pencil, Loader2,
   BookOpen, Layers, Copy, Flag, Globe, EyeOff, Eye, Timer, Upload,
   Download, BarChart3, Sparkles, Lock, CreditCard, CheckCircle2,
   XCircle, RefreshCw, Share2, Home, ArrowUpDown, Users, Link2,
-  SortAsc, SortDesc, Clock, Hash, AlignLeft
+  SortAsc, SortDesc, Clock, Hash, AlignLeft, Lightbulb
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -61,6 +61,8 @@ type DeckViewsProps = {
   setNewCardBack: (s: string) => void;
   newCardRationale: string;
   setNewCardRationale: (s: string) => void;
+  newCardClinicalPearl: string;
+  setNewCardClinicalPearl: (s: string) => void;
   aiCheckResult: any;
   aiChecking: boolean;
   csvImportText: string;
@@ -72,7 +74,7 @@ type DeckViewsProps = {
   aiGenerateCount: number;
   setAiGenerateCount: (n: number) => void;
   aiGenerating: boolean;
-  aiGeneratedCards: {front: string; back: string; rationale: string}[];
+  aiGeneratedCards: {front: string; back: string; rationale: string; clinicalPearl?: string}[];
   aiGenerateCards: () => void;
   addAiGeneratedCards: () => void;
   removeAiGeneratedCard: (index: number) => void;
@@ -1396,7 +1398,9 @@ export function DeckEditor({
   user, setView, currentDeck, deckCards, setDeckCards,
   addCardToDeck, deleteDeckCard, aiCheckCard, handleCsvImport, entitlement,
   newCardFront, setNewCardFront, newCardBack, setNewCardBack,
-  newCardRationale, setNewCardRationale, aiCheckResult, aiChecking,
+  newCardRationale, setNewCardRationale,
+  newCardClinicalPearl, setNewCardClinicalPearl,
+  aiCheckResult, aiChecking,
   csvImportText, setCsvImportText, showCsvImport, setShowCsvImport,
   fetchDeckCards, fetchEntitlement,
   aiGeneratePrompt, setAiGeneratePrompt, aiGenerateCount, setAiGenerateCount,
@@ -1564,9 +1568,9 @@ export function DeckEditor({
       {showCsvImport && (
         <Card className="border-primary/20">
           <CardContent className="p-4 space-y-2">
-            <p className="text-xs text-foreground/60">Paste CSV data (front, back, rationale per line):</p>
+            <p className="text-xs text-foreground/60">Paste CSV data (front, back, rationale, clinical pearl per line):</p>
             <Textarea
-              placeholder={"What is normal saline?, 0.9% NaCl isotonic solution, Used for fluid resuscitation\nWhat is D5W?, 5% dextrose in water, Provides free water and calories"}
+              placeholder={"What is normal saline?, 0.9% NaCl isotonic solution, Used for fluid resuscitation, Always check IV site patency before infusion\nWhat is D5W?, 5% dextrose in water, Provides free water and calories, D5W becomes hypotonic once dextrose is metabolized"}
               value={csvImportText}
               onChange={(e) => setCsvImportText!(e.target.value)}
               className="min-h-[120px] font-mono text-xs"
@@ -1615,6 +1619,16 @@ export function DeckEditor({
               data-testid="input-card-rationale"
             />
           </div>
+          <div>
+            <label className="text-[10px] text-muted-foreground font-bold uppercase tracking-widest block mb-1">Clinical Pearl (Optional)</label>
+            <Input
+              placeholder="High-yield clinical tip or fact..."
+              value={newCardClinicalPearl}
+              onChange={(e) => setNewCardClinicalPearl!(e.target.value)}
+              className="text-sm"
+              data-testid="input-card-clinical-pearl"
+            />
+          </div>
 
           {aiCheckResult && (
             <div className={cn("p-3 rounded-lg border text-sm", aiCheckResult.accurate ? "bg-emerald-50 border-emerald-200 text-emerald-800" : "bg-amber-50 border-amber-200 text-amber-800")}>
@@ -1660,6 +1674,34 @@ export function DeckEditor({
         ))}
       </div>
     </div>
+  );
+}
+
+function RevealSection({ label, icon, content, testId }: { label: string; icon: React.ReactNode; content: string; testId: string }) {
+  const [revealed, setRevealed] = useState(false);
+  return (
+    <button
+      onClick={(e) => { e.stopPropagation(); setRevealed(!revealed); }}
+      className="w-full text-left"
+      data-testid={testId}
+    >
+      <div className={cn(
+        "rounded-xl border border-primary-foreground/20 transition-all duration-300 overflow-hidden",
+        revealed ? "bg-primary-foreground/10" : "bg-primary-foreground/5 hover:bg-primary-foreground/10"
+      )}>
+        <div className="flex items-center gap-2 px-4 py-3">
+          {icon}
+          <span className="text-xs font-semibold uppercase tracking-wider text-primary-foreground/70">{label}</span>
+          <ChevronDown className={cn("w-3.5 h-3.5 ml-auto text-primary-foreground/40 transition-transform duration-300", revealed && "rotate-180")} />
+        </div>
+        <div className={cn(
+          "px-4 transition-all duration-300 ease-in-out",
+          revealed ? "pb-3 max-h-[500px] opacity-100" : "max-h-0 opacity-0"
+        )}>
+          <p className="text-sm text-primary-foreground/90 leading-relaxed">{content}</p>
+        </div>
+      </div>
+    </button>
   );
 }
 
@@ -1743,10 +1785,10 @@ export function DeckStudyLearn({
         onClick={() => !deckStudyFlipped && setDeckStudyFlipped!(true)}
       >
         <Card className={cn(
-          "border-none shadow-xl rounded-3xl min-h-[350px] flex flex-col items-center justify-center p-8 md:p-10 text-center transition-all duration-300",
+          "border-none shadow-xl rounded-3xl min-h-[350px] flex flex-col items-center p-8 md:p-10 text-center transition-all duration-300",
           deckStudyFlipped
-            ? "bg-gradient-to-br from-primary to-primary/80 text-primary-foreground shadow-primary/20"
-            : "bg-card shadow-border/60"
+            ? "bg-gradient-to-br from-primary to-primary/80 text-primary-foreground shadow-primary/20 justify-start pt-10"
+            : "bg-card shadow-border/60 justify-center"
         )}>
           {!deckStudyFlipped ? (
             <>
@@ -1757,13 +1799,31 @@ export function DeckStudyLearn({
               </div>
             </>
           ) : (
-            <>
-              <span className="text-[10px] font-bold text-primary-foreground/50 uppercase tracking-[0.2em] mb-6">Answer</span>
-              <p className="text-xl font-medium leading-relaxed max-w-lg">{card.back}</p>
-              {card.rationale && (
-                <p className="text-sm text-primary-foreground/60 mt-4 italic max-w-lg leading-relaxed">{card.rationale}</p>
+            <div className="w-full max-w-lg space-y-3">
+              <span className="text-[10px] font-bold text-primary-foreground/50 uppercase tracking-[0.2em] block text-center mb-2">Tap each section to reveal</span>
+              <RevealSection
+                label="Correct Answer"
+                icon={<CheckCircle2 className="w-4 h-4 text-primary-foreground/60" />}
+                content={card.back}
+                testId="reveal-answer"
+              />
+              {card.rationale?.trim() && (
+                <RevealSection
+                  label="Why This Is Correct"
+                  icon={<BookOpen className="w-4 h-4 text-primary-foreground/60" />}
+                  content={card.rationale}
+                  testId="reveal-rationale"
+                />
               )}
-            </>
+              {card.clinicalPearl?.trim() && (
+                <RevealSection
+                  label="Clinical Pearl"
+                  icon={<Lightbulb className="w-4 h-4 text-primary-foreground/60" />}
+                  content={card.clinicalPearl}
+                  testId="reveal-clinical-pearl"
+                />
+              )}
+            </div>
           )}
         </Card>
       </div>
@@ -1941,10 +2001,10 @@ export function DeckStudyTest({
         onClick={() => !deckStudyFlipped && setDeckStudyFlipped!(true)}
       >
         <Card className={cn(
-          "border-none shadow-xl rounded-3xl min-h-[350px] flex flex-col items-center justify-center p-8 md:p-10 text-center transition-all duration-300",
+          "border-none shadow-xl rounded-3xl min-h-[350px] flex flex-col items-center p-8 md:p-10 text-center transition-all duration-300",
           deckStudyFlipped
-            ? "bg-gradient-to-br from-primary/90 to-primary text-primary-foreground shadow-primary/20"
-            : "bg-card shadow-border/60"
+            ? "bg-gradient-to-br from-primary/90 to-primary text-primary-foreground shadow-primary/20 justify-start pt-10"
+            : "bg-card shadow-border/60 justify-center"
         )}>
           {!deckStudyFlipped ? (
             <>
@@ -1955,13 +2015,31 @@ export function DeckStudyTest({
               </div>
             </>
           ) : (
-            <>
-              <span className="text-[10px] font-bold text-primary-foreground/50 uppercase tracking-[0.2em] mb-6">Answer</span>
-              <p className="text-xl font-medium leading-relaxed max-w-lg">{card.back}</p>
-              {card.rationale && (
-                <p className="text-sm text-primary-foreground/60 mt-4 italic max-w-lg leading-relaxed">{card.rationale}</p>
+            <div className="w-full max-w-lg space-y-3">
+              <span className="text-[10px] font-bold text-primary-foreground/50 uppercase tracking-[0.2em] block text-center mb-2">Tap each section to reveal</span>
+              <RevealSection
+                label="Correct Answer"
+                icon={<CheckCircle2 className="w-4 h-4 text-primary-foreground/60" />}
+                content={card.back}
+                testId="reveal-answer-test"
+              />
+              {card.rationale?.trim() && (
+                <RevealSection
+                  label="Why This Is Correct"
+                  icon={<BookOpen className="w-4 h-4 text-primary-foreground/60" />}
+                  content={card.rationale}
+                  testId="reveal-rationale-test"
+                />
               )}
-            </>
+              {card.clinicalPearl?.trim() && (
+                <RevealSection
+                  label="Clinical Pearl"
+                  icon={<Lightbulb className="w-4 h-4 text-primary-foreground/60" />}
+                  content={card.clinicalPearl}
+                  testId="reveal-clinical-pearl-test"
+                />
+              )}
+            </div>
           )}
         </Card>
       </div>

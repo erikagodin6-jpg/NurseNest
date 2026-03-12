@@ -1764,6 +1764,7 @@ export default function Flashcards() {
   const [newCardFront, setNewCardFront] = useState("");
   const [newCardBack, setNewCardBack] = useState("");
   const [newCardRationale, setNewCardRationale] = useState("");
+  const [newCardClinicalPearl, setNewCardClinicalPearl] = useState("");
   const [aiCheckResult, setAiCheckResult] = useState<any>(null);
   const [aiChecking, setAiChecking] = useState(false);
   const [csvImportText, setCsvImportText] = useState("");
@@ -1953,7 +1954,7 @@ export default function Flashcards() {
       const res = await fetch(`/api/decks/${currentDeck.id}/cards`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ userId: user.id, front, back, rationale: newCardRationale || undefined }),
+        body: JSON.stringify({ userId: user.id, front, back, rationale: newCardRationale || undefined, clinicalPearl: newCardClinicalPearl || undefined }),
       });
       if (res.ok) {
         const card = await res.json();
@@ -1961,6 +1962,7 @@ export default function Flashcards() {
         setNewCardFront("");
         setNewCardBack("");
         setNewCardRationale("");
+        setNewCardClinicalPearl("");
         setAiCheckResult(null);
         fetchEntitlement();
       } else {
@@ -1990,7 +1992,7 @@ export default function Flashcards() {
     const lines = csvImportText.trim().split("\n");
     const cards = lines.map(line => {
       const parts = line.split(",").map(p => p.trim().replace(/^"|"$/g, ""));
-      return { front: parts[0] || "", back: parts[1] || "", rationale: parts[2] || "" };
+      return { front: parts[0] || "", back: parts[1] || "", rationale: parts[2] || "", clinicalPearl: parts[3] || "" };
     }).filter(c => c.front && c.back);
     if (cards.length === 0) return;
     try {
@@ -2013,7 +2015,7 @@ export default function Flashcards() {
   const [aiGeneratePrompt, setAiGeneratePrompt] = useState("");
   const [aiGenerateCount, setAiGenerateCount] = useState(10);
   const [aiGenerating, setAiGenerating] = useState(false);
-  const [aiGeneratedCards, setAiGeneratedCards] = useState<{front: string; back: string; rationale: string}[]>([]);
+  const [aiGeneratedCards, setAiGeneratedCards] = useState<{front: string; back: string; rationale: string; clinicalPearl?: string}[]>([]);
 
   const [aiUpgradeRequired, setAiUpgradeRequired] = useState(false);
 
@@ -4729,6 +4731,8 @@ export default function Flashcards() {
             setNewCardBack={setNewCardBack}
             newCardRationale={newCardRationale}
             setNewCardRationale={setNewCardRationale}
+            newCardClinicalPearl={newCardClinicalPearl}
+            setNewCardClinicalPearl={setNewCardClinicalPearl}
             aiCheckResult={aiCheckResult}
             aiChecking={aiChecking}
             csvImportText={csvImportText}
