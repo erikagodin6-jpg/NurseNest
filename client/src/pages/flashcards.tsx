@@ -1772,6 +1772,11 @@ export default function Flashcards() {
   const [dbStudyIndex, setDbStudyIndex] = useState(0);
   const [dbStudyFlipped, setDbStudyFlipped] = useState(false);
 
+  const [previewStatus, setPreviewStatus] = useState<{ isPremium: boolean; sessionRemaining: number; dailyRemaining: number; sessionLimit: number; dailyLimit: number } | null>(null);
+  const [previewSessionCount, setPreviewSessionCount] = useState(0);
+  const [showUpgradeModal, setShowUpgradeModal] = useState(false);
+  const [previewConfig, setPreviewConfig] = useState<{ upgradeHeadline: string; upgradeBody: string } | null>(null);
+
   const fetchMyDecks = useCallback(async () => {
     if (!user) return;
     setDeckLoading(true);
@@ -1856,6 +1861,52 @@ export default function Flashcards() {
       .catch(() => setDbFlashcardSets([]))
       .finally(() => setDbSetsLoading(false));
   }, []);
+
+  const fetchPreviewStatus = useCallback(async () => {
+    if (!user) return;
+    try {
+      const res = await fetch(`/api/flashcard-preview/status?userId=${user.id}`);
+      if (res.ok) setPreviewStatus(await res.json());
+    } catch {}
+  }, [user]);
+
+  const fetchPreviewConfig = useCallback(async () => {
+    try {
+      const res = await fetch("/api/flashcard-preview/config");
+      if (res.ok) {
+        const data = await res.json();
+        setPreviewConfig({ upgradeHeadline: data.upgradeHeadline, upgradeBody: data.upgradeBody });
+      }
+    } catch {}
+  }, []);
+
+  useEffect(() => {
+    fetchPreviewStatus();
+    fetchPreviewConfig();
+  }, [fetchPreviewStatus, fetchPreviewConfig]);
+
+  const decrementPreview = useCallback(async () => {
+    if (!user || isPaid) return;
+    try {
+      const res = await fetch("/api/flashcard-preview/decrement", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ userId: user.id }),
+      });
+      if (res.ok) {
+        const data = await res.json();
+        setPreviewSessionCount(prev => prev + 1);
+        if (data.remaining <= 0 || data.dailyRemaining <= 0) {
+          setShowUpgradeModal(true);
+        }
+        setPreviewStatus(prev => prev ? {
+          ...prev,
+          sessionRemaining: data.remaining,
+          dailyRemaining: data.dailyRemaining,
+        } : prev);
+      }
+    } catch {}
+  }, [user, isPaid]);
 
   const createDeck = async () => {
     if (!user || !newDeckTitle.trim()) return;
@@ -2487,14 +2538,31 @@ export default function Flashcards() {
     localStorage.setItem("nursenest-mastered", JSON.stringify(newMastered));
   };
 
-  const startSession = () => {
+  const startSession = async () => {
     if (sessionCards.length === 0) return;
     setCurrentIndex(0);
     setSessionResults([]);
+    setPreviewSessionCount(0);
+    if (!isPaid && user) {
+      try {
+        await fetch("/api/flashcard-preview/reset-session", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ userId: user.id }),
+        });
+      } catch {}
+    }
+    await fetchPreviewStatus();
     setView("study");
   };
 
   const handleNext = () => {
+    if (!isPaid && user && previewStatus && !previewStatus.isPremium) {
+      if (previewStatus.sessionRemaining <= 0 || previewStatus.dailyRemaining <= 0) {
+        setShowUpgradeModal(true);
+        return;
+      }
+    }
     if (currentIndex < sessionCards.length - 1) {
       setCurrentIndex(prev => prev + 1);
       setSelectedOption(null);
@@ -2511,6 +2579,9 @@ export default function Flashcards() {
     setSessionResults(prev => [...prev, { id: sessionCards[currentIndex].id, correct: isCorrect }]);
     setSelectedOption(index);
     setShowRationale(true);
+    if (!isPaid && user) {
+      decrementPreview();
+    }
   };
 
   const currentCard = sessionCards[currentIndex];
@@ -3483,7 +3554,14 @@ export default function Flashcards() {
                     Detailed explanations reference current clinical guidelines, pharmacology standards, and best practices.
                   </p>
                 </div>
-                <div className="p-5 rounded-2xl bg-gradient-to-b from-emerald-50/60 to-white border border-emerald-100/50" data-testid="card-why-3">
+
+                <div className="p-5 rounded-2xl bg-gradient-to-b from-emerald-50/60 to-white border border-emerald-100/50 relative" data-testid="card-why-3">
+                  {!isPaid && (
+                    <div className="absolute top-3 right-3 flex items-center gap-1 bg-violet-100 text-violet-700 px-2 py-0.5 rounded-full">
+                      <Crown className="w-3 h-3" />
+                      <span className="text-[10px] font-semibold">Premium</span>
+                    </div>
+                  )}
                   <div className="w-10 h-10 rounded-xl bg-emerald-100 flex items-center justify-center mb-3">
                     <TrendingUp className="w-5 h-5 text-emerald-600" />
                   </div>
@@ -3499,6 +3577,34 @@ export default function Flashcards() {
                   <h3 className="text-sm font-bold text-foreground mb-1">Tier-Specific Content</h3>
                   <p className="text-xs text-muted-foreground leading-relaxed">
                     RPN, RN, and NP cards are calibrated to scope of practice and exam complexity at each level.
+                  </p>
+                </div>
+
+                <div className="p-5 rounded-xl border border-border bg-secondary/50 relative opacity-75" data-testid="card-mode-adaptive">
+                  <div className="absolute top-3 right-3 flex items-center gap-1 bg-violet-100 text-violet-700 px-2 py-0.5 rounded-full">
+                    <Crown className="w-3 h-3" />
+                    <span className="text-[10px] font-semibold">Premium</span>
+                  </div>
+                  <div className="w-9 h-9 rounded-lg bg-amber-50 flex items-center justify-center mb-3.5">
+                    <Zap className="w-4.5 h-4.5 text-amber-500" />
+                  </div>
+                  <h3 className="text-sm font-semibold text-foreground mb-1">Adaptive Review</h3>
+                  <p className="text-xs text-muted-foreground leading-relaxed">
+                    AI-powered spaced repetition that adapts to your weak areas and optimizes recall.
+                  </p>
+                </div>
+
+                <div className="p-5 rounded-xl border border-border bg-secondary/50 relative opacity-75" data-testid="card-mode-weak-areas">
+                  <div className="absolute top-3 right-3 flex items-center gap-1 bg-violet-100 text-violet-700 px-2 py-0.5 rounded-full">
+                    <Crown className="w-3 h-3" />
+                    <span className="text-[10px] font-semibold">Premium</span>
+                  </div>
+                  <div className="w-9 h-9 rounded-lg bg-red-50 flex items-center justify-center mb-3.5">
+                    <AlertTriangle className="w-4.5 h-4.5 text-red-500" />
+                  </div>
+                  <h3 className="text-sm font-semibold text-foreground mb-1">Weak Areas</h3>
+                  <p className="text-xs text-muted-foreground leading-relaxed">
+                    Focus on topics you've missed most often for targeted improvement.
                   </p>
                 </div>
               </div>
@@ -5174,8 +5280,67 @@ export default function Flashcards() {
 
   const relatedLesson = currentCard ? getRelatedLesson(currentCard.category) : null;
 
+  const upgradeModalEl = (
+    <Dialog open={showUpgradeModal} onOpenChange={setShowUpgradeModal}>
+      <DialogContent className="sm:max-w-lg" data-testid="modal-flashcard-upgrade">
+        <DialogHeader>
+          <div className="mx-auto mb-3 w-14 h-14 rounded-full bg-violet-100 flex items-center justify-center">
+            <Crown className="w-7 h-7 text-violet-600" />
+          </div>
+          <DialogTitle className="text-center text-xl" data-testid="text-upgrade-headline">
+            {previewConfig?.upgradeHeadline || "Unlock the Full Flashcard Library"}
+          </DialogTitle>
+          <DialogDescription className="text-center" data-testid="text-upgrade-body">
+            {previewConfig?.upgradeBody || "Get unlimited flashcards, adaptive review, weak areas mode, and saved progress with a premium plan."}
+          </DialogDescription>
+        </DialogHeader>
+        <div className="py-4">
+          <ul className="space-y-2.5">
+            {[
+              "Unlimited flashcards",
+              "All tiers & topics",
+              "Weak areas mode",
+              "Adaptive review",
+              "Saved progress & analytics",
+              "Flagged & mastered cards",
+              "Lesson-linked remediation",
+            ].map((feat, i) => (
+              <li key={i} className="flex items-center gap-2.5 text-sm">
+                <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0" />
+                <span className="text-foreground/80">{feat}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <DialogFooter className="flex-col gap-2 sm:flex-col">
+          <a href="/upgrade" className="w-full">
+            <Button className="w-full bg-violet-600 hover:bg-violet-700" size="lg" data-testid="button-upgrade-now">
+              <Crown className="w-4 h-4 mr-2" />
+              Upgrade Now
+            </Button>
+          </a>
+          <a href="/pricing" className="w-full">
+            <Button variant="outline" className="w-full" size="lg" data-testid="button-view-plans">
+              View Plans
+            </Button>
+          </a>
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => { setShowUpgradeModal(false); setView("setup"); }}
+            className="text-muted-foreground text-xs"
+            data-testid="button-continue-limited"
+          >
+            Continue with Limited Preview Tomorrow
+          </Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  );
+
   return (
     <div className={`min-h-screen bg-gradient-to-b from-violet-50/40 via-white to-secondary flex flex-col font-sans ${user?.tier !== "admin" ? "select-none" : ""} print:hidden`}>
+      {upgradeModalEl}
       <SEO
         title="Nursing Flashcards - Interactive Quiz & Study Cards"
         description="Master nursing pathophysiology with interactive flashcards covering cardiovascular, respiratory, neurological, pharmacology, and more. Practice NCLEX-style questions with instant feedback and progress tracking."
@@ -5233,6 +5398,23 @@ export default function Flashcards() {
             style={{ width: `${((currentIndex + 1) / sessionCards.length) * 100}%` }}
           />
         </div>
+
+        {!isPaid && user && previewStatus && !previewStatus.isPremium && (
+          <div className="flex items-center justify-between mb-4 px-3 py-2 rounded-lg bg-amber-50 border border-amber-200" data-testid="preview-cards-remaining">
+            <div className="flex items-center gap-2 text-xs text-amber-800">
+              <Eye className="w-3.5 h-3.5" />
+              <span className="font-medium">Preview Mode</span>
+              <span className="text-amber-600">·</span>
+              <span>{previewStatus.sessionRemaining} cards remaining this session</span>
+              <span className="text-amber-600">·</span>
+              <span>{previewStatus.dailyRemaining} today</span>
+            </div>
+            <a href="/upgrade" className="text-[11px] font-semibold text-violet-600 hover:text-violet-700 flex items-center gap-1" data-testid="link-preview-upgrade">
+              <Crown className="w-3 h-3" />
+              Upgrade
+            </a>
+          </div>
+        )}
 
         <div className="w-full flex-1 flex flex-col gap-5">
           <div className="flex-1">
@@ -5406,7 +5588,12 @@ export default function Flashcards() {
             ) : (
               <div
                 className="w-full h-[460px] relative cursor-pointer group perspective-1000"
-                onClick={() => setIsFlipped(!isFlipped)}
+                onClick={() => {
+                  if (!isFlipped && !isPaid && user) {
+                    decrementPreview();
+                  }
+                  setIsFlipped(!isFlipped);
+                }}
               >
                 <div className={cn(
                   "w-full h-full transition-all duration-700 [transform-style:preserve-3d]",

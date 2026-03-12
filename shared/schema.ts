@@ -4442,3 +4442,28 @@ export const certificates = pgTable("certificates", {
 export const insertCertificateSchema = createInsertSchema(certificates).omit({ id: true, issuedAt: true });
 export type Certificate = typeof certificates.$inferSelect;
 export type InsertCertificate = z.infer<typeof insertCertificateSchema>;
+
+export const flashcardPreviewConfig = pgTable("flashcard_preview_config", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  contentType: text("content_type").notNull().unique().default("flashcards"),
+  sessionLimit: integer("session_limit").notNull().default(5),
+  dailyLimit: integer("daily_limit").notNull().default(10),
+  allowedTopics: text("allowed_topics").array().default(sql`'{}'::text[]`),
+  allowedTiers: text("allowed_tiers").array().default(sql`'{}'::text[]`),
+  upgradeHeadline: text("upgrade_headline").default("Unlock the Full Flashcard Library"),
+  upgradeBody: text("upgrade_body").default("Get unlimited flashcards, adaptive review, weak areas mode, and saved progress with a premium plan."),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export const insertFlashcardPreviewConfigSchema = createInsertSchema(flashcardPreviewConfig).omit({ id: true, updatedAt: true });
+export type FlashcardPreviewConfig = typeof flashcardPreviewConfig.$inferSelect;
+export type InsertFlashcardPreviewConfig = z.infer<typeof insertFlashcardPreviewConfigSchema>;
+
+export const flashcardPreviewUsage = pgTable("flashcard_preview_usage", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id").notNull(),
+  date: text("date").notNull(),
+  count: integer("count").notNull().default(0),
+});
+
+export type FlashcardPreviewUsage = typeof flashcardPreviewUsage.$inferSelect;

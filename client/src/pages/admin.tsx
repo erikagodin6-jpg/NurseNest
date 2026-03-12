@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Navigation } from "@/components/navigation";
 import { SEO } from "@/components/seo";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -154,7 +154,7 @@ export default function AdminPage() {
   const [sortField, setSortField] = useState<string>("lastActivity");
   const [sortDir, setSortDir] = useState<"asc" | "desc">("desc");
   const [activeTab, setActiveTab] = useState<
-    "overview" | "users" | "activity" | "content-engine" | "analytics" | "promotions" | "feedback" | "social" | "audit" | "deck-moderation" | "ai-safety" | "beta-testers"
+    "overview" | "users" | "activity" | "content-engine" | "analytics" | "promotions" | "feedback" | "social" | "audit" | "deck-moderation" | "ai-safety" | "beta-testers" | "flashcard-preview"
   >("overview");
 
   const [blogConfig, setBlogConfig] = useState<any>(null);
@@ -1541,7 +1541,7 @@ export default function AdminPage() {
             <>
               {/* Tab Navigation */}
               <div className="flex gap-1 mb-8 bg-white rounded-lg border border-primary/10 p-1 overflow-x-auto" data-testid="nav-admin-tabs">
-                {(["overview", "users", "activity", "content-engine", "analytics", "promotions", "feedback", "social", "audit", "deck-moderation", "ai-safety", "beta-testers"] as const).map((tab) => (
+                {(["overview", "users", "activity", "content-engine", "analytics", "promotions", "feedback", "social", "audit", "deck-moderation", "ai-safety", "beta-testers", "flashcard-preview"] as const).map((tab) => (
                   <button
                     key={tab}
                     onClick={() => setActiveTab(tab)}
@@ -1562,6 +1562,7 @@ export default function AdminPage() {
                     {tab === "deck-moderation" && "Deck Reports"}
                     {tab === "ai-safety" && "AI Safety"}
                     {tab === "beta-testers" && "Beta Testers"}
+                    {tab === "flashcard-preview" && "Flashcard Preview"}
                   </button>
                 ))}
               </div>
@@ -4785,10 +4786,186 @@ export default function AdminPage() {
                   </Card>
                 </div>
               )}
+
+              {activeTab === "flashcard-preview" && (
+                <FlashcardPreviewConfigPanel userId={user?.id || ""} />
+              )}
             </>
           ) : null}
         </div>
       </main>
+    </div>
+  );
+}
+
+function FlashcardPreviewConfigPanel({ userId }: { userId: string }) {
+  const [config, setConfig] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
+  const [sessionLimit, setSessionLimit] = useState(5);
+  const [dailyLimit, setDailyLimit] = useState(10);
+  const [allowedTopics, setAllowedTopics] = useState("");
+  const [allowedTiers, setAllowedTiers] = useState("");
+  const [upgradeHeadline, setUpgradeHeadline] = useState("Unlock the Full Flashcard Library");
+  const [upgradeBody, setUpgradeBody] = useState("");
+
+  const getAdminCreds = () => {
+    try {
+      const stored = localStorage.getItem("nursenest-admin");
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        return { username: parsed.username || "", password: parsed.password || "" };
+      }
+    } catch {}
+    return { username: "", password: "" };
+  };
+
+  const loadConfig = useCallback(async () => {
+    setLoading(true);
+    try {
+      const { username, password } = getAdminCreds();
+      const res = await fetch(`/api/admin/flashcard-preview/config?username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`);
+      if (res.ok) {
+        const data = await res.json();
+        setConfig(data);
+        setSessionLimit(data.sessionLimit || 5);
+        setDailyLimit(data.dailyLimit || 10);
+        setAllowedTopics((data.allowedTopics || []).join(", "));
+        setAllowedTiers((data.allowedTiers || []).join(", "));
+        setUpgradeHeadline(data.upgradeHeadline || "Unlock the Full Flashcard Library");
+        setUpgradeBody(data.upgradeBody || "");
+      }
+    } catch {} finally { setLoading(false); }
+  }, []);
+
+  useEffect(() => { loadConfig(); }, [loadConfig]);
+
+  const saveConfig = async () => {
+    setSaving(true);
+    try {
+      const { username, password } = getAdminCreds();
+      await fetch("/api/admin/flashcard-preview/config", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          username,
+          password,
+          sessionLimit,
+          dailyLimit,
+          allowedTopics: allowedTopics.split(",").map(t => t.trim()).filter(Boolean),
+          allowedTiers: allowedTiers.split(",").map(t => t.trim()).filter(Boolean),
+          upgradeHeadline,
+          upgradeBody,
+        }),
+      });
+      loadConfig();
+    } catch {} finally { setSaving(false); }
+  };
+
+  if (loading) {
+    return <div className="text-center py-12 text-gray-500">Loading preview config...</div>;
+  }
+
+  return (
+    <div className="space-y-6" data-testid="panel-flashcard-preview-config">
+      <div className="flex items-center justify-between">
+        <h2 className="text-xl font-bold text-gray-800" data-testid="text-preview-config-heading">Flashcard Preview Configuration</h2>
+        <Button size="sm" variant="outline" onClick={loadConfig} data-testid="button-refresh-preview-config">
+          <RefreshCw className="w-4 h-4 mr-1" />
+          Refresh
+        </Button>
+      </div>
+      <p className="text-sm text-gray-500">Configure how many flashcards free users can preview per session and per day before being prompted to upgrade.</p>
+
+      <Card className="border border-primary/10">
+        <CardHeader>
+          <CardTitle className="text-lg">Preview Limits</CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Session Limit</label>
+              <Input
+                type="number"
+                value={sessionLimit}
+                onChange={(e) => setSessionLimit(Math.max(1, parseInt(e.target.value) || 1))}
+                min={1}
+                data-testid="input-session-limit"
+              />
+              <p className="text-xs text-gray-400 mt-1">Max cards per study session for free users</p>
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Daily Limit</label>
+              <Input
+                type="number"
+                value={dailyLimit}
+                onChange={(e) => setDailyLimit(Math.max(1, parseInt(e.target.value) || 1))}
+                min={1}
+                data-testid="input-daily-limit"
+              />
+              <p className="text-xs text-gray-400 mt-1">Max cards per day for free users</p>
+            </div>
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Allowed Preview Topics</label>
+            <Input
+              value={allowedTopics}
+              onChange={(e) => setAllowedTopics(e.target.value)}
+              placeholder="e.g., Cardiovascular, Respiratory (comma-separated, blank = all)"
+              data-testid="input-allowed-topics"
+            />
+            <p className="text-xs text-gray-400 mt-1">Leave blank to allow all topics in preview</p>
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Allowed Preview Tiers</label>
+            <Input
+              value={allowedTiers}
+              onChange={(e) => setAllowedTiers(e.target.value)}
+              placeholder="e.g., free, rpn (comma-separated, blank = all)"
+              data-testid="input-allowed-tiers"
+            />
+            <p className="text-xs text-gray-400 mt-1">Leave blank to allow all tiers</p>
+          </div>
+        </CardContent>
+      </Card>
+
+      <Card className="border border-primary/10">
+        <CardHeader>
+          <CardTitle className="text-lg">Upgrade Message</CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Headline</label>
+            <Input
+              value={upgradeHeadline}
+              onChange={(e) => setUpgradeHeadline(e.target.value)}
+              placeholder="Unlock the Full Flashcard Library"
+              data-testid="input-upgrade-headline"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Body Text</label>
+            <textarea
+              value={upgradeBody}
+              onChange={(e) => setUpgradeBody(e.target.value)}
+              placeholder="Get unlimited flashcards, adaptive review..."
+              className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm min-h-[80px]"
+              data-testid="input-upgrade-body"
+            />
+          </div>
+        </CardContent>
+      </Card>
+
+      <Button
+        onClick={saveConfig}
+        disabled={saving}
+        className="w-full"
+        data-testid="button-save-preview-config"
+      >
+        {saving ? "Saving..." : "Save Configuration"}
+      </Button>
     </div>
   );
 }

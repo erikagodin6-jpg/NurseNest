@@ -4476,6 +4476,214 @@ Rules:
     }
   });
 
+  // --------------------
+  // Flashcard Preview System (Freemium)
+  // --------------------
+
+  // Create tables if not exist
+  await pool.query(`
+    CREATE TABLE IF NOT EXISTS flashcard_preview_config (
+      id VARCHAR PRIMARY KEY DEFAULT gen_random_uuid(),
+      content_type TEXT NOT NULL UNIQUE DEFAULT 'flashcards',
+      session_limit INTEGER NOT NULL DEFAULT 5,
+      daily_limit INTEGER NOT NULL DEFAULT 10,
+      allowed_topics TEXT[] DEFAULT '{}',
+      allowed_tiers TEXT[] DEFAULT '{}',
+      upgrade_headline TEXT DEFAULT 'Unlock the Full Flashcard Library',
+      upgrade_body TEXT DEFAULT 'Get unlimited flashcards, adaptive review, weak areas mode, and saved progress with a premium plan.',
+      updated_at TIMESTAMP DEFAULT NOW() NOT NULL
+    );
+    CREATE TABLE IF NOT EXISTS flashcard_preview_usage (
+      id VARCHAR PRIMARY KEY DEFAULT gen_random_uuid(),
+      user_id VARCHAR NOT NULL,
+      date TEXT NOT NULL,
+      count INTEGER NOT NULL DEFAULT 0,
+      UNIQUE(user_id, date)
+    );
+    INSERT INTO flashcard_preview_config (content_type, session_limit, daily_limit, upgrade_headline, upgrade_body)
+    VALUES ('flashcards', 5, 10, 'Unlock the Full Flashcard Library', 'Get unlimited flashcards, adaptive review, weak areas mode, and saved progress with a premium plan.')
+    ON CONFLICT (content_type) DO NOTHING;
+  `);
+
+  const previewSessionCounters = new Map<string, number>();
+
+  app.get("/api/flashcard-preview/config", async (req, res) => {
+    try {
+      const result = await pool.query(`SELECT * FROM flashcard_preview_config WHERE content_type = 'flashcards'`);
+      const config = result.rows[0] || {
+        session_limit: 5,
+        daily_limit: 10,
+        allowed_topics: [],
+        allowed_tiers: [],
+        upgrade_headline: "Unlock the Full Flashcard Library",
+        upgrade_body: "Get unlimited flashcards, adaptive review, weak areas mode, and saved progress with a premium plan.",
+      };
+      res.json(snakeToCamel(config));
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/flashcard-preview/status", async (req, res) => {
+    try {
+      const authUser = await resolveAuthUser(req);
+      const userId = authUser?.id || (req.query.userId as string);
+      if (!userId) return res.status(401).json({ error: "Authentication required" });
+
+      const userResult = await pool.query(`SELECT tier, subscription_status FROM users WHERE id = $1`, [userId]);
+      const u = userResult.rows[0];
+      if (!u) return res.status(404).json({ error: "User not found" });
+
+      const isPremium = (u.tier !== "free" && u.subscription_status === "active") || u.tier === "admin";
+      if (isPremium) {
+        return res.json({ isPremium: true, sessionRemaining: 999, dailyRemaining: 999, sessionLimit: 999, dailyLimit: 999 });
+      }
+
+      const configResult = await pool.query(`SELECT * FROM flashcard_preview_config WHERE content_type = 'flashcards'`);
+      const config = configResult.rows[0] || { session_limit: 5, daily_limit: 10 };
+
+      const today = new Date().toISOString().slice(0, 10);
+      const usageResult = await pool.query(
+        `SELECT count FROM flashcard_preview_usage WHERE user_id = $1 AND date = $2`,
+        [userId, today]
+      );
+      const dailyUsed = usageResult.rows[0]?.count || 0;
+      const dailyRemaining = Math.max(0, config.daily_limit - dailyUsed);
+      const sessionKey = `${userId}_${today}`;
+      const sessionUsed = previewSessionCounters.get(sessionKey) || 0;
+      const sessionRemaining = Math.min(Math.max(0, config.session_limit - sessionUsed), dailyRemaining);
+
+      res.json({
+        isPremium: false,
+        sessionRemaining,
+        dailyRemaining,
+        sessionLimit: config.session_limit,
+        dailyLimit: config.daily_limit,
+      });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.post("/api/flashcard-preview/reset-session", async (req, res) => {
+    try {
+      const authUser = await resolveAuthUser(req);
+      const userId = authUser?.id || req.body?.userId;
+      if (!userId) return res.status(401).json({ error: "Authentication required" });
+      const today = new Date().toISOString().slice(0, 10);
+      previewSessionCounters.set(`${userId}_${today}`, 0);
+      res.json({ success: true });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.post("/api/flashcard-preview/decrement", async (req, res) => {
+    try {
+      const authUser = await resolveAuthUser(req);
+      const userId = authUser?.id || req.body?.userId;
+      if (!userId) return res.status(401).json({ error: "Authentication required" });
+
+      const userResult = await pool.query(`SELECT tier, subscription_status FROM users WHERE id = $1`, [userId]);
+      const u = userResult.rows[0];
+      if (!u) return res.status(404).json({ error: "User not found" });
+
+      const isPremium = (u.tier !== "free" && u.subscription_status === "active") || u.tier === "admin";
+      if (isPremium) {
+        return res.json({ success: true, isPremium: true, remaining: 999 });
+      }
+
+      const today = new Date().toISOString().slice(0, 10);
+      const sessionKey = `${userId}_${today}`;
+
+      await pool.query(
+        `INSERT INTO flashcard_preview_usage (id, user_id, date, count)
+         VALUES (gen_random_uuid(), $1, $2, 1)
+         ON CONFLICT (user_id, date) DO UPDATE SET count = flashcard_preview_usage.count + 1`,
+        [userId, today]
+      );
+
+      const currentSessionCount = (previewSessionCounters.get(sessionKey) || 0) + 1;
+      previewSessionCounters.set(sessionKey, currentSessionCount);
+
+      const configResult = await pool.query(`SELECT * FROM flashcard_preview_config WHERE content_type = 'flashcards'`);
+      const config = configResult.rows[0] || { session_limit: 5, daily_limit: 10 };
+
+      const usageResult = await pool.query(
+        `SELECT count FROM flashcard_preview_usage WHERE user_id = $1 AND date = $2`,
+        [userId, today]
+      );
+      const dailyUsed = usageResult.rows[0]?.count || 0;
+      const dailyRemaining = Math.max(0, config.daily_limit - dailyUsed);
+      const sessionRemaining = Math.min(Math.max(0, config.session_limit - currentSessionCount), dailyRemaining);
+
+      res.json({ success: true, isPremium: false, remaining: sessionRemaining, dailyRemaining });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/admin/flashcard-preview/config", async (req, res) => {
+    try {
+      const username = String(req.query.username || "");
+      const password = String(req.query.password || "");
+      if (!username || !password) return res.status(401).json({ error: "Authentication required" });
+      const adminUser = await storage.getUserByUsername(username);
+      if (!adminUser || adminUser.password !== password || adminUser.tier !== "admin") {
+        return res.status(403).json({ error: "Admin only" });
+      }
+      const result = await pool.query(`SELECT * FROM flashcard_preview_config WHERE content_type = 'flashcards'`);
+      const config = result.rows[0] || {
+        session_limit: 5,
+        daily_limit: 10,
+        allowed_topics: [],
+        allowed_tiers: [],
+        upgrade_headline: "Unlock the Full Flashcard Library",
+        upgrade_body: "Get unlimited flashcards, adaptive review, weak areas mode, and saved progress with a premium plan.",
+      };
+      res.json(snakeToCamel(config));
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.put("/api/admin/flashcard-preview/config", async (req, res) => {
+    try {
+      const username = String(req.body.username || req.query.username || "");
+      const password = String(req.body.password || req.query.password || "");
+      if (!username || !password) return res.status(401).json({ error: "Authentication required" });
+      const adminUser = await storage.getUserByUsername(username);
+      if (!adminUser || adminUser.password !== password || adminUser.tier !== "admin") {
+        return res.status(403).json({ error: "Admin only" });
+      }
+
+      const { sessionLimit, dailyLimit, allowedTopics, allowedTiers, upgradeHeadline, upgradeBody } = req.body;
+      await pool.query(
+        `INSERT INTO flashcard_preview_config (id, content_type, session_limit, daily_limit, allowed_topics, allowed_tiers, upgrade_headline, upgrade_body, updated_at)
+         VALUES (gen_random_uuid(), 'flashcards', $1, $2, $3, $4, $5, $6, NOW())
+         ON CONFLICT (content_type) DO UPDATE SET
+           session_limit = COALESCE($1, flashcard_preview_config.session_limit),
+           daily_limit = COALESCE($2, flashcard_preview_config.daily_limit),
+           allowed_topics = COALESCE($3, flashcard_preview_config.allowed_topics),
+           allowed_tiers = COALESCE($4, flashcard_preview_config.allowed_tiers),
+           upgrade_headline = COALESCE($5, flashcard_preview_config.upgrade_headline),
+           upgrade_body = COALESCE($6, flashcard_preview_config.upgrade_body),
+           updated_at = NOW()`,
+        [
+          sessionLimit ?? 5,
+          dailyLimit ?? 10,
+          allowedTopics || [],
+          allowedTiers || [],
+          upgradeHeadline || "Unlock the Full Flashcard Library",
+          upgradeBody || "Get unlimited flashcards, adaptive review, weak areas mode, and saved progress with a premium plan.",
+        ]
+      );
+      res.json({ success: true });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
   app.post("/api/flashcard-upgrade/checkout", async (req, res) => {
     try {
       const { userId, plan } = req.body;
