@@ -763,6 +763,11 @@ app.use((req, res, next) => {
       runStartupDataMigrations().catch((e: any) => console.error("[Startup Migrations] Failed:", e.message));
     }).catch((e: any) => console.error("[Startup Migrations] Import failed:", e.message));
 
+    import("./seed-rn-questions-docx").then(async ({ seedRNQuestionsFromDocx }) => {
+      const result = await seedRNQuestionsFromDocx();
+      console.log(`[DocxSeed] Total: ${result.total}, Inserted: ${result.inserted}, Skipped: ${result.skipped}, Errors: ${result.errors}`);
+    }).catch((e: any) => console.error("[DocxSeed] Import failed:", e.message));
+
     import("./seed-exam-questions").then(async ({ seedExamQuestions }) => {
       const { pool: seedPool } = await import("./storage");
       seedExamQuestions(seedPool)
