@@ -168,7 +168,7 @@ export function setupQBankRoutes(app: Express) {
           questionType: row.question_type,
           status: row.status,
           stem: row.stem,
-          options: typeof row.options === "string" ? JSON.parse(row.options) : row.options,
+          options: (() => { if (typeof row.options === "string") { try { return JSON.parse(row.options); } catch { return [row.options]; } } return row.options; })(),
           bodySystem: row.body_system,
           topic: row.topic,
           difficulty: row.difficulty,
@@ -232,9 +232,14 @@ export function setupQBankRoutes(app: Express) {
       }
 
       const question = result.rows[0];
-      const correctAnswer = typeof question.correct_answer === "string"
-        ? JSON.parse(question.correct_answer)
-        : question.correct_answer;
+      let correctAnswer = question.correct_answer;
+      if (typeof correctAnswer === "string") {
+        try { correctAnswer = JSON.parse(correctAnswer); } catch {
+          const letterMap: Record<string, number> = { A: 0, B: 1, C: 2, D: 3 };
+          correctAnswer = [letterMap[correctAnswer.toUpperCase()] ?? 0];
+        }
+      }
+      if (typeof correctAnswer === "number") correctAnswer = [correctAnswer];
       const isCorrect = Array.isArray(correctAnswer)
         ? correctAnswer.includes(selectedOption)
         : selectedOption === correctAnswer;
@@ -422,30 +427,51 @@ export function setupQBankRoutes(app: Express) {
 
       const result = await pool.query(query, params);
 
+      const letterMap: Record<string, number> = { A: 0, B: 1, C: 2, D: 3 };
+
       res.json({
-        questions: result.rows.map((row: any) => ({
-          id: row.id,
-          tier: row.tier,
-          exam: row.exam,
-          questionType: row.question_type,
-          stem: row.stem,
-          options: typeof row.options === "string" ? JSON.parse(row.options) : row.options,
-          correctAnswer: typeof row.correct_answer === "string" ? JSON.parse(row.correct_answer) : row.correct_answer,
-          rationale: row.rationale,
-          bodySystem: row.body_system,
-          topic: row.topic,
-          subtopic: row.subtopic,
-          difficulty: row.difficulty,
-          regionScope: row.region_scope,
-          scenario: row.scenario,
-          clinicalPearl: row.clinical_pearl,
-          examStrategy: row.exam_strategy,
-          memoryHook: row.memory_hook,
-          frameworkUsed: row.framework_used,
-          clinicalTrap: row.clinical_trap,
-          distractorRationales: typeof row.distractor_rationales === "string" ? JSON.parse(row.distractor_rationales) : row.distractor_rationales,
-          regionScope: row.region_scope,
-        })),
+        questions: result.rows.map((row: any) => {
+          let parsedOptions = row.options;
+          if (typeof parsedOptions === "string") {
+            try { parsedOptions = JSON.parse(parsedOptions); } catch { parsedOptions = [parsedOptions]; }
+          }
+
+          let parsedCorrect = row.correct_answer;
+          if (typeof parsedCorrect === "string") {
+            try { parsedCorrect = JSON.parse(parsedCorrect); } catch {
+              parsedCorrect = [letterMap[parsedCorrect.toUpperCase()] ?? 0];
+            }
+          }
+          if (typeof parsedCorrect === "number") parsedCorrect = [parsedCorrect];
+
+          let parsedDistractorRationales = row.distractor_rationales;
+          if (typeof parsedDistractorRationales === "string") {
+            try { parsedDistractorRationales = JSON.parse(parsedDistractorRationales); } catch { parsedDistractorRationales = null; }
+          }
+
+          return {
+            id: row.id,
+            tier: row.tier,
+            exam: row.exam,
+            questionType: row.question_type,
+            stem: row.stem,
+            options: parsedOptions,
+            correctAnswer: parsedCorrect,
+            rationale: row.rationale,
+            bodySystem: row.body_system,
+            topic: row.topic,
+            subtopic: row.subtopic,
+            difficulty: row.difficulty,
+            regionScope: row.region_scope,
+            scenario: row.scenario,
+            clinicalPearl: row.clinical_pearl,
+            examStrategy: row.exam_strategy,
+            memoryHook: row.memory_hook,
+            frameworkUsed: row.framework_used,
+            clinicalTrap: row.clinical_trap,
+            distractorRationales: parsedDistractorRationales,
+          };
+        }),
         count: result.rows.length,
         tier: queryTier,
       });
