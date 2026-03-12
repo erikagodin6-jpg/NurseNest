@@ -761,6 +761,11 @@ app.use((req, res, next) => {
       });
     });
 
+    import("./ensure-schema").then(async ({ ensureSchemaSync }) => {
+      const { pool: schemaPool } = await import("./storage");
+      await ensureSchemaSync(schemaPool);
+    }).catch((e: any) => console.error("[SchemaSync] Import failed:", e.message));
+
     import("./startup-data-migrations").then(({ runStartupDataMigrations }) => {
       runStartupDataMigrations().catch((e: any) => console.error("[Startup Migrations] Failed:", e.message));
     }).catch((e: any) => console.error("[Startup Migrations] Import failed:", e.message));
