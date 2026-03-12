@@ -212,7 +212,7 @@ export default function QBankExamPage() {
   return (
     <div className="min-h-screen bg-warmwhite">
       <Navigation />
-      <div className="container mx-auto px-4 py-6 max-w-4xl">
+      <div className="mx-auto px-4 py-8 max-w-[820px]">
         {phase === "setup" && (
           <Card className="premium-card border-0 shadow-md">
             <CardHeader>
@@ -286,27 +286,27 @@ export default function QBankExamPage() {
               </div>
             </div>
 
-            <div className="bg-white rounded-2xl shadow-sm border border-slate-200/60 overflow-hidden mb-5">
-              <div className="p-6 sm:p-8">
+            <Card className="premium-card border-0 shadow-md rounded-2xl mb-5 animate-fade-in-up overflow-hidden">
+              <CardContent className="px-6 sm:px-8 py-6">
                 <div className="flex items-center gap-2 mb-4 flex-wrap">
-                  <Badge variant="outline" className="text-xs font-medium">{currentQ.category}</Badge>
-                  <Badge variant="outline" className="text-xs font-medium">{currentQ.difficulty}</Badge>
+                  <PremiumBadge variant="system">{currentQ.category}</PremiumBadge>
+                  <PremiumBadge variant="difficulty">{currentQ.difficulty}</PremiumBadge>
                 </div>
-                <p className="text-xl font-semibold text-slate-900 leading-relaxed" style={{ lineHeight: '1.65' }} data-testid="text-current-question">{currentQ.question}</p>
-              </div>
-              <div className="px-6 sm:px-8 pb-6 sm:pb-8 space-y-3">
-                {(shuffledOptions.get(currentQ.id) || []).map((opt, idx) => (
-                  <AnswerOption
-                    key={opt.key}
-                    index={idx}
-                    text={opt.text}
-                    isSelected={currentAnswer?.selected === opt.key}
-                    onClick={() => selectAnswer(currentQ.id, opt.key)}
-                    data-testid={`button-option-${opt.key}`}
-                  />
-                ))}
-              </div>
-            </div>
+                <p className="text-xl font-semibold mb-6 text-gray-900 leading-[1.6]" data-testid="text-current-question">{currentQ.question}</p>
+                <div className="space-y-2.5">
+                  {(shuffledOptions.get(currentQ.id) || []).map((opt, idx) => (
+                    <AnswerOption
+                      key={opt.key}
+                      index={idx}
+                      text={opt.text}
+                      isSelected={currentAnswer?.selected === opt.key}
+                      onClick={() => selectAnswer(currentQ.id, opt.key)}
+                      data-testid={`button-option-${opt.key}`}
+                    />
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
 
             <div className="flex items-center justify-between gap-3">
               <Button variant="outline" onClick={() => setCurrentIdx((i) => Math.max(0, i - 1))} disabled={currentIdx === 0} className="rounded-xl border-slate-200" data-testid="button-prev">

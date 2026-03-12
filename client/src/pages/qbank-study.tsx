@@ -15,6 +15,7 @@ import {
   AlertTriangle,
   Lightbulb,
   Eye,
+  GraduationCap,
 } from "lucide-react";
 import {
   AnswerOption,
@@ -162,7 +163,7 @@ export default function QBankStudyPage() {
   return (
     <div className="min-h-screen bg-warmwhite">
       <Navigation />
-      <div className="container mx-auto px-4 py-6 max-w-3xl">
+      <div className="mx-auto px-4 py-8 max-w-[820px]">
         {!started ? (
           <Card className="premium-card border-0 shadow-md">
             <CardHeader>
@@ -228,7 +229,7 @@ export default function QBankStudyPage() {
           </Card>
         ) : (
           <>
-            <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center justify-between mb-3">
               <PremiumBadge variant="default" data-testid="text-study-progress">
                 {currentIdx + 1} / {questions.length}
               </PremiumBadge>
@@ -238,17 +239,17 @@ export default function QBankStudyPage() {
               </div>
             </div>
 
-            <StudyProgressBar value={((currentIdx + 1) / questions.length) * 100} variant="primary" className="mb-4" />
+            <StudyProgressBar value={((currentIdx + 1) / questions.length) * 100} variant="primary" className="mb-6" />
 
-            <Card className="premium-card border-0 shadow-lg mb-4 animate-fade-in-up">
-              <CardContent className="p-6">
-                <div className="flex items-center gap-2 mb-3 flex-wrap">
+            <Card className="premium-card border-0 shadow-md rounded-2xl mb-5 animate-fade-in-up overflow-hidden">
+              <CardContent className="px-6 sm:px-8 py-6">
+                <div className="flex items-center gap-2 mb-4 flex-wrap">
                   <PremiumBadge variant="system">{currentQ.category}</PremiumBadge>
                   <PremiumBadge variant="difficulty">{currentQ.difficulty}</PremiumBadge>
                   <PremiumBadge>{currentQ.topic}</PremiumBadge>
                 </div>
-                <p className="text-lg font-medium mb-6 text-gray-900 leading-relaxed" data-testid="text-study-question">{currentQ.question}</p>
-                <div className="space-y-3">
+                <p className="text-xl font-semibold mb-6 text-gray-900 leading-[1.6]" data-testid="text-study-question">{currentQ.question}</p>
+                <div className="space-y-2.5">
                   {[
                     { key: "A", text: currentQ.optionA },
                     { key: "B", text: currentQ.optionB },
@@ -276,24 +277,28 @@ export default function QBankStudyPage() {
                     />
                   ))}
                 </div>
+
+                {revealed && (
+                  <div className="mt-6 pt-5 border-t border-gray-100 space-y-3 animate-fade-in-up" data-testid="card-rationale">
+                    <RationaleSection
+                      icon={<Lightbulb className="h-4 w-4 text-amber-500" />}
+                      title="Explanation"
+                    >
+                      <p>{currentQ.rationale}</p>
+                    </RationaleSection>
+                    {currentQ.clientNeeds && (
+                      <RationaleSection
+                        icon={<GraduationCap className="h-4 w-4 text-violet-500" />}
+                        title="Clinical Pearl"
+                        variant="pearl"
+                      >
+                        <p>Client Needs: {currentQ.clientNeeds}</p>
+                      </RationaleSection>
+                    )}
+                  </div>
+                )}
               </CardContent>
             </Card>
-
-            {revealed && (
-              <Card className="premium-card border-0 shadow-md mb-4 animate-fade-in-up" data-testid="card-rationale">
-                <CardContent className="p-6">
-                  <RationaleSection
-                    icon={<Lightbulb className="h-4 w-4 text-amber-500" />}
-                    title="Rationale"
-                  >
-                    <p>{currentQ.rationale}</p>
-                    {currentQ.clientNeeds && (
-                      <p className="text-xs text-gray-400 mt-3">Client Needs: {currentQ.clientNeeds}</p>
-                    )}
-                  </RationaleSection>
-                </CardContent>
-              </Card>
-            )}
 
             <div className="flex items-center justify-between">
               {!revealed ? (

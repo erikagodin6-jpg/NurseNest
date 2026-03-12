@@ -33,9 +33,9 @@ export function QuestionStemCard({
   "data-testid"?: string;
 }) {
   return (
-    <Card className={cn("premium-card border-0 shadow-md bg-white overflow-hidden", className)} data-testid={testId}>
+    <Card className={cn("premium-card border-0 shadow-md bg-white overflow-hidden rounded-2xl", className)} data-testid={testId}>
       {(badges || (questionNumber !== undefined && totalQuestions !== undefined)) && (
-        <div className="px-6 pt-5 pb-0 flex items-center justify-between flex-wrap gap-2">
+        <div className="px-6 sm:px-8 pt-5 pb-0 flex items-center justify-between flex-wrap gap-2">
           <div className="flex items-center gap-2 flex-wrap">{badges}</div>
           {questionNumber !== undefined && totalQuestions !== undefined && (
             <span className="text-xs font-medium text-gray-400 tabular-nums">
@@ -44,7 +44,7 @@ export function QuestionStemCard({
           )}
         </div>
       )}
-      <CardContent className="p-6 pt-4">{children}</CardContent>
+      <CardContent className="px-6 sm:px-8 py-6">{children}</CardContent>
     </Card>
   );
 }
@@ -108,20 +108,20 @@ export function AnswerOption({
 }) {
   const letter = String.fromCharCode(65 + index);
 
-  let containerCls = "border-slate-200 hover:border-primary/50 hover:bg-primary/[0.02]";
-  let circleCls = "border-slate-300 text-slate-500 bg-white";
+  let containerCls = "border-gray-200 hover:border-primary/40 hover:bg-primary/[0.03] hover:shadow-sm";
+  let circleCls = "border-gray-300 text-gray-500 bg-white";
 
   if (isCorrect) {
-    containerCls = "border-emerald-300 bg-emerald-50/70";
+    containerCls = "border-emerald-300 bg-emerald-50/50 shadow-sm";
     circleCls = "border-emerald-500 text-white bg-emerald-500";
   } else if (isWrong) {
-    containerCls = "border-red-300 bg-red-50/60";
+    containerCls = "border-red-200 bg-red-50/40";
     circleCls = "border-red-400 text-white bg-red-400";
   } else if (isRevealed && !isSelected) {
-    containerCls = "border-slate-100 opacity-50";
+    containerCls = "border-gray-100 opacity-45";
   } else if (isSelected && !isRevealed) {
-    containerCls = "border-primary bg-primary/5 shadow-sm";
-    circleCls = "border-primary text-white bg-primary";
+    containerCls = "border-primary/60 bg-primary/[0.04] ring-2 ring-primary/20";
+    circleCls = "border-primary text-primary bg-primary/10";
   }
 
   return (
@@ -129,7 +129,7 @@ export function AnswerOption({
       onClick={onClick}
       disabled={disabled}
       className={cn(
-        "w-full text-left p-4 rounded-xl border-2 transition-all duration-200 flex items-center gap-4 group",
+        "w-full text-left px-4 py-3.5 rounded-xl border transition-all duration-200 flex items-center gap-3.5 group",
         containerCls,
         disabled && !isRevealed ? "" : disabled ? "cursor-default" : "cursor-pointer",
         className
@@ -137,7 +137,7 @@ export function AnswerOption({
       data-testid={testId}
     >
       <span className={cn(
-        "shrink-0 w-9 h-9 rounded-xl border-2 flex items-center justify-center text-sm font-bold transition-all duration-200",
+        "shrink-0 w-8 h-8 rounded-lg border-[1.5px] flex items-center justify-center text-sm font-semibold transition-all duration-200",
         circleCls
       )}>
         {letter}
@@ -160,29 +160,29 @@ export function ResultHeader({
   return (
     <div
       className={cn(
-        "p-5 rounded-2xl flex items-start gap-4",
+        "px-5 py-4 rounded-xl flex items-center gap-3",
         isCorrect
-          ? "bg-gradient-to-br from-emerald-50 to-teal-50/50 border border-emerald-200/60"
-          : "bg-gradient-to-br from-amber-50 to-orange-50/30 border border-amber-200/60"
+          ? "bg-emerald-50/60 border border-emerald-200/50"
+          : "bg-amber-50/50 border border-amber-200/50"
       )}
       data-testid={testId}
     >
       <div className={cn(
-        "shrink-0 w-10 h-10 rounded-xl flex items-center justify-center",
+        "shrink-0 w-8 h-8 rounded-lg flex items-center justify-center",
         isCorrect ? "bg-emerald-500" : "bg-amber-500"
       )}>
         {isCorrect
-          ? <CheckCircle2 className="h-5 w-5 text-white" />
-          : <XCircle className="h-5 w-5 text-white" />}
+          ? <CheckCircle2 className="h-4 w-4 text-white" />
+          : <XCircle className="h-4 w-4 text-white" />}
       </div>
       <div className="flex-1 min-w-0">
         <p className={cn(
-          "font-bold text-base",
-          isCorrect ? "text-emerald-800" : "text-amber-800"
+          "font-semibold text-sm",
+          isCorrect ? "text-emerald-700" : "text-amber-700"
         )} data-testid={testId ? `${testId}-label` : undefined}>
           {isCorrect ? "Correct!" : "Incorrect"}
         </p>
-        <p className="text-sm text-gray-700 mt-1 leading-relaxed">{correctText}</p>
+        <p className="text-sm text-gray-600 mt-0.5 leading-relaxed">{correctText}</p>
       </div>
     </div>
   );
@@ -204,28 +204,37 @@ export function RationaleSection({
   "data-testid"?: string;
 }) {
   const variantStyles = {
-    default: "bg-white border-gray-200/80",
-    pearl: "bg-gradient-to-br from-violet-50/80 to-purple-50/40 border-violet-200/60",
-    strategy: "bg-gradient-to-br from-blue-50/80 to-sky-50/40 border-blue-200/60",
-    memory: "bg-gradient-to-br from-amber-50/80 to-orange-50/30 border-amber-200/60",
-    distractor: "bg-gray-50/80 border-gray-200/60",
+    default: "bg-gray-50/80 border-gray-200/60",
+    pearl: "bg-violet-50/60 border-violet-200/50",
+    strategy: "bg-blue-50/60 border-blue-200/50",
+    memory: "bg-amber-50/60 border-amber-200/50",
+    distractor: "bg-gray-50/60 border-gray-200/50",
   };
 
   const titleColors = {
-    default: "text-gray-800",
-    pearl: "text-violet-800",
-    strategy: "text-blue-800",
-    memory: "text-amber-800",
-    distractor: "text-gray-800",
+    default: "text-gray-700",
+    pearl: "text-violet-700",
+    strategy: "text-blue-700",
+    memory: "text-amber-700",
+    distractor: "text-gray-700",
+  };
+
+  const accentBar = {
+    default: "bg-gray-300",
+    pearl: "bg-violet-300",
+    strategy: "bg-blue-300",
+    memory: "bg-amber-300",
+    distractor: "bg-gray-300",
   };
 
   return (
-    <div className={cn("p-5 rounded-2xl border", variantStyles[variant], className)} data-testid={testId}>
-      <div className="flex items-center gap-2.5 mb-3">
+    <div className={cn("px-5 py-4 rounded-xl border relative", variantStyles[variant], className)} data-testid={testId}>
+      <div className={cn("absolute left-0 top-4 bottom-4 w-[3px] rounded-full", accentBar[variant])} />
+      <div className="flex items-center gap-2 mb-2.5 pl-2">
         {icon}
-        <p className={cn("text-sm font-bold uppercase tracking-wide", titleColors[variant])}>{title}</p>
+        <p className={cn("text-xs font-semibold uppercase tracking-wider", titleColors[variant])}>{title}</p>
       </div>
-      <div className="text-sm leading-relaxed text-gray-700">{children}</div>
+      <div className="text-sm leading-[1.7] text-gray-700 pl-2">{children}</div>
     </div>
   );
 }

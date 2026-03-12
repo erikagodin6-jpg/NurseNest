@@ -49,11 +49,13 @@ import {
   Loader2,
   Crown,
   Zap,
+  Lightbulb,
 } from "lucide-react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/lib/auth";
 import { useLocation } from "wouter";
+import { AnswerOption, RationaleSection, RationaleImageBlock } from "@/components/premium-study";
 import { ProtectedImage } from "@/components/protected-image";
 import { getCategoryImage } from "@/lib/system-images";
 import { BreadcrumbNav } from "@/components/breadcrumb-nav";
@@ -4165,7 +4167,7 @@ export default function Flashcards() {
     return (
       <div className={`min-h-screen bg-warmwhite flex flex-col font-sans ${user?.tier !== "admin" ? "select-none" : ""}`}>
         <Navigation />
-        <main className="max-w-4xl mx-auto px-4 py-8 sm:py-12 w-full flex-1 flex flex-col">
+        <main className="max-w-[820px] mx-auto px-4 py-8 sm:py-12 w-full flex-1 flex flex-col">
           <div className="mb-6 flex items-center justify-between">
             <div>
               <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 tracking-tight" data-testid="text-exam-session-title">CAT Exam Study Cards</h1>
@@ -4475,7 +4477,7 @@ export default function Flashcards() {
       />
       <Navigation />
       
-      <main className="max-w-4xl mx-auto px-4 py-8 sm:py-12 w-full flex-1 flex flex-col">
+      <main className="max-w-[820px] mx-auto px-4 py-8 sm:py-12 w-full flex-1 flex flex-col">
         <div className="mb-6 flex items-center justify-between">
           <div>
             <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 tracking-tight">{t("flashcards.activeSession")}</h1>
@@ -4504,59 +4506,58 @@ export default function Flashcards() {
         <div className="w-full flex-1 flex flex-col gap-6">
           <div className="flex-1">
             {currentCard.type === "question" ? (
-              <Card className="border border-gray-200 shadow-sm bg-white overflow-hidden rounded-2xl min-h-[460px] flex flex-col animate-in fade-in duration-200">
-                <div className="grid md:grid-cols-2 flex-1">
-                  <div className="bg-gray-50 flex flex-col items-center justify-center p-8 border-r border-gray-100">
-                    {(currentCard.image || getCategoryImage(currentCard.category || "")) ? (
-                      <ProtectedImage
-                        src={currentCard.image || getCategoryImage(currentCard.category || "") || ""}
-                        alt={`Clinical flashcard illustration for ${catLabel(currentCard.category || "nursing")}  -  NurseNest`}
-                        title={`NurseNest ${catLabel(currentCard.category || "Nursing")} Flashcard`}
-                        className="w-56 h-56 object-contain rounded-xl"
-                        data-testid={`img-flashcard-${currentCard.id}`}
-                      />
-                    ) : (
-                      <div className="w-56 h-56 bg-gray-100 rounded-xl flex items-center justify-center">
-                        <BookOpen className="w-10 h-10 text-gray-300" />
-                      </div>
+              <Card className="border-0 shadow-md bg-white overflow-hidden rounded-2xl min-h-[460px] flex flex-col animate-in fade-in duration-200">
+                <CardContent className="px-6 sm:px-8 py-6 flex flex-col flex-1">
+                  <div className="flex items-center gap-2 mb-4">
+                    {currentCard.category && (
+                      <span className="text-[11px] font-medium px-2.5 py-0.5 rounded-lg border bg-gray-100/80 text-gray-600 border-gray-200/60">{currentCard.category}</span>
                     )}
                   </div>
-
-                  <div className="p-6 sm:p-8 flex flex-col">
-                    <h2 className="text-lg font-semibold text-gray-900 mb-6 leading-snug">{currentCard.question}</h2>
-                    <div className="space-y-2.5 flex-1">
-                      {currentCard.options?.map((option, idx) => {
-                        const isSelected = selectedOption === idx;
-                        const isCorrect = idx === currentCard.correctIndex;
-                        let variantClasses = "border-gray-200 hover:border-gray-400 hover:bg-gray-50 text-gray-700";
-                        if (showRationale) {
-                          if (isCorrect) variantClasses = "border-gray-900 bg-gray-900 text-white";
-                          else if (isSelected) variantClasses = "border-red-300 bg-red-50 text-red-700";
-                          else variantClasses = "border-gray-100 bg-gray-50 text-gray-400";
-                        }
-                        return (
-                          <button
-                            key={idx}
-                            disabled={showRationale}
-                            onClick={() => handleOptionClick(idx)}
-                            className={cn("w-full text-left p-3.5 rounded-lg border transition-all flex items-start gap-3 text-sm", variantClasses)}
-                          >
-                            <span className="shrink-0 w-6 h-6 rounded-full border border-current flex items-center justify-center text-[10px] font-semibold">
-                              {String.fromCharCode(65 + idx)}
-                            </span>
-                            {option}
-                          </button>
-                        );
-                      })}
+                  <h2 className="text-xl font-semibold text-gray-900 mb-6 leading-[1.6]">{currentCard.question}</h2>
+                  <div className="space-y-2.5 flex-1">
+                    {currentCard.options?.map((option, idx) => {
+                      const isSelected = selectedOption === idx;
+                      const isCorrectOpt = idx === currentCard.correctIndex;
+                      return (
+                        <AnswerOption
+                          key={idx}
+                          index={idx}
+                          text={option}
+                          isSelected={isSelected}
+                          isCorrect={showRationale && isCorrectOpt}
+                          isWrong={showRationale && isSelected && !isCorrectOpt}
+                          isRevealed={showRationale}
+                          disabled={showRationale}
+                          onClick={() => handleOptionClick(idx)}
+                          iconEl={
+                            showRationale && isCorrectOpt
+                              ? <CheckCircle2 className="h-5 w-5 text-emerald-600 shrink-0" />
+                              : showRationale && isSelected && !isCorrectOpt
+                                ? <XCircle className="h-5 w-5 text-red-500 shrink-0" />
+                                : undefined
+                          }
+                        />
+                      );
+                    })}
+                  </div>
+                  {showRationale && (
+                    <div className="mt-6 pt-5 border-t border-gray-100 space-y-3 animate-in fade-in duration-300">
+                      <RationaleSection
+                        icon={<Lightbulb className="h-4 w-4 text-amber-500" />}
+                        title="Explanation"
+                      >
+                        <p>{currentCard.answer}</p>
+                      </RationaleSection>
+                      {(currentCard.image || getCategoryImage(currentCard.category || "")) && (
+                        <RationaleImageBlock
+                          src={currentCard.image || getCategoryImage(currentCard.category || "") || ""}
+                          alt={`Clinical reference for ${currentCard.category || "nursing"}`}
+                          data-testid={`img-rationale-${currentCard.id}`}
+                        />
+                      )}
                     </div>
-                    {showRationale && (
-                      <div className="mt-6 p-5 bg-gray-50 border border-gray-200 rounded-xl animate-in fade-in duration-300">
-                        <p className="text-[10px] font-semibold text-gray-500 uppercase tracking-widest mb-2">{t("flashcards.rationale")}</p>
-                        <p className="text-sm text-gray-700 leading-relaxed">{currentCard.answer}</p>
-                      </div>
-                    )}
-                  </div>
-                </div>
+                  )}
+                </CardContent>
               </Card>
             ) : (
               <div
