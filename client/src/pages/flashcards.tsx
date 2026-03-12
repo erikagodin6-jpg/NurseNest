@@ -50,6 +50,7 @@ import {
   Crown,
   Zap,
   Lightbulb,
+  X,
 } from "lucide-react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
@@ -2439,8 +2440,8 @@ export default function Flashcards() {
       filtered = filtered.filter(c => selectedCategories.includes(c.category));
     }
     switch (cardSortBy) {
-      case "alpha-asc": filtered = [...filtered].sort((a, b) => (a.front || "").localeCompare(b.front || "")); break;
-      case "alpha-desc": filtered = [...filtered].sort((a, b) => (b.front || "").localeCompare(a.front || "")); break;
+      case "alpha-asc": filtered = [...filtered].sort((a, b) => (a.question || "").localeCompare(b.question || "")); break;
+      case "alpha-desc": filtered = [...filtered].sort((a, b) => (b.question || "").localeCompare(a.question || "")); break;
       case "category": filtered = [...filtered].sort((a, b) => (a.category || "").localeCompare(b.category || "")); break;
       case "shuffle": filtered = [...filtered].sort(() => Math.random() - 0.5); break;
       default: break;
@@ -2500,544 +2501,687 @@ export default function Flashcards() {
 
   const currentCard = sessionCards[currentIndex];
 
+  const [topicSearch, setTopicSearch] = useState("");
+  const [expandedGroups, setExpandedGroups] = useState<string[]>([]);
+  const [showTopicPanel, setShowTopicPanel] = useState(false);
+
+  const topicGroups: { label: string; topics: string[] }[] = useMemo(() => {
+    const groupDefs = [
+      { label: "Fundamentals", match: ["Fundamentals", "Nutrition", "Safety & Ethics", "Delegation", "Procedures"] },
+      { label: "Adult Health Systems", match: ["Cardiovascular", "Respiratory", "Neurological", "GI", "Gastrointestinal", "GU / Renal", "Renal", "Endocrine", "Musculoskeletal", "Fluid & Electrolytes"] },
+      { label: "Integumentary & Wound", match: ["Skin", "Wound Care"] },
+      { label: "Infection & Immunity", match: ["Infection", "Infection Control"] },
+      { label: "Maternal & Neonatal", match: ["Maternal", "Maternity", "Neonatal"] },
+      { label: "Pediatrics", match: ["Pediatrics"] },
+      { label: "Mental Health", match: ["Mental Health", "Psychiatry"] },
+      { label: "Pharmacology", match: ["Pharmacology"] },
+      { label: "Oncology & Hematology", match: ["Oncology", "Hematology"] },
+    ];
+    const assigned = new Set<string>();
+    const result: { label: string; topics: string[] }[] = [];
+    for (const g of groupDefs) {
+      const matched = categories.filter(c => g.match.includes(c));
+      if (matched.length > 0) {
+        result.push({ label: g.label, topics: matched });
+        matched.forEach(m => assigned.add(m));
+      }
+    }
+    const remaining = categories.filter(c => !assigned.has(c));
+    if (remaining.length > 0) {
+      result.push({ label: "Other Topics", topics: remaining });
+    }
+    return result;
+  }, [categories]);
+
+  const filteredTopicGroups = useMemo(() => {
+    if (!topicSearch.trim()) return topicGroups;
+    const q = topicSearch.toLowerCase();
+    return topicGroups
+      .map(g => ({
+        ...g,
+        topics: g.topics.filter(t => catLabel(t).toLowerCase().includes(q) || g.label.toLowerCase().includes(q)),
+      }))
+      .filter(g => g.topics.length > 0);
+  }, [topicGroups, topicSearch]);
+
+  const toggleGroup = (label: string) => {
+    setExpandedGroups(prev => prev.includes(label) ? prev.filter(l => l !== label) : [...prev, label]);
+  };
+
   if (view === "setup") {
     return (
-      <div className="min-h-screen bg-warmwhite flex flex-col font-sans">
+      <div className="min-h-screen bg-slate-50/80 flex flex-col font-sans">
         <Navigation />
 
-        <div className="max-w-5xl mx-auto px-4 pt-8">
-          <BreadcrumbNav />
-        </div>
-
-        <section className="relative bg-gradient-to-br from-indigo-600 via-purple-600 to-indigo-700 text-white overflow-hidden" data-testid="section-flashcards-hero">
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(255,255,255,0.1),transparent_50%)]" />
-          <div className="max-w-5xl mx-auto px-4 py-16 sm:py-20 relative z-10">
-            <div className="flex flex-wrap gap-2 justify-center mb-6">
-              {["flashcards.hero.pill1", "flashcards.hero.pill2", "flashcards.hero.pill3"].map((key) => (
-                <span key={key} className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 backdrop-blur-sm text-xs font-medium text-white/90 border border-white/10">
-                  <CheckCircle2 className="w-3 h-3" />
-                  {t(key)}
-                </span>
-              ))}
+        <Dialog open={showLimitModal} onOpenChange={setShowLimitModal}>
+          <DialogContent className="sm:max-w-md" data-testid="modal-limit-reached">
+            <DialogHeader>
+              <div className="mx-auto mb-2 w-12 h-12 rounded-full bg-red-100 flex items-center justify-center">
+                <Lock className="w-6 h-6 text-red-600" />
+              </div>
+              <DialogTitle className="text-center text-xl">Free Card Limit Reached</DialogTitle>
+              <DialogDescription className="text-center">
+                You've used all {entitlement.limit} free flashcards. Upgrade for unlimited cards, spaced repetition, and exam-mode testing.
+              </DialogDescription>
+            </DialogHeader>
+            <div className="space-y-3 py-4">
+              <div className="flex items-center justify-between p-3 bg-violet-50 rounded-lg border border-violet-100">
+                <div>
+                  <p className="font-semibold text-sm">Monthly</p>
+                  <p className="text-xs text-muted-foreground">Billed monthly</p>
+                </div>
+                <span className="font-bold text-violet-700">$4.99/mo</span>
+              </div>
+              <div className="flex items-center justify-between p-3 bg-violet-50 rounded-lg border-2 border-violet-300">
+                <div>
+                  <p className="font-semibold text-sm">Yearly <span className="text-xs text-emerald-600 ml-1">Best Value</span></p>
+                  <p className="text-xs text-muted-foreground">Save $20.88/year</p>
+                </div>
+                <span className="font-bold text-violet-700">$39/yr</span>
+              </div>
             </div>
-            <h1 className="text-3xl sm:text-4xl md:text-5xl font-black text-center leading-tight mb-4 tracking-tight" data-testid="text-flashcard-heading">
-              {t("flashcards.hero.title")}
-            </h1>
-            <p className="text-center text-white/80 text-base sm:text-lg max-w-2xl mx-auto mb-8 leading-relaxed" data-testid="text-flashcard-subheading">
-              {t("flashcards.hero.subtitle")}
-            </p>
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
-              <Button
-                size="lg"
-                className="rounded-xl bg-white text-indigo-700 hover:bg-white/90 font-bold shadow-lg px-8 h-12"
-                onClick={() => {
-                  const configEl = document.getElementById("flashcard-config");
-                  configEl?.scrollIntoView({ behavior: "smooth" });
-                }}
-                data-testid="button-hero-start-studying"
-              >
-                {t("flashcards.hero.cta")}
+            <DialogFooter className="flex-col gap-2 sm:flex-col">
+              <a href="/upgrade" className="w-full">
+                <Button className="w-full bg-violet-600 hover:bg-violet-700" size="lg" data-testid="button-modal-upgrade">
+                  Upgrade Now
+                </Button>
+              </a>
+              <Button variant="ghost" size="sm" onClick={() => setShowLimitModal(false)} className="text-muted-foreground" data-testid="button-modal-dismiss">
+                Maybe later
               </Button>
-              <LocaleLink href="/pricing">
-                <Button
-                  variant="outline"
-                  size="lg"
-                  className="rounded-xl border-white/30 text-white hover:bg-white/10 font-medium px-8 h-12"
-                  data-testid="button-hero-see-pricing"
-                >
-                  {t("flashcards.hero.ctaSecondary")}
-                </Button>
-              </LocaleLink>
-            </div>
-            <p className="text-center text-white/50 text-xs mt-4" data-testid="text-hero-free-desc">{t("flashcards.startFreeDesc")}</p>
-            {user?.tier === "admin" && (
-              <div className="flex justify-center mt-4">
-                <Button
-                  variant="outline"
-                  size="sm"
-                  className="gap-2 text-xs border-white/20 text-white/70 hover:bg-white/10"
-                  onClick={() => setLocation("/content-editor")}
-                  data-testid="button-admin-manage-flashcards"
-                >
-                  <Pencil className="w-3 h-3" />
-                  {t("flashcards.manageContent")}
-                </Button>
-              </div>
-            )}
-          </div>
-        </section>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
 
-        <section className="bg-white border-b border-gray-100 py-8" data-testid="section-flashcards-social-proof">
-          <div className="max-w-5xl mx-auto px-4">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
-              <div>
-                <p className="text-2xl sm:text-3xl font-black text-indigo-600" data-testid="text-stat-cards">{allCards.length}+</p>
-                <p className="text-xs text-gray-500 font-medium mt-1">{t("flashcards.socialProof.stat1Label")}</p>
-              </div>
-              <div>
-                <p className="text-2xl sm:text-3xl font-black text-indigo-600" data-testid="text-stat-systems">{categories.length}+</p>
-                <p className="text-xs text-gray-500 font-medium mt-1">{t("flashcards.socialProof.stat2Label")}</p>
-              </div>
-              <div>
-                <p className="text-2xl sm:text-3xl font-black text-indigo-600" data-testid="text-stat-verified">{t("flashcards.socialProof.stat3Value")}</p>
-                <p className="text-xs text-gray-500 font-medium mt-1">{t("flashcards.socialProof.stat3Label")}</p>
-              </div>
-              <div>
-                <p className="text-2xl sm:text-3xl font-black text-indigo-600" data-testid="text-stat-modes">{t("flashcards.socialProof.stat4Value")}</p>
-                <p className="text-xs text-gray-500 font-medium mt-1">{t("flashcards.socialProof.stat4Label")}</p>
-              </div>
-            </div>
-          </div>
-        </section>
+        <main className="flex-1">
+          <section className="bg-white border-b border-slate-100" data-testid="section-flashcards-hero">
+            <div className="max-w-5xl mx-auto px-4 sm:px-6 py-10 sm:py-16">
+              <div className="grid lg:grid-cols-[1fr,420px] gap-10 lg:gap-14 items-start">
 
-        <main className="max-w-4xl mx-auto px-4 py-12 w-full flex-1" id="flashcard-config">
-
-          {user && !entitlement.isPremium && (
-            <div className="mb-8 bg-white rounded-2xl shadow-md p-4 border" data-testid="flashcard-usage-counter">
-              <div className="flex items-center justify-between mb-2">
-                <div className="flex items-center gap-2">
-                  <Layers className="w-4 h-4 text-purple-500" />
-                  <span className="text-sm font-medium text-gray-700" data-testid="text-usage-count">
-                    {entitlement.totalFreeCards} / {entitlement.limit} free cards used
-                  </span>
-                </div>
-                {entitlement.percentage >= 80 && (
-                  <a href="/upgrade" className="text-xs font-semibold text-purple-600 hover:text-purple-700 flex items-center gap-1" data-testid="link-upgrade-cta">
-                    <Crown className="w-3 h-3" /> Upgrade to Pro
-                  </a>
-                )}
-              </div>
-              <div className="w-full bg-gray-100 rounded-full h-2.5">
-                <div
-                  className={cn(
-                    "h-2.5 rounded-full transition-all",
-                    entitlement.percentage >= 90 ? "bg-red-500" :
-                    entitlement.percentage >= 80 ? "bg-amber-500" :
-                    "bg-purple-500"
-                  )}
-                  style={{ width: `${Math.min(entitlement.percentage, 100)}%` }}
-                  data-testid="progress-usage-bar"
-                />
-              </div>
-              {entitlement.percentage >= 90 && entitlement.percentage < 100 && (
-                <div className="mt-2 flex items-center gap-2 text-xs text-amber-700 bg-amber-50 rounded-lg px-3 py-1.5" data-testid="text-usage-warning">
-                  <Zap className="w-3 h-3" />
-                  <span>You're almost at your limit! <a href="/upgrade" className="font-semibold underline">Upgrade to Pro</a> for unlimited flashcards.</span>
-                </div>
-              )}
-              {entitlement.percentage >= 100 && (
-                <div className="mt-2 flex items-center gap-2 text-xs text-red-700 bg-red-50 rounded-lg px-3 py-2" data-testid="text-limit-reached">
-                  <Lock className="w-3 h-3" />
-                  <span>You've reached your free card limit. <a href="/upgrade" className="font-semibold underline">Upgrade to Pro</a> to continue creating flashcards.</span>
-                </div>
-              )}
-            </div>
-          )}
-
-          <Dialog open={showLimitModal} onOpenChange={setShowLimitModal}>
-            <DialogContent className="sm:max-w-md" data-testid="modal-limit-reached">
-              <DialogHeader>
-                <div className="mx-auto mb-2 w-12 h-12 rounded-full bg-red-100 flex items-center justify-center">
-                  <Lock className="w-6 h-6 text-red-600" />
-                </div>
-                <DialogTitle className="text-center text-xl">Free Card Limit Reached</DialogTitle>
-                <DialogDescription className="text-center">
-                  You've used all {entitlement.limit} free flashcards. Upgrade to Pro for unlimited cards, AI generation, spaced repetition, and exam-mode testing.
-                </DialogDescription>
-              </DialogHeader>
-              <div className="space-y-3 py-4">
-                <div className="flex items-center justify-between p-3 bg-purple-50 rounded-lg border border-purple-100">
-                  <div>
-                    <p className="font-semibold text-sm">Pro Monthly</p>
-                    <p className="text-xs text-muted-foreground">Billed monthly</p>
+                <div className="pt-2">
+                  <div className="max-w-5xl mb-4">
+                    <BreadcrumbNav />
                   </div>
-                  <span className="font-bold text-purple-700">$4.99/mo</span>
-                </div>
-                <div className="flex items-center justify-between p-3 bg-purple-50 rounded-lg border-2 border-purple-300">
-                  <div>
-                    <p className="font-semibold text-sm">Pro Yearly <span className="text-xs text-green-600 ml-1">Best Value</span></p>
-                    <p className="text-xs text-muted-foreground">Save $20.88/year</p>
-                  </div>
-                  <span className="font-bold text-purple-700">$39/yr</span>
-                </div>
-              </div>
-              <DialogFooter className="flex-col gap-2 sm:flex-col">
-                <a href="/upgrade" className="w-full">
-                  <Button className="w-full bg-purple-600 hover:bg-purple-700" size="lg" data-testid="button-modal-upgrade">
-                    <Crown className="mr-2 h-4 w-4" /> Upgrade to Pro
-                  </Button>
-                </a>
-                <Button variant="ghost" size="sm" onClick={() => setShowLimitModal(false)} className="text-muted-foreground" data-testid="button-modal-dismiss">
-                  Maybe later
-                </Button>
-              </DialogFooter>
-            </DialogContent>
-          </Dialog>
-
-          <div className="grid md:grid-cols-2 gap-8">
-            <Card className="border-none shadow-xl bg-white p-8 rounded-3xl">
-              <CardHeader className="px-0 pt-0">
-                <div className="flex items-center gap-2 mb-2">
-                  <Settings2 className="w-5 h-5 text-primary" />
-                  <CardTitle className="text-xl">{t("flashcards.configuration")}</CardTitle>
-                </div>
-              </CardHeader>
-              <div className="space-y-6">
-                <div>
-                  <label className="text-xs font-bold text-gray-400 uppercase tracking-widest block mb-3">{t("flashcards.cardType")}</label>
-                  <div className="grid grid-cols-3 gap-2">
-                    {(["all", "term", "question"] as const).map(ct => (
-                      <Button 
-                        key={ct}
-                        variant={selectedType === ct ? "default" : "outline"}
-                        onClick={() => setSelectedType(ct)}
-                        className="rounded-xl capitalize"
-                      >
-                        {ct === "all" ? t("flashcards.mixed") : `${ct}s`}
-                      </Button>
-                    ))}
-                  </div>
-                </div>
-
-                <div>
-                  <label className="text-xs font-bold text-gray-400 uppercase tracking-widest block mb-3">{t("flashcards.topics")}</label>
-                  <div className="flex flex-wrap gap-2">
-                    {categories.map(cat => (
-                      <Button 
-                        key={cat}
-                        variant={selectedCategories.includes(cat) ? "secondary" : "outline"}
-                        onClick={() => {
-                          setSelectedCategories(prev => 
-                            prev.includes(cat) ? prev.filter(c => c !== cat) : [...prev, cat]
-                          );
-                        }}
-                        className={cn(
-                          "rounded-full text-xs font-medium px-4",
-                          selectedCategories.includes(cat) ? "bg-primary/10 text-primary border-primary/20" : ""
-                        )}
-                      >
-                        {catLabel(cat)}
-                      </Button>
-                    ))}
-                    <Button 
-                      variant="ghost" 
-                      size="sm" 
-                      onClick={() => setSelectedCategories([])}
-                      className="text-[10px] text-gray-400 hover:text-gray-600"
-                    >
-                      {t("flashcards.clearAll")}
-                    </Button>
-                  </div>
-                </div>
-
-                <div>
-                  <label className="text-xs font-bold text-gray-400 uppercase tracking-widest block mb-3">Sort Order</label>
-                  <div className="grid grid-cols-5 gap-1.5">
-                    {([
-                      { value: "default", label: "Default" },
-                      { value: "alpha-asc", label: "A-Z" },
-                      { value: "alpha-desc", label: "Z-A" },
-                      { value: "category", label: "Topic" },
-                      { value: "shuffle", label: "Shuffle" },
-                    ] as const).map(opt => (
-                      <Button
-                        key={opt.value}
-                        variant={cardSortBy === opt.value ? "default" : "outline"}
-                        onClick={() => setCardSortBy(opt.value)}
-                        className="rounded-xl text-xs"
-                        size="sm"
-                        data-testid={`button-sort-${opt.value}`}
-                      >
-                        {opt.label}
-                      </Button>
-                    ))}
-                  </div>
-                </div>
-
-                {mastered.length > 0 && (
-                  <div>
-                    <label className="flex items-center gap-3 cursor-pointer select-none">
-                      <input
-                        type="checkbox"
-                        checked={includeMastered}
-                        onChange={(e) => setIncludeMastered(e.target.checked)}
-                        className="w-4 h-4 rounded border-gray-300 text-primary focus:ring-primary"
-                        data-testid="checkbox-include-mastered"
-                      />
-                      <span className="text-sm text-gray-600">{t("flashcards.includeMastered")} ({mastered.length})</span>
-                    </label>
-                  </div>
-                )}
-
-                <div className="pt-4">
-                  <Button 
-                    className="w-full h-14 rounded-2xl text-lg font-bold shadow-lg shadow-primary/20"
-                    onClick={startSession}
-                    disabled={sessionCards.length === 0}
-                  >
-                    {t("flashcards.startSession")} ({sessionCards.length} {t("flashcards.cards")})
-                  </Button>
-                </div>
-              </div>
-            </Card>
-
-            <div className="space-y-6">
-              <Card 
-                className="border-none shadow-lg bg-gradient-to-br from-primary/90 to-primary text-white p-8 rounded-3xl cursor-pointer hover:scale-[1.02] transition-transform group"
-                onClick={() => setView("bookmarks")}
-              >
-                <div className="flex justify-between items-start mb-6">
-                  <div className="w-12 h-12 bg-white/15 rounded-2xl flex items-center justify-center">
-                    <Bookmark className="w-6 h-6 text-white/80" />
-                  </div>
-                  <ChevronRight className="w-5 h-5 text-white/40 group-hover:translate-x-1 transition-transform" />
-                </div>
-                <h3 className="text-2xl font-bold mb-2">{t("flashcards.flaggedForReview")}</h3>
-                <p className="text-white/70 text-sm leading-relaxed">
-                  {bookmarks.length > 0 ? `${bookmarks.length} ${t("flashcards.flaggedDesc")}` : t("flashcards.flaggedEmpty")}
-                </p>
-              </Card>
-
-              <Card 
-                className="border-none shadow-lg bg-gradient-to-br from-primary/70 to-primary/50 text-gray-900 p-8 rounded-3xl cursor-pointer hover:scale-[1.02] transition-transform group"
-                onClick={() => setView("mastered")}
-                data-testid="card-mastered"
-              >
-                <div className="flex justify-between items-start mb-6">
-                  <div className="w-12 h-12 bg-white/30 rounded-2xl flex items-center justify-center">
-                    <Trophy className="w-6 h-6 text-gray-900/70" />
-                  </div>
-                  <ChevronRight className="w-5 h-5 text-gray-900/30 group-hover:translate-x-1 transition-transform" />
-                </div>
-                <h3 className="text-2xl font-bold mb-2">{t("flashcards.masteredCards")}</h3>
-                <p className="text-gray-900/60 text-sm leading-relaxed">
-                  {mastered.length > 0 ? `${mastered.length} ${t("flashcards.masteredDesc")}` : t("flashcards.masteredEmpty")}
-                </p>
-              </Card>
-
-              <Card 
-                className="border-none shadow-lg bg-gradient-to-br from-emerald-500 to-teal-600 text-white p-8 rounded-3xl cursor-pointer hover:scale-[1.02] transition-transform group"
-                onClick={() => { setView("mycards"); fetchCustomCards(); }}
-                data-testid="card-mycards"
-              >
-                <div className="flex justify-between items-start mb-6">
-                  <div className="w-12 h-12 bg-white/15 rounded-2xl flex items-center justify-center">
-                    <Plus className="w-6 h-6 text-white/80" />
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <span className="text-xs bg-white/20 px-2 py-1 rounded-full font-medium">
-                      {user ? t("flashcards.freeForEveryone") : t("flashcards.signInToStart")}
-                    </span>
-                    <ChevronRight className="w-5 h-5 text-white/40 group-hover:translate-x-1 transition-transform" />
-                  </div>
-                </div>
-                <h3 className="text-2xl font-bold mb-2">{t("flashcards.myFlashcards")}</h3>
-                <p className="text-white/70 text-sm leading-relaxed">
-                  {t("flashcards.myFlashcardsDesc")}
-                </p>
-              </Card>
-
-              <Card 
-                className="border-none shadow-lg bg-gradient-to-br from-indigo-500 to-purple-600 text-white p-8 rounded-3xl cursor-pointer hover:scale-[1.02] transition-transform group relative overflow-hidden"
-                onClick={() => { setView("decks"); fetchMyDecks(); fetchPublicDecks(); fetchEntitlement(); }}
-                data-testid="card-study-decks"
-              >
-                {!isPaid && (
-                  <div className="absolute top-3 right-3 flex items-center gap-1 bg-amber-400/90 text-amber-900 px-2 py-0.5 rounded-full text-[10px] font-bold">
-                    <Lock className="w-2.5 h-2.5" />
-                    {t("flashcards.premiumDeck")}
-                  </div>
-                )}
-                <div className="flex justify-between items-start mb-6">
-                  <div className="w-12 h-12 bg-white/15 rounded-2xl flex items-center justify-center">
-                    <Layers className="w-6 h-6 text-white/80" />
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <span className="text-xs bg-white/20 px-2 py-1 rounded-full font-medium">
-                      {t("flashcards.studyDecks")}
-                    </span>
-                    <ChevronRight className="w-5 h-5 text-white/40 group-hover:translate-x-1 transition-transform" />
-                  </div>
-                </div>
-                <h3 className="text-2xl font-bold mb-2">{t("flashcards.studyDecks")}</h3>
-                <p className="text-white/70 text-sm leading-relaxed">
-                  {t("flashcards.studyDecksDesc")}
-                </p>
-              </Card>
-
-              <Card 
-                className="border-none shadow-lg bg-gradient-to-br from-rose-500 to-pink-600 text-white p-8 rounded-3xl cursor-pointer hover:scale-[1.02] transition-transform group relative overflow-hidden"
-                onClick={() => {
-                  if (!isPaid) {
-                    setLocation("/pricing");
-                    return;
-                  }
-                  setExamStudyIndex(0);
-                  setExamSelectedOption(null);
-                  setExamShowRationale(false);
-                  setExamSessionResults([]);
-                  setView("exam-flashcards");
-                }}
-                data-testid="card-exam-flashcards"
-              >
-                {!isPaid && (
-                  <div className="absolute top-3 right-3 flex items-center gap-1 bg-amber-400/90 text-amber-900 px-2 py-0.5 rounded-full text-[10px] font-bold">
-                    <Lock className="w-2.5 h-2.5" />
-                    Premium
-                  </div>
-                )}
-                <div className="flex justify-between items-start mb-6">
-                  <div className="w-12 h-12 bg-white/15 rounded-2xl flex items-center justify-center">
-                    <ShieldAlert className="w-6 h-6 text-white/80" />
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <span className="text-xs bg-white/20 px-2 py-1 rounded-full font-medium">
-                      {examFlashcardTotal > 0 ? `${examFlashcardTotal.toLocaleString()} Cards` : "CAT Prep"}
-                    </span>
-                    <ChevronRight className="w-5 h-5 text-white/40 group-hover:translate-x-1 transition-transform" />
-                  </div>
-                </div>
-                <h3 className="text-2xl font-bold mb-2" data-testid="text-exam-flashcards-title">CAT Exam Study Cards</h3>
-                <p className="text-white/70 text-sm leading-relaxed">
-                  Practice with real exam-style questions featuring detailed rationales, clinical takeaways, and exam pearls
-                </p>
-                {examHasResumable && isPaid && (
-                  <button
-                    className="mt-4 w-full py-2 bg-white/20 hover:bg-white/30 rounded-xl text-sm font-semibold transition-colors flex items-center justify-center gap-2"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      resumeExamSession();
-                      setView("exam-flashcards");
-                    }}
-                    data-testid="button-resume-exam-session"
-                  >
-                    <History className="w-4 h-4" />
-                    Resume Previous Session
-                  </button>
-                )}
-              </Card>
-
-              {dbFlashcardSets.length > 0 && (
-                <Card 
-                  className="border-none shadow-lg bg-gradient-to-br from-amber-500 to-orange-600 text-white p-8 rounded-3xl cursor-pointer hover:scale-[1.02] transition-transform group"
-                  onClick={() => setView("admin-sets")}
-                  data-testid="card-admin-flashcard-sets"
-                >
-                  <div className="flex justify-between items-start mb-6">
-                    <div className="w-12 h-12 bg-white/15 rounded-2xl flex items-center justify-center">
-                      <BookOpen className="w-6 h-6 text-white/80" />
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <span className="text-xs bg-white/20 px-2 py-1 rounded-full font-medium">
-                        {dbFlashcardSets.length} {dbFlashcardSets.length === 1 ? "Set" : "Sets"}
-                      </span>
-                      <ChevronRight className="w-5 h-5 text-white/40 group-hover:translate-x-1 transition-transform" />
-                    </div>
-                  </div>
-                  <h3 className="text-2xl font-bold mb-2" data-testid="text-admin-sets-title">Additional Study Sets</h3>
-                  <p className="text-white/70 text-sm leading-relaxed">
-                    Curated flashcard sets created by our clinical education team
+                  <h1 className="text-3xl sm:text-4xl font-bold text-slate-900 tracking-tight leading-tight mb-4" data-testid="text-flashcard-heading">
+                    Master Nursing Flashcards
+                  </h1>
+                  <p className="text-slate-500 text-base sm:text-lg leading-relaxed mb-6 max-w-lg" data-testid="text-flashcard-subheading">
+                    Clinically reviewed flashcard sessions for RPN, RN, and NP exam preparation. Study by topic, mode, and exam level with progress tracking.
                   </p>
-                </Card>
-              )}
 
-              <Card className="border-none shadow-md bg-white p-6 rounded-3xl border border-primary/10">
-                <div className="flex items-center gap-3 mb-4">
-                  <History className="w-5 h-5 text-primary" />
-                  <h4 className="font-bold text-gray-900">{t("flashcards.examStrategy")}</h4>
+                  <div className="flex flex-wrap items-center gap-4 sm:gap-6 text-xs text-slate-400 mb-8">
+                    <span className="flex items-center gap-1.5">
+                      <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" />
+                      Clinically reviewed
+                    </span>
+                    <span className="flex items-center gap-1.5">
+                      <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" />
+                      Exam aligned
+                    </span>
+                    <span className="flex items-center gap-1.5">
+                      <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" />
+                      {allCards.length}+ cards
+                    </span>
+                  </div>
+
+                  <div className="flex flex-wrap items-center gap-3">
+                    <Button
+                      size="lg"
+                      className="rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-semibold px-7 h-12 shadow-sm"
+                      onClick={() => {
+                        const configEl = document.getElementById("flashcard-config");
+                        configEl?.scrollIntoView({ behavior: "smooth" });
+                      }}
+                      data-testid="button-hero-start-studying"
+                    >
+                      Start Studying
+                    </Button>
+                    <LocaleLink href="/pricing">
+                      <Button
+                        variant="outline"
+                        size="lg"
+                        className="rounded-xl border-slate-200 text-slate-600 hover:bg-slate-50 font-medium px-7 h-12"
+                        data-testid="button-hero-see-pricing"
+                      >
+                        View Plans
+                      </Button>
+                    </LocaleLink>
+                  </div>
+
+                  {user?.tier === "admin" && (
+                    <div className="mt-4">
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        className="gap-2 text-xs text-slate-400 hover:text-slate-600"
+                        onClick={() => setLocation("/content-editor")}
+                        data-testid="button-admin-manage-flashcards"
+                      >
+                        <Pencil className="w-3 h-3" />
+                        Manage Content
+                      </Button>
+                    </div>
+                  )}
                 </div>
-                <ul className="space-y-3 text-sm text-gray-600">
-                  <li className="flex gap-2">
-                    <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0" />
-                    <span>{t("flashcards.examTip1")}</span>
-                  </li>
-                  <li className="flex gap-2">
-                    <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0" />
-                    <span>{t("flashcards.examTip2")}</span>
-                  </li>
-                  <li className="flex gap-2">
-                    <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0" />
-                    <span>{t("flashcards.examTip3")}</span>
-                  </li>
-                </ul>
-              </Card>
-            </div>
-          </div>
 
-          <section className="mt-12 bg-white rounded-3xl shadow-xl p-8 border border-gray-100" data-testid="section-flashcards-compare">
-            <div className="text-center mb-8">
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-indigo-50 text-xs font-semibold text-indigo-600 mb-3">
-                <ShieldAlert className="w-3 h-3" />
-                {t("flashcards.compare.badge")}
-              </span>
-              <h2 className="text-2xl font-bold text-gray-900 mb-2" data-testid="text-compare-heading">{t("flashcards.compare.heading")}</h2>
-              <p className="text-gray-500 text-sm max-w-xl mx-auto">{t("flashcards.compare.subtitle")}</p>
-            </div>
-            <div className="overflow-x-auto">
-              <table className="w-full text-sm" data-testid="table-compare">
-                <thead>
-                  <tr className="border-b border-gray-100">
-                    <th className="text-left py-3 px-4 font-semibold text-gray-600">{t("flashcards.compare.feature")}</th>
-                    <th className="text-center py-3 px-4 font-bold text-indigo-600">{t("flashcards.compare.nursenest")}</th>
-                    <th className="text-center py-3 px-4 font-medium text-gray-400">{t("flashcards.compare.generic")}</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {[
-                    { key: "row1", nn: true, other: false },
-                    { key: "row2", nn: true, other: false },
-                    { key: "row3", nn: true, other: false },
-                    { key: "row4", nn: true, other: "limited" },
-                    { key: "row5", nn: true, other: true },
-                    { key: "row6", nn: true, other: false },
-                    { key: "row7", nn: true, other: true },
-                  ].map((row) => (
-                    <tr key={row.key} className="border-b border-gray-50 hover:bg-gray-50/50">
-                      <td className="py-3 px-4 text-gray-700 font-medium">{t(`flashcards.compare.${row.key}`)}</td>
-                      <td className="py-3 px-4 text-center">
-                        <span className="text-emerald-500 font-bold text-lg">{t("flashcards.compare.yes")}</span>
-                      </td>
-                      <td className="py-3 px-4 text-center">
-                        {row.other === true ? (
-                          <span className="text-emerald-500 font-bold text-lg">{t("flashcards.compare.yes")}</span>
-                        ) : row.other === "limited" ? (
-                          <span className="text-amber-500 text-xs font-medium">{t("flashcards.compare.limited")}</span>
-                        ) : (
-                          <span className="text-red-400 font-bold text-lg">{t("flashcards.compare.no")}</span>
+                <div id="flashcard-config" className="w-full">
+                  <Card className="border border-slate-200/80 shadow-lg bg-white rounded-2xl overflow-hidden">
+                    <div className="px-6 pt-6 pb-4 border-b border-slate-100">
+                      <div className="flex items-center gap-2.5">
+                        <div className="w-8 h-8 rounded-lg bg-slate-900 flex items-center justify-center">
+                          <Settings2 className="w-4 h-4 text-white" />
+                        </div>
+                        <div>
+                          <h2 className="text-sm font-semibold text-slate-900">Study Setup</h2>
+                          <p className="text-[11px] text-slate-400">Configure your session</p>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="px-6 py-5 space-y-5">
+                      <div>
+                        <label className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider block mb-2.5">Card Type</label>
+                        <div className="grid grid-cols-3 gap-1.5">
+                          {(["all", "term", "question"] as const).map(ct => (
+                            <button
+                              key={ct}
+                              onClick={() => setSelectedType(ct)}
+                              className={cn(
+                                "py-2 px-3 rounded-lg text-xs font-medium transition-all border",
+                                selectedType === ct
+                                  ? "bg-slate-900 text-white border-slate-900 shadow-sm"
+                                  : "bg-white text-slate-600 border-slate-200 hover:border-slate-300 hover:bg-slate-50"
+                              )}
+                              data-testid={`button-type-${ct}`}
+                            >
+                              {ct === "all" ? "Mixed" : ct === "term" ? "Terms" : "Questions"}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+
+                      <div>
+                        <label className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider block mb-2.5">Sort Order</label>
+                        <div className="grid grid-cols-5 gap-1">
+                          {([
+                            { value: "default", label: "Default" },
+                            { value: "alpha-asc", label: "A-Z" },
+                            { value: "alpha-desc", label: "Z-A" },
+                            { value: "category", label: "Topic" },
+                            { value: "shuffle", label: "Shuffle" },
+                          ] as const).map(opt => (
+                            <button
+                              key={opt.value}
+                              onClick={() => setCardSortBy(opt.value)}
+                              className={cn(
+                                "py-1.5 px-1 rounded-md text-[11px] font-medium transition-all border",
+                                cardSortBy === opt.value
+                                  ? "bg-slate-900 text-white border-slate-900"
+                                  : "bg-white text-slate-500 border-slate-200 hover:border-slate-300"
+                              )}
+                              data-testid={`button-sort-${opt.value}`}
+                            >
+                              {opt.label}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+
+                      <div>
+                        <div className="flex items-center justify-between mb-2.5">
+                          <label className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider">Topics</label>
+                          <div className="flex items-center gap-2">
+                            {selectedCategories.length > 0 && (
+                              <span className="text-[11px] font-medium text-violet-600 bg-violet-50 px-2 py-0.5 rounded-full">
+                                {selectedCategories.length} selected
+                              </span>
+                            )}
+                            <button
+                              onClick={() => setShowTopicPanel(!showTopicPanel)}
+                              className="text-[11px] font-medium text-slate-500 hover:text-slate-700 transition-colors flex items-center gap-1"
+                              data-testid="button-toggle-topics"
+                            >
+                              {showTopicPanel ? "Hide" : "Choose Topics"}
+                              <ChevronRight className={cn("w-3 h-3 transition-transform", showTopicPanel && "rotate-90")} />
+                            </button>
+                          </div>
+                        </div>
+
+                        {selectedCategories.length > 0 && (
+                          <div className="flex flex-wrap gap-1.5 mb-3">
+                            {selectedCategories.map(cat => (
+                              <span
+                                key={cat}
+                                className="inline-flex items-center gap-1 pl-2.5 pr-1.5 py-1 rounded-full bg-violet-50 text-violet-700 text-[11px] font-medium border border-violet-100"
+                              >
+                                {catLabel(cat)}
+                                <button
+                                  onClick={() => setSelectedCategories(prev => prev.filter(c => c !== cat))}
+                                  className="w-4 h-4 rounded-full hover:bg-violet-200 flex items-center justify-center transition-colors"
+                                >
+                                  <XCircle className="w-3 h-3" />
+                                </button>
+                              </span>
+                            ))}
+                            <button
+                              onClick={() => setSelectedCategories([])}
+                              className="text-[11px] text-slate-400 hover:text-slate-600 font-medium px-2"
+                              data-testid="button-clear-topics"
+                            >
+                              Clear all
+                            </button>
+                          </div>
                         )}
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+
+                        {!showTopicPanel && selectedCategories.length === 0 && (
+                          <p className="text-[11px] text-slate-400">All {categories.length} topics included</p>
+                        )}
+                      </div>
+
+                      {mastered.length > 0 && (
+                        <label className="flex items-center gap-2.5 cursor-pointer select-none py-1">
+                          <input
+                            type="checkbox"
+                            checked={includeMastered}
+                            onChange={(e) => setIncludeMastered(e.target.checked)}
+                            className="w-3.5 h-3.5 rounded border-slate-300 text-slate-900 focus:ring-slate-400"
+                            data-testid="checkbox-include-mastered"
+                          />
+                          <span className="text-xs text-slate-500">Include mastered cards ({mastered.length})</span>
+                        </label>
+                      )}
+                    </div>
+
+                    <div className="px-6 pb-6 pt-2 space-y-2.5">
+                      <Button
+                        className="w-full h-12 rounded-xl text-sm font-semibold bg-slate-900 hover:bg-slate-800 shadow-sm"
+                        onClick={startSession}
+                        disabled={sessionCards.length === 0}
+                        data-testid="button-start-session"
+                      >
+                        Start Session ({sessionCards.length} cards)
+                      </Button>
+                      {examHasResumable && isPaid && (
+                        <Button
+                          variant="outline"
+                          className="w-full h-10 rounded-xl text-xs font-medium border-slate-200 text-slate-600 hover:bg-slate-50 gap-2"
+                          onClick={() => { resumeExamSession(); setView("exam-flashcards"); }}
+                          data-testid="button-resume-exam-session"
+                        >
+                          <History className="w-3.5 h-3.5" />
+                          Resume Previous Session
+                        </Button>
+                      )}
+                    </div>
+                  </Card>
+                </div>
+              </div>
             </div>
           </section>
 
-          {!isPaid && (
-            <section className="mt-8 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-3xl p-8 text-white text-center shadow-xl" data-testid="section-flashcards-upgrade-cta">
-              <Crown className="w-10 h-10 mx-auto mb-4 text-amber-300" />
-              <h2 className="text-2xl font-bold mb-2" data-testid="text-upgrade-title">{t("flashcards.upgradeCta.title")}</h2>
-              <p className="text-white/80 text-sm max-w-lg mx-auto mb-6">{t("flashcards.upgradeCta.subtitle")}</p>
-              <LocaleLink href="/pricing">
-                <Button size="lg" className="rounded-xl bg-white text-indigo-700 hover:bg-white/90 font-bold shadow-lg px-8 h-12" data-testid="button-bottom-upgrade">
-                  {t("flashcards.upgradeCta.button")}
-                </Button>
-              </LocaleLink>
+          {showTopicPanel && (
+            <section className="bg-white border-b border-slate-100" data-testid="section-topic-selector">
+              <div className="max-w-5xl mx-auto px-4 sm:px-6 py-8">
+                <div className="max-w-2xl mx-auto">
+                  <div className="flex items-center justify-between mb-5">
+                    <div className="flex items-center gap-3">
+                      <h2 className="text-base font-semibold text-slate-900">Select Topics</h2>
+                      {selectedCategories.length > 0 && (
+                        <span className="text-xs font-medium text-violet-600 bg-violet-50 px-2.5 py-1 rounded-full border border-violet-100">
+                          {selectedCategories.length} of {categories.length}
+                        </span>
+                      )}
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <button
+                        onClick={() => setSelectedCategories([...categories])}
+                        className="text-xs font-medium text-slate-500 hover:text-slate-700"
+                        data-testid="button-select-all-topics"
+                      >
+                        Select all
+                      </button>
+                      {selectedCategories.length > 0 && (
+                        <button
+                          onClick={() => setSelectedCategories([])}
+                          className="text-xs font-medium text-slate-400 hover:text-slate-600"
+                          data-testid="button-clear-all-topics"
+                        >
+                          Clear all
+                        </button>
+                      )}
+                    </div>
+                  </div>
+
+                  <div className="relative mb-5">
+                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-300" />
+                    <Input
+                      placeholder="Search topics or systems..."
+                      value={topicSearch}
+                      onChange={(e) => setTopicSearch(e.target.value)}
+                      className="pl-9 h-10 rounded-xl border-slate-200 bg-slate-50/50 text-sm placeholder:text-slate-300 focus:border-slate-300 focus:ring-slate-200"
+                      data-testid="input-topic-search"
+                    />
+                  </div>
+
+                  <div className="space-y-1.5">
+                    {filteredTopicGroups.map(group => {
+                      const isExpanded = expandedGroups.includes(group.label) || topicSearch.trim().length > 0;
+                      const selectedInGroup = group.topics.filter(t => selectedCategories.includes(t)).length;
+                      return (
+                        <div key={group.label} className="border border-slate-100 rounded-xl overflow-hidden bg-white">
+                          <button
+                            onClick={() => toggleGroup(group.label)}
+                            className="w-full flex items-center justify-between px-4 py-3 hover:bg-slate-50/80 transition-colors"
+                            data-testid={`button-group-${group.label.replace(/\s+/g, "-").toLowerCase()}`}
+                          >
+                            <span className="text-sm font-medium text-slate-700">{group.label}</span>
+                            <div className="flex items-center gap-2.5">
+                              {selectedInGroup > 0 && (
+                                <span className="text-[10px] font-semibold text-violet-600 bg-violet-50 px-2 py-0.5 rounded-full">
+                                  {selectedInGroup}
+                                </span>
+                              )}
+                              <span className="text-[10px] text-slate-400">{group.topics.length}</span>
+                              <ChevronRight className={cn("w-3.5 h-3.5 text-slate-300 transition-transform", isExpanded && "rotate-90")} />
+                            </div>
+                          </button>
+                          {isExpanded && (
+                            <div className="px-4 pb-3 pt-1 border-t border-slate-50">
+                              <div className="flex flex-wrap gap-1.5">
+                                {group.topics.map(topic => {
+                                  const isSelected = selectedCategories.includes(topic);
+                                  return (
+                                    <button
+                                      key={topic}
+                                      onClick={() => {
+                                        setSelectedCategories(prev =>
+                                          prev.includes(topic) ? prev.filter(c => c !== topic) : [...prev, topic]
+                                        );
+                                      }}
+                                      className={cn(
+                                        "px-3 py-1.5 rounded-lg text-xs font-medium transition-all border",
+                                        isSelected
+                                          ? "bg-violet-50 text-violet-700 border-violet-200 shadow-sm"
+                                          : "bg-white text-slate-500 border-slate-150 hover:border-slate-300 hover:bg-slate-50"
+                                      )}
+                                      data-testid={`button-topic-${topic.replace(/[\s\/]+/g, "-").toLowerCase()}`}
+                                    >
+                                      {catLabel(topic)}
+                                    </button>
+                                  );
+                                })}
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      );
+                    })}
+                  </div>
+
+                  {topicSearch && filteredTopicGroups.length === 0 && (
+                    <div className="text-center py-8 text-slate-400 text-sm">
+                      No topics match "{topicSearch}"
+                    </div>
+                  )}
+                </div>
+              </div>
             </section>
           )}
 
-          <div className="mt-8 pt-6 border-t border-gray-100" data-testid="section-more-study">
-            <p className="text-xs font-medium text-gray-500 uppercase tracking-wider mb-3">More Ways to Study</p>
-            <div className="flex flex-wrap gap-2">
-              <LocaleLink href="/lessons" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gray-50 border border-gray-200 hover:border-primary/30 hover:bg-primary/5 transition-all text-xs font-medium text-gray-600 hover:text-primary" data-testid="link-study-lessons">Clinical Lessons</LocaleLink>
-              <LocaleLink href="/anatomy" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gray-50 border border-gray-200 hover:border-primary/30 hover:bg-primary/5 transition-all text-xs font-medium text-gray-600 hover:text-primary" data-testid="link-study-anatomy">Anatomy Explorer</LocaleLink>
-              <LocaleLink href="/question-bank" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gray-50 border border-gray-200 hover:border-primary/30 hover:bg-primary/5 transition-all text-xs font-medium text-gray-600 hover:text-primary" data-testid="link-study-question-bank">Question Bank</LocaleLink>
-              <LocaleLink href="/mock-exams" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gray-50 border border-gray-200 hover:border-primary/30 hover:bg-primary/5 transition-all text-xs font-medium text-gray-600 hover:text-primary" data-testid="link-study-mock-exams">Mock Exams</LocaleLink>
-              <LocaleLink href="/medication-mastery" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gray-50 border border-gray-200 hover:border-primary/30 hover:bg-primary/5 transition-all text-xs font-medium text-gray-600 hover:text-primary" data-testid="link-study-medication">Medication Mastery</LocaleLink>
-              <LocaleLink href="/med-math" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gray-50 border border-gray-200 hover:border-primary/30 hover:bg-primary/5 transition-all text-xs font-medium text-gray-600 hover:text-primary" data-testid="link-study-med-math">Med Math</LocaleLink>
+          <section className="bg-slate-50/80 py-8" data-testid="section-quick-access">
+            <div className="max-w-5xl mx-auto px-4 sm:px-6">
+              <h2 className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-4">Quick Access</h2>
+              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
+
+                <button
+                  onClick={() => setView("bookmarks")}
+                  className="group flex flex-col items-start p-4 bg-white rounded-xl border border-slate-100 hover:border-slate-200 hover:shadow-sm transition-all text-left"
+                  data-testid="card-bookmarks"
+                >
+                  <div className="w-8 h-8 rounded-lg bg-amber-50 flex items-center justify-center mb-3">
+                    <Flag className="w-4 h-4 text-amber-500" />
+                  </div>
+                  <span className="text-xs font-semibold text-slate-700 mb-0.5">Flagged for Review</span>
+                  <span className="text-[11px] text-slate-400">
+                    {bookmarks.length > 0 ? `${bookmarks.length} cards saved` : "No cards flagged"}
+                  </span>
+                </button>
+
+                <button
+                  onClick={() => setView("mastered")}
+                  className="group flex flex-col items-start p-4 bg-white rounded-xl border border-slate-100 hover:border-slate-200 hover:shadow-sm transition-all text-left"
+                  data-testid="card-mastered"
+                >
+                  <div className="w-8 h-8 rounded-lg bg-emerald-50 flex items-center justify-center mb-3">
+                    <Trophy className="w-4 h-4 text-emerald-500" />
+                  </div>
+                  <span className="text-xs font-semibold text-slate-700 mb-0.5">Mastered Cards</span>
+                  <span className="text-[11px] text-slate-400">
+                    {mastered.length > 0 ? `${mastered.length} cards mastered` : "None yet"}
+                  </span>
+                </button>
+
+                <button
+                  onClick={() => { setView(user ? "mycards" : "mycards"); fetchCustomCards(); }}
+                  className="group flex flex-col items-start p-4 bg-white rounded-xl border border-slate-100 hover:border-slate-200 hover:shadow-sm transition-all text-left"
+                  data-testid="card-mycards"
+                >
+                  <div className="w-8 h-8 rounded-lg bg-blue-50 flex items-center justify-center mb-3">
+                    <Plus className="w-4 h-4 text-blue-500" />
+                  </div>
+                  <span className="text-xs font-semibold text-slate-700 mb-0.5">My Flashcards</span>
+                  <span className="text-[11px] text-slate-400">{user ? "Create and manage" : "Sign in to create"}</span>
+                </button>
+
+                <button
+                  onClick={() => { setView("decks"); fetchMyDecks(); fetchPublicDecks(); fetchEntitlement(); }}
+                  className="group flex flex-col items-start p-4 bg-white rounded-xl border border-slate-100 hover:border-slate-200 hover:shadow-sm transition-all text-left relative"
+                  data-testid="card-study-decks"
+                >
+                  {!isPaid && (
+                    <div className="absolute top-2 right-2">
+                      <Lock className="w-3 h-3 text-slate-300" />
+                    </div>
+                  )}
+                  <div className="w-8 h-8 rounded-lg bg-violet-50 flex items-center justify-center mb-3">
+                    <Layers className="w-4 h-4 text-violet-500" />
+                  </div>
+                  <span className="text-xs font-semibold text-slate-700 mb-0.5">Study Decks</span>
+                  <span className="text-[11px] text-slate-400">Custom & shared</span>
+                </button>
+
+                <button
+                  onClick={() => {
+                    if (!isPaid) { setLocation("/pricing"); return; }
+                    setExamStudyIndex(0);
+                    setExamSelectedOption(null);
+                    setExamShowRationale(false);
+                    setExamSessionResults([]);
+                    setView("exam-flashcards");
+                  }}
+                  className="group flex flex-col items-start p-4 bg-white rounded-xl border border-slate-100 hover:border-slate-200 hover:shadow-sm transition-all text-left relative"
+                  data-testid="card-exam-flashcards"
+                >
+                  {!isPaid && (
+                    <div className="absolute top-2 right-2">
+                      <Lock className="w-3 h-3 text-slate-300" />
+                    </div>
+                  )}
+                  <div className="w-8 h-8 rounded-lg bg-rose-50 flex items-center justify-center mb-3">
+                    <ShieldAlert className="w-4 h-4 text-rose-500" />
+                  </div>
+                  <span className="text-xs font-semibold text-slate-700 mb-0.5">CAT Exam Prep</span>
+                  <span className="text-[11px] text-slate-400">
+                    {examFlashcardTotal > 0 ? `${examFlashcardTotal.toLocaleString()} cards` : "Exam style"}
+                  </span>
+                </button>
+
+              </div>
+
+              {user && !entitlement.isPremium && entitlement.percentage > 0 && (
+                <div className="mt-4 bg-white rounded-xl border border-slate-100 p-4" data-testid="flashcard-usage-counter">
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-xs font-medium text-slate-500" data-testid="text-usage-count">
+                      {entitlement.totalFreeCards} / {entitlement.limit} free cards used
+                    </span>
+                    {entitlement.percentage >= 80 && (
+                      <a href="/upgrade" className="text-[11px] font-semibold text-violet-600 hover:text-violet-700 flex items-center gap-1" data-testid="link-upgrade-cta">
+                        Upgrade
+                      </a>
+                    )}
+                  </div>
+                  <div className="w-full bg-slate-100 rounded-full h-1.5">
+                    <div
+                      className={cn(
+                        "h-1.5 rounded-full transition-all",
+                        entitlement.percentage >= 90 ? "bg-red-400" :
+                        entitlement.percentage >= 80 ? "bg-amber-400" :
+                        "bg-violet-400"
+                      )}
+                      style={{ width: `${Math.min(entitlement.percentage, 100)}%` }}
+                      data-testid="progress-usage-bar"
+                    />
+                  </div>
+                  {entitlement.percentage >= 100 && (
+                    <p className="mt-2 text-[11px] text-red-600" data-testid="text-limit-reached">
+                      Limit reached. <a href="/upgrade" className="font-semibold underline">Upgrade</a> for unlimited cards.
+                    </p>
+                  )}
+                </div>
+              )}
             </div>
-          </div>
+          </section>
+
+          <section className="py-10 bg-white border-b border-slate-100" data-testid="section-study-modes">
+            <div className="max-w-5xl mx-auto px-4 sm:px-6">
+              <h2 className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-5">Study Modes</h2>
+              <div className="grid sm:grid-cols-3 gap-4">
+                <div className="p-5 rounded-xl border border-slate-100 bg-slate-50/50">
+                  <div className="w-9 h-9 rounded-lg bg-blue-50 flex items-center justify-center mb-3.5">
+                    <BookOpen className="w-4.5 h-4.5 text-blue-500" />
+                  </div>
+                  <h3 className="text-sm font-semibold text-slate-800 mb-1">Learn Mode</h3>
+                  <p className="text-xs text-slate-400 leading-relaxed">
+                    Review terms and concepts with flip-card reinforcement and explanations.
+                  </p>
+                </div>
+
+                <div className="p-5 rounded-xl border border-slate-100 bg-slate-50/50">
+                  <div className="w-9 h-9 rounded-lg bg-violet-50 flex items-center justify-center mb-3.5">
+                    <ClipboardCheck className="w-4.5 h-4.5 text-violet-500" />
+                  </div>
+                  <h3 className="text-sm font-semibold text-slate-800 mb-1">Test Mode</h3>
+                  <p className="text-xs text-slate-400 leading-relaxed">
+                    Active recall with multiple-choice questions and immediate rationale.
+                  </p>
+                </div>
+
+                <div className="p-5 rounded-xl border border-slate-100 bg-slate-50/50 relative">
+                  {!isPaid && (
+                    <div className="absolute top-3 right-3">
+                      <Lock className="w-3 h-3 text-slate-300" />
+                    </div>
+                  )}
+                  <div className="w-9 h-9 rounded-lg bg-rose-50 flex items-center justify-center mb-3.5">
+                    <ShieldAlert className="w-4.5 h-4.5 text-rose-500" />
+                  </div>
+                  <h3 className="text-sm font-semibold text-slate-800 mb-1">CAT Exam Prep</h3>
+                  <p className="text-xs text-slate-400 leading-relaxed">
+                    Exam-style questions with clinical takeaways, pearls, and difficulty scaling.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {(dbFlashcardSets.length > 0 || user) && (
+            <section className="py-10 bg-slate-50/80" data-testid="section-personal-tools">
+              <div className="max-w-5xl mx-auto px-4 sm:px-6">
+                <h2 className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-5">Study Tools</h2>
+                <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-3">
+                  {user && (
+                    <button
+                      onClick={() => { setView("mycards"); fetchCustomCards(); }}
+                      className="flex items-center gap-3 p-4 bg-white rounded-xl border border-slate-100 hover:border-slate-200 hover:shadow-sm transition-all text-left"
+                      data-testid="button-create-deck"
+                    >
+                      <div className="w-9 h-9 rounded-lg bg-emerald-50 flex items-center justify-center shrink-0">
+                        <Plus className="w-4 h-4 text-emerald-500" />
+                      </div>
+                      <div>
+                        <span className="text-xs font-semibold text-slate-700 block">Create Custom Cards</span>
+                        <span className="text-[11px] text-slate-400">Accuracy validated</span>
+                      </div>
+                    </button>
+                  )}
+
+                  <button
+                    onClick={() => { setView("decks"); fetchMyDecks(); fetchPublicDecks(); fetchEntitlement(); }}
+                    className="flex items-center gap-3 p-4 bg-white rounded-xl border border-slate-100 hover:border-slate-200 hover:shadow-sm transition-all text-left"
+                    data-testid="button-browse-decks"
+                  >
+                    <div className="w-9 h-9 rounded-lg bg-violet-50 flex items-center justify-center shrink-0">
+                      <Globe className="w-4 h-4 text-violet-500" />
+                    </div>
+                    <div>
+                      <span className="text-xs font-semibold text-slate-700 block">Shared Decks</span>
+                      <span className="text-[11px] text-slate-400">Browse community</span>
+                    </div>
+                  </button>
+
+                  {user && (
+                    <button
+                      onClick={() => { setView("decks"); fetchMyDecks(); fetchPublicDecks(); fetchEntitlement(); }}
+                      className="flex items-center gap-3 p-4 bg-white rounded-xl border border-slate-100 hover:border-slate-200 hover:shadow-sm transition-all text-left"
+                      data-testid="button-my-decks"
+                    >
+                      <div className="w-9 h-9 rounded-lg bg-blue-50 flex items-center justify-center shrink-0">
+                        <Layers className="w-4 h-4 text-blue-500" />
+                      </div>
+                      <div>
+                        <span className="text-xs font-semibold text-slate-700 block">My Saved Decks</span>
+                        <span className="text-[11px] text-slate-400">Personal collection</span>
+                      </div>
+                    </button>
+                  )}
+
+                  {dbFlashcardSets.length > 0 && (
+                    <button
+                      onClick={() => setView("admin-sets")}
+                      className="flex items-center gap-3 p-4 bg-white rounded-xl border border-slate-100 hover:border-slate-200 hover:shadow-sm transition-all text-left"
+                      data-testid="card-admin-flashcard-sets"
+                    >
+                      <div className="w-9 h-9 rounded-lg bg-amber-50 flex items-center justify-center shrink-0">
+                        <BookOpen className="w-4 h-4 text-amber-500" />
+                      </div>
+                      <div>
+                        <span className="text-xs font-semibold text-slate-700 block">Curated Sets</span>
+                        <span className="text-[11px] text-slate-400">{dbFlashcardSets.length} {dbFlashcardSets.length === 1 ? "set" : "sets"} available</span>
+                      </div>
+                    </button>
+                  )}
+                </div>
+              </div>
+            </section>
+          )}
+
+          {!isPaid && (
+            <section className="py-10 bg-white" data-testid="section-flashcards-upgrade-cta">
+              <div className="max-w-xl mx-auto px-4 sm:px-6 text-center">
+                <h2 className="text-lg font-semibold text-slate-900 mb-2" data-testid="text-upgrade-title">Unlock the full study experience</h2>
+                <p className="text-sm text-slate-400 mb-6 leading-relaxed">
+                  Get unlimited flashcards, CAT exam prep, custom decks, and mastery tracking with a premium plan.
+                </p>
+                <LocaleLink href="/pricing">
+                  <Button className="rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-semibold px-8 h-11 shadow-sm" data-testid="button-bottom-upgrade">
+                    View Plans
+                  </Button>
+                </LocaleLink>
+              </div>
+            </section>
+          )}
         </main>
+
         <Footer />
       </div>
     );
