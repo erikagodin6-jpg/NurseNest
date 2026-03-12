@@ -1,0 +1,282 @@
+The published flashcards experience is still wrong. Fix the flashcard session page on the published NurseNest site.
+
+What published is not acceptable. It still looks plain, black and white, under-designed, uses the wrong images, and the rationale/explanation is too thin. It also does not feel like a premium NurseNest study experience.
+
+This is now a full correction of:
+- flashcard session UI
+- NurseNest styling/theme application
+- rationale content depth
+- rationale image sourcing
+- lesson linking
+- answer review logic
+
+CURRENT PROBLEMS IN PUBLISHED VERSION
+
+1. The page is still visually plain
+- It looks black and white
+- It does not reflect the NurseNest pastel brand aesthetic
+- It feels like a default/basic app screen instead of a premium study product
+
+2. The explanation is too short and weak
+- It only gives a brief statement
+- It does not teach enough
+- It does not explain why the correct answer is correct in enough depth
+- It does not explain why the incorrect answers are wrong
+
+3. It is using old images instead of the new uploaded images
+- The rationale section is not pulling the correct updated educational images
+- It must use the most current uploaded published images tied to the question/rationale
+- Stop using outdated image assets or fallback placeholders if a newer mapped asset exists
+
+4. It is not linking to the appropriate lesson
+- Each rationale should link to the most relevant lesson when one exists
+- The lesson link should appear in the rationale card in a clean, premium way
+
+5. The session page still feels unfinished
+- The page structure is too basic
+- The rationale is not visually distinct enough
+- The controls and card layout need more polish
+- Footer/study tools content should not overpower the actual study experience
+
+MAIN GOAL
+
+Transform the flashcard session page into a polished NurseNest study interface with:
+- premium pastel NurseNest styling
+- better hierarchy
+- richer teaching rationale
+- explanation of incorrect options
+- correct updated rationale images
+- relevant lesson links
+- cleaner session layout
+- stronger mobile responsiveness
+
+IMPORTANT CONTENT / LOGIC RULES
+
+A. QUESTION AREA
+The active question area should contain only:
+- session context
+- progress
+- topic/system
+- question text
+- answer options
+- submit/check answer button
+
+Do not clutter the active question area with large explanation blocks before the user answers.
+
+B. POST-ANSWER RATIONALE AREA
+After the user answers, show a clearly separate rationale/review card.
+
+This rationale card must include all of the following:
+1. Correct answer
+2. Detailed explanation of why it is correct
+3. Explanation for why each incorrect option is wrong
+4. Clinical takeaway / exam pearl
+5. Relevant rationale image using the correct current uploaded asset
+6. Link to the relevant lesson
+7. Optional related topic or flashcard suggestions if already supported
+
+RATIONALE CONTENT STANDARD
+
+The explanation is currently too shallow. Expand it substantially.
+
+For every answered question, the rationale should follow this structure:
+
+- Correct Answer
+- Why this is correct:
+  2 to 5 sentences minimum, clinically useful, exam-oriented, and specific
+- Why the other options are incorrect:
+  brief explanation for each distractor, ideally 1 to 3 sentences each
+- Clinical pearl / priority point:
+  one short practical takeaway
+- Related lesson:
+  link to the matching lesson page if available
+
+Example format:
+
+Correct Answer: B. Monitoring distal peripheral pulses and hourly urine output
+
+Why this is correct:
+After abdominal aortic aneurysm repair, the priority is assessing graft patency and end-organ perfusion. Distal pulses help evaluate whether blood flow is reaching the lower extremities past the repair site, while hourly urine output helps assess renal perfusion and overall hemodynamic stability. Reduced urine output may indicate hypoperfusion, shock, renal compromise, or graft-related complications. These are immediate post-operative priorities and are more urgent than routine GI recovery assessments.
+
+Why the other options are incorrect:
+A. Bowel sounds are important, but they are not the first priority immediately after AAA repair when circulation and perfusion must be monitored closely.
+C. Early ambulation may eventually be appropriate, but not within 2 hours as a primary priority before confirming hemodynamic stability and graft perfusion.
+D. Measuring abdominal girth can help monitor bleeding or distention, but once every 24 hours is not an adequate priority compared with ongoing perfusion assessment.
+
+Clinical pearl:
+In major vascular surgery, think perfusion first: pulses, urine output, blood pressure, bleeding, and signs of shock.
+
+Related lesson:
+Post-Operative Vascular Surgery Priorities
+
+Use this depth and structure consistently.
+
+IMAGE FIX REQUIREMENTS
+
+The wrong images are being used. Fix image sourcing.
+
+Do all of the following:
+- audit the image mapping for flashcards/questions
+- stop rendering old legacy image paths if a new uploaded asset exists
+- prioritize current published uploaded rationale images
+- verify that the image field is reading from the correct production/published data source
+- ensure image cache is cleared or busted if old images are being reused
+- confirm the published site is not pointing to stale asset references from development or an old database mapping
+- use the updated uploaded educational image attached to the relevant content
+- if a question has no valid updated image, show no image rather than the wrong outdated one
+
+Image display rules:
+- rationale image only after answering
+- never show outdated or unrelated image
+- use correct alt text and optional caption
+- keep image size elegant and responsive
+- rounded corners, soft border, premium styling
+- no stretched/distorted rendering
+
+LESSON LINKING REQUIREMENTS
+
+Each rationale card should link to the most relevant lesson.
+
+Implement:
+- lessonId / lessonSlug / relatedLesson field support if needed
+- automatic mapping from topic/subtopic to lesson where direct mapping exists
+- graceful fallback if no lesson exists
+- visually clean lesson link component such as:
+  “Review related lesson”
+  “Open lesson: Hemodynamic Monitoring After Vascular Surgery”
+
+The lesson link should appear inside the rationale card, not buried elsewhere.
+
+DESIGN / THEME REQUIREMENTS
+
+The published page is too black and white. Apply actual NurseNest styling.
+
+Use:
+- soft white and very pale lilac/lavender surfaces
+- blush or pastel accent states where appropriate
+- muted purple accents for progress and buttons
+- elegant shadows
+- subtle borders
+- rounded cards
+- better typography hierarchy
+- more premium spacing
+- better answer state styling
+
+Question card styling:
+- clean white or tinted surface
+- rounded 20 to 24 px corners
+- soft shadow
+- subtle topic badge
+- elegant progress bar
+- spacious answer options
+- soft hover states
+- clear selected state
+- clear correct and incorrect state after answer submission
+
+Rationale card styling:
+- visually distinct from question card
+- slightly tinted supportive background or layered card treatment
+- section headings
+- clean spacing between rationale blocks
+- better readability
+- image integrated elegantly
+- lesson link styled as premium secondary CTA
+- clinical pearl in subtle callout box
+
+SESSION PAGE LAYOUT REQUIREMENTS
+
+Refactor the session screen into a cleaner hierarchy:
+
+Top session header:
+- Active Session
+- topic / mode / deck
+- progress
+- exit button kept minimal
+
+Main body:
+1. Question card
+2. After answering: rationale card directly beneath
+3. Bottom action row:
+   - save for review
+   - mark as mastered
+   - previous/next card
+   - continue session
+
+Do not let giant footer/study tools sections dominate the page while studying.
+While in active session, minimize distractions.
+
+Possible improvement:
+- use a reduced/study-focused footer during active sessions
+- collapse or suppress large marketing/study-tools sections until the user exits the session
+
+OPTION REVIEW REQUIREMENTS
+
+After answer submission:
+- visually mark correct answer
+- visually mark user’s chosen answer if wrong
+- keep all options visible for review
+- attach “why incorrect” logic to the rationale rather than cluttering each option excessively
+- ensure the rationale text references specific options clearly
+
+DATA / BACKEND REQUIREMENTS
+
+Please inspect and correct:
+- production database image mappings
+- content schema for rationale body
+- fields for incorrect option explanations
+- fields for related lesson
+- question rendering source in production
+- whether published build is using stale content or stale assets
+- whether the app is reading the wrong environment or old cache
+
+If needed, extend the schema to support:
+- detailedRationale
+- incorrectOptionRationales
+- rationaleImage
+- rationaleImageAlt
+- rationaleImageCaption
+- relatedLessonSlug
+- relatedLessonTitle
+- clinicalPearl
+
+If these fields do not exist yet, add support and backfill intelligently from current content where possible.
+
+FALLBACK CONTENT LOGIC
+
+If full option-by-option rationales are missing:
+- generate or assemble them from the question content and existing rationale patterns where possible
+- do not leave the rationale as one weak sentence
+- at minimum, provide a stronger explanation plus concise “why others are incorrect” text
+
+IMPORTANT PUBLISHED-SITE REQUIREMENT
+
+Do not fix this only in Replit preview.
+Confirm the actual published site is using:
+- the new styling
+- the correct image mappings
+- the enhanced rationale content
+- the lesson links
+
+This must work in production/published mode.
+
+ACCEPTANCE CRITERIA
+
+This is complete only when:
+1. the session page no longer looks black and white or plain
+2. the NurseNest pastel/premium styling is clearly applied on published site
+3. rationale images use the correct new uploaded published assets
+4. outdated images are no longer shown
+5. each rationale is meaningfully expanded
+6. each rationale explains why the correct answer is right
+7. each rationale explains why the other answers are wrong
+8. each rationale links to the most relevant lesson when available
+9. the studying screen feels polished, focused, and premium
+10. the published site, not just preview, reflects all changes
+
+After making the fixes, summarize:
+- which session components were changed
+- how production image sourcing was corrected
+- how rationale depth was improved
+- how incorrect option explanations were added
+- how lesson linking now works
+- how the published theme/styling was corrected

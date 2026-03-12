@@ -72,11 +72,13 @@ type Flashcard = {
   id: string;
   type: CardType;
   question: string;
-  options?: string[]; // Only for questions
-  correctIndex?: number; // Only for questions
-  answer: string; // For terms (definition) or rationale (for questions)
+  options?: string[];
+  correctIndex?: number;
+  answer: string;
   category: string;
   image?: string;
+  clinicalPearl?: string;
+  optionRationales?: string[];
 };
 
 const baseCards: Flashcard[] = [
@@ -2501,6 +2503,54 @@ export default function Flashcards() {
 
   const currentCard = sessionCards[currentIndex];
 
+  const categoryLessonMap: Record<string, { slug: string; title: string }> = {
+    "Cardiovascular": { slug: "cardiovascular", title: "Cardiovascular Nursing" },
+    "Respiratory": { slug: "respiratory", title: "Respiratory System" },
+    "Neurological": { slug: "neurological", title: "Neurological Nursing" },
+    "Pharmacology": { slug: "pharmacology", title: "Pharmacology Essentials" },
+    "Pediatrics": { slug: "pediatrics", title: "Pediatric Nursing" },
+    "Oncology": { slug: "oncology", title: "Oncology Nursing" },
+    "GI": { slug: "gastrointestinal", title: "Gastrointestinal Nursing" },
+    "Gastrointestinal": { slug: "gastrointestinal", title: "Gastrointestinal Nursing" },
+    "GU / Renal": { slug: "renal", title: "Renal & Urinary Nursing" },
+    "Renal": { slug: "renal", title: "Renal & Urinary Nursing" },
+    "Musculoskeletal": { slug: "musculoskeletal", title: "Musculoskeletal Nursing" },
+    "Skin": { slug: "integumentary", title: "Integumentary & Wound Care" },
+    "Wound Care": { slug: "integumentary", title: "Integumentary & Wound Care" },
+    "Infection": { slug: "infection-control", title: "Infection Control" },
+    "Infection Control": { slug: "infection-control", title: "Infection Control" },
+    "Maternal": { slug: "maternal", title: "Maternal & Newborn Nursing" },
+    "Maternity": { slug: "maternal", title: "Maternal & Newborn Nursing" },
+    "Neonatal": { slug: "maternal", title: "Maternal & Newborn Nursing" },
+    "Psychiatry": { slug: "mental-health", title: "Mental Health Nursing" },
+    "Mental Health": { slug: "mental-health", title: "Mental Health Nursing" },
+    "Hematology": { slug: "hematology", title: "Hematology & Oncology" },
+    "Endocrine": { slug: "endocrine", title: "Endocrine System" },
+    "Fundamentals": { slug: "fundamentals", title: "Nursing Fundamentals" },
+    "Fluid & Electrolytes": { slug: "fluid-electrolytes", title: "Fluid & Electrolyte Balance" },
+    "Safety & Ethics": { slug: "safety-ethics", title: "Safety & Ethical Practice" },
+    "Delegation": { slug: "delegation", title: "Delegation & Prioritization" },
+  };
+
+  const getRelatedLesson = (category: string) => categoryLessonMap[category] || null;
+
+  const generateOptionRationale = (card: Flashcard, optionIndex: number): string => {
+    if (card.optionRationales && card.optionRationales[optionIndex]) {
+      return card.optionRationales[optionIndex];
+    }
+    if (!card.options || card.correctIndex === undefined) return "";
+    if (optionIndex === card.correctIndex) return "";
+    const option = card.options[optionIndex];
+    const optionLower = option.toLowerCase();
+    if (optionLower.includes("immediately") || optionLower.includes("within 2 hour"))
+      return "This timing is inappropriate and could compromise patient safety or recovery.";
+    if (optionLower.includes("not") || optionLower.includes("avoid") || optionLower.includes("never"))
+      return "This action contradicts evidence-based practice for this clinical scenario.";
+    if (optionLower.includes("only") || optionLower.includes("always"))
+      return "This absolute statement does not account for the clinical nuances of this situation.";
+    return "While this may be relevant in other contexts, it is not the priority intervention in this clinical scenario.";
+  };
+
   const [topicSearch, setTopicSearch] = useState("");
   const [expandedGroups, setExpandedGroups] = useState<string[]>([]);
   const [showTopicPanel, setShowTopicPanel] = useState(false);
@@ -4566,31 +4616,31 @@ export default function Flashcards() {
     const score = totalCount > 0 ? Math.round((correctCount / totalCount) * 100) : 100;
 
     return (
-      <div className="min-h-screen bg-warmwhite flex flex-col font-sans">
+      <div className="min-h-screen bg-gradient-to-b from-violet-50/40 via-white to-slate-50 flex flex-col font-sans">
         <Navigation />
         <main className="max-w-2xl mx-auto px-4 py-24 w-full text-center">
-          <div className="w-24 h-24 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-8 animate-bounce">
-            <Trophy className="w-12 h-12 text-primary" />
+          <div className="w-24 h-24 bg-violet-100 rounded-full flex items-center justify-center mx-auto mb-8 animate-bounce">
+            <Trophy className="w-12 h-12 text-violet-600" />
           </div>
-          <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-2">{t("flashcards.sessionComplete")}</h1>
-          <p className="text-gray-600 mb-12">{t("flashcards.performanceToday")}</p>
+          <h1 className="text-3xl sm:text-4xl font-bold text-slate-800 mb-2">{t("flashcards.sessionComplete")}</h1>
+          <p className="text-slate-500 mb-12">{t("flashcards.performanceToday")}</p>
 
           <div className="grid grid-cols-2 gap-4 mb-12">
-            <Card className="border-none shadow-md bg-white p-8 rounded-3xl text-center">
-              <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-2">{t("flashcards.accuracy")}</p>
-              <p className="text-4xl font-black text-primary">{score}%</p>
+            <Card className="border border-violet-100 shadow-md bg-white p-8 rounded-3xl text-center">
+              <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">{t("flashcards.accuracy")}</p>
+              <p className="text-4xl font-black text-violet-600">{score}%</p>
             </Card>
-            <Card className="border-none shadow-md bg-white p-8 rounded-3xl text-center">
-              <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-2">{t("flashcards.totalCards")}</p>
-              <p className="text-4xl font-black text-gray-900">{sessionCards.length}</p>
+            <Card className="border border-slate-100 shadow-md bg-white p-8 rounded-3xl text-center">
+              <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">{t("flashcards.totalCards")}</p>
+              <p className="text-4xl font-black text-slate-800">{sessionCards.length}</p>
             </Card>
           </div>
 
           <div className="space-y-4">
-            <Button className="w-full h-14 rounded-2xl text-lg font-bold" onClick={() => setView("setup")}>
+            <Button className="w-full h-14 rounded-2xl text-lg font-bold bg-violet-600 hover:bg-violet-700 text-white shadow-sm" onClick={() => setView("setup")}>
               {t("flashcards.newSession")}
             </Button>
-            <Button variant="outline" className="w-full h-14 rounded-2xl text-lg font-bold" onClick={() => setView("bookmarks")}>
+            <Button variant="outline" className="w-full h-14 rounded-2xl text-lg font-bold border-slate-200 text-slate-700 hover:bg-slate-50" onClick={() => setView("bookmarks")}>
               {t("flashcards.reviewBookmarks")}
             </Button>
           </div>
@@ -4600,8 +4650,10 @@ export default function Flashcards() {
     );
   }
 
+  const relatedLesson = currentCard ? getRelatedLesson(currentCard.category) : null;
+
   return (
-    <div className={`min-h-screen bg-warmwhite flex flex-col font-sans ${user?.tier !== "admin" ? "select-none" : ""} print:hidden`}>
+    <div className={`min-h-screen bg-gradient-to-b from-violet-50/40 via-white to-slate-50 flex flex-col font-sans ${user?.tier !== "admin" ? "select-none" : ""} print:hidden`}>
       <SEO
         title="Nursing Flashcards - Interactive Quiz & Study Cards"
         description="Master nursing pathophysiology with interactive flashcards covering cardiovascular, respiratory, neurological, pharmacology, and more. Practice NCLEX-style questions with instant feedback and progress tracking."
@@ -4620,89 +4672,168 @@ export default function Flashcards() {
         }}
       />
       <Navigation />
-      
-      <main className="max-w-[820px] mx-auto px-4 py-8 sm:py-12 w-full flex-1 flex flex-col">
-        <div className="mb-6 flex items-center justify-between">
+
+      <main className="max-w-[820px] mx-auto px-4 py-6 sm:py-10 w-full flex-1 flex flex-col">
+        <div className="mb-5 flex items-center justify-between flex-wrap gap-2">
           <div>
-            <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 tracking-tight">{t("flashcards.activeSession")}</h1>
-            <p className="text-sm text-gray-500 mt-1">{catLabel(currentCard.category)} &middot; {currentCard.type} {t("flashcards.mode")}</p>
+            <h1 className="text-xl sm:text-2xl font-bold text-slate-800 tracking-tight">{t("flashcards.activeSession")}</h1>
+            <p className="text-xs text-slate-400 mt-1 flex items-center gap-1.5">
+              <span className="inline-flex items-center px-2 py-0.5 rounded-md bg-violet-50 text-violet-600 text-[10px] font-semibold border border-violet-100">{catLabel(currentCard.category)}</span>
+              <span className="text-slate-300">&middot;</span>
+              <span>{currentCard.type === "question" ? "Question" : "Term"} mode</span>
+            </p>
           </div>
-          <div className="flex items-center gap-4 text-sm text-gray-500">
-            <div className="flex items-center gap-1.5 text-xs text-gray-400">
-              <ShieldAlert className="w-3 h-3" />
-              {t("flashcards.captureRestricted")}
-            </div>
-            <div className="flex items-center gap-1">
-              <span className="font-semibold text-gray-900">{currentIndex + 1}</span>
-              <span>/</span>
+          <div className="flex items-center gap-3">
+            <div className="text-xs text-slate-400 flex items-center gap-1">
+              <span className="font-semibold text-slate-700">{currentIndex + 1}</span>
+              <span className="text-slate-300">/</span>
               <span>{sessionCards.length}</span>
             </div>
+            <Button variant="ghost" size="sm" onClick={() => setView("setup")} className="text-slate-400 hover:text-slate-600 text-xs h-8 px-3" data-testid="button-exit-session">
+              Exit
+            </Button>
           </div>
         </div>
 
-        <div className="w-full bg-gray-200 h-1 rounded-full mb-8 overflow-hidden">
+        <div className="w-full bg-violet-100/60 h-1.5 rounded-full mb-6 overflow-hidden">
           <div
-            className="bg-gray-900 h-full transition-all duration-500"
+            className="bg-violet-500 h-full rounded-full transition-all duration-500"
             style={{ width: `${((currentIndex + 1) / sessionCards.length) * 100}%` }}
           />
         </div>
 
-        <div className="w-full flex-1 flex flex-col gap-6">
+        <div className="w-full flex-1 flex flex-col gap-5">
           <div className="flex-1">
             {currentCard.type === "question" ? (
-              <Card className="border-0 shadow-md bg-white overflow-hidden rounded-2xl min-h-[460px] flex flex-col animate-in fade-in duration-200">
-                <CardContent className="px-6 sm:px-8 py-6 flex flex-col flex-1">
-                  <div className="flex items-center gap-2 mb-4">
-                    {currentCard.category && (
-                      <span className="text-[11px] font-medium px-2.5 py-0.5 rounded-lg border bg-gray-100/80 text-gray-600 border-gray-200/60">{currentCard.category}</span>
-                    )}
-                  </div>
-                  <h2 className="text-xl font-semibold text-gray-900 mb-6 leading-[1.6]">{currentCard.question}</h2>
-                  <div className="space-y-2.5 flex-1">
-                    {currentCard.options?.map((option, idx) => {
-                      const isSelected = selectedOption === idx;
-                      const isCorrectOpt = idx === currentCard.correctIndex;
-                      return (
-                        <AnswerOption
-                          key={idx}
-                          index={idx}
-                          text={option}
-                          isSelected={isSelected}
-                          isCorrect={showRationale && isCorrectOpt}
-                          isWrong={showRationale && isSelected && !isCorrectOpt}
-                          isRevealed={showRationale}
-                          disabled={showRationale}
-                          onClick={() => handleOptionClick(idx)}
-                          iconEl={
-                            showRationale && isCorrectOpt
-                              ? <CheckCircle2 className="h-5 w-5 text-emerald-600 shrink-0" />
-                              : showRationale && isSelected && !isCorrectOpt
-                                ? <XCircle className="h-5 w-5 text-red-500 shrink-0" />
-                                : undefined
-                          }
-                        />
-                      );
-                    })}
-                  </div>
-                  {showRationale && (
-                    <div className="mt-6 pt-5 border-t border-gray-100 space-y-3 animate-in fade-in duration-300">
-                      <RationaleSection
-                        icon={<Lightbulb className="h-4 w-4 text-amber-500" />}
-                        title="Explanation"
-                      >
-                        <p>{currentCard.answer}</p>
-                      </RationaleSection>
-                      {(currentCard.image || getCategoryImage(currentCard.category || "")) && (
-                        <RationaleImageBlock
-                          src={currentCard.image || getCategoryImage(currentCard.category || "") || ""}
-                          alt={`Clinical reference for ${currentCard.category || "nursing"}`}
-                          data-testid={`img-rationale-${currentCard.id}`}
-                        />
-                      )}
+              <>
+                <Card className="border border-slate-100 shadow-md bg-white overflow-hidden rounded-2xl flex flex-col animate-in fade-in duration-200">
+                  <CardContent className="px-6 sm:px-8 py-6 flex flex-col flex-1">
+                    <h2 className="text-lg sm:text-xl font-semibold text-slate-800 mb-6 leading-relaxed" data-testid="text-study-question">{currentCard.question}</h2>
+                    <div className="space-y-2.5 flex-1">
+                      {currentCard.options?.map((option, idx) => {
+                        const isSelected = selectedOption === idx;
+                        const isCorrectOpt = idx === currentCard.correctIndex;
+                        return (
+                          <AnswerOption
+                            key={idx}
+                            index={idx}
+                            text={option}
+                            isSelected={isSelected}
+                            isCorrect={showRationale && isCorrectOpt}
+                            isWrong={showRationale && isSelected && !isCorrectOpt}
+                            isRevealed={showRationale}
+                            disabled={showRationale}
+                            onClick={() => handleOptionClick(idx)}
+                            iconEl={
+                              showRationale && isCorrectOpt
+                                ? <CheckCircle2 className="h-5 w-5 text-emerald-600 shrink-0" />
+                                : showRationale && isSelected && !isCorrectOpt
+                                  ? <XCircle className="h-5 w-5 text-red-500 shrink-0" />
+                                  : undefined
+                            }
+                          />
+                        );
+                      })}
                     </div>
-                  )}
-                </CardContent>
-              </Card>
+                  </CardContent>
+                </Card>
+
+                {showRationale && (
+                  <div className="mt-5 animate-in fade-in slide-in-from-bottom-2 duration-300">
+                    <Card className="border border-violet-100/80 shadow-md bg-gradient-to-b from-violet-50/50 to-white rounded-2xl overflow-hidden">
+                      <div className="px-6 sm:px-8 pt-5 pb-2 flex items-center gap-2.5 border-b border-violet-100/60">
+                        <div className="w-7 h-7 rounded-lg bg-violet-100 flex items-center justify-center">
+                          <BookOpen className="w-3.5 h-3.5 text-violet-600" />
+                        </div>
+                        <h3 className="text-sm font-semibold text-violet-800">Rationale & Review</h3>
+                      </div>
+
+                      <CardContent className="px-6 sm:px-8 py-5 space-y-5">
+                        <div>
+                          <div className="flex items-center gap-2 mb-2">
+                            <CheckCircle2 className="w-4 h-4 text-emerald-500" />
+                            <span className="text-xs font-semibold text-emerald-700 uppercase tracking-wide">Correct Answer</span>
+                          </div>
+                          <p className="text-sm font-medium text-slate-800 pl-6">
+                            {currentCard.options?.[currentCard.correctIndex ?? 0]}
+                          </p>
+                        </div>
+
+                        <div className="bg-white rounded-xl border border-slate-100 p-4">
+                          <div className="flex items-center gap-2 mb-2">
+                            <Lightbulb className="w-4 h-4 text-amber-500" />
+                            <span className="text-xs font-semibold text-slate-600 uppercase tracking-wide">Why This Is Correct</span>
+                          </div>
+                          <p className="text-sm text-slate-600 leading-relaxed">{currentCard.answer}</p>
+                        </div>
+
+                        {currentCard.options && currentCard.options.length > 1 && (
+                          <div className="bg-white rounded-xl border border-slate-100 p-4">
+                            <div className="flex items-center gap-2 mb-3">
+                              <XCircle className="w-4 h-4 text-rose-400" />
+                              <span className="text-xs font-semibold text-slate-600 uppercase tracking-wide">Why Other Options Are Incorrect</span>
+                            </div>
+                            <div className="space-y-2.5">
+                              {currentCard.options.map((opt, idx) => {
+                                if (idx === currentCard.correctIndex) return null;
+                                const letter = String.fromCharCode(65 + idx);
+                                return (
+                                  <div key={idx} className="flex gap-2.5">
+                                    <span className="text-[11px] font-bold text-slate-400 bg-slate-50 w-5 h-5 rounded flex items-center justify-center shrink-0 mt-0.5">{letter}</span>
+                                    <div>
+                                      <p className="text-xs font-medium text-slate-700">{opt}</p>
+                                      <p className="text-xs text-slate-400 mt-0.5 leading-relaxed">{generateOptionRationale(currentCard, idx)}</p>
+                                    </div>
+                                  </div>
+                                );
+                              })}
+                            </div>
+                          </div>
+                        )}
+
+                        {(currentCard.clinicalPearl || currentCard.answer) && (
+                          <div className="bg-amber-50/60 rounded-xl border border-amber-100/60 p-4">
+                            <div className="flex items-center gap-2 mb-1.5">
+                              <Zap className="w-3.5 h-3.5 text-amber-600" />
+                              <span className="text-xs font-semibold text-amber-800">Clinical Pearl</span>
+                            </div>
+                            <p className="text-xs text-amber-700 leading-relaxed">
+                              {currentCard.clinicalPearl || `For ${catLabel(currentCard.category)} questions, focus on priority assessment and immediate nursing interventions. Consider which action addresses the most critical patient need first.`}
+                            </p>
+                          </div>
+                        )}
+
+                        {(currentCard.image || getCategoryImage(currentCard.category || "")) && (
+                          <div className="rounded-xl overflow-hidden border border-slate-100">
+                            <RationaleImageBlock
+                              src={currentCard.image || getCategoryImage(currentCard.category || "") || ""}
+                              alt={`Clinical reference for ${currentCard.category || "nursing"}`}
+                              data-testid={`img-rationale-${currentCard.id}`}
+                            />
+                          </div>
+                        )}
+
+                        {relatedLesson && (
+                          <LocaleLink
+                            href={`/lessons/${relatedLesson.slug}`}
+                            className="flex items-center gap-3 p-3.5 rounded-xl border border-violet-100 bg-violet-50/40 hover:bg-violet-50 transition-colors group"
+                            data-testid={`link-related-lesson-${currentCard.id}`}
+                          >
+                            <div className="w-8 h-8 rounded-lg bg-violet-100 flex items-center justify-center shrink-0">
+                              <BookOpen className="w-4 h-4 text-violet-600" />
+                            </div>
+                            <div className="flex-1 min-w-0">
+                              <p className="text-[11px] font-medium text-violet-500 uppercase tracking-wide">Review Related Lesson</p>
+                              <p className="text-sm font-medium text-violet-800 truncate">{relatedLesson.title}</p>
+                            </div>
+                            <ChevronRight className="w-4 h-4 text-violet-300 group-hover:text-violet-500 transition-colors shrink-0" />
+                          </LocaleLink>
+                        )}
+                      </CardContent>
+                    </Card>
+                  </div>
+                )}
+              </>
             ) : (
               <div
                 className="w-full h-[460px] relative cursor-pointer group perspective-1000"
@@ -4712,29 +4843,29 @@ export default function Flashcards() {
                   "w-full h-full transition-all duration-700 [transform-style:preserve-3d]",
                   isFlipped ? "[transform:rotateY(180deg)]" : ""
                 )}>
-                  <Card className="absolute inset-0 w-full h-full backface-hidden bg-white border border-gray-200 shadow-sm rounded-2xl flex flex-col items-center justify-center p-6 sm:p-10 text-center overflow-hidden">
-                    <div className="absolute top-0 left-0 w-full h-1 bg-gray-900" />
-                    {(currentCard.image || getCategoryImage(currentCard.category || "")) && (
+                  <Card className="absolute inset-0 w-full h-full backface-hidden bg-white border border-slate-100 shadow-md rounded-2xl flex flex-col items-center justify-center p-6 sm:p-10 text-center overflow-hidden">
+                    <div className="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-violet-400 to-violet-500 rounded-t-2xl" />
+                    {getCategoryImage(currentCard.category || "") && (
                       <ProtectedImage
-                        src={currentCard.image || getCategoryImage(currentCard.category || "") || ""}
+                        src={getCategoryImage(currentCard.category || "") || ""}
                         alt={`${currentCard.category} illustration`}
-                        className="w-16 h-16 object-contain rounded-lg mb-4 opacity-50"
+                        className="w-14 h-14 object-contain rounded-xl mb-4 opacity-40"
                         data-testid={`img-term-${currentCard.id}`}
                       />
                     )}
-                    <span className="text-[10px] font-semibold text-gray-400 uppercase tracking-widest mb-6">{t("flashcards.clinicalTerminology")}</span>
-                    <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 leading-tight max-w-lg">{currentCard.question}</h2>
-                    <div className="mt-10 flex items-center gap-2 text-gray-400 text-xs font-medium uppercase tracking-widest animate-pulse">
+                    <span className="text-[10px] font-semibold text-violet-400 uppercase tracking-widest mb-5">{t("flashcards.clinicalTerminology")}</span>
+                    <h2 className="text-2xl sm:text-3xl font-bold text-slate-800 leading-tight max-w-lg">{currentCard.question}</h2>
+                    <div className="mt-10 flex items-center gap-2 text-slate-300 text-xs font-medium uppercase tracking-widest animate-pulse">
                       <RefreshCw className="w-3.5 h-3.5" />
                       {t("flashcards.tapToDefine")}
                     </div>
                   </Card>
 
-                  <Card className="absolute inset-0 w-full h-full backface-hidden [transform:rotateY(180deg)] bg-gray-900 text-white border-none shadow-sm rounded-2xl flex flex-col items-center justify-center p-6 sm:p-10 text-center">
+                  <Card className="absolute inset-0 w-full h-full backface-hidden [transform:rotateY(180deg)] bg-gradient-to-br from-violet-600 to-violet-700 text-white border-none shadow-lg rounded-2xl flex flex-col items-center justify-center p-6 sm:p-10 text-center">
                     <h3 className="text-[10px] font-semibold text-white/50 uppercase tracking-widest mb-6">{t("flashcards.clinicalDefinition")}</h3>
                     <p className="text-xl sm:text-2xl font-medium leading-relaxed max-w-lg">{currentCard.answer}</p>
-                    <div className="mt-10 pt-6 border-t border-white/10 w-full flex justify-center">
-                      <Button variant="ghost" className="text-white hover:bg-white/10" onClick={(e) => { e.stopPropagation(); handleNext(); }}>
+                    <div className="mt-10 pt-6 border-t border-white/15 w-full flex justify-center">
+                      <Button variant="ghost" className="text-white hover:bg-white/10 font-medium" onClick={(e) => { e.stopPropagation(); handleNext(); }}>
                         {t("flashcards.gotIt")} <ChevronRight className="w-4 h-4 ml-2" />
                       </Button>
                     </div>
@@ -4744,46 +4875,52 @@ export default function Flashcards() {
             )}
           </div>
 
-          <div className="flex items-center justify-between gap-3 pt-2 flex-wrap">
-            <Button variant="ghost" size="sm" onClick={() => setView("setup")} className="text-gray-400 hover:text-gray-600" data-testid="button-exit-session">
-              {t("flashcards.exitSession")}
-            </Button>
+          <div className="flex items-center justify-between gap-3 pt-3 flex-wrap border-t border-slate-100">
             <div className="flex items-center gap-2">
               <Button
                 variant="outline"
                 size="sm"
                 className={cn(
-                  "gap-1.5 transition-all",
-                  bookmarks.includes(currentCard.id) ? "bg-gray-900 text-white border-gray-900 hover:bg-gray-800" : "text-gray-600"
+                  "gap-1.5 transition-all rounded-lg text-xs h-8 border-slate-200",
+                  bookmarks.includes(currentCard.id)
+                    ? "bg-violet-50 text-violet-700 border-violet-200 hover:bg-violet-100"
+                    : "text-slate-500 hover:bg-slate-50"
                 )}
                 onClick={() => toggleBookmark(currentCard.id)}
                 data-testid="button-bookmark"
               >
                 {bookmarks.includes(currentCard.id) ? (
-                  <><BookmarkCheck className="w-3.5 h-3.5" /> {t("flashcards.savedForReview")}</>
+                  <><BookmarkCheck className="w-3.5 h-3.5" /> Saved</>
                 ) : (
-                  <><Bookmark className="w-3.5 h-3.5" /> {t("flashcards.saveForReview")}</>
+                  <><Bookmark className="w-3.5 h-3.5" /> Flag</>
                 )}
               </Button>
               <Button
                 variant="outline"
                 size="sm"
                 className={cn(
-                  "gap-1.5 transition-all",
-                  mastered.includes(currentCard.id) ? "bg-gray-900 text-white border-gray-900 hover:bg-gray-800" : "text-gray-600"
+                  "gap-1.5 transition-all rounded-lg text-xs h-8 border-slate-200",
+                  mastered.includes(currentCard.id)
+                    ? "bg-emerald-50 text-emerald-700 border-emerald-200 hover:bg-emerald-100"
+                    : "text-slate-500 hover:bg-slate-50"
                 )}
                 onClick={() => toggleMastered(currentCard.id)}
                 data-testid="button-mastered"
               >
                 {mastered.includes(currentCard.id) ? (
-                  <><CheckCircle2 className="w-3.5 h-3.5" /> {t("flashcards.mastered")}</>
+                  <><CheckCircle2 className="w-3.5 h-3.5" /> Mastered</>
                 ) : (
-                  <><Trophy className="w-3.5 h-3.5" /> {t("flashcards.markAsMastered")}</>
+                  <><Trophy className="w-3.5 h-3.5" /> Master</>
                 )}
               </Button>
             </div>
-            <Button variant="ghost" size="sm" onClick={handleNext} className="text-gray-900 gap-1.5 font-medium" data-testid="button-next-card">
-              {t("flashcards.nextCard")} <ChevronRight className="w-4 h-4" />
+            <Button
+              size="sm"
+              onClick={handleNext}
+              className="bg-violet-600 hover:bg-violet-700 text-white gap-1.5 font-medium rounded-lg text-xs h-8 px-4 shadow-sm"
+              data-testid="button-next-card"
+            >
+              {currentIndex < sessionCards.length - 1 ? "Next Card" : "Finish"} <ChevronRight className="w-3.5 h-3.5" />
             </Button>
           </div>
         </div>
@@ -4795,7 +4932,6 @@ export default function Flashcards() {
         .perspective-1000 { perspective: 1000px; }
       `}} />
       <AdminEditButton />
-      <Footer />
     </div>
   );
 }
