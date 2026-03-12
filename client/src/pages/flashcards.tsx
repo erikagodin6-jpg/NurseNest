@@ -13,6 +13,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { 
   ChevronRight, 
   ChevronLeft, 
+  Clock,
   RefreshCw, 
   CheckCircle2, 
   XCircle, 
@@ -92,6 +93,16 @@ type Flashcard = {
   image?: string;
   clinicalPearl?: string;
   optionRationales?: string[];
+  detailedRationale?: string;
+  source?: "review_queue" | "weak_area" | "srs_due" | "fresh" | "static";
+  bodySystem?: string;
+  topic?: string;
+  difficulty?: number;
+  examStrategy?: string;
+  memoryHook?: string;
+  distractorRationales?: Record<string, string> | null;
+  previouslyAnswered?: boolean;
+  previouslyCorrect?: boolean;
 };
 
 const baseCards: Flashcard[] = [
@@ -2650,7 +2661,9 @@ export default function Flashcards() {
   };
   const catLabel = (cat: string) => categoryLabelMap[cat] || cat;
 
-  const sessionCards = useMemo(() => {
+  const [adaptiveOverrideCards, setAdaptiveOverrideCards] = useState<Flashcard[] | null>(null);
+
+  const filteredCards = useMemo(() => {
     let filtered = allCards;
     if (!includeMastered) {
       filtered = filtered.filter(c => !mastered.includes(c.id));
@@ -2670,6 +2683,8 @@ export default function Flashcards() {
     }
     return filtered;
   }, [allCards, selectedType, selectedCategories, mastered, includeMastered, cardSortBy]);
+
+  const sessionCards = adaptiveOverrideCards || filteredCards;
 
   const bookmarkedCards = useMemo(() => {
     return allCards.filter(c => bookmarks.includes(c.id));
@@ -2696,10 +2711,61 @@ export default function Flashcards() {
   };
 
   const startSession = async () => {
-    if (sessionCards.length === 0) return;
+    const canUseAdaptive = !!(user && effectiveTier && effectiveTier !== "free");
+    if (filteredCards.length === 0 && !canUseAdaptive) return;
+    setAdaptiveOverrideCards(null);
     setCurrentIndex(0);
     setSessionResults([]);
     setPreviewSessionCount(0);
+
+    if (canUseAdaptive) {
+      try {
+        const tier = effectiveTier === "admin" ? "rn" : effectiveTier;
+        const categoryParam = selectedCategories.length === 1 ? `&bodySystem=${encodeURIComponent(selectedCategories[0])}` : "";
+        const size = Math.min(Math.max(filteredCards.length, 20), 40);
+        const headers: Record<string, string> = {};
+        const userToken = localStorage.getItem("nursenest-user-token");
+        if (userToken) headers["x-user-token"] = userToken;
+        const res = await fetch(`/api/adaptive-flashcard-session/${user.id}?tier=${tier}&mode=learn&size=${size}${categoryParam}`, { headers });
+        if (res.ok) {
+          const data = await res.json();
+          if (data.cards && data.cards.length > 0) {
+            const mapped: Flashcard[] = data.cards.map((c: any) => {
+              const distractorMap = c.distractorRationales;
+              let optionRats: string[] | undefined;
+              if (distractorMap && c.options) {
+                optionRats = c.options.map((_: string, i: number) => {
+                  if (i === c.correctIndex) return "";
+                  return distractorMap[String(i)] || distractorMap[String.fromCharCode(65 + i)] || "";
+                });
+              }
+              return {
+                id: c.id,
+                type: "question" as CardType,
+                question: c.question,
+                options: c.options,
+                correctIndex: c.correctIndex,
+                answer: c.rationale || "",
+                category: c.bodySystem || c.topic || "",
+                clinicalPearl: c.clinicalPearl || null,
+                optionRationales: optionRats,
+                source: c.source as Flashcard["source"],
+                bodySystem: c.bodySystem,
+                topic: c.topic,
+                difficulty: c.difficulty,
+                examStrategy: c.examStrategy,
+                memoryHook: c.memoryHook,
+                distractorRationales: distractorMap,
+                previouslyAnswered: c.previouslyAnswered,
+                previouslyCorrect: c.previouslyCorrect,
+              };
+            });
+            setAdaptiveOverrideCards(mapped);
+          }
+        }
+      } catch {}
+    }
+
     if (!isPaid && user) {
       try {
         await fetch("/api/flashcard-preview/reset-session", {
@@ -2732,12 +2798,34 @@ export default function Flashcards() {
 
   const handleOptionClick = (index: number) => {
     if (showRationale) return;
-    const isCorrect = index === sessionCards[currentIndex].correctIndex;
-    setSessionResults(prev => [...prev, { id: sessionCards[currentIndex].id, correct: isCorrect }]);
+    const card = sessionCards[currentIndex];
+    const isCorrect = index === card.correctIndex;
+    setSessionResults(prev => [...prev, { id: card.id, correct: isCorrect }]);
     setSelectedOption(index);
     setShowRationale(true);
     if (!isPaid && user) {
       decrementPreview();
+    }
+    if (user && card.source && card.source !== "static") {
+      try {
+        const ansHeaders: Record<string, string> = { "Content-Type": "application/json" };
+        const ut = localStorage.getItem("nursenest-user-token");
+        if (ut) ansHeaders["x-user-token"] = ut;
+        fetch("/api/flashcard-session/answer", {
+          method: "POST",
+          headers: ansHeaders,
+          body: JSON.stringify({
+            userId: user.id,
+            questionId: card.id,
+            selectedIndex: index,
+            wasCorrect: isCorrect,
+            confidence: isCorrect ? "confident" : "unsure",
+            topic: card.topic || card.category,
+            bodySystem: card.bodySystem || card.category,
+            tier: effectiveTier === "admin" ? "rn" : effectiveTier,
+          }),
+        });
+      } catch {}
     }
   };
 
@@ -2800,6 +2888,11 @@ export default function Flashcards() {
   const generateOptionRationale = (card: Flashcard, optionIndex: number): string => {
     if (card.optionRationales && card.optionRationales[optionIndex]) {
       return card.optionRationales[optionIndex];
+    }
+    if (card.distractorRationales) {
+      const dr = card.distractorRationales;
+      const val = dr[String(optionIndex)] || dr[String.fromCharCode(65 + optionIndex)] || dr[String.fromCharCode(97 + optionIndex)];
+      if (val) return val;
     }
     if (!card.options || card.correctIndex === undefined) return "";
     if (optionIndex === card.correctIndex) return "";
@@ -3155,10 +3248,10 @@ export default function Flashcards() {
                       <Button
                         className="w-full h-12 rounded-xl text-sm font-semibold bg-violet-600 hover:bg-violet-700 shadow-lg shadow-violet-200/40"
                         onClick={startSession}
-                        disabled={sessionCards.length === 0}
+                        disabled={filteredCards.length === 0 && !(user && effectiveTier && effectiveTier !== "free")}
                         data-testid="button-start-session"
                       >
-                        Start Session ({sessionCards.length} cards)
+                        Start Session ({filteredCards.length} cards)
                       </Button>
                       {examHasResumable && isPaid && (
                         <Button
@@ -3583,13 +3676,13 @@ export default function Flashcards() {
                 {selectedCategories.length > 0 && (
                   <div className="text-center space-y-3">
                     <p className="text-sm text-muted-foreground">
-                      <span className="font-semibold text-violet-600">{sessionCards.length}</span> cards match your selection
+                      <span className="font-semibold text-violet-600">{filteredCards.length}</span> cards match your selection
                     </p>
                     <div className="flex items-center justify-center gap-3">
                       <Button
                         className="rounded-xl bg-violet-600 hover:bg-violet-700 text-white font-semibold px-6 h-10 gap-2"
                         onClick={startSession}
-                        disabled={sessionCards.length === 0}
+                        disabled={filteredCards.length === 0 && !(user && effectiveTier && effectiveTier !== "free")}
                         data-testid="button-topic-start-session"
                       >
                         Start Session
@@ -6418,7 +6511,7 @@ export default function Flashcards() {
               <span className="text-muted-foreground/60">/</span>
               <span>{sessionCards.length}</span>
             </div>
-            <Button variant="ghost" size="sm" onClick={() => setView("setup")} className="text-muted-foreground hover:text-foreground/60 text-xs h-8 px-3" data-testid="button-exit-session">
+            <Button variant="ghost" size="sm" onClick={() => { setAdaptiveOverrideCards(null); setView("setup"); }} className="text-muted-foreground hover:text-foreground/60 text-xs h-8 px-3" data-testid="button-exit-session">
               Exit
             </Button>
           </div>
@@ -6430,6 +6523,29 @@ export default function Flashcards() {
             style={{ width: `${((currentIndex + 1) / sessionCards.length) * 100}%` }}
           />
         </div>
+
+        {(() => {
+          const hasAdaptive = sessionCards.some(c => c.source && c.source !== "static");
+          if (!hasAdaptive || showRationale) return null;
+          const counts: Record<string, number> = {};
+          sessionCards.forEach(c => { const s = c.source || "fresh"; counts[s] = (counts[s] || 0) + 1; });
+          const labels: Record<string, string> = { review_queue: "Review", weak_area: "Weak Areas", srs_due: "Due", fresh: "New" };
+          return (
+            <div className="flex items-center gap-2 mb-4 text-[10px] text-muted-foreground" data-testid="session-source-summary">
+              <span className="font-medium">Personalized mix:</span>
+              {Object.entries(counts).filter(([, v]) => v > 0).map(([k, v]) => (
+                <span key={k} className={cn("px-1.5 py-0.5 rounded border font-medium",
+                  k === "review_queue" ? "bg-rose-50 text-rose-600 border-rose-100" :
+                  k === "weak_area" ? "bg-amber-50 text-amber-600 border-amber-100" :
+                  k === "srs_due" ? "bg-blue-50 text-blue-600 border-blue-100" :
+                  "bg-muted text-muted-foreground border-border"
+                )}>
+                  {v} {labels[k] || k}
+                </span>
+              ))}
+            </div>
+          );
+        })()}
 
         {!isPaid && user && previewStatus && !previewStatus.isPremium && (
           <div className="flex items-center justify-between mb-4 px-3 py-2 rounded-lg bg-amber-50 border border-amber-200" data-testid="preview-cards-remaining">
@@ -6560,6 +6676,26 @@ export default function Flashcards() {
                             </p>
                           </div>
 
+                          {currentCard.examStrategy && (
+                            <div className="bg-gradient-to-r from-blue-50/60 to-violet-50/40 rounded-lg border border-blue-100/50 p-2.5">
+                              <div className="flex items-center gap-1.5 mb-1">
+                                <ShieldAlert className="w-3 h-3 text-blue-600" />
+                                <span className="text-[10px] font-semibold text-blue-800">Exam Strategy</span>
+                              </div>
+                              <p className="text-[11px] text-blue-700 leading-relaxed">{currentCard.examStrategy}</p>
+                            </div>
+                          )}
+
+                          {currentCard.memoryHook && (
+                            <div className="bg-gradient-to-r from-violet-50/60 to-purple-50/40 rounded-lg border border-violet-100/50 p-2.5">
+                              <div className="flex items-center gap-1.5 mb-1">
+                                <Lightbulb className="w-3 h-3 text-violet-600" />
+                                <span className="text-[10px] font-semibold text-violet-800">Memory Hook</span>
+                              </div>
+                              <p className="text-[11px] text-violet-700 leading-relaxed">{currentCard.memoryHook}</p>
+                            </div>
+                          )}
+
                           {currentCard.image && (
                             <div className="rounded-lg overflow-hidden border border-border md:hidden">
                               <RationaleImageBlock
@@ -6593,6 +6729,30 @@ export default function Flashcards() {
                 ) : (
                   <Card className="border border-border shadow-md bg-card overflow-hidden rounded-2xl flex flex-col animate-in fade-in duration-200">
                     <CardContent className="px-6 sm:px-8 py-6 flex flex-col flex-1">
+                      {currentCard.source && currentCard.source !== "static" && currentCard.source !== "fresh" && (
+                        <div className="flex items-center gap-2 mb-3" data-testid="badge-card-source">
+                          {currentCard.source === "review_queue" && (
+                            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-rose-50 text-rose-600 text-[10px] font-semibold border border-rose-100">
+                              <RefreshCw className="w-2.5 h-2.5" /> Needs Review
+                            </span>
+                          )}
+                          {currentCard.source === "weak_area" && (
+                            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-amber-50 text-amber-600 text-[10px] font-semibold border border-amber-100">
+                              <AlertTriangle className="w-2.5 h-2.5" /> Weak Area
+                            </span>
+                          )}
+                          {currentCard.source === "srs_due" && (
+                            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-blue-50 text-blue-600 text-[10px] font-semibold border border-blue-100">
+                              <Clock className="w-2.5 h-2.5" /> Due for Review
+                            </span>
+                          )}
+                          {currentCard.previouslyAnswered && (
+                            <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-semibold border ${currentCard.previouslyCorrect ? "bg-emerald-50 text-emerald-600 border-emerald-100" : "bg-red-50 text-red-600 border-red-100"}`}>
+                              {currentCard.previouslyCorrect ? "Previously Correct" : "Previously Missed"}
+                            </span>
+                          )}
+                        </div>
+                      )}
                       <h2 className="text-lg sm:text-xl font-semibold text-foreground mb-6 leading-relaxed" data-testid="text-study-question">{currentCard.question}</h2>
                       <div className="space-y-2.5 flex-1">
                         {currentCard.options?.map((option, idx) => {

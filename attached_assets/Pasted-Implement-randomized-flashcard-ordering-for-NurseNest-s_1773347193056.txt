@@ -1,0 +1,161 @@
+Implement randomized flashcard ordering for NurseNest study sessions.
+
+Flashcards must appear in a different order each time a user starts a session.
+
+--------------------------------------------------
+
+SESSION RANDOMIZATION RULES
+
+When a flashcard session starts:
+
+1. retrieve flashcards based on user filters
+2. randomize order
+3. serve cards sequentially
+
+Example:
+
+cards = getFlashcards(userFilters)
+
+shuffledCards = shuffle(cards)
+
+session.cards = shuffledCards
+
+--------------------------------------------------
+
+SHUFFLE ALGORITHM
+
+Use Fisher-Yates shuffle.
+
+function shuffle(array) {
+  let currentIndex = array.length;
+  while (currentIndex != 0) {
+    let randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex--;
+    [array[currentIndex], array[randomIndex]] =
+    [array[randomIndex], array[currentIndex]];
+  }
+  return array;
+}
+
+--------------------------------------------------
+
+SESSION LOGIC
+
+When user starts session:
+
+generateSession() {
+  cards = fetchCards(tier, topic, difficulty)
+  randomized = shuffle(cards)
+  return randomized
+}
+
+Store session order so navigation works correctly.
+
+--------------------------------------------------
+
+ADAPTIVE RANDOMIZATION
+
+Improve randomness with learning intelligence.
+
+Prioritize cards based on:
+
+• previously incorrect
+• flagged
+• low mastery topics
+• weak systems
+• recently studied cards
+
+Weight logic:
+
+weight = baseWeight
+
+if incorrectBefore
+weight += 3
+
+if flagged
+weight += 2
+
+if weakTopic
+weight += 2
+
+Then shuffle within weighted groups.
+
+--------------------------------------------------
+
+EXAMPLE SESSION ORDER
+
+Session Start
+
+1 Hyperkalemia ECG question
+2 Sepsis prioritization
+3 Insulin sliding scale
+4 Cardiac tamponade
+5 Neonatal sepsis recognition
+
+Next session should produce a different order.
+
+--------------------------------------------------
+
+REPEAT CONTROL
+
+Prevent immediate duplicates.
+
+Maintain a recent card history:
+
+recentCards = last 20 served cards
+
+Exclude them from shuffle pool if possible.
+
+--------------------------------------------------
+
+TOPIC RANDOMIZATION
+
+If user selects multiple topics:
+
+mix topics randomly.
+
+Example:
+
+Cardiovascular
+Respiratory
+Pharmacology
+Renal
+
+Shuffle across topics instead of grouping.
+
+--------------------------------------------------
+
+OPTION RANDOMIZATION
+
+Randomize answer choice order as well.
+
+Example:
+
+options = shuffle(options)
+
+Ensure correct answer key updates.
+
+--------------------------------------------------
+
+SESSION CONTINUITY
+
+Store session order so navigation works.
+
+session.id
+session.cardOrder
+
+When user presses next:
+
+serve next index in stored order.
+
+--------------------------------------------------
+
+ACCEPTANCE CRITERIA
+
+Flashcards must:
+
+• appear in a different order each session
+• randomize answer choices
+• prioritize weak areas
+• avoid repeating recent cards
+• preserve session order during navigation

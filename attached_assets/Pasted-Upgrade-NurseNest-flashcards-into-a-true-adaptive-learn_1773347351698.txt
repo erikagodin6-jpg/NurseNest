@@ -1,0 +1,478 @@
+Upgrade NurseNest flashcards into a true adaptive learning engine.
+
+The current flashcards should not behave like static shuffled cards only. They should become an intelligent study system that adapts to each user’s weaknesses, confidence, and performance over time.
+
+IMPORTANT
+Do not remove the existing flashcard UI.
+Add adaptive logic underneath it so the experience becomes smarter and more personalized.
+
+CORE GOAL
+
+Flashcards should behave like:
+- untimed exam-style question cards
+- with rationale
+- with incorrect option explanations
+- with lesson links
+- with adaptive repetition and weakness targeting
+
+The system should continuously decide:
+- what the user needs next
+- what topics need more reinforcement
+- what cards should be repeated sooner
+- what concepts are already mastered
+
+--------------------------------------------------
+PART 1 — USER PERFORMANCE TRACKING
+--------------------------------------------------
+
+Track all of the following per user:
+
+perCardStats:
+- timesSeen
+- timesCorrect
+- timesIncorrect
+- lastSeenAt
+- lastAnsweredAt
+- averageResponseTime
+- confidenceRating
+- flagged
+- mastered
+- streakCorrect
+- streakIncorrect
+
+perTopicStats:
+- topicAccuracy
+- subtopicAccuracy
+- blueprintAccuracy
+- recentTrend
+- confidenceAverage
+- cardsDueForReview
+- weakAreaScore
+
+perSessionStats:
+- sessionAccuracy
+- sessionTopics
+- sessionDuration
+- cardsReviewed
+- weakCardsEncountered
+- masteryChanges
+
+--------------------------------------------------
+PART 2 — CONFIDENCE-BASED LEARNING
+--------------------------------------------------
+
+After each card, ask the user a confidence question:
+
+How sure were you?
+
+Options:
+- Confident
+- Somewhat unsure
+- Guess
+or
+- Got it
+- Unsure
+- Need more review
+
+Store this value.
+
+Logic:
+- if user gets card correct but selected “Guess” or “Unsure”, do not treat it as mastered
+- if user gets card correct and selected “Confident”, reduce repetition frequency
+- if user gets card incorrect, increase repetition priority regardless of confidence
+
+This makes the system smarter than simple right/wrong logic.
+
+--------------------------------------------------
+PART 3 — ADAPTIVE CARD PRIORITIZATION
+--------------------------------------------------
+
+Every card should receive a dynamic priority score.
+
+Example scoring model:
+
+priorityScore =
+  weakTopicWeight +
+  incorrectHistoryWeight +
+  lowConfidenceWeight +
+  daysSinceSeenWeight +
+  flaggedWeight +
+  blueprintImportanceWeight +
+  examUrgencyWeight
+
+Possible weighting:
+
+if card.wasIncorrectRecently:
+  +5
+
+if card.confidence == "Guess":
+  +4
+
+if card.flagged:
+  +3
+
+if card.topic in weakTopics:
+  +4
+
+if card.notSeenInLongTime:
+  +2
+
+if card.mastered:
+  -5
+
+if card.correctStreak >= 3 and confidence high:
+  -4
+
+Then sort cards by priority and shuffle intelligently within tiers.
+
+--------------------------------------------------
+PART 4 — SPACED REPETITION RULES
+--------------------------------------------------
+
+Implement spaced repetition intervals.
+
+If a card is:
+- incorrect → show again soon
+- low confidence → show again fairly soon
+- correct and confident → delay review longer
+- repeatedly mastered → push far into future
+
+Suggested review timing:
+
+incorrect:
+- same session or next day
+
+correct but unsure:
+- 2 to 4 days
+
+correct and confident:
+- 7 to 14 days
+
+mastered repeatedly:
+- 21 to 45 days
+
+Store nextReviewAt for each card.
+
+--------------------------------------------------
+PART 5 — WEAK AREA DETECTION
+--------------------------------------------------
+
+The system must identify weak areas automatically.
+
+Weak areas can be based on:
+- low accuracy
+- repeated misses
+- low confidence
+- high response time
+- frequent flagging
+- lack of recent review
+
+Example weak area detection:
+
+if topicAccuracy < 70%
+  weakArea = true
+
+if subtopicAccuracy < 65%
+  weakArea = true
+
+if 3 recent cards incorrect in same concept
+  weakArea = true
+
+Display weak areas on user dashboard.
+
+Examples:
+- Hyperkalemia Management
+- ECG Interpretation
+- Pediatric Fever
+- Renal Pharmacology
+- Sepsis Recognition
+
+--------------------------------------------------
+PART 6 — SMART SESSION TYPES
+--------------------------------------------------
+
+Build multiple adaptive session types.
+
+1. Recommended Session
+Mix of weak topics + due cards + exam-high-yield cards
+
+2. Weak Areas Session
+Only cards from weak systems/subtopics
+
+3. Due for Review Session
+Only spaced repetition cards due today
+
+4. Flagged Cards Session
+Only flagged items
+
+5. Rapid Review Session
+High-yield compact review
+
+6. Mixed Adaptive Session
+Best overall personalized mix
+
+7. Pre-Exam Boost Session
+High priority + weak area + blueprint-heavy cards
+
+--------------------------------------------------
+PART 7 — TIER-SPECIFIC ADAPTATION
+--------------------------------------------------
+
+Adaptive logic must remain tier specific.
+
+RPN users:
+- fundamentals
+- safe care
+- prioritization basics
+- common conditions
+
+RN users:
+- deeper pathophysiology
+- interpretation
+- higher-level prioritization
+- acute care reasoning
+
+NP users:
+- diagnostics
+- management
+- prescribing
+- differential diagnosis
+
+Do not mix tiers.
+Adapt only within the user’s exam tier.
+
+--------------------------------------------------
+PART 8 — QUESTION BANK INTEGRATION
+--------------------------------------------------
+
+Flashcards should pull from the question bank.
+
+questionBank items must support:
+- examTier
+- topic
+- subtopic
+- difficulty
+- blueprintCategory
+- rationale
+- incorrectOptionRationales
+- relatedLesson
+- rationaleImage
+- tags
+
+Adaptive sessions should generate from question bank items filtered by:
+- examTier
+- sessionType
+- weakAreas
+- nextReviewAt
+- flagged
+- mastery status
+
+--------------------------------------------------
+PART 9 — MASTERY MODEL
+--------------------------------------------------
+
+Each card should have a mastery state.
+
+Possible values:
+- new
+- learning
+- improving
+- nearlyMastered
+- mastered
+
+Example logic:
+
+new:
+never seen
+
+learning:
+seen 1 to 2 times, accuracy inconsistent
+
+improving:
+seen multiple times, getting better
+
+nearlyMastered:
+2 to 3 correct with moderate/high confidence
+
+mastered:
+3+ correct with high confidence and spaced repetition success
+
+Display this on the dashboard and optionally on cards.
+
+--------------------------------------------------
+PART 10 — ADAPTIVE DASHBOARD
+--------------------------------------------------
+
+Create a flashcard analytics dashboard showing:
+
+- overall mastery %
+- weak topics
+- due for review count
+- flagged cards
+- mastered cards
+- confidence trend
+- recent accuracy
+- best topic
+- weakest topic
+- recommended next session
+
+Use premium NurseNest pastel dashboard styling.
+
+--------------------------------------------------
+PART 11 — LESSON-LINKED REMEDIATION
+--------------------------------------------------
+
+If a user repeatedly misses a concept, recommend the lesson more aggressively.
+
+Example:
+if missedHyperkalemiaCards >= 3:
+  show recommendation:
+  Review Lesson: Hyperkalemia Management
+
+If subtopic confidence remains low:
+  recommend lesson + remediation deck
+
+Related lesson CTA should appear:
+- in rationale panel
+- on weak areas dashboard
+- inside adaptive study recommendations
+
+--------------------------------------------------
+PART 12 — RANDOMIZATION WITH INTELLIGENCE
+--------------------------------------------------
+
+Do not simply randomize all cards equally.
+
+Use adaptive shuffle:
+
+Step 1:
+group cards by priority band
+- urgent review
+- weak area
+- due soon
+- mixed reinforcement
+- mastered/low priority
+
+Step 2:
+shuffle within each band
+
+Step 3:
+assemble session from weighted mix
+
+Example 20-card session:
+- 6 weak area cards
+- 4 due review cards
+- 4 recent incorrect cards
+- 4 mixed high-yield cards
+- 2 reinforcement/mastery cards
+
+This keeps sessions varied but purposeful.
+
+--------------------------------------------------
+PART 13 — ANSWER CHOICE RANDOMIZATION
+--------------------------------------------------
+
+Continue randomizing answer option order.
+Ensure correct answer mapping remains accurate.
+
+If rationale references answer letters, update it dynamically or store rationale by option content, not fixed letter only.
+
+--------------------------------------------------
+PART 14 — ANTI-REPETITION LOGIC
+--------------------------------------------------
+
+Prevent annoying immediate repeats.
+
+Maintain recentCardHistory.
+Do not show the same card too soon unless:
+- user answered incorrectly
+- user marked need more review
+- card is tagged urgent review
+
+Otherwise avoid near-duplicate repetition in the same short session.
+
+--------------------------------------------------
+PART 15 — ADMIN CONTROLS
+--------------------------------------------------
+
+Allow admin to configure:
+- adaptive weighting values
+- review intervals
+- weak topic thresholds
+- preview vs premium adaptive access
+- mastery thresholds
+- high-yield topic tags
+- blueprint weighting
+
+Admin should be able to see:
+- user weak area patterns
+- most missed cards globally
+- most flagged lessons
+- most difficult subtopics by tier
+
+--------------------------------------------------
+PART 16 — PREMIUM FEATURE GATING
+--------------------------------------------------
+
+If flashcards are behind a paywall with preview:
+
+Free preview users:
+- limited cards
+- limited analytics
+- no full adaptive engine
+- no saved mastery
+- maybe only basic shuffle
+
+Premium users:
+- full adaptive review
+- saved mastery
+- spaced repetition
+- weak areas mode
+- recommendations
+- full dashboard
+- due-for-review system
+
+Make premium value clear.
+
+--------------------------------------------------
+PART 17 — UX DETAILS
+--------------------------------------------------
+
+Inside the flashcard UI add:
+- confidence selector after answering
+- mark as flagged
+- mark as mastered
+- study again soon
+- similar card next
+- review lesson
+- start weak area session from missed card
+
+Possible small post-answer controls:
+- I guessed this
+- Show me similar cards
+- Review lesson
+- Add to remediation deck
+
+--------------------------------------------------
+PART 18 — ACCEPTANCE CRITERIA
+--------------------------------------------------
+
+This upgrade is complete only when:
+1. flashcards adapt to incorrect answers
+2. confidence is tracked and used
+3. spaced repetition determines future review timing
+4. weak topics are automatically identified
+5. personalized session types are available
+6. lessons are recommended after repeated misses
+7. tier-specific adaptation is preserved
+8. premium users get full adaptive engine behavior
+9. cards are randomized intelligently, not purely randomly
+10. dashboard clearly shows mastery and weaknesses
+
+After implementing, summarize:
+- what user metrics are now tracked
+- how priority scoring works
+- how spaced repetition works
+- how weak areas are detected
+- how confidence affects future card selection
+- how premium vs free adaptive access differs
