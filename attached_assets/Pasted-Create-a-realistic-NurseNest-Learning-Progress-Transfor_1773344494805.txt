@@ -1,0 +1,220 @@
+Create a realistic NurseNest “Learning Progress Transformation” dashboard inside the admin/demo environment.
+
+This dashboard will be used for screenshots on the homepage hero section and marketing pages.
+
+The goal is to visually demonstrate how NurseNest improves student performance over time.
+
+This is demo data only.
+
+--------------------------------------------------
+
+TITLE
+
+Learning Progress Transformation
+
+Student:
+Emily Chen (Demo Student)
+
+Exam Track:
+RN / NCLEX Preparation
+
+Study Period:
+3 Weeks of Adaptive Study
+
+--------------------------------------------------
+
+TOP SUMMARY CARD
+
+Display a large progress summary card.
+
+Overall Accuracy Before
+61%
+
+Overall Accuracy After
+82%
+
+Mastery Improvement
++21%
+
+Flashcards Studied
+284
+
+Questions Completed
+512
+
+Study Time
+14 hours
+
+Use a large improvement arrow or visual indicator between the before and after numbers.
+
+--------------------------------------------------
+
+BEFORE VS AFTER COMPARISON
+
+Create two side-by-side cards.
+
+LEFT CARD
+
+Before Adaptive Study
+
+Accuracy by Topic
+
+Cardiovascular – 65%  
+Respiratory – 62%  
+Pharmacology – 57%  
+Renal – 54%  
+Infection – 63%  
+Pediatrics – 60%
+
+RIGHT CARD
+
+After Adaptive Study
+
+Cardiovascular – 84%  
+Respiratory – 80%  
+Pharmacology – 79%  
+Renal – 78%  
+Infection – 85%  
+Pediatrics – 82%
+
+Show improvement arrows next to each category.
+
+--------------------------------------------------
+
+VISUAL IMPROVEMENT GRAPH
+
+Add a clean line chart titled:
+
+Performance Growth
+
+Week 1 – 61%  
+Week 2 – 69%  
+Week 3 – 75%  
+Week 4 – 82%
+
+Include separate lines for:
+
+Accuracy  
+Confidence  
+Mastery
+
+Use pastel NurseNest colors.
+
+--------------------------------------------------
+
+WEAK AREAS IMPROVEMENT PANEL
+
+Display a card titled:
+
+Weak Areas Strengthened
+
+Hyperkalemia Management
+Before – 52%
+After – 80%
+
+ECG Interpretation
+Before – 58%
+After – 79%
+
+Sepsis Recognition
+Before – 60%
+After – 83%
+
+Ventilator Alarms
+Before – 55%
+After – 76%
+
+Show upward trend arrows.
+
+--------------------------------------------------
+
+AI INSIGHT PANEL
+
+Display a card titled:
+
+What Drove This Improvement
+
+Include realistic insights such as:
+
+• Repeated flashcard exposure through spaced repetition  
+• Focused review on renal and pharmacology weaknesses  
+• Increased accuracy on priority intervention questions  
+• Improved recognition of emergency clinical patterns  
+• Reinforcement through lesson-linked flashcards  
+
+--------------------------------------------------
+
+STUDY ACTIVITY PANEL
+
+Display engagement statistics.
+
+Flashcards Studied
+284
+
+Questions Completed
+512
+
+Lessons Reviewed
+14
+
+Adaptive Review Sessions
+9
+
+Average Study Session Length
+32 minutes
+
+--------------------------------------------------
+
+RECOMMENDED NEXT STEP
+
+Display a recommendation card.
+
+Next Target
+
+Reach 88% readiness by strengthening:
+
+• Pharmacology dosing questions  
+• ECG rhythm recognition  
+• Critical care prioritization  
+
+Button:
+
+Start Next Adaptive Session
+
+--------------------------------------------------
+
+VISUAL DESIGN
+
+Use NurseNest visual style:
+
+• pastel lavender
+• mint green
+• soft blue
+• blush accents
+• rounded analytics cards
+• soft shadows
+• modern clinical dashboard aesthetic
+• Nunito font
+
+The dashboard must look polished and credible.
+
+--------------------------------------------------
+
+SCREENSHOT REQUIREMENTS
+
+Design the layout so the entire dashboard fits in one viewport for clean screenshots.
+
+Do not require scrolling.
+
+--------------------------------------------------
+
+ACCEPTANCE CRITERIA
+
+The dashboard must:
+
+• clearly show improvement over time
+• include before vs after comparisons
+• include charts and statistics
+• look like a real student analytics report
+• match NurseNest brand aesthetic
+• be high quality enough for homepage hero screenshots
