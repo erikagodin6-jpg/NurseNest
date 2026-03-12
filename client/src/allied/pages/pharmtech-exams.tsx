@@ -178,6 +178,11 @@ function ExamTaker() {
           <button onClick={() => setStatus("review")} className="flex-1 px-4 py-3 bg-green-600 text-white rounded-xl text-sm font-medium hover:bg-green-700" data-testid="button-review">
             Review Answers
           </button>
+          {attemptId && (
+            <Link href={`/pharmacy-technician/review/${attemptId}`} className="flex-1 text-center px-4 py-3 bg-blue-50 text-blue-700 rounded-xl text-sm font-medium border border-blue-200 hover:bg-blue-100" data-testid="button-full-review">
+              Full Review
+            </Link>
+          )}
           <Link href="/pharmacy-technician/exams" className="flex-1 text-center px-4 py-3 bg-gray-100 text-gray-700 rounded-xl text-sm font-medium hover:bg-gray-200" data-testid="button-back-exams">
             Back to Exams
           </Link>

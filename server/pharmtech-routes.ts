@@ -176,6 +176,63 @@ export function registerPharmtechRoutes(app: Express) {
     }
   });
 
+  app.get("/api/pharmtech/exam-attempts/:id/review", async (req, res) => {
+    try {
+      const { rows: attemptRows } = await pool.query(
+        `SELECT * FROM pharmtech_exam_attempts WHERE id = $1`,
+        [req.params.id]
+      );
+      if (!attemptRows[0]) return res.status(404).json({ error: "Attempt not found" });
+      const attempt = snakeToCamel(attemptRows[0]);
+      if (attempt.status !== "completed") return res.status(400).json({ error: "Exam not yet completed" });
+
+      const { rows: examRows } = await pool.query(
+        `SELECT * FROM pharmtech_exams WHERE id = $1`,
+        [attempt.examId]
+      );
+      if (!examRows[0]) return res.status(404).json({ error: "Exam not found" });
+      const exam = snakeToCamel(examRows[0]);
+
+      const qIds = exam.questionIds || [];
+      let questions: any[] = [];
+      if (qIds.length > 0) {
+        const { rows: qRows } = await pool.query(
+          `SELECT * FROM pharmtech_questions WHERE id = ANY($1)`,
+          [qIds]
+        );
+        const qMap = new Map(qRows.map((r: any) => [r.id, snakeToCamel(r)]));
+        questions = qIds.map((id: string) => qMap.get(id)).filter(Boolean);
+      }
+
+      const { rows: lessonRows } = await pool.query(
+        `SELECT slug, title, category FROM pharmtech_lessons WHERE published = true`
+      );
+      const lessonMap = Object.fromEntries(lessonRows.map((r: any) => [r.slug, { title: r.title, category: r.category }]));
+
+      res.json({ attempt, exam, questions, lessonMap });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/admin/pharmtech/stats", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const { rows } = await pool.query(`
+        SELECT
+          (SELECT COUNT(*) FROM pharmtech_lessons) as lesson_count,
+          (SELECT COUNT(*) FROM pharmtech_flashcard_decks) as deck_count,
+          (SELECT COALESCE(SUM(card_count), 0) FROM pharmtech_flashcard_decks) as flashcard_count,
+          (SELECT COUNT(*) FROM pharmtech_questions) as question_count,
+          (SELECT COUNT(*) FROM pharmtech_exams) as exam_count
+      `);
+      res.json(snakeToCamel(rows[0]));
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
   app.get("/api/admin/pharmtech/lessons", async (req, res) => {
     try {
       const admin = await requireAdmin(req, res);

@@ -58,6 +58,7 @@ const PharmtechExams = lazy(() => import("./pages/pharmtech-exams"));
 const PharmtechPractice = lazy(() => import("./pages/pharmtech-practice"));
 const PharmtechStudyGuide = lazy(() => import("./pages/pharmtech-study-guide"));
 const PharmtechAdmin = lazy(() => import("./pages/pharmtech-admin"));
+const PharmtechReview = lazy(() => import("./pages/pharmtech-review"));
 const MltStudentDashboard = lazy(() => import("./pages/mlt-student-dashboard"));
 import { MltSEOPage } from "./pages/mlt-seo-pages";
 
@@ -102,6 +103,11 @@ export function AlliedRoutes() {
         <Route path="/admin/mlt/publish" component={MltAdmin} />
         <Route path="/admin/mlt/import" component={MltAdmin} />
         <Route path="/admin/mlt/import/history" component={MltAdmin} />
+        <Route path="/admin/allied-content/pharmacy-technician/questions" component={PharmtechAdmin} />
+        <Route path="/admin/allied-content/pharmacy-technician/lessons" component={PharmtechAdmin} />
+        <Route path="/admin/allied-content/pharmacy-technician/flashcards" component={PharmtechAdmin} />
+        <Route path="/admin/allied-content/pharmacy-technician/exams" component={PharmtechAdmin} />
+        <Route path="/admin/allied-content/pharmacy-technician/import" component={PharmtechAdmin} />
         <Route path="/admin/allied-content/pharmacy-technician" component={PharmtechAdmin} />
         <Route path="/admin/paramedic-bulk-upload" component={ParamedicBulkUpload} />
         <Route path="/pharmacy-technician" component={PharmtechHub} />
@@ -109,6 +115,7 @@ export function AlliedRoutes() {
         <Route path="/pharmacy-technician/lessons" component={PharmtechLessons} />
         <Route path="/pharmacy-technician/flashcards/:slug" component={PharmtechFlashcards} />
         <Route path="/pharmacy-technician/flashcards" component={PharmtechFlashcards} />
+        <Route path="/pharmacy-technician/review/:attemptId" component={PharmtechReview} />
         <Route path="/pharmacy-technician/exams/:slug" component={PharmtechExams} />
         <Route path="/pharmacy-technician/exams" component={PharmtechExams} />
         <Route path="/pharmacy-technician/practice-questions" component={PharmtechPractice} />
