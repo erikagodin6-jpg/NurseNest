@@ -1,5 +1,4 @@
 import type { LessonContent } from "./types";
-import imgSIADH from "@assets/SIADH_1773268456011.png";
 
 export const advancedNpLessons: Record<string, LessonContent> = {
   "mi-management-np": {
@@ -67,7 +66,6 @@ export const advancedNpLessons: Record<string, LessonContent> = {
   },
   "siadh-di-np": {
     title: "Sodium Disorders: Osmoregulation",
-    image: imgSIADH,
     cellular: { 
       title: "Arginine Vasopressin (AVP) Pathophysiology", 
       content: "SIADH: Ectopic or inappropriate AVP release leads to insertion of Aquaporin-2 channels in the collecting duct, causing pure water retention (Euvolemic Hyponatremia). \nDI: Lack of AVP (Central) or renal resistance (Nephrogenic) prevents water reabsorption, leading to massive dilute urine output." 

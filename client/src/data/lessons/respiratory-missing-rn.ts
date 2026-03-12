@@ -1,5 +1,4 @@
 import type { LessonContent } from "./types";
-import imgTRALI from "@assets/TRALI_1773268456011.png";
 
 export const respiratoryMissingRnLessons: Record<string, LessonContent> = {
   "pulmonary-valve-stenosis-rn": {
@@ -79,7 +78,6 @@ export const respiratoryMissingRnLessons: Record<string, LessonContent> = {
 
   "trali-resp-rn": {
     title: "Transfusion-Related Acute Lung Injury (TRALI)",
-    image: imgTRALI,
     cellular: { title: "Antibody-Mediated Neutrophil Activation", content: "TRALI is a non-cardiogenic pulmonary edema occurring within 6 hours of transfusion. Donor antibodies (anti-HLA or anti-HNA) activate recipient neutrophils, which sequester in the pulmonary microvasculature. Activated neutrophils release reactive oxygen species, proteases, and neutrophil extracellular traps (NETs) that damage the alveolar-capillary membrane. This results in increased permeability pulmonary edema with protein-rich fluid flooding the alveoli. A two-hit model suggests that recipient factors (sepsis, surgery, massive transfusion) prime neutrophils, and donor antibodies deliver the second hit." },
     riskFactors: ["Transfusion of plasma-containing blood products (FFP, platelets, whole blood)", "Multiparous female donors (higher anti-HLA antibody prevalence)", "Critical illness (sepsis, trauma, surgery)", "Massive transfusion protocol activation", "Mechanical ventilation before transfusion", "Chronic alcohol use", "Liver transplantation"],
     diagnostics: ["Acute onset of hypoxemia and bilateral infiltrates within 6 hours of transfusion", "Chest X-ray showing bilateral pulmonary edema", "No evidence of circulatory overload (normal BNP, normal CVP)", "PaO2/FiO2 ratio < 300 (ALI criteria)", "Donor blood testing for anti-HLA and anti-HNA antibodies", "Echocardiogram showing normal left ventricular function"],
@@ -278,7 +276,6 @@ export const respiratoryMissingRnLessons: Record<string, LessonContent> = {
 
   "trali-critical-rn": {
     title: "TRALI (Critical Care)",
-    image: imgTRALI,
     cellular: { title: "Neutrophil-Mediated Capillary Injury in Critical Care", content: "In the critical care setting, TRALI represents the most severe end of transfusion-related lung injury, where pre-existing neutrophil priming from critical illness amplifies the immune response to donor antibodies. The two-hit model is particularly relevant: the first hit (sepsis, major surgery, massive trauma) primes pulmonary neutrophils through endotoxin, cytokines, or complement activation. The second hit (donor anti-HLA or anti-HNA antibodies, or bioactive lipids from stored blood products) triggers full neutrophil activation with release of elastase, myeloperoxidase, and reactive oxygen species. The resulting alveolar-capillary damage produces severe non-cardiogenic pulmonary edema that can progress to full ARDS criteria." },
     riskFactors: ["ICU admission with pre-existing critical illness", "Massive transfusion (> 10 units in 24 hours)", "Active sepsis at time of transfusion", "Post-cardiopulmonary bypass", "Mechanical ventilation before transfusion", "Multiple plasma-containing product transfusions", "Liver failure with coagulopathy"],
     diagnostics: ["Acute worsening within 6 hours of transfusion while on ventilator", "New bilateral infiltrates on portable CXR", "Worsening PaO2/FiO2 ratio (must rule out volume overload)", "Pulmonary artery catheter: PAOP < 18 mmHg (excludes cardiogenic edema)", "BNP level to differentiate from TACO", "Donor antibody panel (anti-HLA, anti-HNA)", "Serial ABGs to track oxygenation trend"],

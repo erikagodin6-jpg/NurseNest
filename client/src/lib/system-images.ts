@@ -850,7 +850,6 @@ const lessonSpecificImages: Record<string, string> = {
   "lung-auscultation": illustrationRespiratoryAnatomy,
   "oxygen-therapy-basics": illustrationRespiratoryAnatomy,
   "osa-management": illustrationRespiratoryAnatomy,
-  "peak-flow-monitoring-rpn": illustrationRespiratoryAnatomy,
   "spinal-cord-injury": illustrationNeurologicalAnatomy,
   "status-epilepticus": illustrationNeurologicalAnatomy,
   "febrile-seizure": illustrationFebrileSeizuresV2,
