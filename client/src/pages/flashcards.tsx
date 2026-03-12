@@ -76,6 +76,7 @@ import { BreadcrumbNav } from "@/components/breadcrumb-nav";
 import heartImg from "@/assets/images/heart-flashcard.png";
 import pedsImg from "@/assets/images/peds-flashcard.png";
 import oncologyImg from "@/assets/images/oncology-flashcard.png";
+import aaaImg from "@assets/abdominalaorticaneurysm_1773348327714.png";
 import { rnFlashcards } from "@/data/flashcards-rn";
 import { npFlashcards } from "@/data/flashcards-np";
 import { AdaptiveStudyHub } from "@/components/adaptive-study";
@@ -120,7 +121,7 @@ const baseCards: Flashcard[] = [
     correctIndex: 1,
     answer: "Priority is ensuring the graft is patent and renal perfusion is maintained. Urine output must be >30mL/hr, and distal pulses ensure blood flow past the graft.",
     category: "Cardiovascular",
-    image: heartImg
+    image: aaaImg
   },
   { 
     id: "q2",
@@ -159,7 +160,7 @@ const baseCards: Flashcard[] = [
     question: "Pulsatile Abdominal Mass",
     answer: "A key clinical finding in Abdominal Aortic Aneurysm (AAA), indicating the aorta is dilated and transmitting the heart's pulsations through the abdominal wall.",
     category: "Cardiovascular",
-    image: heartImg
+    image: aaaImg
   },
   {
     id: "t2",
