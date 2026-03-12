@@ -500,6 +500,24 @@ import illustrationDuchenne from "@assets/duchenne_1773269507783.png";
 import illustrationEpiglottitisNew from "@assets/epiglottitis_1773269507783.png";
 import illustrationEpistaxis from "@assets/epistaxis_1773269507783.png";
 import illustrationErysipelas from "@assets/erysipelas_1773269507783.png";
+import illustrationErythemaMultiforme from "@assets/erythemamultiforme_1773269471822.png";
+import illustrationFallPrevention from "@assets/fallprevention_1773269471822.png";
+import illustrationFebrileNeutropenia from "@assets/febrileneutropenia_1773269471822.png";
+import illustrationFebrileNonhemolytic from "@assets/febrilenonhemolytic_1773269471822.png";
+import illustrationFibromyalgia from "@assets/fibromyalgia_1773269471822.png";
+import illustrationForeignBodyAspiration from "@assets/foreignbodyaspiration_1773269471822.png";
+import illustrationFractureTypesNew from "@assets/Fracturetypes_1773269471822.png";
+import illustrationFungalInfections from "@assets/fungalinfections_1773269471822.png";
+import illustrationGalactosemia from "@assets/galactosemia_1773269471822.png";
+import illustrationGlaucomaNew from "@assets/glaucoma_1773269471822.png";
+import illustrationGlomerulonephritisNew from "@assets/glomerulonephritis_1773269471822.png";
+import illustrationGoutNew from "@assets/gout_1773269471822.png";
+import illustrationGraftVsHost from "@assets/graftvshose_1773269471822.png";
+import illustrationGravesDisease from "@assets/graves_1773269471822.png";
+import illustrationHashimotoThyroiditis from "@assets/hashimotothyroiditis_1773269471822.png";
+import illustrationHeadLiceNew from "@assets/headlice_1773269471822.png";
+import illustrationHemolyticUremicSyndrome from "@assets/hemolyticuremicsyndrome_1773269471822.png";
+import illustrationHemophiliaNew from "@assets/hemophilia_1773269471822.png";
 
 const lessonSpecificImages: Record<string, string> = {
   "infective-endocarditis-signs": illustrationEndocarditisSigns,
@@ -1684,6 +1702,112 @@ const lessonSpecificImages: Record<string, string> = {
   "erysipelas-rn": illustrationErysipelas,
   "erysipelas-np": illustrationErysipelas,
 
+  "erythema-multiforme": illustrationErythemaMultiforme,
+  "erythema-multiforme-rpn": illustrationErythemaMultiforme,
+  "erythema-multiforme-rn": illustrationErythemaMultiforme,
+  "erythema-multiforme-np": illustrationErythemaMultiforme,
+
+  "fall-prevention": illustrationFallPrevention,
+  "fall-prevention-rpn": illustrationFallPrevention,
+  "fall-prevention-rn": illustrationFallPrevention,
+  "fall-prevention-np": illustrationFallPrevention,
+  "fall-risk": illustrationFallPrevention,
+
+  "febrile-neutropenia": illustrationFebrileNeutropenia,
+  "febrile-neutropenia-rpn": illustrationFebrileNeutropenia,
+  "febrile-neutropenia-rn": illustrationFebrileNeutropenia,
+  "febrile-neutropenia-np": illustrationFebrileNeutropenia,
+
+  "febrile-nonhemolytic-reaction": illustrationFebrileNonhemolytic,
+  "febrile-nonhemolytic": illustrationFebrileNonhemolytic,
+  "febrile-nonhemolytic-rpn": illustrationFebrileNonhemolytic,
+  "febrile-nonhemolytic-rn": illustrationFebrileNonhemolytic,
+  "febrile-nonhemolytic-np": illustrationFebrileNonhemolytic,
+
+  "fibromyalgia": illustrationFibromyalgia,
+  "fibromyalgia-rpn": illustrationFibromyalgia,
+  "fibromyalgia-rn": illustrationFibromyalgia,
+  "fibromyalgia-np": illustrationFibromyalgia,
+
+  "foreign-body-aspiration": illustrationForeignBodyAspiration,
+  "foreign-body-aspiration-rpn": illustrationForeignBodyAspiration,
+  "foreign-body-aspiration-rn": illustrationForeignBodyAspiration,
+  "foreign-body-aspiration-np": illustrationForeignBodyAspiration,
+
+  "fracture-types": illustrationFractureTypesNew,
+  "fracture-types-rpn": illustrationFractureTypesNew,
+  "fracture-types-rn": illustrationFractureTypesNew,
+  "fracture-types-np": illustrationFractureTypesNew,
+  "fracture-healing": illustrationFractureTypesNew,
+
+  "fungal-infections": illustrationFungalInfections,
+  "fungal-infections-rpn": illustrationFungalInfections,
+  "fungal-infections-rn": illustrationFungalInfections,
+  "fungal-infections-np": illustrationFungalInfections,
+  "fungal-infection": illustrationFungalInfections,
+
+  "galactosemia": illustrationGalactosemia,
+  "galactosemia-rpn": illustrationGalactosemia,
+  "galactosemia-rn": illustrationGalactosemia,
+  "galactosemia-np": illustrationGalactosemia,
+
+  "glaucoma": illustrationGlaucomaNew,
+  "glaucoma-management": illustrationGlaucomaNew,
+  "glaucoma-rpn": illustrationGlaucomaNew,
+  "glaucoma-rn": illustrationGlaucomaNew,
+  "glaucoma-np": illustrationGlaucomaNew,
+
+  "glomerulonephritis": illustrationGlomerulonephritisNew,
+  "glomerulonephritis-rpn": illustrationGlomerulonephritisNew,
+  "glomerulonephritis-rn": illustrationGlomerulonephritisNew,
+  "glomerulonephritis-np": illustrationGlomerulonephritisNew,
+  "post-streptococcal-glomerulonephritis": illustrationGlomerulonephritisNew,
+
+  "gout": illustrationGoutNew,
+  "gout-rpn": illustrationGoutNew,
+  "gout-rn": illustrationGoutNew,
+  "gout-np": illustrationGoutNew,
+  "gout-management": illustrationGoutNew,
+
+  "graft-vs-host-disease": illustrationGraftVsHost,
+  "graft-vs-host": illustrationGraftVsHost,
+  "gvhd": illustrationGraftVsHost,
+  "gvhd-rpn": illustrationGraftVsHost,
+  "gvhd-rn": illustrationGraftVsHost,
+  "gvhd-np": illustrationGraftVsHost,
+
+  "graves-disease": illustrationGravesDisease,
+  "graves": illustrationGravesDisease,
+  "graves-rpn": illustrationGravesDisease,
+  "graves-rn": illustrationGravesDisease,
+  "graves-np": illustrationGravesDisease,
+
+  "hashimoto-thyroiditis": illustrationHashimotoThyroiditis,
+  "hashimoto": illustrationHashimotoThyroiditis,
+  "hashimoto-rpn": illustrationHashimotoThyroiditis,
+  "hashimoto-rn": illustrationHashimotoThyroiditis,
+  "hashimoto-np": illustrationHashimotoThyroiditis,
+  "hashimotos-thyroiditis": illustrationHashimotoThyroiditis,
+
+  "head-lice": illustrationHeadLiceNew,
+  "pediculosis": illustrationHeadLiceNew,
+  "head-lice-rpn": illustrationHeadLiceNew,
+  "head-lice-rn": illustrationHeadLiceNew,
+  "head-lice-np": illustrationHeadLiceNew,
+
+  "hemolytic-uremic-syndrome": illustrationHemolyticUremicSyndrome,
+  "hemolytic-uremic": illustrationHemolyticUremicSyndrome,
+  "hus": illustrationHemolyticUremicSyndrome,
+  "hemolytic-uremic-rpn": illustrationHemolyticUremicSyndrome,
+  "hemolytic-uremic-rn": illustrationHemolyticUremicSyndrome,
+  "hemolytic-uremic-np": illustrationHemolyticUremicSyndrome,
+
+  "hemophilia": illustrationHemophiliaNew,
+  "hemophilia-rpn": illustrationHemophiliaNew,
+  "hemophilia-rn": illustrationHemophiliaNew,
+  "hemophilia-np": illustrationHemophiliaNew,
+  "hemophilia-a": illustrationHemophiliaNew,
+  "hemophilia-b": illustrationHemophiliaNew,
 };
 
 const systemImageMap: Record<string, string> = {
@@ -2001,14 +2125,14 @@ export function getLessonImage(lessonId: string): string | undefined {
   if (lessonId.includes("otitis-externa")) return illustrationOtitisExternaV2;
   if (lessonId.includes("otitis") || lessonId.includes("ear-infect")) return illustrationOtitis;
   if (lessonId.includes("herpes-simplex") || lessonId.includes("hsv") || lessonId.includes("cold-sore")) return illustrationHerpesSimplex;
-  if (lessonId.includes("glaucoma")) return illustrationGlaucoma;
+  if (lessonId.includes("glaucoma")) return illustrationGlaucomaNew;
   if (lessonId.includes("vitiligo")) return illustrationVitiligoNew;
   if (lessonId.includes("shingles") || lessonId.includes("herpes-zoster") || lessonId.includes("varicella-zoster")) return illustrationShinglesV2;
   if (lessonId.includes("stevens-johnson") || lessonId.includes("sjs")) return illustrationStevensJohnsonNew;
   if (lessonId.includes("cell-struct") || lessonId.includes("cell-bio")) return illustrationCellStructure;
   if (lessonId.includes("homeostasis") || lessonId.includes("feedback-loop")) return illustrationHomeostasis;
   if (lessonId.includes("pinworm") || lessonId.includes("enterobias")) return illustrationPinworms;
-  if (lessonId.includes("head-lice") || lessonId.includes("pediculosis")) return illustrationHeadLice;
+  if (lessonId.includes("head-lice") || lessonId.includes("pediculosis")) return illustrationHeadLiceNew;
   if (lessonId.includes("impetigo")) return illustrationImpetigo;
   if (lessonId.includes("varicella") || lessonId.includes("chickenpox")) return illustrationVaricella;
   if (lessonId.includes("epiglottitis")) return illustrationEpiglottitisNew;
@@ -2126,6 +2250,22 @@ export function getLessonImage(lessonId: string): string | undefined {
   if (lessonId.includes("peritoneal-dialysis")) return illustrationPeritonealDialysis;
   if (lessonId.includes("pancreatic-function")) return illustrationPancreaticFunctioning;
   if (lessonId.includes("pituitary") || lessonId.includes("acromegaly")) return illustrationPituitaryGlands;
+  if (lessonId.includes("erythema-multiforme")) return illustrationErythemaMultiforme;
+  if (lessonId.includes("fall-prevention") || lessonId.includes("fall-risk")) return illustrationFallPrevention;
+  if (lessonId.includes("febrile-neutropenia")) return illustrationFebrileNeutropenia;
+  if (lessonId.includes("febrile-nonhemolytic")) return illustrationFebrileNonhemolytic;
+  if (lessonId.includes("fibromyalgia")) return illustrationFibromyalgia;
+  if (lessonId.includes("foreign-body") || lessonId.includes("foreign-body-aspiration")) return illustrationForeignBodyAspiration;
+  if (lessonId.includes("fracture-type") || lessonId.includes("fracture-healing")) return illustrationFractureTypesNew;
+  if (lessonId.includes("fungal-infect")) return illustrationFungalInfections;
+  if (lessonId.includes("galactosemia")) return illustrationGalactosemia;
+  if (lessonId.includes("glomeruloneph")) return illustrationGlomerulonephritisNew;
+  if (lessonId.includes("gout")) return illustrationGoutNew;
+  if (lessonId.includes("graft-vs-host") || lessonId.includes("gvhd")) return illustrationGraftVsHost;
+  if (lessonId.includes("graves")) return illustrationGravesDisease;
+  if (lessonId.includes("hashimoto")) return illustrationHashimotoThyroiditis;
+  if (lessonId.includes("hemolytic-uremic") || lessonId.includes("hus")) return illustrationHemolyticUremicSyndrome;
+  if (lessonId.includes("hemophilia")) return illustrationHemophiliaNew;
   if (lessonId.includes("kidney") || lessonId.includes("renal") || lessonId.includes("dialysis") || lessonId.includes("crrt")) return illustrationKidneys;
   if (lessonId.includes("electrolyte")) return illustrationElectrolytes;
   if (lessonId.includes("tumor") || lessonId.includes("cancer") || lessonId.includes("chemo") || lessonId.includes("oncol")) return illustrationTumor;

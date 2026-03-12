@@ -54,8 +54,26 @@ import imgDuchenne from "@assets/duchenne_1773269507783.png";
 import imgEpiglottitis from "@assets/epiglottitis_1773269507783.png";
 import imgEpistaxis from "@assets/epistaxis_1773269507783.png";
 import imgErysipelas from "@assets/erysipelas_1773269507783.png";
+import imgErythemaMultiforme from "@assets/erythemamultiforme_1773269471822.png";
+import imgFallPrevention from "@assets/fallprevention_1773269471822.png";
+import imgFebrileNeutropenia from "@assets/febrileneutropenia_1773269471822.png";
+import imgFebrileNonhemolytic from "@assets/febrilenonhemolytic_1773269471822.png";
+import imgFibromyalgia from "@assets/fibromyalgia_1773269471822.png";
+import imgForeignBodyAspiration from "@assets/foreignbodyaspiration_1773269471822.png";
+import imgFractureTypes from "@assets/Fracturetypes_1773269471822.png";
+import imgFungalInfections from "@assets/fungalinfections_1773269471822.png";
+import imgGalactosemia from "@assets/galactosemia_1773269471822.png";
+import imgGlaucoma from "@assets/glaucoma_1773269471822.png";
+import imgGlomerulonephritis from "@assets/glomerulonephritis_1773269471822.png";
+import imgGout from "@assets/gout_1773269471822.png";
+import imgGraftVsHost from "@assets/graftvshose_1773269471822.png";
+import imgGravesDisease from "@assets/graves_1773269471822.png";
+import imgHashimotoThyroiditis from "@assets/hashimotothyroiditis_1773269471822.png";
+import imgHeadLice from "@assets/headlice_1773269471822.png";
+import imgHemolyticUremicSyndrome from "@assets/hemolyticuremicsyndrome_1773269471822.png";
+import imgHemophilia from "@assets/hemophilia_1773269471822.png";
 
-export { imgUlcerativeColitis, imgVonWillebrand, imgUrinaryCatheterization, imgSIADH, imgSickleCellCrisis, imgStomaCare, imgThalassemia, imgThrombocytopenia, imgThyroidStorm, imgTRALI, imgVitiligo, imgUrethralStricture, imgVestibularNeuritis, imgAddisons, imgAplasticAnemia, imgAcuteHemolyticReaction, imgAllergicTransfusion, imgAirEmbolism, imgCBI, imgCastCareTraction, imgAlopecia, imgBPH, imgAtopicDermatitis, imgAcromegaly, imgBPPV, imgNGTube, imgPancreatitis, imgPeritonealDialysis, imgPolycysticKidney, imgPolycythemia, imgPepticUlcer, imgOsteoporosis, imgCellulitis, imgCKD, imgClubfoot, imgCompartmentSyndrome, imgConjunctivitis, imgContracture, imgCushings, imgDelayedHemolyticReaction, imgDevHipDysplasia, imgDiabetes, imgDiabetesInsipidus, imgDiabeticNephropathy, imgDIC, imgDisuseAtrophy, imgDuchenne, imgEpiglottitis, imgEpistaxis, imgErysipelas };
+export { imgUlcerativeColitis, imgVonWillebrand, imgUrinaryCatheterization, imgSIADH, imgSickleCellCrisis, imgStomaCare, imgThalassemia, imgThrombocytopenia, imgThyroidStorm, imgTRALI, imgVitiligo, imgUrethralStricture, imgVestibularNeuritis, imgAddisons, imgAplasticAnemia, imgAcuteHemolyticReaction, imgAllergicTransfusion, imgAirEmbolism, imgCBI, imgCastCareTraction, imgAlopecia, imgBPH, imgAtopicDermatitis, imgAcromegaly, imgBPPV, imgNGTube, imgPancreatitis, imgPeritonealDialysis, imgPolycysticKidney, imgPolycythemia, imgPepticUlcer, imgOsteoporosis, imgCellulitis, imgCKD, imgClubfoot, imgCompartmentSyndrome, imgConjunctivitis, imgContracture, imgCushings, imgDelayedHemolyticReaction, imgDevHipDysplasia, imgDiabetes, imgDiabetesInsipidus, imgDiabeticNephropathy, imgDIC, imgDisuseAtrophy, imgDuchenne, imgEpiglottitis, imgEpistaxis, imgErysipelas, imgErythemaMultiforme, imgFallPrevention, imgFebrileNeutropenia, imgFebrileNonhemolytic, imgFibromyalgia, imgForeignBodyAspiration, imgFractureTypes, imgFungalInfections, imgGalactosemia, imgGlaucoma, imgGlomerulonephritis, imgGout, imgGraftVsHost, imgGravesDisease, imgHashimotoThyroiditis, imgHeadLice, imgHemolyticUremicSyndrome, imgHemophilia };
 
 export type FlashcardData = {
   id: string;
@@ -955,7 +973,8 @@ export const rpnFlashcards: FlashcardData[] = [
     question: "Glomerulonephritis",
     answer: "Inflammation of the glomeruli, often post-streptococcal infection (1-3 weeks after strep throat/skin infection). Signs: Dark/cola-colored urine, proteinuria, edema (periorbital in morning), hypertension, oliguria. Monitor I&O, daily weights, sodium restriction.",
     category: "Renal/GU",
-    difficulty: 3
+    difficulty: 3,
+    image: imgGlomerulonephritis
   },
   {
     id: "rpn-renal-q6",
@@ -1112,7 +1131,8 @@ export const rpnFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "Exophthalmos (bulging eyes) in Graves' disease puts the cornea at risk for dryness and injury. Priority: Artificial tears/lubricating eye drops, sunglasses, elevate HOB to reduce periorbital edema, tape eyelids at night if they don't close fully.",
     category: "Endocrine",
-    difficulty: 2
+    difficulty: 2,
+    image: imgGravesDisease
   },
   {
     id: "rpn-endo-q7",
@@ -1231,7 +1251,8 @@ export const rpnFlashcards: FlashcardData[] = [
     question: "Hemophilia",
     answer: "X-linked recessive bleeding disorder. Hemophilia A: Factor VIII deficiency (most common). Hemophilia B: Factor IX deficiency. Signs: Prolonged bleeding, hemarthrosis (joint bleeding), easy bruising. Treatment: Factor replacement therapy. Avoid aspirin and contact sports.",
     category: "Hematology",
-    difficulty: 3
+    difficulty: 3,
+    image: imgHemophilia
   },
   {
     id: "rpn-heme-t3",
@@ -2155,7 +2176,8 @@ export const rpnFlashcards: FlashcardData[] = [
     question: "Fall Prevention (MORSE Fall Scale)",
     answer: "Risk factors: History of falls, secondary diagnosis, ambulatory aid, IV/heparin lock, impaired gait, altered mental status. Interventions: Non-skid footwear, bed in lowest position, call light within reach, adequate lighting, remove clutter, toileting schedule, bed alarm if needed.",
     category: "Safety & Ethics",
-    difficulty: 1
+    difficulty: 1,
+    image: imgFallPrevention
   },
   // ============================================================
   // FLUID & ELECTROLYTES (45+ cards)
@@ -3530,7 +3552,8 @@ export const rpnFlashcards: FlashcardData[] = [
     correctIndex: 2,
     answer: "Sudden onset of choking/gagging with unilateral wheezing (one-sided decreased breath sounds) strongly suggests foreign body aspiration. Most common: Nuts, grapes, small toys. Highest risk: Children 1-3 years. Diagnosis: Chest X-ray (inspiratory/expiratory). Treatment: Bronchoscopy for removal.",
     category: "Pediatrics",
-    difficulty: 2
+    difficulty: 2,
+    image: imgForeignBodyAspiration
   },
   {
     id: "rpn-mat-q15",
@@ -4408,7 +4431,8 @@ export const rpnFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "Allopurinol reduces uric acid production for long-term gout prevention. Do NOT start during an acute flare (can worsen/prolong the attack by mobilizing uric acid). Start after the flare resolves. Acute flare treatment: NSAIDs (indomethacin), colchicine, or corticosteroids. Increase fluid intake.",
     category: "Pharmacology",
-    difficulty: 3
+    difficulty: 3,
+    image: imgGout
   },
   // ============================================================
   // BATCH 2 - PEDIATRICS EXPANSION
@@ -4835,7 +4859,8 @@ export const rpnFlashcards: FlashcardData[] = [
     question: "Febrile Neutropenia",
     answer: "Temperature ≥ 38.3°C (single) or ≥ 38°C sustained for 1 hour with ANC < 500. Medical emergency in cancer clients: infection can be rapidly fatal. Treatment: Obtain blood cultures (before antibiotics), then start broad-spectrum IV antibiotics within 60 minutes. Do NOT delay for culture results.",
     category: "Oncology",
-    difficulty: 3
+    difficulty: 3,
+    image: imgFebrileNeutropenia
   },
   {
     id: "rpn-onc-q12",
@@ -5052,7 +5077,8 @@ export const rpnFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "FDA-approved for fibromyalgia: Pregabalin (anticonvulsant: modulates calcium channels), duloxetine and milnacipran (SNRIs: modulate pain signaling). Also helpful: Aerobic exercise (most evidence), CBT, sleep hygiene, stress management. Opioids are generally NOT recommended for fibromyalgia.",
     category: "Pain Management",
-    difficulty: 3
+    difficulty: 3,
+    image: imgFibromyalgia
   },
   {
     id: "rpn-onc-q14",
@@ -6336,7 +6362,8 @@ export const rpnFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "Colchicine commonly causes GI side effects: Diarrhea (dose-limiting), nausea, vomiting, abdominal pain. Take with food. Reduce dose in renal/hepatic impairment. Toxicity: Bone marrow suppression, myopathy, neuropathy. Avoid with grapefruit juice and strong CYP3A4 inhibitors. Used for acute gout and prophylaxis.",
     category: "Pharmacology",
-    difficulty: 2
+    difficulty: 2,
+    image: imgGout
   },
   {
     id: "rpn-peds-t13",

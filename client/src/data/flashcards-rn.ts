@@ -1,5 +1,5 @@
 import type { FlashcardData } from "./flashcards-rpn";
-import { imgUlcerativeColitis, imgSIADH, imgSickleCellCrisis, imgStomaCare, imgThrombocytopenia, imgUrinaryCatheterization, imgVitiligo, imgUrethralStricture, imgVestibularNeuritis, imgAddisons, imgAcuteHemolyticReaction, imgAtopicDermatitis, imgBPH, imgCastCareTraction, imgAcromegaly, imgNGTube, imgPancreatitis, imgPeritonealDialysis, imgPepticUlcer, imgOsteoporosis, imgCellulitis, imgCKD, imgClubfoot, imgCompartmentSyndrome, imgConjunctivitis, imgContracture, imgCushings, imgDelayedHemolyticReaction, imgDevHipDysplasia, imgDiabetes, imgDiabetesInsipidus, imgDiabeticNephropathy, imgDIC, imgDisuseAtrophy, imgDuchenne, imgEpiglottitis, imgEpistaxis, imgErysipelas } from "./flashcards-rpn";
+import { imgUlcerativeColitis, imgSIADH, imgSickleCellCrisis, imgStomaCare, imgThrombocytopenia, imgUrinaryCatheterization, imgVitiligo, imgUrethralStricture, imgVestibularNeuritis, imgAddisons, imgAcuteHemolyticReaction, imgAtopicDermatitis, imgBPH, imgCastCareTraction, imgAcromegaly, imgNGTube, imgPancreatitis, imgPeritonealDialysis, imgPepticUlcer, imgOsteoporosis, imgCellulitis, imgCKD, imgClubfoot, imgCompartmentSyndrome, imgConjunctivitis, imgContracture, imgCushings, imgDelayedHemolyticReaction, imgDevHipDysplasia, imgDiabetes, imgDiabetesInsipidus, imgDiabeticNephropathy, imgDIC, imgDisuseAtrophy, imgDuchenne, imgEpiglottitis, imgEpistaxis, imgErysipelas, imgFallPrevention, imgHeadLice, imgHemophilia, imgGravesDisease, imgGout } from "./flashcards-rpn";
 import imgStevensJohnson from "@assets/stevensjohnsonssyndrome_1773268456011.png";
 import illustrationPressureInjuriesV2 from "@/assets/images/pressure-injuries-v2.png";
 import illustrationPressureInjuryStagesV2 from "@/assets/images/pressure-injury-stages-v2.png";
@@ -727,7 +727,8 @@ export const rnFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "After I-131 therapy, the client emits low-level radiation primarily through body fluids (urine, saliva, sweat). Precautions include limiting close contact with pregnant women and small children (typically for 1-7 days depending on dose), using a dedicated toilet (flush twice, wipe up any spills), sleeping alone, and using separate eating utensils. The radiation level decreases rapidly (half-life is 8 days).",
     category: "Endocrine",
-    difficulty: 2
+    difficulty: 2,
+    image: imgGravesDisease
   },
   {
     id: "rn-endo-q5",
@@ -1670,7 +1671,8 @@ export const rnFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "Hemophilia A is a deficiency of clotting factor VIII. Bleeding episodes are treated with factor VIII concentrate infusion to achieve hemostasis. RICE (rest, ice, compression, elevation) is applied to the joint to minimize swelling and further bleeding. Aspirin and NSAIDs are CONTRAINDICATED (impair platelet function). Heat is contraindicated acutely (increases blood flow and bleeding). Acetaminophen is safe for pain relief.",
     category: "Pediatrics",
-    difficulty: 2
+    difficulty: 2,
+    image: imgHemophilia
   },
   {
     id: "rn-peds-q15",
@@ -3104,7 +3106,8 @@ export const rnFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "Current AAP and NASN guidelines do not support 'no-nit' policies. Children with head lice can finish the school day and begin treatment at home. Head lice are not a health hazard or vector for disease. OTC pediculicides (permethrin 1%) are first-line. Machine wash bedding/clothes in hot water. Check household contacts. Lice cannot survive >48 hours off the host.",
     category: "Community Health",
-    difficulty: 1
+    difficulty: 1,
+    image: imgHeadLice
   },
   {
     id: "rn-safe-q16",
@@ -3612,7 +3615,8 @@ export const rnFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "Community health nursing focuses on population-based care in settings where clients live, work, and gather. A senior community center is the most appropriate venue to reach the target population for fall prevention education. Primary prevention strategies include exercise programs (balance and strength training), home safety assessments, medication reviews, and vision screening.",
     category: "Community Health",
-    difficulty: 1
+    difficulty: 1,
+    image: imgFallPrevention
   },
   {
     id: "rn-comm-q10",
@@ -3780,7 +3784,8 @@ export const rnFlashcards: FlashcardData[] = [
     correctIndex: 2,
     answer: "Elevated uric acid with acute great toe inflammation (podagra) indicates gout. The nurse should recommend avoiding high-purine foods including organ meats, red meat, shellfish, and alcohol (especially beer) which increase uric acid production. Fluid intake should be increased to 2-3 liters daily to promote uric acid excretion. Dried beans and lentils are moderate-purine foods that should be limited. Organ meats and shellfish are the highest purine foods and should be avoided.",
     category: "Musculoskeletal",
-    difficulty: 2
+    difficulty: 2,
+    image: imgGout
   },
   {
     id: "rn-msk-q10",

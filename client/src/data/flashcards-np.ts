@@ -1,5 +1,5 @@
 import type { FlashcardData } from "./flashcards-rpn";
-import { imgUlcerativeColitis, imgVonWillebrand, imgSIADH, imgSickleCellCrisis, imgVitiligo, imgUrethralStricture, imgVestibularNeuritis, imgAddisons, imgBPH, imgPancreatitis, imgOsteoporosis, imgCellulitis, imgCKD, imgClubfoot, imgCompartmentSyndrome, imgConjunctivitis, imgContracture, imgCushings, imgDelayedHemolyticReaction, imgDevHipDysplasia, imgDiabetes, imgDiabetesInsipidus, imgDiabeticNephropathy, imgDIC, imgDisuseAtrophy, imgDuchenne, imgEpiglottitis, imgEpistaxis, imgErysipelas } from "./flashcards-rpn";
+import { imgUlcerativeColitis, imgVonWillebrand, imgSIADH, imgSickleCellCrisis, imgVitiligo, imgUrethralStricture, imgVestibularNeuritis, imgAddisons, imgBPH, imgPancreatitis, imgOsteoporosis, imgCellulitis, imgCKD, imgClubfoot, imgCompartmentSyndrome, imgConjunctivitis, imgContracture, imgCushings, imgDelayedHemolyticReaction, imgDevHipDysplasia, imgDiabetes, imgDiabetesInsipidus, imgDiabeticNephropathy, imgDIC, imgDisuseAtrophy, imgDuchenne, imgEpiglottitis, imgEpistaxis, imgErysipelas, imgGlaucoma, imgGlomerulonephritis, imgGravesDisease, imgHashimotoThyroiditis, imgForeignBodyAspiration, imgFibromyalgia, imgHemolyticUremicSyndrome } from "./flashcards-rpn";
 import illustrationShinglesV2 from "@/assets/images/shingles-v2.png";
 import illustrationRetinalDetachmentV2 from "@/assets/images/retinal-detachment-v2.png";
 import illustrationRheumatoidArthritis from "@/assets/images/rheumatoid-arthritis.png";
@@ -223,7 +223,8 @@ export const npFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "Hashimoto thyroiditis (chronic lymphocytic thyroiditis) is the most common cause of hypothyroidism in iodine-sufficient regions. Elevated TSH with low fT4 confirms overt hypothyroidism, and positive anti-TPO antibodies confirm the autoimmune etiology. The disease involves gradual immune-mediated destruction of thyroid tissue. Treatment is levothyroxine replacement titrated to normalize TSH. Subclinical hypothyroidism would show elevated TSH with NORMAL fT4.",
     category: "Differential Diagnosis",
-    difficulty: 2
+    difficulty: 2,
+    image: imgHashimotoThyroiditis
   },
   {
     id: "np-dx-q2",
@@ -344,7 +345,8 @@ export const npFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "Heliotrope rash (violaceous discoloration of the eyelids) and Gottron papules (erythematous plaques over joints) with proximal myopathy and elevated CK are pathognomonic for dermatomyositis. Importantly, adult-onset dermatomyositis carries a 15-30% risk of associated malignancy (ovarian, lung, pancreatic, gastric, colorectal). Comprehensive malignancy screening (CT chest/abdomen/pelvis, age-appropriate cancer screening, ovarian cancer markers) should be performed at diagnosis and periodically. Treatment: systemic corticosteroids and steroid-sparing immunosuppressants.",
     category: "Differential Diagnosis",
-    difficulty: 3
+    difficulty: 3,
+    image: imgFibromyalgia
   },
   {
     id: "np-dx-q14",
@@ -489,7 +491,8 @@ export const npFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "Diffusely increased radioactive iodine uptake with biochemical hyperthyroidism (low TSH, high fT4/fT3) is characteristic of Graves disease. Toxic multinodular goiter shows patchy uptake with hot and cold nodules. Subacute thyroiditis and factitious thyrotoxicosis show DECREASED uptake (thyroid is not actively producing hormone; in thyroiditis, preformed hormone is released from damaged gland; in factitious, exogenous hormone suppresses thyroid function). TSH receptor antibodies (TRAb) confirm Graves disease.",
     category: "Diagnostic Reasoning",
-    difficulty: 2
+    difficulty: 2,
+    image: imgGravesDisease
   },
   {
     id: "np-diag-q14",
@@ -791,7 +794,8 @@ export const npFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "In children aged 1-10 years, nephrotic syndrome is most commonly caused by minimal change disease (80% of pediatric nephrotic syndrome). Per KDIGO guidelines, empiric corticosteroid therapy (prednisone 2 mg/kg/day for 4-6 weeks, then taper over 2-6 months) is initiated WITHOUT renal biopsy, as 90% of MCD responds to steroids. Biopsy is reserved for steroid-resistant cases, age <1 or >12, low C3, or hematuria/hypertension suggesting alternative diagnosis. Monitor for steroid side effects and relapse (occurs in 60-70%).",
     category: "Pediatric NP",
-    difficulty: 3
+    difficulty: 3,
+    image: imgHemolyticUremicSyndrome
   },
   {
     id: "np-peds-q4",
@@ -812,7 +816,7 @@ export const npFlashcards: FlashcardData[] = [
     answer: "PSGN is a classic post-infectious glomerulonephritis occurring 1-3 weeks after GAS pharyngitis or 3-6 weeks after GAS skin infection. The nephritic syndrome presentation (hematuria/cola-colored urine, edema, hypertension) with low C3 (consumed by immune complex deposition) following documented streptococcal infection is diagnostic. ASO titer or anti-DNase B confirms prior strep exposure. Treatment is supportive: sodium and fluid restriction, loop diuretics for edema, antihypertensives. C3 should normalize within 6-8 weeks; persistent low C3 suggests alternative diagnosis (MPGN, lupus nephritis).",
     category: "Pediatric NP",
     difficulty: 2,
-    image: imgPharyngitis
+    image: imgGlomerulonephritis
   },
   {
     id: "np-peds-q6",
@@ -1327,7 +1331,8 @@ export const npFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "Graves' disease is an autoimmune hyperthyroidism with TSH receptor antibodies (TRAb/TSI). Exophthalmos and pretibial myxedema are unique to Graves'. First-line treatment is methimazole (preferred due to fewer side effects). PTU is preferred in the first trimester of pregnancy and thyroid storm. Beta-blockers (propranolol) for symptomatic relief. Monitor for agranulocytosis (sore throat, fever = stop drug immediately).",
     category: "Endocrine NP",
-    difficulty: 2
+    difficulty: 2,
+    image: imgGravesDisease
   },
   {
     id: "np-endo-q3",
@@ -1347,7 +1352,8 @@ export const npFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "Hashimoto's thyroiditis is the most common cause of hypothyroidism in iodine-sufficient areas. Positive anti-TPO antibodies confirm autoimmune etiology. Treatment is levothyroxine (1.6 mcg/kg/day). Start at lower doses in elderly or cardiac patients (25-50 mcg daily). Recheck TSH in 6-8 weeks. Goal TSH is 0.5-2.5 mIU/L. Take on empty stomach, 30-60 minutes before breakfast. Avoid calcium and iron within 4 hours.",
     category: "Endocrine NP",
-    difficulty: 2
+    difficulty: 2,
+    image: imgHashimotoThyroiditis
   },
   {
     id: "np-endo-q5",
@@ -1797,7 +1803,8 @@ export const npFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "Pertussis (Bordetella pertussis) presents in three stages: (1) Catarrhal (1-2 weeks, URI-like symptoms, most contagious), (2) Paroxysmal (2-6 weeks, characteristic coughing spasms with inspiratory whoop, post-tussive vomiting, cyanosis), (3) Convalescent (weeks to months, gradual resolution). Treatment: macrolide antibiotics (azithromycin). Post-exposure prophylaxis for close contacts. Most dangerous in infants <6 months. DTaP vaccination prevents disease.",
     category: "Pediatric NP",
-    difficulty: 2
+    difficulty: 2,
+    image: imgForeignBodyAspiration
   },
   {
     id: "np-peds-q16",
@@ -2178,7 +2185,8 @@ export const npFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "Graves' disease is the most common cause of hyperthyroidism, especially in young women. The triad is diffuse goiter, exophthalmos (ophthalmopathy), and pretibial myxedema. Caused by thyroid-stimulating immunoglobulins (TSI) activating TSH receptors. Labs: suppressed TSH, elevated free T4/T3, positive TSI. Treatment options: methimazole (first-line), radioactive iodine ablation, or thyroidectomy.",
     category: "Differential Diagnosis",
-    difficulty: 2
+    difficulty: 2,
+    image: imgGravesDisease
   },
   {
     id: "np-peds-q23",
