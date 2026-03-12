@@ -242,8 +242,8 @@ export function setupQBankRoutes(app: Express) {
             if (mapped !== undefined) {
               correctAnswer = [mapped];
             } else {
-              console.warn(`[attempt] Question ${questionId}: unrecognized correct_answer string "${correctAnswer}", defaulting to [0]`);
-              correctAnswer = [0];
+              console.warn(`[attempt] Question ${questionId}: unrecognized correct_answer string "${correctAnswer}"`);
+              return res.status(500).json({ error: "Question has invalid answer data" });
             }
           }
         } catch {
@@ -251,13 +251,16 @@ export function setupQBankRoutes(app: Express) {
           if (mapped !== undefined) {
             correctAnswer = [mapped];
           } else {
-            console.warn(`[attempt] Question ${questionId}: unparseable correct_answer "${correctAnswer}", defaulting to [0]`);
-            correctAnswer = [0];
+            console.warn(`[attempt] Question ${questionId}: unparseable correct_answer "${correctAnswer}"`);
+            return res.status(500).json({ error: "Question has invalid answer data" });
           }
         }
       }
       if (typeof correctAnswer === "number") correctAnswer = [correctAnswer];
-      if (!Array.isArray(correctAnswer)) correctAnswer = [0];
+      if (!Array.isArray(correctAnswer)) {
+        console.warn(`[attempt] Question ${questionId}: correct_answer is not an array after parsing`);
+        return res.status(500).json({ error: "Question has invalid answer data" });
+      }
       const isCorrect = correctAnswer.includes(selectedOption);
 
       res.json({
@@ -445,8 +448,7 @@ export function setupQBankRoutes(app: Express) {
 
       const letterMap: Record<string, number> = { A: 0, B: 1, C: 2, D: 3 };
 
-      res.json({
-        questions: result.rows.map((row: any) => {
+      const parsedQuestions = result.rows.map((row: any) => {
           let parsedOptions = row.options;
           if (typeof parsedOptions === "string") {
             try { parsedOptions = JSON.parse(parsedOptions); } catch { parsedOptions = [parsedOptions]; }
@@ -461,8 +463,8 @@ export function setupQBankRoutes(app: Express) {
                 if (mapped !== undefined) {
                   parsedCorrect = [mapped];
                 } else {
-                  console.warn(`[exam-set] Question ${row.id}: unrecognized correct_answer string "${parsedCorrect}", defaulting to [0]`);
-                  parsedCorrect = [0];
+                  console.warn(`[exam-set] Excluding question ${row.id}: unrecognized correct_answer string "${parsedCorrect}"`);
+                  return null;
                 }
               }
             } catch {
@@ -470,13 +472,16 @@ export function setupQBankRoutes(app: Express) {
               if (mapped !== undefined) {
                 parsedCorrect = [mapped];
               } else {
-                console.warn(`[exam-set] Question ${row.id}: unparseable correct_answer "${parsedCorrect}", defaulting to [0]`);
-                parsedCorrect = [0];
+                console.warn(`[exam-set] Excluding question ${row.id}: unparseable correct_answer "${parsedCorrect}"`);
+                return null;
               }
             }
           }
           if (typeof parsedCorrect === "number") parsedCorrect = [parsedCorrect];
-          if (!Array.isArray(parsedCorrect)) parsedCorrect = [0];
+          if (!Array.isArray(parsedCorrect)) {
+            console.warn(`[exam-set] Excluding question ${row.id}: correct_answer is not an array after parsing`);
+            return null;
+          }
 
           let parsedDistractorRationales = row.distractor_rationales;
           if (typeof parsedDistractorRationales === "string") {
@@ -505,8 +510,11 @@ export function setupQBankRoutes(app: Express) {
             clinicalTrap: row.clinical_trap,
             distractorRationales: parsedDistractorRationales,
           };
-        }),
-        count: result.rows.length,
+        }).filter((q: any) => q !== null);
+
+      res.json({
+        questions: parsedQuestions,
+        count: parsedQuestions.length,
         tier: queryTier,
       });
     } catch (e: any) {
