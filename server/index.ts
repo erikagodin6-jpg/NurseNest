@@ -798,6 +798,13 @@ app.use((req, res, next) => {
           }
 
           try {
+            const { seedDigitalProducts } = await import("./seed-digital-products");
+            await seedDigitalProducts(seedPool).catch((e: any) => console.error("[DigitalProductSeed] Failed:", e.message));
+          } catch (e: any) {
+            console.error("[DigitalProductSeed] Import failed:", e.message);
+          }
+
+          try {
             const tierCounts = await seedPool.query(
               `SELECT tier, COUNT(*)::int AS count FROM exam_questions WHERE status = 'published' GROUP BY tier ORDER BY tier`
             );
@@ -807,10 +814,14 @@ app.use((req, res, next) => {
             const deckCount = await seedPool.query(
               `SELECT COUNT(*)::int AS count FROM flashcard_decks`
             ).catch(() => ({ rows: [{ count: 0 }] }));
+            const dpCounts = await seedPool.query(
+              `SELECT COUNT(*)::int AS count, COALESCE(SUM(question_count),0)::int AS total_q FROM digital_products WHERE is_active = true`
+            ).catch(() => ({ rows: [{ count: 0, total_q: 0 }] }));
 
             const tierSummary = tierCounts.rows.map((r: any) => `${r.tier}: ${r.count}`).join(", ");
             const fbSummary = fbCounts.rows.map((r: any) => `${r.status}: ${r.count}`).join(", ");
             const dbHost = (process.env.DATABASE_URL || "").replace(/\/\/.*@/, "//***@").split("/")[2] || "unknown";
+            const dp = dpCounts.rows[0] || { count: 0, total_q: 0 };
 
             console.log("═══════════════════════════════════════════");
             console.log("[Startup Health] Environment:", process.env.NODE_ENV || "development");
@@ -818,6 +829,7 @@ app.use((req, res, next) => {
             console.log("[Startup Health] Exam Questions by tier:", tierSummary || "none");
             console.log("[Startup Health] Flashcard Bank:", fbSummary || "none");
             console.log("[Startup Health] Flashcard Decks:", deckCount.rows[0]?.count || 0);
+            console.log("[Startup Health] Digital Products:", dp.count, "products,", dp.total_q, "store questions");
             console.log("═══════════════════════════════════════════");
           } catch (healthErr: any) {
             console.error("[Startup Health] Failed to log summary:", healthErr.message);

@@ -74,10 +74,14 @@ Built with Vite, React, and Express 5 on Node.js with TypeScript, the applicatio
 The `@assets/` alias is a Vite-only resolve alias that works in client builds but NOT in server-side `tsx` execution. Files in `client/src/data/lessons/` are dynamically imported by `server/lesson-content-api.ts` at runtime via `tsx`. **Never add `@assets/` imports to lesson data files** — this will crash the server.
 
 ### Exam Question Bank
-- Total published questions: 7,520+ (RPN=3,017, RN=2,501, NP=2,002) plus prompts3 imports
+- Total published questions: 8,106 (RPN=3,017, RN=2,855, NP=2,002, RRT=232)
 - Schema: `exam_questions` table with tier, exam, question_type, status, stem, options (jsonb), correct_answer (jsonb int array), rationale, difficulty, body_system, region_scope, stem_hash
-- Seed scripts in `script/` use WHERE NOT EXISTS deduplication pattern
-- `server/seed-prompts3.ts`: Imports 60 questions from prompts3 file (20 bowtie NCLEX-PN/REx-PN, 30 RRT MCQ → allied_questions, 10 RN NGN mixed types). Triggered via POST /api/admin/questions/seed-prompts3. Uses stem_hash dedup.
+- Seed file: `server/seed-data/exam-questions.json` (all 8,106 questions exported from dev DB)
+- Seed function: `server/seed-exam-questions.ts` runs at startup, uses stem_hash+exam dedup
+- Digital Products: 54 active products with 18,420 total store questions
+- Digital Products seed: `server/seed-data/digital-products.json` + `server/seed-digital-products.ts`, runs at startup via slug dedup
+- Both seeds run automatically on every startup (dev and production), ensuring dev→prod parity
+- `server/seed-prompts3.ts`: Imports 60 questions from prompts3 file. Triggered via POST /api/admin/questions/seed-prompts3. Uses stem_hash dedup.
 - CAT question image coverage via `categoryImageMap` in `client/src/lib/system-images.ts`
 
 ### Startup
