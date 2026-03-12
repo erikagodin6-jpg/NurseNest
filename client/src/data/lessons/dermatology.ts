@@ -1,4 +1,5 @@
 import type { LessonContent } from "./types";
+import imgStevensJohnson from "@assets/stevensjohnsonssyndrome_1773268456011.png";
 
 export const dermatologyLessons: Record<string, LessonContent> = {
   "psoriasis": {
@@ -147,6 +148,7 @@ export const dermatologyLessons: Record<string, LessonContent> = {
 
   "stevens-johnson-syndrome": {
     title: "Stevens-Johnson Syndrome (SJS)",
+    image: imgStevensJohnson,
     cellular: { title: "Immune-Mediated Epidermal Necrosis", content: "Stevens-Johnson syndrome is a severe, life-threatening immune-mediated hypersensitivity reaction most commonly triggered by medications. Drug metabolites bind to keratinocyte surface proteins, creating neoantigens recognized by cytotoxic CD8+ T-cells and natural killer cells. These immune cells release granulysin, perforin, and granzyme B, which induce massive keratinocyte apoptosis. Fas-FasL interactions further amplify apoptotic cascades across the epidermis. This causes full-thickness epidermal necrosis and detachment from the dermis. SJS involves less than 10% of total body surface area (TBSA) epidermal detachment. Mucous membranes (oral, ocular, genital) are affected in over 90% of cases, causing severe pain and functional impairment." },
     riskFactors: ["Medication exposure (sulfonamides, anticonvulsants, allopurinol, NSAIDs, antibiotics)", "HIV infection (100-fold increased risk)", "HLA-B*1502 genotype (carbamazepine-associated SJS in Southeast Asian descent)", "HLA-B*5801 genotype (allopurinol-associated SJS)", "Immunocompromised state", "History of prior SJS/TEN episode", "Systemic lupus erythematosus"],
     diagnostics: ["Expect skin biopsy showing full-thickness epidermal necrosis", "Monitor body surface area of epidermal detachment (less than 10% TBSA for SJS)", "Expect CBC, CMP, and liver function studies", "Monitor Nikolsky sign (positive - skin slides off with lateral pressure)", "Expect ophthalmologic examination for ocular involvement", "Monitor fluid balance, electrolytes, and renal function"],

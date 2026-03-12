@@ -1,4 +1,5 @@
 import type { LessonContent } from "./types";
+import imgThyroidStorm from "@assets/thyroidstorm_1773268456011.png";
 
 export const clinicalConditionsBatchCLessons: Record<string, LessonContent> = {
   "dka-management-rpn": {
@@ -250,6 +251,7 @@ export const clinicalConditionsBatchCLessons: Record<string, LessonContent> = {
 
   "thyroid-storm-rpn": {
     title: "Thyroid Storm: RPN Monitoring",
+    image: imgThyroidStorm,
     cellular: {
       title: "Thyrotoxic Crisis Pathophysiology",
       content: "Thyroid storm is a life-threatening exacerbation of hyperthyroidism characterized by an acute surge in thyroid hormone action. Excessive T3 and T4 dramatically increase cellular metabolic rate, oxygen consumption, and heat production. Beta-adrenergic receptor sensitivity is amplified, causing severe tachycardia, hypertension, and cardiac dysfunction. Multi-organ failure can occur from hyperthermia, cardiovascular collapse, and CNS dysfunction. The RPN monitors vital signs, temperature, neurological status, and cardiac rhythm, reporting all changes immediately."
@@ -326,6 +328,7 @@ export const clinicalConditionsBatchCLessons: Record<string, LessonContent> = {
 
   "thyroid-storm-rn": {
     title: "Thyroid Storm: RN Clinical Management",
+    image: imgThyroidStorm,
     cellular: {
       title: "Thyrotoxic Pathophysiology and Organ Impact",
       content: "Thyroid storm (thyrotoxic crisis) represents decompensated thyrotoxicosis where excessive circulating T3 (the metabolically active form) causes multi-system hypermetabolic crisis. T3 upregulates beta-adrenergic receptors on cardiac myocytes, causing severe tachyarrhythmias and high-output heart failure. Increased basal metabolic rate elevates oxygen consumption and heat production, leading to hyperthermia. Hepatic glycogenolysis and gluconeogenesis cause hyperglycemia. GI hypermotility causes diarrhea and volume depletion. CNS excitability manifests as agitation, psychosis, seizures, and eventual obtundation. The RN manages aggressive cooling, medication administration protocols, continuous monitoring, fluid resuscitation, and coordination of the multidisciplinary response."
@@ -411,6 +414,7 @@ export const clinicalConditionsBatchCLessons: Record<string, LessonContent> = {
 
   "thyroid-storm-np": {
     title: "Thyroid Storm: NP Prescriptive Management",
+    image: imgThyroidStorm,
     cellular: {
       title: "Advanced Thyrotoxic Pathophysiology",
       content: "Thyroid storm represents the extreme end of the thyrotoxicosis spectrum, typically precipitated by a superimposed stressor in a patient with uncontrolled hyperthyroidism. The pathogenesis involves massive sympathetic activation from thyroid hormone excess. T3 directly upregulates myocardial beta-1 receptors, increasing heart rate, contractility, and cardiac output beyond adaptive capacity. Peripheral vasodilation reduces SVR, and the resulting high-output state can progress to heart failure. Thermoregulatory failure occurs as T3 increases uncoupling protein activity in mitochondria, generating heat rather than ATP. Hepatic dysfunction results from hepatic oxygen demand exceeding supply. CNS manifestations from agitation to coma reflect both direct T3 neurotoxicity and cerebral hyperthermia. The NP must rapidly initiate the multi-drug protocol, manage ICU-level care, identify the precipitant, and prevent cardiovascular collapse."

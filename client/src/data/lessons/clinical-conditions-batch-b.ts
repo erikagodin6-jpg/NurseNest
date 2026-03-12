@@ -1,4 +1,5 @@
 import type { LessonContent } from "./types";
+import imgSickleCellCrisis from "@assets/sicklecellcrisis_1773268456011.png";
 
 export const clinicalConditionsBatchBLessons: Record<string, LessonContent> = {
   "febrile-seizures-rpn": {
@@ -482,6 +483,7 @@ export const clinicalConditionsBatchBLessons: Record<string, LessonContent> = {
 
   "sickle-cell-crisis-rpn": {
     title: "Sickle Cell Vaso-Occlusive Crisis: RPN Monitoring",
+    image: imgSickleCellCrisis,
     cellular: {
       title: "Hemoglobin S Polymerization and Vascular Occlusion",
       content: "Sickle cell disease (SCD) is an autosomal recessive hemoglobinopathy caused by a point mutation in the beta-globin gene, producing hemoglobin S (HbS). Under conditions of deoxygenation, dehydration, acidosis, or cold exposure, HbS polymerizes into rigid fibers that deform the red blood cell into a crescent (sickle) shape. These rigid cells cannot navigate small capillaries, causing vaso-occlusion, tissue ischemia, and intense pain. Chronic hemolysis leads to baseline anemia, jaundice, and gallstones. The RPN monitors pain levels, administers medications as ordered, maintains hydration, and reports changes in patient condition to the RN."
@@ -560,6 +562,7 @@ export const clinicalConditionsBatchBLessons: Record<string, LessonContent> = {
 
   "sickle-cell-crisis-rn": {
     title: "Sickle Cell Vaso-Occlusive Crisis: RN Clinical Management",
+    image: imgSickleCellCrisis,
     cellular: {
       title: "Pathophysiology of Vaso-Occlusion and Chronic Hemolysis",
       content: "In sickle cell disease, the valine-for-glutamic acid substitution at position 6 of the beta-globin chain produces hemoglobin S. Under deoxygenation, HbS molecules polymerize into long, rigid fibers that distort RBC morphology into sickle shapes. These deformed cells adhere to vascular endothelium via adhesion molecules (VCAM-1, ICAM-1, P-selectin), activate the coagulation cascade, and recruit neutrophils—creating a feedforward cycle of vaso-occlusion, ischemia, and reperfusion injury. Chronic intravascular hemolysis releases free hemoglobin, which scavenges nitric oxide (NO), causing endothelial dysfunction, pulmonary hypertension, and stroke risk. The RN manages comprehensive pain protocols, administers transfusions, monitors for acute complications, coordinates multidisciplinary care, and provides culturally sensitive pain management."
@@ -642,6 +645,7 @@ export const clinicalConditionsBatchBLessons: Record<string, LessonContent> = {
 
   "sickle-cell-crisis-np": {
     title: "Sickle Cell Crisis: NP Diagnostic & Prescriptive Management",
+    image: imgSickleCellCrisis,
     cellular: {
       title: "Advanced Hemoglobinopathy Management and Disease Modification",
       content: "Sickle cell disease pathophysiology extends beyond simple vaso-occlusion to encompass sterile inflammation, chronic hemolysis-mediated vasculopathy, and progressive end-organ damage. Free hemoglobin released during intravascular hemolysis scavenges nitric oxide (NO) and generates reactive oxygen species, causing endothelial dysfunction, increased adhesion molecule expression, platelet activation, and a chronic hypercoagulable state. This NO depletion contributes to pulmonary hypertension (present in ~30% of adults with SCD), leg ulcers, priapism, and cerebrovascular disease. Disease-modifying therapies target multiple pathways: hydroxyurea increases HbF, L-glutamine reduces oxidative stress, crizanlizumab blocks P-selectin-mediated adhesion, and voxelotor increases HbS oxygen affinity. The NP must diagnose genotype-specific complications, prescribe and monitor disease-modifying agents, manage chronic organ damage, coordinate genetic counseling, and direct acute crisis management including exchange transfusion decisions."

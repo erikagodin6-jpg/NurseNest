@@ -1,3 +1,19 @@
+import imgUlcerativeColitis from "@assets/ulcerativecolitis_1773268105077.png";
+import imgVonWillebrand from "@assets/vonwillebrand_1773268105077.png";
+import imgUrinaryCatheterization from "@assets/urinarycatheterization_1773268105077.png";
+import imgSIADH from "@assets/SIADH_1773268456011.png";
+import imgSickleCellCrisis from "@assets/sicklecellcrisis_1773268456011.png";
+import imgStomaCare from "@assets/stomacare_1773268456011.png";
+import imgThalassemia from "@assets/thalassemia_1773268456011.png";
+import imgThrombocytopenia from "@assets/thrombocytopenia_1773268456011.png";
+import imgThyroidStorm from "@assets/thyroidstorm_1773268456011.png";
+import imgTRALI from "@assets/TRALI_1773268456011.png";
+import imgVitiligo from "@assets/vitiligo_1773268105077.png";
+import imgUrethralStricture from "@assets/urethralstricture_1773268105077.png";
+import imgVestibularNeuritis from "@assets/vestibularneuritis_1773268105077.png";
+
+export { imgUlcerativeColitis, imgVonWillebrand, imgUrinaryCatheterization, imgSIADH, imgSickleCellCrisis, imgStomaCare, imgThalassemia, imgThrombocytopenia, imgThyroidStorm, imgTRALI, imgVitiligo, imgUrethralStricture, imgVestibularNeuritis };
+
 export type FlashcardData = {
   id: string;
   type: "question" | "term";
@@ -7,6 +23,7 @@ export type FlashcardData = {
   answer: string;
   category: string;
   difficulty: number;
+  image?: string;
 };
 
 export const rpnFlashcards: FlashcardData[] = [
@@ -693,6 +710,7 @@ export const rpnFlashcards: FlashcardData[] = [
     options: ["Bloody diarrhea", "Continuous inflammation", "Skip lesions and transmural involvement", "Limited to the rectum"],
     correctIndex: 2,
     answer: "Crohn's: Skip lesions (patchy inflammation), transmural (full-thickness wall), can affect any part of GI tract (mouth to anus), cobblestone appearance, fistulas/strictures. UC: Continuous inflammation, superficial (mucosa only), limited to colon/rectum, bloody diarrhea.",
+    image: imgUlcerativeColitis,
     category: "GI",
     difficulty: 3
   },
@@ -1022,7 +1040,8 @@ export const rpnFlashcards: FlashcardData[] = [
     question: "SIADH (Syndrome of Inappropriate ADH)",
     answer: "Excessive ADH secretion → water retention → dilutional hyponatremia. Signs: Decreased serum sodium, concentrated urine, fluid overload, confusion, seizures. Treatment: Fluid restriction (priority), hypertonic saline (3%) for severe cases, demeclocycline. Opposite of Diabetes Insipidus.",
     category: "Endocrine",
-    difficulty: 3
+    difficulty: 3,
+    image: imgSIADH
   },
   {
     id: "rpn-endo-t4",
@@ -1068,7 +1087,8 @@ export const rpnFlashcards: FlashcardData[] = [
     question: "Thyroid Storm (Thyrotoxic Crisis)",
     answer: "Life-threatening exacerbation of hyperthyroidism. Triggers: Surgery, infection, stress in untreated Graves'. Signs: Very high fever (> 40°C), severe tachycardia, delirium, vomiting, shock. Treatment: PTU (blocks synthesis AND conversion), propranolol, cooling measures, IV fluids, corticosteroids.",
     category: "Endocrine",
-    difficulty: 4
+    difficulty: 4,
+    image: imgThyroidStorm
   },
   {
     id: "rpn-endo-q9",
@@ -1128,6 +1148,7 @@ export const rpnFlashcards: FlashcardData[] = [
     options: ["Apply ice to affected areas", "Encourage vigorous exercise", "Administer IV fluids and pain management", "Restrict fluid intake"],
     correctIndex: 2,
     answer: "Vaso-occlusive crisis: Priority is aggressive IV hydration (to reduce blood viscosity and prevent further sickling) and pain management (often opioids). Avoid cold (causes vasoconstriction/more sickling), apply warmth. Oxygen if SpO2 < 95%.",
+    image: imgSickleCellCrisis,
     category: "Hematology",
     difficulty: 2
   },
@@ -1163,7 +1184,8 @@ export const rpnFlashcards: FlashcardData[] = [
     question: "Thrombocytopenia",
     answer: "Platelet count < 150,000/mm³. Causes: Chemotherapy, ITP, HIT, DIC, liver disease. Signs: Petechiae, purpura, bleeding gums, easy bruising, nosebleeds. Precautions: Soft toothbrush, electric razor, no IM injections, no aspirin/NSAIDs, fall prevention. Platelet transfusion if < 10,000-20,000.",
     category: "Hematology",
-    difficulty: 2
+    difficulty: 2,
+    image: imgThrombocytopenia
   },
   {
     id: "rpn-heme-q5",
@@ -1172,6 +1194,7 @@ export const rpnFlashcards: FlashcardData[] = [
     options: ["Increase the heparin dose", "Discontinue ALL heparin products immediately", "Switch to low-molecular-weight heparin", "Administer protamine sulfate"],
     correctIndex: 1,
     answer: "HIT is an immune-mediated response causing platelet destruction AND paradoxical thrombosis. Immediately discontinue ALL heparin (including flushes, coated lines). Switch to a direct thrombin inhibitor (argatroban, bivalirudin). LMWH is also contraindicated in HIT.",
+    image: imgThrombocytopenia,
     category: "Hematology",
     difficulty: 3
   },
@@ -1199,7 +1222,8 @@ export const rpnFlashcards: FlashcardData[] = [
     question: "Sickle Cell Trait vs Disease",
     answer: "Trait (HbAS): Carrier state, usually asymptomatic, one normal and one sickle gene. Disease (HbSS): Both genes affected, chronic hemolytic anemia, vaso-occlusive crises. Complications: Acute chest syndrome, stroke, splenic sequestration, avascular necrosis. Hydroxyurea reduces crisis frequency.",
     category: "Hematology",
-    difficulty: 3
+    difficulty: 3,
+    image: imgSickleCellCrisis
   },
   {
     id: "rpn-heme-q7",
@@ -2975,6 +2999,7 @@ export const rpnFlashcards: FlashcardData[] = [
     options: ["Encourage fluids", "Restrict fluids", "Administer D5W", "Give potassium supplements"],
     correctIndex: 1,
     answer: "SIADH causes dilutional hyponatremia (excess water retention). Priority: FLUID RESTRICTION (often 500-1000 mL/day). Severe hyponatremia (< 120): Hypertonic saline (3% NaCl) with careful monitoring. Correct sodium slowly (no more than 10-12 mEq/L in 24 hours) to prevent osmotic demyelination syndrome.",
+    image: imgSIADH,
     category: "Fluid & Electrolytes",
     difficulty: 3
   },
@@ -3152,7 +3177,8 @@ export const rpnFlashcards: FlashcardData[] = [
     question: "Ulcerative Colitis vs Crohn's Disease Summary",
     answer: "UC: Continuous, superficial (mucosa), colon/rectum only, bloody diarrhea (10-20/day), no fistulas, surgery curative (total colectomy). Crohn's: Skip lesions, transmural, mouth to anus, non-bloody diarrhea, fistulas/strictures, surgery NOT curative. Both: Increased colon cancer risk, extraintestinal manifestations.",
     category: "GI",
-    difficulty: 3
+    difficulty: 3,
+    image: imgUlcerativeColitis
   },
   // ============================================================
   // MORE ENDOCRINE
@@ -3383,6 +3409,7 @@ export const rpnFlashcards: FlashcardData[] = [
     options: ["Pale white", "Dark brown or black", "Beefy red (like the inside of the mouth)", "Blue-purple"],
     correctIndex: 2,
     answer: "A healthy stoma should be moist, shiny, and beefy red (like oral mucosa), indicating adequate blood supply. Pale/white stoma indicates ischemia. Dark red/purple/black indicates necrosis. Report any color changes immediately. Slight edema is normal initially.",
+    image: imgStomaCare,
     category: "GI",
     difficulty: 1
   },
@@ -3413,6 +3440,7 @@ export const rpnFlashcards: FlashcardData[] = [
     options: ["Regular razors are dirty", "Low platelets mean your blood can't clot properly, increasing bleeding risk from even small cuts", "It's a hospital rule with no medical basis", "Razors interfere with medications"],
     correctIndex: 1,
     answer: "Platelets are essential for clot formation. With critically low platelets (< 20,000), even minor cuts can cause prolonged bleeding. Bleeding precautions: Electric razor only, soft toothbrush, no flossing, avoid IM injections, no aspirin/NSAIDs, apply pressure to venipuncture sites for 5+ minutes.",
+    image: imgThrombocytopenia,
     category: "Hematology",
     difficulty: 1
   },
@@ -3733,6 +3761,7 @@ export const rpnFlashcards: FlashcardData[] = [
     options: ["Levothyroxine and aspirin", "PTU, propranolol, corticosteroids, and cooling measures", "Insulin and IV fluids", "Calcium gluconate and vitamin D"],
     correctIndex: 1,
     answer: "Thyroid storm treatment: PTU (blocks thyroid hormone synthesis AND peripheral conversion of T4 to T3), propranolol (controls tachycardia/symptoms), corticosteroids (blocks T4→T3 conversion, prevents adrenal crisis), cooling blankets (avoid aspirin: displaces T4 from proteins), IV fluids.",
+    image: imgThyroidStorm,
     category: "Endocrine",
     difficulty: 4
   },
@@ -4178,6 +4207,7 @@ export const rpnFlashcards: FlashcardData[] = [
     options: ["Hypokalemia", "Iron overload (hemosiderosis/hemochromatosis)", "Hypocalcemia", "Vitamin B12 deficiency"],
     correctIndex: 1,
     answer: "Repeated blood transfusions cause iron overload because the body has no mechanism to excrete excess iron. Iron deposits in organs (heart, liver, pancreas) causing damage. Treatment: Iron chelation therapy (deferoxamine, deferasirox). Monitor ferritin levels, liver and cardiac function.",
+    image: imgThalassemia,
     category: "Hematology",
     difficulty: 3
   },
@@ -4205,7 +4235,8 @@ export const rpnFlashcards: FlashcardData[] = [
     question: "Transfusion-Related Acute Lung Injury (TRALI)",
     answer: "Non-cardiogenic pulmonary edema occurring within 6 hours of transfusion. Signs: Acute dyspnea, hypoxemia, bilateral pulmonary infiltrates on CXR, fever, hypotension. Differentiated from TACO by normal cardiac function (no JVD, BNP normal). Treatment: Supportive (oxygen, possible intubation). Stop transfusion.",
     category: "Hematology",
-    difficulty: 4
+    difficulty: 4,
+    image: imgTRALI
   },
   {
     id: "rpn-heme-q13",
@@ -4539,6 +4570,7 @@ export const rpnFlashcards: FlashcardData[] = [
     options: ["Touching the catheter tip with clean gloves", "Keeping the sterile field above waist level and not turning away from it", "Reaching over the sterile field", "Using the same gloves for perineal cleaning and catheter insertion"],
     correctIndex: 1,
     answer: "Sterile catheter insertion technique: Maintain sterile field at or above waist level, never turn your back, perform perineal hygiene with non-dominant hand (now contaminated), dominant hand remains sterile for catheter handling, advance catheter until urine flows, then advance 2-3 cm more, inflate balloon.",
+    image: imgUrinaryCatheterization,
     category: "Infection Control",
     difficulty: 2
   },
@@ -4826,6 +4858,7 @@ export const rpnFlashcards: FlashcardData[] = [
     options: ["Output will be formed solid stool", "Output will be liquid/semi-liquid and continuous; skin protection is critical", "No output is expected", "The stoma is temporary"],
     correctIndex: 1,
     answer: "Ileostomy output is liquid to semi-liquid (digestive enzymes are still active). Key teaching: Skin barrier protection is critical (enzymes are corrosive), empty pouch when 1/3 to 1/2 full, adequate fluid intake (1.5-2L+/day: increased loss), monitor for dehydration and electrolyte imbalance (especially sodium/potassium).",
+    image: imgUlcerativeColitis,
     category: "GI",
     difficulty: 2
   },
@@ -5608,7 +5641,8 @@ export const rpnFlashcards: FlashcardData[] = [
     question: "Von Willebrand Disease",
     answer: "Most common inherited bleeding disorder. Deficiency/dysfunction of Von Willebrand factor (needed for platelet adhesion and carries Factor VIII). Signs: Mucocutaneous bleeding (nosebleeds, heavy menstruation, prolonged bleeding from cuts, bruising). Treatment: DDAVP (desmopressin), VWF concentrate, aminocaproic acid. Avoid aspirin/NSAIDs.",
     category: "Hematology",
-    difficulty: 3
+    difficulty: 3,
+    image: imgVonWillebrand
   },
   {
     id: "rpn-heme-q16",
@@ -5717,6 +5751,7 @@ export const rpnFlashcards: FlashcardData[] = [
     options: ["Vaso-occlusive crisis", "Splenic sequestration crisis", "Aplastic crisis", "Hemolytic crisis"],
     correctIndex: 1,
     answer: "Splenic sequestration: Blood pools in the spleen, causing rapid splenic enlargement, severe anemia, hypovolemia, and potentially cardiovascular collapse. Medical emergency requiring immediate IV fluids, blood transfusion, and possibly splenectomy. Parents should learn to palpate the spleen. Most common in children < 5 years.",
+    image: imgSickleCellCrisis,
     category: "Pediatrics",
     difficulty: 4
   },
@@ -6301,5 +6336,65 @@ export const rpnFlashcards: FlashcardData[] = [
     answer: "Colorectal cancer screening (average risk): Start at age 45. Options: FIT/FOBT annually, FIT-DNA every 3 years, colonoscopy every 10 years, flexible sigmoidoscopy every 5 years. Screening generally continues to age 75 (shared decision 76-85). Positive non-invasive tests require follow-up colonoscopy.",
     category: "Gerontology",
     difficulty: 2
+  },
+  {
+    id: "rpn-derm-vitiligo-t1",
+    type: "term",
+    question: "Vitiligo",
+    answer: "Autoimmune condition causing destruction of melanocytes, resulting in well-defined, depigmented (white) patches on the skin. Common sites: face, hands, wrists, axillae, groin. Not contagious. No cure; treatment includes topical corticosteroids, calcineurin inhibitors, phototherapy. Nursing: sun protection (depigmented skin burns easily), psychosocial support for body image concerns.",
+    image: imgVitiligo,
+    category: "Dermatology",
+    difficulty: 2
+  },
+  {
+    id: "rpn-derm-vitiligo-q1",
+    type: "question",
+    question: "A client with vitiligo asks why they need to apply sunscreen to the white patches. What is the best response?",
+    options: ["Sunscreen will help the color return faster", "The depigmented skin has no melanin protection and burns very easily", "It prevents the vitiligo from spreading to other areas", "Sunscreen is not actually necessary for vitiligo patches"],
+    correctIndex: 1,
+    answer: "Depigmented patches in vitiligo lack melanocytes and therefore have no natural UV protection. These areas are highly susceptible to sunburn and long-term UV damage. Broad-spectrum SPF 30+ sunscreen should be applied to all exposed depigmented areas.",
+    image: imgVitiligo,
+    category: "Dermatology",
+    difficulty: 2
+  },
+  {
+    id: "rpn-gu-urethral-stricture-t1",
+    type: "term",
+    question: "Urethral Stricture",
+    answer: "Narrowing of the urethra caused by scar tissue formation, leading to obstructed urine flow. Causes: STIs (gonorrhea, chlamydia), trauma, instrumentation (catheterization, cystoscopy), chronic inflammation. Signs: weak/split urine stream, straining to void, incomplete emptying, recurrent UTIs, urinary retention. Diagnosis: retrograde urethrography, cystoscopy. Treatment: urethral dilation, urethrotomy, urethroplasty.",
+    image: imgUrethralStricture,
+    category: "Renal/GU",
+    difficulty: 3
+  },
+  {
+    id: "rpn-gu-urethral-stricture-q1",
+    type: "question",
+    question: "A male client reports increasing difficulty starting urination, a weak stream, and feeling of incomplete bladder emptying. Which condition should the nurse suspect?",
+    options: ["Kidney stones", "Urethral stricture", "Urinary tract infection", "Bladder cancer"],
+    correctIndex: 1,
+    answer: "Obstructive voiding symptoms (hesitancy, weak stream, incomplete emptying, straining) in a male client are classic signs of urethral stricture. The narrowed urethra impedes urine flow. Post-void residual measurement and referral for urethrography/cystoscopy are indicated.",
+    image: imgUrethralStricture,
+    category: "Renal/GU",
+    difficulty: 3
+  },
+  {
+    id: "rpn-neuro-vestibular-neuritis-t1",
+    type: "term",
+    question: "Vestibular Neuritis",
+    answer: "Inflammation of the vestibular nerve (CN VIII vestibular branch), causing sudden severe vertigo, nausea/vomiting, and imbalance WITHOUT hearing loss. Usually follows a viral infection. Differs from labyrinthitis (which includes hearing loss). Treatment: vestibular suppressants (meclizine, dimenhydrinate) for acute phase, corticosteroids, vestibular rehabilitation exercises. Recovery typically 1-3 weeks; central compensation continues for months.",
+    image: imgVestibularNeuritis,
+    category: "Neurological",
+    difficulty: 3
+  },
+  {
+    id: "rpn-neuro-vestibular-neuritis-q1",
+    type: "question",
+    question: "How does vestibular neuritis differ from labyrinthitis?",
+    options: ["Vestibular neuritis causes hearing loss but labyrinthitis does not", "Vestibular neuritis causes vertigo WITHOUT hearing loss; labyrinthitis causes vertigo WITH hearing loss", "They are the same condition with different names", "Labyrinthitis is always bacterial while vestibular neuritis is always viral"],
+    correctIndex: 1,
+    answer: "Vestibular neuritis affects only the vestibular nerve, causing vertigo and imbalance without hearing changes. Labyrinthitis involves inflammation of the entire labyrinth (vestibular AND cochlear structures), causing vertigo plus sensorineural hearing loss and tinnitus. This distinction is clinically important for diagnosis and management.",
+    image: imgVestibularNeuritis,
+    category: "Neurological",
+    difficulty: 3
   }
 ];

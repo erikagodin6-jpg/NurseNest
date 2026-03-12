@@ -1,4 +1,5 @@
 import type { FlashcardData } from "./flashcards-rpn";
+import { imgUlcerativeColitis, imgVonWillebrand, imgSIADH, imgSickleCellCrisis, imgVitiligo, imgUrethralStricture, imgVestibularNeuritis } from "./flashcards-rpn";
 
 export const npFlashcards: FlashcardData[] = [
   // ============================================================
@@ -284,6 +285,7 @@ export const npFlashcards: FlashcardData[] = [
     options: ["Crohn's disease", "Ulcerative colitis (left-sided)", "Irritable bowel syndrome", "Infectious colitis"],
     correctIndex: 1,
     answer: "Continuous mucosal inflammation extending proximally from the rectum with pseudopolyps is pathognomonic for ulcerative colitis. Key differentiators from Crohn's: UC involves ONLY the colon, affects ONLY the mucosa/submucosa, is CONTINUOUS (no skip lesions), and presents with bloody diarrhea (Crohn's typically has non-bloody diarrhea with skip lesions and transmural involvement). Left-sided UC extends to the splenic flexure. Treatment: 5-ASA (mesalamine) for mild-moderate, corticosteroids for flares, biologics for refractory disease.",
+    image: imgUlcerativeColitis,
     category: "Differential Diagnosis",
     difficulty: 2
   },
@@ -1005,6 +1007,7 @@ export const npFlashcards: FlashcardData[] = [
     options: ["No workup needed; prescribe oral contraceptives", "Pregnancy test, TSH, CBC with iron studies, coagulation studies (if adolescent or family history), and pelvic ultrasound", "CT scan of the abdomen and pelvis", "Immediate referral for hysterectomy"],
     correctIndex: 1,
     answer: "Heavy menstrual bleeding (HMB) evaluation per ACOG: (1) pregnancy test (always), (2) CBC and iron studies (confirms iron deficiency anemia), (3) TSH (hypothyroidism causes HMB), (4) coagulation studies in adolescents or family history of bleeding disorders (von Willebrand disease affects up to 13% of women with HMB), (5) pelvic ultrasound to evaluate for structural causes (fibroids, polyps, adenomyosis). PALM-COEIN classification system categorizes causes. Treatment depends on etiology: hormonal therapy (COCs, LNG-IUD most effective), tranexamic acid, or surgical intervention for structural causes.",
+    image: imgVonWillebrand,
     category: "Women's Health",
     difficulty: 2
   },
@@ -1410,6 +1413,7 @@ export const npFlashcards: FlashcardData[] = [
     options: ["Rapid IV normal saline bolus to correct sodium to 140 quickly", "Hypertonic saline (3%) with careful monitoring, correcting sodium no faster than 8-10 mEq/L in 24 hours", "Fluid bolus with D5W", "Oral sodium chloride tablets only"],
     correctIndex: 1,
     answer: "Symptomatic severe hyponatremia (Na <120 with neurological symptoms) requires 3% hypertonic saline. Correction must not exceed 8-10 mEq/L in 24 hours to prevent osmotic demyelination syndrome (central pontine myelinolysis). Monitor sodium every 2-4 hours. For chronic SIADH, fluid restriction (800-1000 mL/day), demeclocycline, or vasopressin receptor antagonists (tolvaptan) may be used.",
+    image: imgSIADH,
     category: "Endocrine NP",
     difficulty: 3
   },
@@ -1845,6 +1849,7 @@ export const npFlashcards: FlashcardData[] = [
     options: ["Administer acetaminophen and discharge home", "Obtain blood cultures and administer empiric IV antibiotics (ceftriaxone) immediately", "Schedule a follow-up appointment in 3 days", "Prescribe oral amoxicillin and discharge"],
     correctIndex: 1,
     answer: "Fever in sickle cell disease is a medical emergency due to functional asplenia and high risk of overwhelming sepsis (especially encapsulated organisms: S. pneumoniae, H. influenzae, N. meningitidis). Management: immediate blood cultures, CBC with reticulocyte count, and empiric IV antibiotics (ceftriaxone). Admit for observation. Penicillin prophylaxis (until age 5) and pneumococcal vaccination reduce infection risk.",
+    image: imgSickleCellCrisis,
     category: "Pediatric NP",
     difficulty: 3
   },
@@ -2473,5 +2478,38 @@ export const npFlashcards: FlashcardData[] = [
     answer: "Behavioral and psychological symptoms of dementia (BPSD) should first be evaluated for reversible causes: pain, UTI, constipation, medication side effects, environmental triggers. Non-pharmacological interventions are first-line: music therapy, redirection, structured activities, caregiver education. Antipsychotics carry an FDA black box warning for increased mortality in elderly with dementia. If medication is necessary, use lowest dose for shortest duration with informed consent.",
     category: "Geriatric NP",
     difficulty: 2
+  },
+  {
+    id: "np-derm-vitiligo-q1",
+    type: "question",
+    question: "A patient with extensive vitiligo asks about treatment options. Which first-line therapy does the NP recommend for limited disease?",
+    options: ["Systemic corticosteroids", "Topical high-potency corticosteroids or topical calcineurin inhibitors", "Surgical melanocyte transplantation", "Oral psoralen with UVA (PUVA)"],
+    correctIndex: 1,
+    answer: "For limited vitiligo (<20% BSA), topical high-potency corticosteroids (for body) or calcineurin inhibitors (tacrolimus, pimecrolimus — preferred for face/intertriginous areas to avoid steroid atrophy) are first-line. Narrowband UVB phototherapy is first-line for widespread disease. PUVA has more side effects. Surgical options are reserved for stable, refractory cases.",
+    image: imgVitiligo,
+    category: "Dermatology NP",
+    difficulty: 2
+  },
+  {
+    id: "np-gu-urethral-stricture-q1",
+    type: "question",
+    question: "An NP evaluates a male patient with recurrent UTIs and obstructive voiding symptoms. Retrograde urethrography confirms a 2 cm bulbar urethral stricture. What is the definitive management?",
+    options: ["Long-term antibiotic prophylaxis", "Intermittent self-catheterization", "Referral for urethroplasty (surgical reconstruction)", "Repeated urethral dilation every 3 months indefinitely"],
+    correctIndex: 2,
+    answer: "Urethroplasty is the definitive treatment for urethral stricture with the highest long-term success rate (85-90%). Urethral dilation and direct visual internal urethrotomy (DVIU) have high recurrence rates (>50%), especially for strictures >2 cm or after failed prior procedures. The NP refers to urology for surgical evaluation and manages interim symptoms.",
+    image: imgUrethralStricture,
+    category: "Urology NP",
+    difficulty: 3
+  },
+  {
+    id: "np-neuro-vestibular-neuritis-q1",
+    type: "question",
+    question: "A patient presents with acute onset severe vertigo, nausea, and horizontal nystagmus beating away from the affected ear, but hearing is preserved. MRI is normal. What is the NP's diagnosis and initial management?",
+    options: ["BPPV — perform Epley maneuver", "Vestibular neuritis — prescribe corticosteroids and vestibular suppressants", "Meniere disease — start salt restriction and diuretics", "Posterior circulation stroke — activate stroke protocol"],
+    correctIndex: 1,
+    answer: "Vestibular neuritis presents with acute severe vertigo, unidirectional horizontal nystagmus (fast phase away from lesion), and preserved hearing (distinguishing it from labyrinthitis). Normal MRI excludes stroke. Management: methylprednisolone taper (if within 72 hours of onset, improves vestibular recovery), short-term vestibular suppressants (meclizine, diazepam), antiemetics, and early vestibular rehabilitation therapy.",
+    image: imgVestibularNeuritis,
+    category: "Neurology NP",
+    difficulty: 3
   },
 ];

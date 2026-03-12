@@ -8,4 +8,5 @@ export type Flashcard = {
   correctIndex?: number;
   answer: string;
   category: string;
+  image?: string;
 };

@@ -397,6 +397,25 @@ import illustrationATPKrebsCycle from "@/assets/images/atp-krebs-cycle.png";
 import illustrationATPGlycolysis from "@/assets/images/atp-glycolysis.png";
 import illustrationATPMolecule from "@/assets/images/atp-molecule-structure.png";
 
+import illustrationUlcerativeColitis from "@assets/ulcerativecolitis_1773268105077.png";
+import illustrationUrethralStricture from "@assets/urethralstricture_1773268105077.png";
+import illustrationUrinaryCatheterization from "@assets/urinarycatheterization_1773268105077.png";
+import illustrationVestibularNeuritis from "@assets/vestibularneuritis_1773268105077.png";
+import illustrationVitiligoNew from "@assets/vitiligo_1773268105077.png";
+import illustrationVonWillebrand from "@assets/vonwillebrand_1773268105077.png";
+import illustrationSIADHNew from "@assets/SIADH_1773268456011.png";
+import illustrationSickleCellCrisis from "@assets/sicklecellcrisis_1773268456011.png";
+import illustrationStevensJohnsonNew from "@assets/stevensjohnsonssyndrome_1773268456011.png";
+import illustrationStomaCareNew from "@assets/stomacare_1773268456011.png";
+import illustrationTACO from "@assets/taco_1773268456011.png";
+import illustrationThalassemiaNew from "@assets/thalassemia_1773268456011.png";
+import illustrationThrombocytopenia from "@assets/thrombocytopenia_1773268456011.png";
+import illustrationThyroidStorm from "@assets/thyroidstorm_1773268456011.png";
+import illustrationTinnitus from "@assets/tinnitis_1773268456011.png";
+import illustrationTRALI from "@assets/TRALI_1773268456011.png";
+import illustrationTransfusionHyperkalemia from "@assets/transfusionassociatedhyperkalemia_1773268456011.png";
+import illustrationTransfusionHypothermia from "@assets/transfusionassociatedhypothermia_1773268456011.png";
+
 const lessonSpecificImages: Record<string, string> = {
   "infective-endocarditis-signs": illustrationEndocarditisSigns,
   "peripheral-artery-disease-overview": illustrationPADArtery,
@@ -1453,6 +1472,68 @@ const systemImageMap: Record<string, string> = {
   "toxicology-np": illustrationShock,
   "advanced-diagnostics-np": illustrationAssessment,
   "advanced-pharmacology-np": illustrationPharmacology,
+
+  "ulcerative-colitis": illustrationUlcerativeColitis,
+  "ulcerative-colitis-rpn": illustrationUlcerativeColitis,
+  "ulcerative-colitis-rn": illustrationUlcerativeColitis,
+  "ulcerative-colitis-np": illustrationUlcerativeColitis,
+  "ulcerative-colitis-basics-rpn": illustrationUlcerativeColitis,
+  "ulcerative-colitis-management": illustrationUlcerativeColitis,
+
+  "urethral-stricture": illustrationUrethralStricture,
+  "urethral-stricture-rpn": illustrationUrethralStricture,
+  "urethral-stricture-np": illustrationUrethralStricture,
+
+  "urinary-catheter-care-rn": illustrationUrinaryCatheterization,
+
+  "labyrinthitis-rpn": illustrationVestibularNeuritis,
+  "labyrinthitis-rn": illustrationVestibularNeuritis,
+  "labyrinthitis-np": illustrationVestibularNeuritis,
+
+  "vitiligo": illustrationVitiligoNew,
+  "vitiligo-rpn": illustrationVitiligoNew,
+
+  "von-willebrand-disease-rpn": illustrationVonWillebrand,
+
+  "siadh-di": illustrationSIADHNew,
+  "siadh-di-np": illustrationSIADHNew,
+  "siadh-basics-rpn": illustrationSIADHNew,
+  "siadh-deep-pathophysiology-np": illustrationSIADHNew,
+
+  "sickle-cell": illustrationSickleCellCrisis,
+  "sickle-cell-crisis": illustrationSickleCellCrisis,
+  "sickle-cell-crisis-rpn": illustrationSickleCellCrisis,
+  "sickle-cell-crisis-rn": illustrationSickleCellCrisis,
+  "sickle-cell-crisis-np": illustrationSickleCellCrisis,
+  "sickle-cell-disease": illustrationSickleCellCrisis,
+  "sickle-cell-np": illustrationSickleCellCrisis,
+
+  "stevens-johnson-syndrome": illustrationStevensJohnsonNew,
+  "stevens-johnson-basics-rpn": illustrationStevensJohnsonNew,
+
+  "stoma-care": illustrationStomaCareNew,
+  "stoma-care-rpn": illustrationStomaCareNew,
+  "stoma-care-rn": illustrationStomaCareNew,
+  "stoma-care-np": illustrationStomaCareNew,
+
+  "taco-transfusion-associated-circulatory-overload": illustrationTACO,
+
+  "thalassemia": illustrationThalassemiaNew,
+  "thalassemia-rpn": illustrationThalassemiaNew,
+
+  "thyroid-storm-rpn": illustrationThyroidStorm,
+  "thyroid-storm-rn": illustrationThyroidStorm,
+  "thyroid-storm-np": illustrationThyroidStorm,
+
+  "tinnitus-rpn": illustrationTinnitus,
+
+  "trali-transfusion-related-acute-lung-injury": illustrationTRALI,
+  "trali-resp-rn": illustrationTRALI,
+  "trali-critical-rn": illustrationTRALI,
+
+  "transfusion-hyperkalemia": illustrationTransfusionHyperkalemia,
+
+  "transfusion-hypothermia": illustrationTransfusionHypothermia,
 };
 
 export function getSystemImage(systemId: string): string | undefined {
@@ -1529,9 +1610,9 @@ export function getLessonImage(lessonId: string): string | undefined {
   if (lessonId.includes("otitis") || lessonId.includes("ear-infect")) return illustrationOtitis;
   if (lessonId.includes("herpes-simplex") || lessonId.includes("hsv") || lessonId.includes("cold-sore")) return illustrationHerpesSimplex;
   if (lessonId.includes("glaucoma")) return illustrationGlaucoma;
-  if (lessonId.includes("vitiligo")) return illustrationVitiligo;
+  if (lessonId.includes("vitiligo")) return illustrationVitiligoNew;
   if (lessonId.includes("shingles") || lessonId.includes("herpes-zoster") || lessonId.includes("varicella-zoster")) return illustrationShingles;
-  if (lessonId.includes("stevens-johnson") || lessonId.includes("sjs")) return illustrationSJS;
+  if (lessonId.includes("stevens-johnson") || lessonId.includes("sjs")) return illustrationStevensJohnsonNew;
   if (lessonId.includes("cell-struct") || lessonId.includes("cell-bio")) return illustrationCellStructure;
   if (lessonId.includes("homeostasis") || lessonId.includes("feedback-loop")) return illustrationHomeostasis;
   if (lessonId.includes("pinworm") || lessonId.includes("enterobias")) return illustrationPinworms;
@@ -1566,8 +1647,8 @@ export function getLessonImage(lessonId: string): string | undefined {
   if (lessonId.includes("peptic-ulcer") || lessonId.includes("gastric-ulcer") || lessonId.includes("duodenal-ulcer")) return illustrationPepticUlcerV2;
   if (lessonId.includes("rectal-med") || lessonId.includes("suppository") || lessonId.includes("rectal-admin")) return illustrationRectalMedicationV2;
   if (lessonId.includes("short-bowel")) return illustrationShortBowelV2;
-  if (lessonId.includes("stoma-care") || lessonId.includes("ostomy") || lessonId.includes("colostomy") || lessonId.includes("ileostomy")) return illustrationStomaCareV2;
-  if (lessonId.includes("ulcerative-colitis") || lessonId.includes("uc-management")) return illustrationUlcerativeColitisV2;
+  if (lessonId.includes("stoma-care") || lessonId.includes("ostomy") || lessonId.includes("colostomy") || lessonId.includes("ileostomy")) return illustrationStomaCareNew;
+  if (lessonId.includes("ulcerative-colitis") || lessonId.includes("uc-management")) return illustrationUlcerativeColitis;
   if (lessonId.includes("silicosis")) return illustrationAcuteSilicosisNew;
   if (lessonId.includes("auscultation")) return illustrationCardiacAuscultationNew;
   if (lessonId.includes("hypertension")) return illustrationHypertensionV2;
@@ -1609,6 +1690,20 @@ export function getLessonImage(lessonId: string): string | undefined {
   if (lessonId.includes("tardive")) return illustrationTardiveDyskinesiaV2;
   if (lessonId.includes("wernicke") && !lessonId.includes("korsakoff")) return illustrationWernickeV2;
   if (lessonId.includes("tracheostomy")) return illustrationTracheostomy;
+  if (lessonId.includes("sickle-cell")) return illustrationSickleCellCrisis;
+  if (lessonId.includes("thalassemia")) return illustrationThalassemiaNew;
+  if (lessonId.includes("thyroid-storm")) return illustrationThyroidStorm;
+  if (lessonId.includes("siadh")) return illustrationSIADHNew;
+  if (lessonId.includes("trali") || lessonId.includes("transfusion-related-acute-lung")) return illustrationTRALI;
+  if (lessonId.includes("taco") || lessonId.includes("transfusion-associated-circulatory")) return illustrationTACO;
+  if (lessonId.includes("tinnitus")) return illustrationTinnitus;
+  if (lessonId.includes("von-willebrand") || lessonId.includes("vwd")) return illustrationVonWillebrand;
+  if (lessonId.includes("thrombocytopenia")) return illustrationThrombocytopenia;
+  if (lessonId.includes("urethral-stricture")) return illustrationUrethralStricture;
+  if (lessonId.includes("labyrinthitis") || lessonId.includes("vestibular-neuritis")) return illustrationVestibularNeuritis;
+  if (lessonId.includes("urinary-catheter")) return illustrationUrinaryCatheterization;
+  if (lessonId.includes("transfusion-hyperkalemia")) return illustrationTransfusionHyperkalemia;
+  if (lessonId.includes("transfusion-hypothermia")) return illustrationTransfusionHypothermia;
   if (lessonId.includes("kidney") || lessonId.includes("renal") || lessonId.includes("dialysis") || lessonId.includes("crrt")) return illustrationKidneys;
   if (lessonId.includes("electrolyte")) return illustrationElectrolytes;
   if (lessonId.includes("tumor") || lessonId.includes("cancer") || lessonId.includes("chemo") || lessonId.includes("oncol")) return illustrationTumor;

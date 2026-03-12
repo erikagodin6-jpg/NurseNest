@@ -1,4 +1,5 @@
 import type { LessonContent } from "./types";
+import imgVestibularNeuritis from "@assets/vestibularneuritis_1773268105077.png";
 
 export const clinicalConditionsBatchNLessons: Record<string, LessonContent> = {
   "bppv-management-rpn": {
@@ -472,6 +473,7 @@ export const clinicalConditionsBatchNLessons: Record<string, LessonContent> = {
 
   "labyrinthitis-rpn": {
     title: "Labyrinthitis & Vestibular Neuritis: RPN Monitoring",
+    image: imgVestibularNeuritis,
     cellular: {
       title: "Pathophysiology of Labyrinthitis",
       content: "Labyrinthitis is acute inflammation of the inner ear labyrinth affecting both the vestibular and cochlear structures, causing sudden onset of persistent vertigo with associated hearing loss. When only the vestibular nerve is involved without cochlear symptoms, the condition is termed vestibular neuritis. Most cases follow viral upper respiratory infections (influenza, varicella, measles, mumps), with viruses causing direct inflammation of the membranous labyrinth or the vestibular nerve. Bacterial labyrinthitis is less common but more dangerous, often arising from otitis media or meningitis spreading to the inner ear. The RPN monitors the patient's symptoms, administers prescribed medications, maintains safety during the acute phase, and reports any changes or new neurological symptoms."
@@ -544,6 +546,7 @@ export const clinicalConditionsBatchNLessons: Record<string, LessonContent> = {
 
   "labyrinthitis-rn": {
     title: "Labyrinthitis & Vestibular Neuritis: RN Clinical Management",
+    image: imgVestibularNeuritis,
     cellular: {
       title: "Advanced Pathophysiology & Clinical Assessment",
       content: "Labyrinthitis involves acute inflammation of the membranous labyrinth, affecting both vestibular and cochlear structures. Viral pathogens (influenza, HSV, VZV, adenovirus, mumps) cause direct cytopathic damage to labyrinthine epithelium and vestibular ganglion neurons. The resulting asymmetry in vestibular afferent firing rates between the two ears — reduced from the affected side and normal from the intact side — generates a false rotational signal interpreted as spinning vertigo. Nystagmus beats away from the lesion side due to unopposed tonic vestibular output from the intact ear. Cochlear inflammation damages outer and inner hair cells, producing sensorineural hearing loss and tinnitus. Bacterial labyrinthitis occurs via tympanogenic spread (through the round or oval window from middle ear infection) or meningogenic spread (through the internal auditory canal from meningitis), and constitutes a medical emergency. The RN differentiates viral from bacterial etiologies, performs comprehensive neurological screening to exclude central causes, manages acute symptoms, and coordinates vestibular rehabilitation."
@@ -625,6 +628,7 @@ export const clinicalConditionsBatchNLessons: Record<string, LessonContent> = {
 
   "labyrinthitis-np": {
     title: "Labyrinthitis & Vestibular Neuritis: NP Differential & Prescriptive Management",
+    image: imgVestibularNeuritis,
     cellular: {
       title: "Advanced Pathophysiology & Differential Diagnosis",
       content: "Viral labyrinthitis and vestibular neuritis represent a spectrum of acute peripheral vestibulopathy. HSV-1 reactivation in the vestibular ganglion (Scarpa's ganglion) is the proposed mechanism for vestibular neuritis, supported by autopsy studies demonstrating HSV-1 DNA in vestibular ganglia and histological evidence of inflammatory neuronal degeneration. In labyrinthitis, inflammation extends to the cochlea. The acute vestibular loss creates a tonic firing imbalance between vestibular nuclei, generating sustained vertigo and spontaneous nystagmus. Recovery depends on central vestibular compensation — neuroplastic reorganization in the vestibular nuclei, cerebellum, and cortex that recalibrates the vestibular system. Bacterial labyrinthitis occurs via tympanogenic (round window, oval window, or fistula from cholesteatoma) or meningogenic (via cochlear aqueduct or internal auditory canal) routes and carries significant risk of permanent deafness and intracranial complications. The NP must differentiate acute vestibular syndrome from posterior circulation stroke (AICA, PICA territory), vestibular migraine, Meniere's disease, and autoimmune inner ear disease, and initiate appropriate pharmacotherapy including corticosteroids, antivirals, and antibiotics."

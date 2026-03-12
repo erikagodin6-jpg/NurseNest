@@ -1,4 +1,5 @@
 import type { LessonContent } from "./types";
+import imgUrethralStricture from "@assets/urethralstricture_1773268105077.png";
 
 export const reproductiveRpnLessons: Record<string, LessonContent> = {
   "delayed-puberty-rpn": {
@@ -402,6 +403,7 @@ export const reproductiveRpnLessons: Record<string, LessonContent> = {
   },
   "urethral-stricture-rpn": {
     title: "Urethral Stricture - RPN Fundamentals",
+    image: imgUrethralStricture,
     cellular: { title: "Urethral Narrowing", content: "A urethral stricture is a narrowing of the urethra caused by scar tissue formation (fibrosis) within or around the urethral wall. This scar tissue develops in response to injury, infection, or chronic inflammation. Common causes include prior catheterization, urethral instrumentation (cystoscopy, surgery), sexually transmitted infections (particularly gonorrhea), and traumatic injury to the perineum or pelvis. The scar tissue reduces the diameter of the urethral lumen, creating resistance to urine flow. This leads to difficulty urinating, weak stream, straining, incomplete bladder emptying, and potentially urinary retention. Strictures occur almost exclusively in males due to the longer urethral length and are most common in the bulbar urethra." },
     riskFactors: ["Prior urethral catheterization (especially prolonged or traumatic)", "History of urethral instrumentation (cystoscopy, TURP)", "History of sexually transmitted infections (gonorrhea)", "Pelvic or perineal trauma (straddle injury)", "Prior hypospadias repair", "Lichen sclerosus (BXO)", "Pelvic radiation therapy"],
     diagnostics: ["Expect voiding history assessment (stream strength, straining, hesitancy)", "Expect uroflowmetry (urine flow rate measurement)", "Expect retrograde urethrogram for stricture visualization", "Monitor post-void residual volume (bladder scan)", "Expect referral to urology for evaluation", "Monitor intake and output carefully"],

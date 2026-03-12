@@ -1,4 +1,6 @@
 import type { FlashcardData } from "./flashcards-rpn";
+import { imgUlcerativeColitis, imgSIADH, imgSickleCellCrisis, imgStomaCare, imgThrombocytopenia, imgUrinaryCatheterization, imgVitiligo, imgUrethralStricture, imgVestibularNeuritis } from "./flashcards-rpn";
+import imgStevensJohnson from "@assets/stevensjohnsonssyndrome_1773268456011.png";
 
 export const rnFlashcards: FlashcardData[] = [
   // ============================================================
@@ -630,6 +632,7 @@ export const rnFlashcards: FlashcardData[] = [
     options: ["The client will need a permanent ileostomy", "The client will have continent stool through the anus but may have 4-8 loose stools per day initially", "Ulcerative colitis may recur in the J-pouch", "The client will have normal, formed bowel movements immediately after surgery"],
     correctIndex: 1,
     answer: "A J-pouch (ileoanal anastomosis) allows the client to have continent stool through the anus, avoiding a permanent ostomy. Initially, the client may have 4-8 loose stools per day, which typically decreases to 4-6 as the pouch adapts over 6-12 months. Since the entire colon and rectum are removed, ulcerative colitis cannot recur. Pouchitis (inflammation of the J-pouch) can occur and is treated with antibiotics.",
+    image: imgUlcerativeColitis,
     category: "GI",
     difficulty: 2
   },
@@ -949,6 +952,7 @@ export const rnFlashcards: FlashcardData[] = [
     options: ["Decrease the heparin rate by 50%", "Stop ALL heparin products immediately and initiate an alternative anticoagulant (argatroban or bivalirudin)", "Continue heparin and monitor platelets daily", "Administer platelet transfusion"],
     correctIndex: 1,
     answer: "HIT is an immune-mediated reaction where antibodies against heparin-platelet factor 4 complexes cause platelet activation and consumption. Despite low platelets, HIT is paradoxically prothrombotic, causing arterial and venous thrombosis. ALL heparin must be stopped (including heparin flushes and heparin-coated catheters). An alternative anticoagulant (argatroban, bivalirudin) must be started. Platelet transfusions are generally CONTRAINDICATED as they fuel the thrombotic process.",
+    image: imgThrombocytopenia,
     category: "Pharmacology",
     difficulty: 3
   },
@@ -1621,6 +1625,7 @@ export const rnFlashcards: FlashcardData[] = [
     options: ["Restrict the child's physical activity completely", "Ensure adequate hydration, avoid temperature extremes, and seek prompt treatment for infections", "Give aspirin for pain management", "The child should avoid all social activities to prevent infections"],
     correctIndex: 1,
     answer: "Crisis prevention in sickle cell disease focuses on avoiding triggers that cause sickling: dehydration (maintain generous fluid intake), temperature extremes (cold causes vasoconstriction), high altitude (low oxygen), and infections (functional asplenia increases risk from encapsulated organisms). Hydroxyurea reduces crisis frequency. Aspirin is avoided due to Reye syndrome risk in children. Moderate activity is encouraged; complete restriction is unnecessary.",
+    image: imgSickleCellCrisis,
     category: "Pediatrics",
     difficulty: 2
   },
@@ -1857,6 +1862,7 @@ export const rnFlashcards: FlashcardData[] = [
     options: ["Using the largest catheter available", "Using strict aseptic technique during insertion and removing the catheter as soon as it is no longer clinically indicated", "Irrigating the catheter daily with saline", "Changing the catheter every 48 hours routinely"],
     correctIndex: 1,
     answer: "CAUTI prevention bundles include: insert only when clinically indicated, use strict aseptic technique during insertion, use the smallest appropriate catheter size, maintain a closed drainage system, secure the catheter to prevent traction, keep the drainage bag below bladder level, perform daily reassessment and REMOVE as soon as possible. Each day a catheter remains increases infection risk by 3-7%. Routine catheter changes are NOT recommended.",
+    image: imgUrinaryCatheterization,
     category: "Infection Control",
     difficulty: 2
   },
@@ -1940,6 +1946,7 @@ export const rnFlashcards: FlashcardData[] = [
     options: ["Increase IV fluid rate", "Fluid restriction to 500-1,000 mL/day", "Administer furosemide and fluid bolus simultaneously", "Start DDAVP immediately"],
     correctIndex: 1,
     answer: "SIADH causes excess ADH secretion, leading to water retention, dilutional hyponatremia, and inappropriately concentrated urine (high urine osmolality relative to low serum osmolality). The primary treatment is fluid restriction (typically 500-1,000 mL/day) to allow the body to correct the dilutional state. In severe cases, hypertonic saline may be needed. DDAVP would worsen the condition (it IS ADH). Demeclocycline or tolvaptan may be used for chronic SIADH.",
+    image: imgSIADH,
     category: "Fluid & Electrolytes",
     difficulty: 3
   },
@@ -2316,6 +2323,7 @@ export const rnFlashcards: FlashcardData[] = [
     options: ["Pale or white color", "Dark purple or black color", "Beefy red and moist", "Dry and cracked appearance"],
     correctIndex: 2,
     answer: "A healthy stoma should be beefy red and moist, similar to the inside of the mouth. A pale or white stoma indicates ischemia, while a dark purple/black stoma indicates necrosis — both require immediate provider notification. Some edema is normal in the first 6 weeks post-surgery.",
+    image: imgStomaCare,
     category: "Oncology",
     difficulty: 1
   },
@@ -2956,6 +2964,7 @@ export const rnFlashcards: FlashcardData[] = [
     options: ["Encourage increased fluid intake", "Implement fluid restriction (typically 500-1000 mL/day)", "Administer hypertonic saline rapidly", "Give salt tablets without monitoring"],
     correctIndex: 1,
     answer: "SIADH causes excess ADH secretion, leading to water retention and dilutional hyponatremia. Fluid restriction is the primary treatment to allow sodium levels to normalize. In severe symptomatic hyponatremia (<120 mEq/L with seizures), hypertonic 3% NS may be used cautiously. Monitor I&O, daily weights, and sodium levels closely.",
+    image: imgSIADH,
     category: "Fluid & Electrolytes",
     difficulty: 2
   },
@@ -2986,6 +2995,7 @@ export const rnFlashcards: FlashcardData[] = [
     options: ["Question the pain rating because vital signs are normal", "Administer pain medication as prescribed — vital signs may not correlate with pain", "Wait 30 minutes and reassess", "Offer non-pharmacological measures only"],
     correctIndex: 1,
     answer: "Clients with chronic pain conditions like sickle cell disease may have normal vital signs despite severe pain due to physiological adaptation. Pain assessment is subjective and the client's self-report is the gold standard. Sickle cell pain crises require aggressive pain management, often with IV opioids. Never dismiss pain based on vital signs or appearance.",
+    image: imgSickleCellCrisis,
     category: "Pain Management",
     difficulty: 2
   },
@@ -3446,6 +3456,7 @@ export const rnFlashcards: FlashcardData[] = [
     options: ["Encourage fluid intake", "Implement fluid restriction", "Administer hypertonic saline rapidly", "Increase dietary sodium"],
     correctIndex: 1,
     answer: "SIADH causes excess ADH secretion leading to water retention and dilutional hyponatremia. Fluid restriction (800-1000 mL/day) is the primary treatment. Severe hyponatremia (<120) with symptoms may require hypertonic saline (3% NaCl), but it must be infused SLOWLY to prevent osmotic demyelination syndrome (central pontine myelinolysis). Correct no faster than 8-12 mEq/L per 24 hours.",
+    image: imgSIADH,
     category: "Fluid & Electrolytes",
     difficulty: 3
   },
@@ -4138,6 +4149,7 @@ export const rnFlashcards: FlashcardData[] = [
     options: ["Restrict fluid intake to prevent fluid overload", "Administer aggressive IV hydration and pain management", "Apply cold compresses to painful areas", "Encourage ambulation to prevent DVT"],
     correctIndex: 1,
     answer: "Vaso-occlusive (pain) crisis occurs when sickled red blood cells clump and obstruct blood flow, causing ischemia and severe pain. Priority interventions include aggressive IV hydration (to reduce blood viscosity and promote circulation), effective pain management (often requiring IV opioids), oxygen supplementation (to prevent further sickling), and rest. Fluid restriction worsens sickling. Cold compresses cause vasoconstriction which worsens the crisis; warm compresses may be used. Ambulation during acute crisis increases pain and oxygen demand.",
+    image: imgSickleCellCrisis,
     category: "Hematology/Oncology",
     difficulty: 2
   },
@@ -4264,6 +4276,7 @@ export const rnFlashcards: FlashcardData[] = [
     options: ["Apply topical corticosteroids to all affected areas", "Discontinue the offending medication immediately and notify the provider", "Administer oral antihistamines and monitor for improvement", "Apply adhesive bandages to ruptured blisters"],
     correctIndex: 1,
     answer: "Stevens-Johnson syndrome is a severe, potentially life-threatening hypersensitivity reaction often triggered by medications (sulfonamides, anticonvulsants, allopurinol, NSAIDs, antibiotics). The priority is immediate discontinuation of the suspected causative drug. SJS affects less than 10% of body surface area; toxic epidermal necrolysis (TEN) affects more than 30%. Treatment is primarily supportive (similar to burn care): fluid resuscitation, wound care, pain management, and prevention of infection. Transfer to a burn unit may be required. Mortality ranges from 5-30%.",
+    image: imgStevensJohnson,
     category: "Integumentary",
     difficulty: 3
   },
@@ -4459,5 +4472,38 @@ export const rnFlashcards: FlashcardData[] = [
     answer: "The correct procedure for correcting a paper medical record error is to draw a single line through the incorrect entry (so it remains legible), write 'mistaken entry' or 'error' above or beside it, and add the date, time, and nurse's initials. In electronic health records, addendums are used and original entries are preserved with an audit trail. White-out, removing pages, and completely deleting entries are considered alteration or destruction of medical records, which is illegal and can constitute evidence tampering. Medical records are legal documents that may be used in court.",
     category: "Ethics/Legal",
     difficulty: 2
+  },
+  {
+    id: "rn-derm-vitiligo-q1",
+    type: "question",
+    question: "A client newly diagnosed with vitiligo expresses distress about their appearance. What is the RN's priority intervention?",
+    options: ["Reassure them the patches will eventually resolve on their own", "Provide psychosocial support and refer to dermatology for treatment options", "Recommend over-the-counter skin bleaching products", "Tell them it is only a cosmetic concern and not medically significant"],
+    correctIndex: 1,
+    answer: "Vitiligo significantly impacts quality of life and body image. The RN provides therapeutic communication, validates the client's feelings, and facilitates referral to dermatology for treatment options (topical corticosteroids, calcineurin inhibitors, narrowband UVB phototherapy). Support groups and counseling referrals are also appropriate.",
+    image: imgVitiligo,
+    category: "Dermatology",
+    difficulty: 2
+  },
+  {
+    id: "rn-gu-urethral-stricture-q1",
+    type: "question",
+    question: "A client is scheduled for urethral dilation to treat a urethral stricture. What post-procedure nursing assessment is most important?",
+    options: ["Monitor for signs of urinary retention and hematuria", "Check for lower extremity edema", "Assess pupil reactivity", "Monitor blood glucose levels"],
+    correctIndex: 0,
+    answer: "After urethral dilation, the RN monitors for urinary retention (inability to void, bladder distension), hematuria (expected mild, report bright red or clots), signs of infection (fever, dysuria, cloudy urine), and adequate urine output. Teach the client to report inability to void, increasing pain, or heavy bleeding.",
+    image: imgUrethralStricture,
+    category: "Renal/GU",
+    difficulty: 3
+  },
+  {
+    id: "rn-neuro-vestibular-neuritis-q1",
+    type: "question",
+    question: "A client with vestibular neuritis is experiencing severe vertigo and nausea. Which nursing intervention is the priority?",
+    options: ["Encourage ambulation to promote vestibular compensation", "Maintain a quiet, dimly lit environment with the client in a side-lying position", "Administer antibiotics as prescribed", "Perform the Dix-Hallpike maneuver to confirm diagnosis"],
+    correctIndex: 1,
+    answer: "During the acute phase of vestibular neuritis, reducing sensory stimulation (dim lights, quiet environment) minimizes the vestibular-visual mismatch that worsens vertigo and nausea. Position the client on their side (affected ear up) to reduce symptoms. Administer prescribed vestibular suppressants (meclizine) and antiemetics. Early ambulation is appropriate only after the acute phase subsides.",
+    image: imgVestibularNeuritis,
+    category: "Neurological",
+    difficulty: 3
   },
 ];

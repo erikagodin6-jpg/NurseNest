@@ -1,4 +1,6 @@
 import type { LessonContent } from "./types";
+import imgSickleCellCrisis from "@assets/sicklecellcrisis_1773268456011.png";
+import imgThalassemia from "@assets/thalassemia_1773268456011.png";
 
 export const hematologyLessons: Record<string, LessonContent> = {
   "all-leukemia": {
@@ -33,6 +35,7 @@ export const hematologyLessons: Record<string, LessonContent> = {
   },
   "sickle-cell": {
     title: "Sickle Cell Crisis",
+    image: imgSickleCellCrisis,
     cellular: { title: "Hemoglobin S Polymerization", content: "Under stress (hypoxia, dehydration, acidosis), HgbS changes shape into rigid sickled cells. These clump together, occluding small vessels (vaso-occlusion) causing ischemia and severe pain." },
     riskFactors: ["Homozygous HbSS genotype", "African American descent", "Dehydration", "Hypoxia", "Cold exposure", "High altitude", "Infection", "Stress", "Pregnancy"],
     diagnostics: ["Expect CBC with reticulocyte count to be ordered", "Monitor oxygen saturation continuously during crisis", "Expect hemoglobin electrophoresis for diagnosis", "Expect CXR if acute chest syndrome suspected", "Monitor for signs of splenic sequestration (LUQ pain, falling Hgb)", "Expect blood cultures if fever present"],
@@ -69,6 +72,7 @@ export const hematologyLessons: Record<string, LessonContent> = {
   },
   "thalassemia": {
     title: "Thalassemia",
+    image: imgThalassemia,
     cellular: { title: "Hemoglobin Chain Synthesis Defect", content: "Thalassemia is an inherited autosomal recessive disorder of hemoglobin synthesis characterized by reduced or absent production of one of the globin chains (alpha or beta). In beta-thalassemia (most clinically significant), mutations in the HBB gene on chromosome 11 reduce beta-globin chain production, causing excess unpaired alpha-globin chains to precipitate and damage red blood cell membranes. This leads to ineffective erythropoiesis (RBC destruction within bone marrow before release), hemolytic anemia, and compensatory extramedullary hematopoiesis (liver, spleen expansion). Iron overload occurs from both increased GI absorption (hepcidin suppression from ineffective erythropoiesis) and chronic transfusion therapy. Thalassemia major (Cooley anemia) presents in the first year of life with severe transfusion-dependent anemia." },
     riskFactors: ["Mediterranean descent (beta-thalassemia)", "Southeast Asian descent (alpha-thalassemia)", "Middle Eastern descent", "African descent (alpha-thalassemia trait common)", "Family history of thalassemia", "Consanguinity (autosomal recessive inheritance)", "Both parents must be carriers for major forms"],
     diagnostics: ["Expect CBC showing microcytic hypochromic anemia (low MCV, low MCH)", "Expect hemoglobin electrophoresis (elevated HbA2 and HbF in beta-thal)", "Monitor reticulocyte count (elevated from compensatory erythropoiesis)", "Expect peripheral blood smear (target cells, nucleated RBCs, microcytes)", "Monitor serum ferritin and iron studies (iron overload)", "Expect genetic testing for definitive diagnosis", "Monitor liver and cardiac iron with MRI T2*"],

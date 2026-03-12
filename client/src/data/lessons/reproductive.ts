@@ -1,4 +1,5 @@
 import type { LessonContent } from "./types";
+import imgUrethralStricture from "@assets/urethralstricture_1773268105077.png";
 
 export const reproductiveLessons: Record<string, LessonContent> = {
   "endometriosis": {
@@ -531,6 +532,7 @@ export const reproductiveLessons: Record<string, LessonContent> = {
   },
   "urethral-stricture": {
     title: "Urethral Stricture",
+    image: imgUrethralStricture,
     cellular: { title: "Urethral Fibrosis and Obstructive Uropathy", content: "Urethral stricture is narrowing of the urethral lumen caused by scar tissue formation (spongiofibrosis) within the corpus spongiosum surrounding the urethra. The pathophysiology involves injury to the urethral epithelium from trauma, infection, instrumentation, or inflammation, triggering an abnormal wound healing cascade. Damaged urothelial cells release pro-inflammatory cytokines and transforming growth factor-beta (TGF-beta), which activates fibroblasts to proliferate and deposit excessive collagen (types I and III) in the periurethral tissue. This fibrosis contracts the urethral lumen, increasing resistance to urine flow. The resulting obstructive uropathy causes the detrusor muscle to hypertrophy in compensation, but progressive obstruction leads to detrusor decompensation, urinary retention, and potential upper tract damage (hydroureter, hydronephrosis) if untreated. Iatrogenic causes (urethral catheterization, cystoscopy, TURP) are the most common etiology in developed countries, while infectious causes (untreated gonococcal urethritis) remain significant in developing regions." },
     riskFactors: ["Prior urethral instrumentation (catheterization, cystoscopy, TURP)", "History of urethral infection (gonococcal urethritis)", "Pelvic fracture with urethral injury", "Hypospadias repair or prior urethral surgery", "Lichen sclerosus (balanitis xerotica obliterans)", "Prolonged indwelling catheter use"],
     diagnostics: ["Retrograde urethrogram (RUG) to visualize stricture location, length, and severity", "Voiding cystourethrogram (VCUG) to assess proximal extent", "Uroflowmetry - decreased peak flow rate (Qmax less than 15 mL/sec suggests obstruction)", "Post-void residual volume measurement (elevated with significant obstruction)", "Cystourethroscopy for direct visualization - defines stricture caliber and mucosal appearance", "Urinalysis and urine culture to evaluate for concurrent UTI"],

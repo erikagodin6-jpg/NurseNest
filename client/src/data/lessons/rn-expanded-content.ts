@@ -1,4 +1,5 @@
 import type { LessonContent } from "./types";
+import imgThyroidStorm from "@assets/thyroidstorm_1773268456011.png";
 
 export const rnExpandedLessons: Record<string, LessonContent> = {
   "neonatal-jaundice-management-rn": {
@@ -302,6 +303,7 @@ export const rnExpandedLessons: Record<string, LessonContent> = {
 
   "thyroid-storm-rn": {
     title: "Thyroid Storm: Critical Endocrine Emergency",
+    image: imgThyroidStorm,
     cellular: { title: "Thyroid Hormone Excess Cascade", content: "Thyroid storm (thyrotoxic crisis) is a life-threatening exacerbation of hyperthyroidism with a mortality rate of 20-30% even with treatment. Excessive thyroid hormone (T3 and T4) dramatically increases cellular metabolic rate by enhancing mitochondrial oxygen consumption and heat production, upregulating beta-adrenergic receptor density (amplifying catecholamine sensitivity), increasing cardiac output through enhanced contractility and heart rate, and accelerating protein catabolism. The cardiovascular system is most critically affected: thyroid hormone excess causes tachyarrhythmias, high-output heart failure, and increased myocardial oxygen demand. T3 is the biologically active form (3-5x more potent than T4) and directly activates nuclear thyroid hormone receptors that regulate gene transcription for metabolic enzymes, structural proteins, and ion channels. Triggering events include infection, surgery, DKA, iodine contrast exposure, or abrupt cessation of antithyroid medications." },
     riskFactors: ["Untreated or undertreated Graves disease", "Infection or sepsis (most common trigger)", "Surgical stress or trauma", "Diabetic ketoacidosis", "Iodinated contrast media exposure", "Non-compliance with antithyroid medications", "Thyroid surgery without preoperative euthyroid state", "Excessive thyroid hormone ingestion", "Postpartum period"],
     diagnostics: ["Monitor thyroid function tests: markedly elevated free T3 and T4, suppressed TSH", "Monitor continuous cardiac telemetry (atrial fibrillation in 10-35%)", "Assess Burch-Wartofsky Point Scale for thyroid storm severity", "Monitor complete metabolic panel and glucose", "Monitor liver function tests (hepatic dysfunction common)", "Assess for triggering event (cultures, chest X-ray, urinalysis)"],
