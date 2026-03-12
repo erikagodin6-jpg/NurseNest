@@ -2725,6 +2725,38 @@ export const pharmtechExamAttempts = pgTable("pharmtech_exam_attempts", {
   completedAt: timestamp("completed_at"),
 });
 
+export const pharmtechAdaptiveSessions = pgTable("pharmtech_adaptive_sessions", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id"),
+  status: text("status").notNull().default("active"),
+  totalAnswered: integer("total_answered").default(0),
+  correctCount: integer("correct_count").default(0),
+  currentDifficulty: integer("current_difficulty").default(3),
+  responses: jsonb("responses").default(sql`'[]'::jsonb`),
+  categoryStats: jsonb("category_stats").default(sql`'{}'::jsonb`),
+  masteryLevels: jsonb("mastery_levels").default(sql`'{}'::jsonb`),
+  weakAreas: jsonb("weak_areas").default(sql`'[]'::jsonb`),
+  difficultyProgression: jsonb("difficulty_progression").default(sql`'[]'::jsonb`),
+  settings: jsonb("settings").default(sql`'{}'::jsonb`),
+  startedAt: timestamp("started_at").defaultNow().notNull(),
+  completedAt: timestamp("completed_at"),
+});
+
+export const pharmtechMasteryHistory = pgTable("pharmtech_mastery_history", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id"),
+  category: text("category").notNull(),
+  totalAttempted: integer("total_attempted").default(0),
+  totalCorrect: integer("total_correct").default(0),
+  accuracy: doublePrecision("accuracy").default(0),
+  masteryLevel: text("mastery_level").default("Beginner"),
+  lastSessionId: varchar("last_session_id"),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export type PharmtechAdaptiveSession = typeof pharmtechAdaptiveSessions.$inferSelect;
+export type PharmtechMasteryHistory = typeof pharmtechMasteryHistory.$inferSelect;
+
 export const imagingPositioningEntries = pgTable("imaging_positioning_entries", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
   projectionName: varchar("projection_name", { length: 200 }).notNull(),

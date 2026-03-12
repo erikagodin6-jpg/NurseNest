@@ -1,6 +1,16 @@
 import type { Express } from "express";
 import { pool } from "./storage";
 import { requireAdmin, resolveAuthUser } from "./admin-auth";
+import {
+  transformPharmtechQuestion,
+  selectNextDifficulty,
+  getAdaptiveQuestion,
+  computeCategoryStats,
+  detectWeakAreas,
+  computeMasteryLevels,
+  getStudyRecommendations,
+  updateMasteryHistory,
+} from "./pharmtech-adaptive-engine";
 
 function snakeToCamel(obj: any): any {
   if (Array.isArray(obj)) return obj.map(snakeToCamel);
@@ -573,6 +583,271 @@ export function registerPharmtechRoutes(app: Express) {
       if (!admin) return;
       await pool.query(`DELETE FROM pharmtech_exams WHERE id = $1`, [req.params.id]);
       res.json({ ok: true });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.post("/api/pharmtech/adaptive/start", async (req, res) => {
+    try {
+      const { settings } = req.body;
+      const user = await resolveAuthUser(req);
+      const userId = user?.id || null;
+
+      const startDifficulty = Math.max(1, Math.min(5, Number(settings?.startDifficulty) || 3));
+
+      const { rows } = await pool.query(
+        `INSERT INTO pharmtech_adaptive_sessions (user_id, settings, status, current_difficulty)
+         VALUES ($1, $2, 'active', $3) RETURNING *`,
+        [userId, JSON.stringify(settings || {}), startDifficulty]
+      );
+
+      const session = snakeToCamel(rows[0]);
+
+      const question = await getAdaptiveQuestion(session.id, session.currentDifficulty, [], [], null);
+      if (!question) {
+        return res.status(500).json({ error: "No questions available. Please add published questions first." });
+      }
+
+      res.json({ session, question });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.post("/api/pharmtech/adaptive/:sessionId/answer", async (req, res) => {
+    try {
+      const { sessionId } = req.params;
+      const { questionId, selectedAnswer, responseTimeMs } = req.body;
+
+      const { rows: sessionRows } = await pool.query(
+        `SELECT * FROM pharmtech_adaptive_sessions WHERE id = $1`,
+        [sessionId]
+      );
+      if (!sessionRows[0]) return res.status(404).json({ error: "Session not found" });
+      const session = sessionRows[0];
+
+      if (session.status !== "active") {
+        return res.status(400).json({ error: "Session is not active" });
+      }
+
+      const { rows: qRows } = await pool.query(
+        `SELECT * FROM pharmtech_questions WHERE id = $1`,
+        [questionId]
+      );
+      if (!qRows[0]) return res.status(404).json({ error: "Question not found" });
+      const q = qRows[0];
+
+      const correctLetter = ["A", "B", "C", "D"][q.correct_index] || "A";
+      const isCorrect = selectedAnswer === correctLetter;
+
+      const responses = Array.isArray(session.responses) ? session.responses : [];
+      const newResponse = {
+        questionId,
+        selectedAnswer,
+        correctAnswer: correctLetter,
+        isCorrect,
+        responseTimeMs: responseTimeMs || 0,
+        category: q.category,
+        difficulty: q.difficulty,
+        difficultyLabel: q.difficulty <= 2 ? "easy" : q.difficulty >= 4 ? "hard" : "medium",
+      };
+      responses.push(newResponse);
+
+      const totalAnswered = responses.length;
+      const correctCount = responses.filter((r: any) => r.isCorrect).length;
+      const score = totalAnswered > 0 ? Math.round((correctCount / totalAnswered) * 100) : 0;
+
+      const newDifficulty = selectNextDifficulty(session.current_difficulty, isCorrect);
+      const categoryStats = computeCategoryStats(responses);
+      const settings = session.settings || {};
+      const weakThreshold = settings.weakAreaThreshold || 70;
+      const weakAreas = detectWeakAreas(categoryStats, weakThreshold);
+      const masteryLevels = computeMasteryLevels(categoryStats);
+
+      const diffProgression = Array.isArray(session.difficulty_progression) ? session.difficulty_progression : [];
+      diffProgression.push({ index: totalAnswered - 1, difficulty: newDifficulty, correct: isCorrect });
+
+      const usedIds = responses.map((r: any) => r.questionId);
+
+      await pool.query(
+        `UPDATE pharmtech_adaptive_sessions SET
+          responses = $1::jsonb,
+          total_answered = $2,
+          correct_count = $3,
+          current_difficulty = $4,
+          category_stats = $5::jsonb,
+          mastery_levels = $6::jsonb,
+          weak_areas = $7::jsonb,
+          difficulty_progression = $8::jsonb
+        WHERE id = $9`,
+        [
+          JSON.stringify(responses),
+          totalAnswered,
+          correctCount,
+          newDifficulty,
+          JSON.stringify(categoryStats),
+          JSON.stringify(masteryLevels),
+          JSON.stringify(weakAreas),
+          JSON.stringify(diffProgression),
+          sessionId,
+        ]
+      );
+
+      const nextQuestion = await getAdaptiveQuestion(sessionId, newDifficulty, usedIds, weakAreas, null);
+
+      res.json({
+        isCorrect,
+        correctAnswer: correctLetter,
+        rationale: q.rationale || "",
+        score,
+        correctCount,
+        totalAnswered,
+        currentDifficulty: newDifficulty,
+        nextQuestion,
+        hasMoreQuestions: !!nextQuestion,
+      });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.post("/api/pharmtech/adaptive/:sessionId/end", async (req, res) => {
+    try {
+      const { sessionId } = req.params;
+
+      const { rows } = await pool.query(
+        `UPDATE pharmtech_adaptive_sessions SET status = 'completed', completed_at = NOW()
+         WHERE id = $1 AND status = 'active' RETURNING *`,
+        [sessionId]
+      );
+      if (!rows[0]) return res.status(404).json({ error: "Session not found or already completed" });
+
+      const session = rows[0];
+      const responses = Array.isArray(session.responses) ? session.responses : [];
+      const categoryStats = computeCategoryStats(responses);
+      const weakAreas = detectWeakAreas(categoryStats, (session.settings as any)?.weakAreaThreshold || 70);
+      const masteryLevels = computeMasteryLevels(categoryStats);
+      const recommendations = await getStudyRecommendations(weakAreas);
+
+      await updateMasteryHistory(session.user_id, sessionId, categoryStats);
+
+      res.json({
+        session: snakeToCamel(session),
+        analytics: {
+          totalAnswered: session.total_answered,
+          correctCount: session.correct_count,
+          score: session.total_answered > 0 ? Math.round((session.correct_count / session.total_answered) * 100) : 0,
+          categoryStats,
+          masteryLevels,
+          weakAreas,
+          difficultyProgression: session.difficulty_progression || [],
+          recommendations,
+        },
+      });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/pharmtech/adaptive/:sessionId", async (req, res) => {
+    try {
+      const { rows } = await pool.query(
+        `SELECT * FROM pharmtech_adaptive_sessions WHERE id = $1`,
+        [req.params.sessionId]
+      );
+      if (!rows[0]) return res.status(404).json({ error: "Session not found" });
+
+      const session = rows[0];
+      const responses = Array.isArray(session.responses) ? session.responses : [];
+      const categoryStats = computeCategoryStats(responses);
+      const weakAreas = detectWeakAreas(categoryStats, (session.settings as any)?.weakAreaThreshold || 70);
+      const masteryLevels = computeMasteryLevels(categoryStats);
+      const recommendations = await getStudyRecommendations(weakAreas);
+
+      res.json({
+        session: snakeToCamel(session),
+        analytics: {
+          totalAnswered: session.total_answered,
+          correctCount: session.correct_count,
+          score: session.total_answered > 0 ? Math.round((session.correct_count / session.total_answered) * 100) : 0,
+          categoryStats,
+          masteryLevels,
+          weakAreas,
+          difficultyProgression: session.difficulty_progression || [],
+          recommendations,
+        },
+      });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/pharmtech/mastery", async (req, res) => {
+    try {
+      const user = await resolveAuthUser(req);
+      const userId = user?.id || null;
+
+      const { rows: sessions } = await pool.query(
+        `SELECT * FROM pharmtech_adaptive_sessions WHERE status = 'completed' ${userId ? `AND user_id = $1` : ''} ORDER BY completed_at DESC LIMIT 20`,
+        userId ? [userId] : []
+      );
+
+      const allResponses: any[] = [];
+      for (const s of sessions) {
+        const responses = Array.isArray(s.responses) ? s.responses : [];
+        allResponses.push(...responses);
+      }
+
+      const categoryStats = computeCategoryStats(allResponses);
+      const masteryLevels = computeMasteryLevels(categoryStats);
+      const weakAreas = detectWeakAreas(categoryStats);
+
+      const allCategories = await pool.query(
+        `SELECT DISTINCT category FROM pharmtech_questions WHERE published = true ORDER BY category`
+      );
+      const categories = allCategories.rows.map((r: any) => r.category);
+
+      const fullMastery: Record<string, { level: string; accuracy: number; total: number; correct: number }> = {};
+      for (const cat of categories) {
+        if (categoryStats[cat]) {
+          fullMastery[cat] = {
+            level: masteryLevels[cat]?.level || "Beginner",
+            accuracy: categoryStats[cat].accuracy,
+            total: categoryStats[cat].total,
+            correct: categoryStats[cat].correct,
+          };
+        } else {
+          fullMastery[cat] = { level: "Beginner", accuracy: 0, total: 0, correct: 0 };
+        }
+      }
+
+      res.json({
+        mastery: fullMastery,
+        weakAreas,
+        totalSessions: sessions.length,
+        totalQuestionsAnswered: allResponses.length,
+        overallAccuracy: allResponses.length > 0 ? Math.round((allResponses.filter((r: any) => r.isCorrect).length / allResponses.length) * 100) : 0,
+      });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/pharmtech/adaptive-history", async (req, res) => {
+    try {
+      const user = await resolveAuthUser(req);
+      const userId = user?.id || null;
+
+      const { rows } = await pool.query(
+        `SELECT id, status, total_answered, correct_count, current_difficulty, category_stats, mastery_levels, weak_areas, started_at, completed_at
+         FROM pharmtech_adaptive_sessions
+         WHERE status = 'completed' ${userId ? `AND user_id = $1` : ''}
+         ORDER BY completed_at DESC LIMIT 20`,
+        userId ? [userId] : []
+      );
+
+      res.json(rows.map(snakeToCamel));
     } catch (e: any) {
       res.status(500).json({ error: e.message });
     }

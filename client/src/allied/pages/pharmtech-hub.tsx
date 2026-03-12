@@ -1,6 +1,6 @@
 import { Link } from "wouter";
 import { useState, useEffect } from "react";
-import { BookOpen, Brain, FileText, GraduationCap, ChevronRight, Pill, CheckCircle2, ArrowRight, HelpCircle, Sparkles, Target, Clock } from "lucide-react";
+import { BookOpen, Brain, FileText, GraduationCap, ChevronRight, Pill, CheckCircle2, ArrowRight, HelpCircle, Sparkles, Target, Clock, Zap } from "lucide-react";
 import { AlliedSEO } from "@/allied/allied-seo";
 
 const TOPIC_CARDS = [
@@ -132,7 +132,7 @@ export default function PharmtechHubPage() {
 
         <section className="bg-gray-50 py-16">
           <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="grid md:grid-cols-3 gap-8">
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
               <Link href="/pharmacy-technician/flashcards" className="group bg-white rounded-2xl border border-gray-100 p-8 hover:shadow-lg hover:border-green-200 transition-all" data-testid="card-flashcards">
                 <Brain className="w-8 h-8 text-green-600 mb-4" />
                 <h3 className="text-lg font-bold text-gray-900 mb-2">Flashcard Decks</h3>
@@ -155,6 +155,14 @@ export default function PharmtechHubPage() {
                 <p className="text-sm text-gray-500 mb-4">Comprehensive study guide covering every pharmacy technician exam topic in detail.</p>
                 <span className="text-green-600 text-sm font-medium flex items-center gap-1 group-hover:gap-2 transition-all">
                   Read Guide <ArrowRight className="w-4 h-4" />
+                </span>
+              </Link>
+              <Link href="/pharmacy-technician/adaptive-practice" className="group bg-white rounded-2xl border border-gray-100 p-8 hover:shadow-lg hover:border-green-200 transition-all" data-testid="card-adaptive-practice">
+                <Zap className="w-8 h-8 text-green-600 mb-4" />
+                <h3 className="text-lg font-bold text-gray-900 mb-2">Adaptive Practice</h3>
+                <p className="text-sm text-gray-500 mb-4">AI-powered practice that adapts to your level with mastery tracking and weak area recommendations.</p>
+                <span className="text-green-600 text-sm font-medium flex items-center gap-1 group-hover:gap-2 transition-all">
+                  Start Practicing <ArrowRight className="w-4 h-4" />
                 </span>
               </Link>
             </div>
