@@ -1,7 +1,7 @@
 const pg = require('pg');
 
 async function seedSEO() {
-  const pool = new pg.Pool({ connectionString: process.env.DATABASE_URL });
+  const pool = new pg.Pool({ connectionString: process.env.PROD_DATABASE_URL || process.env.DATABASE_URL });
   
   // ---- CATEGORY PAGES ----
   const categories = [

@@ -1,6 +1,6 @@
 import pg from "pg";
 
-const pool = new pg.Pool({ connectionString: process.env.DATABASE_URL });
+const pool = new pg.Pool({ connectionString: process.env.PROD_DATABASE_URL || process.env.DATABASE_URL });
 
 const POSITIONING_ENTRIES = [
   { projectionName: "PA Erect Chest", bodyPart: "Chest", patientPosition: "Patient stands upright facing the image receptor with chin extended. Arms internally rotated with backs of hands on hips.", centralRay: "Perpendicular to T7, entering at the level of the inferior angle of the scapulae. 72-inch SID.", sid: "72 inches (180 cm)", anatomyDemonstrated: "Both lung fields, costophrenic angles, cardiac silhouette, trachea, mediastinum", tips: "Ensure scapulae are rotated out of lung fields. Check for rotation by comparing medial clavicle ends to spinous processes. Minimum 10 posterior ribs should be visible above diaphragm." },

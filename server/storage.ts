@@ -262,7 +262,8 @@ export interface IStorage {
   getCaseStudyFull(id: string): Promise<{ study: CaseStudy; steps: (CaseStudyStep & { questions: CaseStudyQuestion[] })[] } | undefined>;
 }
 
-const pool = new pg.Pool({ connectionString: process.env.DATABASE_URL });
+import { getDevPool } from "./db";
+const pool = getDevPool();
 export { pool };
 export const db = drizzle(pool);
 

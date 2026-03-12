@@ -1,9 +1,9 @@
-import { Pool } from "pg";
 import * as fs from "fs";
 import * as path from "path";
 import * as crypto from "crypto";
+import { getDevPool } from "./db";
 
-const pool = new Pool({ connectionString: process.env.DATABASE_URL });
+const pool = getDevPool();
 
 function stemHash(stem: string): string {
   return crypto.createHash("sha256").update(stem.trim().toLowerCase()).digest("hex");
@@ -658,7 +658,6 @@ async function importDocxQuestions() {
   console.log(`  Errors: ${insertStats.errors}`);
   console.log(`  Total inserted: ${insertStats.rn + insertStats.rrt + insertStats.bowtie}`);
 
-  await pool.end();
 }
 
 importDocxQuestions().catch((e) => {

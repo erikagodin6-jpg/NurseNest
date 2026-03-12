@@ -1,0 +1,38 @@
+# Project Database Rules — NON-NEGOTIABLE
+
+## 1. Production Database Targeting
+All content intended for the published/live site (exam questions, allied questions,
+imaging questions, flashcards, content items) MUST be written to the PRODUCTION database.
+
+- Use `PROD_DATABASE_URL` for production writes
+- Use `DATABASE_URL` for development/local reads and writes
+- All seed scripts and content generators default to `PROD_DATABASE_URL || DATABASE_URL`
+
+## 2. Centralized Database Module
+All database connections MUST go through `server/db.ts`. Never create standalone
+`new pg.Pool({ connectionString: process.env.DATABASE_URL })` instances in server files.
+
+- `getDevPool()` — returns the development database pool
+- `getProdPool()` — returns the production database pool
+- `getPool(target)` — returns pool for "production" or "development"
+- Seed scripts (script/, scripts/) use `process.env.PROD_DATABASE_URL || process.env.DATABASE_URL` directly
+
+## 3. Logging Requirements
+Every bulk insert operation MUST:
+- Log which database it targets BEFORE writing (use `logDatabaseTarget()`)
+- Log the row count AFTER writing (use `logRowCount()`)
+
+## 4. Sync Protocol
+When dev has content not yet in production:
+- Use the admin panel at /admin/database-status to check counts
+- Use the one-click sync button (idempotent, uses ON CONFLICT DO NOTHING)
+- Never manually copy data without conflict handling
+
+## 5. Environment Variables
+- `DATABASE_URL` — Development/default database
+- `PROD_DATABASE_URL` — Production database (if separate from dev)
+- When `PROD_DATABASE_URL` is not set, both pools point to `DATABASE_URL`
+
+## 6. Dev-Only Writes = Failed Task
+Writing content for the live site to only the dev database is a FAILED TASK
+unless explicitly requested by the developer for testing purposes.

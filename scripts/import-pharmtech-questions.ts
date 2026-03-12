@@ -3,7 +3,7 @@ import mammoth from "mammoth";
 import * as fs from "fs";
 import * as path from "path";
 
-const pool = new pg.Pool({ connectionString: process.env.DATABASE_URL });
+const pool = new pg.Pool({ connectionString: process.env.PROD_DATABASE_URL || process.env.DATABASE_URL });
 
 const CATEGORY_MAP: Record<string, string> = {
   "Pharmacokinetics": "drug-classification",

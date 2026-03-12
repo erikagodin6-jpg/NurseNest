@@ -172,13 +172,12 @@ app.post(
         const evt = JSON.parse(bodyStr);
         if (evt.type === "checkout.session.completed" && evt.data?.object?.metadata?.purchaseType === "deck_upgrade") {
           const meta = evt.data.object.metadata;
-          const { Pool } = await import("pg");
-          const dbPool = new Pool({ connectionString: process.env.DATABASE_URL });
+          const { getDevPool } = await import("./db");
+          const dbPool = getDevPool();
           await dbPool.query(
             `UPDATE flashcard_decks SET is_upgraded = true, upgraded_at = NOW(), stripe_payment_intent_id = $1 WHERE id = $2 AND owner_id = $3`,
             [evt.data.object.payment_intent || evt.data.object.id, meta.deckId, meta.userId]
           );
-          await dbPool.end();
           console.log(`Deck ${meta.deckId} upgraded for user ${meta.userId}`);
         }
       } catch {}
@@ -748,8 +747,8 @@ app.use((req, res, next) => {
     import("./qbank-scheduler").then(({ startQBankScheduler }) => startQBankScheduler());
     import("./prompts/qbank-templates").then(({ seedPromptTemplates }) => seedPromptTemplates().catch((e: any) => console.error("[QBank Templates] Seed failed:", e.message)));
     import("./seed-study-decks").then(async ({ seedStudyDecks }) => {
-      const pg = await import("pg");
-      const p = new pg.Pool({ connectionString: process.env.DATABASE_URL });
+      const { getDevPool } = await import("./db");
+      const p = getDevPool();
       seedStudyDecks(p).catch((e: any) => console.error("[Seed] Failed:", e.message));
       import("./seed-seo-clusters").then(({ seedSEOClusters }) => {
         seedSEOClusters(p).catch((e: any) => console.error("[SEO Seed] Failed:", e.message));

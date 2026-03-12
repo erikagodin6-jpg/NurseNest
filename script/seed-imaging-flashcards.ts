@@ -1,6 +1,6 @@
 import pg from "pg";
 
-const pool = new pg.Pool({ connectionString: process.env.DATABASE_URL });
+const pool = new pg.Pool({ connectionString: process.env.PROD_DATABASE_URL || process.env.DATABASE_URL });
 
 const FLASHCARDS = [
   { front: "What is the standard SID for a PA chest radiograph?", back: "72 inches (180 cm). Minimizes cardiac magnification.", category: "Positioning", bodyPart: "Chest", difficulty: 1 },

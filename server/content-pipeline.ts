@@ -324,6 +324,7 @@ export async function runGenerationJob(jobId: string) {
   if (!job) throw new Error(`Job ${jobId} not found`);
   if (job.status !== "queued") return { skipped: true, reason: `Job status is ${job.status}` };
 
+  console.log(`[Pipeline] Job ${jobId}: starting generation → targeting DEVELOPMENT database`);
   await db.update(generationJobs).set({ status: "running" }).where(eq(generationJobs.id, jobId));
 
   const topicPlan = (job.topicPlanJson as Array<{ system: string; count: number }>) || [];

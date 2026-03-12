@@ -46,6 +46,14 @@ Built with Vite, React, and Express 5 on Node.js with TypeScript, the applicatio
 - **Paramedic ECG/Waveform Library**: SVG-based ECG strip and cardiac monitor rendering system with 25 seeded rhythm types (NSR, AFib, VTach, VFib, heart blocks, STEMI patterns, capnography). Browsable library at `/paramedic/ecg-library` with search/filter, detail views with monitor toggle. Admin CRUD at `/admin/paramedic-waveforms`. DB table: `paramedic_waveform_assets`. Auto-seeded on startup.
 - **CAT Exam Flashcard System**: Converts 7,375 published exam questions from `exam_questions` table into premium flashcard-style study cards in `flashcard_bank` table. Features structured rationale (correct answer explanation, per-distractor rationales, clinical takeaway, exam pearl), matched infographic images, lesson links, and full study UI with progress tracking, bookmarking, mastered cards, and resume support. Auto-synced on startup via `server/exam-flashcard-mapper.ts`. Premium-only, tier-filtered (rpn/rn/np). API: `/api/flashcard-bank?sourceType=cat_exam`, `/api/flashcard-bank/counts`.
 
+### Database Architecture
+- Centralized database connection module: `server/db.ts`
+- Two environment variables: `DATABASE_URL` (dev) and `PROD_DATABASE_URL` (production)
+- All server files import pools from `server/db.ts` via `getDevPool()`, `getProdPool()`, `getPool(target)`
+- All seed scripts (script/, scripts/) use `process.env.PROD_DATABASE_URL || process.env.DATABASE_URL`
+- Admin database status panel at `/admin/database-status` shows dev/prod counts and one-click sync
+- Database policy documented in `.cursor-rules`
+
 ## External Dependencies
 
 ### Database

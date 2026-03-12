@@ -1,6 +1,6 @@
-import pg from "pg";
+import { getDevPool } from "./db";
 
-const pool = new pg.Pool({ connectionString: process.env.DATABASE_URL });
+const pool = getDevPool();
 
 const LESSONS = [
   {
@@ -597,7 +597,6 @@ async function seed() {
   console.log("\nSeed complete!");
   console.log(`Summary: ${LESSONS.length} lessons, ${FLASHCARD_DECKS.length} decks, ${totalCards} flashcards, ${questions.length} questions, ${examDefs.length} exams`);
   
-  await pool.end();
 }
 
 seed().catch(e => { console.error(e); process.exit(1); });

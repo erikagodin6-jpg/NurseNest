@@ -107,7 +107,8 @@ const FLASHCARDS = [
 ] as const;
 
 export async function runStartupDataMigrations() {
-  const pool = new pg.Pool({ connectionString: process.env.DATABASE_URL });
+  const { getDevPool } = await import("./db");
+  const pool = getDevPool();
 
   try {
     const client = await pool.connect();
@@ -254,7 +255,5 @@ export async function runStartupDataMigrations() {
     }
   } catch (err: any) {
     console.error("[Startup Migration] Error:", err.message);
-  } finally {
-    await pool.end();
   }
 }

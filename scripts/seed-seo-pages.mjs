@@ -1,7 +1,7 @@
 import pg from "pg";
 import { randomUUID } from "crypto";
 const { Pool } = pg;
-const pool = new Pool({ connectionString: process.env.DATABASE_URL });
+const pool = new Pool({ connectionString: process.env.PROD_DATABASE_URL || process.env.DATABASE_URL });
 
 const LANGUAGES = ["fr","es","fil","hi","zh","ar","ko","pt","pa","vi","ht","ur","ja","fa"];
 const INTERNAL_LINKS = [

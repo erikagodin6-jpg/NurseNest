@@ -1,6 +1,7 @@
-import { Pool } from "pg";
+import pg from "pg";
 import crypto from "crypto";
-const pool = new Pool({ connectionString: process.env.DATABASE_URL });
+const Pool = pg.Pool;
+const pool = new Pool({ connectionString: process.env.PROD_DATABASE_URL || process.env.DATABASE_URL });
 function hash(s: string): string { return crypto.createHash("md5").update(s.toLowerCase().trim()).digest("hex"); }
 interface Q { tier:string; exam:string; qt:string; status:string; stem:string; options:string[]; correct:number[]; rationale:string; diff:number; bs:string; rs:string; sh:string; }
 function q(exam:string,bs:string,diff:number,stem:string,opts:string[],c:number,rat:string):Q {

@@ -191,6 +191,7 @@ const MedicalImagingHub = lazy(() => import("@/pages/medical-imaging-hub"));
 const MedicalImagingCanadaPage = lazy(() => import("@/pages/medical-imaging-country").then(m => ({ default: m.MedicalImagingCanada })));
 const MedicalImagingUSAPage = lazy(() => import("@/pages/medical-imaging-country").then(m => ({ default: m.MedicalImagingUSA })));
 const AdminMedicalImaging = lazy(() => import("@/pages/admin-medical-imaging"));
+const AdminDatabaseStatus = lazy(() => import("@/pages/admin-database-status"));
 const ImagingLessonsPage = lazy(() => import("@/pages/imaging-lessons"));
 const ImagingPositioningPage = lazy(() => import("@/pages/imaging-positioning"));
 const ImagingPhysicsPage = lazy(() => import("@/pages/imaging-physics"));
@@ -392,6 +393,7 @@ function AppRoutes() {
         <Route path="/admin/seo-visual-autopilot" component={AdminSeoAutopilot} />
         <Route path="/admin/institutions" component={AdminInstitutions} />
         <Route path="/admin/medical-imaging" component={AdminMedicalImaging} />
+        <Route path="/admin/database-status" component={AdminDatabaseStatus} />
         <Route path="/admin/case-studies" component={AdminCaseStudiesPage} />
         <Route path="/clinical-case-studies" component={ClinicalCaseStudyPage} />
         <Route path="/for-institutions" component={ForInstitutions} />

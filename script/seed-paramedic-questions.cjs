@@ -2,7 +2,7 @@ const pg = require('pg');
 const fs = require('fs');
 
 async function seed() {
-  const pool = new pg.Pool({ connectionString: process.env.DATABASE_URL });
+  const pool = new pg.Pool({ connectionString: process.env.PROD_DATABASE_URL || process.env.DATABASE_URL });
   
   // 1. Load extracted questions
   const questions = JSON.parse(fs.readFileSync('/tmp/paramedic_questions.json', 'utf8'));

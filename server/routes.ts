@@ -431,6 +431,218 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
     }
   });
 
+  app.get("/api/admin/database-status", async (req, res) => {
+    const admin = await requireAdmin(req, res);
+    if (!admin) return;
+    try {
+      const { getDbInfo, getDevPool, getProdPool, hasSeparateProdDb } = await import("./db");
+      const info = getDbInfo();
+      const devPool = getDevPool();
+
+      const devExam = await devPool.query(
+        `SELECT tier, COUNT(*)::int AS count FROM exam_questions GROUP BY tier ORDER BY tier`
+      ).catch(() => ({ rows: [] }));
+      const devAllied = await devPool.query(
+        `SELECT COUNT(*)::int AS count FROM allied_questions`
+      ).catch(() => ({ rows: [{ count: 0 }] }));
+      const devImaging = await devPool.query(
+        `SELECT COUNT(*)::int AS count FROM imaging_questions`
+      ).catch(() => ({ rows: [{ count: 0 }] }));
+
+      let prodExam: any[] = [];
+      let prodAllied = 0;
+      let prodImaging = 0;
+      let prodConnected = false;
+
+      if (hasSeparateProdDb()) {
+        try {
+          const pp = getProdPool();
+          const pe = await pp.query(
+            `SELECT tier, COUNT(*)::int AS count FROM exam_questions GROUP BY tier ORDER BY tier`
+          );
+          prodExam = pe.rows;
+          const pa = await pp.query(`SELECT COUNT(*)::int AS count FROM allied_questions`);
+          prodAllied = pa.rows[0]?.count || 0;
+          const pi = await pp.query(`SELECT COUNT(*)::int AS count FROM imaging_questions`);
+          prodImaging = pi.rows[0]?.count || 0;
+          prodConnected = true;
+        } catch (e: any) {
+          console.error("[DB Status] Prod query error:", e.message);
+        }
+      }
+
+      res.json({
+        environment: info.environment,
+        devHost: info.devUrl,
+        prodHost: info.prodUrl,
+        hasSeparateProd: info.hasSeparateProd,
+        prodConnected,
+        dev: {
+          examQuestions: devExam.rows,
+          alliedQuestions: devAllied.rows[0]?.count || 0,
+          imagingQuestions: devImaging.rows[0]?.count || 0,
+        },
+        prod: {
+          examQuestions: prodExam,
+          alliedQuestions: prodAllied,
+          imagingQuestions: prodImaging,
+        },
+        lastSyncTimestamp: null,
+        serverTime: new Date().toISOString(),
+      });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.post("/api/admin/database-sync", async (req, res) => {
+    const admin = await requireAdmin(req, res);
+    if (!admin) return;
+    try {
+      const { getDevPool, getProdPool, hasSeparateProdDb, logDatabaseTarget, logRowCount } = await import("./db");
+
+      if (!hasSeparateProdDb()) {
+        return res.json({
+          message: "Dev and prod are the same database — no sync needed",
+          synced: { examQuestions: 0, alliedQuestions: 0, imagingQuestions: 0 },
+        });
+      }
+
+      const devPool = getDevPool();
+      const pPool = getProdPool();
+      const errors: string[] = [];
+
+      logDatabaseTarget("Sync exam_questions", "production");
+      const devExam = await devPool.query(
+        `SELECT tier, exam, question_type, status, stem, options, correct_answer, rationale, difficulty, tags, body_system, topic, subtopic, region_scope, career_type, stem_hash, published_at FROM exam_questions`
+      );
+      const prodExamStems = await pPool.query(`SELECT DISTINCT LEFT(stem, 200) AS stem_prefix FROM exam_questions`);
+      const prodStemSet = new Set(prodExamStems.rows.map((r: any) => r.stem_prefix));
+
+      let examSynced = 0;
+      let examSkipped = 0;
+      for (const row of devExam.rows) {
+        const stemPrefix = (row.stem || "").substring(0, 200);
+        if (prodStemSet.has(stemPrefix)) {
+          examSkipped++;
+          continue;
+        }
+        try {
+          const result = await pPool.query(
+            `INSERT INTO exam_questions (tier, exam, question_type, status, stem, options, correct_answer, rationale, difficulty, tags, body_system, topic, subtopic, region_scope, career_type, stem_hash, published_at)
+             SELECT $1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17
+             WHERE NOT EXISTS (SELECT 1 FROM exam_questions WHERE LEFT(stem, 200) = LEFT($5, 200))`,
+            [row.tier, row.exam, row.question_type, row.status, row.stem, row.options, row.correct_answer, row.rationale, row.difficulty, row.tags, row.body_system, row.topic, row.subtopic, row.region_scope, row.career_type, row.stem_hash, row.published_at]
+          );
+          if (result.rowCount && result.rowCount > 0) {
+            examSynced++;
+            prodStemSet.add(stemPrefix);
+          } else {
+            examSkipped++;
+          }
+        } catch (e: any) {
+          errors.push(`exam: ${e.message}`);
+        }
+      }
+      logRowCount("exam_questions sync (inserted)", examSynced);
+      console.log(`[DB Sync] exam_questions: ${examSkipped} skipped (already exist)`);
+
+      logDatabaseTarget("Sync allied_questions", "production");
+      const devAllied = await devPool.query(`SELECT career_type, stem, options, correct_answer, rationale_long, learning_objective, blueprint_category, subtopic, difficulty, cognitive_level, question_type, exam_trap, clinical_pearls, safety_note, distractor_rationales, status FROM allied_questions`);
+      const prodAlliedStems = await pPool.query(`SELECT DISTINCT LEFT(stem, 200) AS stem_prefix FROM allied_questions`);
+      const prodAlliedSet = new Set(prodAlliedStems.rows.map((r: any) => r.stem_prefix));
+
+      let alliedSynced = 0;
+      let alliedSkipped = 0;
+      for (const row of devAllied.rows) {
+        const stemPrefix = (row.stem || "").substring(0, 200);
+        if (prodAlliedSet.has(stemPrefix)) {
+          alliedSkipped++;
+          continue;
+        }
+        try {
+          const result = await pPool.query(
+            `INSERT INTO allied_questions (career_type, stem, options, correct_answer, rationale_long, learning_objective, blueprint_category, subtopic, difficulty, cognitive_level, question_type, exam_trap, clinical_pearls, safety_note, distractor_rationales, status)
+             SELECT $1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16
+             WHERE NOT EXISTS (SELECT 1 FROM allied_questions WHERE LEFT(stem, 200) = LEFT($2, 200))`,
+            [row.career_type, row.stem, row.options, row.correct_answer, row.rationale_long, row.learning_objective, row.blueprint_category, row.subtopic, row.difficulty, row.cognitive_level, row.question_type, row.exam_trap, row.clinical_pearls, row.safety_note, row.distractor_rationales, row.status]
+          );
+          if (result.rowCount && result.rowCount > 0) {
+            alliedSynced++;
+            prodAlliedSet.add(stemPrefix);
+          } else {
+            alliedSkipped++;
+          }
+        } catch (e: any) {
+          errors.push(`allied: ${e.message}`);
+        }
+      }
+      logRowCount("allied_questions sync (inserted)", alliedSynced);
+      console.log(`[DB Sync] allied_questions: ${alliedSkipped} skipped (already exist)`);
+
+      logDatabaseTarget("Sync imaging_questions", "production");
+      const devImaging = await devPool.query(`SELECT question, option_a, option_b, option_c, option_d, correct_answer, rationale, category, topic, difficulty, country, body_part, modality, exam FROM imaging_questions`);
+      const prodImagingStems = await pPool.query(`SELECT DISTINCT LEFT(question, 200) AS q_prefix FROM imaging_questions`);
+      const prodImagingSet = new Set(prodImagingStems.rows.map((r: any) => r.q_prefix));
+
+      let imagingSynced = 0;
+      let imagingSkipped = 0;
+      for (const row of devImaging.rows) {
+        const qPrefix = (row.question || "").substring(0, 200);
+        if (prodImagingSet.has(qPrefix)) {
+          imagingSkipped++;
+          continue;
+        }
+        try {
+          const result = await pPool.query(
+            `INSERT INTO imaging_questions (question, option_a, option_b, option_c, option_d, correct_answer, rationale, category, topic, difficulty, country, body_part, modality, exam)
+             SELECT $1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14
+             WHERE NOT EXISTS (SELECT 1 FROM imaging_questions WHERE LEFT(question, 200) = LEFT($1, 200))`,
+            [row.question, row.option_a, row.option_b, row.option_c, row.option_d, row.correct_answer, row.rationale, row.category, row.topic, row.difficulty, row.country, row.body_part, row.modality, row.exam]
+          );
+          if (result.rowCount && result.rowCount > 0) {
+            imagingSynced++;
+            prodImagingSet.add(qPrefix);
+          } else {
+            imagingSkipped++;
+          }
+        } catch (e: any) {
+          errors.push(`imaging: ${e.message}`);
+        }
+      }
+      logRowCount("imaging_questions sync (inserted)", imagingSynced);
+      console.log(`[DB Sync] imaging_questions: ${imagingSkipped} skipped (already exist)`);
+
+      const prodExamCount = await pPool.query(`SELECT COUNT(*)::int AS count FROM exam_questions`);
+      const prodAlliedCount = await pPool.query(`SELECT COUNT(*)::int AS count FROM allied_questions`);
+      const prodImagingCount = await pPool.query(`SELECT COUNT(*)::int AS count FROM imaging_questions`);
+
+      res.json({
+        message: errors.length > 0 ? `Sync complete with ${errors.length} error(s)` : "Sync complete",
+        synced: {
+          examQuestions: examSynced,
+          alliedQuestions: alliedSynced,
+          imagingQuestions: imagingSynced,
+        },
+        skipped: {
+          examQuestions: examSkipped,
+          alliedQuestions: alliedSkipped,
+          imagingQuestions: imagingSkipped,
+        },
+        errors: errors.length > 0 ? errors.slice(0, 20) : undefined,
+        prodTotals: {
+          examQuestions: prodExamCount.rows[0]?.count || 0,
+          alliedQuestions: prodAlliedCount.rows[0]?.count || 0,
+          imagingQuestions: prodImagingCount.rows[0]?.count || 0,
+        },
+        syncedAt: new Date().toISOString(),
+      });
+    } catch (e: any) {
+      console.error("[DB Sync] Error:", e.message);
+      res.status(500).json({ error: e.message });
+    }
+  });
+
   // --------------------
   // AI Content Generation (admin-only)
   // --------------------

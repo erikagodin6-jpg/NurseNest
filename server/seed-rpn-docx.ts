@@ -201,7 +201,6 @@ async function seedRpnDocx() {
   console.log(`Skipped (existing): ${skipped}`);
   console.log(`DB errors: ${dbErrors}`);
 
-  await pool.end();
 }
 
 seedRpnDocx().catch((err) => {

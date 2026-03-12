@@ -1,13 +1,13 @@
-import { Pool } from "pg";
 import * as fs from "fs";
 import * as path from "path";
 import { fileURLToPath } from "url";
 import * as crypto from "crypto";
+import { getDevPool } from "./db";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const pool = new Pool({ connectionString: process.env.DATABASE_URL });
+const pool = getDevPool();
 
 function stemHash(stem: string): string {
   return crypto.createHash("sha256").update(stem.trim().toLowerCase()).digest("hex");
@@ -610,7 +610,6 @@ async function importQuestions() {
   console.log(`Errors: ${stats.errors}`);
   console.log(`Total inserted: ${stats.rn + stats.rrt}`);
 
-  await pool.end();
 }
 
 importQuestions().catch((e) => {

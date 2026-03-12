@@ -1638,6 +1638,14 @@ export default function AdminPage() {
                       <Zap className="w-4 h-4" />
                       Generator V2 (Chunked Pipeline)
                     </a>
+                    <a
+                      href="/admin/database-status"
+                      className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-orange-50 border border-orange-200 text-orange-700 text-sm font-medium hover:bg-orange-100 transition"
+                      data-testid="link-database-status"
+                    >
+                      <Database className="w-4 h-4" />
+                      Database Status & Sync
+                    </a>
                   </div>
 
                   <div className="grid md:grid-cols-3 gap-6">

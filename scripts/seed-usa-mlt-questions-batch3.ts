@@ -106,7 +106,7 @@ const allBatch3: MltQuestion[] = [
 ];
 
 async function seed() {
-  const databaseUrl = process.env.DATABASE_URL;
+  const databaseUrl = process.env.PROD_DATABASE_URL || process.env.DATABASE_URL;
   if (!databaseUrl) {
     console.error("DATABASE_URL not set");
     process.exit(1);

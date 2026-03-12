@@ -294,6 +294,8 @@ async function ingestQuestions(runId: string, questions: any[], variant: any, te
   const isNursing = templateKey === "ngn_batch_v1";
   const isAllied = templateKey === "allied_batch_v1";
   const initialStatus = autoPublish ? "published" : "draft";
+  const dbTarget = "development";
+  console.log(`[QBank Ingest] Run ${runId}: ingesting ${questions.length} questions → targeting ${dbTarget.toUpperCase()} database`);
 
   for (const q of questions) {
     if (isNursing || templateKey === "cnpe_v1" || templateKey === "np_us_v1") {
