@@ -3,7 +3,7 @@ import { SEO } from "@/components/seo";
 import { BreadcrumbNav } from "@/components/breadcrumb-nav";
 import {
   BookOpen, FileText, Zap, Brain, Star, ArrowRight,
-  CheckCircle2, Radio, BarChart3, Lock
+  CheckCircle2, Radio, BarChart3, Lock, Target
 } from "lucide-react";
 
 interface CountryConfig {
@@ -34,6 +34,7 @@ const COUNTRY_CONFIGS: Record<string, CountryConfig> = {
       { title: "Lessons & Study Guides", description: "Comprehensive lessons covering all CAMRT exam domains including radiographic procedures, radiation protection, patient care, and equipment operation.", icon: BookOpen, href: "/medical-imaging/canada/lessons", available: true },
       { title: "Flashcards", description: "Spaced-repetition flashcards for anatomy landmarks, positioning criteria, physics formulas, and radiation safety standards.", icon: Zap, href: "/medical-imaging/canada/flashcards", available: true },
       { title: "Practice Exams", description: "Timed practice exams weighted to the CAMRT blueprint with detailed rationales and performance analytics.", icon: FileText, href: "/medical-imaging/canada/practice-exams", available: true },
+      { title: "Exam Simulator", description: "Adaptive certification exam simulator with realistic testing interface, timed sessions, and detailed score reports.", icon: Target, href: "/medical-imaging/canada/exam-simulator", available: true },
       { title: "Positioning Guide", description: "Complete radiographic positioning reference with patient positions, central ray directions, and critical anatomy for every projection.", icon: Radio, href: "/medical-imaging/canada/positioning", available: true },
       { title: "Physics Review", description: "Radiation physics topics covering X-ray production, interactions, image quality, and safety with key formulas.", icon: Brain, href: "/medical-imaging/canada/physics", available: true },
       { title: "Progress Tracker", description: "Track your readiness across all exam domains with predicted pass probability and personalized study recommendations.", icon: BarChart3, href: "/medical-imaging/canada/progress", available: false },
@@ -59,6 +60,7 @@ const COUNTRY_CONFIGS: Record<string, CountryConfig> = {
       { title: "Lessons & Study Guides", description: "Comprehensive lessons covering all ARRT exam content specifications including image production, procedures, patient care, and safety.", icon: BookOpen, href: "/medical-imaging/usa/lessons", available: true },
       { title: "Flashcards", description: "Spaced-repetition flashcards for anatomy, positioning, physics concepts, and radiation protection standards.", icon: Zap, href: "/medical-imaging/usa/flashcards", available: true },
       { title: "Practice Exams", description: "Timed practice exams weighted to the ARRT content specifications with detailed rationales and score breakdowns.", icon: FileText, href: "/medical-imaging/usa/practice-exams", available: true },
+      { title: "Exam Simulator", description: "Adaptive certification exam simulator with realistic testing interface, timed sessions, and detailed score reports.", icon: Target, href: "/medical-imaging/usa/exam-simulator", available: true },
       { title: "Positioning Guide", description: "Complete radiographic positioning reference with patient positions, central ray directions, and critical anatomy for every projection.", icon: Radio, href: "/medical-imaging/usa/positioning", available: true },
       { title: "Physics Review", description: "Radiation physics topics covering X-ray production, interactions, image quality, and safety with key formulas.", icon: Brain, href: "/medical-imaging/usa/physics", available: true },
       { title: "Progress Tracker", description: "Dashboard tracking your mastery across all ARRT content categories with readiness prediction.", icon: BarChart3, href: "/medical-imaging/usa/progress", available: false },

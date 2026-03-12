@@ -3785,3 +3785,58 @@ export const pharmtechStudyPlanTasks = pgTable("pharmtech_study_plan_tasks", {
 export const insertPharmtechStudyPlanTaskSchema = createInsertSchema(pharmtechStudyPlanTasks).omit({ id: true, completedAt: true });
 export type PharmtechStudyPlanTask = typeof pharmtechStudyPlanTasks.$inferSelect;
 export type InsertPharmtechStudyPlanTask = z.infer<typeof insertPharmtechStudyPlanTaskSchema>;
+
+export const imagingExamSessions = pgTable("imaging_exam_sessions", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id").notNull(),
+  country: text("country").notNull().default("canada"),
+  examType: text("exam_type").notNull().default("camrt"),
+  mode: text("mode").notNull().default("adaptive"),
+  examLength: integer("exam_length").notNull().default(50),
+  totalQuestions: integer("total_questions").notNull(),
+  currentIndex: integer("current_index").default(0),
+  currentDifficulty: doublePrecision("current_difficulty").default(3),
+  abilityEstimate: doublePrecision("ability_estimate").default(0),
+  status: text("status").notNull().default("in_progress"),
+  score: integer("score"),
+  correctCount: integer("correct_count").default(0),
+  timeSpent: integer("time_spent").default(0),
+  timeLimit: integer("time_limit"),
+  questionIds: jsonb("question_ids").default(sql`'[]'::jsonb`),
+  answers: jsonb("answers").default(sql`'{}'::jsonb`),
+  flaggedIds: jsonb("flagged_ids").default(sql`'[]'::jsonb`),
+  questionMeta: jsonb("question_meta").default(sql`'[]'::jsonb`),
+  difficultyHistory: jsonb("difficulty_history").default(sql`'[]'::jsonb`),
+  categoryBreakdown: jsonb("category_breakdown").default(sql`'{}'::jsonb`),
+  report: jsonb("report"),
+  allowBackNavigation: boolean("allow_back_navigation").default(true),
+  gracePeriodMinutes: integer("grace_period_minutes").default(5),
+  startedAt: timestamp("started_at").defaultNow().notNull(),
+  completedAt: timestamp("completed_at"),
+  lastActivityAt: timestamp("last_activity_at").defaultNow(),
+});
+
+export const insertImagingExamSessionSchema = createInsertSchema(imagingExamSessions).omit({
+  id: true,
+  startedAt: true,
+  lastActivityAt: true,
+});
+export type ImagingExamSession = typeof imagingExamSessions.$inferSelect;
+export type InsertImagingExamSession = z.infer<typeof insertImagingExamSessionSchema>;
+
+export const imagingExamConfig = pgTable("imaging_exam_config", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  country: text("country").notNull().default("canada"),
+  examType: text("exam_type").notNull().default("camrt"),
+  maxExamLength: integer("max_exam_length").default(200),
+  defaultTimePerQuestion: integer("default_time_per_question").default(90),
+  allowBackNavigation: boolean("allow_back_navigation").default(true),
+  imageQuestionPercentage: integer("image_question_percentage").default(20),
+  topicWeights: jsonb("topic_weights").default(sql`'{}'::jsonb`),
+  difficultySensitivity: doublePrecision("difficulty_sensitivity").default(0.5),
+  questionReuseCooldownDays: integer("question_reuse_cooldown_days").default(7),
+  gracePeriodMinutes: integer("grace_period_minutes").default(5),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export type ImagingExamConfig = typeof imagingExamConfig.$inferSelect;
