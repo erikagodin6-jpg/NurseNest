@@ -7,7 +7,7 @@ import { paramedicQuestions } from "@/data/career-questions/paramedic-questions"
 const CATEGORIES = Array.from(new Set(paramedicQuestions.map(q => q.category))).sort();
 
 const EXAM_SETS = [
-  { title: "Full-Length Paramedic Mock Exam", description: "Complete timed exam covering all domains with adaptive difficulty. Blueprint-weighted to match your certification exam format.", difficulty: "Mixed", track: "All Tracks", badge: "Free + Pro", href: "/careers/paramedic/mock-exams" },
+  { title: "Full-Length Paramedic Mock Exam", description: "Complete timed exam covering all domains with adaptive difficulty. Blueprint-weighted to match your certification exam format.", difficulty: "Mixed", track: "All Tracks", badge: "Free + Pro", href: "/paramedic/exam-launcher" },
   { title: "Trauma Management Practice Set", description: "50 questions focused on trauma assessment, hemorrhage control, and transport decisions. XABCDE primary survey, secondary survey, and field triage.", difficulty: "Intermediate", track: "PCP + ACP", badge: "Pro", href: "/qbank?career=paramedic&category=Trauma%20Management" },
   { title: "Cardiac & ACLS Practice Set", description: "Questions covering cardiac arrest algorithms, dysrhythmia recognition, 12-lead interpretation, and post-ROSC care.", difficulty: "Advanced", track: "ACP", badge: "Pro", href: "/qbank?career=paramedic&category=Cardiology%2FECG" },
   { title: "Medical Emergencies Practice Set", description: "Stroke recognition, sepsis management, diabetic emergencies, toxicology, and environmental emergencies.", difficulty: "Intermediate", track: "PCP + ACP", badge: "Pro", href: "/qbank?career=paramedic&category=Medical%20Emergencies" },

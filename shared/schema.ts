@@ -3657,3 +3657,35 @@ export const mltRemediationAnalytics = pgTable("mlt_remediation_analytics", {
 export const insertMltRemediationAnalyticsSchema = createInsertSchema(mltRemediationAnalytics).omit({ id: true, createdAt: true });
 export type MltRemediationAnalytic = typeof mltRemediationAnalytics.$inferSelect;
 export type InsertMltRemediationAnalytic = z.infer<typeof insertMltRemediationAnalyticsSchema>;
+
+export const paramedicExamSessions = pgTable("paramedic_exam_sessions", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id").notNull(),
+  contentDomain: text("content_domain").notNull().default("paramedic"),
+  mode: text("mode").notNull(),
+  examType: text("exam_type").notNull(),
+  totalQuestions: integer("total_questions").notNull(),
+  timeLimit: integer("time_limit"),
+  status: text("status").notNull().default("in_progress"),
+  currentIndex: integer("current_index").default(0),
+  score: integer("score"),
+  correctCount: integer("correct_count"),
+  questionIds: jsonb("question_ids").default(sql`'[]'::jsonb`),
+  answers: jsonb("answers").default(sql`'{}'::jsonb`),
+  flaggedIds: jsonb("flagged_ids").default(sql`'[]'::jsonb`),
+  questionMeta: jsonb("question_meta").default(sql`'[]'::jsonb`),
+  abilityEstimate: doublePrecision("ability_estimate").default(0),
+  drillTopic: text("drill_topic"),
+  drillStreak: integer("drill_streak").default(0),
+  drillBestStreak: integer("drill_best_streak").default(0),
+  report: jsonb("report"),
+  startedAt: timestamp("started_at").defaultNow().notNull(),
+  completedAt: timestamp("completed_at"),
+});
+
+export const insertParamedicExamSessionSchema = createInsertSchema(paramedicExamSessions).omit({
+  id: true,
+  startedAt: true,
+});
+export type ParamedicExamSession = typeof paramedicExamSessions.$inferSelect;
+export type InsertParamedicExamSession = z.infer<typeof insertParamedicExamSessionSchema>;

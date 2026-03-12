@@ -757,6 +757,9 @@ app.use((req, res, next) => {
       import("./seed-paramedic-content").then(({ seedParamedicContent }) => {
         seedParamedicContent(p).catch((e: any) => console.error("[Paramedic Seed] Failed:", e.message));
       });
+      import("./seed-paramedic-questions").then(({ seedParamedicQuestions }) => {
+        seedParamedicQuestions().catch((e: any) => console.error("[Paramedic Q-Seed] Failed:", e.message));
+      });
     });
 
     import("./startup-data-migrations").then(({ runStartupDataMigrations }) => {

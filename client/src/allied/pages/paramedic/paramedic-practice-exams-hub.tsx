@@ -97,7 +97,7 @@ export default function ParamedicPracticeExamsHub() {
                   Readiness prediction score
                 </li>
               </ul>
-              <Link href="/careers/paramedic/mock-exams" className="inline-flex items-center gap-2 px-6 py-3 bg-teal-600 text-white rounded-xl text-sm font-semibold hover:bg-teal-700 transition-colors" data-testid="button-take-mock">
+              <Link href="/paramedic/exam-launcher" className="inline-flex items-center gap-2 px-6 py-3 bg-teal-600 text-white rounded-xl text-sm font-semibold hover:bg-teal-700 transition-colors" data-testid="button-take-mock">
                 Take Mock Exam <ArrowRight className="w-4 h-4" />
               </Link>
             </div>
@@ -162,7 +162,7 @@ export default function ParamedicPracticeExamsHub() {
       <FinalCTASection
         title="Take Your First Practice Exam"
         subtitle="See where you stand with a free mock exam, then use your results to build a targeted study plan for exam day."
-        primaryCTA={{ label: "Start Free Mock Exam", href: "/careers/paramedic/mock-exams" }}
+        primaryCTA={{ label: "Start Free Mock Exam", href: "/paramedic/exam-launcher" }}
         secondaryCTA={{ label: "View Pricing", href: "/pricing" }}
       />
     </div>

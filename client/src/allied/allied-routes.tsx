@@ -34,6 +34,9 @@ const ParamedicECGLibrary = lazy(() => import("./pages/paramedic/ecg-library"));
 const ParamedicECGAdmin = lazy(() => import("./pages/paramedic/ecg-admin"));
 const ParamedicQuestionsIndex = lazy(() => import("./pages/paramedic/paramedic-questions-index"));
 const ParamedicQuestionSeoPage = lazy(() => import("./pages/paramedic/paramedic-question-seo"));
+const ParamedicExamLauncher = lazy(() => import("./pages/paramedic/paramedic-exam-launcher"));
+const ParamedicExamSimulator = lazy(() => import("./pages/paramedic/paramedic-exam-simulator"));
+const ParamedicExamResults = lazy(() => import("./pages/paramedic/paramedic-exam-results"));
 const MltLanding = lazy(() => import("./pages/mlt-landing"));
 const MltCountryPage = lazy(() => import("./pages/mlt-country-page"));
 const MltBlog = lazy(() => import("./pages/mlt-blog"));
@@ -179,6 +182,9 @@ export function AlliedRoutes() {
         <Route path="/paramedic/exams" component={ParamedicExamsHub} />
         <Route path="/paramedic/flashcards" component={ParamedicFlashcardsHub} />
         <Route path="/paramedic/scenarios" component={ParamedicScenariosHub} />
+        <Route path="/paramedic/exam-simulator/:sessionId" component={ParamedicExamSimulator} />
+        <Route path="/paramedic/exam-results/:sessionId" component={ParamedicExamResults} />
+        <Route path="/paramedic/exam-launcher" component={ParamedicExamLauncher} />
         <Route path="/paramedic/practice-exams" component={ParamedicPracticeExamsHub} />
         <Route path="/paramedic/ecg-library" component={ParamedicECGLibrary} />
         <Route path="/admin/paramedic-waveforms" component={ParamedicECGAdmin} />
