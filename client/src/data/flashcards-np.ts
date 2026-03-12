@@ -1,5 +1,7 @@
 import type { FlashcardData } from "./flashcards-rpn";
-import { imgUlcerativeColitis, imgVonWillebrand, imgSIADH, imgSickleCellCrisis, imgVitiligo, imgUrethralStricture, imgVestibularNeuritis, imgAddisons, imgBPH, imgPancreatitis, imgOsteoporosis, imgCellulitis, imgCKD, imgClubfoot, imgCompartmentSyndrome, imgConjunctivitis, imgContracture, imgCushings, imgDelayedHemolyticReaction, imgDevHipDysplasia, imgDiabetes, imgDiabetesInsipidus, imgDiabeticNephropathy, imgDIC, imgDisuseAtrophy, imgDuchenne, imgEpiglottitis, imgEpistaxis, imgErysipelas, imgGlaucoma, imgGlomerulonephritis, imgGravesDisease, imgHashimotoThyroiditis, imgForeignBodyAspiration, imgFibromyalgia, imgHemolyticUremicSyndrome, imgNeuroblastoma, imgPyloricStenosis, imgPlacentaPrevia, imgSerotoninSyndrome, imgTonsillectomy } from "./flashcards-rpn";
+import { imgUlcerativeColitis, imgVonWillebrand, imgSIADH, imgSickleCellCrisis, imgVitiligo, imgUrethralStricture, imgVestibularNeuritis, imgAddisons, imgBPH, imgPancreatitis, imgOsteoporosis, imgCellulitis, imgCKD, imgClubfoot, imgCompartmentSyndrome, imgConjunctivitis, imgContracture, imgCushings, imgDelayedHemolyticReaction, imgDevHipDysplasia, imgDiabetes, imgDiabetesInsipidus, imgDiabeticNephropathy, imgDIC, imgDisuseAtrophy, imgDuchenne, imgEpiglottitis, imgEpistaxis, imgErysipelas, imgGlaucoma, imgGlomerulonephritis, imgGravesDisease, imgHashimotoThyroiditis, imgForeignBodyAspiration, imgFibromyalgia, imgHemolyticUremicSyndrome, imgNeuroblastoma, imgPyloricStenosis, imgPlacentaPrevia, imgSerotoninSyndrome, imgTonsillectomy, imgMastitis, imgLeadPoisoning, imgMeconiumAspiration, imgMeconiumIleus } from "./flashcards-rpn";
+import imgImpetigo from "@assets/impetigo_1773340649073.png";
+import imgIntestinalMalrotation from "@assets/intestinalmalrotation_1773340649073.png";
 import illustrationShinglesV2 from "@/assets/images/shingles-v2.png";
 import illustrationRetinalDetachmentV2 from "@/assets/images/retinal-detachment-v2.png";
 import illustrationRheumatoidArthritis from "@/assets/images/rheumatoid-arthritis.png";
@@ -489,7 +491,8 @@ export const npFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "The double bubble sign on X-ray (dilated stomach + dilated proximal duodenum separated by the pylorus) is pathognomonic for duodenal atresia or severe stenosis. Bilious vomiting in the first 24-48 hours is the hallmark. Duodenal atresia is associated with Down syndrome (trisomy 21) in 30% of cases, and with polyhydramnios prenatally. Treatment is surgical (duodenoduodenostomy). Unlike pyloric stenosis, which presents at 2-6 weeks with NON-bilious vomiting.",
     category: "Diagnostic Reasoning",
-    difficulty: 3
+    difficulty: 3,
+    image: imgMeconiumIleus
   },
   {
     id: "np-diag-q13",
@@ -844,7 +847,8 @@ export const npFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "RDS (formerly hyaline membrane disease) results from surfactant deficiency in premature lungs (type II pneumocytes produce surfactant beginning at 24-28 weeks, adequate by 35 weeks). CXR shows bilateral ground-glass opacities with air bronchograms. Treatment: exogenous surfactant replacement via ETT (calfactant, beractant, or poractant), CPAP or mechanical ventilation, and supportive NICU care. Prevention: antenatal corticosteroids (betamethasone) given to mothers at risk for preterm delivery at 24-34 weeks accelerates fetal lung maturation.",
     category: "Pediatric NP",
-    difficulty: 2
+    difficulty: 2,
+    image: imgMeconiumAspiration
   },
   // ============================================================
   // FAMILY NP (12 cards)
@@ -867,7 +871,8 @@ export const npFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "CDC reference value is 3.5 μg/dL (previously 5). BLL 45-69 μg/dL: chelation therapy with oral succimer (DMSA) and environmental investigation. BLL ≥70 μg/dL: emergent chelation with parenteral CaEDTA ± BAL in ICU setting. BLL 20-44: environmental investigation, nutritional counseling (iron, calcium, vitamin C enhance lead excretion), developmental assessment. Sources: lead paint (pre-1978 housing), contaminated water, soil, imported ceramics/toys. Iron deficiency increases lead absorption, so ensuring adequate iron status is important.",
     category: "Family NP",
-    difficulty: 3
+    difficulty: 3,
+    image: imgLeadPoisoning
   },
   {
     id: "np-fnp-q3",
@@ -1687,7 +1692,8 @@ export const npFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "Postpartum endometritis presents with fever (typically >38°C after first 24 hours), uterine tenderness, and foul-smelling lochia. Risk factors include cesarean delivery, prolonged rupture of membranes, prolonged labor, and multiple vaginal exams. Treatment is IV broad-spectrum antibiotics (clindamycin plus gentamicin is standard). Blood cultures should be obtained before starting antibiotics. Most patients improve within 48-72 hours.",
     category: "Women's Health NP",
-    difficulty: 2
+    difficulty: 2,
+    image: imgMastitis
   },
   {
     id: "np-womens-q16",
@@ -2033,7 +2039,7 @@ export const npFlashcards: FlashcardData[] = [
     answer: "Herpes zoster results from reactivation of varicella-zoster virus in dorsal root ganglia. Characterized by painful, vesicular rash in a unilateral dermatomal distribution that does not cross midline. Treatment: valacyclovir 1g TID or acyclovir 800 mg 5x/day for 7 days, ideally within 72 hours. Postherpetic neuralgia (pain persisting >90 days) is the most common complication; treated with gabapentin, pregabalin, or lidocaine patches. Shingrix vaccine recommended for adults ≥50.",
     category: "Primary Care NP",
     difficulty: 1,
-    image: illustrationShinglesV2
+    image: imgImpetigo
   },
   {
     id: "np-primary-q25",

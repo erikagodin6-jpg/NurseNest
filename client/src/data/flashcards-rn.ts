@@ -1,5 +1,6 @@
 import type { FlashcardData } from "./flashcards-rpn";
-import { imgUlcerativeColitis, imgSIADH, imgSickleCellCrisis, imgStomaCare, imgThrombocytopenia, imgUrinaryCatheterization, imgVitiligo, imgUrethralStricture, imgVestibularNeuritis, imgAddisons, imgAcuteHemolyticReaction, imgAtopicDermatitis, imgBPH, imgCastCareTraction, imgAcromegaly, imgNGTube, imgPancreatitis, imgPeritonealDialysis, imgPepticUlcer, imgOsteoporosis, imgCellulitis, imgCKD, imgClubfoot, imgCompartmentSyndrome, imgConjunctivitis, imgContracture, imgCushings, imgDelayedHemolyticReaction, imgDevHipDysplasia, imgDiabetes, imgDiabetesInsipidus, imgDiabeticNephropathy, imgDIC, imgDisuseAtrophy, imgDuchenne, imgEpiglottitis, imgEpistaxis, imgErysipelas, imgFallPrevention, imgHeadLice, imgHemophilia, imgGravesDisease, imgGout, imgPyloricStenosis, imgPlacentaPrevia, imgPostpartumHemorrhage, imgSerotoninSyndrome, imgVaricella, imgRhIncompatibility } from "./flashcards-rpn";
+import { imgUlcerativeColitis, imgSIADH, imgSickleCellCrisis, imgStomaCare, imgThrombocytopenia, imgUrinaryCatheterization, imgVitiligo, imgUrethralStricture, imgVestibularNeuritis, imgAddisons, imgAcuteHemolyticReaction, imgAtopicDermatitis, imgBPH, imgCastCareTraction, imgAcromegaly, imgNGTube, imgPancreatitis, imgPeritonealDialysis, imgPepticUlcer, imgOsteoporosis, imgCellulitis, imgCKD, imgClubfoot, imgCompartmentSyndrome, imgConjunctivitis, imgContracture, imgCushings, imgDelayedHemolyticReaction, imgDevHipDysplasia, imgDiabetes, imgDiabetesInsipidus, imgDiabeticNephropathy, imgDIC, imgDisuseAtrophy, imgDuchenne, imgEpiglottitis, imgEpistaxis, imgErysipelas, imgFallPrevention, imgHeadLice, imgHemophilia, imgGravesDisease, imgGout, imgPyloricStenosis, imgPlacentaPrevia, imgPostpartumHemorrhage, imgSerotoninSyndrome, imgVaricella, imgRhIncompatibility, imgIntussusception, imgLeadPoisoning } from "./flashcards-rpn";
+import imgImpetigo from "@assets/impetigo_1773340649073.png";
 import imgStevensJohnson from "@assets/stevensjohnsonssyndrome_1773268456011.png";
 import illustrationPressureInjuriesV2 from "@/assets/images/pressure-injuries-v2.png";
 import illustrationPressureInjuryStagesV2 from "@/assets/images/pressure-injury-stages-v2.png";
@@ -1609,7 +1610,8 @@ export const rnFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "Holliday-Segar method: First 10 kg = 100 mL/kg/day (1,000 mL). Next 10 kg = 50 mL/kg/day (500 mL). Remaining 2 kg = 20 mL/kg/day (40 mL). Total = 1,540 mL/day ÷ 24 hours = 64.2 mL/hour (approximately 62-64 mL/hour). This method is essential for pediatric fluid calculations and is a common NCLEX and clinical calculation.",
     category: "Pediatrics",
-    difficulty: 2
+    difficulty: 2,
+    image: imgIntussusception
   },
   {
     id: "rn-peds-q5",
@@ -1619,7 +1621,8 @@ export const rnFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "The classic triad of intussusception is colicky abdominal pain (drawing up legs with crying episodes alternating with calm periods), vomiting, and currant jelly stools (mixture of blood and mucus from bowel wall ischemia). It occurs when one segment of bowel telescopes into an adjacent segment, most commonly ileocecal. Treatment is air or barium enema reduction; surgery is needed if reduction fails or if peritonitis is present.",
     category: "Pediatrics",
-    difficulty: 2
+    difficulty: 2,
+    image: imgIntussusception
   },
   {
     id: "rn-peds-q6",
@@ -4313,7 +4316,8 @@ export const rnFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "Primary prevention aims to prevent disease BEFORE it occurs through health promotion and disease prevention activities. Immunizations prevent infectious diseases from developing. Screening (hypertension, mammography) is secondary prevention, which aims to detect disease early for prompt treatment. Rehabilitation is tertiary prevention, which aims to restore function and prevent complications after disease has occurred. Other primary prevention examples include health education, seatbelt use, nutrition counseling, and exercise promotion.",
     category: "Community/Public Health",
-    difficulty: 2
+    difficulty: 2,
+    image: imgLeadPoisoning
   },
   {
     id: "rn-commhealth-q7",
@@ -4323,7 +4327,8 @@ export const rnFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "Children ages 1-5 are at highest risk for lead poisoning due to hand-to-mouth behavior and developing neurological systems. Homes built before 1978 may contain lead-based paint (banned in the US in 1978). Peeling paint produces lead-contaminated dust and paint chips that children ingest. Lead causes irreversible neurodevelopmental damage including cognitive impairment, behavioral problems, and learning disabilities. Screening blood lead levels are recommended for at-risk children. Lead exposure can also occur through contaminated water, soil, and imported toys or ceramics.",
     category: "Community/Public Health",
-    difficulty: 2
+    difficulty: 2,
+    image: imgLeadPoisoning
   },
   {
     id: "rn-commhealth-q8",
@@ -4389,7 +4394,7 @@ export const rnFlashcards: FlashcardData[] = [
     answer: "Herpes zoster (shingles) is caused by reactivation of the varicella-zoster virus (VZV) that has remained dormant in dorsal root ganglia after primary chickenpox infection. It presents as a painful, vesicular rash following a single dermatome (does not cross midline). The thoracic dermatomes are most commonly affected. Contact dermatitis is caused by irritants or allergens. Herpes simplex typically affects the mouth or genitals. Impetigo causes honey-crusted lesions. Treatment includes antivirals (acyclovir, valacyclovir) ideally within 72 hours of rash onset. Airborne and contact precautions are needed.",
     category: "Integumentary",
     difficulty: 2,
-    image: illustrationShinglesV2
+    image: imgImpetigo
   },
   {
     id: "rn-integ-q4",
@@ -4420,7 +4425,8 @@ export const rnFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "Allergic contact dermatitis from poison ivy (urushiol oil) presents with intensely pruritic, linear or streaky vesicular eruptions in the pattern where the plant contacted the skin. It is a type IV delayed hypersensitivity reaction occurring 24-72 hours after exposure. Symmetrical scaling plaques on extensor surfaces suggest psoriasis. Honey-colored crusts are characteristic of impetigo. Deep painful nodules suggest furuncles or cystic acne. Treatment includes removal of the allergen, cool compresses, topical corticosteroids, oral antihistamines, and systemic steroids for severe cases.",
     category: "Integumentary",
-    difficulty: 2
+    difficulty: 2,
+    image: imgImpetigo
   },
   {
     id: "rn-integ-q7",

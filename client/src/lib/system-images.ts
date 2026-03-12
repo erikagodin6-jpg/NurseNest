@@ -518,6 +518,23 @@ import illustrationHashimotoThyroiditis from "@assets/hashimotothyroiditis_17732
 import illustrationHeadLiceNew from "@assets/headlice_1773269471822.png";
 import illustrationHemolyticUremicSyndrome from "@assets/hemolyticuremicsyndrome_1773269471822.png";
 import illustrationHemophiliaNew from "@assets/hemophilia_1773269471822.png";
+import illustrationHFM from "@assets/HFM_1773340649073.png";
+import illustrationHistoplasmosis from "@assets/histoplasmosis_1773340649073.png";
+import illustrationHyperemesisGravidarum from "@assets/hyperemesisgravidarum_1773340649073.png";
+import illustrationImpetigoNew from "@assets/impetigo_1773340649073.png";
+import illustrationInfantReflexes from "@assets/infantreflexes_1773340649073.png";
+import illustrationIntestinalMalrotation from "@assets/intestinalmalrotation_1773340649073.png";
+import illustrationIntussusception from "@assets/intussusception_1773340649073.png";
+import illustrationKlinefelter from "@assets/klinefelter_1773340649073.png";
+import illustrationLeadPoisoning from "@assets/leadpoisoning_1773340649073.png";
+import illustrationMarfanSyndrome from "@assets/marfansyndrome_1773340649073.png";
+import illustrationMastitis from "@assets/mastitis_1773340649073.png";
+import illustrationMeconiumAspiration from "@assets/meconiumaspiration_1773340649073.png";
+import illustrationMeconiumIleus from "@assets/meconiumileus_1773340649073.png";
+import illustrationMolarPregnancy from "@assets/molarpregnancy_1773340649073.png";
+import illustrationNEC from "@assets/Nec_1773340649073.png";
+import illustrationNeonatalVitalSigns from "@assets/neonatal_vitals_chart_fixed_1773340649073.png";
+import illustrationNeonatalAbstinence from "@assets/neonatalabstinence_1773340649073.png";
 
 import illustrationNeonatalFeeding from "@assets/neonatalfeeding_1773340609815.png";
 import illustrationNeonatalHypoglycemia from "@assets/neonatalhypoglycemia_1773340609815.png";
@@ -849,7 +866,6 @@ const lessonSpecificImages: Record<string, string> = {
   "stevens-johnson-syndrome": illustrationSJS,
   "urticaria": illustrationAtopicDermatitis,
   "scabies": illustrationScabiesV2,
-  "impetigo": illustrationImpetigo,
   "pemphigus-vulgaris": illustrationPemphigusV2,
   "melanoma": illustrationTumor,
   "toxic-epidermal-necrolysis": illustrationSJS,
@@ -1937,6 +1953,72 @@ const lessonSpecificImages: Record<string, string> = {
   "pyloric-stenosis-rpn": illustrationPyloricStenosis,
   "pyloric-stenosis-rn": illustrationPyloricStenosis,
   "pyloric-stenosis-np": illustrationPyloricStenosis,
+
+  "hand-foot-mouth-disease-rpn": illustrationHFM,
+  "hand-foot-mouth": illustrationHFM,
+
+  "histoplasmosis-basics-rpn": illustrationHistoplasmosis,
+  "histoplasmosis": illustrationHistoplasmosis,
+
+  "hyperemesis-gravidarum-rpn": illustrationHyperemesisGravidarum,
+  "hyperemesis-gravidarum-rn": illustrationHyperemesisGravidarum,
+  "hyperemesis-gravidarum-np": illustrationHyperemesisGravidarum,
+  "hyperemesis-gravidarum": illustrationHyperemesisGravidarum,
+
+  "impetigo": illustrationImpetigoNew,
+  "impetigo-rpn": illustrationImpetigoNew,
+  "impetigo-rn": illustrationImpetigoNew,
+  "impetigo-np": illustrationImpetigoNew,
+
+  "newborn-reflexes": illustrationInfantReflexes,
+  "infant-reflexes-rpn": illustrationInfantReflexes,
+  "infant-reflexes-np": illustrationInfantReflexes,
+  "infant-reflexes": illustrationInfantReflexes,
+
+  "intestinal-malrotation-rpn": illustrationIntestinalMalrotation,
+  "intestinal-malrotation": illustrationIntestinalMalrotation,
+
+  "intussusception-basics-rpn": illustrationIntussusception,
+  "intussusception-np": illustrationIntussusception,
+  "pyloric-intussusception": illustrationIntussusception,
+  "intussusception": illustrationIntussusception,
+
+  "klinefelter-syndrome-rpn": illustrationKlinefelter,
+  "klinefelter-syndrome": illustrationKlinefelter,
+  "klinefelter": illustrationKlinefelter,
+
+  "lead-poisoning": illustrationLeadPoisoning,
+  "lead-poisoning-rpn": illustrationLeadPoisoning,
+
+  "marfan-syndrome-rpn": illustrationMarfanSyndrome,
+  "marfan-syndrome-np": illustrationMarfanSyndrome,
+  "marfan-syndrome": illustrationMarfanSyndrome,
+
+  "mastitis-rpn": illustrationMastitis,
+  "mastitis": illustrationMastitis,
+  "mastitis-np": illustrationMastitis,
+
+  "meconium-aspiration": illustrationMeconiumAspiration,
+  "meconium-aspiration-basics-rpn": illustrationMeconiumAspiration,
+
+  "meconium-ileus-rpn": illustrationMeconiumIleus,
+  "meconium-ileus": illustrationMeconiumIleus,
+  "meconium-ileus-np": illustrationMeconiumIleus,
+
+  "molar-pregnancy-rpn": illustrationMolarPregnancy,
+  "molar-pregnancy": illustrationMolarPregnancy,
+
+  "necrotizing-enterocolitis-basics-rpn": illustrationNEC,
+  "nec-necrotizing": illustrationNEC,
+  "neonatal-necrotizing-enterocolitis-rn": illustrationNEC,
+  "necrotizing-enterocolitis": illustrationNEC,
+
+  "neonatal-vital-signs-rpn": illustrationNeonatalVitalSigns,
+  "neonatal-vital-signs": illustrationNeonatalVitalSigns,
+
+  "neonatal-abstinence-basics-rpn": illustrationNeonatalAbstinence,
+  "neonatal-abstinence-np": illustrationNeonatalAbstinence,
+  "neonatal-abstinence": illustrationNeonatalAbstinence,
 };
 
 const systemImageMap: Record<string, string> = {
@@ -2262,7 +2344,7 @@ export function getLessonImage(lessonId: string): string | undefined {
   if (lessonId.includes("homeostasis") || lessonId.includes("feedback-loop")) return illustrationHomeostasis;
   if (lessonId.includes("pinworm") || lessonId.includes("enterobias")) return illustrationPinwormsNew;
   if (lessonId.includes("head-lice") || lessonId.includes("pediculosis")) return illustrationHeadLiceNew;
-  if (lessonId.includes("impetigo")) return illustrationImpetigo;
+  if (lessonId.includes("impetigo")) return illustrationImpetigoNew;
   if (lessonId.includes("varicella") || lessonId.includes("chickenpox")) return illustrationVaricella;
   if (lessonId.includes("epiglottitis")) return illustrationEpiglottitisNew;
   if (lessonId.includes("osteoporosis")) return illustrationOsteoporosisV2;

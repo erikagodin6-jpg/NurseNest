@@ -96,8 +96,15 @@ import imgUmbilicalCordProlapse from "@assets/umbilicalcordprolapse_177334054553
 import imgVaginalHematoma from "@assets/vaginalhematoma_1773340545537.png";
 import imgVaricella from "@assets/varicella_1773340545537.png";
 import imgVPShunt from "@assets/VPshunt_1773340545537.png";
+import imgHyperemesisGravidarum from "@assets/hyperemesisgravidarum_1773340649073.png";
+import imgInfantReflexes from "@assets/infantreflexes_1773340649073.png";
+import imgIntussusception from "@assets/intussusception_1773340649073.png";
+import imgLeadPoisoning from "@assets/leadpoisoning_1773340649073.png";
+import imgMastitis from "@assets/mastitis_1773340649073.png";
+import imgMeconiumAspiration from "@assets/meconiumaspiration_1773340649073.png";
+import imgMeconiumIleus from "@assets/meconiumileus_1773340649073.png";
 
-export { imgUlcerativeColitis, imgVonWillebrand, imgUrinaryCatheterization, imgSIADH, imgSickleCellCrisis, imgStomaCare, imgThalassemia, imgThrombocytopenia, imgThyroidStorm, imgTRALI, imgVitiligo, imgUrethralStricture, imgVestibularNeuritis, imgAddisons, imgAplasticAnemia, imgAcuteHemolyticReaction, imgAllergicTransfusion, imgAirEmbolism, imgCBI, imgCastCareTraction, imgAlopecia, imgBPH, imgAtopicDermatitis, imgAcromegaly, imgBPPV, imgNGTube, imgPancreatitis, imgPeritonealDialysis, imgPolycysticKidney, imgPolycythemia, imgPepticUlcer, imgOsteoporosis, imgCellulitis, imgCKD, imgClubfoot, imgCompartmentSyndrome, imgConjunctivitis, imgContracture, imgCushings, imgDelayedHemolyticReaction, imgDevHipDysplasia, imgDiabetes, imgDiabetesInsipidus, imgDiabeticNephropathy, imgDIC, imgDisuseAtrophy, imgDuchenne, imgEpiglottitis, imgEpistaxis, imgErysipelas, imgErythemaMultiforme, imgFallPrevention, imgFebrileNeutropenia, imgFebrileNonhemolytic, imgFibromyalgia, imgForeignBodyAspiration, imgFractureTypes, imgFungalInfections, imgGalactosemia, imgGlaucoma, imgGlomerulonephritis, imgGout, imgGraftVsHost, imgGravesDisease, imgHashimotoThyroiditis, imgHeadLice, imgHemolyticUremicSyndrome, imgHemophilia, imgPyloricStenosis, imgPlacentalAbruption, imgPostpartumHemorrhage, imgPatentDuctusArteriosus, imgPavlikHarness, imgPlacentaPrevia, imgNeuroblastoma, imgReye, imgRhIncompatibility, imgROP, imgSeparationAnxiety, imgSerotoninSyndrome, imgStagesOfLabor, imgSubstanceAbuse, imgThermoregulation, imgTonsillectomy, imgToxicShockSyndrome, imgTrisomy21, imgTurnerSyndrome, imgUmbilicalCordCare, imgUmbilicalCordProlapse, imgVaginalHematoma, imgVaricella, imgVPShunt };
+export { imgUlcerativeColitis, imgVonWillebrand, imgUrinaryCatheterization, imgSIADH, imgSickleCellCrisis, imgStomaCare, imgThalassemia, imgThrombocytopenia, imgThyroidStorm, imgTRALI, imgVitiligo, imgUrethralStricture, imgVestibularNeuritis, imgAddisons, imgAplasticAnemia, imgAcuteHemolyticReaction, imgAllergicTransfusion, imgAirEmbolism, imgCBI, imgCastCareTraction, imgAlopecia, imgBPH, imgAtopicDermatitis, imgAcromegaly, imgBPPV, imgNGTube, imgPancreatitis, imgPeritonealDialysis, imgPolycysticKidney, imgPolycythemia, imgPepticUlcer, imgOsteoporosis, imgCellulitis, imgCKD, imgClubfoot, imgCompartmentSyndrome, imgConjunctivitis, imgContracture, imgCushings, imgDelayedHemolyticReaction, imgDevHipDysplasia, imgDiabetes, imgDiabetesInsipidus, imgDiabeticNephropathy, imgDIC, imgDisuseAtrophy, imgDuchenne, imgEpiglottitis, imgEpistaxis, imgErysipelas, imgErythemaMultiforme, imgFallPrevention, imgFebrileNeutropenia, imgFebrileNonhemolytic, imgFibromyalgia, imgForeignBodyAspiration, imgFractureTypes, imgFungalInfections, imgGalactosemia, imgGlaucoma, imgGlomerulonephritis, imgGout, imgGraftVsHost, imgGravesDisease, imgHashimotoThyroiditis, imgHeadLice, imgHemolyticUremicSyndrome, imgHemophilia, imgPyloricStenosis, imgPlacentalAbruption, imgPostpartumHemorrhage, imgPatentDuctusArteriosus, imgPavlikHarness, imgPlacentaPrevia, imgNeuroblastoma, imgReye, imgRhIncompatibility, imgROP, imgSeparationAnxiety, imgSerotoninSyndrome, imgStagesOfLabor, imgSubstanceAbuse, imgThermoregulation, imgTonsillectomy, imgToxicShockSyndrome, imgTrisomy21, imgTurnerSyndrome, imgUmbilicalCordCare, imgUmbilicalCordProlapse, imgVaginalHematoma, imgVaricella, imgVPShunt, imgHyperemesisGravidarum, imgInfantReflexes, imgIntussusception, imgLeadPoisoning, imgMastitis, imgMeconiumAspiration, imgMeconiumIleus };
 
 export type FlashcardData = {
   id: string;
@@ -555,7 +562,8 @@ export const rpnFlashcards: FlashcardData[] = [
     question: "Cystic Fibrosis",
     answer: "Autosomal recessive disorder affecting exocrine glands. Thick, sticky mucus obstructs lungs and pancreas. Signs: Salty-tasting skin, steatorrhea, recurrent pulmonary infections, meconium ileus in newborns. Treatment: Chest physiotherapy, pancreatic enzymes, high-calorie/high-fat diet, DNase (dornase alfa).",
     category: "Respiratory",
-    difficulty: 3
+    difficulty: 3,
+    image: imgMeconiumIleus
   },
   {
     id: "rpn-resp-q11",
@@ -1816,7 +1824,8 @@ export const rpnFlashcards: FlashcardData[] = [
     question: "Lochia Progression",
     answer: "Lochia rubra: Days 1-3, dark red, may have small clots. Lochia serosa: Days 4-10, pinkish-brown. Lochia alba: Days 10-14 (up to 6 weeks), yellowish-white. Report: Large clots, foul odor (infection), return to rubra after serosa (retained fragments), saturating a pad in < 1 hour.",
     category: "Maternity",
-    difficulty: 2
+    difficulty: 2,
+    image: imgMastitis
   },
   {
     id: "rpn-mat-q7",
@@ -1826,7 +1835,8 @@ export const rpnFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "Mastitis: Breast infection, usually unilateral, caused by S. aureus. Signs: Localized redness, warmth, pain, flu-like symptoms, fever > 38.4°C. Treatment: Antibiotics, continue breastfeeding (emptying the breast), warm compresses, adequate rest and hydration.",
     category: "Maternity",
-    difficulty: 2
+    difficulty: 2,
+    image: imgMastitis
   },
   {
     id: "rpn-mat-q8",
@@ -3029,7 +3039,8 @@ export const rpnFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "Green-tinged amniotic fluid indicates meconium passage by the fetus, which can occur with fetal stress. Risk: Meconium aspiration syndrome if inhaled. Notify provider immediately. Prepare for potential neonatal resuscitation. Continuous fetal monitoring required.",
     category: "Maternity",
-    difficulty: 2
+    difficulty: 2,
+    image: imgMeconiumAspiration
   },
   {
     id: "rpn-mat-t5",
@@ -3378,7 +3389,8 @@ export const rpnFlashcards: FlashcardData[] = [
     question: "Proton Pump Inhibitors (PPIs)",
     answer: "Examples: Omeprazole, pantoprazole, esomeprazole. Suppress gastric acid by irreversibly inhibiting the proton pump (H+/K+ ATPase). Uses: GERD, peptic ulcers, H. pylori (triple therapy). Take 30 min before meals. Long-term risks: Osteoporosis (decreased calcium absorption), C. diff, hypomagnesemia, B12 deficiency.",
     category: "Pharmacology",
-    difficulty: 2
+    difficulty: 2,
+    image: imgLeadPoisoning
   },
   // ============================================================
   // MORE PEDIATRICS
@@ -3391,7 +3403,8 @@ export const rpnFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "Lead poisoning treatment: Succimer (DMSA) for oral chelation, CaNa2EDTA for severe cases (IM/IV). Lead level > 45 mcg/dL typically requires chelation. Also: Identify and remove the lead source, adequate iron/calcium/vitamin C in diet, assess for developmental delays. Encephalopathy is a medical emergency.",
     category: "Pediatrics",
-    difficulty: 3
+    difficulty: 3,
+    image: imgLeadPoisoning
   },
   {
     id: "rpn-peds-t7",
@@ -3412,7 +3425,8 @@ export const rpnFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "Morning sickness (NVP) affects up to 80% of pregnancies, typically weeks 6-12. Management: Small, frequent meals, dry crackers/toast before getting up, ginger tea/supplements, avoid triggers (odors, fatty foods), vitamin B6 (pyridoxine). Hyperemesis gravidarum (severe, persistent) requires IV fluids and antiemetics.",
     category: "Maternity",
-    difficulty: 1
+    difficulty: 1,
+    image: imgHyperemesisGravidarum
   },
   {
     id: "rpn-mat-t6",
@@ -5955,7 +5969,8 @@ export const rpnFlashcards: FlashcardData[] = [
     question: "Shoulder Dystocia",
     answer: "Obstetric emergency: Anterior fetal shoulder is impacted behind the maternal pubic symphysis after the head delivers. The 'turtle sign' (head retracts against perineum). McRoberts maneuver (sharply flex maternal thighs), suprapubic pressure (NOT fundal pressure), episiotomy. Risk: Erb's palsy (brachial plexus injury), clavicle fracture.",
     category: "Maternity",
-    difficulty: 4
+    difficulty: 4,
+    image: imgInfantReflexes
   },
   {
     id: "rpn-mat-q27",
@@ -5965,7 +5980,8 @@ export const rpnFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "Positive Babinski (dorsiflexion of great toe with fanning of other toes) is NORMAL in infants up to 12-24 months due to immature corticospinal tracts. It becomes abnormal after this age and indicates upper motor neuron lesion in adults. Normal infant reflexes: Moro, rooting, sucking, grasp, tonic neck, stepping.",
     category: "Maternity",
-    difficulty: 2
+    difficulty: 2,
+    image: imgInfantReflexes
   },
   {
     id: "rpn-mat-q28",
@@ -6422,7 +6438,8 @@ export const rpnFlashcards: FlashcardData[] = [
     answer: "Position: Side-lying or prone to facilitate drainage. Diet: Clear cool liquids → soft foods. Avoid: Red/brown liquids (mask bleeding), straws (suction/irritation), acidic/citrus, crunchy/rough foods. Monitor for: Frequent swallowing (sign of bleeding: most dangerous complication), hemorrhage (immediate or 5-10 days post-op). Pain management: Avoid aspirin.",
     image: imgTonsillectomy,
     category: "Pediatrics",
-    difficulty: 2
+    difficulty: 2,
+    image: imgMeconiumAspiration
   },
   {
     id: "rpn-mat-q30",
@@ -6432,7 +6449,8 @@ export const rpnFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "Post-term pregnancy (> 42 weeks) increases risks: Meconium aspiration syndrome, oligohydramnios (decreased amniotic fluid → cord compression), placental insufficiency, macrosomia (shoulder dystocia risk), and stillbirth. ARRIVE trial: Induction at 39 weeks in low-risk nulliparas reduced C-section rate without increasing neonatal risk.",
     category: "Maternity",
-    difficulty: 2
+    difficulty: 2,
+    image: imgMeconiumAspiration
   },
   {
     id: "rpn-mh-q27",
