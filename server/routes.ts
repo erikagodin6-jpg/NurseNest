@@ -6,6 +6,7 @@ import fs from "fs";
 import nodePath from "path";
 import multer from "multer";
 import { storage, DatabaseStorage, pool } from "./storage";
+import { mapExamQuestionsToFlashcards, getExamFlashcardStats } from "./exam-flashcard-mapper";
 
 function parseStoragePath(path: string): { bucketName: string; objectName: string } {
   if (!path.startsWith("/")) path = `/${path}`;
@@ -9842,14 +9843,98 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
     }
   });
 
+  // ====== CAT EXAM FLASHCARD MAPPING ======
+  app.post("/api/admin/exam-flashcards/sync", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const result = await mapExamQuestionsToFlashcards();
+      heroStatsCache = null;
+      res.json(result);
+    } catch (e: any) {
+      console.error("[Exam Flashcard Sync] Error:", e);
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/admin/exam-flashcards/stats", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const stats = await getExamFlashcardStats();
+      res.json(stats);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/admin/exam-flashcards/manage", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const page = parseInt(req.query.page as string) || 1;
+      const limit = Math.min(parseInt(req.query.limit as string) || 50, 200);
+      const offset = (page - 1) * limit;
+      const tier = req.query.tier as string;
+      const completeness = req.query.completeness as string;
+      const search = req.query.search as string;
+
+      const conditions = ["source_type = 'cat_exam'"];
+      const params: any[] = [];
+      let paramIdx = 1;
+
+      if (tier) {
+        conditions.push(`tier = $${paramIdx++}`);
+        params.push(tier);
+      }
+      if (completeness === "has_images") {
+        conditions.push(`rationale_media::text != '[]'`);
+      } else if (completeness === "missing_images") {
+        conditions.push(`(rationale_media::text = '[]' OR rationale_media IS NULL)`);
+      } else if (completeness === "has_lessons") {
+        conditions.push(`lesson_links::text != '[]'`);
+      } else if (completeness === "missing_lessons") {
+        conditions.push(`(lesson_links::text = '[]' OR lesson_links IS NULL)`);
+      }
+      if (search) {
+        conditions.push(`front ILIKE $${paramIdx++}`);
+        params.push(`%${search}%`);
+      }
+
+      const where = conditions.join(" AND ");
+      const countResult = await pool.query(`SELECT COUNT(*)::int as total FROM flashcard_bank WHERE ${where}`, params);
+      const total = countResult.rows[0]?.total || 0;
+
+      const result = await pool.query(
+        `SELECT id, tier, front, body_system, topic, difficulty, flashcard_enabled, 
+                rationale_media, lesson_links, source_question_id, created_at
+         FROM flashcard_bank WHERE ${where}
+         ORDER BY created_at DESC
+         LIMIT $${paramIdx++} OFFSET $${paramIdx++}`,
+        [...params, limit, offset]
+      );
+
+      res.json({
+        items: result.rows.map(snakeToCamel),
+        total,
+        page,
+        totalPages: Math.ceil(total / limit),
+      });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
   // ====== PUBLIC FLASHCARD BANK API ======
   app.get("/api/flashcard-bank", async (req, res) => {
     try {
       const tier = req.query.tier as string;
       const category = req.query.category as string;
+      const sourceType = req.query.sourceType as string;
       const limit = Math.min(parseInt(req.query.limit as string) || 100, 500);
+      const offset = parseInt(req.query.offset as string) || 0;
 
-      const conditions = ["status = 'published'"];
+      const conditions = ["status = 'published'", "flashcard_enabled = true"];
       const params: any[] = [];
       let paramIdx = 1;
 
@@ -9864,16 +9949,51 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
         conditions.push(`category = $${paramIdx++}`);
         params.push(category);
       }
+      if (sourceType) {
+        conditions.push(`source_type = $${paramIdx++}`);
+        params.push(sourceType);
+      }
 
       const where = conditions.join(" AND ");
+      const countResult = await pool.query(
+        `SELECT COUNT(*)::int as total FROM flashcard_bank WHERE ${where}`,
+        params
+      );
       const result = await pool.query(
-        `SELECT id, front, back, category, tier, difficulty, rationale
+        `SELECT id, front, back, category, tier, difficulty, source_type,
+                question_type, options, correct_answer, rationale_correct,
+                distractor_rationales, clinical_takeaway, exam_pearl,
+                rationale_media, lesson_links, body_system, topic, subtopic,
+                region_scope, flashcard_enabled, source_question_id
          FROM flashcard_bank WHERE ${where}
          ORDER BY category, created_at DESC
-         LIMIT $${paramIdx++}`,
-        [...params, limit]
+         LIMIT $${paramIdx++} OFFSET $${paramIdx++}`,
+        [...params, limit, offset]
       );
-      res.json(result.rows.map(snakeToCamel));
+      res.json({
+        items: result.rows.map(snakeToCamel),
+        total: countResult.rows[0]?.total || 0,
+      });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/flashcard-bank/counts", async (req, res) => {
+    try {
+      const { rows } = await pool.query(
+        `SELECT tier, COUNT(*)::int as count 
+         FROM flashcard_bank 
+         WHERE status = 'published' AND flashcard_enabled = true AND source_type = 'cat_exam'
+         GROUP BY tier`
+      );
+      const counts: Record<string, number> = {};
+      let total = 0;
+      for (const r of rows) {
+        counts[r.tier] = r.count;
+        total += r.count;
+      }
+      res.json({ counts, total });
     } catch (e: any) {
       res.status(500).json({ error: e.message });
     }

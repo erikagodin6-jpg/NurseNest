@@ -1,0 +1,346 @@
+import crypto from "crypto";
+import { pool } from "./storage";
+
+interface ExamQuestion {
+  id: string;
+  tier: string;
+  stem: string;
+  options: any[];
+  correct_answer: any[];
+  rationale: string;
+  body_system: string | null;
+  topic: string | null;
+  subtopic: string | null;
+  difficulty: number;
+  question_type: string;
+  clinical_pearl: string | null;
+  exam_strategy: string | null;
+  distractor_rationales: any;
+  region_scope: string;
+  career_type: string;
+  tags: string[] | null;
+}
+
+interface InfographicMatch {
+  imageUrl: string;
+  imageAlt: string;
+  imageCaption: string;
+  imageDescription: string;
+  sortOrder: number;
+}
+
+interface LessonMatch {
+  lessonTitle: string;
+  lessonUrl: string;
+  relevanceNote: string;
+}
+
+const IMAGE_KEYWORD_MAP: Record<string, { file: string; alt: string; caption: string; description: string }[]> = {
+  "cardiac tamponade": [{ file: "cardiactamponade", alt: "Cardiac tamponade illustration", caption: "Cardiac Tamponade", description: "Beck's triad: hypotension, muffled heart sounds, JVD" }],
+  "diabetes": [{ file: "diabetes", alt: "Diabetes management infographic", caption: "Diabetes Overview", description: "Key concepts in diabetes management and monitoring" }],
+  "renal calculi": [{ file: "renalcalculi", alt: "Renal calculi illustration", caption: "Renal Calculi", description: "Kidney stones: types, symptoms, and management" }],
+  "kidney stone": [{ file: "renalcalculi", alt: "Renal calculi illustration", caption: "Renal Calculi", description: "Kidney stones: types, symptoms, and management" }],
+  "abg": [{ file: "ABGreference", alt: "ABG reference chart", caption: "ABG Interpretation", description: "Arterial blood gas interpretation guide" }],
+  "arterial blood gas": [{ file: "ABGreference", alt: "ABG reference chart", caption: "ABG Interpretation", description: "Arterial blood gas interpretation guide" }],
+  "acid-base": [{ file: "ABGreference", alt: "ABG reference chart", caption: "ABG Interpretation", description: "Arterial blood gas interpretation guide" }],
+};
+
+const INFOGRAPHIC_TOPIC_MAP: Record<string, string[]> = {
+  "lab-diagnostics": ["cbc", "complete blood count", "wbc", "hemoglobin", "hematocrit", "platelet", "coagulation", "pt", "inr", "aptt", "liver function", "alt", "ast", "bilirubin", "renal function", "bun", "creatinine", "gfr", "metabolic panel", "electrolyte", "cardiac biomarker", "troponin", "bnp", "thyroid", "tsh"],
+  "cardiology": ["heart failure", "myocardial infarction", "angina", "hypertension", "arrhythmia", "atrial fibrillation", "cardiac", "ecg", "ekg", "heart block", "pacemaker"],
+  "respiratory": ["copd", "asthma", "pneumonia", "chest tube", "ventilator", "oxygen", "respiratory", "bronchitis", "pulmonary embolism"],
+  "pharmacology": ["medication", "drug", "dosage", "antidote", "warfarin", "heparin", "insulin", "antibiotic", "antihypertensive"],
+  "emergency": ["shock", "code blue", "cardiac arrest", "anaphylaxis", "stroke", "trauma", "burns", "hemorrhage"],
+  "maternity-pediatrics": ["pregnancy", "labor", "delivery", "neonatal", "pediatric", "preeclampsia", "gestational", "fetal", "breastfeeding", "newborn"],
+  "electrolytes": ["potassium", "sodium", "calcium", "magnesium", "phosphorus", "hyperkalemia", "hypokalemia", "hypernatremia", "hyponatremia"],
+};
+
+const LESSON_SYSTEM_MAP: Record<string, string[]> = {
+  "Cardiovascular": ["cardiovascular", "cardiac", "heart", "hypertension", "angina", "mi", "arrhythmia", "heart-failure", "dvt", "aaa"],
+  "Respiratory": ["respiratory", "copd", "asthma", "pneumonia", "chest-tube", "ventilator", "oxygen-therapy", "pulmonary"],
+  "Neurological": ["neurological", "stroke", "seizure", "icp", "spinal-cord", "meningitis", "cranial-nerve", "gcs"],
+  "GI": ["gastrointestinal", "gi", "bowel", "liver", "hepatitis", "cholecystitis", "pancreatitis", "peptic-ulcer"],
+  "Renal": ["renal", "kidney", "ckd", "dialysis", "uti", "nephrotic", "electrolyte"],
+  "Endocrine": ["endocrine", "diabetes", "thyroid", "adrenal", "cushing", "addison", "pituitary"],
+  "Hematology": ["hematology", "anemia", "sickle-cell", "leukemia", "transfusion", "coagulation", "dic"],
+  "Pediatrics": ["pediatrics", "peds", "child", "kawasaki", "pyloric", "intussusception", "cystic-fibrosis"],
+  "Maternal": ["maternity", "maternal", "labor", "delivery", "preeclampsia", "placenta", "postpartum", "obstetric"],
+  "Neonatal": ["neonatal", "newborn", "neonate", "apgar", "jaundice", "nec", "surfactant"],
+  "Oncology": ["oncology", "cancer", "chemo", "neutropenic", "tumor-lysis"],
+  "Pharmacology": ["pharmacology", "medication", "drug", "antidote", "dosage"],
+  "Mental Health": ["mental-health", "psychiatric", "anxiety", "depression", "bipolar", "schizophrenia", "lithium", "antipsychotic"],
+  "Infection": ["infection-control", "isolation", "precautions", "mrsa", "tb", "c-diff", "sepsis"],
+  "Procedures": ["procedures", "foley", "chest-tube", "tracheostomy", "ventilator", "iv", "blood-transfusion"],
+  "Fundamentals": ["fundamentals", "nursing-process", "vital-signs", "documentation", "assessment", "prioritization"],
+  "Safety & Ethics": ["safety", "ethics", "hipaa", "restraint", "informed-consent", "delegation"],
+  "Skin": ["skin", "wound", "burns", "pressure-ulcer", "dermatology"],
+  "Musculoskeletal": ["musculoskeletal", "orthopedic", "fracture", "traction", "osteoporosis", "arthritis"],
+};
+
+function generateContentHash(stem: string, tier: string): string {
+  return crypto.createHash("sha256").update(`cat-exam:${tier}:${stem}`).digest("hex").slice(0, 32);
+}
+
+function matchImages(question: ExamQuestion): InfographicMatch[] {
+  const matches: InfographicMatch[] = [];
+  const searchText = `${question.stem} ${question.rationale || ""} ${question.body_system || ""} ${question.topic || ""}`.toLowerCase();
+
+  for (const [keyword, images] of Object.entries(IMAGE_KEYWORD_MAP)) {
+    if (searchText.includes(keyword)) {
+      for (const img of images) {
+        if (!matches.find(m => m.imageUrl.includes(img.file))) {
+          matches.push({
+            imageUrl: `/attached_assets/${img.file}`,
+            imageAlt: img.alt,
+            imageCaption: img.caption,
+            imageDescription: img.description,
+            sortOrder: matches.length,
+          });
+        }
+      }
+    }
+  }
+
+  for (const [category, keywords] of Object.entries(INFOGRAPHIC_TOPIC_MAP)) {
+    for (const kw of keywords) {
+      if (searchText.includes(kw) && !matches.find(m => m.imageUrl.includes(category))) {
+        matches.push({
+          imageUrl: `/infographics/${category}`,
+          imageAlt: `${category} reference infographic`,
+          imageCaption: category.replace(/-/g, " ").replace(/\b\w/g, c => c.toUpperCase()),
+          imageDescription: `Reference infographic for ${category.replace(/-/g, " ")}`,
+          sortOrder: matches.length,
+        });
+        break;
+      }
+    }
+  }
+
+  return matches.slice(0, 3);
+}
+
+function matchLessons(question: ExamQuestion): LessonMatch[] {
+  const matches: LessonMatch[] = [];
+  const searchText = `${question.stem} ${question.rationale || ""} ${question.body_system || ""} ${question.topic || ""} ${question.subtopic || ""}`.toLowerCase();
+  const bodySystem = question.body_system || "";
+
+  const systemKeywords = LESSON_SYSTEM_MAP[bodySystem] || [];
+  if (systemKeywords.length > 0) {
+    const mainKeyword = systemKeywords[0];
+    matches.push({
+      lessonTitle: `${bodySystem} Lessons`,
+      lessonUrl: `/lessons?category=${mainKeyword}`,
+      relevanceNote: `Core ${bodySystem.toLowerCase()} content related to this question`,
+    });
+  }
+
+  const topicKeywords: Record<string, { title: string; url: string; note: string }> = {
+    "heart failure": { title: "Heart Failure Management", url: "/lessons/heart-failure", note: "Directly relevant to heart failure assessment and interventions" },
+    "diabetes": { title: "Diabetes Management", url: "/lessons/diabetes-management", note: "Covers diabetes assessment, insulin, and complications" },
+    "shock": { title: "Types of Shock", url: "/lessons/shock-management", note: "Comprehensive shock recognition and management" },
+    "electrolyte": { title: "Electrolyte Imbalances", url: "/lessons/electrolyte-imbalances", note: "Electrolyte normal ranges, symptoms, and nursing interventions" },
+    "medication": { title: "Pharmacology Review", url: "/lessons?category=pharmacology", note: "Drug classes, mechanisms, and nursing considerations" },
+    "preeclampsia": { title: "Preeclampsia & Eclampsia", url: "/lessons/preeclampsia", note: "Hypertensive disorders of pregnancy" },
+    "seizure": { title: "Seizure Management", url: "/lessons/seizure-disorders", note: "Seizure types, medications, and nursing care" },
+    "stroke": { title: "Stroke Assessment", url: "/lessons/stroke", note: "Stroke recognition, tPA criteria, and nursing management" },
+    "infection control": { title: "Infection Control", url: "/lessons?category=infection-control", note: "Isolation precautions and infection prevention" },
+    "wound": { title: "Wound Care", url: "/lessons/wound-care", note: "Wound assessment, staging, and management" },
+  };
+
+  for (const [keyword, lesson] of Object.entries(topicKeywords)) {
+    if (searchText.includes(keyword) && !matches.find(m => m.lessonUrl === lesson.url)) {
+      matches.push({
+        lessonTitle: lesson.title,
+        lessonUrl: lesson.url,
+        relevanceNote: lesson.note,
+      });
+    }
+  }
+
+  return matches.slice(0, 3);
+}
+
+function buildFront(q: ExamQuestion): string {
+  return q.stem;
+}
+
+function buildBack(q: ExamQuestion): string {
+  const parts: string[] = [];
+  const correctIdx = Array.isArray(q.correct_answer) ? q.correct_answer[0] : q.correct_answer;
+  const opts = Array.isArray(q.options) ? q.options : [];
+  
+  if (opts.length > 0 && correctIdx !== undefined && correctIdx !== null) {
+    const correctOption = typeof opts[correctIdx] === "object" ? (opts[correctIdx] as any).text || opts[correctIdx] : opts[correctIdx];
+    parts.push(`✅ Correct Answer: ${correctOption}`);
+  }
+  
+  if (q.rationale) {
+    parts.push(`\n📋 Rationale: ${q.rationale}`);
+  }
+  
+  if (q.clinical_pearl) {
+    parts.push(`\n💎 Clinical Pearl: ${q.clinical_pearl}`);
+  }
+  
+  if (q.exam_strategy) {
+    parts.push(`\n🎯 Exam Strategy: ${q.exam_strategy}`);
+  }
+  
+  return parts.join("\n");
+}
+
+export async function mapExamQuestionsToFlashcards(): Promise<{
+  total: number;
+  created: number;
+  updated: number;
+  skipped: number;
+  perTier: Record<string, number>;
+  missingData: number;
+}> {
+  const result = {
+    total: 0,
+    created: 0,
+    updated: 0,
+    skipped: 0,
+    perTier: {} as Record<string, number>,
+    missingData: 0,
+  };
+
+  const { rows: questions } = await pool.query(
+    `SELECT id, tier, stem, options, correct_answer, rationale, body_system, topic, subtopic, 
+            difficulty, question_type, clinical_pearl, exam_strategy, distractor_rationales,
+            region_scope, career_type, tags
+     FROM exam_questions 
+     WHERE status = 'published' AND career_type = 'nursing'
+     ORDER BY tier, created_at`
+  );
+
+  result.total = questions.length;
+
+  for (const q of questions) {
+    const question = q as ExamQuestion;
+    const contentHash = generateContentHash(question.stem, question.tier);
+    
+    if (!question.stem || !question.options) {
+      result.missingData++;
+      continue;
+    }
+
+    const images = matchImages(question);
+    const lessons = matchLessons(question);
+    const front = buildFront(question);
+    const back = buildBack(question);
+
+    const correctIdx = Array.isArray(question.correct_answer) ? question.correct_answer[0] : question.correct_answer;
+    const opts = Array.isArray(question.options) ? question.options : [];
+    let rationaleCorrect = question.rationale || "";
+    
+    let distractorRationales = question.distractor_rationales;
+    if (!distractorRationales && opts.length > 0) {
+      const drs: Record<string, string> = {};
+      opts.forEach((opt: any, idx: number) => {
+        if (idx !== correctIdx) {
+          const optText = typeof opt === "object" ? (opt as any).text || String(opt) : String(opt);
+          drs[optText] = "This option is incorrect for this clinical scenario.";
+        }
+      });
+      distractorRationales = drs;
+    }
+
+    const { rows: existing } = await pool.query(
+      `SELECT id FROM flashcard_bank WHERE content_hash = $1`,
+      [contentHash]
+    );
+
+    if (existing.length > 0) {
+      await pool.query(
+        `UPDATE flashcard_bank SET
+          front = $1, back = $2, options = $3, correct_answer = $4,
+          rationale_correct = $5, distractor_rationales = $6,
+          clinical_takeaway = $7, exam_pearl = $8,
+          rationale_media = $9, lesson_links = $10,
+          difficulty = $11, body_system = $12, topic = $13, subtopic = $14,
+          region_scope = $15, flashcard_enabled = true, source_type = 'cat_exam',
+          source_question_id = $16, question_type = $17, category = $18,
+          status = 'published', updated_at = NOW()
+        WHERE id = $19`,
+        [
+          front, back, JSON.stringify(question.options), JSON.stringify(question.correct_answer),
+          rationaleCorrect, JSON.stringify(distractorRationales),
+          question.clinical_pearl || null, question.exam_strategy || null,
+          JSON.stringify(images), JSON.stringify(lessons),
+          question.difficulty, question.body_system, question.topic, question.subtopic,
+          question.region_scope || "BOTH", question.id, question.question_type || "mcq",
+          question.body_system || "General",
+          existing[0].id
+        ]
+      );
+      result.updated++;
+    } else {
+      await pool.query(
+        `INSERT INTO flashcard_bank (
+          tier, front, back, content_hash, status, source_type, source_question_id,
+          question_type, options, correct_answer, rationale_correct, distractor_rationales,
+          clinical_takeaway, exam_pearl, rationale_media, lesson_links,
+          difficulty, body_system, topic, subtopic, region_scope, flashcard_enabled,
+          category, career_type
+        ) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20,$21,$22,$23,$24)`,
+        [
+          question.tier, front, back, contentHash, "published", "cat_exam", question.id,
+          question.question_type || "mcq", JSON.stringify(question.options), JSON.stringify(question.correct_answer),
+          rationaleCorrect, JSON.stringify(distractorRationales),
+          question.clinical_pearl || null, question.exam_strategy || null,
+          JSON.stringify(images), JSON.stringify(lessons),
+          question.difficulty, question.body_system, question.topic, question.subtopic,
+          question.region_scope || "BOTH", true,
+          question.body_system || "General", question.career_type || "nursing"
+        ]
+      );
+      result.created++;
+    }
+
+    result.perTier[question.tier] = (result.perTier[question.tier] || 0) + 1;
+  }
+
+  return result;
+}
+
+export async function getExamFlashcardStats(): Promise<{
+  totalExamFlashcards: number;
+  perTier: Record<string, number>;
+  withImages: number;
+  withLessons: number;
+  missingImages: number;
+  missingLessons: number;
+}> {
+  const { rows: tierCounts } = await pool.query(
+    `SELECT tier, COUNT(*)::int as count FROM flashcard_bank 
+     WHERE source_type = 'cat_exam' AND flashcard_enabled = true 
+     GROUP BY tier`
+  );
+
+  const { rows: imageCounts } = await pool.query(
+    `SELECT 
+      COUNT(CASE WHEN rationale_media::text != '[]' THEN 1 END)::int as with_images,
+      COUNT(CASE WHEN rationale_media::text = '[]' OR rationale_media IS NULL THEN 1 END)::int as missing_images,
+      COUNT(CASE WHEN lesson_links::text != '[]' THEN 1 END)::int as with_lessons,
+      COUNT(CASE WHEN lesson_links::text = '[]' OR lesson_links IS NULL THEN 1 END)::int as missing_lessons
+     FROM flashcard_bank WHERE source_type = 'cat_exam' AND flashcard_enabled = true`
+  );
+
+  const perTier: Record<string, number> = {};
+  let total = 0;
+  for (const r of tierCounts) {
+    perTier[r.tier] = r.count;
+    total += r.count;
+  }
+
+  return {
+    totalExamFlashcards: total,
+    perTier,
+    withImages: imageCounts[0]?.with_images || 0,
+    withLessons: imageCounts[0]?.with_lessons || 0,
+    missingImages: imageCounts[0]?.missing_images || 0,
+    missingLessons: imageCounts[0]?.missing_lessons || 0,
+  };
+}

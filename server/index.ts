@@ -787,6 +787,14 @@ app.use((req, res, next) => {
           }
 
           try {
+            const { mapExamQuestionsToFlashcards } = await import("./exam-flashcard-mapper");
+            const result = await mapExamQuestionsToFlashcards();
+            console.log(`[ExamFlashcardMapper] Synced: ${result.inserted} inserted, ${result.updated} updated, ${result.skipped} skipped`);
+          } catch (e: any) {
+            console.error("[ExamFlashcardMapper] Failed:", e.message);
+          }
+
+          try {
             const tierCounts = await seedPool.query(
               `SELECT tier, COUNT(*)::int AS count FROM exam_questions WHERE status = 'published' GROUP BY tier ORDER BY tier`
             );

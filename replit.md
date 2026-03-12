@@ -33,14 +33,13 @@ Built with Vite, React, and Express 5 on Node.js with TypeScript, the applicatio
 - **Paramedic SEO Content Engine**: Manages various SEO content types (Topic, Category, Glossary, Comparison, Study Guides) for paramedic content, supporting internal linking and structured data.
 - **MLT Exam Engines**: Offers Canada CSMLS, USA ASCP CAT, Adaptive Practice, and customizable Practice Exam modes, featuring IRT-based ability estimation and CAT stop logic.
 - **MLT Lab Image & Microscopy System**: Manages lab image metadata, relational linking to questions/flashcards/lessons, and user drill practice history, including an Admin Image Library.
-- **Blog Batch Generator**: Automates blog post generation using OpenAI.
-- **MLT Admin Content Studio**: Comprehensive admin interface for managing MLT content (questions, flashcards, lessons) with CRUD, bulk import, validation, and content distribution dashboards.
-- **MLT Student Dashboard**: A 9-tab dashboard for MLT candidates covering Overview, Exams, Flashcards, Lessons, Performance, Wrong Answers, and Study Plan, with domain mastery heatmap and remediation actions.
 - **Clinical Case Study Engine**: Manages multi-stage clinical case studies with decision points, exhibit data (vitals, labs, notes), various question types, and per-question scoring with partial credit.
 - **Blog Batch Generator**: Automates the generation of blog posts via OpenAI with smart scheduling.
 - **MLT Admin Content Studio**: Comprehensive admin interface for managing MLT content (questions, flashcards, lessons) with CRUD, bulk import, validation, and content distribution dashboards.
+- **MLT Student Dashboard**: A 9-tab dashboard for MLT candidates covering Overview, Exams, Flashcards, Lessons, Performance, Wrong Answers, and Study Plan, with domain mastery heatmap and remediation actions.
 - **Paramedic Bulk Upload Manager**: Admin tool for importing large amounts of paramedic content (questions, flashcards, lessons, scenarios, etc.) via JSON, CSV, or text, with field mapping, validation, and version control.
 - **Paramedic ECG/Waveform Library**: SVG-based ECG strip and cardiac monitor rendering system with 25 seeded rhythm types (NSR, AFib, VTach, VFib, heart blocks, STEMI patterns, capnography). Browsable library at `/paramedic/ecg-library` with search/filter, detail views with monitor toggle. Admin CRUD at `/admin/paramedic-waveforms`. DB table: `paramedic_waveform_assets`. Auto-seeded on startup.
+- **CAT Exam Flashcard System**: Converts 7,375 published exam questions from `exam_questions` table into premium flashcard-style study cards in `flashcard_bank` table. Features structured rationale (correct answer explanation, per-distractor rationales, clinical takeaway, exam pearl), matched infographic images, lesson links, and full study UI with progress tracking, bookmarking, mastered cards, and resume support. Auto-synced on startup via `server/exam-flashcard-mapper.ts`. Premium-only, tier-filtered (rpn/rn/np). API: `/api/flashcard-bank?sourceType=cat_exam`, `/api/flashcard-bank/counts`.
 
 ## External Dependencies
 

@@ -1615,11 +1615,36 @@ type CustomCard = {
   createdAt: string;
 };
 
+type ExamFlashcard = {
+  id: string;
+  front: string;
+  back: string;
+  category: string;
+  tier: string;
+  difficulty: number;
+  sourceType: string;
+  questionType: string;
+  options: any[];
+  correctAnswer: any[];
+  rationaleCorrect: string;
+  distractorRationales: Record<string, string> | null;
+  clinicalTakeaway: string | null;
+  examPearl: string | null;
+  rationaleMedia: { imageUrl: string; imageAlt: string; imageCaption: string; imageDescription: string; sortOrder: number }[];
+  lessonLinks: { lessonTitle: string; lessonUrl: string; relevanceNote: string }[];
+  bodySystem: string | null;
+  topic: string | null;
+  subtopic: string | null;
+  regionScope: string;
+  flashcardEnabled: boolean;
+  sourceQuestionId: string;
+};
+
 export default function Flashcards() {
   const { user, effectiveTier } = useAuth();
   const [, setLocation] = useLocation();
   const { t } = useI18n();
-  const [view, setView] = useState<"setup" | "study" | "report" | "bookmarks" | "mastered" | "mycards" | "mycards-study" | "decks" | "deck-view" | "deck-edit" | "deck-study-learn" | "deck-study-test" | "deck-report" | "browse-decks" | "admin-sets" | "admin-set-study">("setup");
+  const [view, setView] = useState<"setup" | "study" | "report" | "bookmarks" | "mastered" | "mycards" | "mycards-study" | "decks" | "deck-view" | "deck-edit" | "deck-study-learn" | "deck-study-test" | "deck-report" | "browse-decks" | "admin-sets" | "admin-set-study" | "exam-flashcards" | "exam-report">("setup");
   const [selectedType, setSelectedType] = useState<CardType | "all">("all");
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [cardSortBy, setCardSortBy] = useState<"default" | "alpha-asc" | "alpha-desc" | "category" | "shuffle">("default");
@@ -1636,6 +1661,18 @@ export default function Flashcards() {
   const [includeMastered, setIncludeMastered] = useState(false);
   const [sessionResults, setSessionResults] = useState<{ id: string; correct: boolean }[]>([]);
   const [region, setRegion] = useState<"US" | "CA">("CA");
+
+  const [examFlashcards, setExamFlashcards] = useState<ExamFlashcard[]>([]);
+  const [examFlashcardsLoading, setExamFlashcardsLoading] = useState(false);
+  const [examFlashcardCounts, setExamFlashcardCounts] = useState<Record<string, number>>({});
+  const [examFlashcardTotal, setExamFlashcardTotal] = useState(0);
+  const [examStudyIndex, setExamStudyIndex] = useState(0);
+  const [examSelectedOption, setExamSelectedOption] = useState<number | null>(null);
+  const [examShowRationale, setExamShowRationale] = useState(false);
+  const [examSessionResults, setExamSessionResults] = useState<{ id: string; correct: boolean }[]>([]);
+  const [examBookmarks, setExamBookmarks] = useState<string[]>(() => JSON.parse(localStorage.getItem("nursenest-exam-bookmarks") || "[]"));
+  const [examMastered, setExamMastered] = useState<string[]>(() => JSON.parse(localStorage.getItem("nursenest-exam-mastered") || "[]"));
+  const [examHasResumable, setExamHasResumable] = useState(false);
 
   const [customCards, setCustomCards] = useState<CustomCard[]>([]);
   const [customCardsLoading, setCustomCardsLoading] = useState(false);
@@ -2200,6 +2237,84 @@ export default function Flashcards() {
     if (user && (view === "mycards" || view === "mycards-study")) fetchCustomCards();
   }, [user, view, fetchCustomCards]);
 
+  const fetchExamFlashcardCounts = useCallback(async () => {
+    try {
+      const res = await fetch("/api/flashcard-bank/counts");
+      if (res.ok) {
+        const data = await res.json();
+        setExamFlashcardCounts(data.counts || data.tiers || {});
+        setExamFlashcardTotal(data.total || 0);
+      }
+    } catch {}
+  }, []);
+
+  const fetchExamFlashcards = useCallback(async () => {
+    if (!effectiveTier || effectiveTier === "free") return;
+    setExamFlashcardsLoading(true);
+    try {
+      const tierParam = effectiveTier === "admin" ? "" : `&tier=${effectiveTier}`;
+      let allItems: ExamFlashcard[] = [];
+      let offset = 0;
+      const batchSize = 500;
+      let hasMore = true;
+      while (hasMore) {
+        const res = await fetch(`/api/flashcard-bank?sourceType=cat_exam&limit=${batchSize}&offset=${offset}${tierParam}`);
+        if (!res.ok) break;
+        const data = await res.json();
+        const items = data.items || [];
+        allItems = [...allItems, ...items];
+        offset += batchSize;
+        hasMore = items.length === batchSize && allItems.length < data.total;
+      }
+      setExamFlashcards(allItems);
+    } catch {} finally {
+      setExamFlashcardsLoading(false);
+    }
+  }, [effectiveTier]);
+
+  useEffect(() => {
+    fetchExamFlashcardCounts();
+    const saved = localStorage.getItem("nursenest-exam-session");
+    if (saved) {
+      try {
+        const s = JSON.parse(saved);
+        if (s.index > 0 && s.index < (s.total || Infinity)) {
+          setExamHasResumable(true);
+        }
+      } catch {}
+    }
+  }, [fetchExamFlashcardCounts]);
+
+  const saveExamSession = useCallback((index: number, results: { id: string; correct: boolean }[], total: number) => {
+    localStorage.setItem("nursenest-exam-session", JSON.stringify({ index, results, total, timestamp: Date.now() }));
+  }, []);
+
+  const clearExamSession = useCallback(() => {
+    localStorage.removeItem("nursenest-exam-session");
+    setExamHasResumable(false);
+  }, []);
+
+  const resumeExamSession = useCallback(() => {
+    try {
+      const saved = localStorage.getItem("nursenest-exam-session");
+      if (saved) {
+        const s = JSON.parse(saved);
+        setExamStudyIndex(s.index || 0);
+        setExamSessionResults(s.results || []);
+        setExamSelectedOption(null);
+        setExamShowRationale(false);
+        return true;
+      }
+    } catch {}
+    return false;
+  }, []);
+
+  useEffect(() => {
+    if (view === "exam-flashcards" && examFlashcards.length === 0) {
+      fetchExamFlashcards();
+    }
+  }, [view, examFlashcards.length, fetchExamFlashcards]);
+
   const handleValidateAndSave = async () => {
     if (!user || !newQuestion.trim() || !newAnswer.trim()) return;
     setValidating(true);
@@ -2746,6 +2861,58 @@ export default function Flashcards() {
                 <p className="text-white/70 text-sm leading-relaxed">
                   {t("flashcards.studyDecksDesc")}
                 </p>
+              </Card>
+
+              <Card 
+                className="border-none shadow-lg bg-gradient-to-br from-rose-500 to-pink-600 text-white p-8 rounded-3xl cursor-pointer hover:scale-[1.02] transition-transform group relative overflow-hidden"
+                onClick={() => {
+                  if (!isPaid) {
+                    setLocation("/pricing");
+                    return;
+                  }
+                  setExamStudyIndex(0);
+                  setExamSelectedOption(null);
+                  setExamShowRationale(false);
+                  setExamSessionResults([]);
+                  setView("exam-flashcards");
+                }}
+                data-testid="card-exam-flashcards"
+              >
+                {!isPaid && (
+                  <div className="absolute top-3 right-3 flex items-center gap-1 bg-amber-400/90 text-amber-900 px-2 py-0.5 rounded-full text-[10px] font-bold">
+                    <Lock className="w-2.5 h-2.5" />
+                    Premium
+                  </div>
+                )}
+                <div className="flex justify-between items-start mb-6">
+                  <div className="w-12 h-12 bg-white/15 rounded-2xl flex items-center justify-center">
+                    <ShieldAlert className="w-6 h-6 text-white/80" />
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs bg-white/20 px-2 py-1 rounded-full font-medium">
+                      {examFlashcardTotal > 0 ? `${examFlashcardTotal.toLocaleString()} Cards` : "CAT Prep"}
+                    </span>
+                    <ChevronRight className="w-5 h-5 text-white/40 group-hover:translate-x-1 transition-transform" />
+                  </div>
+                </div>
+                <h3 className="text-2xl font-bold mb-2" data-testid="text-exam-flashcards-title">CAT Exam Study Cards</h3>
+                <p className="text-white/70 text-sm leading-relaxed">
+                  Practice with real exam-style questions featuring detailed rationales, clinical takeaways, and exam pearls
+                </p>
+                {examHasResumable && isPaid && (
+                  <button
+                    className="mt-4 w-full py-2 bg-white/20 hover:bg-white/30 rounded-xl text-sm font-semibold transition-colors flex items-center justify-center gap-2"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      resumeExamSession();
+                      setView("exam-flashcards");
+                    }}
+                    data-testid="button-resume-exam-session"
+                  >
+                    <History className="w-4 h-4" />
+                    Resume Previous Session
+                  </button>
+                )}
               </Card>
 
               {dbFlashcardSets.length > 0 && (
@@ -3922,6 +4089,325 @@ export default function Flashcards() {
               ))}
             </div>
           )}
+        </main>
+        <Footer />
+      </div>
+    );
+  }
+
+  if (view === "exam-flashcards") {
+    const examCard = examFlashcards[examStudyIndex];
+
+    const toggleExamBookmark = (id: string) => {
+      const updated = examBookmarks.includes(id) ? examBookmarks.filter(b => b !== id) : [...examBookmarks, id];
+      setExamBookmarks(updated);
+      localStorage.setItem("nursenest-exam-bookmarks", JSON.stringify(updated));
+    };
+    const toggleExamMastered = (id: string) => {
+      const updated = examMastered.includes(id) ? examMastered.filter(m => m !== id) : [...examMastered, id];
+      setExamMastered(updated);
+      localStorage.setItem("nursenest-exam-mastered", JSON.stringify(updated));
+    };
+
+    const handleExamOptionClick = (idx: number) => {
+      if (examShowRationale) return;
+      const isCorrect = examCard.correctAnswer.includes(idx);
+      const newResults = [...examSessionResults, { id: examCard.id, correct: isCorrect }];
+      setExamSessionResults(newResults);
+      setExamSelectedOption(idx);
+      setExamShowRationale(true);
+      saveExamSession(examStudyIndex, newResults, examFlashcards.length);
+    };
+
+    const handleExamNext = () => {
+      if (examStudyIndex < examFlashcards.length - 1) {
+        const nextIdx = examStudyIndex + 1;
+        setExamStudyIndex(nextIdx);
+        setExamSelectedOption(null);
+        setExamShowRationale(false);
+        saveExamSession(nextIdx, examSessionResults, examFlashcards.length);
+      } else {
+        clearExamSession();
+        setView("exam-report");
+      }
+    };
+
+    if (examFlashcardsLoading) {
+      return (
+        <div className="min-h-screen bg-warmwhite flex flex-col font-sans">
+          <Navigation />
+          <main className="max-w-4xl mx-auto px-4 py-24 w-full flex-1 flex items-center justify-center">
+            <div className="text-center">
+              <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-4" />
+              <p className="text-gray-500 font-medium">Loading exam study cards...</p>
+            </div>
+          </main>
+          <Footer />
+        </div>
+      );
+    }
+
+    if (!examCard || examFlashcards.length === 0) {
+      return (
+        <div className="min-h-screen bg-warmwhite flex flex-col font-sans">
+          <Navigation />
+          <main className="max-w-4xl mx-auto px-4 py-24 w-full flex-1 text-center">
+            <ShieldAlert className="w-12 h-12 text-gray-300 mx-auto mb-4" />
+            <h2 className="text-2xl font-bold text-gray-900 mb-2">No Exam Cards Available</h2>
+            <p className="text-gray-500 mb-6">Exam flashcards haven't been synced yet. Check back soon!</p>
+            <Button onClick={() => setView("setup")} data-testid="button-back-exam">Back to Flashcards</Button>
+          </main>
+          <Footer />
+        </div>
+      );
+    }
+
+    return (
+      <div className={`min-h-screen bg-warmwhite flex flex-col font-sans ${user?.tier !== "admin" ? "select-none" : ""}`}>
+        <Navigation />
+        <main className="max-w-4xl mx-auto px-4 py-8 sm:py-12 w-full flex-1 flex flex-col">
+          <div className="mb-6 flex items-center justify-between">
+            <div>
+              <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 tracking-tight" data-testid="text-exam-session-title">CAT Exam Study Cards</h1>
+              <p className="text-sm text-gray-500 mt-1">
+                {examCard.bodySystem || examCard.category} &middot; {examCard.difficulty ? `Difficulty ${examCard.difficulty}` : "Exam Question"}
+                {examCard.topic && <span> &middot; {examCard.topic}</span>}
+              </p>
+            </div>
+            <div className="flex items-center gap-4 text-sm text-gray-500">
+              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-rose-50 text-rose-600 text-xs font-semibold">
+                <ShieldAlert className="w-3 h-3" />
+                {examCard.tier?.toUpperCase()}
+              </span>
+              <div className="flex items-center gap-1">
+                <span className="font-semibold text-gray-900">{examStudyIndex + 1}</span>
+                <span>/</span>
+                <span>{examFlashcards.length}</span>
+              </div>
+            </div>
+          </div>
+
+          <div className="w-full bg-gray-200 h-1 rounded-full mb-8 overflow-hidden">
+            <div
+              className="bg-rose-500 h-full transition-all duration-500"
+              style={{ width: `${((examStudyIndex + 1) / examFlashcards.length) * 100}%` }}
+            />
+          </div>
+
+          <div className="w-full flex-1 flex flex-col gap-6">
+            <div className="flex-1">
+              <Card className="border border-gray-200 shadow-sm bg-white overflow-hidden rounded-2xl min-h-[460px] flex flex-col animate-in fade-in duration-200" data-testid="card-exam-question">
+                <div className="p-6 sm:p-8 flex flex-col flex-1">
+                  <h2 className="text-lg font-semibold text-gray-900 mb-6 leading-snug" data-testid="text-exam-question-stem">{examCard.front}</h2>
+                  <div className="space-y-2.5 flex-1">
+                    {examCard.options?.map((option: any, idx: number) => {
+                      const optionText = typeof option === "string" ? option : option.text || option.label || String(option);
+                      const isSelected = examSelectedOption === idx;
+                      const isCorrect = examCard.correctAnswer.includes(idx);
+                      let variantClasses = "border-gray-200 hover:border-gray-400 hover:bg-gray-50 text-gray-700";
+                      if (examShowRationale) {
+                        if (isCorrect) variantClasses = "border-emerald-500 bg-emerald-50 text-emerald-900 ring-2 ring-emerald-200";
+                        else if (isSelected) variantClasses = "border-red-300 bg-red-50 text-red-700";
+                        else variantClasses = "border-gray-100 bg-gray-50 text-gray-400";
+                      }
+                      return (
+                        <button
+                          key={idx}
+                          disabled={examShowRationale}
+                          onClick={() => handleExamOptionClick(idx)}
+                          className={cn("w-full text-left p-3.5 rounded-lg border transition-all flex items-start gap-3 text-sm", variantClasses)}
+                          data-testid={`button-exam-option-${idx}`}
+                        >
+                          <span className="shrink-0 w-6 h-6 rounded-full border border-current flex items-center justify-center text-[10px] font-semibold">
+                            {String.fromCharCode(65 + idx)}
+                          </span>
+                          {optionText}
+                        </button>
+                      );
+                    })}
+                  </div>
+
+                  {examShowRationale && (
+                    <div className="mt-6 space-y-4 animate-in fade-in duration-300" data-testid="section-exam-rationale">
+                      <div className="p-5 bg-emerald-50 border border-emerald-200 rounded-xl">
+                        <p className="text-[10px] font-semibold text-emerald-600 uppercase tracking-widest mb-2 flex items-center gap-1">
+                          <CheckCircle2 className="w-3 h-3" /> Correct Answer Rationale
+                        </p>
+                        <p className="text-sm text-gray-700 leading-relaxed">{examCard.rationaleCorrect || examCard.back}</p>
+                      </div>
+
+                      {examCard.distractorRationales && Object.keys(examCard.distractorRationales).length > 0 && (
+                        <div className="p-5 bg-gray-50 border border-gray-200 rounded-xl">
+                          <p className="text-[10px] font-semibold text-gray-500 uppercase tracking-widest mb-3">Why Other Options Are Incorrect</p>
+                          <div className="space-y-2">
+                            {Object.entries(examCard.distractorRationales).map(([key, rationale]) => (
+                              <div key={key} className="flex gap-2 text-sm">
+                                <span className="shrink-0 w-5 h-5 rounded-full bg-gray-200 flex items-center justify-center text-[9px] font-bold text-gray-600 mt-0.5">
+                                  {key.replace(/^option_?/i, "").charAt(0).toUpperCase() || key.charAt(0).toUpperCase()}
+                                </span>
+                                <p className="text-gray-600 leading-relaxed">{rationale}</p>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+
+                      {examCard.clinicalTakeaway && (
+                        <div className="p-5 bg-blue-50 border border-blue-200 rounded-xl">
+                          <p className="text-[10px] font-semibold text-blue-600 uppercase tracking-widest mb-2 flex items-center gap-1">
+                            <BookOpen className="w-3 h-3" /> Clinical Takeaway
+                          </p>
+                          <p className="text-sm text-gray-700 leading-relaxed">{examCard.clinicalTakeaway}</p>
+                        </div>
+                      )}
+
+                      {examCard.examPearl && (
+                        <div className="p-5 bg-amber-50 border border-amber-200 rounded-xl">
+                          <p className="text-[10px] font-semibold text-amber-600 uppercase tracking-widest mb-2 flex items-center gap-1">
+                            <Sparkles className="w-3 h-3" /> Exam Pearl
+                          </p>
+                          <p className="text-sm text-gray-700 leading-relaxed">{examCard.examPearl}</p>
+                        </div>
+                      )}
+
+                      {examCard.rationaleMedia && examCard.rationaleMedia.length > 0 && (
+                        <div className="p-5 bg-white border border-gray-200 rounded-xl">
+                          <p className="text-[10px] font-semibold text-gray-500 uppercase tracking-widest mb-3">Related Images</p>
+                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                            {examCard.rationaleMedia.map((media: any, i: number) => (
+                              <div key={i} className="rounded-lg overflow-hidden border border-gray-100">
+                                <img src={media.imageUrl} alt={media.imageAlt || "Clinical image"} className="w-full h-32 object-contain bg-gray-50" />
+                                {media.imageCaption && <p className="text-xs text-gray-500 p-2">{media.imageCaption}</p>}
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+
+                      {examCard.lessonLinks && examCard.lessonLinks.length > 0 && (
+                        <div className="p-5 bg-indigo-50 border border-indigo-200 rounded-xl">
+                          <p className="text-[10px] font-semibold text-indigo-600 uppercase tracking-widest mb-3 flex items-center gap-1">
+                            <Layers className="w-3 h-3" /> Related Lessons
+                          </p>
+                          <div className="space-y-2">
+                            {examCard.lessonLinks.map((link: any, i: number) => (
+                              <a
+                                key={i}
+                                href={link.lessonUrl}
+                                className="flex items-center gap-2 text-sm text-indigo-700 hover:text-indigo-900 hover:underline"
+                                data-testid={`link-exam-lesson-${i}`}
+                              >
+                                <ChevronRight className="w-3 h-3" />
+                                <span>{link.lessonTitle}</span>
+                                {link.relevanceNote && <span className="text-xs text-gray-400 ml-1">({link.relevanceNote})</span>}
+                              </a>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </div>
+              </Card>
+            </div>
+
+            <div className="flex items-center justify-between gap-3 pt-2 flex-wrap">
+              <Button variant="ghost" size="sm" onClick={() => setView("setup")} className="text-gray-400 hover:text-gray-600" data-testid="button-exit-exam-session">
+                Exit Session
+              </Button>
+              <div className="flex items-center gap-2">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className={cn(
+                    "gap-1.5 transition-all",
+                    examBookmarks.includes(examCard.id) ? "bg-gray-900 text-white border-gray-900 hover:bg-gray-800" : "text-gray-600"
+                  )}
+                  onClick={() => toggleExamBookmark(examCard.id)}
+                  data-testid="button-exam-bookmark"
+                >
+                  {examBookmarks.includes(examCard.id) ? (
+                    <><BookmarkCheck className="w-3.5 h-3.5" /> Saved</>
+                  ) : (
+                    <><Bookmark className="w-3.5 h-3.5" /> Save</>
+                  )}
+                </Button>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className={cn(
+                    "gap-1.5 transition-all",
+                    examMastered.includes(examCard.id) ? "bg-gray-900 text-white border-gray-900 hover:bg-gray-800" : "text-gray-600"
+                  )}
+                  onClick={() => toggleExamMastered(examCard.id)}
+                  data-testid="button-exam-mastered"
+                >
+                  {examMastered.includes(examCard.id) ? (
+                    <><CheckCircle2 className="w-3.5 h-3.5" /> Mastered</>
+                  ) : (
+                    <><Trophy className="w-3.5 h-3.5" /> Master</>
+                  )}
+                </Button>
+              </div>
+              <Button variant="ghost" size="sm" onClick={handleExamNext} className="text-gray-900 gap-1.5 font-medium" data-testid="button-exam-next">
+                {examStudyIndex < examFlashcards.length - 1 ? "Next Card" : "Finish"} <ChevronRight className="w-4 h-4" />
+              </Button>
+            </div>
+          </div>
+        </main>
+        <Footer />
+      </div>
+    );
+  }
+
+  if (view === "exam-report") {
+    const examCorrectCount = examSessionResults.filter(r => r.correct).length;
+    const examTotalCount = examSessionResults.length;
+    const examScore = examTotalCount > 0 ? Math.round((examCorrectCount / examTotalCount) * 100) : 100;
+
+    return (
+      <div className="min-h-screen bg-warmwhite flex flex-col font-sans">
+        <Navigation />
+        <main className="max-w-2xl mx-auto px-4 py-24 w-full text-center">
+          <div className="w-24 h-24 bg-rose-100 rounded-full flex items-center justify-center mx-auto mb-8 animate-bounce">
+            <Trophy className="w-12 h-12 text-rose-500" />
+          </div>
+          <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-2" data-testid="text-exam-report-title">Exam Session Complete!</h1>
+          <p className="text-gray-600 mb-12">Here's how you performed on the CAT exam study cards</p>
+
+          <div className="grid grid-cols-3 gap-4 mb-12">
+            <Card className="border-none shadow-md bg-white p-8 rounded-3xl text-center">
+              <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-2">Accuracy</p>
+              <p className="text-4xl font-black text-rose-500" data-testid="text-exam-accuracy">{examScore}%</p>
+            </Card>
+            <Card className="border-none shadow-md bg-white p-8 rounded-3xl text-center">
+              <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-2">Correct</p>
+              <p className="text-4xl font-black text-emerald-500" data-testid="text-exam-correct">{examCorrectCount}</p>
+            </Card>
+            <Card className="border-none shadow-md bg-white p-8 rounded-3xl text-center">
+              <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-2">Total</p>
+              <p className="text-4xl font-black text-gray-900" data-testid="text-exam-total">{examTotalCount}</p>
+            </Card>
+          </div>
+
+          <div className="space-y-4">
+            <Button
+              className="w-full h-14 rounded-2xl text-lg font-bold bg-rose-500 hover:bg-rose-600"
+              onClick={() => {
+                setExamStudyIndex(0);
+                setExamSelectedOption(null);
+                setExamShowRationale(false);
+                setExamSessionResults([]);
+                setView("exam-flashcards");
+              }}
+              data-testid="button-exam-new-session"
+            >
+              Start New Session
+            </Button>
+            <Button variant="outline" className="w-full h-14 rounded-2xl text-lg font-bold" onClick={() => setView("setup")} data-testid="button-exam-back-setup">
+              Back to Flashcards
+            </Button>
+          </div>
         </main>
         <Footer />
       </div>
