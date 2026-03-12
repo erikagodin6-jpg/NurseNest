@@ -2523,21 +2523,40 @@ export const insertImagingQuestionSchema = createInsertSchema(imagingQuestions).
 export type ImagingQuestion = typeof imagingQuestions.$inferSelect;
 export type InsertImagingQuestion = z.infer<typeof insertImagingQuestionSchema>;
 
+export const IMAGE_ASSET_CATEGORIES = [
+  "positioning_diagram",
+  "anatomy_diagram",
+  "exam_image",
+  "artifact_example",
+  "quality_control_example",
+  "comparison_image",
+  "physics_visual",
+  "lesson_illustration",
+  "study_pack_cover",
+  "thumbnail_preview",
+] as const;
+
 export const imageAssets = pgTable("image_assets", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
   assetType: text("asset_type").notNull().default("radiograph"),
+  category: text("category").notNull().default("exam_image"),
   country: text("country").notNull().default("canada"),
   examType: text("exam_type"),
   modality: text("modality"),
   bodyRegion: text("body_region"),
   projection: text("projection"),
+  title: text("title"),
+  description: text("description"),
   teachingUrl: text("teaching_url"),
   examUrl: text("exam_url"),
   thumbnailUrl: text("thumbnail_url"),
+  tags: text("tags").array().default(sql`'{}'::text[]`),
+  relatedContentIds: text("related_content_ids").array().default(sql`'{}'::text[]`),
   approvalStatus: text("approval_status").notNull().default("pending"),
   seoTitle: text("seo_title"),
   seoDescription: text("seo_description"),
   seoKeywords: text("seo_keywords").array().default(sql`'{}'::text[]`),
+  metadata: jsonb("metadata").default(sql`'{}'::jsonb`),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
 });
@@ -3856,3 +3875,114 @@ export const imagingExamConfig = pgTable("imaging_exam_config", {
 });
 
 export type ImagingExamConfig = typeof imagingExamConfig.$inferSelect;
+
+export const imagingArtifactImages = pgTable("imaging_artifact_images", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  artifactName: text("artifact_name").notNull(),
+  artifactType: text("artifact_type").notNull(),
+  description: text("description"),
+  cause: text("cause"),
+  correction: text("correction"),
+  severity: text("severity").default("moderate"),
+  teachingVersionUrl: text("teaching_version_url"),
+  examVersionUrl: text("exam_version_url"),
+  correctedComparisonUrl: text("corrected_comparison_url"),
+  bodyRegion: text("body_region"),
+  modality: text("modality"),
+  tags: text("tags").array().default(sql`'{}'::text[]`),
+  status: text("status").default("draft"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export const insertImagingArtifactImageSchema = createInsertSchema(imagingArtifactImages).omit({ id: true, createdAt: true, updatedAt: true });
+export type ImagingArtifactImage = typeof imagingArtifactImages.$inferSelect;
+export type InsertImagingArtifactImage = z.infer<typeof insertImagingArtifactImageSchema>;
+
+export const imagingComparisonSets = pgTable("imaging_comparison_sets", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  title: text("title").notNull(),
+  comparisonType: text("comparison_type").notNull(),
+  description: text("description"),
+  acceptableImageUrl: text("acceptable_image_url"),
+  unacceptableImageUrl: text("unacceptable_image_url"),
+  acceptableLabel: text("acceptable_label").default("Acceptable"),
+  unacceptableLabel: text("unacceptable_label").default("Unacceptable"),
+  keyDifferences: text("key_differences").array().default(sql`'{}'::text[]`),
+  bodyRegion: text("body_region"),
+  modality: text("modality"),
+  category: text("category"),
+  tags: text("tags").array().default(sql`'{}'::text[]`),
+  status: text("status").default("draft"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export const insertImagingComparisonSetSchema = createInsertSchema(imagingComparisonSets).omit({ id: true, createdAt: true, updatedAt: true });
+export type ImagingComparisonSet = typeof imagingComparisonSets.$inferSelect;
+export type InsertImagingComparisonSet = z.infer<typeof insertImagingComparisonSetSchema>;
+
+export const imagingAnatomyImages = pgTable("imaging_anatomy_images", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  title: text("title").notNull(),
+  bodyRegion: text("body_region").notNull(),
+  bodyPart: text("body_part"),
+  anatomicalStructures: text("anatomical_structures").array().default(sql`'{}'::text[]`),
+  labeledTeachingUrl: text("labeled_teaching_url"),
+  cleanExamUrl: text("clean_exam_url"),
+  hotspotOverlay: jsonb("hotspot_overlay").default(sql`'[]'::jsonb`),
+  modality: text("modality"),
+  projection: text("projection"),
+  tags: text("tags").array().default(sql`'{}'::text[]`),
+  status: text("status").default("draft"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export const insertImagingAnatomyImageSchema = createInsertSchema(imagingAnatomyImages).omit({ id: true, createdAt: true, updatedAt: true });
+export type ImagingAnatomyImage = typeof imagingAnatomyImages.$inferSelect;
+export type InsertImagingAnatomyImage = z.infer<typeof insertImagingAnatomyImageSchema>;
+
+export const imagingPhysicsVisuals = pgTable("imaging_physics_visuals", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  title: text("title").notNull(),
+  concept: text("concept").notNull(),
+  description: text("description"),
+  category: text("category"),
+  imageUrl: text("image_url"),
+  animationUrl: text("animation_url"),
+  relatedTopicId: varchar("related_topic_id"),
+  tags: text("tags").array().default(sql`'{}'::text[]`),
+  status: text("status").default("draft"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export const insertImagingPhysicsVisualSchema = createInsertSchema(imagingPhysicsVisuals).omit({ id: true, createdAt: true, updatedAt: true });
+export type ImagingPhysicsVisual = typeof imagingPhysicsVisuals.$inferSelect;
+export type InsertImagingPhysicsVisual = z.infer<typeof insertImagingPhysicsVisualSchema>;
+
+export const imagingImageBriefs = pgTable("imaging_image_briefs", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  title: text("title").notNull(),
+  briefType: text("brief_type").notNull(),
+  targetCategory: text("target_category").notNull(),
+  description: text("description").notNull(),
+  specifications: jsonb("specifications").default(sql`'{}'::jsonb`),
+  bodyRegion: text("body_region"),
+  modality: text("modality"),
+  priority: text("priority").default("medium"),
+  status: text("status").default("pending"),
+  assignedTo: text("assigned_to"),
+  sourceTaskId: text("source_task_id"),
+  resultingAssetId: varchar("resulting_asset_id"),
+  notes: text("notes"),
+  dueDate: timestamp("due_date"),
+  completedAt: timestamp("completed_at"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export const insertImagingImageBriefSchema = createInsertSchema(imagingImageBriefs).omit({ id: true, createdAt: true, updatedAt: true, completedAt: true });
+export type ImagingImageBrief = typeof imagingImageBriefs.$inferSelect;
+export type InsertImagingImageBrief = z.infer<typeof insertImagingImageBriefSchema>;

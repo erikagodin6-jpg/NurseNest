@@ -1,4 +1,4 @@
-import { type User, type InsertUser, type Note, type InsertNote, type TestResult, type InsertTestResult, type UserProgress, type InsertUserProgress, type ContentItem, type InsertContentItem, type FeatureUsage, type UserFlashcard, type InsertUserFlashcard, type BlogConfig, type PageView, type InsertPageView, type UserFeedback, type InsertUserFeedback, type QotdHistory, type EmailSubscriber, type InsertEmailSubscriber, type SocialPost, type InsertSocialPost, type DashboardWidget, type InsertDashboardWidget, type SiteImage, type InsertSiteImage, type CustomPageModule, type InsertCustomPageModule, type AudioClip, type InsertAudioClip, type LessonAudioLink, type InsertLessonAudioLink, type ExamQuestion, type InsertExamQuestion, type QuestionTypeRegistryEntry, type InsertQuestionTypeRegistryEntry, type QuestionScheduleLog, type DigitalProduct, type InsertDigitalProduct, type ProductPurchase, type InsertProductPurchase, type QbankDraft, type InsertQbankDraft, type QbankRecipe, type InsertQbankRecipe, type DiagnosticAssessment, type InsertDiagnosticAssessment, type UserStats, type InsertUserStats, type StudyGroup, type InsertStudyGroup, type StudyGroupMember, type InsertStudyGroupMember, type QuestionAnalytics, type InsertQuestionAnalytics, type FriendRequest, type InsertFriendRequest, type FriendConnection, type InsertFriendConnection, type ProductGeneration, type InsertProductGeneration, type GeneratedQuestion, type InsertGeneratedQuestion, type GeneratorV2PresentationSettings, type InsertGeneratorV2PresentationSettings, type TesterInviteCode, type InsertTesterInviteCode, type TesterFeedback, type InsertTesterFeedback, type MltLabImage, type InsertMltLabImage, type MltLabImageLink, type InsertMltLabImageLink, type MltImageDrillAttempt, type InsertMltImageDrillAttempt, type ImagingQuestion, type InsertImagingQuestion, type ImageAsset, type InsertImageAsset, type ImagingFlashcard, type InsertImagingFlashcard, type ImagingCaseStudy, type InsertImagingCaseStudy, type ImagingExamAttempt, type InsertImagingExamAttempt, type ImagingExamAttemptQuestion, type InsertImagingExamAttemptQuestion, type ImagingPositioningEntry, type CaseStudy, type InsertCaseStudy, type CaseStudyStep, type InsertCaseStudyStep, type CaseStudyQuestion, type InsertCaseStudyQuestion, type InsertImagingPositioningEntry, type ImagingPhysicsTopic, type InsertImagingPhysicsTopic, type QuestionBankItem, type InsertQuestionBankItem, type QuestionBankResult, type InsertQuestionBankResult, users, notes, testResults, userProgress, contentItems, featureUsage, userFlashcards, blogConfig, pageViews, userFeedback, qotdHistory, emailSubscribers, socialPosts, dashboardWidgets, siteImages, customPageModules, audioClips, lessonAudioLinks, examQuestions, questionTypeRegistry, questionScheduleLog, digitalProducts, productPurchases, couponCodes, qbankDrafts, qbankRecipes, diagnosticAssessments, userStats, studyGroups, studyGroupMembers, questionAnalytics, friendRequests, friendConnections, productGenerations, generatedQuestions, generatorV2PresentationSettings, generationEvents, v2ContentBlocks, testerInviteCodes, testerFeedback, imagingQuestions, imageAssets, imagingFlashcards, imagingCaseStudies, imagingExamAttempts, imagingExamAttemptQuestions, imagingPositioningEntries, imagingPhysicsTopics, questionBank, questionBankResults, mltLabImages, mltLabImageLinks, mltImageDrillAttempts } from "@shared/schema";
+import { type User, type InsertUser, type Note, type InsertNote, type TestResult, type InsertTestResult, type UserProgress, type InsertUserProgress, type ContentItem, type InsertContentItem, type FeatureUsage, type UserFlashcard, type InsertUserFlashcard, type BlogConfig, type PageView, type InsertPageView, type UserFeedback, type InsertUserFeedback, type QotdHistory, type EmailSubscriber, type InsertEmailSubscriber, type SocialPost, type InsertSocialPost, type DashboardWidget, type InsertDashboardWidget, type SiteImage, type InsertSiteImage, type CustomPageModule, type InsertCustomPageModule, type AudioClip, type InsertAudioClip, type LessonAudioLink, type InsertLessonAudioLink, type ExamQuestion, type InsertExamQuestion, type QuestionTypeRegistryEntry, type InsertQuestionTypeRegistryEntry, type QuestionScheduleLog, type DigitalProduct, type InsertDigitalProduct, type ProductPurchase, type InsertProductPurchase, type QbankDraft, type InsertQbankDraft, type QbankRecipe, type InsertQbankRecipe, type DiagnosticAssessment, type InsertDiagnosticAssessment, type UserStats, type InsertUserStats, type StudyGroup, type InsertStudyGroup, type StudyGroupMember, type InsertStudyGroupMember, type QuestionAnalytics, type InsertQuestionAnalytics, type FriendRequest, type InsertFriendRequest, type FriendConnection, type InsertFriendConnection, type ProductGeneration, type InsertProductGeneration, type GeneratedQuestion, type InsertGeneratedQuestion, type GeneratorV2PresentationSettings, type InsertGeneratorV2PresentationSettings, type TesterInviteCode, type InsertTesterInviteCode, type TesterFeedback, type InsertTesterFeedback, type MltLabImage, type InsertMltLabImage, type MltLabImageLink, type InsertMltLabImageLink, type MltImageDrillAttempt, type InsertMltImageDrillAttempt, type ImagingQuestion, type InsertImagingQuestion, type ImageAsset, type InsertImageAsset, type ImagingFlashcard, type InsertImagingFlashcard, type ImagingCaseStudy, type InsertImagingCaseStudy, type ImagingArtifactImage, type InsertImagingArtifactImage, type ImagingComparisonSet, type InsertImagingComparisonSet, type ImagingAnatomyImage, type InsertImagingAnatomyImage, type ImagingPhysicsVisual, type InsertImagingPhysicsVisual, type ImagingImageBrief, type InsertImagingImageBrief, type ImagingExamAttempt, type InsertImagingExamAttempt, type ImagingExamAttemptQuestion, type InsertImagingExamAttemptQuestion, type ImagingPositioningEntry, type CaseStudy, type InsertCaseStudy, type CaseStudyStep, type InsertCaseStudyStep, type CaseStudyQuestion, type InsertCaseStudyQuestion, type InsertImagingPositioningEntry, type ImagingPhysicsTopic, type InsertImagingPhysicsTopic, type QuestionBankItem, type InsertQuestionBankItem, type QuestionBankResult, type InsertQuestionBankResult, users, notes, testResults, userProgress, contentItems, featureUsage, userFlashcards, blogConfig, pageViews, userFeedback, qotdHistory, emailSubscribers, socialPosts, dashboardWidgets, siteImages, customPageModules, audioClips, lessonAudioLinks, examQuestions, questionTypeRegistry, questionScheduleLog, digitalProducts, productPurchases, couponCodes, qbankDrafts, qbankRecipes, diagnosticAssessments, userStats, studyGroups, studyGroupMembers, questionAnalytics, friendRequests, friendConnections, productGenerations, generatedQuestions, generatorV2PresentationSettings, generationEvents, v2ContentBlocks, testerInviteCodes, testerFeedback, imagingQuestions, imageAssets, imagingFlashcards, imagingCaseStudies, imagingExamAttempts, imagingExamAttemptQuestions, imagingPositioningEntries, imagingPhysicsTopics, questionBank, questionBankResults, mltLabImages, mltLabImageLinks, mltImageDrillAttempts, imagingArtifactImages, imagingComparisonSets, imagingAnatomyImages, imagingPhysicsVisuals, imagingImageBriefs } from "@shared/schema";
 import { drizzle } from "drizzle-orm/node-postgres";
 import { eq, and, or, desc, sql, lte, ne, ilike, gte, count } from "drizzle-orm";
 import pg from "pg";
@@ -220,6 +220,36 @@ export interface IStorage {
   createImagingPhysicsTopic(t: InsertImagingPhysicsTopic): Promise<ImagingPhysicsTopic>;
   updateImagingPhysicsTopic(id: string, updates: Partial<InsertImagingPhysicsTopic>): Promise<ImagingPhysicsTopic>;
   deleteImagingPhysicsTopic(id: string): Promise<void>;
+
+  getAllImagingArtifactImages(filters?: { artifactType?: string; status?: string }): Promise<ImagingArtifactImage[]>;
+  getImagingArtifactImage(id: string): Promise<ImagingArtifactImage | undefined>;
+  createImagingArtifactImage(a: InsertImagingArtifactImage): Promise<ImagingArtifactImage>;
+  updateImagingArtifactImage(id: string, updates: Partial<InsertImagingArtifactImage>): Promise<ImagingArtifactImage>;
+  deleteImagingArtifactImage(id: string): Promise<void>;
+
+  getAllImagingComparisonSets(filters?: { comparisonType?: string; status?: string }): Promise<ImagingComparisonSet[]>;
+  getImagingComparisonSet(id: string): Promise<ImagingComparisonSet | undefined>;
+  createImagingComparisonSet(s: InsertImagingComparisonSet): Promise<ImagingComparisonSet>;
+  updateImagingComparisonSet(id: string, updates: Partial<InsertImagingComparisonSet>): Promise<ImagingComparisonSet>;
+  deleteImagingComparisonSet(id: string): Promise<void>;
+
+  getAllImagingAnatomyImages(filters?: { bodyRegion?: string; status?: string }): Promise<ImagingAnatomyImage[]>;
+  getImagingAnatomyImage(id: string): Promise<ImagingAnatomyImage | undefined>;
+  createImagingAnatomyImage(a: InsertImagingAnatomyImage): Promise<ImagingAnatomyImage>;
+  updateImagingAnatomyImage(id: string, updates: Partial<InsertImagingAnatomyImage>): Promise<ImagingAnatomyImage>;
+  deleteImagingAnatomyImage(id: string): Promise<void>;
+
+  getAllImagingPhysicsVisuals(filters?: { category?: string; status?: string }): Promise<ImagingPhysicsVisual[]>;
+  getImagingPhysicsVisual(id: string): Promise<ImagingPhysicsVisual | undefined>;
+  createImagingPhysicsVisual(v: InsertImagingPhysicsVisual): Promise<ImagingPhysicsVisual>;
+  updateImagingPhysicsVisual(id: string, updates: Partial<InsertImagingPhysicsVisual>): Promise<ImagingPhysicsVisual>;
+  deleteImagingPhysicsVisual(id: string): Promise<void>;
+
+  getAllImagingImageBriefs(filters?: { status?: string; targetCategory?: string; priority?: string }): Promise<ImagingImageBrief[]>;
+  getImagingImageBrief(id: string): Promise<ImagingImageBrief | undefined>;
+  createImagingImageBrief(b: InsertImagingImageBrief): Promise<ImagingImageBrief>;
+  updateImagingImageBrief(id: string, updates: Partial<InsertImagingImageBrief>): Promise<ImagingImageBrief>;
+  deleteImagingImageBrief(id: string): Promise<void>;
 
   getQuestionBankItems(filters?: { country?: string; examType?: string; category?: string; difficulty?: string; topic?: string; status?: string }): Promise<QuestionBankItem[]>;
   getQuestionBankItem(id: string): Promise<QuestionBankItem | undefined>;
@@ -1514,6 +1544,122 @@ export class DatabaseStorage implements IStorage {
   }
   async deleteImagingPhysicsTopic(id: string): Promise<void> {
     await db.delete(imagingPhysicsTopics).where(eq(imagingPhysicsTopics.id, id));
+  }
+
+  async getAllImagingArtifactImages(filters?: { artifactType?: string; status?: string }): Promise<ImagingArtifactImage[]> {
+    const conditions = [];
+    if (filters?.artifactType) conditions.push(eq(imagingArtifactImages.artifactType, filters.artifactType));
+    if (filters?.status) conditions.push(eq(imagingArtifactImages.status, filters.status));
+    if (conditions.length > 0) return db.select().from(imagingArtifactImages).where(and(...conditions)).orderBy(desc(imagingArtifactImages.updatedAt));
+    return db.select().from(imagingArtifactImages).orderBy(desc(imagingArtifactImages.updatedAt));
+  }
+  async getImagingArtifactImage(id: string): Promise<ImagingArtifactImage | undefined> {
+    const [r] = await db.select().from(imagingArtifactImages).where(eq(imagingArtifactImages.id, id));
+    return r;
+  }
+  async createImagingArtifactImage(a: InsertImagingArtifactImage): Promise<ImagingArtifactImage> {
+    const [r] = await db.insert(imagingArtifactImages).values(a).returning();
+    return r;
+  }
+  async updateImagingArtifactImage(id: string, updates: Partial<InsertImagingArtifactImage>): Promise<ImagingArtifactImage> {
+    const [r] = await db.update(imagingArtifactImages).set({ ...updates, updatedAt: new Date() }).where(eq(imagingArtifactImages.id, id)).returning();
+    return r;
+  }
+  async deleteImagingArtifactImage(id: string): Promise<void> {
+    await db.delete(imagingArtifactImages).where(eq(imagingArtifactImages.id, id));
+  }
+
+  async getAllImagingComparisonSets(filters?: { comparisonType?: string; status?: string }): Promise<ImagingComparisonSet[]> {
+    const conditions = [];
+    if (filters?.comparisonType) conditions.push(eq(imagingComparisonSets.comparisonType, filters.comparisonType));
+    if (filters?.status) conditions.push(eq(imagingComparisonSets.status, filters.status));
+    if (conditions.length > 0) return db.select().from(imagingComparisonSets).where(and(...conditions)).orderBy(desc(imagingComparisonSets.updatedAt));
+    return db.select().from(imagingComparisonSets).orderBy(desc(imagingComparisonSets.updatedAt));
+  }
+  async getImagingComparisonSet(id: string): Promise<ImagingComparisonSet | undefined> {
+    const [r] = await db.select().from(imagingComparisonSets).where(eq(imagingComparisonSets.id, id));
+    return r;
+  }
+  async createImagingComparisonSet(s: InsertImagingComparisonSet): Promise<ImagingComparisonSet> {
+    const [r] = await db.insert(imagingComparisonSets).values(s).returning();
+    return r;
+  }
+  async updateImagingComparisonSet(id: string, updates: Partial<InsertImagingComparisonSet>): Promise<ImagingComparisonSet> {
+    const [r] = await db.update(imagingComparisonSets).set({ ...updates, updatedAt: new Date() }).where(eq(imagingComparisonSets.id, id)).returning();
+    return r;
+  }
+  async deleteImagingComparisonSet(id: string): Promise<void> {
+    await db.delete(imagingComparisonSets).where(eq(imagingComparisonSets.id, id));
+  }
+
+  async getAllImagingAnatomyImages(filters?: { bodyRegion?: string; status?: string }): Promise<ImagingAnatomyImage[]> {
+    const conditions = [];
+    if (filters?.bodyRegion) conditions.push(eq(imagingAnatomyImages.bodyRegion, filters.bodyRegion));
+    if (filters?.status) conditions.push(eq(imagingAnatomyImages.status, filters.status));
+    if (conditions.length > 0) return db.select().from(imagingAnatomyImages).where(and(...conditions)).orderBy(desc(imagingAnatomyImages.updatedAt));
+    return db.select().from(imagingAnatomyImages).orderBy(desc(imagingAnatomyImages.updatedAt));
+  }
+  async getImagingAnatomyImage(id: string): Promise<ImagingAnatomyImage | undefined> {
+    const [r] = await db.select().from(imagingAnatomyImages).where(eq(imagingAnatomyImages.id, id));
+    return r;
+  }
+  async createImagingAnatomyImage(a: InsertImagingAnatomyImage): Promise<ImagingAnatomyImage> {
+    const [r] = await db.insert(imagingAnatomyImages).values(a).returning();
+    return r;
+  }
+  async updateImagingAnatomyImage(id: string, updates: Partial<InsertImagingAnatomyImage>): Promise<ImagingAnatomyImage> {
+    const [r] = await db.update(imagingAnatomyImages).set({ ...updates, updatedAt: new Date() }).where(eq(imagingAnatomyImages.id, id)).returning();
+    return r;
+  }
+  async deleteImagingAnatomyImage(id: string): Promise<void> {
+    await db.delete(imagingAnatomyImages).where(eq(imagingAnatomyImages.id, id));
+  }
+
+  async getAllImagingPhysicsVisuals(filters?: { category?: string; status?: string }): Promise<ImagingPhysicsVisual[]> {
+    const conditions = [];
+    if (filters?.category) conditions.push(eq(imagingPhysicsVisuals.category, filters.category));
+    if (filters?.status) conditions.push(eq(imagingPhysicsVisuals.status, filters.status));
+    if (conditions.length > 0) return db.select().from(imagingPhysicsVisuals).where(and(...conditions)).orderBy(desc(imagingPhysicsVisuals.updatedAt));
+    return db.select().from(imagingPhysicsVisuals).orderBy(desc(imagingPhysicsVisuals.updatedAt));
+  }
+  async getImagingPhysicsVisual(id: string): Promise<ImagingPhysicsVisual | undefined> {
+    const [r] = await db.select().from(imagingPhysicsVisuals).where(eq(imagingPhysicsVisuals.id, id));
+    return r;
+  }
+  async createImagingPhysicsVisual(v: InsertImagingPhysicsVisual): Promise<ImagingPhysicsVisual> {
+    const [r] = await db.insert(imagingPhysicsVisuals).values(v).returning();
+    return r;
+  }
+  async updateImagingPhysicsVisual(id: string, updates: Partial<InsertImagingPhysicsVisual>): Promise<ImagingPhysicsVisual> {
+    const [r] = await db.update(imagingPhysicsVisuals).set({ ...updates, updatedAt: new Date() }).where(eq(imagingPhysicsVisuals.id, id)).returning();
+    return r;
+  }
+  async deleteImagingPhysicsVisual(id: string): Promise<void> {
+    await db.delete(imagingPhysicsVisuals).where(eq(imagingPhysicsVisuals.id, id));
+  }
+
+  async getAllImagingImageBriefs(filters?: { status?: string; targetCategory?: string; priority?: string }): Promise<ImagingImageBrief[]> {
+    const conditions = [];
+    if (filters?.status) conditions.push(eq(imagingImageBriefs.status, filters.status));
+    if (filters?.targetCategory) conditions.push(eq(imagingImageBriefs.targetCategory, filters.targetCategory));
+    if (filters?.priority) conditions.push(eq(imagingImageBriefs.priority, filters.priority));
+    if (conditions.length > 0) return db.select().from(imagingImageBriefs).where(and(...conditions)).orderBy(desc(imagingImageBriefs.updatedAt));
+    return db.select().from(imagingImageBriefs).orderBy(desc(imagingImageBriefs.updatedAt));
+  }
+  async getImagingImageBrief(id: string): Promise<ImagingImageBrief | undefined> {
+    const [r] = await db.select().from(imagingImageBriefs).where(eq(imagingImageBriefs.id, id));
+    return r;
+  }
+  async createImagingImageBrief(b: InsertImagingImageBrief): Promise<ImagingImageBrief> {
+    const [r] = await db.insert(imagingImageBriefs).values(b).returning();
+    return r;
+  }
+  async updateImagingImageBrief(id: string, updates: Partial<InsertImagingImageBrief>): Promise<ImagingImageBrief> {
+    const [r] = await db.update(imagingImageBriefs).set({ ...updates, updatedAt: new Date() }).where(eq(imagingImageBriefs.id, id)).returning();
+    return r;
+  }
+  async deleteImagingImageBrief(id: string): Promise<void> {
+    await db.delete(imagingImageBriefs).where(eq(imagingImageBriefs.id, id));
   }
 
   async getQuestionBankItems(filters?: { country?: string; examType?: string; category?: string; difficulty?: string; topic?: string; status?: string }): Promise<QuestionBankItem[]> {

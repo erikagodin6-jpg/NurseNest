@@ -57,6 +57,7 @@ import { createPaypalOrder, capturePaypalOrder, loadPaypalDefault, isPaypalConfi
 import { generateBlogPost, runBlogScheduler, expandAllShortPosts } from "./blog-automation";
 import { registerObjectStorageRoutes } from "./replit_integrations/object_storage";
 import { registerMltAdminRoutes } from "./mlt-admin-routes";
+import { registerImagingLibraryRoutes } from "./imaging-library-routes";
 import { registerMltPipelineRoutes } from "./mlt-question-pipeline";
 import { registerMltExamRoutes } from "./mlt-exam-routes";
 import { registerMltRemediationRoutes } from "./mlt-remediation-routes";
@@ -206,6 +207,7 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
   registerMltPipelineRoutes(app);
   registerMltExamRoutes(app);
   registerMltRemediationRoutes(app);
+  registerImagingLibraryRoutes(app);
 
   const { registerPharmtechRoutes } = await import("./pharmtech-routes");
   registerPharmtechRoutes(app);
