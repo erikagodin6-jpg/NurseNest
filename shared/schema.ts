@@ -3689,3 +3689,48 @@ export const insertParamedicExamSessionSchema = createInsertSchema(paramedicExam
 });
 export type ParamedicExamSession = typeof paramedicExamSessions.$inferSelect;
 export type InsertParamedicExamSession = z.infer<typeof insertParamedicExamSessionSchema>;
+
+export const pharmtechStudyPlans = pgTable("pharmtech_study_plans", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id"),
+  examDate: timestamp("exam_date"),
+  daysPerWeek: integer("days_per_week").default(5),
+  minutesPerSession: integer("minutes_per_session").default(30),
+  pace: text("pace").default("balanced"),
+  learningStyle: text("learning_style").default("mixed"),
+  weakAreas: jsonb("weak_areas").default(sql`'[]'::jsonb`),
+  useAdaptiveResults: boolean("use_adaptive_results").default(false),
+  presetType: text("preset_type"),
+  schedule: jsonb("schedule").default(sql`'[]'::jsonb`),
+  progressPercent: integer("progress_percent").default(0),
+  isActive: boolean("is_active").default(true),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export const insertPharmtechStudyPlanSchema = createInsertSchema(pharmtechStudyPlans).omit({ id: true, createdAt: true, updatedAt: true, progressPercent: true });
+export type PharmtechStudyPlan = typeof pharmtechStudyPlans.$inferSelect;
+export type InsertPharmtechStudyPlan = z.infer<typeof insertPharmtechStudyPlanSchema>;
+
+export const pharmtechStudyPlanTasks = pgTable("pharmtech_study_plan_tasks", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  planId: varchar("plan_id").notNull(),
+  weekNum: integer("week_num").notNull(),
+  dayNum: integer("day_num").notNull(),
+  phase: text("phase").notNull(),
+  taskType: text("task_type").notNull(),
+  title: text("title").notNull(),
+  description: text("description"),
+  category: text("category"),
+  linkUrl: text("link_url"),
+  estimatedMinutes: integer("estimated_minutes").default(15),
+  completed: boolean("completed").default(false),
+  completedAt: timestamp("completed_at"),
+  skipped: boolean("skipped").default(false),
+  rescheduledTo: text("rescheduled_to"),
+  sortOrder: integer("sort_order").default(0),
+});
+
+export const insertPharmtechStudyPlanTaskSchema = createInsertSchema(pharmtechStudyPlanTasks).omit({ id: true, completedAt: true });
+export type PharmtechStudyPlanTask = typeof pharmtechStudyPlanTasks.$inferSelect;
+export type InsertPharmtechStudyPlanTask = z.infer<typeof insertPharmtechStudyPlanTaskSchema>;

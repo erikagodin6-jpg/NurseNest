@@ -1,6 +1,6 @@
 import { Link } from "wouter";
 import { useState, useEffect } from "react";
-import { BookOpen, Brain, FileText, GraduationCap, ChevronRight, Pill, CheckCircle2, ArrowRight, HelpCircle, Sparkles, Target, Clock, Zap } from "lucide-react";
+import { BookOpen, Brain, FileText, GraduationCap, ChevronRight, Pill, CheckCircle2, ArrowRight, HelpCircle, Sparkles, Target, Clock, Calendar, BarChart3, Play, Zap } from "lucide-react";
 import { AlliedSEO } from "@/allied/allied-seo";
 
 const TOPIC_CARDS = [
@@ -127,6 +127,55 @@ export default function PharmtechHubPage() {
                 <p className="text-sm text-gray-500 leading-relaxed">{topic.desc}</p>
               </Link>
             ))}
+          </div>
+        </section>
+
+        <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12" data-testid="study-plan-widget">
+          <div className="bg-gradient-to-r from-green-50 via-emerald-50 to-teal-50 rounded-2xl border border-green-100 p-6 sm:p-8">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
+              <div>
+                <h2 className="text-xl font-bold text-gray-900 flex items-center gap-2">
+                  <Calendar className="w-5 h-5 text-green-600" /> Study Plan
+                </h2>
+                <p className="text-sm text-gray-500 mt-1">Create a personalized study schedule for your PTCB or ExCPT exam</p>
+              </div>
+              <Link
+                href="/pharmacy-technician/study-plan"
+                className="inline-flex items-center gap-2 px-5 py-2.5 bg-green-600 text-white rounded-xl text-sm font-semibold hover:bg-green-700 shadow-sm transition-all"
+                data-testid="button-create-study-plan"
+              >
+                <GraduationCap className="w-4 h-4" /> Create Study Plan
+              </Link>
+            </div>
+            <div className="grid sm:grid-cols-3 gap-3">
+              <Link href="/pharmacy-technician/study-plan" className="flex items-center gap-3 px-4 py-3 bg-white/80 rounded-xl hover:bg-white transition-colors" data-testid="link-preset-crash">
+                <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-red-500 to-orange-500 flex items-center justify-center flex-shrink-0">
+                  <Zap className="w-4 h-4 text-white" />
+                </div>
+                <div>
+                  <div className="text-sm font-medium text-gray-800">2-Week Crash Plan</div>
+                  <div className="text-xs text-gray-500">Intensive review</div>
+                </div>
+              </Link>
+              <Link href="/pharmacy-technician/study-plan" className="flex items-center gap-3 px-4 py-3 bg-white/80 rounded-xl hover:bg-white transition-colors" data-testid="link-preset-balanced">
+                <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-green-500 to-emerald-500 flex items-center justify-center flex-shrink-0">
+                  <Target className="w-4 h-4 text-white" />
+                </div>
+                <div>
+                  <div className="text-sm font-medium text-gray-800">4-Week Balanced</div>
+                  <div className="text-xs text-gray-500">Steady coverage</div>
+                </div>
+              </Link>
+              <Link href="/pharmacy-technician/study-plan" className="flex items-center gap-3 px-4 py-3 bg-white/80 rounded-xl hover:bg-white transition-colors" data-testid="link-preset-comprehensive">
+                <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-500 to-indigo-500 flex items-center justify-center flex-shrink-0">
+                  <GraduationCap className="w-4 h-4 text-white" />
+                </div>
+                <div>
+                  <div className="text-sm font-medium text-gray-800">8-Week Comprehensive</div>
+                  <div className="text-xs text-gray-500">Deep coverage</div>
+                </div>
+              </Link>
+            </div>
           </div>
         </section>
 

@@ -70,6 +70,7 @@ const PharmtechDrugClassesHub = lazy(() => import("./pages/pharmtech-drug-classe
 const PharmtechDrugClassDetail = lazy(() => import("./pages/pharmtech-drug-classes").then(m => ({ default: m.PharmtechDrugClassDetail })));
 const PharmtechPracticeExamSeo = lazy(() => import("./pages/pharmtech-practice-exam-seo"));
 const PharmtechAdaptivePractice = lazy(() => import("./pages/pharmtech-adaptive-practice"));
+const PharmtechStudyPlan = lazy(() => import("./pages/pharmtech-study-plan"));
 const MltStudentDashboard = lazy(() => import("./pages/mlt-student-dashboard"));
 import { MltSEOPage } from "./pages/mlt-seo-pages";
 
@@ -123,6 +124,9 @@ export function AlliedRoutes() {
         <Route path="/admin/paramedic-bulk-upload" component={ParamedicBulkUpload} />
         <Route path="/pharmacy-technician/drug-classes/:slug" component={PharmtechDrugClassDetail} />
         <Route path="/pharmacy-technician/drug-classes" component={PharmtechDrugClassesHub} />
+        <Route path="/admin/allied-content/pharmacy-technician/study-plans" component={PharmtechAdmin} />
+        <Route path="/pharmacy-technician/study-plan/:planId" component={PharmtechStudyPlan} />
+        <Route path="/pharmacy-technician/study-plan" component={PharmtechStudyPlan} />
         <Route path="/pharmacy-technician" component={PharmtechHub} />
         <Route path="/pharmacy-technician/lessons/:slug" component={PharmtechLessons} />
         <Route path="/pharmacy-technician/lessons" component={PharmtechLessons} />

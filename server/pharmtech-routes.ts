@@ -834,6 +834,330 @@ export function registerPharmtechRoutes(app: Express) {
     }
   });
 
+  const PHARMTECH_CATEGORIES = [
+    "Pharmacology & Drug Classifications",
+    "Dosage Calculations",
+    "Pharmacy Law & Regulations",
+    "Sterile & Non-Sterile Compounding",
+    "Prescription Processing",
+    "Patient Safety & Quality Assurance",
+  ];
+
+
+  function generatePharmtechSchedule(config: {
+    examDate: string | null;
+    daysPerWeek: number;
+    minutesPerSession: number;
+    pace: string;
+    learningStyle: string;
+    weakAreas: string[];
+  }) {
+    const now = new Date();
+    let totalWeeks: number;
+
+    if (config.examDate) {
+      const exam = new Date(config.examDate);
+      const diffMs = exam.getTime() - now.getTime();
+      totalWeeks = Math.max(1, Math.ceil(diffMs / (7 * 24 * 60 * 60 * 1000)));
+    } else {
+      totalWeeks = config.pace === "intensive" ? 2 : config.pace === "light" ? 8 : 4;
+    }
+
+    totalWeeks = Math.min(totalWeeks, 12);
+
+    const foundationWeeks = Math.max(1, Math.floor(totalWeeks * 0.15));
+    const mockExamWeeks = Math.max(1, Math.floor(totalWeeks * 0.15));
+    const finalReviewWeeks = Math.max(1, Math.floor(totalWeeks * 0.1));
+    const weakAreaWeeks = config.weakAreas.length > 0 ? Math.max(1, Math.floor(totalWeeks * 0.2)) : 0;
+    const coreWeeks = Math.max(1, totalWeeks - foundationWeeks - mockExamWeeks - finalReviewWeeks - weakAreaWeeks);
+
+    const tasks: any[] = [];
+    let weekNum = 1;
+    let sortOrder = 0;
+
+    function addTask(week: number, day: number, phase: string, taskType: string, title: string, category: string, linkUrl: string, minutes: number, desc?: string) {
+      tasks.push({
+        weekNum: week,
+        dayNum: day,
+        phase,
+        taskType,
+        title,
+        description: desc || null,
+        category,
+        linkUrl,
+        estimatedMinutes: minutes,
+        sortOrder: sortOrder++,
+      });
+    }
+
+    function getTasksForStyle(style: string, category: string, phase: string, week: number, day: number, minutes: number) {
+      if (style === "flashcards") {
+        addTask(week, day, phase, "flashcards", `Review ${category} flashcards`, category, `/pharmacy-technician/flashcards`, Math.floor(minutes * 0.6));
+        addTask(week, day, phase, "lesson", `Read ${category} lesson`, category, `/pharmacy-technician/lessons`, Math.floor(minutes * 0.4));
+      } else if (style === "questions") {
+        addTask(week, day, phase, "practice", `Practice ${category} questions`, category, `/pharmacy-technician/practice-questions?category=${encodeURIComponent(category)}`, Math.floor(minutes * 0.6));
+        addTask(week, day, phase, "lesson", `Review ${category} lesson`, category, `/pharmacy-technician/lessons`, Math.floor(minutes * 0.4));
+      } else if (style === "lessons") {
+        addTask(week, day, phase, "lesson", `Study ${category} lesson`, category, `/pharmacy-technician/lessons`, Math.floor(minutes * 0.6));
+        addTask(week, day, phase, "flashcards", `Review ${category} flashcards`, category, `/pharmacy-technician/flashcards`, Math.floor(minutes * 0.4));
+      } else {
+        addTask(week, day, phase, "lesson", `Study ${category} lesson`, category, `/pharmacy-technician/lessons`, Math.floor(minutes * 0.35));
+        addTask(week, day, phase, "flashcards", `Review ${category} flashcards`, category, `/pharmacy-technician/flashcards`, Math.floor(minutes * 0.3));
+        addTask(week, day, phase, "practice", `Practice ${category} questions`, category, `/pharmacy-technician/practice-questions?category=${encodeURIComponent(category)}`, Math.floor(minutes * 0.35));
+      }
+    }
+
+    for (let w = 0; w < foundationWeeks; w++) {
+      for (let d = 1; d <= config.daysPerWeek; d++) {
+        const catIdx = ((w * config.daysPerWeek) + d - 1) % PHARMTECH_CATEGORIES.length;
+        const cat = PHARMTECH_CATEGORIES[catIdx];
+        addTask(weekNum, d, "foundation", "lesson", `Foundation: ${cat} overview`, cat, `/pharmacy-technician/lessons`, Math.floor(config.minutesPerSession * 0.6), "Build foundational understanding of key concepts");
+        addTask(weekNum, d, "foundation", "flashcards", `Foundation: ${cat} key terms`, cat, `/pharmacy-technician/flashcards`, Math.floor(config.minutesPerSession * 0.4), "Learn essential vocabulary and definitions");
+      }
+      weekNum++;
+    }
+
+    for (let w = 0; w < coreWeeks; w++) {
+      for (let d = 1; d <= config.daysPerWeek; d++) {
+        const catIdx = ((w * config.daysPerWeek) + d - 1) % PHARMTECH_CATEGORIES.length;
+        const cat = PHARMTECH_CATEGORIES[catIdx];
+        getTasksForStyle(config.learningStyle, cat, "core", weekNum, d, config.minutesPerSession);
+      }
+      weekNum++;
+    }
+
+    if (weakAreaWeeks > 0 && config.weakAreas.length > 0) {
+      for (let w = 0; w < weakAreaWeeks; w++) {
+        for (let d = 1; d <= config.daysPerWeek; d++) {
+          const cat = config.weakAreas[(w * config.daysPerWeek + d - 1) % config.weakAreas.length];
+          addTask(weekNum, d, "weak-area", "lesson", `Reinforce: ${cat}`, cat, `/pharmacy-technician/lessons`, Math.floor(config.minutesPerSession * 0.3), "Focus on weak area concepts");
+          addTask(weekNum, d, "weak-area", "practice", `Targeted practice: ${cat}`, cat, `/pharmacy-technician/practice-questions?category=${encodeURIComponent(cat)}`, Math.floor(config.minutesPerSession * 0.4), "Practice questions targeting weak areas");
+          addTask(weekNum, d, "weak-area", "flashcards", `Reinforce flashcards: ${cat}`, cat, `/pharmacy-technician/flashcards`, Math.floor(config.minutesPerSession * 0.3), "Review flashcards for weak areas");
+        }
+        weekNum++;
+      }
+    }
+
+    for (let w = 0; w < mockExamWeeks; w++) {
+      for (let d = 1; d <= config.daysPerWeek; d++) {
+        if (d <= 2) {
+          addTask(weekNum, d, "mock-exam", "exam", `Full-length practice exam`, "All Categories", `/pharmacy-technician/exams`, config.minutesPerSession, "Simulate real exam conditions");
+        } else {
+          const reviewCat = PHARMTECH_CATEGORIES[(w * config.daysPerWeek + d) % PHARMTECH_CATEGORIES.length];
+          addTask(weekNum, d, "mock-exam", "review", `Review exam results & weak spots`, reviewCat, `/pharmacy-technician/practice-questions`, Math.floor(config.minutesPerSession * 0.5), "Analyze mistakes from practice exam");
+          addTask(weekNum, d, "mock-exam", "practice", `Targeted remediation: ${reviewCat}`, reviewCat, `/pharmacy-technician/practice-questions?category=${encodeURIComponent(reviewCat)}`, Math.floor(config.minutesPerSession * 0.5), "Practice weak areas from exam");
+        }
+      }
+      weekNum++;
+    }
+
+    for (let w = 0; w < finalReviewWeeks; w++) {
+      for (let d = 1; d <= config.daysPerWeek; d++) {
+        const cat = PHARMTECH_CATEGORIES[d % PHARMTECH_CATEGORIES.length];
+        addTask(weekNum, d, "final-review", "flashcards", `Final review: ${cat} flashcards`, cat, `/pharmacy-technician/flashcards`, Math.floor(config.minutesPerSession * 0.4), "Quick review of high-yield concepts");
+        addTask(weekNum, d, "final-review", "practice", `Final practice: ${cat}`, cat, `/pharmacy-technician/practice-questions?category=${encodeURIComponent(cat)}`, Math.floor(config.minutesPerSession * 0.6), "Final round of practice questions");
+      }
+      weekNum++;
+    }
+
+    return { tasks, totalWeeks: weekNum - 1 };
+  }
+
+  app.post("/api/pharmtech/study-plans", async (req, res) => {
+    try {
+      const { userId, examDate, daysPerWeek, minutesPerSession, pace, learningStyle, weakAreas, useAdaptiveResults, presetType } = req.body;
+
+      const config = {
+        examDate: examDate || null,
+        daysPerWeek: daysPerWeek || 5,
+        minutesPerSession: minutesPerSession || 30,
+        pace: pace || "balanced",
+        learningStyle: learningStyle || "mixed",
+        weakAreas: weakAreas || [],
+      };
+
+      const { tasks, totalWeeks } = generatePharmtechSchedule(config);
+
+      if (userId) {
+        await pool.query(
+          `UPDATE pharmtech_study_plans SET is_active = false, updated_at = NOW() WHERE user_id = $1 AND is_active = true`,
+          [userId]
+        );
+      }
+
+      const { rows: planRows } = await pool.query(
+        `INSERT INTO pharmtech_study_plans (user_id, exam_date, days_per_week, minutes_per_session, pace, learning_style, weak_areas, use_adaptive_results, preset_type, is_active)
+         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, true) RETURNING *`,
+        [userId || null, examDate ? new Date(examDate) : null, config.daysPerWeek, config.minutesPerSession, config.pace, config.learningStyle, JSON.stringify(config.weakAreas), useAdaptiveResults || false, presetType || null]
+      );
+      const plan = planRows[0];
+
+      for (const task of tasks) {
+        await pool.query(
+          `INSERT INTO pharmtech_study_plan_tasks (plan_id, week_num, day_num, phase, task_type, title, description, category, link_url, estimated_minutes, sort_order)
+           VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)`,
+          [plan.id, task.weekNum, task.dayNum, task.phase, task.taskType, task.title, task.description, task.category, task.linkUrl, task.estimatedMinutes, task.sortOrder]
+        );
+      }
+
+      const { rows: taskRows } = await pool.query(
+        `SELECT * FROM pharmtech_study_plan_tasks WHERE plan_id = $1 ORDER BY sort_order`,
+        [plan.id]
+      );
+
+      res.json({ ...snakeToCamel(plan), tasks: taskRows.map(snakeToCamel), totalWeeks });
+    } catch (e: any) {
+      console.error("[PharmtechStudyPlan] Create error:", e.message);
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/pharmtech/study-plans/:planId", async (req, res) => {
+    try {
+      const { rows: planRows } = await pool.query(
+        `SELECT * FROM pharmtech_study_plans WHERE id = $1`,
+        [req.params.planId]
+      );
+      if (!planRows[0]) return res.status(404).json({ error: "Plan not found" });
+
+      const { rows: taskRows } = await pool.query(
+        `SELECT * FROM pharmtech_study_plan_tasks WHERE plan_id = $1 ORDER BY week_num, day_num, sort_order`,
+        [req.params.planId]
+      );
+
+      const totalTasks = taskRows.length;
+      const completedTasks = taskRows.filter((t: any) => t.completed).length;
+      const progressPercent = totalTasks > 0 ? Math.round((completedTasks / totalTasks) * 100) : 0;
+
+      if (progressPercent !== planRows[0].progress_percent) {
+        await pool.query(`UPDATE pharmtech_study_plans SET progress_percent = $1, updated_at = NOW() WHERE id = $2`, [progressPercent, req.params.planId]);
+      }
+
+      res.json({ ...snakeToCamel(planRows[0]), progressPercent, totalTasks, completedTasks, tasks: taskRows.map(snakeToCamel) });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/pharmtech/study-plans/user/:userId", async (req, res) => {
+    try {
+      const { rows: planRows } = await pool.query(
+        `SELECT * FROM pharmtech_study_plans WHERE user_id = $1 AND is_active = true ORDER BY created_at DESC LIMIT 1`,
+        [req.params.userId]
+      );
+      if (!planRows[0]) return res.json(null);
+
+      const { rows: taskRows } = await pool.query(
+        `SELECT * FROM pharmtech_study_plan_tasks WHERE plan_id = $1 ORDER BY week_num, day_num, sort_order`,
+        [planRows[0].id]
+      );
+
+      const totalTasks = taskRows.length;
+      const completedTasks = taskRows.filter((t: any) => t.completed).length;
+      const progressPercent = totalTasks > 0 ? Math.round((completedTasks / totalTasks) * 100) : 0;
+
+      res.json({ ...snakeToCamel(planRows[0]), progressPercent, totalTasks, completedTasks, tasks: taskRows.map(snakeToCamel) });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.patch("/api/pharmtech/study-plan-tasks/:taskId", async (req, res) => {
+    try {
+      const { completed, skipped, rescheduledTo } = req.body;
+      const sets: string[] = [];
+      const params: any[] = [];
+
+      if (completed !== undefined) {
+        params.push(completed); sets.push(`completed = $${params.length}`);
+        if (completed) sets.push(`completed_at = NOW()`);
+        else sets.push(`completed_at = NULL`);
+      }
+      if (skipped !== undefined) { params.push(skipped); sets.push(`skipped = $${params.length}`); }
+      if (rescheduledTo !== undefined) { params.push(rescheduledTo); sets.push(`rescheduled_to = $${params.length}`); }
+
+      if (sets.length === 0) return res.status(400).json({ error: "No fields to update" });
+
+      params.push(req.params.taskId);
+      const { rows } = await pool.query(
+        `UPDATE pharmtech_study_plan_tasks SET ${sets.join(", ")} WHERE id = $${params.length} RETURNING *`,
+        params
+      );
+      if (!rows[0]) return res.status(404).json({ error: "Task not found" });
+
+      const planId = rows[0].plan_id;
+      const { rows: allTasks } = await pool.query(
+        `SELECT completed FROM pharmtech_study_plan_tasks WHERE plan_id = $1`,
+        [planId]
+      );
+      const total = allTasks.length;
+      const done = allTasks.filter((t: any) => t.completed).length;
+      const progress = total > 0 ? Math.round((done / total) * 100) : 0;
+      await pool.query(`UPDATE pharmtech_study_plans SET progress_percent = $1, updated_at = NOW() WHERE id = $2`, [progress, planId]);
+
+      res.json({ task: snakeToCamel(rows[0]), progressPercent: progress, totalTasks: total, completedTasks: done });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.post("/api/pharmtech/study-plans/:planId/refresh", async (req, res) => {
+    try {
+      const { rows: planRows } = await pool.query(
+        `SELECT * FROM pharmtech_study_plans WHERE id = $1`,
+        [req.params.planId]
+      );
+      if (!planRows[0]) return res.status(404).json({ error: "Plan not found" });
+      const plan = planRows[0];
+
+      await pool.query(`DELETE FROM pharmtech_study_plan_tasks WHERE plan_id = $1 AND completed = false`, [plan.id]);
+
+      const weakAreas = typeof plan.weak_areas === "string" ? JSON.parse(plan.weak_areas) : (plan.weak_areas || []);
+      const config = {
+        examDate: plan.exam_date ? plan.exam_date.toISOString() : null,
+        daysPerWeek: plan.days_per_week || 5,
+        minutesPerSession: plan.minutes_per_session || 30,
+        pace: plan.pace || "balanced",
+        learningStyle: plan.learning_style || "mixed",
+        weakAreas,
+      };
+
+      const { tasks: newTasks } = generatePharmtechSchedule(config);
+
+      const { rows: existingTasks } = await pool.query(
+        `SELECT week_num, day_num, sort_order FROM pharmtech_study_plan_tasks WHERE plan_id = $1`,
+        [plan.id]
+      );
+      const existingKeys = new Set(existingTasks.map((t: any) => `${t.week_num}-${t.day_num}-${t.sort_order}`));
+
+      for (const task of newTasks) {
+        const key = `${task.weekNum}-${task.dayNum}-${task.sortOrder}`;
+        if (!existingKeys.has(key)) {
+          await pool.query(
+            `INSERT INTO pharmtech_study_plan_tasks (plan_id, week_num, day_num, phase, task_type, title, description, category, link_url, estimated_minutes, sort_order)
+             VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)`,
+            [plan.id, task.weekNum, task.dayNum, task.phase, task.taskType, task.title, task.description, task.category, task.linkUrl, task.estimatedMinutes, task.sortOrder]
+          );
+        }
+      }
+
+      await pool.query(`UPDATE pharmtech_study_plans SET updated_at = NOW() WHERE id = $1`, [plan.id]);
+
+      const { rows: allTasks } = await pool.query(
+        `SELECT * FROM pharmtech_study_plan_tasks WHERE plan_id = $1 ORDER BY week_num, day_num, sort_order`,
+        [plan.id]
+      );
+
+      const totalT = allTasks.length;
+      const completedT = allTasks.filter((t: any) => t.completed).length;
+      const prog = totalT > 0 ? Math.round((completedT / totalT) * 100) : 0;
+
+      res.json({ ...snakeToCamel(plan), progressPercent: prog, totalTasks: totalT, completedTasks: completedT, tasks: allTasks.map(snakeToCamel) });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
   app.get("/api/pharmtech/adaptive-history", async (req, res) => {
     try {
       const user = await resolveAuthUser(req);
@@ -848,6 +1172,47 @@ export function registerPharmtechRoutes(app: Express) {
       );
 
       res.json(rows.map(snakeToCamel));
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/admin/pharmtech/study-plans", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const { rows } = await pool.query(`
+        SELECT sp.*,
+          (SELECT COUNT(*) FROM pharmtech_study_plan_tasks WHERE plan_id = sp.id) as task_count,
+          (SELECT COUNT(*) FROM pharmtech_study_plan_tasks WHERE plan_id = sp.id AND completed = true) as completed_count
+        FROM pharmtech_study_plans sp
+        ORDER BY sp.created_at DESC
+        LIMIT 100
+      `);
+      res.json(rows.map(snakeToCamel));
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/admin/pharmtech/study-plans/analytics", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const { rows } = await pool.query(`
+        SELECT
+          COUNT(*)::int as total_plans,
+          COUNT(*) FILTER (WHERE is_active = true)::int as active_plans,
+          COUNT(*) FILTER (WHERE progress_percent >= 100)::int as completed_plans,
+          ROUND(AVG(progress_percent), 1) as avg_progress,
+          COUNT(DISTINCT user_id)::int as unique_users,
+          COUNT(*) FILTER (WHERE pace = 'light')::int as light_count,
+          COUNT(*) FILTER (WHERE pace = 'balanced')::int as balanced_count,
+          COUNT(*) FILTER (WHERE pace = 'intensive')::int as intensive_count,
+          COUNT(*) FILTER (WHERE preset_type IS NOT NULL)::int as preset_count
+        FROM pharmtech_study_plans
+      `);
+      res.json(snakeToCamel(rows[0] || {}));
     } catch (e: any) {
       res.status(500).json({ error: e.message });
     }
