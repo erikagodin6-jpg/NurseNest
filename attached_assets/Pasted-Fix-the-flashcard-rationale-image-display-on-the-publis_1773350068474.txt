@@ -1,0 +1,64 @@
+Fix the flashcard rationale image display on the published NurseNest site.
+
+Problem:
+Images shown inside the flashcard rationale section are being cut off. Half the image is cropped and not fully visible. I do NOT want the rationale images to use a cropped hero-style layout. I want the full image visible inside the rationale card.
+
+What to change:
+1. Find the flashcard rationale image component/container.
+2. Remove any styling that causes cropping, especially:
+   - object-fit: cover
+   - fixed height with overflow hidden
+   - background-image based rendering for content images
+   - aggressive aspect-ratio rules that crop clinical diagrams
+3. Change the image rendering so the FULL image is visible:
+   - use an actual `<img>` element, not a background image
+   - set `width: 100%`
+   - set `height: auto`
+   - set `object-fit: contain`
+   - set `display: block`
+   - center the image horizontally
+4. The image container should:
+   - use `width: 100%`
+   - have a reasonable `max-height` on desktop and mobile
+   - not crop the image
+   - allow the entire image to be seen
+   - preserve aspect ratio
+5. If the image is too large, scale it down proportionally instead of cutting it off.
+6. Add soft rounded corners and spacing so it matches the NurseNest aesthetic.
+7. Make sure this works on:
+   - desktop
+   - tablet
+   - mobile
+8. Ensure long/tall educational images, ECGs, diagrams, anatomy charts, and infographics all remain fully visible.
+9. Do not distort the image.
+10. Apply this only to rationale/supporting images in flashcards unless the same bug exists elsewhere.
+
+Preferred styling behavior:
+- full image visible
+- no cropping
+- no stretching
+- responsive width
+- elegant spacing above/below rationale text
+- theme-consistent rounded pastel card styling
+
+Use something functionally equivalent to:
+- image wrapper: width 100%, display flex, justify-content center, align-items center
+- image: width 100%, max-width 100%, height auto, max-height 480px, object-fit contain
+
+If there is a modal or expanded image view, keep thumbnail/full preview behavior clean:
+- in-card image should fit nicely
+- clicking can optionally enlarge image in a modal
+- enlarged modal image should also use object-fit: contain
+
+Also inspect whether parent containers are clipping the image with:
+- overflow: hidden
+- fixed height
+- absolute positioning
+- aspect-square or forced aspect-video classes
+
+Remove those only where they affect rationale images.
+
+Return:
+1. the exact files changed
+2. the exact CSS/classes changed
+3. confirmation that published site flashcard rationale images now show fully without being cut off
