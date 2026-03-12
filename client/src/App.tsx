@@ -231,6 +231,19 @@ const DemoStudyPlanPage = lazy(() => import("@/pages/demo-study-plan"));
 const ExamReadinessDemo = lazy(() => import("@/pages/exam-readiness-demo"));
 const DemoLearningProgress = lazy(() => import("@/pages/demo-learning-progress"));
 const DemoAdaptiveReport = lazy(() => import("@/pages/demo-adaptive-report"));
+const DemoScreenshotStudio = lazy(() => import("@/pages/demo-screenshot-studio"));
+const DemoExamReview = lazy(() => import("@/pages/demo-exam-review"));
+const DemoFlashcardMastery = lazy(() => import("@/pages/demo-flashcard-mastery"));
+const DemoStudyPlanScreenshot = lazy(() => import("@/pages/demo-study-plan-screenshot"));
+const DemoLessonRationale = lazy(() => import("@/pages/demo-lesson-rationale"));
+const DemoStudentOverview = lazy(() => import("@/pages/demo-student-overview"));
+const DemoHeatmapGrid = lazy(() => import("@/pages/demo-heatmap-grid"));
+const DemoCatExam = lazy(() => import("@/pages/demo-cat-exam"));
+const DemoNgnCaseStudy = lazy(() => import("@/pages/demo-ngn-case-study"));
+const DemoPremiumValue = lazy(() => import("@/pages/demo-premium-value"));
+const DemoStreakAnalytics = lazy(() => import("@/pages/demo-streak-analytics"));
+const DemoSessionComparison = lazy(() => import("@/pages/demo-session-comparison"));
+const DemoHeroShowcase = lazy(() => import("@/pages/demo-hero-showcase"));
 const SeoPracticeQuiz = lazy(() => import("@/pages/seo-practice-quiz"));
 const OfflineStudyPage = lazy(() => import("@/pages/offline-study"));
 
@@ -433,6 +446,19 @@ function AppRoutes() {
         <Route path="/admin/database-status" component={AdminDatabaseStatus} />
         <Route path="/admin/demo-progress" component={AdminDemoProgress} />
         <Route path="/admin/demo-adaptive-report" component={DemoAdaptiveReport} />
+        <Route path="/admin/demo-screenshot-studio" component={DemoScreenshotStudio} />
+        <Route path="/admin/demo-exam-review" component={DemoExamReview} />
+        <Route path="/admin/demo-flashcard-mastery" component={DemoFlashcardMastery} />
+        <Route path="/admin/demo-study-plan-screenshot" component={DemoStudyPlanScreenshot} />
+        <Route path="/admin/demo-lesson-rationale" component={DemoLessonRationale} />
+        <Route path="/admin/demo-student-overview" component={DemoStudentOverview} />
+        <Route path="/admin/demo-heatmap-grid" component={DemoHeatmapGrid} />
+        <Route path="/admin/demo-cat-exam" component={DemoCatExam} />
+        <Route path="/admin/demo-ngn-case-study" component={DemoNgnCaseStudy} />
+        <Route path="/admin/demo-premium-value" component={DemoPremiumValue} />
+        <Route path="/admin/demo-streak-analytics" component={DemoStreakAnalytics} />
+        <Route path="/admin/demo-session-comparison" component={DemoSessionComparison} />
+        <Route path="/admin/demo-hero-showcase" component={DemoHeroShowcase} />
         <Route path="/admin/case-studies" component={AdminCaseStudiesPage} />
         <Route path="/clinical-case-studies" component={ClinicalCaseStudyPage} />
         <Route path="/for-institutions" component={ForInstitutions} />
