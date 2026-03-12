@@ -168,55 +168,56 @@ export default function ForInstitutions() {
           <p className="text-gray-600 text-center max-w-2xl mx-auto mb-12">Volume pricing that scales with your program. All plans include full platform access.</p>
 
           <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-            <Card className="border-2 border-gray-200 hover:border-primary/30 transition-all">
+            <Card className="border-2 border-gray-200 hover:border-primary/30 transition-all" data-testid="card-pricing-small">
               <CardContent className="pt-6 text-center">
                 <GraduationCap className="w-10 h-10 text-primary mx-auto mb-3" />
                 <h3 className="text-xl font-bold text-[#2E3A59] mb-1">Small Program</h3>
-                <p className="text-gray-500 text-sm mb-4">Up to 50 students</p>
-                <p className="text-3xl font-bold text-primary mb-1">Contact Us</p>
-                <p className="text-sm text-gray-500 mb-6">Per student, per semester</p>
+                <p className="text-gray-500 text-sm mb-4">Up to 50 seats</p>
+                <p className="text-3xl font-bold text-primary mb-1">$8<span className="text-lg font-normal text-gray-500">/seat/mo</span></p>
+                <p className="text-sm text-gray-500 mb-6">$400/month for 50 seats</p>
                 <ul className="text-left space-y-2 text-sm text-gray-600 mb-6">
                   <li className="flex gap-2"><CheckCircle2 className="w-4 h-4 text-green-500 shrink-0 mt-0.5" /> Full platform access</li>
-                  <li className="flex gap-2"><CheckCircle2 className="w-4 h-4 text-green-500 shrink-0 mt-0.5" /> Student progress dashboard</li>
-                  <li className="flex gap-2"><CheckCircle2 className="w-4 h-4 text-green-500 shrink-0 mt-0.5" /> Invite code enrollment</li>
-                  <li className="flex gap-2"><CheckCircle2 className="w-4 h-4 text-green-500 shrink-0 mt-0.5" /> Email support</li>
+                  <li className="flex gap-2"><CheckCircle2 className="w-4 h-4 text-green-500 shrink-0 mt-0.5" /> Instructor dashboard</li>
+                  <li className="flex gap-2"><CheckCircle2 className="w-4 h-4 text-green-500 shrink-0 mt-0.5" /> Student progress tracking</li>
+                  <li className="flex gap-2"><CheckCircle2 className="w-4 h-4 text-green-500 shrink-0 mt-0.5" /> Assignment management</li>
+                  <li className="flex gap-2"><CheckCircle2 className="w-4 h-4 text-green-500 shrink-0 mt-0.5" /> Enrollment codes</li>
                 </ul>
               </CardContent>
             </Card>
 
-            <Card className="border-2 border-primary shadow-lg relative">
+            <Card className="border-2 border-primary shadow-lg relative" data-testid="card-pricing-medium">
               <div className="absolute -top-3 left-1/2 -translate-x-1/2">
                 <span className="bg-primary text-white text-xs font-bold px-3 py-1 rounded-full">Most Popular</span>
               </div>
               <CardContent className="pt-6 text-center">
                 <Award className="w-10 h-10 text-primary mx-auto mb-3" />
-                <h3 className="text-xl font-bold text-[#2E3A59] mb-1">Standard Program</h3>
-                <p className="text-gray-500 text-sm mb-4">50-200 students</p>
-                <p className="text-3xl font-bold text-primary mb-1">Contact Us</p>
-                <p className="text-sm text-gray-500 mb-6">Per student, per semester</p>
+                <h3 className="text-xl font-bold text-[#2E3A59] mb-1">Medium Program</h3>
+                <p className="text-gray-500 text-sm mb-4">Up to 100 seats</p>
+                <p className="text-3xl font-bold text-primary mb-1">$6<span className="text-lg font-normal text-gray-500">/seat/mo</span></p>
+                <p className="text-sm text-gray-500 mb-6">$600/month for 100 seats</p>
                 <ul className="text-left space-y-2 text-sm text-gray-600 mb-6">
-                  <li className="flex gap-2"><CheckCircle2 className="w-4 h-4 text-green-500 shrink-0 mt-0.5" /> Everything in Small Program</li>
-                  <li className="flex gap-2"><CheckCircle2 className="w-4 h-4 text-green-500 shrink-0 mt-0.5" /> Cohort analytics dashboard</li>
-                  <li className="flex gap-2"><CheckCircle2 className="w-4 h-4 text-green-500 shrink-0 mt-0.5" /> Domain-locked enrollment</li>
-                  <li className="flex gap-2"><CheckCircle2 className="w-4 h-4 text-green-500 shrink-0 mt-0.5" /> Priority support</li>
-                  <li className="flex gap-2"><CheckCircle2 className="w-4 h-4 text-green-500 shrink-0 mt-0.5" /> Quarterly readiness reports</li>
+                  <li className="flex gap-2"><CheckCircle2 className="w-4 h-4 text-green-500 shrink-0 mt-0.5" /> Everything in Small</li>
+                  <li className="flex gap-2"><CheckCircle2 className="w-4 h-4 text-green-500 shrink-0 mt-0.5" /> Institution analytics</li>
+                  <li className="flex gap-2"><CheckCircle2 className="w-4 h-4 text-green-500 shrink-0 mt-0.5" /> Program benchmarking</li>
+                  <li className="flex gap-2"><CheckCircle2 className="w-4 h-4 text-green-500 shrink-0 mt-0.5" /> CSV bulk enrollment</li>
+                  <li className="flex gap-2"><CheckCircle2 className="w-4 h-4 text-green-500 shrink-0 mt-0.5" /> Certificate generation</li>
                 </ul>
               </CardContent>
             </Card>
 
-            <Card className="border-2 border-gray-200 hover:border-primary/30 transition-all">
+            <Card className="border-2 border-gray-200 hover:border-primary/30 transition-all" data-testid="card-pricing-large">
               <CardContent className="pt-6 text-center">
                 <Zap className="w-10 h-10 text-primary mx-auto mb-3" />
-                <h3 className="text-xl font-bold text-[#2E3A59] mb-1">Enterprise</h3>
-                <p className="text-gray-500 text-sm mb-4">200+ students</p>
-                <p className="text-3xl font-bold text-primary mb-1">Custom</p>
-                <p className="text-sm text-gray-500 mb-6">Tailored to your needs</p>
+                <h3 className="text-xl font-bold text-[#2E3A59] mb-1">Large Program</h3>
+                <p className="text-gray-500 text-sm mb-4">250+ seats</p>
+                <p className="text-3xl font-bold text-primary mb-1">$4<span className="text-lg font-normal text-gray-500">/seat/mo</span></p>
+                <p className="text-sm text-gray-500 mb-6">From $1,000/month</p>
                 <ul className="text-left space-y-2 text-sm text-gray-600 mb-6">
-                  <li className="flex gap-2"><CheckCircle2 className="w-4 h-4 text-green-500 shrink-0 mt-0.5" /> Everything in Standard</li>
-                  <li className="flex gap-2"><CheckCircle2 className="w-4 h-4 text-green-500 shrink-0 mt-0.5" /> Custom content integration</li>
-                  <li className="flex gap-2"><CheckCircle2 className="w-4 h-4 text-green-500 shrink-0 mt-0.5" /> LMS integration support</li>
+                  <li className="flex gap-2"><CheckCircle2 className="w-4 h-4 text-green-500 shrink-0 mt-0.5" /> Everything in Medium</li>
+                  <li className="flex gap-2"><CheckCircle2 className="w-4 h-4 text-green-500 shrink-0 mt-0.5" /> Priority support</li>
+                  <li className="flex gap-2"><CheckCircle2 className="w-4 h-4 text-green-500 shrink-0 mt-0.5" /> Custom reporting</li>
+                  <li className="flex gap-2"><CheckCircle2 className="w-4 h-4 text-green-500 shrink-0 mt-0.5" /> API access</li>
                   <li className="flex gap-2"><CheckCircle2 className="w-4 h-4 text-green-500 shrink-0 mt-0.5" /> Dedicated account manager</li>
-                  <li className="flex gap-2"><CheckCircle2 className="w-4 h-4 text-green-500 shrink-0 mt-0.5" /> White-label options</li>
                 </ul>
               </CardContent>
             </Card>

@@ -58,6 +58,7 @@ import { generateBlogPost, runBlogScheduler, expandAllShortPosts } from "./blog-
 import { registerObjectStorageRoutes } from "./replit_integrations/object_storage";
 import { registerMltAdminRoutes } from "./mlt-admin-routes";
 import { registerImagingLibraryRoutes } from "./imaging-library-routes";
+import { registerInstitutionalRoutes } from "./institutional-routes";
 import { registerMltPipelineRoutes } from "./mlt-question-pipeline";
 import { registerMltExamRoutes } from "./mlt-exam-routes";
 import { registerMltRemediationRoutes } from "./mlt-remediation-routes";
@@ -208,6 +209,7 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
   registerMltExamRoutes(app);
   registerMltRemediationRoutes(app);
   registerImagingLibraryRoutes(app);
+  registerInstitutionalRoutes(app);
 
   const { registerImagingMonetizationRoutes } = await import("./imaging-monetization-routes");
   registerImagingMonetizationRoutes(app);

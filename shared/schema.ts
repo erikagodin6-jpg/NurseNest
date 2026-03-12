@@ -4368,3 +4368,77 @@ export const questionBankImportRows = pgTable("question_bank_import_rows", {
   duplicateOf: varchar("duplicate_of"),
   createdExamQuestionId: varchar("created_exam_question_id"),
 });
+
+export const classrooms = pgTable("classrooms", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  institutionId: varchar("institution_id").notNull(),
+  name: text("name").notNull(),
+  description: text("description"),
+  instructorId: varchar("instructor_id").notNull(),
+  status: text("status").notNull().default("active"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const insertClassroomSchema = createInsertSchema(classrooms).omit({ id: true, createdAt: true });
+export type Classroom = typeof classrooms.$inferSelect;
+export type InsertClassroom = z.infer<typeof insertClassroomSchema>;
+
+export const classroomStudents = pgTable("classroom_students", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  classroomId: varchar("classroom_id").notNull(),
+  userId: varchar("user_id").notNull(),
+  enrolledAt: timestamp("enrolled_at").defaultNow().notNull(),
+});
+
+export const insertClassroomStudentSchema = createInsertSchema(classroomStudents).omit({ id: true, enrolledAt: true });
+export type ClassroomStudent = typeof classroomStudents.$inferSelect;
+export type InsertClassroomStudent = z.infer<typeof insertClassroomStudentSchema>;
+
+export const assignments = pgTable("assignments", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  classroomId: varchar("classroom_id").notNull(),
+  instructorId: varchar("instructor_id").notNull(),
+  title: text("title").notNull(),
+  description: text("description"),
+  type: text("type").notNull().default("lesson"),
+  resourceId: text("resource_id"),
+  dueDate: timestamp("due_date"),
+  status: text("status").notNull().default("active"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const insertAssignmentSchema = createInsertSchema(assignments).omit({ id: true, createdAt: true });
+export type Assignment = typeof assignments.$inferSelect;
+export type InsertAssignment = z.infer<typeof insertAssignmentSchema>;
+
+export const assignmentSubmissions = pgTable("assignment_submissions", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  assignmentId: varchar("assignment_id").notNull(),
+  studentId: varchar("student_id").notNull(),
+  status: text("status").notNull().default("not_started"),
+  score: integer("score"),
+  timeSpent: integer("time_spent"),
+  submittedAt: timestamp("submitted_at"),
+  completedAt: timestamp("completed_at"),
+});
+
+export const insertAssignmentSubmissionSchema = createInsertSchema(assignmentSubmissions).omit({ id: true });
+export type AssignmentSubmission = typeof assignmentSubmissions.$inferSelect;
+export type InsertAssignmentSubmission = z.infer<typeof insertAssignmentSubmissionSchema>;
+
+export const certificates = pgTable("certificates", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  studentId: varchar("student_id").notNull(),
+  institutionId: varchar("institution_id").notNull(),
+  classroomId: varchar("classroom_id"),
+  studentName: text("student_name").notNull(),
+  courseName: text("course_name").notNull(),
+  institutionName: text("institution_name").notNull(),
+  completionDate: timestamp("completion_date").notNull(),
+  certificateCode: text("certificate_code").notNull().unique(),
+  issuedAt: timestamp("issued_at").defaultNow().notNull(),
+});
+
+export const insertCertificateSchema = createInsertSchema(certificates).omit({ id: true, issuedAt: true });
+export type Certificate = typeof certificates.$inferSelect;
+export type InsertCertificate = z.infer<typeof insertCertificateSchema>;

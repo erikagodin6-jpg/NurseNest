@@ -158,6 +158,70 @@ export async function ensureSchemaSync(pool: pg.Pool): Promise<void> {
       await client.query(`ALTER TABLE imaging_flashcards ADD COLUMN IF NOT EXISTS ${col} ${def}`);
     }
 
+    await client.query(`
+      CREATE TABLE IF NOT EXISTS classrooms (
+        id varchar PRIMARY KEY DEFAULT gen_random_uuid(),
+        institution_id varchar NOT NULL,
+        name text NOT NULL,
+        description text,
+        instructor_id varchar NOT NULL,
+        status text NOT NULL DEFAULT 'active',
+        created_at timestamp NOT NULL DEFAULT now()
+      );
+    `);
+
+    await client.query(`
+      CREATE TABLE IF NOT EXISTS classroom_students (
+        id varchar PRIMARY KEY DEFAULT gen_random_uuid(),
+        classroom_id varchar NOT NULL,
+        user_id varchar NOT NULL,
+        enrolled_at timestamp NOT NULL DEFAULT now()
+      );
+    `);
+
+    await client.query(`
+      CREATE TABLE IF NOT EXISTS assignments (
+        id varchar PRIMARY KEY DEFAULT gen_random_uuid(),
+        classroom_id varchar NOT NULL,
+        instructor_id varchar NOT NULL,
+        title text NOT NULL,
+        description text,
+        type text NOT NULL DEFAULT 'lesson',
+        resource_id text,
+        due_date timestamp,
+        status text NOT NULL DEFAULT 'active',
+        created_at timestamp NOT NULL DEFAULT now()
+      );
+    `);
+
+    await client.query(`
+      CREATE TABLE IF NOT EXISTS assignment_submissions (
+        id varchar PRIMARY KEY DEFAULT gen_random_uuid(),
+        assignment_id varchar NOT NULL,
+        student_id varchar NOT NULL,
+        status text NOT NULL DEFAULT 'not_started',
+        score integer,
+        time_spent integer,
+        submitted_at timestamp,
+        completed_at timestamp
+      );
+    `);
+
+    await client.query(`
+      CREATE TABLE IF NOT EXISTS certificates (
+        id varchar PRIMARY KEY DEFAULT gen_random_uuid(),
+        student_id varchar NOT NULL,
+        institution_id varchar NOT NULL,
+        classroom_id varchar,
+        student_name text NOT NULL,
+        course_name text NOT NULL,
+        institution_name text NOT NULL,
+        completion_date timestamp NOT NULL,
+        certificate_code text NOT NULL UNIQUE,
+        issued_at timestamp NOT NULL DEFAULT now()
+      );
+    `);
+
     const physicsCols: [string, string][] = [
       ["slug", "text NOT NULL DEFAULT ''"],
       ["explanation", "text"],

@@ -185,6 +185,7 @@ const TrialUpgrade = lazy(() => import("@/pages/trial-upgrade"));
 const AlliedHomePage = lazy(() => import("@/allied/pages/allied-home"));
 const ForInstitutions = lazy(() => import("@/pages/for-institutions"));
 const AdminInstitutions = lazy(() => import("@/pages/admin-institutions"));
+const InstructorDashboard = lazy(() => import("@/pages/instructor-dashboard"));
 const ExamLandingPage = lazy(() => import("@/pages/exam-landing"));
 const ExamHubPage = lazy(() => import("@/pages/exam-hub"));
 const ConditionPage = lazy(() => import("@/pages/condition-page"));
@@ -413,6 +414,7 @@ function AppRoutes() {
         <Route path="/admin/pageviews" component={AdminPageviews} />
         <Route path="/admin/seo-visual-autopilot" component={AdminSeoAutopilot} />
         <Route path="/admin/institutions" component={AdminInstitutions} />
+        <Route path="/instructor" component={InstructorDashboard} />
         <Route path="/admin/medical-imaging" component={AdminMedicalImaging} />
         <Route path="/admin/image-library" component={AdminImageLibrary} />
         <Route path="/admin/database-status" component={AdminDatabaseStatus} />
