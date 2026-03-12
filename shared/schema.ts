@@ -3622,3 +3622,38 @@ export const insertParamedicWaveformAssetSchema = createInsertSchema(paramedicWa
 
 export type ParamedicWaveformAsset = typeof paramedicWaveformAssets.$inferSelect;
 export type InsertParamedicWaveformAsset = z.infer<typeof insertParamedicWaveformAssetSchema>;
+
+export const mltContentLinks = pgTable("mlt_content_links", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  questionId: varchar("question_id").notNull(),
+  primaryLessonId: varchar("primary_lesson_id"),
+  relatedLessonIds: jsonb("related_lesson_ids").default(sql`'[]'::jsonb`),
+  primaryDeckId: varchar("primary_deck_id"),
+  relatedDeckIds: jsonb("related_deck_ids").default(sql`'[]'::jsonb`),
+  remediationLessonId: varchar("remediation_lesson_id"),
+  remediationDeckId: varchar("remediation_deck_id"),
+  autoLinkScore: integer("auto_link_score").default(0),
+  manuallyCurated: boolean("manually_curated").default(false),
+  curatedBy: varchar("curated_by"),
+  curatedAt: timestamp("curated_at"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export const insertMltContentLinkSchema = createInsertSchema(mltContentLinks).omit({ id: true, createdAt: true, updatedAt: true });
+export type MltContentLink = typeof mltContentLinks.$inferSelect;
+export type InsertMltContentLink = z.infer<typeof insertMltContentLinkSchema>;
+
+export const mltRemediationAnalytics = pgTable("mlt_remediation_analytics", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id").notNull(),
+  questionId: varchar("question_id").notNull(),
+  contentType: text("content_type").notNull(),
+  contentId: varchar("content_id").notNull(),
+  action: text("action").notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const insertMltRemediationAnalyticsSchema = createInsertSchema(mltRemediationAnalytics).omit({ id: true, createdAt: true });
+export type MltRemediationAnalytic = typeof mltRemediationAnalytics.$inferSelect;
+export type InsertMltRemediationAnalytic = z.infer<typeof insertMltRemediationAnalyticsSchema>;

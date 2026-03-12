@@ -58,6 +58,7 @@ import { generateBlogPost, runBlogScheduler, expandAllShortPosts } from "./blog-
 import { registerObjectStorageRoutes } from "./replit_integrations/object_storage";
 import { registerMltAdminRoutes } from "./mlt-admin-routes";
 import { registerMltExamRoutes } from "./mlt-exam-routes";
+import { registerMltRemediationRoutes } from "./mlt-remediation-routes";
 import { regionMiddleware, getEffectiveRegion, isRegionAllowed, getDefaultRegionScope, canChangeRegionScope, buildRegionFilter, type Region, type RegionScope } from "./region";
 import { languageMiddleware, getTranslatedFields, getTranslationStatus, getBulkTranslatedTitles, getAvailableLanguages, simpleHash } from "./translation-helpers";
 import { checkAiLimits, recordAiUsage, getAiConfig, setAiConfig } from "./ai-safety";
@@ -202,6 +203,7 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
   registerObjectStorageRoutes(app);
   registerMltAdminRoutes(app);
   registerMltExamRoutes(app);
+  registerMltRemediationRoutes(app);
 
   const { registerPharmtechRoutes } = await import("./pharmtech-routes");
   registerPharmtechRoutes(app);

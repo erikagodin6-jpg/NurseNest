@@ -145,6 +145,216 @@ function LockedOverlay({ feature, onUpgrade }: { feature: string; onUpgrade: () 
   );
 }
 
+function RemediationRecommendationCard({ remediation, questionStem, onTrack }: {
+  remediation: { bestLesson?: any; bestDeck?: any; relatedQuestions?: any[]; autoLinkScore?: number; manuallyCurated?: boolean } | null;
+  questionStem?: string;
+  onTrack?: (contentType: string, contentId: string, action: string) => void;
+}) {
+  if (!remediation) return null;
+  return (
+    <div className="bg-gradient-to-r from-amber-50 to-orange-50 rounded-xl border border-amber-200 p-4 mt-3" data-testid="remediation-card">
+      <h4 className="text-sm font-semibold text-amber-800 mb-3 flex items-center gap-2">
+        <RefreshCw className="w-4 h-4" /> Review This Topic
+        {remediation.manuallyCurated && <span className="text-xs bg-amber-100 text-amber-700 px-1.5 py-0.5 rounded">Curated</span>}
+      </h4>
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+        {remediation.bestLesson && (
+          <button
+            onClick={() => onTrack?.("lesson", remediation.bestLesson.id, "review_lesson")}
+            className="flex items-center gap-2 px-3 py-2 bg-white rounded-lg border border-amber-100 hover:border-purple-200 transition-colors text-left"
+            data-testid="remediation-review-lesson"
+          >
+            <BookOpen className="w-4 h-4 text-purple-500 flex-shrink-0" />
+            <div className="min-w-0">
+              <div className="text-xs font-medium text-gray-800 truncate">{remediation.bestLesson.title}</div>
+              <div className="text-xs text-gray-500">Review Lesson</div>
+            </div>
+          </button>
+        )}
+        {remediation.bestDeck && (
+          <button
+            onClick={() => onTrack?.("flashcard", remediation.bestDeck.id, "study_flashcards")}
+            className="flex items-center gap-2 px-3 py-2 bg-white rounded-lg border border-amber-100 hover:border-blue-200 transition-colors text-left"
+            data-testid="remediation-study-flashcards"
+          >
+            <Brain className="w-4 h-4 text-blue-500 flex-shrink-0" />
+            <div className="min-w-0">
+              <div className="text-xs font-medium text-gray-800 truncate">{remediation.bestDeck.title}</div>
+              <div className="text-xs text-gray-500">Study Flashcards</div>
+            </div>
+          </button>
+        )}
+        {remediation.relatedQuestions && remediation.relatedQuestions.length > 0 && (
+          <button
+            onClick={() => onTrack?.("question", "retry", "retry_similar")}
+            className="flex items-center gap-2 px-3 py-2 bg-white rounded-lg border border-amber-100 hover:border-green-200 transition-colors text-left"
+            data-testid="remediation-retry-similar"
+          >
+            <RotateCcw className="w-4 h-4 text-green-500 flex-shrink-0" />
+            <div className="min-w-0">
+              <div className="text-xs font-medium text-gray-800">Retry Similar</div>
+              <div className="text-xs text-gray-500">{remediation.relatedQuestions.length} related questions</div>
+            </div>
+          </button>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function DashboardRemediationPanels({ isFree }: { isFree: boolean }) {
+  const [recommendations, setRecommendations] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchRecommendations() {
+      try {
+        const res = await fetch("/api/mlt/remediation/dashboard/recommendations", { credentials: "include" });
+        if (res.ok) {
+          setRecommendations(await res.json());
+        }
+      } catch (e) {
+        console.error("Failed to fetch recommendations:", e);
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchRecommendations();
+  }, []);
+
+  const handleTrack = async (questionId: string, contentType: string, contentId: string, action: string) => {
+    try {
+      await fetch("/api/mlt/remediation/track", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify({ questionId: questionId || "dashboard", contentType, contentId, action }),
+      });
+    } catch (e) {}
+  };
+
+  if (loading) {
+    return (
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+        {[1, 2, 3, 4].map(i => (
+          <div key={i} className="bg-white rounded-xl border border-gray-100 p-5 animate-pulse">
+            <div className="h-4 bg-gray-200 rounded w-1/3 mb-3" />
+            <div className="h-3 bg-gray-100 rounded w-2/3" />
+          </div>
+        ))}
+      </div>
+    );
+  }
+
+  if (!recommendations) return null;
+
+  return (
+    <div className="grid grid-cols-1 lg:grid-cols-2 gap-4" data-testid="remediation-panels">
+      {recommendations.recommendedLesson && (
+        <div className="bg-white rounded-xl border border-gray-100 p-5" data-testid="panel-recommended-lesson">
+          <h3 className="font-semibold text-gray-900 mb-3 flex items-center gap-2">
+            <BookOpen className="w-5 h-5 text-purple-500" /> Recommended Next Lesson
+          </h3>
+          <div className="flex items-center gap-3 px-4 py-3 bg-purple-50 rounded-lg">
+            <BookOpen className="w-5 h-5 text-purple-600 flex-shrink-0" />
+            <div className="flex-1 min-w-0">
+              <div className="text-sm font-medium text-gray-800 truncate">{recommendations.recommendedLesson.title}</div>
+              <div className="text-xs text-gray-500">{recommendations.recommendedLesson.discipline || "Targeted Review"}</div>
+            </div>
+            <button
+              onClick={() => handleTrack("dashboard", "lesson", recommendations.recommendedLesson.id, "start_lesson")}
+              className="px-3 py-1.5 bg-purple-600 text-white rounded-lg text-xs font-medium hover:bg-purple-700 transition-colors flex-shrink-0"
+              data-testid="button-start-recommended-lesson"
+            >
+              Start
+            </button>
+          </div>
+        </div>
+      )}
+
+      {recommendations.reviewFlashcards && recommendations.reviewFlashcards.length > 0 && (
+        <div className="bg-white rounded-xl border border-gray-100 p-5" data-testid="panel-review-flashcards">
+          <h3 className="font-semibold text-gray-900 mb-3 flex items-center gap-2">
+            <Brain className="w-5 h-5 text-blue-500" /> Review These Flashcards
+          </h3>
+          <div className="space-y-2">
+            {recommendations.reviewFlashcards.slice(0, 3).map((fc: any, i: number) => (
+              <div key={i} className="flex items-center gap-3 px-3 py-2 bg-blue-50 rounded-lg">
+                <Brain className="w-4 h-4 text-blue-500 flex-shrink-0" />
+                <div className="flex-1 min-w-0">
+                  <div className="text-sm text-gray-700 truncate">{fc.title}</div>
+                  <div className="text-xs text-gray-500">{fc.matchReasons?.includes("weak_area_targeted") ? "Weak area" : "General review"}</div>
+                </div>
+                <button
+                  onClick={() => handleTrack("dashboard", "flashcard", fc.id, "study_cards")}
+                  className="px-2.5 py-1 bg-blue-600 text-white rounded text-xs font-medium hover:bg-blue-700 flex-shrink-0"
+                  data-testid={`button-study-deck-${i}`}
+                >
+                  Study
+                </button>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {recommendations.retryWeakTopics && recommendations.retryWeakTopics.length > 0 && (
+        <div className="bg-white rounded-xl border border-gray-100 p-5" data-testid="panel-retry-weak-topics">
+          <h3 className="font-semibold text-gray-900 mb-3 flex items-center gap-2">
+            <Target className="w-5 h-5 text-red-500" /> Retry Your Weakest Topics
+          </h3>
+          <div className="space-y-2">
+            {recommendations.retryWeakTopics.slice(0, 4).map((topic: any, i: number) => (
+              <div key={i} className="flex items-center justify-between px-3 py-2 bg-red-50 rounded-lg">
+                <div className="flex items-center gap-2 min-w-0">
+                  <AlertTriangle className="w-4 h-4 text-red-500 flex-shrink-0" />
+                  <span className="text-sm text-gray-700 truncate">{topic.topic}</span>
+                </div>
+                <div className="flex items-center gap-2 flex-shrink-0">
+                  <span className="text-xs font-medium text-red-600">{topic.accuracy}%</span>
+                  <Link
+                    href={`/qbank?career=mlt&topics=${encodeURIComponent(topic.topic)}`}
+                    className="px-2.5 py-1 bg-red-600 text-white rounded text-xs font-medium hover:bg-red-700"
+                    data-testid={`button-retry-topic-${i}`}
+                  >
+                    Retry
+                  </Link>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {recommendations.basedOnLastExam && recommendations.basedOnLastExam.length > 0 && (
+        <div className="bg-white rounded-xl border border-gray-100 p-5" data-testid="panel-based-on-last-exam">
+          <h3 className="font-semibold text-gray-900 mb-3 flex items-center gap-2">
+            <FileText className="w-5 h-5 text-indigo-500" /> Based on Your Last Exam
+          </h3>
+          <div className="space-y-2">
+            {recommendations.basedOnLastExam.map((item: any, i: number) => (
+              <div key={i} className="flex items-center gap-3 px-3 py-2 bg-indigo-50 rounded-lg">
+                {item.type === "lesson" ? <BookOpen className="w-4 h-4 text-indigo-500 flex-shrink-0" /> : <Brain className="w-4 h-4 text-indigo-500 flex-shrink-0" />}
+                <div className="flex-1 min-w-0">
+                  <div className="text-sm text-gray-700 truncate">{item.title}</div>
+                  <div className="text-xs text-gray-500">{item.discipline}</div>
+                </div>
+                <button
+                  onClick={() => handleTrack("dashboard", item.type, item.id, "exam_based_review")}
+                  className="px-2.5 py-1 bg-indigo-600 text-white rounded text-xs font-medium hover:bg-indigo-700 flex-shrink-0"
+                  data-testid={`button-exam-review-${i}`}
+                >
+                  Review
+                </button>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
 function OverviewTab({ domains, isFree, onUpgrade }: { domains: ReturnType<typeof getMockDomainData>; isFree: boolean; onUpgrade: () => void }) {
   const recentActivity = getMockRecentActivity();
   const weakDomains = domains.filter((d) => d.mastery < 50).sort((a, b) => a.mastery - b.mastery);
@@ -217,6 +427,8 @@ function OverviewTab({ domains, isFree, onUpgrade }: { domains: ReturnType<typeo
           </Link>
         </div>
       </div>
+
+      <DashboardRemediationPanels isFree={isFree} />
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2 bg-white rounded-xl border border-gray-100 p-5" data-testid="domain-mastery-overview">
@@ -704,6 +916,40 @@ function PerformanceTab({ domains }: { domains: ReturnType<typeof getMockDomainD
   );
 }
 
+function WrongAnswerRemediationRow({ questionId, isFree }: { questionId: string; isFree: boolean }) {
+  const [remediation, setRemediation] = useState<any>(null);
+  const [loaded, setLoaded] = useState(false);
+
+  useEffect(() => {
+    if (isFree) return;
+    async function load() {
+      try {
+        const res = await fetch(`/api/mlt/remediation/${questionId}`, { credentials: "include" });
+        if (res.ok) {
+          const data = await res.json();
+          if (data.bestLesson || data.bestDeck) setRemediation(data);
+        }
+      } catch (e) {}
+      setLoaded(true);
+    }
+    load();
+  }, [questionId, isFree]);
+
+  const handleTrack = async (contentType: string, contentId: string, action: string) => {
+    try {
+      await fetch("/api/mlt/remediation/track", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify({ questionId, contentType, contentId, action }),
+      });
+    } catch (e) {}
+  };
+
+  if (!loaded || !remediation) return null;
+  return <RemediationRecommendationCard remediation={remediation} onTrack={handleTrack} />;
+}
+
 function WrongAnswersTab({ isFree, onUpgrade }: { isFree: boolean; onUpgrade: () => void }) {
   const [filter, setFilter] = useState<string>("all");
   const [showBookmarked, setShowBookmarked] = useState(false);
@@ -811,6 +1057,7 @@ function WrongAnswersTab({ isFree, onUpgrade }: { isFree: boolean; onUpgrade: ()
                   <Zap className="w-3.5 h-3.5" /> Adaptive Drill
                 </button>
               </div>
+              <WrongAnswerRemediationRow questionId={wa.id} isFree={isFree} />
             </div>
           ))}
         </div>

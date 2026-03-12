@@ -13,6 +13,7 @@ import {
   simulateCAT,
   type QuestionCandidate,
 } from "./mlt-adaptive-engine";
+import { findRemediationContent } from "./mlt-remediation-engine";
 import {
   DEFAULT_CAT_PARAMS,
   CANADA_EXAM_CONFIG,
@@ -420,6 +421,24 @@ export function registerMltExamRoutes(app: Express) {
 
       const antiGaming = detectRapidGuessing(responseHistory, catParams.rapidGuessThresholdMs);
 
+      let remediation = undefined;
+      if (!isCorrect && (session.practiceMode === "tutor" || completed)) {
+        try {
+          const remResult = await findRemediationContent(questionId);
+          if (remResult.bestLesson || remResult.bestDeck || remResult.relatedQuestions.length > 0) {
+            remediation = {
+              bestLesson: remResult.bestLesson,
+              bestDeck: remResult.bestDeck,
+              relatedQuestions: remResult.relatedQuestions.slice(0, 3),
+              autoLinkScore: remResult.autoLinkScore,
+              manuallyCurated: remResult.manuallyCurated,
+            };
+          }
+        } catch (remErr: any) {
+          console.error("Remediation lookup failed (non-fatal):", remErr.message);
+        }
+      }
+
       res.json({
         isCorrect,
         correctAnswer: question.correctAnswer,
@@ -434,6 +453,7 @@ export function registerMltExamRoutes(app: Express) {
         nextQuestion,
         report,
         antiGamingFlags: antiGaming.length > 0 ? antiGaming : undefined,
+        remediation,
       });
     } catch (e: any) {
       console.error("MLT exam answer error:", e);
