@@ -363,7 +363,7 @@ export default function ImagingPracticeExamPage() {
             {([["all", "All Levels"], ["1", "Easy"], ["2", "Medium"], ["3", "Hard"]] as const).map(([val, label]) => (
               <button
                 key={val}
-                onClick={() => setSelectedDifficulty(val as any)}
+                onClick={() => setSelectedDifficulty(val)}
                 className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
                   selectedDifficulty === val ? "bg-indigo-600 text-white" : "bg-gray-100 text-gray-700 hover:bg-gray-200"
                 }`}
