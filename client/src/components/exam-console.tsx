@@ -654,26 +654,43 @@ export default function ExamConsoleLayout({
 
             {showExplanation && explanation && (
               <div className="bg-white rounded-2xl shadow-sm border border-slate-200/60 overflow-hidden">
-                <div className="p-5 md:p-7">
-                  <div className="flex items-center gap-2 mb-4">
-                    <div className="w-8 h-8 rounded-lg bg-violet-100 flex items-center justify-center">
-                      <BookOpen className="w-4 h-4 text-violet-600" />
+                <div className="p-3 md:p-4">
+                  <div className="flex items-center gap-2 mb-2">
+                    <div className="w-7 h-7 rounded-lg bg-violet-100 flex items-center justify-center">
+                      <BookOpen className="w-3.5 h-3.5 text-violet-600" />
                     </div>
-                    <h4 className="font-bold text-slate-800 text-lg">
+                    <h4 className="font-bold text-slate-800 text-base">
                       Explanation
                     </h4>
                   </div>
-                  <p className="text-[15px] text-slate-700 leading-relaxed" style={{ lineHeight: '1.7' }}>
-                    {explanation}
-                  </p>
+                  <div className="text-[15px] text-slate-700 leading-relaxed space-y-2" style={{ lineHeight: '1.7' }}>
+                    {explanation.split(/\n\n+/).filter(Boolean).map((para, i) => (
+                      <p key={i}>{para}</p>
+                    ))}
+                  </div>
                   {(() => {
                     const img = explanationContext ? getQuestionImage(explanationContext) : undefined;
                     return img ? (
-                      <div className="mt-5 border-t border-slate-100 pt-5">
-                        <img src={img} alt={explanationContext?.topic || explanationContext?.bodySystem || "Clinical reference"} className="rounded-xl border border-slate-200/60 max-w-full w-auto mx-auto" style={{ maxHeight: '320px' }} loading="lazy" data-testid="img-rationale" />
+                      <div className="mt-3 border-t border-slate-100 pt-3">
+                        <img src={img} alt={explanationContext?.topic || explanationContext?.bodySystem || "Clinical reference"} className="rounded-lg border border-slate-200/60 max-w-full w-auto mx-auto" style={{ maxHeight: '200px' }} loading="lazy" data-testid="img-rationale" />
                       </div>
                     ) : null;
                   })()}
+                  {explanationContext && (
+                    <div className="mt-3 pt-2 border-t border-slate-100">
+                      <a
+                        href={(() => {
+                          const searchTerm = encodeURIComponent(explanationContext.subtopic || explanationContext.topic || explanationContext.bodySystem || "");
+                          return searchTerm ? `/lessons?search=${searchTerm}` : "/lessons";
+                        })()}
+                        className="inline-flex items-center gap-1.5 text-sm font-medium text-primary hover:text-primary/80 transition-colors"
+                        data-testid="link-study-topic"
+                      >
+                        <BookOpen className="h-3.5 w-3.5" />
+                        Study This Topic: {explanationContext.subtopic || explanationContext.topic || explanationContext.bodySystem || "Lessons"}
+                      </a>
+                    </div>
+                  )}
                 </div>
               </div>
             )}

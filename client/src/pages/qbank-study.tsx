@@ -24,7 +24,13 @@ import {
   PremiumBadge,
   StudyProgressBar,
   ScoreCircle,
+  PostAnswerReviewLayout,
+  RationaleText,
+  StudyTopicLink,
+  DistractorCard,
+  RationaleImageBlock,
 } from "@/components/premium-study";
+import { getQuestionImage } from "@/lib/system-images";
 
 function getAuthHeaders(): Record<string, string> {
   try {
@@ -279,22 +285,67 @@ export default function QBankStudyPage() {
                 </div>
 
                 {revealed && (
-                  <div className="mt-6 pt-5 border-t border-gray-100 space-y-3 animate-fade-in-up" data-testid="card-rationale">
-                    <RationaleSection
-                      icon={<Lightbulb className="h-4 w-4 text-amber-500" />}
-                      title="Explanation"
-                    >
-                      <p>{currentQ.rationale}</p>
-                    </RationaleSection>
-                    {currentQ.clientNeeds && (
-                      <RationaleSection
-                        icon={<GraduationCap className="h-4 w-4 text-violet-500" />}
-                        title="Clinical Pearl"
-                        variant="pearl"
-                      >
-                        <p>Client Needs: {currentQ.clientNeeds}</p>
-                      </RationaleSection>
-                    )}
+                  <div className="mt-4 pt-3 border-t border-gray-100" data-testid="card-rationale">
+                    <PostAnswerReviewLayout
+                      questionColumn={
+                        <>
+                          <ResultHeader
+                            isCorrect={selected === currentQ.correctAnswer}
+                            correctText={`Correct Answer: ${currentQ.correctAnswer}. ${currentQ[`option${currentQ.correctAnswer}` as keyof Question] as string}`}
+                          />
+                          <RationaleSection
+                            icon={<XCircle className="h-4 w-4 text-gray-500" />}
+                            title="Why Other Options Are Wrong"
+                            variant="distractor"
+                            data-testid="section-distractor-rationales"
+                          >
+                            <div className="space-y-2">
+                              {["A", "B", "C", "D"].filter(k => k !== currentQ.correctAnswer).map(k => (
+                                <DistractorCard
+                                  key={k}
+                                  letter={k}
+                                  text={currentQ[`option${k}` as keyof Question] as string}
+                                  rationale="Review the rationale above to understand why this option is incorrect."
+                                />
+                              ))}
+                            </div>
+                          </RationaleSection>
+                        </>
+                      }
+                      rationaleColumn={
+                        <>
+                          <RationaleSection
+                            icon={<Lightbulb className="h-4 w-4 text-amber-500" />}
+                            title="Explanation"
+                          >
+                            <RationaleText text={currentQ.rationale} />
+                          </RationaleSection>
+                          {(() => {
+                            const img = getQuestionImage({ topic: currentQ.topic, bodySystem: currentQ.category });
+                            return img ? (
+                              <RationaleImageBlock
+                                src={img}
+                                alt={currentQ.topic || currentQ.category || "Clinical reference"}
+                                data-testid="img-rationale"
+                              />
+                            ) : null;
+                          })()}
+                          {currentQ.clientNeeds && (
+                            <RationaleSection
+                              icon={<GraduationCap className="h-4 w-4 text-violet-500" />}
+                              title="Clinical Pearl"
+                              variant="pearl"
+                            >
+                              <p>Client Needs: {currentQ.clientNeeds}</p>
+                            </RationaleSection>
+                          )}
+                          <StudyTopicLink
+                            topic={currentQ.topic}
+                            bodySystem={currentQ.category}
+                          />
+                        </>
+                      }
+                    />
                   </div>
                 )}
               </CardContent>

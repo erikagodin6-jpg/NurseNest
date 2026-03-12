@@ -160,7 +160,7 @@ export function ResultHeader({
   return (
     <div
       className={cn(
-        "px-5 py-4 rounded-xl flex items-center gap-3",
+        "px-4 py-3 rounded-xl flex items-center gap-3",
         isCorrect
           ? "bg-emerald-50/60 border border-emerald-200/50"
           : "bg-amber-50/50 border border-amber-200/50"
@@ -228,9 +228,9 @@ export function RationaleSection({
   };
 
   return (
-    <div className={cn("px-5 py-4 rounded-xl border relative", variantStyles[variant], className)} data-testid={testId}>
-      <div className={cn("absolute left-0 top-4 bottom-4 w-[3px] rounded-full", accentBar[variant])} />
-      <div className="flex items-center gap-2 mb-2.5 pl-2">
+    <div className={cn("px-3 py-2.5 rounded-xl border relative", variantStyles[variant], className)} data-testid={testId}>
+      <div className={cn("absolute left-0 top-3 bottom-3 w-[3px] rounded-full", accentBar[variant])} />
+      <div className="flex items-center gap-2 mb-1.5 pl-2">
         {icon}
         <p className={cn("text-xs font-semibold uppercase tracking-wider", titleColors[variant])}>{title}</p>
       </div>
@@ -249,15 +249,15 @@ export function RationaleImageBlock({
   "data-testid"?: string;
 }) {
   return (
-    <div className="mt-5 rounded-2xl border border-gray-200/80 overflow-hidden bg-gray-50/50">
-      <div className="px-4 py-2.5 border-b border-gray-200/60 bg-white/60">
+    <div className="mt-3 rounded-xl border border-gray-200/80 overflow-hidden bg-gray-50/50">
+      <div className="px-3 py-1.5 border-b border-gray-200/60 bg-white/60">
         <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider">Clinical Reference</p>
       </div>
-      <div className="p-4 flex justify-center">
+      <div className="p-2 flex justify-center">
         <img
           src={src}
           alt={alt}
-          className="rounded-xl max-h-72 w-auto object-contain"
+          className="rounded-lg max-h-[200px] w-auto object-contain"
           loading="lazy"
           data-testid={testId}
         />
@@ -276,9 +276,71 @@ export function DistractorCard({
   rationale: string;
 }) {
   return (
-    <div className="pl-4 border-l-[3px] border-gray-300/80 py-1">
+    <div className="pl-3 border-l-[3px] border-gray-300/80 py-0.5">
       <p className="text-sm font-semibold text-gray-700">{letter}. {text}</p>
-      <p className="text-sm text-gray-600 mt-1 leading-relaxed">{rationale}</p>
+      <p className="text-sm text-gray-600 mt-0.5 leading-relaxed">{rationale}</p>
+    </div>
+  );
+}
+
+export function RationaleText({ text }: { text: string }) {
+  const paragraphs = text.split(/\n\n+/).filter(Boolean);
+  if (paragraphs.length <= 1) {
+    return <p>{text}</p>;
+  }
+  return (
+    <>
+      {paragraphs.map((p, i) => (
+        <p key={i} className={i > 0 ? "mt-2" : ""}>{p}</p>
+      ))}
+    </>
+  );
+}
+
+export function StudyTopicLink({
+  topic,
+  subtopic,
+  bodySystem,
+}: {
+  topic?: string;
+  subtopic?: string;
+  bodySystem?: string;
+}) {
+  const label = subtopic || topic || bodySystem || "Lessons";
+  const searchTerm = encodeURIComponent(subtopic || topic || bodySystem || "");
+  const href = searchTerm ? `/lessons?search=${searchTerm}` : "/lessons";
+
+  return (
+    <a
+      href={href}
+      className="inline-flex items-center gap-1.5 text-sm font-medium text-primary hover:text-primary/80 transition-colors"
+      data-testid="link-study-topic"
+    >
+      <BookOpen className="h-3.5 w-3.5" />
+      Study This Topic: {label}
+    </a>
+  );
+}
+
+export function PostAnswerReviewLayout({
+  questionColumn,
+  rationaleColumn,
+  className,
+}: {
+  questionColumn: ReactNode;
+  rationaleColumn: ReactNode;
+  className?: string;
+}) {
+  return (
+    <div className={cn("animate-fade-in-up", className)}>
+      <div className="hidden lg:grid lg:grid-cols-2 lg:gap-4">
+        <div className="space-y-2">{questionColumn}</div>
+        <div className="space-y-2">{rationaleColumn}</div>
+      </div>
+      <div className="lg:hidden space-y-2">
+        {questionColumn}
+        {rationaleColumn}
+      </div>
     </div>
   );
 }

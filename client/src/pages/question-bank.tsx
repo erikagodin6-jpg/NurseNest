@@ -27,6 +27,9 @@ import {
   PremiumBadge,
   StudyProgressBar,
   StudyPageShell,
+  PostAnswerReviewLayout,
+  RationaleText,
+  StudyTopicLink,
 } from "@/components/premium-study";
 
 const FREE_PREVIEW_COUNT = 3;
@@ -804,92 +807,112 @@ export default function QuestionBank() {
                           Check Answer
                         </Button>
                       ) : (
-                        <div className="space-y-4 animate-fade-in-up">
-                          <ResultHeader
-                            isCorrect={isCorrect}
-                            correctText={`Correct Answer: ${String.fromCharCode(65 + question.correct)}. ${question.options[question.correct]}`}
-                            data-testid="section-result-header"
-                          />
-
-                          <RationaleSection
-                            icon={<CheckCircle2 className="h-4 w-4 text-emerald-600" />}
-                            title="Why This Is Correct"
-                            data-testid="section-rationale"
-                          >
-                            <p data-testid="text-qb-rationale">{question.rationale}</p>
-                            {(() => {
-                              const img = getQuestionImage({ topic: question.topic, subtopic: question.subtopic, bodySystem: question.bodySystem });
-                              return img ? (
-                                <RationaleImageBlock
-                                  src={img}
-                                  alt={question.topic || question.bodySystem || "Clinical reference"}
-                                  data-testid="img-rationale"
+                        <>
+                          <PostAnswerReviewLayout
+                            questionColumn={
+                              <>
+                                <ResultHeader
+                                  isCorrect={isCorrect}
+                                  correctText={`Correct Answer: ${String.fromCharCode(65 + question.correct)}. ${question.options[question.correct]}`}
+                                  data-testid="section-result-header"
                                 />
-                              ) : null;
-                            })()}
-                          </RationaleSection>
 
-                          {question.distractorRationales && Object.keys(question.distractorRationales).length > 0 && (
-                            <RationaleSection
-                              icon={<XCircle className="h-4 w-4 text-gray-500" />}
-                              title="Why Other Options Are Wrong"
-                              variant="distractor"
-                              data-testid="section-distractor-rationales"
-                            >
-                              <div className="space-y-3">
-                                {question.options.map((opt, idx) => {
-                                  if (idx === question.correct) return null;
-                                  const key = String.fromCharCode(65 + idx);
-                                  const rationale = question.distractorRationales?.[key] || question.distractorRationales?.[key.toLowerCase()] || question.distractorRationales?.[String(idx)];
-                                  if (!rationale) return null;
-                                  return (
-                                    <DistractorCard key={idx} letter={key} text={opt} rationale={rationale} />
-                                  );
-                                })}
-                              </div>
-                            </RationaleSection>
-                          )}
+                                {revealed && question.difficulty && (
+                                  <div className="flex items-center gap-2 text-xs text-gray-400 flex-wrap">
+                                    <PremiumBadge variant="difficulty">Difficulty: {DIFFICULTY_LABELS[question.difficulty] || question.difficulty}</PremiumBadge>
+                                    {question.frameworkUsed && <PremiumBadge>Framework: {question.frameworkUsed}</PremiumBadge>}
+                                    {question.questionType && <PremiumBadge>Type: {question.questionType}</PremiumBadge>}
+                                  </div>
+                                )}
 
-                          {question.clinicalPearl && (
-                            <RationaleSection
-                              icon={<Lightbulb className="h-4 w-4 text-violet-600" />}
-                              title="Clinical Pearl"
-                              variant="pearl"
-                              data-testid="section-clinical-pearl"
-                            >
-                              <p>{question.clinicalPearl}</p>
-                            </RationaleSection>
-                          )}
+                                <RationaleSection
+                                  icon={<XCircle className="h-4 w-4 text-gray-500" />}
+                                  title="Why Other Options Are Wrong"
+                                  variant="distractor"
+                                  data-testid="section-distractor-rationales"
+                                >
+                                  <div className="space-y-2">
+                                    {(() => {
+                                      const cards = question.options
+                                        .map((opt, idx) => {
+                                          if (idx === question.correct) return null;
+                                          const key = String.fromCharCode(65 + idx);
+                                          const rationale = question.distractorRationales?.[key] || question.distractorRationales?.[key.toLowerCase()] || question.distractorRationales?.[String(idx)];
+                                          if (!rationale) return null;
+                                          return <DistractorCard key={idx} letter={key} text={opt} rationale={rationale} />;
+                                        })
+                                        .filter(Boolean);
+                                      return cards.length > 0 ? cards : (
+                                        <p className="text-sm text-gray-500 italic">Distractor explanations are not yet available for this question.</p>
+                                      );
+                                    })()}
+                                  </div>
+                                </RationaleSection>
+                              </>
+                            }
+                            rationaleColumn={
+                              <>
+                                <RationaleSection
+                                  icon={<CheckCircle2 className="h-4 w-4 text-emerald-600" />}
+                                  title="Why This Is Correct"
+                                  data-testid="section-rationale"
+                                >
+                                  <div data-testid="text-qb-rationale">
+                                    <RationaleText text={question.rationale} />
+                                  </div>
+                                  {(() => {
+                                    const img = getQuestionImage({ topic: question.topic, subtopic: question.subtopic, bodySystem: question.bodySystem });
+                                    return img ? (
+                                      <RationaleImageBlock
+                                        src={img}
+                                        alt={question.topic || question.bodySystem || "Clinical reference"}
+                                        data-testid="img-rationale"
+                                      />
+                                    ) : null;
+                                  })()}
+                                </RationaleSection>
 
-                          {question.examStrategy && (
-                            <RationaleSection
-                              icon={<Crosshair className="h-4 w-4 text-blue-600" />}
-                              title="Exam Strategy"
-                              variant="strategy"
-                              data-testid="section-exam-strategy"
-                            >
-                              <p>{question.examStrategy}</p>
-                            </RationaleSection>
-                          )}
+                                {question.clinicalPearl && (
+                                  <RationaleSection
+                                    icon={<Lightbulb className="h-4 w-4 text-violet-600" />}
+                                    title="Clinical Pearl"
+                                    variant="pearl"
+                                    data-testid="section-clinical-pearl"
+                                  >
+                                    <p>{question.clinicalPearl}</p>
+                                  </RationaleSection>
+                                )}
 
-                          {question.memoryHook && (
-                            <RationaleSection
-                              icon={<Bookmark className="h-4 w-4 text-amber-600" />}
-                              title="Memory Hook"
-                              variant="memory"
-                              data-testid="section-memory-hook"
-                            >
-                              <p className="font-medium italic">{question.memoryHook}</p>
-                            </RationaleSection>
-                          )}
+                                {question.examStrategy && (
+                                  <RationaleSection
+                                    icon={<Crosshair className="h-4 w-4 text-blue-600" />}
+                                    title="Exam Strategy"
+                                    variant="strategy"
+                                    data-testid="section-exam-strategy"
+                                  >
+                                    <p>{question.examStrategy}</p>
+                                  </RationaleSection>
+                                )}
 
-                          {revealed && question.difficulty && (
-                            <div className="flex items-center gap-3 text-xs text-gray-400 pt-1 flex-wrap">
-                              <PremiumBadge variant="difficulty">Difficulty: {DIFFICULTY_LABELS[question.difficulty] || question.difficulty}</PremiumBadge>
-                              {question.frameworkUsed && <PremiumBadge>Framework: {question.frameworkUsed}</PremiumBadge>}
-                              {question.questionType && <PremiumBadge>Type: {question.questionType}</PremiumBadge>}
-                            </div>
-                          )}
+                                {question.memoryHook && (
+                                  <RationaleSection
+                                    icon={<Bookmark className="h-4 w-4 text-amber-600" />}
+                                    title="Memory Hook"
+                                    variant="memory"
+                                    data-testid="section-memory-hook"
+                                  >
+                                    <p className="font-medium italic">{question.memoryHook}</p>
+                                  </RationaleSection>
+                                )}
+
+                                <StudyTopicLink
+                                  topic={question.topic}
+                                  subtopic={question.subtopic}
+                                  bodySystem={question.bodySystem}
+                                />
+                              </>
+                            }
+                          />
 
                           {showConfidence && question && selectedAnswer !== null && (
                             <ConfidenceRatingModal
@@ -909,7 +932,7 @@ export default function QuestionBank() {
                               Next Question <ChevronRight className="h-4 w-4 ml-1" />
                             </Button>
                           </div>
-                        </div>
+                        </>
                       )}
                     </CardContent>
                   </Card>
