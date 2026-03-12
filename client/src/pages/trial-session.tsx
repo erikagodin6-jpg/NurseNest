@@ -77,7 +77,14 @@ export default function TrialSessionPage() {
 
         if (data.status === "started" && (!data.questions || data.questions.length === 0)) {
           const tier = data.tier || EXAM_KEY_TO_TIER[data.examKey] || "rpn";
-          const selected = await getExamQuestions(tier, TOTAL_QUESTIONS);
+          let selected: PooledQuestion[];
+          try {
+            selected = await getExamQuestions(tier, TOTAL_QUESTIONS);
+          } catch (fetchErr: any) {
+            console.error("[TrialSession] Failed to load questions:", fetchErr);
+            setError("Unable to load exam questions. Please try again later.");
+            return;
+          }
 
           const questionsPayload = selected.map((q) => ({
             id: q.id,

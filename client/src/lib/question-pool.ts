@@ -68,21 +68,20 @@ export async function getExamQuestions(
   bodySystems?: string[],
   filters?: { exam?: string; difficulty?: string; topic?: string; region?: string }
 ): Promise<PooledQuestion[]> {
-  try {
-    const result = await fetchExamSet({
-      count,
-      bodySystems,
-      tier: tier === "all" ? undefined : tier,
-      exam: filters?.exam,
-      difficulty: filters?.difficulty,
-      topic: filters?.topic,
-      region: filters?.region,
-    });
-    return result.questions.map(serverToPooled);
-  } catch (e) {
-    console.error("Failed to fetch exam questions from server:", e);
-    return [];
+  const result = await fetchExamSet({
+    count,
+    bodySystems,
+    tier: tier === "all" ? undefined : tier,
+    exam: filters?.exam,
+    difficulty: filters?.difficulty,
+    topic: filters?.topic,
+    region: filters?.region,
+  });
+  const questions = result.questions.map(serverToPooled);
+  if (questions.length === 0) {
+    throw new Error("No questions available for this exam configuration. The question bank may be empty for this tier.");
   }
+  return questions;
 }
 
 export async function getAvailableBodySystems(tier: string): Promise<string[]> {

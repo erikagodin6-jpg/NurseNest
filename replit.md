@@ -36,6 +36,9 @@ Built with Vite, React, and Express 5 on Node.js with TypeScript, the applicatio
 - **MLT Admin Content Studio**: Comprehensive admin interface for managing MLT content (questions, flashcards, lessons) with CRUD, bulk import, validation, and content distribution dashboards.
 - **MLT Student Dashboard**: A 9-tab dashboard for MLT candidates covering Overview, Exams, Flashcards, Lessons, Performance, Wrong Answers, and Study Plan, with domain mastery heatmap and remediation actions.
 - **Clinical Case Study Engine**: Manages multi-stage clinical case studies with decision points, exhibit data (vitals, labs, notes), various question types, and per-question scoring with partial credit.
+- **Blog Batch Generator**: Automates the generation of blog posts via OpenAI with smart scheduling.
+- **MLT Admin Content Studio**: Comprehensive admin interface for managing MLT content (questions, flashcards, lessons) with CRUD, bulk import, validation, and content distribution dashboards.
+- **Paramedic Bulk Upload Manager**: Admin tool for importing large amounts of paramedic content (questions, flashcards, lessons, scenarios, etc.) via JSON, CSV, or text, with field mapping, validation, and version control.
 
 ## External Dependencies
 

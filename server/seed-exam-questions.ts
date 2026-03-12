@@ -1,6 +1,10 @@
 import fs from "fs";
 import path from "path";
+import { fileURLToPath } from "url";
 import type { Pool } from "pg";
+
+const __filename_esm = typeof __filename !== "undefined" ? __filename : fileURLToPath(import.meta.url);
+const __dirname_esm = path.dirname(__filename_esm);
 
 interface SeedQuestion {
   tier: string;
@@ -28,11 +32,25 @@ interface SeedQuestion {
 }
 
 export async function seedExamQuestions(pool: Pool): Promise<void> {
-  const seedPath = path.resolve(process.cwd(), "server/seed-data/exam-questions.json");
-  if (!fs.existsSync(seedPath)) {
-    console.log("[ExamSeed] No seed file found at", seedPath);
+  const candidates = [
+    path.resolve(__dirname_esm, "seed-data/exam-questions.json"),
+    path.resolve(process.cwd(), "dist/seed-data/exam-questions.json"),
+    path.resolve(process.cwd(), "server/seed-data/exam-questions.json"),
+  ];
+  let seedPath = "";
+  for (const candidate of candidates) {
+    if (fs.existsSync(candidate)) {
+      seedPath = candidate;
+      break;
+    }
+  }
+  if (!seedPath) {
+    console.log("[ExamSeed] No seed file found. Searched:", candidates.join(", "));
     return;
   }
+  console.log("[ExamSeed] Found seed file at:", seedPath);
+  const dbHost = (process.env.DATABASE_URL || "").replace(/\/\/.*@/, "//***@").split("/")[2] || "unknown";
+  console.log(`[ExamSeed] Target database: ${dbHost}`);
 
   const existingCount = await pool.query("SELECT COUNT(*)::int AS cnt FROM exam_questions");
   if (existingCount.rows[0].cnt > 0) {

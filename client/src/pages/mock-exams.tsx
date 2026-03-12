@@ -178,6 +178,9 @@ export default function MockExamsPage() {
         }),
       });
       const data = await res.json();
+      if (!res.ok) {
+        throw new Error(data.error || "Failed to start exam session");
+      }
       if (data.attemptId) {
         if (examMode === "official" || strictMode) {
           localStorage.setItem(`strict-mode-${data.attemptId}`, "true");
@@ -189,8 +192,19 @@ export default function MockExamsPage() {
           }));
         }
         navigate(`/mock-exams/${data.attemptId}`);
+      } else {
+        throw new Error("No exam session was created. Please try again.");
       }
-    } catch {
+    } catch (err: any) {
+      console.error("[MockExam] startExam failed:", err);
+      const message = err?.message || "Failed to start exam";
+      if (message.includes("No questions") || message.includes("zero questions")) {
+        alert("No questions available for this exam configuration. Please try a different tier or body system.");
+      } else if (message.includes("Upgrade required")) {
+        alert("This exam requires a subscription upgrade. Please check your plan.");
+      } else {
+        alert("Failed to start exam — please try again. If the problem persists, contact support.");
+      }
       setStarting(false);
     }
   };
@@ -496,14 +510,28 @@ export default function MockExamsPage() {
                           }),
                         });
                         const data = await res.json();
+                        if (!res.ok) {
+                          throw new Error(data.error || "Failed to start readiness exam");
+                        }
                         if (data.attemptId) {
                           localStorage.setItem(`blueprint-${data.attemptId}`, JSON.stringify({
                             ...result.blueprint,
                             domainAssignments: result.domainAssignments,
                           }));
                           navigate(`/mock-exams/${data.attemptId}`);
+                        } else {
+                          throw new Error("No exam session was created. Please try again.");
                         }
-                      } catch { setStarting(false); }
+                      } catch (err: any) {
+                        console.error("[MockExam] readiness start failed:", err);
+                        const message = err?.message || "Failed to start readiness exam";
+                        if (message.includes("No questions") || message.includes("zero questions") || message.includes("question bank may be empty")) {
+                          alert("No questions available for this readiness exam. The question bank may be empty for this tier.");
+                        } else {
+                          alert("Failed to start readiness exam — please try again. If the problem persists, contact support.");
+                        }
+                        setStarting(false);
+                      }
                     }}
                     className="w-full p-4 rounded-xl border-2 border-emerald-200 bg-emerald-50/50 text-left transition-all hover:border-emerald-300 hover:shadow-md"
                     data-testid="button-start-readiness"

@@ -366,6 +366,57 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
     res.json({ ok: true });
   });
 
+  app.get("/api/admin/diagnostics", async (req, res) => {
+    const admin = await requireAdmin(req, res);
+    if (!admin) return;
+    try {
+      const dbStatus = await pool.query("SELECT 1 AS ok").then(() => "connected").catch(() => "error");
+
+      const examByTier = await pool.query(
+        `SELECT tier, status, COUNT(*)::int AS count FROM exam_questions GROUP BY tier, status ORDER BY tier, status`
+      );
+
+      const flashcardByStatus = await pool.query(
+        `SELECT tier, status, COUNT(*)::int AS count FROM flashcard_bank GROUP BY tier, status ORDER BY tier, status`
+      ).catch(() => ({ rows: [] }));
+
+      const flashcardDecks = await pool.query(
+        `SELECT COUNT(*)::int AS count FROM flashcard_decks`
+      ).catch(() => ({ rows: [{ count: 0 }] }));
+
+      const fs = await import("fs");
+      const pathMod = await import("path");
+      const { fileURLToPath } = await import("url");
+      const currentDir = typeof __dirname !== "undefined" ? __dirname : pathMod.dirname(fileURLToPath(import.meta.url));
+      const seedCandidates = [
+        pathMod.resolve(currentDir, "seed-data/exam-questions.json"),
+        pathMod.resolve(process.cwd(), "dist/seed-data/exam-questions.json"),
+        pathMod.resolve(process.cwd(), "server/seed-data/exam-questions.json"),
+      ];
+      const seedFileExists = seedCandidates.map(p => ({ path: p, exists: fs.existsSync(p) }));
+
+      let migrationTimestamp: string | null = null;
+      try {
+        const { lastStartupMigrationTimestamp } = await import("./startup-data-migrations");
+        migrationTimestamp = lastStartupMigrationTimestamp;
+      } catch {}
+
+      res.json({
+        environment: process.env.NODE_ENV || "development",
+        databaseStatus: dbStatus,
+        databaseHost: (process.env.DATABASE_URL || "").replace(/\/\/.*@/, "//***@"),
+        examQuestions: examByTier.rows,
+        flashcardBank: flashcardByStatus.rows,
+        flashcardDecksCount: flashcardDecks.rows[0]?.count || 0,
+        seedFiles: seedFileExists,
+        lastStartupMigrationTimestamp: migrationTimestamp,
+        serverTime: new Date().toISOString(),
+      });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
   // --------------------
   // AI Content Generation (admin-only)
   // --------------------
@@ -6358,7 +6409,7 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
       const blueprintCode = req.body.blueprintCode || "";
       const scopeMap: Record<string, string> = {
         "REX-PN": "REXPN", "NCLEX-PN": "NCLEXPN", "NCLEX-RN": "NCLEXRN",
-        "AANP": "AANP", "ANCC": "ANCC",
+        "NCLEX-RN-CA": "NCLEXRN", "AANP": "AANP", "ANCC": "ANCC",
       };
       const creditScope = scopeMap[blueprintCode] || tier?.toUpperCase() || "ALL_NURSING";
 

@@ -1,5 +1,7 @@
 import pg from "pg";
 
+export let lastStartupMigrationTimestamp: string | null = null;
+
 const IMAGING_QUESTIONS = [
   { question: "For a PA chest radiograph, the central ray should be directed to which vertebral level?", optionA: "T5", optionB: "T7", optionC: "T10", optionD: "L1", correctAnswer: "B", rationale: "The central ray for a PA chest is directed perpendicular to T7, which corresponds to the level of the inferior angle of the scapulae.", category: "Radiographic Positioning", topic: "Chest", difficulty: 1, country: "canada", bodyPart: "Chest", exam: "camrt" },
   { question: "What is the standard SID for a PA chest radiograph?", optionA: "40 inches (100 cm)", optionB: "48 inches (120 cm)", optionC: "60 inches (150 cm)", optionD: "72 inches (180 cm)", correctAnswer: "D", rationale: "72 inches (180 cm) is the standard SID for erect chest radiography to minimize cardiac magnification.", category: "Radiographic Positioning", topic: "Chest", difficulty: 1, country: "canada", bodyPart: "Chest", exam: "camrt" },
@@ -215,6 +217,11 @@ export async function runStartupDataMigrations() {
       } else {
         console.log(`[Startup Migration] Flashcards already seeded (${fcCount})`);
       }
+
+      lastStartupMigrationTimestamp = new Date().toISOString();
+      console.log(`[Startup Migration] Completed at ${lastStartupMigrationTimestamp}`);
+      const dbHost = (process.env.DATABASE_URL || "").replace(/\/\/.*@/, "//***@").split("/")[2] || "unknown";
+      console.log(`[Startup Migration] Target database: ${dbHost}`);
 
     } finally {
       client.release();
