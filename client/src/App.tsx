@@ -221,6 +221,7 @@ const RadiographyArtifactRecognitionLanding = lazy(() => import("@/pages/imaging
 const ImagingStudyPlanGenerator = lazy(() => import("@/pages/imaging-study-plan-generator"));
 const RadiographyReadinessQuiz = lazy(() => import("@/pages/radiography-readiness-quiz"));
 const ImagingMarketingDashboard = lazy(() => import("@/pages/imaging-marketing-dashboard"));
+const DemoWeakAreas = lazy(() => import("@/pages/demo-weak-areas"));
 
 function PageTracker() {
   usePageTracker();
@@ -424,6 +425,7 @@ function AppRoutes() {
         <Route path="/medical-imaging/study-plan-generator" component={ImagingStudyPlanGenerator} />
         <Route path="/radiography-readiness-quiz" component={RadiographyReadinessQuiz} />
         <Route path="/admin/imaging-marketing" component={ImagingMarketingDashboard} />
+        <Route path="/admin/demo-weak-areas" component={DemoWeakAreas} />
         <Route path="/radiography-practice-questions" component={RadiographyPracticeQuestionsLanding} />
         <Route path="/radiography-positioning-guide" component={RadiographyPositioningGuideLanding} />
         <Route path="/radiography-artifact-recognition" component={RadiographyArtifactRecognitionLanding} />
