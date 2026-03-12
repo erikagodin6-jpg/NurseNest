@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useRoute, useLocation } from "wouter";
 import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
@@ -298,7 +298,7 @@ function QuizSession({ tier, systemSlug }: { tier: string; systemSlug: string })
   const Icon = getSystemIcon(systemName);
 
   return (
-    <div className="min-h-screen bg-warmwhite flex flex-col font-sans text-gray-900">
+    <div className="min-h-screen bg-slate-50 flex flex-col font-sans text-slate-900">
       <SEO
         title={`Free ${seoTier} ${systemName} Practice Questions | NurseNest`}
         description={`Practice 5 free ${seoTier} ${systemName} nursing exam questions with detailed rationales. Test your clinical knowledge — no signup required.`}
@@ -314,8 +314,8 @@ function QuizSession({ tier, systemSlug }: { tier: string; systemSlug: string })
       />
       <Navigation />
       <main className="flex-1">
-        <section className="bg-gradient-to-b from-primary/5 via-white to-white py-12 px-4">
-          <div className="max-w-3xl mx-auto">
+        <section className="py-6 sm:py-10 px-4">
+          <div className="max-w-[820px] mx-auto">
             <BreadcrumbNav items={[
               { name: "Home", url: "https://www.nursenest.ca/" },
               { name: "Free Practice Questions", url: "https://www.nursenest.ca/practice-questions" },
@@ -323,79 +323,64 @@ function QuizSession({ tier, systemSlug }: { tier: string; systemSlug: string })
               { name: systemName, url: `https://www.nursenest.ca/practice-questions/${tier}/${systemSlug}` },
             ]} />
 
-            <div className="text-center mb-8">
-              <Badge className="bg-primary/10 text-primary mb-3 px-4 py-1.5" data-testid="badge-tier-system">
-                <Icon className="w-3 h-3 mr-1.5" /> {tierLabel} — {systemName}
-              </Badge>
-              <h1 className="text-2xl sm:text-3xl font-bold mb-2" data-testid="text-quiz-title">
-                {systemName} Practice Questions
-              </h1>
-              <p className="text-gray-600 text-sm" data-testid="text-quiz-subtitle">
-                5 exam-style questions with instant feedback and detailed rationales
-              </p>
-            </div>
-
-            <div className="flex items-center justify-between mb-6 bg-white rounded-xl border border-gray-100 shadow-sm p-4">
-              <div className="flex items-center gap-4 text-sm">
-                <span className="font-medium text-gray-700" data-testid="text-progress">
-                  Question {currentIndex + 1} of {questions.length}
-                </span>
-                <span className="text-gray-400">|</span>
-                <span className="text-emerald-600 font-medium" data-testid="text-score">
-                  Score: {score}/{answered}
-                </span>
-              </div>
-              <div className="w-32 h-2 bg-gray-100 rounded-full overflow-hidden">
-                <div
-                  className="h-full bg-primary rounded-full transition-all duration-300"
-                  style={{ width: `${((currentIndex + (showRationale ? 1 : 0)) / questions.length) * 100}%` }}
-                  data-testid="progress-bar"
-                />
-              </div>
-            </div>
-
             {!completed ? (
-              <Card className="border border-gray-100 shadow-lg" data-testid="card-question">
-                <CardContent className="p-6 sm:p-8">
-                  <div className="flex items-center gap-2 mb-4">
-                    <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center">
-                      <Icon className="w-4 h-4 text-primary" />
-                    </div>
-                    <Badge variant="outline" className="text-xs" data-testid="badge-system">
-                      {systemName}
+              <div className="mt-4">
+                <div className="flex items-center justify-between mb-5">
+                  <div className="flex items-center gap-3">
+                    <span className="text-sm font-semibold text-slate-700" data-testid="text-progress">
+                      Question {currentIndex + 1} of {questions.length}
+                    </span>
+                    <Badge variant="outline" className="text-xs font-medium" data-testid="badge-tier-system">
+                      <Icon className="w-3 h-3 mr-1" /> {systemName}
                     </Badge>
                   </div>
+                  <span className="text-sm text-emerald-600 font-semibold" data-testid="text-score">
+                    {score}/{answered} correct
+                  </span>
+                </div>
 
-                  <h2 className="text-lg font-semibold text-gray-900 mb-6 leading-relaxed" data-testid="text-question">
-                    {current.question}
-                  </h2>
+                <div className="w-full h-1.5 bg-slate-200 rounded-full overflow-hidden mb-6">
+                  <div
+                    className="h-full bg-primary rounded-full transition-all duration-500 ease-out"
+                    style={{ width: `${((currentIndex + (showRationale ? 1 : 0)) / questions.length) * 100}%` }}
+                    data-testid="progress-bar"
+                  />
+                </div>
 
-                  <div className="space-y-3 mb-6">
+                <div className="bg-white rounded-2xl shadow-sm border border-slate-200/60 overflow-hidden" data-testid="card-question">
+                  <div className="p-6 sm:p-8">
+                    <p className="text-xl font-semibold text-slate-900 leading-relaxed" style={{ lineHeight: '1.65' }} data-testid="text-question">
+                      {current.question}
+                    </p>
+                  </div>
+
+                  <div className="px-6 sm:px-8 pb-6 sm:pb-8 space-y-3">
                     {current.options.map((option, i) => {
-                      let borderColor = "border-gray-200 hover:border-primary/40";
-                      let bgColor = "bg-white hover:bg-primary/5";
-                      let icon = null;
-
-                      if (showRationale) {
-                        if (i === current.correct) {
-                          borderColor = "border-emerald-400";
-                          bgColor = "bg-emerald-50";
-                          icon = <CheckCircle2 className="w-5 h-5 text-emerald-500 shrink-0" />;
-                        } else if (i === selectedAnswer && i !== current.correct) {
-                          borderColor = "border-red-400";
-                          bgColor = "bg-red-50";
-                          icon = <XCircle className="w-5 h-5 text-red-500 shrink-0" />;
-                        } else {
-                          borderColor = "border-gray-100";
-                          bgColor = "bg-gray-50";
-                        }
-                      } else if (selectedAnswer === i) {
-                        borderColor = "border-primary";
-                        bgColor = "bg-primary/5";
-                      }
-
                       const letterLabel = String.fromCharCode(65 + i);
                       const isSelected = selectedAnswer === i;
+                      const isCorrectOption = showRationale && i === current.correct;
+                      const isWrongSelected = showRationale && isSelected && i !== current.correct;
+
+                      let containerCls = "border-slate-200 hover:border-primary/50 hover:bg-primary/[0.02]";
+                      let letterCls = "border-slate-300 text-slate-500 bg-white";
+                      let textCls = "text-slate-700";
+
+                      if (isCorrectOption) {
+                        containerCls = "border-emerald-300 bg-emerald-50/70";
+                        letterCls = "border-emerald-500 bg-emerald-500 text-white";
+                        textCls = "text-emerald-900 font-medium";
+                      } else if (isWrongSelected) {
+                        containerCls = "border-red-300 bg-red-50/60";
+                        letterCls = "border-red-400 bg-red-400 text-white";
+                        textCls = "text-red-800";
+                      } else if (showRationale) {
+                        containerCls = "border-slate-100 opacity-50";
+                      } else if (isSelected) {
+                        containerCls = "border-primary bg-primary/5 shadow-sm";
+                        letterCls = "border-primary bg-primary text-white";
+                        textCls = "text-slate-900 font-medium";
+                      }
+
                       return (
                         <button
                           key={i}
@@ -404,120 +389,122 @@ function QuizSession({ tier, systemSlug }: { tier: string; systemSlug: string })
                           role="radio"
                           aria-checked={isSelected}
                           aria-label={`Option ${letterLabel}: ${option}`}
-                          className={`w-full text-left px-4 py-3.5 rounded transition-colors flex items-start gap-3 focus:outline-none focus:ring-2 focus:ring-[#BFA6F6]/40 focus:ring-offset-1 ${
-                            showRationale
-                              ? i === current.correct
-                                ? "bg-emerald-50/80 border-l-3 border-l-emerald-500"
-                                : isSelected
-                                ? "bg-red-50/80 border-l-3 border-l-red-400"
-                                : "opacity-60"
-                              : isSelected
-                              ? "bg-[#BFA6F6]/8 border-l-3 border-l-[#BFA6F6]"
-                              : "hover:bg-gray-50"
-                          }`}
+                          className={`w-full text-left p-4 rounded-xl border-2 transition-all duration-200 flex items-center gap-4 focus:outline-none focus:ring-2 focus:ring-primary/30 focus:ring-offset-1 ${containerCls}`}
                           data-testid={`button-option-${i}`}
                         >
-                          <span className={`mt-0.5 w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0 transition-colors ${
-                            showRationale
-                              ? i === current.correct
-                                ? "border-emerald-500 bg-emerald-500"
-                                : isSelected
-                                ? "border-red-400 bg-red-400"
-                                : "border-gray-300"
-                              : isSelected
-                              ? "border-[#BFA6F6] bg-[#BFA6F6]"
-                              : "border-gray-300"
-                          }`}>
-                            {(isSelected || (showRationale && i === current.correct)) && (
-                              <span className="w-2 h-2 rounded-full bg-white" />
-                            )}
+                          <span className={`shrink-0 w-9 h-9 rounded-xl border-2 flex items-center justify-center text-sm font-bold transition-all duration-200 ${letterCls}`}>
+                            {letterLabel}
                           </span>
-                          <span className={`flex-1 text-sm sm:text-base leading-relaxed ${
-                            isSelected && !showRationale ? "text-[#2E3A59] font-medium" : "text-gray-700"
-                          }`}>
-                            <span className="font-semibold mr-1.5">{letterLabel}.</span>
+                          <span className={`flex-1 text-base leading-relaxed ${textCls}`}>
                             {option}
                           </span>
-                          {icon}
+                          {isCorrectOption && <CheckCircle2 className="w-5 h-5 text-emerald-500 shrink-0" />}
+                          {isWrongSelected && <XCircle className="w-5 h-5 text-red-400 shrink-0" />}
                         </button>
                       );
                     })}
                   </div>
+                </div>
 
-                  {showRationale && (
-                    <div className="bg-blue-50 border border-blue-200 rounded-xl p-5 mb-6" data-testid="section-rationale">
-                      <h3 className="font-semibold text-blue-900 mb-2 flex items-center gap-2">
-                        <BookOpen className="w-4 h-4" /> Rationale
-                      </h3>
-                      <p className="text-sm text-blue-800 leading-relaxed">{current.rationale}</p>
-                      {(() => {
-                        const img = getQuestionImage({ topic: current.topic, subtopic: current.subtopic, bodySystem: current.bodySystem });
-                        return img ? (
-                          <div className="mt-4">
-                            <img src={img} alt={current.topic || current.bodySystem || "Clinical reference"} className="rounded-lg border border-blue-200 max-h-72 w-auto mx-auto" loading="lazy" data-testid="img-rationale" />
-                          </div>
-                        ) : null;
-                      })()}
+                {showRationale && (
+                  <div className="mt-5 bg-white rounded-2xl shadow-sm border border-slate-200/60 overflow-hidden" data-testid="section-rationale">
+                    <div className="px-6 sm:px-8 pt-6 sm:pt-8 pb-2">
+                      <div className="flex items-center gap-2 mb-4">
+                        <div className="w-8 h-8 rounded-lg bg-violet-100 flex items-center justify-center">
+                          <BookOpen className="w-4 h-4 text-violet-600" />
+                        </div>
+                        <h3 className="font-bold text-slate-800 text-lg">Explanation</h3>
+                      </div>
+                      <p className="text-[15px] text-slate-700 leading-relaxed" style={{ lineHeight: '1.7' }}>
+                        {current.rationale}
+                      </p>
                     </div>
-                  )}
 
-                  {showConfidence && selectedAnswer !== null && (
-                    <ConfidenceRatingModal
-                      questionId={`${tier}-${systemSlug}-${currentIndex}`}
-                      wasCorrect={selectedAnswer === current.correct}
-                      topic={systemSlug}
-                      bodySystem={systemSlug}
-                      onClose={handleConfidenceClose}
-                    />
-                  )}
+                    {(() => {
+                      const img = getQuestionImage({ topic: current.topic, subtopic: current.subtopic, bodySystem: current.bodySystem });
+                      return img ? (
+                        <div className="px-6 sm:px-8 py-4">
+                          <div className="border-t border-slate-100 pt-4">
+                            <img
+                              src={img}
+                              alt={current.topic || current.bodySystem || "Clinical reference"}
+                              className="rounded-xl border border-slate-200/60 max-w-full w-auto mx-auto"
+                              style={{ maxHeight: '320px' }}
+                              loading="lazy"
+                              data-testid="img-rationale"
+                            />
+                          </div>
+                        </div>
+                      ) : null;
+                    })()}
 
-                  {showRationale && confidenceRated && (
-                    <Button
-                      onClick={handleNext}
-                      className="w-full h-12 bg-primary hover:brightness-110 text-white rounded-xl"
-                      data-testid="button-next-question"
-                    >
-                      {currentIndex < questions.length - 1 ? "Next Question" : "View Results"}
-                      <ArrowRight className="ml-2 w-4 h-4" />
-                    </Button>
-                  )}
-                </CardContent>
-              </Card>
+                    {current.clinicalPearl && (
+                      <div className="mx-6 sm:mx-8 mb-4 p-4 bg-amber-50/80 rounded-xl border border-amber-200/60">
+                        <p className="text-sm font-semibold text-amber-800 mb-1">Clinical Pearl</p>
+                        <p className="text-sm text-amber-700 leading-relaxed">{current.clinicalPearl}</p>
+                      </div>
+                    )}
+
+                    <div className="px-6 sm:px-8 pb-6 sm:pb-8">
+                      {showConfidence && selectedAnswer !== null && (
+                        <ConfidenceRatingModal
+                          questionId={`${tier}-${systemSlug}-${currentIndex}`}
+                          wasCorrect={selectedAnswer === current.correct}
+                          topic={systemSlug}
+                          bodySystem={systemSlug}
+                          onClose={handleConfidenceClose}
+                        />
+                      )}
+
+                      {confidenceRated && (
+                        <Button
+                          onClick={handleNext}
+                          className="w-full h-12 bg-primary hover:brightness-110 text-white rounded-xl font-semibold text-base shadow-sm shadow-primary/20"
+                          data-testid="button-next-question"
+                        >
+                          {currentIndex < questions.length - 1 ? "Next Question" : "View Results"}
+                          <ArrowRight className="ml-2 w-4 h-4" />
+                        </Button>
+                      )}
+                    </div>
+                  </div>
+                )}
+              </div>
             ) : (
-              <Card className="border border-gray-100 shadow-lg" data-testid="card-results">
-                <CardContent className="p-8 text-center">
-                  <div className="w-20 h-20 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-6">
+              <div className="mt-4 bg-white rounded-2xl shadow-sm border border-slate-200/60 overflow-hidden" data-testid="card-results">
+                <div className="p-8 sm:p-10 text-center">
+                  <div className="w-20 h-20 rounded-2xl bg-primary/10 flex items-center justify-center mx-auto mb-6">
                     <Target className="w-10 h-10 text-primary" />
                   </div>
                   <h2 className="text-2xl font-bold mb-2" data-testid="text-final-score">
                     You scored {score} out of {questions.length}
                   </h2>
-                  <p className="text-gray-600 mb-2">
+                  <p className="text-slate-600 mb-2">
                     {score >= 4
                       ? "Excellent work! You have strong clinical knowledge."
                       : score >= 3
                       ? "Good foundation! Keep practicing to strengthen weak areas."
                       : "Keep studying! Focused review will help you improve."}
                   </p>
-                  <p className="text-sm text-gray-500 mb-8">
+                  <p className="text-sm text-slate-500 mb-8">
                     These questions are a small sample. Access thousands more with detailed analytics.
                   </p>
 
                   <div className="grid sm:grid-cols-2 gap-4 mb-8">
-                    <div className="bg-emerald-50 rounded-xl p-4 text-center">
+                    <div className="bg-emerald-50 rounded-xl p-5 text-center">
                       <p className="text-3xl font-bold text-emerald-600" data-testid="text-accuracy">{Math.round((score / questions.length) * 100)}%</p>
-                      <p className="text-sm text-emerald-700">Accuracy</p>
+                      <p className="text-sm text-emerald-700 mt-1">Accuracy</p>
                     </div>
-                    <div className="bg-blue-50 rounded-xl p-4 text-center">
-                      <p className="text-3xl font-bold text-blue-600">{questions.length}</p>
-                      <p className="text-sm text-blue-700">Questions Completed</p>
+                    <div className="bg-slate-50 rounded-xl p-5 text-center">
+                      <p className="text-3xl font-bold text-primary">{questions.length}</p>
+                      <p className="text-sm text-slate-600 mt-1">Questions Completed</p>
                     </div>
                   </div>
 
-                  <div className="space-y-3">
+                  <div className="space-y-3 max-w-sm mx-auto">
                     <Button
                       onClick={() => setLocation("/start-free")}
-                      className="w-full h-12 bg-primary hover:brightness-110 text-white rounded-xl"
+                      className="w-full h-12 bg-primary hover:brightness-110 text-white rounded-xl font-semibold"
                       data-testid="button-signup-cta"
                     >
                       Create Free Account for Full Access <ArrowRight className="ml-2 w-4 h-4" />
@@ -533,17 +520,17 @@ function QuizSession({ tier, systemSlug }: { tier: string; systemSlug: string })
                     <Button
                       onClick={handleRestart}
                       variant="ghost"
-                      className="w-full h-12 rounded-xl text-gray-600"
+                      className="w-full h-12 rounded-xl text-slate-600"
                       data-testid="button-restart"
                     >
                       <RotateCcw className="mr-2 w-4 h-4" /> Try Again
                     </Button>
                   </div>
-                </CardContent>
-              </Card>
+                </div>
+              </div>
             )}
 
-            <div className="mt-12 bg-white rounded-2xl border border-gray-100 p-6">
+            <div className="mt-10 bg-white rounded-2xl border border-slate-200/60 shadow-sm p-6">
               <h2 className="font-bold text-lg mb-3" data-testid="text-more-systems">More {tierLabel} Practice</h2>
               <div className="grid sm:grid-cols-2 gap-2">
                 {getAvailableCombinations()
@@ -560,7 +547,7 @@ function QuizSession({ tier, systemSlug }: { tier: string; systemSlug: string })
                       >
                         <SysIcon className="w-4 h-4 text-primary" />
                         <span className="font-medium">{c.system}</span>
-                        <span className="text-gray-400 text-xs ml-auto">{c.count} Qs</span>
+                        <span className="text-slate-400 text-xs ml-auto">{c.count} Qs</span>
                       </LocaleLink>
                     );
                   })}

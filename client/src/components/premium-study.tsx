@@ -108,19 +108,19 @@ export function AnswerOption({
 }) {
   const letter = String.fromCharCode(65 + index);
 
-  let containerCls = "border-gray-200/80 hover:border-primary/40 hover:bg-primary/3 hover:shadow-sm";
-  let circleCls = "border-gray-300 text-gray-500 bg-white";
+  let containerCls = "border-slate-200 hover:border-primary/50 hover:bg-primary/[0.02]";
+  let circleCls = "border-slate-300 text-slate-500 bg-white";
 
   if (isCorrect) {
-    containerCls = "border-emerald-400 bg-emerald-50/60 shadow-sm shadow-emerald-100/50";
+    containerCls = "border-emerald-300 bg-emerald-50/70";
     circleCls = "border-emerald-500 text-white bg-emerald-500";
   } else if (isWrong) {
-    containerCls = "border-red-300 bg-red-50/50";
+    containerCls = "border-red-300 bg-red-50/60";
     circleCls = "border-red-400 text-white bg-red-400";
   } else if (isRevealed && !isSelected) {
-    containerCls = "border-gray-200/60 opacity-50";
+    containerCls = "border-slate-100 opacity-50";
   } else if (isSelected && !isRevealed) {
-    containerCls = "border-primary bg-primary/5 shadow-sm shadow-primary/10";
+    containerCls = "border-primary bg-primary/5 shadow-sm";
     circleCls = "border-primary text-white bg-primary";
   }
 
@@ -129,7 +129,7 @@ export function AnswerOption({
       onClick={onClick}
       disabled={disabled}
       className={cn(
-        "w-full text-left p-4 rounded-2xl border-2 transition-all duration-200 flex items-center gap-4 group",
+        "w-full text-left p-4 rounded-xl border-2 transition-all duration-200 flex items-center gap-4 group",
         containerCls,
         disabled && !isRevealed ? "" : disabled ? "cursor-default" : "cursor-pointer",
         className
@@ -142,7 +142,7 @@ export function AnswerOption({
       )}>
         {letter}
       </span>
-      <span className="flex-1 text-[15px] leading-relaxed text-gray-800">{text}</span>
+      <span className="flex-1 text-[15px] leading-relaxed text-slate-800">{text}</span>
       {iconEl}
     </button>
   );

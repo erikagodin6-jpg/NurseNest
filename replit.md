@@ -19,6 +19,15 @@ NurseNest is an adaptive learning platform designed for nursing and allied healt
 ### UI/UX Decisions
 The platform utilizes React with TypeScript, Wouter for routing, shadcn/ui with Radix UI, and Tailwind CSS v4, offering 20 themes and DM Sans typography. Key UI components like `ContentGate`, `PauseAndThink`, `ProgressiveDisclosure`, `CuriosityHook`, and `KnowledgeCheck` are central to the learning experience. A digital product builder facilitates content creation with a Canva-style drag-and-drop interface, AI image, and content generation. The design system features premium visuals, dual-tone top bars, and watermarked PDF previews. Global CSS ensures `overflow-x: hidden` and `box-sizing: border-box`, with dialogs optimized for mobile safety.
 
+### Question/Exam UI Design System (2026 redesign)
+All question display surfaces share a consistent design language:
+- **Layout**: Single-column centered at `max-w-[820px]`
+- **Question stem**: `text-xl font-semibold` with `lineHeight: 1.65`, slate-900 text
+- **Answer options**: `p-4 rounded-xl border-2` cards with `w-9 h-9 rounded-xl` letter badges; correct=emerald, wrong=red, selected=primary, unselected=slate
+- **Rationale/Explanation panel**: White card with violet `BookOpen` icon header, `text-[15px]` body at `lineHeight: 1.7`; images in rationale only with `maxHeight: 320px`
+- **Color palette**: Slate tones (not gray) throughout; no blue background rationale boxes
+- **Components**: `practice-questions.tsx` (free practice), `exam-console.tsx` (CAT/mock), `qbank-exam.tsx` (QBank), `AnswerOption` in `premium-study.tsx`
+
 ### Technical Implementations
 Built with Vite, React, and Express 5 on Node.js with TypeScript, the application uses TanStack React Query for server state management via a RESTful API. Authentication is managed through a 3-tier header chain: Bearer admin JWT, x-username/x-password credentials, and a 30-day expiring x-user-token JWT. A centralized `getAuthHeaders()` in `client/src/lib/qbank-api.ts` handles fallback, validated by `resolveAuthUser()` in `server/admin-auth.ts`. The system includes a subscription model with regional pricing, interactive learning modules, a mock exam engine with stratified random sampling and Strict Exam Mode, and an admin dashboard. AI integrations (OpenAI) support blog automation, an Adaptive CAT Engine, Pass Probability Projection, and Next Best Action Engine. Exam blueprints are database-driven, content is organized by body system for various nursing levels, and includes pre/post-test questions. A 3-step onboarding process personalizes study plans. Admin tools (QBank Factory, Product Generator V2) enable AI-driven content generation and programmatic SEO for practice question pages. It supports NGN question types, partial credit scoring, and a Spaced Repetition System. Content access is tier-based (free, rpn, rn, np, admin).
 

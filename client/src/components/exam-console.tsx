@@ -1,6 +1,5 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
@@ -28,11 +27,12 @@ import {
   PanelRightClose,
   PanelRightOpen,
   Send,
-  HelpCircle,
   FileText,
   Image as ImageIcon,
   StickyNote,
   BookOpen,
+  CheckCircle2,
+  XCircle,
 } from "lucide-react";
 import { ExamCalculator } from "@/components/exam-calculator";
 
@@ -527,10 +527,10 @@ export default function ExamConsoleLayout({
             rightPanelOpen ? "md:w-[60%]" : "w-full"
           }`}
         >
-          <div className="max-w-3xl mx-auto space-y-6">
-            <Card className="premium-card border-0 shadow-md">
-              <CardContent className="p-5 md:p-6">
-                <div className="flex items-start gap-3 mb-4">
+          <div className="max-w-[820px] mx-auto space-y-5">
+            <div className="bg-white rounded-2xl shadow-sm border border-slate-200/60 overflow-hidden">
+              <div className="p-5 md:p-7">
+                <div className="flex items-center gap-3 mb-4">
                   <Badge
                     variant="outline"
                     className="shrink-0 font-semibold text-sm px-2.5 py-0.5 rounded-lg border-primary/20 bg-primary/5 text-primary"
@@ -547,11 +547,12 @@ export default function ExamConsoleLayout({
 
                 <div
                   ref={stemRef}
-                  className={`text-base leading-relaxed text-gray-800 whitespace-pre-wrap ${
+                  className={`text-xl font-semibold leading-relaxed text-slate-900 whitespace-pre-wrap ${
                     highlightMode
                       ? "cursor-text selection:bg-yellow-200"
                       : ""
                   }`}
+                  style={{ lineHeight: '1.65' }}
                   onMouseUp={handleHighlight}
                   dangerouslySetInnerHTML={{
                     __html: renderHighlightedStem(question.question),
@@ -582,96 +583,99 @@ export default function ExamConsoleLayout({
                     ))}
                   </div>
                 )}
-              </CardContent>
-            </Card>
+              </div>
 
-            <div className="space-y-2.5">
-              {options.map((option, index) => {
-                const isSelected = selectedAnswer === index;
-                const isStruck = struckOptions.has(index);
-                const isCorrectOption =
-                  showExplanation && correctAnswer === index;
-                const isWrongSelected =
-                  showExplanation &&
-                  isSelected &&
-                  correctAnswer !== index;
+              <div className="px-5 md:px-7 pb-5 md:pb-7 space-y-3">
+                {options.map((option, index) => {
+                  const isSelected = selectedAnswer === index;
+                  const isStruck = struckOptions.has(index);
+                  const isCorrectOption =
+                    showExplanation && correctAnswer === index;
+                  const isWrongSelected =
+                    showExplanation &&
+                    isSelected &&
+                    correctAnswer !== index;
 
-                let borderColor = "border-gray-200/80 hover:border-primary/40 hover:bg-primary/3";
-                let bgColor = "bg-white";
-                if (isSelected && !showExplanation) {
-                  borderColor = "border-primary";
-                  bgColor = "bg-primary/5";
-                }
-                if (isCorrectOption) {
-                  borderColor = "border-emerald-400";
-                  bgColor = "bg-emerald-50/60";
-                }
-                if (isWrongSelected) {
-                  borderColor = "border-red-300";
-                  bgColor = "bg-red-50/50";
-                }
+                  let containerCls = "border-slate-200 hover:border-primary/50 hover:bg-primary/[0.02]";
+                  let letterCls = "border-slate-300 text-slate-500 bg-white";
+                  let textCls = "text-slate-700";
 
-                return (
-                  <button
-                    key={index}
-                    onClick={() => onSelectAnswer(index)}
-                    onContextMenu={(e) => {
-                      e.preventDefault();
-                      toggleStrike(index);
-                    }}
-                    className={`w-full text-left p-4 rounded-2xl border-2 transition-all duration-200 flex items-start gap-3 ${borderColor} ${bgColor} ${
-                      isStruck ? "line-through opacity-50" : ""
-                    }`}
-                    data-testid={`radio-option-${index}`}
-                  >
-                    <span
-                      className={`shrink-0 w-8 h-8 rounded-xl border-2 flex items-center justify-center text-sm font-bold transition-all duration-200 ${
-                        isSelected
-                          ? "bg-primary border-primary text-white"
-                          : "border-gray-300 text-gray-500"
-                      } ${isCorrectOption ? "bg-emerald-500 border-emerald-500 text-white" : ""} ${
-                        isWrongSelected
-                          ? "bg-red-400 border-red-400 text-white"
-                          : ""
+                  if (isCorrectOption) {
+                    containerCls = "border-emerald-300 bg-emerald-50/70";
+                    letterCls = "border-emerald-500 bg-emerald-500 text-white";
+                    textCls = "text-emerald-900 font-medium";
+                  } else if (isWrongSelected) {
+                    containerCls = "border-red-300 bg-red-50/60";
+                    letterCls = "border-red-400 bg-red-400 text-white";
+                    textCls = "text-red-800";
+                  } else if (showExplanation && !isSelected) {
+                    containerCls = "border-slate-100 opacity-50";
+                  } else if (isSelected && !showExplanation) {
+                    containerCls = "border-primary bg-primary/5 shadow-sm";
+                    letterCls = "border-primary bg-primary text-white";
+                    textCls = "text-slate-900 font-medium";
+                  }
+
+                  return (
+                    <button
+                      key={index}
+                      onClick={() => onSelectAnswer(index)}
+                      onContextMenu={(e) => {
+                        e.preventDefault();
+                        toggleStrike(index);
+                      }}
+                      className={`w-full text-left p-4 rounded-xl border-2 transition-all duration-200 flex items-center gap-4 ${containerCls} ${
+                        isStruck ? "line-through opacity-50" : ""
                       }`}
+                      data-testid={`radio-option-${index}`}
                     >
-                      {optionLabels[index] || index + 1}
-                    </span>
-                    <span
-                      className={`flex-1 text-sm leading-relaxed ${
-                        isStruck ? "text-gray-400" : "text-gray-700"
-                      }`}
-                    >
-                      {option}
-                    </span>
-                  </button>
-                );
-              })}
-              <p className="text-xs text-gray-400 mt-1">
-                Right-click an option to strike through
-              </p>
+                      <span
+                        className={`shrink-0 w-9 h-9 rounded-xl border-2 flex items-center justify-center text-sm font-bold transition-all duration-200 ${letterCls}`}
+                      >
+                        {optionLabels[index] || index + 1}
+                      </span>
+                      <span
+                        className={`flex-1 text-base leading-relaxed ${
+                          isStruck ? "text-slate-400" : textCls
+                        }`}
+                      >
+                        {option}
+                      </span>
+                      {isCorrectOption && <CheckCircle2 className="w-5 h-5 text-emerald-500 shrink-0" />}
+                      {isWrongSelected && <XCircle className="w-5 h-5 text-red-400 shrink-0" />}
+                    </button>
+                  );
+                })}
+                <p className="text-xs text-slate-400 mt-1">
+                  Right-click an option to strike through
+                </p>
+              </div>
             </div>
 
             {showExplanation && explanation && (
-              <Card className="rounded-2xl border border-violet-200/60 bg-gradient-to-br from-violet-50/80 to-purple-50/40">
-                <CardContent className="p-5">
-                  <h4 className="font-bold text-violet-900 mb-2 flex items-center gap-2 text-sm uppercase tracking-wide">
-                    <HelpCircle className="w-4 h-4" />
-                    Explanation
-                  </h4>
-                  <p className="text-sm text-gray-700 leading-relaxed">
+              <div className="bg-white rounded-2xl shadow-sm border border-slate-200/60 overflow-hidden">
+                <div className="p-5 md:p-7">
+                  <div className="flex items-center gap-2 mb-4">
+                    <div className="w-8 h-8 rounded-lg bg-violet-100 flex items-center justify-center">
+                      <BookOpen className="w-4 h-4 text-violet-600" />
+                    </div>
+                    <h4 className="font-bold text-slate-800 text-lg">
+                      Explanation
+                    </h4>
+                  </div>
+                  <p className="text-[15px] text-slate-700 leading-relaxed" style={{ lineHeight: '1.7' }}>
                     {explanation}
                   </p>
                   {(() => {
                     const img = explanationContext ? getQuestionImage(explanationContext) : undefined;
                     return img ? (
-                      <div className="mt-4 rounded-xl border border-gray-200/60 overflow-hidden bg-gray-50/50 p-3">
-                        <img src={img} alt={explanationContext?.topic || explanationContext?.bodySystem || "Clinical reference"} className="rounded-lg max-h-72 w-auto mx-auto" loading="lazy" data-testid="img-rationale" />
+                      <div className="mt-5 border-t border-slate-100 pt-5">
+                        <img src={img} alt={explanationContext?.topic || explanationContext?.bodySystem || "Clinical reference"} className="rounded-xl border border-slate-200/60 max-w-full w-auto mx-auto" style={{ maxHeight: '320px' }} loading="lazy" data-testid="img-rationale" />
                       </div>
                     ) : null;
                   })()}
-                </CardContent>
-              </Card>
+                </div>
+              </div>
             )}
 
             {children}

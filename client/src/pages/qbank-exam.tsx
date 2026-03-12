@@ -17,12 +17,10 @@ import {
   AlertTriangle,
   Play,
   RotateCcw,
+  BookOpen,
 } from "lucide-react";
 import {
   AnswerOption,
-  PremiumBadge,
-  StudyProgressBar,
-  ScoreCircle,
 } from "@/components/premium-study";
 
 function getAuthHeaders(): Record<string, string> {
@@ -265,51 +263,53 @@ export default function QBankExamPage() {
         )}
 
         {phase === "exam" && currentQ && (
-          <>
-            <div className="sticky top-0 z-40 bg-white/95 backdrop-blur-md rounded-2xl shadow-sm border border-gray-200/40 px-4 py-3 mb-4">
+          <div className="max-w-[820px] mx-auto">
+            <div className="sticky top-0 z-40 bg-white/95 backdrop-blur-md rounded-2xl shadow-sm border border-slate-200/60 px-4 py-3 mb-5">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  <PremiumBadge variant="default" data-testid="text-question-progress">
+                  <span className="text-sm font-semibold text-slate-700" data-testid="text-question-progress">
                     {currentIdx + 1} / {questions.length}
-                  </PremiumBadge>
-                  <div className="flex items-center gap-1.5 text-sm font-mono font-semibold text-gray-600 bg-gray-50 px-2.5 py-1 rounded-lg" data-testid="text-timer">
+                  </span>
+                  <div className="flex items-center gap-1.5 text-sm font-mono font-semibold text-slate-600 bg-slate-50 px-2.5 py-1 rounded-lg" data-testid="text-timer">
                     <Clock className="h-3.5 w-3.5" />{formatTime(timer)}
                   </div>
                 </div>
                 <div className="flex items-center gap-2">
-                  <span className="text-xs text-gray-400">{answeredCount} answered</span>
+                  <span className="text-xs text-slate-400">{answeredCount} answered</span>
                   <Button size="sm" variant={currentAnswer?.flagged ? "destructive" : "outline"} onClick={() => toggleFlag(currentQ.id)} className="rounded-xl text-xs h-8" data-testid="button-flag">
                     <Flag className="h-3 w-3 mr-1" />{currentAnswer?.flagged ? "Flagged" : "Flag"}
                   </Button>
                 </div>
               </div>
-              <StudyProgressBar value={((currentIdx + 1) / questions.length) * 100} variant="indigo" className="mt-2" />
+              <div className="w-full h-1.5 bg-slate-200 rounded-full overflow-hidden mt-2.5">
+                <div className="h-full bg-primary rounded-full transition-all duration-500 ease-out" style={{ width: `${((currentIdx + 1) / questions.length) * 100}%` }} />
+              </div>
             </div>
 
-            <Card className="premium-card border-0 shadow-lg mb-4 animate-fade-in-up">
-              <CardContent className="p-6">
-                <div className="flex items-center gap-2 mb-3 flex-wrap">
-                  <PremiumBadge variant="system">{currentQ.category}</PremiumBadge>
-                  <PremiumBadge variant="difficulty">{currentQ.difficulty}</PremiumBadge>
+            <div className="bg-white rounded-2xl shadow-sm border border-slate-200/60 overflow-hidden mb-5">
+              <div className="p-6 sm:p-8">
+                <div className="flex items-center gap-2 mb-4 flex-wrap">
+                  <Badge variant="outline" className="text-xs font-medium">{currentQ.category}</Badge>
+                  <Badge variant="outline" className="text-xs font-medium">{currentQ.difficulty}</Badge>
                 </div>
-                <p className="text-lg font-medium mb-6 text-gray-900 leading-relaxed" data-testid="text-current-question">{currentQ.question}</p>
-                <div className="space-y-3">
-                  {(shuffledOptions.get(currentQ.id) || []).map((opt, idx) => (
-                    <AnswerOption
-                      key={opt.key}
-                      index={idx}
-                      text={opt.text}
-                      isSelected={currentAnswer?.selected === opt.key}
-                      onClick={() => selectAnswer(currentQ.id, opt.key)}
-                      data-testid={`button-option-${opt.key}`}
-                    />
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
+                <p className="text-xl font-semibold text-slate-900 leading-relaxed" style={{ lineHeight: '1.65' }} data-testid="text-current-question">{currentQ.question}</p>
+              </div>
+              <div className="px-6 sm:px-8 pb-6 sm:pb-8 space-y-3">
+                {(shuffledOptions.get(currentQ.id) || []).map((opt, idx) => (
+                  <AnswerOption
+                    key={opt.key}
+                    index={idx}
+                    text={opt.text}
+                    isSelected={currentAnswer?.selected === opt.key}
+                    onClick={() => selectAnswer(currentQ.id, opt.key)}
+                    data-testid={`button-option-${opt.key}`}
+                  />
+                ))}
+              </div>
+            </div>
 
             <div className="flex items-center justify-between gap-3">
-              <Button variant="outline" onClick={() => setCurrentIdx((i) => Math.max(0, i - 1))} disabled={currentIdx === 0} className="rounded-xl border-gray-200" data-testid="button-prev">
+              <Button variant="outline" onClick={() => setCurrentIdx((i) => Math.max(0, i - 1))} disabled={currentIdx === 0} className="rounded-xl border-slate-200" data-testid="button-prev">
                 <ArrowLeft className="h-4 w-4 mr-1" />Previous
               </Button>
               {currentIdx === questions.length - 1 ? (
@@ -332,7 +332,7 @@ export default function QBankExamPage() {
                     onClick={() => setCurrentIdx(i)}
                     className={`w-8 h-8 text-xs rounded-lg font-medium border transition-all duration-150 ${
                       i === currentIdx ? "ring-2 ring-primary ring-offset-1" : ""
-                    } ${a?.selected ? "bg-primary/10 border-primary/30 text-primary font-semibold" : "bg-white border-gray-200 text-gray-500"} ${
+                    } ${a?.selected ? "bg-primary/10 border-primary/30 text-primary font-semibold" : "bg-white border-slate-200 text-slate-500"} ${
                       a?.flagged ? "border-red-400" : ""
                     }`}
                     data-testid={`button-nav-${i}`}
@@ -342,39 +342,37 @@ export default function QBankExamPage() {
                 );
               })}
             </div>
-          </>
+          </div>
         )}
 
         {phase === "results" && (
-          <div className="space-y-6 animate-fade-in-up">
-            <Card className="premium-card border-0 shadow-md">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2.5" data-testid="text-results-title">
-                  <div className="w-9 h-9 rounded-xl bg-blue-100 flex items-center justify-center">
-                    <BarChart3 className="h-5 w-5 text-blue-600" />
+          <div className="max-w-[820px] mx-auto space-y-6">
+            <div className="bg-white rounded-2xl shadow-sm border border-slate-200/60 overflow-hidden">
+              <div className="p-6 sm:p-8">
+                <div className="flex items-center gap-2.5 mb-6">
+                  <div className="w-9 h-9 rounded-xl bg-primary/10 flex items-center justify-center">
+                    <BarChart3 className="h-5 w-5 text-primary" />
                   </div>
-                  Exam Results
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
+                  <h2 className="text-xl font-bold text-slate-900" data-testid="text-results-title">Exam Results</h2>
+                </div>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-                  <div className="text-center p-4 bg-gray-50/80 rounded-2xl">
+                  <div className="text-center p-4 bg-slate-50 rounded-xl">
                     <div className={`text-3xl font-black ${scorePercent >= 70 ? "text-emerald-600" : "text-red-500"}`} data-testid="text-score">{scorePercent}%</div>
-                    <div className="text-xs text-gray-500 mt-1">Score</div>
+                    <div className="text-xs text-slate-500 mt-1">Score</div>
                   </div>
-                  <div className="text-center p-4 bg-gray-50/80 rounded-2xl">
+                  <div className="text-center p-4 bg-slate-50 rounded-xl">
                     <div className="text-3xl font-black text-primary" data-testid="text-correct-count">{correctCount}/{questions.length}</div>
-                    <div className="text-xs text-gray-500 mt-1">Correct</div>
+                    <div className="text-xs text-slate-500 mt-1">Correct</div>
                   </div>
-                  <div className="text-center p-4 bg-gray-50/80 rounded-2xl">
-                    <div className="text-3xl font-black text-gray-600" data-testid="text-time-spent">{formatTime(timer)}</div>
-                    <div className="text-xs text-gray-500 mt-1">Time</div>
+                  <div className="text-center p-4 bg-slate-50 rounded-xl">
+                    <div className="text-3xl font-black text-slate-600" data-testid="text-time-spent">{formatTime(timer)}</div>
+                    <div className="text-xs text-slate-500 mt-1">Time</div>
                   </div>
-                  <div className="text-center p-4 bg-gray-50/80 rounded-2xl">
+                  <div className="text-center p-4 bg-slate-50 rounded-xl">
                     <div className={`text-3xl font-black ${scorePercent >= 70 ? "text-emerald-600" : "text-red-500"}`} data-testid="text-pass-fail">
                       {scorePercent >= 70 ? "PASS" : "FAIL"}
                     </div>
-                    <div className="text-xs text-gray-500 mt-1">Status</div>
+                    <div className="text-xs text-slate-500 mt-1">Status</div>
                   </div>
                 </div>
                 <div className="flex gap-3 justify-center">
@@ -382,41 +380,56 @@ export default function QBankExamPage() {
                     <RotateCcw className="h-4 w-4" />New Exam
                   </Button>
                 </div>
-              </CardContent>
-            </Card>
+              </div>
+            </div>
 
-            <div className="space-y-3">
+            <div className="space-y-4">
               {questions.map((q, i) => {
                 const a = answers.get(q.id);
                 return (
-                  <Card key={q.id} className={`rounded-2xl border ${a?.correct ? "border-emerald-200/60 bg-emerald-50/20" : "border-red-200/60 bg-red-50/20"}`} data-testid={`card-result-${i}`}>
-                    <CardContent className="p-5">
-                      <div className="flex items-start gap-3 mb-3">
-                        <div className={`shrink-0 w-6 h-6 rounded-lg flex items-center justify-center mt-0.5 ${a?.correct ? "bg-emerald-500" : "bg-red-400"}`}>
-                          {a?.correct ? <CheckCircle2 className="h-3.5 w-3.5 text-white" /> : <XCircle className="h-3.5 w-3.5 text-white" />}
+                  <div key={q.id} className="bg-white rounded-2xl shadow-sm border border-slate-200/60 overflow-hidden" data-testid={`card-result-${i}`}>
+                    <div className="p-5 sm:p-6">
+                      <div className="flex items-start gap-3 mb-4">
+                        <div className={`shrink-0 w-7 h-7 rounded-lg flex items-center justify-center mt-0.5 ${a?.correct ? "bg-emerald-500" : "bg-red-400"}`}>
+                          {a?.correct ? <CheckCircle2 className="h-4 w-4 text-white" /> : <XCircle className="h-4 w-4 text-white" />}
                         </div>
-                        <p className="font-medium text-sm text-gray-900 leading-relaxed">{q.question}</p>
+                        <p className="font-semibold text-sm text-slate-900 leading-relaxed">{q.question}</p>
                       </div>
-                      <div className="grid grid-cols-2 gap-1.5 text-xs ml-9 mb-3">
+
+                      <div className="space-y-1.5 mb-4 ml-10">
                         {[
                           { key: "A", text: q.optionA },
                           { key: "B", text: q.optionB },
                           { key: "C", text: q.optionC },
                           { key: "D", text: q.optionD },
-                        ].map((opt) => (
-                          <span
-                            key={opt.key}
-                            className={`px-2 py-1 rounded-lg ${opt.key === q.correctAnswer ? "text-emerald-700 font-bold bg-emerald-50" : ""} ${opt.key === a?.selected && !a?.correct ? "text-red-500 line-through bg-red-50" : ""}`}
-                          >
-                            {opt.key}: {opt.text}
-                          </span>
-                        ))}
+                        ].map((opt) => {
+                          const isCorrect = opt.key === q.correctAnswer;
+                          const isWrongPick = opt.key === a?.selected && !a?.correct;
+                          return (
+                            <div
+                              key={opt.key}
+                              className={`flex items-center gap-2 text-sm px-3 py-2 rounded-lg ${
+                                isCorrect ? "bg-emerald-50 text-emerald-800 font-semibold" : isWrongPick ? "bg-red-50 text-red-600 line-through" : "text-slate-600"
+                              }`}
+                            >
+                              <span className={`w-6 h-6 rounded-md border flex items-center justify-center text-xs font-bold shrink-0 ${
+                                isCorrect ? "border-emerald-400 bg-emerald-500 text-white" : isWrongPick ? "border-red-300 bg-red-400 text-white" : "border-slate-200 text-slate-400"
+                              }`}>{opt.key}</span>
+                              {opt.text}
+                            </div>
+                          );
+                        })}
                       </div>
-                      <div className="ml-9 text-xs text-gray-600 bg-gray-50/80 p-3 rounded-xl leading-relaxed">
-                        <strong className="text-gray-700">Rationale:</strong> {q.rationale}
+
+                      <div className="ml-10 bg-slate-50 rounded-xl p-4">
+                        <div className="flex items-center gap-2 mb-2">
+                          <BookOpen className="w-3.5 h-3.5 text-violet-500" />
+                          <span className="text-xs font-semibold text-slate-600 uppercase tracking-wide">Rationale</span>
+                        </div>
+                        <p className="text-sm text-slate-700 leading-relaxed">{q.rationale}</p>
                       </div>
-                    </CardContent>
-                  </Card>
+                    </div>
+                  </div>
                 );
               })}
             </div>
