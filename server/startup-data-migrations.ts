@@ -278,6 +278,66 @@ export async function runStartupDataMigrations() {
         console.error(`[Startup Migration] correct_answer fix error: ${caErr.message}`);
       }
 
+      try {
+        await client.query(`CREATE TABLE IF NOT EXISTS imaging_products (
+          id varchar PRIMARY KEY DEFAULT gen_random_uuid(),
+          title text NOT NULL,
+          slug text NOT NULL UNIQUE,
+          product_type text NOT NULL,
+          description text,
+          features text[] DEFAULT '{}'::text[],
+          price_cad integer NOT NULL,
+          price_usd integer NOT NULL,
+          compare_at_price_cad integer,
+          compare_at_price_usd integer,
+          stripe_price_id_cad text,
+          stripe_price_id_usd text,
+          stripe_product_id text,
+          billing_interval text,
+          content_scope jsonb DEFAULT '{}'::jsonb,
+          question_count integer DEFAULT 0,
+          flashcard_count integer DEFAULT 0,
+          exam_count integer DEFAULT 0,
+          country text,
+          popular boolean DEFAULT false,
+          sort_order integer DEFAULT 0,
+          is_active boolean DEFAULT true,
+          created_at timestamp DEFAULT NOW() NOT NULL,
+          updated_at timestamp DEFAULT NOW() NOT NULL
+        )`);
+        await client.query(`CREATE TABLE IF NOT EXISTS imaging_entitlements (
+          id varchar PRIMARY KEY DEFAULT gen_random_uuid(),
+          user_id varchar NOT NULL,
+          product_id varchar,
+          entitlement_type text NOT NULL,
+          scope jsonb DEFAULT '{}'::jsonb,
+          status text DEFAULT 'active',
+          expires_at timestamp,
+          created_at timestamp DEFAULT NOW() NOT NULL
+        )`);
+        await client.query(`CREATE TABLE IF NOT EXISTS imaging_purchases (
+          id varchar PRIMARY KEY DEFAULT gen_random_uuid(),
+          user_id varchar NOT NULL,
+          product_id varchar NOT NULL,
+          stripe_session_id text,
+          stripe_payment_intent_id text,
+          amount integer NOT NULL,
+          currency text DEFAULT 'USD',
+          status text DEFAULT 'completed',
+          purchased_at timestamp DEFAULT NOW() NOT NULL
+        )`);
+        await client.query(`CREATE TABLE IF NOT EXISTS imaging_preview_config (
+          id varchar PRIMARY KEY DEFAULT gen_random_uuid(),
+          content_type text NOT NULL UNIQUE,
+          free_limit integer NOT NULL DEFAULT 5,
+          preview_message text,
+          updated_at timestamp DEFAULT NOW() NOT NULL
+        )`);
+        console.log(`[Startup Migration] Imaging monetization tables ensured`);
+      } catch (monErr: any) {
+        console.log(`[Startup Migration] Imaging monetization tables: ${monErr.message}`);
+      }
+
       lastStartupMigrationTimestamp = new Date().toISOString();
       console.log(`[Startup Migration] Completed at ${lastStartupMigrationTimestamp}`);
       const dbHost = (process.env.DATABASE_URL || "").replace(/\/\/.*@/, "//***@").split("/")[2] || "unknown";

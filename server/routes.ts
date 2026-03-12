@@ -209,6 +209,9 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
   registerMltRemediationRoutes(app);
   registerImagingLibraryRoutes(app);
 
+  const { registerImagingMonetizationRoutes } = await import("./imaging-monetization-routes");
+  registerImagingMonetizationRoutes(app);
+
   const { registerPharmtechRoutes } = await import("./pharmtech-routes");
   registerPharmtechRoutes(app);
 

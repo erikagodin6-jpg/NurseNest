@@ -2,10 +2,11 @@ import { useRoute, Link } from "wouter";
 import { useQuery } from "@tanstack/react-query";
 import { SEO } from "@/components/seo";
 import { BreadcrumbNav } from "@/components/breadcrumb-nav";
+import { ImagingUpgradeCTA } from "@/components/imaging-paywall";
 import {
   BookOpen, FileText, Zap, Brain, Star, ArrowRight,
   CheckCircle2, Radio, BarChart3, Lock, Target, TrendingUp,
-  GraduationCap, Image, Lightbulb, Award, Newspaper
+  GraduationCap, Image, Lightbulb, Award, Newspaper, CreditCard, ShoppingBag
 } from "lucide-react";
 
 interface CountryConfig {
@@ -360,6 +361,20 @@ function MedicalImagingCountryPage({ country }: { country: string }) {
       </section>
 
       <DiscoveryModules country={country} config={config} />
+
+      <section className="py-10 bg-white" data-testid={`${country}-pricing-cta`}>
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <ImagingUpgradeCTA country={country} variant="banner" />
+          <div className="mt-6 flex flex-wrap gap-4 justify-center">
+            <Link href={`/medical-imaging/${country}/pricing`} className="inline-flex items-center gap-2 px-6 py-3 bg-white border border-gray-200 text-gray-700 rounded-xl text-sm font-medium hover:bg-gray-50 transition-colors" data-testid={`link-${country}-pricing`}>
+              <CreditCard className="w-4 h-4" /> View {config.exam} Pricing
+            </Link>
+            <Link href="/medical-imaging/store" className="inline-flex items-center gap-2 px-6 py-3 bg-white border border-gray-200 text-gray-700 rounded-xl text-sm font-medium hover:bg-gray-50 transition-colors" data-testid={`link-${country}-store`}>
+              <ShoppingBag className="w-4 h-4" /> Browse Study Packs
+            </Link>
+          </div>
+        </div>
+      </section>
 
       <section className="py-14 bg-white" data-testid={`${country}-progress-placeholder`}>
         <div className="max-w-4xl mx-auto px-4 text-center">

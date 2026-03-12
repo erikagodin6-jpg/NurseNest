@@ -201,6 +201,12 @@ const ImagingPhysicsTopicPage = lazy(() => import("@/pages/imaging-physics-topic
 const ImagingFlashcardsPage = lazy(() => import("@/pages/imaging-flashcards"));
 const ImagingPracticeExamPage = lazy(() => import("@/pages/imaging-practice-exam"));
 const ImagingExamSimulatorPage = lazy(() => import("@/pages/imaging-exam-simulator"));
+const ImagingPricingPage = lazy(() => import("@/pages/imaging-pricing"));
+const ImagingPricingCanadaPage = lazy(() => import("@/pages/imaging-pricing").then(m => ({ default: m.ImagingPricingCanada })));
+const ImagingPricingUSAPage = lazy(() => import("@/pages/imaging-pricing").then(m => ({ default: m.ImagingPricingUSA })));
+const ImagingStorePage = lazy(() => import("@/pages/imaging-store"));
+const ImagingAccountPage = lazy(() => import("@/pages/imaging-account"));
+const ImagingPurchaseSuccessPage = lazy(() => import("@/components/imaging-paywall").then(m => ({ default: m.ImagingPurchaseSuccess })));
 const ClinicalCaseStudyPage = lazy(() => import("@/pages/clinical-case-study"));
 const AdminCaseStudiesPage = lazy(() => import("@/pages/admin-case-studies"));
 const ImagingSeoPage = lazy(() => import("@/pages/imaging-seo-page"));
@@ -413,6 +419,10 @@ function AppRoutes() {
         <Route path="/medical-imaging/blog/:slug" component={ImagingBlog} />
         <Route path="/medical-imaging/blog" component={ImagingBlog} />
         <Route path="/medical-imaging/:country/seo/:slug" component={ImagingSeoPage} />
+        <Route path="/medical-imaging/purchase-success" component={ImagingPurchaseSuccessPage} />
+        <Route path="/medical-imaging/store" component={ImagingStorePage} />
+        <Route path="/medical-imaging/account" component={ImagingAccountPage} />
+        <Route path="/medical-imaging/:country/pricing" component={ImagingPricingPage} />
         <Route path="/medical-imaging/:country/lessons" component={ImagingLessonsPage} />
         <Route path="/medical-imaging/:country/positioning/:projectionSlug" component={ImagingPositioningDetailPage} />
         <Route path="/medical-imaging/:country/positioning" component={ImagingPositioningPage} />

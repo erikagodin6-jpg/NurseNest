@@ -4080,3 +4080,75 @@ export const IMAGING_BLOG_CATEGORIES = [
   "Exam Strategies",
   "Career Development",
 ] as const;
+
+export const imagingProducts = pgTable("imaging_products", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  title: text("title").notNull(),
+  slug: text("slug").notNull().unique(),
+  productType: text("product_type").notNull(),
+  description: text("description"),
+  features: text("features").array().default(sql`'{}'::text[]`),
+  priceCAD: integer("price_cad").notNull(),
+  priceUSD: integer("price_usd").notNull(),
+  compareAtPriceCAD: integer("compare_at_price_cad"),
+  compareAtPriceUSD: integer("compare_at_price_usd"),
+  stripePriceIdCAD: text("stripe_price_id_cad"),
+  stripePriceIdUSD: text("stripe_price_id_usd"),
+  stripeProductId: text("stripe_product_id"),
+  billingInterval: text("billing_interval"),
+  contentScope: jsonb("content_scope").default(sql`'{}'::jsonb`),
+  questionCount: integer("question_count").default(0),
+  flashcardCount: integer("flashcard_count").default(0),
+  examCount: integer("exam_count").default(0),
+  country: text("country"),
+  popular: boolean("popular").default(false),
+  sortOrder: integer("sort_order").default(0),
+  isActive: boolean("is_active").default(true),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export const insertImagingProductSchema = createInsertSchema(imagingProducts).omit({ id: true, createdAt: true, updatedAt: true });
+export type ImagingProduct = typeof imagingProducts.$inferSelect;
+export type InsertImagingProduct = z.infer<typeof insertImagingProductSchema>;
+
+export const imagingEntitlements = pgTable("imaging_entitlements", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id").notNull(),
+  productId: varchar("product_id"),
+  entitlementType: text("entitlement_type").notNull(),
+  scope: jsonb("scope").default(sql`'{}'::jsonb`),
+  status: text("status").default("active"),
+  expiresAt: timestamp("expires_at"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const insertImagingEntitlementSchema = createInsertSchema(imagingEntitlements).omit({ id: true, createdAt: true });
+export type ImagingEntitlement = typeof imagingEntitlements.$inferSelect;
+export type InsertImagingEntitlement = z.infer<typeof insertImagingEntitlementSchema>;
+
+export const imagingPurchases = pgTable("imaging_purchases", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id").notNull(),
+  productId: varchar("product_id").notNull(),
+  stripeSessionId: text("stripe_session_id"),
+  stripePaymentIntentId: text("stripe_payment_intent_id"),
+  amount: integer("amount").notNull(),
+  currency: text("currency").default("USD"),
+  status: text("status").default("completed"),
+  purchasedAt: timestamp("purchased_at").defaultNow().notNull(),
+});
+
+export const insertImagingPurchaseSchema = createInsertSchema(imagingPurchases).omit({ id: true, purchasedAt: true });
+export type ImagingPurchase = typeof imagingPurchases.$inferSelect;
+export type InsertImagingPurchase = z.infer<typeof insertImagingPurchaseSchema>;
+
+export const imagingPreviewConfig = pgTable("imaging_preview_config", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  contentType: text("content_type").notNull().unique(),
+  freeLimit: integer("free_limit").notNull().default(5),
+  previewMessage: text("preview_message"),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export type ImagingPreviewConfig = typeof imagingPreviewConfig.$inferSelect;

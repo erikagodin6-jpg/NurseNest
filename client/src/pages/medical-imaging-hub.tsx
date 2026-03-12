@@ -1,9 +1,10 @@
 import { Link } from "wouter";
 import { SEO } from "@/components/seo";
 import { BreadcrumbNav } from "@/components/breadcrumb-nav";
+import { ImagingUpgradeCTA } from "@/components/imaging-paywall";
 import {
   Radio, ArrowRight, BookOpen, FileText, Brain, Zap, CheckCircle2,
-  TrendingUp, MapPin, GraduationCap, Clock, Star
+  TrendingUp, MapPin, GraduationCap, Clock, Star, ShoppingBag, Crown, CreditCard
 } from "lucide-react";
 
 const COUNTRY_CARDS = [
@@ -185,6 +186,20 @@ export default function MedicalImagingHub() {
                 <p className="text-sm text-gray-500">{step.description}</p>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="py-12" data-testid="imaging-pricing-cta">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+          <ImagingUpgradeCTA variant="banner" />
+          <div className="mt-6 flex flex-wrap gap-4 justify-center">
+            <Link href="/medical-imaging/store" className="inline-flex items-center gap-2 px-6 py-3 bg-white border border-gray-200 text-gray-700 rounded-xl text-sm font-medium hover:bg-gray-50 transition-colors" data-testid="link-hub-store">
+              <ShoppingBag className="w-4 h-4" /> Browse Study Store
+            </Link>
+            <Link href="/medical-imaging/account" className="inline-flex items-center gap-2 px-6 py-3 bg-white border border-gray-200 text-gray-700 rounded-xl text-sm font-medium hover:bg-gray-50 transition-colors" data-testid="link-hub-account">
+              <Crown className="w-4 h-4" /> My Account
+            </Link>
           </div>
         </div>
       </section>

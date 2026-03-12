@@ -7,10 +7,10 @@ import { BreadcrumbNav } from "@/components/breadcrumb-nav";
 import {
   Radio, Plus, Trash2, Edit2, Check, X, Filter,
   FileText, Zap, Image, BookOpen, Atom, MapPin,
-  Upload, ChevronDown, ChevronUp, RefreshCw
+  Upload, ChevronDown, ChevronUp, RefreshCw, CreditCard, Settings
 } from "lucide-react";
 
-type Tab = "questions" | "flashcards" | "case-studies" | "assets" | "positioning" | "physics";
+type Tab = "questions" | "flashcards" | "case-studies" | "assets" | "positioning" | "physics" | "products" | "preview-config";
 
 const STATUS_COLORS: Record<string, string> = {
   draft: "bg-gray-100 text-gray-700",
@@ -29,6 +29,8 @@ const TABS: { key: Tab; label: string; icon: typeof FileText }[] = [
   { key: "assets", label: "Image Assets", icon: Image },
   { key: "positioning", label: "Positioning", icon: MapPin },
   { key: "physics", label: "Physics", icon: Atom },
+  { key: "products", label: "Products", icon: CreditCard },
+  { key: "preview-config", label: "Preview Limits", icon: Settings },
 ];
 
 export default function AdminMedicalImaging() {
@@ -114,6 +116,8 @@ export default function AdminMedicalImaging() {
       {activeTab === "assets" && <AssetsPanel countryFilter={countryFilter} />}
       {activeTab === "positioning" && <PositioningPanel countryFilter={countryFilter} statusFilter={statusFilter} />}
       {activeTab === "physics" && <PhysicsPanel countryFilter={countryFilter} statusFilter={statusFilter} />}
+      {activeTab === "products" && <ProductsPanel />}
+      {activeTab === "preview-config" && <PreviewConfigPanel />}
     </div>
   );
 }
@@ -1022,6 +1026,213 @@ function PhysicsPanel({ countryFilter, statusFilter }: { countryFilter: string; 
           ))}
         </div>
       )}
+    </div>
+  );
+}
+
+function ProductsPanel() {
+  const [products, setProducts] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [showForm, setShowForm] = useState(false);
+  const [editingId, setEditingId] = useState<string | null>(null);
+  const [form, setForm] = useState({ title: "", slug: "", productType: "study_pack", description: "", priceCAD: 2999, priceUSD: 2199, compareAtPriceCAD: "", compareAtPriceUSD: "", billingInterval: "", country: "", popular: false, sortOrder: 0, questionCount: 0, flashcardCount: 0, examCount: 0, features: "" });
+
+  const loadProducts = () => {
+    fetch("/api/admin/imaging/products", { headers: { "x-admin-id": "admin" } })
+      .then(r => r.json())
+      .then(data => { setProducts(Array.isArray(data) ? data : []); setLoading(false); })
+      .catch(() => setLoading(false));
+  };
+  useEffect(loadProducts, []);
+
+  const saveProduct = async () => {
+    const body = { ...form, features: form.features.split("\n").filter(Boolean), compareAtPriceCAD: form.compareAtPriceCAD ? Number(form.compareAtPriceCAD) : null, compareAtPriceUSD: form.compareAtPriceUSD ? Number(form.compareAtPriceUSD) : null, billingInterval: form.billingInterval || null, country: form.country || null };
+    const url = editingId ? `/api/admin/imaging/products/${editingId}` : "/api/admin/imaging/products";
+    const method = editingId ? "PUT" : "POST";
+    await fetch(url, { method, headers: { "Content-Type": "application/json", "x-admin-id": "admin" }, body: JSON.stringify(body) });
+    setShowForm(false); setEditingId(null); loadProducts();
+  };
+
+  const deleteProduct = async (id: string) => {
+    await fetch(`/api/admin/imaging/products/${id}`, { method: "DELETE", headers: { "x-admin-id": "admin" } });
+    loadProducts();
+  };
+
+  const editProduct = (p: any) => {
+    setForm({ title: p.title, slug: p.slug, productType: p.productType, description: p.description || "", priceCAD: p.priceCAD, priceUSD: p.priceUSD, compareAtPriceCAD: p.compareAtPriceCAD || "", compareAtPriceUSD: p.compareAtPriceUSD || "", billingInterval: p.billingInterval || "", country: p.country || "", popular: p.popular, sortOrder: p.sortOrder || 0, questionCount: p.questionCount || 0, flashcardCount: p.flashcardCount || 0, examCount: p.examCount || 0, features: (p.features || []).join("\n") });
+    setEditingId(p.id); setShowForm(true);
+  };
+
+  return (
+    <div data-testid="panel-products">
+      <div className="flex items-center justify-between mb-4">
+        <h2 className="text-lg font-semibold text-gray-900">Imaging Products ({products.length})</h2>
+        <button onClick={() => { setShowForm(!showForm); setEditingId(null); setForm({ title: "", slug: "", productType: "study_pack", description: "", priceCAD: 2999, priceUSD: 2199, compareAtPriceCAD: "", compareAtPriceUSD: "", billingInterval: "", country: "", popular: false, sortOrder: 0, questionCount: 0, flashcardCount: 0, examCount: 0, features: "" }); }} className="flex items-center gap-1 px-3 py-1.5 bg-indigo-600 text-white text-sm rounded-lg hover:bg-indigo-700" data-testid="button-add-product">
+          <Plus className="w-4 h-4" /> Add Product
+        </button>
+      </div>
+
+      {showForm && (
+        <div className="bg-gray-50 border border-gray-200 rounded-xl p-4 mb-4 space-y-3" data-testid="product-form">
+          <div className="grid grid-cols-2 gap-3">
+            <input placeholder="Title" value={form.title} onChange={e => setForm({ ...form, title: e.target.value })} className="px-3 py-2 border border-gray-200 rounded-lg text-sm" data-testid="input-product-title" />
+            <input placeholder="Slug" value={form.slug} onChange={e => setForm({ ...form, slug: e.target.value })} className="px-3 py-2 border border-gray-200 rounded-lg text-sm" data-testid="input-product-slug" />
+          </div>
+          <input placeholder="Description" value={form.description} onChange={e => setForm({ ...form, description: e.target.value })} className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm" data-testid="input-product-description" />
+          <div className="grid grid-cols-3 gap-3">
+            <select value={form.productType} onChange={e => setForm({ ...form, productType: e.target.value })} className="px-3 py-2 border border-gray-200 rounded-lg text-sm" data-testid="select-product-type">
+              <option value="study_pack">Study Pack</option>
+              <option value="question_pack">Question Pack</option>
+              <option value="flashcard_deck">Flashcard Deck</option>
+              <option value="exam_bundle">Exam Bundle</option>
+              <option value="subscription">Subscription</option>
+              <option value="bundle">Bundle</option>
+            </select>
+            <select value={form.billingInterval} onChange={e => setForm({ ...form, billingInterval: e.target.value })} className="px-3 py-2 border border-gray-200 rounded-lg text-sm" data-testid="select-billing-interval">
+              <option value="">One-time</option>
+              <option value="monthly">Monthly</option>
+              <option value="yearly">Yearly</option>
+            </select>
+            <select value={form.country} onChange={e => setForm({ ...form, country: e.target.value })} className="px-3 py-2 border border-gray-200 rounded-lg text-sm" data-testid="select-country">
+              <option value="">Both</option>
+              <option value="canada">Canada</option>
+              <option value="usa">USA</option>
+            </select>
+          </div>
+          <div className="grid grid-cols-4 gap-3">
+            <input type="number" placeholder="Price CAD (cents)" value={form.priceCAD} onChange={e => setForm({ ...form, priceCAD: Number(e.target.value) })} className="px-3 py-2 border border-gray-200 rounded-lg text-sm" data-testid="input-price-cad" />
+            <input type="number" placeholder="Price USD (cents)" value={form.priceUSD} onChange={e => setForm({ ...form, priceUSD: Number(e.target.value) })} className="px-3 py-2 border border-gray-200 rounded-lg text-sm" data-testid="input-price-usd" />
+            <input type="number" placeholder="Compare CAD" value={form.compareAtPriceCAD} onChange={e => setForm({ ...form, compareAtPriceCAD: e.target.value })} className="px-3 py-2 border border-gray-200 rounded-lg text-sm" data-testid="input-compare-cad" />
+            <input type="number" placeholder="Compare USD" value={form.compareAtPriceUSD} onChange={e => setForm({ ...form, compareAtPriceUSD: e.target.value })} className="px-3 py-2 border border-gray-200 rounded-lg text-sm" data-testid="input-compare-usd" />
+          </div>
+          <div className="grid grid-cols-3 gap-3">
+            <input type="number" placeholder="Questions" value={form.questionCount} onChange={e => setForm({ ...form, questionCount: Number(e.target.value) })} className="px-3 py-2 border border-gray-200 rounded-lg text-sm" data-testid="input-question-count" />
+            <input type="number" placeholder="Flashcards" value={form.flashcardCount} onChange={e => setForm({ ...form, flashcardCount: Number(e.target.value) })} className="px-3 py-2 border border-gray-200 rounded-lg text-sm" data-testid="input-flashcard-count" />
+            <input type="number" placeholder="Exams" value={form.examCount} onChange={e => setForm({ ...form, examCount: Number(e.target.value) })} className="px-3 py-2 border border-gray-200 rounded-lg text-sm" data-testid="input-exam-count" />
+          </div>
+          <textarea placeholder="Features (one per line)" value={form.features} onChange={e => setForm({ ...form, features: e.target.value })} rows={3} className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm" data-testid="input-features" />
+          <div className="flex items-center gap-4">
+            <label className="flex items-center gap-2 text-sm"><input type="checkbox" checked={form.popular} onChange={e => setForm({ ...form, popular: e.target.checked })} /> Popular badge</label>
+            <input type="number" placeholder="Sort order" value={form.sortOrder} onChange={e => setForm({ ...form, sortOrder: Number(e.target.value) })} className="w-24 px-3 py-2 border border-gray-200 rounded-lg text-sm" />
+          </div>
+          <div className="flex gap-2">
+            <button onClick={saveProduct} className="px-4 py-2 bg-indigo-600 text-white text-sm rounded-lg hover:bg-indigo-700" data-testid="button-save-product">
+              {editingId ? "Update" : "Create"} Product
+            </button>
+            <button onClick={() => { setShowForm(false); setEditingId(null); }} className="px-4 py-2 bg-gray-200 text-gray-700 text-sm rounded-lg hover:bg-gray-300" data-testid="button-cancel-product">
+              Cancel
+            </button>
+          </div>
+        </div>
+      )}
+
+      {loading ? (
+        <div className="text-center py-8 text-gray-500">Loading...</div>
+      ) : products.length === 0 ? (
+        <div className="text-center py-12 text-gray-400 bg-gray-50 rounded-xl">
+          <CreditCard className="w-10 h-10 mx-auto mb-3 opacity-40" />
+          <p className="font-medium">No products created yet</p>
+          <p className="text-sm mt-1">Add your first imaging product</p>
+        </div>
+      ) : (
+        <div className="space-y-3">
+          {products.map((p: any) => (
+            <div key={p.id} className="bg-white border border-gray-100 rounded-xl p-4" data-testid={`product-${p.id}`}>
+              <div className="flex items-start justify-between gap-3">
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-medium text-gray-900 mb-1">{p.title} {p.popular && <span className="text-xs bg-indigo-100 text-indigo-700 px-2 py-0.5 rounded ml-2">Popular</span>}</p>
+                  <div className="flex flex-wrap gap-2 text-xs">
+                    <span className="px-2 py-0.5 bg-gray-100 rounded">{p.productType}</span>
+                    <span className="px-2 py-0.5 bg-green-100 text-green-700 rounded">CAD ${(p.priceCAD / 100).toFixed(2)}</span>
+                    <span className="px-2 py-0.5 bg-blue-100 text-blue-700 rounded">USD ${(p.priceUSD / 100).toFixed(2)}</span>
+                    {p.billingInterval && <span className="px-2 py-0.5 bg-purple-100 text-purple-700 rounded">{p.billingInterval}</span>}
+                    {p.country && <span className="px-2 py-0.5 bg-gray-100 rounded">{p.country}</span>}
+                    <span className={`px-2 py-0.5 rounded ${p.isActive ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700"}`}>{p.isActive ? "Active" : "Inactive"}</span>
+                  </div>
+                </div>
+                <div className="flex gap-1">
+                  <button onClick={() => editProduct(p)} className="p-1.5 text-blue-400 hover:text-blue-600 hover:bg-blue-50 rounded" data-testid={`button-edit-product-${p.id}`}>
+                    <Edit2 className="w-4 h-4" />
+                  </button>
+                  <button onClick={() => deleteProduct(p.id)} className="p-1.5 text-red-400 hover:text-red-600 hover:bg-red-50 rounded" data-testid={`button-delete-product-${p.id}`}>
+                    <Trash2 className="w-4 h-4" />
+                  </button>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+function PreviewConfigPanel() {
+  const [configs, setConfigs] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const defaultTypes = ["questions", "flashcards", "exams", "positioning", "physics"];
+
+  const loadConfigs = () => {
+    fetch("/api/admin/imaging/preview-configs", { headers: { "x-admin-id": "admin" } })
+      .then(r => r.json())
+      .then(data => { setConfigs(Array.isArray(data) ? data : []); setLoading(false); })
+      .catch(() => setLoading(false));
+  };
+  useEffect(loadConfigs, []);
+
+  const saveConfig = async (contentType: string, freeLimit: number, previewMessage: string) => {
+    await fetch("/api/admin/imaging/preview-config", {
+      method: "PUT",
+      headers: { "Content-Type": "application/json", "x-admin-id": "admin" },
+      body: JSON.stringify({ contentType, freeLimit, previewMessage }),
+    });
+    loadConfigs();
+  };
+
+  const getConfig = (type: string) => configs.find((c: any) => c.contentType === type) || { freeLimit: 5, previewMessage: "" };
+
+  return (
+    <div data-testid="panel-preview-config">
+      <h2 className="text-lg font-semibold text-gray-900 mb-4">Free Preview Limits</h2>
+      <p className="text-sm text-gray-500 mb-6">Configure how much free content users can access before requiring a paid plan.</p>
+      {loading ? (
+        <div className="text-center py-8 text-gray-500">Loading...</div>
+      ) : (
+        <div className="space-y-4">
+          {defaultTypes.map(type => {
+            const config = getConfig(type);
+            return (
+              <PreviewConfigRow key={type} contentType={type} initialLimit={config.freeLimit} initialMessage={config.previewMessage || ""} onSave={saveConfig} />
+            );
+          })}
+        </div>
+      )}
+    </div>
+  );
+}
+
+function PreviewConfigRow({ contentType, initialLimit, initialMessage, onSave }: { contentType: string; initialLimit: number; initialMessage: string; onSave: (type: string, limit: number, msg: string) => void }) {
+  const [limit, setLimit] = useState(initialLimit);
+  const [message, setMessage] = useState(initialMessage);
+  const [dirty, setDirty] = useState(false);
+
+  return (
+    <div className="bg-white border border-gray-100 rounded-xl p-4" data-testid={`preview-config-${contentType}`}>
+      <div className="flex items-center gap-4">
+        <div className="flex-1">
+          <p className="text-sm font-medium text-gray-900 capitalize mb-1">{contentType}</p>
+          <div className="flex gap-3 items-center">
+            <label className="text-xs text-gray-500">Free limit:</label>
+            <input type="number" value={limit} onChange={e => { setLimit(Number(e.target.value)); setDirty(true); }} className="w-20 px-2 py-1 border border-gray-200 rounded text-sm" data-testid={`input-limit-${contentType}`} />
+          </div>
+          <input placeholder="Preview message" value={message} onChange={e => { setMessage(e.target.value); setDirty(true); }} className="w-full mt-2 px-3 py-1.5 border border-gray-200 rounded text-sm" data-testid={`input-message-${contentType}`} />
+        </div>
+        {dirty && (
+          <button onClick={() => { onSave(contentType, limit, message); setDirty(false); }} className="px-3 py-1.5 bg-indigo-600 text-white text-sm rounded-lg hover:bg-indigo-700" data-testid={`button-save-config-${contentType}`}>
+            Save
+          </button>
+        )}
+      </div>
     </div>
   );
 }
