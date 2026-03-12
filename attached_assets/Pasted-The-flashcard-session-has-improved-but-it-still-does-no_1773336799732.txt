@@ -1,0 +1,282 @@
+The flashcard session has improved, but it still does not meet the NurseNest study experience I want. Fix the flashcard review layout and rationale system on the published site.
+
+MAIN PROBLEMS TO FIX
+
+1. The question card and rationale image are not comfortably viewable together on one screen
+- Right now I have to scroll down too much to see the question, rationale, and image properly
+- I want the post-answer review experience designed so the question card and the rationale image/explanation feel like one unified study view
+- Reduce wasted vertical space
+- Improve layout density without making it cramped
+- The answer review should feel efficient and premium
+
+2. The rationale is still too short
+- I want much longer rationale
+- The rationale should teach the concept, not just state the answer
+- It should be detailed enough that a student actually learns from getting the card wrong or right
+
+3. I want rationale for why the other answers are incorrect
+- Every question review needs a section explaining why each incorrect option is wrong
+- This should be specific to the option, not generic filler
+
+4. I want links to the appropriate lessons
+- Each rationale card should include a link to the most relevant lesson
+- The lesson link should be easy to see and feel useful, not hidden
+
+OVERALL GOAL
+
+Redesign the answered flashcard view so it feels like a premium study review panel where the learner can see the essential content without excessive scrolling:
+- question
+- answer choices
+- detailed rationale
+- rationale image
+- why other answers are wrong
+- related lesson link
+
+This must work on the published site, not only in Replit preview.
+
+LAYOUT CHANGES REQUIRED
+
+The current layout is too vertically stretched. Refactor it so the answered-card review is more compact and intelligently arranged.
+
+DESKTOP LAYOUT GOAL
+After answering, use a 2-column or split-panel review layout when space allows:
+
+Option A:
+Left side:
+- question
+- answers
+- answer state
+- action buttons
+
+Right side:
+- rationale image
+- detailed rationale
+- why other answers are incorrect
+- lesson link
+- clinical pearl
+
+OR
+
+Option B:
+Top:
+- question and answer choices
+Bottom:
+- compact but premium rationale panel with image floated or placed beside rationale text
+
+Choose the layout that best allows the question card and the rationale image/content to be viewed together with minimal scrolling.
+
+Important:
+- the image should not be pushed too far below the fold
+- the rationale content should not feel disconnected from the question
+- reduce oversized padding/margins that waste space
+- preserve readability
+
+MOBILE LAYOUT GOAL
+On mobile, make the layout tighter and smarter:
+- reduce unnecessary vertical spacing
+- keep the rationale image near the top of the rationale section
+- make the most important information visible earlier
+- use collapsible subsections if needed for “Why the other answers are incorrect”
+- keep buttons thumb-friendly
+- do not make the user scroll through giant empty gaps
+
+QUESTION + RATIONALE VIEW REQUIREMENTS
+
+After a user answers, the screen should show:
+
+1. Question card
+- question number / progress
+- topic
+- question stem
+- answer options
+- selected answer state
+- correct answer state
+
+2. Rationale review panel
+- correct answer clearly labeled
+- long explanation of why it is correct
+- explanation for why each incorrect answer is wrong
+- rationale image
+- related lesson link
+- optional clinical pearl / exam tip
+
+These two areas should feel like one coordinated review experience.
+
+RATIONALE LENGTH STANDARD
+
+The rationale is still too short. Expand it significantly.
+
+For every question, generate or display rationale in this structure:
+
+A. Correct Answer
+- clearly state the correct answer
+
+B. Why this is correct
+- minimum 4 to 8 sentences when clinically appropriate
+- explain the nursing priority
+- explain the pathophysiology or clinical reasoning
+- explain what the nurse is really assessing for
+- explain exam logic when relevant
+- make it educational, not just factual
+
+C. Why the other answers are incorrect
+- provide a separate explanation for A, B, C, D as appropriate
+- for incorrect options, explain:
+  - why it is less priority
+  - why it may be partially true but not the best answer
+  - why timing/frequency/clinical focus is wrong
+- each incorrect option should get its own short paragraph or bullet-style explanation
+
+D. Clinical pearl / exam tip
+- one concise but useful takeaway
+
+E. Related lesson
+- link to the most appropriate lesson
+
+EXAMPLE QUALITY TARGET
+
+For a question like:
+What is the priority assessment post-op after AAA repair?
+
+The rationale should be more like:
+- after abdominal aortic aneurysm repair, the priority is assessing graft patency, distal perfusion, renal perfusion, and hemodynamic stability
+- distal pulses help confirm that blood flow is reaching the lower extremities beyond the surgical repair
+- hourly urine output is a key indicator of renal perfusion and overall circulating volume
+- decreased urine output may signal hypoperfusion, shock, renal compromise, or post-operative complications
+- bowel sounds matter, but they are not the top priority immediately after major vascular surgery
+- early ambulation is not the immediate first concern until the patient is stable
+- measuring abdominal girth once every 24 hours is too infrequent and does not address the most urgent circulation-related complications
+
+Use this level of reasoning consistently.
+
+WHY OTHER ANSWERS ARE INCORRECT SECTION
+
+Add a dedicated section called something like:
+- Why the other answers are incorrect
+or
+- Why the other options are not the best choice
+
+Formatting options:
+- compact stacked cards
+- accordions
+- clearly labeled subsections for A, B, C, D
+
+This section should be visually organized and easy to scan.
+
+Do not skip this if the data is missing.
+If the database does not already include incorrect-option explanations, extend the content generation or schema so they are available.
+
+LESSON LINKING REQUIREMENTS
+
+Every rationale review should include a related lesson link when available.
+
+Implement:
+- relatedLessonSlug
+- relatedLessonTitle
+- relatedLessonUrl
+or equivalent mapping
+
+Display it as a clean CTA such as:
+- Review related lesson
+- Open lesson: Post-Op Vascular Surgery Priorities
+- Study this topic in Clinical Lessons
+
+The link should be inside the rationale panel and visually integrated.
+
+If direct lesson mapping does not exist:
+- infer the best lesson based on topic/subtopic/tags
+- use a safe fallback to the relevant topic lesson hub
+
+IMAGE PLACEMENT REQUIREMENTS
+
+The rationale image must be easier to view together with the card.
+
+Do all of the following:
+- place the image higher in the rationale review panel
+- size it intelligently so it is visible without taking over the whole screen
+- use responsive dimensions
+- avoid huge tall images that force excessive scrolling
+- allow side-by-side image/text on desktop when possible
+- keep rounded corners and premium styling
+- maintain correct current published image mapping
+
+Important:
+- use the correct updated rationale image, not old assets
+- if there is no correct image, do not show a wrong or stale one
+
+UI / VISUAL DESIGN REQUIREMENTS
+
+Continue improving the styling so it feels premium NurseNest:
+- soft pastel tinted surfaces
+- muted lavender / lilac / blush accents
+- cleaner hierarchy
+- less black and white
+- more elegant question card styling
+- more polished rationale panel styling
+- better spacing between rationale sections
+- better typography for headings such as:
+  - Correct Answer
+  - Why this is correct
+  - Why the other answers are incorrect
+  - Clinical Pearl
+  - Related Lesson
+
+Reduce wasted space from:
+- oversized top padding
+- oversized gaps between sections
+- oversized footer content while in active session
+
+ACTIVE SESSION FOCUS MODE
+
+While in an active flashcard session:
+- hide or heavily minimize the giant sitewide footer/study tools section
+- do not let marketing/footer content push the rationale farther down
+- keep the learner in a focused study environment
+
+The active session page should feel like a study tool, not like a homepage with a card inserted into it.
+
+TECHNICAL REQUIREMENTS
+
+Audit and improve:
+- flashcard answer review layout component
+- rationale card component
+- image placement logic
+- lesson-link mapping logic
+- schema/content support for long rationale
+- schema/content support for incorrect option explanations
+- session page responsiveness
+- published production rendering
+
+If needed, add or support fields like:
+- detailedRationale
+- incorrectOptionRationales
+- rationaleSections
+- relatedLessonSlug
+- relatedLessonTitle
+- relatedLessonUrl
+- clinicalPearl
+- rationaleImage
+- rationaleImageCaption
+
+If content is missing, generate or backfill it intelligently rather than leaving the explanation too thin.
+
+ACCEPTANCE CRITERIA
+
+This task is complete only when:
+1. the answered flashcard review is laid out so the card and rationale image/content are visible together much more comfortably
+2. the user no longer has to scroll excessively just to review the key teaching content
+3. rationale is significantly longer and more educational
+4. every question review explains why the correct answer is right
+5. every question review explains why the other answers are incorrect
+6. every question review links to the most relevant lesson when available
+7. the active session page is more focused and less cluttered by footer/marketing sections
+8. the fix works on the published site, not just preview
+9. the overall experience feels like a premium NurseNest study review interface
+
+After implementing, summarize:
+- what layout changes were made to reduce scrolling
+- whether desktop uses side-by-side review
+- how rationale length was expanded
+- how incorrect option explanations were added
+- how related lesson links now work
+- what was hidden/minimized during active session
