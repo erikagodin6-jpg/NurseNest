@@ -24,6 +24,7 @@ import {
   Settings2,
   BookOpen,
   ArrowLeft,
+  ArrowRight,
   Trophy,
   History,
   Trash2,
@@ -51,6 +52,17 @@ import {
   Zap,
   Lightbulb,
   X,
+  GraduationCap,
+  Target,
+  Brain,
+  Heart,
+  Stethoscope,
+  Filter,
+  Star,
+  Award,
+  RotateCcw,
+  TrendingUp,
+  Monitor,
 } from "lucide-react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
@@ -2636,7 +2648,7 @@ export default function Flashcards() {
 
   if (view === "setup") {
     return (
-      <div className="min-h-screen bg-secondary/80 flex flex-col font-sans">
+      <div className="min-h-screen bg-gradient-to-b from-violet-50/40 via-white to-blue-50/30 flex flex-col font-sans">
         <Navigation />
 
         <Dialog open={showLimitModal} onOpenChange={setShowLimitModal}>
@@ -2680,19 +2692,24 @@ export default function Flashcards() {
         </Dialog>
 
         <main className="flex-1">
-          <section className="bg-card border-b border-border" data-testid="section-flashcards-hero">
-            <div className="max-w-5xl mx-auto px-4 sm:px-6 py-10 sm:py-16">
-              <div className="grid lg:grid-cols-[1fr,420px] gap-10 lg:gap-14 items-start">
-
+          {/* ===== SECTION 1: Hero / Study Launcher ===== */}
+          <section className="relative overflow-hidden" data-testid="section-flashcards-hero">
+            <div className="absolute inset-0 bg-gradient-to-br from-violet-100/50 via-transparent to-blue-100/30 pointer-events-none" />
+            <div className="max-w-6xl mx-auto px-4 sm:px-6 py-12 sm:py-20 relative">
+              <div className="max-w-5xl mb-4">
+                <BreadcrumbNav />
+              </div>
+              <div className="grid lg:grid-cols-[1fr,440px] gap-10 lg:gap-16 items-start">
                 <div className="pt-2">
-                  <div className="max-w-5xl mb-4">
-                    <BreadcrumbNav />
+                  <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-violet-100/60 border border-violet-200/50 text-violet-700 text-xs font-medium mb-6" data-testid="badge-hero-tier">
+                    <Stethoscope className="w-3.5 h-3.5" />
+                    Nursing Exam Prep — RPN · RN · NP
                   </div>
-                  <h1 className="text-3xl sm:text-4xl font-bold text-foreground tracking-tight leading-tight mb-4" data-testid="text-flashcard-heading">
-                    Master Nursing Flashcards
+                  <h1 className="text-3xl sm:text-4xl lg:text-[2.75rem] font-bold text-foreground tracking-tight leading-[1.15] mb-5" data-testid="text-flashcard-heading">
+                    Clinical Flashcards That Think Like Exam Questions
                   </h1>
-                  <p className="text-muted-foreground text-base sm:text-lg leading-relaxed mb-6 max-w-lg" data-testid="text-flashcard-subheading">
-                    Clinically reviewed flashcard sessions for RPN, RN, and NP exam preparation. Study by topic, mode, and exam level with progress tracking.
+                  <p className="text-muted-foreground text-base sm:text-lg leading-relaxed mb-8 max-w-xl" data-testid="text-flashcard-subheading">
+                    Tier-specific clinical scenarios with full rationales, clinical pearls, and distractor analysis. Built for how nursing exams actually test you.
                   </p>
 
                   <div className="flex flex-wrap items-center gap-4 sm:gap-6 text-xs text-muted-foreground mb-8">
@@ -2702,7 +2719,7 @@ export default function Flashcards() {
                     </span>
                     <span className="flex items-center gap-1.5">
                       <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" />
-                      Exam aligned
+                      NCLEX-aligned
                     </span>
                     <span className="flex items-center gap-1.5">
                       <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" />
@@ -2713,25 +2730,29 @@ export default function Flashcards() {
                   <div className="flex flex-wrap items-center gap-3">
                     <Button
                       size="lg"
-                      className="rounded-xl bg-primary hover:bg-primary/90 text-primary-foreground font-semibold px-7 h-12 shadow-sm"
+                      className="rounded-2xl bg-violet-600 hover:bg-violet-700 text-white font-semibold px-8 h-13 shadow-lg shadow-violet-200/50 gap-2"
                       onClick={() => {
                         const configEl = document.getElementById("flashcard-config");
                         configEl?.scrollIntoView({ behavior: "smooth" });
                       }}
                       data-testid="button-hero-start-studying"
                     >
-                      Start Studying
+                      <Zap className="w-4 h-4" />
+                      Start Flashcard Session
                     </Button>
-                    <LocaleLink href="/pricing">
-                      <Button
-                        variant="outline"
-                        size="lg"
-                        className="rounded-xl border-border text-foreground/60 hover:bg-secondary font-medium px-7 h-12"
-                        data-testid="button-hero-see-pricing"
-                      >
-                        View Plans
-                      </Button>
-                    </LocaleLink>
+                    <Button
+                      variant="outline"
+                      size="lg"
+                      className="rounded-2xl border-violet-200 text-violet-700 hover:bg-violet-50 font-medium px-7 h-13 gap-2"
+                      onClick={() => {
+                        const topicEl = document.getElementById("topic-filter-section");
+                        topicEl?.scrollIntoView({ behavior: "smooth" });
+                      }}
+                      data-testid="button-hero-explore-topics"
+                    >
+                      <Search className="w-4 h-4" />
+                      Explore Topics
+                    </Button>
                   </div>
 
                   {user?.tier === "admin" && (
@@ -2751,11 +2772,11 @@ export default function Flashcards() {
                 </div>
 
                 <div id="flashcard-config" className="w-full">
-                  <Card className="border border-border/80 shadow-lg bg-card rounded-2xl overflow-hidden">
-                    <div className="px-6 pt-6 pb-4 border-b border-border">
+                  <Card className="border border-violet-100/80 shadow-xl shadow-violet-100/30 bg-white rounded-2xl overflow-hidden">
+                    <div className="px-6 pt-6 pb-4 border-b border-violet-50 bg-gradient-to-r from-violet-50/50 to-blue-50/30">
                       <div className="flex items-center gap-2.5">
-                        <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">
-                          <Settings2 className="w-4 h-4 text-primary-foreground" />
+                        <div className="w-8 h-8 rounded-xl bg-violet-600 flex items-center justify-center">
+                          <Settings2 className="w-4 h-4 text-white" />
                         </div>
                         <div>
                           <h2 className="text-sm font-semibold text-foreground">Study Setup</h2>
@@ -2773,10 +2794,10 @@ export default function Flashcards() {
                               key={ct}
                               onClick={() => setSelectedType(ct)}
                               className={cn(
-                                "py-2 px-3 rounded-lg text-xs font-medium transition-all border",
+                                "py-2 px-3 rounded-xl text-xs font-medium transition-all border",
                                 selectedType === ct
-                                  ? "bg-primary text-primary-foreground border-primary shadow-sm"
-                                  : "bg-card text-foreground/60 border-border hover:border-border/80 hover:bg-secondary"
+                                  ? "bg-violet-600 text-white border-violet-600 shadow-sm"
+                                  : "bg-white text-foreground/60 border-violet-100 hover:border-violet-200 hover:bg-violet-50/50"
                               )}
                               data-testid={`button-type-${ct}`}
                             >
@@ -2800,10 +2821,10 @@ export default function Flashcards() {
                               key={opt.value}
                               onClick={() => setCardSortBy(opt.value)}
                               className={cn(
-                                "py-1.5 px-1 rounded-md text-[11px] font-medium transition-all border",
+                                "py-1.5 px-1 rounded-lg text-[11px] font-medium transition-all border",
                                 cardSortBy === opt.value
-                                  ? "bg-primary text-primary-foreground border-primary"
-                                  : "bg-card text-foreground/50 border-border hover:border-border/80"
+                                  ? "bg-violet-600 text-white border-violet-600"
+                                  : "bg-white text-foreground/50 border-violet-100 hover:border-violet-200"
                               )}
                               data-testid={`button-sort-${opt.value}`}
                             >
@@ -2824,7 +2845,7 @@ export default function Flashcards() {
                             )}
                             <button
                               onClick={() => setShowTopicPanel(!showTopicPanel)}
-                              className="text-[11px] font-medium text-muted-foreground hover:text-foreground/70 transition-colors flex items-center gap-1"
+                              className="text-[11px] font-medium text-violet-600 hover:text-violet-700 transition-colors flex items-center gap-1"
                               data-testid="button-toggle-topics"
                             >
                               {showTopicPanel ? "Hide" : "Choose Topics"}
@@ -2870,7 +2891,7 @@ export default function Flashcards() {
                             type="checkbox"
                             checked={includeMastered}
                             onChange={(e) => setIncludeMastered(e.target.checked)}
-                            className="w-3.5 h-3.5 rounded border-border text-foreground focus:ring-ring"
+                            className="w-3.5 h-3.5 rounded border-violet-200 text-violet-600 focus:ring-violet-300"
                             data-testid="checkbox-include-mastered"
                           />
                           <span className="text-xs text-muted-foreground">Include mastered cards ({mastered.length})</span>
@@ -2880,7 +2901,7 @@ export default function Flashcards() {
 
                     <div className="px-6 pb-6 pt-2 space-y-2.5">
                       <Button
-                        className="w-full h-12 rounded-xl text-sm font-semibold bg-primary hover:bg-primary/90 shadow-sm"
+                        className="w-full h-12 rounded-xl text-sm font-semibold bg-violet-600 hover:bg-violet-700 shadow-lg shadow-violet-200/40"
                         onClick={startSession}
                         disabled={sessionCards.length === 0}
                         data-testid="button-start-session"
@@ -2890,7 +2911,7 @@ export default function Flashcards() {
                       {examHasResumable && isPaid && (
                         <Button
                           variant="outline"
-                          className="w-full h-10 rounded-xl text-xs font-medium border-border text-foreground/60 hover:bg-secondary gap-2"
+                          className="w-full h-10 rounded-xl text-xs font-medium border-violet-200 text-violet-600 hover:bg-violet-50 gap-2"
                           onClick={() => { resumeExamSession(); setView("exam-flashcards"); }}
                           data-testid="button-resume-exam-session"
                         >
@@ -2906,7 +2927,7 @@ export default function Flashcards() {
           </section>
 
           {showTopicPanel && (
-            <section className="bg-card border-b border-border" data-testid="section-topic-selector">
+            <section className="bg-white border-b border-violet-100/50" data-testid="section-topic-selector">
               <div className="max-w-5xl mx-auto px-4 sm:px-6 py-8">
                 <div className="max-w-2xl mx-auto">
                   <div className="flex items-center justify-between mb-5">
@@ -2921,7 +2942,7 @@ export default function Flashcards() {
                     <div className="flex items-center gap-3">
                       <button
                         onClick={() => setSelectedCategories([...categories])}
-                        className="text-xs font-medium text-muted-foreground hover:text-foreground/70"
+                        className="text-xs font-medium text-violet-600 hover:text-violet-700"
                         data-testid="button-select-all-topics"
                       >
                         Select all
@@ -2944,7 +2965,7 @@ export default function Flashcards() {
                       placeholder="Search topics or systems..."
                       value={topicSearch}
                       onChange={(e) => setTopicSearch(e.target.value)}
-                      className="pl-9 h-10 rounded-xl border-border bg-secondary/50 text-sm placeholder:text-muted-foreground/60 focus:border-border focus:ring-ring"
+                      className="pl-9 h-10 rounded-xl border-violet-100 bg-violet-50/30 text-sm placeholder:text-muted-foreground/60 focus:border-violet-300 focus:ring-violet-200"
                       data-testid="input-topic-search"
                     />
                   </div>
@@ -2954,10 +2975,10 @@ export default function Flashcards() {
                       const isExpanded = expandedGroups.includes(group.label) || topicSearch.trim().length > 0;
                       const selectedInGroup = group.topics.filter(t => selectedCategories.includes(t)).length;
                       return (
-                        <div key={group.label} className="border border-border rounded-xl overflow-hidden bg-card">
+                        <div key={group.label} className="border border-violet-100/60 rounded-xl overflow-hidden bg-white">
                           <button
                             onClick={() => toggleGroup(group.label)}
-                            className="w-full flex items-center justify-between px-4 py-3 hover:bg-secondary/80 transition-colors"
+                            className="w-full flex items-center justify-between px-4 py-3 hover:bg-violet-50/50 transition-colors"
                             data-testid={`button-group-${group.label.replace(/\s+/g, "-").toLowerCase()}`}
                           >
                             <span className="text-sm font-medium text-foreground/70">{group.label}</span>
@@ -2972,7 +2993,7 @@ export default function Flashcards() {
                             </div>
                           </button>
                           {isExpanded && (
-                            <div className="px-4 pb-3 pt-1 border-t border-border/50">
+                            <div className="px-4 pb-3 pt-1 border-t border-violet-50">
                               <div className="flex flex-wrap gap-1.5">
                                 {group.topics.map(topic => {
                                   const isSelected = selectedCategories.includes(topic);
@@ -2987,8 +3008,8 @@ export default function Flashcards() {
                                       className={cn(
                                         "px-3 py-1.5 rounded-lg text-xs font-medium transition-all border",
                                         isSelected
-                                          ? "bg-violet-50 text-violet-700 border-violet-200 shadow-sm"
-                                          : "bg-card text-foreground/50 border-border hover:border-border/80 hover:bg-secondary"
+                                          ? "bg-violet-100 text-violet-700 border-violet-200 shadow-sm"
+                                          : "bg-white text-foreground/50 border-violet-100/60 hover:border-violet-200 hover:bg-violet-50/50"
                                       )}
                                       data-testid={`button-topic-${topic.replace(/[\s\/]+/g, "-").toLowerCase()}`}
                                     >
@@ -3014,17 +3035,314 @@ export default function Flashcards() {
             </section>
           )}
 
-          <section className="bg-secondary/80 py-8" data-testid="section-quick-access">
+          {/* ===== SECTION 2: How Flashcards Work ===== */}
+          <section className="py-14 bg-white border-b border-violet-50" data-testid="section-how-flashcards-work">
             <div className="max-w-5xl mx-auto px-4 sm:px-6">
-              <h2 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-4">Quick Access</h2>
-              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
+              <div className="text-center mb-10">
+                <h2 className="text-2xl sm:text-3xl font-bold text-foreground mb-3" data-testid="text-how-it-works-title">How NurseNest Flashcards Work</h2>
+                <p className="text-muted-foreground text-sm sm:text-base max-w-2xl mx-auto leading-relaxed">
+                  Every card mirrors real nursing exam questions — clinical stems, plausible distractors, and evidence-based rationales that teach you <em>why</em>.
+                </p>
+              </div>
+              <div className="grid sm:grid-cols-3 gap-6">
+                <div className="p-6 rounded-2xl bg-gradient-to-br from-violet-50/80 to-violet-50/30 border border-violet-100/60 text-center" data-testid="card-how-step-1">
+                  <div className="w-12 h-12 rounded-2xl bg-violet-100 flex items-center justify-center mx-auto mb-4">
+                    <Stethoscope className="w-6 h-6 text-violet-600" />
+                  </div>
+                  <h3 className="text-sm font-bold text-foreground mb-2">Clinical Scenario</h3>
+                  <p className="text-xs text-muted-foreground leading-relaxed">
+                    Each card presents a realistic patient scenario with clinical findings, lab values, and decision points.
+                  </p>
+                </div>
+                <div className="p-6 rounded-2xl bg-gradient-to-br from-blue-50/80 to-blue-50/30 border border-blue-100/60 text-center" data-testid="card-how-step-2">
+                  <div className="w-12 h-12 rounded-2xl bg-blue-100 flex items-center justify-center mx-auto mb-4">
+                    <Brain className="w-6 h-6 text-blue-600" />
+                  </div>
+                  <h3 className="text-sm font-bold text-foreground mb-2">Critical Thinking</h3>
+                  <p className="text-xs text-muted-foreground leading-relaxed">
+                    Choose from carefully crafted options that test your clinical reasoning — not just memorization.
+                  </p>
+                </div>
+                <div className="p-6 rounded-2xl bg-gradient-to-br from-emerald-50/80 to-emerald-50/30 border border-emerald-100/60 text-center" data-testid="card-how-step-3">
+                  <div className="w-12 h-12 rounded-2xl bg-emerald-100 flex items-center justify-center mx-auto mb-4">
+                    <Lightbulb className="w-6 h-6 text-emerald-600" />
+                  </div>
+                  <h3 className="text-sm font-bold text-foreground mb-2">Full Rationale</h3>
+                  <p className="text-xs text-muted-foreground leading-relaxed">
+                    Get detailed explanations for every answer — correct and incorrect — plus clinical pearls and exam tips.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* ===== SECTION 3: Tier Selector (RPN / RN / NP) ===== */}
+          <section className="py-14 bg-gradient-to-b from-violet-50/30 to-white" data-testid="section-tier-selector">
+            <div className="max-w-5xl mx-auto px-4 sm:px-6">
+              <div className="text-center mb-10">
+                <h2 className="text-2xl sm:text-3xl font-bold text-foreground mb-3" data-testid="text-tier-title">Choose Your Exam Tier</h2>
+                <p className="text-muted-foreground text-sm sm:text-base max-w-2xl mx-auto leading-relaxed">
+                  Content is calibrated to your certification level — from foundational RPN concepts to advanced NP clinical decision-making.
+                </p>
+              </div>
+              <div className="grid sm:grid-cols-3 gap-6">
+                <div className="rounded-2xl border-2 border-emerald-200/60 bg-white p-6 shadow-sm hover:shadow-md transition-shadow" data-testid="card-tier-rpn">
+                  <div className="w-12 h-12 rounded-2xl bg-emerald-100 flex items-center justify-center mb-4">
+                    <Heart className="w-6 h-6 text-emerald-600" />
+                  </div>
+                  <h3 className="text-lg font-bold text-foreground mb-1">RPN</h3>
+                  <p className="text-xs text-emerald-600 font-medium mb-3">Registered Practical Nurse</p>
+                  <p className="text-xs text-muted-foreground leading-relaxed mb-5">
+                    Foundational nursing concepts, safety, medication administration, and core clinical skills for RPN certification.
+                  </p>
+                  <Button
+                    className="w-full rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-semibold h-10"
+                    onClick={() => {
+                      setSelectedType("all");
+                      setSelectedCategories([]);
+                      const configEl = document.getElementById("flashcard-config");
+                      configEl?.scrollIntoView({ behavior: "smooth" });
+                    }}
+                    data-testid="button-tier-rpn-start"
+                  >
+                    Study RPN Cards
+                  </Button>
+                </div>
+                <div className="rounded-2xl border-2 border-blue-200/60 bg-white p-6 shadow-sm hover:shadow-md transition-shadow" data-testid="card-tier-rn">
+                  <div className="w-12 h-12 rounded-2xl bg-blue-100 flex items-center justify-center mb-4">
+                    <GraduationCap className="w-6 h-6 text-blue-600" />
+                  </div>
+                  <h3 className="text-lg font-bold text-foreground mb-1">RN</h3>
+                  <p className="text-xs text-blue-600 font-medium mb-3">Registered Nurse</p>
+                  <p className="text-xs text-muted-foreground leading-relaxed mb-5">
+                    Advanced clinical reasoning, complex patient scenarios, pharmacology, and multi-system management for NCLEX-RN prep.
+                  </p>
+                  <Button
+                    className="w-full rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold h-10"
+                    onClick={() => {
+                      setSelectedType("question");
+                      setSelectedCategories([]);
+                      const configEl = document.getElementById("flashcard-config");
+                      configEl?.scrollIntoView({ behavior: "smooth" });
+                    }}
+                    data-testid="button-tier-rn-start"
+                  >
+                    Study RN Cards
+                  </Button>
+                </div>
+                <div className="rounded-2xl border-2 border-violet-200/60 bg-white p-6 shadow-sm hover:shadow-md transition-shadow relative" data-testid="card-tier-np">
+                  {!isPaid && (
+                    <div className="absolute top-3 right-3">
+                      <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-violet-100 text-violet-600 text-[10px] font-semibold">
+                        <Crown className="w-3 h-3" /> Premium
+                      </span>
+                    </div>
+                  )}
+                  <div className="w-12 h-12 rounded-2xl bg-violet-100 flex items-center justify-center mb-4">
+                    <Award className="w-6 h-6 text-violet-600" />
+                  </div>
+                  <h3 className="text-lg font-bold text-foreground mb-1">NP</h3>
+                  <p className="text-xs text-violet-600 font-medium mb-3">Nurse Practitioner</p>
+                  <p className="text-xs text-muted-foreground leading-relaxed mb-5">
+                    Graduate-level pharmacology, differential diagnosis, evidence-based practice, and autonomous clinical decision-making.
+                  </p>
+                  <Button
+                    className="w-full rounded-xl bg-violet-600 hover:bg-violet-700 text-white text-sm font-semibold h-10"
+                    onClick={() => {
+                      if (!isPaid) { setLocation("/pricing"); return; }
+                      setSelectedType("question");
+                      setSelectedCategories([]);
+                      const configEl = document.getElementById("flashcard-config");
+                      configEl?.scrollIntoView({ behavior: "smooth" });
+                    }}
+                    data-testid="button-tier-np-start"
+                  >
+                    {isPaid ? "Study NP Cards" : "Unlock NP Cards"}
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* ===== SECTION 4: Study Modes (Learn / Test / Weak Areas / Rapid Review) ===== */}
+          <section className="py-14 bg-white border-b border-violet-50" data-testid="section-study-modes">
+            <div className="max-w-5xl mx-auto px-4 sm:px-6">
+              <div className="text-center mb-10">
+                <h2 className="text-2xl sm:text-3xl font-bold text-foreground mb-3" data-testid="text-study-modes-title">Study Your Way</h2>
+                <p className="text-muted-foreground text-sm sm:text-base max-w-2xl mx-auto leading-relaxed">
+                  Four study modes designed for different phases of exam preparation — from first exposure to exam-day simulation.
+                </p>
+              </div>
+              <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+                <button
+                  onClick={() => {
+                    setSelectedType("term");
+                    const configEl = document.getElementById("flashcard-config");
+                    configEl?.scrollIntoView({ behavior: "smooth" });
+                  }}
+                  className="group p-6 rounded-2xl border border-blue-100 bg-gradient-to-b from-blue-50/50 to-white hover:shadow-lg hover:border-blue-200 transition-all text-left"
+                  data-testid="card-mode-learn"
+                >
+                  <div className="w-11 h-11 rounded-2xl bg-blue-100 flex items-center justify-center mb-4 group-hover:scale-105 transition-transform">
+                    <BookOpen className="w-5 h-5 text-blue-600" />
+                  </div>
+                  <h3 className="text-sm font-bold text-foreground mb-1.5">Learn Mode</h3>
+                  <p className="text-xs text-muted-foreground leading-relaxed">
+                    Flip through terms and concepts at your own pace with detailed explanations.
+                  </p>
+                </button>
+
+                <button
+                  onClick={() => {
+                    setSelectedType("question");
+                    const configEl = document.getElementById("flashcard-config");
+                    configEl?.scrollIntoView({ behavior: "smooth" });
+                  }}
+                  className="group p-6 rounded-2xl border border-violet-100 bg-gradient-to-b from-violet-50/50 to-white hover:shadow-lg hover:border-violet-200 transition-all text-left"
+                  data-testid="card-mode-test"
+                >
+                  <div className="w-11 h-11 rounded-2xl bg-violet-100 flex items-center justify-center mb-4 group-hover:scale-105 transition-transform">
+                    <ClipboardCheck className="w-5 h-5 text-violet-600" />
+                  </div>
+                  <h3 className="text-sm font-bold text-foreground mb-1.5">Test Mode</h3>
+                  <p className="text-xs text-muted-foreground leading-relaxed">
+                    Multiple-choice questions with immediate rationale and distractor analysis.
+                  </p>
+                </button>
 
                 <button
                   onClick={() => setView("bookmarks")}
-                  className="group flex flex-col items-start p-4 bg-card rounded-xl border border-border hover:border-border/80 hover:shadow-sm transition-all text-left"
+                  className="group p-6 rounded-2xl border border-amber-100 bg-gradient-to-b from-amber-50/50 to-white hover:shadow-lg hover:border-amber-200 transition-all text-left"
+                  data-testid="card-mode-weak-areas"
+                >
+                  <div className="w-11 h-11 rounded-2xl bg-amber-100 flex items-center justify-center mb-4 group-hover:scale-105 transition-transform">
+                    <Target className="w-5 h-5 text-amber-600" />
+                  </div>
+                  <h3 className="text-sm font-bold text-foreground mb-1.5">Weak Areas</h3>
+                  <p className="text-xs text-muted-foreground leading-relaxed">
+                    Review flagged cards and topics you've struggled with to strengthen gaps.
+                  </p>
+                  {bookmarks.length > 0 && (
+                    <span className="inline-flex items-center gap-1 mt-2 text-[10px] font-semibold text-amber-600 bg-amber-50 px-2 py-0.5 rounded-full">
+                      {bookmarks.length} flagged
+                    </span>
+                  )}
+                </button>
+
+                <button
+                  onClick={() => {
+                    if (!isPaid) { setLocation("/pricing"); return; }
+                    setExamStudyIndex(0);
+                    setExamSelectedOption(null);
+                    setExamShowRationale(false);
+                    setExamSessionResults([]);
+                    setView("exam-flashcards");
+                  }}
+                  className="group p-6 rounded-2xl border border-rose-100 bg-gradient-to-b from-rose-50/50 to-white hover:shadow-lg hover:border-rose-200 transition-all text-left relative"
+                  data-testid="card-mode-rapid-review"
+                >
+                  {!isPaid && (
+                    <div className="absolute top-3 right-3">
+                      <Lock className="w-3.5 h-3.5 text-muted-foreground/50" />
+                    </div>
+                  )}
+                  <div className="w-11 h-11 rounded-2xl bg-rose-100 flex items-center justify-center mb-4 group-hover:scale-105 transition-transform">
+                    <Zap className="w-5 h-5 text-rose-600" />
+                  </div>
+                  <h3 className="text-sm font-bold text-foreground mb-1.5">Rapid Review</h3>
+                  <p className="text-xs text-muted-foreground leading-relaxed">
+                    CAT-style exam simulation with adaptive difficulty and clinical pearls.
+                  </p>
+                  {examFlashcardTotal > 0 && (
+                    <span className="inline-flex items-center gap-1 mt-2 text-[10px] font-semibold text-rose-600 bg-rose-50 px-2 py-0.5 rounded-full">
+                      {examFlashcardTotal.toLocaleString()} cards
+                    </span>
+                  )}
+                </button>
+              </div>
+            </div>
+          </section>
+
+          {/* ===== SECTION 5: Topic Filter ===== */}
+          <section id="topic-filter-section" className="py-14 bg-gradient-to-b from-violet-50/20 to-white" data-testid="section-topic-filter">
+            <div className="max-w-5xl mx-auto px-4 sm:px-6">
+              <div className="text-center mb-8">
+                <h2 className="text-2xl sm:text-3xl font-bold text-foreground mb-3" data-testid="text-topic-filter-title">Browse by Topic</h2>
+                <p className="text-muted-foreground text-sm sm:text-base max-w-2xl mx-auto leading-relaxed">
+                  Filter by body system, specialty, or exam category to build a focused study session.
+                </p>
+              </div>
+
+              <div className="max-w-3xl mx-auto">
+                <div className="flex flex-wrap gap-2 justify-center mb-6">
+                  {categories.slice(0, 12).map(cat => {
+                    const isSelected = selectedCategories.includes(cat);
+                    return (
+                      <button
+                        key={cat}
+                        onClick={() => {
+                          setSelectedCategories(prev =>
+                            prev.includes(cat) ? prev.filter(c => c !== cat) : [...prev, cat]
+                          );
+                        }}
+                        className={cn(
+                          "px-4 py-2 rounded-full text-xs font-medium transition-all border",
+                          isSelected
+                            ? "bg-violet-600 text-white border-violet-600 shadow-sm"
+                            : "bg-white text-foreground/60 border-violet-100 hover:border-violet-300 hover:bg-violet-50"
+                        )}
+                        data-testid={`chip-topic-${cat.replace(/[\s\/]+/g, "-").toLowerCase()}`}
+                      >
+                        {catLabel(cat)}
+                      </button>
+                    );
+                  })}
+                  {categories.length > 12 && (
+                    <button
+                      onClick={() => setShowTopicPanel(true)}
+                      className="px-4 py-2 rounded-full text-xs font-medium border border-dashed border-violet-200 text-violet-600 hover:bg-violet-50 transition-all"
+                      data-testid="button-show-all-topics"
+                    >
+                      +{categories.length - 12} more
+                    </button>
+                  )}
+                </div>
+
+                {selectedCategories.length > 0 && (
+                  <div className="text-center space-y-3">
+                    <p className="text-sm text-muted-foreground">
+                      <span className="font-semibold text-violet-600">{sessionCards.length}</span> cards match your selection
+                    </p>
+                    <div className="flex items-center justify-center gap-3">
+                      <Button
+                        className="rounded-xl bg-violet-600 hover:bg-violet-700 text-white font-semibold px-6 h-10 gap-2"
+                        onClick={startSession}
+                        disabled={sessionCards.length === 0}
+                        data-testid="button-topic-start-session"
+                      >
+                        Start Session
+                        <ArrowRight className="w-4 h-4" />
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        className="rounded-xl text-muted-foreground text-xs"
+                        onClick={() => setSelectedCategories([])}
+                        data-testid="button-topic-clear-all"
+                      >
+                        Clear all
+                      </Button>
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              <div className="mt-8 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
+                <button
+                  onClick={() => setView("bookmarks")}
+                  className="group flex flex-col items-start p-4 bg-white rounded-2xl border border-amber-100/60 hover:border-amber-200 hover:shadow-md transition-all text-left"
                   data-testid="card-bookmarks"
                 >
-                  <div className="w-8 h-8 rounded-lg bg-amber-50 flex items-center justify-center mb-3">
+                  <div className="w-9 h-9 rounded-xl bg-amber-50 flex items-center justify-center mb-3">
                     <Flag className="w-4 h-4 text-amber-500" />
                   </div>
                   <span className="text-xs font-semibold text-foreground/70 mb-0.5">Flagged for Review</span>
@@ -3035,10 +3353,10 @@ export default function Flashcards() {
 
                 <button
                   onClick={() => setView("mastered")}
-                  className="group flex flex-col items-start p-4 bg-card rounded-xl border border-border hover:border-border/80 hover:shadow-sm transition-all text-left"
+                  className="group flex flex-col items-start p-4 bg-white rounded-2xl border border-emerald-100/60 hover:border-emerald-200 hover:shadow-md transition-all text-left"
                   data-testid="card-mastered"
                 >
-                  <div className="w-8 h-8 rounded-lg bg-emerald-50 flex items-center justify-center mb-3">
+                  <div className="w-9 h-9 rounded-xl bg-emerald-50 flex items-center justify-center mb-3">
                     <Trophy className="w-4 h-4 text-emerald-500" />
                   </div>
                   <span className="text-xs font-semibold text-foreground/70 mb-0.5">Mastered Cards</span>
@@ -3049,10 +3367,10 @@ export default function Flashcards() {
 
                 <button
                   onClick={() => { setView(user ? "mycards" : "mycards"); fetchCustomCards(); }}
-                  className="group flex flex-col items-start p-4 bg-card rounded-xl border border-border hover:border-border/80 hover:shadow-sm transition-all text-left"
+                  className="group flex flex-col items-start p-4 bg-white rounded-2xl border border-blue-100/60 hover:border-blue-200 hover:shadow-md transition-all text-left"
                   data-testid="card-mycards"
                 >
-                  <div className="w-8 h-8 rounded-lg bg-blue-50 flex items-center justify-center mb-3">
+                  <div className="w-9 h-9 rounded-xl bg-blue-50 flex items-center justify-center mb-3">
                     <Plus className="w-4 h-4 text-blue-500" />
                   </div>
                   <span className="text-xs font-semibold text-foreground/70 mb-0.5">My Flashcards</span>
@@ -3061,7 +3379,7 @@ export default function Flashcards() {
 
                 <button
                   onClick={() => { setView("decks"); fetchMyDecks(); fetchPublicDecks(); fetchEntitlement(); }}
-                  className="group flex flex-col items-start p-4 bg-card rounded-xl border border-border hover:border-border/80 hover:shadow-sm transition-all text-left relative"
+                  className="group flex flex-col items-start p-4 bg-white rounded-2xl border border-violet-100/60 hover:border-violet-200 hover:shadow-md transition-all text-left relative"
                   data-testid="card-study-decks"
                 >
                   {!isPaid && (
@@ -3069,7 +3387,7 @@ export default function Flashcards() {
                       <Lock className="w-3 h-3 text-muted-foreground/60" />
                     </div>
                   )}
-                  <div className="w-8 h-8 rounded-lg bg-violet-50 flex items-center justify-center mb-3">
+                  <div className="w-9 h-9 rounded-xl bg-violet-50 flex items-center justify-center mb-3">
                     <Layers className="w-4 h-4 text-violet-500" />
                   </div>
                   <span className="text-xs font-semibold text-foreground/70 mb-0.5">Study Decks</span>
@@ -3085,7 +3403,7 @@ export default function Flashcards() {
                     setExamSessionResults([]);
                     setView("exam-flashcards");
                   }}
-                  className="group flex flex-col items-start p-4 bg-card rounded-xl border border-border hover:border-border/80 hover:shadow-sm transition-all text-left relative"
+                  className="group flex flex-col items-start p-4 bg-white rounded-2xl border border-rose-100/60 hover:border-rose-200 hover:shadow-md transition-all text-left relative"
                   data-testid="card-exam-flashcards"
                 >
                   {!isPaid && (
@@ -3093,7 +3411,7 @@ export default function Flashcards() {
                       <Lock className="w-3 h-3 text-muted-foreground/60" />
                     </div>
                   )}
-                  <div className="w-8 h-8 rounded-lg bg-rose-50 flex items-center justify-center mb-3">
+                  <div className="w-9 h-9 rounded-xl bg-rose-50 flex items-center justify-center mb-3">
                     <ShieldAlert className="w-4 h-4 text-rose-500" />
                   </div>
                   <span className="text-xs font-semibold text-foreground/70 mb-0.5">CAT Exam Prep</span>
@@ -3101,11 +3419,10 @@ export default function Flashcards() {
                     {examFlashcardTotal > 0 ? `${examFlashcardTotal.toLocaleString()} cards` : "Exam style"}
                   </span>
                 </button>
-
               </div>
 
               {user && !entitlement.isPremium && entitlement.percentage > 0 && (
-                <div className="mt-4 bg-card rounded-xl border border-border p-4" data-testid="flashcard-usage-counter">
+                <div className="mt-6 bg-white rounded-2xl border border-violet-100/60 p-4 max-w-2xl mx-auto" data-testid="flashcard-usage-counter">
                   <div className="flex items-center justify-between mb-2">
                     <span className="text-xs font-medium text-muted-foreground" data-testid="text-usage-count">
                       {entitlement.totalFreeCards} / {entitlement.limit} free cards used
@@ -3116,7 +3433,7 @@ export default function Flashcards() {
                       </a>
                     )}
                   </div>
-                  <div className="w-full bg-secondary rounded-full h-1.5">
+                  <div className="w-full bg-violet-50 rounded-full h-1.5">
                     <div
                       className={cn(
                         "h-1.5 rounded-full transition-all",
@@ -3138,60 +3455,135 @@ export default function Flashcards() {
             </div>
           </section>
 
-          <section className="py-10 bg-card border-b border-border" data-testid="section-study-modes">
+          {/* ===== SECTION 6: Why NurseNest Flashcards ===== */}
+          <section className="py-14 bg-white border-b border-violet-50" data-testid="section-why-nursenest">
             <div className="max-w-5xl mx-auto px-4 sm:px-6">
-              <h2 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-5">Study Modes</h2>
-              <div className="grid sm:grid-cols-3 gap-4">
-                <div className="p-5 rounded-xl border border-border bg-secondary/50">
-                  <div className="w-9 h-9 rounded-lg bg-blue-50 flex items-center justify-center mb-3.5">
-                    <BookOpen className="w-4.5 h-4.5 text-blue-500" />
+              <div className="text-center mb-10">
+                <h2 className="text-2xl sm:text-3xl font-bold text-foreground mb-3" data-testid="text-why-title">Why NurseNest Flashcards</h2>
+                <p className="text-muted-foreground text-sm sm:text-base max-w-2xl mx-auto leading-relaxed">
+                  Purpose-built for nursing students and new grads preparing for RPN, RN, and NP certification exams.
+                </p>
+              </div>
+              <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+                <div className="p-5 rounded-2xl bg-gradient-to-b from-violet-50/60 to-white border border-violet-100/50" data-testid="card-why-1">
+                  <div className="w-10 h-10 rounded-xl bg-violet-100 flex items-center justify-center mb-3">
+                    <Sparkles className="w-5 h-5 text-violet-600" />
                   </div>
-                  <h3 className="text-sm font-semibold text-foreground mb-1">Learn Mode</h3>
+                  <h3 className="text-sm font-bold text-foreground mb-1">Exam-Style Questions</h3>
                   <p className="text-xs text-muted-foreground leading-relaxed">
-                    Review terms and concepts with flip-card reinforcement and explanations.
+                    Every question mirrors real NCLEX, CPNRE, and NP certification exam formats with clinical stems.
                   </p>
                 </div>
-
-                <div className="p-5 rounded-xl border border-border bg-secondary/50">
-                  <div className="w-9 h-9 rounded-lg bg-violet-50 flex items-center justify-center mb-3.5">
-                    <ClipboardCheck className="w-4.5 h-4.5 text-violet-500" />
+                <div className="p-5 rounded-2xl bg-gradient-to-b from-blue-50/60 to-white border border-blue-100/50" data-testid="card-why-2">
+                  <div className="w-10 h-10 rounded-xl bg-blue-100 flex items-center justify-center mb-3">
+                    <CheckCircle2 className="w-5 h-5 text-blue-600" />
                   </div>
-                  <h3 className="text-sm font-semibold text-foreground mb-1">Test Mode</h3>
+                  <h3 className="text-sm font-bold text-foreground mb-1">Evidence-Based Rationales</h3>
                   <p className="text-xs text-muted-foreground leading-relaxed">
-                    Active recall with multiple-choice questions and immediate rationale.
+                    Detailed explanations reference current clinical guidelines, pharmacology standards, and best practices.
                   </p>
                 </div>
-
-                <div className="p-5 rounded-xl border border-border bg-secondary/50 relative">
-                  {!isPaid && (
-                    <div className="absolute top-3 right-3">
-                      <Lock className="w-3 h-3 text-muted-foreground/60" />
-                    </div>
-                  )}
-                  <div className="w-9 h-9 rounded-lg bg-rose-50 flex items-center justify-center mb-3.5">
-                    <ShieldAlert className="w-4.5 h-4.5 text-rose-500" />
+                <div className="p-5 rounded-2xl bg-gradient-to-b from-emerald-50/60 to-white border border-emerald-100/50" data-testid="card-why-3">
+                  <div className="w-10 h-10 rounded-xl bg-emerald-100 flex items-center justify-center mb-3">
+                    <TrendingUp className="w-5 h-5 text-emerald-600" />
                   </div>
-                  <h3 className="text-sm font-semibold text-foreground mb-1">CAT Exam Prep</h3>
+                  <h3 className="text-sm font-bold text-foreground mb-1">Progress Tracking</h3>
                   <p className="text-xs text-muted-foreground leading-relaxed">
-                    Exam-style questions with clinical takeaways, pearls, and difficulty scaling.
+                    Track mastered cards, flagged weak areas, and session performance to focus your study time.
+                  </p>
+                </div>
+                <div className="p-5 rounded-2xl bg-gradient-to-b from-rose-50/60 to-white border border-rose-100/50" data-testid="card-why-4">
+                  <div className="w-10 h-10 rounded-xl bg-rose-100 flex items-center justify-center mb-3">
+                    <GraduationCap className="w-5 h-5 text-rose-600" />
+                  </div>
+                  <h3 className="text-sm font-bold text-foreground mb-1">Tier-Specific Content</h3>
+                  <p className="text-xs text-muted-foreground leading-relaxed">
+                    RPN, RN, and NP cards are calibrated to scope of practice and exam complexity at each level.
                   </p>
                 </div>
               </div>
             </div>
           </section>
 
+          {/* ===== SECTION 7: Screenshot Preview ===== */}
+          <section className="py-14 bg-gradient-to-b from-violet-50/20 to-white" data-testid="section-screenshot-preview">
+            <div className="max-w-5xl mx-auto px-4 sm:px-6">
+              <div className="text-center mb-10">
+                <h2 className="text-2xl sm:text-3xl font-bold text-foreground mb-3" data-testid="text-preview-title">See How It Works</h2>
+                <p className="text-muted-foreground text-sm sm:text-base max-w-2xl mx-auto leading-relaxed">
+                  Each flashcard presents a clinical scenario with multiple-choice options, followed by a comprehensive rationale.
+                </p>
+              </div>
+              <div className="max-w-3xl mx-auto">
+                <div className="rounded-2xl border border-violet-100/60 bg-white shadow-xl shadow-violet-100/20 overflow-hidden">
+                  <div className="px-4 py-2.5 bg-gradient-to-r from-violet-50 to-blue-50 border-b border-violet-100/40 flex items-center gap-2">
+                    <div className="flex gap-1.5">
+                      <div className="w-2.5 h-2.5 rounded-full bg-red-300" />
+                      <div className="w-2.5 h-2.5 rounded-full bg-amber-300" />
+                      <div className="w-2.5 h-2.5 rounded-full bg-emerald-300" />
+                    </div>
+                    <span className="text-[10px] text-muted-foreground font-medium ml-2">NurseNest Flashcard Session</span>
+                  </div>
+                  <div className="p-6 sm:p-8" data-testid="preview-question-card">
+                    <div className="flex items-center gap-2 mb-4">
+                      <span className="px-2.5 py-0.5 rounded-lg bg-blue-50 text-blue-600 text-[10px] font-semibold border border-blue-100">Cardiovascular</span>
+                      <span className="px-2.5 py-0.5 rounded-lg bg-amber-50 text-amber-600 text-[10px] font-semibold border border-amber-100">Difficulty: 3</span>
+                      <span className="px-2.5 py-0.5 rounded-lg bg-violet-50 text-violet-600 text-[10px] font-semibold border border-violet-100">RN Tier</span>
+                    </div>
+                    <p className="text-sm font-medium text-foreground leading-relaxed mb-5">
+                      A client with acute STEMI has just received alteplase (tPA). Which assessment finding requires the MOST immediate nursing intervention?
+                    </p>
+                    <div className="space-y-2.5">
+                      {["Blood pressure 148/92 mmHg", "Oozing from the IV insertion site", "Sudden onset severe headache with altered mental status", "Heart rate of 56 bpm"].map((opt, i) => (
+                        <div
+                          key={i}
+                          className={cn(
+                            "flex items-center gap-3 px-4 py-3 rounded-xl border text-sm",
+                            i === 2
+                              ? "border-emerald-300 bg-emerald-50/50"
+                              : "border-violet-100/60 bg-white"
+                          )}
+                        >
+                          <span className={cn(
+                            "w-7 h-7 rounded-lg flex items-center justify-center text-xs font-semibold shrink-0",
+                            i === 2
+                              ? "bg-emerald-500 text-white"
+                              : "bg-violet-50 text-violet-600 border border-violet-100"
+                          )}>
+                            {String.fromCharCode(65 + i)}
+                          </span>
+                          <span className="text-foreground/80 text-xs">{opt}</span>
+                        </div>
+                      ))}
+                    </div>
+                    <div className="mt-5 p-4 rounded-xl bg-emerald-50/60 border border-emerald-100/60">
+                      <div className="flex items-center gap-2 mb-2">
+                        <Lightbulb className="w-4 h-4 text-emerald-600" />
+                        <span className="text-xs font-bold text-emerald-700 uppercase tracking-wider">Clinical Pearl</span>
+                      </div>
+                      <p className="text-xs text-emerald-800/80 leading-relaxed">
+                        After administering tPA, perform neurological checks every 15 minutes for the first 2 hours. Any sudden change warrants immediate CT scan...
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* ===== Study Tools (preserved) ===== */}
           {(dbFlashcardSets.length > 0 || user) && (
-            <section className="py-10 bg-secondary/80" data-testid="section-personal-tools">
+            <section className="py-10 bg-white border-b border-violet-50" data-testid="section-personal-tools">
               <div className="max-w-5xl mx-auto px-4 sm:px-6">
                 <h2 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-5">Study Tools</h2>
                 <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-3">
                   {user && (
                     <button
                       onClick={() => { setView("mycards"); fetchCustomCards(); }}
-                      className="flex items-center gap-3 p-4 bg-card rounded-xl border border-border hover:border-border/80 hover:shadow-sm transition-all text-left"
+                      className="flex items-center gap-3 p-4 bg-white rounded-2xl border border-violet-100/60 hover:border-violet-200 hover:shadow-md transition-all text-left"
                       data-testid="button-create-deck"
                     >
-                      <div className="w-9 h-9 rounded-lg bg-emerald-50 flex items-center justify-center shrink-0">
+                      <div className="w-9 h-9 rounded-xl bg-emerald-50 flex items-center justify-center shrink-0">
                         <Plus className="w-4 h-4 text-emerald-500" />
                       </div>
                       <div>
@@ -3203,10 +3595,10 @@ export default function Flashcards() {
 
                   <button
                     onClick={() => { setView("decks"); fetchMyDecks(); fetchPublicDecks(); fetchEntitlement(); }}
-                    className="flex items-center gap-3 p-4 bg-card rounded-xl border border-border hover:border-border/80 hover:shadow-sm transition-all text-left"
+                    className="flex items-center gap-3 p-4 bg-white rounded-2xl border border-violet-100/60 hover:border-violet-200 hover:shadow-md transition-all text-left"
                     data-testid="button-browse-decks"
                   >
-                    <div className="w-9 h-9 rounded-lg bg-violet-50 flex items-center justify-center shrink-0">
+                    <div className="w-9 h-9 rounded-xl bg-violet-50 flex items-center justify-center shrink-0">
                       <Globe className="w-4 h-4 text-violet-500" />
                     </div>
                     <div>
@@ -3218,10 +3610,10 @@ export default function Flashcards() {
                   {user && (
                     <button
                       onClick={() => { setView("decks"); fetchMyDecks(); fetchPublicDecks(); fetchEntitlement(); }}
-                      className="flex items-center gap-3 p-4 bg-card rounded-xl border border-border hover:border-border/80 hover:shadow-sm transition-all text-left"
+                      className="flex items-center gap-3 p-4 bg-white rounded-2xl border border-violet-100/60 hover:border-violet-200 hover:shadow-md transition-all text-left"
                       data-testid="button-my-decks"
                     >
-                      <div className="w-9 h-9 rounded-lg bg-blue-50 flex items-center justify-center shrink-0">
+                      <div className="w-9 h-9 rounded-xl bg-blue-50 flex items-center justify-center shrink-0">
                         <Layers className="w-4 h-4 text-blue-500" />
                       </div>
                       <div>
@@ -3234,10 +3626,10 @@ export default function Flashcards() {
                   {dbFlashcardSets.length > 0 && (
                     <button
                       onClick={() => setView("admin-sets")}
-                      className="flex items-center gap-3 p-4 bg-card rounded-xl border border-border hover:border-border/80 hover:shadow-sm transition-all text-left"
+                      className="flex items-center gap-3 p-4 bg-white rounded-2xl border border-violet-100/60 hover:border-violet-200 hover:shadow-md transition-all text-left"
                       data-testid="card-admin-flashcard-sets"
                     >
-                      <div className="w-9 h-9 rounded-lg bg-amber-50 flex items-center justify-center shrink-0">
+                      <div className="w-9 h-9 rounded-xl bg-amber-50 flex items-center justify-center shrink-0">
                         <BookOpen className="w-4 h-4 text-amber-500" />
                       </div>
                       <div>
@@ -3251,21 +3643,66 @@ export default function Flashcards() {
             </section>
           )}
 
-          {!isPaid && (
-            <section className="py-10 bg-card" data-testid="section-flashcards-upgrade-cta">
-              <div className="max-w-xl mx-auto px-4 sm:px-6 text-center">
-                <h2 className="text-lg font-semibold text-foreground mb-2" data-testid="text-upgrade-title">Unlock the full study experience</h2>
-                <p className="text-sm text-muted-foreground mb-6 leading-relaxed">
-                  Get unlimited flashcards, CAT exam prep, custom decks, and mastery tracking with a premium plan.
-                </p>
-                <LocaleLink href="/pricing">
-                  <Button className="rounded-xl bg-primary hover:bg-primary/90 text-primary-foreground font-semibold px-8 h-11 shadow-sm" data-testid="button-bottom-upgrade">
-                    View Plans
-                  </Button>
-                </LocaleLink>
+          {/* ===== SECTION 8: Final CTA ===== */}
+          <section className="py-16 bg-gradient-to-br from-violet-600 via-violet-700 to-blue-700 relative overflow-hidden" data-testid="section-flashcards-final-cta">
+            <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PHBhdHRlcm4gaWQ9ImciIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHBhdGggZD0iTTAgMGg2MHY2MEgweiIgZmlsbD0ibm9uZSIvPjxjaXJjbGUgY3g9IjMwIiBjeT0iMzAiIHI9IjEiIGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC4wNSkiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjZykiLz48L3N2Zz4=')] opacity-50" />
+            <div className="max-w-2xl mx-auto px-4 sm:px-6 text-center relative">
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/10 text-white/90 text-xs font-medium mb-6 backdrop-blur-sm border border-white/10">
+                <Star className="w-3.5 h-3.5" />
+                Used by thousands of nursing students
               </div>
-            </section>
-          )}
+              <h2 className="text-2xl sm:text-3xl font-bold text-white mb-4" data-testid="text-cta-title">
+                Ready to Start Studying?
+              </h2>
+              <p className="text-violet-100 text-sm sm:text-base mb-8 leading-relaxed max-w-xl mx-auto">
+                Join nursing students across Canada who use NurseNest flashcards to prepare for their RPN, RN, and NP certification exams with confidence.
+              </p>
+              <div className="flex flex-wrap items-center justify-center gap-4">
+                <Button
+                  size="lg"
+                  className="rounded-2xl bg-white text-violet-700 hover:bg-violet-50 font-semibold px-8 h-13 shadow-lg gap-2"
+                  onClick={() => {
+                    const configEl = document.getElementById("flashcard-config");
+                    configEl?.scrollIntoView({ behavior: "smooth" });
+                  }}
+                  data-testid="button-cta-start-session"
+                >
+                  <Zap className="w-4 h-4" />
+                  Start Flashcard Session
+                </Button>
+                {!isPaid && (
+                  <LocaleLink href="/pricing">
+                    <Button
+                      variant="outline"
+                      size="lg"
+                      className="rounded-2xl border-white/30 text-white hover:bg-white/10 font-medium px-7 h-13"
+                      data-testid="button-cta-view-plans"
+                    >
+                      View Plans
+                    </Button>
+                  </LocaleLink>
+                )}
+              </div>
+              <div className="mt-8 flex flex-wrap items-center justify-center gap-6 text-xs text-violet-200">
+                <span className="flex items-center gap-1.5">
+                  <CheckCircle2 className="w-3.5 h-3.5" />
+                  Nursing flashcards
+                </span>
+                <span className="flex items-center gap-1.5">
+                  <CheckCircle2 className="w-3.5 h-3.5" />
+                  NCLEX flashcards
+                </span>
+                <span className="flex items-center gap-1.5">
+                  <CheckCircle2 className="w-3.5 h-3.5" />
+                  RPN exam flashcards
+                </span>
+                <span className="flex items-center gap-1.5">
+                  <CheckCircle2 className="w-3.5 h-3.5" />
+                  NP certification prep
+                </span>
+              </div>
+            </div>
+          </section>
         </main>
 
         <Footer />
