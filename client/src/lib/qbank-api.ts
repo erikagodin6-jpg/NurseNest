@@ -128,6 +128,12 @@ export async function fetchExamSet(params: {
   });
   if (!res.ok) {
     const err = await res.json().catch(() => ({ error: "Request failed" }));
+    if (res.status === 403) {
+      throw new Error("Upgrade required — this exam feature requires a paid subscription.");
+    }
+    if (res.status === 401) {
+      throw new Error("Authentication required — please log in to access exam questions.");
+    }
     throw new Error(err.error || "Failed to fetch exam set");
   }
   return res.json();

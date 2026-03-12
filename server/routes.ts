@@ -6393,8 +6393,11 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
       if (!authUser) return res.status(401).json({ error: "Authentication required" });
 
       const { tier, totalQuestions, questions, examMode } = req.body;
-      if (!tier || !totalQuestions || !questions || !Array.isArray(questions)) {
+      if (!tier || !questions || !Array.isArray(questions)) {
         return res.status(400).json({ error: "Missing required fields" });
+      }
+      if (questions.length === 0) {
+        return res.status(400).json({ error: "Cannot start an exam with zero questions. Please select a valid exam configuration." });
       }
       let effectiveExamTier = authUser.tier || "free";
       if (authUser.tier === "admin") {

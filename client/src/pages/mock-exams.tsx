@@ -21,6 +21,7 @@ import {
 import { AdminEditButton } from "@/components/admin-edit-button";
 import { BreadcrumbNav } from "@/components/breadcrumb-nav";
 import { getTierConfig } from "@shared/tier-config";
+import { useToast } from "@/hooks/use-toast";
 
 const EXAM_THEMES = [
   { id: "pastelLilac", name: "Pastel Lilac", color: "#C8B6FF" },
@@ -44,6 +45,7 @@ function getPrimaryExamTier(userTier: string | undefined, isAdmin: boolean, prev
 export default function MockExamsPage() {
   const { user, effectiveTier, isAdmin, previewTier } = useAuth();
   const { t } = useI18n();
+  const { toast } = useToast();
   const [, navigate] = useLocation();
   const primaryExamTier = getPrimaryExamTier(effectiveTier, isAdmin, !!previewTier);
   const isAdminWithAllTiers = isAdmin && !previewTier;
@@ -152,6 +154,16 @@ export default function MockExamsPage() {
         questions = await getExamQuestions(selectedTier, selectedLength, selectedSystems.length > 0 ? selectedSystems : undefined);
       }
 
+      if (!questions || questions.length === 0) {
+        toast({
+          title: "No Questions Available",
+          description: "No questions available for this exam configuration. Please try a different tier or body system.",
+          variant: "destructive",
+        });
+        setStarting(false);
+        return;
+      }
+
       const res = await fetch("/api/mock-exams/start", {
         method: "POST",
         headers: { "Content-Type": "application/json", ...getAuthHeaders() },
@@ -198,12 +210,30 @@ export default function MockExamsPage() {
     } catch (err: any) {
       console.error("[MockExam] startExam failed:", err);
       const message = err?.message || "Failed to start exam";
-      if (message.includes("No questions") || message.includes("zero questions")) {
-        alert("No questions available for this exam configuration. Please try a different tier or body system.");
-      } else if (message.includes("Upgrade required")) {
-        alert("This exam requires a subscription upgrade. Please check your plan.");
+      if (message.includes("Upgrade required") || message.includes("403")) {
+        toast({
+          title: "Subscription Required",
+          description: "This exam feature requires a paid subscription. Please upgrade your plan to access the question bank.",
+          variant: "destructive",
+        });
+      } else if (message.includes("No questions") || message.includes("zero questions") || message.includes("question bank may be empty")) {
+        toast({
+          title: "No Questions Available",
+          description: "No questions available for this exam configuration. Please try a different tier or body system.",
+          variant: "destructive",
+        });
+      } else if (message.includes("Authentication") || message.includes("401")) {
+        toast({
+          title: "Authentication Required",
+          description: "Please log in to start an exam.",
+          variant: "destructive",
+        });
       } else {
-        alert("Failed to start exam — please try again. If the problem persists, contact support.");
+        toast({
+          title: "Exam Start Failed",
+          description: "Failed to start exam — please try again. If the problem persists, contact support.",
+          variant: "destructive",
+        });
       }
       setStarting(false);
     }
