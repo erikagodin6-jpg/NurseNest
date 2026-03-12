@@ -1,7 +1,10 @@
 import type { FlashcardData } from "./flashcards-rpn";
-import { imgUlcerativeColitis, imgVonWillebrand, imgSIADH, imgSickleCellCrisis, imgVitiligo, imgUrethralStricture, imgVestibularNeuritis, imgAddisons, imgBPH, imgPancreatitis, imgOsteoporosis, imgCellulitis, imgCKD, imgClubfoot, imgCompartmentSyndrome, imgConjunctivitis, imgContracture, imgCushings, imgDelayedHemolyticReaction, imgDevHipDysplasia, imgDiabetes, imgDiabetesInsipidus, imgDiabeticNephropathy, imgDIC, imgDisuseAtrophy, imgDuchenne, imgEpiglottitis, imgEpistaxis, imgErysipelas, imgGlaucoma, imgGlomerulonephritis, imgGravesDisease, imgHashimotoThyroiditis, imgForeignBodyAspiration, imgFibromyalgia, imgHemolyticUremicSyndrome, imgNeuroblastoma, imgPyloricStenosis, imgPlacentaPrevia, imgSerotoninSyndrome, imgTonsillectomy, imgMastitis, imgLeadPoisoning, imgMeconiumAspiration, imgMeconiumIleus } from "./flashcards-rpn";
+import { imgUlcerativeColitis, imgVonWillebrand, imgSIADH, imgSickleCellCrisis, imgVitiligo, imgUrethralStricture, imgVestibularNeuritis, imgAddisons, imgBPH, imgPancreatitis, imgOsteoporosis, imgCellulitis, imgCKD, imgClubfoot, imgCompartmentSyndrome, imgConjunctivitis, imgContracture, imgCushings, imgDelayedHemolyticReaction, imgDevHipDysplasia, imgDiabetes, imgDiabetesInsipidus, imgDiabeticNephropathy, imgDIC, imgDisuseAtrophy, imgDuchenne, imgEpiglottitis, imgEpistaxis, imgErysipelas, imgGlaucoma, imgGlomerulonephritis, imgGravesDisease, imgHashimotoThyroiditis, imgForeignBodyAspiration, imgFibromyalgia, imgHemolyticUremicSyndrome, imgNeuroblastoma, imgPyloricStenosis, imgPlacentaPrevia, imgSerotoninSyndrome, imgTonsillectomy, imgMastitis, imgLeadPoisoning, imgMeconiumAspiration, imgMeconiumIleus, imgCongenitalHypothyroidism, imgHepatitisB, imgInfantReflexes } from "./flashcards-rpn";
 import imgImpetigo from "@assets/impetigo_1773340649073.png";
 import imgIntestinalMalrotation from "@assets/intestinalmalrotation_1773340649073.png";
+import imgEctopicPregnancy from "@assets/ectopicpregnancy_1773340513136.png";
+import imgHepatitisC from "@assets/hepatitisc_1773340513136.png";
+import imgGestationalDiabetes from "@assets/gestationaldiabetes_1773340513136.png";
 import illustrationShinglesV2 from "@/assets/images/shingles-v2.png";
 import illustrationRetinalDetachmentV2 from "@/assets/images/retinal-detachment-v2.png";
 import illustrationRheumatoidArthritis from "@/assets/images/rheumatoid-arthritis.png";
@@ -163,7 +166,8 @@ export const npFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "In elderly patients with CAD, thyroid replacement must start at a very low dose (12.5-25 mcg/day) and be titrated slowly (increase by 12.5-25 mcg every 6-8 weeks). Rapid correction increases myocardial oxygen demand and can precipitate angina, MI, or arrhythmias. The goal is gradual normalization of TSH over months. Full-dose replacement (1.6 mcg/kg) is only appropriate for young, healthy adults. T3 preparations cause more cardiac stress due to their rapid onset.",
     category: "Advanced Pharmacology",
-    difficulty: 2
+    difficulty: 2,
+    image: imgCongenitalHypothyroidism
   },
   {
     id: "np-pharm-q15",
@@ -193,7 +197,8 @@ export const npFlashcards: FlashcardData[] = [
     correctIndex: 0,
     answer: "FDA-approved PrEP regimens include Truvada (TDF/FTC) for all at-risk populations and Descovy (TAF/FTC) for men and transgender women (not studied in receptive vaginal sex). Cabotegravir IM injection (Apretude) every 2 months is also approved. Baseline requirements: documented negative HIV-1/2 test (4th gen Ag/Ab), CrCl/eGFR (TDF is nephrotoxic), hepatitis B serology (TDF/FTC treat HBV; discontinuation can cause HBV flare), comprehensive STI screening, and pregnancy test in women.",
     category: "Advanced Pharmacology",
-    difficulty: 3
+    difficulty: 3,
+    image: imgHepatitisB
   },
   {
     id: "np-pharm-q18",
@@ -224,7 +229,8 @@ export const npFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "Discontinuing nucleos(t)ide analogue therapy for chronic HBV without clear virological endpoints (HBsAg seroconversion, sustained HBV DNA suppression) can trigger severe hepatic flares from immune-mediated destruction of hepatocytes as viral replication rebounds. These flares can be fulminant and fatal. The NP must emphasize lifelong therapy in most cases, especially in cirrhotic patients. If discontinuation is considered in non-cirrhotic patients, close monitoring (ALT, HBV DNA every 1-3 months) for at least 12 months is mandatory.",
     category: "Advanced Pharmacology",
-    difficulty: 3
+    difficulty: 3,
+    image: imgHepatitisB
   },
   // ============================================================
   // DIFFERENTIAL DIAGNOSIS (20 cards)
@@ -424,7 +430,8 @@ export const npFlashcards: FlashcardData[] = [
     correctIndex: 2,
     answer: "This pattern indicates immunity from vaccination: anti-HBs positive (the vaccine produces antibodies to surface antigen) with negative HBsAg (no active infection) and negative anti-HBc (no exposure to the actual virus, as core antibody is only produced during natural infection). Resolved natural infection would show: HBsAg negative, anti-HBs positive, anti-HBc positive. Chronic HBV: HBsAg positive for >6 months. Acute HBV: HBsAg positive, IgM anti-HBc positive.",
     category: "Diagnostic Reasoning",
-    difficulty: 2
+    difficulty: 2,
+    image: imgHepatitisB
   },
   {
     id: "np-diag-q6",
@@ -662,7 +669,8 @@ export const npFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "Before adjusting levothyroxine dose, assess common causes of subtherapeutic TSH: (1) Adherence: most common cause; 'white coat compliance' (patient takes medication consistently only before visits). (2) Timing: must be on empty stomach, 30-60 min before food/other meds. (3) Drug interactions: calcium, iron, PPIs, cholestyramine, and antacids impair absorption (space 4 hours). (4) Malabsorption: celiac disease, inflammatory bowel disease, H. pylori. (5) Consider checking free T4 level. Dose adjustments should be made in 12.5-25 mcg increments with TSH rechecked in 6-8 weeks.",
     category: "Primary Care",
-    difficulty: 2
+    difficulty: 2,
+    image: imgCongenitalHypothyroidism
   },
   {
     id: "np-pc-q11",
@@ -917,7 +925,8 @@ export const npFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "DAAs have revolutionized HCV treatment. Pangenotypic regimens (effective against all genotypes) include glecaprevir/pibrentasvir (Mavyret, 8 weeks for treatment-naive without cirrhosis) and sofosbuvir/velpatasvir (Epclusa, 12 weeks). SVR (sustained virologic response = cure) rates exceed 95%. Before treatment: assess for cirrhosis (FIB-4, FibroScan), check HBV status (risk of HBV reactivation during HCV treatment), drug interactions, and renal function. Post-SVR: if no cirrhosis, no further HCV monitoring needed; if cirrhosis, continue HCC screening every 6 months.",
     category: "Family NP",
-    difficulty: 2
+    difficulty: 2,
+    image: imgHepatitisC
   },
   // ============================================================
   // PSYCHIATRIC NP (14 cards)
@@ -1005,7 +1014,8 @@ export const npFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "First prenatal visit labs per ACOG guidelines: CBC (anemia, thrombocytopenia), blood type/Rh/antibody screen (Rh sensitization risk), rubella titer (immunity status), RPR/VDRL (syphilis), HIV (opt-out screening), hepatitis B surface antigen, urinalysis and urine culture (asymptomatic bacteriuria), Pap smear if due per screening guidelines. Offer first-trimester combined screening (nuchal translucency + serum markers) or cell-free DNA for aneuploidy at 10-13 weeks. GDM screening is at 24-28 weeks; GBS culture at 36-37 weeks.",
     category: "Women's Health",
-    difficulty: 2
+    difficulty: 2,
+    image: imgHepatitisB
   },
   {
     id: "np-wh-q2",
@@ -1299,7 +1309,8 @@ export const npFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "Amiodarone contains 37% iodine by weight and can cause both hypothyroidism (more common in iodine-sufficient areas) and hyperthyroidism. Elevated TSH with symptoms of hypothyroidism indicates amiodarone-induced hypothyroidism. Treatment is levothyroxine replacement. Thyroid function should be monitored every 6 months while on amiodarone. Amiodarone also requires monitoring of liver function, pulmonary function, and ophthalmologic exams.",
     category: "Cardiology NP",
-    difficulty: 3
+    difficulty: 3,
+    image: imgCongenitalHypothyroidism
   },
   {
     id: "np-cardio-q10",
@@ -1447,7 +1458,8 @@ export const npFlashcards: FlashcardData[] = [
     correctIndex: 2,
     answer: "Bethesda IV (follicular neoplasm/suspicious for follicular neoplasm) cannot distinguish benign follicular adenoma from follicular carcinoma on cytology alone. Recommended management is diagnostic thyroid lobectomy for histological evaluation or molecular testing (Afirma, ThyroSeq) to guide management. If molecular testing suggests benign, surveillance may be appropriate. If malignant features are found, completion thyroidectomy is performed.",
     category: "Endocrine NP",
-    difficulty: 3
+    difficulty: 3,
+    image: imgCongenitalHypothyroidism
   },
   {
     id: "np-endo-q12",
@@ -1722,7 +1734,7 @@ export const npFlashcards: FlashcardData[] = [
     answer: "A 1-hour glucose challenge test ≥190 mg/dL (some guidelines use ≥200) is diagnostic of gestational diabetes without needing a 3-hour OGTT. Values between 130-189 require confirmation with a 3-hour OGTT. Management starts with dietary modification (carbohydrate counting, medical nutrition therapy), glucose monitoring 4x daily, and insulin if targets are not met. Metformin may be used but insulin is preferred.",
     category: "Women's Health NP",
     difficulty: 3,
-    image: imgAntepartum
+    image: imgGestationalDiabetes
   },
   {
     id: "np-womens-q18",
@@ -1805,7 +1817,8 @@ export const npFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "Ciprofloxacin is a potent CYP1A2 inhibitor that significantly increases warfarin levels and INR, potentially causing life-threatening bleeding. INR should be monitored closely (within 2-3 days of starting ciprofloxacin) and warfarin dose reduced. Other important fluoroquinolone interactions: QT prolongation with other QT-prolonging drugs, theophylline toxicity, and reduced absorption with divalent cations (calcium, magnesium, iron).",
     category: "Geriatric NP",
-    difficulty: 2
+    difficulty: 2,
+    image: imgCongenitalHypothyroidism
   },
   {
     id: "np-geri-q18",
@@ -2069,7 +2082,8 @@ export const npFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "Before increasing levothyroxine dose, assess absorption factors: timing (should be taken 30-60 minutes before breakfast on empty stomach), concurrent medications (calcium, iron, aluminum antacids, PPIs, cholestyramine reduce absorption — separate by 4 hours), soy products, coffee, and fiber can also impair absorption. Ensure consistency in brand/generic. If true malabsorption (celiac, gastric bypass), higher doses or liquid/gel cap formulations may be needed.",
     category: "Primary Care NP",
-    difficulty: 2
+    difficulty: 2,
+    image: imgCongenitalHypothyroidism
   },
   {
     id: "np-primary-q27",
@@ -2182,7 +2196,8 @@ export const npFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "Elevated TSH with low free T4 confirms primary hypothyroidism. Levothyroxine is first-line replacement therapy. Start with 1.6 mcg/kg/day in healthy adults; use lower starting doses (25-50 mcg/day) in elderly or cardiac patients. Take on an empty stomach, 30-60 minutes before breakfast. Recheck TSH in 6-8 weeks. Most common cause is Hashimoto's thyroiditis.",
     category: "Diagnostic Reasoning",
-    difficulty: 1
+    difficulty: 1,
+    image: imgCongenitalHypothyroidism
   },
   {
     id: "np-diag-q20",
@@ -2485,7 +2500,8 @@ export const npFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "Direct-acting antivirals (DAAs) have revolutionized HCV treatment with >95% sustained virologic response (cure) rates. Pan-genotypic regimens include sofosbuvir/velpatasvir (Epclusa) and glecaprevir/pibrentasvir (Mavyret) for 8-12 weeks. Interferon-based therapy is no longer recommended. Screen all adults aged 18-79 (USPSTF Grade B). Check HCV RNA 12 weeks post-treatment to confirm SVR (cure). Assess for cirrhosis before treatment.",
     category: "Family NP",
-    difficulty: 2
+    difficulty: 2,
+    image: imgHepatitisC
   },
   {
     id: "np-wh-q6",
@@ -2505,7 +2521,8 @@ export const npFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "Classic appendicitis presents with periumbilical pain migrating to McBurney's point (RLQ), rebound tenderness, guarding, positive psoas sign (pain with right hip extension), and positive Rovsing's sign (RLQ pain with LLQ palpation). CT abdomen with contrast is the gold standard for diagnosis. Treatment is appendectomy. Obtain a pregnancy test in women of childbearing age to rule out ectopic pregnancy.",
     category: "Differential Diagnosis",
-    difficulty: 1
+    difficulty: 1,
+    image: imgEctopicPregnancy
   },
   {
     id: "np-diff-q25",

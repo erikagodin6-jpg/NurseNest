@@ -449,6 +449,7 @@ export const generatedBatch038Lessons: Record<string, LessonContent> = {
   },
   "general-adaptation": {
     title: "General Adaptation Syndrome",
+    image: "/attached_assets/GAS_1773340513136.png",
     cellular: { title: "Pathophysiology of General Adaptation Syndrome", content: "[WRITE YOUR PATHOPHYSIOLOGY AND INTRODUCTION HERE]" },
     riskFactors: ["Advanced age or extremes of age","Family history of general adaptation or related conditions","Chronic comorbidities (hypertension, diabetes, obesity)","Sedentary lifestyle and poor nutritional status","Tobacco, alcohol, or substance use","Immunocompromised state or prolonged medication use"],
     diagnostics: ["Perform focused assessment and report findings to supervising nurse","Monitor vital signs and report deviations from baseline","Collect specimens as directed and label accurately","Document assessment findings and communicate changes promptly","Recognize and report signs of deterioration"],

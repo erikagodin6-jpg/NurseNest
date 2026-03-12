@@ -254,6 +254,7 @@ export const advancedNpLessons: Record<string, LessonContent> = {
   },
   "hellp-syndrome-np": {
     title: "HELLP Syndrome: Hepatic Cascade",
+    image: "/attached_assets/hellpsyndrome_1773340513136.png",
     cellular: { title: "Hepatic Microangiopathy", content: "HELLP (Hemolysis, Elevated Liver enzymes, Low Platelets) represents severe end of preeclampsia spectrum. Endothelial dysfunction triggers platelet activation and fibrin deposition in hepatic sinusoids. Microangiopathic hemolytic anemia (MAHA) destroys RBCs as they traverse damaged vasculature. Hepatocyte necrosis from ischemia can progress to subcapsular hematoma and hepatic rupture." },
     riskFactors: ["Preeclampsia/eclampsia", "Previous HELLP syndrome", "Multiparity", "Age > 25 years", "White ethnicity", "History of hypertensive disorders", "Autoimmune conditions (antiphospholipid syndrome)"],
     diagnostics: ["Order CBC with peripheral smear (schistocytes confirm MAHA)", "Order LDH, AST, ALT for hepatic involvement", "Order haptoglobin (low confirms hemolysis)", "Order coagulation studies (PT, PTT, fibrinogen) for DIC assessment", "Order hepatic ultrasound to evaluate for subcapsular hematoma", "Order urine protein-to-creatinine ratio", "Order type and crossmatch for potential transfusion", "Apply Mississippi classification using platelet nadir for severity grading"],

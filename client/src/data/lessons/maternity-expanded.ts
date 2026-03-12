@@ -33,6 +33,7 @@ export const maternityExpandedLessons: Record<string, LessonContent> = {
 
   "maternity-rn-exp": {
     title: "Maternity - RN Scope (High-Risk Pregnancy, Fetal Monitoring)",
+    image: "/attached_assets/fetalmonitoring_1773340513136.png",
     cellular: { title: "Pathophysiology of High-Risk Pregnancy", content: "[WRITE YOUR PATHOPHYSIOLOGY AND INTRODUCTION HERE - Describe the cellular and molecular mechanisms underlying this condition. Include receptor-level detail, pathological cascades, and clinical significance. Minimum 2-4 sentences.]" },
     riskFactors: ["Nulliparity with preeclampsia risk", "Chronic hypertension", "Pre-existing or gestational diabetes", "Multiple gestation", "History of preeclampsia in previous pregnancy", "Autoimmune disorders (lupus, antiphospholipid syndrome)", "Obesity", "Renal disease", "Placenta previa or abruption in prior pregnancy", "Advanced maternal age > 35"],
     diagnostics: ["Monitor blood pressure for hypertension (> 140/90 mmHg on two occasions 4 hours apart)", "Assess 24-hour urine protein or protein-to-creatinine ratio for preeclampsia", "Monitor continuous electronic fetal monitoring (EFM) for high-risk patients", "Assess Bishop score for cervical readiness before induction", "Monitor laboratory values: CBC, liver enzymes, LDH, uric acid, coagulation studies", "Perform non-stress test (NST) and biophysical profile (BPP) as ordered", "Monitor blood glucose levels for gestational diabetes management"],

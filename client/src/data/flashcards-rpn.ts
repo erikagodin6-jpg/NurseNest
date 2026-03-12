@@ -123,8 +123,12 @@ import imgLeadPoisoning from "@assets/leadpoisoning_1773340649073.png";
 import imgMastitis from "@assets/mastitis_1773340649073.png";
 import imgMeconiumAspiration from "@assets/meconiumaspiration_1773340649073.png";
 import imgMeconiumIleus from "@assets/meconiumileus_1773340649073.png";
+import imgCongenitalHypothyroidism from "@assets/congenitalhypothyroidism_1773340513136.png";
+import imgFetalMonitoring from "@assets/fetalmonitoring_1773340513136.png";
+import imgEpisiotomy from "@assets/episiotomy_1773340513136.png";
+import imgHepatitisB from "@assets/hepatitisb_1773340513136.png";
 
-export { imgUlcerativeColitis, imgVonWillebrand, imgUrinaryCatheterization, imgSIADH, imgSickleCellCrisis, imgStomaCare, imgThalassemia, imgThrombocytopenia, imgThyroidStorm, imgTRALI, imgVitiligo, imgUrethralStricture, imgVestibularNeuritis, imgAddisons, imgAplasticAnemia, imgAcuteHemolyticReaction, imgAllergicTransfusion, imgAirEmbolism, imgCBI, imgCastCareTraction, imgAlopecia, imgBPH, imgAtopicDermatitis, imgAcromegaly, imgBPPV, imgNGTube, imgPancreatitis, imgPeritonealDialysis, imgPolycysticKidney, imgPolycythemia, imgPepticUlcer, imgOsteoporosis, imgCellulitis, imgCKD, imgClubfoot, imgCompartmentSyndrome, imgConjunctivitis, imgContracture, imgCushings, imgDelayedHemolyticReaction, imgDevHipDysplasia, imgDiabetes, imgDiabetesInsipidus, imgDiabeticNephropathy, imgDIC, imgDisuseAtrophy, imgDuchenne, imgEpiglottitis, imgEpistaxis, imgErysipelas, imgErythemaMultiforme, imgFallPrevention, imgFebrileNeutropenia, imgFebrileNonhemolytic, imgFibromyalgia, imgForeignBodyAspiration, imgFractureTypes, imgFungalInfections, imgGalactosemia, imgGlaucoma, imgGlomerulonephritis, imgGout, imgGraftVsHost, imgGravesDisease, imgHashimotoThyroiditis, imgHeadLice, imgHemolyticUremicSyndrome, imgHemophilia, imgNeonatalFeeding, imgNeonatalHypoglycemia, imgNeonatalJaundice, imgNeonatalSepsis, imgNeuroblastoma, imgNewbornDiabeticMother, imgOsteogenesisImperfecta, imgOvarianHyperstimulation, imgPatentDuctusArteriosus, imgPavlikHarness, imgPediatricVitalsChart, imgPediatricDehydration, imgPinworms, imgPKU, imgPlacentalAbruption, imgPlacentaPrevia, imgPostpartumHemorrhage, imgPyloricStenosis, imgReye, imgRhIncompatibility, imgROP, imgSeparationAnxiety, imgSerotoninSyndrome, imgStagesOfLabor, imgSubstanceAbuse, imgThermoregulation, imgTonsillectomy, imgToxicShockSyndrome, imgTrisomy21, imgTurnerSyndrome, imgUmbilicalCordCare, imgUmbilicalCordProlapse, imgVaginalHematoma, imgVaricella, imgVPShunt, imgHyperemesisGravidarum, imgInfantReflexes, imgIntussusception, imgLeadPoisoning, imgMastitis, imgMeconiumAspiration, imgMeconiumIleus };
+export { imgUlcerativeColitis, imgVonWillebrand, imgUrinaryCatheterization, imgSIADH, imgSickleCellCrisis, imgStomaCare, imgThalassemia, imgThrombocytopenia, imgThyroidStorm, imgTRALI, imgVitiligo, imgUrethralStricture, imgVestibularNeuritis, imgAddisons, imgAplasticAnemia, imgAcuteHemolyticReaction, imgAllergicTransfusion, imgAirEmbolism, imgCBI, imgCastCareTraction, imgAlopecia, imgBPH, imgAtopicDermatitis, imgAcromegaly, imgBPPV, imgNGTube, imgPancreatitis, imgPeritonealDialysis, imgPolycysticKidney, imgPolycythemia, imgPepticUlcer, imgOsteoporosis, imgCellulitis, imgCKD, imgClubfoot, imgCompartmentSyndrome, imgConjunctivitis, imgContracture, imgCushings, imgDelayedHemolyticReaction, imgDevHipDysplasia, imgDiabetes, imgDiabetesInsipidus, imgDiabeticNephropathy, imgDIC, imgDisuseAtrophy, imgDuchenne, imgEpiglottitis, imgEpistaxis, imgErysipelas, imgErythemaMultiforme, imgFallPrevention, imgFebrileNeutropenia, imgFebrileNonhemolytic, imgFibromyalgia, imgForeignBodyAspiration, imgFractureTypes, imgFungalInfections, imgGalactosemia, imgGlaucoma, imgGlomerulonephritis, imgGout, imgGraftVsHost, imgGravesDisease, imgHashimotoThyroiditis, imgHeadLice, imgHemolyticUremicSyndrome, imgHemophilia, imgNeonatalFeeding, imgNeonatalHypoglycemia, imgNeonatalJaundice, imgNeonatalSepsis, imgNeuroblastoma, imgNewbornDiabeticMother, imgOsteogenesisImperfecta, imgOvarianHyperstimulation, imgPatentDuctusArteriosus, imgPavlikHarness, imgPediatricVitalsChart, imgPediatricDehydration, imgPinworms, imgPKU, imgPlacentalAbruption, imgPlacentaPrevia, imgPostpartumHemorrhage, imgPyloricStenosis, imgReye, imgRhIncompatibility, imgROP, imgSeparationAnxiety, imgSerotoninSyndrome, imgStagesOfLabor, imgSubstanceAbuse, imgThermoregulation, imgTonsillectomy, imgToxicShockSyndrome, imgTrisomy21, imgTurnerSyndrome, imgUmbilicalCordCare, imgUmbilicalCordProlapse, imgVaginalHematoma, imgVaricella, imgVPShunt, imgHyperemesisGravidarum, imgInfantReflexes, imgIntussusception, imgLeadPoisoning, imgMastitis, imgMeconiumAspiration, imgMeconiumIleus, imgCongenitalHypothyroidism, imgFetalMonitoring, imgEpisiotomy, imgHepatitisB };
 
 export type FlashcardData = {
   id: string;
@@ -1135,7 +1139,8 @@ export const rpnFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "Hypothyroidism = everything SLOWS DOWN. Weight gain, bradycardia, cold intolerance, fatigue, constipation, dry skin, brittle hair, facial puffiness, menorrhagia. Treatment: Levothyroxine (take on empty stomach in the morning).",
     category: "Endocrine",
-    difficulty: 1
+    difficulty: 1,
+    image: imgCongenitalHypothyroidism
   },
   {
     id: "rpn-endo-q4",
@@ -1249,7 +1254,8 @@ export const rpnFlashcards: FlashcardData[] = [
     question: "Myxedema Coma",
     answer: "Severe, life-threatening hypothyroidism. Signs: Hypothermia, bradycardia, hypotension, hypoventilation, altered mental status, non-pitting edema. Treatment: IV levothyroxine, IV corticosteroids, warming blankets (passive rewarming), ventilatory support. Triggered by infection, cold, sedatives.",
     category: "Endocrine",
-    difficulty: 4
+    difficulty: 4,
+    image: imgCongenitalHypothyroidism
   },
   {
     id: "rpn-endo-q10",
@@ -1830,7 +1836,8 @@ export const rpnFlashcards: FlashcardData[] = [
     correctIndex: 2,
     answer: "Late decelerations: FHR decreases AFTER the contraction peak and returns after the contraction ends. Indicates uteroplacental insufficiency (decreased oxygen to fetus). Interventions: Left lateral position, IV fluid bolus, oxygen, stop oxytocin, notify provider. Persistent late decels = ominous.",
     category: "Maternity",
-    difficulty: 3
+    difficulty: 3,
+    image: imgFetalMonitoring
   },
   {
     id: "rpn-mat-t1",
@@ -1898,7 +1905,8 @@ export const rpnFlashcards: FlashcardData[] = [
     correctIndex: 2,
     answer: "Variable decelerations: Abrupt drops in FHR that vary in timing, duration, and depth. Caused by umbilical cord compression. Interventions: Change maternal position, amnioinfusion (adds fluid to cushion cord). Early decelerations (mirror contractions) = head compression (benign).",
     category: "Maternity",
-    difficulty: 2
+    difficulty: 2,
+    image: imgFetalMonitoring
   },
   {
     id: "rpn-mat-t4",
@@ -4254,7 +4262,8 @@ export const rpnFlashcards: FlashcardData[] = [
     question: "Hepatitis Types Comparison",
     answer: "Hep A: Fecal-oral (contaminated food/water), no carrier state, vaccine available. Hep B: Blood/body fluids, can become chronic, vaccine available, treat with antivirals. Hep C: Blood (IV drug use, transfusion), often chronic, no vaccine, curable with direct-acting antivirals. Hep D: Requires Hep B coinfection. Hep E: Fecal-oral, dangerous in pregnancy.",
     category: "GI",
-    difficulty: 3
+    difficulty: 3,
+    image: imgHepatitisB
   },
   {
     id: "rpn-gi-q18",
@@ -5379,7 +5388,8 @@ export const rpnFlashcards: FlashcardData[] = [
     question: "Postpartum Assessment: BUBBLE-HE",
     answer: "B: Breasts (engorgement, nipples). U: Uterus (fundal height, firmness: should be at or below umbilicus, firm). B: Bladder (distension, voiding). B: Bowel (function, BM). L: Lochia (color, amount, odor, clots). E: Episiotomy/Incision (REEDA: Redness, Edema, Ecchymosis, Discharge, Approximation). H: Homans (DVT). E: Emotional status.",
     category: "Maternity",
-    difficulty: 2
+    difficulty: 2,
+    image: imgEpisiotomy
   },
   {
     id: "rpn-mh-t11",

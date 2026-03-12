@@ -1,5 +1,5 @@
 import type { FlashcardData } from "./flashcards-rpn";
-import { imgUlcerativeColitis, imgSIADH, imgSickleCellCrisis, imgStomaCare, imgThrombocytopenia, imgUrinaryCatheterization, imgVitiligo, imgUrethralStricture, imgVestibularNeuritis, imgAddisons, imgAcuteHemolyticReaction, imgAtopicDermatitis, imgBPH, imgCastCareTraction, imgAcromegaly, imgNGTube, imgPancreatitis, imgPeritonealDialysis, imgPepticUlcer, imgOsteoporosis, imgCellulitis, imgCKD, imgClubfoot, imgCompartmentSyndrome, imgConjunctivitis, imgContracture, imgCushings, imgDelayedHemolyticReaction, imgDevHipDysplasia, imgDiabetes, imgDiabetesInsipidus, imgDiabeticNephropathy, imgDIC, imgDisuseAtrophy, imgDuchenne, imgEpiglottitis, imgEpistaxis, imgErysipelas, imgFallPrevention, imgHeadLice, imgHemophilia, imgGravesDisease, imgGout, imgPyloricStenosis, imgPlacentaPrevia, imgPostpartumHemorrhage, imgSerotoninSyndrome, imgVaricella, imgRhIncompatibility, imgIntussusception, imgLeadPoisoning } from "./flashcards-rpn";
+import { imgUlcerativeColitis, imgSIADH, imgSickleCellCrisis, imgStomaCare, imgThrombocytopenia, imgUrinaryCatheterization, imgVitiligo, imgUrethralStricture, imgVestibularNeuritis, imgAddisons, imgAcuteHemolyticReaction, imgAtopicDermatitis, imgBPH, imgCastCareTraction, imgAcromegaly, imgNGTube, imgPancreatitis, imgPeritonealDialysis, imgPepticUlcer, imgOsteoporosis, imgCellulitis, imgCKD, imgClubfoot, imgCompartmentSyndrome, imgConjunctivitis, imgContracture, imgCushings, imgDelayedHemolyticReaction, imgDevHipDysplasia, imgDiabetes, imgDiabetesInsipidus, imgDiabeticNephropathy, imgDIC, imgDisuseAtrophy, imgDuchenne, imgEpiglottitis, imgEpistaxis, imgErysipelas, imgFallPrevention, imgHeadLice, imgHemophilia, imgGravesDisease, imgGout, imgPyloricStenosis, imgPlacentaPrevia, imgPostpartumHemorrhage, imgSerotoninSyndrome, imgVaricella, imgRhIncompatibility, imgIntussusception, imgLeadPoisoning, imgCongenitalHypothyroidism, imgFetalMonitoring, imgHepatitisB, imgInfantReflexes } from "./flashcards-rpn";
 import imgImpetigo from "@assets/impetigo_1773340649073.png";
 import imgAntepartum from "@assets/antepartum_1773340419064.png";
 import imgAnxiety from "@assets/anxiety_1773340419064.png";
@@ -8,6 +8,10 @@ import imgBacterialMeningitis from "@assets/bacterialmeningitis_1773340419064.pn
 import imgCSection from "@assets/c-section_1773340419064.png";
 import imgCarSeatSafety from "@assets/carseatsafety_1773340419064.png";
 import imgDepression from "@assets/depression_1773340419064.png";
+import imgEctopicPregnancy from "@assets/ectopicpregnancy_1773340513136.png";
+import imgHELLP from "@assets/hellpsyndrome_1773340513136.png";
+import imgHepatitisC from "@assets/hepatitisc_1773340513136.png";
+import imgEpsteinBarr from "@assets/epsteinbarrvirus_1773340513136.png";
 import imgStevensJohnson from "@assets/stevensjohnsonssyndrome_1773268456011.png";
 import illustrationPressureInjuriesV2 from "@/assets/images/pressure-injuries-v2.png";
 import illustrationPressureInjuryStagesV2 from "@/assets/images/pressure-injury-stages-v2.png";
@@ -665,7 +669,8 @@ export const rnFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "Direct-acting antivirals (DAAs) like sofosbuvir/ledipasvir have revolutionized hepatitis C treatment, achieving sustained virologic response (SVR/cure) rates above 95% with 8-12 weeks of oral therapy. This represents a dramatic improvement over older interferon-based regimens. The client should avoid amiodarone (risk of fatal bradycardia) and certain acid-reducing medications that can decrease drug absorption.",
     category: "GI",
-    difficulty: 2
+    difficulty: 2,
+    image: imgHepatitisC
   },
   {
     id: "rn-gi-q11",
@@ -856,7 +861,8 @@ export const rnFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "Elevated TSH with low free T4 is the hallmark of primary hypothyroidism. The thyroid gland is failing, so T4 production drops. The pituitary gland detects the low T4 and increases TSH secretion in an attempt to stimulate the thyroid (negative feedback loop). In secondary hypothyroidism (pituitary failure), both TSH and T4 would be low because the pituitary cannot produce adequate TSH.",
     category: "Endocrine",
-    difficulty: 2
+    difficulty: 2,
+    image: imgCongenitalHypothyroidism
   },
   {
     id: "rn-endo-q13",
@@ -985,7 +991,8 @@ export const rnFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "Immunosuppressed transplant recipients are at high risk for opportunistic infections. A sore throat and fever could indicate anything from a common viral URI to a serious bacterial or fungal infection. The nurse should obtain cultures (blood, throat), check the WBC and differential, and notify the transplant team. CMV, EBV, and fungal infections are particular concerns. Prophylactic medications (valganciclovir, TMP-SMX) are typically prescribed.",
     category: "Renal/GU",
-    difficulty: 2
+    difficulty: 2,
+    image: imgEpsteinBarr
   },
   // ============================================================
   // PHARMACOLOGY (17 cards)
@@ -1276,7 +1283,8 @@ export const rnFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "Contractions every 90 seconds lasting 90 seconds represent uterine tachysystole (excessive uterine activity), and late decelerations indicate uteroplacental insufficiency. The nurse must immediately stop the oxytocin to allow the uterus to relax, reposition the client to left lateral (improves uterine blood flow), administer oxygen, and increase IV fluids. Terbutaline may be given to relax the uterus. Notify the provider.",
     category: "Maternity",
-    difficulty: 3
+    difficulty: 3,
+    image: imgFetalMonitoring
   },
   {
     id: "rn-mat-q2",
@@ -1297,7 +1305,8 @@ export const rnFlashcards: FlashcardData[] = [
     correctIndex: 2,
     answer: "Variable decelerations are abrupt drops in fetal heart rate that vary in timing, duration, and depth relative to contractions. They are caused by umbilical cord compression. Nursing interventions include repositioning the client (side to side, hands and knees), amnioinfusion if ordered (instilling saline into the uterus to cushion the cord), and discontinuing oxytocin if running. Early decelerations (head compression) are benign.",
     category: "Maternity",
-    difficulty: 2
+    difficulty: 2,
+    image: imgFetalMonitoring
   },
   {
     id: "rn-mat-q4",
@@ -1341,7 +1350,7 @@ export const rnFlashcards: FlashcardData[] = [
     answer: "PID, particularly from Chlamydia trachomatis or Neisseria gonorrhoeae, causes tubal scarring and adhesions that impede the fertilized egg's passage through the fallopian tube, dramatically increasing ectopic pregnancy risk. Other risk factors include previous ectopic pregnancy, tubal surgery, IUD use, endometriosis, and smoking. Classic presentation: unilateral lower abdominal pain, vaginal bleeding, and positive pregnancy test.",
     category: "Maternity",
     difficulty: 2,
-    image: imgCSection
+    image: imgEctopicPregnancy
   },
   {
     id: "rn-mat-q8",
@@ -1372,7 +1381,8 @@ export const rnFlashcards: FlashcardData[] = [
     correctIndex: 0,
     answer: "HELLP syndrome (Hemolysis, Elevated Liver enzymes, Low Platelets) is a severe variant of preeclampsia. Lab findings include: hemolysis markers (elevated LDH, schistocytes on peripheral smear, elevated indirect bilirubin), elevated AST/ALT (liver enzymes), and thrombocytopenia (platelets <100,000). It is a medical emergency often requiring delivery regardless of gestational age. Complications include DIC, hepatic rupture, and placental abruption.",
     category: "Maternity",
-    difficulty: 3
+    difficulty: 3,
+    image: imgHELLP
   },
   {
     id: "rn-mat-q11",
@@ -1403,7 +1413,8 @@ export const rnFlashcards: FlashcardData[] = [
     correctIndex: 2,
     answer: "Neonates born to HBsAg-positive mothers must receive BOTH hepatitis B vaccine (active immunity) AND hepatitis B immune globulin (HBIG, passive immunity) within 12 hours of birth, preferably at different injection sites. This dual approach provides immediate protection (HBIG) while the vaccine stimulates the infant's own immune response. This combination is 85-95% effective in preventing perinatal hepatitis B transmission.",
     category: "Maternity",
-    difficulty: 2
+    difficulty: 2,
+    image: imgHepatitisB
   },
   {
     id: "rn-mat-q14",

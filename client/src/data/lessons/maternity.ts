@@ -4,6 +4,7 @@ import { imgStagesOfLabor, imgRhIncompatibility } from "../flashcards-rpn";
 export const maternityLessons: Record<string, LessonContent> = {
   "fetal-monitoring-advanced": {
     title: "Fetal Monitoring: Late & Variable Decels",
+    image: "/attached_assets/fetalmonitoring_1773340513136.png",
     cellular: { 
       title: "Uteroplacental Insufficiency", 
       content: "Late Decelerations: Placental insufficiency causes fetal hypoxia after the contraction peak. Reflex vasoconstriction preserves blood flow to vital organs but indicates acidosis if persistent. \nVariable Decelerations: Umbilical cord compression obstructs blood flow, causing rapid drops in FHR." 
@@ -134,6 +135,7 @@ export const maternityLessons: Record<string, LessonContent> = {
   },
   "gestational-diabetes": {
     title: "Gestational Diabetes Management",
+    image: "/attached_assets/gestationaldiabetes_1773340513136.png",
     cellular: { title: "Insulin Resistance Mechanism", content: "During pregnancy, placental hormones (human placental lactogen/hPL, cortisol, progesterone, and growth hormone) create progressive insulin resistance to ensure adequate glucose delivery to the fetus. In gestational diabetes (GDM), maternal pancreatic beta cells cannot compensate with sufficient insulin production, leading to maternal hyperglycemia. Per the Pedersen hypothesis, maternal hyperglycemia crosses the placenta, stimulating fetal hyperinsulinemia, which drives excessive fetal growth (macrosomia), increased oxygen consumption, and potential fetal hypoxia. After delivery, the neonate loses the maternal glucose supply but continues producing excess insulin, causing neonatal hypoglycemia." },
     riskFactors: ["BMI > 30", "Age > 25 years", "Family history of type 2 diabetes", "Previous GDM", "Previous macrosomic infant", "Polycystic ovary syndrome", "Hispanic/African American/Asian descent", "History of unexplained stillbirth"],
     diagnostics: ["Expect 1-hour glucose challenge test at 24-28 weeks (50g glucose)", "Expect 3-hour GTT if 1-hour screen positive (100g glucose)", "Monitor fasting and postprandial blood glucose levels", "Expect ultrasound for fetal growth assessment", "Expect non-stress test (NST) in third trimester for fetal well-being", "Monitor HbA1c for overall glucose control"],
@@ -153,6 +155,7 @@ export const maternityLessons: Record<string, LessonContent> = {
   },
   "fetal-monitoring-rn": {
     title: "Fetal Heart Rate Monitoring",
+    image: "/attached_assets/fetalmonitoring_1773340513136.png",
     cellular: { title: "Autonomic Regulation", content: "The fetal heart rate (FHR) is regulated by the autonomic nervous system. The sympathetic nervous system increases heart rate, while the parasympathetic (vagus nerve) decreases it. Normal baseline is 110-160 bpm. Variability reflects intact CNS function: absent (no fluctuation: ominous), minimal (<5 bpm), moderate (6-25 bpm: reassuring, indicates intact neurological pathway), and marked (>25 bpm). Accelerations (≥15 bpm above baseline for ≥15 seconds) are reassuring and indicate fetal well-being. Decelerations are classified as Early (head compression, mirrors contractions), Late (uteroplacental insufficiency, begins after contraction peak), and Variable (cord compression, abrupt onset/offset with varying shape)." },
     riskFactors: ["Post-term pregnancy", "Intrauterine growth restriction", "Preeclampsia/gestational hypertension", "Gestational diabetes", "Decreased fetal movement", "Oligohydramnios", "Maternal chronic disease", "Multiple gestation"],
     diagnostics: ["Anticipate continuous electronic fetal monitoring for high-risk patients", "Prepare for fetal scalp electrode placement if external monitoring inadequate", "Anticipate non-stress test (NST) and biophysical profile (BPP) orders", "Monitor contraction pattern with tocodynamometer", "Prepare for umbilical cord blood gas collection at delivery", "Anticipate amnioinfusion supplies for recurrent variable decelerations"],
