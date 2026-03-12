@@ -853,7 +853,8 @@ export const rnFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "After transsphenoidal surgery (through the nose/sinus to access the pituitary), the surgical site is at risk for CSF leak. Activities that increase intracranial pressure (bending, straining, coughing, sneezing, blowing the nose) can disrupt the repair and cause CSF rhinorrhea. The client should also avoid brushing teeth for 2 weeks (use mouthwash instead) and report any clear nasal drainage (test for glucose to identify CSF).",
     category: "Endocrine",
-    difficulty: 2
+    difficulty: 2,
+    image: imgPituitaryGlands
   },
   // ============================================================
   // RENAL/GU (16 cards)

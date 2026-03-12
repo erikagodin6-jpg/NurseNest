@@ -4103,7 +4103,8 @@ export const rpnFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "Coffee ground emesis indicates digested blood in the stomach (old bleeding). The blood has been exposed to gastric acid, turning it dark brown. Fresh blood (bright red) indicates active hemorrhage. Both require immediate assessment, notification of the provider, and monitoring for hemodynamic instability.",
     category: "GI",
-    difficulty: 2
+    difficulty: 2,
+    image: imgNGTube
   },
   {
     id: "rpn-gi-t9",
@@ -5624,7 +5625,8 @@ export const rpnFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "Hemodialysis: Blood is filtered through an external dialyzer (3-4 hours, 3x/week at a center). Requires vascular access (fistula, graft, or catheter). Peritoneal dialysis: Dialysate infused into peritoneal cavity, dwells, then drains (exchanges 4-5x/day or automated overnight). Can be done at home. Each has advantages based on patient lifestyle.",
     category: "Renal/GU",
-    difficulty: 2
+    difficulty: 2,
+    image: imgPeritonealDialysis
   },
   {
     id: "rpn-renal-t9",

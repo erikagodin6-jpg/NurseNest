@@ -97,9 +97,12 @@ import illustrationConjunctivitis from "@/assets/lesson-conjunctivitis.png";
 import illustrationAplasticAnemia from "@/assets/aplasticanemia_1773269538451.png";
 import illustrationAlopecia from "@/assets/alopecia_1773269538451.png";
 import illustrationPemphigus from "@/assets/lesson-pemphigus.png";
+import illustrationPemphigusV2 from "@/assets/images/pemphigus-v2.png";
 import illustrationPolycythemia from "@/assets/lesson-polycythemia.png";
+import illustrationPolycythemiaV2 from "@/assets/images/polycythemia-v2.png";
 import illustrationAtopicDermatitis from "@/assets/atopicdermatitis_1773269538451.png";
 import illustrationOtitis from "@/assets/lesson-otitis.png";
+import illustrationOtitisExternaV2 from "@/assets/images/otitis-externa-v2.png";
 import illustrationSJS from "@/assets/lesson-sjs.png";
 import illustrationAdaptiveImmunity from "@/assets/lesson-adaptive-immunity.png";
 import illustrationAtopicDermatitis2 from "@/assets/lesson-dermatitis-psoriasis.png";
@@ -119,6 +122,7 @@ import illustrationVaricellaStages from "@/assets/lesson-varicella-stages.png";
 import illustrationVaricella from "@/assets/lesson-varicella.png";
 import illustrationEpiglottitis from "@/assets/lesson-epiglottitis.png";
 import illustrationOsteoporosis from "@/assets/lesson-osteoporosis.png";
+import illustrationOsteoporosisV2 from "@/assets/images/osteoporosis-v2.png";
 import illustrationKawasaki from "@/assets/lesson-kawasaki.png";
 import illustrationScabies from "@/assets/lesson-scabies.png";
 
@@ -322,7 +326,10 @@ import illustrationDysphagiaV2 from "@/assets/images/dysphagia-v2.png";
 import illustrationEosinophilicEsophagitisV2 from "@/assets/images/eosinophilic-esophagitis-v2.png";
 import illustrationPancreatitisPatho from "@/assets/lesson-pancreatitis-patho.png";
 import illustrationPancreatitisV2 from "@/assets/images/pancreatitis-v2.png";
+import illustrationPancreatitisV3 from "@/assets/images/pancreatitis-v3.png";
 import illustrationPancreaticPseudocystV2 from "@/assets/images/pancreatic-pseudocyst-v2.png";
+import illustrationPancreaticPseudocystV3 from "@/assets/images/pancreatic-pseudocyst-v3.jpeg";
+import illustrationPancreaticFunctioning from "@/assets/images/pancreatic-functioning.png";
 import illustrationParkinsonsPatho from "@/assets/lesson-parkinsons-patho.png";
 import illustrationMSPatho from "@/assets/lesson-ms-patho.png";
 import illustrationIBSV2 from "@/assets/images/ibs-v2.png";
@@ -360,11 +367,22 @@ import illustrationUCPatho from "@/assets/lesson-uc-patho.png";
 import illustrationUlcerativeColitisV2 from "@/assets/images/ulcerative-colitis-v2.png";
 import illustrationPepticUlcerPatho from "@/assets/lesson-peptic-ulcer-patho.png";
 import illustrationPepticUlcerV2 from "@/assets/images/peptic-ulcer-v2.png";
+import illustrationPepticUlcerV3 from "@/assets/images/peptic-ulcer-v3.png";
 import illustrationBPHV2 from "@/assets/BPH_1773269538451.png";
 import illustrationCBIV2 from "@/assets/CBI_1773269538451.png";
 import illustrationCKDV2 from "@/assets/images/ckd-v2.png";
 import illustrationMicroscopicColitisV2 from "@/assets/images/microscopic-colitis-v2.png";
 import illustrationNGTubeV2 from "@/assets/images/ng-tube-v2.png";
+import illustrationNGTubeV3 from "@/assets/images/ng-tube-v3.jpeg";
+import illustrationNonImmuneHemolysis from "@/assets/images/non-immune-hemolysis.png";
+import illustrationObstructiveUropathy from "@/assets/images/obstructive-uropathy.png";
+import illustrationPapilledema from "@/assets/images/papilledema.png";
+import illustrationPeritonealDialysis from "@/assets/images/peritoneal-dialysis.png";
+import illustrationPharyngitis from "@/assets/images/pharyngitis.png";
+import illustrationPituitaryGlands from "@/assets/images/pituitary-glands.png";
+import illustrationPolycysticKidney from "@/assets/images/polycystic-kidney.png";
+import illustrationPolydactyly from "@/assets/images/polydactyly.png";
+import illustrationPostTransfusionPurpura from "@/assets/images/post-transfusion-purpura.png";
 import illustrationRectalMedicationV2 from "@/assets/images/rectal-medication-v2.png";
 import illustrationShortBowelV2 from "@/assets/images/short-bowel-v2.png";
 import illustrationStomaCareV2 from "@/assets/images/stoma-care-v2.png";
@@ -838,6 +856,7 @@ const lessonSpecificImages: Record<string, string> = {
   "epiglottitis": illustrationEpiglottitis,
   "osteoporosis": illustrationOsteoporosisV2,
   "osteoporosis-basics": illustrationOsteoporosisV2,
+  "osteoporosis-management": illustrationOsteoporosisV2,
   "kawasaki-disease": illustrationKawasakiV2,
   "kawasaki": illustrationKawasakiV2,
   "kawasaki-disease-management": illustrationKawasakiV2,
@@ -1483,7 +1502,13 @@ const lessonSpecificImages: Record<string, string> = {
   "pharyngitis-rn": illustrationPharyngitis,
   "pharyngitis-np": illustrationPharyngitis,
   "strep-pharyngitis": illustrationPharyngitis,
+  "strep-throat": illustrationPharyngitis,
+  "tonsillitis": illustrationPharyngitis,
 
+  "polycystic-kidney": illustrationPolycysticKidney,
+  "polycystic-kidney-rpn": illustrationPolycysticKidney,
+  "polycystic-kidney-rn": illustrationPolycysticKidney,
+  "polycystic-kidney-np": illustrationPolycysticKidney,
   "polycystic-kidney-disease": illustrationPolycysticKidney,
   "polycystic-kidney-disease-rpn": illustrationPolycysticKidney,
   "polycystic-kidney-disease-rn": illustrationPolycysticKidney,
@@ -1499,17 +1524,20 @@ const lessonSpecificImages: Record<string, string> = {
   "post-transfusion-purpura-rpn": illustrationPostTransfusionPurpura,
   "post-transfusion-purpura-rn": illustrationPostTransfusionPurpura,
   "post-transfusion-purpura-np": illustrationPostTransfusionPurpura,
+  "transfusion-purpura": illustrationPostTransfusionPurpura,
 
   "non-immune-hemolysis": illustrationNonImmuneHemolysis,
   "non-immune-hemolysis-rpn": illustrationNonImmuneHemolysis,
   "non-immune-hemolysis-rn": illustrationNonImmuneHemolysis,
   "non-immune-hemolysis-np": illustrationNonImmuneHemolysis,
   "nonimmune-hemolysis": illustrationNonImmuneHemolysis,
+  "hemolytic-transfusion": illustrationNonImmuneHemolysis,
 
   "obstructive-uropathy": illustrationObstructiveUropathy,
   "obstructive-uropathy-rpn": illustrationObstructiveUropathy,
   "obstructive-uropathy-rn": illustrationObstructiveUropathy,
   "obstructive-uropathy-np": illustrationObstructiveUropathy,
+  "urinary-obstruction": illustrationObstructiveUropathy,
 
   "peritoneal-dialysis": illustrationPeritonealDialysis,
   "peritoneal-dialysis-rpn": illustrationPeritonealDialysis,
@@ -1533,6 +1561,7 @@ const lessonSpecificImages: Record<string, string> = {
   "acromegaly-rpn": illustrationPituitaryGlands,
   "acromegaly-rn": illustrationPituitaryGlands,
   "acromegaly-np": illustrationPituitaryGlands,
+  "hypophysectomy": illustrationPituitaryGlands,
 
   "polycythemia-vera": illustrationPolycythemiaV2,
   "polycythemia": illustrationPolycythemiaV2,
@@ -1890,8 +1919,18 @@ export function getLessonImage(lessonId: string): string | undefined {
   if (lessonId.includes("microscopic-colitis") || lessonId.includes("collagenous-colitis") || lessonId.includes("lymphocytic-colitis")) return illustrationMicroscopicColitisV2;
   if (lessonId.includes("ngtube") || lessonId.includes("ng-tube") || lessonId.includes("nasogastric")) return illustrationNGTubeV3;
   if (lessonId.includes("pancreatic-pseudocyst")) return illustrationPancreaticPseudocystV3;
+  if (lessonId.includes("pancreatic-function")) return illustrationPancreaticFunctioning;
   if (lessonId.includes("pancreatitis")) return illustrationPancreatitisV3;
   if (lessonId.includes("peptic-ulcer") || lessonId.includes("gastric-ulcer") || lessonId.includes("duodenal-ulcer")) return illustrationPepticUlcerV3;
+  if (lessonId.includes("papilledema")) return illustrationPapilledema;
+  if (lessonId.includes("pharyngitis") || lessonId.includes("strep-throat") || lessonId.includes("tonsillitis")) return illustrationPharyngitis;
+  if (lessonId.includes("polycystic-kidney") || lessonId.includes("pkd")) return illustrationPolycysticKidney;
+  if (lessonId.includes("polydactyly")) return illustrationPolydactyly;
+  if (lessonId.includes("post-transfusion-purpura") || lessonId.includes("transfusion-purpura")) return illustrationPostTransfusionPurpura;
+  if (lessonId.includes("non-immune-hemolysis") || lessonId.includes("hemolytic-transfusion")) return illustrationNonImmuneHemolysis;
+  if (lessonId.includes("obstructive-uropathy") || lessonId.includes("urinary-obstruction")) return illustrationObstructiveUropathy;
+  if (lessonId.includes("pituitary") || lessonId.includes("acromegaly") || lessonId.includes("hypophysectomy")) return illustrationPituitaryGlands;
+  if (lessonId.includes("peritoneal-dialysis")) return illustrationPeritonealDialysis;
   if (lessonId.includes("rectal-med") || lessonId.includes("suppository") || lessonId.includes("rectal-admin")) return illustrationRectalMedicationV3;
   if (lessonId.includes("short-bowel")) return illustrationShortBowelV3;
   if (lessonId.includes("pseudohypoparathyroid")) return illustrationPseudohypoparathyroidism;

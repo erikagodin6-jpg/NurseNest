@@ -77,7 +77,8 @@ export const npFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "ACR guidelines recommend initiating osteoporosis prevention in ALL adults expected to receive glucocorticoids ≥2.5 mg prednisone equivalent for ≥3 months. First-line: oral bisphosphonate (alendronate 70 mg weekly or risedronate 35 mg weekly) PLUS calcium 1,000-1,200 mg/day and vitamin D 600-800 IU/day. FRAX score should be calculated. For high fracture risk or bisphosphonate contraindication, consider teriparatide or denosumab. Baseline and follow-up DEXA scans are essential.",
     category: "Advanced Pharmacology",
-    difficulty: 2
+    difficulty: 2,
+    image: imgOsteoporosis
   },
   {
     id: "np-pharm-q8",
