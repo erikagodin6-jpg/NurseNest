@@ -6626,7 +6626,7 @@ export default function Flashcards() {
 
                     <div className="flex flex-col gap-2.5 md:max-h-[calc(100vh-120px)] md:overflow-y-auto">
                       {currentCard.image && (
-                        <div className="rounded-xl overflow-hidden border border-border md:block hidden">
+                        <div className="rounded-xl border border-border md:block hidden">
                           <RationaleImageBlock
                             src={currentCard.image}
                             alt={`Clinical reference for ${currentCard.category || "nursing"}`}
@@ -6721,7 +6721,7 @@ export default function Flashcards() {
                           )}
 
                           {currentCard.image && (
-                            <div className="rounded-lg overflow-hidden border border-border md:hidden">
+                            <div className="rounded-lg border border-border md:hidden">
                               <RationaleImageBlock
                                 src={currentCard.image}
                                 alt={`Clinical reference for ${currentCard.category || "nursing"}`}

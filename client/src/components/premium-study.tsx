@@ -256,7 +256,7 @@ export function RationaleImageBlock({
   "data-testid"?: string;
 }) {
   return (
-    <div className="mt-3 rounded-xl border border-gray-200/80 overflow-hidden rationale-image-bg">
+    <div className="mt-3 rounded-xl border border-gray-200/80 rationale-image-bg">
       <div className="px-4 py-2 border-b border-gray-200/60 bg-white/80">
         <p className="text-xs font-bold uppercase tracking-wider theme-text flex items-center gap-1.5">
           <Target className="w-3 h-3" />
@@ -267,7 +267,7 @@ export function RationaleImageBlock({
         <img
           src={src}
           alt={alt}
-          className="rounded-xl max-h-[240px] w-auto object-contain shadow-sm"
+          className="rounded-xl w-full h-auto object-contain max-h-[360px] md:max-h-[480px] block shadow-sm"
           loading="lazy"
           data-testid={testId}
         />
