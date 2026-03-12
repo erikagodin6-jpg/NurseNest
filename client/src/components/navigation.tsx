@@ -153,7 +153,7 @@ function UserProfileDropdown({ user, logout, setLocation }: { user: any; logout:
   );
 }
 
-export function Navigation() {
+export function Navigation({ compact = false }: { compact?: boolean } = {}) {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [region, setRegionState] = useState<"US" | "CA">(() => {
@@ -745,7 +745,7 @@ export function Navigation() {
       )}
     >
       <div className="max-w-7xl mx-auto px-2 sm:px-4 lg:px-8">
-        <div className="flex items-center justify-between h-14 sm:h-16">
+        <div className={cn("flex items-center justify-between", compact ? "h-10 sm:h-11" : "h-14 sm:h-16")}>
           <div className="flex items-center gap-1 sm:gap-2 lg:gap-6">
             <MobileNav />
             <LocaleLink href="/">
@@ -809,7 +809,7 @@ export function Navigation() {
               </DropdownMenuContent>
             </DropdownMenu>
 
-            <div className="hidden md:flex items-center gap-0.5 lg:gap-1">
+            <div className={cn("hidden md:flex items-center gap-0.5 lg:gap-1", compact && "md:hidden")}>
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button variant="ghost" className="text-sm font-medium text-softgray hover:text-primary hover:bg-transparent flex items-center gap-1 px-2 lg:px-2.5 group data-[state=open]:text-primary">
@@ -1043,31 +1043,33 @@ export function Navigation() {
           </div>
         </div>
       </div>
-      <div className="border-t border-primary/10 bg-primary/5">
-        <div className="max-w-7xl mx-auto px-2 sm:px-4 lg:px-8">
-          <div className="flex items-center justify-between gap-2 h-9">
-            <div className="hidden md:flex items-center gap-0.5">
-              {designations.map((d) => (
-                <NavDropdown key={d} label={d} items={learningItems} isPaid subBar />
-              ))}
-            </div>
-            <div className="md:hidden" />
-            <div className="flex items-center gap-2">
-              <NavDropdown label={t("nav.learning")} items={learningItems} isPaid subBar />
-              <NavDropdown label={t("nav.resources")} items={[
-                { label: t("nav.pricing"), key: "Pricing" },
-                { label: t("footer.faq"), key: "FAQ" },
-                { label: "For Schools", key: "For Schools" },
-              ]} subBar />
-              <div className="hidden md:block w-48 lg:w-56">
-                <Suspense fallback={<div className="w-full h-7" />}>
-                  <GlobalSearch />
-                </Suspense>
+      {!compact && (
+        <div className="border-t border-primary/10 bg-primary/5">
+          <div className="max-w-7xl mx-auto px-2 sm:px-4 lg:px-8">
+            <div className="flex items-center justify-between gap-2 h-9">
+              <div className="hidden md:flex items-center gap-0.5">
+                {designations.map((d) => (
+                  <NavDropdown key={d} label={d} items={learningItems} isPaid subBar />
+                ))}
+              </div>
+              <div className="md:hidden" />
+              <div className="flex items-center gap-2">
+                <NavDropdown label={t("nav.learning")} items={learningItems} isPaid subBar />
+                <NavDropdown label={t("nav.resources")} items={[
+                  { label: t("nav.pricing"), key: "Pricing" },
+                  { label: t("footer.faq"), key: "FAQ" },
+                  { label: "For Schools", key: "For Schools" },
+                ]} subBar />
+                <div className="hidden md:block w-48 lg:w-56">
+                  <Suspense fallback={<div className="w-full h-7" />}>
+                    <GlobalSearch />
+                  </Suspense>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
+      )}
     </nav>
   );
 }

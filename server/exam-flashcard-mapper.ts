@@ -101,15 +101,6 @@ const IMAGE_KEYWORD_MAP: Record<string, { file: string; alt: string; caption: st
   "malrotation": [{ file: "intestinalmalrotation", alt: "Intestinal malrotation illustration", caption: "Intestinal Malrotation", description: "Congenital abnormal bowel rotation with volvulus risk" }],
 };
 
-const INFOGRAPHIC_TOPIC_MAP: Record<string, string[]> = {
-  "lab-diagnostics": ["cbc", "complete blood count", "wbc", "hemoglobin", "hematocrit", "platelet", "coagulation", "pt", "inr", "aptt", "liver function", "alt", "ast", "bilirubin", "renal function", "bun", "creatinine", "gfr", "metabolic panel", "electrolyte", "cardiac biomarker", "troponin", "bnp", "thyroid", "tsh"],
-  "cardiology": ["heart failure", "myocardial infarction", "angina", "hypertension", "arrhythmia", "atrial fibrillation", "cardiac", "ecg", "ekg", "heart block", "pacemaker"],
-  "respiratory": ["copd", "asthma", "pneumonia", "chest tube", "ventilator", "oxygen", "respiratory", "bronchitis", "pulmonary embolism"],
-  "pharmacology": ["medication", "drug", "dosage", "antidote", "warfarin", "heparin", "insulin", "antibiotic", "antihypertensive"],
-  "emergency": ["shock", "code blue", "cardiac arrest", "anaphylaxis", "stroke", "trauma", "burns", "hemorrhage"],
-  "maternity-pediatrics": ["pregnancy", "labor", "delivery", "neonatal", "pediatric", "preeclampsia", "gestational", "fetal", "breastfeeding", "newborn"],
-  "electrolytes": ["potassium", "sodium", "calcium", "magnesium", "phosphorus", "hyperkalemia", "hypokalemia", "hypernatremia", "hyponatremia"],
-};
 
 const LESSON_SYSTEM_MAP: Record<string, string[]> = {
   "Cardiovascular": ["cardiovascular", "cardiac", "heart", "hypertension", "angina", "mi", "arrhythmia", "heart-failure", "dvt", "aaa"],
@@ -153,21 +144,6 @@ function matchImages(question: ExamQuestion): InfographicMatch[] {
             sortOrder: matches.length,
           });
         }
-      }
-    }
-  }
-
-  for (const [category, keywords] of Object.entries(INFOGRAPHIC_TOPIC_MAP)) {
-    for (const kw of keywords) {
-      if (searchText.includes(kw) && !matches.find(m => m.imageUrl.includes(category))) {
-        matches.push({
-          imageUrl: `/infographics/${category}`,
-          imageAlt: `${category} reference infographic`,
-          imageCaption: category.replace(/-/g, " ").replace(/\b\w/g, c => c.toUpperCase()),
-          imageDescription: `Reference infographic for ${category.replace(/-/g, " ")}`,
-          sortOrder: matches.length,
-        });
-        break;
       }
     }
   }

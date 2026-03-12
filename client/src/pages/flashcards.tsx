@@ -2565,24 +2565,26 @@ export default function Flashcards() {
     if (optionIndex === card.correctIndex) return "";
     const option = card.options[optionIndex];
     const correctOption = card.options[card.correctIndex];
+    const optionShort = option.length > 70 ? option.substring(0, 67) + "..." : option;
+    const correctShort = correctOption ? (correctOption.length > 70 ? correctOption.substring(0, 67) + "..." : correctOption) : "";
+
     const optionLower = option.toLowerCase();
-    const correctLower = correctOption?.toLowerCase() || "";
 
     if (optionLower.includes("immediately") || optionLower.includes("within 2 hour") || optionLower.includes("stat"))
-      return `This option suggests an inappropriate timeline. In this clinical scenario, the priority is "${correctOption?.substring(0, 60)}..." because it addresses the most critical patient need. Rushing with this intervention could compromise patient safety or delay the correct response.`;
+      return `"${optionShort}" suggests an inappropriate urgency for this scenario. The correct action is "${correctShort}" because it addresses the clinical priority without risking premature intervention.`;
     if (optionLower.includes("not") || optionLower.includes("avoid") || optionLower.includes("never") || optionLower.includes("contraindicated"))
-      return `This action contradicts evidence-based practice guidelines for this clinical presentation. The correct approach involves ${correctLower.substring(0, 50)}..., which is supported by current clinical standards and research evidence.`;
+      return `"${optionShort}" contradicts the evidence-based approach here. The correct response — "${correctShort}" — aligns with current clinical guidelines for this presentation.`;
     if (optionLower.includes("only") || optionLower.includes("always") || optionLower.includes("all "))
-      return `Absolute statements rarely apply in clinical nursing practice. This option oversimplifies the clinical decision-making required here. The correct answer accounts for the specific nuances of the patient's presentation and prioritizes appropriately.`;
+      return `"${optionShort}" uses an absolute that oversimplifies the clinical picture. The correct answer — "${correctShort}" — accounts for the specific nuances of this patient's condition.`;
     if (optionLower.includes("monitor") || optionLower.includes("observe") || optionLower.includes("continue"))
-      return `While ongoing monitoring is important in nursing care, this clinical scenario requires a more active intervention. Simply monitoring or continuing current care would delay the necessary response and could lead to patient deterioration.`;
+      return `"${optionShort}" is too passive for this scenario. The patient requires active intervention: "${correctShort}" directly addresses the clinical need rather than delaying care.`;
     if (optionLower.includes("administer") || optionLower.includes("give") || optionLower.includes("inject"))
-      return `This medication or intervention is not the first-line treatment for this clinical presentation. The correct answer reflects the evidence-based priority intervention that addresses the underlying pathophysiology more effectively.`;
+      return `"${optionShort}" is not the first-line intervention here. "${correctShort}" is the priority because it targets the underlying problem more effectively for this presentation.`;
     if (optionLower.includes("position") || optionLower.includes("elevate") || optionLower.includes("lower"))
-      return `While positioning is an important nursing intervention, this specific position or maneuver does not address the primary clinical concern in this scenario. The correct intervention takes priority because it directly impacts patient outcomes.`;
+      return `"${optionShort}" does not address the primary concern in this scenario. "${correctShort}" takes priority because it directly impacts the patient's immediate clinical outcome.`;
     if (optionLower.includes("notify") || optionLower.includes("call") || optionLower.includes("report"))
-      return `Communication with the healthcare team is essential, but in this scenario there is a nursing intervention that should be performed first. Delaying the correct action to notify the provider could compromise patient safety.`;
-    return `Although this option may seem clinically reasonable, it does not represent the priority nursing action for this specific scenario. The correct answer addresses the most immediate patient need based on evidence-based practice guidelines and clinical priority frameworks.`;
+      return `"${optionShort}" delays the needed nursing action. In this scenario, "${correctShort}" should be performed first before communicating with the healthcare team.`;
+    return `"${optionShort}" is incorrect because it does not address the most immediate clinical need. The priority action is "${correctShort}" which directly targets the patient's primary concern in this scenario.`;
   };
 
   const [topicSearch, setTopicSearch] = useState("");
@@ -4754,17 +4756,27 @@ export default function Flashcards() {
           "about": { "@type": "Thing", "name": "Nursing Education" }
         }}
       />
-      <Navigation />
+      <Navigation compact={showRationale && currentCard.type === "question"} />
 
-      <main className={cn("mx-auto px-4 py-4 sm:py-8 w-full flex-1 flex flex-col", showRationale && currentCard.type === "question" ? "max-w-[1200px]" : "max-w-[820px]")}>
-        <div className="mb-4 flex items-center justify-between flex-wrap gap-2">
-          <div>
-            <h1 className="text-lg sm:text-xl font-bold text-foreground tracking-tight">{t("flashcards.activeSession")}</h1>
-            <p className="text-xs text-muted-foreground mt-1 flex items-center gap-1.5">
-              <span className="inline-flex items-center px-2 py-0.5 rounded-md bg-violet-50 text-violet-600 text-[10px] font-semibold border border-violet-100">{catLabel(currentCard.category)}</span>
-              <span className="text-muted-foreground/60">&middot;</span>
-              <span>{currentCard.type === "question" ? "Question" : "Term"} mode</span>
-            </p>
+      <main className={cn("mx-auto px-4 w-full flex-1 flex flex-col", showRationale && currentCard.type === "question" ? "max-w-[1200px] py-2 sm:py-3" : "max-w-[820px] py-4 sm:py-8")}>
+        <div className={cn("flex items-center justify-between flex-wrap gap-1", showRationale ? "mb-2" : "mb-4")}>
+          <div className="flex items-center gap-2">
+            {showRationale ? (
+              <p className="text-xs text-muted-foreground flex items-center gap-1.5">
+                <span className="inline-flex items-center px-2 py-0.5 rounded-md bg-violet-50 text-violet-600 text-[10px] font-semibold border border-violet-100">{catLabel(currentCard.category)}</span>
+                <span className="text-muted-foreground/60">&middot;</span>
+                <span>Review</span>
+              </p>
+            ) : (
+              <div>
+                <h1 className="text-lg sm:text-xl font-bold text-foreground tracking-tight">{t("flashcards.activeSession")}</h1>
+                <p className="text-xs text-muted-foreground mt-1 flex items-center gap-1.5">
+                  <span className="inline-flex items-center px-2 py-0.5 rounded-md bg-violet-50 text-violet-600 text-[10px] font-semibold border border-violet-100">{catLabel(currentCard.category)}</span>
+                  <span className="text-muted-foreground/60">&middot;</span>
+                  <span>{currentCard.type === "question" ? "Question" : "Term"} mode</span>
+                </p>
+              </div>
+            )}
           </div>
           <div className="flex items-center gap-3">
             <div className="text-xs text-muted-foreground flex items-center gap-1">
@@ -4778,7 +4790,7 @@ export default function Flashcards() {
           </div>
         </div>
 
-        <div className="w-full bg-secondary h-1.5 rounded-full mb-6 overflow-hidden">
+        <div className={cn("w-full bg-secondary rounded-full overflow-hidden", showRationale ? "h-1 mb-3" : "h-1.5 mb-6")}>
           <div
             className="bg-primary h-full rounded-full transition-all duration-500"
             style={{ width: `${((currentIndex + 1) / sessionCards.length) * 100}%` }}
@@ -4790,12 +4802,12 @@ export default function Flashcards() {
             {currentCard.type === "question" ? (
               <>
                 {showRationale ? (
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-5 animate-in fade-in duration-300" data-testid="section-study-review-layout">
-                    <div className="flex flex-col gap-4">
-                      <Card className="border border-border shadow-sm bg-card overflow-hidden rounded-2xl flex flex-col">
-                        <CardContent className="px-5 sm:px-6 py-5 flex flex-col flex-1">
-                          <h2 className="text-base sm:text-lg font-semibold text-foreground mb-4 leading-relaxed" data-testid="text-study-question">{currentCard.question}</h2>
-                          <div className="space-y-2 flex-1">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4 animate-in fade-in duration-300" data-testid="section-study-review-layout">
+                    <div className="flex flex-col gap-3">
+                      <Card className="border border-border shadow-sm bg-card overflow-hidden rounded-xl flex flex-col">
+                        <CardContent className="px-4 sm:px-5 py-3.5 flex flex-col flex-1">
+                          <h2 className="text-sm sm:text-base font-semibold text-foreground mb-3 leading-snug" data-testid="text-study-question">{currentCard.question}</h2>
+                          <div className="space-y-1.5 flex-1">
                             {currentCard.options?.map((option, idx) => {
                               const isSelected = selectedOption === idx;
                               const isCorrectOpt = idx === currentCard.correctIndex;
@@ -4812,9 +4824,9 @@ export default function Flashcards() {
                                   onClick={() => {}}
                                   iconEl={
                                     isCorrectOpt
-                                      ? <CheckCircle2 className="h-5 w-5 text-emerald-600 shrink-0" />
+                                      ? <CheckCircle2 className="h-4 w-4 text-emerald-600 shrink-0" />
                                       : isSelected && !isCorrectOpt
-                                        ? <XCircle className="h-5 w-5 text-red-500 shrink-0" />
+                                        ? <XCircle className="h-4 w-4 text-red-500 shrink-0" />
                                         : undefined
                                   }
                                 />
@@ -4825,60 +4837,60 @@ export default function Flashcards() {
                       </Card>
                     </div>
 
-                    <div className="flex flex-col gap-3.5">
-                      {(currentCard.image || getCategoryImage(currentCard.category || "")) && (
+                    <div className="flex flex-col gap-2.5 md:max-h-[calc(100vh-120px)] md:overflow-y-auto">
+                      {currentCard.image && (
                         <div className="rounded-xl overflow-hidden border border-border md:block hidden">
                           <RationaleImageBlock
-                            src={currentCard.image || getCategoryImage(currentCard.category || "") || ""}
+                            src={currentCard.image}
                             alt={`Clinical reference for ${currentCard.category || "nursing"}`}
                             data-testid={`img-rationale-${currentCard.id}`}
                           />
                         </div>
                       )}
 
-                      <Card className="border border-border shadow-sm bg-card rounded-2xl overflow-hidden">
-                        <div className="px-5 pt-4 pb-2 flex items-center gap-2.5 border-b border-border">
-                          <div className="w-6 h-6 rounded-lg bg-primary/10 flex items-center justify-center">
-                            <BookOpen className="w-3 h-3 text-primary" />
+                      <Card className="border border-border shadow-sm bg-card rounded-xl overflow-hidden">
+                        <div className="px-4 pt-2.5 pb-1.5 flex items-center gap-2 border-b border-border">
+                          <div className="w-5 h-5 rounded-md bg-primary/10 flex items-center justify-center">
+                            <BookOpen className="w-2.5 h-2.5 text-primary" />
                           </div>
-                          <h3 className="text-xs font-semibold text-primary tracking-wide">Rationale & Review</h3>
+                          <h3 className="text-[11px] font-semibold text-primary tracking-wide">Rationale & Review</h3>
                         </div>
 
-                        <CardContent className="px-5 py-4 space-y-3.5">
-                          <div className="bg-emerald-50/50 rounded-lg border border-emerald-100/60 p-3">
-                            <div className="flex items-center gap-2 mb-1.5">
-                              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" />
+                        <CardContent className="px-4 py-3 space-y-2.5">
+                          <div className="bg-emerald-50/50 rounded-lg border border-emerald-100/60 p-2.5">
+                            <div className="flex items-center gap-1.5 mb-1">
+                              <CheckCircle2 className="w-3 h-3 text-emerald-500" />
                               <span className="text-[10px] font-semibold text-emerald-700 uppercase tracking-wide">Correct Answer</span>
                             </div>
-                            <p className="text-sm font-medium text-foreground pl-5">
+                            <p className="text-xs font-medium text-foreground pl-4.5">
                               {currentCard.options?.[currentCard.correctIndex ?? 0]}
                             </p>
                           </div>
 
-                          <div className="bg-card rounded-lg border border-border p-3">
-                            <div className="flex items-center gap-2 mb-1.5">
-                              <Lightbulb className="w-3.5 h-3.5 text-amber-500" />
+                          <div className="bg-card rounded-lg border border-border p-2.5">
+                            <div className="flex items-center gap-1.5 mb-1">
+                              <Lightbulb className="w-3 h-3 text-amber-500" />
                               <span className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wide">Why This Is Correct</span>
                             </div>
-                            <p className="text-sm text-foreground/60 leading-relaxed">{currentCard.detailedRationale || currentCard.answer}</p>
+                            <p className="text-xs text-foreground/60 leading-relaxed">{currentCard.detailedRationale || currentCard.answer}</p>
                           </div>
 
                           {currentCard.options && currentCard.options.length > 1 && (
-                            <div className="bg-card rounded-lg border border-border p-3">
-                              <div className="flex items-center gap-2 mb-2.5">
-                                <XCircle className="w-3.5 h-3.5 text-rose-400" />
+                            <div className="bg-card rounded-lg border border-border p-2.5">
+                              <div className="flex items-center gap-1.5 mb-2">
+                                <XCircle className="w-3 h-3 text-rose-400" />
                                 <span className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wide">Why Other Options Are Incorrect</span>
                               </div>
-                              <div className="space-y-2">
+                              <div className="space-y-1.5">
                                 {currentCard.options.map((opt, idx) => {
                                   if (idx === currentCard.correctIndex) return null;
                                   const letter = String.fromCharCode(65 + idx);
                                   return (
-                                    <div key={idx} className="flex gap-2 pl-1">
-                                      <span className="text-[10px] font-bold text-rose-300 bg-rose-50 w-5 h-5 rounded flex items-center justify-center shrink-0 mt-0.5">{letter}</span>
+                                    <div key={idx} className="flex gap-1.5 pl-0.5">
+                                      <span className="text-[10px] font-bold text-rose-300 bg-rose-50 w-4 h-4 rounded flex items-center justify-center shrink-0 mt-0.5">{letter}</span>
                                       <div>
-                                        <p className="text-xs font-medium text-foreground/70">{opt}</p>
-                                        <p className="text-xs text-muted-foreground mt-0.5 leading-relaxed">{generateOptionRationale(currentCard, idx)}</p>
+                                        <p className="text-[11px] font-medium text-foreground/70 leading-snug">{opt}</p>
+                                        <p className="text-[11px] text-muted-foreground mt-0.5 leading-relaxed">{generateOptionRationale(currentCard, idx)}</p>
                                       </div>
                                     </div>
                                   );
@@ -4887,20 +4899,20 @@ export default function Flashcards() {
                             </div>
                           )}
 
-                          <div className="bg-gradient-to-r from-amber-50/70 to-rose-50/50 rounded-lg border border-amber-100/50 p-3">
-                            <div className="flex items-center gap-2 mb-1.5">
-                              <Zap className="w-3.5 h-3.5 text-amber-600" />
+                          <div className="bg-gradient-to-r from-amber-50/70 to-rose-50/50 rounded-lg border border-amber-100/50 p-2.5">
+                            <div className="flex items-center gap-1.5 mb-1">
+                              <Zap className="w-3 h-3 text-amber-600" />
                               <span className="text-[10px] font-semibold text-amber-800">Clinical Pearl / Exam Tip</span>
                             </div>
-                            <p className="text-xs text-amber-700 leading-relaxed">
+                            <p className="text-[11px] text-amber-700 leading-relaxed">
                               {currentCard.clinicalPearl || `For ${catLabel(currentCard.category)} questions, focus on priority assessment and immediate nursing interventions. Always identify the most critical patient need first, then select the intervention that addresses it directly. Remember the ABCs (Airway, Breathing, Circulation) and Maslow's hierarchy when prioritizing.`}
                             </p>
                           </div>
 
-                          {(currentCard.image || getCategoryImage(currentCard.category || "")) && (
+                          {currentCard.image && (
                             <div className="rounded-lg overflow-hidden border border-border md:hidden">
                               <RationaleImageBlock
-                                src={currentCard.image || getCategoryImage(currentCard.category || "") || ""}
+                                src={currentCard.image}
                                 alt={`Clinical reference for ${currentCard.category || "nursing"}`}
                                 data-testid={`img-rationale-mobile-${currentCard.id}`}
                               />
@@ -4910,17 +4922,17 @@ export default function Flashcards() {
                           {relatedLesson && (
                             <LocaleLink
                               href={`/lessons/${relatedLesson.slug}`}
-                              className="flex items-center gap-2.5 p-3 rounded-lg border border-border bg-primary/5 hover:bg-primary/10 transition-colors group"
+                              className="flex items-center gap-2 p-2.5 rounded-lg border border-border bg-primary/5 hover:bg-primary/10 transition-colors group"
                               data-testid={`link-related-lesson-${currentCard.id}`}
                             >
-                              <div className="w-7 h-7 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
-                                <BookOpen className="w-3.5 h-3.5 text-primary" />
+                              <div className="w-6 h-6 rounded-md bg-primary/10 flex items-center justify-center shrink-0">
+                                <BookOpen className="w-3 h-3 text-primary" />
                               </div>
                               <div className="flex-1 min-w-0">
                                 <p className="text-[10px] font-medium text-primary/70 uppercase tracking-wide">Related Lesson</p>
-                                <p className="text-sm font-medium text-primary truncate">{relatedLesson.title}</p>
+                                <p className="text-xs font-medium text-primary truncate">{relatedLesson.title}</p>
                               </div>
-                              <ChevronRight className="w-3.5 h-3.5 text-primary/30 group-hover:text-primary/60 transition-colors shrink-0" />
+                              <ChevronRight className="w-3 h-3 text-primary/30 group-hover:text-primary/60 transition-colors shrink-0" />
                             </LocaleLink>
                           )}
                         </CardContent>
