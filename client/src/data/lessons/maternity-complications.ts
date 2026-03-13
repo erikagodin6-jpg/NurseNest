@@ -1,5 +1,6 @@
 import type { LessonContent } from "./types";
-import { imgUmbilicalCordProlapse, imgVaginalHematoma } from "../flashcards-rpn";
+const imgUmbilicalCordProlapse = "/attached_assets/umbilicalcordprolapse_1773340545537.png";
+const imgVaginalHematoma = "/attached_assets/vaginalhematoma_1773375165171.png";
 
 const ectopicPregnancy: LessonContent = {
   title: "Ectopic Pregnancy",

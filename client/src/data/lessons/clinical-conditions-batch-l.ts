@@ -1,5 +1,5 @@
 import type { LessonContent } from "./types";
-import { imgGuillainBarre } from "../flashcards-rpn";
+const imgGuillainBarre = "/attached_assets/guillainbarrre_1773374861631.png";
 
 export const clinicalConditionsBatchLLessons: Record<string, LessonContent> = {
   "alzheimer-disease-rpn": {

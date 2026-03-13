@@ -1,5 +1,5 @@
 import type { LessonContent } from "./types";
-import { imgToxicShockSyndrome } from "../flashcards-rpn";
+const imgToxicShockSyndrome = "/attached_assets/toxicshocksyndrome_1773340545537.png";
 
 export const generatedBatch097Lessons: Record<string, LessonContent> = {
   "toxic-epidermal": {

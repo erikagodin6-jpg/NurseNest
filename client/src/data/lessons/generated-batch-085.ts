@@ -1,5 +1,6 @@
 import type { LessonContent } from "./types";
-import { imgROP, imgReye } from "../flashcards-rpn";
+const imgROP = "/attached_assets/ROP_1773340545537.png";
+const imgReye = "/attached_assets/reye_1773340545537.png";
 
 export const generatedBatch085Lessons: Record<string, LessonContent> = {
   "renovascular-hypertension-np": {

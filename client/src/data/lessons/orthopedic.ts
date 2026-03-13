@@ -1,5 +1,5 @@
 import type { LessonContent } from "./types";
-import { imgFibromyalgia } from "../flashcards-rpn";
+const imgFibromyalgia = "/attached_assets/fibro_1773374861631.png";
 
 export const orthopedicLessons: Record<string, LessonContent> = {
   "osteoarthritis": {

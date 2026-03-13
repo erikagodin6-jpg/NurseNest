@@ -1,5 +1,5 @@
 import type { LessonContent } from "./types";
-import { imgFractureTypes } from "../flashcards-rpn";
+const imgFractureTypes = "/attached_assets/fracture_1773374861631.png";
 
 export const generatedBatch104Lessons: Record<string, LessonContent> = {
   "acute-coronary-syndrome-rpn": {

@@ -1,68 +1,74 @@
-import { Shield, Award, Users, Star, BookOpen, CheckCircle } from "lucide-react";
+import { Shield, Award, Users, Star, CheckCircle } from "lucide-react";
+import { getTierTrust, type TierTestimonial } from "@shared/tier-messaging";
 
-interface Testimonial {
-  name: string;
-  role: string;
-  text: string;
-  rating: number;
-}
+const TIER_HEADINGS: Record<string, { heading: string; subtext: string }> = {
+  rpn: {
+    heading: "Trusted by Practical Nursing Students Across Canada",
+    subtext: "Real results from real students preparing for the REx-PN exam.",
+  },
+  rn: {
+    heading: "Trusted by RN Students Across North America",
+    subtext: "Real results from real students preparing for the NCLEX-RN exam.",
+  },
+  np: {
+    heading: "Trusted by Nurse Practitioner Students",
+    subtext: "Real results from NP students preparing for AANP, ANCC, and CNPE certification exams.",
+  },
+};
 
-const DEFAULT_TESTIMONIALS: Testimonial[] = [
-  {
-    name: "Priya S.",
-    role: "RPN Student, Ontario",
-    text: "I passed the REx-PN on my first attempt using NurseNest. The practice questions and clinical simulations were incredibly close to the real exam.",
-    rating: 5,
-  },
-  {
-    name: "James K.",
-    role: "RN Student, British Columbia",
-    text: "The adaptive question bank helped me identify my weak areas. After 3 months of studying with NurseNest, I passed the NCLEX-RN with confidence.",
-    rating: 5,
-  },
-  {
-    name: "Sarah M.",
-    role: "NP Student, Alberta",
-    text: "NurseNest's NP-level content is the most thorough I have found. The pharmacology flashcards and differential diagnosis practice were essential for my AANP exam.",
-    rating: 5,
-  },
-  {
-    name: "Emily R.",
-    role: "RN Student, California",
-    text: "As an international student, I needed extra support preparing for the NCLEX-RN. NurseNest's step-by-step rationales helped me understand the clinical reasoning behind each answer.",
-    rating: 5,
-  },
-];
+const DEFAULT_HEADING = {
+  heading: "Trusted by Nursing Students Across North America",
+  subtext: "Real results from real students preparing for their nursing exams.",
+};
 
 interface TrustSignalsProps {
-  testimonials?: Testimonial[];
+  testimonials?: TierTestimonial[];
   showStats?: boolean;
   className?: string;
+  activeTier?: string;
 }
 
-export function TrustSignals({ testimonials = DEFAULT_TESTIMONIALS, showStats = true, className = "" }: TrustSignalsProps) {
+export function TrustSignals({ testimonials, showStats = true, className = "", activeTier }: TrustSignalsProps) {
+  const normalizedTier = activeTier === "pharmacology" ? "rpn" : activeTier;
+  const trustConfig = normalizedTier ? getTierTrust(normalizedTier) : null;
+  const tierTestimonials = trustConfig?.testimonials || [];
+  const allTestimonials = ["rpn", "rn", "np"].flatMap(t => getTierTrust(t)?.testimonials || []);
+  const displayTestimonials = testimonials || (tierTestimonials.length > 0 ? tierTestimonials : allTestimonials);
+  const headings = normalizedTier && TIER_HEADINGS[normalizedTier] ? TIER_HEADINGS[normalizedTier] : DEFAULT_HEADING;
+
   return (
     <section className={`py-16 ${className}`} data-testid="trust-signals-section">
       {showStats && (
         <div className="max-w-5xl mx-auto px-4 mb-12">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-            <StatCard icon={<Users className="w-6 h-6 text-primary" />} value="12,000+" label="Active Students" testId="stat-students" />
-            <StatCard icon={<BookOpen className="w-6 h-6 text-primary" />} value="8,000+" label="Practice Questions" testId="stat-questions" />
-            <StatCard icon={<Award className="w-6 h-6 text-primary" />} value="94%" label="First-Attempt Pass Rate" testId="stat-pass-rate" />
-            <StatCard icon={<Shield className="w-6 h-6 text-primary" />} value="100%" label="Evidence-Based Content" testId="stat-evidence" />
+            {trustConfig?.stats ? (
+              <>
+                {trustConfig.stats.map((s, i) => (
+                  <StatCard key={i} icon={<Award className="w-6 h-6 text-primary" />} value={s.value} label={s.label} testId={`stat-tier-${i}`} />
+                ))}
+                <StatCard icon={<Shield className="w-6 h-6 text-primary" />} value="100%" label="Evidence-Based Content" testId="stat-evidence" />
+              </>
+            ) : (
+              <>
+                <StatCard icon={<Users className="w-6 h-6 text-primary" />} value="12,000+" label="Active Students" testId="stat-students" />
+                <StatCard icon={<Award className="w-6 h-6 text-primary" />} value="8,000+" label="Practice Questions" testId="stat-questions" />
+                <StatCard icon={<Award className="w-6 h-6 text-primary" />} value="94%" label="First-Attempt Pass Rate" testId="stat-pass-rate" />
+                <StatCard icon={<Shield className="w-6 h-6 text-primary" />} value="100%" label="Evidence-Based Content" testId="stat-evidence" />
+              </>
+            )}
           </div>
         </div>
       )}
 
       <div className="max-w-6xl mx-auto px-4">
         <h2 className="text-2xl sm:text-3xl font-bold text-center text-gray-900 mb-2" data-testid="text-testimonials-heading">
-          Trusted by Nursing Students Across North America
+          {headings.heading}
         </h2>
         <p className="text-center text-gray-500 mb-10 max-w-2xl mx-auto">
-          Real results from real students preparing for NCLEX-RN, REx-PN, and NP certification exams.
+          {headings.subtext}
         </p>
         <div className="grid md:grid-cols-2 gap-6">
-          {testimonials.map((t, i) => (
+          {displayTestimonials.map((t, i) => (
             <TestimonialCard key={i} testimonial={t} index={i} />
           ))}
         </div>
@@ -81,7 +87,7 @@ function StatCard({ icon, value, label, testId }: { icon: React.ReactNode; value
   );
 }
 
-function TestimonialCard({ testimonial, index }: { testimonial: Testimonial; index: number }) {
+function TestimonialCard({ testimonial, index }: { testimonial: TierTestimonial; index: number }) {
   return (
     <div className="bg-white rounded-2xl border border-gray-100 p-6 shadow-sm hover:shadow-md transition-shadow" data-testid={`testimonial-card-${index}`}>
       <div className="flex items-center gap-1 mb-3">

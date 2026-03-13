@@ -1,5 +1,5 @@
 import type { LessonContent } from "./types";
-import { imgGalactorrhea } from "../flashcards-rpn";
+const imgGalactorrhea = "/attached_assets/galactorrhea_1773374861631.png";
 
 export const reproductiveRpnLessons: Record<string, LessonContent> = {
   "delayed-puberty-rpn": {

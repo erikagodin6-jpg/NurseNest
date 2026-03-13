@@ -86,7 +86,7 @@ export const fundamentalsSystems = [
   {
     id: "fundamentals-core",
     title: "Nursing Fundamentals",
-    icon: BookOpen,
+    icon: Stethoscope,
     color: "text-teal-700",
     bgColor: "bg-teal-50",
     diseases: [
@@ -1394,7 +1394,7 @@ export const rpnSystems = [
   {
     id: "professional-practice-rpn",
     title: "Professional Practice",
-    icon: BookOpen,
+    icon: GraduationCap,
     color: "text-indigo-500",
     bgColor: "bg-indigo-50",
     diseases: [
@@ -4251,7 +4251,7 @@ function DbLessonsSection({ lessons }: { lessons: DbLesson[] }) {
           <Card key={category} className="border-none shadow-md hover:shadow-lg transition-all overflow-hidden bg-white">
             <CardHeader className="flex flex-row items-center gap-3 py-3 px-4 bg-slate-50">
               <div className="p-2 rounded-lg bg-white shadow-sm text-primary">
-                <BookOpen className="w-4 h-4" />
+                <Stethoscope className="w-4 h-4" />
               </div>
               <CardTitle className="text-base font-bold text-gray-900">{category}</CardTitle>
             </CardHeader>
@@ -4265,7 +4265,7 @@ function DbLessonsSection({ lessons }: { lessons: DbLesson[] }) {
                     className="flex items-center justify-between px-3 py-2 rounded-lg border border-primary/10 bg-primary/5 hover:bg-primary/10 transition-all cursor-pointer group no-underline"
                   >
                     <div className="flex items-center gap-2 min-w-0">
-                      <BookOpen className="w-4 h-4 shrink-0 text-primary" />
+                      <div className="w-1.5 h-1.5 rounded-full shrink-0 bg-primary" />
                       <div className="min-w-0">
                         <span className="text-sm font-medium text-gray-900 block truncate">{lesson.title}</span>
                         {lesson.summary && (
@@ -4767,20 +4767,7 @@ function LessonSystemCard({ system, onSelect, tier, lessonOverrides, onOverrides
 
   return (
     <Card id={`system-${system.id}`} className="border-none shadow-md hover:shadow-lg transition-all overflow-hidden bg-white scroll-mt-24">
-      {systemImg && (
-        <div className={cn("relative h-24 overflow-hidden", system.bgColor)}>
-          <AdminImageOverlay
-            imageKey={`lesson-system-${system.id}`}
-            src={systemImg}
-            alt={system.title}
-            isAdmin={isAdmin}
-            className="w-full h-full"
-            imgClassName="w-full h-full object-cover opacity-80"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-white/80 via-transparent to-transparent pointer-events-none" />
-        </div>
-      )}
-      <CardHeader className={cn("flex flex-row items-center gap-3 py-3 px-4", !systemImg && system.bgColor)}>
+      <CardHeader className={cn("flex flex-row items-center gap-3 py-3 px-4", system.bgColor)}>
         <div className={cn("p-2 rounded-lg bg-white shadow-sm", system.color)}>
           <system.icon className="w-4 h-4" />
         </div>
@@ -4824,11 +4811,7 @@ function LessonSystemCard({ system, onSelect, tier, lessonOverrides, onOverrides
                 )}
               >
                 <div className="flex items-center gap-2 min-w-0 flex-1">
-                  {lessonImgUrl ? (
-                    <img src={lessonImgUrl} alt={displayName} className="w-7 h-7 rounded object-cover shrink-0" data-testid={`img-lesson-${disease.id}`} />
-                  ) : (
-                    <BookOpen className={cn("w-4 h-4 shrink-0", disease.status === "Available" ? "text-primary" : "text-gray-400")} />
-                  )}
+                  <div className={cn("w-1.5 h-1.5 rounded-full shrink-0", disease.status === "Available" ? "bg-primary" : "bg-gray-300")} />
                   {isEditingThis ? (
                     <div className="flex items-center gap-2 min-w-0 flex-1" onClick={(e) => e.stopPropagation()}>
                       <Input
@@ -4924,7 +4907,7 @@ function CustomSystemCard({ system, tier, isAdmin, onSelect, onEdit, onDelete, l
 }) {
   const { language } = useI18n();
   const lessons = (system.lessons || []) as { id: string; name: string; status?: string }[];
-  const IconComp = LESSON_ICON_MAP[system.icon] || BookOpen;
+  const IconComp = LESSON_ICON_MAP[system.icon] || Stethoscope;
   const { getImageUrl, refresh: refreshImages } = useSiteImages();
   const [editingLessonId, setEditingLessonId] = useState<string | null>(null);
   const [editName, setEditName] = useState("");
@@ -4999,13 +4982,7 @@ function CustomSystemCard({ system, tier, isAdmin, onSelect, onEdit, onDelete, l
 
   return (
     <Card className="border-none shadow-md hover:shadow-lg transition-all overflow-hidden bg-white relative group">
-      {system.imageUrl && (
-        <div className={cn("relative h-24 overflow-hidden", system.bgColor || "bg-gray-50")}>
-          <img src={system.imageUrl} alt={system.title} className="w-full h-full object-cover opacity-80" loading="lazy" />
-          <div className="absolute inset-0 bg-gradient-to-t from-white/80 via-transparent to-transparent" />
-        </div>
-      )}
-      <CardHeader className={cn("flex flex-row items-center gap-3 py-3 px-4", !system.imageUrl && (system.bgColor || "bg-gray-50"))}>
+      <CardHeader className={cn("flex flex-row items-center gap-3 py-3 px-4", system.bgColor || "bg-gray-50")}>
         <div className={cn("p-2 rounded-lg bg-white shadow-sm", system.color || "text-primary")}>
           <IconComp className="w-4 h-4" />
         </div>
@@ -5028,11 +5005,7 @@ function CustomSystemCard({ system, tier, isAdmin, onSelect, onEdit, onDelete, l
                 className={cn("flex items-center justify-between px-3 py-2 rounded-lg border transition-all group/lesson border-primary/10 bg-primary/5 hover:bg-primary/10", isEditingThis ? "" : "cursor-pointer")}
               >
                 <div className="flex items-center gap-2 min-w-0 flex-1">
-                  {lessonImgUrl ? (
-                    <img src={lessonImgUrl} alt={displayName} className="w-7 h-7 rounded object-cover shrink-0" data-testid={`img-lesson-${disease.id}`} />
-                  ) : (
-                    <BookOpen className="w-4 h-4 shrink-0 text-primary" />
-                  )}
+                  <div className="w-1.5 h-1.5 rounded-full shrink-0 bg-primary" />
                   {isEditingThis ? (
                     <div className="flex items-center gap-2 min-w-0 flex-1" onClick={(e) => e.stopPropagation()}>
                       <Input
@@ -5172,7 +5145,7 @@ function LessonSystemModal({ system, defaultTier, onClose, onSaved }: {
   system: any; defaultTier: string; onClose: () => void; onSaved: (mod: any) => void;
 }) {
   const [title, setTitle] = useState(system?.title || "");
-  const [icon, setIcon] = useState(system?.icon || "BookOpen");
+  const [icon, setIcon] = useState(system?.icon || "Stethoscope");
   const [colorIdx, setColorIdx] = useState(() => {
     const idx = SYSTEM_COLOR_OPTIONS.findIndex((c) => c.color === system?.color);
     return idx >= 0 ? idx : 0;
@@ -5322,7 +5295,7 @@ function LessonSystemModal({ system, defaultTier, onClose, onSaved }: {
             <div className="space-y-2">
               {lessons.map((l, idx) => (
                 <div key={idx} className="flex items-center gap-2 bg-gray-50 rounded-lg px-3 py-2">
-                  <BookOpen className="w-3.5 h-3.5 text-gray-400 flex-shrink-0" />
+                  <div className="w-1.5 h-1.5 rounded-full bg-gray-400 flex-shrink-0" />
                   <span className="text-sm text-gray-700 flex-1">{l.name}</span>
                   <span className="text-xs text-gray-400">{l.id}</span>
                   <button onClick={() => setLessons(lessons.filter((_, i) => i !== idx))} className="text-red-400 hover:text-red-600">

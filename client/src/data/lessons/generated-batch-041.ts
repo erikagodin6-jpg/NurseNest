@@ -1,5 +1,6 @@
 import type { LessonContent } from "./types";
-import { imgGravesDisease, imgGuillainBarre } from "../flashcards-rpn";
+const imgGravesDisease = "/attached_assets/graves_1773374861631.png";
+const imgGuillainBarre = "/attached_assets/guillainbarrre_1773374861631.png";
 
 export const generatedBatch041Lessons: Record<string, LessonContent> = {
   "gout-management": {

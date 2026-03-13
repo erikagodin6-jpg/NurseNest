@@ -1,5 +1,5 @@
 import type { LessonContent } from "./types";
-import { imgGlomerulonephritis } from "../flashcards-rpn";
+const imgGlomerulonephritis = "/attached_assets/glomerulonephritis_1773374861631.png";
 
 export const renalLessons: Record<string, LessonContent> = {
   "aki-management": {

@@ -1,5 +1,6 @@
 import type { LessonContent } from "./types";
-import { imgUmbilicalCordCare, imgUmbilicalCordProlapse } from "../flashcards-rpn";
+const imgUmbilicalCordCare = "/attached_assets/umbilicalcordcare_1773340545537.png";
+const imgUmbilicalCordProlapse = "/attached_assets/umbilicalcordprolapse_1773340545537.png";
 
 export const generatedBatch023Lessons: Record<string, LessonContent> = {
   "contact-precautions": {

@@ -1,60 +1,11 @@
-import { Stethoscope, BarChart3, GraduationCap, ArrowRight, BookOpen, Brain, Microscope } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { LocaleLink } from "@/lib/LocaleLink";
-
-interface TierContent {
-  headline: string;
-  subheadline: string;
-  stats: { value: string; label: string }[];
-  primaryCta: { text: string; href: string };
-  secondaryCta: { text: string; href: string };
-  badges: string[];
-}
-
-const tierContent: Record<string, TierContent> = {
-  rpn: {
-    headline: "Master the Nursing Concepts Tested on the REx-PN",
-    subheadline: "Clear, step-by-step lessons that simplify disease processes, nursing priorities, and safety concepts so you can confidently answer REx-PN exam questions.",
-    stats: [
-      { value: "240+", label: "RPN Lessons" },
-      { value: "12", label: "Body Systems" },
-      { value: "1000+", label: "Practice Questions" },
-    ],
-    primaryCta: { text: "Start Free RPN Lessons", href: "/register" },
-    secondaryCta: { text: "View Study Plan", href: "/pricing" },
-    badges: ["Step-by-Step Learning", "REx-PN Aligned", "Confidence Building"],
-  },
-  rn: {
-    headline: "Master Nursing Pathophysiology the Way NCLEX Tests It",
-    subheadline: "Deep clinical lessons that teach the reasoning behind disease processes so you can solve unfamiliar NCLEX questions.",
-    stats: [
-      { value: "500+", label: "RN Lessons" },
-      { value: "12", label: "Body Systems" },
-      { value: "3000+", label: "Practice Questions" },
-      { value: "Adaptive", label: "Exam Simulator" },
-    ],
-    primaryCta: { text: "Start Studying Free", href: "/register" },
-    secondaryCta: { text: "Try NCLEX Practice Questions", href: "/nclex-rn-practice-questions" },
-    badges: ["Clinical Pathophysiology", "NCLEX Reasoning", "Exam Focused"],
-  },
-  np: {
-    headline: "Master Advanced Pathophysiology for NP Certification",
-    subheadline: "In-depth lessons designed to strengthen diagnostic reasoning, clinical decision-making, and certification exam performance.",
-    stats: [
-      { value: "800+", label: "Advanced Lessons" },
-      { value: "Multi-system", label: "Pathophysiology" },
-      { value: "Clinical", label: "Reasoning Modules" },
-    ],
-    primaryCta: { text: "Start Free Trial", href: "/register" },
-    secondaryCta: { text: "Explore NP Content", href: "/np-exam-practice-questions" },
-    badges: ["Advanced Practice", "Diagnostic Reasoning", "NP Certification"],
-  },
-};
+import { getTierHero } from "@shared/tier-messaging";
 
 const badgeColors = ["bg-green-100 text-green-800", "bg-blue-100 text-blue-800", "bg-purple-100 text-purple-800"];
 
 export function LessonLibraryHero({ activeTier }: { activeTier: string }) {
-  const effectiveTier = activeTier === "pharmacology" ? "rpn" : activeTier;
-  const content = tierContent[effectiveTier] || tierContent.rpn;
+  const content = getTierHero(activeTier);
 
   return (
     <section

@@ -1,5 +1,6 @@
 import type { LessonContent } from "./types";
-import { imgTrisomy21, imgTurnerSyndrome } from "../flashcards-rpn";
+const imgTrisomy21 = "/attached_assets/trisomy21_1773340545537.png";
+const imgTurnerSyndrome = "/attached_assets/turnersyndrome_1773340545537.png";
 
 export const generatedBatch098Lessons: Record<string, LessonContent> = {
   "trichomoniasis": {

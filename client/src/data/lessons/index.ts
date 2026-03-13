@@ -233,6 +233,12 @@ import { bloodTransfusionReactionTypesExtendedLessons } from "./blood-transfusio
 import { cbiLessons } from "./continuous-bladder-irrigation";
 import { rnExpandedLessons } from "./rn-expanded-content";
 import { npExpandedLessons } from "./np-expanded-content";
+import { npGeneratedBatch1 } from "./np-generated-batch-1";
+import { npGeneratedBatch2 } from "./np-generated-batch-2";
+import { npGeneratedBatch3 } from "./np-generated-batch-3";
+import { npGeneratedBatch4 } from "./np-generated-batch-4";
+import { npGeneratedBatch5 } from "./np-generated-batch-5";
+import { npGeneratedBatch6 } from "./np-generated-batch-6";
 
 export type { LessonContent } from "./types";
 
@@ -574,6 +580,12 @@ export const contentMap: Record<string, LessonContent> = safeMerge({},
   generatedBatch111Lessons,
   rnExpandedLessons,
   npExpandedLessons,
+  npGeneratedBatch1,
+  npGeneratedBatch2,
+  npGeneratedBatch3,
+  npGeneratedBatch4,
+  npGeneratedBatch5,
+  npGeneratedBatch6,
 );
 
 

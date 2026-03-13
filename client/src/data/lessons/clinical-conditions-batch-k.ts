@@ -1,5 +1,5 @@
 import type { LessonContent } from "./types";
-import { imgTonsillectomy } from "../flashcards-rpn";
+const imgTonsillectomy = "/attached_assets/tonsillectomy_1773340545537.png";
 
 export const clinicalConditionsBatchKLessons: Record<string, LessonContent> = {
   "pancreatitis-management-rpn": {

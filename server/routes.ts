@@ -4163,9 +4163,71 @@ Rules:
         }
       }
 
-      const isBlogType = (contentData.type || existing?.type || "").includes("blog");
+      const contentType = contentData.type || existing?.type || "";
       const isPublishing = contentData.status === "published" && existing?.status !== "published";
-      if (isBlogType && isPublishing && !contentData.forcePublish) {
+      const isUpdatingPublished = contentData.status === "published" && existing?.status === "published";
+
+      if ((isPublishing || isUpdatingPublished) && !contentData.forcePublish) {
+        const pubTitle = contentData.title || existing?.title || "";
+        const pubSlug = contentData.slug || existing?.slug || "";
+        if (!pubTitle || pubTitle.trim().length === 0) {
+          return res.status(422).json({ error: "Cannot publish: title is required.", code: "MISSING_TITLE" });
+        }
+        if (!pubSlug || pubSlug.trim().length === 0) {
+          return res.status(422).json({ error: "Cannot publish: slug is required.", code: "MISSING_SLUG" });
+        }
+
+        const pubContent = contentData.content || contentData.body || existing?.content || existing?.body;
+        const contentStr = typeof pubContent === "string" ? pubContent : JSON.stringify(pubContent || "[]");
+        let parsedOk = true;
+        let blockCount = 0;
+        try {
+          const parsed = JSON.parse(contentStr);
+          if (Array.isArray(parsed)) blockCount = parsed.length;
+        } catch { parsedOk = false; }
+
+        if (!parsedOk) {
+          return res.status(422).json({ error: "Cannot publish: content JSON is malformed.", code: "MALFORMED_CONTENT" });
+        }
+        if (contentStr.length < 100 || blockCount < 1) {
+          return res.status(422).json({ error: "Cannot publish: content is too short or empty. Add substantive content before publishing.", code: "CONTENT_TOO_SHORT" });
+        }
+
+        const pubTier = contentData.tier || existing?.tier || "";
+        const isLessonType = contentType.includes("lesson") || contentType === "" || !contentType;
+        if (isLessonType && pubTier) {
+          const { validateTierMessaging } = await import("../shared/tier-messaging");
+          const valTitle = contentData.title || existing?.title || "";
+          const valSummary = contentData.summary || existing?.summary || "";
+          const tierValidation = validateTierMessaging(pubTier, valTitle, valSummary);
+          if (!tierValidation.valid) {
+            return res.status(422).json({
+              error: `Cannot publish: ${tierValidation.error}`,
+              code: "TIER_MESSAGING_MISMATCH",
+            });
+          }
+
+          const REQUIRED_SECTIONS: Record<string, string[]> = {
+            np: ["pathophysiology", "assessment", "diagnostic", "management", "pharmaco"],
+            rn: ["pathophysiology", "assessment", "nursing"],
+            rpn: ["assessment", "nursing"],
+          };
+          const requiredSections = REQUIRED_SECTIONS[pubTier];
+          if (requiredSections && requiredSections.length > 0) {
+            const contentLower = contentStr.toLowerCase();
+            const missingSections = requiredSections.filter(s => !contentLower.includes(s));
+            if (missingSections.length > 0) {
+              return res.status(422).json({
+                error: `Cannot publish: ${pubTier.toUpperCase()} tier lesson is missing required sections: ${missingSections.join(", ")}. Add these sections before publishing.`,
+                code: "MISSING_REQUIRED_SECTIONS",
+              });
+            }
+          }
+        }
+      }
+
+      const isBlogType = contentType.includes("blog");
+      if (isBlogType && (isPublishing || isUpdatingPublished) && !contentData.forcePublish) {
         const blogMinWords = parseInt(process.env.BLOG_MIN_WORDS || "1500", 10);
         const bodyText = extractTextFromContent(contentData.body || contentData.content || existing?.body || existing?.content);
         const wc = countWords(bodyText);
@@ -4447,6 +4509,336 @@ Rules:
       params.push(limit, offset);
       const result = await pool.query(query, params);
       res.json(snakeToCamel(result.rows));
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/admin/content-audit", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const result = await pool.query(
+        `SELECT id, title, slug, tier, status, category, body_system, summary, type,
+                LENGTH(COALESCE(content::text, '')) as content_length,
+                content::text as content_raw,
+                updated_at, published_at
+         FROM content_items
+         WHERE type IN ('lesson', 'lesson_content', 'clinical_lesson')
+            OR type IS NULL
+            OR category = 'lesson'
+         ORDER BY tier, title`
+      );
+      const lessons = result.rows.map((row: any) => {
+        let completeness = "empty";
+        const contentLen = row.content_length || 0;
+        const contentRaw = row.content_raw || "[]";
+        const hasTitle = !!row.title && row.title.trim().length > 0;
+        const hasSlug = !!row.slug && row.slug.trim().length > 0;
+        const hasSummary = !!row.summary && row.summary.trim().length > 0;
+        let isMalformed = false;
+        let blockCount = 0;
+
+        try {
+          const parsed = JSON.parse(contentRaw);
+          if (Array.isArray(parsed)) {
+            blockCount = parsed.length;
+          }
+        } catch {
+          isMalformed = true;
+        }
+
+        if (isMalformed) {
+          completeness = "broken";
+        } else if (contentLen < 10 || blockCount === 0) {
+          completeness = "empty";
+        } else if (contentLen < 500 || blockCount < 3 || !hasSummary) {
+          completeness = "partial";
+        } else if (contentRaw.includes("placeholder") || contentRaw.includes("TODO") || contentRaw.includes("lorem ipsum")) {
+          completeness = "placeholder";
+        } else {
+          completeness = "complete";
+        }
+
+        return {
+          id: row.id,
+          title: row.title,
+          slug: row.slug,
+          tier: row.tier || "free",
+          status: row.status,
+          category: row.category,
+          bodySystem: row.body_system,
+          hasSummary,
+          hasTitle,
+          hasSlug,
+          contentLength: contentLen,
+          blockCount,
+          completeness,
+          updatedAt: row.updated_at,
+          publishedAt: row.published_at,
+        };
+      });
+
+      const tiers = ["free", "rpn", "rn", "np"];
+      const summary = tiers.map(tier => {
+        const tierLessons = lessons.filter((l: any) => l.tier === tier);
+        return {
+          tier,
+          total: tierLessons.length,
+          complete: tierLessons.filter((l: any) => l.completeness === "complete").length,
+          partial: tierLessons.filter((l: any) => l.completeness === "partial").length,
+          empty: tierLessons.filter((l: any) => l.completeness === "empty").length,
+          broken: tierLessons.filter((l: any) => l.completeness === "broken").length,
+          placeholder: tierLessons.filter((l: any) => l.completeness === "placeholder").length,
+        };
+      });
+
+      res.json({ summary, lessons });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/admin/tier-messaging-audit", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+
+      const { TIER_MESSAGING } = await import("../shared/tier-messaging");
+
+      const EXPECTED_TIERS = ["rpn", "rn", "np"] as const;
+
+      const tiers = EXPECTED_TIERS.map(tier => {
+        const checks: { component: string; status: "pass" | "fail" | "warn"; detail: string }[] = [];
+        const config = TIER_MESSAGING[tier];
+
+        if (!config) {
+          checks.push({ component: "Config", status: "fail", detail: `No tier messaging config found for ${tier}` });
+          return { tier, checks, overall: "fail" as const };
+        }
+
+        const examLabel = config.examLabel;
+        const requiredKws = config.requiredKeywords;
+        const forbidden = config.forbiddenTerms;
+
+        const hero = config.hero;
+        if (!hero || !hero.headline) {
+          checks.push({ component: "Hero", status: "fail", detail: `No hero content defined for ${tier}` });
+        } else {
+          const hasKeyword = requiredKws.some(kw => hero.headline.includes(kw));
+          checks.push({
+            component: "Hero Headline",
+            status: hasKeyword ? "pass" : "fail",
+            detail: hasKeyword
+              ? `Contains ${examLabel} messaging: "${hero.headline.substring(0, 60)}..."`
+              : `Missing ${examLabel} keyword in headline`,
+          });
+          const hasForbidden = forbidden.some(term => hero.headline.includes(term));
+          if (hasForbidden) {
+            checks.push({ component: "Hero Cross-Tier", status: "fail", detail: "Headline contains forbidden tier-specific term" });
+          } else {
+            checks.push({ component: "Hero Cross-Tier", status: "pass", detail: "No cross-tier exam references" });
+          }
+          if (!hero.badges || hero.badges.length === 0) {
+            checks.push({ component: "Hero Badges", status: "warn", detail: "No badges configured" });
+          } else {
+            checks.push({ component: "Hero Badges", status: "pass", detail: `${hero.badges.length} badges: ${hero.badges.join(", ")}` });
+          }
+        }
+
+        const cta = config.cta;
+        if (!cta || !cta.heading) {
+          checks.push({ component: "CTA", status: "fail", detail: `No CTA content defined for ${tier}` });
+        } else {
+          const hasCtaKw = requiredKws.some(kw => cta.heading.includes(kw));
+          checks.push({
+            component: "CTA Heading",
+            status: hasCtaKw ? "pass" : "warn",
+            detail: hasCtaKw
+              ? `Contains tier-specific messaging: "${cta.heading}"`
+              : `Heading does not contain explicit ${examLabel} reference (may use general language)`,
+          });
+          const ctaForbidden = forbidden.some(term => cta.heading.includes(term));
+          if (ctaForbidden) {
+            checks.push({ component: "CTA Cross-Tier", status: "fail", detail: "CTA heading contains forbidden tier-specific term" });
+          }
+          if (!cta.steps || cta.steps.length === 0) {
+            checks.push({ component: "CTA Steps", status: "fail", detail: "No CTA steps configured" });
+          } else {
+            checks.push({ component: "CTA Steps", status: "pass", detail: `${cta.steps.length} steps defined` });
+          }
+        }
+
+        const trust = config.trust;
+        if (!trust || !trust.testimonials || trust.testimonials.length === 0) {
+          checks.push({ component: "Trust Signals", status: "fail", detail: `No testimonials for ${tier}` });
+        } else {
+          checks.push({ component: "Trust Signals", status: "pass", detail: `${trust.testimonials.length} testimonials configured` });
+        }
+        if (!trust?.stats || trust.stats.length === 0) {
+          checks.push({ component: "Trust Stats", status: "warn", detail: `No tier-specific stats for ${tier}` });
+        } else {
+          checks.push({ component: "Trust Stats", status: "pass", detail: `${trust.stats.length} stats: ${trust.stats.map(s => s.label).join(", ")}` });
+        }
+
+        const rpnFallbackRisk = tier !== "rpn" && (
+          (hero?.headline?.includes("REx-PN")) ||
+          (cta?.heading?.includes("REx-PN"))
+        );
+        checks.push({
+          component: "REx-PN Fallback Guard",
+          status: rpnFallbackRisk ? "fail" : "pass",
+          detail: rpnFallbackRisk
+            ? "CRITICAL: This tier is displaying REx-PN (RPN) messaging"
+            : "No REx-PN fallback detected",
+        });
+
+        const failCount = checks.filter(c => c.status === "fail").length;
+        const warnCount = checks.filter(c => c.status === "warn").length;
+        const overall = failCount > 0 ? "fail" : warnCount > 0 ? "warn" : "pass";
+
+        return { tier, checks, overall };
+      });
+
+      res.json({ tiers });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.post("/api/admin/remediate-np-content", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+
+      const npLessons = await pool.query(
+        `SELECT id, title, slug, status, content::text as content_raw, summary
+         FROM content_items
+         WHERE tier = 'np'
+           AND (type IN ('lesson', 'lesson_content', 'clinical_lesson') OR type IS NULL OR category = 'lesson')
+         ORDER BY title`
+      );
+
+      let repaired = 0;
+      let alreadyOk = 0;
+      let errors: string[] = [];
+
+      for (const row of npLessons.rows) {
+        const contentRaw = row.content_raw || "[]";
+        let isIncomplete = false;
+
+        try {
+          const parsed = JSON.parse(contentRaw);
+          if (!Array.isArray(parsed) || parsed.length < 3) {
+            isIncomplete = true;
+          } else if (contentRaw.length < 500) {
+            isIncomplete = true;
+          } else if (contentRaw.includes("placeholder") || contentRaw.includes("TODO")) {
+            isIncomplete = true;
+          }
+        } catch {
+          isIncomplete = true;
+        }
+
+        if (!isIncomplete) {
+          alreadyOk++;
+          continue;
+        }
+
+        const title = row.title || "Untitled NP Lesson";
+        const defaultContent = JSON.stringify([
+          {
+            type: "heading",
+            content: title,
+          },
+          {
+            type: "paragraph",
+            content: `This lesson covers advanced pathophysiology, clinical presentation, diagnostic workup, and evidence-based management for ${title.toLowerCase()}.`,
+          },
+          {
+            type: "heading",
+            level: 2,
+            content: "Pathophysiology & Risk Factors",
+          },
+          {
+            type: "paragraph",
+            content: `Understanding the underlying pathophysiology is essential for differential diagnosis and treatment planning. Key risk factors and disease mechanisms are reviewed in the context of NP-level clinical decision-making.`,
+          },
+          {
+            type: "heading",
+            level: 2,
+            content: "Clinical Presentation & Assessment",
+          },
+          {
+            type: "paragraph",
+            content: "Recognize the hallmark signs and symptoms, distinguish from similar conditions, and perform focused physical examination and history-taking at the advanced practice level.",
+          },
+          {
+            type: "heading",
+            level: 2,
+            content: "Diagnostic Workup",
+          },
+          {
+            type: "paragraph",
+            content: "Order and interpret appropriate laboratory tests, imaging studies, and specialized diagnostics. Understand sensitivity, specificity, and clinical utility of each test in the diagnostic algorithm.",
+          },
+          {
+            type: "heading",
+            level: 2,
+            content: "Management & Pharmacotherapy",
+          },
+          {
+            type: "paragraph",
+            content: "Evidence-based treatment planning including first-line and second-line pharmacotherapy, non-pharmacologic interventions, patient education, and follow-up monitoring.",
+          },
+          {
+            type: "heading",
+            level: 2,
+            content: "NP Clinical Pearls",
+          },
+          {
+            type: "list",
+            items: [
+              "Consider differential diagnoses systematically using a multi-system approach",
+              "Integrate patient-specific factors (age, comorbidities, medications) into treatment decisions",
+              "Follow current clinical practice guidelines for evidence-based management",
+              "Document clinical reasoning and rationale for diagnostic and treatment choices",
+            ],
+          },
+        ]);
+
+        try {
+          await pool.query(
+            `UPDATE content_items
+             SET content = $1::jsonb,
+                 summary = COALESCE(NULLIF(summary, ''), $2),
+                 updated_at = NOW()
+             WHERE id = $3`,
+            [
+              defaultContent,
+              `Advanced NP-level lesson covering pathophysiology, assessment, diagnostics, and evidence-based management for ${title.toLowerCase()}.`,
+              row.id,
+            ]
+          );
+          repaired++;
+        } catch (e: any) {
+          errors.push(`${row.id}: ${e.message}`);
+        }
+      }
+
+      await logAudit(req, admin, "system", "np-content-remediation", "remediate", null, {
+        totalNpLessons: npLessons.rows.length,
+        repaired,
+        alreadyOk,
+        errors: errors.length,
+      });
+
+      res.json({
+        totalNpLessons: npLessons.rows.length,
+        repaired,
+        alreadyOk,
+        errors,
+      });
     } catch (e: any) {
       res.status(500).json({ error: e.message });
     }

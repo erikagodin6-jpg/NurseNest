@@ -1,5 +1,6 @@
 import type { LessonContent } from "./types";
-import { imgErysipelas, imgEsophagealVarices } from "../flashcards-rpn";
+const imgErysipelas = "/attached_assets/erisypelas_1773374861631.png";
+const imgEsophagealVarices = "/attached_assets/esophagealvarices_1773374861631.png";
 
 export const generatedBatch034Lessons: Record<string, LessonContent> = {
   "epiglottitis": {

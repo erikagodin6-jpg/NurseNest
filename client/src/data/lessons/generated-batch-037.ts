@@ -1,5 +1,7 @@
 import type { LessonContent } from "./types";
-import { imgFractureTypes, imgFundalHeight, imgFungalInfections } from "../flashcards-rpn";
+const imgFractureTypes = "/attached_assets/fracture_1773374861631.png";
+const imgFundalHeight = "/attached_assets/fundalheight_1773374861631.jpeg";
+const imgFungalInfections = "/attached_assets/fungal_1773374861631.jpeg";
 
 export const generatedBatch037Lessons: Record<string, LessonContent> = {
   "fluid-electrolyte-basics": {

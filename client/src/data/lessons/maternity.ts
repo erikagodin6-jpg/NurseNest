@@ -1,5 +1,7 @@
 import type { LessonContent } from "./types";
-import { imgStagesOfLabor, imgRhIncompatibility, imgGestationalDiabetesRpn } from "../flashcards-rpn";
+const imgStagesOfLabor = "/attached_assets/stages_1773375229956.png";
+const imgRhIncompatibility = "/attached_assets/Rhincompatibility_1773340545537.png";
+const imgGestationalDiabetesRpn = "/attached_assets/gestational_1773374861631.png";
 
 export const maternityLessons: Record<string, LessonContent> = {
   "fetal-monitoring-advanced": {

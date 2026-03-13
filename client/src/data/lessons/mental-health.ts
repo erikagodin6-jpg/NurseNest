@@ -1,5 +1,5 @@
 import type { LessonContent } from "./types";
-import { imgSubstanceAbuse } from "../flashcards-rpn";
+const imgSubstanceAbuse = "/attached_assets/substanceabuse_1773340545537.png";
 
 export const mentalHealthLessons: Record<string, LessonContent> = {
   "schizophrenia": {

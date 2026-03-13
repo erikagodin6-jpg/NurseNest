@@ -16,7 +16,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { 
   ArrowLeft, Microscope, AlertCircle, Stethoscope, Pill, Lightbulb, FileText,
   CheckCircle2, XCircle, Trophy, Activity, Heart, Droplets, Brain, Wind, Zap, Baby, Users, Eye, Beaker, Leaf, ShieldAlert,
-  ClipboardList, HeartPulse, HandHelping, Search, Lock, StickyNote, Save, Crown, TrendingUp, BarChart3, BookOpen, Pencil, X, Plus, Trash2,
+  ClipboardList, HeartPulse, HandHelping, Search, Lock, StickyNote, Save, Crown, TrendingUp, BarChart3, Pencil, X, Plus, Trash2,
   PlayCircle, Clock, ChevronRight, ChevronLeft, Sparkles, Loader2, Wand2, ArrowRight
 } from "lucide-react";
 import { getLecturesForLesson } from "@/data/micro-lectures";
@@ -2923,7 +2923,7 @@ export default function LessonDetail() {
                 </TabsTrigger>
               )}
               <TabsTrigger value="content" className="gap-2 text-sm" data-testid="tab-content">
-                <BookOpen className="w-4 h-4" />
+                <Stethoscope className="w-4 h-4" />
                 Clinical Content
               </TabsTrigger>
               {!hidePostTest && (
@@ -3473,7 +3473,7 @@ export default function LessonDetail() {
                     className="flex items-center gap-3 p-3 rounded-xl bg-gray-50 border border-gray-100 hover:border-primary/30 hover:bg-primary/5 transition-all group"
                     data-testid={`link-internal-${i}`}
                   >
-                    <BookOpen className="w-4 h-4 text-primary flex-shrink-0" />
+                    <span className="w-1.5 h-1.5 rounded-full bg-primary flex-shrink-0" />
                     <span className="text-sm font-medium text-gray-700 group-hover:text-primary capitalize">{link.anchor}</span>
                   </LocaleLink>
                 ))}

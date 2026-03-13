@@ -1,5 +1,6 @@
 import type { LessonContent } from "./types";
-import { imgGERD, imgGestationalDiabetesRpn } from "../flashcards-rpn";
+const imgGERD = "/attached_assets/GERD_1773374861631.png";
+const imgGestationalDiabetesRpn = "/attached_assets/gestational_1773374861631.png";
 
 export const generatedBatch039Lessons: Record<string, LessonContent> = {
   "gerd-diagnostic-criteria-np": {

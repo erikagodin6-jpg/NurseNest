@@ -1,5 +1,8 @@
 import type { LessonContent } from "./types";
-import { imgGalactosemia, imgGERD, imgFungalInfections, imgGAS } from "../flashcards-rpn";
+const imgGalactosemia = "/attached_assets/galactosemia_1773374861631.png";
+const imgGERD = "/attached_assets/GERD_1773374861631.png";
+const imgFungalInfections = "/attached_assets/fungal_1773374861631.jpeg";
+const imgGAS = "/attached_assets/GAS_1773374861631.png";
 
 export const generatedBatch038Lessons: Record<string, LessonContent> = {
   "fungal-sepsis-rn": {

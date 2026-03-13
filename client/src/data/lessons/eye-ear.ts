@@ -1,5 +1,5 @@
 import type { LessonContent } from "./types";
-import { imgGlaucoma } from "../flashcards-rpn";
+const imgGlaucoma = "/attached_assets/glaucoma_1773374861631.png";
 
 const glaucoma: LessonContent = {
   title: "Glaucoma",

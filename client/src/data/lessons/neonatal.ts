@@ -1,5 +1,7 @@
 import type { LessonContent } from "./types";
-import { imgThermoregulation, imgROP, imgUmbilicalCordCare } from "../flashcards-rpn";
+const imgThermoregulation = "/attached_assets/Thermoregulation_1773340545537.png";
+const imgROP = "/attached_assets/ROP_1773340545537.png";
+const imgUmbilicalCordCare = "/attached_assets/umbilicalcordcare_1773340545537.png";
 
 export const neonatalLessons: Record<string, LessonContent> = {
   "newborn-assessment": {

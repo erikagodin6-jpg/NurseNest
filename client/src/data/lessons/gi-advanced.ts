@@ -1,5 +1,5 @@
 import type { LessonContent } from "./types";
-import { imgEsophagealVarices } from "../flashcards-rpn";
+const imgEsophagealVarices = "/attached_assets/esophagealvarices_1773374861631.png";
 
 export const giAdvancedLessons: Record<string, LessonContent> = {
   "bariatric-surgery": {

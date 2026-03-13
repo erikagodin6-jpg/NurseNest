@@ -1,5 +1,5 @@
 import type { LessonContent } from "./types";
-import { imgVPShunt } from "../flashcards-rpn";
+const imgVPShunt = "/attached_assets/VP_1773375165171.png";
 
 export const generatedBatch047Lessons: Record<string, LessonContent> = {
   "htn-all-stages-np": {

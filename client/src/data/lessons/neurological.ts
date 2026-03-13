@@ -1,5 +1,5 @@
 import type { LessonContent } from "./types";
-import { imgFebrileSeizures } from "../flashcards-rpn";
+const imgFebrileSeizures = "/attached_assets/febrileseizures_1773374861631.png";
 
 export const neurologicalLessons: Record<string, LessonContent> = {
   "neuro-basics": {

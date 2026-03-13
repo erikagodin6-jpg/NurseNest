@@ -1,47 +1,9 @@
 import { LocaleLink } from "@/lib/LocaleLink";
 import { ArrowRight } from "lucide-react";
-
-const stepsData: Record<string, { steps: { title: string; description: string }[]; heading: string; subtext: string }> = {
-  rpn: {
-    steps: [
-      { title: "Learn the Concept", description: "Understand disease processes in simple, practical clinical terms" },
-      { title: "Practice REx-PN Questions", description: "Apply knowledge to exam-style questions with detailed rationales" },
-      { title: "Identify Weak Areas", description: "Focus your review on topics that need the most attention" },
-      { title: "Build Exam Confidence", description: "Enter your REx-PN feeling prepared and in control" },
-    ],
-    heading: "Feel Confident Going Into the REx-PN",
-    subtext: "Lessons, practice questions, and exam-aligned explanations designed for practical nursing students.",
-  },
-  rn: {
-    steps: [
-      { title: "Learn the Pathophysiology", description: "Understand the mechanisms behind each disease process at a clinical level" },
-      { title: "Practice NCLEX Reasoning", description: "Solve questions the way NCLEX actually tests critical thinking" },
-      { title: "Identify Weak Systems", description: "Target body systems and topics where you need focused review" },
-      { title: "Simulate the Exam", description: "Build stamina and confidence with adaptive exam simulation" },
-    ],
-    heading: "Ready to Pass NCLEX-RN?",
-    subtext: "Deep clinical lessons, thousands of practice questions, and an adaptive exam simulator built for nursing students.",
-  },
-  np: {
-    steps: [
-      { title: "Master Advanced Pathophysiology", description: "Deepen understanding of complex multi-system disease processes" },
-      { title: "Apply Diagnostic Reasoning", description: "Develop clinical decision-making skills for differential diagnosis" },
-      { title: "Integrate Pharmacotherapeutics", description: "Connect pathophysiology to evidence-based prescribing decisions" },
-      { title: "Prepare for Certification", description: "Strengthen exam performance with advanced practice-level content" },
-    ],
-    heading: "Strengthen Your NP Clinical Reasoning",
-    subtext: "Advanced pathophysiology, diagnostic reasoning, and pharmacotherapeutics for NP certification success.",
-  },
-};
-
-function resolveContent(activeTier: string) {
-  if (activeTier === "pharmacology") return stepsData.rpn;
-  if (activeTier in stepsData) return stepsData[activeTier];
-  return stepsData.rpn;
-}
+import { getTierCta } from "@shared/tier-messaging";
 
 export function LessonLibraryCTA({ activeTier }: { activeTier: string }) {
-  const content = resolveContent(activeTier);
+  const content = getTierCta(activeTier);
 
   return (
     <>
