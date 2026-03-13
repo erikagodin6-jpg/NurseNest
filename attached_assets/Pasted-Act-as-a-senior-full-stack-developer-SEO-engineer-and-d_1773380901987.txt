@@ -1,0 +1,77 @@
+Act as a senior full-stack developer, SEO engineer, and digital marketing strategist.
+
+Your goal is to transform my website into a high-traffic, SEO-optimized platform that ranks well on Google and converts visitors into users.
+
+First analyze the entire project, including:
+- HTML structure
+- page hierarchy
+- meta tags
+- performance
+- mobile responsiveness
+- SEO structure
+- internal linking
+- content structure
+
+Then implement the following improvements:
+
+SEO Optimization
+- Add optimized meta titles and meta descriptions to every page.
+- Ensure each page has one clear H1 tag and proper H2/H3 structure.
+- Add Open Graph and Twitter card meta tags for social sharing.
+- Add structured data (Schema.org JSON-LD) for search engines.
+- Ensure all images have descriptive alt text.
+- Generate SEO-friendly URLs.
+- Improve internal linking across pages.
+
+Performance Optimization
+- Reduce unnecessary JavaScript and CSS.
+- Optimize images and lazy load them.
+- Improve loading speed and Core Web Vitals.
+- Ensure mobile-first responsive design.
+
+Content Growth System
+Create a scalable content strategy for organic traffic.
+
+Generate:
+- 50 SEO blog post ideas related to my niche
+- Long-tail keywords for each article
+- SEO-optimized article outlines
+- FAQ sections targeting Google featured snippets
+
+Programmatic SEO
+Suggest pages that can be automatically generated to target many search queries.
+
+Examples:
+- location pages
+- comparison pages
+- tool pages
+- resource pages
+- guides
+
+Marketing & Conversion
+Improve the website to increase conversions.
+
+Add suggestions for:
+- strong call-to-action buttons
+- email signup forms
+- lead magnets
+- landing page improvements
+- trust signals and testimonials
+
+Backlink Strategy
+Provide strategies to acquire backlinks from:
+- blogs
+- directories
+- partnerships
+- guest posting
+
+Analytics & Tracking
+Recommend analytics tools and add code integration for:
+- Google Analytics
+- Search Console
+- conversion tracking
+
+Finally provide:
+1. A prioritized list of improvements
+2. Code changes that can be implemented immediately
+3. A 90-day SEO and traffic growth roadmap

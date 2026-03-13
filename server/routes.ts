@@ -16604,7 +16604,7 @@ Return ONLY valid JSON with this exact structure:
       const category = req.query.category as string;
       const difficulty = req.query.difficulty as string;
 
-      const conditions = ["status = 'published'", "flashcard_enabled = true", "source_type = 'cat_exam'"];
+      const conditions = ["status = 'published'", "flashcard_enabled = true", "source_type = 'cat_exam'", "options::text != '[]'", "options IS NOT NULL"];
       const params: any[] = [];
       let paramIdx = 1;
 
@@ -16634,25 +16634,24 @@ Return ONLY valid JSON with this exact structure:
         [...params, count]
       );
 
+      function safeParseJson(val: any, fallback: any = []) {
+        if (val === null || val === undefined) return fallback;
+        if (typeof val === "object") return val;
+        try { return JSON.parse(val); } catch { return fallback; }
+      }
+
       const mapped = rows.map((r: any) => {
-        const opts = typeof r.options === "string" ? JSON.parse(r.options) : (r.options || []);
-        const correctIdx = typeof r.correct_answer === "string" ? JSON.parse(r.correct_answer) : (r.correct_answer || []);
+        let opts = safeParseJson(r.options, []);
+        if (!Array.isArray(opts)) opts = [];
+        const correctIdx = safeParseJson(r.correct_answer, []);
         const idx = Array.isArray(correctIdx) ? correctIdx[0] : correctIdx;
         const optTexts = opts.map((o: any) => typeof o === "object" ? (o.text || String(o)) : String(o));
         const letters = ["A", "B", "C", "D", "E", "F"];
         const correctLetter = letters[idx] || "A";
 
-        const distractors = typeof r.distractor_rationales === "string"
-          ? JSON.parse(r.distractor_rationales)
-          : (r.distractor_rationales || {});
-
-        const media = typeof r.rationale_media === "string"
-          ? JSON.parse(r.rationale_media)
-          : (r.rationale_media || []);
-
-        const lessons = typeof r.lesson_links === "string"
-          ? JSON.parse(r.lesson_links)
-          : (r.lesson_links || []);
+        const distractors = safeParseJson(r.distractor_rationales, {});
+        const media = safeParseJson(r.rationale_media, []);
+        const lessons = safeParseJson(r.lesson_links, []);
 
         return {
           id: r.id,
@@ -16687,6 +16686,8 @@ Return ONLY valid JSON with this exact structure:
 
   app.get("/api/test-bank/stats", async (req, res) => {
     try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
       const { rows: tierCounts } = await pool.query(
         `SELECT tier, COUNT(*)::int as count FROM flashcard_bank 
          WHERE source_type = 'cat_exam' AND flashcard_enabled = true AND status = 'published'

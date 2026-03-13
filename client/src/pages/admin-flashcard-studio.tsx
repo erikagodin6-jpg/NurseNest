@@ -72,7 +72,7 @@ interface FlashcardDetail {
   updatedAt: string;
 }
 
-type TabType = "list" | "create" | "convert" | "import" | "preview";
+type TabType = "list" | "create" | "convert" | "import" | "preview" | "stats";
 
 const TIERS = ["rpn", "rn", "np"];
 const STATUSES = ["draft", "published", "archived", "needs_review", "approved"];
@@ -560,6 +560,7 @@ export default function AdminFlashcardStudio() {
               ["convert", "Convert Q-Bank", ArrowRightLeft],
               ["import", "Bulk Import", Upload],
               ["preview", "Tier Preview", Eye],
+              ["stats", "Content Reuse", RefreshCw],
             ] as [TabType, string, any][]).map(([t, label, Icon]) => (
               <Button
                 key={t}
@@ -1330,8 +1331,227 @@ export default function AdminFlashcardStudio() {
               </Card>
             </div>
           )}
+          {tab === "stats" && <ContentReuseStats />}
         </div>
       </main>
     </>
+  );
+}
+
+function ContentReuseStats() {
+  const [stats, setStats] = useState<any>(null);
+  const [syncResult, setSyncResult] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
+  const [syncing, setSyncing] = useState(false);
+
+  const fetchStats = useCallback(async () => {
+    setLoading(true);
+    try {
+      const [bankRes, tbRes] = await Promise.all([
+        adminFetch("/api/admin/exam-flashcards/stats"),
+        adminFetch("/api/test-bank/stats"),
+      ]);
+      const bankData = await bankRes.json();
+      const tbData = await tbRes.json();
+      setStats({ bank: bankData, testBank: tbData });
+    } catch (e: any) {
+      console.error("Failed to load stats:", e);
+    }
+    setLoading(false);
+  }, []);
+
+  useEffect(() => { fetchStats(); }, [fetchStats]);
+
+  const handleSync = async () => {
+    setSyncing(true);
+    setSyncResult(null);
+    try {
+      const res = await adminFetch("/api/admin/exam-flashcards/sync", { method: "POST" });
+      const data = await res.json();
+      setSyncResult(data);
+      await fetchStats();
+    } catch (e: any) {
+      setSyncResult({ error: e.message });
+    }
+    setSyncing(false);
+  };
+
+  if (loading) return <div className="flex items-center justify-center py-20"><Loader2 className="h-6 w-6 animate-spin text-gray-400" /></div>;
+  if (!stats) return <div className="text-center py-12 text-gray-500">Failed to load stats</div>;
+
+  const { bank, testBank } = stats;
+
+  return (
+    <div className="space-y-6">
+      <div className="flex items-center justify-between">
+        <div>
+          <h2 className="text-lg font-bold text-gray-900" data-testid="text-content-reuse-title">Content Reuse Dashboard</h2>
+          <p className="text-sm text-gray-500 mt-1">CAT exam questions mapped to Test Bank and Flashcard modes</p>
+        </div>
+        <Button
+          onClick={handleSync}
+          disabled={syncing}
+          className="bg-[#BFA6F6] hover:bg-[#a88de6] text-white"
+          data-testid="button-sync-mapper"
+        >
+          {syncing ? <Loader2 className="h-4 w-4 mr-2 animate-spin" /> : <RefreshCw className="h-4 w-4 mr-2" />}
+          {syncing ? "Syncing..." : "Re-sync All"}
+        </Button>
+      </div>
+
+      {syncResult && (
+        <Card className={syncResult.error ? "border-red-200 bg-red-50" : "border-green-200 bg-green-50"}>
+          <CardContent className="p-4">
+            {syncResult.error ? (
+              <p className="text-sm text-red-700"><XCircle className="w-4 h-4 inline mr-1" />{syncResult.error}</p>
+            ) : (
+              <div className="text-sm text-green-700">
+                <p className="font-medium mb-1"><CheckCircle className="w-4 h-4 inline mr-1" />Sync Complete</p>
+                <p>Total processed: {syncResult.total} | Created: {syncResult.created} | Updated: {syncResult.updated} | Skipped: {syncResult.skipped}</p>
+                {syncResult.perTier && (
+                  <p className="mt-1">Per tier: {Object.entries(syncResult.perTier).map(([t, c]) => `${t.toUpperCase()}: ${c}`).join(" | ")}</p>
+                )}
+              </div>
+            )}
+          </CardContent>
+        </Card>
+      )}
+
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <Card>
+          <CardContent className="p-5">
+            <p className="text-sm text-gray-500 font-medium mb-1">CAT Exam Questions</p>
+            <p className="text-3xl font-bold text-gray-900" data-testid="text-cat-total">
+              {testBank.catQuestions?.reduce((s: number, r: any) => s + r.count, 0) || 0}
+            </p>
+            <div className="flex gap-2 mt-2 flex-wrap">
+              {testBank.catQuestions?.map((r: any) => (
+                <Badge key={r.tier} className="bg-violet-50 text-violet-700 text-xs">{r.tier.toUpperCase()}: {r.count}</Badge>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardContent className="p-5">
+            <p className="text-sm text-gray-500 font-medium mb-1">Test Bank / Flashcard Entries</p>
+            <p className="text-3xl font-bold text-gray-900" data-testid="text-testbank-total">
+              {bank.totalExamFlashcards || 0}
+            </p>
+            <div className="flex gap-2 mt-2 flex-wrap">
+              {Object.entries(bank.perTier || {}).map(([tier, count]) => (
+                <Badge key={tier} className="bg-emerald-50 text-emerald-700 text-xs">{tier.toUpperCase()}: {count as number}</Badge>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardContent className="p-5">
+            <p className="text-sm text-gray-500 font-medium mb-1">Coverage Rate</p>
+            <p className="text-3xl font-bold text-gray-900" data-testid="text-coverage-rate">
+              {(() => {
+                const catTotal = testBank.catQuestions?.reduce((s: number, r: any) => s + r.count, 0) || 0;
+                return catTotal > 0 && bank.totalExamFlashcards
+                  ? `${Math.round((bank.totalExamFlashcards / catTotal) * 100)}%`
+                  : "N/A";
+              })()}
+            </p>
+            <p className="text-xs text-gray-400 mt-2">Unique questions mapped to study modes</p>
+          </CardContent>
+        </Card>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <Card>
+          <CardHeader className="pb-3">
+            <CardTitle className="text-sm font-semibold">Image Attachment Coverage</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-3">
+            {testBank.coverage?.map((r: any) => {
+              const total = (r.with_images || 0) + (r.missing_images || 0);
+              const pct = total ? Math.round((r.with_images / total) * 100) : 0;
+              return (
+                <div key={r.tier} data-testid={`stat-images-${r.tier}`}>
+                  <div className="flex justify-between text-sm mb-1">
+                    <span className="font-medium text-gray-700">{r.tier.toUpperCase()}</span>
+                    <span className="text-gray-500">{r.with_images} / {total} ({pct}%)</span>
+                  </div>
+                  <div className="h-2 bg-gray-100 rounded-full overflow-hidden">
+                    <div className="h-full bg-blue-500 rounded-full transition-all" style={{ width: `${pct}%` }} />
+                  </div>
+                </div>
+              );
+            })}
+            <p className="text-xs text-gray-400 mt-1">Questions with at least one matched clinical reference image</p>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader className="pb-3">
+            <CardTitle className="text-sm font-semibold">Lesson Link Coverage</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-3">
+            {testBank.coverage?.map((r: any) => {
+              const total = (r.with_lessons || 0) + (r.missing_lessons || 0);
+              const pct = total ? Math.round((r.with_lessons / total) * 100) : 0;
+              return (
+                <div key={r.tier} data-testid={`stat-lessons-${r.tier}`}>
+                  <div className="flex justify-between text-sm mb-1">
+                    <span className="font-medium text-gray-700">{r.tier.toUpperCase()}</span>
+                    <span className="text-gray-500">{r.with_lessons} / {total} ({pct}%)</span>
+                  </div>
+                  <div className="h-2 bg-gray-100 rounded-full overflow-hidden">
+                    <div className="h-full bg-emerald-500 rounded-full transition-all" style={{ width: `${pct}%` }} />
+                  </div>
+                </div>
+              );
+            })}
+            <p className="text-xs text-gray-400 mt-1">Questions linked to at least one study lesson</p>
+          </CardContent>
+        </Card>
+      </div>
+
+      {testBank.categories && testBank.categories.length > 0 && (
+        <Card>
+          <CardHeader className="pb-3">
+            <CardTitle className="text-sm font-semibold">Questions by Category & Tier</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              {["rpn", "rn", "np"].map(tier => {
+                const cats = testBank.categories.filter((c: any) => c.tier === tier).slice(0, 12);
+                if (cats.length === 0) return null;
+                return (
+                  <div key={tier}>
+                    <p className="text-sm font-semibold text-gray-700 mb-2">{tier.toUpperCase()}</p>
+                    <div className="space-y-1">
+                      {cats.map((c: any) => (
+                        <div key={c.category} className="flex justify-between text-xs">
+                          <span className="text-gray-600 truncate">{c.category || "Uncategorized"}</span>
+                          <span className="text-gray-400 font-medium ml-2">{c.count}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
+      <Card className="border-amber-200 bg-amber-50">
+        <CardContent className="p-4">
+          <p className="text-sm font-medium text-amber-800 mb-2">Summary</p>
+          <div className="text-xs text-amber-700 space-y-1">
+            <p>All CAT exam questions are available in three study modes: Adaptive CAT exams, Test Bank study, and Flashcard review.</p>
+            <p>Questions with matched images show clinical reference visuals in the rationale panel.</p>
+            <p>Questions with matched lessons show direct links to related study content.</p>
+            <p>Use the "Re-sync All" button to re-process all questions after adding new exam content or images.</p>
+          </div>
+        </CardContent>
+      </Card>
+    </div>
   );
 }
