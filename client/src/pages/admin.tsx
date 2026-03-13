@@ -1647,6 +1647,14 @@ export default function AdminPage() {
                       <Database className="w-4 h-4" />
                       Database Status & Sync
                     </a>
+                    <a
+                      href="/admin/demo-screenshot-studio"
+                      className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-indigo-50 border border-indigo-200 text-indigo-700 text-sm font-medium hover:bg-indigo-100 transition"
+                      data-testid="link-screenshot-studio"
+                    >
+                      <Eye className="w-4 h-4" />
+                      Screenshot Studio
+                    </a>
                   </div>
 
                   <div className="grid md:grid-cols-3 gap-6">
