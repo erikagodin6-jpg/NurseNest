@@ -101,6 +101,42 @@ function buildBreadcrumbs(pathname: string): { name: string; url: string }[] {
     return crumbs;
   }
 
+  const careerMatch = pathname.match(/^\/career-development\/(.+)$/);
+  if (careerMatch) {
+    crumbs.push({ name: "Career Development", url: `${SITE_BASE}/new-grad` });
+    crumbs.push({ name: slugToTitle(careerMatch[1]), url: `${SITE_BASE}${pathname}` });
+    return crumbs;
+  }
+
+  const newGradCareerMatch = pathname.match(/^\/new-grad\/career\/(.+)$/);
+  if (newGradCareerMatch) {
+    crumbs.push({ name: "New Grad Hub", url: `${SITE_BASE}/new-grad` });
+    crumbs.push({ name: slugToTitle(newGradCareerMatch[1]), url: `${SITE_BASE}${pathname}` });
+    return crumbs;
+  }
+
+  const newGradMatch = pathname.match(/^\/new-grad(\/.*)?$/);
+  if (newGradMatch && newGradMatch[1] && newGradMatch[1] !== "/") {
+    crumbs.push({ name: "New Grad Hub", url: `${SITE_BASE}/new-grad` });
+    const sub = newGradMatch[1].replace(/^\//, "").split("/").pop() || "";
+    if (sub) crumbs.push({ name: slugToTitle(sub), url: `${SITE_BASE}${pathname}` });
+    return crumbs;
+  }
+
+  const conditionMatch = pathname.match(/^\/conditions\/(.+)$/);
+  if (conditionMatch) {
+    crumbs.push({ name: "Conditions", url: `${SITE_BASE}/conditions` });
+    crumbs.push({ name: slugToTitle(conditionMatch[1]), url: `${SITE_BASE}${pathname}` });
+    return crumbs;
+  }
+
+  const medicationMatch = pathname.match(/^\/medications\/(.+)$/);
+  if (medicationMatch) {
+    crumbs.push({ name: "Medications", url: `${SITE_BASE}/medications` });
+    crumbs.push({ name: slugToTitle(medicationMatch[1]), url: `${SITE_BASE}${pathname}` });
+    return crumbs;
+  }
+
   if (pathname !== "/") {
     const pageName = staticPages[pathname]?.title?.split(" | ")[0]?.split(" - ")[0] || slugToTitle(pathname.replace(/^\//, ""));
     crumbs.push({ name: pageName, url: `${SITE_BASE}${pathname}` });
@@ -778,12 +814,23 @@ export function getPageMeta(pathname: string): PageMeta {
   if (conditionMatch) {
     const slug = conditionMatch[1];
     const readable = slugToTitle(slug);
+    const conditionJsonLd = JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "MedicalCondition",
+      "name": readable,
+      "description": `${readable} - pathophysiology, clinical presentation, diagnostics, medications, and nursing interventions for nursing exam preparation.`,
+      "url": canonical,
+      "medicalSpecialty": { "@type": "MedicalSpecialty", "name": "Nursing" },
+      "relevantSpecialty": { "@type": "MedicalSpecialty", "name": "Nursing" },
+      "possibleTreatment": { "@type": "MedicalTherapy", "name": `${readable} Management` },
+    });
     return {
       title: `${readable} - Nursing Study Guide | Pathophysiology & Interventions | NurseNest`,
       description: `Learn about ${readable.toLowerCase()} for nursing exams. Pathophysiology, clinical presentation, diagnostics, medications, and nursing interventions. NCLEX, NCLEX-PN, and REx-PN exam prep.`,
       canonical,
       noindex,
       breadcrumbs,
+      jsonLd: conditionJsonLd,
     };
   }
 
@@ -791,12 +838,22 @@ export function getPageMeta(pathname: string): PageMeta {
   if (medicationMatch) {
     const slug = medicationMatch[1];
     const readable = slugToTitle(slug);
+    const medJsonLd = JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "MedicalCondition",
+      "name": readable,
+      "description": `${readable} - drug class, mechanism of action, indications, side effects, contraindications, and nursing considerations.`,
+      "url": canonical,
+      "medicalSpecialty": "Pharmacology",
+      "relevantSpecialty": { "@type": "MedicalSpecialty", "name": "Nursing Pharmacology" },
+    });
     return {
       title: `${readable} - Nursing Pharmacology Guide | Drug Class, MOA & Side Effects | NurseNest`,
       description: `Study ${readable.toLowerCase()} for nursing exams. Drug class, mechanism of action, indications, side effects, contraindications, and nursing considerations for NCLEX, NCLEX-PN, and REx-PN prep.`,
       canonical,
       noindex,
       breadcrumbs,
+      jsonLd: medJsonLd,
     };
   }
 
@@ -807,6 +864,68 @@ export function getPageMeta(pathname: string): PageMeta {
     return {
       title: `${readable} - Lab Value Interpretation | Normal Range & Clinical Significance | NurseNest`,
       description: `Master ${readable.toLowerCase()} lab value interpretation for nursing exams. Normal ranges, high/low causes, clinical significance, and nursing interventions for NCLEX, NCLEX-PN, and REx-PN prep.`,
+      canonical,
+      noindex,
+      breadcrumbs,
+    };
+  }
+
+  const careerMatch = cleanPath.match(/^\/career-development\/(.+)$/);
+  const newGradCareerMatch = cleanPath.match(/^\/new-grad\/career\/(.+)$/);
+  if (careerMatch || newGradCareerMatch) {
+    const slug = (careerMatch || newGradCareerMatch)![1];
+    const readable = slugToTitle(slug);
+    const today = new Date().toISOString().split("T")[0];
+    const jobPostingJsonLd = JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "JobPosting",
+      "title": `${readable} - Nursing Career Guide`,
+      "description": `Career guide for ${readable.toLowerCase()}. Job outlook, required skills, salary expectations, and career advancement pathways for nursing professionals.`,
+      "url": canonical,
+      "datePosted": today,
+      "validThrough": `${new Date(Date.now() + 365 * 86400000).toISOString().split("T")[0]}`,
+      "hiringOrganization": {
+        "@type": "Organization",
+        "name": "NurseNest",
+        "sameAs": SITE_BASE,
+      },
+      "jobLocation": {
+        "@type": "Place",
+        "address": {
+          "@type": "PostalAddress",
+          "addressCountry": ["CA", "US"],
+        },
+      },
+      "industry": "Healthcare / Nursing",
+      "occupationalCategory": "29-1141.00",
+      "employmentType": "FULL_TIME",
+    });
+    return {
+      title: `${readable} - Nursing Career Guide | NurseNest`,
+      description: `Explore ${readable.toLowerCase()} career paths in nursing. Job outlook, qualifications, salary expectations, and professional development resources for new and experienced nurses.`,
+      canonical,
+      noindex,
+      breadcrumbs,
+      jsonLd: jobPostingJsonLd,
+    };
+  }
+
+  const newGradMatch = cleanPath.match(/^\/new-grad(\/.*)?$/);
+  if (newGradMatch) {
+    const subPath = newGradMatch[1] || "";
+    if (!subPath || subPath === "/") {
+      return {
+        title: "New Grad Nursing Hub - Career Resources & Transition Guides | NurseNest",
+        description: "Essential resources for new graduate nurses. Career development guides, clinical skills refreshers, unit-specific orientation guides, and transition-to-practice support.",
+        canonical,
+        noindex,
+        breadcrumbs,
+      };
+    }
+    const readable = slugToTitle(subPath.replace(/^\//, "").split("/").pop() || "");
+    return {
+      title: `${readable} - New Grad Nursing Resource | NurseNest`,
+      description: `${readable} guide for new graduate nurses. Professional development, clinical skills, and career transition support from NurseNest.`,
       canonical,
       noindex,
       breadcrumbs,
@@ -882,8 +1001,9 @@ export async function injectMeta(html: string, pathname: string): Promise<string
       if (contentData.category) jsonLd["courseCode"] = contentData.category;
       jsonLd["educationalLevel"] = "Professional";
       jsonLd["about"] = {
-        "@type": "Thing",
+        "@type": "MedicalCondition",
         "name": contentData.title,
+        "medicalSpecialty": "Nursing",
       };
     }
 
@@ -906,6 +1026,41 @@ export async function injectMeta(html: string, pathname: string): Promise<string
 
     meta.jsonLd = JSON.stringify(jsonLd);
     meta.noscriptContent = buildNoscriptHtml(contentData.content, contentData.title);
+  }
+
+  const EDUCATIONAL_ORG_LANDING_PAGES = new Set([
+    "/", "/lessons", "/flashcards", "/question-bank", "/mock-exams",
+    "/pricing", "/about", "/pre-nursing", "/free-practice",
+    "/nclex-rn", "/nclex-pn", "/canada-np", "/us-np",
+    "/medical-imaging", "/new-grad",
+  ]);
+
+  if (EDUCATIONAL_ORG_LANDING_PAGES.has(strippedPath)) {
+    const eduOrgLd = JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "EducationalOrganization",
+      "name": "NurseNest",
+      "url": SITE_BASE,
+      "description": "Premier nursing and allied health education platform offering interactive lessons, practice questions, flashcards, and clinical simulations for RPN/LVN, RN, NP, and allied health students.",
+      "educationalCredentialAwarded": "Nursing & Allied Health Exam Preparation",
+      "areaServed": [
+        { "@type": "Country", "name": "Canada" },
+        { "@type": "Country", "name": "United States" },
+      ],
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "Healthcare Education Programs",
+        "itemListElement": [
+          { "@type": "Course", "name": "RPN/LVN Foundation Track", "description": "Core pathophysiology and foundational nursing skills" },
+          { "@type": "Course", "name": "RN/NCLEX Preparation Track", "description": "Advanced clinical reasoning and NCLEX exam preparation" },
+          { "@type": "Course", "name": "NP Advanced Practice Track", "description": "Molecular-level pathophysiology and diagnostic reasoning for NP certification" },
+          { "@type": "Course", "name": "Allied Health Programs", "description": "Exam preparation for pharmacy tech, respiratory therapy, paramedic, MLT, and imaging professionals" },
+        ],
+      },
+    });
+    if (!meta.jsonLd) {
+      meta.jsonLd = eduOrgLd;
+    }
   }
 
   const allJsonLd: string[] = [];

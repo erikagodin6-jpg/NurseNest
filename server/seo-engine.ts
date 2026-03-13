@@ -1200,6 +1200,241 @@ export function setupSeoEngineRoutes(app: Express): void {
     }
   });
 
+  const CROSS_PLATFORM_TOPIC_MAP: Record<string, { nursing: string[]; allied: { track: string; topics: string[] }[] }> = {
+    "respiratory": {
+      nursing: ["copd", "asthma", "pneumonia", "ards", "pneumothorax", "pulmonary-embolism", "tuberculosis", "respiratory-assessment", "oxygen-therapy", "mechanical-ventilation"],
+      allied: [
+        { track: "respiratory-therapy", topics: ["abg-interpretation-for-rrts", "oxygen-delivery-devices-comparison", "ventilator-basics-and-modes", "copd-vs-asthma-management", "suctioning-techniques-and-safety", "tracheostomy-care-essentials", "aerosol-therapy-and-nebulizers"] },
+        { track: "paramedic", topics: ["airway-management-techniques"] },
+      ],
+    },
+    "pharmacology": {
+      nursing: ["medication-mastery", "high-alert-medications", "insulin", "anticoagulants", "antibiotics", "cardiac-medications", "pain-management", "antihypertensives"],
+      allied: [
+        { track: "pharmacy-tech", topics: ["dosage-calculations-for-pharmacy-techs", "sterile-compounding-basics", "medication-safety-and-error-prevention", "controlled-substances-regulations", "medication-refrigeration-and-storage", "prescription-labeling-requirements", "high-alert-medications-in-pharmacy"] },
+      ],
+    },
+    "cardiac": {
+      nursing: ["heart-failure", "myocardial-infarction", "atrial-fibrillation", "hypertension", "coronary-artery-disease", "cardiac-assessment", "ecg-interpretation"],
+      allied: [
+        { track: "paramedic", topics: ["stemi-recognition-in-the-field", "types-of-shock-for-paramedics"] },
+      ],
+    },
+    "lab-diagnostics": {
+      nursing: ["lab-values", "cbc", "bmp", "coagulation", "urinalysis", "cardiac-biomarkers", "liver-function-tests", "renal-function"],
+      allied: [
+        { track: "medical-lab-technologist", topics: ["order-of-draw-complete-guide", "hemolysis-causes-and-prevention", "cbc-basics-and-interpretation", "coagulation-labs-explained", "blood-culture-collection", "critical-lab-values"] },
+      ],
+    },
+    "imaging": {
+      nursing: ["diagnostic-imaging", "ct-scan", "mri", "x-ray-interpretation"],
+      allied: [
+        { track: "medical-imaging", topics: ["contrast-reaction-management", "radiation-safety-principles", "patient-preparation-for-imaging", "common-radiographic-positioning", "imaging-documentation-standards", "contraindications-for-imaging-studies"] },
+        { track: "ultrasound", topics: ["abdominal-ultrasound-protocols", "ob-gyn-sonography-key-measurements", "doppler-principles-and-applications", "ultrasound-physics-review", "breast-ultrasound-bi-rads", "ultrasound-artifacts-identification"] },
+      ],
+    },
+    "neuro": {
+      nursing: ["stroke", "traumatic-brain-injury", "seizures", "multiple-sclerosis", "parkinsons", "alzheimers", "intracranial-pressure", "glasgow-coma-scale"],
+      allied: [
+        { track: "paramedic", topics: ["stroke-fast-assessment", "trauma-primary-survey-abcde"] },
+      ],
+    },
+    "rehab": {
+      nursing: ["rehabilitation-nursing", "mobility", "fall-prevention", "pain-assessment", "wound-care"],
+      allied: [
+        { track: "physical-therapy-assistant", topics: ["therapeutic-exercise-fundamentals", "gait-analysis-and-training", "physical-therapy-modalities-guide", "orthopedic-conditions-for-ptas", "neurological-rehabilitation-basics", "patient-transfer-techniques"] },
+        { track: "occupational-therapy-assistant", topics: ["adl-assessment-fundamentals", "adaptive-equipment-guide", "pediatric-ot-interventions", "hand-therapy-basics-for-cotas", "cognitive-rehabilitation-techniques", "splinting-fundamentals"] },
+      ],
+    },
+    "emergency": {
+      nursing: ["shock", "sepsis", "trauma", "burns", "drowning", "cardiac-arrest", "anaphylaxis"],
+      allied: [
+        { track: "paramedic", topics: ["trauma-primary-survey-abcde", "stemi-recognition-in-the-field", "stroke-fast-assessment", "types-of-shock-for-paramedics", "airway-management-techniques", "prehospital-medications"] },
+      ],
+    },
+  };
+
+  app.get("/api/admin/seo-engine/cross-platform-links", async (req: Request, res: Response) => {
+    const admin = await requireAdmin(req, res);
+    if (!admin) return;
+    try {
+      const topic = req.query.topic ? String(req.query.topic) : null;
+      const source = req.query.source ? String(req.query.source) : "nursing";
+
+      if (topic && CROSS_PLATFORM_TOPIC_MAP[topic]) {
+        res.json(CROSS_PLATFORM_TOPIC_MAP[topic]);
+        return;
+      }
+
+      const topics = Object.keys(CROSS_PLATFORM_TOPIC_MAP);
+      const summary = topics.map(t => ({
+        topic: t,
+        nursingTopics: CROSS_PLATFORM_TOPIC_MAP[t].nursing.length,
+        alliedTracks: CROSS_PLATFORM_TOPIC_MAP[t].allied.map(a => ({
+          track: a.track,
+          topicCount: a.topics.length,
+        })),
+      }));
+
+      res.json({ topics: summary, totalTopics: topics.length });
+    } catch (err: any) {
+      res.status(500).json({ error: err.message });
+    }
+  });
+
+  app.get("/api/cross-platform-related", async (req: Request, res: Response) => {
+    try {
+      const slug = String(req.query.slug || "");
+      const source = String(req.query.source || "nursing");
+      if (!slug) return res.json({ related: [] });
+
+      const slugLower = slug.toLowerCase();
+      const related: { title: string; href: string; description: string; source: string; track?: string }[] = [];
+
+      for (const [topicKey, mapping] of Object.entries(CROSS_PLATFORM_TOPIC_MAP)) {
+        if (source === "nursing") {
+          const isMatch = mapping.nursing.some(n => slugLower.includes(n) || n.includes(slugLower));
+          if (isMatch) {
+            for (const alliedGroup of mapping.allied) {
+              for (const alliedTopic of alliedGroup.topics.slice(0, 2)) {
+                const title = alliedTopic.replace(/-/g, " ").replace(/\b\w/g, c => c.toUpperCase());
+                related.push({
+                  title,
+                  href: `/${alliedGroup.track}/${alliedTopic}`,
+                  description: `Related ${alliedGroup.track.replace(/-/g, " ")} content on ${topicKey}`,
+                  source: "allied",
+                  track: alliedGroup.track,
+                });
+              }
+            }
+          }
+        } else {
+          const isMatch = mapping.allied.some(a =>
+            a.topics.some(t => slugLower.includes(t) || t.includes(slugLower)) ||
+            slugLower.includes(a.track)
+          );
+          if (isMatch) {
+            for (const nursingTopic of mapping.nursing.slice(0, 3)) {
+              const title = nursingTopic.replace(/-/g, " ").replace(/\b\w/g, c => c.toUpperCase());
+              related.push({
+                title,
+                href: `/lessons/${nursingTopic}`,
+                description: `Related nursing lesson on ${topicKey}`,
+                source: "nursing",
+              });
+            }
+          }
+        }
+      }
+
+      const unique = related.filter((item, index, self) =>
+        index === self.findIndex(t => t.href === item.href)
+      ).slice(0, 6);
+
+      res.json({ related: unique });
+    } catch (err: any) {
+      res.status(500).json({ error: err.message });
+    }
+  });
+
+  app.get("/api/admin/seo-audit", async (req: Request, res: Response) => {
+    const admin = await requireAdmin(req, res);
+    if (!admin) return;
+    try {
+      const { getPageMeta } = await import("./seo-meta");
+
+      const ALL_ROUTES = [
+        "/", "/lessons", "/flashcards", "/pricing", "/start-free", "/anatomy",
+        "/med-math", "/lab-values", "/mock-exams", "/clinical-clarity",
+        "/case-simulations", "/first-action-simulator", "/safety-hazard-simulator",
+        "/iv-complications-simulator", "/electrolyte-abg-simulator",
+        "/deteriorating-patient-simulator", "/blood-transfusion-simulator",
+        "/medication-mastery", "/shop", "/blog", "/pre-nursing",
+        "/about", "/contact", "/faq", "/terms", "/privacy", "/disclaimer",
+        "/refund-policy", "/lectures", "/question-bank", "/question-of-the-day",
+        "/nclex-rn", "/nclex-pn", "/canada-np", "/us-np",
+        "/nclex-rn/mock-exam", "/nclex-pn/mock-exam", "/rex-pn/mock-exam",
+        "/canada-np/mock-exam", "/us-np/mock-exam",
+        "/nclex-rn-practice-questions", "/nclex-pn-practice-questions",
+        "/rex-pn-practice-questions", "/np-exam-practice-questions",
+        "/free-practice", "/medical-imaging", "/medical-imaging/canada",
+        "/medical-imaging/usa", "/medical-imaging/blog",
+        "/radiography-practice-questions", "/radiography-positioning-guide",
+        "/radiography-artifact-recognition",
+        "/new-grad",
+        "/simulators/clinical-skills", "/simulators/osce", "/simulators/clinical-lab",
+        "/compare/uworld-vs-archer-vs-nursenest", "/compare/best-uworld-alternatives-nclex",
+        "/compare/best-rex-pn-question-bank-canada", "/compare/nursenest-vs-uworld",
+        "/compare/nursenest-vs-archer", "/compare/nursenest-vs-quizlet",
+        "/compare/best-nclex-prep-canada", "/compare/cheapest-nclex-prep",
+        "/compare/rex-pn-practice-questions-free",
+      ];
+
+      const dynamicSamples = [
+        "/conditions/heart-failure", "/conditions/copd", "/conditions/diabetes",
+        "/medications/metformin", "/medications/lisinopril", "/medications/heparin",
+        "/lessons/heart-failure", "/lessons/pneumonia", "/lessons/diabetes",
+        "/career-development/icu-nursing", "/career-development/emergency-nursing",
+        "/new-grad/career/med-surg",
+        "/clinical-clarity/why-does-copd-cause-barrel-chest",
+        "/lab-values/potassium", "/lab-values/sodium",
+      ];
+      ALL_ROUTES.push(...dynamicSamples);
+
+      const auditResults: {
+        path: string;
+        title: string;
+        hasTitle: boolean;
+        hasDescription: boolean;
+        hasCanonical: boolean;
+        hasJsonLd: boolean;
+        hasBreadcrumbs: boolean;
+        isNoindex: boolean;
+        issues: string[];
+      }[] = [];
+
+      for (const route of ALL_ROUTES) {
+        const meta = getPageMeta(route);
+        const issues: string[] = [];
+
+        if (!meta.title || meta.title.length < 10) issues.push("Missing or short title");
+        if (!meta.description || meta.description.length < 50) issues.push("Missing or short description");
+        if (!meta.canonical) issues.push("Missing canonical URL");
+        if (meta.title && meta.title.length > 70) issues.push("Title exceeds 70 characters");
+        if (meta.description && meta.description.length > 160) issues.push("Description exceeds 160 characters");
+        if (!meta.breadcrumbs || meta.breadcrumbs.length <= 1) issues.push("Missing breadcrumbs");
+        if (!meta.title.includes("NurseNest") && !meta.title.includes("nursenest")) issues.push("Title missing brand name");
+
+        auditResults.push({
+          path: route,
+          title: meta.title,
+          hasTitle: !!meta.title && meta.title.length >= 10,
+          hasDescription: !!meta.description && meta.description.length >= 50,
+          hasCanonical: !!meta.canonical,
+          hasJsonLd: !!meta.jsonLd,
+          hasBreadcrumbs: !!(meta.breadcrumbs && meta.breadcrumbs.length > 1),
+          isNoindex: !!meta.noindex,
+          issues,
+        });
+      }
+
+      const summary = {
+        totalPages: auditResults.length,
+        pagesWithIssues: auditResults.filter(r => r.issues.length > 0).length,
+        missingTitle: auditResults.filter(r => !r.hasTitle).length,
+        missingDescription: auditResults.filter(r => !r.hasDescription).length,
+        missingCanonical: auditResults.filter(r => !r.hasCanonical).length,
+        missingJsonLd: auditResults.filter(r => !r.hasJsonLd).length,
+        missingBreadcrumbs: auditResults.filter(r => !r.hasBreadcrumbs).length,
+        noindexPages: auditResults.filter(r => r.isNoindex).length,
+      };
+
+      res.json({ summary, pages: auditResults });
+    } catch (err: any) {
+      res.status(500).json({ error: err.message });
+    }
+  });
+
   app.get("/image-sitemap.xml", (_req: Request, res: Response) => {
     const CATALOG = [
       { slug: "cbc-quick-reference", fileName: "cbc-quick-reference.png", title: "CBC Complete Blood Count Quick Reference", caption: "Complete blood count interpretation guide for NCLEX-RN, NCLEX-PN, and REx-PN exam preparation." },

@@ -72,7 +72,7 @@ function statusColor(status: string) {
 export default function AdminSeoDashboard() {
   const { user } = useAuth();
   const [, navigate] = useLocation();
-  const [activeTab, setActiveTab] = useState<"overview" | "pages" | "coverage" | "flags" | "keywords">("overview");
+  const [activeTab, setActiveTab] = useState<"overview" | "pages" | "coverage" | "flags" | "keywords" | "audit">("overview");
   const [dashboard, setDashboard] = useState<DashboardData | null>(null);
   const [pages, setPages] = useState<SeoPageRow[]>([]);
   const [loading, setLoading] = useState(true);
@@ -187,12 +187,29 @@ export default function AdminSeoDashboard() {
     !searchQuery || p.title.toLowerCase().includes(searchQuery.toLowerCase()) || p.slug.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
+  const [auditData, setAuditData] = useState<{ summary: any; pages: any[] } | null>(null);
+  const [auditLoading, setAuditLoading] = useState(false);
+
+  const fetchAudit = useCallback(async () => {
+    setAuditLoading(true);
+    try {
+      const res = await fetch("/api/admin/seo-audit", { credentials: "include" });
+      if (res.ok) setAuditData(await res.json());
+    } catch {}
+    setAuditLoading(false);
+  }, []);
+
+  useEffect(() => {
+    if (activeTab === "audit" && !auditData) fetchAudit();
+  }, [activeTab]);
+
   const tabs = [
     { id: "overview" as const, label: "Overview", icon: BarChart3 },
     { id: "pages" as const, label: "Pages", icon: FileText },
     { id: "coverage" as const, label: "Coverage Matrix", icon: Globe },
     { id: "flags" as const, label: "Flags & Issues", icon: AlertTriangle },
     { id: "keywords" as const, label: "Keywords", icon: Search },
+    { id: "audit" as const, label: "Site Audit", icon: Sparkles },
   ];
 
   return (
@@ -610,6 +627,128 @@ export default function AdminSeoDashboard() {
                     </div>
                   </CardContent>
                 </Card>
+              )}
+
+              {activeTab === "audit" && (
+                <div className="space-y-6" data-testid="section-site-audit">
+                  {auditLoading && !auditData ? (
+                    <div className="flex items-center justify-center py-20">
+                      <RefreshCw className="w-8 h-8 text-primary animate-spin" />
+                    </div>
+                  ) : auditData ? (
+                    <>
+                      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        <Card>
+                          <CardContent className="p-4 text-center">
+                            <p className="text-2xl font-bold text-gray-900" data-testid="stat-total-pages">{auditData.summary.totalPages}</p>
+                            <p className="text-xs text-gray-500">Total Pages Audited</p>
+                          </CardContent>
+                        </Card>
+                        <Card>
+                          <CardContent className="p-4 text-center">
+                            <p className="text-2xl font-bold text-green-600" data-testid="stat-clean-pages">{auditData.summary.totalPages - auditData.summary.pagesWithIssues}</p>
+                            <p className="text-xs text-gray-500">Clean Pages</p>
+                          </CardContent>
+                        </Card>
+                        <Card>
+                          <CardContent className="p-4 text-center">
+                            <p className="text-2xl font-bold text-amber-600" data-testid="stat-pages-with-issues">{auditData.summary.pagesWithIssues}</p>
+                            <p className="text-xs text-gray-500">Pages with Issues</p>
+                          </CardContent>
+                        </Card>
+                        <Card>
+                          <CardContent className="p-4 text-center">
+                            <p className="text-2xl font-bold text-gray-400" data-testid="stat-noindex">{auditData.summary.noindexPages}</p>
+                            <p className="text-xs text-gray-500">Noindex Pages</p>
+                          </CardContent>
+                        </Card>
+                      </div>
+
+                      <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
+                        {[
+                          { label: "Missing Title", count: auditData.summary.missingTitle, color: "text-red-600" },
+                          { label: "Missing Description", count: auditData.summary.missingDescription, color: "text-red-600" },
+                          { label: "Missing Canonical", count: auditData.summary.missingCanonical, color: "text-amber-600" },
+                          { label: "Missing JSON-LD", count: auditData.summary.missingJsonLd, color: "text-blue-600" },
+                          { label: "Missing Breadcrumbs", count: auditData.summary.missingBreadcrumbs, color: "text-purple-600" },
+                        ].map((item, i) => (
+                          <Card key={i}>
+                            <CardContent className="p-3 text-center">
+                              <p className={`text-xl font-bold ${item.count > 0 ? item.color : "text-green-600"}`}>{item.count}</p>
+                              <p className="text-xs text-gray-500">{item.label}</p>
+                            </CardContent>
+                          </Card>
+                        ))}
+                      </div>
+
+                      <Card>
+                        <CardHeader className="flex flex-row items-center justify-between">
+                          <CardTitle className="text-lg flex items-center gap-2">
+                            <Sparkles className="w-5 h-5" /> Page-by-Page Audit Results
+                          </CardTitle>
+                          <Button variant="outline" size="sm" onClick={fetchAudit} disabled={auditLoading} data-testid="button-refresh-audit">
+                            <RefreshCw className={`w-4 h-4 mr-1 ${auditLoading ? "animate-spin" : ""}`} /> Refresh
+                          </Button>
+                        </CardHeader>
+                        <CardContent>
+                          <div className="overflow-x-auto">
+                            <table className="w-full text-sm" data-testid="table-audit-results">
+                              <thead>
+                                <tr className="bg-gray-50 text-left">
+                                  <th className="px-3 py-2 font-semibold text-gray-700">Path</th>
+                                  <th className="px-3 py-2 font-semibold text-gray-700">Title</th>
+                                  <th className="px-3 py-2 font-semibold text-gray-700 text-center">Meta</th>
+                                  <th className="px-3 py-2 font-semibold text-gray-700 text-center">Canonical</th>
+                                  <th className="px-3 py-2 font-semibold text-gray-700 text-center">JSON-LD</th>
+                                  <th className="px-3 py-2 font-semibold text-gray-700 text-center">Breadcrumbs</th>
+                                  <th className="px-3 py-2 font-semibold text-gray-700">Issues</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {auditData.pages.map((page: any, i: number) => (
+                                  <tr key={i} className={`border-t border-gray-100 ${page.issues.length > 0 ? "bg-amber-50/30" : ""}`}>
+                                    <td className="px-3 py-2 font-mono text-xs text-gray-700 whitespace-nowrap" data-testid={`audit-path-${i}`}>{page.path}</td>
+                                    <td className="px-3 py-2 text-xs text-gray-600 max-w-[200px] truncate">{page.title}</td>
+                                    <td className="px-3 py-2 text-center">
+                                      {page.hasDescription ? <CheckCircle2 className="w-4 h-4 text-green-500 inline" /> : <AlertTriangle className="w-4 h-4 text-red-500 inline" />}
+                                    </td>
+                                    <td className="px-3 py-2 text-center">
+                                      {page.hasCanonical ? <CheckCircle2 className="w-4 h-4 text-green-500 inline" /> : <AlertTriangle className="w-4 h-4 text-red-500 inline" />}
+                                    </td>
+                                    <td className="px-3 py-2 text-center">
+                                      {page.hasJsonLd ? <CheckCircle2 className="w-4 h-4 text-green-500 inline" /> : <EyeOff className="w-4 h-4 text-gray-300 inline" />}
+                                    </td>
+                                    <td className="px-3 py-2 text-center">
+                                      {page.hasBreadcrumbs ? <CheckCircle2 className="w-4 h-4 text-green-500 inline" /> : <EyeOff className="w-4 h-4 text-gray-300 inline" />}
+                                    </td>
+                                    <td className="px-3 py-2">
+                                      {page.issues.length > 0 ? (
+                                        <div className="flex flex-wrap gap-1">
+                                          {page.issues.map((issue: string, j: number) => (
+                                            <Badge key={j} variant="outline" className="text-[10px] bg-amber-50 text-amber-700 border-amber-200">{issue}</Badge>
+                                          ))}
+                                        </div>
+                                      ) : (
+                                        <span className="text-green-600 text-xs">All clear</span>
+                                      )}
+                                    </td>
+                                  </tr>
+                                ))}
+                              </tbody>
+                            </table>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    </>
+                  ) : (
+                    <Card>
+                      <CardContent className="p-8 text-center">
+                        <AlertTriangle className="w-12 h-12 text-amber-400 mx-auto mb-3" />
+                        <p className="text-gray-600">Failed to load audit data. Try refreshing.</p>
+                      </CardContent>
+                    </Card>
+                  )}
+                </div>
               )}
             </>
           )}

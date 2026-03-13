@@ -1,11 +1,12 @@
-import { BookOpen, Brain, FlaskConical, Stethoscope, FileText, ArrowRight } from "lucide-react";
+import { useState, useEffect } from "react";
+import { BookOpen, Brain, FlaskConical, Stethoscope, FileText, ArrowRight, Globe } from "lucide-react";
 import { LocaleLink } from "@/lib/LocaleLink";
 
 interface RelatedResource {
   title: string;
   href: string;
   description: string;
-  icon?: "lesson" | "flashcard" | "qbank" | "simulator" | "article";
+  icon?: "lesson" | "flashcard" | "qbank" | "simulator" | "article" | "allied";
 }
 
 const ICON_MAP = {
@@ -14,6 +15,7 @@ const ICON_MAP = {
   qbank: FlaskConical,
   simulator: Stethoscope,
   article: FileText,
+  allied: Globe,
 };
 
 interface RelatedResourcesProps {
@@ -49,6 +51,80 @@ export function RelatedResources({ resources, title = "Related Resources", class
             </LocaleLink>
           );
         })}
+      </div>
+    </section>
+  );
+}
+
+interface CrossPlatformLink {
+  title: string;
+  href: string;
+  description: string;
+  source: string;
+  track?: string;
+}
+
+interface CrossPlatformRelatedContentProps {
+  slug: string;
+  source?: "nursing" | "allied";
+  className?: string;
+}
+
+export function CrossPlatformRelatedContent({ slug, source = "nursing", className = "" }: CrossPlatformRelatedContentProps) {
+  const [links, setLinks] = useState<CrossPlatformLink[]>([]);
+
+  useEffect(() => {
+    if (!slug) return;
+    fetch(`/api/cross-platform-related?slug=${encodeURIComponent(slug)}&source=${source}`)
+      .then(r => r.ok ? r.json() : { related: [] })
+      .then(data => setLinks(data.related || []))
+      .catch(() => {});
+  }, [slug, source]);
+
+  if (links.length === 0) return null;
+
+  const trackColors: Record<string, string> = {
+    "respiratory-therapy": "bg-blue-100 text-blue-700",
+    "pharmacy-tech": "bg-green-100 text-green-700",
+    "paramedic": "bg-red-100 text-red-700",
+    "medical-lab-technologist": "bg-purple-100 text-purple-700",
+    "medical-imaging": "bg-amber-100 text-amber-700",
+    "ultrasound": "bg-cyan-100 text-cyan-700",
+    "physical-therapy-assistant": "bg-teal-100 text-teal-700",
+    "occupational-therapy-assistant": "bg-indigo-100 text-indigo-700",
+    "nursing": "bg-violet-100 text-violet-700",
+  };
+
+  return (
+    <section className={`py-6 ${className}`} data-testid="cross-platform-related">
+      <h2 className="text-lg font-bold text-gray-900 mb-3" data-testid="text-cross-platform-title">
+        {source === "nursing" ? "Related Allied Health Content" : "Related Nursing Content"}
+      </h2>
+      <div className="grid sm:grid-cols-2 gap-3">
+        {links.map((link, i) => (
+          <LocaleLink
+            key={i}
+            href={link.href}
+            className="group flex items-start gap-3 p-3 bg-white rounded-xl border border-gray-100 shadow-sm hover:shadow-md hover:border-primary/20 transition-all"
+            data-testid={`link-cross-platform-${i}`}
+          >
+            <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center shrink-0 group-hover:bg-primary/15 transition-colors">
+              <Globe className="w-4 h-4 text-primary" />
+            </div>
+            <div className="min-w-0 flex-1">
+              <div className="flex items-center gap-2 mb-0.5">
+                <h3 className="text-sm font-semibold text-gray-900 group-hover:text-primary transition-colors line-clamp-1">{link.title}</h3>
+                {link.track && (
+                  <span className={`text-[10px] px-1.5 py-0.5 rounded-full whitespace-nowrap ${trackColors[link.track] || "bg-gray-100 text-gray-600"}`}>
+                    {link.track.replace(/-/g, " ")}
+                  </span>
+                )}
+              </div>
+              <p className="text-xs text-gray-500 line-clamp-1">{link.description}</p>
+            </div>
+            <ArrowRight className="w-3.5 h-3.5 text-gray-300 group-hover:text-primary shrink-0 mt-1 transition-colors" />
+          </LocaleLink>
+        ))}
       </div>
     </section>
   );
