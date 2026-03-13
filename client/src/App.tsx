@@ -260,6 +260,9 @@ const DemoHeroShowcase = lazy(() => import("@/pages/demo-hero-showcase"));
 const SeoPracticeQuiz = lazy(() => import("@/pages/seo-practice-quiz"));
 const OfflineStudyPage = lazy(() => import("@/pages/offline-study"));
 const AdminMockResults = lazy(() => import("@/pages/admin-mock-results"));
+const EncyclopediaLanding = lazy(() => import("@/pages/encyclopedia-landing"));
+const EncyclopediaHub = lazy(() => import("@/pages/encyclopedia-hub"));
+const EncyclopediaEntry = lazy(() => import("@/pages/encyclopedia-entry"));
 
 function PageTracker() {
   usePageTracker();
@@ -601,6 +604,18 @@ function AppRoutes() {
         <Route path="/offline-study" component={OfflineStudyPage} />
         <Route path="/glossary/:term" component={GlossaryPage} />
         <Route path="/glossary" component={GlossaryPage} />
+
+        <Route path="/encyclopedia/:profession/:slug" component={EncyclopediaEntry} />
+        <Route path="/encyclopedia" component={EncyclopediaLanding} />
+        <Route path="/nursing-encyclopedia">{() => <EncyclopediaHub />}</Route>
+        <Route path="/paramedic-encyclopedia">{() => <EncyclopediaHub />}</Route>
+        <Route path="/pharmacy-tech-encyclopedia">{() => <EncyclopediaHub />}</Route>
+        <Route path="/rrt-encyclopedia">{() => <EncyclopediaHub />}</Route>
+        <Route path="/mlt-encyclopedia">{() => <EncyclopediaHub />}</Route>
+        <Route path="/imaging-encyclopedia">{() => <EncyclopediaHub />}</Route>
+        <Route path="/social-worker-encyclopedia">{() => <EncyclopediaHub />}</Route>
+        <Route path="/critical-care-encyclopedia">{() => <EncyclopediaHub />}</Route>
+        <Route path="/emergency-nursing-encyclopedia">{() => <EncyclopediaHub />}</Route>
 
         {/* Career-namespaced routes: /rrt/*, /paramedic/*, /pharmacy-tech/*, /mlt/*, /imaging/* */}
         <Route path="/rrt/question-bank" component={QuestionBank} />

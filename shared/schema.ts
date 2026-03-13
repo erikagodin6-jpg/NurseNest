@@ -4958,46 +4958,77 @@ export const insertTranslationAuditIssueSchema = createInsertSchema(translationA
 export type TranslationAuditIssue = typeof translationAuditIssues.$inferSelect;
 export type InsertTranslationAuditIssue = z.infer<typeof insertTranslationAuditIssueSchema>;
 
-export const ENCYCLOPEDIA_PROFESSIONS = [
-  "paramedic", "respiratory-therapy", "mlt", "imaging",
-  "social-work", "psychotherapy", "addictions", "occupational-therapy",
-] as const;
-export type EncyclopediaProfession = (typeof ENCYCLOPEDIA_PROFESSIONS)[number];
-
-export const encyclopediaEntries = pgTable("encyclopedia_entries", {
+export const encyclopediaTopics = pgTable("encyclopedia_topics", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
   profession: text("profession").notNull(),
   slug: text("slug").notNull(),
   title: text("title").notNull(),
+  category: text("category").notNull(),
+  relatedLessonIds: text("related_lesson_ids").array().default(sql`'{}'::text[]`),
+  relatedQuestionIds: text("related_question_ids").array().default(sql`'{}'::text[]`),
+  relatedFlashcardIds: text("related_flashcard_ids").array().default(sql`'{}'::text[]`),
+  status: text("status").default("draft"),
+  sortOrder: integer("sort_order").default(0),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export const insertEncyclopediaTopicSchema = createInsertSchema(encyclopediaTopics).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+export type EncyclopediaTopic = typeof encyclopediaTopics.$inferSelect;
+export type InsertEncyclopediaTopic = z.infer<typeof insertEncyclopediaTopicSchema>;
+
+export const encyclopediaEntries = pgTable("encyclopedia_entries", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  topicId: varchar("topic_id").notNull(),
+  profession: text("profession").notNull(),
+  slug: text("slug").notNull(),
+  title: text("title").notNull(),
+  category: text("category").notNull(),
+  seoTitle: text("seo_title"),
+  seoDescription: text("seo_description"),
+  seoKeywords: text("seo_keywords").array().default(sql`'{}'::text[]`),
   overview: text("overview"),
-  mechanism: text("mechanism"),
+  mechanismPhysiology: text("mechanism_physiology"),
   clinicalRelevance: text("clinical_relevance"),
   signsSymptoms: text("signs_symptoms"),
-  assessmentMethods: text("assessment_methods"),
+  assessment: text("assessment"),
   management: text("management"),
   complications: text("complications"),
   clinicalPearls: jsonb("clinical_pearls").default(sql`'[]'::jsonb`),
   examPitfalls: jsonb("exam_pitfalls").default(sql`'[]'::jsonb`),
-  faq: jsonb("faq").default(sql`'[]'::jsonb`),
-  seoTitle: text("seo_title"),
-  metaDescription: text("meta_description"),
-  keywords: text("keywords").array().default(sql`'{}'::text[]`),
-  relatedTopicSlugs: text("related_topic_slugs").array().default(sql`'{}'::text[]`),
+  faqJson: jsonb("faq_json").default(sql`'[]'::jsonb`),
+  relatedLessonIds: text("related_lesson_ids").array().default(sql`'{}'::text[]`),
+  relatedQuestionIds: text("related_question_ids").array().default(sql`'{}'::text[]`),
+  relatedFlashcardIds: text("related_flashcard_ids").array().default(sql`'{}'::text[]`),
   crossProfessionLinks: jsonb("cross_profession_links").default(sql`'[]'::jsonb`),
-  relatedLessonSlugs: text("related_lesson_slugs").array().default(sql`'{}'::text[]`),
-  relatedQuestionTopics: text("related_question_topics").array().default(sql`'{}'::text[]`),
+  imagePlaceholders: jsonb("image_placeholders").default(sql`'[]'::jsonb`),
   status: text("status").default("draft"),
-  category: text("category"),
-  sortOrder: integer("sort_order").default(0),
+  publishedAt: timestamp("published_at"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
-  publishedAt: timestamp("published_at"),
 });
 
 export const insertEncyclopediaEntrySchema = createInsertSchema(encyclopediaEntries).omit({
   id: true,
   createdAt: true,
   updatedAt: true,
+  publishedAt: true,
 });
 export type EncyclopediaEntry = typeof encyclopediaEntries.$inferSelect;
 export type InsertEncyclopediaEntry = z.infer<typeof insertEncyclopediaEntrySchema>;
+
+export const ENCYCLOPEDIA_PROFESSIONS = [
+  { slug: "nursing", label: "Nursing", icon: "Heart" },
+  { slug: "paramedic", label: "Paramedic", icon: "Ambulance" },
+  { slug: "pharmacy-tech", label: "Pharmacy Technician", icon: "Pill" },
+  { slug: "rrt", label: "Respiratory Therapy", icon: "Wind" },
+  { slug: "mlt", label: "Medical Lab Technologist", icon: "Microscope" },
+  { slug: "imaging", label: "Medical Imaging", icon: "Radio" },
+  { slug: "social-worker", label: "Social Work", icon: "Users" },
+  { slug: "critical-care", label: "Critical Care", icon: "Activity" },
+  { slug: "emergency-nursing", label: "Emergency Nursing", icon: "Siren" },
+] as const;
