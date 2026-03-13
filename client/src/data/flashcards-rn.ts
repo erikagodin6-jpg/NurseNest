@@ -1,5 +1,5 @@
 import type { FlashcardData } from "./flashcards-rpn";
-import { imgUlcerativeColitis, imgSIADH, imgSickleCellCrisis, imgStomaCare, imgThrombocytopenia, imgUrinaryCatheterization, imgVitiligo, imgUrethralStricture, imgVestibularNeuritis, imgAddisons, imgAcuteHemolyticReaction, imgAtopicDermatitis, imgBPH, imgCastCareTraction, imgAcromegaly, imgNGTube, imgPancreatitis, imgPeritonealDialysis, imgPepticUlcer, imgOsteoporosis, imgCellulitis, imgCKD, imgClubfoot, imgCompartmentSyndrome, imgConjunctivitis, imgContracture, imgCushings, imgDelayedHemolyticReaction, imgDevHipDysplasia, imgDiabetes, imgDiabetesInsipidus, imgDiabeticNephropathy, imgDIC, imgDisuseAtrophy, imgDuchenne, imgEpiglottitis, imgEpistaxis, imgErysipelas, imgFallPrevention, imgHeadLice, imgHemophilia, imgGravesDisease, imgGout, imgPyloricStenosis, imgPlacentaPrevia, imgPostpartumHemorrhage, imgSerotoninSyndrome, imgVaricella, imgRhIncompatibility, imgIntussusception, imgLeadPoisoning, imgCongenitalHypothyroidism, imgFetalMonitoring, imgHepatitisB, imgInfantReflexes, imgWoundVAC, imgWoundInfection, imgEsophagealVarices, imgGIBleed } from "./flashcards-rpn";
+import { imgUlcerativeColitis, imgSIADH, imgSickleCellCrisis, imgStomaCare, imgThrombocytopenia, imgUrinaryCatheterization, imgVitiligo, imgUrethralStricture, imgVestibularNeuritis, imgAddisons, imgAcuteHemolyticReaction, imgAtopicDermatitis, imgBPH, imgCastCareTraction, imgAcromegaly, imgNGTube, imgPancreatitis, imgPeritonealDialysis, imgPepticUlcer, imgOsteoporosis, imgCellulitis, imgCKD, imgClubfoot, imgCompartmentSyndrome, imgConjunctivitis, imgContracture, imgCushings, imgDelayedHemolyticReaction, imgDevHipDysplasia, imgDiabetes, imgDiabetesInsipidus, imgDiabeticNephropathy, imgDIC, imgDisuseAtrophy, imgDuchenne, imgEpiglottitis, imgEpistaxis, imgErysipelas, imgFallPrevention, imgHeadLice, imgHemophilia, imgGravesDisease, imgGout, imgPyloricStenosis, imgPlacentaPrevia, imgPostpartumHemorrhage, imgSerotoninSyndrome, imgVaricella, imgRhIncompatibility, imgIntussusception, imgLeadPoisoning, imgLeukemia, imgLungCancer, imgMeasles, imgMeningitisNew, imgMetabolicSyndrome, imgMRSA, imgCongenitalHypothyroidism, imgFetalMonitoring, imgHepatitisB, imgInfantReflexes, imgWoundVAC, imgWoundInfection, imgEsophagealVarices, imgGIBleed } from "./flashcards-rpn";
 import imgImpetigo from "@assets/impetigo_1773340649073.png";
 import imgHypothyroidismNew from "@assets/hypothyroidism_1773374939606.png";
 import imgAntepartum from "@assets/antepartum_1773340419064.png";
@@ -995,7 +995,8 @@ export const rnFlashcards: FlashcardData[] = [
     correctIndex: 0,
     answer: "Tumor lysis syndrome occurs when massive cancer cell death releases intracellular contents: potassium (hyperkalemia), phosphorus (hyperphosphatemia), uric acid (hyperuricemia), and nucleic acids. Elevated phosphorus binds calcium, causing secondary hypocalcemia. Uric acid can crystallize in the renal tubules causing acute kidney injury. Prevention includes aggressive IV hydration, allopurinol or rasburicase, and close electrolyte monitoring.",
     category: "Renal/GU",
-    difficulty: 3
+    difficulty: 3,
+    image: imgLeukemia
   },
   {
     id: "rn-renal-q8",
@@ -2379,7 +2380,8 @@ export const rnFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "Superior vena cava (SVC) syndrome occurs when a tumor compresses the SVC, obstructing venous return from the head and upper extremities. It is an oncologic emergency. Signs include facial/periorbital edema, JVD, upper body edema, and dyspnea. Treatment includes radiation, chemotherapy, or stenting.",
     category: "Oncology",
-    difficulty: 3
+    difficulty: 3,
+    image: imgLungCancer
   },
   {
     id: "rn-onc-q5",
@@ -2924,7 +2926,8 @@ export const rnFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "For a measles outbreak, isolate infected individuals (airborne precautions, stay home for 4 days after rash onset), verify MMR vaccination status of all contacts, and offer post-exposure prophylaxis (MMR vaccine within 72 hours or immunoglobulin within 6 days) to susceptible individuals. Report to public health authorities as measles is a reportable disease.",
     category: "Community Health",
-    difficulty: 2
+    difficulty: 2,
+    image: imgMeasles
   },
   {
     id: "rn-comm-q3",
@@ -3014,7 +3017,8 @@ export const rnFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "Febrile neutropenia is an oncologic emergency. Blood cultures should be obtained and broad-spectrum IV antibiotics administered within 1 hour of fever onset. Do NOT delay antibiotics for culture results — sepsis can progress rapidly in neutropenic clients because they lack adequate immune response. This is a time-critical intervention.",
     category: "Oncology",
-    difficulty: 3
+    difficulty: 3,
+    image: imgLeukemia
   },
   {
     id: "rn-onc-q12",
@@ -3229,7 +3233,8 @@ export const rnFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "Spinal cord compression is an oncologic emergency caused by tumor growth into the epidural space. Signs include progressive back pain (worst lying down), motor weakness, sensory loss, and autonomic dysfunction (bowel/bladder changes). MRI is diagnostic. Emergency treatment includes high-dose corticosteroids, radiation therapy, and/or surgical decompression. Delay can cause permanent paralysis.",
     category: "Oncology",
-    difficulty: 3
+    difficulty: 3,
+    image: imgLungCancer
   },
   {
     id: "rn-cc-q13",
@@ -4243,7 +4248,8 @@ export const rnFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "Tumor lysis syndrome occurs when massive cancer cell destruction releases intracellular contents into the bloodstream, causing hyperkalemia (potassium released from cells), hyperphosphatemia (phosphorus released from cells), hyperuricemia (purine breakdown to uric acid), and hypocalcemia (calcium binds to excess phosphorus). These electrolyte derangements can cause fatal cardiac arrhythmias, acute kidney injury, and seizures. Treatment includes aggressive IV hydration, allopurinol or rasburicase, and electrolyte management. TLS is most common with hematologic malignancies.",
     category: "Hematology/Oncology",
-    difficulty: 3
+    difficulty: 3,
+    image: imgLeukemia
   },
   {
     id: "rn-hemonc-q5",
@@ -4317,7 +4323,8 @@ export const rnFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "The first action in outbreak investigation is case identification and contact tracing. The nurse must identify all exposed individuals to determine who needs post-exposure prophylaxis (MMR vaccine within 72 hours or immune globulin within 6 days of exposure). Measles is highly contagious (airborne transmission). Closing the school may be necessary but contact tracing is the immediate priority. Antibiotics are ineffective against viruses. Waiting for more cases delays containment and allows further spread. The nurse must also report to the local health department.",
     category: "Community/Public Health",
-    difficulty: 2
+    difficulty: 2,
+    image: imgMeasles
   },
   {
     id: "rn-commhealth-q2",

@@ -1,5 +1,6 @@
 import type { FlashcardData } from "./flashcards-rpn";
-import { imgUlcerativeColitis, imgVonWillebrand, imgSIADH, imgSickleCellCrisis, imgVitiligo, imgUrethralStricture, imgVestibularNeuritis, imgAddisons, imgBPH, imgPancreatitis, imgOsteoporosis, imgCellulitis, imgCKD, imgClubfoot, imgCompartmentSyndrome, imgConjunctivitis, imgContracture, imgCushings, imgDelayedHemolyticReaction, imgDevHipDysplasia, imgDiabetes, imgDiabetesInsipidus, imgDiabeticNephropathy, imgDIC, imgDisuseAtrophy, imgDuchenne, imgEpiglottitis, imgEpistaxis, imgErysipelas, imgGlaucoma, imgGlomerulonephritis, imgGravesDisease, imgHashimotoThyroiditis, imgForeignBodyAspiration, imgFibromyalgia, imgHemolyticUremicSyndrome, imgNeuroblastoma, imgPyloricStenosis, imgPlacentaPrevia, imgSerotoninSyndrome, imgTonsillectomy, imgMastitis, imgLeadPoisoning, imgMeconiumAspiration, imgMeconiumIleus, imgCongenitalHypothyroidism, imgHepatitisB, imgInfantReflexes } from "./flashcards-rpn";
+import { imgUlcerativeColitis, imgVonWillebrand, imgSIADH, imgSickleCellCrisis, imgVitiligo, imgUrethralStricture, imgVestibularNeuritis, imgAddisons, imgBPH, imgPancreatitis, imgOsteoporosis, imgCellulitis, imgCKD, imgClubfoot, imgCompartmentSyndrome, imgConjunctivitis, imgContracture, imgCushings, imgDelayedHemolyticReaction, imgDevHipDysplasia, imgDiabetes, imgDiabetesInsipidus, imgDiabeticNephropathy, imgDIC, imgDisuseAtrophy, imgDuchenne, imgEpiglottitis, imgEpistaxis, imgErysipelas, imgGlaucoma, imgGlomerulonephritis, imgGravesDisease, imgHashimotoThyroiditis, imgForeignBodyAspiration, imgFibromyalgia, imgHemolyticUremicSyndrome, imgNeuroblastoma, imgPyloricStenosis, imgPlacentaPrevia, imgSerotoninSyndrome, imgTonsillectomy, imgMastitis, imgLeadPoisoning, imgLeukemia, imgLungCancer, imgMeconiumAspiration, imgMeconiumIleus, imgMeningitisNew, imgMetabolicSyndrome, imgMRSA, imgLochia, imgCongenitalHypothyroidism, imgHepatitisB, imgInfantReflexes } from "./flashcards-rpn";
+import imgMenopause from "@assets/menopause_1773374978769.png";
 import imgImpetigo from "@assets/impetigo_1773340649073.png";
 import imgIntestinalMalrotation from "@assets/intestinalmalrotation_1773340649073.png";
 import imgHypothyroidismNew from "@assets/hypothyroidism_1773374939606.png";
@@ -966,7 +967,8 @@ export const npFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "Metabolic syndrome on olanzapine significantly increases cardiovascular mortality. If psychiatrically stable, a gradual cross-taper to a metabolically favorable SGA (aripiprazole: weight-neutral; ziprasidone: weight-neutral but requires ECG monitoring; lurasidone: favorable metabolic profile) is preferred. Cross-taper over 4-6 weeks to prevent relapse. If the patient cannot tolerate a switch, metformin addition has the strongest evidence for antipsychotic-related weight gain (10-18 lb reduction). Lifestyle intervention should accompany any approach. Monitor metabolic labs per ADA/APA consensus: fasting glucose, lipids, weight at each visit.",
     category: "Psychiatric NP",
-    difficulty: 3
+    difficulty: 3,
+    image: imgMetabolicSyndrome
   },
   {
     id: "np-psych-q4",
@@ -1722,7 +1724,7 @@ export const npFlashcards: FlashcardData[] = [
     answer: "Postpartum endometritis presents with fever (typically >38°C after first 24 hours), uterine tenderness, and foul-smelling lochia. Risk factors include cesarean delivery, prolonged rupture of membranes, prolonged labor, and multiple vaginal exams. Treatment is IV broad-spectrum antibiotics (clindamycin plus gentamicin is standard). Blood cultures should be obtained before starting antibiotics. Most patients improve within 48-72 hours.",
     category: "Women's Health NP",
     difficulty: 2,
-    image: imgMastitis
+    image: imgLochia
   },
   {
     id: "np-womens-q16",
@@ -2060,7 +2062,8 @@ export const npFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "The USPSTF (2021) recommends annual LDCT for adults aged 50-80 with ≥20 pack-year smoking history who currently smoke or quit within the past 15 years. The NELSON and NLST trials demonstrated significant lung cancer mortality reduction with LDCT screening. Screening should be discontinued once the person has not smoked for 15 years, develops a health problem limiting life expectancy, or is unwilling to have curative lung surgery.",
     category: "Primary Care NP",
-    difficulty: 2
+    difficulty: 2,
+    image: imgLungCancer
   },
   {
     id: "np-primary-q24",
@@ -2419,7 +2422,8 @@ export const npFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "HRT (estrogen + progesterone for women with a uterus) is the most effective treatment for vasomotor symptoms. Per NAMS 2022 position statement, the benefits outweigh risks when initiated within 10 years of menopause or before age 60 (window of opportunity). Contraindications: breast cancer, active liver disease, unexplained vaginal bleeding, history of VTE/stroke. SSRIs and gabapentin are alternatives for women who cannot take HRT.",
     category: "Women's Health NP",
-    difficulty: 2
+    difficulty: 2,
+    image: imgMenopause
   },
   {
     id: "np-policy-q7",
@@ -2449,7 +2453,8 @@ export const npFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "USPSTF recommends annual low-dose CT (LDCT) screening for adults aged 50-80 years with a ≥20-pack-year smoking history who currently smoke or quit within the past 15 years (Grade B). Screening should be discontinued once a person has not smoked for 15 years or has a limited life expectancy. LDCT reduces lung cancer mortality by 20% compared to chest X-ray (NLST trial).",
     category: "Primary Care",
-    difficulty: 1
+    difficulty: 1,
+    image: imgLungCancer
   },
   {
     id: "np-pc-q15",

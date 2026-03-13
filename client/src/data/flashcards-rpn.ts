@@ -100,7 +100,7 @@ import imgGout from "@assets/gout_1773269471822.png";
 import imgGraftVsHost from "@assets/graftvshose_1773269471822.png";
 import imgGravesDisease from "@assets/graves_1773374861631.png";
 import imgHashimotoThyroiditis from "@assets/hashimotothyroiditis_1773269471822.png";
-import imgHeadLice from "@assets/headlice_1773269471822.png";
+import imgHeadLice from "@assets/lice_1773374978769.png";
 import imgHemolyticUremicSyndrome from "@assets/US_1773375165171.png";
 import imgHemophilia from "@assets/hemophilia_1773269471822.png";
 import imgPyloricStenosis from "@assets/pyloricstenosis_1773340609815.png";
@@ -140,10 +140,17 @@ import imgVPShunt from "@assets/VP_1773375165171.png";
 import imgHyperemesisGravidarum from "@assets/hyperemesisgravidarum_1773340649073.png";
 import imgInfantReflexes from "@assets/infantreflexes_1773340649073.png";
 import imgIntussusception from "@assets/intussusception_1773340649073.png";
-import imgLeadPoisoning from "@assets/leadpoisoning_1773340649073.png";
-import imgMastitis from "@assets/mastitis_1773340649073.png";
+import imgLeadPoisoning from "@assets/leadpoisoning_1773374978769.png";
+import imgLeukemia from "@assets/leukemia_1773374978769.png";
+import imgLochia from "@assets/lochia_1773374978769.png";
+import imgLungCancer from "@assets/lungcancer_1773374978769.png";
+import imgMastitis from "@assets/mastitis_1773374978769.png";
+import imgMeasles from "@assets/measles_1773374978769.png";
 import imgMeconiumAspiration from "@assets/meconiumaspiration_1773340649073.png";
-import imgMeconiumIleus from "@assets/meconiumileus_1773340649073.png";
+import imgMeconiumIleus from "@assets/mecil_1773374978769.png";
+import imgMeningitisNew from "@assets/Meningitis_1773374978769.png";
+import imgMetabolicSyndrome from "@assets/metabolicsyndrome_1773374978769.png";
+import imgMRSA from "@assets/MRSA_1773374978769.png";
 import imgCongenitalHypothyroidism from "@assets/congenitalhypothyroidism_1773340513136.png";
 import imgHypothyroidismNew from "@assets/hypothyroidism_1773374939606.png";
 import imgICPNew from "@assets/ICP_1773374939606.png";
@@ -181,7 +188,7 @@ import imgSprain from "@assets/sprain_1773375229956.png";
 import imgStroke from "@assets/stroke_1773375229956.png";
 import imgEsophagealStricture from "@assets/stricture_1773375229956.png";
 
-export { imgUlcerativeColitis, imgVonWillebrand, imgUrinaryCatheterization, imgSIADH, imgSickleCellCrisis, imgStomaCare, imgThalassemia, imgThrombocytopenia, imgThyroidStorm, imgTRALI, imgVitiligo, imgUrethralStricture, imgVestibularNeuritis, imgAddisons, imgAplasticAnemia, imgAcuteHemolyticReaction, imgAllergicTransfusion, imgAirEmbolism, imgCBI, imgCastCareTraction, imgAlopecia, imgBPH, imgAtopicDermatitis, imgAcromegaly, imgBPPV, imgNGTube, imgPancreatitis, imgPeritonealDialysis, imgPolycysticKidney, imgPolycythemia, imgPepticUlcer, imgOsteoporosis, imgCellulitis, imgCKD, imgClubfoot, imgCompartmentSyndrome, imgConjunctivitis, imgContracture, imgCushings, imgDelayedHemolyticReaction, imgDevHipDysplasia, imgDiabetes, imgDiabetesInsipidus, imgDiabeticNephropathy, imgDIC, imgDisuseAtrophy, imgDuchenne, imgEpiglottitis, imgEpistaxis, imgErysipelas, imgErythemaMultiforme, imgFallPrevention, imgFebrileNeutropenia, imgFebrileNonhemolytic, imgFibromyalgia, imgForeignBodyAspiration, imgFractureTypes, imgFungalInfections, imgGalactosemia, imgGlaucoma, imgGlomerulonephritis, imgGout, imgGraftVsHost, imgGravesDisease, imgHashimotoThyroiditis, imgHeadLice, imgHemolyticUremicSyndrome, imgHemophilia, imgNeonatalFeeding, imgNeonatalHypoglycemia, imgNeonatalJaundice, imgNeonatalSepsis, imgNeuroblastoma, imgNewbornDiabeticMother, imgOsteogenesisImperfecta, imgOvarianHyperstimulation, imgPatentDuctusArteriosus, imgPavlikHarness, imgPediatricVitalsChart, imgPediatricDehydration, imgPinworms, imgPKU, imgPlacentalAbruption, imgPlacentaPrevia, imgPostpartumHemorrhage, imgPyloricStenosis, imgReye, imgRhIncompatibility, imgROP, imgSeparationAnxiety, imgSerotoninSyndrome, imgStagesOfLabor, imgSubstanceAbuse, imgThermoregulation, imgTonsillectomy, imgToxicShockSyndrome, imgTrisomy21, imgTurnerSyndrome, imgUmbilicalCordCare, imgUmbilicalCordProlapse, imgVaginalHematoma, imgVaricella, imgVPShunt, imgHyperemesisGravidarum, imgInfantReflexes, imgIntussusception, imgLeadPoisoning, imgMastitis, imgMeconiumAspiration, imgMeconiumIleus, imgCongenitalHypothyroidism, imgFetalMonitoring, imgEpisiotomy, imgHepatitisB, imgProstatitis, imgRotavirus, imgRubella, imgScabiesV3, imgScarletFever, imgShortBowelV4, imgSJSV2, imgSkinAssessment, imgSpinalStenosisV3, imgSprain, imgStroke, imgEsophagealStricture, imgMumps, imgNEC, imgOpioidOverdose, imgNeonatalReflexes, imgOtitisMedia, imgObstructiveUropathy, imgNarcolepsy, imgMultipleSclerosis, imgMyastheniaGravis, imgPancreaticPseudocyst, imgPapilledema, imgWernicke, imgWilmsTumor, imgWoundAssessment, imgWoundInfection, imgWoundVAC, imgVRE, imgParkinsonsNew, imgPediatricSeizuresNew, imgPepticUlcerNew, imgPeripheralNeuropathy, imgPemphigusNew, imgPressureInjuriesNew, imgBPD, imgPCOS, imgPhimosis, imgEndometrialPolyp, imgEsophagealVarices, imgFebrileSeizures, imgFundalHeight, imgGalactorrhea, imgGAS, imgGERD, imgGestationalDiabetesRpn, imgGIBleed, imgGuillainBarre };
+export { imgUlcerativeColitis, imgVonWillebrand, imgUrinaryCatheterization, imgSIADH, imgSickleCellCrisis, imgStomaCare, imgThalassemia, imgThrombocytopenia, imgThyroidStorm, imgTRALI, imgVitiligo, imgUrethralStricture, imgVestibularNeuritis, imgAddisons, imgAplasticAnemia, imgAcuteHemolyticReaction, imgAllergicTransfusion, imgAirEmbolism, imgCBI, imgCastCareTraction, imgAlopecia, imgBPH, imgAtopicDermatitis, imgAcromegaly, imgBPPV, imgNGTube, imgPancreatitis, imgPeritonealDialysis, imgPolycysticKidney, imgPolycythemia, imgPepticUlcer, imgOsteoporosis, imgCellulitis, imgCKD, imgClubfoot, imgCompartmentSyndrome, imgConjunctivitis, imgContracture, imgCushings, imgDelayedHemolyticReaction, imgDevHipDysplasia, imgDiabetes, imgDiabetesInsipidus, imgDiabeticNephropathy, imgDIC, imgDisuseAtrophy, imgDuchenne, imgEpiglottitis, imgEpistaxis, imgErysipelas, imgErythemaMultiforme, imgFallPrevention, imgFebrileNeutropenia, imgFebrileNonhemolytic, imgFibromyalgia, imgForeignBodyAspiration, imgFractureTypes, imgFungalInfections, imgGalactosemia, imgGlaucoma, imgGlomerulonephritis, imgGout, imgGraftVsHost, imgGravesDisease, imgHashimotoThyroiditis, imgHeadLice, imgHemolyticUremicSyndrome, imgHemophilia, imgNeonatalFeeding, imgNeonatalHypoglycemia, imgNeonatalJaundice, imgNeonatalSepsis, imgNeuroblastoma, imgNewbornDiabeticMother, imgOsteogenesisImperfecta, imgOvarianHyperstimulation, imgPatentDuctusArteriosus, imgPavlikHarness, imgPediatricVitalsChart, imgPediatricDehydration, imgPinworms, imgPKU, imgPlacentalAbruption, imgPlacentaPrevia, imgPostpartumHemorrhage, imgPyloricStenosis, imgReye, imgRhIncompatibility, imgROP, imgSeparationAnxiety, imgSerotoninSyndrome, imgStagesOfLabor, imgSubstanceAbuse, imgThermoregulation, imgTonsillectomy, imgToxicShockSyndrome, imgTrisomy21, imgTurnerSyndrome, imgUmbilicalCordCare, imgUmbilicalCordProlapse, imgVaginalHematoma, imgVaricella, imgVPShunt, imgHyperemesisGravidarum, imgInfantReflexes, imgIntussusception, imgLeadPoisoning, imgLeukemia, imgLochia, imgLungCancer, imgMastitis, imgMeasles, imgMeconiumAspiration, imgMeconiumIleus, imgMeningitisNew, imgMetabolicSyndrome, imgMRSA, imgCongenitalHypothyroidism, imgFetalMonitoring, imgEpisiotomy, imgHepatitisB, imgProstatitis, imgRotavirus, imgRubella, imgScabiesV3, imgScarletFever, imgShortBowelV4, imgSJSV2, imgSkinAssessment, imgSpinalStenosisV3, imgSprain, imgStroke, imgEsophagealStricture, imgMumps, imgNEC, imgOpioidOverdose, imgNeonatalReflexes, imgOtitisMedia, imgObstructiveUropathy, imgNarcolepsy, imgMultipleSclerosis, imgMyastheniaGravis, imgPancreaticPseudocyst, imgPapilledema, imgWernicke, imgWilmsTumor, imgWoundAssessment, imgWoundInfection, imgWoundVAC, imgVRE, imgParkinsonsNew, imgPediatricSeizuresNew, imgPepticUlcerNew, imgPeripheralNeuropathy, imgPemphigusNew, imgPressureInjuriesNew, imgBPD, imgPCOS, imgPhimosis, imgEndometrialPolyp, imgEsophagealVarices, imgFebrileSeizures, imgFundalHeight, imgGalactorrhea, imgGAS, imgGERD, imgGestationalDiabetesRpn, imgGIBleed, imgGuillainBarre };
 
 export type FlashcardData = {
   id: string;
@@ -1921,7 +1928,7 @@ export const rpnFlashcards: FlashcardData[] = [
     answer: "Lochia rubra: Days 1-3, dark red, may have small clots. Lochia serosa: Days 4-10, pinkish-brown. Lochia alba: Days 10-14 (up to 6 weeks), yellowish-white. Report: Large clots, foul odor (infection), return to rubra after serosa (retained fragments), saturating a pad in < 1 hour.",
     category: "Maternity",
     difficulty: 2,
-    image: imgMastitis
+    image: imgLochia
   },
   {
     id: "rpn-mat-q7",
@@ -2158,7 +2165,8 @@ export const rpnFlashcards: FlashcardData[] = [
     correctIndex: 2,
     answer: "MRSA, VRE, C. difficile, scabies, and wound infections require Contact precautions: Private room (or cohort), gloves and gown on entry, dedicated equipment, hand hygiene with soap and water (especially for C. diff: alcohol doesn't kill spores).",
     category: "Infection Control",
-    difficulty: 1
+    difficulty: 1,
+    image: imgMRSA
   },
   {
     id: "rpn-ic-t1",
@@ -4187,7 +4195,8 @@ export const rpnFlashcards: FlashcardData[] = [
     question: "Metabolic Syndrome",
     answer: "Cluster of conditions increasing cardiovascular disease risk. Criteria (3 of 5): Waist circumference > 40\" (M) / > 35\" (F), triglycerides ≥ 150, HDL < 40 (M) / < 50 (F), BP ≥ 130/85, fasting glucose ≥ 100. Management: Lifestyle modifications, weight loss, exercise, medications as needed.",
     category: "Cardiovascular",
-    difficulty: 2
+    difficulty: 2,
+    image: imgMetabolicSyndrome
   },
   // ============================================================
   // BATCH 2 - RESPIRATORY EXPANSION
@@ -4496,7 +4505,8 @@ export const rpnFlashcards: FlashcardData[] = [
     question: "Leukemia Types Overview",
     answer: "ALL (Acute Lymphoblastic): Most common childhood cancer, peak 2-4 years. AML (Acute Myeloid): Most common adult acute leukemia. CLL (Chronic Lymphocytic): Older adults, indolent. CML (Chronic Myeloid): Philadelphia chromosome, treated with imatinib. Acute = immature cells (blasts), rapid onset. Chronic = mature cells, slower onset.",
     category: "Hematology",
-    difficulty: 3
+    difficulty: 3,
+    image: imgLeukemia
   },
   {
     id: "rpn-heme-q12",
@@ -5057,7 +5067,8 @@ export const rpnFlashcards: FlashcardData[] = [
     correctIndex: 2,
     answer: "SVC syndrome: Obstruction of the superior vena cava by tumor compression or thrombus. Signs: Progressive facial/upper extremity edema, JVD, dyspnea, cough, headache worse when bending forward. Treatment: Radiation (primary), chemotherapy, endovascular stenting, corticosteroids. Position upright.",
     category: "Oncology",
-    difficulty: 3
+    difficulty: 3,
+    image: imgLungCancer
   },
   {
     id: "rpn-onc-q13",
@@ -6038,7 +6049,8 @@ export const rpnFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "Lumbar puncture position: Side-lying (lateral recumbent) with knees drawn to chest and chin tucked (fetal position) to maximize intervertebral space. The nurse's role: Assist positioning, hold the child securely, monitor vital signs, comfort the child. Post-LP: Flat × 4-6 hours, increase fluids.",
     category: "Pediatrics",
-    difficulty: 2
+    difficulty: 2,
+    image: imgMeningitisNew
   },
   {
     id: "rpn-peds-t11",
@@ -6265,7 +6277,8 @@ export const rpnFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "Silver-impregnated dressings (Acticoat, Silvercel) provide broad-spectrum antimicrobial activity, effective against MRSA, VRE, and other resistant organisms. Silver ions disrupt bacterial cell walls. Also: Contact precautions, systemic antibiotics as ordered, wound cultures, aseptic dressing changes.",
     category: "Wound Care",
-    difficulty: 3
+    difficulty: 3,
+    image: imgMRSA
   },
   {
     id: "rpn-wound-t9",

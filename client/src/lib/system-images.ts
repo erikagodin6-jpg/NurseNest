@@ -360,7 +360,6 @@ import illustrationSyringomyeliaV2 from "@/assets/images/syringomyelia-v2.png";
 import illustrationTardiveDyskinesiaV2 from "@/assets/images/tardive-dyskinesia-v2.png";
 import illustrationWernickeV2 from "@assets/wenicke_1773375165171.png";
 import illustrationPlacentaPatho from "@/assets/lesson-placenta-patho.png";
-import illustrationMeningitisPatho from "@/assets/lesson-meningitis-patho.png";
 import illustrationGlaucomaPatho from "@/assets/lesson-glaucoma-patho.png";
 import illustrationPPHPatho from "@/assets/lesson-pph-patho.png";
 
@@ -535,7 +534,7 @@ import illustrationGoutNew from "@assets/gout_1773269471822.png";
 import illustrationGraftVsHost from "@assets/graftvshose_1773269471822.png";
 import illustrationGravesDisease from "@assets/graves_1773269471822.png";
 import illustrationHashimotoThyroiditis from "@assets/hashimotothyroiditis_1773269471822.png";
-import illustrationHeadLiceNew from "@assets/headlice_1773269471822.png";
+import illustrationHeadLiceNew from "@assets/lice_1773374978769.png";
 import illustrationHemolyticUremicSyndrome from "@assets/US_1773375165171.png";
 import illustrationHemophiliaNew from "@assets/hemophilia_1773269471822.png";
 import illustrationHFM from "@assets/HFM_1773340649073.png";
@@ -546,12 +545,23 @@ import illustrationInfantReflexes from "@assets/infantreflexes_1773340649073.png
 import illustrationIntestinalMalrotation from "@assets/intestinalmalrotation_1773340649073.png";
 import illustrationIntussusception from "@assets/intussusception_1773340649073.png";
 import illustrationKlinefelter from "@assets/klinefelter_1773340649073.png";
-import illustrationLeadPoisoning from "@assets/leadpoisoning_1773340649073.png";
-import illustrationMarfanSyndrome from "@assets/marfansyndrome_1773340649073.png";
-import illustrationMastitis from "@assets/mastitis_1773340649073.png";
+import illustrationLeadPoisoning from "@assets/leadpoisoning_1773374978769.png";
+import illustrationLeukemia from "@assets/leukemia_1773374978769.png";
+import illustrationLochia from "@assets/lochia_1773374978769.png";
+import illustrationLungCancer from "@assets/lungcancer_1773374978769.png";
+import illustrationMacularDegeneration from "@assets/macular_1773374978769.png";
+import illustrationMarfanSyndrome from "@assets/marfan_1773374978769.png";
+import illustrationMASD from "@assets/masd_1773374978769.jpeg";
+import illustrationMastitis from "@assets/mastitis_1773374978769.png";
+import illustrationMeasles from "@assets/measles_1773374978769.png";
 import illustrationMeconiumAspiration from "@assets/meconiumaspiration_1773340649073.png";
-import illustrationMeconiumIleus from "@assets/meconiumileus_1773340649073.png";
-import illustrationMolarPregnancy from "@assets/molarpregnancy_1773340649073.png";
+import illustrationMeconiumIleus from "@assets/mecil_1773374978769.png";
+import illustrationMeckelNew from "@assets/meckel_1773374978769.png";
+import illustrationMeningitisNew from "@assets/Meningitis_1773374978769.png";
+import illustrationMenopause from "@assets/menopause_1773374978769.png";
+import illustrationMetabolicSyndrome from "@assets/metabolicsyndrome_1773374978769.png";
+import illustrationMolarPregnancy from "@assets/molarpregnancy_1773374978769.png";
+import illustrationMRSA from "@assets/MRSA_1773374978769.png";
 import illustrationNEC from "@assets/Nec_1773340649073.png";
 import illustrationNeonatalVitalSigns from "@assets/neonatal_vitals_chart_fixed_1773340649073.png";
 import illustrationNeonatalAbstinence from "@assets/neonatalabstinence_1773340649073.png";
@@ -1122,7 +1132,10 @@ const lessonSpecificImages: Record<string, string> = {
   "guillain-barre-rpn": illustrationGuillainBarreV3,
   "guillain-barre-rn": illustrationGuillainBarreV3,
   "guillain-barre-np": illustrationGuillainBarreV3,
-  "meningitis": illustrationNeurologicalAnatomy,
+  "meningitis": illustrationMeningitisNew,
+  "meningitis-rpn": illustrationMeningitisNew,
+  "meningitis-rn": illustrationMeningitisNew,
+  "meningitis-np": illustrationMeningitisNew,
   "abdominal-assessment": illustrationAbdominalAssessmentV2,
   "abdominal-assessment-rpn": illustrationAbdominalAssessmentV2,
   "abdominal-assessment-rn": illustrationAbdominalAssessmentV2,
@@ -1232,11 +1245,11 @@ const lessonSpecificImages: Record<string, string> = {
   "malabsorption-rn": illustrationMalabsorptionV3,
   "malabsorption-np": illustrationMalabsorptionV3,
   "malabsorption-syndrome": illustrationMalabsorptionV3,
-  "meckel-diverticulum": illustrationMeckelDiverticulumV3,
-  "meckel-diverticulum-rpn": illustrationMeckelDiverticulumV3,
-  "meckel-diverticulum-rn": illustrationMeckelDiverticulumV3,
-  "meckel-diverticulum-np": illustrationMeckelDiverticulumV3,
-  "meckels-diverticulum": illustrationMeckelDiverticulumV3,
+  "meckel-diverticulum": illustrationMeckelNew,
+  "meckel-diverticulum-rpn": illustrationMeckelNew,
+  "meckel-diverticulum-rn": illustrationMeckelNew,
+  "meckel-diverticulum-np": illustrationMeckelNew,
+  "meckels-diverticulum": illustrationMeckelNew,
   "ngtube-care": illustrationNGTubeV4,
   "ng-tube": illustrationNGTubeV4,
   "ng-tube-rpn": illustrationNGTubeV4,
@@ -1314,8 +1327,14 @@ const lessonSpecificImages: Record<string, string> = {
   "blood-products": illustrationHematologyAnatomy,
   "sickle-cell": illustrationHematologyAnatomy,
   "anemia-types": illustrationHematologyAnatomy,
-  "all-leukemia": illustrationHematologyAnatomy,
-  "aml-leukemia": illustrationHematologyAnatomy,
+  "all-leukemia": illustrationLeukemia,
+  "aml-leukemia": illustrationLeukemia,
+  "leukemia": illustrationLeukemia,
+  "leukemia-rpn": illustrationLeukemia,
+  "leukemia-rn": illustrationLeukemia,
+  "leukemia-np": illustrationLeukemia,
+  "cll-leukemia": illustrationLeukemia,
+  "cml-leukemia": illustrationLeukemia,
   "thalassemia": illustrationHematologyAnatomy,
   "prenatal-basics": illustrationMaternityAnatomy,
   "labor-stages": illustrationMaternityAnatomy,
@@ -1664,7 +1683,7 @@ const lessonSpecificImages: Record<string, string> = {
 
   "postpartum-hemorrhage-management": illustrationPostpartumHemorrhage,
 
-  "meningitis-management": illustrationMeningitisPatho,
+  "meningitis-management": illustrationMeningitisNew,
 
 
 
@@ -2169,24 +2188,88 @@ const lessonSpecificImages: Record<string, string> = {
 
   "lead-poisoning": illustrationLeadPoisoning,
   "lead-poisoning-rpn": illustrationLeadPoisoning,
+  "lead-poisoning-rn": illustrationLeadPoisoning,
+  "lead-poisoning-np": illustrationLeadPoisoning,
+
+  "lochia": illustrationLochia,
+  "lochia-rpn": illustrationLochia,
+  "lochia-rn": illustrationLochia,
+  "lochia-np": illustrationLochia,
+  "lochia-progression": illustrationLochia,
+  "postpartum-lochia": illustrationLochia,
+
+  "lung-cancer": illustrationLungCancer,
+  "lung-cancer-rpn": illustrationLungCancer,
+  "lung-cancer-rn": illustrationLungCancer,
+  "lung-cancer-np": illustrationLungCancer,
+  "lung-cancer-screening": illustrationLungCancer,
+
+  "macular-degeneration": illustrationMacularDegeneration,
+  "macular-degeneration-rpn": illustrationMacularDegeneration,
+  "macular-degeneration-rn": illustrationMacularDegeneration,
+  "macular-degeneration-np": illustrationMacularDegeneration,
+  "age-related-macular-degeneration": illustrationMacularDegeneration,
+  "amd": illustrationMacularDegeneration,
 
   "marfan-syndrome-rpn": illustrationMarfanSyndrome,
+  "marfan-syndrome-rn": illustrationMarfanSyndrome,
   "marfan-syndrome-np": illustrationMarfanSyndrome,
   "marfan-syndrome": illustrationMarfanSyndrome,
+  "marfan": illustrationMarfanSyndrome,
+
+  "masd": illustrationMASD,
+  "masd-rpn": illustrationMASD,
+  "masd-rn": illustrationMASD,
+  "masd-np": illustrationMASD,
+  "moisture-associated-skin-damage": illustrationMASD,
+  "moisture-associated-skin-damage-rpn": illustrationMASD,
+  "moisture-associated-skin-damage-rn": illustrationMASD,
+  "moisture-associated-skin-damage-np": illustrationMASD,
+  "skin-integrity": illustrationMASD,
 
   "mastitis-rpn": illustrationMastitis,
+  "mastitis-rn": illustrationMastitis,
   "mastitis": illustrationMastitis,
   "mastitis-np": illustrationMastitis,
+
+  "measles": illustrationMeasles,
+  "measles-rpn": illustrationMeasles,
+  "measles-rn": illustrationMeasles,
+  "measles-np": illustrationMeasles,
+  "rubeola": illustrationMeasles,
 
   "meconium-aspiration": illustrationMeconiumAspiration,
   "meconium-aspiration-basics-rpn": illustrationMeconiumAspiration,
 
   "meconium-ileus-rpn": illustrationMeconiumIleus,
+  "meconium-ileus-rn": illustrationMeconiumIleus,
   "meconium-ileus": illustrationMeconiumIleus,
   "meconium-ileus-np": illustrationMeconiumIleus,
 
+  "menopause": illustrationMenopause,
+  "menopause-rpn": illustrationMenopause,
+  "menopause-rn": illustrationMenopause,
+  "menopause-np": illustrationMenopause,
+  "perimenopause": illustrationMenopause,
+  "menopausal-symptoms": illustrationMenopause,
+
+  "metabolic-syndrome": illustrationMetabolicSyndrome,
+  "metabolic-syndrome-rpn": illustrationMetabolicSyndrome,
+  "metabolic-syndrome-rn": illustrationMetabolicSyndrome,
+  "metabolic-syndrome-np": illustrationMetabolicSyndrome,
+
   "molar-pregnancy-rpn": illustrationMolarPregnancy,
+  "molar-pregnancy-rn": illustrationMolarPregnancy,
+  "molar-pregnancy-np": illustrationMolarPregnancy,
   "molar-pregnancy": illustrationMolarPregnancy,
+  "hydatidiform-mole": illustrationMolarPregnancy,
+
+  "mrsa": illustrationMRSA,
+  "mrsa-rpn": illustrationMRSA,
+  "mrsa-rn": illustrationMRSA,
+  "mrsa-np": illustrationMRSA,
+  "mrsa-infection": illustrationMRSA,
+  "methicillin-resistant": illustrationMRSA,
 
   "necrotizing-enterocolitis-basics-rpn": illustrationNECV2,
   "nec-necrotizing": illustrationNECV2,
@@ -2244,9 +2327,10 @@ const lessonSpecificImages: Record<string, string> = {
 
   "aspergillosis-basics-rpn": illustrationAspergillosis,
 
-  "bacterial-meningitis-rpn": illustrationBacterialMeningitis,
-  "bacterial-meningitis-rn": illustrationBacterialMeningitis,
-  "bacterial-meningitis-np": illustrationBacterialMeningitis,
+  "bacterial-meningitis-rpn": illustrationMeningitisNew,
+  "bacterial-meningitis-rn": illustrationMeningitisNew,
+  "bacterial-meningitis-np": illustrationMeningitisNew,
+  "bacterial-meningitis": illustrationMeningitisNew,
 
   "breastfeeding-basics": illustrationBreastfeeding,
 
@@ -2906,7 +2990,7 @@ export function getLessonImage(lessonId: string): string | undefined {
   if (lessonId.includes("ibs") || lessonId.includes("irritable-bowel")) return illustrationIBSNew;
   if (lessonId.includes("ischemic-colitis")) return illustrationIschemicColitisNew;
   if (lessonId.includes("malabsorption")) return illustrationMalabsorptionV3;
-  if (lessonId.includes("meckel") || lessonId.includes("meckels")) return illustrationMeckelDiverticulumV3;
+  if (lessonId.includes("meckel") || lessonId.includes("meckels")) return illustrationMeckelNew;
   if (lessonId.includes("pertussis") || lessonId.includes("whooping")) return illustrationPertussisV3;
   if (lessonId.includes("pleurisy") || lessonId.includes("pleural")) return illustrationPleurisyV3;
   if (lessonId.includes("pneumothorax")) return illustrationPneumothoraxV2;
@@ -2987,6 +3071,20 @@ export function getLessonImage(lessonId: string): string | undefined {
   if (lessonId.includes("hashimoto")) return illustrationHashimotoThyroiditis;
   if (lessonId.includes("hemolytic-uremic") || lessonId.includes("hus")) return illustrationHemolyticUremicSyndrome;
   if (lessonId.includes("hemophilia")) return illustrationHemophiliaNew;
+  if (lessonId.includes("leukemia")) return illustrationLeukemia;
+  if (lessonId.includes("lochia") || lessonId.includes("postpartum-lochia")) return illustrationLochia;
+  if (lessonId.includes("lung-cancer")) return illustrationLungCancer;
+  if (lessonId.includes("macular-degen") || lessonId === "amd") return illustrationMacularDegeneration;
+  if (lessonId.includes("marfan")) return illustrationMarfanSyndrome;
+  if (lessonId.includes("masd") || lessonId.includes("moisture-associated")) return illustrationMASD;
+  if (lessonId.includes("mastitis")) return illustrationMastitis;
+  if (lessonId.includes("measles") || lessonId.includes("rubeola")) return illustrationMeasles;
+  if (lessonId.includes("meconium-ileus")) return illustrationMeconiumIleus;
+  if (lessonId.includes("meningitis")) return illustrationMeningitisNew;
+  if (lessonId.includes("menopause") || lessonId.includes("perimenopause")) return illustrationMenopause;
+  if (lessonId.includes("metabolic-syndrome")) return illustrationMetabolicSyndrome;
+  if (lessonId.includes("molar-pregnan") || lessonId.includes("hydatidiform")) return illustrationMolarPregnancy;
+  if (lessonId.includes("mrsa") || lessonId.includes("methicillin-resistant")) return illustrationMRSA;
   if (lessonId.includes("kidney") || lessonId.includes("renal") || lessonId.includes("dialysis") || lessonId.includes("crrt")) return illustrationKidneys;
   if (lessonId.includes("electrolyte")) return illustrationElectrolytes;
   if (lessonId.includes("tumor") || lessonId.includes("cancer") || lessonId.includes("chemo") || lessonId.includes("oncol")) return illustrationTumor;
