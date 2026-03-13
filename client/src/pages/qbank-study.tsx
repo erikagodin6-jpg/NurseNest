@@ -16,6 +16,12 @@ import {
   Lightbulb,
   Eye,
   GraduationCap,
+  ExternalLink,
+  Image as ImageIcon,
+  Bookmark,
+  ChevronDown,
+  ChevronUp,
+  Star,
 } from "lucide-react";
 import {
   AnswerOption,
@@ -43,6 +49,20 @@ function getAuthHeaders(): Record<string, string> {
   return {};
 }
 
+type RationaleMedia = {
+  imageUrl: string;
+  imageAlt: string;
+  imageCaption: string;
+  imageDescription: string;
+  sortOrder: number;
+};
+
+type LessonLink = {
+  lessonTitle: string;
+  lessonUrl: string;
+  relevanceNote: string;
+};
+
 type Question = {
   id: string;
   question: string;
@@ -58,6 +78,12 @@ type Question = {
   country: string;
   topic: string;
   clientNeeds: string;
+  questionType: string;
+  clinicalTakeaway: string;
+  examPearl: string;
+  distractorRationales: Record<string, string>;
+  rationaleMedia: RationaleMedia[];
+  lessonLinks: LessonLink[];
 };
 
 export default function QBankStudyPage() {
@@ -74,6 +100,8 @@ export default function QBankStudyPage() {
   const [filterDifficulty, setFilterDifficulty] = useState("");
   const [stats, setStats] = useState({ attempted: 0, correct: 0 });
   const [started, setStarted] = useState(false);
+  const [bookmarked, setBookmarked] = useState<Set<string>>(new Set());
+  const [expandedImage, setExpandedImage] = useState<string | null>(null);
 
   const fetchQuestions = async () => {
     setLoading(true);
@@ -90,7 +118,7 @@ export default function QBankStudyPage() {
         throw new Error(data.error || "Failed to load questions");
       }
       const data = await resp.json();
-      if (data.length === 0) throw new Error("No questions available. Please contact admin.");
+      if (data.length === 0) throw new Error("No questions available for your tier. Please contact support.");
       setQuestions(data);
       setCurrentIdx(0);
       setSelected(null);
@@ -123,32 +151,31 @@ export default function QBankStudyPage() {
       setCurrentIdx((i) => i + 1);
       setSelected(null);
       setRevealed(false);
+      setExpandedImage(null);
     }
   };
 
-  const saveResults = async () => {
-    if (stats.attempted === 0) return;
-    try {
-      await fetch("/api/question-bank/results", {
-        method: "POST",
-        headers: { "Content-Type": "application/json", ...getAuthHeaders() },
-        body: JSON.stringify({
-          mode: "study",
-          examType: questions[0]?.examType || "",
-          country: questions[0]?.country || "",
-          totalQuestions: stats.attempted,
-          correctCount: stats.correct,
-          timeSpent: null,
-          answers: [],
-          categoryBreakdown: {},
-          difficultyBreakdown: {},
-        }),
-      });
-    } catch {}
+  const toggleBookmark = (id: string) => {
+    setBookmarked(prev => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
+    });
   };
 
   const currentQ = questions[currentIdx];
   const scorePercent = stats.attempted > 0 ? Math.round((stats.correct / stats.attempted) * 100) : 0;
+
+  const difficultyColor = (d: string) => {
+    switch (d) {
+      case "easy": return "bg-emerald-50 text-emerald-700 border-emerald-200";
+      case "moderate": return "bg-amber-50 text-amber-700 border-amber-200";
+      case "hard": return "bg-orange-50 text-orange-700 border-orange-200";
+      case "very_hard": return "bg-red-50 text-red-700 border-red-200";
+      default: return "bg-gray-50 text-gray-700 border-gray-200";
+    }
+  };
 
   if (!user) {
     return (
@@ -169,7 +196,7 @@ export default function QBankStudyPage() {
   return (
     <div className="min-h-screen bg-warmwhite">
       <Navigation />
-      <div className="mx-auto px-4 py-8 max-w-[820px]">
+      <div className="mx-auto px-4 py-8 max-w-[900px]">
         {!started ? (
           <Card className="premium-card border-0 shadow-md">
             <CardHeader>
@@ -177,13 +204,13 @@ export default function QBankStudyPage() {
                 <div className="w-9 h-9 rounded-xl bg-emerald-100 flex items-center justify-center">
                   <BookOpen className="h-5 w-5 text-emerald-600" />
                 </div>
-                Study Mode
+                Test Bank Study Mode
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-5">
               <p className="text-gray-500 text-sm leading-relaxed">
-                Practice questions one at a time with immediate feedback and rationale. Your region determines your exam bank
-                ({user.region === "CA" ? "REx-PN" : "NCLEX-PN"}).
+                Practice exam-style questions one at a time with detailed rationale, clinical reference images,
+                and linked study lessons. Questions are drawn from the full CAT exam question bank for your tier.
               </p>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div>
@@ -197,8 +224,8 @@ export default function QBankStudyPage() {
                   </select>
                 </div>
                 <div>
-                  <label className="text-sm font-medium text-gray-600 mb-1.5 block">Category</label>
-                  <Input value={filterCategory} onChange={(e) => setFilterCategory(e.target.value)} placeholder="e.g. Pharmacology" className="rounded-xl border-gray-200" data-testid="input-study-category" />
+                  <label className="text-sm font-medium text-gray-600 mb-1.5 block">Category / Topic</label>
+                  <Input value={filterCategory} onChange={(e) => setFilterCategory(e.target.value)} placeholder="e.g. Cardiac, Pharmacology" className="rounded-xl border-gray-200" data-testid="input-study-category" />
                 </div>
                 <div>
                   <label className="text-sm font-medium text-gray-600 mb-1.5 block">Difficulty</label>
@@ -223,11 +250,16 @@ export default function QBankStudyPage() {
               <ScoreCircle percentage={scorePercent} className="mx-auto mb-5" />
               <h2 className="text-xl font-bold mb-2 text-gray-900" data-testid="text-study-complete">Study Session Complete!</h2>
               <p className="text-gray-500 mb-6">Score: {stats.correct}/{stats.attempted} ({scorePercent}%)</p>
+              {bookmarked.size > 0 && (
+                <p className="text-sm text-violet-600 mb-4">
+                  <Bookmark className="h-4 w-4 inline mr-1" />{bookmarked.size} question{bookmarked.size > 1 ? "s" : ""} bookmarked for review
+                </p>
+              )}
               <div className="flex gap-3 justify-center">
-                <Button onClick={() => { saveResults(); fetchQuestions(); }} className="rounded-xl gap-2 bg-primary hover:bg-primary/90 shadow-sm" data-testid="button-study-again">
+                <Button onClick={fetchQuestions} className="rounded-xl gap-2 bg-primary hover:bg-primary/90 shadow-sm" data-testid="button-study-again">
                   <RotateCcw className="h-4 w-4" />Study Again
                 </Button>
-                <Button variant="outline" onClick={() => { saveResults(); setStarted(false); }} className="rounded-xl" data-testid="button-study-setup">
+                <Button variant="outline" onClick={() => setStarted(false)} className="rounded-xl" data-testid="button-study-setup">
                   Change Settings
                 </Button>
               </div>
@@ -240,6 +272,13 @@ export default function QBankStudyPage() {
                 {currentIdx + 1} / {questions.length}
               </PremiumBadge>
               <div className="flex items-center gap-3 text-sm text-gray-500">
+                <button
+                  onClick={() => toggleBookmark(currentQ.id)}
+                  className={`p-1.5 rounded-lg transition-colors ${bookmarked.has(currentQ.id) ? "text-violet-600 bg-violet-50" : "text-gray-400 hover:text-gray-600"}`}
+                  data-testid="button-bookmark"
+                >
+                  <Bookmark className="h-4 w-4" fill={bookmarked.has(currentQ.id) ? "currentColor" : "none"} />
+                </button>
                 <span className="font-medium" data-testid="text-study-score">{stats.correct}/{stats.attempted} correct</span>
                 {stats.attempted > 0 && <PremiumBadge variant={scorePercent >= 70 ? "system" : "difficulty"}>{scorePercent}%</PremiumBadge>}
               </div>
@@ -251,8 +290,13 @@ export default function QBankStudyPage() {
               <CardContent className="px-6 sm:px-8 py-6">
                 <div className="flex items-center gap-2 mb-4 flex-wrap">
                   <PremiumBadge variant="system">{currentQ.category}</PremiumBadge>
-                  <PremiumBadge variant="difficulty">{currentQ.difficulty}</PremiumBadge>
-                  <PremiumBadge>{currentQ.topic}</PremiumBadge>
+                  <span className={`text-xs font-medium px-2.5 py-1 rounded-full border ${difficultyColor(currentQ.difficulty)}`}>
+                    {currentQ.difficulty === "very_hard" ? "Very Hard" : currentQ.difficulty.charAt(0).toUpperCase() + currentQ.difficulty.slice(1)}
+                  </span>
+                  {currentQ.topic && <PremiumBadge>{currentQ.topic}</PremiumBadge>}
+                  {currentQ.questionType && currentQ.questionType !== "mcq" && currentQ.questionType !== "multiple_choice" && (
+                    <PremiumBadge variant="difficulty">{currentQ.questionType.replace(/_/g, " ").toUpperCase()}</PremiumBadge>
+                  )}
                 </div>
                 <p className="text-xl font-semibold mb-6 text-gray-900 leading-[1.6]" data-testid="text-study-question">{currentQ.question}</p>
                 <div className="space-y-2.5">
@@ -261,7 +305,7 @@ export default function QBankStudyPage() {
                     { key: "B", text: currentQ.optionB },
                     { key: "C", text: currentQ.optionC },
                     { key: "D", text: currentQ.optionD },
-                  ].map((opt, idx) => (
+                  ].filter(opt => opt.text).map((opt, idx) => (
                     <AnswerOption
                       key={opt.key}
                       index={idx}
@@ -285,7 +329,7 @@ export default function QBankStudyPage() {
                 </div>
 
                 {revealed && (
-                  <div className="mt-4 pt-3 border-t border-gray-100" data-testid="card-rationale">
+                  <div className="mt-6 pt-4 border-t border-gray-100" data-testid="card-rationale">
                     <PostAnswerReviewLayout
                       questionColumn={
                         <>
@@ -293,23 +337,48 @@ export default function QBankStudyPage() {
                             isCorrect={selected === currentQ.correctAnswer}
                             correctText={`Correct Answer: ${currentQ.correctAnswer}. ${currentQ[`option${currentQ.correctAnswer}` as keyof Question] as string}`}
                           />
-                          <RationaleSection
-                            icon={<XCircle className="h-4 w-4 text-gray-500" />}
-                            title="Why Other Options Are Wrong"
-                            variant="distractor"
-                            data-testid="section-distractor-rationales"
-                          >
-                            <div className="space-y-2">
-                              {["A", "B", "C", "D"].filter(k => k !== currentQ.correctAnswer).map(k => (
-                                <DistractorCard
-                                  key={k}
-                                  letter={k}
-                                  text={currentQ[`option${k}` as keyof Question] as string}
-                                  rationale="Review the rationale above to understand why this option is incorrect."
-                                />
-                              ))}
-                            </div>
-                          </RationaleSection>
+
+                          {Object.keys(currentQ.distractorRationales || {}).length > 0 ? (
+                            <RationaleSection
+                              icon={<XCircle className="h-4 w-4 text-gray-500" />}
+                              title="Why Other Options Are Wrong"
+                              variant="distractor"
+                              data-testid="section-distractor-rationales"
+                            >
+                              <div className="space-y-2">
+                                {["A", "B", "C", "D"].filter(k => k !== currentQ.correctAnswer && currentQ[`option${k}` as keyof Question]).map(k => {
+                                  const optText = currentQ[`option${k}` as keyof Question] as string;
+                                  const rationale = currentQ.distractorRationales[optText] || "Review the rationale to understand why this is incorrect.";
+                                  return (
+                                    <DistractorCard
+                                      key={k}
+                                      letter={k}
+                                      text={optText}
+                                      rationale={rationale}
+                                    />
+                                  );
+                                })}
+                              </div>
+                            </RationaleSection>
+                          ) : (
+                            <RationaleSection
+                              icon={<XCircle className="h-4 w-4 text-gray-500" />}
+                              title="Why Other Options Are Wrong"
+                              variant="distractor"
+                              data-testid="section-distractor-rationales"
+                            >
+                              <div className="space-y-2">
+                                {["A", "B", "C", "D"].filter(k => k !== currentQ.correctAnswer && currentQ[`option${k}` as keyof Question]).map(k => (
+                                  <DistractorCard
+                                    key={k}
+                                    letter={k}
+                                    text={currentQ[`option${k}` as keyof Question] as string}
+                                    rationale="Review the rationale above to understand why this option is incorrect."
+                                  />
+                                ))}
+                              </div>
+                            </RationaleSection>
+                          )}
                         </>
                       }
                       rationaleColumn={
@@ -320,29 +389,113 @@ export default function QBankStudyPage() {
                           >
                             <RationaleText text={currentQ.rationale} />
                           </RationaleSection>
-                          {(() => {
-                            const img = getQuestionImage({ topic: currentQ.topic, bodySystem: currentQ.category });
-                            return img ? (
-                              <RationaleImageBlock
-                                src={img}
-                                alt={currentQ.topic || currentQ.category || "Clinical reference"}
-                                data-testid="img-rationale"
-                              />
-                            ) : null;
-                          })()}
-                          {currentQ.clientNeeds && (
+
+                          {currentQ.clinicalTakeaway && (
                             <RationaleSection
                               icon={<GraduationCap className="h-4 w-4 text-violet-500" />}
-                              title="Clinical Pearl"
+                              title="Clinical Takeaway"
                               variant="pearl"
                             >
-                              <p>Client Needs: {currentQ.clientNeeds}</p>
+                              <p className="text-sm text-gray-700 leading-relaxed">{currentQ.clinicalTakeaway}</p>
                             </RationaleSection>
                           )}
-                          <StudyTopicLink
-                            topic={currentQ.topic}
-                            bodySystem={currentQ.category}
-                          />
+
+                          {currentQ.examPearl && (
+                            <RationaleSection
+                              icon={<Star className="h-4 w-4 text-amber-500" />}
+                              title="Exam Strategy"
+                              variant="pearl"
+                            >
+                              <p className="text-sm text-gray-700 leading-relaxed">{currentQ.examPearl}</p>
+                            </RationaleSection>
+                          )}
+
+                          {currentQ.rationaleMedia && currentQ.rationaleMedia.length > 0 && (
+                            <RationaleSection
+                              icon={<ImageIcon className="h-4 w-4 text-blue-500" />}
+                              title="Clinical Reference"
+                            >
+                              <div className="space-y-3">
+                                {currentQ.rationaleMedia.map((media, i) => (
+                                  <div key={i} className="rounded-xl overflow-hidden border border-gray-100 bg-gray-50">
+                                    <button
+                                      onClick={() => setExpandedImage(expandedImage === media.imageUrl ? null : media.imageUrl)}
+                                      className="w-full"
+                                      data-testid={`button-expand-image-${i}`}
+                                    >
+                                      <img
+                                        src={media.imageUrl}
+                                        alt={media.imageAlt || "Clinical reference image"}
+                                        className={`w-full object-contain transition-all ${expandedImage === media.imageUrl ? "max-h-[600px]" : "max-h-[250px]"}`}
+                                        loading="lazy"
+                                      />
+                                    </button>
+                                    {(media.imageCaption || media.imageDescription) && (
+                                      <div className="p-3 bg-white border-t border-gray-100">
+                                        {media.imageCaption && (
+                                          <p className="text-sm font-semibold text-gray-800">{media.imageCaption}</p>
+                                        )}
+                                        {media.imageDescription && (
+                                          <p className="text-xs text-gray-500 mt-1 leading-relaxed">{media.imageDescription}</p>
+                                        )}
+                                      </div>
+                                    )}
+                                  </div>
+                                ))}
+                              </div>
+                            </RationaleSection>
+                          )}
+
+                          {(() => {
+                            const hasMediaImages = currentQ.rationaleMedia && currentQ.rationaleMedia.length > 0;
+                            if (!hasMediaImages) {
+                              const img = getQuestionImage({ topic: currentQ.topic, bodySystem: currentQ.category });
+                              return img ? (
+                                <RationaleImageBlock
+                                  src={img}
+                                  alt={currentQ.topic || currentQ.category || "Clinical reference"}
+                                  data-testid="img-rationale"
+                                />
+                              ) : null;
+                            }
+                            return null;
+                          })()}
+
+                          {currentQ.lessonLinks && currentQ.lessonLinks.length > 0 && (
+                            <RationaleSection
+                              icon={<BookOpen className="h-4 w-4 text-emerald-500" />}
+                              title="Related Lessons"
+                            >
+                              <div className="space-y-2">
+                                {currentQ.lessonLinks.map((link, i) => (
+                                  <a
+                                    key={i}
+                                    href={link.lessonUrl}
+                                    className="flex items-start gap-3 p-3 rounded-xl border border-gray-100 bg-white hover:bg-emerald-50 hover:border-emerald-200 transition-colors group"
+                                    data-testid={`link-lesson-${i}`}
+                                  >
+                                    <div className="w-8 h-8 rounded-lg bg-emerald-100 flex items-center justify-center shrink-0 group-hover:bg-emerald-200 transition-colors">
+                                      <BookOpen className="h-4 w-4 text-emerald-600" />
+                                    </div>
+                                    <div className="flex-1 min-w-0">
+                                      <p className="text-sm font-medium text-gray-800 group-hover:text-emerald-700 transition-colors">{link.lessonTitle}</p>
+                                      {link.relevanceNote && (
+                                        <p className="text-xs text-gray-500 mt-0.5 leading-relaxed">{link.relevanceNote}</p>
+                                      )}
+                                    </div>
+                                    <ExternalLink className="h-4 w-4 text-gray-400 group-hover:text-emerald-500 shrink-0 mt-0.5" />
+                                  </a>
+                                ))}
+                              </div>
+                            </RationaleSection>
+                          )}
+
+                          {!currentQ.lessonLinks?.length && (
+                            <StudyTopicLink
+                              topic={currentQ.topic}
+                              bodySystem={currentQ.category}
+                            />
+                          )}
                         </>
                       }
                     />
@@ -361,7 +514,7 @@ export default function QBankStudyPage() {
                   Next Question<ArrowRight className="h-4 w-4 ml-2" />
                 </Button>
               ) : (
-                <Button onClick={() => { saveResults(); setCurrentIdx(questions.length); }} className="w-full rounded-xl py-5 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold shadow-sm" data-testid="button-finish-study">
+                <Button onClick={() => setCurrentIdx(questions.length)} className="w-full rounded-xl py-5 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold shadow-sm" data-testid="button-finish-study">
                   <CheckCircle2 className="h-4 w-4 mr-2" />Finish Session
                 </Button>
               )}

@@ -16594,15 +16594,124 @@ Return ONLY valid JSON with this exact structure:
     try {
       const user = await resolveAuthUser(req);
       if (!user) return res.status(401).json({ error: "Authentication required" });
-      const country = getCountryForUserRegion(user.region);
-      if (!country) return res.status(400).json({ error: "User region not set. Please update your profile." });
-      const examType = getExamTypeForCountry(country);
+
+      const tier = user.tier || "free";
+      const allowedTiers = ["free"];
+      if (tier === "rpn" || tier === "rn" || tier === "np" || tier === "admin") allowedTiers.push(tier);
+      if (tier === "admin") allowedTiers.push("rpn", "rn", "np");
+
       const count = Math.min(parseInt(req.query.count as string) || 10, 50);
-      const filters: any = { country, examType };
-      if (req.query.category) filters.category = req.query.category;
-      if (req.query.difficulty) filters.difficulty = req.query.difficulty;
-      const questions = await storage.getQuestionBankRandomSubset(filters, count);
-      res.json(questions);
+      const category = req.query.category as string;
+      const difficulty = req.query.difficulty as string;
+
+      const conditions = ["status = 'published'", "flashcard_enabled = true", "source_type = 'cat_exam'"];
+      const params: any[] = [];
+      let paramIdx = 1;
+
+      conditions.push(`tier = ANY($${paramIdx++})`);
+      params.push(allowedTiers);
+
+      if (category) {
+        conditions.push(`(category ILIKE $${paramIdx} OR body_system ILIKE $${paramIdx} OR topic ILIKE $${paramIdx})`);
+        params.push(`%${category}%`);
+        paramIdx++;
+      }
+      if (difficulty) {
+        const diffMap: Record<string, number[]> = { easy: [1, 2], moderate: [3], hard: [4], very_hard: [5] };
+        const levels = diffMap[difficulty] || [3];
+        conditions.push(`difficulty = ANY($${paramIdx++})`);
+        params.push(levels);
+      }
+
+      const where = conditions.join(" AND ");
+      const { rows } = await pool.query(
+        `SELECT id, tier, front as question, options, correct_answer, rationale_correct as rationale,
+                distractor_rationales, clinical_takeaway, exam_pearl,
+                rationale_media, lesson_links, body_system as category,
+                topic, subtopic, difficulty, question_type, region_scope
+         FROM flashcard_bank WHERE ${where}
+         ORDER BY RANDOM() LIMIT $${paramIdx}`,
+        [...params, count]
+      );
+
+      const mapped = rows.map((r: any) => {
+        const opts = typeof r.options === "string" ? JSON.parse(r.options) : (r.options || []);
+        const correctIdx = typeof r.correct_answer === "string" ? JSON.parse(r.correct_answer) : (r.correct_answer || []);
+        const idx = Array.isArray(correctIdx) ? correctIdx[0] : correctIdx;
+        const optTexts = opts.map((o: any) => typeof o === "object" ? (o.text || String(o)) : String(o));
+        const letters = ["A", "B", "C", "D", "E", "F"];
+        const correctLetter = letters[idx] || "A";
+
+        const distractors = typeof r.distractor_rationales === "string"
+          ? JSON.parse(r.distractor_rationales)
+          : (r.distractor_rationales || {});
+
+        const media = typeof r.rationale_media === "string"
+          ? JSON.parse(r.rationale_media)
+          : (r.rationale_media || []);
+
+        const lessons = typeof r.lesson_links === "string"
+          ? JSON.parse(r.lesson_links)
+          : (r.lesson_links || []);
+
+        return {
+          id: r.id,
+          question: r.question,
+          optionA: optTexts[0] || "",
+          optionB: optTexts[1] || "",
+          optionC: optTexts[2] || "",
+          optionD: optTexts[3] || "",
+          correctAnswer: correctLetter,
+          rationale: r.rationale || "",
+          category: r.category || "General",
+          difficulty: r.difficulty <= 2 ? "easy" : r.difficulty === 3 ? "moderate" : r.difficulty === 4 ? "hard" : "very_hard",
+          topic: r.topic || "",
+          clientNeeds: "",
+          examType: r.tier,
+          country: r.region_scope || "BOTH",
+          questionType: r.question_type || "mcq",
+          clinicalTakeaway: r.clinical_takeaway || "",
+          examPearl: r.exam_pearl || "",
+          distractorRationales: distractors,
+          rationaleMedia: media,
+          lessonLinks: lessons,
+        };
+      });
+
+      res.json(mapped);
+    } catch (e: any) {
+      console.error("[Test Bank Study]", e);
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/test-bank/stats", async (req, res) => {
+    try {
+      const { rows: tierCounts } = await pool.query(
+        `SELECT tier, COUNT(*)::int as count FROM flashcard_bank 
+         WHERE source_type = 'cat_exam' AND flashcard_enabled = true AND status = 'published'
+         GROUP BY tier ORDER BY tier`
+      );
+      const { rows: catCounts } = await pool.query(
+        `SELECT tier, COUNT(*)::int as count FROM exam_questions
+         WHERE career_type = 'nursing' AND status = 'published'
+         GROUP BY tier ORDER BY tier`
+      );
+      const { rows: imageCounts } = await pool.query(
+        `SELECT tier,
+           COUNT(CASE WHEN rationale_media::text != '[]' AND rationale_media IS NOT NULL THEN 1 END)::int as with_images,
+           COUNT(CASE WHEN rationale_media::text = '[]' OR rationale_media IS NULL THEN 1 END)::int as missing_images,
+           COUNT(CASE WHEN lesson_links::text != '[]' AND lesson_links IS NOT NULL THEN 1 END)::int as with_lessons,
+           COUNT(CASE WHEN lesson_links::text = '[]' OR lesson_links IS NULL THEN 1 END)::int as missing_lessons
+         FROM flashcard_bank WHERE source_type = 'cat_exam' AND flashcard_enabled = true
+         GROUP BY tier ORDER BY tier`
+      );
+      const { rows: categoryCounts } = await pool.query(
+        `SELECT tier, body_system as category, COUNT(*)::int as count
+         FROM flashcard_bank WHERE source_type = 'cat_exam' AND flashcard_enabled = true
+         GROUP BY tier, body_system ORDER BY tier, count DESC`
+      );
+      res.json({ testBank: tierCounts, catQuestions: catCounts, coverage: imageCounts, categories: categoryCounts });
     } catch (e: any) {
       res.status(500).json({ error: e.message });
     }
