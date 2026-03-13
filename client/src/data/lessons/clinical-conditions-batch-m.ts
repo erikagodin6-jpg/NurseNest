@@ -2,10 +2,10 @@ import type { LessonContent } from "./types";
 
 export const clinicalConditionsBatchMLessons: Record<string, LessonContent> = {
   "gout-management-rpn": {
-    title: "Gout: RPN Monitoring",
+    title: "Gout",
     cellular: {
       title: "Uric Acid Crystal Deposition",
-      content: "Gout is an inflammatory arthritis caused by deposition of monosodium urate crystals in joints and soft tissues. Hyperuricemia develops when purine metabolism produces excessive uric acid or renal excretion is impaired. Crystals trigger an intense inflammatory response mediated by neutrophils and interleukin-1β, causing acute joint pain, redness, and swelling. The metatarsophalangeal (MTP) joint of the great toe (podagra) is classically affected. The RPN monitors pain levels, assists with comfort measures, administers medications as ordered, and reports changes in joint status."
+      content: "Gout is an inflammatory arthritis caused by deposition of monosodium urate crystals in joints and soft tissues. Hyperuricemia develops when purine metabolism produces excessive uric acid or renal excretion is impaired. Crystals trigger an intense inflammatory response mediated by neutrophils and interleukin-1β, causing acute joint pain, redness, and swelling. The metatarsophalangeal (MTP) joint of the great toe (podagra) is classically affected. The nurse monitors pain levels, assists with comfort measures, administers medications as ordered, and reports changes in joint status."
     },
     riskFactors: [
       "Male sex and postmenopausal women",
@@ -66,15 +66,15 @@ export const clinicalConditionsBatchMLessons: Record<string, LessonContent> = {
     ],
     quiz: [
       { question: "Which joint is most classically affected in an acute gout flare?", options: ["Knee", "Wrist", "First metatarsophalangeal joint", "Hip"], correct: 2, rationale: "Podagra, or inflammation of the first MTP joint (great toe), is the classic presentation of acute gout." },
-      { question: "Which dietary instruction should the RPN reinforce for a patient with gout?", options: ["Increase shellfish intake for protein", "Avoid organ meats and limit alcohol", "Eat more red meat for iron", "Restrict fluid intake"], correct: 1, rationale: "Organ meats and alcohol are high in purines and should be avoided. Adequate fluid intake helps excrete uric acid." }
+      { question: "Which dietary instruction should the nurse reinforce for a patient with gout?", options: ["Increase shellfish intake for protein", "Avoid organ meats and limit alcohol", "Eat more red meat for iron", "Restrict fluid intake"], correct: 1, rationale: "Organ meats and alcohol are high in purines and should be avoided. Adequate fluid intake helps excrete uric acid." }
     ]
   },
 
   "gout-management-rn": {
-    title: "Gout: RN Clinical Management",
+    title: "Gout",
     cellular: {
       title: "Pathophysiology of Urate Crystal Arthropathy",
-      content: "Gout results from sustained hyperuricemia leading to monosodium urate (MSU) crystal deposition in joints and periarticular tissues. Crystal formation triggers NLRP3 inflammasome activation and massive interleukin-1β release, producing an intense neutrophilic inflammatory response. Acute attacks feature severe monoarticular pain, erythema, and edema, classically in the first MTP joint. Chronic tophaceous gout develops after years of inadequately treated hyperuricemia, with urate deposits (tophi) causing joint destruction. The RN performs comprehensive joint assessment, manages acute pharmacologic therapy, monitors renal function during treatment, and coordinates lifestyle modification education."
+      content: "Gout results from sustained hyperuricemia leading to monosodium urate (MSU) crystal deposition in joints and periarticular tissues. Crystal formation triggers NLRP3 inflammasome activation and massive interleukin-1β release, producing an intense neutrophilic inflammatory response. Acute attacks feature severe monoarticular pain, erythema, and edema, classically in the first MTP joint. Chronic tophaceous gout develops after years of inadequately treated hyperuricemia, with urate deposits (tophi) causing joint destruction. The nurse performs comprehensive joint assessment, manages acute pharmacologic therapy, monitors renal function during treatment, and coordinates lifestyle modification education."
     },
     riskFactors: [
       "Sustained hyperuricemia (>6.8 mg/dL)",
@@ -152,10 +152,10 @@ export const clinicalConditionsBatchMLessons: Record<string, LessonContent> = {
   },
 
   "gout-management-np": {
-    title: "Gout: NP Prescriptive Management",
+    title: "Gout",
     cellular: {
-      title: "Advanced Pathophysiology and Pharmacologic Strategy",
-      content: "Gout is a crystal-induced arthropathy resulting from sustained hyperuricemia exceeding the physiologic saturation point of monosodium urate (6.8 mg/dL at 37°C). Urate crystal deposition activates the NLRP3 inflammasome in resident macrophages, triggering caspase-1-mediated IL-1β release and an intense neutrophilic inflammatory cascade. Chronic hyperuricemia leads to tophaceous disease with cartilage and bone erosion. The NP must differentiate gout from septic arthritis and pseudogout, prescribe acute flare management, initiate and titrate urate-lowering therapy (ULT) to achieve target serum urate <6 mg/dL, manage comorbidities including CKD and cardiovascular disease, and consider pharmacogenomic testing (HLA-B*5801) before prescribing allopurinol in high-risk populations."
+      title: "Pathophysiology and Pharmacologic Strategy",
+      content: "Gout is a crystal-induced arthropathy resulting from sustained hyperuricemia exceeding the physiologic saturation point of monosodium urate (6.8 mg/dL at 37°C). Urate crystal deposition activates the NLRP3 inflammasome in resident macrophages, triggering caspase-1-mediated IL-1β release and an intense neutrophilic inflammatory cascade. Chronic hyperuricemia leads to tophaceous disease with cartilage and bone erosion. The clinician must differentiate gout from septic arthritis and pseudogout, prescribe acute flare management, initiate and titrate urate-lowering therapy (ULT) to achieve target serum urate <6 mg/dL, manage comorbidities including CKD and cardiovascular disease, and consider pharmacogenomic testing (HLA-B*5801) before prescribing allopurinol in high-risk populations."
     },
     riskFactors: [
       "Sustained serum urate >6.8 mg/dL (supersaturation threshold)",
@@ -234,10 +234,10 @@ export const clinicalConditionsBatchMLessons: Record<string, LessonContent> = {
   },
 
   "osteoporosis-management-rpn": {
-    title: "Osteoporosis: RPN Monitoring",
+    title: "Osteoporosis",
     cellular: {
       title: "Bone Density Loss",
-      content: "Osteoporosis is a chronic, progressive skeletal disorder characterized by decreased bone mineral density and deterioration of bone microarchitecture, resulting in fragile bones and increased fracture risk. Normally, osteoblasts (bone-building cells) and osteoclasts (bone-resorbing cells) maintain bone homeostasis. In osteoporosis, osteoclast activity exceeds osteoblast activity, leading to net bone loss. This imbalance is accelerated by estrogen deficiency (postmenopause), aging, calcium/vitamin D insufficiency, and sedentary lifestyle. The RPN assists with fall prevention measures, monitors for fracture signs, reinforces dietary education, and administers medications as ordered."
+      content: "Osteoporosis is a chronic, progressive skeletal disorder characterized by decreased bone mineral density and deterioration of bone microarchitecture, resulting in fragile bones and increased fracture risk. Normally, osteoblasts (bone-building cells) and osteoclasts (bone-resorbing cells) maintain bone homeostasis. In osteoporosis, osteoclast activity exceeds osteoblast activity, leading to net bone loss. This imbalance is accelerated by estrogen deficiency (postmenopause), aging, calcium/vitamin D insufficiency, and sedentary lifestyle. The nurse assists with fall prevention measures, monitors for fracture signs, reinforces dietary education, and administers medications as ordered."
     },
     riskFactors: [
       "Postmenopausal women (estrogen loss)",
@@ -298,16 +298,16 @@ export const clinicalConditionsBatchMLessons: Record<string, LessonContent> = {
     ],
     quiz: [
       { question: "Which instruction is most important for a patient taking alendronate?", options: ["Take with a full meal", "Lie down after taking for absorption", "Take on empty stomach and remain upright for 30 minutes", "Take at bedtime with milk"], correct: 2, rationale: "Bisphosphonates must be taken on an empty stomach with plain water, and the patient must remain upright for 30-60 minutes to prevent esophageal irritation and ulceration." },
-      { question: "Which assessment finding should the RPN report as a potential sign of osteoporotic fracture?", options: ["New onset lower back pain in a 72-year-old woman", "Mild joint stiffness in the morning", "Increased appetite", "Bilateral ankle edema"], correct: 0, rationale: "New onset back pain in an elderly patient may indicate a vertebral compression fracture, which is a common complication of osteoporosis." }
+      { question: "Which assessment finding should the nurse report as a potential sign of osteoporotic fracture?", options: ["New onset lower back pain in a 72-year-old woman", "Mild joint stiffness in the morning", "Increased appetite", "Bilateral ankle edema"], correct: 0, rationale: "New onset back pain in an elderly patient may indicate a vertebral compression fracture, which is a common complication of osteoporosis." }
     ]
   },
 
 
   "osteoporosis-management-np": {
-    title: "Osteoporosis: NP Prescriptive Management",
+    title: "Osteoporosis",
     cellular: {
-      title: "Advanced Bone Biology and Treatment Strategies",
-      content: "Osteoporosis reflects a fundamental disruption in the RANK/RANKL/OPG signaling axis that governs bone remodeling. RANKL, expressed by osteoblasts, binds RANK on osteoclast precursors to stimulate differentiation and activation. Osteoprotegerin (OPG), a decoy receptor, competitively inhibits this interaction. Estrogen upregulates OPG and suppresses RANKL; its loss during menopause shifts the balance toward excessive osteoclastogenesis. Glucocorticoids compound this by directly inhibiting osteoblast function, inducing osteocyte apoptosis, and decreasing intestinal calcium absorption. The NP must prescribe evidence-based pharmacotherapy (antiresorptive or anabolic agents), interpret bone density and fracture risk data, manage drug holidays and transitions, and address secondary causes through comprehensive workup."
+      title: "Bone Biology and Treatment Strategies",
+      content: "Osteoporosis reflects a fundamental disruption in the RANK/RANKL/OPG signaling axis that governs bone remodeling. RANKL, expressed by osteoblasts, binds RANK on osteoclast precursors to stimulate differentiation and activation. Osteoprotegerin (OPG), a decoy receptor, competitively inhibits this interaction. Estrogen upregulates OPG and suppresses RANKL; its loss during menopause shifts the balance toward excessive osteoclastogenesis. Glucocorticoids compound this by directly inhibiting osteoblast function, inducing osteocyte apoptosis, and decreasing intestinal calcium absorption. The clinician must prescribe evidence-based pharmacotherapy (antiresorptive or anabolic agents), interpret bone density and fracture risk data, manage drug holidays and transitions, and address secondary causes through comprehensive workup."
     },
     riskFactors: [
       "Primary: postmenopausal estrogen deficiency, aging (peak bone mass achieved by age 30, declines thereafter)",
@@ -380,16 +380,16 @@ export const clinicalConditionsBatchMLessons: Record<string, LessonContent> = {
     ],
     quiz: [
       { question: "Which pharmacologic strategy produces the greatest increase in bone mineral density?", options: ["Starting with a bisphosphonate then switching to teriparatide", "Starting with teriparatide then transitioning to a bisphosphonate", "Long-term denosumab monotherapy", "Combination calcium and vitamin D only"], correct: 1, rationale: "The anabolic-first strategy (teriparatide or romosozumab followed by antiresorptive therapy) produces the greatest gains in BMD. Starting antiresorptive first blunts the subsequent anabolic response." },
-      { question: "A patient has been on denosumab for 3 years and wants to stop. What must the NP prescribe?", options: ["Nothing; the drug effect persists indefinitely", "Calcium and vitamin D supplementation only", "A bisphosphonate (zoledronic acid) to prevent rebound vertebral fractures", "Teriparatide to maintain bone density"], correct: 2, rationale: "Denosumab discontinuation causes rapid rebound osteoclast activity with accelerated bone loss and risk of multiple vertebral fractures. Transitioning to a bisphosphonate (typically zoledronic acid infusion) is mandatory." },
+      { question: "A patient has been on denosumab for 3 years and wants to stop. What must the clinician prescribe?", options: ["Nothing; the drug effect persists indefinitely", "Calcium and vitamin D supplementation only", "A bisphosphonate (zoledronic acid) to prevent rebound vertebral fractures", "Teriparatide to maintain bone density"], correct: 2, rationale: "Denosumab discontinuation causes rapid rebound osteoclast activity with accelerated bone loss and risk of multiple vertebral fractures. Transitioning to a bisphosphonate (typically zoledronic acid infusion) is mandatory." },
       { question: "Which medication is contraindicated in a patient with a history of stroke 6 months ago?", options: ["Alendronate", "Denosumab", "Romosozumab", "Teriparatide"], correct: 2, rationale: "Romosozumab carries a black box warning for increased cardiovascular events including MI and stroke. It is contraindicated in patients with a cardiovascular event within the past year." }
     ]
   },
 
   "compartment-syndrome-rpn": {
-    title: "Compartment Syndrome: RPN Monitoring",
+    title: "Compartment Syndrome",
     cellular: {
       title: "Pressure-Induced Tissue Ischemia",
-      content: "Compartment syndrome is a limb-threatening emergency that occurs when pressure within a closed fascial compartment rises to a level that compromises tissue perfusion. Muscles and nerves within the compartment are encased in rigid fascia that cannot expand. When internal pressure increases (from bleeding, edema, or external compression), capillary perfusion ceases, leading to ischemia, necrosis, and permanent neurovascular damage if not relieved within 6 hours. The RPN must recognize early warning signs, perform frequent neurovascular assessments, and report changes immediately."
+      content: "Compartment syndrome is a limb-threatening emergency that occurs when pressure within a closed fascial compartment rises to a level that compromises tissue perfusion. Muscles and nerves within the compartment are encased in rigid fascia that cannot expand. When internal pressure increases (from bleeding, edema, or external compression), capillary perfusion ceases, leading to ischemia, necrosis, and permanent neurovascular damage if not relieved within 6 hours. The nurse must recognize early warning signs, perform frequent neurovascular assessments, and report changes immediately."
     },
     riskFactors: [
       "Long bone fractures (tibial shaft most common)",
@@ -449,15 +449,15 @@ export const clinicalConditionsBatchMLessons: Record<string, LessonContent> = {
     ],
     quiz: [
       { question: "Which finding is the earliest indicator of compartment syndrome?", options: ["Absent distal pulses", "Pain disproportionate to injury and unrelieved by analgesics", "Paralysis of the affected extremity", "Cyanosis of the limb"], correct: 1, rationale: "Pain out of proportion to the injury that is not relieved by analgesics is the earliest and most reliable sign of compartment syndrome. Loss of pulses and paralysis are late, ominous signs." },
-      { question: "A patient in a leg cast reports increasing pain and numbness in the toes. What should the RPN do first?", options: ["Elevate the leg above heart level", "Report to the RN immediately", "Apply ice to the cast", "Administer another dose of pain medication"], correct: 1, rationale: "Increasing pain and paresthesia in a casted extremity are early signs of compartment syndrome. The RPN must report immediately; the cast may need to be bivalved or removed." }
+      { question: "A patient in a leg cast reports increasing pain and numbness in the toes. What should the nurse do first?", options: ["Elevate the leg above heart level", "Report to the nurse immediately", "Apply ice to the cast", "Administer another dose of pain medication"], correct: 1, rationale: "Increasing pain and paresthesia in a casted extremity are early signs of compartment syndrome. The nurse must report immediately; the cast may need to be bivalved or removed." }
     ]
   },
 
   "compartment-syndrome-rn": {
-    title: "Compartment Syndrome: RN Clinical Management",
+    title: "Compartment Syndrome",
     cellular: {
       title: "Pathophysiology of Compartment Pressure",
-      content: "Compartment syndrome develops when intracompartmental pressure exceeds capillary perfusion pressure (normally 25-30 mmHg), leading to tissue ischemia. The anterior compartment of the lower leg is most commonly affected due to its tight fascial boundaries. As pressure rises, venous outflow is obstructed first, causing further edema in a vicious cycle. When arterial inflow is compromised, irreversible myonecrosis begins within 6 hours and permanent nerve damage within 12-24 hours. Without fasciotomy, Volkmann ischemic contracture (upper extremity) or limb loss results. The RN performs serial neurovascular assessments, manages pain, coordinates with the surgical team, and provides post-fasciotomy wound care."
+      content: "Compartment syndrome develops when intracompartmental pressure exceeds capillary perfusion pressure (normally 25-30 mmHg), leading to tissue ischemia. The anterior compartment of the lower leg is most commonly affected due to its tight fascial boundaries. As pressure rises, venous outflow is obstructed first, causing further edema in a vicious cycle. When arterial inflow is compromised, irreversible myonecrosis begins within 6 hours and permanent nerve damage within 12-24 hours. Without fasciotomy, Volkmann ischemic contracture (upper extremity) or limb loss results. The nurse performs serial neurovascular assessments, manages pain, coordinates with the surgical team, and provides post-fasciotomy wound care."
     },
     riskFactors: [
       "Tibial shaft fractures (most common cause)",
@@ -528,16 +528,16 @@ export const clinicalConditionsBatchMLessons: Record<string, LessonContent> = {
     ],
     quiz: [
       { question: "A patient with a tibial fracture has a compartment pressure of 38 mmHg and a diastolic BP of 60 mmHg. What is the delta pressure and what action is needed?", options: ["ΔP = 22 mmHg; emergent fasciotomy required", "ΔP = 38 mmHg; continue monitoring", "ΔP = 98 mmHg; no intervention needed", "ΔP = 22 mmHg; elevate the limb above heart level"], correct: 0, rationale: "ΔP = 60 - 38 = 22 mmHg. A delta pressure <30 mmHg indicates insufficient perfusion pressure and is the threshold for emergent fasciotomy." },
-      { question: "After fasciotomy for compartment syndrome, the RN notes dark brown urine. What is the priority action?", options: ["Document as a normal finding", "Increase IV fluid rate and notify the provider", "Restrict fluids to prevent overload", "Administer a loop diuretic"], correct: 1, rationale: "Dark brown urine indicates myoglobinuria from rhabdomyolysis. The priority is aggressive IV fluid resuscitation to maintain urine output and prevent myoglobin-induced AKI." },
+      { question: "After fasciotomy for compartment syndrome, the nurse notes dark brown urine. What is the priority action?", options: ["Document as a normal finding", "Increase IV fluid rate and notify the provider", "Restrict fluids to prevent overload", "Administer a loop diuretic"], correct: 1, rationale: "Dark brown urine indicates myoglobinuria from rhabdomyolysis. The priority is aggressive IV fluid resuscitation to maintain urine output and prevent myoglobin-induced AKI." },
       { question: "Which assessment technique specifically evaluates for anterior compartment syndrome of the lower leg?", options: ["Dorsiflex the ankle and assess for pain", "Passively extend the knee", "Palpate the posterior tibial pulse", "Assess plantar reflex"], correct: 0, rationale: "Passive dorsiflexion of the ankle stretches the muscles in the anterior compartment. Pain on passive stretch is an early sign of compartment syndrome in that compartment." }
     ]
   },
 
   "compartment-syndrome-np": {
-    title: "Compartment Syndrome: NP Prescriptive Management",
+    title: "Compartment Syndrome",
     cellular: {
-      title: "Advanced Pathophysiology and Surgical Decision-Making",
-      content: "Compartment syndrome represents a surgical emergency driven by the interplay between intracompartmental pressure, tissue perfusion pressure, and the duration of ischemia. Normal compartment pressure is 0-8 mmHg. As pressure rises above 30 mmHg (or within 30 mmHg of diastolic blood pressure), capillary perfusion fails. The ischemia-reperfusion cascade causes further edema through endothelial injury and inflammatory mediator release, creating a self-perpetuating cycle. Irreversible myonecrosis begins at 4-6 hours, and complete necrosis occurs by 12 hours. Rhabdomyolysis from muscle death releases myoglobin, potassium, phosphate, and creatine kinase, potentially causing acute kidney injury, cardiac arrhythmias, and DIC. The NP must make rapid clinical decisions, differentiate from other causes of limb pain, order compartment pressure monitoring, coordinate emergent fasciotomy, and manage the complex systemic sequelae."
+      title: "Pathophysiology and Surgical Decision-Making",
+      content: "Compartment syndrome represents a surgical emergency driven by the interplay between intracompartmental pressure, tissue perfusion pressure, and the duration of ischemia. Normal compartment pressure is 0-8 mmHg. As pressure rises above 30 mmHg (or within 30 mmHg of diastolic blood pressure), capillary perfusion fails. The ischemia-reperfusion cascade causes further edema through endothelial injury and inflammatory mediator release, creating a self-perpetuating cycle. Irreversible myonecrosis begins at 4-6 hours, and complete necrosis occurs by 12 hours. Rhabdomyolysis from muscle death releases myoglobin, potassium, phosphate, and creatine kinase, potentially causing acute kidney injury, cardiac arrhythmias, and DIC. The clinician must make rapid clinical decisions, differentiate from other causes of limb pain, order compartment pressure monitoring, coordinate emergent fasciotomy, and manage the complex systemic sequelae."
     },
     riskFactors: [
       "High-energy tibial shaft fractures (35% incidence of anterior compartment syndrome)",
@@ -616,10 +616,10 @@ export const clinicalConditionsBatchMLessons: Record<string, LessonContent> = {
   },
 
   "rheumatoid-arthritis-rpn": {
-    title: "Rheumatoid Arthritis: RPN Monitoring",
+    title: "Rheumatoid Arthritis",
     cellular: {
       title: "Autoimmune Joint Inflammation",
-      content: "Rheumatoid arthritis (RA) is a chronic, systemic autoimmune disorder characterized by inflammation and destruction of synovial joints. The immune system mistakenly attacks the synovial membrane, causing synovitis with pannus formation (thickened, inflamed synovial tissue). The pannus erodes cartilage, bone, and joint capsules, leading to progressive deformity and loss of function. RA typically affects the small joints of the hands and wrists symmetrically. The RPN monitors joint status, assists with comfort measures, administers medications as ordered, and reinforces joint protection strategies."
+      content: "Rheumatoid arthritis (RA) is a chronic, systemic autoimmune disorder characterized by inflammation and destruction of synovial joints. The immune system mistakenly attacks the synovial membrane, causing synovitis with pannus formation (thickened, inflamed synovial tissue). The pannus erodes cartilage, bone, and joint capsules, leading to progressive deformity and loss of function. RA typically affects the small joints of the hands and wrists symmetrically. The nurse monitors joint status, assists with comfort measures, administers medications as ordered, and reinforces joint protection strategies."
     },
     riskFactors: [
       "Female sex (3:1 female-to-male ratio)",
@@ -685,10 +685,10 @@ export const clinicalConditionsBatchMLessons: Record<string, LessonContent> = {
   },
 
   "rheumatoid-arthritis-rn": {
-    title: "Rheumatoid Arthritis: RN Clinical Management",
+    title: "Rheumatoid Arthritis",
     cellular: {
       title: "Pathophysiology of Autoimmune Synovitis",
-      content: "Rheumatoid arthritis is driven by autoimmune activation of CD4+ T-helper cells that infiltrate the synovium and stimulate macrophages and B cells to produce pro-inflammatory cytokines (TNF-α, IL-1, IL-6) and autoantibodies (rheumatoid factor and anti-CCP antibodies). The resulting synovitis causes pannus formation, a destructive granulation tissue that erodes articular cartilage, subchondral bone, and periarticular structures. Progressive fibrosis of joint capsules causes characteristic deformities: swan neck, boutonnière, and ulnar deviation. Extra-articular manifestations include rheumatoid nodules, vasculitis, interstitial lung disease, pericarditis, and Felty syndrome (splenomegaly with neutropenia). The RN coordinates DMARD therapy monitoring, performs comprehensive musculoskeletal assessments, manages pain and fatigue, and educates on long-term disease management."
+      content: "Rheumatoid arthritis is driven by autoimmune activation of CD4+ T-helper cells that infiltrate the synovium and stimulate macrophages and B cells to produce pro-inflammatory cytokines (TNF-α, IL-1, IL-6) and autoantibodies (rheumatoid factor and anti-CCP antibodies). The resulting synovitis causes pannus formation, a destructive granulation tissue that erodes articular cartilage, subchondral bone, and periarticular structures. Progressive fibrosis of joint capsules causes characteristic deformities: swan neck, boutonnière, and ulnar deviation. Extra-articular manifestations include rheumatoid nodules, vasculitis, interstitial lung disease, pericarditis, and Felty syndrome (splenomegaly with neutropenia). The nurse coordinates DMARD therapy monitoring, performs comprehensive musculoskeletal assessments, manages pain and fatigue, and educates on long-term disease management."
     },
     riskFactors: [
       "Female sex (3:1 ratio)",
@@ -767,10 +767,10 @@ export const clinicalConditionsBatchMLessons: Record<string, LessonContent> = {
   },
 
   "rheumatoid-arthritis-np": {
-    title: "Rheumatoid Arthritis: NP Prescriptive Management",
+    title: "Rheumatoid Arthritis",
     cellular: {
       title: "Advanced Immunopathology and Targeted Therapy",
-      content: "Rheumatoid arthritis pathogenesis involves complex interactions between genetic susceptibility (HLA-DR shared epitope), environmental triggers (smoking, periodontal pathogens), and immune dysregulation. Citrullination of self-proteins generates neoantigens recognized by autoreactive T cells, which activate B cells to produce anti-CCP antibodies and rheumatoid factor. These immune complexes deposit in synovium, activating complement and recruiting macrophages that release TNF-α, IL-1β, IL-6, and RANKL. TNF-α and IL-6 drive systemic inflammation, while RANKL activates osteoclasts causing periarticular erosions. The JAK-STAT signaling pathway amplifies cytokine-driven inflammation. Modern targeted therapies (anti-TNF, IL-6 inhibitors, JAK inhibitors, T-cell co-stimulation blockers, B-cell depletion) directly address these mechanisms. The NP prescribes and manages DMARD regimens, monitors for treatment toxicity and opportunistic infections, adjusts therapy based on disease activity scores, and manages comorbid cardiovascular and pulmonary complications."
+      content: "Rheumatoid arthritis pathogenesis involves complex interactions between genetic susceptibility (HLA-DR shared epitope), environmental triggers (smoking, periodontal pathogens), and immune dysregulation. Citrullination of self-proteins generates neoantigens recognized by autoreactive T cells, which activate B cells to produce anti-CCP antibodies and rheumatoid factor. These immune complexes deposit in synovium, activating complement and recruiting macrophages that release TNF-α, IL-1β, IL-6, and RANKL. TNF-α and IL-6 drive systemic inflammation, while RANKL activates osteoclasts causing periarticular erosions. The JAK-STAT signaling pathway amplifies cytokine-driven inflammation. Modern targeted therapies (anti-TNF, IL-6 inhibitors, JAK inhibitors, T-cell co-stimulation blockers, B-cell depletion) directly address these mechanisms. The clinician prescribes and manages DMARD regimens, monitors for treatment toxicity and opportunistic infections, adjusts therapy based on disease activity scores, and manages comorbid cardiovascular and pulmonary complications."
     },
     riskFactors: [
       "HLA-DR4 shared epitope (strongest genetic risk factor)",

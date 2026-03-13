@@ -93,10 +93,10 @@ export const renalLessons: Record<string, LessonContent> = {
   },
 
   "glomerulonephritis-basics-rpn": {
-    title: "Acute Postinfectious Glomerulonephritis (RPN)",
+    title: "Acute Postinfectious Glomerulonephritis",
     image: imgGlomerulonephritis,
     cellular: {
-      title: "Glomerulonephritis Overview",
+      title: "Glomerulonephritis",
       content: "Acute postinfectious glomerulonephritis (APIGN) is an inflammatory condition of the glomeruli that occurs 1-3 weeks after a group A beta-hemolytic streptococcal infection, most commonly pharyngitis or impetigo. The immune system produces antibodies against the streptococcal antigens, and these antibody-antigen complexes deposit in the glomerular basement membrane, triggering inflammation and damage. This impairs the kidney's ability to filter blood properly, leading to fluid retention, hypertension, and characteristic cola-colored or tea-colored urine from blood leaking through the damaged glomeruli. The condition is most common in children ages 5-12 and is usually self-limiting with supportive care."
     },
     riskFactors: [
@@ -164,7 +164,7 @@ export const renalLessons: Record<string, LessonContent> = {
     ],
     quiz: [
       {
-        question: "A 7-year-old child presents with periorbital edema, cola-colored urine, and elevated blood pressure 2 weeks after being treated for strep throat. Which condition should the RPN suspect?",
+        question: "A 7-year-old child presents with periorbital edema, cola-colored urine, and elevated blood pressure 2 weeks after being treated for strep throat. Which condition should the nurse suspect?",
         options: [
           "Urinary tract infection",
           "Acute postinfectious glomerulonephritis",
@@ -178,9 +178,9 @@ export const renalLessons: Record<string, LessonContent> = {
   },
 
   "acute-glomerulonephritis": {
-    title: "Acute Postinfectious Glomerulonephritis (RN)",
+    title: "Acute Postinfectious Glomerulonephritis",
     cellular: {
-      title: "Immunopathology of Acute Postinfectious Glomerulonephritis",
+      title: "Immunopathology of Acute Postinfectious",
       content: "Acute postinfectious glomerulonephritis (APIGN) is a Type III hypersensitivity reaction triggered by group A beta-hemolytic streptococcal (GAS) infection. Following pharyngitis (latency 1-2 weeks) or skin infection (latency 3-6 weeks), the immune system generates antibodies against nephritogenic streptococcal antigens including streptococcal pyrogenic exotoxin B (SPE B) and nephritis-associated plasmin receptor (NAPlr). These circulating immune complexes (antigen-antibody-complement) deposit within the glomerular basement membrane (GBM) and mesangium, activating the classical complement pathway. Complement activation consumes C3, producing C3a and C5a anaphylatoxins that recruit neutrophils and macrophages to the glomerulus. The resulting inflammatory cascade damages the GBM, increases its permeability to proteins and red blood cells (causing proteinuria and hematuria), and reduces the glomerular filtration rate (GFR). Mesangial cell proliferation and endothelial cell swelling further compromise filtration. The reduced GFR causes sodium and water retention, leading to edema, circulatory congestion, and hypertension through volume expansion. Subepithelial electron-dense deposits (humps) visible on electron microscopy are the characteristic ultrastructural finding. The complement consumption pattern shows decreased C3 with normal C4 levels, distinguishing APIGN from lupus nephritis (which shows decreased C3 and C4)."
     },
     riskFactors: [
@@ -274,7 +274,7 @@ export const renalLessons: Record<string, LessonContent> = {
   },
 
   "acute-glomerulonephritis-np": {
-    title: "Acute Postinfectious Glomerulonephritis - Advanced Immunopathology (NP)",
+    title: "Acute Postinfectious Glomerulonephritis",
     cellular: {
       title: "Molecular Immunopathology of APIGN",
       content: "Acute postinfectious glomerulonephritis (APIGN) represents a prototype of immune complex-mediated glomerular disease driven by the host immune response to nephritogenic strains of group A Streptococcus (GAS). The molecular pathogenesis involves formation of circulating IgG and IgA immune complexes against specific nephritogenic antigens, primarily nephritis-associated plasmin receptor (NAPlr) and streptococcal pyrogenic exotoxin B (SPE B). NAPlr binds plasmin and localizes to the glomerulus where it activates the complement cascade through the alternative pathway, generating C3 convertase (C3bBb) that cleaves C3 into C3a (anaphylatoxin) and C3b (opsonin). C3b deposition on the glomerular basement membrane amplifies through the alternative pathway feedback loop, while C5 convertase generates C5a (a potent neutrophil chemoattractant) and initiates formation of the membrane attack complex (C5b-9). The inflammatory cascade proceeds through Fc receptor-mediated mechanisms: deposited IgG immune complexes engage Fc-gamma receptors (FcγRIII and FcγRIV) on infiltrating neutrophils and macrophages, triggering release of reactive oxygen species, matrix metalloproteinases, and pro-inflammatory cytokines (TNF-alpha, IL-1beta, IL-6). Podocyte injury occurs through both complement-mediated cytotoxicity (sublytic C5b-9 insertion disrupting slit diaphragm integrity) and neutrophil-derived proteases degrading nephrin and podocin proteins. Mesangial cell proliferation is driven by platelet-derived growth factor (PDGF) and transforming growth factor-beta (TGF-beta) released from activated macrophages and damaged endothelial cells. On electron microscopy, the pathognomonic subepithelial electron-dense deposits (humps) represent in situ immune complex formation on the outer surface of the GBM, corresponding to the granular (lumpy-bumpy) pattern of IgG and C3 deposition seen on immunofluorescence microscopy. Light microscopy demonstrates diffuse endocapillary proliferative glomerulonephritis with neutrophilic infiltration. The distinction between isolated C3 glomerulonephritis (C3 glomerulopathy) and APIGN is critical: C3 glomerulopathy involves dysregulation of the alternative complement pathway (often from C3 nephritic factor autoantibody or factor H mutations) and carries a worse prognosis with high recurrence rates, whereas APIGN is self-limiting with complement normalization within 6-8 weeks."

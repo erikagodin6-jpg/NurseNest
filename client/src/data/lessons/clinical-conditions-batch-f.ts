@@ -2,10 +2,10 @@ import type { LessonContent } from "./types";
 
 export const clinicalConditionsBatchFLessons: Record<string, LessonContent> = {
   "placenta-previa-management-rpn": {
-    title: "Placenta Previa: RPN Monitoring",
+    title: "Placenta Previa",
     cellular: {
       title: "Placental Implantation Abnormality",
-      content: "Placenta previa occurs when the placenta abnormally implants over or near the internal cervical os. As the cervix dilates and effaces during pregnancy or labor, placental blood vessels are disrupted, causing painless vaginal bleeding that can progress to massive hemorrhage. The placenta may partially or completely cover the os. As pregnancy advances, the placenta may migrate away from the cervical opening, potentially resolving the previa. The RPN monitors maternal vital signs, bleeding patterns, and fetal heart rate, reporting all changes to the nursing team immediately."
+      content: "Placenta previa occurs when the placenta abnormally implants over or near the internal cervical os. As the cervix dilates and effaces during pregnancy or labor, placental blood vessels are disrupted, causing painless vaginal bleeding that can progress to massive hemorrhage. The placenta may partially or completely cover the os. As pregnancy advances, the placenta may migrate away from the cervical opening, potentially resolving the previa. The nurse monitors maternal vital signs, bleeding patterns, and fetal heart rate, reporting all changes to the nursing team immediately."
     },
     riskFactors: [
       "Prior cesarean birth or uterine surgery",
@@ -69,15 +69,15 @@ export const clinicalConditionsBatchFLessons: Record<string, LessonContent> = {
     quiz: [
       { question: "Which assessment finding is most characteristic of placenta previa?", options: ["Severe abdominal pain with rigid uterus", "Painless bright red vaginal bleeding after 20 weeks", "Dark red vaginal bleeding with uterine tenderness", "Green-tinged amniotic fluid"], correct: 1, rationale: "Placenta previa presents with painless bright red vaginal bleeding after 20 weeks. Abdominal pain with a rigid uterus is characteristic of placental abruption." },
       { question: "What action is contraindicated in a patient with known placenta previa?", options: ["Continuous fetal monitoring", "Left lateral positioning", "Vaginal examination", "IV fluid administration"], correct: 2, rationale: "Vaginal examinations are contraindicated in placenta previa because they can disrupt placental vessels and cause massive hemorrhage." },
-      { question: "The RPN observes a sudden increase in vaginal bleeding in a patient with placenta previa. What is the priority action?", options: ["Change the perineal pad and document", "Report to the RN immediately", "Encourage the patient to ambulate", "Administer oral fluids"], correct: 1, rationale: "A sudden increase in bleeding may indicate hemorrhage and requires immediate notification of the RN for further assessment and intervention." }
+      { question: "The nurse observes a sudden increase in vaginal bleeding in a patient with placenta previa. What is the priority action?", options: ["Change the perineal pad and document", "Report to the nurse immediately", "Encourage the patient to ambulate", "Administer oral fluids"], correct: 1, rationale: "A sudden increase in bleeding may indicate hemorrhage and requires immediate notification of the nurse for further assessment and intervention." }
     ]
   },
 
   "placenta-previa-management-rn": {
-    title: "Placenta Previa: RN Clinical Management",
+    title: "Placenta Previa",
     cellular: {
       title: "Pathophysiology of Abnormal Placentation",
-      content: "Placenta previa results from implantation of the blastocyst in the lower uterine segment, causing the placenta to partially or completely cover the internal cervical os. As the lower uterine segment thins and the cervix begins to efface in the third trimester, the anchoring placental villi are disrupted from the decidua basalis, exposing maternal spiral arteries and causing hemorrhage. The severity of bleeding depends on the degree of placental separation and the vascularity of the implantation site. Complete previa carries the highest risk of life-threatening hemorrhage. The RN must perform comprehensive hemorrhage assessment, manage fluid resuscitation, coordinate blood product availability, maintain continuous fetal surveillance, and prepare for emergency cesarean delivery."
+      content: "Placenta previa results from implantation of the blastocyst in the lower uterine segment, causing the placenta to partially or completely cover the internal cervical os. As the lower uterine segment thins and the cervix begins to efface in the third trimester, the anchoring placental villi are disrupted from the decidua basalis, exposing maternal spiral arteries and causing hemorrhage. The severity of bleeding depends on the degree of placental separation and the vascularity of the implantation site. Complete previa carries the highest risk of life-threatening hemorrhage. The nurse must perform comprehensive hemorrhage assessment, manage fluid resuscitation, coordinate blood product availability, maintain continuous fetal surveillance, and prepare for emergency cesarean delivery."
     },
     riskFactors: [
       "Prior cesarean delivery (risk increases with number of prior cesareans)",
@@ -151,15 +151,15 @@ export const clinicalConditionsBatchFLessons: Record<string, LessonContent> = {
     quiz: [
       { question: "A patient at 32 weeks with placenta previa presents with active bright red vaginal bleeding. What is the RN's priority action?", options: ["Perform a vaginal exam to assess cervical dilation", "Establish two large-bore IV lines and begin fluid resuscitation", "Administer oxytocin to control bleeding", "Position the patient in lithotomy position"], correct: 1, rationale: "The priority is establishing IV access and beginning fluid resuscitation for potential hemorrhage. Vaginal exams are contraindicated in placenta previa." },
       { question: "Which finding differentiates placenta previa from placental abruption?", options: ["Painless bright red bleeding vs. painful dark red bleeding with rigid uterus", "Both present with painful bleeding", "Previa causes dark bleeding while abruption causes bright red bleeding", "Neither condition causes vaginal bleeding"], correct: 0, rationale: "Placenta previa presents with painless bright red vaginal bleeding, while placental abruption presents with painful dark red bleeding and a rigid, board-like uterus." },
-      { question: "An Rh-negative patient with placenta previa has an episode of vaginal bleeding. What additional intervention should the RN anticipate?", options: ["Administration of magnesium sulfate", "Administration of Rh immune globulin (RhoGAM)", "Administration of calcium gluconate", "Administration of vitamin K"], correct: 1, rationale: "Rh-negative patients who experience bleeding during pregnancy require RhoGAM to prevent Rh sensitization from fetomaternal hemorrhage." }
+      { question: "An Rh-negative patient with placenta previa has an episode of vaginal bleeding. What additional intervention should the nurse anticipate?", options: ["Administration of magnesium sulfate", "Administration of Rh immune globulin (RhoGAM)", "Administration of calcium gluconate", "Administration of vitamin K"], correct: 1, rationale: "Rh-negative patients who experience bleeding during pregnancy require RhoGAM to prevent Rh sensitization from fetomaternal hemorrhage." }
     ]
   },
 
   "placenta-previa-management-np": {
-    title: "Placenta Previa: NP Prescriptive Management",
+    title: "Placenta Previa",
     cellular: {
       title: "Advanced Pathophysiology of Placenta Previa",
-      content: "Placenta previa involves ectopic implantation in the lower uterine segment where the decidua basalis is thinner and less vascularized than the fundal region. This results in abnormal trophoblastic invasion and a higher rate of placenta accreta spectrum disorders (accreta, increta, percreta), particularly in patients with prior uterine scars. The lower segment's limited contractile ability after placental separation contributes to hemorrhage that is unresponsive to uterotonics alone. The NP must integrate diagnostic imaging, classify the previa, manage expectant versus active management protocols, prescribe corticosteroids for fetal lung maturity, order blood products, and determine delivery timing in consultation with maternal-fetal medicine."
+      content: "Placenta previa involves ectopic implantation in the lower uterine segment where the decidua basalis is thinner and less vascularized than the fundal region. This results in abnormal trophoblastic invasion and a higher rate of placenta accreta spectrum disorders (accreta, increta, percreta), particularly in patients with prior uterine scars. The lower segment's limited contractile ability after placental separation contributes to hemorrhage that is unresponsive to uterotonics alone. The clinician must integrate diagnostic imaging, classify the previa, manage expectant versus active management protocols, prescribe corticosteroids for fetal lung maturity, order blood products, and determine delivery timing in consultation with maternal-fetal medicine."
     },
     riskFactors: [
       "Prior cesarean delivery (strongest risk factor; risk increases exponentially with each repeat cesarean)",
@@ -234,16 +234,16 @@ export const clinicalConditionsBatchFLessons: Record<string, LessonContent> = {
     ],
     quiz: [
       { question: "A patient with complete placenta previa and two prior cesarean deliveries is at highest risk for which complication?", options: ["Gestational diabetes", "Placenta accreta spectrum", "Preeclampsia", "Gestational hypertension"], correct: 1, rationale: "The combination of placenta previa and prior cesarean delivery dramatically increases the risk of placenta accreta spectrum due to abnormal trophoblastic invasion into the scarred myometrium." },
-      { question: "At what gestational age should the NP schedule planned cesarean delivery for uncomplicated complete placenta previa?", options: ["32-34 weeks", "34-35 weeks", "36-37 weeks", "39-40 weeks"], correct: 2, rationale: "Guidelines recommend planned cesarean delivery at 36-37 weeks for complete placenta previa to balance fetal maturity against the risk of unplanned hemorrhage." },
-      { question: "Which medication should the NP prescribe to an Rh-negative patient with placenta previa after a bleeding episode?", options: ["Magnesium sulfate", "Terbutaline", "Rh immune globulin (RhoGAM)", "Oxytocin"], correct: 2, rationale: "Rh-negative patients require RhoGAM after any bleeding episode to prevent Rh alloimmunization from fetomaternal hemorrhage. A Kleihauer-Betke test determines if additional dosing is needed." }
+      { question: "At what gestational age should the clinician schedule planned cesarean delivery for uncomplicated complete placenta previa?", options: ["32-34 weeks", "34-35 weeks", "36-37 weeks", "39-40 weeks"], correct: 2, rationale: "Guidelines recommend planned cesarean delivery at 36-37 weeks for complete placenta previa to balance fetal maturity against the risk of unplanned hemorrhage." },
+      { question: "Which medication should the clinician prescribe to an Rh-negative patient with placenta previa after a bleeding episode?", options: ["Magnesium sulfate", "Terbutaline", "Rh immune globulin (RhoGAM)", "Oxytocin"], correct: 2, rationale: "Rh-negative patients require RhoGAM after any bleeding episode to prevent Rh alloimmunization from fetomaternal hemorrhage. A Kleihauer-Betke test determines if additional dosing is needed." }
     ]
   },
 
   "umbilical-cord-prolapse-rpn": {
-    title: "Umbilical Cord Prolapse: RPN Monitoring",
+    title: "Umbilical Cord Prolapse",
     cellular: {
       title: "Cord Compression Pathophysiology",
-      content: "Umbilical cord prolapse occurs when the umbilical cord slips ahead of or alongside the fetal presenting part after rupture of membranes. The cord contains two umbilical arteries and one umbilical vein that carry all oxygen and nutrients to the fetus. When the uterus contracts, the presenting part compresses the prolapsed cord against the pelvis, occluding blood flow and oxygen delivery to the fetus. This results in fetal bradycardia, variable decelerations, and if not rapidly corrected, fetal hypoxia, acidosis, and death. The RPN must recognize this emergency, call for help, and assist with emergency interventions as directed."
+      content: "Umbilical cord prolapse occurs when the umbilical cord slips ahead of or alongside the fetal presenting part after rupture of membranes. The cord contains two umbilical arteries and one umbilical vein that carry all oxygen and nutrients to the fetus. When the uterus contracts, the presenting part compresses the prolapsed cord against the pelvis, occluding blood flow and oxygen delivery to the fetus. This results in fetal bradycardia, variable decelerations, and if not rapidly corrected, fetal hypoxia, acidosis, and death. The nurse must recognize this emergency, call for help, and assist with emergency interventions as directed."
     },
     riskFactors: [
       "Malpresentation (breech, transverse lie)",
@@ -304,17 +304,17 @@ export const clinicalConditionsBatchFLessons: Record<string, LessonContent> = {
       "Time is critical: the goal is emergency cesarean delivery within minutes"
     ],
     quiz: [
-      { question: "A patient's membranes rupture and the fetal heart rate suddenly drops to 70 bpm. The RPN suspects cord prolapse. What is the priority action?", options: ["Document the finding and reassess in 15 minutes", "Call for help immediately and assist with knee-chest positioning", "Encourage the patient to push", "Administer oxygen by nasal cannula"], correct: 1, rationale: "Cord prolapse is an emergency. The priority is calling for help and positioning the mother in knee-chest position to relieve cord compression while preparing for emergency cesarean." },
+      { question: "A patient's membranes rupture and the fetal heart rate suddenly drops to 70 bpm. The nurse suspects cord prolapse. What is the priority action?", options: ["Document the finding and reassess in 15 minutes", "Call for help immediately and assist with knee-chest positioning", "Encourage the patient to push", "Administer oxygen by nasal cannula"], correct: 1, rationale: "Cord prolapse is an emergency. The priority is calling for help and positioning the mother in knee-chest position to relieve cord compression while preparing for emergency cesarean." },
       { question: "Which position relieves pressure on a prolapsed umbilical cord?", options: ["Supine with legs flat", "Knee-chest position", "High Fowler's position", "Right lateral position"], correct: 1, rationale: "The knee-chest position uses gravity to lift the fetal presenting part off the prolapsed cord, relieving compression and restoring blood flow." },
-      { question: "If the umbilical cord is visible outside the vagina, the RPN should:", options: ["Push the cord back into the vagina", "Cover it with a dry sterile towel", "Wrap it with a sterile towel soaked in warm saline", "Leave it exposed to air"], correct: 2, rationale: "Exposed cord should be wrapped in warm saline-soaked sterile towels to prevent vasospasm and drying. The cord should never be pushed back in." }
+      { question: "If the umbilical cord is visible outside the vagina, the nurse should:", options: ["Push the cord back into the vagina", "Cover it with a dry sterile towel", "Wrap it with a sterile towel soaked in warm saline", "Leave it exposed to air"], correct: 2, rationale: "Exposed cord should be wrapped in warm saline-soaked sterile towels to prevent vasospasm and drying. The cord should never be pushed back in." }
     ]
   },
 
   "umbilical-cord-prolapse-rn": {
-    title: "Umbilical Cord Prolapse: RN Emergency Management",
+    title: "Umbilical Cord Prolapse",
     cellular: {
-      title: "Pathophysiology of Cord Compression and Fetal Hypoxia",
-      content: "Umbilical cord prolapse creates an acute interruption of fetoplacental circulation. The cord's two arteries carry deoxygenated blood from the fetus to the placenta, while the single vein returns oxygenated blood. When the presenting part compresses the prolapsed cord during contractions, fetal PaO2 drops rapidly, triggering chemoreceptor-mediated bradycardia. Sustained compression leads to progressive metabolic acidosis, hypoxic-ischemic injury to the fetal brain and myocardium, and potential fetal death within minutes. The RN must immediately recognize the emergency, initiate cord decompression maneuvers, manage the team response, and coordinate emergency cesarean delivery."
+      title: "Cord Compression and Fetal Hypoxia",
+      content: "Umbilical cord prolapse creates an acute interruption of fetoplacental circulation. The cord's two arteries carry deoxygenated blood from the fetus to the placenta, while the single vein returns oxygenated blood. When the presenting part compresses the prolapsed cord during contractions, fetal PaO2 drops rapidly, triggering chemoreceptor-mediated bradycardia. Sustained compression leads to progressive metabolic acidosis, hypoxic-ischemic injury to the fetal brain and myocardium, and potential fetal death within minutes. The nurse must immediately recognize the emergency, initiate cord decompression maneuvers, manage the team response, and coordinate emergency cesarean delivery."
     },
     riskFactors: [
       "Fetal malpresentation (breech, transverse, oblique lie)",
@@ -380,17 +380,17 @@ export const clinicalConditionsBatchFLessons: Record<string, LessonContent> = {
       "After delivery, anticipate neonatal resuscitation for potential fetal asphyxia"
     ],
     quiz: [
-      { question: "During a vaginal exam after spontaneous rupture of membranes, the RN palpates the umbilical cord alongside the fetal head. What is the immediate priority?", options: ["Document the finding and notify the provider", "Apply upward pressure on the fetal presenting part and call for emergency cesarean", "Reposition the patient to left lateral and recheck in 5 minutes", "Apply fundal pressure to advance delivery"], correct: 1, rationale: "The immediate priority is manually elevating the fetal head off the cord to relieve compression and calling for emergency cesarean delivery. This is a time-critical emergency." },
+      { question: "During a vaginal exam after spontaneous rupture of membranes, the nurse palpates the umbilical cord alongside the fetal head. What is the immediate priority?", options: ["Document the finding and notify the provider", "Apply upward pressure on the fetal presenting part and call for emergency cesarean", "Reposition the patient to left lateral and recheck in 5 minutes", "Apply fundal pressure to advance delivery"], correct: 1, rationale: "The immediate priority is manually elevating the fetal head off the cord to relieve compression and calling for emergency cesarean delivery. This is a time-critical emergency." },
       { question: "Which intervention can temporarily relieve cord compression if emergency cesarean is delayed?", options: ["Administer oxytocin to speed delivery", "Fill the bladder with 500-700 mL normal saline via Foley catheter", "Apply external cephalic version", "Perform amnioinfusion"], correct: 1, rationale: "Bladder filling with 500-700 mL of saline can temporarily elevate the presenting part off the compressed cord when there is a delay in getting to the operating room." },
       { question: "Exposed umbilical cord should be kept moist with warm saline-soaked towels primarily to prevent:", options: ["Maternal infection", "Umbilical cord vasospasm", "Fetal hypothermia", "Maternal hemorrhage"], correct: 1, rationale: "Keeping the exposed cord warm and moist prevents vasospasm of the umbilical vessels, which would further compromise fetal blood flow." }
     ]
   },
 
   "umbilical-cord-prolapse-np": {
-    title: "Umbilical Cord Prolapse: NP Prescriptive Management",
+    title: "Umbilical Cord Prolapse",
     cellular: {
       title: "Advanced Pathophysiology and Decision-Making",
-      content: "Umbilical cord prolapse constitutes an acute interruption of the fetal lifeline. The umbilical vein (carrying oxygenated blood at PaO2 ~30 mmHg) is the sole source of fetal oxygenation. Complete occlusion produces fetal bradycardia within seconds via vagal reflex, followed by metabolic acidosis (pH drop of 0.04/min of total occlusion). At 10 minutes of complete occlusion, fetal pH approaches 7.0 with base excess exceeding -12 mEq/L, producing irreversible hypoxic-ischemic encephalopathy. Partial intermittent compression during contractions produces variable decelerations that worsen progressively. The NP must recognize risk factors preemptively, order controlled amniotomy when indicated, manage the acute emergency pharmacologically, and determine delivery timing and method based on clinical urgency and fetal status."
+      content: "Umbilical cord prolapse constitutes an acute interruption of the fetal lifeline. The umbilical vein (carrying oxygenated blood at PaO2 ~30 mmHg) is the sole source of fetal oxygenation. Complete occlusion produces fetal bradycardia within seconds via vagal reflex, followed by metabolic acidosis (pH drop of 0.04/min of total occlusion). At 10 minutes of complete occlusion, fetal pH approaches 7.0 with base excess exceeding -12 mEq/L, producing irreversible hypoxic-ischemic encephalopathy. Partial intermittent compression during contractions produces variable decelerations that worsen progressively. The clinician must recognize risk factors preemptively, order controlled amniotomy when indicated, manage the acute emergency pharmacologically, and determine delivery timing and method based on clinical urgency and fetal status."
     },
     riskFactors: [
       "Unengaged presenting part at time of membrane rupture (strongest modifiable risk factor)",
@@ -457,18 +457,18 @@ export const clinicalConditionsBatchFLessons: Record<string, LessonContent> = {
       "Controlled amniotomy technique: use amnihook with slow drainage and continuous fetal monitoring to detect cord prolapse early"
     ],
     quiz: [
-      { question: "Before performing an amniotomy, the NP should confirm which finding to reduce the risk of cord prolapse?", options: ["Fetal heart rate is reactive", "Fetal presenting part is engaged at 0 station or below", "Maternal cervix is at least 4 cm dilated", "Amniotic fluid index is normal"], correct: 1, rationale: "Fetal engagement at 0 station or below means the presenting part fills the pelvis, reducing the space for the cord to slip past. Amniotomy with an unengaged presenting part significantly increases prolapse risk." },
+      { question: "Before performing an amniotomy, the clinician should confirm which finding to reduce the risk of cord prolapse?", options: ["Fetal heart rate is reactive", "Fetal presenting part is engaged at 0 station or below", "Maternal cervix is at least 4 cm dilated", "Amniotic fluid index is normal"], correct: 1, rationale: "Fetal engagement at 0 station or below means the presenting part fills the pelvis, reducing the space for the cord to slip past. Amniotomy with an unengaged presenting part significantly increases prolapse risk." },
       { question: "Cord blood gas results show pH 6.92, pCO2 110, base excess -16. These findings indicate:", options: ["Normal fetal acid-base status", "Mild respiratory acidosis", "Severe mixed acidosis with likely hypoxic-ischemic injury", "Isolated metabolic alkalosis"], correct: 2, rationale: "pH <7.00 with elevated pCO2 and significant base deficit indicates severe mixed acidosis consistent with significant fetal hypoxia. This neonate should be evaluated for therapeutic hypothermia." },
-      { question: "A patient is fully dilated with vertex at +3 station when cord prolapse is discovered. The NP should:", options: ["Order emergency cesarean delivery", "Consider operative vaginal delivery as it may be faster than cesarean", "Order oxytocin augmentation", "Observe and recheck in 5 minutes"], correct: 1, rationale: "When the fetus is at +3 station with full dilation, operative vaginal delivery (vacuum or forceps) may achieve delivery faster than cesarean. The fastest route to delivery should be chosen." }
+      { question: "A patient is fully dilated with vertex at +3 station when cord prolapse is discovered. The clinician should:", options: ["Order emergency cesarean delivery", "Consider operative vaginal delivery as it may be faster than cesarean", "Order oxytocin augmentation", "Observe and recheck in 5 minutes"], correct: 1, rationale: "When the fetus is at +3 station with full dilation, operative vaginal delivery (vacuum or forceps) may achieve delivery faster than cesarean. The fastest route to delivery should be chosen." }
     ]
   },
 
   "hyperemesis-gravidarum-rpn": {
-    title: "Hyperemesis Gravidarum: RPN Monitoring",
+    title: "Hyperemesis Gravidarum",
     image: "/attached_assets/hyperemesisgravidarum_1773340513136.png",
     cellular: {
       title: "Severe Pregnancy-Related Nausea and Vomiting",
-      content: "Hyperemesis gravidarum is a severe form of morning sickness characterized by persistent, intractable nausea and vomiting during pregnancy that leads to significant weight loss (>5% of pre-pregnancy weight), dehydration, electrolyte imbalances, and ketonuria. It is thought to be caused by rapidly rising levels of human chorionic gonadotropin (hCG), estrogen, and progesterone. Unlike normal morning sickness which resolves by 12-14 weeks, hyperemesis can persist throughout pregnancy. The RPN monitors vital signs, intake and output, and dietary tolerance, reporting changes to the nursing team."
+      content: "Hyperemesis gravidarum is a severe form of morning sickness characterized by persistent, intractable nausea and vomiting during pregnancy that leads to significant weight loss (>5% of pre-pregnancy weight), dehydration, electrolyte imbalances, and ketonuria. It is thought to be caused by rapidly rising levels of human chorionic gonadotropin (hCG), estrogen, and progesterone. Unlike normal morning sickness which resolves by 12-14 weeks, hyperemesis can persist throughout pregnancy. The nurse monitors vital signs, intake and output, and dietary tolerance, reporting changes to the nursing team."
     },
     riskFactors: [
       "First pregnancy (primiparous)",
@@ -533,17 +533,17 @@ export const clinicalConditionsBatchFLessons: Record<string, LessonContent> = {
     ],
     quiz: [
       { question: "Which finding differentiates hyperemesis gravidarum from normal morning sickness?", options: ["Nausea in the first trimester", "Weight loss greater than 5% of pre-pregnancy weight", "Mild food aversions", "Nausea relieved by eating"], correct: 1, rationale: "Weight loss >5% of pre-pregnancy weight, along with dehydration and ketonuria, distinguishes hyperemesis gravidarum from normal morning sickness." },
-      { question: "What dietary instruction should the RPN reinforce for a patient with hyperemesis gravidarum?", options: ["Eat three large meals daily", "Drink fluids with every meal", "Eat small, frequent, bland meals and drink fluids between meals", "Follow a high-fat diet"], correct: 2, rationale: "Small, frequent, bland meals minimize gastric distension, and drinking fluids between meals rather than with meals reduces nausea." },
-      { question: "Which sign should the RPN report immediately in a patient with hyperemesis gravidarum?", options: ["Mild nausea in the morning", "Inability to tolerate any oral fluids for 24 hours", "Food aversion to spicy foods", "Preference for bland foods"], correct: 1, rationale: "Inability to tolerate any oral fluids for 24 hours indicates severe dehydration risk and requires immediate intervention with IV fluids." }
+      { question: "What dietary instruction should the nurse reinforce for a patient with hyperemesis gravidarum?", options: ["Eat three large meals daily", "Drink fluids with every meal", "Eat small, frequent, bland meals and drink fluids between meals", "Follow a high-fat diet"], correct: 2, rationale: "Small, frequent, bland meals minimize gastric distension, and drinking fluids between meals rather than with meals reduces nausea." },
+      { question: "Which sign should the nurse report immediately in a patient with hyperemesis gravidarum?", options: ["Mild nausea in the morning", "Inability to tolerate any oral fluids for 24 hours", "Food aversion to spicy foods", "Preference for bland foods"], correct: 1, rationale: "Inability to tolerate any oral fluids for 24 hours indicates severe dehydration risk and requires immediate intervention with IV fluids." }
     ]
   },
 
   "hyperemesis-gravidarum-rn": {
-    title: "Hyperemesis Gravidarum: RN Clinical Management",
+    title: "Hyperemesis Gravidarum",
     image: "/attached_assets/hyperemesisgravidarum_1773340513136.png",
     cellular: {
-      title: "Pathophysiology of Intractable Pregnancy Emesis",
-      content: "Hyperemesis gravidarum results from exaggerated physiological responses to pregnancy hormones, primarily hCG, which peaks at 8-12 weeks gestation. Elevated hCG stimulates the chemoreceptor trigger zone (CTZ) in the area postrema and increases thyroid hormone levels (hCG shares structural homology with TSH). Persistent vomiting depletes intravascular volume, causes electrolyte derangements (hypokalemia, hypochloremic metabolic alkalosis, hyponatremia), and shifts metabolism to fat catabolism with resultant ketonemia. Severe, prolonged cases can lead to Wernicke encephalopathy from thiamine (vitamin B1) depletion, hepatic dysfunction, and renal impairment. The RN must manage fluid and electrolyte replacement, administer antiemetics, monitor nutritional status, and coordinate multidisciplinary care."
+      title: "Intractable Pregnancy Emesis",
+      content: "Hyperemesis gravidarum results from exaggerated physiological responses to pregnancy hormones, primarily hCG, which peaks at 8-12 weeks gestation. Elevated hCG stimulates the chemoreceptor trigger zone (CTZ) in the area postrema and increases thyroid hormone levels (hCG shares structural homology with TSH). Persistent vomiting depletes intravascular volume, causes electrolyte derangements (hypokalemia, hypochloremic metabolic alkalosis, hyponatremia), and shifts metabolism to fat catabolism with resultant ketonemia. Severe, prolonged cases can lead to Wernicke encephalopathy from thiamine (vitamin B1) depletion, hepatic dysfunction, and renal impairment. The nurse must manage fluid and electrolyte replacement, administer antiemetics, monitor nutritional status, and coordinate multidisciplinary care."
     },
     riskFactors: [
       "Elevated hCG levels (molar pregnancy, multiple gestation)",
@@ -616,18 +616,18 @@ export const clinicalConditionsBatchFLessons: Record<string, LessonContent> = {
       "Cold foods produce fewer nauseating odors than hot foods and are better tolerated"
     ],
     quiz: [
-      { question: "Before administering D5NS to a patient with severe hyperemesis gravidarum, the RN should first administer:", options: ["Ondansetron 4 mg IV", "Thiamine 100 mg IV", "Potassium chloride 20 mEq IV", "Metoclopramide 10 mg IV"], correct: 1, rationale: "Thiamine must be given before dextrose-containing fluids because dextrose increases thiamine demand and can precipitate Wernicke encephalopathy in thiamine-depleted patients." },
-      { question: "A patient with hyperemesis gravidarum is confused, unsteady on her feet, and has abnormal eye movements. The RN should suspect:", options: ["Preeclampsia", "Wernicke encephalopathy", "Eclampsia", "Gestational diabetes"], correct: 1, rationale: "Confusion, ataxia, and ophthalmoplegia (abnormal eye movements) are the classic triad of Wernicke encephalopathy, caused by thiamine deficiency from prolonged vomiting." },
+      { question: "Before administering D5NS to a patient with severe hyperemesis gravidarum, the nurse should first administer:", options: ["Ondansetron 4 mg IV", "Thiamine 100 mg IV", "Potassium chloride 20 mEq IV", "Metoclopramide 10 mg IV"], correct: 1, rationale: "Thiamine must be given before dextrose-containing fluids because dextrose increases thiamine demand and can precipitate Wernicke encephalopathy in thiamine-depleted patients." },
+      { question: "A patient with hyperemesis gravidarum is confused, unsteady on her feet, and has abnormal eye movements. The nurse should suspect:", options: ["Preeclampsia", "Wernicke encephalopathy", "Eclampsia", "Gestational diabetes"], correct: 1, rationale: "Confusion, ataxia, and ophthalmoplegia (abnormal eye movements) are the classic triad of Wernicke encephalopathy, caused by thiamine deficiency from prolonged vomiting." },
       { question: "Which electrolyte imbalance is most concerning in a patient with persistent vomiting?", options: ["Hypernatremia", "Hypokalemia", "Hypermagnesemia", "Hypercalcemia"], correct: 1, rationale: "Hypokalemia from loss of gastric contents is the most dangerous imbalance, as it can cause life-threatening cardiac arrhythmias." }
     ]
   },
 
   "hyperemesis-gravidarum-np": {
-    title: "Hyperemesis Gravidarum: NP Prescriptive Management",
+    title: "Hyperemesis Gravidarum",
     image: "/attached_assets/hyperemesisgravidarum_1773340513136.png",
     cellular: {
-      title: "Advanced Pathophysiology and Pharmacotherapeutics",
-      content: "Hyperemesis gravidarum involves a complex interplay of hormonal, immunological, and gastrointestinal factors. The primary trigger is rapidly rising hCG, which peaks at 8-12 weeks and stimulates the CTZ via vagal afferents. hCG structural homology with TSH activates thyroid receptors, causing gestational thyrotoxicosis in up to 60% of cases. Estrogen slows gastric motility and relaxes the lower esophageal sphincter. Progesterone reduces smooth muscle tone throughout the GI tract. Severe, prolonged emesis causes dehydration, leading to hemoconcentration, reduced GFR, and prerenal azotemia. Metabolic consequences include hypochloremic hypokalemic metabolic alkalosis from gastric HCl loss, thiamine depletion from impaired intake and increased metabolic demand, and ketosis from fat catabolism. The NP must prescribe evidence-based stepwise antiemetic therapy, manage fluid and electrolyte replacement, prevent Wernicke encephalopathy, and determine when parenteral or enteral nutrition is required."
+      title: "Pathophysiology and Pharmacotherapeutics",
+      content: "Hyperemesis gravidarum involves a complex interplay of hormonal, immunological, and gastrointestinal factors. The primary trigger is rapidly rising hCG, which peaks at 8-12 weeks and stimulates the CTZ via vagal afferents. hCG structural homology with TSH activates thyroid receptors, causing gestational thyrotoxicosis in up to 60% of cases. Estrogen slows gastric motility and relaxes the lower esophageal sphincter. Progesterone reduces smooth muscle tone throughout the GI tract. Severe, prolonged emesis causes dehydration, leading to hemoconcentration, reduced GFR, and prerenal azotemia. Metabolic consequences include hypochloremic hypokalemic metabolic alkalosis from gastric HCl loss, thiamine depletion from impaired intake and increased metabolic demand, and ketosis from fat catabolism. The clinician must prescribe evidence-based stepwise antiemetic therapy, manage fluid and electrolyte replacement, prevent Wernicke encephalopathy, and determine when parenteral or enteral nutrition is required."
     },
     riskFactors: [
       "Gestational trophoblastic disease (molar pregnancy with very high hCG)",
@@ -700,17 +700,17 @@ export const clinicalConditionsBatchFLessons: Record<string, LessonContent> = {
       "GDF15 gene variants have been identified as a major genetic risk factor for hyperemesis gravidarum"
     ],
     quiz: [
-      { question: "A patient with hyperemesis gravidarum has suppressed TSH and elevated free T4. The NP should:", options: ["Prescribe methimazole immediately", "Recognize this as hCG-mediated gestational thyrotoxicosis requiring no antithyroid treatment", "Order radioactive iodine uptake", "Start propranolol for thyroid storm"], correct: 1, rationale: "Gestational thyrotoxicosis from hCG's structural similarity to TSH is self-limiting and resolves as hCG levels decline after the first trimester. Antithyroid medications are not indicated." },
+      { question: "A patient with hyperemesis gravidarum has suppressed TSH and elevated free T4. The clinician should:", options: ["Prescribe methimazole immediately", "Recognize this as hCG-mediated gestational thyrotoxicosis requiring no antithyroid treatment", "Order radioactive iodine uptake", "Start propranolol for thyroid storm"], correct: 1, rationale: "Gestational thyrotoxicosis from hCG's structural similarity to TSH is self-limiting and resolves as hCG levels decline after the first trimester. Antithyroid medications are not indicated." },
       { question: "Which medication is FDA Category A for pregnancy nausea and should be prescribed as first-line therapy?", options: ["Ondansetron", "Promethazine", "Pyridoxine + doxylamine (Diclegis)", "Methylprednisolone"], correct: 2, rationale: "Pyridoxine + doxylamine combination (Diclegis/Diclectin) is the only FDA Category A medication for nausea and vomiting of pregnancy, making it the appropriate first-line prescription." },
-      { question: "A patient has been vomiting for 3 weeks and presents with confusion and unsteady gait. Before starting IV fluids with dextrose, the NP must first prescribe:", options: ["Ondansetron 4 mg IV", "Thiamine 100 mg IV", "Magnesium sulfate 2g IV", "Methylprednisolone 16 mg IV"], correct: 1, rationale: "Thiamine must be administered before dextrose because glucose metabolism increases thiamine demand. In a depleted patient, dextrose without thiamine can precipitate or worsen Wernicke encephalopathy." }
+      { question: "A patient has been vomiting for 3 weeks and presents with confusion and unsteady gait. Before starting IV fluids with dextrose, the clinician must first prescribe:", options: ["Ondansetron 4 mg IV", "Thiamine 100 mg IV", "Magnesium sulfate 2g IV", "Methylprednisolone 16 mg IV"], correct: 1, rationale: "Thiamine must be administered before dextrose because glucose metabolism increases thiamine demand. In a depleted patient, dextrose without thiamine can precipitate or worsen Wernicke encephalopathy." }
     ]
   },
 
   "rh-alloimmunization-rpn": {
-    title: "Rh Alloimmunization: RPN Monitoring",
+    title: "Rh Alloimmunization",
     cellular: {
       title: "Rh Incompatibility Basics",
-      content: "Rh alloimmunization occurs when a pregnant patient with Rh-negative blood is exposed to Rh-positive fetal red blood cells. This exposure triggers the maternal immune system to produce anti-D antibodies because it does not recognize the Rh (D) antigen on fetal RBCs. In a first pregnancy, the response is typically mild (IgM). However, in subsequent pregnancies with an Rh-positive fetus, the sensitized immune system mounts a rapid IgG response that crosses the placenta and destroys fetal RBCs, causing hemolytic disease of the fetus and newborn (HDFN). Prevention involves administering Rh immune globulin (RhoGAM) to unsensitized Rh-negative patients. The RPN assists with monitoring and supports the care plan as directed."
+      content: "Rh alloimmunization occurs when a pregnant patient with Rh-negative blood is exposed to Rh-positive fetal red blood cells. This exposure triggers the maternal immune system to produce anti-D antibodies because it does not recognize the Rh (D) antigen on fetal RBCs. In a first pregnancy, the response is typically mild (IgM). However, in subsequent pregnancies with an Rh-positive fetus, the sensitized immune system mounts a rapid IgG response that crosses the placenta and destroys fetal RBCs, causing hemolytic disease of the fetus and newborn (HDFN). Prevention involves administering Rh immune globulin (RhoGAM) to unsensitized Rh-negative patients. The nurse assists with monitoring and supports the care plan as directed."
     },
     riskFactors: [
       "Rh-negative mother with Rh-positive partner",
@@ -770,16 +770,16 @@ export const clinicalConditionsBatchFLessons: Record<string, LessonContent> = {
     ],
     quiz: [
       { question: "When should RhoGAM be administered to an unsensitized Rh-negative pregnant patient?", options: ["Only at delivery", "At 28 weeks gestation and within 72 hours postpartum", "Monthly throughout pregnancy", "Only if the father is Rh-negative"], correct: 1, rationale: "RhoGAM is administered prophylactically at 28 weeks gestation and again within 72 hours after delivery if the newborn is Rh-positive." },
-      { question: "An Rh-negative patient experiences a fall at 30 weeks gestation. What should the RPN report?", options: ["No action needed if the patient feels fine", "Report the trauma to the RN as an additional dose of RhoGAM may be needed", "Only report if there is visible bleeding", "Document and reassess at the next visit"], correct: 1, rationale: "Any trauma during pregnancy can cause fetomaternal hemorrhage, requiring evaluation for additional RhoGAM administration." },
+      { question: "An Rh-negative patient experiences a fall at 30 weeks gestation. What should the nurse report?", options: ["No action needed if the patient feels fine", "Report the trauma to the nurse as an additional dose of RhoGAM may be needed", "Only report if there is visible bleeding", "Document and reassess at the next visit"], correct: 1, rationale: "Any trauma during pregnancy can cause fetomaternal hemorrhage, requiring evaluation for additional RhoGAM administration." },
       { question: "Jaundice in a newborn within the first 24 hours of life suggests:", options: ["Normal physiological jaundice", "Breastfeeding jaundice", "Pathological jaundice requiring immediate evaluation", "Dehydration"], correct: 2, rationale: "Jaundice within the first 24 hours is always pathological and may indicate hemolytic disease. It requires immediate reporting and evaluation." }
     ]
   },
 
   "rh-alloimmunization-rn": {
-    title: "Rh Alloimmunization: RN Clinical Management",
+    title: "Rh Alloimmunization",
     cellular: {
-      title: "Immunological Pathophysiology of Rh Sensitization",
-      content: "Rh alloimmunization is an immune-mediated process triggered when Rh-negative maternal blood is exposed to Rh-positive fetal erythrocytes during fetomaternal hemorrhage (FMH). Initial exposure produces a primary immune response with IgM anti-D antibodies that are too large to cross the placenta. Subsequent exposure in a future pregnancy elicits a rapid anamnestic IgG response. These IgG anti-D antibodies cross the placenta and bind to Rh (D) antigens on fetal RBCs, marking them for destruction by the fetal reticuloendothelial system. Progressive hemolysis causes fetal anemia, extramedullary hematopoiesis (hepatosplenomegaly), hyperbilirubinemia, hypoalbuminemia, and in severe cases, hydrops fetalis with high-output cardiac failure. The RN must monitor antibody titers, coordinate fetal surveillance, administer RhoGAM prophylaxis, and manage the newborn with hemolytic disease."
+      title: "Immunological Pathophysiology of Rh",
+      content: "Rh alloimmunization is an immune-mediated process triggered when Rh-negative maternal blood is exposed to Rh-positive fetal erythrocytes during fetomaternal hemorrhage (FMH). Initial exposure produces a primary immune response with IgM anti-D antibodies that are too large to cross the placenta. Subsequent exposure in a future pregnancy elicits a rapid anamnestic IgG response. These IgG anti-D antibodies cross the placenta and bind to Rh (D) antigens on fetal RBCs, marking them for destruction by the fetal reticuloendothelial system. Progressive hemolysis causes fetal anemia, extramedullary hematopoiesis (hepatosplenomegaly), hyperbilirubinemia, hypoalbuminemia, and in severe cases, hydrops fetalis with high-output cardiac failure. The nurse must monitor antibody titers, coordinate fetal surveillance, administer RhoGAM prophylaxis, and manage the newborn with hemolytic disease."
     },
     riskFactors: [
       "Rh-negative mother with Rh-positive partner (50-100% chance of Rh-positive fetus)",
@@ -850,16 +850,16 @@ export const clinicalConditionsBatchFLessons: Record<string, LessonContent> = {
     ],
     quiz: [
       { question: "Which test detects maternal anti-D antibodies indicating Rh sensitization?", options: ["Direct Coombs test", "Indirect Coombs test", "Kleihauer-Betke test", "Complete blood count"], correct: 1, rationale: "The indirect Coombs test screens maternal serum for anti-D antibodies. A positive result indicates sensitization has occurred. The direct Coombs is performed on the newborn's cord blood." },
-      { question: "A Kleihauer-Betke test shows significant fetomaternal hemorrhage. How does the RN calculate the RhoGAM dose?", options: ["One vial regardless of hemorrhage volume", "300 mcg for every 30 mL of fetal whole blood detected", "Two vials given 24 hours apart", "Based on maternal weight"], correct: 1, rationale: "Each 300 mcg vial of RhoGAM covers 30 mL of fetal whole blood (15 mL fetal packed RBCs). The Kleihauer-Betke quantifies the hemorrhage to determine if additional vials are needed." },
-      { question: "A newborn with a positive direct Coombs test develops jaundice at 6 hours of life. What intervention should the RN anticipate?", options: ["Continue routine monitoring", "Initiate phototherapy immediately", "Increase formula feeding only", "Apply sunlight exposure through the window"], correct: 1, rationale: "Jaundice within the first 24 hours with a positive direct Coombs indicates immune-mediated hemolytic disease. Phototherapy should be initiated promptly to prevent bilirubin neurotoxicity." }
+      { question: "A Kleihauer-Betke test shows significant fetomaternal hemorrhage. How does the nurse calculate the RhoGAM dose?", options: ["One vial regardless of hemorrhage volume", "300 mcg for every 30 mL of fetal whole blood detected", "Two vials given 24 hours apart", "Based on maternal weight"], correct: 1, rationale: "Each 300 mcg vial of RhoGAM covers 30 mL of fetal whole blood (15 mL fetal packed RBCs). The Kleihauer-Betke quantifies the hemorrhage to determine if additional vials are needed." },
+      { question: "A newborn with a positive direct Coombs test develops jaundice at 6 hours of life. What intervention should the nurse anticipate?", options: ["Continue routine monitoring", "Initiate phototherapy immediately", "Increase formula feeding only", "Apply sunlight exposure through the window"], correct: 1, rationale: "Jaundice within the first 24 hours with a positive direct Coombs indicates immune-mediated hemolytic disease. Phototherapy should be initiated promptly to prevent bilirubin neurotoxicity." }
     ]
   },
 
   "rh-alloimmunization-np": {
-    title: "Rh Alloimmunization: NP Prescriptive Management",
+    title: "Rh Alloimmunization",
     cellular: {
-      title: "Advanced Immunopathophysiology and Fetal Management",
-      content: "Rh alloimmunization triggers a Type II hypersensitivity reaction in which maternal IgG anti-D antibodies cross the placenta and opsonize fetal Rh-positive erythrocytes. These opsonized cells are destroyed by Fc receptor-bearing macrophages in the fetal spleen and liver (extravascular hemolysis). Fetal anemia triggers compensatory extramedullary hematopoiesis in the liver and spleen (hepatosplenomegaly), while hyperbilirubinemia from hemolysis causes unconjugated bilirubin accumulation. In utero, unconjugated bilirubin is cleared by the placenta; after birth, it rapidly rises, potentially causing kernicterus (bilirubin encephalopathy). Severe anemia leads to high-output cardiac failure, hypoalbuminemia from impaired hepatic protein synthesis, and hydrops fetalis (effusions, ascites, generalized edema). The NP must manage the alloimmunized pregnancy with serial antibody titers, MCA Doppler surveillance, coordinate intrauterine transfusion when indicated, and manage neonatal hemolytic disease with phototherapy, IVIG, and possible exchange transfusion."
+      title: "Immunopathophysiology and Fetal Management",
+      content: "Rh alloimmunization triggers a Type II hypersensitivity reaction in which maternal IgG anti-D antibodies cross the placenta and opsonize fetal Rh-positive erythrocytes. These opsonized cells are destroyed by Fc receptor-bearing macrophages in the fetal spleen and liver (extravascular hemolysis). Fetal anemia triggers compensatory extramedullary hematopoiesis in the liver and spleen (hepatosplenomegaly), while hyperbilirubinemia from hemolysis causes unconjugated bilirubin accumulation. In utero, unconjugated bilirubin is cleared by the placenta; after birth, it rapidly rises, potentially causing kernicterus (bilirubin encephalopathy). Severe anemia leads to high-output cardiac failure, hypoalbuminemia from impaired hepatic protein synthesis, and hydrops fetalis (effusions, ascites, generalized edema). The clinician must manage the alloimmunized pregnancy with serial antibody titers, MCA Doppler surveillance, coordinate intrauterine transfusion when indicated, and manage neonatal hemolytic disease with phototherapy, IVIG, and possible exchange transfusion."
     },
     riskFactors: [
       "Prior sensitized pregnancy with rising antibody titers",
@@ -933,7 +933,7 @@ export const clinicalConditionsBatchFLessons: Record<string, LessonContent> = {
     quiz: [
       { question: "Which non-invasive test is most reliable for detecting moderate-to-severe fetal anemia in Rh alloimmunization?", options: ["Non-stress test", "Biophysical profile", "Middle cerebral artery Doppler peak systolic velocity", "Maternal indirect Coombs titer"], correct: 2, rationale: "MCA Doppler PSV >1.5 MoM has nearly 100% sensitivity for moderate-to-severe fetal anemia. It has largely replaced amniocentesis (delta OD450) as the primary surveillance tool." },
       { question: "An NP orders cell-free fetal DNA from maternal blood at 12 weeks. What is the purpose of this test in Rh management?", options: ["To determine maternal Rh status", "To determine fetal Rh(D) genotype non-invasively", "To measure anti-D antibody titers", "To detect fetal structural anomalies"], correct: 1, rationale: "Cell-free fetal DNA analysis determines fetal Rh(D) status from a maternal blood draw. If the fetus is Rh-negative, no further surveillance or RhoGAM is needed." },
-      { question: "A neonate with hemolytic disease has total serum bilirubin approaching exchange transfusion threshold despite intensive phototherapy. What should the NP prescribe?", options: ["Oral phenobarbital", "IVIG 0.5-1 g/kg IV", "Increase phototherapy wattage only", "Oral ursodiol"], correct: 1, rationale: "IVIG reduces antibody-mediated hemolysis by saturating Fc receptors on neonatal macrophages. It is used as an adjunct to phototherapy to avoid the risks of exchange transfusion." }
+      { question: "A neonate with hemolytic disease has total serum bilirubin approaching exchange transfusion threshold despite intensive phototherapy. What should the clinician prescribe?", options: ["Oral phenobarbital", "IVIG 0.5-1 g/kg IV", "Increase phototherapy wattage only", "Oral ursodiol"], correct: 1, rationale: "IVIG reduces antibody-mediated hemolysis by saturating Fc receptors on neonatal macrophages. It is used as an adjunct to phototherapy to avoid the risks of exchange transfusion." }
     ]
   }
 };

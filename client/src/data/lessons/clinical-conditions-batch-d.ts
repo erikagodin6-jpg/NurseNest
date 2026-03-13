@@ -2,10 +2,10 @@ import type { LessonContent } from "./types";
 
 export const clinicalConditionsBatchDLessons: Record<string, LessonContent> = {
   "cardiac-tamponade-rpn": {
-    title: "Cardiac Tamponade: RPN Monitoring",
+    title: "Cardiac Tamponade",
     cellular: {
       title: "Pericardial Fluid Accumulation",
-      content: "Cardiac tamponade occurs when fluid (blood, effusion, or pus) accumulates in the pericardial sac surrounding the heart, compressing the cardiac chambers and preventing adequate filling during diastole. As intrapericardial pressure rises, stroke volume and cardiac output fall rapidly. The classic presentation is Beck's triad: hypotension, muffled heart sounds, and jugular venous distension. The RPN must recognize these signs, monitor vital signs as directed, and report changes immediately to the RN or provider."
+      content: "Cardiac tamponade occurs when fluid (blood, effusion, or pus) accumulates in the pericardial sac surrounding the heart, compressing the cardiac chambers and preventing adequate filling during diastole. As intrapericardial pressure rises, stroke volume and cardiac output fall rapidly. The classic presentation is Beck's triad: hypotension, muffled heart sounds, and jugular venous distension. The nurse must recognize these signs, monitor vital signs as directed, and report changes immediately to the nurse or provider."
     },
     riskFactors: [
       "Penetrating chest trauma or cardiac surgery",
@@ -68,16 +68,16 @@ export const clinicalConditionsBatchDLessons: Record<string, LessonContent> = {
     ],
     quiz: [
       { question: "Which assessment triad is classic for cardiac tamponade?", options: ["Fever, tachycardia, hypotension", "Hypotension, muffled heart sounds, JVD", "Bradycardia, hypertension, irregular breathing", "Chest pain, dyspnea, hemoptysis"], correct: 1, rationale: "Beck's triad — hypotension, muffled (distant) heart sounds, and jugular venous distension — is the classic presentation of cardiac tamponade." },
-      { question: "The RPN notes a patient's systolic BP drops by 15 mmHg during inspiration. What does this finding suggest?", options: ["Normal physiological variation", "Pulsus paradoxus consistent with tamponade", "Orthostatic hypotension", "Vasovagal response"], correct: 1, rationale: "A systolic BP drop >10 mmHg with inspiration is pulsus paradoxus, which is a hallmark sign of cardiac tamponade." },
-      { question: "What is the priority nursing action when cardiac tamponade is suspected?", options: ["Place the patient in Trendelenburg position", "Report findings immediately and prepare for pericardiocentesis", "Administer sublingual nitroglycerin", "Apply ice to the chest"], correct: 1, rationale: "Cardiac tamponade is a life-threatening emergency. The RPN must report immediately so the team can prepare for emergency pericardiocentesis." }
+      { question: "The nurse notes a patient's systolic BP drops by 15 mmHg during inspiration. What does this finding suggest?", options: ["Normal physiological variation", "Pulsus paradoxus consistent with tamponade", "Orthostatic hypotension", "Vasovagal response"], correct: 1, rationale: "A systolic BP drop >10 mmHg with inspiration is pulsus paradoxus, which is a hallmark sign of cardiac tamponade." },
+      { question: "What is the priority nursing action when cardiac tamponade is suspected?", options: ["Place the patient in Trendelenburg position", "Report findings immediately and prepare for pericardiocentesis", "Administer sublingual nitroglycerin", "Apply ice to the chest"], correct: 1, rationale: "Cardiac tamponade is a life-threatening emergency. The nurse must report immediately so the team can prepare for emergency pericardiocentesis." }
     ]
   },
 
   "cardiac-tamponade-rn": {
-    title: "Cardiac Tamponade: RN Clinical Management",
+    title: "Cardiac Tamponade",
     cellular: {
       title: "Hemodynamic Compromise in Tamponade",
-      content: "Cardiac tamponade results from rapid or excessive accumulation of fluid in the pericardial space, increasing intrapericardial pressure beyond the filling pressure of the cardiac chambers. This compresses the right atrium and ventricle first (due to lower pressures), reducing venous return, stroke volume, and cardiac output. Compensatory mechanisms include tachycardia and peripheral vasoconstriction to maintain blood pressure, but these eventually fail. Equalization of diastolic pressures across all four chambers on hemodynamic monitoring is diagnostic. The RN must perform rapid cardiovascular assessment, assist with pericardiocentesis, manage hemodynamic monitoring, and administer IV fluids to maintain preload."
+      content: "Cardiac tamponade results from rapid or excessive accumulation of fluid in the pericardial space, increasing intrapericardial pressure beyond the filling pressure of the cardiac chambers. This compresses the right atrium and ventricle first (due to lower pressures), reducing venous return, stroke volume, and cardiac output. Compensatory mechanisms include tachycardia and peripheral vasoconstriction to maintain blood pressure, but these eventually fail. Equalization of diastolic pressures across all four chambers on hemodynamic monitoring is diagnostic. The nurse must perform rapid cardiovascular assessment, assist with pericardiocentesis, manage hemodynamic monitoring, and administer IV fluids to maintain preload."
     },
     riskFactors: [
       "Cardiac surgery or percutaneous procedures",
@@ -154,10 +154,10 @@ export const clinicalConditionsBatchDLessons: Record<string, LessonContent> = {
   },
 
   "cardiac-tamponade-np": {
-    title: "Cardiac Tamponade: NP Diagnostic & Prescriptive Management",
+    title: "Cardiac Tamponade",
     cellular: {
-      title: "Advanced Pathophysiology of Pericardial Tamponade",
-      content: "Cardiac tamponade represents a continuum of hemodynamic compromise caused by rising intrapericardial pressure. The pericardium normally contains 15-50 mL of serous fluid. Acute tamponade can occur with as little as 100-200 mL of rapid accumulation, while chronic effusions may reach 1-2 liters before causing tamponade due to gradual pericardial stretch. The pathophysiology involves compression of cardiac chambers, beginning with the right atrium (lowest pressure chamber) during diastole, leading to impaired ventricular filling. This causes interventricular interdependence: as the right ventricle fills during inspiration, the septum shifts leftward, further compromising left ventricular filling and causing pulsus paradoxus. The NP must rapidly diagnose tamponade using bedside echocardiography, differentiate it from constrictive pericarditis and tension pneumothorax, and initiate definitive management including pericardiocentesis."
+      title: "Pathophysiology of Pericardial Tamponade",
+      content: "Cardiac tamponade represents a continuum of hemodynamic compromise caused by rising intrapericardial pressure. The pericardium normally contains 15-50 mL of serous fluid. Acute tamponade can occur with as little as 100-200 mL of rapid accumulation, while chronic effusions may reach 1-2 liters before causing tamponade due to gradual pericardial stretch. The pathophysiology involves compression of cardiac chambers, beginning with the right atrium (lowest pressure chamber) during diastole, leading to impaired ventricular filling. This causes interventricular interdependence: as the right ventricle fills during inspiration, the septum shifts leftward, further compromising left ventricular filling and causing pulsus paradoxus. The clinician must rapidly diagnose tamponade using bedside echocardiography, differentiate it from constrictive pericarditis and tension pneumothorax, and initiate definitive management including pericardiocentesis."
     },
     riskFactors: [
       "Malignancy (lung, breast, lymphoma) with pericardial metastasis",
@@ -235,10 +235,10 @@ export const clinicalConditionsBatchDLessons: Record<string, LessonContent> = {
   },
 
   "aortic-dissection-rpn": {
-    title: "Aortic Dissection: RPN Monitoring",
+    title: "Aortic Dissection",
     cellular: {
       title: "Aortic Wall Tear and Dissection",
-      content: "Aortic dissection occurs when a tear develops in the inner layer (intima) of the aorta, allowing blood to surge through the tear into the media (middle layer). This creates a false lumen that can propagate proximally or distally, compromising blood flow to branch vessels. Stanford Type A involves the ascending aorta (most lethal) and Type B involves the descending aorta distal to the left subclavian artery. The RPN must recognize the sudden onset of severe tearing chest or back pain, monitor vital signs closely, maintain a calm environment, and report all changes immediately."
+      content: "Aortic dissection occurs when a tear develops in the inner layer (intima) of the aorta, allowing blood to surge through the tear into the media (middle layer). This creates a false lumen that can propagate proximally or distally, compromising blood flow to branch vessels. Stanford Type A involves the ascending aorta (most lethal) and Type B involves the descending aorta distal to the left subclavian artery. The nurse must recognize the sudden onset of severe tearing chest or back pain, monitor vital signs closely, maintain a calm environment, and report all changes immediately."
     },
     riskFactors: [
       "Chronic hypertension (most common risk factor)",
@@ -304,15 +304,15 @@ export const clinicalConditionsBatchDLessons: Record<string, LessonContent> = {
     quiz: [
       { question: "Which type of pain is most characteristic of aortic dissection?", options: ["Gradual onset squeezing chest pain", "Sudden onset tearing or ripping pain", "Burning epigastric pain", "Colicky abdominal pain"], correct: 1, rationale: "Aortic dissection classically presents with sudden onset severe tearing or ripping pain in the chest or back as blood forces through the intimal tear." },
       { question: "Why is heart rate controlled before blood pressure in aortic dissection?", options: ["Heart rate medications work faster", "To prevent reflex tachycardia that worsens the dissection", "Blood pressure medications are not available IV", "Heart rate is always more dangerous than blood pressure"], correct: 1, rationale: "Lowering blood pressure alone can trigger reflex tachycardia, which increases aortic shear stress (dP/dt) and can worsen the dissection. Beta-blockers reduce both HR and shear force first." },
-      { question: "The RPN notes a 25 mmHg blood pressure difference between the patient's arms. What should be reported?", options: ["This is a normal variation", "Possible aortic dissection affecting branch vessels", "The patient has peripheral artery disease", "The BP cuff is defective"], correct: 1, rationale: "A significant BP difference between arms (>20 mmHg) in the setting of acute chest/back pain suggests the dissection flap is compromising blood flow to a subclavian artery." }
+      { question: "The nurse notes a 25 mmHg blood pressure difference between the patient's arms. What should be reported?", options: ["This is a normal variation", "Possible aortic dissection affecting branch vessels", "The patient has peripheral artery disease", "The BP cuff is defective"], correct: 1, rationale: "A significant BP difference between arms (>20 mmHg) in the setting of acute chest/back pain suggests the dissection flap is compromising blood flow to a subclavian artery." }
     ]
   },
 
   "aortic-dissection-rn": {
-    title: "Aortic Dissection: RN Clinical Management",
+    title: "Aortic Dissection",
     cellular: {
       title: "Pathophysiology of Aortic Wall Dissection",
-      content: "Aortic dissection involves an intimal tear that allows pulsatile blood flow to enter the media, creating a false lumen that propagates along the aortic wall. The DeBakey classification divides dissections by location and extent (I: ascending + descending, II: ascending only, III: descending only). The Stanford classification is more clinically relevant: Type A (any ascending involvement, requires surgery) and Type B (descending only, often managed medically). Complications depend on which branch vessels are compromised by the false lumen: coronary arteries (MI), carotid arteries (stroke), renal arteries (AKI), mesenteric arteries (bowel ischemia), and iliac arteries (limb ischemia). The RN must implement aggressive blood pressure and heart rate control, monitor for malperfusion syndromes, manage pain, and coordinate rapid surgical consultation."
+      content: "Aortic dissection involves an intimal tear that allows pulsatile blood flow to enter the media, creating a false lumen that propagates along the aortic wall. The DeBakey classification divides dissections by location and extent (I: ascending + descending, II: ascending only, III: descending only). The Stanford classification is more clinically relevant: Type A (any ascending involvement, requires surgery) and Type B (descending only, often managed medically). Complications depend on which branch vessels are compromised by the false lumen: coronary arteries (MI), carotid arteries (stroke), renal arteries (AKI), mesenteric arteries (bowel ischemia), and iliac arteries (limb ischemia). The nurse must implement aggressive blood pressure and heart rate control, monitor for malperfusion syndromes, manage pain, and coordinate rapid surgical consultation."
     },
     riskFactors: [
       "Chronic hypertension (present in 70-80% of cases)",
@@ -390,10 +390,10 @@ export const clinicalConditionsBatchDLessons: Record<string, LessonContent> = {
   },
 
   "aortic-dissection-np": {
-    title: "Aortic Dissection: NP Diagnostic & Prescriptive Management",
+    title: "Aortic Dissection",
     cellular: {
       title: "Advanced Pathophysiology and Classification",
-      content: "Aortic dissection is a life-threatening cardiovascular emergency in which blood enters the medial layer of the aortic wall through an intimal tear, creating a false lumen that can propagate antegradely or retrogradely. The Stanford classification guides management: Type A (involving the ascending aorta regardless of origin) requires emergent surgical repair due to risk of aortic rupture, cardiac tamponade, coronary malperfusion, and acute aortic regurgitation. Type B (descending aorta only) is managed medically unless complicated by malperfusion, rupture, or refractory pain/hypertension. The primary hemodynamic target is reducing aortic wall shear stress by lowering both dP/dt (rate of rise of aortic pressure, controlled by HR reduction) and absolute blood pressure. The NP must rapidly diagnose using CTA, classify by Stanford type, initiate anti-impulse therapy, identify malperfusion syndromes, and coordinate surgical or endovascular intervention."
+      content: "Aortic dissection is a life-threatening cardiovascular emergency in which blood enters the medial layer of the aortic wall through an intimal tear, creating a false lumen that can propagate antegradely or retrogradely. The Stanford classification guides management: Type A (involving the ascending aorta regardless of origin) requires emergent surgical repair due to risk of aortic rupture, cardiac tamponade, coronary malperfusion, and acute aortic regurgitation. Type B (descending aorta only) is managed medically unless complicated by malperfusion, rupture, or refractory pain/hypertension. The primary hemodynamic target is reducing aortic wall shear stress by lowering both dP/dt (rate of rise of aortic pressure, controlled by HR reduction) and absolute blood pressure. The clinician must rapidly diagnose using CTA, classify by Stanford type, initiate anti-impulse therapy, identify malperfusion syndromes, and coordinate surgical or endovascular intervention."
     },
     riskFactors: [
       "Hypertension (most common modifiable risk factor, present in ~75%)",
@@ -472,10 +472,10 @@ export const clinicalConditionsBatchDLessons: Record<string, LessonContent> = {
   },
 
   "pulmonary-embolism-rpn": {
-    title: "Pulmonary Embolism: RPN Monitoring",
+    title: "Pulmonary Embolism",
     cellular: {
       title: "Pulmonary Vascular Occlusion",
-      content: "A pulmonary embolism (PE) occurs when a thrombus (most commonly from deep veins in the legs or pelvis) dislodges and travels to the pulmonary vasculature, occluding one or more pulmonary arteries. This creates a ventilation-perfusion mismatch: the affected lung segments are ventilated but not perfused, resulting in hypoxemia. Other embolic sources include fat (from long bone fractures), air (from IV line disconnection), or amniotic fluid (peripartum). Massive PE can cause obstructive shock and right heart failure. The RPN must recognize acute respiratory distress, monitor vital signs, and report changes immediately."
+      content: "A pulmonary embolism (PE) occurs when a thrombus (most commonly from deep veins in the legs or pelvis) dislodges and travels to the pulmonary vasculature, occluding one or more pulmonary arteries. This creates a ventilation-perfusion mismatch: the affected lung segments are ventilated but not perfused, resulting in hypoxemia. Other embolic sources include fat (from long bone fractures), air (from IV line disconnection), or amniotic fluid (peripartum). Massive PE can cause obstructive shock and right heart failure. The nurse must recognize acute respiratory distress, monitor vital signs, and report changes immediately."
     },
     riskFactors: [
       "Recent surgery or trauma",
@@ -542,16 +542,16 @@ export const clinicalConditionsBatchDLessons: Record<string, LessonContent> = {
     ],
     quiz: [
       { question: "Which is the most common presenting symptom of pulmonary embolism?", options: ["Hemoptysis", "Sudden onset dyspnea", "Fever", "Bradycardia"], correct: 1, rationale: "Sudden onset dyspnea is the most common presenting symptom of PE, occurring due to ventilation-perfusion mismatch in the affected lung segments." },
-      { question: "A post-operative patient suddenly develops tachycardia, dyspnea, and anxiety. What condition should the RPN suspect?", options: ["Pneumonia", "Pulmonary embolism", "Heart failure exacerbation", "Panic attack"], correct: 1, rationale: "Sudden onset of tachycardia, dyspnea, and anxiety in a post-operative patient is a classic presentation of pulmonary embolism. This must be reported immediately." },
+      { question: "A post-operative patient suddenly develops tachycardia, dyspnea, and anxiety. What condition should the nurse suspect?", options: ["Pneumonia", "Pulmonary embolism", "Heart failure exacerbation", "Panic attack"], correct: 1, rationale: "Sudden onset of tachycardia, dyspnea, and anxiety in a post-operative patient is a classic presentation of pulmonary embolism. This must be reported immediately." },
       { question: "What is the therapeutic target for aPTT when a patient is on heparin for PE?", options: ["10-15 seconds", "25-35 seconds", "60-80 seconds (1.5-2x normal)", "Over 100 seconds"], correct: 2, rationale: "The therapeutic aPTT for heparin therapy is 1.5-2 times the normal value (25-35 seconds), which is approximately 60-80 seconds." }
     ]
   },
 
   "pulmonary-embolism-rn": {
-    title: "Pulmonary Embolism: RN Clinical Management",
+    title: "Pulmonary Embolism",
     cellular: {
-      title: "Pathophysiology of Pulmonary Vascular Obstruction",
-      content: "Pulmonary embolism results from thromboembolic occlusion of pulmonary arteries, most commonly from lower extremity or pelvic DVT (>90% of cases). The embolus obstructs blood flow to distal pulmonary vasculature, creating dead-space ventilation (ventilated but not perfused). This causes ventilation-perfusion (V/Q) mismatch, intrapulmonary shunting, and hypoxemia. Massive PE (>50% of pulmonary vasculature occluded) causes acute right ventricular failure due to sudden increase in pulmonary vascular resistance, leading to obstructive shock. Virchow's triad — venous stasis, endothelial injury, and hypercoagulability — underlies most thromboembolic events. The RN must perform rapid respiratory and hemodynamic assessment, initiate anticoagulation therapy, monitor for deterioration, and coordinate advanced interventions."
+      title: "Pulmonary Vascular Obstruction",
+      content: "Pulmonary embolism results from thromboembolic occlusion of pulmonary arteries, most commonly from lower extremity or pelvic DVT (>90% of cases). The embolus obstructs blood flow to distal pulmonary vasculature, creating dead-space ventilation (ventilated but not perfused). This causes ventilation-perfusion (V/Q) mismatch, intrapulmonary shunting, and hypoxemia. Massive PE (>50% of pulmonary vasculature occluded) causes acute right ventricular failure due to sudden increase in pulmonary vascular resistance, leading to obstructive shock. Virchow's triad — venous stasis, endothelial injury, and hypercoagulability — underlies most thromboembolic events. The nurse must perform rapid respiratory and hemodynamic assessment, initiate anticoagulation therapy, monitor for deterioration, and coordinate advanced interventions."
     },
     riskFactors: [
       "Deep vein thrombosis (most common source)",
@@ -623,17 +623,17 @@ export const clinicalConditionsBatchDLessons: Record<string, LessonContent> = {
       "Anticoagulation prevents new clot formation; the body's fibrinolytic system resolves existing clots over time"
     ],
     quiz: [
-      { question: "A patient with confirmed PE has a heart rate of 120, BP of 78/50, and altered mental status. What intervention does the RN anticipate?", options: ["Increased supplemental oxygen only", "Systemic thrombolytic therapy (alteplase)", "Aggressive IV fluid bolus of 2 liters", "Oral warfarin initiation"], correct: 1, rationale: "This patient has massive PE with hemodynamic instability (hypotension, tachycardia, altered mentation). Systemic thrombolysis with alteplase is indicated to lyse the obstructing clot and restore pulmonary perfusion." },
+      { question: "A patient with confirmed PE has a heart rate of 120, BP of 78/50, and altered mental status. What intervention does the nurse anticipate?", options: ["Increased supplemental oxygen only", "Systemic thrombolytic therapy (alteplase)", "Aggressive IV fluid bolus of 2 liters", "Oral warfarin initiation"], correct: 1, rationale: "This patient has massive PE with hemodynamic instability (hypotension, tachycardia, altered mentation). Systemic thrombolysis with alteplase is indicated to lyse the obstructing clot and restore pulmonary perfusion." },
       { question: "Which ECG finding is classically associated with acute pulmonary embolism?", options: ["ST elevation in leads V1-V4", "S1Q3T3 pattern", "Peaked T waves in all leads", "Prolonged PR interval"], correct: 1, rationale: "The S1Q3T3 pattern (S wave in lead I, Q wave in lead III, inverted T wave in lead III) indicates acute right heart strain from pulmonary embolism, though it is not always present." },
       { question: "When initiating heparin therapy for PE, when should the first aPTT be drawn?", options: ["Immediately after the bolus", "2 hours after infusion start", "6 hours after infusion start", "24 hours after infusion start"], correct: 2, rationale: "The first aPTT should be drawn 6 hours after heparin initiation to allow the drug to reach steady state. Subsequent adjustments are made based on the protocol to achieve 1.5-2x normal." }
     ]
   },
 
   "pulmonary-embolism-np": {
-    title: "Pulmonary Embolism: NP Diagnostic & Prescriptive Management",
+    title: "Pulmonary Embolism",
     cellular: {
-      title: "Advanced Pathophysiology and Risk Stratification",
-      content: "Pulmonary embolism represents a spectrum from incidental subsegmental PE to massive PE causing obstructive shock. The pathophysiology centers on acute right ventricular pressure overload: the thin-walled RV cannot acutely generate pressures >40 mmHg, and sudden increases in pulmonary vascular resistance cause RV dilation, decreased RV output, interventricular septal deviation (D-shaped LV), decreased LV preload, and systemic hypotension. Neurohormonal activation of the sympathetic nervous system and release of vasoactive mediators (serotonin, thromboxane A2) from activated platelets worsen pulmonary vasoconstriction. Risk stratification guides management: massive PE (hypotension/shock) requires thrombolysis, submassive PE (RV dysfunction without hypotension) requires close monitoring with possible escalation, and low-risk PE can be managed as outpatient. The NP must apply clinical prediction rules, order and interpret advanced diagnostics, prescribe anticoagulation, determine disposition, and manage long-term VTE prevention."
+      title: "Pathophysiology and Risk Stratification",
+      content: "Pulmonary embolism represents a spectrum from incidental subsegmental PE to massive PE causing obstructive shock. The pathophysiology centers on acute right ventricular pressure overload: the thin-walled RV cannot acutely generate pressures >40 mmHg, and sudden increases in pulmonary vascular resistance cause RV dilation, decreased RV output, interventricular septal deviation (D-shaped LV), decreased LV preload, and systemic hypotension. Neurohormonal activation of the sympathetic nervous system and release of vasoactive mediators (serotonin, thromboxane A2) from activated platelets worsen pulmonary vasoconstriction. Risk stratification guides management: massive PE (hypotension/shock) requires thrombolysis, submassive PE (RV dysfunction without hypotension) requires close monitoring with possible escalation, and low-risk PE can be managed as outpatient. The clinician must apply clinical prediction rules, order and interpret advanced diagnostics, prescribe anticoagulation, determine disposition, and manage long-term VTE prevention."
     },
     riskFactors: [
       "Virchow's triad: venous stasis, endothelial injury, hypercoagulability",
@@ -713,10 +713,10 @@ export const clinicalConditionsBatchDLessons: Record<string, LessonContent> = {
   },
 
   "fat-embolism-rpn": {
-    title: "Fat Embolism Syndrome: RPN Monitoring",
+    title: "Fat Embolism Syndrome",
     cellular: {
       title: "Fat Globule Embolization",
-      content: "Fat embolism syndrome (FES) is a life-threatening complication that occurs when fat globules from fractured bone marrow (especially long bones like the femur) enter the bloodstream and travel to the lungs, brain, and skin, occluding small blood vessels. The classic triad includes respiratory distress (fat emboli in pulmonary vasculature), neurological changes (fat emboli in cerebral vessels), and petechial rash (fat emboli in dermal capillaries). FES typically develops 24-72 hours after a long bone fracture. The RPN must monitor respiratory and neurological status closely and report any changes immediately."
+      content: "Fat embolism syndrome (FES) is a life-threatening complication that occurs when fat globules from fractured bone marrow (especially long bones like the femur) enter the bloodstream and travel to the lungs, brain, and skin, occluding small blood vessels. The classic triad includes respiratory distress (fat emboli in pulmonary vasculature), neurological changes (fat emboli in cerebral vessels), and petechial rash (fat emboli in dermal capillaries). FES typically develops 24-72 hours after a long bone fracture. The nurse must monitor respiratory and neurological status closely and report any changes immediately."
     },
     riskFactors: [
       "Long bone fractures (femur, tibia most common)",
@@ -787,10 +787,10 @@ export const clinicalConditionsBatchDLessons: Record<string, LessonContent> = {
   },
 
   "fat-embolism-rn": {
-    title: "Fat Embolism Syndrome: RN Clinical Management",
+    title: "Fat Embolism Syndrome",
     cellular: {
       title: "Pathophysiology of Fat Embolism",
-      content: "Fat embolism syndrome (FES) develops through two mechanisms: mechanical theory (fat globules from fractured bone marrow physically enter the venous circulation and lodge in pulmonary capillaries, then pass to systemic circulation via patent foramen ovale or transpulmonary passage) and biochemical theory (circulating fat globules are hydrolyzed by pulmonary lipase into free fatty acids that cause direct endothelial damage, increased capillary permeability, inflammatory mediator release, and ARDS-like pathology). The combination produces pulmonary injury (V/Q mismatch, non-cardiogenic pulmonary edema), cerebral dysfunction (microinfarcts from fat emboli), and dermal petechiae (capillary fragility from fatty acid damage). The RN must perform comprehensive respiratory and neurological monitoring, recognize early signs, manage oxygenation, coordinate with the multidisciplinary team, and prepare for possible mechanical ventilation."
+      content: "Fat embolism syndrome (FES) develops through two mechanisms: mechanical theory (fat globules from fractured bone marrow physically enter the venous circulation and lodge in pulmonary capillaries, then pass to systemic circulation via patent foramen ovale or transpulmonary passage) and biochemical theory (circulating fat globules are hydrolyzed by pulmonary lipase into free fatty acids that cause direct endothelial damage, increased capillary permeability, inflammatory mediator release, and ARDS-like pathology). The combination produces pulmonary injury (V/Q mismatch, non-cardiogenic pulmonary edema), cerebral dysfunction (microinfarcts from fat emboli), and dermal petechiae (capillary fragility from fatty acid damage). The nurse must perform comprehensive respiratory and neurological monitoring, recognize early signs, manage oxygenation, coordinate with the multidisciplinary team, and prepare for possible mechanical ventilation."
     },
     riskFactors: [
       "Femur fracture (highest risk single fracture)",
@@ -868,10 +868,10 @@ export const clinicalConditionsBatchDLessons: Record<string, LessonContent> = {
   },
 
   "fat-embolism-np": {
-    title: "Fat Embolism Syndrome: NP Diagnostic & Prescriptive Management",
+    title: "Fat Embolism Syndrome",
     cellular: {
-      title: "Advanced Pathophysiology and Diagnostic Framework",
-      content: "Fat embolism syndrome (FES) results from both mechanical embolization and biochemical inflammatory cascade. Mechanically, intramedullary fat and marrow particles enter the venous circulation through torn medullary venous sinusoids after long bone fracture or intramedullary instrumentation. These particles lodge in pulmonary capillaries, causing V/Q mismatch. Particles <20 micrometers can traverse the pulmonary capillary bed to reach the systemic circulation (paradoxical embolization through pulmonary microvasculature or patent foramen ovale), causing cerebral and cutaneous manifestations. Biochemically, pulmonary lipase hydrolyzes neutral fat into free fatty acids that are directly cytotoxic to capillary endothelium, activating the complement cascade, causing platelet aggregation and consumption (thrombocytopenia), increasing capillary permeability (non-cardiogenic pulmonary edema), and triggering DIC. The NP must apply Gurd's diagnostic criteria, manage respiratory failure, order advanced diagnostics, prescribe supportive therapy, and coordinate surgical fixation to prevent further embolization."
+      title: "Pathophysiology and Diagnostic Framework",
+      content: "Fat embolism syndrome (FES) results from both mechanical embolization and biochemical inflammatory cascade. Mechanically, intramedullary fat and marrow particles enter the venous circulation through torn medullary venous sinusoids after long bone fracture or intramedullary instrumentation. These particles lodge in pulmonary capillaries, causing V/Q mismatch. Particles <20 micrometers can traverse the pulmonary capillary bed to reach the systemic circulation (paradoxical embolization through pulmonary microvasculature or patent foramen ovale), causing cerebral and cutaneous manifestations. Biochemically, pulmonary lipase hydrolyzes neutral fat into free fatty acids that are directly cytotoxic to capillary endothelium, activating the complement cascade, causing platelet aggregation and consumption (thrombocytopenia), increasing capillary permeability (non-cardiogenic pulmonary edema), and triggering DIC. The clinician must apply Gurd's diagnostic criteria, manage respiratory failure, order advanced diagnostics, prescribe supportive therapy, and coordinate surgical fixation to prevent further embolization."
     },
     riskFactors: [
       "Bilateral femur fractures (highest risk: up to 33% incidence of FES)",

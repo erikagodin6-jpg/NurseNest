@@ -1134,7 +1134,7 @@ Pneumocystis jirovecii (formerly P. carinii) is an atypical fungus that causes p
   },
 
   "advanced-blood-banking-mlt": {
-    title: "Advanced Blood Banking and Transfusion Medicine",
+    title: "Blood Banking and Transfusion Medicine",
     cellular: `Advanced blood banking encompasses antibody identification, complex crossmatching, component therapy, transfusion reactions, and quality management of the blood supply. Building on the fundamentals of ABO/Rh typing, this module addresses the clinical scenarios that make transfusion medicine one of the most patient-safety-critical disciplines in laboratory medicine.
 
 Antibody identification uses a panel of 10-16 group O reagent red blood cells with known antigen profiles. Patient serum is tested against each panel cell at three phases: immediate spin (IS) for IgM antibodies, 37°C incubation for warm-reactive IgG antibodies, and the anti-human globulin (AHG) phase for clinically significant antibodies that require the Coombs reagent to demonstrate agglutination. The pattern of positive and negative reactions is matched against the antigen profile to identify the antibody. The rule of three requires that the identified antibody be positive with at least 3 antigen-positive cells and negative with at least 3 antigen-negative cells for statistical confidence.

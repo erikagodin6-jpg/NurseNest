@@ -2,10 +2,10 @@ import type { LessonContent } from "./types";
 
 export const clinicalConditionsBatchGLessons: Record<string, LessonContent> = {
   "conduct-disorder-rpn": {
-    title: "Conduct Disorder: RPN Monitoring",
+    title: "Conduct Disorder",
     cellular: {
       title: "Neurobehavioral Pathophysiology",
-      content: "Conduct disorder is a persistent pattern of aggressive and rule-violating behavior lasting more than 6 months during childhood or adolescence. Structural, functional, and chemical changes in the brain—including reduced prefrontal cortex activity and altered amygdala reactivity—impair impulse control, empathy, and consequence evaluation. Genetic predisposition combined with adverse childhood experiences drives the behavioral defiance that escalates from property destruction to harm against people or animals. The RPN monitors for safety concerns, implements structured behavioral expectations as directed, and reports escalation patterns to the care team."
+      content: "Conduct disorder is a persistent pattern of aggressive and rule-violating behavior lasting more than 6 months during childhood or adolescence. Structural, functional, and chemical changes in the brain—including reduced prefrontal cortex activity and altered amygdala reactivity—impair impulse control, empathy, and consequence evaluation. Genetic predisposition combined with adverse childhood experiences drives the behavioral defiance that escalates from property destruction to harm against people or animals. The nurse monitors for safety concerns, implements structured behavioral expectations as directed, and reports escalation patterns to the care team."
     },
     riskFactors: [
       "Adverse childhood experiences (abuse, neglect, trauma)",
@@ -67,16 +67,16 @@ export const clinicalConditionsBatchGLessons: Record<string, LessonContent> = {
     ],
     quiz: [
       { question: "Which nursing intervention is most appropriate for a child with conduct disorder who is displaying aggressive behavior?", options: ["Allow the child to self-regulate without limits", "Set firm limits and redirect the behavior", "Isolate the child in a dark room", "Ignore the behavior entirely"], correct: 1, rationale: "Setting firm limits and redirecting behavior provides structure and safety. Ignoring aggressive behavior can escalate the situation, and isolation without therapeutic purpose is inappropriate." },
-      { question: "What complication should the RPN monitor for in an adolescent with untreated conduct disorder?", options: ["Hypothyroidism", "Substance use and juvenile delinquency", "Diabetes insipidus", "Pernicious anemia"], correct: 1, rationale: "Untreated conduct disorder is associated with substance use, juvenile delinquency, school expulsion, and eventual antisocial personality disorder." },
+      { question: "What complication should the nurse monitor for in an adolescent with untreated conduct disorder?", options: ["Hypothyroidism", "Substance use and juvenile delinquency", "Diabetes insipidus", "Pernicious anemia"], correct: 1, rationale: "Untreated conduct disorder is associated with substance use, juvenile delinquency, school expulsion, and eventual antisocial personality disorder." },
       { question: "Which approach is most effective for behavior modification in conduct disorder?", options: ["Corporal punishment", "Positive reinforcement for desired behaviors", "Strict medication-only regimen", "Unrestricted freedom to build trust"], correct: 1, rationale: "Positive reinforcement strengthens desired behaviors and helps the child develop self-esteem. Punishment-based approaches tend to reinforce aggression patterns." }
     ]
   },
 
   "conduct-disorder-rn": {
-    title: "Conduct Disorder: RN Clinical Management",
+    title: "Conduct Disorder",
     cellular: {
       title: "Neurobiological Basis of Conduct Disorder",
-      content: "Conduct disorder involves structural and functional brain alterations including reduced gray matter volume in the prefrontal cortex and amygdala, decreased serotonin activity, and elevated cortisol reactivity. These neurobiological changes impair executive function, emotional regulation, and moral reasoning. Adverse childhood experiences create epigenetic modifications that further dysregulate the hypothalamic-pituitary-adrenal (HPA) axis, maintaining a chronic state of fight-or-flight that manifests as aggression and defiance. The RN performs comprehensive behavioral assessments, implements evidence-based behavioral interventions, coordinates multidisciplinary care, and evaluates treatment effectiveness."
+      content: "Conduct disorder involves structural and functional brain alterations including reduced gray matter volume in the prefrontal cortex and amygdala, decreased serotonin activity, and elevated cortisol reactivity. These neurobiological changes impair executive function, emotional regulation, and moral reasoning. Adverse childhood experiences create epigenetic modifications that further dysregulate the hypothalamic-pituitary-adrenal (HPA) axis, maintaining a chronic state of fight-or-flight that manifests as aggression and defiance. The nurse performs comprehensive behavioral assessments, implements evidence-based behavioral interventions, coordinates multidisciplinary care, and evaluates treatment effectiveness."
     },
     riskFactors: [
       "Childhood maltreatment, abuse, or neglect",
@@ -151,10 +151,10 @@ export const clinicalConditionsBatchGLessons: Record<string, LessonContent> = {
   },
 
   "conduct-disorder-np": {
-    title: "Conduct Disorder: NP Prescriptive Management",
+    title: "Conduct Disorder",
     cellular: {
-      title: "Advanced Neurobiology and Differential Diagnosis",
-      content: "Conduct disorder involves complex neurobiological dysfunction across multiple brain circuits. Neuroimaging reveals reduced volume and activity in the ventromedial prefrontal cortex (impaired decision-making), orbitofrontal cortex (reduced consequence evaluation), and amygdala (blunted threat and empathy processing). Serotonergic hypofunction in the raphe nuclei lowers impulse control thresholds, while dysregulated dopaminergic reward pathways in the nucleus accumbens drive sensation-seeking behavior. Elevated testosterone and cortisol dysregulation via the HPA axis maintain chronic aggression. The NP must differentiate conduct disorder from oppositional defiant disorder, ADHD, PTSD, bipolar disorder, and intermittent explosive disorder, then develop a comprehensive treatment plan including pharmacotherapy, evidence-based psychotherapy, and family-based interventions."
+      title: "Neurobiology and Differential Diagnosis",
+      content: "Conduct disorder involves complex neurobiological dysfunction across multiple brain circuits. Neuroimaging reveals reduced volume and activity in the ventromedial prefrontal cortex (impaired decision-making), orbitofrontal cortex (reduced consequence evaluation), and amygdala (blunted threat and empathy processing). Serotonergic hypofunction in the raphe nuclei lowers impulse control thresholds, while dysregulated dopaminergic reward pathways in the nucleus accumbens drive sensation-seeking behavior. Elevated testosterone and cortisol dysregulation via the HPA axis maintain chronic aggression. The clinician must differentiate conduct disorder from oppositional defiant disorder, ADHD, PTSD, bipolar disorder, and intermittent explosive disorder, then develop a comprehensive treatment plan including pharmacotherapy, evidence-based psychotherapy, and family-based interventions."
     },
     riskFactors: [
       "Genetic polymorphisms in MAOA gene (warrior gene) combined with maltreatment",
@@ -230,10 +230,10 @@ export const clinicalConditionsBatchGLessons: Record<string, LessonContent> = {
   },
 
   "alcohol-withdrawal-rpn": {
-    title: "Alcohol Withdrawal: RPN Monitoring",
+    title: "Alcohol Withdrawal",
     cellular: {
       title: "CNS Excitotoxicity in Alcohol Withdrawal",
-      content: "Alcohol is a central nervous system (CNS) depressant that enhances inhibitory GABA activity and suppresses excitatory glutamate (NMDA) signaling. Chronic alcohol use causes neuroadaptive upregulation of NMDA receptors and downregulation of GABA receptors. When alcohol is abruptly discontinued, unopposed excitatory neurotransmission produces autonomic hyperactivity—tachycardia, hypertension, diaphoresis, tremors—progressing to seizures and potentially fatal delirium tremens. Symptoms begin 6-24 hours after the last drink. The RPN monitors vital signs, observes for escalating symptoms, administers medications as ordered, and reports changes immediately."
+      content: "Alcohol is a central nervous system (CNS) depressant that enhances inhibitory GABA activity and suppresses excitatory glutamate (NMDA) signaling. Chronic alcohol use causes neuroadaptive upregulation of NMDA receptors and downregulation of GABA receptors. When alcohol is abruptly discontinued, unopposed excitatory neurotransmission produces autonomic hyperactivity—tachycardia, hypertension, diaphoresis, tremors—progressing to seizures and potentially fatal delirium tremens. Symptoms begin 6-24 hours after the last drink. The nurse monitors vital signs, observes for escalating symptoms, administers medications as ordered, and reports changes immediately."
     },
     riskFactors: [
       "Chronic heavy alcohol use",
@@ -249,7 +249,7 @@ export const clinicalConditionsBatchGLessons: Record<string, LessonContent> = {
       "Monitor vital signs frequently as ordered: heart rate, blood pressure, temperature",
       "Report tachycardia (HR >100), hypertension, or fever to the RN",
       "Observe and document tremor severity, diaphoresis, and agitation",
-      "Report any hallucinations (visual, auditory, or tactile) to the RN immediately",
+      "Report any hallucinations (visual, auditory, or tactile) to the nurse immediately",
       "Monitor hydration status: intake and output as directed",
       "Report seizure activity immediately with onset time and duration"
     ],
@@ -296,17 +296,17 @@ export const clinicalConditionsBatchGLessons: Record<string, LessonContent> = {
       "The kindling effect means each successive withdrawal episode tends to be more severe"
     ],
     quiz: [
-      { question: "A patient in alcohol withdrawal develops a temperature of 39.5°C, severe confusion, and profuse diaphoresis. What should the RPN do first?", options: ["Administer acetaminophen as needed", "Report to the RN immediately—these are signs of delirium tremens", "Apply cooling blankets and reassess in 30 minutes", "Document and continue routine monitoring"], correct: 1, rationale: "Fever, severe confusion, and profuse diaphoresis are hallmarks of delirium tremens, a life-threatening complication requiring immediate medical intervention." },
+      { question: "A patient in alcohol withdrawal develops a temperature of 39.5°C, severe confusion, and profuse diaphoresis. What should the nurse do first?", options: ["Administer acetaminophen as needed", "Report to the nurse immediately—these are signs of delirium tremens", "Apply cooling blankets and reassess in 30 minutes", "Document and continue routine monitoring"], correct: 1, rationale: "Fever, severe confusion, and profuse diaphoresis are hallmarks of delirium tremens, a life-threatening complication requiring immediate medical intervention." },
       { question: "When should thiamine be administered in relation to glucose-containing IV fluids?", options: ["After glucose administration", "Simultaneously with glucose", "Before glucose administration", "Thiamine timing does not matter"], correct: 2, rationale: "Thiamine must be given before glucose to prevent precipitating or worsening Wernicke encephalopathy, as glucose metabolism depletes remaining thiamine stores." },
       { question: "Which assessment tool is used to evaluate the severity of alcohol withdrawal?", options: ["Glasgow Coma Scale", "CIWA-Ar (Clinical Institute Withdrawal Assessment for Alcohol)", "Braden Scale", "Norton Scale"], correct: 1, rationale: "The CIWA-Ar is a standardized assessment tool that scores withdrawal severity across 10 domains including tremor, anxiety, agitation, and orientation to guide treatment intensity." }
     ]
   },
 
   "alcohol-withdrawal-rn": {
-    title: "Alcohol Withdrawal: RN Clinical Management",
+    title: "Alcohol Withdrawal",
     cellular: {
-      title: "Neuroadaptive Mechanisms of Alcohol Withdrawal",
-      content: "Chronic alcohol exposure produces neuroadaptive changes: GABA-A receptors are downregulated and internalized, reducing inhibitory neurotransmission, while NMDA glutamate receptors are upregulated to compensate for chronic suppression. Upon alcohol cessation, this imbalance creates a hyperexcitable state. The withdrawal cascade progresses through predictable stages: minor withdrawal (6-24 hours), alcoholic hallucinosis (12-48 hours), withdrawal seizures (24-48 hours), and delirium tremens (48-96 hours). The kindling hypothesis explains progressive worsening with repeated withdrawal episodes. The RN performs CIWA-Ar scoring, implements symptom-triggered benzodiazepine protocols, manages fluid and electrolyte replacement, coordinates seizure management, and recognizes delirium tremens requiring ICU-level care."
+      title: "Neuroadaptive Mechanisms of Alcohol",
+      content: "Chronic alcohol exposure produces neuroadaptive changes: GABA-A receptors are downregulated and internalized, reducing inhibitory neurotransmission, while NMDA glutamate receptors are upregulated to compensate for chronic suppression. Upon alcohol cessation, this imbalance creates a hyperexcitable state. The withdrawal cascade progresses through predictable stages: minor withdrawal (6-24 hours), alcoholic hallucinosis (12-48 hours), withdrawal seizures (24-48 hours), and delirium tremens (48-96 hours). The kindling hypothesis explains progressive worsening with repeated withdrawal episodes. The nurse performs CIWA-Ar scoring, implements symptom-triggered benzodiazepine protocols, manages fluid and electrolyte replacement, coordinates seizure management, and recognizes delirium tremens requiring ICU-level care."
     },
     riskFactors: [
       "History of prior alcohol withdrawal seizures or delirium tremens",
@@ -382,10 +382,10 @@ export const clinicalConditionsBatchGLessons: Record<string, LessonContent> = {
   },
 
   "alcohol-withdrawal-np": {
-    title: "Alcohol Withdrawal: NP Prescriptive Management",
+    title: "Alcohol Withdrawal",
     cellular: {
-      title: "Advanced Neurochemistry and Pharmacological Management",
-      content: "The neurochemistry of alcohol withdrawal involves dual neurotransmitter derangement. Chronic ethanol potentiates GABA-A receptor chloride conductance while inhibiting NMDA receptor calcium influx. Compensatory neuroadaptation reduces GABA-A receptor expression (particularly alpha-1 subunit) and upregulates NMDA receptor density (NR2B subunit) and voltage-gated calcium channels. Abrupt cessation unmasks massive excitatory drive with glutamate-mediated excitotoxicity causing neuronal death and seizures. The kindling hypothesis explains progressive worsening: each withdrawal episode sensitizes neurons to subsequent withdrawal through long-term potentiation-like mechanisms. The NP must prescribe evidence-based pharmacological protocols, manage complex medical comorbidities, order and interpret diagnostic studies, and coordinate long-term alcohol use disorder treatment including medication-assisted treatment (MAT)."
+      title: "Neurochemistry and Pharmacological Management",
+      content: "The neurochemistry of alcohol withdrawal involves dual neurotransmitter derangement. Chronic ethanol potentiates GABA-A receptor chloride conductance while inhibiting NMDA receptor calcium influx. Compensatory neuroadaptation reduces GABA-A receptor expression (particularly alpha-1 subunit) and upregulates NMDA receptor density (NR2B subunit) and voltage-gated calcium channels. Abrupt cessation unmasks massive excitatory drive with glutamate-mediated excitotoxicity causing neuronal death and seizures. The kindling hypothesis explains progressive worsening: each withdrawal episode sensitizes neurons to subsequent withdrawal through long-term potentiation-like mechanisms. The clinician must prescribe evidence-based pharmacological protocols, manage complex medical comorbidities, order and interpret diagnostic studies, and coordinate long-term alcohol use disorder treatment including medication-assisted treatment (MAT)."
     },
     riskFactors: [
       "History of multiple prior withdrawal episodes (kindling effect)",
@@ -462,10 +462,10 @@ export const clinicalConditionsBatchGLessons: Record<string, LessonContent> = {
   },
 
   "serotonin-syndrome-rpn": {
-    title: "Serotonin Syndrome: RPN Monitoring",
+    title: "Serotonin Syndrome",
     cellular: {
       title: "Serotonergic Excess Pathophysiology",
-      content: "Serotonin syndrome results from excess serotonergic activity in the central nervous system, typically caused by drug interactions or overdose of medications that increase serotonin levels. Excessive activation of 5-HT1A and 5-HT2A receptors in the brainstem and spinal cord produces a characteristic triad: altered mental status, autonomic instability, and neuromuscular excitability. The condition does not occur naturally—it is always drug-induced. Onset is rapid, typically within 2-72 hours of a causative medication change. The RPN monitors for the characteristic signs, maintains patient safety, and reports findings immediately."
+      content: "Serotonin syndrome results from excess serotonergic activity in the central nervous system, typically caused by drug interactions or overdose of medications that increase serotonin levels. Excessive activation of 5-HT1A and 5-HT2A receptors in the brainstem and spinal cord produces a characteristic triad: altered mental status, autonomic instability, and neuromuscular excitability. The condition does not occur naturally—it is always drug-induced. Onset is rapid, typically within 2-72 hours of a causative medication change. The nurse monitors for the characteristic signs, maintains patient safety, and reports findings immediately."
     },
     riskFactors: [
       "Initiation or dose increase of serotonergic medications (SSRIs, SNRIs, MAOIs)",
@@ -479,7 +479,7 @@ export const clinicalConditionsBatchGLessons: Record<string, LessonContent> = {
     ],
     diagnostics: [
       "Monitor vital signs frequently: temperature, heart rate, blood pressure",
-      "Report fever, tachycardia, or hypertension to the RN immediately",
+      "Report fever, tachycardia, or hypertension to the nurse immediately",
       "Observe for clonus, tremor, and hyperreflexia and report",
       "Report mental status changes: agitation, restlessness, confusion",
       "Observe for diaphoresis and report",
@@ -529,16 +529,16 @@ export const clinicalConditionsBatchGLessons: Record<string, LessonContent> = {
     ],
     quiz: [
       { question: "Which finding is most characteristic of serotonin syndrome?", options: ["Lead-pipe rigidity", "Clonus with hyperreflexia", "Hypothermia", "Bradycardia"], correct: 1, rationale: "Clonus with hyperreflexia is the hallmark neuromuscular finding in serotonin syndrome. Lead-pipe rigidity is more characteristic of neuroleptic malignant syndrome. Serotonin syndrome causes hyperthermia and tachycardia, not hypothermia and bradycardia." },
-      { question: "A patient taking sertraline and tramadol develops agitation, fever, and leg clonus. What should the RPN do first?", options: ["Administer the next scheduled dose of sertraline", "Report findings to the RN immediately as possible serotonin syndrome", "Encourage oral fluids and reassess in 1 hour", "Apply ice packs to the patient's forehead"], correct: 1, rationale: "This presentation is classic for serotonin syndrome triggered by the combination of an SSRI and tramadol. The RPN must report immediately as this is a potentially life-threatening emergency." },
+      { question: "A patient taking sertraline and tramadol develops agitation, fever, and leg clonus. What should the nurse do first?", options: ["Administer the next scheduled dose of sertraline", "Report findings to the nurse immediately as possible serotonin syndrome", "Encourage oral fluids and reassess in 1 hour", "Apply ice packs to the patient's forehead"], correct: 1, rationale: "This presentation is classic for serotonin syndrome triggered by the combination of an SSRI and tramadol. The nurse must report immediately as this is a potentially life-threatening emergency." },
       { question: "Which drug combination increases the risk of serotonin syndrome?", options: ["ACE inhibitor and diuretic", "SSRI and St. John's Wort", "Beta-blocker and calcium channel blocker", "Proton pump inhibitor and antacid"], correct: 1, rationale: "St. John's Wort is a serotonin reuptake inhibitor. When combined with an SSRI, the additive serotonergic effect increases the risk of serotonin syndrome." }
     ]
   },
 
   "serotonin-syndrome-rn": {
-    title: "Serotonin Syndrome: RN Clinical Management",
+    title: "Serotonin Syndrome",
     cellular: {
       title: "Serotonergic Receptor Pharmacology",
-      content: "Serotonin syndrome occurs through three pharmacological mechanisms that increase synaptic serotonin: (1) increased serotonin synthesis (L-tryptophan), (2) decreased serotonin metabolism (MAOIs), and (3) increased serotonin release or decreased reuptake (SSRIs, SNRIs, TCAs, tramadol, meperidine, MDMA). Excessive 5-HT1A stimulation in the brainstem raphe nuclei and spinal cord produces the autonomic and neuromuscular features. 5-HT2A overstimulation contributes to hyperthermia, agitation, and altered mental status. The Hunter Serotonin Toxicity Criteria provide diagnostic accuracy: the presence of clonus (spontaneous, inducible, or ocular) in the setting of a serotonergic agent is highly specific. The RN must recognize the syndrome promptly, discontinue all serotonergic agents, manage symptomatic treatment, and prevent life-threatening complications."
+      content: "Serotonin syndrome occurs through three pharmacological mechanisms that increase synaptic serotonin: (1) increased serotonin synthesis (L-tryptophan), (2) decreased serotonin metabolism (MAOIs), and (3) increased serotonin release or decreased reuptake (SSRIs, SNRIs, TCAs, tramadol, meperidine, MDMA). Excessive 5-HT1A stimulation in the brainstem raphe nuclei and spinal cord produces the autonomic and neuromuscular features. 5-HT2A overstimulation contributes to hyperthermia, agitation, and altered mental status. The Hunter Serotonin Toxicity Criteria provide diagnostic accuracy: the presence of clonus (spontaneous, inducible, or ocular) in the setting of a serotonergic agent is highly specific. The nurse must recognize the syndrome promptly, discontinue all serotonergic agents, manage symptomatic treatment, and prevent life-threatening complications."
     },
     riskFactors: [
       "Concurrent use of two or more serotonergic agents",
@@ -615,10 +615,10 @@ export const clinicalConditionsBatchGLessons: Record<string, LessonContent> = {
   },
 
   "serotonin-syndrome-np": {
-    title: "Serotonin Syndrome: NP Prescriptive Management",
+    title: "Serotonin Syndrome",
     cellular: {
-      title: "Advanced Serotonergic Pharmacology and Differential Diagnosis",
-      content: "Serotonin syndrome arises from excessive stimulation of central and peripheral serotonin receptors, primarily 5-HT1A and 5-HT2A. Five pharmacological mechanisms can increase synaptic serotonin: (1) increased precursor supply (L-tryptophan), (2) increased serotonin release (MDMA, amphetamines), (3) inhibition of serotonin reuptake (SSRIs, SNRIs, TCAs, tramadol, meperidine), (4) inhibition of serotonin metabolism (MAOIs, linezolid, methylene blue), and (5) direct receptor agonism (buspirone, triptans, LSD). The Hunter Serotonin Toxicity Criteria (sensitivity 84%, specificity 97%) require exposure to a serotonergic agent plus one of: spontaneous clonus, inducible clonus + agitation or diaphoresis, ocular clonus + agitation or diaphoresis, tremor + hyperreflexia, or hypertonia + temperature >38°C + ocular or inducible clonus. The NP must differentiate from neuroleptic malignant syndrome, malignant hyperthermia, anticholinergic toxicity, and sympathomimetic overdose, then prescribe definitive treatment."
+      title: "Serotonergic Pharmacology",
+      content: "Serotonin syndrome arises from excessive stimulation of central and peripheral serotonin receptors, primarily 5-HT1A and 5-HT2A. Five pharmacological mechanisms can increase synaptic serotonin: (1) increased precursor supply (L-tryptophan), (2) increased serotonin release (MDMA, amphetamines), (3) inhibition of serotonin reuptake (SSRIs, SNRIs, TCAs, tramadol, meperidine), (4) inhibition of serotonin metabolism (MAOIs, linezolid, methylene blue), and (5) direct receptor agonism (buspirone, triptans, LSD). The Hunter Serotonin Toxicity Criteria (sensitivity 84%, specificity 97%) require exposure to a serotonergic agent plus one of: spontaneous clonus, inducible clonus + agitation or diaphoresis, ocular clonus + agitation or diaphoresis, tremor + hyperreflexia, or hypertonia + temperature >38°C + ocular or inducible clonus. The clinician must differentiate from neuroleptic malignant syndrome, malignant hyperthermia, anticholinergic toxicity, and sympathomimetic overdose, then prescribe definitive treatment."
     },
     riskFactors: [
       "MAOI + SSRI/SNRI combination (highest risk—potentially fatal)",
@@ -689,16 +689,16 @@ export const clinicalConditionsBatchGLessons: Record<string, LessonContent> = {
     ],
     quiz: [
       { question: "An NP needs to switch a patient from fluoxetine to an MAOI. What is the required minimum washout period?", options: ["24 hours", "7 days", "14 days", "5 weeks"], correct: 3, rationale: "Fluoxetine has the longest half-life of any SSRI and its active metabolite norfluoxetine has a half-life of 4-16 days. A 5-week washout is required before starting an MAOI to prevent serotonin syndrome." },
-      { question: "A patient with confirmed serotonin syndrome has a temperature of 41.5°C and sustained muscle rigidity despite benzodiazepines. What should the NP prescribe?", options: ["Acetaminophen 1g IV stat", "Intubation with rocuronium and active cooling", "Dantrolene 2.5 mg/kg IV", "Haloperidol 5 mg IM for agitation"], correct: 1, rationale: "Severe serotonin syndrome with hyperthermia >41°C and sustained rigidity requires neuromuscular paralysis with a non-depolarizing agent (rocuronium), intubation, and active cooling to eliminate muscular heat generation." },
+      { question: "A patient with confirmed serotonin syndrome has a temperature of 41.5°C and sustained muscle rigidity despite benzodiazepines. What should the clinician prescribe?", options: ["Acetaminophen 1g IV stat", "Intubation with rocuronium and active cooling", "Dantrolene 2.5 mg/kg IV", "Haloperidol 5 mg IM for agitation"], correct: 1, rationale: "Severe serotonin syndrome with hyperthermia >41°C and sustained rigidity requires neuromuscular paralysis with a non-depolarizing agent (rocuronium), intubation, and active cooling to eliminate muscular heat generation." },
       { question: "Which non-antidepressant medication is most commonly overlooked as a serotonergic agent capable of causing serotonin syndrome?", options: ["Metoprolol", "Linezolid", "Omeprazole", "Lisinopril"], correct: 1, rationale: "Linezolid is an antibiotic with weak, reversible MAOI activity. When co-prescribed with SSRIs/SNRIs, it can precipitate serotonin syndrome. This interaction is frequently overlooked in clinical practice." }
     ]
   },
 
   "intimate-partner-violence-rpn": {
-    title: "Intimate Partner Violence: RPN Monitoring",
+    title: "Intimate Partner Violence",
     cellular: {
       title: "Cycle of Violence and Trauma Pathophysiology",
-      content: "Intimate partner violence (IPV) encompasses physical, sexual, psychological, and economic abuse by a current or former intimate partner. The cycle of violence typically follows a pattern: tension building, acute battering incident, and honeymoon/reconciliation phase. Chronic exposure to IPV activates the hypothalamic-pituitary-adrenal (HPA) axis, producing sustained cortisol elevation that causes hippocampal atrophy (impaired memory and decision-making), amygdala hyperactivation (heightened threat response), and prefrontal cortex hypofunction (impaired executive function). Victims develop complex trauma responses including learned helplessness, trauma bonding, and hypervigilance. The RPN screens for IPV indicators, provides empathetic non-judgmental care, ensures patient safety, documents findings, and reports to the RN and appropriate authorities."
+      content: "Intimate partner violence (IPV) encompasses physical, sexual, psychological, and economic abuse by a current or former intimate partner. The cycle of violence typically follows a pattern: tension building, acute battering incident, and honeymoon/reconciliation phase. Chronic exposure to IPV activates the hypothalamic-pituitary-adrenal (HPA) axis, producing sustained cortisol elevation that causes hippocampal atrophy (impaired memory and decision-making), amygdala hyperactivation (heightened threat response), and prefrontal cortex hypofunction (impaired executive function). Victims develop complex trauma responses including learned helplessness, trauma bonding, and hypervigilance. The nurse screens for IPV indicators, provides empathetic non-judgmental care, ensures patient safety, documents findings, and reports to the nurse and appropriate authorities."
     },
     riskFactors: [
       "History of childhood abuse or witnessing domestic violence",
@@ -733,7 +733,7 @@ export const clinicalConditionsBatchGLessons: Record<string, LessonContent> = {
       "Document patient statements using direct quotes",
       "Take photographs of injuries with patient consent and proper labeling",
       "Provide crisis hotline information and local shelter resources",
-      "Report to the RN and follow mandatory reporting protocols",
+      "Report to the nurse and follow mandatory reporting protocols",
       "Ensure patient safety: do not include shelter or safety information in take-home materials that could be found by the abuser"
     ],
     signs: {
@@ -762,16 +762,16 @@ export const clinicalConditionsBatchGLessons: Record<string, LessonContent> = {
     ],
     quiz: [
       { question: "Which is the most important nursing action when screening for intimate partner violence?", options: ["Interview the patient with their partner present for verification", "Screen the patient privately in a secure setting", "Ask the partner directly if they have ever been violent", "Wait for the patient to voluntarily disclose abuse"], correct: 1, rationale: "Screening must occur privately without the partner present to ensure the patient feels safe to disclose. The partner's presence prevents honest disclosure and may increase danger." },
-      { question: "A patient presents with facial bruising and states she 'walked into a door.' Her partner answers most questions. What should the RPN do?", options: ["Accept the explanation and document the injury", "Ask the partner to step out and privately screen the patient for IPV", "Confront the partner about possible abuse", "Discharge the patient without further questioning"], correct: 1, rationale: "The controlling partner behavior and injuries inconsistent with the stated mechanism are red flags for IPV. The RPN should separate the patient from the partner and screen privately." },
+      { question: "A patient presents with facial bruising and states she 'walked into a door.' Her partner answers most questions. What should the nurse do?", options: ["Accept the explanation and document the injury", "Ask the partner to step out and privately screen the patient for IPV", "Confront the partner about possible abuse", "Discharge the patient without further questioning"], correct: 1, rationale: "The controlling partner behavior and injuries inconsistent with the stated mechanism are red flags for IPV. The nurse should separate the patient from the partner and screen privately." },
       { question: "Which finding is the strongest predictor of future homicide in an IPV situation?", options: ["Emotional verbal abuse", "Financial control", "History of strangulation", "Social media monitoring"], correct: 2, rationale: "Research consistently shows that strangulation is the single strongest predictor of future homicide in intimate partner violence situations. Assess for petechiae above the clavicle, hoarse voice, and difficulty swallowing." }
     ]
   },
 
   "intimate-partner-violence-rn": {
-    title: "Intimate Partner Violence: RN Clinical Management",
+    title: "Intimate Partner Violence",
     cellular: {
       title: "Neurobiological Impact of Chronic Trauma",
-      content: "Chronic intimate partner violence produces significant neurobiological changes through sustained HPA axis activation and repeated traumatic stress. Elevated cortisol causes hippocampal volume reduction (impaired memory consolidation and contextual processing), amygdala hypertrophy (heightened fear response and threat detection), and prefrontal cortex thinning (impaired decision-making and impulse control). These changes produce the complex trauma response seen in IPV survivors: hypervigilance, emotional dysregulation, dissociation, and learned helplessness. Trauma bonding (Stockholm syndrome-like attachment) develops through intermittent reinforcement of abuse and affection cycles. The RN performs comprehensive assessments, implements evidence-based screening, provides trauma-informed care, develops safety plans, coordinates forensic documentation, manages mandatory reporting obligations, and addresses the physical and psychological health consequences of IPV."
+      content: "Chronic intimate partner violence produces significant neurobiological changes through sustained HPA axis activation and repeated traumatic stress. Elevated cortisol causes hippocampal volume reduction (impaired memory consolidation and contextual processing), amygdala hypertrophy (heightened fear response and threat detection), and prefrontal cortex thinning (impaired decision-making and impulse control). These changes produce the complex trauma response seen in IPV survivors: hypervigilance, emotional dysregulation, dissociation, and learned helplessness. Trauma bonding (Stockholm syndrome-like attachment) develops through intermittent reinforcement of abuse and affection cycles. The nurse performs comprehensive assessments, implements evidence-based screening, provides trauma-informed care, develops safety plans, coordinates forensic documentation, manages mandatory reporting obligations, and addresses the physical and psychological health consequences of IPV."
     },
     riskFactors: [
       "Prior IPV victimization or childhood exposure to domestic violence",
@@ -841,15 +841,15 @@ export const clinicalConditionsBatchGLessons: Record<string, LessonContent> = {
     quiz: [
       { question: "Which assessment tool specifically evaluates lethality risk in intimate partner violence?", options: ["PHQ-9", "Glasgow Coma Scale", "Danger Assessment Scale", "Braden Scale"], correct: 2, rationale: "The Danger Assessment Scale (Campbell) specifically evaluates risk factors for homicide in IPV situations including strangulation history, weapon access, escalation pattern, and threats." },
       { question: "An RN is documenting injuries on an IPV patient. Which documentation practice is most appropriate?", options: ["General description: 'multiple bruises noted'", "Detailed body map with measurements, color, shape, and photographs with scale ruler", "Notation: 'suspected abuse'", "Documentation of injuries without recording patient statements"], correct: 1, rationale: "Forensic documentation requires detailed descriptions on body maps with measurements, color staging, shape, photographs with a scale ruler, and the patient's own statements in direct quotes." },
-      { question: "Why should the RN avoid providing shelter brochures in take-home paperwork for an IPV patient?", options: ["Shelters do not accept referrals from nurses", "The abuser may discover the materials and escalate violence", "Patients should find shelters independently", "Shelter information is confidential"], correct: 1, rationale: "Providing shelter information in take-home materials risks the abuser discovering the patient's plans to leave, which is the most dangerous time in an IPV situation and could trigger escalated violence or homicide." }
+      { question: "Why should the nurse avoid providing shelter brochures in take-home paperwork for an IPV patient?", options: ["Shelters do not accept referrals from nurses", "The abuser may discover the materials and escalate violence", "Patients should find shelters independently", "Shelter information is confidential"], correct: 1, rationale: "Providing shelter information in take-home materials risks the abuser discovering the patient's plans to leave, which is the most dangerous time in an IPV situation and could trigger escalated violence or homicide." }
     ]
   },
 
   "intimate-partner-violence-np": {
-    title: "Intimate Partner Violence: NP Prescriptive Management",
+    title: "Intimate Partner Violence",
     cellular: {
-      title: "Complex Trauma Neurobiology and Advanced Clinical Management",
-      content: "IPV-related complex trauma produces distinct neurobiological patterns identifiable on functional neuroimaging: persistent amygdala hyperactivation with threat-related stimuli, hippocampal atrophy (8-15% volume reduction in chronic PTSD), medial prefrontal cortex hypoactivation (impaired fear extinction), and anterior cingulate cortex dysfunction (impaired emotional regulation). Chronic sympathetic nervous system activation produces elevated norepinephrine levels, contributing to hypervigilance, exaggerated startle response, and insomnia. Repeated traumatic brain injury from physical assaults creates cumulative neurological damage similar to chronic traumatic encephalopathy (CTE). The NP must conduct comprehensive trauma-informed assessments, prescribe pharmacotherapy for PTSD, depression, and anxiety, manage TBI-related sequelae, coordinate forensic examinations, fulfill complex medico-legal reporting obligations, order and interpret diagnostic studies, and develop comprehensive treatment plans addressing physical, psychological, and social determinants of health."
+      title: "Complex Trauma Neurobiology",
+      content: "IPV-related complex trauma produces distinct neurobiological patterns identifiable on functional neuroimaging: persistent amygdala hyperactivation with threat-related stimuli, hippocampal atrophy (8-15% volume reduction in chronic PTSD), medial prefrontal cortex hypoactivation (impaired fear extinction), and anterior cingulate cortex dysfunction (impaired emotional regulation). Chronic sympathetic nervous system activation produces elevated norepinephrine levels, contributing to hypervigilance, exaggerated startle response, and insomnia. Repeated traumatic brain injury from physical assaults creates cumulative neurological damage similar to chronic traumatic encephalopathy (CTE). The clinician must conduct comprehensive trauma-informed assessments, prescribe pharmacotherapy for PTSD, depression, and anxiety, manage TBI-related sequelae, coordinate forensic examinations, fulfill complex medico-legal reporting obligations, order and interpret diagnostic studies, and develop comprehensive treatment plans addressing physical, psychological, and social determinants of health."
     },
     riskFactors: [
       "Prior IPV victimization with trauma bonding patterns",

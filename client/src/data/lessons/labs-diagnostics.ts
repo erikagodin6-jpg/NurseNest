@@ -2,9 +2,9 @@ import type { LessonContent } from "./types";
 
 export const labsDiagnosticsLessons: Record<string, LessonContent> = {
   "labs-diagnostics-rpn": {
-    title: "RPN Labs and Diagnostics",
+    title: "Labs and Diagnostics",
     cellular: {
-      title: "Foundations of Laboratory Diagnostics for Practical Nurses",
+      title: "Foundations of Laboratory Diagnostics",
       content:
         "Laboratory diagnostics provide objective data that complement clinical assessment findings. Blood samples undergo centrifugation to separate cellular components from plasma, enabling analysis of individual analytes such as electrolytes, glucose, and blood cell counts. The complete blood count (CBC) evaluates red blood cells, white blood cells, and platelets, reflecting oxygen-carrying capacity, immune function, and clotting ability respectively. The basic metabolic panel (BMP) assesses kidney function, electrolyte balance, and glucose metabolism, forming the cornerstone of routine diagnostic evaluation in most clinical settings.",
     },
@@ -214,9 +214,9 @@ export const labsDiagnosticsLessons: Record<string, LessonContent> = {
   },
 
   "labs-diagnostics-rn": {
-    title: "RN Labs and Diagnostics",
+    title: "Labs and Diagnostics",
     cellular: {
-      title: "Advanced Laboratory and Diagnostic Interpretation for Registered Nurses",
+      title: "Laboratory and Diagnostic Interpretation for",
       content:
         "Registered nurses must interpret complex laboratory panels and integrate findings into clinical decision-making. Arterial blood gas (ABG) analysis evaluates acid-base balance through measurement of pH, PaCO2, HCO3, and PaO2, enabling identification of respiratory or metabolic disturbances and their compensation status. Cardiac biomarkers such as troponin and BNP provide time-sensitive data critical for differentiating acute coronary syndromes from heart failure. Comprehensive coagulation studies guide anticoagulant therapy monitoring, while liver function tests reveal hepatocellular injury, cholestasis, and synthetic function through patterns of enzyme elevation.",
     },
@@ -452,9 +452,9 @@ export const labsDiagnosticsLessons: Record<string, LessonContent> = {
   },
 
   "labs-diagnostics-np": {
-    title: "NP Labs and Diagnostics",
+    title: "Labs and Diagnostics",
     cellular: {
-      title: "Advanced Diagnostic Reasoning and Test Interpretation for Nurse Practitioners",
+      title: "Diagnostic Reasoning and Test Interpretation",
       content:
         "Nurse practitioners must independently select, order, and interpret diagnostic studies using evidence-based reasoning. Diagnostic accuracy depends on understanding pretest probability, which is the likelihood of disease before testing, combined with test characteristics including sensitivity, specificity, and predictive values. Sensitivity measures a test's ability to correctly identify those with the disease (true positive rate), while specificity measures its ability to correctly identify those without the disease (true negative rate). Advanced lab panels including thyroid function, iron studies, lipid profiles, and tumor markers require interpretation within clinical context, as isolated abnormal values frequently occur in the absence of disease.",
     },
@@ -584,7 +584,7 @@ export const labsDiagnosticsLessons: Record<string, LessonContent> = {
       },
       {
         question:
-          "Case: A 55-year-old female presents with fatigue, weight gain of 15 pounds over 6 months, constipation, and dry skin. TSH is 8.2 mIU/L and free T4 is 0.9 ng/dL (normal 0.8-1.8). The NP is considering starting levothyroxine. What is the most accurate interpretation?",
+          "Case: A 55-year-old female presents with fatigue, weight gain of 15 pounds over 6 months, constipation, and dry skin. TSH is 8.2 mIU/L and free T4 is 0.9 ng/dL (normal 0.8-1.8). The clinician is considering starting levothyroxine. What is the most accurate interpretation?",
         options: [
           "Primary hypothyroidism requiring immediate high-dose levothyroxine",
           "Subclinical hypothyroidism (elevated TSH with normal free T4), where treatment is guided by symptoms, TSH level, and patient preference",
@@ -597,7 +597,7 @@ export const labsDiagnosticsLessons: Record<string, LessonContent> = {
       },
       {
         question:
-          "Case: A 35-year-old female presents with fatigue and heavy menstrual periods. CBC shows Hgb 9.8 g/dL, MCV 72 fL, RDW 17%. The NP orders iron studies. What pattern would confirm the suspected diagnosis?",
+          "Case: A 35-year-old female presents with fatigue and heavy menstrual periods. CBC shows Hgb 9.8 g/dL, MCV 72 fL, RDW 17%. The clinician orders iron studies. What pattern would confirm the suspected diagnosis?",
         options: [
           "Low ferritin, low serum iron, elevated TIBC, and low transferrin saturation",
           "Elevated ferritin, elevated serum iron, and low TIBC",
@@ -610,7 +610,7 @@ export const labsDiagnosticsLessons: Record<string, LessonContent> = {
       },
       {
         question:
-          "Case: A 60-year-old male with rheumatoid arthritis has Hgb 10.2 g/dL, MCV 86 fL, serum iron 35 mcg/dL, ferritin 280 ng/mL, and TIBC 180 mcg/dL. How does the NP differentiate this from iron deficiency anemia?",
+          "Case: A 60-year-old male with rheumatoid arthritis has Hgb 10.2 g/dL, MCV 86 fL, serum iron 35 mcg/dL, ferritin 280 ng/mL, and TIBC 180 mcg/dL. How does the clinician differentiate this from iron deficiency anemia?",
         options: [
           "The low TIBC and elevated ferritin indicate iron deficiency",
           "This is anemia of chronic disease: the ferritin is elevated (not low) and TIBC is low (not elevated), which is the opposite pattern of iron deficiency",
@@ -623,7 +623,7 @@ export const labsDiagnosticsLessons: Record<string, LessonContent> = {
       },
       {
         question:
-          "Case: A 45-year-old patient presents with palpitations and a 10-pound weight loss. TSH is 0.05 mIU/L, free T4 is 3.2 ng/dL, and free T3 is 8.1 pg/mL. The NP suspects Graves disease. Which additional test would confirm the etiology?",
+          "Case: A 45-year-old patient presents with palpitations and a 10-pound weight loss. TSH is 0.05 mIU/L, free T4 is 3.2 ng/dL, and free T3 is 8.1 pg/mL. The clinician suspects Graves disease. Which additional test would confirm the etiology?",
         options: [
           "Repeat TSH in 6 weeks",
           "Order thyroid-stimulating immunoglobulin (TSI) or TSH receptor antibodies, which are positive in Graves disease",
@@ -635,7 +635,7 @@ export const labsDiagnosticsLessons: Record<string, LessonContent> = {
       },
       {
         question:
-          "Case: A patient presents with a HbA1c of 6.2%. The patient asks the NP what this means. Which response is most accurate?",
+          "Case: A patient presents with a HbA1c of 6.2%. The patient asks the clinician what this means. Which response is most accurate?",
         options: [
           "This is normal and there is no concern",
           "This falls in the prediabetes range (5.7-6.4%), indicating the patient is at increased risk for developing type 2 diabetes and lifestyle modifications should be initiated",
@@ -648,7 +648,7 @@ export const labsDiagnosticsLessons: Record<string, LessonContent> = {
       },
       {
         question:
-          "Case: A 50-year-old male presents for routine screening. PSA is 5.2 ng/mL (normal <4.0). He is anxious about prostate cancer. How should the NP counsel the patient?",
+          "Case: A 50-year-old male presents for routine screening. PSA is 5.2 ng/mL (normal <4.0). He is anxious about prostate cancer. How should the clinician counsel the patient?",
         options: [
           "A PSA of 5.2 confirms prostate cancer and urgent biopsy is needed",
           "PSA can be elevated from benign prostatic hyperplasia, prostatitis, recent ejaculation, or vigorous exercise, and a mildly elevated value requires shared decision-making about further workup rather than immediate biopsy",
@@ -674,7 +674,7 @@ export const labsDiagnosticsLessons: Record<string, LessonContent> = {
       },
       {
         question:
-          "Case: A patient with chronic kidney disease has a GFR of 22 mL/min. The NP is considering ordering a CT scan with contrast for abdominal pain. What is the primary concern?",
+          "Case: A patient with chronic kidney disease has a GFR of 22 mL/min. The clinician is considering ordering a CT scan with contrast for abdominal pain. What is the primary concern?",
         options: [
           "CT scans are contraindicated in all kidney disease",
           "Iodinated contrast can cause contrast-induced nephropathy, which is especially dangerous in patients with GFR less than 30 mL/min, and non-contrast alternatives or protective measures should be considered",
@@ -683,7 +683,7 @@ export const labsDiagnosticsLessons: Record<string, LessonContent> = {
         ],
         correct: 1,
         rationale:
-          "Patients with GFR <30 mL/min are at high risk for contrast-induced nephropathy (CIN) from iodinated contrast. The NP should consider non-contrast alternatives (ultrasound, MRI without gadolinium), or if contrast CT is essential, implement protective measures including IV hydration before and after the procedure, using the minimum contrast volume, and monitoring renal function afterward.",
+          "Patients with GFR <30 mL/min are at high risk for contrast-induced nephropathy (CIN) from iodinated contrast. The clinician should consider non-contrast alternatives (ultrasound, MRI without gadolinium), or if contrast CT is essential, implement protective measures including IV hydration before and after the procedure, using the minimum contrast volume, and monitoring renal function afterward.",
       },
       {
         question:

@@ -2,9 +2,9 @@ import type { LessonContent } from "./types";
 
 export const nursingCalculationsLessons: Record<string, LessonContent> = {
   "nursing-calc-rpn": {
-    title: "RPN Medication Calculations",
+    title: "Medication Calculations",
     cellular: {
-      title: "Foundations of Dosage Calculations for Practical Nurses",
+      title: "Foundations of Dosage Calculations",
       content:
         "Medication calculation competency is a foundational nursing skill that directly impacts patient safety. The desired-over-have multiplied by quantity (D/H x Q) method provides a systematic approach for determining the correct dose of oral, subcutaneous, and reconstituted medications. Unit conversions between metric measurements such as milligrams to micrograms (multiply by 1000), millilitres to litres (divide by 1000), and kilograms to pounds (multiply by 2.2) are essential prerequisites for accurate dosing. Safe dose range verification requires comparing the ordered dose against the recommended range in a drug reference, and documenting intake and output accurately supports ongoing assessment of fluid balance and renal function."
     },
@@ -109,9 +109,9 @@ export const nursingCalculationsLessons: Record<string, LessonContent> = {
   },
 
   "nursing-calc-rn": {
-    title: "RN Advanced Medication Calculations",
+    title: "Advanced Medication Calculations",
     cellular: {
-      title: "Advanced Dosing and IV Infusion Calculations for Registered Nurses",
+      title: "Dosing and IV Infusion Calculations for",
       content:
         "Registered nurses must perform complex medication calculations involving intravenous drip rates, weight-based dosing for critical care infusions, and multi-step dimensional analysis problems. IV drip rate calculations require knowledge of the drop factor (gtt/mL) provided by the tubing set and the ordered infusion rate to determine drops per minute. Weight-based infusions such as dopamine (mcg/kg/min) and heparin (units/hr) demand precise patient weight measurement and continuous titration based on clinical response and laboratory values. Heparin titration protocols integrate bolus dose calculations with continuous drip adjustments guided by activated partial thromboplastin time (aPTT) results, requiring the nurse to recalculate doses at specified intervals."
     },
@@ -211,9 +211,9 @@ export const nursingCalculationsLessons: Record<string, LessonContent> = {
   },
 
   "nursing-calc-np": {
-    title: "NP Prescribing Calculations",
+    title: "Prescribing Calculations",
     cellular: {
-      title: "Advanced Prescribing Calculations for Nurse Practitioners",
+      title: "Advanced Prescribing Calculations",
       content:
         "Nurse practitioners must integrate pharmacokinetic principles with patient-specific variables to calculate safe and effective medication doses. Renal dose adjustment requires calculating creatinine clearance using the Cockcroft-Gault equation: CrCl = [(140 - age) x weight in kg x (0.85 if female)] / (72 x serum creatinine in mg/dL), which determines the appropriate dose reduction for renally eliminated drugs. Hepatic dose adjustments use the Child-Pugh classification to score liver dysfunction severity and guide dose modification for hepatically metabolized medications. Opioid equianalgesic conversions using morphine milligram equivalents (MME) are critical for safe opioid rotation, and pediatric prescribing demands precise weight-based calculations verified against age-appropriate maximum doses."
     },

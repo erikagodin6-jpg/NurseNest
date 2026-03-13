@@ -3,11 +3,11 @@ const imgFebrileSeizures = "/attached_assets/febrileseizures_1773374861631.png";
 
 export const clinicalConditionsBatchBLessons: Record<string, LessonContent> = {
   "febrile-seizures-rpn": {
-    title: "Febrile Seizures: RPN Monitoring",
+    title: "Febrile Seizures",
     image: imgFebrileSeizures,
     cellular: {
       title: "Thermoregulatory Seizure Pathophysiology",
-      content: "Febrile seizures occur in children aged 6 months to 5 years when a rapid rise in body temperature lowers the seizure threshold in the immature central nervous system. The developing brain has increased neuronal excitability and incomplete myelination, making it vulnerable to temperature-induced depolarization cascades. Simple febrile seizures are generalized, last less than 15 minutes, and do not recur within 24 hours. Complex febrile seizures are focal, prolonged (>15 minutes), or recur within 24 hours. The RPN monitors vital signs, ensures seizure safety, times seizure duration, administers antipyretics as ordered, and reports all findings to the RN."
+      content: "Febrile seizures occur in children aged 6 months to 5 years when a rapid rise in body temperature lowers the seizure threshold in the immature central nervous system. The developing brain has increased neuronal excitability and incomplete myelination, making it vulnerable to temperature-induced depolarization cascades. Simple febrile seizures are generalized, last less than 15 minutes, and do not recur within 24 hours. Complex febrile seizures are focal, prolonged (>15 minutes), or recur within 24 hours. The nurse monitors vital signs, ensures seizure safety, times seizure duration, administers antipyretics as ordered, and reports all findings to the RN."
     },
     riskFactors: [
       "Age 6 months to 5 years",
@@ -80,11 +80,11 @@ export const clinicalConditionsBatchBLessons: Record<string, LessonContent> = {
   },
 
   "febrile-seizures-rn": {
-    title: "Febrile Seizures: RN Clinical Management",
+    title: "Febrile Seizures",
     image: imgFebrileSeizures,
     cellular: {
       title: "Neuronal Excitability and Thermoregulation",
-      content: "Febrile seizures result from the interaction between an immature central nervous system and rapid temperature elevation. The pediatric brain has a lower seizure threshold due to incomplete myelination, higher neuronal density, and greater excitatory-to-inhibitory neurotransmitter ratios. Pro-inflammatory cytokines (IL-1β, TNF-α) released during febrile illness further lower the seizure threshold by enhancing glutamate activity and reducing GABA-mediated inhibition. The RN performs comprehensive neurological assessment, differentiates simple from complex febrile seizures, implements seizure protocols, manages antipyretic therapy, coordinates diagnostic workup, and provides evidence-based parent education."
+      content: "Febrile seizures result from the interaction between an immature central nervous system and rapid temperature elevation. The pediatric brain has a lower seizure threshold due to incomplete myelination, higher neuronal density, and greater excitatory-to-inhibitory neurotransmitter ratios. Pro-inflammatory cytokines (IL-1β, TNF-α) released during febrile illness further lower the seizure threshold by enhancing glutamate activity and reducing GABA-mediated inhibition. The nurse performs comprehensive neurological assessment, differentiates simple from complex febrile seizures, implements seizure protocols, manages antipyretic therapy, coordinates diagnostic workup, and provides evidence-based parent education."
     },
     riskFactors: [
       "Age 6 months to 5 years (peak incidence 12-18 months)",
@@ -155,18 +155,18 @@ export const clinicalConditionsBatchBLessons: Record<string, LessonContent> = {
       "Children with complex febrile seizures have a slightly higher (2-5%) risk of later epilepsy compared to 1% for simple febrile seizures"
     ],
     quiz: [
-      { question: "A 14-month-old presents with a first-time febrile seizure. Which assessment finding would prompt the RN to request a lumbar puncture?", options: ["Temperature of 39°C", "Seizure duration of 2 minutes", "Bulging fontanelle and inconsolable crying", "Post-ictal drowsiness lasting 20 minutes"], correct: 2, rationale: "A bulging fontanelle and inconsolable crying are concerning for meningitis. In children <12-18 months, meningeal signs may be subtle, and a lumbar puncture is strongly considered to rule out CNS infection." },
+      { question: "A 14-month-old presents with a first-time febrile seizure. Which assessment finding would prompt the nurse to request a lumbar puncture?", options: ["Temperature of 39°C", "Seizure duration of 2 minutes", "Bulging fontanelle and inconsolable crying", "Post-ictal drowsiness lasting 20 minutes"], correct: 2, rationale: "A bulging fontanelle and inconsolable crying are concerning for meningitis. In children <12-18 months, meningeal signs may be subtle, and a lumbar puncture is strongly considered to rule out CNS infection." },
       { question: "Which classification criteria indicates a complex febrile seizure?", options: ["Generalized tonic-clonic activity lasting 3 minutes", "Focal seizure with left arm jerking lasting 20 minutes", "Single seizure episode in a 2-year-old with fever", "Post-ictal drowsiness for 15 minutes"], correct: 1, rationale: "A focal seizure lasting >15 minutes meets criteria for complex febrile seizure. Complex features include focal onset, duration >15 minutes, or recurrence within 24 hours." },
-      { question: "A parent asks the RN if giving acetaminophen around the clock during illness will prevent febrile seizures. What is the evidence-based response?", options: ["Yes, scheduled antipyretics effectively prevent febrile seizures", "No, studies have shown that antipyretics do not prevent febrile seizure recurrence", "Yes, alternating acetaminophen and ibuprofen eliminates seizure risk", "Antipyretics should be avoided during febrile illnesses in children"], correct: 1, rationale: "Research consistently demonstrates that antipyretics, while effective for treating fever and improving comfort, do not prevent febrile seizure recurrence. Parents should be counseled accordingly." }
+      { question: "A parent asks the nurse if giving acetaminophen around the clock during illness will prevent febrile seizures. What is the evidence-based response?", options: ["Yes, scheduled antipyretics effectively prevent febrile seizures", "No, studies have shown that antipyretics do not prevent febrile seizure recurrence", "Yes, alternating acetaminophen and ibuprofen eliminates seizure risk", "Antipyretics should be avoided during febrile illnesses in children"], correct: 1, rationale: "Research consistently demonstrates that antipyretics, while effective for treating fever and improving comfort, do not prevent febrile seizure recurrence. Parents should be counseled accordingly." }
     ]
   },
 
   "febrile-seizures-np": {
-    title: "Febrile Seizures: NP Diagnostic & Prescriptive Management",
+    title: "Febrile Seizures",
     image: imgFebrileSeizures,
     cellular: {
-      title: "Advanced Seizure Neurophysiology and Febrile Response",
-      content: "Febrile seizures arise from the convergence of age-dependent neuronal hyperexcitability and systemic inflammatory response. The immature brain exhibits enhanced excitatory amino acid (glutamate, aspartate) neurotransmission, reduced GABAergic inhibition, and incomplete axonal myelination, creating a low seizure threshold. Pyrogens (IL-1β, IL-6, TNF-α, PGE2) act on hypothalamic thermoregulatory centers to reset the temperature set-point while simultaneously enhancing neuronal excitability through direct effects on ion channel kinetics—accelerating sodium channel recovery and reducing potassium conductance. Genetic susceptibility loci (FEB1-FEB8) influence channelopathy variants, particularly SCN1A and GABRG2 mutations, which overlap with genetic epilepsy syndromes. The NP must conduct differential diagnosis, order and interpret diagnostic workup, prescribe treatment, determine need for neuroimaging or EEG, and manage long-term seizure recurrence planning."
+      title: "Seizure Neurophysiology and Febrile Response",
+      content: "Febrile seizures arise from the convergence of age-dependent neuronal hyperexcitability and systemic inflammatory response. The immature brain exhibits enhanced excitatory amino acid (glutamate, aspartate) neurotransmission, reduced GABAergic inhibition, and incomplete axonal myelination, creating a low seizure threshold. Pyrogens (IL-1β, IL-6, TNF-α, PGE2) act on hypothalamic thermoregulatory centers to reset the temperature set-point while simultaneously enhancing neuronal excitability through direct effects on ion channel kinetics—accelerating sodium channel recovery and reducing potassium conductance. Genetic susceptibility loci (FEB1-FEB8) influence channelopathy variants, particularly SCN1A and GABRG2 mutations, which overlap with genetic epilepsy syndromes. The clinician must conduct differential diagnosis, order and interpret diagnostic workup, prescribe treatment, determine need for neuroimaging or EEG, and manage long-term seizure recurrence planning."
     },
     riskFactors: [
       "Age 6-60 months with peak at 12-18 months",
@@ -239,15 +239,15 @@ export const clinicalConditionsBatchBLessons: Record<string, LessonContent> = {
     quiz: [
       { question: "A 10-month-old presents with a first simple febrile seizure. The child is up-to-date on vaccines and has a normal neurological exam. Which diagnostic is most appropriate?", options: ["Emergent CT scan of the head", "Routine EEG within 24 hours", "Evaluation for source of fever; lumbar puncture should be considered given age", "No workup is needed; discharge home immediately"], correct: 2, rationale: "For children 6-12 months with a first febrile seizure, lumbar puncture should be considered as meningeal signs can be unreliable at this age. Source of fever should be identified. EEG and neuroimaging are not routinely indicated for simple febrile seizures." },
       { question: "A parent requests daily anti-seizure medication for their child who has had two simple febrile seizures. What is the NP's evidence-based response?", options: ["Prescribe phenobarbital daily as it is proven to prevent recurrence", "Prescribe levetiracetam as first-line prophylaxis", "Explain that AAP guidelines do not recommend daily AEDs for simple febrile seizures due to unfavorable risk-benefit ratio", "Start valproic acid immediately to prevent brain damage"], correct: 2, rationale: "The AAP strongly recommends against daily anti-epileptic drugs for simple febrile seizures. The side effects of chronic AED therapy outweigh the benefits, and febrile seizures are benign with no evidence of brain damage or increased epilepsy risk." },
-      { question: "Which finding in a febrile child should prompt the NP to order neuroimaging?", options: ["Post-ictal drowsiness lasting 20 minutes", "Generalized seizure lasting 2 minutes", "Persistent focal neurological deficit after post-ictal period resolves", "Temperature of 40°C with bilateral tonic-clonic seizure"], correct: 2, rationale: "A persistent focal neurological deficit after the post-ictal period suggests a structural brain lesion and warrants neuroimaging (MRI preferred). Post-ictal drowsiness and brief generalized seizures are expected in simple febrile seizures." }
+      { question: "Which finding in a febrile child should prompt the clinician to order neuroimaging?", options: ["Post-ictal drowsiness lasting 20 minutes", "Generalized seizure lasting 2 minutes", "Persistent focal neurological deficit after post-ictal period resolves", "Temperature of 40°C with bilateral tonic-clonic seizure"], correct: 2, rationale: "A persistent focal neurological deficit after the post-ictal period suggests a structural brain lesion and warrants neuroimaging (MRI preferred). Post-ictal drowsiness and brief generalized seizures are expected in simple febrile seizures." }
     ]
   },
 
   "iron-deficiency-anemia-rpn": {
-    title: "Iron Deficiency Anemia: RPN Monitoring",
+    title: "Iron Deficiency Anemia",
     cellular: {
       title: "Iron and Erythropoiesis",
-      content: "Iron deficiency anemia (IDA) is the most common nutritional deficiency worldwide, resulting from inadequate iron stores to support hemoglobin synthesis. Iron is essential for the heme molecule within hemoglobin, which carries oxygen in red blood cells. When iron stores are depleted, the bone marrow produces small (microcytic), pale (hypochromic) red blood cells with reduced oxygen-carrying capacity. This leads to tissue hypoxia, compensatory tachycardia, and fatigue. The RPN monitors for signs and symptoms of anemia, administers iron supplements and other medications as ordered, reinforces dietary education, and reports changes in patient status."
+      content: "Iron deficiency anemia (IDA) is the most common nutritional deficiency worldwide, resulting from inadequate iron stores to support hemoglobin synthesis. Iron is essential for the heme molecule within hemoglobin, which carries oxygen in red blood cells. When iron stores are depleted, the bone marrow produces small (microcytic), pale (hypochromic) red blood cells with reduced oxygen-carrying capacity. This leads to tissue hypoxia, compensatory tachycardia, and fatigue. The nurse monitors for signs and symptoms of anemia, administers iron supplements and other medications as ordered, reinforces dietary education, and reports changes in patient status."
     },
     riskFactors: [
       "Inadequate dietary iron intake",
@@ -315,16 +315,16 @@ export const clinicalConditionsBatchBLessons: Record<string, LessonContent> = {
     ],
     quiz: [
       { question: "A patient on oral iron therapy reports black stools. What is the appropriate RPN action?", options: ["Hold the iron supplement and report immediately", "Reassure the patient that dark stools are an expected side effect of oral iron", "Perform a stool guaiac test immediately", "Increase the iron dose"], correct: 1, rationale: "Dark or black stools are a normal and expected side effect of oral iron supplementation. The patient should be reassured that this is not concerning as long as there are no other signs of GI bleeding." },
-      { question: "Which instruction should the RPN reinforce regarding oral iron administration?", options: ["Take iron with milk to reduce stomach upset", "Take iron with vitamin C or orange juice to enhance absorption", "Take iron with antacids to prevent nausea", "Take iron with calcium supplements for best absorption"], correct: 1, rationale: "Vitamin C enhances iron absorption by reducing ferric iron to ferrous iron. Milk, antacids, and calcium inhibit iron absorption and should be separated from iron doses by at least 2 hours." },
+      { question: "Which instruction should the nurse reinforce regarding oral iron administration?", options: ["Take iron with milk to reduce stomach upset", "Take iron with vitamin C or orange juice to enhance absorption", "Take iron with antacids to prevent nausea", "Take iron with calcium supplements for best absorption"], correct: 1, rationale: "Vitamin C enhances iron absorption by reducing ferric iron to ferrous iron. Milk, antacids, and calcium inhibit iron absorption and should be separated from iron doses by at least 2 hours." },
       { question: "Which assessment finding is most indicative of iron deficiency anemia?", options: ["Jaundice and dark urine", "Spoon-shaped nails and pica", "Petechiae and purpura", "Lymphadenopathy and night sweats"], correct: 1, rationale: "Koilonychia (spoon-shaped nails) and pica (craving non-food items like ice) are classic signs specific to iron deficiency anemia. Jaundice suggests hemolytic anemia; petechiae suggest thrombocytopenia." }
     ]
   },
 
   "iron-deficiency-anemia-rn": {
-    title: "Iron Deficiency Anemia: RN Clinical Management",
+    title: "Iron Deficiency Anemia",
     cellular: {
       title: "Iron Metabolism and Hematopoiesis",
-      content: "Iron deficiency anemia (IDA) develops through three progressive stages: (1) iron depletion—reduced ferritin stores with normal hemoglobin; (2) iron-deficient erythropoiesis—low serum iron, elevated TIBC, reduced transferrin saturation (<20%), with early microcytosis; (3) iron deficiency anemia—low hemoglobin with microcytic, hypochromic RBCs and elevated RDW. The body absorbs dietary iron primarily in the duodenum via divalent metal transporter-1 (DMT1), with hepcidin acting as the master regulator of iron homeostasis. The RN performs comprehensive assessment, interprets laboratory trends, manages transfusion therapy for severe cases, administers IV iron infusions, monitors for adverse reactions, and provides individualized patient education."
+      content: "Iron deficiency anemia (IDA) develops through three progressive stages: (1) iron depletion—reduced ferritin stores with normal hemoglobin; (2) iron-deficient erythropoiesis—low serum iron, elevated TIBC, reduced transferrin saturation (<20%), with early microcytosis; (3) iron deficiency anemia—low hemoglobin with microcytic, hypochromic RBCs and elevated RDW. The body absorbs dietary iron primarily in the duodenum via divalent metal transporter-1 (DMT1), with hepcidin acting as the master regulator of iron homeostasis. The nurse performs comprehensive assessment, interprets laboratory trends, manages transfusion therapy for severe cases, administers IV iron infusions, monitors for adverse reactions, and provides individualized patient education."
     },
     riskFactors: [
       "Menorrhagia (most common cause in premenopausal women)",
@@ -402,10 +402,10 @@ export const clinicalConditionsBatchBLessons: Record<string, LessonContent> = {
   },
 
   "iron-deficiency-anemia-np": {
-    title: "Iron Deficiency Anemia: NP Diagnostic & Prescriptive Management",
+    title: "Iron Deficiency Anemia",
     cellular: {
-      title: "Advanced Iron Homeostasis and Differential Diagnosis",
-      content: "Iron homeostasis is regulated by the hepcidin-ferroportin axis. Hepcidin, a hepatic peptide hormone, is the master regulator: it binds to ferroportin (the sole iron exporter on enterocytes and macrophages), causing its internalization and degradation, thereby reducing iron absorption and release from stores. In iron deficiency, hepcidin is suppressed, maximizing iron absorption. In anemia of chronic disease (ACD), inflammatory cytokines (IL-6) upregulate hepcidin, trapping iron in macrophages despite adequate stores—creating functional iron deficiency. The NP must differentiate IDA from ACD, thalassemia trait, and sideroblastic anemia using advanced iron studies, prescribe appropriate iron formulations (oral vs. parenteral), investigate underlying etiology, and manage refractory cases."
+      title: "Iron Homeostasis and Differential Diagnosis",
+      content: "Iron homeostasis is regulated by the hepcidin-ferroportin axis. Hepcidin, a hepatic peptide hormone, is the master regulator: it binds to ferroportin (the sole iron exporter on enterocytes and macrophages), causing its internalization and degradation, thereby reducing iron absorption and release from stores. In iron deficiency, hepcidin is suppressed, maximizing iron absorption. In anemia of chronic disease (ACD), inflammatory cytokines (IL-6) upregulate hepcidin, trapping iron in macrophages despite adequate stores—creating functional iron deficiency. The clinician must differentiate IDA from ACD, thalassemia trait, and sideroblastic anemia using advanced iron studies, prescribe appropriate iron formulations (oral vs. parenteral), investigate underlying etiology, and manage refractory cases."
     },
     riskFactors: [
       "Chronic blood loss: menorrhagia, GI bleeding (PUD, IBD, angiodysplasia, colorectal cancer), hematuria",
@@ -485,10 +485,10 @@ export const clinicalConditionsBatchBLessons: Record<string, LessonContent> = {
   },
 
   "sickle-cell-crisis-rpn": {
-    title: "Sickle Cell Vaso-Occlusive Crisis: RPN Monitoring",
+    title: "Sickle Cell Vaso-Occlusive Crisis",
     cellular: {
-      title: "Hemoglobin S Polymerization and Vascular Occlusion",
-      content: "Sickle cell disease (SCD) is an autosomal recessive hemoglobinopathy caused by a point mutation in the beta-globin gene, producing hemoglobin S (HbS). Under conditions of deoxygenation, dehydration, acidosis, or cold exposure, HbS polymerizes into rigid fibers that deform the red blood cell into a crescent (sickle) shape. These rigid cells cannot navigate small capillaries, causing vaso-occlusion, tissue ischemia, and intense pain. Chronic hemolysis leads to baseline anemia, jaundice, and gallstones. The RPN monitors pain levels, administers medications as ordered, maintains hydration, and reports changes in patient condition to the RN."
+      title: "Hemoglobin S Polymerization",
+      content: "Sickle cell disease (SCD) is an autosomal recessive hemoglobinopathy caused by a point mutation in the beta-globin gene, producing hemoglobin S (HbS). Under conditions of deoxygenation, dehydration, acidosis, or cold exposure, HbS polymerizes into rigid fibers that deform the red blood cell into a crescent (sickle) shape. These rigid cells cannot navigate small capillaries, causing vaso-occlusion, tissue ischemia, and intense pain. Chronic hemolysis leads to baseline anemia, jaundice, and gallstones. The nurse monitors pain levels, administers medications as ordered, maintains hydration, and reports changes in patient condition to the RN."
     },
     riskFactors: [
       "Homozygous HbSS genotype (most severe form)",
@@ -556,17 +556,17 @@ export const clinicalConditionsBatchBLessons: Record<string, LessonContent> = {
       "Acute chest syndrome (fever + new pulmonary infiltrate + respiratory symptoms) is the leading cause of death in SCD"
     ],
     quiz: [
-      { question: "Which intervention should the RPN avoid when caring for a patient in sickle cell crisis?", options: ["Applying warm compresses to painful areas", "Administering IV fluids as ordered", "Applying ice packs to swollen joints", "Encouraging incentive spirometry"], correct: 2, rationale: "Cold application (ice packs) causes vasoconstriction and promotes further sickling and vaso-occlusion. Only warm compresses should be used for sickle cell pain." },
-      { question: "A patient in sickle cell crisis develops fever of 39°C, cough, and chest pain. Which complication should the RPN suspect and report immediately?", options: ["Pneumothorax", "Acute chest syndrome", "Pulmonary embolism", "Pleural effusion"], correct: 1, rationale: "Acute chest syndrome (fever + new pulmonary infiltrate + respiratory symptoms) is a life-threatening complication of sickle cell disease and the leading cause of death in SCD patients." },
+      { question: "Which intervention should the nurse avoid when caring for a patient in sickle cell crisis?", options: ["Applying warm compresses to painful areas", "Administering IV fluids as ordered", "Applying ice packs to swollen joints", "Encouraging incentive spirometry"], correct: 2, rationale: "Cold application (ice packs) causes vasoconstriction and promotes further sickling and vaso-occlusion. Only warm compresses should be used for sickle cell pain." },
+      { question: "A patient in sickle cell crisis develops fever of 39°C, cough, and chest pain. Which complication should the nurse suspect and report immediately?", options: ["Pneumothorax", "Acute chest syndrome", "Pulmonary embolism", "Pleural effusion"], correct: 1, rationale: "Acute chest syndrome (fever + new pulmonary infiltrate + respiratory symptoms) is a life-threatening complication of sickle cell disease and the leading cause of death in SCD patients." },
       { question: "Why is aggressive IV hydration essential during a vaso-occlusive crisis?", options: ["To dilute sickle hemoglobin and increase pain medication effectiveness", "To reduce blood viscosity and HbS concentration, improving blood flow through small vessels", "To flush out sickle cells from the body", "To prevent kidney stones"], correct: 1, rationale: "IV hydration reduces blood viscosity and HbS concentration, improves blood flow through capillaries, and helps prevent further vaso-occlusion. Dehydration is a major trigger for sickling." }
     ]
   },
 
   "sickle-cell-crisis-rn": {
-    title: "Sickle Cell Vaso-Occlusive Crisis: RN Clinical Management",
+    title: "Sickle Cell Vaso-Occlusive Crisis",
     cellular: {
-      title: "Pathophysiology of Vaso-Occlusion and Chronic Hemolysis",
-      content: "In sickle cell disease, the valine-for-glutamic acid substitution at position 6 of the beta-globin chain produces hemoglobin S. Under deoxygenation, HbS molecules polymerize into long, rigid fibers that distort RBC morphology into sickle shapes. These deformed cells adhere to vascular endothelium via adhesion molecules (VCAM-1, ICAM-1, P-selectin), activate the coagulation cascade, and recruit neutrophils—creating a feedforward cycle of vaso-occlusion, ischemia, and reperfusion injury. Chronic intravascular hemolysis releases free hemoglobin, which scavenges nitric oxide (NO), causing endothelial dysfunction, pulmonary hypertension, and stroke risk. The RN manages comprehensive pain protocols, administers transfusions, monitors for acute complications, coordinates multidisciplinary care, and provides culturally sensitive pain management."
+      title: "Vaso-Occlusion and Chronic Hemolysis",
+      content: "In sickle cell disease, the valine-for-glutamic acid substitution at position 6 of the beta-globin chain produces hemoglobin S. Under deoxygenation, HbS molecules polymerize into long, rigid fibers that distort RBC morphology into sickle shapes. These deformed cells adhere to vascular endothelium via adhesion molecules (VCAM-1, ICAM-1, P-selectin), activate the coagulation cascade, and recruit neutrophils—creating a feedforward cycle of vaso-occlusion, ischemia, and reperfusion injury. Chronic intravascular hemolysis releases free hemoglobin, which scavenges nitric oxide (NO), causing endothelial dysfunction, pulmonary hypertension, and stroke risk. The nurse manages comprehensive pain protocols, administers transfusions, monitors for acute complications, coordinates multidisciplinary care, and provides culturally sensitive pain management."
     },
     riskFactors: [
       "HbSS (sickle cell anemia—most severe), HbSC, HbS-beta-thalassemia",
@@ -645,10 +645,10 @@ export const clinicalConditionsBatchBLessons: Record<string, LessonContent> = {
   },
 
   "sickle-cell-crisis-np": {
-    title: "Sickle Cell Crisis: NP Diagnostic & Prescriptive Management",
+    title: "Sickle Cell Crisis",
     cellular: {
-      title: "Advanced Hemoglobinopathy Management and Disease Modification",
-      content: "Sickle cell disease pathophysiology extends beyond simple vaso-occlusion to encompass sterile inflammation, chronic hemolysis-mediated vasculopathy, and progressive end-organ damage. Free hemoglobin released during intravascular hemolysis scavenges nitric oxide (NO) and generates reactive oxygen species, causing endothelial dysfunction, increased adhesion molecule expression, platelet activation, and a chronic hypercoagulable state. This NO depletion contributes to pulmonary hypertension (present in ~30% of adults with SCD), leg ulcers, priapism, and cerebrovascular disease. Disease-modifying therapies target multiple pathways: hydroxyurea increases HbF, L-glutamine reduces oxidative stress, crizanlizumab blocks P-selectin-mediated adhesion, and voxelotor increases HbS oxygen affinity. The NP must diagnose genotype-specific complications, prescribe and monitor disease-modifying agents, manage chronic organ damage, coordinate genetic counseling, and direct acute crisis management including exchange transfusion decisions."
+      title: "Hemoglobinopathy Management",
+      content: "Sickle cell disease pathophysiology extends beyond simple vaso-occlusion to encompass sterile inflammation, chronic hemolysis-mediated vasculopathy, and progressive end-organ damage. Free hemoglobin released during intravascular hemolysis scavenges nitric oxide (NO) and generates reactive oxygen species, causing endothelial dysfunction, increased adhesion molecule expression, platelet activation, and a chronic hypercoagulable state. This NO depletion contributes to pulmonary hypertension (present in ~30% of adults with SCD), leg ulcers, priapism, and cerebrovascular disease. Disease-modifying therapies target multiple pathways: hydroxyurea increases HbF, L-glutamine reduces oxidative stress, crizanlizumab blocks P-selectin-mediated adhesion, and voxelotor increases HbS oxygen affinity. The clinician must diagnose genotype-specific complications, prescribe and monitor disease-modifying agents, manage chronic organ damage, coordinate genetic counseling, and direct acute crisis management including exchange transfusion decisions."
     },
     riskFactors: [
       "HbSS genotype (sickle cell anemia—most severe phenotype)",
@@ -727,10 +727,10 @@ export const clinicalConditionsBatchBLessons: Record<string, LessonContent> = {
   },
 
   "pediatric-dehydration-rpn": {
-    title: "Pediatric Dehydration: RPN Assessment & Monitoring",
+    title: "Pediatric Dehydration",
     cellular: {
       title: "Fluid Balance in the Pediatric Patient",
-      content: "Children are more susceptible to dehydration than adults due to higher body surface area-to-weight ratio (greater insensible losses), higher metabolic rate, immature renal concentrating ability, and greater total body water percentage (70-80% in infants vs. 60% in adults). Dehydration occurs when fluid output exceeds intake, most commonly from gastroenteritis (vomiting and diarrhea), fever, or inadequate oral intake. Dehydration is classified as mild (3-5% weight loss), moderate (6-9%), or severe (≥10%). The type (isotonic, hypotonic, or hypertonic) affects clinical presentation and treatment approach. The RPN monitors hydration status, administers oral rehydration and IV fluids as ordered, measures intake and output, and reports clinical changes to the RN."
+      content: "Children are more susceptible to dehydration than adults due to higher body surface area-to-weight ratio (greater insensible losses), higher metabolic rate, immature renal concentrating ability, and greater total body water percentage (70-80% in infants vs. 60% in adults). Dehydration occurs when fluid output exceeds intake, most commonly from gastroenteritis (vomiting and diarrhea), fever, or inadequate oral intake. Dehydration is classified as mild (3-5% weight loss), moderate (6-9%), or severe (≥10%). The type (isotonic, hypotonic, or hypertonic) affects clinical presentation and treatment approach. The nurse monitors hydration status, administers oral rehydration and IV fluids as ordered, measures intake and output, and reports clinical changes to the RN."
     },
     riskFactors: [
       "Age <5 years (especially infants <12 months)",
@@ -797,17 +797,17 @@ export const clinicalConditionsBatchBLessons: Record<string, LessonContent> = {
       "Hypotension is a LATE sign of dehydration in children: tachycardia appears earlier as a compensatory mechanism"
     ],
     quiz: [
-      { question: "An infant with gastroenteritis has dry mucous membranes, a sunken fontanelle, and decreased tears. What degree of dehydration should the RPN report?", options: ["Mild (3-5%)", "Moderate (6-9%)", "Severe (≥10%)", "No dehydration"], correct: 1, rationale: "Dry mucous membranes, sunken fontanelle, and decreased tears are consistent with moderate dehydration (6-9%). Severe dehydration would include absent tears, lethargy, and hemodynamic instability." },
+      { question: "An infant with gastroenteritis has dry mucous membranes, a sunken fontanelle, and decreased tears. What degree of dehydration should the nurse report?", options: ["Mild (3-5%)", "Moderate (6-9%)", "Severe (≥10%)", "No dehydration"], correct: 1, rationale: "Dry mucous membranes, sunken fontanelle, and decreased tears are consistent with moderate dehydration (6-9%). Severe dehydration would include absent tears, lethargy, and hemodynamic instability." },
       { question: "What is the recommended initial approach for managing a mildly dehydrated 2-year-old with gastroenteritis?", options: ["Immediate IV fluid bolus", "Small frequent amounts of oral rehydration solution (5-10 mL every 5 minutes)", "NPO until vomiting stops completely", "Large volumes of fruit juice"], correct: 1, rationale: "For mild dehydration, small frequent volumes of ORS are first-line treatment. Giving 5-10 mL every 5 minutes allows absorption while minimizing vomiting. IV fluids are reserved for severe cases or oral failure." },
       { question: "Which fluid should NOT be used for oral rehydration in a dehydrated child?", options: ["WHO oral rehydration solution", "Pedialyte", "Apple juice or sports drinks", "Breast milk alongside ORS"], correct: 2, rationale: "Apple juice and sports drinks have high osmolality from excessive sugar and inadequate electrolytes, which can worsen diarrhea through osmotic effects. ORS, Pedialyte, or breast milk alongside ORS are appropriate choices." }
     ]
   },
 
   "pediatric-dehydration-rn": {
-    title: "Pediatric Dehydration: RN Clinical Management",
+    title: "Pediatric Dehydration",
     cellular: {
-      title: "Pediatric Fluid Compartment Physiology and Dehydration Pathophysiology",
-      content: "Children have proportionally more total body water (TBW) than adults: neonates ~75% TBW, infants ~65%, compared to ~60% in adults. A larger percentage exists in the extracellular compartment, making children more vulnerable to rapid fluid shifts. The immature kidneys have limited concentrating ability (maximum urine osmolality ~600 mOsm/kg in neonates vs. 1200 in adults), making them less able to compensate for fluid losses. Dehydration classification by tonicity is critical: isotonic (isonatremic, Na 130-150 mEq/L) is most common (~80%), hypotonic (hyponatremic, Na <130) causes cellular swelling and seizure risk, and hypertonic (hypernatremic, Na >150) requires slow correction to prevent cerebral edema. The RN performs comprehensive fluid status assessment, calculates fluid deficits, manages IV rehydration protocols, monitors electrolytes, and recognizes signs of dehydration-related shock."
+      title: "Pediatric Fluid Compartment Physiology",
+      content: "Children have proportionally more total body water (TBW) than adults: neonates ~75% TBW, infants ~65%, compared to ~60% in adults. A larger percentage exists in the extracellular compartment, making children more vulnerable to rapid fluid shifts. The immature kidneys have limited concentrating ability (maximum urine osmolality ~600 mOsm/kg in neonates vs. 1200 in adults), making them less able to compensate for fluid losses. Dehydration classification by tonicity is critical: isotonic (isonatremic, Na 130-150 mEq/L) is most common (~80%), hypotonic (hyponatremic, Na <130) causes cellular swelling and seizure risk, and hypertonic (hypernatremic, Na >150) requires slow correction to prevent cerebral edema. The nurse performs comprehensive fluid status assessment, calculates fluid deficits, manages IV rehydration protocols, monitors electrolytes, and recognizes signs of dehydration-related shock."
     },
     riskFactors: [
       "Age <12 months (highest risk due to immature renal function and high BSA:weight ratio)",
@@ -880,16 +880,16 @@ export const clinicalConditionsBatchBLessons: Record<string, LessonContent> = {
     ],
     quiz: [
       { question: "A 10 kg infant with moderate dehydration (8%) needs rehydration. How much fluid deficit must be replaced?", options: ["400 mL", "800 mL", "1000 mL", "1600 mL"], correct: 1, rationale: "Fluid deficit = weight (kg) × % dehydration × 10 = 10 × 8 × 10 = 800 mL. This deficit is replaced over 24 hours in addition to maintenance fluids." },
-      { question: "An infant with hypernatremic dehydration (Na 165 mEq/L) is being rehydrated. The serum sodium drops from 165 to 150 in 6 hours. What should the RN do?", options: ["Continue the current rate as the sodium is correcting", "Slow the rehydration rate because sodium is correcting too rapidly", "Increase the rehydration rate to normalize sodium faster", "Stop all fluids and recheck in 2 hours"], correct: 1, rationale: "Sodium dropped 15 mEq/L in 6 hours (2.5 mEq/L/hour), which exceeds the safe rate of ≤0.5 mEq/L/hour. The rehydration rate must be slowed to prevent cerebral edema from rapid osmotic shifts." },
-      { question: "Before adding potassium chloride to a dehydrated child's IV fluids, which assessment must the RN confirm?", options: ["The child has a normal temperature", "The child has established urine output", "The child's sodium level is normal", "The child has been NPO for 4 hours"], correct: 1, rationale: "Potassium should never be added to IV fluids until adequate urine output is confirmed. In a dehydrated child with decreased renal perfusion, administering potassium risks life-threatening hyperkalemia." }
+      { question: "An infant with hypernatremic dehydration (Na 165 mEq/L) is being rehydrated. The serum sodium drops from 165 to 150 in 6 hours. What should the nurse do?", options: ["Continue the current rate as the sodium is correcting", "Slow the rehydration rate because sodium is correcting too rapidly", "Increase the rehydration rate to normalize sodium faster", "Stop all fluids and recheck in 2 hours"], correct: 1, rationale: "Sodium dropped 15 mEq/L in 6 hours (2.5 mEq/L/hour), which exceeds the safe rate of ≤0.5 mEq/L/hour. The rehydration rate must be slowed to prevent cerebral edema from rapid osmotic shifts." },
+      { question: "Before adding potassium chloride to a dehydrated child's IV fluids, which assessment must the nurse confirm?", options: ["The child has a normal temperature", "The child has established urine output", "The child's sodium level is normal", "The child has been NPO for 4 hours"], correct: 1, rationale: "Potassium should never be added to IV fluids until adequate urine output is confirmed. In a dehydrated child with decreased renal perfusion, administering potassium risks life-threatening hyperkalemia." }
     ]
   },
 
   "pediatric-dehydration-np": {
-    title: "Pediatric Dehydration: NP Diagnostic & Prescriptive Management",
+    title: "Pediatric Dehydration",
     cellular: {
-      title: "Advanced Pediatric Fluid Physiology and Dysnatremia Management",
-      content: "The NP managing pediatric dehydration must integrate developmental physiology, fluid compartment dynamics, and electrolyte correction strategies. Neonates have ~75% TBW with 40% in the extracellular fluid (ECF), making them vulnerable to rapid dehydration. The immature nephron has limited concentrating ability (600 mOsm/kg vs. 1200 in adults), limited sodium conservation, and a lower GFR. Isotonic dehydration (Na 130-150) reflects proportional water-sodium loss and is the most common (80%). Hyponatremic dehydration (Na <130) from hypotonic fluid replacement causes water to shift intracellularly, producing cerebral edema risk. Hypernatremic dehydration (Na >150) from free water loss causes water to shift extracellularly, and overly rapid correction can produce cerebral edema from reverse osmotic shift. The NP must classify dehydration by severity and tonicity, calculate fluid deficit and maintenance requirements, prescribe electrolyte correction protocols, and investigate underlying etiology."
+      title: "Pediatric Fluid Physiology",
+      content: "The clinician managing pediatric dehydration must integrate developmental physiology, fluid compartment dynamics, and electrolyte correction strategies. Neonates have ~75% TBW with 40% in the extracellular fluid (ECF), making them vulnerable to rapid dehydration. The immature nephron has limited concentrating ability (600 mOsm/kg vs. 1200 in adults), limited sodium conservation, and a lower GFR. Isotonic dehydration (Na 130-150) reflects proportional water-sodium loss and is the most common (80%). Hyponatremic dehydration (Na <130) from hypotonic fluid replacement causes water to shift intracellularly, producing cerebral edema risk. Hypernatremic dehydration (Na >150) from free water loss causes water to shift extracellularly, and overly rapid correction can produce cerebral edema from reverse osmotic shift. The clinician must classify dehydration by severity and tonicity, calculate fluid deficit and maintenance requirements, prescribe electrolyte correction protocols, and investigate underlying etiology."
     },
     riskFactors: [
       "Neonates and infants <6 months (highest vulnerability due to immature renal function, high BSA:weight ratio, dependence on caregiver for fluids)",
@@ -961,7 +961,7 @@ export const clinicalConditionsBatchBLessons: Record<string, LessonContent> = {
       "Pyloric stenosis classically presents with hypochloremic, hypokalemic metabolic alkalosis (the only surgical cause of non-anion gap metabolic alkalosis in infants)"
     ],
     quiz: [
-      { question: "A 3-week-old presents with projectile non-bilious vomiting, a palpable olive-shaped mass, and lab values showing pH 7.52, Cl- 88, K+ 3.0. Which diagnosis should the NP suspect?", options: ["Gastroenteritis", "Intussusception", "Pyloric stenosis", "Malrotation with volvulus"], correct: 2, rationale: "Projectile non-bilious vomiting in a 3-6 week old with an olive-shaped epigastric mass and hypochloremic hypokalemic metabolic alkalosis is the classic presentation of pyloric stenosis. The metabolic alkalosis results from loss of HCl through persistent vomiting." },
+      { question: "A 3-week-old presents with projectile non-bilious vomiting, a palpable olive-shaped mass, and lab values showing pH 7.52, Cl- 88, K+ 3.0. Which diagnosis should the clinician suspect?", options: ["Gastroenteritis", "Intussusception", "Pyloric stenosis", "Malrotation with volvulus"], correct: 2, rationale: "Projectile non-bilious vomiting in a 3-6 week old with an olive-shaped epigastric mass and hypochloremic hypokalemic metabolic alkalosis is the classic presentation of pyloric stenosis. The metabolic alkalosis results from loss of HCl through persistent vomiting." },
       { question: "A child with hypernatremic dehydration (Na 170 mEq/L) is being rehydrated. Over what time period should the deficit be corrected?", options: ["4-6 hours", "12-24 hours", "48-72 hours", "1 week"], correct: 2, rationale: "Hypernatremic dehydration requires slow correction over 48-72 hours at a rate of ≤0.5 mEq/L/hour (≤12 mEq/24h) to prevent cerebral edema from rapid osmotic fluid shifts into brain cells." },
       { question: "An NP is managing a 2-year-old with moderate dehydration from gastroenteritis. Which evidence-based adjunct therapy should be prescribed alongside ORS?", options: ["Loperamide to reduce diarrhea", "Zinc supplementation for 10-14 days", "Prophylactic antibiotics", "Probiotics only"], correct: 1, rationale: "WHO recommends zinc supplementation (20 mg/day for 10-14 days) for ALL children with diarrhea. Zinc reduces diarrheal duration by ~25% and reduces recurrence for 2-3 months. Loperamide is contraindicated in children <2 years." }
     ]

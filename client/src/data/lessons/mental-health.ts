@@ -5,7 +5,7 @@ export const mentalHealthLessons: Record<string, LessonContent> = {
   "schizophrenia": {
     title: "Schizophrenia",
     cellular: {
-      title: "Dopamine Dysregulation and Glutamate Hypofunction",
+      title: "Dopamine Dysregulation",
       content: "Schizophrenia results from excessive dopaminergic activity in the mesolimbic pathway, producing positive symptoms such as hallucinations and delusions, while dopamine deficiency in the mesocortical pathway drives negative symptoms including flat affect and avolition. Glutamate hypofunction at NMDA receptors compounds cortical dysfunction, impairing working memory and executive function. Structural changes include enlarged lateral ventricles and reduced prefrontal cortical volume, reflecting neuronal loss and impaired synaptic pruning during adolescent brain maturation. Serotonin dysregulation at 5-HT2A receptors further modulates dopaminergic tone, which is why second-generation antipsychotics targeting both D2 and 5-HT2A receptors address a broader symptom profile."
     },
     riskFactors: [
@@ -97,7 +97,7 @@ export const mentalHealthLessons: Record<string, LessonContent> = {
   "major-depressive-disorder": {
     title: "Major Depressive Disorder",
     cellular: {
-      title: "Monoamine Depletion and Neuroplasticity Impairment",
+      title: "Monoamine Depletion",
       content: "Major depressive disorder involves depletion of serotonin, norepinephrine, and dopamine at synaptic clefts due to increased monoamine oxidase activity and impaired vesicular reuptake. Reduced serotonin in raphe nuclei projections disrupts mood regulation, sleep architecture, and appetite control. Chronic cortisol elevation from HPA axis hyperactivity causes hippocampal neuronal atrophy and reduced brain-derived neurotrophic factor (BDNF), impairing neuroplasticity and memory consolidation. Inflammatory cytokines (IL-6, TNF-alpha) further reduce tryptophan availability by shunting it toward kynurenine pathways instead of serotonin synthesis, explaining the high comorbidity between chronic inflammatory conditions and depression."
     },
     riskFactors: [
@@ -181,7 +181,7 @@ export const mentalHealthLessons: Record<string, LessonContent> = {
   "ptsd": {
     title: "Post-Traumatic Stress Disorder",
     cellular: {
-      title: "Amygdala Hyperactivation and HPA Axis Dysregulation",
+      title: "Amygdala Hyperactivation",
       content: "PTSD develops when traumatic memory encoding bypasses normal hippocampal contextualization and becomes stored as fragmented, sensory-driven imprints in the amygdala. The amygdala remains hyperactivated, triggering exaggerated fear responses to trauma-associated cues even in safe environments. Chronic HPA axis dysregulation paradoxically produces low baseline cortisol with exaggerated cortisol reactivity to stress, impairing the normal negative feedback loop that should terminate the stress response. Prefrontal cortex hypoactivation reduces top-down inhibitory control over the amygdala, explaining why patients cannot rationally suppress flashbacks and hyperarousal. Noradrenergic hyperactivity in the locus coeruleus drives hypervigilance, exaggerated startle, and nightmares."
     },
     riskFactors: [
@@ -273,7 +273,7 @@ export const mentalHealthLessons: Record<string, LessonContent> = {
   "panic-disorder": {
     title: "Panic Disorder",
     cellular: {
-      title: "Autonomic Nervous System Hyperactivation and Catastrophic Misinterpretation",
+      title: "Autonomic Nervous System Hyperactivation",
       content: "Panic disorder involves dysregulation of the brain's alarm system centered in the locus coeruleus, which inappropriately triggers massive noradrenergic discharge in the absence of actual danger. This activates the sympathetic nervous system fight-or-flight response, producing surge-like release of epinephrine and norepinephrine from the adrenal medulla. The resulting physiological cascade includes tachycardia, hyperventilation, vasoconstriction, and diaphoresis. Hyperventilation causes respiratory alkalosis (decreased CO2), which produces paresthesias, dizziness, and lightheadedness that patients catastrophically misinterpret as a heart attack, stroke, or impending death. This cognitive misinterpretation creates a positive feedback loop where fear of bodily sensations intensifies sympathetic activation, perpetuating the panic cycle. GABA-ergic inhibitory tone in the amygdala is reduced, lowering the threshold for panic activation."
     },
     riskFactors: [
@@ -356,7 +356,7 @@ export const mentalHealthLessons: Record<string, LessonContent> = {
   "antisocial-personality-disorder": {
     title: "Antisocial Personality Disorder",
     cellular: {
-      title: "Prefrontal Cortex Hypofunction and Amygdala Dysfunction",
+      title: "Prefrontal Cortex Hypofunction",
       content: "Antisocial personality disorder (ASPD) involves structural and functional deficits in the prefrontal cortex, particularly the orbitofrontal and ventromedial regions responsible for impulse control, moral reasoning, and consequence evaluation. Reduced amygdala volume and reactivity impair fear conditioning and empathy - the person fails to generate appropriate emotional responses to others' distress. Low baseline cortisol and reduced autonomic reactivity (low resting heart rate) reflect a hypoactive stress-response system, driving sensation-seeking behavior to achieve normal arousal levels. Serotonergic deficiency in prefrontal circuits further disinhibits aggressive impulses. These neurobiological deficits interact with environmental factors such as childhood conduct disorder, abuse, and inconsistent parenting to produce a persistent pattern of violation of others' rights."
     },
     riskFactors: [
@@ -437,7 +437,7 @@ export const mentalHealthLessons: Record<string, LessonContent> = {
   },
 
   "conversion-disorder": {
-    title: "Conversion Disorder (Functional Neurological Symptom Disorder)",
+    title: "Conversion Disorder (Functional Neurological",
     cellular: {
       title: "Psychogenic Neural Circuit Disruption",
       content: "Conversion disorder involves unconscious disruption of voluntary motor or sensory neural pathways in response to psychological stress, without identifiable structural or neurological damage. Functional neuroimaging reveals altered connectivity between the limbic system (amygdala, anterior cingulate cortex) and motor/sensory cortices - emotional distress bypasses conscious awareness and directly inhibits voluntary motor output. The prefrontal cortex fails to integrate emotional processing with motor planning, resulting in genuine neurological deficits that do not follow anatomical nerve distributions. Unlike malingering, the patient is not consciously producing symptoms; unlike somatic symptom disorder, there are demonstrable neurological findings on examination that are inconsistent with known neurological diseases. The concept of primary gain refers to the unconscious reduction of anxiety through symptom production, while secondary gain involves external benefits such as attention or avoidance of responsibilities."
@@ -524,7 +524,7 @@ export const mentalHealthLessons: Record<string, LessonContent> = {
     title: "Alcohol Withdrawal",
     image: imgSubstanceAbuse,
     cellular: {
-      title: "GABA Downregulation and Glutamate Upregulation",
+      title: "GABA Downregulation",
       content: "Chronic alcohol consumption enhances inhibitory GABA-A receptor activity and suppresses excitatory NMDA glutamate receptors, creating a neurochemical equilibrium dependent on alcohol's presence. When alcohol is abruptly removed, the brain is left with downregulated (desensitized) GABA receptors providing insufficient inhibition and upregulated glutamate receptors producing excessive excitation. This excitatory-inhibitory imbalance causes CNS hyperexcitability manifesting as autonomic hyperactivity (tachycardia, hypertension, diaphoresis, hyperthermia), psychomotor agitation, tremors, and seizures. In severe cases, unopposed glutamate excitotoxicity and noradrenergic storm produce delirium tremens (DTs), characterized by global confusion, visual and tactile hallucinations, and life-threatening autonomic instability occurring 48-96 hours after the last drink. Kindling phenomenon means each successive withdrawal episode becomes more severe than the previous."
     },
     riskFactors: [
@@ -609,7 +609,7 @@ export const mentalHealthLessons: Record<string, LessonContent> = {
   "opioid-withdrawal": {
     title: "Opioid Withdrawal",
     cellular: {
-      title: "Mu-Receptor Dependence and Noradrenergic Rebound",
+      title: "Mu-Receptor Dependence",
       content: "Chronic opioid use causes downregulation and desensitization of mu-opioid receptors in the locus coeruleus, dorsal raphe nucleus, and periaqueductal gray matter. Opioids normally suppress noradrenergic neurons in the locus coeruleus through mu-receptor activation. When opioids are abruptly removed, these suppressed noradrenergic neurons fire unopposed, producing a massive norepinephrine surge (noradrenergic rebound) that drives the characteristic withdrawal symptoms: mydriasis, piloerection, diaphoresis, tachycardia, hypertension, lacrimation, rhinorrhea, and GI hypermotility. Unlike alcohol or benzodiazepine withdrawal, opioid withdrawal is intensely uncomfortable but not directly life-threatening in healthy adults - however, severe dehydration from vomiting and diarrhea, and aspiration risk, can cause death if untreated. Loss of opioid tolerance during abstinence creates extreme overdose risk if the patient relapses at their previous dose."
     },
     riskFactors: [
@@ -784,7 +784,7 @@ export const mentalHealthLessons: Record<string, LessonContent> = {
   "narcolepsy": {
     title: "Narcolepsy",
     cellular: {
-      title: "Orexin/Hypocretin Deficiency and Sleep-Wake Boundary Dissolution",
+      title: "Orexin/Hypocretin Deficiency",
       content: "Type 1 narcolepsy results from autoimmune destruction of approximately 70,000 orexin (hypocretin)-producing neurons in the lateral hypothalamus. Orexin normally stabilizes the flip-flop switch between wakefulness and sleep by reinforcing wake-promoting signals from the ascending reticular activating system. Without orexin, the boundary between wakefulness and REM sleep becomes unstable, causing inappropriate intrusions of REM phenomena into wakefulness. Cataplexy occurs when REM-associated muscle atonia is triggered during wakefulness by strong emotions (laughter, surprise, anger), because orexin deficiency removes the normal inhibition of pontine REM-on neurons. Hypnagogic hallucinations and sleep paralysis represent other REM intrusions occurring at sleep-wake transitions. The autoimmune mechanism involves HLA-DQB1*06:02 predisposition and likely T-cell-mediated destruction of orexin neurons, possibly triggered by streptococcal infection or H1N1 influenza vaccination."
     },
     riskFactors: [
@@ -873,7 +873,7 @@ export const mentalHealthLessons: Record<string, LessonContent> = {
   "agoraphobia": {
     title: "Agoraphobia",
     cellular: {
-      title: "Fear Circuit Sensitization and Anticipatory Anxiety",
+      title: "Fear Circuit Sensitization",
       content: "Agoraphobia involves pathological sensitization of the brain's fear circuitry, particularly the amygdala, anterior insula, and periaqueductal gray, leading to disproportionate fear responses in situations where escape might be difficult or help unavailable. Repeated pairing of environmental contexts (crowds, open spaces, public transport) with panic-like bodily sensations creates conditioned fear responses through amygdala-hippocampal associative learning. The anterior insula becomes hyperresponsive to interoceptive signals (heart rate, breathing), generating exaggerated threat predictions. Prefrontal cortex hypoactivation impairs extinction of these conditioned fear responses, meaning that even after safe exposures, the fear association is not properly unlearned. Anticipatory anxiety activates the HPA axis before the feared situation is encountered, producing preemptive sympathetic arousal that reinforces avoidance behavior through negative reinforcement (avoidance reduces anxiety, strengthening the avoidance pattern)."
     },
     riskFactors: [
@@ -956,7 +956,7 @@ export const mentalHealthLessons: Record<string, LessonContent> = {
   "intimate-partner-violence": {
     title: "Intimate Partner Violence",
     cellular: {
-      title: "Neurobiological Impact of Chronic Trauma and Stress Physiology",
+      title: "Neurobiological Impact of Chronic Trauma",
       content: "Intimate partner violence (IPV) produces chronic activation of the HPA axis and sympatho-adrenal-medullary system, resulting in sustained elevated cortisol and catecholamine levels that damage multiple organ systems over time. Chronic stress exposure causes hippocampal atrophy (impairing memory and contextual processing), prefrontal cortex thinning (reducing executive function and decision-making capacity), and amygdala sensitization (heightening threat detection and fear responses). These neurobiological changes explain why victims often appear confused, have difficulty making decisions, or seem unable to 'just leave' - their cognitive and emotional processing centers have been physiologically altered by sustained trauma. Learned helplessness develops through repeated unpredictable cycles of abuse and reconciliation, depleting dopaminergic reward circuits and producing a state of passive resignation. The traumatic bonding (Stockholm syndrome) mechanism involves intermittent reinforcement creating powerful attachment to the abuser during 'honeymoon' phases."
     },
     riskFactors: [
@@ -1040,7 +1040,7 @@ export const mentalHealthLessons: Record<string, LessonContent> = {
   "bulimia-nervosa": {
     title: "Bulimia Nervosa",
     cellular: {
-      title: "Electrolyte Derangement and Compensatory Purging Pathophysiology",
+      title: "Electrolyte Derangement",
       content: "Bulimia nervosa involves cycles of binge eating followed by compensatory purging behaviors (self-induced vomiting, laxative/diuretic abuse, excessive exercise) that produce severe metabolic and electrolyte disturbances. Repeated vomiting causes loss of hydrochloric acid from the stomach, producing hypochloremic hypokalemic metabolic alkalosis. The kidneys attempt to correct alkalosis by excreting bicarbonate but concurrently lose potassium, worsening hypokalemia. Severe hypokalemia disrupts cardiac myocyte repolarization, prolonging the QT interval and predisposing to fatal ventricular dysrhythmias (torsades de pointes). Chronic exposure of dental enamel to gastric acid causes perimolysis (erosion of the lingual surfaces of teeth). Repeated forced vomiting traumatizes the esophageal mucosa, risking Mallory-Weiss tears and rarely, Boerhaave syndrome (esophageal rupture). Parotid gland hypertrophy develops from chronic stimulation, producing chipmunk-like facial swelling."
     },
     riskFactors: [
@@ -1123,9 +1123,9 @@ export const mentalHealthLessons: Record<string, LessonContent> = {
   },
 
   "dsm5-personality-disorders": {
-    title: "DSM-5 Personality Disorders (Cluster A/B/C Overview)",
+    title: "DSM-5 Personality Disorders (Cluster A/B/C",
     cellular: {
-      title: "Neurodevelopmental Origins of Personality Pathology",
+      title: "Neurodevelopmental Origins of Personality",
       content: "Personality disorders represent enduring patterns of inner experience and behavior that deviate markedly from cultural expectations, are pervasive across contexts, and trace back to adolescence or early adulthood. Neurobiologically, these disorders involve structural and functional abnormalities in circuits governing emotion regulation, impulse control, social cognition, and self-identity. Cluster A (odd/eccentric) disorders involve dopaminergic dysregulation in mesolimbic pathways and social cognition deficits related to reduced theory-of-mind capacity. Cluster B (dramatic/emotional/erratic) disorders show amygdala hyperreactivity, prefrontal cortex hypofunction reducing impulse control, and serotonergic deficiency driving impulsive aggression. Cluster C (anxious/fearful) disorders involve excessive amygdala threat signaling, HPA axis hyperactivity, and GABAergic deficiency producing chronic anxiety and avoidance. Gene-environment interactions are critical - genetic temperament interacts with early attachment disruption, childhood adversity, and invalidating environments to produce the characteristic inflexible personality patterns."
     },
     riskFactors: [
@@ -1292,7 +1292,7 @@ export const mentalHealthLessons: Record<string, LessonContent> = {
   "serotonin-syndrome": {
     title: "Serotonin Syndrome",
     cellular: {
-      title: "Serotonergic Excess and Neuromuscular Excitotoxicity",
+      title: "Serotonergic Excess",
       content: "Serotonin syndrome results from excessive serotonergic agonism at both central and peripheral serotonin receptors (primarily 5-HT1A and 5-HT2A) due to drug interactions or overdose. Excessive postsynaptic 5-HT1A receptor stimulation in the brainstem produces altered mental status and autonomic instability, while 5-HT2A receptor overstimulation in the spinal cord and peripheral nervous system drives neuromuscular hyperexcitability manifesting as clonus, hyperreflexia, and muscle rigidity. Autonomic dysfunction occurs because serotonin modulates the hypothalamic thermoregulatory center, sympathetic nervous system, and gastrointestinal tract - excess serotonin causes hyperthermia, tachycardia, diaphoresis, and diarrhea. The most common drug combination causing serotonin syndrome is concurrent use of an SSRI with a monoamine oxidase inhibitor (MAOI), which prevents serotonin breakdown while simultaneously blocking reuptake. Other precipitants include adding tramadol, linezolid (which has MAOI activity), triptans, or dextromethorphan to an existing serotonergic medication."
     },
     riskFactors: [
@@ -1376,7 +1376,7 @@ export const mentalHealthLessons: Record<string, LessonContent> = {
   "tardive-dyskinesia": {
     title: "Tardive Dyskinesia",
     cellular: {
-      title: "D2 Receptor Supersensitivity from Chronic Dopamine Blockade",
+      title: "D2 Receptor Supersensitivity from Chronic",
       content: "Tardive dyskinesia (TD) results from chronic blockade of D2 dopamine receptors by antipsychotic medications, leading to compensatory postsynaptic D2 receptor upregulation and supersensitivity. When dopamine receptors proliferate and become hypersensitive in the nigrostriatal pathway (which normally controls fine motor movements), they overrespond to normal dopamine levels, producing involuntary hyperkinetic movements. This is analogous to denervation supersensitivity - just as a denervated muscle becomes hyper-responsive to acetylcholine, chronically blocked dopamine receptors become hyper-responsive to dopamine. The basal ganglia, particularly the caudate nucleus and putamen, lose the ability to properly modulate motor output through the direct and indirect pathways, resulting in involuntary choreiform and athetoid movements. First-generation (typical) antipsychotics have higher TD risk because of their stronger D2 binding affinity. The condition may become irreversible even after discontinuation of the causative agent because the receptor changes can become permanent."
     },
     riskFactors: [

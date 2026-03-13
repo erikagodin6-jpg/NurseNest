@@ -71,7 +71,7 @@ export const respiratoryMissingNpLessons: Record<string, LessonContent> = {
     ],
     "quiz": [
       {
-        "question": "A 58-year-old from rural Ontario presents with 6-week productive cough, low-grade fever, and weight loss unresponsive to two courses of antibiotics. CXR shows a right upper lobe cavitary lesion. Which test should the NP order first?",
+        "question": "A 58-year-old from rural Ontario presents with 6-week productive cough, low-grade fever, and weight loss unresponsive to two courses of antibiotics. CXR shows a right upper lobe cavitary lesion. Which test should the clinician order first?",
         "options": [
           "Sputum AFB smear and culture",
           "Blastomyces urine antigen and fungal cultures",
@@ -87,7 +87,7 @@ export const respiratoryMissingNpLessons: Record<string, LessonContent> = {
     "title": "Metabolic Respiratory Disturbances",
     "cellular": {
       "title": "Acid-Base Compensation Mechanisms",
-      "content": "The respiratory system compensates for metabolic acid-base disorders through chemoreceptor-mediated changes in ventilation. Central chemoreceptors in the medulla respond to CSF pH changes driven by arterial CO2, while peripheral chemoreceptors in the carotid and aortic bodies detect arterial pH and PaO2. In metabolic acidosis (pH < 7.35, HCO3 < 22 mmol/L), the respiratory centre increases ventilation rate and depth (Kussmaul breathing) to lower PaCO2. Winter's formula (expected PaCO2 = 1.5 x HCO3 + 8 +/- 2) predicts respiratory compensation. In metabolic alkalosis, ventilation decreases to retain CO2 though compensation is limited by hypoxic drive. The NP must interpret ABGs systematically and calculate the anion gap (Na - Cl - HCO3, normal 8-12 mmol/L)."
+      "content": "The respiratory system compensates for metabolic acid-base disorders through chemoreceptor-mediated changes in ventilation. Central chemoreceptors in the medulla respond to CSF pH changes driven by arterial CO2, while peripheral chemoreceptors in the carotid and aortic bodies detect arterial pH and PaO2. In metabolic acidosis (pH < 7.35, HCO3 < 22 mmol/L), the respiratory centre increases ventilation rate and depth (Kussmaul breathing) to lower PaCO2. Winter's formula (expected PaCO2 = 1.5 x HCO3 + 8 +/- 2) predicts respiratory compensation. In metabolic alkalosis, ventilation decreases to retain CO2 though compensation is limited by hypoxic drive. The clinician must interpret ABGs systematically and calculate the anion gap (Na - Cl - HCO3, normal 8-12 mmol/L)."
     },
     "riskFactors": [
       "Diabetic ketoacidosis - most common cause of high anion gap metabolic acidosis in type 1 diabetes",
@@ -166,7 +166,7 @@ export const respiratoryMissingNpLessons: Record<string, LessonContent> = {
     ]
   },
   "asthma-pathophysiology-np": {
-    "title": "Asthma Pathophysiology - NP Level",
+    "title": "Asthma Pathophysiology",
     "cellular": {
       "title": "Airway Inflammation and Remodeling",
       "content": "Asthma is a chronic inflammatory disorder of the airways characterized by reversible airflow obstruction, bronchial hyperresponsiveness, and airway remodeling. The pathophysiology involves a Th2-mediated immune response with eosinophilic inflammation. Allergen exposure triggers dendritic cell presentation to naive T cells, driving Th2 differentiation and release of IL-4, IL-5, and IL-13. IL-4 promotes IgE class switching in B cells, IL-5 recruits and activates eosinophils, and IL-13 stimulates goblet cell hyperplasia and mucus hypersecretion. Mast cell degranulation releases histamine, prostaglandins, and leukotrienes (especially LTC4, LTD4, LTE4) causing bronchoconstriction. Chronic inflammation leads to airway remodeling: subepithelial fibrosis, smooth muscle hypertrophy, angiogenesis, and mucous gland hyperplasia, resulting in fixed airflow limitation over time."
@@ -231,7 +231,7 @@ export const respiratoryMissingNpLessons: Record<string, LessonContent> = {
     ],
     "pearls": [
       "GINA now recommends against SABA-only treatment for any asthma patient - even mild intermittent asthma should receive PRN low-dose ICS-formoterol to reduce exacerbation risk and prevent airway remodeling",
-      "FeNO > 25 ppb supports eosinophilic asthma phenotype and predicts good ICS response - this guides the NP in selecting appropriate controller therapy",
+      "FeNO > 25 ppb supports eosinophilic asthma phenotype and predicts good ICS response - this guides the clinician in selecting appropriate controller therapy",
       "The MART strategy (maintenance and reliever therapy) with budesonide-formoterol reduces severe exacerbations by 60% compared to traditional ICS + SABA PRN"
     ],
     "quiz": [
@@ -249,9 +249,9 @@ export const respiratoryMissingNpLessons: Record<string, LessonContent> = {
     ]
   },
   "copd-pathophysiology-np": {
-    "title": "COPD Pathophysiology - NP Level",
+    "title": "COPD Pathophysiology",
     "cellular": {
-      "title": "Protease-Antiprotease Imbalance and Airway Destruction",
+      "title": "Protease-Antiprotease Imbalance",
       "content": "COPD is characterized by persistent airflow limitation caused by a combination of small airway disease (obstructive bronchiolitis) and parenchymal destruction (emphysema). Cigarette smoke and other noxious particles trigger an abnormal inflammatory response involving neutrophils, macrophages, and CD8+ T lymphocytes. Neutrophils release elastase and matrix metalloproteinases (MMPs) that degrade elastin and collagen in lung parenchyma. Alpha-1 antitrypsin (AAT) normally inhibits neutrophil elastase, but the protease-antiprotease balance is overwhelmed by ongoing inflammation or genetically deficient in AAT deficiency (PiZZ phenotype). Emphysema results from alveolar wall destruction, loss of elastic recoil, and air trapping. Chronic bronchitis involves goblet cell hyperplasia, mucus hypersecretion, and squamous metaplasia of ciliated epithelium. Pulmonary hypertension develops from hypoxic vasoconstriction of pulmonary arteries, eventually leading to cor pulmonale."
     },
     "riskFactors": [
@@ -335,7 +335,7 @@ export const respiratoryMissingNpLessons: Record<string, LessonContent> = {
     "title": "Pneumonia and Gas Exchange",
     "cellular": {
       "title": "Alveolar-Capillary Membrane Disruption",
-      "content": "Pneumonia disrupts gas exchange by filling alveoli with inflammatory exudate (neutrophils, bacteria, fluid, fibrin), creating intrapulmonary shunt physiology. Ventilation-perfusion (V/Q) mismatch occurs when perfused alveoli are not adequately ventilated due to consolidation or atelectasis. The resulting hypoxemia is initially responsive to supplemental oxygen unless massive consolidation creates a true shunt (V/Q = 0). The A-a gradient (PAO2 - PaO2) widens in pneumonia (normal < 15 mmHg in young adults, increases with age). Community-acquired pneumonia (CAP) is most commonly caused by Streptococcus pneumoniae, followed by Haemophilus influenzae, Mycoplasma pneumoniae, and respiratory viruses. Hospital-acquired pneumonia (HAP) involves more resistant organisms including MRSA, Pseudomonas aeruginosa, and Klebsiella pneumoniae. The NP must calculate severity scores (CRB-65 or PSI/PORT) to guide site-of-care decisions."
+      "content": "Pneumonia disrupts gas exchange by filling alveoli with inflammatory exudate (neutrophils, bacteria, fluid, fibrin), creating intrapulmonary shunt physiology. Ventilation-perfusion (V/Q) mismatch occurs when perfused alveoli are not adequately ventilated due to consolidation or atelectasis. The resulting hypoxemia is initially responsive to supplemental oxygen unless massive consolidation creates a true shunt (V/Q = 0). The A-a gradient (PAO2 - PaO2) widens in pneumonia (normal < 15 mmHg in young adults, increases with age). Community-acquired pneumonia (CAP) is most commonly caused by Streptococcus pneumoniae, followed by Haemophilus influenzae, Mycoplasma pneumoniae, and respiratory viruses. Hospital-acquired pneumonia (HAP) involves more resistant organisms including MRSA, Pseudomonas aeruginosa, and Klebsiella pneumoniae. The clinician must calculate severity scores (CRB-65 or PSI/PORT) to guide site-of-care decisions."
     },
     "riskFactors": [
       "Age >= 65 years with multiple comorbidities",
@@ -397,7 +397,7 @@ export const respiratoryMissingNpLessons: Record<string, LessonContent> = {
     ],
     "pearls": [
       "CRB-65 is the preferred community assessment tool in Canada: 0 = outpatient, 1-2 = consider admission, 3-4 = urgent hospitalization and possible ICU - this guides the NP's site-of-care decision",
-      "Procalcitonin < 0.25 mcg/L has high negative predictive value for bacterial pneumonia - the NP can use this to safely withhold antibiotics in viral lower respiratory tract infections",
+      "Procalcitonin < 0.25 mcg/L has high negative predictive value for bacterial pneumonia - the clinician can use this to safely withhold antibiotics in viral lower respiratory tract infections",
       "Follow-up chest radiograph at 6-8 weeks is essential to confirm resolution - persistent infiltrate in a smoker >= 50 years requires further investigation to exclude underlying malignancy"
     ],
     "quiz": [
@@ -417,8 +417,8 @@ export const respiratoryMissingNpLessons: Record<string, LessonContent> = {
   "asthma-diagnostic-criteria-np": {
     "title": "Asthma Diagnostic Criteria",
     "cellular": {
-      "title": "Objective Confirmation of Variable Airflow Limitation",
-      "content": "Asthma diagnosis requires demonstration of variable expiratory airflow limitation. Spirometry showing bronchodilator reversibility (FEV1 increase >= 12% AND >= 200 mL after 200-400 mcg salbutamol) is the gold standard. If spirometry is normal, provocation testing with methacholine (PC20 < 4 mg/mL is diagnostic, 4-16 mg/mL is borderline) or exercise challenge (FEV1 decrease >= 10-15%) can confirm bronchial hyperresponsiveness. Peak flow variability > 10% in adults (> 13% in children) over 2 weeks supports the diagnosis. FeNO > 50 ppb in steroid-naive adults strongly supports eosinophilic asthma. The NP must distinguish asthma from COPD, vocal cord dysfunction, and cardiac dyspnea using clinical history and objective testing. GINA guidelines emphasize that asthma should never be diagnosed on symptoms alone."
+      "title": "Objective Confirmation of Variable Airflow",
+      "content": "Asthma diagnosis requires demonstration of variable expiratory airflow limitation. Spirometry showing bronchodilator reversibility (FEV1 increase >= 12% AND >= 200 mL after 200-400 mcg salbutamol) is the gold standard. If spirometry is normal, provocation testing with methacholine (PC20 < 4 mg/mL is diagnostic, 4-16 mg/mL is borderline) or exercise challenge (FEV1 decrease >= 10-15%) can confirm bronchial hyperresponsiveness. Peak flow variability > 10% in adults (> 13% in children) over 2 weeks supports the diagnosis. FeNO > 50 ppb in steroid-naive adults strongly supports eosinophilic asthma. The clinician must distinguish asthma from COPD, vocal cord dysfunction, and cardiac dyspnea using clinical history and objective testing. GINA guidelines emphasize that asthma should never be diagnosed on symptoms alone."
     },
     "riskFactors": [
       "Family history of asthma or atopy (strongest predictor)",
@@ -481,7 +481,7 @@ export const respiratoryMissingNpLessons: Record<string, LessonContent> = {
     "pearls": [
       "Never diagnose asthma on symptoms alone - GINA and CTS require objective confirmation of variable airflow limitation through spirometry, PEF variability, or provocation testing before starting long-term controller therapy",
       "FeNO is a complementary biomarker that guides therapy but does not replace spirometry for diagnosis - high FeNO (> 50 ppb) predicts good ICS response while low FeNO (< 25 ppb) suggests non-eosinophilic asthma phenotype requiring different treatment approach",
-      "Methacholine challenge has excellent negative predictive value (> 95%) - a negative test essentially rules out current asthma, making it the most useful test when the NP suspects asthma but spirometry is normal"
+      "Methacholine challenge has excellent negative predictive value (> 95%) - a negative test essentially rules out current asthma, making it the most useful test when the clinician suspects asthma but spirometry is normal"
     ],
     "quiz": [
       {
@@ -500,7 +500,7 @@ export const respiratoryMissingNpLessons: Record<string, LessonContent> = {
   "copd-diagnostic-criteria-np": {
     "title": "COPD Diagnostic Criteria and GOLD Staging",
     "cellular": {
-      "title": "Post-Bronchodilator Spirometry and Phenotyping",
+      "title": "Post-Bronchodilator Spirometry",
       "content": "COPD diagnosis requires post-bronchodilator spirometry demonstrating a fixed ratio of FEV1/FVC < 0.70. Unlike asthma, airflow limitation in COPD is not fully reversible. GOLD severity staging uses post-bronchodilator FEV1 percent predicted: GOLD 1 (mild) >= 80%, GOLD 2 (moderate) 50-79%, GOLD 3 (severe) 30-49%, GOLD 4 (very severe) < 30%. The 2024 GOLD ABE assessment combines symptom burden (mMRC or CAT score) with exacerbation history: Group A (low symptoms, low exacerbation risk), Group B (high symptoms, low exacerbation risk), Group E (any exacerbation history). This replaces the previous ABCD tool. COPD phenotyping (emphysema-predominant vs chronic bronchitis-predominant vs asthma-COPD overlap) guides therapy selection. Blood eosinophils are a key biomarker: >= 300 cells/mcL predicts ICS benefit while < 100 cells/mcL predicts increased pneumonia risk with ICS."
     },
     "riskFactors": [
@@ -584,7 +584,7 @@ export const respiratoryMissingNpLessons: Record<string, LessonContent> = {
     "title": "Pneumonia Diagnostic Criteria and Severity",
     "cellular": {
       "title": "CRB-65 and PSI Scoring Systems",
-      "content": "Pneumonia diagnosis combines clinical presentation (cough, fever, dyspnea, pleuritic pain) with radiographic confirmation (new infiltrate on CXR). The NP must differentiate community-acquired (CAP), hospital-acquired (HAP >= 48h after admission), and aspiration pneumonia. Severity assessment using validated tools guides site-of-care decisions. CRB-65 (Confusion, Respiratory rate >= 30, Blood pressure systolic < 90 or diastolic <= 60, age >= 65): score 0 = outpatient, 1-2 = consider admission, 3-4 = urgent hospitalization. The Pneumonia Severity Index (PSI/PORT) uses demographics, comorbidities, vital signs, and labs to stratify into classes I-V. Biomarkers aid diagnosis: procalcitonin > 0.25 mcg/L supports bacterial etiology, CRP > 100 mg/L with fever and consolidation has 96% specificity for bacterial pneumonia. Blood cultures are recommended for all hospitalized patients before antibiotic administration."
+      "content": "Pneumonia diagnosis combines clinical presentation (cough, fever, dyspnea, pleuritic pain) with radiographic confirmation (new infiltrate on CXR). The clinician must differentiate community-acquired (CAP), hospital-acquired (HAP >= 48h after admission), and aspiration pneumonia. Severity assessment using validated tools guides site-of-care decisions. CRB-65 (Confusion, Respiratory rate >= 30, Blood pressure systolic < 90 or diastolic <= 60, age >= 65): score 0 = outpatient, 1-2 = consider admission, 3-4 = urgent hospitalization. The Pneumonia Severity Index (PSI/PORT) uses demographics, comorbidities, vital signs, and labs to stratify into classes I-V. Biomarkers aid diagnosis: procalcitonin > 0.25 mcg/L supports bacterial etiology, CRP > 100 mg/L with fever and consolidation has 96% specificity for bacterial pneumonia. Blood cultures are recommended for all hospitalized patients before antibiotic administration."
     },
     "riskFactors": [
       "Age >= 65 years (highest incidence and mortality)",
@@ -646,7 +646,7 @@ export const respiratoryMissingNpLessons: Record<string, LessonContent> = {
     ],
     "pearls": [
       "CRB-65 = 0 safely identifies low-risk patients who can be managed as outpatients - unnecessary hospitalization for pneumonia is costly and exposes patients to nosocomial risks",
-      "Procalcitonin-guided antibiotic stewardship reduces antibiotic exposure by 2-3 days in respiratory infections without increasing adverse outcomes - the NP should order procalcitonin and use it to guide duration of therapy",
+      "Procalcitonin-guided antibiotic stewardship reduces antibiotic exposure by 2-3 days in respiratory infections without increasing adverse outcomes - the clinician should order procalcitonin and use it to guide duration of therapy",
       "Always obtain follow-up CXR at 6-8 weeks in patients >= 50 years or smokers to confirm radiographic resolution - persistent infiltrate may indicate underlying malignancy requiring further investigation"
     ],
     "quiz": [
@@ -667,7 +667,7 @@ export const respiratoryMissingNpLessons: Record<string, LessonContent> = {
     "title": "Asthma Step Therapy",
     "cellular": {
       "title": "GINA Stepwise Approach",
-      "content": "GINA step therapy provides a systematic approach to asthma controller escalation and de-escalation. Step 1-2: PRN low-dose ICS-formoterol (preferred) or daily low-dose ICS + SABA PRN. Step 3: low-dose ICS-LABA maintenance (budesonide-formoterol preferred for MART). Step 4: medium-dose ICS-LABA +/- LTRA or tiotropium. Step 5: high-dose ICS-LABA + tiotropium; consider anti-IgE (omalizumab), anti-IL5 (mepolizumab, benralizumab), anti-IL4R (dupilumab), or anti-TSLP (tezepelumab) biologics based on phenotype. The NP prescribes initial therapy based on severity classification and adjusts every 2-3 months based on symptom control assessment (ACT or ACQ scores). Step-down is attempted after 3 months of well-controlled asthma, reducing ICS dose by 25-50% while monitoring."
+      "content": "GINA step therapy provides a systematic approach to asthma controller escalation and de-escalation. Step 1-2: PRN low-dose ICS-formoterol (preferred) or daily low-dose ICS + SABA PRN. Step 3: low-dose ICS-LABA maintenance (budesonide-formoterol preferred for MART). Step 4: medium-dose ICS-LABA +/- LTRA or tiotropium. Step 5: high-dose ICS-LABA + tiotropium; consider anti-IgE (omalizumab), anti-IL5 (mepolizumab, benralizumab), anti-IL4R (dupilumab), or anti-TSLP (tezepelumab) biologics based on phenotype. The clinician prescribes initial therapy based on severity classification and adjusts every 2-3 months based on symptom control assessment (ACT or ACQ scores). Step-down is attempted after 3 months of well-controlled asthma, reducing ICS dose by 25-50% while monitoring."
     },
     "riskFactors": [
       "Uncontrolled asthma despite adherence (step-up indication)",
@@ -731,8 +731,8 @@ export const respiratoryMissingNpLessons: Record<string, LessonContent> = {
     ],
     "pearls": [
       "GINA 2024 no longer recommends SABA-only treatment at any step - even Step 1 patients should receive PRN low-dose ICS-formoterol to reduce exacerbation risk and prevent airway remodeling from untreated inflammation",
-      "Before stepping up therapy, the NP must always rule out the three most common causes of apparent treatment failure: poor inhaler technique (up to 80% of patients), non-adherence (check prescription refill frequency), and ongoing trigger exposure",
-      "Blood eosinophils >= 150 cells/mcL and FeNO >= 20 ppb are the key biomarkers determining biologic eligibility - the NP should obtain these before referral to a severe asthma specialist"
+      "Before stepping up therapy, the clinician must always rule out the three most common causes of apparent treatment failure: poor inhaler technique (up to 80% of patients), non-adherence (check prescription refill frequency), and ongoing trigger exposure",
+      "Blood eosinophils >= 150 cells/mcL and FeNO >= 20 ppb are the key biomarkers determining biologic eligibility - the clinician should obtain these before referral to a severe asthma specialist"
     ],
     "quiz": [
       {
@@ -814,12 +814,12 @@ export const respiratoryMissingNpLessons: Record<string, LessonContent> = {
     ],
     "pearls": [
       "Blood eosinophils are the single most important biomarker guiding ICS use in COPD: >= 300 = start ICS, 100-299 = consider if exacerbating, < 100 = avoid ICS and consider withdrawal if already prescribed",
-      "The WISDOM and SUNSET trials demonstrated that ICS withdrawal is safe in COPD patients with eosinophils < 300 who are on dual bronchodilation - the NP should periodically reassess ICS necessity",
+      "The WISDOM and SUNSET trials demonstrated that ICS withdrawal is safe in COPD patients with eosinophils < 300 who are on dual bronchodilation - the clinician should periodically reassess ICS necessity",
       "Azithromycin 250mg daily reduces COPD exacerbations by approximately 27% but requires baseline ECG (QTc), audiometry, and sputum cultures for NTM before initiation"
     ],
     "quiz": [
       {
-        "question": "A COPD patient on LAMA + LABA has 3 exacerbations this year. Blood eosinophils are 420 cells/mcL. FEV1 38% predicted. What should the NP add?",
+        "question": "A COPD patient on LAMA + LABA has 3 exacerbations this year. Blood eosinophils are 420 cells/mcL. FEV1 38% predicted. What should the clinician add?",
         "options": [
           "Oral theophylline",
           "ICS (escalate to triple therapy)",
@@ -834,8 +834,8 @@ export const respiratoryMissingNpLessons: Record<string, LessonContent> = {
   "copd-exacerbation-rx-np": {
     "title": "COPD Exacerbation Management",
     "cellular": {
-      "title": "Acute Exacerbation Pathophysiology and Treatment",
-      "content": "AECOPD is defined as an acute worsening of respiratory symptoms beyond normal day-to-day variation requiring a change in therapy. Exacerbations are classified as mild (managed with increased bronchodilators), moderate (requires systemic corticosteroids and/or antibiotics), or severe (requires hospitalization or ED visit). The most common triggers are viral respiratory infections (50-60%), bacterial infections (40-50%, predominantly H. influenzae, M. catarrhalis, S. pneumoniae), and environmental pollutants. Exacerbations accelerate FEV1 decline, reduce quality of life, and increase mortality (in-hospital mortality for severe exacerbations is 3-10%). The NP must prescribe a short course of systemic corticosteroids (prednisone 40mg daily x 5 days) and antibiotics when purulent sputum is present or ventilatory support is required."
+      "title": "Acute Exacerbation Pathophysiology",
+      "content": "AECOPD is defined as an acute worsening of respiratory symptoms beyond normal day-to-day variation requiring a change in therapy. Exacerbations are classified as mild (managed with increased bronchodilators), moderate (requires systemic corticosteroids and/or antibiotics), or severe (requires hospitalization or ED visit). The most common triggers are viral respiratory infections (50-60%), bacterial infections (40-50%, predominantly H. influenzae, M. catarrhalis, S. pneumoniae), and environmental pollutants. Exacerbations accelerate FEV1 decline, reduce quality of life, and increase mortality (in-hospital mortality for severe exacerbations is 3-10%). The clinician must prescribe a short course of systemic corticosteroids (prednisone 40mg daily x 5 days) and antibiotics when purulent sputum is present or ventilatory support is required."
     },
     "riskFactors": [
       "History of previous exacerbations (strongest predictor)",
@@ -897,7 +897,7 @@ export const respiratoryMissingNpLessons: Record<string, LessonContent> = {
     ],
     "pearls": [
       "The Anthonisen criteria guide antibiotic use in AECOPD: antibiotics are indicated when 2 of 3 cardinal symptoms are present (increased dyspnea, increased sputum volume, increased sputum purulence) with purulence being the strongest indication",
-      "Prednisone 40mg x 5 days is equally effective as 14-day courses (REDUCE trial) - the NP should prescribe the short course to minimize steroid side effects",
+      "Prednisone 40mg x 5 days is equally effective as 14-day courses (REDUCE trial) - the clinician should prescribe the short course to minimize steroid side effects",
       "Controlled oxygen targeting SpO2 88-92% is critical in severe COPD - excessive oxygen supplementation suppresses hypoxic ventilatory drive causing CO2 retention and respiratory acidosis"
     ],
     "quiz": [
@@ -918,7 +918,7 @@ export const respiratoryMissingNpLessons: Record<string, LessonContent> = {
     "title": "Pneumonia Outpatient Antibiotic Selection",
     "cellular": {
       "title": "Evidence-Based Antibiotic Prescribing for CAP",
-      "content": "The NP prescribes outpatient CAP antibiotics based on patient comorbidity status and local resistance patterns. For previously healthy adults without recent antibiotic use, amoxicillin 1g TID is first-line (Canadian guidelines). For patients with comorbidities (COPD, diabetes, CKD, alcoholism, immunosuppression) or recent antibiotic use within 3 months, amoxicillin-clavulanate 875/125 BID plus a macrolide (azithromycin) or a respiratory fluoroquinolone (moxifloxacin, levofloxacin) as monotherapy are recommended. Duration of therapy is typically 5-7 days, guided by clinical response and procalcitonin levels. The NP must consider drug allergies (cross-reactivity between penicillins and cephalosporins is < 2% with 3rd/4th generation), drug interactions (macrolides and QT prolongation, fluoroquinolones and warfarin), and patient factors (pregnancy, renal function, age)."
+      "content": "The clinician prescribes outpatient CAP antibiotics based on patient comorbidity status and local resistance patterns. For previously healthy adults without recent antibiotic use, amoxicillin 1g TID is first-line (Canadian guidelines). For patients with comorbidities (COPD, diabetes, CKD, alcoholism, immunosuppression) or recent antibiotic use within 3 months, amoxicillin-clavulanate 875/125 BID plus a macrolide (azithromycin) or a respiratory fluoroquinolone (moxifloxacin, levofloxacin) as monotherapy are recommended. Duration of therapy is typically 5-7 days, guided by clinical response and procalcitonin levels. The clinician must consider drug allergies (cross-reactivity between penicillins and cephalosporins is < 2% with 3rd/4th generation), drug interactions (macrolides and QT prolongation, fluoroquinolones and warfarin), and patient factors (pregnancy, renal function, age)."
     },
     "riskFactors": [
       "COPD or structural lung disease (increased risk of H. influenzae, P. aeruginosa)",
@@ -981,7 +981,7 @@ export const respiratoryMissingNpLessons: Record<string, LessonContent> = {
     "pearls": [
       "Canadian guidelines recommend amoxicillin 1g TID (not standard 500mg) as first-line for outpatient CAP in healthy adults - the higher dose achieves pharmacodynamic targets against penicillin-intermediate S. pneumoniae",
       "Fluoroquinolones should be reserved for patients with true penicillin allergy or treatment failure - overuse drives resistance and carries serious adverse effects (tendinopathy, neuropathy, aortic dissection)",
-      "5-day antibiotic courses are as effective as 7-10 day courses for outpatient CAP when clinical improvement occurs by day 3 - the NP should prescribe the shortest effective course to reduce resistance selection"
+      "5-day antibiotic courses are as effective as 7-10 day courses for outpatient CAP when clinical improvement occurs by day 3 - the clinician should prescribe the shortest effective course to reduce resistance selection"
     ],
     "quiz": [
       {
@@ -1084,7 +1084,7 @@ export const respiratoryMissingNpLessons: Record<string, LessonContent> = {
     "title": "Asthma Step Therapy Core Concepts",
     "cellular": {
       "title": "Controller vs Reliever Therapy",
-      "content": "The foundation of asthma management separates controller therapy (daily anti-inflammatory agents) from reliever therapy (rescue bronchodilators). ICS is the cornerstone controller reducing airway inflammation, hyperresponsiveness, and remodeling. GINA 2024 introduced a paradigm shift: anti-inflammatory reliever (AIR) therapy with low-dose ICS-formoterol PRN replaces SABA-only rescue across all steps. This ensures every reliever dose delivers anti-inflammatory therapy, reducing the dissociation between symptom relief and inflammation control. The as-needed ICS-formoterol approach reduces severe exacerbations by 60% compared to SABA-only reliever. For patients on traditional fixed-dose ICS, SABA remains the reliever, but SABA overuse (> 3 canisters/year) is a marker of poor control and increased mortality risk. The NP must understand these distinctions to prescribe appropriately."
+      "content": "The foundation of asthma management separates controller therapy (daily anti-inflammatory agents) from reliever therapy (rescue bronchodilators). ICS is the cornerstone controller reducing airway inflammation, hyperresponsiveness, and remodeling. GINA 2024 introduced a paradigm shift: anti-inflammatory reliever (AIR) therapy with low-dose ICS-formoterol PRN replaces SABA-only rescue across all steps. This ensures every reliever dose delivers anti-inflammatory therapy, reducing the dissociation between symptom relief and inflammation control. The as-needed ICS-formoterol approach reduces severe exacerbations by 60% compared to SABA-only reliever. For patients on traditional fixed-dose ICS, SABA remains the reliever, but SABA overuse (> 3 canisters/year) is a marker of poor control and increased mortality risk. The clinician must understand these distinctions to prescribe appropriately."
     },
     "riskFactors": [
       "SABA overuse: > 3 rescue inhalers per year (increased mortality risk)",
@@ -1145,13 +1145,13 @@ export const respiratoryMissingNpLessons: Record<string, LessonContent> = {
       }
     ],
     "pearls": [
-      "SABA overuse (> 3 canisters per year) is independently associated with increased asthma mortality - the NP must monitor SABA prescription refills and intervene when overuse is detected",
+      "SABA overuse (> 3 canisters per year) is independently associated with increased asthma mortality - the clinician must monitor SABA prescription refills and intervene when overuse is detected",
       "GINA 2024 Track 1 (preferred) uses ICS-formoterol as both controller and reliever at all steps - this eliminates the need for a separate SABA rescue inhaler and ensures anti-inflammatory therapy with every dose",
       "Never diagnose asthma control without spirometry - patients may adapt to reduced lung function and report minimal symptoms despite significant airflow limitation"
     ],
     "quiz": [
       {
-        "question": "A patient with mild intermittent asthma has been using SABA PRN only. She refills her salbutamol inhaler 5 times per year. What change should the NP make?",
+        "question": "A patient with mild intermittent asthma has been using SABA PRN only. She refills her salbutamol inhaler 5 times per year. What change should the clinician make?",
         "options": [
           "Continue current management as symptoms are intermittent",
           "Switch to PRN low-dose ICS-formoterol (budesonide-formoterol)",
@@ -1230,7 +1230,7 @@ export const respiratoryMissingNpLessons: Record<string, LessonContent> = {
     "pearls": [
       "The GOLD ABE tool simplifies initial therapy by creating only 3 groups - Group E captures all patients with significant exacerbation history regardless of symptom level, appropriately directing them to dual bronchodilation",
       "FEV1 alone does not predict symptoms or quality of life - two patients with the same FEV1 may have vastly different symptom burdens, which is why the GOLD framework integrates both spirometric and clinical assessments",
-      "Smoking cessation is the ONLY intervention proven to slow FEV1 decline in COPD - the NP must prescribe pharmacotherapy (varenicline preferred) and refer to cessation counseling at every visit"
+      "Smoking cessation is the ONLY intervention proven to slow FEV1 decline in COPD - the clinician must prescribe pharmacotherapy (varenicline preferred) and refer to cessation counseling at every visit"
     ],
     "quiz": [
       {
@@ -1250,7 +1250,7 @@ export const respiratoryMissingNpLessons: Record<string, LessonContent> = {
     "title": "Outpatient Pneumonia Management",
     "cellular": {
       "title": "Risk Stratification and Ambulatory Care",
-      "content": "Outpatient management of CAP is appropriate for low-risk patients identified by CRB-65 score of 0 (no confusion, RR < 30, BP systolic >= 90 and diastolic > 60, age < 65) or PSI class I-II. The NP must confirm adequate oxygenation (SpO2 >= 94%), oral medication tolerance, reliable follow-up, and social supports. Clinical reassessment at 48-72 hours (in-person or telephone) evaluates antibiotic response: fever should resolve within 72 hours, cough improvement within 5-7 days. Failure to improve by 72 hours requires diagnostic re-evaluation (repeat CXR, blood cultures, atypical pathogen testing) and consideration of hospitalization. Return-to-work guidance generally allows return when afebrile 24 hours and symptoms are improving. Complete symptomatic recovery typically takes 4-6 weeks for healthy adults."
+      "content": "Outpatient management of CAP is appropriate for low-risk patients identified by CRB-65 score of 0 (no confusion, RR < 30, BP systolic >= 90 and diastolic > 60, age < 65) or PSI class I-II. The clinician must confirm adequate oxygenation (SpO2 >= 94%), oral medication tolerance, reliable follow-up, and social supports. Clinical reassessment at 48-72 hours (in-person or telephone) evaluates antibiotic response: fever should resolve within 72 hours, cough improvement within 5-7 days. Failure to improve by 72 hours requires diagnostic re-evaluation (repeat CXR, blood cultures, atypical pathogen testing) and consideration of hospitalization. Return-to-work guidance generally allows return when afebrile 24 hours and symptoms are improving. Complete symptomatic recovery typically takes 4-6 weeks for healthy adults."
     },
     "riskFactors": [
       "Outpatient treatment failure (delayed hospitalization increases mortality)",
@@ -1333,7 +1333,7 @@ export const respiratoryMissingNpLessons: Record<string, LessonContent> = {
     "title": "Tuberculosis Fundamentals",
     "cellular": {
       "title": "Mycobacterium tuberculosis Pathogenesis",
-      "content": "M. tuberculosis is an acid-fast aerobic bacillus transmitted via airborne droplet nuclei (1-5 micrometres). After inhalation, bacilli are phagocytosed by alveolar macrophages. The organism survives intracellularly by inhibiting phagosome-lysosome fusion. Cell-mediated immunity (CD4+ T cells and activated macrophages) develops over 2-12 weeks, forming granulomas that contain but rarely eliminate the organism (latent TB infection, LTBI). Approximately 5-10% of immunocompetent individuals with LTBI will progress to active TB disease in their lifetime, with half occurring within 2 years of infection. Reactivation risk increases dramatically with HIV (7-10% per year), TNF-alpha inhibitors, organ transplant, and other immunosuppressive states. Active TB presents as pulmonary (85% of cases) or extrapulmonary disease (lymph node, pleural, bone, CNS). The NP must understand the difference between LTBI (positive TST/IGRA, no symptoms, non-infectious) and active TB (symptoms, potentially infectious, requires multi-drug therapy and public health notification)."
+      "content": "M. tuberculosis is an acid-fast aerobic bacillus transmitted via airborne droplet nuclei (1-5 micrometres). After inhalation, bacilli are phagocytosed by alveolar macrophages. The organism survives intracellularly by inhibiting phagosome-lysosome fusion. Cell-mediated immunity (CD4+ T cells and activated macrophages) develops over 2-12 weeks, forming granulomas that contain but rarely eliminate the organism (latent TB infection, LTBI). Approximately 5-10% of immunocompetent individuals with LTBI will progress to active TB disease in their lifetime, with half occurring within 2 years of infection. Reactivation risk increases dramatically with HIV (7-10% per year), TNF-alpha inhibitors, organ transplant, and other immunosuppressive states. Active TB presents as pulmonary (85% of cases) or extrapulmonary disease (lymph node, pleural, bone, CNS). The clinician must understand the difference between LTBI (positive TST/IGRA, no symptoms, non-infectious) and active TB (symptoms, potentially infectious, requires multi-drug therapy and public health notification)."
     },
     "riskFactors": [
       "Birth in or travel to high-incidence countries (Philippines, India, China, sub-Saharan Africa)",
@@ -1395,8 +1395,8 @@ export const respiratoryMissingNpLessons: Record<string, LessonContent> = {
     ],
     "pearls": [
       "IGRA (QuantiFERON) is preferred over TST in BCG-vaccinated individuals (most immigrants) because IGRA does not cross-react with BCG, eliminating false positives that lead to unnecessary LTBI treatment",
-      "Active TB is a reportable disease in all Canadian provinces - the NP must notify public health immediately upon suspicion, before culture confirmation, to initiate contact investigation and DOT",
-      "Rifampin is the most potent CYP3A4 inducer in clinical use - the NP must perform a comprehensive drug interaction review before prescribing, with particular attention to OCP, anticoagulants, HIV medications, and immunosuppressants"
+      "Active TB is a reportable disease in all Canadian provinces - the clinician must notify public health immediately upon suspicion, before culture confirmation, to initiate contact investigation and DOT",
+      "Rifampin is the most potent CYP3A4 inducer in clinical use - the clinician must perform a comprehensive drug interaction review before prescribing, with particular attention to OCP, anticoagulants, HIV medications, and immunosuppressants"
     ],
     "quiz": [
       {
@@ -1483,7 +1483,7 @@ export const respiratoryMissingNpLessons: Record<string, LessonContent> = {
     ],
     "quiz": [
       {
-        "question": "A 70-year-old male with COPD starts tiotropium and develops difficulty urinating 2 weeks later. He also takes oxybutynin for overactive bladder. What should the NP do?",
+        "question": "A 70-year-old male with COPD starts tiotropium and develops difficulty urinating 2 weeks later. He also takes oxybutynin for overactive bladder. What should the clinician do?",
         "options": [
           "Continue both medications and catheterize",
           "Discontinue tiotropium and switch to ICS-LABA",
@@ -1491,15 +1491,15 @@ export const respiratoryMissingNpLessons: Record<string, LessonContent> = {
           "Increase tiotropium dose for better bronchodilation"
         ],
         "correct": 2,
-        "rationale": "The patient has high anticholinergic burden from tiotropium (LAMA) plus oxybutynin (anticholinergic bladder medication). Urinary retention is a predictable cumulative anticholinergic effect. The NP should assess total anticholinergic burden, consider stopping oxybutynin (which is counterproductive with concurrent LAMA), and monitor for symptom resolution."
+        "rationale": "The patient has high anticholinergic burden from tiotropium (LAMA) plus oxybutynin (anticholinergic bladder medication). Urinary retention is a predictable cumulative anticholinergic effect. The clinician should assess total anticholinergic burden, consider stopping oxybutynin (which is counterproductive with concurrent LAMA), and monitor for symptom resolution."
       }
     ]
   },
   "antibiotic-selection-resp-np": {
-    "title": "Antibiotic Selection for Respiratory Infections",
+    "title": "Antibiotic Selection for Respiratory",
     "cellular": {
-      "title": "Empiric vs Targeted Respiratory Antibiotic Therapy",
-      "content": "Antibiotic selection for respiratory infections requires understanding of the most likely pathogens based on clinical syndrome, patient factors, and local resistance patterns. CAP: S. pneumoniae (most common), H. influenzae, M. pneumoniae, C. pneumoniae, Legionella. AECOPD: H. influenzae, M. catarrhalis, S. pneumoniae. HAP/VAP: MRSA, P. aeruginosa, Klebsiella, Acinetobacter. The NP must consider pharmacokinetic-pharmacodynamic (PK-PD) principles: beta-lactams are time-dependent (efficacy depends on time above MIC), aminoglycosides and fluoroquinolones are concentration-dependent (efficacy depends on Cmax/MIC ratio). Antibiotic stewardship principles include using the narrowest effective spectrum, shortest effective duration, de-escalation based on culture results, and avoiding unnecessary antibiotics for viral infections."
+      "title": "Empiric vs Targeted Respiratory Antibiotic",
+      "content": "Antibiotic selection for respiratory infections requires understanding of the most likely pathogens based on clinical syndrome, patient factors, and local resistance patterns. CAP: S. pneumoniae (most common), H. influenzae, M. pneumoniae, C. pneumoniae, Legionella. AECOPD: H. influenzae, M. catarrhalis, S. pneumoniae. HAP/VAP: MRSA, P. aeruginosa, Klebsiella, Acinetobacter. The clinician must consider pharmacokinetic-pharmacodynamic (PK-PD) principles: beta-lactams are time-dependent (efficacy depends on time above MIC), aminoglycosides and fluoroquinolones are concentration-dependent (efficacy depends on Cmax/MIC ratio). Antibiotic stewardship principles include using the narrowest effective spectrum, shortest effective duration, de-escalation based on culture results, and avoiding unnecessary antibiotics for viral infections."
     },
     "riskFactors": [
       "Previous antibiotic use within 3 months (resistance selection)",
@@ -1560,13 +1560,13 @@ export const respiratoryMissingNpLessons: Record<string, LessonContent> = {
       }
     ],
     "pearls": [
-      "Antibiotic stewardship is a core NP competency - prescribing antibiotics for viral bronchitis drives resistance and C. difficile without patient benefit; use procalcitonin to differentiate viral from bacterial infection",
+      "Antibiotic stewardship is a core clinical competency - prescribing antibiotics for viral bronchitis drives resistance and C. difficile without patient benefit; use procalcitonin to differentiate viral from bacterial infection",
       "Canadian CAP guidelines recommend amoxicillin (not azithromycin) as first-line for healthy outpatient adults due to increasing macrolide resistance in S. pneumoniae (approximately 25% in Canada)",
       "MRSA nasal screening has > 95% negative predictive value - a negative nasal swab allows confident de-escalation from vancomycin/linezolid in suspected MRSA pneumonia cases"
     ],
     "quiz": [
       {
-        "question": "A hospitalized patient with CAP on ceftriaxone + azithromycin is improving at day 3. Cultures grow penicillin-sensitive S. pneumoniae. What should the NP do?",
+        "question": "A hospitalized patient with CAP on ceftriaxone + azithromycin is improving at day 3. Cultures grow penicillin-sensitive S. pneumoniae. What should the clinician do?",
         "options": [
           "Continue current broad-spectrum therapy for 10 days",
           "De-escalate to amoxicillin 1g TID PO to complete 5-day total course",
@@ -1643,8 +1643,8 @@ export const respiratoryMissingNpLessons: Record<string, LessonContent> = {
       }
     ],
     "pearls": [
-      "The modified Asthma Predictive Index (mAPI) helps the NP predict which preschool wheezers will develop persistent asthma - a positive mAPI increases the probability of asthma at school age from 30% to 77%",
-      "ICS growth velocity effects are small (0.5-1 cm) and generally temporary - the NP should not withhold ICS due to growth concerns, as uncontrolled asthma itself impairs growth more significantly",
+      "The modified Asthma Predictive Index (mAPI) helps the clinician predict which preschool wheezers will develop persistent asthma - a positive mAPI increases the probability of asthma at school age from 30% to 77%",
+      "ICS growth velocity effects are small (0.5-1 cm) and generally temporary - the clinician should not withhold ICS due to growth concerns, as uncontrolled asthma itself impairs growth more significantly",
       "MDI + valved holding chamber (spacer) is the preferred delivery system for children - nebulizers are no more effective and should be reserved for children unable to use a spacer"
     ],
     "quiz": [
@@ -1657,7 +1657,7 @@ export const respiratoryMissingNpLessons: Record<string, LessonContent> = {
           "Need for immediate spirometry"
         ],
         "correct": 1,
-        "rationale": "mAPI requires 3+ wheezing episodes PLUS major or minor criteria. This child has 4 episodes plus parental asthma (major) AND atopic dermatitis (major). Positive mAPI predicts 77% probability of persistent asthma by school age. The NP should initiate a trial of low-dose ICS."
+        "rationale": "mAPI requires 3+ wheezing episodes PLUS major or minor criteria. This child has 4 episodes plus parental asthma (major) AND atopic dermatitis (major). Positive mAPI predicts 77% probability of persistent asthma by school age. The clinician should initiate a trial of low-dose ICS."
       }
     ]
   },
@@ -1726,9 +1726,9 @@ export const respiratoryMissingNpLessons: Record<string, LessonContent> = {
       }
     ],
     "pearls": [
-      "MDI + spacer is equivalent or superior to nebulizer for bronchodilator delivery in pediatric asthma - the NP should educate families that nebulizers are NOT more effective and spacers are more portable and cost-effective",
+      "MDI + spacer is equivalent or superior to nebulizer for bronchodilator delivery in pediatric asthma - the clinician should educate families that nebulizers are NOT more effective and spacers are more portable and cost-effective",
       "LABA must NEVER be prescribed as monotherapy in children - LABA without ICS increases the risk of serious asthma-related events including death; always prescribe as fixed-combination ICS-LABA",
-      "The NP should assess inhaler technique at every visit using teach-back method - studies show that up to 80% of children and caregivers use inhalers incorrectly, making technique assessment the most important intervention before any medication change"
+      "The clinician should assess inhaler technique at every visit using teach-back method - studies show that up to 80% of children and caregivers use inhalers incorrectly, making technique assessment the most important intervention before any medication change"
     ],
     "quiz": [
       {
@@ -1748,7 +1748,7 @@ export const respiratoryMissingNpLessons: Record<string, LessonContent> = {
     "title": "Spontaneous Pneumothorax",
     "cellular": {
       "title": "Pleural Space Physiology and Air Leak",
-      "content": "Pneumothorax occurs when air enters the pleural space, disrupting the negative intrapleural pressure (-3 to -5 cmH2O) that maintains lung expansion. Primary spontaneous pneumothorax (PSP) occurs without underlying lung disease, typically in tall, thin males aged 15-35 due to rupture of subpleural apical blebs. Secondary spontaneous pneumothorax (SSP) occurs in patients with underlying lung disease (COPD, CF, Pneumocystis pneumonia, Marfan syndrome). Tension pneumothorax occurs when a one-way valve mechanism allows air entry during inspiration but prevents exit during expiration, causing progressive mediastinal shift, IVC compression, and hemodynamic collapse. The NP must recognize tension pneumothorax as a clinical diagnosis requiring immediate needle decompression before imaging. Management of non-tension pneumothorax depends on size (small < 2 cm apex-to-cupola vs large >= 2 cm) and symptoms."
+      "content": "Pneumothorax occurs when air enters the pleural space, disrupting the negative intrapleural pressure (-3 to -5 cmH2O) that maintains lung expansion. Primary spontaneous pneumothorax (PSP) occurs without underlying lung disease, typically in tall, thin males aged 15-35 due to rupture of subpleural apical blebs. Secondary spontaneous pneumothorax (SSP) occurs in patients with underlying lung disease (COPD, CF, Pneumocystis pneumonia, Marfan syndrome). Tension pneumothorax occurs when a one-way valve mechanism allows air entry during inspiration but prevents exit during expiration, causing progressive mediastinal shift, IVC compression, and hemodynamic collapse. The clinician must recognize tension pneumothorax as a clinical diagnosis requiring immediate needle decompression before imaging. Management of non-tension pneumothorax depends on size (small < 2 cm apex-to-cupola vs large >= 2 cm) and symptoms."
     },
     "riskFactors": [
       "Tall, thin male body habitus (PSP: height-to-weight ratio)",
@@ -1811,7 +1811,7 @@ export const respiratoryMissingNpLessons: Record<string, LessonContent> = {
     "pearls": [
       "Tension pneumothorax is a CLINICAL diagnosis treated with immediate needle decompression - NEVER delay treatment to obtain a chest radiograph; signs include hypotension, tracheal deviation, distended neck veins, and absent breath sounds",
       "All patients with pneumothorax should receive supplemental oxygen even if SpO2 is normal - oxygen accelerates pleural air reabsorption 4-fold by creating a nitrogen gradient across the visceral pleura",
-      "Recurrence rate for PSP is approximately 30% after first episode and 50% after second - the NP should refer for surgical evaluation (VATS pleurodesis) after the first recurrence or for SSP with any size pneumothorax"
+      "Recurrence rate for PSP is approximately 30% after first episode and 50% after second - the clinician should refer for surgical evaluation (VATS pleurodesis) after the first recurrence or for SSP with any size pneumothorax"
     ],
     "quiz": [
       {

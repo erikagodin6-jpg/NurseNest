@@ -2,9 +2,9 @@ import type { LessonContent } from "./types";
 
 export const informaticsDocumentationLessons: Record<string, LessonContent> = {
   "informatics-doc-rpn": {
-    title: "RPN Documentation and Informatics",
+    title: "Documentation and Informatics",
     cellular: {
-      title: "Electronic Health Records and Documentation Fundamentals",
+      title: "Electronic Health Records",
       content:
         "Electronic health records (EHRs) serve as the primary platform for clinical documentation in modern healthcare settings. RPNs must navigate EHR systems efficiently, understanding how to enter data accurately into designated fields, retrieve patient information, and document care in real time. Charting by exception (CBE) is a documentation method in which the nurse records only deviations from established norms or pre-set parameters, reducing redundancy while maintaining a complete clinical picture. Proper documentation principles require entries that are factual, objective, timely, legible, and free of blank spaces, with errors corrected using a single line through the incorrect entry along with initials and date."
     },
@@ -125,9 +125,9 @@ export const informaticsDocumentationLessons: Record<string, LessonContent> = {
   },
 
   "informatics-doc-rn": {
-    title: "RN Advanced Documentation and Informatics",
+    title: "Advanced Documentation and Informatics",
     cellular: {
-      title: "Advanced Charting Methods and Health Information Systems",
+      title: "Charting Methods",
       content:
         "Registered nurses use structured documentation frameworks such as SOAP (Subjective, Objective, Assessment, Plan), DAR/Focus charting (Data, Action, Response), and SBAR (Situation, Background, Assessment, Recommendation) to organize clinical information systematically. Documentation serves as a legal record that may be subpoenaed in litigation, making accuracy, completeness, and adherence to retention requirements essential. Clinical decision support systems (CDSS) are integrated into EHRs to provide evidence-based alerts, reminders, and order suggestions that enhance patient safety. Barcode medication administration (BCMA) and smart pump technology add layers of verification that must be accurately documented to maintain audit trails and data integrity."
     },
@@ -225,9 +225,9 @@ export const informaticsDocumentationLessons: Record<string, LessonContent> = {
   },
 
   "informatics-doc-np": {
-    title: "NP Clinical Documentation and Health Informatics",
+    title: "Clinical Documentation and Health Informatics",
     cellular: {
-      title: "Clinical Documentation for Billing, Prescribing, and Population Health",
+      title: "Clinical Documentation for Billing",
       content:
         "Nurse practitioners must produce clinical documentation that meets evaluation and management (E/M) coding requirements, with documentation elements aligned to the complexity of medical decision-making for each visit level. Prescribing documentation requires checking the Prescription Drug Monitoring Program (PDMP) before prescribing controlled substances, maintaining controlled substance agreements, and obtaining informed consent for high-risk medications. Health information exchange (HIE) enables the secure sharing of patient data across organizations to support care coordination, while population health data analytics allow NPs to identify trends, manage chronic disease registries, and report on quality metrics. Meaningful use and promoting interoperability requirements mandate structured data capture, clinical decision support utilization, and patient portal engagement to qualify for incentive programs."
     },

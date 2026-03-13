@@ -2,7 +2,7 @@ import type { LessonContent } from "./types";
 
 export const maternalNewbornAdvancedLessons: Record<string, LessonContent> = {
   "maternal-newborn-edge-rpn": {
-    title: "RPN Maternal-Newborn Essentials",
+    title: "Maternal-Newborn Essentials",
     cellular: {
       title: "Maternal-Newborn Physiology Foundations",
       content:
@@ -119,9 +119,9 @@ export const maternalNewbornAdvancedLessons: Record<string, LessonContent> = {
   },
 
   "maternal-newborn-edge-rn": {
-    title: "RN Maternal-Newborn Advanced Edge Cases",
+    title: "Maternal-Newborn Advanced Edge Cases",
     cellular: {
-      title: "Advanced Fetal Monitoring and Obstetric Emergency Pathophysiology",
+      title: "Fetal Monitoring",
       content:
         "Fetal heart rate variability reflects the interplay between the sympathetic and parasympathetic nervous systems, with moderate variability (6 to 25 bpm fluctuation) indicating adequate oxygenation and intact central nervous system function. Late decelerations result from uteroplacental insufficiency causing transient fetal hypoxemia during contractions, triggering a chemoreceptor-mediated vagal response that slows the heart rate after the peak of the contraction. Postpartum hemorrhage pathophysiology centers on failure of the myometrium to contract adequately after placental separation, leaving spiral arteries at the placental site open and bleeding; this accounts for approximately 80 percent of cases attributed to uterine atony. Eclamptic seizures arise from cerebral vasospasm and endothelial dysfunction in the setting of severe preeclampsia, with magnesium sulfate acting as a central nervous system depressant and vasodilator to raise the seizure threshold."
     },
@@ -246,9 +246,9 @@ export const maternalNewbornAdvancedLessons: Record<string, LessonContent> = {
   },
 
   "maternal-newborn-edge-np": {
-    title: "NP Maternal-Newborn and Reproductive Health",
+    title: "Maternal-Newborn and Reproductive Health",
     cellular: {
-      title: "Advanced Prenatal Pathophysiology and Reproductive Endocrinology",
+      title: "Prenatal Pathophysiology",
       content:
         "Preeclampsia originates from abnormal placental implantation with deficient trophoblastic invasion of spiral arteries, leading to placental ischemia and release of antiangiogenic factors such as soluble fms-like tyrosine kinase-1 that cause widespread endothelial dysfunction, hypertension, proteinuria, and multiorgan damage. Gestational diabetes mellitus results from progressive insulin resistance driven by placental hormones including human placental lactogen, cortisol, and progesterone, which overwhelm pancreatic beta-cell compensation in susceptible individuals, producing maternal hyperglycemia that crosses the placenta and causes fetal macrosomia and hyperinsulinemia. Reproductive endocrinology governing contraception and fertility depends on the hypothalamic-pituitary-ovarian axis, where gonadotropin-releasing hormone pulses regulate FSH and LH secretion to control folliculogenesis, ovulation, and corpus luteum function. Anti-Mullerian hormone produced by granulosa cells of small antral follicles serves as a reliable marker of ovarian reserve and is used in infertility evaluation alongside day-3 FSH and estradiol levels."
     },
@@ -360,7 +360,7 @@ export const maternalNewbornAdvancedLessons: Record<string, LessonContent> = {
         rationale: "Combined hormonal contraceptives (containing estrogen) are Category 4 for women with migraine with aura due to significantly increased stroke risk. Progestin-only methods and IUDs are safe alternatives classified as Category 1 or 2 for this population."
       },
       {
-        question: "A postpartum client scores 14 on the Edinburgh Postnatal Depression Scale and endorses thoughts of self-harm. What is the priority action by the nurse practitioner?",
+        question: "A postpartum client scores 14 on the Edinburgh Postnatal Depression Scale and endorses thoughts of self-harm. What is the priority action by the clinician?",
         options: [
           "Recommend increasing physical activity and follow up in 2 weeks",
           "Prescribe sertraline and schedule a follow-up in one month",

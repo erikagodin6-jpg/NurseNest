@@ -2,9 +2,9 @@ import type { LessonContent } from "./types";
 
 export const legalEdgeCasesLessons: Record<string, LessonContent> = {
   "legal-edge-rpn": {
-    title: "RPN Legal and Regulatory Foundations",
+    title: "Legal and Regulatory Foundations",
     cellular: {
-      title: "Legal Foundations for Practical Nursing Practice",
+      title: "Legal Foundations for Practical Nursing",
       content:
         "Registered Practical Nurses (RPNs) operate within a defined scope of practice governed by provincial or state regulatory bodies. Understanding delegation authority is critical: RPNs must verify that any task delegated by an RN falls within their competence and scope before accepting it. Informed consent, mandatory reporting obligations, documentation standards, and confidentiality requirements form the legal backbone of safe practical nursing. Violations such as practicing outside scope, falsifying records, or breaching patient privacy on social media constitute professional misconduct and carry serious regulatory consequences including license suspension or revocation.",
     },
@@ -25,7 +25,7 @@ export const legalEdgeCasesLessons: Record<string, LessonContent> = {
       "Evaluate whether a delegated task falls within RPN scope by consulting the regulatory body's practice standards and authorized acts",
     ],
     management: [
-      "Obtain and document informed consent through the appropriate provider; the RPN may witness the signature but does not obtain consent for procedures requiring physician explanation",
+      "Obtain and document informed consent through the appropriate provider; the nurse may witness the signature but does not obtain consent for procedures requiring physician explanation",
       "Report suspected abuse immediately to the appropriate authorities as mandated by law; do not investigate independently",
       "Follow proper chain of command when reporting safety concerns: charge nurse, unit manager, regulatory body if internal reporting fails",
       "Apply advance directive instructions as documented: do-not-resuscitate orders, power of attorney for personal care, living wills",
@@ -73,7 +73,7 @@ export const legalEdgeCasesLessons: Record<string, LessonContent> = {
     ],
     pearls: [
       "An RPN cannot independently accept orders from a physician; tasks must be delegated through an RN or authorized by standing orders within scope",
-      "Informed consent is the responsibility of the provider performing the procedure; the RPN role is to verify consent is documented, not to obtain it",
+      "Informed consent is the responsibility of the provider performing the procedure; the nursing role is to verify consent is documented, not to obtain it",
       "Mandatory reporting obligations override patient confidentiality; failure to report suspected abuse is a legal offense",
       "Late entries in documentation must be clearly labeled with the current date, time, and a reference to the original event date and time",
       "PHIPA (Canada) and HIPAA (US) protect personal health information; even discussing patient details in public areas constitutes a breach",
@@ -82,7 +82,7 @@ export const legalEdgeCasesLessons: Record<string, LessonContent> = {
     quiz: [
       {
         question:
-          "An RN delegates medication administration to an RPN. The RPN has not been trained on this specific medication. What is the most appropriate action?",
+          "An RN delegates medication administration to an RPN. The nurse has not been trained on this specific medication. What is the most appropriate action?",
         options: [
           "Administer the medication and research it afterward",
           "Decline the delegation and explain the lack of training",
@@ -123,9 +123,9 @@ export const legalEdgeCasesLessons: Record<string, LessonContent> = {
   },
 
   "legal-edge-rn": {
-    title: "RN Legal and Ethical Edge Cases",
+    title: "Legal and Ethical Edge Cases",
     cellular: {
-      title: "Complex Legal and Ethical Scenarios in RN Practice",
+      title: "Complex Legal",
       content:
         "Registered Nurses frequently encounter legal and ethical dilemmas that require nuanced clinical judgment and thorough understanding of patient rights, consent law, and end-of-life regulations. Key areas include managing treatment refusal based on religious beliefs, navigating consent issues with minors, understanding Medical Assistance in Dying (MAiD) legislation in Canada, and resolving end-of-life disputes among family members. Capacity assessment, substitute decision-maker hierarchies, guardianship law, and restraint regulations are heavily tested on RN licensing examinations. The nurse must balance patient autonomy, beneficence, and legal compliance while maintaining meticulous documentation of all decisions and communications.",
     },
@@ -243,9 +243,9 @@ export const legalEdgeCasesLessons: Record<string, LessonContent> = {
   },
 
   "legal-edge-np": {
-    title: "NP Advanced Legal and Regulatory Practice",
+    title: "Advanced Legal and Regulatory Practice",
     cellular: {
-      title: "Advanced Legal Frameworks for Nurse Practitioner Practice",
+      title: "Advanced Legal Frameworks Practice",
       content:
         "Nurse Practitioners function as independent or semi-independent practitioners depending on jurisdiction, carrying expanded legal responsibilities including prescriptive authority, diagnostic decision-making, and direct accountability for clinical outcomes. NPs must navigate complex regulatory frameworks including controlled substance prescribing regulations, conflict of interest management with pharmaceutical companies, and advanced capacity assessment with medicolegal documentation. Professional liability and malpractice law apply directly to NPs under the same standard of care framework as physicians, requiring proof of duty, breach, causation, and damages. Billing and coding ethics, expert witness obligations, and mandatory reporting duties as independent practitioners add layers of legal complexity that differ significantly from RN-level practice.",
     },
@@ -311,7 +311,7 @@ export const legalEdgeCasesLessons: Record<string, LessonContent> = {
       "PDMP checking is legally mandated in most jurisdictions before prescribing controlled substances; failure to check can constitute negligence",
       "Conflict of interest management requires disclosure of all pharmaceutical relationships; accepting gifts above nominal value may violate anti-kickback statutes",
       "Upcoding (billing for a higher-complexity visit than performed) and unbundling (separately billing components that should be billed together) are forms of healthcare fraud",
-      "When serving as an expert witness, the NP has a duty to provide objective, unbiased testimony based on the standard of care, regardless of which party retained them",
+      "When serving as an expert witness, the clinician has a duty to provide objective, unbiased testimony based on the standard of care, regardless of which party retained them",
       "As independent practitioners, NPs carry their own mandatory reporting obligations and cannot defer reporting responsibility to a supervising physician",
     ],
     quiz: [
@@ -326,7 +326,7 @@ export const legalEdgeCasesLessons: Record<string, LessonContent> = {
         ],
         correct: 2,
         rationale:
-          "Multiple prescribers on a PDMP report require investigation and care coordination. The NP should discuss findings with the patient, contact other prescribers, and develop a coordinated pain management plan before making prescribing decisions.",
+          "Multiple prescribers on a PDMP report require investigation and care coordination. The clinician should discuss findings with the patient, contact other prescribers, and develop a coordinated pain management plan before making prescribing decisions.",
       },
       {
         question:

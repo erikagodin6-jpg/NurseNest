@@ -2,9 +2,9 @@ import type { LessonContent } from "./types";
 
 export const culturalSafetyEquityLessons: Record<string, LessonContent> = {
   "cultural-safety-rpn": {
-    title: "RPN Cultural Safety Foundations",
+    title: "Cultural Safety Foundations",
     cellular: {
-      title: "Cultural Safety vs Cultural Competence vs Cultural Awareness",
+      title: "Cultural Safety vs Cultural Competence vs",
       content:
         "Cultural awareness is the foundational recognition that cultural differences exist and influence health beliefs and behaviors. Cultural competence refers to acquiring knowledge and skills to work effectively across cultures, though it implies a finite endpoint. Cultural safety goes further by requiring healthcare providers to reflect on their own cultural identity and power, ensuring the care recipient defines whether the encounter was safe. In Canadian nursing practice, cultural safety is the standard expectation, recognizing that unsafe care can cause harm through discrimination, stereotyping, or failure to address systemic inequities.",
     },
@@ -126,9 +126,9 @@ export const culturalSafetyEquityLessons: Record<string, LessonContent> = {
   },
 
   "cultural-safety-rn": {
-    title: "RN Cultural Safety and Health Equity",
+    title: "Cultural Safety and Health Equity",
     cellular: {
-      title: "Social Determinants of Health and Health Equity Frameworks",
+      title: "Social Determinants of Health",
       content:
         "Social determinants of health are the non-medical factors that influence health outcomes, including income, education, housing, food security, social support networks, employment, and access to healthcare services. These determinants create systemic health inequities that disproportionately affect marginalized populations including Indigenous peoples, racialized communities, refugees, immigrants, LGBTQ2S+ individuals, and people with disabilities. Health equity frameworks require nurses to move beyond individual patient care to recognize and address structural barriers that produce unequal health outcomes. The Truth and Reconciliation Commission Calls to Action include specific directives for healthcare, and Jordan's Principle ensures Indigenous children receive needed services without jurisdictional delays.",
     },
@@ -250,9 +250,9 @@ export const culturalSafetyEquityLessons: Record<string, LessonContent> = {
   },
 
   "cultural-safety-np": {
-    title: "NP Cultural Humility and Equity-Informed Practice",
+    title: "Cultural Humility",
     cellular: {
-      title: "Cultural Humility and Structural Competency in Advanced Practice",
+      title: "Cultural Humility",
       content:
         "Cultural humility is a lifelong process of self-reflection and self-critique that acknowledges power differentials between healthcare providers and patients. Unlike cultural competence, which implies mastery, cultural humility recognizes that understanding culture is an ongoing, never-complete endeavor. Structural competency extends this framework by requiring nurse practitioners to understand how institutional policies, economic structures, and social systems create and perpetuate health disparities. Equity-informed prescribing considers socioeconomic factors such as medication affordability, formulary navigation, and access to pharmacy services when developing treatment plans, ensuring that clinical decisions do not inadvertently widen health inequities.",
     },
@@ -345,7 +345,7 @@ export const culturalSafetyEquityLessons: Record<string, LessonContent> = {
       },
       {
         question:
-          "An NP is conducting a mental health assessment for an Indigenous patient using a standardized screening tool. The patient's responses do not seem consistent with the clinical presentation. What should the NP consider?",
+          "An NP is conducting a mental health assessment for an Indigenous patient using a standardized screening tool. The patient's responses do not seem consistent with the clinical presentation. What should the clinician consider?",
         options: [
           "The patient is likely malingering or exaggerating symptoms",
           "The standardized tool may not be culturally validated for this population and a culturally adapted approach should be explored",

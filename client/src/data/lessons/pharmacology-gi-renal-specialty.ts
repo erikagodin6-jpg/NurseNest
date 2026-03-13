@@ -4,7 +4,7 @@ export const pharmacologyGiRenalSpecialtyLessons: Record<string, LessonContent> 
   "pharm-gi-renal": {
     title: "GI and Renal Pharmacology",
     cellular: {
-      title: "GI and Renal Drug Mechanisms at the Cellular Level",
+      title: "GI and Renal Drug Mechanisms at the Cellular",
       content: "Proton pump inhibitors irreversibly bind the hydrogen-potassium ATPase pump on gastric parietal cells, blocking the final step of acid secretion and raising intragastric pH. H2-receptor antagonists competitively block histamine receptors on parietal cells, reducing basal and stimulated acid output. Antiemetics act on multiple receptor pathways including serotonin 5-HT3 receptors in the chemoreceptor trigger zone, dopamine D2 receptors, and histamine H1 receptors to suppress nausea and vomiting. In the kidney, erythropoiesis-stimulating agents bind erythropoietin receptors on erythroid progenitor cells in bone marrow, stimulating red blood cell production, while phosphate binders work within the GI lumen to chelate dietary phosphate and prevent systite absorption."
     },
     riskFactors: [
@@ -243,7 +243,7 @@ export const pharmacologyGiRenalSpecialtyLessons: Record<string, LessonContent> 
   "pharm-specialty-systems": {
     title: "Specialty Systems Pharmacology",
     cellular: {
-      title: "Pharmacology of Rheumatology, Dermatology, Women's Health, and Urology",
+      title: "Pharmacology of Rheumatology, Dermatology",
       content: "Disease-modifying antirheumatic drugs such as methotrexate inhibit dihydrofolate reductase, blocking purine and thymidylate synthesis to suppress rapidly dividing immune cells responsible for joint destruction. TNF-alpha inhibitors are engineered monoclonal antibodies or fusion proteins that bind circulating and membrane-bound TNF-alpha, preventing activation of inflammatory cascades in synovial tissue. In women's health, combined oral contraceptives suppress the hypothalamic-pituitary-ovarian axis by providing exogenous estrogen and progestin, inhibiting GnRH pulsatility and thereby preventing the LH surge needed for ovulation. Alpha-1 adrenergic blockers in urology relax smooth muscle in the prostate and bladder neck by blocking alpha-1a receptors, reducing urethral resistance and improving urinary flow in benign prostatic hyperplasia."
     },
     riskFactors: [
@@ -499,9 +499,9 @@ export const pharmacologyGiRenalSpecialtyLessons: Record<string, LessonContent> 
   },
 
   "pharm-heme-emergency": {
-    title: "Hematology, Oncology, and Emergency Pharmacology",
+    title: "Hematology, Oncology",
     cellular: {
-      title: "Pharmacology of Blood Disorders, Oncology Support, and Emergency Medications",
+      title: "Pharmacology of Blood Disorders, Oncology",
       content: "Iron supplementation provides the essential mineral needed for hemoglobin synthesis within erythroid precursors; ferrous iron is absorbed in the duodenum via divalent metal transporter-1 and incorporated into protoporphyrin IX within mitochondria to form heme. Anticoagulant reversal agents work through distinct mechanisms: protamine sulfate electrostatically binds heparin molecules, idarucizumab is a humanized antibody fragment that binds dabigatran with high affinity, and andexanet alfa is a modified Factor Xa decoy receptor that sequesters Factor Xa inhibitors. In emergency pharmacology, epinephrine acts on both alpha and beta adrenergic receptors to produce vasoconstriction, bronchodilation, and increased cardiac output, making it the cornerstone drug for anaphylaxis and cardiac arrest. Thrombolytics such as alteplase activate plasminogen bound to fibrin within thrombi, converting it to plasmin which enzymatically degrades the fibrin matrix to restore blood flow."
     },
     riskFactors: [
@@ -757,7 +757,7 @@ export const pharmacologyGiRenalSpecialtyLessons: Record<string, LessonContent> 
       "Magnesium sulfate toxicity is monitored by checking deep tendon reflexes (absent = toxic), respiratory rate (hold if under 12), and urine output; calcium gluconate is the antidote"
     ],
     lifespan: {
-      title: "Lifespan Considerations in Hematology and Emergency Pharmacology",
+      title: "Lifespan Considerations in Hematology",
       content: "Pediatric patients require weight-based dosing for all emergency medications; epinephrine autoinjectors come in 0.15 mg for children 15-30 kg and 0.3 mg for those over 30 kg. Elderly patients are more susceptible to bleeding complications with anticoagulants and thrombolytics due to age-related decline in hepatic metabolism and renal clearance. Pregnant patients should receive iron and folate supplementation routinely; tPA is relatively contraindicated in pregnancy. Vaccine schedules differ by age with special considerations for immunocompromised patients who cannot receive live vaccines. Neonates have immature hepatic conjugation and renal filtration, requiring careful dose adjustment for nearly all emergency medications."
     },
     quiz: [

@@ -2,9 +2,9 @@ import type { LessonContent } from "./types";
 
 export const pharmacologyNpPrescribingLessons: Record<string, LessonContent> = {
   "pharm-np-prescribing-principles": {
-    title: "NP Prescribing Principles",
+    title: "Prescribing Principles",
     cellular: {
-      title: "Pharmacokinetic and Pharmacodynamic Foundations for Prescribing",
+      title: "Pharmacokinetic",
       content:
         "Evidence-based prescribing requires NPs to integrate pharmacokinetic principles including absorption, distribution, metabolism, and excretion (ADME) with patient-specific factors such as age, organ function, and comorbidities. Renal dosing adjustments rely on creatinine clearance calculated via the Cockcroft-Gault equation: CrCl = [(140 - age) x weight in kg] / (72 x serum creatinine), multiplied by 0.85 for females, or estimated glomerular filtration rate (eGFR) derived from the CKD-EPI equation. Hepatic dosing considers the Child-Pugh classification (scores A through C based on bilirubin, albumin, INR, ascites, and encephalopathy) and cytochrome P450 enzyme activity, which can be altered by genetic polymorphisms, disease states, and concomitant medications. Pregnancy safety assessment has shifted from the former FDA letter categories (A, B, C, D, X) to the Pregnancy and Lactation Labeling Rule (PLLR), requiring clinicians to evaluate individual risk-benefit data rather than relying on simplified categories."
     },
@@ -147,9 +147,9 @@ export const pharmacologyNpPrescribingLessons: Record<string, LessonContent> = {
   },
 
   "pharm-np-controlled-substances": {
-    title: "NP Controlled Substance Management",
+    title: "Controlled Substance Management",
     cellular: {
-      title: "Neurobiological Basis of Controlled Substance Action and Dependence",
+      title: "Neurobiological Basis of Controlled Substance",
       content:
         "Controlled substances exert their effects through specific neuroreceptor systems: opioids bind mu, kappa, and delta receptors in the central nervous system modulating pain perception and reward pathways via endogenous endorphin circuits. Benzodiazepines enhance gamma-aminobutyric acid (GABA) activity at GABA-A receptors by increasing chloride channel opening frequency, producing anxiolytic, sedative, and anticonvulsant effects. Stimulants such as amphetamines and methylphenidate increase synaptic dopamine and norepinephrine concentrations by blocking reuptake transporters and, in the case of amphetamines, promoting vesicular release. Tolerance develops through receptor downregulation and desensitization, while physical dependence involves neuroadaptive changes that produce withdrawal symptoms upon abrupt discontinuation, necessitating structured tapering protocols."
     },
@@ -292,9 +292,9 @@ export const pharmacologyNpPrescribingLessons: Record<string, LessonContent> = {
   },
 
   "pharm-np-high-risk": {
-    title: "NP High-Risk Prescribing and Safety",
+    title: "High-Risk Prescribing and Safety",
     cellular: {
-      title: "Molecular Mechanisms of High-Risk Drug Reactions and Toxicity Syndromes",
+      title: "Molecular Mechanisms of High-Risk Drug",
       content:
         "Serotonin syndrome results from excessive serotonergic activity at 5-HT1A and 5-HT2A receptors in the central and peripheral nervous systems, caused by combinations of serotonergic medications such as SSRIs with tramadol, triptans, MAOIs, or linezolid, producing a triad of altered mental status, autonomic instability, and neuromuscular hyperactivity. Neuroleptic malignant syndrome (NMS) involves dopamine D2 receptor blockade primarily in the hypothalamus and basal ganglia, most commonly triggered by antipsychotic medications, manifesting as lead-pipe rigidity, hyperthermia exceeding 40 degrees Celsius, altered mental status, and markedly elevated creatine kinase. QT prolongation occurs when medications block the hERG potassium channel (IKr current), delaying ventricular repolarization and increasing the risk of torsades de pointes, a potentially fatal polymorphic ventricular tachycardia. Drug-drug interactions through CYP450 inhibition or induction alter the metabolism of co-administered drugs, leading to either toxicity from elevated drug levels or therapeutic failure from accelerated clearance."
     },

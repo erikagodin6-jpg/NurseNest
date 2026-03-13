@@ -5,7 +5,7 @@ export const delegationLessons: Record<string, LessonContent> = {
     title: "ABCs & Immediate Life Threat Prioritization",
     cellular: {
       title: "Physiological Basis for ABC Prioritization",
-      content: "The ABC framework (Airway, Breathing, Circulation) is grounded in the physiological principle that organ systems have varying tolerances to oxygen deprivation. The brain sustains irreversible damage within 4-6 minutes of oxygen deprivation, making airway and breathing the highest priorities in any clinical situation. Without a patent airway, no amount of breathing effort is effective. Without adequate breathing, circulation of deoxygenated blood provides no benefit. Without circulation, even well-oxygenated blood cannot reach the tissues.\n\nThis hierarchy directly mirrors Maslow's Hierarchy of Needs applied to clinical nursing. Physiological needs (oxygen, perfusion, thermoregulation) must be addressed before safety needs (fall prevention, infection control), which must be addressed before psychosocial needs (anxiety, education, spiritual care). On NCLEX examinations and in clinical practice, ABCs override all other considerations when a patient is acutely deteriorating.\n\nThe primary survey (ABCDE: Airway, Breathing, Circulation, Disability, Exposure) provides a systematic approach to identifying and treating life-threatening conditions in order of physiological priority. Each step is addressed sequentially, and any abnormality found is treated before moving to the next letter. A compromised airway is always addressed first, regardless of other dramatic findings such as active bleeding or altered consciousness."
+      content: "The ABC framework (Airway, Breathing, Circulation) is grounded in the physiological principle that organ systems have varying tolerances to oxygen deprivation. The brain sustains irreversible damage within 4-6 minutes of oxygen deprivation, making airway and breathing the highest priorities in any clinical situation. Without a patent airway, no amount of breathing effort is effective. Without adequate breathing, circulation of deoxygenated blood provides no benefit. Without circulation, even well-oxygenated blood cannot reach the tissues.\n\nThis hierarchy directly mirrors Maslow's Hierarchy of Needs applied to clinical nursing. Physiological needs (oxygen, perfusion, thermoregulation) must be addressed before safety needs (fall prevention, infection control), which must be addressed before psychosocial needs (anxiety, education, spiritual care). On the licensing exam, examinations and in clinical practice, ABCs override all other considerations when a patient is acutely deteriorating.\n\nThe primary survey (ABCDE: Airway, Breathing, Circulation, Disability, Exposure) provides a systematic approach to identifying and treating life-threatening conditions in order of physiological priority. Each step is addressed sequentially, and any abnormality found is treated before moving to the next letter. A compromised airway is always addressed first, regardless of other dramatic findings such as active bleeding or altered consciousness."
     },
     riskFactors: [
       "Failure to assess airway patency before addressing other complaints",
@@ -69,7 +69,7 @@ export const delegationLessons: Record<string, LessonContent> = {
       "If the patient can speak in complete sentences, the airway is patent and breathing is sufficient for the moment",
       "In trauma, assume cervical spine injury until cleared - use jaw thrust instead of head-tilt chin-lift",
       "Bleeding that you can see is less dangerous than bleeding you cannot see (internal hemorrhage)",
-      "On NCLEX: when multiple patients need attention, always address the ABC problem first"
+      "On the licensing exam, : when multiple patients need attention, always address the ABC problem first"
     ],
     preTest: [
       {
@@ -124,7 +124,7 @@ export const delegationLessons: Record<string, LessonContent> = {
   "unstable-vs-stable": {
     title: "Unstable vs Stable: Prioritization Framework",
     cellular: {
-      title: "Differentiating Stable from Unstable Clinical Presentations",
+      title: "Differentiating Stable from Unstable Clinical",
       content: "The ability to differentiate stable from unstable patients is one of the most critical clinical reasoning skills in nursing. An unstable patient is one whose condition is actively deteriorating, whose vital signs are trending in a dangerous direction, or who presents with new-onset symptoms that may indicate a life-threatening process. A stable patient has a predictable clinical course, vital signs within an acceptable range for their condition, and symptoms that are expected given their diagnosis.\n\nKey indicators of instability include: new-onset symptoms that were not previously present, acute changes from the patient's baseline, vital sign parameters outside safe ranges, signs of organ hypoperfusion (altered mental status, decreased urine output, mottled skin), and symptoms that are worsening despite current interventions. The word 'new' is critical - a patient with chronic stable heart failure who reports their usual dyspnea with exertion is stable, but a patient with heart failure who develops new-onset resting dyspnea is unstable.\n\nExpected findings are symptoms or assessment data that are consistent with the patient's known diagnosis, current treatment plan, and stage of recovery. Unexpected findings are new symptoms, worsening trends, or assessment data that deviate from the anticipated clinical trajectory. Every unexpected finding warrants immediate assessment and potential intervention. The nurse must constantly compare the patient's current status to what is expected and recognize when the clinical picture deviates from the norm."
     },
     riskFactors: [
@@ -244,8 +244,8 @@ export const delegationLessons: Record<string, LessonContent> = {
   "who-to-see-first": {
     title: "Who to See First: Clinical Decision Framework",
     cellular: {
-      title: "Clinical Triage and Acuity Assessment for Prioritization",
-      content: "The 'Who to See First' question is one of the most frequently tested clinical judgment domains on licensing examinations and one of the most critical skills in daily nursing practice. When multiple patients require attention simultaneously, the nurse must rapidly assess each situation and determine the order of priority based on clinical acuity, potential for deterioration, and the ABCs/Maslow framework.\n\nThe priority patient is always the one with the greatest threat to life or the highest potential for rapid clinical deterioration. This is determined by applying a systematic framework: (1) Identify any airway, breathing, or circulation threats - these are always first; (2) Identify any new-onset, unexpected, or acute findings - these take priority over chronic or expected findings; (3) Identify patients who are at risk for complications if not assessed promptly; (4) Address routine needs and scheduled tasks last.\n\nCommon NCLEX distractors include patients with concerning but stable chronic conditions, expected post-procedural findings, and psychosocial needs. While all patients deserve attention, the nurse must recognize that a patient with acute respiratory distress takes priority over a patient with chronic pain, and a patient with signs of hemorrhage takes priority over a patient requesting a sleeping pill. The key principle is that unstable, acute, and life-threatening conditions are always assessed before stable, chronic, and non-urgent conditions."
+      title: "Clinical Triage",
+      content: "The 'Who to See First' question is one of the most frequently tested clinical judgment domains on licensing examinations and one of the most critical skills in daily nursing practice. When multiple patients require attention simultaneously, the nurse must rapidly assess each situation and determine the order of priority based on clinical acuity, potential for deterioration, and the ABCs/Maslow framework.\n\nThe priority patient is always the one with the greatest threat to life or the highest potential for rapid clinical deterioration. This is determined by applying a systematic framework: (1) Identify any airway, breathing, or circulation threats - these are always first; (2) Identify any new-onset, unexpected, or acute findings - these take priority over chronic or expected findings; (3) Identify patients who are at risk for complications if not assessed promptly; (4) Address routine needs and scheduled tasks last.\n\nCommOn the licensing exam, distractors include patients with concerning but stable chronic conditions, expected post-procedural findings, and psychosocial needs. While all patients deserve attention, the nurse must recognize that a patient with acute respiratory distress takes priority over a patient with chronic pain, and a patient with signs of hemorrhage takes priority over a patient requesting a sleeping pill. The key principle is that unstable, acute, and life-threatening conditions are always assessed before stable, chronic, and non-urgent conditions."
     },
     riskFactors: [
       "Seeing patients in room order rather than acuity order",
@@ -307,7 +307,7 @@ export const delegationLessons: Record<string, LessonContent> = {
     ],
     pearls: [
       "The sickest patient is not always the loudest - a patient who is too sick to call for help is more critical than one who is yelling for pain medication",
-      "On NCLEX, when all patients seem equally urgent, apply ABCs to differentiate",
+      "On the licensing exam, when all patients seem equally urgent, apply ABCs to differentiate",
       "Expected findings for a diagnosis are never the priority over unexpected/new findings in another patient",
       "When delegating to UAP, you free yourself to focus on the patients who require RN-level assessment and judgment"
     ],
@@ -364,7 +364,7 @@ export const delegationLessons: Record<string, LessonContent> = {
   "delegation-rules-scope": {
     title: "Delegation Rules & Scope of Practice",
     cellular: {
-      title: "Legal and Ethical Framework for Nursing Delegation",
+      title: "Legal and Ethical Framework for Nursing",
       content: "Delegation is the transfer of responsibility for performing a nursing activity to another person while retaining accountability for the outcome. The delegating nurse remains legally accountable for the appropriateness of the delegation decision, for supervising the delegated task, and for evaluating the outcome. Understanding scope of practice and delegation rules is essential for patient safety and legal protection.\n\nThe Five Rights of Delegation provide a framework for safe delegation decisions: Right Task (the activity is within the delegate's scope and competency), Right Circumstance (the patient's condition is stable and predictable enough for the task to be safely delegated), Right Person (the delegate has the appropriate training, skills, and legal authority), Right Direction/Communication (clear, specific instructions are given including expected findings to report), and Right Supervision/Evaluation (the delegating nurse follows up to ensure the task was completed correctly and the patient responded appropriately).\n\nScope of practice varies by licensure level. Registered Nurses (RNs) can perform comprehensive assessment, develop nursing care plans, administer all medications (including IV push and blood products), provide patient education, and delegate to RPNs/LPNs and UAPs. Registered Practical Nurses/Licensed Practical Nurses (RPNs/LPNs) work under RN supervision for complex patients and can perform focused assessments, administer most medications (with jurisdictional variations for IV push), reinforce education, and delegate to UAPs. Unregulated/Unlicensed Assistive Personnel (UAPs/PSWs/CNAs) can perform activities of daily living, vital signs on stable patients, specimen collection, and routine tasks that do not require clinical judgment."
     },
     riskFactors: [
@@ -422,14 +422,14 @@ export const delegationLessons: Record<string, LessonContent> = {
         action: "Ensures safe and appropriate transfer of nursing activities",
         sideEffects: "Time-intensive but legally and ethically required",
         contra: "Never delegate when the patient is unstable or the task requires clinical nursing judgment",
-        pearl: "Remember: You delegate the TASK but never the ACCOUNTABILITY. The RN who delegates remains legally responsible for the outcome."
+        pearl: "Remember: You delegate the TASK but never the ACCOUNTABILITY. The nurse who delegates remains legally responsible for the outcome."
       }
     ],
     pearls: [
       "The RN ALWAYS retains accountability for delegated tasks - you can delegate the task but never the responsibility",
-      "Assessment is NEVER delegated - UAPs collect data (vital signs), but the RN interprets and assesses",
+      "Assessment is NEVER delegated - UAPs collect data (vital signs), but the nurse interprets and assesses",
       "When in doubt about scope, check: Can the delegate legally do this? Do they have the competency? Is the patient stable enough?",
-      "On NCLEX, if the question involves an unstable patient, the answer is almost always 'the RN does it' - not delegated"
+      "On the licensing exam, if the question involves an unstable patient, the answer is almost always 'the nurse does it' - not delegated"
     ],
     preTest: [
       {
@@ -453,10 +453,10 @@ export const delegationLessons: Record<string, LessonContent> = {
     ],
     postTest: [
       {
-        question: "An RN delegates vital signs on a post-operative patient to a UAP. The UAP reports BP 80/50. The RN should:",
+        question: "An RN delegates vital signs on a post-operative patient to a UAP. The UAP reports BP 80/50. The nurse should:",
         options: ["Ask the UAP to recheck in 30 minutes", "Immediately assess the patient personally", "Tell the UAP to increase the IV rate", "Document the finding and continue with other tasks"],
         correct: 1,
-        rationale: "An abnormal vital sign requires immediate RN assessment. The RN must personally evaluate the patient, correlate the vital signs with clinical presentation, and intervene as needed. Increasing IV rate requires a nursing order."
+        rationale: "An abnormal vital sign requires immediate RN assessment. The nurse must personally evaluate the patient, correlate the vital signs with clinical presentation, and intervene as needed. Increasing IV rate requires a nursing order."
       },
       {
         question: "Which patient assignment is MOST appropriate for an RPN/LPN?",
@@ -465,8 +465,8 @@ export const delegationLessons: Record<string, LessonContent> = {
         rationale: "An RPN/LPN is appropriate for stable patients with predictable outcomes. Wound care and oral medication administration are within RPN/LPN scope. Acute emergencies, initial chemotherapy, and comprehensive assessments require an RN."
       },
       {
-        question: "A UAP asks the RN if they can teach a newly diagnosed diabetic patient about insulin injection. The RN should:",
-        options: ["Allow the UAP to teach since they have experience with diabetes", "Decline - initial patient education is an RN responsibility that cannot be delegated", "Agree if the UAP has received additional training", "Delegate it since the RN is too busy"],
+        question: "A UAP asks the nurse if they can teach a newly diagnosed diabetic patient about insulin injection. The nurse should:",
+        options: ["Allow the UAP to teach since they have experience with diabetes", "Decline - initial patient education is an RN responsibility that cannot be delegated", "Agree if the UAP has received additional training", "Delegate it since the nurse is too busy"],
         correct: 1,
         rationale: "Initial patient education cannot be delegated to a UAP. Education requires clinical knowledge, assessment of learning readiness, and evaluation of understanding - all nursing judgment activities. A UAP may reinforce previously taught concepts under RN direction."
       }
@@ -474,7 +474,7 @@ export const delegationLessons: Record<string, LessonContent> = {
     quiz: [
       {
         question: "What is the MOST important factor in determining whether a task can be delegated to a UAP?",
-        options: ["Whether the UAP wants to do the task", "Whether the patient is stable and the task does not require clinical judgment", "Whether the RN is busy with other patients", "Whether the charge nurse approves"],
+        options: ["Whether the UAP wants to do the task", "Whether the patient is stable and the task does not require clinical judgment", "Whether the nurse is busy with other patients", "Whether the charge nurse approves"],
         correct: 1,
         rationale: "The key factors are patient stability and whether the task requires clinical nursing judgment. UAPs can perform tasks that are routine, predictable, and do not require assessment, evaluation, or clinical decision-making."
       }
@@ -484,7 +484,7 @@ export const delegationLessons: Record<string, LessonContent> = {
   "sbar-escalation": {
     title: "SBAR Escalation: When & How to Escalate",
     cellular: {
-      title: "Clinical Deterioration Recognition and Communication Escalation",
+      title: "Clinical Deterioration Recognition",
       content: "Failure to rescue - the inability to recognize and respond to clinical deterioration in a timely manner - is a leading cause of preventable hospital deaths. Studies consistently demonstrate that patients who experience cardiac arrest, respiratory failure, or unexpected ICU transfer display warning signs hours before the event. The nurse's ability to recognize these warning signs and communicate effectively with the healthcare team is the critical link between early detection and successful intervention.\n\nSBAR (Situation-Background-Assessment-Recommendation) is the standardized communication framework that structures clinical communication to ensure essential information is conveyed clearly and completely. When escalating a concern about a deteriorating patient, the SBAR format reduces ambiguity, prevents important details from being omitted, and empowers the nurse to make a specific recommendation rather than simply reporting data.\n\nEscalation pathways exist for situations when the initial provider response is inadequate or when the nurse has ongoing concerns despite communication. The chain of command (bedside nurse → charge nurse → nursing supervisor → medical director → chief of staff) provides a structured escalation pathway that nurses are legally and ethically obligated to use when patient safety is at risk. Failure to escalate when a patient is deteriorating can constitute negligence, even if the nurse communicated with one provider who chose not to act."
     },
     riskFactors: [
@@ -604,7 +604,7 @@ export const delegationLessons: Record<string, LessonContent> = {
   "post-op-prioritization": {
     title: "Post-Op Complications: Prioritization",
     cellular: {
-      title: "Temporal Framework for Post-Operative Complication Assessment",
+      title: "Temporal Framework for Post-Operative",
       content: "Post-operative complications follow a predictable temporal pattern that guides nursing assessment priorities. Understanding WHEN complications are most likely to occur allows the nurse to focus assessments on the highest-risk complications for each post-operative timeframe. Failure to recognize early complications can result in rapid deterioration, reoperation, prolonged hospitalization, or death.\n\nImmediate post-operative complications (0-24 hours) are primarily related to the effects of anesthesia and the surgical procedure itself. Airway compromise from residual anesthesia, hemorrhage from surgical site bleeding, and hemodynamic instability from fluid shifts are the primary threats during this period. The nurse must assess ABCs frequently, monitor for active bleeding (surgical site, drains, vital sign trends), and ensure adequate pain management without respiratory depression.\n\nEarly post-operative complications (24-72 hours) include atelectasis (the most common complication), deep vein thrombosis (DVT) development, paralytic ileus, urinary retention, and surgical site infection onset. The shift from immediate to early complications requires a change in assessment focus from anesthesia recovery to systemic complications of immobility, inflammation, and surgical stress.\n\nLate post-operative complications (72 hours to weeks) include wound dehiscence, evisceration, pulmonary embolism (typically days 5-7), pneumonia, and delayed surgical site infections. These complications often develop insidiously and require vigilant ongoing assessment even as the patient appears to be improving."
     },
     riskFactors: [

@@ -67,13 +67,13 @@ export const npClinicalUnitLessons: Record<string, LessonContent> = {
       }
     ],
     "pearls": [
-      "ED in men aged 40-60 is an independent cardiovascular risk marker with predictive value comparable to smoking - the NP must screen for CVD risk factors and consider cardiology referral, not just treat the ED",
+      "ED in men aged 40-60 is an independent cardiovascular risk marker with predictive value comparable to smoking - the clinician must screen for CVD risk factors and consider cardiology referral, not just treat the ED",
       "PDE5 inhibitors are absolutely contraindicated with nitrate therapy - there must be a 24-hour washout for sildenafil/vardenafil and 48-hour washout for tadalafil before nitrate administration",
       "Morning testosterone must be drawn between 0700-1000 and confirmed with a second sample before diagnosing hypogonadism - single low values may be due to acute illness, sleep deprivation, or diurnal variation"
     ],
     "quiz": [
       {
-        "question": "A 52-year-old with type 2 diabetes and hypertension reports progressive ED over 18 months. He takes metformin, ramipril, and atorvastatin. Morning erections are absent. What should the NP order first?",
+        "question": "A 52-year-old with type 2 diabetes and hypertension reports progressive ED over 18 months. He takes metformin, ramipril, and atorvastatin. Morning erections are absent. What should the clinician order first?",
         "options": [
           "Penile duplex Doppler ultrasound",
           "Fasting glucose, lipid panel, and morning total testosterone",
@@ -152,7 +152,7 @@ export const npClinicalUnitLessons: Record<string, LessonContent> = {
     ],
     "pearls": [
       "IPSS is essential for documenting BPH symptom severity and treatment response - a score decrease of >= 3 points indicates clinically meaningful improvement and should be documented at each follow-up",
-      "Finasteride reduces PSA by approximately 50% - the NP must double the measured PSA value for cancer screening interpretation in patients on 5-ARI therapy, or an unexpected PSA rise while on finasteride warrants further investigation",
+      "Finasteride reduces PSA by approximately 50% - the clinician must double the measured PSA value for cancer screening interpretation in patients on 5-ARI therapy, or an unexpected PSA rise while on finasteride warrants further investigation",
       "Alpha-blockers provide rapid symptom relief (days to weeks) while 5-ARIs take 6-12 months to reduce prostate size - combination therapy (MTOPS trial) reduces progression risk by 66% compared to either agent alone"
     ],
     "quiz": [
@@ -318,9 +318,9 @@ export const npClinicalUnitLessons: Record<string, LessonContent> = {
       }
     ],
     "pearls": [
-      "Time is brain: every minute of untreated ischemic stroke destroys 1.9 million neurons - the NP in primary care must recognize stroke symptoms immediately and activate emergency medical services without delay",
-      "IV alteplase is effective up to 4.5 hours from symptom onset but benefit decreases with every minute of delay - the NP should never order MRI before CT in acute stroke as CT is faster and sufficient to rule out hemorrhage",
-      "CHA2DS2-VASc score guides anticoagulation for AF-related stroke prevention: score >= 2 in men or >= 3 in women = DOAC anticoagulation recommended; the NP should calculate this for all AF patients"
+      "Time is brain: every minute of untreated ischemic stroke destroys 1.9 million neurons - the clinician in primary care must recognize stroke symptoms immediately and activate emergency medical services without delay",
+      "IV alteplase is effective up to 4.5 hours from symptom onset but benefit decreases with every minute of delay - the clinician should never order MRI before CT in acute stroke as CT is faster and sufficient to rule out hemorrhage",
+      "CHA2DS2-VASc score guides anticoagulation for AF-related stroke prevention: score >= 2 in men or >= 3 in women = DOAC anticoagulation recommended; the clinician should calculate this for all AF patients"
     ],
     "quiz": [
       {
@@ -402,13 +402,13 @@ export const npClinicalUnitLessons: Record<string, LessonContent> = {
       }
     ],
     "pearls": [
-      "SGLT2 inhibitors and GLP-1 RAs have cardiovascular and renal benefits INDEPENDENT of glucose lowering - the NP should prescribe these agents based on comorbidities (ASCVD, HF, CKD) rather than HbA1c alone",
+      "SGLT2 inhibitors and GLP-1 RAs have cardiovascular and renal benefits INDEPENDENT of glucose lowering - the clinician should prescribe these agents based on comorbidities (ASCVD, HF, CKD) rather than HbA1c alone",
       "Euglycemic DKA is a rare but serious complication of SGLT2 inhibitors - glucose may be normal or mildly elevated; suspect in any SGLT2i patient with nausea, vomiting, and metabolic acidosis, and check serum ketones",
-      "Diabetes Canada recommends HbA1c <= 7.0% for most adults, but the NP must individualize targets: 7.1-8.0% for older adults with functional dependence, 8.0-8.5% for patients with limited life expectancy or hypoglycemia unawareness"
+      "Diabetes Canada recommends HbA1c <= 7.0% for most adults, but the clinician must individualize targets: 7.1-8.0% for older adults with functional dependence, 8.0-8.5% for patients with limited life expectancy or hypoglycemia unawareness"
     ],
     "quiz": [
       {
-        "question": "A 58-year-old with T2D, HbA1c 7.8%, BMI 34, eGFR 45, uACR 15 mg/mmol, and history of MI 2 years ago is on metformin 1000mg BID. What should the NP add?",
+        "question": "A 58-year-old with T2D, HbA1c 7.8%, BMI 34, eGFR 45, uACR 15 mg/mmol, and history of MI 2 years ago is on metformin 1000mg BID. What should the clinician add?",
         "options": [
           "Glyburide (sulfonylurea)",
           "Empagliflozin (SGLT2 inhibitor)",
@@ -486,9 +486,9 @@ export const npClinicalUnitLessons: Record<string, LessonContent> = {
       }
     ],
     "pearls": [
-      "TSH is the single most important thyroid function test - the NP should order TSH first and add fT4 only when TSH is abnormal; ordering fT4 with normal TSH rarely provides clinically useful information",
-      "Levothyroxine absorption is significantly affected by concurrent medications and foods - the NP must counsel patients to take it on empty stomach and separate from calcium, iron, and PPIs by at least 4 hours",
-      "Agranulocytosis from methimazole is a medical emergency - the NP must warn ALL patients on antithyroid drugs to immediately seek care for fever or sore throat and obtain urgent CBC with differential"
+      "TSH is the single most important thyroid function test - the clinician should order TSH first and add fT4 only when TSH is abnormal; ordering fT4 with normal TSH rarely provides clinically useful information",
+      "Levothyroxine absorption is significantly affected by concurrent medications and foods - the clinician must counsel patients to take it on empty stomach and separate from calcium, iron, and PPIs by at least 4 hours",
+      "Agranulocytosis from methimazole is a medical emergency - the clinician must warn ALL patients on antithyroid drugs to immediately seek care for fever or sore throat and obtain urgent CBC with differential"
     ],
     "quiz": [
       {
@@ -570,9 +570,9 @@ export const npClinicalUnitLessons: Record<string, LessonContent> = {
       }
     ],
     "pearls": [
-      "The treat-to-target strategy in RA requires disease activity assessment (DAS28 or CDAI) every 3 months with therapy escalation until remission or low disease activity is achieved - the NP must not accept moderate disease activity as adequate",
+      "The treat-to-target strategy in RA requires disease activity assessment (DAS28 or CDAI) every 3 months with therapy escalation until remission or low disease activity is achieved - the clinician must not accept moderate disease activity as adequate",
       "Anti-CCP antibody is 95% specific for RA and predicts erosive disease - a positive anti-CCP in a patient with inflammatory polyarthritis essentially confirms the diagnosis and indicates the need for aggressive early DMARD therapy",
-      "Methotrexate must NEVER be prescribed without folic acid supplementation and regular monitoring (CBC, LFTs every 3 months) - the NP should also ensure effective contraception in women of childbearing age and stop MTX 3 months before planned conception"
+      "Methotrexate must NEVER be prescribed without folic acid supplementation and regular monitoring (CBC, LFTs every 3 months) - the clinician should also ensure effective contraception in women of childbearing age and stop MTX 3 months before planned conception"
     ],
     "quiz": [
       {
@@ -592,7 +592,7 @@ export const npClinicalUnitLessons: Record<string, LessonContent> = {
     "title": "HPA Axis and Stress Response",
     "cellular": {
       "title": "Neuroendocrine Stress Cascade",
-      "content": "The hypothalamic-pituitary-adrenal (HPA) axis is the primary neuroendocrine stress response system. Physical or psychological stress activates paraventricular nucleus neurons in the hypothalamus to release corticotropin-releasing hormone (CRH) and arginine vasopressin (AVP). CRH stimulates corticotroph cells in the anterior pituitary to secrete adrenocorticotropic hormone (ACTH). ACTH acts on the zona fasciculata of the adrenal cortex to produce cortisol. Cortisol exerts widespread metabolic effects: gluconeogenesis (raising blood glucose), protein catabolism (muscle wasting), lipolysis (redistribution of fat), anti-inflammatory and immunosuppressive effects, and maintenance of vascular tone. Cortisol feeds back negatively on the hypothalamus and pituitary to terminate the stress response. Chronic stress disrupts this feedback, leading to sustained cortisol elevation, hippocampal neuronal damage (impairing memory), immunosuppression, metabolic syndrome, and cardiovascular disease. The NP must recognize the clinical consequences of chronic HPA axis dysregulation."
+      "content": "The hypothalamic-pituitary-adrenal (HPA) axis is the primary neuroendocrine stress response system. Physical or psychological stress activates paraventricular nucleus neurons in the hypothalamus to release corticotropin-releasing hormone (CRH) and arginine vasopressin (AVP). CRH stimulates corticotroph cells in the anterior pituitary to secrete adrenocorticotropic hormone (ACTH). ACTH acts on the zona fasciculata of the adrenal cortex to produce cortisol. Cortisol exerts widespread metabolic effects: gluconeogenesis (raising blood glucose), protein catabolism (muscle wasting), lipolysis (redistribution of fat), anti-inflammatory and immunosuppressive effects, and maintenance of vascular tone. Cortisol feeds back negatively on the hypothalamus and pituitary to terminate the stress response. Chronic stress disrupts this feedback, leading to sustained cortisol elevation, hippocampal neuronal damage (impairing memory), immunosuppression, metabolic syndrome, and cardiovascular disease. The clinician must recognize the clinical consequences of chronic HPA axis dysregulation."
     },
     "riskFactors": [
       "Adverse childhood experiences (ACEs) - permanent HPA axis dysregulation",
@@ -653,9 +653,9 @@ export const npClinicalUnitLessons: Record<string, LessonContent> = {
       }
     ],
     "pearls": [
-      "Chronic HPA axis activation from sustained stress leads to the same metabolic consequences as exogenous glucocorticoid therapy - central obesity, insulin resistance, hypertension, and immunosuppression - the NP must screen chronically stressed patients for metabolic syndrome",
-      "Adrenal crisis is a medical emergency that occurs when patients with adrenal insufficiency (or chronic corticosteroid users) face physiological stress without adequate cortisol replacement - the NP must educate all patients on chronic steroids about sick-day rules and emergency injection",
-      "The NP should screen all patients with chronic pain, insomnia, or unexplained metabolic syndrome for psychosocial stressors and adverse childhood experiences (ACEs) - addressing the root cause of HPA axis dysregulation is more effective than treating individual metabolic consequences"
+      "Chronic HPA axis activation from sustained stress leads to the same metabolic consequences as exogenous glucocorticoid therapy - central obesity, insulin resistance, hypertension, and immunosuppression - the clinician must screen chronically stressed patients for metabolic syndrome",
+      "Adrenal crisis is a medical emergency that occurs when patients with adrenal insufficiency (or chronic corticosteroid users) face physiological stress without adequate cortisol replacement - the clinician must educate all patients on chronic steroids about sick-day rules and emergency injection",
+      "The clinician should screen all patients with chronic pain, insomnia, or unexplained metabolic syndrome for psychosocial stressors and adverse childhood experiences (ACEs) - addressing the root cause of HPA axis dysregulation is more effective than treating individual metabolic consequences"
     ],
     "quiz": [
       {
@@ -674,7 +674,7 @@ export const npClinicalUnitLessons: Record<string, LessonContent> = {
   "msk-osteoarthritis-gout-np": {
     "title": "OA, Gout, and Crystal Arthropathies",
     "cellular": {
-      "title": "Degenerative and Crystal-Induced Joint Disease",
+      "title": "Degenerative",
       "content": "Osteoarthritis (OA) is the most common joint disease, resulting from progressive loss of articular cartilage with secondary bony changes. Mechanical stress and inflammatory mediators (IL-1, TNF-alpha, MMPs) cause chondrocyte apoptosis and extracellular matrix degradation. Subchondral bone sclerosis, osteophyte formation, and synovial inflammation follow. OA characteristically affects weight-bearing joints (knees, hips) and DIP/PIP joints (Heberden and Bouchard nodes). Gout is a crystal arthropathy caused by monosodium urate (MSU) crystal deposition in joints when serum uric acid exceeds the saturation threshold (> 408 mcmol/L). MSU crystals activate the NLRP3 inflammasome in macrophages, triggering IL-1-beta release and intense neutrophilic inflammation. The first MTP joint (podagra) is the most common site. Pseudogout (calcium pyrophosphate deposition disease, CPPD) presents similarly but with calcium pyrophosphate crystals, typically affecting knees and wrists."
     },
     "riskFactors": [
@@ -757,7 +757,7 @@ export const npClinicalUnitLessons: Record<string, LessonContent> = {
   "mens-health-testosterone-np": {
     "title": "Testosterone Deficiency and Hypogonadism",
     "cellular": {
-      "title": "Hypothalamic-Pituitary-Gonadal Axis Dysfunction",
+      "title": "Hypothalamic-Pituitary-Gonadal Axis",
       "content": "Male hypogonadism results from insufficient testosterone production due to testicular failure (primary) or hypothalamic-pituitary dysfunction (secondary). The hypothalamus secretes GnRH in pulsatile fashion, stimulating anterior pituitary gonadotrophs to release LH and FSH. LH acts on Leydig cells to produce testosterone via cholesterol conversion through the steroidogenic pathway. Testosterone exerts negative feedback on both hypothalamus and pituitary. Primary hypogonadism (hypergonadotropic) shows low testosterone with elevated LH/FSH, as seen in Klinefelter syndrome, orchitis, or testicular injury. Secondary hypogonadism (hypogonadotropic) shows low testosterone with low or inappropriately normal LH/FSH, caused by pituitary adenoma, hyperprolactinemia, obesity, opioid use, or exogenous androgen abuse. Diagnosis requires two morning fasting total testosterone samples below 8 nmol/L drawn before 1000, as testosterone exhibits diurnal variation with peak levels in early morning."
     },
     "riskFactors": [
@@ -820,7 +820,7 @@ export const npClinicalUnitLessons: Record<string, LessonContent> = {
     ],
     "pearls": [
       "Two morning fasting testosterone samples below 8 nmol/L are required for diagnosis - a single low value may reflect acute illness, sleep deprivation, or diurnal variation and is insufficient to initiate lifelong replacement therapy",
-      "Exogenous testosterone suppresses the HPG axis and abolishes spermatogenesis - the NP must counsel all men of reproductive age about this effect and offer sperm cryopreservation before starting therapy",
+      "Exogenous testosterone suppresses the HPG axis and abolishes spermatogenesis - the clinician must counsel all men of reproductive age about this effect and offer sperm cryopreservation before starting therapy",
       "Hematocrit monitoring is the most critical safety parameter on testosterone replacement - polycythemia (Hct > 0.54) increases thromboembolic risk and requires dose reduction or therapy discontinuation"
     ],
     "quiz": [
@@ -840,7 +840,7 @@ export const npClinicalUnitLessons: Record<string, LessonContent> = {
   "mens-health-prostatitis-np": {
     "title": "Prostatitis Syndromes",
     "cellular": {
-      "title": "Prostatic Inflammation and Chronic Pelvic Pain Pathophysiology",
+      "title": "Prostatic Inflammation",
       "content": "Prostatitis encompasses four categories: acute bacterial (Category I), chronic bacterial (Category II), chronic prostatitis/chronic pelvic pain syndrome (CP/CPPS, Category III), and asymptomatic inflammatory (Category IV). Acute bacterial prostatitis results from ascending urethral infection or hematogenous seeding, most commonly by E. coli, Klebsiella, or Pseudomonas. Bacteria colonize the prostatic ductal system, triggering neutrophilic infiltration, glandular destruction, and prostatic abscess formation in severe cases. Chronic bacterial prostatitis involves persistent bacterial biofilm within prostatic calculi or ductal epithelium, causing recurrent UTIs. CP/CPPS (90% of prostatitis cases) involves neurogenic inflammation, pelvic floor muscle dysfunction, and central pain sensitization without identifiable bacterial infection. Prostatic inflammation increases PSA levels and may mimic prostate cancer on screening."
     },
     "riskFactors": [
@@ -922,7 +922,7 @@ export const npClinicalUnitLessons: Record<string, LessonContent> = {
   "mens-health-infertility-np": {
     "title": "Male Infertility",
     "cellular": {
-      "title": "Spermatogenesis Disruption and Hormonal Regulation",
+      "title": "Spermatogenesis Disruption",
       "content": "Spermatogenesis occurs within seminiferous tubules of the testes over a 74-day cycle, regulated by the HPG axis. FSH acts on Sertoli cells to support spermatid maturation and produce inhibin B (which provides negative feedback to FSH secretion). LH stimulates Leydig cells to produce testosterone, which is essential for spermatogenesis at high intratesticular concentrations (50-100 times serum levels). Disruption at any level impairs fertility. Pre-testicular causes include hypothalamic-pituitary disorders (hypogonadotropic hypogonadism, hyperprolactinemia), exogenous testosterone or anabolic steroid use (which suppresses FSH/LH via negative feedback, ablating spermatogenesis). Testicular causes include varicocele (present in 40% of infertile men, causing testicular hyperthermia and oxidative stress), Klinefelter syndrome (47,XXY), cryptorchidism, and gonadotoxic chemotherapy. Post-testicular causes include obstructive azoospermia from vasectomy, cystic fibrosis (congenital bilateral absence of vas deferens), or ejaculatory duct obstruction."
     },
     "riskFactors": [
@@ -984,7 +984,7 @@ export const npClinicalUnitLessons: Record<string, LessonContent> = {
       }
     ],
     "pearls": [
-      "Exogenous testosterone is a male contraceptive - the NP must counsel all men that testosterone replacement therapy abolishes spermatogenesis via HPG axis suppression, and offer sperm cryopreservation before initiating therapy in men who may desire future fertility",
+      "Exogenous testosterone is a male contraceptive - the clinician must counsel all men that testosterone replacement therapy abolishes spermatogenesis via HPG axis suppression, and offer sperm cryopreservation before initiating therapy in men who may desire future fertility",
       "Semen analysis must be repeated after 2-3 months if abnormal because a single sample may not reflect true baseline - one complete spermatogenic cycle takes 74 days, and results vary with illness, stress, and abstinence interval",
       "Varicocele is the most common correctable cause of male infertility - clinical varicocele with abnormal semen parameters warrants urology referral for varicocelectomy, which improves semen parameters in 60-70% of men"
     ],
@@ -1066,8 +1066,8 @@ export const npClinicalUnitLessons: Record<string, LessonContent> = {
       }
     ],
     "pearls": [
-      "PSA screening requires shared decision-making - the NP must discuss both the potential 20% relative mortality reduction and the significant risk of overdiagnosis (up to 50% of screen-detected cancers may never cause symptoms) before ordering the test",
-      "Finasteride and dutasteride reduce PSA by approximately 50% - the NP must double the measured PSA value for cancer screening interpretation in patients on 5-ARI therapy; failure to adjust leads to missed cancers",
+      "PSA screening requires shared decision-making - the clinician must discuss both the potential 20% relative mortality reduction and the significant risk of overdiagnosis (up to 50% of screen-detected cancers may never cause symptoms) before ordering the test",
+      "Finasteride and dutasteride reduce PSA by approximately 50% - the clinician must double the measured PSA value for cancer screening interpretation in patients on 5-ARI therapy; failure to adjust leads to missed cancers",
       "DRE alone has poor sensitivity (53%) and poor positive predictive value (28%) for prostate cancer - it should complement, not replace, PSA testing; a normal DRE does not exclude cancer as 25-35% of cancers are in the anterior or transitional zone"
     ],
     "quiz": [
@@ -1087,7 +1087,7 @@ export const npClinicalUnitLessons: Record<string, LessonContent> = {
   "womens-health-osteoporosis-np": {
     "title": "Osteoporosis in Women",
     "cellular": {
-      "title": "Bone Remodeling Imbalance and Estrogen-Mediated Bone Loss",
+      "title": "Bone Remodeling Imbalance",
       "content": "Bone undergoes continuous remodeling through coordinated osteoclast-mediated resorption and osteoblast-mediated formation. Estrogen is a critical inhibitor of osteoclast differentiation and activity via suppression of RANKL (receptor activator of nuclear factor kappa-B ligand) on osteoblasts and promotion of osteoprotegerin (OPG), the soluble decoy receptor for RANKL. Menopausal estrogen decline removes this protective effect, dramatically increasing osteoclast activity and bone resorption. Women lose 2-3% of bone mass annually during the first 5-7 years post-menopause, with accelerated loss from trabecular-rich sites (vertebrae, distal radius). Osteoporosis is defined by DXA T-score <= -2.5 at the lumbar spine, femoral neck, or total hip. Osteopenia (T-score -1.0 to -2.5) represents intermediate risk. The FRAX tool integrates clinical risk factors with bone density to estimate 10-year fracture probability, guiding treatment thresholds. Fragility fractures (occurring from standing height or less) indicate severe osteoporosis regardless of T-score."
     },
     "riskFactors": [
@@ -1150,7 +1150,7 @@ export const npClinicalUnitLessons: Record<string, LessonContent> = {
     ],
     "pearls": [
       "FRAX score guides treatment decisions in osteopenia - pharmacotherapy is recommended when 10-year probability of major osteoporotic fracture is >= 20% or hip fracture is >= 3%, even if T-score has not reached the osteoporosis threshold",
-      "Denosumab discontinuation causes rapid rebound bone loss with vertebral fracture risk within 12-18 months - the NP must NEVER stop denosumab without transitioning to an oral bisphosphonate for at least 1-2 years as a bridging strategy",
+      "Denosumab discontinuation causes rapid rebound bone loss with vertebral fracture risk within 12-18 months - the clinician must NEVER stop denosumab without transitioning to an oral bisphosphonate for at least 1-2 years as a bridging strategy",
       "Bisphosphonate drug holidays should be considered after 5 years of oral therapy (or 3 years of IV zoledronic acid) in patients who are stable (T-score > -2.5, no recent fractures) - but high-risk patients may benefit from continued therapy"
     ],
     "quiz": [
@@ -1163,7 +1163,7 @@ export const npClinicalUnitLessons: Record<string, LessonContent> = {
           "Denosumab must be continued indefinitely and cannot be stopped"
         ],
         "correct": 1,
-        "rationale": "Denosumab discontinuation causes rapid rebound bone resorption with accelerated bone loss and risk of multiple vertebral fractures within 12-18 months. The NP must transition the patient to an oral bisphosphonate (alendronate 70mg weekly) for at least 1-2 years before stopping to consolidate bone gains. Simply stopping denosumab without a bridging plan is dangerous regardless of current T-score."
+        "rationale": "Denosumab discontinuation causes rapid rebound bone resorption with accelerated bone loss and risk of multiple vertebral fractures within 12-18 months. The clinician must transition the patient to an oral bisphosphonate (alendronate 70mg weekly) for at least 1-2 years before stopping to consolidate bone gains. Simply stopping denosumab without a bridging plan is dangerous regardless of current T-score."
       }
     ]
   },
@@ -1252,7 +1252,7 @@ export const npClinicalUnitLessons: Record<string, LessonContent> = {
   "womens-health-contraception-np": {
     "title": "Contraception Methods and Prescribing",
     "cellular": {
-      "title": "Mechanisms of Hormonal and Non-Hormonal Contraception",
+      "title": "Mechanisms of Hormonal",
       "content": "Hormonal contraception primarily prevents pregnancy through suppression of the HPO axis. Combined hormonal contraceptives (CHC: pill, patch, ring) contain ethinyl estradiol and a progestin; the estrogen component suppresses FSH and follicular recruitment while the progestin suppresses the LH surge, preventing ovulation. Progestin also thickens cervical mucus (impeding sperm transport), thins the endometrium (reducing receptivity), and slows tubal motility. Progestin-only methods (POP, DMPA, implant, hormonal IUD) rely primarily on cervical mucus thickening and endometrial atrophy, with variable ovulation suppression (DMPA and implant reliably suppress ovulation; POP less consistently). The copper IUD creates a sterile inflammatory reaction in the endometrium, with copper ions toxic to sperm and ova, preventing fertilization. The levonorgestrel IUD releases progestin locally, primarily acting through cervical mucus and endometrial effects. US Medical Eligibility Criteria (MEC) categorize contraindications from 1 (no restriction) to 4 (unacceptable health risk)."
     },
     "riskFactors": [
@@ -1314,7 +1314,7 @@ export const npClinicalUnitLessons: Record<string, LessonContent> = {
       }
     ],
     "pearls": [
-      "LARC methods (IUDs, implant) are first-line contraception recommendations due to highest efficacy (> 99%), user-independence, and cost-effectiveness over time - the NP should actively offer LARC as the default recommendation during contraceptive counselling",
+      "LARC methods (IUDs, implant) are first-line contraception recommendations due to highest efficacy (> 99%), user-independence, and cost-effectiveness over time - the clinician should actively offer LARC as the default recommendation during contraceptive counselling",
       "Migraine with aura is an absolute contraindication (MEC 4) to combined hormonal contraception due to 2-4 fold increased ischemic stroke risk - progestin-only methods and copper IUD are safe alternatives in these patients",
       "The copper IUD is the most effective emergency contraception method (failure rate < 0.1%) when inserted within 7 days of unprotected intercourse, and provides ongoing contraception for up to 10 years - this option is frequently under-offered"
     ],
@@ -1328,14 +1328,14 @@ export const npClinicalUnitLessons: Record<string, LessonContent> = {
           "Copper IUD (Paragard)"
         ],
         "correct": 1,
-        "rationale": "Migraine with aura is MEC category 4 (unacceptable health risk) for all combined hormonal contraceptives (pill, patch, ring) due to 2-4 fold increased ischemic stroke risk. Progestin-only methods (LNG-IUD, implant, POP, DMPA) and the copper IUD are safe alternatives (MEC 1-2) as the stroke risk is estrogen-mediated. The NP must screen for migraine with aura before prescribing any CHC."
+        "rationale": "Migraine with aura is MEC category 4 (unacceptable health risk) for all combined hormonal contraceptives (pill, patch, ring) due to 2-4 fold increased ischemic stroke risk. Progestin-only methods (LNG-IUD, implant, POP, DMPA) and the copper IUD are safe alternatives (MEC 1-2) as the stroke risk is estrogen-mediated. The clinician must screen for migraine with aura before prescribing any CHC."
       }
     ]
   },
   "womens-health-gynecologic-np": {
-    "title": "Gynecologic Conditions: Vaginitis, PID, Endometriosis, PCOS",
+    "title": "Gynecologic Conditions: Vaginitis, PID",
     "cellular": {
-      "title": "Pathophysiology of Common Gynecologic Disorders",
+      "title": "Common Gynecologic Disorders",
       "content": "Vaginitis represents disruption of the vaginal microbiome or infection of the vaginal epithelium. Bacterial vaginosis (BV) results from replacement of protective Lactobacillus species with anaerobic bacteria (Gardnerella vaginalis, Prevotella, Mobiluncus), producing malodorous thin grey discharge with clue cells on wet mount and positive whiff test (KOH releases amines). Vulvovaginal candidiasis involves Candida albicans overgrowth, producing thick white curd-like discharge with KOH preparation showing pseudohyphae. Trichomoniasis, caused by the protozoan Trichomonas vaginalis, produces frothy yellow-green discharge with motile trichomonads on wet mount and strawberry cervix on exam. Pelvic inflammatory disease (PID) results from ascending cervical infection (commonly Chlamydia and Gonorrhea) causing endometritis, salpingitis, and tubo-ovarian abscess. PCOS involves ovarian hyperandrogenism with anovulation, diagnosed by Rotterdam criteria (2 of 3: oligo/anovulation, clinical/biochemical hyperandrogenism, polycystic ovarian morphology on ultrasound). Endometriosis involves ectopic endometrial tissue implants causing cyclic inflammation, adhesions, and pain."
     },
     "riskFactors": [
@@ -1397,7 +1397,7 @@ export const npClinicalUnitLessons: Record<string, LessonContent> = {
     ],
     "pearls": [
       "The wet mount is the most cost-effective point-of-care test in vaginitis evaluation - clue cells with positive whiff test diagnose BV, pseudohyphae on KOH diagnose candidiasis, and motile trichomonads diagnose trichomoniasis; each has a different treatment and partner notification requirement",
-      "PID is a clinical diagnosis based on minimum criteria (cervical motion tenderness + uterine tenderness + adnexal tenderness) - the NP should have a low threshold to treat empirically because delay increases infertility risk; negative NAAT does not exclude PID",
+      "PID is a clinical diagnosis based on minimum criteria (cervical motion tenderness + uterine tenderness + adnexal tenderness) - the clinician should have a low threshold to treat empirically because delay increases infertility risk; negative NAAT does not exclude PID",
       "PCOS is diagnosed by Rotterdam criteria requiring 2 of 3 features - it is the most common cause of anovulatory infertility and carries long-term metabolic risks (type 2 diabetes, cardiovascular disease, endometrial cancer from unopposed estrogen)"
     ],
     "quiz": [
@@ -1418,7 +1418,7 @@ export const npClinicalUnitLessons: Record<string, LessonContent> = {
     "title": "Amenorrhea: Primary and Secondary",
     "cellular": {
       "title": "Pathophysiology of Menstrual Absence",
-      "content": "Amenorrhea is classified as primary (absence of menarche by age 15 with normal secondary sexual characteristics, or by age 13 without secondary sexual characteristics) or secondary (absence of menstruation for >= 3 months in previously cycling women or >= 6 months in women with irregular cycles). Secondary amenorrhea is far more common and the diagnostic workup proceeds systematically. Pregnancy is the most common cause and must always be excluded first with beta-hCG. After excluding pregnancy, the NP evaluates TSH (hypothyroidism increases TRH, which stimulates prolactin and suppresses GnRH), prolactin (hyperprolactinemia suppresses GnRH pulsatility), and FSH (elevated FSH > 40 IU/L indicates primary ovarian insufficiency; low/normal FSH suggests hypothalamic or pituitary cause). Functional hypothalamic amenorrhea results from suppression of GnRH pulsatility due to energy deficit, excessive exercise, or psychological stress. PCOS is the most common cause of anovulatory amenorrhea in reproductive-age women, characterized by hyperandrogenism and insulin resistance disrupting normal follicular development."
+      "content": "Amenorrhea is classified as primary (absence of menarche by age 15 with normal secondary sexual characteristics, or by age 13 without secondary sexual characteristics) or secondary (absence of menstruation for >= 3 months in previously cycling women or >= 6 months in women with irregular cycles). Secondary amenorrhea is far more common and the diagnostic workup proceeds systematically. Pregnancy is the most common cause and must always be excluded first with beta-hCG. After excluding pregnancy, the clinician evaluates TSH (hypothyroidism increases TRH, which stimulates prolactin and suppresses GnRH), prolactin (hyperprolactinemia suppresses GnRH pulsatility), and FSH (elevated FSH > 40 IU/L indicates primary ovarian insufficiency; low/normal FSH suggests hypothalamic or pituitary cause). Functional hypothalamic amenorrhea results from suppression of GnRH pulsatility due to energy deficit, excessive exercise, or psychological stress. PCOS is the most common cause of anovulatory amenorrhea in reproductive-age women, characterized by hyperandrogenism and insulin resistance disrupting normal follicular development."
     },
     "riskFactors": [
       "Pregnancy (most common cause of secondary amenorrhea - always exclude first)",
@@ -1481,7 +1481,7 @@ export const npClinicalUnitLessons: Record<string, LessonContent> = {
     "pearls": [
       "The first step in ALL secondary amenorrhea workups is beta-hCG to exclude pregnancy - this is a patient safety imperative that must never be skipped regardless of reported sexual activity or contraceptive use",
       "The progesterone withdrawal challenge is a pivotal diagnostic test: withdrawal bleed confirms adequate endogenous estrogen and anovulation (likely PCOS), while absence of bleed suggests either estrogen deficiency (hypothalamic/pituitary failure) or anatomic outflow obstruction",
-      "Chronic anovulation without progesterone opposition puts the endometrium at risk for hyperplasia and endometrial cancer - the NP must ensure endometrial protection in all amenorrheic women with intact uterus through cyclic progesterone or combined OCP"
+      "Chronic anovulation without progesterone opposition puts the endometrium at risk for hyperplasia and endometrial cancer - the clinician must ensure endometrial protection in all amenorrheic women with intact uterus through cyclic progesterone or combined OCP"
     ],
     "quiz": [
       {
@@ -1500,7 +1500,7 @@ export const npClinicalUnitLessons: Record<string, LessonContent> = {
   "neuro-seizures-np": {
     "title": "Seizure Disorders and Epilepsy",
     "cellular": {
-      "title": "Neuronal Hyperexcitability and Seizure Propagation",
+      "title": "Neuronal Hyperexcitability",
       "content": "Seizures result from abnormal, excessive, and synchronous neuronal electrical discharge in the cerebral cortex. The balance between excitatory (glutamate/NMDA) and inhibitory (GABA) neurotransmission maintains normal cortical function. Seizures occur when this balance shifts toward excitation through increased glutamatergic transmission, decreased GABAergic inhibition, or altered intrinsic neuronal membrane properties (channelopathies affecting sodium, potassium, or calcium channels). Focal seizures originate in a localized cortical region: focal aware (consciousness preserved, formerly simple partial), focal impaired awareness (consciousness altered, formerly complex partial), and focal to bilateral tonic-clonic. Generalized seizures involve both hemispheres from onset: absence (3 Hz spike-and-wave on EEG), myoclonic, tonic, atonic, and tonic-clonic. Status epilepticus is defined as continuous seizure activity lasting >= 5 minutes or two or more seizures without full recovery of consciousness, constituting a neurological emergency with increasing neuronal death, excitotoxicity, and systemic complications (rhabdomyolysis, hyperthermia, respiratory failure)."
     },
     "riskFactors": [
@@ -1562,8 +1562,8 @@ export const npClinicalUnitLessons: Record<string, LessonContent> = {
       }
     ],
     "pearls": [
-      "After a first unprovoked seizure with normal EEG and MRI, the 2-year recurrence risk is approximately 30% - the NP may reasonably defer AED treatment with close follow-up, but must initiate treatment after a second unprovoked seizure (60% recurrence risk)",
-      "Valproic acid is absolutely contraindicated in women of childbearing potential due to 1-2% neural tube defect risk and cognitive effects on offspring - the NP must prescribe folic acid 1-5 mg daily and use lamotrigine or levetiracetam as preferred alternatives in this population",
+      "After a first unprovoked seizure with normal EEG and MRI, the 2-year recurrence risk is approximately 30% - the clinician may reasonably defer AED treatment with close follow-up, but must initiate treatment after a second unprovoked seizure (60% recurrence risk)",
+      "Valproic acid is absolutely contraindicated in women of childbearing potential due to 1-2% neural tube defect risk and cognitive effects on offspring - the clinician must prescribe folic acid 1-5 mg daily and use lamotrigine or levetiracetam as preferred alternatives in this population",
       "Status epilepticus is a time-sensitive emergency: IV benzodiazepine (lorazepam 0.1 mg/kg) is first-line and must be administered within 5 minutes of seizure onset - delayed treatment increases mortality and morbidity from excitotoxic neuronal injury"
     ],
     "quiz": [
@@ -1583,7 +1583,7 @@ export const npClinicalUnitLessons: Record<string, LessonContent> = {
   "neuro-headaches-np": {
     "title": "Primary Headache Disorders",
     "cellular": {
-      "title": "Trigeminovascular Activation and Central Sensitization",
+      "title": "Trigeminovascular Activation",
       "content": "Primary headache disorders involve dysfunction of pain-processing pathways without structural pathology. Migraine pathophysiology centers on trigeminovascular system activation: cortical spreading depression (a wave of neuronal depolarization followed by suppression) triggers the aura phase and activates trigeminal nerve afferents innervating meningeal blood vessels. Activated trigeminal fibres release calcitonin gene-related peptide (CGRP), substance P, and neurokinin A, causing neurogenic inflammation, vasodilation, and meningeal sensitization. Central sensitization of the trigeminal nucleus caudalis produces cutaneous allodynia. Serotonin (5-HT1B/1D) receptors on trigeminal terminals and meningeal vessels are the targets of triptans, which inhibit CGRP release and cause meningeal vasoconstriction. Tension-type headache involves peripheral myofascial nociception from pericranial muscles with central pain modulation dysfunction in chronic forms. Cluster headache involves hypothalamic activation with parasympathetic outflow through the sphenopalatine ganglion causing unilateral autonomic symptoms (lacrimation, rhinorrhea, conjunctival injection)."
     },
     "riskFactors": [
@@ -1645,8 +1645,8 @@ export const npClinicalUnitLessons: Record<string, LessonContent> = {
       }
     ],
     "pearls": [
-      "Thunderclap headache (maximal intensity within 60 seconds) is a neurological emergency requiring immediate non-contrast CT to rule out subarachnoid hemorrhage - if CT is negative, LP must follow to detect xanthochromia; the NP must never attribute thunderclap headache to migraine",
-      "Medication overuse headache (MOH) is the most common cause of chronic daily headache - the NP must screen for analgesic use >= 15 days/month or triptan use >= 10 days/month and implement gradual withdrawal with prophylactic bridging therapy",
+      "Thunderclap headache (maximal intensity within 60 seconds) is a neurological emergency requiring immediate non-contrast CT to rule out subarachnoid hemorrhage - if CT is negative, LP must follow to detect xanthochromia; the clinician must never attribute thunderclap headache to migraine",
+      "Medication overuse headache (MOH) is the most common cause of chronic daily headache - the clinician must screen for analgesic use >= 15 days/month or triptan use >= 10 days/month and implement gradual withdrawal with prophylactic bridging therapy",
       "Cluster headache is frequently misdiagnosed as migraine despite distinct features: strictly unilateral, 15-180 minutes, circadian periodicity, ipsilateral autonomic symptoms (lacrimation, rhinorrhea, ptosis), and male predominance - high-flow oxygen and SC sumatriptan are first-line acute treatments"
     ],
     "quiz": [
@@ -1666,7 +1666,7 @@ export const npClinicalUnitLessons: Record<string, LessonContent> = {
   "neuro-parkinsons-np": {
     "title": "Parkinson Disease",
     "cellular": {
-      "title": "Dopaminergic Pathway Degeneration and Basal Ganglia Dysfunction",
+      "title": "Dopaminergic Pathway Degeneration",
       "content": "Parkinson disease (PD) is a progressive neurodegenerative disorder characterized by loss of dopaminergic neurons in the substantia nigra pars compacta, part of the basal ganglia circuitry controlling motor planning and execution. The substantia nigra projects dopaminergic fibres to the striatum (caudate and putamen) via the nigrostriatal pathway. Dopamine modulates the direct (facilitatory, D1-mediated) and indirect (inhibitory, D2-mediated) basal ganglia pathways that regulate thalamocortical motor output. Loss of dopaminergic input disrupts this balance, resulting in excessive inhibitory output from the globus pallidus internus, suppressing thalamocortical activation and producing the cardinal motor features: bradykinesia (slowness of movement), rigidity (cogwheel or lead-pipe), resting tremor (4-6 Hz pill-rolling, asymmetric), and postural instability (late feature). Intraneuronal Lewy bodies containing misfolded alpha-synuclein are the pathological hallmark. Motor symptoms become clinically apparent when approximately 60-80% of striatal dopamine and 50% of nigral neurons are lost. Non-motor features (hyposmia, REM sleep behaviour disorder, constipation, depression) often precede motor symptoms by years."
     },
     "riskFactors": [
@@ -1729,7 +1729,7 @@ export const npClinicalUnitLessons: Record<string, LessonContent> = {
     ],
     "pearls": [
       "TRAP mnemonic for Parkinson cardinal features: Tremor (resting, asymmetric, pill-rolling), Rigidity (cogwheel), Akinesia/bradykinesia (most disabling and required for diagnosis), Postural instability (late feature, indicates advanced disease with fall risk)",
-      "Impulse control disorders affect 15-20% of patients on dopamine agonists (pramipexole, ropinirole) - the NP must actively screen at every visit for pathological gambling, hypersexuality, compulsive shopping, and binge eating, as patients rarely volunteer this information",
+      "Impulse control disorders affect 15-20% of patients on dopamine agonists (pramipexole, ropinirole) - the clinician must actively screen at every visit for pathological gambling, hypersexuality, compulsive shopping, and binge eating, as patients rarely volunteer this information",
       "Wearing-off phenomenon occurs in approximately 50% of patients after 5 years of levodopa therapy as the number of surviving dopaminergic neurons decreases, reducing the capacity to store and release dopamine - management includes adding COMT inhibitor (entacapone), increasing dosing frequency, or adding MAO-B inhibitor"
     ],
     "quiz": [
@@ -1749,7 +1749,7 @@ export const npClinicalUnitLessons: Record<string, LessonContent> = {
   "neuro-delirium-dementia-np": {
     "title": "Delirium vs Dementia",
     "cellular": {
-      "title": "Acute Encephalopathy vs Chronic Neurodegeneration",
+      "title": "Acute Encephalopathy vs Chronic",
       "content": "Delirium is an acute, fluctuating disturbance of consciousness and cognition caused by an underlying medical condition, medication, or substance. Its pathophysiology involves widespread cortical dysfunction from cholinergic deficiency, dopaminergic excess, neuroinflammation (elevated IL-6, TNF-alpha), and disruption of the blood-brain barrier. Delirium is reversible when the precipitating cause is identified and treated. Dementia, in contrast, is a chronic, progressive, irreversible decline in cognitive function affecting memory, executive function, language, and visuospatial ability. Alzheimer disease (60-80% of dementias) involves accumulation of extracellular beta-amyloid plaques and intracellular neurofibrillary tangles of hyperphosphorylated tau protein, leading to synaptic loss and neuronal death predominantly in the hippocampus and temporal cortex. Vascular dementia results from cumulative cerebrovascular ischemic injury. Delirium superimposed on dementia is common and worsens long-term cognitive trajectory."
     },
     "riskFactors": [
@@ -1811,9 +1811,9 @@ export const npClinicalUnitLessons: Record<string, LessonContent> = {
       }
     ],
     "pearls": [
-      "The CAM tool is the gold standard for delirium screening: it requires acute onset with fluctuating course PLUS inattention PLUS either disorganized thinking OR altered level of consciousness - the NP must apply this systematically in all acutely confused older adults",
-      "Delirium is a medical emergency that indicates an underlying treatable condition - the NP must pursue the cause (UTI, pneumonia, medications, constipation, urinary retention, pain, metabolic derangement) rather than simply medicating the confusion",
-      "Cholinesterase inhibitors provide modest symptomatic improvement in Alzheimer dementia but do NOT slow disease progression - the NP must set realistic expectations with families and reassess benefit every 6-12 months, discontinuing if no perceived benefit or significant side effects"
+      "The CAM tool is the gold standard for delirium screening: it requires acute onset with fluctuating course PLUS inattention PLUS either disorganized thinking OR altered level of consciousness - the clinician must apply this systematically in all acutely confused older adults",
+      "Delirium is a medical emergency that indicates an underlying treatable condition - the clinician must pursue the cause (UTI, pneumonia, medications, constipation, urinary retention, pain, metabolic derangement) rather than simply medicating the confusion",
+      "Cholinesterase inhibitors provide modest symptomatic improvement in Alzheimer dementia but do NOT slow disease progression - the clinician must set realistic expectations with families and reassess benefit every 6-12 months, discontinuing if no perceived benefit or significant side effects"
     ],
     "quiz": [
       {
@@ -1825,7 +1825,7 @@ export const npClinicalUnitLessons: Record<string, LessonContent> = {
           "Apply physical restraints for safety and order CT head"
         ],
         "correct": 2,
-        "rationale": "This presentation is delirium superimposed on dementia (acute onset, fluctuating, inattention, agitation in a patient with baseline cognitive impairment). The NP priority is identifying the underlying cause (UTI, pneumonia, sepsis given fever and tachycardia). Increasing donepezil does not treat delirium. High-dose haloperidol and restraints are inappropriate and harmful. Targeted investigation is the standard of care."
+        "rationale": "This presentation is delirium superimposed on dementia (acute onset, fluctuating, inattention, agitation in a patient with baseline cognitive impairment). The clinician priority is identifying the underlying cause (UTI, pneumonia, sepsis given fever and tachycardia). Increasing donepezil does not treat delirium. High-dose haloperidol and restraints are inappropriate and harmful. Targeted investigation is the standard of care."
       }
     ]
   },
@@ -1894,9 +1894,9 @@ export const npClinicalUnitLessons: Record<string, LessonContent> = {
       }
     ],
     "pearls": [
-      "The WHO analgesic ladder remains the framework for cancer pain management but modern practice emphasizes multimodal analgesia for non-cancer pain - the NP should combine acetaminophen, NSAIDs, gabapentinoids, and non-pharmacologic strategies before escalating to opioids",
-      "Gabapentin and pregabalin are first-line for neuropathic pain but carry significant misuse potential and cause respiratory depression when combined with opioids - the NP must assess for substance use disorder and avoid concurrent prescribing with opioids when possible",
-      "Morphine milligram equivalents (MME) guide opioid prescribing safety: the NP should calculate total daily MME and exercise extreme caution above 50 MME/day (increased overdose risk) with reassessment and specialist referral recommended above 90 MME/day"
+      "The WHO analgesic ladder remains the framework for cancer pain management but modern practice emphasizes multimodal analgesia for non-cancer pain - the clinician should combine acetaminophen, NSAIDs, gabapentinoids, and non-pharmacologic strategies before escalating to opioids",
+      "Gabapentin and pregabalin are first-line for neuropathic pain but carry significant misuse potential and cause respiratory depression when combined with opioids - the clinician must assess for substance use disorder and avoid concurrent prescribing with opioids when possible",
+      "Morphine milligram equivalents (MME) guide opioid prescribing safety: the clinician should calculate total daily MME and exercise extreme caution above 50 MME/day (increased overdose risk) with reassessment and specialist referral recommended above 90 MME/day"
     ],
     "quiz": [
       {
@@ -1915,7 +1915,7 @@ export const npClinicalUnitLessons: Record<string, LessonContent> = {
   "neuro-sleep-disorders-np": {
     "title": "Sleep Disorders",
     "cellular": {
-      "title": "Sleep Architecture and Pathophysiology of Sleep Disorders",
+      "title": "Sleep Architecture",
       "content": "Normal sleep architecture cycles through NREM stages (N1, N2, N3 slow-wave sleep) and REM sleep in 90-minute cycles. Sleep regulation involves the circadian system (suprachiasmatic nucleus responding to light via melatonin secretion from the pineal gland) and the homeostatic sleep drive (adenosine accumulation during wakefulness). Obstructive sleep apnea (OSA) results from pharyngeal airway collapse during sleep due to anatomic narrowing (obesity, macroglossia, tonsillar hypertrophy) combined with reduced neuromuscular tone. Repetitive apneas cause intermittent hypoxia, hypercapnia, sympathetic surges, and sleep fragmentation, leading to cardiovascular complications (hypertension, atrial fibrillation, stroke, heart failure). Insomnia involves hyperarousal of the hypothalamic-pituitary-adrenal axis and cortical activation. Restless legs syndrome involves dopaminergic dysfunction in the diencephalon and iron deficiency in the substantia nigra."
     },
     "riskFactors": [
@@ -1977,9 +1977,9 @@ export const npClinicalUnitLessons: Record<string, LessonContent> = {
       }
     ],
     "pearls": [
-      "OSA is an independent cardiovascular risk factor - the NP must screen patients with treatment-resistant hypertension, atrial fibrillation, and type 2 diabetes using the STOP-BANG questionnaire, as up to 80% of moderate-severe OSA remains undiagnosed",
-      "CBT-I is first-line for chronic insomnia over pharmacotherapy - the NP should recommend sleep restriction, stimulus control, and cognitive restructuring before prescribing hypnotics, which carry risks of dependence, falls, and cognitive impairment in elderly patients",
-      "For restless legs syndrome, the NP must check serum ferritin before prescribing dopamine agonists - iron replacement (target ferritin > 75 mcg/L) alone may resolve symptoms and avoids the risk of augmentation that occurs in 20-70% of patients on long-term dopamine agonist therapy"
+      "OSA is an independent cardiovascular risk factor - the clinician must screen patients with treatment-resistant hypertension, atrial fibrillation, and type 2 diabetes using the STOP-BANG questionnaire, as up to 80% of moderate-severe OSA remains undiagnosed",
+      "CBT-I is first-line for chronic insomnia over pharmacotherapy - the clinician should recommend sleep restriction, stimulus control, and cognitive restructuring before prescribing hypnotics, which carry risks of dependence, falls, and cognitive impairment in elderly patients",
+      "For restless legs syndrome, the clinician must check serum ferritin before prescribing dopamine agonists - iron replacement (target ferritin > 75 mcg/L) alone may resolve symptoms and avoids the risk of augmentation that occurs in 20-70% of patients on long-term dopamine agonist therapy"
     ],
     "quiz": [
       {
@@ -2060,9 +2060,9 @@ export const npClinicalUnitLessons: Record<string, LessonContent> = {
       }
     ],
     "pearls": [
-      "PHQ-9 is the standard depression screening and monitoring tool - the NP should administer at baseline, 4-6 weeks after starting treatment, and at every follow-up; a 50% reduction in score indicates treatment response, and score < 5 indicates remission",
-      "The FDA black box warning for SSRIs applies to patients under 25 years - the NP must provide close follow-up (weekly for first 4 weeks, biweekly for next 4 weeks) and assess suicidality using the C-SSRS at each visit during the initial treatment period",
-      "Serotonin syndrome is a life-threatening emergency from excessive serotonergic activity - the NP must recognize the triad of altered mental status, autonomic instability, and neuromuscular hyperactivity (clonus, hyperreflexia) and must never combine SSRIs with MAOIs, tramadol, or linezolid"
+      "PHQ-9 is the standard depression screening and monitoring tool - the clinician should administer at baseline, 4-6 weeks after starting treatment, and at every follow-up; a 50% reduction in score indicates treatment response, and score < 5 indicates remission",
+      "The FDA black box warning for SSRIs applies to patients under 25 years - the clinician must provide close follow-up (weekly for first 4 weeks, biweekly for next 4 weeks) and assess suicidality using the C-SSRS at each visit during the initial treatment period",
+      "Serotonin syndrome is a life-threatening emergency from excessive serotonergic activity - the clinician must recognize the triad of altered mental status, autonomic instability, and neuromuscular hyperactivity (clonus, hyperreflexia) and must never combine SSRIs with MAOIs, tramadol, or linezolid"
     ],
     "quiz": [
       {
@@ -2081,7 +2081,7 @@ export const npClinicalUnitLessons: Record<string, LessonContent> = {
   "endo-dka-np": {
     "title": "Diabetic Ketoacidosis",
     "cellular": {
-      "title": "DKA Pathophysiology: Insulin Deficiency and Metabolic Crisis",
+      "title": "DKA Pathophysiology: Insulin Deficiency",
       "content": "Diabetic ketoacidosis results from absolute or relative insulin deficiency combined with counter-regulatory hormone excess (glucagon, cortisol, catecholamines, growth hormone). Insulin deficiency prevents glucose uptake by peripheral tissues and fails to suppress hepatic gluconeogenesis and glycogenolysis, producing severe hyperglycemia (typically > 14 mmol/L). Without insulin, adipose tissue undergoes unrestrained lipolysis, releasing free fatty acids that undergo hepatic beta-oxidation to acetyl-CoA. Excess acetyl-CoA overwhelms the Krebs cycle and is diverted to ketogenesis, producing acetoacetate, beta-hydroxybutyrate, and acetone. These ketoacids dissociate at physiologic pH, releasing hydrogen ions and causing high anion gap metabolic acidosis (pH < 7.3, bicarbonate < 18 mmol/L). Osmotic diuresis from glycosuria causes profound dehydration (average 5-7 L deficit), electrolyte losses (especially potassium, sodium, phosphate), and prerenal azotemia. Total body potassium is severely depleted despite initial serum levels that may be normal or elevated due to acidosis-driven transcellular shift."
     },
     "riskFactors": [
@@ -2143,13 +2143,13 @@ export const npClinicalUnitLessons: Record<string, LessonContent> = {
       }
     ],
     "pearls": [
-      "The most dangerous error in DKA management is starting insulin before checking potassium - if K+ < 3.3 mmol/L, insulin will drive potassium further intracellularly causing fatal cardiac arrhythmias; the NP must hold insulin and replace potassium first",
-      "Euglycemic DKA (glucose < 14 mmol/L with ketoacidosis) occurs with SGLT2 inhibitors (empagliflozin, dapagliflozin, canagliflozin) - the NP must have a low threshold for checking ketones in patients on SGLT2 inhibitors presenting with nausea, vomiting, or malaise even with near-normal glucose",
-      "DKA resolution is defined by normalization of pH and bicarbonate, not glucose - the NP must continue insulin infusion after glucose normalizes (add D5W to prevent hypoglycemia) until pH > 7.3 and bicarbonate > 18 mmol/L, then overlap subcutaneous insulin for 1-2 hours before discontinuing the drip"
+      "The most dangerous error in DKA management is starting insulin before checking potassium - if K+ < 3.3 mmol/L, insulin will drive potassium further intracellularly causing fatal cardiac arrhythmias; the clinician must hold insulin and replace potassium first",
+      "Euglycemic DKA (glucose < 14 mmol/L with ketoacidosis) occurs with SGLT2 inhibitors (empagliflozin, dapagliflozin, canagliflozin) - the clinician must have a low threshold for checking ketones in patients on SGLT2 inhibitors presenting with nausea, vomiting, or malaise even with near-normal glucose",
+      "DKA resolution is defined by normalization of pH and bicarbonate, not glucose - the clinician must continue insulin infusion after glucose normalizes (add D5W to prevent hypoglycemia) until pH > 7.3 and bicarbonate > 18 mmol/L, then overlap subcutaneous insulin for 1-2 hours before discontinuing the drip"
     ],
     "quiz": [
       {
-        "question": "A 28-year-old with type 1 diabetes presents with nausea, vomiting, and abdominal pain. Blood glucose 24 mmol/L, pH 7.18, bicarbonate 10 mmol/L, serum K+ 3.0 mmol/L, beta-hydroxybutyrate 5.8 mmol/L. IV 0.9% NaCl is running. What is the NP priority?",
+        "question": "A 28-year-old with type 1 diabetes presents with nausea, vomiting, and abdominal pain. Blood glucose 24 mmol/L, pH 7.18, bicarbonate 10 mmol/L, serum K+ 3.0 mmol/L, beta-hydroxybutyrate 5.8 mmol/L. IV 0.9% NaCl is running. What is the clinician priority?",
         "options": [
           "Start insulin infusion at 0.1 units/kg/h immediately",
           "Administer IV sodium bicarbonate to correct acidosis",
@@ -2164,7 +2164,7 @@ export const npClinicalUnitLessons: Record<string, LessonContent> = {
   "endo-adrenal-np": {
     "title": "Adrenal Disorders: Cushing and Addison",
     "cellular": {
-      "title": "Cortisol Excess and Deficiency Pathophysiology",
+      "title": "Cortisol Excess",
       "content": "The adrenal cortex produces cortisol (zona fasciculata), aldosterone (zona glomerulosa), and androgens (zona reticularis) under regulation by the hypothalamic-pituitary-adrenal (HPA) axis. Cushing syndrome results from chronic cortisol excess, most commonly from exogenous glucocorticoid administration (iatrogenic), ACTH-secreting pituitary adenoma (Cushing disease, 70% of endogenous cases), ectopic ACTH production (small cell lung cancer), or adrenal adenoma/carcinoma. Excess cortisol causes proteolysis (muscle wasting, thin skin, striae), gluconeogenesis (hyperglycemia, insulin resistance), lipogenesis (central obesity, moon facies, buffalo hump), immunosuppression, and osteoporosis. Addison disease (primary adrenal insufficiency) results from autoimmune destruction of the adrenal cortex (80% of cases in developed countries), causing deficiency of cortisol, aldosterone, and androgens. Loss of cortisol negative feedback leads to elevated ACTH and melanocyte-stimulating hormone (MSH), producing characteristic hyperpigmentation. Adrenal crisis is a life-threatening emergency from acute cortisol deficiency precipitated by stress, illness, or abrupt glucocorticoid withdrawal."
     },
     "riskFactors": [
@@ -2226,8 +2226,8 @@ export const npClinicalUnitLessons: Record<string, LessonContent> = {
       }
     ],
     "pearls": [
-      "The most important distinction the NP must make is ACTH-dependent (pituitary or ectopic ACTH) vs ACTH-independent (adrenal tumor or exogenous glucocorticoid) Cushing syndrome - this determines the diagnostic pathway and treatment approach",
-      "Adrenal crisis is a life-threatening emergency requiring immediate IV hydrocortisone 100mg bolus - the NP must not delay treatment to wait for lab confirmation; if adrenal crisis is suspected clinically (hypotension, altered consciousness in a patient on chronic steroids or with known Addison disease), treat first and confirm later",
+      "The most important distinction the clinician must make is ACTH-dependent (pituitary or ectopic ACTH) vs ACTH-independent (adrenal tumor or exogenous glucocorticoid) Cushing syndrome - this determines the diagnostic pathway and treatment approach",
+      "Adrenal crisis is a life-threatening emergency requiring immediate IV hydrocortisone 100mg bolus - the clinician must not delay treatment to wait for lab confirmation; if adrenal crisis is suspected clinically (hypotension, altered consciousness in a patient on chronic steroids or with known Addison disease), treat first and confirm later",
       "All patients with Addison disease require sick-day education: double hydrocortisone for illness with fever > 38 degrees Celsius, triple for vomiting or inability to take oral medication (switch to IM hydrocortisone), and present to emergency department if unable to self-manage - failure to stress dose is the most common cause of preventable adrenal crisis"
     ],
     "quiz": [
@@ -2245,7 +2245,7 @@ export const npClinicalUnitLessons: Record<string, LessonContent> = {
     ]
   },
   "endo-raas-np": {
-    "title": "Renin-Angiotensin-Aldosterone System and Primary Aldosteronism",
+    "title": "Renin-Angiotensin-Aldosterone System",
     "cellular": {
       "title": "RAAS Physiology and Aldosterone Excess",
       "content": "The renin-angiotensin-aldosterone system (RAAS) is the primary hormonal regulator of blood pressure, sodium balance, and potassium homeostasis. Decreased renal perfusion pressure or sympathetic stimulation triggers juxtaglomerular cells to release renin, which cleaves angiotensinogen (from the liver) to angiotensin I. Angiotensin-converting enzyme (ACE) in pulmonary endothelium converts angiotensin I to angiotensin II, which causes potent arteriolar vasoconstriction, stimulates aldosterone secretion from the zona glomerulosa, promotes ADH release, and stimulates thirst. Aldosterone acts on the distal convoluted tubule and collecting duct via mineralocorticoid receptors, upregulating epithelial sodium channels (ENaC) and Na+/K+-ATPase, increasing sodium and water reabsorption while excreting potassium and hydrogen ions. Primary aldosteronism (Conn syndrome) involves autonomous aldosterone production (usually from adrenal adenoma or bilateral hyperplasia), causing sodium retention, hypertension, hypokalemia, and metabolic alkalosis. It is the most common cause of secondary hypertension, affecting 5-13% of hypertensive patients."
@@ -2309,9 +2309,9 @@ export const npClinicalUnitLessons: Record<string, LessonContent> = {
       }
     ],
     "pearls": [
-      "Primary aldosteronism is far more common than previously thought (5-13% of hypertensive patients) - the NP must screen with the aldosterone-to-renin ratio in all patients with treatment-resistant hypertension, hypertension with hypokalemia, or adrenal incidentaloma",
-      "Up to 50% of patients with primary aldosteronism are normokalemic - the NP cannot rely on the presence of hypokalemia to trigger screening; a high index of suspicion based on clinical context is essential",
-      "Spironolactone causes dose-dependent gynecomastia in males (10-30%) due to androgen receptor blockade - the NP should counsel about this expected side effect and offer eplerenone as an alternative if intolerable, recognizing that eplerenone is less potent and more expensive"
+      "Primary aldosteronism is far more common than previously thought (5-13% of hypertensive patients) - the clinician must screen with the aldosterone-to-renin ratio in all patients with treatment-resistant hypertension, hypertension with hypokalemia, or adrenal incidentaloma",
+      "Up to 50% of patients with primary aldosteronism are normokalemic - the clinician cannot rely on the presence of hypokalemia to trigger screening; a high index of suspicion based on clinical context is essential",
+      "Spironolactone causes dose-dependent gynecomastia in males (10-30%) due to androgen receptor blockade - the clinician should counsel about this expected side effect and offer eplerenone as an alternative if intolerable, recognizing that eplerenone is less potent and more expensive"
     ],
     "quiz": [
       {
@@ -2392,9 +2392,9 @@ export const npClinicalUnitLessons: Record<string, LessonContent> = {
       }
     ],
     "pearls": [
-      "SGLT2 inhibitors provide cardiovascular and renal benefits independent of glycemic control - the NP should prescribe empagliflozin or dapagliflozin for patients with T2DM and established ASCVD, heart failure, or CKD regardless of current HbA1c level, as per Diabetes Canada 2024 guidelines",
+      "SGLT2 inhibitors provide cardiovascular and renal benefits independent of glycemic control - the clinician should prescribe empagliflozin or dapagliflozin for patients with T2DM and established ASCVD, heart failure, or CKD regardless of current HbA1c level, as per Diabetes Canada 2024 guidelines",
       "Metformin requires dose adjustment or discontinuation based on eGFR: reduce dose at eGFR 30-44 mL/min, contraindicated below 30 mL/min; hold 48 hours before and after iodinated contrast or surgery (lactic acidosis risk in acute kidney injury)",
-      "The NP must never combine a DPP-4 inhibitor with a GLP-1 receptor agonist as they work on the same incretin pathway - combining them provides no additional glycemic benefit while increasing cost and potential side effects"
+      "The clinician must never combine a DPP-4 inhibitor with a GLP-1 receptor agonist as they work on the same incretin pathway - combining them provides no additional glycemic benefit while increasing cost and potential side effects"
     ],
     "quiz": [
       {
@@ -2413,7 +2413,7 @@ export const npClinicalUnitLessons: Record<string, LessonContent> = {
   "stress-chronic-disease-np": {
     "title": "Chronic Stress and Disease",
     "cellular": {
-      "title": "Allostatic Load and Stress-Mediated Pathophysiology",
+      "title": "Allostatic Load",
       "content": "The stress response activates two primary systems: the sympathetic-adrenal-medullary (SAM) axis (rapid catecholamine release for fight-or-flight) and the hypothalamic-pituitary-adrenal (HPA) axis (cortisol release for sustained metabolic adaptation). Acute stress is adaptive, but chronic stress produces allostatic overload - the cumulative physiologic burden of repeated adaptation to stressors. Chronic HPA axis activation results in sustained cortisol elevation, which drives visceral adiposity (cortisol upregulates lipoprotein lipase in omental fat), insulin resistance (cortisol impairs GLUT4 translocation), immune dysregulation (suppression of Th1 cellular immunity, promotion of Th2 humoral response, elevated inflammatory cytokines IL-6 and CRP), endothelial dysfunction (accelerated atherosclerosis), hippocampal atrophy (impaired memory and emotional regulation), and bone resorption (osteoporosis). Allostatic load contributes to metabolic syndrome, cardiovascular disease, depression, cognitive decline, and increased susceptibility to infection and autoimmune flares."
     },
     "riskFactors": [
@@ -2475,9 +2475,9 @@ export const npClinicalUnitLessons: Record<string, LessonContent> = {
       }
     ],
     "pearls": [
-      "Chronic stress is a modifiable risk factor for cardiovascular disease, diabetes, and depression - the NP must screen for psychosocial stressors (ACEs, occupational stress, caregiving burden) as part of comprehensive health assessment, not just manage downstream metabolic consequences",
-      "Exercise is the single most evidence-based intervention for chronic stress - 150 minutes/week of moderate-intensity activity reduces cortisol, improves insulin sensitivity, increases BDNF (neuroplasticity), and reduces all-cause mortality; the NP should prescribe exercise with the same specificity as medication",
-      "Adverse childhood experiences (ACEs) have a dose-response relationship with adult chronic disease: ACE score >= 4 is associated with 4-12x increased risk of depression, substance abuse, and suicide attempt, and 1.4-1.6x increased risk of cardiovascular disease and diabetes - the NP must screen and refer for trauma-informed care"
+      "Chronic stress is a modifiable risk factor for cardiovascular disease, diabetes, and depression - the clinician must screen for psychosocial stressors (ACEs, occupational stress, caregiving burden) as part of comprehensive health assessment, not just manage downstream metabolic consequences",
+      "Exercise is the single most evidence-based intervention for chronic stress - 150 minutes/week of moderate-intensity activity reduces cortisol, improves insulin sensitivity, increases BDNF (neuroplasticity), and reduces all-cause mortality; the clinician should prescribe exercise with the same specificity as medication",
+      "Adverse childhood experiences (ACEs) have a dose-response relationship with adult chronic disease: ACE score >= 4 is associated with 4-12x increased risk of depression, substance abuse, and suicide attempt, and 1.4-1.6x increased risk of cardiovascular disease and diabetes - the clinician must screen and refer for trauma-informed care"
     ],
     "quiz": [
       {
@@ -2558,13 +2558,13 @@ export const npClinicalUnitLessons: Record<string, LessonContent> = {
       }
     ],
     "pearls": [
-      "Benzodiazepines are contraindicated in PTSD - they impair fear extinction (the therapeutic mechanism of trauma-focused psychotherapy), worsen long-term PTSD outcomes, and carry high addiction risk in a population with 60-80% substance use comorbidity; the NP must never prescribe benzodiazepines for PTSD symptoms",
-      "Sertraline and paroxetine are the only FDA-approved medications for PTSD - the NP should start at a lower dose than for depression (sertraline 25mg) due to activation sensitivity, and must allow 8-12 weeks at adequate dose before declaring treatment failure, as PTSD responds more slowly than depression",
-      "Trauma-informed care is not a treatment but a clinical framework - the NP must ensure all interactions with PTSD patients prioritize safety (physical and emotional), trustworthiness (consistent, transparent), choice (empower patient autonomy), collaboration (not directive), and empowerment (build on patient strengths rather than focusing on deficits)"
+      "Benzodiazepines are contraindicated in PTSD - they impair fear extinction (the therapeutic mechanism of trauma-focused psychotherapy), worsen long-term PTSD outcomes, and carry high addiction risk in a population with 60-80% substance use comorbidity; the clinician must never prescribe benzodiazepines for PTSD symptoms",
+      "Sertraline and paroxetine are the only FDA-approved medications for PTSD - the clinician should start at a lower dose than for depression (sertraline 25mg) due to activation sensitivity, and must allow 8-12 weeks at adequate dose before declaring treatment failure, as PTSD responds more slowly than depression",
+      "Trauma-informed care is not a treatment but a clinical framework - the clinician must ensure all interactions with PTSD patients prioritize safety (physical and emotional), trustworthiness (consistent, transparent), choice (empower patient autonomy), collaboration (not directive), and empowerment (build on patient strengths rather than focusing on deficits)"
     ],
     "quiz": [
       {
-        "question": "A 34-year-old paramedic presents 6 months after witnessing a fatal pediatric trauma. He reports nightly vivid nightmares replaying the event, avoids pediatric calls, feels emotionally numb, and has an exaggerated startle response. He drinks 4-6 beers nightly to fall asleep. PCL-5 score 52. What is the NP priority?",
+        "question": "A 34-year-old paramedic presents 6 months after witnessing a fatal pediatric trauma. He reports nightly vivid nightmares replaying the event, avoids pediatric calls, feels emotionally numb, and has an exaggerated startle response. He drinks 4-6 beers nightly to fall asleep. PCL-5 score 52. What is the clinician priority?",
         "options": [
           "Prescribe clonazepam 1mg at bedtime for sleep and anxiety",
           "Screen for suicidality (C-SSRS), initiate sertraline 25mg, refer for trauma-focused CBT, and address alcohol use concurrently",
@@ -2579,7 +2579,7 @@ export const npClinicalUnitLessons: Record<string, LessonContent> = {
   "msk-osteoporosis-fibromyalgia-np": {
     "title": "Osteoporosis and Fibromyalgia",
     "cellular": {
-      "title": "Bone Remodeling Failure and Central Sensitization",
+      "title": "Bone Remodeling Failure",
       "content": "Osteoporosis results from an imbalance between osteoclast-mediated bone resorption and osteoblast-mediated bone formation, leading to decreased bone mineral density (BMD), microarchitectural deterioration, and increased fracture risk. Normally, the RANK/RANKL/OPG system regulates bone remodeling: RANKL (from osteoblasts) activates RANK receptors on osteoclast precursors promoting differentiation and bone resorption, while osteoprotegerin (OPG) acts as a decoy receptor for RANKL, inhibiting osteoclastogenesis. Estrogen deficiency post-menopause upregulates RANKL and suppresses OPG, accelerating bone loss at 2-3% per year in the first 5-7 years. Bisphosphonates bind hydroxyapatite crystite in bone matrix and are internalized by osteoclasts during resorption, inhibiting the mevalonate pathway enzyme farnesyl pyrophosphate synthase, inducing osteoclast apoptosis. Denosumab is a monoclonal antibody against RANKL that mimics OPG, potently suppressing osteoclast activity. Fibromyalgia involves central sensitization of the pain processing system with augmented pain facilitation and diminished pain inhibition in the CNS, producing widespread pain, fatigue, and cognitive dysfunction."
     },
     "riskFactors": [
@@ -2641,9 +2641,9 @@ export const npClinicalUnitLessons: Record<string, LessonContent> = {
       }
     ],
     "pearls": [
-      "CRITICAL: Denosumab discontinuation causes rapid rebound bone loss with vertebral fracture risk within 12-18 months of stopping - the NP must NEVER simply discontinue denosumab without transitioning to oral bisphosphonate (alendronate for minimum 12 months) to prevent rebound vertebral fractures; this is a common and preventable prescribing error",
+      "CRITICAL: Denosumab discontinuation causes rapid rebound bone loss with vertebral fracture risk within 12-18 months of stopping - the clinician must NEVER simply discontinue denosumab without transitioning to oral bisphosphonate (alendronate for minimum 12 months) to prevent rebound vertebral fractures; this is a common and preventable prescribing error",
       "Bisphosphonate drug holidays are appropriate after 5 years of oral therapy in patients at moderate fracture risk (reassess with DXA and FRAX every 2-3 years during holiday) - but patients with prior vertebral fracture, T-score <= -2.5 at hip, or very high FRAX should continue treatment for 10 years before considering a holiday",
-      "Fibromyalgia is a diagnosis of central sensitization, not inflammation - the NP must set realistic expectations that pharmacotherapy (duloxetine, pregabalin) provides only 30% pain reduction in 50% of patients; exercise is the most effective intervention with Level 1 evidence, and CBT addresses maladaptive pain coping"
+      "Fibromyalgia is a diagnosis of central sensitization, not inflammation - the clinician must set realistic expectations that pharmacotherapy (duloxetine, pregabalin) provides only 30% pain reduction in 50% of patients; exercise is the most effective intervention with Level 1 evidence, and CBT addresses maladaptive pain coping"
     ],
     "quiz": [
       {
@@ -2655,7 +2655,7 @@ export const npClinicalUnitLessons: Record<string, LessonContent> = {
           "Switch to calcium and vitamin D only as she has improved to osteopenia range"
         ],
         "correct": 1,
-        "rationale": "Denosumab discontinuation causes rapid rebound bone loss with multiple vertebral fracture risk within 12-18 months. The NP must transition to oral bisphosphonate (alendronate 70mg weekly for minimum 12 months) before stopping denosumab. Simply discontinuing without transition is a dangerous prescribing error. Reducing denosumab frequency is not supported. Calcium and vitamin D alone are insufficient to prevent rebound."
+        "rationale": "Denosumab discontinuation causes rapid rebound bone loss with multiple vertebral fracture risk within 12-18 months. The clinician must transition to oral bisphosphonate (alendronate 70mg weekly for minimum 12 months) before stopping denosumab. Simply discontinuing without transition is a dangerous prescribing error. Reducing denosumab frequency is not supported. Calcium and vitamin D alone are insufficient to prevent rebound."
       }
     ]
   }

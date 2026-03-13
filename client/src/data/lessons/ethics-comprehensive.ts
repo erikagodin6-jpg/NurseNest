@@ -2,9 +2,9 @@ import type { LessonContent } from "./types";
 
 export const ethicsComprehensiveLessons: Record<string, LessonContent> = {
   "ethics-rpn-comprehensive": {
-    title: "RPN Ethics: Foundations of Ethical Nursing Practice",
+    title: "Ethics: Foundations of Ethical Nursing",
     cellular: {
-      title: "Core Ethical Principles for Practical Nurses",
+      title: "Core Ethical Principles",
       content:
         "Ethical nursing practice for RPNs is grounded in six core principles: autonomy (respecting patient self-determination), beneficence (acting in the patient's best interest), nonmaleficence (do no harm), justice (fair and equitable treatment), fidelity (keeping promises and commitments), and veracity (truthfulness in all interactions). RPNs must maintain professional boundaries by establishing therapeutic relationships while avoiding dual relationships that could compromise objectivity or create conflicts of interest. Confidentiality and privacy are legally protected under frameworks such as PHIPA in Ontario and HIPAA in the United States, requiring RPNs to safeguard all personal health information. RPNs are expected to practice within their defined scope, advocate for patient safety, recognize when to escalate ethical concerns to the appropriate authority, and report unsafe practice or suspected abuse as mandated by law.",
     },
@@ -80,7 +80,7 @@ export const ethicsComprehensiveLessons: Record<string, LessonContent> = {
       },
       {
         question:
-          "An RPN discovers that a colleague has been documenting vital signs without actually measuring them. What should the RPN do first?",
+          "An RPN discovers that a colleague has been documenting vital signs without actually measuring them. What should the nurse do first?",
         options: [
           "Confront the colleague privately and give them a warning",
           "Ignore it because it is not the RPN's responsibility",
@@ -89,7 +89,7 @@ export const ethicsComprehensiveLessons: Record<string, LessonContent> = {
         ],
         correct: 2,
         rationale:
-          "Documentation integrity is essential for patient safety. Falsifying records is a serious professional misconduct issue. The RPN has an ethical and professional duty to report unsafe practice through proper channels, beginning with the nurse manager or supervisor.",
+          "Documentation integrity is essential for patient safety. Falsifying records is a serious professional misconduct issue. The nurse has an ethical and professional duty to report unsafe practice through proper channels, beginning with the nurse manager or supervisor.",
       },
       {
         question:
@@ -108,9 +108,9 @@ export const ethicsComprehensiveLessons: Record<string, LessonContent> = {
   },
 
   "ethics-rn-comprehensive": {
-    title: "RN Ethics: Advanced Ethical Practice and Professional Accountability",
+    title: "Ethics: Advanced Ethical Practice",
     cellular: {
-      title: "Advanced Ethical Frameworks and Decision-Making for Registered Nurses",
+      title: "Ethical Frameworks",
       content:
         "Registered nurses apply the principlism framework (autonomy, beneficence, nonmaleficence, justice) to guide clinical decision-making in complex ethical situations. Moral distress arises when nurses know the ethically correct action but face institutional or systemic barriers to carrying it out, and recognizing this distress is critical for maintaining professional well-being. Informed consent requires verification that the patient understands the proposed treatment, has decision-making capacity, and consents voluntarily without coercion; emergency exceptions apply only when delay would result in serious harm and consent cannot be obtained. RNs hold professional accountability for delegation decisions, documentation integrity, incident reporting, and the obligation to refuse unsafe assignments when patient safety is at risk. Mandatory reporting obligations extend to child abuse, elder abuse, communicable diseases, and impaired colleagues, overriding confidentiality when required by law.",
     },
@@ -172,7 +172,7 @@ export const ethicsComprehensiveLessons: Record<string, LessonContent> = {
       },
     ],
     pearls: [
-      "Informed consent is the provider's responsibility to obtain, but the RN must verify patient understanding and advocate if the patient appears confused or coerced",
+      "Informed consent is the provider's responsibility to obtain, but the nurse must verify patient understanding and advocate if the patient appears confused or coerced",
       "A DNR order means do not attempt resuscitation; it does not mean withhold all treatment or comfort care measures",
       "The best interest standard guides substitute decision-makers when the patient's wishes are unknown; it is different from the substituted judgment standard used when prior wishes were expressed",
       "Mandatory reporting is a legal obligation that overrides confidentiality; failure to report suspected abuse can result in criminal charges and license revocation",
@@ -208,7 +208,7 @@ export const ethicsComprehensiveLessons: Record<string, LessonContent> = {
       },
       {
         question:
-          "An RN is assigned 10 patients on a medical-surgical unit, exceeding the recommended safe ratio. After raising the concern with the charge nurse and receiving no resolution, what should the RN do?",
+          "An RN is assigned 10 patients on a medical-surgical unit, exceeding the recommended safe ratio. After raising the concern with the charge nurse and receiving no resolution, what should the nurse do?",
         options: [
           "Refuse the assignment and leave the unit immediately",
           "Accept the assignment without objection to avoid conflict",
@@ -217,17 +217,17 @@ export const ethicsComprehensiveLessons: Record<string, LessonContent> = {
         ],
         correct: 2,
         rationale:
-          "The RN should never abandon patients. When an assignment is unsafe, the nurse must document the concern, escalate through the chain of command, and continue to provide care. Leaving patients without care constitutes patient abandonment and is a serious professional and legal violation.",
+          "The nurse should never abandon patients. When an assignment is unsafe, the nurse must document the concern, escalate through the chain of command, and continue to provide care. Leaving patients without care constitutes patient abandonment and is a serious professional and legal violation.",
       },
     ],
   },
 
   "ethics-np-comprehensive": {
-    title: "NP Ethics: Advanced Ethical Frameworks, Prescribing Ethics, and Complex Decision-Making",
+    title: "Ethics: Advanced Ethical Frameworks",
     cellular: {
-      title: "Advanced Ethical Frameworks and Autonomous Practice for Nurse Practitioners",
+      title: "Ethical Frameworks and Autonomous Practice",
       content:
-        "Nurse practitioners operate within advanced ethical frameworks including principle-based ethics (principlism), care ethics (emphasizing relationships and context), virtue ethics (character-driven moral reasoning), and public health ethics (balancing individual rights with population-level outcomes). Autonomy assessment at the NP level involves formal capacity evaluation using standardized instruments, supporting informed refusal through shared decision-making and comprehensive risk-benefit counseling, and recognizing that capacity is decision-specific and may fluctuate. Prescribing ethics requires controlled substance stewardship with particular attention to opioid risk management strategies, addressing polypharmacy through systematic deprescribing, and maintaining transparency about pharmaceutical relationships and conflicts of interest. End-of-life ethics for NPs includes facilitating goals-of-care conversations, advance care planning, understanding jurisdictional regulations around medical assistance in dying, and navigating the withdrawal of artificial nutrition and hydration with ethical rigor and family engagement.",
+        "Nurse practitioners operate within advanced ethical frameworks including principle-based ethics (principlism), care ethics (emphasizing relationships and context), virtue ethics (character-driven moral reasoning), and public health ethics (balancing individual rights with population-level outcomes). Autonomy assessment at the advanced practice level involves formal capacity evaluation using standardized instruments, supporting informed refusal through shared decision-making and comprehensive risk-benefit counseling, and recognizing that capacity is decision-specific and may fluctuate. Prescribing ethics requires controlled substance stewardship with particular attention to opioid risk management strategies, addressing polypharmacy through systematic deprescribing, and maintaining transparency about pharmaceutical relationships and conflicts of interest. End-of-life ethics for NPs includes facilitating goals-of-care conversations, advance care planning, understanding jurisdictional regulations around medical assistance in dying, and navigating the withdrawal of artificial nutrition and hydration with ethical rigor and family engagement.",
     },
     riskFactors: [
       "Conflict of interest from pharmaceutical industry relationships affecting prescribing decisions",
@@ -307,7 +307,7 @@ export const ethicsComprehensiveLessons: Record<string, LessonContent> = {
         ],
         correct: 1,
         rationale:
-          "Capacity assessment requires that the patient can understand the relevant information, appreciate how it applies to their situation, reason about the options, and communicate a choice. If one element is missing, the NP should attempt to support the patient's capacity through education and reassessment before concluding that the patient lacks capacity.",
+          "Capacity assessment requires that the patient can understand the relevant information, appreciate how it applies to their situation, reason about the options, and communicate a choice. If one element is missing, the clinician should attempt to support the patient's capacity through education and reassessment before concluding that the patient lacks capacity.",
       },
       {
         question:
@@ -320,11 +320,11 @@ export const ethicsComprehensiveLessons: Record<string, LessonContent> = {
         ],
         correct: 1,
         rationale:
-          "Multiple prescriber situations require a collaborative and non-punitive approach. The NP should discuss the PDMP findings with the patient in a nonjudgmental manner, coordinate with other prescribers to develop a single treatment plan, implement risk mitigation strategies, and consider referral to pain management or addiction services as appropriate. Abruptly discontinuing opioids can precipitate withdrawal and harm.",
+          "Multiple prescriber situations require a collaborative and non-punitive approach. The clinician should discuss the PDMP findings with the patient in a nonjudgmental manner, coordinate with other prescribers to develop a single treatment plan, implement risk mitigation strategies, and consider referral to pain management or addiction services as appropriate. Abruptly discontinuing opioids can precipitate withdrawal and harm.",
       },
       {
         question:
-          "A terminally ill patient asks the NP about medical assistance in dying. The NP practices in a jurisdiction where MAiD is legal but personally opposes it. What is the ethically appropriate response?",
+          "A terminally ill patient asks the clinician about medical assistance in dying. The clinician practices in a jurisdiction where MAiD is legal but personally opposes it. What is the ethically appropriate response?",
         options: [
           "Refuse to discuss the topic and redirect the conversation to palliative care only",
           "Provide objective information about MAiD eligibility and refer the patient to an appropriate provider or resource",
@@ -333,7 +333,7 @@ export const ethicsComprehensiveLessons: Record<string, LessonContent> = {
         ],
         correct: 1,
         rationale:
-          "Conscientious objection allows NPs to decline direct participation in procedures that conflict with personal values, but it does not permit withholding information or abandoning the patient. The NP must provide objective, accurate information and facilitate a timely referral to a willing provider. Deceiving the patient or refusing to discuss legal options violates the principles of veracity and nonabandonment.",
+          "Conscientious objection allows NPs to decline direct participation in procedures that conflict with personal values, but it does not permit withholding information or abandoning the patient. The clinician must provide objective, accurate information and facilitate a timely referral to a willing provider. Deceiving the patient or refusing to discuss legal options violates the principles of veracity and nonabandonment.",
       },
     ],
   },

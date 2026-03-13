@@ -2,9 +2,9 @@ import type { LessonContent } from "./types";
 
 export const cardiacRespiratoryCriticalLessons: Record<string, LessonContent> = {
   "cardiac-critical-patterns": {
-    title: "Cardiac Critical Patterns (RPN/RN)",
+    title: "Cardiac Critical Patterns",
     cellular: {
-      title: "Cardiac Electrophysiology and Critical Pathophysiology",
+      title: "Cardiac Electrophysiology",
       content:
         "Cardiac myocytes generate and conduct electrical impulses through specialized ion channels that control depolarization and repolarization. In STEMI, complete coronary occlusion causes transmural ischemia visible as ST-segment elevation on ECG, with reciprocal ST depression in opposite leads confirming the diagnosis. Arrhythmias arise from disturbances in automaticity, re-entry circuits, or triggered activity within the conduction system. Heart blocks occur when conduction through the AV node or His-Purkinje system is delayed or interrupted, ranging from benign first-degree block to life-threatening third-degree complete heart block requiring emergent pacing."
     },
@@ -153,7 +153,7 @@ export const cardiacRespiratoryCriticalLessons: Record<string, LessonContent> = 
   },
 
   "respiratory-critical-patterns": {
-    title: "Respiratory Critical Patterns (RPN/RN)",
+    title: "Respiratory Critical Patterns",
     cellular: {
       title: "Pulmonary Pathophysiology in Critical Illness",
       content:
@@ -303,9 +303,9 @@ export const cardiacRespiratoryCriticalLessons: Record<string, LessonContent> = 
   },
 
   "cardiopulm-critical-np": {
-    title: "Cardiopulmonary Critical Patterns NP",
+    title: "Cardiopulmonary Critical Patterns",
     cellular: {
-      title: "Advanced Cardiopulmonary Pathophysiology and Management",
+      title: "Cardiopulmonary Pathophysiology",
       content:
         "Acute coronary syndrome encompasses a spectrum from unstable angina to NSTEMI and STEMI, differentiated by the degree of coronary occlusion and resultant myocardial injury. In STEMI, complete thrombotic occlusion requires emergent reperfusion through PCI or fibrinolysis, while NSTEMI management involves risk stratification using TIMI or GRACE scores to determine timing of invasive strategy. Atrial fibrillation results from multiple re-entrant wavelets or focal triggers in the pulmonary veins, leading to atrial electrical disorganization and loss of coordinated atrial contraction, which increases thromboembolic risk proportional to CHA2DS2-VASc score. Heart failure exacerbations involve neurohormonal activation with increased RAAS and sympathetic tone causing sodium and water retention, elevated filling pressures, and end-organ hypoperfusion that requires careful hemodynamic-guided management."
     },
@@ -429,7 +429,7 @@ export const cardiacRespiratoryCriticalLessons: Record<string, LessonContent> = 
     },
     quiz: [
       {
-        question: "A patient with atrial fibrillation has a CHA2DS2-VASc score of 3. The NP is selecting an anticoagulant. Which factor most strongly favors apixaban over other DOACs in this patient?",
+        question: "A patient with atrial fibrillation has a CHA2DS2-VASc score of 3. The clinician is selecting an anticoagulant. Which factor most strongly favors apixaban over other DOACs in this patient?",
         options: [
           "The patient has a history of mechanical heart valve replacement",
           "The patient has a history of significant GI bleeding",

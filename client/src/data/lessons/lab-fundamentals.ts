@@ -187,7 +187,7 @@ const malnutritionMarkers: LessonContent = {
 };
 
 const specimenCollection: LessonContent = {
-  title: "Laboratory Specimen Collection: Peripheral vs Central",
+  title: "Laboratory Specimen Collection: Peripheral vs",
   cellular: {
     title: "Specimen Integrity & Collection Accuracy",
     content: "Accurate laboratory results depend on proper specimen collection technique. Peripheral venipuncture is the standard method and generally produces the most accurate results. Central line draws are convenient but introduce significant sources of error including contamination from infusing solutions (especially TPN, dextrose, or electrolyte-containing fluids), heparin lock contamination, and dilution effects. Proper central line draw technique requires pausing infusions for an appropriate interval, performing an adequate discard volume to clear the line of residual solution, and drawing below any infusing port when possible. Drawing from an active infusion line without protocol is a critical error that commonly distorts lab values. Hemolysis from improper collection technique falsely elevates potassium (one of the most tested lab artifacts) and LDH while potentially invalidating other results. Clotted specimens from improper mixing or delayed processing produce unreliable results. When lab values appear inconsistent, the systematic approach is: Step 1: evaluate collection method (peripheral vs central, infusing line?), Step 2: evaluate specimen quality (hemolysis, clotting, tube error), Step 3: only then consider true pathology after excluding collection artifacts."

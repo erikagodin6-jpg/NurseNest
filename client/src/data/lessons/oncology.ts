@@ -1847,9 +1847,9 @@ export const oncologyLessons: Record<string, LessonContent> = {
   },
 
   "cervical-cancer-basics-rpn": {
-    title: "Cervical Cancer Basics (RPN)",
+    title: "Cervical Cancer Basics",
     cellular: {
-      title: "Cervical Cancer Overview",
+      title: "Cervical Cancer",
       content: "Cervical cancer develops from abnormal cell changes in the cervix, most commonly in the transformation zone where squamous and columnar epithelium meet. Persistent infection with high-risk human papillomavirus (HPV) types, especially HPV 16 and 18, is the primary cause. The virus integrates into host cell DNA and produces oncoproteins E6 and E7 that inactivate tumor suppressor proteins, allowing uncontrolled cell growth. Cervical cancer progresses through precancerous stages (cervical intraepithelial neoplasia CIN 1, 2, 3) before becoming invasive, making screening and early detection critical for prevention."
     },
     riskFactors: [
@@ -1880,7 +1880,7 @@ export const oncologyLessons: Record<string, LessonContent> = {
     nursingActions: [
       "Educate patients on the importance of regular Pap screening",
       "Provide HPV vaccination education and address vaccine hesitancy",
-      "Report abnormal vaginal bleeding patterns to the RN or provider",
+      "Report abnormal vaginal bleeding patterns to the nurse or provider",
       "Monitor for signs of cervical cancer: postcoital bleeding, watery or blood-tinged discharge, pelvic pain",
       "Assist with patient positioning during cervical examinations",
       "Provide emotional support and reassurance during screening and diagnostic procedures",
@@ -1917,7 +1917,7 @@ export const oncologyLessons: Record<string, LessonContent> = {
     ],
     quiz: [
       {
-        question: "A 28-year-old patient asks about cervical cancer prevention. Which response by the RPN is most appropriate?",
+        question: "A 28-year-old patient asks about cervical cancer prevention. Which response by the nurse is most appropriate?",
         options: [
           "Cervical cancer cannot be prevented, only treated once diagnosed",
           "HPV vaccination and regular Pap screening are the most effective prevention strategies",
@@ -1931,7 +1931,7 @@ export const oncologyLessons: Record<string, LessonContent> = {
   },
 
   "cervical-cancer-screening-np": {
-    title: "Cervical Cancer Screening & Advanced Management (NP)",
+    title: "Cervical Cancer Screening",
     cellular: {
       title: "Molecular Pathogenesis of Cervical Cancer",
       content: "Cervical carcinogenesis is driven by persistent infection with high-risk HPV genotypes, predominantly HPV 16 and 18, which account for approximately 70% of invasive cervical cancers. Upon integration into the host genome, the viral oncoproteins E6 and E7 exert their transformative effects through distinct molecular mechanisms. E6 binds to the E6-associated protein (E6AP), a ubiquitin ligase, forming a complex that targets the p53 tumor suppressor protein for proteasomal degradation, abolishing p53-mediated cell cycle arrest and apoptosis. E7 binds and destabilizes retinoblastoma protein (pRb), releasing E2F transcription factors that drive uncontrolled S-phase entry and DNA replication. The combined loss of p53 and pRb function creates genomic instability, accumulation of secondary mutations, and progressive neoplastic transformation through CIN grades. The tumor microenvironment undergoes immunoediting, with HPV-infected cells evading immune clearance through downregulation of MHC class I molecules, secretion of immunosuppressive cytokines (IL-10, TGF-beta), and recruitment of regulatory T cells. Squamous cell carcinoma accounts for approximately 70% of invasive cervical cancers, while adenocarcinoma (arising from endocervical glandular epithelium) accounts for approximately 25% and is increasing in incidence due to relative insensitivity to cytologic screening. Lymphovascular space invasion (LVSI) is a critical histopathologic prognostic factor predicting lymph node metastasis and disease recurrence."

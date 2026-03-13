@@ -89,7 +89,7 @@ export const orthopedicLessons: Record<string, LessonContent> = {
     title: "Fibromyalgia",
     image: imgFibromyalgia,
     cellular: {
-      title: "Central Sensitization and Widespread Pain Processing",
+      title: "Central Sensitization",
       content: "Fibromyalgia is a chronic pain syndrome driven by central sensitization, where the central nervous system amplifies pain signals and lowers the threshold for nociceptive processing. Dysregulation of neurotransmitters including decreased serotonin, norepinephrine, and dopamine combined with elevated substance P and glutamate in cerebrospinal fluid creates a state of augmented pain perception. The hypothalamic-pituitary-adrenal axis is disrupted, contributing to abnormal cortisol patterns and non-restorative sleep. Functional MRI studies demonstrate increased neural activation in pain-processing regions even with stimuli that would not normally be painful (allodynia). There is no peripheral tissue damage or joint destruction - the pathology exists within the pain-processing pathways of the brain and spinal cord. This explains why traditional anti-inflammatory medications are ineffective and why treatments targeting neurotransmitter regulation provide relief."
     },
     riskFactors: [
@@ -348,7 +348,7 @@ export const orthopedicLessons: Record<string, LessonContent> = {
   "bone-tumors": {
     title: "Bone Tumors",
     cellular: {
-      title: "Osteosarcoma and Ewing Sarcoma Pathophysiology",
+      title: "Osteosarcoma",
       content: "Primary malignant bone tumors arise from uncontrolled proliferation of bone-forming cells (osteosarcoma) or neuroectodermal cells within bone (Ewing sarcoma). Osteosarcoma is the most common primary bone malignancy, typically arising in the metaphysis of long bones (distal femur, proximal tibia) during periods of rapid growth. Malignant osteoblasts produce abnormal osteoid tissue that forms a characteristic 'sunburst' pattern on radiograph. Ewing sarcoma is the second most common bone cancer in children, driven by a chromosomal translocation t(11;22) that creates the EWS-FLI1 fusion oncoprotein disrupting normal cell cycle regulation. Ewing typically affects the diaphysis (shaft) of long bones and flat bones. Both tumors metastasize hematogenously, most commonly to the lungs. The rapid bone destruction activates osteoclasts and releases alkaline phosphatase, while tumor growth within the rigid bone cortex causes severe periosteal pain, especially at night when cortisol levels naturally decrease."
     },
     riskFactors: [
@@ -513,7 +513,7 @@ export const orthopedicLessons: Record<string, LessonContent> = {
   "ankylosing-spondylitis": {
     title: "Ankylosing Spondylitis",
     cellular: {
-      title: "HLA-B27 Autoimmune Sacroiliac and Spinal Fusion",
+      title: "HLA-B27 Autoimmune Sacroiliac",
       content: "Ankylosing spondylitis (AS) is a chronic inflammatory spondyloarthropathy strongly associated with the HLA-B27 allele, which presents abnormal self-peptides to CD8+ T cells, triggering an autoimmune inflammatory cascade targeting the entheses (sites where tendons and ligaments insert into bone). The inflammation begins at the sacroiliac joints and ascends the spine. Chronic enthesitis triggers a pathologic repair process where inflammatory tissue is replaced by fibrocartilage and eventually ossifies, forming syndesmophytes (bony bridges between vertebral bodies). Progressive ossification transforms the flexible spinal column into a rigid structure called 'bamboo spine.' The disease also causes inflammatory changes at the costochondral junctions, reducing chest expansion and forcing reliance on diaphragmatic breathing. TNF-alpha and IL-17 are key cytokines driving the inflammatory and ossification processes. Unlike rheumatoid arthritis, AS is a seronegative condition - rheumatoid factor is negative."
     },
     riskFactors: [
@@ -680,7 +680,7 @@ export const orthopedicLessons: Record<string, LessonContent> = {
   "chronic-fatigue-syndrome": {
     title: "Chronic Fatigue Syndrome",
     cellular: {
-      title: "Neuroimmune Dysfunction and Energy Metabolism Disruption",
+      title: "Neuroimmune Dysfunction",
       content: "Chronic fatigue syndrome (CFS), also called myalgic encephalomyelitis (ME/CFS), is a complex neuroimmune disorder characterized by profound, disabling fatigue that is not explained by any underlying medical condition and is not relieved by rest. The pathophysiology involves dysfunction of multiple systems: the immune system shows chronic low-grade activation with elevated pro-inflammatory cytokines and decreased natural killer cell function. The autonomic nervous system demonstrates dysregulation with orthostatic intolerance, abnormal heart rate responses, and impaired blood pressure regulation. Mitochondrial dysfunction reduces cellular ATP production, explaining exercise intolerance and the hallmark symptom of post-exertional malaise (PEM), where even minimal physical or cognitive activity triggers prolonged symptom exacerbation lasting 24 hours or more. The HPA axis shows blunted cortisol responses. Neuroinflammation in the brainstem and limbic system contributes to cognitive impairment, pain amplification, and sleep disturbance. Unlike depression-related fatigue, ME/CFS fatigue has a distinct post-exertional component and does not improve with exercise."
     },
     riskFactors: [
@@ -847,7 +847,7 @@ export const orthopedicLessons: Record<string, LessonContent> = {
   "traction": {
     title: "Traction",
     cellular: {
-      title: "Skeletal vs Skin Traction, Pin Care, and Neurovascular Assessment",
+      title: "Skeletal vs Skin Traction, Pin Care",
       content: "Traction is the application of a pulling force to a body part to align fractured bones, reduce dislocations, prevent or correct deformities, or relieve muscle spasm. Skin traction (Buck traction) applies force through the skin surface using adhesive wraps, boots, or slings and is limited to 5-8 pounds to prevent skin breakdown. Skeletal traction applies force directly through bone via surgically placed pins, wires, or tongs (Steinmann pins, Kirschner wires, Crutchfield tongs), allowing much greater weight (up to 25-30 pounds) for long bone fractures. The counterforce is provided by the patient's body weight and bed positioning. Traction works by applying a steady longitudinal pull that overcomes muscle spasm, restores length to shortened limbs, and maintains fracture reduction while healing occurs. Pin sites create a direct portal of entry from the external environment to the bone, making osteomyelitis a serious risk. The sustained position during traction predisposes to numerous complications including DVT, pressure injuries, pneumonia, constipation, and neurovascular compromise from compression or swelling."
     },
     riskFactors: [
@@ -930,7 +930,7 @@ export const orthopedicLessons: Record<string, LessonContent> = {
   "knee-arthroplasty": {
     title: "Knee Arthroplasty",
     cellular: {
-      title: "Total Knee Replacement Post-Operative Care and CPM Machine",
+      title: "Total Knee Replacement Post-Operative Care",
       content: "Total knee arthroplasty (TKA) involves surgical replacement of the damaged articular surfaces of the knee joint with metal and polyethylene components. The distal femur is resurfaced with a metal femoral component, the proximal tibia receives a metal tibial baseplate with a polyethylene insert, and the undersurface of the patella may be resurfaced. The procedure restores mechanical alignment, eliminates bone-on-bone contact, and relieves pain from end-stage osteoarthritis or inflammatory arthritis. Post-operatively, the surgical wound traverses skin, subcutaneous tissue, the joint capsule, and periosteum. Hemarthrosis (blood accumulation in the joint space) is managed by a surgical drain. The continuous passive motion (CPM) machine applies controlled, repetitive flexion and extension to the knee, preventing adhesion formation within the joint capsule, promoting synovial fluid circulation for cartilage nutrition, and reducing the risk of arthrofibrosis. Venous stasis from immobility combined with surgical tissue trauma and hypercoagulability from the inflammatory response creates a high-risk environment for DVT and pulmonary embolism - the most dangerous post-operative complication."
     },
     riskFactors: [
@@ -1013,7 +1013,7 @@ export const orthopedicLessons: Record<string, LessonContent> = {
   "residual-limb-care": {
     title: "Residual Limb Care Post Amputation",
     cellular: {
-      title: "Stump Shaping, Wrapping Technique, and Phantom Pain Management",
+      title: "Stump Shaping, Wrapping Technique",
       content: "Following amputation, the residual limb (stump) undergoes a complex healing process involving wound closure, soft tissue remodeling, and neurological adaptation. The bone end is beveled to prevent pressure points, muscles are anchored over the bone end (myodesis) to provide padding, and skin flaps are sutured to create a well-padded, cylindrical stump suitable for prosthetic fitting. Post-operatively, the limb develops significant edema from surgical trauma and disrupted lymphatic drainage. Elastic bandaging shapes the residual limb into a conical form ideal for prosthetic socket fitting. Phantom limb pain occurs because the cortical map of the amputated limb persists in the somatosensory cortex - neurons that previously received input from the limb continue to fire, and the brain interprets this activity as pain arising from the absent limb. Neuromas (disorganized nerve regrowth at the cut nerve endings) also generate ectopic impulses perceived as pain. Phantom sensation (non-painful awareness of the absent limb) occurs in virtually all amputees and is distinct from phantom pain."
     },
     riskFactors: [
@@ -1345,7 +1345,7 @@ export const orthopedicLessons: Record<string, LessonContent> = {
   "lumbosacral-disc-herniation": {
     title: "Lumbosacral Disc Herniation",
     cellular: {
-      title: "Nucleus Pulposus Herniation and Nerve Root Compression",
+      title: "Nucleus Pulposus Herniation",
       content: "Lumbosacral disc herniation occurs when the nucleus pulposus (the gel-like center of the intervertebral disc) protrudes through a weakened or torn annulus fibrosus (the tough outer fibrous ring), compressing adjacent spinal nerve roots. The most common levels are L4-L5 and L5-S1 because these segments bear the greatest axial load and undergo the most flexion-extension motion. The herniated nuclear material not only mechanically compresses the nerve root but also releases inflammatory mediators (phospholipase A2, TNF-alpha, IL-6) that chemically irritate the nerve, causing radiculopathy even without direct compression. Nerve root compression produces dermatomal pain (sciatica), sensory changes, motor weakness, and reflex abnormalities corresponding to the affected nerve root level. L5 radiculopathy causes weakness of great toe dorsiflexion and numbness of the dorsal foot, while S1 radiculopathy causes weakness of ankle plantarflexion, numbness of the lateral foot, and diminished Achilles reflex. Cauda equina syndrome occurs when a large central herniation compresses multiple nerve roots simultaneously, causing bilateral leg symptoms, saddle anesthesia, and bowel/bladder dysfunction - this is a surgical emergency."
     },
     riskFactors: [
@@ -1428,7 +1428,7 @@ export const orthopedicLessons: Record<string, LessonContent> = {
   "low-back-pain": {
     title: "Low Back Pain",
     cellular: {
-      title: "Assessment Framework and Red Flag Identification",
+      title: "Assessment Framework",
       content: "Low back pain (LBP) is a symptom complex rather than a specific disease, arising from multiple potential pain generators in the lumbar spine including muscles, ligaments, facet joints, intervertebral discs, nerve roots, and sacroiliac joints. Nociceptive pain arises from mechanical irritation of pain-sensitive structures through abnormal loading, inflammation, or degeneration. Neuropathic pain occurs when nerve roots are compressed or chemically irritated, producing radicular symptoms. The clinical challenge lies in differentiating benign, self-limiting mechanical LBP (which accounts for 85% of cases) from serious underlying pathology. Red flag symptoms suggest fracture (trauma, osteoporosis, steroid use), infection (fever, IV drug use, immunosuppression), tumor (unexplained weight loss, prior cancer history, pain worse at night), or cauda equina syndrome (saddle anesthesia, bilateral neurologic deficits, bowel/bladder dysfunction). Psychosocial yellow flags (fear avoidance, catastrophizing, workplace dissatisfaction) predict chronicity and disability more reliably than anatomic findings."
     },
     riskFactors: [
@@ -1511,7 +1511,7 @@ export const orthopedicLessons: Record<string, LessonContent> = {
   "septic-arthritis": {
     title: "Septic Arthritis",
     cellular: {
-      title: "Joint Infection and Emergent Surgical Drainage",
+      title: "Joint Infection",
       content: "Septic arthritis is an acute bacterial infection within the synovial space of a joint, most commonly caused by Staphylococcus aureus. Bacteria reach the joint through hematogenous spread (most common), direct inoculation (trauma, surgery, injection), or contiguous spread from adjacent osteomyelitis. Once bacteria enter the synovial space, the warm, nutrient-rich synovial fluid provides an ideal medium for rapid bacterial proliferation. The immune response generates a massive influx of neutrophils into the joint space, releasing proteolytic enzymes (collagenase, elastase) and reactive oxygen species that destroy articular cartilage within hours. Bacterial toxins directly damage chondrocytes, while the accumulating purulent exudate raises intra-articular pressure, compressing the subchondral blood supply and causing ischemic necrosis of cartilage. Without emergent drainage and antibiotics, irreversible cartilage destruction occurs within 24-48 hours, leading to permanent joint destruction, ankylosis, or sepsis with multiorgan failure. The knee is the most commonly affected joint in adults."
     },
     riskFactors: [
@@ -1596,7 +1596,7 @@ export const orthopedicLessons: Record<string, LessonContent> = {
   "fat-embolism": {
     title: "Fat Embolism",
     cellular: {
-      title: "Long Bone Fracture Complication with Petechial Rash",
+      title: "Long Bone Fracture Complication with",
       content: "Fat embolism syndrome (FES) occurs when fat globules from disrupted bone marrow or adipose tissue enter the venous circulation, travel to the lungs, and become lodged in pulmonary capillaries. This typically follows long bone fractures (femur, tibia) or orthopedic procedures. Two mechanisms cause organ damage: mechanical obstruction of the pulmonary vasculature causing ventilation-perfusion mismatch, and biochemical injury from lipase-mediated hydrolysis of fat emboli into free fatty acids that are directly toxic to pulmonary endothelium, causing capillary leak, alveolar edema, and ARDS-like pathology. Fat emboli can also traverse the pulmonary vasculature (or pass through a patent foramen ovale) to reach the cerebral and dermal circulations. Cerebral fat emboli cause altered mental status, confusion, and agitation. Dermal involvement produces the pathognomonic petechial rash over the chest, axillae, and conjunctivae - caused by fat emboli occluding dermal capillaries and causing capillary rupture. The classic triad of respiratory distress, neurologic changes, and petechial rash typically presents 24-72 hours after the inciting event."
     },
     riskFactors: [
@@ -1680,7 +1680,7 @@ export const orthopedicLessons: Record<string, LessonContent> = {
   "crutch-paralysis": {
     title: "Crutch Paralysis",
     cellular: {
-      title: "Brachial Plexus Compression and Radial Nerve Injury",
+      title: "Brachial Plexus Compression",
       content: "Crutch paralysis occurs when improper crutch use creates sustained compression of the brachial plexus and/or radial nerve in the axilla. The brachial plexus runs through the axilla adjacent to the axillary artery, and the radial nerve courses along the spiral groove of the humerus just distal to the axilla. When a patient bears weight on the axillary pad of the crutch rather than on the hand grips, the hard crutch top compresses these neurovascular structures against the humeral head. The radial nerve is most commonly affected because of its superficial position. Compression causes a neuropraxia - a temporary nerve conduction block where the axon remains intact but myelin is compressed, disrupting saltatory conduction. This produces wrist drop (inability to extend the wrist and fingers), weakness of elbow extension (triceps), decreased grip strength, and numbness on the dorsal hand between the thumb and index finger (radial nerve sensory distribution). If compression is brief, full recovery occurs within days to weeks as remyelination restores conduction. Prolonged compression can progress to axonotmesis or neurotmesis with permanent nerve damage."
     },
     riskFactors: [
@@ -1999,9 +1999,9 @@ export const orthopedicLessons: Record<string, LessonContent> = {
   },
 
   "osteoporosis-rn": {
-    title: "Osteoporosis - RN Clinical Management",
+    title: "Osteoporosis",
     cellular: {
-      title: "Osteoclast-Osteoblast Imbalance and the RANK/RANKL/OPG Pathway",
+      title: "Osteoclast-Osteoblast Imbalance",
       content: "Osteoporosis is a systemic skeletal disease characterized by low bone mass and microarchitectural deterioration of bone tissue, leading to enhanced bone fragility and a consequent increase in fracture risk. Bone is a dynamic tissue that undergoes continuous remodeling through the coordinated activity of osteoclasts (bone-resorbing cells derived from monocyte-macrophage lineage) and osteoblasts (bone-forming cells derived from mesenchymal stem cells). In healthy bone, resorption and formation are tightly coupled so that the amount of bone removed by osteoclasts is replaced by an equal amount of new bone laid down by osteoblasts. This coupling is regulated by the RANK/RANKL/OPG signaling axis. Osteoblasts and bone marrow stromal cells express receptor activator of nuclear factor kappa-B ligand (RANKL) on their surface, which binds to its receptor RANK on osteoclast precursors, stimulating their differentiation, activation, and survival. Osteoprotegerin (OPG), a soluble decoy receptor also produced by osteoblasts, competes with RANK for RANKL binding, thereby inhibiting osteoclastogenesis. In osteoporosis, the balance tips toward excessive resorption: RANKL expression increases relative to OPG, osteoclast activity outpaces osteoblast formation, and net bone loss occurs with each remodeling cycle.\n\nEstrogen plays a central protective role in bone homeostasis. It suppresses RANKL expression, promotes OPG production, induces osteoclast apoptosis, and supports osteoblast survival. The precipitous decline in estrogen at menopause removes these protective effects, unleashing accelerated osteoclastic resorption that is most pronounced in trabecular bone (vertebral bodies, distal radius, proximal femur). This rapid bone loss phase lasts 5 to 10 years after menopause, during which women may lose 2 to 5 percent of bone mass per year. Age-related bone loss affects both sexes and involves declining osteoblast function, reduced growth factor production (IGF-1), decreased calcium absorption from vitamin D insufficiency, and secondary hyperparathyroidism that further stimulates resorption. The result is cortical thinning, trabecular perforation, and loss of structural connectivity that cannot be fully restored once established."
     },
     riskFactors: [
@@ -2096,9 +2096,9 @@ export const orthopedicLessons: Record<string, LessonContent> = {
   },
 
   "osteoporosis-advanced-np": {
-    title: "Osteoporosis - NP Advanced Prescriptive Management",
+    title: "Osteoporosis",
     cellular: {
-      title: "Molecular Bone Biology: Wnt/β-Catenin Signaling, Sclerostin, and Cathepsin K",
+      title: "Molecular Bone Biology: Wnt/β-Catenin",
       content: "Advanced understanding of osteoporosis requires knowledge of the molecular pathways governing bone cell differentiation and activity beyond the RANK/RANKL/OPG axis. The canonical Wnt/β-catenin signaling pathway is the master regulator of osteoblast differentiation and bone formation. Wnt ligands bind to the Frizzled receptor and its co-receptor LRP5/6 on mesenchymal stem cells, inhibiting the destruction complex (GSK-3β, axin, APC) and allowing β-catenin to accumulate in the cytoplasm and translocate to the nucleus where it activates transcription factors (TCF/LEF) that drive osteoblast commitment, proliferation, and survival. Simultaneously, Wnt signaling suppresses osteoclastogenesis by upregulating OPG expression in osteoblasts. Sclerostin, a glycoprotein encoded by the SOST gene and produced almost exclusively by osteocytes (the mechanosensory cells embedded within mineralized bone matrix), acts as a potent inhibitor of Wnt signaling by binding to LRP5/6 and preventing Wnt ligand engagement. When mechanical loading is applied to bone, osteocytes downregulate sclerostin production, releasing the brake on Wnt signaling and promoting bone formation at sites of mechanical strain. In disuse and aging, sclerostin levels rise, suppressing formation and contributing to net bone loss.\n\nCathepsin K is a cysteine protease expressed by activated osteoclasts within the resorption lacuna (Howship lacuna). After osteoclasts dissolve the mineral phase of bone using hydrochloric acid secreted through the ruffled border, cathepsin K degrades the exposed organic matrix, primarily type I collagen. This enzyme operates optimally at the acidic pH of the resorption lacuna and is the rate-limiting step in organic matrix degradation. Cathepsin K inhibitors (odanacatib) were developed to reduce resorption while preserving the osteoclast itself, theoretically maintaining the coupling signals that osteoclasts provide to osteoblasts, but clinical development was halted due to cerebrovascular adverse effects. Understanding these pathways informs the mechanism of newer therapeutics: romosozumab (anti-sclerostin monoclonal antibody) unleashes Wnt-mediated bone formation while simultaneously reducing resorption, producing a dual-effect anabolic agent; teriparatide (recombinant PTH 1-34) given intermittently paradoxically stimulates osteoblast activity by preferentially activating the formation arm of bone remodeling; and denosumab (anti-RANKL monoclonal antibody) mimics OPG by sequestering RANKL and profoundly suppressing osteoclast maturation and function."
     },
     riskFactors: [
@@ -2201,9 +2201,9 @@ export const orthopedicLessons: Record<string, LessonContent> = {
   },
 
   "rib-fractures-rpn": {
-    title: "Rib Fractures - RPN Fundamentals",
+    title: "Rib Fractures",
     cellular: {
-      title: "Rib Fracture Basics and Respiratory Monitoring",
+      title: "Rib Fracture Basics",
       content: "Rib fractures occur when a force applied to the chest wall exceeds the structural strength of the rib, causing it to crack or break. The ribs form a protective cage around the lungs and heart, and when fractured, the sharp bone edges can potentially injure the underlying lung tissue or blood vessels. The most significant clinical concern with rib fractures is not the bone injury itself but the breathing complications that follow. When a patient has fractured ribs, breathing causes significant pain. This pain leads to a natural protective response called splinting, where the patient takes shallow breaths to avoid the pain of full chest expansion. Shallow breathing prevents the lungs from fully inflating, causing small airways and alveoli to collapse (atelectasis). Collapsed lung areas cannot participate in gas exchange, and accumulated secretions in poorly ventilated regions create an ideal environment for bacterial growth and pneumonia. This pain-splinting-atelectasis-pneumonia cycle is the primary reason rib fractures can become life-threatening, particularly in elderly patients. External binding or strapping of the chest is strictly avoided because it further restricts chest expansion and worsens the very complications that make rib fractures dangerous."
     },
     riskFactors: [
@@ -2236,7 +2236,7 @@ export const orthopedicLessons: Record<string, LessonContent> = {
       "Teach the patient to splint the chest with a pillow when coughing or changing position",
       "Monitor for signs of pneumothorax: sudden worsening of dyspnea, absent breath sounds on affected side, subcutaneous emphysema (crackling sensation under skin)",
       "Monitor for signs of hemothorax: decreased breath sounds at lung base, increasing pain, dropping oxygen levels",
-      "Report changes in respiratory status, new onset of fever, or changes in sputum color or amount to the RN or physician promptly",
+      "Report changes in respiratory status, new onset of fever, or changes in sputum color or amount to the nurse or physician promptly",
       "Document pain levels before and after medication administration to evaluate effectiveness"
     ],
     signs: {
@@ -2270,7 +2270,7 @@ export const orthopedicLessons: Record<string, LessonContent> = {
     ],
     quiz: [
       {
-        question: "A patient with rib fractures is taking only shallow breaths and refusing to use the incentive spirometer due to pain. What should the RPN do first?",
+        question: "A patient with rib fractures is taking only shallow breaths and refusing to use the incentive spirometer due to pain. What should the nurse do first?",
         options: [
           "Apply a rib binder to stabilize the fractures and reduce pain",
           "Ensure prescribed analgesics are administered and reassess willingness to use the spirometer after pain relief",
@@ -2284,9 +2284,9 @@ export const orthopedicLessons: Record<string, LessonContent> = {
   },
 
   "rib-fractures-np": {
-    title: "Rib Fractures - NP Advanced Management",
+    title: "Rib Fractures",
     cellular: {
-      title: "Flail Chest Biomechanics, Pulmonary Contusion, and Advanced Analgesia",
+      title: "Flail Chest Biomechanics, Pulmonary",
       content: "Advanced management of rib fractures requires understanding the biomechanics of flail chest, the pathophysiology of associated pulmonary contusion, and the rationale for regional analgesia techniques. Flail chest occurs when three or more contiguous ribs are each fractured in two or more locations, creating a free-floating segment of chest wall that is mechanically disconnected from the respiratory bellows. During spontaneous inspiration, the intact chest wall expands outward as the diaphragm descends, generating negative intrapleural pressure. The flail segment, no longer tethered to the skeletal framework, is drawn inward by this negative pressure (paradoxical motion), reducing the effective tidal volume. During expiration, positive intrathoracic pressure pushes the segment outward while the intact wall moves inward. This paradoxical respiratory movement not only reduces minute ventilation but also creates pendulum-like airflow (pendelluft) between the lungs, where air from the injured side moves to the contralateral lung during inspiration rather than exiting through the trachea, further impairing gas exchange.\n\nThe force required to produce a flail chest invariably causes underlying pulmonary contusion, which is the primary determinant of morbidity and mortality rather than the chest wall instability itself. Pulmonary contusion involves direct parenchymal injury with disruption of the alveolar-capillary membrane, leading to hemorrhage and edema within the alveolar spaces and interstitium. The contused lung develops ventilation-perfusion mismatch as blood continues to flow through non-ventilated, fluid-filled alveoli (intrapulmonary shunt). The inflammatory response peaks at 48-72 hours, during which worsening hypoxemia and bilateral infiltrates on imaging may progress to ARDS. Management of the contused lung involves protective ventilation strategies (low tidal volume 6 mL/kg ideal body weight, PEEP optimization to recruit atelectatic alveoli, permissive hypercapnia) and judicious fluid management because excessive crystalloid resuscitation worsens pulmonary edema in the contused tissue.\n\nRegional analgesia is the cornerstone of rib fracture management in the advanced practice setting. Thoracic epidural analgesia (TEA) provides bilateral continuous segmental analgesia by infusing local anesthetic (bupivacaine) with or without opioid (fentanyl or hydromorphone) into the epidural space at the appropriate thoracic dermatome level. TEA has been shown to reduce pneumonia rates, ICU length of stay, and ventilator days compared to systemic opioid analgesia. Intercostal nerve blocks, performed by injecting local anesthetic (bupivacaine 0.5 percent with epinephrine) at the inferior border of the rib proximal to the fracture site, provide excellent unilateral analgesia for 6-12 hours per injection. Paravertebral blocks offer an alternative to epidural placement, providing unilateral segmental analgesia with fewer hemodynamic effects than epidural. Surgical stabilization of rib fractures (SSRF) with titanium plates and screws is increasingly utilized for flail chest, multiple displaced fractures, and fractures causing intractable pain despite optimal regional analgesia, with evidence demonstrating reduced ventilator dependence and ICU length of stay."
     },
     riskFactors: [

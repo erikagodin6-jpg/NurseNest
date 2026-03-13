@@ -2,10 +2,10 @@ import type { LessonContent } from "./types";
 
 export const clinicalConditionsBatchELessons: Record<string, LessonContent> = {
   "pneumothorax-management-rpn": {
-    title: "Pneumothorax Management: RPN Monitoring",
+    title: "Pneumothorax Management",
     cellular: {
       title: "Air Entry into the Pleural Space",
-      content: "A pneumothorax occurs when air enters the pleural space, disrupting the normally negative intrapleural pressure that keeps the lung expanded. This causes partial or total lung collapse. An open pneumothorax results from a penetrating chest wall injury, while a closed pneumothorax occurs after lung surgery or spontaneous alveolar rupture. A tension pneumothorax is the most life-threatening form: air enters the pleural space but cannot escape, causing progressive pressure buildup that shifts mediastinal structures to the unaffected side, compressing the heart and great vessels. The RPN must recognize deteriorating respiratory status, report findings immediately, and assist with emergency interventions as directed."
+      content: "A pneumothorax occurs when air enters the pleural space, disrupting the normally negative intrapleural pressure that keeps the lung expanded. This causes partial or total lung collapse. An open pneumothorax results from a penetrating chest wall injury, while a closed pneumothorax occurs after lung surgery or spontaneous alveolar rupture. A tension pneumothorax is the most life-threatening form: air enters the pleural space but cannot escape, causing progressive pressure buildup that shifts mediastinal structures to the unaffected side, compressing the heart and great vessels. The nurse must recognize deteriorating respiratory status, report findings immediately, and assist with emergency interventions as directed."
     },
     riskFactors: [
       "Chest trauma (penetrating or blunt)",
@@ -72,17 +72,17 @@ export const clinicalConditionsBatchELessons: Record<string, LessonContent> = {
       "Report any sudden increase in dyspnea, tracheal deviation, or hypotension immediately as these suggest tension physiology"
     ],
     quiz: [
-      { question: "Which assessment finding should the RPN report immediately in a patient with a chest injury?", options: ["Respiratory rate of 16 breaths/min", "Tracheal deviation away from the injured side", "Mild chest wall tenderness", "Oxygen saturation of 97%"], correct: 1, rationale: "Tracheal deviation away from the injured side indicates a tension pneumothorax, a life-threatening emergency requiring immediate intervention." },
-      { question: "How should the RPN apply a dressing to a sucking chest wound?", options: ["Cover all four sides with tape", "Apply a three-sided occlusive dressing", "Leave the wound open to air", "Apply a dry gauze loosely over the wound"], correct: 1, rationale: "A three-sided occlusive dressing creates a flutter valve: the open side allows trapped air to escape on expiration while preventing air entry on inspiration." },
-      { question: "Which position should the RPN assist the patient into for a pneumothorax?", options: ["Supine with legs elevated", "Fowler's position", "Left lateral decubitus", "Prone position"], correct: 1, rationale: "Fowler's position promotes lung expansion and reduces work of breathing by allowing gravity to assist diaphragmatic excursion." }
+      { question: "Which assessment finding should the nurse report immediately in a patient with a chest injury?", options: ["Respiratory rate of 16 breaths/min", "Tracheal deviation away from the injured side", "Mild chest wall tenderness", "Oxygen saturation of 97%"], correct: 1, rationale: "Tracheal deviation away from the injured side indicates a tension pneumothorax, a life-threatening emergency requiring immediate intervention." },
+      { question: "How should the nurse apply a dressing to a sucking chest wound?", options: ["Cover all four sides with tape", "Apply a three-sided occlusive dressing", "Leave the wound open to air", "Apply a dry gauze loosely over the wound"], correct: 1, rationale: "A three-sided occlusive dressing creates a flutter valve: the open side allows trapped air to escape on expiration while preventing air entry on inspiration." },
+      { question: "Which position should the nurse assist the patient into for a pneumothorax?", options: ["Supine with legs elevated", "Fowler's position", "Left lateral decubitus", "Prone position"], correct: 1, rationale: "Fowler's position promotes lung expansion and reduces work of breathing by allowing gravity to assist diaphragmatic excursion." }
     ]
   },
 
   "pneumothorax-management-rn": {
-    title: "Pneumothorax Management: RN Clinical Care",
+    title: "Pneumothorax Management",
     cellular: {
       title: "Pathophysiology of Pleural Space Disruption",
-      content: "Pneumothorax results from disruption of the visceral or parietal pleura, allowing air to accumulate in the normally negative-pressure pleural space. In a simple pneumothorax, the lung collapses proportional to the volume of trapped air. In a tension pneumothorax, a one-way valve mechanism allows air entry but prevents exit, causing progressive ipsilateral lung collapse and mediastinal shift. This shift compresses the contralateral lung and impedes venous return to the heart, leading to obstructive shock. The RN must perform rapid respiratory and cardiovascular assessment, assist with or prepare for needle decompression or chest tube insertion, manage the chest drainage system, and monitor for complications including re-expansion pulmonary edema."
+      content: "Pneumothorax results from disruption of the visceral or parietal pleura, allowing air to accumulate in the normally negative-pressure pleural space. In a simple pneumothorax, the lung collapses proportional to the volume of trapped air. In a tension pneumothorax, a one-way valve mechanism allows air entry but prevents exit, causing progressive ipsilateral lung collapse and mediastinal shift. This shift compresses the contralateral lung and impedes venous return to the heart, leading to obstructive shock. The nurse must perform rapid respiratory and cardiovascular assessment, assist with or prepare for needle decompression or chest tube insertion, manage the chest drainage system, and monitor for complications including re-expansion pulmonary edema."
     },
     riskFactors: [
       "Penetrating or blunt chest trauma",
@@ -155,16 +155,16 @@ export const clinicalConditionsBatchELessons: Record<string, LessonContent> = {
     ],
     quiz: [
       { question: "Which is the priority nursing action for a patient with suspected tension pneumothorax?", options: ["Obtain a stat chest X-ray", "Prepare for emergency needle decompression at the 2nd intercostal space", "Administer IV morphine for pain", "Insert a Foley catheter to monitor urine output"], correct: 1, rationale: "Tension pneumothorax is a clinical emergency. Needle decompression at the 2nd intercostal space, midclavicular line, must be performed immediately without waiting for imaging confirmation." },
-      { question: "The RN observes continuous bubbling in the water-seal chamber of a chest tube system. What does this indicate?", options: ["Normal functioning of the system", "The lung has fully re-expanded", "An active air leak in the system or from the patient", "The suction pressure is set too high"], correct: 2, rationale: "Continuous bubbling in the water-seal chamber indicates an active air leak, which could be from the patient's pleural space or a system connection leak. The RN should check all connections and report the finding." },
+      { question: "The nurse observes continuous bubbling in the water-seal chamber of a chest tube system. What does this indicate?", options: ["Normal functioning of the system", "The lung has fully re-expanded", "An active air leak in the system or from the patient", "The suction pressure is set too high"], correct: 2, rationale: "Continuous bubbling in the water-seal chamber indicates an active air leak, which could be from the patient's pleural space or a system connection leak. The nurse should check all connections and report the finding." },
       { question: "A chest tube accidentally becomes disconnected from the drainage system. What is the RN's immediate action?", options: ["Clamp the chest tube with two hemostats", "Place the open end in a container of sterile water", "Reconnect to the same drainage system", "Remove the chest tube and apply an occlusive dressing"], correct: 1, rationale: "Submerging the open end in sterile water creates a temporary water seal, preventing air entry while allowing trapped air to escape. This prevents tension pneumothorax while the system is reestablished." }
     ]
   },
 
   "pneumothorax-management-np": {
-    title: "Pneumothorax Management: NP Prescriptive Authority",
+    title: "Pneumothorax Management",
     cellular: {
       title: "Advanced Pathophysiology and Decision-Making",
-      content: "Pneumothorax classification guides NP management decisions. Primary spontaneous pneumothorax occurs without underlying lung disease, typically from rupture of subpleural blebs in tall, thin individuals. Secondary spontaneous pneumothorax arises from underlying pulmonary pathology (COPD, cystic fibrosis, Pneumocystis pneumonia) and carries higher morbidity. Traumatic pneumothorax may be open (communicating with atmosphere) or closed. The NP must determine the classification and size of pneumothorax, decide between observation versus intervention, order and interpret imaging, prescribe appropriate analgesia, determine disposition (outpatient vs. admission), and manage recurrence prevention including surgical referral for pleurodesis or video-assisted thoracoscopic surgery (VATS)."
+      content: "Pneumothorax classification guides NP management decisions. Primary spontaneous pneumothorax occurs without underlying lung disease, typically from rupture of subpleural blebs in tall, thin individuals. Secondary spontaneous pneumothorax arises from underlying pulmonary pathology (COPD, cystic fibrosis, Pneumocystis pneumonia) and carries higher morbidity. Traumatic pneumothorax may be open (communicating with atmosphere) or closed. The clinician must determine the classification and size of pneumothorax, decide between observation versus intervention, order and interpret imaging, prescribe appropriate analgesia, determine disposition (outpatient vs. admission), and manage recurrence prevention including surgical referral for pleurodesis or video-assisted thoracoscopic surgery (VATS)."
     },
     riskFactors: [
       "Smoking (dose-dependent risk increase, 20x in heavy smokers)",
@@ -243,10 +243,10 @@ export const clinicalConditionsBatchELessons: Record<string, LessonContent> = {
   },
 
   "chest-drainage-system-rpn": {
-    title: "Chest Drainage Systems: RPN Monitoring",
+    title: "Chest Drainage Systems",
     cellular: {
       title: "Principles of Chest Drainage",
-      content: "A chest drainage system is a closed system that removes air, fluid, or blood from the pleural space to re-establish negative intrapleural pressure and allow lung re-expansion. The system typically consists of three chambers: a collection chamber for drainage, a water-seal chamber that acts as a one-way valve preventing air re-entry, and a suction control chamber that regulates the amount of negative pressure applied. Tidaling (fluctuation of fluid in the water-seal chamber with respiration) is an expected finding that indicates the system is functioning and patent until the lung fully re-expands. The RPN must monitor the system, report abnormal findings, and maintain patient safety."
+      content: "A chest drainage system is a closed system that removes air, fluid, or blood from the pleural space to re-establish negative intrapleural pressure and allow lung re-expansion. The system typically consists of three chambers: a collection chamber for drainage, a water-seal chamber that acts as a one-way valve preventing air re-entry, and a suction control chamber that regulates the amount of negative pressure applied. Tidaling (fluctuation of fluid in the water-seal chamber with respiration) is an expected finding that indicates the system is functioning and patent until the lung fully re-expands. The nurse must monitor the system, report abnormal findings, and maintain patient safety."
     },
     riskFactors: [
       "Pneumothorax requiring evacuation",
@@ -259,7 +259,7 @@ export const clinicalConditionsBatchELessons: Record<string, LessonContent> = {
     diagnostics: [
       "Monitor and document drainage volume hourly as directed",
       "Observe drainage color and consistency: serous, sanguineous, or purulent",
-      "Report drainage exceeding 100 mL/hour to the RN immediately",
+      "Report drainage exceeding 100 mL/hour to the nurse immediately",
       "Observe water-seal chamber for tidaling and report its absence",
       "Report continuous bubbling in the water-seal chamber",
       "Monitor vital signs for tachycardia or hypotension suggesting blood loss",
@@ -313,17 +313,17 @@ export const clinicalConditionsBatchELessons: Record<string, LessonContent> = {
       "Continuous bubbling in the water-seal chamber means air is leaking and must be reported"
     ],
     quiz: [
-      { question: "The RPN observes that tidaling has stopped in the water-seal chamber. What is the most appropriate action?", options: ["Clamp the chest tube to restart tidaling", "Assess breath sounds and report the finding to the RN", "Increase the suction pressure", "Milk the tubing to restore flow"], correct: 1, rationale: "Absent tidaling can mean the lung has re-expanded (positive finding) or the tube is occluded (negative finding). The RPN should assess breath sounds and report to the RN for further evaluation." },
-      { question: "What should the RPN do if the chest tube drainage becomes suddenly bright red and exceeds 100 mL in one hour?", options: ["Document the finding and reassess in 2 hours", "Report to the RN immediately", "Strip the tubing to clear clots", "Reduce the suction pressure"], correct: 1, rationale: "Sudden bright red drainage exceeding 100 mL/hour suggests hemorrhage and requires immediate notification of the RN and healthcare provider for possible surgical intervention." },
-      { question: "Which action should the RPN avoid when managing a chest drainage system?", options: ["Keeping the collection device below the chest", "Stripping or milking the tubing", "Checking connections for tightness", "Monitoring drainage volume hourly"], correct: 1, rationale: "Stripping or milking chest tubes creates excessive negative pressure that can damage lung tissue. This practice is no longer recommended." }
+      { question: "The nurse observes that tidaling has stopped in the water-seal chamber. What is the most appropriate action?", options: ["Clamp the chest tube to restart tidaling", "Assess breath sounds and report the finding to the RN", "Increase the suction pressure", "Milk the tubing to restore flow"], correct: 1, rationale: "Absent tidaling can mean the lung has re-expanded (positive finding) or the tube is occluded (negative finding). The nurse should assess breath sounds and report to the nurse for further evaluation." },
+      { question: "What should the nurse do if the chest tube drainage becomes suddenly bright red and exceeds 100 mL in one hour?", options: ["Document the finding and reassess in 2 hours", "Report to the nurse immediately", "Strip the tubing to clear clots", "Reduce the suction pressure"], correct: 1, rationale: "Sudden bright red drainage exceeding 100 mL/hour suggests hemorrhage and requires immediate notification of the nurse and healthcare provider for possible surgical intervention." },
+      { question: "Which action should the nurse avoid when managing a chest drainage system?", options: ["Keeping the collection device below the chest", "Stripping or milking the tubing", "Checking connections for tightness", "Monitoring drainage volume hourly"], correct: 1, rationale: "Stripping or milking chest tubes creates excessive negative pressure that can damage lung tissue. This practice is no longer recommended." }
     ]
   },
 
   "chest-drainage-system-rn": {
-    title: "Chest Drainage Systems: RN Clinical Management",
+    title: "Chest Drainage Systems",
     cellular: {
-      title: "Physics and Clinical Application of Pleural Drainage",
-      content: "Chest drainage systems operate on the principle of restoring negative intrapleural pressure by providing a one-way evacuation path for air and fluid. Modern disposable units integrate three chambers: the collection chamber measures output, the water-seal chamber prevents atmospheric air re-entry (acting as a one-way valve), and the suction control chamber (wet or dry) regulates applied negative pressure. Water-seal tidaling reflects respiratory pressure changes transmitted through the pleural space and confirms system patency. Air leak assessment is performed systematically by evaluating bubbling in the water-seal chamber: continuous bubbling indicates a persistent bronchopleural fistula or system breach. The RN manages the entire chest drainage system, troubleshoots complications, interprets assessment findings, titrates suction, and determines readiness for tube removal."
+      title: "Physics and Clinical Application of Pleural",
+      content: "Chest drainage systems operate on the principle of restoring negative intrapleural pressure by providing a one-way evacuation path for air and fluid. Modern disposable units integrate three chambers: the collection chamber measures output, the water-seal chamber prevents atmospheric air re-entry (acting as a one-way valve), and the suction control chamber (wet or dry) regulates applied negative pressure. Water-seal tidaling reflects respiratory pressure changes transmitted through the pleural space and confirms system patency. Air leak assessment is performed systematically by evaluating bubbling in the water-seal chamber: continuous bubbling indicates a persistent bronchopleural fistula or system breach. The nurse manages the entire chest drainage system, troubleshoots complications, interprets assessment findings, titrates suction, and determines readiness for tube removal."
     },
     riskFactors: [
       "Postoperative thoracotomy or cardiac surgery",
@@ -392,17 +392,17 @@ export const clinicalConditionsBatchELessons: Record<string, LessonContent> = {
       "Post-removal: monitor the patient for at least 2 hours and obtain a chest X-ray to rule out recurrent pneumothorax"
     ],
     quiz: [
-      { question: "The RN is preparing a patient for chest tube removal. Which criteria must be met?", options: ["Drainage >500 mL/day with resolved air leak", "Air leak resolved ≥24 hours, drainage <200 mL/day, lung fully expanded", "Continuous bubbling with stable vital signs", "Drainage present for less than 12 hours"], correct: 1, rationale: "Chest tube removal requires resolution of the air leak for at least 24 hours, drainage less than 200 mL/day, and confirmed full lung expansion on imaging." },
-      { question: "During ambulation, the chest drainage collection device is accidentally elevated above the patient's chest. What should the RN do?", options: ["Clamp the chest tube immediately", "Lower the device below chest level and assess the patient", "Disconnect the tubing and reconnect", "Stop ambulation and obtain a chest X-ray immediately"], correct: 1, rationale: "The device should be immediately lowered below chest level to prevent back-flow of drainage into the pleural space. The RN should then assess the patient for respiratory changes." },
+      { question: "The nurse is preparing a patient for chest tube removal. Which criteria must be met?", options: ["Drainage >500 mL/day with resolved air leak", "Air leak resolved ≥24 hours, drainage <200 mL/day, lung fully expanded", "Continuous bubbling with stable vital signs", "Drainage present for less than 12 hours"], correct: 1, rationale: "Chest tube removal requires resolution of the air leak for at least 24 hours, drainage less than 200 mL/day, and confirmed full lung expansion on imaging." },
+      { question: "During ambulation, the chest drainage collection device is accidentally elevated above the patient's chest. What should the nurse do?", options: ["Clamp the chest tube immediately", "Lower the device below chest level and assess the patient", "Disconnect the tubing and reconnect", "Stop ambulation and obtain a chest X-ray immediately"], correct: 1, rationale: "The device should be immediately lowered below chest level to prevent back-flow of drainage into the pleural space. The nurse should then assess the patient for respiratory changes." },
       { question: "The suction control chamber of a wet suction system has stopped bubbling. What does this indicate?", options: ["The lung has fully re-expanded", "Suction is not being applied to the system", "An air leak has resolved", "The water-seal chamber is functioning properly"], correct: 1, rationale: "In a wet suction system, gentle continuous bubbling in the suction control chamber confirms that wall suction is being applied. Absence of bubbling indicates suction is disconnected or wall suction is off." }
     ]
   },
 
   "chest-drainage-system-np": {
-    title: "Chest Drainage Systems: NP Prescriptive Authority",
+    title: "Chest Drainage Systems",
     cellular: {
-      title: "Advanced Drainage System Management and Decision-Making",
-      content: "The NP managing chest drainage systems must integrate thoracic physiology with clinical decision-making for device selection, placement technique, troubleshooting, and removal timing. Small-bore pigtail catheters (12-16 Fr) placed via Seldinger technique are appropriate for simple pneumothorax and free-flowing effusions. Large-bore surgical chest tubes (24-36 Fr) are indicated for hemothorax, empyema, or traumatic pneumothorax with viscous drainage. Digital chest drainage systems provide continuous monitoring with quantified air leak measurement, replacing subjective visual assessment. The NP orders appropriate imaging, interprets results, prescribes procedural sedation, manages complications including trapped lung and bronchopleural fistula, and determines disposition based on clinical trajectory."
+      title: "Drainage System Management",
+      content: "The clinician managing chest drainage systems must integrate thoracic physiology with clinical decision-making for device selection, placement technique, troubleshooting, and removal timing. Small-bore pigtail catheters (12-16 Fr) placed via Seldinger technique are appropriate for simple pneumothorax and free-flowing effusions. Large-bore surgical chest tubes (24-36 Fr) are indicated for hemothorax, empyema, or traumatic pneumothorax with viscous drainage. Digital chest drainage systems provide continuous monitoring with quantified air leak measurement, replacing subjective visual assessment. The clinician orders appropriate imaging, interprets results, prescribes procedural sedation, manages complications including trapped lung and bronchopleural fistula, and determines disposition based on clinical trajectory."
     },
     riskFactors: [
       "Complex effusions requiring drainage (loculated, infected)",
@@ -479,10 +479,10 @@ export const clinicalConditionsBatchELessons: Record<string, LessonContent> = {
   },
 
   "malignant-hyperthermia-rpn": {
-    title: "Malignant Hyperthermia: RPN Emergency Monitoring",
+    title: "Malignant Hyperthermia",
     cellular: {
       title: "Hypermetabolic Crisis in Skeletal Muscle",
-      content: "Malignant hyperthermia (MH) is a rare, inherited, life-threatening disorder triggered by certain anesthetic agents, most commonly succinylcholine and volatile inhalational anesthetics. In susceptible individuals (autosomal dominant mutation in the ryanodine receptor gene RYR1), these agents cause uncontrolled release of calcium from the sarcoplasmic reticulum into the muscle cell cytoplasm. This triggers sustained skeletal muscle contraction and hypermetabolism, producing excessive heat, carbon dioxide, and lactic acid. Without rapid intervention, the condition progresses to rhabdomyolysis, hyperkalemia, metabolic acidosis, and cardiac arrest. The RPN must recognize early warning signs, assist with emergency interventions, and report changes in the patient's condition immediately."
+      content: "Malignant hyperthermia (MH) is a rare, inherited, life-threatening disorder triggered by certain anesthetic agents, most commonly succinylcholine and volatile inhalational anesthetics. In susceptible individuals (autosomal dominant mutation in the ryanodine receptor gene RYR1), these agents cause uncontrolled release of calcium from the sarcoplasmic reticulum into the muscle cell cytoplasm. This triggers sustained skeletal muscle contraction and hypermetabolism, producing excessive heat, carbon dioxide, and lactic acid. Without rapid intervention, the condition progresses to rhabdomyolysis, hyperkalemia, metabolic acidosis, and cardiac arrest. The nurse must recognize early warning signs, assist with emergency interventions, and report changes in the patient's condition immediately."
     },
     riskFactors: [
       "Family history of malignant hyperthermia",
@@ -550,16 +550,16 @@ export const clinicalConditionsBatchELessons: Record<string, LessonContent> = {
     ],
     quiz: [
       { question: "Which is typically the earliest sign of malignant hyperthermia during surgery?", options: ["High fever exceeding 107°F", "Dark red urine", "Unexplained rise in end-tidal CO2", "Cardiac arrest"], correct: 2, rationale: "An unexplained rise in end-tidal CO2 is typically the first sign of malignant hyperthermia, reflecting the hypermetabolic state before temperature elevation becomes apparent." },
-      { question: "The RPN is assisting with reconstitution of dantrolene. Which solution should be used?", options: ["Normal saline (0.9% NaCl)", "Lactated Ringer's solution", "Sterile water for injection", "Dextrose 5% in water"], correct: 2, rationale: "Dantrolene must be reconstituted with sterile water for injection only. Other solutions can cause precipitation and inactivation of the drug." },
-      { question: "Which finding should the RPN report immediately during the postoperative period in a patient with a known family history of MH?", options: ["Mild incisional pain rated 3/10", "Progressive muscle rigidity and unexplained tachycardia", "Drowsiness from residual anesthesia", "Appetite returning within 2 hours"], correct: 1, rationale: "Progressive muscle rigidity and unexplained tachycardia in a patient with MH risk factors are early warning signs requiring immediate reporting and evaluation for possible malignant hyperthermia." }
+      { question: "The nurse is assisting with reconstitution of dantrolene. Which solution should be used?", options: ["Normal saline (0.9% NaCl)", "Lactated Ringer's solution", "Sterile water for injection", "Dextrose 5% in water"], correct: 2, rationale: "Dantrolene must be reconstituted with sterile water for injection only. Other solutions can cause precipitation and inactivation of the drug." },
+      { question: "Which finding should the nurse report immediately during the postoperative period in a patient with a known family history of MH?", options: ["Mild incisional pain rated 3/10", "Progressive muscle rigidity and unexplained tachycardia", "Drowsiness from residual anesthesia", "Appetite returning within 2 hours"], correct: 1, rationale: "Progressive muscle rigidity and unexplained tachycardia in a patient with MH risk factors are early warning signs requiring immediate reporting and evaluation for possible malignant hyperthermia." }
     ]
   },
 
   "malignant-hyperthermia-rn": {
-    title: "Malignant Hyperthermia: RN Emergency Management",
+    title: "Malignant Hyperthermia",
     cellular: {
-      title: "Molecular Pathophysiology and Clinical Cascade",
-      content: "Malignant hyperthermia is triggered when susceptible individuals with RYR1 mutations are exposed to volatile anesthetics or depolarizing neuromuscular blocking agents. The mutation causes the ryanodine receptor in the sarcoplasmic reticulum to become hypersensitive, releasing massive amounts of calcium into the myoplasm. This sustained calcium release causes continuous muscle contraction and hypermetabolism, consuming ATP and oxygen at exponential rates while producing excessive CO2, heat, and lactic acid. As ATP stores are depleted, sarcolemma integrity fails, releasing intracellular contents including potassium, myoglobin, and creatine kinase into the bloodstream. This leads to life-threatening hyperkalemia, metabolic acidosis, rhabdomyolysis with acute kidney injury, disseminated intravascular coagulation, and cardiac arrest. The RN must coordinate the emergency response, administer dantrolene, implement aggressive cooling, and manage metabolic derangements simultaneously."
+      title: "Molecular Pathophysiology",
+      content: "Malignant hyperthermia is triggered when susceptible individuals with RYR1 mutations are exposed to volatile anesthetics or depolarizing neuromuscular blocking agents. The mutation causes the ryanodine receptor in the sarcoplasmic reticulum to become hypersensitive, releasing massive amounts of calcium into the myoplasm. This sustained calcium release causes continuous muscle contraction and hypermetabolism, consuming ATP and oxygen at exponential rates while producing excessive CO2, heat, and lactic acid. As ATP stores are depleted, sarcolemma integrity fails, releasing intracellular contents including potassium, myoglobin, and creatine kinase into the bloodstream. This leads to life-threatening hyperkalemia, metabolic acidosis, rhabdomyolysis with acute kidney injury, disseminated intravascular coagulation, and cardiac arrest. The nurse must coordinate the emergency response, administer dantrolene, implement aggressive cooling, and manage metabolic derangements simultaneously."
     },
     riskFactors: [
       "Autosomal dominant RYR1 gene mutation",
@@ -632,17 +632,17 @@ export const clinicalConditionsBatchELessons: Record<string, LessonContent> = {
       "Refer all survivors and at-risk family members to a specialized MH center for caffeine-halothane contracture testing"
     ],
     quiz: [
-      { question: "During an MH crisis, the RN is preparing to treat hyperkalemia. Which medication is absolutely contraindicated?", options: ["Calcium chloride", "Regular insulin with dextrose", "Verapamil (calcium channel blocker)", "Sodium bicarbonate"], correct: 2, rationale: "Calcium channel blockers combined with dantrolene can cause fatal hyperkalemia and cardiovascular collapse. This is an absolute contraindication during MH treatment." },
-      { question: "How many vials of standard dantrolene should the RN expect to mix for an 80 kg patient at the initial dose?", options: ["2 vials (40 mg)", "5 vials (100 mg)", "10 vials (200 mg)", "20 vials (400 mg)"], correct: 2, rationale: "Initial dose is 2.5 mg/kg. For an 80 kg patient: 80 × 2.5 = 200 mg. Standard vials are 20 mg each, requiring 10 vials for the initial dose. Multiple staff should reconstitute simultaneously." },
-      { question: "At what temperature should the RN discontinue active cooling measures during an MH crisis?", options: ["36°C (96.8°F)", "38°C (100.4°F)", "40°C (104°F)", "42°C (107.6°F)"], correct: 1, rationale: "Active cooling should be discontinued at 38°C to prevent hypothermia overshoot. Continued aggressive cooling below this threshold can result in dangerous hypothermia." }
+      { question: "During an MH crisis, the nurse is preparing to treat hyperkalemia. Which medication is absolutely contraindicated?", options: ["Calcium chloride", "Regular insulin with dextrose", "Verapamil (calcium channel blocker)", "Sodium bicarbonate"], correct: 2, rationale: "Calcium channel blockers combined with dantrolene can cause fatal hyperkalemia and cardiovascular collapse. This is an absolute contraindication during MH treatment." },
+      { question: "How many vials of standard dantrolene should the nurse expect to mix for an 80 kg patient at the initial dose?", options: ["2 vials (40 mg)", "5 vials (100 mg)", "10 vials (200 mg)", "20 vials (400 mg)"], correct: 2, rationale: "Initial dose is 2.5 mg/kg. For an 80 kg patient: 80 × 2.5 = 200 mg. Standard vials are 20 mg each, requiring 10 vials for the initial dose. Multiple staff should reconstitute simultaneously." },
+      { question: "At what temperature should the nurse discontinue active cooling measures during an MH crisis?", options: ["36°C (96.8°F)", "38°C (100.4°F)", "40°C (104°F)", "42°C (107.6°F)"], correct: 1, rationale: "Active cooling should be discontinued at 38°C to prevent hypothermia overshoot. Continued aggressive cooling below this threshold can result in dangerous hypothermia." }
     ]
   },
 
   "malignant-hyperthermia-np": {
-    title: "Malignant Hyperthermia: NP Prescriptive Management",
+    title: "Malignant Hyperthermia",
     cellular: {
-      title: "Genetic Pharmacogenomics and Crisis Leadership",
-      content: "Malignant hyperthermia susceptibility (MHS) is an autosomal dominant pharmacogenomic disorder with variable penetrance. Over 400 causative mutations in the RYR1 gene (chromosome 19q13.1) have been identified, with additional rare mutations in CACNA1S (the dihydropyridine receptor). The ryanodine receptor is a massive calcium release channel in the sarcoplasmic reticulum. In MHS individuals, triggering agents cause conformational changes that lock the channel open, flooding the myoplasm with calcium. The NP in perioperative or critical care settings must lead the MH crisis response, prescribe definitive pharmacotherapy, order appropriate monitoring and laboratory surveillance, manage multiorgan complications, coordinate genetic counseling referrals, and develop institutional MH preparedness protocols. The NP must also recognize and differentiate MH from mimicking conditions including neuroleptic malignant syndrome, serotonin syndrome, thyroid storm, and heat stroke."
+      title: "Genetic Pharmacogenomics",
+      content: "Malignant hyperthermia susceptibility (MHS) is an autosomal dominant pharmacogenomic disorder with variable penetrance. Over 400 causative mutations in the RYR1 gene (chromosome 19q13.1) have been identified, with additional rare mutations in CACNA1S (the dihydropyridine receptor). The ryanodine receptor is a massive calcium release channel in the sarcoplasmic reticulum. In MHS individuals, triggering agents cause conformational changes that lock the channel open, flooding the myoplasm with calcium. The clinician in perioperative or critical care settings must lead the MH crisis response, prescribe definitive pharmacotherapy, order appropriate monitoring and laboratory surveillance, manage multiorgan complications, coordinate genetic counseling referrals, and develop institutional MH preparedness protocols. The clinician must also recognize and differentiate MH from mimicking conditions including neuroleptic malignant syndrome, serotonin syndrome, thyroid storm, and heat stroke."
     },
     riskFactors: [
       "Confirmed RYR1 or CACNA1S mutation (autosomal dominant)",
@@ -722,10 +722,10 @@ export const clinicalConditionsBatchELessons: Record<string, LessonContent> = {
   },
 
   "wound-irrigation-rpn": {
-    title: "Wound Irrigation: RPN Technique and Care",
+    title: "Wound Irrigation",
     cellular: {
       title: "Principles of Wound Cleansing",
-      content: "Wound irrigation is the mechanical flushing of debris, bacteria, and exudate from an open wound using pressurized fluid to reduce infection risk and promote healing. The process works through both mechanical and dilutional mechanisms: fluid pressure dislodges adherent debris and bacteria while diluting the microbial load below the infectious threshold. The optimal irrigation pressure is 4-15 psi, achieved with a 35 mL syringe and 19-gauge angiocatheter, which provides sufficient force to remove contaminants without driving bacteria deeper into tissue or damaging granulation tissue. Wounds sustained in outdoor environments have increased contamination risk including Clostridium tetani, necessitating tetanus vaccination assessment. The RPN performs wound irrigation using sterile technique, documents wound characteristics, and reports findings to the nursing team."
+      content: "Wound irrigation is the mechanical flushing of debris, bacteria, and exudate from an open wound using pressurized fluid to reduce infection risk and promote healing. The process works through both mechanical and dilutional mechanisms: fluid pressure dislodges adherent debris and bacteria while diluting the microbial load below the infectious threshold. The optimal irrigation pressure is 4-15 psi, achieved with a 35 mL syringe and 19-gauge angiocatheter, which provides sufficient force to remove contaminants without driving bacteria deeper into tissue or damaging granulation tissue. Wounds sustained in outdoor environments have increased contamination risk including Clostridium tetani, necessitating tetanus vaccination assessment. The nurse performs wound irrigation using sterile technique, documents wound characteristics, and reports findings to the nursing team."
     },
     riskFactors: [
       "Outdoor injury with soil contamination",
@@ -786,7 +786,7 @@ export const clinicalConditionsBatchELessons: Record<string, LessonContent> = {
     },
     medications: [
       { name: "Normal Saline 0.9%", type: "Isotonic irrigation solution", action: "Provides mechanical cleansing of wound without cytotoxic effects on healing tissue", sideEffects: "None significant with topical wound use", contra: "None for wound irrigation", pearl: "Normal saline is the preferred irrigation solution as it is isotonic and non-cytotoxic to granulation tissue. Warm to body temperature to prevent vasoconstriction and patient discomfort." },
-      { name: "Acetaminophen", type: "Non-opioid analgesic", action: "Inhibits central prostaglandin synthesis to reduce pain perception", sideEffects: "Hepatotoxicity at high doses", contra: "Severe hepatic disease, doses exceeding 4g/day", pearl: "Administer as ordered 30 minutes before wound irrigation for mild pain. For moderate to severe wound pain, report to the RN for escalation to opioid analgesics." }
+      { name: "Acetaminophen", type: "Non-opioid analgesic", action: "Inhibits central prostaglandin synthesis to reduce pain perception", sideEffects: "Hepatotoxicity at high doses", contra: "Severe hepatic disease, doses exceeding 4g/day", pearl: "Administer as ordered 30 minutes before wound irrigation for mild pain. For moderate to severe wound pain, report to the nurse for escalation to opioid analgesics." }
     ],
     pearls: [
       "Always irrigate from the cleanest area to the most contaminated area to prevent spreading bacteria",
@@ -796,16 +796,16 @@ export const clinicalConditionsBatchELessons: Record<string, LessonContent> = {
     ],
     quiz: [
       { question: "What equipment provides the optimal irrigation pressure for wound cleansing?", options: ["10 mL syringe with 25-gauge needle", "35 mL syringe with 19-gauge angiocatheter", "Bulb syringe with warm water", "Pour bottle of normal saline"], correct: 1, rationale: "A 35 mL syringe with a 19-gauge angiocatheter generates approximately 8 psi, which is within the therapeutic range of 4-15 psi needed to effectively remove bacteria without causing tissue damage." },
-      { question: "How far above the wound should the RPN hold the syringe tip during irrigation?", options: ["Touching the wound surface", "Approximately 1 inch (2.5 cm)", "6 inches (15 cm)", "12 inches (30 cm)"], correct: 1, rationale: "Holding the syringe tip approximately 1 inch above the wound prevents the syringe from contaminating the wound while maintaining effective irrigation pressure at the wound surface." },
-      { question: "In which direction should the RPN irrigate the wound?", options: ["From the edges toward the center", "From the bottom edge upward", "From the top edge downward allowing gravitational flow", "In a circular motion"], correct: 2, rationale: "Irrigation should flow from the top edge downward, using gravity to direct contaminated fluid away from clean tissue and into the collection basin." }
+      { question: "How far above the wound should the nurse hold the syringe tip during irrigation?", options: ["Touching the wound surface", "Approximately 1 inch (2.5 cm)", "6 inches (15 cm)", "12 inches (30 cm)"], correct: 1, rationale: "Holding the syringe tip approximately 1 inch above the wound prevents the syringe from contaminating the wound while maintaining effective irrigation pressure at the wound surface." },
+      { question: "In which direction should the nurse irrigate the wound?", options: ["From the edges toward the center", "From the bottom edge upward", "From the top edge downward allowing gravitational flow", "In a circular motion"], correct: 2, rationale: "Irrigation should flow from the top edge downward, using gravity to direct contaminated fluid away from clean tissue and into the collection basin." }
     ]
   },
 
   "wound-irrigation-rn": {
-    title: "Wound Irrigation: RN Clinical Management",
+    title: "Wound Irrigation",
     cellular: {
-      title: "Evidence-Based Wound Irrigation and Assessment",
-      content: "Wound irrigation is a critical component of wound management that directly impacts healing trajectory and infection rates. The RN must integrate knowledge of wound healing physiology when selecting irrigation solutions, pressures, and techniques. Acute wounds progress through hemostasis, inflammation, proliferation, and remodeling phases, each requiring tailored management. Normal saline (0.9% NaCl) remains the gold standard irrigation solution as it is isotonic and non-cytotoxic to fibroblasts and keratinocytes. Antiseptic solutions (povidone-iodine, hydrogen peroxide, Dakin's solution) are cytotoxic to healing tissue and reserved for heavily contaminated or infected wounds where bacterial burden outweighs tissue damage concerns. The RN performs comprehensive wound assessment using standardized tools, selects appropriate irrigation parameters, differentiates between wound types requiring different management approaches, and coordinates wound care planning."
+      title: "Evidence-Based Wound Irrigation",
+      content: "Wound irrigation is a critical component of wound management that directly impacts healing trajectory and infection rates. The nurse must integrate knowledge of wound healing physiology when selecting irrigation solutions, pressures, and techniques. Acute wounds progress through hemostasis, inflammation, proliferation, and remodeling phases, each requiring tailored management. Normal saline (0.9% NaCl) remains the gold standard irrigation solution as it is isotonic and non-cytotoxic to fibroblasts and keratinocytes. Antiseptic solutions (povidone-iodine, hydrogen peroxide, Dakin's solution) are cytotoxic to healing tissue and reserved for heavily contaminated or infected wounds where bacterial burden outweighs tissue damage concerns. The nurse performs comprehensive wound assessment using standardized tools, selects appropriate irrigation parameters, differentiates between wound types requiring different management approaches, and coordinates wound care planning."
     },
     riskFactors: [
       "Surgical site infection (SSI) risk factors: obesity, diabetes, malnutrition, immunosuppression",
@@ -884,10 +884,10 @@ export const clinicalConditionsBatchELessons: Record<string, LessonContent> = {
   },
 
   "wound-irrigation-np": {
-    title: "Wound Irrigation: NP Prescriptive Wound Management",
+    title: "Wound Irrigation",
     cellular: {
-      title: "Advanced Wound Physiology and Evidence-Based Management",
-      content: "The NP integrates molecular wound healing science with clinical decision-making to optimize irrigation strategies and comprehensive wound management. Normal wound healing progresses through four overlapping phases: hemostasis (platelet plug and fibrin clot, minutes to hours), inflammation (neutrophil and macrophage infiltration, days 1-6), proliferation (angiogenesis, fibroplasia, and epithelialization, days 4-21), and remodeling (collagen reorganization, 21 days to 2 years). Chronic wounds stall in the inflammatory phase due to excessive protease activity (MMP-2, MMP-9), bacterial biofilm formation, and growth factor deficiency. Biofilms—structured bacterial communities encased in a polymeric matrix—are present in >60% of chronic wounds and are 100-1000x more resistant to antibiotics than planktonic bacteria. The NP must prescribe evidence-based irrigation protocols, order appropriate diagnostics, initiate systemic and topical antimicrobial therapy, address underlying etiologies (vascular disease, diabetes, pressure), and refer for advanced wound therapies."
+      title: "Wound Physiology",
+      content: "The clinician integrates molecular wound healing science with clinical decision-making to optimize irrigation strategies and comprehensive wound management. Normal wound healing progresses through four overlapping phases: hemostasis (platelet plug and fibrin clot, minutes to hours), inflammation (neutrophil and macrophage infiltration, days 1-6), proliferation (angiogenesis, fibroplasia, and epithelialization, days 4-21), and remodeling (collagen reorganization, 21 days to 2 years). Chronic wounds stall in the inflammatory phase due to excessive protease activity (MMP-2, MMP-9), bacterial biofilm formation, and growth factor deficiency. Biofilms—structured bacterial communities encased in a polymeric matrix—are present in >60% of chronic wounds and are 100-1000x more resistant to antibiotics than planktonic bacteria. The clinician must prescribe evidence-based irrigation protocols, order appropriate diagnostics, initiate systemic and topical antimicrobial therapy, address underlying etiologies (vascular disease, diabetes, pressure), and refer for advanced wound therapies."
     },
     riskFactors: [
       "Diabetes mellitus with HbA1c >7% (impairs neutrophil function and angiogenesis)",
@@ -960,7 +960,7 @@ export const clinicalConditionsBatchELessons: Record<string, LessonContent> = {
       "Target serum albumin >3.5 g/dL and prealbumin >20 mg/dL for optimal wound healing: supplement protein 1.25-1.5 g/kg/day"
     ],
     quiz: [
-      { question: "An NP is managing a chronic venous leg ulcer that has not improved in 6 weeks despite compression therapy. Which additional assessment is most important?", options: ["Order a serum vitamin D level", "Confirm ABI >0.8 and obtain tissue biopsy for culture and histology", "Increase compression to 50 mmHg", "Switch to dry gauze dressings"], correct: 1, rationale: "For a chronic wound not responding to standard therapy, the NP must verify adequate arterial perfusion (ABI >0.8 for safe compression) and obtain tissue biopsy to rule out occult infection (>10⁵ organisms/g) and malignant transformation." },
+      { question: "An NP is managing a chronic venous leg ulcer that has not improved in 6 weeks despite compression therapy. Which additional assessment is most important?", options: ["Order a serum vitamin D level", "Confirm ABI >0.8 and obtain tissue biopsy for culture and histology", "Increase compression to 50 mmHg", "Switch to dry gauze dressings"], correct: 1, rationale: "For a chronic wound not responding to standard therapy, the clinician must verify adequate arterial perfusion (ABI >0.8 for safe compression) and obtain tissue biopsy to rule out occult infection (>10⁵ organisms/g) and malignant transformation." },
       { question: "Which finding on wound assessment has the highest specificity for osteomyelitis in a diabetic foot ulcer?", options: ["Wound depth greater than 2 cm", "Positive probe-to-bone test", "ESR >70 mm/hr", "Wound present for more than 6 months"], correct: 1, rationale: "The probe-to-bone test (inserting a sterile metal probe through the wound and feeling bone) has 89% specificity for osteomyelitis in diabetic foot ulcers and should prompt MRI or bone biopsy for confirmation." },
       { question: "An NP prescribes collagenase (Santyl) for enzymatic debridement. Which concurrent wound care product must be avoided?", options: ["Normal saline irrigation", "Hydrogel moisture dressing", "Silver-containing dressings", "Foam dressing for exudate management"], correct: 2, rationale: "Silver-containing dressings and iodine-based products inactivate the collagenase enzyme, rendering the debridement agent ineffective. These products must not be used concurrently." }
     ]

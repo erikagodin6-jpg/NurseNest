@@ -2,10 +2,10 @@ import type { LessonContent } from "./types";
 
 export const clinicalConditionsBatchCLessons: Record<string, LessonContent> = {
   "dka-management-rpn": {
-    title: "Diabetic Ketoacidosis: RPN Monitoring",
+    title: "Diabetic Ketoacidosis",
     cellular: {
       title: "Pathophysiology of DKA",
-      content: "Diabetic ketoacidosis (DKA) occurs when absolute or relative insulin deficiency prevents glucose from entering cells, triggering lipolysis and hepatic ketogenesis. Free fatty acids are converted to ketone bodies (beta-hydroxybutyrate, acetoacetate, acetone), causing metabolic acidosis. Hyperglycemia causes osmotic diuresis, leading to severe dehydration and electrolyte losses. The RPN monitors vital signs, fluid intake/output, blood glucose levels, and reports changes to the RN or provider."
+      content: "Diabetic ketoacidosis (DKA) occurs when absolute or relative insulin deficiency prevents glucose from entering cells, triggering lipolysis and hepatic ketogenesis. Free fatty acids are converted to ketone bodies (beta-hydroxybutyrate, acetoacetate, acetone), causing metabolic acidosis. Hyperglycemia causes osmotic diuresis, leading to severe dehydration and electrolyte losses. The nurse monitors vital signs, fluid intake/output, blood glucose levels, and reports changes to the nurse or provider."
     },
     riskFactors: [
       "Type 1 diabetes mellitus (most common)",
@@ -71,17 +71,17 @@ export const clinicalConditionsBatchCLessons: Record<string, LessonContent> = {
       "DKA can be the first presentation of undiagnosed type 1 diabetes"
     ],
     quiz: [
-      { question: "Which sign should the RPN report immediately in a patient being treated for DKA?", options: ["Blood glucose of 180 mg/dL", "New-onset confusion and lethargy", "Mild thirst", "Urine output of 50 mL/hr"], correct: 1, rationale: "New-onset confusion or lethargy may indicate worsening acidosis or cerebral edema, both life-threatening complications requiring immediate reporting." },
+      { question: "Which sign should the nurse report immediately in a patient being treated for DKA?", options: ["Blood glucose of 180 mg/dL", "New-onset confusion and lethargy", "Mild thirst", "Urine output of 50 mL/hr"], correct: 1, rationale: "New-onset confusion or lethargy may indicate worsening acidosis or cerebral edema, both life-threatening complications requiring immediate reporting." },
       { question: "Why is potassium monitored closely during DKA treatment?", options: ["Insulin causes potassium to shift into cells, risking hypokalemia", "DKA causes permanent potassium elevation", "Potassium is unaffected by insulin therapy", "Potassium levels only matter post-recovery"], correct: 0, rationale: "Insulin drives potassium into cells. Even if serum K+ appears normal or high initially, total body potassium is depleted. Insulin administration can cause dangerous hypokalemia." },
       { question: "What type of breathing pattern is characteristic of DKA?", options: ["Cheyne-Stokes respirations", "Biot's respirations", "Kussmaul respirations", "Apneustic breathing"], correct: 2, rationale: "Kussmaul respirations (deep, rapid breathing) are the body's compensatory mechanism to blow off CO2 and counteract metabolic acidosis in DKA." }
     ]
   },
 
   "dka-management-rn": {
-    title: "Diabetic Ketoacidosis: RN Clinical Management",
+    title: "Diabetic Ketoacidosis",
     cellular: {
       title: "Pathophysiology and Metabolic Cascade",
-      content: "DKA results from absolute or relative insulin deficiency causing unopposed counter-regulatory hormone activity (glucagon, catecholamines, cortisol, growth hormone). Without insulin, glucose cannot enter cells, leading to hyperglycemia (typically >250 mg/dL). The body shifts to lipolysis for energy, producing free fatty acids that undergo hepatic beta-oxidation into ketone bodies. Accumulating ketones cause high anion gap metabolic acidosis (pH <7.30, HCO3 <18). Hyperglycemia drives osmotic diuresis, causing profound dehydration (average 5-7 L deficit), electrolyte depletion (Na+, K+, Mg2+, PO4), and if untreated, cardiovascular collapse. The RN manages insulin infusion protocols, aggressive fluid resuscitation, electrolyte replacement, continuous monitoring, and identification of precipitating factors."
+      content: "DKA results from absolute or relative insulin deficiency causing unopposed counter-regulatory hormone activity (glucagon, catecholamines, cortisol, growth hormone). Without insulin, glucose cannot enter cells, leading to hyperglycemia (typically >250 mg/dL). The body shifts to lipolysis for energy, producing free fatty acids that undergo hepatic beta-oxidation into ketone bodies. Accumulating ketones cause high anion gap metabolic acidosis (pH <7.30, HCO3 <18). Hyperglycemia drives osmotic diuresis, causing profound dehydration (average 5-7 L deficit), electrolyte depletion (Na+, K+, Mg2+, PO4), and if untreated, cardiovascular collapse. The nurse manages insulin infusion protocols, aggressive fluid resuscitation, electrolyte replacement, continuous monitoring, and identification of precipitating factors."
     },
     riskFactors: [
       "Type 1 diabetes mellitus",
@@ -163,10 +163,10 @@ export const clinicalConditionsBatchCLessons: Record<string, LessonContent> = {
   },
 
   "dka-management-np": {
-    title: "Diabetic Ketoacidosis: NP Prescriptive Management",
+    title: "Diabetic Ketoacidosis",
     cellular: {
       title: "Advanced Metabolic Pathophysiology",
-      content: "DKA represents a state of absolute or relative insulinopenia with counter-regulatory hormone excess. Insulin deficiency activates hormone-sensitive lipase in adipose tissue, releasing free fatty acids (FFAs) that undergo hepatic beta-oxidation. Glucagon excess enhances mitochondrial carnitine palmitoyltransferase-1 (CPT-1) activity, shuttling FFAs into mitochondria for conversion to acetoacetate and beta-hydroxybutyrate. The resulting ketonemia produces high anion gap metabolic acidosis. Simultaneously, unrestrained hepatic gluconeogenesis and glycogenolysis cause severe hyperglycemia (often >500 mg/dL), driving osmotic diuresis with average fluid deficits of 5-7 liters and significant losses of Na+ (7-10 mEq/kg), K+ (3-5 mEq/kg), and PO4 (1-1.5 mmol/kg). The NP orders the treatment protocol, manages insulin titration, identifies precipitants, prevents complications, and plans the transition to long-term glycemic management."
+      content: "DKA represents a state of absolute or relative insulinopenia with counter-regulatory hormone excess. Insulin deficiency activates hormone-sensitive lipase in adipose tissue, releasing free fatty acids (FFAs) that undergo hepatic beta-oxidation. Glucagon excess enhances mitochondrial carnitine palmitoyltransferase-1 (CPT-1) activity, shuttling FFAs into mitochondria for conversion to acetoacetate and beta-hydroxybutyrate. The resulting ketonemia produces high anion gap metabolic acidosis. Simultaneously, unrestrained hepatic gluconeogenesis and glycogenolysis cause severe hyperglycemia (often >500 mg/dL), driving osmotic diuresis with average fluid deficits of 5-7 liters and significant losses of Na+ (7-10 mEq/kg), K+ (3-5 mEq/kg), and PO4 (1-1.5 mmol/kg). The clinician orders the treatment protocol, manages insulin titration, identifies precipitants, prevents complications, and plans the transition to long-term glycemic management."
     },
     riskFactors: [
       "Type 1 diabetes (most common, but T2DM can present with DKA)",
@@ -243,16 +243,16 @@ export const clinicalConditionsBatchCLessons: Record<string, LessonContent> = {
     ],
     quiz: [
       { question: "A patient on empagliflozin presents with pH 7.22, HCO3 14, and blood glucose 190 mg/dL. What is the most likely diagnosis?", options: ["Hyperosmolar hyperglycemic state", "Euglycemic DKA", "Lactic acidosis", "Diabetic gastroparesis"], correct: 1, rationale: "SGLT2 inhibitors can cause euglycemic DKA where blood glucose is near-normal but ketoacidosis is present. The low pH and HCO3 with positive ketones confirm the diagnosis." },
-      { question: "When should the NP order sodium bicarbonate in DKA?", options: ["For all patients with DKA", "When pH is <7.30", "When pH is <6.9", "When glucose is >500 mg/dL"], correct: 2, rationale: "ADA guidelines recommend sodium bicarbonate only when pH <6.9. Above this threshold, insulin and fluids adequately correct the acidosis." },
+      { question: "When should the clinician order sodium bicarbonate in DKA?", options: ["For all patients with DKA", "When pH is <7.30", "When pH is <6.9", "When glucose is >500 mg/dL"], correct: 2, rationale: "ADA guidelines recommend sodium bicarbonate only when pH <6.9. Above this threshold, insulin and fluids adequately correct the acidosis." },
       { question: "What is the appropriate next step when blood glucose reaches 200 mg/dL during DKA treatment but the anion gap remains elevated?", options: ["Stop the insulin drip", "Add D5 to IV fluids and continue the insulin drip", "Switch to subcutaneous insulin", "Increase the insulin drip rate"], correct: 1, rationale: "The insulin drip must continue until the anion gap closes. Adding dextrose prevents hypoglycemia while allowing continued insulin to clear remaining ketones." }
     ]
   },
 
   "thyroid-storm-rpn": {
-    title: "Thyroid Storm: RPN Monitoring",
+    title: "Thyroid Storm",
     cellular: {
       title: "Thyrotoxic Crisis Pathophysiology",
-      content: "Thyroid storm is a life-threatening exacerbation of hyperthyroidism characterized by an acute surge in thyroid hormone action. Excessive T3 and T4 dramatically increase cellular metabolic rate, oxygen consumption, and heat production. Beta-adrenergic receptor sensitivity is amplified, causing severe tachycardia, hypertension, and cardiac dysfunction. Multi-organ failure can occur from hyperthermia, cardiovascular collapse, and CNS dysfunction. The RPN monitors vital signs, temperature, neurological status, and cardiac rhythm, reporting all changes immediately."
+      content: "Thyroid storm is a life-threatening exacerbation of hyperthyroidism characterized by an acute surge in thyroid hormone action. Excessive T3 and T4 dramatically increase cellular metabolic rate, oxygen consumption, and heat production. Beta-adrenergic receptor sensitivity is amplified, causing severe tachycardia, hypertension, and cardiac dysfunction. Multi-organ failure can occur from hyperthermia, cardiovascular collapse, and CNS dysfunction. The nurse monitors vital signs, temperature, neurological status, and cardiac rhythm, reporting all changes immediately."
     },
     riskFactors: [
       "Uncontrolled or untreated Graves' disease",
@@ -320,15 +320,15 @@ export const clinicalConditionsBatchCLessons: Record<string, LessonContent> = {
     quiz: [
       { question: "Which medication should be AVOIDED for fever in a patient with thyroid storm?", options: ["Acetaminophen", "Aspirin", "Cooling blankets", "Propranolol"], correct: 1, rationale: "Aspirin displaces thyroid hormone from binding proteins, increasing free T4 levels and worsening the thyrotoxic state. Use acetaminophen instead." },
       { question: "What vital sign finding is most characteristic of thyroid storm?", options: ["Bradycardia and hypothermia", "Severe tachycardia with high fever", "Hypertension with slow pulse", "Normal temperature with low blood pressure"], correct: 1, rationale: "Thyroid storm presents with severe tachycardia (often >140 bpm) and high fever (>40°C) due to the hypermetabolic state from excessive thyroid hormone." },
-      { question: "The RPN notes that a patient with thyroid storm becomes confused and agitated. What is the priority action?", options: ["Apply physical restraints", "Report the change in mental status to the RN immediately", "Increase room temperature for comfort", "Administer aspirin for presumed fever"], correct: 1, rationale: "Altered mental status in thyroid storm indicates potential progression to thyrotoxic coma, requiring immediate reporting and medical intervention." }
+      { question: "The nurse notes that a patient with thyroid storm becomes confused and agitated. What is the priority action?", options: ["Apply physical restraints", "Report the change in mental status to the nurse immediately", "Increase room temperature for comfort", "Administer aspirin for presumed fever"], correct: 1, rationale: "Altered mental status in thyroid storm indicates potential progression to thyrotoxic coma, requiring immediate reporting and medical intervention." }
     ]
   },
 
   "thyroid-storm-rn": {
-    title: "Thyroid Storm: RN Clinical Management",
+    title: "Thyroid Storm",
     cellular: {
       title: "Thyrotoxic Pathophysiology and Organ Impact",
-      content: "Thyroid storm (thyrotoxic crisis) represents decompensated thyrotoxicosis where excessive circulating T3 (the metabolically active form) causes multi-system hypermetabolic crisis. T3 upregulates beta-adrenergic receptors on cardiac myocytes, causing severe tachyarrhythmias and high-output heart failure. Increased basal metabolic rate elevates oxygen consumption and heat production, leading to hyperthermia. Hepatic glycogenolysis and gluconeogenesis cause hyperglycemia. GI hypermotility causes diarrhea and volume depletion. CNS excitability manifests as agitation, psychosis, seizures, and eventual obtundation. The RN manages aggressive cooling, medication administration protocols, continuous monitoring, fluid resuscitation, and coordination of the multidisciplinary response."
+      content: "Thyroid storm (thyrotoxic crisis) represents decompensated thyrotoxicosis where excessive circulating T3 (the metabolically active form) causes multi-system hypermetabolic crisis. T3 upregulates beta-adrenergic receptors on cardiac myocytes, causing severe tachyarrhythmias and high-output heart failure. Increased basal metabolic rate elevates oxygen consumption and heat production, leading to hyperthermia. Hepatic glycogenolysis and gluconeogenesis cause hyperglycemia. GI hypermotility causes diarrhea and volume depletion. CNS excitability manifests as agitation, psychosis, seizures, and eventual obtundation. The nurse manages aggressive cooling, medication administration protocols, continuous monitoring, fluid resuscitation, and coordination of the multidisciplinary response."
     },
     riskFactors: [
       "Uncontrolled Graves' disease (most common underlying cause)",
@@ -410,10 +410,10 @@ export const clinicalConditionsBatchCLessons: Record<string, LessonContent> = {
   },
 
   "thyroid-storm-np": {
-    title: "Thyroid Storm: NP Prescriptive Management",
+    title: "Thyroid Storm",
     cellular: {
       title: "Advanced Thyrotoxic Pathophysiology",
-      content: "Thyroid storm represents the extreme end of the thyrotoxicosis spectrum, typically precipitated by a superimposed stressor in a patient with uncontrolled hyperthyroidism. The pathogenesis involves massive sympathetic activation from thyroid hormone excess. T3 directly upregulates myocardial beta-1 receptors, increasing heart rate, contractility, and cardiac output beyond adaptive capacity. Peripheral vasodilation reduces SVR, and the resulting high-output state can progress to heart failure. Thermoregulatory failure occurs as T3 increases uncoupling protein activity in mitochondria, generating heat rather than ATP. Hepatic dysfunction results from hepatic oxygen demand exceeding supply. CNS manifestations from agitation to coma reflect both direct T3 neurotoxicity and cerebral hyperthermia. The NP must rapidly initiate the multi-drug protocol, manage ICU-level care, identify the precipitant, and prevent cardiovascular collapse."
+      content: "Thyroid storm represents the extreme end of the thyrotoxicosis spectrum, typically precipitated by a superimposed stressor in a patient with uncontrolled hyperthyroidism. The pathogenesis involves massive sympathetic activation from thyroid hormone excess. T3 directly upregulates myocardial beta-1 receptors, increasing heart rate, contractility, and cardiac output beyond adaptive capacity. Peripheral vasodilation reduces SVR, and the resulting high-output state can progress to heart failure. Thermoregulatory failure occurs as T3 increases uncoupling protein activity in mitochondria, generating heat rather than ATP. Hepatic dysfunction results from hepatic oxygen demand exceeding supply. CNS manifestations from agitation to coma reflect both direct T3 neurotoxicity and cerebral hyperthermia. The clinician must rapidly initiate the multi-drug protocol, manage ICU-level care, identify the precipitant, and prevent cardiovascular collapse."
     },
     riskFactors: [
       "Graves' disease (most common underlying etiology)",
@@ -496,10 +496,10 @@ export const clinicalConditionsBatchCLessons: Record<string, LessonContent> = {
   },
 
   "sepsis-management-rpn": {
-    title: "Sepsis & Septic Shock: RPN Monitoring",
+    title: "Sepsis & Septic Shock",
     cellular: {
-      title: "Infection-Driven Systemic Inflammatory Response",
-      content: "Sepsis occurs when the body's immune response to infection becomes dysregulated, causing widespread tissue damage rather than contained pathogen elimination. Bacterial endotoxins and inflammatory mediators (TNF-alpha, interleukins) trigger systemic vasodilation, capillary leak, and microvascular thrombosis. This leads to tissue hypoperfusion, cellular hypoxia, and progressive organ dysfunction. Septic shock adds persistent hypotension unresponsive to fluid resuscitation, requiring vasopressors. The RPN monitors vital signs, urine output, and level of consciousness, reporting early warning signs to the nursing team."
+      title: "Infection-Driven Systemic Inflammatory",
+      content: "Sepsis occurs when the body's immune response to infection becomes dysregulated, causing widespread tissue damage rather than contained pathogen elimination. Bacterial endotoxins and inflammatory mediators (TNF-alpha, interleukins) trigger systemic vasodilation, capillary leak, and microvascular thrombosis. This leads to tissue hypoperfusion, cellular hypoxia, and progressive organ dysfunction. Septic shock adds persistent hypotension unresponsive to fluid resuscitation, requiring vasopressors. The nurse monitors vital signs, urine output, and level of consciousness, reporting early warning signs to the nursing team."
     },
     riskFactors: [
       "Age >65 years or neonates",
@@ -565,17 +565,17 @@ export const clinicalConditionsBatchCLessons: Record<string, LessonContent> = {
       "Always verify antibiotic allergies before administering the first dose"
     ],
     quiz: [
-      { question: "Which finding should the RPN report immediately as a potential early sign of sepsis?", options: ["Blood pressure of 125/78 mmHg", "Temperature of 37.2°C", "New confusion with HR 105 and RR 24", "Urine output of 100 mL/hr"], correct: 2, rationale: "New confusion combined with tachycardia (HR >90) and tachypnea (RR >20) meets SIRS criteria and suggests early sepsis requiring immediate evaluation." },
+      { question: "Which finding should the nurse report immediately as a potential early sign of sepsis?", options: ["Blood pressure of 125/78 mmHg", "Temperature of 37.2°C", "New confusion with HR 105 and RR 24", "Urine output of 100 mL/hr"], correct: 2, rationale: "New confusion combined with tachycardia (HR >90) and tachypnea (RR >20) meets SIRS criteria and suggests early sepsis requiring immediate evaluation." },
       { question: "Why must antibiotics be administered within 1 hour of sepsis recognition?", options: ["Hospital policy requires documentation within 1 hour", "Each hour of delay increases mortality by approximately 7.6%", "Antibiotics lose potency after 1 hour", "Insurance requires timely administration"], correct: 1, rationale: "Research from the Surviving Sepsis Campaign demonstrates that each hour of antibiotic delay in sepsis increases mortality by approximately 7.6%." },
       { question: "Which skin finding indicates progression from early to late septic shock?", options: ["Warm, flushed skin", "Cool, mottled extremities", "Normal skin color and temperature", "Generalized rash"], correct: 1, rationale: "Cool, mottled extremities indicate vasoconstriction from failing compensatory mechanisms, suggesting progression from warm (vasodilated) to cold (vasoconstricted) septic shock." }
     ]
   },
 
   "sepsis-management-rn": {
-    title: "Sepsis & Septic Shock: RN Clinical Management",
+    title: "Sepsis & Septic Shock",
     cellular: {
-      title: "Sepsis Pathophysiology and Organ Dysfunction Cascade",
-      content: "Sepsis is defined as life-threatening organ dysfunction caused by a dysregulated host response to infection (Sepsis-3 definition). Pathogen-associated molecular patterns (PAMPs) activate innate immune cells, triggering a cytokine storm (TNF-alpha, IL-1, IL-6). This produces systemic vasodilation (low SVR), increased capillary permeability, and microthrombi formation. The result is distributive shock with relative hypovolemia and maldistribution of blood flow. Lactate accumulates as tissues shift to anaerobic metabolism from hypoperfusion. Organ dysfunction manifests as acute kidney injury (oliguria), ARDS (refractory hypoxemia), hepatic dysfunction (coagulopathy, jaundice), and encephalopathy (altered mental status). The RN implements the sepsis bundle, manages fluid resuscitation and vasopressors, performs serial reassessments, and coordinates the interdisciplinary response."
+      title: "Sepsis Pathophysiology",
+      content: "Sepsis is defined as life-threatening organ dysfunction caused by a dysregulated host response to infection (Sepsis-3 definition). Pathogen-associated molecular patterns (PAMPs) activate innate immune cells, triggering a cytokine storm (TNF-alpha, IL-1, IL-6). This produces systemic vasodilation (low SVR), increased capillary permeability, and microthrombi formation. The result is distributive shock with relative hypovolemia and maldistribution of blood flow. Lactate accumulates as tissues shift to anaerobic metabolism from hypoperfusion. Organ dysfunction manifests as acute kidney injury (oliguria), ARDS (refractory hypoxemia), hepatic dysfunction (coagulopathy, jaundice), and encephalopathy (altered mental status). The nurse implements the sepsis bundle, manages fluid resuscitation and vasopressors, performs serial reassessments, and coordinates the interdisciplinary response."
     },
     riskFactors: [
       "Extremes of age (neonates, elderly >65)",
@@ -658,10 +658,10 @@ export const clinicalConditionsBatchCLessons: Record<string, LessonContent> = {
   },
 
   "sepsis-management-np": {
-    title: "Sepsis & Septic Shock: NP Prescriptive Management",
+    title: "Sepsis & Septic Shock",
     cellular: {
       title: "Advanced Sepsis Immunopathology",
-      content: "Sepsis pathogenesis involves a dual-phase immune response. The initial hyperinflammatory phase features activation of pattern recognition receptors (TLRs, NOD-like receptors) by PAMPs, triggering NF-κB-mediated cytokine release (TNF-alpha, IL-1β, IL-6). This cascade activates the complement system, coagulation cascade (tissue factor pathway), and endothelial dysfunction. Nitric oxide overproduction causes refractory vasodilation. Glycocalyx degradation increases capillary permeability. Subsequently, an immunosuppressive phase (immune paralysis) develops with lymphocyte apoptosis, monocyte deactivation, and increased susceptibility to secondary infections. Organ dysfunction is quantified by the SOFA score: a ≥2-point increase identifies sepsis. Septic shock is sepsis with vasopressor requirement to maintain MAP ≥65 and lactate >2 despite adequate fluid resuscitation. The NP orders the initial resuscitation protocol, prescribes empiric antimicrobials, initiates vasopressor therapy, identifies and controls the infectious source, and manages multi-organ support."
+      content: "Sepsis pathogenesis involves a dual-phase immune response. The initial hyperinflammatory phase features activation of pattern recognition receptors (TLRs, NOD-like receptors) by PAMPs, triggering NF-κB-mediated cytokine release (TNF-alpha, IL-1β, IL-6). This cascade activates the complement system, coagulation cascade (tissue factor pathway), and endothelial dysfunction. Nitric oxide overproduction causes refractory vasodilation. Glycocalyx degradation increases capillary permeability. Subsequently, an immunosuppressive phase (immune paralysis) develops with lymphocyte apoptosis, monocyte deactivation, and increased susceptibility to secondary infections. Organ dysfunction is quantified by the SOFA score: a ≥2-point increase identifies sepsis. Septic shock is sepsis with vasopressor requirement to maintain MAP ≥65 and lactate >2 despite adequate fluid resuscitation. The clinician orders the initial resuscitation protocol, prescribes empiric antimicrobials, initiates vasopressor therapy, identifies and controls the infectious source, and manages multi-organ support."
     },
     riskFactors: [
       "Extremes of age with immunosenescence",
@@ -744,10 +744,10 @@ export const clinicalConditionsBatchCLessons: Record<string, LessonContent> = {
   },
 
   "antibiotic-stewardship-rpn": {
-    title: "Antibiotic Stewardship: RPN Fundamentals",
+    title: "Antibiotic Stewardship",
     cellular: {
       title: "Mechanisms of Antibiotic Resistance",
-      content: "Antibiotic resistance develops through genetic mutations or horizontal gene transfer (plasmids, transposons, transformation) that allow bacteria to survive antibiotic exposure. Resistance mechanisms include: enzymatic inactivation (beta-lactamases destroying penicillins), altered target sites (PBP mutations in MRSA), efflux pumps (tetracycline resistance), reduced permeability (porin channel mutations in gram-negatives), and biofilm formation. Inappropriate antibiotic use (unnecessary prescribing, subtherapeutic dosing, incomplete courses) accelerates selection of resistant organisms. The RPN contributes to stewardship by administering antibiotics at the correct time, reporting adverse effects, and educating patients on adherence."
+      content: "Antibiotic resistance develops through genetic mutations or horizontal gene transfer (plasmids, transposons, transformation) that allow bacteria to survive antibiotic exposure. Resistance mechanisms include: enzymatic inactivation (beta-lactamases destroying penicillins), altered target sites (PBP mutations in MRSA), efflux pumps (tetracycline resistance), reduced permeability (porin channel mutations in gram-negatives), and biofilm formation. Inappropriate antibiotic use (unnecessary prescribing, subtherapeutic dosing, incomplete courses) accelerates selection of resistant organisms. The nurse contributes to stewardship by administering antibiotics at the correct time, reporting adverse effects, and educating patients on adherence."
     },
     riskFactors: [
       "Unnecessary antibiotic prescribing for viral infections",
@@ -813,16 +813,16 @@ export const clinicalConditionsBatchCLessons: Record<string, LessonContent> = {
     ],
     quiz: [
       { question: "When should cultures be collected relative to antibiotic administration?", options: ["After the second dose of antibiotics", "Before the first dose of antibiotics", "It does not matter when cultures are collected", "Only if the patient develops a fever"], correct: 1, rationale: "Cultures must be collected BEFORE the first antibiotic dose to avoid false-negative results. Antibiotics can suppress bacterial growth in culture media." },
-      { question: "A patient on antibiotics develops three episodes of watery diarrhea in 12 hours. What should the RPN report?", options: ["This is a normal side effect that requires no action", "Report possible C. difficile infection to the RN immediately", "Increase the patient's fluid intake and continue monitoring", "Hold all medications until the diarrhea resolves"], correct: 1, rationale: "Three or more episodes of watery diarrhea during antibiotic therapy is suspicious for C. difficile infection, which requires immediate reporting, testing, and potential isolation." },
+      { question: "A patient on antibiotics develops three episodes of watery diarrhea in 12 hours. What should the nurse report?", options: ["This is a normal side effect that requires no action", "Report possible C. difficile infection to the nurse immediately", "Increase the patient's fluid intake and continue monitoring", "Hold all medications until the diarrhea resolves"], correct: 1, rationale: "Three or more episodes of watery diarrhea during antibiotic therapy is suspicious for C. difficile infection, which requires immediate reporting, testing, and potential isolation." },
       { question: "Why is it important to administer antibiotics at the scheduled time?", options: ["For documentation purposes only", "To maintain therapeutic drug levels and ensure effectiveness", "Hospital policy requires it but it has no clinical impact", "Patients prefer a regular medication schedule"], correct: 1, rationale: "Maintaining consistent antibiotic levels above the minimum inhibitory concentration (MIC) is essential for killing bacteria. Delayed or missed doses allow bacterial regrowth and can promote resistance." }
     ]
   },
 
   "antibiotic-stewardship-rn": {
-    title: "Antibiotic Stewardship: RN Clinical Practice",
+    title: "Antibiotic Stewardship",
     cellular: {
       title: "Pharmacodynamics of Antibiotic Resistance",
-      content: "Antibiotic stewardship encompasses systematic strategies to optimize antimicrobial use, improve patient outcomes, and reduce the emergence of resistant organisms. Bacteria develop resistance through multiple mechanisms: beta-lactamase production (ESBL, carbapenemases) hydrolyzes the beta-lactam ring; mecA gene in MRSA alters penicillin-binding protein (PBP2a), preventing beta-lactam binding; vanA gene cluster in VRE modifies the D-Ala-D-Ala target to D-Ala-D-Lac; and efflux pumps actively expel antibiotics from the cell. Pharmacodynamic principles guide dosing: time-dependent antibiotics (beta-lactams) require sustained levels above MIC, while concentration-dependent antibiotics (aminoglycosides, fluoroquinolones) require high peak concentrations. The RN plays a critical role in stewardship through timely administration, culture collection technique, monitoring therapeutic drug levels, recognizing adverse effects, coordinating antibiotic timeout reviews, and patient education."
+      content: "Antibiotic stewardship encompasses systematic strategies to optimize antimicrobial use, improve patient outcomes, and reduce the emergence of resistant organisms. Bacteria develop resistance through multiple mechanisms: beta-lactamase production (ESBL, carbapenemases) hydrolyzes the beta-lactam ring; mecA gene in MRSA alters penicillin-binding protein (PBP2a), preventing beta-lactam binding; vanA gene cluster in VRE modifies the D-Ala-D-Ala target to D-Ala-D-Lac; and efflux pumps actively expel antibiotics from the cell. Pharmacodynamic principles guide dosing: time-dependent antibiotics (beta-lactams) require sustained levels above MIC, while concentration-dependent antibiotics (aminoglycosides, fluoroquinolones) require high peak concentrations. The nurse plays a critical role in stewardship through timely administration, culture collection technique, monitoring therapeutic drug levels, recognizing adverse effects, coordinating antibiotic timeout reviews, and patient education."
     },
     riskFactors: [
       "Broad-spectrum antibiotic use without culture guidance",
@@ -901,10 +901,10 @@ export const clinicalConditionsBatchCLessons: Record<string, LessonContent> = {
   },
 
   "antibiotic-stewardship-np": {
-    title: "Antibiotic Stewardship: NP Prescriptive Practice",
+    title: "Antibiotic Stewardship",
     cellular: {
-      title: "Advanced Antimicrobial Pharmacology and Resistance Genomics",
-      content: "Antibiotic stewardship at the NP prescriptive level requires deep understanding of resistance mechanisms, pharmacokinetic/pharmacodynamic (PK/PD) optimization, and evidence-based prescribing. Key resistance mechanisms include: ESBL-producing Enterobacterales (plasmid-mediated CTX-M enzymes hydrolyzing third-generation cephalosporins), carbapenem-resistant Enterobacterales (CRE via KPC, NDM, OXA-48 enzymes), MRSA (mecA gene encoding PBP2a with reduced beta-lactam affinity), and vancomycin-resistant Enterococcus (vanA/vanB gene clusters). PK/PD targets drive dosing: time-dependent antibiotics (beta-lactams) target fT>MIC >40-70%, concentration-dependent antibiotics (aminoglycosides) target Cmax/MIC >10, and AUC-dependent antibiotics (vancomycin, fluoroquinolones) target AUC/MIC ratios. The NP must select empiric therapy based on local antibiograms, optimize dosing using PK/PD principles, de-escalate based on culture data, determine appropriate duration, and implement stewardship quality metrics."
+      title: "Antimicrobial Pharmacology",
+      content: "Antibiotic stewardship at the clinician prescriptive level requires deep understanding of resistance mechanisms, pharmacokinetic/pharmacodynamic (PK/PD) optimization, and evidence-based prescribing. Key resistance mechanisms include: ESBL-producing Enterobacterales (plasmid-mediated CTX-M enzymes hydrolyzing third-generation cephalosporins), carbapenem-resistant Enterobacterales (CRE via KPC, NDM, OXA-48 enzymes), MRSA (mecA gene encoding PBP2a with reduced beta-lactam affinity), and vancomycin-resistant Enterococcus (vanA/vanB gene clusters). PK/PD targets drive dosing: time-dependent antibiotics (beta-lactams) target fT>MIC >40-70%, concentration-dependent antibiotics (aminoglycosides) target Cmax/MIC >10, and AUC-dependent antibiotics (vancomycin, fluoroquinolones) target AUC/MIC ratios. The clinician must select empiric therapy based on local antibiograms, optimize dosing using PK/PD principles, de-escalate based on culture data, determine appropriate duration, and implement stewardship quality metrics."
     },
     riskFactors: [
       "Healthcare-associated infections with MDR organisms (MRSA, VRE, ESBL, CRE)",

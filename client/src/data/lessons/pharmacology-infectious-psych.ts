@@ -235,7 +235,7 @@ export const pharmacologyInfectiousPsychLessons: Record<string, LessonContent> =
   "pharm-psychiatric": {
     title: "Psychiatric Pharmacology",
     cellular: {
-      title: "Neurotransmitter Modulation in Psychiatric Treatment",
+      title: "Neurotransmitter Modulation in Psychiatric",
       content: "Psychiatric medications work by modulating neurotransmitter systems in the central nervous system. Antidepressants primarily target serotonin, norepinephrine, and dopamine reuptake or metabolism to correct neurochemical imbalances associated with mood disorders. Antipsychotics block dopamine D2 receptors (typical) or modulate both dopamine and serotonin receptors (atypical) to reduce psychotic symptoms. Mood stabilizers like lithium affect multiple intracellular signaling pathways including inositol phosphate and glycogen synthase kinase-3 to stabilize neuronal membrane excitability. Understanding receptor pharmacology is essential because side effects directly correlate with receptor binding profiles - anticholinergic, antihistaminic, and anti-adrenergic effects produce predictable adverse reactions."
     },
     riskFactors: [
@@ -482,7 +482,7 @@ export const pharmacologyInfectiousPsychLessons: Record<string, LessonContent> =
   "pharm-neuro-pain": {
     title: "Neurology and Pain Pharmacology",
     cellular: {
-      title: "Neuronal Excitability and Pain Signal Modulation",
+      title: "Neuronal Excitability",
       content: "Neurological and pain medications target ion channels, neurotransmitter systems, and inflammatory pathways that govern neuronal excitability and nociceptive signaling. Antiepileptic drugs stabilize neuronal membranes by blocking voltage-gated sodium channels (phenytoin, carbamazepine), enhancing GABA inhibition (valproate, benzodiazepines), or modulating calcium channels (gabapentin, pregabalin). Dopaminergic agents for Parkinson disease replace or mimic dopamine lost from substantia nigra degeneration. Opioid analgesics bind mu, kappa, and delta receptors in the CNS and peripheral nervous system, activating descending inhibitory pain pathways and reducing substance P release. NSAIDs inhibit cyclooxygenase enzymes (COX-1 and COX-2), blocking prostaglandin synthesis at the site of tissue injury to reduce pain, inflammation, and fever."
     },
     riskFactors: [

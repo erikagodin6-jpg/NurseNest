@@ -2,11 +2,11 @@ import type { LessonContent } from "./types";
 
 export const delegationByLicenseLessons: Record<string, LessonContent> = {
   "delegation-license-rpn": {
-    title: "RPN Delegation and Scope",
+    title: "Delegation and Scope",
     cellular: {
-      title: "Understanding RPN Scope of Practice",
+      title: "Understanding Scope of Practice",
       content:
-        "The Registered Practical Nurse (RPN) practices within a scope defined by predictable patient outcomes and clinical stability. RPNs accept delegated tasks from Registered Nurses when the patient condition is stable, the intervention has a known expected outcome, and the RPN possesses the necessary competency. Delegation questions account for 15-25% of exam logic items, making a thorough understanding of scope boundaries essential for success. The RPN must recognize when patient status changes require escalation to the RN and must never independently initiate care reserved for broader scopes of practice.",
+        "The Registered Practical Nurse (RPN) practices within a scope defined by predictable patient outcomes and clinical stability. RPNs accept delegated tasks from Registered Nurses when the patient condition is stable, the intervention has a known expected outcome, and the nurse possesses the necessary competency. Delegation questions account for 15-25% of exam logic items, making a thorough understanding of scope boundaries essential for success. The nurse must recognize when patient status changes require escalation to the nurse and must never independently initiate care reserved for broader scopes of practice.",
     },
     riskFactors: [
       "Accepting tasks outside legislated scope of practice",
@@ -26,7 +26,7 @@ export const delegationByLicenseLessons: Record<string, LessonContent> = {
     management: [
       "Verify competency before accepting any delegated task",
       "Confirm that the patient meets stability criteria for RPN-level care",
-      "Communicate changes in patient condition to the RN immediately",
+      "Communicate changes in patient condition to the nurse immediately",
       "Document all delegated tasks, interventions performed, and outcomes",
       "Follow organizational policies on scope and delegation",
     ],
@@ -59,25 +59,25 @@ export const delegationByLicenseLessons: Record<string, LessonContent> = {
         name: "Oral Metoprolol",
         type: "Beta-blocker",
         action:
-          "Reduces heart rate and blood pressure by blocking beta-1 adrenergic receptors; routine oral administration may be delegated to the RPN for stable patients",
+          "Reduces heart rate and blood pressure by blocking beta-1 adrenergic receptors; routine oral administration may be delegated to the nurse for stable patients",
         sideEffects: "Bradycardia, hypotension, fatigue, dizziness",
         contra:
           "Heart rate below 60 bpm, systolic blood pressure below 100 mmHg, second or third degree heart block",
         pearl:
-          "The RPN must check heart rate and blood pressure before administration and withhold if parameters are not met, then notify the RN",
+          "The nurse must check heart rate and blood pressure before administration and withhold if parameters are not met, then notify the RN",
       },
     ],
     pearls: [
-      "RPNs care for patients with predictable outcomes; if the outcome becomes unpredictable, escalate to the RN immediately",
-      "Delegation does not transfer accountability from the RN; the RN remains accountable for the overall plan of care",
-      "UAP/PSW tasks overseen by the RPN include feeding assistance, repositioning, toileting, and patient transport",
-      "The RPN must escalate to the RN when abnormal findings, new symptoms, or changes in patient status occur",
+      "RPNs care for patients with predictable outcomes; if the outcome becomes unpredictable, escalate to the nurse immediately",
+      "Delegation does not transfer accountability from the RN; the nurse remains accountable for the overall plan of care",
+      "UAP/PSW tasks overseen by the nurse include feeding assistance, repositioning, toileting, and patient transport",
+      "The nurse must escalate to the nurse when abnormal findings, new symptoms, or changes in patient status occur",
       "Always confirm competency and organizational policy before accepting a delegated task",
     ],
     quiz: [
       {
         question:
-          "Which task is appropriate for the RPN to perform independently for a stable patient?",
+          "Which task is appropriate for the nurse to perform independently for a stable patient?",
         options: [
           "Initiate a blood transfusion",
           "Administer an IV push medication",
@@ -86,15 +86,15 @@ export const delegationByLicenseLessons: Record<string, LessonContent> = {
         ],
         correct: 2,
         rationale:
-          "Routine wound dressing changes on stable, predictable wounds fall within the RPN scope of practice. Blood transfusion initiation, IV push medications, and initial comprehensive assessments require the RN.",
+          "Routine wound dressing changes on stable, predictable wounds fall within the nurse scope of practice. Blood transfusion initiation, IV push medications, and initial comprehensive assessments require the RN.",
       },
       {
         question:
-          "The RPN is monitoring a previously stable patient who now reports sudden chest pain and shortness of breath. What is the priority action?",
+          "The nurse is monitoring a previously stable patient who now reports sudden chest pain and shortness of breath. What is the priority action?",
         options: [
           "Document the findings and continue monitoring",
           "Administer PRN nitroglycerin and reassess in 30 minutes",
-          "Notify the RN immediately about the change in patient status",
+          "Notify the nurse immediately about the change in patient status",
           "Delegate vital sign monitoring to the PSW and continue other tasks",
         ],
         correct: 2,
@@ -103,7 +103,7 @@ export const delegationByLicenseLessons: Record<string, LessonContent> = {
       },
       {
         question:
-          "Which task can the RPN delegate to a PSW/UAP?",
+          "Which task can the nurse delegate to a PSW/UAP?",
         options: [
           "Blood glucose monitoring using a glucometer",
           "Feeding assistance for a patient with no swallowing precautions",
@@ -112,15 +112,15 @@ export const delegationByLicenseLessons: Record<string, LessonContent> = {
         ],
         correct: 1,
         rationale:
-          "Feeding assistance for patients without swallowing precautions is within the UAP/PSW scope. Blood glucose monitoring, medication administration, and skin assessment require the RPN or RN.",
+          "Feeding assistance for patients without swallowing precautions is within the UAP/PSW scope. Blood glucose monitoring, medication administration, and skin assessment require the nurse or RN.",
       },
     ],
   },
 
   "delegation-license-rn": {
-    title: "RN Delegation and Assignment Authority",
+    title: "Delegation and Assignment Authority",
     cellular: {
-      title: "Principles of RN Delegation and Assignment",
+      title: "Principles of Delegation and Assignment",
       content:
         "The Registered Nurse holds authority to delegate tasks to RPNs/LPNs and unregulated care providers while retaining accountability for patient outcomes. Delegation is guided by the Five Rights: right task, right circumstance, right person, right direction, and right supervision. The charge nurse assigns patients to RNs and RPNs based on acuity, complexity, and required scope of practice. Nursing judgment, initial assessments, care planning, and evaluation cannot be delegated. Understanding delegation frameworks accounts for 15-25% of licensing exam questions.",
     },
@@ -174,7 +174,7 @@ export const delegationByLicenseLessons: Record<string, LessonContent> = {
         contra:
           "Patient refusal, known incompatibility, absence of informed consent, no second nurse verification",
         pearl:
-          "Blood transfusion initiation and first-15-minute monitoring cannot be delegated to the RPN or UAP; the RN must remain with the patient during the initial phase",
+          "Blood transfusion initiation and first-15-minute monitoring cannot be delegated to the nurse or UAP; the nurse must remain with the patient during the initial phase",
       },
     ],
     pearls: [
@@ -201,7 +201,7 @@ export const delegationByLicenseLessons: Record<string, LessonContent> = {
       },
       {
         question:
-          "The charge nurse is making patient assignments. Which patient should be assigned to the RN rather than the RPN?",
+          "The charge nurse is making patient assignments. Which patient should be assigned to the nurse rather than the RPN?",
         options: [
           "A patient 2 days post-appendectomy with stable vital signs awaiting discharge",
           "A patient receiving scheduled oral medications with no recent status changes",
@@ -214,7 +214,7 @@ export const delegationByLicenseLessons: Record<string, LessonContent> = {
       },
       {
         question:
-          "The RN delegates vital sign measurement to a UAP. Which action by the RN best demonstrates appropriate delegation?",
+          "The nurse delegates vital sign measurement to a UAP. Which action by the nurse best demonstrates appropriate delegation?",
         options: [
           "Telling the UAP to take vitals and intervene if values are abnormal",
           "Providing specific parameters for reporting and a timeline for completion",
@@ -229,11 +229,11 @@ export const delegationByLicenseLessons: Record<string, LessonContent> = {
   },
 
   "delegation-license-np": {
-    title: "NP Delegation and Interprofessional Authority",
+    title: "Delegation and Interprofessional Authority",
     cellular: {
-      title: "NP Scope, Delegation, and Collaborative Practice",
+      title: "Scope, Delegation, and Collaborative Practice",
       content:
-        "The Nurse Practitioner operates with an expanded scope that includes prescribing, diagnostic ordering, and procedural authority. NPs delegate to RNs and RPNs through standing orders, medical directives, and protocol-based care frameworks. Practice models vary by jurisdiction, with some allowing independent NP practice and others requiring collaborative agreements with physicians. The NP must recognize when clinical complexity exceeds their scope and warrants referral to a physician specialist, while also coordinating interprofessional care across respiratory therapy, pharmacy, social work, and dietetics.",
+        "the clinician operates with an expanded scope that includes prescribing, diagnostic ordering, and procedural authority. NPs delegate to RNs and RPNs through standing orders, medical directives, and protocol-based care frameworks. Practice models vary by jurisdiction, with some allowing independent NP practice and others requiring collaborative agreements with physicians. The clinician must recognize when clinical complexity exceeds their scope and warrants referral to a physician specialist, while also coordinating interprofessional care across respiratory therapy, pharmacy, social work, and dietetics.",
     },
     riskFactors: [
       "Practicing beyond jurisdictional scope without a collaborative agreement when required",
@@ -285,21 +285,21 @@ export const delegationByLicenseLessons: Record<string, LessonContent> = {
         contra:
           "Known penicillin allergy, history of anaphylaxis to beta-lactam antibiotics",
         pearl:
-          "NPs can independently prescribe amoxicillin in most jurisdictions; a standing order may allow the RN to initiate a first dose per protocol before NP review in urgent care settings",
+          "NPs can independently prescribe amoxicillin in most jurisdictions; a standing order may allow the nurse to initiate a first dose per protocol before NP review in urgent care settings",
       },
     ],
     pearls: [
       "NP practice authority varies by jurisdiction: some allow fully independent practice while others require collaborative physician agreements",
       "Standing orders and medical directives allow RNs and RPNs to initiate specific interventions without a direct order for each patient encounter",
-      "The NP retains liability for medical directives and must ensure delegates are competent and the directive parameters are clearly defined",
-      "Interprofessional delegation includes ordering from respiratory therapy, pharmacy, social work, and dietetics within the NP scope",
+      "The clinician retains liability for medical directives and must ensure delegates are competent and the directive parameters are clearly defined",
+      "Interprofessional delegation includes ordering from respiratory therapy, pharmacy, social work, and dietetics within the clinician scope",
       "Chronic disease management protocols and vaccination standing orders are common examples of NP-to-RN/RPN task sharing in primary care",
-      "When a clinical presentation requires specialist consultation or surgical intervention, the NP must initiate a referral rather than managing beyond scope",
+      "When a clinical presentation requires specialist consultation or surgical intervention, the clinician must initiate a referral rather than managing beyond scope",
     ],
     quiz: [
       {
         question:
-          "Which action is within the Nurse Practitioner scope but NOT within the Registered Nurse scope?",
+          "Which action is within the clinician scope but NOT within the Registered Nurse scope?",
         options: [
           "Administering medications per a physician order",
           "Prescribing a new antibiotic for a diagnosed infection",
@@ -308,33 +308,33 @@ export const delegationByLicenseLessons: Record<string, LessonContent> = {
         ],
         correct: 1,
         rationale:
-          "Prescribing medications is within the NP expanded scope of practice but not within the RN scope. RNs administer medications per orders but do not independently prescribe. Assessment and delegation are shared competencies across nursing roles.",
+          "Prescribing medications is within the clinician expanded scope of practice but not within the nurse scope. RNs administer medications per orders but do not independently prescribe. Assessment and delegation are shared competencies across nursing roles.",
       },
       {
         question:
           "An NP in a primary care clinic creates a medical directive allowing RNs to administer influenza vaccines to eligible patients. Which element is essential for this directive to be valid?",
         options: [
-          "The RN must contact the NP before each individual vaccine administration",
+          "The nurse must contact the clinician before each individual vaccine administration",
           "The directive must include patient eligibility criteria, contraindications, and required documentation",
           "Only RPNs may carry out medical directives, not RNs",
           "The directive eliminates NP liability once signed",
         ],
         correct: 1,
         rationale:
-          "A valid medical directive must include clear eligibility criteria, contraindications, dosing parameters, and documentation requirements. The NP retains liability, the directive applies to both RNs and RPNs with competency, and individual contact before each administration is not required when a proper directive is in place.",
+          "A valid medical directive must include clear eligibility criteria, contraindications, dosing parameters, and documentation requirements. The clinician retains liability, the directive applies to both RNs and RPNs with competency, and individual contact before each administration is not required when a proper directive is in place.",
       },
       {
         question:
-          "The NP is managing a patient whose symptoms suggest a condition requiring surgical evaluation. What is the appropriate NP action?",
+          "The clinician is managing a patient whose symptoms suggest a condition requiring surgical evaluation. What is the appropriate NP action?",
         options: [
           "Independently manage the condition with advanced pharmacotherapy",
-          "Delegate the assessment to the RN for further evaluation",
+          "Delegate the assessment to the nurse for further evaluation",
           "Initiate a referral to the appropriate physician specialist",
           "Discharge the patient with instructions to return if symptoms worsen",
         ],
         correct: 2,
         rationale:
-          "When a clinical presentation requires surgical intervention or exceeds the NP scope of independent management, the appropriate action is to refer to a physician specialist. Continuing to manage beyond scope, delegating the assessment, or discharging without referral would be inappropriate.",
+          "When a clinical presentation requires surgical intervention or exceeds the clinician scope of independent management, the appropriate action is to refer to a physician specialist. Continuing to manage beyond scope, delegating the assessment, or discharging without referral would be inappropriate.",
       },
     ],
   },

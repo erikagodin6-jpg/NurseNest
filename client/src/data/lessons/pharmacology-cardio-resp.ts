@@ -4,7 +4,7 @@ export const pharmacologyCardioRespLessons: Record<string, LessonContent> = {
   "pharm-cardiovascular": {
     title: "Cardiovascular Pharmacology",
     cellular: {
-      title: "Cardiovascular Drug Mechanisms at the Cellular Level",
+      title: "Cardiovascular Drug Mechanisms at the",
       content: "Cardiovascular drugs target specific cellular receptors and ion channels to modulate cardiac output, vascular resistance, and blood coagulation. ACE inhibitors block the conversion of angiotensin I to angiotensin II at the endothelial cell surface, reducing vasoconstriction and aldosterone secretion. Beta-adrenergic blockers competitively inhibit catecholamine binding at beta-1 receptors on cardiac myocytes, decreasing heart rate and contractility. Calcium channel blockers prevent calcium influx through L-type voltage-gated channels in vascular smooth muscle and cardiac conduction tissue, producing vasodilation and rate control. Anticoagulants interfere with the coagulation cascade at various points, from thrombin inhibition to vitamin K-dependent factor synthesis, while antiplatelet agents inhibit platelet aggregation through cyclooxygenase or ADP receptor blockade."
     },
     riskFactors: [
@@ -291,7 +291,7 @@ export const pharmacologyCardioRespLessons: Record<string, LessonContent> = {
       "Sacubitril/valsartan (ARNI) requires a 36-hour washout from ACE inhibitors to prevent angioedema; it replaces the ACE inhibitor in heart failure regimen."
     ],
     lifespan: {
-      title: "Lifespan Considerations in Cardiovascular Pharmacology",
+      title: "Lifespan Considerations in Cardiovascular",
       content: "Pediatric patients require weight-based dosing for all cardiovascular medications. Older adults are more susceptible to orthostatic hypotension from antihypertensives and bleeding complications from anticoagulants; start low and go slow with dose titration. Pregnancy contraindicates ACE inhibitors, ARBs, warfarin, statins, and most DOACs. Labetalol, methyldopa, and nifedipine are preferred antihypertensives during pregnancy. Renal function declines with age, necessitating dose adjustments for renally cleared medications including digoxin, enoxaparin, and DOACs."
     },
     quiz: [
@@ -356,7 +356,7 @@ export const pharmacologyCardioRespLessons: Record<string, LessonContent> = {
   "pharm-respiratory": {
     title: "Respiratory Pharmacology",
     cellular: {
-      title: "Respiratory Drug Mechanisms at the Cellular Level",
+      title: "Respiratory Drug Mechanisms at the Cellular",
       content: "Respiratory pharmacology targets airway smooth muscle, inflammatory mediators, and mucus-producing cells to restore airflow and reduce airway hyperreactivity. Beta-2 agonists activate beta-2 adrenergic receptors on bronchial smooth muscle, stimulating adenylyl cyclase to increase intracellular cyclic AMP, which promotes smooth muscle relaxation and bronchodilation. Inhaled corticosteroids suppress inflammatory gene transcription by binding to glucocorticoid receptors in the cytoplasm and translocating to the nucleus, reducing production of inflammatory cytokines, chemokines, and adhesion molecules in the airway mucosa. Anticholinergic agents block muscarinic M3 receptors on airway smooth muscle, preventing acetylcholine-mediated bronchoconstriction and reducing mucus secretion. Leukotriene receptor antagonists block cysteinyl leukotriene receptors, preventing leukotriene-mediated bronchoconstriction, mucus production, and eosinophilic inflammation."
     },
     riskFactors: [
@@ -529,7 +529,7 @@ export const pharmacologyCardioRespLessons: Record<string, LessonContent> = {
       "Systemic corticosteroids used for more than 2 weeks require gradual tapering to prevent adrenal crisis from hypothalamic-pituitary-adrenal axis suppression."
     ],
     lifespan: {
-      title: "Lifespan Considerations in Respiratory Pharmacology",
+      title: "Lifespan Considerations in Respiratory",
       content: "Pediatric patients under 4 years typically use nebulizers or MDIs with spacer and face mask for inhaled medications. Monitor growth velocity in children on inhaled corticosteroids. Older adults may have difficulty with DPI devices due to reduced inspiratory force and should use MDIs with spacers or nebulizers. Pregnancy category considerations: albuterol and budesonide are preferred in pregnant asthmatic patients. Older adults on systemic corticosteroids are at higher risk for osteoporosis and should receive calcium, vitamin D, and bone density monitoring."
     },
     quiz: [
@@ -594,7 +594,7 @@ export const pharmacologyCardioRespLessons: Record<string, LessonContent> = {
   "pharm-endocrine": {
     title: "Endocrine Pharmacology",
     cellular: {
-      title: "Endocrine Drug Mechanisms at the Cellular Level",
+      title: "Endocrine Drug Mechanisms at the Cellular",
       content: "Endocrine pharmacology involves replacing deficient hormones, suppressing excess hormone production, or modulating cellular responses to hormonal signaling. Exogenous insulin binds to insulin receptors on target cell membranes, triggering autophosphorylation of the receptor tyrosine kinase domain and activating the PI3K/Akt signaling cascade, which translocates GLUT4 glucose transporters to the cell surface for glucose uptake. Metformin activates AMP-activated protein kinase (AMPK) in hepatocytes, suppressing hepatic gluconeogenesis and improving peripheral insulin sensitivity without directly stimulating insulin secretion. Levothyroxine provides exogenous T4 that is converted to the active T3 form in peripheral tissues, binding to nuclear thyroid hormone receptors to regulate gene transcription controlling metabolic rate, protein synthesis, and thermogenesis. Methimazole inhibits thyroid peroxidase, the enzyme responsible for iodination and coupling of tyrosine residues in thyroglobulin, thereby blocking thyroid hormone synthesis."
     },
     riskFactors: [
@@ -856,7 +856,7 @@ export const pharmacologyCardioRespLessons: Record<string, LessonContent> = {
       "SGLT2 inhibitors can cause euglycemic DKA (DKA with normal blood glucose), which is a diagnostic challenge - check ketones in patients with symptoms of DKA regardless of glucose level."
     ],
     lifespan: {
-      title: "Lifespan Considerations in Endocrine Pharmacology",
+      title: "Lifespan Considerations in Endocrine",
       content: "Pediatric type 1 diabetes management requires careful insulin dose adjustment for growth spurts, variable activity levels, and pubertal hormonal changes. Older adults are at increased risk for hypoglycemia and may have less stringent A1C targets (below 8% rather than 7%). Pregnancy requires tight glycemic control (A1C below 6.5%) using insulin as the primary agent since most oral antidiabetics are contraindicated. Gestational diabetes is typically managed with diet first, then insulin if needed. In pregnancy, PTU is used in the first trimester and methimazole afterward. Growth hormone, thyroid hormone, and corticosteroid dosing in children requires frequent monitoring and adjustment based on growth charts and developmental milestones."
     },
     quiz: [

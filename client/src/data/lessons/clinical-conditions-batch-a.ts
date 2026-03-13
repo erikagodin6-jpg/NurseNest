@@ -2,10 +2,10 @@ import type { LessonContent } from "./types";
 
 export const clinicalConditionsBatchALessons: Record<string, LessonContent> = {
   "heart-failure-rn": {
-    title: "Heart Failure: RN Clinical Management",
+    title: "Heart Failure",
     cellular: {
       title: "Pathophysiology of Heart Failure",
-      content: "Heart failure occurs when the myocardium can no longer pump effectively to meet systemic metabolic demands. Left-sided failure leads to pulmonary congestion as blood backs up into the pulmonary vasculature, causing dyspnea, orthopnea, and crackles. Right-sided failure causes systemic venous congestion with peripheral edema, jugular venous distension, and hepatomegaly. Neurohormonal compensation via the renin-angiotensin-aldosterone system (RAAS) initially maintains cardiac output but ultimately worsens volume overload and ventricular remodeling. The RN must prioritize fluid balance assessment, hemodynamic monitoring, medication titration per protocol, and early recognition of decompensation."
+      content: "Heart failure occurs when the myocardium can no longer pump effectively to meet systemic metabolic demands. Left-sided failure leads to pulmonary congestion as blood backs up into the pulmonary vasculature, causing dyspnea, orthopnea, and crackles. Right-sided failure causes systemic venous congestion with peripheral edema, jugular venous distension, and hepatomegaly. Neurohormonal compensation via the renin-angiotensin-aldosterone system (RAAS) initially maintains cardiac output but ultimately worsens volume overload and ventricular remodeling. The nurse must prioritize fluid balance assessment, hemodynamic monitoring, medication titration per protocol, and early recognition of decompensation."
     },
     riskFactors: [
       "Coronary artery disease and prior MI",
@@ -81,16 +81,16 @@ export const clinicalConditionsBatchALessons: Record<string, LessonContent> = {
     ],
     quiz: [
       { question: "Which assessment finding is most consistent with left-sided heart failure?", options: ["Jugular venous distension", "Bibasilar crackles on auscultation", "Hepatomegaly", "Peripheral edema"], correct: 1, rationale: "Left-sided failure causes pulmonary congestion, leading to bibasilar crackles. JVD, hepatomegaly, and peripheral edema are right-sided failure findings." },
-      { question: "The RN should hold carvedilol and notify the provider when which finding is present?", options: ["Heart rate of 72 bpm", "Blood pressure of 88/54 mmHg", "Potassium of 4.2 mEq/L", "BNP of 250 pg/mL"], correct: 1, rationale: "Carvedilol is a beta-blocker that further lowers heart rate and blood pressure. A BP of 88/54 indicates hypotension and the medication should be held." },
+      { question: "The nurse should hold carvedilol and notify the provider when which finding is present?", options: ["Heart rate of 72 bpm", "Blood pressure of 88/54 mmHg", "Potassium of 4.2 mEq/L", "BNP of 250 pg/mL"], correct: 1, rationale: "Carvedilol is a beta-blocker that further lowers heart rate and blood pressure. A BP of 88/54 indicates hypotension and the medication should be held." },
       { question: "A patient with heart failure gains 3 kg over 2 days. What is the priority nursing action?", options: ["Encourage increased fluid intake", "Notify the provider and anticipate increased diuretic dose", "Restrict dietary protein", "Document and reassess in 24 hours"], correct: 1, rationale: "Rapid weight gain indicates fluid retention and worsening heart failure. The provider should be notified for possible diuretic adjustment." }
     ]
   },
 
   "heart-failure-np": {
-    title: "Heart Failure: NP Prescriptive Management",
+    title: "Heart Failure",
     cellular: {
       title: "Advanced Pathophysiology and GDMT",
-      content: "Heart failure is a clinical syndrome resulting from structural or functional cardiac impairment that reduces ventricular filling or ejection. In HFrEF (EF <40%), progressive myocyte loss, neurohormonal activation (SNS, RAAS), and ventricular remodeling lead to declining contractility. Guideline-Directed Medical Therapy (GDMT) targets these pathways: ACEi/ARB/ARNI reduce preload and afterload, beta-blockers counter sympathetic overdrive, mineralocorticoid receptor antagonists (MRAs) reduce aldosterone-mediated fibrosis, and SGLT2 inhibitors provide cardiorenal protection. The NP must classify severity (NYHA I-IV, ACC/AHA Stage A-D), initiate and uptitrate GDMT, manage device therapy referrals, and recognize acute decompensation requiring IV inotropes or vasodilators."
+      content: "Heart failure is a clinical syndrome resulting from structural or functional cardiac impairment that reduces ventricular filling or ejection. In HFrEF (EF <40%), progressive myocyte loss, neurohormonal activation (SNS, RAAS), and ventricular remodeling lead to declining contractility. Guideline-Directed Medical Therapy (GDMT) targets these pathways: ACEi/ARB/ARNI reduce preload and afterload, beta-blockers counter sympathetic overdrive, mineralocorticoid receptor antagonists (MRAs) reduce aldosterone-mediated fibrosis, and SGLT2 inhibitors provide cardiorenal protection. The clinician must classify severity (NYHA I-IV, ACC/AHA Stage A-D), initiate and uptitrate GDMT, manage device therapy referrals, and recognize acute decompensation requiring IV inotropes or vasodilators."
     },
     riskFactors: [
       "Ischemic heart disease (most common cause of HFrEF)",
@@ -172,10 +172,10 @@ export const clinicalConditionsBatchALessons: Record<string, LessonContent> = {
   },
 
   "aaa-rupture-rpn": {
-    title: "Abdominal Aortic Aneurysm: RPN Monitoring",
+    title: "Abdominal Aortic Aneurysm",
     cellular: {
       title: "Vessel Wall Weakening",
-      content: "An abdominal aortic aneurysm (AAA) develops when chronic damage from hypertension, atherosclerosis, and smoking weakens the elastic fibers and smooth muscle of the aortic wall, causing progressive dilation. When the wall tension exceeds structural integrity, the aneurysm ruptures, causing massive hemorrhage into the retroperitoneal space. The RPN must recognize early signs of rupture, maintain hemodynamic monitoring as delegated, and report changes immediately."
+      content: "An abdominal aortic aneurysm (AAA) develops when chronic damage from hypertension, atherosclerosis, and smoking weakens the elastic fibers and smooth muscle of the aortic wall, causing progressive dilation. When the wall tension exceeds structural integrity, the aneurysm ruptures, causing massive hemorrhage into the retroperitoneal space. The nurse must recognize early signs of rupture, maintain hemodynamic monitoring as delegated, and report changes immediately."
     },
     riskFactors: ["Age >65 years", "Male sex (6:1 ratio)", "Smoking history", "Hypertension", "Family history of AAA", "Atherosclerosis", "COPD", "Connective tissue disorders"],
     diagnostics: ["Monitor vital signs as directed, reporting hypotension or tachycardia", "Measure and document abdominal girth as ordered", "Monitor urine output and report if <30 mL/hr", "Report changes in peripheral pulse quality", "Monitor hemoglobin and hematocrit trends as reported"],
@@ -187,19 +187,19 @@ export const clinicalConditionsBatchALessons: Record<string, LessonContent> = {
     },
     medications: [{ name: "Sodium Nitroprusside", type: "Vasodilator", action: "Rapid IV blood pressure reduction", sideEffects: "Thiocyanate toxicity, reflex tachycardia", contra: "Severe hepatic disease", pearl: "Target SBP 100-120 mmHg pre-operatively. Administer as ordered and report BP outside parameters." }],
     pearls: ["Report any sudden severe pain immediately as it may indicate rupture", "A pulsatile abdominal mass should never be palpated aggressively", "Post-operative monitoring includes hourly urine output and peripheral pulses"],
-    quiz: [{ question: "Which finding should the RPN report immediately in a patient with a known AAA?", options: ["Blood pressure of 130/80 mmHg", "Sudden severe back pain with diaphoresis", "Mild abdominal bloating after meals", "Heart rate of 78 bpm"], correct: 1, rationale: "Sudden severe back pain with diaphoresis may indicate AAA rupture, a life-threatening emergency requiring immediate notification." }]
+    quiz: [{ question: "Which finding should the nurse report immediately in a patient with a known AAA?", options: ["Blood pressure of 130/80 mmHg", "Sudden severe back pain with diaphoresis", "Mild abdominal bloating after meals", "Heart rate of 78 bpm"], correct: 1, rationale: "Sudden severe back pain with diaphoresis may indicate AAA rupture, a life-threatening emergency requiring immediate notification." }]
   },
 
   "mi-management-rpn": {
-    title: "Myocardial Infarction: RPN Monitoring",
+    title: "Myocardial Infarction",
     cellular: {
       title: "Myocardial Ischemia and Necrosis",
-      content: "A myocardial infarction occurs when coronary artery occlusion (usually from plaque rupture and thrombus formation) interrupts blood supply to the myocardium. Without oxygen, myocytes undergo irreversible injury within 20-40 minutes, releasing cardiac biomarkers (troponin, CK-MB) into the bloodstream. The RPN assists with monitoring, administers medications as ordered, and reports changes in the patient's condition."
+      content: "A myocardial infarction occurs when coronary artery occlusion (usually from plaque rupture and thrombus formation) interrupts blood supply to the myocardium. Without oxygen, myocytes undergo irreversible injury within 20-40 minutes, releasing cardiac biomarkers (troponin, CK-MB) into the bloodstream. The nurse assists with monitoring, administers medications as ordered, and reports changes in the patient's condition."
     },
     riskFactors: ["Coronary artery disease", "Hypertension", "Diabetes mellitus", "Smoking", "Hyperlipidemia", "Obesity", "Family history of premature CAD", "Sedentary lifestyle"],
     diagnostics: ["Monitor continuous cardiac telemetry as directed", "Report changes in rhythm or new ST changes to the RN", "Monitor serial troponin results as reported", "Record vital signs per ordered frequency", "Monitor oxygen saturation continuously"],
     management: ["Administer oxygen as ordered to maintain SpO2 >94%", "Administer MONA protocol medications as ordered (Morphine, Oxygen, Nitroglycerin, Aspirin)", "Maintain bed rest during acute phase as ordered", "Keep emergency cart accessible", "Follow activity restrictions as ordered"],
-    nursingActions: ["Assess chest pain using PQRST and report changes immediately", "Monitor vital signs every 15 minutes during acute phase", "Administer nitroglycerin SL as ordered (up to 3 doses, 5 minutes apart)", "Report unrelieved chest pain after nitroglycerin to the RN immediately", "Monitor for signs of cardiogenic shock and report", "Provide emotional support and maintain a calm environment"],
+    nursingActions: ["Assess chest pain using PQRST and report changes immediately", "Monitor vital signs every 15 minutes during acute phase", "Administer nitroglycerin SL as ordered (up to 3 doses, 5 minutes apart)", "Report unrelieved chest pain after nitroglycerin to the nurse immediately", "Monitor for signs of cardiogenic shock and report", "Provide emotional support and maintain a calm environment"],
     signs: {
       left: ["Substernal crushing chest pain", "Pain radiating to left arm, jaw, back", "Diaphoresis and pallor", "Nausea and vomiting"],
       right: ["Dyspnea", "Anxiety and sense of impending doom", "Tachycardia or bradycardia", "Hypotension (cardiogenic shock)"]
@@ -209,14 +209,14 @@ export const clinicalConditionsBatchALessons: Record<string, LessonContent> = {
       { name: "Aspirin", type: "Antiplatelet", action: "Inhibits platelet aggregation via COX-1 inhibition", sideEffects: "GI bleeding, tinnitus", contra: "Active GI bleeding, aspirin allergy", pearl: "Chewed 325 mg given immediately in acute MI. This is a standing order in most cardiac protocols." }
     ],
     pearls: ["Never administer nitroglycerin if the patient has taken a PDE5 inhibitor (sildenafil) within 24-48 hours", "Morphine is used cautiously; may cause hypotension and respiratory depression", "Troponin levels peak 12-24 hours after MI onset"],
-    quiz: [{ question: "After administering 3 doses of sublingual nitroglycerin, the patient still reports chest pain. What should the RPN do?", options: ["Administer a fourth dose of nitroglycerin", "Report to the RN immediately for further intervention", "Apply a nitroglycerin patch", "Encourage deep breathing exercises"], correct: 1, rationale: "After 3 doses of SL nitroglycerin without relief, the RPN must report to the RN immediately. Further interventions such as IV nitroglycerin or morphine may be needed." }]
+    quiz: [{ question: "After administering 3 doses of sublingual nitroglycerin, the patient still reports chest pain. What should the nurse do?", options: ["Administer a fourth dose of nitroglycerin", "Report to the nurse immediately for further intervention", "Apply a nitroglycerin patch", "Encourage deep breathing exercises"], correct: 1, rationale: "After 3 doses of SL nitroglycerin without relief, the nurse must report to the nurse immediately. Further interventions such as IV nitroglycerin or morphine may be needed." }]
   },
 
   "cholecystitis-rpn": {
-    title: "Cholecystitis: RPN Monitoring",
+    title: "Cholecystitis",
     cellular: {
       title: "Gallbladder Inflammation",
-      content: "Cholecystitis is inflammation of the gallbladder, most commonly caused by gallstone obstruction of the cystic duct. Bile stasis leads to distension, mucosal ischemia, bacterial invasion, and potential perforation. The cardinal presentation is right upper quadrant (RUQ) pain after fatty meals, often radiating to the right scapula (Murphy's sign positive). The RPN monitors pain, vital signs, and dietary intake, reporting changes to the nursing team."
+      content: "Cholecystitis is inflammation of the gallbladder, most commonly caused by gallstone obstruction of the cystic duct. Bile stasis leads to distension, mucosal ischemia, bacterial invasion, and potential perforation. The cardinal presentation is right upper quadrant (RUQ) pain after fatty meals, often radiating to the right scapula (Murphy's sign positive). The nurse monitors pain, vital signs, and dietary intake, reporting changes to the nursing team."
     },
     riskFactors: ["Female sex (4 Fs: Fat, Forty, Female, Fertile)", "Age >40", "Obesity", "Rapid weight loss", "Oral contraceptives or estrogen therapy", "High-fat diet", "Family history of gallstones", "Diabetes mellitus"],
     diagnostics: ["Monitor vital signs for fever or tachycardia", "Report escalating RUQ pain", "Monitor for jaundice (scleral icterus, dark urine, clay-colored stools)", "Report nausea and vomiting patterns", "Monitor dietary tolerance"],
@@ -228,14 +228,14 @@ export const clinicalConditionsBatchALessons: Record<string, LessonContent> = {
     },
     medications: [{ name: "Ketorolac", type: "NSAID", action: "Inhibits prostaglandin synthesis for pain relief", sideEffects: "GI bleeding, renal impairment", contra: "Active GI bleed, renal failure, perioperative CABG", pearl: "Limited to 5 days of use. Effective for biliary colic pain. Administer as ordered." }],
     pearls: ["Murphy's sign: inspiratory arrest during RUQ palpation is classic for cholecystitis", "Post-cholecystectomy patients may experience shoulder pain from residual CO2 gas: encourage ambulation", "Report any signs of bile leak post-op: increasing abdominal pain, fever, tachycardia"],
-    quiz: [{ question: "Which dietary instruction should the RPN reinforce for a patient recovering from cholecystitis?", options: ["Increase dietary fat for calorie needs", "Follow a low-fat diet to reduce gallbladder stimulation", "Eliminate all protein from the diet", "Increase dairy intake"], correct: 1, rationale: "A low-fat diet reduces gallbladder contraction and bile release, minimizing symptoms." }]
+    quiz: [{ question: "Which dietary instruction should the nurse reinforce for a patient recovering from cholecystitis?", options: ["Increase dietary fat for calorie needs", "Follow a low-fat diet to reduce gallbladder stimulation", "Eliminate all protein from the diet", "Increase dairy intake"], correct: 1, rationale: "A low-fat diet reduces gallbladder contraction and bile release, minimizing symptoms." }]
   },
 
   "cholecystitis-rn": {
-    title: "Cholecystitis: RN Clinical Management",
+    title: "Cholecystitis",
     cellular: {
       title: "Biliary Pathophysiology",
-      content: "Cholecystitis results from gallstone impaction in the cystic duct causing bile stasis, gallbladder distension, and inflammation. Persistent obstruction leads to mucosal ischemia, secondary bacterial infection (E. coli, Klebsiella), and risk of empyema, gangrene, or perforation with bile peritonitis. Acalculous cholecystitis occurs in critically ill patients from bile stasis without stones. The RN must perform comprehensive pain assessment, manage fluid resuscitation, administer antibiotics and analgesics, monitor for surgical complications, and coordinate perioperative care."
+      content: "Cholecystitis results from gallstone impaction in the cystic duct causing bile stasis, gallbladder distension, and inflammation. Persistent obstruction leads to mucosal ischemia, secondary bacterial infection (E. coli, Klebsiella), and risk of empyema, gangrene, or perforation with bile peritonitis. Acalculous cholecystitis occurs in critically ill patients from bile stasis without stones. The nurse must perform comprehensive pain assessment, manage fluid resuscitation, administer antibiotics and analgesics, monitor for surgical complications, and coordinate perioperative care."
     },
     riskFactors: ["Cholelithiasis (90% of cases)", "Female sex, age >40, obesity", "Rapid weight loss or prolonged fasting", "TPN administration", "Critical illness (acalculous cholecystitis)", "Pregnancy", "Oral contraceptives", "Sickle cell disease"],
     diagnostics: ["Interpret RUQ ultrasound findings: gallstones, wall thickening >3mm, pericholecystic fluid, sonographic Murphy's sign", "Evaluate WBC count for leukocytosis (>11,000)", "Monitor liver function tests: elevated ALP and GGT suggest biliary involvement", "Assess lipase and amylase to rule out pancreatitis", "Evaluate bilirubin levels: elevated direct bilirubin suggests common bile duct obstruction", "Order HIDA scan if ultrasound is equivocal"],
@@ -250,14 +250,14 @@ export const clinicalConditionsBatchALessons: Record<string, LessonContent> = {
       { name: "Ursodiol", type: "Bile acid", action: "Dissolves small cholesterol gallstones by reducing cholesterol saturation in bile", sideEffects: "Diarrhea, nausea", contra: "Calcified or pigmented stones, acute cholecystitis", pearl: "Used for patients who are poor surgical candidates. Takes 6-24 months. Not effective for acute disease." }
     ],
     pearls: ["Charcot's triad (fever, jaundice, RUQ pain) suggests ascending cholangitis and requires emergent ERCP", "Post-cholecystectomy syndrome: persistent RUQ pain may indicate retained CBD stone or sphincter of Oddi dysfunction", "Acalculous cholecystitis in ICU patients has higher morbidity: maintain high clinical suspicion"],
-    quiz: [{ question: "A patient presents with fever, jaundice, and RUQ pain. The RN recognizes this as:", options: ["Simple biliary colic", "Charcot's triad suggesting ascending cholangitis", "Appendicitis with atypical presentation", "Pancreatitis"], correct: 1, rationale: "Charcot's triad (fever, jaundice, RUQ pain) is the classic presentation of ascending cholangitis, which requires emergent intervention." }]
+    quiz: [{ question: "A patient presents with fever, jaundice, and RUQ pain. The nurse recognizes this as:", options: ["Simple biliary colic", "Charcot's triad suggesting ascending cholangitis", "Appendicitis with atypical presentation", "Pancreatitis"], correct: 1, rationale: "Charcot's triad (fever, jaundice, RUQ pain) is the classic presentation of ascending cholangitis, which requires emergent intervention." }]
   },
 
   "cholecystitis-np": {
-    title: "Cholecystitis: NP Diagnostic and Prescriptive Management",
+    title: "Cholecystitis",
     cellular: {
       title: "Advanced Biliary Pathology",
-      content: "Cholecystitis pathogenesis involves gallstone impaction in the cystic duct (90% of cases) leading to bile stasis, intraluminal pressure elevation, mucosal ischemia, and inflammatory cascade activation. Prostaglandins and lysolecithin released from damaged mucosa propagate inflammation. Secondary bacterial infection occurs in 50-75% of cases. Complications include empyema (pus-filled gallbladder), gangrenous cholecystitis, perforation with peritonitis, cholecystoenteric fistula, and gallstone ileus. The NP must formulate the differential diagnosis, order and interpret imaging and labs, prescribe empiric antibiotics, manage pain, and coordinate surgical timing."
+      content: "Cholecystitis pathogenesis involves gallstone impaction in the cystic duct (90% of cases) leading to bile stasis, intraluminal pressure elevation, mucosal ischemia, and inflammatory cascade activation. Prostaglandins and lysolecithin released from damaged mucosa propagate inflammation. Secondary bacterial infection occurs in 50-75% of cases. Complications include empyema (pus-filled gallbladder), gangrenous cholecystitis, perforation with peritonitis, cholecystoenteric fistula, and gallstone ileus. The clinician must formulate the differential diagnosis, order and interpret imaging and labs, prescribe empiric antibiotics, manage pain, and coordinate surgical timing."
     },
     riskFactors: ["Cholelithiasis", "Female sex, multiparity, obesity", "Age >40", "Hemolytic disorders (pigment stones)", "Cirrhosis", "Crohn's disease (ileal resection disrupts enterohepatic circulation)", "Prolonged TPN", "Ceftriaxone use (biliary sludge)"],
     diagnostics: ["Order RUQ ultrasound as first-line imaging: sensitivity >95% for gallstones", "Order HIDA scan (cholescintigraphy) if US equivocal: non-filling of gallbladder confirms cystic duct obstruction", "Order CBC with differential: leukocytosis >12,000 with left shift", "Order CMP including LFTs: elevated ALP, GGT; elevated direct bilirubin if CBD involvement", "Order lipase to rule out concurrent gallstone pancreatitis", "Consider MRCP or EUS if CBD stone suspected before surgical referral", "Order blood cultures if sepsis suspected"],
@@ -276,10 +276,10 @@ export const clinicalConditionsBatchALessons: Record<string, LessonContent> = {
   },
 
   "appendicitis-rpn": {
-    title: "Appendicitis: RPN Monitoring",
+    title: "Appendicitis",
     cellular: {
       title: "Appendiceal Inflammation",
-      content: "Appendicitis occurs when the appendiceal lumen becomes obstructed (by fecalith, lymphoid hyperplasia, or foreign body), leading to bacterial overgrowth, mucosal inflammation, increased intraluminal pressure, and ischemia. Without intervention, the appendix can perforate within 24-72 hours, causing peritonitis. The RPN monitors for classic signs (periumbilical pain migrating to RLQ), maintains NPO status, and reports changes promptly."
+      content: "Appendicitis occurs when the appendiceal lumen becomes obstructed (by fecalith, lymphoid hyperplasia, or foreign body), leading to bacterial overgrowth, mucosal inflammation, increased intraluminal pressure, and ischemia. Without intervention, the appendix can perforate within 24-72 hours, causing peritonitis. The nurse monitors for classic signs (periumbilical pain migrating to RLQ), maintains NPO status, and reports changes promptly."
     },
     riskFactors: ["Age 10-30 (peak incidence)", "Male sex (slightly higher risk)", "Low-fiber diet", "Family history", "Fecalith obstruction"],
     diagnostics: ["Monitor vital signs for fever and tachycardia", "Report pain migration from periumbilical to RLQ (McBurney's point)", "Report rebound tenderness or guarding", "Monitor for signs of perforation: sudden pain relief followed by diffuse pain"],
@@ -291,14 +291,14 @@ export const clinicalConditionsBatchALessons: Record<string, LessonContent> = {
     },
     medications: [{ name: "Cefazolin", type: "Cephalosporin antibiotic", action: "Prophylactic coverage against surgical site infection", sideEffects: "Allergic reaction, diarrhea", contra: "Cephalosporin allergy", pearl: "Given as surgical prophylaxis within 60 minutes of incision. Administer as ordered." }],
     pearls: ["Never apply heat to the abdomen in suspected appendicitis (may cause perforation)", "Pain migration from periumbilical to RLQ is the classic appendicitis pattern", "Sudden relief of pain may indicate perforation, not improvement"],
-    quiz: [{ question: "A patient with appendicitis suddenly reports that their pain has resolved. What should the RPN do?", options: ["Document improvement and continue monitoring", "Report immediately as this may indicate perforation", "Discontinue pain medication", "Prepare for discharge"], correct: 1, rationale: "Sudden pain relief in appendicitis may indicate perforation. The appendix has ruptured, temporarily relieving pressure, but diffuse peritonitis will follow." }]
+    quiz: [{ question: "A patient with appendicitis suddenly reports that their pain has resolved. What should the nurse do?", options: ["Document improvement and continue monitoring", "Report immediately as this may indicate perforation", "Discontinue pain medication", "Prepare for discharge"], correct: 1, rationale: "Sudden pain relief in appendicitis may indicate perforation. The appendix has ruptured, temporarily relieving pressure, but diffuse peritonitis will follow." }]
   },
 
   "appendicitis-rn": {
-    title: "Appendicitis: RN Clinical Management",
+    title: "Appendicitis",
     cellular: {
       title: "Appendiceal Pathophysiology",
-      content: "Appendicitis begins with luminal obstruction (fecalith 40%, lymphoid hyperplasia 60%) leading to mucus accumulation, bacterial overgrowth, and increased intraluminal pressure. Venous congestion progresses to arterial compromise, causing transmural ischemia and necrosis. Perforation occurs in 20-30% of cases, typically within 36-72 hours of symptom onset, leading to localized abscess or diffuse peritonitis. The RN must perform serial abdominal assessments, manage perioperative care, administer antibiotics and analgesics per protocol, and monitor for post-operative complications including abscess, wound infection, and ileus."
+      content: "Appendicitis begins with luminal obstruction (fecalith 40%, lymphoid hyperplasia 60%) leading to mucus accumulation, bacterial overgrowth, and increased intraluminal pressure. Venous congestion progresses to arterial compromise, causing transmural ischemia and necrosis. Perforation occurs in 20-30% of cases, typically within 36-72 hours of symptom onset, leading to localized abscess or diffuse peritonitis. The nurse must perform serial abdominal assessments, manage perioperative care, administer antibiotics and analgesics per protocol, and monitor for post-operative complications including abscess, wound infection, and ileus."
     },
     riskFactors: ["Peak age 10-30 years", "Male sex (1.4:1 ratio)", "Low dietary fiber", "Family history of appendicitis", "Fecalith or calcified appendicolith"],
     diagnostics: ["Perform serial abdominal assessments documenting pain migration pattern", "Interpret WBC with differential: leukocytosis >10,000 with neutrophilia", "Evaluate CT abdomen/pelvis findings: appendiceal diameter >6mm, periappendiceal fat stranding, appendicolith", "Interpret urinalysis to rule out UTI (may show mild pyuria from appendiceal inflammation)", "Evaluate CRP (elevated supports inflammatory process)", "Assess Alvarado Score components for clinical decision-making"],
@@ -317,10 +317,10 @@ export const clinicalConditionsBatchALessons: Record<string, LessonContent> = {
   },
 
   "appendicitis-np": {
-    title: "Appendicitis: NP Diagnostic and Prescriptive Management",
+    title: "Appendicitis",
     cellular: {
-      title: "Appendiceal Pathology and Clinical Decision-Making",
-      content: "Appendicitis is the most common surgical emergency, with a lifetime risk of 7-8%. Obstruction of the appendiceal lumen triggers mucosal secretion, bacterial proliferation, and progressive inflammation. The process evolves through phases: simple (inflammation), suppurative (pus formation), gangrenous (necrosis), and perforated (rupture with peritoneal contamination). The NP must differentiate appendicitis from other causes of acute abdomen, select appropriate imaging, prescribe pre-operative antibiotics, manage non-operative cases when appropriate, and handle post-operative complications."
+      title: "Appendiceal Pathology",
+      content: "Appendicitis is the most common surgical emergency, with a lifetime risk of 7-8%. Obstruction of the appendiceal lumen triggers mucosal secretion, bacterial proliferation, and progressive inflammation. The process evolves through phases: simple (inflammation), suppurative (pus formation), gangrenous (necrosis), and perforated (rupture with peritoneal contamination). The clinician must differentiate appendicitis from other causes of acute abdomen, select appropriate imaging, prescribe pre-operative antibiotics, manage non-operative cases when appropriate, and handle post-operative complications."
     },
     riskFactors: ["Adolescents and young adults (peak incidence)", "Male sex", "Low dietary fiber", "Fecalith presence", "Lymphoid hyperplasia (viral illness in children)"],
     diagnostics: ["Order CT abdomen/pelvis with IV contrast (sensitivity 98%): appendiceal diameter >6mm, fat stranding, appendicolith", "For children and pregnant patients: order ultrasound first (no radiation)", "Order CBC: WBC >10,000 with left shift (neutrophilia >75%)", "Order CMP for baseline renal function and electrolytes", "Order CRP (elevated, but nonspecific)", "Order urinalysis to rule out urinary pathology", "Order beta-hCG in women of reproductive age to rule out ectopic pregnancy", "Calculate Alvarado Score for clinical probability"],
@@ -339,10 +339,10 @@ export const clinicalConditionsBatchALessons: Record<string, LessonContent> = {
   },
 
   "bowel-obstruction-rpn": {
-    title: "Bowel Obstruction: RPN Monitoring",
+    title: "Bowel Obstruction",
     cellular: {
       title: "Intestinal Obstruction Pathophysiology",
-      content: "Bowel obstruction occurs when the normal passage of intestinal contents is blocked, either mechanically (adhesions, hernias, tumors) or functionally (paralytic ileus). Proximal to the obstruction, the bowel dilates with gas and fluid, increasing intraluminal pressure, compromising blood supply, and risking perforation. Fluid sequestration in the bowel leads to dehydration and electrolyte imbalances. The RPN monitors for signs of obstruction, maintains NG tube function as directed, and reports changes."
+      content: "Bowel obstruction occurs when the normal passage of intestinal contents is blocked, either mechanically (adhesions, hernias, tumors) or functionally (paralytic ileus). Proximal to the obstruction, the bowel dilates with gas and fluid, increasing intraluminal pressure, compromising blood supply, and risking perforation. Fluid sequestration in the bowel leads to dehydration and electrolyte imbalances. The nurse monitors for signs of obstruction, maintains NG tube function as directed, and reports changes."
     },
     riskFactors: ["Previous abdominal surgery (adhesions are #1 cause of SBO)", "Hernias (incarcerated or strangulated)", "Colon cancer (#1 cause of large bowel obstruction)", "Crohn's disease", "Diverticulitis", "Volvulus", "Intussusception", "Fecal impaction"],
     diagnostics: ["Monitor vital signs for signs of dehydration or shock", "Auscultate bowel sounds: high-pitched tinkling (early SBO) or absent (late/ileus)", "Monitor NG tube output: color, amount, and consistency", "Report abdominal distension changes", "Monitor I&O strictly"],
@@ -354,14 +354,14 @@ export const clinicalConditionsBatchALessons: Record<string, LessonContent> = {
     },
     medications: [{ name: "Ondansetron", type: "Antiemetic", action: "5-HT3 receptor antagonist preventing nausea/vomiting", sideEffects: "Headache, constipation, QT prolongation", contra: "Concomitant apomorphine, severe QT prolongation", pearl: "Used for symptom management. Does not treat the obstruction itself. Administer as ordered." }],
     pearls: ["Never give laxatives or enemas in suspected bowel obstruction", "Feculent vomiting indicates prolonged obstruction and is a very late sign", "A sudden increase in pain intensity may indicate strangulation: report immediately"],
-    quiz: [{ question: "Which finding should the RPN report immediately in a patient with bowel obstruction?", options: ["Passage of flatus", "High-pitched bowel sounds", "Sudden severe constant abdominal pain with fever", "Mild nausea"], correct: 2, rationale: "Sudden severe constant pain with fever suggests strangulation (compromised blood supply to the bowel), a surgical emergency requiring immediate intervention." }]
+    quiz: [{ question: "Which finding should the nurse report immediately in a patient with bowel obstruction?", options: ["Passage of flatus", "High-pitched bowel sounds", "Sudden severe constant abdominal pain with fever", "Mild nausea"], correct: 2, rationale: "Sudden severe constant pain with fever suggests strangulation (compromised blood supply to the bowel), a surgical emergency requiring immediate intervention." }]
   },
 
   "bowel-obstruction-rn": {
-    title: "Bowel Obstruction: RN Clinical Management",
+    title: "Bowel Obstruction",
     cellular: {
       title: "Mechanical and Functional Obstruction",
-      content: "Bowel obstruction is classified as mechanical (physical blockage) or functional (paralytic ileus from impaired peristalsis). Small bowel obstruction (SBO) accounts for 80% of cases, most commonly from postoperative adhesions. Large bowel obstruction (LBO) is most commonly caused by colorectal cancer. As the bowel dilates proximal to the obstruction, massive third-spacing of fluid occurs (up to 8L/day can sequester), causing hypovolemia, electrolyte derangements (hypokalemia, metabolic alkalosis from vomiting), and risk of bowel ischemia. The RN manages fluid resuscitation, NG decompression, electrolyte correction, and monitors for surgical indications."
+      content: "Bowel obstruction is classified as mechanical (physical blockage) or functional (paralytic ileus from impaired peristalsis). Small bowel obstruction (SBO) accounts for 80% of cases, most commonly from postoperative adhesions. Large bowel obstruction (LBO) is most commonly caused by colorectal cancer. As the bowel dilates proximal to the obstruction, massive third-spacing of fluid occurs (up to 8L/day can sequester), causing hypovolemia, electrolyte derangements (hypokalemia, metabolic alkalosis from vomiting), and risk of bowel ischemia. The nurse manages fluid resuscitation, NG decompression, electrolyte correction, and monitors for surgical indications."
     },
     riskFactors: ["Prior abdominal/pelvic surgery (adhesions)", "Incarcerated hernia", "Colorectal malignancy", "Crohn's disease with stricture", "Volvulus (sigmoid most common in elderly)", "Diverticular disease", "Gallstone ileus", "Radiation enteritis"],
     diagnostics: ["Interpret abdominal X-ray: dilated loops, air-fluid levels, absence of distal gas", "Evaluate CT abdomen with IV contrast: transition point, closed-loop obstruction, bowel wall enhancement", "Monitor electrolytes: hypokalemia from vomiting, metabolic alkalosis", "Assess lactate level: elevated suggests bowel ischemia", "Monitor CBC: leukocytosis suggests strangulation or perforation", "Track NG tube output volume and character"],
@@ -380,10 +380,10 @@ export const clinicalConditionsBatchALessons: Record<string, LessonContent> = {
   },
 
   "bowel-obstruction-np": {
-    title: "Bowel Obstruction: NP Diagnostic and Prescriptive Management",
+    title: "Bowel Obstruction",
     cellular: {
       title: "Advanced Obstruction Pathology",
-      content: "Bowel obstruction requires the NP to differentiate mechanical from functional causes, identify the level and completeness of obstruction, and determine operative vs. non-operative management. In mechanical SBO, adhesive obstruction (60%) can often be managed conservatively with NG decompression and volume resuscitation, while strangulated, closed-loop, or complete obstructions require emergent surgery. In LBO, malignancy must be excluded. Functional ileus is managed by treating the underlying cause (electrolyte correction, medication adjustment, sepsis control). The NP must interpret imaging, order appropriate labs, prescribe fluid and electrolyte replacement, and determine surgical consultation timing."
+      content: "Bowel obstruction requires the clinician to differentiate mechanical from functional causes, identify the level and completeness of obstruction, and determine operative vs. non-operative management. In mechanical SBO, adhesive obstruction (60%) can often be managed conservatively with NG decompression and volume resuscitation, while strangulated, closed-loop, or complete obstructions require emergent surgery. In LBO, malignancy must be excluded. Functional ileus is managed by treating the underlying cause (electrolyte correction, medication adjustment, sepsis control). The clinician must interpret imaging, order appropriate labs, prescribe fluid and electrolyte replacement, and determine surgical consultation timing."
     },
     riskFactors: ["Prior abdominal surgery (adhesions in 65-75% of SBO)", "Colorectal carcinoma (60% of LBO)", "Incarcerated hernia", "Crohn's disease stricture", "Sigmoid volvulus (elderly, institutionalized patients)", "Medications causing ileus: opioids, anticholinergics", "Electrolyte derangements: hypokalemia, hypomagnesemia"],
     diagnostics: ["Order CT abdomen/pelvis with IV contrast (gold standard): identifies transition point, closed-loop, strangulation, free air", "Order upright and supine abdominal X-ray: air-fluid levels, dilated loops (>3cm small bowel, >6cm colon, >9cm cecum)", "Order CBC: leukocytosis suggests strangulation; anemia may suggest malignancy", "Order CMP: metabolic alkalosis from vomiting, hypokalemia, elevated BUN (dehydration), pre-renal AKI", "Order serum lactate: elevated suggests bowel ischemia", "Order blood type and screen if surgery anticipated", "Order colonoscopy/sigmoidoscopy for LBO to rule out malignancy and attempt decompression"],

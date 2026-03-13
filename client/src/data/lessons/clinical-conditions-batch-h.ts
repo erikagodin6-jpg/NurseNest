@@ -2,10 +2,10 @@ import type { LessonContent } from "./types";
 
 export const clinicalConditionsBatchHLessons: Record<string, LessonContent> = {
   "vancomycin-therapy-rpn": {
-    title: "Vancomycin Therapy: RPN Monitoring",
+    title: "Vancomycin Therapy",
     cellular: {
       title: "Vancomycin Pharmacology Basics",
-      content: "Vancomycin is a glycopeptide antibiotic that inhibits bacterial cell wall synthesis by binding to D-alanyl-D-alanine terminal of peptidoglycan precursors, preventing cross-linking. It is the drug of choice for serious methicillin-resistant Staphylococcus aureus (MRSA) infections including bacteremia, endocarditis, osteomyelitis, and pneumonia. Vancomycin must be administered intravenously for systemic infections as oral bioavailability is negligible; oral vancomycin is reserved exclusively for Clostridioides difficile colitis. The RPN monitors infusion parameters, observes for adverse reactions, and reports changes to the RN."
+      content: "Vancomycin is a glycopeptide antibiotic that inhibits bacterial cell wall synthesis by binding to D-alanyl-D-alanine terminal of peptidoglycan precursors, preventing cross-linking. It is the drug of choice for serious methicillin-resistant Staphylococcus aureus (MRSA) infections including bacteremia, endocarditis, osteomyelitis, and pneumonia. Vancomycin must be administered intravenously for systemic infections as oral bioavailability is negligible; oral vancomycin is reserved exclusively for Clostridioides difficile colitis. The nurse monitors infusion parameters, observes for adverse reactions, and reports changes to the RN."
     },
     riskFactors: [
       "MRSA colonization or prior infection",
@@ -68,17 +68,17 @@ export const clinicalConditionsBatchHLessons: Record<string, LessonContent> = {
       "Always verify the infusion time: rapid administration is the most common cause of VIR"
     ],
     quiz: [
-      { question: "During a vancomycin infusion, the patient develops flushing and itching on the face and neck. What should the RPN do first?", options: ["Continue the infusion and document the finding", "Stop the infusion and notify the RN immediately", "Administer epinephrine", "Increase the infusion rate"], correct: 1, rationale: "Flushing and itching during vancomycin infusion suggest vancomycin infusion reaction (red man syndrome). The RPN should stop the infusion and notify the RN for further orders, which may include slowing the rate or premedication." },
+      { question: "During a vancomycin infusion, the patient develops flushing and itching on the face and neck. What should the nurse do first?", options: ["Continue the infusion and document the finding", "Stop the infusion and notify the nurse immediately", "Administer epinephrine", "Increase the infusion rate"], correct: 1, rationale: "Flushing and itching during vancomycin infusion suggest vancomycin infusion reaction (red man syndrome). The nurse should stop the infusion and notify the nurse for further orders, which may include slowing the rate or premedication." },
       { question: "What is the minimum infusion time for IV vancomycin to reduce the risk of infusion reaction?", options: ["15 minutes", "30 minutes", "60 minutes", "120 minutes"], correct: 2, rationale: "Vancomycin should be infused over a minimum of 60 minutes. Rapid administration increases the risk of vancomycin infusion reaction (red man syndrome)." },
       { question: "Which finding during a vancomycin infusion is most suggestive of true anaphylaxis rather than red man syndrome?", options: ["Facial flushing", "Chest pruritus", "Angioedema with wheezing", "Mild hypotension"], correct: 2, rationale: "Angioedema (lip/tongue swelling) and wheezing indicate true anaphylaxis. Flushing, pruritus, and mild hypotension are more typical of rate-related vancomycin infusion reaction." }
     ]
   },
 
   "vancomycin-therapy-rn": {
-    title: "Vancomycin Therapy: RN Clinical Management",
+    title: "Vancomycin Therapy",
     cellular: {
       title: "Vancomycin Pharmacokinetics and Toxicity",
-      content: "Vancomycin exhibits time-dependent bactericidal activity against gram-positive organisms by inhibiting cell wall synthesis. Its pharmacokinetics follow a two-compartment model with distribution into tissues including bone, lung, and peritoneal fluid. Vancomycin is primarily eliminated renally, making dose adjustment essential in renal impairment. Therapeutic drug monitoring via trough levels guides dosing to maintain efficacy while minimizing nephrotoxicity and ototoxicity. The target AUC/MIC ratio of 400-600 is now the preferred pharmacokinetic target over trough-only monitoring. The RN must manage infusion protocols, interpret trough levels, assess for toxicity, and coordinate with pharmacy for dose adjustments."
+      content: "Vancomycin exhibits time-dependent bactericidal activity against gram-positive organisms by inhibiting cell wall synthesis. Its pharmacokinetics follow a two-compartment model with distribution into tissues including bone, lung, and peritoneal fluid. Vancomycin is primarily eliminated renally, making dose adjustment essential in renal impairment. Therapeutic drug monitoring via trough levels guides dosing to maintain efficacy while minimizing nephrotoxicity and ototoxicity. The target AUC/MIC ratio of 400-600 is now the preferred pharmacokinetic target over trough-only monitoring. The nurse must manage infusion protocols, interpret trough levels, assess for toxicity, and coordinate with pharmacy for dose adjustments."
     },
     riskFactors: [
       "MRSA bacteremia or endocarditis",
@@ -145,17 +145,17 @@ export const clinicalConditionsBatchHLessons: Record<string, LessonContent> = {
       "AUC-guided dosing is now preferred over trough-only monitoring per 2020 guidelines"
     ],
     quiz: [
-      { question: "When should the RN draw a vancomycin trough level?", options: ["Immediately after the infusion ends", "2 hours after the dose", "30 minutes before the next scheduled dose at steady state", "At any random time during therapy"], correct: 2, rationale: "Vancomycin trough levels should be drawn 30 minutes before the 4th dose (steady state) to accurately reflect the lowest drug concentration and guide dosing." },
+      { question: "When should the nurse draw a vancomycin trough level?", options: ["Immediately after the infusion ends", "2 hours after the dose", "30 minutes before the next scheduled dose at steady state", "At any random time during therapy"], correct: 2, rationale: "Vancomycin trough levels should be drawn 30 minutes before the 4th dose (steady state) to accurately reflect the lowest drug concentration and guide dosing." },
       { question: "A patient on vancomycin and gentamicin develops a rising serum creatinine. What is the priority nursing action?", options: ["Continue both medications and recheck creatinine in one week", "Hold both medications and notify the provider", "Increase IV fluids only", "Switch to oral vancomycin"], correct: 1, rationale: "Concurrent vancomycin and aminoglycosides significantly increase nephrotoxicity risk. A rising creatinine warrants holding both nephrotoxic agents and notifying the provider for dose adjustment." },
       { question: "A patient develops urticaria, lip swelling, and wheezing during vancomycin infusion. What is the priority action?", options: ["Slow the infusion rate", "Administer diphenhydramine and continue", "Stop the infusion and administer IM epinephrine", "Reassess in 15 minutes"], correct: 2, rationale: "Urticaria, angioedema (lip swelling), and wheezing indicate anaphylaxis, not simple VIR. The infusion must be stopped immediately and IM epinephrine administered." }
     ]
   },
 
   "vancomycin-therapy-np": {
-    title: "Vancomycin Therapy: NP Prescriptive Management",
+    title: "Vancomycin Therapy",
     cellular: {
-      title: "Advanced Vancomycin Pharmacokinetics and AUC-Guided Dosing",
-      content: "Vancomycin's bactericidal activity against gram-positive organisms is concentration-independent and time-dependent, with efficacy best predicted by the AUC/MIC ratio. The 2020 ASHP/IDSA/SIDP guidelines recommend AUC-guided dosing targeting AUC/MIC 400-600 mg·h/L (assuming MIC ≤1 mcg/mL) rather than trough-only monitoring to optimize efficacy while reducing nephrotoxicity. Vancomycin distributes into most body tissues but CNS penetration is variable. Renal elimination accounts for 80-90% of clearance, necessitating dosage adjustment based on creatinine clearance or estimated GFR. The NP must prescribe appropriate loading and maintenance doses, order therapeutic drug monitoring, interpret pharmacokinetic parameters, and manage complications including nephrotoxicity, ototoxicity, and infusion reactions."
+      title: "Vancomycin Pharmacokinetics",
+      content: "Vancomycin's bactericidal activity against gram-positive organisms is concentration-independent and time-dependent, with efficacy best predicted by the AUC/MIC ratio. The 2020 ASHP/IDSA/SIDP guidelines recommend AUC-guided dosing targeting AUC/MIC 400-600 mg·h/L (assuming MIC ≤1 mcg/mL) rather than trough-only monitoring to optimize efficacy while reducing nephrotoxicity. Vancomycin distributes into most body tissues but CNS penetration is variable. Renal elimination accounts for 80-90% of clearance, necessitating dosage adjustment based on creatinine clearance or estimated GFR. The clinician must prescribe appropriate loading and maintenance doses, order therapeutic drug monitoring, interpret pharmacokinetic parameters, and manage complications including nephrotoxicity, ototoxicity, and infusion reactions."
     },
     riskFactors: [
       "MRSA infections with MIC ≤1 mcg/mL (appropriate for vancomycin)",
@@ -231,10 +231,10 @@ export const clinicalConditionsBatchHLessons: Record<string, LessonContent> = {
   },
 
   "insulin-pump-management-rpn": {
-    title: "Insulin Pump Management: RPN Monitoring",
+    title: "Insulin Pump Management",
     cellular: {
       title: "Insulin Pump Physiology",
-      content: "An insulin pump delivers rapid-acting insulin (lispro, aspart, or glulisine) as a continuous subcutaneous infusion through a small catheter inserted into the abdominal subcutaneous tissue and secured with an adhesive patch. The pump mimics physiologic insulin secretion by providing a continuous basal rate and patient-initiated bolus doses before meals. Because only rapid-acting insulin is used, any pump malfunction causes rapid hyperglycemia and potential diabetic ketoacidosis (DKA) within hours. The RPN monitors blood glucose levels, assists with pump site assessment, and reports abnormalities to the RN."
+      content: "An insulin pump delivers rapid-acting insulin (lispro, aspart, or glulisine) as a continuous subcutaneous infusion through a small catheter inserted into the abdominal subcutaneous tissue and secured with an adhesive patch. The pump mimics physiologic insulin secretion by providing a continuous basal rate and patient-initiated bolus doses before meals. Because only rapid-acting insulin is used, any pump malfunction causes rapid hyperglycemia and potential diabetic ketoacidosis (DKA) within hours. The nurse monitors blood glucose levels, assists with pump site assessment, and reports abnormalities to the RN."
     },
     riskFactors: [
       "Type 1 diabetes mellitus",
@@ -297,17 +297,17 @@ export const clinicalConditionsBatchHLessons: Record<string, LessonContent> = {
       "Severe hypoglycemia in an unconscious patient: administer glucagon IM, not oral glucose"
     ],
     quiz: [
-      { question: "A patient with an insulin pump has a blood glucose of 320 mg/dL and reports nausea. What should the RPN do first?", options: ["Increase the pump basal rate", "Report findings to the RN immediately", "Administer oral glucose", "Remove the pump and apply a new site"], correct: 1, rationale: "Persistent hyperglycemia with nausea in a pump patient may indicate DKA or pump malfunction. The RPN should report to the RN immediately for assessment and intervention." },
+      { question: "A patient with an insulin pump has a blood glucose of 320 mg/dL and reports nausea. What should the nurse do first?", options: ["Increase the pump basal rate", "Report findings to the nurse immediately", "Administer oral glucose", "Remove the pump and apply a new site"], correct: 1, rationale: "Persistent hyperglycemia with nausea in a pump patient may indicate DKA or pump malfunction. The nurse should report to the nurse immediately for assessment and intervention." },
       { question: "Which type of insulin is used in an insulin pump?", options: ["NPH intermediate-acting insulin", "Glargine long-acting insulin", "Rapid-acting insulin (lispro or aspart)", "Regular insulin mixed with NPH"], correct: 2, rationale: "Insulin pumps deliver rapid-acting insulin (lispro, aspart, or glulisine) as continuous basal infusion and bolus doses. No other insulin types are used in pumps." },
-      { question: "What is the RPN's priority action when a patient's insulin pump alarms?", options: ["Silence the alarm and document", "Report the alarm to the RN", "Remove the pump immediately", "Administer a manual insulin injection"], correct: 1, rationale: "Pump alarms may indicate occlusion, low insulin, battery issues, or other safety concerns. The RPN should report to the RN for assessment rather than independently managing the device." }
+      { question: "What is the RPN's priority action when a patient's insulin pump alarms?", options: ["Silence the alarm and document", "Report the alarm to the RN", "Remove the pump immediately", "Administer a manual insulin injection"], correct: 1, rationale: "Pump alarms may indicate occlusion, low insulin, battery issues, or other safety concerns. The nurse should report to the nurse for assessment rather than independently managing the device." }
     ]
   },
 
   "insulin-pump-management-rn": {
-    title: "Insulin Pump Management: RN Clinical Management",
+    title: "Insulin Pump Management",
     cellular: {
-      title: "Continuous Subcutaneous Insulin Infusion Pharmacology",
-      content: "Continuous subcutaneous insulin infusion (CSII) via insulin pump delivers rapid-acting insulin analogs to mimic physiologic insulin secretion. The basal rate provides continuous low-dose insulin to suppress hepatic glucose production between meals and overnight, while patient-programmed bolus doses cover carbohydrate intake and correct hyperglycemia. Modern pumps may integrate with continuous glucose monitors (CGM) in sensor-augmented pump therapy or hybrid closed-loop systems. Pump therapy reduces A1C and glycemic variability compared to multiple daily injections (MDI) but carries unique risks: site failure, pump malfunction, and rapid progression to DKA because no long-acting insulin depot exists. The RN must manage pump therapy during hospitalization, troubleshoot device issues, and implement sick day protocols."
+      title: "Continuous Subcutaneous Insulin Infusion",
+      content: "Continuous subcutaneous insulin infusion (CSII) via insulin pump delivers rapid-acting insulin analogs to mimic physiologic insulin secretion. The basal rate provides continuous low-dose insulin to suppress hepatic glucose production between meals and overnight, while patient-programmed bolus doses cover carbohydrate intake and correct hyperglycemia. Modern pumps may integrate with continuous glucose monitors (CGM) in sensor-augmented pump therapy or hybrid closed-loop systems. Pump therapy reduces A1C and glycemic variability compared to multiple daily injections (MDI) but carries unique risks: site failure, pump malfunction, and rapid progression to DKA because no long-acting insulin depot exists. The nurse must manage pump therapy during hospitalization, troubleshoot device issues, and implement sick day protocols."
     },
     riskFactors: [
       "Infusion site failure (occlusion, kinking, dislodgement)",
@@ -376,16 +376,16 @@ export const clinicalConditionsBatchHLessons: Record<string, LessonContent> = {
     ],
     quiz: [
       { question: "A pump patient has a BG of 340 mg/dL with positive ketones. What is the RN's priority action?", options: ["Increase the pump basal rate", "Give correction dose via syringe, change the infusion site, and check for pump malfunction", "Give oral glucose tablets", "Continue current pump settings and recheck in 2 hours"], correct: 1, rationale: "High BG with ketones in a pump patient suggests site or pump failure. Correction should be given via syringe (bypassing the potentially malfunctioning pump), the site changed, and the pump/tubing inspected for occlusion." },
-      { question: "How should the RN calculate a transition from insulin pump to subcutaneous basal-bolus injections?", options: ["Give the same basal rate as a single injection of NPH", "Calculate total daily basal from pump and give 80% as glargine once daily", "Administer regular insulin IV continuously", "Use sliding scale insulin only"], correct: 1, rationale: "When transitioning off a pump, total the 24-hour basal rate from the pump and give approximately 80% of that total as once-daily glargine to account for the different pharmacokinetics." },
+      { question: "How should the nurse calculate a transition from insulin pump to subcutaneous basal-bolus injections?", options: ["Give the same basal rate as a single injection of NPH", "Calculate total daily basal from pump and give 80% as glargine once daily", "Administer regular insulin IV continuously", "Use sliding scale insulin only"], correct: 1, rationale: "When transitioning off a pump, total the 24-hour basal rate from the pump and give approximately 80% of that total as once-daily glargine to account for the different pharmacokinetics." },
       { question: "A hospitalized patient on an insulin pump is going to surgery. What is the appropriate management?", options: ["Continue the pump at current settings throughout surgery", "Suspend the pump and start an IV insulin infusion", "Give NPH insulin the morning of surgery", "Disconnect the pump and give no insulin"], correct: 1, rationale: "For surgery, the pump is typically suspended and an IV insulin infusion started for precise glucose control. The patient's basal needs are still present but are best managed with IV insulin during anesthesia." }
     ]
   },
 
   "insulin-pump-management-np": {
-    title: "Insulin Pump Management: NP Prescriptive Management",
+    title: "Insulin Pump Management",
     cellular: {
-      title: "Advanced Pump Therapeutics and Closed-Loop Systems",
-      content: "Advanced insulin pump therapy encompasses sensor-augmented pump (SAP) therapy, predictive low-glucose suspend (PLGS) systems, and hybrid closed-loop (HCL) systems that automatically adjust basal insulin delivery based on CGM trends. HCL systems use algorithms to increase basal delivery when glucose rises and decrease or suspend delivery when glucose drops, significantly improving time-in-range (70-180 mg/dL) while reducing hypoglycemia. The NP prescribes and initiates pump therapy, determines initial basal rates and bolus parameters, adjusts settings based on CGM data and A1C trends, manages perioperative insulin protocols, and handles complex sick day management including DKA prevention. Understanding pump pharmacokinetics, carbohydrate counting accuracy, and algorithm behavior is essential for optimizing outcomes."
+      title: "Pump Therapeutics and Closed-Loop Systems",
+      content: "Advanced insulin pump therapy encompasses sensor-augmented pump (SAP) therapy, predictive low-glucose suspend (PLGS) systems, and hybrid closed-loop (HCL) systems that automatically adjust basal insulin delivery based on CGM trends. HCL systems use algorithms to increase basal delivery when glucose rises and decrease or suspend delivery when glucose drops, significantly improving time-in-range (70-180 mg/dL) while reducing hypoglycemia. The clinician prescribes and initiates pump therapy, determines initial basal rates and bolus parameters, adjusts settings based on CGM data and A1C trends, manages perioperative insulin protocols, and handles complex sick day management including DKA prevention. Understanding pump pharmacokinetics, carbohydrate counting accuracy, and algorithm behavior is essential for optimizing outcomes."
     },
     riskFactors: [
       "Inadequate carbohydrate counting skills",
@@ -460,10 +460,10 @@ export const clinicalConditionsBatchHLessons: Record<string, LessonContent> = {
   },
 
   "anticoagulation-therapy-rpn": {
-    title: "Anticoagulation Therapy: RPN Monitoring",
+    title: "Anticoagulation Therapy",
     cellular: {
       title: "Anticoagulation Basics",
-      content: "Anticoagulant medications prevent thrombus formation and propagation by interfering with the coagulation cascade. Heparin (unfractionated) acts by potentiating antithrombin III to inactivate thrombin and factor Xa. Low-molecular-weight heparins (enoxaparin) preferentially inhibit factor Xa. Warfarin inhibits vitamin K-dependent clotting factor synthesis (II, VII, IX, X). Direct oral anticoagulants (DOACs) directly inhibit thrombin (dabigatran) or factor Xa (rivaroxaban, apixaban). These medications carry significant bleeding risk. The RPN monitors for signs of bleeding, administers medications as ordered, and reports abnormal findings to the RN."
+      content: "Anticoagulant medications prevent thrombus formation and propagation by interfering with the coagulation cascade. Heparin (unfractionated) acts by potentiating antithrombin III to inactivate thrombin and factor Xa. Low-molecular-weight heparins (enoxaparin) preferentially inhibit factor Xa. Warfarin inhibits vitamin K-dependent clotting factor synthesis (II, VII, IX, X). Direct oral anticoagulants (DOACs) directly inhibit thrombin (dabigatran) or factor Xa (rivaroxaban, apixaban). These medications carry significant bleeding risk. The nurse monitors for signs of bleeding, administers medications as ordered, and reports abnormal findings to the RN."
     },
     riskFactors: [
       "Deep vein thrombosis (DVT)",
@@ -488,7 +488,7 @@ export const clinicalConditionsBatchHLessons: Record<string, LessonContent> = {
       "Administer anticoagulants at prescribed times exactly as ordered",
       "Administer subcutaneous heparin/enoxaparin using proper technique (do not aspirate, do not rub)",
       "Apply gentle pressure to injection sites without rubbing",
-      "Report any signs of bleeding to the RN immediately",
+      "Report any signs of bleeding to the nurse immediately",
       "Implement fall prevention measures (anticoagulated patients are at higher bleeding risk with falls)",
       "Ensure patient has appropriate identification indicating anticoagulant use"
     ],
@@ -528,16 +528,16 @@ export const clinicalConditionsBatchHLessons: Record<string, LessonContent> = {
     ],
     quiz: [
       { question: "When administering subcutaneous enoxaparin, which technique is correct?", options: ["Aspirate before injection and massage the site after", "Do not aspirate, inject into the abdomen, do not rub the site", "Inject into the deltoid muscle with a 90-degree angle", "Aspirate and apply firm pressure for 5 minutes after injection"], correct: 1, rationale: "Subcutaneous LMWH should be injected into the abdomen without aspiration before injection and without rubbing the site afterward to minimize bruising and hematoma formation." },
-      { question: "A patient on warfarin reports dark, tarry stools. What should the RPN do?", options: ["Document the finding and reassess at next shift", "Report to the RN immediately as this may indicate GI bleeding", "Increase fluid intake", "Administer an antacid"], correct: 1, rationale: "Dark tarry stools (melena) in a patient on anticoagulation indicate possible GI bleeding, a potentially life-threatening complication requiring immediate notification of the RN." },
-      { question: "Which safety measure should the RPN implement for a patient on anticoagulation therapy?", options: ["Encourage vigorous tooth brushing for oral hygiene", "Use a soft toothbrush and electric razor", "Administer IM injections for pain management", "Encourage participation in contact sports"], correct: 1, rationale: "Bleeding precautions include using a soft toothbrush and electric razor to prevent tissue trauma and bleeding in anticoagulated patients." }
+      { question: "A patient on warfarin reports dark, tarry stools. What should the nurse do?", options: ["Document the finding and reassess at next shift", "Report to the nurse immediately as this may indicate GI bleeding", "Increase fluid intake", "Administer an antacid"], correct: 1, rationale: "Dark tarry stools (melena) in a patient on anticoagulation indicate possible GI bleeding, a potentially life-threatening complication requiring immediate notification of the RN." },
+      { question: "Which safety measure should the nurse implement for a patient on anticoagulation therapy?", options: ["Encourage vigorous tooth brushing for oral hygiene", "Use a soft toothbrush and electric razor", "Administer IM injections for pain management", "Encourage participation in contact sports"], correct: 1, rationale: "Bleeding precautions include using a soft toothbrush and electric razor to prevent tissue trauma and bleeding in anticoagulated patients." }
     ]
   },
 
   "anticoagulation-therapy-rn": {
-    title: "Anticoagulation Therapy: RN Clinical Management",
+    title: "Anticoagulation Therapy",
     cellular: {
-      title: "Coagulation Cascade and Anticoagulant Pharmacology",
-      content: "The coagulation cascade involves intrinsic and extrinsic pathways converging on the common pathway to generate thrombin, which converts fibrinogen to fibrin. Unfractionated heparin (UFH) potentiates antithrombin III, inactivating thrombin (factor IIa) and factor Xa, monitored by aPTT. Low-molecular-weight heparins (LMWH) have greater factor Xa selectivity and more predictable pharmacokinetics, monitored by anti-Xa levels in specific populations. Warfarin depletes vitamin K-dependent factors (II, VII, IX, X, protein C and S), monitored by PT/INR with a narrow therapeutic index. Direct oral anticoagulants (DOACs) directly inhibit either thrombin (dabigatran) or factor Xa (rivaroxaban, apixaban, edoxaban) with predictable pharmacokinetics requiring minimal monitoring. The RN manages anticoagulation protocols, interprets coagulation labs, implements bridging therapy, and recognizes life-threatening bleeding."
+      title: "Coagulation Cascade",
+      content: "The coagulation cascade involves intrinsic and extrinsic pathways converging on the common pathway to generate thrombin, which converts fibrinogen to fibrin. Unfractionated heparin (UFH) potentiates antithrombin III, inactivating thrombin (factor IIa) and factor Xa, monitored by aPTT. Low-molecular-weight heparins (LMWH) have greater factor Xa selectivity and more predictable pharmacokinetics, monitored by anti-Xa levels in specific populations. Warfarin depletes vitamin K-dependent factors (II, VII, IX, X, protein C and S), monitored by PT/INR with a narrow therapeutic index. Direct oral anticoagulants (DOACs) directly inhibit either thrombin (dabigatran) or factor Xa (rivaroxaban, apixaban, edoxaban) with predictable pharmacokinetics requiring minimal monitoring. The nurse manages anticoagulation protocols, interprets coagulation labs, implements bridging therapy, and recognizes life-threatening bleeding."
     },
     riskFactors: [
       "Atrial fibrillation with CHA2DS2-VASc score ≥2",
@@ -608,15 +608,15 @@ export const clinicalConditionsBatchHLessons: Record<string, LessonContent> = {
     quiz: [
       { question: "A patient on a heparin drip has an aPTT of 120 seconds (target 60-80). What is the priority nursing action?", options: ["Continue the infusion and recheck in 6 hours", "Stop the heparin infusion and notify the provider", "Administer protamine sulfate immediately", "Increase the heparin rate"], correct: 1, rationale: "An aPTT of 120 seconds is supratherapeutic and indicates excessive anticoagulation with high bleeding risk. The heparin infusion should be stopped and the provider notified for further orders." },
       { question: "When educating a patient about warfarin and dietary vitamin K, what is the correct guidance?", options: ["Avoid all foods containing vitamin K", "Maintain a consistent intake of vitamin K-containing foods", "Take vitamin K supplements daily", "Eat extra vitamin K foods to counteract the warfarin"], correct: 1, rationale: "Patients on warfarin should maintain consistent vitamin K intake, not avoid it. Fluctuations in vitamin K intake cause INR instability and increase bleeding or clotting risk." },
-      { question: "The RN suspects heparin-induced thrombocytopenia (HIT). Which finding supports this diagnosis?", options: ["Platelet count stable at 250,000", "Platelet count dropped from 200,000 to 85,000 on day 7 of heparin", "INR of 2.5 on warfarin", "Elevated aPTT above therapeutic range"], correct: 1, rationale: "HIT typically presents 5-10 days after heparin initiation with a platelet drop >50% from baseline. Paradoxical thrombosis may also occur despite the thrombocytopenia." }
+      { question: "The nurse suspects heparin-induced thrombocytopenia (HIT). Which finding supports this diagnosis?", options: ["Platelet count stable at 250,000", "Platelet count dropped from 200,000 to 85,000 on day 7 of heparin", "INR of 2.5 on warfarin", "Elevated aPTT above therapeutic range"], correct: 1, rationale: "HIT typically presents 5-10 days after heparin initiation with a platelet drop >50% from baseline. Paradoxical thrombosis may also occur despite the thrombocytopenia." }
     ]
   },
 
   "anticoagulation-therapy-np": {
-    title: "Anticoagulation Therapy: NP Prescriptive Management",
+    title: "Anticoagulation Therapy",
     cellular: {
-      title: "Advanced Anticoagulation Pharmacology and Prescribing",
-      content: "The NP must navigate complex anticoagulation decisions across multiple clinical scenarios. DOACs (dabigatran, rivaroxaban, apixaban, edoxaban) have largely replaced warfarin for non-valvular atrial fibrillation and VTE treatment due to predictable pharmacokinetics, fewer drug-food interactions, and no routine monitoring requirement. However, warfarin remains essential for mechanical heart valves and antiphospholipid syndrome. The choice of anticoagulant depends on indication, renal function, drug interactions, bleeding risk (HAS-BLED score), and patient factors. Reversal agents are now available for most anticoagulants: protamine for heparin, vitamin K and 4-factor PCC for warfarin, idarucizumab for dabigatran, and andexanet alfa for anti-Xa inhibitors. The NP must prescribe, monitor, adjust, and manage transitions and complications across the anticoagulation spectrum."
+      title: "Anticoagulation Pharmacology and Prescribing",
+      content: "The clinician must navigate complex anticoagulation decisions across multiple clinical scenarios. DOACs (dabigatran, rivaroxaban, apixaban, edoxaban) have largely replaced warfarin for non-valvular atrial fibrillation and VTE treatment due to predictable pharmacokinetics, fewer drug-food interactions, and no routine monitoring requirement. However, warfarin remains essential for mechanical heart valves and antiphospholipid syndrome. The choice of anticoagulant depends on indication, renal function, drug interactions, bleeding risk (HAS-BLED score), and patient factors. Reversal agents are now available for most anticoagulants: protamine for heparin, vitamin K and 4-factor PCC for warfarin, idarucizumab for dabigatran, and andexanet alfa for anti-Xa inhibitors. The clinician must prescribe, monitor, adjust, and manage transitions and complications across the anticoagulation spectrum."
     },
     riskFactors: [
       "CHA2DS2-VASc score ≥2 for atrial fibrillation stroke risk",
@@ -687,15 +687,15 @@ export const clinicalConditionsBatchHLessons: Record<string, LessonContent> = {
     quiz: [
       { question: "A patient with a mechanical mitral valve asks about switching from warfarin to a DOAC. What is the NP's response?", options: ["Switch to apixaban for better safety profile", "Switch to dabigatran for easier management", "DOACs are contraindicated in mechanical heart valves — continue warfarin", "Switch to rivaroxaban with closer monitoring"], correct: 2, rationale: "DOACs are contraindicated in mechanical heart valves. The RE-ALIGN trial demonstrated that dabigatran caused increased thromboembolism and bleeding compared to warfarin in this population." },
       { question: "An NP is prescribing apixaban for a new diagnosis of acute DVT. What is the correct initial dosing?", options: ["5 mg BID immediately", "2.5 mg BID with LMWH bridge", "10 mg BID for 7 days, then 5 mg BID", "20 mg daily with food"], correct: 2, rationale: "For acute VTE, apixaban is started at 10 mg BID for the first 7 days, then reduced to 5 mg BID for ongoing treatment. The higher initial dose eliminates the need for parenteral anticoagulation bridging." },
-      { question: "A patient on dabigatran presents with life-threatening intracranial hemorrhage. Which reversal agent should the NP order?", options: ["Vitamin K 10 mg IV", "Protamine sulfate", "Idarucizumab (Praxbind) 5g IV", "Andexanet alfa"], correct: 2, rationale: "Idarucizumab (Praxbind) is the specific reversal agent for dabigatran. It is a monoclonal antibody fragment that binds dabigatran with extremely high affinity, providing immediate reversal." }
+      { question: "A patient on dabigatran presents with life-threatening intracranial hemorrhage. Which reversal agent should the clinician order?", options: ["Vitamin K 10 mg IV", "Protamine sulfate", "Idarucizumab (Praxbind) 5g IV", "Andexanet alfa"], correct: 2, rationale: "Idarucizumab (Praxbind) is the specific reversal agent for dabigatran. It is a monoclonal antibody fragment that binds dabigatran with extremely high affinity, providing immediate reversal." }
     ]
   },
 
   "opioid-management-rpn": {
-    title: "Opioid Management: RPN Monitoring",
+    title: "Opioid Management",
     cellular: {
       title: "Opioid Pharmacology Basics",
-      content: "Opioid analgesics act on mu, kappa, and delta receptors in the central nervous system and peripheral tissues to modulate pain perception and emotional response to pain. Mu receptor activation provides analgesia, euphoria, and respiratory depression. Opioids reduce the perception of pain at the level of the spinal cord (ascending pathways) and activate descending inhibitory pathways. The most dangerous adverse effect is respiratory depression, which occurs through direct suppression of the medullary respiratory center. The RPN monitors pain levels, vital signs (especially respiratory rate and oxygen saturation), level of consciousness, and reports concerns to the RN."
+      content: "Opioid analgesics act on mu, kappa, and delta receptors in the central nervous system and peripheral tissues to modulate pain perception and emotional response to pain. Mu receptor activation provides analgesia, euphoria, and respiratory depression. Opioids reduce the perception of pain at the level of the spinal cord (ascending pathways) and activate descending inhibitory pathways. The most dangerous adverse effect is respiratory depression, which occurs through direct suppression of the medullary respiratory center. The nurse monitors pain levels, vital signs (especially respiratory rate and oxygen saturation), level of consciousness, and reports concerns to the RN."
     },
     riskFactors: [
       "Post-surgical pain management",
@@ -732,7 +732,7 @@ export const clinicalConditionsBatchHLessons: Record<string, LessonContent> = {
       "Assess pain using standardized scale and document response to medication",
       "Monitor for common side effects: nausea, constipation, pruritus, urinary retention",
       "Implement non-pharmacological pain interventions as adjuncts: positioning, ice, relaxation",
-      "Report unrelieved pain to the RN for possible intervention adjustment"
+      "Report unrelieved pain to the nurse for possible intervention adjustment"
     ],
     signs: {
       left: [
@@ -760,17 +760,17 @@ export const clinicalConditionsBatchHLessons: Record<string, LessonContent> = {
       "Pinpoint pupils (miosis) are a classic sign of opioid effect — report in combination with sedation"
     ],
     quiz: [
-      { question: "Before administering morphine, the RPN finds the patient's respiratory rate is 10 breaths/min. What is the correct action?", options: ["Administer the morphine as scheduled", "Hold the morphine and notify the RN immediately", "Administer half the prescribed dose", "Wait 30 minutes and recheck the respiratory rate"], correct: 1, rationale: "A respiratory rate of <12 breaths/min is a contraindication to opioid administration. The RPN should hold the dose and notify the RN immediately for further assessment." },
+      { question: "Before administering morphine, the nurse finds the patient's respiratory rate is 10 breaths/min. What is the correct action?", options: ["Administer the morphine as scheduled", "Hold the morphine and notify the nurse immediately", "Administer half the prescribed dose", "Wait 30 minutes and recheck the respiratory rate"], correct: 1, rationale: "A respiratory rate of <12 breaths/min is a contraindication to opioid administration. The nurse should hold the dose and notify the nurse immediately for further assessment." },
       { question: "Which opioid side effect does NOT develop tolerance over time?", options: ["Sedation", "Nausea", "Constipation", "Respiratory depression"], correct: 2, rationale: "Constipation is the one opioid side effect to which patients do not develop tolerance. A prophylactic bowel regimen should be maintained throughout opioid therapy." },
       { question: "A patient receiving IV morphine becomes unresponsive with a respiratory rate of 6. What is the priority action?", options: ["Administer naloxone and call for help", "Position the patient on their side and wait", "Administer another dose of morphine for pain", "Increase the IV fluid rate"], correct: 0, rationale: "Unresponsiveness with a RR of 6 indicates severe opioid-induced respiratory depression. Naloxone must be administered immediately to reverse the opioid effect, and emergency help should be called." }
     ]
   },
 
   "opioid-management-rn": {
-    title: "Opioid Management: RN Clinical Management",
+    title: "Opioid Management",
     cellular: {
-      title: "Opioid Receptor Pharmacology and Clinical Management",
-      content: "Opioid analgesics produce their effects primarily through mu (μ) receptor agonism in the CNS. Mu-1 receptors mediate supraspinal analgesia, while mu-2 receptors mediate respiratory depression, constipation, and physical dependence. Kappa receptors contribute to spinal analgesia and dysphoria. The RN must understand equianalgesic dosing for opioid rotation, the multimodal analgesia approach combining opioids with non-opioid agents (acetaminophen, NSAIDs, gabapentinoids) to reduce opioid requirements, and patient-controlled analgesia (PCA) management. Opioid-induced respiratory depression remains the primary safety concern, monitored through the Pasero Opioid-Induced Sedation Scale (POSS) and continuous pulse oximetry or capnography."
+      title: "Opioid Receptor Pharmacology",
+      content: "Opioid analgesics produce their effects primarily through mu (μ) receptor agonism in the CNS. Mu-1 receptors mediate supraspinal analgesia, while mu-2 receptors mediate respiratory depression, constipation, and physical dependence. Kappa receptors contribute to spinal analgesia and dysphoria. The nurse must understand equianalgesic dosing for opioid rotation, the multimodal analgesia approach combining opioids with non-opioid agents (acetaminophen, NSAIDs, gabapentinoids) to reduce opioid requirements, and patient-controlled analgesia (PCA) management. Opioid-induced respiratory depression remains the primary safety concern, monitored through the Pasero Opioid-Induced Sedation Scale (POSS) and continuous pulse oximetry or capnography."
     },
     riskFactors: [
       "Opioid-naïve patients (highest risk for respiratory depression)",
@@ -839,17 +839,17 @@ export const clinicalConditionsBatchHLessons: Record<string, LessonContent> = {
       "When converting between opioids, always reduce the calculated equianalgesic dose by 25-50% due to incomplete cross-tolerance"
     ],
     quiz: [
-      { question: "A patient's POSS score is 3 (frequently drowsy, arousable but drifts off during conversation). What is the RN's priority action?", options: ["Continue monitoring every 4 hours", "Hold further opioid doses and increase monitoring frequency", "Administer naloxone immediately", "Give the next scheduled opioid dose"], correct: 1, rationale: "POSS 3 indicates unacceptable sedation that may progress to respiratory depression. The RN should hold further opioid doses, increase monitoring frequency, and notify the provider. Naloxone is not yet indicated unless respiratory depression develops." },
-      { question: "When converting a patient from morphine 10 mg IV to an equianalgesic dose of oral hydromorphone, the calculated dose is 6 mg PO. What dose should the RN administer?", options: ["6 mg PO (full calculated dose)", "3-4.5 mg PO (25-50% reduction)", "1.5 mg PO (75% reduction)", "12 mg PO (double the calculated dose)"], correct: 1, rationale: "When rotating between opioids, a 25-50% dose reduction from the calculated equianalgesic dose is recommended due to incomplete cross-tolerance, reducing the risk of oversedation." },
+      { question: "A patient's POSS score is 3 (frequently drowsy, arousable but drifts off during conversation). What is the RN's priority action?", options: ["Continue monitoring every 4 hours", "Hold further opioid doses and increase monitoring frequency", "Administer naloxone immediately", "Give the next scheduled opioid dose"], correct: 1, rationale: "POSS 3 indicates unacceptable sedation that may progress to respiratory depression. The nurse should hold further opioid doses, increase monitoring frequency, and notify the provider. Naloxone is not yet indicated unless respiratory depression develops." },
+      { question: "When converting a patient from morphine 10 mg IV to an equianalgesic dose of oral hydromorphone, the calculated dose is 6 mg PO. What dose should the nurse administer?", options: ["6 mg PO (full calculated dose)", "3-4.5 mg PO (25-50% reduction)", "1.5 mg PO (75% reduction)", "12 mg PO (double the calculated dose)"], correct: 1, rationale: "When rotating between opioids, a 25-50% dose reduction from the calculated equianalgesic dose is recommended due to incomplete cross-tolerance, reducing the risk of oversedation." },
       { question: "Why is a transdermal fentanyl patch inappropriate for acute post-operative pain management?", options: ["Fentanyl is not potent enough for surgical pain", "The patch takes 12-17 hours to reach peak analgesic effect", "Fentanyl patches cannot be used in hospitalized patients", "The patch delivers too much medication too quickly"], correct: 1, rationale: "Transdermal fentanyl takes 12-17 hours to reach full analgesic effect and provides continuous analgesia for 72 hours. It is designed for chronic stable pain, not acute post-operative pain requiring rapid titration." }
     ]
   },
 
   "opioid-management-np": {
-    title: "Opioid Management: NP Prescriptive Management",
+    title: "Opioid Management",
     cellular: {
-      title: "Advanced Opioid Prescribing and Pain Management",
-      content: "The NP must navigate evidence-based opioid prescribing within the context of the opioid epidemic, balancing adequate pain management with harm reduction. Acute pain management follows multimodal protocols combining non-opioid analgesics, regional anesthesia, and short-course opioids at the lowest effective dose. Chronic pain management requires comprehensive assessment, risk stratification using the Opioid Risk Tool, prescription drug monitoring program (PDMP) checks, treatment agreements, and consideration of non-opioid alternatives. For chronic opioid therapy, the concept of morphine milligram equivalents (MME) guides risk assessment: doses >50 MME/day double the overdose risk, and doses >90 MME/day are associated with significantly increased mortality. The NP prescribes opioid agonist therapy (buprenorphine, methadone) for opioid use disorder and manages naloxone co-prescribing for patients at overdose risk."
+      title: "Opioid Prescribing and Pain Management",
+      content: "The clinician must navigate evidence-based opioid prescribing within the context of the opioid epidemic, balancing adequate pain management with harm reduction. Acute pain management follows multimodal protocols combining non-opioid analgesics, regional anesthesia, and short-course opioids at the lowest effective dose. Chronic pain management requires comprehensive assessment, risk stratification using the Opioid Risk Tool, prescription drug monitoring program (PDMP) checks, treatment agreements, and consideration of non-opioid alternatives. For chronic opioid therapy, the concept of morphine milligram equivalents (MME) guides risk assessment: doses >50 MME/day double the overdose risk, and doses >90 MME/day are associated with significantly increased mortality. The clinician prescribes opioid agonist therapy (buprenorphine, methadone) for opioid use disorder and manages naloxone co-prescribing for patients at overdose risk."
     },
     riskFactors: [
       "Total daily dose >50 MME (increased overdose risk)",
@@ -920,7 +920,7 @@ export const clinicalConditionsBatchHLessons: Record<string, LessonContent> = {
     quiz: [
       { question: "An NP calculates a patient's total daily opioid intake as 75 MME. What action should be taken in addition to ongoing management?", options: ["No additional actions needed below 90 MME", "Co-prescribe intranasal naloxone and reassess the treatment plan", "Immediately taper to below 50 MME", "Switch to a transdermal fentanyl patch"], correct: 1, rationale: "At >50 MME/day, overdose risk doubles. Guidelines recommend co-prescribing naloxone, reassessing the pain management plan, and considering risk mitigation strategies. Abrupt tapering is not recommended." },
       { question: "Before initiating buprenorphine/naloxone for opioid use disorder, what clinical criterion must be met?", options: ["Patient must be on a stable dose of full agonist opioid", "Patient must be in mild-moderate opioid withdrawal (COWS ≥8)", "Patient must have been opioid-free for 30 days", "Patient must fail methadone therapy first"], correct: 1, rationale: "Buprenorphine is a partial agonist that will displace full agonists from receptors and cause precipitated withdrawal. The patient must already be in mild-moderate withdrawal (COWS ≥8-12) before the first dose." },
-      { question: "A patient on chronic opioids reports worsening pain despite multiple dose increases. What should the NP suspect?", options: ["Drug-seeking behavior", "Opioid-induced hyperalgesia", "Medication tolerance requiring higher doses", "Inadequate opioid selection"], correct: 1, rationale: "Opioid-induced hyperalgesia (OIH) is a paradoxical condition where opioids cause increased pain sensitivity. It is distinguished from tolerance by the diffuse, worsening nature of pain despite dose escalation. The treatment is opioid dose reduction, not increase." }
+      { question: "A patient on chronic opioids reports worsening pain despite multiple dose increases. What should the clinician suspect?", options: ["Drug-seeking behavior", "Opioid-induced hyperalgesia", "Medication tolerance requiring higher doses", "Inadequate opioid selection"], correct: 1, rationale: "Opioid-induced hyperalgesia (OIH) is a paradoxical condition where opioids cause increased pain sensitivity. It is distinguished from tolerance by the diffuse, worsening nature of pain despite dose escalation. The treatment is opioid dose reduction, not increase." }
     ]
   }
 };

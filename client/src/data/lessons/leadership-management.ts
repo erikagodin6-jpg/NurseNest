@@ -2,11 +2,11 @@ import type { LessonContent } from "./types";
 
 export const leadershipManagementLessons: Record<string, LessonContent> = {
   "leadership-mgmt-rpn": {
-    title: "RPN Leadership and Management Foundations",
+    title: "Leadership and Management Foundations",
     cellular: {
-      title: "Foundations of RPN Leadership and Team Coordination",
+      title: "Foundations of Leadership",
       content:
-        "Registered Practical Nurses (RPNs) function within a collaborative healthcare team and must understand their scope of practice regarding delegation and task assignment. RPNs may delegate specific tasks to unregulated care providers (UAPs) such as personal support workers, but retain accountability for assessing client status and determining appropriateness of delegation. Effective leadership at the RPN level includes time management for bedside care, professional communication during conflict resolution, and understanding incident reporting procedures. Just culture principles distinguish between human error, at-risk behavior, and reckless conduct, guiding how organizations respond to safety events rather than defaulting to punitive action."
+        "Registered Practical Nurses (RPNs) function within a collaborative healthcare team and must understand their scope of practice regarding delegation and task assignment. RPNs may delegate specific tasks to unregulated care providers (UAPs) such as personal support workers, but retain accountability for assessing client status and determining appropriateness of delegation. Effective leadership at the nurse level includes time management for bedside care, professional communication during conflict resolution, and understanding incident reporting procedures. Just culture principles distinguish between human error, at-risk behavior, and reckless conduct, guiding how organizations respond to safety events rather than defaulting to punitive action."
     },
     riskFactors: [
       "Unclear delegation boundaries leading to scope-of-practice violations",
@@ -56,7 +56,7 @@ export const leadershipManagementLessons: Record<string, LessonContent> = {
         name: "Medication Administration Accountability",
         type: "Leadership Principle",
         action:
-          "RPNs administer medications within their scope and cannot delegate medication administration to UAPs; the RPN remains accountable for verifying the rights of medication administration",
+          "RPNs administer medications within their scope and cannot delegate medication administration to UAPs; the nurse remains accountable for verifying the rights of medication administration",
         sideEffects:
           "Medication errors may occur if verification steps are skipped under time pressure",
         contra:
@@ -66,8 +66,8 @@ export const leadershipManagementLessons: Record<string, LessonContent> = {
       }
     ],
     pearls: [
-      "Delegation does not transfer accountability; the RPN remains responsible for outcomes of delegated tasks",
-      "The right to refuse an assignment exists when the task is outside scope of practice or the RPN lacks competency, but must follow proper refusal procedures",
+      "Delegation does not transfer accountability; the nurse remains responsible for outcomes of delegated tasks",
+      "The right to refuse an assignment exists when the task is outside scope of practice or the nurse lacks competency, but must follow proper refusal procedures",
       "Just culture categorizes errors into three tiers: human error (consoling), at-risk behavior (coaching), and reckless conduct (disciplinary action)",
       "Incident reports are quality improvement tools, not disciplinary documents; they should contain objective facts without personal opinions",
       "Time management at the bedside begins with assessing all assigned clients and identifying priorities before initiating care"
@@ -75,7 +75,7 @@ export const leadershipManagementLessons: Record<string, LessonContent> = {
     quiz: [
       {
         question:
-          "An RPN is delegating morning hygiene care to a UAP. Which action by the RPN is most appropriate?",
+          "An RPN is delegating morning hygiene care to a UAP. Which action by the nurse is most appropriate?",
         options: [
           "Delegate the task and move on to other responsibilities",
           "Assess the client first, provide clear instructions, and plan to follow up",
@@ -84,7 +84,7 @@ export const leadershipManagementLessons: Record<string, LessonContent> = {
         ],
         correct: 1,
         rationale:
-          "The RPN must assess the client before delegating, provide clear instructions with expected outcomes, and follow up. Assessment cannot be delegated to a UAP, and the RPN should request reporting of any changes, not just emergencies."
+          "The nurse must assess the client before delegating, provide clear instructions with expected outcomes, and follow up. Assessment cannot be delegated to a UAP, and the nurse should request reporting of any changes, not just emergencies."
       },
       {
         question:
@@ -101,7 +101,7 @@ export const leadershipManagementLessons: Record<string, LessonContent> = {
       },
       {
         question:
-          "An RPN is assigned a client whose condition requires interventions beyond the RPN scope of practice. What is the most appropriate action?",
+          "An RPN is assigned a client whose condition requires interventions beyond the nurse scope of practice. What is the most appropriate action?",
         options: [
           "Attempt the interventions and ask for help if problems arise",
           "Refuse the assignment without notifying anyone",
@@ -110,17 +110,17 @@ export const leadershipManagementLessons: Record<string, LessonContent> = {
         ],
         correct: 2,
         rationale:
-          "The RPN has a professional obligation to refuse assignments outside their scope of practice but must follow proper procedures, which include notifying the charge nurse and documenting the concern. Attempting tasks beyond scope or delegating them to a UAP would compromise patient safety."
+          "The nurse has a professional obligation to refuse assignments outside their scope of practice but must follow proper procedures, which include notifying the charge nurse and documenting the concern. Attempting tasks beyond scope or delegating them to a UAP would compromise patient safety."
       }
     ]
   },
 
   "leadership-mgmt-rn": {
-    title: "RN Leadership and Management",
+    title: "Leadership and Management",
     cellular: {
-      title: "RN Leadership, Delegation, and Charge Nurse Responsibilities",
+      title: "Leadership, Delegation",
       content:
-        "Registered Nurses hold expanded leadership responsibilities including charge nurse functions, delegation oversight, and team coordination across multiple patient assignments. The Five Rights of Delegation guide RN decision-making: right task, right circumstance, right person, right directions and communication, and right supervision and evaluation. The RN retains full accountability for all delegated tasks and must match patient acuity to staff competency when making assignments. Prioritization frameworks such as ABCs (airway, breathing, circulation) and Maslow's hierarchy of needs provide structured approaches to clinical decision-making and time management during complex patient care scenarios."
+        "Registered Nurses hold expanded leadership responsibilities including charge nurse functions, delegation oversight, and team coordination across multiple patient assignments. The Five Rights of Delegation guide RN decision-making: right task, right circumstance, right person, right directions and communication, and right supervision and evaluation. The nurse retains full accountability for all delegated tasks and must match patient acuity to staff competency when making assignments. Prioritization frameworks such as ABCs (airway, breathing, circulation) and Maslow's hierarchy of needs provide structured approaches to clinical decision-making and time management during complex patient care scenarios."
     },
     riskFactors: [
       "Delegating assessment, evaluation, or nursing judgment tasks to unlicensed personnel",
@@ -212,7 +212,7 @@ export const leadershipManagementLessons: Record<string, LessonContent> = {
         ],
         correct: 2,
         rationale:
-          "A blood glucose of 45 mg/dL indicates hypoglycemia requiring immediate RN assessment and intervention. The RN retains responsibility for clinical evaluation and treatment decisions. Delegating treatment to the UAP or delaying assessment could result in serious harm."
+          "A blood glucose of 45 mg/dL indicates hypoglycemia requiring immediate RN assessment and intervention. The nurse retains responsibility for clinical evaluation and treatment decisions. Delegating treatment to the UAP or delaying assessment could result in serious harm."
       },
       {
         question:
@@ -231,9 +231,9 @@ export const leadershipManagementLessons: Record<string, LessonContent> = {
   },
 
   "leadership-mgmt-np": {
-    title: "NP Leadership and Management",
+    title: "Leadership and Management",
     cellular: {
-      title: "Advanced Practice Leadership and Healthcare System Management",
+      title: "Practice Leadership",
       content:
         "Nurse Practitioners function as healthcare team leaders who integrate clinical expertise with system-level management responsibilities including interprofessional collaboration, practice operations, and health policy advocacy. NP leadership extends beyond direct patient care to encompass program development, population health management, and organizational change using evidence-based frameworks. Quality metrics and outcomes measurement drive NP practice evaluation, requiring competency in data analysis, benchmarking, and translating research into clinical protocols. Resource allocation ethics challenge NPs to balance individual patient needs against population-level health outcomes while maintaining regulatory compliance and managing organizational risk."
     },
@@ -296,9 +296,9 @@ export const leadershipManagementLessons: Record<string, LessonContent> = {
     pearls: [
       "Organizational change management requires assessing readiness, building a guiding coalition, creating a vision, communicating the change, empowering action, generating short-term wins, and anchoring change in the culture",
       "Population health management shifts focus from individual encounters to panel-level outcomes using risk stratification, care coordination, and preventive interventions",
-      "Revenue cycle basics for NP practice include proper coding and documentation (E/M levels), timely claim submission, denial management, and understanding reimbursement models (fee-for-service versus value-based)",
+      "Revenue cycle basics In clinical practice include proper coding and documentation (E/M levels), timely claim submission, denial management, and understanding reimbursement models (fee-for-service versus value-based)",
       "The GRADE framework (Grading of Recommendations, Assessment, Development, and Evaluation) helps NPs critically appraise evidence quality when developing or updating clinical protocols",
-      "Risk management in NP practice includes maintaining adequate documentation, obtaining informed consent, following up on diagnostic results, and establishing reliable referral tracking systems"
+      "Risk management In clinical practice includes maintaining adequate documentation, obtaining informed consent, following up on diagnostic results, and establishing reliable referral tracking systems"
     ],
     quiz: [
       {
@@ -316,7 +316,7 @@ export const leadershipManagementLessons: Record<string, LessonContent> = {
       },
       {
         question:
-          "An NP practice manager notices declining revenue despite stable patient volume. Which action should the NP prioritize first?",
+          "An NP practice manager notices declining revenue despite stable patient volume. Which action should the clinician prioritize first?",
         options: [
           "Increase the number of patients scheduled per day",
           "Audit coding and documentation practices for appropriate E/M level capture",

@@ -4,11 +4,11 @@ const imgVPShunt = "/attached_assets/VP_1773375165171.png";
 
 export const clinicalConditionsBatchILessons: Record<string, LessonContent> = {
   "trisomy-21-management-rpn": {
-    title: "Trisomy 21 (Down Syndrome): RPN Monitoring",
+    title: "Trisomy 21 (Down Syndrome)",
     image: imgTrisomy21,
     cellular: {
       title: "Chromosomal Nondisjunction",
-      content: "Trisomy 21, or Down syndrome, results from an extra copy of chromosome 21 due to nondisjunction during meiosis. This chromosomal abnormality leads to overexpression of genes on chromosome 21, affecting multiple organ systems. The extra genetic material disrupts normal development, causing characteristic physical features, intellectual disability, and increased risk of congenital heart defects. Down syndrome is the most common chromosomal cause of intellectual disability. The RPN assists with monitoring growth and development, supporting feeding, and reporting changes in respiratory or cardiac status."
+      content: "Trisomy 21, or Down syndrome, results from an extra copy of chromosome 21 due to nondisjunction during meiosis. This chromosomal abnormality leads to overexpression of genes on chromosome 21, affecting multiple organ systems. The extra genetic material disrupts normal development, causing characteristic physical features, intellectual disability, and increased risk of congenital heart defects. Down syndrome is the most common chromosomal cause of intellectual disability. The nurse assists with monitoring growth and development, supporting feeding, and reporting changes in respiratory or cardiac status."
     },
     riskFactors: [
       "Advanced maternal age (especially >35 years)",
@@ -71,17 +71,17 @@ export const clinicalConditionsBatchILessons: Record<string, LessonContent> = {
     ],
     quiz: [
       { question: "Which physical finding is characteristic of trisomy 21?", options: ["Port-wine stain on the face", "Single palmar transverse crease", "Café-au-lait spots", "Webbed neck"], correct: 1, rationale: "A single palmar transverse crease (simian crease) is a classic physical finding in trisomy 21, along with upslanting palpebral fissures, epicanthal folds, and low-set ears." },
-      { question: "What should the RPN do before feeding an infant with Down syndrome?", options: ["Position the infant flat on their back", "Suction the nose with a bulb syringe", "Withhold feedings until a swallow study is completed", "Administer supplemental oxygen"], correct: 1, rationale: "Infants with Down syndrome often have nasal congestion. Suctioning the nose before feedings helps clear the airway and improves feeding ability." },
+      { question: "What should the nurse do before feeding an infant with Down syndrome?", options: ["Position the infant flat on their back", "Suction the nose with a bulb syringe", "Withhold feedings until a swallow study is completed", "Administer supplemental oxygen"], correct: 1, rationale: "Infants with Down syndrome often have nasal congestion. Suctioning the nose before feedings helps clear the airway and improves feeding ability." },
       { question: "Why are rest periods important during feeding for an infant with Down syndrome?", options: ["To prevent overfeeding", "Because these infants are prone to respiratory issues and fatigue easily", "To allow for medication administration", "Because they have hypoglycemia"], correct: 1, rationale: "Infants with Down syndrome are prone to respiratory issues and have decreased muscle tone, causing them to fatigue easily during feedings. Rest periods help prevent respiratory distress." }
     ]
   },
 
   "trisomy-21-management-rn": {
-    title: "Trisomy 21 (Down Syndrome): RN Clinical Management",
+    title: "Trisomy 21 (Down Syndrome)",
     image: imgTrisomy21,
     cellular: {
       title: "Pathophysiology of Trisomy 21",
-      content: "Trisomy 21 occurs when nondisjunction during meiosis produces a gamete with an extra chromosome 21, resulting in 47 chromosomes instead of 46. The overexpression of genes on chromosome 21 leads to disrupted embryogenesis affecting the cardiac septum (endocardial cushion defects), craniofacial development, GI tract (duodenal atresia, Hirschsprung disease), and central nervous system (reduced neuronal density). Approximately 95% of cases are full trisomy 21, while 3-4% result from Robertsonian translocation and 1-2% from mosaicism. The RN must coordinate comprehensive multidisciplinary care, manage cardiac and respiratory complications, perform developmental screening, and educate families on long-term health surveillance."
+      content: "Trisomy 21 occurs when nondisjunction during meiosis produces a gamete with an extra chromosome 21, resulting in 47 chromosomes instead of 46. The overexpression of genes on chromosome 21 leads to disrupted embryogenesis affecting the cardiac septum (endocardial cushion defects), craniofacial development, GI tract (duodenal atresia, Hirschsprung disease), and central nervous system (reduced neuronal density). Approximately 95% of cases are full trisomy 21, while 3-4% result from Robertsonian translocation and 1-2% from mosaicism. The nurse must coordinate comprehensive multidisciplinary care, manage cardiac and respiratory complications, perform developmental screening, and educate families on long-term health surveillance."
     },
     riskFactors: [
       "Advanced maternal age (risk increases exponentially after age 35)",
@@ -158,11 +158,11 @@ export const clinicalConditionsBatchILessons: Record<string, LessonContent> = {
   },
 
   "trisomy-21-management-np": {
-    title: "Trisomy 21 (Down Syndrome): NP Prescriptive Management",
+    title: "Trisomy 21 (Down Syndrome)",
     image: imgTrisomy21,
     cellular: {
-      title: "Advanced Genetics and Multi-System Pathophysiology",
-      content: "Trisomy 21 results from meiotic nondisjunction (95%), Robertsonian translocation (3-4%), or mosaicism (1-2%), producing an extra copy of chromosome 21 with overexpression of over 300 genes. The DSCR (Down Syndrome Critical Region) on 21q22 drives many phenotypic features. Overexpression of DYRK1A contributes to intellectual disability, while COL6A1 and COL6A2 overexpression affects connective tissue integrity. Cardiac septal development is disrupted by altered VEGF-A signaling, resulting in endocardial cushion defects. The NP must manage the full spectrum of health surveillance including prescribing thyroid replacement, managing cardiac follow-up, screening for hematologic malignancies, evaluating for atlantoaxial instability, and coordinating transition to adult care."
+      title: "Genetics and Multi-System Pathophysiology",
+      content: "Trisomy 21 results from meiotic nondisjunction (95%), Robertsonian translocation (3-4%), or mosaicism (1-2%), producing an extra copy of chromosome 21 with overexpression of over 300 genes. The DSCR (Down Syndrome Critical Region) on 21q22 drives many phenotypic features. Overexpression of DYRK1A contributes to intellectual disability, while COL6A1 and COL6A2 overexpression affects connective tissue integrity. Cardiac septal development is disrupted by altered VEGF-A signaling, resulting in endocardial cushion defects. The clinician must manage the full spectrum of health surveillance including prescribing thyroid replacement, managing cardiac follow-up, screening for hematologic malignancies, evaluating for atlantoaxial instability, and coordinating transition to adult care."
     },
     riskFactors: [
       "Advanced maternal age (1:350 at age 35, 1:100 at age 40, 1:25 at age 45)",
@@ -236,16 +236,16 @@ export const clinicalConditionsBatchILessons: Record<string, LessonContent> = {
     ],
     quiz: [
       { question: "At what age should polysomnography be ordered for a child with Down syndrome?", options: ["At birth", "By age 2", "By age 4", "Only when snoring develops"], correct: 2, rationale: "AAP guidelines recommend polysomnography for all children with Down syndrome by age 4 to screen for obstructive sleep apnea, which affects up to 50% of individuals with Down syndrome." },
-      { question: "An NP is evaluating a 45-year-old adult with Down syndrome who presents with progressive memory loss and personality changes. What should the NP suspect?", options: ["Hypothyroidism", "Early-onset Alzheimer disease", "Schizophrenia", "Vitamin B12 deficiency"], correct: 1, rationale: "Adults with Down syndrome are at very high risk for early-onset Alzheimer disease, with neuropathological changes developing almost universally by age 40. Progressive memory loss and personality changes in this population should raise suspicion for Alzheimer disease." },
+      { question: "An NP is evaluating a 45-year-old adult with Down syndrome who presents with progressive memory loss and personality changes. What should the clinician suspect?", options: ["Hypothyroidism", "Early-onset Alzheimer disease", "Schizophrenia", "Vitamin B12 deficiency"], correct: 1, rationale: "Adults with Down syndrome are at very high risk for early-onset Alzheimer disease, with neuropathological changes developing almost universally by age 40. Progressive memory loss and personality changes in this population should raise suspicion for Alzheimer disease." },
       { question: "Which genetic mechanism accounts for approximately 95% of trisomy 21 cases?", options: ["Robertsonian translocation", "Meiotic nondisjunction", "Mosaicism", "Ring chromosome formation"], correct: 1, rationale: "Meiotic nondisjunction, the failure of chromosomes to separate properly during cell division, accounts for approximately 95% of trisomy 21 cases. Translocation accounts for 3-4% and mosaicism for 1-2%." }
     ]
   },
 
   "hypospadias-management-rpn": {
-    title: "Hypospadias: RPN Monitoring",
+    title: "Hypospadias",
     cellular: {
       title: "Urethral Development Failure",
-      content: "Hypospadias is a congenital defect resulting from the failure of the urethral folds to fuse completely during fetal development. This results in an abnormal urethral opening on the underside (ventral surface) of the penis, anywhere between the glans and the perineum. The defect may be accompanied by chordee (ventral curvature of the penis) and an incomplete foreskin (dorsal hood). If left untreated, hypospadias can cause difficulties with toilet training, frequent urinary tract infections, and inability to achieve normal erections. The RPN monitors for post-operative complications, assists with catheter care, and educates families on activity restrictions."
+      content: "Hypospadias is a congenital defect resulting from the failure of the urethral folds to fuse completely during fetal development. This results in an abnormal urethral opening on the underside (ventral surface) of the penis, anywhere between the glans and the perineum. The defect may be accompanied by chordee (ventral curvature of the penis) and an incomplete foreskin (dorsal hood). If left untreated, hypospadias can cause difficulties with toilet training, frequent urinary tract infections, and inability to achieve normal erections. The nurse monitors for post-operative complications, assists with catheter care, and educates families on activity restrictions."
     },
     riskFactors: [
       "Family history of hypospadias",
@@ -306,15 +306,15 @@ export const clinicalConditionsBatchILessons: Record<string, LessonContent> = {
     quiz: [
       { question: "Why is circumcision contraindicated in an infant with hypospadias?", options: ["It increases the risk of UTI", "The foreskin tissue is needed for surgical repair", "It can cause excessive bleeding", "The infant is too young for the procedure"], correct: 1, rationale: "The foreskin tissue is used as graft material during hypospadias repair surgery. Circumcision would remove this tissue and compromise the surgical reconstruction." },
       { question: "What is the recommended timing for hypospadias surgical repair?", options: ["At birth", "6-12 months of age", "2-3 years of age", "After puberty"], correct: 1, rationale: "Surgical repair is ideally performed between 6-12 months of age. This timing allows adequate tissue development while minimizing psychological impact and the child's awareness of genital surgery." },
-      { question: "Which activity restriction should the RPN reinforce for a post-operative hypospadias repair patient?", options: ["No swimming for 6 months", "Avoid straddle toys during healing", "Bed rest for 2 weeks", "No bathing for 1 month"], correct: 1, rationale: "Straddle toys (bicycles, rocking horses) must be avoided post-operatively to prevent pressure on the surgical repair site and reduce the risk of fistula formation." }
+      { question: "Which activity restriction should the nurse reinforce for a post-operative hypospadias repair patient?", options: ["No swimming for 6 months", "Avoid straddle toys during healing", "Bed rest for 2 weeks", "No bathing for 1 month"], correct: 1, rationale: "Straddle toys (bicycles, rocking horses) must be avoided post-operatively to prevent pressure on the surgical repair site and reduce the risk of fistula formation." }
     ]
   },
 
   "hypospadias-management-rn": {
-    title: "Hypospadias: RN Clinical Management",
+    title: "Hypospadias",
     cellular: {
       title: "Embryologic Urethral Development",
-      content: "Hypospadias results from incomplete fusion of the urethral folds during weeks 8-14 of embryonic development, when androgens (primarily dihydrotestosterone) direct masculinization of the external genitalia. Inadequate androgen signaling or receptor dysfunction leads to an ectopic urethral meatus on the ventral surface of the penis. The defect is classified by meatal location: glanular/coronal (anterior, ~50%), penile shaft (middle, ~30%), or penoscrotal/perineal (posterior, ~20%). Associated abnormalities include chordee and a dorsally hooded foreskin. The RN manages perioperative care, monitors for surgical complications including urethral fistula and meatal stenosis, coordinates pain management, and provides comprehensive family education."
+      content: "Hypospadias results from incomplete fusion of the urethral folds during weeks 8-14 of embryonic development, when androgens (primarily dihydrotestosterone) direct masculinization of the external genitalia. Inadequate androgen signaling or receptor dysfunction leads to an ectopic urethral meatus on the ventral surface of the penis. The defect is classified by meatal location: glanular/coronal (anterior, ~50%), penile shaft (middle, ~30%), or penoscrotal/perineal (posterior, ~20%). Associated abnormalities include chordee and a dorsally hooded foreskin. The nurse manages perioperative care, monitors for surgical complications including urethral fistula and meatal stenosis, coordinates pain management, and provides comprehensive family education."
     },
     riskFactors: [
       "Familial inheritance (8% risk with affected father, 14% with affected brother)",
@@ -383,16 +383,16 @@ export const clinicalConditionsBatchILessons: Record<string, LessonContent> = {
     ],
     quiz: [
       { question: "What is the most common complication following hypospadias surgical repair?", options: ["Meatal stenosis", "Urethral fistula", "Wound dehiscence", "Urinary retention"], correct: 1, rationale: "Urethral fistula, where urine leaks through a secondary opening along the repair site, is the most common complication of hypospadias surgery, occurring in 5-20% of cases." },
-      { question: "When should the RN suspect a disorder of sex development (DSD) in a newborn with hypospadias?", options: ["Any glanular hypospadias", "Posterior hypospadias with bilateral cryptorchidism", "Hypospadias with dorsal hooded foreskin", "Hypospadias in a premature infant"], correct: 1, rationale: "Posterior (severe) hypospadias with bilateral cryptorchidism raises concern for a disorder of sex development and requires urgent evaluation including karyotype analysis." },
+      { question: "When should the nurse suspect a disorder of sex development (DSD) in a newborn with hypospadias?", options: ["Any glanular hypospadias", "Posterior hypospadias with bilateral cryptorchidism", "Hypospadias with dorsal hooded foreskin", "Hypospadias in a premature infant"], correct: 1, rationale: "Posterior (severe) hypospadias with bilateral cryptorchidism raises concern for a disorder of sex development and requires urgent evaluation including karyotype analysis." },
       { question: "What is the purpose of the double-diaper technique after hypospadias repair?", options: ["To prevent catheter displacement and separate stool from the catheter", "To absorb more urine", "To keep the infant warm", "To prevent diaper rash"], correct: 0, rationale: "The double-diaper technique uses an inner diaper to contain stool and an outer diaper to secure and protect the catheter, preventing contamination of the surgical site with fecal bacteria." }
     ]
   },
 
   "hypospadias-management-np": {
-    title: "Hypospadias: NP Prescriptive Management",
+    title: "Hypospadias",
     cellular: {
       title: "Androgen-Dependent Urethral Morphogenesis",
-      content: "Urethral development occurs between weeks 8-14 of gestation through androgen-dependent fusion of the urethral folds over the urethral plate. Dihydrotestosterone (DHT), converted from testosterone by 5-alpha reductase in genital skin, drives this closure from proximal to distal. Hypospadias results from insufficient DHT signaling due to genetic mutations (SRD5A2, AR gene variants), placental insufficiency reducing hCG-driven fetal testosterone, or environmental endocrine disruptors. Posterior hypospadias may indicate broader anomalies of sex development (46,XY DSD). The NP evaluates severity, prescribes pre-operative testosterone therapy for severe cases, manages post-operative complications, and coordinates long-term urological follow-up including fertility implications."
+      content: "Urethral development occurs between weeks 8-14 of gestation through androgen-dependent fusion of the urethral folds over the urethral plate. Dihydrotestosterone (DHT), converted from testosterone by 5-alpha reductase in genital skin, drives this closure from proximal to distal. Hypospadias results from insufficient DHT signaling due to genetic mutations (SRD5A2, AR gene variants), placental insufficiency reducing hCG-driven fetal testosterone, or environmental endocrine disruptors. Posterior hypospadias may indicate broader anomalies of sex development (46,XY DSD). The clinician evaluates severity, prescribes pre-operative testosterone therapy for severe cases, manages post-operative complications, and coordinates long-term urological follow-up including fertility implications."
     },
     riskFactors: [
       "Monogenic defects in androgen synthesis or receptor pathway (SRD5A2, AR mutations)",
@@ -468,10 +468,10 @@ export const clinicalConditionsBatchILessons: Record<string, LessonContent> = {
   },
 
   "duchenne-md-management-rpn": {
-    title: "Duchenne Muscular Dystrophy: RPN Monitoring",
+    title: "Duchenne Muscular Dystrophy",
     cellular: {
       title: "Dystrophin Deficiency and Muscle Degeneration",
-      content: "Duchenne muscular dystrophy (DMD) is an X-linked recessive disorder caused by mutations in the dystrophin gene, resulting in absence of the dystrophin protein needed for muscle fiber stabilization. Without dystrophin, the muscle cell membrane becomes fragile and susceptible to damage during contraction. Repeated cycles of muscle damage, inflammation, and attempted regeneration eventually lead to replacement of muscle fibers with fat and connective tissue. The disease primarily affects boys, with onset between ages 2-5 years. Muscles of the proximal lower extremities and pelvis are affected first. The RPN monitors mobility, assists with fall prevention, and reports changes in motor function or respiratory status."
+      content: "Duchenne muscular dystrophy (DMD) is an X-linked recessive disorder caused by mutations in the dystrophin gene, resulting in absence of the dystrophin protein needed for muscle fiber stabilization. Without dystrophin, the muscle cell membrane becomes fragile and susceptible to damage during contraction. Repeated cycles of muscle damage, inflammation, and attempted regeneration eventually lead to replacement of muscle fibers with fat and connective tissue. The disease primarily affects boys, with onset between ages 2-5 years. Muscles of the proximal lower extremities and pelvis are affected first. The nurse monitors mobility, assists with fall prevention, and reports changes in motor function or respiratory status."
     },
     riskFactors: [
       "Male sex (X-linked recessive inheritance)",
@@ -535,16 +535,16 @@ export const clinicalConditionsBatchILessons: Record<string, LessonContent> = {
     ],
     quiz: [
       { question: "Which clinical finding is the hallmark sign of Duchenne muscular dystrophy?", options: ["Babinski sign", "Gower sign", "Kernig sign", "Brudzinski sign"], correct: 1, rationale: "Gower sign is the hallmark finding in DMD. The child uses their hands on their legs to 'walk up' their body from a seated or squatting position, compensating for proximal muscle weakness in the pelvis and lower extremities." },
-      { question: "Which type of exercise should the RPN encourage for a child with DMD?", options: ["High-intensity weight training", "Contact sports", "Swimming and gentle recreational exercise", "Competitive running"], correct: 2, rationale: "Swimming and gentle recreational exercises are encouraged because they maintain mobility without placing excessive stress on weakened muscles and joints. High-impact and strenuous activities may accelerate muscle damage." },
+      { question: "Which type of exercise should the nurse encourage for a child with DMD?", options: ["High-intensity weight training", "Contact sports", "Swimming and gentle recreational exercise", "Competitive running"], correct: 2, rationale: "Swimming and gentle recreational exercises are encouraged because they maintain mobility without placing excessive stress on weakened muscles and joints. High-impact and strenuous activities may accelerate muscle damage." },
       { question: "What is the most important environmental modification for a child with DMD?", options: ["Installing grab bars in the shower", "Removing rugs and clutter to prevent falls", "Lowering the thermostat", "Adding night lights only"], correct: 1, rationale: "Children with DMD are at high risk for falls due to progressive proximal weakness and gait instability. Removing rugs, clutter, and other tripping hazards is the most important safety measure." }
     ]
   },
 
   "duchenne-md-management-rn": {
-    title: "Duchenne Muscular Dystrophy: RN Clinical Management",
+    title: "Duchenne Muscular Dystrophy",
     cellular: {
       title: "Pathophysiology of Dystrophinopathy",
-      content: "Duchenne muscular dystrophy results from mutations in the DMD gene on Xp21, the largest known human gene encoding the protein dystrophin. Dystrophin functions as a structural bridge between the intracellular actin cytoskeleton and the extracellular matrix via the dystrophin-associated glycoprotein complex (DAGC). Without dystrophin, the sarcolemma loses mechanical stability during muscle contraction, allowing calcium influx that activates proteases and triggers necrosis. Ongoing cycles of necrosis overwhelm satellite cell-mediated regeneration, leading to progressive fibrosis and fatty replacement. The RN manages multi-system complications including respiratory decline, cardiomyopathy screening, mobility preservation, nutritional optimization, and psychosocial support for the child and family."
+      content: "Duchenne muscular dystrophy results from mutations in the DMD gene on Xp21, the largest known human gene encoding the protein dystrophin. Dystrophin functions as a structural bridge between the intracellular actin cytoskeleton and the extracellular matrix via the dystrophin-associated glycoprotein complex (DAGC). Without dystrophin, the sarcolemma loses mechanical stability during muscle contraction, allowing calcium influx that activates proteases and triggers necrosis. Ongoing cycles of necrosis overwhelm satellite cell-mediated regeneration, leading to progressive fibrosis and fatty replacement. The nurse manages multi-system complications including respiratory decline, cardiomyopathy screening, mobility preservation, nutritional optimization, and psychosocial support for the child and family."
     },
     riskFactors: [
       "X-linked recessive inheritance (affects almost exclusively males)",
@@ -620,10 +620,10 @@ export const clinicalConditionsBatchILessons: Record<string, LessonContent> = {
   },
 
   "duchenne-md-management-np": {
-    title: "Duchenne Muscular Dystrophy: NP Prescriptive Management",
+    title: "Duchenne Muscular Dystrophy",
     cellular: {
-      title: "Molecular Pathogenesis and Emerging Therapeutics",
-      content: "DMD results from loss-of-function mutations (65% large deletions, 10% duplications, 25% point mutations/small indels) in the DMD gene at Xp21.2, the largest human gene spanning 2.4 megabases. The reading frame rule predicts severity: out-of-frame mutations cause DMD (no functional dystrophin), while in-frame mutations cause the milder Becker muscular dystrophy (truncated but partially functional dystrophin). Dystrophin anchors the subsarcolemmal cytoskeleton to the dystrophin-associated glycoprotein complex, protecting the membrane during eccentric contractions. Loss of dystrophin leads to sarcolemmal microinjury, calcium-mediated protease activation, mitochondrial dysfunction, and chronic inflammatory fibrosis. The NP manages the complete spectrum of DMD care including prescribing corticosteroids, initiating cardioprotective therapy, managing respiratory decline, overseeing molecular therapies (exon-skipping, gene therapy), and coordinating multidisciplinary care through disease progression."
+      title: "Molecular Pathogenesis",
+      content: "DMD results from loss-of-function mutations (65% large deletions, 10% duplications, 25% point mutations/small indels) in the DMD gene at Xp21.2, the largest human gene spanning 2.4 megabases. The reading frame rule predicts severity: out-of-frame mutations cause DMD (no functional dystrophin), while in-frame mutations cause the milder Becker muscular dystrophy (truncated but partially functional dystrophin). Dystrophin anchors the subsarcolemmal cytoskeleton to the dystrophin-associated glycoprotein complex, protecting the membrane during eccentric contractions. Loss of dystrophin leads to sarcolemmal microinjury, calcium-mediated protease activation, mitochondrial dysfunction, and chronic inflammatory fibrosis. The clinician manages the complete spectrum of DMD care including prescribing corticosteroids, initiating cardioprotective therapy, managing respiratory decline, overseeing molecular therapies (exon-skipping, gene therapy), and coordinating multidisciplinary care through disease progression."
     },
     riskFactors: [
       "X-linked recessive inheritance (1 in 3,500-5,000 male births)",
@@ -695,17 +695,17 @@ export const clinicalConditionsBatchILessons: Record<string, LessonContent> = {
     ],
     quiz: [
       { question: "Which molecular mechanism differentiates Duchenne from Becker muscular dystrophy?", options: ["Different genes are affected", "Duchenne has out-of-frame mutations while Becker has in-frame mutations in the same gene", "Becker affects females while Duchenne affects males", "Duchenne involves mitochondrial DNA mutations"], correct: 1, rationale: "The reading frame rule explains the difference: out-of-frame mutations in the DMD gene produce no functional dystrophin (Duchenne), while in-frame mutations produce a truncated but partially functional protein (Becker). Both disorders involve the same gene." },
-      { question: "At what FVC threshold should the NP initiate nocturnal non-invasive ventilation in DMD?", options: ["<80% predicted", "<60% predicted", "<50% predicted or with nocturnal desaturation", "<30% predicted"], correct: 2, rationale: "Nocturnal BiPAP is initiated when FVC falls below 50% predicted or when sleep studies demonstrate nocturnal hypoventilation/desaturation. Early initiation of NIV has been shown to extend survival in DMD." },
+      { question: "At what FVC threshold should the clinician initiate nocturnal non-invasive ventilation in DMD?", options: ["<80% predicted", "<60% predicted", "<50% predicted or with nocturnal desaturation", "<30% predicted"], correct: 2, rationale: "Nocturnal BiPAP is initiated when FVC falls below 50% predicted or when sleep studies demonstrate nocturnal hypoventilation/desaturation. Early initiation of NIV has been shown to extend survival in DMD." },
       { question: "What percentage of DMD patients are eligible for eteplirsen (exon 51 skipping)?", options: ["All patients with DMD", "Approximately 50%", "Approximately 13%", "Less than 1%"], correct: 2, rationale: "Eteplirsen targets exon 51 skipping and is applicable to approximately 13% of DMD patients whose specific deletions are amenable to this approach. Genetic testing must confirm eligibility." }
     ]
   },
 
   "vp-shunt-management-rpn": {
-    title: "Ventriculoperitoneal Shunt: RPN Monitoring",
+    title: "Ventriculoperitoneal Shunt",
     image: imgVPShunt,
     cellular: {
       title: "CSF Diversion for Hydrocephalus",
-      content: "A ventriculoperitoneal (VP) shunt is a surgically implanted device that diverts excess cerebrospinal fluid (CSF) from the ventricles of the brain to the peritoneal cavity, where it is reabsorbed. Hydrocephalus occurs when CSF production exceeds absorption, or when flow is obstructed, causing ventricular dilation and increased intracranial pressure (ICP). The shunt system consists of a proximal catheter (in the ventricle), a one-way valve, and a distal catheter (in the peritoneum). The RPN monitors for signs of shunt malfunction and increased ICP, reports changes immediately, and assists with pre- and post-operative care."
+      content: "A ventriculoperitoneal (VP) shunt is a surgically implanted device that diverts excess cerebrospinal fluid (CSF) from the ventricles of the brain to the peritoneal cavity, where it is reabsorbed. Hydrocephalus occurs when CSF production exceeds absorption, or when flow is obstructed, causing ventricular dilation and increased intracranial pressure (ICP). The shunt system consists of a proximal catheter (in the ventricle), a one-way valve, and a distal catheter (in the peritoneum). The nurse monitors for signs of shunt malfunction and increased ICP, reports changes immediately, and assists with pre- and post-operative care."
     },
     riskFactors: [
       "Premature birth with intraventricular hemorrhage",
@@ -771,18 +771,18 @@ export const clinicalConditionsBatchILessons: Record<string, LessonContent> = {
       "Contact sports such as boxing and wrestling should be avoided to prevent shunt displacement"
     ],
     quiz: [
-      { question: "Which finding should the RPN report immediately in an infant with a VP shunt?", options: ["Soft, flat fontanelle", "Bulging fontanelle with persistent irritability", "Normal feeding pattern", "Head circumference unchanged from last visit"], correct: 1, rationale: "A bulging fontanelle with persistent irritability indicates increased intracranial pressure and possible shunt malfunction. This requires immediate notification as it is a medical emergency." },
-      { question: "What should the RPN assess if fluid is draining from the shunt incision site?", options: ["Test the drainage for glucose, as CSF contains glucose", "Assume it is normal wound drainage", "Apply a pressure dressing and wait", "Irrigate the site with saline"], correct: 0, rationale: "CSF contains glucose, and testing drainage from the shunt site for glucose helps determine if it is a CSF leak, which requires urgent medical attention." },
+      { question: "Which finding should the nurse report immediately in an infant with a VP shunt?", options: ["Soft, flat fontanelle", "Bulging fontanelle with persistent irritability", "Normal feeding pattern", "Head circumference unchanged from last visit"], correct: 1, rationale: "A bulging fontanelle with persistent irritability indicates increased intracranial pressure and possible shunt malfunction. This requires immediate notification as it is a medical emergency." },
+      { question: "What should the nurse assess if fluid is draining from the shunt incision site?", options: ["Test the drainage for glucose, as CSF contains glucose", "Assume it is normal wound drainage", "Apply a pressure dressing and wait", "Irrigate the site with saline"], correct: 0, rationale: "CSF contains glucose, and testing drainage from the shunt site for glucose helps determine if it is a CSF leak, which requires urgent medical attention." },
       { question: "Which sport should be avoided by a child with a VP shunt?", options: ["Swimming", "Wrestling", "Walking", "Cycling with a helmet"], correct: 1, rationale: "Contact sports such as wrestling and boxing should be avoided because they pose a risk of shunt displacement or disconnection from physical impact." }
     ]
   },
 
   "vp-shunt-management-rn": {
-    title: "Ventriculoperitoneal Shunt: RN Clinical Management",
+    title: "Ventriculoperitoneal Shunt",
     image: imgVPShunt,
     cellular: {
-      title: "Hydrocephalus Pathophysiology and CSF Dynamics",
-      content: "Hydrocephalus results from imbalanced CSF dynamics: the choroid plexus produces approximately 500 mL/day of CSF, which flows from the lateral ventricles through the foramina of Monro, third ventricle, cerebral aqueduct, fourth ventricle, and into the subarachnoid space for reabsorption by arachnoid granulations. Obstruction at any point (obstructive/non-communicating) or impaired absorption (communicating) causes ventricular dilation and elevated ICP. The VP shunt bypasses the obstruction by directing CSF from a ventricular catheter through a pressure-regulated valve to the peritoneal cavity. The RN manages comprehensive pre- and post-operative care, monitors for shunt complications (malfunction, infection, overdrainage), performs neurological assessments, and educates families on long-term shunt management."
+      title: "Hydrocephalus Pathophysiology",
+      content: "Hydrocephalus results from imbalanced CSF dynamics: the choroid plexus produces approximately 500 mL/day of CSF, which flows from the lateral ventricles through the foramina of Monro, third ventricle, cerebral aqueduct, fourth ventricle, and into the subarachnoid space for reabsorption by arachnoid granulations. Obstruction at any point (obstructive/non-communicating) or impaired absorption (communicating) causes ventricular dilation and elevated ICP. The VP shunt bypasses the obstruction by directing CSF from a ventricular catheter through a pressure-regulated valve to the peritoneal cavity. The nurse manages comprehensive pre- and post-operative care, monitors for shunt complications (malfunction, infection, overdrainage), performs neurological assessments, and educates families on long-term shunt management."
     },
     riskFactors: [
       "Intraventricular hemorrhage of prematurity (most common cause in premature infants)",
@@ -856,17 +856,17 @@ export const clinicalConditionsBatchILessons: Record<string, LessonContent> = {
     ],
     quiz: [
       { question: "Which organism most commonly causes VP shunt infections?", options: ["Escherichia coli", "Staphylococcus epidermidis", "Pseudomonas aeruginosa", "Streptococcus pneumoniae"], correct: 1, rationale: "Staphylococcus epidermidis (coagulase-negative staphylococci) is the most common cause of VP shunt infections, typically introduced during surgery as skin flora contaminates the hardware." },
-      { question: "A child with a VP shunt presents with morning headaches, vomiting, and declining school performance. What should the RN suspect?", options: ["Migraine headache", "Gastroenteritis", "Shunt malfunction with increased ICP", "Sinusitis"], correct: 2, rationale: "Morning headaches, vomiting, and cognitive decline in a child with a VP shunt are classic signs of shunt malfunction causing increased intracranial pressure. This requires urgent imaging and neurosurgical evaluation." },
+      { question: "A child with a VP shunt presents with morning headaches, vomiting, and declining school performance. What should the nurse suspect?", options: ["Migraine headache", "Gastroenteritis", "Shunt malfunction with increased ICP", "Sinusitis"], correct: 2, rationale: "Morning headaches, vomiting, and cognitive decline in a child with a VP shunt are classic signs of shunt malfunction causing increased intracranial pressure. This requires urgent imaging and neurosurgical evaluation." },
       { question: "What is the approximate failure rate of VP shunts within the first year?", options: ["5%", "15%", "40%", "75%"], correct: 2, rationale: "Approximately 40% of VP shunts fail within the first year, making shunt malfunction the most common complication. Families must be educated on lifelong monitoring for signs of shunt failure." }
     ]
   },
 
   "vp-shunt-management-np": {
-    title: "Ventriculoperitoneal Shunt: NP Prescriptive Management",
+    title: "Ventriculoperitoneal Shunt",
     image: imgVPShunt,
     cellular: {
       title: "Advanced CSF Dynamics and Shunt Physiology",
-      content: "CSF is produced at 0.35 mL/min (~500 mL/day) primarily by the choroid plexus via active transport of Na+, Cl-, and HCO3- with osmotic water movement. Normal ICP is 5-15 mmHg in adults and 1.5-6 mmHg in infants. CSF absorption occurs at arachnoid granulations via pressure-dependent bulk flow. VP shunts use differential pressure valves (low, medium, high pressure), flow-regulated valves, or programmable valves (adjustable externally with magnetic tools) to regulate CSF drainage. The NP manages the complete spectrum of shunt-dependent hydrocephalus: prescribing pre-operative medications, managing shunt valve pressure settings, treating shunt infections with targeted antimicrobial therapy, evaluating for endoscopic third ventriculostomy (ETV) candidacy, and managing long-term complications including slit ventricle syndrome, overdrainage, and shunt dependency."
+      content: "CSF is produced at 0.35 mL/min (~500 mL/day) primarily by the choroid plexus via active transport of Na+, Cl-, and HCO3- with osmotic water movement. Normal ICP is 5-15 mmHg in adults and 1.5-6 mmHg in infants. CSF absorption occurs at arachnoid granulations via pressure-dependent bulk flow. VP shunts use differential pressure valves (low, medium, high pressure), flow-regulated valves, or programmable valves (adjustable externally with magnetic tools) to regulate CSF drainage. The clinician manages the complete spectrum of shunt-dependent hydrocephalus: prescribing pre-operative medications, managing shunt valve pressure settings, treating shunt infections with targeted antimicrobial therapy, evaluating for endoscopic third ventriculostomy (ETV) candidacy, and managing long-term complications including slit ventricle syndrome, overdrainage, and shunt dependency."
     },
     riskFactors: [
       "Grade III-IV intraventricular hemorrhage in premature infants",

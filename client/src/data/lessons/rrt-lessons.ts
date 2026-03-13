@@ -647,7 +647,7 @@ Management strategies target the specific V/Q abnormality. For low V/Q units: su
   },
 
   "hemodynamic-positive-pressure-rrt": {
-    title: "Hemodynamic Effects of Positive Pressure Ventilation",
+    title: "Hemodynamic Effects of Positive Pressure",
     cellular: `Positive pressure ventilation fundamentally alters the hemodynamic relationships within the thorax. Unlike spontaneous breathing, where negative intrathoracic pressure during inspiration assists venous return and right ventricular filling, mechanical ventilation applies positive pressure that opposes venous return and alters biventricular function. Understanding these interactions is essential for managing hemodynamically unstable ventilated patients.
 
 During spontaneous inspiration, diaphragmatic contraction generates negative pleural pressure (-5 to -8 cmH2O), expanding the thoracic cavity. This negative pressure increases the pressure gradient between the systemic veins and the right atrium, augmenting venous return (preload). Simultaneously, the negative intrathoracic pressure increases left ventricular transmural pressure (afterload), transiently impeding left ventricular ejection. During expiration, pleural pressure returns toward atmospheric, and venous return normalizes.
@@ -829,7 +829,7 @@ Tracheostomy is indicated for patients requiring prolonged mechanical ventilatio
   },
 
   "ventilator-troubleshooting-rrt": {
-    title: "Ventilator Troubleshooting and Alarm Management",
+    title: "Ventilator Troubleshooting",
     cellular: `Ventilator alarms and troubleshooting are daily clinical realities for respiratory therapists. Rapid, systematic alarm response prevents patient harm and guides appropriate interventions. Every alarm represents a change in the patient-ventilator system that must be evaluated, diagnosed, and corrected.
 
 High pressure alarms activate when peak inspiratory pressure (PIP) exceeds the set upper pressure limit (typically set 10-15 cmH2O above baseline PIP). High pressure indicates increased resistance to gas flow, decreased lung or chest wall compliance, or patient-ventilator dyssynchrony. The systematic approach to high pressure alarms follows the pathway from the ventilator to the patient: ventilator circuit (water in circuit, kinked tubing, obstructed expiratory filter), artificial airway (ETT kink, mucus plug in ETT, ETT cuff herniation, biting on ETT), and patient (bronchospasm, secretions in airways, pneumothorax, abdominal distension, patient-ventilator dyssynchrony, decreased compliance from atelectasis, ARDS progression, or pleural effusion).

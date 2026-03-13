@@ -5,7 +5,7 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
     "title": "Heart Failure: Neurohormonal Blockade",
     "cellular": {
       "title": "Pathophysiology of Heart Failure",
-      "content": "Heart Failure involves alterations in cardiac hemodynamics, vascular resistance, and myocardial oxygen supply-demand balance. At the cellular level, ischemic injury triggers anaerobic glycolysis, ATP depletion, and calcium overload leading to myocyte necrosis. Neurohormonal activation (RAAS, SNS) drives compensatory mechanisms that ultimately become maladaptive. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on neurohormonal blockade requires integration of molecular pathophysiology with clinical presentation patterns."
+      "content": "Heart Failure involves alterations in cardiac hemodynamics, vascular resistance, and myocardial oxygen supply-demand balance. At the cellular level, ischemic injury triggers anaerobic glycolysis, ATP depletion, and calcium overload leading to myocyte necrosis. Neurohormonal activation (RAAS, SNS) drives compensatory mechanisms that ultimately become maladaptive. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on neurohormonal blockade requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to heart failure",
@@ -96,7 +96,7 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for heart failure. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for heart failure. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
@@ -104,7 +104,7 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
     "title": "Atrial Fibrillation: Rate vs Rhythm Control",
     "cellular": {
       "title": "Pathophysiology of Atrial Fibrillation",
-      "content": "Atrial Fibrillation involves alterations in cardiac hemodynamics, vascular resistance, and myocardial oxygen supply-demand balance. At the cellular level, ischemic injury triggers anaerobic glycolysis, ATP depletion, and calcium overload leading to myocyte necrosis. Neurohormonal activation (RAAS, SNS) drives compensatory mechanisms that ultimately become maladaptive. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on rate vs rhythm control requires integration of molecular pathophysiology with clinical presentation patterns."
+      "content": "Atrial Fibrillation involves alterations in cardiac hemodynamics, vascular resistance, and myocardial oxygen supply-demand balance. At the cellular level, ischemic injury triggers anaerobic glycolysis, ATP depletion, and calcium overload leading to myocyte necrosis. Neurohormonal activation (RAAS, SNS) drives compensatory mechanisms that ultimately become maladaptive. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on rate vs rhythm control requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to atrial fibrillation",
@@ -195,7 +195,7 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for atrial fibrillation. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for atrial fibrillation. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
@@ -203,7 +203,7 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
     "title": "Hypertensive Emergency: End-Organ Damage",
     "cellular": {
       "title": "Pathophysiology of Hypertensive Emergency",
-      "content": "Hypertensive Emergency involves alterations in cardiac hemodynamics, vascular resistance, and myocardial oxygen supply-demand balance. At the cellular level, ischemic injury triggers anaerobic glycolysis, ATP depletion, and calcium overload leading to myocyte necrosis. Neurohormonal activation (RAAS, SNS) drives compensatory mechanisms that ultimately become maladaptive. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on end-organ damage requires integration of molecular pathophysiology with clinical presentation patterns."
+      "content": "Hypertensive Emergency involves alterations in cardiac hemodynamics, vascular resistance, and myocardial oxygen supply-demand balance. At the cellular level, ischemic injury triggers anaerobic glycolysis, ATP depletion, and calcium overload leading to myocyte necrosis. Neurohormonal activation (RAAS, SNS) drives compensatory mechanisms that ultimately become maladaptive. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on end-organ damage requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to hypertensive emergency",
@@ -294,7 +294,7 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for hypertensive emergency. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for hypertensive emergency. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
@@ -302,7 +302,7 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
     "title": "Acute Coronary Syndrome: Risk Stratification",
     "cellular": {
       "title": "Pathophysiology of Acute Coronary Syndrome",
-      "content": "Acute Coronary Syndrome involves alterations in cardiac hemodynamics, vascular resistance, and myocardial oxygen supply-demand balance. At the cellular level, ischemic injury triggers anaerobic glycolysis, ATP depletion, and calcium overload leading to myocyte necrosis. Neurohormonal activation (RAAS, SNS) drives compensatory mechanisms that ultimately become maladaptive. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on risk stratification requires integration of molecular pathophysiology with clinical presentation patterns."
+      "content": "Acute Coronary Syndrome involves alterations in cardiac hemodynamics, vascular resistance, and myocardial oxygen supply-demand balance. At the cellular level, ischemic injury triggers anaerobic glycolysis, ATP depletion, and calcium overload leading to myocyte necrosis. Neurohormonal activation (RAAS, SNS) drives compensatory mechanisms that ultimately become maladaptive. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on risk stratification requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to acute coronary syndrome",
@@ -393,7 +393,7 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for acute coronary syndrome. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for acute coronary syndrome. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
@@ -401,7 +401,7 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
     "title": "Cardiac Arrest: ACLS Algorithms",
     "cellular": {
       "title": "Pathophysiology of Cardiac Arrest",
-      "content": "Cardiac Arrest involves alterations in cardiac hemodynamics, vascular resistance, and myocardial oxygen supply-demand balance. At the cellular level, ischemic injury triggers anaerobic glycolysis, ATP depletion, and calcium overload leading to myocyte necrosis. Neurohormonal activation (RAAS, SNS) drives compensatory mechanisms that ultimately become maladaptive. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on acls algorithms requires integration of molecular pathophysiology with clinical presentation patterns."
+      "content": "Cardiac Arrest involves alterations in cardiac hemodynamics, vascular resistance, and myocardial oxygen supply-demand balance. At the cellular level, ischemic injury triggers anaerobic glycolysis, ATP depletion, and calcium overload leading to myocyte necrosis. Neurohormonal activation (RAAS, SNS) drives compensatory mechanisms that ultimately become maladaptive. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on acls algorithms requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to cardiac arrest",
@@ -492,15 +492,15 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for cardiac arrest. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for cardiac arrest. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
   "hfpef-np": {
     "title": "Heart Failure with Preserved EF",
     "cellular": {
-      "title": "Pathophysiology of Heart Failure with Preserved EF",
-      "content": "Heart Failure with Preserved EF involves alterations in cardiac hemodynamics, vascular resistance, and myocardial oxygen supply-demand balance. At the cellular level, ischemic injury triggers anaerobic glycolysis, ATP depletion, and calcium overload leading to myocyte necrosis. Neurohormonal activation (RAAS, SNS) drives compensatory mechanisms that ultimately become maladaptive. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. "
+      "title": "Heart Failure with Preserved EF",
+      "content": "Heart Failure with Preserved EF involves alterations in cardiac hemodynamics, vascular resistance, and myocardial oxygen supply-demand balance. At the cellular level, ischemic injury triggers anaerobic glycolysis, ATP depletion, and calcium overload leading to myocyte necrosis. Neurohormonal activation (RAAS, SNS) drives compensatory mechanisms that ultimately become maladaptive. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. "
     },
     "riskFactors": [
       "Age-related risk factors specific to heart failure with preserved ef",
@@ -591,7 +591,7 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for heart failure with preserved ef. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for heart failure with preserved ef. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
@@ -599,7 +599,7 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
     "title": "Valvular Disease: Stenosis & Regurgitation",
     "cellular": {
       "title": "Pathophysiology of Valvular Disease",
-      "content": "Valvular Disease involves alterations in cardiac hemodynamics, vascular resistance, and myocardial oxygen supply-demand balance. At the cellular level, ischemic injury triggers anaerobic glycolysis, ATP depletion, and calcium overload leading to myocyte necrosis. Neurohormonal activation (RAAS, SNS) drives compensatory mechanisms that ultimately become maladaptive. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on stenosis & regurgitation requires integration of molecular pathophysiology with clinical presentation patterns."
+      "content": "Valvular Disease involves alterations in cardiac hemodynamics, vascular resistance, and myocardial oxygen supply-demand balance. At the cellular level, ischemic injury triggers anaerobic glycolysis, ATP depletion, and calcium overload leading to myocyte necrosis. Neurohormonal activation (RAAS, SNS) drives compensatory mechanisms that ultimately become maladaptive. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on stenosis & regurgitation requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to valvular disease",
@@ -690,15 +690,15 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for valvular disease. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for valvular disease. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
   "pvd-advanced-np": {
     "title": "Peripheral Vascular Disease: Advanced Mgmt",
     "cellular": {
-      "title": "Pathophysiology of Peripheral Vascular Disease",
-      "content": "Peripheral Vascular Disease involves alterations in cardiac hemodynamics, vascular resistance, and myocardial oxygen supply-demand balance. At the cellular level, ischemic injury triggers anaerobic glycolysis, ATP depletion, and calcium overload leading to myocyte necrosis. Neurohormonal activation (RAAS, SNS) drives compensatory mechanisms that ultimately become maladaptive. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on advanced mgmt requires integration of molecular pathophysiology with clinical presentation patterns."
+      "title": "Peripheral Vascular Disease",
+      "content": "Peripheral Vascular Disease involves alterations in cardiac hemodynamics, vascular resistance, and myocardial oxygen supply-demand balance. At the cellular level, ischemic injury triggers anaerobic glycolysis, ATP depletion, and calcium overload leading to myocyte necrosis. Neurohormonal activation (RAAS, SNS) drives compensatory mechanisms that ultimately become maladaptive. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on advanced mgmt requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to peripheral vascular disease",
@@ -789,15 +789,15 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for peripheral vascular disease. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for peripheral vascular disease. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
   "vte-prophylaxis-np": {
     "title": "Venous Thromboembolism Prophylaxis",
     "cellular": {
-      "title": "Pathophysiology of Venous Thromboembolism Prophylaxis",
-      "content": "Venous Thromboembolism Prophylaxis involves alterations in cardiac hemodynamics, vascular resistance, and myocardial oxygen supply-demand balance. At the cellular level, ischemic injury triggers anaerobic glycolysis, ATP depletion, and calcium overload leading to myocyte necrosis. Neurohormonal activation (RAAS, SNS) drives compensatory mechanisms that ultimately become maladaptive. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. "
+      "title": "Venous Thromboembolism Prophylaxis",
+      "content": "Venous Thromboembolism Prophylaxis involves alterations in cardiac hemodynamics, vascular resistance, and myocardial oxygen supply-demand balance. At the cellular level, ischemic injury triggers anaerobic glycolysis, ATP depletion, and calcium overload leading to myocyte necrosis. Neurohormonal activation (RAAS, SNS) drives compensatory mechanisms that ultimately become maladaptive. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. "
     },
     "riskFactors": [
       "Age-related risk factors specific to venous thromboembolism prophylaxis",
@@ -888,15 +888,15 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for venous thromboembolism prophylaxis. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for venous thromboembolism prophylaxis. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
   "brugada-syndrome-np": {
-    "title": "Brugada Syndrome: ECG Patterns & Risk Stratification",
+    "title": "Brugada Syndrome: ECG Patterns",
     "cellular": {
       "title": "Pathophysiology of Brugada Syndrome",
-      "content": "Brugada Syndrome involves alterations in cardiac hemodynamics, vascular resistance, and myocardial oxygen supply-demand balance. At the cellular level, ischemic injury triggers anaerobic glycolysis, ATP depletion, and calcium overload leading to myocyte necrosis. Neurohormonal activation (RAAS, SNS) drives compensatory mechanisms that ultimately become maladaptive. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on ecg patterns & risk stratification requires integration of molecular pathophysiology with clinical presentation patterns."
+      "content": "Brugada Syndrome involves alterations in cardiac hemodynamics, vascular resistance, and myocardial oxygen supply-demand balance. At the cellular level, ischemic injury triggers anaerobic glycolysis, ATP depletion, and calcium overload leading to myocyte necrosis. Neurohormonal activation (RAAS, SNS) drives compensatory mechanisms that ultimately become maladaptive. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on ecg patterns & risk stratification requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to brugada syndrome",
@@ -987,15 +987,15 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for brugada syndrome. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for brugada syndrome. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
   "long-qt-syndrome-np": {
-    "title": "Long QT Syndrome: Genetics & Torsades de Pointes",
+    "title": "Long QT Syndrome: Genetics",
     "cellular": {
       "title": "Pathophysiology of Long QT Syndrome",
-      "content": "Long QT Syndrome involves alterations in cardiac hemodynamics, vascular resistance, and myocardial oxygen supply-demand balance. At the cellular level, ischemic injury triggers anaerobic glycolysis, ATP depletion, and calcium overload leading to myocyte necrosis. Neurohormonal activation (RAAS, SNS) drives compensatory mechanisms that ultimately become maladaptive. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on genetics & torsades de pointes requires integration of molecular pathophysiology with clinical presentation patterns."
+      "content": "Long QT Syndrome involves alterations in cardiac hemodynamics, vascular resistance, and myocardial oxygen supply-demand balance. At the cellular level, ischemic injury triggers anaerobic glycolysis, ATP depletion, and calcium overload leading to myocyte necrosis. Neurohormonal activation (RAAS, SNS) drives compensatory mechanisms that ultimately become maladaptive. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on genetics & torsades de pointes requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to long qt syndrome",
@@ -1086,7 +1086,7 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for long qt syndrome. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for long qt syndrome. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
@@ -1094,7 +1094,7 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
     "title": "Takotsubo Cardiomyopathy: Stress-Induced",
     "cellular": {
       "title": "Pathophysiology of Takotsubo Cardiomyopathy",
-      "content": "Takotsubo Cardiomyopathy involves alterations in cardiac hemodynamics, vascular resistance, and myocardial oxygen supply-demand balance. At the cellular level, ischemic injury triggers anaerobic glycolysis, ATP depletion, and calcium overload leading to myocyte necrosis. Neurohormonal activation (RAAS, SNS) drives compensatory mechanisms that ultimately become maladaptive. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on stress-induced requires integration of molecular pathophysiology with clinical presentation patterns."
+      "content": "Takotsubo Cardiomyopathy involves alterations in cardiac hemodynamics, vascular resistance, and myocardial oxygen supply-demand balance. At the cellular level, ischemic injury triggers anaerobic glycolysis, ATP depletion, and calcium overload leading to myocyte necrosis. Neurohormonal activation (RAAS, SNS) drives compensatory mechanisms that ultimately become maladaptive. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on stress-induced requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to takotsubo cardiomyopathy",
@@ -1185,15 +1185,15 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for takotsubo cardiomyopathy. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for takotsubo cardiomyopathy. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
   "infective-endocarditis-advanced-np": {
-    "title": "Infective Endocarditis: Duke Criteria & Surgical Indications",
+    "title": "Infective Endocarditis: Duke Criteria",
     "cellular": {
       "title": "Pathophysiology of Infective Endocarditis",
-      "content": "Infective Endocarditis involves alterations in cardiac hemodynamics, vascular resistance, and myocardial oxygen supply-demand balance. At the cellular level, ischemic injury triggers anaerobic glycolysis, ATP depletion, and calcium overload leading to myocyte necrosis. Neurohormonal activation (RAAS, SNS) drives compensatory mechanisms that ultimately become maladaptive. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on duke criteria & surgical indications requires integration of molecular pathophysiology with clinical presentation patterns."
+      "content": "Infective Endocarditis involves alterations in cardiac hemodynamics, vascular resistance, and myocardial oxygen supply-demand balance. At the cellular level, ischemic injury triggers anaerobic glycolysis, ATP depletion, and calcium overload leading to myocyte necrosis. Neurohormonal activation (RAAS, SNS) drives compensatory mechanisms that ultimately become maladaptive. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on duke criteria & surgical indications requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to infective endocarditis",
@@ -1284,15 +1284,15 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for infective endocarditis. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for infective endocarditis. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
   "marfan-cardiac-np": {
-    "title": "Marfan Syndrome Cardiac: Aortic Root & Valve Management",
+    "title": "Marfan Syndrome Cardiac: Aortic Root",
     "cellular": {
       "title": "Pathophysiology of Marfan Syndrome Cardiac",
-      "content": "Marfan Syndrome Cardiac involves alterations in cardiac hemodynamics, vascular resistance, and myocardial oxygen supply-demand balance. At the cellular level, ischemic injury triggers anaerobic glycolysis, ATP depletion, and calcium overload leading to myocyte necrosis. Neurohormonal activation (RAAS, SNS) drives compensatory mechanisms that ultimately become maladaptive. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on aortic root & valve management requires integration of molecular pathophysiology with clinical presentation patterns."
+      "content": "Marfan Syndrome Cardiac involves alterations in cardiac hemodynamics, vascular resistance, and myocardial oxygen supply-demand balance. At the cellular level, ischemic injury triggers anaerobic glycolysis, ATP depletion, and calcium overload leading to myocyte necrosis. Neurohormonal activation (RAAS, SNS) drives compensatory mechanisms that ultimately become maladaptive. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on aortic root & valve management requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to marfan syndrome cardiac",
@@ -1383,15 +1383,15 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for marfan syndrome cardiac. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for marfan syndrome cardiac. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
   "constrictive-pericarditis-np": {
-    "title": "Constrictive Pericarditis: Differentiation & Management",
+    "title": "Constrictive Pericarditis: Differentiation",
     "cellular": {
       "title": "Pathophysiology of Constrictive Pericarditis",
-      "content": "Constrictive Pericarditis involves alterations in cardiac hemodynamics, vascular resistance, and myocardial oxygen supply-demand balance. At the cellular level, ischemic injury triggers anaerobic glycolysis, ATP depletion, and calcium overload leading to myocyte necrosis. Neurohormonal activation (RAAS, SNS) drives compensatory mechanisms that ultimately become maladaptive. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on differentiation & management requires integration of molecular pathophysiology with clinical presentation patterns."
+      "content": "Constrictive Pericarditis involves alterations in cardiac hemodynamics, vascular resistance, and myocardial oxygen supply-demand balance. At the cellular level, ischemic injury triggers anaerobic glycolysis, ATP depletion, and calcium overload leading to myocyte necrosis. Neurohormonal activation (RAAS, SNS) drives compensatory mechanisms that ultimately become maladaptive. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on differentiation & management requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to constrictive pericarditis",
@@ -1482,15 +1482,15 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for constrictive pericarditis. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for constrictive pericarditis. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
   "cardiac-tamponade-mgmt-np": {
-    "title": "Cardiac Tamponade: Pericardiocentesis & Hemodynamics",
+    "title": "Cardiac Tamponade: Pericardiocentesis",
     "cellular": {
       "title": "Pathophysiology of Cardiac Tamponade",
-      "content": "Cardiac Tamponade involves alterations in cardiac hemodynamics, vascular resistance, and myocardial oxygen supply-demand balance. At the cellular level, ischemic injury triggers anaerobic glycolysis, ATP depletion, and calcium overload leading to myocyte necrosis. Neurohormonal activation (RAAS, SNS) drives compensatory mechanisms that ultimately become maladaptive. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on pericardiocentesis & hemodynamics requires integration of molecular pathophysiology with clinical presentation patterns."
+      "content": "Cardiac Tamponade involves alterations in cardiac hemodynamics, vascular resistance, and myocardial oxygen supply-demand balance. At the cellular level, ischemic injury triggers anaerobic glycolysis, ATP depletion, and calcium overload leading to myocyte necrosis. Neurohormonal activation (RAAS, SNS) drives compensatory mechanisms that ultimately become maladaptive. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on pericardiocentesis & hemodynamics requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to cardiac tamponade",
@@ -1581,15 +1581,15 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for cardiac tamponade. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for cardiac tamponade. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
   "heart-failure-np": {
-    "title": "Heart Failure: NP Advanced Prescribing & Hemodynamics",
+    "title": "Heart Failure",
     "cellular": {
       "title": "Pathophysiology of Heart Failure",
-      "content": "Heart Failure involves alterations in cardiac hemodynamics, vascular resistance, and myocardial oxygen supply-demand balance. At the cellular level, ischemic injury triggers anaerobic glycolysis, ATP depletion, and calcium overload leading to myocyte necrosis. Neurohormonal activation (RAAS, SNS) drives compensatory mechanisms that ultimately become maladaptive. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on np advanced prescribing & hemodynamics requires integration of molecular pathophysiology with clinical presentation patterns."
+      "content": "Heart Failure involves alterations in cardiac hemodynamics, vascular resistance, and myocardial oxygen supply-demand balance. At the cellular level, ischemic injury triggers anaerobic glycolysis, ATP depletion, and calcium overload leading to myocyte necrosis. Neurohormonal activation (RAAS, SNS) drives compensatory mechanisms that ultimately become maladaptive. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on np advanced prescribing & hemodynamics requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to heart failure",
@@ -1680,15 +1680,15 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for heart failure. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for heart failure. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
   "stemi-nstemi-algorithm-np": {
-    "title": "STEMI vs NSTEMI: Diagnostic Algorithm & Intervention",
+    "title": "STEMI vs NSTEMI: Diagnostic Algorithm",
     "cellular": {
       "title": "Pathophysiology of STEMI vs NSTEMI",
-      "content": "STEMI vs NSTEMI involves alterations in cardiac hemodynamics, vascular resistance, and myocardial oxygen supply-demand balance. At the cellular level, ischemic injury triggers anaerobic glycolysis, ATP depletion, and calcium overload leading to myocyte necrosis. Neurohormonal activation (RAAS, SNS) drives compensatory mechanisms that ultimately become maladaptive. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on diagnostic algorithm & intervention requires integration of molecular pathophysiology with clinical presentation patterns."
+      "content": "STEMI vs NSTEMI involves alterations in cardiac hemodynamics, vascular resistance, and myocardial oxygen supply-demand balance. At the cellular level, ischemic injury triggers anaerobic glycolysis, ATP depletion, and calcium overload leading to myocyte necrosis. Neurohormonal activation (RAAS, SNS) drives compensatory mechanisms that ultimately become maladaptive. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on diagnostic algorithm & intervention requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to stemi vs nstemi",
@@ -1779,15 +1779,15 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for stemi vs nstemi. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for stemi vs nstemi. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
   "heart-transplant-rejection-np": {
-    "title": "Heart Transplant Rejection: Immunosuppression & Monitoring",
+    "title": "Heart Transplant Rejection: Immunosuppression",
     "cellular": {
       "title": "Pathophysiology of Heart Transplant Rejection",
-      "content": "Heart Transplant Rejection involves alterations in cardiac hemodynamics, vascular resistance, and myocardial oxygen supply-demand balance. At the cellular level, ischemic injury triggers anaerobic glycolysis, ATP depletion, and calcium overload leading to myocyte necrosis. Neurohormonal activation (RAAS, SNS) drives compensatory mechanisms that ultimately become maladaptive. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on immunosuppression & monitoring requires integration of molecular pathophysiology with clinical presentation patterns."
+      "content": "Heart Transplant Rejection involves alterations in cardiac hemodynamics, vascular resistance, and myocardial oxygen supply-demand balance. At the cellular level, ischemic injury triggers anaerobic glycolysis, ATP depletion, and calcium overload leading to myocyte necrosis. Neurohormonal activation (RAAS, SNS) drives compensatory mechanisms that ultimately become maladaptive. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on immunosuppression & monitoring requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to heart transplant rejection",
@@ -1878,15 +1878,15 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for heart transplant rejection. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for heart transplant rejection. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
   "secondary-hypertension-workup-np": {
-    "title": "Secondary Hypertension Workup: Renal, Endocrine & Vascular",
+    "title": "Secondary Hypertension Workup: Renal",
     "cellular": {
-      "title": "Pathophysiology of Secondary Hypertension Workup",
-      "content": "Secondary Hypertension Workup involves alterations in cardiac hemodynamics, vascular resistance, and myocardial oxygen supply-demand balance. At the cellular level, ischemic injury triggers anaerobic glycolysis, ATP depletion, and calcium overload leading to myocyte necrosis. Neurohormonal activation (RAAS, SNS) drives compensatory mechanisms that ultimately become maladaptive. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on renal, endocrine & vascular requires integration of molecular pathophysiology with clinical presentation patterns."
+      "title": "Secondary Hypertension Workup",
+      "content": "Secondary Hypertension Workup involves alterations in cardiac hemodynamics, vascular resistance, and myocardial oxygen supply-demand balance. At the cellular level, ischemic injury triggers anaerobic glycolysis, ATP depletion, and calcium overload leading to myocyte necrosis. Neurohormonal activation (RAAS, SNS) drives compensatory mechanisms that ultimately become maladaptive. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on renal, endocrine & vascular requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to secondary hypertension workup",
@@ -1977,15 +1977,15 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for secondary hypertension workup. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for secondary hypertension workup. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
   "cardiomyopathy-differential-np": {
-    "title": "Cardiomyopathy Differential: Dilated, Hypertrophic, Restrictive",
+    "title": "Cardiomyopathy Differential: Dilated",
     "cellular": {
-      "title": "Pathophysiology of Cardiomyopathy Differential",
-      "content": "Cardiomyopathy Differential involves alterations in cardiac hemodynamics, vascular resistance, and myocardial oxygen supply-demand balance. At the cellular level, ischemic injury triggers anaerobic glycolysis, ATP depletion, and calcium overload leading to myocyte necrosis. Neurohormonal activation (RAAS, SNS) drives compensatory mechanisms that ultimately become maladaptive. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on dilated, hypertrophic, restrictive requires integration of molecular pathophysiology with clinical presentation patterns."
+      "title": "Cardiomyopathy Differential",
+      "content": "Cardiomyopathy Differential involves alterations in cardiac hemodynamics, vascular resistance, and myocardial oxygen supply-demand balance. At the cellular level, ischemic injury triggers anaerobic glycolysis, ATP depletion, and calcium overload leading to myocyte necrosis. Neurohormonal activation (RAAS, SNS) drives compensatory mechanisms that ultimately become maladaptive. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on dilated, hypertrophic, restrictive requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to cardiomyopathy differential",
@@ -2076,15 +2076,15 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for cardiomyopathy differential. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for cardiomyopathy differential. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
   "syncope-diagnostic-algorithm-np": {
-    "title": "Syncope Diagnostic Algorithm: Cardiac vs Neurogenic vs Reflex",
+    "title": "Syncope Diagnostic Algorithm: Cardiac vs",
     "cellular": {
-      "title": "Pathophysiology of Syncope Diagnostic Algorithm",
-      "content": "Syncope Diagnostic Algorithm involves alterations in cardiac hemodynamics, vascular resistance, and myocardial oxygen supply-demand balance. At the cellular level, ischemic injury triggers anaerobic glycolysis, ATP depletion, and calcium overload leading to myocyte necrosis. Neurohormonal activation (RAAS, SNS) drives compensatory mechanisms that ultimately become maladaptive. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on cardiac vs neurogenic vs reflex requires integration of molecular pathophysiology with clinical presentation patterns."
+      "title": "Syncope Diagnostic Algorithm",
+      "content": "Syncope Diagnostic Algorithm involves alterations in cardiac hemodynamics, vascular resistance, and myocardial oxygen supply-demand balance. At the cellular level, ischemic injury triggers anaerobic glycolysis, ATP depletion, and calcium overload leading to myocyte necrosis. Neurohormonal activation (RAAS, SNS) drives compensatory mechanisms that ultimately become maladaptive. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on cardiac vs neurogenic vs reflex requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to syncope diagnostic algorithm",
@@ -2175,15 +2175,15 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for syncope diagnostic algorithm. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for syncope diagnostic algorithm. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
   "coronary-artery-ectasia-np": {
-    "title": "Coronary Artery Ectasia: Diagnosis & Anticoagulation",
+    "title": "Coronary Artery Ectasia: Diagnosis",
     "cellular": {
       "title": "Pathophysiology of Coronary Artery Ectasia",
-      "content": "Coronary Artery Ectasia involves alterations in cardiac hemodynamics, vascular resistance, and myocardial oxygen supply-demand balance. At the cellular level, ischemic injury triggers anaerobic glycolysis, ATP depletion, and calcium overload leading to myocyte necrosis. Neurohormonal activation (RAAS, SNS) drives compensatory mechanisms that ultimately become maladaptive. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on diagnosis & anticoagulation requires integration of molecular pathophysiology with clinical presentation patterns."
+      "content": "Coronary Artery Ectasia involves alterations in cardiac hemodynamics, vascular resistance, and myocardial oxygen supply-demand balance. At the cellular level, ischemic injury triggers anaerobic glycolysis, ATP depletion, and calcium overload leading to myocyte necrosis. Neurohormonal activation (RAAS, SNS) drives compensatory mechanisms that ultimately become maladaptive. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on diagnosis & anticoagulation requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to coronary artery ectasia",
@@ -2274,15 +2274,15 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for coronary artery ectasia. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for coronary artery ectasia. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
   "coronary-microvascular-dysfunction-np": {
-    "title": "Coronary Microvascular Dysfunction: Diagnosis & Treatment",
+    "title": "Coronary Microvascular Dysfunction: Diagnosis",
     "cellular": {
-      "title": "Pathophysiology of Coronary Microvascular Dysfunction",
-      "content": "Coronary Microvascular Dysfunction involves alterations in cardiac hemodynamics, vascular resistance, and myocardial oxygen supply-demand balance. At the cellular level, ischemic injury triggers anaerobic glycolysis, ATP depletion, and calcium overload leading to myocyte necrosis. Neurohormonal activation (RAAS, SNS) drives compensatory mechanisms that ultimately become maladaptive. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on diagnosis & treatment requires integration of molecular pathophysiology with clinical presentation patterns."
+      "title": "Coronary Microvascular Dysfunction",
+      "content": "Coronary Microvascular Dysfunction involves alterations in cardiac hemodynamics, vascular resistance, and myocardial oxygen supply-demand balance. At the cellular level, ischemic injury triggers anaerobic glycolysis, ATP depletion, and calcium overload leading to myocyte necrosis. Neurohormonal activation (RAAS, SNS) drives compensatory mechanisms that ultimately become maladaptive. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on diagnosis & treatment requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to coronary microvascular dysfunction",
@@ -2373,15 +2373,15 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for coronary microvascular dysfunction. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for coronary microvascular dysfunction. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
   "vasculitis-coronary-arteries-np": {
-    "title": "Vasculitis of Coronary Arteries: Kawasaki & Takayasu",
+    "title": "Vasculitis of Coronary Arteries: Kawasaki",
     "cellular": {
-      "title": "Pathophysiology of Vasculitis of Coronary Arteries",
-      "content": "Vasculitis of Coronary Arteries involves alterations in cardiac hemodynamics, vascular resistance, and myocardial oxygen supply-demand balance. At the cellular level, ischemic injury triggers anaerobic glycolysis, ATP depletion, and calcium overload leading to myocyte necrosis. Neurohormonal activation (RAAS, SNS) drives compensatory mechanisms that ultimately become maladaptive. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on kawasaki & takayasu requires integration of molecular pathophysiology with clinical presentation patterns."
+      "title": "Vasculitis of Coronary Arteries",
+      "content": "Vasculitis of Coronary Arteries involves alterations in cardiac hemodynamics, vascular resistance, and myocardial oxygen supply-demand balance. At the cellular level, ischemic injury triggers anaerobic glycolysis, ATP depletion, and calcium overload leading to myocyte necrosis. Neurohormonal activation (RAAS, SNS) drives compensatory mechanisms that ultimately become maladaptive. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on kawasaki & takayasu requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to vasculitis of coronary arteries",
@@ -2472,15 +2472,15 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for vasculitis of coronary arteries. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for vasculitis of coronary arteries. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
   "infiltrative-cardiomyopathy-np": {
-    "title": "Infiltrative Cardiomyopathy: Amyloid, Sarcoid & Iron",
+    "title": "Infiltrative Cardiomyopathy: Amyloid, Sarcoid",
     "cellular": {
-      "title": "Pathophysiology of Infiltrative Cardiomyopathy",
-      "content": "Infiltrative Cardiomyopathy involves alterations in cardiac hemodynamics, vascular resistance, and myocardial oxygen supply-demand balance. At the cellular level, ischemic injury triggers anaerobic glycolysis, ATP depletion, and calcium overload leading to myocyte necrosis. Neurohormonal activation (RAAS, SNS) drives compensatory mechanisms that ultimately become maladaptive. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on amyloid, sarcoid & iron requires integration of molecular pathophysiology with clinical presentation patterns."
+      "title": "Infiltrative Cardiomyopathy",
+      "content": "Infiltrative Cardiomyopathy involves alterations in cardiac hemodynamics, vascular resistance, and myocardial oxygen supply-demand balance. At the cellular level, ischemic injury triggers anaerobic glycolysis, ATP depletion, and calcium overload leading to myocyte necrosis. Neurohormonal activation (RAAS, SNS) drives compensatory mechanisms that ultimately become maladaptive. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on amyloid, sarcoid & iron requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to infiltrative cardiomyopathy",
@@ -2571,15 +2571,15 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for infiltrative cardiomyopathy. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for infiltrative cardiomyopathy. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
   "fibromuscular-dysplasia-np": {
-    "title": "Fibromuscular Dysplasia: Renal & Carotid Involvement",
+    "title": "Fibromuscular Dysplasia: Renal",
     "cellular": {
       "title": "Pathophysiology of Fibromuscular Dysplasia",
-      "content": "Fibromuscular Dysplasia involves alterations in cardiac hemodynamics, vascular resistance, and myocardial oxygen supply-demand balance. At the cellular level, ischemic injury triggers anaerobic glycolysis, ATP depletion, and calcium overload leading to myocyte necrosis. Neurohormonal activation (RAAS, SNS) drives compensatory mechanisms that ultimately become maladaptive. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on renal & carotid involvement requires integration of molecular pathophysiology with clinical presentation patterns."
+      "content": "Fibromuscular Dysplasia involves alterations in cardiac hemodynamics, vascular resistance, and myocardial oxygen supply-demand balance. At the cellular level, ischemic injury triggers anaerobic glycolysis, ATP depletion, and calcium overload leading to myocyte necrosis. Neurohormonal activation (RAAS, SNS) drives compensatory mechanisms that ultimately become maladaptive. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on renal & carotid involvement requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to fibromuscular dysplasia",
@@ -2670,15 +2670,15 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for fibromuscular dysplasia. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for fibromuscular dysplasia. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
   "renovascular-hypertension-np": {
-    "title": "Renovascular Hypertension: Screening & Intervention",
+    "title": "Renovascular Hypertension: Screening",
     "cellular": {
       "title": "Pathophysiology of Renovascular Hypertension",
-      "content": "Renovascular Hypertension involves alterations in cardiac hemodynamics, vascular resistance, and myocardial oxygen supply-demand balance. At the cellular level, ischemic injury triggers anaerobic glycolysis, ATP depletion, and calcium overload leading to myocyte necrosis. Neurohormonal activation (RAAS, SNS) drives compensatory mechanisms that ultimately become maladaptive. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on screening & intervention requires integration of molecular pathophysiology with clinical presentation patterns."
+      "content": "Renovascular Hypertension involves alterations in cardiac hemodynamics, vascular resistance, and myocardial oxygen supply-demand balance. At the cellular level, ischemic injury triggers anaerobic glycolysis, ATP depletion, and calcium overload leading to myocyte necrosis. Neurohormonal activation (RAAS, SNS) drives compensatory mechanisms that ultimately become maladaptive. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on screening & intervention requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to renovascular hypertension",
@@ -2769,15 +2769,15 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for renovascular hypertension. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for renovascular hypertension. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
   "peripheral-embolism-np": {
-    "title": "Peripheral Embolism: Arterial Thromboembolism Workup",
+    "title": "Peripheral Embolism: Arterial Thromboembolism",
     "cellular": {
       "title": "Pathophysiology of Peripheral Embolism",
-      "content": "Peripheral Embolism involves alterations in cardiac hemodynamics, vascular resistance, and myocardial oxygen supply-demand balance. At the cellular level, ischemic injury triggers anaerobic glycolysis, ATP depletion, and calcium overload leading to myocyte necrosis. Neurohormonal activation (RAAS, SNS) drives compensatory mechanisms that ultimately become maladaptive. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on arterial thromboembolism workup requires integration of molecular pathophysiology with clinical presentation patterns."
+      "content": "Peripheral Embolism involves alterations in cardiac hemodynamics, vascular resistance, and myocardial oxygen supply-demand balance. At the cellular level, ischemic injury triggers anaerobic glycolysis, ATP depletion, and calcium overload leading to myocyte necrosis. Neurohormonal activation (RAAS, SNS) drives compensatory mechanisms that ultimately become maladaptive. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on arterial thromboembolism workup requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to peripheral embolism",
@@ -2868,15 +2868,15 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for peripheral embolism. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for peripheral embolism. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
   "cholesterol-embolization-np": {
-    "title": "Cholesterol Embolization Syndrome: Blue Toe & Renal Failure",
+    "title": "Cholesterol Embolization Syndrome: Blue Toe",
     "cellular": {
-      "title": "Pathophysiology of Cholesterol Embolization Syndrome",
-      "content": "Cholesterol Embolization Syndrome involves alterations in cardiac hemodynamics, vascular resistance, and myocardial oxygen supply-demand balance. At the cellular level, ischemic injury triggers anaerobic glycolysis, ATP depletion, and calcium overload leading to myocyte necrosis. Neurohormonal activation (RAAS, SNS) drives compensatory mechanisms that ultimately become maladaptive. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on blue toe & renal failure requires integration of molecular pathophysiology with clinical presentation patterns."
+      "title": "Cholesterol Embolization Syndrome",
+      "content": "Cholesterol Embolization Syndrome involves alterations in cardiac hemodynamics, vascular resistance, and myocardial oxygen supply-demand balance. At the cellular level, ischemic injury triggers anaerobic glycolysis, ATP depletion, and calcium overload leading to myocyte necrosis. Neurohormonal activation (RAAS, SNS) drives compensatory mechanisms that ultimately become maladaptive. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on blue toe & renal failure requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to cholesterol embolization syndrome",
@@ -2967,15 +2967,15 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for cholesterol embolization syndrome. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for cholesterol embolization syndrome. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
   "effusive-constrictive-pericarditis-np": {
-    "title": "Effusive-Constrictive Pericarditis: Hemodynamics & Management",
+    "title": "Effusive-Constrictive Pericarditis",
     "cellular": {
-      "title": "Pathophysiology of Effusive-Constrictive Pericarditis",
-      "content": "Effusive-Constrictive Pericarditis involves alterations in cardiac hemodynamics, vascular resistance, and myocardial oxygen supply-demand balance. At the cellular level, ischemic injury triggers anaerobic glycolysis, ATP depletion, and calcium overload leading to myocyte necrosis. Neurohormonal activation (RAAS, SNS) drives compensatory mechanisms that ultimately become maladaptive. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on hemodynamics & management requires integration of molecular pathophysiology with clinical presentation patterns."
+      "title": "Effusive-Constrictive Pericarditis",
+      "content": "Effusive-Constrictive Pericarditis involves alterations in cardiac hemodynamics, vascular resistance, and myocardial oxygen supply-demand balance. At the cellular level, ischemic injury triggers anaerobic glycolysis, ATP depletion, and calcium overload leading to myocyte necrosis. Neurohormonal activation (RAAS, SNS) drives compensatory mechanisms that ultimately become maladaptive. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on hemodynamics & management requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to effusive-constrictive pericarditis",
@@ -3066,15 +3066,15 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for effusive-constrictive pericarditis. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for effusive-constrictive pericarditis. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
   "libman-sacks-endocarditis-np": {
-    "title": "Libman-Sacks Endocarditis: SLE-Associated Valve Disease",
+    "title": "Libman-Sacks Endocarditis: SLE-Associated",
     "cellular": {
       "title": "Pathophysiology of Libman-Sacks Endocarditis",
-      "content": "Libman-Sacks Endocarditis involves alterations in cardiac hemodynamics, vascular resistance, and myocardial oxygen supply-demand balance. At the cellular level, ischemic injury triggers anaerobic glycolysis, ATP depletion, and calcium overload leading to myocyte necrosis. Neurohormonal activation (RAAS, SNS) drives compensatory mechanisms that ultimately become maladaptive. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on sle-associated valve disease requires integration of molecular pathophysiology with clinical presentation patterns."
+      "content": "Libman-Sacks Endocarditis involves alterations in cardiac hemodynamics, vascular resistance, and myocardial oxygen supply-demand balance. At the cellular level, ischemic injury triggers anaerobic glycolysis, ATP depletion, and calcium overload leading to myocyte necrosis. Neurohormonal activation (RAAS, SNS) drives compensatory mechanisms that ultimately become maladaptive. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on sle-associated valve disease requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to libman-sacks endocarditis",
@@ -3165,15 +3165,15 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for libman-sacks endocarditis. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for libman-sacks endocarditis. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
   "endomyocardial-fibrosis-np": {
-    "title": "Endomyocardial Fibrosis: Tropical Cardiomyopathy",
+    "title": "Endomyocardial Fibrosis: Tropical",
     "cellular": {
       "title": "Pathophysiology of Endomyocardial Fibrosis",
-      "content": "Endomyocardial Fibrosis involves alterations in cardiac hemodynamics, vascular resistance, and myocardial oxygen supply-demand balance. At the cellular level, ischemic injury triggers anaerobic glycolysis, ATP depletion, and calcium overload leading to myocyte necrosis. Neurohormonal activation (RAAS, SNS) drives compensatory mechanisms that ultimately become maladaptive. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on tropical cardiomyopathy requires integration of molecular pathophysiology with clinical presentation patterns."
+      "content": "Endomyocardial Fibrosis involves alterations in cardiac hemodynamics, vascular resistance, and myocardial oxygen supply-demand balance. At the cellular level, ischemic injury triggers anaerobic glycolysis, ATP depletion, and calcium overload leading to myocyte necrosis. Neurohormonal activation (RAAS, SNS) drives compensatory mechanisms that ultimately become maladaptive. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on tropical cardiomyopathy requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to endomyocardial fibrosis",
@@ -3264,15 +3264,15 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for endomyocardial fibrosis. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for endomyocardial fibrosis. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
   "culture-negative-ie-np": {
-    "title": "Culture-Negative Infective Endocarditis: Diagnostic Approach",
+    "title": "Culture-Negative Infective Endocarditis",
     "cellular": {
-      "title": "Pathophysiology of Culture-Negative Infective Endocarditis",
-      "content": "Culture-Negative Infective Endocarditis involves alterations in cardiac hemodynamics, vascular resistance, and myocardial oxygen supply-demand balance. At the cellular level, ischemic injury triggers anaerobic glycolysis, ATP depletion, and calcium overload leading to myocyte necrosis. Neurohormonal activation (RAAS, SNS) drives compensatory mechanisms that ultimately become maladaptive. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on diagnostic approach requires integration of molecular pathophysiology with clinical presentation patterns."
+      "title": "Culture-Negative Infective Endocarditis",
+      "content": "Culture-Negative Infective Endocarditis involves alterations in cardiac hemodynamics, vascular resistance, and myocardial oxygen supply-demand balance. At the cellular level, ischemic injury triggers anaerobic glycolysis, ATP depletion, and calcium overload leading to myocyte necrosis. Neurohormonal activation (RAAS, SNS) drives compensatory mechanisms that ultimately become maladaptive. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on diagnostic approach requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to culture-negative infective endocarditis",
@@ -3363,15 +3363,15 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for culture-negative infective endocarditis. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for culture-negative infective endocarditis. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
   "cardiac-tamponade-np": {
-    "title": "Cardiac Tamponade: Pericardiocentesis & Advanced Management",
+    "title": "Cardiac Tamponade: Pericardiocentesis",
     "cellular": {
       "title": "Pathophysiology of Cardiac Tamponade",
-      "content": "Cardiac Tamponade involves alterations in cardiac hemodynamics, vascular resistance, and myocardial oxygen supply-demand balance. At the cellular level, ischemic injury triggers anaerobic glycolysis, ATP depletion, and calcium overload leading to myocyte necrosis. Neurohormonal activation (RAAS, SNS) drives compensatory mechanisms that ultimately become maladaptive. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on pericardiocentesis & advanced management requires integration of molecular pathophysiology with clinical presentation patterns."
+      "content": "Cardiac Tamponade involves alterations in cardiac hemodynamics, vascular resistance, and myocardial oxygen supply-demand balance. At the cellular level, ischemic injury triggers anaerobic glycolysis, ATP depletion, and calcium overload leading to myocyte necrosis. Neurohormonal activation (RAAS, SNS) drives compensatory mechanisms that ultimately become maladaptive. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on pericardiocentesis & advanced management requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to cardiac tamponade",
@@ -3462,15 +3462,15 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for cardiac tamponade. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for cardiac tamponade. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
   "aortic-dissection-np": {
-    "title": "Aortic Dissection: Stanford Classification & Prescribing",
+    "title": "Aortic Dissection: Stanford Classification",
     "cellular": {
       "title": "Pathophysiology of Aortic Dissection",
-      "content": "Aortic Dissection involves alterations in cardiac hemodynamics, vascular resistance, and myocardial oxygen supply-demand balance. At the cellular level, ischemic injury triggers anaerobic glycolysis, ATP depletion, and calcium overload leading to myocyte necrosis. Neurohormonal activation (RAAS, SNS) drives compensatory mechanisms that ultimately become maladaptive. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on stanford classification & prescribing requires integration of molecular pathophysiology with clinical presentation patterns."
+      "content": "Aortic Dissection involves alterations in cardiac hemodynamics, vascular resistance, and myocardial oxygen supply-demand balance. At the cellular level, ischemic injury triggers anaerobic glycolysis, ATP depletion, and calcium overload leading to myocyte necrosis. Neurohormonal activation (RAAS, SNS) drives compensatory mechanisms that ultimately become maladaptive. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on stanford classification & prescribing requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to aortic dissection",
@@ -3561,15 +3561,15 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for aortic dissection. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for aortic dissection. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
   "pulmonary-embolism-np": {
-    "title": "Pulmonary Embolism: Wells Criteria & Thrombolysis",
+    "title": "Pulmonary Embolism: Wells Criteria",
     "cellular": {
       "title": "Pathophysiology of Pulmonary Embolism",
-      "content": "Pulmonary Embolism involves alterations in cardiac hemodynamics, vascular resistance, and myocardial oxygen supply-demand balance. At the cellular level, ischemic injury triggers anaerobic glycolysis, ATP depletion, and calcium overload leading to myocyte necrosis. Neurohormonal activation (RAAS, SNS) drives compensatory mechanisms that ultimately become maladaptive. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on wells criteria & thrombolysis requires integration of molecular pathophysiology with clinical presentation patterns."
+      "content": "Pulmonary Embolism involves alterations in cardiac hemodynamics, vascular resistance, and myocardial oxygen supply-demand balance. At the cellular level, ischemic injury triggers anaerobic glycolysis, ATP depletion, and calcium overload leading to myocyte necrosis. Neurohormonal activation (RAAS, SNS) drives compensatory mechanisms that ultimately become maladaptive. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on wells criteria & thrombolysis requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to pulmonary embolism",
@@ -3660,15 +3660,15 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for pulmonary embolism. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for pulmonary embolism. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
   "fat-embolism-np": {
-    "title": "Fat Embolism: Gurd's Criteria & ARDS Management",
+    "title": "Fat Embolism: Gurd's Criteria",
     "cellular": {
       "title": "Pathophysiology of Fat Embolism",
-      "content": "Fat Embolism involves alterations in cardiac hemodynamics, vascular resistance, and myocardial oxygen supply-demand balance. At the cellular level, ischemic injury triggers anaerobic glycolysis, ATP depletion, and calcium overload leading to myocyte necrosis. Neurohormonal activation (RAAS, SNS) drives compensatory mechanisms that ultimately become maladaptive. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on gurd's criteria & ards management requires integration of molecular pathophysiology with clinical presentation patterns."
+      "content": "Fat Embolism involves alterations in cardiac hemodynamics, vascular resistance, and myocardial oxygen supply-demand balance. At the cellular level, ischemic injury triggers anaerobic glycolysis, ATP depletion, and calcium overload leading to myocyte necrosis. Neurohormonal activation (RAAS, SNS) drives compensatory mechanisms that ultimately become maladaptive. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on gurd's criteria & ards management requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to fat embolism",
@@ -3759,7 +3759,7 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for fat embolism. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for fat embolism. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
@@ -3767,7 +3767,7 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
     "title": "Status Asthmaticus: Advanced Mgmt",
     "cellular": {
       "title": "Pathophysiology of Status Asthmaticus",
-      "content": "Status Asthmaticus involves disruption of the alveolar-capillary membrane, ventilation-perfusion mismatch, and impaired gas exchange. At the cellular level, inflammatory mediators (IL-6, TNF-α, prostaglandins) increase capillary permeability, promote airway edema, and trigger bronchospasm through smooth muscle contraction. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on advanced mgmt requires integration of molecular pathophysiology with clinical presentation patterns."
+      "content": "Status Asthmaticus involves disruption of the alveolar-capillary membrane, ventilation-perfusion mismatch, and impaired gas exchange. At the cellular level, inflammatory mediators (IL-6, TNF-α, prostaglandins) increase capillary permeability, promote airway edema, and trigger bronchospasm through smooth muscle contraction. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on advanced mgmt requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to status asthmaticus",
@@ -3858,7 +3858,7 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for status asthmaticus. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for status asthmaticus. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
@@ -3866,7 +3866,7 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
     "title": "PE: Wells Criteria & Thrombolysis",
     "cellular": {
       "title": "Pathophysiology of PE",
-      "content": "PE involves disruption of the alveolar-capillary membrane, ventilation-perfusion mismatch, and impaired gas exchange. At the cellular level, inflammatory mediators (IL-6, TNF-α, prostaglandins) increase capillary permeability, promote airway edema, and trigger bronchospasm through smooth muscle contraction. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on wells criteria & thrombolysis requires integration of molecular pathophysiology with clinical presentation patterns."
+      "content": "PE involves disruption of the alveolar-capillary membrane, ventilation-perfusion mismatch, and impaired gas exchange. At the cellular level, inflammatory mediators (IL-6, TNF-α, prostaglandins) increase capillary permeability, promote airway edema, and trigger bronchospasm through smooth muscle contraction. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on wells criteria & thrombolysis requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to pe",
@@ -3957,15 +3957,15 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for pe. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for pe. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
   "ards-management-np": {
-    "title": "ARDS: Berlin Criteria & Lung Protective Ventilation",
+    "title": "ARDS: Berlin Criteria",
     "cellular": {
       "title": "Pathophysiology of ARDS",
-      "content": "ARDS involves disruption of the alveolar-capillary membrane, ventilation-perfusion mismatch, and impaired gas exchange. At the cellular level, inflammatory mediators (IL-6, TNF-α, prostaglandins) increase capillary permeability, promote airway edema, and trigger bronchospasm through smooth muscle contraction. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on berlin criteria & lung protective ventilation requires integration of molecular pathophysiology with clinical presentation patterns."
+      "content": "ARDS involves disruption of the alveolar-capillary membrane, ventilation-perfusion mismatch, and impaired gas exchange. At the cellular level, inflammatory mediators (IL-6, TNF-α, prostaglandins) increase capillary permeability, promote airway edema, and trigger bronchospasm through smooth muscle contraction. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on berlin criteria & lung protective ventilation requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to ards",
@@ -4056,7 +4056,7 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for ards. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for ards. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
@@ -4064,7 +4064,7 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
     "title": "Pneumonia: CAP vs HAP Management",
     "cellular": {
       "title": "Pathophysiology of Pneumonia",
-      "content": "Pneumonia involves disruption of the alveolar-capillary membrane, ventilation-perfusion mismatch, and impaired gas exchange. At the cellular level, inflammatory mediators (IL-6, TNF-α, prostaglandins) increase capillary permeability, promote airway edema, and trigger bronchospasm through smooth muscle contraction. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on cap vs hap management requires integration of molecular pathophysiology with clinical presentation patterns."
+      "content": "Pneumonia involves disruption of the alveolar-capillary membrane, ventilation-perfusion mismatch, and impaired gas exchange. At the cellular level, inflammatory mediators (IL-6, TNF-α, prostaglandins) increase capillary permeability, promote airway edema, and trigger bronchospasm through smooth muscle contraction. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on cap vs hap management requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to pneumonia",
@@ -4155,7 +4155,7 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for pneumonia. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for pneumonia. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
@@ -4163,7 +4163,7 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
     "title": "Tuberculosis: RIPE Therapy & MDR-TB",
     "cellular": {
       "title": "Pathophysiology of Tuberculosis",
-      "content": "Tuberculosis involves disruption of the alveolar-capillary membrane, ventilation-perfusion mismatch, and impaired gas exchange. At the cellular level, inflammatory mediators (IL-6, TNF-α, prostaglandins) increase capillary permeability, promote airway edema, and trigger bronchospasm through smooth muscle contraction. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on ripe therapy & mdr-tb requires integration of molecular pathophysiology with clinical presentation patterns."
+      "content": "Tuberculosis involves disruption of the alveolar-capillary membrane, ventilation-perfusion mismatch, and impaired gas exchange. At the cellular level, inflammatory mediators (IL-6, TNF-α, prostaglandins) increase capillary permeability, promote airway edema, and trigger bronchospasm through smooth muscle contraction. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on ripe therapy & mdr-tb requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to tuberculosis",
@@ -4254,7 +4254,7 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for tuberculosis. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for tuberculosis. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
@@ -4262,7 +4262,7 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
     "title": "Pleural Effusion: Exudative vs Transudative",
     "cellular": {
       "title": "Pathophysiology of Pleural Effusion",
-      "content": "Pleural Effusion involves disruption of the alveolar-capillary membrane, ventilation-perfusion mismatch, and impaired gas exchange. At the cellular level, inflammatory mediators (IL-6, TNF-α, prostaglandins) increase capillary permeability, promote airway edema, and trigger bronchospasm through smooth muscle contraction. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on exudative vs transudative requires integration of molecular pathophysiology with clinical presentation patterns."
+      "content": "Pleural Effusion involves disruption of the alveolar-capillary membrane, ventilation-perfusion mismatch, and impaired gas exchange. At the cellular level, inflammatory mediators (IL-6, TNF-α, prostaglandins) increase capillary permeability, promote airway edema, and trigger bronchospasm through smooth muscle contraction. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on exudative vs transudative requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to pleural effusion",
@@ -4353,7 +4353,7 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for pleural effusion. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for pleural effusion. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
@@ -4361,7 +4361,7 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
     "title": "Pulmonary Hypertension: WHO Classification",
     "cellular": {
       "title": "Pathophysiology of Pulmonary Hypertension",
-      "content": "Pulmonary Hypertension involves disruption of the alveolar-capillary membrane, ventilation-perfusion mismatch, and impaired gas exchange. At the cellular level, inflammatory mediators (IL-6, TNF-α, prostaglandins) increase capillary permeability, promote airway edema, and trigger bronchospasm through smooth muscle contraction. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on who classification requires integration of molecular pathophysiology with clinical presentation patterns."
+      "content": "Pulmonary Hypertension involves disruption of the alveolar-capillary membrane, ventilation-perfusion mismatch, and impaired gas exchange. At the cellular level, inflammatory mediators (IL-6, TNF-α, prostaglandins) increase capillary permeability, promote airway edema, and trigger bronchospasm through smooth muscle contraction. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on who classification requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to pulmonary hypertension",
@@ -4452,7 +4452,7 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for pulmonary hypertension. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for pulmonary hypertension. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
@@ -4460,7 +4460,7 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
     "title": "Lung Cancer: TNM Staging & Treatment",
     "cellular": {
       "title": "Pathophysiology of Lung Cancer",
-      "content": "Lung Cancer involves disruption of the alveolar-capillary membrane, ventilation-perfusion mismatch, and impaired gas exchange. At the cellular level, inflammatory mediators (IL-6, TNF-α, prostaglandins) increase capillary permeability, promote airway edema, and trigger bronchospasm through smooth muscle contraction. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on tnm staging & treatment requires integration of molecular pathophysiology with clinical presentation patterns."
+      "content": "Lung Cancer involves disruption of the alveolar-capillary membrane, ventilation-perfusion mismatch, and impaired gas exchange. At the cellular level, inflammatory mediators (IL-6, TNF-α, prostaglandins) increase capillary permeability, promote airway edema, and trigger bronchospasm through smooth muscle contraction. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on tnm staging & treatment requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to lung cancer",
@@ -4551,7 +4551,7 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for lung cancer. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for lung cancer. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
@@ -4559,7 +4559,7 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
     "title": "Respiratory Failure: Type I vs Type II",
     "cellular": {
       "title": "Pathophysiology of Respiratory Failure",
-      "content": "Respiratory Failure involves disruption of the alveolar-capillary membrane, ventilation-perfusion mismatch, and impaired gas exchange. At the cellular level, inflammatory mediators (IL-6, TNF-α, prostaglandins) increase capillary permeability, promote airway edema, and trigger bronchospasm through smooth muscle contraction. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on type i vs type ii requires integration of molecular pathophysiology with clinical presentation patterns."
+      "content": "Respiratory Failure involves disruption of the alveolar-capillary membrane, ventilation-perfusion mismatch, and impaired gas exchange. At the cellular level, inflammatory mediators (IL-6, TNF-α, prostaglandins) increase capillary permeability, promote airway edema, and trigger bronchospasm through smooth muscle contraction. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on type i vs type ii requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to respiratory failure",
@@ -4650,15 +4650,15 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for respiratory failure. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for respiratory failure. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
   "bronchiectasis-management-np": {
-    "title": "Bronchiectasis: Pathophysiology & Airway Clearance",
+    "title": "Bronchiectasis: Pathophysiology",
     "cellular": {
       "title": "Pathophysiology of Bronchiectasis",
-      "content": "Bronchiectasis involves disruption of the alveolar-capillary membrane, ventilation-perfusion mismatch, and impaired gas exchange. At the cellular level, inflammatory mediators (IL-6, TNF-α, prostaglandins) increase capillary permeability, promote airway edema, and trigger bronchospasm through smooth muscle contraction. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on pathophysiology & airway clearance requires integration of molecular pathophysiology with clinical presentation patterns."
+      "content": "Bronchiectasis involves disruption of the alveolar-capillary membrane, ventilation-perfusion mismatch, and impaired gas exchange. At the cellular level, inflammatory mediators (IL-6, TNF-α, prostaglandins) increase capillary permeability, promote airway edema, and trigger bronchospasm through smooth muscle contraction. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on pathophysiology & airway clearance requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to bronchiectasis",
@@ -4749,15 +4749,15 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for bronchiectasis. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for bronchiectasis. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
   "interstitial-lung-disease-np": {
-    "title": "Interstitial Lung Disease: Classification & Treatment",
+    "title": "Interstitial Lung Disease: Classification",
     "cellular": {
       "title": "Pathophysiology of Interstitial Lung Disease",
-      "content": "Interstitial Lung Disease involves disruption of the alveolar-capillary membrane, ventilation-perfusion mismatch, and impaired gas exchange. At the cellular level, inflammatory mediators (IL-6, TNF-α, prostaglandins) increase capillary permeability, promote airway edema, and trigger bronchospasm through smooth muscle contraction. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on classification & treatment requires integration of molecular pathophysiology with clinical presentation patterns."
+      "content": "Interstitial Lung Disease involves disruption of the alveolar-capillary membrane, ventilation-perfusion mismatch, and impaired gas exchange. At the cellular level, inflammatory mediators (IL-6, TNF-α, prostaglandins) increase capillary permeability, promote airway edema, and trigger bronchospasm through smooth muscle contraction. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on classification & treatment requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to interstitial lung disease",
@@ -4848,15 +4848,15 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for interstitial lung disease. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for interstitial lung disease. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
   "sarcoidosis-pulmonary-np": {
-    "title": "Sarcoidosis Pulmonary: Staging & Corticosteroid Therapy",
+    "title": "Sarcoidosis Pulmonary: Staging",
     "cellular": {
       "title": "Pathophysiology of Sarcoidosis Pulmonary",
-      "content": "Sarcoidosis Pulmonary involves disruption of the alveolar-capillary membrane, ventilation-perfusion mismatch, and impaired gas exchange. At the cellular level, inflammatory mediators (IL-6, TNF-α, prostaglandins) increase capillary permeability, promote airway edema, and trigger bronchospasm through smooth muscle contraction. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on staging & corticosteroid therapy requires integration of molecular pathophysiology with clinical presentation patterns."
+      "content": "Sarcoidosis Pulmonary involves disruption of the alveolar-capillary membrane, ventilation-perfusion mismatch, and impaired gas exchange. At the cellular level, inflammatory mediators (IL-6, TNF-α, prostaglandins) increase capillary permeability, promote airway edema, and trigger bronchospasm through smooth muscle contraction. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on staging & corticosteroid therapy requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to sarcoidosis pulmonary",
@@ -4947,15 +4947,15 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for sarcoidosis pulmonary. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for sarcoidosis pulmonary. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
   "occupational-lung-disease-np": {
-    "title": "Occupational Lung Disease: Asbestosis & Silicosis",
+    "title": "Occupational Lung Disease: Asbestosis",
     "cellular": {
       "title": "Pathophysiology of Occupational Lung Disease",
-      "content": "Occupational Lung Disease involves disruption of the alveolar-capillary membrane, ventilation-perfusion mismatch, and impaired gas exchange. At the cellular level, inflammatory mediators (IL-6, TNF-α, prostaglandins) increase capillary permeability, promote airway edema, and trigger bronchospasm through smooth muscle contraction. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on asbestosis & silicosis requires integration of molecular pathophysiology with clinical presentation patterns."
+      "content": "Occupational Lung Disease involves disruption of the alveolar-capillary membrane, ventilation-perfusion mismatch, and impaired gas exchange. At the cellular level, inflammatory mediators (IL-6, TNF-α, prostaglandins) increase capillary permeability, promote airway edema, and trigger bronchospasm through smooth muscle contraction. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on asbestosis & silicosis requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to occupational lung disease",
@@ -5046,15 +5046,15 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for occupational lung disease. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for occupational lung disease. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
   "ventilator-associated-pneumonia-np": {
-    "title": "Ventilator-Associated Pneumonia: Prevention & Treatment",
+    "title": "Ventilator-Associated Pneumonia: Prevention",
     "cellular": {
-      "title": "Pathophysiology of Ventilator-Associated Pneumonia",
-      "content": "Ventilator-Associated Pneumonia involves disruption of the alveolar-capillary membrane, ventilation-perfusion mismatch, and impaired gas exchange. At the cellular level, inflammatory mediators (IL-6, TNF-α, prostaglandins) increase capillary permeability, promote airway edema, and trigger bronchospasm through smooth muscle contraction. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on prevention & treatment requires integration of molecular pathophysiology with clinical presentation patterns."
+      "title": "Ventilator-Associated Pneumonia",
+      "content": "Ventilator-Associated Pneumonia involves disruption of the alveolar-capillary membrane, ventilation-perfusion mismatch, and impaired gas exchange. At the cellular level, inflammatory mediators (IL-6, TNF-α, prostaglandins) increase capillary permeability, promote airway edema, and trigger bronchospasm through smooth muscle contraction. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on prevention & treatment requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to ventilator-associated pneumonia",
@@ -5145,15 +5145,15 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for ventilator-associated pneumonia. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for ventilator-associated pneumonia. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
   "tracheobronchial-injury-np": {
-    "title": "Tracheobronchial Injury: Diagnosis & Surgical Management",
+    "title": "Tracheobronchial Injury: Diagnosis",
     "cellular": {
       "title": "Pathophysiology of Tracheobronchial Injury",
-      "content": "Tracheobronchial Injury involves disruption of the alveolar-capillary membrane, ventilation-perfusion mismatch, and impaired gas exchange. At the cellular level, inflammatory mediators (IL-6, TNF-α, prostaglandins) increase capillary permeability, promote airway edema, and trigger bronchospasm through smooth muscle contraction. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on diagnosis & surgical management requires integration of molecular pathophysiology with clinical presentation patterns."
+      "content": "Tracheobronchial Injury involves disruption of the alveolar-capillary membrane, ventilation-perfusion mismatch, and impaired gas exchange. At the cellular level, inflammatory mediators (IL-6, TNF-α, prostaglandins) increase capillary permeability, promote airway edema, and trigger bronchospasm through smooth muscle contraction. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on diagnosis & surgical management requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to tracheobronchial injury",
@@ -5244,15 +5244,15 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for tracheobronchial injury. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for tracheobronchial injury. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
   "hemothorax-management-np": {
-    "title": "Hemothorax: Chest Tube & Surgical Intervention",
+    "title": "Hemothorax: Chest Tube",
     "cellular": {
       "title": "Pathophysiology of Hemothorax",
-      "content": "Hemothorax involves disruption of the alveolar-capillary membrane, ventilation-perfusion mismatch, and impaired gas exchange. At the cellular level, inflammatory mediators (IL-6, TNF-α, prostaglandins) increase capillary permeability, promote airway edema, and trigger bronchospasm through smooth muscle contraction. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on chest tube & surgical intervention requires integration of molecular pathophysiology with clinical presentation patterns."
+      "content": "Hemothorax involves disruption of the alveolar-capillary membrane, ventilation-perfusion mismatch, and impaired gas exchange. At the cellular level, inflammatory mediators (IL-6, TNF-α, prostaglandins) increase capillary permeability, promote airway edema, and trigger bronchospasm through smooth muscle contraction. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on chest tube & surgical intervention requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to hemothorax",
@@ -5343,15 +5343,15 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for hemothorax. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for hemothorax. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
   "pneumothorax-management-np": {
-    "title": "Pneumothorax: Needle Decompression & Chest Tube",
+    "title": "Pneumothorax: Needle Decompression",
     "cellular": {
       "title": "Pathophysiology of Pneumothorax",
-      "content": "Pneumothorax involves disruption of the alveolar-capillary membrane, ventilation-perfusion mismatch, and impaired gas exchange. At the cellular level, inflammatory mediators (IL-6, TNF-α, prostaglandins) increase capillary permeability, promote airway edema, and trigger bronchospasm through smooth muscle contraction. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on needle decompression & chest tube requires integration of molecular pathophysiology with clinical presentation patterns."
+      "content": "Pneumothorax involves disruption of the alveolar-capillary membrane, ventilation-perfusion mismatch, and impaired gas exchange. At the cellular level, inflammatory mediators (IL-6, TNF-α, prostaglandins) increase capillary permeability, promote airway edema, and trigger bronchospasm through smooth muscle contraction. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on needle decompression & chest tube requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to pneumothorax",
@@ -5442,15 +5442,15 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for pneumothorax. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for pneumothorax. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
   "chest-drainage-system-np": {
-    "title": "Chest Drainage: Advanced Management & Prescribing",
+    "title": "Chest Drainage: Advanced Management",
     "cellular": {
       "title": "Pathophysiology of Chest Drainage",
-      "content": "Chest Drainage involves disruption of the alveolar-capillary membrane, ventilation-perfusion mismatch, and impaired gas exchange. At the cellular level, inflammatory mediators (IL-6, TNF-α, prostaglandins) increase capillary permeability, promote airway edema, and trigger bronchospasm through smooth muscle contraction. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on advanced management & prescribing requires integration of molecular pathophysiology with clinical presentation patterns."
+      "content": "Chest Drainage involves disruption of the alveolar-capillary membrane, ventilation-perfusion mismatch, and impaired gas exchange. At the cellular level, inflammatory mediators (IL-6, TNF-α, prostaglandins) increase capillary permeability, promote airway edema, and trigger bronchospasm through smooth muscle contraction. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on advanced management & prescribing requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to chest drainage",
@@ -5541,15 +5541,15 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for chest drainage. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for chest drainage. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
   "malignant-hyperthermia-np": {
-    "title": "Malignant Hyperthermia: Dantrolene Protocol & Pharmacogenomics",
+    "title": "Malignant Hyperthermia: Dantrolene Protocol",
     "cellular": {
       "title": "Pathophysiology of Malignant Hyperthermia",
-      "content": "Malignant Hyperthermia involves disruption of the alveolar-capillary membrane, ventilation-perfusion mismatch, and impaired gas exchange. At the cellular level, inflammatory mediators (IL-6, TNF-α, prostaglandins) increase capillary permeability, promote airway edema, and trigger bronchospasm through smooth muscle contraction. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on dantrolene protocol & pharmacogenomics requires integration of molecular pathophysiology with clinical presentation patterns."
+      "content": "Malignant Hyperthermia involves disruption of the alveolar-capillary membrane, ventilation-perfusion mismatch, and impaired gas exchange. At the cellular level, inflammatory mediators (IL-6, TNF-α, prostaglandins) increase capillary permeability, promote airway edema, and trigger bronchospasm through smooth muscle contraction. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on dantrolene protocol & pharmacogenomics requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to malignant hyperthermia",
@@ -5640,7 +5640,7 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for malignant hyperthermia. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for malignant hyperthermia. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
@@ -5648,7 +5648,7 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
     "title": "Wound Irrigation: Advanced Wound Management",
     "cellular": {
       "title": "Pathophysiology of Wound Irrigation",
-      "content": "Wound Irrigation involves disruption of the alveolar-capillary membrane, ventilation-perfusion mismatch, and impaired gas exchange. At the cellular level, inflammatory mediators (IL-6, TNF-α, prostaglandins) increase capillary permeability, promote airway edema, and trigger bronchospasm through smooth muscle contraction. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on advanced wound management requires integration of molecular pathophysiology with clinical presentation patterns."
+      "content": "Wound Irrigation involves disruption of the alveolar-capillary membrane, ventilation-perfusion mismatch, and impaired gas exchange. At the cellular level, inflammatory mediators (IL-6, TNF-α, prostaglandins) increase capillary permeability, promote airway edema, and trigger bronchospasm through smooth muscle contraction. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on advanced wound management requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to wound irrigation",
@@ -5739,7 +5739,7 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for wound irrigation. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for wound irrigation. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
@@ -5747,7 +5747,7 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
     "title": "Stroke: Penumbra & Reperfusion",
     "cellular": {
       "title": "Pathophysiology of Stroke",
-      "content": "Stroke involves disruption of neuronal signaling, neurotransmitter imbalance, or structural damage to central/peripheral nervous system components. At the cellular level, excitotoxicity from excess glutamate, calcium influx, and free radical formation drive neuronal apoptosis and necrosis. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on penumbra & reperfusion requires integration of molecular pathophysiology with clinical presentation patterns."
+      "content": "Stroke involves disruption of neuronal signaling, neurotransmitter imbalance, or structural damage to central/peripheral nervous system components. At the cellular level, excitotoxicity from excess glutamate, calcium influx, and free radical formation drive neuronal apoptosis and necrosis. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on penumbra & reperfusion requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to stroke",
@@ -5838,7 +5838,7 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for stroke. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for stroke. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
@@ -5846,7 +5846,7 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
     "title": "Status Epilepticus: Refractory Mgmt",
     "cellular": {
       "title": "Pathophysiology of Status Epilepticus",
-      "content": "Status Epilepticus involves disruption of neuronal signaling, neurotransmitter imbalance, or structural damage to central/peripheral nervous system components. At the cellular level, excitotoxicity from excess glutamate, calcium influx, and free radical formation drive neuronal apoptosis and necrosis. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on refractory mgmt requires integration of molecular pathophysiology with clinical presentation patterns."
+      "content": "Status Epilepticus involves disruption of neuronal signaling, neurotransmitter imbalance, or structural damage to central/peripheral nervous system components. At the cellular level, excitotoxicity from excess glutamate, calcium influx, and free radical formation drive neuronal apoptosis and necrosis. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on refractory mgmt requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to status epilepticus",
@@ -5937,7 +5937,7 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for status epilepticus. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for status epilepticus. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
@@ -5945,7 +5945,7 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
     "title": "TBI: Classification & Neuroprotection",
     "cellular": {
       "title": "Pathophysiology of TBI",
-      "content": "TBI involves disruption of neuronal signaling, neurotransmitter imbalance, or structural damage to central/peripheral nervous system components. At the cellular level, excitotoxicity from excess glutamate, calcium influx, and free radical formation drive neuronal apoptosis and necrosis. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on classification & neuroprotection requires integration of molecular pathophysiology with clinical presentation patterns."
+      "content": "TBI involves disruption of neuronal signaling, neurotransmitter imbalance, or structural damage to central/peripheral nervous system components. At the cellular level, excitotoxicity from excess glutamate, calcium influx, and free radical formation drive neuronal apoptosis and necrosis. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on classification & neuroprotection requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to tbi",
@@ -6036,15 +6036,15 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for tbi. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for tbi. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
   "sah-management-np": {
-    "title": "Subarachnoid Hemorrhage: Hunt-Hess & Vasospasm",
+    "title": "Subarachnoid Hemorrhage: Hunt-Hess",
     "cellular": {
       "title": "Pathophysiology of Subarachnoid Hemorrhage",
-      "content": "Subarachnoid Hemorrhage involves disruption of neuronal signaling, neurotransmitter imbalance, or structural damage to central/peripheral nervous system components. At the cellular level, excitotoxicity from excess glutamate, calcium influx, and free radical formation drive neuronal apoptosis and necrosis. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on hunt-hess & vasospasm requires integration of molecular pathophysiology with clinical presentation patterns."
+      "content": "Subarachnoid Hemorrhage involves disruption of neuronal signaling, neurotransmitter imbalance, or structural damage to central/peripheral nervous system components. At the cellular level, excitotoxicity from excess glutamate, calcium influx, and free radical formation drive neuronal apoptosis and necrosis. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on hunt-hess & vasospasm requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to subarachnoid hemorrhage",
@@ -6135,7 +6135,7 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for subarachnoid hemorrhage. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for subarachnoid hemorrhage. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
@@ -6143,7 +6143,7 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
     "title": "Spinal Cord Injury: ASIA Classification",
     "cellular": {
       "title": "Pathophysiology of Spinal Cord Injury",
-      "content": "Spinal Cord Injury involves disruption of neuronal signaling, neurotransmitter imbalance, or structural damage to central/peripheral nervous system components. At the cellular level, excitotoxicity from excess glutamate, calcium influx, and free radical formation drive neuronal apoptosis and necrosis. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on asia classification requires integration of molecular pathophysiology with clinical presentation patterns."
+      "content": "Spinal Cord Injury involves disruption of neuronal signaling, neurotransmitter imbalance, or structural damage to central/peripheral nervous system components. At the cellular level, excitotoxicity from excess glutamate, calcium influx, and free radical formation drive neuronal apoptosis and necrosis. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on asia classification requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to spinal cord injury",
@@ -6234,7 +6234,7 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for spinal cord injury. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for spinal cord injury. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
@@ -6242,7 +6242,7 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
     "title": "Multiple Sclerosis: DMT & Relapse Management",
     "cellular": {
       "title": "Pathophysiology of Multiple Sclerosis",
-      "content": "Multiple Sclerosis involves disruption of neuronal signaling, neurotransmitter imbalance, or structural damage to central/peripheral nervous system components. At the cellular level, excitotoxicity from excess glutamate, calcium influx, and free radical formation drive neuronal apoptosis and necrosis. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on dmt & relapse management requires integration of molecular pathophysiology with clinical presentation patterns."
+      "content": "Multiple Sclerosis involves disruption of neuronal signaling, neurotransmitter imbalance, or structural damage to central/peripheral nervous system components. At the cellular level, excitotoxicity from excess glutamate, calcium influx, and free radical formation drive neuronal apoptosis and necrosis. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on dmt & relapse management requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to multiple sclerosis",
@@ -6333,7 +6333,7 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for multiple sclerosis. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for multiple sclerosis. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
@@ -6341,7 +6341,7 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
     "title": "ALS: Disease Progression & Supportive Care",
     "cellular": {
       "title": "Pathophysiology of ALS",
-      "content": "ALS involves disruption of neuronal signaling, neurotransmitter imbalance, or structural damage to central/peripheral nervous system components. At the cellular level, excitotoxicity from excess glutamate, calcium influx, and free radical formation drive neuronal apoptosis and necrosis. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on disease progression & supportive care requires integration of molecular pathophysiology with clinical presentation patterns."
+      "content": "ALS involves disruption of neuronal signaling, neurotransmitter imbalance, or structural damage to central/peripheral nervous system components. At the cellular level, excitotoxicity from excess glutamate, calcium influx, and free radical formation drive neuronal apoptosis and necrosis. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on disease progression & supportive care requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to als",
@@ -6432,7 +6432,7 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for als. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for als. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
@@ -6440,7 +6440,7 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
     "title": "Parkinson's: Dopaminergic Pharmacology",
     "cellular": {
       "title": "Pathophysiology of Parkinson's",
-      "content": "Parkinson's involves disruption of neuronal signaling, neurotransmitter imbalance, or structural damage to central/peripheral nervous system components. At the cellular level, excitotoxicity from excess glutamate, calcium influx, and free radical formation drive neuronal apoptosis and necrosis. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on dopaminergic pharmacology requires integration of molecular pathophysiology with clinical presentation patterns."
+      "content": "Parkinson's involves disruption of neuronal signaling, neurotransmitter imbalance, or structural damage to central/peripheral nervous system components. At the cellular level, excitotoxicity from excess glutamate, calcium influx, and free radical formation drive neuronal apoptosis and necrosis. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on dopaminergic pharmacology requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to parkinson's",
@@ -6531,15 +6531,15 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for parkinson's. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for parkinson's. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
   "dementia-management-np": {
-    "title": "Dementia: Differential & Cholinesterase Inhibitors",
+    "title": "Dementia: Differential",
     "cellular": {
       "title": "Pathophysiology of Dementia",
-      "content": "Dementia involves disruption of neuronal signaling, neurotransmitter imbalance, or structural damage to central/peripheral nervous system components. At the cellular level, excitotoxicity from excess glutamate, calcium influx, and free radical formation drive neuronal apoptosis and necrosis. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on differential & cholinesterase inhibitors requires integration of molecular pathophysiology with clinical presentation patterns."
+      "content": "Dementia involves disruption of neuronal signaling, neurotransmitter imbalance, or structural damage to central/peripheral nervous system components. At the cellular level, excitotoxicity from excess glutamate, calcium influx, and free radical formation drive neuronal apoptosis and necrosis. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on differential & cholinesterase inhibitors requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to dementia",
@@ -6630,7 +6630,7 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for dementia. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for dementia. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
@@ -6638,7 +6638,7 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
     "title": "Headache: Primary vs Secondary Differential",
     "cellular": {
       "title": "Pathophysiology of Headache",
-      "content": "Headache involves disruption of neuronal signaling, neurotransmitter imbalance, or structural damage to central/peripheral nervous system components. At the cellular level, excitotoxicity from excess glutamate, calcium influx, and free radical formation drive neuronal apoptosis and necrosis. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on primary vs secondary differential requires integration of molecular pathophysiology with clinical presentation patterns."
+      "content": "Headache involves disruption of neuronal signaling, neurotransmitter imbalance, or structural damage to central/peripheral nervous system components. At the cellular level, excitotoxicity from excess glutamate, calcium influx, and free radical formation drive neuronal apoptosis and necrosis. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on primary vs secondary differential requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to headache",
@@ -6729,15 +6729,15 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for headache. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for headache. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
   "myasthenia-gravis-crisis-np": {
-    "title": "Myasthenia Gravis Crisis: Plasmapheresis & IVIG",
+    "title": "Myasthenia Gravis Crisis: Plasmapheresis",
     "cellular": {
       "title": "Pathophysiology of Myasthenia Gravis Crisis",
-      "content": "Myasthenia Gravis Crisis involves disruption of neuronal signaling, neurotransmitter imbalance, or structural damage to central/peripheral nervous system components. At the cellular level, excitotoxicity from excess glutamate, calcium influx, and free radical formation drive neuronal apoptosis and necrosis. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on plasmapheresis & ivig requires integration of molecular pathophysiology with clinical presentation patterns."
+      "content": "Myasthenia Gravis Crisis involves disruption of neuronal signaling, neurotransmitter imbalance, or structural damage to central/peripheral nervous system components. At the cellular level, excitotoxicity from excess glutamate, calcium influx, and free radical formation drive neuronal apoptosis and necrosis. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on plasmapheresis & ivig requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to myasthenia gravis crisis",
@@ -6828,15 +6828,15 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for myasthenia gravis crisis. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for myasthenia gravis crisis. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
   "huntington-disease-np": {
-    "title": "Huntington Disease: Genetic Counseling & Management",
+    "title": "Huntington Disease: Genetic Counseling",
     "cellular": {
       "title": "Pathophysiology of Huntington Disease",
-      "content": "Huntington Disease involves disruption of neuronal signaling, neurotransmitter imbalance, or structural damage to central/peripheral nervous system components. At the cellular level, excitotoxicity from excess glutamate, calcium influx, and free radical formation drive neuronal apoptosis and necrosis. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on genetic counseling & management requires integration of molecular pathophysiology with clinical presentation patterns."
+      "content": "Huntington Disease involves disruption of neuronal signaling, neurotransmitter imbalance, or structural damage to central/peripheral nervous system components. At the cellular level, excitotoxicity from excess glutamate, calcium influx, and free radical formation drive neuronal apoptosis and necrosis. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on genetic counseling & management requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to huntington disease",
@@ -6927,15 +6927,15 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for huntington disease. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for huntington disease. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
   "normal-pressure-hydrocephalus-np": {
-    "title": "Normal Pressure Hydrocephalus: Triad & VP Shunt",
+    "title": "Normal Pressure Hydrocephalus: Triad",
     "cellular": {
-      "title": "Pathophysiology of Normal Pressure Hydrocephalus",
-      "content": "Normal Pressure Hydrocephalus involves disruption of neuronal signaling, neurotransmitter imbalance, or structural damage to central/peripheral nervous system components. At the cellular level, excitotoxicity from excess glutamate, calcium influx, and free radical formation drive neuronal apoptosis and necrosis. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on triad & vp shunt requires integration of molecular pathophysiology with clinical presentation patterns."
+      "title": "Normal Pressure Hydrocephalus",
+      "content": "Normal Pressure Hydrocephalus involves disruption of neuronal signaling, neurotransmitter imbalance, or structural damage to central/peripheral nervous system components. At the cellular level, excitotoxicity from excess glutamate, calcium influx, and free radical formation drive neuronal apoptosis and necrosis. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on triad & vp shunt requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to normal pressure hydrocephalus",
@@ -7026,15 +7026,15 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for normal pressure hydrocephalus. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for normal pressure hydrocephalus. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
   "central-pontine-myelinolysis-np": {
-    "title": "Central Pontine Myelinolysis: Osmotic Demyelination",
+    "title": "Central Pontine Myelinolysis: Osmotic",
     "cellular": {
-      "title": "Pathophysiology of Central Pontine Myelinolysis",
-      "content": "Central Pontine Myelinolysis involves disruption of neuronal signaling, neurotransmitter imbalance, or structural damage to central/peripheral nervous system components. At the cellular level, excitotoxicity from excess glutamate, calcium influx, and free radical formation drive neuronal apoptosis and necrosis. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on osmotic demyelination requires integration of molecular pathophysiology with clinical presentation patterns."
+      "title": "Central Pontine Myelinolysis",
+      "content": "Central Pontine Myelinolysis involves disruption of neuronal signaling, neurotransmitter imbalance, or structural damage to central/peripheral nervous system components. At the cellular level, excitotoxicity from excess glutamate, calcium influx, and free radical formation drive neuronal apoptosis and necrosis. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on osmotic demyelination requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to central pontine myelinolysis",
@@ -7125,15 +7125,15 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for central pontine myelinolysis. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for central pontine myelinolysis. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
   "pres-np": {
-    "title": "Posterior Reversible Encephalopathy (PRES): Imaging & Management",
+    "title": "Posterior Reversible Encephalopathy (PRES)",
     "cellular": {
-      "title": "Pathophysiology of Posterior Reversible Encephalopathy (PRES)",
-      "content": "Posterior Reversible Encephalopathy (PRES) involves disruption of neuronal signaling, neurotransmitter imbalance, or structural damage to central/peripheral nervous system components. At the cellular level, excitotoxicity from excess glutamate, calcium influx, and free radical formation drive neuronal apoptosis and necrosis. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on imaging & management requires integration of molecular pathophysiology with clinical presentation patterns."
+      "title": "Posterior Reversible Encephalopathy (PRES)",
+      "content": "Posterior Reversible Encephalopathy (PRES) involves disruption of neuronal signaling, neurotransmitter imbalance, or structural damage to central/peripheral nervous system components. At the cellular level, excitotoxicity from excess glutamate, calcium influx, and free radical formation drive neuronal apoptosis and necrosis. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on imaging & management requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to posterior reversible encephalopathy (pres)",
@@ -7224,15 +7224,15 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for posterior reversible encephalopathy (pres). This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for posterior reversible encephalopathy (pres). This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
   "cavernous-sinus-thrombosis-np": {
-    "title": "Cavernous Sinus Thrombosis: Diagnosis & Anticoagulation",
+    "title": "Cavernous Sinus Thrombosis: Diagnosis",
     "cellular": {
       "title": "Pathophysiology of Cavernous Sinus Thrombosis",
-      "content": "Cavernous Sinus Thrombosis involves disruption of neuronal signaling, neurotransmitter imbalance, or structural damage to central/peripheral nervous system components. At the cellular level, excitotoxicity from excess glutamate, calcium influx, and free radical formation drive neuronal apoptosis and necrosis. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on diagnosis & anticoagulation requires integration of molecular pathophysiology with clinical presentation patterns."
+      "content": "Cavernous Sinus Thrombosis involves disruption of neuronal signaling, neurotransmitter imbalance, or structural damage to central/peripheral nervous system components. At the cellular level, excitotoxicity from excess glutamate, calcium influx, and free radical formation drive neuronal apoptosis and necrosis. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on diagnosis & anticoagulation requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to cavernous sinus thrombosis",
@@ -7323,15 +7323,15 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for cavernous sinus thrombosis. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for cavernous sinus thrombosis. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
   "cerebral-venous-sinus-thrombosis-np": {
-    "title": "Cerebral Venous Sinus Thrombosis: Risk Factors & Treatment",
+    "title": "Cerebral Venous Sinus Thrombosis: Risk",
     "cellular": {
-      "title": "Pathophysiology of Cerebral Venous Sinus Thrombosis",
-      "content": "Cerebral Venous Sinus Thrombosis involves disruption of neuronal signaling, neurotransmitter imbalance, or structural damage to central/peripheral nervous system components. At the cellular level, excitotoxicity from excess glutamate, calcium influx, and free radical formation drive neuronal apoptosis and necrosis. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on risk factors & treatment requires integration of molecular pathophysiology with clinical presentation patterns."
+      "title": "Cerebral Venous Sinus Thrombosis",
+      "content": "Cerebral Venous Sinus Thrombosis involves disruption of neuronal signaling, neurotransmitter imbalance, or structural damage to central/peripheral nervous system components. At the cellular level, excitotoxicity from excess glutamate, calcium influx, and free radical formation drive neuronal apoptosis and necrosis. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on risk factors & treatment requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to cerebral venous sinus thrombosis",
@@ -7422,7 +7422,7 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for cerebral venous sinus thrombosis. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for cerebral venous sinus thrombosis. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
@@ -7430,7 +7430,7 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
     "title": "Brown-Séquard Syndrome: Hemisection Patterns",
     "cellular": {
       "title": "Pathophysiology of Brown-Séquard Syndrome",
-      "content": "Brown-Séquard Syndrome involves disruption of neuronal signaling, neurotransmitter imbalance, or structural damage to central/peripheral nervous system components. At the cellular level, excitotoxicity from excess glutamate, calcium influx, and free radical formation drive neuronal apoptosis and necrosis. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on hemisection patterns requires integration of molecular pathophysiology with clinical presentation patterns."
+      "content": "Brown-Séquard Syndrome involves disruption of neuronal signaling, neurotransmitter imbalance, or structural damage to central/peripheral nervous system components. At the cellular level, excitotoxicity from excess glutamate, calcium influx, and free radical formation drive neuronal apoptosis and necrosis. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on hemisection patterns requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to brown-séquard syndrome",
@@ -7521,15 +7521,15 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for brown-séquard syndrome. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for brown-séquard syndrome. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
   "locked-in-syndrome-np": {
-    "title": "Locked-In Syndrome: Assessment & Communication",
+    "title": "Locked-In Syndrome: Assessment",
     "cellular": {
       "title": "Pathophysiology of Locked-In Syndrome",
-      "content": "Locked-In Syndrome involves disruption of neuronal signaling, neurotransmitter imbalance, or structural damage to central/peripheral nervous system components. At the cellular level, excitotoxicity from excess glutamate, calcium influx, and free radical formation drive neuronal apoptosis and necrosis. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on assessment & communication requires integration of molecular pathophysiology with clinical presentation patterns."
+      "content": "Locked-In Syndrome involves disruption of neuronal signaling, neurotransmitter imbalance, or structural damage to central/peripheral nervous system components. At the cellular level, excitotoxicity from excess glutamate, calcium influx, and free radical formation drive neuronal apoptosis and necrosis. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on assessment & communication requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to locked-in syndrome",
@@ -7620,7 +7620,7 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for locked-in syndrome. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for locked-in syndrome. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
@@ -7628,7 +7628,7 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
     "title": "Alzheimer Disease",
     "cellular": {
       "title": "Pathophysiology of Alzheimer Disease",
-      "content": "Alzheimer Disease involves disruption of neuronal signaling, neurotransmitter imbalance, or structural damage to central/peripheral nervous system components. At the cellular level, excitotoxicity from excess glutamate, calcium influx, and free radical formation drive neuronal apoptosis and necrosis. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. "
+      "content": "Alzheimer Disease involves disruption of neuronal signaling, neurotransmitter imbalance, or structural damage to central/peripheral nervous system components. At the cellular level, excitotoxicity from excess glutamate, calcium influx, and free radical formation drive neuronal apoptosis and necrosis. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. "
     },
     "riskFactors": [
       "Age-related risk factors specific to alzheimer disease",
@@ -7719,7 +7719,7 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for alzheimer disease. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for alzheimer disease. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
@@ -7727,7 +7727,7 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
     "title": "Guillain-Barre Syndrome",
     "cellular": {
       "title": "Pathophysiology of Guillain-Barre Syndrome",
-      "content": "Guillain-Barre Syndrome involves disruption of neuronal signaling, neurotransmitter imbalance, or structural damage to central/peripheral nervous system components. At the cellular level, excitotoxicity from excess glutamate, calcium influx, and free radical formation drive neuronal apoptosis and necrosis. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. "
+      "content": "Guillain-Barre Syndrome involves disruption of neuronal signaling, neurotransmitter imbalance, or structural damage to central/peripheral nervous system components. At the cellular level, excitotoxicity from excess glutamate, calcium influx, and free radical formation drive neuronal apoptosis and necrosis. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. "
     },
     "riskFactors": [
       "Age-related risk factors specific to guillain-barre syndrome",
@@ -7818,7 +7818,7 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for guillain-barre syndrome. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for guillain-barre syndrome. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
@@ -7826,7 +7826,7 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
     "title": "Myasthenia Gravis",
     "cellular": {
       "title": "Pathophysiology of Myasthenia Gravis",
-      "content": "Myasthenia Gravis involves disruption of neuronal signaling, neurotransmitter imbalance, or structural damage to central/peripheral nervous system components. At the cellular level, excitotoxicity from excess glutamate, calcium influx, and free radical formation drive neuronal apoptosis and necrosis. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. "
+      "content": "Myasthenia Gravis involves disruption of neuronal signaling, neurotransmitter imbalance, or structural damage to central/peripheral nervous system components. At the cellular level, excitotoxicity from excess glutamate, calcium influx, and free radical formation drive neuronal apoptosis and necrosis. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. "
     },
     "riskFactors": [
       "Age-related risk factors specific to myasthenia gravis",
@@ -7917,7 +7917,7 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for myasthenia gravis. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for myasthenia gravis. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
@@ -7925,7 +7925,7 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
     "title": "Thyroid Storm: Receptor Blockade",
     "cellular": {
       "title": "Pathophysiology of Thyroid Storm",
-      "content": "Thyroid Storm involves dysregulation of hormonal feedback loops, receptor sensitivity, and metabolic homeostasis. At the cellular level, altered second-messenger signaling (cAMP, IP3/DAG), receptor downregulation, and enzymatic pathway disruption lead to systemic metabolic derangement. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on receptor blockade requires integration of molecular pathophysiology with clinical presentation patterns."
+      "content": "Thyroid Storm involves dysregulation of hormonal feedback loops, receptor sensitivity, and metabolic homeostasis. At the cellular level, altered second-messenger signaling (cAMP, IP3/DAG), receptor downregulation, and enzymatic pathway disruption lead to systemic metabolic derangement. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on receptor blockade requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to thyroid storm",
@@ -8016,15 +8016,15 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for thyroid storm. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for thyroid storm. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
   "adrenal-crisis-np": {
-    "title": "Adrenal Crisis: Acute Management & Steroid Replacement",
+    "title": "Adrenal Crisis: Acute Management",
     "cellular": {
       "title": "Pathophysiology of Adrenal Crisis",
-      "content": "Adrenal Crisis involves dysregulation of hormonal feedback loops, receptor sensitivity, and metabolic homeostasis. At the cellular level, altered second-messenger signaling (cAMP, IP3/DAG), receptor downregulation, and enzymatic pathway disruption lead to systemic metabolic derangement. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on acute management & steroid replacement requires integration of molecular pathophysiology with clinical presentation patterns."
+      "content": "Adrenal Crisis involves dysregulation of hormonal feedback loops, receptor sensitivity, and metabolic homeostasis. At the cellular level, altered second-messenger signaling (cAMP, IP3/DAG), receptor downregulation, and enzymatic pathway disruption lead to systemic metabolic derangement. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on acute management & steroid replacement requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to adrenal crisis",
@@ -8115,7 +8115,7 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for adrenal crisis. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for adrenal crisis. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
@@ -8123,7 +8123,7 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
     "title": "Cushing Syndrome: Diagnosis & Etiology",
     "cellular": {
       "title": "Pathophysiology of Cushing Syndrome",
-      "content": "Cushing Syndrome involves dysregulation of hormonal feedback loops, receptor sensitivity, and metabolic homeostasis. At the cellular level, altered second-messenger signaling (cAMP, IP3/DAG), receptor downregulation, and enzymatic pathway disruption lead to systemic metabolic derangement. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on diagnosis & etiology requires integration of molecular pathophysiology with clinical presentation patterns."
+      "content": "Cushing Syndrome involves dysregulation of hormonal feedback loops, receptor sensitivity, and metabolic homeostasis. At the cellular level, altered second-messenger signaling (cAMP, IP3/DAG), receptor downregulation, and enzymatic pathway disruption lead to systemic metabolic derangement. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on diagnosis & etiology requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to cushing syndrome",
@@ -8214,7 +8214,7 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for cushing syndrome. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for cushing syndrome. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
@@ -8222,7 +8222,7 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
     "title": "Hyperaldosteronism: Conn Syndrome & Screening",
     "cellular": {
       "title": "Pathophysiology of Hyperaldosteronism",
-      "content": "Hyperaldosteronism involves dysregulation of hormonal feedback loops, receptor sensitivity, and metabolic homeostasis. At the cellular level, altered second-messenger signaling (cAMP, IP3/DAG), receptor downregulation, and enzymatic pathway disruption lead to systemic metabolic derangement. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on conn syndrome & screening requires integration of molecular pathophysiology with clinical presentation patterns."
+      "content": "Hyperaldosteronism involves dysregulation of hormonal feedback loops, receptor sensitivity, and metabolic homeostasis. At the cellular level, altered second-messenger signaling (cAMP, IP3/DAG), receptor downregulation, and enzymatic pathway disruption lead to systemic metabolic derangement. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on conn syndrome & screening requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to hyperaldosteronism",
@@ -8313,7 +8313,7 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for hyperaldosteronism. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for hyperaldosteronism. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
@@ -8321,7 +8321,7 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
     "title": "Pheochromocytoma: Catecholamine Crisis",
     "cellular": {
       "title": "Pathophysiology of Pheochromocytoma",
-      "content": "Pheochromocytoma involves dysregulation of hormonal feedback loops, receptor sensitivity, and metabolic homeostasis. At the cellular level, altered second-messenger signaling (cAMP, IP3/DAG), receptor downregulation, and enzymatic pathway disruption lead to systemic metabolic derangement. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on catecholamine crisis requires integration of molecular pathophysiology with clinical presentation patterns."
+      "content": "Pheochromocytoma involves dysregulation of hormonal feedback loops, receptor sensitivity, and metabolic homeostasis. At the cellular level, altered second-messenger signaling (cAMP, IP3/DAG), receptor downregulation, and enzymatic pathway disruption lead to systemic metabolic derangement. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on catecholamine crisis requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to pheochromocytoma",
@@ -8412,15 +8412,15 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for pheochromocytoma. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for pheochromocytoma. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
   "hypercalcemia-malignancy-np": {
-    "title": "Hypercalcemia of Malignancy: PTHrP & Bisphosphonates",
+    "title": "Hypercalcemia of Malignancy: PTHrP",
     "cellular": {
-      "title": "Pathophysiology of Hypercalcemia of Malignancy",
-      "content": "Hypercalcemia of Malignancy involves dysregulation of hormonal feedback loops, receptor sensitivity, and metabolic homeostasis. At the cellular level, altered second-messenger signaling (cAMP, IP3/DAG), receptor downregulation, and enzymatic pathway disruption lead to systemic metabolic derangement. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on pthrp & bisphosphonates requires integration of molecular pathophysiology with clinical presentation patterns."
+      "title": "Hypercalcemia of Malignancy",
+      "content": "Hypercalcemia of Malignancy involves dysregulation of hormonal feedback loops, receptor sensitivity, and metabolic homeostasis. At the cellular level, altered second-messenger signaling (cAMP, IP3/DAG), receptor downregulation, and enzymatic pathway disruption lead to systemic metabolic derangement. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on pthrp & bisphosphonates requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to hypercalcemia of malignancy",
@@ -8511,15 +8511,15 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for hypercalcemia of malignancy. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for hypercalcemia of malignancy. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
   "hyponatremia-correction-np": {
-    "title": "Hyponatremia: Osmotic Demyelination Prevention",
+    "title": "Hyponatremia: Osmotic Demyelination",
     "cellular": {
       "title": "Pathophysiology of Hyponatremia",
-      "content": "Hyponatremia involves dysregulation of hormonal feedback loops, receptor sensitivity, and metabolic homeostasis. At the cellular level, altered second-messenger signaling (cAMP, IP3/DAG), receptor downregulation, and enzymatic pathway disruption lead to systemic metabolic derangement. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on osmotic demyelination prevention requires integration of molecular pathophysiology with clinical presentation patterns."
+      "content": "Hyponatremia involves dysregulation of hormonal feedback loops, receptor sensitivity, and metabolic homeostasis. At the cellular level, altered second-messenger signaling (cAMP, IP3/DAG), receptor downregulation, and enzymatic pathway disruption lead to systemic metabolic derangement. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on osmotic demyelination prevention requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to hyponatremia",
@@ -8610,7 +8610,7 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for hyponatremia. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for hyponatremia. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
@@ -8618,7 +8618,7 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
     "title": "MEN Syndromes: Type 1, 2A & 2B Classification",
     "cellular": {
       "title": "Pathophysiology of MEN Syndromes",
-      "content": "MEN Syndromes involves dysregulation of hormonal feedback loops, receptor sensitivity, and metabolic homeostasis. At the cellular level, altered second-messenger signaling (cAMP, IP3/DAG), receptor downregulation, and enzymatic pathway disruption lead to systemic metabolic derangement. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on type 1, 2a & 2b classification requires integration of molecular pathophysiology with clinical presentation patterns."
+      "content": "MEN Syndromes involves dysregulation of hormonal feedback loops, receptor sensitivity, and metabolic homeostasis. At the cellular level, altered second-messenger signaling (cAMP, IP3/DAG), receptor downregulation, and enzymatic pathway disruption lead to systemic metabolic derangement. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on type 1, 2a & 2b classification requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to men syndromes",
@@ -8709,7 +8709,7 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for men syndromes. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for men syndromes. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
@@ -8717,7 +8717,7 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
     "title": "Carcinoid Syndrome: Serotonin & 5-HIAA",
     "cellular": {
       "title": "Pathophysiology of Carcinoid Syndrome",
-      "content": "Carcinoid Syndrome involves dysregulation of hormonal feedback loops, receptor sensitivity, and metabolic homeostasis. At the cellular level, altered second-messenger signaling (cAMP, IP3/DAG), receptor downregulation, and enzymatic pathway disruption lead to systemic metabolic derangement. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on serotonin & 5-hiaa requires integration of molecular pathophysiology with clinical presentation patterns."
+      "content": "Carcinoid Syndrome involves dysregulation of hormonal feedback loops, receptor sensitivity, and metabolic homeostasis. At the cellular level, altered second-messenger signaling (cAMP, IP3/DAG), receptor downregulation, and enzymatic pathway disruption lead to systemic metabolic derangement. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on serotonin & 5-hiaa requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to carcinoid syndrome",
@@ -8808,15 +8808,15 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for carcinoid syndrome. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for carcinoid syndrome. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
   "insulinoma-np": {
-    "title": "Insulinoma: Whipple Triad & Surgical Management",
+    "title": "Insulinoma: Whipple Triad",
     "cellular": {
       "title": "Pathophysiology of Insulinoma",
-      "content": "Insulinoma involves dysregulation of hormonal feedback loops, receptor sensitivity, and metabolic homeostasis. At the cellular level, altered second-messenger signaling (cAMP, IP3/DAG), receptor downregulation, and enzymatic pathway disruption lead to systemic metabolic derangement. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on whipple triad & surgical management requires integration of molecular pathophysiology with clinical presentation patterns."
+      "content": "Insulinoma involves dysregulation of hormonal feedback loops, receptor sensitivity, and metabolic homeostasis. At the cellular level, altered second-messenger signaling (cAMP, IP3/DAG), receptor downregulation, and enzymatic pathway disruption lead to systemic metabolic derangement. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on whipple triad & surgical management requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to insulinoma",
@@ -8907,7 +8907,7 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for insulinoma. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for insulinoma. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
@@ -8915,7 +8915,7 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
     "title": "Conn Syndrome: Primary Aldosteronism & ARR",
     "cellular": {
       "title": "Pathophysiology of Conn Syndrome",
-      "content": "Conn Syndrome involves dysregulation of hormonal feedback loops, receptor sensitivity, and metabolic homeostasis. At the cellular level, altered second-messenger signaling (cAMP, IP3/DAG), receptor downregulation, and enzymatic pathway disruption lead to systemic metabolic derangement. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on primary aldosteronism & arr requires integration of molecular pathophysiology with clinical presentation patterns."
+      "content": "Conn Syndrome involves dysregulation of hormonal feedback loops, receptor sensitivity, and metabolic homeostasis. At the cellular level, altered second-messenger signaling (cAMP, IP3/DAG), receptor downregulation, and enzymatic pathway disruption lead to systemic metabolic derangement. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on primary aldosteronism & arr requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to conn syndrome",
@@ -9006,7 +9006,7 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for conn syndrome. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for conn syndrome. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
@@ -9014,7 +9014,7 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
     "title": "Myxedema Coma: Emergency Thyroid Replacement",
     "cellular": {
       "title": "Pathophysiology of Myxedema Coma",
-      "content": "Myxedema Coma involves dysregulation of hormonal feedback loops, receptor sensitivity, and metabolic homeostasis. At the cellular level, altered second-messenger signaling (cAMP, IP3/DAG), receptor downregulation, and enzymatic pathway disruption lead to systemic metabolic derangement. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on emergency thyroid replacement requires integration of molecular pathophysiology with clinical presentation patterns."
+      "content": "Myxedema Coma involves dysregulation of hormonal feedback loops, receptor sensitivity, and metabolic homeostasis. At the cellular level, altered second-messenger signaling (cAMP, IP3/DAG), receptor downregulation, and enzymatic pathway disruption lead to systemic metabolic derangement. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on emergency thyroid replacement requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to myxedema coma",
@@ -9105,15 +9105,15 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for myxedema coma. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for myxedema coma. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
   "androgen-insensitivity-np": {
-    "title": "Androgen Insensitivity Syndrome: AR Gene & DSD",
+    "title": "Androgen Insensitivity Syndrome: AR Gene",
     "cellular": {
-      "title": "Pathophysiology of Androgen Insensitivity Syndrome",
-      "content": "Androgen Insensitivity Syndrome involves dysregulation of hormonal feedback loops, receptor sensitivity, and metabolic homeostasis. At the cellular level, altered second-messenger signaling (cAMP, IP3/DAG), receptor downregulation, and enzymatic pathway disruption lead to systemic metabolic derangement. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on ar gene & dsd requires integration of molecular pathophysiology with clinical presentation patterns."
+      "title": "Androgen Insensitivity Syndrome",
+      "content": "Androgen Insensitivity Syndrome involves dysregulation of hormonal feedback loops, receptor sensitivity, and metabolic homeostasis. At the cellular level, altered second-messenger signaling (cAMP, IP3/DAG), receptor downregulation, and enzymatic pathway disruption lead to systemic metabolic derangement. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on ar gene & dsd requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to androgen insensitivity syndrome",
@@ -9204,15 +9204,15 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for androgen insensitivity syndrome. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for androgen insensitivity syndrome. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
   "diabetes-pregnancy-np": {
-    "title": "Diabetes Management in Pregnancy: Glycemic Targets",
+    "title": "Diabetes Management in Pregnancy: Glycemic",
     "cellular": {
-      "title": "Pathophysiology of Diabetes Management in Pregnancy",
-      "content": "Diabetes Management in Pregnancy involves dysregulation of hormonal feedback loops, receptor sensitivity, and metabolic homeostasis. At the cellular level, altered second-messenger signaling (cAMP, IP3/DAG), receptor downregulation, and enzymatic pathway disruption lead to systemic metabolic derangement. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on glycemic targets requires integration of molecular pathophysiology with clinical presentation patterns."
+      "title": "Diabetes Management in Pregnancy",
+      "content": "Diabetes Management in Pregnancy involves dysregulation of hormonal feedback loops, receptor sensitivity, and metabolic homeostasis. At the cellular level, altered second-messenger signaling (cAMP, IP3/DAG), receptor downregulation, and enzymatic pathway disruption lead to systemic metabolic derangement. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on glycemic targets requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to diabetes management in pregnancy",
@@ -9303,15 +9303,15 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for diabetes management in pregnancy. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for diabetes management in pregnancy. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
   "hyperprolactinemia-workup-np": {
-    "title": "Hyperprolactinemia Workup: Prolactinoma & Medication-Induced",
+    "title": "Hyperprolactinemia Workup: Prolactinoma",
     "cellular": {
       "title": "Pathophysiology of Hyperprolactinemia Workup",
-      "content": "Hyperprolactinemia Workup involves dysregulation of hormonal feedback loops, receptor sensitivity, and metabolic homeostasis. At the cellular level, altered second-messenger signaling (cAMP, IP3/DAG), receptor downregulation, and enzymatic pathway disruption lead to systemic metabolic derangement. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on prolactinoma & medication-induced requires integration of molecular pathophysiology with clinical presentation patterns."
+      "content": "Hyperprolactinemia Workup involves dysregulation of hormonal feedback loops, receptor sensitivity, and metabolic homeostasis. At the cellular level, altered second-messenger signaling (cAMP, IP3/DAG), receptor downregulation, and enzymatic pathway disruption lead to systemic metabolic derangement. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on prolactinoma & medication-induced requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to hyperprolactinemia workup",
@@ -9402,15 +9402,15 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for hyperprolactinemia workup. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for hyperprolactinemia workup. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
   "adrenal-incidentaloma-np": {
-    "title": "Adrenal Incidentaloma Evaluation: Imaging & Hormonal Workup",
+    "title": "Adrenal Incidentaloma Evaluation: Imaging",
     "cellular": {
-      "title": "Pathophysiology of Adrenal Incidentaloma Evaluation",
-      "content": "Adrenal Incidentaloma Evaluation involves dysregulation of hormonal feedback loops, receptor sensitivity, and metabolic homeostasis. At the cellular level, altered second-messenger signaling (cAMP, IP3/DAG), receptor downregulation, and enzymatic pathway disruption lead to systemic metabolic derangement. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on imaging & hormonal workup requires integration of molecular pathophysiology with clinical presentation patterns."
+      "title": "Adrenal Incidentaloma Evaluation",
+      "content": "Adrenal Incidentaloma Evaluation involves dysregulation of hormonal feedback loops, receptor sensitivity, and metabolic homeostasis. At the cellular level, altered second-messenger signaling (cAMP, IP3/DAG), receptor downregulation, and enzymatic pathway disruption lead to systemic metabolic derangement. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on imaging & hormonal workup requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to adrenal incidentaloma evaluation",
@@ -9501,15 +9501,15 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for adrenal incidentaloma evaluation. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for adrenal incidentaloma evaluation. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
   "hypocalcemia-algorithm-np": {
-    "title": "Hypocalcemia Algorithm: PTH, Vitamin D & Correction",
+    "title": "Hypocalcemia Algorithm: PTH, Vitamin D",
     "cellular": {
       "title": "Pathophysiology of Hypocalcemia Algorithm",
-      "content": "Hypocalcemia Algorithm involves dysregulation of hormonal feedback loops, receptor sensitivity, and metabolic homeostasis. At the cellular level, altered second-messenger signaling (cAMP, IP3/DAG), receptor downregulation, and enzymatic pathway disruption lead to systemic metabolic derangement. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on pth, vitamin d & correction requires integration of molecular pathophysiology with clinical presentation patterns."
+      "content": "Hypocalcemia Algorithm involves dysregulation of hormonal feedback loops, receptor sensitivity, and metabolic homeostasis. At the cellular level, altered second-messenger signaling (cAMP, IP3/DAG), receptor downregulation, and enzymatic pathway disruption lead to systemic metabolic derangement. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on pth, vitamin d & correction requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to hypocalcemia algorithm",
@@ -9600,7 +9600,7 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for hypocalcemia algorithm. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for hypocalcemia algorithm. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
@@ -9608,7 +9608,7 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
     "title": "Glucagonoma: 4D Syndrome & Diagnosis",
     "cellular": {
       "title": "Pathophysiology of Glucagonoma",
-      "content": "Glucagonoma involves dysregulation of hormonal feedback loops, receptor sensitivity, and metabolic homeostasis. At the cellular level, altered second-messenger signaling (cAMP, IP3/DAG), receptor downregulation, and enzymatic pathway disruption lead to systemic metabolic derangement. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on 4d syndrome & diagnosis requires integration of molecular pathophysiology with clinical presentation patterns."
+      "content": "Glucagonoma involves dysregulation of hormonal feedback loops, receptor sensitivity, and metabolic homeostasis. At the cellular level, altered second-messenger signaling (cAMP, IP3/DAG), receptor downregulation, and enzymatic pathway disruption lead to systemic metabolic derangement. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on 4d syndrome & diagnosis requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to glucagonoma",
@@ -9699,15 +9699,15 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for glucagonoma. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for glucagonoma. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
   "vipoma-np": {
-    "title": "VIPoma: Watery Diarrhea Syndrome & Localization",
+    "title": "VIPoma: Watery Diarrhea Syndrome",
     "cellular": {
       "title": "Pathophysiology of VIPoma",
-      "content": "VIPoma involves dysregulation of hormonal feedback loops, receptor sensitivity, and metabolic homeostasis. At the cellular level, altered second-messenger signaling (cAMP, IP3/DAG), receptor downregulation, and enzymatic pathway disruption lead to systemic metabolic derangement. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on watery diarrhea syndrome & localization requires integration of molecular pathophysiology with clinical presentation patterns."
+      "content": "VIPoma involves dysregulation of hormonal feedback loops, receptor sensitivity, and metabolic homeostasis. At the cellular level, altered second-messenger signaling (cAMP, IP3/DAG), receptor downregulation, and enzymatic pathway disruption lead to systemic metabolic derangement. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on watery diarrhea syndrome & localization requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to vipoma",
@@ -9798,15 +9798,15 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for vipoma. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for vipoma. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
   "hypogonadism-np": {
-    "title": "Hypogonadism: Primary vs Secondary & Hormone Replacement",
+    "title": "Hypogonadism: Primary vs Secondary",
     "cellular": {
       "title": "Pathophysiology of Hypogonadism",
-      "content": "Hypogonadism involves dysregulation of hormonal feedback loops, receptor sensitivity, and metabolic homeostasis. At the cellular level, altered second-messenger signaling (cAMP, IP3/DAG), receptor downregulation, and enzymatic pathway disruption lead to systemic metabolic derangement. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on primary vs secondary & hormone replacement requires integration of molecular pathophysiology with clinical presentation patterns."
+      "content": "Hypogonadism involves dysregulation of hormonal feedback loops, receptor sensitivity, and metabolic homeostasis. At the cellular level, altered second-messenger signaling (cAMP, IP3/DAG), receptor downregulation, and enzymatic pathway disruption lead to systemic metabolic derangement. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on primary vs secondary & hormone replacement requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to hypogonadism",
@@ -9897,15 +9897,15 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for hypogonadism. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for hypogonadism. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
   "panhypopituitarism-np": {
-    "title": "Panhypopituitarism: Multi-Hormone Deficiency & Replacement",
+    "title": "Panhypopituitarism: Multi-Hormone Deficiency",
     "cellular": {
       "title": "Pathophysiology of Panhypopituitarism",
-      "content": "Panhypopituitarism involves dysregulation of hormonal feedback loops, receptor sensitivity, and metabolic homeostasis. At the cellular level, altered second-messenger signaling (cAMP, IP3/DAG), receptor downregulation, and enzymatic pathway disruption lead to systemic metabolic derangement. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on multi-hormone deficiency & replacement requires integration of molecular pathophysiology with clinical presentation patterns."
+      "content": "Panhypopituitarism involves dysregulation of hormonal feedback loops, receptor sensitivity, and metabolic homeostasis. At the cellular level, altered second-messenger signaling (cAMP, IP3/DAG), receptor downregulation, and enzymatic pathway disruption lead to systemic metabolic derangement. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on multi-hormone deficiency & replacement requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to panhypopituitarism",
@@ -9996,15 +9996,15 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for panhypopituitarism. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for panhypopituitarism. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
   "craniopharyngioma-np": {
-    "title": "Craniopharyngioma: Sellar Mass Workup & Management",
+    "title": "Craniopharyngioma: Sellar Mass Workup",
     "cellular": {
       "title": "Pathophysiology of Craniopharyngioma",
-      "content": "Craniopharyngioma involves dysregulation of hormonal feedback loops, receptor sensitivity, and metabolic homeostasis. At the cellular level, altered second-messenger signaling (cAMP, IP3/DAG), receptor downregulation, and enzymatic pathway disruption lead to systemic metabolic derangement. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on sellar mass workup & management requires integration of molecular pathophysiology with clinical presentation patterns."
+      "content": "Craniopharyngioma involves dysregulation of hormonal feedback loops, receptor sensitivity, and metabolic homeostasis. At the cellular level, altered second-messenger signaling (cAMP, IP3/DAG), receptor downregulation, and enzymatic pathway disruption lead to systemic metabolic derangement. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on sellar mass workup & management requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to craniopharyngioma",
@@ -10095,15 +10095,15 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for craniopharyngioma. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for craniopharyngioma. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
   "ectopic-acth-np": {
-    "title": "Ectopic ACTH Syndrome: Paraneoplastic Cushing Workup",
+    "title": "Ectopic ACTH Syndrome: Paraneoplastic Cushing",
     "cellular": {
       "title": "Pathophysiology of Ectopic ACTH Syndrome",
-      "content": "Ectopic ACTH Syndrome involves dysregulation of hormonal feedback loops, receptor sensitivity, and metabolic homeostasis. At the cellular level, altered second-messenger signaling (cAMP, IP3/DAG), receptor downregulation, and enzymatic pathway disruption lead to systemic metabolic derangement. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on paraneoplastic cushing workup requires integration of molecular pathophysiology with clinical presentation patterns."
+      "content": "Ectopic ACTH Syndrome involves dysregulation of hormonal feedback loops, receptor sensitivity, and metabolic homeostasis. At the cellular level, altered second-messenger signaling (cAMP, IP3/DAG), receptor downregulation, and enzymatic pathway disruption lead to systemic metabolic derangement. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on paraneoplastic cushing workup requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to ectopic acth syndrome",
@@ -10194,15 +10194,15 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for ectopic acth syndrome. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for ectopic acth syndrome. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
   "hyperparathyroid-crisis-np": {
-    "title": "Hyperparathyroid Crisis: Severe Hypercalcemia Management",
+    "title": "Hyperparathyroid Crisis: Severe Hypercalcemia",
     "cellular": {
       "title": "Pathophysiology of Hyperparathyroid Crisis",
-      "content": "Hyperparathyroid Crisis involves dysregulation of hormonal feedback loops, receptor sensitivity, and metabolic homeostasis. At the cellular level, altered second-messenger signaling (cAMP, IP3/DAG), receptor downregulation, and enzymatic pathway disruption lead to systemic metabolic derangement. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on severe hypercalcemia management requires integration of molecular pathophysiology with clinical presentation patterns."
+      "content": "Hyperparathyroid Crisis involves dysregulation of hormonal feedback loops, receptor sensitivity, and metabolic homeostasis. At the cellular level, altered second-messenger signaling (cAMP, IP3/DAG), receptor downregulation, and enzymatic pathway disruption lead to systemic metabolic derangement. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on severe hypercalcemia management requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to hyperparathyroid crisis",
@@ -10293,15 +10293,15 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for hyperparathyroid crisis. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for hyperparathyroid crisis. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
   "toxic-multinodular-goiter-np": {
-    "title": "Toxic Multinodular Goiter: Diagnosis & RAI Therapy",
+    "title": "Toxic Multinodular Goiter: Diagnosis",
     "cellular": {
       "title": "Pathophysiology of Toxic Multinodular Goiter",
-      "content": "Toxic Multinodular Goiter involves dysregulation of hormonal feedback loops, receptor sensitivity, and metabolic homeostasis. At the cellular level, altered second-messenger signaling (cAMP, IP3/DAG), receptor downregulation, and enzymatic pathway disruption lead to systemic metabolic derangement. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on diagnosis & rai therapy requires integration of molecular pathophysiology with clinical presentation patterns."
+      "content": "Toxic Multinodular Goiter involves dysregulation of hormonal feedback loops, receptor sensitivity, and metabolic homeostasis. At the cellular level, altered second-messenger signaling (cAMP, IP3/DAG), receptor downregulation, and enzymatic pathway disruption lead to systemic metabolic derangement. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on diagnosis & rai therapy requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to toxic multinodular goiter",
@@ -10392,15 +10392,15 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for toxic multinodular goiter. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for toxic multinodular goiter. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
   "thyroid-nodule-malignancy-np": {
-    "title": "Thyroid Nodule Malignancy: Bethesda System & FNA Interpretation",
+    "title": "Thyroid Nodule Malignancy: Bethesda System",
     "cellular": {
       "title": "Pathophysiology of Thyroid Nodule Malignancy",
-      "content": "Thyroid Nodule Malignancy involves dysregulation of hormonal feedback loops, receptor sensitivity, and metabolic homeostasis. At the cellular level, altered second-messenger signaling (cAMP, IP3/DAG), receptor downregulation, and enzymatic pathway disruption lead to systemic metabolic derangement. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on bethesda system & fna interpretation requires integration of molecular pathophysiology with clinical presentation patterns."
+      "content": "Thyroid Nodule Malignancy involves dysregulation of hormonal feedback loops, receptor sensitivity, and metabolic homeostasis. At the cellular level, altered second-messenger signaling (cAMP, IP3/DAG), receptor downregulation, and enzymatic pathway disruption lead to systemic metabolic derangement. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on bethesda system & fna interpretation requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to thyroid nodule malignancy",
@@ -10491,15 +10491,15 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for thyroid nodule malignancy. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for thyroid nodule malignancy. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
   "hypercalcemia-workup-np": {
-    "title": "Hypercalcemia Workup: PTH-Mediated vs Non-PTH Differential",
+    "title": "Hypercalcemia Workup: PTH-Mediated vs Non-PTH",
     "cellular": {
       "title": "Pathophysiology of Hypercalcemia Workup",
-      "content": "Hypercalcemia Workup involves dysregulation of hormonal feedback loops, receptor sensitivity, and metabolic homeostasis. At the cellular level, altered second-messenger signaling (cAMP, IP3/DAG), receptor downregulation, and enzymatic pathway disruption lead to systemic metabolic derangement. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on pth-mediated vs non-pth differential requires integration of molecular pathophysiology with clinical presentation patterns."
+      "content": "Hypercalcemia Workup involves dysregulation of hormonal feedback loops, receptor sensitivity, and metabolic homeostasis. At the cellular level, altered second-messenger signaling (cAMP, IP3/DAG), receptor downregulation, and enzymatic pathway disruption lead to systemic metabolic derangement. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on pth-mediated vs non-pth differential requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to hypercalcemia workup",
@@ -10590,15 +10590,15 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for hypercalcemia workup. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for hypercalcemia workup. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
   "diabetes-technology-np": {
-    "title": "Diabetes Technology: CGM, Insulin Pumps & Closed-Loop Systems",
+    "title": "Diabetes Technology: CGM, Insulin Pumps",
     "cellular": {
       "title": "Pathophysiology of Diabetes Technology",
-      "content": "Diabetes Technology involves dysregulation of hormonal feedback loops, receptor sensitivity, and metabolic homeostasis. At the cellular level, altered second-messenger signaling (cAMP, IP3/DAG), receptor downregulation, and enzymatic pathway disruption lead to systemic metabolic derangement. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on cgm, insulin pumps & closed-loop systems requires integration of molecular pathophysiology with clinical presentation patterns."
+      "content": "Diabetes Technology involves dysregulation of hormonal feedback loops, receptor sensitivity, and metabolic homeostasis. At the cellular level, altered second-messenger signaling (cAMP, IP3/DAG), receptor downregulation, and enzymatic pathway disruption lead to systemic metabolic derangement. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on cgm, insulin pumps & closed-loop systems requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to diabetes technology",
@@ -10689,15 +10689,15 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for diabetes technology. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for diabetes technology. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
   "gestational-diabetes-screening-np": {
-    "title": "Gestational Diabetes Screening: OGTT & Management Protocol",
+    "title": "Gestational Diabetes Screening: OGTT",
     "cellular": {
-      "title": "Pathophysiology of Gestational Diabetes Screening",
-      "content": "Gestational Diabetes Screening involves dysregulation of hormonal feedback loops, receptor sensitivity, and metabolic homeostasis. At the cellular level, altered second-messenger signaling (cAMP, IP3/DAG), receptor downregulation, and enzymatic pathway disruption lead to systemic metabolic derangement. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on ogtt & management protocol requires integration of molecular pathophysiology with clinical presentation patterns."
+      "title": "Gestational Diabetes Screening",
+      "content": "Gestational Diabetes Screening involves dysregulation of hormonal feedback loops, receptor sensitivity, and metabolic homeostasis. At the cellular level, altered second-messenger signaling (cAMP, IP3/DAG), receptor downregulation, and enzymatic pathway disruption lead to systemic metabolic derangement. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on ogtt & management protocol requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to gestational diabetes screening",
@@ -10788,15 +10788,15 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for gestational diabetes screening. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for gestational diabetes screening. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
   "thyroid-cancer-surveillance-np": {
-    "title": "Thyroid Cancer Surveillance: Thyroglobulin & Imaging Follow-Up",
+    "title": "Thyroid Cancer Surveillance: Thyroglobulin",
     "cellular": {
-      "title": "Pathophysiology of Thyroid Cancer Surveillance",
-      "content": "Thyroid Cancer Surveillance involves dysregulation of hormonal feedback loops, receptor sensitivity, and metabolic homeostasis. At the cellular level, altered second-messenger signaling (cAMP, IP3/DAG), receptor downregulation, and enzymatic pathway disruption lead to systemic metabolic derangement. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on thyroglobulin & imaging follow-up requires integration of molecular pathophysiology with clinical presentation patterns."
+      "title": "Thyroid Cancer Surveillance",
+      "content": "Thyroid Cancer Surveillance involves dysregulation of hormonal feedback loops, receptor sensitivity, and metabolic homeostasis. At the cellular level, altered second-messenger signaling (cAMP, IP3/DAG), receptor downregulation, and enzymatic pathway disruption lead to systemic metabolic derangement. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on thyroglobulin & imaging follow-up requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to thyroid cancer surveillance",
@@ -10887,15 +10887,15 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for thyroid cancer surveillance. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for thyroid cancer surveillance. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
   "dka-management-np": {
-    "title": "DKA: Anion Gap, Insulin Protocol & Cerebral Edema",
+    "title": "DKA: Anion Gap, Insulin Protocol",
     "cellular": {
       "title": "Pathophysiology of DKA",
-      "content": "DKA involves dysregulation of hormonal feedback loops, receptor sensitivity, and metabolic homeostasis. At the cellular level, altered second-messenger signaling (cAMP, IP3/DAG), receptor downregulation, and enzymatic pathway disruption lead to systemic metabolic derangement. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on anion gap, insulin protocol & cerebral edema requires integration of molecular pathophysiology with clinical presentation patterns."
+      "content": "DKA involves dysregulation of hormonal feedback loops, receptor sensitivity, and metabolic homeostasis. At the cellular level, altered second-messenger signaling (cAMP, IP3/DAG), receptor downregulation, and enzymatic pathway disruption lead to systemic metabolic derangement. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on anion gap, insulin protocol & cerebral edema requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to dka",
@@ -10986,15 +10986,15 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for dka. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for dka. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
   "hpa-axis-stress-np": {
-    "title": "HPA Axis: Cortisol Dysregulation & Prescribing",
+    "title": "HPA Axis: Cortisol Dysregulation",
     "cellular": {
       "title": "Pathophysiology of HPA Axis",
-      "content": "HPA Axis involves dysregulation of hormonal feedback loops, receptor sensitivity, and metabolic homeostasis. At the cellular level, altered second-messenger signaling (cAMP, IP3/DAG), receptor downregulation, and enzymatic pathway disruption lead to systemic metabolic derangement. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on cortisol dysregulation & prescribing requires integration of molecular pathophysiology with clinical presentation patterns."
+      "content": "HPA Axis involves dysregulation of hormonal feedback loops, receptor sensitivity, and metabolic homeostasis. At the cellular level, altered second-messenger signaling (cAMP, IP3/DAG), receptor downregulation, and enzymatic pathway disruption lead to systemic metabolic derangement. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on cortisol dysregulation & prescribing requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to hpa axis",
@@ -11085,15 +11085,15 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for hpa axis. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for hpa axis. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
   "electrolyte-safety-np": {
     "title": "Advanced Electrolyte Correction",
     "cellular": {
-      "title": "Pathophysiology of Advanced Electrolyte Correction",
-      "content": "Advanced Electrolyte Correction involves disruption of glomerular filtration, tubular reabsorption/secretion, and fluid-electrolyte homeostasis. At the cellular level, podocyte injury, tubular epithelial damage, and mesangial proliferation alter the nephron's filtering capacity and concentrating ability. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. "
+      "title": "Advanced Electrolyte Correction",
+      "content": "Advanced Electrolyte Correction involves disruption of glomerular filtration, tubular reabsorption/secretion, and fluid-electrolyte homeostasis. At the cellular level, podocyte injury, tubular epithelial damage, and mesangial proliferation alter the nephron's filtering capacity and concentrating ability. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. "
     },
     "riskFactors": [
       "Age-related risk factors specific to advanced electrolyte correction",
@@ -11184,7 +11184,7 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for advanced electrolyte correction. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for advanced electrolyte correction. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
@@ -11192,7 +11192,7 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
     "title": "CKD: KDIGO Staging & Progression Management",
     "cellular": {
       "title": "Pathophysiology of CKD",
-      "content": "CKD involves disruption of glomerular filtration, tubular reabsorption/secretion, and fluid-electrolyte homeostasis. At the cellular level, podocyte injury, tubular epithelial damage, and mesangial proliferation alter the nephron's filtering capacity and concentrating ability. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on kdigo staging & progression management requires integration of molecular pathophysiology with clinical presentation patterns."
+      "content": "CKD involves disruption of glomerular filtration, tubular reabsorption/secretion, and fluid-electrolyte homeostasis. At the cellular level, podocyte injury, tubular epithelial damage, and mesangial proliferation alter the nephron's filtering capacity and concentrating ability. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on kdigo staging & progression management requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to ckd",
@@ -11283,15 +11283,15 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for ckd. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for ckd. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
   "nephrotic-syndrome-np": {
-    "title": "Nephrotic Syndrome: Proteinuria & Complications",
+    "title": "Nephrotic Syndrome: Proteinuria",
     "cellular": {
       "title": "Pathophysiology of Nephrotic Syndrome",
-      "content": "Nephrotic Syndrome involves disruption of glomerular filtration, tubular reabsorption/secretion, and fluid-electrolyte homeostasis. At the cellular level, podocyte injury, tubular epithelial damage, and mesangial proliferation alter the nephron's filtering capacity and concentrating ability. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on proteinuria & complications requires integration of molecular pathophysiology with clinical presentation patterns."
+      "content": "Nephrotic Syndrome involves disruption of glomerular filtration, tubular reabsorption/secretion, and fluid-electrolyte homeostasis. At the cellular level, podocyte injury, tubular epithelial damage, and mesangial proliferation alter the nephron's filtering capacity and concentrating ability. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on proteinuria & complications requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to nephrotic syndrome",
@@ -11382,7 +11382,7 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for nephrotic syndrome. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for nephrotic syndrome. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
@@ -11390,7 +11390,7 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
     "title": "Renal Replacement Therapy: HD vs CRRT vs PD",
     "cellular": {
       "title": "Pathophysiology of Renal Replacement Therapy",
-      "content": "Renal Replacement Therapy involves disruption of glomerular filtration, tubular reabsorption/secretion, and fluid-electrolyte homeostasis. At the cellular level, podocyte injury, tubular epithelial damage, and mesangial proliferation alter the nephron's filtering capacity and concentrating ability. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on hd vs crrt vs pd requires integration of molecular pathophysiology with clinical presentation patterns."
+      "content": "Renal Replacement Therapy involves disruption of glomerular filtration, tubular reabsorption/secretion, and fluid-electrolyte homeostasis. At the cellular level, podocyte injury, tubular epithelial damage, and mesangial proliferation alter the nephron's filtering capacity and concentrating ability. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on hd vs crrt vs pd requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to renal replacement therapy",
@@ -11481,7 +11481,7 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for renal replacement therapy. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for renal replacement therapy. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
@@ -11489,7 +11489,7 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
     "title": "Contrast Nephropathy: Prevention Strategies",
     "cellular": {
       "title": "Pathophysiology of Contrast Nephropathy",
-      "content": "Contrast Nephropathy involves disruption of glomerular filtration, tubular reabsorption/secretion, and fluid-electrolyte homeostasis. At the cellular level, podocyte injury, tubular epithelial damage, and mesangial proliferation alter the nephron's filtering capacity and concentrating ability. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on prevention strategies requires integration of molecular pathophysiology with clinical presentation patterns."
+      "content": "Contrast Nephropathy involves disruption of glomerular filtration, tubular reabsorption/secretion, and fluid-electrolyte homeostasis. At the cellular level, podocyte injury, tubular epithelial damage, and mesangial proliferation alter the nephron's filtering capacity and concentrating ability. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on prevention strategies requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to contrast nephropathy",
@@ -11580,15 +11580,15 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for contrast nephropathy. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for contrast nephropathy. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
   "hyperkalemia-emergency-np": {
-    "title": "Hyperkalemia Emergency: ECG Changes & Treatment",
+    "title": "Hyperkalemia Emergency: ECG Changes",
     "cellular": {
       "title": "Pathophysiology of Hyperkalemia Emergency",
-      "content": "Hyperkalemia Emergency involves disruption of glomerular filtration, tubular reabsorption/secretion, and fluid-electrolyte homeostasis. At the cellular level, podocyte injury, tubular epithelial damage, and mesangial proliferation alter the nephron's filtering capacity and concentrating ability. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on ecg changes & treatment requires integration of molecular pathophysiology with clinical presentation patterns."
+      "content": "Hyperkalemia Emergency involves disruption of glomerular filtration, tubular reabsorption/secretion, and fluid-electrolyte homeostasis. At the cellular level, podocyte injury, tubular epithelial damage, and mesangial proliferation alter the nephron's filtering capacity and concentrating ability. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on ecg changes & treatment requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to hyperkalemia emergency",
@@ -11679,15 +11679,15 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for hyperkalemia emergency. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for hyperkalemia emergency. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
   "acute-glomerulonephritis-np": {
-    "title": "Acute Glomerulonephritis: Immunopathology & Biopsy",
+    "title": "Acute Glomerulonephritis: Immunopathology",
     "cellular": {
       "title": "Pathophysiology of Acute Glomerulonephritis",
-      "content": "Acute Glomerulonephritis involves disruption of glomerular filtration, tubular reabsorption/secretion, and fluid-electrolyte homeostasis. At the cellular level, podocyte injury, tubular epithelial damage, and mesangial proliferation alter the nephron's filtering capacity and concentrating ability. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on immunopathology & biopsy requires integration of molecular pathophysiology with clinical presentation patterns."
+      "content": "Acute Glomerulonephritis involves disruption of glomerular filtration, tubular reabsorption/secretion, and fluid-electrolyte homeostasis. At the cellular level, podocyte injury, tubular epithelial damage, and mesangial proliferation alter the nephron's filtering capacity and concentrating ability. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on immunopathology & biopsy requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to acute glomerulonephritis",
@@ -11778,15 +11778,15 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for acute glomerulonephritis. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for acute glomerulonephritis. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
   "nephrogenic-di-np": {
-    "title": "Nephrogenic Diabetes Insipidus: Lithium-Induced & Aquaporin Defects",
+    "title": "Nephrogenic Diabetes Insipidus",
     "cellular": {
-      "title": "Pathophysiology of Nephrogenic Diabetes Insipidus",
-      "content": "Nephrogenic Diabetes Insipidus involves disruption of glomerular filtration, tubular reabsorption/secretion, and fluid-electrolyte homeostasis. At the cellular level, podocyte injury, tubular epithelial damage, and mesangial proliferation alter the nephron's filtering capacity and concentrating ability. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on lithium-induced & aquaporin defects requires integration of molecular pathophysiology with clinical presentation patterns."
+      "title": "Nephrogenic Diabetes Insipidus",
+      "content": "Nephrogenic Diabetes Insipidus involves disruption of glomerular filtration, tubular reabsorption/secretion, and fluid-electrolyte homeostasis. At the cellular level, podocyte injury, tubular epithelial damage, and mesangial proliferation alter the nephron's filtering capacity and concentrating ability. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on lithium-induced & aquaporin defects requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to nephrogenic diabetes insipidus",
@@ -11877,15 +11877,15 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for nephrogenic diabetes insipidus. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for nephrogenic diabetes insipidus. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
   "siadh-deep-pathophysiology-np": {
-    "title": "SIADH Deep Pathophysiology: ADH Signaling & Correction Risks",
+    "title": "SIADH Deep Pathophysiology: ADH Signaling",
     "cellular": {
       "title": "Pathophysiology of SIADH Deep Pathophysiology",
-      "content": "SIADH Deep Pathophysiology involves disruption of glomerular filtration, tubular reabsorption/secretion, and fluid-electrolyte homeostasis. At the cellular level, podocyte injury, tubular epithelial damage, and mesangial proliferation alter the nephron's filtering capacity and concentrating ability. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on adh signaling & correction risks requires integration of molecular pathophysiology with clinical presentation patterns."
+      "content": "SIADH Deep Pathophysiology involves disruption of glomerular filtration, tubular reabsorption/secretion, and fluid-electrolyte homeostasis. At the cellular level, podocyte injury, tubular epithelial damage, and mesangial proliferation alter the nephron's filtering capacity and concentrating ability. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on adh signaling & correction risks requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to siadh deep pathophysiology",
@@ -11976,15 +11976,15 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for siadh deep pathophysiology. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for siadh deep pathophysiology. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
   "anion-gap-metabolic-acidosis-np": {
-    "title": "Anion Gap Metabolic Acidosis: MUDPILES & Osmolar Gap",
+    "title": "Anion Gap Metabolic Acidosis: MUDPILES",
     "cellular": {
-      "title": "Pathophysiology of Anion Gap Metabolic Acidosis",
-      "content": "Anion Gap Metabolic Acidosis involves disruption of glomerular filtration, tubular reabsorption/secretion, and fluid-electrolyte homeostasis. At the cellular level, podocyte injury, tubular epithelial damage, and mesangial proliferation alter the nephron's filtering capacity and concentrating ability. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on mudpiles & osmolar gap requires integration of molecular pathophysiology with clinical presentation patterns."
+      "title": "Anion Gap Metabolic Acidosis",
+      "content": "Anion Gap Metabolic Acidosis involves disruption of glomerular filtration, tubular reabsorption/secretion, and fluid-electrolyte homeostasis. At the cellular level, podocyte injury, tubular epithelial damage, and mesangial proliferation alter the nephron's filtering capacity and concentrating ability. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on mudpiles & osmolar gap requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to anion gap metabolic acidosis",
@@ -12075,15 +12075,15 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for anion gap metabolic acidosis. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for anion gap metabolic acidosis. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
   "hhs-deep-dive-np": {
-    "title": "HHS Deep Dive: Extreme Hyperosmolarity & Fluid Resuscitation",
+    "title": "HHS Deep Dive: Extreme Hyperosmolarity",
     "cellular": {
       "title": "Pathophysiology of HHS Deep Dive",
-      "content": "HHS Deep Dive involves disruption of glomerular filtration, tubular reabsorption/secretion, and fluid-electrolyte homeostasis. At the cellular level, podocyte injury, tubular epithelial damage, and mesangial proliferation alter the nephron's filtering capacity and concentrating ability. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on extreme hyperosmolarity & fluid resuscitation requires integration of molecular pathophysiology with clinical presentation patterns."
+      "content": "HHS Deep Dive involves disruption of glomerular filtration, tubular reabsorption/secretion, and fluid-electrolyte homeostasis. At the cellular level, podocyte injury, tubular epithelial damage, and mesangial proliferation alter the nephron's filtering capacity and concentrating ability. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on extreme hyperosmolarity & fluid resuscitation requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to hhs deep dive",
@@ -12174,15 +12174,15 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for hhs deep dive. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for hhs deep dive. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
   "renal-tubular-acidosis-np": {
-    "title": "Renal Tubular Acidosis: Types I–IV & Diagnostic Approach",
+    "title": "Renal Tubular Acidosis: Types I–IV",
     "cellular": {
       "title": "Pathophysiology of Renal Tubular Acidosis",
-      "content": "Renal Tubular Acidosis involves disruption of glomerular filtration, tubular reabsorption/secretion, and fluid-electrolyte homeostasis. At the cellular level, podocyte injury, tubular epithelial damage, and mesangial proliferation alter the nephron's filtering capacity and concentrating ability. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on types i–iv & diagnostic approach requires integration of molecular pathophysiology with clinical presentation patterns."
+      "content": "Renal Tubular Acidosis involves disruption of glomerular filtration, tubular reabsorption/secretion, and fluid-electrolyte homeostasis. At the cellular level, podocyte injury, tubular epithelial damage, and mesangial proliferation alter the nephron's filtering capacity and concentrating ability. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on types i–iv & diagnostic approach requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to renal tubular acidosis",
@@ -12273,15 +12273,15 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for renal tubular acidosis. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for renal tubular acidosis. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
   "nephrolithiasis-prevention-np": {
-    "title": "Nephrolithiasis Prevention: 24-Hour Urine & Dietary Strategies",
+    "title": "Nephrolithiasis Prevention: 24-Hour Urine",
     "cellular": {
       "title": "Pathophysiology of Nephrolithiasis Prevention",
-      "content": "Nephrolithiasis Prevention involves disruption of glomerular filtration, tubular reabsorption/secretion, and fluid-electrolyte homeostasis. At the cellular level, podocyte injury, tubular epithelial damage, and mesangial proliferation alter the nephron's filtering capacity and concentrating ability. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on 24-hour urine & dietary strategies requires integration of molecular pathophysiology with clinical presentation patterns."
+      "content": "Nephrolithiasis Prevention involves disruption of glomerular filtration, tubular reabsorption/secretion, and fluid-electrolyte homeostasis. At the cellular level, podocyte injury, tubular epithelial damage, and mesangial proliferation alter the nephron's filtering capacity and concentrating ability. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on 24-hour urine & dietary strategies requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to nephrolithiasis prevention",
@@ -12372,15 +12372,15 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for nephrolithiasis prevention. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for nephrolithiasis prevention. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
   "polycystic-kidney-management-np": {
-    "title": "Polycystic Kidney Disease: Tolvaptan & Monitoring",
+    "title": "Polycystic Kidney Disease: Tolvaptan",
     "cellular": {
       "title": "Pathophysiology of Polycystic Kidney Disease",
-      "content": "Polycystic Kidney Disease involves disruption of glomerular filtration, tubular reabsorption/secretion, and fluid-electrolyte homeostasis. At the cellular level, podocyte injury, tubular epithelial damage, and mesangial proliferation alter the nephron's filtering capacity and concentrating ability. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on tolvaptan & monitoring requires integration of molecular pathophysiology with clinical presentation patterns."
+      "content": "Polycystic Kidney Disease involves disruption of glomerular filtration, tubular reabsorption/secretion, and fluid-electrolyte homeostasis. At the cellular level, podocyte injury, tubular epithelial damage, and mesangial proliferation alter the nephron's filtering capacity and concentrating ability. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on tolvaptan & monitoring requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to polycystic kidney disease",
@@ -12471,15 +12471,15 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for polycystic kidney disease. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for polycystic kidney disease. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
   "tls-renal-injury-np": {
-    "title": "Tumor Lysis Syndrome Renal Injury: Urate Nephropathy & Rasburicase",
+    "title": "Tumor Lysis Syndrome Renal Injury: Urate",
     "cellular": {
-      "title": "Pathophysiology of Tumor Lysis Syndrome Renal Injury",
-      "content": "Tumor Lysis Syndrome Renal Injury involves disruption of glomerular filtration, tubular reabsorption/secretion, and fluid-electrolyte homeostasis. At the cellular level, podocyte injury, tubular epithelial damage, and mesangial proliferation alter the nephron's filtering capacity and concentrating ability. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on urate nephropathy & rasburicase requires integration of molecular pathophysiology with clinical presentation patterns."
+      "title": "Tumor Lysis Syndrome Renal Injury",
+      "content": "Tumor Lysis Syndrome Renal Injury involves disruption of glomerular filtration, tubular reabsorption/secretion, and fluid-electrolyte homeostasis. At the cellular level, podocyte injury, tubular epithelial damage, and mesangial proliferation alter the nephron's filtering capacity and concentrating ability. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on urate nephropathy & rasburicase requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to tumor lysis syndrome renal injury",
@@ -12570,7 +12570,7 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for tumor lysis syndrome renal injury. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for tumor lysis syndrome renal injury. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
@@ -12578,7 +12578,7 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
     "title": "Chronic Kidney Disease",
     "cellular": {
       "title": "Pathophysiology of Chronic Kidney Disease",
-      "content": "Chronic Kidney Disease involves disruption of glomerular filtration, tubular reabsorption/secretion, and fluid-electrolyte homeostasis. At the cellular level, podocyte injury, tubular epithelial damage, and mesangial proliferation alter the nephron's filtering capacity and concentrating ability. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. "
+      "content": "Chronic Kidney Disease involves disruption of glomerular filtration, tubular reabsorption/secretion, and fluid-electrolyte homeostasis. At the cellular level, podocyte injury, tubular epithelial damage, and mesangial proliferation alter the nephron's filtering capacity and concentrating ability. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. "
     },
     "riskFactors": [
       "Age-related risk factors specific to chronic kidney disease",
@@ -12669,7 +12669,7 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for chronic kidney disease. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for chronic kidney disease. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
@@ -12677,7 +12677,7 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
     "title": "Male Infertility: Workup & Treatment",
     "cellular": {
       "title": "Pathophysiology of Male Infertility",
-      "content": "Male Infertility involves disruption of glomerular filtration, tubular reabsorption/secretion, and fluid-electrolyte homeostasis. At the cellular level, podocyte injury, tubular epithelial damage, and mesangial proliferation alter the nephron's filtering capacity and concentrating ability. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on workup & treatment requires integration of molecular pathophysiology with clinical presentation patterns."
+      "content": "Male Infertility involves disruption of glomerular filtration, tubular reabsorption/secretion, and fluid-electrolyte homeostasis. At the cellular level, podocyte injury, tubular epithelial damage, and mesangial proliferation alter the nephron's filtering capacity and concentrating ability. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on workup & treatment requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to male infertility",
@@ -12768,15 +12768,15 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for male infertility. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for male infertility. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
   "bph-turp-np": {
-    "title": "BPH/TURP: Pharmacology & Surgical Decision-Making",
+    "title": "BPH/TURP: Pharmacology",
     "cellular": {
       "title": "Pathophysiology of BPH/TURP",
-      "content": "BPH/TURP involves disruption of glomerular filtration, tubular reabsorption/secretion, and fluid-electrolyte homeostasis. At the cellular level, podocyte injury, tubular epithelial damage, and mesangial proliferation alter the nephron's filtering capacity and concentrating ability. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on pharmacology & surgical decision-making requires integration of molecular pathophysiology with clinical presentation patterns."
+      "content": "BPH/TURP involves disruption of glomerular filtration, tubular reabsorption/secretion, and fluid-electrolyte homeostasis. At the cellular level, podocyte injury, tubular epithelial damage, and mesangial proliferation alter the nephron's filtering capacity and concentrating ability. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on pharmacology & surgical decision-making requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to bph/turp",
@@ -12867,15 +12867,15 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for bph/turp. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for bph/turp. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
   "continuous-bladder-irrigation-np": {
-    "title": "Continuous Bladder Irrigation: Ordering & Management",
+    "title": "Continuous Bladder Irrigation: Ordering",
     "cellular": {
-      "title": "Pathophysiology of Continuous Bladder Irrigation",
-      "content": "Continuous Bladder Irrigation involves disruption of glomerular filtration, tubular reabsorption/secretion, and fluid-electrolyte homeostasis. At the cellular level, podocyte injury, tubular epithelial damage, and mesangial proliferation alter the nephron's filtering capacity and concentrating ability. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on ordering & management requires integration of molecular pathophysiology with clinical presentation patterns."
+      "title": "Continuous Bladder Irrigation",
+      "content": "Continuous Bladder Irrigation involves disruption of glomerular filtration, tubular reabsorption/secretion, and fluid-electrolyte homeostasis. At the cellular level, podocyte injury, tubular epithelial damage, and mesangial proliferation alter the nephron's filtering capacity and concentrating ability. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on ordering & management requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to continuous bladder irrigation",
@@ -12966,7 +12966,7 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for continuous bladder irrigation. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for continuous bladder irrigation. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
@@ -12974,7 +12974,7 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
     "title": "DIC: Coagulation Cascade",
     "cellular": {
       "title": "Pathophysiology of DIC",
-      "content": "DIC involves dysregulation of hematopoiesis, coagulation cascades, or uncontrolled cellular proliferation. At the cellular level, mutations in oncogenes/tumor suppressors, defective apoptosis pathways, and abnormal cell cycle checkpoints drive malignant transformation or hematologic dysfunction. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on coagulation cascade requires integration of molecular pathophysiology with clinical presentation patterns."
+      "content": "DIC involves dysregulation of hematopoiesis, coagulation cascades, or uncontrolled cellular proliferation. At the cellular level, mutations in oncogenes/tumor suppressors, defective apoptosis pathways, and abnormal cell cycle checkpoints drive malignant transformation or hematologic dysfunction. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on coagulation cascade requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to dic",
@@ -13065,15 +13065,15 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for dic. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for dic. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
   "hit-np": {
-    "title": "Heparin-Induced Thrombocytopenia (HIT): 4T Score & Argatroban",
+    "title": "Heparin-Induced Thrombocytopenia (HIT): 4T",
     "cellular": {
-      "title": "Pathophysiology of Heparin-Induced Thrombocytopenia (HIT)",
-      "content": "Heparin-Induced Thrombocytopenia (HIT) involves dysregulation of hematopoiesis, coagulation cascades, or uncontrolled cellular proliferation. At the cellular level, mutations in oncogenes/tumor suppressors, defective apoptosis pathways, and abnormal cell cycle checkpoints drive malignant transformation or hematologic dysfunction. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on 4t score & argatroban requires integration of molecular pathophysiology with clinical presentation patterns."
+      "title": "Heparin-Induced Thrombocytopenia (HIT)",
+      "content": "Heparin-Induced Thrombocytopenia (HIT) involves dysregulation of hematopoiesis, coagulation cascades, or uncontrolled cellular proliferation. At the cellular level, mutations in oncogenes/tumor suppressors, defective apoptosis pathways, and abnormal cell cycle checkpoints drive malignant transformation or hematologic dysfunction. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on 4t score & argatroban requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to heparin-induced thrombocytopenia (hit)",
@@ -13164,15 +13164,15 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for heparin-induced thrombocytopenia (hit). This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for heparin-induced thrombocytopenia (hit). This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
   "ttp-np": {
-    "title": "Thrombotic Thrombocytopenic Purpura (TTP): ADAMTS13 & Plasmapheresis",
+    "title": "Thrombotic Thrombocytopenic Purpura (TTP)",
     "cellular": {
-      "title": "Pathophysiology of Thrombotic Thrombocytopenic Purpura (TTP)",
-      "content": "Thrombotic Thrombocytopenic Purpura (TTP) involves dysregulation of hematopoiesis, coagulation cascades, or uncontrolled cellular proliferation. At the cellular level, mutations in oncogenes/tumor suppressors, defective apoptosis pathways, and abnormal cell cycle checkpoints drive malignant transformation or hematologic dysfunction. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on adamts13 & plasmapheresis requires integration of molecular pathophysiology with clinical presentation patterns."
+      "title": "Thrombotic Thrombocytopenic Purpura (TTP)",
+      "content": "Thrombotic Thrombocytopenic Purpura (TTP) involves dysregulation of hematopoiesis, coagulation cascades, or uncontrolled cellular proliferation. At the cellular level, mutations in oncogenes/tumor suppressors, defective apoptosis pathways, and abnormal cell cycle checkpoints drive malignant transformation or hematologic dysfunction. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on adamts13 & plasmapheresis requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to thrombotic thrombocytopenic purpura (ttp)",
@@ -13263,15 +13263,15 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for thrombotic thrombocytopenic purpura (ttp). This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for thrombotic thrombocytopenic purpura (ttp). This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
   "hus-np": {
-    "title": "Hemolytic Uremic Syndrome (HUS): Shiga Toxin & Eculizumab",
+    "title": "Hemolytic Uremic Syndrome (HUS): Shiga Toxin",
     "cellular": {
-      "title": "Pathophysiology of Hemolytic Uremic Syndrome (HUS)",
-      "content": "Hemolytic Uremic Syndrome (HUS) involves dysregulation of hematopoiesis, coagulation cascades, or uncontrolled cellular proliferation. At the cellular level, mutations in oncogenes/tumor suppressors, defective apoptosis pathways, and abnormal cell cycle checkpoints drive malignant transformation or hematologic dysfunction. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on shiga toxin & eculizumab requires integration of molecular pathophysiology with clinical presentation patterns."
+      "title": "Hemolytic Uremic Syndrome (HUS)",
+      "content": "Hemolytic Uremic Syndrome (HUS) involves dysregulation of hematopoiesis, coagulation cascades, or uncontrolled cellular proliferation. At the cellular level, mutations in oncogenes/tumor suppressors, defective apoptosis pathways, and abnormal cell cycle checkpoints drive malignant transformation or hematologic dysfunction. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on shiga toxin & eculizumab requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to hemolytic uremic syndrome (hus)",
@@ -13362,15 +13362,15 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for hemolytic uremic syndrome (hus). This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for hemolytic uremic syndrome (hus). This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
   "hellp-vs-ttp-np": {
-    "title": "HELLP vs TTP Differentiation: Diagnostic Algorithm",
+    "title": "HELLP vs TTP Differentiation: Diagnostic",
     "cellular": {
-      "title": "Pathophysiology of HELLP vs TTP Differentiation",
-      "content": "HELLP vs TTP Differentiation involves dysregulation of hematopoiesis, coagulation cascades, or uncontrolled cellular proliferation. At the cellular level, mutations in oncogenes/tumor suppressors, defective apoptosis pathways, and abnormal cell cycle checkpoints drive malignant transformation or hematologic dysfunction. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on diagnostic algorithm requires integration of molecular pathophysiology with clinical presentation patterns."
+      "title": "HELLP vs TTP Differentiation",
+      "content": "HELLP vs TTP Differentiation involves dysregulation of hematopoiesis, coagulation cascades, or uncontrolled cellular proliferation. At the cellular level, mutations in oncogenes/tumor suppressors, defective apoptosis pathways, and abnormal cell cycle checkpoints drive malignant transformation or hematologic dysfunction. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on diagnostic algorithm requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to hellp vs ttp differentiation",
@@ -13461,15 +13461,15 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for hellp vs ttp differentiation. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for hellp vs ttp differentiation. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
   "myelodysplastic-syndromes-np": {
-    "title": "Myelodysplastic Syndromes: Classification & Transformation",
+    "title": "Myelodysplastic Syndromes: Classification",
     "cellular": {
       "title": "Pathophysiology of Myelodysplastic Syndromes",
-      "content": "Myelodysplastic Syndromes involves dysregulation of hematopoiesis, coagulation cascades, or uncontrolled cellular proliferation. At the cellular level, mutations in oncogenes/tumor suppressors, defective apoptosis pathways, and abnormal cell cycle checkpoints drive malignant transformation or hematologic dysfunction. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on classification & transformation requires integration of molecular pathophysiology with clinical presentation patterns."
+      "content": "Myelodysplastic Syndromes involves dysregulation of hematopoiesis, coagulation cascades, or uncontrolled cellular proliferation. At the cellular level, mutations in oncogenes/tumor suppressors, defective apoptosis pathways, and abnormal cell cycle checkpoints drive malignant transformation or hematologic dysfunction. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on classification & transformation requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to myelodysplastic syndromes",
@@ -13560,15 +13560,15 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for myelodysplastic syndromes. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for myelodysplastic syndromes. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
   "antiphospholipid-syndrome-np": {
-    "title": "Antiphospholipid Syndrome: Thrombosis & Pregnancy Loss",
+    "title": "Antiphospholipid Syndrome: Thrombosis",
     "cellular": {
       "title": "Pathophysiology of Antiphospholipid Syndrome",
-      "content": "Antiphospholipid Syndrome involves dysregulation of hematopoiesis, coagulation cascades, or uncontrolled cellular proliferation. At the cellular level, mutations in oncogenes/tumor suppressors, defective apoptosis pathways, and abnormal cell cycle checkpoints drive malignant transformation or hematologic dysfunction. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on thrombosis & pregnancy loss requires integration of molecular pathophysiology with clinical presentation patterns."
+      "content": "Antiphospholipid Syndrome involves dysregulation of hematopoiesis, coagulation cascades, or uncontrolled cellular proliferation. At the cellular level, mutations in oncogenes/tumor suppressors, defective apoptosis pathways, and abnormal cell cycle checkpoints drive malignant transformation or hematologic dysfunction. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on thrombosis & pregnancy loss requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to antiphospholipid syndrome",
@@ -13659,15 +13659,15 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for antiphospholipid syndrome. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for antiphospholipid syndrome. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
   "factor-v-leiden-np": {
-    "title": "Factor V Leiden: Thrombophilia Screening & Management",
+    "title": "Factor V Leiden: Thrombophilia Screening",
     "cellular": {
       "title": "Pathophysiology of Factor V Leiden",
-      "content": "Factor V Leiden involves dysregulation of hematopoiesis, coagulation cascades, or uncontrolled cellular proliferation. At the cellular level, mutations in oncogenes/tumor suppressors, defective apoptosis pathways, and abnormal cell cycle checkpoints drive malignant transformation or hematologic dysfunction. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on thrombophilia screening & management requires integration of molecular pathophysiology with clinical presentation patterns."
+      "content": "Factor V Leiden involves dysregulation of hematopoiesis, coagulation cascades, or uncontrolled cellular proliferation. At the cellular level, mutations in oncogenes/tumor suppressors, defective apoptosis pathways, and abnormal cell cycle checkpoints drive malignant transformation or hematologic dysfunction. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on thrombophilia screening & management requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to factor v leiden",
@@ -13758,15 +13758,15 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for factor v leiden. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for factor v leiden. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
   "febrile-neutropenia-np": {
-    "title": "Febrile Neutropenia: Risk Stratification & Empiric Coverage",
+    "title": "Febrile Neutropenia: Risk Stratification",
     "cellular": {
       "title": "Pathophysiology of Febrile Neutropenia",
-      "content": "Febrile Neutropenia involves dysregulation of hematopoiesis, coagulation cascades, or uncontrolled cellular proliferation. At the cellular level, mutations in oncogenes/tumor suppressors, defective apoptosis pathways, and abnormal cell cycle checkpoints drive malignant transformation or hematologic dysfunction. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on risk stratification & empiric coverage requires integration of molecular pathophysiology with clinical presentation patterns."
+      "content": "Febrile Neutropenia involves dysregulation of hematopoiesis, coagulation cascades, or uncontrolled cellular proliferation. At the cellular level, mutations in oncogenes/tumor suppressors, defective apoptosis pathways, and abnormal cell cycle checkpoints drive malignant transformation or hematologic dysfunction. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on risk stratification & empiric coverage requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to febrile neutropenia",
@@ -13857,7 +13857,7 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for febrile neutropenia. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for febrile neutropenia. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
@@ -13865,7 +13865,7 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
     "title": "CML: BCR-ABL & Tyrosine Kinase Inhibitors",
     "cellular": {
       "title": "Pathophysiology of CML",
-      "content": "CML involves dysregulation of hematopoiesis, coagulation cascades, or uncontrolled cellular proliferation. At the cellular level, mutations in oncogenes/tumor suppressors, defective apoptosis pathways, and abnormal cell cycle checkpoints drive malignant transformation or hematologic dysfunction. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on bcr-abl & tyrosine kinase inhibitors requires integration of molecular pathophysiology with clinical presentation patterns."
+      "content": "CML involves dysregulation of hematopoiesis, coagulation cascades, or uncontrolled cellular proliferation. At the cellular level, mutations in oncogenes/tumor suppressors, defective apoptosis pathways, and abnormal cell cycle checkpoints drive malignant transformation or hematologic dysfunction. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on bcr-abl & tyrosine kinase inhibitors requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to cml",
@@ -13956,15 +13956,15 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for cml. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for cml. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
   "lymphoma-workup-np": {
-    "title": "Lymphoma Workup: Hodgkin vs Non-Hodgkin & Ann Arbor Staging",
+    "title": "Lymphoma Workup: Hodgkin vs Non-Hodgkin",
     "cellular": {
       "title": "Pathophysiology of Lymphoma Workup",
-      "content": "Lymphoma Workup involves dysregulation of hematopoiesis, coagulation cascades, or uncontrolled cellular proliferation. At the cellular level, mutations in oncogenes/tumor suppressors, defective apoptosis pathways, and abnormal cell cycle checkpoints drive malignant transformation or hematologic dysfunction. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on hodgkin vs non-hodgkin & ann arbor staging requires integration of molecular pathophysiology with clinical presentation patterns."
+      "content": "Lymphoma Workup involves dysregulation of hematopoiesis, coagulation cascades, or uncontrolled cellular proliferation. At the cellular level, mutations in oncogenes/tumor suppressors, defective apoptosis pathways, and abnormal cell cycle checkpoints drive malignant transformation or hematologic dysfunction. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on hodgkin vs non-hodgkin & ann arbor staging requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to lymphoma workup",
@@ -14055,15 +14055,15 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for lymphoma workup. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for lymphoma workup. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
   "iron-deficiency-anemia-np": {
-    "title": "Iron Deficiency Anemia: Differential Diagnosis & Prescribing",
+    "title": "Iron Deficiency Anemia: Differential",
     "cellular": {
       "title": "Pathophysiology of Iron Deficiency Anemia",
-      "content": "Iron Deficiency Anemia involves dysregulation of hematopoiesis, coagulation cascades, or uncontrolled cellular proliferation. At the cellular level, mutations in oncogenes/tumor suppressors, defective apoptosis pathways, and abnormal cell cycle checkpoints drive malignant transformation or hematologic dysfunction. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on differential diagnosis & prescribing requires integration of molecular pathophysiology with clinical presentation patterns."
+      "content": "Iron Deficiency Anemia involves dysregulation of hematopoiesis, coagulation cascades, or uncontrolled cellular proliferation. At the cellular level, mutations in oncogenes/tumor suppressors, defective apoptosis pathways, and abnormal cell cycle checkpoints drive malignant transformation or hematologic dysfunction. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on differential diagnosis & prescribing requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to iron deficiency anemia",
@@ -14154,15 +14154,15 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for iron deficiency anemia. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for iron deficiency anemia. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
   "sickle-cell-crisis-np": {
-    "title": "Sickle Cell Crisis: Disease-Modifying Therapies & Gene Therapy",
+    "title": "Sickle Cell Crisis: Disease-Modifying",
     "cellular": {
       "title": "Pathophysiology of Sickle Cell Crisis",
-      "content": "Sickle Cell Crisis involves dysregulation of hematopoiesis, coagulation cascades, or uncontrolled cellular proliferation. At the cellular level, mutations in oncogenes/tumor suppressors, defective apoptosis pathways, and abnormal cell cycle checkpoints drive malignant transformation or hematologic dysfunction. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on disease-modifying therapies & gene therapy requires integration of molecular pathophysiology with clinical presentation patterns."
+      "content": "Sickle Cell Crisis involves dysregulation of hematopoiesis, coagulation cascades, or uncontrolled cellular proliferation. At the cellular level, mutations in oncogenes/tumor suppressors, defective apoptosis pathways, and abnormal cell cycle checkpoints drive malignant transformation or hematologic dysfunction. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on disease-modifying therapies & gene therapy requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to sickle cell crisis",
@@ -14253,15 +14253,15 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for sickle cell crisis. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for sickle cell crisis. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
   "uterine-rupture-np": {
-    "title": "Uterine Rupture: Risk Factors & Emergency Management",
+    "title": "Uterine Rupture: Risk Factors",
     "cellular": {
       "title": "Pathophysiology of Uterine Rupture",
-      "content": "Uterine Rupture involves physiological adaptations of pregnancy, placental function, and maternal-fetal hemodynamic interactions. At the cellular level, trophoblast invasion, spiral artery remodeling, and hormonal shifts (hCG, progesterone, estrogen) maintain pregnancy but can become pathological. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on risk factors & emergency management requires integration of molecular pathophysiology with clinical presentation patterns."
+      "content": "Uterine Rupture involves physiological adaptations of pregnancy, placental function, and maternal-fetal hemodynamic interactions. At the cellular level, trophoblast invasion, spiral artery remodeling, and hormonal shifts (hCG, progesterone, estrogen) maintain pregnancy but can become pathological. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on risk factors & emergency management requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to uterine rupture",
@@ -14352,15 +14352,15 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for uterine rupture. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for uterine rupture. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
   "cervical-insufficiency-np": {
-    "title": "Cervical Insufficiency: Cerclage & Progesterone",
+    "title": "Cervical Insufficiency: Cerclage",
     "cellular": {
       "title": "Pathophysiology of Cervical Insufficiency",
-      "content": "Cervical Insufficiency involves physiological adaptations of pregnancy, placental function, and maternal-fetal hemodynamic interactions. At the cellular level, trophoblast invasion, spiral artery remodeling, and hormonal shifts (hCG, progesterone, estrogen) maintain pregnancy but can become pathological. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on cerclage & progesterone requires integration of molecular pathophysiology with clinical presentation patterns."
+      "content": "Cervical Insufficiency involves physiological adaptations of pregnancy, placental function, and maternal-fetal hemodynamic interactions. At the cellular level, trophoblast invasion, spiral artery remodeling, and hormonal shifts (hCG, progesterone, estrogen) maintain pregnancy but can become pathological. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on cerclage & progesterone requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to cervical insufficiency",
@@ -14451,15 +14451,15 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for cervical insufficiency. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for cervical insufficiency. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
   "chorioamnionitis-np": {
-    "title": "Chorioamnionitis: Intra-Amniotic Infection & Antibiotics",
+    "title": "Chorioamnionitis: Intra-Amniotic Infection",
     "cellular": {
       "title": "Pathophysiology of Chorioamnionitis",
-      "content": "Chorioamnionitis involves physiological adaptations of pregnancy, placental function, and maternal-fetal hemodynamic interactions. At the cellular level, trophoblast invasion, spiral artery remodeling, and hormonal shifts (hCG, progesterone, estrogen) maintain pregnancy but can become pathological. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on intra-amniotic infection & antibiotics requires integration of molecular pathophysiology with clinical presentation patterns."
+      "content": "Chorioamnionitis involves physiological adaptations of pregnancy, placental function, and maternal-fetal hemodynamic interactions. At the cellular level, trophoblast invasion, spiral artery remodeling, and hormonal shifts (hCG, progesterone, estrogen) maintain pregnancy but can become pathological. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on intra-amniotic infection & antibiotics requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to chorioamnionitis",
@@ -14550,15 +14550,15 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for chorioamnionitis. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for chorioamnionitis. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
   "vbac-management-np": {
-    "title": "VBAC Management: Risk Stratification & Monitoring",
+    "title": "VBAC Management: Risk Stratification",
     "cellular": {
       "title": "Pathophysiology of VBAC Management",
-      "content": "VBAC Management involves physiological adaptations of pregnancy, placental function, and maternal-fetal hemodynamic interactions. At the cellular level, trophoblast invasion, spiral artery remodeling, and hormonal shifts (hCG, progesterone, estrogen) maintain pregnancy but can become pathological. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on risk stratification & monitoring requires integration of molecular pathophysiology with clinical presentation patterns."
+      "content": "VBAC Management involves physiological adaptations of pregnancy, placental function, and maternal-fetal hemodynamic interactions. At the cellular level, trophoblast invasion, spiral artery remodeling, and hormonal shifts (hCG, progesterone, estrogen) maintain pregnancy but can become pathological. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on risk stratification & monitoring requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to vbac management",
@@ -14649,15 +14649,15 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for vbac management. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for vbac management. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
   "twin-to-twin-transfusion-np": {
-    "title": "Twin-to-Twin Transfusion Syndrome: Staging & Laser Therapy",
+    "title": "Twin-to-Twin Transfusion Syndrome: Staging",
     "cellular": {
-      "title": "Pathophysiology of Twin-to-Twin Transfusion Syndrome",
-      "content": "Twin-to-Twin Transfusion Syndrome involves physiological adaptations of pregnancy, placental function, and maternal-fetal hemodynamic interactions. At the cellular level, trophoblast invasion, spiral artery remodeling, and hormonal shifts (hCG, progesterone, estrogen) maintain pregnancy but can become pathological. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on staging & laser therapy requires integration of molecular pathophysiology with clinical presentation patterns."
+      "title": "Twin-to-Twin Transfusion Syndrome",
+      "content": "Twin-to-Twin Transfusion Syndrome involves physiological adaptations of pregnancy, placental function, and maternal-fetal hemodynamic interactions. At the cellular level, trophoblast invasion, spiral artery remodeling, and hormonal shifts (hCG, progesterone, estrogen) maintain pregnancy but can become pathological. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on staging & laser therapy requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to twin-to-twin transfusion syndrome",
@@ -14748,7 +14748,7 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for twin-to-twin transfusion syndrome. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for twin-to-twin transfusion syndrome. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
@@ -14756,7 +14756,7 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
     "title": "Cord Prolapse Management: Emergency Delivery",
     "cellular": {
       "title": "Pathophysiology of Cord Prolapse Management",
-      "content": "Cord Prolapse Management involves physiological adaptations of pregnancy, placental function, and maternal-fetal hemodynamic interactions. At the cellular level, trophoblast invasion, spiral artery remodeling, and hormonal shifts (hCG, progesterone, estrogen) maintain pregnancy but can become pathological. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on emergency delivery requires integration of molecular pathophysiology with clinical presentation patterns."
+      "content": "Cord Prolapse Management involves physiological adaptations of pregnancy, placental function, and maternal-fetal hemodynamic interactions. At the cellular level, trophoblast invasion, spiral artery remodeling, and hormonal shifts (hCG, progesterone, estrogen) maintain pregnancy but can become pathological. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on emergency delivery requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to cord prolapse management",
@@ -14847,15 +14847,15 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for cord prolapse management. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for cord prolapse management. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
   "dic-obstetrics-np": {
-    "title": "DIC in Obstetrics: Etiology & Coagulation Replacement",
+    "title": "DIC in Obstetrics: Etiology",
     "cellular": {
       "title": "Pathophysiology of DIC in Obstetrics",
-      "content": "DIC in Obstetrics involves physiological adaptations of pregnancy, placental function, and maternal-fetal hemodynamic interactions. At the cellular level, trophoblast invasion, spiral artery remodeling, and hormonal shifts (hCG, progesterone, estrogen) maintain pregnancy but can become pathological. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on etiology & coagulation replacement requires integration of molecular pathophysiology with clinical presentation patterns."
+      "content": "DIC in Obstetrics involves physiological adaptations of pregnancy, placental function, and maternal-fetal hemodynamic interactions. At the cellular level, trophoblast invasion, spiral artery remodeling, and hormonal shifts (hCG, progesterone, estrogen) maintain pregnancy but can become pathological. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on etiology & coagulation replacement requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to dic in obstetrics",
@@ -14946,15 +14946,15 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for dic in obstetrics. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for dic in obstetrics. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
   "vaginal-hematoma-np": {
-    "title": "Vaginal Hematoma: Surgical Management & Embolization",
+    "title": "Vaginal Hematoma: Surgical Management",
     "cellular": {
       "title": "Pathophysiology of Vaginal Hematoma",
-      "content": "Vaginal Hematoma involves physiological adaptations of pregnancy, placental function, and maternal-fetal hemodynamic interactions. At the cellular level, trophoblast invasion, spiral artery remodeling, and hormonal shifts (hCG, progesterone, estrogen) maintain pregnancy but can become pathological. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on surgical management & embolization requires integration of molecular pathophysiology with clinical presentation patterns."
+      "content": "Vaginal Hematoma involves physiological adaptations of pregnancy, placental function, and maternal-fetal hemodynamic interactions. At the cellular level, trophoblast invasion, spiral artery remodeling, and hormonal shifts (hCG, progesterone, estrogen) maintain pregnancy but can become pathological. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on surgical management & embolization requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to vaginal hematoma",
@@ -15045,15 +15045,15 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for vaginal hematoma. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for vaginal hematoma. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
   "placenta-previa-management-np": {
-    "title": "Placenta Previa: NP Advanced Management",
+    "title": "Placenta Previa",
     "cellular": {
       "title": "Pathophysiology of Placenta Previa",
-      "content": "Placenta Previa involves physiological adaptations of pregnancy, placental function, and maternal-fetal hemodynamic interactions. At the cellular level, trophoblast invasion, spiral artery remodeling, and hormonal shifts (hCG, progesterone, estrogen) maintain pregnancy but can become pathological. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on np advanced management requires integration of molecular pathophysiology with clinical presentation patterns."
+      "content": "Placenta Previa involves physiological adaptations of pregnancy, placental function, and maternal-fetal hemodynamic interactions. At the cellular level, trophoblast invasion, spiral artery remodeling, and hormonal shifts (hCG, progesterone, estrogen) maintain pregnancy but can become pathological. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on np advanced management requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to placenta previa",
@@ -15144,15 +15144,15 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for placenta previa. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for placenta previa. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
   "umbilical-cord-prolapse-np": {
-    "title": "Umbilical Cord Prolapse: NP Emergency Management",
+    "title": "Umbilical Cord Prolapse",
     "cellular": {
       "title": "Pathophysiology of Umbilical Cord Prolapse",
-      "content": "Umbilical Cord Prolapse involves physiological adaptations of pregnancy, placental function, and maternal-fetal hemodynamic interactions. At the cellular level, trophoblast invasion, spiral artery remodeling, and hormonal shifts (hCG, progesterone, estrogen) maintain pregnancy but can become pathological. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on np emergency management requires integration of molecular pathophysiology with clinical presentation patterns."
+      "content": "Umbilical Cord Prolapse involves physiological adaptations of pregnancy, placental function, and maternal-fetal hemodynamic interactions. At the cellular level, trophoblast invasion, spiral artery remodeling, and hormonal shifts (hCG, progesterone, estrogen) maintain pregnancy but can become pathological. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on np emergency management requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to umbilical cord prolapse",
@@ -15243,15 +15243,15 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for umbilical cord prolapse. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for umbilical cord prolapse. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
   "hyperemesis-gravidarum-np": {
-    "title": "Hyperemesis Gravidarum: NP Prescribing",
+    "title": "Hyperemesis Gravidarum",
     "cellular": {
       "title": "Pathophysiology of Hyperemesis Gravidarum",
-      "content": "Hyperemesis Gravidarum involves physiological adaptations of pregnancy, placental function, and maternal-fetal hemodynamic interactions. At the cellular level, trophoblast invasion, spiral artery remodeling, and hormonal shifts (hCG, progesterone, estrogen) maintain pregnancy but can become pathological. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on np prescribing requires integration of molecular pathophysiology with clinical presentation patterns."
+      "content": "Hyperemesis Gravidarum involves physiological adaptations of pregnancy, placental function, and maternal-fetal hemodynamic interactions. At the cellular level, trophoblast invasion, spiral artery remodeling, and hormonal shifts (hCG, progesterone, estrogen) maintain pregnancy but can become pathological. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on np prescribing requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to hyperemesis gravidarum",
@@ -15342,15 +15342,15 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for hyperemesis gravidarum. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for hyperemesis gravidarum. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
   "rh-alloimmunization-np": {
-    "title": "Rh Alloimmunization: NP Advanced Management",
+    "title": "Rh Alloimmunization",
     "cellular": {
       "title": "Pathophysiology of Rh Alloimmunization",
-      "content": "Rh Alloimmunization involves physiological adaptations of pregnancy, placental function, and maternal-fetal hemodynamic interactions. At the cellular level, trophoblast invasion, spiral artery remodeling, and hormonal shifts (hCG, progesterone, estrogen) maintain pregnancy but can become pathological. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on np advanced management requires integration of molecular pathophysiology with clinical presentation patterns."
+      "content": "Rh Alloimmunization involves physiological adaptations of pregnancy, placental function, and maternal-fetal hemodynamic interactions. At the cellular level, trophoblast invasion, spiral artery remodeling, and hormonal shifts (hCG, progesterone, estrogen) maintain pregnancy but can become pathological. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on np advanced management requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to rh alloimmunization",
@@ -15441,7 +15441,7 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for rh alloimmunization. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for rh alloimmunization. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
@@ -15449,7 +15449,7 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
     "title": "Trisomy 21 (Down Syndrome)",
     "cellular": {
       "title": "Pathophysiology of Trisomy 21 (Down Syndrome)",
-      "content": "Trisomy 21 (Down Syndrome) involves the transition from fetal to extrauterine physiology, including cardiopulmonary adaptation, thermoregulation, and metabolic homeostasis. At the cellular level, surfactant production, ductus arteriosus closure, and enzymatic maturation are critical for successful adaptation. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. "
+      "content": "Trisomy 21 (Down Syndrome) involves the transition from fetal to extrauterine physiology, including cardiopulmonary adaptation, thermoregulation, and metabolic homeostasis. At the cellular level, surfactant production, ductus arteriosus closure, and enzymatic maturation are critical for successful adaptation. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. "
     },
     "riskFactors": [
       "Age-related risk factors specific to trisomy 21 (down syndrome)",
@@ -15540,7 +15540,7 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for trisomy 21 (down syndrome). This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for trisomy 21 (down syndrome). This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
@@ -15548,7 +15548,7 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
     "title": "Hypospadias",
     "cellular": {
       "title": "Pathophysiology of Hypospadias",
-      "content": "Hypospadias involves the transition from fetal to extrauterine physiology, including cardiopulmonary adaptation, thermoregulation, and metabolic homeostasis. At the cellular level, surfactant production, ductus arteriosus closure, and enzymatic maturation are critical for successful adaptation. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. "
+      "content": "Hypospadias involves the transition from fetal to extrauterine physiology, including cardiopulmonary adaptation, thermoregulation, and metabolic homeostasis. At the cellular level, surfactant production, ductus arteriosus closure, and enzymatic maturation are critical for successful adaptation. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. "
     },
     "riskFactors": [
       "Age-related risk factors specific to hypospadias",
@@ -15639,15 +15639,15 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for hypospadias. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for hypospadias. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
   "duchenne-md-management-np": {
     "title": "Duchenne Muscular Dystrophy",
     "cellular": {
-      "title": "Pathophysiology of Duchenne Muscular Dystrophy",
-      "content": "Duchenne Muscular Dystrophy involves the transition from fetal to extrauterine physiology, including cardiopulmonary adaptation, thermoregulation, and metabolic homeostasis. At the cellular level, surfactant production, ductus arteriosus closure, and enzymatic maturation are critical for successful adaptation. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. "
+      "title": "Duchenne Muscular Dystrophy",
+      "content": "Duchenne Muscular Dystrophy involves the transition from fetal to extrauterine physiology, including cardiopulmonary adaptation, thermoregulation, and metabolic homeostasis. At the cellular level, surfactant production, ductus arteriosus closure, and enzymatic maturation are critical for successful adaptation. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. "
     },
     "riskFactors": [
       "Age-related risk factors specific to duchenne muscular dystrophy",
@@ -15738,7 +15738,7 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for duchenne muscular dystrophy. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for duchenne muscular dystrophy. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
@@ -15746,7 +15746,7 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
     "title": "VP Shunt Management",
     "cellular": {
       "title": "Pathophysiology of VP Shunt Management",
-      "content": "VP Shunt Management involves the transition from fetal to extrauterine physiology, including cardiopulmonary adaptation, thermoregulation, and metabolic homeostasis. At the cellular level, surfactant production, ductus arteriosus closure, and enzymatic maturation are critical for successful adaptation. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. "
+      "content": "VP Shunt Management involves the transition from fetal to extrauterine physiology, including cardiopulmonary adaptation, thermoregulation, and metabolic homeostasis. At the cellular level, surfactant production, ductus arteriosus closure, and enzymatic maturation are critical for successful adaptation. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. "
     },
     "riskFactors": [
       "Age-related risk factors specific to vp shunt management",
@@ -15837,7 +15837,7 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for vp shunt management. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for vp shunt management. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
@@ -15845,7 +15845,7 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
     "title": "Tonsillectomy Care",
     "cellular": {
       "title": "Pathophysiology of Tonsillectomy Care",
-      "content": "Tonsillectomy Care involves the transition from fetal to extrauterine physiology, including cardiopulmonary adaptation, thermoregulation, and metabolic homeostasis. At the cellular level, surfactant production, ductus arteriosus closure, and enzymatic maturation are critical for successful adaptation. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. "
+      "content": "Tonsillectomy Care involves the transition from fetal to extrauterine physiology, including cardiopulmonary adaptation, thermoregulation, and metabolic homeostasis. At the cellular level, surfactant production, ductus arteriosus closure, and enzymatic maturation are critical for successful adaptation. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. "
     },
     "riskFactors": [
       "Age-related risk factors specific to tonsillectomy care",
@@ -15936,7 +15936,7 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for tonsillectomy care. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for tonsillectomy care. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
@@ -15944,7 +15944,7 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
     "title": "Newborn of Diabetic Mother",
     "cellular": {
       "title": "Pathophysiology of Newborn of Diabetic Mother",
-      "content": "Newborn of Diabetic Mother involves the transition from fetal to extrauterine physiology, including cardiopulmonary adaptation, thermoregulation, and metabolic homeostasis. At the cellular level, surfactant production, ductus arteriosus closure, and enzymatic maturation are critical for successful adaptation. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. "
+      "content": "Newborn of Diabetic Mother involves the transition from fetal to extrauterine physiology, including cardiopulmonary adaptation, thermoregulation, and metabolic homeostasis. At the cellular level, surfactant production, ductus arteriosus closure, and enzymatic maturation are critical for successful adaptation. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. "
     },
     "riskFactors": [
       "Age-related risk factors specific to newborn of diabetic mother",
@@ -16035,7 +16035,7 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for newborn of diabetic mother. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for newborn of diabetic mother. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
@@ -16043,7 +16043,7 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
     "title": "Autoimmune Pathophysiology: Molecular",
     "cellular": {
       "title": "Pathophysiology of Autoimmune Pathophysiology",
-      "content": "Autoimmune Pathophysiology involves dysregulation of innate and adaptive immune responses, including T-cell/B-cell activation, cytokine cascades, and complement pathways. At the cellular level, antigen presentation via MHC complexes, immunoglobulin class switching, and regulatory T-cell function maintain immune homeostasis. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on molecular requires integration of molecular pathophysiology with clinical presentation patterns."
+      "content": "Autoimmune Pathophysiology involves dysregulation of innate and adaptive immune responses, including T-cell/B-cell activation, cytokine cascades, and complement pathways. At the cellular level, antigen presentation via MHC complexes, immunoglobulin class switching, and regulatory T-cell function maintain immune homeostasis. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on molecular requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to autoimmune pathophysiology",
@@ -16134,7 +16134,7 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for autoimmune pathophysiology. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for autoimmune pathophysiology. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
@@ -16142,7 +16142,7 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
     "title": "Immunodeficiency Syndromes",
     "cellular": {
       "title": "Pathophysiology of Immunodeficiency Syndromes",
-      "content": "Immunodeficiency Syndromes involves dysregulation of innate and adaptive immune responses, including T-cell/B-cell activation, cytokine cascades, and complement pathways. At the cellular level, antigen presentation via MHC complexes, immunoglobulin class switching, and regulatory T-cell function maintain immune homeostasis. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. "
+      "content": "Immunodeficiency Syndromes involves dysregulation of innate and adaptive immune responses, including T-cell/B-cell activation, cytokine cascades, and complement pathways. At the cellular level, antigen presentation via MHC complexes, immunoglobulin class switching, and regulatory T-cell function maintain immune homeostasis. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. "
     },
     "riskFactors": [
       "Age-related risk factors specific to immunodeficiency syndromes",
@@ -16233,7 +16233,7 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for immunodeficiency syndromes. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for immunodeficiency syndromes. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
@@ -16241,7 +16241,7 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
     "title": "Transplant Rejection: T-Cell Mediated",
     "cellular": {
       "title": "Pathophysiology of Transplant Rejection",
-      "content": "Transplant Rejection involves dysregulation of innate and adaptive immune responses, including T-cell/B-cell activation, cytokine cascades, and complement pathways. At the cellular level, antigen presentation via MHC complexes, immunoglobulin class switching, and regulatory T-cell function maintain immune homeostasis. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on t-cell mediated requires integration of molecular pathophysiology with clinical presentation patterns."
+      "content": "Transplant Rejection involves dysregulation of innate and adaptive immune responses, including T-cell/B-cell activation, cytokine cascades, and complement pathways. At the cellular level, antigen presentation via MHC complexes, immunoglobulin class switching, and regulatory T-cell function maintain immune homeostasis. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on t-cell mediated requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to transplant rejection",
@@ -16332,7 +16332,7 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for transplant rejection. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for transplant rejection. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
@@ -16340,7 +16340,7 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
     "title": "Cytokine Cascade and SIRS",
     "cellular": {
       "title": "Pathophysiology of Cytokine Cascade and SIRS",
-      "content": "Cytokine Cascade and SIRS involves dysregulation of innate and adaptive immune responses, including T-cell/B-cell activation, cytokine cascades, and complement pathways. At the cellular level, antigen presentation via MHC complexes, immunoglobulin class switching, and regulatory T-cell function maintain immune homeostasis. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. "
+      "content": "Cytokine Cascade and SIRS involves dysregulation of innate and adaptive immune responses, including T-cell/B-cell activation, cytokine cascades, and complement pathways. At the cellular level, antigen presentation via MHC complexes, immunoglobulin class switching, and regulatory T-cell function maintain immune homeostasis. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. "
     },
     "riskFactors": [
       "Age-related risk factors specific to cytokine cascade and sirs",
@@ -16431,15 +16431,15 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for cytokine cascade and sirs. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for cytokine cascade and sirs. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
   "anaphylaxis-advanced-np": {
-    "title": "Anaphylaxis Advanced: Biphasic Reactions & Epinephrine Protocols",
+    "title": "Anaphylaxis Advanced: Biphasic Reactions",
     "cellular": {
       "title": "Pathophysiology of Anaphylaxis Advanced",
-      "content": "Anaphylaxis Advanced involves dysregulation of innate and adaptive immune responses, including T-cell/B-cell activation, cytokine cascades, and complement pathways. At the cellular level, antigen presentation via MHC complexes, immunoglobulin class switching, and regulatory T-cell function maintain immune homeostasis. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on biphasic reactions & epinephrine protocols requires integration of molecular pathophysiology with clinical presentation patterns."
+      "content": "Anaphylaxis Advanced involves dysregulation of innate and adaptive immune responses, including T-cell/B-cell activation, cytokine cascades, and complement pathways. At the cellular level, antigen presentation via MHC complexes, immunoglobulin class switching, and regulatory T-cell function maintain immune homeostasis. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on biphasic reactions & epinephrine protocols requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to anaphylaxis advanced",
@@ -16530,15 +16530,15 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for anaphylaxis advanced. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for anaphylaxis advanced. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
   "angioedema-np": {
-    "title": "Angioedema: ACE Inhibitor & Histamine-Mediated",
+    "title": "Angioedema: ACE Inhibitor",
     "cellular": {
       "title": "Pathophysiology of Angioedema",
-      "content": "Angioedema involves dysregulation of innate and adaptive immune responses, including T-cell/B-cell activation, cytokine cascades, and complement pathways. At the cellular level, antigen presentation via MHC complexes, immunoglobulin class switching, and regulatory T-cell function maintain immune homeostasis. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on ace inhibitor & histamine-mediated requires integration of molecular pathophysiology with clinical presentation patterns."
+      "content": "Angioedema involves dysregulation of innate and adaptive immune responses, including T-cell/B-cell activation, cytokine cascades, and complement pathways. At the cellular level, antigen presentation via MHC complexes, immunoglobulin class switching, and regulatory T-cell function maintain immune homeostasis. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on ace inhibitor & histamine-mediated requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to angioedema",
@@ -16629,15 +16629,15 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for angioedema. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for angioedema. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
   "hereditary-angioedema-np": {
-    "title": "Hereditary Angioedema: C1 Esterase Inhibitor Deficiency",
+    "title": "Hereditary Angioedema: C1 Esterase Inhibitor",
     "cellular": {
       "title": "Pathophysiology of Hereditary Angioedema",
-      "content": "Hereditary Angioedema involves dysregulation of innate and adaptive immune responses, including T-cell/B-cell activation, cytokine cascades, and complement pathways. At the cellular level, antigen presentation via MHC complexes, immunoglobulin class switching, and regulatory T-cell function maintain immune homeostasis. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on c1 esterase inhibitor deficiency requires integration of molecular pathophysiology with clinical presentation patterns."
+      "content": "Hereditary Angioedema involves dysregulation of innate and adaptive immune responses, including T-cell/B-cell activation, cytokine cascades, and complement pathways. At the cellular level, antigen presentation via MHC complexes, immunoglobulin class switching, and regulatory T-cell function maintain immune homeostasis. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on c1 esterase inhibitor deficiency requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to hereditary angioedema",
@@ -16728,15 +16728,15 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for hereditary angioedema. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for hereditary angioedema. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
   "mast-cell-activation-np": {
-    "title": "Mast Cell Activation Syndrome: Tryptase & Management",
+    "title": "Mast Cell Activation Syndrome: Tryptase",
     "cellular": {
-      "title": "Pathophysiology of Mast Cell Activation Syndrome",
-      "content": "Mast Cell Activation Syndrome involves dysregulation of innate and adaptive immune responses, including T-cell/B-cell activation, cytokine cascades, and complement pathways. At the cellular level, antigen presentation via MHC complexes, immunoglobulin class switching, and regulatory T-cell function maintain immune homeostasis. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on tryptase & management requires integration of molecular pathophysiology with clinical presentation patterns."
+      "title": "Mast Cell Activation Syndrome",
+      "content": "Mast Cell Activation Syndrome involves dysregulation of innate and adaptive immune responses, including T-cell/B-cell activation, cytokine cascades, and complement pathways. At the cellular level, antigen presentation via MHC complexes, immunoglobulin class switching, and regulatory T-cell function maintain immune homeostasis. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on tryptase & management requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to mast cell activation syndrome",
@@ -16827,15 +16827,15 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for mast cell activation syndrome. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for mast cell activation syndrome. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
   "drug-hypersensitivity-np": {
-    "title": "Drug Hypersensitivity Reactions: Gell-Coombs Classification",
+    "title": "Drug Hypersensitivity Reactions: Gell-Coombs",
     "cellular": {
-      "title": "Pathophysiology of Drug Hypersensitivity Reactions",
-      "content": "Drug Hypersensitivity Reactions involves dysregulation of innate and adaptive immune responses, including T-cell/B-cell activation, cytokine cascades, and complement pathways. At the cellular level, antigen presentation via MHC complexes, immunoglobulin class switching, and regulatory T-cell function maintain immune homeostasis. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on gell-coombs classification requires integration of molecular pathophysiology with clinical presentation patterns."
+      "title": "Drug Hypersensitivity Reactions",
+      "content": "Drug Hypersensitivity Reactions involves dysregulation of innate and adaptive immune responses, including T-cell/B-cell activation, cytokine cascades, and complement pathways. At the cellular level, antigen presentation via MHC complexes, immunoglobulin class switching, and regulatory T-cell function maintain immune homeostasis. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on gell-coombs classification requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to drug hypersensitivity reactions",
@@ -16926,15 +16926,15 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for drug hypersensitivity reactions. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for drug hypersensitivity reactions. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
   "serum-sickness-np": {
-    "title": "Serum Sickness: Type III Hypersensitivity & Management",
+    "title": "Serum Sickness: Type III Hypersensitivity",
     "cellular": {
       "title": "Pathophysiology of Serum Sickness",
-      "content": "Serum Sickness involves dysregulation of innate and adaptive immune responses, including T-cell/B-cell activation, cytokine cascades, and complement pathways. At the cellular level, antigen presentation via MHC complexes, immunoglobulin class switching, and regulatory T-cell function maintain immune homeostasis. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on type iii hypersensitivity & management requires integration of molecular pathophysiology with clinical presentation patterns."
+      "content": "Serum Sickness involves dysregulation of innate and adaptive immune responses, including T-cell/B-cell activation, cytokine cascades, and complement pathways. At the cellular level, antigen presentation via MHC complexes, immunoglobulin class switching, and regulatory T-cell function maintain immune homeostasis. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on type iii hypersensitivity & management requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to serum sickness",
@@ -17025,15 +17025,15 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for serum sickness. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for serum sickness. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
   "graft-vs-host-disease-np": {
-    "title": "Graft-Versus-Host Disease: Acute & Chronic Staging",
+    "title": "Graft-Versus-Host Disease: Acute",
     "cellular": {
       "title": "Pathophysiology of Graft-Versus-Host Disease",
-      "content": "Graft-Versus-Host Disease involves dysregulation of innate and adaptive immune responses, including T-cell/B-cell activation, cytokine cascades, and complement pathways. At the cellular level, antigen presentation via MHC complexes, immunoglobulin class switching, and regulatory T-cell function maintain immune homeostasis. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on acute & chronic staging requires integration of molecular pathophysiology with clinical presentation patterns."
+      "content": "Graft-Versus-Host Disease involves dysregulation of innate and adaptive immune responses, including T-cell/B-cell activation, cytokine cascades, and complement pathways. At the cellular level, antigen presentation via MHC complexes, immunoglobulin class switching, and regulatory T-cell function maintain immune homeostasis. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on acute & chronic staging requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to graft-versus-host disease",
@@ -17124,7 +17124,7 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for graft-versus-host disease. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for graft-versus-host disease. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
@@ -17132,7 +17132,7 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
     "title": "Vasopressors: Receptor Pharmacology",
     "cellular": {
       "title": "Pathophysiology of Vasopressors",
-      "content": "Vasopressors involves pharmacokinetic principles (absorption, distribution, metabolism, excretion) and pharmacodynamic interactions at target receptors. At the molecular level, drug-receptor binding, enzyme inhibition/induction, and ion channel modulation determine therapeutic efficacy and adverse effect profiles. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on receptor pharmacology requires integration of molecular pathophysiology with clinical presentation patterns."
+      "content": "Vasopressors involves pharmacokinetic principles (absorption, distribution, metabolism, excretion) and pharmacodynamic interactions at target receptors. At the molecular level, drug-receptor binding, enzyme inhibition/induction, and ion channel modulation determine therapeutic efficacy and adverse effect profiles. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on receptor pharmacology requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to vasopressors",
@@ -17223,7 +17223,7 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for vasopressors. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for vasopressors. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
@@ -17231,7 +17231,7 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
     "title": "ICU Sedation: RASS & Protocols",
     "cellular": {
       "title": "Pathophysiology of ICU Sedation",
-      "content": "ICU Sedation involves pharmacokinetic principles (absorption, distribution, metabolism, excretion) and pharmacodynamic interactions at target receptors. At the molecular level, drug-receptor binding, enzyme inhibition/induction, and ion channel modulation determine therapeutic efficacy and adverse effect profiles. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on rass & protocols requires integration of molecular pathophysiology with clinical presentation patterns."
+      "content": "ICU Sedation involves pharmacokinetic principles (absorption, distribution, metabolism, excretion) and pharmacodynamic interactions at target receptors. At the molecular level, drug-receptor binding, enzyme inhibition/induction, and ion channel modulation determine therapeutic efficacy and adverse effect profiles. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on rass & protocols requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to icu sedation",
@@ -17322,15 +17322,15 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for icu sedation. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for icu sedation. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
   "paralytic-agents-np": {
     "title": "Neuromuscular Blocking Agents",
     "cellular": {
-      "title": "Pathophysiology of Neuromuscular Blocking Agents",
-      "content": "Neuromuscular Blocking Agents involves pharmacokinetic principles (absorption, distribution, metabolism, excretion) and pharmacodynamic interactions at target receptors. At the molecular level, drug-receptor binding, enzyme inhibition/induction, and ion channel modulation determine therapeutic efficacy and adverse effect profiles. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. "
+      "title": "Neuromuscular Blocking Agents",
+      "content": "Neuromuscular Blocking Agents involves pharmacokinetic principles (absorption, distribution, metabolism, excretion) and pharmacodynamic interactions at target receptors. At the molecular level, drug-receptor binding, enzyme inhibition/induction, and ion channel modulation determine therapeutic efficacy and adverse effect profiles. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. "
     },
     "riskFactors": [
       "Age-related risk factors specific to neuromuscular blocking agents",
@@ -17421,7 +17421,7 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for neuromuscular blocking agents. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for neuromuscular blocking agents. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
@@ -17429,7 +17429,7 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
     "title": "Thrombolytics: Fibrinolytic Pathway",
     "cellular": {
       "title": "Pathophysiology of Thrombolytics",
-      "content": "Thrombolytics involves pharmacokinetic principles (absorption, distribution, metabolism, excretion) and pharmacodynamic interactions at target receptors. At the molecular level, drug-receptor binding, enzyme inhibition/induction, and ion channel modulation determine therapeutic efficacy and adverse effect profiles. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on fibrinolytic pathway requires integration of molecular pathophysiology with clinical presentation patterns."
+      "content": "Thrombolytics involves pharmacokinetic principles (absorption, distribution, metabolism, excretion) and pharmacodynamic interactions at target receptors. At the molecular level, drug-receptor binding, enzyme inhibition/induction, and ion channel modulation determine therapeutic efficacy and adverse effect profiles. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on fibrinolytic pathway requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to thrombolytics",
@@ -17520,15 +17520,15 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for thrombolytics. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for thrombolytics. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
   "methotrexate-safety-np": {
-    "title": "Methotrexate: Molecular Pharmacology & Pharmacogenomics",
+    "title": "Methotrexate: Molecular Pharmacology",
     "cellular": {
       "title": "Pathophysiology of Methotrexate",
-      "content": "Methotrexate involves pharmacokinetic principles (absorption, distribution, metabolism, excretion) and pharmacodynamic interactions at target receptors. At the molecular level, drug-receptor binding, enzyme inhibition/induction, and ion channel modulation determine therapeutic efficacy and adverse effect profiles. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on molecular pharmacology & pharmacogenomics requires integration of molecular pathophysiology with clinical presentation patterns."
+      "content": "Methotrexate involves pharmacokinetic principles (absorption, distribution, metabolism, excretion) and pharmacodynamic interactions at target receptors. At the molecular level, drug-receptor binding, enzyme inhibition/induction, and ion channel modulation determine therapeutic efficacy and adverse effect profiles. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on molecular pharmacology & pharmacogenomics requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to methotrexate",
@@ -17619,15 +17619,15 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for methotrexate. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for methotrexate. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
   "vancomycin-therapy-np": {
-    "title": "Vancomycin: AUC-Guided Dosing & Pharmacokinetics",
+    "title": "Vancomycin: AUC-Guided Dosing",
     "cellular": {
       "title": "Pathophysiology of Vancomycin",
-      "content": "Vancomycin involves pharmacokinetic principles (absorption, distribution, metabolism, excretion) and pharmacodynamic interactions at target receptors. At the molecular level, drug-receptor binding, enzyme inhibition/induction, and ion channel modulation determine therapeutic efficacy and adverse effect profiles. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on auc-guided dosing & pharmacokinetics requires integration of molecular pathophysiology with clinical presentation patterns."
+      "content": "Vancomycin involves pharmacokinetic principles (absorption, distribution, metabolism, excretion) and pharmacodynamic interactions at target receptors. At the molecular level, drug-receptor binding, enzyme inhibition/induction, and ion channel modulation determine therapeutic efficacy and adverse effect profiles. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on auc-guided dosing & pharmacokinetics requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to vancomycin",
@@ -17718,15 +17718,15 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for vancomycin. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for vancomycin. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
   "insulin-pump-management-np": {
-    "title": "Insulin Pump: Prescribing & Hybrid Closed-Loop",
+    "title": "Insulin Pump: Prescribing",
     "cellular": {
       "title": "Pathophysiology of Insulin Pump",
-      "content": "Insulin Pump involves pharmacokinetic principles (absorption, distribution, metabolism, excretion) and pharmacodynamic interactions at target receptors. At the molecular level, drug-receptor binding, enzyme inhibition/induction, and ion channel modulation determine therapeutic efficacy and adverse effect profiles. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on prescribing & hybrid closed-loop requires integration of molecular pathophysiology with clinical presentation patterns."
+      "content": "Insulin Pump involves pharmacokinetic principles (absorption, distribution, metabolism, excretion) and pharmacodynamic interactions at target receptors. At the molecular level, drug-receptor binding, enzyme inhibition/induction, and ion channel modulation determine therapeutic efficacy and adverse effect profiles. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on prescribing & hybrid closed-loop requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to insulin pump",
@@ -17817,15 +17817,15 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for insulin pump. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for insulin pump. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
   "anticoagulation-therapy-np": {
-    "title": "Anticoagulation: DOAC Prescribing & Reversal Agents",
+    "title": "Anticoagulation: DOAC Prescribing",
     "cellular": {
       "title": "Pathophysiology of Anticoagulation",
-      "content": "Anticoagulation involves pharmacokinetic principles (absorption, distribution, metabolism, excretion) and pharmacodynamic interactions at target receptors. At the molecular level, drug-receptor binding, enzyme inhibition/induction, and ion channel modulation determine therapeutic efficacy and adverse effect profiles. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on doac prescribing & reversal agents requires integration of molecular pathophysiology with clinical presentation patterns."
+      "content": "Anticoagulation involves pharmacokinetic principles (absorption, distribution, metabolism, excretion) and pharmacodynamic interactions at target receptors. At the molecular level, drug-receptor binding, enzyme inhibition/induction, and ion channel modulation determine therapeutic efficacy and adverse effect profiles. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on doac prescribing & reversal agents requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to anticoagulation",
@@ -17916,15 +17916,15 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for anticoagulation. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for anticoagulation. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
   "opioid-management-np": {
-    "title": "Opioid Prescribing: MME Calculations & Buprenorphine",
+    "title": "Opioid Prescribing: MME Calculations",
     "cellular": {
       "title": "Pathophysiology of Opioid Prescribing",
-      "content": "Opioid Prescribing involves pharmacokinetic principles (absorption, distribution, metabolism, excretion) and pharmacodynamic interactions at target receptors. At the molecular level, drug-receptor binding, enzyme inhibition/induction, and ion channel modulation determine therapeutic efficacy and adverse effect profiles. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on mme calculations & buprenorphine requires integration of molecular pathophysiology with clinical presentation patterns."
+      "content": "Opioid Prescribing involves pharmacokinetic principles (absorption, distribution, metabolism, excretion) and pharmacodynamic interactions at target receptors. At the molecular level, drug-receptor binding, enzyme inhibition/induction, and ion channel modulation determine therapeutic efficacy and adverse effect profiles. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on mme calculations & buprenorphine requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to opioid prescribing",
@@ -18015,7 +18015,7 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for opioid prescribing. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for opioid prescribing. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
@@ -18023,7 +18023,7 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
     "title": "Compartment Syndrome: Fasciotomy",
     "cellular": {
       "title": "Pathophysiology of Compartment Syndrome",
-      "content": "Compartment Syndrome involves disruption of bone homeostasis, joint integrity, or neuromuscular function. At the cellular level, osteoclast-osteoblast coupling, cartilage degradation by matrix metalloproteinases, and inflammatory cytokine cascades drive tissue destruction and pain generation. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on fasciotomy requires integration of molecular pathophysiology with clinical presentation patterns."
+      "content": "Compartment Syndrome involves disruption of bone homeostasis, joint integrity, or neuromuscular function. At the cellular level, osteoclast-osteoblast coupling, cartilage degradation by matrix metalloproteinases, and inflammatory cytokine cascades drive tissue destruction and pain generation. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on fasciotomy requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to compartment syndrome",
@@ -18114,7 +18114,7 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for compartment syndrome. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for compartment syndrome. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
@@ -18122,7 +18122,7 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
     "title": "Spinal Cord Injury: Autonomic Dysreflexia",
     "cellular": {
       "title": "Pathophysiology of Spinal Cord Injury",
-      "content": "Spinal Cord Injury involves disruption of bone homeostasis, joint integrity, or neuromuscular function. At the cellular level, osteoclast-osteoblast coupling, cartilage degradation by matrix metalloproteinases, and inflammatory cytokine cascades drive tissue destruction and pain generation. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on autonomic dysreflexia requires integration of molecular pathophysiology with clinical presentation patterns."
+      "content": "Spinal Cord Injury involves disruption of bone homeostasis, joint integrity, or neuromuscular function. At the cellular level, osteoclast-osteoblast coupling, cartilage degradation by matrix metalloproteinases, and inflammatory cytokine cascades drive tissue destruction and pain generation. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on autonomic dysreflexia requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to spinal cord injury",
@@ -18213,15 +18213,15 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for spinal cord injury. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for spinal cord injury. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
   "rib-fractures-np": {
-    "title": "Rib Fractures: Flail Chest & Regional Analgesia",
+    "title": "Rib Fractures: Flail Chest",
     "cellular": {
       "title": "Pathophysiology of Rib Fractures",
-      "content": "Rib Fractures involves disruption of bone homeostasis, joint integrity, or neuromuscular function. At the cellular level, osteoclast-osteoblast coupling, cartilage degradation by matrix metalloproteinases, and inflammatory cytokine cascades drive tissue destruction and pain generation. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on flail chest & regional analgesia requires integration of molecular pathophysiology with clinical presentation patterns."
+      "content": "Rib Fractures involves disruption of bone homeostasis, joint integrity, or neuromuscular function. At the cellular level, osteoclast-osteoblast coupling, cartilage degradation by matrix metalloproteinases, and inflammatory cytokine cascades drive tissue destruction and pain generation. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on flail chest & regional analgesia requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to rib fractures",
@@ -18312,7 +18312,7 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for rib fractures. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for rib fractures. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
@@ -18320,7 +18320,7 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
     "title": "Gout",
     "cellular": {
       "title": "Pathophysiology of Gout",
-      "content": "Gout involves disruption of bone homeostasis, joint integrity, or neuromuscular function. At the cellular level, osteoclast-osteoblast coupling, cartilage degradation by matrix metalloproteinases, and inflammatory cytokine cascades drive tissue destruction and pain generation. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. "
+      "content": "Gout involves disruption of bone homeostasis, joint integrity, or neuromuscular function. At the cellular level, osteoclast-osteoblast coupling, cartilage degradation by matrix metalloproteinases, and inflammatory cytokine cascades drive tissue destruction and pain generation. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. "
     },
     "riskFactors": [
       "Age-related risk factors specific to gout",
@@ -18411,7 +18411,7 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for gout. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for gout. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
@@ -18419,7 +18419,7 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
     "title": "Osteoporosis",
     "cellular": {
       "title": "Pathophysiology of Osteoporosis",
-      "content": "Osteoporosis involves disruption of bone homeostasis, joint integrity, or neuromuscular function. At the cellular level, osteoclast-osteoblast coupling, cartilage degradation by matrix metalloproteinases, and inflammatory cytokine cascades drive tissue destruction and pain generation. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. "
+      "content": "Osteoporosis involves disruption of bone homeostasis, joint integrity, or neuromuscular function. At the cellular level, osteoclast-osteoblast coupling, cartilage degradation by matrix metalloproteinases, and inflammatory cytokine cascades drive tissue destruction and pain generation. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. "
     },
     "riskFactors": [
       "Age-related risk factors specific to osteoporosis",
@@ -18510,7 +18510,7 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for osteoporosis. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for osteoporosis. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
@@ -18518,7 +18518,7 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
     "title": "Compartment Syndrome",
     "cellular": {
       "title": "Pathophysiology of Compartment Syndrome",
-      "content": "Compartment Syndrome involves disruption of bone homeostasis, joint integrity, or neuromuscular function. At the cellular level, osteoclast-osteoblast coupling, cartilage degradation by matrix metalloproteinases, and inflammatory cytokine cascades drive tissue destruction and pain generation. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. "
+      "content": "Compartment Syndrome involves disruption of bone homeostasis, joint integrity, or neuromuscular function. At the cellular level, osteoclast-osteoblast coupling, cartilage degradation by matrix metalloproteinases, and inflammatory cytokine cascades drive tissue destruction and pain generation. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. "
     },
     "riskFactors": [
       "Age-related risk factors specific to compartment syndrome",
@@ -18609,7 +18609,7 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for compartment syndrome. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for compartment syndrome. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
@@ -18617,7 +18617,7 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
     "title": "Rheumatoid Arthritis",
     "cellular": {
       "title": "Pathophysiology of Rheumatoid Arthritis",
-      "content": "Rheumatoid Arthritis involves disruption of bone homeostasis, joint integrity, or neuromuscular function. At the cellular level, osteoclast-osteoblast coupling, cartilage degradation by matrix metalloproteinases, and inflammatory cytokine cascades drive tissue destruction and pain generation. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. "
+      "content": "Rheumatoid Arthritis involves disruption of bone homeostasis, joint integrity, or neuromuscular function. At the cellular level, osteoclast-osteoblast coupling, cartilage degradation by matrix metalloproteinases, and inflammatory cytokine cascades drive tissue destruction and pain generation. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. "
     },
     "riskFactors": [
       "Age-related risk factors specific to rheumatoid arthritis",
@@ -18708,7 +18708,7 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for rheumatoid arthritis. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for rheumatoid arthritis. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
@@ -18716,7 +18716,7 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
     "title": "Cirrhosis: Child-Pugh & MELD Scoring",
     "cellular": {
       "title": "Pathophysiology of Cirrhosis",
-      "content": "Cirrhosis involves disruption of mucosal barrier integrity, hepatic metabolic function, or digestive enzyme secretion. At the cellular level, epithelial tight junction disruption, hepatocyte necrosis/fibrosis, and inflammatory mediator release alter absorptive and metabolic capacity. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on child-pugh & meld scoring requires integration of molecular pathophysiology with clinical presentation patterns."
+      "content": "Cirrhosis involves disruption of mucosal barrier integrity, hepatic metabolic function, or digestive enzyme secretion. At the cellular level, epithelial tight junction disruption, hepatocyte necrosis/fibrosis, and inflammatory mediator release alter absorptive and metabolic capacity. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on child-pugh & meld scoring requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to cirrhosis",
@@ -18807,7 +18807,7 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for cirrhosis. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for cirrhosis. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
@@ -18815,7 +18815,7 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
     "title": "Hepatic Encephalopathy: Ammonia & Lactulose",
     "cellular": {
       "title": "Pathophysiology of Hepatic Encephalopathy",
-      "content": "Hepatic Encephalopathy involves disruption of mucosal barrier integrity, hepatic metabolic function, or digestive enzyme secretion. At the cellular level, epithelial tight junction disruption, hepatocyte necrosis/fibrosis, and inflammatory mediator release alter absorptive and metabolic capacity. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on ammonia & lactulose requires integration of molecular pathophysiology with clinical presentation patterns."
+      "content": "Hepatic Encephalopathy involves disruption of mucosal barrier integrity, hepatic metabolic function, or digestive enzyme secretion. At the cellular level, epithelial tight junction disruption, hepatocyte necrosis/fibrosis, and inflammatory mediator release alter absorptive and metabolic capacity. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on ammonia & lactulose requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to hepatic encephalopathy",
@@ -18906,7 +18906,7 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for hepatic encephalopathy. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for hepatic encephalopathy. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
@@ -18914,7 +18914,7 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
     "title": "GI Bleed: Upper vs Lower & Resuscitation",
     "cellular": {
       "title": "Pathophysiology of GI Bleed",
-      "content": "GI Bleed involves disruption of mucosal barrier integrity, hepatic metabolic function, or digestive enzyme secretion. At the cellular level, epithelial tight junction disruption, hepatocyte necrosis/fibrosis, and inflammatory mediator release alter absorptive and metabolic capacity. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on upper vs lower & resuscitation requires integration of molecular pathophysiology with clinical presentation patterns."
+      "content": "GI Bleed involves disruption of mucosal barrier integrity, hepatic metabolic function, or digestive enzyme secretion. At the cellular level, epithelial tight junction disruption, hepatocyte necrosis/fibrosis, and inflammatory mediator release alter absorptive and metabolic capacity. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on upper vs lower & resuscitation requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to gi bleed",
@@ -19005,7 +19005,7 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for gi bleed. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for gi bleed. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
@@ -19013,7 +19013,7 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
     "title": "IBD: Crohn's vs UC Advanced Management",
     "cellular": {
       "title": "Pathophysiology of IBD",
-      "content": "IBD involves disruption of mucosal barrier integrity, hepatic metabolic function, or digestive enzyme secretion. At the cellular level, epithelial tight junction disruption, hepatocyte necrosis/fibrosis, and inflammatory mediator release alter absorptive and metabolic capacity. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on crohn's vs uc advanced management requires integration of molecular pathophysiology with clinical presentation patterns."
+      "content": "IBD involves disruption of mucosal barrier integrity, hepatic metabolic function, or digestive enzyme secretion. At the cellular level, epithelial tight junction disruption, hepatocyte necrosis/fibrosis, and inflammatory mediator release alter absorptive and metabolic capacity. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on crohn's vs uc advanced management requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to ibd",
@@ -19104,15 +19104,15 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for ibd. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for ibd. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
   "cholecystitis-np": {
-    "title": "Cholecystitis: NP Differential Diagnosis & Ordering",
+    "title": "Cholecystitis",
     "cellular": {
       "title": "Pathophysiology of Cholecystitis",
-      "content": "Cholecystitis involves disruption of mucosal barrier integrity, hepatic metabolic function, or digestive enzyme secretion. At the cellular level, epithelial tight junction disruption, hepatocyte necrosis/fibrosis, and inflammatory mediator release alter absorptive and metabolic capacity. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on np differential diagnosis & ordering requires integration of molecular pathophysiology with clinical presentation patterns."
+      "content": "Cholecystitis involves disruption of mucosal barrier integrity, hepatic metabolic function, or digestive enzyme secretion. At the cellular level, epithelial tight junction disruption, hepatocyte necrosis/fibrosis, and inflammatory mediator release alter absorptive and metabolic capacity. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on np differential diagnosis & ordering requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to cholecystitis",
@@ -19203,15 +19203,15 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for cholecystitis. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for cholecystitis. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
   "appendicitis-np": {
-    "title": "Appendicitis: NP Diagnostic Workup & Surgical Referral",
+    "title": "Appendicitis",
     "cellular": {
       "title": "Pathophysiology of Appendicitis",
-      "content": "Appendicitis involves disruption of mucosal barrier integrity, hepatic metabolic function, or digestive enzyme secretion. At the cellular level, epithelial tight junction disruption, hepatocyte necrosis/fibrosis, and inflammatory mediator release alter absorptive and metabolic capacity. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on np diagnostic workup & surgical referral requires integration of molecular pathophysiology with clinical presentation patterns."
+      "content": "Appendicitis involves disruption of mucosal barrier integrity, hepatic metabolic function, or digestive enzyme secretion. At the cellular level, epithelial tight junction disruption, hepatocyte necrosis/fibrosis, and inflammatory mediator release alter absorptive and metabolic capacity. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on np diagnostic workup & surgical referral requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to appendicitis",
@@ -19302,15 +19302,15 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for appendicitis. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for appendicitis. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
   "bowel-obstruction-np": {
-    "title": "Bowel Obstruction: NP Differential & Decision-Making",
+    "title": "Bowel Obstruction",
     "cellular": {
       "title": "Pathophysiology of Bowel Obstruction",
-      "content": "Bowel Obstruction involves disruption of mucosal barrier integrity, hepatic metabolic function, or digestive enzyme secretion. At the cellular level, epithelial tight junction disruption, hepatocyte necrosis/fibrosis, and inflammatory mediator release alter absorptive and metabolic capacity. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on np differential & decision-making requires integration of molecular pathophysiology with clinical presentation patterns."
+      "content": "Bowel Obstruction involves disruption of mucosal barrier integrity, hepatic metabolic function, or digestive enzyme secretion. At the cellular level, epithelial tight junction disruption, hepatocyte necrosis/fibrosis, and inflammatory mediator release alter absorptive and metabolic capacity. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on np differential & decision-making requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to bowel obstruction",
@@ -19401,7 +19401,7 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for bowel obstruction. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for bowel obstruction. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
@@ -19409,7 +19409,7 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
     "title": "Acute Abdomen: Differential Diagnosis",
     "cellular": {
       "title": "Pathophysiology of Acute Abdomen",
-      "content": "Acute Abdomen involves disruption of mucosal barrier integrity, hepatic metabolic function, or digestive enzyme secretion. At the cellular level, epithelial tight junction disruption, hepatocyte necrosis/fibrosis, and inflammatory mediator release alter absorptive and metabolic capacity. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on differential diagnosis requires integration of molecular pathophysiology with clinical presentation patterns."
+      "content": "Acute Abdomen involves disruption of mucosal barrier integrity, hepatic metabolic function, or digestive enzyme secretion. At the cellular level, epithelial tight junction disruption, hepatocyte necrosis/fibrosis, and inflammatory mediator release alter absorptive and metabolic capacity. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on differential diagnosis requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to acute abdomen",
@@ -19500,7 +19500,7 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for acute abdomen. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for acute abdomen. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
@@ -19508,7 +19508,7 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
     "title": "Pancreatitis: Ranson Criteria & Necrotizing",
     "cellular": {
       "title": "Pathophysiology of Pancreatitis",
-      "content": "Pancreatitis involves disruption of mucosal barrier integrity, hepatic metabolic function, or digestive enzyme secretion. At the cellular level, epithelial tight junction disruption, hepatocyte necrosis/fibrosis, and inflammatory mediator release alter absorptive and metabolic capacity. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on ranson criteria & necrotizing requires integration of molecular pathophysiology with clinical presentation patterns."
+      "content": "Pancreatitis involves disruption of mucosal barrier integrity, hepatic metabolic function, or digestive enzyme secretion. At the cellular level, epithelial tight junction disruption, hepatocyte necrosis/fibrosis, and inflammatory mediator release alter absorptive and metabolic capacity. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on ranson criteria & necrotizing requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to pancreatitis",
@@ -19599,7 +19599,7 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for pancreatitis. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for pancreatitis. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
@@ -19607,7 +19607,7 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
     "title": "Cholangitis: Charcot & Reynolds Pentad",
     "cellular": {
       "title": "Pathophysiology of Cholangitis",
-      "content": "Cholangitis involves disruption of mucosal barrier integrity, hepatic metabolic function, or digestive enzyme secretion. At the cellular level, epithelial tight junction disruption, hepatocyte necrosis/fibrosis, and inflammatory mediator release alter absorptive and metabolic capacity. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on charcot & reynolds pentad requires integration of molecular pathophysiology with clinical presentation patterns."
+      "content": "Cholangitis involves disruption of mucosal barrier integrity, hepatic metabolic function, or digestive enzyme secretion. At the cellular level, epithelial tight junction disruption, hepatocyte necrosis/fibrosis, and inflammatory mediator release alter absorptive and metabolic capacity. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on charcot & reynolds pentad requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to cholangitis",
@@ -19698,15 +19698,15 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for cholangitis. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for cholangitis. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   },
   "hepatorenal-syndrome-np": {
-    "title": "Hepatorenal Syndrome: Pathophysiology & Terlipressin",
+    "title": "Hepatorenal Syndrome: Pathophysiology",
     "cellular": {
       "title": "Pathophysiology of Hepatorenal Syndrome",
-      "content": "Hepatorenal Syndrome involves disruption of mucosal barrier integrity, hepatic metabolic function, or digestive enzyme secretion. At the cellular level, epithelial tight junction disruption, hepatocyte necrosis/fibrosis, and inflammatory mediator release alter absorptive and metabolic capacity. Understanding these cellular mechanisms is essential for NP-level clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on pathophysiology & terlipressin requires integration of molecular pathophysiology with clinical presentation patterns."
+      "content": "Hepatorenal Syndrome involves disruption of mucosal barrier integrity, hepatic metabolic function, or digestive enzyme secretion. At the cellular level, epithelial tight junction disruption, hepatocyte necrosis/fibrosis, and inflammatory mediator release alter absorptive and metabolic capacity. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on pathophysiology & terlipressin requires integration of molecular pathophysiology with clinical presentation patterns."
     },
     "riskFactors": [
       "Age-related risk factors specific to hepatorenal syndrome",
@@ -19797,7 +19797,7 @@ export const npGeneratedBatch1: Record<string, LessonContent> = {
           "Prescribe empiric treatment without further evaluation"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for hepatorenal syndrome. This allows the NP to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for hepatorenal syndrome. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
       }
     ]
   }

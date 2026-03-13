@@ -109,7 +109,7 @@ export const advancedNpLessons: Record<string, LessonContent> = {
   "dka-hhns-np": {
     title: "DKA/HHS: Anion Gap & Osmolality",
     cellular: { 
-      title: "Insulin Deficiency & Counter-Regulatory Hormones", 
+      title: "Insulin Deficiency", 
       content: "DKA: Absolute insulin deficiency leads to lipolysis. Free fatty acids are oxidized to ketone bodies (beta-hydroxybutyrate), causing metabolic acidosis. \nHHS: Relative insulin deficiency prevents ketosis but severe hyperglycemia causes massive osmotic diuresis and hyperosmolar state." 
     },
     riskFactors: ["Type 1 diabetes (DKA primary)", "Type 2 diabetes (HHS primary)", "Infection (most common precipitant)", "Medication non-adherence", "New-onset diabetes", "Corticosteroid use", "Myocardial infarction", "Pancreatitis", "Substance abuse", "Eating disorders"],

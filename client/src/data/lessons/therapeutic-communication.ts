@@ -2,7 +2,7 @@ import type { LessonContent } from "./types";
 
 export const therapeuticCommunicationLessons: Record<string, LessonContent> = {
   "therapeutic-comm-rpn": {
-    title: "RPN Therapeutic Communication",
+    title: "Therapeutic Communication",
     cellular: {
       title: "Foundations of Therapeutic Communication",
       content: "Therapeutic communication is a purposeful, goal-directed form of interaction used by nurses to establish a helping relationship with patients. It involves active listening, open-ended questioning, clarification, reflection, validation, and summarizing to facilitate understanding and trust. Nonverbal communication, including eye contact, body language, tone of voice, and respect for personal space, accounts for a significant portion of the message conveyed during nurse-patient interactions. The therapeutic relationship progresses through three distinct phases: orientation (establishing trust and defining roles), working (implementing interventions and achieving goals), and termination (evaluating outcomes and preparing for discharge)."
@@ -67,7 +67,7 @@ export const therapeuticCommunicationLessons: Record<string, LessonContent> = {
       }
     ],
     pearls: [
-      "The most therapeutic response on the REx-PN exam is typically the one that acknowledges the patient's feelings and encourages further expression",
+      "The most therapeutic response on the licensing exam is typically the one that acknowledges the patient's feelings and encourages further expression",
       "Avoid false reassurance such as 'everything will be fine' as it dismisses the patient's concerns and damages trust",
       "Never ask 'why' questions; instead rephrase using 'what' or 'tell me more about' to reduce defensiveness",
       "Silence is a powerful therapeutic tool that allows the patient to gather thoughts and process emotions",
@@ -76,7 +76,7 @@ export const therapeuticCommunicationLessons: Record<string, LessonContent> = {
     ],
     quiz: [
       {
-        question: "A patient states, 'I don't think anyone cares about what happens to me.' Which response by the RPN is most therapeutic?",
+        question: "A patient states, 'I don't think anyone cares about what happens to me.' Which response by the nurse is most therapeutic?",
         options: [
           "Don't say that, of course people care about you.",
           "Why do you feel that way?",
@@ -98,7 +98,7 @@ export const therapeuticCommunicationLessons: Record<string, LessonContent> = {
         rationale: "The orientation phase focuses on establishing trust, building rapport, defining roles, and setting expectations for the therapeutic relationship. Implementation occurs during the working phase, and discharge preparation occurs during the termination phase."
       },
       {
-        question: "A patient offers the RPN a gift at discharge. Which action is most appropriate?",
+        question: "A patient offers the nurse a gift at discharge. Which action is most appropriate?",
         options: [
           "Accept the gift graciously to avoid hurting the patient's feelings",
           "Accept the gift but report it to the charge nurse afterward",
@@ -112,7 +112,7 @@ export const therapeuticCommunicationLessons: Record<string, LessonContent> = {
   },
 
   "therapeutic-comm-rn": {
-    title: "RN Therapeutic Communication",
+    title: "Therapeutic Communication",
     cellular: {
       title: "Advanced Therapeutic Communication Techniques",
       content: "Advanced therapeutic communication builds on foundational skills by incorporating motivational interviewing, crisis intervention communication, and trauma-informed approaches. Motivational interviewing uses open-ended questions, affirmations, reflective listening, and summarizing (OARS) to explore ambivalence and support behavior change. Transference occurs when a patient projects feelings from past relationships onto the nurse, while countertransference occurs when the nurse unconsciously redirects feelings toward the patient. Recognizing these dynamics is essential for maintaining objectivity and therapeutic effectiveness. Interprofessional communication frameworks such as SBAR (Situation, Background, Assessment, Recommendation) standardize handoff communication and reduce the risk of errors during care transitions."
@@ -175,7 +175,7 @@ export const therapeuticCommunicationLessons: Record<string, LessonContent> = {
       }
     ],
     pearls: [
-      "On NCLEX, the most therapeutic response explores the patient's feelings rather than providing information, giving advice, or offering reassurance",
+      "On the licensing exam, the most therapeutic response explores the patient's feelings rather than providing information, giving advice, or offering reassurance",
       "Boundary crossing is a brief, often unintentional departure from expected behavior that may be therapeutic in context; boundary violation is harmful and exploitative",
       "When assessing suicide risk, ask directly: 'Are you thinking about hurting yourself or ending your life?' Direct questioning does not increase suicidal ideation",
       "SBAR reduces communication errors by 30% or more when used consistently during handoffs and escalation of concerns",
@@ -220,10 +220,10 @@ export const therapeuticCommunicationLessons: Record<string, LessonContent> = {
   },
 
   "therapeutic-comm-np": {
-    title: "NP Therapeutic Communication",
+    title: "Therapeutic Communication",
     cellular: {
-      title: "Advanced Relational and Clinical Communication",
-      content: "Nurse practitioners operate at an advanced practice level requiring communication skills that integrate clinical authority with therapeutic empathy. Shared decision-making involves presenting evidence-based options, discussing risks and benefits in language the patient can understand, and collaboratively selecting a plan that aligns with the patient's values and preferences. Motivational interviewing at the NP level focuses on sustained behavior change for chronic disease management, substance use reduction, and treatment adherence using the stages of change model (precontemplation, contemplation, preparation, action, maintenance). Breaking bad news frameworks such as SPIKES (Setting, Perception, Invitation, Knowledge, Emotions, Strategy/Summary) provide structured approaches for delivering difficult diagnoses or prognosis information while maintaining therapeutic rapport."
+      title: "Relational and Clinical Communication",
+      content: "Nurse practitioners operate at an advanced practice level requiring communication skills that integrate clinical authority with therapeutic empathy. Shared decision-making involves presenting evidence-based options, discussing risks and benefits in language the patient can understand, and collaboratively selecting a plan that aligns with the patient's values and preferences. Motivational interviewing at the advanced practice level focuses on sustained behavior change for chronic disease management, substance use reduction, and treatment adherence using the stages of change model (precontemplation, contemplation, preparation, action, maintenance). Breaking bad news frameworks such as SPIKES (Setting, Perception, Invitation, Knowledge, Emotions, Strategy/Summary) provide structured approaches for delivering difficult diagnoses or prognosis information while maintaining therapeutic rapport."
     },
     riskFactors: [
       "Power differential between NP and patient undermining true shared decision-making",
@@ -258,7 +258,7 @@ export const therapeuticCommunicationLessons: Record<string, LessonContent> = {
     ],
     signs: {
       left: [
-        "Indicators of effective NP-level communication",
+        "Indicators of effective advanced communication",
         "Patient demonstrates understanding of treatment options through teach-back",
         "Patient actively participates in goal-setting for chronic disease management",
         "Patient expresses readiness to make behavioral changes",
@@ -292,7 +292,7 @@ export const therapeuticCommunicationLessons: Record<string, LessonContent> = {
     ],
     quiz: [
       {
-        question: "An NP is preparing to inform a patient of a new cancer diagnosis. Using the SPIKES framework, what should the NP do first?",
+        question: "An NP is preparing to inform a patient of a new cancer diagnosis. Using the SPIKES framework, what should the clinician do first?",
         options: [
           "Deliver the diagnosis clearly and directly without delay",
           "Assess the patient's emotional readiness and understanding of why they are here",
@@ -322,7 +322,7 @@ export const therapeuticCommunicationLessons: Record<string, LessonContent> = {
           "Treat the patient exactly as any other without addressing the relationship"
         ],
         correct: 2,
-        rationale: "In rural and small community settings, dual relationships are sometimes unavoidable. The NP should acknowledge the overlap, establish clear boundaries with the patient, and document the management plan. Refusing care may create an access barrier, and ignoring the dual relationship risks boundary violations."
+        rationale: "In rural and small community settings, dual relationships are sometimes unavoidable. The clinician should acknowledge the overlap, establish clear boundaries with the patient, and document the management plan. Refusing care may create an access barrier, and ignoring the dual relationship risks boundary violations."
       }
     ]
   }

@@ -45,7 +45,7 @@ const infantNutrition: LessonContent = {
 };
 
 const toddlerNutrition: LessonContent = {
-  title: "Nutrition in Toddlers & Preschoolers (1-5 Years)",
+  title: "Nutrition in Toddlers",
   cellular: {
     title: "Growth & Metabolic Changes in Early Childhood",
     content: "After the first year of life, growth velocity slows dramatically. Weight gain decreases considerably, caloric requirements per kilogram drop, appetite fluctuates widely day-to-day, and food intake becomes inconsistent. Toddlers often eat well one day and almost nothing the next: this is developmentally normal, not pathology. Daily intake is less important than weekly trends. Energy needs approximate 1000-1400 kcal/day for toddlers (1-3 years) and 1200-1800 kcal/day for preschoolers (4-5 years). Portion sizes are much smaller than caregivers expect: a useful teaching rule is portion size approximately equals the child's palm or fist. Fat remains essential for brain development and myelination; low-fat diets are inappropriate for toddlers unless medically indicated. After age 1, children transition from formula/breast milk toward whole cow's milk (typically recommended until ~2 years), with intake limited to ~500-750 mL/day. Excess milk intake is extremely common and clinically important: it leads to iron deficiency anemia, reduced appetite for solid foods, and constipation."

@@ -3,10 +3,10 @@ const imgTonsillectomy = "/attached_assets/tonsillectomy_1773340545537.png";
 
 export const clinicalConditionsBatchKLessons: Record<string, LessonContent> = {
   "pancreatitis-management-rpn": {
-    title: "Pancreatitis: RPN Monitoring",
+    title: "Pancreatitis",
     cellular: {
       title: "Pancreatic Autodigestion",
-      content: "Pancreatitis occurs when premature activation of pancreatic enzymes (trypsin, lipase, elastase) causes autodigestion of pancreatic tissue. The pancreas normally produces digestive enzymes in inactive forms that activate only in the duodenum. When the pancreatic duct is obstructed by gallstones or damaged by alcohol, enzymes activate within the gland, causing inflammation, edema, necrosis, and hemorrhage. Systemic release of cytokines increases capillary permeability and vasodilation, potentially leading to hypovolemic shock from third-spacing. The RPN monitors vital signs, pain characteristics, and intake/output, reporting changes promptly to the nursing team."
+      content: "Pancreatitis occurs when premature activation of pancreatic enzymes (trypsin, lipase, elastase) causes autodigestion of pancreatic tissue. The pancreas normally produces digestive enzymes in inactive forms that activate only in the duodenum. When the pancreatic duct is obstructed by gallstones or damaged by alcohol, enzymes activate within the gland, causing inflammation, edema, necrosis, and hemorrhage. Systemic release of cytokines increases capillary permeability and vasodilation, potentially leading to hypovolemic shock from third-spacing. The nurse monitors vital signs, pain characteristics, and intake/output, reporting changes promptly to the nursing team."
     },
     riskFactors: [
       "Chronic alcohol use (direct pancreatic injury)",
@@ -70,17 +70,17 @@ export const clinicalConditionsBatchKLessons: Record<string, LessonContent> = {
       "Monitor calcium levels: hypocalcemia can cause tetany and cardiac arrhythmias"
     ],
     quiz: [
-      { question: "A patient with pancreatitis reports that pain is worse when lying flat. Which position should the RPN suggest?", options: ["Supine with legs elevated", "Side-lying with knees flexed or leaning forward", "Prone position", "Trendelenburg position"], correct: 1, rationale: "Leaning forward or side-lying with knees flexed reduces tension on the inflamed pancreas and provides pain relief." },
-      { question: "Which assessment finding should the RPN report immediately in a patient with acute pancreatitis?", options: ["Blood glucose of 6.5 mmol/L", "Flank ecchymosis with tachycardia", "Mild epigastric tenderness", "Temperature of 37.2°C"], correct: 1, rationale: "Flank ecchymosis (Grey Turner sign) combined with tachycardia suggests retroperitoneal hemorrhage and potential hypovolemic shock." },
+      { question: "A patient with pancreatitis reports that pain is worse when lying flat. Which position should the nurse suggest?", options: ["Supine with legs elevated", "Side-lying with knees flexed or leaning forward", "Prone position", "Trendelenburg position"], correct: 1, rationale: "Leaning forward or side-lying with knees flexed reduces tension on the inflamed pancreas and provides pain relief." },
+      { question: "Which assessment finding should the nurse report immediately in a patient with acute pancreatitis?", options: ["Blood glucose of 6.5 mmol/L", "Flank ecchymosis with tachycardia", "Mild epigastric tenderness", "Temperature of 37.2°C"], correct: 1, rationale: "Flank ecchymosis (Grey Turner sign) combined with tachycardia suggests retroperitoneal hemorrhage and potential hypovolemic shock." },
       { question: "Why is NPO status ordered for a patient with acute pancreatitis?", options: ["To prepare for emergency surgery", "To rest the pancreas and reduce enzyme secretion", "To prevent aspiration during vomiting", "To facilitate weight loss"], correct: 1, rationale: "NPO status eliminates the stimulus for pancreatic enzyme secretion, allowing the inflamed pancreas to rest and heal." }
     ]
   },
 
   "pancreatitis-management-rn": {
-    title: "Pancreatitis: RN Clinical Management",
+    title: "Pancreatitis",
     cellular: {
       title: "Pathophysiology of Pancreatic Inflammation",
-      content: "Acute pancreatitis results from premature activation of trypsinogen to trypsin within the pancreatic acinar cells, triggering a cascade of enzyme activation that leads to autodigestion of pancreatic tissue. Gallstone migration through the ampulla of Vater and chronic alcohol toxicity are the two most common causes. The inflammatory response releases cytokines (TNF-alpha, IL-6), increasing capillary permeability and causing massive third-space fluid shifts. Severe cases progress to systemic inflammatory response syndrome (SIRS), multiorgan dysfunction, and necrotizing pancreatitis. Chronic pancreatitis involves repeated inflammation leading to fibrosis, exocrine insufficiency (malabsorption), and endocrine failure (diabetes). The RN must manage aggressive fluid resuscitation, multimodal pain control, monitor for organ dysfunction, and coordinate nutritional support."
+      content: "Acute pancreatitis results from premature activation of trypsinogen to trypsin within the pancreatic acinar cells, triggering a cascade of enzyme activation that leads to autodigestion of pancreatic tissue. Gallstone migration through the ampulla of Vater and chronic alcohol toxicity are the two most common causes. The inflammatory response releases cytokines (TNF-alpha, IL-6), increasing capillary permeability and causing massive third-space fluid shifts. Severe cases progress to systemic inflammatory response syndrome (SIRS), multiorgan dysfunction, and necrotizing pancreatitis. Chronic pancreatitis involves repeated inflammation leading to fibrosis, exocrine insufficiency (malabsorption), and endocrine failure (diabetes). The nurse must manage aggressive fluid resuscitation, multimodal pain control, monitor for organ dysfunction, and coordinate nutritional support."
     },
     riskFactors: [
       "Gallstones (most common cause globally)",
@@ -163,10 +163,10 @@ export const clinicalConditionsBatchKLessons: Record<string, LessonContent> = {
   },
 
   "pancreatitis-management-np": {
-    title: "Pancreatitis: NP Prescriptive Management",
+    title: "Pancreatitis",
     cellular: {
-      title: "Advanced Pathophysiology and Evidence-Based Management",
-      content: "Acute pancreatitis involves premature intracellular activation of trypsinogen to trypsin, initiating a proteolytic cascade that autodigests pancreatic parenchyma. The two predominant etiologies are biliary (gallstone impaction at the ampulla of Vater, 40%) and alcoholic (direct acinar cell toxicity, 30%). Trypsin activation triggers complement and kinin cascades, releasing proinflammatory cytokines (TNF-α, IL-1β, IL-6) that produce a systemic inflammatory response. Third-space fluid losses can exceed 6-8 liters in severe cases. The revised Atlanta classification distinguishes mild (no organ failure), moderately severe (transient organ failure <48 hours), and severe (persistent organ failure >48 hours) pancreatitis. Chronic pancreatitis results in progressive fibrosis with loss of exocrine function (steatorrhea, malabsorption) and endocrine function (pancreatogenic diabetes, type 3c). The NP must classify severity using validated scoring systems, prescribe goal-directed fluid therapy, manage complications including infected necrosis, and coordinate long-term enzyme replacement and lifestyle modification."
+      title: "Pathophysiology and Evidence-Based Management",
+      content: "Acute pancreatitis involves premature intracellular activation of trypsinogen to trypsin, initiating a proteolytic cascade that autodigests pancreatic parenchyma. The two predominant etiologies are biliary (gallstone impaction at the ampulla of Vater, 40%) and alcoholic (direct acinar cell toxicity, 30%). Trypsin activation triggers complement and kinin cascades, releasing proinflammatory cytokines (TNF-α, IL-1β, IL-6) that produce a systemic inflammatory response. Third-space fluid losses can exceed 6-8 liters in severe cases. The revised Atlanta classification distinguishes mild (no organ failure), moderately severe (transient organ failure <48 hours), and severe (persistent organ failure >48 hours) pancreatitis. Chronic pancreatitis results in progressive fibrosis with loss of exocrine function (steatorrhea, malabsorption) and endocrine function (pancreatogenic diabetes, type 3c). The clinician must classify severity using validated scoring systems, prescribe goal-directed fluid therapy, manage complications including infected necrosis, and coordinate long-term enzyme replacement and lifestyle modification."
     },
     riskFactors: [
       "Gallstones (40% of cases; biliary pancreatitis)",
@@ -248,10 +248,10 @@ export const clinicalConditionsBatchKLessons: Record<string, LessonContent> = {
   },
 
   "cirrhosis-management-rpn": {
-    title: "Cirrhosis: RPN Monitoring",
+    title: "Cirrhosis",
     cellular: {
       title: "Hepatic Fibrosis and Portal Hypertension",
-      content: "Cirrhosis is the end stage of chronic liver disease characterized by progressive replacement of functional hepatocytes with fibrous scar tissue. This fibrosis disrupts normal hepatic architecture, impeding blood flow through the liver and causing portal hypertension. As portal pressure rises, blood is diverted through collateral vessels, creating esophageal varices, caput medusae, and hemorrhoids. Impaired hepatocyte function leads to decreased albumin synthesis (causing edema and ascites), decreased clotting factor production (causing bleeding), decreased bile production (causing jaundice and pruritus), and impaired ammonia detoxification (causing hepatic encephalopathy). The RPN monitors vital signs, mental status, skin integrity, and fluid balance, reporting changes to the nursing team."
+      content: "Cirrhosis is the end stage of chronic liver disease characterized by progressive replacement of functional hepatocytes with fibrous scar tissue. This fibrosis disrupts normal hepatic architecture, impeding blood flow through the liver and causing portal hypertension. As portal pressure rises, blood is diverted through collateral vessels, creating esophageal varices, caput medusae, and hemorrhoids. Impaired hepatocyte function leads to decreased albumin synthesis (causing edema and ascites), decreased clotting factor production (causing bleeding), decreased bile production (causing jaundice and pruritus), and impaired ammonia detoxification (causing hepatic encephalopathy). The nurse monitors vital signs, mental status, skin integrity, and fluid balance, reporting changes to the nursing team."
     },
     riskFactors: [
       "Chronic alcohol abuse",
@@ -317,17 +317,17 @@ export const clinicalConditionsBatchKLessons: Record<string, LessonContent> = {
       "Report any vomiting of bright red blood or coffee-ground emesis immediately as it may indicate variceal bleeding"
     ],
     quiz: [
-      { question: "A patient with cirrhosis becomes confused and develops a flapping tremor of the hands. What should the RPN suspect?", options: ["Hypoglycemia", "Hepatic encephalopathy", "Alcohol withdrawal", "Stroke"], correct: 1, rationale: "Confusion and asterixis (flapping tremor) are hallmark signs of hepatic encephalopathy caused by ammonia accumulation in the blood due to impaired liver detoxification." },
+      { question: "A patient with cirrhosis becomes confused and develops a flapping tremor of the hands. What should the nurse suspect?", options: ["Hypoglycemia", "Hepatic encephalopathy", "Alcohol withdrawal", "Stroke"], correct: 1, rationale: "Confusion and asterixis (flapping tremor) are hallmark signs of hepatic encephalopathy caused by ammonia accumulation in the blood due to impaired liver detoxification." },
       { question: "What is the goal number of bowel movements per day for a patient on lactulose therapy?", options: ["1 formed stool", "2-3 soft stools", "4-5 watery stools", "No specific goal"], correct: 1, rationale: "Lactulose therapy aims for 2-3 soft stools per day to adequately excrete ammonia while avoiding dehydration from excessive diarrhea." },
       { question: "When should cholestyramine be administered in relation to other medications?", options: ["At the same time", "1 hour before", "1 hour after", "2 hours before"], correct: 2, rationale: "Cholestyramine binds many medications in the GI tract, reducing their absorption. It should be given 1 hour after other medications." }
     ]
   },
 
   "cirrhosis-management-rn": {
-    title: "Cirrhosis: RN Clinical Management",
+    title: "Cirrhosis",
     cellular: {
       title: "Hepatic Decompensation and Complications",
-      content: "Cirrhosis represents irreversible hepatic fibrosis where regenerative nodules replace normal lobular architecture. Portal hypertension develops when fibrotic tissue increases intrahepatic vascular resistance (sinusoidal pressure >5 mmHg gradient). This drives formation of portosystemic collaterals, most dangerously esophageal varices. Decreased hepatocyte mass reduces albumin synthesis (oncotic pressure falls, causing ascites and edema), clotting factor production (coagulopathy), bile conjugation (jaundice), and ammonia metabolism to urea (hepatic encephalopathy). Hepatorenal syndrome occurs when severe portal hypertension causes splanchnic vasodilation, reducing effective circulating volume and triggering renal vasoconstriction. The RN must manage fluid overload with diuretics, titrate lactulose for encephalopathy, monitor for variceal hemorrhage, coordinate paracentesis, and implement bleeding precautions."
+      content: "Cirrhosis represents irreversible hepatic fibrosis where regenerative nodules replace normal lobular architecture. Portal hypertension develops when fibrotic tissue increases intrahepatic vascular resistance (sinusoidal pressure >5 mmHg gradient). This drives formation of portosystemic collaterals, most dangerously esophageal varices. Decreased hepatocyte mass reduces albumin synthesis (oncotic pressure falls, causing ascites and edema), clotting factor production (coagulopathy), bile conjugation (jaundice), and ammonia metabolism to urea (hepatic encephalopathy). Hepatorenal syndrome occurs when severe portal hypertension causes splanchnic vasodilation, reducing effective circulating volume and triggering renal vasoconstriction. The nurse must manage fluid overload with diuretics, titrate lactulose for encephalopathy, monitor for variceal hemorrhage, coordinate paracentesis, and implement bleeding precautions."
     },
     riskFactors: [
       "Chronic hepatitis C (leading cause requiring transplant)",
@@ -405,15 +405,15 @@ export const clinicalConditionsBatchKLessons: Record<string, LessonContent> = {
     quiz: [
       { question: "What is the recommended diuretic ratio for management of cirrhotic ascites?", options: ["Furosemide 100 mg : spironolactone 40 mg", "Spironolactone 100 mg : furosemide 40 mg", "Equal doses of both", "Spironolactone alone without furosemide"], correct: 1, rationale: "The 100:40 ratio of spironolactone to furosemide is recommended to maintain potassium balance while promoting natriuresis in cirrhotic ascites." },
       { question: "During a large-volume paracentesis removing 7 liters, what should be administered?", options: ["IV normal saline bolus", "IV albumin 6-8 g per liter removed", "Packed red blood cells", "Fresh frozen plasma"], correct: 1, rationale: "When >5 liters are removed during paracentesis, IV albumin (6-8 g per liter) should be given to prevent post-paracentesis circulatory dysfunction." },
-      { question: "A patient with cirrhosis develops fever, abdominal pain, and worsening confusion with ascites. What complication should the RN suspect?", options: ["Hepatorenal syndrome", "Spontaneous bacterial peritonitis", "Esophageal variceal rupture", "Portal vein thrombosis"], correct: 1, rationale: "Fever, abdominal pain, and worsening encephalopathy in a patient with ascites are classic indicators of spontaneous bacterial peritonitis, which requires diagnostic paracentesis and empiric antibiotics." }
+      { question: "A patient with cirrhosis develops fever, abdominal pain, and worsening confusion with ascites. What complication should the nurse suspect?", options: ["Hepatorenal syndrome", "Spontaneous bacterial peritonitis", "Esophageal variceal rupture", "Portal vein thrombosis"], correct: 1, rationale: "Fever, abdominal pain, and worsening encephalopathy in a patient with ascites are classic indicators of spontaneous bacterial peritonitis, which requires diagnostic paracentesis and empiric antibiotics." }
     ]
   },
 
   "cirrhosis-management-np": {
-    title: "Cirrhosis: NP Prescriptive Management",
+    title: "Cirrhosis",
     cellular: {
-      title: "Advanced Hepatology and Decompensation Management",
-      content: "Cirrhosis represents the final common pathway of chronic liver injury, characterized by diffuse fibrosis, regenerative nodules, and distortion of hepatic vasculature. The hepatic stellate cell is the key mediator of fibrogenesis, transforming from a quiescent vitamin A-storing cell to an activated myofibroblast that produces excess collagen. Portal hypertension develops when the hepatic venous pressure gradient (HVPG) exceeds 5 mmHg; clinically significant portal hypertension occurs at ≥10 mmHg, and variceal hemorrhage risk increases at ≥12 mmHg. Decompensation is defined by the development of ascites, variceal hemorrhage, encephalopathy, or jaundice. The NP must calculate MELD-Na scores for transplant prioritization, prescribe evidence-based pharmacotherapy for each complication, manage primary and secondary variceal prophylaxis, initiate SBP prophylaxis, and coordinate multidisciplinary hepatology care including transplant evaluation."
+      title: "Hepatology and Decompensation Management",
+      content: "Cirrhosis represents the final common pathway of chronic liver injury, characterized by diffuse fibrosis, regenerative nodules, and distortion of hepatic vasculature. The hepatic stellate cell is the key mediator of fibrogenesis, transforming from a quiescent vitamin A-storing cell to an activated myofibroblast that produces excess collagen. Portal hypertension develops when the hepatic venous pressure gradient (HVPG) exceeds 5 mmHg; clinically significant portal hypertension occurs at ≥10 mmHg, and variceal hemorrhage risk increases at ≥12 mmHg. Decompensation is defined by the development of ascites, variceal hemorrhage, encephalopathy, or jaundice. The clinician must calculate MELD-Na scores for transplant prioritization, prescribe evidence-based pharmacotherapy for each complication, manage primary and secondary variceal prophylaxis, initiate SBP prophylaxis, and coordinate multidisciplinary hepatology care including transplant evaluation."
     },
     riskFactors: [
       "Chronic hepatitis C (most common indication for liver transplant historically)",
@@ -496,10 +496,10 @@ export const clinicalConditionsBatchKLessons: Record<string, LessonContent> = {
   },
 
   "chronic-kidney-disease-rpn": {
-    title: "Chronic Kidney Disease: RPN Monitoring",
+    title: "Chronic Kidney Disease",
     cellular: {
       title: "Progressive Nephron Loss",
-      content: "Chronic kidney disease (CKD) is the progressive and irreversible loss of kidney function over months to years. As nephrons are destroyed, the remaining nephrons undergo compensatory hyperfiltration, which initially maintains function but eventually accelerates further damage. The kidneys lose their ability to filter waste products, regulate fluid and electrolytes, produce erythropoietin (causing anemia), activate vitamin D (causing bone disease), and maintain acid-base balance. Hyperkalemia, fluid overload, and uremia develop as GFR declines. The RPN monitors vital signs, dietary compliance, fluid balance, and reports changes in the patient's condition."
+      content: "Chronic kidney disease (CKD) is the progressive and irreversible loss of kidney function over months to years. As nephrons are destroyed, the remaining nephrons undergo compensatory hyperfiltration, which initially maintains function but eventually accelerates further damage. The kidneys lose their ability to filter waste products, regulate fluid and electrolytes, produce erythropoietin (causing anemia), activate vitamin D (causing bone disease), and maintain acid-base balance. Hyperkalemia, fluid overload, and uremia develop as GFR declines. The nurse monitors vital signs, dietary compliance, fluid balance, and reports changes in the patient's condition."
     },
     riskFactors: [
       "Diabetes mellitus (most common cause)",
@@ -566,17 +566,17 @@ export const clinicalConditionsBatchKLessons: Record<string, LessonContent> = {
       "Fluid intake includes all liquids: popsicles, gelatin, ice cream, and soup"
     ],
     quiz: [
-      { question: "A patient with CKD asks about using a salt substitute. What should the RPN advise?", options: ["Salt substitutes are a healthy alternative", "Avoid salt substitutes as they contain potassium chloride", "Use half the amount of regular salt", "Salt substitutes are safe in small amounts"], correct: 1, rationale: "Salt substitutes typically contain potassium chloride, which can cause hyperkalemia in CKD patients who already have impaired potassium excretion." },
+      { question: "A patient with CKD asks about using a salt substitute. What should the nurse advise?", options: ["Salt substitutes are a healthy alternative", "Avoid salt substitutes as they contain potassium chloride", "Use half the amount of regular salt", "Salt substitutes are safe in small amounts"], correct: 1, rationale: "Salt substitutes typically contain potassium chloride, which can cause hyperkalemia in CKD patients who already have impaired potassium excretion." },
       { question: "Which action is contraindicated on the arm with an AV fistula?", options: ["Palpating for a thrill", "Taking blood pressure", "Encouraging hand exercises", "Assessing skin temperature"], correct: 1, rationale: "Blood pressure measurements, venipuncture, and IV insertion are contraindicated on the arm with a dialysis access to prevent damage to the fistula or graft." },
       { question: "Which food should a CKD patient avoid due to high potassium content?", options: ["Apples", "White rice", "Bananas", "Green beans"], correct: 2, rationale: "Bananas are high in potassium and should be avoided by CKD patients who are on potassium restriction to prevent hyperkalemia." }
     ]
   },
 
   "chronic-kidney-disease-rn": {
-    title: "Chronic Kidney Disease: RN Clinical Management",
+    title: "Chronic Kidney Disease",
     cellular: {
       title: "Nephron Loss and Systemic Complications",
-      content: "Chronic kidney disease involves progressive destruction of nephrons from sustained glomerular and tubulointerstitial injury. As GFR declines, the kidneys lose the ability to excrete nitrogenous waste (uremia), regulate electrolytes (hyperkalemia, hyperphosphatemia, hypocalcemia), maintain fluid balance (volume overload), produce erythropoietin (normocytic normochromic anemia), and activate vitamin D to calcitriol (secondary hyperparathyroidism and renal osteodystrophy). CKD is staged by GFR: Stage 1 (≥90, with kidney damage), Stage 2 (60-89), Stage 3a (45-59), Stage 3b (30-44), Stage 4 (15-29), Stage 5 (<15, kidney failure). The RN must manage complex medication regimens, monitor for electrolyte derangements, implement dietary and fluid restrictions, assess dialysis access patency, and provide comprehensive patient education."
+      content: "Chronic kidney disease involves progressive destruction of nephrons from sustained glomerular and tubulointerstitial injury. As GFR declines, the kidneys lose the ability to excrete nitrogenous waste (uremia), regulate electrolytes (hyperkalemia, hyperphosphatemia, hypocalcemia), maintain fluid balance (volume overload), produce erythropoietin (normocytic normochromic anemia), and activate vitamin D to calcitriol (secondary hyperparathyroidism and renal osteodystrophy). CKD is staged by GFR: Stage 1 (≥90, with kidney damage), Stage 2 (60-89), Stage 3a (45-59), Stage 3b (30-44), Stage 4 (15-29), Stage 5 (<15, kidney failure). The nurse must manage complex medication regimens, monitor for electrolyte derangements, implement dietary and fluid restrictions, assess dialysis access patency, and provide comprehensive patient education."
     },
     riskFactors: [
       "Diabetes mellitus (leading cause, 44% of new ESKD cases)",
@@ -654,15 +654,15 @@ export const clinicalConditionsBatchKLessons: Record<string, LessonContent> = {
     quiz: [
       { question: "When should phosphate binders be administered to a patient with CKD?", options: ["On an empty stomach in the morning", "With meals", "At bedtime", "Two hours before meals"], correct: 1, rationale: "Phosphate binders must be taken with meals to bind dietary phosphorus in the GI tract and prevent absorption." },
       { question: "What is the target hemoglobin range when using ESA therapy in CKD?", options: ["8-9 g/dL", "10-11 g/dL", "12-13 g/dL", "14-15 g/dL"], correct: 1, rationale: "The target hemoglobin for ESA therapy is 10-11 g/dL. Exceeding 11 g/dL increases the risk of cardiovascular events including stroke and MI." },
-      { question: "The RN assesses a patient's AV fistula and cannot palpate a thrill or hear a bruit. What is the priority action?", options: ["Apply warm compresses", "Notify the provider immediately", "Elevate the arm", "Take blood pressure on that arm"], correct: 1, rationale: "Absence of thrill and bruit indicates fistula thrombosis or failure, which requires immediate provider notification for urgent intervention." }
+      { question: "The nurse assesses a patient's AV fistula and cannot palpate a thrill or hear a bruit. What is the priority action?", options: ["Apply warm compresses", "Notify the provider immediately", "Elevate the arm", "Take blood pressure on that arm"], correct: 1, rationale: "Absence of thrill and bruit indicates fistula thrombosis or failure, which requires immediate provider notification for urgent intervention." }
     ]
   },
 
   "chronic-kidney-disease-np": {
-    title: "Chronic Kidney Disease: NP Prescriptive Management",
+    title: "Chronic Kidney Disease",
     cellular: {
-      title: "Advanced Nephrology and Evidence-Based CKD Management",
-      content: "Chronic kidney disease involves progressive glomerulosclerosis, tubulointerstitial fibrosis, and vascular injury driven by the final common pathways of hyperfiltration, proteinuria, and inflammation. The RAAS plays a central role: angiotensin II increases glomerular efferent arteriolar tone, raising intraglomerular pressure and accelerating nephron damage. ACE inhibitors/ARBs reduce intraglomerular pressure and proteinuria, slowing progression. SGLT2 inhibitors provide additional nephroprotection through tubuloglomerular feedback restoration, reducing hyperfiltration. As GFR declines, secondary complications develop: anemia from reduced erythropoietin, mineral bone disease (CKD-MBD) from phosphate retention and vitamin D deficiency driving secondary hyperparathyroidism, metabolic acidosis from impaired acid excretion, and cardiovascular disease (the leading cause of death in CKD). The NP must initiate nephroprotective therapy, manage CKD-MBD, prescribe ESAs with iron optimization, plan renal replacement therapy, and coordinate transplant referral."
+      title: "Nephrology and Evidence-Based CKD Management",
+      content: "Chronic kidney disease involves progressive glomerulosclerosis, tubulointerstitial fibrosis, and vascular injury driven by the final common pathways of hyperfiltration, proteinuria, and inflammation. The RAAS plays a central role: angiotensin II increases glomerular efferent arteriolar tone, raising intraglomerular pressure and accelerating nephron damage. ACE inhibitors/ARBs reduce intraglomerular pressure and proteinuria, slowing progression. SGLT2 inhibitors provide additional nephroprotection through tubuloglomerular feedback restoration, reducing hyperfiltration. As GFR declines, secondary complications develop: anemia from reduced erythropoietin, mineral bone disease (CKD-MBD) from phosphate retention and vitamin D deficiency driving secondary hyperparathyroidism, metabolic acidosis from impaired acid excretion, and cardiovascular disease (the leading cause of death in CKD). The clinician must initiate nephroprotective therapy, manage CKD-MBD, prescribe ESAs with iron optimization, plan renal replacement therapy, and coordinate transplant referral."
     },
     riskFactors: [
       "Diabetic nephropathy (most common cause of ESKD globally)",
@@ -745,11 +745,11 @@ export const clinicalConditionsBatchKLessons: Record<string, LessonContent> = {
   },
 
   "tonsillectomy-care-rpn": {
-    title: "Tonsillectomy Care: RPN Monitoring",
+    title: "Tonsillectomy Care",
     image: imgTonsillectomy,
     cellular: {
       title: "Tonsil Tissue and Surgical Healing",
-      content: "Tonsillectomy is the surgical removal of the palatine tonsils, performed most commonly for recurrent tonsillitis or obstructive sleep apnea in children. The tonsillar fossa is a highly vascular area supplied by branches of the external carotid artery. After surgical excision, a fibrin clot (white eschar) forms over the wound bed and sloughs off naturally over 7-10 days. The greatest risk is post-operative hemorrhage, which can occur within the first 24 hours (primary) or 5-10 days post-operatively (secondary) when the eschar separates. The RPN monitors for bleeding, pain, hydration status, and dietary progression, reporting concerns immediately."
+      content: "Tonsillectomy is the surgical removal of the palatine tonsils, performed most commonly for recurrent tonsillitis or obstructive sleep apnea in children. The tonsillar fossa is a highly vascular area supplied by branches of the external carotid artery. After surgical excision, a fibrin clot (white eschar) forms over the wound bed and sloughs off naturally over 7-10 days. The greatest risk is post-operative hemorrhage, which can occur within the first 24 hours (primary) or 5-10 days post-operatively (secondary) when the eschar separates. The nurse monitors for bleeding, pain, hydration status, and dietary progression, reporting concerns immediately."
     },
     riskFactors: [
       "Recurrent tonsillitis (≥7 episodes in 1 year, ≥5/year for 2 years, or ≥3/year for 3 years)",
@@ -813,17 +813,17 @@ export const clinicalConditionsBatchKLessons: Record<string, LessonContent> = {
     ],
     quiz: [
       { question: "What is the earliest sign of post-tonsillectomy hemorrhage?", options: ["Fever", "Frequent swallowing", "Sore throat", "Decreased appetite"], correct: 1, rationale: "Frequent swallowing indicates the patient is swallowing blood from the posterior oropharynx, which is the earliest sign of post-tonsillectomy hemorrhage." },
-      { question: "Which position should the RPN place a post-tonsillectomy patient in immediately after surgery?", options: ["Supine", "High Fowler's", "Side-lying (recovery position)", "Trendelenburg"], correct: 2, rationale: "Side-lying (recovery position) prevents aspiration of blood and secretions during the immediate post-operative period." },
+      { question: "Which position should the nurse place a post-tonsillectomy patient in immediately after surgery?", options: ["Supine", "High Fowler's", "Side-lying (recovery position)", "Trendelenburg"], correct: 2, rationale: "Side-lying (recovery position) prevents aspiration of blood and secretions during the immediate post-operative period." },
       { question: "Which pain medication should be avoided after tonsillectomy?", options: ["Acetaminophen", "Aspirin", "Oral sucrose", "Codeine"], correct: 1, rationale: "Aspirin inhibits platelet aggregation and increases the risk of post-operative hemorrhage. Acetaminophen is the preferred analgesic." }
     ]
   },
 
   "tonsillectomy-care-rn": {
-    title: "Tonsillectomy Care: RN Clinical Management",
+    title: "Tonsillectomy Care",
     image: imgTonsillectomy,
     cellular: {
       title: "Surgical Hemostasis and Wound Healing",
-      content: "Tonsillectomy involves dissection and removal of the palatine tonsils from the pharyngeal musculature. The tonsillar fossa receives its blood supply primarily from the tonsillar branch of the facial artery, ascending pharyngeal artery, and dorsal lingual artery. Intraoperative hemostasis is achieved through electrocautery, suture ligation, or chemical cauterization. A fibrin eschar forms over the wound bed within 24 hours and provides a biological dressing during the 10-14 day healing period. Primary hemorrhage occurs within the first 24 hours from inadequate hemostasis. Secondary hemorrhage occurs at days 5-10 when the eschar separates from the healing granulation tissue below. The RN must implement comprehensive hemorrhage surveillance, manage multimodal analgesia, ensure adequate hydration, coordinate discharge education, and recognize signs of airway compromise."
+      content: "Tonsillectomy involves dissection and removal of the palatine tonsils from the pharyngeal musculature. The tonsillar fossa receives its blood supply primarily from the tonsillar branch of the facial artery, ascending pharyngeal artery, and dorsal lingual artery. Intraoperative hemostasis is achieved through electrocautery, suture ligation, or chemical cauterization. A fibrin eschar forms over the wound bed within 24 hours and provides a biological dressing during the 10-14 day healing period. Primary hemorrhage occurs within the first 24 hours from inadequate hemostasis. Secondary hemorrhage occurs at days 5-10 when the eschar separates from the healing granulation tissue below. The nurse must implement comprehensive hemorrhage surveillance, manage multimodal analgesia, ensure adequate hydration, coordinate discharge education, and recognize signs of airway compromise."
     },
     riskFactors: [
       "Recurrent tonsillitis meeting Paradise criteria",
@@ -900,16 +900,16 @@ export const clinicalConditionsBatchKLessons: Record<string, LessonContent> = {
     quiz: [
       { question: "A child returns to the ED on post-operative day 7 with bright red blood from the mouth. What type of hemorrhage is this?", options: ["Primary hemorrhage", "Secondary hemorrhage", "Mucosal erosion", "Traumatic injury"], correct: 1, rationale: "Secondary hemorrhage occurs at days 5-10 post-tonsillectomy when the fibrin eschar naturally separates from the healing granulation tissue, exposing the underlying vessels." },
       { question: "Which medication is contraindicated in children under 12 undergoing tonsillectomy?", options: ["Acetaminophen", "Ondansetron", "Codeine", "Dexamethasone"], correct: 2, rationale: "The FDA issued a Black Box Warning contraindicating codeine for post-tonsillectomy pain in children under 12 due to risk of fatal respiratory depression from CYP2D6 ultra-rapid metabolism." },
-      { question: "A parent calls concerned about white patches on the child's tonsil beds 5 days after tonsillectomy. What should the RN advise?", options: ["Come to the ED immediately for infection evaluation", "This is normal fibrin eschar formation and will resolve in 10-14 days", "Start antibiotics immediately", "Apply hydrogen peroxide to the area"], correct: 1, rationale: "White/gray patches (fibrin eschar) on the tonsil beds are a normal part of the healing process after tonsillectomy and will slough off naturally over 10-14 days." }
+      { question: "A parent calls concerned about white patches on the child's tonsil beds 5 days after tonsillectomy. What should the nurse advise?", options: ["Come to the ED immediately for infection evaluation", "This is normal fibrin eschar formation and will resolve in 10-14 days", "Start antibiotics immediately", "Apply hydrogen peroxide to the area"], correct: 1, rationale: "White/gray patches (fibrin eschar) on the tonsil beds are a normal part of the healing process after tonsillectomy and will slough off naturally over 10-14 days." }
     ]
   },
 
   "tonsillectomy-care-np": {
-    title: "Tonsillectomy Care: NP Prescriptive Management",
+    title: "Tonsillectomy Care",
     image: imgTonsillectomy,
     cellular: {
       title: "Evidence-Based Perioperative Management",
-      content: "Tonsillectomy remains one of the most common surgical procedures in pediatric and adult otolaryngology. Indications include recurrent acute tonsillitis meeting Paradise criteria (≥7 episodes in 1 year, ≥5/year for 2 years, ≥3/year for 3 years), peritonsillar abscess, obstructive sleep-disordered breathing, and suspected malignancy. Surgical techniques include cold dissection, electrocautery, coblation, and intracapsular (partial) tonsillectomy. Post-operative hemorrhage is the most significant complication, occurring in 2-4% of cases. Post-operative hemorrhage is classified as primary (<24 hours, from inadequate surgical hemostasis) or secondary (5-10 days, from premature eschar separation). The NP must perform pre-operative risk assessment, prescribe evidence-based perioperative protocols, manage post-operative analgesia according to current guidelines, and coordinate follow-up for complications."
+      content: "Tonsillectomy remains one of the most common surgical procedures in pediatric and adult otolaryngology. Indications include recurrent acute tonsillitis meeting Paradise criteria (≥7 episodes in 1 year, ≥5/year for 2 years, ≥3/year for 3 years), peritonsillar abscess, obstructive sleep-disordered breathing, and suspected malignancy. Surgical techniques include cold dissection, electrocautery, coblation, and intracapsular (partial) tonsillectomy. Post-operative hemorrhage is the most significant complication, occurring in 2-4% of cases. Post-operative hemorrhage is classified as primary (<24 hours, from inadequate surgical hemostasis) or secondary (5-10 days, from premature eschar separation). The clinician must perform pre-operative risk assessment, prescribe evidence-based perioperative protocols, manage post-operative analgesia according to current guidelines, and coordinate follow-up for complications."
     },
     riskFactors: [
       "Paradise criteria for recurrent tonsillitis",

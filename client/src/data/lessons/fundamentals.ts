@@ -2,7 +2,7 @@ import type { LessonContent } from "./types";
 
 export const fundamentalsLessons: Record<string, LessonContent> = {
   "nursing-process-adpie": {
-    title: "Nursing Process (ADPIE) and Clinical Reasoning",
+    title: "Nursing Process (ADPIE)",
     cellular: {
       title: "The Nursing Process as a Clinical Framework",
       content: "The nursing process is a systematic, evidence-based framework that guides all clinical decision-making in nursing practice. It consists of five sequential and cyclical phases: Assessment, Diagnosis, Planning, Implementation, and Evaluation (ADPIE). This process is not merely a checklist but a dynamic reasoning framework that mirrors the scientific method applied to patient care.\n\nAssessment is the foundation of all nursing care. It involves systematic collection of subjective data (what the patient reports: pain, nausea, dizziness) and objective data (what the nurse observes or measures: vital signs, skin color, lab values, physical examination findings). Assessment must be ongoing and comprehensive. A thorough initial assessment establishes baseline data against which all future changes are measured. Focused assessments are performed when a specific concern arises. The nurse must differentiate between relevant and irrelevant data and recognize patterns that suggest clinical deterioration.\n\nNursing Diagnosis differs from medical diagnosis. While a physician diagnoses a disease (e.g., pneumonia), the nurse diagnoses the human response to the condition (e.g., Impaired Gas Exchange related to alveolar-capillary membrane changes as evidenced by SpO2 of 88% on room air). NANDA-I provides standardized nursing diagnoses that are used to identify actual or potential health problems."
@@ -122,7 +122,7 @@ export const fundamentalsLessons: Record<string, LessonContent> = {
   },
 
   "vital-signs-red-flags": {
-    title: "Vital Signs: Red Flags & Rapid Response Triggers",
+    title: "Vital Signs: Red Flags",
     cellular: {
       title: "Vital Signs as Early Warning Indicators",
       content: "Vital signs are the most fundamental and frequently assessed clinical parameters in nursing. They provide critical real-time data about cardiovascular, respiratory, neurological, and metabolic function. The five core vital signs are temperature, pulse, respirations, blood pressure, and oxygen saturation, with pain often considered the sixth vital sign.\n\nVital sign changes are often the earliest detectable indicators of clinical deterioration, frequently preceding catastrophic events by hours. Studies consistently show that patients who experience cardiac arrest, septic shock, or respiratory failure almost always display abnormal vital sign trends in the 6-8 hours prior to the event. The failure to recognize and act on these trends is a leading cause of preventable patient deaths.\n\nRapid Response Teams (RRT) were developed specifically to address 'failure to rescue' events. These teams are activated when specific vital sign criteria are met, providing immediate critical care expertise at the bedside. The Modified Early Warning Score (MEWS) and National Early Warning Score (NEWS2) are validated scoring systems that aggregate vital sign deviations to predict clinical deterioration. A single abnormal vital sign may be benign, but a pattern of multiple deviations from baseline represents a clinical emergency requiring immediate intervention."
@@ -243,7 +243,7 @@ export const fundamentalsLessons: Record<string, LessonContent> = {
   },
 
   "medication-administration-safety": {
-    title: "Medication Administration: Rights & Safety Checks",
+    title: "Medication Administration: Rights",
     cellular: {
       title: "Medication Safety as a System-Level Priority",
       content: "Medication errors are among the most common and preventable causes of patient harm in healthcare. The Institute of Medicine estimates that medication errors injure at least 1.5 million people per year in the United States alone, with thousands of deaths annually. These errors can occur at any stage of the medication use process: prescribing, transcribing, dispensing, administering, or monitoring.\n\nThe traditional 'Five Rights' of medication administration (Right Patient, Right Drug, Right Dose, Right Route, Right Time) have expanded to include additional safety checks: Right Documentation, Right Reason, Right Response, and Right to Refuse. These rights serve as a minimum safety framework but are not sufficient alone to prevent all errors. System-level safeguards including barcode medication administration (BCMA), computerized provider order entry (CPOE), and pharmacist verification provide additional layers of protection.\n\nHigh-alert medications are drugs that bear a heightened risk of causing significant patient harm when used in error. These include insulin, anticoagulants (heparin, warfarin), opioids, chemotherapy agents, concentrated electrolytes (potassium chloride, hypertonic saline), and neuromuscular blocking agents. These medications require independent double-checks by two qualified nurses before administration. The Institute for Safe Medication Practices (ISMP) maintains a list of high-alert medications that every nurse should be familiar with."
@@ -366,7 +366,7 @@ export const fundamentalsLessons: Record<string, LessonContent> = {
   "infection-prevention-ppe": {
     title: "Infection Prevention & PPE Standards",
     cellular: {
-      title: "Chain of Infection and Transmission Prevention",
+      title: "Chain of Infection",
       content: "Healthcare-associated infections (HAIs) affect approximately 1 in 31 hospital patients on any given day, resulting in significant morbidity, mortality, and healthcare costs. Understanding the chain of infection is essential for breaking the cycle of disease transmission. The six links in the chain are: infectious agent, reservoir, portal of exit, mode of transmission, portal of entry, and susceptible host. Breaking ANY single link prevents infection transmission.\n\nStandard Precautions are the minimum infection prevention practices that apply to ALL patients in ALL healthcare settings, regardless of suspected or confirmed infection status. They are based on the principle that all blood, body fluids, non-intact skin, and mucous membranes may contain transmissible infectious agents. Standard precautions include hand hygiene, use of personal protective equipment (PPE), respiratory hygiene/cough etiquette, safe injection practices, and proper handling of contaminated equipment and surfaces.\n\nTransmission-Based Precautions are used IN ADDITION to Standard Precautions for patients known or suspected to be infected with pathogens that require additional measures to prevent transmission. There are three categories: Contact Precautions (for organisms spread by direct or indirect contact, such as MRSA, C. difficile, and VRE), Droplet Precautions (for organisms spread by large respiratory droplets that travel up to 3-6 feet, such as influenza, pertussis, and bacterial meningitis), and Airborne Precautions (for organisms that remain suspended in the air for extended periods and travel long distances, such as tuberculosis, measles, and varicella)."
     },
     riskFactors: [
@@ -484,9 +484,9 @@ export const fundamentalsLessons: Record<string, LessonContent> = {
   },
 
   "documentation-sbar-dar": {
-    title: "Clinical Documentation: SBAR, DAR & Legal Safety",
+    title: "Clinical Documentation: SBAR, DAR",
     cellular: {
-      title: "Documentation as a Legal and Clinical Communication Tool",
+      title: "Documentation as a Legal",
       content: "Clinical documentation is the cornerstone of patient safety, continuity of care, and legal protection. The medical record serves multiple critical functions: it communicates the patient's condition and plan of care to all members of the healthcare team, provides legal evidence of care provided, supports billing and reimbursement, contributes to quality improvement data, and serves as a record for research and education.\n\nThe legal principle governing nursing documentation is simple: 'If it wasn't documented, it wasn't done.' In malpractice litigation, the medical record is the primary evidence. Nurses must document objectively, accurately, and in a timely manner. Late entries, altered records, and gaps in documentation can be interpreted as evidence of negligence or cover-up. Every entry should be factual, specific, and free from subjective opinions or judgmental language.\n\nSBAR (Situation-Background-Assessment-Recommendation) is the gold standard communication framework for healthcare handoffs and provider notifications. Originally developed by the US Navy for nuclear submarine communication, SBAR provides a structured, predictable format that reduces communication failures - the leading cause of sentinel events. When calling a physician about a patient concern, SBAR ensures that the nurse communicates all essential information concisely and includes a specific recommendation rather than simply reporting data.\n\nDAR (Data-Action-Response) is a focus charting format used for narrative nursing documentation. Data includes subjective and objective findings, Action describes the nursing interventions performed, and Response documents the patient's outcome following the intervention. This format ensures that every documented entry tells a complete clinical story."
     },
     riskFactors: [

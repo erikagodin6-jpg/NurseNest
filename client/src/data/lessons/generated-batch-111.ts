@@ -62,7 +62,7 @@ export const generatedBatch111Lessons: Record<string, LessonContent> = {
   },
 
   "central-line-infection-prevention": {
-    title: "Central Line-Associated Bloodstream Infection (CLABSI) Prevention",
+    title: "Central Line-Associated Bloodstream Infection",
     cellular: {
       title: "CLABSI Pathophysiology",
       content: "Central line-associated bloodstream infections occur when microorganisms colonize the catheter tip or hub and enter the bloodstream. Organisms migrate along the external surface from the insertion site or intraluminally through the hub during manipulation.\n\nBiofilm formation on the catheter surface provides a protective environment for bacteria, making them resistant to antibiotics and immune defenses. Common organisms include coagulase-negative staphylococci, S. aureus, enterococci, and Candida species.\n\nThe CLABSI bundle—evidence-based interventions applied together—has dramatically reduced infection rates. Each element of the bundle addresses a specific point in the infection pathway."
@@ -122,7 +122,7 @@ export const generatedBatch111Lessons: Record<string, LessonContent> = {
   },
 
   "catheter-associated-uti": {
-    title: "Catheter-Associated Urinary Tract Infection (CAUTI)",
+    title: "Catheter-Associated Urinary Tract Infection",
     cellular: {
       title: "CAUTI Pathophysiology",
       content: "Catheter-associated UTIs occur when bacteria ascend along the external surface of the indwelling catheter or migrate intraluminally through the drainage system. Biofilm develops on the catheter surface within 24 hours of insertion, providing a nidus for bacterial colonization.\n\nCommon causative organisms include E. coli, Klebsiella, Enterococcus, Pseudomonas, and Candida. The presence of the catheter bypasses natural urinary defense mechanisms including urethral flora, bladder mucus, and the washout effect of voiding.\n\nCAUTI risk increases approximately 3-7% per day the catheter remains in place. Prevention centers on avoiding unnecessary catheterization, early removal, and maintaining a closed drainage system."
@@ -1022,7 +1022,7 @@ export const generatedBatch111Lessons: Record<string, LessonContent> = {
   },
 
   "shock-overview-lesson": {
-    title: "Shock: Comprehensive Overview",
+    title: "Shock: Comprehensive",
     cellular: {
       title: "Understanding Shock States",
       content: "Shock is a state of inadequate tissue perfusion resulting in cellular hypoxia, anaerobic metabolism, and organ dysfunction. Despite varied etiologies, all shock types share the final common pathway of impaired oxygen delivery relative to metabolic demand.\n\nThe four categories are distinguished by hemodynamic profiles: Hypovolemic (decreased preload, high SVR), Cardiogenic (decreased CO, high SVR, high preload), Distributive (decreased SVR, high CO initially — septic, anaphylactic, neurogenic), and Obstructive (mechanical barrier to CO — tamponade, tension pneumothorax, massive PE).\n\nShock progresses through compensated (tachycardia, vasoconstriction maintain BP), decompensated (hypotension, organ dysfunction), and irreversible (refractory organ failure, death) stages. Early recognition during the compensated phase is key to survival."
@@ -1082,7 +1082,7 @@ export const generatedBatch111Lessons: Record<string, LessonContent> = {
   },
 
   "electrolyte-imbalances-overview": {
-    title: "Electrolyte Imbalances: Comprehensive Overview",
+    title: "Electrolyte Imbalances: Comprehensive",
     cellular: {
       title: "Electrolyte Homeostasis",
       content: "Electrolytes are essential for cellular function, nerve conduction, muscle contraction, and fluid balance. The major electrolytes include sodium (135-145 mEq/L), potassium (3.5-5.0 mEq/L), calcium (8.5-10.5 mg/dL), magnesium (1.5-2.5 mEq/L), and phosphorus (2.5-4.5 mg/dL).\n\nSodium controls fluid distribution between compartments through osmosis. Hyponatremia (<135) causes cellular swelling (cerebral edema); hypernatremia (>145) causes cellular dehydration. Potassium is critical for cardiac and neuromuscular function — both hypo- and hyperkalemia can cause fatal arrhythmias.\n\nCalcium and phosphorus have an inverse relationship and are regulated by PTH, vitamin D, and calcitonin. Magnesium is essential for neuromuscular function and potassium/calcium regulation — always check magnesium when potassium is refractory to replacement."
@@ -1142,7 +1142,7 @@ export const generatedBatch111Lessons: Record<string, LessonContent> = {
   },
 
   "heart-failure-overview-lesson": {
-    title: "Heart Failure: Comprehensive Overview",
+    title: "Heart Failure: Comprehensive",
     cellular: {
       title: "Heart Failure Pathophysiology",
       content: "Heart failure (HF) occurs when the heart cannot pump sufficient blood to meet metabolic demands. Left-sided HF causes pulmonary congestion (backward failure) and decreased systemic perfusion (forward failure). Right-sided HF causes systemic venous congestion (peripheral edema, hepatomegaly, JVD).\n\nHFrEF (reduced ejection fraction, EF <40%) involves impaired contractility — the ventricle cannot eject adequately. HFpEF (preserved ejection fraction, EF ≥50%) involves impaired relaxation — the ventricle cannot fill adequately. Neurohormonal activation (RAAS, sympathetic nervous system, BNP) initially compensates but eventually worsens HF through remodeling.\n\nTreatment targets the neurohormonal cascade: ACE inhibitors/ARBs reduce afterload and prevent remodeling, beta-blockers reduce sympathetic activation, diuretics manage fluid overload, and aldosterone antagonists improve survival."
@@ -1202,7 +1202,7 @@ export const generatedBatch111Lessons: Record<string, LessonContent> = {
   },
 
   "respiratory-failure-overview-lesson": {
-    title: "Respiratory Failure: Comprehensive Overview",
+    title: "Respiratory Failure: Comprehensive",
     cellular: {
       title: "Types of Respiratory Failure",
       content: "Respiratory failure occurs when the respiratory system fails to maintain adequate gas exchange. Type I (hypoxemic) involves PaO2 <60 mmHg with normal or low PaCO2 — caused by V/Q mismatch, shunt, or diffusion impairment (pneumonia, ARDS, PE). Type II (hypercapnic) involves PaCO2 >50 mmHg — caused by alveolar hypoventilation (COPD exacerbation, neuromuscular disease, drug overdose).\n\nAcute Respiratory Distress Syndrome (ARDS) is a severe form of Type I failure characterized by bilateral pulmonary infiltrates, PaO2/FiO2 ratio ≤300, and non-cardiogenic pulmonary edema. The pathology involves diffuse alveolar damage, surfactant dysfunction, and refractory hypoxemia.\n\nManagement follows a stepwise approach: supplemental oxygen → high-flow nasal cannula → non-invasive ventilation (CPAP/BiPAP) → mechanical ventilation with lung-protective strategies (low tidal volume 6 mL/kg, plateau pressure <30 cmH2O)."
@@ -1262,7 +1262,7 @@ export const generatedBatch111Lessons: Record<string, LessonContent> = {
   },
 
   "renal-failure-overview-lesson": {
-    title: "Renal Failure: Comprehensive Overview",
+    title: "Renal Failure: Comprehensive",
     cellular: {
       title: "Acute and Chronic Kidney Disease",
       content: "Acute kidney injury (AKI) is a rapid decline in renal function over hours to days, characterized by rising creatinine and decreased urine output. Causes are classified as prerenal (hypoperfusion — dehydration, HF, sepsis), intrarenal (direct kidney damage — ATN, glomerulonephritis, nephrotoxins), and postrenal (obstruction — kidney stones, BPH, tumors).\n\nChronic kidney disease (CKD) is a progressive irreversible loss of nephron function over months to years, staged by GFR (Stage 1: GFR >90 with markers, to Stage 5: GFR <15 = ESRD). CKD leads to fluid overload, electrolyte imbalances (hyperkalemia, hyperphosphatemia), metabolic acidosis, anemia, and uremic symptoms.\n\nComplications of renal failure include hyperkalemia (cardiac risk), fluid overload (pulmonary edema), uremia (encephalopathy, pericarditis), metabolic acidosis, and secondary hyperparathyroidism from phosphorus-calcium imbalance."
@@ -1322,7 +1322,7 @@ export const generatedBatch111Lessons: Record<string, LessonContent> = {
   },
 
   "cardiac-dysrhythmias-overview": {
-    title: "Cardiac Dysrhythmias: Comprehensive Overview",
+    title: "Cardiac Dysrhythmias: Comprehensive",
     cellular: {
       title: "Cardiac Conduction and Arrhythmias",
       content: "Normal cardiac rhythm originates from the SA node (60-100 bpm), travels through the atria to the AV node (40-60 bpm), then through the bundle of His and Purkinje fibers (20-40 bpm). Dysrhythmias result from abnormal automaticity, triggered activity, or re-entry circuits.\n\nBradyarrhythmias include sinus bradycardia and heart blocks (1st degree, 2nd degree Type I/II, 3rd degree). Tachyarrhythmias include SVT, atrial fibrillation/flutter, ventricular tachycardia, and ventricular fibrillation. The clinical significance depends on hemodynamic stability — treat the patient, not the monitor.\n\nAtrial fibrillation is the most common sustained arrhythmia. It increases stroke risk 5-fold due to atrial stasis and clot formation. Rate control, rhythm control, and anticoagulation (CHA₂DS₂-VASc score) are the treatment pillars."
@@ -1421,7 +1421,7 @@ export const generatedBatch111Lessons: Record<string, LessonContent> = {
       pearl: "Prioritization example: respiratory depression (Airway/Breathing) takes priority — administer naloxone immediately; titrate to respiratory effort, not alertness"
     }],
     pearls: [
-      "When in doubt on NCLEX: Assess before Intervene, ABC order, Acute before Chronic",
+      "When in doubt On the licensing exam, : Assess before Intervene, ABC order, Acute before Chronic",
       "Maslow's applied to nursing: Physiological → Safety → Psychosocial → Self-actualization",
       "The patient with a CHANGE in condition takes priority over a patient with stable chronic findings"
     ],
@@ -1445,7 +1445,7 @@ export const generatedBatch111Lessons: Record<string, LessonContent> = {
     title: "Delegation and Exam Scenarios",
     cellular: {
       title: "Delegation Principles for Nursing",
-      content: "Delegation is the transfer of responsibility for performing a task while retaining accountability for the outcome. The RN retains accountability for all delegated tasks. The Five Rights of Delegation guide safe practice: Right Task, Right Circumstance, Right Person, Right Direction/Communication, Right Supervision.\n\nTasks that CAN be delegated to UAP (unlicensed assistive personnel): vital signs on stable patients, ambulation, bathing, feeding, I&O measurement, fingerstick glucose. Tasks that CANNOT be delegated: assessment, teaching, evaluation, care planning, medication administration, and any task requiring clinical judgment.\n\nThe RN must assess the patient first, determine appropriate delegation, provide clear instructions including expected outcomes and when to report back, and supervise/evaluate the delegated task."
+      content: "Delegation is the transfer of responsibility for performing a task while retaining accountability for the outcome. The nurse retains accountability for all delegated tasks. The Five Rights of Delegation guide safe practice: Right Task, Right Circumstance, Right Person, Right Direction/Communication, Right Supervision.\n\nTasks that CAN be delegated to UAP (unlicensed assistive personnel): vital signs on stable patients, ambulation, bathing, feeding, I&O measurement, fingerstick glucose. Tasks that CANNOT be delegated: assessment, teaching, evaluation, care planning, medication administration, and any task requiring clinical judgment.\n\nThe nurse must assess the patient first, determine appropriate delegation, provide clear instructions including expected outcomes and when to report back, and supervise/evaluate the delegated task."
     },
     riskFactors: [
       "Delegating assessment or clinical judgment tasks to UAP",
@@ -1481,13 +1481,13 @@ export const generatedBatch111Lessons: Record<string, LessonContent> = {
       pearl: "UAP can perform fingerstick glucose but CANNOT administer insulin. RN or LPN must assess and administer; UAP reports the result."
     }],
     pearls: [
-      "The RN can DELEGATE a task but can NEVER delegate ACCOUNTABILITY",
+      "The nurse can DELEGATE a task but can NEVER delegate ACCOUNTABILITY",
       "If a question asks 'Which patient can be assigned to the LPN?' — choose the most STABLE, PREDICTABLE patient",
       "UAP can COLLECT data (VS, I&O, glucose) but cannot ASSESS, INTERPRET, or TEACH"
     ],
     quiz: [
       {
-        question: "Which task can the RN safely delegate to a UAP?",
+        question: "Which task can the nurse safely delegate to a UAP?",
         options: ["Initial assessment of a new admission", "Ambulating a stable postoperative patient", "Educating a patient on insulin administration", "Evaluating effectiveness of pain medication"],
         correct: 1,
         rationale: "Ambulating a stable postoperative patient is a routine task that does not require nursing judgment. Assessment, teaching, and evaluation cannot be delegated to UAP."
@@ -1502,10 +1502,10 @@ export const generatedBatch111Lessons: Record<string, LessonContent> = {
   },
 
   "nclex-question-strategies": {
-    title: "NCLEX Question Strategies",
+    title: "Question Strategies",
     cellular: {
-      title: "NCLEX Test-Taking Framework",
-      content: "The NCLEX uses Computer Adaptive Testing (CAT) that adjusts question difficulty based on performance. Questions test clinical judgment using the NCSBN Clinical Judgment Measurement Model (CJMM) with six cognitive skills: recognize cues, analyze cues, prioritize hypotheses, generate solutions, take action, evaluate outcomes.\n\nQuestion types include traditional multiple choice, select-all-that-apply (SATA), ordered response (drag and drop), hot spot, fill-in-the-blank calculation, and Next Generation NCLEX (NGN) case studies with enhanced item types (matrix, cloze, bowtie, trend).\n\nKey strategies: read the question stem carefully for what is ACTUALLY being asked, identify the topic and framework (ABCs, Maslow, nursing process), eliminate obviously wrong answers, and choose the MOST correct answer. For priority questions, use ABC → Maslow → Acute vs Chronic → Assessment before Intervention."
+      title: "Test-Taking Framework",
+      content: "The NCLEX uses Computer Adaptive Testing (CAT) that adjusts question difficulty based on performance. Questions test clinical judgment using the NCSBN Clinical Judgment Measurement Model (CJMM) with six cognitive skills: recognize cues, analyze cues, prioritize hypotheses, generate solutions, take action, evaluate outcomes.\n\nQuestion types include traditional multiple choice, select-all-that-apply (SATA), ordered response (drag and drop), hot spot, fill-in-the-blank calculation, and Next GeneratiOn the licensing exam, (NGN) case studies with enhanced item types (matrix, cloze, bowtie, trend).\n\nKey strategies: read the question stem carefully for what is ACTUALLY being asked, identify the topic and framework (ABCs, Maslow, nursing process), eliminate obviously wrong answers, and choose the MOST correct answer. For priority questions, use ABC → Maslow → Acute vs Chronic → Assessment before Intervention."
     },
     riskFactors: [
       "Misreading the question stem or missing key words",

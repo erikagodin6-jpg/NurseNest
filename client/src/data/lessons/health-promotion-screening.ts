@@ -2,7 +2,7 @@ import type { LessonContent } from "./types";
 
 export const healthPromotionScreeningLessons: Record<string, LessonContent> = {
   "health-promotion-rpn": {
-    title: "RPN Health Promotion and Disease Prevention",
+    title: "Health Promotion and Disease Prevention",
     cellular: {
       title: "Foundations of Health Promotion",
       content:
@@ -123,9 +123,9 @@ export const healthPromotionScreeningLessons: Record<string, LessonContent> = {
   },
 
   "health-promotion-rn": {
-    title: "RN Health Promotion and Screening",
+    title: "Health Promotion and Screening",
     cellular: {
-      title: "Cellular Basis of Screening and Early Detection",
+      title: "Cellular Basis of Screening",
       content:
         "Cancer screening relies on detecting cellular dysplasia and neoplastic transformation before clinical symptoms develop. Cervical cancer screening identifies precancerous changes in squamous epithelial cells through Pap smear cytology, while HPV testing detects oncogenic viral DNA integrated into the host cell genome. Colorectal screening with colonoscopy permits identification and removal of adenomatous polyps before the adenoma-carcinoma sequence progresses to invasive malignancy. Cardiovascular risk screening targets endothelial dysfunction and atherosclerotic plaque formation, processes driven by lipid accumulation, smooth muscle proliferation, and chronic inflammatory cell infiltration within arterial walls.",
     },
@@ -259,11 +259,11 @@ export const healthPromotionScreeningLessons: Record<string, LessonContent> = {
   },
 
   "health-promotion-np": {
-    title: "NP Health Promotion and Preventive Medicine",
+    title: "Health Promotion and Preventive Medicine",
     cellular: {
-      title: "Molecular and Cellular Foundations of Preventive Medicine",
+      title: "Molecular and Cellular Foundations of",
       content:
-        "Preventive medicine at the NP level requires understanding the molecular mechanisms underpinning screening and intervention strategies. Statin therapy for primary cardiovascular prevention inhibits HMG-CoA reductase in hepatocytes, upregulating LDL receptor expression and reducing circulating atherogenic lipoprotein particles that drive endothelial injury and plaque formation. GLP-1 receptor agonists used in obesity pharmacotherapy act on pancreatic beta cells to enhance glucose-dependent insulin secretion while simultaneously acting on hypothalamic appetite centers to reduce caloric intake. Varenicline for tobacco cessation is a partial agonist at the alpha-4-beta-2 nicotinic acetylcholine receptor, providing enough dopamine release to reduce cravings while blocking the rewarding effects of nicotine if the patient resumes smoking.",
+        "Preventive medicine at the advanced practice level requires understanding the molecular mechanisms underpinning screening and intervention strategies. Statin therapy for primary cardiovascular prevention inhibits HMG-CoA reductase in hepatocytes, upregulating LDL receptor expression and reducing circulating atherogenic lipoprotein particles that drive endothelial injury and plaque formation. GLP-1 receptor agonists used in obesity pharmacotherapy act on pancreatic beta cells to enhance glucose-dependent insulin secretion while simultaneously acting on hypothalamic appetite centers to reduce caloric intake. Varenicline for tobacco cessation is a partial agonist at the alpha-4-beta-2 nicotinic acetylcholine receptor, providing enough dopamine release to reduce cravings while blocking the rewarding effects of nicotine if the patient resumes smoking.",
     },
     riskFactors: [
       "10-year ASCVD risk score of 7.5% or greater warranting statin therapy discussion",
@@ -392,7 +392,7 @@ export const healthPromotionScreeningLessons: Record<string, LessonContent> = {
       },
       {
         question:
-          "A postmenopausal woman has a DEXA scan showing a T-score of negative 2.0 at the lumbar spine. How should the NP classify and manage this result?",
+          "A postmenopausal woman has a DEXA scan showing a T-score of negative 2.0 at the lumbar spine. How should the clinician classify and manage this result?",
         options: [
           "Normal bone density; no treatment needed",
           "Osteopenia; calculate FRAX score to determine if treatment is warranted",

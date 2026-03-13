@@ -2,7 +2,7 @@ import type { LessonContent } from "./types";
 
 export const electrolytePotassiumLessons: Record<string, LessonContent> = {
   "potassium-imbalance-rpn": {
-    title: "Hyperkalemia vs Hypokalemia  -  ECG Changes & Cellular Physiology",
+    title: "Hyperkalemia vs Hypokalemia - ECG Changes",
     cellular: {
       title: "Potassium & Electrical Stability",
       content: "Potassium (K⁺) is the dominant intracellular cation, with approximately 98% residing inside cells and only 2% in the extracellular fluid. This steep concentration gradient  -  maintained by the Na⁺/K⁺-ATPase pump  -  is the primary determinant of the resting membrane potential (RMP) of excitable cells, including cardiac myocytes and skeletal muscle fibers. The normal RMP of a cardiac ventricular cell is approximately −90 mV, generated largely by potassium leak channels that allow K⁺ to flow down its concentration gradient from intracellular to extracellular space. When extracellular K⁺ rises (hyperkalemia), the gradient decreases, the RMP becomes less negative (partially depolarized), and the cell becomes hyperexcitable initially but progressively inexcitable as sodium channels inactivate. When extracellular K⁺ falls (hypokalemia), the gradient steepens, the RMP becomes more negative (hyperpolarized), making the cell harder to depolarize  -  but paradoxically more prone to ectopic pacemaker activity and re-entrant circuits due to prolonged repolarization. This is why both extremes of potassium produce life-threatening dysrhythmias: they disrupt the precisely calibrated electrical cycling of the heart. Normal serum potassium: 3.5-5.0 mEq/L. Even small deviations (0.5-1.0 mEq/L) can produce clinically significant cardiac conduction changes."
@@ -156,7 +156,7 @@ export const electrolytePotassiumLessons: Record<string, LessonContent> = {
   },
 
   "hyperkalemia-emergency-np": {
-    title: "Hyperkalemia Emergency: ECG Progression & Advanced Treatment",
+    title: "Hyperkalemia Emergency: ECG Progression",
     cellular: {
       title: "Membrane Depolarization & Conduction Failure",
       content: "In hyperkalemia, elevated extracellular K⁺ reduces the electrochemical gradient across the cardiac cell membrane, decreasing the resting membrane potential from its normal −90 mV toward −70 to −60 mV. At this partially depolarized state, voltage-gated sodium channels transition from their resting (closed, activatable) state to their inactivated (closed, non-activatable) state. This means that when the cell attempts to depolarize, fewer functional sodium channels are available, producing a slower and lower-amplitude Phase 0 upstroke. The clinical result is slowed impulse conduction velocity, which manifests as progressive QRS widening on the ECG. Simultaneously, the reduced gradient accelerates Phase 3 repolarization (K⁺ efflux), producing the characteristic peaked, narrow T waves that are the earliest ECG sign of hyperkalemia. As K⁺ continues to rise, atrial myocytes  -  which are more sensitive to hyperkalemia than ventricular myocytes  -  lose their ability to depolarize, producing P wave flattening and eventual absence (sinoatrial arrest). The final pre-arrest pattern is the sine wave: a smooth, undulating waveform representing extreme QRS widening merging with the T wave, indicating imminent ventricular fibrillation or asystole."
