@@ -1171,6 +1171,13 @@ app.use((req, res, next) => {
           }
 
           try {
+            const { seedEncyclopediaEntries } = await import("./encyclopedia-seed");
+            await seedEncyclopediaEntries().catch((e: any) => console.error("[EncyclopediaSeed] Failed:", e.message));
+          } catch (e: any) {
+            console.error("[EncyclopediaSeed] Import failed:", e.message);
+          }
+
+          try {
             const tierCounts = await seedPool.query(
               `SELECT tier, COUNT(*)::int AS count FROM exam_questions WHERE status = 'published' GROUP BY tier ORDER BY tier`
             );
