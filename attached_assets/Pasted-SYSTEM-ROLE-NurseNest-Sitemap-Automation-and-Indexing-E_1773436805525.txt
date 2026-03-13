@@ -1,0 +1,257 @@
+SYSTEM ROLE: NurseNest Sitemap Automation and Indexing Engine
+
+Objective
+Rebuild the sitemap architecture for the entire NurseNest ecosystem so it is scalable, automated, production-safe, and optimized for Google Search Console indexing.
+
+The ecosystem includes:
+
+Main site:
+https://www.nursenest.ca
+
+Allied health site:
+https://allied.nursenest.ca
+
+New Grad site:
+https://newgrad.nursenest.ca
+
+The sitemap system must support thousands to tens of thousands of URLs across lessons, questions, flashcards, guides, blog posts, specialties, professions, and new grad content.
+
+All changes must be implemented on the live production environment.
+
+Do not rely on manually maintained sitemap files.
+
+--------------------------------
+SECTION 1 – CANONICAL DOMAIN STANDARDIZATION
+
+Set the canonical main domain to:
+
+https://www.nursenest.ca
+
+Redirect all alternate versions to the canonical domain:
+
+http://www.nursenest.ca
+https://nursenest.ca
+http://nursenest.ca
+
+Ensure all canonical tags on the main site use:
+https://www.nursenest.ca
+
+--------------------------------
+SECTION 2 – REMOVE BROKEN AND INVALID SITEMAP ENDPOINTS
+
+Find and remove or redirect invalid sitemap paths including malformed and typo sitemap URLs.
+
+Examples to eliminate:
+
+/sitemal.xml
+/sitemap-newgrad.xml/sitemap-newgrad.xml
+
+Ensure old broken sitemap URLs do not remain linked in templates, robots.txt, or Search Console documentation.
+
+--------------------------------
+SECTION 3 – CREATE SITEMAP INDEXES
+
+Create a sitemap index for each site.
+
+Main site:
+https://www.nursenest.ca/sitemap-index.xml
+
+Allied site:
+https://allied.nursenest.ca/sitemap-index.xml
+
+New Grad site:
+https://newgrad.nursenest.ca/sitemap-index.xml
+
+Each sitemap index must return valid XML with proper XML declaration and content-type application/xml.
+
+--------------------------------
+SECTION 4 – MAIN SITE CHILD SITEMAPS
+
+Generate child sitemaps for the main site by content type.
+
+Required sitemap categories:
+
+pages
+lessons
+questions
+flashcards
+specialties
+professions
+guides
+blog
+static pages
+
+Examples:
+
+/sitemaps/sitemap-pages.xml
+/sitemaps/sitemap-lessons-1.xml
+/sitemaps/sitemap-lessons-2.xml
+/sitemaps/sitemap-questions-1.xml
+/sitemaps/sitemap-flashcards-1.xml
+/sitemaps/sitemap-specialties.xml
+/sitemaps/sitemap-professions.xml
+/sitemaps/sitemap-guides.xml
+/sitemaps/sitemap-blog.xml
+
+--------------------------------
+SECTION 5 – ALLIED SITE CHILD SITEMAPS
+
+Generate child sitemaps for allied.nursenest.ca by content type.
+
+Required sitemap categories:
+
+pages
+profession hubs
+lessons
+questions
+flashcards
+guides
+blog
+
+--------------------------------
+SECTION 6 – NEW GRAD CHILD SITEMAPS
+
+Generate child sitemaps for newgrad.nursenest.ca by content type.
+
+Required sitemap categories:
+
+pages
+profession hubs
+first-year guides
+unit guides
+career guides
+blog
+
+--------------------------------
+SECTION 7 – AUTOMATED DATABASE-DRIVEN SITEMAP GENERATION
+
+Generate sitemap URLs dynamically from the live production database.
+
+Sources should include all published, indexable content only.
+
+Include only pages that:
+- are published
+- return HTTP 200
+- are canonical
+- are not noindex
+- are not duplicate variants
+
+Do not include:
+- drafts
+- preview pages
+- admin pages
+- duplicate filtered URLs
+- login-gated account pages
+- staging URLs
+- broken URLs
+
+--------------------------------
+SECTION 8 – LASTMOD SUPPORT
+
+For every URL in each sitemap, include an accurate <lastmod> value based on the most recent content update timestamp in production.
+
+Use real update timestamps from the database when available.
+
+--------------------------------
+SECTION 9 – SITEMAP SPLITTING RULES
+
+Automatically split sitemap files when they approach safe thresholds.
+
+Preferred split behavior:
+- split by content type first
+- then split into numbered files when a content type becomes large
+
+Use a conservative split size such as 5000 URLs per child sitemap.
+
+Do not allow oversized sitemap files.
+
+--------------------------------
+SECTION 10 – CONTENT-TYPE AND RESPONSE VALIDATION
+
+Ensure all sitemap endpoints:
+- return HTTP 200
+- return valid XML
+- use content-type application/xml or text/xml
+- are publicly accessible
+- are not blocked by robots.txt
+- do not require authentication
+- do not redirect multiple times
+
+--------------------------------
+SECTION 11 – ROBOTS.TXT
+
+Update robots.txt on each domain/subdomain.
+
+Main site robots.txt must include:
+Sitemap: https://www.nursenest.ca/sitemap-index.xml
+
+Allied site robots.txt must include:
+Sitemap: https://allied.nursenest.ca/sitemap-index.xml
+
+New Grad robots.txt must include:
+Sitemap: https://newgrad.nursenest.ca/sitemap-index.xml
+
+Remove outdated sitemap entries from robots.txt.
+
+--------------------------------
+SECTION 12 – SEARCH CONSOLE CLEANUP PLAN
+
+Prepare the sitemap system so the following are the only sitemap submissions needed in Search Console:
+
+https://www.nursenest.ca/sitemap-index.xml
+https://allied.nursenest.ca/sitemap-index.xml
+https://newgrad.nursenest.ca/sitemap-index.xml
+
+Do not rely on duplicate http/non-www/non-canonical submissions.
+
+--------------------------------
+SECTION 13 – INDEXING SAFETY RULES
+
+Make sure every sitemap URL corresponds to an internally linked page.
+
+Ensure orphan pages are detected and either:
+- linked into the site architecture
+or
+- removed from the sitemap
+
+Ensure sitemap URLs match canonical URLs exactly.
+
+--------------------------------
+SECTION 14 – INTERNAL LINKING SUPPORT
+
+Use the sitemap rebuild as part of a broader indexing strategy.
+
+For each major content type, make sure pages are linked from:
+- hub pages
+- profession pages
+- specialty pages
+- related content modules
+- guides
+- breadcrumb navigation
+
+Sitemaps should not be the only discovery method.
+
+--------------------------------
+SECTION 15 – DEBUGGING AND QA
+
+After implementation, run validation checks for:
+- malformed XML
+- invalid URLs
+- duplicate URLs across sitemap files
+- non-200 URLs
+- redirecting URLs
+- pages blocked by robots.txt
+- noindex pages accidentally included
+- wrong canonical domain versions
+
+--------------------------------
+SECTION 16 – REPORTING
+
+Return a full implementation report including:
+- sitemap indexes created
+- child sitemaps created
+- number of URLs in each sitemap
+- duplicate and broken sitemap URLs removed
+- canonical domain fixes applied
+- robots.txt updates completed
+- validation results for each sitemap endpoint
