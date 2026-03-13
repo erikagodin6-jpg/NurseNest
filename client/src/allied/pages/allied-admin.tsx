@@ -106,6 +106,9 @@ export default function AlliedAdminPage() {
   const [draftsTotal, setDraftsTotal] = useState(0);
   const [draftFilter, setDraftFilter] = useState("");
   const [runningAutomation, setRunningAutomation] = useState<string | null>(null);
+  const [psychBulkRunning, setPsychBulkRunning] = useState(false);
+  const [psychBulkStatus, setPsychBulkStatus] = useState<any>(null);
+  const [psychBulkBatchId, setPsychBulkBatchId] = useState<string | null>(null);
 
   const loadStats = useCallback(async () => {
     try {
@@ -299,6 +302,46 @@ export default function AlliedAdminPage() {
       loadDrafts();
     } catch (e: any) {
       toast({ title: "Failed", description: e.message, variant: "destructive" });
+    }
+  };
+
+  const handlePsychBulkGenerate = async () => {
+    setPsychBulkRunning(true);
+    try {
+      const result = await apiFetch("/api/allied/pipeline/psychotherapy-bulk-generate", {
+        method: "POST",
+        body: JSON.stringify({ adminId: "d9b0e5b3-83c7-4e08-b6b7-6cf9cc33b225" }),
+      });
+      setPsychBulkBatchId(result.masterBatchId);
+      toast({ title: "Psychotherapy bulk generation started", description: result.message });
+      const pollInterval = setInterval(async () => {
+        try {
+          const status = await apiFetch(`/api/allied/pipeline/psychotherapy-bulk-status/${result.masterBatchId}`);
+          setPsychBulkStatus(status);
+          if (status.status === "completed" || status.status === "failed") {
+            clearInterval(pollInterval);
+            setPsychBulkRunning(false);
+            loadStats();
+            loadBatches();
+          }
+        } catch {
+          clearInterval(pollInterval);
+          setPsychBulkRunning(false);
+        }
+      }, 10000);
+    } catch (e: any) {
+      toast({ title: "Bulk generation failed", description: e.message, variant: "destructive" });
+      setPsychBulkRunning(false);
+    }
+  };
+
+  const handleRefreshPsychStatus = async () => {
+    if (!psychBulkBatchId) return;
+    try {
+      const status = await apiFetch(`/api/allied/pipeline/psychotherapy-bulk-status/${psychBulkBatchId}`);
+      setPsychBulkStatus(status);
+    } catch (e: any) {
+      toast({ title: "Failed to refresh status", description: e.message, variant: "destructive" });
     }
   };
 
@@ -532,6 +575,125 @@ export default function AlliedAdminPage() {
               <p><Brain className="w-3 h-3 inline mr-1" />Auto-flashcards: 1-3 cards generated per question on commit</p>
             </div>
           </div>
+
+          {selectedCareer === "psychotherapist" && (
+            <div className="bg-white rounded-xl border border-indigo-100 p-6" data-testid="psychotherapy-bulk-panel">
+              <h3 className="font-semibold text-gray-900 mb-4 flex items-center gap-2">
+                <Brain className="w-5 h-5 text-indigo-500" /> Psychotherapy 1000-Question Bulk Generator
+              </h3>
+              <p className="text-sm text-gray-600 mb-4">
+                Generate 1,000 clinical vignette-style questions across all 6 domains (Therapeutic Modalities, Psychopathology, Assessment &amp; Diagnosis, Ethics &amp; Boundaries, Treatment Planning, Crisis Intervention) in 20 batches of 50.
+              </p>
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-3 mb-4">
+                <div className="bg-indigo-50 rounded-lg p-3 text-center">
+                  <div className="text-lg font-bold text-indigo-700">1,000</div>
+                  <div className="text-xs text-indigo-500">Target Questions</div>
+                </div>
+                <div className="bg-indigo-50 rounded-lg p-3 text-center">
+                  <div className="text-lg font-bold text-indigo-700">20</div>
+                  <div className="text-xs text-indigo-500">Batches of 50</div>
+                </div>
+                <div className="bg-indigo-50 rounded-lg p-3 text-center">
+                  <div className="text-lg font-bold text-indigo-700">6</div>
+                  <div className="text-xs text-indigo-500">Domains</div>
+                </div>
+              </div>
+
+              <div className="flex gap-3 mb-4">
+                <button
+                  onClick={handlePsychBulkGenerate}
+                  disabled={psychBulkRunning}
+                  className="px-6 py-2.5 bg-indigo-600 text-white rounded-lg text-sm font-medium hover:bg-indigo-700 disabled:opacity-50 flex items-center gap-2"
+                  data-testid="button-psych-bulk-generate"
+                >
+                  {psychBulkRunning ? <Loader2 className="w-4 h-4 animate-spin" /> : <Zap className="w-4 h-4" />}
+                  {psychBulkRunning ? "Generating..." : "Start 1000-Question Generation"}
+                </button>
+                {psychBulkBatchId && (
+                  <button
+                    onClick={handleRefreshPsychStatus}
+                    className="px-4 py-2.5 bg-gray-100 text-gray-700 rounded-lg text-sm font-medium hover:bg-gray-200 flex items-center gap-2"
+                    data-testid="button-psych-refresh-status"
+                  >
+                    <RefreshCw className="w-4 h-4" /> Refresh Status
+                  </button>
+                )}
+              </div>
+
+              {psychBulkStatus && (
+                <div className="border border-indigo-100 rounded-lg p-4 space-y-3" data-testid="psych-bulk-status">
+                  <div className="flex items-center justify-between">
+                    <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${
+                      psychBulkStatus.status === "completed" ? "bg-green-50 text-green-700" :
+                      psychBulkStatus.status === "running" ? "bg-blue-50 text-blue-700" :
+                      "bg-red-50 text-red-700"
+                    }`}>
+                      {psychBulkStatus.status}
+                    </span>
+                    <span className="text-xs text-gray-400">Batch ID: {psychBulkStatus.batchId?.slice(0, 8)}...</span>
+                  </div>
+
+                  <div className="grid grid-cols-2 md:grid-cols-5 gap-3 text-center text-xs">
+                    <div className="bg-gray-50 rounded-lg p-2">
+                      <div className="text-lg font-bold text-gray-900">{psychBulkStatus.questions?.total || psychBulkStatus.generatedCount || 0}</div>
+                      <div className="text-gray-500">Generated</div>
+                    </div>
+                    <div className="bg-green-50 rounded-lg p-2">
+                      <div className="text-lg font-bold text-green-700">{psychBulkStatus.questions?.pending || psychBulkStatus.acceptedCount || 0}</div>
+                      <div className="text-gray-500">Accepted</div>
+                    </div>
+                    <div className="bg-red-50 rounded-lg p-2">
+                      <div className="text-lg font-bold text-red-700">{psychBulkStatus.questions?.rejected || psychBulkStatus.rejectedCount || 0}</div>
+                      <div className="text-gray-500">Rejected</div>
+                    </div>
+                    <div className="bg-purple-50 rounded-lg p-2">
+                      <div className="text-lg font-bold text-purple-700">{psychBulkStatus.flashcards || 0}</div>
+                      <div className="text-gray-500">Flashcards</div>
+                    </div>
+                    <div className="bg-amber-50 rounded-lg p-2">
+                      <div className="text-lg font-bold text-amber-700">{psychBulkStatus.imageLinkedCount || 0}</div>
+                      <div className="text-gray-500">Image-Linked</div>
+                    </div>
+                  </div>
+
+                  {psychBulkStatus.avgRationaleWords > 0 && (
+                    <div className="text-xs text-gray-500">Avg rationale: {psychBulkStatus.avgRationaleWords} words</div>
+                  )}
+
+                  {psychBulkStatus.domainBreakdown && Object.keys(psychBulkStatus.domainBreakdown).length > 0 && (
+                    <div>
+                      <div className="text-xs font-medium text-gray-600 mb-1">Questions by Domain:</div>
+                      <div className="space-y-1">
+                        {Object.entries(psychBulkStatus.domainBreakdown).map(([domain, count]) => (
+                          <PercentBar key={domain} label={domain} value={count as number} total={psychBulkStatus.questions?.total || psychBulkStatus.acceptedCount || 1} color="bg-indigo-400" />
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {psychBulkStatus.status === "completed" && (
+                    <div className="bg-green-50 border border-green-200 rounded-lg p-3 mt-2">
+                      <div className="flex items-center gap-2 text-green-700 font-medium text-sm">
+                        <CheckCircle2 className="w-4 h-4" /> Generation Complete
+                      </div>
+                      <p className="text-xs text-green-600 mt-1">
+                        {psychBulkStatus.questions?.pending || psychBulkStatus.acceptedCount || 0} questions ready for review.
+                        {psychBulkStatus.flashcards || 0} flashcards auto-generated with lesson links.
+                        Use the Batch History below to commit approved questions.
+                      </p>
+                    </div>
+                  )}
+                </div>
+              )}
+
+              <div className="bg-indigo-50 rounded-lg p-3 text-xs text-indigo-600 space-y-1 mt-3">
+                <p><Shield className="w-3 h-3 inline mr-1" />Production DB verified before writes. Duplicate detection active.</p>
+                <p><Target className="w-3 h-3 inline mr-1" />Clinical vignettes with patient demographics, symptoms, and therapy modalities.</p>
+                <p><Brain className="w-3 h-3 inline mr-1" />Auto-flashcards with lesson links in /psychotherapy/lessons/&#123;slug&#125; format.</p>
+                <p><FileText className="w-3 h-3 inline mr-1" />Covers CBT, DBT, EMDR, psychodynamic, humanistic, solution-focused, narrative, MI, trauma-informed, group therapy.</p>
+              </div>
+            </div>
+          )}
 
           <div className="bg-white rounded-xl border border-gray-100 p-6" data-testid="batch-history">
             <h3 className="font-semibold text-gray-900 mb-4 flex items-center gap-2">
