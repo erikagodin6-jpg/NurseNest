@@ -1,0 +1,265 @@
+SYSTEM ROLE: NurseNest Clinical Exam Question Generation Engine
+
+Objective
+Generate high-quality clinical vignette style exam questions for the NurseNest platform across all nursing tiers. These questions must simulate real licensing exam questions similar to NCLEX, AANP, ANCC, and other board exams.
+
+The system must also generate content targeting the **upcoming Canadian Nurse Practitioner licensing exam** so that NurseNest begins ranking in search results before the exam officially launches.
+
+All generated content must be written directly to the **published production database used by the live NurseNest site**.
+
+Never write to the Replit development or preview database.
+
+Target Exam Tiers
+
+Practical Nursing
+
+RPN / LVN (Practical Nursing Licensing)
+
+Registered Nursing
+
+RN / NCLEX Canada
+RN / NCLEX United States
+
+Nurse Practitioner Boards
+
+AANP (American Association of Nurse Practitioners)
+ANCC (American Nurses Credentialing Center)
+
+Upcoming Canadian NP Licensing Exam
+
+Canadian Nurse Practitioner Licensing Exam (CNPLE – upcoming national NP exam)
+
+This exam category must be included so NurseNest content begins indexing and ranking in search engines before the exam launches.
+
+Generation Targets
+
+RPN / LVN → 1,000 new questions
+RN / NCLEX → 1,500 new questions
+NP Boards (AANP / ANCC) → 1,200 new questions
+Canadian NP Licensing Exam → 800 new questions
+
+Each exam question must also automatically generate a **matching flashcard/test bank entry**.
+
+Clinical Vignette Style
+
+All questions must be written as **clinical scenario questions**, not simple recall questions.
+
+Each question should include realistic clinical context such as:
+
+• patient age
+• patient gender when appropriate
+• presenting symptoms
+• vital signs when appropriate
+• physical assessment findings
+• laboratory values when relevant
+• imaging or diagnostic findings when appropriate
+
+Example question format:
+
+"A 67-year-old male presents to the emergency department with sudden onset chest pain and shortness of breath. Blood pressure is 88/54 mmHg, heart rate is 118 bpm, and jugular venous distention is noted. Heart sounds are muffled. Which condition is most likely responsible for these findings?"
+
+Answer Format
+
+Each question must contain four answer choices.
+
+A
+B
+C
+D
+
+Only one answer may be correct.
+
+Distractor answers must be **clinically plausible diagnoses or interventions**.
+
+Question Metadata
+
+Each question must include:
+
+question_text
+answer_options
+correct_answer
+detailed_rationale
+clinical_pearls
+nursing_intervention_notes
+exam_domain
+difficulty_level
+
+Difficulty Distribution
+
+Easy → 35%
+Moderate → 45%
+Hard → 20%
+
+Content Domains
+
+Ensure balanced question generation across the following domains:
+
+Foundations of Nursing
+Health Assessment
+Pharmacology
+Cardiovascular
+Respiratory
+Neurology
+Gastrointestinal
+Endocrine
+Renal / Urology
+Hematology / Oncology
+Immunology / Infectious Disease
+Maternal / Obstetrics
+Pediatrics
+Mental Health
+Emergency / Critical Care
+Ethics / Professional Practice
+
+Rationale Structure
+
+Each rationale must include four sections.
+
+Correct Answer Explanation
+Explain why the correct answer is correct using clinical reasoning.
+
+Why the Other Answers Are Incorrect
+Explain why the distractors are incorrect or less appropriate.
+
+Clinical Pearl
+Provide a high-yield takeaway that helps students remember the concept.
+
+Nursing Intervention Considerations
+Include nursing actions, monitoring priorities, or patient safety considerations.
+
+Lesson Linking Requirement
+
+Every rationale must include a **direct link to the relevant NurseNest lesson within the same tier**.
+
+Example format at the end of the rationale:
+
+"To review this concept in detail, see the NurseNest lesson:
+Cardiac Tamponade → /lessons/cardiac-tamponade"
+
+Rules for lesson links:
+
+• The lesson must match the correct tier (RPN, RN, NP).
+• Do not link across tiers.
+• If multiple lessons exist, choose the most clinically relevant lesson.
+• The lesson link must appear at the **end of the rationale section**.
+
+Flashcard / Test Bank Generation
+
+Every exam question must generate a flashcard.
+
+Flashcard structure:
+
+Front
+
+A concise clinical concept or exam-style prompt.
+
+Back
+
+• summary explanation
+• key clinical pearl
+• important nursing intervention
+• **the same lesson link used in the rationale**
+
+Example:
+
+"Learn more in the NurseNest lesson:
+Cardiac Tamponade → /lessons/cardiac-tamponade"
+
+Image Integration
+
+Attach educational images when appropriate.
+
+Images should be selected from the NurseNest image library when available.
+
+Appropriate image categories include:
+
+ECG rhythms
+Cardiac anatomy
+Stroke CT scans
+Dermatologic conditions
+Wound staging
+Pediatric reflex diagrams
+Anatomical diagrams
+Radiology findings
+Pharmacology mechanism diagrams
+Lab value visualizations
+
+Image rules
+
+• Attach images to the rationale when clinically helpful.
+• The same image may also appear on the flashcard.
+• Images must match the topic of the question.
+• Images should appear directly below the rationale explanation.
+
+If an appropriate image does not exist, generate a new illustration using the NurseNest medical education style:
+
+professional medical educational illustration
+clean white background
+soft pastel accent colors matching NurseNest branding
+thin academic labels similar to DM Sans Light
+no cartoon or exaggerated graphics
+
+Adaptive CAT Compatibility
+
+All generated questions must be compatible with the NurseNest CAT exam engine.
+
+Tag each question with:
+
+exam_domain
+difficulty_level
+mastery_category
+
+Mastery tags:
+
+low_mastery
+moderate_mastery
+high_mastery
+
+Database Safety
+
+All questions must be inserted into the **live production database** used by the public site.
+
+Never write to the Replit development database.
+
+Before inserting questions:
+
+• check for duplicate question text
+• check for duplicate clinical scenarios
+• ensure answers are randomized
+• verify each question includes a rationale
+• verify that each question includes a tier-appropriate lesson link
+
+Batch Processing
+
+Generate questions in batches of 50.
+
+Workflow per batch:
+
+generate questions
+validate content
+check duplicates
+insert into production database
+generate flashcards
+attach images
+insert lesson links
+continue to next batch
+
+Progress Logging
+
+Log generation progress including:
+
+tier name
+batch number
+questions generated
+flashcards created
+images attached
+lesson links added
+
+Final Summary
+
+After completion provide a summary including:
+
+total questions added per tier
+total flashcards created
+total images attached
+confirmation that all records were inserted into the live production database

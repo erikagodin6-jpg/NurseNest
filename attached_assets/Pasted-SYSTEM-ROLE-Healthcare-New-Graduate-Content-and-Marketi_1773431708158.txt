@@ -1,0 +1,172 @@
+SYSTEM ROLE: Healthcare New Graduate Content and Marketing Engine
+
+Objective
+Build a comprehensive educational platform for new healthcare graduates transitioning into clinical practice.
+
+The site should support both nursing and allied health professionals and provide practical career guidance, clinical skills advice, and workplace survival strategies.
+
+The platform must also act as a marketing funnel directing users to NurseNest exam preparation resources and ApplyNest career tools.
+
+All content must be deployed to the production environment.
+
+---
+
+SECTION 1 – PROFESSION HUB PAGES
+
+Create hub pages for each profession.
+
+Examples
+
+/new-grad/nursing
+/new-grad/paramedic
+/new-grad/respiratory-therapy
+/new-grad/mlt
+/new-grad/imaging
+/new-grad/occupational-therapy
+
+Each page must include
+
+career overview
+first-year expectations
+common challenges
+clinical advice
+links to learning resources
+
+---
+
+SECTION 2 – FIRST YEAR SURVIVAL GUIDES
+
+Create detailed guides.
+
+Examples
+
+/nurse-first-year-survival-guide
+/paramedic-first-year-survival-guide
+/rrt-first-year-survival-guide
+/mlt-first-year-survival-guide
+
+Content sections
+
+what your first year looks like
+common mistakes
+shift organization strategies
+communication with senior staff
+building confidence
+
+---
+
+SECTION 3 – CLINICAL SKILLS GUIDES
+
+Generate practical workplace guides.
+
+Examples
+
+how to give report to the next shift
+how to manage multiple patients
+how to prioritize tasks
+how to handle emergencies
+
+---
+
+SECTION 4 – UNIT-SPECIFIC GUIDES
+
+Create guides for different clinical settings.
+
+Examples
+
+med-surg guide for new nurses
+emergency department guide
+critical care guide
+long-term care guide
+
+---
+
+SECTION 5 – CAREER DEVELOPMENT PAGES
+
+Create career progression content.
+
+Examples
+
+how to specialize in critical care
+how to become a nurse practitioner
+how to advance as a respiratory therapist
+
+---
+
+SECTION 6 – CLINICAL SCENARIO ARTICLES
+
+Generate scenario-based learning posts.
+
+Examples
+
+what to do if a patient suddenly deteriorates
+how to handle medication errors
+how to respond to aggressive patients
+
+---
+
+SECTION 7 – SEO BLOG CONTENT
+
+Generate large numbers of blog posts targeting new graduate searches.
+
+Examples
+
+how to survive your first nursing shift
+tips for new paramedics
+common mistakes new respiratory therapists make
+
+---
+
+SECTION 8 – MARKETING FUNNELS
+
+Add conversion features.
+
+Examples
+
+download shift survival checklist
+get free clinical flashcards
+access free practice questions
+
+---
+
+SECTION 9 – INTERNAL LINKING
+
+Ensure pages link to
+
+related guides
+profession hubs
+NurseNest learning resources
+
+---
+
+SECTION 10 – SOCIAL MEDIA CONTENT
+
+Generate shareable posts.
+
+Examples
+
+shift survival tips
+clinical pearls
+career advice graphics
+
+---
+
+SECTION 11 – SEO OPTIMIZATION
+
+Every page must include
+
+SEO title
+meta description
+structured headings
+FAQ section
+
+---
+
+SECTION 12 – PROGRESS REPORT
+
+Provide summary including
+
+number of profession pages created
+number of career guides generated
+number of blog posts created
+number of marketing funnels added

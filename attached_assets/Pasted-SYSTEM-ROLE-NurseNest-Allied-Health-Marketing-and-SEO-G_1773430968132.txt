@@ -1,0 +1,249 @@
+SYSTEM ROLE: NurseNest Allied Health Marketing and SEO Growth Engine
+
+Objective
+Build a complete automated marketing and SEO ecosystem for the Allied Health sections of NurseNest so the platform becomes a leading authority for exam preparation and professional education.
+
+Target Allied Health Professions
+
+Paramedic
+Respiratory Therapy (RRT)
+Medical Laboratory Technology (MLT)
+Diagnostic Imaging / Radiography
+Social Work
+Psychotherapy / Counseling
+Addictions Counseling
+Occupational Therapy
+
+All changes must be implemented on the live production site.
+
+---
+
+SECTION 1 – PROGRAMMATIC SEO LANDING PAGES
+
+Automatically generate high-intent landing pages for each profession.
+
+Example pages
+
+/paramedic-exam-prep
+/rrt-exam-prep
+/mlt-exam-prep
+/radiography-exam-prep
+/social-work-exam-prep
+
+Each landing page must include
+
+profession overview
+licensing exam description
+practice questions preview
+flashcard preview
+lesson preview
+mock exam access
+study tips
+
+Include strong calls to action
+
+Start practicing now
+Take a free mock exam
+Create a free account
+
+---
+
+SECTION 2 – LONG-TAIL SEO BLOG CONTENT
+
+Automatically generate educational blog posts targeting long-tail search queries.
+
+Example blog URLs
+
+/blog/how-to-pass-the-paramedic-exam
+/blog/abg-interpretation-for-respiratory-therapy
+/blog/how-to-study-for-the-mlt-exam
+/blog/radiography-positioning-guide
+
+Each blog post must include
+
+clear educational explanations
+diagrams or images
+links to lessons
+links to practice questions
+links to flashcards
+
+---
+
+SECTION 3 – PROFESSION CAREER PAGES
+
+Create career-focused pages that attract students researching the profession.
+
+Example pages
+
+/paramedic-career-guide
+/rrt-career-guide
+/mlt-career-guide
+/radiography-career-guide
+
+Each page must include
+
+career overview
+education requirements
+licensing pathway
+salary information
+job outlook
+typical work environments
+
+---
+
+SECTION 4 – EXAM STUDY GUIDES
+
+Create long-form study guide pages.
+
+Example
+
+/paramedic-exam-study-guide
+/rrt-exam-study-guide
+/mlt-exam-study-guide
+/imaging-exam-study-guide
+
+Each study guide should include
+
+exam blueprint overview
+most important topics
+recommended study strategy
+practice question links
+flashcard decks
+
+---
+
+SECTION 5 – FREE PRACTICE QUESTION PAGES
+
+Create high-traffic pages offering free practice questions.
+
+Example
+
+/paramedic-practice-questions
+/rrt-practice-questions
+/mlt-practice-questions
+/imaging-practice-questions
+
+Each page must include
+
+sample exam questions
+detailed explanations
+images when appropriate
+links to lessons
+links to flashcards
+
+---
+
+SECTION 6 – EMAIL LEAD CAPTURE
+
+Add email capture forms across the allied health pages.
+
+Examples
+
+Get free practice questions
+Download a study guide
+Take a free mock exam
+
+Store captured emails securely for marketing.
+
+---
+
+SECTION 7 – SOCIAL MEDIA CONTENT AUTOMATION
+
+Generate shareable content based on lessons and flashcards.
+
+Automatically create
+
+study tip graphics
+quiz questions
+clinical pearls
+infographics
+
+Suggested platforms
+
+Instagram
+TikTok
+Pinterest
+LinkedIn
+
+---
+
+SECTION 8 – INTERNAL LINKING STRATEGY
+
+Ensure all marketing pages link to
+
+lessons
+practice questions
+flashcards
+mock exams
+related professions
+
+Example
+
+An ABG blog post links to
+
+respiratory therapy lessons
+practice questions
+flashcards
+
+---
+
+SECTION 9 – AUTHORITY BUILDING CONTENT
+
+Generate pages that demonstrate educational expertise.
+
+Examples
+
+Top 100 Paramedic Exam Questions
+Complete Respiratory Therapy Study Guide
+Ultimate Guide to Medical Laboratory Science
+
+---
+
+SECTION 10 – CONVERSION OPTIMIZATION
+
+Add high-visibility calls to action on allied health pages.
+
+Examples
+
+Start practicing now
+Unlock full question bank
+Try a free mock exam
+Download flashcards
+
+---
+
+SECTION 11 – SCHEMA MARKUP
+
+Add structured data to improve search rankings.
+
+Include
+
+FAQ schema
+Course schema
+EducationalOrganization schema
+Article schema
+
+---
+
+SECTION 12 – ANALYTICS AND TRACKING
+
+Implement analytics tracking to measure performance.
+
+Track
+
+page traffic
+conversion rate
+practice question usage
+mock exam attempts
+
+---
+
+SECTION 13 – PROGRESS REPORTING
+
+After implementation provide a summary including
+
+number of landing pages created
+number of blog posts generated
+number of study guides created
+number of marketing funnels added
+number of SEO pages generated

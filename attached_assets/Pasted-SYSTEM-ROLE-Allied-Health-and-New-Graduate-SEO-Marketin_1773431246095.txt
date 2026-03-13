@@ -1,0 +1,299 @@
+SYSTEM ROLE: Allied Health and New Graduate SEO & Marketing Growth Engine
+
+Objective
+Build a large-scale SEO and marketing infrastructure for the Allied Health and New Graduate platforms to attract healthcare students and early-career professionals searching for exam preparation, career guidance, and clinical practice support.
+
+The goal is to create a content ecosystem that ranks for thousands of healthcare education searches while funneling users into NurseNest exam preparation tools and ApplyNest career services.
+
+All implementation must be deployed to the live production environment.
+
+---
+
+SECTION 1 – TARGET PROFESSIONS
+
+Create marketing and SEO content for the following professions.
+
+Paramedic
+Respiratory Therapy (RRT)
+Medical Laboratory Technology (MLT)
+Diagnostic Imaging / Radiography
+Social Work
+Psychotherapy / Counseling
+Addictions Counseling
+Occupational Therapy
+Nursing (RN, RPN, NP)
+
+---
+
+SECTION 2 – PROFESSION AUTHORITY HUBS
+
+Create dedicated authority hub pages.
+
+Example pages
+
+/paramedic
+/respiratory-therapy
+/mlt
+/imaging
+/social-work
+/psychotherapy
+/addictions
+/occupational-therapy
+
+Each page must include
+
+profession overview
+licensing exam information
+career pathway
+salary information
+education requirements
+practice questions
+study resources
+
+---
+
+SECTION 3 – EXAM PREP LANDING PAGES
+
+Create high-conversion landing pages targeting exam searches.
+
+Examples
+
+/paramedic-exam-prep
+/rrt-exam-prep
+/mlt-exam-prep
+/radiography-exam-prep
+/social-work-exam-prep
+
+Each landing page must include
+
+exam overview
+practice questions preview
+flashcard preview
+mock exam access
+study guides
+calls to action
+
+---
+
+SECTION 4 – CAREER GUIDE PAGES
+
+Create career-focused pages for people researching professions.
+
+Examples
+
+/how-to-become-a-paramedic
+/how-to-become-a-respiratory-therapist
+/how-to-become-a-medical-lab-technologist
+/how-to-become-a-radiologic-technologist
+
+Each page must include
+
+career description
+education pathway
+licensing requirements
+job outlook
+salary information
+work environments
+
+---
+
+SECTION 5 – NEW GRAD SUPPORT CONTENT
+
+Generate large libraries of career transition content.
+
+Examples
+
+/new-grad/nursing-first-year-guide
+/new-grad/paramedic-first-year-guide
+/new-grad/rrt-first-year-guide
+/new-grad/mlt-first-year-guide
+
+Content sections
+
+what the first year looks like
+common mistakes
+shift organization tips
+communication with senior staff
+confidence building
+
+---
+
+SECTION 6 – CLINICAL SKILLS CONTENT
+
+Create practical guides for real clinical situations.
+
+Examples
+
+how to manage multiple patients
+how to give report to the next shift
+how to handle emergencies
+how to prioritize tasks during busy shifts
+
+---
+
+SECTION 7 – LONG-TAIL SEO BLOG POSTS
+
+Generate large numbers of blog posts targeting long-tail search queries.
+
+Examples
+
+how to pass the paramedic exam
+ABG interpretation for respiratory therapy students
+tips for new medical laboratory technologists
+radiography positioning guide
+
+Each blog post must include
+
+educational explanations
+diagrams
+links to lessons
+links to practice questions
+links to flashcards
+
+---
+
+SECTION 8 – STUDY GUIDE PAGES
+
+Create long-form study guides.
+
+Examples
+
+/paramedic-exam-study-guide
+/rrt-exam-study-guide
+/mlt-exam-study-guide
+/imaging-exam-study-guide
+
+Each guide must include
+
+exam blueprint overview
+important topics
+recommended study strategy
+practice questions
+flashcard decks
+
+---
+
+SECTION 9 – FREE PRACTICE QUESTION PAGES
+
+Create high-traffic pages offering free practice questions.
+
+Examples
+
+/paramedic-practice-questions
+/rrt-practice-questions
+/mlt-practice-questions
+/imaging-practice-questions
+
+Each page should include
+
+sample exam questions
+detailed explanations
+images when appropriate
+links to lessons
+links to flashcards
+
+---
+
+SECTION 10 – LEAD CAPTURE FUNNELS
+
+Add lead capture forms across all marketing pages.
+
+Examples
+
+Download a free study guide
+Get free practice questions
+Take a free mock exam
+
+Collected emails should feed into marketing campaigns.
+
+---
+
+SECTION 11 – SOCIAL MEDIA CONTENT AUTOMATION
+
+Automatically generate shareable content from lessons and blog posts.
+
+Examples
+
+study tip graphics
+quiz questions
+clinical pearls
+infographics
+
+Platforms
+
+Instagram
+TikTok
+Pinterest
+LinkedIn
+
+---
+
+SECTION 12 – INTERNAL LINKING NETWORK
+
+Ensure every marketing page links to
+
+lessons
+practice questions
+flashcards
+mock exams
+related professions
+
+Example
+
+ABG blog article links to
+
+respiratory therapy lessons
+practice questions
+flashcards
+
+---
+
+SECTION 13 – AUTHORITY CONTENT
+
+Create large authoritative resources.
+
+Examples
+
+Top 100 Paramedic Exam Questions
+Ultimate Respiratory Therapy Study Guide
+Complete Guide to Medical Laboratory Science
+
+---
+
+SECTION 14 – SCHEMA MARKUP
+
+Add structured data to improve search visibility.
+
+Include
+
+FAQ schema
+Course schema
+EducationalOrganization schema
+Article schema
+JobPosting schema
+
+---
+
+SECTION 15 – ANALYTICS
+
+Implement analytics tracking.
+
+Track
+
+organic traffic
+conversion rate
+practice question usage
+mock exam attempts
+email signups
+
+---
+
+SECTION 16 – PROGRESS REPORT
+
+Provide a report after implementation including
+
+number of marketing pages created
+number of study guides generated
+number of blog articles created
+number of SEO landing pages generated
+number of email capture funnels implemented

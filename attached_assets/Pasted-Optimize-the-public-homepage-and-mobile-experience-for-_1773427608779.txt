@@ -1,0 +1,93 @@
+Optimize the public homepage and mobile experience for performance, layout stability, and responsive behavior while preserving the current NurseNest design and desktop performance.
+
+Current Lighthouse results:
+
+Mobile:
+FCP 5.5s
+Speed Index 6.5s
+LCP failing
+Total payload ~3.4 MB
+
+Desktop:
+Performance 94
+FCP 0.9s
+LCP 1.3s
+Payload ~3.1 MB
+
+Goals:
+Improve mobile performance, eliminate horizontal layout shifting, and ensure smooth vertical scrolling on mobile devices without degrading desktop performance.
+
+Required improvements:
+
+1. Mobile horizontal scrolling fix
+   The mobile site currently shifts left and right while vertically scrolling. This must be eliminated.
+
+Audit the entire layout and ensure:
+
+• No element exceeds 100% viewport width
+• No container uses width values that cause overflow
+• Replace any use of `100vw` with `100%` where appropriate
+• Ensure all images use:
+
+```
+max-width: 100%;
+height: auto;
+```
+
+• Ensure flex and grid containers cannot overflow their parents
+• Ensure carousels and sliders are constrained within the viewport
+• Remove negative margins that push content outside the viewport
+• Prevent transforms or animations from shifting layout horizontally
+• Ensure padding + width combinations do not exceed viewport width
+• Verify that no component causes `overflow-x` beyond the viewport
+
+Add global safeguards:
+
+```
+html, body {
+  overflow-x: hidden;
+  width: 100%;
+}
+```
+
+Ensure all page sections remain perfectly aligned with the viewport and that vertical scrolling does not cause sideways movement on mobile devices.
+
+2. Image optimization
+   Convert homepage images to WebP or AVIF.
+   Generate responsive image sizes and use srcset.
+   Serve smaller images on mobile.
+   Compress screenshots used on the homepage.
+   Lazy load all below-the-fold images.
+
+3. Image layout stability
+   Add explicit width and height attributes to every image element.
+   Fix incorrect aspect ratio rendering.
+
+4. Lazy loading strategy
+   Only the hero image should load eagerly.
+   All screenshots and lower page sections should use:
+
+loading="lazy"
+decoding="async"
+
+5. Reduce JavaScript on homepage
+   Audit the homepage bundle and remove unused JavaScript.
+   Code split heavy components so they load only when needed.
+
+6. Animation optimization
+   Identify the non-composited animation Lighthouse detected.
+   Replace layout-triggering animations with transform/opacity animations only.
+
+7. Render blocking resources
+   Defer noncritical CSS and JS.
+   Ensure fonts load using `font-display: swap`.
+
+8. Payload reduction
+   Reduce the homepage payload from ~3.4 MB to ideally under 1.5 MB for mobile.
+
+Verification after changes:
+
+• Mobile scrolling must remain perfectly vertical with no horizontal shifting
+• No element should overflow the viewport
+• Lighthouse mobile performance should improve
+• Desktop performance must remain at the current level or better

@@ -1,0 +1,172 @@
+SYSTEM ROLE: NurseNest Conversion Funnel Optimization Engine
+
+Objective
+Implement a structured learning and conversion funnel across all pages of the NurseNest ecosystem to increase user engagement and account creation.
+
+The funnel should guide visitors through a clear path:
+
+Learn → Practice → Track Progress → Unlock Premium Features
+
+This structure should appear across all educational pages including lessons, practice questions, flashcards, allied health pages, and new graduate content.
+
+All changes must be implemented on the production site.
+
+---
+
+SECTION 1 – LEARNING ENTRY POINT
+
+Every lesson page should begin with a short introduction explaining the concept and why it matters for the licensing exam.
+
+Immediately after the introduction include a call-to-action module:
+
+“Test your understanding with practice questions.”
+
+Example
+
+Start practicing → opens related question bank.
+
+---
+
+SECTION 2 – PRACTICE QUESTION MODULE
+
+Below each lesson include a dynamic section displaying related exam questions.
+
+Example module
+
+Practice Questions for This Topic
+
+Question preview
+Answer options
+Link to full question bank
+
+Visitors should be able to attempt a small number of questions without an account.
+
+---
+
+SECTION 3 – FLASHCARD REVIEW MODULE
+
+After the practice question section include flashcards.
+
+Example module
+
+Quick Review Flashcards
+
+Key concepts
+Clinical pearls
+Memory tips
+
+Visitors should see a few free flashcards before being prompted to create an account.
+
+---
+
+SECTION 4 – PROGRESS TRACKING PROMPT
+
+Encourage users to track progress.
+
+Example module
+
+Track Your Progress
+
+Create a free account to
+
+save completed questions
+track exam readiness
+review weak topics
+
+---
+
+SECTION 5 – MOCK EXAM PREVIEW
+
+Offer a preview of exam simulations.
+
+Example module
+
+Try a Mock Exam
+
+Timed exam interface
+adaptive question selection
+performance analytics
+
+---
+
+SECTION 6 – PREMIUM FEATURE PREVIEW
+
+Show what additional resources are available with full access.
+
+Example module
+
+Unlock Full Exam Preparation
+
+Thousands of practice questions
+comprehensive lessons
+full flashcard decks
+multiple mock exams
+
+---
+
+SECTION 7 – CTA PLACEMENT
+
+Calls to action must appear in multiple locations.
+
+top of page
+mid-content
+end of page
+
+Examples
+
+Start practicing now
+Create a free account
+Unlock full question bank
+
+---
+
+SECTION 8 – ALLIED HEALTH PAGES
+
+Apply the same learning funnel to allied health professions.
+
+Example
+
+Paramedic lesson
+
+Learn the concept
+Practice paramedic exam questions
+Review flashcards
+Track progress
+
+---
+
+SECTION 9 – NEW GRAD CONTENT
+
+Integrate career guidance with learning tools.
+
+Example
+
+New Grad ICU Guide
+
+Links to
+
+critical care lessons
+practice questions
+flashcards
+
+---
+
+SECTION 10 – SOCIAL PROOF
+
+Add credibility signals.
+
+Examples
+
+Number of questions available
+Number of flashcards available
+Student success testimonials
+
+---
+
+SECTION 11 – PROGRESS REPORT
+
+After implementing the funnel provide a summary including
+
+pages updated
+conversion modules added
+new user funnel improvements

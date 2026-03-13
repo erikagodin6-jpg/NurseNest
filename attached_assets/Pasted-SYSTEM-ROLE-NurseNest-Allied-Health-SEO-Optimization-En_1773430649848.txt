@@ -1,0 +1,236 @@
+SYSTEM ROLE: NurseNest Allied Health SEO Optimization Engine
+
+Objective
+Transform the Allied Health sections of NurseNest into fully optimized SEO authority hubs that rank for licensing exam preparation and professional education searches.
+
+This includes the following professions:
+
+Paramedic
+Medical Laboratory Technology (MLT)
+Respiratory Therapy (RRT)
+Diagnostic Imaging / Radiography
+Social Work
+Psychotherapy / Counseling
+Addictions Counseling
+Occupational Therapy
+
+All changes must be implemented on the **live production site**, not the Replit preview database.
+
+---
+
+STEP 1 – Create SEO Authority Hub Pages
+
+Each profession must have a dedicated hub page.
+
+Example structure:
+
+/paramedic
+/mlt
+/rrt
+/imaging
+/social-work
+/psychotherapy
+/addictions
+/occupational-therapy
+
+Each hub page must include:
+
+• Profession overview
+• Licensing exam information
+• Career description
+• Embedded lesson categories
+• Practice exam links
+• Flashcard links
+• Study guide links
+• FAQ section
+
+Example page structure:
+
+H1
+Paramedic Exam Prep and Practice Questions
+
+H2
+Paramedic Licensing Exam Overview
+
+H2
+Paramedic Practice Questions
+
+H2
+Paramedic Study Lessons
+
+H2
+Paramedic Flashcards
+
+H2
+Paramedic Career Information
+
+H2
+Frequently Asked Questions
+
+---
+
+STEP 2 – SEO Keyword Optimization
+
+Add structured keyword targeting for each profession.
+
+Paramedic keywords
+
+paramedic exam prep
+primary care paramedic exam questions
+advanced care paramedic practice test
+paramedic certification practice questions
+EMS exam practice
+
+MLT keywords
+
+medical laboratory technologist exam prep
+MLT practice questions
+CSMLS exam preparation
+medical laboratory science practice test
+
+Respiratory therapy keywords
+
+respiratory therapy exam prep
+RRT practice questions
+respiratory therapist board exam questions
+ABG interpretation practice questions
+
+Imaging keywords
+
+radiography exam prep
+radiologic technologist practice questions
+imaging technologist exam prep
+radiography board review
+
+---
+
+STEP 3 – SEO Page Metadata
+
+Every page must include:
+
+SEO title
+Meta description
+Structured heading hierarchy
+Internal linking
+
+Example
+
+Title
+
+Paramedic Practice Questions and Exam Prep | NurseNest
+
+Meta description
+
+Prepare for the paramedic licensing exam with practice questions, flashcards, and study lessons. NurseNest provides realistic EMS exam preparation.
+
+---
+
+STEP 4 – Structured Content Clusters
+
+Each profession must include:
+
+Lessons
+Practice Questions
+Flashcards
+Mock Exams
+Study Guides
+
+Example URL structure
+
+/paramedic/lessons
+/paramedic/practice-questions
+/paramedic/flashcards
+/paramedic/mock-exam
+/paramedic/study-guide
+
+---
+
+STEP 5 – Lesson SEO Optimization
+
+Each lesson must include:
+
+• structured headings
+• internal links to related lessons
+• links to practice questions
+• links to flashcards
+• clinical images
+
+Example lesson structure
+
+H1 – Tension Pneumothorax in Prehospital Care
+
+H2 – Pathophysiology
+
+H2 – Signs and Symptoms
+
+H2 – Prehospital Management
+
+H2 – Practice Questions
+
+---
+
+STEP 6 – Internal Linking Strategy
+
+Every page should link to:
+
+related lessons
+practice questions
+flashcards
+other relevant allied health professions
+
+Example
+
+A respiratory therapy ABG lesson may link to:
+
+critical care nursing
+paramedic airway management
+
+---
+
+STEP 7 – Schema Markup
+
+Add structured schema to improve search ranking.
+
+Include:
+
+FAQ schema
+Course schema
+MedicalCondition schema
+EducationalOrganization schema
+
+---
+
+STEP 8 – Page Speed Optimization
+
+Ensure allied health pages follow performance rules:
+
+• lazy load images
+• compress images
+• avoid oversized media
+• maintain fast mobile loading
+
+---
+
+STEP 9 – Content Generation
+
+Automatically generate:
+
+50–100 lessons per allied health profession.
+
+Each lesson should include:
+
+educational diagrams
+clinical pearls
+practice questions
+flashcards
+
+---
+
+STEP 10 – Progress Reporting
+
+After implementation provide a summary including:
+
+number of pages created
+number of lessons generated
+number of practice questions added
+SEO pages created per profession

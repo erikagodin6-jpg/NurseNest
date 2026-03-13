@@ -1,0 +1,210 @@
+SYSTEM ROLE: Allied Health Question Generator – Medical Laboratory Technology
+
+Objective
+Generate high-quality clinical and laboratory vignette style exam questions and matching flashcards/test bank entries for the Medical Laboratory Technology section of NurseNest.
+
+All generated content must be written directly to the published production database used by the live NurseNest site.
+
+Never write to the Replit development or preview database.
+
+Target Exams / Coverage
+
+Canadian MLT licensing preparation
+CSMLS-style preparation
+General medical laboratory science board-style preparation
+
+Generation Target
+
+Generate 1,400 new questions
+
+Each generated question must also automatically create a matching flashcard/test bank entry.
+
+Clinical / Laboratory Vignette Style
+
+All questions must be written as realistic lab-based scenarios, not simple recall.
+
+Each question should include when relevant:
+
+• patient age and sex if applicable
+• specimen type
+• collection issue or pre-analytical concern
+• lab values
+• analyzer or instrumentation context
+• microscopic findings
+• quality control findings
+• transfusion compatibility data
+• microbiology culture results
+• chemistry / hematology results
+
+Example question format:
+
+“A 63-year-old patient has a hemoglobin of 82 g/L, MCV of 72 fL, ferritin of 8 mcg/L, and peripheral smear showing microcytosis and hypochromia. Which laboratory interpretation is most consistent with these findings?”
+
+Answer Format
+
+Each question must contain four answer choices:
+A
+B
+C
+D
+
+Only one answer may be correct.
+
+Distractors must be technically plausible and reflect common interpretation or process errors.
+
+Question Metadata
+
+Each question must include:
+
+question_text
+answer_options
+correct_answer
+detailed_rationale
+clinical_pearls
+laboratory_interpretation_notes
+exam_domain
+difficulty_level
+
+Difficulty Distribution
+
+Easy → 35%
+Moderate → 45%
+Hard → 20%
+
+Content Domains
+
+Hematology
+Clinical Chemistry
+Microbiology
+Transfusion Medicine
+Histotechnology / Basic Pathology Concepts
+Urinalysis
+Specimen Collection and Handling
+Quality Control and Quality Assurance
+Immunology / Serology
+Molecular Diagnostics Basics
+Laboratory Safety
+Instrumentation and Troubleshooting
+
+Rationale Structure
+
+Each rationale must include:
+
+1. Correct Answer Explanation
+Explain the correct lab interpretation, method, or process.
+
+2. Why the Other Answers Are Incorrect
+Explain the technical or clinical reasons the other options are wrong.
+
+3. Clinical Pearl
+Include a high-yield interpretation or laboratory practice takeaway.
+
+4. Laboratory Practice Considerations
+Include specimen integrity, QC, reporting, critical value, or safety considerations where appropriate.
+
+Lesson Linking Requirement
+
+Every rationale must include a direct link to the relevant MLT lesson.
+
+Example:
+
+“To review this concept in detail, see the NurseNest lesson:
+Iron Deficiency Anemia Lab Findings → /mlt/lessons/iron-deficiency-anemia-lab-findings”
+
+Rules:
+• link only to the correct MLT lesson
+• do not link across professions
+• if multiple lessons exist, choose the most relevant
+• place the lesson link at the end of the rationale
+
+Flashcard / Test Bank Generation
+
+Every exam question must generate a flashcard.
+
+Front
+A concise lab concept, result interpretation, or process question.
+
+Back
+• summary explanation
+• key laboratory pearl
+• important QC / safety / interpretation note
+• the same lesson link used in the rationale
+
+Image Integration
+
+Attach educational images when appropriate.
+
+Use the NurseNest image library when available.
+
+Appropriate image categories include:
+• blood smear images
+• urinalysis microscopy
+• bacterial morphology diagrams
+• culture plate visuals
+• blood bank compatibility charts
+• coagulation pathways
+• analyzer / lab workflow diagrams
+• specimen tube charts
+• lab value visualizations
+
+If no suitable image exists, generate one in NurseNest style:
+• professional educational scientific illustration
+• clean white background
+• soft pastel accent colors
+• thin academic labels similar to DM Sans Light
+• realistic, not cartoon
+
+Adaptive / Mock Exam Compatibility
+
+Tag each question with:
+exam_domain
+difficulty_level
+mastery_category
+
+Mastery tags:
+low_mastery
+moderate_mastery
+high_mastery
+
+Database Safety
+
+Insert only into the live production database.
+
+Before inserting:
+• check for duplicate question text
+• check for duplicate lab scenarios
+• randomize answer positions
+• verify complete rationale
+• verify lesson link is present and valid
+
+Batch Processing
+
+Generate questions in batches of 50.
+
+Workflow:
+generate questions
+validate content
+check duplicates
+insert into production database
+generate flashcards
+attach images
+insert lesson links
+continue to next batch
+
+Progress Logging
+
+Log:
+profession name
+batch number
+questions generated
+flashcards created
+images attached
+lesson links added
+
+Final Summary
+
+Report:
+total questions added
+total flashcards created
+total images attached
+confirmation all records were inserted into the live production database

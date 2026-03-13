@@ -1,0 +1,234 @@
+SYSTEM ROLE: Healthcare Education Ecosystem Architect
+
+Objective
+Connect the three platforms — NurseNest, the New Graduate career site, and ApplyNest — into a unified authority ecosystem that supports healthcare education, exam preparation, and career placement.
+
+The system must strengthen SEO authority through internal linking, structured content relationships, and cross-platform user journeys.
+
+Platforms involved
+
+NurseNest – exam preparation and education
+New Grad platform – early career support and clinical guidance
+ApplyNest – job search and resume tools
+
+All changes must be implemented on the live production environments.
+
+---
+
+SECTION 1 – PLATFORM ROLES
+
+Define clear roles for each site.
+
+NurseNest
+
+Exam preparation
+Practice questions
+Flashcards
+Lessons
+Mock exams
+
+New Grad site
+
+First-year clinical guidance
+Professional transition support
+Career development advice
+Clinical skill tutorials
+
+ApplyNest
+
+Job search
+Resume creation
+Application tracking
+Career placement tools
+
+---
+
+SECTION 2 – CROSS-SITE LINKING STRUCTURE
+
+Every platform should link to the others in contextually appropriate ways.
+
+Example linking structure
+
+New Grad article
+
+“How to Survive Your First ICU Shift”
+
+Links to
+
+NurseNest critical care lessons
+NurseNest practice questions
+
+Example
+
+NurseNest lesson
+
+“Ventilator Management”
+
+Links to
+
+New Grad article
+
+“Tips for New ICU Nurses”
+
+Example
+
+ApplyNest job listing
+
+ICU nurse job
+
+Links to
+
+New Grad ICU guide
+NurseNest ICU practice questions
+
+---
+
+SECTION 3 – CONTENT HUB NETWORK
+
+Create hub pages connecting the platforms.
+
+Examples
+
+/careers
+/exam-prep
+/new-graduate-support
+
+Example structure
+
+Exam Prep Hub
+
+Links to NurseNest question banks.
+
+New Graduate Hub
+
+Links to New Grad guides.
+
+Healthcare Careers Hub
+
+Links to ApplyNest job tools.
+
+---
+
+SECTION 4 – USER JOURNEY FUNNELS
+
+Create natural learning and career pathways.
+
+Example user journey
+
+Student preparing for exam
+
+Finds NurseNest practice questions
+Registers account
+Passes exam
+Transitions to New Grad site for career guidance
+Uses ApplyNest to find job
+
+---
+
+SECTION 5 – SHARED KNOWLEDGE GRAPH
+
+Build a medical knowledge graph connecting topics across the sites.
+
+Example topic
+
+Pulmonary Embolism
+
+NurseNest
+
+Lesson page
+Practice questions
+
+New Grad
+
+Clinical management tips
+
+ApplyNest
+
+Relevant job roles
+
+---
+
+SECTION 6 – SHARED BRANDING
+
+Ensure visual and branding consistency.
+
+Use similar
+
+color palettes
+fonts
+design elements
+
+Include cross-site navigation options.
+
+Example
+
+Header navigation
+
+Exam Prep
+New Grad Support
+Healthcare Jobs
+
+---
+
+SECTION 7 – CROSS-SITE SCHEMA MARKUP
+
+Add structured data to show search engines the sites are related.
+
+Include schema types
+
+EducationalOrganization
+Course
+Article
+JobPosting
+FAQ
+
+---
+
+SECTION 8 – AUTHORITY CONTENT
+
+Create long-form content that spans the ecosystem.
+
+Example articles
+
+“Complete Guide to Becoming a Respiratory Therapist”
+
+Links to
+
+NurseNest RRT exam prep
+New Grad RRT career advice
+ApplyNest respiratory therapist jobs
+
+---
+
+SECTION 9 – EMAIL MARKETING NETWORK
+
+Share email funnels across platforms.
+
+Examples
+
+Exam prep newsletters
+New graduate survival tips
+Healthcare job alerts
+
+---
+
+SECTION 10 – ANALYTICS
+
+Track user flow between the platforms.
+
+Monitor
+
+traffic sources
+cross-site navigation
+conversion from education to job placement
+
+---
+
+SECTION 11 – PROGRESS REPORT
+
+After implementation provide a report including
+
+cross-site linking structure created
+hub pages generated
+shared knowledge graph pages created
+marketing funnels implemented

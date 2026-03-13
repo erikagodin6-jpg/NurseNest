@@ -1,0 +1,290 @@
+SYSTEM ROLE: Allied Health Knowledge Encyclopedia Builder
+
+Objective
+Create comprehensive professional knowledge encyclopedias for allied health and healthcare professions across the NurseNest ecosystem. These encyclopedias will provide authoritative educational content and significantly increase SEO visibility.
+
+The encyclopedias should integrate with:
+
+NurseNest (exam preparation)
+New Graduate platform (career transition support)
+ApplyNest (healthcare career placement)
+
+All pages must be deployed on the production site.
+
+---
+
+SECTION 1 – ENCYCLOPEDIA STRUCTURE
+
+Create dedicated encyclopedias for each profession.
+
+Example structure
+
+/paramedic-encyclopedia
+/respiratory-therapy-encyclopedia
+/mlt-encyclopedia
+/imaging-encyclopedia
+/social-work-encyclopedia
+/psychotherapy-encyclopedia
+/addictions-encyclopedia
+/occupational-therapy-encyclopedia
+
+Each encyclopedia acts as a structured knowledge database.
+
+---
+
+SECTION 2 – TOPIC DATABASE
+
+Generate large topic libraries for each profession.
+
+Examples
+
+Paramedic topics
+
+Airway management
+Trauma assessment
+Shock states
+Cardiac arrest
+Stroke recognition
+Burn management
+Pediatric emergencies
+Toxicology emergencies
+
+Respiratory therapy topics
+
+ABG interpretation
+Mechanical ventilation
+COPD management
+ARDS
+Oxygen therapy
+Pulmonary function testing
+
+Medical laboratory technology topics
+
+Blood smear interpretation
+Coagulation cascade
+Urinalysis microscopy
+Blood typing
+Gram stain interpretation
+
+Diagnostic imaging topics
+
+Radiographic positioning
+Radiation safety
+CT imaging principles
+MRI basics
+Contrast media reactions
+
+---
+
+SECTION 3 – ENCYCLOPEDIA PAGE TEMPLATE
+
+Each topic page must include structured sections.
+
+Overview
+Definition and explanation of the concept.
+
+Mechanism / Physiology
+Explain underlying mechanisms.
+
+Clinical Relevance
+Why the concept matters in practice.
+
+Signs and Symptoms or Key Findings
+
+Assessment or Diagnostic Methods
+
+Management / Professional Practice
+
+Complications
+
+Clinical Pearls
+
+Common Exam Pitfalls
+
+---
+
+SECTION 4 – IMAGE INTEGRATION
+
+Add educational diagrams to each encyclopedia entry.
+
+Examples
+
+anatomy diagrams
+ECG examples
+ventilator waveforms
+radiology diagrams
+lab microscopy images
+
+Images must follow NurseNest design style:
+
+clean white background
+soft pastel accent colors
+thin academic labels (DM Sans style)
+
+---
+
+SECTION 5 – LESSON AND QUESTION INTEGRATION
+
+Each encyclopedia page must link to related content.
+
+Example
+
+Paramedic topic page
+
+links to
+
+paramedic lessons
+practice questions
+flashcards
+
+Example
+
+ABG interpretation page
+
+links to
+
+respiratory therapy lessons
+practice questions
+flashcards
+
+---
+
+SECTION 6 – CROSS-PROFESSION KNOWLEDGE GRAPH
+
+Many medical concepts overlap between professions.
+
+Create cross-links between encyclopedias.
+
+Example
+
+Airway management
+
+links to
+
+paramedic airway management
+respiratory therapy airway management
+critical care nursing airway management
+
+This builds a strong internal knowledge graph.
+
+---
+
+SECTION 7 – SEO OPTIMIZATION
+
+Every encyclopedia page must include
+
+SEO title
+meta description
+structured headings
+internal linking
+FAQ section
+
+Example
+
+Title
+
+ABG Interpretation Guide | Respiratory Therapy Encyclopedia
+
+Meta description
+
+Learn how to interpret arterial blood gases with clinical examples, diagrams, and respiratory therapy practice questions.
+
+---
+
+SECTION 8 – LONG-TAIL SEARCH TARGETING
+
+Each encyclopedia page should target multiple long-tail keywords.
+
+Example
+
+ABG interpretation respiratory therapy
+how to read arterial blood gases
+respiratory acidosis vs metabolic acidosis
+
+---
+
+SECTION 9 – MARKETING INTEGRATION
+
+Include calls to action on encyclopedia pages.
+
+Examples
+
+Test your knowledge with practice questions
+Review flashcards for this topic
+Start a mock exam
+
+---
+
+SECTION 10 – NEW GRAD INTEGRATION
+
+Link encyclopedia topics to real-world practice advice.
+
+Example
+
+Encyclopedia topic
+
+Sepsis
+
+links to
+
+New Grad guide
+
+How to recognize sepsis on the floor
+
+---
+
+SECTION 11 – CAREER CONNECTION
+
+Connect encyclopedia topics to career pathways.
+
+Example
+
+Mechanical ventilation topic
+
+links to
+
+Respiratory therapy career guide
+
+---
+
+SECTION 12 – PROGRAMMATIC PAGE GENERATION
+
+Automatically generate encyclopedia pages from topic lists.
+
+Each profession should initially contain:
+
+150–300 encyclopedia entries.
+
+---
+
+SECTION 13 – SCHEMA MARKUP
+
+Add structured data to improve search rankings.
+
+Include
+
+MedicalCondition schema
+Article schema
+EducationalOrganization schema
+FAQ schema
+
+---
+
+SECTION 14 – PERFORMANCE OPTIMIZATION
+
+Ensure encyclopedia pages load quickly.
+
+Lazy load images
+compress diagrams
+avoid large media files
+
+---
+
+SECTION 15 – PROGRESS REPORT
+
+After generation provide a report including
+
+number of encyclopedia pages created
+number of images generated
+number of internal links created
+number of cross-profession links added

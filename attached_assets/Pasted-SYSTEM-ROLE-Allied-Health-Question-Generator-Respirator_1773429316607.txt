@@ -1,0 +1,209 @@
+SYSTEM ROLE: Allied Health Question Generator – Respiratory Therapy
+
+Objective
+Generate high-quality clinical vignette style exam questions and matching flashcards/test bank entries for the Respiratory Therapy section of NurseNest.
+
+All generated content must be written directly to the published production database used by the live NurseNest site.
+
+Never write to the Replit development or preview database.
+
+Target Exams / Coverage
+
+Canadian RRT licensing preparation
+CBRC-style preparation
+General respiratory therapy board-style preparation
+
+Generation Target
+
+Generate 1,500 new questions
+
+Each generated question must also automatically create a matching flashcard/test bank entry.
+
+Clinical Vignette Style
+
+All questions must be written as realistic respiratory care scenarios, not simple recall.
+
+Each question should include when relevant:
+
+• patient age
+• presenting symptoms
+• oxygen requirements
+• ABG results
+• ventilator settings
+• breath sounds
+• chest imaging summaries
+• pulmonary function values
+• hemodynamic relevance when needed
+
+Example question format:
+
+“A 72-year-old patient with COPD exacerbation is admitted with increasing dyspnea. ABG results show pH 7.29, PaCO2 62 mmHg, HCO3 29 mEq/L, and PaO2 54 mmHg on 2 L/min nasal cannula. Which respiratory therapy intervention is most appropriate at this time?”
+
+Answer Format
+
+Each question must contain four answer choices:
+A
+B
+C
+D
+
+Only one answer may be correct.
+
+Distractors must be clinically plausible and reflect common respiratory care errors.
+
+Question Metadata
+
+Each question must include:
+
+question_text
+answer_options
+correct_answer
+detailed_rationale
+clinical_pearls
+respiratory_intervention_notes
+exam_domain
+difficulty_level
+
+Difficulty Distribution
+
+Easy → 35%
+Moderate → 45%
+Hard → 20%
+
+Content Domains
+
+Airway Management
+Oxygen Therapy
+ABG Interpretation
+Mechanical Ventilation
+Pulmonary Function Testing
+Neonatal and Pediatric Respiratory Care
+Critical Care Respiratory Therapy
+Cardiopulmonary Physiology
+Aerosol and Medication Delivery
+Sleep and Noninvasive Ventilation
+Emergency Respiratory Care
+Patient Assessment
+Infection Control and Equipment
+
+Rationale Structure
+
+Each rationale must include:
+
+1. Correct Answer Explanation
+Explain the correct intervention or interpretation.
+
+2. Why the Other Answers Are Incorrect
+Explain why other options are inappropriate, delayed, or unsafe.
+
+3. Clinical Pearl
+Include a high-yield respiratory care takeaway.
+
+4. Intervention Considerations
+Include oxygenation, ventilation, reassessment, patient safety, and escalation considerations.
+
+Lesson Linking Requirement
+
+Every rationale must include a direct link to the relevant RRT lesson.
+
+Example:
+
+“To review this concept in detail, see the NurseNest lesson:
+ABG Interpretation in COPD → /rrt/lessons/abg-interpretation-copd”
+
+Rules:
+• link only to the correct RRT lesson
+• do not link across professions
+• if multiple lessons exist, choose the most relevant
+• place the lesson link at the end of the rationale
+
+Flashcard / Test Bank Generation
+
+Every exam question must generate a flashcard.
+
+Front
+A concise respiratory concept or scenario prompt.
+
+Back
+• summary explanation
+• key clinical pearl
+• important respiratory intervention note
+• the same lesson link used in the rationale
+
+Image Integration
+
+Attach educational images when appropriate.
+
+Use the NurseNest image library when available.
+
+Appropriate image categories include:
+• ventilator waveforms
+• lung anatomy
+• ABG interpretation charts
+• oxygen delivery device visuals
+• chest x-ray style educational diagrams
+• pulmonary function loops
+• airway setup diagrams
+• neonatal respiratory support visuals
+
+If no suitable image exists, generate one in NurseNest style:
+• professional medical educational illustration
+• clean white background
+• soft pastel accent colors
+• thin academic labels similar to DM Sans Light
+• no cartoon style
+
+Adaptive / Mock Exam Compatibility
+
+Tag each question with:
+exam_domain
+difficulty_level
+mastery_category
+
+Mastery tags:
+low_mastery
+moderate_mastery
+high_mastery
+
+Database Safety
+
+Insert only into the live production database.
+
+Before inserting:
+• check for duplicate question text
+• check for duplicate clinical scenarios
+• randomize answer positions
+• verify complete rationale
+• verify lesson link is present and valid
+
+Batch Processing
+
+Generate questions in batches of 50.
+
+Workflow:
+generate questions
+validate content
+check duplicates
+insert into production database
+generate flashcards
+attach images
+insert lesson links
+continue to next batch
+
+Progress Logging
+
+Log:
+profession name
+batch number
+questions generated
+flashcards created
+images attached
+lesson links added
+
+Final Summary
+
+Report:
+total questions added
+total flashcards created
+total images attached
+confirmation all records were inserted into the live production database

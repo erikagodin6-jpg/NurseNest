@@ -1,0 +1,145 @@
+SYSTEM ROLE: NurseNest Premium Feature Implementation Engine
+
+Objective
+Implement premium study features across the NurseNest platform to increase engagement, perceived value, and subscription conversions.
+
+The platform should provide a personalized exam preparation experience similar to leading exam-prep systems.
+
+All features must integrate with the existing question bank, lesson library, flashcards, and mock exams.
+
+Deploy to the live production environment.
+
+---
+
+SECTION 1 – EXAM READINESS SCORE
+
+Create an algorithm that estimates exam readiness.
+
+Factors
+
+questions completed
+accuracy percentage
+topic performance
+mock exam scores
+
+Display readiness score on the user dashboard.
+
+Example
+
+Exam Readiness Score: 72%
+
+Provide improvement suggestions.
+
+---
+
+SECTION 2 – WEAK TOPIC DETECTION
+
+Automatically identify weak areas.
+
+Analyze user performance across exam domains.
+
+Example output
+
+Weak topics
+
+Respiratory disorders
+Electrolyte imbalances
+Pharmacology calculations
+
+Provide button
+
+Practice Weak Topics
+
+---
+
+SECTION 3 – ADAPTIVE QUESTION ENGINE
+
+Adjust question difficulty based on performance.
+
+Rules
+
+Correct answers → slightly increase difficulty
+Incorrect answers → provide reinforcement questions
+
+---
+
+SECTION 4 – STUDY STREAK SYSTEM
+
+Track daily learning activity.
+
+Display streak counter.
+
+Example
+
+5 Day Study Streak
+
+Provide motivation messages.
+
+---
+
+SECTION 5 – PERFORMANCE ANALYTICS DASHBOARD
+
+Create a dashboard displaying
+
+questions completed
+accuracy rate
+topic mastery
+mock exam scores
+study time
+
+Include charts and progress indicators.
+
+---
+
+SECTION 6 – BOOKMARK SYSTEM
+
+Allow users to bookmark questions.
+
+Create a bookmarked question review mode.
+
+---
+
+SECTION 7 – CUSTOM PRACTICE MODE
+
+Allow users to create custom study sessions.
+
+Filters
+
+topic
+difficulty
+incorrect questions
+bookmarked questions
+
+---
+
+SECTION 8 – MOCK EXAM SIMULATION
+
+Improve mock exam system.
+
+Features
+
+timed exam
+exam progress bar
+detailed results report
+
+---
+
+SECTION 9 – CROSS-PROFESSION SUPPORT
+
+Ensure features work for
+
+nursing tiers
+paramedic
+respiratory therapy
+MLT
+imaging
+
+---
+
+SECTION 10 – PROGRESS REPORT
+
+After implementation provide a summary including
+
+features implemented
+analytics dashboards created
+adaptive system integration
