@@ -268,6 +268,15 @@ const EncyclopediaHub = lazy(() => import("@/pages/encyclopedia-hub"));
 const EncyclopediaEntry = lazy(() => import("@/pages/encyclopedia-entry"));
 const ProgrammaticSeoPage = lazy(() => import("@/pages/programmatic-seo-page"));
 const AdminProgrammaticSeo = lazy(() => import("@/pages/admin-programmatic-seo"));
+const NursingAuthorityHub = lazy(() => import("@/pages/authority-hubs").then(m => ({ default: m.NursingAuthorityHub })));
+const ParamedicAuthorityHub = lazy(() => import("@/pages/authority-hubs").then(m => ({ default: m.ParamedicAuthorityHub })));
+const RespiratoryTherapyAuthorityHub = lazy(() => import("@/pages/authority-hubs").then(m => ({ default: m.RespiratoryTherapyAuthorityHub })));
+const MltAuthorityHub = lazy(() => import("@/pages/authority-hubs").then(m => ({ default: m.MltAuthorityHub })));
+const ImagingAuthorityHub = lazy(() => import("@/pages/authority-hubs").then(m => ({ default: m.ImagingAuthorityHub })));
+const SocialWorkAuthorityHub = lazy(() => import("@/pages/authority-hubs").then(m => ({ default: m.SocialWorkAuthorityHub })));
+const PsychotherapyAuthorityHub = lazy(() => import("@/pages/authority-hubs").then(m => ({ default: m.PsychotherapyAuthorityHub })));
+const AddictionsAuthorityHub = lazy(() => import("@/pages/authority-hubs").then(m => ({ default: m.AddictionsAuthorityHub })));
+const OccupationalTherapyAuthorityHub = lazy(() => import("@/pages/authority-hubs").then(m => ({ default: m.OccupationalTherapyAuthorityHub })));
 
 function PageTracker() {
   usePageTracker();
@@ -445,7 +454,7 @@ function AppRoutes() {
         <Route path="/rpn">{() => <TrackLandingPage track="rpn" />}</Route>
         <Route path="/rn">{() => <TrackLandingPage track="rn" />}</Route>
         <Route path="/np">{() => <TrackLandingPage track="np" />}</Route>
-        <Route path="/nursing" component={NursingHub} />
+        <Route path="/nursing" component={NursingAuthorityHub} />
         <Route path="/nursing-specialties" component={NursingSpecialtiesHub} />
         <Route path="/pre-nursing" component={PreNursingPage} />
         <Route path="/mock-exams/:id/report" component={MockExamReport} />
@@ -645,6 +654,7 @@ function AppRoutes() {
         <Route path="/rrt/study-plan" component={StudyPlanPage} />
         <Route path="/rrt/pricing" component={PricingPage} />
         <Route path="/rrt/dashboard" component={DashboardPage} />
+        <Route path="/respiratory-therapy" component={RespiratoryTherapyAuthorityHub} />
         <Route path="/rrt" component={AlliedHomePage} />
 
         <Route path="/paramedic/question-bank" component={QuestionBank} />
@@ -656,7 +666,7 @@ function AppRoutes() {
         <Route path="/paramedic/study-plan" component={StudyPlanPage} />
         <Route path="/paramedic/pricing" component={PricingPage} />
         <Route path="/paramedic/dashboard" component={DashboardPage} />
-        <Route path="/paramedic" component={AlliedHomePage} />
+        <Route path="/paramedic" component={ParamedicAuthorityHub} />
 
         <Route path="/pharmacy-tech/question-bank" component={QuestionBank} />
         <Route path="/pharmacy-tech/flashcards/deck/:slug" component={DeckPage} />
@@ -668,6 +678,9 @@ function AppRoutes() {
         <Route path="/pharmacy-tech/pricing" component={PricingPage} />
         <Route path="/pharmacy-tech/dashboard" component={DashboardPage} />
         <Route path="/pharmacy-tech" component={AlliedHomePage} />
+        <Route path="/social-work" component={SocialWorkAuthorityHub} />
+        <Route path="/psychotherapy" component={PsychotherapyAuthorityHub} />
+        <Route path="/addictions" component={AddictionsAuthorityHub} />
 
         <Route path="/dashboard/mlt/canada" component={MltStudentDashboard} />
         <Route path="/dashboard/mlt/usa" component={MltStudentDashboard} />
@@ -695,7 +708,7 @@ function AppRoutes() {
         <Route path="/mlt/study-plan" component={StudyPlanPage} />
         <Route path="/mlt/pricing" component={PricingPage} />
         <Route path="/mlt/dashboard" component={DashboardPage} />
-        <Route path="/mlt" component={AlliedHomePage} />
+        <Route path="/mlt" component={MltAuthorityHub} />
 
         <Route path="/imaging/question-bank" component={QuestionBank} />
         <Route path="/imaging/flashcards/deck/:slug" component={DeckPage} />
@@ -706,7 +719,7 @@ function AppRoutes() {
         <Route path="/imaging/study-plan" component={StudyPlanPage} />
         <Route path="/imaging/pricing" component={PricingPage} />
         <Route path="/imaging/dashboard" component={DashboardPage} />
-        <Route path="/imaging" component={AlliedHomePage} />
+        <Route path="/imaging" component={ImagingAuthorityHub} />
 
         {/* Phase 3: Advanced Clinical & Specialist Certifications */}
         <Route path="/critical-care/question-bank" component={QuestionBank} />
@@ -775,6 +788,7 @@ function AppRoutes() {
         <Route path="/psychotherapist/pricing" component={PricingPage} />
         <Route path="/psychotherapist/dashboard" component={DashboardPage} />
         <Route path="/psychotherapist" component={AlliedHomePage} />
+        <Route path="/occupational-therapy" component={OccupationalTherapyAuthorityHub} />
 
         <Route path="/social-worker/lessons/:slug" component={SocialWorkerLessonsPage} />
         <Route path="/social-worker/lessons" component={SocialWorkerLessonsPage} />

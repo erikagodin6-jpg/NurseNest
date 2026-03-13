@@ -486,6 +486,60 @@ export function Navigation({ compact = false }: { compact?: boolean } = {}) {
 
             <div className="h-[1px] bg-gray-100 my-2" />
 
+            <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1 px-3">Career Guides</p>
+            <SheetClose asChild>
+              <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/nursing")} data-testid="button-career-nursing-mobile">
+                <Stethoscope className="w-4 h-4" />
+                Nursing
+              </Button>
+            </SheetClose>
+            <SheetClose asChild>
+              <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/paramedic")} data-testid="button-career-paramedic-mobile">
+                <Ambulance className="w-4 h-4" />
+                Paramedic
+              </Button>
+            </SheetClose>
+            <SheetClose asChild>
+              <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/respiratory-therapy")} data-testid="button-career-rrt-mobile">
+                <Wind className="w-4 h-4" />
+                Respiratory Therapy
+              </Button>
+            </SheetClose>
+            <SheetClose asChild>
+              <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/mlt")} data-testid="button-career-mlt-mobile">
+                <Microscope className="w-4 h-4" />
+                Medical Lab Tech
+              </Button>
+            </SheetClose>
+            <SheetClose asChild>
+              <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/imaging")} data-testid="button-career-imaging-mobile">
+                <ScanLine className="w-4 h-4" />
+                Diagnostic Imaging
+              </Button>
+            </SheetClose>
+            <SheetClose asChild>
+              <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/social-work")} data-testid="button-career-social-work-mobile">
+                Social Work
+              </Button>
+            </SheetClose>
+            <SheetClose asChild>
+              <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/psychotherapy")} data-testid="button-career-psychotherapy-mobile">
+                Psychotherapy
+              </Button>
+            </SheetClose>
+            <SheetClose asChild>
+              <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/addictions")} data-testid="button-career-addictions-mobile">
+                Addictions Counseling
+              </Button>
+            </SheetClose>
+            <SheetClose asChild>
+              <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/occupational-therapy")} data-testid="button-career-ot-mobile">
+                Occupational Therapy
+              </Button>
+            </SheetClose>
+
+            <div className="h-[1px] bg-gray-100 my-2" />
+
             <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1 px-3">{t("nav.interactiveTools")}</p>
             <SheetClose asChild>
               <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/lectures")} data-testid="button-lectures-mobile">
@@ -999,6 +1053,50 @@ export function Navigation({ compact = false }: { compact?: boolean } = {}) {
                   </DropdownMenuItem>
                   <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary hover:bg-primary/5" onClick={() => setLocation("/new-grad/addictions-counseling")} data-testid="menu-new-grad-addictions">
                     Addictions Counseling
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" className="text-sm font-medium text-softgray hover:text-primary hover:bg-transparent flex items-center gap-1 px-2 lg:px-2.5 group data-[state=open]:text-primary" data-testid="button-career-guides-nav">
+                    Career Guides
+                    <ChevronDown className="w-3 h-3 transition-transform duration-200 group-data-[state=open]:rotate-180" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="start" className="w-56 p-2">
+                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary hover:bg-primary/5" onClick={() => setLocation("/nursing")} data-testid="menu-career-nursing">
+                    <Stethoscope className="w-4 h-4 text-blue-500" />
+                    Nursing
+                  </DropdownMenuItem>
+                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary hover:bg-primary/5" onClick={() => setLocation("/paramedic")} data-testid="menu-career-paramedic">
+                    <Ambulance className="w-4 h-4 text-red-500" />
+                    Paramedic
+                  </DropdownMenuItem>
+                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary hover:bg-primary/5" onClick={() => setLocation("/respiratory-therapy")} data-testid="menu-career-rrt">
+                    <Wind className="w-4 h-4 text-cyan-500" />
+                    Respiratory Therapy
+                  </DropdownMenuItem>
+                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary hover:bg-primary/5" onClick={() => setLocation("/mlt")} data-testid="menu-career-mlt">
+                    <Microscope className="w-4 h-4 text-purple-500" />
+                    Medical Lab Tech
+                  </DropdownMenuItem>
+                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary hover:bg-primary/5" onClick={() => setLocation("/imaging")} data-testid="menu-career-imaging">
+                    <ScanLine className="w-4 h-4 text-amber-500" />
+                    Diagnostic Imaging
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary hover:bg-primary/5" onClick={() => setLocation("/social-work")} data-testid="menu-career-social-work">
+                    Social Work
+                  </DropdownMenuItem>
+                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary hover:bg-primary/5" onClick={() => setLocation("/psychotherapy")} data-testid="menu-career-psychotherapy">
+                    Psychotherapy
+                  </DropdownMenuItem>
+                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary hover:bg-primary/5" onClick={() => setLocation("/addictions")} data-testid="menu-career-addictions">
+                    Addictions Counseling
+                  </DropdownMenuItem>
+                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary hover:bg-primary/5" onClick={() => setLocation("/occupational-therapy")} data-testid="menu-career-ot">
+                    Occupational Therapy
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
