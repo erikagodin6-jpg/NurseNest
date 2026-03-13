@@ -6,6 +6,27 @@ Disallow: /content-editor
 Disallow: /api/
 Disallow: /login
 Disallow: /profile
-Disallow: /subscription/success
+Disallow: /dashboard
+Disallow: /upgrade
+Disallow: /subscription/
+Disallow: /checkout
+Disallow: /account
+Disallow: /trial/
+Disallow: /diagnostic-assessment
+Disallow: /mock-exams/*/report
+Disallow: /feedback
+Disallow: /settings
+Disallow: /notes
+Disallow: /invite
+Disallow: /reset-password
+Disallow: /verify-email
+Disallow: /reports
+Disallow: /*?sort=
+Disallow: /*?filter=
+Disallow: /*?q=
+Disallow: /*?search=
+Disallow: /*?page=
+
+Crawl-delay: 1
 
 Sitemap: https://www.nursenest.ca/sitemap.xml

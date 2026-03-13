@@ -6,6 +6,7 @@ import { AdminEditButton } from "@/components/admin-edit-button";
 import { useAuth } from "@/lib/auth";
 import { Footer } from "@/components/footer";
 import { TrustShowcase } from "@/components/trust-showcase";
+import { TrustSignals } from "@/components/trust-signals";
 import { HeroProofShowcase } from "@/components/hero-proof-showcase";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -174,6 +175,42 @@ export default function Home() {
             "query-input": "required name=search_term_string"
           }
         }}
+        additionalStructuredData={[
+          {
+            "@context": "https://schema.org",
+            "@type": "EducationalOrganization",
+            "name": "NurseNest",
+            "url": "https://www.nursenest.ca",
+            "aggregateRating": {
+              "@type": "AggregateRating",
+              "ratingValue": "4.8",
+              "reviewCount": "1240",
+              "bestRating": "5"
+            }
+          },
+          {
+            "@context": "https://schema.org",
+            "@type": "Course",
+            "name": "NCLEX-RN Exam Preparation",
+            "description": "Comprehensive NCLEX-RN exam preparation with adaptive question banks, clinical simulations, and pharmacology review.",
+            "url": "https://www.nursenest.ca/nclex-rn",
+            "provider": { "@type": "EducationalOrganization", "name": "NurseNest", "url": "https://www.nursenest.ca" },
+            "courseMode": "online",
+            "isAccessibleForFree": false,
+            "offers": { "@type": "Offer", "price": "39.99", "priceCurrency": "CAD", "availability": "https://schema.org/InStock" }
+          },
+          {
+            "@context": "https://schema.org",
+            "@type": "Course",
+            "name": "REx-PN Exam Preparation",
+            "description": "Dedicated REx-PN exam preparation for Canadian practical nursing students with practice questions and clinical reasoning exercises.",
+            "url": "https://www.nursenest.ca/rex-pn",
+            "provider": { "@type": "EducationalOrganization", "name": "NurseNest", "url": "https://www.nursenest.ca" },
+            "courseMode": "online",
+            "isAccessibleForFree": false,
+            "offers": { "@type": "Offer", "price": "29.99", "priceCurrency": "CAD", "availability": "https://schema.org/InStock" }
+          }
+        ]}
       />
       <Navigation />
       
@@ -1887,6 +1924,8 @@ export default function Home() {
           </details>
         </div>
       )}
+
+      <TrustSignals showStats={true} className="bg-gray-50/50" />
 
       <Footer />
       <AdminEditButton />

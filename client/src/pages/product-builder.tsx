@@ -3184,7 +3184,7 @@ RETURN THIS EXACT STRUCTURE (fill each section's blocks array):
                               </div>
                             )}
                             {obj.type === "image" && obj.src && (
-                              <img src={obj.src} alt="" style={{ width: "100%", height: "100%", objectFit: obj.tag === "brand-logo" ? "contain" : "cover", filter: obj.filter || undefined }} />
+                              <img src={obj.src} alt={obj.tag === "brand-logo" ? "Brand logo" : "Product image"} loading="lazy" style={{ width: "100%", height: "100%", objectFit: obj.tag === "brand-logo" ? "contain" : "cover", filter: obj.filter || undefined }} />
                             )}
                           </div>
                         ))}
@@ -6770,7 +6770,7 @@ Rules: No markdown. No extra keys. Keep paragraphs short (1-4 sentences). Lists 
                         )}
                         {obj.type === "image" && (
                           <div style={{ width: "100%", height: "100%", backgroundColor: "#f1f5f9", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                            {obj.src ? <img src={obj.src} alt="" style={{ width: "100%", height: "100%", objectFit: obj.tag === "brand-logo" ? "contain" : "cover", filter: obj.filter || undefined }} /> : <Image className="w-8 h-8 text-gray-300" />}
+                            {obj.src ? <img src={obj.src} alt={obj.tag === "brand-logo" ? "Brand logo" : "Product image"} loading="lazy" style={{ width: "100%", height: "100%", objectFit: obj.tag === "brand-logo" ? "contain" : "cover", filter: obj.filter || undefined }} /> : <Image className="w-8 h-8 text-gray-300" />}
                           </div>
                         )}
                         {isSelected && !obj.locked && selectedIds.length === 1 && (

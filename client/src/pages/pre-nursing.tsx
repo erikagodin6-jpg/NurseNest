@@ -1762,7 +1762,7 @@ function CustomModuleModal({ module, page, onClose, onSaved }: {
             <label className="text-sm font-medium text-gray-700 mb-2 block">Module Image</label>
             {imageUrl && (
               <div className="mb-2 rounded-xl overflow-hidden border border-gray-200 bg-gray-50">
-                <img src={imageUrl} alt="Module" className="w-full h-32 object-contain p-2" />
+                <img src={imageUrl} alt={`${mod.title} pre-nursing module illustration`} loading="lazy" className="w-full h-32 object-contain p-2" />
               </div>
             )}
             <div className="flex gap-2">

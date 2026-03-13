@@ -51,3 +51,82 @@ export function buildCatalogStructuredData(lessons: { id: string; name: string }
     })),
   };
 }
+
+export function buildCourseStructuredData(course: {
+  name: string;
+  description: string;
+  url: string;
+  provider?: string;
+  offers?: { price: string; priceCurrency: string };
+}) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": course.name,
+    "description": course.description,
+    "url": course.url,
+    "provider": {
+      "@type": "EducationalOrganization",
+      "name": course.provider || "NurseNest",
+      "url": "https://www.nursenest.ca",
+    },
+    "courseMode": "online",
+    "isAccessibleForFree": false,
+    ...(course.offers
+      ? {
+          "offers": {
+            "@type": "Offer",
+            "price": course.offers.price,
+            "priceCurrency": course.offers.priceCurrency,
+            "availability": "https://schema.org/InStock",
+          },
+        }
+      : {}),
+  };
+}
+
+export function buildAggregateRatingStructuredData(rating: {
+  ratingValue: string;
+  reviewCount: string;
+  bestRating?: string;
+}) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "EducationalOrganization",
+    "name": "NurseNest",
+    "url": "https://www.nursenest.ca",
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": rating.ratingValue,
+      "reviewCount": rating.reviewCount,
+      "bestRating": rating.bestRating || "5",
+    },
+  };
+}
+
+export function buildReviewStructuredData(reviews: {
+  author: string;
+  reviewBody: string;
+  ratingValue: string;
+  datePublished?: string;
+}[]) {
+  return reviews.map((review) => ({
+    "@context": "https://schema.org",
+    "@type": "Review",
+    "itemReviewed": {
+      "@type": "EducationalOrganization",
+      "name": "NurseNest",
+    },
+    "author": {
+      "@type": "Person",
+      "name": review.author,
+    },
+    "reviewBody": review.reviewBody,
+    "reviewRating": {
+      "@type": "Rating",
+      "ratingValue": review.ratingValue,
+      "bestRating": "5",
+    },
+    ...(review.datePublished ? { "datePublished": review.datePublished } : {}),
+  }));
+}

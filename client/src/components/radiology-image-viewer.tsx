@@ -84,6 +84,7 @@ export function RadiologyImageViewer({ src, alt = "Radiology image", className =
         <img
           src={src}
           alt={alt}
+          loading="lazy"
           className="w-full h-full object-contain select-none"
           style={{
             transform: `scale(${zoom}) translate(${pan.x / zoom}px, ${pan.y / zoom}px)`,

@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
+import { RelatedResources } from "@/components/related-resources";
 import { SEO } from "@/components/seo";
 import { getExamQuestions, type PooledQuestion } from "@/lib/question-pool";
 import { fetchFilterOptions, type FilterOptions } from "@/lib/qbank-api";
@@ -970,6 +971,17 @@ export default function QuestionBank() {
           </div>
         </div>
       </main>
+
+      <div className="max-w-5xl mx-auto px-4 pb-8">
+        <RelatedResources
+          resources={[
+            { title: "Nursing Flashcards", href: "/flashcards", description: "Review key concepts with interactive flashcards organized by system and topic.", icon: "flashcard" },
+            { title: "Nursing Lessons", href: "/lessons", description: "Study in-depth lessons covering pathophysiology, pharmacology, and clinical nursing.", icon: "lesson" },
+            { title: "Clinical Simulators", href: "/clinical-simulators", description: "Practice clinical decision-making with realistic patient scenarios.", icon: "simulator" },
+          ]}
+          title="Continue Your Study"
+        />
+      </div>
 
       <AdminEditButton pageName="question-bank" />
       <Footer />

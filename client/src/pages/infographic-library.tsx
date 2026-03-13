@@ -134,6 +134,7 @@ function InfographicDetail({ info, onBack }: { info: InfographicMeta; onBack: ()
               src={getInfographicUrl(info.fileName)}
               alt={info.altText}
               title={info.title}
+              loading="lazy"
               className="w-full h-auto"
               data-testid="img-infographic-full"
             />

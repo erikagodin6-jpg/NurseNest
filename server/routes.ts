@@ -204,6 +204,35 @@ async function isAdminUser(req: any): Promise<boolean> {
 }
 
 export async function registerRoutes(httpServer: Server, app: Express): Promise<Server> {
+  app.post("/api/email-signup", async (req, res) => {
+    try {
+      const { email } = req.body;
+      if (!email || typeof email !== "string") {
+        return res.status(400).json({ error: "Email is required" });
+      }
+      const trimmed = email.trim().toLowerCase();
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(trimmed) || trimmed.length > 254) {
+        return res.status(400).json({ error: "Valid email required" });
+      }
+      try {
+        await pool.query(
+          `CREATE TABLE IF NOT EXISTS email_signups (id SERIAL PRIMARY KEY, email TEXT UNIQUE NOT NULL, created_at TIMESTAMPTZ DEFAULT NOW())`
+        );
+        await pool.query(
+          `INSERT INTO email_signups (email, created_at) VALUES ($1, NOW()) ON CONFLICT (email) DO NOTHING`,
+          [trimmed]
+        );
+      } catch (dbErr: any) {
+        console.error("[EmailSignup] DB error:", dbErr.message);
+      }
+      return res.json({ success: true });
+    } catch (err: any) {
+      console.error("[EmailSignup] Error:", err.message);
+      return res.status(500).json({ error: "Internal server error" });
+    }
+  });
+
   registerObjectStorageRoutes(app);
   registerMltAdminRoutes(app);
   registerMltPipelineRoutes(app);

@@ -1,12 +1,16 @@
 import { LocaleLink } from "@/lib/LocaleLink";
 import { ThemedLogo } from "@/components/themed-logo";
 import { useI18n } from "@/lib/i18n";
+import { EmailSignupPrompt } from "@/components/email-signup-prompt";
 
 export function Footer() {
   const { t } = useI18n();
   return (
     <footer className="bg-white border-t border-primary/10 py-12 mt-auto">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="mb-8">
+          <EmailSignupPrompt variant="banner" />
+        </div>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-8">
           <div>
             <h3 className="text-sm font-semibold text-gray-900 mb-3">{t("footer.studyTools")}</h3>

@@ -6508,6 +6508,16 @@ export default function Flashcards() {
           "educationalLevel": "College",
           "about": { "@type": "Thing", "name": "Nursing Education" }
         }}
+        additionalStructuredData={[{
+          "@context": "https://schema.org",
+          "@type": "Course",
+          "name": "Nursing Pharmacology & Clinical Flashcards",
+          "description": "Interactive nursing flashcards covering pharmacology, pathophysiology, and clinical concepts for NCLEX and REX-PN exam preparation.",
+          "url": "https://www.nursenest.ca/flashcards",
+          "provider": { "@type": "EducationalOrganization", "name": "NurseNest", "url": "https://www.nursenest.ca" },
+          "courseMode": "online",
+          "isAccessibleForFree": false
+        }]}
       />
       <Navigation compact={showRationale && currentCard.type === "question"} />
 

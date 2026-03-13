@@ -5305,7 +5305,7 @@ function LessonSystemModal({ system, defaultTier, onClose, onSaved }: {
             <label className="text-sm font-medium text-gray-700 mb-2 block">System Image</label>
             {imageUrl && (
               <div className="mb-2 rounded-xl overflow-hidden border border-gray-200 bg-gray-50">
-                <img src={imageUrl} alt="System" className="w-full h-32 object-cover" />
+                <img src={imageUrl} alt={`${system.title} nursing lessons`} loading="lazy" className="w-full h-32 object-cover" />
               </div>
             )}
             <div className="flex gap-2">
