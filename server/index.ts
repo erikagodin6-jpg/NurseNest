@@ -948,6 +948,9 @@ app.use((req, res, next) => {
   const { setupQBankGenerator } = await import("./qbank-generator");
   setupQBankGenerator(app);
 
+  const { setupContentExpansionRoutes } = await import("./content-expansion-job");
+  setupContentExpansionRoutes(app);
+
   const { setupTrialRoutes } = await import("./trial");
   setupTrialRoutes(app);
 

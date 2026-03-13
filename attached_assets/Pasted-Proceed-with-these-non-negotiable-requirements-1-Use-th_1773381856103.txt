@@ -1,0 +1,41 @@
+Proceed, with these non-negotiable requirements:
+
+1. Use the existing V2 generator with gpt-4o-mini and all current duplicate-detection / validation safeguards.
+2. Do not generate inline inside the task agent if execution limits are a concern. Build this as a triggerable admin-side production job with batching, progress logging, retry safety, and final reporting.
+3. Use batches of 50 exactly as outlined.
+4. The job must write to the live published production database only, not the dev database, preview database, temp storage, or local seed data.
+5. Before any write, verify the active database target and log a safe confirmation that production is being used.
+6. If the production connection is unavailable or ambiguous, fail safely and do not write anywhere else.
+7. Reuse the existing deployment/configuration method for production credentials rather than inventing a parallel connection flow.
+8. After each batch:
+   - validate schema
+   - check for duplicates
+   - insert approved questions
+   - generate linked flashcards
+   - attach lesson links
+   - attach relevant existing image references to rationales where appropriate
+   - log counts and failures
+9. Rationales should include:
+   - why the correct answer is correct
+   - brief explanation of why distractors are wrong when useful
+   - clinical pearl
+10. For each question, create at least one linked flashcard for the test bank/flashcard system.
+11. Attach only existing appropriate NurseNest images to the rationale. Do not force irrelevant images.
+12. Refresh the published indexes/caches after completion so content appears on the live site, not just in preview.
+
+Implementation priority:
+A. Build the admin-triggered production generation job first
+B. Connect it to the production DB safely
+C. Then run the generation batches
+
+Deliverables I want:
+- admin trigger button/page for the generation job
+- production DB verification step
+- batch progress logging
+- final summary report with inserted counts by tier
+- flashcard creation counts by tier
+- image-linked rationale counts
+- duplicate/skipped counts
+- updated live published totals
+
+Do not just write a plan. Implement the job and wire it into the existing admin system.
