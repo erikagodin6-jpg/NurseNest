@@ -162,6 +162,12 @@ const GlossaryPage = lazy(() => import("@/pages/glossary"));
 const CareerAISimulator = lazy(() => import("@/pages/career-tools/career-ai-simulator"));
 const AdminCareersPage = lazy(() => import("@/pages/admin-careers"));
 const NewGradHub = lazy(() => import("@/pages/new-grad-hub"));
+const NewGradProfessionHub = lazy(() => import("@/pages/new-grad/profession-hub-page"));
+const FirstYearGuidePage = lazy(() => import("@/pages/new-grad/first-year-guide-page"));
+const ClinicalSkillsGuidePage = lazy(() => import("@/pages/new-grad/clinical-skills-guide-page"));
+const UnitGuidePage = lazy(() => import("@/pages/new-grad/unit-guide-page"));
+const CareerDevelopmentPage = lazy(() => import("@/pages/new-grad/career-development-page"));
+const ClinicalScenarioPage = lazy(() => import("@/pages/new-grad/clinical-scenario-page"));
 const NursingHub = lazy(() => import("@/pages/nursing-hub"));
 const TrackLandingPage = lazy(() => import("@/pages/marketing/TrackLandingPage"));
 const NursingSpecialtiesHub = lazy(() => import("@/pages/nursing-specialties-hub"));
@@ -406,6 +412,17 @@ function AppRoutes() {
         <Route path="/simulators/osce" component={SimulatorsPage} />
         <Route path="/simulators/clinical-lab" component={SimulatorsPage} />
         <Route path="/osce-skills" component={OSCESkillsPage} />
+        <Route path="/new-grad/clinical-skills/:skill" component={ClinicalSkillsGuidePage} />
+        <Route path="/new-grad/unit-guide/:unit" component={UnitGuidePage} />
+        <Route path="/new-grad/career/:path" component={CareerDevelopmentPage} />
+        <Route path="/new-grad/scenario/:slug" component={ClinicalScenarioPage} />
+        <Route path="/new-grad/:profession">{(params: any) => {
+          const prof = params.profession || "";
+          if (prof.endsWith("-first-year-guide")) {
+            return <FirstYearGuidePage />;
+          }
+          return <NewGradProfessionHub />;
+        }}</Route>
         <Route path="/new-grad" component={NewGradHub} />
         <Route path="/rpn">{() => <TrackLandingPage track="rpn" />}</Route>
         <Route path="/rn">{() => <TrackLandingPage track="rn" />}</Route>

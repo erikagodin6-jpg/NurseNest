@@ -47,6 +47,14 @@ export function Footer() {
               <li><LocaleLink href="/about" className="hover:text-primary transition-colors" data-testid="link-footer-about">About NurseNest</LocaleLink></li>
               <li><LocaleLink href="/for-institutions" className="hover:text-primary transition-colors" data-testid="link-footer-for-schools">For Schools</LocaleLink></li>
             </ul>
+            <h3 className="text-sm font-semibold text-gray-900 mb-3 mt-6">New Grad Career</h3>
+            <ul className="space-y-2 text-sm text-gray-500">
+              <li><LocaleLink href="/new-grad" className="hover:text-primary transition-colors" data-testid="link-footer-new-grad">New Grad Hub</LocaleLink></li>
+              <li><LocaleLink href="/new-grad/nursing" className="hover:text-primary transition-colors" data-testid="link-footer-new-grad-nursing">Nursing</LocaleLink></li>
+              <li><LocaleLink href="/new-grad/paramedic" className="hover:text-primary transition-colors" data-testid="link-footer-new-grad-paramedic">Paramedic</LocaleLink></li>
+              <li><LocaleLink href="/new-grad/respiratory-therapy" className="hover:text-primary transition-colors" data-testid="link-footer-new-grad-rrt">Respiratory Therapy</LocaleLink></li>
+              <li><LocaleLink href="/new-grad/mlt" className="hover:text-primary transition-colors" data-testid="link-footer-new-grad-mlt">Medical Lab Tech</LocaleLink></li>
+            </ul>
           </div>
           <div>
             <h3 className="text-sm font-semibold text-gray-900 mb-3">{t("footer.legal")}</h3>

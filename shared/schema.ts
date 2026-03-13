@@ -4870,6 +4870,75 @@ export const insertTranslationAuditSchema = createInsertSchema(translationAudits
 export type TranslationAudit = typeof translationAudits.$inferSelect;
 export type InsertTranslationAudit = z.infer<typeof insertTranslationAuditSchema>;
 
+export const newGradGuides = pgTable("new_grad_guides", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  title: text("title").notNull(),
+  slug: text("slug").notNull().unique(),
+  profession: text("profession").notNull(),
+  guideType: text("guide_type").notNull(),
+  category: text("category"),
+  summary: text("summary"),
+  content: jsonb("content").default(sql`'[]'::jsonb`),
+  sections: jsonb("sections").default(sql`'[]'::jsonb`),
+  seoTitle: text("seo_title"),
+  seoDescription: text("seo_description"),
+  seoKeywords: text("seo_keywords").array().default(sql`'{}'::text[]`),
+  faqItems: jsonb("faq_items").default(sql`'[]'::jsonb`),
+  relatedGuideIds: text("related_guide_ids").array().default(sql`'{}'::text[]`),
+  status: text("status").default("draft"),
+  tags: text("tags").array().default(sql`'{}'::text[]`),
+  authorName: text("author_name"),
+  publishedAt: timestamp("published_at"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export const insertNewGradGuideSchema = createInsertSchema(newGradGuides).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+export type NewGradGuide = typeof newGradGuides.$inferSelect;
+export type InsertNewGradGuide = z.infer<typeof insertNewGradGuideSchema>;
+
+export const newGradTestimonials = pgTable("new_grad_testimonials", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  name: text("name").notNull(),
+  profession: text("profession").notNull(),
+  role: text("role"),
+  organization: text("organization"),
+  content: text("content").notNull(),
+  rating: integer("rating").default(5),
+  avatarUrl: text("avatar_url"),
+  featured: boolean("featured").default(false),
+  status: text("status").default("pending"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const insertNewGradTestimonialSchema = createInsertSchema(newGradTestimonials).omit({
+  id: true,
+  createdAt: true,
+});
+export type NewGradTestimonial = typeof newGradTestimonials.$inferSelect;
+export type InsertNewGradTestimonial = z.infer<typeof insertNewGradTestimonialSchema>;
+
+export const leadCaptureDownloads = pgTable("lead_capture_downloads", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  subscriberId: varchar("subscriber_id"),
+  email: text("email").notNull(),
+  resourceType: text("resource_type").notNull(),
+  resourceName: text("resource_name").notNull(),
+  profession: text("profession"),
+  downloadedAt: timestamp("downloaded_at").defaultNow().notNull(),
+});
+
+export const insertLeadCaptureDownloadSchema = createInsertSchema(leadCaptureDownloads).omit({
+  id: true,
+  downloadedAt: true,
+});
+export type LeadCaptureDownload = typeof leadCaptureDownloads.$inferSelect;
+export type InsertLeadCaptureDownload = z.infer<typeof insertLeadCaptureDownloadSchema>;
+
 export const translationAuditIssues = pgTable("translation_audit_issues", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
   auditId: varchar("audit_id").notNull(),
