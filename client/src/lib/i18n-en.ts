@@ -17,8 +17,8 @@ const enTranslations: Record<string, string> = {
     "nav.admin": "Admin Dashboard",
     "nav.contentEditor": "Content Editor",
     "nav.blogManager": "Blog Manager",
-    "home.hero.title": "Pass Your Nursing Licensing Exam With Confidence",
-    "home.hero.subtitle": "Comprehensive exam preparation for {{designation}}, RN, and NP students. Structured lessons, thousands of practice questions, and realistic exam simulations designed to help you master the concepts tested on the {{examName}}, NCLEX-RN, and NP certification exams.",
+    "home.hero.title": "Your Complete Nursing Exam Prep Platform",
+    "home.hero.subtitle": "From RPN/LVN foundations to RN licensure and NP certification — NurseNest delivers structured lessons, thousands of practice questions, and realistic exam simulations across every tier of nursing education.",
     "home.hero.cta": "Start Studying Free",
     "home.hero.cta2": "Try Practice Questions",
     "home.hero.reassurance": "No subscription required to start  |  Instant access  |  Cancel anytime",
@@ -54,7 +54,7 @@ const enTranslations: Record<string, string> = {
     "home.cta.title": "Ready to Start Your Journey?",
     "home.cta.subtitle": "Join thousands of nursing students preparing for success.",
     "home.cta.button": "Create Free Account",
-    "home.tagline": "Trusted by nursing students preparing for REx-PN, NCLEX-RN, and NP certification exams.",
+    "home.tagline": "Trusted by nursing students preparing for RPN/LVN, NCLEX-RN, and NP certification exams across Canada and the US.",
     "home.nocc": "No credit card required. Free lessons and anatomy content included.",
     "home.pill.learntest": "Exam-Aligned Lessons",
     "home.pill.decks": "Clear Pathophysiology Explanations",
@@ -650,7 +650,7 @@ const enTranslations: Record<string, string> = {
     "nav.exams": "Exams",
     "nav.clinicalSkillLab": "Clinical Skill Lab",
     "home.canadian.title": "Built for Canadian Nursing Students",
-    "home.canadian.desc": "NurseNest is the first nursing exam prep platform to deliver Canadian lab values, Canadian scope-of-practice language, and content aligned with Canadian nursing regulatory standards. All lab reference ranges, clinical scenarios, and scope guidance reflect what Canadian nurses actually encounter in practice and on the REX-PN.",
+    "home.canadian.desc": "NurseNest is the first nursing exam prep platform to deliver Canadian lab values, Canadian scope-of-practice language, and content aligned with Canadian nursing regulatory standards. All lab reference ranges, clinical scenarios, and scope guidance reflect what Canadian nurses actually encounter in practice and on their licensing exams.",
     "blog.badge": "NurseNest Blog",
     "blog.heading": "Clinical Education Articles",
     "blog.subtitle": "Evidence-based nursing education covering clinical reasoning, pathophysiology, pharmacology, and exam preparation for RPN and RN students.",
@@ -2856,6 +2856,9 @@ const enTranslations: Record<string, string> = {
     "home.email.subscriptionFailed": "Subscription failed. Please try again.",
     "home.email.somethingWrong": "Something went wrong. Please try again.",
     "home.hero.npExams": "NP Exams",
+    "home.hero.nclexRn": "NCLEX-RN",
+    "home.hero.rexPn": "REx-PN",
+    "home.hero.lvnLpn": "LVN / LPN",
   };
 
 export default enTranslations;

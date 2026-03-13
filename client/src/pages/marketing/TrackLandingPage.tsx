@@ -85,7 +85,13 @@ interface TrackLandingPageProps {
 export default function TrackLandingPage({ track }: TrackLandingPageProps) {
   const [, setLocation] = useLocation();
   const copy = getMarketingCopy(track);
-  const colors = trackAccentMap[track] || trackAccentMap.rpn;
+  const defaultAccent = {
+    gradient: "from-gray-50 via-white to-gray-50/30",
+    badge: "border-primary/40 text-primary bg-primary/5",
+    accent: "text-primary",
+    light: "bg-primary/5",
+  };
+  const colors = trackAccentMap[track] || defaultAccent;
   const label = trackLabel[track] || "Nursing";
 
   const seoTitle = track === "rpn"

@@ -1,5 +1,4 @@
 import { useState, useEffect, lazy, Suspense } from "react";
-import { getExamConstants, type Region as ConstRegion } from "@shared/constants";
 import { Navigation } from "@/components/navigation";
 import { SEO } from "@/components/seo";
 import { AdminEditButton } from "@/components/admin-edit-button";
@@ -124,10 +123,6 @@ export default function Home() {
     return () => window.removeEventListener("regionChange", handler);
   }, []);
 
-  const regionConst = getExamConstants(region as ConstRegion);
-  const examLabel = regionConst.practicalNurse.examName;
-  const rpnLabel = regionConst.practicalNurse.designation;
-  const altExam = region === "CA" ? "NCLEX" : "REX-PN";
 
   async function handleEmailSubscribe() {
     const trimmed = email.trim().toLowerCase();
@@ -159,9 +154,9 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-warmwhite flex flex-col font-sans transition-colors duration-500">
       <SEO
-        title="NurseNest - Nursing Exam Prep | NCLEX & REX-PN Question Bank, Clinical Simulations & Flashcards"
-        description={`Prepare for nursing licensure examinations with NurseNest. Access ${formatCount(questionCount)} practice questions designed to mirror the cognitive patterns tested on ${examLabel} and ${altExam}, clinical case simulations, pharmacology flashcards, and ${formatCount(lessonCount)} pathophysiology lessons. Built for ${rpnLabel}, RN, and NP students in Canada and the US. New content added weekly. Start free - no credit card required.`}
-        keywords="nursing exam prep, NCLEX practice questions, REX-PN exam preparation, nursing question bank, clinical simulations nursing, pharmacology flashcards nursing, pathophysiology lessons, RPN study guide, RN exam review, NP exam prep, NP certification exam, AANP exam prep, ANCC certification review, FNP-BC exam questions, AGPCNP-BC study guide, AGACNP-BC practice test, PMHNP-BC exam prep, PNP-BC certification review, NNP-BC exam questions, ENP-C exam prep, nurse practitioner board exam, Next Generation NCLEX, NCLEX-RN practice questions, nursing clinical reasoning, med-surg nursing review, nursing licensure exam, clinical judgment nursing, nursing study tools, nursing board exam prep, NCLEX review course, nursing practice test, pre-nursing program"
+        title="NurseNest - Nursing Exam Prep | RPN/LVN, NCLEX-RN, NP Certification | Question Bank & Clinical Simulations"
+        description={`Prepare for nursing licensure exams with NurseNest. Access ${formatCount(questionCount)} practice questions, clinical case simulations, pharmacology flashcards, and ${formatCount(lessonCount)} pathophysiology lessons. Built for RPN/LVN, RN/NCLEX, and NP certification students in Canada and the US. New content added weekly. Start free - no credit card required.`}
+        keywords="nursing exam prep, NCLEX practice questions, REX-PN exam preparation, NCLEX-RN prep, RPN exam prep, LVN exam prep, LPN exam prep, nursing question bank, clinical simulations nursing, pharmacology flashcards nursing, pathophysiology lessons, RPN study guide, LVN study guide, RN exam review, NP exam prep, NP certification exam, AANP exam prep, ANCC certification review, FNP-BC exam questions, AGPCNP-BC study guide, AGACNP-BC practice test, PMHNP-BC exam prep, PNP-BC certification review, NNP-BC exam questions, ENP-C exam prep, nurse practitioner board exam, Next Generation NCLEX, NCLEX-RN practice questions, nursing clinical reasoning, med-surg nursing review, nursing licensure exam, clinical judgment nursing, nursing study tools, nursing board exam prep, NCLEX review course, nursing practice test, pre-nursing program"
         canonicalPath="/"
         structuredData={{
           "@context": "https://schema.org",
@@ -227,6 +222,17 @@ export default function Home() {
             "courseMode": "online",
             "isAccessibleForFree": false,
             "offers": { "@type": "Offer", "price": "29.99", "priceCurrency": "CAD", "availability": "https://schema.org/InStock" }
+          },
+          {
+            "@context": "https://schema.org",
+            "@type": "Course",
+            "name": "NP Certification Exam Preparation",
+            "description": "Advanced nurse practitioner certification exam preparation covering AANP, ANCC, FNP-BC, AGPCNP-BC, AGACNP-BC, PMHNP-BC, PNP-BC, NNP-BC, and ENP-C exams.",
+            "url": "https://www.nursenest.ca/np-exam-practice-questions",
+            "provider": { "@type": "EducationalOrganization", "name": "NurseNest", "url": "https://www.nursenest.ca" },
+            "courseMode": "online",
+            "isAccessibleForFree": false,
+            "offers": { "@type": "Offer", "price": "49.99", "priceCurrency": "CAD", "availability": "https://schema.org/InStock" }
           }
         ]}
       />
@@ -256,7 +262,7 @@ export default function Home() {
               </h1>
               
               <p className="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed" data-testid="text-hero-subheading">
-                {t("home.hero.subtitle", { designation: rpnLabel, examName: examLabel })}
+                {t("home.hero.subtitle")}
               </p>
               
               <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3 sm:gap-4 pt-2 px-4 sm:px-0">
@@ -299,7 +305,7 @@ export default function Home() {
                     onClick={() => setLocation("/nclex-rn-practice-questions")}
                     data-testid="button-quick-nclex-rn"
                   >
-                    NCLEX-RN
+                    {t("home.hero.nclexRn")}
                   </Button>
                   <Button
                     variant="outline"
@@ -308,7 +314,16 @@ export default function Home() {
                     onClick={() => setLocation("/rex-pn-practice-questions")}
                     data-testid="button-quick-rex-pn"
                   >
-                    REx-PN
+                    {t("home.hero.rexPn")}
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="rounded-full border-emerald-200 text-emerald-700 hover:bg-emerald-50 hover:border-emerald-400 px-5"
+                    onClick={() => setLocation("/nclex-pn-practice-questions")}
+                    data-testid="button-quick-lvn-lpn"
+                  >
+                    {t("home.hero.lvnLpn")}
                   </Button>
                   <Button
                     variant="outline"
@@ -1015,7 +1030,7 @@ export default function Home() {
                 <h3 className="text-lg font-bold text-gray-900 mb-2">{t("home.exams.title")}</h3>
                 <p className="text-sm text-gray-600 leading-relaxed mb-3">{t("home.exams.desc")}</p>
                 <div className="flex flex-wrap gap-1.5">
-                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-indigo-50 text-indigo-600">{examLabel} {t("home.feature.examFormat")}</span>
+                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-indigo-50 text-indigo-600">{t("home.feature.examFormat")}</span>
                   <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-indigo-50 text-indigo-600">{t("home.feature.scoreTrends")}</span>
                   <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-indigo-50 text-indigo-600">{t("home.feature.autoSave")}</span>
                 </div>
@@ -1053,7 +1068,7 @@ export default function Home() {
                 <h3 className="text-lg font-bold text-gray-900 mb-2">{formatCount(questionCount)} {t("home.qbank.title")}</h3>
                 <p className="text-sm text-gray-600 leading-relaxed mb-3">{t("home.qbank.desc")}</p>
                 <div className="flex flex-wrap gap-1.5">
-                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-blue-50 text-blue-600">{rpnLabel}/RN/NP {t("home.feature.tierLevels")}</span>
+                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-blue-50 text-blue-600">RPN/LVN/RN/NP {t("home.feature.tierLevels")}</span>
                   <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-blue-50 text-blue-600">{t("home.feature.deepRationales")}</span>
                   <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-blue-50 text-blue-600">{t("home.feature.progressTracking")}</span>
                 </div>
@@ -1190,7 +1205,7 @@ export default function Home() {
                   </div>
                   <div>
                     <h4 className="text-sm font-bold text-gray-900">{t("home.diff.scope")}</h4>
-                    <p className="text-xs text-gray-500 mt-0.5">{rpnLabel} {t("home.diff.scopeDesc")}</p>
+                    <p className="text-xs text-gray-500 mt-0.5">RPN/LVN {t("home.diff.scopeDesc")}</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-3">
