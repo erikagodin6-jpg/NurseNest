@@ -5,5 +5,5 @@ export const tierCounts = {
     np: 2174,
     totalStatic: 6078,
     questionCount: 0,
-    computedAt: "2026-03-13T21:38:35.485Z",
+    computedAt: "2026-03-13T21:39:08.249Z",
   };
