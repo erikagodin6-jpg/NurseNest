@@ -1,5 +1,5 @@
 import type { FlashcardData } from "./flashcards-rpn";
-import { imgUlcerativeColitis, imgSIADH, imgSickleCellCrisis, imgStomaCare, imgThrombocytopenia, imgUrinaryCatheterization, imgVitiligo, imgUrethralStricture, imgVestibularNeuritis, imgAddisons, imgAcuteHemolyticReaction, imgAtopicDermatitis, imgBPH, imgCastCareTraction, imgAcromegaly, imgNGTube, imgPancreatitis, imgPeritonealDialysis, imgPepticUlcer, imgOsteoporosis, imgCellulitis, imgCKD, imgClubfoot, imgCompartmentSyndrome, imgConjunctivitis, imgContracture, imgCushings, imgDelayedHemolyticReaction, imgDevHipDysplasia, imgDiabetes, imgDiabetesInsipidus, imgDiabeticNephropathy, imgDIC, imgDisuseAtrophy, imgDuchenne, imgEpiglottitis, imgEpistaxis, imgErysipelas, imgFallPrevention, imgHeadLice, imgHemophilia, imgGravesDisease, imgGout, imgPyloricStenosis, imgPlacentaPrevia, imgPostpartumHemorrhage, imgSerotoninSyndrome, imgVaricella, imgRhIncompatibility, imgIntussusception, imgLeadPoisoning, imgCongenitalHypothyroidism, imgFetalMonitoring, imgHepatitisB, imgInfantReflexes } from "./flashcards-rpn";
+import { imgUlcerativeColitis, imgSIADH, imgSickleCellCrisis, imgStomaCare, imgThrombocytopenia, imgUrinaryCatheterization, imgVitiligo, imgUrethralStricture, imgVestibularNeuritis, imgAddisons, imgAcuteHemolyticReaction, imgAtopicDermatitis, imgBPH, imgCastCareTraction, imgAcromegaly, imgNGTube, imgPancreatitis, imgPeritonealDialysis, imgPepticUlcer, imgOsteoporosis, imgCellulitis, imgCKD, imgClubfoot, imgCompartmentSyndrome, imgConjunctivitis, imgContracture, imgCushings, imgDelayedHemolyticReaction, imgDevHipDysplasia, imgDiabetes, imgDiabetesInsipidus, imgDiabeticNephropathy, imgDIC, imgDisuseAtrophy, imgDuchenne, imgEpiglottitis, imgEpistaxis, imgErysipelas, imgFallPrevention, imgHeadLice, imgHemophilia, imgGravesDisease, imgGout, imgPyloricStenosis, imgPlacentaPrevia, imgPostpartumHemorrhage, imgSerotoninSyndrome, imgVaricella, imgRhIncompatibility, imgIntussusception, imgLeadPoisoning, imgCongenitalHypothyroidism, imgFetalMonitoring, imgHepatitisB, imgInfantReflexes, imgWoundVAC, imgWoundInfection } from "./flashcards-rpn";
 import imgImpetigo from "@assets/impetigo_1773340649073.png";
 import imgAntepartum from "@assets/antepartum_1773340419064.png";
 import imgAnxiety from "@assets/anxiety_1773374656571.png";
@@ -2001,6 +2001,7 @@ export const rnFlashcards: FlashcardData[] = [
     options: ["Apply warm compresses and reassess tomorrow", "Obtain a wound culture, notify the surgeon, and document detailed wound assessment", "Change the dressing and apply antibiotic ointment", "Tell the client this is normal postoperative healing"],
     correctIndex: 1,
     answer: "Increasing redness, warmth, purulent drainage, and fever on POD 3 indicate surgical site infection (SSI). The nurse should obtain a wound culture BEFORE antibiotics are started (to identify the causative organism and guide targeted therapy), notify the surgeon, and document the wound assessment objectively (size, drainage character and amount, surrounding tissue condition, odor). IV antibiotics and possible wound exploration may be needed.",
+    image: imgWoundInfection,
     category: "Infection Control",
     difficulty: 2
   },
@@ -4095,6 +4096,7 @@ export const rnFlashcards: FlashcardData[] = [
     options: ["Document the finding and wait for the wound care nurse", "Reapply the seal to maintain continuous negative pressure", "Remove the wound VAC and apply wet-to-dry dressings", "Irrigate the wound with normal saline before reapplying"],
     correctIndex: 1,
     answer: "A broken seal in wound VAC therapy disrupts the negative pressure, rendering the therapy ineffective. The nurse should reapply the seal immediately to restore continuous negative pressure, which promotes wound healing by removing excess exudate, reducing edema, promoting granulation tissue, and increasing blood flow. Waiting for the wound care nurse delays treatment. Removing the VAC and switching to wet-to-dry dressings requires a provider order. The wound should not be irrigated unnecessarily when the seal simply needs reapplication.",
+    image: imgWoundVAC,
     category: "Wound Care",
     difficulty: 2
   },

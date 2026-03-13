@@ -119,7 +119,7 @@ import illustrationHeartFailureAnatomy from "@/assets/lesson-heart-failure-anato
 import illustrationHeartFailureCell from "@/assets/lesson-heart-failure-cell-hypertrophy.png";
 import illustrationImpetigo from "@/assets/lesson-impetigo.png";
 import illustrationVaricellaStages from "@/assets/lesson-varicella-stages.png";
-import illustrationVaricella from "@/assets/lesson-varicella.png";
+import illustrationVaricella from "@assets/varicella_1773375165171.png";
 import illustrationEpiglottitis from "@/assets/lesson-epiglottitis.png";
 import illustrationOsteoporosis from "@/assets/lesson-osteoporosis.png";
 import illustrationOsteoporosisV2 from "@/assets/images/osteoporosis-v2.png";
@@ -357,7 +357,7 @@ import illustrationRestlessLegV2 from "@/assets/images/restless-leg-syndrome-v2.
 import illustrationSpinalStenosisV2 from "@/assets/images/spinal-stenosis-v2.png";
 import illustrationSyringomyeliaV2 from "@/assets/images/syringomyelia-v2.png";
 import illustrationTardiveDyskinesiaV2 from "@/assets/images/tardive-dyskinesia-v2.png";
-import illustrationWernickeV2 from "@/assets/images/wernicke-encephalopathy-v2.png";
+import illustrationWernickeV2 from "@assets/wenicke_1773375165171.png";
 import illustrationPlacentaPatho from "@/assets/lesson-placenta-patho.png";
 import illustrationMeningitisPatho from "@/assets/lesson-meningitis-patho.png";
 import illustrationGlaucomaPatho from "@/assets/lesson-glaucoma-patho.png";
@@ -434,10 +434,10 @@ import illustrationShinglesV2 from "@/assets/images/shingles-v2.png";
 import illustrationShortBowelV3 from "@/assets/images/short-bowel-v3.png";
 
 import illustrationUlcerativeColitis from "@assets/ulcerativecolitis_1773268105077.png";
-import illustrationUrethralStricture from "@assets/urethralstricture_1773268105077.png";
+import illustrationUrethralStricture from "@assets/urethralstricture_1773375165171.png";
 import illustrationUrinaryCatheterization from "@assets/urinarycatheterization_1773268105077.png";
 import illustrationVestibularNeuritis from "@assets/vestibularneuritis_1773268105077.png";
-import illustrationVitiligoNew from "@assets/vitiligo_1773268105077.png";
+import illustrationVitiligoNew from "@assets/vitiligo_1773375165171.png";
 import illustrationVonWillebrand from "@assets/vonwillebrand_1773268105077.png";
 import illustrationSIADHNew from "@assets/SIADH_1773268456011.png";
 import illustrationSickleCellCrisis from "@assets/sicklecellcrisis_1773268456011.png";
@@ -516,7 +516,7 @@ import illustrationGraftVsHost from "@assets/graftvshose_1773269471822.png";
 import illustrationGravesDisease from "@assets/graves_1773269471822.png";
 import illustrationHashimotoThyroiditis from "@assets/hashimotothyroiditis_1773269471822.png";
 import illustrationHeadLiceNew from "@assets/headlice_1773269471822.png";
-import illustrationHemolyticUremicSyndrome from "@assets/hemolyticuremicsyndrome_1773269471822.png";
+import illustrationHemolyticUremicSyndrome from "@assets/US_1773375165171.png";
 import illustrationHemophiliaNew from "@assets/hemophilia_1773269471822.png";
 import illustrationHFM from "@assets/HFM_1773340649073.png";
 import illustrationHistoplasmosis from "@assets/histoplasmosis_1773340649073.png";
@@ -572,6 +572,18 @@ import illustrationPlacentalAbruption from "@assets/placentalabruption_177334060
 import illustrationPlacentaPrevia from "@assets/placentaprevia_1773340609815.png";
 import illustrationPostpartumHemorrhage from "@assets/postpartumhemorrhage_1773340609815.png";
 import illustrationPyloricStenosis from "@assets/pyloricstenosis_1773340609815.png";
+
+import illustrationUrethritis from "@assets/urethritis_1773375165171.png";
+import illustrationUterineProlapse from "@assets/uterineprolapse_1773375165171.png";
+import illustrationVaginalHematoma from "@assets/vaginalhematoma_1773375165171.png";
+import illustrationVaginitis from "@assets/vaginitis_1773375165171.png";
+import illustrationVPShunt from "@assets/VP_1773375165171.png";
+import illustrationVRE from "@assets/vre_1773375165171.png";
+import illustrationVulvodynia from "@assets/vulvodynia_1773375165171.png";
+import illustrationWilmsTumor from "@assets/wilms_1773375165171.png";
+import illustrationWoundAssessment from "@assets/woundassessment_1773375165171.png";
+import illustrationWoundInfection from "@assets/woundinfection_1773375165171.png";
+import illustrationWoundVAC from "@assets/woundvac_1773375165171.jpeg";
 
 const lessonSpecificImages: Record<string, string> = {
   "infective-endocarditis-signs": illustrationEndocarditisSigns,
@@ -942,6 +954,9 @@ const lessonSpecificImages: Record<string, string> = {
   "pinworms": illustrationPinwormsNew,
   "enterobiasis": illustrationPinwormsNew,
   "varicella": illustrationVaricella,
+  "varicella-rpn": illustrationVaricella,
+  "varicella-rn": illustrationVaricella,
+  "varicella-np": illustrationVaricella,
   "chickenpox": illustrationVaricella,
   "varicella-rash-stages": illustrationVaricellaStages,
   "epiglottitis": illustrationEpiglottitisNew,
@@ -2271,7 +2286,19 @@ const systemImageMap: Record<string, string> = {
 
   "urethral-stricture": illustrationUrethralStricture,
   "urethral-stricture-rpn": illustrationUrethralStricture,
+  "urethral-stricture-rn": illustrationUrethralStricture,
   "urethral-stricture-np": illustrationUrethralStricture,
+
+  "urethritis": illustrationUrethritis,
+  "urethritis-rpn": illustrationUrethritis,
+  "urethritis-rn": illustrationUrethritis,
+  "urethritis-np": illustrationUrethritis,
+
+  "uterine-prolapse": illustrationUterineProlapse,
+  "uterine-prolapse-rpn": illustrationUterineProlapse,
+  "uterine-prolapse-rn": illustrationUterineProlapse,
+  "uterine-prolapse-np": illustrationUterineProlapse,
+  "pelvic-organ-prolapse": illustrationUterineProlapse,
 
   "urinary-catheter-care-rn": illustrationUrinaryCatheterization,
 
@@ -2279,8 +2306,65 @@ const systemImageMap: Record<string, string> = {
   "labyrinthitis-rn": illustrationVestibularNeuritis,
   "labyrinthitis-np": illustrationVestibularNeuritis,
 
+  "vaginal-hematoma": illustrationVaginalHematoma,
+  "vaginal-hematoma-rpn": illustrationVaginalHematoma,
+  "vaginal-hematoma-rn": illustrationVaginalHematoma,
+  "vaginal-hematoma-np": illustrationVaginalHematoma,
+
+  "vaginitis": illustrationVaginitis,
+  "vaginitis-rpn": illustrationVaginitis,
+  "vaginitis-rn": illustrationVaginitis,
+  "vaginitis-np": illustrationVaginitis,
+  "bacterial-vaginosis": illustrationVaginitis,
+  "vulvovaginitis": illustrationVaginitis,
+
   "vitiligo": illustrationVitiligoNew,
   "vitiligo-rpn": illustrationVitiligoNew,
+  "vitiligo-rn": illustrationVitiligoNew,
+  "vitiligo-np": illustrationVitiligoNew,
+
+  "vp-shunt": illustrationVPShunt,
+  "vp-shunt-rpn": illustrationVPShunt,
+  "vp-shunt-rn": illustrationVPShunt,
+  "vp-shunt-np": illustrationVPShunt,
+  "ventriculoperitoneal-shunt": illustrationVPShunt,
+
+  "vre": illustrationVRE,
+  "vre-rpn": illustrationVRE,
+  "vre-rn": illustrationVRE,
+  "vre-np": illustrationVRE,
+  "vancomycin-resistant-enterococcus": illustrationVRE,
+  "vancomycin-resistant": illustrationVRE,
+
+  "vulvodynia": illustrationVulvodynia,
+  "vulvodynia-rpn": illustrationVulvodynia,
+  "vulvodynia-rn": illustrationVulvodynia,
+  "vulvodynia-np": illustrationVulvodynia,
+
+  "wilms-tumor": illustrationWilmsTumor,
+  "wilms-tumor-rpn": illustrationWilmsTumor,
+  "wilms-tumor-rn": illustrationWilmsTumor,
+  "wilms-tumor-np": illustrationWilmsTumor,
+  "nephroblastoma": illustrationWilmsTumor,
+
+  "wound-assessment": illustrationWoundAssessment,
+  "wound-assessment-rpn": illustrationWoundAssessment,
+  "wound-assessment-rn": illustrationWoundAssessment,
+  "wound-assessment-np": illustrationWoundAssessment,
+  "wound-color-model": illustrationWoundAssessment,
+
+  "wound-infection": illustrationWoundInfection,
+  "wound-infection-rpn": illustrationWoundInfection,
+  "wound-infection-rn": illustrationWoundInfection,
+  "wound-infection-np": illustrationWoundInfection,
+  "surgical-site-infection": illustrationWoundInfection,
+
+  "wound-vac": illustrationWoundVAC,
+  "wound-vac-rpn": illustrationWoundVAC,
+  "wound-vac-rn": illustrationWoundVAC,
+  "wound-vac-np": illustrationWoundVAC,
+  "npwt": illustrationWoundVAC,
+  "negative-pressure-wound-therapy": illustrationWoundVAC,
 
   "von-willebrand-disease-rpn": illustrationVonWillebrand,
 
@@ -2523,6 +2607,17 @@ export function getLessonImage(lessonId: string): string | undefined {
   if (lessonId.includes("von-willebrand") || lessonId.includes("vwd")) return illustrationVonWillebrand;
   if (lessonId.includes("thrombocytopenia")) return illustrationThrombocytopenia;
   if (lessonId.includes("urethral-stricture")) return illustrationUrethralStricture;
+  if (lessonId.includes("urethritis")) return illustrationUrethritis;
+  if (lessonId.includes("uterine-prolapse") || lessonId.includes("pelvic-organ-prolapse")) return illustrationUterineProlapse;
+  if (lessonId.includes("vaginal-hematoma")) return illustrationVaginalHematoma;
+  if (lessonId.includes("vaginitis") || lessonId.includes("bacterial-vaginosis") || lessonId.includes("vulvovaginitis")) return illustrationVaginitis;
+  if (lessonId.includes("vp-shunt") || lessonId.includes("ventriculoperitoneal")) return illustrationVPShunt;
+  if (lessonId.includes("vre") || lessonId.includes("vancomycin-resistant")) return illustrationVRE;
+  if (lessonId.includes("vulvodynia")) return illustrationVulvodynia;
+  if (lessonId.includes("wilms") || lessonId.includes("nephroblastoma")) return illustrationWilmsTumor;
+  if (lessonId.includes("wound-assessment") || lessonId.includes("wound-color")) return illustrationWoundAssessment;
+  if (lessonId.includes("wound-infection") || lessonId.includes("surgical-site-infection")) return illustrationWoundInfection;
+  if (lessonId.includes("wound-vac") || lessonId.includes("npwt") || lessonId.includes("negative-pressure-wound")) return illustrationWoundVAC;
   if (lessonId.includes("labyrinthitis") || lessonId.includes("vestibular-neuritis")) return illustrationVestibularNeuritis;
   if (lessonId.includes("urinary-catheter")) return illustrationUrinaryCatheterization;
   if (lessonId.includes("transfusion-hyperkalemia")) return illustrationTransfusionHyperkalemia;

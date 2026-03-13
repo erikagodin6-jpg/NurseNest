@@ -17,8 +17,8 @@ import imgThalassemia from "@assets/thalassemia_1773268456011.png";
 import imgThrombocytopenia from "@assets/thrombocytopenia_1773268456011.png";
 import imgThyroidStorm from "@assets/thyroidstorm_1773268456011.png";
 import imgTRALI from "@assets/TRALI_1773268456011.png";
-import imgVitiligo from "@assets/vitiligo_1773268105077.png";
-import imgUrethralStricture from "@assets/urethralstricture_1773268105077.png";
+import imgVitiligo from "@assets/vitiligo_1773375165171.png";
+import imgUrethralStricture from "@assets/urethralstricture_1773375165171.png";
 import imgVestibularNeuritis from "@assets/vestibularneuritis_1773268105077.png";
 import illustrationPressureInjuriesV2 from "@/assets/images/pressure-injuries-v2.png";
 import illustrationPressureInjuryStagesV2 from "@/assets/images/pressure-injury-stages-v2.png";
@@ -90,7 +90,7 @@ import imgGraftVsHost from "@assets/graftvshose_1773269471822.png";
 import imgGravesDisease from "@assets/graves_1773269471822.png";
 import imgHashimotoThyroiditis from "@assets/hashimotothyroiditis_1773269471822.png";
 import imgHeadLice from "@assets/headlice_1773269471822.png";
-import imgHemolyticUremicSyndrome from "@assets/hemolyticuremicsyndrome_1773269471822.png";
+import imgHemolyticUremicSyndrome from "@assets/US_1773375165171.png";
 import imgHemophilia from "@assets/hemophilia_1773269471822.png";
 import imgPyloricStenosis from "@assets/pyloricstenosis_1773340609815.png";
 import imgPlacentalAbruption from "@assets/placentalabruption_1773340609815.png";
@@ -113,9 +113,9 @@ import imgTrisomy21 from "@assets/trisomy21_1773340545537.png";
 import imgTurnerSyndrome from "@assets/turnersyndrome_1773340545537.png";
 import imgUmbilicalCordCare from "@assets/umbilicalcordcare_1773340545537.png";
 import imgUmbilicalCordProlapse from "@assets/umbilicalcordprolapse_1773340545537.png";
-import imgVaginalHematoma from "@assets/vaginalhematoma_1773340545537.png";
-import imgVaricella from "@assets/varicella_1773340545537.png";
-import imgVPShunt from "@assets/VPshunt_1773340545537.png";
+import imgVaginalHematoma from "@assets/vaginalhematoma_1773375165171.png";
+import imgVaricella from "@assets/varicella_1773375165171.png";
+import imgVPShunt from "@assets/VP_1773375165171.png";
 import imgHyperemesisGravidarum from "@assets/hyperemesisgravidarum_1773340649073.png";
 import imgInfantReflexes from "@assets/infantreflexes_1773340649073.png";
 import imgIntussusception from "@assets/intussusception_1773340649073.png";
@@ -127,8 +127,14 @@ import imgCongenitalHypothyroidism from "@assets/congenitalhypothyroidism_177334
 import imgFetalMonitoring from "@assets/fetalmonitoring_1773340513136.png";
 import imgEpisiotomy from "@assets/episiotomy_1773340513136.png";
 import imgHepatitisB from "@assets/hepatitisb_1773340513136.png";
+import imgWernicke from "@assets/wenicke_1773375165171.png";
+import imgWilmsTumor from "@assets/wilms_1773375165171.png";
+import imgWoundAssessment from "@assets/woundassessment_1773375165171.png";
+import imgWoundInfection from "@assets/woundinfection_1773375165171.png";
+import imgWoundVAC from "@assets/woundvac_1773375165171.jpeg";
+import imgVRE from "@assets/vre_1773375165171.png";
 
-export { imgUlcerativeColitis, imgVonWillebrand, imgUrinaryCatheterization, imgSIADH, imgSickleCellCrisis, imgStomaCare, imgThalassemia, imgThrombocytopenia, imgThyroidStorm, imgTRALI, imgVitiligo, imgUrethralStricture, imgVestibularNeuritis, imgAddisons, imgAplasticAnemia, imgAcuteHemolyticReaction, imgAllergicTransfusion, imgAirEmbolism, imgCBI, imgCastCareTraction, imgAlopecia, imgBPH, imgAtopicDermatitis, imgAcromegaly, imgBPPV, imgNGTube, imgPancreatitis, imgPeritonealDialysis, imgPolycysticKidney, imgPolycythemia, imgPepticUlcer, imgOsteoporosis, imgCellulitis, imgCKD, imgClubfoot, imgCompartmentSyndrome, imgConjunctivitis, imgContracture, imgCushings, imgDelayedHemolyticReaction, imgDevHipDysplasia, imgDiabetes, imgDiabetesInsipidus, imgDiabeticNephropathy, imgDIC, imgDisuseAtrophy, imgDuchenne, imgEpiglottitis, imgEpistaxis, imgErysipelas, imgErythemaMultiforme, imgFallPrevention, imgFebrileNeutropenia, imgFebrileNonhemolytic, imgFibromyalgia, imgForeignBodyAspiration, imgFractureTypes, imgFungalInfections, imgGalactosemia, imgGlaucoma, imgGlomerulonephritis, imgGout, imgGraftVsHost, imgGravesDisease, imgHashimotoThyroiditis, imgHeadLice, imgHemolyticUremicSyndrome, imgHemophilia, imgNeonatalFeeding, imgNeonatalHypoglycemia, imgNeonatalJaundice, imgNeonatalSepsis, imgNeuroblastoma, imgNewbornDiabeticMother, imgOsteogenesisImperfecta, imgOvarianHyperstimulation, imgPatentDuctusArteriosus, imgPavlikHarness, imgPediatricVitalsChart, imgPediatricDehydration, imgPinworms, imgPKU, imgPlacentalAbruption, imgPlacentaPrevia, imgPostpartumHemorrhage, imgPyloricStenosis, imgReye, imgRhIncompatibility, imgROP, imgSeparationAnxiety, imgSerotoninSyndrome, imgStagesOfLabor, imgSubstanceAbuse, imgThermoregulation, imgTonsillectomy, imgToxicShockSyndrome, imgTrisomy21, imgTurnerSyndrome, imgUmbilicalCordCare, imgUmbilicalCordProlapse, imgVaginalHematoma, imgVaricella, imgVPShunt, imgHyperemesisGravidarum, imgInfantReflexes, imgIntussusception, imgLeadPoisoning, imgMastitis, imgMeconiumAspiration, imgMeconiumIleus, imgCongenitalHypothyroidism, imgFetalMonitoring, imgEpisiotomy, imgHepatitisB };
+export { imgUlcerativeColitis, imgVonWillebrand, imgUrinaryCatheterization, imgSIADH, imgSickleCellCrisis, imgStomaCare, imgThalassemia, imgThrombocytopenia, imgThyroidStorm, imgTRALI, imgVitiligo, imgUrethralStricture, imgVestibularNeuritis, imgAddisons, imgAplasticAnemia, imgAcuteHemolyticReaction, imgAllergicTransfusion, imgAirEmbolism, imgCBI, imgCastCareTraction, imgAlopecia, imgBPH, imgAtopicDermatitis, imgAcromegaly, imgBPPV, imgNGTube, imgPancreatitis, imgPeritonealDialysis, imgPolycysticKidney, imgPolycythemia, imgPepticUlcer, imgOsteoporosis, imgCellulitis, imgCKD, imgClubfoot, imgCompartmentSyndrome, imgConjunctivitis, imgContracture, imgCushings, imgDelayedHemolyticReaction, imgDevHipDysplasia, imgDiabetes, imgDiabetesInsipidus, imgDiabeticNephropathy, imgDIC, imgDisuseAtrophy, imgDuchenne, imgEpiglottitis, imgEpistaxis, imgErysipelas, imgErythemaMultiforme, imgFallPrevention, imgFebrileNeutropenia, imgFebrileNonhemolytic, imgFibromyalgia, imgForeignBodyAspiration, imgFractureTypes, imgFungalInfections, imgGalactosemia, imgGlaucoma, imgGlomerulonephritis, imgGout, imgGraftVsHost, imgGravesDisease, imgHashimotoThyroiditis, imgHeadLice, imgHemolyticUremicSyndrome, imgHemophilia, imgNeonatalFeeding, imgNeonatalHypoglycemia, imgNeonatalJaundice, imgNeonatalSepsis, imgNeuroblastoma, imgNewbornDiabeticMother, imgOsteogenesisImperfecta, imgOvarianHyperstimulation, imgPatentDuctusArteriosus, imgPavlikHarness, imgPediatricVitalsChart, imgPediatricDehydration, imgPinworms, imgPKU, imgPlacentalAbruption, imgPlacentaPrevia, imgPostpartumHemorrhage, imgPyloricStenosis, imgReye, imgRhIncompatibility, imgROP, imgSeparationAnxiety, imgSerotoninSyndrome, imgStagesOfLabor, imgSubstanceAbuse, imgThermoregulation, imgTonsillectomy, imgToxicShockSyndrome, imgTrisomy21, imgTurnerSyndrome, imgUmbilicalCordCare, imgUmbilicalCordProlapse, imgVaginalHematoma, imgVaricella, imgVPShunt, imgHyperemesisGravidarum, imgInfantReflexes, imgIntussusception, imgLeadPoisoning, imgMastitis, imgMeconiumAspiration, imgMeconiumIleus, imgCongenitalHypothyroidism, imgFetalMonitoring, imgEpisiotomy, imgHepatitisB, imgWernicke, imgWilmsTumor, imgWoundAssessment, imgWoundInfection, imgWoundVAC, imgVRE };
 
 export type FlashcardData = {
   id: string;
@@ -2444,6 +2450,7 @@ export const rpnFlashcards: FlashcardData[] = [
     options: ["Pink granulation tissue", "Serosanguineous drainage", "Purulent drainage with erythema and warmth", "Intact wound edges"],
     correctIndex: 2,
     answer: "Wound infection signs: Purulent (yellow/green) drainage, increased erythema/warmth around wound, edema, foul odor, increased pain, elevated WBC, fever. Report immediately. Obtain wound culture before starting antibiotics.",
+    image: imgWoundInfection,
     category: "Wound Care",
     difficulty: 1
   },
@@ -2452,6 +2459,7 @@ export const rpnFlashcards: FlashcardData[] = [
     type: "term",
     question: "Negative Pressure Wound Therapy (NPWT/Wound VAC)",
     answer: "Applies controlled negative pressure to a wound using a sealed dressing connected to a vacuum pump. Promotes healing by: Removing excess exudate, reducing edema, increasing blood flow, promoting granulation tissue. Maintain continuous seal. Report loss of suction immediately.",
+    image: imgWoundVAC,
     category: "Wound Care",
     difficulty: 3
   },
@@ -3214,6 +3222,7 @@ export const rpnFlashcards: FlashcardData[] = [
     type: "term",
     question: "Wound Assessment: COLOR Model",
     answer: "Red: Granulation tissue (healthy, protect it). Yellow: Slough (needs gentle debridement). Black: Eschar (necrotic tissue, needs debridement unless on stable heel). Pink: Epithelial tissue (healed/healing, protect). Mixed: Multiple tissue types present: treat the worst color.",
+    image: imgWoundAssessment,
     category: "Wound Care",
     difficulty: 2
   },
@@ -3505,6 +3514,7 @@ export const rpnFlashcards: FlashcardData[] = [
     options: ["Those who have been vaccinated", "Those with a history of chickenpox", "Non-immune (no history of disease or vaccination) workers", "All healthcare workers"],
     correctIndex: 2,
     answer: "Non-immune healthcare workers should not enter the room of a client with varicella or herpes zoster. Varicella-zoster virus requires airborne and contact precautions. Immune workers (vaccinated or prior disease) may provide care with standard precautions.",
+    image: imgVaricella,
     category: "Infection Control",
     difficulty: 2
   },
@@ -4555,6 +4565,7 @@ export const rpnFlashcards: FlashcardData[] = [
     type: "term",
     question: "Wilms Tumor (Nephroblastoma)",
     answer: "Most common renal malignancy in children, peak age 2-5 years. Presents as a painless, firm abdominal mass (usually found by parent). Critical: Do NOT palpate the abdomen (risk of rupture and tumor seeding). Diagnosis: CT/ultrasound. Treatment: Nephrectomy + chemotherapy ± radiation.",
+    image: imgWilmsTumor,
     category: "Pediatrics",
     difficulty: 3
   },
