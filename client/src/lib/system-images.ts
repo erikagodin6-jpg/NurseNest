@@ -95,7 +95,7 @@ import illustrationPressureInjuries from "@/assets/lesson-pressure-injuries.png"
 import illustrationInnateImmunity from "@/assets/lesson-innate-immunity.png";
 import illustrationConjunctivitis from "@/assets/lesson-conjunctivitis.png";
 import illustrationAplasticAnemia from "@/assets/aplasticanemia_1773269538451.png";
-import illustrationAlopecia from "@/assets/alopecia_1773269538451.png";
+import illustrationAlopecia from "@/assets/alopecia_1773374656571.png";
 import illustrationPemphigus from "@/assets/lesson-pemphigus.png";
 import illustrationPemphigusV2 from "@/assets/images/pemphigus-v2.png";
 import illustrationPolycythemia from "@/assets/lesson-polycythemia.png";
@@ -453,10 +453,10 @@ import illustrationTransfusionHyperkalemia from "@assets/transfusionassociatedhy
 import illustrationTransfusionHypothermia from "@assets/transfusionassociatedhypothermia_1773268456011.png";
 
 import illustrationABOCompatibility from "@assets/abo_1773269538451.png";
-import illustrationAcromegaly from "@assets/acromegaly_1773269538451.png";
+import illustrationAcromegaly from "@assets/acromegaly_1773374656571.png";
 import illustrationAcuteHemolyticReaction from "@assets/acutehemolyticreaction_1773269538451.png";
 import illustrationAcutePainTransfusion from "@assets/acutepaintransfusionreaction_1773269538451.png";
-import illustrationAdrenalGland from "@assets/adrenalgland_1773269538451.png";
+import illustrationAdrenalGland from "@assets/adrenalgland_1773374656571.png";
 import illustrationAirEmbolismTransfusion from "@assets/airembolism_1773269538451.png";
 import illustrationAllergicTransfusion from "@assets/allergictransfusionreaction_1773269538451.png";
 import illustrationAnaphylacticTransfusion from "@assets/anaphylactictransfusion_1773269538451.png";
@@ -535,10 +535,10 @@ import illustrationMolarPregnancy from "@assets/molarpregnancy_1773340649073.png
 import illustrationNEC from "@assets/Nec_1773340649073.png";
 import illustrationNeonatalVitalSigns from "@assets/neonatal_vitals_chart_fixed_1773340649073.png";
 import illustrationNeonatalAbstinence from "@assets/neonatalabstinence_1773340649073.png";
-import illustrationAlcoholWithdrawal from "@assets/alcoholwithdrawal_1773340419064.png";
+import illustrationAlcoholWithdrawal from "@assets/alcoholwithdrawal_1773374656571.png";
 import illustrationAmnioticFluid from "@assets/amnioticfluid_1773340419064.png";
 import illustrationAntepartum from "@assets/antepartum_1773340419064.png";
-import illustrationAnxiety from "@assets/anxiety_1773340419064.png";
+import illustrationAnxiety from "@assets/anxiety_1773374656571.png";
 import illustrationAPGAR from "@assets/APGAR_1773340419064.png";
 import illustrationAspergillosis from "@assets/aspergillosis_1773340419064.png";
 import illustrationBacterialMeningitis from "@assets/bacterialmeningitis_1773340419064.png";

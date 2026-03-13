@@ -238,15 +238,23 @@ const IMAGE_TOPIC_MAP: Record<string, string[]> = {
   acidbase: ["Acid-Base", "pH"],
   "acid-basedisorders": ["Acid-Base Disorder"],
   als: ["ALS", "Amyotrophic Lateral Sclerosis"],
+  abdominalaorticaneurysm: ["Abdominal Aortic Aneurysm", "AAA"],
+  addison: ["Addison", "Adrenal Insufficiency", "Addison's Disease"],
+  adhd: ["ADHD", "Attention Deficit", "Hyperactivity"],
+  alaria: ["Malaria", "Plasmodium"],
+  alcoholwithdrawal: ["Alcohol Withdrawal", "Delirium Tremens", "CIWA"],
+  anaphylaxis: ["Anaphylaxis", "Anaphylactic Shock", "Epinephrine"],
+  anxiety: ["Anxiety", "Generalized Anxiety", "GAD", "Panic"],
+  as: ["Ankylosing Spondylitis", "AS", "Bamboo Spine"],
 };
 
 function buildImageMap(): Record<string, string> {
   const assetsDir = path.resolve(process.cwd(), "attached_assets");
   if (!fs.existsSync(assetsDir)) return {};
-  const imgFiles = fs.readdirSync(assetsDir).filter((f) => f.endsWith(".png"));
+  const imgFiles = fs.readdirSync(assetsDir).filter((f) => /\.(png|jpe?g)$/i.test(f));
   const namedImages: Record<string, string> = {};
   for (const f of imgFiles) {
-    const base = f.replace(/_\d+\.png$/, "").toLowerCase();
+    const base = f.replace(/_\d+\.(png|jpe?g)$/i, "").toLowerCase();
     if (
       base.match(/^[0-9a-f]{8}-/) ||
       base === "image" ||

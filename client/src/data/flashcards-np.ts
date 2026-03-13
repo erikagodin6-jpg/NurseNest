@@ -9,7 +9,7 @@ import illustrationShinglesV2 from "@/assets/images/shingles-v2.png";
 import illustrationRetinalDetachmentV2 from "@/assets/images/retinal-detachment-v2.png";
 import illustrationRheumatoidArthritis from "@/assets/images/rheumatoid-arthritis.png";
 import imgAntepartum from "@assets/antepartum_1773340419064.png";
-import imgAnxiety from "@assets/anxiety_1773340419064.png";
+import imgAnxiety from "@assets/anxiety_1773374656571.png";
 import imgAPGAR from "@assets/APGAR_1773340419064.png";
 import imgChlamydia from "@assets/chlamydia_1773340419064.png";
 import imgDepression from "@assets/depression_1773340419064.png";
