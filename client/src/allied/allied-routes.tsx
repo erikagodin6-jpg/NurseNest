@@ -77,6 +77,8 @@ const ImagingPhysicsTopic = lazy(() => import("./pages/imaging-physics-topic"));
 const ImagingFlashcardsPage = lazy(() => import("./pages/imaging-flashcards"));
 const ImagingSeoLanding = lazy(() => import("./pages/imaging-seo-landing"));
 import { MltSEOPage } from "./pages/mlt-seo-pages";
+const AlliedQuestionSeoPage = lazy(() => import("./pages/allied-question-seo"));
+const AlliedQuestionsIndexPage = lazy(() => import("./pages/allied-questions-index"));
 
 function LoadingFallback() {
   return (
@@ -202,6 +204,12 @@ export function AlliedRoutes() {
         <Route path="/admin/paramedic-waveforms" component={ParamedicECGAdmin} />
         <Route path="/paramedic/questions/:topicSlug" component={ParamedicQuestionSeoPage} />
         <Route path="/paramedic/questions" component={ParamedicQuestionsIndex} />
+        <Route path="/rrt/questions/:topicSlug">{() => <AlliedQuestionSeoPage professionKey="rrt" />}</Route>
+        <Route path="/rrt/questions">{() => <AlliedQuestionsIndexPage professionKey="rrt" />}</Route>
+        <Route path="/mlt/questions/:topicSlug">{() => <AlliedQuestionSeoPage professionKey="mlt" />}</Route>
+        <Route path="/mlt/questions">{() => <AlliedQuestionsIndexPage professionKey="mlt" />}</Route>
+        <Route path="/imaging/questions/:topicSlug">{() => <AlliedQuestionSeoPage professionKey="imaging" />}</Route>
+        <Route path="/imaging/questions">{() => <AlliedQuestionsIndexPage professionKey="imaging" />}</Route>
         <Route path="/paramedic" component={ParamedicLanding} />
         <Route path="/mlt/exams" component={MltExamHub} />
         <Route path="/mlt/exam/canada_realistic" component={MltCanadaExam} />

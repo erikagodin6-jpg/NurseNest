@@ -87,6 +87,10 @@ export function alliedLegacyRedirectMiddleware(req: Request, res: Response, next
   const secondSeg = segments[1] || "";
 
   if (ALLIED_CAREER_SLUGS.has(firstSeg)) {
+    if (secondSeg === "questions") {
+      return next();
+    }
+
     if (segments.length === 1) {
       return res.redirect(301, `/careers/${firstSeg}`);
     }
@@ -220,6 +224,28 @@ export async function generateAlliedSitemapAsync(baseUrl: string): Promise<strin
       urls.push(`<url><loc>${baseUrl}/paramedic/questions/${slug}</loc><changefreq>weekly</changefreq><priority>0.6</priority><lastmod>${now}</lastmod></url>`);
     }
   } catch {}
+
+  const alliedQuestionSources: { key: string; importPath: string; exportName: string }[] = [
+    { key: "rrt", importPath: "../client/src/data/career-questions/rrt-questions", exportName: "rrtQuestions" },
+    { key: "mlt", importPath: "../client/src/data/career-questions/mlt-questions", exportName: "mltQuestions" },
+    { key: "imaging", importPath: "../client/src/data/career-questions/imaging-questions", exportName: "imagingQuestions" },
+  ];
+  for (const source of alliedQuestionSources) {
+    try {
+      const mod = await import(source.importPath);
+      const questions = mod[source.exportName] as any[];
+      const slugSet = new Set<string>();
+      for (const q of questions) {
+        const slug = q.topic.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+        slugSet.add(slug);
+      }
+      const now = new Date().toISOString().split("T")[0];
+      urls.push(`<url><loc>${baseUrl}/${source.key}/questions</loc><changefreq>weekly</changefreq><priority>0.8</priority><lastmod>${now}</lastmod></url>`);
+      for (const slug of slugSet) {
+        urls.push(`<url><loc>${baseUrl}/${source.key}/questions/${slug}</loc><changefreq>weekly</changefreq><priority>0.6</priority><lastmod>${now}</lastmod></url>`);
+      }
+    } catch {}
+  }
 
   if (urls.length === 0) return staticXml;
 

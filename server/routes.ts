@@ -256,6 +256,9 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
   const { registerParamedicQuestionsRoutes } = await import("./paramedic-questions-api");
   registerParamedicQuestionsRoutes(app);
 
+  const { registerAlliedQuestionsRoutes } = await import("./allied-questions-api");
+  registerAlliedQuestionsRoutes(app);
+
   const { registerParamedicExamRoutes } = await import("./paramedic-exam-routes");
   registerParamedicExamRoutes(app);
 
