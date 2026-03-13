@@ -246,6 +246,7 @@ const DemoSessionComparison = lazy(() => import("@/pages/demo-session-comparison
 const DemoHeroShowcase = lazy(() => import("@/pages/demo-hero-showcase"));
 const SeoPracticeQuiz = lazy(() => import("@/pages/seo-practice-quiz"));
 const OfflineStudyPage = lazy(() => import("@/pages/offline-study"));
+const AdminMockResults = lazy(() => import("@/pages/admin-mock-results"));
 
 function PageTracker() {
   usePageTracker();
@@ -445,6 +446,7 @@ function AppRoutes() {
         <Route path="/admin/image-library" component={AdminImageLibrary} />
         <Route path="/admin/database-status" component={AdminDatabaseStatus} />
         <Route path="/admin/demo-progress" component={AdminDemoProgress} />
+        <Route path="/admin/mock-results" component={AdminMockResults} />
         <Route path="/admin/demo-adaptive-report" component={DemoAdaptiveReport} />
         <Route path="/admin/demo-screenshot-studio" component={DemoScreenshotStudio} />
         <Route path="/admin/demo-exam-review" component={DemoExamReview} />

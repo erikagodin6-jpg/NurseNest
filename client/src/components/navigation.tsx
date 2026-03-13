@@ -145,6 +145,9 @@ function UserProfileDropdown({ user, logout, setLocation }: { user: any; logout:
             <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary" onClick={() => setLocation("/admin/demo-screenshot-studio")} data-testid="menu-screenshot-studio">
               Screenshot Studio
             </DropdownMenuItem>
+            <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary" onClick={() => setLocation("/admin/mock-results")} data-testid="menu-mock-results">
+              Mock Results
+            </DropdownMenuItem>
           </>
         )}
         <DropdownMenuSeparator />
