@@ -16,68 +16,91 @@ import {
   Brain,
 } from "lucide-react";
 
-import screenshot2 from "@assets/screenshot2_1773379293573.jpg";
-import screenshot9 from "@assets/screenshot9_1773379293573.jpg";
-import screenshotTest from "@assets/screenshottest_1773379293573.jpg";
-import screenshot6 from "@assets/screenshot6_1773379293573.jpg";
-import screenshot11 from "@assets/screenshot11_1773379293573.jpg";
-import screenshot3 from "@assets/screenshot3_1773379293573.jpg";
-import screenshot5 from "@assets/screenshot5_1773379293573.jpg";
-import screenshot10 from "@assets/screenshot10_1773379293573.jpg";
+interface ScreenshotSources {
+  srcSet: string;
+  thumbSrcSet: string;
+  fallback: string;
+  thumbFallback: string;
+  width: number;
+  height: number;
+}
+
+function getScreenshotSources(name: string, origWidth: number, origHeight: number): ScreenshotSources {
+  const base = `/screenshots/${name}`;
+  return {
+    srcSet: `${base}-480w.webp 480w, ${base}-768w.webp 768w, ${base}-1200w.webp 1200w, ${base}-full.webp ${origWidth}w`,
+    thumbSrcSet: `${base}-thumb-160w.webp 160w, ${base}-thumb-240w.webp 240w`,
+    fallback: `${base}-768w.webp`,
+    thumbFallback: `${base}-thumb-160w.webp`,
+    width: origWidth,
+    height: origHeight,
+  };
+}
+
+const screenshotData: Record<string, ScreenshotSources> = {
+  screenshot2: getScreenshotSources("screenshot2_1773379293573", 2730, 1588),
+  screenshot9: getScreenshotSources("screenshot9_1773379293573", 2282, 1186),
+  screenshotTest: getScreenshotSources("screenshottest_1773379293573", 2048, 1590),
+  screenshot6: getScreenshotSources("screenshot6_1773379293573", 2524, 1448),
+  screenshot11: getScreenshotSources("screenshot11_1773379293573", 2510, 1588),
+  screenshot3: getScreenshotSources("screenshot3_1773379293573", 2528, 1602),
+  screenshot5: getScreenshotSources("screenshot5_1773379293573", 2538, 1610),
+  screenshot10: getScreenshotSources("screenshot10_1773379293573", 2264, 1580),
+};
 
 const showcaseItems = [
   {
     id: "adaptive-performance",
-    image: screenshot2,
+    imageKey: "screenshot2" as const,
     title: "See exactly where you stand",
     blurb: "Real-time readiness insights help learners identify strengths, weak areas, and their most important next steps before exam day.",
     tags: ["Readiness Score", "Pass Probability", "Growth Tracking"],
   },
   {
     id: "ngn-case-study",
-    image: screenshot9,
+    imageKey: "screenshot9" as const,
     title: "Strengthen clinical judgment",
     blurb: "Interactive case studies help learners connect patient data, prioritization, and nursing decision-making in a realistic workflow.",
     tags: ["Bowtie", "NGN", "Clinical Judgment"],
   },
   {
     id: "exam-style-questions",
-    image: screenshotTest,
+    imageKey: "screenshotTest" as const,
     title: "Get comfortable with exam-style practice",
     blurb: "Students can practice realistic nursing questions with clean exam-style layouts, timed sets, and focused rationale review.",
     tags: ["Multiple Choice", "SATA", "Exam Mode"],
   },
   {
     id: "flashcard-mastery",
-    image: screenshot6,
+    imageKey: "screenshot6" as const,
     title: "Improve retention with spaced repetition",
     blurb: "Smart flashcard tracking helps learners review high-yield concepts, strengthen memory, and stay consistent over time.",
     tags: ["Retention", "Review Queue", "Mastery"],
   },
   {
     id: "study-plan",
-    image: screenshot11,
+    imageKey: "screenshot11" as const,
     title: "Follow a plan built around your performance",
     blurb: "Personalized weekly study plans turn weak areas into structured action steps so learners know exactly what to do next.",
     tags: ["Weekly Plan", "Focus Areas", "Readiness Goal"],
   },
   {
     id: "category-performance",
-    image: screenshot3,
+    imageKey: "screenshot3" as const,
     title: "Target weak areas faster",
     blurb: "Domain-level breakdowns help students focus their study time on the content areas that will improve scores the most.",
     tags: ["Pharmacology", "Prioritization", "Fundamentals"],
   },
   {
     id: "session-analysis",
-    image: screenshot5,
+    imageKey: "screenshot5" as const,
     title: "Review every readiness check in detail",
     blurb: "Session analytics show score trends, percentile performance, confidence patterns, and category-level results after each adaptive set.",
     tags: ["Session Review", "Confidence Analysis", "Percentile"],
   },
   {
     id: "progress-comparison",
-    image: screenshot10,
+    imageKey: "screenshot10" as const,
     title: "Watch your improvement over time",
     blurb: "Comparison views make it easy to see growth across sessions, identify recurring problem areas, and stay motivated.",
     tags: ["Score Trends", "Improvement", "Progress"],
@@ -171,6 +194,7 @@ export function HeroProofShowcase() {
   );
 
   const current = showcaseItems[activeIndex];
+  const currentSrc = screenshotData[current.imageKey];
 
   return (
     <section
@@ -265,13 +289,18 @@ export function HeroProofShowcase() {
               >
                 <div className="relative aspect-[16/10] overflow-hidden bg-gray-50">
                   <img
-                    src={current.image}
+                    srcSet={currentSrc.srcSet}
+                    sizes="(max-width: 640px) 480px, (max-width: 1024px) 768px, 1200px"
+                    src={currentSrc.fallback}
                     alt={current.title}
+                    width={currentSrc.width}
+                    height={currentSrc.height}
                     className={`w-full h-full object-cover object-top transition-opacity duration-200 ${
                       isTransitioning ? "opacity-0" : "opacity-100"
                     }`}
                     loading={activeIndex === 0 ? "eager" : "lazy"}
                     decoding="async"
+                    fetchPriority={activeIndex === 0 ? "high" : undefined}
                     data-testid="img-proof-featured"
                   />
 
@@ -333,32 +362,39 @@ export function HeroProofShowcase() {
               aria-label="Screenshot thumbnails"
               onKeyDown={handleTabKeyDown}
             >
-              {showcaseItems.map((item, idx) => (
-                <button
-                  key={item.id}
-                  onClick={() => goTo(idx)}
-                  role="tab"
-                  aria-selected={idx === activeIndex}
-                  aria-controls={`proof-tabpanel-${item.id}`}
-                  id={`proof-tab-${item.id}`}
-                  tabIndex={idx === activeIndex ? 0 : -1}
-                  aria-label={`View ${item.title}`}
-                  className={`shrink-0 w-16 h-12 sm:w-20 sm:h-14 rounded-lg overflow-hidden border-2 transition-all duration-200 snap-start ${
-                    idx === activeIndex
-                      ? "border-purple-400 ring-2 ring-purple-200 shadow-md scale-105"
-                      : "border-gray-200 hover:border-purple-200 opacity-70 hover:opacity-100"
-                  }`}
-                  data-testid={`thumb-proof-${item.id}`}
-                >
-                  <img
-                    src={item.image}
-                    alt={item.title}
-                    className="w-full h-full object-cover object-top"
-                    loading="lazy"
-                    decoding="async"
-                  />
-                </button>
-              ))}
+              {showcaseItems.map((item, idx) => {
+                const thumbSrc = screenshotData[item.imageKey];
+                return (
+                  <button
+                    key={item.id}
+                    onClick={() => goTo(idx)}
+                    role="tab"
+                    aria-selected={idx === activeIndex}
+                    aria-controls={`proof-tabpanel-${item.id}`}
+                    id={`proof-tab-${item.id}`}
+                    tabIndex={idx === activeIndex ? 0 : -1}
+                    aria-label={`View ${item.title}`}
+                    className={`shrink-0 w-16 h-12 sm:w-20 sm:h-14 rounded-lg overflow-hidden border-2 transition-all duration-200 snap-start ${
+                      idx === activeIndex
+                        ? "border-purple-400 ring-2 ring-purple-200 shadow-md scale-105"
+                        : "border-gray-200 hover:border-purple-200 opacity-70 hover:opacity-100"
+                    }`}
+                    data-testid={`thumb-proof-${item.id}`}
+                  >
+                    <img
+                      src={thumbSrc.thumbFallback}
+                      srcSet={thumbSrc.thumbSrcSet}
+                      sizes="80px"
+                      alt={item.title}
+                      width={80}
+                      height={56}
+                      className="w-full h-full object-cover object-top"
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  </button>
+                );
+              })}
             </div>
           </div>
         </div>

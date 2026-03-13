@@ -13,11 +13,11 @@ function SkeletonCard() {
   return (
     <Card className="rounded-2xl border border-gray-100 bg-white shadow-sm overflow-hidden">
       <CardContent className="p-0">
-        <div className="aspect-[16/10] bg-gray-100 animate-pulse" />
+        <div className="aspect-[16/10] bg-gray-100 skeleton-pulse" />
         <div className="p-5 space-y-3">
-          <div className="h-4 bg-gray-100 rounded animate-pulse w-1/3" />
-          <div className="h-5 bg-gray-100 rounded animate-pulse w-2/3" />
-          <div className="h-4 bg-gray-100 rounded animate-pulse w-full" />
+          <div className="h-4 bg-gray-100 rounded skeleton-pulse w-1/3" />
+          <div className="h-5 bg-gray-100 rounded skeleton-pulse w-2/3" />
+          <div className="h-4 bg-gray-100 rounded skeleton-pulse w-full" />
         </div>
       </CardContent>
     </Card>
@@ -31,10 +31,12 @@ function ImageCard({ item }: { item: Extract<TrustItem, { type: "image" }> }) {
     <Card className="group rounded-2xl border border-gray-100 bg-white shadow-sm hover:shadow-md hover:border-primary/20 transition-all duration-300 overflow-hidden h-full cursor-pointer" data-testid={`card-trust-${item.id}`}>
       <CardContent className="p-0">
         <div className="aspect-[16/10] overflow-hidden bg-gray-50 relative">
-          {!loaded && <div className="absolute inset-0 bg-gray-100 animate-pulse" />}
+          {!loaded && <div className="absolute inset-0 bg-gray-100 skeleton-pulse" />}
           <img
             src={item.src}
             alt={item.alt}
+            width={640}
+            height={400}
             loading="lazy"
             decoding="async"
             onLoad={() => setLoaded(true)}
