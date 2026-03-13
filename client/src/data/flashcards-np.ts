@@ -2,6 +2,7 @@ import type { FlashcardData } from "./flashcards-rpn";
 import { imgUlcerativeColitis, imgVonWillebrand, imgSIADH, imgSickleCellCrisis, imgVitiligo, imgUrethralStricture, imgVestibularNeuritis, imgAddisons, imgBPH, imgPancreatitis, imgOsteoporosis, imgCellulitis, imgCKD, imgClubfoot, imgCompartmentSyndrome, imgConjunctivitis, imgContracture, imgCushings, imgDelayedHemolyticReaction, imgDevHipDysplasia, imgDiabetes, imgDiabetesInsipidus, imgDiabeticNephropathy, imgDIC, imgDisuseAtrophy, imgDuchenne, imgEpiglottitis, imgEpistaxis, imgErysipelas, imgGlaucoma, imgGlomerulonephritis, imgGravesDisease, imgHashimotoThyroiditis, imgForeignBodyAspiration, imgFibromyalgia, imgHemolyticUremicSyndrome, imgNeuroblastoma, imgPyloricStenosis, imgPlacentaPrevia, imgSerotoninSyndrome, imgTonsillectomy, imgMastitis, imgLeadPoisoning, imgMeconiumAspiration, imgMeconiumIleus, imgCongenitalHypothyroidism, imgHepatitisB, imgInfantReflexes } from "./flashcards-rpn";
 import imgImpetigo from "@assets/impetigo_1773340649073.png";
 import imgIntestinalMalrotation from "@assets/intestinalmalrotation_1773340649073.png";
+import imgHypothyroidismNew from "@assets/hypothyroidism_1773374939606.png";
 import imgEctopicPregnancy from "@assets/ectopicpregnancy_1773340513136.png";
 import imgHepatitisC from "@assets/hepatitisc_1773340513136.png";
 import imgGestationalDiabetes from "@assets/gestationaldiabetes_1773340513136.png";
@@ -167,7 +168,7 @@ export const npFlashcards: FlashcardData[] = [
     answer: "In elderly patients with CAD, thyroid replacement must start at a very low dose (12.5-25 mcg/day) and be titrated slowly (increase by 12.5-25 mcg every 6-8 weeks). Rapid correction increases myocardial oxygen demand and can precipitate angina, MI, or arrhythmias. The goal is gradual normalization of TSH over months. Full-dose replacement (1.6 mcg/kg) is only appropriate for young, healthy adults. T3 preparations cause more cardiac stress due to their rapid onset.",
     category: "Advanced Pharmacology",
     difficulty: 2,
-    image: imgCongenitalHypothyroidism
+    image: imgHypothyroidismNew
   },
   {
     id: "np-pharm-q15",
@@ -665,12 +666,12 @@ export const npFlashcards: FlashcardData[] = [
     id: "np-pc-q10",
     type: "question",
     question: "An NP is managing a patient with hypothyroidism on levothyroxine 100 mcg daily. TSH is 8.2 (elevated) despite reported adherence. What should the NP assess?",
+    image: imgHypothyroidismNew,
     options: ["The dose is adequate; no changes needed", "Assess medication timing (empty stomach, 30-60 min before food), drug interactions (calcium, iron, PPIs), and true adherence", "Switch to liothyronine (T3) immediately", "Increase the dose to 200 mcg immediately"],
     correctIndex: 1,
     answer: "Before adjusting levothyroxine dose, assess common causes of subtherapeutic TSH: (1) Adherence: most common cause; 'white coat compliance' (patient takes medication consistently only before visits). (2) Timing: must be on empty stomach, 30-60 min before food/other meds. (3) Drug interactions: calcium, iron, PPIs, cholestyramine, and antacids impair absorption (space 4 hours). (4) Malabsorption: celiac disease, inflammatory bowel disease, H. pylori. (5) Consider checking free T4 level. Dose adjustments should be made in 12.5-25 mcg increments with TSH rechecked in 6-8 weeks.",
     category: "Primary Care",
-    difficulty: 2,
-    image: imgCongenitalHypothyroidism
+    difficulty: 2
   },
   {
     id: "np-pc-q11",
@@ -1310,7 +1311,7 @@ export const npFlashcards: FlashcardData[] = [
     answer: "Amiodarone contains 37% iodine by weight and can cause both hypothyroidism (more common in iodine-sufficient areas) and hyperthyroidism. Elevated TSH with symptoms of hypothyroidism indicates amiodarone-induced hypothyroidism. Treatment is levothyroxine replacement. Thyroid function should be monitored every 6 months while on amiodarone. Amiodarone also requires monitoring of liver function, pulmonary function, and ophthalmologic exams.",
     category: "Cardiology NP",
     difficulty: 3,
-    image: imgCongenitalHypothyroidism
+    image: imgHypothyroidismNew
   },
   {
     id: "np-cardio-q10",
@@ -1459,7 +1460,7 @@ export const npFlashcards: FlashcardData[] = [
     answer: "Bethesda IV (follicular neoplasm/suspicious for follicular neoplasm) cannot distinguish benign follicular adenoma from follicular carcinoma on cytology alone. Recommended management is diagnostic thyroid lobectomy for histological evaluation or molecular testing (Afirma, ThyroSeq) to guide management. If molecular testing suggests benign, surveillance may be appropriate. If malignant features are found, completion thyroidectomy is performed.",
     category: "Endocrine NP",
     difficulty: 3,
-    image: imgCongenitalHypothyroidism
+    image: imgHypothyroidismNew
   },
   {
     id: "np-endo-q12",
@@ -1818,7 +1819,7 @@ export const npFlashcards: FlashcardData[] = [
     answer: "Ciprofloxacin is a potent CYP1A2 inhibitor that significantly increases warfarin levels and INR, potentially causing life-threatening bleeding. INR should be monitored closely (within 2-3 days of starting ciprofloxacin) and warfarin dose reduced. Other important fluoroquinolone interactions: QT prolongation with other QT-prolonging drugs, theophylline toxicity, and reduced absorption with divalent cations (calcium, magnesium, iron).",
     category: "Geriatric NP",
     difficulty: 2,
-    image: imgCongenitalHypothyroidism
+    image: imgHypothyroidismNew
   },
   {
     id: "np-geri-q18",
@@ -2083,7 +2084,7 @@ export const npFlashcards: FlashcardData[] = [
     answer: "Before increasing levothyroxine dose, assess absorption factors: timing (should be taken 30-60 minutes before breakfast on empty stomach), concurrent medications (calcium, iron, aluminum antacids, PPIs, cholestyramine reduce absorption — separate by 4 hours), soy products, coffee, and fiber can also impair absorption. Ensure consistency in brand/generic. If true malabsorption (celiac, gastric bypass), higher doses or liquid/gel cap formulations may be needed.",
     category: "Primary Care NP",
     difficulty: 2,
-    image: imgCongenitalHypothyroidism
+    image: imgHypothyroidismNew
   },
   {
     id: "np-primary-q27",
@@ -2197,7 +2198,7 @@ export const npFlashcards: FlashcardData[] = [
     answer: "Elevated TSH with low free T4 confirms primary hypothyroidism. Levothyroxine is first-line replacement therapy. Start with 1.6 mcg/kg/day in healthy adults; use lower starting doses (25-50 mcg/day) in elderly or cardiac patients. Take on an empty stomach, 30-60 minutes before breakfast. Recheck TSH in 6-8 weeks. Most common cause is Hashimoto's thyroiditis.",
     category: "Diagnostic Reasoning",
     difficulty: 1,
-    image: imgCongenitalHypothyroidism
+    image: imgHypothyroidismNew
   },
   {
     id: "np-diag-q20",

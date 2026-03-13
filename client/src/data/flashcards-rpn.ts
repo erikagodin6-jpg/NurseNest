@@ -22,7 +22,7 @@ import imgUrethralStricture from "@assets/urethralstricture_1773375165171.png";
 import imgVestibularNeuritis from "@assets/vestibularneuritis_1773268105077.png";
 import illustrationPressureInjuriesV2 from "@/assets/images/pressure-injuries-v2.png";
 import illustrationPressureInjuryStagesV2 from "@/assets/images/pressure-injury-stages-v2.png";
-import illustrationRenalCalculi from "@/assets/images/renal-calculi.png";
+
 import illustrationShinglesV2 from "@/assets/images/shingles-v2.png";
 import illustrationRheumatoidArthritis from "@/assets/images/rheumatoid-arthritis.png";
 import illustrationScoliosis from "@/assets/images/scoliosis.png";
@@ -135,6 +135,11 @@ import imgMastitis from "@assets/mastitis_1773340649073.png";
 import imgMeconiumAspiration from "@assets/meconiumaspiration_1773340649073.png";
 import imgMeconiumIleus from "@assets/meconiumileus_1773340649073.png";
 import imgCongenitalHypothyroidism from "@assets/congenitalhypothyroidism_1773340513136.png";
+import imgHypothyroidismNew from "@assets/hypothyroidism_1773374939606.png";
+import imgICPNew from "@assets/ICP_1773374939606.png";
+import imgIDANew from "@assets/IDA_1773374939606.png";
+import imgKidneyStoneNew from "@assets/kidneystone_1773374939606.png";
+import imgLabyrinthitisNew from "@assets/labyrinthitis_1773374939606.png";
 import imgFetalMonitoring from "@assets/fetalmonitoring_1773340513136.png";
 import imgEpisiotomy from "@assets/episiotomy_1773340513136.png";
 import imgHepatitisB from "@assets/hepatitisb_1773340513136.png";
@@ -673,7 +678,8 @@ export const rpnFlashcards: FlashcardData[] = [
     correctIndex: 2,
     answer: "Change in LOC is the EARLIEST and most sensitive indicator of increased ICP. Late signs include Cushing's triad (HTN, bradycardia, irregular respirations), fixed dilated pupils, and abnormal posturing.",
     category: "Neurological",
-    difficulty: 2
+    difficulty: 2,
+    image: imgICPNew
   },
   {
     id: "rpn-neuro-q3",
@@ -1019,7 +1025,7 @@ export const rpnFlashcards: FlashcardData[] = [
     answer: "Calcium oxalate stones are the most common (70-80% of all kidney stones). Prevention: Increase fluid intake (2-3L/day), limit oxalate-rich foods (spinach, tea, chocolate, nuts), limit sodium, maintain adequate calcium intake (dietary, not supplements).",
     category: "Renal/GU",
     difficulty: 2,
-    image: illustrationRenalCalculi
+    image: imgKidneyStoneNew
   },
   {
     id: "rpn-renal-q4",
@@ -1157,7 +1163,7 @@ export const rpnFlashcards: FlashcardData[] = [
     answer: "Hypothyroidism = everything SLOWS DOWN. Weight gain, bradycardia, cold intolerance, fatigue, constipation, dry skin, brittle hair, facial puffiness, menorrhagia. Treatment: Levothyroxine (take on empty stomach in the morning).",
     category: "Endocrine",
     difficulty: 1,
-    image: imgCongenitalHypothyroidism
+    image: imgHypothyroidismNew
   },
   {
     id: "rpn-endo-q4",
@@ -1272,7 +1278,7 @@ export const rpnFlashcards: FlashcardData[] = [
     answer: "Severe, life-threatening hypothyroidism. Signs: Hypothermia, bradycardia, hypotension, hypoventilation, altered mental status, non-pitting edema. Treatment: IV levothyroxine, IV corticosteroids, warming blankets (passive rewarming), ventilatory support. Triggered by infection, cold, sedatives.",
     category: "Endocrine",
     difficulty: 4,
-    image: imgCongenitalHypothyroidism
+    image: imgHypothyroidismNew
   },
   {
     id: "rpn-endo-q10",
@@ -1295,7 +1301,8 @@ export const rpnFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "Iron deficiency anemia reduces oxygen-carrying capacity. Symptoms: Fatigue, pallor, tachycardia, dyspnea on exertion, dizziness, brittle nails (koilonychia/spoon nails). Treatment: Oral iron (with vitamin C, avoid with calcium/dairy), iron-rich diet.",
     category: "Hematology",
-    difficulty: 1
+    difficulty: 1,
+    image: imgIDANew
   },
   {
     id: "rpn-heme-q2",
@@ -1749,7 +1756,8 @@ export const rpnFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "Liquid iron stains teeth. Use a straw or medicine dropper aimed at the back of the mouth. Give with vitamin C (orange juice) to enhance absorption. Avoid giving with milk, tea, or calcium (decrease absorption). Warn parents: stools will be dark/tarry.",
     category: "Pediatrics",
-    difficulty: 2
+    difficulty: 2,
+    image: imgIDANew
   },
   {
     id: "rpn-peds-t4",
@@ -2960,7 +2968,7 @@ export const rpnFlashcards: FlashcardData[] = [
     answer: "Renal colic is intensely painful. Priority: Pain management (NSAIDs like ketorolac or opioids), strain ALL urine to collect the stone for analysis (determines type and prevention strategy), increase fluid intake (2-3L/day), monitor for obstruction and infection.",
     category: "Renal/GU",
     difficulty: 2,
-    image: illustrationRenalCalculi
+    image: imgKidneyStoneNew
   },
   {
     id: "rpn-renal-t6",
@@ -4366,8 +4374,8 @@ export const rpnFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "Alpha blockers (tamsulosin) relax smooth muscle in the ureter, widening the lumen to help small stones (< 10mm) pass spontaneously (medical expulsive therapy). Also used for BPH. Stones > 10mm or causing obstruction/infection typically require surgical intervention (lithotripsy, ureteroscopy).",
     category: "Renal/GU",
-    difficulty: 3,
-    image: illustrationRenalCalculi
+    image: imgKidneyStoneNew,
+    difficulty: 3
   },
   // ============================================================
   // BATCH 2 - ENDOCRINE EXPANSION
