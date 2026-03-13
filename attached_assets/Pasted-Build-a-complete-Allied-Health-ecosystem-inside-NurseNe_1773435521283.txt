@@ -1,0 +1,609 @@
+Build a complete Allied Health ecosystem inside NurseNest.
+
+This must be a premium, scalable, SEO-driven, conversion-focused learning system similar in depth and credibility to top exam-prep and healthcare education platforms.
+
+The Allied Health section must not feel like a generic blog or thin content farm.
+It must function as:
+1. an authority SEO content hub
+2. a career exploration hub
+3. a study system
+4. a question bank and mock exam system
+5. a conversion funnel into NurseNest products
+
+PRIMARY GOALS
+
+Create a full Allied Health section that includes:
+- main allied health hub
+- profession hub pages
+- structured SEO article generation
+- profession-specific study pathways
+- question banks
+- flashcards
+- clinical case scenarios
+- mock exams
+- rationale and lesson linking
+- admin tools for generating and managing content at scale
+
+BUSINESS GOALS
+
+This section should:
+- attract organic search traffic from allied health students and professionals
+- position NurseNest as an authority beyond nursing
+- support future scale into many professions
+- convert career and SEO traffic into active users of question banks, flashcards, cases, and mock exams
+- support Canadian and U.S. traffic where relevant
+- preserve premium brand quality
+
+PROFESSIONS TO BUILD FIRST
+
+Create the first full implementation for these allied health professions:
+
+- Respiratory Therapy
+- Medical Laboratory Technologist
+- Paramedic
+- Radiologic Technologist
+- Diagnostic Medical Sonography
+- Cardiac Sonography
+- Occupational Therapy Assistant
+- Physiotherapy Assistant
+- Pharmacy Technician
+- Surgical Technologist
+
+SITE ARCHITECTURE
+
+Create the following base routes:
+
+/allied-health
+/allied-health/[profession-slug]
+
+Examples:
+/allied-health/respiratory-therapy
+/allied-health/medical-laboratory-technologist
+/allied-health/paramedic
+/allied-health/radiologic-technologist
+/allied-health/diagnostic-sonography
+/allied-health/cardiac-sonography
+/allied-health/occupational-therapy-assistant
+/allied-health/physiotherapy-assistant
+/allied-health/pharmacy-technician
+/allied-health/surgical-technologist
+
+Also create scalable routes for:
+- /allied-health/[profession-slug]/study-pathway
+- /allied-health/[profession-slug]/questions
+- /allied-health/[profession-slug]/flashcards
+- /allied-health/[profession-slug]/cases
+- /allied-health/[profession-slug]/mock-exams
+- /allied-health/[profession-slug]/[article-slug]
+
+MAIN ALLIED HEALTH HUB PAGE
+
+Create /allied-health as a polished authority landing page.
+
+Include:
+- hero section
+- overview of allied health careers
+- profession cards
+- why allied health careers matter
+- how NurseNest supports allied health learners
+- CTA to browse professions
+- internal links to each profession page
+- featured professions
+- featured study tools
+- FAQ section
+- SEO content that explains allied health roles in a useful, structured way
+
+Each profession card should include:
+- profession title
+- short description
+- common work settings
+- study tool links
+- CTA to explore the profession page
+
+PROFESSION HUB PAGE TEMPLATE
+
+Each profession page must be a high-value authority hub.
+
+Include sections for:
+- profession overview
+- where they work
+- typical responsibilities
+- common patients / settings / workflows
+- key clinical knowledge areas
+- certification / exam overview language where appropriate
+- study pathway section
+- linked question bank
+- linked flashcards
+- linked clinical cases
+- linked mock exams
+- related SEO articles
+- FAQ section
+- CTA blocks
+
+The profession page must function as both:
+- an SEO landing page
+- a conversion gateway into study resources
+
+STUDY PATHWAY PAGE
+
+Create one study pathway page per profession.
+
+Example:
+/allied-health/respiratory-therapy/study-pathway
+
+Each study pathway should include:
+- who this path is for
+- foundational topics to master
+- advanced topics to master
+- pharmacology priorities where relevant
+- equipment / monitoring priorities where relevant
+- lab / imaging interpretation priorities where relevant
+- suggested learning sequence
+- suggested question bank usage
+- suggested flashcard usage
+- suggested case usage
+- suggested mock exam timing
+- “start here” CTA
+
+QUESTION BANK SYSTEM
+
+Generate 500 questions for each profession.
+
+Each question must include:
+- question stem
+- four answer choices
+- correct answer
+- detailed rationale for the correct answer
+- detailed rationale for each incorrect answer
+
+IMPORTANT:
+- include rationales for all standard question bank questions
+- do NOT include rationales on CAT exams
+- rationales should be educational and detailed, not one-line explanations
+- rationale target length: approximately 80 to 150 words total, with enough detail to teach
+- focus on clinical reasoning, prioritization, safety, interpretation, procedures, pathophysiology, and professional workflow where appropriate
+
+QUESTION TOPIC DISTRIBUTION
+
+Build profession-specific categories.
+
+Examples:
+
+Respiratory Therapy:
+- oxygen therapy
+- ventilators
+- ABGs
+- airway management
+- pulmonary disease
+- mechanical ventilation troubleshooting
+- respiratory assessment
+- emergency respiratory care
+
+Medical Laboratory Technologist:
+- hematology
+- microbiology
+- chemistry
+- transfusion medicine
+- specimen handling
+- quality control
+- lab safety
+- result interpretation
+
+Paramedic:
+- trauma
+- airway
+- ACLS/BLS concepts
+- pharmacology
+- scene management
+- pediatric emergencies
+- cardiac emergencies
+- shock
+- neuro emergencies
+
+Radiologic Technologist:
+- imaging safety
+- positioning
+- radiation protection
+- anatomy recognition
+- contrast studies
+- trauma imaging
+- equipment basics
+
+Diagnostic Sonography / Cardiac Sonography:
+- anatomy
+- scanning views
+- image interpretation basics
+- pathology recognition
+- probe selection
+- workflow and patient preparation
+
+Pharmacy Technician:
+- medication safety
+- dosage calculations
+- drug classes
+- dispensing workflow
+- sterile compounding basics
+- pharmacy law concepts at a high level
+- error prevention
+
+Surgical Technologist:
+- sterile technique
+- instrumentation
+- procedure flow
+- OR roles
+- prep and draping
+- patient safety
+- counts
+- infection prevention
+
+Occupational Therapy Assistant / Physiotherapy Assistant:
+- rehab goals
+- mobility
+- transfers
+- exercise safety
+- ADLs
+- assistive devices
+- patient teaching
+- documentation basics
+
+FLASHCARD SYSTEM
+
+Create flashcards derived from question bank concepts.
+
+Each profession should receive a large flashcard bank tied to the 500 questions.
+
+Each flashcard should include:
+- front: key concept / question prompt / recognition cue
+- back: concise educational explanation
+- image support if relevant
+- category tagging
+- link back to related question or lesson if available
+
+CASE SCENARIO SYSTEM
+
+Generate 100 clinical case scenarios per profession.
+
+Each case should include:
+- patient background
+- presenting issue
+- key findings
+- diagnostic data when appropriate
+- profession-relevant scenario details
+- 3 to 5 follow-up questions
+- detailed rationale for each case question
+- lesson linking where relevant
+
+Examples:
+Respiratory Therapy:
+- acute asthma exacerbation
+- COPD exacerbation
+- ventilator management
+- ABG interpretation case
+
+MLT:
+- transfusion reaction workup
+- abnormal CBC investigation
+- specimen contamination scenario
+
+Paramedic:
+- trauma call
+- chest pain call
+- pediatric seizure call
+- stroke recognition case
+
+MOCK EXAMS
+
+Create 2 mock exams per profession, with 100 questions per exam.
+
+Requirements:
+- timed exam behavior
+- no rationales shown during exam
+- rationales shown after completion
+- post-exam report with:
+  - score
+  - performance by category
+  - weak areas
+  - recommended questions
+  - recommended flashcards
+  - recommended lessons or study pathway sections
+
+CAT EXAMS
+
+If CAT exams are enabled for allied health:
+- generate CAT-style question pools
+- DO NOT show rationales during CAT exams
+- do not attach rationale text in the CAT live exam view
+- allow rationales only in standard question bank and post-exam review contexts if supported
+- keep this behavior distinct from normal question bank mode
+
+STRUCTURED SEO ARTICLE GENERATOR
+
+Build a profession-specific SEO article generator.
+This is not a random blog generator.
+It must create structured, evergreen, search-intent-driven educational and career pages.
+
+Each profession should support 15 to 25 SEO articles initially.
+
+Examples for Respiratory Therapy:
+- how to become a respiratory therapist
+- respiratory therapist salary
+- respiratory therapy certification guide
+- respiratory therapy study guide
+- respiratory therapy exam prep
+- respiratory therapy practice questions
+- respiratory therapy clinical skills
+- respiratory therapy interview questions
+- respiratory therapist career path
+- respiratory therapy school requirements
+
+Examples for Paramedic:
+- how to become a paramedic
+- paramedic salary
+- paramedic certification guide
+- paramedic study guide
+- paramedic exam prep
+- best paramedic study resources
+- paramedic clinical scenarios
+- paramedic interview questions
+
+Each article should:
+- be 1500 to 2500 words
+- have unique title and metadata
+- follow a structured template
+- include internal links to profession hub, study pathway, questions, flashcards, cases, and mock exams
+- use a useful educational tone
+- avoid thin filler content
+- include FAQs where helpful
+
+SEO ARTICLE TEMPLATE
+
+Each article should include:
+- introduction
+- overview of the topic
+- education / training context
+- skills or knowledge needed
+- exam / certification context where appropriate
+- study strategies
+- practice resource section
+- related NurseNest tools
+- FAQs
+- related content links
+
+ADMIN GENERATOR TOOLS
+
+Add admin tools for:
+- creating profession pages
+- generating SEO articles
+- generating question batches
+- generating flashcards
+- generating case sets
+- generating mock exams
+- editing and publishing content
+- mapping related resources
+- setting SEO metadata
+- publish/unpublish
+- featured ordering
+- previewing article snippets and metadata
+
+If there is already a CMS or admin content system, extend it rather than creating a disconnected system.
+
+DATA MODEL REQUIREMENTS
+
+Create or extend scalable models to support:
+- profession
+- profession overview content
+- study pathway content
+- SEO articles
+- question bank items
+- flashcards
+- case scenarios
+- mock exams
+- category tags
+- related lesson IDs
+- related question bank IDs
+- related flashcard IDs
+- related mock exam IDs
+- images
+- publish status
+- featured flags
+- country tags
+- profession tags
+- FAQ items
+- meta title
+- meta description
+- canonical slug
+
+LESSON AND RATIONALE LINKING
+
+Important:
+If a question, flashcard, case, or article aligns with an existing lesson, include a contextual link such as:
+“Review the full lesson”
+
+This should point to the most relevant lesson when one exists.
+
+If there are allied health lessons:
+- link to the allied health lesson
+If there are no allied health lessons yet but there is a relevant general foundational lesson:
+- only link if it is genuinely appropriate and not misleading
+
+Do not create irrelevant lesson links.
+
+INTERNAL LINKING RULES
+
+Create strong internal linking between:
+- allied health hub and profession pages
+- profession pages and study pathway pages
+- profession pages and SEO articles
+- SEO articles and profession study tools
+- question rationales and relevant lessons
+- case rationales and relevant lessons
+- post-exam reports and weak-area resources
+
+This must create clear topic clusters for SEO and clear study flows for users.
+
+IMAGE SUPPORT
+
+Use educational images where relevant if the platform already has them or if the data structure supports them.
+
+Examples:
+- chest x-rays
+- ECG strips
+- anatomy diagrams
+- lab visuals
+- imaging examples
+- ultrasound views
+- medication packaging safety examples
+- sterile field visuals
+
+Images should be educationally relevant, not decorative filler.
+
+SEO REQUIREMENTS
+
+Implement strong SEO for all allied health pages:
+- unique title tags
+- unique meta descriptions
+- H1/H2/H3 structure
+- breadcrumbs
+- canonical support
+- FAQ schema where relevant
+- Article or WebPage schema where relevant
+- ItemList schema on hub pages where appropriate
+- sitemap inclusion for all published pages
+- strong internal linking
+- no orphan pages
+- no duplicate titles
+- no duplicate H1s
+
+Use natural keyword targeting.
+
+Examples:
+- respiratory therapy study guide
+- respiratory therapist exam prep
+- paramedic practice questions
+- medical laboratory technologist study guide
+- radiologic technologist exam prep
+- pharmacy technician mock exam
+- surgical technologist flashcards
+
+Do not keyword stuff.
+
+DESIGN REQUIREMENTS
+
+Maintain NurseNest brand styling:
+- premium
+- soft
+- polished
+- rounded
+- modern-clinical
+- feminine but professional
+- mobile responsive
+- no horizontal overflow
+- clean cards
+- clear CTAs
+- strong information hierarchy
+
+Use reusable UI components such as:
+- profession cards
+- article cards
+- study pathway sections
+- category chips
+- CTA blocks
+- FAQ accordion
+- related resources panel
+- study plan stepper
+- mock exam summary cards
+
+CONVERSION REQUIREMENTS
+
+Every profession page and article should include tasteful CTAs such as:
+- Start practice questions
+- Review flashcards
+- Explore clinical cases
+- Try a mock exam
+- Follow the study pathway
+- Review the full lesson
+
+Do not make the pages feel spammy.
+The goal is premium educational conversion.
+
+PRODUCTION DATABASE RULE
+
+All generated content must be stored in the published production database.
+Do not generate content only in preview or dev.
+Before writing:
+- verify the connection target
+- confirm environment variables are production-safe
+- log which database is being used
+
+BATCH GENERATION RULES
+
+Generate content in manageable batches:
+- questions in batches of 50
+- cases in batches of 10
+- articles in reasonable batches
+- validate before inserting
+
+Check for:
+- duplicates
+- broken links
+- malformed question structure
+- missing rationale
+- missing metadata
+- wrong routing
+- missing profession mapping
+
+INITIAL BUILD PRIORITIES
+
+Build this in phases.
+
+PHASE 1
+- allied health main hub
+- 10 profession hub pages
+- reusable templates
+- data models / admin support
+- SEO foundation
+
+PHASE 2
+- profession study pathway pages
+- question bank infrastructure
+- first 100 questions per profession
+- flashcard system
+
+PHASE 3
+- expand each profession to 500 questions
+- add rationales to all standard question bank questions
+- add flashcard expansion
+- add case scenario system
+
+PHASE 4
+- build mock exams
+- build first 15 to 25 SEO articles per profession
+- add internal linking between all content types
+
+PHASE 5
+- QA, polish, responsive cleanup, SEO checks, sitemap and schema validation
+
+FINAL OUTPUT REPORT
+
+When complete, provide:
+- all routes created
+- all professions created
+- all study pathway pages created
+- number of questions per profession
+- number of flashcards per profession
+- number of cases per profession
+- number of mock exams per profession
+- number of SEO articles per profession
+- all admin/content system changes
+- all internal linking rules added
+- all SEO/schema enhancements added
+- confirmation that production database was used
+- note any areas where manual editorial expansion would be valuable next
+
+IMPORTANT QUALITY BAR
+
+This must feel like a serious healthcare education product.
+Do not build a generic blog.
+Do not build thin placeholder pages.
+Do not create preview-only content.
+Build a scalable authority and study ecosystem for allied health inside NurseNest.
