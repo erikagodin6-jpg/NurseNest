@@ -1,0 +1,425 @@
+TASK: CANONICALIZE LESSON TITLES ACROSS THE ENTIRE NURSENEST PLATFORM
+
+You are working inside the NurseNest production platform.
+
+Your task is to standardize lesson naming so every medical topic has one canonical title only, even if duplicate or alternate names already exist across lessons, flashcards, rationales, search results, breadcrumbs, URLs, or metadata.
+
+This task must improve:
+- lesson consistency
+- navigation
+- search
+- breadcrumbs
+- SEO
+- internal linking
+- image matching
+- rationale linking
+- flashcard linking
+
+IMPORTANT RULES
+
+1. Work on the PRODUCTION / PUBLISHED database only.
+2. Do NOT change tier assignments.
+3. Do NOT delete content unless it is a true duplicate and safely merged.
+4. Keep backend tier separation intact.
+5. Users should see one clean medical topic title only.
+6. Remove visible tier words such as RPN, RN, NP, NCLEX, LVN from user-facing titles.
+7. Preserve all existing lesson content, flashcards, linked images, and exam question references during merges.
+
+------------------------------------------------
+PRIMARY GOAL
+
+Each topic should have:
+
+- 1 canonical lesson title
+- 1 canonical display title
+- 1 canonical slug
+- mapped synonyms/aliases
+- consistent breadcrumb label
+- consistent flashcard/rationale references
+- consistent internal search behavior
+
+Example:
+
+All of these should map to one canonical topic:
+- Pulmonary Embolism
+- PE
+- Acute Pulmonary Embolism
+- Pulmonary embolism overview
+- RN Pulmonary Embolism
+- NP Pulmonary Embolism
+
+Canonical output:
+- Title: Pulmonary Embolism
+- Slug: pulmonary-embolism
+
+------------------------------------------------
+STEP 1 — SCAN FOR DUPLICATES AND VARIANTS
+
+Scan all lesson-related tables and content sources for duplicate or near-duplicate topics.
+
+Check:
+- lessons
+- lesson_title
+- lesson_display_title
+- lesson_slug
+- lesson_header
+- flashcards
+- rationale lesson links
+- test bank references
+- CAT exam references
+- image tags
+- SEO metadata
+- sitemap entries
+- breadcrumbs
+- search index
+- related lesson cards
+- recommendation widgets
+
+Detect duplicates caused by:
+- abbreviations
+- alternate capitalization
+- singular vs plural
+- longer descriptive titles
+- tier prefixes
+- exam prefixes
+- “overview”, “management”, “pathophysiology”, “treatment” suffixes
+- spelling inconsistencies
+- punctuation variation
+
+------------------------------------------------
+STEP 2 — CREATE A CANONICAL TITLE RULESET
+
+Use these title rules:
+
+1. Title should be the standard medical condition or concept name only.
+2. Prefer the most recognizable exam-friendly medical term.
+3. Avoid extra words unless medically necessary.
+4. Remove tier labels.
+5. Remove filler words such as:
+   - overview
+   - management
+   - lesson
+   - guide
+   - explained
+   - review
+   - fundamentals
+   - introduction to
+   - understanding
+6. Keep medically important qualifiers only when needed.
+7. Keep titles short, clean, and consistent.
+
+TITLE RULES
+- ideal length: 2–4 words
+- max length: 45 characters
+- title case formatting
+- no tier words
+- no exam words
+- no marketing words
+
+------------------------------------------------
+STEP 3 — EXAMPLES OF CANONICALIZATION
+
+Convert examples like this:
+
+"RN Pulmonary Embolism" → "Pulmonary Embolism"
+"NP Advanced Heart Failure" → "Heart Failure"
+"PE Overview" → "Pulmonary Embolism"
+"Acute PE Management" → "Pulmonary Embolism"
+"NCLEX Stroke Management" → "Stroke"
+"DVT and Pulmonary Embolism" → keep separate only if lesson truly covers both equally; otherwise split or assign primary topic correctly
+"Bundle Branch Block Overview" → "Bundle Branch Block"
+"First Degree AV Block" → "First-Degree AV Block"
+"Wenckebach" → "Second-Degree AV Block Type I"
+"Mobitz I" → "Second-Degree AV Block Type I"
+"Mobitz II" → "Second-Degree AV Block Type II"
+"V Tach" → "Ventricular Tachycardia"
+"V Fib" → "Ventricular Fibrillation"
+"SVT" → "Supraventricular Tachycardia"
+"PAD" → "Peripheral Artery Disease"
+"Carotid Body Tumpr" → "Carotid Body Tumor"
+"Pericardial Mesothemioma" → "Pericardial Mesothelioma"
+"E chest syndrome" → "Acute Chest Syndrome"
+"Charge Strauss Syndrome" → "Churg-Strauss Syndrome"
+
+Correct obvious spelling mistakes where confidence is high.
+
+------------------------------------------------
+STEP 4 — BUILD ALIAS / SYNONYM MAPPING
+
+For every canonical lesson, create alias mappings so search and links still work.
+
+Example:
+Canonical: Pulmonary Embolism
+Aliases:
+- PE
+- Acute Pulmonary Embolism
+- Pulmonary embolism overview
+- Pulmonary embolism management
+
+Canonical: Peripheral Artery Disease
+Aliases:
+- PAD
+- Peripheral vascular disease only if intentionally mapped and not conflicting
+- Peripheral arterial disease
+
+Canonical: Supraventricular Tachycardia
+Aliases:
+- SVT
+
+Canonical: Ventricular Tachycardia
+Aliases:
+- V Tach
+- VT
+
+Store aliases in a dedicated lesson_aliases / synonym map if available.
+
+If no alias table exists, create one.
+
+Suggested structure:
+- id
+- lesson_id
+- alias_text
+- normalized_alias
+- canonical_slug
+
+------------------------------------------------
+STEP 5 — MERGE DUPLICATE LESSON RECORDS SAFELY
+
+When multiple lessons refer to the same topic:
+
+1. Select a primary canonical lesson record.
+2. Preserve the strongest content-rich record as the parent.
+3. Merge useful content from duplicates into the canonical lesson only if non-duplicative.
+4. Reassign linked flashcards, rationales, images, question references, breadcrumbs, and SEO references to the canonical lesson ID.
+5. Retire duplicate records safely.
+
+Do NOT hard delete unless safe.
+Preferred approach:
+- mark duplicates as merged/inactive
+- add redirect or alias mapping
+- preserve audit trail
+
+------------------------------------------------
+STEP 6 — STANDARDIZE SLUGS
+
+Each canonical lesson should have one clean slug.
+
+Slug rules:
+- lowercase
+- hyphen-separated
+- no tier terms
+- no unnecessary words
+- use canonical topic only
+
+Examples:
+Pulmonary Embolism → pulmonary-embolism
+Cardiac Tamponade → cardiac-tamponade
+Peripheral Artery Disease → peripheral-artery-disease
+Second-Degree AV Block Type I → second-degree-av-block-type-1
+Supraventricular Tachycardia → supraventricular-tachycardia
+
+If old slugs exist, create redirects or alias resolution so old links do not break.
+
+------------------------------------------------
+STEP 7 — STANDARDIZE BREADCRUMBS AND NAVIGATION LABELS
+
+Breadcrumbs, cards, sidebars, search result cards, and related lesson widgets must all use the same canonical title.
+
+Examples:
+Home > Lessons > Cardiovascular > Pulmonary Embolism
+Home > Lessons > Dysrhythmias > Ventricular Tachycardia
+
+Never show:
+- RN Pulmonary Embolism
+- NP Pulmonary Embolism
+- PE Overview
+- Pulmonary Embolism Lesson
+
+------------------------------------------------
+STEP 8 — STANDARDIZE INTERNAL REFERENCES
+
+Update all references in:
+- flashcard rationale links
+- CAT exam rationale references
+- test bank rationales
+- related topic widgets
+- image attachment references
+- search indexing
+- recommendation engine
+- sitemap generation
+- structured metadata
+
+Example rationale rewrite:
+Before:
+Review the RN Pulmonary Embolism lesson.
+After:
+Review the Pulmonary Embolism lesson.
+
+------------------------------------------------
+STEP 9 — PROTECT TIER-SPECIFIC CONTENT WITHOUT SHOWING TIER WORDS
+
+Do not collapse RN and NP content into one lesson if your architecture intentionally stores separate tier lesson bodies.
+
+Instead:
+- keep separate backend records if needed
+- use the same canonical user-facing title
+- keep tier logic hidden in the backend
+- ensure user only sees the topic title
+
+Example:
+Backend:
+- pulmonary-embolism (RN record)
+- pulmonary-embolism (NP record with tier key)
+Frontend:
+- Pulmonary Embolism
+
+The displayed title should be identical, while the fetched content depends on the user’s tier.
+
+------------------------------------------------
+STEP 10 — HANDLE LONG TITLES
+
+Any title longer than 45 characters should be shortened to the canonical medical topic.
+
+Examples:
+"Understanding the Pathophysiology of Cardiac Tamponade" → "Cardiac Tamponade"
+"Advanced Pharmacologic Treatment of Heart Failure" → "Heart Failure Treatment" or "Heart Failure"
+"Pathophysiology and Management of Acute Pulmonary Embolism" → "Pulmonary Embolism"
+
+Prefer the disease/topic alone unless a second word is truly necessary.
+
+------------------------------------------------
+STEP 11 — IMAGE AND SEARCH MATCHING
+
+Update image matching logic so lesson images attach based on the canonical title and alias list.
+
+Example:
+- searching “PE” should still attach images tagged Pulmonary Embolism
+- searching “V Tach” should match Ventricular Tachycardia
+- searching “Wenckebach” should match Second-Degree AV Block Type I
+
+This should improve:
+- lesson hero image selection
+- rationale image matching
+- flashcard image matching
+- admin search
+- content generation consistency
+
+------------------------------------------------
+STEP 12 — SEO AND SITEMAP PROTECTION
+
+Update SEO metadata to use canonical names while preventing duplication.
+
+Rules:
+- one canonical URL per topic per tier route pattern
+- no duplicate sitemap entries for title variants
+- canonical metadata should point to the clean slug
+- old slugs should redirect to the canonical slug if routing allows
+- page titles should remain clean and medically searchable
+
+Example page title:
+Pulmonary Embolism | NurseNest
+
+Not:
+RN Pulmonary Embolism Lesson | NurseNest
+
+------------------------------------------------
+STEP 13 — VALIDATION CHECKS
+
+Before saving changes, validate that:
+
+1. No visible title contains:
+   - RPN
+   - RN
+   - NP
+   - NCLEX
+   - LVN
+   - overview
+   - lesson
+   - guide
+   - explained
+
+2. Every topic has:
+   - canonical title
+   - canonical slug
+   - alias mapping if needed
+
+3. Flashcards, rationales, and question links still work.
+
+4. No broken image attachments.
+
+5. No broken routes.
+
+6. Search returns the canonical lesson for common abbreviations and synonyms.
+
+7. Existing content is not lost.
+
+------------------------------------------------
+STEP 14 — REPORT OUTPUT
+
+After completion output a structured report with:
+
+- number of lessons scanned
+- number of duplicate titles found
+- number of canonical titles created
+- number of titles shortened
+- number of aliases created
+- number of slugs standardized
+- number of redirects or alias resolutions added
+- number of rationale links updated
+- number of flashcard references updated
+- number of image mappings updated
+- list of high-confidence spelling corrections made
+
+Also output a review list of any low-confidence items requiring manual review.
+
+------------------------------------------------
+STEP 15 — LOW-CONFIDENCE SAFETY RULE
+
+If a title is ambiguous, do not guess aggressively.
+
+Flag for manual review when confidence is low.
+
+Examples that may require review:
+- lesions with combined disorders in one title
+- abbreviations with multiple meanings
+- titles that may represent distinct subtopics rather than true duplicates
+
+------------------------------------------------
+PRIORITY EXAMPLES TO STANDARDIZE
+
+Make sure to clean and canonicalize topics like:
+- Pulmonary Embolism
+- Deep Vein Thrombosis
+- Peripheral Artery Disease
+- Cardiac Tamponade
+- Cardiogenic Shock
+- Bundle Branch Block
+- First-Degree AV Block
+- Second-Degree AV Block Type I
+- Second-Degree AV Block Type II
+- Supraventricular Tachycardia
+- Torsades de Pointes
+- Ventricular Fibrillation
+- Ventricular Tachycardia
+- AIVR
+- Prinzmetal Angina
+- Carotid Artery Dissection
+- Carotid Body Tumor
+- Subclavian Steal Syndrome
+- Tricuspid Atresia
+- Double Outlet Right Ventricle
+- Eisenmenger Syndrome
+- Giant Cell Myocarditis
+- Papillary Muscle Rupture
+- Cardiac Amyloidosis
+- Cardiac Sarcoidosis
+- Pericardial Mesothelioma
+- Acute Chest Syndrome
+- Churg-Strauss Syndrome
+- Goodpasture Syndrome
+- Plastic Bronchitis
+
+------------------------------------------------
+FINAL INSTRUCTION
+
+Scan the entire lesson ecosystem, standardize all lesson names to canonical medical topic titles, preserve backend tier separation, remove visible tier wording, shorten long titles, create synonym mappings, repair internal references, and keep the user-facing experience clean and premium.
