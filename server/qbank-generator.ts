@@ -319,7 +319,7 @@ async function ingestQuestions(runId: string, questions: any[], variant: any, te
         mlt: "mlt", pharm_tech: "pharmacyTech", paramedic: "paramedic",
         rrt: "rrt", imaging: "imaging", ot: "ot", pt: "pt",
         psychotherapist: "psychotherapist", social_worker: "socialWorker",
-        addictions_worker: "addictionsWorker",
+        addictions_worker: "addictionsWorker", peds_nursing: "peds_nursing",
       };
       const careerType = careerMap[variant.variantKey] || variant.variantKey;
       await pool.query(

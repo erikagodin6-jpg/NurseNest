@@ -295,13 +295,22 @@ Return ONLY valid JSON array.`,
         requiredTypeMix: { MCQ_SINGLE: 10, CASE_BASED_CLUSTER: 8, PRIORITIZATION: 5 },
         formatRules: { allowed: ["MCQ_SINGLE", "CASE_BASED_CLUSTER", "PRIORITIZATION"], prohibited: ["BOWTIE", "DRAG_DROP_CLOZE", "HIGHLIGHT_TEXT"] },
       },
+      {
+        variantKey: "peds_nursing",
+        examKey: "Pediatric Nursing",
+        region: "US",
+        defaultCount: 25,
+        domainWeights: { "Neonatal Care": [0.18, 0.22], "Developmental Milestones": [0.18, 0.22], "Pediatric Infections": [0.18, 0.22], "Congenital Disorders": [0.18, 0.22], "Pediatric Emergencies": [0.18, 0.22] },
+        requiredTypeMix: { MCQ_SINGLE: 10, CASE_BASED_CLUSTER: 8, PRIORITIZATION: 5, MATCHING: 2 },
+        formatRules: { allowed: ["MCQ_SINGLE", "CASE_BASED_CLUSTER", "PRIORITIZATION", "MATCHING"], prohibited: ["BOWTIE", "DRAG_DROP_CLOZE", "HIGHLIGHT_TEXT"] },
+      },
     ],
     validationRules: {
       rationaleMinWords: 250,
       domainTolerance: 0.03,
       scopeChecks: ["profession_scope", "prohibited_formats"],
     },
-    metadata: { author: "NurseNest", version: "1.0", professions: 10 },
+    metadata: { author: "NurseNest", version: "1.0", professions: 11 },
   },
 
   {
