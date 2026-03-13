@@ -34,6 +34,7 @@ Key systems and engines include:
 - **Multilingual SEO & Translation System**: Manages server-rendered hreflang/canonical tags, locale-aware meta injection, translation completeness auditing, and multilingual sitemap generation.
 - **Lesson Title Canonicalization System**: Standardizes lesson naming across the platform using a `lesson_aliases` table and a Title Canonicalizer Engine that strips prefixes, corrects spelling, and resolves abbreviations.
 - **SEO & Performance Optimization**: Implements server-side SEO meta injection, JSON-LD structured data, expanded robots.txt and sitemap, dns-prefetch, async image decoding, and optimized image assets.
+- **Allied Health Encyclopedia System**: Profession-specific knowledge encyclopedias across 8 allied health professions (paramedic, respiratory therapy, MLT, imaging, social work, psychotherapy, addictions, occupational therapy). Features structured topic pages with overview, mechanism/physiology, clinical relevance, signs/symptoms, assessment methods, management, complications, clinical pearls, exam pitfalls, and FAQ sections. Includes JSON-LD structured data, SEO meta tags, cross-profession linking, and admin interface for CRUD/bulk import. Routes: `/:profession-encyclopedia` (hub) and `/:profession-encyclopedia/:slug` (topic). API: `/api/encyclopedia/:profession` (public list), `/api/encyclopedia/:profession/:slug` (public single), plus admin CRUD at `/api/encyclopedia` and `/api/encyclopedia/bulk`.
 
 ### Database Architecture
 The platform utilizes PostgreSQL with Drizzle ORM for database management, configured with separate environment variables for development and production.
@@ -49,7 +50,7 @@ The platform utilizes PostgreSQL with Drizzle ORM for database management, confi
 - PayPal SDK
 
 ### AI/Content Generation
-- OpenAI (for blog posts, AI flashcards, lesson content, AI medical images, micro-lectures, and various content pipelines)
+- OpenAI (for blog posts, AI flashcards, lesson content, AI medical images, micro-lectures, adaptive engines, and various content pipelines)
 
 ### Social Media
 - Meta Graph API (for social media scheduling)

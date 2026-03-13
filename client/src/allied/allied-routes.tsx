@@ -83,6 +83,9 @@ import { MltSEOPage } from "./pages/mlt-seo-pages";
 const AlliedQuestionSeoPage = lazy(() => import("./pages/allied-question-seo"));
 const AlliedQuestionsIndexPage = lazy(() => import("./pages/allied-questions-index"));
 import { UnderservedSEOPage, OTQuestionBankPage, OTMockExamsPage, OTStudyPlanPage } from "./pages/underserved-seo-pages";
+const EncyclopediaHubPage = lazy(() => import("./pages/encyclopedia-hub-page"));
+const EncyclopediaTopicPage = lazy(() => import("./pages/encyclopedia-topic-page"));
+const EncyclopediaAdmin = lazy(() => import("./pages/encyclopedia-admin"));
 
 function LoadingFallback() {
   return (
@@ -304,6 +307,25 @@ export function AlliedRoutes() {
         <Route path="/careers/:careerSlug/sims" component={AlliedSims} />
         <Route path="/careers/:careerSlug/tools" component={AlliedTools} />
         <Route path="/careers/:careerSlug" component={CareerLanding} />
+
+        <Route path="/admin/encyclopedia" component={EncyclopediaAdmin} />
+        <Route path="/paramedic-encyclopedia/:slug">{() => <EncyclopediaTopicPage profession="paramedic" />}</Route>
+        <Route path="/paramedic-encyclopedia">{() => <EncyclopediaHubPage profession="paramedic" />}</Route>
+        <Route path="/respiratory-therapy-encyclopedia/:slug">{() => <EncyclopediaTopicPage profession="respiratory-therapy" />}</Route>
+        <Route path="/respiratory-therapy-encyclopedia">{() => <EncyclopediaHubPage profession="respiratory-therapy" />}</Route>
+        <Route path="/mlt-encyclopedia/:slug">{() => <EncyclopediaTopicPage profession="mlt" />}</Route>
+        <Route path="/mlt-encyclopedia">{() => <EncyclopediaHubPage profession="mlt" />}</Route>
+        <Route path="/imaging-encyclopedia/:slug">{() => <EncyclopediaTopicPage profession="imaging" />}</Route>
+        <Route path="/imaging-encyclopedia">{() => <EncyclopediaHubPage profession="imaging" />}</Route>
+        <Route path="/social-work-encyclopedia/:slug">{() => <EncyclopediaTopicPage profession="social-work" />}</Route>
+        <Route path="/social-work-encyclopedia">{() => <EncyclopediaHubPage profession="social-work" />}</Route>
+        <Route path="/psychotherapy-encyclopedia/:slug">{() => <EncyclopediaTopicPage profession="psychotherapy" />}</Route>
+        <Route path="/psychotherapy-encyclopedia">{() => <EncyclopediaHubPage profession="psychotherapy" />}</Route>
+        <Route path="/addictions-encyclopedia/:slug">{() => <EncyclopediaTopicPage profession="addictions" />}</Route>
+        <Route path="/addictions-encyclopedia">{() => <EncyclopediaHubPage profession="addictions" />}</Route>
+        <Route path="/occupational-therapy-encyclopedia/:slug">{() => <EncyclopediaTopicPage profession="occupational-therapy" />}</Route>
+        <Route path="/occupational-therapy-encyclopedia">{() => <EncyclopediaHubPage profession="occupational-therapy" />}</Route>
+
         <Route>
           {() => (
             <div className="max-w-2xl mx-auto px-4 py-20 text-center">

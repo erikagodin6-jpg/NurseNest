@@ -4888,3 +4888,47 @@ export const insertTranslationAuditIssueSchema = createInsertSchema(translationA
 });
 export type TranslationAuditIssue = typeof translationAuditIssues.$inferSelect;
 export type InsertTranslationAuditIssue = z.infer<typeof insertTranslationAuditIssueSchema>;
+
+export const ENCYCLOPEDIA_PROFESSIONS = [
+  "paramedic", "respiratory-therapy", "mlt", "imaging",
+  "social-work", "psychotherapy", "addictions", "occupational-therapy",
+] as const;
+export type EncyclopediaProfession = (typeof ENCYCLOPEDIA_PROFESSIONS)[number];
+
+export const encyclopediaEntries = pgTable("encyclopedia_entries", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  profession: text("profession").notNull(),
+  slug: text("slug").notNull(),
+  title: text("title").notNull(),
+  overview: text("overview"),
+  mechanism: text("mechanism"),
+  clinicalRelevance: text("clinical_relevance"),
+  signsSymptoms: text("signs_symptoms"),
+  assessmentMethods: text("assessment_methods"),
+  management: text("management"),
+  complications: text("complications"),
+  clinicalPearls: jsonb("clinical_pearls").default(sql`'[]'::jsonb`),
+  examPitfalls: jsonb("exam_pitfalls").default(sql`'[]'::jsonb`),
+  faq: jsonb("faq").default(sql`'[]'::jsonb`),
+  seoTitle: text("seo_title"),
+  metaDescription: text("meta_description"),
+  keywords: text("keywords").array().default(sql`'{}'::text[]`),
+  relatedTopicSlugs: text("related_topic_slugs").array().default(sql`'{}'::text[]`),
+  crossProfessionLinks: jsonb("cross_profession_links").default(sql`'[]'::jsonb`),
+  relatedLessonSlugs: text("related_lesson_slugs").array().default(sql`'{}'::text[]`),
+  relatedQuestionTopics: text("related_question_topics").array().default(sql`'{}'::text[]`),
+  status: text("status").default("draft"),
+  category: text("category"),
+  sortOrder: integer("sort_order").default(0),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+  publishedAt: timestamp("published_at"),
+});
+
+export const insertEncyclopediaEntrySchema = createInsertSchema(encyclopediaEntries).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+export type EncyclopediaEntry = typeof encyclopediaEntries.$inferSelect;
+export type InsertEncyclopediaEntry = z.infer<typeof insertEncyclopediaEntrySchema>;
