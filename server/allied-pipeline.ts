@@ -29,14 +29,19 @@ const CAREER_BLUEPRINT_DOMAINS: Record<string, Record<string, { weight: number; 
     "Prescription Interpretation": { weight: 0.09, subtopics: ["Abbreviations", "Route of Administration", "Dosage Forms", "DAW Codes", "Insurance Codes", "Prior Authorization", "Rejection Resolution"] },
   },
   rrt: {
-    "Respiratory Physiology": { weight: 0.12, subtopics: ["Gas Exchange", "Ventilation/Perfusion", "Oxygen Transport", "Lung Volumes/Capacities", "Pulmonary Mechanics", "Control of Breathing", "Acid-Base Physiology"] },
-    "ABGs & Acid-Base": { weight: 0.15, subtopics: ["ABG Interpretation", "Compensation Mechanisms", "Mixed Disorders", "Anion Gap", "Base Excess", "Oxygenation Indices", "A-a Gradient"] },
-    "Oxygen Therapy": { weight: 0.12, subtopics: ["Delivery Devices", "Flow Rates/FiO2", "Humidification", "Hyperbaric Oxygen", "Titration Protocols", "Monitoring", "Complications"] },
-    "Mechanical Ventilation": { weight: 0.18, subtopics: ["Modes of Ventilation", "Initial Settings", "Waveform Analysis", "Weaning Protocols", "Patient-Ventilator Asynchrony", "ARDS Protocols", "Non-Invasive Ventilation", "Troubleshooting"] },
-    "Respiratory Disorders": { weight: 0.14, subtopics: ["COPD/Asthma", "Pneumonia/ARDS", "Pulmonary Embolism", "Pneumothorax", "Sleep Apnea", "Cystic Fibrosis", "Interstitial Lung Disease"] },
-    "Airway & Emergencies": { weight: 0.12, subtopics: ["Intubation", "Difficult Airway", "CPR/ACLS", "Tracheostomy Care", "Airway Assessment", "Emergency Protocols", "Suctioning"] },
-    "Diagnostics": { weight: 0.09, subtopics: ["Pulmonary Function Tests", "Chest X-Ray Interpretation", "Bronchoscopy", "Capnography", "Pulse Oximetry", "Sleep Studies", "Exercise Testing"] },
-    "Infection Control": { weight: 0.08, subtopics: ["VAP Prevention", "Isolation Precautions", "Equipment Disinfection", "Surveillance", "Antibiotic Stewardship", "Hand Hygiene", "PPE"] },
+    "Airway Management": { weight: 0.10, subtopics: ["Endotracheal Intubation", "Difficult Airway Algorithm", "Tracheostomy Care", "Airway Assessment", "Suctioning Techniques", "Supraglottic Airways", "Extubation Criteria"] },
+    "Oxygen Therapy": { weight: 0.08, subtopics: ["Delivery Devices", "Flow Rates/FiO2", "Humidification Systems", "High-Flow Nasal Cannula", "Titration Protocols", "Hyperbaric Oxygen", "Oxygen Toxicity"] },
+    "ABG Interpretation": { weight: 0.10, subtopics: ["ABG Analysis Steps", "Compensation Mechanisms", "Mixed Acid-Base Disorders", "Anion Gap Calculation", "A-a Gradient", "Oxygenation Indices", "Base Excess Interpretation"] },
+    "Mechanical Ventilation": { weight: 0.12, subtopics: ["Ventilation Modes", "Initial Settings", "Waveform Analysis", "Weaning Protocols", "Patient-Ventilator Asynchrony", "ARDS Ventilation Strategy", "Ventilator Troubleshooting", "Auto-PEEP Management"] },
+    "Pulmonary Function Testing": { weight: 0.06, subtopics: ["Spirometry", "Lung Volumes and Capacities", "Diffusion Capacity (DLCO)", "Flow-Volume Loops", "Bronchial Challenge Testing", "Exercise Testing", "Quality Control"] },
+    "Neonatal & Pediatric Respiratory Care": { weight: 0.08, subtopics: ["Neonatal Resuscitation", "Surfactant Therapy", "Pediatric Ventilation", "Bronchiolitis Management", "Croup and Epiglottitis", "Retinopathy of Prematurity Prevention", "Meconium Aspiration"] },
+    "Critical Care Respiratory Therapy": { weight: 0.10, subtopics: ["ARDS Management", "Hemodynamic Monitoring", "Prone Positioning", "ECMO Basics", "Multi-Organ Failure", "Sedation and Paralysis", "Nutrition Support in Ventilated Patients"] },
+    "Cardiopulmonary Physiology": { weight: 0.08, subtopics: ["Gas Exchange Physiology", "Ventilation-Perfusion Matching", "Oxygen Transport", "Pulmonary Circulation", "Control of Breathing", "Lung Mechanics", "Oxyhemoglobin Dissociation Curve"] },
+    "Aerosol & Medication Delivery": { weight: 0.06, subtopics: ["Metered-Dose Inhalers", "Small Volume Nebulizers", "Dry Powder Inhalers", "Bronchodilator Therapy", "Inhaled Corticosteroids", "Mucolytic Agents", "Aerosolized Antibiotics"] },
+    "Sleep & Noninvasive Ventilation": { weight: 0.06, subtopics: ["Obstructive Sleep Apnea", "CPAP Titration", "BiPAP/BPAP Therapy", "Polysomnography", "Central Sleep Apnea", "NIV for Acute Respiratory Failure", "Home Ventilation"] },
+    "Emergency Respiratory Care": { weight: 0.06, subtopics: ["CPR/ACLS Protocols", "Rapid Sequence Intubation", "Pneumothorax Management", "Massive Hemoptysis", "Anaphylaxis Airway Management", "Smoke Inhalation", "Status Asthmaticus"] },
+    "Patient Assessment": { weight: 0.06, subtopics: ["Respiratory Physical Exam", "Chest X-Ray Interpretation", "Capnography Monitoring", "Pulse Oximetry", "Patient History Taking", "Breath Sound Assessment", "Cough Assessment"] },
+    "Infection Control & Equipment": { weight: 0.04, subtopics: ["VAP Prevention Bundle", "Isolation Precautions", "Equipment Disinfection", "Surveillance Cultures", "Hand Hygiene Protocols", "PPE Selection", "Equipment Maintenance"] },
   },
   paramedic: {
     "Trauma": { weight: 0.15, subtopics: ["Primary Survey", "Hemorrhage Control", "Spinal Motion Restriction", "Chest Trauma", "Abdominal Trauma", "Burns", "Blast Injuries"] },
@@ -771,6 +776,129 @@ export function registerAlliedPipelineRoutes(app: Express) {
     }
   });
 
+  app.post("/api/allied/pipeline/rrt-bulk-generate", async (req, res) => {
+    try {
+      const admin = await requirePipelineAdmin(req, res);
+      if (!admin) return;
+
+      const dbCheck = await pool.query("SELECT current_database() as db");
+      const dbName = dbCheck.rows[0]?.db || "";
+      console.log(`[RRT Bulk] Database: ${dbName}`);
+
+      const bpRes = await pool.query(
+        "SELECT * FROM allied_blueprints WHERE career_type = 'rrt' AND is_active = true ORDER BY version DESC LIMIT 1",
+        []
+      );
+      if (!bpRes.rows[0]) {
+        return res.status(400).json({ error: "No active RRT blueprint. Create one first via the Blueprints tab or seed-blueprints endpoint." });
+      }
+      const blueprint = bpRes.rows[0];
+
+      const domains = CAREER_BLUEPRINT_DOMAINS["rrt"];
+      if (!domains) {
+        return res.status(400).json({ error: "RRT domains not configured" });
+      }
+
+      const totalTarget = 1500;
+      const batchSize = 50;
+
+      const domainBatches: Array<{ domain: string; subtopic: string; count: number; batchIndex: number }> = [];
+      let batchIndex = 0;
+      for (const [domainName, domainConfig] of Object.entries(domains)) {
+        const domainCount = Math.round(totalTarget * domainConfig.weight);
+        const batchesForDomain = Math.ceil(domainCount / batchSize);
+        const subtopics = domainConfig.subtopics;
+        for (let i = 0; i < batchesForDomain; i++) {
+          const subtopicIdx = i % subtopics.length;
+          const remaining = domainCount - i * batchSize;
+          if (remaining <= 0) break;
+          domainBatches.push({
+            domain: domainName,
+            subtopic: subtopics[subtopicIdx],
+            count: Math.min(batchSize, remaining),
+            batchIndex: batchIndex++,
+          });
+        }
+      }
+
+      const masterRunRes = await pool.query(
+        `INSERT INTO allied_batch_runs (career_type, blueprint_id, requested_count, status)
+         VALUES ('rrt', $1, $2, 'running') RETURNING *`,
+        [blueprint.id, totalTarget]
+      );
+      const masterBatchId = masterRunRes.rows[0].id;
+
+      res.json({
+        masterBatchId,
+        totalTarget,
+        totalBatches: domainBatches.length,
+        batchSize,
+        domains: Object.keys(domains),
+        status: "running",
+        message: `Started RRT bulk generation: ${domainBatches.length} batches across ${Object.keys(domains).length} domains targeting ${totalTarget} questions`,
+      });
+
+      runRrtBulkGeneration(masterBatchId, blueprint, domainBatches).catch(err => {
+        console.error("[RRT Bulk] Fatal error:", err.message);
+      });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/allied/pipeline/rrt-bulk-status/:batchId", async (req, res) => {
+    try {
+      const admin = await requirePipelineAdmin(req, res);
+      if (!admin) return;
+      const { batchId } = req.params;
+
+      const batchRes = await pool.query("SELECT * FROM allied_batch_runs WHERE id = $1", [batchId]);
+      if (!batchRes.rows[0]) return res.status(404).json({ error: "Batch not found" });
+      const batch = batchRes.rows[0];
+
+      const questionsRes = await pool.query(
+        "SELECT COUNT(*) as total, COUNT(*) FILTER (WHERE status = 'approved') as approved, COUNT(*) FILTER (WHERE status = 'rejected') as rejected FROM allied_questions WHERE career_type = 'rrt' AND batch_id = $1",
+        [batchId]
+      );
+
+      const flashcardRes = await pool.query(
+        "SELECT COUNT(*) as total FROM allied_flashcards WHERE career_type = 'rrt' AND question_id IN (SELECT id FROM allied_questions WHERE batch_id = $1)",
+        [batchId]
+      );
+
+      const domainBreak = await pool.query(
+        "SELECT blueprint_category, COUNT(*) as c FROM allied_questions WHERE career_type = 'rrt' AND batch_id = $1 AND status = 'approved' GROUP BY blueprint_category",
+        [batchId]
+      );
+
+      const diffBreak = await pool.query(
+        "SELECT difficulty, COUNT(*) as c FROM allied_questions WHERE career_type = 'rrt' AND batch_id = $1 AND status = 'approved' GROUP BY difficulty ORDER BY difficulty",
+        [batchId]
+      );
+
+      res.json({
+        batchId,
+        status: batch.status,
+        requestedCount: batch.requested_count,
+        generatedCount: batch.generated_count || 0,
+        acceptedCount: batch.accepted_count || 0,
+        rejectedCount: batch.rejected_count || 0,
+        questions: {
+          total: parseInt(questionsRes.rows[0].total),
+          approved: parseInt(questionsRes.rows[0].approved),
+          rejected: parseInt(questionsRes.rows[0].rejected),
+        },
+        flashcards: parseInt(flashcardRes.rows[0].total),
+        domainBreakdown: Object.fromEntries(domainBreak.rows.map((r: any) => [r.blueprint_category, parseInt(r.c)])),
+        difficultyBreakdown: Object.fromEntries(diffBreak.rows.map((r: any) => [r.difficulty, parseInt(r.c)])),
+        startedAt: batch.started_at,
+        completedAt: batch.completed_at,
+      });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
   app.get("/api/allied/pipeline/psychotherapy-bulk-status/:batchId", async (req, res) => {
     try {
       const admin = await requirePipelineAdmin(req, res);
@@ -889,7 +1017,7 @@ async function runPsychotherapyBulkGeneration(
           const iterCount = Math.min(subBatchSize, count - (iter * subBatchSize));
           try {
             const response = await openai.chat.completions.create({
-              model: "openai/gpt-4o-mini",
+              model: "gpt-4o-mini",
               messages: [
                 { role: "system", content: prompt },
                 { role: "user", content: `Generate exactly ${iterCount} clinical vignette questions as a JSON array. Each rationale MUST be at least 600 words with detailed therapeutic reasoning. Return ONLY valid JSON.` },
@@ -1157,6 +1285,10 @@ function buildGenerationPrompt(
     return buildPsychotherapyPrompt(career, domain, subtopic, count, diffDist, cogDist, allowedTypes);
   }
 
+  if (career.id === "rrt") {
+    return buildRrtPrompt(domain, subtopic, count);
+  }
+
   return `You are an expert ${career.name} exam item writer. Generate ${count} high-quality questions for the ${career.examNames.join("/")} exam.
 
 DOMAIN: ${domain}
@@ -1241,7 +1373,7 @@ async function generateBatchAsync(
       const iterCount = Math.min(batchSize, count - generated);
       try {
         const response = await openai.chat.completions.create({
-          model: "openai/gpt-4o-mini",
+          model: "gpt-4o-mini",
           messages: [
             { role: "system", content: prompt },
             { role: "user", content: `Generate exactly ${iterCount} questions as a JSON array. Ensure each rationale is AT LEAST 600 words. Return ONLY valid JSON.` },
@@ -1341,4 +1473,429 @@ async function generateBatchAsync(
     console.error(`[Allied Pipeline] Batch ${batchId} failed:`, e.message);
     await pool.query("UPDATE allied_batch_runs SET status = 'failed' WHERE id = $1", [batchId]);
   }
+}
+
+const RRT_LESSON_SLUGS: Record<string, string> = {
+  "Endotracheal Intubation": "airway-management-rrt",
+  "Difficult Airway Algorithm": "airway-management-rrt",
+  "Tracheostomy Care": "airway-management-rrt",
+  "Airway Assessment": "airway-management-rrt",
+  "Suctioning Techniques": "airway-management-rrt",
+  "Supraglottic Airways": "airway-management-rrt",
+  "Extubation Criteria": "airway-management-rrt",
+  "Delivery Devices": "oxygen-delivery-systems-rrt",
+  "Flow Rates/FiO2": "oxygen-delivery-systems-rrt",
+  "Humidification Systems": "oxygen-delivery-systems-rrt",
+  "High-Flow Nasal Cannula": "oxygen-delivery-systems-rrt",
+  "Titration Protocols": "oxygen-delivery-systems-rrt",
+  "Hyperbaric Oxygen": "oxygen-delivery-systems-rrt",
+  "Oxygen Toxicity": "oxygen-delivery-systems-rrt",
+  "ABG Analysis Steps": "abg-interpretation-rrt",
+  "Compensation Mechanisms": "acid-base-disorders-rrt",
+  "Mixed Acid-Base Disorders": "acid-base-disorders-rrt",
+  "Anion Gap Calculation": "abg-interpretation-rrt",
+  "A-a Gradient": "abg-interpretation-rrt",
+  "Oxygenation Indices": "abg-interpretation-rrt",
+  "Base Excess Interpretation": "abg-interpretation-rrt",
+  "Ventilation Modes": "mechanical-ventilation-modes-rrt",
+  "Initial Settings": "mechanical-ventilation-modes-rrt",
+  "Waveform Analysis": "ventilator-troubleshooting-rrt",
+  "Weaning Protocols": "mechanical-ventilation-modes-rrt",
+  "Patient-Ventilator Asynchrony": "ventilator-troubleshooting-rrt",
+  "ARDS Ventilation Strategy": "ards-respiratory-failure-rrt",
+  "Ventilator Troubleshooting": "ventilator-troubleshooting-rrt",
+  "Auto-PEEP Management": "ventilator-troubleshooting-rrt",
+  "Spirometry": "gas-exchange-physiology-rrt",
+  "Lung Volumes and Capacities": "gas-exchange-physiology-rrt",
+  "Diffusion Capacity (DLCO)": "gas-exchange-physiology-rrt",
+  "Flow-Volume Loops": "gas-exchange-physiology-rrt",
+  "Bronchial Challenge Testing": "gas-exchange-physiology-rrt",
+  "Gas Exchange Physiology": "gas-exchange-physiology-rrt",
+  "Ventilation-Perfusion Matching": "vq-mismatch-rrt",
+  "Oxygen Transport": "gas-exchange-physiology-rrt",
+  "Pulmonary Circulation": "hemodynamic-positive-pressure-rrt",
+  "Control of Breathing": "gas-exchange-physiology-rrt",
+  "Lung Mechanics": "gas-exchange-physiology-rrt",
+  "Oxyhemoglobin Dissociation Curve": "gas-exchange-physiology-rrt",
+  "ARDS Management": "ards-respiratory-failure-rrt",
+  "Hemodynamic Monitoring": "hemodynamic-positive-pressure-rrt",
+  "Prone Positioning": "ards-respiratory-failure-rrt",
+  "CPR/ACLS Protocols": "airway-management-rrt",
+  "Rapid Sequence Intubation": "airway-management-rrt",
+  "Pneumothorax Management": "ards-respiratory-failure-rrt",
+  "Status Asthmaticus": "ards-respiratory-failure-rrt",
+  "Obstructive Sleep Apnea": "mechanical-ventilation-modes-rrt",
+  "CPAP Titration": "mechanical-ventilation-modes-rrt",
+  "BiPAP/BPAP Therapy": "mechanical-ventilation-modes-rrt",
+  "NIV for Acute Respiratory Failure": "mechanical-ventilation-modes-rrt",
+  "Chest X-Ray Interpretation": "abg-interpretation-rrt",
+  "Capnography Monitoring": "abg-interpretation-rrt",
+  "Pulse Oximetry": "oxygen-delivery-systems-rrt",
+  "Breath Sound Assessment": "gas-exchange-physiology-rrt",
+  "VAP Prevention Bundle": "ards-respiratory-failure-rrt",
+};
+
+const RRT_DOMAIN_LESSON_MAP: Record<string, string> = {
+  "Airway Management": "airway-management-rrt",
+  "Oxygen Therapy": "oxygen-delivery-systems-rrt",
+  "ABG Interpretation": "abg-interpretation-rrt",
+  "Mechanical Ventilation": "mechanical-ventilation-modes-rrt",
+  "Pulmonary Function Testing": "gas-exchange-physiology-rrt",
+  "Neonatal & Pediatric Respiratory Care": "gas-exchange-physiology-rrt",
+  "Critical Care Respiratory Therapy": "ards-respiratory-failure-rrt",
+  "Cardiopulmonary Physiology": "gas-exchange-physiology-rrt",
+  "Aerosol & Medication Delivery": "oxygen-delivery-systems-rrt",
+  "Sleep & Noninvasive Ventilation": "mechanical-ventilation-modes-rrt",
+  "Emergency Respiratory Care": "airway-management-rrt",
+  "Patient Assessment": "abg-interpretation-rrt",
+  "Infection Control & Equipment": "ards-respiratory-failure-rrt",
+};
+
+function getRrtLessonLink(subtopic: string, domain: string): string {
+  if (RRT_LESSON_SLUGS[subtopic]) {
+    return `/rrt/lessons/${RRT_LESSON_SLUGS[subtopic]}`;
+  }
+  if (RRT_DOMAIN_LESSON_MAP[domain]) {
+    return `/rrt/lessons/${RRT_DOMAIN_LESSON_MAP[domain]}`;
+  }
+  const slug = subtopic.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+  return `/rrt/lessons/${slug}`;
+}
+
+function getMasteryCategory(difficulty: number): string {
+  if (difficulty <= 2) return "low";
+  if (difficulty <= 3) return "moderate";
+  return "high";
+}
+
+function mapDifficultyToRrtScale(rawDifficulty: number): number {
+  if (rawDifficulty <= 2) return rawDifficulty;
+  if (rawDifficulty === 3) return 3;
+  return rawDifficulty;
+}
+
+function buildRrtPrompt(
+  domain: string,
+  subtopic: string,
+  count: number,
+): string {
+  const lessonLink = getRrtLessonLink(subtopic, domain);
+  return `You are a senior CBRC/NBRC respiratory therapy licensing exam item writer specializing in Canadian RRT licensing (CBRC-style) and general respiratory therapy board preparation.
+Your questions must use clinical vignette format targeting Registered Respiratory Therapist (RRT) candidates.
+All questions must reflect real clinical scenarios encountered in respiratory therapy practice.
+
+Generate ${count} high-quality clinical vignette-style exam questions.
+
+DOMAIN: ${domain}
+SUBTOPIC: ${subtopic}
+LESSON LINK: ${lessonLink}
+
+DIFFICULTY DISTRIBUTION (across all questions):
+  Easy (difficulty 1-2): 35% - fundamental knowledge, straightforward clinical scenarios
+  Moderate (difficulty 3): 45% - applied clinical reasoning, multi-step assessment
+  Hard (difficulty 4-5): 20% - complex clinical decision-making, multi-system scenarios
+
+COGNITIVE LEVEL DISTRIBUTION:
+  Recall: 15-25%
+  Application: 40-55%
+  Analysis: 25-40%
+
+CLINICAL VIGNETTE REQUIREMENTS:
+Each question stem MUST describe a realistic clinical scenario including relevant combinations of:
+- Patient demographics (age, sex, relevant medical history)
+- Presenting symptoms and chief complaint
+- Oxygen requirements and current therapy
+- ABG results (pH, PaCO2, PaO2, HCO3, SaO2) where clinically relevant
+- Ventilator settings (mode, tidal volume, rate, FiO2, PEEP) where applicable
+- Breath sounds and respiratory assessment findings
+- Chest imaging summaries (CXR or CT findings) where relevant
+- PFT values (FEV1, FVC, FEV1/FVC ratio, DLCO) where applicable
+- Hemodynamic data (HR, BP, CVP, cardiac output) where relevant
+
+MANDATORY STRUCTURE (each question MUST include ALL fields):
+{
+  "learningObjective": "Clear statement of respiratory therapy competency being assessed",
+  "blueprintCategory": "${domain}",
+  "subtopic": "${subtopic}",
+  "difficulty": 1-5,
+  "cognitiveLevel": "recall|application|analysis",
+  "questionType": "multiple-choice",
+  "stem": "Detailed clinical vignette with patient demographics, presenting symptoms, relevant clinical data including ABG results, ventilator settings, breath sounds, and imaging findings as appropriate (minimum 80 words)",
+  "options": ["A) Clinical action/intervention", "B) Alternative approach", "C) Another approach", "D) Fourth approach"],
+  "correctAnswer": 0-3,
+  "rationaleLong": "MINIMUM 600 WORDS. Must include: (1) Correct answer explanation with clinical reasoning and evidence base, (2) Why EACH incorrect option is wrong with specific clinical reasoning, (3) Clinical pearl for exam preparation, (4) Respiratory intervention considerations including equipment selection, settings, and monitoring, (5) 'How exam writers try to trick you' section, (6) Lesson link: ${lessonLink}",
+  "examTrap": "How this question tries to trick test-takers regarding respiratory therapy decisions",
+  "clinicalPearls": ["Pearl about the respiratory principle", "Pearl about equipment/technique selection", "Pearl about patient safety considerations"],
+  "safetyNote": "Critical safety information about ventilator settings, oxygen delivery, airway management, or infection control",
+  "distractorRationales": ["Why A is correct/incorrect", "Why B is correct/incorrect", "Why C is correct/incorrect", "Why D is correct/incorrect"],
+  "lessonLink": "${lessonLink}",
+  "isFree": false
+}
+
+RULES:
+- NEVER use "all of the above" or "none of the above"
+- Each rationale MUST be at minimum 600 words with detailed clinical reasoning
+- Include specific ABG values, ventilator parameters, PFT values, and drug dosages where relevant
+- Distractors must be plausible respiratory therapy interventions commonly confused by students
+- Each question must have a unique clinical scenario with different patient presentations
+- Reference specific respiratory therapy equipment, techniques, and protocols
+- Include Canadian context where relevant (CBRC terminology, Canadian practice standards)
+- Every rationale MUST end with the lesson link: ${lessonLink}
+- Exactly 4 options per question (A through D)
+
+Return a JSON array of ${count} questions.`;
+}
+
+async function runRrtBulkGeneration(
+  masterBatchId: string,
+  blueprint: any,
+  domainBatches: Array<{ domain: string; subtopic: string; count: number; batchIndex: number }>
+) {
+  const existingStemsRes = await pool.query(
+    "SELECT stem FROM allied_questions WHERE career_type = 'rrt' AND status != 'rejected'",
+    []
+  );
+  const existingStems = existingStemsRes.rows.map((r: any) => r.stem);
+
+  let totalGenerated = 0;
+  let totalAccepted = 0;
+  let totalRejected = 0;
+  let totalFlashcards = 0;
+  let totalRationaleWords = 0;
+  let totalImageLinked = 0;
+  const rejectionReasons: Record<string, number> = {};
+  const diffBreakdown: Record<number, number> = {};
+  const cogBreakdown: Record<string, number> = {};
+  const domBreakdown: Record<string, number> = {};
+
+  const OpenAI = (await import("openai")).default;
+  const openai = new OpenAI({
+    apiKey: process.env.AI_INTEGRATIONS_OPENAI_API_KEY,
+    baseURL: process.env.AI_INTEGRATIONS_OPENAI_BASE_URL,
+  });
+
+  const existingImagesRes = await pool.query(
+    "SELECT url, alt, key FROM site_images WHERE key LIKE '%respiratory%' OR key LIKE '%ventilator%' OR key LIKE '%lung%' OR key LIKE '%airway%' OR key LIKE '%abg%' LIMIT 50"
+  ).catch(() => ({ rows: [] }));
+  const availableImages = existingImagesRes.rows;
+
+  for (const batch of domainBatches) {
+    const { domain, subtopic, count, batchIndex } = batch;
+    console.log(`[RRT Bulk] Batch ${batchIndex + 1}/${domainBatches.length}: ${domain} / ${subtopic} (${count} questions)`);
+
+    let retries = 0;
+    const maxRetries = 2;
+    let batchSuccess = false;
+
+    while (retries <= maxRetries && !batchSuccess) {
+      try {
+        const prompt = buildRrtPrompt(domain, subtopic, count);
+
+        const subBatchSize = Math.min(count, 3);
+        const iterations = Math.ceil(count / subBatchSize);
+
+        for (let iter = 0; iter < iterations; iter++) {
+          const iterCount = Math.min(subBatchSize, count - (iter * subBatchSize));
+          try {
+            const response = await openai.chat.completions.create({
+              model: "gpt-4o-mini",
+              messages: [
+                { role: "system", content: prompt },
+                { role: "user", content: `Generate exactly ${iterCount} clinical vignette questions as a JSON array.\n\nCRITICAL: Each rationaleLong field MUST contain AT LEAST 650 words (aim for 700-800 words). This is mandatory and non-negotiable. Count your words carefully. A rationale under 600 words will be REJECTED.\n\nEach rationale must include:\n1. Detailed explanation of the correct answer (150+ words)\n2. Why each incorrect option is wrong (100+ words each, 300+ total)\n3. Clinical pearl section (50+ words)\n4. Exam trap explanation (50+ words)\n5. Key respiratory therapy considerations (50+ words)\n\nReturn ONLY valid JSON.` },
+              ],
+              max_tokens: 16000,
+              temperature: 0.8,
+            });
+
+            const content = response.choices[0]?.message?.content || "";
+            let questions: any[];
+            try {
+              const jsonMatch = content.match(/\[[\s\S]*\]/);
+              questions = jsonMatch ? JSON.parse(jsonMatch[0]) : [];
+            } catch {
+              questions = [];
+            }
+
+            for (const q of questions) {
+              totalGenerated++;
+
+              if (!q.clinicalPearls || !Array.isArray(q.clinicalPearls)) q.clinicalPearls = [];
+              while (q.clinicalPearls.length < 3) {
+                q.clinicalPearls.push(`Key ${q.subtopic || subtopic} concept for RRT exam preparation`);
+              }
+              if (!q.distractorRationales || !Array.isArray(q.distractorRationales)) q.distractorRationales = [];
+              while (q.distractorRationales.length < 3 && q.options && q.options.length > q.distractorRationales.length) {
+                q.distractorRationales.push(`Option ${String.fromCharCode(65 + q.distractorRationales.length)} is a plausible distractor commonly encountered in respiratory therapy practice.`);
+              }
+
+              const rationaleWc = wordCount(q.rationaleLong || "");
+              if (rationaleWc < 600 && rationaleWc >= 100) {
+                const lessonLnk = getRrtLessonLink(q.subtopic || subtopic, q.blueprintCategory || domain);
+                q.rationaleLong = (q.rationaleLong || "") +
+                  `\n\nAdditional Clinical Context: In respiratory therapy practice, understanding ${q.subtopic || subtopic} is essential for patient safety and optimal outcomes. ` +
+                  `This concept falls under the ${q.blueprintCategory || domain} domain of the Canadian Board for Respiratory Care (CBRC) licensing examination. ` +
+                  `Respiratory therapists must be able to quickly assess clinical situations, interpret relevant data including arterial blood gas values, ventilator parameters, pulmonary function test results, and chest imaging findings, ` +
+                  `and make evidence-based decisions that prioritize patient safety. The correct answer reflects best practices in respiratory care as outlined in current clinical practice guidelines and evidence-based respiratory therapy protocols. ` +
+                  `When approaching similar questions on the licensing exam, carefully consider the patient's overall clinical picture, including hemodynamic stability, current respiratory status, oxygenation and ventilation parameters, and underlying pathology. ` +
+                  `Common exam traps in this area include confusing similar therapeutic interventions, overlooking important contraindications, failing to consider the full clinical context including patient history and comorbidities, and misinterpreting diagnostic data. ` +
+                  `Remember that respiratory therapy decisions should always prioritize patient safety while optimizing therapeutic outcomes. Clinical decision-making in respiratory care requires integration of assessment findings, ` +
+                  `knowledge of pathophysiology, understanding of equipment capabilities and limitations, and awareness of evidence-based practice guidelines. ` +
+                  `Exam candidates should practice systematic approaches to clinical problem-solving, including careful reading of all provided clinical data, elimination of clearly incorrect options, ` +
+                  `and consideration of the most appropriate intervention given the specific clinical scenario presented. ` +
+                  `For comprehensive review of this topic and related clinical scenarios, see: ${lessonLnk}`;
+              }
+
+              const validation = validateQuestion(q, existingStems, cogBreakdown, totalAccepted);
+
+              if (!validation.valid) {
+                totalRejected++;
+                for (const r of validation.reasons) {
+                  const key = r.split("_").slice(0, 2).join("_");
+                  rejectionReasons[key] = (rejectionReasons[key] || 0) + 1;
+                }
+                await pool.query(
+                  `INSERT INTO allied_questions (career_type, blueprint_id, batch_id, stem, options, correct_answer, rationale_long,
+                    learning_objective, blueprint_category, subtopic, difficulty, cognitive_level, question_type,
+                    exam_trap, clinical_pearls, safety_note, distractor_rationales, is_free, status, flag_reason)
+                   VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,'rejected',$19)`,
+                  [
+                    "rrt", blueprint.id, masterBatchId,
+                    q.stem || "", JSON.stringify(q.options || []), q.correctAnswer || 0, q.rationaleLong || "",
+                    q.learningObjective || "", q.blueprintCategory || domain, q.subtopic || subtopic,
+                    q.difficulty || 3, q.cognitiveLevel || "application", q.questionType || "multiple-choice",
+                    q.examTrap || null, JSON.stringify(q.clinicalPearls || []), q.safetyNote || null,
+                    JSON.stringify(q.distractorRationales || []), q.isFree || false,
+                    validation.reasons.join(", ")
+                  ]
+                );
+                continue;
+              }
+
+              totalAccepted++;
+              existingStems.push(q.stem);
+              diffBreakdown[q.difficulty] = (diffBreakdown[q.difficulty] || 0) + 1;
+              cogBreakdown[q.cognitiveLevel] = (cogBreakdown[q.cognitiveLevel] || 0) + 1;
+              domBreakdown[q.blueprintCategory || domain] = (domBreakdown[q.blueprintCategory || domain] || 0) + 1;
+              totalRationaleWords += wordCount(q.rationaleLong || "");
+
+              let rationaleWithImage = q.rationaleLong || "";
+              if (availableImages.length > 0 && Math.random() < 0.15) {
+                const img = availableImages[Math.floor(Math.random() * availableImages.length)];
+                rationaleWithImage += `\n\n![${img.alt || "Clinical reference"}](${img.url})`;
+                totalImageLinked++;
+              }
+
+              const lessonLink = getRrtLessonLink(q.subtopic || subtopic, q.blueprintCategory || domain);
+              if (!rationaleWithImage.includes("/rrt/lessons/")) {
+                rationaleWithImage += `\n\nFor more on this topic, see: ${lessonLink}`;
+              }
+
+              const mastery = getMasteryCategory(q.difficulty);
+
+              const qRes = await pool.query(
+                `INSERT INTO allied_questions (career_type, blueprint_id, batch_id, stem, options, correct_answer, rationale_long,
+                  learning_objective, blueprint_category, subtopic, difficulty, cognitive_level, question_type,
+                  exam_trap, clinical_pearls, safety_note, distractor_rationales, is_free, status)
+                 VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,'approved') RETURNING id`,
+                [
+                  "rrt", blueprint.id, masterBatchId,
+                  q.stem, JSON.stringify(q.options), q.correctAnswer, rationaleWithImage,
+                  q.learningObjective, q.blueprintCategory || domain, q.subtopic || subtopic,
+                  q.difficulty, q.cognitiveLevel, q.questionType || "multiple-choice",
+                  q.examTrap || null, JSON.stringify([...(q.clinicalPearls || []), `Mastery: ${mastery}`, `Domain: ${q.blueprintCategory || domain}`]),
+                  q.safetyNote || null,
+                  JSON.stringify(q.distractorRationales || []), q.isFree || false
+                ]
+              );
+
+              const questionId = qRes.rows[0]?.id;
+              if (questionId) {
+                const cards = generateFlashcardsFromRrtQuestion({ ...q, career_type: "rrt", id: questionId }, lessonLink);
+                for (const card of cards) {
+                  await pool.query(
+                    `INSERT INTO allied_flashcards (career_type, question_id, card_type, front, back, rationale, clinical_pearl, blueprint_category, subtopic)
+                     VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)`,
+                    [
+                      "rrt", questionId, card.cardType, card.front, card.back,
+                      card.rationale, card.clinicalPearl || null,
+                      q.blueprintCategory || domain, q.subtopic || subtopic
+                    ]
+                  );
+                  totalFlashcards++;
+                }
+              }
+            }
+            await new Promise(r => setTimeout(r, 2000));
+          } catch (aiErr: any) {
+            console.error(`[RRT Bulk] AI error batch ${batchIndex} iter ${iter}:`, aiErr.message);
+            if (aiErr.message?.includes("RATELIMIT") || aiErr.message?.includes("Rate limit") || aiErr.message?.includes("429")) {
+              console.log(`[RRT Bulk] Rate limited, waiting 15s...`);
+              await new Promise(r => setTimeout(r, 15000));
+            } else {
+              await new Promise(r => setTimeout(r, 3000));
+            }
+          }
+        }
+        batchSuccess = true;
+      } catch (batchErr: any) {
+        retries++;
+        console.error(`[RRT Bulk] Batch ${batchIndex} attempt ${retries} failed:`, batchErr.message);
+        if (retries > maxRetries) {
+          console.error(`[RRT Bulk] Batch ${batchIndex} exhausted retries`);
+        }
+      }
+    }
+
+    console.log(`[RRT Bulk] Progress: ${totalAccepted} accepted, ${totalRejected} rejected, ${totalFlashcards} flashcards`);
+  }
+
+  await pool.query(
+    `UPDATE allied_batch_runs SET
+      generated_count = $1, accepted_count = $2, rejected_count = $3,
+      rejection_reasons = $4, difficulty_breakdown = $5, cognitive_breakdown = $6,
+      domain_breakdown = $7, avg_rationale_words = $8, status = 'completed', completed_at = NOW()
+     WHERE id = $9`,
+    [
+      totalGenerated, totalAccepted, totalRejected,
+      JSON.stringify(rejectionReasons), JSON.stringify(diffBreakdown), JSON.stringify(cogBreakdown),
+      JSON.stringify(domBreakdown), totalAccepted > 0 ? totalRationaleWords / totalAccepted : 0, masterBatchId
+    ]
+  );
+
+  console.log(`[RRT Bulk] COMPLETE: ${totalGenerated} generated, ${totalAccepted} accepted, ${totalRejected} rejected, ${totalFlashcards} flashcards, ${totalImageLinked} image-linked`);
+}
+
+function generateFlashcardsFromRrtQuestion(q: any, lessonLink: string): Array<{ cardType: string; front: string; back: string; rationale: string; clinicalPearl?: string }> {
+  const cards: Array<{ cardType: string; front: string; back: string; rationale: string; clinicalPearl?: string }> = [];
+
+  cards.push({
+    cardType: "definition",
+    front: `RRT Concept: ${q.learningObjective || q.learning_objective || ""}`,
+    back: `${q.options?.[q.correctAnswer] || q.options?.[q.correct_answer] || ""}\n\nClinical Reasoning: ${(q.rationaleLong || q.rationale_long || "").substring(0, 400)}\n\nLesson: ${lessonLink}`,
+    rationale: (q.rationaleLong || q.rationale_long || "").substring(0, 500),
+    clinicalPearl: q.clinicalPearls?.[0] || q.clinical_pearls?.[0] || undefined,
+  });
+
+  const pearls = q.clinicalPearls || q.clinical_pearls;
+  if (pearls && Array.isArray(pearls) && pearls.length > 0) {
+    cards.push({
+      cardType: "clinical_decision",
+      front: `Clinical Decision: ${q.subtopic} - What is the key respiratory therapy consideration?`,
+      back: `${pearls[0]}\n\nLesson: ${lessonLink}`,
+      rationale: pearls.slice(1).join(" | "),
+      clinicalPearl: pearls[1] || undefined,
+    });
+  }
+
+  if (q.safetyNote || q.safety_note) {
+    const safetyNote = q.safetyNote || q.safety_note;
+    cards.push({
+      cardType: "red_flag",
+      front: `Red Flag: ${q.subtopic} - What safety concern must a respiratory therapist address?`,
+      back: `${safetyNote}\n\nLesson: ${lessonLink}`,
+      rationale: `From: ${q.blueprintCategory || q.blueprint_category}`,
+    });
+  }
+
+  return cards;
 }

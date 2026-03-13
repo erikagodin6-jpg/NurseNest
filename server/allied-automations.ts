@@ -55,7 +55,7 @@ async function getOpenAI() {
 async function aiGenerate(systemPrompt: string, userPrompt: string, maxTokens = 16000): Promise<string> {
   const openai = await getOpenAI();
   const response = await openai.chat.completions.create({
-    model: "openai/gpt-4o-mini",
+    model: "gpt-4o-mini",
     messages: [
       { role: "system", content: systemPrompt },
       { role: "user", content: userPrompt },

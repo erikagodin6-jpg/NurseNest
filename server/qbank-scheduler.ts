@@ -110,7 +110,7 @@ async function triggerScheduledRun(schedule: any): Promise<void> {
       });
 
       const response = await openai.chat.completions.create({
-        model: "openai/gpt-4o-mini",
+        model: "gpt-4o-mini",
         messages: [
           { role: "system", content: rendered.systemPrompt },
           { role: "user", content: rendered.userPrompt },

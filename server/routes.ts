@@ -15478,7 +15478,7 @@ Return ONLY valid JSON with this exact structure:
       ];
 
       const response = await openai.chat.completions.create({
-        model: "openai/gpt-4o-mini",
+        model: "gpt-4o-mini",
         messages: chatMessages,
         max_tokens: 1500,
         temperature: 0.7,

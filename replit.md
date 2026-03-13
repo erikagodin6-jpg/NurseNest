@@ -59,6 +59,17 @@ Standardizes lesson naming across the platform so every medical topic has one ca
 - **SEO**: Page titles use "Canonical Title | NurseNest" format without tier prefixes. Breadcrumbs strip tier labels on both client and server.
 - **Admin APIs**: `GET /api/admin/canonicalize/preview` (dry-run), `POST /api/admin/canonicalize/run` (execute migration), `POST /api/admin/canonicalize/flashcards` (update flashcard references), `GET /api/admin/canonicalize/validate-title` (validate any title).
 
+### RRT Bulk Question Generation Pipeline
+AI-powered bulk generation of Canadian CBRC-style RRT (Registered Respiratory Therapist) licensing exam questions. Features:
+- **13 RRT Domains**: Airway Management, Oxygen Therapy, ABG Interpretation, Mechanical Ventilation, Pulmonary Function Testing, Neonatal & Pediatric Respiratory Care, Critical Care Respiratory Therapy, Cardiopulmonary Physiology, Aerosol & Medication Delivery, Sleep & Noninvasive Ventilation, Emergency Respiratory Care, Patient Assessment, Infection Control & Equipment
+- **Difficulty Distribution**: Easy 35% / Moderate 45% / Hard 20%
+- **API Endpoints**: `POST /api/allied/pipeline/rrt-bulk-generate` (trigger), `GET /api/allied/pipeline/rrt-bulk-status/:batchId` (monitor)
+- **Question Format**: Clinical vignette-style with ABG values, ventilator settings, PFT data, and detailed rationales (600+ words)
+- **Auto-generates**: Matching flashcards (definition, clinical_decision, red_flag types) for each approved question
+- **Status**: Questions inserted as `status='approved'` with `career_type='rrt'` in `allied_questions` table
+- **Lesson Links**: Maps to 10 RRT lesson slugs (airway-management-rrt, oxygen-delivery-systems-rrt, abg-interpretation-rrt, etc.)
+- **Key Files**: `server/allied-pipeline.ts` (RRT bulk functions), `server/scripts/trigger-rrt-bulk-generation.ts` (blueprint setup), `shared/careers.ts` (domain config)
+
 ### Database Architecture
 The platform uses PostgreSQL with Drizzle ORM for database management, configured via `server/db.ts` with separate environment variables for development and production.
 
