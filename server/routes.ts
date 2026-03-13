@@ -280,6 +280,9 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
   const { registerSeoQuizRoutes } = await import("./seo-quiz-engine");
   registerSeoQuizRoutes(app);
 
+  const { registerExpansionEngineRoutes } = await import("./expansion-engine-routes");
+  registerExpansionEngineRoutes(app);
+
   app.use((req, res, next) => {
     if (req.headers.host === 'nursenest.ca') {
       return res.redirect(301, 'https://www.nursenest.ca' + req.url);
