@@ -1,0 +1,675 @@
+Build a high-authority SEO content hub on NurseNest focused on nursing certifications, nursing specialties, and specialty study pathways. This must feel premium, medically credible, modern, conversion-focused, and aligned with the NurseNest brand aesthetic. The purpose is to rank for high-intent nursing career and study keywords while also converting users into question bank, flashcard, lesson, and mock exam users.
+
+OVERALL GOAL
+
+Create a new NurseNest content cluster that includes:
+1. A main pillar page for Nursing Certifications
+2. A main pillar page for Nursing Specialties
+3. A main pillar page for Specialty Study Pathways
+4. Supporting subpages for individual specialty/certification topics
+5. Strong internal linking to relevant NurseNest lessons, question banks, flashcards, CAT exams, mock exams, and future products
+6. SEO architecture, structured metadata, schema, and conversion CTAs throughout
+7. Clean responsive UI that matches the existing premium NurseNest look and does not feel bloggy or generic
+
+IMPORTANT BUSINESS GOALS
+
+This section must:
+- rank for nursing certification and specialty career keywords
+- position NurseNest as an authority in nursing education and career development
+- help new grads and working nurses understand where they can work and what they can study
+- create internal links that move users into paid products
+- support Canadian and U.S. traffic where appropriate
+- include future-facing content for upcoming exam pathways including the new Canadian NP exam so we can start ranking before competitors
+- be easy to scale later into hundreds of specialty pages
+
+CRITICAL UX REQUIREMENTS
+
+- keep the UI elegant, soft, modern, feminine-clinical, premium, and organized
+- match current NurseNest brand tokens, rounded corners, soft shadows, pastel palette, premium educational feel
+- mobile-first and fully responsive
+- no horizontal overflow
+- no broken breadcrumbs
+- page speed optimized
+- typography must match the site’s font system and feel polished
+- cards, accordions, tables, and CTA blocks should be visually cohesive with the rest of the platform
+
+SITE ARCHITECTURE TO BUILD
+
+Create a new top-level area or equivalent discoverable section for:
+
+/nursing-certifications
+/nursing-specialties
+/study-pathways
+
+Then generate scalable supporting slugs and templates such as:
+/certifications/ccrn
+/certifications/cen
+/certifications/cmsrn
+/certifications/ocn
+/certifications/cna-critical-care
+/certifications/cna-emergency
+/specialties/critical-care-nursing
+/specialties/emergency-nursing
+/specialties/oncology-nursing
+/specialties/perioperative-nursing
+/specialties/pediatric-nursing
+/specialties/cardiac-nursing
+/study-pathways/icu-nurse
+/study-pathways/er-nurse
+/study-pathways/oncology-nurse
+/study-pathways/perioperative-nurse
+/study-pathways/new-grad-critical-care
+
+Make the architecture modular so I can later add 100 to 300 more pages without redesigning the system.
+
+MAIN PILLAR PAGE 1: NURSING CERTIFICATIONS
+
+Create a long-form premium authority page at /nursing-certifications
+
+Suggested H1:
+Nursing Certifications: Complete Guide for Nurses in Canada and the U.S.
+
+Page objectives:
+- explain what nursing certifications are
+- explain why they matter
+- compare certifications by specialty
+- explain how to choose one
+- explain how to study
+- direct users into NurseNest products
+
+Core sections:
+1. Hero section
+   - clear headline
+   - supportive subheadline
+   - CTA buttons to Explore Certifications and Start Studying
+   - visual trust section with stats or proof placeholders
+
+2. What Are Nursing Certifications?
+   - difference between licensure and specialty certification
+   - why nurses pursue certifications
+   - who should consider certification
+   - note differences between employer preference, role requirements, and optional career advancement
+
+3. Benefits of Nursing Certifications
+   - career growth
+   - confidence
+   - clinical specialization
+   - leadership opportunities
+   - salary competitiveness
+   - exam readiness and graduate school preparation
+
+4. Most Popular Nursing Certifications by Specialty
+   Organize into visually attractive specialty groups with cards or accordion sections:
+   - Critical Care
+   - Emergency
+   - Medical-Surgical
+   - Cardiac
+   - Oncology
+   - Pediatrics
+   - Maternal-Newborn
+   - Psychiatric/Mental Health
+   - Community Health
+   - Perioperative
+   - Nephrology
+   - Palliative/Hospice
+   - Orthopaedics
+   - Gastroenterology
+   - Informatics
+   - Leadership/Management
+
+Each certification card should have:
+- certification name
+- abbreviation
+- short explanation
+- common nurse audience
+- care setting
+- study focus
+- “best for” label
+- CTA to related study resources
+- placeholder field or data structure for country/region notes
+
+5. Canadian Nursing Certifications
+   Add a dedicated section focused on Canadian nurses and specialty certification pathways.
+   Include content structure for certifications commonly associated with CNA specialty certification.
+   Make this section easy to update and expand.
+
+6. U.S. Nursing Certifications
+   Add a dedicated section focused on U.S. credentialing pathways and common certifying bodies.
+   Make it easy to scale by specialty and credential type.
+
+7. How to Choose the Right Certification
+   Include filters or at minimum structured content for:
+   - by unit/department
+   - by patient population
+   - by career goal
+   - by new grad versus experienced nurse
+   - by Canada versus U.S.
+   - by interest in bedside, outpatient, leadership, or advanced practice
+
+8. How to Study for Nursing Certifications
+   This section must heavily connect to NurseNest.
+   Include:
+   - practice questions
+   - flashcards
+   - mock exams
+   - adaptive testing
+   - visual learning
+   - case-based reasoning
+   - spaced repetition
+   - linking rationales to full lessons
+
+9. NurseNest Study Tools CTA Section
+   Include premium CTA blocks that link to:
+   - lessons
+   - test bank
+   - flashcards
+   - CAT exams
+   - mock exams
+   - specialty bundles
+   - future certification prep packs
+
+10. FAQ section
+   Examples:
+   - What nursing certification should I get first?
+   - Are nursing certifications worth it?
+   - What are the best certifications for ICU nurses?
+   - What are the best certifications for emergency nurses?
+   - Can new grads get nursing certifications?
+   - What nursing certifications are recognized in Canada?
+   - How do I study for a nursing specialty exam?
+
+11. Related pages section
+   Internal links to nursing specialties and study pathways pages
+
+MAIN PILLAR PAGE 2: NURSING SPECIALTIES
+
+Create a long-form authority page at /nursing-specialties
+
+Suggested H1:
+Nursing Specialties: Career Paths, Certifications, and Study Guides
+
+Purpose:
+- capture searches from nurses exploring departments and career options
+- act as the main hub for “where can nurses work” content
+- bridge department pages with certification pages
+
+Core sections:
+1. Hero
+2. What is a nursing specialty?
+3. How specialties differ by setting, population, acuity, and certification
+4. Browse nursing specialties by category
+5. High-acuity specialties
+6. Outpatient and community specialties
+7. Pediatric and maternal specialties
+8. Mental health and behavioral specialties
+9. Procedural and perioperative specialties
+10. Specialty comparison table
+11. Internal links to specialty pages
+12. CTA to study resources and specialty prep
+
+SPECIALTY GROUPS TO INCLUDE
+
+Include a structured taxonomy for pages and internal navigation covering as many as possible, especially:
+
+Critical and acute care:
+- ICU nursing
+- CICU / cardiac critical care nursing
+- CVICU nursing
+- Neuro ICU nursing
+- Trauma ICU nursing
+- PICU nursing
+- NICU nursing
+- Step-down / progressive care nursing
+- Telemetry nursing
+- Rapid response / code team nursing
+
+Emergency:
+- Emergency nursing
+- Trauma nursing
+- Pediatric emergency nursing
+- Flight nursing
+- Transport nursing
+- Urgent care nursing
+
+Medical and specialty inpatient:
+- Medical-surgical nursing
+- Cardiac nursing
+- Oncology nursing
+- Hematology nursing
+- Nephrology nursing
+- Dialysis nursing
+- Gastroenterology nursing
+- Neurology nursing
+- Stroke nursing
+- Infectious disease nursing
+- Respiratory nursing
+- Pulmonary nursing
+- Endocrine nursing
+- Orthopaedic nursing
+- Rheumatology nursing
+- Palliative care nursing
+- Hospice nursing
+- Pain management nursing
+
+Women’s and children’s health:
+- Labor and delivery nursing
+- Postpartum nursing
+- Maternal-newborn nursing
+- High-risk obstetric nursing
+- Fertility nursing
+- Pediatric nursing
+- Pediatric oncology nursing
+- School nursing
+- Neonatal nursing
+
+Mental health:
+- Psychiatric nursing
+- Child and adolescent mental health nursing
+- Addiction nursing
+- Forensic psychiatric nursing
+- Crisis nursing
+
+Procedural and surgical:
+- Perioperative nursing
+- Operating room nursing
+- PACU nursing
+- Same day surgery nursing
+- Endoscopy nursing
+- Interventional radiology nursing
+- Cath lab nursing
+- Electrophysiology nursing
+
+Community and non-hospital:
+- Community health nursing
+- Public health nursing
+- Home health nursing
+- Occupational health nursing
+- Correctional nursing
+- Remote / northern nursing
+- Military nursing
+- Forensic nursing
+- Case management
+- Nurse navigation
+- Research nursing
+- Informatics nursing
+- Education / faculty nursing
+- Leadership / management nursing
+
+NEW GRAD AND CAREER TRANSITION CONTENT
+Add dedicated sections and templates for:
+- best nursing specialties for new grads
+- how to transition into ICU
+- how to transition into ER
+- how to move from med-surg to specialty care
+- what to study before entering a specialty
+- common interview topics by specialty
+- emotional realities and first-year advice
+
+MAIN PILLAR PAGE 3: STUDY PATHWAYS
+
+Create /study-pathways as a conversion-heavy content hub.
+
+Suggested H1:
+Nursing Study Pathways by Specialty
+
+Goal:
+- explain exactly what a nurse should study if they want a certain specialty
+- bridge free informational traffic into paid study tools
+
+Each pathway section should include:
+- who this path is for
+- recommended foundational knowledge
+- common disease/process categories to master
+- common meds and monitoring to master
+- common procedures/devices to learn
+- common rhythm/lab/assessment topics
+- suggested NurseNest lessons
+- suggested question bank category links
+- suggested flashcards
+- suggested mock exams
+- suggested timeline
+- “start here” CTA
+
+Examples of pathway blocks:
+- ICU Nurse Study Pathway
+- Emergency Nurse Study Pathway
+- Med-Surg Nurse Study Pathway
+- Cardiac Nurse Study Pathway
+- Oncology Nurse Study Pathway
+- Pediatric Nurse Study Pathway
+- NICU Nurse Study Pathway
+- Perioperative Nurse Study Pathway
+- Community Health Nurse Study Pathway
+- Psychiatric Nurse Study Pathway
+- New Canadian NP Exam Study Pathway
+
+IMPORTANT: for every study pathway, link rationale content and question bank rationales to the most appropriate lesson page for that specialty tier whenever such a lesson exists.
+
+INDIVIDUAL PAGE TEMPLATE REQUIREMENTS
+
+Build reusable page templates for:
+1. certification pages
+2. specialty pages
+3. study pathway pages
+
+CERTIFICATION PAGE TEMPLATE
+Each certification page should include:
+- H1 with certification name
+- who it is for
+- what unit or role it aligns with
+- general eligibility overview language without making unsafe or overly specific claims
+- exam topic areas at a high level
+- how to study
+- related NurseNest resources
+- FAQs
+- related specialties
+- related lessons and question banks
+- CTA to start studying
+
+SPECIALTY PAGE TEMPLATE
+Each specialty page should include:
+- H1
+- overview of the specialty
+- where nurses in this specialty work
+- common patient populations
+- common diagnoses and concepts
+- common nursing skills
+- common medications, devices, and monitoring
+- pros and challenges
+- certifications associated with this specialty
+- what to study before applying
+- NurseNest resources
+- FAQ
+- related specialties
+
+STUDY PATHWAY PAGE TEMPLATE
+Each page should include:
+- H1
+- ideal audience
+- what to master first
+- foundational topics
+- advanced topics
+- rhythm/lab/pharmacology/procedure priorities where relevant
+- suggested weekly study plan
+- linked lessons
+- linked practice questions
+- linked flashcards
+- linked mock or CAT-style exams where available
+- CTA for premium study access
+
+CONTENT GENERATION REQUIREMENTS
+
+Generate substantial starter content for the main pages and at least a meaningful first batch of supporting pages. Do not leave them as thin placeholders.
+
+At minimum, auto-generate robust initial content for:
+- /nursing-certifications
+- /nursing-specialties
+- /study-pathways
+- 10 certification pages
+- 15 specialty pages
+- 10 study pathway pages
+
+Prioritize these first:
+Certifications:
+- CCRN
+- CEN
+- CMSRN
+- OCN
+- CNOR
+- CPN
+- PMH-BC
+- CNA Critical Care Nursing
+- CNA Emergency Nursing
+- future-facing page for the new Canadian NP exam study pathway and related prep hub
+
+Specialties:
+- Critical care nursing
+- Emergency nursing
+- Medical-surgical nursing
+- Cardiac nursing
+- Oncology nursing
+- Pediatric nursing
+- Psychiatric nursing
+- Perioperative nursing
+- Community health nursing
+- NICU nursing
+- PICU nursing
+- Telemetry nursing
+- Dialysis nursing
+- Palliative care nursing
+- Cath lab nursing
+
+Study pathways:
+- ICU nurse
+- ER nurse
+- Med-surg nurse
+- Cardiac nurse
+- Oncology nurse
+- Pediatric nurse
+- Psych nurse
+- OR nurse
+- NICU nurse
+- New Canadian NP exam pathway
+
+SEO REQUIREMENTS
+
+Implement strong on-page SEO for every page:
+- unique title tag
+- unique meta description
+- clean slug
+- proper H1/H2/H3 structure
+- internal links
+- breadcrumb support
+- canonical handling
+- FAQ schema where relevant
+- Article or WebPage schema where relevant
+- ItemList schema on index/hub pages where appropriate
+- organization linkage to NurseNest branding if existing schema system supports it
+
+Add keyword-rich but natural content targeting terms like:
+- nursing certifications
+- best nursing certifications
+- nursing specialties
+- nursing career paths
+- how to become an ICU nurse
+- how to become an emergency nurse
+- oncology nurse certification
+- nursing certifications in Canada
+- specialty nursing certifications
+- new grad nurse specialties
+- what to study for ICU nursing
+- Canadian NP exam prep
+- future Canadian nurse practitioner exam
+- nurse specialty study guide
+
+Do not keyword stuff.
+Write content that feels expert, useful, and human.
+
+INTERNAL LINKING REQUIREMENTS
+
+Create strong automatic internal linking between:
+- certification pages and matching specialty pages
+- specialty pages and study pathway pages
+- study pathway pages and relevant lessons
+- study pathway pages and relevant test bank / flashcard / CAT exam sections
+- rationale pages and the correct lesson for that tier when available
+
+Important:
+On question rationales, test bank rationales, CAT exam rationales, and flashcard rationale views, include a contextual link such as:
+“Review the full lesson”
+This must point to the most relevant lesson for that exact concept and correct tier.
+Do not surface wrong-tier lessons.
+RN users should not see RPN or NP lessons.
+NP users should not see RN or RPN lessons unless explicitly intended in admin mapping.
+Remove visible tier labels like RPN, RN, NP from lesson titles shown to end users if the user is already inside that tier. Keep tier logic in the backend if needed, but do not clutter the user-facing titles.
+
+DATA MODEL / CMS / ADMIN REQUIREMENTS
+
+If the site has an admin content system, add or extend models so these pages are manageable.
+
+Need scalable fields such as:
+- page title
+- slug
+- meta title
+- meta description
+- excerpt
+- hero title
+- hero subtitle
+- body content sections
+- related certifications
+- related specialties
+- related study pathways
+- related lesson IDs
+- related question bank categories
+- related flashcard sets
+- related exam products
+- country tags
+- specialty tags
+- certification abbreviation
+- future exam flag
+- featured flag
+- FAQ items
+
+If there is not a CMS for this yet, create a simple admin-manageable content structure rather than hardcoding everything.
+
+Also add admin controls for:
+- publish/unpublish
+- featured ordering
+- SEO preview
+- internal link selection
+- related resource mapping
+- schema toggle or default schema generation
+
+CONVERSION STRATEGY
+
+Every page must include conversion opportunities without feeling spammy.
+
+Use tasteful CTA blocks such as:
+- Start studying this specialty
+- Practice questions for this topic
+- Review flashcards
+- Explore full lessons
+- Try adaptive exams
+- Build your study plan
+- Unlock premium prep
+
+Create at least three CTA styles:
+1. subtle inline CTA
+2. prominent feature card CTA
+3. sticky mobile-friendly CTA bar if appropriate and non-intrusive
+
+Tie CTAs to existing product routes where available.
+
+DESIGN DETAILS
+
+Use premium educational UI components such as:
+- specialty cards
+- certification cards
+- comparison tables
+- expandable FAQs
+- study plan stepper
+- related resources panel
+- sidebar or in-page table of contents on desktop
+- sticky section nav where appropriate
+- soft-highlight callout boxes
+- “best for” labels
+- “study focus” chips
+- elegant empty states if content is still growing
+
+Avoid anything that feels cluttered, generic blog template, or flat corporate.
+
+PERFORMANCE / TECHNICAL REQUIREMENTS
+
+- ensure fully responsive layout
+- avoid layout shift
+- optimize images
+- lazy load noncritical sections if needed
+- maintain accessibility
+- semantic HTML
+- proper heading hierarchy
+- good tap targets on mobile
+- no side scroll
+- no broken links
+- no duplicate meta titles
+- no duplicate H1s
+- preserve or improve current breadcrumb structure
+- ensure no canonicalization issues are introduced
+- ensure sitemap inclusion for all published pages
+- generate internal links so Google can crawl the cluster properly
+
+CONTENT TONE REQUIREMENTS
+
+Tone should be:
+- supportive
+- credible
+- academically polished
+- clear for students and working nurses
+- not robotic
+- not overhyped
+- not legally risky
+- not making definitive claims about eligibility rules that could change
+Use careful wording like:
+“requirements can vary by certifying body and over time”
+instead of hardcoding claims that may become outdated.
+
+FUTURE CANADIAN NP EXAM REQUIREMENT
+
+Very important:
+Create a future-facing content hub and study pathway for the upcoming Canadian NP exam.
+We want to start ranking before the exam fully launches.
+This page should:
+- be clearly future-oriented
+- explain that details may evolve
+- describe expected study categories at a high level
+- link to current NP-relevant foundational lessons and question practice where appropriate
+- be SEO-optimized for future search demand
+- fit naturally into the certifications/study pathways cluster
+
+SAMPLE PAGE RELATIONSHIPS
+
+Examples:
+- CCRN page links to critical care nursing page and ICU nurse study pathway
+- CEN page links to emergency nursing page and ER study pathway
+- CNOR page links to perioperative nursing page and OR study pathway
+- OCN page links to oncology nursing page and oncology pathway
+- CNA Emergency page links to emergency nursing and Canadian emergency study content
+- future Canadian NP exam page links to NP study tools and relevant lessons
+
+CONTENT QUALITY BAR
+
+This must be better than typical thin nursing blogs.
+Content should feel like a hybrid of:
+- nursing education authority site
+- career guidance hub
+- premium exam-prep platform
+
+Do not produce shallow AI filler.
+Make sections genuinely useful and specific.
+Use strong information scent and intuitive organization so users immediately understand where to go next.
+
+IMPLEMENTATION APPROACH
+
+1. Audit current routes/components/styles/content system
+2. Reuse existing design system where possible
+3. Create reusable content page templates
+4. Seed the first batch of pillar and supporting pages
+5. Add internal linking and related resource mapping
+6. Add admin management support if needed
+7. Add metadata/schema/sitemap support
+8. QA desktop and mobile
+9. Ensure all pages connect into existing NurseNest study products
+
+FINAL DELIVERABLE
+
+When finished, provide:
+- list of all new routes/pages created
+- list of reusable components created
+- list of admin/data model changes
+- list of internal linking rules added
+- list of SEO/schema enhancements added
+- summary of how the content connects to lessons/question banks/flashcards/mock exams
+- note any areas where manual content expansion would be most valuable next
+
+Most importantly:
+Do not build this as a generic blog dump.
+Build it as a scalable authority and conversion engine for NurseNest.
