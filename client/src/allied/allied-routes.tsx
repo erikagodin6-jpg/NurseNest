@@ -82,6 +82,7 @@ const ImagingSeoLanding = lazy(() => import("./pages/imaging-seo-landing"));
 import { MltSEOPage } from "./pages/mlt-seo-pages";
 const AlliedQuestionSeoPage = lazy(() => import("./pages/allied-question-seo"));
 const AlliedQuestionsIndexPage = lazy(() => import("./pages/allied-questions-index"));
+import { UnderservedSEOPage, OTQuestionBankPage, OTMockExamsPage, OTStudyPlanPage } from "./pages/underserved-seo-pages";
 
 function LoadingFallback() {
   return (
@@ -275,6 +276,25 @@ export function AlliedRoutes() {
         <Route path="/occupational-therapy/mock-exam">{() => <ProfessionClusterRedirect profession="occupational-therapy" clusterType="mock-exam" />}</Route>
         <Route path="/occupational-therapy/study-guide">{() => <ProfessionClusterRedirect profession="occupational-therapy" clusterType="study-guide" />}</Route>
 
+        <Route path="/social-worker-exam-prep">{() => <UnderservedSEOPage profession="social-worker" pageType="exam-prep" />}</Route>
+        <Route path="/social-worker-career-guide">{() => <UnderservedSEOPage profession="social-worker" pageType="career-guide" />}</Route>
+        <Route path="/social-worker-study-guide">{() => <UnderservedSEOPage profession="social-worker" pageType="study-guide" />}</Route>
+        <Route path="/social-worker-practice-questions">{() => <UnderservedSEOPage profession="social-worker" pageType="practice-questions" />}</Route>
+        <Route path="/psychotherapist-exam-prep">{() => <UnderservedSEOPage profession="psychotherapist" pageType="exam-prep" />}</Route>
+        <Route path="/psychotherapist-career-guide">{() => <UnderservedSEOPage profession="psychotherapist" pageType="career-guide" />}</Route>
+        <Route path="/psychotherapist-study-guide">{() => <UnderservedSEOPage profession="psychotherapist" pageType="study-guide" />}</Route>
+        <Route path="/psychotherapist-practice-questions">{() => <UnderservedSEOPage profession="psychotherapist" pageType="practice-questions" />}</Route>
+        <Route path="/addictions-counsellor-exam-prep">{() => <UnderservedSEOPage profession="addictions-counsellor" pageType="exam-prep" />}</Route>
+        <Route path="/addictions-counsellor-career-guide">{() => <UnderservedSEOPage profession="addictions-counsellor" pageType="career-guide" />}</Route>
+        <Route path="/addictions-counsellor-study-guide">{() => <UnderservedSEOPage profession="addictions-counsellor" pageType="study-guide" />}</Route>
+        <Route path="/addictions-counsellor-practice-questions">{() => <UnderservedSEOPage profession="addictions-counsellor" pageType="practice-questions" />}</Route>
+        <Route path="/occupational-therapy-exam-prep">{() => <UnderservedSEOPage profession="occupational-therapy" pageType="exam-prep" />}</Route>
+        <Route path="/occupational-therapy-career-guide">{() => <UnderservedSEOPage profession="occupational-therapy" pageType="career-guide" />}</Route>
+        <Route path="/occupational-therapy-study-guide">{() => <UnderservedSEOPage profession="occupational-therapy" pageType="study-guide" />}</Route>
+        <Route path="/occupational-therapy-practice-questions">{() => <UnderservedSEOPage profession="occupational-therapy" pageType="practice-questions" />}</Route>
+        <Route path="/occupational-therapist/question-bank" component={OTQuestionBankPage} />
+        <Route path="/occupational-therapist/mock-exams" component={OTMockExamsPage} />
+        <Route path="/occupational-therapist/study-plan" component={OTStudyPlanPage} />
         <Route path="/careers/:careerSlug/mock-exams" component={AlliedMockExams} />
         <Route path="/careers/:careerSlug/dashboard" component={AlliedDashboard} />
         <Route path="/careers/:careerSlug/study-plan" component={AlliedStudyPlan} />

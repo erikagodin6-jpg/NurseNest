@@ -150,7 +150,7 @@ export function hostRedirectMiddleware(req: Request, res: Response, next: NextFu
 }
 
 export function generateAlliedSitemap(baseUrl: string): string {
-  const careers = ["rrt", "paramedic", "pharmacy-tech", "mlt", "imaging"];
+  const careers = ["rrt", "paramedic", "pharmacy-tech", "mlt", "imaging", "social-worker", "psychotherapist", "addictions-counsellor", "occupational-therapy"];
 
   const professionHubs = [
     "rrt", "social-work", "psychotherapy", "addictions", "occupational-therapy",
@@ -163,6 +163,22 @@ export function generateAlliedSitemap(baseUrl: string): string {
     "rrt-practice-questions",
     "rrt-mock-exam",
     "rrt-study-guide",
+    "social-worker-exam-prep",
+    "social-worker-career-guide",
+    "social-worker-study-guide",
+    "social-worker-practice-questions",
+    "psychotherapist-exam-prep",
+    "psychotherapist-career-guide",
+    "psychotherapist-study-guide",
+    "psychotherapist-practice-questions",
+    "addictions-counsellor-exam-prep",
+    "addictions-counsellor-career-guide",
+    "addictions-counsellor-study-guide",
+    "addictions-counsellor-practice-questions",
+    "occupational-therapy-exam-prep",
+    "occupational-therapy-career-guide",
+    "occupational-therapy-study-guide",
+    "occupational-therapy-practice-questions",
   ];
 
   const drugClassSlugs = [
@@ -188,6 +204,15 @@ export function generateAlliedSitemap(baseUrl: string): string {
   }
 
   for (const page of seoLandingPages) {
+    urls.push(`<url><loc>${baseUrl}/${page}</loc><changefreq>monthly</changefreq><priority>0.8</priority><lastmod>${now}</lastmod></url>`);
+  }
+
+  const otNamespacedPages = [
+    "occupational-therapist/question-bank",
+    "occupational-therapist/mock-exams",
+    "occupational-therapist/study-plan",
+  ];
+  for (const page of otNamespacedPages) {
     urls.push(`<url><loc>${baseUrl}/${page}</loc><changefreq>monthly</changefreq><priority>0.8</priority><lastmod>${now}</lastmod></url>`);
   }
 
