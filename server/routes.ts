@@ -241,6 +241,9 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
   registerImagingLibraryRoutes(app);
   registerInstitutionalRoutes(app);
 
+  const { registerTranslationAuditRoutes } = await import("./translation-audit-routes");
+  registerTranslationAuditRoutes(app);
+
   const { registerImagingMonetizationRoutes } = await import("./imaging-monetization-routes");
   registerImagingMonetizationRoutes(app);
 

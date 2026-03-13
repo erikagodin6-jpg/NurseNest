@@ -286,6 +286,39 @@ export async function ensureSchemaSync(pool: pg.Pool): Promise<void> {
       );
     `);
 
+    await client.query(`
+      CREATE TABLE IF NOT EXISTS translation_audits (
+        id varchar PRIMARY KEY DEFAULT gen_random_uuid(),
+        content_id text NOT NULL,
+        content_type text NOT NULL,
+        url text,
+        locale text NOT NULL,
+        translation_pct double precision DEFAULT 0,
+        status text DEFAULT 'draft',
+        issue_count integer DEFAULT 0,
+        issue_breakdown jsonb DEFAULT '{}'::jsonb,
+        sitemap_eligible boolean DEFAULT false,
+        noindex boolean DEFAULT false,
+        admin_override boolean DEFAULT false,
+        last_scanned_at timestamp DEFAULT now(),
+        last_content_updated_at timestamp,
+        created_at timestamp NOT NULL DEFAULT now(),
+        updated_at timestamp NOT NULL DEFAULT now()
+      );
+
+      CREATE TABLE IF NOT EXISTS translation_audit_issues (
+        id varchar PRIMARY KEY DEFAULT gen_random_uuid(),
+        audit_id varchar NOT NULL,
+        field_name text NOT NULL,
+        source_value text,
+        localized_value text,
+        issue_type text NOT NULL,
+        category text DEFAULT 'primary_body',
+        status text DEFAULT 'open',
+        created_at timestamp NOT NULL DEFAULT now()
+      );
+    `);
+
     await client.query("COMMIT");
     console.log("[SchemaSync] Ensured all tables and columns exist");
   } catch (err: any) {

@@ -4821,3 +4821,49 @@ export const insertPushSubscriptionSchema = createInsertSchema(pushSubscriptions
 });
 export type PushSubscription = typeof pushSubscriptions.$inferSelect;
 export type InsertPushSubscription = z.infer<typeof insertPushSubscriptionSchema>;
+
+export const translationAudits = pgTable("translation_audits", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  contentId: text("content_id").notNull(),
+  contentType: text("content_type").notNull(),
+  url: text("url"),
+  locale: text("locale").notNull(),
+  translationPct: doublePrecision("translation_pct").default(0),
+  status: text("status").default("draft"),
+  issueCount: integer("issue_count").default(0),
+  issueBreakdown: jsonb("issue_breakdown").default(sql`'{}'::jsonb`),
+  sitemapEligible: boolean("sitemap_eligible").default(false),
+  noindex: boolean("noindex").default(false),
+  adminOverride: boolean("admin_override").default(false),
+  lastScannedAt: timestamp("last_scanned_at").defaultNow(),
+  lastContentUpdatedAt: timestamp("last_content_updated_at"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export const insertTranslationAuditSchema = createInsertSchema(translationAudits).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+export type TranslationAudit = typeof translationAudits.$inferSelect;
+export type InsertTranslationAudit = z.infer<typeof insertTranslationAuditSchema>;
+
+export const translationAuditIssues = pgTable("translation_audit_issues", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  auditId: varchar("audit_id").notNull(),
+  fieldName: text("field_name").notNull(),
+  sourceValue: text("source_value"),
+  localizedValue: text("localized_value"),
+  issueType: text("issue_type").notNull(),
+  category: text("category").default("primary_body"),
+  status: text("status").default("open"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const insertTranslationAuditIssueSchema = createInsertSchema(translationAuditIssues).omit({
+  id: true,
+  createdAt: true,
+});
+export type TranslationAuditIssue = typeof translationAuditIssues.$inferSelect;
+export type InsertTranslationAuditIssue = z.infer<typeof insertTranslationAuditIssueSchema>;
