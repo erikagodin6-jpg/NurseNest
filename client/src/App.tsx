@@ -129,6 +129,8 @@ const ProbabilitySimulatorPage = lazy(() => import("@/pages/probability-simulato
 const SeoPage = lazy(() => import("@/pages/seo-page"));
 const AdminSeoDashboard = lazy(() => import("@/pages/admin-seo-dashboard"));
 const AdminTranslationDashboard = lazy(() => import("@/pages/admin-translation-dashboard"));
+const AdminTranslationCoverage = lazy(() => import("@/pages/admin-translation-coverage"));
+const AdminSeoInspector = lazy(() => import("@/pages/admin-seo-inspector"));
 const AdminContentIntelligence = lazy(() => import("@/pages/admin-content-intelligence"));
 const AdminCatDashboard = lazy(() => import("@/pages/admin-cat-dashboard"));
 const AdminRevenueDashboard = lazy(() => import("@/pages/admin-revenue-dashboard"));
@@ -430,6 +432,8 @@ function AppRoutes() {
         <Route path="/study-guide/:slug" component={SeoPage} />
         <Route path="/admin/seo" component={AdminSeoDashboard} />
         <Route path="/admin/translations" component={AdminTranslationDashboard} />
+        <Route path="/admin/translation-coverage" component={AdminTranslationCoverage} />
+        <Route path="/admin/seo-inspector" component={AdminSeoInspector} />
         <Route path="/admin/content-intelligence" component={AdminContentIntelligence} />
         <Route path="/admin/cat" component={AdminCatDashboard} />
         <Route path="/admin/revenue" component={AdminRevenueDashboard} />

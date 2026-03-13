@@ -11878,6 +11878,137 @@ Return ONLY valid JSON with this exact structure:
     }
   });
 
+  // ─── Translation Coverage & SEO Inspector Routes ──────────────
+  const { auditAllLocales, auditTranslation, getIndexableLocales: getIndexableLocalesForApi, isLocaleIndexable: isLocaleIndexableForApi, getTranslationThreshold, getSupportedLocales: getAuditSupportedLocales } = await import("./translation-audit");
+  const { getPageMeta } = await import("./seo-meta");
+
+  const TRANSLATION_AUDIT_ROUTES = [
+    "/", "/lessons", "/flashcards", "/pricing", "/start-free", "/anatomy",
+    "/med-math", "/lab-values", "/mock-exams", "/clinical-clarity", "/blog",
+    "/pre-nursing", "/question-of-the-day", "/question-bank", "/lectures",
+    "/nursing", "/nursing-specialties", "/faq", "/about", "/contact",
+    "/terms", "/privacy", "/nclex-rn-practice-questions", "/nclex-pn-practice-questions",
+    "/rex-pn-practice-questions", "/np-exam-practice-questions", "/free-practice",
+    "/practice-questions", "/glossary", "/medication-mastery",
+  ];
+
+  app.get("/api/admin/translation-coverage", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+
+      const routeFilter = req.query.route as string | undefined;
+      const localeFilter = req.query.locale as string | undefined;
+      const routes = routeFilter ? [routeFilter] : TRANSLATION_AUDIT_ROUTES;
+      const locales = getAuditSupportedLocales() as readonly string[];
+
+      const results: any[] = [];
+      for (const route of routes) {
+        for (const locale of locales) {
+          if (localeFilter && locale !== localeFilter) continue;
+          const audit = auditTranslation(locale as any, route);
+          results.push(audit);
+        }
+      }
+
+      res.json({
+        threshold: getTranslationThreshold(),
+        indexableLocales: getIndexableLocalesForApi(),
+        totalRoutes: routes.length,
+        totalLocales: locales.length,
+        results,
+        generatedAt: new Date().toISOString(),
+      });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/admin/translation-coverage/summary", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+
+      const locales = getAuditSupportedLocales() as readonly string[];
+      const summary = locales.map(locale => {
+        const audit = auditTranslation(locale as any);
+        return {
+          locale,
+          percentage: audit.percentage,
+          translatedKeys: audit.translatedKeys,
+          totalKeys: audit.totalKeys,
+          readiness: audit.readiness,
+          isIndexable: audit.isIndexable,
+        };
+      });
+
+      res.json({
+        threshold: getTranslationThreshold(),
+        summary,
+        generatedAt: new Date().toISOString(),
+      });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/admin/seo-inspector", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+
+      const pagePath = (req.query.path as string) || "/";
+      const locale = (req.query.locale as string) || "en";
+
+      const fullPath = locale === "en" ? `/en${pagePath === "/" ? "" : pagePath}` : `/${locale}${pagePath === "/" ? "" : pagePath}`;
+      const meta = getPageMeta(fullPath);
+      const translationAudit = auditTranslation(locale as any, pagePath);
+      const indexableLocales = getIndexableLocalesForApi();
+
+      const hreflangSet = indexableLocales.map(loc => ({
+        locale: loc,
+        url: `https://www.nursenest.ca/${loc}${pagePath === "/" ? "" : pagePath}`,
+        isIndexable: isLocaleIndexableForApi(loc),
+      }));
+
+      const warnings: string[] = [];
+      if (!translationAudit.isIndexable && !meta.noindex) {
+        warnings.push(`Locale "${locale}" is below ${getTranslationThreshold()}% translation threshold but page is not marked noindex`);
+      }
+      if (meta.canonical && !meta.canonical.includes(`/${locale}`)) {
+        warnings.push(`Canonical URL points to a different language than the current locale`);
+      }
+      if (translationAudit.percentage < 50) {
+        warnings.push(`Excessive English fallback: only ${translationAudit.percentage}% translated`);
+      }
+      if (indexableLocales.length < 2) {
+        warnings.push(`Incomplete hreflang set: only ${indexableLocales.length} indexable locale(s)`);
+      }
+
+      res.json({
+        url: fullPath,
+        locale,
+        canonical: meta.canonical,
+        robotsStatus: meta.noindex ? "noindex, follow" : "index, follow",
+        hreflangSet,
+        sitemapInclusion: translationAudit.isIndexable && !meta.noindex,
+        translation: {
+          percentage: translationAudit.percentage,
+          translatedKeys: translationAudit.translatedKeys,
+          totalKeys: translationAudit.totalKeys,
+          readiness: translationAudit.readiness,
+          untranslatedKeys: translationAudit.untranslatedKeys.slice(0, 20),
+        },
+        warnings,
+        title: meta.title,
+        description: meta.description,
+        generatedAt: new Date().toISOString(),
+      });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
   // ─── Trust Showcase Routes ──────────────────────────────────
 
   const trustShowcasePath = nodePath.join(process.cwd(), "client/src/data/trustShowcase.json");

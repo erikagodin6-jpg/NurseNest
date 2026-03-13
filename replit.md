@@ -44,6 +44,7 @@ The platform also includes:
 - **Mobile Bottom Navigation**: Fixed bottom navigation for mobile with an offline indicator.
 - **Multi-Profession Framework**: Dynamic profession management system allowing admins to add/configure new healthcare professions with shared infrastructure.
 - **Universal Question Bank Importer**: Bulk question import system supporting CSV, JSON, and XLSX, with validation, duplicate detection, and an audit trail.
+- **Multilingual SEO & Translation System**: Server-rendered hreflang/canonical tags with locale-aware meta injection, translation completeness auditing (95% threshold for indexing), multilingual sitemap generation (only indexable locales), /index.html deduplication (301 redirects), DB content translation guard, admin Translation Coverage Dashboard (`/admin/translation-coverage`), admin SEO Inspector (`/admin/seo-inspector`), and pre-deploy validation script (`scripts/validate-seo.ts`). Key files: `server/translation-audit.ts`, `server/seo-meta.ts`.
 
 ### Database Architecture
 The platform uses PostgreSQL with Drizzle ORM for database management, configured via `server/db.ts` with separate environment variables for development and production.

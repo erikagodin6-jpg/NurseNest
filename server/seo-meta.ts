@@ -2,8 +2,11 @@ import { pool } from "./storage";
 import * as fs from "fs";
 import * as path from "path";
 import { seoTitleMap } from "./seo-title-map";
+import { isLocaleIndexable, getIndexableLocales, getHreflangCode, getLocaleDirection } from "./translation-audit";
 
 const SITE_BASE = "https://www.nursenest.ca";
+
+const SUPPORTED_LOCALES_LIST = ["en", "fr", "es", "fil", "hi", "zh", "ar", "ko", "pt", "pa", "vi", "ht", "ur", "ja", "fa"];
 
 let lessonSeoData: Record<string, any> | null = null;
 function getLessonSeoData(): Record<string, any> {
@@ -591,13 +594,19 @@ async function fetchContentForPath(pathname: string): Promise<{ title: string; c
 export function getPageMeta(pathname: string): PageMeta {
   let cleanPath = pathname.split("?")[0].split("#")[0].replace(/\/+$/, "") || "/";
   const localeMatch = cleanPath.match(/^\/(en|fr|es|fil|hi|zh|ar|ko|pt|pa|vi|ht|ur|ja|fa)(\/.*|$)/);
-  const locale = localeMatch ? localeMatch[1] : "en";
+  const detectedLocale = localeMatch ? localeMatch[1] : "en";
   const strippedPath = localeMatch ? (localeMatch[2] || "/") : cleanPath;
-  const localePrefix = `/${locale}`;
-  const canonical = strippedPath === "/"
-    ? `${SITE_BASE}${localePrefix}/`
-    : `${SITE_BASE}${localePrefix}${strippedPath}`;
-  const noindex = isNoindexPath(strippedPath);
+
+  const localePrefix = `/${detectedLocale}`;
+  const localeIsIndexable = isLocaleIndexable(detectedLocale);
+  const isNoindexRoute = isNoindexPath(strippedPath);
+  const noindex = isNoindexRoute || !localeIsIndexable;
+
+  const selfCanonicalPath = strippedPath === "/" ? localePrefix : `${localePrefix}${strippedPath}`;
+  const canonical = localeIsIndexable && !isNoindexRoute
+    ? `${SITE_BASE}${selfCanonicalPath}`
+    : `${SITE_BASE}/en${strippedPath === "/" ? "" : strippedPath}`;
+
   const breadcrumbs = buildBreadcrumbs(strippedPath);
   cleanPath = strippedPath;
 
@@ -810,8 +819,22 @@ export function getPageMeta(pathname: string): PageMeta {
 
 export async function injectMeta(html: string, pathname: string): Promise<string> {
   const localeMatch = pathname.match(/^\/(en|fr|es|fil|hi|zh|ar|ko|pt|pa|vi|ht|ur|ja|fa)(\/.*|$)/);
+  const detectedLocale = localeMatch ? localeMatch[1] : "en";
   const strippedPath = localeMatch ? (localeMatch[2] || "/") : pathname;
   const meta = getPageMeta(pathname);
+
+  html = html.replace(
+    /<html\s+lang="[^"]*"/,
+    `<html lang="${detectedLocale}"`
+  );
+
+  const dir = getLocaleDirection(detectedLocale);
+  if (dir === "rtl") {
+    html = html.replace(
+      /<html\s+lang="[^"]*"/,
+      `<html lang="${detectedLocale}" dir="rtl"`
+    );
+  }
 
   const contentData = await fetchContentForPath(strippedPath);
   if (contentData) {
@@ -842,7 +865,7 @@ export async function injectMeta(html: string, pathname: string): Promise<string
         "name": "NurseNest",
         "url": SITE_BASE,
       },
-      "inLanguage": localeMatch ? localeMatch[1] : "en",
+      "inLanguage": detectedLocale,
     };
 
     if (isLesson) {
@@ -963,22 +986,29 @@ export async function injectMeta(html: string, pathname: string): Promise<string
     );
   }
 
-  const SUPPORTED_LANGS = ["en", "fr", "es", "fil", "hi", "zh", "ar", "ko", "pt", "pa", "vi", "ht", "ur", "ja", "fa"];
-  const HREFLANG_MAP: Record<string, string> = {
-    en: "en-ca", fr: "fr-ca", es: "es", fil: "fil", hi: "hi",
-    zh: "zh", ar: "ar", ko: "ko", pt: "pt", pa: "pa",
-    vi: "vi", ht: "ht", ur: "ur", ja: "ja", fa: "fa",
-  };
-  const basePath = strippedPath === "/" ? "" : strippedPath;
-  const hreflangTags = SUPPORTED_LANGS.map(lang => {
-    const hreflang = HREFLANG_MAP[lang] || lang;
-    const langUrl = `${SITE_BASE}/${lang}${basePath}`;
-    return `<link rel="alternate" hreflang="${hreflang}" href="${langUrl}" />`;
-  });
-  hreflangTags.push(`<link rel="alternate" hreflang="x-default" href="${SITE_BASE}/en${basePath}" />`);
+  const indexableLocales = getIndexableLocales();
+  const isNoindexRoute = isNoindexPath(strippedPath);
+  const hreflangTags: string[] = [];
+
+  if (!isNoindexRoute) {
+    for (const locale of indexableLocales) {
+      const hreflang = getHreflangCode(locale);
+      const localeUrl = `${SITE_BASE}/${locale}${strippedPath === "/" ? "" : strippedPath}`;
+      hreflangTags.push(`<link rel="alternate" hreflang="${hreflang}" href="${localeUrl}" />`);
+    }
+    hreflangTags.push(`<link rel="alternate" hreflang="x-default" href="${SITE_BASE}/en${strippedPath === "/" ? "" : strippedPath}" />`);
+  }
+
+  if (hreflangTags.length > 0) {
+    html = html.replace(
+      "</head>",
+      `${hreflangTags.join("\n")}\n</head>`
+    );
+  }
+
   html = html.replace(
     "</head>",
-    `${hreflangTags.join("\n")}\n</head>`
+    `<script>window.__INDEXABLE_LOCALES__=${JSON.stringify(indexableLocales)};</script>\n</head>`
   );
 
   if (meta.noscriptContent) {

@@ -34,12 +34,17 @@ export function SEO({ title, description, keywords, canonicalPath, ogType = "web
       el.content = content;
     };
 
-    if (noindex) {
+    const existingRobots = document.querySelector('meta[name="robots"]') as HTMLMetaElement;
+    const serverSetNoindex = existingRobots && existingRobots.content.includes("noindex") && existingRobots.dataset.clientSet !== "true";
+
+    if (noindex || serverSetNoindex) {
       setMeta("robots", "noindex, follow");
+      const el = document.querySelector('meta[name="robots"]') as HTMLMetaElement;
+      if (el) el.dataset.clientSet = noindex ? "true" : "";
     } else {
-      const robotsMeta = document.querySelector('meta[name="robots"]') as HTMLMetaElement;
-      if (robotsMeta && robotsMeta.content.includes("noindex")) {
-        robotsMeta.remove();
+      const robotsEl = document.querySelector('meta[name="robots"]') as HTMLMetaElement;
+      if (robotsEl) {
+        robotsEl.remove();
       }
     }
 
@@ -91,7 +96,8 @@ export function SEO({ title, description, keywords, canonicalPath, ogType = "web
       if (!ssrHreflangsCorrect) {
         existingHreflangs.forEach(el => el.remove());
 
-        for (const locale of SUPPORTED_LOCALES) {
+        const indexableLocales: string[] = (window as any).__INDEXABLE_LOCALES__ || SUPPORTED_LOCALES;
+        for (const locale of indexableLocales) {
           const altLink = document.createElement("link");
           altLink.rel = "alternate";
           altLink.hreflang = locale;
