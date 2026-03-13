@@ -1,0 +1,164 @@
+Build a scalable programmatic SEO lesson system for the NurseNest platform.
+
+TECH STACK
+Vite + React frontend
+Express backend
+PostgreSQL database
+
+GOAL
+Generate thousands of SEO optimized lesson pages automatically for nursing and allied health topics.
+
+DATABASE STRUCTURE
+
+Create table: lessons
+
+Fields:
+id
+slug
+title
+category
+sub_category
+tier
+summary
+definition
+pathophysiology
+signs_symptoms
+diagnostics
+treatment
+nursing_interventions
+complications
+clinical_pearls
+references
+seo_title
+seo_description
+seo_keywords
+image_url
+created_at
+
+SLUG FORMAT
+
+Generate clean SEO slugs automatically.
+
+Examples:
+cardiac tamponade → /lessons/cardiac-tamponade
+pulmonary embolism → /lessons/pulmonary-embolism
+atrial fibrillation → /lessons/atrial-fibrillation
+
+FRONTEND PAGE TEMPLATE
+
+Create a dynamic lesson page component:
+
+/lessons/[slug]
+
+Page layout order:
+
+Lesson title
+Summary
+Image
+Definition
+Pathophysiology
+Signs and symptoms
+Diagnostics
+Treatment
+Nursing interventions
+Complications
+Clinical pearls
+NCLEX practice question preview
+Flashcards preview
+Related lessons
+
+SEO REQUIREMENTS
+
+Automatically populate:
+
+meta title
+meta description
+structured data schema
+
+Schema type:
+
+MedicalCondition
+FAQPage
+EducationalOccupationalProgram
+
+INTERNAL LINKING
+
+Each lesson must automatically link to:
+
+3 related lessons
+flashcards for the topic
+practice questions for the topic
+
+Example links:
+
+Practice questions on this topic
+Review flashcards
+Related conditions
+
+IMAGE HANDLING
+
+If an image exists for the topic in the image library:
+
+Automatically attach it to the lesson.
+
+Image location:
+
+/public/images/medical
+
+ALT TEXT FORMAT
+
+“Educational medical illustration showing [topic] for nursing students.”
+
+PAYWALL LOGIC
+
+Lesson titles are public.
+
+Lesson content is locked behind subscription tiers.
+
+Preview shows first section only.
+
+TIER RULES
+
+RPN users → RPN lessons
+RN users → RN lessons
+NP users → NP lessons
+
+Remove the words RPN RN NP from lesson titles.
+
+USER INTERFACE
+
+Match NurseNest design:
+
+DM Sans font
+soft pastel theme
+rounded cards
+clean clinical look
+
+ADMIN PANEL
+
+Add lesson management:
+
+Admin menu item:
+
+Content → Lessons
+
+Admin can:
+
+create lessons
+edit lessons
+attach images
+attach flashcards
+attach questions
+toggle public preview
+
+PERFORMANCE
+
+Pages must load fast.
+
+Use server-side rendering for SEO.
+
+Ensure sitemap automatically updates when lessons are added.
+
+END GOAL
+
+System must support 2000+ lessons without performance issues.

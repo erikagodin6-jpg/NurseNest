@@ -1,0 +1,192 @@
+Generate high-quality clinical exam questions for NurseNest specialty and allied health study banks.
+
+IMPORTANT RULES
+
+• Each specialty must receive 500 questions.
+• Each question must include a detailed rationale for every answer choice.
+• Do NOT include rationales for CAT exam questions.
+• Rationales must be educational and link conceptually to relevant lessons when possible.
+• If a related lesson exists on the platform, include a “Review the full lesson” link reference.
+• If a relevant educational image exists in the database, include the image in the rationale.
+
+CONTENT QUALITY REQUIREMENTS
+
+Questions must:
+
+• reflect real clinical decision making
+• resemble NCLEX / licensing exam style
+• include clinical scenarios when appropriate
+• include pharmacology, pathophysiology, assessment, and interventions
+• avoid trivial recall-only questions
+• emphasize prioritization, safety, and critical thinking
+
+Each question must contain:
+
+Question
+Four answer choices
+Correct answer
+Detailed rationale explaining:
+  - why the correct answer is correct
+  - why each incorrect answer is incorrect
+
+Rationales should be 80–150 words and written in a clear teaching style.
+
+DO NOT generate short one-sentence rationales.
+
+FLASHCARD GENERATION
+
+After generating each question, create a flashcard derived from the same concept.
+
+Flashcard format:
+
+Front:
+Key clinical concept
+
+Back:
+Concise explanation (1–3 sentences)
+
+Attach images to flashcards when helpful.
+
+CAT EXAM RULE
+
+For CAT exam questions:
+
+• generate questions only
+• DO NOT include rationales
+• DO NOT include flashcards
+
+DATABASE RULE
+
+All questions must be written to the published production database, NOT the development database.
+
+Before writing questions:
+
+• verify database connection is the production database
+• confirm environment variables match the live deployment
+• log the connection target before writing
+
+SPECIALTY QUESTION BANK TARGET
+
+Generate 500 questions for EACH of the following specialties.
+
+Critical Care
+• ICU Nursing
+• Cardiac ICU
+• Neuro ICU
+• Trauma ICU
+• PICU
+• NICU
+
+Emergency
+• Emergency Nursing
+• Trauma Nursing
+• Pediatric Emergency
+
+Medical Specialties
+• Cardiac Nursing
+• Oncology Nursing
+• Nephrology / Dialysis Nursing
+• Gastroenterology Nursing
+• Neurology / Stroke Nursing
+• Pulmonary / Respiratory Nursing
+• Endocrine Nursing
+
+Procedural / Surgical
+• Perioperative Nursing
+• Operating Room Nursing
+• PACU Nursing
+• Cath Lab Nursing
+• Interventional Radiology Nursing
+• Endoscopy Nursing
+
+Community / Other
+• Public Health Nursing
+• Community Health Nursing
+• Palliative Care Nursing
+• Hospice Nursing
+• Occupational Health Nursing
+
+Allied Health
+
+Generate 500 questions each for:
+
+• Respiratory Therapy
+• Medical Laboratory Technologist
+• Paramedic / Advanced Care Paramedic
+• Radiologic Technologist
+• Diagnostic Sonography
+• Occupational Therapy Assistant
+• Physiotherapy Assistant
+• Pharmacy Technician
+• Surgical Technologist
+• Cardiac Sonographer
+
+IMAGE INTEGRATION
+
+If the platform contains relevant medical images, use them in rationales when appropriate.
+
+Examples:
+• ECG images for cardiac questions
+• X-rays for pulmonary questions
+• lab value diagrams
+• anatomy illustrations
+
+Ensure images are educational and not decorative.
+
+LESSON LINKING
+
+When a question concept corresponds to an existing NurseNest lesson:
+
+Add a contextual reference in the rationale:
+
+“Review the full lesson for a deeper explanation.”
+
+Map the question concept to the most appropriate lesson.
+
+IMPORTANT TIER PROTECTION
+
+Users should only see questions relevant to their tier.
+
+RN users:
+• RN and specialty nursing questions only
+
+NP users:
+• NP and advanced clinical questions
+
+Allied health users:
+• only questions for their profession
+
+Do NOT mix tiers in the same bank.
+
+DUPLICATE PREVENTION
+
+Before inserting a question:
+
+• check for duplicate or near-duplicate questions
+• avoid repeating identical clinical scenarios
+
+If duplicates are detected:
+regenerate the question.
+
+BATCH GENERATION
+
+Generate questions in batches of 50 per specialty to avoid runtime limits.
+
+After each batch:
+
+• validate structure
+• validate answer key
+• validate rationale length
+• write to production database
+
+Continue until each specialty reaches 500 questions.
+
+FINAL OUTPUT REPORT
+
+When complete, provide a report including:
+
+• number of questions generated per specialty
+• number of flashcards created
+• number of images attached
+• confirmation that the production database was used
+• confirmation that CAT exam questions contain no rationales
