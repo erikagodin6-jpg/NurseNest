@@ -271,6 +271,7 @@ export function HeroProofShowcase() {
                       isTransitioning ? "opacity-0" : "opacity-100"
                     }`}
                     loading={activeIndex === 0 ? "eager" : "lazy"}
+                    decoding="async"
                     data-testid="img-proof-featured"
                   />
 
@@ -354,6 +355,7 @@ export function HeroProofShowcase() {
                     alt={item.title}
                     className="w-full h-full object-cover object-top"
                     loading="lazy"
+                    decoding="async"
                   />
                 </button>
               ))}

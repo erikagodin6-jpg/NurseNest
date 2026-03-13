@@ -47,9 +47,11 @@ export function SEO({ title, description, keywords, canonicalPath, ogType = "web
     setMeta("og:title", fullTitle, true);
     setMeta("og:description", description, true);
     setMeta("og:type", ogType, true);
-    setMeta("twitter:title", fullTitle, true);
-    setMeta("twitter:description", description, true);
-    setMeta("twitter:card", "summary_large_image", true);
+    setMeta("og:image", "https://www.nursenest.ca/opengraph.jpg", true);
+    setMeta("twitter:title", fullTitle);
+    setMeta("twitter:description", description);
+    setMeta("twitter:card", "summary_large_image");
+    setMeta("twitter:image", "https://www.nursenest.ca/opengraph.jpg");
 
     const hreflangLinks: HTMLLinkElement[] = [];
 

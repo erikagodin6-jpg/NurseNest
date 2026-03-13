@@ -26,6 +26,7 @@ interface PageMeta {
   noscriptContent?: string;
   noindex?: boolean;
   breadcrumbs?: { name: string; url: string }[];
+  ogImage?: string;
 }
 
 const NOINDEX_PATHS = new Set([
@@ -597,13 +598,109 @@ export function getPageMeta(pathname: string): PageMeta {
   cleanPath = strippedPath;
 
   if (staticPages[cleanPath]) {
-    return {
+    const result: PageMeta = {
       title: staticPages[cleanPath].title,
       description: staticPages[cleanPath].description,
       canonical,
       noindex,
       breadcrumbs,
     };
+    if (cleanPath === "/lessons") {
+      result.jsonLd = JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "ItemList",
+        "name": "Nursing Lessons",
+        "description": "Browse 200+ clinical nursing lessons covering pathophysiology, pharmacology, and patient care.",
+        "url": canonical,
+        "numberOfItems": 200,
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Pathophysiology Lessons", "url": `${SITE_BASE}/en/lessons` },
+          { "@type": "ListItem", "position": 2, "name": "Pharmacology Lessons", "url": `${SITE_BASE}/en/lessons` },
+          { "@type": "ListItem", "position": 3, "name": "Clinical Nursing Skills", "url": `${SITE_BASE}/en/lessons` },
+        ],
+      });
+    } else if (cleanPath === "/flashcards") {
+      result.jsonLd = JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "ItemList",
+        "name": "Nursing Flashcards",
+        "description": "Interactive nursing flashcards covering pharmacology, pathophysiology, and clinical concepts.",
+        "url": canonical,
+        "numberOfItems": 50,
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Pharmacology Flashcards", "url": `${SITE_BASE}/en/flashcards` },
+          { "@type": "ListItem", "position": 2, "name": "Pathophysiology Flashcards", "url": `${SITE_BASE}/en/flashcards` },
+          { "@type": "ListItem", "position": 3, "name": "Clinical Review Flashcards", "url": `${SITE_BASE}/en/flashcards` },
+        ],
+      });
+    } else if (cleanPath === "/question-bank") {
+      result.jsonLd = JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "LearningResource",
+        "name": "Nursing Practice Question Bank",
+        "description": "1,200+ nursing practice questions organized by body system and tier with instant rationale display.",
+        "url": canonical,
+        "learningResourceType": "Quiz",
+        "educationalLevel": "Professional",
+        "provider": { "@type": "Organization", "name": "NurseNest", "url": SITE_BASE },
+      });
+    } else if (cleanPath === "/practice-questions") {
+      result.jsonLd = JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "LearningResource",
+        "name": "Free Nursing Practice Questions",
+        "description": "Free nursing practice questions covering NCLEX and REX-PN content areas with instant rationale display.",
+        "url": canonical,
+        "learningResourceType": "Quiz",
+        "educationalLevel": "Professional",
+        "isAccessibleForFree": true,
+        "provider": { "@type": "Organization", "name": "NurseNest", "url": SITE_BASE },
+      });
+    } else if (cleanPath === "/mock-exams") {
+      result.jsonLd = JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "LearningResource",
+        "name": "Nursing Mock Exams - NCLEX & REX-PN Practice Tests",
+        "description": "Take timed mock exams simulating NCLEX and REX-PN format with performance analytics.",
+        "url": canonical,
+        "learningResourceType": "Practice Exam",
+        "educationalLevel": "Professional",
+        "provider": { "@type": "Organization", "name": "NurseNest", "url": SITE_BASE },
+      });
+    } else if (cleanPath === "/free-practice") {
+      result.jsonLd = JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "LearningResource",
+        "name": "Free Nursing Practice Questions",
+        "description": "Start practicing with free nursing exam questions covering all major clinical content areas.",
+        "url": canonical,
+        "learningResourceType": "Quiz",
+        "educationalLevel": "Professional",
+        "isAccessibleForFree": true,
+        "provider": { "@type": "Organization", "name": "NurseNest", "url": SITE_BASE },
+      });
+    } else if (cleanPath === "/glossary") {
+      result.jsonLd = JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "DefinedTermSet",
+        "name": "Nursing Glossary",
+        "description": "Comprehensive nursing terminology glossary covering clinical, pharmacological, and pathophysiology terms.",
+        "url": canonical,
+      });
+    } else if (cleanPath === "/case-simulations") {
+      result.jsonLd = JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "LearningResource",
+        "name": "Clinical Case Simulations for Nursing Students",
+        "description": "Interactive clinical case simulations with branching decision points, critical thinking challenges, and detailed debriefing.",
+        "url": canonical,
+        "learningResourceType": "Simulation",
+        "educationalLevel": "Professional",
+        "interactivityType": "active",
+        "provider": { "@type": "Organization", "name": "NurseNest", "url": SITE_BASE },
+      });
+    }
+    return result;
   }
 
   const lessonMatch = cleanPath.match(/^\/lessons\/(.+)$/);
@@ -838,6 +935,20 @@ export async function injectMeta(html: string, pathname: string): Promise<string
   html = html.replace(
     /<!--SEO_TW_DESC-->.*?<!--\/SEO_TW_DESC-->/s,
     `<!--SEO_TW_DESC--><meta name="twitter:description" content="${escapeHtml(meta.description)}" /><!--/SEO_TW_DESC-->`
+  );
+
+  const ogImageUrl = meta.ogImage || `${SITE_BASE}/opengraph.jpg`;
+  html = html.replace(
+    /<!--SEO_OG_IMAGE-->.*?<!--\/SEO_OG_IMAGE-->/s,
+    `<!--SEO_OG_IMAGE--><meta property="og:image" content="${escapeHtml(ogImageUrl)}" /><!--/SEO_OG_IMAGE-->`
+  );
+  html = html.replace(
+    /<!--SEO_OG_URL-->.*?<!--\/SEO_OG_URL-->/s,
+    `<!--SEO_OG_URL--><meta property="og:url" content="${escapeHtml(meta.canonical)}" /><!--/SEO_OG_URL-->`
+  );
+  html = html.replace(
+    /<!--SEO_TW_IMAGE-->.*?<!--\/SEO_TW_IMAGE-->/s,
+    `<!--SEO_TW_IMAGE--><meta name="twitter:image" content="${escapeHtml(ogImageUrl)}" /><!--/SEO_TW_IMAGE-->`
   );
 
   if (allJsonLd.length > 0) {

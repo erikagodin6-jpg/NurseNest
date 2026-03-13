@@ -32,6 +32,7 @@ The platform also includes:
 - **Medical Imaging Education System**: Exam prep for CAMRT/ARRT, including lessons, positioning guides, physics reviews with interactive visuals, micro-quizzes, and flashcards with spaced repetition. Features an adaptive exam simulator and a Positioning Training Module with interactive overlays and error tracking.
 - **Medical Imaging Growth & Marketing Engine**: User acquisition and growth system with email capture, nurture sequences, referral incentives, and an interactive study plan generator.
 - **Medical Imaging SEO Architecture**: Programmatic SEO pages and blog articles with content freshness tracking and internal linking.
+- **SEO & Performance Optimization**: Server-side og:image/og:url/twitter:image injection via seo-meta.ts, FAQPage JSON-LD on homepage, ItemList/LearningResource structured data on listing pages, expanded robots.txt and sitemap (663+ URLs), dns-prefetch hints, async image decoding. Strategy doc at `docs/seo-marketing-strategy.md`.
 - **Medical Imaging Monetization & Paywall System**: Stripe-integrated checkout for imaging products with country-specific pricing, preview limits, and entitlement tracking.
 - **Clinical Case Study Engine**: Manages multi-stage clinical case studies with decision points and scoring.
 - **Adaptive Flashcard System**: Tier-specific exam-style flashcards with an adaptive review engine and confidence-based scheduling.

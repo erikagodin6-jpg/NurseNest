@@ -199,6 +199,8 @@ export default function ShopProductPage() {
                   src={product.coverImageUrl}
                   alt={product.title}
                   className="w-full object-cover"
+                  loading="lazy"
+                  decoding="async"
                   data-testid="img-product-detail"
                 />
               </div>

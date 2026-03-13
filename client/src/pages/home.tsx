@@ -178,9 +178,27 @@ export default function Home() {
         additionalStructuredData={[
           {
             "@context": "https://schema.org",
+            "@type": "FAQPage",
+            "mainEntity": [
+              { "@type": "Question", "name": t("home.faq.q1"), "acceptedAnswer": { "@type": "Answer", "text": t("home.faq.a1") } },
+              { "@type": "Question", "name": t("home.faq.q2"), "acceptedAnswer": { "@type": "Answer", "text": t("home.faq.a2") } },
+              { "@type": "Question", "name": t("home.faq.q3"), "acceptedAnswer": { "@type": "Answer", "text": t("home.faq.a3") } },
+              { "@type": "Question", "name": t("home.faq.q4"), "acceptedAnswer": { "@type": "Answer", "text": t("home.faq.a4") } },
+              { "@type": "Question", "name": t("home.faq.q5"), "acceptedAnswer": { "@type": "Answer", "text": t("home.faq.a5") } },
+              { "@type": "Question", "name": t("home.faq.q6"), "acceptedAnswer": { "@type": "Answer", "text": t("home.faq.a6") } },
+              { "@type": "Question", "name": t("home.faq.q7"), "acceptedAnswer": { "@type": "Answer", "text": t("home.faq.a7") } },
+              { "@type": "Question", "name": t("home.faq.q8"), "acceptedAnswer": { "@type": "Answer", "text": t("home.faq.a8") } },
+              { "@type": "Question", "name": t("home.faq.q9"), "acceptedAnswer": { "@type": "Answer", "text": `${t("home.faq.a9prefix")} ${t("home.faq.a9suffix")}` } },
+              { "@type": "Question", "name": t("home.faq.q10"), "acceptedAnswer": { "@type": "Answer", "text": t("home.faq.a10") } },
+            ]
+          },
+          {
+            "@context": "https://schema.org",
             "@type": "EducationalOrganization",
             "name": "NurseNest",
             "url": "https://www.nursenest.ca",
+            "description": "Premier nursing education platform for RPN/LVN, RN/NCLEX, and NP students with interactive pathophysiology lessons, pharmacology training, and adaptive flashcards.",
+            "educationalCredentialAwarded": "Nursing Exam Preparation",
             "aggregateRating": {
               "@type": "AggregateRating",
               "ratingValue": "4.8",
@@ -1631,6 +1649,7 @@ export default function Home() {
                           alt={product.title}
                           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                           loading="lazy"
+                          decoding="async"
                         />
                       </div>
                     )}

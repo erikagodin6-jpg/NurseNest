@@ -46,6 +46,7 @@ function PurchaseCard({ purchase, onDownload }: { purchase: PurchaseWithProduct;
                 alt={product.title}
                 className="w-full h-full object-cover"
                 loading="lazy"
+                decoding="async"
                 data-testid={`img-purchase-${purchase.id}`}
               />
             </div>

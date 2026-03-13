@@ -5,6 +5,7 @@ Disallow: /admin
 Disallow: /content-editor
 Disallow: /api/
 Disallow: /login
+Disallow: /register
 Disallow: /profile
 Disallow: /dashboard
 Disallow: /upgrade
@@ -20,12 +21,15 @@ Disallow: /notes
 Disallow: /invite
 Disallow: /reset-password
 Disallow: /verify-email
+Disallow: /qbank/
 Disallow: /reports
 Disallow: /*?sort=
 Disallow: /*?filter=
 Disallow: /*?q=
 Disallow: /*?search=
 Disallow: /*?page=
+Disallow: /*?tab=
+Disallow: /*?ref=
 
 Crawl-delay: 1
 

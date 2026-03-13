@@ -44,6 +44,7 @@ function InfographicCard({ info, onClick }: { info: InfographicMeta; onClick: ()
           alt={info.altText}
           title={info.title}
           loading="lazy"
+          decoding="async"
           className="w-full h-48 object-cover object-top group-hover:scale-105 transition-transform duration-300"
         />
         <div className="absolute top-2 right-2">

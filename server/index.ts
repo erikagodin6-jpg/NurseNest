@@ -263,6 +263,7 @@ app.get("/robots.txt", (req, res) => {
         "Disallow: /content-editor",
         "Disallow: /api/",
         "Disallow: /login",
+        "Disallow: /register",
         "Disallow: /profile",
         "Disallow: /dashboard",
         "Disallow: /upgrade",
@@ -273,11 +274,20 @@ app.get("/robots.txt", (req, res) => {
         "Disallow: /diagnostic-assessment",
         "Disallow: /mock-exams/*/report",
         "Disallow: /feedback",
+        "Disallow: /settings",
+        "Disallow: /notes",
+        "Disallow: /invite",
+        "Disallow: /reset-password",
+        "Disallow: /verify-email",
+        "Disallow: /qbank/",
+        "Disallow: /reports",
         "Disallow: /*?sort=",
         "Disallow: /*?filter=",
         "Disallow: /*?q=",
         "Disallow: /*?search=",
         "Disallow: /*?page=",
+        "Disallow: /*?tab=",
+        "Disallow: /*?ref=",
         "Disallow: /settings",
         "Disallow: /notes",
         "Disallow: /invite",
@@ -354,6 +364,35 @@ app.get("/sitemap.xml", async (_req, res) => {
   entries.push(sitemapUrl(base, "/practice-questions", "0.9", "weekly", enOnly, today));
   entries.push(sitemapUrl(base, "/glossary", "0.8", "monthly", enOnly, today));
   entries.push(sitemapUrl(base, "/medication-mastery", "0.7", "monthly", enOnly, today));
+  entries.push(sitemapUrl(base, "/case-simulations", "0.8", "monthly", enOnly, today));
+  entries.push(sitemapUrl(base, "/first-action-simulator", "0.7", "monthly", enOnly, today));
+  entries.push(sitemapUrl(base, "/safety-hazard-simulator", "0.7", "monthly", enOnly, today));
+  entries.push(sitemapUrl(base, "/iv-complications-simulator", "0.7", "monthly", enOnly, today));
+  entries.push(sitemapUrl(base, "/electrolyte-abg-simulator", "0.7", "monthly", enOnly, today));
+  entries.push(sitemapUrl(base, "/deteriorating-patient-simulator", "0.7", "monthly", enOnly, today));
+  entries.push(sitemapUrl(base, "/blood-transfusion-simulator", "0.7", "monthly", enOnly, today));
+  entries.push(sitemapUrl(base, "/simulators/clinical-skills", "0.7", "monthly", enOnly, today));
+  entries.push(sitemapUrl(base, "/simulators/osce", "0.7", "monthly", enOnly, today));
+  entries.push(sitemapUrl(base, "/simulators/clinical-lab", "0.7", "monthly", enOnly, today));
+  entries.push(sitemapUrl(base, "/shop", "0.7", "weekly", enOnly, today));
+  entries.push(sitemapUrl(base, "/about", "0.5", "monthly", enOnly, today));
+  entries.push(sitemapUrl(base, "/disclaimer", "0.3", "yearly", enOnly));
+  entries.push(sitemapUrl(base, "/refund-policy", "0.3", "yearly", enOnly));
+
+  const comparePages = [
+    "uworld-vs-archer-vs-nursenest",
+    "best-uworld-alternatives-nclex",
+    "best-rex-pn-question-bank-canada",
+    "nursenest-vs-uworld",
+    "nursenest-vs-archer",
+    "nursenest-vs-quizlet",
+    "best-nclex-prep-canada",
+    "cheapest-nclex-prep",
+    "rex-pn-practice-questions-free",
+  ];
+  for (const slug of comparePages) {
+    entries.push(sitemapUrl(base, `/compare/${slug}`, "0.7", "monthly", enOnly, today));
+  }
 
   entries.push(sitemapUrl(base, "/medical-imaging", "0.9", "weekly", enOnly, today));
   entries.push(sitemapUrl(base, "/medical-imaging/canada", "0.9", "weekly", enOnly, today));

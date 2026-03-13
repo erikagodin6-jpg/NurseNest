@@ -47,6 +47,7 @@ function ClinicalImageBlock({ images, placement }: { images?: ClinicalImage[]; p
               alt={img.alt}
               className="w-full rounded-lg object-contain max-h-[500px]"
               loading="lazy"
+              decoding="async"
             />
           </div>
           <figcaption className="px-5 py-4 text-sm text-gray-600 leading-relaxed border-t border-gray-100 bg-gray-50/50">
