@@ -13,11 +13,11 @@ import imgEctopicPregnancy from "@assets/ectopicpregnancy_1773340513136.png";
 import imgHELLP from "@assets/HELLP_1773340513136.png";
 import imgHepatitisC from "@assets/hepatitisc_1773340513136.png";
 const imgEpsteinBarr = undefined;
-import imgStevensJohnson from "@assets/stevensjohnsonssyndrome_1773268456011.png";
+import imgStevensJohnson from "@assets/SJS_1773375229956.png";
 import illustrationPressureInjuriesV2 from "@/assets/images/pressure-injuries-v2.png";
 import illustrationPressureInjuryStagesV2 from "@/assets/images/pressure-injury-stages-v2.png";
 import illustrationShinglesV2 from "@/assets/images/shingles-v2.png";
-import illustrationScabiesV2 from "@/assets/images/scabies-v2.png";
+import illustrationScabiesV2 from "@assets/scabies_1773375229956.png";
 import illustrationRibFractures from "@/assets/images/rib-fractures.png";
 import illustrationRheumatoidArthritis from "@/assets/images/rheumatoid-arthritis.png";
 import imgPituitaryGlands from "@assets/pituitaryglands_1773269379973.png";
@@ -26,6 +26,7 @@ import imgPeripheralNeuropathy from "@assets/peripheralneuropathy_1773375118294.
 import imgPepticUlcerNew from "@assets/pepticulcer_1773375118294.png";
 import imgPressureInjuriesNew from "@assets/pressureinjuries_1773375118294.png";
 import imgPediatricSeizuresNew from "@assets/pediatricseizures_1773375118294.png";
+import { imgStroke, imgProstatitis, imgRotavirus, imgRubella, imgScarletFever, imgShortBowelV4, imgSkinAssessment, imgSpinalStenosisV3, imgSprain, imgEsophagealStricture, imgScabiesV3 } from "./flashcards-rpn";
 
 export const rnFlashcards: FlashcardData[] = [
   // ============================================================
@@ -451,7 +452,8 @@ export const rnFlashcards: FlashcardData[] = [
     correctIndex: 2,
     answer: "An NIHSS score of 18 indicates a severe stroke. Scores above 15 suggest large vessel occlusion and the client is a candidate for both IV tPA (within 4.5 hours) and mechanical thrombectomy (within 24 hours for select patients with large vessel occlusion on imaging). Time is critical: 'time is brain' with approximately 1.9 million neurons dying per minute during an acute ischemic stroke.",
     category: "Neurological",
-    difficulty: 3
+    difficulty: 3,
+    image: imgStroke
   },
   {
     id: "rn-neuro-q6",
@@ -501,7 +503,8 @@ export const rnFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "A bedside swallowing screen involves giving small amounts of water while observing for signs of aspiration: coughing, choking, wet or gurgling voice quality, or oxygen desaturation. Silent aspiration (without coughing) occurs in up to 50% of dysphagic stroke patients. If the screen suggests difficulty, a formal speech-language pathology evaluation or modified barium swallow study should be ordered before any oral intake.",
     category: "Neurological",
-    difficulty: 2
+    difficulty: 2,
+    image: imgStroke
   },
   {
     id: "rn-neuro-q11",
@@ -562,7 +565,8 @@ export const rnFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "Unilateral neglect (hemispatial neglect) is a perceptual deficit common after right parietal lobe strokes where the client fails to attend to stimuli on the contralateral (left) side. It differs from hemianopsia (visual field loss) because the client is unaware of and does not compensate for the deficit. Nursing interventions include approaching from the affected side, placing items on the affected side, and using cueing strategies.",
     category: "Neurological",
-    difficulty: 2
+    difficulty: 2,
+    image: imgStroke
   },
   {
     id: "rn-neuro-q17",
@@ -1157,7 +1161,8 @@ export const rnFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "Contraindications for tPA in stroke include: INR >1.7 or PT >15 seconds (increased bleeding risk), recent anticoagulant use, platelet count <100,000, active internal bleeding, history of intracranial hemorrhage, BP >185/110 despite treatment, recent major surgery, and stroke symptoms present >4.5 hours. An INR of 1.8 indicates excessive anticoagulation and would significantly increase hemorrhagic transformation risk.",
     category: "Pharmacology",
-    difficulty: 3
+    difficulty: 3,
+    image: imgStroke
   },
   {
     id: "rn-pharm-q16",
@@ -2908,7 +2913,8 @@ export const rnFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "Home safety assessment is the priority for a post-stroke client due to potential mobility impairments, visual field deficits, and hemiparesis that increase fall risk. Assess for throw rugs, grab bars, adequate lighting, stair safety, and bathroom modifications. Also assess caregiver ability and establish a plan for rehabilitation therapy continuation.",
     category: "Community Health",
-    difficulty: 2
+    difficulty: 2,
+    image: imgStroke
   },
   {
     id: "rn-comm-q2",
@@ -3243,7 +3249,8 @@ export const rnFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "IV alteplase (tPA) is the standard treatment for acute ischemic stroke when administered within 4.5 hours of symptom onset (door-to-needle time goal <60 min). CT must rule out hemorrhagic stroke first. Contraindications include recent surgery, active bleeding, and uncontrolled hypertension. Monitor closely for bleeding complications. BP must be <185/110 before and <180/105 after administration.",
     category: "Emergency",
-    difficulty: 3
+    difficulty: 3,
+    image: imgStroke
   },
   {
     id: "rn-emerg-q13",

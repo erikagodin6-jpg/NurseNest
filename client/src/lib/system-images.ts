@@ -434,6 +434,25 @@ import illustrationSepticTransfusionReaction from "@/assets/images/septic-transf
 import illustrationShinglesV2 from "@/assets/images/shingles-v2.png";
 import illustrationShortBowelV3 from "@/assets/images/short-bowel-v3.png";
 
+import illustrationProstatitisV2 from "@assets/rostatitis_1773375229956.png";
+import illustrationRotavirusV2 from "@assets/rotavirus_1773375229956.png";
+import illustrationRubellaV2 from "@assets/rubella_1773375229956.png";
+import illustrationErythemaMultiformeV2 from "@assets/rythemamultiforme_1773375229956.png";
+import illustrationScabiesV3 from "@assets/scabies_1773375229956.png";
+import illustrationScarletFeverV2 from "@assets/scarletfever_1773375229956.png";
+import illustrationScoliosisV2 from "@assets/scoli_1773375229956.png";
+import illustrationShortBowelV4 from "@assets/shortbowelsyndrome_1773375229956.png";
+import illustrationSIADHV2 from "@assets/SIADH_1773375229956.png";
+import illustrationSickleCellV2 from "@assets/sicklecell_1773375229956.png";
+import illustrationSJSV2 from "@assets/SJS_1773375229956.png";
+import illustrationSkinAssessmentV2 from "@assets/skinassesssment_1773375229956.png";
+import illustrationSpinalStenosisV3 from "@assets/spinalstenosis_1773375229956.png";
+import illustrationSprainV2 from "@assets/sprain_1773375229956.png";
+import illustrationStagesOfLaborV2 from "@assets/stages_1773375229956.png";
+import illustrationStomaCareV3 from "@assets/stoma_1773375229956.png";
+import illustrationEsophagealStrictureV2 from "@assets/stricture_1773375229956.png";
+import illustrationStrokeV2 from "@assets/stroke_1773375229956.png";
+
 import illustrationUlcerativeColitis from "@assets/ulcerativecolitis_1773268105077.png";
 import illustrationUrethralStricture from "@assets/urethralstricture_1773375165171.png";
 import illustrationUrinaryCatheterization from "@assets/urinarycatheterization_1773268105077.png";
@@ -742,11 +761,11 @@ const lessonSpecificImages: Record<string, string> = {
   "laryngectomy": illustrationTracheostomy,
   "sterile-technique": illustrationBacteria,
   "neuro-basics": illustrationNerve,
-  "stroke": illustrationStrokeFastV2,
-  "stroke-advanced": illustrationStrokeFastV2,
-  "stroke-rpn": illustrationStrokeFastV2,
-  "stroke-rn": illustrationStrokeFastV2,
-  "stroke-np": illustrationStrokeFastV2,
+  "stroke": illustrationStrokeV2,
+  "stroke-advanced": illustrationStrokeV2,
+  "stroke-rpn": illustrationStrokeV2,
+  "stroke-rn": illustrationStrokeV2,
+  "stroke-np": illustrationStrokeV2,
   "stroke-fast": illustrationStrokeFastV2,
   "stroke-recognition": illustrationStrokeFastV2,
   "seizure-safety": illustrationNerve,
@@ -1262,8 +1281,11 @@ const lessonSpecificImages: Record<string, string> = {
   "diabetes-lifespan": illustrationEndocrineAnatomy,
   "fracture-sprain-care": illustrationMusculoskeletalAnatomy,
   "joint-replacement-basics": illustrationMusculoskeletalAnatomy,
-  "scoliosis-basics": illustrationScoliosis,
-  "scoliosis": illustrationScoliosis,
+  "scoliosis-basics": illustrationScoliosisV2,
+  "scoliosis": illustrationScoliosisV2,
+  "scoliosis-rpn": illustrationScoliosisV2,
+  "scoliosis-rn": illustrationScoliosisV2,
+  "scoliosis-np": illustrationScoliosisV2,
   "hip-dysplasia": illustrationDevHipDysplasia,
   "hip-dysplasia-rpn": illustrationDevHipDysplasia,
   "hip-dysplasia-rn": illustrationDevHipDysplasia,
@@ -1453,10 +1475,10 @@ const lessonSpecificImages: Record<string, string> = {
   "preeclampsia-eclampsia": illustrationPreeclampsiaPatho,
   "gestational-hypertension": illustrationPreeclampsiaPatho,
 
-  "sickle-cell-disease": illustrationSickleCellPatho,
-  "sickle-cell-crisis": illustrationSickleCellPatho,
+  "sickle-cell-disease": illustrationSickleCellV2,
+  "sickle-cell-crisis": illustrationSickleCellV2,
 
-  "stevens-johnson-basics-rpn": illustrationSJSSkin,
+  "stevens-johnson-basics-rpn": illustrationSJSV2,
 
 
   "burn-care": illustrationBurnDepth,
@@ -1574,10 +1596,10 @@ const lessonSpecificImages: Record<string, string> = {
   "restless-leg-syndrome-np": illustrationRestlessLegV2,
   "restless-legs": illustrationRestlessLegV2,
   "rls": illustrationRestlessLegV2,
-  "spinal-stenosis": illustrationSpinalStenosisV2,
-  "spinal-stenosis-rpn": illustrationSpinalStenosisV2,
-  "spinal-stenosis-rn": illustrationSpinalStenosisV2,
-  "spinal-stenosis-np": illustrationSpinalStenosisV2,
+  "spinal-stenosis": illustrationSpinalStenosisV3,
+  "spinal-stenosis-rpn": illustrationSpinalStenosisV3,
+  "spinal-stenosis-rn": illustrationSpinalStenosisV3,
+  "spinal-stenosis-np": illustrationSpinalStenosisV3,
   "syringomyelia": illustrationSyringomyeliaV2,
   "syringomyelia-rpn": illustrationSyringomyeliaV2,
   "syringomyelia-rn": illustrationSyringomyeliaV2,
@@ -1678,18 +1700,18 @@ const lessonSpecificImages: Record<string, string> = {
   "rectal-medication-np": illustrationRectalMedicationV3,
   "rectal-administration": illustrationRectalMedicationV3,
   "suppository": illustrationRectalMedicationV3,
-  "short-bowel-syndrome": illustrationShortBowelV3,
-  "short-bowel-syndrome-rpn": illustrationShortBowelV3,
-  "short-bowel-syndrome-rn": illustrationShortBowelV3,
-  "short-bowel-syndrome-np": illustrationShortBowelV3,
-  "short-bowel": illustrationShortBowelV3,
-  "stoma-care": illustrationStomaCareV2,
-  "stoma-care-rpn": illustrationStomaCareV2,
-  "stoma-care-rn": illustrationStomaCareV2,
-  "stoma-care-np": illustrationStomaCareV2,
-  "ostomy-care": illustrationStomaCareV2,
-  "colostomy-care": illustrationStomaCareV2,
-  "ileostomy-care": illustrationStomaCareV2,
+  "short-bowel-syndrome": illustrationShortBowelV4,
+  "short-bowel-syndrome-rpn": illustrationShortBowelV4,
+  "short-bowel-syndrome-rn": illustrationShortBowelV4,
+  "short-bowel-syndrome-np": illustrationShortBowelV4,
+  "short-bowel": illustrationShortBowelV4,
+  "stoma-care": illustrationStomaCareV3,
+  "stoma-care-rpn": illustrationStomaCareV3,
+  "stoma-care-rn": illustrationStomaCareV3,
+  "stoma-care-np": illustrationStomaCareV3,
+  "ostomy-care": illustrationStomaCareV3,
+  "colostomy-care": illustrationStomaCareV3,
+  "ileostomy-care": illustrationStomaCareV3,
 
   "bowel-obstruction-management": illustrationBowelObstructionPatho,
   "acute-abdomen": illustrationBowelObstructionPatho,
@@ -1921,10 +1943,10 @@ const lessonSpecificImages: Record<string, string> = {
   "erysipelas-rn": illustrationErysipelas,
   "erysipelas-np": illustrationErysipelas,
 
-  "erythema-multiforme": illustrationErythemaMultiforme,
-  "erythema-multiforme-rpn": illustrationErythemaMultiforme,
-  "erythema-multiforme-rn": illustrationErythemaMultiforme,
-  "erythema-multiforme-np": illustrationErythemaMultiforme,
+  "erythema-multiforme": illustrationErythemaMultiformeV2,
+  "erythema-multiforme-rpn": illustrationErythemaMultiformeV2,
+  "erythema-multiforme-rn": illustrationErythemaMultiformeV2,
+  "erythema-multiforme-np": illustrationErythemaMultiformeV2,
 
   "fall-prevention": illustrationFallPrevention,
   "fall-prevention-rpn": illustrationFallPrevention,
@@ -2610,26 +2632,37 @@ const systemImageMap: Record<string, string> = {
 
   "von-willebrand-disease-rpn": illustrationVonWillebrand,
 
-  "siadh-di": illustrationSIADHNew,
-  "siadh-di-np": illustrationSIADHNew,
-  "siadh-basics-rpn": illustrationSIADHNew,
-  "siadh-deep-pathophysiology-np": illustrationSIADHNew,
+  "siadh-di": illustrationSIADHV2,
+  "siadh-di-np": illustrationSIADHV2,
+  "siadh-basics-rpn": illustrationSIADHV2,
+  "siadh-deep-pathophysiology-np": illustrationSIADHV2,
+  "siadh": illustrationSIADHV2,
+  "siadh-rpn": illustrationSIADHV2,
+  "siadh-rn": illustrationSIADHV2,
+  "siadh-np": illustrationSIADHV2,
 
-  "sickle-cell": illustrationSickleCellCrisis,
-  "sickle-cell-crisis": illustrationSickleCellCrisis,
-  "sickle-cell-crisis-rpn": illustrationSickleCellCrisis,
-  "sickle-cell-crisis-rn": illustrationSickleCellCrisis,
-  "sickle-cell-crisis-np": illustrationSickleCellCrisis,
-  "sickle-cell-disease": illustrationSickleCellCrisis,
-  "sickle-cell-np": illustrationSickleCellCrisis,
+  "sickle-cell": illustrationSickleCellV2,
+  "sickle-cell-crisis": illustrationSickleCellV2,
+  "sickle-cell-crisis-rpn": illustrationSickleCellV2,
+  "sickle-cell-crisis-rn": illustrationSickleCellV2,
+  "sickle-cell-crisis-np": illustrationSickleCellV2,
+  "sickle-cell-disease": illustrationSickleCellV2,
+  "sickle-cell-np": illustrationSickleCellV2,
+  "sickle-cell-rpn": illustrationSickleCellV2,
+  "sickle-cell-rn": illustrationSickleCellV2,
 
-  "stevens-johnson-syndrome": illustrationStevensJohnsonNew,
-  "stevens-johnson-basics-rpn": illustrationStevensJohnsonNew,
+  "stevens-johnson-syndrome": illustrationSJSV2,
+  "stevens-johnson-basics-rpn": illustrationSJSV2,
+  "sjs": illustrationSJSV2,
+  "sjs-rpn": illustrationSJSV2,
+  "sjs-rn": illustrationSJSV2,
+  "sjs-np": illustrationSJSV2,
 
-  "stoma-care": illustrationStomaCareNew,
-  "stoma-care-rpn": illustrationStomaCareNew,
-  "stoma-care-rn": illustrationStomaCareNew,
-  "stoma-care-np": illustrationStomaCareNew,
+  "stoma-care": illustrationStomaCareV3,
+  "stoma-care-rpn": illustrationStomaCareV3,
+  "stoma-care-rn": illustrationStomaCareV3,
+  "stoma-care-np": illustrationStomaCareV3,
+  "ostomy-care": illustrationStomaCareV3,
 
   "taco-transfusion-associated-circulatory-overload": illustrationTACO,
 
@@ -2649,6 +2682,47 @@ const systemImageMap: Record<string, string> = {
   "transfusion-hyperkalemia": illustrationTransfusionHyperkalemia,
 
   "transfusion-hypothermia": illustrationTransfusionHypothermia,
+
+  "prostatitis": illustrationProstatitisV2,
+  "prostatitis-rpn": illustrationProstatitisV2,
+  "prostatitis-rn": illustrationProstatitisV2,
+  "prostatitis-np": illustrationProstatitisV2,
+
+  "rotavirus": illustrationRotavirusV2,
+  "rotavirus-rpn": illustrationRotavirusV2,
+  "rotavirus-rn": illustrationRotavirusV2,
+  "rotavirus-np": illustrationRotavirusV2,
+  "rotavirus-infection": illustrationRotavirusV2,
+
+  "rubella": illustrationRubellaV2,
+  "rubella-rpn": illustrationRubellaV2,
+  "rubella-rn": illustrationRubellaV2,
+  "rubella-np": illustrationRubellaV2,
+  "german-measles": illustrationRubellaV2,
+
+  "scarlet-fever": illustrationScarletFeverV2,
+  "scarlet-fever-rpn": illustrationScarletFeverV2,
+  "scarlet-fever-rn": illustrationScarletFeverV2,
+  "scarlet-fever-np": illustrationScarletFeverV2,
+  "scarlatina": illustrationScarletFeverV2,
+
+  "skin-assessment": illustrationSkinAssessmentV2,
+  "skin-assessment-rpn": illustrationSkinAssessmentV2,
+  "skin-assessment-rn": illustrationSkinAssessmentV2,
+  "skin-assessment-np": illustrationSkinAssessmentV2,
+  "skin-turgor": illustrationSkinAssessmentV2,
+  "skin-turgor-assessment": illustrationSkinAssessmentV2,
+
+  "sprain": illustrationSprainV2,
+  "sprain-rpn": illustrationSprainV2,
+  "sprain-rn": illustrationSprainV2,
+  "sprain-np": illustrationSprainV2,
+  "sprain-strain": illustrationSprainV2,
+
+  "esophageal-stricture": illustrationEsophagealStrictureV2,
+  "esophageal-stricture-rpn": illustrationEsophagealStrictureV2,
+  "esophageal-stricture-rn": illustrationEsophagealStrictureV2,
+  "esophageal-stricture-np": illustrationEsophagealStrictureV2,
 };
 
 export function getSystemImage(systemId: string): string | undefined {
@@ -2667,7 +2741,7 @@ export function getLessonImage(lessonId: string): string | undefined {
   if (lessonSpecificImages[lessonId]) return lessonSpecificImages[lessonId];
   if (lessonId.includes("parkinson")) return illustrationParkinsonsV3;
   if (lessonId.includes("multiple-sclerosis") || lessonId === "ms-management" || lessonId === "ms-basics") return illustrationMultipleSclerosisV5;
-  if (lessonId.includes("stroke")) return illustrationStrokeFastV2;
+  if (lessonId.includes("stroke")) return illustrationStrokeV2;
   if (lessonId.includes("bells-palsy")) return illustrationBellsPalsyV3;
   if (lessonId.includes("dystonic")) return illustrationAcuteDystonicReactionV2;
   if (lessonId.includes("als-") || lessonId === "als") return illustrationALSV2;
@@ -2749,7 +2823,7 @@ export function getLessonImage(lessonId: string): string | undefined {
   if (lessonId.includes("glaucoma")) return illustrationGlaucomaNew;
   if (lessonId.includes("vitiligo")) return illustrationVitiligoNew;
   if (lessonId.includes("shingles") || lessonId.includes("herpes-zoster") || lessonId.includes("varicella-zoster")) return illustrationShinglesV2;
-  if (lessonId.includes("stevens-johnson") || lessonId.includes("sjs")) return illustrationStevensJohnsonNew;
+  if (lessonId.includes("stevens-johnson") || lessonId.includes("sjs")) return illustrationSJSV2;
   if (lessonId.includes("cell-struct") || lessonId.includes("cell-bio")) return illustrationCellStructure;
   if (lessonId.includes("homeostasis") || lessonId.includes("feedback-loop")) return illustrationHomeostasis;
   if (lessonId.includes("pinworm") || lessonId.includes("enterobias")) return illustrationPinwormsNew;
@@ -2759,7 +2833,7 @@ export function getLessonImage(lessonId: string): string | undefined {
   if (lessonId.includes("epiglottitis")) return illustrationEpiglottitisNew;
   if (lessonId.includes("osteoporosis")) return illustrationOsteoporosisV3;
   if (lessonId.includes("kawasaki")) return illustrationKawasakiV2;
-  if (lessonId.includes("scabies")) return illustrationScabiesV2;
+  if (lessonId.includes("scabies")) return illustrationScabiesV3;
   if (lessonId.includes("raynaud")) return illustrationRaynaudsV2;
   if (lessonId.includes("varicose")) return illustrationVaricoseVeinsV2;
   if (lessonId.includes("venous-insuff") || lessonId.includes("venous-stasis")) return illustrationVenousInsufficiencyV2;
@@ -2793,7 +2867,7 @@ export function getLessonImage(lessonId: string): string | undefined {
   if (lessonId.includes("pituitary") || lessonId.includes("acromegaly") || lessonId.includes("hypophysectomy")) return illustrationPituitaryGlands;
   if (lessonId.includes("peritoneal-dialysis")) return illustrationPeritonealDialysis;
   if (lessonId.includes("rectal-med") || lessonId.includes("suppository") || lessonId.includes("rectal-admin")) return illustrationRectalMedicationV3;
-  if (lessonId.includes("short-bowel")) return illustrationShortBowelV3;
+  if (lessonId.includes("short-bowel")) return illustrationShortBowelV4;
   if (lessonId.includes("pseudohypoparathyroid")) return illustrationPseudohypoparathyroidism;
   if (lessonId.includes("ramsay-hunt")) return illustrationRamsayHuntAnatomy;
   if (lessonId.includes("renal-artery-stenos")) return illustrationRenalArteryStenosis;
@@ -2801,10 +2875,10 @@ export function getLessonImage(lessonId: string): string | undefined {
   if (lessonId.includes("rhinosinusit") || lessonId.includes("sinusitis")) return illustrationRhinosinusitis;
   if (lessonId.includes("rib-fractur") || lessonId.includes("flail-chest")) return illustrationRibFractures;
   if (lessonId.includes("rickets") || lessonId.includes("vitamin-d-deficien")) return illustrationRickets;
-  if (lessonId.includes("scoliosis")) return illustrationScoliosis;
+  if (lessonId.includes("scoliosis")) return illustrationScoliosisV2;
   if (lessonId.includes("septic-transfus") || lessonId.includes("transfusion-reaction")) return illustrationSepticTransfusionReaction;
   if (lessonId.includes("rheumatoid-arthr")) return illustrationRheumatoidArthritis;
-  if (lessonId.includes("stoma-care") || lessonId.includes("ostomy") || lessonId.includes("colostomy") || lessonId.includes("ileostomy")) return illustrationStomaCareNew;
+  if (lessonId.includes("stoma-care") || lessonId.includes("ostomy") || lessonId.includes("colostomy") || lessonId.includes("ileostomy")) return illustrationStomaCareV3;
   if (lessonId.includes("ulcerative-colitis") || lessonId.includes("uc-management")) return illustrationUlcerativeColitis;
   if (lessonId.includes("silicosis")) return illustrationAcuteSilicosisNew;
   if (lessonId.includes("auscultation")) return illustrationCardiacAuscultationNew;
@@ -2842,15 +2916,15 @@ export function getLessonImage(lessonId: string): string | undefined {
   if (lessonId.includes("tuberculosis") || lessonId.includes("tb-")) return illustrationTuberculosisV2;
   if (lessonId.includes("seizure-type") || lessonId.includes("seizure-priorities")) return illustrationSeizureTypesV2;
   if (lessonId.includes("restless-leg") || lessonId.includes("rls")) return illustrationRestlessLegV2;
-  if (lessonId.includes("spinal-stenosis")) return illustrationSpinalStenosisV2;
+  if (lessonId.includes("spinal-stenosis")) return illustrationSpinalStenosisV3;
   if (lessonId.includes("syringomyelia")) return illustrationSyringomyeliaV2;
   if (lessonId.includes("tardive")) return illustrationTardiveDyskinesiaV2;
   if (lessonId.includes("wernicke") && !lessonId.includes("korsakoff")) return illustrationWernickeV2;
   if (lessonId.includes("tracheostomy")) return illustrationTracheostomy;
-  if (lessonId.includes("sickle-cell")) return illustrationSickleCellCrisis;
+  if (lessonId.includes("sickle-cell")) return illustrationSickleCellV2;
   if (lessonId.includes("thalassemia")) return illustrationThalassemiaNew;
   if (lessonId.includes("thyroid-storm")) return illustrationThyroidStorm;
-  if (lessonId.includes("siadh")) return illustrationSIADHNew;
+  if (lessonId.includes("siadh")) return illustrationSIADHV2;
   if (lessonId.includes("trali") || lessonId.includes("transfusion-related-acute-lung")) return illustrationTRALI;
   if (lessonId.includes("taco") || lessonId.includes("transfusion-associated-circulatory")) return illustrationTACO;
   if (lessonId.includes("tinnitus")) return illustrationTinnitus;
@@ -2897,7 +2971,7 @@ export function getLessonImage(lessonId: string): string | undefined {
   if (lessonId.includes("peritoneal-dialysis")) return illustrationPeritonealDialysis;
   if (lessonId.includes("pancreatic-function")) return illustrationPancreaticFunctioning;
   if (lessonId.includes("pituitary") || lessonId.includes("acromegaly")) return illustrationPituitaryGlands;
-  if (lessonId.includes("erythema-multiforme")) return illustrationErythemaMultiforme;
+  if (lessonId.includes("erythema-multiforme")) return illustrationErythemaMultiformeV2;
   if (lessonId.includes("fall-prevention") || lessonId.includes("fall-risk")) return illustrationFallPrevention;
   if (lessonId.includes("febrile-neutropenia")) return illustrationFebrileNeutropenia;
   if (lessonId.includes("febrile-nonhemolytic")) return illustrationFebrileNonhemolytic;
@@ -2953,6 +3027,14 @@ export function getLessonImage(lessonId: string): string | undefined {
   if (lessonId.includes("duchenne") || lessonId.includes("muscular-dystrophy")) return illustrationDuchenne;
   if (lessonId.includes("epistaxis") || lessonId.includes("nosebleed")) return illustrationEpistaxis;
   if (lessonId.includes("erysipelas")) return illustrationErysipelas;
+  if (lessonId.includes("prostatitis")) return illustrationProstatitisV2;
+  if (lessonId.includes("rotavirus")) return illustrationRotavirusV2;
+  if (lessonId.includes("rubella") || lessonId.includes("german-measles")) return illustrationRubellaV2;
+  if (lessonId.includes("scarlet-fever") || lessonId.includes("scarlatina")) return illustrationScarletFeverV2;
+  if (lessonId.includes("skin-assessment") || lessonId.includes("skin-turgor")) return illustrationSkinAssessmentV2;
+  if (lessonId.includes("sprain") || lessonId.includes("strain")) return illustrationSprainV2;
+  if (lessonId.includes("stages-of-labor") || lessonId.includes("labor-stages")) return illustrationStagesOfLaborV2;
+  if (lessonId.includes("esophageal-stricture")) return illustrationEsophagealStrictureV2;
   if (lessonId.includes("diabetes-across") || lessonId.includes("diabetes-mellitus")) return illustrationDiabetesAcrossAges;
   if (lessonId.includes("wound") || lessonId.includes("burn")) return illustrationWound;
   if (lessonId.includes("bacteria") || lessonId.includes("infection")) return illustrationBacteria;

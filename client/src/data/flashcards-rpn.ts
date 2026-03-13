@@ -10,9 +10,9 @@ import imgDepression from "@assets/depression_1773340419064.png";
 import imgUlcerativeColitis from "@assets/ulcerativecolitis_1773268105077.png";
 import imgVonWillebrand from "@assets/vonwillebrand_1773268105077.png";
 import imgUrinaryCatheterization from "@assets/urinarycatheterization_1773268105077.png";
-import imgSIADH from "@assets/SIADH_1773268456011.png";
-import imgSickleCellCrisis from "@assets/sicklecellcrisis_1773268456011.png";
-import imgStomaCare from "@assets/stomacare_1773268456011.png";
+import imgSIADH from "@assets/SIADH_1773375229956.png";
+import imgSickleCellCrisis from "@assets/sicklecell_1773375229956.png";
+import imgStomaCare from "@assets/stoma_1773375229956.png";
 import imgThalassemia from "@assets/thalassemia_1773268456011.png";
 import imgThrombocytopenia from "@assets/thrombocytopenia_1773268456011.png";
 import imgThyroidStorm from "@assets/thyroidstorm_1773268456011.png";
@@ -25,7 +25,7 @@ import illustrationPressureInjuryStagesV2 from "@/assets/images/pressure-injury-
 
 import illustrationShinglesV2 from "@/assets/images/shingles-v2.png";
 import illustrationRheumatoidArthritis from "@/assets/images/rheumatoid-arthritis.png";
-import illustrationScoliosis from "@/assets/images/scoliosis.png";
+import illustrationScoliosis from "@assets/scoli_1773375229956.png";
 import imgAddisons from "@assets/c76038a7-89d5-40c5-ba1f-837a6b77833f_1773269538451.png";
 import imgAplasticAnemia from "@assets/aplasticanemia_1773269538451.png";
 import imgAcuteHemolyticReaction from "@assets/acutehemolyticreaction_1773269538451.png";
@@ -85,7 +85,7 @@ import imgDuchenne from "@assets/duchenne_1773269507783.png";
 import imgEpiglottitis from "@assets/epiglottitis_1773269507783.png";
 import imgEpistaxis from "@assets/epistaxis_1773269507783.png";
 import imgErysipelas from "@assets/erisypelas_1773374861631.png";
-import imgErythemaMultiforme from "@assets/erythemamultiforme_1773269471822.png";
+import imgErythemaMultiforme from "@assets/rythemamultiforme_1773375229956.png";
 import imgFallPrevention from "@assets/fallprevention_1773269471822.png";
 import imgFebrileNeutropenia from "@assets/febrileneutropenia_1773269471822.png";
 import imgFebrileNonhemolytic from "@assets/febrilenonhemolytic_1773269471822.png";
@@ -115,7 +115,7 @@ import imgRhIncompatibility from "@assets/Rhincompatibility_1773340545537.png";
 import imgROP from "@assets/ROP_1773340545537.png";
 import imgSeparationAnxiety from "@assets/separationanxiety_1773340545537.png";
 import imgSerotoninSyndrome from "@assets/serotoninsyndrome_1773340545537.png";
-import imgStagesOfLabor from "@assets/stagesoflabor_1773340545537.png";
+import imgStagesOfLabor from "@assets/stages_1773375229956.png";
 import imgSubstanceAbuse from "@assets/substanceabuse_1773340545537.png";
 import imgThermoregulation from "@assets/Thermoregulation_1773340545537.png";
 import imgParkinsonsNew from "@assets/parkinson_1773375118294.png";
@@ -168,8 +168,20 @@ import imgGERD from "@assets/GERD_1773374861631.png";
 import imgGestationalDiabetesRpn from "@assets/gestational_1773374861631.png";
 import imgGIBleed from "@assets/gibleed_1773374861631.png";
 import imgGuillainBarre from "@assets/guillainbarrre_1773374861631.png";
+import imgProstatitis from "@assets/rostatitis_1773375229956.png";
+import imgRotavirus from "@assets/rotavirus_1773375229956.png";
+import imgRubella from "@assets/rubella_1773375229956.png";
+import imgScabiesV3 from "@assets/scabies_1773375229956.png";
+import imgScarletFever from "@assets/scarletfever_1773375229956.png";
+import imgShortBowelV4 from "@assets/shortbowelsyndrome_1773375229956.png";
+import imgSJSV2 from "@assets/SJS_1773375229956.png";
+import imgSkinAssessment from "@assets/skinassesssment_1773375229956.png";
+import imgSpinalStenosisV3 from "@assets/spinalstenosis_1773375229956.png";
+import imgSprain from "@assets/sprain_1773375229956.png";
+import imgStroke from "@assets/stroke_1773375229956.png";
+import imgEsophagealStricture from "@assets/stricture_1773375229956.png";
 
-export { imgUlcerativeColitis, imgVonWillebrand, imgUrinaryCatheterization, imgSIADH, imgSickleCellCrisis, imgStomaCare, imgThalassemia, imgThrombocytopenia, imgThyroidStorm, imgTRALI, imgVitiligo, imgUrethralStricture, imgVestibularNeuritis, imgAddisons, imgAplasticAnemia, imgAcuteHemolyticReaction, imgAllergicTransfusion, imgAirEmbolism, imgCBI, imgCastCareTraction, imgAlopecia, imgBPH, imgAtopicDermatitis, imgAcromegaly, imgBPPV, imgNGTube, imgPancreatitis, imgPeritonealDialysis, imgPolycysticKidney, imgPolycythemia, imgPepticUlcer, imgOsteoporosis, imgCellulitis, imgCKD, imgClubfoot, imgCompartmentSyndrome, imgConjunctivitis, imgContracture, imgCushings, imgDelayedHemolyticReaction, imgDevHipDysplasia, imgDiabetes, imgDiabetesInsipidus, imgDiabeticNephropathy, imgDIC, imgDisuseAtrophy, imgDuchenne, imgEpiglottitis, imgEpistaxis, imgErysipelas, imgErythemaMultiforme, imgFallPrevention, imgFebrileNeutropenia, imgFebrileNonhemolytic, imgFibromyalgia, imgForeignBodyAspiration, imgFractureTypes, imgFungalInfections, imgGalactosemia, imgGlaucoma, imgGlomerulonephritis, imgGout, imgGraftVsHost, imgGravesDisease, imgHashimotoThyroiditis, imgHeadLice, imgHemolyticUremicSyndrome, imgHemophilia, imgNeonatalFeeding, imgNeonatalHypoglycemia, imgNeonatalJaundice, imgNeonatalSepsis, imgNeuroblastoma, imgNewbornDiabeticMother, imgOsteogenesisImperfecta, imgOvarianHyperstimulation, imgPatentDuctusArteriosus, imgPavlikHarness, imgPediatricVitalsChart, imgPediatricDehydration, imgPinworms, imgPKU, imgPlacentalAbruption, imgPlacentaPrevia, imgPostpartumHemorrhage, imgPyloricStenosis, imgReye, imgRhIncompatibility, imgROP, imgSeparationAnxiety, imgSerotoninSyndrome, imgStagesOfLabor, imgSubstanceAbuse, imgThermoregulation, imgTonsillectomy, imgToxicShockSyndrome, imgTrisomy21, imgTurnerSyndrome, imgUmbilicalCordCare, imgUmbilicalCordProlapse, imgVaginalHematoma, imgVaricella, imgVPShunt, imgHyperemesisGravidarum, imgInfantReflexes, imgIntussusception, imgLeadPoisoning, imgMastitis, imgMumps, imgNEC, imgOpioidOverdose, imgNeonatalReflexes, imgOtitisMedia, imgObstructiveUropathy, imgNarcolepsy, imgMultipleSclerosis, imgMyastheniaGravis, imgPancreaticPseudocyst, imgPapilledema, imgMeconiumAspiration, imgMeconiumIleus, imgCongenitalHypothyroidism, imgFetalMonitoring, imgEpisiotomy, imgHepatitisB, imgWernicke, imgWilmsTumor, imgWoundAssessment, imgWoundInfection, imgWoundVAC, imgVRE, imgParkinsonsNew, imgPediatricSeizuresNew, imgPepticUlcerNew, imgPeripheralNeuropathy, imgPemphigusNew, imgPressureInjuriesNew, imgBPD, imgPCOS, imgPhimosis, imgEndometrialPolyp, imgEsophagealVarices, imgFebrileSeizures, imgFundalHeight, imgGalactorrhea, imgGAS, imgGERD, imgGestationalDiabetesRpn, imgGIBleed, imgGuillainBarre };
+export { imgUlcerativeColitis, imgVonWillebrand, imgUrinaryCatheterization, imgSIADH, imgSickleCellCrisis, imgStomaCare, imgThalassemia, imgThrombocytopenia, imgThyroidStorm, imgTRALI, imgVitiligo, imgUrethralStricture, imgVestibularNeuritis, imgAddisons, imgAplasticAnemia, imgAcuteHemolyticReaction, imgAllergicTransfusion, imgAirEmbolism, imgCBI, imgCastCareTraction, imgAlopecia, imgBPH, imgAtopicDermatitis, imgAcromegaly, imgBPPV, imgNGTube, imgPancreatitis, imgPeritonealDialysis, imgPolycysticKidney, imgPolycythemia, imgPepticUlcer, imgOsteoporosis, imgCellulitis, imgCKD, imgClubfoot, imgCompartmentSyndrome, imgConjunctivitis, imgContracture, imgCushings, imgDelayedHemolyticReaction, imgDevHipDysplasia, imgDiabetes, imgDiabetesInsipidus, imgDiabeticNephropathy, imgDIC, imgDisuseAtrophy, imgDuchenne, imgEpiglottitis, imgEpistaxis, imgErysipelas, imgErythemaMultiforme, imgFallPrevention, imgFebrileNeutropenia, imgFebrileNonhemolytic, imgFibromyalgia, imgForeignBodyAspiration, imgFractureTypes, imgFungalInfections, imgGalactosemia, imgGlaucoma, imgGlomerulonephritis, imgGout, imgGraftVsHost, imgGravesDisease, imgHashimotoThyroiditis, imgHeadLice, imgHemolyticUremicSyndrome, imgHemophilia, imgNeonatalFeeding, imgNeonatalHypoglycemia, imgNeonatalJaundice, imgNeonatalSepsis, imgNeuroblastoma, imgNewbornDiabeticMother, imgOsteogenesisImperfecta, imgOvarianHyperstimulation, imgPatentDuctusArteriosus, imgPavlikHarness, imgPediatricVitalsChart, imgPediatricDehydration, imgPinworms, imgPKU, imgPlacentalAbruption, imgPlacentaPrevia, imgPostpartumHemorrhage, imgPyloricStenosis, imgReye, imgRhIncompatibility, imgROP, imgSeparationAnxiety, imgSerotoninSyndrome, imgStagesOfLabor, imgSubstanceAbuse, imgThermoregulation, imgTonsillectomy, imgToxicShockSyndrome, imgTrisomy21, imgTurnerSyndrome, imgUmbilicalCordCare, imgUmbilicalCordProlapse, imgVaginalHematoma, imgVaricella, imgVPShunt, imgHyperemesisGravidarum, imgInfantReflexes, imgIntussusception, imgLeadPoisoning, imgMastitis, imgMeconiumAspiration, imgMeconiumIleus, imgCongenitalHypothyroidism, imgFetalMonitoring, imgEpisiotomy, imgHepatitisB, imgProstatitis, imgRotavirus, imgRubella, imgScabiesV3, imgScarletFever, imgShortBowelV4, imgSJSV2, imgSkinAssessment, imgSpinalStenosisV3, imgSprain, imgStroke, imgEsophagealStricture, imgMumps, imgNEC, imgOpioidOverdose, imgNeonatalReflexes, imgOtitisMedia, imgObstructiveUropathy, imgNarcolepsy, imgMultipleSclerosis, imgMyastheniaGravis, imgPancreaticPseudocyst, imgPapilledema, imgWernicke, imgWilmsTumor, imgWoundAssessment, imgWoundInfection, imgWoundVAC, imgVRE, imgParkinsonsNew, imgPediatricSeizuresNew, imgPepticUlcerNew, imgPeripheralNeuropathy, imgPemphigusNew, imgPressureInjuriesNew, imgBPD, imgPCOS, imgPhimosis, imgEndometrialPolyp, imgEsophagealVarices, imgFebrileSeizures, imgFundalHeight, imgGalactorrhea, imgGAS, imgGERD, imgGestationalDiabetesRpn, imgGIBleed, imgGuillainBarre };
 
 export type FlashcardData = {
   id: string;
@@ -686,6 +698,7 @@ export const rpnFlashcards: FlashcardData[] = [
     options: ["Administer aspirin", "Activate stroke protocol and note time of symptom onset", "Position client flat in bed", "Obtain a comprehensive health history"],
     correctIndex: 1,
     answer: "FAST: Face drooping, Arm weakness, Speech difficulty, Time to call 911. The priority is activating the stroke protocol and documenting the 'last known well' time, as this determines eligibility for tPA (within 3-4.5 hours).",
+    image: imgStroke,
     category: "Neurological",
     difficulty: 2
   },
@@ -811,7 +824,8 @@ export const rpnFlashcards: FlashcardData[] = [
     correctIndex: 2,
     answer: "Ischemic stroke (clot): tPA within 3-4.5 hours or thrombectomy. Hemorrhagic stroke (bleed): tPA is CONTRAINDICATED as it would worsen bleeding. Hemorrhagic stroke is managed with BP control, ICP management, and possibly surgery to evacuate the hematoma.",
     category: "Neurological",
-    difficulty: 2
+    difficulty: 2,
+    image: imgStroke
   },
   {
     id: "rpn-neuro-t6",
@@ -3393,7 +3407,8 @@ export const rpnFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "Left brain damage (right-sided weakness): Aphasia (expressive/Broca's = can't speak; receptive/Wernicke's = can't understand), slow/cautious behavior, reading/writing difficulties. Right brain damage (left-sided weakness): Left-sided neglect, impulsive behavior, spatial-perceptual deficits, poor judgment.",
     category: "Neurological",
-    difficulty: 3
+    difficulty: 3,
+    image: imgStroke
   },
   {
     id: "rpn-neuro-t9",
@@ -4284,7 +4299,8 @@ export const rpnFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "Broca's aphasia (expressive): Can understand but cannot express words. Damage to Broca's area (frontal lobe). Client is frustrated. Wernicke's aphasia (receptive): Can speak fluently but words are meaningless; cannot understand speech. Damage to Wernicke's area (temporal lobe). Global: Both areas affected.",
     category: "Neurological",
-    difficulty: 3
+    difficulty: 3,
+    image: imgStroke
   },
   {
     id: "rpn-neuro-t11",
@@ -5800,7 +5816,8 @@ export const rpnFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "tPA is a thrombolytic: major risk is hemorrhage. Monitor: Neurological status q15min × 2 hours, then q30min × 6 hours. Signs of hemorrhagic conversion: Sudden headache, decreased LOC, new neurological deficits. Check all puncture sites for bleeding. Avoid IM injections, arterial punctures, and anticoagulants for 24 hours.",
     category: "Neurological",
-    difficulty: 3
+    difficulty: 3,
+    image: imgStroke
   },
   {
     id: "rpn-neuro-q27",

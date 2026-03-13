@@ -6,6 +6,7 @@ import imgHypothyroidismNew from "@assets/hypothyroidism_1773374939606.png";
 import imgEctopicPregnancy from "@assets/ectopicpregnancy_1773340513136.png";
 import imgHepatitisC from "@assets/hepatitisc_1773340513136.png";
 import imgGestationalDiabetes from "@assets/gestationaldiabetes_1773340513136.png";
+import { imgStroke, imgProstatitis, imgRotavirus, imgRubella, imgScarletFever, imgShortBowelV4, imgSJSV2, imgSkinAssessment, imgSpinalStenosisV3, imgSprain, imgEsophagealStricture, imgScabiesV3 } from "./flashcards-rpn";
 import illustrationShinglesV2 from "@/assets/images/shingles-v2.png";
 import illustrationRetinalDetachmentV2 from "@/assets/images/retinal-detachment-v2.png";
 import illustrationRheumatoidArthritis from "@/assets/images/rheumatoid-arthritis.png";
