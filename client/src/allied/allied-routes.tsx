@@ -1,10 +1,13 @@
 import { Switch, Route } from "wouter";
 import { lazy, Suspense } from "react";
+import { PROFESSION_HUB_DATA } from "@/allied/data/profession-hub-data";
 
 const AlliedHome = lazy(() => import("./pages/allied-home"));
 const CareerDirectory = lazy(() => import("./pages/career-directory"));
 const CareerLanding = lazy(() => import("./pages/career-landing"));
 const AlliedQBank = lazy(() => import("./pages/allied-qbank"));
+const ProfessionHubPage = lazy(() => import("./pages/profession-hub"));
+const ProfessionClusterRedirect = lazy(() => import("./pages/profession-cluster-redirect"));
 const AlliedMockExams = lazy(() => import("./pages/allied-mock-exams"));
 const AlliedDashboard = lazy(() => import("./pages/allied-dashboard"));
 const AlliedStudyPlan = lazy(() => import("./pages/allied-study-plan"));
@@ -236,6 +239,42 @@ export function AlliedRoutes() {
         <Route path="/mlt/usa/free-questions">{() => <MltCountryPage country="usa" pageType="free-questions" />}</Route>
         <Route path="/mlt/usa/faq">{() => <MltCountryPage country="usa" pageType="faq" />}</Route>
         <Route path="/mlt" component={MltLanding} />
+        <Route path="/rrt">{() => <ProfessionHubPage data={PROFESSION_HUB_DATA["rrt"]} />}</Route>
+        <Route path="/social-work">{() => <ProfessionHubPage data={PROFESSION_HUB_DATA["social-work"]} />}</Route>
+        <Route path="/psychotherapy">{() => <ProfessionHubPage data={PROFESSION_HUB_DATA["psychotherapy"]} />}</Route>
+        <Route path="/addictions">{() => <ProfessionHubPage data={PROFESSION_HUB_DATA["addictions"]} />}</Route>
+        <Route path="/occupational-therapy">{() => <ProfessionHubPage data={PROFESSION_HUB_DATA["occupational-therapy"]} />}</Route>
+
+        <Route path="/rrt/lessons">{() => <ProfessionClusterRedirect profession="rrt" clusterType="lessons" />}</Route>
+        <Route path="/rrt/practice-questions">{() => <ProfessionClusterRedirect profession="rrt" clusterType="practice-questions" />}</Route>
+        <Route path="/rrt/flashcards">{() => <ProfessionClusterRedirect profession="rrt" clusterType="flashcards" />}</Route>
+        <Route path="/rrt/mock-exam">{() => <ProfessionClusterRedirect profession="rrt" clusterType="mock-exam" />}</Route>
+        <Route path="/rrt/study-guide">{() => <ProfessionClusterRedirect profession="rrt" clusterType="study-guide" />}</Route>
+
+        <Route path="/social-work/lessons">{() => <ProfessionClusterRedirect profession="social-work" clusterType="lessons" />}</Route>
+        <Route path="/social-work/practice-questions">{() => <ProfessionClusterRedirect profession="social-work" clusterType="practice-questions" />}</Route>
+        <Route path="/social-work/flashcards">{() => <ProfessionClusterRedirect profession="social-work" clusterType="flashcards" />}</Route>
+        <Route path="/social-work/mock-exam">{() => <ProfessionClusterRedirect profession="social-work" clusterType="mock-exam" />}</Route>
+        <Route path="/social-work/study-guide">{() => <ProfessionClusterRedirect profession="social-work" clusterType="study-guide" />}</Route>
+
+        <Route path="/psychotherapy/lessons">{() => <ProfessionClusterRedirect profession="psychotherapy" clusterType="lessons" />}</Route>
+        <Route path="/psychotherapy/practice-questions">{() => <ProfessionClusterRedirect profession="psychotherapy" clusterType="practice-questions" />}</Route>
+        <Route path="/psychotherapy/flashcards">{() => <ProfessionClusterRedirect profession="psychotherapy" clusterType="flashcards" />}</Route>
+        <Route path="/psychotherapy/mock-exam">{() => <ProfessionClusterRedirect profession="psychotherapy" clusterType="mock-exam" />}</Route>
+        <Route path="/psychotherapy/study-guide">{() => <ProfessionClusterRedirect profession="psychotherapy" clusterType="study-guide" />}</Route>
+
+        <Route path="/addictions/lessons">{() => <ProfessionClusterRedirect profession="addictions" clusterType="lessons" />}</Route>
+        <Route path="/addictions/practice-questions">{() => <ProfessionClusterRedirect profession="addictions" clusterType="practice-questions" />}</Route>
+        <Route path="/addictions/flashcards">{() => <ProfessionClusterRedirect profession="addictions" clusterType="flashcards" />}</Route>
+        <Route path="/addictions/mock-exam">{() => <ProfessionClusterRedirect profession="addictions" clusterType="mock-exam" />}</Route>
+        <Route path="/addictions/study-guide">{() => <ProfessionClusterRedirect profession="addictions" clusterType="study-guide" />}</Route>
+
+        <Route path="/occupational-therapy/lessons">{() => <ProfessionClusterRedirect profession="occupational-therapy" clusterType="lessons" />}</Route>
+        <Route path="/occupational-therapy/practice-questions">{() => <ProfessionClusterRedirect profession="occupational-therapy" clusterType="practice-questions" />}</Route>
+        <Route path="/occupational-therapy/flashcards">{() => <ProfessionClusterRedirect profession="occupational-therapy" clusterType="flashcards" />}</Route>
+        <Route path="/occupational-therapy/mock-exam">{() => <ProfessionClusterRedirect profession="occupational-therapy" clusterType="mock-exam" />}</Route>
+        <Route path="/occupational-therapy/study-guide">{() => <ProfessionClusterRedirect profession="occupational-therapy" clusterType="study-guide" />}</Route>
+
         <Route path="/careers/:careerSlug/mock-exams" component={AlliedMockExams} />
         <Route path="/careers/:careerSlug/dashboard" component={AlliedDashboard} />
         <Route path="/careers/:careerSlug/study-plan" component={AlliedStudyPlan} />

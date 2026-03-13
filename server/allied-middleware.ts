@@ -13,8 +13,13 @@ const ALLIED_CAREER_SLUGS = new Set([
   "rrt", "paramedic", "pharmacy-tech", "mlt", "imaging",
 ]);
 
+const PROFESSION_HUB_SLUGS = new Set([
+  "rrt", "social-work", "psychotherapy", "addictions", "occupational-therapy",
+]);
+
 const ALLIED_SLUGS = new Set([
   ...ALLIED_CAREER_SLUGS,
+  ...PROFESSION_HUB_SLUGS,
   "critical-care", "emergency-nursing", "perioperative",
   "oncology-nursing", "pediatric-cert", "psychotherapist",
   "social-worker", "addictions-counsellor",
@@ -86,6 +91,11 @@ export function alliedLegacyRedirectMiddleware(req: Request, res: Response, next
   const firstSeg = segments[0];
   const secondSeg = segments[1] || "";
 
+  const CLUSTER_SUBTYPES = new Set(["lessons", "practice-questions", "flashcards", "mock-exam", "study-guide"]);
+  if (PROFESSION_HUB_SLUGS.has(firstSeg) && (segments.length === 1 || CLUSTER_SUBTYPES.has(secondSeg))) {
+    return next();
+  }
+
   if (ALLIED_CAREER_SLUGS.has(firstSeg)) {
     if (secondSeg === "questions") {
       return next();
@@ -142,6 +152,10 @@ export function hostRedirectMiddleware(req: Request, res: Response, next: NextFu
 export function generateAlliedSitemap(baseUrl: string): string {
   const careers = ["rrt", "paramedic", "pharmacy-tech", "mlt", "imaging"];
 
+  const professionHubs = [
+    "rrt", "social-work", "psychotherapy", "addictions", "occupational-therapy",
+  ];
+
   const seoLandingPages = [
     "pharmacy-technician-practice-questions",
     "pharmacy-technician-mock-exam",
@@ -167,6 +181,10 @@ export function generateAlliedSitemap(baseUrl: string): string {
 
   for (const career of careers) {
     urls.push(`<url><loc>${baseUrl}/careers/${career}</loc><changefreq>weekly</changefreq><priority>0.8</priority><lastmod>${now}</lastmod></url>`);
+  }
+
+  for (const hub of professionHubs) {
+    urls.push(`<url><loc>${baseUrl}/${hub}</loc><changefreq>weekly</changefreq><priority>0.9</priority><lastmod>${now}</lastmod></url>`);
   }
 
   for (const page of seoLandingPages) {
