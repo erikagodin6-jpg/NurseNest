@@ -55,6 +55,7 @@ Key systems and engines include:
 - **Multi-Profession Framework**: Dynamic profession management system for adding/configuring new healthcare professions.
 - **Universal Question Bank Importer**: Bulk question import system supporting CSV, JSON, and XLSX, with validation and duplicate detection.
 - **Translation Coverage Dashboard**: Admin tool for auditing translation completeness across locales for UI, DB content, and lessons.
+- **Allied Health Marketing & SEO Ecosystem**: Comprehensive marketing infrastructure across all 8 allied health professions (Pharmacy Tech, RRT, Paramedic, MLT, Medical Imaging, Ultrasound, PTA, OTA). Includes long-tail SEO blog topic templates (10 per profession), authority pages (Top 100 Questions, Study Guide, Ultimate Guide), profession-specific email capture, social media content templates (Instagram/TikTok/Pinterest/LinkedIn), A/B-ready conversion CTAs, structured data (EducationalOrganization/Course/FAQPage), analytics tracking, and an admin progress dashboard at `/admin/allied-marketing`.
 
 ### Database Architecture
 The platform utilizes PostgreSQL with Drizzle ORM for database management, configured with separate environment variables for development and production.

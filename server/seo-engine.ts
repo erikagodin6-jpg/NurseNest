@@ -132,6 +132,45 @@ const STARTER_CLUSTERS = [
       "Contraindications for Imaging Studies",
     ],
   },
+  {
+    keyword: "Ultrasound Scanning Fundamentals",
+    careerTrack: "ultrasound",
+    pillarSlug: "ultrasound/ultrasound-scanning-fundamentals",
+    supports: [
+      "Abdominal Ultrasound Protocols",
+      "OB/GYN Sonography Key Measurements",
+      "Doppler Principles and Applications",
+      "Ultrasound Physics Review",
+      "Breast Ultrasound BI-RADS",
+      "Ultrasound Artifacts Identification",
+    ],
+  },
+  {
+    keyword: "Physical Therapy Assistant Foundations",
+    careerTrack: "physical-therapy-assistant",
+    pillarSlug: "physical-therapy-assistant/pta-foundations",
+    supports: [
+      "Therapeutic Exercise Fundamentals",
+      "Gait Analysis and Training",
+      "Physical Therapy Modalities Guide",
+      "Orthopedic Conditions for PTAs",
+      "Neurological Rehabilitation Basics",
+      "Patient Transfer Techniques",
+    ],
+  },
+  {
+    keyword: "Occupational Therapy Assistant Essentials",
+    careerTrack: "occupational-therapy-assistant",
+    pillarSlug: "occupational-therapy-assistant/ota-essentials",
+    supports: [
+      "ADL Assessment Fundamentals",
+      "Adaptive Equipment Guide",
+      "Pediatric OT Interventions",
+      "Hand Therapy Basics for COTAs",
+      "Cognitive Rehabilitation Techniques",
+      "Splinting Fundamentals",
+    ],
+  },
 ];
 
 function mapCluster(row: any) {

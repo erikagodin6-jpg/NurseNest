@@ -295,6 +295,9 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
   const { registerNewGradRoutes } = await import("./new-grad-routes");
   registerNewGradRoutes(app);
 
+  const { setupAlliedMarketingRoutes } = await import("./allied-marketing-engine");
+  setupAlliedMarketingRoutes(app);
+
   app.use((req, res, next) => {
     if (req.headers.host === 'nursenest.ca') {
       return res.redirect(301, 'https://www.nursenest.ca' + req.url);
