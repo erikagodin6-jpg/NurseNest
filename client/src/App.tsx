@@ -180,6 +180,7 @@ const AdminPageviews = lazy(() => import("@/pages/admin-pageviews"));
 const StudyCoachingDashboard = lazy(() => import("@/pages/study-coaching-dashboard"));
 const AdminStudyAnalytics = lazy(() => import("@/pages/admin-study-analytics"));
 const AdminSeoAutopilot = lazy(() => import("@/pages/admin-seo-autopilot"));
+const AdminSeoDebug = lazy(() => import("@/pages/admin-seo-debug"));
 const OrderOfTheDraw = lazy(() => import("@/pages/order-of-the-draw"));
 const InfographicLibrary = lazy(() => import("@/pages/infographic-library"));
 const TrialLanding = lazy(() => import("@/pages/trial-landing"));
@@ -440,6 +441,7 @@ function AppRoutes() {
         <Route path="/admin/autopilot" component={AdminAutopilot} />
         <Route path="/admin/pageviews" component={AdminPageviews} />
         <Route path="/admin/seo-visual-autopilot" component={AdminSeoAutopilot} />
+        <Route path="/admin/seo-debug" component={AdminSeoDebug} />
         <Route path="/admin/institutions" component={AdminInstitutions} />
         <Route path="/instructor" component={InstructorDashboard} />
         <Route path="/admin/medical-imaging" component={AdminMedicalImaging} />

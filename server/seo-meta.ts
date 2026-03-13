@@ -591,8 +591,12 @@ async function fetchContentForPath(pathname: string): Promise<{ title: string; c
 export function getPageMeta(pathname: string): PageMeta {
   let cleanPath = pathname.split("?")[0].split("#")[0].replace(/\/+$/, "") || "/";
   const localeMatch = cleanPath.match(/^\/(en|fr|es|fil|hi|zh|ar|ko|pt|pa|vi|ht|ur|ja|fa)(\/.*|$)/);
+  const locale = localeMatch ? localeMatch[1] : "en";
   const strippedPath = localeMatch ? (localeMatch[2] || "/") : cleanPath;
-  const canonical = strippedPath === "/" ? `${SITE_BASE}/` : `${SITE_BASE}${strippedPath}`;
+  const localePrefix = `/${locale}`;
+  const canonical = strippedPath === "/"
+    ? `${SITE_BASE}${localePrefix}/`
+    : `${SITE_BASE}${localePrefix}${strippedPath}`;
   const noindex = isNoindexPath(strippedPath);
   const breadcrumbs = buildBreadcrumbs(strippedPath);
   cleanPath = strippedPath;
@@ -838,7 +842,7 @@ export async function injectMeta(html: string, pathname: string): Promise<string
         "name": "NurseNest",
         "url": SITE_BASE,
       },
-      "inLanguage": "en",
+      "inLanguage": localeMatch ? localeMatch[1] : "en",
     };
 
     if (isLesson) {
@@ -965,12 +969,13 @@ export async function injectMeta(html: string, pathname: string): Promise<string
     zh: "zh", ar: "ar", ko: "ko", pt: "pt", pa: "pa",
     vi: "vi", ht: "ht", ur: "ur", ja: "ja", fa: "fa",
   };
+  const basePath = strippedPath === "/" ? "" : strippedPath;
   const hreflangTags = SUPPORTED_LANGS.map(lang => {
     const hreflang = HREFLANG_MAP[lang] || lang;
-    const langUrl = lang === "en" ? `${SITE_BASE}${strippedPath || "/"}` : `${SITE_BASE}/${lang}${strippedPath || "/"}`;
+    const langUrl = `${SITE_BASE}/${lang}${basePath}`;
     return `<link rel="alternate" hreflang="${hreflang}" href="${langUrl}" />`;
   });
-  hreflangTags.push(`<link rel="alternate" hreflang="x-default" href="${SITE_BASE}${strippedPath || "/"}" />`);
+  hreflangTags.push(`<link rel="alternate" hreflang="x-default" href="${SITE_BASE}/en${basePath}" />`);
   html = html.replace(
     "</head>",
     `${hreflangTags.join("\n")}\n</head>`

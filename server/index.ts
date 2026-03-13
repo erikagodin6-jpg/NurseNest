@@ -70,6 +70,17 @@ app.use((req, res, next) => {
   next();
 });
 
+app.use((req, res, next) => {
+  if (req.path.endsWith("/index.html")) {
+    let cleanUrl = req.originalUrl.replace(/\/index\.html/, "");
+    if (!cleanUrl || cleanUrl === "" || cleanUrl === "?") cleanUrl = "/";
+    cleanUrl = cleanUrl.replace(/\/(\?|#)/, "$1");
+    if (cleanUrl !== "/" && cleanUrl.endsWith("/")) cleanUrl = cleanUrl.slice(0, -1);
+    return res.redirect(301, cleanUrl);
+  }
+  next();
+});
+
 const LEARN_REDIRECTS: Record<string, string> = {
   "oxygenation-vs-ventilation-critical-differences": "oxygenation-vs-ventilation-clinical-distinction",
   "create-more-posts-about-hyperkalemia": "hyperkalemia-nursing-guide",
@@ -332,52 +343,52 @@ app.get("/sitemap.xml", async (_req, res) => {
   const today = new Date().toISOString().split("T")[0];
 
   const entries: string[] = [];
-  const enOnly = ["en"];
+  const allLocales = SUPPORTED_LOCALES;
 
-  entries.push(sitemapUrl(base, "/", "1.0", "weekly", enOnly, today));
-  entries.push(sitemapUrl(base, "/lessons", "0.9", "weekly", enOnly, today));
-  entries.push(sitemapUrl(base, "/flashcards", "0.8", "weekly", enOnly, today));
-  entries.push(sitemapUrl(base, "/pricing", "0.8", "monthly", enOnly, today));
-  entries.push(sitemapUrl(base, "/start-free", "0.9", "monthly", enOnly, today));
-  entries.push(sitemapUrl(base, "/anatomy", "0.7", "monthly", enOnly, today));
-  entries.push(sitemapUrl(base, "/med-math", "0.8", "monthly", enOnly, today));
-  entries.push(sitemapUrl(base, "/lab-values", "0.8", "monthly", enOnly, today));
-  entries.push(sitemapUrl(base, "/mock-exams", "0.8", "weekly", enOnly, today));
-  entries.push(sitemapUrl(base, "/clinical-clarity", "0.8", "weekly", enOnly, today));
-  entries.push(sitemapUrl(base, "/blog", "0.7", "daily", enOnly, today));
-  entries.push(sitemapUrl(base, "/pre-nursing", "0.6", "monthly", enOnly, today));
-  entries.push(sitemapUrl(base, "/question-of-the-day", "0.9", "daily", enOnly, today));
-  entries.push(sitemapUrl(base, "/question-bank", "0.8", "weekly", enOnly, today));
-  entries.push(sitemapUrl(base, "/lectures", "0.7", "weekly", enOnly, today));
-  entries.push(sitemapUrl(base, "/nursing", "0.9", "monthly", enOnly, today));
-  entries.push(sitemapUrl(base, "/nursing-specialties", "0.8", "monthly", enOnly, today));
-  entries.push(sitemapUrl(base, "/faq", "0.5", "monthly", enOnly));
-  entries.push(sitemapUrl(base, "/about", "0.6", "monthly", enOnly));
-  entries.push(sitemapUrl(base, "/contact", "0.4", "monthly", enOnly));
-  entries.push(sitemapUrl(base, "/terms", "0.3", "yearly", enOnly));
-  entries.push(sitemapUrl(base, "/privacy", "0.3", "yearly", enOnly));
-  entries.push(sitemapUrl(base, "/nclex-rn-practice-questions", "0.9", "weekly", enOnly, today));
-  entries.push(sitemapUrl(base, "/nclex-pn-practice-questions", "0.9", "weekly", enOnly, today));
-  entries.push(sitemapUrl(base, "/rex-pn-practice-questions", "0.9", "weekly", enOnly, today));
-  entries.push(sitemapUrl(base, "/np-exam-practice-questions", "0.9", "weekly", enOnly, today));
-  entries.push(sitemapUrl(base, "/free-practice", "0.9", "weekly", enOnly, today));
-  entries.push(sitemapUrl(base, "/practice-questions", "0.9", "weekly", enOnly, today));
-  entries.push(sitemapUrl(base, "/glossary", "0.8", "monthly", enOnly, today));
-  entries.push(sitemapUrl(base, "/medication-mastery", "0.7", "monthly", enOnly, today));
-  entries.push(sitemapUrl(base, "/case-simulations", "0.8", "monthly", enOnly, today));
-  entries.push(sitemapUrl(base, "/first-action-simulator", "0.7", "monthly", enOnly, today));
-  entries.push(sitemapUrl(base, "/safety-hazard-simulator", "0.7", "monthly", enOnly, today));
-  entries.push(sitemapUrl(base, "/iv-complications-simulator", "0.7", "monthly", enOnly, today));
-  entries.push(sitemapUrl(base, "/electrolyte-abg-simulator", "0.7", "monthly", enOnly, today));
-  entries.push(sitemapUrl(base, "/deteriorating-patient-simulator", "0.7", "monthly", enOnly, today));
-  entries.push(sitemapUrl(base, "/blood-transfusion-simulator", "0.7", "monthly", enOnly, today));
-  entries.push(sitemapUrl(base, "/simulators/clinical-skills", "0.7", "monthly", enOnly, today));
-  entries.push(sitemapUrl(base, "/simulators/osce", "0.7", "monthly", enOnly, today));
-  entries.push(sitemapUrl(base, "/simulators/clinical-lab", "0.7", "monthly", enOnly, today));
-  entries.push(sitemapUrl(base, "/shop", "0.7", "weekly", enOnly, today));
-  entries.push(sitemapUrl(base, "/about", "0.5", "monthly", enOnly, today));
-  entries.push(sitemapUrl(base, "/disclaimer", "0.3", "yearly", enOnly));
-  entries.push(sitemapUrl(base, "/refund-policy", "0.3", "yearly", enOnly));
+  entries.push(sitemapUrl(base, "/", "1.0", "weekly", allLocales, today));
+  entries.push(sitemapUrl(base, "/lessons", "0.9", "weekly", allLocales, today));
+  entries.push(sitemapUrl(base, "/flashcards", "0.8", "weekly", allLocales, today));
+  entries.push(sitemapUrl(base, "/pricing", "0.8", "monthly", allLocales, today));
+  entries.push(sitemapUrl(base, "/start-free", "0.9", "monthly", allLocales, today));
+  entries.push(sitemapUrl(base, "/anatomy", "0.7", "monthly", allLocales, today));
+  entries.push(sitemapUrl(base, "/med-math", "0.8", "monthly", allLocales, today));
+  entries.push(sitemapUrl(base, "/lab-values", "0.8", "monthly", allLocales, today));
+  entries.push(sitemapUrl(base, "/mock-exams", "0.8", "weekly", allLocales, today));
+  entries.push(sitemapUrl(base, "/clinical-clarity", "0.8", "weekly", allLocales, today));
+  entries.push(sitemapUrl(base, "/blog", "0.7", "daily", allLocales, today));
+  entries.push(sitemapUrl(base, "/pre-nursing", "0.6", "monthly", allLocales, today));
+  entries.push(sitemapUrl(base, "/question-of-the-day", "0.9", "daily", allLocales, today));
+  entries.push(sitemapUrl(base, "/question-bank", "0.8", "weekly", allLocales, today));
+  entries.push(sitemapUrl(base, "/lectures", "0.7", "weekly", allLocales, today));
+  entries.push(sitemapUrl(base, "/nursing", "0.9", "monthly", allLocales, today));
+  entries.push(sitemapUrl(base, "/nursing-specialties", "0.8", "monthly", allLocales, today));
+  entries.push(sitemapUrl(base, "/faq", "0.5", "monthly", allLocales));
+  entries.push(sitemapUrl(base, "/about", "0.6", "monthly", allLocales));
+  entries.push(sitemapUrl(base, "/contact", "0.4", "monthly", allLocales));
+  entries.push(sitemapUrl(base, "/terms", "0.3", "yearly", allLocales));
+  entries.push(sitemapUrl(base, "/privacy", "0.3", "yearly", allLocales));
+  entries.push(sitemapUrl(base, "/nclex-rn-practice-questions", "0.9", "weekly", allLocales, today));
+  entries.push(sitemapUrl(base, "/nclex-pn-practice-questions", "0.9", "weekly", allLocales, today));
+  entries.push(sitemapUrl(base, "/rex-pn-practice-questions", "0.9", "weekly", allLocales, today));
+  entries.push(sitemapUrl(base, "/np-exam-practice-questions", "0.9", "weekly", allLocales, today));
+  entries.push(sitemapUrl(base, "/free-practice", "0.9", "weekly", allLocales, today));
+  entries.push(sitemapUrl(base, "/practice-questions", "0.9", "weekly", allLocales, today));
+  entries.push(sitemapUrl(base, "/glossary", "0.8", "monthly", allLocales, today));
+  entries.push(sitemapUrl(base, "/medication-mastery", "0.7", "monthly", allLocales, today));
+  entries.push(sitemapUrl(base, "/case-simulations", "0.8", "monthly", allLocales, today));
+  entries.push(sitemapUrl(base, "/first-action-simulator", "0.7", "monthly", allLocales, today));
+  entries.push(sitemapUrl(base, "/safety-hazard-simulator", "0.7", "monthly", allLocales, today));
+  entries.push(sitemapUrl(base, "/iv-complications-simulator", "0.7", "monthly", allLocales, today));
+  entries.push(sitemapUrl(base, "/electrolyte-abg-simulator", "0.7", "monthly", allLocales, today));
+  entries.push(sitemapUrl(base, "/deteriorating-patient-simulator", "0.7", "monthly", allLocales, today));
+  entries.push(sitemapUrl(base, "/blood-transfusion-simulator", "0.7", "monthly", allLocales, today));
+  entries.push(sitemapUrl(base, "/simulators/clinical-skills", "0.7", "monthly", allLocales, today));
+  entries.push(sitemapUrl(base, "/simulators/osce", "0.7", "monthly", allLocales, today));
+  entries.push(sitemapUrl(base, "/simulators/clinical-lab", "0.7", "monthly", allLocales, today));
+  entries.push(sitemapUrl(base, "/shop", "0.7", "weekly", allLocales, today));
+  entries.push(sitemapUrl(base, "/about", "0.5", "monthly", allLocales, today));
+  entries.push(sitemapUrl(base, "/disclaimer", "0.3", "yearly", allLocales));
+  entries.push(sitemapUrl(base, "/refund-policy", "0.3", "yearly", allLocales));
 
   const comparePages = [
     "uworld-vs-archer-vs-nursenest",
@@ -391,28 +402,28 @@ app.get("/sitemap.xml", async (_req, res) => {
     "rex-pn-practice-questions-free",
   ];
   for (const slug of comparePages) {
-    entries.push(sitemapUrl(base, `/compare/${slug}`, "0.7", "monthly", enOnly, today));
+    entries.push(sitemapUrl(base, `/compare/${slug}`, "0.7", "monthly", allLocales, today));
   }
 
-  entries.push(sitemapUrl(base, "/medical-imaging", "0.9", "weekly", enOnly, today));
-  entries.push(sitemapUrl(base, "/medical-imaging/canada", "0.9", "weekly", enOnly, today));
-  entries.push(sitemapUrl(base, "/medical-imaging/usa", "0.9", "weekly", enOnly, today));
-  entries.push(sitemapUrl(base, "/medical-imaging/blog", "0.8", "daily", enOnly, today));
-  entries.push(sitemapUrl(base, "/medical-imaging/canada/lessons", "0.8", "weekly", enOnly, today));
-  entries.push(sitemapUrl(base, "/medical-imaging/canada/positioning", "0.8", "weekly", enOnly, today));
-  entries.push(sitemapUrl(base, "/medical-imaging/canada/physics", "0.8", "weekly", enOnly, today));
-  entries.push(sitemapUrl(base, "/medical-imaging/canada/flashcards", "0.8", "weekly", enOnly, today));
-  entries.push(sitemapUrl(base, "/medical-imaging/canada/practice-exams", "0.8", "weekly", enOnly, today));
-  entries.push(sitemapUrl(base, "/medical-imaging/canada/exam-simulator", "0.8", "weekly", enOnly, today));
-  entries.push(sitemapUrl(base, "/medical-imaging/usa/lessons", "0.8", "weekly", enOnly, today));
-  entries.push(sitemapUrl(base, "/medical-imaging/usa/positioning", "0.8", "weekly", enOnly, today));
-  entries.push(sitemapUrl(base, "/medical-imaging/usa/physics", "0.8", "weekly", enOnly, today));
-  entries.push(sitemapUrl(base, "/medical-imaging/usa/flashcards", "0.8", "weekly", enOnly, today));
-  entries.push(sitemapUrl(base, "/medical-imaging/usa/practice-exams", "0.8", "weekly", enOnly, today));
-  entries.push(sitemapUrl(base, "/medical-imaging/usa/exam-simulator", "0.8", "weekly", enOnly, today));
-  entries.push(sitemapUrl(base, "/radiography-practice-questions", "0.9", "weekly", enOnly, today));
-  entries.push(sitemapUrl(base, "/radiography-positioning-guide", "0.9", "weekly", enOnly, today));
-  entries.push(sitemapUrl(base, "/radiography-artifact-recognition", "0.9", "weekly", enOnly, today));
+  entries.push(sitemapUrl(base, "/medical-imaging", "0.9", "weekly", allLocales, today));
+  entries.push(sitemapUrl(base, "/medical-imaging/canada", "0.9", "weekly", allLocales, today));
+  entries.push(sitemapUrl(base, "/medical-imaging/usa", "0.9", "weekly", allLocales, today));
+  entries.push(sitemapUrl(base, "/medical-imaging/blog", "0.8", "daily", allLocales, today));
+  entries.push(sitemapUrl(base, "/medical-imaging/canada/lessons", "0.8", "weekly", allLocales, today));
+  entries.push(sitemapUrl(base, "/medical-imaging/canada/positioning", "0.8", "weekly", allLocales, today));
+  entries.push(sitemapUrl(base, "/medical-imaging/canada/physics", "0.8", "weekly", allLocales, today));
+  entries.push(sitemapUrl(base, "/medical-imaging/canada/flashcards", "0.8", "weekly", allLocales, today));
+  entries.push(sitemapUrl(base, "/medical-imaging/canada/practice-exams", "0.8", "weekly", allLocales, today));
+  entries.push(sitemapUrl(base, "/medical-imaging/canada/exam-simulator", "0.8", "weekly", allLocales, today));
+  entries.push(sitemapUrl(base, "/medical-imaging/usa/lessons", "0.8", "weekly", allLocales, today));
+  entries.push(sitemapUrl(base, "/medical-imaging/usa/positioning", "0.8", "weekly", allLocales, today));
+  entries.push(sitemapUrl(base, "/medical-imaging/usa/physics", "0.8", "weekly", allLocales, today));
+  entries.push(sitemapUrl(base, "/medical-imaging/usa/flashcards", "0.8", "weekly", allLocales, today));
+  entries.push(sitemapUrl(base, "/medical-imaging/usa/practice-exams", "0.8", "weekly", allLocales, today));
+  entries.push(sitemapUrl(base, "/medical-imaging/usa/exam-simulator", "0.8", "weekly", allLocales, today));
+  entries.push(sitemapUrl(base, "/radiography-practice-questions", "0.9", "weekly", allLocales, today));
+  entries.push(sitemapUrl(base, "/radiography-positioning-guide", "0.9", "weekly", allLocales, today));
+  entries.push(sitemapUrl(base, "/radiography-artifact-recognition", "0.9", "weekly", allLocales, today));
 
   try {
     const { pool: sitemapPool } = await import("./storage");
@@ -421,50 +432,50 @@ app.get("/sitemap.xml", async (_req, res) => {
     ).catch(() => ({ rows: [] }));
     for (const page of seoPages.rows) {
       const lastmod = page.updated_at ? new Date(page.updated_at).toISOString().split("T")[0] : today;
-      entries.push(sitemapUrl(base, `/medical-imaging/${page.country}/seo/${page.slug}`, "0.7", "weekly", enOnly, lastmod));
+      entries.push(sitemapUrl(base, `/medical-imaging/${page.country}/seo/${page.slug}`, "0.7", "weekly", allLocales, lastmod));
     }
     const blogArticles = await sitemapPool.query(
       `SELECT slug, updated_at FROM imaging_blog_articles WHERE status = 'published' ORDER BY updated_at DESC LIMIT 500`
     ).catch(() => ({ rows: [] }));
     for (const article of blogArticles.rows) {
       const lastmod = article.updated_at ? new Date(article.updated_at).toISOString().split("T")[0] : today;
-      entries.push(sitemapUrl(base, `/medical-imaging/blog/${article.slug}`, "0.7", "weekly", enOnly, lastmod));
+      entries.push(sitemapUrl(base, `/medical-imaging/blog/${article.slug}`, "0.7", "weekly", allLocales, lastmod));
     }
     const posEntries = await sitemapPool.query(
       `SELECT slug, country, updated_at FROM imaging_positioning_entries WHERE status = 'published' ORDER BY updated_at DESC LIMIT 500`
     ).catch(() => ({ rows: [] }));
     for (const entry of posEntries.rows) {
       const lastmod = entry.updated_at ? new Date(entry.updated_at).toISOString().split("T")[0] : today;
-      entries.push(sitemapUrl(base, `/medical-imaging/${entry.country}/positioning/${entry.slug}`, "0.7", "monthly", enOnly, lastmod));
+      entries.push(sitemapUrl(base, `/medical-imaging/${entry.country}/positioning/${entry.slug}`, "0.7", "monthly", allLocales, lastmod));
     }
   } catch (e) {
     console.error("Imaging sitemap error:", e);
   }
 
-  entries.push(sitemapUrl(base, "/nclex-rn/mock-exam", "0.9", "weekly", enOnly, today));
-  entries.push(sitemapUrl(base, "/nclex-pn/mock-exam", "0.9", "weekly", enOnly, today));
-  entries.push(sitemapUrl(base, "/rex-pn/mock-exam", "0.9", "weekly", enOnly, today));
-  entries.push(sitemapUrl(base, "/canada-np/mock-exam", "0.9", "weekly", enOnly, today));
-  entries.push(sitemapUrl(base, "/us-np/mock-exam", "0.9", "weekly", enOnly, today));
+  entries.push(sitemapUrl(base, "/nclex-rn/mock-exam", "0.9", "weekly", allLocales, today));
+  entries.push(sitemapUrl(base, "/nclex-pn/mock-exam", "0.9", "weekly", allLocales, today));
+  entries.push(sitemapUrl(base, "/rex-pn/mock-exam", "0.9", "weekly", allLocales, today));
+  entries.push(sitemapUrl(base, "/canada-np/mock-exam", "0.9", "weekly", allLocales, today));
+  entries.push(sitemapUrl(base, "/us-np/mock-exam", "0.9", "weekly", allLocales, today));
 
-  entries.push(sitemapUrl(base, "/nclex-rn", "0.8", "monthly", enOnly, today));
-  entries.push(sitemapUrl(base, "/nclex-pn", "0.8", "monthly", enOnly, today));
-  entries.push(sitemapUrl(base, "/canada-np", "0.8", "monthly", enOnly, today));
-  entries.push(sitemapUrl(base, "/us-np", "0.8", "monthly", enOnly, today));
+  entries.push(sitemapUrl(base, "/nclex-rn", "0.8", "monthly", allLocales, today));
+  entries.push(sitemapUrl(base, "/nclex-pn", "0.8", "monthly", allLocales, today));
+  entries.push(sitemapUrl(base, "/canada-np", "0.8", "monthly", allLocales, today));
+  entries.push(sitemapUrl(base, "/us-np", "0.8", "monthly", allLocales, today));
 
   const seoConditions = ["hypertension", "diabetes", "asthma", "copd", "heart-failure", "sepsis", "pneumonia"];
   for (const c of seoConditions) {
-    entries.push(sitemapUrl(base, `/conditions/${c}`, "0.8", "monthly", enOnly, today));
+    entries.push(sitemapUrl(base, `/conditions/${c}`, "0.8", "monthly", allLocales, today));
   }
 
   const seoMedications = ["metformin", "lisinopril", "warfarin", "insulin", "amiodarone"];
   for (const m of seoMedications) {
-    entries.push(sitemapUrl(base, `/medications/${m}`, "0.8", "monthly", enOnly, today));
+    entries.push(sitemapUrl(base, `/medications/${m}`, "0.8", "monthly", allLocales, today));
   }
 
   const seoLabValues = ["sodium", "potassium", "troponin", "creatinine", "inr"];
   for (const l of seoLabValues) {
-    entries.push(sitemapUrl(base, `/lab-values/${l}`, "0.8", "monthly", enOnly, today));
+    entries.push(sitemapUrl(base, `/lab-values/${l}`, "0.8", "monthly", allLocales, today));
   }
 
   const glossaryTermSlugs = [
@@ -494,7 +505,7 @@ app.get("/sitemap.xml", async (_req, res) => {
     "cardioversion","arterial-blood-gas-sampling","incentive-spirometry","suctioning",
   ];
   for (const slug of glossaryTermSlugs) {
-    entries.push(sitemapUrl(base, `/glossary/${slug}`, "0.5", "monthly", enOnly, today));
+    entries.push(sitemapUrl(base, `/glossary/${slug}`, "0.5", "monthly", allLocales, today));
   }
 
   const practiceQuestionCombos = [
@@ -504,7 +515,7 @@ app.get("/sitemap.xml", async (_req, res) => {
   ];
   for (const combo of practiceQuestionCombos) {
     for (const system of combo.systems) {
-      entries.push(sitemapUrl(base, `/practice-questions/${combo.tier}/${system}`, "0.8", "weekly", enOnly, today));
+      entries.push(sitemapUrl(base, `/practice-questions/${combo.tier}/${system}`, "0.8", "weekly", allLocales, today));
     }
   }
 
@@ -514,7 +525,7 @@ app.get("/sitemap.xml", async (_req, res) => {
   ];
   const uniqueLessonIds = [...new Set(lessonIds)];
   for (const id of uniqueLessonIds) {
-    entries.push(sitemapUrl(base, `/lessons/${id}`, "0.7", "monthly", enOnly, today));
+    entries.push(sitemapUrl(base, `/lessons/${id}`, "0.7", "monthly", allLocales, today));
   }
 
   const clarityTopics = [
@@ -561,7 +572,7 @@ app.get("/sitemap.xml", async (_req, res) => {
     "why-does-guillain-barre-cause-ascending-paralysis",
   ];
   for (const slug of clarityTopics) {
-    entries.push(sitemapUrl(base, `/clinical-clarity/${slug}`, "0.6", "monthly", enOnly, today));
+    entries.push(sitemapUrl(base, `/clinical-clarity/${slug}`, "0.6", "monthly", allLocales, today));
   }
 
   try {
@@ -576,7 +587,7 @@ app.get("/sitemap.xml", async (_req, res) => {
     });
     for (const post of blogPosts) {
       const lastmod = post.updatedAt ? new Date(post.updatedAt).toISOString().split("T")[0] : (post.publishedAt ? new Date(post.publishedAt).toISOString().split("T")[0] : today);
-      entries.push(sitemapUrl(base, `/learn/${post.slug}`, "0.6", "weekly", ["en"], lastmod));
+      entries.push(sitemapUrl(base, `/learn/${post.slug}`, "0.6", "weekly", allLocales, lastmod));
     }
   } catch {}
 
@@ -679,6 +690,61 @@ app.get("/sitemap-:lang.xml", async (req, res) => {
   res.setHeader("Content-Type", "application/xml; charset=utf-8");
   res.setHeader("Cache-Control", "public, max-age=3600");
   res.status(200).send(xml);
+});
+
+// -------------------------
+// SEO Debug API
+// -------------------------
+import { getPageMeta } from "./seo-meta";
+
+const SEO_DEBUG_ROUTES = [
+  "/", "/lessons", "/flashcards", "/pricing", "/start-free", "/anatomy",
+  "/med-math", "/lab-values", "/mock-exams", "/clinical-clarity", "/blog",
+  "/pre-nursing", "/question-of-the-day", "/question-bank", "/lectures",
+  "/nursing", "/nursing-specialties", "/faq", "/about", "/contact",
+  "/terms", "/privacy", "/nclex-rn-practice-questions", "/nclex-pn-practice-questions",
+  "/rex-pn-practice-questions", "/np-exam-practice-questions", "/free-practice",
+  "/practice-questions", "/glossary", "/medication-mastery", "/medical-imaging",
+  "/admin", "/dashboard", "/login", "/register", "/profile", "/feedback",
+  "/diagnostic-assessment", "/settings",
+];
+
+const HREFLANG_MAP: Record<string, string> = {
+  en: "en-ca", fr: "fr-ca", es: "es", fil: "fil", hi: "hi",
+  zh: "zh", ar: "ar", ko: "ko", pt: "pt", pa: "pa",
+  vi: "vi", ht: "ht", ur: "ur", ja: "ja", fa: "fa",
+};
+
+app.get("/api/seo-debug", (_req, res) => {
+  const siteBase = getSiteBase();
+  const debugLocales = ["en", "fr", "es", "fil", "hi", "zh", "ar", "ko", "pt", "pa", "vi", "ht", "ur", "ja", "fa"];
+  const results: any[] = [];
+
+  for (const route of SEO_DEBUG_ROUTES) {
+    for (const locale of debugLocales) {
+      const fullPath = `/${locale}${route === "/" ? "" : route}`;
+      const meta = getPageMeta(fullPath);
+      const basePath = route === "/" ? "" : route;
+      const hreflangs = debugLocales.map(l => ({
+        lang: HREFLANG_MAP[l] || l,
+        href: `${siteBase}/${l}${basePath}`,
+      }));
+      hreflangs.push({ lang: "x-default", href: `${siteBase}/en${basePath}` });
+
+      results.push({
+        url: `${siteBase}${fullPath}`,
+        path: fullPath,
+        locale,
+        canonical: meta.canonical,
+        robotsMeta: meta.noindex ? "noindex, follow" : "index, follow",
+        hreflangs,
+        inSitemap: !meta.noindex,
+        title: meta.title,
+      });
+    }
+  }
+
+  res.json({ routes: results, locales: debugLocales, totalRoutes: results.length });
 });
 
 // -------------------------

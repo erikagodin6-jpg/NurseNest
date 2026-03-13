@@ -1,8 +1,9 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { SUPPORTED_LOCALES, getLocaleFromPath } from "@/lib/locale-utils";
 import { buildBreadcrumbs, buildBreadcrumbJsonLd, type BreadcrumbItem } from "@/lib/breadcrumb-builder";
 
 const SITE_DOMAIN = "https://www.nursenest.ca";
+let seoFirstRender = true;
 
 interface SEOProps {
   title: string;
@@ -56,7 +57,7 @@ export function SEO({ title, description, keywords, canonicalPath, ogType = "web
     const hreflangLinks: HTMLLinkElement[] = [];
 
     if (canonicalPath) {
-      const { locale: currentLocale, pathWithoutLocale } = getLocaleFromPath(canonicalPath);
+      const { pathWithoutLocale } = getLocaleFromPath(canonicalPath);
       const basePath = pathWithoutLocale === "/" ? "" : pathWithoutLocale;
 
       const currentPath = window.location.pathname;
@@ -67,31 +68,45 @@ export function SEO({ title, description, keywords, canonicalPath, ogType = "web
         : `${SITE_DOMAIN}${localePrefix}`;
 
       setMeta("og:url", canonicalUrl, true);
-      let link = document.querySelector('link[rel="canonical"]') as HTMLLinkElement;
-      if (!link) {
-        link = document.createElement("link");
-        link.rel = "canonical";
-        document.head.appendChild(link);
-      }
-      link.href = canonicalUrl;
 
-      document.querySelectorAll('link[rel="alternate"][hreflang]').forEach((el) => el.remove());
+      const isFirstRender = seoFirstRender;
+      seoFirstRender = false;
 
-      for (const locale of SUPPORTED_LOCALES) {
-        const altLink = document.createElement("link");
-        altLink.rel = "alternate";
-        altLink.hreflang = locale;
-        altLink.href = `${SITE_DOMAIN}/${locale}${basePath}`;
-        document.head.appendChild(altLink);
-        hreflangLinks.push(altLink);
+      const existingCanonical = document.querySelector('link[rel="canonical"]') as HTMLLinkElement;
+      const ssrCanonicalCorrect = isFirstRender && existingCanonical && existingCanonical.href === canonicalUrl;
+
+      if (!ssrCanonicalCorrect) {
+        let link = existingCanonical;
+        if (!link) {
+          link = document.createElement("link");
+          link.rel = "canonical";
+          document.head.appendChild(link);
+        }
+        link.href = canonicalUrl;
       }
 
-      const xDefaultLink = document.createElement("link");
-      xDefaultLink.rel = "alternate";
-      xDefaultLink.hreflang = "x-default";
-      xDefaultLink.href = `${SITE_DOMAIN}/en${basePath}`;
-      document.head.appendChild(xDefaultLink);
-      hreflangLinks.push(xDefaultLink);
+      const existingHreflangs = document.querySelectorAll('link[rel="alternate"][hreflang]');
+      const ssrHreflangsCorrect = isFirstRender && existingHreflangs.length > 0;
+
+      if (!ssrHreflangsCorrect) {
+        existingHreflangs.forEach(el => el.remove());
+
+        for (const locale of SUPPORTED_LOCALES) {
+          const altLink = document.createElement("link");
+          altLink.rel = "alternate";
+          altLink.hreflang = locale;
+          altLink.href = `${SITE_DOMAIN}/${locale}${basePath}`;
+          document.head.appendChild(altLink);
+          hreflangLinks.push(altLink);
+        }
+
+        const xDefaultLink = document.createElement("link");
+        xDefaultLink.rel = "alternate";
+        xDefaultLink.hreflang = "x-default";
+        xDefaultLink.href = `${SITE_DOMAIN}/en${basePath}`;
+        document.head.appendChild(xDefaultLink);
+        hreflangLinks.push(xDefaultLink);
+      }
     }
 
     const scriptIds: string[] = [];
