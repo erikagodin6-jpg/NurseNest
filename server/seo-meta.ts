@@ -76,7 +76,7 @@ function buildBreadcrumbs(pathname: string): { name: string; url: string }[] {
   const lessonMatch = pathname.match(/^\/lessons\/(.+)$/);
   if (lessonMatch) {
     crumbs.push({ name: "Lessons", url: `${SITE_BASE}/lessons` });
-    crumbs.push({ name: slugToTitle(lessonMatch[1]), url: `${SITE_BASE}${pathname}` });
+    crumbs.push({ name: stripTierFromSeoTitle(slugToTitle(lessonMatch[1])), url: `${SITE_BASE}${pathname}` });
     return crumbs;
   }
 
@@ -107,6 +107,14 @@ function buildBreadcrumbs(pathname: string): { name: string; url: string }[] {
   }
 
   return crumbs;
+}
+
+function stripTierFromSeoTitle(title: string): string {
+  return title
+    .replace(/^(RN|NP|RPN|LVN|NCLEX|NCLEX-RN|NCLEX-PN|REx-PN)\s+/i, "")
+    .replace(/\s+\((RN|NP|RPN|LVN|NCLEX|RPN\/LVN|RPN\/RN)\)$/i, "")
+    .replace(/\s*-\s*Nursing Lesson$/i, "")
+    .trim();
 }
 
 function slugToTitle(slug: string): string {
@@ -721,21 +729,18 @@ export function getPageMeta(pathname: string): PageMeta {
     const slug = lessonMatch[1];
     const seoEntry = seoTitleMap[slug];
     if (seoEntry) {
+      const cleanSeoTitle = stripTierFromSeoTitle(seoEntry.title);
       return {
-        title: `${seoEntry.title} | NurseNest`,
+        title: `${cleanSeoTitle} | NurseNest`,
         description: seoEntry.description,
         canonical,
         noindex,
         breadcrumbs,
       };
     }
-    const readable = slugToTitle(slug);
-    let tier = "";
-    if (slug.endsWith("-np")) tier = " (NP)";
-    else if (slug.endsWith("-rn")) tier = " (RN)";
-    else if (slug.endsWith("-rpn")) tier = " (RPN)";
+    const readable = stripTierFromSeoTitle(slugToTitle(slug));
     return {
-      title: `${readable}${tier} - Nursing Lesson | NurseNest`,
+      title: `${readable} | NurseNest`,
       description: `Learn about ${readable} with detailed pathophysiology, clinical findings, nursing interventions, and exam pearls. Evidence-based nursing education for NCLEX, NCLEX-PN, and REx-PN preparation.`,
       canonical,
       noindex,

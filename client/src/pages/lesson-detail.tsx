@@ -1724,9 +1724,8 @@ export default function LessonDetail() {
         if (data) {
           const returnedId = data.id;
           if (returnedId && returnedId !== id) {
-            console.warn(`[LessonDetail] Content mismatch: requested "${id}" but received "${returnedId}"`);
-            setApiLesson(null);
-            setApiLoading(false);
+            window.history.replaceState(null, "", `/lessons/${returnedId}`);
+            setLocation(`/lessons/${returnedId}`);
             return;
           }
           const { id: _id, ...lesson } = data;

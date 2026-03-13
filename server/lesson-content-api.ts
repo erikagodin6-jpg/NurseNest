@@ -132,8 +132,30 @@ export function setupLessonContentRoutes(app: Express): void {
   app.get("/api/lessons/content/:slug", async (req: Request, res: Response) => {
     try {
       const data = await loadLessonData();
-      const slug = req.params.slug;
-      const lesson = data[slug];
+      let slug = req.params.slug;
+      let lesson = data[slug];
+
+      if (!lesson) {
+        try {
+          const { pool } = await import("./storage");
+          const { normalizeForAlias } = await import("./title-canonicalizer");
+          const normalizedSlug = normalizeForAlias(slug);
+          const aliasResult = await pool.query(
+            `SELECT canonical_slug FROM lesson_aliases WHERE normalized_alias = $1 LIMIT 1`,
+            [normalizedSlug]
+          );
+          if (aliasResult.rows.length > 0) {
+            const canonicalSlug = aliasResult.rows[0].canonical_slug;
+            if (data[canonicalSlug]) {
+              slug = canonicalSlug;
+              lesson = data[slug];
+            }
+          }
+        } catch (aliasErr: any) {
+          console.warn("[LessonAlias] Slug resolution error:", aliasErr.message);
+        }
+      }
+
       if (!lesson) {
         return res.status(404).json({ error: "Lesson not found" });
       }
@@ -166,9 +188,46 @@ export function setupLessonContentRoutes(app: Express): void {
       const userTier = await extractLessonUserTier(req);
       const allowed = getAllowedLessonTiers(userTier);
       const meta = await buildMetadata();
+
+      const { resolveAbbreviation, normalizeForAlias } = await import("./title-canonicalizer");
+      const expanded = resolveAbbreviation(q);
+      const searchTerms = [q];
+      if (expanded) searchTerms.push(expanded.toLowerCase());
+
+      let aliasMatches: string[] = [];
+      try {
+        const { pool } = await import("./storage");
+        const normalizedQ = normalizeForAlias(q);
+        const aliasQueries = [normalizedQ];
+        if (expanded) aliasQueries.push(normalizeForAlias(expanded));
+
+        for (const aq of aliasQueries) {
+          const aliasResult = await pool.query(
+            `SELECT DISTINCT canonical_slug FROM lesson_aliases WHERE normalized_alias ILIKE $1 LIMIT 10`,
+            [`%${aq}%`]
+          );
+          aliasMatches.push(...aliasResult.rows.map((r: any) => r.canonical_slug));
+        }
+      } catch (aliasErr: any) {
+        console.warn("[LessonAlias] Search alias error:", aliasErr.message);
+      }
+
       const results = meta
         .filter((m) => allowed.includes(m.tier))
-        .filter((m) => m.title.toLowerCase().includes(q) || m.id.toLowerCase().includes(q))
+        .filter((m) => {
+          const titleLower = m.title.toLowerCase();
+          const idLower = m.id.toLowerCase();
+          for (const term of searchTerms) {
+            if (titleLower.includes(term) || idLower.includes(term)) return true;
+          }
+          if (aliasMatches.length > 0) {
+            const mIdLower = m.id.toLowerCase();
+            for (const alias of aliasMatches) {
+              if (alias === mIdLower || mIdLower.includes(alias) || alias.includes(mIdLower)) return true;
+            }
+          }
+          return false;
+        })
         .slice(0, 20);
       res.setHeader("Cache-Control", "private, max-age=60");
       res.json(results);

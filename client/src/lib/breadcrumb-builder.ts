@@ -5,21 +5,33 @@ export interface BreadcrumbItem {
   url: string;
 }
 
-const ACRONYMS = new Set([
+const MEDICAL_ACRONYMS = new Set([
   "COPD", "ECG", "EKG", "ICU", "IV", "NG", "ABG", "DKA", "HHNS", "SIADH",
   "DVT", "PE", "MI", "HF", "AKI", "CKD", "UTI", "BPH", "GERD", "IBS",
-  "GI", "CNS", "PNS", "MS", "ALS", "ACLS", "BLS", "OSCE", "NP", "RPN",
-  "RN", "LVN", "NCLEX", "REX-PN", "NBRC", "NREMT", "PTCB", "CSMLS",
+  "GI", "CNS", "PNS", "MS", "ALS", "ACLS", "BLS", "OSCE",
+  "NBRC", "NREMT", "PTCB", "CSMLS",
   "CAMRT", "RRT", "MLT", "ADHD", "OCD", "PTSD", "DIC", "TB", "RSV",
   "ARDS", "ERCP", "EGD", "FAQ", "AI", "QBank", "SEO",
 ]);
 
+const TIER_LABELS = new Set(["RN", "NP", "RPN", "LVN", "NCLEX", "REX-PN"]);
+
+const ACRONYMS = new Set([...MEDICAL_ACRONYMS, ...TIER_LABELS]);
+
+function stripTierLabels(text: string): string {
+  return text
+    .replace(/^(RN|NP|RPN|LVN|NCLEX|NCLEX-RN|NCLEX-PN|REx-PN)\s+/i, "")
+    .replace(/\s+\((RN|NP|RPN|LVN|NCLEX|RPN\/LVN|RPN\/RN)\)$/i, "")
+    .trim();
+}
+
 function formatSegment(segment: string): string {
   const words = segment.replace(/-/g, " ").split(" ");
-  return words
+  const formatted = words
+    .filter((w) => !TIER_LABELS.has(w.toUpperCase()))
     .map((w) => {
       const upper = w.toUpperCase();
-      if (ACRONYMS.has(upper)) return upper;
+      if (MEDICAL_ACRONYMS.has(upper)) return upper;
       if (upper === "VS") return "vs";
       if (upper === "AND") return "&";
       if (upper === "OF") return "of";
@@ -30,6 +42,7 @@ function formatSegment(segment: string): string {
       return w.charAt(0).toUpperCase() + w.slice(1);
     })
     .join(" ");
+  return stripTierLabels(formatted);
 }
 
 const STATIC_ROUTES: Record<string, string> = {

@@ -697,6 +697,17 @@ async function getContentSitemapEntries(base: string, today: string, offset: num
     entries.push(`<url><loc>${base}/${page.language_code}/study-guide/${page.slug}</loc><priority>${priority}</priority><changefreq>weekly</changefreq><lastmod>${lastmod}</lastmod></url>`);
   }
 
+  const lessonItems = await dbPool.query(
+    `SELECT DISTINCT ON (slug) slug, updated_at FROM content_items WHERE type = 'lesson' AND status = 'published' ORDER BY slug, updated_at DESC`
+  ).catch(() => ({ rows: [] }));
+  const seenLessonSlugs = new Set<string>();
+  for (const lesson of lessonItems.rows) {
+    if (seenLessonSlugs.has(lesson.slug)) continue;
+    seenLessonSlugs.add(lesson.slug);
+    const lastmod = lesson.updated_at ? new Date(lesson.updated_at).toISOString().split("T")[0] : today;
+    entries.push(sitemapUrl(base, `/lessons/${lesson.slug}`, "0.8", "weekly", enOnly, lastmod));
+  }
+
   return entries.slice(offset, offset + limit);
 }
 

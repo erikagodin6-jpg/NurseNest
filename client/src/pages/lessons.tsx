@@ -5,6 +5,7 @@ import { SEO } from "@/components/seo";
 import { AdminEditButton } from "@/components/admin-edit-button";
 import { useI18n } from "@/lib/i18n";
 import { getLessonTitle, loadTranslationLanguage, isTranslationLoaded } from "@/lib/getI18n";
+import { canonicalDisplayName } from "@/lib/canonical-display";
 import { Footer } from "@/components/footer";
 import { LocaleLink } from "@/lib/LocaleLink";
 import { buildCatalogStructuredData } from "@/lib/structured-data";
@@ -4794,7 +4795,7 @@ function LessonSystemCard({ system, onSelect, tier, lessonOverrides, onOverrides
           {(disease: any) => {
             const difficulty = getDifficulty(disease.id, tier);
             const overrideName = lessonOverrides?.[disease.id]?.title;
-            const displayName = overrideName || getLessonTitle(disease.id, language) || disease.name;
+            const displayName = canonicalDisplayName(overrideName || getLessonTitle(disease.id, language) || disease.name);
             const lessonImgUrl = getImageUrl(`lesson-${disease.id}`, "");
             const isEditingThis = editingLessonId === disease.id;
             return (
@@ -4994,7 +4995,7 @@ function CustomSystemCard({ system, tier, isAdmin, onSelect, onEdit, onDelete, l
           {(disease: any) => {
             const idx = lessons.findIndex(l => l.id === disease.id);
             const overrideName = lessonOverrides?.[disease.id]?.title;
-            const displayName = overrideName || getLessonTitle(disease.id, language) || disease.name;
+            const displayName = canonicalDisplayName(overrideName || getLessonTitle(disease.id, language) || disease.name);
             const lessonImgUrl = disease.id ? getImageUrl(`lesson-${disease.id}`, "") : "";
             const isEditingThis = editingLessonId === disease.id;
             return (

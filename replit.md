@@ -48,6 +48,15 @@ The platform also includes:
 - **Multilingual SEO & Translation System**: Server-rendered hreflang/canonical tags with locale-aware meta injection, translation completeness auditing (95% threshold for indexing), multilingual sitemap generation (only indexable locales), /index.html deduplication (301 redirects), DB content translation guard, admin Translation Coverage Dashboard (`/admin/translation-coverage`), admin SEO Inspector (`/admin/seo-inspector`), and pre-deploy validation script (`scripts/validate-seo.ts`). Key files: `server/translation-audit.ts`, `server/seo-meta.ts`.
 - **Translation Coverage Dashboard**: Admin tool at `/admin/translations` for auditing translation completeness across 14 locales. Scans UI keys (i18n-en.ts vs i18n-translations.ts), DB content (content_items, exam_questions), and JSON lesson translations. Uses a weighted scoring model (metadata 10%, headings 10%, primary_body 40%, supporting 20%, ui_chrome 10%, forms 5%, structured_data 5%). Features per-locale/content-type breakdowns, filtering, bulk actions (mark_draft/mark_ready/remove_sitemap/apply_noindex), detail inspector with field-level issues, sitemap/noindex controls with admin override, and CSV/JSON export. Backend: `server/translation-audit-engine.ts`, `server/translation-audit-routes.ts`. DB tables: `translation_audits`, `translation_audit_issues`.
 
+### Lesson Title Canonicalization System
+Standardizes lesson naming across the platform so every medical topic has one canonical title. Key components:
+- **`lesson_aliases` table**: Maps old titles/slugs/abbreviations to canonical lesson IDs/slugs. Schema in `shared/schema.ts`, migration in `server/ensure-schema.ts`.
+- **Title Canonicalizer Engine** (`server/title-canonicalizer.ts`): Strips tier prefixes (RN, NP, RPN, LVN, NCLEX), removes filler words (overview, lesson, guide, etc.), enforces title case, corrects spelling errors, resolves medical abbreviations (PE → Pulmonary Embolism, SVT → Supraventricular Tachycardia, etc.), generates canonical slugs.
+- **Title Validation**: Rejects titles with banned words on content creation/update (enforced in POST/PUT `/api/content` routes). Bypassable with `forcePublish`.
+- **Alias Resolution**: Search endpoint (`/api/lessons/search`) queries `lesson_aliases` for abbreviation/old-title matches. Lesson content endpoint resolves old slugs via aliases.
+- **SEO**: Page titles use "Canonical Title | NurseNest" format without tier prefixes. Breadcrumbs strip tier labels on both client and server.
+- **Admin APIs**: `GET /api/admin/canonicalize/preview` (dry-run), `POST /api/admin/canonicalize/run` (execute migration), `POST /api/admin/canonicalize/flashcards` (update flashcard references), `GET /api/admin/canonicalize/validate-title` (validate any title).
+
 ### Database Architecture
 The platform uses PostgreSQL with Drizzle ORM for database management, configured via `server/db.ts` with separate environment variables for development and production.
 

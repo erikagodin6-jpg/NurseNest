@@ -3819,6 +3819,509 @@ Rules:
   });
 
   // --------------------
+  // Title Canonicalization
+  // --------------------
+  app.get("/api/admin/canonicalize/preview", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+
+      const { canonicalizeTitle, createEmptyReport } = await import("./title-canonicalizer");
+      const report = createEmptyReport();
+
+      const result = await pool.query(
+        `SELECT id, title, slug, seo_title, status, tier, region_scope FROM content_items WHERE type = 'lesson'`
+      );
+      report.lessonsScanned = result.rows.length;
+
+      const changes: any[] = [];
+      for (const row of result.rows) {
+        const canonical = canonicalizeTitle(row.title);
+        if (canonical.wasChanged) {
+          report.titlesCanonicalized++;
+          if (canonical.corrections.some((c: string) => c.includes("Spelling"))) {
+            report.spellingCorrections++;
+          }
+          changes.push({
+            id: row.id,
+            oldTitle: row.title,
+            newTitle: canonical.canonicalTitle,
+            oldSlug: row.slug,
+            newSlug: canonical.canonicalSlug,
+            corrections: canonical.corrections,
+            tier: row.tier,
+            status: row.status,
+          });
+        }
+      }
+
+      res.json({ report, changes, dryRun: true });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.post("/api/admin/canonicalize/run", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+
+      const { canonicalizeTitle, createEmptyReport, normalizeForAlias } = await import("./title-canonicalizer");
+      const report = createEmptyReport();
+      const errors: { id: string; title: string; error: string }[] = [];
+
+      const result = await pool.query(
+        `SELECT id, title, slug, seo_title, status, tier, region_scope, content, updated_at FROM content_items WHERE type = 'lesson' ORDER BY updated_at DESC`
+      );
+      report.lessonsScanned = result.rows.length;
+
+      const mergeGroups = new Map<string, typeof result.rows>();
+      for (const row of result.rows) {
+        const canonical = canonicalizeTitle(row.title);
+        const tier = (row.tier || "general").toLowerCase();
+        const region = (row.region_scope || "BOTH").toLowerCase();
+        const mergeKey = `${canonical.canonicalSlug}::${tier}::${region}`;
+        const group = mergeGroups.get(mergeKey) || [];
+        group.push(row);
+        mergeGroups.set(mergeKey, group);
+      }
+
+      const client = await pool.connect();
+      try {
+        await client.query("BEGIN");
+
+        for (const [mergeKey, group] of mergeGroups.entries()) {
+          const canonical = canonicalizeTitle(group[0].title);
+          const canonicalSlug = canonical.canonicalSlug;
+
+          if (group.length > 1) {
+            report.duplicatesFound += group.length - 1;
+
+            const primary = group.reduce((best, row) => {
+              if (row.status === "published" && best.status !== "published") return row;
+              if (row.status === best.status) {
+                const rowLen = JSON.stringify(row.content || "").length;
+                const bestLen = JSON.stringify(best.content || "").length;
+                if (rowLen > bestLen) return row;
+              }
+              return best;
+            }, group[0]);
+
+            for (const row of group) {
+              if (row.id === primary.id) continue;
+
+              try {
+                await client.query(
+                  `UPDATE lesson_images SET lesson_id = $1 WHERE lesson_id = $2`,
+                  [primary.id, row.id]
+                );
+                await client.query(
+                  `UPDATE flashcard_bank SET lesson_id = $1 WHERE lesson_id = $2`,
+                  [primary.id, row.id]
+                );
+              } catch (refErr: any) {
+                console.warn("[Canonicalize] Reference reassignment warning:", refErr.message);
+              }
+
+              try {
+                await client.query(
+                  `INSERT INTO lesson_aliases (lesson_id, alias_text, normalized_alias, canonical_slug)
+                   VALUES ($1, $2, $3, $4)
+                   ON CONFLICT (normalized_alias, lesson_id) DO NOTHING`,
+                  [primary.id, row.title, normalizeForAlias(row.title), canonicalSlug]
+                );
+                if (row.slug !== canonicalSlug) {
+                  await client.query(
+                    `INSERT INTO lesson_aliases (lesson_id, alias_text, normalized_alias, canonical_slug)
+                     VALUES ($1, $2, $3, $4)
+                     ON CONFLICT (normalized_alias, lesson_id) DO NOTHING`,
+                    [primary.id, row.slug, normalizeForAlias(row.slug), canonicalSlug]
+                  );
+                }
+                report.aliasesCreated++;
+              } catch (aliasErr: any) {
+                console.warn("[Canonicalize] Alias insert error for merged record:", aliasErr.message);
+              }
+
+              try {
+                await client.query(
+                  `UPDATE content_items SET status = 'merged', merged_into = $1, updated_at = NOW() WHERE id = $2`,
+                  [primary.id, row.id]
+                );
+              } catch (mergeErr: any) {
+                await client.query(
+                  `UPDATE content_items SET status = 'archived', updated_at = NOW() WHERE id = $1`,
+                  [row.id]
+                );
+                console.warn("[Canonicalize] Merge status fallback to archived:", mergeErr.message);
+              }
+            }
+
+            const existingSlug = await client.query(
+              `SELECT id, tier FROM content_items WHERE slug = $1 AND id != $2 AND (status != 'merged' AND status != 'archived')`,
+              [canonicalSlug, primary.id]
+            );
+            let finalSlug = canonicalSlug;
+            if (existingSlug.rows.length > 0) {
+              const conflictTier = existingSlug.rows[0].tier;
+              const primaryTier = primary.tier || "free";
+              if (primaryTier !== "free" && primaryTier !== conflictTier) {
+                finalSlug = `${canonicalSlug}-${primaryTier}`;
+              } else {
+                await client.query(
+                  `UPDATE content_items SET slug = $1, updated_at = NOW() WHERE id = $2`,
+                  [`${existingSlug.rows[0].id.slice(0, 8)}-old`, existingSlug.rows[0].id]
+                );
+                await client.query(
+                  `INSERT INTO lesson_aliases (lesson_id, alias_text, normalized_alias, canonical_slug)
+                   VALUES ($1, $2, $3, $4) ON CONFLICT (normalized_alias, lesson_id) DO NOTHING`,
+                  [existingSlug.rows[0].id, canonicalSlug, normalizeForAlias(canonicalSlug), canonicalSlug]
+                );
+              }
+              report.lowConfidenceItems.push({
+                id: primary.id,
+                title: primary.title,
+                reason: `Slug conflict resolved: primary gets ${finalSlug}`,
+              });
+            }
+
+            try {
+              await client.query(
+                `UPDATE content_items SET title = $1, slug = $2, seo_title = $3, updated_at = NOW() WHERE id = $4`,
+                [canonical.canonicalTitle, finalSlug, `${canonical.canonicalTitle} | NurseNest`, primary.id]
+              );
+              report.titlesCanonicalized++;
+              report.slugsStandardized++;
+            } catch (updateErr: any) {
+              errors.push({ id: primary.id, title: primary.title, error: updateErr.message });
+            }
+
+            try {
+              if (primary.slug !== finalSlug) {
+                await client.query(
+                  `INSERT INTO lesson_aliases (lesson_id, alias_text, normalized_alias, canonical_slug)
+                   VALUES ($1, $2, $3, $4)
+                   ON CONFLICT (normalized_alias, lesson_id) DO NOTHING`,
+                  [primary.id, primary.slug, normalizeForAlias(primary.slug), finalSlug]
+                );
+                report.aliasesCreated++;
+              }
+              await client.query(
+                `INSERT INTO lesson_aliases (lesson_id, alias_text, normalized_alias, canonical_slug)
+                 VALUES ($1, $2, $3, $4)
+                 ON CONFLICT (normalized_alias, lesson_id) DO NOTHING`,
+                [primary.id, primary.title, normalizeForAlias(primary.title), finalSlug]
+              );
+            } catch (aliasErr: any) {
+              console.warn("[Canonicalize] Alias insert error:", aliasErr.message);
+            }
+
+          } else {
+            const row = group[0];
+            const needsTitleChange = canonical.wasChanged;
+            const needsSlugChange = row.slug !== canonicalSlug;
+
+            if (!needsTitleChange && !needsSlugChange) continue;
+
+            if (needsTitleChange) {
+              report.titlesCanonicalized++;
+              if (canonical.corrections.some((c: string) => c.includes("Spelling"))) {
+                report.spellingCorrections++;
+              }
+            }
+
+            const existingSlug = await client.query(
+              `SELECT id, tier FROM content_items WHERE slug = $1 AND id != $2 AND (status != 'merged' AND status != 'archived')`,
+              [canonicalSlug, row.id]
+            );
+            let finalSlug = canonicalSlug;
+            if (existingSlug.rows.length > 0) {
+              const conflictTier = existingSlug.rows[0].tier;
+              const rowTier = row.tier || "free";
+              if (rowTier !== "free" && rowTier !== conflictTier) {
+                finalSlug = `${canonicalSlug}-${rowTier}`;
+              } else {
+                await client.query(
+                  `UPDATE content_items SET slug = $1, updated_at = NOW() WHERE id = $2`,
+                  [`${existingSlug.rows[0].id.slice(0, 8)}-old`, existingSlug.rows[0].id]
+                );
+                await client.query(
+                  `INSERT INTO lesson_aliases (lesson_id, alias_text, normalized_alias, canonical_slug)
+                   VALUES ($1, $2, $3, $4) ON CONFLICT (normalized_alias, lesson_id) DO NOTHING`,
+                  [existingSlug.rows[0].id, canonicalSlug, normalizeForAlias(canonicalSlug), canonicalSlug]
+                );
+              }
+              report.lowConfidenceItems.push({
+                id: row.id,
+                title: row.title,
+                reason: `Slug conflict resolved: gets ${finalSlug}`,
+              });
+            }
+
+            try {
+              await client.query(
+                `UPDATE content_items SET title = $1, slug = $2, seo_title = $3, updated_at = NOW() WHERE id = $4`,
+                [canonical.canonicalTitle, finalSlug, `${canonical.canonicalTitle} | NurseNest`, row.id]
+              );
+              report.slugsStandardized++;
+            } catch (updateErr: any) {
+              errors.push({ id: row.id, title: row.title, error: updateErr.message });
+              continue;
+            }
+
+            try {
+              await client.query(
+                `INSERT INTO lesson_aliases (lesson_id, alias_text, normalized_alias, canonical_slug)
+                 VALUES ($1, $2, $3, $4)
+                 ON CONFLICT (normalized_alias, lesson_id) DO NOTHING`,
+                [row.id, row.title, normalizeForAlias(row.title), finalSlug]
+              );
+              report.aliasesCreated++;
+            } catch (aliasErr: any) {
+              console.warn("[Canonicalize] Alias insert error:", aliasErr.message);
+            }
+
+            if (row.slug !== finalSlug) {
+              try {
+                await client.query(
+                  `INSERT INTO lesson_aliases (lesson_id, alias_text, normalized_alias, canonical_slug)
+                   VALUES ($1, $2, $3, $4)
+                   ON CONFLICT (normalized_alias, lesson_id) DO NOTHING`,
+                  [row.id, row.slug, normalizeForAlias(row.slug), finalSlug]
+                );
+                report.aliasesCreated++;
+              } catch (aliasErr: any) {
+                console.warn("[Canonicalize] Alias insert error:", aliasErr.message);
+              }
+            }
+          }
+        }
+
+        try {
+          const imgResult = await client.query(
+            `SELECT li.id, li.lesson_id, li.caption
+             FROM lesson_images li WHERE li.caption IS NOT NULL`
+          );
+          for (const img of imgResult.rows) {
+            if (img.caption) {
+              const tierStripPattern = /\b(RN|NP|RPN|LVN|NCLEX)\s+(?=lesson|module|guide|content|material)/gi;
+              const cleaned = img.caption.replace(tierStripPattern, "");
+              if (cleaned !== img.caption) {
+                await client.query(
+                  `UPDATE lesson_images SET caption = $1 WHERE id = $2`,
+                  [cleaned, img.id]
+                );
+                report.referencesUpdated++;
+              }
+            }
+          }
+        } catch (imgErr: any) {
+          console.warn("[Canonicalize] lesson_images update error:", imgErr.message);
+        }
+
+        await client.query("COMMIT");
+      } catch (txErr: any) {
+        await client.query("ROLLBACK");
+        throw txErr;
+      } finally {
+        client.release();
+      }
+
+      res.json({ report, errors, dryRun: false });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.post("/api/admin/canonicalize/flashcards", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+
+      const { canonicalizeTitle, normalizeForAlias } = await import("./title-canonicalizer");
+      let updated = 0;
+
+      const aliasRows = await pool.query(
+        `SELECT la.alias_text, la.normalized_alias, la.canonical_slug, ci.title AS canonical_title
+         FROM lesson_aliases la
+         LEFT JOIN content_items ci ON ci.slug = la.canonical_slug AND ci.merged_into IS NULL
+         ORDER BY la.canonical_slug`
+      ).catch(() => ({ rows: [] }));
+
+      const slugToTitle = new Map<string, string>();
+      const aliasToSlug = new Map<string, string>();
+      for (const a of aliasRows.rows) {
+        aliasToSlug.set(a.normalized_alias, a.canonical_slug);
+        aliasToSlug.set(a.alias_text.toLowerCase(), a.canonical_slug);
+        if (a.canonical_title) {
+          slugToTitle.set(a.canonical_slug, a.canonical_title);
+        }
+      }
+
+      function resolveToCanonicalTitle(text: string): string | null {
+        const normalized = normalizeForAlias(text);
+        const slug = aliasToSlug.get(normalized) || aliasToSlug.get(text.toLowerCase());
+        if (!slug) return null;
+        return slugToTitle.get(slug) || null;
+      }
+
+      function replaceOldReferences(text: string): string {
+        let result = text;
+        for (const a of aliasRows.rows) {
+          if (!a.canonical_title || a.alias_text.length <= 3) continue;
+          const aliasLower = a.alias_text.toLowerCase();
+          if (result.toLowerCase().includes(aliasLower) && aliasLower !== a.canonical_title.toLowerCase()) {
+            const regex = new RegExp(a.alias_text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), "gi");
+            result = result.replace(regex, a.canonical_title);
+          }
+        }
+        const tierPattern = /\b(RN|NP|RPN|LVN|NCLEX)\s+(?=lesson|module|guide|content|material)/gi;
+        result = result.replace(tierPattern, "");
+        return result;
+      }
+
+      const flashcards = await pool.query(
+        `SELECT id, topic, topic_tag, rationale_correct, distractor_rationales, lesson_links FROM flashcard_bank`
+      );
+
+      for (const fc of flashcards.rows) {
+        const updates: Record<string, any> = {};
+
+        if (fc.topic) {
+          const resolved = resolveToCanonicalTitle(fc.topic);
+          if (resolved && resolved !== fc.topic) {
+            updates.topic = resolved;
+          } else {
+            const canon = canonicalizeTitle(fc.topic);
+            if (canon.wasChanged) updates.topic = canon.canonicalTitle;
+          }
+        }
+
+        if (fc.topic_tag) {
+          const resolved = resolveToCanonicalTitle(fc.topic_tag);
+          if (resolved && resolved !== fc.topic_tag) {
+            updates.topic_tag = resolved;
+          } else {
+            const canon = canonicalizeTitle(fc.topic_tag);
+            if (canon.wasChanged) updates.topic_tag = canon.canonicalTitle;
+          }
+        }
+
+        if (fc.rationale_correct) {
+          const cleaned = replaceOldReferences(fc.rationale_correct);
+          if (cleaned !== fc.rationale_correct) {
+            updates.rationale_correct = cleaned;
+          }
+        }
+
+        if (fc.distractor_rationales) {
+          try {
+            const distractors = typeof fc.distractor_rationales === "string"
+              ? JSON.parse(fc.distractor_rationales)
+              : fc.distractor_rationales;
+            if (Array.isArray(distractors)) {
+              let changed = false;
+              const cleanedDistractors = distractors.map((d: any) => {
+                if (typeof d === "string") {
+                  const cleaned = replaceOldReferences(d);
+                  if (cleaned !== d) { changed = true; return cleaned; }
+                  return d;
+                }
+                if (d && typeof d.text === "string") {
+                  const cleaned = replaceOldReferences(d.text);
+                  if (cleaned !== d.text) { changed = true; return { ...d, text: cleaned }; }
+                }
+                return d;
+              });
+              if (changed) updates.distractor_rationales = JSON.stringify(cleanedDistractors);
+            }
+          } catch (parseErr: any) {
+            console.warn("[Canonicalize] Distractor parse error:", parseErr.message);
+          }
+        }
+
+        if (fc.lesson_links) {
+          try {
+            const links = typeof fc.lesson_links === "string"
+              ? JSON.parse(fc.lesson_links)
+              : fc.lesson_links;
+            if (Array.isArray(links)) {
+              let changed = false;
+              const cleanedLinks = links.map((link: any) => {
+                if (typeof link === "string") {
+                  const resolved = resolveToCanonicalTitle(link);
+                  if (resolved && resolved !== link) { changed = true; return resolved; }
+                  const canon = canonicalizeTitle(link);
+                  if (canon.wasChanged) { changed = true; return canon.canonicalTitle; }
+                  return link;
+                }
+
+                const titleKey = link?.lessonTitle != null ? "lessonTitle" : (link?.title != null ? "title" : null);
+                const urlKey = link?.lessonUrl != null ? "lessonUrl" : (link?.slug != null ? "slug" : null);
+
+                if (link && titleKey && typeof link[titleKey] === "string") {
+                  const resolvedTitle = resolveToCanonicalTitle(link[titleKey]);
+                  const oldUrl = urlKey ? link[urlKey] : "";
+                  let resolvedUrl = oldUrl;
+                  if (oldUrl) {
+                    const slugPart = oldUrl.replace(/^\/lessons\//, "");
+                    const slugNorm = normalizeForAlias(slugPart);
+                    const canonSlug = aliasToSlug.get(slugNorm);
+                    if (canonSlug) {
+                      resolvedUrl = urlKey === "lessonUrl" ? `/lessons/${canonSlug}` : canonSlug;
+                    }
+                  }
+                  const newTitle = resolvedTitle || canonicalizeTitle(link[titleKey]).canonicalTitle;
+                  if (!resolvedTitle && !resolvedUrl.includes(canonicalizeTitle(link[titleKey]).canonicalSlug)) {
+                    const canon = canonicalizeTitle(link[titleKey]);
+                    resolvedUrl = urlKey === "lessonUrl" ? `/lessons/${canon.canonicalSlug}` : canon.canonicalSlug;
+                  }
+                  if (newTitle !== link[titleKey] || resolvedUrl !== oldUrl) {
+                    changed = true;
+                    const updated = { ...link, [titleKey]: newTitle };
+                    if (urlKey) updated[urlKey] = resolvedUrl;
+                    return updated;
+                  }
+                }
+                return link;
+              });
+              if (changed) updates.lesson_links = JSON.stringify(cleanedLinks);
+            }
+          } catch (parseErr: any) {
+            console.warn("[Canonicalize] Lesson links parse error:", parseErr.message);
+          }
+        }
+
+        if (Object.keys(updates).length > 0) {
+          const setClauses = Object.keys(updates).map((k, i) => `${k} = $${i + 2}`);
+          const values = Object.values(updates);
+          await pool.query(
+            `UPDATE flashcard_bank SET ${setClauses.join(", ")}, updated_at = NOW() WHERE id = $1`,
+            [fc.id, ...values]
+          );
+          updated++;
+        }
+      }
+
+      res.json({ flashcardsScanned: flashcards.rows.length, updated });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/admin/canonicalize/validate-title", async (req, res) => {
+    try {
+      const title = (req.query.title as string) || "";
+      const { validateLessonTitle, canonicalizeTitle } = await import("./title-canonicalizer");
+      const validation = validateLessonTitle(title);
+      const canonical = canonicalizeTitle(title);
+      res.json({ validation, canonical });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  // --------------------
   // Content - General
   // --------------------
   app.get("/api/content", async (req, res) => {
@@ -3964,6 +4467,23 @@ Rules:
         }
       }
 
+      if (!item) {
+        try {
+          const { normalizeForAlias } = await import("./title-canonicalizer");
+          const normalizedSlug = normalizeForAlias(req.params.slug);
+          const aliasResult = await pool.query(
+            `SELECT canonical_slug FROM lesson_aliases WHERE normalized_alias = $1 LIMIT 1`,
+            [normalizedSlug]
+          );
+          if (aliasResult.rows.length > 0) {
+            const canonicalSlug = aliasResult.rows[0].canonical_slug;
+            return res.redirect(301, `/api/content/slug/${canonicalSlug}`);
+          }
+        } catch (aliasErr: any) {
+          console.warn("[ContentSlug] Alias redirect error:", aliasErr.message);
+        }
+      }
+
       if (!item) return res.status(404).json({ error: "Content not found" });
 
       const requestingUserTier = await extractUserTier(req);
@@ -4101,6 +4621,22 @@ Rules:
       }
       const parsed = insertContentItemSchema.parse(contentData);
 
+      if (parsed.type === "lesson" && parsed.title && !contentData.forcePublish) {
+        try {
+          const { validateLessonTitle } = await import("./title-canonicalizer");
+          const validation = validateLessonTitle(parsed.title);
+          if (!validation.valid) {
+            return res.status(422).json({
+              error: `Title validation failed: ${validation.errors.join("; ")}`,
+              suggestions: validation.suggestions,
+              code: "LESSON_TITLE_INVALID",
+            });
+          }
+        } catch (validationErr: any) {
+          console.warn("[TitleValidation] Error during title validation:", validationErr.message);
+        }
+      }
+
       if (parsed.status === "published" && parsed.type === "lesson") {
         const lessonMinWords = parseInt(process.env.LESSON_MIN_WORDS || "100", 10);
         const bodyText = extractTextFromContent(parsed.content);
@@ -4164,6 +4700,23 @@ Rules:
       }
 
       const contentType = contentData.type || existing?.type || "";
+      const isLessonUpdate = contentType === "lesson" || (existing?.type === "lesson" && !contentData.type);
+      if (isLessonUpdate && contentData.title && !contentData.forcePublish) {
+        try {
+          const { validateLessonTitle } = await import("./title-canonicalizer");
+          const titleValidation = validateLessonTitle(contentData.title);
+          if (!titleValidation.valid) {
+            return res.status(422).json({
+              error: `Title validation failed: ${titleValidation.errors.join("; ")}`,
+              suggestions: titleValidation.suggestions,
+              code: "LESSON_TITLE_INVALID",
+            });
+          }
+        } catch (validationErr: any) {
+          console.warn("[TitleValidation] Error during title validation:", validationErr.message);
+        }
+      }
+
       const isPublishing = contentData.status === "published" && existing?.status !== "published";
       const isUpdatingPublished = contentData.status === "published" && existing?.status === "published";
 
@@ -4223,6 +4776,7 @@ Rules:
               });
             }
           }
+
         }
       }
 
@@ -6459,10 +7013,27 @@ ${fieldsToTranslate.map(f => `"${f.field}": ${JSON.stringify(f.text)}`).join(",\
   app.get("/api/lesson-images/:lessonId", async (req, res) => {
     try {
       const { lessonId } = req.params;
-      const result = await pool.query(
+      let result = await pool.query(
         `SELECT * FROM lesson_images WHERE lesson_id = $1 ORDER BY section, position`,
         [lessonId]
       );
+
+      if (result.rows.length === 0) {
+        const aliasResult = await pool.query(
+          `SELECT canonical_slug FROM lesson_aliases WHERE normalized_alias = $1 LIMIT 1`,
+          [lessonId.toLowerCase().replace(/\s+/g, "-")]
+        ).catch(() => ({ rows: [] }));
+        if (aliasResult.rows.length > 0) {
+          const canonSlug = aliasResult.rows[0].canonical_slug;
+          if (canonSlug !== lessonId) {
+            result = await pool.query(
+              `SELECT * FROM lesson_images WHERE lesson_id = $1 ORDER BY section, position`,
+              [canonSlug]
+            );
+          }
+        }
+      }
+
       res.json(result.rows);
     } catch (e: any) {
       res.status(500).json({ error: e.message });

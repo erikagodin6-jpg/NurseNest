@@ -319,12 +319,238 @@ export async function ensureSchemaSync(pool: pg.Pool): Promise<void> {
       );
     `);
 
+    await client.query(`
+      CREATE TABLE IF NOT EXISTS lesson_aliases (
+        id VARCHAR PRIMARY KEY DEFAULT gen_random_uuid(),
+        lesson_id TEXT NOT NULL,
+        alias_text TEXT NOT NULL,
+        normalized_alias TEXT NOT NULL,
+        canonical_slug TEXT NOT NULL,
+        created_at TIMESTAMP DEFAULT NOW() NOT NULL,
+        UNIQUE(normalized_alias, lesson_id)
+      )
+    `);
+
+    await client.query(`
+      CREATE INDEX IF NOT EXISTS idx_lesson_aliases_normalized ON lesson_aliases (normalized_alias)
+    `);
+
+    await client.query(`
+      CREATE INDEX IF NOT EXISTS idx_lesson_aliases_canonical_slug ON lesson_aliases (canonical_slug)
+    `);
+
+    await client.query(`
+      CREATE INDEX IF NOT EXISTS idx_lesson_aliases_lesson_id ON lesson_aliases (lesson_id)
+    `);
+
+    await client.query(`
+      ALTER TABLE content_items ADD COLUMN IF NOT EXISTS merged_into TEXT
+    `);
+
     await client.query("COMMIT");
     console.log("[SchemaSync] Ensured all tables and columns exist");
+
+    runCanonicalMigrationIfNeeded(pool).catch((e: any) =>
+      console.warn("[SchemaSync] Canonical migration check failed:", e.message)
+    );
   } catch (err: any) {
     await client.query("ROLLBACK");
     console.error("[SchemaSync] Error:", err.message);
   } finally {
     client.release();
+  }
+}
+
+async function runCanonicalMigrationIfNeeded(pool: pg.Pool): Promise<void> {
+  const aliasCount = await pool.query("SELECT COUNT(*)::int AS cnt FROM lesson_aliases").catch(() => ({ rows: [{ cnt: 0 }] }));
+  if (aliasCount.rows[0].cnt > 0) {
+    console.log("[SchemaSync] lesson_aliases already populated, skipping auto-canonicalization");
+    return;
+  }
+
+  const contentCount = await pool.query(
+    "SELECT COUNT(*)::int AS cnt FROM content_items WHERE type = 'lesson' AND status = 'published'"
+  ).catch(() => ({ rows: [{ cnt: 0 }] }));
+  if (contentCount.rows[0].cnt === 0) {
+    console.log("[SchemaSync] No published lessons to canonicalize");
+    return;
+  }
+
+  console.log("[SchemaSync] Running one-time canonical title migration...");
+  const { canonicalizeTitle, normalizeForAlias } = await import("./title-canonicalizer");
+
+  const lessons = await pool.query(
+    "SELECT id, title, slug, tier, region_scope FROM content_items WHERE type = 'lesson' AND merged_into IS NULL ORDER BY status DESC, id"
+  );
+
+  const client = await pool.connect();
+  try {
+    await client.query("BEGIN");
+
+    for (const lesson of lessons.rows) {
+      if (!lesson.title) continue;
+      const result = canonicalizeTitle(lesson.title);
+
+      if (result.wasChanged) {
+        await client.query(
+          "UPDATE content_items SET title = $1, slug = $2 WHERE id = $3",
+          [result.canonicalTitle, result.canonicalSlug, lesson.id]
+        );
+      }
+
+      const normalized = normalizeForAlias(lesson.title);
+      await client.query(
+        `INSERT INTO lesson_aliases (lesson_id, alias_text, normalized_alias, canonical_slug)
+         VALUES ($1, $2, $3, $4)
+         ON CONFLICT (normalized_alias, lesson_id) DO NOTHING`,
+        [lesson.id, lesson.title, normalized, result.canonicalSlug]
+      );
+
+      if (result.wasChanged && lesson.slug !== result.canonicalSlug) {
+        const oldNorm = normalizeForAlias(lesson.slug);
+        await client.query(
+          `INSERT INTO lesson_aliases (lesson_id, alias_text, normalized_alias, canonical_slug)
+           VALUES ($1, $2, $3, $4)
+           ON CONFLICT (normalized_alias, lesson_id) DO NOTHING`,
+          [lesson.id, lesson.slug, oldNorm, result.canonicalSlug]
+        );
+      }
+    }
+
+    await client.query("COMMIT");
+    console.log(`[SchemaSync] Canonical migration complete: ${lessons.rows.length} lessons processed`);
+  } catch (e: any) {
+    await client.query("ROLLBACK");
+    console.error("[SchemaSync] Canonical migration error:", e.message);
+    return;
+  } finally {
+    client.release();
+  }
+
+  await canonicalizeFlashcardReferences(pool);
+  await canonicalizeImageCaptions(pool);
+}
+
+async function canonicalizeFlashcardReferences(pool: pg.Pool): Promise<void> {
+  try {
+    const { canonicalizeTitle, normalizeForAlias } = await import("./title-canonicalizer");
+
+    const aliasRows = await pool.query(
+      `SELECT la.alias_text, la.normalized_alias, la.canonical_slug, ci.title AS canonical_title
+       FROM lesson_aliases la
+       LEFT JOIN content_items ci ON ci.slug = la.canonical_slug AND ci.merged_into IS NULL`
+    ).catch(() => ({ rows: [] }));
+
+    if (aliasRows.rows.length === 0) return;
+
+    const slugToTitle = new Map<string, string>();
+    const aliasToSlug = new Map<string, string>();
+    for (const a of aliasRows.rows) {
+      aliasToSlug.set(a.normalized_alias, a.canonical_slug);
+      aliasToSlug.set(a.alias_text.toLowerCase(), a.canonical_slug);
+      if (a.canonical_title) slugToTitle.set(a.canonical_slug, a.canonical_title);
+    }
+
+    function resolveTitle(text: string): string | null {
+      const norm = normalizeForAlias(text);
+      const slug = aliasToSlug.get(norm) || aliasToSlug.get(text.toLowerCase());
+      return slug ? (slugToTitle.get(slug) || null) : null;
+    }
+
+    const flashcards = await pool.query(
+      `SELECT id, topic, topic_tag, lesson_links FROM flashcard_bank`
+    );
+
+    let updated = 0;
+    for (const fc of flashcards.rows) {
+      const updates: Record<string, any> = {};
+
+      if (fc.topic) {
+        const resolved = resolveTitle(fc.topic);
+        if (resolved && resolved !== fc.topic) {
+          updates.topic = resolved;
+        } else {
+          const canon = canonicalizeTitle(fc.topic);
+          if (canon.wasChanged) updates.topic = canon.canonicalTitle;
+        }
+      }
+
+      if (fc.topic_tag) {
+        const resolved = resolveTitle(fc.topic_tag);
+        if (resolved && resolved !== fc.topic_tag) {
+          updates.topic_tag = resolved;
+        } else {
+          const canon = canonicalizeTitle(fc.topic_tag);
+          if (canon.wasChanged) updates.topic_tag = canon.canonicalTitle;
+        }
+      }
+
+      if (fc.lesson_links) {
+        try {
+          const links = typeof fc.lesson_links === "string" ? JSON.parse(fc.lesson_links) : fc.lesson_links;
+          if (Array.isArray(links)) {
+            let changed = false;
+            const cleaned = links.map((link: any) => {
+              if (typeof link === "string") {
+                const resolved = resolveTitle(link);
+                if (resolved && resolved !== link) { changed = true; return resolved; }
+                return link;
+              }
+              const titleKey = link?.lessonTitle != null ? "lessonTitle" : (link?.title != null ? "title" : null);
+              const urlKey = link?.lessonUrl != null ? "lessonUrl" : (link?.slug != null ? "slug" : null);
+              if (link && titleKey && typeof link[titleKey] === "string") {
+                const resolved = resolveTitle(link[titleKey]);
+                const newTitle = resolved || canonicalizeTitle(link[titleKey]).canonicalTitle;
+                if (newTitle !== link[titleKey]) {
+                  changed = true;
+                  const u = { ...link, [titleKey]: newTitle };
+                  if (urlKey) {
+                    const slugPart = (link[urlKey] || "").replace(/^\/lessons\//, "");
+                    const canonSlug = aliasToSlug.get(normalizeForAlias(slugPart));
+                    if (canonSlug) u[urlKey] = urlKey === "lessonUrl" ? `/lessons/${canonSlug}` : canonSlug;
+                  }
+                  return u;
+                }
+              }
+              return link;
+            });
+            if (changed) updates.lesson_links = JSON.stringify(cleaned);
+          }
+        } catch {}
+      }
+
+      if (Object.keys(updates).length > 0) {
+        const setClauses = Object.keys(updates).map((k, i) => `${k} = $${i + 2}`);
+        await pool.query(
+          `UPDATE flashcard_bank SET ${setClauses.join(", ")} WHERE id = $1`,
+          [fc.id, ...Object.values(updates)]
+        );
+        updated++;
+      }
+    }
+    if (updated > 0) console.log(`[SchemaSync] Canonicalized ${updated} flashcard references`);
+  } catch (e: any) {
+    console.warn("[SchemaSync] Flashcard canonicalization error:", e.message);
+  }
+}
+
+async function canonicalizeImageCaptions(pool: pg.Pool): Promise<void> {
+  try {
+    const tierPattern = /\b(RN|NP|RPN|LVN|NCLEX)\s+/gi;
+    const images = await pool.query(
+      `SELECT id, caption FROM lesson_images WHERE caption IS NOT NULL AND caption != ''`
+    ).catch(() => ({ rows: [] }));
+
+    let updated = 0;
+    for (const img of images.rows) {
+      const cleaned = img.caption.replace(tierPattern, "").trim();
+      if (cleaned !== img.caption) {
+        await pool.query(`UPDATE lesson_images SET caption = $1 WHERE id = $2`, [cleaned, img.id]);
+        updated++;
+      }
+    }
+    if (updated > 0) console.log(`[SchemaSync] Cleaned ${updated} image captions`);
+  } catch (e: any) {
+    console.warn("[SchemaSync] Image caption cleanup error:", e.message);
   }
 }

@@ -1,7 +1,14 @@
 import type { LessonContent } from "@/data/lessons/types";
 
+function stripTierFromTitle(title: string): string {
+  return title
+    .replace(/^(RN|NP|RPN|LVN|NCLEX|NCLEX-RN|NCLEX-PN|REx-PN)\s+/i, "")
+    .replace(/\s+\((RN|NP|RPN|LVN|NCLEX|RPN\/LVN|RPN\/RN)\)$/i, "")
+    .trim();
+}
+
 export function generateLessonSeoDescription(lessonId: string, lesson: LessonContent): string {
-  const title = lesson.title;
+  const title = stripTierFromTitle(lesson.title);
   const mechanism = lesson.cellular.content.slice(0, 120).replace(/\.$/, "");
   const medNames = lesson.medications.slice(0, 3).map((m) => m.name).join(", ");
   const signCount = lesson.signs.left.length + lesson.signs.right.length;
@@ -15,7 +22,7 @@ export function generateLessonSeoDescription(lessonId: string, lesson: LessonCon
 }
 
 export function generateLessonKeywords(lessonId: string, lesson: LessonContent): string {
-  const parts: string[] = [lesson.title, "nursing pathophysiology"];
+  const parts: string[] = [stripTierFromTitle(lesson.title), "nursing pathophysiology"];
 
   if (lessonId.includes("-np") || lessonId.includes("advanced-")) {
     parts.push("nurse practitioner", "NP exam", "advanced practice");
@@ -64,21 +71,22 @@ export function buildLessonStructuredData(lessonId: string, lesson: LessonConten
   const bodySystem = getLessonBodySystem(lessonId);
   const tierLabel = getLessonTierLabel(lessonId);
   const description = generateLessonSeoDescription(lessonId, lesson);
+  const canonicalTitle = stripTierFromTitle(lesson.title);
 
   const data: Record<string, any> = {
     "@context": "https://schema.org",
     "@type": "LearningResource",
-    "name": lesson.title,
+    "name": canonicalTitle,
     "description": description,
     "learningResourceType": "Lesson",
     "educationalLevel": tierLabel,
     "about": {
       "@type": "MedicalCondition",
-      "name": lesson.title,
+      "name": canonicalTitle,
       "bodySystem": bodySystem,
     },
     "teaches": [
-      `Pathophysiology of ${lesson.title}`,
+      `Pathophysiology of ${canonicalTitle}`,
       `Clinical signs and danger signs`,
       `Pharmacological management`,
       `Evidence-based nursing interventions`,
@@ -92,8 +100,8 @@ export function buildLessonStructuredData(lessonId: string, lesson: LessonConten
     "inLanguage": "en",
     "interactivityType": "mixed",
     "hasPart": [
-      { "@type": "Quiz", "name": `${lesson.title} Pre-Test`, "description": "Baseline knowledge assessment" },
-      { "@type": "Quiz", "name": `${lesson.title} Post-Test`, "description": "Mastery verification assessment" },
+      { "@type": "Quiz", "name": `${canonicalTitle} Pre-Test`, "description": "Baseline knowledge assessment" },
+      { "@type": "Quiz", "name": `${canonicalTitle} Post-Test`, "description": "Mastery verification assessment" },
     ],
   };
 
@@ -139,11 +147,12 @@ export function buildFaqStructuredData(faqs: { question: string; answer: string 
 export function buildArticleStructuredData(lessonId: string, lesson: LessonContent) {
   const description = generateLessonSeoDescription(lessonId, lesson);
   const bodySystem = getLessonBodySystem(lessonId);
+  const canonicalTitle = stripTierFromTitle(lesson.title);
 
   return {
     "@context": "https://schema.org",
     "@type": "Article",
-    "headline": lesson.title,
+    "headline": canonicalTitle,
     "description": description,
     "author": {
       "@type": "Organization",
@@ -174,11 +183,12 @@ export function buildCourseStructuredData(lessonId: string, lesson: LessonConten
   const description = generateLessonSeoDescription(lessonId, lesson);
   const tierLabel = getLessonTierLabel(lessonId);
   const bodySystem = getLessonBodySystem(lessonId);
+  const canonicalTitle = stripTierFromTitle(lesson.title);
 
   return {
     "@context": "https://schema.org",
     "@type": "Course",
-    "name": lesson.title,
+    "name": canonicalTitle,
     "description": description,
     "provider": {
       "@type": "Organization",

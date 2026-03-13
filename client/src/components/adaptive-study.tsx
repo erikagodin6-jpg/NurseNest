@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { AnswerOption } from "@/components/premium-study";
 import { cn } from "@/lib/utils";
 import { canAccessFeature } from "@/lib/entitlements";
+import { canonicalDisplayName } from "@/lib/canonical-display";
 import {
   BookOpen, Brain, Zap, Target, BarChart3, Clock,
   ChevronRight, CheckCircle2, XCircle,
@@ -651,7 +652,7 @@ export function AdaptiveStudyHub({ userId, userTier, onBack }: { userId: string;
                         <p className="text-xs text-gray-600 mb-2">Consider reviewing the related lesson to strengthen this concept.</p>
                         {currentCard.lessonLinks.map((link: any, i: number) => (
                           <a key={i} href={link.lessonUrl} className="flex items-center gap-2 text-xs text-rose-600 hover:text-rose-800 hover:underline font-medium" data-testid={`link-remediation-${i}`}>
-                            <ChevronRight className="w-3 h-3" /> {link.lessonTitle || "Related Lesson"}
+                            <ChevronRight className="w-3 h-3" /> {canonicalDisplayName(link.lessonTitle || "Related Lesson")}
                           </a>
                         ))}
                       </div>

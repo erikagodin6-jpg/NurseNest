@@ -5,6 +5,7 @@ import { LocaleLink } from "@/lib/LocaleLink";
 import { BookOpen, ArrowRight, Clock } from "lucide-react";
 import { getExamNameForTier } from "@shared/constants";
 import { useRegion } from "@/hooks/use-region";
+import { canonicalDisplayName } from "@/lib/canonical-display";
 
 type ProgressEntry = {
   lessonId: string;
@@ -84,9 +85,9 @@ export function LessonProgressCard({ activeTier, systems }: LessonProgressCardPr
     .sort((a, b) => new Date(b.lastAccessed).getTime() - new Date(a.lastAccessed).getTime())[0];
 
   const lastAccessedLessonName = lastAccessedEntry
-    ? systems
+    ? canonicalDisplayName(systems
         .flatMap((s) => s.diseases)
-        .find((d) => d.id === lastAccessedEntry.lessonId)?.name
+        .find((d) => d.id === lastAccessedEntry.lessonId)?.name || "")
     : null;
 
   const nextIncompleteId = allLessonIds.find((id) => !completedSet.has(id));

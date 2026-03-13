@@ -8,6 +8,7 @@ import {
   rnSystems,
   npSystems,
 } from "@/pages/lessons";
+import { canonicalDisplayName } from "@/lib/canonical-display";
 
 type LessonNavItem = { id: string; name: string };
 type LessonNavResult = {
@@ -33,7 +34,7 @@ function flattenSystems(systems: TierSystems): { id: string; name: string; syste
   const flat: { id: string; name: string; systemTitle: string; systemId: string }[] = [];
   for (const system of systems) {
     for (const lesson of system.diseases) {
-      flat.push({ id: lesson.id, name: lesson.name, systemTitle: system.title, systemId: system.id });
+      flat.push({ id: lesson.id, name: canonicalDisplayName(lesson.name), systemTitle: system.title, systemId: system.id });
     }
   }
   return flat;

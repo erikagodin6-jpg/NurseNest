@@ -188,6 +188,23 @@ export const insertMockExamAttemptSchema = createInsertSchema(mockExamAttempts).
 export type MockExamAttempt = typeof mockExamAttempts.$inferSelect;
 export type InsertMockExamAttempt = z.infer<typeof insertMockExamAttemptSchema>;
 
+export const lessonAliases = pgTable("lesson_aliases", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  lessonId: text("lesson_id").notNull(),
+  aliasText: text("alias_text").notNull(),
+  normalizedAlias: text("normalized_alias").notNull(),
+  canonicalSlug: text("canonical_slug").notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const insertLessonAliasSchema = createInsertSchema(lessonAliases).omit({
+  id: true,
+  createdAt: true,
+});
+
+export type LessonAlias = typeof lessonAliases.$inferSelect;
+export type InsertLessonAlias = z.infer<typeof insertLessonAliasSchema>;
+
 export const lessonOverrides = pgTable("lesson_overrides", {
   lessonId: text("lesson_id").primaryKey(),
   overrides: jsonb("overrides").default(sql`'{}'::jsonb`),
