@@ -995,6 +995,9 @@ app.use((req, res, next) => {
   const { setupContentExpansionRoutes } = await import("./content-expansion-job");
   setupContentExpansionRoutes(app);
 
+  const { setupClinicalVignetteRoutes } = await import("./clinical-vignette-generator");
+  setupClinicalVignetteRoutes(app);
+
   const { setupTrialRoutes } = await import("./trial");
   setupTrialRoutes(app);
 
