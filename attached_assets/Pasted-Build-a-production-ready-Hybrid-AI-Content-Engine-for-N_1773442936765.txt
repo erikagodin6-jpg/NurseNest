@@ -1,0 +1,516 @@
+Build a production-ready Hybrid AI Content Engine for NurseNest that minimizes per-generation API costs by using a layered system instead of relying on one premium model for everything.
+
+PROJECT GOAL
+Create an internal admin-only content generation engine for NurseNest that can generate:
+1. Exam-style questions
+2. Flashcards
+3. Lesson drafts
+4. Rationales
+5. Clinical pearls
+6. SEO blog/article drafts
+7. Image matching suggestions from already-uploaded internal images
+
+The engine must prioritize:
+- medical accuracy
+- structured educational quality
+- duplicate prevention
+- tier correctness
+- low operating cost
+- human review before publishing
+
+CRITICAL BUSINESS RULES
+- Never publish generated content directly to production without passing validation and QA flags
+- Never write generated content only to dev if the admin explicitly selects production mode
+- Add a clear environment toggle: DEVELOPMENT / STAGING / PRODUCTION
+- Default admin generation target must be the published database only when the admin explicitly selects PRODUCTION
+- Log every generation job, validation result, review state, and publish action
+- All generation must be reproducible via saved prompts, metadata, model used, and timestamps
+- Do not overwrite existing published content unless explicitly approved by admin
+- Never mix tiers incorrectly
+- Never show RPN content inside RN or NP learner-facing pages
+- Never show NP content inside RPN or RN learner-facing pages
+- Never show tier labels like “RPN”, “RN”, or “NP” inside the lesson title shown to the learner unless the admin specifically wants that
+- Maintain NurseNest visual and structural consistency
+
+HIGH-LEVEL ARCHITECTURE
+Build a hybrid engine with the following layers:
+
+LAYER 1: CONTENT BLUEPRINT ENGINE
+- Use structured templates and topic metadata first
+- The system should assemble a generation blueprint before any model call
+- Blueprints must include:
+  - topic
+  - slug
+  - tier
+  - exam type
+  - locale (Canada, US, both)
+  - body system
+  - specialty
+  - difficulty
+  - client needs category
+  - lesson category
+  - learning objectives
+  - required sections
+  - prohibited phrases
+  - image tags
+  - SEO keywords where applicable
+
+LAYER 2: LOW-COST DRAFT GENERATION
+- Support a local/open-source model pathway for first drafts
+- Design provider abstraction so the engine can swap between:
+  - local model
+  - Ollama
+  - vLLM
+  - LM Studio
+  - paid fallback API
+- Create a provider interface so the app can switch models without changing business logic
+- Use the cheapest/local model for:
+  - first-pass lesson drafts
+  - question stems
+  - flashcard fronts/backs
+  - clinical pearl drafts
+  - metadata enrichment
+
+LAYER 3: RULES ENGINE
+- After draft generation, run a strict rules engine that enforces:
+  - required headings
+  - title cleanup
+  - no learner-facing tier names in titles
+  - length requirements
+  - formatting consistency
+  - rationale structure
+  - answer option count
+  - no empty sections
+  - no duplicate answer choices
+  - no contradictory statements
+  - no casual or unsafe wording
+  - no cartoonish or non-academic phrasing
+- Strip phrases like:
+  - “As an AI”
+  - “consult your doctor”
+  - “this may vary”
+  - any filler language that weakens exam prep usefulness
+- Ensure all lesson titles are concise and professional
+
+LAYER 4: MEDICAL VALIDATION + SAFETY CHECKS
+- Build a validation pipeline that checks generated nursing content before review
+- The validator must check:
+  1. structure validity
+  2. medical terminology sanity checks
+  3. internal contradiction detection
+  4. answer key consistency
+  5. rationale supports the correct answer
+  6. distractors are plausible but clearly incorrect
+  7. Canadian vs US terminology conflicts
+  8. tier appropriateness
+  9. forbidden claims or unsafe statements
+  10. suspected hallucinations
+- Add a “confidence score” and “needs clinical review” flag
+- Add automatic hard-fail rules for:
+  - wrong answer/rationale mismatch
+  - pediatric/adult dosing claims without verified source fields
+  - fabricated citations
+  - missing rationale
+  - duplicate slug/title conflict
+  - severe tier mismatch
+  - unsupported medical numeric claims without source support
+- If validation fails, save as DRAFT_REJECTED or NEEDS_REVISION and do not publish
+
+LAYER 5: SIMILARITY + DUPLICATE DETECTION
+- Check all newly generated content against existing published and draft content
+- Use embeddings or text similarity checks for:
+  - near-duplicate question stems
+  - near-duplicate rationales
+  - repeated lesson intros
+  - repeated flashcard phrasing
+- Add configurable thresholds:
+  - low similarity warning
+  - moderate similarity review
+  - high similarity block
+- If similarity exceeds the block threshold, do not publish
+
+LAYER 6: HUMAN REVIEW GATE
+- Build admin workflow states:
+  - draft
+  - generated
+  - validated
+  - needs_revision
+  - approved
+  - published
+  - rejected
+- Only APPROVED content can be published
+- Add reviewer notes and clinical editor notes
+- Add a one-click compare view for:
+  - generated text
+  - validator findings
+  - existing similar content
+  - final edited version
+
+CONTENT TYPES TO SUPPORT
+
+1. EXAM QUESTIONS
+For exam questions, generate:
+- question stem
+- 4 answer choices unless CAT-specific logic requires alternative format
+- correct answer
+- rationale for correct answer
+- brief explanation for incorrect answers except where CAT exam rules exclude this
+- clinical pearl
+- difficulty
+- topic tags
+- blueprint mapping
+- locale
+- tier
+- image suggestion tag if appropriate
+- optional linked lesson slug
+
+Question rules:
+- Must sound like premium nursing exam-prep content
+- Must be clinically plausible
+- Must not be trivial
+- Must not be misleading
+- Must match tier level:
+  - RPN/LVN = foundational practical nursing
+  - RN/NCLEX = broader acute care and higher clinical judgment
+  - NP = advanced diagnosis, management, prescribing context where appropriate
+- Avoid overlong stems unless clinically necessary
+- Rationales must be educational, concise, and high-yield
+
+2. FLASHCARDS
+Generate:
+- front
+- back
+- concise explanation
+- optional memory aid
+- tier
+- topic
+- tags
+- lesson linkage
+- image suggestion if relevant
+
+Flashcard rules:
+- high-yield
+- one core concept per card
+- no bloated paragraphs
+- suitable for spaced repetition
+- if card is clinical, back must be accurate and concise
+
+3. LESSONS
+Generate lessons with a strict section schema:
+- title
+- seo title
+- meta description
+- short summary
+- learning objectives
+- introduction
+- anatomy/physiology or foundations when relevant
+- pathophysiology
+- causes/risk factors
+- signs and symptoms
+- assessment
+- diagnostics
+- management/treatment
+- nursing interventions
+- complications
+- patient teaching
+- key clinical pearls
+- quick review bullets
+- glossary terms if useful
+- exam tips
+- references/source fields
+- image suggestion tags
+
+Lesson rules:
+- learner-facing title must not include “RPN”, “RN”, “NP”
+- must be clear, professional, and premium
+- no cartoonish image language
+- no flat generic filler
+- section depth should scale by tier
+- Canada/US differences should be handled cleanly
+
+4. BLOGS / SEO ARTICLES
+Generate:
+- SEO headline
+- slug
+- outline
+- article draft
+- FAQ section
+- internal link suggestions
+- target keywords
+- meta description
+- schema hints
+- CTA suggestions
+
+Blog rules:
+- medically responsible
+- SEO-structured but not spammy
+- readable for intended audience
+- no unsupported medical claims
+
+MODEL ORCHESTRATION
+Create a pluggable model router:
+- localDraftModel for first draft generation
+- localCleanupModel for shortening/formatting
+- premiumReviewModel optional for final polishing
+- validatorModel optional for contradiction scanning
+
+Add admin settings page where I can choose:
+- provider
+- model
+- temperature
+- max tokens
+- fallback enabled yes/no
+- production target
+- auto-publish disabled by default
+- review required yes/no
+- duplicate threshold
+- citation-required mode yes/no
+
+ACCURACY STRATEGY
+This is critical:
+Do not pretend AI-generated medical content is inherently accurate.
+Build the system to maximize accuracy using the following:
+
+1. Source-supported fields
+- Add database columns for source references
+- Allow admin to attach:
+  - textbook source
+  - guideline source
+  - manual source
+  - instructor-edited source
+- If the engine makes numeric clinical claims, medication details, diagnostic criteria, or guideline-level statements, mark content as REQUIRES_SOURCE unless source is attached
+
+2. No fabricated citations
+- Never invent references
+- If no verified source exists, leave references blank and flag for review
+
+3. Medical review flags
+- Add flags like:
+  - requires_clinical_review
+  - requires_source_review
+  - possible_hallucination
+  - locale_conflict
+  - answer_rationale_mismatch
+
+4. Safe scope control
+- For medication dosing, prescribing, disease staging, or fast-changing guideline content:
+  - either avoid generating precise claims by default
+  - or require manual source confirmation before approval
+
+DATABASE CHANGES
+Create or extend tables for:
+- generation_jobs
+- generation_job_items
+- generated_content_versions
+- content_validation_results
+- content_similarity_results
+- content_review_notes
+- content_sources
+- model_providers
+- generation_templates
+- publish_logs
+
+Include fields for:
+- job id
+- content type
+- topic
+- tier
+- locale
+- model used
+- provider used
+- prompt snapshot
+- raw output
+- normalized output
+- validation status
+- reviewer status
+- publish target
+- created by
+- reviewed by
+- published by
+- timestamps
+- source verification status
+
+ADMIN DASHBOARD FEATURES
+Build a new admin section called:
+AI Content Engine
+
+Include these pages:
+1. Overview
+2. Generate Content
+3. Jobs Queue
+4. Review Queue
+5. Validation Failures
+6. Duplicate Review
+7. Sources
+8. Model Settings
+9. Publishing Center
+10. Audit Logs
+
+Generate Content page must allow batch generation by:
+- topic list
+- tier
+- category
+- exam
+- specialty
+- locale
+- content type
+- number of items
+- difficulty
+- production target
+
+Add preset generation modes:
+- Quick Draft
+- Exam Question Batch
+- Lesson Expansion
+- Flashcard Expansion
+- SEO Blog Draft
+- Full Topic Pack
+
+FULL TOPIC PACK MODE
+When Full Topic Pack is selected for a topic, generate:
+- 1 lesson draft
+- 10 to 25 exam questions
+- 10 to 20 flashcards
+- 3 to 5 clinical pearls
+- 1 blog/article outline
+- internal image tag suggestions
+- cross-links between lesson and questions
+
+IMAGE MATCHING
+Do not generate images directly in this engine.
+Instead:
+- search existing uploaded image metadata in the database
+- suggest best matching already-approved images for:
+  - lessons
+  - flashcard rationales
+  - question rationales
+- add image suitability scoring
+- avoid cartoonish images
+- prefer realistic, academic, polished medical educational images
+- respect tier/topic appropriateness
+
+PROMPT ENGINE
+Store reusable prompt templates by content type.
+Create editable prompt templates for:
+- question generation
+- flashcard generation
+- lesson generation
+- blog generation
+- clinical pearl generation
+- title cleanup
+- rationale cleanup
+- validator prompts
+
+Add a preview modal showing:
+- prompt variables
+- resolved prompt
+- selected provider
+- estimated cost
+- review requirements
+
+TITLE CLEANUP LOGIC
+Build automatic title cleanup rules:
+- remove tier names from learner-facing lesson titles
+- shorten overly long titles
+- preserve medical precision
+- use professional title case
+- avoid duplication
+- avoid awkward punctuation
+
+QUALITY BAR
+The generated content should resemble premium exam prep resources, not generic blog spam.
+Prioritize:
+- clinical clarity
+- concise teaching value
+- exam relevance
+- polished formatting
+- structured outputs in JSON
+- consistent rationale pattern
+
+REQUIRED OUTPUT FORMATS
+All model outputs must be schema validated before saving.
+Use strict JSON schemas for each content type.
+If raw model output is malformed:
+- try one repair pass
+- if still invalid, mark failed and do not publish
+
+TECH STACK
+Use the existing NurseNest stack where possible:
+- frontend: React / Vite
+- backend: Express / TypeScript
+- database: existing production database layer
+- admin UI integrated with current dashboard
+- job processing in a safe queue
+- no silent writes to wrong database
+- environment visibility displayed clearly in admin
+
+ENVIRONMENT SAFETY
+Add a permanent visible environment badge in the admin header:
+- DEV
+- STAGING
+- PRODUCTION
+
+Add confirmation modal when publishing to PRODUCTION.
+Add a test action that verifies current database target before generation begins.
+Log database URL fingerprint safely so I can confirm the correct environment without exposing secrets.
+
+NO DIRECT AUTO-PUBLISH
+Auto-publish must be OFF by default.
+Even when generation succeeds, content should go to review unless the admin explicitly enables a stricter trusted workflow.
+
+IMPLEMENTATION PRIORITY
+Build in this order:
+Phase 1:
+- provider abstraction
+- prompt template system
+- generation jobs
+- strict JSON schema outputs
+- validation pipeline
+- review queue
+- environment-safe publishing
+
+Phase 2:
+- duplicate detection
+- source verification flags
+- image suggestion matching
+- full topic packs
+- audit logs
+
+Phase 3:
+- local model integration
+- premium fallback routing
+- advanced confidence scoring
+- analytics dashboard
+
+UI/UX REQUIREMENTS
+Match the existing NurseNest admin aesthetic:
+- clean
+- modern
+- feminine-soft clinical
+- rounded cards
+- polished spacing
+- clear badges
+- pastel-compatible theme system
+- not cluttered
+
+At the end of implementation, provide:
+1. all created/changed files
+2. database migration summary
+3. admin routes added
+4. API endpoints added
+5. model provider abstraction summary
+6. validation rules summary
+7. exactly how production vs development target is enforced
+8. manual QA checklist
+9. recommended next steps
+
+FINAL NON-NEGOTIABLE RULES
+- Do not claim medical accuracy is guaranteed
+- Do build the system to maximize verifiability and reviewability
+- Do not fabricate citations
+- Do not mix tiers
+- Do not publish failed or unreviewed content
+- Do not write only to development when production was selected
+- Do not create cartoonish educational content
+- Do not produce vague generic filler content
+- Do create a scalable, low-cost, structured hybrid AI pipeline suitable for NurseNest
