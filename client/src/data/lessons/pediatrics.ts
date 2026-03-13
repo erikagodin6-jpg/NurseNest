@@ -1,5 +1,5 @@
 import type { LessonContent } from "./types";
-import { imgSeparationAnxiety, imgReye, imgVaricella } from "../flashcards-rpn";
+import { imgSeparationAnxiety, imgReye, imgVaricella, imgForeignBodyAspiration } from "../flashcards-rpn";
 
 export const pediatricsLessons: Record<string, LessonContent> = {
   "kawasaki-critical": {
@@ -202,6 +202,7 @@ export const pediatricsLessons: Record<string, LessonContent> = {
   },
   "foreign-body-aspiration": {
     title: "Foreign Body Aspiration",
+    image: imgForeignBodyAspiration,
     cellular: { title: "Airway Obstruction Emergency", content: "Foreign body aspiration (FBA) occurs when an object is inhaled into the airway, causing partial or complete obstruction of the tracheobronchial tree. It is most common in children aged 6 months to 3 years due to their tendency to explore objects orally, incomplete dentition (poor chewing ability), immature swallowing coordination, and small airway diameter. The most commonly aspirated items include round foods (grapes, hot dogs, nuts, popcorn, hard candy), small toys/toy parts, coins, and buttons/batteries. The right main bronchus is more commonly affected due to its wider diameter and more vertical orientation. FBA is a leading cause of accidental death in children under 5 years. Prompt recognition and intervention are life-saving, as complete obstruction can lead to respiratory arrest within minutes." },
     riskFactors: ["Age < 3 years (most common)","Small objects (coins, buttons, beads, small toys)","Round foods (grapes, hot dogs, nuts, popcorn)","Running or playing while eating","Inadequate supervision during meals","Developmental delay"],
     diagnostics: ["Assess respiratory status (stridor, wheezing, coughing)","Monitor oxygen saturation","Observe for asymmetric breath sounds","Assess for signs of complete airway obstruction (inability to speak, cyanosis)"],

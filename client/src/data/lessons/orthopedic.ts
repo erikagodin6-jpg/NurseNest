@@ -1,4 +1,5 @@
 import type { LessonContent } from "./types";
+import { imgFibromyalgia } from "../flashcards-rpn";
 
 export const orthopedicLessons: Record<string, LessonContent> = {
   "osteoarthritis": {
@@ -86,6 +87,7 @@ export const orthopedicLessons: Record<string, LessonContent> = {
 
   "fibromyalgia": {
     title: "Fibromyalgia",
+    image: imgFibromyalgia,
     cellular: {
       title: "Central Sensitization and Widespread Pain Processing",
       content: "Fibromyalgia is a chronic pain syndrome driven by central sensitization, where the central nervous system amplifies pain signals and lowers the threshold for nociceptive processing. Dysregulation of neurotransmitters including decreased serotonin, norepinephrine, and dopamine combined with elevated substance P and glutamate in cerebrospinal fluid creates a state of augmented pain perception. The hypothalamic-pituitary-adrenal axis is disrupted, contributing to abnormal cortisol patterns and non-restorative sleep. Functional MRI studies demonstrate increased neural activation in pain-processing regions even with stimuli that would not normally be painful (allodynia). There is no peripheral tissue damage or joint destruction - the pathology exists within the pain-processing pathways of the brain and spinal cord. This explains why traditional anti-inflammatory medications are ineffective and why treatments targeting neurotransmitter regulation provide relief."

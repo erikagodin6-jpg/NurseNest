@@ -1,4 +1,5 @@
 import type { LessonContent } from "./types";
+import { imgGalactorrhea } from "../flashcards-rpn";
 
 export const reproductiveRpnLessons: Record<string, LessonContent> = {
   "delayed-puberty-rpn": {
@@ -339,6 +340,7 @@ export const reproductiveRpnLessons: Record<string, LessonContent> = {
   },
   "galactorrhea-rpn": {
     title: "Galactorrhea - RPN Fundamentals",
+    image: imgGalactorrhea,
     cellular: { title: "Inappropriate Milk Discharge", content: "Galactorrhea is the spontaneous flow of milk or milky nipple discharge unrelated to breastfeeding or childbirth. It results from elevated levels of prolactin (hyperprolactinemia), a hormone produced by the anterior pituitary gland. Prolactin is normally kept in check by dopamine, which inhibits its release. When dopamine's inhibitory effect is disrupted - by pituitary tumors (prolactinomas), certain medications (antipsychotics, metoclopramide, some antidepressants), or hypothyroidism - prolactin levels rise and stimulate breast tissue to produce milk. Galactorrhea can occur in women or men, though it is more common in women. It is usually benign but requires investigation to identify and treat the underlying cause." },
     riskFactors: ["Use of dopamine-blocking medications (antipsychotics, metoclopramide, domperidone)", "Pituitary adenoma (prolactinoma)", "Hypothyroidism", "Chronic breast or chest wall stimulation", "Chronic kidney disease", "Use of certain antidepressants (SSRIs)", "Oral contraceptive use"],
     diagnostics: ["Expect prolactin blood level measurement", "Expect thyroid function tests (TSH, T4) to rule out hypothyroidism", "Expect comprehensive medication history review", "Expect pregnancy test to rule out pregnancy", "Expect MRI of the pituitary if prolactin is significantly elevated", "Monitor and document nipple discharge characteristics (color, consistency, bilateral vs unilateral)"],

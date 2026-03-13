@@ -1,4 +1,5 @@
 import type { LessonContent } from "./types";
+import { imgFebrileSeizures } from "../flashcards-rpn";
 
 export const neurologicalLessons: Record<string, LessonContent> = {
   "neuro-basics": {
@@ -124,6 +125,7 @@ export const neurologicalLessons: Record<string, LessonContent> = {
   },
   "febrile-seizure": {
     title: "Febrile Seizures",
+    image: imgFebrileSeizures,
     cellular: { title: "Temperature-Triggered Neuronal Excitability", content: "Febrile seizures occur in children aged 6 months to 5 years during rapid temperature elevation, typically >38.0°C (100.4°F). The immature blood-brain barrier and developing neuronal networks make the pediatric brain vulnerable to temperature-induced changes in ion channel function. Fever increases neuronal excitability by enhancing glutamate release (excitatory) and reducing GABA activity (inhibitory). The RATE of temperature rise, rather than the absolute temperature, is the primary trigger. Simple febrile seizures (80%) are generalized tonic-clonic, last <15 minutes, occur once in 24 hours, and have an excellent prognosis with no increased epilepsy risk. Complex febrile seizures (focal, >15 minutes, or recurrent within 24 hours) require further evaluation." },
     riskFactors: ["Age 6 months to 5 years (peak incidence 12-18 months)", "Family history of febrile seizures (genetic predisposition)", "Rapid rise in body temperature", "Viral infections (most common trigger)", "Roseola (HHV-6 - highest association)", "Post-vaccination fever (especially DPT, MMR)", "Iron deficiency anemia", "Day care attendance (frequent infections)", "Male sex (slightly higher incidence)"],
     diagnostics: ["Identify source of fever (physical exam, urinalysis, blood cultures)", "Complex febrile seizure: expect lumbar puncture if <12 months or meningeal signs", "Complex febrile seizure: expect EEG if focal features or prolonged", "Expect blood glucose (rule out hypoglycemia)", "Simple febrile seizure: NO routine labs, EEG, or neuroimaging needed", "Monitor temperature trend and seizure characteristics"],

@@ -1,4 +1,5 @@
 import type { LessonContent } from "./types";
+import { imgGuillainBarre } from "../flashcards-rpn";
 
 export const clinicalConditionsBatchLLessons: Record<string, LessonContent> = {
   "alzheimer-disease-rpn": {
@@ -251,6 +252,7 @@ export const clinicalConditionsBatchLLessons: Record<string, LessonContent> = {
 
   "guillain-barre-rpn": {
     title: "Guillain-Barré Syndrome: RPN Monitoring",
+    image: imgGuillainBarre,
     cellular: {
       title: "Immune-Mediated Demyelination",
       content: "Guillain-Barré syndrome (GBS) is an acute autoimmune polyneuropathy in which the immune system attacks the peripheral nervous system following a triggering event (usually a viral or bacterial infection). Autoantibodies target the myelin sheath surrounding peripheral nerves, causing demyelination and impaired nerve conduction. This results in ascending symmetrical muscle weakness that begins in the lower extremities and progresses upward, potentially involving respiratory muscles. The RPN monitors vital signs, respiratory status, and neurological function, reporting all changes immediately."
@@ -322,6 +324,7 @@ export const clinicalConditionsBatchLLessons: Record<string, LessonContent> = {
 
   "guillain-barre-rn": {
     title: "Guillain-Barré Syndrome: RN Clinical Management",
+    image: imgGuillainBarre,
     cellular: {
       title: "Autoimmune Peripheral Neuropathy",
       content: "Guillain-Barré syndrome is an acute inflammatory demyelinating polyneuropathy (AIDP) in which molecular mimicry between microbial antigens and gangliosides on the myelin sheath triggers autoantibody production and complement-mediated destruction of Schwann cells. Demyelination disrupts saltatory conduction in peripheral motor and sensory nerves. The classic presentation is ascending symmetrical weakness with areflexia, progressing over days to weeks. Approximately 30% of patients develop respiratory failure requiring mechanical ventilation. Autonomic dysfunction affects 70% of patients and is the leading cause of death. The RN performs serial neurological assessments, monitors respiratory function, manages hemodynamic instability, coordinates immunotherapy, and provides comprehensive supportive care."
@@ -403,6 +406,7 @@ export const clinicalConditionsBatchLLessons: Record<string, LessonContent> = {
 
   "guillain-barre-np": {
     title: "Guillain-Barré Syndrome: NP Prescriptive Management",
+    image: imgGuillainBarre,
     cellular: {
       title: "Advanced Immunopathology and Treatment Targets",
       content: "Guillain-Barré syndrome encompasses a spectrum of acute autoimmune polyneuropathies. The most common subtype, acute inflammatory demyelinating polyneuropathy (AIDP), involves molecular mimicry between ganglioside epitopes on Schwann cell membranes and lipooligosaccharides on Campylobacter jejuni or other triggering pathogens. Anti-ganglioside antibodies (anti-GM1, anti-GD1a, anti-GQ1b) activate complement, recruit macrophages, and cause segmental demyelination at the nodes of Ranvier. Axonal variants (AMAN, AMSAN) involve direct antibody-mediated attack on axonal membranes and carry a worse prognosis. The NP must differentiate GBS subtypes, initiate immunotherapy, manage respiratory failure and autonomic crisis, and coordinate the rehabilitation trajectory."

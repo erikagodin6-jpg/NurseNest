@@ -1,5 +1,5 @@
 import type { LessonContent } from "./types";
-import { imgStagesOfLabor, imgRhIncompatibility } from "../flashcards-rpn";
+import { imgStagesOfLabor, imgRhIncompatibility, imgGestationalDiabetesRpn } from "../flashcards-rpn";
 
 export const maternityLessons: Record<string, LessonContent> = {
   "fetal-monitoring-advanced": {
@@ -135,7 +135,7 @@ export const maternityLessons: Record<string, LessonContent> = {
   },
   "gestational-diabetes": {
     title: "Gestational Diabetes Management",
-    image: "/attached_assets/gestationaldiabetes_1773340513136.png",
+    image: imgGestationalDiabetesRpn,
     cellular: { title: "Insulin Resistance Mechanism", content: "During pregnancy, placental hormones (human placental lactogen/hPL, cortisol, progesterone, and growth hormone) create progressive insulin resistance to ensure adequate glucose delivery to the fetus. In gestational diabetes (GDM), maternal pancreatic beta cells cannot compensate with sufficient insulin production, leading to maternal hyperglycemia. Per the Pedersen hypothesis, maternal hyperglycemia crosses the placenta, stimulating fetal hyperinsulinemia, which drives excessive fetal growth (macrosomia), increased oxygen consumption, and potential fetal hypoxia. After delivery, the neonate loses the maternal glucose supply but continues producing excess insulin, causing neonatal hypoglycemia." },
     riskFactors: ["BMI > 30", "Age > 25 years", "Family history of type 2 diabetes", "Previous GDM", "Previous macrosomic infant", "Polycystic ovary syndrome", "Hispanic/African American/Asian descent", "History of unexplained stillbirth"],
     diagnostics: ["Expect 1-hour glucose challenge test at 24-28 weeks (50g glucose)", "Expect 3-hour GTT if 1-hour screen positive (100g glucose)", "Monitor fasting and postprandial blood glucose levels", "Expect ultrasound for fetal growth assessment", "Expect non-stress test (NST) in third trimester for fetal well-being", "Monitor HbA1c for overall glucose control"],

@@ -1,8 +1,10 @@
 import type { LessonContent } from "./types";
+import { imgFebrileSeizures } from "../flashcards-rpn";
 
 export const clinicalConditionsBatchBLessons: Record<string, LessonContent> = {
   "febrile-seizures-rpn": {
     title: "Febrile Seizures: RPN Monitoring",
+    image: imgFebrileSeizures,
     cellular: {
       title: "Thermoregulatory Seizure Pathophysiology",
       content: "Febrile seizures occur in children aged 6 months to 5 years when a rapid rise in body temperature lowers the seizure threshold in the immature central nervous system. The developing brain has increased neuronal excitability and incomplete myelination, making it vulnerable to temperature-induced depolarization cascades. Simple febrile seizures are generalized, last less than 15 minutes, and do not recur within 24 hours. Complex febrile seizures are focal, prolonged (>15 minutes), or recur within 24 hours. The RPN monitors vital signs, ensures seizure safety, times seizure duration, administers antipyretics as ordered, and reports all findings to the RN."
@@ -79,6 +81,7 @@ export const clinicalConditionsBatchBLessons: Record<string, LessonContent> = {
 
   "febrile-seizures-rn": {
     title: "Febrile Seizures: RN Clinical Management",
+    image: imgFebrileSeizures,
     cellular: {
       title: "Neuronal Excitability and Thermoregulation",
       content: "Febrile seizures result from the interaction between an immature central nervous system and rapid temperature elevation. The pediatric brain has a lower seizure threshold due to incomplete myelination, higher neuronal density, and greater excitatory-to-inhibitory neurotransmitter ratios. Pro-inflammatory cytokines (IL-1β, TNF-α) released during febrile illness further lower the seizure threshold by enhancing glutamate activity and reducing GABA-mediated inhibition. The RN performs comprehensive neurological assessment, differentiates simple from complex febrile seizures, implements seizure protocols, manages antipyretic therapy, coordinates diagnostic workup, and provides evidence-based parent education."
@@ -160,6 +163,7 @@ export const clinicalConditionsBatchBLessons: Record<string, LessonContent> = {
 
   "febrile-seizures-np": {
     title: "Febrile Seizures: NP Diagnostic & Prescriptive Management",
+    image: imgFebrileSeizures,
     cellular: {
       title: "Advanced Seizure Neurophysiology and Febrile Response",
       content: "Febrile seizures arise from the convergence of age-dependent neuronal hyperexcitability and systemic inflammatory response. The immature brain exhibits enhanced excitatory amino acid (glutamate, aspartate) neurotransmission, reduced GABAergic inhibition, and incomplete axonal myelination, creating a low seizure threshold. Pyrogens (IL-1β, IL-6, TNF-α, PGE2) act on hypothalamic thermoregulatory centers to reset the temperature set-point while simultaneously enhancing neuronal excitability through direct effects on ion channel kinetics—accelerating sodium channel recovery and reducing potassium conductance. Genetic susceptibility loci (FEB1-FEB8) influence channelopathy variants, particularly SCN1A and GABRG2 mutations, which overlap with genetic epilepsy syndromes. The NP must conduct differential diagnosis, order and interpret diagnostic workup, prescribe treatment, determine need for neuroimaging or EEG, and manage long-term seizure recurrence planning."

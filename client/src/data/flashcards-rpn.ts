@@ -84,21 +84,21 @@ import imgDisuseAtrophy from "@assets/disuseatrophy_1773269507783.png";
 import imgDuchenne from "@assets/duchenne_1773269507783.png";
 import imgEpiglottitis from "@assets/epiglottitis_1773269507783.png";
 import imgEpistaxis from "@assets/epistaxis_1773269507783.png";
-import imgErysipelas from "@assets/erysipelas_1773269507783.png";
+import imgErysipelas from "@assets/erisypelas_1773374861631.png";
 import imgErythemaMultiforme from "@assets/erythemamultiforme_1773269471822.png";
 import imgFallPrevention from "@assets/fallprevention_1773269471822.png";
 import imgFebrileNeutropenia from "@assets/febrileneutropenia_1773269471822.png";
 import imgFebrileNonhemolytic from "@assets/febrilenonhemolytic_1773269471822.png";
-import imgFibromyalgia from "@assets/fibromyalgia_1773269471822.png";
-import imgForeignBodyAspiration from "@assets/foreignbodyaspiration_1773269471822.png";
-import imgFractureTypes from "@assets/Fracturetypes_1773269471822.png";
-import imgFungalInfections from "@assets/fungalinfections_1773269471822.png";
-import imgGalactosemia from "@assets/galactosemia_1773269471822.png";
-import imgGlaucoma from "@assets/glaucoma_1773269471822.png";
-import imgGlomerulonephritis from "@assets/glomerulonephritis_1773269471822.png";
+import imgFibromyalgia from "@assets/fibro_1773374861631.png";
+import imgForeignBodyAspiration from "@assets/foreignbodyaspiration_1773374861631.png";
+import imgFractureTypes from "@assets/fracture_1773374861631.png";
+import imgFungalInfections from "@assets/fungal_1773374861631.jpeg";
+import imgGalactosemia from "@assets/galactosemia_1773374861631.png";
+import imgGlaucoma from "@assets/glaucoma_1773374861631.png";
+import imgGlomerulonephritis from "@assets/glomerulonephritis_1773374861631.png";
 import imgGout from "@assets/gout_1773269471822.png";
 import imgGraftVsHost from "@assets/graftvshose_1773269471822.png";
-import imgGravesDisease from "@assets/graves_1773269471822.png";
+import imgGravesDisease from "@assets/graves_1773374861631.png";
 import imgHashimotoThyroiditis from "@assets/hashimotothyroiditis_1773269471822.png";
 import imgHeadLice from "@assets/headlice_1773269471822.png";
 import imgHemolyticUremicSyndrome from "@assets/US_1773375165171.png";
@@ -159,8 +159,17 @@ import imgWoundAssessment from "@assets/woundassessment_1773375165171.png";
 import imgWoundInfection from "@assets/woundinfection_1773375165171.png";
 import imgWoundVAC from "@assets/woundvac_1773375165171.jpeg";
 import imgVRE from "@assets/vre_1773375165171.png";
+import imgEsophagealVarices from "@assets/esophagealvarices_1773374861631.png";
+import imgFebrileSeizures from "@assets/febrileseizures_1773374861631.png";
+import imgFundalHeight from "@assets/fundalheight_1773374861631.jpeg";
+import imgGalactorrhea from "@assets/galactorrhea_1773374861631.png";
+import imgGAS from "@assets/GAS_1773374861631.png";
+import imgGERD from "@assets/GERD_1773374861631.png";
+import imgGestationalDiabetesRpn from "@assets/gestational_1773374861631.png";
+import imgGIBleed from "@assets/gibleed_1773374861631.png";
+import imgGuillainBarre from "@assets/guillainbarrre_1773374861631.png";
 
-export { imgUlcerativeColitis, imgVonWillebrand, imgUrinaryCatheterization, imgSIADH, imgSickleCellCrisis, imgStomaCare, imgThalassemia, imgThrombocytopenia, imgThyroidStorm, imgTRALI, imgVitiligo, imgUrethralStricture, imgVestibularNeuritis, imgAddisons, imgAplasticAnemia, imgAcuteHemolyticReaction, imgAllergicTransfusion, imgAirEmbolism, imgCBI, imgCastCareTraction, imgAlopecia, imgBPH, imgAtopicDermatitis, imgAcromegaly, imgBPPV, imgNGTube, imgPancreatitis, imgPeritonealDialysis, imgPolycysticKidney, imgPolycythemia, imgPepticUlcer, imgOsteoporosis, imgCellulitis, imgCKD, imgClubfoot, imgCompartmentSyndrome, imgConjunctivitis, imgContracture, imgCushings, imgDelayedHemolyticReaction, imgDevHipDysplasia, imgDiabetes, imgDiabetesInsipidus, imgDiabeticNephropathy, imgDIC, imgDisuseAtrophy, imgDuchenne, imgEpiglottitis, imgEpistaxis, imgErysipelas, imgErythemaMultiforme, imgFallPrevention, imgFebrileNeutropenia, imgFebrileNonhemolytic, imgFibromyalgia, imgForeignBodyAspiration, imgFractureTypes, imgFungalInfections, imgGalactosemia, imgGlaucoma, imgGlomerulonephritis, imgGout, imgGraftVsHost, imgGravesDisease, imgHashimotoThyroiditis, imgHeadLice, imgHemolyticUremicSyndrome, imgHemophilia, imgNeonatalFeeding, imgNeonatalHypoglycemia, imgNeonatalJaundice, imgNeonatalSepsis, imgNeuroblastoma, imgNewbornDiabeticMother, imgOsteogenesisImperfecta, imgOvarianHyperstimulation, imgPatentDuctusArteriosus, imgPavlikHarness, imgPediatricVitalsChart, imgPediatricDehydration, imgPinworms, imgPKU, imgPlacentalAbruption, imgPlacentaPrevia, imgPostpartumHemorrhage, imgPyloricStenosis, imgReye, imgRhIncompatibility, imgROP, imgSeparationAnxiety, imgSerotoninSyndrome, imgStagesOfLabor, imgSubstanceAbuse, imgThermoregulation, imgTonsillectomy, imgToxicShockSyndrome, imgTrisomy21, imgTurnerSyndrome, imgUmbilicalCordCare, imgUmbilicalCordProlapse, imgVaginalHematoma, imgVaricella, imgVPShunt, imgHyperemesisGravidarum, imgInfantReflexes, imgIntussusception, imgLeadPoisoning, imgMastitis, imgMumps, imgNEC, imgOpioidOverdose, imgNeonatalReflexes, imgOtitisMedia, imgObstructiveUropathy, imgNarcolepsy, imgMultipleSclerosis, imgMyastheniaGravis, imgPancreaticPseudocyst, imgPapilledema, imgMeconiumAspiration, imgMeconiumIleus, imgCongenitalHypothyroidism, imgFetalMonitoring, imgEpisiotomy, imgHepatitisB, imgWernicke, imgWilmsTumor, imgWoundAssessment, imgWoundInfection, imgWoundVAC, imgVRE, imgParkinsonsNew, imgPediatricSeizuresNew, imgPepticUlcerNew, imgPeripheralNeuropathy, imgPemphigusNew, imgPressureInjuriesNew, imgBPD, imgPCOS, imgPhimosis, imgEndometrialPolyp };
+export { imgUlcerativeColitis, imgVonWillebrand, imgUrinaryCatheterization, imgSIADH, imgSickleCellCrisis, imgStomaCare, imgThalassemia, imgThrombocytopenia, imgThyroidStorm, imgTRALI, imgVitiligo, imgUrethralStricture, imgVestibularNeuritis, imgAddisons, imgAplasticAnemia, imgAcuteHemolyticReaction, imgAllergicTransfusion, imgAirEmbolism, imgCBI, imgCastCareTraction, imgAlopecia, imgBPH, imgAtopicDermatitis, imgAcromegaly, imgBPPV, imgNGTube, imgPancreatitis, imgPeritonealDialysis, imgPolycysticKidney, imgPolycythemia, imgPepticUlcer, imgOsteoporosis, imgCellulitis, imgCKD, imgClubfoot, imgCompartmentSyndrome, imgConjunctivitis, imgContracture, imgCushings, imgDelayedHemolyticReaction, imgDevHipDysplasia, imgDiabetes, imgDiabetesInsipidus, imgDiabeticNephropathy, imgDIC, imgDisuseAtrophy, imgDuchenne, imgEpiglottitis, imgEpistaxis, imgErysipelas, imgErythemaMultiforme, imgFallPrevention, imgFebrileNeutropenia, imgFebrileNonhemolytic, imgFibromyalgia, imgForeignBodyAspiration, imgFractureTypes, imgFungalInfections, imgGalactosemia, imgGlaucoma, imgGlomerulonephritis, imgGout, imgGraftVsHost, imgGravesDisease, imgHashimotoThyroiditis, imgHeadLice, imgHemolyticUremicSyndrome, imgHemophilia, imgNeonatalFeeding, imgNeonatalHypoglycemia, imgNeonatalJaundice, imgNeonatalSepsis, imgNeuroblastoma, imgNewbornDiabeticMother, imgOsteogenesisImperfecta, imgOvarianHyperstimulation, imgPatentDuctusArteriosus, imgPavlikHarness, imgPediatricVitalsChart, imgPediatricDehydration, imgPinworms, imgPKU, imgPlacentalAbruption, imgPlacentaPrevia, imgPostpartumHemorrhage, imgPyloricStenosis, imgReye, imgRhIncompatibility, imgROP, imgSeparationAnxiety, imgSerotoninSyndrome, imgStagesOfLabor, imgSubstanceAbuse, imgThermoregulation, imgTonsillectomy, imgToxicShockSyndrome, imgTrisomy21, imgTurnerSyndrome, imgUmbilicalCordCare, imgUmbilicalCordProlapse, imgVaginalHematoma, imgVaricella, imgVPShunt, imgHyperemesisGravidarum, imgInfantReflexes, imgIntussusception, imgLeadPoisoning, imgMastitis, imgMumps, imgNEC, imgOpioidOverdose, imgNeonatalReflexes, imgOtitisMedia, imgObstructiveUropathy, imgNarcolepsy, imgMultipleSclerosis, imgMyastheniaGravis, imgPancreaticPseudocyst, imgPapilledema, imgMeconiumAspiration, imgMeconiumIleus, imgCongenitalHypothyroidism, imgFetalMonitoring, imgEpisiotomy, imgHepatitisB, imgWernicke, imgWilmsTumor, imgWoundAssessment, imgWoundInfection, imgWoundVAC, imgVRE, imgParkinsonsNew, imgPediatricSeizuresNew, imgPepticUlcerNew, imgPeripheralNeuropathy, imgPemphigusNew, imgPressureInjuriesNew, imgBPD, imgPCOS, imgPhimosis, imgEndometrialPolyp, imgEsophagealVarices, imgFebrileSeizures, imgFundalHeight, imgGalactorrhea, imgGAS, imgGERD, imgGestationalDiabetesRpn, imgGIBleed, imgGuillainBarre };
 
 export type FlashcardData = {
   id: string;
@@ -851,6 +860,7 @@ export const rpnFlashcards: FlashcardData[] = [
     options: ["Lie down after meals to promote digestion", "Eat large meals to maintain weight", "Elevate the head of bed 30 degrees and avoid eating 2-3 hours before bed", "Drink orange juice to aid digestion"],
     correctIndex: 2,
     answer: "GERD management: Elevate HOB, avoid eating before bed, small frequent meals, avoid trigger foods (caffeine, chocolate, spicy foods, citrus, alcohol). Avoid tight clothing. Stop smoking. Antacids, H2 blockers, or PPIs as prescribed.",
+    image: imgGERD,
     category: "GI",
     difficulty: 1
   },
@@ -985,6 +995,7 @@ export const rpnFlashcards: FlashcardData[] = [
     type: "term",
     question: "Esophageal Varices",
     answer: "Dilated veins in the esophagus due to portal hypertension (from liver cirrhosis). Extremely high risk of life-threatening hemorrhage. Prevention: Non-selective beta blockers (propranolol). Treatment: Endoscopic band ligation, vasopressin, balloon tamponade (Sengstaken-Blakemore tube).",
+    image: imgEsophagealVarices,
     category: "GI",
     difficulty: 4
   },
@@ -1721,6 +1732,7 @@ export const rpnFlashcards: FlashcardData[] = [
     type: "term",
     question: "Febrile Seizures",
     answer: "Seizures triggered by rapid rise in temperature, occurring in children 6 months to 5 years. Usually brief (< 15 min), generalized. Most are simple and benign. Management: Fever control (acetaminophen/ibuprofen: NO aspirin), seizure precautions, parent education. Do not indicate epilepsy.",
+    image: imgFebrileSeizures,
     category: "Pediatrics",
     difficulty: 2,
     image: imgPediatricSeizuresNew
@@ -1820,6 +1832,7 @@ export const rpnFlashcards: FlashcardData[] = [
     options: ["Anemia only", "Gestational diabetes mellitus (GDM)", "Pre-eclampsia only", "Group B Streptococcus"],
     correctIndex: 1,
     answer: "GDM screening is performed between 24-28 weeks gestation using the glucose challenge test (50g glucose, 1-hour draw). If elevated (> 140 mg/dL), follow up with a 3-hour glucose tolerance test. GBS screening is done at 35-37 weeks.",
+    image: imgGestationalDiabetesRpn,
     category: "Maternity",
     difficulty: 2
   },
@@ -1933,6 +1946,7 @@ export const rpnFlashcards: FlashcardData[] = [
     options: ["At the symphysis pubis", "At the umbilicus", "Midway between umbilicus and xiphoid", "At the xiphoid process"],
     correctIndex: 1,
     answer: "Fundal height landmarks: 12 weeks: At symphysis pubis. 20 weeks: At umbilicus. 36 weeks: At xiphoid process. After 20 weeks, fundal height in centimeters ≈ gestational age in weeks (±2 cm). Significant discrepancy warrants further evaluation.",
+    image: imgFundalHeight,
     category: "Maternity",
     difficulty: 1
   },
@@ -2626,6 +2640,7 @@ export const rpnFlashcards: FlashcardData[] = [
     options: ["Acetaminophen", "NSAIDs (ibuprofen, ketorolac)", "Gabapentin", "Duloxetine"],
     correctIndex: 1,
     answer: "NSAIDs inhibit COX enzymes and reduce prostaglandin-mediated gastric mucosal protection, increasing bleeding risk. Also inhibit platelet aggregation. Contraindicated in GI bleeding, renal impairment, and third trimester of pregnancy. Use acetaminophen as a safer alternative for pain.",
+    image: imgGIBleed,
     category: "Pain Management",
     difficulty: 2
   },
@@ -4239,6 +4254,7 @@ export const rpnFlashcards: FlashcardData[] = [
     options: ["Urinary retention", "Ascending paralysis reaching the diaphragm (respiratory failure)", "Skin breakdown", "Depression"],
     correctIndex: 1,
     answer: "Guillain-Barré syndrome: Acute inflammatory demyelinating polyneuropathy with ascending paralysis. Priority concern: Respiratory failure if paralysis reaches the diaphragm. Monitor vital capacity and respiratory effort closely. ICU admission and mechanical ventilation may be needed. Recovery is usually good but can take months.",
+    image: imgGuillainBarre,
     category: "Neurological",
     difficulty: 3
   },
@@ -4756,6 +4772,7 @@ export const rpnFlashcards: FlashcardData[] = [
     options: ["Mild drowsiness", "Elevated prolactin causing galactorrhea and amenorrhea", "Slight weight gain", "Constipation"],
     correctIndex: 1,
     answer: "Risperidone strongly blocks D2 receptors in the tuberoinfundibular pathway, causing hyperprolactinemia. Effects: Galactorrhea (breast milk production), amenorrhea, gynecomastia, sexual dysfunction, osteoporosis risk. Monitor prolactin levels. May need to switch to a prolactin-sparing antipsychotic (aripiprazole, quetiapine).",
+    image: imgGalactorrhea,
     category: "Mental Health",
     difficulty: 3
   },
@@ -6261,6 +6278,7 @@ export const rpnFlashcards: FlashcardData[] = [
     options: ["Blood pressure only", "Dizziness, drowsiness, weight gain, and peripheral edema", "Heart rate only", "No monitoring needed"],
     correctIndex: 1,
     answer: "Pregabalin side effects: Dizziness, somnolence, weight gain, peripheral edema, blurred vision, dry mouth. Schedule V controlled substance (potential for misuse). Do not abruptly discontinue (seizure risk: taper over 1 week). Used for: Neuropathic pain, fibromyalgia, seizures, generalized anxiety.",
+    image: imgFibromyalgia,
     category: "Pain Management",
     difficulty: 2
   },
@@ -6352,6 +6370,7 @@ export const rpnFlashcards: FlashcardData[] = [
     options: ["Immediately", "2-4 weeks", "Same day", "6 months"],
     correctIndex: 1,
     answer: "PPIs (omeprazole, pantoprazole) take 2-4 weeks to reach maximum acid suppression. They irreversibly inhibit the proton pump: new pumps must be synthesized. Take 30 minutes before the first meal of the day for optimal absorption. Short-term use preferred; long-term risks: C. diff, osteoporosis, hypomagnesemia, B12 deficiency.",
+    image: imgGERD,
     category: "GI",
     difficulty: 2
   },

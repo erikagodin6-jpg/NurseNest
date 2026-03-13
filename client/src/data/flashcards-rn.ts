@@ -1,5 +1,5 @@
 import type { FlashcardData } from "./flashcards-rpn";
-import { imgUlcerativeColitis, imgSIADH, imgSickleCellCrisis, imgStomaCare, imgThrombocytopenia, imgUrinaryCatheterization, imgVitiligo, imgUrethralStricture, imgVestibularNeuritis, imgAddisons, imgAcuteHemolyticReaction, imgAtopicDermatitis, imgBPH, imgCastCareTraction, imgAcromegaly, imgNGTube, imgPancreatitis, imgPeritonealDialysis, imgPepticUlcer, imgOsteoporosis, imgCellulitis, imgCKD, imgClubfoot, imgCompartmentSyndrome, imgConjunctivitis, imgContracture, imgCushings, imgDelayedHemolyticReaction, imgDevHipDysplasia, imgDiabetes, imgDiabetesInsipidus, imgDiabeticNephropathy, imgDIC, imgDisuseAtrophy, imgDuchenne, imgEpiglottitis, imgEpistaxis, imgErysipelas, imgFallPrevention, imgHeadLice, imgHemophilia, imgGravesDisease, imgGout, imgPyloricStenosis, imgPlacentaPrevia, imgPostpartumHemorrhage, imgSerotoninSyndrome, imgVaricella, imgRhIncompatibility, imgIntussusception, imgLeadPoisoning, imgCongenitalHypothyroidism, imgFetalMonitoring, imgHepatitisB, imgInfantReflexes, imgWoundVAC, imgWoundInfection } from "./flashcards-rpn";
+import { imgUlcerativeColitis, imgSIADH, imgSickleCellCrisis, imgStomaCare, imgThrombocytopenia, imgUrinaryCatheterization, imgVitiligo, imgUrethralStricture, imgVestibularNeuritis, imgAddisons, imgAcuteHemolyticReaction, imgAtopicDermatitis, imgBPH, imgCastCareTraction, imgAcromegaly, imgNGTube, imgPancreatitis, imgPeritonealDialysis, imgPepticUlcer, imgOsteoporosis, imgCellulitis, imgCKD, imgClubfoot, imgCompartmentSyndrome, imgConjunctivitis, imgContracture, imgCushings, imgDelayedHemolyticReaction, imgDevHipDysplasia, imgDiabetes, imgDiabetesInsipidus, imgDiabeticNephropathy, imgDIC, imgDisuseAtrophy, imgDuchenne, imgEpiglottitis, imgEpistaxis, imgErysipelas, imgFallPrevention, imgHeadLice, imgHemophilia, imgGravesDisease, imgGout, imgPyloricStenosis, imgPlacentaPrevia, imgPostpartumHemorrhage, imgSerotoninSyndrome, imgVaricella, imgRhIncompatibility, imgIntussusception, imgLeadPoisoning, imgCongenitalHypothyroidism, imgFetalMonitoring, imgHepatitisB, imgInfantReflexes, imgWoundVAC, imgWoundInfection, imgEsophagealVarices, imgGIBleed } from "./flashcards-rpn";
 import imgImpetigo from "@assets/impetigo_1773340649073.png";
 import imgHypothyroidismNew from "@assets/hypothyroidism_1773374939606.png";
 import imgAntepartum from "@assets/antepartum_1773340419064.png";
@@ -584,6 +584,7 @@ export const rnFlashcards: FlashcardData[] = [
     options: ["Nausea from the tube", "Airway obstruction from balloon migration", "Mild discomfort in the throat", "Inability to eat solid food"],
     correctIndex: 1,
     answer: "The most life-threatening complication of a Sengstaken-Blakemore tube is upward migration of the gastric balloon, which can occlude the airway. Scissors must be kept at the bedside at all times to cut the tube and deflate the balloons immediately if respiratory distress occurs. The client should be in a monitored setting with suction available. The gastric balloon pressure must be checked regularly.",
+    image: imgEsophagealVarices,
     category: "GI",
     difficulty: 3
   },
@@ -614,6 +615,7 @@ export const rnFlashcards: FlashcardData[] = [
     options: ["Class I (less than 15% blood volume loss)", "Class II (15-30% blood volume loss)", "Class III (30-40% blood volume loss)", "Class IV (greater than 40% blood volume loss)"],
     correctIndex: 2,
     answer: "Tachycardia above 100, hypotension, and tachypnea suggest Class III hemorrhage (30-40% blood volume loss, approximately 1.5-2 liters). Class I has minimal vital sign changes. Class II shows tachycardia but maintained BP. Class III shows tachycardia, hypotension, and confusion. Class IV adds altered consciousness and may require massive transfusion protocol activation.",
+    image: imgGIBleed,
     category: "GI",
     difficulty: 3
   },

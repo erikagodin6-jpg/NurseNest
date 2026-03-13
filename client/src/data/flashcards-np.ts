@@ -56,6 +56,7 @@ export const npFlashcards: FlashcardData[] = [
     options: ["Sertraline (Zoloft)", "Duloxetine (Cymbalta)", "Bupropion (Wellbutrin)", "Mirtazapine (Remeron)"],
     correctIndex: 1,
     answer: "Duloxetine is an SNRI with FDA approval for both major depressive disorder and several chronic pain conditions (diabetic peripheral neuropathy, fibromyalgia, chronic musculoskeletal pain). Its dual serotonin and norepinephrine reuptake inhibition modulates descending pain inhibition pathways. Starting dose 30 mg daily for 1 week, then increase to 60 mg. Maximum 120 mg/day. Contraindicated with MAOIs and in hepatic insufficiency.",
+    image: imgFibromyalgia,
     category: "Advanced Pharmacology",
     difficulty: 2,
     image: imgPeripheralNeuropathy

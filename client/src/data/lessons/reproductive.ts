@@ -1,4 +1,5 @@
 import type { LessonContent } from "./types";
+import { imgGalactorrhea } from "../flashcards-rpn";
 
 export const reproductiveLessons: Record<string, LessonContent> = {
   "endometriosis": {
@@ -489,6 +490,7 @@ export const reproductiveLessons: Record<string, LessonContent> = {
   },
   "galactorrhea": {
     title: "Galactorrhea",
+    image: imgGalactorrhea,
     cellular: { title: "Prolactin Dysregulation and Mammary Secretion", content: "Galactorrhea is the spontaneous or expressible milky nipple discharge unrelated to pregnancy or lactation. It results from hyperprolactinemia, which disrupts the normal hypothalamic-pituitary regulatory axis. Prolactin is secreted by lactotroph cells of the anterior pituitary gland and is uniquely regulated by tonic inhibition from dopamine released by the tuberoinfundibular dopaminergic neurons of the hypothalamus. Dopamine binds to D2 receptors on lactotrophs, suppressing prolactin gene transcription and secretion. When dopamine inhibition is disrupted - by pituitary adenomas compressing the stalk, medications blocking D2 receptors (antipsychotics, metoclopramide, domperidone), or hypothyroidism elevating TRH (which stimulates lactotrophs) - prolactin levels rise. Elevated prolactin acts on mammary epithelial cells, stimulating milk protein synthesis (casein, lactalbumin) and secretion through JAK2/STAT5 signaling. Hyperprolactinemia also suppresses GnRH pulsatility, leading to hypogonadotropic hypogonadism with amenorrhea, anovulation, and decreased libido." },
     riskFactors: ["Medications that block dopamine (antipsychotics, metoclopramide, domperidone)", "Pituitary adenoma (prolactinoma)", "Hypothyroidism (elevated TRH stimulates prolactin)", "Chest wall stimulation or trauma", "Renal failure (decreased prolactin clearance)", "Pregnancy and breastfeeding (physiologic cause)"],
     diagnostics: ["Order serum prolactin level (fasting, morning draw - elevated above upper limit confirms hyperprolactinemia)", "Order TSH to rule out hypothyroidism as cause", "Order pregnancy test (beta-hCG) to exclude physiologic cause", "Order MRI of sella turcica with gadolinium if prolactin persistently elevated - evaluate for pituitary adenoma", "Review complete medication history for dopamine-blocking agents", "Order visual field testing (perimetry) if macroadenoma suspected - assess for optic chiasm compression"],

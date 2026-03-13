@@ -1,4 +1,5 @@
 import type { LessonContent } from "./types";
+import { imgGlomerulonephritis } from "../flashcards-rpn";
 
 export const renalLessons: Record<string, LessonContent> = {
   "aki-management": {
@@ -93,6 +94,7 @@ export const renalLessons: Record<string, LessonContent> = {
 
   "glomerulonephritis-basics-rpn": {
     title: "Acute Postinfectious Glomerulonephritis (RPN)",
+    image: imgGlomerulonephritis,
     cellular: {
       title: "Glomerulonephritis Overview",
       content: "Acute postinfectious glomerulonephritis (APIGN) is an inflammatory condition of the glomeruli that occurs 1-3 weeks after a group A beta-hemolytic streptococcal infection, most commonly pharyngitis or impetigo. The immune system produces antibodies against the streptococcal antigens, and these antibody-antigen complexes deposit in the glomerular basement membrane, triggering inflammation and damage. This impairs the kidney's ability to filter blood properly, leading to fluid retention, hypertension, and characteristic cola-colored or tea-colored urine from blood leaking through the damaged glomeruli. The condition is most common in children ages 5-12 and is usually self-limiting with supportive care."

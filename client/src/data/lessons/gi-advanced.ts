@@ -1,4 +1,5 @@
 import type { LessonContent } from "./types";
+import { imgEsophagealVarices } from "../flashcards-rpn";
 
 export const giAdvancedLessons: Record<string, LessonContent> = {
   "bariatric-surgery": {
@@ -469,6 +470,7 @@ export const giAdvancedLessons: Record<string, LessonContent> = {
 
   "esophageal-varices": {
     title: "Esophageal Varices",
+    image: imgEsophagealVarices,
     cellular: {
       title: "Esophageal Varices - Variceal Bleeding, Balloon Tamponade & Banding",
       content:
