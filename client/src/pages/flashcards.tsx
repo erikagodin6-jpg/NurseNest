@@ -81,6 +81,7 @@ import oncologyImg from "@/assets/images/oncology-flashcard.png";
 import aaaImg from "@assets/abdominalaorticaneurysm_1773374656570.png";
 import { rnFlashcards } from "@/data/flashcards-rn";
 import { npFlashcards } from "@/data/flashcards-np";
+import { icuCriticalCareFlashcards } from "@/data/flashcards-icu-critical-care";
 import { AdaptiveStudyHub } from "@/components/adaptive-study";
 
 type CardType = "question" | "term";
@@ -1751,7 +1752,13 @@ export default function Flashcards() {
   const isPaid = user && effectiveTier !== "free" && ((user as any).subscriptionStatus === "active" || ((user as any).tier === "admin" && effectiveTier !== "free"));
 
   const allCards = useMemo(() => {
-    return baseCards.filter(c => c.type === "question");
+    const icuMapped: Flashcard[] = icuCriticalCareFlashcards
+      .filter(c => c.type === "question")
+      .map(c => ({
+        ...c,
+        source: "static" as const,
+      }));
+    return [...baseCards.filter(c => c.type === "question"), ...icuMapped];
   }, []);
 
   const [myDecks, setMyDecks] = useState<any[]>([]);
