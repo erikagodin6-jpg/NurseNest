@@ -347,6 +347,69 @@ export async function ensureSchemaSync(pool: pg.Pool): Promise<void> {
       ALTER TABLE content_items ADD COLUMN IF NOT EXISTS merged_into TEXT
     `);
 
+    await client.query(`
+      CREATE TABLE IF NOT EXISTS new_grad_guides (
+        id varchar PRIMARY KEY DEFAULT gen_random_uuid(),
+        title text NOT NULL,
+        slug text NOT NULL UNIQUE,
+        profession text NOT NULL,
+        guide_type text NOT NULL,
+        category text,
+        summary text,
+        content jsonb DEFAULT '[]',
+        sections jsonb DEFAULT '[]',
+        seo_title text,
+        seo_description text,
+        seo_keywords text[] DEFAULT '{}',
+        faq_items jsonb DEFAULT '[]',
+        related_guide_ids text[] DEFAULT '{}',
+        status text DEFAULT 'draft',
+        tags text[] DEFAULT '{}',
+        author_name text,
+        published_at timestamptz,
+        created_at timestamptz DEFAULT now(),
+        updated_at timestamptz DEFAULT now()
+      )
+    `);
+
+    await client.query(`
+      CREATE INDEX IF NOT EXISTS idx_new_grad_guides_profession ON new_grad_guides (profession)
+    `);
+    await client.query(`
+      CREATE INDEX IF NOT EXISTS idx_new_grad_guides_type ON new_grad_guides (guide_type)
+    `);
+    await client.query(`
+      CREATE INDEX IF NOT EXISTS idx_new_grad_guides_status ON new_grad_guides (status)
+    `);
+
+    await client.query(`
+      CREATE TABLE IF NOT EXISTS new_grad_testimonials (
+        id varchar PRIMARY KEY DEFAULT gen_random_uuid(),
+        name text NOT NULL,
+        profession text,
+        role text,
+        organization text,
+        content text NOT NULL,
+        rating integer DEFAULT 5,
+        avatar_url text,
+        featured boolean DEFAULT false,
+        status text DEFAULT 'pending',
+        created_at timestamptz DEFAULT now()
+      )
+    `);
+
+    await client.query(`
+      CREATE TABLE IF NOT EXISTS lead_capture_downloads (
+        id varchar PRIMARY KEY DEFAULT gen_random_uuid(),
+        subscriber_id varchar,
+        email text NOT NULL,
+        resource_type text NOT NULL,
+        resource_name text NOT NULL,
+        profession text,
+        downloaded_at timestamptz DEFAULT now()
+      )
+    `);
+
     await client.query("COMMIT");
     console.log("[SchemaSync] Ensured all tables and columns exist");
 

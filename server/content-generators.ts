@@ -538,6 +538,169 @@ FORMAT your output as valid JSON:
   "watermark": "NurseNest.ca"
 }`;
 
+const NEW_GRAD_SURVIVAL_GUIDE_PROMPT = `You are a healthcare career mentor creating first-year survival guides for newly graduated healthcare professionals.
+
+ARTICLE REQUIREMENTS:
+- Length: 1500-2500 words
+- Audience: new graduates in their first year of practice
+- Tone: supportive, practical, evidence-based, mentoring
+
+STRUCTURE (you MUST include ALL of these sections):
+1. Title
+2. What Your First Year Looks Like (timeline overview of orientation to independence)
+3. Common Mistakes New Graduates Make (with strategies to avoid each)
+4. Shift Organization Strategies (brain sheets, time-blocking, workflow systems)
+5. Communication with Senior Staff (SBAR, asking for help, professional relationships)
+6. Building Confidence (overcoming imposter syndrome, tracking growth, finding mentorship)
+7. Quick Reference Checklist (printable, actionable items)
+8. FAQ Section (4-6 common questions with detailed answers)
+
+SEO OUTPUT:
+- SEO title (60 chars max)
+- Meta description (155 chars max)
+- URL slug (lowercase, hyphenated)
+
+FORMAT your output as valid JSON:
+{
+  "seoTitle": "...",
+  "metaDescription": "...",
+  "slug": "...",
+  "title": "...",
+  "summary": "2-3 sentence summary",
+  "sections": [
+    { "id": "...", "title": "...", "content": "paragraph text", "items": ["list item 1", "list item 2"] }
+  ],
+  "faqItems": [
+    { "question": "...", "answer": "..." }
+  ],
+  "seoKeywords": ["keyword1", "keyword2"],
+  "wordCount": 0
+}`;
+
+const NEW_GRAD_CLINICAL_SKILLS_PROMPT = `You are a clinical educator creating practical skills guides for new healthcare graduates.
+
+ARTICLE REQUIREMENTS:
+- Length: 1200-2000 words
+- Audience: new graduates learning practical workplace skills
+- Tone: instructional, supportive, clinically accurate
+
+STRUCTURE (you MUST include ALL of these sections):
+1. Title
+2. Why This Skill Matters (context and impact on patient outcomes)
+3. Step-by-Step Guidance (detailed, actionable instructions)
+4. Common Mistakes to Avoid (with consequences and corrections)
+5. Tips from Experienced Clinicians (practical wisdom from the field)
+6. Quick Reference Checklist (printable, pocket-sized format)
+7. FAQ Section (3-5 common questions)
+
+FORMAT your output as valid JSON:
+{
+  "seoTitle": "...",
+  "metaDescription": "...",
+  "slug": "...",
+  "title": "...",
+  "summary": "...",
+  "sections": [
+    { "id": "...", "title": "...", "content": "...", "items": ["..."] }
+  ],
+  "faqItems": [{ "question": "...", "answer": "..." }],
+  "seoKeywords": ["..."],
+  "wordCount": 0
+}`;
+
+const NEW_GRAD_UNIT_GUIDE_PROMPT = `You are a unit-based educator creating orientation guides for new graduates starting on specific clinical units.
+
+ARTICLE REQUIREMENTS:
+- Length: 1200-2000 words
+- Audience: new graduates starting on a specific clinical unit
+- Tone: welcoming, practical, unit-specific detail
+
+STRUCTURE (you MUST include ALL of these sections):
+1. Title
+2. What to Expect on This Unit (patient population, acuity, team structure)
+3. Essential Skills for This Setting (unit-specific competencies)
+4. A Typical Day on This Unit (shift flow and rhythm)
+5. Survival Tips from Unit Veterans (practical wisdom)
+6. Common Conditions and Diagnoses You Will See
+7. FAQ Section (3-5 unit-specific questions)
+
+FORMAT your output as valid JSON:
+{
+  "seoTitle": "...",
+  "metaDescription": "...",
+  "slug": "...",
+  "title": "...",
+  "summary": "...",
+  "sections": [
+    { "id": "...", "title": "...", "content": "...", "items": ["..."] }
+  ],
+  "faqItems": [{ "question": "...", "answer": "..." }],
+  "seoKeywords": ["..."],
+  "wordCount": 0
+}`;
+
+const NEW_GRAD_CAREER_DEVELOPMENT_PROMPT = `You are a healthcare career advisor creating career development guides for clinicians looking to advance or specialize.
+
+ARTICLE REQUIREMENTS:
+- Length: 1200-2000 words
+- Audience: healthcare professionals planning career advancement
+- Tone: informative, motivating, strategic
+
+STRUCTURE (you MUST include ALL of these sections):
+1. Title
+2. Career Path Overview (what the role entails and why it matters)
+3. Requirements and Prerequisites (education, experience, certifications)
+4. Step-by-Step Career Roadmap (actionable progression plan)
+5. Career Opportunities and Outlook (job market, salary, growth)
+6. Resources for Getting Started (programs, certifications, networking)
+7. FAQ Section (4-6 career-related questions)
+
+FORMAT your output as valid JSON:
+{
+  "seoTitle": "...",
+  "metaDescription": "...",
+  "slug": "...",
+  "title": "...",
+  "summary": "...",
+  "sections": [
+    { "id": "...", "title": "...", "content": "...", "items": ["..."] }
+  ],
+  "faqItems": [{ "question": "...", "answer": "..." }],
+  "seoKeywords": ["..."],
+  "wordCount": 0
+}`;
+
+const NEW_GRAD_CLINICAL_SCENARIO_PROMPT = `You are a clinical simulation expert creating scenario-based learning content for new healthcare graduates.
+
+ARTICLE REQUIREMENTS:
+- Length: 1200-2000 words
+- Audience: new graduates building clinical judgment through scenario practice
+- Tone: realistic, educational, clinically accurate
+
+STRUCTURE (you MUST include ALL of these sections):
+1. Title
+2. The Clinical Scenario (realistic patient presentation with vitals and context)
+3. Recognizing the Problem (key assessment findings and warning signs)
+4. Priority Interventions (step-by-step response with rationale)
+5. Post-Event Debrief and Learning (reflection and knowledge consolidation)
+6. Key Clinical Pearls (take-away points for practice)
+7. FAQ Section (3-5 clinically relevant questions)
+
+FORMAT your output as valid JSON:
+{
+  "seoTitle": "...",
+  "metaDescription": "...",
+  "slug": "...",
+  "title": "...",
+  "summary": "...",
+  "sections": [
+    { "id": "...", "title": "...", "content": "...", "items": ["..."] }
+  ],
+  "faqItems": [{ "question": "...", "answer": "..." }],
+  "seoKeywords": ["..."],
+  "wordCount": 0
+}`;
+
 const NEW_GRAD_NURSE_PROMPT = `You are a nursing career mentor creating educational resources for newly graduated nurses transitioning from school to clinical practice.
 
 ARTICLE REQUIREMENTS:
@@ -2063,4 +2226,78 @@ Output JSON:
     );
     throw err;
   }
+}
+
+const NEW_GRAD_PROMPT_MAP: Record<string, string> = {
+  "survival-guide": NEW_GRAD_SURVIVAL_GUIDE_PROMPT,
+  "clinical-skills": NEW_GRAD_CLINICAL_SKILLS_PROMPT,
+  "unit-guide": NEW_GRAD_UNIT_GUIDE_PROMPT,
+  "career-development": NEW_GRAD_CAREER_DEVELOPMENT_PROMPT,
+  "clinical-scenario": NEW_GRAD_CLINICAL_SCENARIO_PROMPT,
+};
+
+export async function generateNewGradGuide(
+  guideType: string,
+  topic: string,
+  profession: string,
+  targetKeyword: string
+): Promise<any> {
+  const openai = getOpenAI();
+  const systemPrompt = NEW_GRAD_PROMPT_MAP[guideType] || NEW_GRAD_CLINICAL_SKILLS_PROMPT;
+
+  const response = await openai.chat.completions.create({
+    model: "gpt-4o-mini",
+    messages: [
+      { role: "system", content: systemPrompt },
+      {
+        role: "user",
+        content: `Generate a ${guideType.replace(/-/g, " ")} for new graduate ${profession} professionals on:
+
+Topic: ${topic}
+Target SEO Keyword: ${targetKeyword}
+Profession: ${profession}
+
+Requirements:
+- Focus on practical, actionable guidance specific to ${profession}
+- Include real-world scenarios and evidence-based recommendations
+- Tone should be supportive and encouraging while remaining professional
+- Include FAQ items with detailed answers
+- All content should be immediately useful for new graduates`
+      }
+    ],
+    temperature: 0.7,
+    max_tokens: 8000,
+    response_format: { type: "json_object" },
+  });
+
+  const content = response.choices[0]?.message?.content;
+  if (!content) throw new Error("No content returned from generation");
+
+  const parsed = JSON.parse(content);
+
+  const slug = parsed.slug
+    ? `new-grad/${profession}/${parsed.slug.replace(/^new-grad\/[^/]+\//, "")}`
+    : `new-grad/${profession}/${topic.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "")}`;
+
+  return {
+    title: parsed.title || topic,
+    slug,
+    profession,
+    guideType,
+    category: guideType.replace(/-/g, " ").replace(/\b\w/g, (c: string) => c.toUpperCase()),
+    summary: parsed.summary || parsed.metaDescription || "",
+    content: parsed.sections ? parsed.sections.reduce((acc: any[], s: any) => {
+      acc.push({ type: "heading", text: s.title });
+      if (s.content) acc.push({ type: "paragraph", text: s.content });
+      if (s.items?.length) acc.push({ type: "list", items: s.items });
+      return acc;
+    }, []) : [],
+    sections: parsed.sections || [],
+    seoTitle: parsed.seoTitle || parsed.title || topic,
+    seoDescription: parsed.metaDescription || parsed.summary || "",
+    seoKeywords: parsed.seoKeywords || [],
+    faqItems: parsed.faqItems || [],
+    tags: [guideType, profession, "new-grad"],
+    authorName: "NurseNest Clinical Team",
+  };
 }

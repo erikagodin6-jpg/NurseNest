@@ -1,8 +1,115 @@
 import type { Express } from "express";
 import { pool } from "./storage";
 import { requireAdmin } from "./admin-auth";
+import { seedNewGradContent } from "./new-grad-content-seed";
+import { generateNewGradGuide } from "./content-generators";
 
 export function registerNewGradRoutes(app: Express) {
+  app.post("/api/admin/new-grad/seed", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+
+      const result = await seedNewGradContent();
+      res.json({
+        ok: true,
+        message: `Seeded ${result.seeded} guides, skipped ${result.skipped} existing`,
+        ...result,
+      });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.post("/api/admin/new-grad/generate", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+
+      const { guideType, topic, profession, targetKeyword } = req.body;
+      if (!guideType || !topic || !profession) {
+        return res.status(400).json({ error: "guideType, topic, and profession are required" });
+      }
+
+      const generated = await generateNewGradGuide(
+        guideType,
+        topic,
+        profession,
+        targetKeyword || topic
+      );
+
+      const existing = await pool.query(
+        `SELECT id FROM new_grad_guides WHERE slug = $1`,
+        [generated.slug]
+      );
+      if (existing.rows.length > 0) {
+        return res.status(409).json({ error: "Guide with this slug already exists", slug: generated.slug });
+      }
+
+      const result = await pool.query(
+        `INSERT INTO new_grad_guides (id, title, slug, profession, guide_type, category, summary, content, sections, seo_title, seo_description, seo_keywords, faq_items, related_guide_ids, status, tags, author_name, published_at, created_at, updated_at)
+         VALUES (gen_random_uuid(), $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, 'published', $14, $15, NOW(), NOW(), NOW())
+         RETURNING *`,
+        [
+          generated.title,
+          generated.slug,
+          generated.profession,
+          generated.guideType,
+          generated.category,
+          generated.summary,
+          JSON.stringify(generated.content),
+          JSON.stringify(generated.sections),
+          generated.seoTitle,
+          generated.seoDescription,
+          generated.seoKeywords,
+          JSON.stringify(generated.faqItems),
+          [],
+          generated.tags,
+          generated.authorName,
+        ]
+      );
+
+      res.json({ ok: true, guide: result.rows[0] });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  async function getGuideBySlug(slug: string, res: any) {
+    const result = await pool.query(
+      `SELECT g.*, 
+        COALESCE(
+          (SELECT json_agg(json_build_object('id', r.id, 'title', r.title, 'slug', r.slug, 'profession', r.profession, 'guide_type', r.guide_type, 'summary', r.summary))
+           FROM new_grad_guides r WHERE r.id = ANY(g.related_guide_ids) AND r.status = 'published'),
+          '[]'::json
+        ) as related_guides
+       FROM new_grad_guides g WHERE g.slug = $1 AND g.status = 'published'`,
+      [slug]
+    );
+    if (result.rows.length === 0) {
+      return res.status(404).json({ error: "Guide not found" });
+    }
+    res.json(result.rows[0]);
+  }
+
+  app.get("/api/new-grad/guides/by-slug/:part1/:part2/:part3", async (req, res) => {
+    try {
+      const slug = `${req.params.part1}/${req.params.part2}/${req.params.part3}`;
+      await getGuideBySlug(slug, res);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/new-grad/guides/by-slug/:part1/:part2", async (req, res) => {
+    try {
+      const slug = `${req.params.part1}/${req.params.part2}`;
+      await getGuideBySlug(slug, res);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
   app.get("/api/new-grad/guides", async (req, res) => {
     try {
       const { profession, guideType, status } = req.query;
@@ -32,16 +139,11 @@ export function registerNewGradRoutes(app: Express) {
     }
   });
 
-  app.get("/api/new-grad/guides/:slug", async (req, res) => {
+  app.get("/api/new-grad/guides/lookup", async (req, res) => {
     try {
-      const result = await pool.query(
-        `SELECT * FROM new_grad_guides WHERE slug = $1 AND status = 'published'`,
-        [req.params.slug]
-      );
-      if (result.rows.length === 0) {
-        return res.status(404).json({ error: "Guide not found" });
-      }
-      res.json(result.rows[0]);
+      const slug = String(req.query.slug || "");
+      if (!slug) return res.status(400).json({ error: "slug query parameter required" });
+      await getGuideBySlug(slug, res);
     } catch (e: any) {
       res.status(500).json({ error: e.message });
     }
