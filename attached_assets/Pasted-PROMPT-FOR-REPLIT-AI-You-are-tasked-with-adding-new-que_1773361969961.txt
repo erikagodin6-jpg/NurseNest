@@ -1,0 +1,54 @@
+PROMPT FOR REPLIT AI:
+
+You are tasked with **adding new questions to the NurseNest platform** across all tiers: RPN/LVN, RN/NCLEX, and NP (AANP/ANCC/FNP-BC/PMHNP-BC). You must create content for **both the exam question banks and flashcards**, ensuring that the formatting, difficulty, and style are appropriate for each tier. Follow these instructions exactly:
+
+1. **Question Creation:**
+   - Generate multiple-choice questions (MCQs), multiple-response questions, and clinical scenario-based questions.
+   - Include **4–5 answer options** per question.
+   - Clearly indicate the **correct answer**.
+   - Provide **detailed rationale** for each answer (do not display the rationale on the CAT/exam, only for practice review and flashcards).
+   - Ensure questions are **evidence-based** and align with current nursing best practices, clinical guidelines, and exam blueprints (REx-PN, NCLEX-RN, AANP/ANCC NP).
+   - Include **Canadian and American variations** where appropriate (lab values, drug brand names, legal scope differences).
+
+2. **Flashcard Integration:**
+   - Each question should have a **flashcard version** with:
+     - Front: concise question or clinical scenario.
+     - Back: correct answer + rationale.
+     - Optional: include **an image or diagram** if it enhances understanding.
+     - Randomize flashcards each time a user accesses the set.
+
+3. **Rationale & Resources:**
+   - Include references for rationale using **APA-7 format**.
+   - Link relevant **lessons** or learning resources from the NurseNest platform if the question ties to existing content.
+   - Include **image placeholders** where applicable, using consistent NurseNest branding and font (DM Sans).
+
+4. **Formatting Instructions:**
+   - Output in a **JSON-like structure** ready for Replit import:
+     ```
+     {
+       "tier": "RPN / RN / NP",
+       "question_type": "MCQ / Multiple Response / Clinical Scenario",
+       "question_text": "",
+       "options": ["A", "B", "C", "D", "E"],
+       "correct_answer": "",
+       "rationale": "",
+       "lesson_link": "",
+       "image_link": ""
+     }
+     ```
+   - Ensure **no duplicate questions** already present in the current database.
+   - Randomize difficulty: include **easy, medium, and hard** questions proportionally.
+
+5. **Quantity & Coverage:**
+   - Generate **at least 50 new questions per tier per request**.
+   - Ensure all **NCLEX/REx-PN/AANP/ANCC blueprint categories** are represented (client needs, physiological integrity, health promotion, pharmacology, etc.).
+
+6. **Quality Control:**
+   - Check for **spelling, grammar, and clinical accuracy**.
+   - Ensure questions are **clear, concise, and unambiguous**.
+   - Avoid overly complex sentences; focus on **exam-style wording**.
+
+**End Goal:**  
+The output should be directly importable to the NurseNest platform, updating both the **exam question bank** and **flashcards** with fully rationale-backed, visually consistent, and blueprint-aligned questions for each tier.
+
+Start generating questions for **RPN/LVN tier** first, then RN/NCLEX, and finally NP, maintaining the same JSON structure for all.
