@@ -939,7 +939,7 @@ export function setupSeoEngineRoutes(app: Express): void {
                 if (ctx === "allied" && article.career_track) {
                   generated = await generateAlliedHealthPage(keyword, article.career_track, jobId);
                 } else {
-                  generated = await generateNursingPage(keyword, "REx-PN", jobId);
+                  generated = await generateNursingPage(keyword, "NCLEX-PN / REx-PN", jobId);
                 }
 
                 if (generated) {
@@ -1163,7 +1163,7 @@ export function setupSeoEngineRoutes(app: Express): void {
 
   app.get("/image-sitemap.xml", (_req: Request, res: Response) => {
     const CATALOG = [
-      { slug: "cbc-quick-reference", fileName: "cbc-quick-reference.png", title: "CBC Complete Blood Count Quick Reference", caption: "Complete blood count interpretation guide for NCLEX and REx-PN exam preparation." },
+      { slug: "cbc-quick-reference", fileName: "cbc-quick-reference.png", title: "CBC Complete Blood Count Quick Reference", caption: "Complete blood count interpretation guide for NCLEX-RN, NCLEX-PN, and REx-PN exam preparation." },
       { slug: "coagulation-labs-reference", fileName: "coagulation-labs-reference.png", title: "Coagulation Labs Quick Reference", caption: "Coagulation laboratory values reference for anticoagulant monitoring." },
       { slug: "liver-function-tests", fileName: "liver-function-tests.png", title: "Liver Function Tests (LFTs) Quick Reference", caption: "Liver function test interpretation guide for nursing students." },
       { slug: "renal-function-labs", fileName: "renal-function-labs.png", title: "Renal Function Labs Quick Reference", caption: "Renal function laboratory interpretation guide for nursing." },

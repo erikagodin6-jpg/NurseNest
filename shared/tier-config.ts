@@ -1,3 +1,5 @@
+import { type Region, getPracticalNurseExamName } from "./constants";
+
 export type ExamTier = "free" | "rpn" | "rn" | "np" | "admin";
 
 export interface TierDifficultyDistribution {
@@ -99,8 +101,8 @@ const rpnTierConfig: TierUiConfig = {
   progressLabel: "Practical Nursing Progress",
   examNames: {
     practice: "RPN Practice Exam",
-    readiness: "REx-PN Readiness Exam",
-    official: "REx-PN Foundations Exam",
+    readiness: "Practical Nurse Readiness Exam",
+    official: "Practical Nurse Foundations Exam",
     drill: "Medication Safety Drill",
     review: "Practical Nursing Mixed Review",
   },
@@ -125,7 +127,7 @@ const rpnTierConfig: TierUiConfig = {
     "Safe Care & Clinical Judgment",
     "Foundations Review",
     "Medication Safety Practice",
-    "REx-PN Focus Areas",
+    "Practical Nurse Exam Focus Areas",
     "Predictable Patient Scenarios",
   ],
   navItems: [
@@ -285,9 +287,24 @@ const TIER_CONFIGS: Record<ExamTier, TierUiConfig> = {
   admin: adminTierConfig,
 };
 
-export function getTierConfig(tier: string | undefined): TierUiConfig {
+export function getTierConfig(tier: string | undefined, region?: Region): TierUiConfig {
   if (!tier || !(tier in TIER_CONFIGS)) return TIER_CONFIGS.free;
-  return TIER_CONFIGS[tier as ExamTier];
+  const config = TIER_CONFIGS[tier as ExamTier];
+  if (tier === "rpn" && region) {
+    const examName = getPracticalNurseExamName(region);
+    return {
+      ...config,
+      examNames: {
+        ...config.examNames,
+        readiness: `${examName} Readiness Exam`,
+        official: `${examName} Foundations Exam`,
+      },
+      focusAreas: config.focusAreas.map(area =>
+        area === "Practical Nurse Exam Focus Areas" ? `${examName} Focus Areas` : area
+      ),
+    };
+  }
+  return config;
 }
 
 export function getTierLabel(tier: string): string {

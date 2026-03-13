@@ -28,4 +28,24 @@ export function getCurrency(region: Region) {
   return { code: exams.currency, symbol: exams.currencySymbol };
 }
 
+export function getPracticalNurseExamName(region: Region): string {
+  return region === "CA" ? "REx-PN" : "NCLEX-PN";
+}
+
+export function getExamNameForTier(tier: string, region: Region): string {
+  const t = tier.toLowerCase();
+  switch (t) {
+    case "rpn":
+      return getPracticalNurseExamName(region);
+    case "rn":
+      return "NCLEX-RN";
+    case "np": {
+      const exams = getExamConstants(region);
+      return exams.nursePractitioner.examName;
+    }
+    default:
+      return "";
+  }
+}
+
 export { CA_EXAMS, US_EXAMS };

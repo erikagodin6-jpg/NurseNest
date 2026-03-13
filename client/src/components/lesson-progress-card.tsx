@@ -3,6 +3,8 @@ import { useLocation } from "wouter";
 import { useAuth } from "@/lib/auth";
 import { LocaleLink } from "@/lib/LocaleLink";
 import { BookOpen, ArrowRight, Clock } from "lucide-react";
+import { getExamNameForTier } from "@shared/constants";
+import { useRegion } from "@/hooks/use-region";
 
 type ProgressEntry = {
   lessonId: string;
@@ -21,15 +23,11 @@ type LessonProgressCardProps = {
   systems: System[];
 };
 
-const tierLabels: Record<string, string> = {
-  rpn: "REx-PN",
-  rn: "NCLEX-RN",
-  np: "NP Certification",
-};
-
 export function LessonProgressCard({ activeTier, systems }: LessonProgressCardProps) {
   const { user } = useAuth();
   const [, setLocation] = useLocation();
+  const region = useRegion();
+  const tierLabel = getExamNameForTier(activeTier, region) || activeTier.toUpperCase();
   const [progress, setProgress] = useState<ProgressEntry[]>([]);
   const [loading, setLoading] = useState(false);
 
@@ -93,7 +91,6 @@ export function LessonProgressCard({ activeTier, systems }: LessonProgressCardPr
 
   const nextIncompleteId = allLessonIds.find((id) => !completedSet.has(id));
 
-  const tierLabel = tierLabels[activeTier] || activeTier.toUpperCase();
 
   const radius = 34;
   const circumference = 2 * Math.PI * radius;

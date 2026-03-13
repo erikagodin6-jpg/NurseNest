@@ -482,7 +482,7 @@ export default function PathwaysPage() {
       <AdminEditButton />
       <SEO
         title="Education Pathways - NurseNest | Choose Your Learning Path"
-        description="Structured nursing education pathways for Pre-Nursing, RPN/LPN, RN, and NP students. Step-by-step learning roadmaps aligned with NCLEX, REx-PN, CNPE, AANP, and ANCC exams."
+        description="Structured nursing education pathways for Pre-Nursing, RPN/LPN, RN, and NP students. Step-by-step learning roadmaps aligned with NCLEX-RN, NCLEX-PN, REx-PN, CNPE, AANP, and ANCC exams."
         keywords="nursing pathway, nursing education roadmap, NCLEX study plan, RPN learning path, NP exam preparation, nursing curriculum, clinical nursing education"
         canonicalPath="/pathways"
       />
@@ -568,8 +568,8 @@ export default function PathwaysPage() {
 
             <div className="flex flex-wrap justify-center gap-3">
               {[
-                { label: "REx-PN", color: "bg-blue-50 text-blue-700 border-blue-200" },
                 { label: "NCLEX-PN", color: "bg-blue-50 text-blue-700 border-blue-200" },
+                { label: "REx-PN", color: "bg-blue-50 text-blue-700 border-blue-200" },
                 { label: "NCLEX-RN", color: "bg-purple-50 text-purple-700 border-purple-200" },
                 { label: "Canadian RN", color: "bg-purple-50 text-purple-700 border-purple-200" },
                 { label: "CNPE", color: "bg-amber-50 text-amber-700 border-amber-200" },

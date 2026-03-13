@@ -39,7 +39,7 @@ const difficultyDisplay: Record<DifficultyLevel, { label: string; bg: string; te
 
 const tierConfigs: Record<string, TierConfig> = {
   rpn: {
-    title: "Most Tested REx-PN Topics",
+    title: "Most Tested Practical Nursing Topics",
     cards: [
       { title: "Fluid & Electrolytes", description: "Understand fluid balance, dehydration, and key electrolyte imbalances", difficulty: 2, time: "8 min", lessonId: "fluid-balance-assessment", icon: Droplets, iconColor: "text-cyan-600", iconBg: "bg-cyan-50" },
       { title: "Medication Safety", description: "Master the rights of medication administration and error prevention", difficulty: 2, time: "6 min", lessonId: "medication-administration-safety", icon: Pill, iconColor: "text-purple-600", iconBg: "bg-purple-50" },

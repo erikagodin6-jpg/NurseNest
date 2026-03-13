@@ -64,7 +64,7 @@ export const CAREER_CONFIGS: Record<CareerType, CareerConfig> = {
       { id: "rn", name: "RN", level: 2 },
       { id: "np", name: "NP", level: 3 },
     ],
-    examNames: ["REx-PN", "NCLEX-RN", "NP Certification"],
+    examNames: ["REx-PN", "NCLEX-PN", "NCLEX-RN", "NP Certification"],
     color: "#6C63FF",
     colorAccent: "#E8E6FF",
     aiTools: [],

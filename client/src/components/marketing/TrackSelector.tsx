@@ -1,7 +1,8 @@
 import { CheckCircle, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card";
-import { type MarketingTrack, getAllTrackCards } from "@/config/marketing-copy";
+import { type MarketingTrack, getAllTrackCards, resolveMarketingText } from "@/config/marketing-copy";
+import { useRegion } from "@/hooks/use-region";
 
 interface TrackSelectorProps {
   onSelect: (track: MarketingTrack) => void;
@@ -10,6 +11,8 @@ interface TrackSelectorProps {
 const trackKeys: MarketingTrack[] = ["rpn", "rn", "np"];
 
 export function TrackSelector({ onSelect }: TrackSelectorProps) {
+  const region = useRegion();
+  const r = (text: string) => resolveMarketingText(text, region);
   const cards = getAllTrackCards();
 
   return (
@@ -47,7 +50,7 @@ export function TrackSelector({ onSelect }: TrackSelectorProps) {
                     {card.benefits.slice(0, 4).map((benefit, i) => (
                       <li key={i} className="flex items-start gap-2.5 text-sm text-[#2E3A59]/80">
                         <CheckCircle className="w-4 h-4 text-[#BFA6F6] mt-0.5 shrink-0" />
-                        <span>{benefit}</span>
+                        <span>{r(benefit)}</span>
                       </li>
                     ))}
                   </ul>

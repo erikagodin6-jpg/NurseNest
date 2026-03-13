@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { useAuth } from "@/lib/auth";
 import { useLocation } from "wouter";
+import { getPracticalNurseExamName, type Region } from "@shared/constants";
 import {
   Clock,
   CheckCircle2,
@@ -226,7 +227,7 @@ export default function QBankExamPage() {
             <CardContent className="space-y-5">
               <p className="text-gray-500 text-sm leading-relaxed">
                 Simulate a timed exam with randomized questions and shuffled answer choices. Your region determines which exam bank you see
-                ({user.region === "CA" ? "REx-PN" : "NCLEX-PN"}).
+                ({getPracticalNurseExamName((user.region as Region) || "US")}).
               </p>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div>

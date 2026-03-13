@@ -7,6 +7,8 @@ import { SEO } from "@/components/seo";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { useAuth } from "@/lib/auth";
+import { getPracticalNurseExamName } from "@shared/constants";
+import { useRegion } from "@/hooks/use-region";
 import { getExamQuestions, getPoolStats, getAvailableBodySystems, getAvailableBlueprintsForTier, getOfficialExamQuestions, getReadinessExamQuestions, getReadinessExamForTier, EXAM_BLUEPRINTS, READINESS_EXAMS } from "@/lib/question-pool";
 import type { ExamBlueprint } from "@/lib/question-pool";
 import { Badge } from "@/components/ui/badge";
@@ -44,6 +46,7 @@ function getPrimaryExamTier(userTier: string | undefined, isAdmin: boolean, prev
 
 export default function MockExamsPage() {
   const { user, effectiveTier, isAdmin, previewTier } = useAuth();
+  const region = useRegion();
   const { t } = useI18n();
   const { toast } = useToast();
   const [, navigate] = useLocation();
@@ -320,7 +323,7 @@ export default function MockExamsPage() {
                     <Shield className="w-4 h-4 text-primary" />
                     <span className="font-bold text-gray-900">Real Exam Mode</span>
                   </div>
-                  <span className="text-xs text-gray-500 block">CAT-style adaptive testing for NCLEX/REx-PN, scaled scoring for NP boards</span>
+                  <span className="text-xs text-gray-500 block">CAT-style adaptive testing for NCLEX-RN, {getPracticalNurseExamName(region)}, scaled scoring for NP boards</span>
                 </button>
                 <button
                   onClick={() => setExamMode("practice")}

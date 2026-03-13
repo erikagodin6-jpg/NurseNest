@@ -94,7 +94,7 @@ interface TierDistribution {
 const TIER_DISTRIBUTIONS: TierDistribution[] = [
   {
     tier: "rpn",
-    exam: "REx-PN",
+    exam: "NCLEX-PN / REx-PN",
     count: 500,
     categories: [
       { name: "Fundamentals", count: 120 },
@@ -240,9 +240,9 @@ function matchLessonForQuestion(stem: string, rationale: string, bodySystem: str
 
 function buildSystemPrompt(tier: string, category: string): string {
   const tierPrompts: Record<string, string> = {
-    rpn: `You are a senior REx-PN (Canadian Practical Nurse Registration Exam) item writer.
-Your questions must use Canadian terminology, SI units (mmol/L, umol/L, Celsius, kg), and reflect RPN scope of practice.
-RPN scope: monitor, report, administer as ordered, basic assessments. RPNs do NOT independently prescribe, diagnose, or initiate treatment plans.
+    rpn: `You are a senior practical nursing licensure exam item writer for the NCLEX-PN (US) and REx-PN (Canada).
+Your questions must reflect practical nursing scope of practice. For Canadian content, use SI units (mmol/L, umol/L, Celsius, kg).
+PN scope: monitor, report, administer as ordered, basic assessments. Practical nurses do NOT independently prescribe, diagnose, or initiate treatment plans.
 Questions should test clinical judgment at the application/analysis level.`,
     rn: `You are a senior NCLEX-RN item writer.
 Your questions must reflect RN scope of practice with protocol-based interventions, complex assessments, and delegation decisions.

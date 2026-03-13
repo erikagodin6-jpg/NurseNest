@@ -1,3 +1,5 @@
+import { getPracticalNurseExamName, type Region } from "@shared/constants";
+
 export type MarketingTrack = "general" | "rpn" | "rn" | "np";
 
 export interface TrackHeroCopy {
@@ -246,8 +248,8 @@ const rpnCopy: MarketingCopy = {
     items: [
       "500+ RPN-scope questions",
       "15+ body systems covered",
-      "Built for Canadian REx-PN prep",
-      "Used by practical nursing students across Canada",
+      "Built for {pnExamName} prep",
+      "Used by practical nursing students across North America",
     ],
   },
   hero: {
@@ -290,7 +292,7 @@ const rpnCopy: MarketingCopy = {
     ],
   },
   featureCards: [
-    { title: "RPN Practice Exams", description: "Timed, exam-style tests that mirror the format, scope, and difficulty of the REx-PN. Build endurance and test readiness under realistic conditions.", icon: "ClipboardCheck" },
+    { title: "RPN Practice Exams", description: "Timed, exam-style tests that mirror the format, scope, and difficulty of the {pnExamName}. Build endurance and test readiness under realistic conditions.", icon: "ClipboardCheck" },
     { title: "Focused Lessons", description: "Structured lessons organized by body system, covering foundational care, safe nursing actions, and predictable patient scenarios relevant to practical nursing.", icon: "BookOpen" },
     { title: "Flashcards", description: "Quick-review cards for medications, lab values, and common conditions. Designed for spaced repetition and efficient memorization of high-yield content.", icon: "Layers" },
     { title: "Study Plan", description: "A guided study path that organizes your prep by body system and competency area, so you always know what to review next.", icon: "Map" },
@@ -331,7 +333,7 @@ const rpnCopy: MarketingCopy = {
     { feature: "Progress tracking", generic: "Generic overall score", nursenest: "Blueprint-category analytics for RPN" },
     { feature: "Study guidance", generic: "No structured path", nursenest: "Guided study plan by body system" },
     { feature: "Rationales", generic: "Brief explanations", nursenest: "Step-by-step reasoning with scope-specific context" },
-    { feature: "Exam relevance", generic: "Generic nursing format", nursenest: "REx-PN style questions and format" },
+    { feature: "Exam relevance", generic: "Generic nursing format", nursenest: "{pnExamName} style questions and format" },
   ],
   finalCta: {
     headline: "Your RPN exam prep starts here",
@@ -352,13 +354,13 @@ const rpnCopy: MarketingCopy = {
   },
   testimonials: [
     { quote: "I tried two other platforms before NurseNest, and they were clearly built for RN students. The questions here actually match what I need to know for my RPN exam. I finally feel like I am studying the right material.", name: "Sarah M.", role: "RPN Student, Ontario", track: "rpn" },
-    { quote: "The medication safety focus is exactly what helped me feel confident going into the REx-PN. The rationales explain things clearly and the progress tracker keeps me on track. I passed on my first attempt.", name: "Priya K.", role: "RPN Graduate", track: "rpn" },
+    { quote: "The medication safety focus is exactly what helped me feel confident going into my practical nursing exam. The rationales explain things clearly and the progress tracker keeps me on track. I passed on my first attempt.", name: "Priya K.", role: "RPN Graduate", track: "rpn" },
     { quote: "What I love about NurseNest is that it does not overwhelm me. The study path tells me exactly what to review next, and the questions are at my level. I actually look forward to studying now.", name: "Jessica L.", role: "Practical Nursing Student", track: "rpn" },
   ],
   faq: [
     { question: "Is this designed specifically for practical nursing learners?", answer: "Yes. NurseNest RPN Prep is built entirely around the practical nursing scope. Questions, exams, and analytics are calibrated for RPN-level reasoning, not RN or NP complexity." },
     { question: "Are the questions appropriate for RPN-level scope?", answer: "Every question targets foundational care, medication safety, predictable conditions, and safe nursing actions. The difficulty and clinical depth match what you will encounter on practical nursing exams." },
-    { question: "Will this help me prepare for the REx-PN?", answer: "Yes. The content is aligned with practical nursing exam blueprints, covering the competency areas and question styles you will encounter on the REx-PN." },
+    { question: "Will this help me prepare for the NCLEX-PN or REx-PN?", answer: "Yes. The content is aligned with practical nursing exam blueprints, covering the competency areas and question styles you will encounter on the NCLEX-PN and REx-PN." },
     { question: "Does this help with medication safety?", answer: "Medication safety is one of the core focus areas in the RPN question bank, with dedicated practice sets, flashcards, and progress tracking for medication-related topics." },
     { question: "How is this different from generic nursing prep platforms?", answer: "Most platforms use one question bank for all nursing levels. NurseNest separates content by scope, so RPN learners only see questions, lessons, and analytics matched to practical nursing — not RN or NP material." },
     { question: "Can I track my progress by exam blueprint category?", answer: "Yes. Your dashboard shows performance across all RPN blueprint categories, identifies weak areas, and tracks your improvement over time." },
@@ -384,7 +386,7 @@ const rpnCopy: MarketingCopy = {
   trackCard: {
     title: "RPN / LVN Prep",
     audience: "For practical nursing learners who want focused review, safer care reasoning, and confidence-building exam practice.",
-    benefits: ["Foundational nursing care focus", "Medication safety review", "Predictable patient scenarios", "REx-PN readiness tools"],
+    benefits: ["Foundational nursing care focus", "Medication safety review", "Predictable patient scenarios", "{pnExamName} readiness tools"],
     cta: "Explore RPN Prep",
     ctaPath: "/rpn",
     accentClass: "border-emerald-400/40 hover:border-emerald-400/70",
@@ -759,6 +761,10 @@ export function resolveTrackFromParams(params: {
   if (userTier && ["rpn", "rn", "np"].includes(userTier)) return userTier as MarketingTrack;
   if (storedTrack && ["rpn", "rn", "np"].includes(storedTrack)) return storedTrack as MarketingTrack;
   return "general";
+}
+
+export function resolveMarketingText(text: string, region: Region): string {
+  return text.replace(/\{pnExamName\}/g, getPracticalNurseExamName(region));
 }
 
 export { marketingCopyConfig };

@@ -1,4 +1,5 @@
 import { useState, useEffect, lazy, Suspense } from "react";
+import { getExamConstants, getPracticalNurseExamName, type Region as ConstRegion } from "@shared/constants";
 import { Navigation } from "@/components/navigation";
 import { SEO } from "@/components/seo";
 import { AdminEditButton } from "@/components/admin-edit-button";
@@ -123,6 +124,10 @@ export default function Home() {
     return () => window.removeEventListener("regionChange", handler);
   }, []);
 
+  const regionConst = getExamConstants(region as ConstRegion);
+  const examLabel = regionConst.practicalNurse.examName;
+  const rpnLabel = regionConst.practicalNurse.designation;
+  const altExam = region === "CA" ? "NCLEX-PN" : "REx-PN";
 
   async function handleEmailSubscribe() {
     const trimmed = email.trim().toLowerCase();
@@ -154,9 +159,9 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-warmwhite flex flex-col font-sans transition-colors duration-500">
       <SEO
-        title="NurseNest - Nursing Exam Prep | RPN/LVN, NCLEX-RN, NP Certification | Question Bank & Clinical Simulations"
-        description={`Prepare for nursing licensure exams with NurseNest. Access ${formatCount(questionCount)} practice questions, clinical case simulations, pharmacology flashcards, and ${formatCount(lessonCount)} pathophysiology lessons. Built for RPN/LVN, RN/NCLEX, and NP certification students in Canada and the US. New content added weekly. Start free - no credit card required.`}
-        keywords="nursing exam prep, NCLEX practice questions, REX-PN exam preparation, NCLEX-RN prep, RPN exam prep, LVN exam prep, LPN exam prep, nursing question bank, clinical simulations nursing, pharmacology flashcards nursing, pathophysiology lessons, RPN study guide, LVN study guide, RN exam review, NP exam prep, NP certification exam, AANP exam prep, ANCC certification review, FNP-BC exam questions, AGPCNP-BC study guide, AGACNP-BC practice test, PMHNP-BC exam prep, PNP-BC certification review, NNP-BC exam questions, ENP-C exam prep, nurse practitioner board exam, Next Generation NCLEX, NCLEX-RN practice questions, nursing clinical reasoning, med-surg nursing review, nursing licensure exam, clinical judgment nursing, nursing study tools, nursing board exam prep, NCLEX review course, nursing practice test, pre-nursing program"
+        title={`NurseNest - Nursing Exam Prep | NCLEX & ${examLabel} Question Bank, Clinical Simulations & Flashcards`}
+        description={`Prepare for nursing licensure examinations with NurseNest. Access ${formatCount(questionCount)} practice questions designed to mirror the cognitive patterns tested on ${examLabel} and ${altExam}, clinical case simulations, pharmacology flashcards, and ${formatCount(lessonCount)} pathophysiology lessons. Built for ${rpnLabel}, RN, and NP students in Canada and the US. New content added weekly. Start free - no credit card required.`}
+        keywords={`nursing exam prep, NCLEX practice questions, ${examLabel} exam preparation, nursing question bank, clinical simulations nursing, pharmacology flashcards nursing, pathophysiology lessons, RPN study guide, RN exam review, NP exam prep, NP certification exam, AANP exam prep, ANCC certification review, FNP-BC exam questions, AGPCNP-BC study guide, AGACNP-BC practice test, PMHNP-BC exam prep, PNP-BC certification review, NNP-BC exam questions, ENP-C exam prep, nurse practitioner board exam, Next Generation NCLEX, NCLEX-RN practice questions, nursing clinical reasoning, med-surg nursing review, nursing licensure exam, clinical judgment nursing, nursing study tools, nursing board exam prep, NCLEX review course, nursing practice test, pre-nursing program`}
         canonicalPath="/"
         structuredData={{
           "@context": "https://schema.org",
@@ -215,8 +220,8 @@ export default function Home() {
           {
             "@context": "https://schema.org",
             "@type": "Course",
-            "name": "REx-PN Exam Preparation",
-            "description": "Dedicated REx-PN exam preparation for Canadian practical nursing students with practice questions and clinical reasoning exercises.",
+            "name": "NCLEX-PN / REx-PN Exam Preparation",
+            "description": "Dedicated NCLEX-PN and REx-PN exam preparation for practical nursing students with practice questions and clinical reasoning exercises.",
             "url": "https://www.nursenest.ca/rex-pn",
             "provider": { "@type": "EducationalOrganization", "name": "NurseNest", "url": "https://www.nursenest.ca" },
             "courseMode": "online",
@@ -314,7 +319,7 @@ export default function Home() {
                     onClick={() => setLocation("/rex-pn-practice-questions")}
                     data-testid="button-quick-rex-pn"
                   >
-                    {t("home.hero.rexPn")}
+                    {examLabel}
                   </Button>
                   <Button
                     variant="outline"
@@ -527,7 +532,7 @@ export default function Home() {
                   name: "Priya S.",
                   role: "RPN Student, Ontario",
                   rating: 5,
-                  text: "I passed my REx-PN on the first attempt. The question bank and clinical lessons covered everything I saw on exam day. The rationales actually teach you how to think through each question.",
+                  text: "I passed my practical nursing exam on the first attempt. The question bank and clinical lessons covered everything I saw on exam day. The rationales actually teach you how to think through each question.",
                   tier: "RPN"
                 },
                 {

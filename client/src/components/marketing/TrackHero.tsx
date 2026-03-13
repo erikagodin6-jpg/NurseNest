@@ -2,13 +2,16 @@ import { useLocation } from "wouter";
 import { ArrowRight, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { type MarketingTrack, getMarketingCopy } from "@/config/marketing-copy";
+import { type MarketingTrack, getMarketingCopy, resolveMarketingText } from "@/config/marketing-copy";
+import { useRegion } from "@/hooks/use-region";
 
 interface TrackHeroProps {
   track: MarketingTrack;
 }
 
 export function TrackHero({ track }: TrackHeroProps) {
+  const region = useRegion();
+  const r = (text: string) => resolveMarketingText(text, region);
   const [, setLocation] = useLocation();
   const copy = getMarketingCopy(track);
   const { hero } = copy;
@@ -43,11 +46,11 @@ export function TrackHero({ track }: TrackHeroProps) {
           className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight leading-tight mb-6"
           style={{ color: "#2E3A59" }}
         >
-          {hero.headline}
+          {r(hero.headline)}
         </h1>
 
         <p className="text-lg md:text-xl text-[#2E3A59]/70 max-w-3xl mx-auto mb-10 leading-relaxed">
-          {hero.subheadline}
+          {r(hero.subheadline)}
         </p>
 
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12">

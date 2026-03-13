@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useAuth } from "@/lib/auth";
 import { LocaleLink } from "@/lib/LocaleLink";
 import { useLocation } from "wouter";
+import { getExamNameForTier, type Region } from "@shared/constants";
 import {
   Flame,
   Target,
@@ -103,7 +104,7 @@ export function StudyMomentumPanel() {
   }
 
   const streak = readiness?.streak || 0;
-  const tierLabel = user.tier === "rpn" ? "REx-PN" : user.tier === "rn" ? "NCLEX-RN" : user.tier === "np" ? "NP Certification" : "Exam";
+  const tierLabel = getExamNameForTier(user.tier || "", (user.region as Region) || "US") || "Exam";
 
   return (
     <div data-testid="study-momentum-panel" className="space-y-4">

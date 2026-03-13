@@ -396,7 +396,7 @@ export default function ShopProductPage() {
               <div className="text-center">
                 <Shield className="w-8 h-8 text-primary mx-auto mb-2" />
                 <h3 className="font-semibold mb-1">Exam-Aligned</h3>
-                <p className="text-sm text-gray-600">Mapped to REx-PN, NCLEX-RN, and NP exam blueprints</p>
+                <p className="text-sm text-gray-600">Mapped to NCLEX-PN, REx-PN, NCLEX-RN, and NP exam blueprints</p>
               </div>
               <div className="text-center">
                 <Crown className="w-8 h-8 text-primary mx-auto mb-2" />

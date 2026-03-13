@@ -693,8 +693,8 @@ export default function ShopPage() {
       <AdminEditButton />
       <SEO
         title="Nursing Study Guides & Cram Booklets | NurseNest Store"
-        description="Download professional nursing cram guides, quick reference sheets, and study bundles. REx-PN, NCLEX, and NP exam prep materials from $19."
-        keywords="nursing study guides, NCLEX cram guide, REx-PN study materials, nursing exam prep PDF"
+        description="Download professional nursing cram guides, quick reference sheets, and study bundles. NCLEX-PN, REx-PN, NCLEX-RN, and NP exam prep materials from $19."
+        keywords="nursing study guides, NCLEX cram guide, NCLEX-PN study materials, REx-PN study materials, nursing exam prep PDF"
         canonicalPath="/shop"
       />
       <Navigation />

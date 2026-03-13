@@ -10,7 +10,8 @@ import {
   Activity,
   Pill,
 } from "lucide-react";
-import { type MarketingTrack, getMarketingCopy } from "@/config/marketing-copy";
+import { type MarketingTrack, getMarketingCopy, resolveMarketingText } from "@/config/marketing-copy";
+import { useRegion } from "@/hooks/use-region";
 import type { LucideIcon } from "lucide-react";
 
 interface TrackFeaturesProps {
@@ -31,6 +32,8 @@ const iconMap: Record<string, LucideIcon> = {
 };
 
 export function TrackFeatures({ track }: TrackFeaturesProps) {
+  const region = useRegion();
+  const r = (text: string) => resolveMarketingText(text, region);
   const copy = getMarketingCopy(track);
   const { solution } = copy;
 
@@ -62,7 +65,7 @@ export function TrackFeatures({ track }: TrackFeaturesProps) {
                   {feature.title}
                 </h3>
                 <p className="text-sm text-[#2E3A59]/60 leading-relaxed">
-                  {feature.description}
+                  {r(feature.description)}
                 </p>
               </div>
             );

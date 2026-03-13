@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useAuth } from "@/lib/auth";
 import { useToast } from "@/hooks/use-toast";
+import { getPracticalNurseExamName, type Region } from "@shared/constants";
 const lessonCount = 867;
 const questionCount = 4200;
 import {
@@ -32,8 +33,8 @@ const tierData: Record<string, {
 }> = {
   rpn: {
     name: "RPN / LVN",
-    tagline: "Everything you need to pass the REx-PN on your first attempt",
-    examNames: ["REx-PN (Canada)", "NCLEX-PN (US)"],
+    tagline: "Everything you need to pass the {examName} on your first attempt",
+    examNames: ["NCLEX-PN (US)", "REx-PN (Canada)"],
     heroColor: "from-teal-600 to-emerald-600",
     prices: {
       monthly: { CAD: 29.99, USD: 21.99 },
@@ -43,7 +44,7 @@ const tierData: Record<string, {
     },
     features: [
       { icon: BookOpen, title: "Comprehensive Lesson Library", description: "Structured lessons covering fundamentals, pharmacology, safety, infection control, and all core RPN competencies with clinical pearls." },
-      { icon: Brain, title: "Adaptive Question Bank", description: "Thousands of practice questions mirroring the REx-PN format with detailed rationales and domain-based performance tracking." },
+      { icon: Brain, title: "Adaptive Question Bank", description: "Thousands of practice questions mirroring the {examName} format with detailed rationales and domain-based performance tracking." },
       { icon: FileText, title: "Flashcard System", description: "Create, study, and master key concepts with up to 300 flashcards per deck. Build from notes or create manually." },
       { icon: BarChart3, title: "Mock Exams with Analytics", description: "Full-length timed practice exams with score breakdowns, domain analysis, and pass probability estimation." },
       { icon: Target, title: "Personalized Study Plan", description: "AI-powered onboarding assessment builds a week-by-week study path tailored to your strengths and weaknesses." },
@@ -58,7 +59,7 @@ const tierData: Record<string, {
       { label: "Clinical Simulations", value: "6 Types" },
     ],
     domains: ["Fundamentals & Safety", "Infection Control", "Pharmacology Basics", "Fluid & Electrolytes", "Cardiovascular", "Respiratory", "Neurological", "Renal & GI", "Endocrine", "Maternity & Neonatal", "Pediatrics", "Mental Health", "Wound Care", "Delegation & Prioritization"],
-    whoFor: "Practical nursing students and internationally educated nurses preparing for the REx-PN or NCLEX-PN licensing exam.",
+    whoFor: "Practical nursing students and internationally educated nurses preparing for the NCLEX-PN or REx-PN licensing exam.",
     guarantee: "7-day money-back guarantee. If NurseNest does not meet your expectations, contact us for a full refund.",
   },
   rn: {
@@ -126,7 +127,7 @@ const tierData: Record<string, {
 };
 
 const testimonials = [
-  { name: "Sarah M.", role: "RPN Graduate", text: "I passed my REx-PN on the first try. The practice questions were incredibly similar to the real exam.", rating: 5 },
+  { name: "Sarah M.", role: "RPN Graduate", text: "I passed my practical nursing exam on the first try. The practice questions were incredibly similar to the real exam.", rating: 5 },
   { name: "James K.", role: "RN Student", text: "The study plan kept me on track. I knew exactly what to study each day instead of feeling overwhelmed.", rating: 5 },
   { name: "Dr. Priya L.", role: "FNP Student", text: "The NP pharmacology modules are outstanding. Four dedicated drug banks with black box warnings and prescribing pearls.", rating: 5 },
 ];
@@ -147,6 +148,8 @@ export default function SubscribePage() {
   );
 
   const isCAD = region === "CA";
+  const examName = tierId === "rpn" ? getPracticalNurseExamName(region as Region) : "";
+  const resolveExamName = (text: string) => text.replace(/\{examName\}/g, examName);
   const price = isCAD ? tier.prices[duration].CAD : tier.prices[duration].USD;
   const currency = isCAD ? "CAD" : "USD";
   const savingsMap: Record<Duration, number> = { monthly: 0, "3-month": 17, "6-month": 25, yearly: 33 };
@@ -204,7 +207,7 @@ export default function SubscribePage() {
               {tier.name} Subscription
             </Badge>
             <h1 className="text-3xl sm:text-5xl font-bold mb-4 leading-tight" data-testid="text-subscribe-title">
-              {tier.tagline}
+              {resolveExamName(tier.tagline)}
             </h1>
             <p className="text-lg sm:text-xl text-white/80 mb-6 max-w-2xl mx-auto" data-testid="text-subscribe-subtitle">
               Preparing for {tier.examNames.join(" or ")}? Get structured, expert-curated content with a personalized study plan built around your schedule.
@@ -302,7 +305,7 @@ export default function SubscribePage() {
                       </div>
                       <div>
                         <h3 className="font-semibold text-lg mb-1">{feature.title}</h3>
-                        <p className="text-sm text-gray-500 leading-relaxed">{feature.description}</p>
+                        <p className="text-sm text-gray-500 leading-relaxed">{resolveExamName(feature.description)}</p>
                       </div>
                     </CardContent>
                   </Card>

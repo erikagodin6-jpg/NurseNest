@@ -7,6 +7,8 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useAuth } from "@/lib/auth";
 import { useToast } from "@/hooks/use-toast";
+import { getPracticalNurseExamName } from "@shared/constants";
+import { useRegion } from "@/hooks/use-region";
 import {
   ArrowRight, ArrowLeft, Check, Clock, BookOpen, Target,
   GraduationCap, Brain, Loader2, ChevronRight
@@ -62,6 +64,7 @@ const onboardingQuestions: Record<string, { question: string; options: string[];
 export default function OnboardingPlanPage() {
   const [, navigate] = useLocation();
   const { user } = useAuth();
+  const region = useRegion();
   const { toast } = useToast();
   const [step, setStep] = useState(0);
   const [generating, setGenerating] = useState(false);
@@ -69,7 +72,7 @@ export default function OnboardingPlanPage() {
   const effectiveTier = user?.tier === "admin" ? "np" : (user?.tier || "rpn");
 
   const [preferences, setPreferences] = useState({
-    examType: effectiveTier === "np" ? "FNP" : effectiveTier === "rn" ? "NCLEX-RN" : "REx-PN",
+    examType: effectiveTier === "np" ? "FNP" : effectiveTier === "rn" ? "NCLEX-RN" : getPracticalNurseExamName(region),
     timeframeWeeks: 4,
     minutesPerDay: 30,
     stylePreference: "read_then_practice" as "read_then_practice" | "practice_then_review",

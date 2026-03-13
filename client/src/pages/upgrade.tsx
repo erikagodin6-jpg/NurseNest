@@ -2,6 +2,8 @@ import { useState } from "react";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { useAuth } from "@/lib/auth";
 import { AdminEditButton } from "@/components/admin-edit-button";
+import { getPracticalNurseExamName } from "@shared/constants";
+import { useRegion } from "@/hooks/use-region";
 import { apiRequest } from "@/lib/queryClient";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -101,6 +103,8 @@ function ComparisonTable() {
 }
 
 function CompetitorComparisonTable() {
+  const { user } = useAuth();
+  const region = useRegion();
   type CompetitorRow = {
     feature: string;
     nursenest: string;
@@ -115,7 +119,7 @@ function CompetitorComparisonTable() {
     { feature: "Question Count", nursenest: "4,000+", uworld: "2,300+", archer: "1,700+", quizlet: "User-generated" },
     { feature: "Flashcards", nursenest: "Unlimited", uworld: "Limited", archer: "None", quizlet: "Unlimited" },
     { feature: "Adaptive Testing", nursenest: "Yes", uworld: "Yes", archer: "Yes", quizlet: "No" },
-    { feature: "Canada / REx-PN Support", nursenest: "Yes", uworld: "Limited", archer: "Limited", quizlet: "No" },
+    { feature: `${getPracticalNurseExamName(region)} Support`, nursenest: "Yes", uworld: "Limited", archer: "Limited", quizlet: "No" },
     { feature: "Money-Back Guarantee", nursenest: "30 days", uworld: "None", archer: "None", quizlet: "None" },
   ];
 
@@ -153,6 +157,7 @@ function CompetitorComparisonTable() {
 
 export default function UpgradePage() {
   const { user } = useAuth();
+  const region = useRegion();
   const [, navigate] = useLocation();
   const [selectedPlan, setSelectedPlan] = useState<string | null>(null);
 
@@ -254,7 +259,7 @@ export default function UpgradePage() {
             <Sparkles className="h-3 w-3 mr-1" /> Upgrade to Pro
           </Badge>
           <h1 className="text-4xl font-bold mb-3" data-testid="text-upgrade-title">
-            Pass Your NCLEX or REx-PN With Structured Exam-Level Practice
+            Pass Your NCLEX or {getPracticalNurseExamName(region)} With Structured Exam-Level Practice
           </h1>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto" data-testid="text-upgrade-subtitle">
             4,000+ questions, unlimited flashcards, adaptive testing — for less than Quizlet+.
@@ -330,7 +335,7 @@ export default function UpgradePage() {
             <div>
               <h2 className="text-xl font-bold mb-2" data-testid="text-outcome-heading">Practice More, Pass With Confidence</h2>
               <p className="text-muted-foreground mb-3">
-                Students who complete 500+ practice questions improve pass probability significantly. NurseNest Pro gives you 4,000+ exam-aligned questions with detailed rationales so you can build the clinical judgment skills tested on the NCLEX and REx-PN.
+                Students who complete 500+ practice questions improve pass probability significantly. NurseNest Pro gives you 4,000+ exam-aligned questions with detailed rationales so you can build the clinical judgment skills tested on the NCLEX-RN, NCLEX-PN, and REx-PN.
               </p>
               <div className="flex flex-wrap gap-4 mt-4">
                 <div className="flex items-center gap-2">

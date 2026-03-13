@@ -59,7 +59,7 @@ const DEFAULT_PROFESSIONS = [
   { name: "Paramedic", shortName: "Paramedic", slug: "paramedic-cert", routePrefix: "/paramedic-cert", examNames: ["NREMT", "COPR"], domains: ["Trauma", "Medical Emergencies", "Cardiac/ACLS", "Pharmacology"], color: "#F44336", colorAccent: "#FFEBEE" },
   { name: "Medical Laboratory Technology", shortName: "MLT", slug: "medical-lab", routePrefix: "/medical-lab", examNames: ["CSMLS", "ASCP"], domains: ["Hematology", "Clinical Chemistry", "Microbiology", "Blood Banking"], color: "#FF9800", colorAccent: "#FFF3E0" },
   { name: "Sonography", shortName: "Sonography", slug: "sonography", routePrefix: "/sonography", examNames: ["ARDMS", "CMA"], domains: ["Abdomen", "OB/GYN", "Vascular", "Physics & Instrumentation"], color: "#E91E63", colorAccent: "#FCE4EC" },
-  { name: "Nursing (RPN/RN/NP)", shortName: "Nursing", slug: "nursing-general", routePrefix: "/nursing-general", examNames: ["NCLEX-RN", "REx-PN"], domains: ["Cardiovascular", "Respiratory", "Neurological", "Pharmacology"], color: "#6C63FF", colorAccent: "#E8E6FF" },
+  { name: "Nursing (RPN/RN/NP)", shortName: "Nursing", slug: "nursing-general", routePrefix: "/nursing-general", examNames: ["NCLEX-RN", "NCLEX-PN", "REx-PN"], domains: ["Cardiovascular", "Respiratory", "Neurological", "Pharmacology"], color: "#6C63FF", colorAccent: "#E8E6FF" },
 ];
 
 export default function AdminProfessionsPage() {

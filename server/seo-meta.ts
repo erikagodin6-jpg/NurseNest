@@ -169,8 +169,8 @@ function slugToTitle(slug: string): string {
 
 const staticPages: Record<string, { title: string; description: string }> = {
   "/": {
-    title: "NurseNest - NCLEX & REX-PN Exam Prep | Nursing Question Bank, Simulations & Flashcards",
-    description: "Prepare for NCLEX and REX-PN with NurseNest. 1,200+ nursing practice questions, clinical case simulations, pharmacology flashcards, and 200+ pathophysiology lessons for RPN/LVN, RN, and NP students in Canada and the US. New content added weekly. Start free - no credit card required.",
+    title: "NurseNest - NCLEX & NCLEX-PN / REx-PN Exam Prep | Nursing Question Bank, Simulations & Flashcards",
+    description: "Prepare for NCLEX, NCLEX-PN, and REx-PN with NurseNest. 1,200+ nursing practice questions, clinical case simulations, pharmacology flashcards, and 200+ pathophysiology lessons for RPN/LVN, RN, and NP students in Canada and the US. New content added weekly. Start free - no credit card required.",
   },
   "/lessons": {
     title: "Nursing Lessons - Pathophysiology & Clinical Topics | NurseNest",
@@ -186,7 +186,7 @@ const staticPages: Record<string, { title: string; description: string }> = {
   },
   "/start-free": {
     title: "Start Free - Begin Your Nursing Exam Prep | NurseNest",
-    description: "Start your free NurseNest account today. Access nursing lessons, flashcards, and practice questions to begin preparing for NCLEX and REX-PN exams.",
+    description: "Start your free NurseNest account today. Access nursing lessons, flashcards, and practice questions to begin preparing for NCLEX, NCLEX-PN, and REx-PN exams.",
   },
   "/anatomy": {
     title: "Anatomy & Physiology Review | NurseNest",
@@ -201,8 +201,8 @@ const staticPages: Record<string, { title: string; description: string }> = {
     description: "Master abnormal lab value interpretation with cluster-based scenarios. Practice identifying critical values and clinical correlations for nursing exams.",
   },
   "/mock-exams": {
-    title: "Mock Exams - NCLEX & REX-PN Practice Tests | NurseNest",
-    description: "Take timed mock exams simulating NCLEX and REX-PN format. Track your scores, identify weak areas, and review detailed rationales.",
+    title: "Mock Exams - NCLEX & NCLEX-PN / REx-PN Practice Tests | NurseNest",
+    description: "Take timed mock exams simulating NCLEX, NCLEX-PN, and REx-PN format. Track your scores, identify weak areas, and review detailed rationales.",
   },
   "/clinical-clarity": {
     title: "Clinical Clarity - Why Does This Happen? | NurseNest",
@@ -242,7 +242,7 @@ const staticPages: Record<string, { title: string; description: string }> = {
   },
   "/shop": {
     title: "Nursing Study Guides & Cram Booklets | NurseNest Store",
-    description: "Download professional nursing cram guides, quick reference sheets, and study bundles. REx-PN, NCLEX, and NP exam prep materials from $19. Instant PDF download.",
+    description: "Download professional nursing cram guides, quick reference sheets, and study bundles. NCLEX-PN, REx-PN, NCLEX-RN, and NP exam prep materials from $19. Instant PDF download.",
   },
   "/blog": {
     title: "Nursing Blog - Evidence-Based Articles | NurseNest",
@@ -254,7 +254,7 @@ const staticPages: Record<string, { title: string; description: string }> = {
   },
   "/compare/uworld-vs-archer-vs-nursenest": {
     title: "UWorld vs Archer vs NurseNest: 3-Way NCLEX Prep Comparison (2025)",
-    description: "Compare UWorld ($69/mo), Archer ($59/quarter), and NurseNest ($4.99/mo) side by side. Features, pricing, Canadian REx-PN support, and which NCLEX prep platform is best for you.",
+    description: "Compare UWorld ($69/mo), Archer ($59/quarter), and NurseNest ($4.99/mo) side by side. Features, pricing, NCLEX-PN / REx-PN support, and which NCLEX prep platform is best for you.",
   },
   "/compare/best-uworld-alternatives-nclex": {
     title: "Best UWorld Alternatives for NCLEX Prep 2025 | NurseNest",
@@ -266,7 +266,7 @@ const staticPages: Record<string, { title: string; description: string }> = {
   },
   "/compare/nursenest-vs-uworld": {
     title: "NurseNest vs UWorld NCLEX: Compare Features & Pricing (2025)",
-    description: "Compare NurseNest ($4.99/mo) vs UWorld ($69/mo) for NCLEX prep. Feature-by-feature comparison of question banks, adaptive testing, flashcards, and Canada REx-PN support.",
+    description: "Compare NurseNest ($4.99/mo) vs UWorld ($69/mo) for NCLEX prep. Feature-by-feature comparison of question banks, adaptive testing, flashcards, and NCLEX-PN / REx-PN support.",
   },
   "/compare/nursenest-vs-archer": {
     title: "NurseNest vs Archer NCLEX Review: Features & Pricing (2025)",
@@ -322,7 +322,7 @@ const staticPages: Record<string, { title: string; description: string }> = {
   },
   "/lectures": {
     title: "Video Lectures - Nursing Education | NurseNest",
-    description: "Watch free nursing video lectures covering pathophysiology, pharmacology, and clinical skills. Visual learning for NCLEX and REX-PN exam preparation.",
+    description: "Watch free nursing video lectures covering pathophysiology, pharmacology, and clinical skills. Visual learning for NCLEX, NCLEX-PN, and REx-PN exam preparation.",
   },
   "/simulators/clinical-skills": {
     title: "Clinical Skills Simulators - Nursing Practice | NurseNest",
@@ -342,11 +342,11 @@ const staticPages: Record<string, { title: string; description: string }> = {
   },
   "/question-of-the-day": {
     title: "Nursing Question of the Day - Free NCLEX Practice | NurseNest",
-    description: "Answer a new nursing practice question every day. Free NCLEX and REX-PN exam prep with detailed rationales. Subscribe for daily email delivery.",
+    description: "Answer a new nursing practice question every day. Free NCLEX, NCLEX-PN, and REx-PN exam prep with detailed rationales. Subscribe for daily email delivery.",
   },
   "/question-bank": {
     title: "Question Bank - 1,200+ Nursing Practice Questions | NurseNest",
-    description: "Practice with 1,200+ nursing questions organized by body system and tier. Instant rationale display and progress tracking for NCLEX and REX-PN prep. New questions added weekly.",
+    description: "Practice with 1,200+ nursing questions organized by body system and tier. Instant rationale display and progress tracking for NCLEX, NCLEX-PN, and REx-PN prep. New questions added weekly.",
   },
   "/nclex-rn/mock-exam": {
     title: "NCLEX-RN Mock Exam Simulator | Free Practice Test | NurseNest",
@@ -662,7 +662,7 @@ export function getPageMeta(pathname: string): PageMeta {
         "@context": "https://schema.org",
         "@type": "LearningResource",
         "name": "Free Nursing Practice Questions",
-        "description": "Free nursing practice questions covering NCLEX and REX-PN content areas with instant rationale display.",
+        "description": "Free nursing practice questions covering NCLEX, NCLEX-PN, and REx-PN content areas with instant rationale display.",
         "url": canonical,
         "learningResourceType": "Quiz",
         "educationalLevel": "Professional",
@@ -673,8 +673,8 @@ export function getPageMeta(pathname: string): PageMeta {
       result.jsonLd = JSON.stringify({
         "@context": "https://schema.org",
         "@type": "LearningResource",
-        "name": "Nursing Mock Exams - NCLEX & REX-PN Practice Tests",
-        "description": "Take timed mock exams simulating NCLEX and REX-PN format with performance analytics.",
+        "name": "Nursing Mock Exams - NCLEX & NCLEX-PN / REx-PN Practice Tests",
+        "description": "Take timed mock exams simulating NCLEX, NCLEX-PN, and REx-PN format with performance analytics.",
         "url": canonical,
         "learningResourceType": "Practice Exam",
         "educationalLevel": "Professional",
@@ -736,7 +736,7 @@ export function getPageMeta(pathname: string): PageMeta {
     else if (slug.endsWith("-rpn")) tier = " (RPN)";
     return {
       title: `${readable}${tier} - Nursing Lesson | NurseNest`,
-      description: `Learn about ${readable} with detailed pathophysiology, clinical findings, nursing interventions, and exam pearls. Evidence-based nursing education for NCLEX and REX-PN preparation.`,
+      description: `Learn about ${readable} with detailed pathophysiology, clinical findings, nursing interventions, and exam pearls. Evidence-based nursing education for NCLEX, NCLEX-PN, and REx-PN preparation.`,
       canonical,
       noindex,
       breadcrumbs,
@@ -749,7 +749,7 @@ export function getPageMeta(pathname: string): PageMeta {
     const readable = slugToTitle(slug);
     return {
       title: `${readable} - Clinical Clarity | NurseNest`,
-      description: `Understand ${readable.toLowerCase()}. Evidence-based pathophysiology explanation for nursing students preparing for NCLEX and REX-PN exams.`,
+      description: `Understand ${readable.toLowerCase()}. Evidence-based pathophysiology explanation for nursing students preparing for NCLEX, NCLEX-PN, and REx-PN exams.`,
       canonical,
       noindex,
       breadcrumbs,
@@ -775,7 +775,7 @@ export function getPageMeta(pathname: string): PageMeta {
     const readable = slugToTitle(slug);
     return {
       title: `${readable} - Nursing Study Guide | Pathophysiology & Interventions | NurseNest`,
-      description: `Learn about ${readable.toLowerCase()} for nursing exams. Pathophysiology, clinical presentation, diagnostics, medications, and nursing interventions. NCLEX and REX-PN exam prep.`,
+      description: `Learn about ${readable.toLowerCase()} for nursing exams. Pathophysiology, clinical presentation, diagnostics, medications, and nursing interventions. NCLEX, NCLEX-PN, and REx-PN exam prep.`,
       canonical,
       noindex,
       breadcrumbs,
@@ -788,7 +788,7 @@ export function getPageMeta(pathname: string): PageMeta {
     const readable = slugToTitle(slug);
     return {
       title: `${readable} - Nursing Pharmacology Guide | Drug Class, MOA & Side Effects | NurseNest`,
-      description: `Study ${readable.toLowerCase()} for nursing exams. Drug class, mechanism of action, indications, side effects, contraindications, and nursing considerations for NCLEX and REX-PN prep.`,
+      description: `Study ${readable.toLowerCase()} for nursing exams. Drug class, mechanism of action, indications, side effects, contraindications, and nursing considerations for NCLEX, NCLEX-PN, and REx-PN prep.`,
       canonical,
       noindex,
       breadcrumbs,
@@ -801,7 +801,7 @@ export function getPageMeta(pathname: string): PageMeta {
     const readable = slugToTitle(slug);
     return {
       title: `${readable} - Lab Value Interpretation | Normal Range & Clinical Significance | NurseNest`,
-      description: `Master ${readable.toLowerCase()} lab value interpretation for nursing exams. Normal ranges, high/low causes, clinical significance, and nursing interventions for NCLEX and REX-PN prep.`,
+      description: `Master ${readable.toLowerCase()} lab value interpretation for nursing exams. Normal ranges, high/low causes, clinical significance, and nursing interventions for NCLEX, NCLEX-PN, and REx-PN prep.`,
       canonical,
       noindex,
       breadcrumbs,
@@ -809,8 +809,8 @@ export function getPageMeta(pathname: string): PageMeta {
   }
 
   return {
-    title: "NurseNest - NCLEX & REX-PN Exam Prep | Nursing Education Platform",
-    description: "Prepare for NCLEX and REX-PN with NurseNest. 1,200+ practice questions, 200+ clinical lessons, pharmacology flashcards, and case simulations for nursing students. New content added weekly.",
+    title: "NurseNest - NCLEX & NCLEX-PN / REx-PN Exam Prep | Nursing Education Platform",
+    description: "Prepare for NCLEX, NCLEX-PN, and REx-PN with NurseNest. 1,200+ practice questions, 200+ clinical lessons, pharmacology flashcards, and case simulations for nursing students. New content added weekly.",
     canonical,
     noindex,
     breadcrumbs,

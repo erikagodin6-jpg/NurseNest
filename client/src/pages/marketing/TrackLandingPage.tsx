@@ -27,12 +27,14 @@ import { Card, CardContent } from "@/components/ui/card";
 import {
   type MarketingTrack,
   getMarketingCopy,
+  resolveMarketingText,
 } from "@/config/marketing-copy";
 import type { LucideIcon } from "lucide-react";
 import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
 import { SEO } from "@/components/seo";
 import { useState } from "react";
+import { useRegion } from "@/hooks/use-region";
 
 const iconMap: Record<string, LucideIcon> = {
   FlaskConical,
@@ -83,6 +85,8 @@ interface TrackLandingPageProps {
 }
 
 export default function TrackLandingPage({ track }: TrackLandingPageProps) {
+  const region = useRegion();
+  const r = (text: string) => resolveMarketingText(text, region);
   const [, setLocation] = useLocation();
   const copy = getMarketingCopy(track);
   const defaultAccent = {
@@ -119,7 +123,7 @@ export default function TrackLandingPage({ track }: TrackLandingPageProps) {
       <HeroSection copy={copy} colors={colors} label={label} onNavigate={setLocation} />
 
       {copy.trustStrip && (
-        <TrustStrip items={copy.trustStrip.items} colors={colors} />
+        <TrustStrip items={copy.trustStrip.items.map(r)} colors={colors} />
       )}
 
       {copy.problemSection && (
@@ -129,7 +133,7 @@ export default function TrackLandingPage({ track }: TrackLandingPageProps) {
       <SolutionSection copy={copy} colors={colors} />
 
       {copy.featureCards && copy.featureCards.length > 0 && (
-        <FeatureCardsSection cards={copy.featureCards} label={label} colors={colors} />
+        <FeatureCardsSection cards={copy.featureCards.map(c => ({ ...c, description: r(c.description) }))} label={label} colors={colors} />
       )}
 
       {copy.howItWorks && copy.howItWorks.length > 0 && (
@@ -149,7 +153,7 @@ export default function TrackLandingPage({ track }: TrackLandingPageProps) {
       )}
 
       {copy.comparison && copy.comparison.length > 0 && (
-        <ComparisonSection comparison={copy.comparison} label={label} colors={colors} />
+        <ComparisonSection comparison={copy.comparison.map(c => ({ ...c, nursenest: r(c.nursenest) }))} label={label} colors={colors} />
       )}
 
       <FaqSection faq={copy.faq} colors={colors} />
@@ -200,6 +204,8 @@ function HeroSection({
   label: string;
   onNavigate: (path: string) => void;
 }) {
+  const region = useRegion();
+  const r = (text: string) => resolveMarketingText(text, region);
   const { hero } = copy;
 
   return (
@@ -221,11 +227,11 @@ function HeroSection({
           className="text-3xl sm:text-4xl md:text-5xl lg:text-[3.25rem] font-bold tracking-tight leading-[1.15] mb-6 max-w-4xl mx-auto"
           data-testid="hero-headline"
         >
-          {hero.headline}
+          {r(hero.headline)}
         </h1>
 
         <p className="text-lg md:text-xl text-[#2E3A59]/65 max-w-3xl mx-auto mb-10 leading-relaxed" data-testid="hero-subheadline">
-          {hero.subheadline}
+          {r(hero.subheadline)}
         </p>
 
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-14">
@@ -336,6 +342,8 @@ function SolutionSection({
   copy: ReturnType<typeof getMarketingCopy>;
   colors: (typeof trackAccentMap)[string];
 }) {
+  const region = useRegion();
+  const r = (text: string) => resolveMarketingText(text, region);
   const { solution } = copy;
 
   return (
@@ -343,10 +351,10 @@ function SolutionSection({
       <div className="max-w-5xl mx-auto px-4 sm:px-6">
         <div className="text-center mb-12">
           <h2 className="text-2xl md:text-3xl font-bold tracking-tight mb-4" data-testid="solution-headline">
-            {solution.headline}
+            {r(solution.headline)}
           </h2>
           <p className="text-[#2E3A59]/60 max-w-2xl mx-auto text-lg">
-            {solution.description}
+            {r(solution.description)}
           </p>
         </div>
 
@@ -362,8 +370,8 @@ function SolutionSection({
                 <div className={`inline-flex items-center justify-center w-12 h-12 rounded-xl ${colors.light} mb-4`}>
                   <Icon className={`w-6 h-6 ${colors.accent}`} />
                 </div>
-                <h3 className="text-base font-semibold mb-2">{feature.title}</h3>
-                <p className="text-sm text-[#2E3A59]/60 leading-relaxed">{feature.description}</p>
+                <h3 className="text-base font-semibold mb-2">{r(feature.title)}</h3>
+                <p className="text-sm text-[#2E3A59]/60 leading-relaxed">{r(feature.description)}</p>
               </div>
             );
           })}
@@ -681,6 +689,8 @@ function FaqSection({
   faq: ReturnType<typeof getMarketingCopy>["faq"];
   colors: (typeof trackAccentMap)[string];
 }) {
+  const region = useRegion();
+  const r = (text: string) => resolveMarketingText(text, region);
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   return (
@@ -704,7 +714,7 @@ function FaqSection({
                 className="w-full flex items-center justify-between p-5 text-left hover:bg-gray-50/50 transition-colors"
                 data-testid={`faq-toggle-${i}`}
               >
-                <span className="font-medium text-sm pr-4">{item.question}</span>
+                <span className="font-medium text-sm pr-4">{r(item.question)}</span>
                 <ChevronRight
                   className={`w-4 h-4 text-[#2E3A59]/40 flex-shrink-0 transition-transform duration-200 ${
                     openIndex === i ? "rotate-90" : ""
@@ -713,7 +723,7 @@ function FaqSection({
               </button>
               {openIndex === i && (
                 <div className="px-5 pb-5">
-                  <p className="text-sm text-[#2E3A59]/60 leading-relaxed">{item.answer}</p>
+                  <p className="text-sm text-[#2E3A59]/60 leading-relaxed">{r(item.answer)}</p>
                 </div>
               )}
             </div>
@@ -733,6 +743,8 @@ function FinalCtaSection({
   colors: (typeof trackAccentMap)[string];
   onNavigate: (path: string) => void;
 }) {
+  const region = useRegion();
+  const r = (text: string) => resolveMarketingText(text, region);
   return (
     <section
       className="py-20 md:py-28 bg-gradient-to-b from-[#BFA6F6]/5 via-[#BFA6F6]/10 to-[#BFA6F6]/5"
@@ -742,11 +754,11 @@ function FinalCtaSection({
         <Sparkles className="w-8 h-8 text-[#BFA6F6] mx-auto mb-6" />
 
         <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold tracking-tight mb-4" data-testid="final-cta-headline">
-          {cta.headline}
+          {r(cta.headline)}
         </h2>
 
         <p className="text-lg text-[#2E3A59]/60 max-w-2xl mx-auto mb-10 leading-relaxed">
-          {cta.description}
+          {r(cta.description)}
         </p>
 
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-6">

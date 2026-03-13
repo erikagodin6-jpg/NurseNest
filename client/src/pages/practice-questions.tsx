@@ -16,20 +16,29 @@ import {
 } from "lucide-react";
 import { LocaleLink } from "@/lib/LocaleLink";
 import { ConfidenceRatingModal } from "@/components/study-momentum";
+import { useAuth } from "@/lib/auth";
+import { getPracticalNurseExamName, type Region } from "@shared/constants";
+import { useRegion } from "@/hooks/use-region";
 
-const TIER_LABELS: Record<string, string> = {
-  rpn: "RPN / REx-PN / LPN",
-  rn: "RN / NCLEX-RN",
-  np: "Nurse Practitioner",
-  free: "Pre-Nursing Foundations",
-};
+function getTierLabels(region: Region): Record<string, string> {
+  const pnExam = getPracticalNurseExamName(region);
+  return {
+    rpn: `RPN / ${pnExam} / LPN`,
+    rn: "RN / NCLEX-RN",
+    np: "Nurse Practitioner",
+    free: "Pre-Nursing Foundations",
+  };
+}
 
-const TIER_SEO_LABELS: Record<string, string> = {
-  rpn: "REx-PN RPN LPN",
-  rn: "NCLEX-RN RN",
-  np: "Nurse Practitioner NP",
-  free: "Pre-Nursing",
-};
+function getTierSeoLabels(region: Region): Record<string, string> {
+  const pnExam = getPracticalNurseExamName(region);
+  return {
+    rpn: `${pnExam} RPN LPN`,
+    rn: "NCLEX-RN RN",
+    np: "Nurse Practitioner NP",
+    free: "Pre-Nursing",
+  };
+}
 
 const SYSTEM_ICONS: Record<string, typeof Heart> = {
   Cardiovascular: Heart,
@@ -64,6 +73,10 @@ function deslugify(slug: string): string {
 }
 
 function PracticeQuestionsIndex() {
+  const { user } = useAuth();
+  const region = useRegion();
+  const TIER_LABELS = getTierLabels(region);
+  const pnExamName = getPracticalNurseExamName(region);
   const [, setLocation] = useLocation();
   const [combos, setCombos] = useState<{ tier: string; system: string; count: number }[]>([]);
 
@@ -100,7 +113,7 @@ function PracticeQuestionsIndex() {
     "@context": "https://schema.org",
     "@type": "CollectionPage",
     name: "Free Nursing Practice Questions",
-    description: "Browse free practice questions by exam tier and body system. Interactive NCLEX, REx-PN, and NP exam practice with instant rationales.",
+    description: `Browse free practice questions by exam tier and body system. Interactive NCLEX, ${pnExamName}, and NP exam practice with instant rationales.`,
     url: "https://www.nursenest.ca/practice-questions",
     isPartOf: { "@type": "WebSite", name: "NurseNest", url: "https://www.nursenest.ca" },
   };
@@ -108,9 +121,9 @@ function PracticeQuestionsIndex() {
   return (
     <div className="min-h-screen bg-warmwhite flex flex-col font-sans text-gray-900">
       <SEO
-        title="Free Nursing Practice Questions by System | NCLEX & REx-PN | NurseNest"
-        description="Browse hundreds of free nursing practice questions organized by exam tier and body system. Interactive NCLEX-RN, REx-PN, and NP exam questions with detailed rationales."
-        keywords="free NCLEX practice questions, free REx-PN questions, nursing practice questions by system, free nursing exam questions"
+        title={`Free Nursing Practice Questions by System | NCLEX & ${pnExamName} | NurseNest`}
+        description={`Browse hundreds of free nursing practice questions organized by exam tier and body system. Interactive NCLEX-RN, ${pnExamName}, and NP exam questions with detailed rationales.`}
+        keywords={`free NCLEX practice questions, free ${pnExamName} questions, nursing practice questions by system, free nursing exam questions`}
         canonicalPath="/practice-questions"
         structuredData={structuredData}
       />
@@ -195,6 +208,9 @@ function PracticeQuestionsIndex() {
 }
 
 function QuizSession({ tier, systemSlug }: { tier: string; systemSlug: string }) {
+  const { user } = useAuth();
+  const region = useRegion();
+  const TIER_LABELS = getTierLabels(region);
   const [, setLocation] = useLocation();
   const systemName = deslugify(systemSlug);
   const [questions, setQuestions] = useState<PooledQuestion[]>([]);
@@ -219,6 +235,7 @@ function QuizSession({ tier, systemSlug }: { tier: string; systemSlug: string })
 
   const current = questions[currentIndex];
   const tierLabel = TIER_LABELS[tier] || tier.toUpperCase();
+  const TIER_SEO_LABELS = getTierSeoLabels(region);
   const seoTier = TIER_SEO_LABELS[tier] || tier.toUpperCase();
 
   const handleAnswer = (optionIndex: number) => {

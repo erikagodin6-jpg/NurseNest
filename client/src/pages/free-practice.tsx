@@ -190,9 +190,9 @@ export default function FreePractice() {
   return (
     <div className="min-h-screen bg-warmwhite flex flex-col font-sans text-gray-900">
       <SEO
-        title="Free Nursing Practice Questions | NCLEX & REx-PN Sample Questions | NurseNest"
-        description="Practice 10 free NCLEX and REx-PN style nursing questions with detailed rationales. Test your knowledge across body systems - no signup required."
-        keywords="free NCLEX practice questions, free REx-PN questions, nursing practice test free, sample nursing exam questions"
+        title="Free Nursing Practice Questions | NCLEX, NCLEX-PN & REx-PN Sample Questions | NurseNest"
+        description="Practice 10 free NCLEX, NCLEX-PN, and REx-PN style nursing questions with detailed rationales. Test your knowledge across body systems - no signup required."
+        keywords="free NCLEX practice questions, free NCLEX-PN questions, free REx-PN questions, nursing practice test free, sample nursing exam questions"
         canonicalPath="/free-practice"
       />
       <Navigation />
