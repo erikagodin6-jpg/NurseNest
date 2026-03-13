@@ -51,14 +51,14 @@ type LessonMeta = {
 let lessonData: Record<string, any> | null = null;
 let metadataCache: LessonMeta[] | null = null;
 
-async function loadLessonData(): Promise<Record<string, any>> {
+export async function loadLessonData(): Promise<Record<string, any>> {
   if (lessonData) return lessonData;
   const mod = await import("../client/src/data/lessons/index");
   lessonData = mod.contentMap;
   return lessonData!;
 }
 
-function deriveTier(id: string): string {
+export function deriveTier(id: string): string {
   if (id.endsWith("-np") || id.endsWith("-advanced-np") || id.endsWith("-management-np")) return "np";
   if (id.endsWith("-rn") || id.endsWith("-basics-rn")) return "rn";
   if (id.endsWith("-rpn") || id.endsWith("-basics-rpn")) return "rpn";
@@ -195,4 +195,62 @@ export function setupLessonContentRoutes(app: Express): void {
       res.status(500).json({ error: "Failed to count" });
     }
   });
+}
+
+export function isPlaceholder(lesson: any): boolean {
+  const content = lesson.cellular?.content || "";
+  if (content.includes("[WRITE YOUR") || content.includes("[PLACEHOLDER") || content.length < 20) return true;
+  const genericRiskFactors = [
+    "Advanced age or extremes of age",
+    "Family history of",
+    "Sedentary lifestyle and poor nutritional status",
+    "Chronic comorbidities (hypertension, diabetes, obesity)",
+    "Tobacco, alcohol, or substance use",
+    "Immunocompromised state or prolonged medication use",
+  ];
+  const rf = lesson.riskFactors || [];
+  const genericRfCount = rf.filter((r: string) => genericRiskFactors.some((g: string) => r.startsWith(g) || r.includes(g))).length;
+  if (genericRfCount >= 3) return true;
+  const genericNursingActions = [
+    "Monitor vital signs",
+    "Administer medications as prescribed",
+    "Educate patient and family",
+    "Maintain accurate intake and output",
+    "Document assessment findings",
+  ];
+  const na = lesson.nursingActions || [];
+  const genericNaCount = na.filter((n: string) => genericNursingActions.some((g: string) => n.startsWith(g))).length;
+  if (genericNaCount >= 3 && na.length <= 6) return true;
+  return false;
+}
+
+export function classifyLessonStatus(lesson: any): "complete" | "placeholder" | "weak" | "broken" {
+  if (!lesson || !lesson.title) return "broken";
+  if (isPlaceholder(lesson)) return "placeholder";
+  const cellularLen = lesson.cellular?.content?.length || 0;
+  const rfCount = lesson.riskFactors?.length || 0;
+  const diagCount = lesson.diagnostics?.length || 0;
+  const mgmtCount = lesson.management?.length || 0;
+  const naCount = lesson.nursingActions?.length || 0;
+  const assessmentCount = lesson.assessmentFindings?.length || 0;
+  const medCount = lesson.medications?.length || 0;
+  const pearlCount = lesson.pearls?.length || 0;
+  const quizCount = lesson.quiz?.length || 0;
+  const signsLeft = lesson.signs?.left?.length || 0;
+  const signsRight = lesson.signs?.right?.length || 0;
+  const hasSeo = !!(lesson.seo?.title && lesson.seo?.description);
+  let score = 0;
+  if (cellularLen > 200) score++;
+  if (rfCount >= 3) score++;
+  if (diagCount >= 3) score++;
+  if (mgmtCount >= 3) score++;
+  if (naCount >= 3) score++;
+  if (assessmentCount >= 1) score++;
+  if (medCount >= 1) score++;
+  if (pearlCount >= 1) score++;
+  if (quizCount >= 1) score++;
+  if (signsLeft >= 1 || signsRight >= 1) score++;
+  if (hasSeo) score++;
+  if (score >= 7) return "complete";
+  return "weak";
 }

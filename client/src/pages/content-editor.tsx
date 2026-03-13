@@ -1779,6 +1779,29 @@ export default function ContentEditorPage() {
                         </label>
                       </div>
 
+                      {type === "lesson" && status === "published" && (() => {
+                        const wc = blocks.reduce((acc, b) => acc + (b.content || "").split(/\s+/).filter(Boolean).length, 0);
+                        const issues: string[] = [];
+                        if (!title.trim()) issues.push("Missing title");
+                        if (!slug.trim()) issues.push("Missing slug");
+                        if (wc < 100) issues.push(`Content too short (${wc} words, min 100)`);
+                        if (blocks.length === 0) issues.push("No content blocks");
+                        if (issues.length === 0) return null;
+                        return (
+                          <div className="bg-amber-50 border border-amber-200 rounded-lg p-3 mb-2" data-testid="warning-incomplete-lesson">
+                            <div className="flex items-start gap-2">
+                              <AlertTriangle className="w-4 h-4 text-amber-600 mt-0.5 shrink-0" />
+                              <div>
+                                <p className="text-xs font-semibold text-amber-800">Incomplete Lesson</p>
+                                <ul className="text-xs text-amber-700 mt-1 space-y-0.5">
+                                  {issues.map((issue, i) => <li key={i}>{issue}</li>)}
+                                </ul>
+                              </div>
+                            </div>
+                          </div>
+                        );
+                      })()}
+
                       <div className="flex flex-col gap-2 pt-2">
                         <Button
                           onClick={handleSave}

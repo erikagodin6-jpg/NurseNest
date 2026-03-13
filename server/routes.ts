@@ -4100,6 +4100,27 @@ Rules:
         contentData.regionScope = "BOTH";
       }
       const parsed = insertContentItemSchema.parse(contentData);
+
+      if (parsed.status === "published" && parsed.type === "lesson") {
+        const lessonMinWords = parseInt(process.env.LESSON_MIN_WORDS || "100", 10);
+        const bodyText = extractTextFromContent(parsed.content);
+        const wc = countWords(bodyText);
+        if (!parsed.title || !parsed.title.trim()) {
+          return res.status(422).json({ error: "Lesson title is required for publishing.", code: "LESSON_MISSING_TITLE" });
+        }
+        if (!parsed.slug || !parsed.slug.trim()) {
+          return res.status(422).json({ error: "Lesson slug is required for publishing.", code: "LESSON_MISSING_SLUG" });
+        }
+        if (wc < lessonMinWords && !contentData.forcePublish) {
+          return res.status(422).json({
+            error: `Lesson has ${wc} words, minimum ${lessonMinWords} required for publishing. Save as draft or use forcePublish to bypass.`,
+            wordCount: wc,
+            minimum: lessonMinWords,
+            code: "LESSON_TOO_SHORT",
+          });
+        }
+      }
+
       const existingBySlug = parsed.slug ? await storage.getContentItemBySlug(parsed.slug) : undefined;
       let item;
       if (existingBySlug) {
@@ -4154,6 +4175,30 @@ Rules:
             wordCount: wc,
             minimum: blogMinWords,
             code: "POST_TOO_SHORT",
+          });
+        }
+      }
+
+      const isLessonType = (contentData.type || existing?.type || "") === "lesson";
+      const isLessonPublishing = contentData.status === "published";
+      if (isLessonType && isLessonPublishing && !contentData.forcePublish) {
+        const lessonTitle = contentData.title || existing?.title || "";
+        const lessonSlug = contentData.slug || existing?.slug || "";
+        if (!lessonTitle) {
+          return res.status(422).json({ error: "Lesson title is required for publishing.", code: "LESSON_MISSING_TITLE" });
+        }
+        if (!lessonSlug) {
+          return res.status(422).json({ error: "Lesson slug is required for publishing.", code: "LESSON_MISSING_SLUG" });
+        }
+        const lessonMinWords = parseInt(process.env.LESSON_MIN_WORDS || "100", 10);
+        const lessonBodyText = extractTextFromContent(contentData.body || contentData.content || existing?.body || existing?.content);
+        const lessonWc = countWords(lessonBodyText);
+        if (lessonWc < lessonMinWords) {
+          return res.status(422).json({
+            error: `Lesson has ${lessonWc} words, minimum ${lessonMinWords} required for publishing. Save as draft or use forcePublish to bypass.`,
+            wordCount: lessonWc,
+            minimum: lessonMinWords,
+            code: "LESSON_TOO_SHORT",
           });
         }
       }
@@ -17358,6 +17403,361 @@ Return ONLY valid JSON with this exact structure:
       await storage.deleteCaseStudyQuestion(req.params.id);
       res.json({ ok: true });
     } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/admin/rn-lesson-audit", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+
+      const { loadLessonData, deriveTier, classifyLessonStatus } = await import("./lesson-content-api");
+      const contentMap = await loadLessonData();
+
+      const staticLessons: any[] = [];
+      for (const [id, lesson] of Object.entries(contentMap)) {
+        const tier = deriveTier(id);
+        if (tier !== "rn" && tier !== "general") continue;
+        const status = classifyLessonStatus(lesson as any);
+        const l = lesson as any;
+        staticLessons.push({
+          id,
+          title: typeof l.title === "object" ? (l.title.en || l.title) : (l.title || id),
+          tier,
+          source: "static",
+          status,
+          cellularLength: (l.cellular?.content || "").length,
+          riskFactorCount: (l.riskFactors || []).length,
+          diagnosticCount: (l.diagnostics || []).length,
+          managementCount: (l.management || []).length,
+          nursingActionCount: (l.nursingActions || []).length,
+          assessmentFindingCount: (l.assessmentFindings || []).length,
+          medicationCount: (l.medications || []).length,
+          pearlCount: (l.pearls || []).length,
+          quizCount: (l.quiz || []).length,
+          signsLeftCount: (l.signs?.left || []).length,
+          signsRightCount: (l.signs?.right || []).length,
+          hasSeo: !!(l.seo?.title && l.seo?.description),
+        });
+      }
+
+      let dbLessons: any[] = [];
+      try {
+        const dbItems = await storage.getAllContentItems();
+        const rnDbItems = (dbItems || []).filter((item: any) => {
+          if (item.type !== "lesson") return false;
+          const t = (item.tier || "").toLowerCase();
+          return t === "rn" || t === "general";
+        });
+
+        for (const item of rnDbItems) {
+          const blocks = Array.isArray(item.content) ? item.content : [];
+          const wordCount = blocks.reduce((acc: number, b: any) => {
+            const text = typeof b === "string" ? b : (b?.content || "");
+            return acc + text.split(/\s+/).filter(Boolean).length;
+          }, 0);
+          const hasBlocks = blocks.length > 0;
+          const isPublished = item.status === "published";
+
+          let dbStatus: "complete" | "placeholder" | "weak" | "broken" = "complete";
+          if (!hasBlocks || wordCount < 10) dbStatus = "placeholder";
+          else if (wordCount < 200) dbStatus = "weak";
+          else if (!isPublished) dbStatus = "weak";
+
+          const hasSeo = !!(item.seoTitle && item.seoDescription);
+
+          dbLessons.push({
+            id: item.slug,
+            dbId: item.id,
+            title: item.title,
+            tier: item.tier || "free",
+            source: "database",
+            status: dbStatus,
+            wordCount,
+            blockCount: blocks.length,
+            dbStatus: item.status,
+            hasSeo,
+            updatedAt: item.updatedAt,
+            createdAt: item.createdAt,
+          });
+        }
+      } catch (dbErr: any) {
+        console.error("[RN Audit] DB query error:", dbErr.message);
+      }
+
+      const staticSlugs = new Set(staticLessons.map((l: any) => l.id));
+      const dbSlugs = new Set(dbLessons.map((l: any) => l.id));
+      const slugMismatches = {
+        inStaticNotDb: staticLessons.filter((l: any) => !dbSlugs.has(l.id)).map((l: any) => l.id).slice(0, 50),
+        inDbNotStatic: dbLessons.filter((l: any) => !staticSlugs.has(l.id)).map((l: any) => l.id).slice(0, 50),
+      };
+
+      const staticCounts = {
+        total: staticLessons.length,
+        complete: staticLessons.filter((l: any) => l.status === "complete").length,
+        placeholder: staticLessons.filter((l: any) => l.status === "placeholder").length,
+        weak: staticLessons.filter((l: any) => l.status === "weak").length,
+        broken: staticLessons.filter((l: any) => l.status === "broken").length,
+      };
+
+      const dbCounts = {
+        total: dbLessons.length,
+        complete: dbLessons.filter((l: any) => l.status === "complete").length,
+        placeholder: dbLessons.filter((l: any) => l.status === "placeholder").length,
+        weak: dbLessons.filter((l: any) => l.status === "weak").length,
+        broken: dbLessons.filter((l: any) => l.status === "broken").length,
+      };
+
+      res.json({
+        staticLessons: staticLessons.sort((a: any, b: any) => {
+          const order = { broken: 0, placeholder: 1, weak: 2, complete: 3 };
+          return (order[a.status as keyof typeof order] || 0) - (order[b.status as keyof typeof order] || 0);
+        }),
+        dbLessons: dbLessons.sort((a: any, b: any) => {
+          const order = { broken: 0, placeholder: 1, weak: 2, complete: 3 };
+          return (order[a.status as keyof typeof order] || 0) - (order[b.status as keyof typeof order] || 0);
+        }),
+        staticCounts,
+        dbCounts,
+        slugMismatches,
+        timestamp: new Date().toISOString(),
+      });
+    } catch (e: any) {
+      console.error("[RN Audit] Error:", e.message);
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.post("/api/admin/rn-lesson-repair", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+
+      const { slugs, mode = "repair" } = req.body;
+      if (!Array.isArray(slugs) || slugs.length === 0 || slugs.length > 10) {
+        return res.status(400).json({ error: "Provide 1-10 slugs to repair" });
+      }
+
+      const { hasSeparateProdDb, getDbInfo, getProdPool } = await import("./db");
+      const dbInfo = getDbInfo();
+      const hasSeparate = hasSeparateProdDb();
+      const targetLabel = hasSeparate ? "production (PROD_DATABASE_URL)" : "shared (DATABASE_URL)";
+      console.log(`[RN Repair] DB Info: dev=${dbInfo.devUrl}, prod=${dbInfo.prodUrl}, hasSeparateProd=${hasSeparate}`);
+
+      const targetPool = getProdPool();
+      const dbVerify = await targetPool.query("SELECT current_database() AS db, current_user AS usr, NOW() AS ts");
+      const dbRow = dbVerify.rows[0];
+      console.log(`[RN Repair] DB verified: database=${dbRow.db}, user=${dbRow.usr}, target=${targetLabel}`);
+
+      const tableCheck = await targetPool.query(`
+        SELECT EXISTS(SELECT 1 FROM information_schema.tables WHERE table_name = 'content_items') AS has_content_items
+      `);
+      if (!tableCheck.rows[0].has_content_items) {
+        return res.status(500).json({ error: "content_items table not found in target database" });
+      }
+
+      const { loadLessonData } = await import("./lesson-content-api");
+      const contentMap = await loadLessonData();
+
+      const OpenAI = (await import("openai")).default;
+      const openai = new OpenAI({
+        apiKey: process.env.AI_INTEGRATIONS_OPENAI_API_KEY,
+        baseURL: process.env.AI_INTEGRATIONS_OPENAI_BASE_URL,
+      });
+
+      const results: any[] = [];
+
+      for (const slug of slugs) {
+        try {
+          const existingStatic = contentMap[slug];
+          const title = existingStatic?.title || slug.replace(/-/g, " ").replace(/\b\w/g, (c: string) => c.toUpperCase());
+
+          const systemPrompt = `You are a clinical nursing education expert creating comprehensive, NCLEX-aware lesson content for NurseNest.
+Generate a complete nursing lesson about "${title}" at the RN scope of practice.
+
+Return valid JSON with this exact structure:
+{
+  "title": "${title}",
+  "summary": "One-sentence clinical summary",
+  "pathophysiology": "Detailed pathophysiology paragraph (minimum 300 words covering cellular/molecular mechanisms, disease progression, and clinical significance)",
+  "riskFactors": ["5-8 specific risk factors relevant to this condition"],
+  "diagnostics": ["5-8 specific diagnostic tests and expected findings with values"],
+  "management": ["5-8 specific medical management interventions"],
+  "nursingActions": ["5-8 priority nursing actions specific to this condition"],
+  "assessmentFindings": ["5-8 specific assessment findings"],
+  "signsLeft": ["4-6 early signs and symptoms"],
+  "signsRight": ["4-6 late or emergency signs"],
+  "medications": [{"name":"Drug Name","type":"Classification","action":"Mechanism of action","sideEffects":"Common side effects","contra":"Contraindications","pearl":"Nursing pearl for this medication"}],
+  "pearls": ["3-5 high-yield clinical pearls for NCLEX preparation"],
+  "quiz": [{"question":"NCLEX-style question","options":["A","B","C","D"],"correct":0,"rationale":"Detailed rationale explaining the correct answer"}],
+  "seoTitle": "SEO optimized title | NurseNest",
+  "seoDescription": "155 character max SEO description",
+  "seoKeywords": ["keyword1", "keyword2", "keyword3"]
+}
+
+Rules:
+- Content must be clinically accurate at RN scope of practice
+- Include specific lab values, vital sign changes, and drug dosages
+- Quiz should have 3-5 NCLEX-style questions
+- Medications should include 2-4 drugs specific to this condition
+- No generic/placeholder content - everything must be specific to the topic
+- No emoji characters anywhere`;
+
+          const resp = await openai.chat.completions.create({
+            model: "gpt-4o-mini",
+            messages: [
+              { role: "system", content: systemPrompt },
+              { role: "user", content: `Generate complete RN lesson content for: ${title}. Return JSON only.` },
+            ],
+            temperature: 0.7,
+            max_tokens: 8192,
+            response_format: { type: "json_object" },
+          });
+
+          const rawContent = resp.choices[0]?.message?.content || "{}";
+          const parsed = JSON.parse(rawContent);
+
+          const contentBlocks: any[] = [];
+          if (parsed.pathophysiology) {
+            contentBlocks.push({ type: "heading", content: "Pathophysiology" });
+            contentBlocks.push({ type: "paragraph", content: parsed.pathophysiology });
+          }
+          if (parsed.riskFactors?.length) {
+            contentBlocks.push({ type: "heading", content: "Risk Factors" });
+            contentBlocks.push({ type: "list", items: parsed.riskFactors });
+          }
+          if (parsed.diagnostics?.length) {
+            contentBlocks.push({ type: "heading", content: "Diagnostic Findings" });
+            contentBlocks.push({ type: "list", items: parsed.diagnostics });
+          }
+          if (parsed.management?.length) {
+            contentBlocks.push({ type: "heading", content: "Medical Management" });
+            contentBlocks.push({ type: "list", items: parsed.management });
+          }
+          if (parsed.nursingActions?.length) {
+            contentBlocks.push({ type: "heading", content: "Priority Nursing Actions" });
+            contentBlocks.push({ type: "list", items: parsed.nursingActions });
+          }
+          if (parsed.assessmentFindings?.length) {
+            contentBlocks.push({ type: "heading", content: "Assessment Findings" });
+            contentBlocks.push({ type: "list", items: parsed.assessmentFindings });
+          }
+          if (parsed.signsLeft?.length || parsed.signsRight?.length) {
+            contentBlocks.push({ type: "heading", content: "Signs & Symptoms" });
+            if (parsed.signsLeft?.length) {
+              contentBlocks.push({ type: "heading", content: "Early Signs", level: 3 });
+              contentBlocks.push({ type: "list", items: parsed.signsLeft });
+            }
+            if (parsed.signsRight?.length) {
+              contentBlocks.push({ type: "heading", content: "Late/Emergency Signs", level: 3 });
+              contentBlocks.push({ type: "list", items: parsed.signsRight });
+            }
+          }
+          if (parsed.medications?.length) {
+            contentBlocks.push({ type: "heading", content: "Medications" });
+            for (const med of parsed.medications) {
+              contentBlocks.push({
+                type: "medication",
+                content: `${med.name} (${med.type})\nAction: ${med.action}\nSide Effects: ${med.sideEffects}\nContraindications: ${med.contra}\nNursing Pearl: ${med.pearl}`,
+              });
+            }
+          }
+          if (parsed.pearls?.length) {
+            for (const pearl of parsed.pearls) {
+              contentBlocks.push({ type: "clinical-pearl", content: pearl });
+            }
+          }
+          if (parsed.quiz?.length) {
+            contentBlocks.push({
+              type: "quiz",
+              title: "Knowledge Check",
+              questions: parsed.quiz.map((q: any) => ({
+                question: q.question,
+                options: q.options,
+                correct: q.correct,
+                rationale: q.rationale,
+              })),
+            });
+          }
+
+          const tier = slug.endsWith("-rn") || slug.endsWith("-basics-rn") ? "rn" : "general";
+          const region = (req as any).region || "US";
+
+          const contentData: any = {
+            title: parsed.title || title,
+            slug,
+            type: "lesson",
+            tier,
+            status: "published",
+            summary: parsed.summary || "",
+            content: contentBlocks,
+            seoTitle: parsed.seoTitle || `${title} | NurseNest`,
+            seoDescription: parsed.seoDescription || `Learn about ${title} - comprehensive RN nursing lesson.`,
+            seoKeywords: parsed.seoKeywords || [],
+            category: "clinical-reasoning",
+            regionScope: tier === "rn" ? `${region}_ONLY` : "BOTH",
+            updatedByAi: true,
+          };
+
+          const validatedData = insertContentItemSchema.parse(contentData);
+
+          const repairText = extractTextFromContent(contentBlocks);
+          const repairWordCount = countWords(repairText);
+          const minWords = parseInt(process.env.LESSON_MIN_WORDS || "100", 10);
+          if (repairWordCount < minWords) {
+            validatedData.status = "draft";
+            console.log(`[RN Repair] ${slug}: only ${repairWordCount} words, saving as draft (min ${minWords})`);
+          }
+
+          const existingCheck = await targetPool.query(
+            "SELECT id FROM content_items WHERE slug = $1 LIMIT 1",
+            [slug]
+          );
+          let itemResult;
+          if (existingCheck.rows.length > 0) {
+            const existingId = existingCheck.rows[0].id;
+            itemResult = await targetPool.query(
+              `UPDATE content_items SET title = $1, slug = $2, type = $3, tier = $4, status = $5, summary = $6,
+               content = $7, seo_title = $8, seo_description = $9, seo_keywords = $10, category = $11,
+               region_scope = $12, updated_by_ai = $13, updated_at = NOW()
+               WHERE id = $14 RETURNING id, title, slug, status`,
+              [
+                validatedData.title, validatedData.slug, validatedData.type, validatedData.tier,
+                validatedData.status, validatedData.summary, JSON.stringify(validatedData.content),
+                validatedData.seoTitle, validatedData.seoDescription,
+                JSON.stringify(validatedData.seoKeywords), validatedData.category,
+                validatedData.regionScope, validatedData.updatedByAi, existingId
+              ]
+            );
+            console.log(`[RN Repair] Updated existing content_item ${existingId} for slug=${slug} on ${targetLabel}`);
+          } else {
+            itemResult = await targetPool.query(
+              `INSERT INTO content_items (title, slug, type, tier, status, summary, content, seo_title,
+               seo_description, seo_keywords, category, region_scope, updated_by_ai, created_at, updated_at)
+               VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, NOW(), NOW())
+               RETURNING id, title, slug, status`,
+              [
+                validatedData.title, validatedData.slug, validatedData.type, validatedData.tier,
+                validatedData.status, validatedData.summary, JSON.stringify(validatedData.content),
+                validatedData.seoTitle, validatedData.seoDescription,
+                JSON.stringify(validatedData.seoKeywords), validatedData.category,
+                validatedData.regionScope, validatedData.updatedByAi
+              ]
+            );
+            console.log(`[RN Repair] Inserted new content_item for slug=${slug} on ${targetLabel}`);
+          }
+
+          results.push({ slug, status: "repaired", title: validatedData.title, blockCount: contentBlocks.length, wordCount: repairWordCount, publishedStatus: validatedData.status, dbTarget: targetLabel });
+        } catch (lessonErr: any) {
+          console.error(`[RN Repair] Failed to repair ${slug}:`, lessonErr.message);
+          results.push({ slug, status: "failed", error: lessonErr.message });
+        }
+      }
+
+      res.json({ results, timestamp: new Date().toISOString() });
+    } catch (e: any) {
+      console.error("[RN Repair] Error:", e.message);
       res.status(500).json({ error: e.message });
     }
   });
