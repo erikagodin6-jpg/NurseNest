@@ -6,6 +6,7 @@ import { AdminEditButton } from "@/components/admin-edit-button";
 import { useAuth } from "@/lib/auth";
 import { Footer } from "@/components/footer";
 import { TrustShowcase } from "@/components/trust-showcase";
+import { HeroProofShowcase } from "@/components/hero-proof-showcase";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { useLocation } from "wouter";
@@ -342,6 +343,8 @@ export default function Home() {
             </div>
           </div>
         </section>
+
+        <HeroProofShowcase />
 
         <section className="py-16 bg-gradient-to-b from-white to-gray-50 border-t border-gray-100" data-testid="section-career-selector">
           <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
