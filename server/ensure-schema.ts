@@ -359,6 +359,8 @@ export async function ensureSchemaSync(pool: pg.Pool): Promise<void> {
   } finally {
     client.release();
   }
+
+  await ensureProgrammaticPages(pool);
 }
 
 async function runCanonicalMigrationIfNeeded(pool: pg.Pool): Promise<void> {
@@ -532,6 +534,30 @@ async function canonicalizeFlashcardReferences(pool: pg.Pool): Promise<void> {
   } catch (e: any) {
     console.warn("[SchemaSync] Flashcard canonicalization error:", e.message);
   }
+}
+
+async function ensureProgrammaticPages(pool: pg.Pool): Promise<void> {
+  await pool.query(`
+    CREATE TABLE IF NOT EXISTS programmatic_pages (
+      id varchar PRIMARY KEY DEFAULT gen_random_uuid(),
+      page_type text NOT NULL,
+      source_content_id varchar NOT NULL,
+      source_content_type text NOT NULL,
+      career_track text NOT NULL,
+      slug text NOT NULL UNIQUE,
+      title text NOT NULL,
+      meta_title text,
+      meta_description text,
+      content_sections jsonb DEFAULT '[]'::jsonb,
+      faq_json jsonb DEFAULT '[]'::jsonb,
+      related_content_links jsonb DEFAULT '[]'::jsonb,
+      sibling_links jsonb DEFAULT '[]'::jsonb,
+      status text NOT NULL DEFAULT 'published',
+      gating_level text NOT NULL DEFAULT 'public',
+      created_at timestamptz DEFAULT NOW() NOT NULL,
+      updated_at timestamptz DEFAULT NOW() NOT NULL
+    )
+  `);
 }
 
 async function canonicalizeImageCaptions(pool: pg.Pool): Promise<void> {

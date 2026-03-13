@@ -86,6 +86,7 @@ import { UnderservedSEOPage, OTQuestionBankPage, OTMockExamsPage, OTStudyPlanPag
 const EncyclopediaHubPage = lazy(() => import("./pages/encyclopedia-hub-page"));
 const EncyclopediaTopicPage = lazy(() => import("./pages/encyclopedia-topic-page"));
 const EncyclopediaAdmin = lazy(() => import("./pages/encyclopedia-admin"));
+const ProgrammaticSeoPage = lazy(() => import("@/pages/programmatic-seo-page"));
 
 function LoadingFallback() {
   return (
@@ -325,6 +326,13 @@ export function AlliedRoutes() {
         <Route path="/addictions-encyclopedia">{() => <EncyclopediaHubPage profession="addictions" />}</Route>
         <Route path="/occupational-therapy-encyclopedia/:slug">{() => <EncyclopediaTopicPage profession="occupational-therapy" />}</Route>
         <Route path="/occupational-therapy-encyclopedia">{() => <EncyclopediaHubPage profession="occupational-therapy" />}</Route>
+
+        <Route path="/:careerSlug/study-guide/:topicSlug">{() => <ProgrammaticSeoPage />}</Route>
+        <Route path="/:careerSlug/exam-tips/:topicSlug">{() => <ProgrammaticSeoPage />}</Route>
+        <Route path="/:careerSlug/clinical-scenarios/:topicSlug">{() => <ProgrammaticSeoPage />}</Route>
+        <Route path="/:careerSlug/practice-questions/:topicSlug">{() => <ProgrammaticSeoPage />}</Route>
+        <Route path="/:careerSlug/question-detail/:topicSlug">{() => <ProgrammaticSeoPage />}</Route>
+        <Route path="/:careerSlug/flashcard-detail/:topicSlug">{() => <ProgrammaticSeoPage />}</Route>
 
         <Route>
           {() => (

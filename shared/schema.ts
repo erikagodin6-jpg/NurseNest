@@ -5032,3 +5032,31 @@ export const ENCYCLOPEDIA_PROFESSIONS = [
   { slug: "critical-care", label: "Critical Care", icon: "Activity" },
   { slug: "emergency-nursing", label: "Emergency Nursing", icon: "Siren" },
 ] as const;
+
+export const programmaticPages = pgTable("programmatic_pages", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  pageType: text("page_type").notNull(),
+  sourceContentId: varchar("source_content_id").notNull(),
+  sourceContentType: text("source_content_type").notNull(),
+  careerTrack: text("career_track").notNull(),
+  slug: text("slug").notNull().unique(),
+  title: text("title").notNull(),
+  metaTitle: text("meta_title"),
+  metaDescription: text("meta_description"),
+  contentSections: jsonb("content_sections").default(sql`'[]'::jsonb`),
+  faqJson: jsonb("faq_json").default(sql`'[]'::jsonb`),
+  relatedContentLinks: jsonb("related_content_links").default(sql`'[]'::jsonb`),
+  siblingLinks: jsonb("sibling_links").default(sql`'[]'::jsonb`),
+  status: text("status").notNull().default("published"),
+  gatingLevel: text("gating_level").notNull().default("public"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export const insertProgrammaticPageSchema = createInsertSchema(programmaticPages).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+export type ProgrammaticPage = typeof programmaticPages.$inferSelect;
+export type InsertProgrammaticPage = z.infer<typeof insertProgrammaticPageSchema>;

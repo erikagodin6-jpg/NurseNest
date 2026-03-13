@@ -265,6 +265,8 @@ const AdminMockResults = lazy(() => import("@/pages/admin-mock-results"));
 const EncyclopediaLanding = lazy(() => import("@/pages/encyclopedia-landing"));
 const EncyclopediaHub = lazy(() => import("@/pages/encyclopedia-hub"));
 const EncyclopediaEntry = lazy(() => import("@/pages/encyclopedia-entry"));
+const ProgrammaticSeoPage = lazy(() => import("@/pages/programmatic-seo-page"));
+const AdminProgrammaticSeo = lazy(() => import("@/pages/admin-programmatic-seo"));
 
 function PageTracker() {
   usePageTracker();
@@ -485,6 +487,7 @@ function AppRoutes() {
         <Route path="/admin/seo-visual-autopilot" component={AdminSeoAutopilot} />
         <Route path="/admin/seo-debug" component={AdminSeoDebug} />
         <Route path="/admin/allied-marketing" component={AdminAlliedMarketing} />
+        <Route path="/admin/programmatic-seo" component={AdminProgrammaticSeo} />
         <Route path="/admin/institutions" component={AdminInstitutions} />
         <Route path="/instructor" component={InstructorDashboard} />
         <Route path="/admin/medical-imaging" component={AdminMedicalImaging} />
@@ -840,6 +843,13 @@ function AppRoutes() {
         {/* Career AI Tools - Addictions */}
         <Route path="/addictions-counsellor/mi-practice-sim">{() => <CareerAISimulator toolId="mi-practice-sim" />}</Route>
         <Route path="/addictions-counsellor/substance-id-drill">{() => <CareerAISimulator toolId="substance-id-drill" />}</Route>
+
+        <Route path="/:careerSlug/study-guide/:topicSlug">{(params) => <ProgrammaticSeoPage />}</Route>
+        <Route path="/:careerSlug/exam-tips/:topicSlug">{(params) => <ProgrammaticSeoPage />}</Route>
+        <Route path="/:careerSlug/clinical-scenarios/:topicSlug">{(params) => <ProgrammaticSeoPage />}</Route>
+        <Route path="/:careerSlug/practice-questions/:topicSlug">{(params) => <ProgrammaticSeoPage />}</Route>
+        <Route path="/:careerSlug/question-detail/:topicSlug">{(params) => <ProgrammaticSeoPage />}</Route>
+        <Route path="/:careerSlug/flashcard-detail/:topicSlug">{(params) => <ProgrammaticSeoPage />}</Route>
 
         <Route component={NotFound} />
       </Switch>

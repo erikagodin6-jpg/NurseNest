@@ -289,6 +289,12 @@ app.get("/robots.txt", (req, res) => {
         "Disallow: /checkout",
         "",
         `Sitemap: ${alliedBase}/sitemap-allied.xml`,
+        `Sitemap: ${alliedBase}/sitemap-study-guides.xml`,
+        `Sitemap: ${alliedBase}/sitemap-exam-tips.xml`,
+        `Sitemap: ${alliedBase}/sitemap-clinical-scenarios.xml`,
+        `Sitemap: ${alliedBase}/sitemap-practice-questions.xml`,
+        `Sitemap: ${alliedBase}/sitemap-question-details.xml`,
+        `Sitemap: ${alliedBase}/sitemap-flashcard-details.xml`,
         "",
       ].join("\n"),
     );
@@ -773,6 +779,12 @@ app.get("/sitemap_index.xml", async (_req, res) => {
   sitemaps.push(`<sitemap><loc>${base}/sitemap-allied.xml</loc><lastmod>${today}</lastmod></sitemap>`);
   sitemaps.push(`<sitemap><loc>${base}/sitemap-newgrad.xml</loc><lastmod>${today}</lastmod></sitemap>`);
   sitemaps.push(`<sitemap><loc>${base}/image-sitemap.xml</loc><lastmod>${today}</lastmod></sitemap>`);
+  sitemaps.push(`<sitemap><loc>${base}/sitemap-study-guides.xml</loc><lastmod>${today}</lastmod></sitemap>`);
+  sitemaps.push(`<sitemap><loc>${base}/sitemap-exam-tips.xml</loc><lastmod>${today}</lastmod></sitemap>`);
+  sitemaps.push(`<sitemap><loc>${base}/sitemap-clinical-scenarios.xml</loc><lastmod>${today}</lastmod></sitemap>`);
+  sitemaps.push(`<sitemap><loc>${base}/sitemap-practice-questions.xml</loc><lastmod>${today}</lastmod></sitemap>`);
+  sitemaps.push(`<sitemap><loc>${base}/sitemap-question-details.xml</loc><lastmod>${today}</lastmod></sitemap>`);
+  sitemaps.push(`<sitemap><loc>${base}/sitemap-flashcard-details.xml</loc><lastmod>${today}</lastmod></sitemap>`);
   const xml = `<?xml version="1.0" encoding="UTF-8"?>\n<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${sitemaps.join("\n")}\n</sitemapindex>`;
   res.setHeader("Content-Type", "application/xml; charset=utf-8");
   res.setHeader("Cache-Control", "public, max-age=3600");
@@ -806,6 +818,39 @@ app.get("/sitemap-allied.xml", async (req, res) => {
     res.status(200).send(xml);
   }
 });
+
+const programmaticSitemapTypes: Record<string, string> = {
+  "sitemap-study-guides": "study-guide",
+  "sitemap-exam-tips": "exam-tips",
+  "sitemap-clinical-scenarios": "clinical-scenarios",
+  "sitemap-practice-questions": "practice-questions",
+  "sitemap-question-details": "question-detail",
+  "sitemap-flashcard-details": "flashcard-detail",
+};
+
+for (const [xmlName, pageType] of Object.entries(programmaticSitemapTypes)) {
+  app.get(`/${xmlName}.xml`, async (_req, res) => {
+    try {
+      const { pool } = await import("./storage");
+      const result = await pool.query(
+        "SELECT slug, updated_at FROM programmatic_pages WHERE page_type = $1 AND status = 'published' ORDER BY slug",
+        [pageType]
+      );
+      const base = getSiteBase();
+      const today = new Date().toISOString().split("T")[0];
+      const urls = result.rows.map((row: any) => {
+        const lastmod = row.updated_at ? new Date(row.updated_at).toISOString().split("T")[0] : today;
+        return `<url><loc>${base}/${row.slug}</loc><lastmod>${lastmod}</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>`;
+      });
+      const xml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.join("\n")}\n</urlset>`;
+      res.setHeader("Content-Type", "application/xml; charset=utf-8");
+      res.setHeader("Cache-Control", "public, max-age=3600");
+      res.status(200).send(xml);
+    } catch {
+      res.status(500).send("Error generating sitemap");
+    }
+  });
+}
 
 app.get("/sitemap-:lang.xml", async (req, res) => {
   const lang = req.params.lang;
