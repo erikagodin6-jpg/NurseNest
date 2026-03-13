@@ -1,0 +1,514 @@
+You are working inside the LIVE NurseNest production codebase.
+
+Your task is to implement a complete production-ready “Content Analytics + Marketing Proof + Conversion Upgrade” system using the REAL published database, not the development database.
+
+This must be done carefully and cleanly, with no fake placeholders unless explicitly requested for preview states.
+
+CRITICAL RULES
+
+1. ONLY use the same production database connection used by the live site.
+2. DO NOT use the Replit dev database.
+3. DO NOT use local preview-only content counts.
+4. DO NOT hardcode totals unless used only as a temporary loading skeleton.
+5. All dashboard totals must be calculated from live production data.
+6. Count only content that is published, active, and user-visible unless otherwise specified.
+7. Exclude deleted, archived, draft-only, hidden, duplicate-test, or dev-only rows.
+8. Make this work on the real published site, not just inside Replit preview.
+
+PROJECT GOAL
+
+Build a full admin analytics system and public-facing proof system that:
+
+- counts all published questions and flashcards across every tier
+- shows platform totals and breakdowns
+- detects missing conversions and content gaps
+- surfaces these metrics in a polished admin dashboard
+- adds public-facing trust-building counters to the hero page
+- upgrades marketing copy to emphasize platform scale
+- turns the current content inventory into a major subscriber conversion asset
+
+CURRENT KNOWN INVENTORY TO ALIGN WITH
+
+Use these current production numbers as the expected benchmark during validation, but do not hardcode them as the permanent source of truth:
+
+Exam questions: about 10,858
+- RPN: 3,829
+- RN: 3,951
+- NP: 2,846
+- RRT: 232
+
+Flashcards:
+- about 10,271 published
+- about 1,473 needs_review across nursing tiers
+
+Allied questions:
+- 875
+- includes 500 paramedic and 375 emergency nursing
+
+Allied flashcards:
+- 1,125
+- emergency nursing
+
+Imaging:
+- 72 questions
+- 45 flashcards
+
+Generated drafts:
+- 28,436
+
+Content items:
+- 52
+- 51 blogs
+- 1 article
+
+Flashcard decks:
+- 141
+
+PART 1 — SCHEMA AND DATA DISCOVERY
+
+Scan the production schema and identify all content-related tables and their relationships.
+
+Look for tables or equivalents related to:
+- questions
+- flashcards
+- flashcard decks
+- CAT exam questions
+- test bank questions
+- practice questions
+- lesson-linked questions
+- specialty questions
+- allied health questions
+- imaging questions
+- blogs
+- articles
+- generated drafts
+- rationales
+- image attachments
+- lesson links
+- publication status fields
+- review status fields
+
+Detect all relevant fields such as:
+- tier
+- exam_type
+- specialty
+- discipline
+- category
+- subcategory
+- published
+- status
+- is_active
+- visibility
+- deleted_at
+- review_state
+- source_type
+- linked_question_id
+- has_rationale
+- has_image
+- live/published flags
+
+If names differ, infer the correct equivalent tables and fields from the existing codebase and query structure.
+
+PART 2 — COUNTING ENGINE
+
+Create a robust production analytics service that calculates all live totals.
+
+Return counts for:
+
+A. Question counts by tier
+- RPN / LVN
+- RN / NCLEX
+- NP Advanced
+- RRT
+- Allied Health
+- Imaging
+- Any additional tier found in production
+
+B. Question counts by content type
+- CAT exam questions
+- test bank questions
+- practice questions
+- specialty questions
+- allied questions
+- imaging questions
+- lesson-linked questions if applicable
+
+C. Flashcard counts
+- published flashcards by tier
+- needs_review flashcards by tier
+- standalone flashcards
+- flashcards linked to questions
+- allied flashcards
+- imaging flashcards
+
+D. Supporting content counts
+- generated drafts
+- blogs
+- articles
+- total content items
+- flashcard decks
+
+E. Platform-wide totals
+- total published questions across all tiers
+- total published flashcards across all tiers
+- total published learning objects if calculable
+- total draft pipeline content
+
+PART 3 — GAP DETECTION AND QUALITY AUDIT
+
+Build a quality audit layer that calculates and reports:
+
+- questions missing flashcards
+- CAT questions not converted into test bank questions
+- questions missing rationales
+- questions missing images
+- flashcards missing linked rationale or explanation
+- draft items not yet reviewed
+- orphaned flashcards not attached to lessons, decks, or question groups
+- duplicate or near-duplicate question candidates if detectable
+- unpublished content that is complete and could likely be promoted to published
+
+If possible, also report:
+- percentage of questions that have flashcards
+- percentage of questions with rationales
+- percentage of questions with images
+- percentage of drafts converted into published content
+
+PART 4 — ADMIN DASHBOARD PAGE
+
+Create a new admin dashboard section called:
+
+Content Analytics
+
+Add it to the admin sidebar/menu in a logical location.
+
+This page must be clean, premium, readable, and match the current NurseNest admin design language.
+
+Include:
+
+1. Top summary cards
+- Total Questions Across Platform
+- Total Flashcards
+- Total Draft Pipeline
+- Total Decks
+- Total Blogs / Articles
+- Total Allied Content
+- Total Imaging Content
+
+2. Tier breakdown cards
+- RPN Questions
+- RN Questions
+- NP Questions
+- RRT Questions
+- Allied Questions
+- Imaging Questions
+
+3. Flashcard breakdown cards
+- Published Flashcards
+- Needs Review Flashcards
+- Allied Flashcards
+- Imaging Flashcards
+
+4. Content health / audit cards
+- Questions Missing Flashcards
+- Questions Missing Rationales
+- Questions Missing Images
+- Unconverted CAT Questions
+- Drafts Ready for Review
+
+5. Table sections
+- breakdown by tier
+- breakdown by exam type
+- breakdown by specialty
+- breakdown by review status
+- top specialties with the most questions
+- top decks with the most cards
+
+6. Visual trend or distribution components if easy to support
+- donut or bar charts for content distribution by tier
+- charts for published vs review-needed
+- charts for question vs flashcard ratio
+
+Do not overdesign. Keep it polished, credible, and fast.
+
+PART 5 — RECALCULATE BUTTON
+
+Add a button on the admin analytics page:
+
+Recalculate Content Totals
+
+When clicked, it must:
+- trigger a fresh production recount
+- refresh all analytics cards and tables
+- show loading state
+- show success or error toast
+- not require a redeploy
+- not cache stale dev numbers
+
+If caching is used for performance, make sure:
+- it is production-safe
+- it can be manually invalidated from this button
+- the user can see when the last refresh happened
+
+Add:
+- “Last updated” timestamp
+- optional “Data source: Production DB” badge
+
+PART 6 — VALIDATION AGAINST LIVE SITE
+
+Create validation logic that compares:
+- production database counts
+- any counts currently surfaced on the live public site
+- any counts displayed in the admin analytics page
+
+Flag discrepancies clearly.
+
+Example discrepancy logic:
+- Production DB says 10,858 questions
+- Website UI says 10,452
+- Dashboard says 10,858
+
+Highlight mismatches and identify which layer is stale or misconfigured.
+
+If current public counters are hardcoded or inconsistent, replace them with real dynamic values from the analytics source.
+
+PART 7 — PUBLIC HERO PAGE TRUST COUNTERS
+
+Add public-facing trust-building counters to the NurseNest hero page or an immediately visible proof section.
+
+Use dynamic live values, not hardcoded text.
+
+Create a polished proof section with numbers such as:
+- 10,000+ Questions
+- 11,000+ Flashcards
+- 140+ Study Decks
+- Adaptive CAT Exams
+- Clinical Images and Diagnostics
+- Multiple Nursing Tiers Supported
+
+Make the wording dynamic and rounded for marketing display.
+
+For example:
+- if questions >= 10858, display “10,000+ Questions”
+- if flashcards >= 10271, display “10,000+ Flashcards”
+- if decks >= 141, display “140+ Study Decks”
+
+Also support more precise display internally if needed.
+
+This section should feel premium, conversion-focused, and credible, not gimmicky.
+
+PART 8 — HERO MARKETING COPY UPGRADE
+
+Update the hero/supporting marketing copy so the platform scale becomes a conversion asset.
+
+Incorporate messaging based on real inventory such as:
+
+- 10,000+ adaptive exam questions across nursing tiers
+- 10,000+ flashcards for rapid review and repetition
+- 140+ organized study decks
+- CAT exams, rationales, lessons, and clinical visuals in one platform
+- Built for RPN/LVN, RN/NCLEX, NP, and expanding specialties
+
+Keep the wording modern, high-trust, and psychologically persuasive.
+
+The copy should communicate:
+- scale
+- depth
+- exam readiness
+- efficiency
+- confidence
+- breadth across tiers
+
+Do not make the section feel spammy or overhyped.
+
+PART 9 — CONVERSION-FOCUSED PROOF BLOCK
+
+Add a strong proof / comparison / credibility block on the homepage or near pricing.
+
+This should emphasize that NurseNest offers a large content ecosystem.
+
+Possible items to surface:
+- Total Questions
+- Total Flashcards
+- Number of Decks
+- Multiple Exam Tiers
+- Imaging and Allied Expansion
+- Large Draft Pipeline actively being expanded
+
+Possible headline ideas:
+- Built to grow with you
+- Everything in one nursing study ecosystem
+- Thousands of questions. Thousands of flashcards. One place to study smarter.
+- A growing exam prep platform designed for real nursing learners
+
+Use psychology that reinforces:
+- abundance
+- preparedness
+- perceived value
+- academic seriousness
+- momentum and growth
+
+PART 10 — OPTIONAL COMPETITIVE POSITIONING SECTION
+
+If there is already a comparison section or if one can be added cleanly, add a soft comparison-style block that highlights NurseNest strengths without making risky claims.
+
+Examples:
+- large question volume
+- flashcards included
+- multi-tier support
+- lessons + questions + flashcards + CAT exams together
+- growing allied and imaging categories
+- designed for both Canadian and U.S.-aligned learners where applicable
+
+Do not use legally risky or unverifiable competitor claims.
+Do not hardcode competitor names unless already supported and legally approved in the codebase.
+Frame it as feature/value comparison, not attack marketing.
+
+PART 11 — CONTENT PIPELINE INSIGHT PANEL
+
+Inside admin analytics, add a section called:
+
+Pipeline Opportunity
+
+Show how much scale is still available from the draft content inventory.
+
+Examples:
+- Draft pipeline: 28,436 items
+- Enough unpublished content to massively expand the public bank
+- Estimated publishable volume after review
+- Tier distribution of draft content if calculable
+
+This section should help decision-making and show that content already exists to scale the platform rapidly.
+
+PART 12 — API / SERVICE LAYER
+
+Implement clean backend endpoints or service functions for analytics.
+
+Requirements:
+- production-safe
+- typed if the codebase supports TypeScript
+- efficient queries
+- avoids loading huge raw datasets into memory if aggregate SQL is better
+- reusable by both admin and public components
+- clearly separated from dev-only utilities
+
+Potential endpoints:
+- GET /api/admin/content-analytics/summary
+- GET /api/admin/content-analytics/breakdown
+- POST /api/admin/content-analytics/recalculate
+- GET /api/public/platform-proof
+
+Follow the project’s existing backend conventions.
+
+PART 13 — PERFORMANCE AND RELIABILITY
+
+Make the analytics system efficient.
+
+Requirements:
+- avoid N+1 queries
+- use aggregate/grouped SQL where possible
+- add caching only if safe and invalidatable
+- fail gracefully
+- handle empty tables and schema differences safely
+- do not break the homepage if analytics fails
+- show fallback UI states if counts temporarily fail to load
+
+Public homepage counters should:
+- lazy-load or load efficiently
+- not cause layout shift
+- not reduce mobile performance
+
+PART 14 — MOBILE RESPONSIVENESS
+
+Ensure both admin analytics and public proof sections work well on mobile.
+
+Requirements:
+- cards wrap properly
+- charts do not overflow
+- no sideways scrolling
+- typography remains readable
+- spacing matches the NurseNest aesthetic
+- counters remain visually strong on small screens
+
+PART 15 — LOGGING
+
+When analytics runs, log a clean console/server report like:
+
+========== NURSENEST CONTENT REPORT ==========
+Total Questions: XXXX
+Total Flashcards: XXXX
+Total Draft Pipeline: XXXX
+
+RPN Questions: XXXX
+RN Questions: XXXX
+NP Questions: XXXX
+RRT Questions: XXXX
+Allied Questions: XXXX
+Imaging Questions: XXXX
+
+Published Flashcards: XXXX
+Needs Review Flashcards: XXXX
+Allied Flashcards: XXXX
+Imaging Flashcards: XXXX
+
+Blogs: XXXX
+Articles: XXXX
+Decks: XXXX
+
+Questions Missing Flashcards: XXXX
+Questions Missing Rationales: XXXX
+Questions Missing Images: XXXX
+Unconverted CAT Questions: XXXX
+=============================================
+
+PART 16 — TESTING
+
+After implementation, verify all of the following:
+
+1. The counts come from production, not Replit dev.
+2. The admin page loads on the published site.
+3. The numbers match the expected current production inventory closely.
+4. The recalculate button refreshes correctly.
+5. The public hero counters show dynamic values.
+6. No preview-only fake values remain in production.
+7. Mobile layout works properly.
+8. Any stale public count components are replaced with live data.
+9. Errors are surfaced cleanly without crashing the page.
+
+PART 17 — DELIVERABLES
+
+At the end of the implementation, provide:
+
+1. A short summary of what was added
+2. The files created or modified
+3. The endpoints created
+4. The production tables used for counts
+5. Any assumptions made about schema mapping
+6. Any discrepancies found between live UI and DB counts
+7. Any recommendations for next steps
+
+PART 18 — NEXT-STAGE RECOMMENDATIONS PANEL
+
+If possible, add a small admin recommendation panel based on the analytics results.
+
+Examples:
+- prioritize publishing from the 28k+ draft pipeline
+- convert CAT-only questions into test bank items
+- add flashcards to missing questions
+- add images to high-traffic topics
+- expand allied categories because they increase SEO surface area
+- scale blog inventory from 52 to 300+ for stronger organic acquisition
+
+This panel can be static logic based on thresholds.
+
+FINAL IMPLEMENTATION STANDARD
+
+This must feel like a real production analytics and conversion upgrade, not a mockup.
+
+The end result should do three things:
+
+1. Give the admin a clear live view of the entire NurseNest content ecosystem
+2. Turn content scale into visible public social proof
+3. Improve subscriber conversion by emphasizing the platform’s depth and breadth
+
+Now implement this in the live NurseNest codebase using the production database connection and existing design system conventions.
