@@ -1,5 +1,5 @@
 import type { Express } from "express";
-import { pool } from "./storage";
+import { getProdPool } from "./db";
 import { requireAdmin } from "./admin-auth";
 import {
   MLT_DISCIPLINES,
@@ -30,10 +30,9 @@ const DISCIPLINE_WEIGHTS: Record<string, number> = {
 };
 
 const DIFFICULTY_DISTRIBUTION = {
-  easy: 0.20,
+  easy: 0.35,
   medium: 0.45,
-  hard: 0.25,
-  very_hard: 0.10,
+  hard: 0.20,
 };
 
 const COGNITIVE_DISTRIBUTION = {
@@ -43,6 +42,10 @@ const COGNITIVE_DISTRIBUTION = {
 };
 
 const SIMILARITY_THRESHOLD = 0.70;
+
+function getProductionPool() {
+  return getProdPool();
+}
 
 function resolveCountryTag(discipline: string, countryTrack: "canada" | "usa" | "both"): string {
   if (countryTrack === "canada") {
@@ -125,6 +128,8 @@ interface GeneratedQuestion {
   safetyNote: string;
   distractorRationales: string[];
   clinicalPearls: string[];
+  laboratoryInterpretationNotes?: string;
+  examDomain?: string;
 }
 
 function buildMltPrompt(
@@ -150,53 +155,62 @@ function buildMltPrompt(
         ? `Focus on American ASCP Board of Certification exam content. Content area: "${usaArea?.name || discipline}".`
         : `Questions should be applicable to both Canadian CSMLS and American ASCP certification exams.`;
 
-  const easyCount = Math.round(count * diffDist.easy);
-  const mediumCount = Math.round(count * diffDist.medium);
-  const hardCount = Math.round(count * diffDist.hard);
-  const veryHardCount = count - easyCount - mediumCount - hardCount;
+  const easyCount = Math.round(count * (diffDist.easy || 0.35));
+  const mediumCount = Math.round(count * (diffDist.medium || 0.45));
+  const hardCount = Math.max(1, count - easyCount - mediumCount);
 
-  const recallCount = Math.round(count * cogDist.recall);
-  const applicationCount = Math.round(count * cogDist.application);
-  const analysisCount = count - recallCount - applicationCount;
+  const recallCount = Math.round(count * (cogDist.recall || 0.35));
+  const applicationCount = Math.round(count * (cogDist.application || 0.45));
+  const analysisCount = Math.max(1, count - recallCount - applicationCount);
 
-  const systemPrompt = `You are an expert Medical Laboratory Technologist (MLT/MLS) exam item writer with deep expertise in ${discipline}. You create CSMLS and ASCP Board of Certification-level exam questions that test real clinical laboratory knowledge.
+  const systemPrompt = `You are an expert Medical Laboratory Technologist (MLT/MLS) exam item writer with deep expertise in ${discipline}. You create CSMLS and ASCP Board of Certification-level exam questions that test real clinical laboratory knowledge through realistic patient vignettes.
 
 ${countryContext}
 
-CRITICAL RULES:
-- Every question MUST present a realistic laboratory scenario with specific patient data, specimen types, and test results
-- NEVER use generic stems like "Which is the most appropriate action?" without clinical context
-- NEVER use "all of the above" or "none of the above" as answer options
-- All answer options must be plausible and commonly confused by students
-- Each distractor must represent a real misconception or common error
-- Rationales must explain the clinical/scientific reasoning, not just state the answer is correct
-- Include specific lab values, reagent names, organism characteristics, and procedural details
-- Questions must reflect current laboratory practice standards`;
+CRITICAL VIGNETTE REQUIREMENTS — EVERY question stem MUST include:
+1. Patient demographics: age and sex (e.g., "A 42-year-old female...")
+2. Specimen type: what was collected (e.g., "EDTA whole blood", "clean-catch midstream urine", "CSF specimen")
+3. Clinical context: presenting symptoms, reason for testing, or clinical history
+4. Laboratory data: specific lab values, test results, analyzer readings, or QC data with units
+5. Where applicable: analyzer/instrument context (e.g., "on a Sysmex XN-series analyzer"), microscopic findings, culture results, QC observations, or staining results
 
-  const userPrompt = `Generate exactly ${count} unique, high-quality MLT exam questions for the discipline: ${discipline}${subdiscipline ? ` (subtopic: ${subdiscipline})` : ""}.
+CRITICAL RULES:
+- Every question MUST present a realistic clinical laboratory vignette — NOT a textbook definition question
+- Include specific numeric lab values with proper units (SI or conventional as appropriate)
+- NEVER use generic stems like "Which of the following is true about..." without a patient scenario
+- NEVER use "all of the above" or "none of the above" as answer options
+- All 4 answer options must be plausible and represent real misconceptions or common student errors
+- Rationales must explain the clinical/scientific reasoning AND why each distractor is wrong
+- Include instrument-specific details, reagent names, organism morphology, and procedural specifics
+- Questions must reflect current laboratory practice standards and guidelines
+- Each rationale must be at least 150 words with distractor-by-distractor explanations`;
+
+  const userPrompt = `Generate exactly ${count} unique, high-quality MLT exam vignette questions for the discipline: ${discipline}${subdiscipline ? ` (subtopic: ${subdiscipline})` : ""}.
 
 SUBTOPICS TO COVER (spread questions across these): ${subdiscipline ? subdiscipline : subdisciplines.join(", ")}
 
 DIFFICULTY DISTRIBUTION:
-- Easy (difficulty 2, direct recall): ${easyCount} questions
-- Medium (difficulty 3, straightforward application): ${mediumCount} questions
-- Hard (difficulty 4, complex reasoning): ${hardCount} questions
-- Very Hard (difficulty 5, multi-step analysis): ${veryHardCount > 0 ? veryHardCount : 1} questions
+- Easy (difficulty 2, direct recall with clinical context): ${easyCount} questions
+- Medium (difficulty 3, straightforward clinical application): ${mediumCount} questions  
+- Hard (difficulty 4, complex multi-step reasoning and interpretation): ${hardCount} questions
 
 COGNITIVE LEVEL DISTRIBUTION:
-- Recall (memorize facts, definitions, normal values): ${recallCount} questions
-- Application (apply knowledge to standard lab scenarios): ${applicationCount} questions
-- Analysis (interpret complex data, troubleshoot, correlate): ${analysisCount} questions
+- Recall (memorize facts, definitions, normal values — presented in clinical context): ${recallCount} questions
+- Application (apply knowledge to standard lab scenarios with patient data): ${applicationCount} questions
+- Analysis (interpret complex data, troubleshoot instruments, correlate multiple findings): ${analysisCount} questions
+
+VIGNETTE TEMPLATE EXAMPLE:
+"A 58-year-old male with a history of chronic liver disease presents for routine labs. His serum chemistry panel on the Roche cobas c702 shows: AST 142 U/L, ALT 98 U/L, ALP 340 U/L, GGT 285 U/L, total bilirubin 4.2 mg/dL, direct bilirubin 3.1 mg/dL. Which pattern of liver enzyme elevation is most consistent with these findings?"
 
 Return a JSON array where each question has this EXACT structure:
 {
-  "stem": "A 45-year-old patient's blood sample shows... [realistic clinical scenario with specific data]",
+  "stem": "A [age]-year-old [sex] patient [clinical scenario with specimen type and specific lab values/findings]... [question]",
   "options": ["Option A text", "Option B text", "Option C text", "Option D text"],
   "correctAnswer": 0,
-  "rationaleLong": "Detailed rationale (minimum 150 words) explaining why the correct answer is right, why each distractor is wrong, the underlying science, and common exam pitfalls",
+  "rationaleLong": "Detailed rationale (minimum 150 words) explaining the correct answer, why each distractor is wrong, the underlying pathophysiology/science, and common exam pitfalls. Include relevant normal reference ranges.",
   "discipline": "${discipline}",
   "subdiscipline": "specific subtopic from the list above",
-  "difficulty": 2-5,
+  "difficulty": 2-4,
   "cognitiveLevel": "recall|application|analysis",
   "tags": ["tag1", "tag2", "tag3"],
   "seoKeywords": ["keyword1", "keyword2"],
@@ -204,7 +218,9 @@ Return a JSON array where each question has this EXACT structure:
   "examTrap": "How test writers try to trick students on this topic",
   "safetyNote": "Critical safety concern if applicable, or null",
   "distractorRationales": ["Why option A is wrong/right", "Why B...", "Why C...", "Why D..."],
-  "clinicalPearls": ["Key clinical fact 1", "Key clinical fact 2"]
+  "clinicalPearls": ["Key clinical fact 1", "Key clinical fact 2"],
+  "laboratoryInterpretationNotes": "Key lab interpretation insight — e.g. expected values, critical flags, QC implications",
+  "examDomain": "${discipline}"
 }
 
 Return ONLY the JSON array, no other text.`;
@@ -212,8 +228,8 @@ Return ONLY the JSON array, no other text.`;
   return { systemPrompt, userPrompt };
 }
 
-async function fetchExistingStems(): Promise<string[]> {
-  const result = await pool.query(
+async function fetchExistingStems(prodPool: any): Promise<string[]> {
+  const result = await prodPool.query(
     `SELECT stem FROM allied_questions WHERE career_type = 'mlt' AND status != 'archived'`
   );
   return result.rows.map((r: any) => r.stem);
@@ -265,6 +281,122 @@ function validateMltQuestion(q: any): { valid: boolean; errors: string[] } {
   }
 
   return { valid: errors.length === 0, errors };
+}
+
+interface LessonInfo {
+  title: string;
+  slug: string;
+  discipline: string;
+  topicTitle: string;
+}
+
+async function fetchMltLessons(prodPool: any): Promise<LessonInfo[]> {
+  try {
+    const result = await prodPool.query(
+      `SELECT title, slug, discipline, topic_title as "topicTitle" FROM mlt_lessons WHERE status = 'published' OR status = 'draft'`
+    );
+    return result.rows;
+  } catch {
+    return [];
+  }
+}
+
+function findBestLessonMatch(
+  discipline: string,
+  subdiscipline: string,
+  lessons: LessonInfo[]
+): LessonInfo | null {
+  const disciplineLower = discipline.toLowerCase();
+  const subdisciplineLower = (subdiscipline || "").toLowerCase();
+
+  let bestMatch: LessonInfo | null = null;
+  let bestScore = 0;
+
+  for (const lesson of lessons) {
+    let score = 0;
+    const lessonDiscipline = (lesson.discipline || "").toLowerCase();
+    const lessonTitle = (lesson.title || "").toLowerCase();
+    const lessonTopic = (lesson.topicTitle || "").toLowerCase();
+
+    if (lessonDiscipline === disciplineLower || lessonDiscipline.includes(disciplineLower) || disciplineLower.includes(lessonDiscipline)) {
+      score += 3;
+    }
+
+    if (subdisciplineLower) {
+      const subWords = subdisciplineLower.split(/\s+/).filter(w => w.length > 3);
+      for (const word of subWords) {
+        if (lessonTitle.includes(word)) score += 2;
+        if (lessonTopic.includes(word)) score += 1;
+      }
+    }
+
+    if (score > bestScore) {
+      bestScore = score;
+      bestMatch = lesson;
+    }
+  }
+
+  return bestScore >= 2 ? bestMatch : null;
+}
+
+function appendLessonLink(rationale: string, lesson: LessonInfo): string {
+  const linkText = `\n\nTo review this concept, see the NurseNest lesson: ${lesson.title} → /mlt/lessons/${lesson.slug}`;
+  return rationale + linkText;
+}
+
+function generateFlashcardsFromMltQuestion(q: any, lessonLink?: string): Array<{ cardType: string; front: string; back: string; rationale: string; clinicalPearl?: string }> {
+  const cards: Array<{ cardType: string; front: string; back: string; rationale: string; clinicalPearl?: string }> = [];
+
+  const correctOption = q.options?.[q.correctAnswer] || "";
+  const lessonSuffix = lessonLink ? `\n\n${lessonLink}` : "";
+
+  let frontText = q.learningObjective || q.stem;
+  if (frontText && frontText.length > 300) {
+    frontText = frontText.substring(0, 297) + "...";
+  }
+
+  let backText = correctOption;
+  if (q.rationaleLong) {
+    const shortRationale = q.rationaleLong.length > 500 ? q.rationaleLong.substring(0, 497) + "..." : q.rationaleLong;
+    backText = `${correctOption}\n\nExplanation: ${shortRationale}`;
+  }
+  if (q.clinicalPearls && Array.isArray(q.clinicalPearls) && q.clinicalPearls.length > 0) {
+    backText += `\n\nKey Lab Pearl: ${q.clinicalPearls[0]}`;
+  }
+  if (q.safetyNote) {
+    backText += `\n\n⚠️ Safety/QC Note: ${q.safetyNote}`;
+  }
+  backText += lessonSuffix;
+
+  cards.push({
+    cardType: "definition",
+    front: frontText,
+    back: backText,
+    rationale: (q.rationaleLong || "").substring(0, 500),
+    clinicalPearl: q.clinicalPearls?.[0] || null,
+  });
+
+  if (q.clinicalPearls && Array.isArray(q.clinicalPearls) && q.clinicalPearls.length > 0) {
+    cards.push({
+      cardType: "clinical_decision",
+      front: `Clinical decision: ${q.subdiscipline || q.discipline} - What is the key clinical pearl?`,
+      back: q.clinicalPearls[0] + lessonSuffix,
+      rationale: q.clinicalPearls.slice(1).join(" | "),
+      clinicalPearl: q.clinicalPearls[0],
+    });
+  }
+
+  if (q.safetyNote) {
+    cards.push({
+      cardType: "red_flag",
+      front: `Red Flag: ${q.subdiscipline || q.discipline} - What safety concern must you remember?`,
+      back: q.safetyNote + lessonSuffix,
+      rationale: `From: ${q.blueprintCategory || q.discipline}`,
+      clinicalPearl: null,
+    });
+  }
+
+  return cards;
 }
 
 async function generateQuestionBatch(
@@ -361,6 +493,8 @@ async function generateQuestionBatch(
       safetyNote: q.safetyNote || null,
       distractorRationales: q.distractorRationales || [],
       clinicalPearls: q.clinicalPearls || [],
+      laboratoryInterpretationNotes: q.laboratoryInterpretationNotes || "",
+      examDomain: q.examDomain || req.discipline,
     });
   }
 
@@ -436,6 +570,8 @@ function toImportReadyFormat(q: GeneratedQuestion, countryTrack: "canada" | "usa
     distractorRationales: (q.distractorRationales || []).slice(0, 4),
     seoKeywords: q.seoKeywords || [],
     tags: q.tags || [],
+    laboratoryInterpretationNotes: q.laboratoryInterpretationNotes || "",
+    examDomain: q.examDomain || q.discipline,
   };
 }
 
@@ -449,12 +585,16 @@ async function runMltBatchGeneration(params: {
   model?: string;
   dryRun?: boolean;
   triggeredBy: string;
+  generateFlashcards?: boolean;
+  lessons?: LessonInfo[];
 }): Promise<{
   batchId: string;
   totalGenerated: number;
   totalAccepted: number;
   totalRejected: number;
   tokensUsed: number;
+  flashcardsCreated: number;
+  lessonLinksAdded: number;
   disciplineBreakdown: Record<string, number>;
   difficultyBreakdown: Record<string, number>;
   cognitiveBreakdown: Record<string, number>;
@@ -462,7 +602,9 @@ async function runMltBatchGeneration(params: {
   previewQuestions: any[];
   importReadyQuestions: Record<string, any>[];
 }> {
-  const batchRes = await pool.query(
+  const prodPool = getProductionPool();
+
+  const batchRes = await prodPool.query(
     `INSERT INTO mlt_generation_batches (country_track, requested_count, discipline, status, triggered_by, created_at)
      VALUES ($1, $2, $3, 'running', $4, NOW()) RETURNING id`,
     [params.countryTrack, params.totalCount, params.discipline || "multi", params.triggeredBy]
@@ -470,8 +612,9 @@ async function runMltBatchGeneration(params: {
   const batchId = batchRes.rows[0].id;
 
   try {
-    const existingStems = await fetchExistingStems();
+    const existingStems = await fetchExistingStems(prodPool);
     const plan = planDisciplineDistribution(params.totalCount, params.countryTrack, params.discipline);
+    const lessons = params.lessons || await fetchMltLessons(prodPool);
 
     let allQuestions: GeneratedQuestion[] = [];
     let totalRejected = 0;
@@ -509,6 +652,15 @@ async function runMltBatchGeneration(params: {
       }
     }
 
+    let lessonLinksAdded = 0;
+    for (const q of allQuestions) {
+      const lessonMatch = findBestLessonMatch(q.discipline, q.subdiscipline, lessons);
+      if (lessonMatch) {
+        q.rationaleLong = appendLessonLink(q.rationaleLong, lessonMatch);
+        lessonLinksAdded++;
+      }
+    }
+
     const disciplineBreakdown: Record<string, number> = {};
     const difficultyBreakdown: Record<string, number> = {};
     const cognitiveBreakdown: Record<string, number> = {};
@@ -522,9 +674,11 @@ async function runMltBatchGeneration(params: {
 
     const importReadyQuestions = allQuestions.map((q) => toImportReadyFormat(q, params.countryTrack));
 
+    let flashcardsCreated = 0;
+
     if (!params.dryRun) {
       const importedIds: string[] = [];
-      const client = await pool.connect();
+      const client = await prodPool.connect();
       try {
         await client.query("BEGIN");
         for (const q of importReadyQuestions) {
@@ -560,7 +714,30 @@ async function runMltBatchGeneration(params: {
         client.release();
       }
 
-      await pool.query(
+      if (params.generateFlashcards !== false) {
+        for (let i = 0; i < importedIds.length; i++) {
+          const questionId = importedIds[i];
+          const q = importReadyQuestions[i];
+          const lessonMatch = findBestLessonMatch(q.discipline, q.subdiscipline, lessons);
+          const lessonLinkText = lessonMatch ? `To review this concept, see: ${lessonMatch.title} → /mlt/lessons/${lessonMatch.slug}` : "";
+          const cards = generateFlashcardsFromMltQuestion(q, lessonLinkText);
+
+          for (const card of cards) {
+            try {
+              await prodPool.query(
+                `INSERT INTO allied_flashcards (career_type, question_id, card_type, front, back, rationale, clinical_pearl, blueprint_category, subtopic)
+                 VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)`,
+                ['mlt', questionId, card.cardType, card.front, card.back, card.rationale, card.clinicalPearl || null, q.blueprintCategory, q.subtopic]
+              );
+              flashcardsCreated++;
+            } catch (fcErr: any) {
+              console.error(`[MLT Pipeline] Flashcard insert error for question ${questionId}:`, fcErr.message);
+            }
+          }
+        }
+      }
+
+      await prodPool.query(
         `INSERT INTO mlt_import_history (id, import_type, file_name, total_rows, success_count, error_count, warning_count, duplicate_count, imported_ids, errors, warnings, imported_by, created_at)
          VALUES (gen_random_uuid(), 'pipeline', $1, $2, $3, $4, 0, $5, $6, $7, '[]', $8, NOW())`,
         [
@@ -576,7 +753,7 @@ async function runMltBatchGeneration(params: {
       );
     }
 
-    await pool.query(
+    await prodPool.query(
       `UPDATE mlt_generation_batches SET
         status = 'completed', generated_count = $1, accepted_count = $2,
         rejected_count = $3, tokens_used = $4,
@@ -609,6 +786,8 @@ async function runMltBatchGeneration(params: {
       totalAccepted: allQuestions.length,
       totalRejected,
       tokensUsed: totalTokens,
+      flashcardsCreated,
+      lessonLinksAdded,
       disciplineBreakdown,
       difficultyBreakdown,
       cognitiveBreakdown,
@@ -617,7 +796,7 @@ async function runMltBatchGeneration(params: {
       importReadyQuestions: params.dryRun ? importReadyQuestions : [],
     };
   } catch (err: any) {
-    await pool.query(
+    await prodPool.query(
       `UPDATE mlt_generation_batches SET status = 'failed', error_message = $1, completed_at = NOW() WHERE id = $2`,
       [err.message || "Unknown error", batchId]
     );
@@ -626,7 +805,8 @@ async function runMltBatchGeneration(params: {
 }
 
 async function ensureMltPipelineTables() {
-  await pool.query(`
+  const prodPool = getProductionPool();
+  await prodPool.query(`
     CREATE TABLE IF NOT EXISTS mlt_generation_batches (
       id VARCHAR PRIMARY KEY DEFAULT gen_random_uuid(),
       country_track TEXT NOT NULL DEFAULT 'both',
@@ -666,6 +846,7 @@ export function registerMltPipelineRoutes(app: Express) {
         cognitiveDistribution,
         model = "gpt-4o-mini",
         dryRun = false,
+        generateFlashcards = true,
       } = req.body;
 
       if (count < 1 || count > 500) {
@@ -697,6 +878,9 @@ export function registerMltPipelineRoutes(app: Express) {
         }
       }
 
+      const prodPool = getProductionPool();
+      const lessons = await fetchMltLessons(prodPool);
+
       const allResults: any[] = [];
       for (const batchSize of batchSizes) {
         const result = await runMltBatchGeneration({
@@ -709,6 +893,8 @@ export function registerMltPipelineRoutes(app: Express) {
           model,
           dryRun,
           triggeredBy: admin.id || "admin",
+          generateFlashcards,
+          lessons,
         });
         allResults.push(result);
       }
@@ -723,6 +909,8 @@ export function registerMltPipelineRoutes(app: Express) {
           totalAccepted: allResults.reduce((s, r) => s + r.totalAccepted, 0),
           totalRejected: allResults.reduce((s, r) => s + r.totalRejected, 0),
           tokensUsed: allResults.reduce((s, r) => s + r.tokensUsed, 0),
+          flashcardsCreated: allResults.reduce((s, r) => s + r.flashcardsCreated, 0),
+          lessonLinksAdded: allResults.reduce((s, r) => s + r.lessonLinksAdded, 0),
           previewQuestions: allResults.flatMap((r) => r.previewQuestions).slice(0, 10),
           importReadyQuestions: dryRun ? allResults.flatMap((r) => r.importReadyQuestions) : [],
         };
@@ -734,12 +922,220 @@ export function registerMltPipelineRoutes(app: Express) {
     }
   });
 
+  app.post("/api/admin/mlt/pipeline/generate-1400", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+
+      const {
+        countryTrack = "both",
+        model = "gpt-4o-mini",
+        dryRun = false,
+      } = req.body;
+
+      const TOTAL_TARGET = 1400;
+      const BATCH_SIZE = 50;
+      const totalBatches = Math.ceil(TOTAL_TARGET / BATCH_SIZE);
+
+      const prodPool = getProductionPool();
+      const lessons = await fetchMltLessons(prodPool);
+      const plan = planDisciplineDistribution(TOTAL_TARGET, countryTrack);
+
+      console.log(`[MLT Pipeline] Starting 1,400 question generation: ${totalBatches} batches of ${BATCH_SIZE}`);
+      console.log(`[MLT Pipeline] Discipline plan:`, plan.map(p => `${p.discipline}: ${p.count}`).join(", "));
+
+      res.json({
+        status: "started",
+        message: `Generating ${TOTAL_TARGET} MLT questions in ${totalBatches} batches of ~${BATCH_SIZE}. Check /api/admin/mlt/pipeline/generation-progress for status.`,
+        totalTarget: TOTAL_TARGET,
+        batchSize: BATCH_SIZE,
+        totalBatches,
+        disciplinePlan: plan,
+      });
+
+      (async () => {
+        const summaryLog: any[] = [];
+        let totalGenerated = 0;
+        let totalAccepted = 0;
+        let totalRejected = 0;
+        let totalTokens = 0;
+        let totalFlashcards = 0;
+        let totalLessonLinks = 0;
+        let batchNumber = 0;
+        let failedBatches = 0;
+
+        const disciplineBatches: Array<{ discipline: string; count: number }> = [];
+        for (const item of plan) {
+          let rem = item.count;
+          while (rem > 0) {
+            const thisSize = Math.min(rem, BATCH_SIZE);
+            disciplineBatches.push({ discipline: item.discipline, count: thisSize });
+            rem -= thisSize;
+          }
+        }
+
+        for (const batch of disciplineBatches) {
+          batchNumber++;
+          console.log(`[MLT Pipeline] Batch ${batchNumber}/${disciplineBatches.length}: ${batch.discipline} (${batch.count} questions)`);
+
+          try {
+            const result = await runMltBatchGeneration({
+              countryTrack,
+              totalCount: batch.count,
+              discipline: batch.discipline,
+              difficultyDistribution: DIFFICULTY_DISTRIBUTION,
+              cognitiveDistribution: COGNITIVE_DISTRIBUTION,
+              model,
+              dryRun,
+              triggeredBy: admin.id || "admin",
+              generateFlashcards: true,
+              lessons,
+            });
+
+            totalGenerated += result.totalGenerated;
+            totalAccepted += result.totalAccepted;
+            totalRejected += result.totalRejected;
+            totalTokens += result.tokensUsed;
+            totalFlashcards += result.flashcardsCreated;
+            totalLessonLinks += result.lessonLinksAdded;
+
+            summaryLog.push({
+              batch: batchNumber,
+              discipline: batch.discipline,
+              requested: batch.count,
+              accepted: result.totalAccepted,
+              rejected: result.totalRejected,
+              flashcards: result.flashcardsCreated,
+              lessonLinks: result.lessonLinksAdded,
+              tokens: result.tokensUsed,
+              batchId: result.batchId,
+              status: "success",
+            });
+
+            console.log(`[MLT Pipeline] Batch ${batchNumber} complete: ${result.totalAccepted} accepted, ${result.flashcardsCreated} flashcards, ${result.lessonLinksAdded} lesson links`);
+          } catch (err: any) {
+            failedBatches++;
+            console.error(`[MLT Pipeline] Batch ${batchNumber} FAILED (${batch.discipline}): ${err.message}`);
+            summaryLog.push({
+              batch: batchNumber,
+              discipline: batch.discipline,
+              requested: batch.count,
+              status: "failed",
+              error: err.message,
+            });
+          }
+
+          if (batchNumber < disciplineBatches.length) {
+            await new Promise(resolve => setTimeout(resolve, 2000));
+          }
+        }
+
+        const finalSummary = {
+          completedAt: new Date().toISOString(),
+          totalTarget: TOTAL_TARGET,
+          totalGenerated,
+          totalAccepted,
+          totalRejected,
+          totalFlashcards,
+          totalLessonLinks,
+          totalTokens,
+          totalBatches: disciplineBatches.length,
+          failedBatches,
+          successBatches: disciplineBatches.length - failedBatches,
+          batchLog: summaryLog,
+        };
+
+        try {
+          await prodPool.query(
+            `INSERT INTO mlt_generation_batches (country_track, requested_count, discipline, status, triggered_by, generated_count, accepted_count, rejected_count, tokens_used, discipline_breakdown, created_at, completed_at)
+             VALUES ($1, $2, 'FULL_1400_RUN', 'completed', $3, $4, $5, $6, $7, $8, NOW(), NOW())`,
+            [countryTrack, TOTAL_TARGET, admin.id || "admin", totalGenerated, totalAccepted, totalRejected, totalTokens, JSON.stringify(finalSummary)]
+          );
+        } catch (logErr: any) {
+          console.error("[MLT Pipeline] Failed to log final summary:", logErr.message);
+        }
+
+        console.log(`[MLT Pipeline] === FINAL SUMMARY ===`);
+        console.log(`[MLT Pipeline] Total Accepted: ${totalAccepted}/${TOTAL_TARGET}`);
+        console.log(`[MLT Pipeline] Total Rejected: ${totalRejected}`);
+        console.log(`[MLT Pipeline] Total Flashcards: ${totalFlashcards}`);
+        console.log(`[MLT Pipeline] Total Lesson Links: ${totalLessonLinks}`);
+        console.log(`[MLT Pipeline] Failed Batches: ${failedBatches}/${disciplineBatches.length}`);
+        console.log(`[MLT Pipeline] Total Tokens: ${totalTokens}`);
+      })();
+    } catch (err: any) {
+      console.error("[MLT Pipeline] 1400 generation startup error:", err.message);
+      res.status(500).json({ error: err.message || "Generation failed to start" });
+    }
+  });
+
+  app.get("/api/admin/mlt/pipeline/generation-progress", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+
+      const prodPool = getProductionPool();
+
+      const totalResult = await prodPool.query(
+        `SELECT COUNT(*) as total,
+                COUNT(*) FILTER (WHERE status = 'published') as published,
+                COUNT(*) FILTER (WHERE status = 'draft') as draft
+         FROM allied_questions WHERE career_type = 'mlt'`
+      );
+
+      const flashcardResult = await prodPool.query(
+        `SELECT COUNT(*) as total FROM allied_flashcards WHERE career_type = 'mlt'`
+      );
+
+      const recentBatches = await prodPool.query(
+        `SELECT id, country_track, requested_count, accepted_count, rejected_count, tokens_used, discipline, status, created_at, completed_at
+         FROM mlt_generation_batches ORDER BY created_at DESC LIMIT 30`
+      );
+
+      const runningBatches = recentBatches.rows.filter((b: any) => b.status === 'running');
+      const completedBatches = recentBatches.rows.filter((b: any) => b.status === 'completed');
+      const failedBatches = recentBatches.rows.filter((b: any) => b.status === 'failed');
+
+      res.json({
+        totalMltQuestions: Number(totalResult.rows[0]?.total || 0),
+        publishedQuestions: Number(totalResult.rows[0]?.published || 0),
+        draftQuestions: Number(totalResult.rows[0]?.draft || 0),
+        totalFlashcards: Number(flashcardResult.rows[0]?.total || 0),
+        runningBatches: runningBatches.length,
+        completedBatches: completedBatches.length,
+        failedBatches: failedBatches.length,
+        recentBatches: recentBatches.rows,
+      });
+    } catch (err: any) {
+      res.status(500).json({ error: err.message });
+    }
+  });
+
+  app.post("/api/admin/mlt/pipeline/publish-all-draft", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+
+      const prodPool = getProductionPool();
+      const result = await prodPool.query(
+        `UPDATE allied_questions SET status = 'published'
+         WHERE career_type = 'mlt' AND status = 'draft'
+         RETURNING id`
+      );
+
+      res.json({ published: result.rowCount });
+    } catch (err: any) {
+      res.status(500).json({ error: err.message });
+    }
+  });
+
   app.get("/api/admin/mlt/pipeline/batches", async (req, res) => {
     try {
       const admin = await requireAdmin(req, res);
       if (!admin) return;
 
-      const result = await pool.query(
+      const prodPool = getProductionPool();
+      const result = await prodPool.query(
         `SELECT * FROM mlt_generation_batches ORDER BY created_at DESC LIMIT 50`
       );
       res.json(result.rows);
@@ -753,13 +1149,14 @@ export function registerMltPipelineRoutes(app: Express) {
       const admin = await requireAdmin(req, res);
       if (!admin) return;
 
-      const result = await pool.query(
+      const prodPool = getProductionPool();
+      const result = await prodPool.query(
         `SELECT * FROM mlt_generation_batches WHERE id = $1`,
         [req.params.id]
       );
       if (!result.rows[0]) return res.status(404).json({ error: "Batch not found" });
 
-      const questionsResult = await pool.query(
+      const questionsResult = await prodPool.query(
         `SELECT id, stem, blueprint_category, difficulty, cognitive_level, status, subtopic
          FROM allied_questions WHERE batch_id = $1 AND career_type = 'mlt' ORDER BY created_at`,
         [req.params.id]
@@ -784,7 +1181,8 @@ export function registerMltPipelineRoutes(app: Express) {
         return res.status(400).json({ error: "Status must be published or draft" });
       }
 
-      const result = await pool.query(
+      const prodPool = getProductionPool();
+      const result = await prodPool.query(
         `UPDATE allied_questions SET status = $1
          WHERE batch_id = $2 AND career_type = 'mlt' AND status = 'draft'
          RETURNING id`,
@@ -802,12 +1200,13 @@ export function registerMltPipelineRoutes(app: Express) {
       const admin = await requireAdmin(req, res);
       if (!admin) return;
 
-      const result = await pool.query(
+      const prodPool = getProductionPool();
+      const result = await prodPool.query(
         `DELETE FROM allied_questions WHERE batch_id = $1 AND career_type = 'mlt' RETURNING id`,
         [req.params.id]
       );
 
-      await pool.query(
+      await prodPool.query(
         `UPDATE mlt_generation_batches SET status = 'rolled_back' WHERE id = $1`,
         [req.params.id]
       );
@@ -823,7 +1222,9 @@ export function registerMltPipelineRoutes(app: Express) {
       const admin = await requireAdmin(req, res);
       if (!admin) return;
 
-      const totalResult = await pool.query(
+      const prodPool = getProductionPool();
+
+      const totalResult = await prodPool.query(
         `SELECT COUNT(*) as total,
                 COUNT(*) FILTER (WHERE status = 'published') as published,
                 COUNT(*) FILTER (WHERE status = 'draft') as draft,
@@ -831,7 +1232,7 @@ export function registerMltPipelineRoutes(app: Express) {
          FROM allied_questions WHERE career_type = 'mlt'`
       );
 
-      const disciplineResult = await pool.query(
+      const disciplineResult = await prodPool.query(
         `SELECT blueprint_category as discipline,
                 COUNT(*) as total,
                 COUNT(*) FILTER (WHERE status = 'published') as published,
@@ -847,7 +1248,7 @@ export function registerMltPipelineRoutes(app: Express) {
          ORDER BY blueprint_category`
       );
 
-      const countryResult = await pool.query(
+      const countryResult = await prodPool.query(
         `SELECT
            CASE
              WHEN subtopic LIKE '%[canada/csmls]%' THEN 'canada'
@@ -858,6 +1259,10 @@ export function registerMltPipelineRoutes(app: Express) {
            COUNT(*) as count
          FROM allied_questions WHERE career_type = 'mlt' AND status != 'archived'
          GROUP BY 1`
+      );
+
+      const flashcardCount = await prodPool.query(
+        `SELECT COUNT(*) as total FROM allied_flashcards WHERE career_type = 'mlt'`
       );
 
       const totalQuestions = Number(totalResult.rows[0]?.total || 0);
@@ -888,7 +1293,7 @@ export function registerMltPipelineRoutes(app: Express) {
         };
       });
 
-      const recentBatches = await pool.query(
+      const recentBatches = await prodPool.query(
         `SELECT id, country_track, requested_count, accepted_count, status, created_at
          FROM mlt_generation_batches ORDER BY created_at DESC LIMIT 10`
       );
@@ -901,6 +1306,7 @@ export function registerMltPipelineRoutes(app: Express) {
           published: Number(totalResult.rows[0]?.published || 0),
           draft: Number(totalResult.rows[0]?.draft || 0),
           archived: Number(totalResult.rows[0]?.archived || 0),
+          flashcards: Number(flashcardCount.rows[0]?.total || 0),
         },
         disciplineTargets,
         countryBreakdown: countryResult.rows,
@@ -921,7 +1327,8 @@ export function registerMltPipelineRoutes(app: Express) {
       const admin = await requireAdmin(req, res);
       if (!admin) return;
 
-      const result = await pool.query(
+      const prodPool = getProductionPool();
+      const result = await prodPool.query(
         `SELECT stem, options, correct_answer as "correctAnswer",
                 rationale_long as "rationaleLong", blueprint_category as "blueprintCategory",
                 subtopic, difficulty, cognitive_level as "cognitiveLevel",
