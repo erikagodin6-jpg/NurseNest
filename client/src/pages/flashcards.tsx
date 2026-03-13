@@ -78,7 +78,7 @@ import { BreadcrumbNav } from "@/components/breadcrumb-nav";
 import heartImg from "@/assets/images/heart-flashcard.png";
 import pedsImg from "@/assets/images/peds-flashcard.png";
 import oncologyImg from "@/assets/images/oncology-flashcard.png";
-import aaaImg from "@assets/abdominalaorticaneurysm_1773348327714.png";
+import aaaImg from "@assets/abdominalaorticaneurysm_1773374656570.png";
 import { rnFlashcards } from "@/data/flashcards-rn";
 import { npFlashcards } from "@/data/flashcards-np";
 import { AdaptiveStudyHub } from "@/components/adaptive-study";

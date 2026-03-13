@@ -1,6 +1,6 @@
 import type { LessonContent } from "./types";
 import { imgToxicShockSyndrome } from "../flashcards-rpn";
-import aaaImg from "@assets/abdominalaorticaneurysm_1773348327714.png";
+import aaaImg from "@assets/abdominalaorticaneurysm_1773374656570.png";
 
 export const cardiovascularLessons: Record<string, LessonContent> = {
   "aaa-rupture": {
