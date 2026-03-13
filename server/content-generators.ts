@@ -436,6 +436,57 @@ FORMAT your output as valid JSON:
   "summary": "..."
 }`;
 
+const SOCIAL_WORK_QUESTION_PROMPT = `You are a senior social work psychometrician and ASWB-certified item writer creating licensing exam questions for NurseNest.
+
+Target exams: ASWB (Bachelors, Masters, Clinical) and Canadian Social Work licensing exams.
+
+Each question MUST include a realistic client scenario with:
+- Client demographics (age, gender identity, cultural background)
+- Psychosocial context (family dynamics, socioeconomic status, living situation)
+- Presenting issue with specific behavioral/emotional symptoms
+- Ethical considerations or dilemmas when relevant
+- Cultural elements that inform assessment and intervention
+
+DOMAINS (distribute questions across all 6):
+1. Human Behavior & Development (15-20%): Erikson, Piaget, attachment theory, family systems, lifespan development
+2. Assessment & Diagnosis (18-22%): Biopsychosocial assessment, MSE, DSM-5 differential diagnosis, risk assessment
+3. Intervention & Treatment Planning (20-25%): CBT, MI, SFBT, trauma-informed care, group therapy, treatment goals
+4. Ethics & Professional Practice (18-22%): NASW Code, Tarasoff, dual relationships, confidentiality, supervision
+5. Community Resources (10-15%): Case management, advocacy, social welfare policy, SSI/SSDI, TANF, referrals
+6. Crisis Intervention (10-15%): Suicide risk, safety planning, de-escalation, mandatory reporting, PFA
+
+DIFFICULTY DISTRIBUTION:
+- 35% Easy (recall/comprehension, difficulty 1-2)
+- 45% Moderate (application/analysis, difficulty 3)
+- 20% Hard (synthesis/evaluation, difficulty 4-5)
+
+QUESTION FORMAT:
+- MCQ_SINGLE: Standard 4-option multiple choice
+- CASE_BASED_CLUSTER: Multi-part scenario with 2-3 related questions
+- PRIORITIZATION: Rank or identify the FIRST/BEST action
+
+OUTPUT FORMAT - Return a JSON array of objects:
+{
+  "questionId": "AUTO_INCREMENT",
+  "questionType": "MCQ_SINGLE | CASE_BASED_CLUSTER | PRIORITIZATION",
+  "domain": "one of the 6 domains above",
+  "subDomain": "specific topic within domain",
+  "difficulty": 1-5,
+  "stem": "realistic client scenario with detailed psychosocial context (minimum 80 words)",
+  "scenario": "extended clinical context if case-based",
+  "options": [{"label": "A", "text": "..."}, {"label": "B", "text": "..."}, {"label": "C", "text": "..."}, {"label": "D", "text": "..."}],
+  "correctAnswer": "A",
+  "rationale": "detailed explanation (minimum 250 words) - why correct answer is right and why each wrong answer is wrong, include ethical considerations and practice domain context",
+  "clinicalPearls": ["exam-relevant insight 1", "insight 2"],
+  "ethicalConsiderations": "relevant ethical principles from NASW Code",
+  "practiceDomain": "ASWB content area",
+  "tags": ["topic tags"],
+  "lessonLink": "/social-worker/lessons/{relevant-slug}",
+  "blueprintValidated": true
+}
+
+Each rationale must be minimum 250 words. Return ONLY valid JSON array.`;
+
 const ALLIED_HEALTH_INFOGRAPHIC_PROMPT = `You are a medical infographic designer creating allied health study diagrams for NurseNest.
 
 STYLE:
@@ -791,6 +842,95 @@ Make questions clinically accurate and representative of the ${careerLabel} cert
     );
 
     return parsed;
+  } catch (err: any) {
+    await pool.query(
+      "UPDATE autopilot_jobs SET status = 'failed', error = $1, completed_at = NOW() WHERE id = $2",
+      [err.message, jobId]
+    );
+    throw err;
+  }
+}
+
+export async function generateSocialWorkQuestions(
+  topic: string,
+  domain: string,
+  batchSize: number,
+  difficultyDistribution: string,
+  jobId: string
+): Promise<any> {
+  const openai = getOpenAI();
+
+  await pool.query(
+    "UPDATE autopilot_jobs SET status = 'running', started_at = NOW() WHERE id = $1",
+    [jobId]
+  );
+
+  try {
+    const response = await openai.chat.completions.create({
+      model: "gpt-4o",
+      messages: [
+        { role: "system", content: SOCIAL_WORK_QUESTION_PROMPT },
+        {
+          role: "user",
+          content: `Generate ${batchSize} ASWB-style social work licensing exam questions:
+
+Topic: ${topic}
+Primary Domain: ${domain}
+Batch Size: ${batchSize}
+Difficulty Distribution: ${difficultyDistribution || "35% Easy, 45% Moderate, 20% Hard"}
+
+Requirements:
+- Each question must include a realistic client scenario with psychosocial context
+- Include ethical considerations and cultural elements
+- Cover both ASWB and Canadian social work licensing content
+- Rationales must be at least 250 words each
+- Include clinical pearls and lesson links
+- Distribute across question types: 40% MCQ_SINGLE, 40% CASE_BASED_CLUSTER, 20% PRIORITIZATION
+
+Generate exactly ${batchSize} high-quality exam questions.`
+        }
+      ],
+      temperature: 0.7,
+      max_tokens: Math.min(batchSize * 1500, 32000),
+      response_format: { type: "json_object" },
+    });
+
+    const content = response.choices[0]?.message?.content;
+    if (!content) throw new Error("No content returned from generation");
+
+    const parsed = JSON.parse(content);
+    const questions = Array.isArray(parsed) ? parsed : parsed.questions || parsed.items || [];
+
+    await pool.query(
+      `INSERT INTO publishing_queue (engine_key, content_type, title, content, status, metadata, created_by)
+       VALUES ('question_factory', 'social_work_question', $1, $2, 'pending_review', $3, 'autopilot')`,
+      [
+        `Social Work Questions: ${topic} (${domain})`,
+        JSON.stringify({ questions, topic, domain }),
+        JSON.stringify({
+          topic,
+          domain,
+          career: "socialWorker",
+          contentType: "social_work",
+          batchSize,
+          difficultyDistribution,
+          questionCount: questions.length,
+          generatedAt: new Date().toISOString(),
+        }),
+      ]
+    );
+
+    await pool.query(
+      `UPDATE autopilot_jobs SET status = 'completed', result = $1, completed_at = NOW() WHERE id = $2`,
+      [JSON.stringify({
+        topic,
+        domain,
+        questionCount: questions.length,
+        queuedForReview: true,
+      }), jobId]
+    );
+
+    return { questions, topic, domain };
   } catch (err: any) {
     await pool.query(
       "UPDATE autopilot_jobs SET status = 'failed', error = $1, completed_at = NOW() WHERE id = $2",

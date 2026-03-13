@@ -322,9 +322,9 @@ async function ingestQuestions(runId: string, questions: any[], variant: any, te
         addictions_worker: "addictionsWorker", peds_nursing: "peds_nursing",
       };
       const careerType = careerMap[variant.variantKey] || variant.variantKey;
-      await pool.query(
+      const questionResult = await pool.query(
         `INSERT INTO allied_questions (career_type, stem, options, correct_answer, rationale_long, learning_objective, blueprint_category, subtopic, difficulty, cognitive_level, question_type, exam_trap, clinical_pearls, safety_note, distractor_rationales, status)
-         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, 'pending')`,
+         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, 'pending') RETURNING id`,
         [
           careerType, q.stem, JSON.stringify(q.options || []),
           typeof q.correctAnswer === "number" ? q.correctAnswer : 0,
@@ -336,6 +336,32 @@ async function ingestQuestions(runId: string, questions: any[], variant: any, te
           JSON.stringify(q.distractorRationales || []),
         ]
       );
+
+      if (variant.variantKey === "social_worker" && questionResult.rows[0]) {
+        const domain = q.domain || q.blueprintCategory || "Social Work";
+        const pearls = q.clinicalPearls || [];
+        const pearlText = Array.isArray(pearls) ? pearls.join("; ") : String(pearls);
+        const lessonLink = q.lessonLink || `/social-worker/lessons/${(q.subDomain || q.subtopic || domain).toLowerCase().replace(/[^a-z0-9]+/g, "-")}`;
+        const front = `${domain}: ${(q.stem || "").substring(0, 200).replace(/\n/g, " ")}`;
+        const back = `${(q.rationale || q.rationaleLong || "").substring(0, 300)}${pearlText ? `\n\nExam Pearl: ${pearlText}` : ""}${lessonLink ? `\n\nLearn more: ${lessonLink}` : ""}`;
+
+        try {
+          await pool.query(
+            `INSERT INTO allied_flashcards (career_type, question_id, card_type, front, back, rationale, clinical_pearl, blueprint_category, subtopic)
+             VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
+             ON CONFLICT DO NOTHING`,
+            [
+              careerType, questionResult.rows[0].id, "exam_concept",
+              front, back,
+              q.rationale || q.rationaleLong || "",
+              pearlText || null,
+              domain, q.subtopic || q.subDomain || null,
+            ]
+          );
+        } catch (flashcardErr: any) {
+          console.log(`[QBank Ingest] Flashcard creation skipped for social worker question: ${flashcardErr.message}`);
+        }
+      }
     }
   }
 

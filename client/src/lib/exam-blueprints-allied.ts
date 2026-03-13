@@ -223,19 +223,21 @@ export const ALLIED_EXAM_BLUEPRINTS: Record<string, AlliedExamBlueprint> = {
 
   SOCIAL_WORK: {
     examKey: "SOCIAL_WORK",
-    examName: "Social Work Licensing Exam",
+    examName: "Social Work Licensing Exam (ASWB/Canadian)",
     totalQuestionsRange: [120, 170],
-    timeLimitMinutes: 180,
+    timeLimitMinutes: 240,
     examDeliveryType: "fixed",
     scoringModel: "dichotomous",
     passingStandardModel: "cutScore",
     caseBasedRequired: true,
     calculationRequired: false,
     domainWeights: [
-      { domain: "Ethics & Law", weightMin: 0.25, weightMax: 0.30 },
-      { domain: "Assessment & Intervention", weightMin: 0.30, weightMax: 0.40 },
-      { domain: "Social Policy & Advocacy", weightMin: 0.15, weightMax: 0.25 },
-      { domain: "Diversity & Cultural Practice", weightMin: 0.15, weightMax: 0.20 },
+      { domain: "Human Behavior & Development", weightMin: 0.15, weightMax: 0.20 },
+      { domain: "Assessment & Diagnosis", weightMin: 0.18, weightMax: 0.22 },
+      { domain: "Intervention & Treatment Planning", weightMin: 0.20, weightMax: 0.25 },
+      { domain: "Ethics & Professional Practice", weightMin: 0.18, weightMax: 0.22 },
+      { domain: "Community Resources", weightMin: 0.10, weightMax: 0.15 },
+      { domain: "Crisis Intervention", weightMin: 0.10, weightMax: 0.15 },
     ],
     questionTypesAllowed: [
       "MCQ_SINGLE",

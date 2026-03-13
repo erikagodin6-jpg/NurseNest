@@ -298,6 +298,34 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
     res.json({ region });
   });
 
+  app.get("/api/social-worker/questions", async (_req, res) => {
+    try {
+      const result = await pool.query(
+        `SELECT id, stem, options, correct_answer, rationale_long, blueprint_category, subtopic, difficulty, cognitive_level, question_type, clinical_pearls
+         FROM allied_questions
+         WHERE career_type = 'socialWorker' AND status IN ('approved', 'pending')
+         ORDER BY difficulty, blueprint_category
+         LIMIT 1200`
+      );
+      const questions = result.rows.map((row: any) => ({
+        id: row.id,
+        stem: row.stem,
+        options: typeof row.options === "string" ? JSON.parse(row.options) : (row.options || []),
+        correctIndex: row.correct_answer || 0,
+        rationale: row.rationale_long || "",
+        category: row.blueprint_category || "Social Work",
+        topic: row.subtopic || row.blueprint_category || "General",
+        difficulty: row.difficulty || 3,
+        cognitiveLevel: row.cognitive_level || "application",
+        questionType: row.question_type || "MCQ_SINGLE",
+        clinicalPearls: typeof row.clinical_pearls === "string" ? JSON.parse(row.clinical_pearls) : (row.clinical_pearls || []),
+      }));
+      res.json({ questions, total: questions.length });
+    } catch (e: any) {
+      res.json({ questions: [], total: 0 });
+    }
+  });
+
   app.post("/api/admin/preview-mode", async (req, res) => {
     try {
       const admin = await requireAdmin(req, res);

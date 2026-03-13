@@ -7,6 +7,7 @@ import {
   generateNewGradNursePage,
   generatePracticeQuestionPage,
   generateAlliedHealthQuestions,
+  generateSocialWorkQuestions,
   generateVisualDiagram,
   generateAlliedHealthInfographic,
   generateInfographicPage,
@@ -87,7 +88,15 @@ async function processAutopilotJob(jobId: string, engineKey: string, payload: an
         break;
 
       case "question_factory":
-        if (payload.contentType === "allied_health" && payload.career) {
+        if (payload.contentType === "social_work") {
+          await generateSocialWorkQuestions(
+            payload.topic || "General Social Work",
+            payload.domain || "Ethics & Professional Practice",
+            payload.batchSize || 50,
+            payload.difficultyDistribution || "35% Easy, 45% Moderate, 20% Hard",
+            jobId
+          );
+        } else if (payload.contentType === "allied_health" && payload.career) {
           await generateAlliedHealthQuestions(
             payload.topic || "General Allied Health",
             payload.career,

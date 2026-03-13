@@ -17,8 +17,37 @@ export interface CareerPooledQuestion {
 
 let careerQuestionsCache: Record<string, CareerPooledQuestion[]> = {};
 
+async function loadFromApi(careerType: CareerType): Promise<CareerPooledQuestion[] | null> {
+  if (careerType !== "socialWorker") return null;
+  try {
+    const resp = await fetch("/api/social-worker/questions");
+    if (!resp.ok) return null;
+    const data = await resp.json();
+    if (!data.questions || data.questions.length === 0) return null;
+    const config = CAREER_CONFIGS[careerType];
+    const tiers = config.tiers;
+    return data.questions.map((q: any) => {
+      let tier = "free";
+      if (tiers.length >= 3) {
+        if (q.difficulty <= 2) tier = tiers[0].id;
+        else if (q.difficulty <= 3) tier = tiers[1].id;
+        else tier = tiers[2].id;
+      }
+      return { ...q, careerType, tier };
+    });
+  } catch {
+    return null;
+  }
+}
+
 async function loadCareerQuestions(careerType: CareerType): Promise<CareerPooledQuestion[]> {
   if (careerQuestionsCache[careerType]) return careerQuestionsCache[careerType];
+
+  const apiQuestions = await loadFromApi(careerType);
+  if (apiQuestions && apiQuestions.length > 0) {
+    careerQuestionsCache[careerType] = apiQuestions;
+    return apiQuestions;
+  }
 
   try {
     const mod = await import(`../data/career-questions/${CAREER_CONFIGS[careerType].slug}-questions.ts`);
