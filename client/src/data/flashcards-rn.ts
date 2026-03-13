@@ -21,6 +21,11 @@ import illustrationScabiesV2 from "@/assets/images/scabies-v2.png";
 import illustrationRibFractures from "@/assets/images/rib-fractures.png";
 import illustrationRheumatoidArthritis from "@/assets/images/rheumatoid-arthritis.png";
 import imgPituitaryGlands from "@assets/pituitaryglands_1773269379973.png";
+import imgParkinsonsNew from "@assets/parkinson_1773375118294.png";
+import imgPeripheralNeuropathy from "@assets/peripheralneuropathy_1773375118294.png";
+import imgPepticUlcerNew from "@assets/pepticulcer_1773375118294.png";
+import imgPressureInjuriesNew from "@assets/pressureinjuries_1773375118294.png";
+import imgPediatricSeizuresNew from "@assets/pediatricseizures_1773375118294.png";
 
 export const rnFlashcards: FlashcardData[] = [
   // ============================================================
@@ -424,7 +429,8 @@ export const rnFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "Status epilepticus (seizures lasting >5 minutes or recurrent without consciousness recovery) is a neurological emergency with increasing mortality as duration increases. The protocol is: IV benzodiazepine (lorazepam 4 mg IV, may repeat once) as the immediate first-line agent, followed by a phenytoin or fosphenytoin loading dose for seizure prevention. If seizures persist, propofol or midazolam infusion in an ICU setting.",
     category: "Neurological",
-    difficulty: 3
+    difficulty: 3,
+    image: imgPediatricSeizuresNew
   },
   {
     id: "rn-neuro-q4",
@@ -511,6 +517,7 @@ export const rnFlashcards: FlashcardData[] = [
     id: "rn-neuro-q12",
     type: "question",
     question: "A client with Parkinson's disease on levodopa/carbidopa therapy has been experiencing an 'on-off' phenomenon. What does this mean?",
+    image: imgParkinsonsNew,
     options: ["The client alternates between improvement and seizure activity", "The client experiences fluctuating periods of symptom control (on) and breakthrough symptoms (off) unpredictably", "The medication has stopped working completely", "The client is non-compliant with the medication schedule"],
     correctIndex: 1,
     answer: "The on-off phenomenon is a complication of long-term levodopa therapy where the client unpredictably alternates between 'on' periods (good symptom control, sometimes with dyskinesias) and 'off' periods (return of bradykinesia, rigidity, and tremor). It results from fluctuating dopamine levels. Management includes adjusting dose frequency, adding COMT inhibitors (entacapone), or considering deep brain stimulation.",
@@ -649,7 +656,7 @@ export const rnFlashcards: FlashcardData[] = [
     answer: "Zollinger-Ellison syndrome is caused by a gastrin-secreting tumor (gastrinoma) that produces massive gastric acid hypersecretion. Diagnosis is confirmed by a markedly elevated fasting serum gastrin level (often >1,000 pg/mL) and a positive secretin stimulation test (paradoxical rise in gastrin after secretin injection, which normally suppresses gastrin). Treatment includes high-dose PPIs and surgical tumor resection.",
     category: "GI",
     difficulty: 3,
-    image: imgPepticUlcer
+    image: imgPepticUlcerNew
   },
   {
     id: "rn-gi-q9",
@@ -2157,6 +2164,7 @@ export const rnFlashcards: FlashcardData[] = [
     id: "rn-pain-q4",
     type: "question",
     question: "A nurse is managing a client with neuropathic pain from diabetic peripheral neuropathy. Which medication class is first-line for neuropathic pain?",
+    image: imgPeripheralNeuropathy,
     options: ["Opioids (morphine)", "Anticonvulsants (gabapentin or pregabalin) or antidepressants (duloxetine)", "NSAIDs (ibuprofen)", "Muscle relaxants (cyclobenzaprine)"],
     correctIndex: 1,
     answer: "Neuropathic pain (burning, tingling, shooting pain from nerve damage) does not respond well to traditional analgesics. First-line agents include anticonvulsants (gabapentin, pregabalin) that stabilize nerve membranes, and SNRIs (duloxetine) that modulate descending pain inhibition pathways. Tricyclic antidepressants (amitriptyline) are second-line. Opioids are generally avoided due to limited efficacy and addiction risk. Topical lidocaine or capsaicin may provide adjunctive relief.",
@@ -2586,7 +2594,8 @@ export const rnFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "Benzodiazepines (lorazepam IV) are first-line for status epilepticus. Status epilepticus is defined as continuous seizure activity lasting >5 minutes or recurrent seizures without regaining consciousness. Lorazepam is preferred over diazepam due to longer duration of action. If benzodiazepines fail, second-line agents include fosphenytoin or valproic acid.",
     category: "Emergency",
-    difficulty: 2
+    difficulty: 2,
+    image: imgPediatricSeizuresNew
   },
   {
     id: "rn-emerg-q7",

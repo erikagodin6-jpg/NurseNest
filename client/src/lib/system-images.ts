@@ -625,6 +625,24 @@ import illustrationOtitisMedia from "@assets/otitismedia_1773375043083.png";
 import illustrationPancreaticPseudocystV4 from "@assets/pancreaticpseudocyst_1773375043083.png";
 import illustrationPancreatitisV4 from "@assets/pancreatitis_1773375043083.png";
 import illustrationPapilledemaV2 from "@assets/papilledema_1773375043083.png";
+import illustrationParkinsonsV4 from "@assets/parkinson_1773375118294.png";
+import illustrationPavlikHarnessV2 from "@assets/pavlik_1773375118294.png";
+import illustrationPCOS from "@assets/pcos_1773375118294.png";
+import illustrationBPDV2 from "@assets/PD_1773375118294.png";
+import illustrationPDAV2 from "@assets/PDA_1773375118294.png";
+import illustrationPediatricDehydrationV2 from "@assets/pediatricdehydration_1773375118294.png";
+import illustrationPediatricSeizuresV4 from "@assets/pediatricseizures_1773375118294.png";
+import illustrationPemphigusV3 from "@assets/pemphigus_1773375118294.png";
+import illustrationPepticUlcerV4 from "@assets/pepticulcer_1773375118294.png";
+import illustrationPeripheralNeuropathyV4 from "@assets/peripheralneuropathy_1773375118294.png";
+import illustrationPhimosis from "@assets/phimosis_1773375118294.png";
+import illustrationPinwormsV2 from "@assets/pinwor_1773375118294.png";
+import illustrationPKUV2 from "@assets/PKU_1773375118294.png";
+import illustrationPlacentalAbruptionV2 from "@assets/placentalabruption_1773375118294.png";
+import illustrationPolycysticKidneyV2 from "@assets/polycystickidneydisease_1773375118294.png";
+import illustrationPolycythemiaV3 from "@assets/polycythemia_1773375118294.png";
+import illustrationEndometrialPolyp from "@assets/polyp_1773375118294.png";
+import illustrationPressureInjuriesV3 from "@assets/pressureinjuries_1773375118294.png";
 
 const lessonSpecificImages: Record<string, string> = {
   "infective-endocarditis-signs": illustrationEndocarditisSigns,
@@ -740,11 +758,11 @@ const lessonSpecificImages: Record<string, string> = {
   "icp-rpn": illustrationICPV3,
   "icp-rn": illustrationICPV3,
   "icp-np": illustrationICPV3,
-  "parkinsons-disease": illustrationParkinsonsV3,
-  "parkinsons": illustrationParkinsonsV3,
-  "parkinsons-rpn": illustrationParkinsonsV3,
-  "parkinsons-rn": illustrationParkinsonsV3,
-  "parkinsons-np": illustrationParkinsonsV3,
+  "parkinsons-disease": illustrationParkinsonsV4,
+  "parkinsons": illustrationParkinsonsV4,
+  "parkinsons-rpn": illustrationParkinsonsV4,
+  "parkinsons-rn": illustrationParkinsonsV4,
+  "parkinsons-np": illustrationParkinsonsV4,
   "multiple-sclerosis": illustrationMultipleSclerosisV5,
   "ms-management": illustrationMultipleSclerosisV5,
   "multiple-sclerosis-rpn": illustrationMultipleSclerosisV5,
@@ -919,15 +937,15 @@ const lessonSpecificImages: Record<string, string> = {
   "narcolepsy-rpn": illustrationNarcolepsyV4,
   "narcolepsy-rn": illustrationNarcolepsyV4,
   "narcolepsy-np": illustrationNarcolepsyV4,
-  "pediatric-seizures": illustrationPediatricSeizuresV3,
-  "pediatric-seizures-rpn": illustrationPediatricSeizuresV3,
-  "pediatric-seizures-rn": illustrationPediatricSeizuresV3,
-  "pediatric-seizures-np": illustrationPediatricSeizuresV3,
-  "pediatric-seizure": illustrationPediatricSeizuresV3,
-  "peripheral-neuropathy": illustrationPeripheralNeuropathyV3,
-  "peripheral-neuropathy-rpn": illustrationPeripheralNeuropathyV3,
-  "peripheral-neuropathy-rn": illustrationPeripheralNeuropathyV3,
-  "peripheral-neuropathy-np": illustrationPeripheralNeuropathyV3,
+  "pediatric-seizures": illustrationPediatricSeizuresV4,
+  "pediatric-seizures-rpn": illustrationPediatricSeizuresV4,
+  "pediatric-seizures-rn": illustrationPediatricSeizuresV4,
+  "pediatric-seizures-np": illustrationPediatricSeizuresV4,
+  "pediatric-seizure": illustrationPediatricSeizuresV4,
+  "peripheral-neuropathy": illustrationPeripheralNeuropathyV4,
+  "peripheral-neuropathy-rpn": illustrationPeripheralNeuropathyV4,
+  "peripheral-neuropathy-rn": illustrationPeripheralNeuropathyV4,
+  "peripheral-neuropathy-np": illustrationPeripheralNeuropathyV4,
   "diabetic-neuropathy": illustrationPeripheralNeuropathyV3,
   "abg-basics": illustrationABGReferenceNew,
   "abg-interpretation-rn": illustrationABGReferenceNew,
@@ -937,13 +955,13 @@ const lessonSpecificImages: Record<string, string> = {
   "stevens-johnson-syndrome": illustrationSJS,
   "urticaria": illustrationAtopicDermatitis,
   "scabies": illustrationScabiesV2,
-  "pemphigus-vulgaris": illustrationPemphigusV2,
+  "pemphigus-vulgaris": illustrationPemphigusV3,
   "melanoma": illustrationTumor,
   "toxic-epidermal-necrolysis": illustrationSJS,
   "inflammatory-response": illustrationInflammatoryResponse,
   "inflammation": illustrationInflammatoryResponse,
   "retinal-detachment": illustrationRetinalDetachmentV2,
-  "pressure-injuries": illustrationPressureInjuriesV2,
+  "pressure-injuries": illustrationPressureInjuriesV3,
   "pressure-ulcers": illustrationPressureInjuriesV2,
   "pressure-injury-staging": illustrationPressureInjuryStagesV2,
   "pressure-injury-stages": illustrationPressureInjuryStagesV2,
@@ -962,7 +980,9 @@ const lessonSpecificImages: Record<string, string> = {
   "alopecia": illustrationAlopecia,
   "alopecia-areata": illustrationAlopecia,
   "hair-loss": illustrationAlopecia,
-  "pemphigus": illustrationPemphigusV2,
+  "pemphigus": illustrationPemphigusV3,
+  "polycythemia": illustrationPolycythemiaV3,
+  "polycythemia-vera": illustrationPolycythemiaV3,
   "atopic-dermatitis": illustrationAtopicDermatitis,
   "eczema": illustrationAtopicDermatitis2,
   "otitis-media": illustrationOtitisMedia,
@@ -997,8 +1017,11 @@ const lessonSpecificImages: Record<string, string> = {
   "homeostasis": illustrationHomeostasis,
   "feedback-loops": illustrationHomeostasis,
   "homeostasis-feedback": illustrationHomeostasis,
-  "pinworms": illustrationPinwormsNew,
-  "enterobiasis": illustrationPinwormsNew,
+  "pinworms": illustrationPinwormsV2,
+  "pinworm": illustrationPinwormsV2,
+  "enterobiasis": illustrationPinwormsV2,
+  "head-lice": illustrationHeadLice,
+  "pediculosis": illustrationHeadLice,
   "varicella": illustrationVaricella,
   "varicella-rpn": illustrationVaricella,
   "varicella-rn": illustrationVaricella,
@@ -1167,11 +1190,11 @@ const lessonSpecificImages: Record<string, string> = {
   "barrett-esophagus-rn": illustrationBarrettEsophagusV2,
   "barrett-esophagus-np": illustrationBarrettEsophagusV2,
   "barretts-esophagus": illustrationBarrettEsophagusV2,
-  "peptic-ulcer": illustrationPepticUlcerV3,
-  "peptic-ulcer-rpn": illustrationPepticUlcerV3,
-  "peptic-ulcer-rn": illustrationPepticUlcerV3,
-  "peptic-ulcer-np": illustrationPepticUlcerV3,
-  "peptic-ulcer-disease": illustrationPepticUlcerV3,
+  "peptic-ulcer": illustrationPepticUlcerV4,
+  "peptic-ulcer-rpn": illustrationPepticUlcerV4,
+  "peptic-ulcer-rn": illustrationPepticUlcerV4,
+  "peptic-ulcer-np": illustrationPepticUlcerV4,
+  "peptic-ulcer-disease": illustrationPepticUlcerV4,
   "gastric-ulcer": illustrationPepticUlcerV3,
   "duodenal-ulcer": illustrationPepticUlcerV3,
   "ibs-basics": illustrationIBSNew,
@@ -1568,10 +1591,10 @@ const lessonSpecificImages: Record<string, string> = {
   "placenta-previa-rpn": illustrationPlacentaPrevia,
   "placenta-previa-rn": illustrationPlacentaPrevia,
   "placenta-previa-np": illustrationPlacentaPrevia,
-  "placental-abruption": illustrationPlacentalAbruption,
-  "placental-abruption-rpn": illustrationPlacentalAbruption,
-  "placental-abruption-rn": illustrationPlacentalAbruption,
-  "placental-abruption-np": illustrationPlacentalAbruption,
+  "placental-abruption": illustrationPlacentalAbruptionV2,
+  "placental-abruption-rpn": illustrationPlacentalAbruptionV2,
+  "placental-abruption-rn": illustrationPlacentalAbruptionV2,
+  "placental-abruption-np": illustrationPlacentalAbruptionV2,
 
   "neonatal-hypoglycemia": illustrationNeonatalHypoglycemia,
   "neonatal-hypoglycemia-rpn": illustrationNeonatalHypoglycemia,
@@ -1590,13 +1613,30 @@ const lessonSpecificImages: Record<string, string> = {
 
   "ovarian-hyperstimulation-syndrome": illustrationOvarianHyperstimulation,
 
+  "patent-ductus-arteriosus": illustrationPDAV2,
+  "pda": illustrationPDAV2,
+  "patent-ductus-arteriosus-rpn": illustrationPDAV2,
+  "patent-ductus-arteriosus-rn": illustrationPDAV2,
+  "patent-ductus-arteriosus-np": illustrationPDAV2,
 
-  "ddh-treatment": illustrationPavlikHarness,
+  "pavlik-harness": illustrationPavlikHarnessV2,
+  "ddh-treatment": illustrationPavlikHarnessV2,
+  "developmental-dysplasia-hip": illustrationPavlikHarnessV2,
+  "ddh": illustrationPavlikHarnessV2,
 
   "pediatric-vitals": illustrationPediatricVitals,
   "pediatric-vitals-chart": illustrationPediatricVitals,
 
+  "pediatric-dehydration": illustrationPediatricDehydrationV2,
+  "pediatric-dehydration-rpn": illustrationPediatricDehydrationV2,
+  "pediatric-dehydration-rn": illustrationPediatricDehydrationV2,
+  "pediatric-dehydration-np": illustrationPediatricDehydrationV2,
 
+  "phenylketonuria": illustrationPKUV2,
+  "pku": illustrationPKUV2,
+  "pku-rpn": illustrationPKUV2,
+  "pku-rn": illustrationPKUV2,
+  "pku-np": illustrationPKUV2,
 
   "pyloromyotomy": illustrationPyloricStenosis,
 
@@ -1619,7 +1659,7 @@ const lessonSpecificImages: Record<string, string> = {
   "crohns": illustrationCrohnsV2,
   "ibd-management": illustrationUCPatho,
 
-  "peptic-ulcer-basics-rpn": illustrationPepticUlcerV3,
+  "peptic-ulcer-basics-rpn": illustrationPepticUlcerV4,
   "microscopic-colitis": illustrationMicroscopicColitisV2,
   "microscopic-colitis-rpn": illustrationMicroscopicColitisV2,
   "microscopic-colitis-rn": illustrationMicroscopicColitisV2,
@@ -1735,9 +1775,9 @@ const lessonSpecificImages: Record<string, string> = {
   "transfusion-reaction": illustrationSepticTransfusionReaction,
   "septic-transfusion": illustrationSepticTransfusionReaction,
   "blood-transfusion-reaction": illustrationSepticTransfusionReaction,
-  "pressure-injuries-rpn": illustrationPressureInjuriesV2,
-  "pressure-injuries-rn": illustrationPressureInjuriesV2,
-  "pressure-injuries-np": illustrationPressureInjuriesV2,
+  "pressure-injuries-rpn": illustrationPressureInjuriesV3,
+  "pressure-injuries-rn": illustrationPressureInjuriesV3,
+  "pressure-injuries-np": illustrationPressureInjuriesV3,
   "rheumatoid-arthritis-rpn": illustrationRheumatoidArthritis,
   "rheumatoid-arthritis-rn": illustrationRheumatoidArthritis,
   "rheumatoid-arthritis-np": illustrationRheumatoidArthritis,
@@ -1755,15 +1795,15 @@ const lessonSpecificImages: Record<string, string> = {
   "strep-throat": illustrationPharyngitis,
   "tonsillitis": illustrationPharyngitis,
 
-  "polycystic-kidney": illustrationPolycysticKidney,
-  "polycystic-kidney-rpn": illustrationPolycysticKidney,
-  "polycystic-kidney-rn": illustrationPolycysticKidney,
-  "polycystic-kidney-np": illustrationPolycysticKidney,
-  "polycystic-kidney-disease": illustrationPolycysticKidney,
-  "polycystic-kidney-disease-rpn": illustrationPolycysticKidney,
-  "polycystic-kidney-disease-rn": illustrationPolycysticKidney,
-  "polycystic-kidney-disease-np": illustrationPolycysticKidney,
-  "pkd": illustrationPolycysticKidney,
+  "polycystic-kidney": illustrationPolycysticKidneyV2,
+  "polycystic-kidney-rpn": illustrationPolycysticKidneyV2,
+  "polycystic-kidney-rn": illustrationPolycysticKidneyV2,
+  "polycystic-kidney-np": illustrationPolycysticKidneyV2,
+  "polycystic-kidney-disease": illustrationPolycysticKidneyV2,
+  "polycystic-kidney-disease-rpn": illustrationPolycysticKidneyV2,
+  "polycystic-kidney-disease-rn": illustrationPolycysticKidneyV2,
+  "polycystic-kidney-disease-np": illustrationPolycysticKidneyV2,
+  "pkd": illustrationPolycysticKidneyV2,
 
   "polydactyly": illustrationPolydactyly,
   "polydactyly-rpn": illustrationPolydactyly,
@@ -2036,10 +2076,10 @@ const lessonSpecificImages: Record<string, string> = {
   "vital-signs-pediatric-rn": illustrationPediatricVitals,
   "vital-signs-pediatric-np": illustrationPediatricVitals,
 
-  "pediatric-dehydration": illustrationPediatricDehydration,
-  "pediatric-dehydration-rpn": illustrationPediatricDehydration,
-  "pediatric-dehydration-rn": illustrationPediatricDehydration,
-  "pediatric-dehydration-np": illustrationPediatricDehydration,
+  "pediatric-dehydration": illustrationPediatricDehydrationV2,
+  "pediatric-dehydration-rpn": illustrationPediatricDehydrationV2,
+  "pediatric-dehydration-rn": illustrationPediatricDehydrationV2,
+  "pediatric-dehydration-np": illustrationPediatricDehydrationV2,
   "dehydration-pediatric": illustrationPediatricDehydration,
   "dehydration-pediatric-rpn": illustrationPediatricDehydration,
   "dehydration-pediatric-rn": illustrationPediatricDehydration,
@@ -2188,8 +2228,28 @@ const lessonSpecificImages: Record<string, string> = {
 
   "breastfeeding-basics": illustrationBreastfeeding,
 
-  "bronchopulmonary-dysplasia-rpn": illustrationBronchopulmonaryDysplasia,
-  "bronchopulmonary-dysplasia-rn": illustrationBronchopulmonaryDysplasia,
+  "bronchopulmonary-dysplasia": illustrationBPDV2,
+  "bronchopulmonary-dysplasia-rpn": illustrationBPDV2,
+  "bronchopulmonary-dysplasia-rn": illustrationBPDV2,
+  "bronchopulmonary-dysplasia-np": illustrationBPDV2,
+  "bpd": illustrationBPDV2,
+
+  "pcos": illustrationPCOS,
+  "polycystic-ovary-syndrome": illustrationPCOS,
+  "polycystic-ovary": illustrationPCOS,
+  "pcos-rpn": illustrationPCOS,
+  "pcos-rn": illustrationPCOS,
+  "pcos-np": illustrationPCOS,
+
+  "phimosis": illustrationPhimosis,
+  "phimosis-rpn": illustrationPhimosis,
+  "phimosis-rn": illustrationPhimosis,
+  "phimosis-np": illustrationPhimosis,
+
+  "endometrial-polyp": illustrationEndometrialPolyp,
+  "endometrial-polyps": illustrationEndometrialPolyp,
+  "uterine-polyp": illustrationEndometrialPolyp,
+  "uterine-polyps": illustrationEndometrialPolyp,
 
   "postpartum-hemorrhage": illustrationCSectionCare,
   "postpartum-hemorrhage-basics-rpn": illustrationCSectionCare,

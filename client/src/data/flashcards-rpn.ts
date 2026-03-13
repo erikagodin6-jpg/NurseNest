@@ -118,6 +118,16 @@ import imgSerotoninSyndrome from "@assets/serotoninsyndrome_1773340545537.png";
 import imgStagesOfLabor from "@assets/stagesoflabor_1773340545537.png";
 import imgSubstanceAbuse from "@assets/substanceabuse_1773340545537.png";
 import imgThermoregulation from "@assets/Thermoregulation_1773340545537.png";
+import imgParkinsonsNew from "@assets/parkinson_1773375118294.png";
+import imgPediatricSeizuresNew from "@assets/pediatricseizures_1773375118294.png";
+import imgPepticUlcerNew from "@assets/pepticulcer_1773375118294.png";
+import imgPeripheralNeuropathy from "@assets/peripheralneuropathy_1773375118294.png";
+import imgPemphigusNew from "@assets/pemphigus_1773375118294.png";
+import imgPressureInjuriesNew from "@assets/pressureinjuries_1773375118294.png";
+import imgBPD from "@assets/PD_1773375118294.png";
+import imgPCOS from "@assets/pcos_1773375118294.png";
+import imgPhimosis from "@assets/phimosis_1773375118294.png";
+import imgEndometrialPolyp from "@assets/polyp_1773375118294.png";
 import imgTonsillectomy from "@assets/tonsillectomy_1773340545537.png";
 import imgToxicShockSyndrome from "@assets/toxicshocksyndrome_1773340545537.png";
 import imgTrisomy21 from "@assets/trisomy21_1773340545537.png";
@@ -150,7 +160,7 @@ import imgWoundInfection from "@assets/woundinfection_1773375165171.png";
 import imgWoundVAC from "@assets/woundvac_1773375165171.jpeg";
 import imgVRE from "@assets/vre_1773375165171.png";
 
-export { imgUlcerativeColitis, imgVonWillebrand, imgUrinaryCatheterization, imgSIADH, imgSickleCellCrisis, imgStomaCare, imgThalassemia, imgThrombocytopenia, imgThyroidStorm, imgTRALI, imgVitiligo, imgUrethralStricture, imgVestibularNeuritis, imgAddisons, imgAplasticAnemia, imgAcuteHemolyticReaction, imgAllergicTransfusion, imgAirEmbolism, imgCBI, imgCastCareTraction, imgAlopecia, imgBPH, imgAtopicDermatitis, imgAcromegaly, imgBPPV, imgNGTube, imgPancreatitis, imgPeritonealDialysis, imgPolycysticKidney, imgPolycythemia, imgPepticUlcer, imgOsteoporosis, imgCellulitis, imgCKD, imgClubfoot, imgCompartmentSyndrome, imgConjunctivitis, imgContracture, imgCushings, imgDelayedHemolyticReaction, imgDevHipDysplasia, imgDiabetes, imgDiabetesInsipidus, imgDiabeticNephropathy, imgDIC, imgDisuseAtrophy, imgDuchenne, imgEpiglottitis, imgEpistaxis, imgErysipelas, imgErythemaMultiforme, imgFallPrevention, imgFebrileNeutropenia, imgFebrileNonhemolytic, imgFibromyalgia, imgForeignBodyAspiration, imgFractureTypes, imgFungalInfections, imgGalactosemia, imgGlaucoma, imgGlomerulonephritis, imgGout, imgGraftVsHost, imgGravesDisease, imgHashimotoThyroiditis, imgHeadLice, imgHemolyticUremicSyndrome, imgHemophilia, imgNeonatalFeeding, imgNeonatalHypoglycemia, imgNeonatalJaundice, imgNeonatalSepsis, imgNeuroblastoma, imgNewbornDiabeticMother, imgOsteogenesisImperfecta, imgOvarianHyperstimulation, imgPatentDuctusArteriosus, imgPavlikHarness, imgPediatricVitalsChart, imgPediatricDehydration, imgPinworms, imgPKU, imgPlacentalAbruption, imgPlacentaPrevia, imgPostpartumHemorrhage, imgPyloricStenosis, imgReye, imgRhIncompatibility, imgROP, imgSeparationAnxiety, imgSerotoninSyndrome, imgStagesOfLabor, imgSubstanceAbuse, imgThermoregulation, imgTonsillectomy, imgToxicShockSyndrome, imgTrisomy21, imgTurnerSyndrome, imgUmbilicalCordCare, imgUmbilicalCordProlapse, imgVaginalHematoma, imgVaricella, imgVPShunt, imgHyperemesisGravidarum, imgInfantReflexes, imgIntussusception, imgLeadPoisoning, imgMastitis, imgMumps, imgNEC, imgOpioidOverdose, imgNeonatalReflexes, imgOtitisMedia, imgObstructiveUropathy, imgNarcolepsy, imgMultipleSclerosis, imgMyastheniaGravis, imgPancreaticPseudocyst, imgPapilledema, imgMeconiumAspiration, imgMeconiumIleus, imgCongenitalHypothyroidism, imgFetalMonitoring, imgEpisiotomy, imgHepatitisB, imgWernicke, imgWilmsTumor, imgWoundAssessment, imgWoundInfection, imgWoundVAC, imgVRE };
+export { imgUlcerativeColitis, imgVonWillebrand, imgUrinaryCatheterization, imgSIADH, imgSickleCellCrisis, imgStomaCare, imgThalassemia, imgThrombocytopenia, imgThyroidStorm, imgTRALI, imgVitiligo, imgUrethralStricture, imgVestibularNeuritis, imgAddisons, imgAplasticAnemia, imgAcuteHemolyticReaction, imgAllergicTransfusion, imgAirEmbolism, imgCBI, imgCastCareTraction, imgAlopecia, imgBPH, imgAtopicDermatitis, imgAcromegaly, imgBPPV, imgNGTube, imgPancreatitis, imgPeritonealDialysis, imgPolycysticKidney, imgPolycythemia, imgPepticUlcer, imgOsteoporosis, imgCellulitis, imgCKD, imgClubfoot, imgCompartmentSyndrome, imgConjunctivitis, imgContracture, imgCushings, imgDelayedHemolyticReaction, imgDevHipDysplasia, imgDiabetes, imgDiabetesInsipidus, imgDiabeticNephropathy, imgDIC, imgDisuseAtrophy, imgDuchenne, imgEpiglottitis, imgEpistaxis, imgErysipelas, imgErythemaMultiforme, imgFallPrevention, imgFebrileNeutropenia, imgFebrileNonhemolytic, imgFibromyalgia, imgForeignBodyAspiration, imgFractureTypes, imgFungalInfections, imgGalactosemia, imgGlaucoma, imgGlomerulonephritis, imgGout, imgGraftVsHost, imgGravesDisease, imgHashimotoThyroiditis, imgHeadLice, imgHemolyticUremicSyndrome, imgHemophilia, imgNeonatalFeeding, imgNeonatalHypoglycemia, imgNeonatalJaundice, imgNeonatalSepsis, imgNeuroblastoma, imgNewbornDiabeticMother, imgOsteogenesisImperfecta, imgOvarianHyperstimulation, imgPatentDuctusArteriosus, imgPavlikHarness, imgPediatricVitalsChart, imgPediatricDehydration, imgPinworms, imgPKU, imgPlacentalAbruption, imgPlacentaPrevia, imgPostpartumHemorrhage, imgPyloricStenosis, imgReye, imgRhIncompatibility, imgROP, imgSeparationAnxiety, imgSerotoninSyndrome, imgStagesOfLabor, imgSubstanceAbuse, imgThermoregulation, imgTonsillectomy, imgToxicShockSyndrome, imgTrisomy21, imgTurnerSyndrome, imgUmbilicalCordCare, imgUmbilicalCordProlapse, imgVaginalHematoma, imgVaricella, imgVPShunt, imgHyperemesisGravidarum, imgInfantReflexes, imgIntussusception, imgLeadPoisoning, imgMastitis, imgMumps, imgNEC, imgOpioidOverdose, imgNeonatalReflexes, imgOtitisMedia, imgObstructiveUropathy, imgNarcolepsy, imgMultipleSclerosis, imgMyastheniaGravis, imgPancreaticPseudocyst, imgPapilledema, imgMeconiumAspiration, imgMeconiumIleus, imgCongenitalHypothyroidism, imgFetalMonitoring, imgEpisiotomy, imgHepatitisB, imgWernicke, imgWilmsTumor, imgWoundAssessment, imgWoundInfection, imgWoundVAC, imgVRE, imgParkinsonsNew, imgPediatricSeizuresNew, imgPepticUlcerNew, imgPeripheralNeuropathy, imgPemphigusNew, imgPressureInjuriesNew, imgBPD, imgPCOS, imgPhimosis, imgEndometrialPolyp };
 
 export type FlashcardData = {
   id: string;
@@ -689,7 +699,8 @@ export const rpnFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "Levodopa can cause orthostatic hypotension, dyskinesias (involuntary movements), nausea, and hallucinations. Teach clients to rise slowly from sitting/lying positions. Take with food to reduce nausea but avoid high-protein meals (decreases absorption).",
     category: "Neurological",
-    difficulty: 2
+    difficulty: 2,
+    image: imgParkinsonsNew
   },
   {
     id: "rpn-neuro-q4",
@@ -699,7 +710,8 @@ export const rpnFlashcards: FlashcardData[] = [
     correctIndex: 2,
     answer: "During a seizure: Position on side (lateral) to prevent aspiration, protect the head, remove nearby hazards, and time the seizure. NEVER insert anything into the mouth, restrain, or give oral medications during an active seizure.",
     category: "Neurological",
-    difficulty: 1
+    difficulty: 1,
+    image: imgPediatricSeizuresNew
   },
   {
     id: "rpn-neuro-q5",
@@ -826,7 +838,8 @@ export const rpnFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "Dysphagia is common in Parkinson's due to impaired muscle coordination. Position upright during and 30 minutes after meals, provide small bites, and thicken liquids to prevent aspiration. Thin liquids are highest aspiration risk.",
     category: "Neurological",
-    difficulty: 2
+    difficulty: 2,
+    image: imgParkinsonsNew
   },
   // ============================================================
   // GASTROINTESTINAL (50+ cards)
@@ -850,7 +863,7 @@ export const rpnFlashcards: FlashcardData[] = [
     answer: "Duodenal ulcer pain occurs 2-3 hours after eating and is RELIEVED by food (food buffers acid). Gastric ulcer pain occurs DURING eating or 30-60 minutes after (food stimulates acid production on the already irritated stomach lining).",
     category: "GI",
     difficulty: 2,
-    image: imgPepticUlcer
+    image: imgPepticUlcerNew
   },
   {
     id: "rpn-gi-q3",
@@ -1709,7 +1722,8 @@ export const rpnFlashcards: FlashcardData[] = [
     question: "Febrile Seizures",
     answer: "Seizures triggered by rapid rise in temperature, occurring in children 6 months to 5 years. Usually brief (< 15 min), generalized. Most are simple and benign. Management: Fever control (acetaminophen/ibuprofen: NO aspirin), seizure precautions, parent education. Do not indicate epilepsy.",
     category: "Pediatrics",
-    difficulty: 2
+    difficulty: 2,
+    image: imgPediatricSeizuresNew
   },
   {
     id: "rpn-peds-t2",
@@ -2437,12 +2451,12 @@ export const rpnFlashcards: FlashcardData[] = [
     id: "rpn-wound-q1",
     type: "question",
     question: "A client has a pressure injury with full-thickness skin loss involving subcutaneous tissue but no bone/tendon exposure. What stage is this?",
+    image: imgPressureInjuriesNew,
     options: ["Stage 1", "Stage 2", "Stage 3", "Stage 4"],
     correctIndex: 2,
     answer: "Pressure injury staging: Stage 1: Non-blanchable redness, intact skin. Stage 2: Partial-thickness, blister or shallow open ulcer. Stage 3: Full-thickness loss into subcutaneous tissue (may see fat). Stage 4: Full-thickness with exposed bone, tendon, or muscle. Unstageable: Covered by slough/eschar.",
     category: "Wound Care",
-    difficulty: 2,
-    image: illustrationPressureInjuryStagesV2
+    difficulty: 2
   },
   {
     id: "rpn-wound-q2",
@@ -2505,12 +2519,12 @@ export const rpnFlashcards: FlashcardData[] = [
     id: "rpn-wound-q5",
     type: "question",
     question: "How often should an immobile client be repositioned to prevent pressure injuries?",
+    image: imgPressureInjuriesNew,
     options: ["Every 4 hours", "Every 2 hours", "Every 8 hours", "Once per shift"],
     correctIndex: 1,
     answer: "Reposition immobile clients every 2 hours (at minimum). Use pressure-relieving devices (specialized mattresses, heel protectors). Avoid positioning directly on bony prominences (sacrum, heels, trochanters). Keep skin clean and dry. Ensure adequate nutrition (protein, vitamin C, zinc).",
     category: "Wound Care",
-    difficulty: 1,
-    image: illustrationPressureInjuriesV2
+    difficulty: 1
   },
   {
     id: "rpn-wound-t4",
@@ -2623,7 +2637,8 @@ export const rpnFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "Gabapentin is an adjuvant analgesic effective for neuropathic pain. Takes days to weeks for full effect. Do NOT stop abruptly: taper gradually to prevent seizures. Side effects: Dizziness, drowsiness, peripheral edema. Take consistently as prescribed.",
     category: "Pain Management",
-    difficulty: 2
+    difficulty: 2,
+    image: imgPeripheralNeuropathy
   },
   {
     id: "rpn-pain-t4",
@@ -2912,7 +2927,8 @@ export const rpnFlashcards: FlashcardData[] = [
     question: "Parkinson's Disease Cardinal Signs",
     answer: "TRAP: Tremor (resting, pill-rolling), Rigidity (cogwheel), Akinesia/Bradykinesia (slow movement), Postural instability (shuffling gait, festination). Also: Mask-like face, micrographia, dysphagia. Treatment: Levodopa/carbidopa, dopamine agonists. No cure: progressive disease.",
     category: "Neurological",
-    difficulty: 2
+    difficulty: 2,
+    image: imgParkinsonsNew
   },
   // ============================================================
   // ADDITIONAL GI
@@ -3229,12 +3245,12 @@ export const rpnFlashcards: FlashcardData[] = [
     id: "rpn-wound-q7",
     type: "question",
     question: "A client with a Stage 2 pressure injury has a partial-thickness wound with a blister. What is the appropriate action?",
+    image: imgPressureInjuriesNew,
     options: ["Pop the blister to drain fluid", "Leave the blister intact and apply appropriate dressing", "Apply hydrogen peroxide", "Leave it open to air"],
     correctIndex: 1,
     answer: "Leave intact blisters alone: they provide a natural biological dressing that promotes healing and prevents infection. Apply a transparent film or hydrocolloid dressing. If the blister ruptures, gently cleanse and apply an appropriate wound dressing.",
     category: "Wound Care",
-    difficulty: 2,
-    image: illustrationPressureInjuriesV2
+    difficulty: 2
   },
   {
     id: "rpn-wound-t6",
@@ -3799,6 +3815,7 @@ export const rpnFlashcards: FlashcardData[] = [
     id: "rpn-neuro-q15",
     type: "question",
     question: "Which medication is first-line for absence seizures in children?",
+    image: imgPediatricSeizuresNew,
     options: ["Phenytoin", "Carbamazepine", "Ethosuximide", "Phenobarbital"],
     correctIndex: 2,
     answer: "Ethosuximide is first-line for absence seizures (brief staring spells, '3 Hz spike-and-wave' on EEG, common in children 4-12). Valproic acid is an alternative (also effective for generalized seizures). Phenytoin and carbamazepine may WORSEN absence seizures.",
@@ -3973,7 +3990,8 @@ export const rpnFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "H. pylori eradication: Triple therapy for 14 days: PPI (omeprazole) + two antibiotics (amoxicillin + clarithromycin, or metronidazole). Also: Bismuth-based quadruple therapy as alternative. Confirm eradication with stool antigen or urea breath test 4 weeks after treatment completion.",
     category: "GI",
-    difficulty: 2
+    difficulty: 2,
+    image: imgPepticUlcerNew
   },
   {
     id: "rpn-endo-q15",
@@ -4908,12 +4926,12 @@ export const rpnFlashcards: FlashcardData[] = [
     id: "rpn-wound-q10",
     type: "question",
     question: "A client has an unstageable pressure injury. What does 'unstageable' mean?",
+    image: imgPressureInjuriesNew,
     options: ["The wound is healing", "Full-thickness tissue loss with the wound base covered by slough and/or eschar, preventing staging", "It is a Stage 1 injury", "The wound is infected"],
     correctIndex: 1,
     answer: "Unstageable pressure injury: The true depth cannot be determined because the wound base is obscured by slough (yellow, tan, gray, green, brown) and/or eschar (tan, brown, black). Must debride to determine the actual stage. Exception: Stable eschar on heels should NOT be removed (acts as biological cover).",
     category: "Wound Care",
-    difficulty: 3,
-    image: illustrationPressureInjuryStagesV2
+    difficulty: 3
   },
   {
     id: "rpn-wound-t7",
@@ -5198,12 +5216,12 @@ export const rpnFlashcards: FlashcardData[] = [
     id: "rpn-wound-q13",
     type: "question",
     question: "A client has a deep tissue injury (DTI) pressure injury. What does this look like?",
+    image: imgPressureInjuriesNew,
     options: ["Shallow open ulcer with exposed fat", "Intact skin with persistent deep purple or maroon discoloration, or blood-filled blister", "Exposed bone or tendon", "Full-thickness loss with yellow slough"],
     correctIndex: 1,
     answer: "Deep tissue injury: Intact or non-intact skin with persistent non-blanchable deep purple/maroon discoloration or epidermal separation revealing a dark wound bed or blood-filled blister. Caused by damage of underlying tissue from pressure and/or shear. May evolve rapidly to a deeper stage. NOT the same as Stage 1.",
     category: "Wound Care",
-    difficulty: 3,
-    image: illustrationPressureInjuriesV2
+    difficulty: 3
   },
   {
     id: "rpn-pain-q12",
@@ -5746,7 +5764,8 @@ export const rpnFlashcards: FlashcardData[] = [
     correctIndex: 2,
     answer: "The postictal phase follows a seizure and is characterized by confusion, drowsiness, headache, muscle soreness, and gradual return to baseline. Duration varies (minutes to hours). Nursing: Keep the client safe, on side, maintain airway, orient gently, document seizure characteristics and duration.",
     category: "Neurological",
-    difficulty: 2
+    difficulty: 2,
+    image: imgPediatricSeizuresNew
   },
   {
     id: "rpn-neuro-t13",

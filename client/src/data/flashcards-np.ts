@@ -15,6 +15,8 @@ import imgAPGAR from "@assets/APGAR_1773340419064.png";
 import imgChlamydia from "@assets/chlamydia_1773340419064.png";
 import imgDepression from "@assets/depression_1773340419064.png";
 import imgPharyngitis from "@assets/pharyngitis_1773269379973.png";
+import imgPCOS from "@assets/pcos_1773375118294.png";
+import imgPeripheralNeuropathy from "@assets/peripheralneuropathy_1773375118294.png";
 
 export const npFlashcards: FlashcardData[] = [
   // ============================================================
@@ -55,7 +57,8 @@ export const npFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "Duloxetine is an SNRI with FDA approval for both major depressive disorder and several chronic pain conditions (diabetic peripheral neuropathy, fibromyalgia, chronic musculoskeletal pain). Its dual serotonin and norepinephrine reuptake inhibition modulates descending pain inhibition pathways. Starting dose 30 mg daily for 1 week, then increase to 60 mg. Maximum 120 mg/day. Contraindicated with MAOIs and in hepatic insufficiency.",
     category: "Advanced Pharmacology",
-    difficulty: 2
+    difficulty: 2,
+    image: imgPeripheralNeuropathy
   },
   {
     id: "np-pharm-q4",
@@ -875,7 +878,8 @@ export const npFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "PCOS is diagnosed using Rotterdam criteria (≥2 of 3: oligo/anovulation, clinical/biochemical hyperandrogenism, polycystic ovaries on ultrasound). This patient meets all three. For fertility: weight loss of 5-10% can restore ovulation in many women. Letrozole (aromatase inhibitor) has replaced clomiphene as first-line ovulation induction in PCOS per the international evidence-based PCOS guideline (2023). Metformin may be added as adjunct. If letrozole fails, gonadotropins or IVF are considered. Lifestyle modification is foundational for all PCOS management.",
     category: "Family NP",
-    difficulty: 3
+    difficulty: 3,
+    image: imgPCOS
   },
   {
     id: "np-fnp-q2",
@@ -1071,7 +1075,8 @@ export const npFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "All three medications have significant anticholinergic properties and are listed on the AGS Beers Criteria as potentially inappropriate for older adults. Cumulative anticholinergic burden increases risk of: cognitive impairment and delirium, falls and fractures, constipation, urinary retention, blurred vision, dry mouth, and tachycardia. The NP should deprescribe: replace diphenhydramine with melatonin or sleep hygiene, switch oxybutynin to mirabegron (beta-3 agonist, no anticholinergic effects), and replace amitriptyline with gabapentin or duloxetine.",
     category: "Geriatric NP",
-    difficulty: 2
+    difficulty: 2,
+    image: imgPeripheralNeuropathy
   },
   {
     id: "np-geri-q2",
@@ -1703,7 +1708,8 @@ export const npFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "COCs are first-line for menstrual regulation and treatment of hyperandrogenism (acne, hirsutism) in PCOS. They suppress ovarian androgen production and increase SHBG. Spironolactone can be added for persistent hirsutism (teratogenic, requires contraception). Metformin is used for insulin resistance/prediabetes but is not first-line for menstrual irregularity. Clomiphene or letrozole are used when fertility is desired.",
     category: "Women's Health NP",
-    difficulty: 2
+    difficulty: 2,
+    image: imgPCOS
   },
   {
     id: "np-womens-q15",
