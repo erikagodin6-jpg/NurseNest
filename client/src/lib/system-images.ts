@@ -532,11 +532,24 @@ import illustrationDevHipDysplasia from "@assets/developmentalhipdysplasia_17732
 import illustrationDiabetesAcrossAges from "@assets/diabetes_1773269507783.png";
 import illustrationDiabetesInsipidusNew from "@assets/diabetesinsipidus.png";
 import illustrationDiabeticNephropathy from "@assets/diabeticnephropathy.png";
-import illustrationDICNew from "@assets/DIC_1773269507783.png";
-import illustrationDisuseAtrophy from "@assets/disuseatrophy_1773269507783.png";
-import illustrationDuchenne from "@assets/duchenne_1773269507783.png";
-import illustrationEpiglottitisNew from "@assets/epiglottitis_1773269507783.png";
-import illustrationEpistaxis from "@assets/epistaxis_1773269507783.png";
+import illustrationDICNew from "@assets/DIC_1773374816805.png";
+import illustrationDisuseAtrophy from "@assets/disuseatrophy_1773374816805.png";
+import illustrationDuchenne from "@assets/duchenne_1773374816805.png";
+import illustrationEpiglottitisNew from "@assets/epiglottitis_1773374816805.png";
+import illustrationEpistaxis from "@assets/epistaxis_1773374816805.png";
+import illustrationDiverticulitisNew from "@assets/diverticulitis_1773374816805.png";
+import illustrationDKANew from "@assets/DKA_1773374816805.png";
+import illustrationDysmenorrhea from "@assets/dysmenorrhea_1773374816805.png";
+import illustrationDysphagiaNew from "@assets/dysphagia_1773374816805.png";
+import illustrationEBV from "@assets/EBV_1773374816805.png";
+import illustrationEctopicPregnancy from "@assets/ectopicpregnancy_1773374816805.png";
+import illustrationEctopicVariant from "@assets/ectopic_1773374816805.png";
+import illustrationEdemaAssessment from "@assets/edema_1773374816805.png";
+import illustrationEncephalitis from "@assets/encephalitis_1773374816805.png";
+import illustrationEndocarditisNew2 from "@assets/endocarditis_1773374816805.png";
+import illustrationEndometriosis from "@assets/endometriosis_1773374816805.png";
+import illustrationEnteralFeeding from "@assets/enteralfeeding_1773374816805.png";
+import illustrationEpisiotomy from "@assets/episiotomy_1773374816805.png";
 import illustrationErysipelas from "@assets/erysipelas_1773269507783.png";
 import illustrationErythemaMultiforme from "@assets/erythemamultiforme_1773269471822.png";
 import illustrationFallPrevention from "@assets/fallprevention_1773269471822.png";
@@ -1183,17 +1196,17 @@ const lessonSpecificImages: Record<string, string> = {
   "anal-fissure-rn": illustrationAnalFissureV2,
   "anal-fissure-np": illustrationAnalFissureV2,
   "anal-fissure-management": illustrationAnalFissureV2,
-  "diverticulitis": illustrationDiverticulitisV2,
-  "diverticulitis-rpn": illustrationDiverticulitisV2,
-  "diverticulitis-rn": illustrationDiverticulitisV2,
-  "diverticulitis-np": illustrationDiverticulitisV2,
-  "diverticulitis-management": illustrationDiverticulitisV2,
-  "diverticular-disease": illustrationDiverticulitisV2,
-  "dysphagia": illustrationDysphagiaV2,
-  "dysphagia-rpn": illustrationDysphagiaV2,
-  "dysphagia-rn": illustrationDysphagiaV2,
-  "dysphagia-np": illustrationDysphagiaV2,
-  "dysphagia-management": illustrationDysphagiaV2,
+  "diverticulitis": illustrationDiverticulitisNew,
+  "diverticulitis-rpn": illustrationDiverticulitisNew,
+  "diverticulitis-rn": illustrationDiverticulitisNew,
+  "diverticulitis-np": illustrationDiverticulitisNew,
+  "diverticulitis-management": illustrationDiverticulitisNew,
+  "diverticular-disease": illustrationDiverticulitisNew,
+  "dysphagia": illustrationDysphagiaNew,
+  "dysphagia-rpn": illustrationDysphagiaNew,
+  "dysphagia-rn": illustrationDysphagiaNew,
+  "dysphagia-np": illustrationDysphagiaNew,
+  "dysphagia-management": illustrationDysphagiaNew,
   "eosinophilic-esophagitis": illustrationEosinophilicEsophagitisV2,
   "eosinophilic-esophagitis-rpn": illustrationEosinophilicEsophagitisV2,
   "eosinophilic-esophagitis-rn": illustrationEosinophilicEsophagitisV2,
@@ -1311,7 +1324,7 @@ const lessonSpecificImages: Record<string, string> = {
   "adrenal-function": illustrationEndocrineAnatomy,
   "pituitary-function": illustrationPituitaryGlands,
   "siadh-di": illustrationEndocrineAnatomy,
-  "dka-hhns": illustrationEndocrineAnatomy,
+  "dka-hhns": illustrationDKANew,
   "adrenal-insufficiency": illustrationEndocrineAnatomy,
   "thyroidectomy": illustrationEndocrineAnatomy,
   "cushing-syndrome": illustrationCushingsNew,
@@ -1506,7 +1519,7 @@ const lessonSpecificImages: Record<string, string> = {
 
   "aki-basics": illustrationAKIPatho,
 
-  "dka-management": illustrationDKAPatho,
+  "dka-management": illustrationDKANew,
 
   "sepsis-basics": illustrationSepsisPatho,
   "septic-shock": illustrationSepsisPatho,
@@ -1809,7 +1822,7 @@ const lessonSpecificImages: Record<string, string> = {
   "hemodialysis-basics-np": illustrationHemodialysis,
   "peritoneal-dialysis-basics-rpn": illustrationPeritonealDialysis,
 
-  "endocarditis-basics-rpn": illustrationEndocarditisSigns,
+  "endocarditis-basics-rpn": illustrationEndocarditisNew2,
 
   "gestational-diabetes-management": illustrationGestationalDiabetesPatho,
 
@@ -2004,6 +2017,59 @@ const lessonSpecificImages: Record<string, string> = {
   "epistaxis-rn": illustrationEpistaxis,
   "epistaxis-np": illustrationEpistaxis,
   "nosebleed": illustrationEpistaxis,
+
+  "diverticulitis-management-rpn": illustrationDiverticulitisNew,
+  "diverticulitis-management-rn": illustrationDiverticulitisNew,
+  "diverticulitis-management-np": illustrationDiverticulitisNew,
+
+  "dka-management-rpn": illustrationDKANew,
+  "dka-management-rn": illustrationDKANew,
+  "dka-management-np": illustrationDKANew,
+  "dka-management-algorithm": illustrationDKANew,
+  "dka-hhns-np": illustrationDKANew,
+  "dka-hhs-basics-np": illustrationDKANew,
+  "dka-hhs-patho-np": illustrationDKANew,
+
+  "dysmenorrhea": illustrationDysmenorrhea,
+  "dysmenorrhea-rpn": illustrationDysmenorrhea,
+  "dysmenorrhea-np": illustrationDysmenorrhea,
+
+  "dysphagia-management-rpn": illustrationDysphagiaNew,
+  "dysphagia-management-rn": illustrationDysphagiaNew,
+  "dysphagia-management-np": illustrationDysphagiaNew,
+
+  "ebv-complications-rpn": illustrationEBV,
+  "mononucleosis-rpn": illustrationEBV,
+  "mononucleosis": illustrationEBV,
+  "epstein-barr": illustrationEBV,
+
+  "ectopic-pregnancy": illustrationEctopicPregnancy,
+  "ectopic-pregnancy-basics-rpn": illustrationEctopicPregnancy,
+  "ectopic-pregnancy-criteria-np": illustrationEctopicPregnancy,
+  "ectopic-pregnancy-np": illustrationEctopicPregnancy,
+
+  "edema-assessment-rpn": illustrationEdemaAssessment,
+  "edema-grading-np": illustrationEdemaAssessment,
+  "edema-assessment": illustrationEdemaAssessment,
+
+  "encephalitis-basics-rpn": illustrationEncephalitis,
+  "encephalitis": illustrationEncephalitis,
+
+  "endocarditis-management": illustrationEndocarditisNew2,
+  "endocarditis-patho": illustrationEndocarditisNew2,
+
+  "endometriosis": illustrationEndometriosis,
+  "endometriosis-rpn": illustrationEndometriosis,
+  "endometriosis-np": illustrationEndometriosis,
+  "endometriosis-patho-np": illustrationEndometriosis,
+
+  "enteral-feeding": illustrationEnteralFeeding,
+  "enteral-feeding-rpn": illustrationEnteralFeeding,
+  "enteral-feeding-rn": illustrationEnteralFeeding,
+  "enteral-feeding-np": illustrationEnteralFeeding,
+
+  "episiotomy-care-rpn": illustrationEpisiotomy,
+  "episiotomy": illustrationEpisiotomy,
 
   "erysipelas": illustrationErysipelas,
   "erysipelas-rpn": illustrationErysipelas,
@@ -3023,8 +3089,8 @@ export function getLessonImage(lessonId: string): string | undefined {
   if (lessonId.includes("chronic-hepatitis") || lessonId.includes("hepatitis-management")) return illustrationChronicHepatitisV2;
   if (lessonId.includes("cirrhosis")) return illustrationCirrhosisV2;
   if (lessonId.includes("cholecystectomy")) return illustrationCholecystectomyV2;
-  if (lessonId.includes("diverticulit")) return illustrationDiverticulitisV2;
-  if (lessonId.includes("dysphagia")) return illustrationDysphagiaV2;
+  if (lessonId.includes("diverticulit")) return illustrationDiverticulitisNew;
+  if (lessonId.includes("dysphagia")) return illustrationDysphagiaNew;
   if (lessonId.includes("eosinophilic")) return illustrationEosinophilicEsophagitisV2;
   if (lessonId.includes("crohns") || lessonId.includes("crohn")) return illustrationCrohnsV2;
   if (lessonId.includes("cranial-nerve-pathology")) return illustrationCranialNervePathologyV2;
@@ -3146,7 +3212,7 @@ export function getLessonImage(lessonId: string): string | undefined {
   if (lessonId.includes("auscultation")) return illustrationCardiacAuscultationNew;
   if (lessonId.includes("hypertension")) return illustrationHypertensionV2;
   if (lessonId.includes("chest-pain")) return illustrationChestPainDifferential;
-  if (lessonId.includes("endocarditis")) return illustrationEndocarditisV2;
+  if (lessonId.includes("endocarditis")) return illustrationEndocarditisNew2;
   if (lessonId.includes("peripheral-arter") || lessonId.includes("pad-")) return illustrationPADArteryV2;
   if (lessonId.includes("rheumatic")) return illustrationRheumaticFeverV2;
   if (lessonId.includes("shock") || lessonId.includes("dysrhythmia")) return illustrationShockTypesV2;
@@ -3309,9 +3375,19 @@ export function getLessonImage(lessonId: string): string | undefined {
   if (lessonId.includes("diabetes-insipidus")) return illustrationDiabetesInsipidusNew;
   if (lessonId.includes("diabetic-nephropathy")) return illustrationDiabeticNephropathy;
   if (lessonId.includes("disseminated-intravascular") || lessonId === "dic" || lessonId.includes("dic-")) return illustrationDICNew;
+  if (lessonId.includes("dka") || lessonId.includes("diabetic-ketoacidosis")) return illustrationDKANew;
   if (lessonId.includes("disuse-atrophy") || lessonId.includes("disuse_atrophy")) return illustrationDisuseAtrophy;
   if (lessonId.includes("duchenne") || lessonId.includes("muscular-dystrophy")) return illustrationDuchenne;
   if (lessonId.includes("epistaxis") || lessonId.includes("nosebleed")) return illustrationEpistaxis;
+  if (lessonId.includes("dysmenorrhea")) return illustrationDysmenorrhea;
+  if (lessonId.includes("dysphagia")) return illustrationDysphagiaNew;
+  if (lessonId.includes("mononucleosis") || lessonId.includes("epstein-barr") || lessonId.includes("ebv")) return illustrationEBV;
+  if (lessonId.includes("ectopic-pregnancy") || lessonId.includes("ectopic_pregnancy")) return illustrationEctopicPregnancy;
+  if (lessonId.includes("edema-assess") || lessonId.includes("edema-grad") || lessonId.includes("pitting-edema")) return illustrationEdemaAssessment;
+  if (lessonId.includes("encephalitis")) return illustrationEncephalitis;
+  if (lessonId.includes("endometriosis")) return illustrationEndometriosis;
+  if (lessonId.includes("enteral-feed") || lessonId.includes("tube-feed")) return illustrationEnteralFeeding;
+  if (lessonId.includes("episiotomy")) return illustrationEpisiotomy;
   if (lessonId.includes("erysipelas")) return illustrationErysipelas;
   if (lessonId.includes("prostatitis")) return illustrationProstatitisV2;
   if (lessonId.includes("rotavirus")) return illustrationRotavirusV2;

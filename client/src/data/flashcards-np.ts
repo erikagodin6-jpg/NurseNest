@@ -1,10 +1,9 @@
 import type { FlashcardData } from "./flashcards-rpn";
-import { imgUlcerativeColitis, imgVonWillebrand, imgSIADH, imgSickleCellCrisis, imgVitiligo, imgUrethralStricture, imgVestibularNeuritis, imgAddisons, imgBPH, imgPancreatitis, imgOsteoporosis, imgCellulitis, imgCKD, imgClubfoot, imgCompartmentSyndrome, imgConjunctivitis, imgContracture, imgCushings, imgDelayedHemolyticReaction, imgDevHipDysplasia, imgDiabetes, imgDiabetesInsipidus, imgDiabeticNephropathy, imgDIC, imgDisuseAtrophy, imgDuchenne, imgEpiglottitis, imgEpistaxis, imgErysipelas, imgGlaucoma, imgGlomerulonephritis, imgGravesDisease, imgHashimotoThyroiditis, imgForeignBodyAspiration, imgFibromyalgia, imgHemolyticUremicSyndrome, imgNeuroblastoma, imgPyloricStenosis, imgPlacentaPrevia, imgSerotoninSyndrome, imgTonsillectomy, imgMastitis, imgLeadPoisoning, imgLeukemia, imgLungCancer, imgMeconiumAspiration, imgMeconiumIleus, imgMeningitisNew, imgMetabolicSyndrome, imgMRSA, imgLochia, imgCongenitalHypothyroidism, imgInfantReflexes, imgSucralfate, imgSyndactyly, imgSyringomyelia, imgTardiveDyskinesia, imgTetanus, imgThalassemiaV2, imgThermoregulationV2, imgThrombocytopeniaV2, imgThyroidStormV2, imgTinnitus, imgTonsillectomyV2, imgTraction, imgTrigeminalNeuralgia, imgTrisomy21V2, imgTSS, imgTumorMarkers, imgTurnerSyndromeV2, imgTURP } from "./flashcards-rpn";
+import { imgUlcerativeColitis, imgVonWillebrand, imgSIADH, imgSickleCellCrisis, imgVitiligo, imgUrethralStricture, imgVestibularNeuritis, imgAddisons, imgBPH, imgPancreatitis, imgOsteoporosis, imgCellulitis, imgCKD, imgClubfoot, imgCompartmentSyndrome, imgConjunctivitis, imgContracture, imgCushings, imgDelayedHemolyticReaction, imgDevHipDysplasia, imgDiabetes, imgDiabetesInsipidus, imgDiabeticNephropathy, imgDIC, imgDisuseAtrophy, imgDuchenne, imgEpiglottitis, imgEpistaxis, imgErysipelas, imgGlaucoma, imgGlomerulonephritis, imgGravesDisease, imgHashimotoThyroiditis, imgForeignBodyAspiration, imgFibromyalgia, imgHemolyticUremicSyndrome, imgNeuroblastoma, imgPyloricStenosis, imgPlacentaPrevia, imgSerotoninSyndrome, imgTonsillectomy, imgMastitis, imgLeadPoisoning, imgLeukemia, imgLungCancer, imgMeconiumAspiration, imgMeconiumIleus, imgMeningitisNew, imgMetabolicSyndrome, imgMRSA, imgLochia, imgCongenitalHypothyroidism, imgInfantReflexes, imgSucralfate, imgSyndactyly, imgSyringomyelia, imgTardiveDyskinesia, imgTetanus, imgThalassemiaV2, imgThermoregulationV2, imgThrombocytopeniaV2, imgThyroidStormV2, imgTinnitus, imgTonsillectomyV2, imgTraction, imgTrigeminalNeuralgia, imgTrisomy21V2, imgTSS, imgTumorMarkers, imgTurnerSyndromeV2, imgTURP, imgHepatitisB, imgDKA, imgDysphagia, imgEBV, imgEctopicPregnancy, imgEndocarditisFlashcard, imgEndometriosis, imgEnteralFeeding } from "./flashcards-rpn";
 import imgMenopause from "@assets/menopause_1773374978769.png";
 import imgImpetigo from "@assets/impetigo_1773340649073.png";
 import imgIntestinalMalrotation from "@assets/intestinalmalrotation_1773340649073.png";
 import imgHypothyroidismNew from "@assets/hypothyroidism_1773374939606.png";
-import imgEctopicPregnancy from "@assets/ectopicpregnancy_1773340513136.png";
 import imgHepatitisC from "@assets/hepatitisc_1773340513136.png";
 import imgGestationalDiabetes from "@assets/gestationaldiabetes_1773340513136.png";
 import { imgStroke, imgProstatitis, imgRotavirus, imgRubella, imgScarletFever, imgShortBowelV4, imgSJSV2, imgSkinAssessment, imgSpinalStenosisV3, imgSprain, imgEsophagealStricture, imgScabiesV3 } from "./flashcards-rpn";
@@ -1386,7 +1385,8 @@ export const npFlashcards: FlashcardData[] = [
     correctIndex: 2,
     answer: "The priority in DKA management is aggressive IV fluid resuscitation with 0.9% NS (1-1.5 L/hr initially) to correct dehydration and improve perfusion. Although serum K+ is elevated (5.8), this is due to acidosis-induced transcellular shift; total body potassium is depleted. Once K+ drops below 5.3 and urine output is adequate, add potassium to IV fluids BEFORE or concurrent with insulin to prevent life-threatening hypokalemia as insulin drives K+ intracellularly.",
     category: "Endocrine NP",
-    difficulty: 3
+    difficulty: 3,
+    image: imgDKA
   },
   {
     id: "np-endo-q4",
@@ -2414,7 +2414,8 @@ export const npFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "Endometriosis presents with the classic triad: dysmenorrhea, dyspareunia, and dyschezia (painful defecation). Pelvic exam findings of uterosacral nodularity and fixed retroverted uterus are characteristic. Definitive diagnosis requires laparoscopy with biopsy. First-line medical management: combined oral contraceptives (continuous use) or progestins. GnRH agonists (leuprolide) for refractory cases. Surgical excision/ablation for severe disease or infertility.",
     category: "Women's Health NP",
-    difficulty: 2
+    difficulty: 2,
+    image: imgEndometriosis
   },
   {
     id: "np-womens-q20",

@@ -79,11 +79,11 @@ import imgPKU from "@assets/pku_1773340572673.png";
 import imgDiabetes from "@assets/diabetes_1773269507783.png";
 import imgDiabetesInsipidus from "@assets/diabetesinsipidus.png";
 import imgDiabeticNephropathy from "@assets/diabeticnephropathy.png";
-import imgDIC from "@assets/DIC_1773269507783.png";
-import imgDisuseAtrophy from "@assets/disuseatrophy_1773269507783.png";
-import imgDuchenne from "@assets/duchenne_1773269507783.png";
-import imgEpiglottitis from "@assets/epiglottitis_1773269507783.png";
-import imgEpistaxis from "@assets/epistaxis_1773269507783.png";
+import imgDIC from "@assets/DIC_1773374816805.png";
+import imgDisuseAtrophy from "@assets/disuseatrophy_1773374816805.png";
+import imgDuchenne from "@assets/duchenne_1773374816805.png";
+import imgEpiglottitis from "@assets/epiglottitis_1773374816805.png";
+import imgEpistaxis from "@assets/epistaxis_1773374816805.png";
 import imgErysipelas from "@assets/erisypelas_1773374861631.png";
 import imgErythemaMultiforme from "@assets/rythemamultiforme_1773375229956.png";
 import imgFallPrevention from "@assets/fallprevention_1773269471822.png";
@@ -158,7 +158,7 @@ import imgIDANew from "@assets/IDA_1773374939606.png";
 import imgKidneyStoneNew from "@assets/kidneystone_1773374939606.png";
 import imgLabyrinthitisNew from "@assets/labyrinthitis_1773374939606.png";
 import imgFetalMonitoring from "@assets/fetalmonitoring_1773340513136.png";
-import imgEpisiotomy from "@assets/episiotomy_1773340513136.png";
+import imgEpisiotomy from "@assets/episiotomy_1773374816805.png";
 import imgHepatitisB from "@assets/hepatitisb_1773340513136.png";
 import imgWernicke from "@assets/wenicke_1773375165171.png";
 import imgWilmsTumor from "@assets/wilms_1773375165171.png";
@@ -205,6 +205,17 @@ import imgTSS from "@assets/TSS_1773375196271.png";
 import imgTumorMarkers from "@assets/tumormarkers_1773375196271.png";
 import imgTurnerSyndromeV2 from "@assets/turner_1773375196271.png";
 import imgTURP from "@assets/TURP_1773375196271.png";
+import imgDiverticulitis from "@assets/diverticulitis_1773374816805.png";
+import imgDKA from "@assets/DKA_1773374816805.png";
+import imgDysmenorrhea from "@assets/dysmenorrhea_1773374816805.png";
+import imgDysphagia from "@assets/dysphagia_1773374816805.png";
+import imgEBV from "@assets/EBV_1773374816805.png";
+import imgEctopicPregnancy from "@assets/ectopicpregnancy_1773374816805.png";
+import imgEdema from "@assets/edema_1773374816805.png";
+import imgEncephalitis from "@assets/encephalitis_1773374816805.png";
+import imgEndocarditisFlashcard from "@assets/endocarditis_1773374816805.png";
+import imgEndometriosis from "@assets/endometriosis_1773374816805.png";
+import imgEnteralFeeding from "@assets/enteralfeeding_1773374816805.png";
 
 import imgWoundHealingPhases from "@assets/healing_1773374903956.jpeg";
 import imgHeatStroke from "@assets/heatstroke_1773374903956.png";
@@ -225,7 +236,7 @@ import imgHydrocephalusNew from "@assets/hydrocephalus_1773374903956.png";
 import imgHyperthyroidismNew from "@assets/hyperthyroidism_1773374903956.png";
 import imgHypospadias from "@assets/hypospadias_1773374903956.png";
 
-export { imgUlcerativeColitis, imgVonWillebrand, imgUrinaryCatheterization, imgSIADH, imgSickleCellCrisis, imgStomaCare, imgThalassemia, imgThrombocytopenia, imgThyroidStorm, imgTRALI, imgVitiligo, imgUrethralStricture, imgVestibularNeuritis, imgAddisons, imgAplasticAnemia, imgAcuteHemolyticReaction, imgAllergicTransfusion, imgAirEmbolism, imgCBI, imgCastCareTraction, imgAlopecia, imgBPH, imgAtopicDermatitis, imgAcromegaly, imgBPPV, imgNGTube, imgPancreatitis, imgPeritonealDialysis, imgPolycysticKidney, imgPolycythemia, imgPepticUlcer, imgOsteoporosis, imgCellulitis, imgCKD, imgClubfoot, imgCompartmentSyndrome, imgConjunctivitis, imgContracture, imgCushings, imgDelayedHemolyticReaction, imgDevHipDysplasia, imgDiabetes, imgDiabetesInsipidus, imgDiabeticNephropathy, imgDIC, imgDisuseAtrophy, imgDuchenne, imgEpiglottitis, imgEpistaxis, imgErysipelas, imgErythemaMultiforme, imgFallPrevention, imgFebrileNeutropenia, imgFebrileNonhemolytic, imgFibromyalgia, imgForeignBodyAspiration, imgFractureTypes, imgFungalInfections, imgGalactosemia, imgGlaucoma, imgGlomerulonephritis, imgGout, imgGraftVsHost, imgGravesDisease, imgHashimotoThyroiditis, imgHeadLice, imgHemolyticUremicSyndrome, imgHemophilia, imgNeonatalFeeding, imgNeonatalHypoglycemia, imgNeonatalJaundice, imgNeonatalSepsis, imgNeuroblastoma, imgNewbornDiabeticMother, imgOsteogenesisImperfecta, imgOvarianHyperstimulation, imgPatentDuctusArteriosus, imgPavlikHarness, imgPediatricVitalsChart, imgPediatricDehydration, imgPinworms, imgPKU, imgPlacentalAbruption, imgPlacentaPrevia, imgPostpartumHemorrhage, imgPyloricStenosis, imgReye, imgRhIncompatibility, imgROP, imgSeparationAnxiety, imgSerotoninSyndrome, imgStagesOfLabor, imgSubstanceAbuse, imgThermoregulation, imgTonsillectomy, imgToxicShockSyndrome, imgTrisomy21, imgTurnerSyndrome, imgUmbilicalCordCare, imgUmbilicalCordProlapse, imgVaginalHematoma, imgVaricella, imgVPShunt, imgHyperemesisGravidarum, imgInfantReflexes, imgIntussusception, imgLeadPoisoning, imgLeukemia, imgLochia, imgLungCancer, imgMastitis, imgMeasles, imgMeconiumAspiration, imgMeconiumIleus, imgMeningitisNew, imgMetabolicSyndrome, imgMRSA, imgCongenitalHypothyroidism, imgFetalMonitoring, imgEpisiotomy, imgHepatitisB, imgProstatitis, imgRotavirus, imgRubella, imgScabiesV3, imgScarletFever, imgShortBowelV4, imgSJSV2, imgSkinAssessment, imgSpinalStenosisV3, imgSprain, imgStroke, imgEsophagealStricture, imgMumps, imgNEC, imgOpioidOverdose, imgNeonatalReflexes, imgOtitisMedia, imgObstructiveUropathy, imgNarcolepsy, imgMultipleSclerosis, imgMyastheniaGravis, imgPancreaticPseudocyst, imgPapilledema, imgWernicke, imgWilmsTumor, imgWoundAssessment, imgWoundInfection, imgWoundVAC, imgVRE, imgParkinsonsNew, imgPediatricSeizuresNew, imgPepticUlcerNew, imgPeripheralNeuropathy, imgPemphigusNew, imgPressureInjuriesNew, imgBPD, imgPCOS, imgPhimosis, imgEndometrialPolyp, imgEsophagealVarices, imgFebrileSeizures, imgFundalHeight, imgGalactorrhea, imgGAS, imgGERD, imgGestationalDiabetesRpn, imgGIBleed, imgGuillainBarre, imgSucralfate, imgSyndactyly, imgSyringomyelia, imgTSS, imgTURP, imgTardiveDyskinesia, imgTetanus, imgThalassemiaV2, imgThermoregulationV2, imgThrombocytopeniaV2, imgThyroidStormV2, imgTinnitus, imgTonsillectomyV2, imgTraction, imgTrigeminalNeuralgia, imgTrisomy21V2, imgTumorMarkers, imgTurnerSyndromeV2, imgWoundHealingPhases, imgHeatStroke, imgHELLPNew, imgHemodialysis, imgHemorrhoidsNew, imgHepatitisNew, imgHerpesZoster, imgHFMNew, imgHyperemesisGravidarumNew, imgHiatalHerniaNew, imgHidradenitis, imgHidradenitisProg, imgHipDysplasiaNew, imgHirschsprung, imgHIV, imgHydrocephalusNew, imgHyperthyroidismNew, imgHypospadias };
+export { imgUlcerativeColitis, imgVonWillebrand, imgUrinaryCatheterization, imgSIADH, imgSickleCellCrisis, imgStomaCare, imgThalassemia, imgThrombocytopenia, imgThyroidStorm, imgTRALI, imgVitiligo, imgUrethralStricture, imgVestibularNeuritis, imgAddisons, imgAplasticAnemia, imgAcuteHemolyticReaction, imgAllergicTransfusion, imgAirEmbolism, imgCBI, imgCastCareTraction, imgAlopecia, imgBPH, imgAtopicDermatitis, imgAcromegaly, imgBPPV, imgNGTube, imgPancreatitis, imgPeritonealDialysis, imgPolycysticKidney, imgPolycythemia, imgPepticUlcer, imgOsteoporosis, imgCellulitis, imgCKD, imgClubfoot, imgCompartmentSyndrome, imgConjunctivitis, imgContracture, imgCushings, imgDelayedHemolyticReaction, imgDevHipDysplasia, imgDiabetes, imgDiabetesInsipidus, imgDiabeticNephropathy, imgDIC, imgDisuseAtrophy, imgDuchenne, imgEpiglottitis, imgEpistaxis, imgErysipelas, imgErythemaMultiforme, imgFallPrevention, imgFebrileNeutropenia, imgFebrileNonhemolytic, imgFibromyalgia, imgForeignBodyAspiration, imgFractureTypes, imgFungalInfections, imgGalactosemia, imgGlaucoma, imgGlomerulonephritis, imgGout, imgGraftVsHost, imgGravesDisease, imgHashimotoThyroiditis, imgHeadLice, imgHemolyticUremicSyndrome, imgHemophilia, imgNeonatalFeeding, imgNeonatalHypoglycemia, imgNeonatalJaundice, imgNeonatalSepsis, imgNeuroblastoma, imgNewbornDiabeticMother, imgOsteogenesisImperfecta, imgOvarianHyperstimulation, imgPatentDuctusArteriosus, imgPavlikHarness, imgPediatricVitalsChart, imgPediatricDehydration, imgPinworms, imgPKU, imgPlacentalAbruption, imgPlacentaPrevia, imgPostpartumHemorrhage, imgPyloricStenosis, imgReye, imgRhIncompatibility, imgROP, imgSeparationAnxiety, imgSerotoninSyndrome, imgStagesOfLabor, imgSubstanceAbuse, imgThermoregulation, imgTonsillectomy, imgToxicShockSyndrome, imgTrisomy21, imgTurnerSyndrome, imgUmbilicalCordCare, imgUmbilicalCordProlapse, imgVaginalHematoma, imgVaricella, imgVPShunt, imgHyperemesisGravidarum, imgInfantReflexes, imgIntussusception, imgLeadPoisoning, imgLeukemia, imgLochia, imgLungCancer, imgMastitis, imgMeasles, imgMeconiumAspiration, imgMeconiumIleus, imgMeningitisNew, imgMetabolicSyndrome, imgMRSA, imgCongenitalHypothyroidism, imgFetalMonitoring, imgEpisiotomy, imgHepatitisB, imgProstatitis, imgRotavirus, imgRubella, imgScabiesV3, imgScarletFever, imgShortBowelV4, imgSJSV2, imgSkinAssessment, imgSpinalStenosisV3, imgSprain, imgStroke, imgEsophagealStricture, imgMumps, imgNEC, imgOpioidOverdose, imgNeonatalReflexes, imgOtitisMedia, imgObstructiveUropathy, imgNarcolepsy, imgMultipleSclerosis, imgMyastheniaGravis, imgPancreaticPseudocyst, imgPapilledema, imgWernicke, imgWilmsTumor, imgWoundAssessment, imgWoundInfection, imgWoundVAC, imgVRE, imgParkinsonsNew, imgPediatricSeizuresNew, imgPepticUlcerNew, imgPeripheralNeuropathy, imgPemphigusNew, imgPressureInjuriesNew, imgBPD, imgPCOS, imgPhimosis, imgEndometrialPolyp, imgEsophagealVarices, imgFebrileSeizures, imgFundalHeight, imgGalactorrhea, imgGAS, imgGERD, imgGestationalDiabetesRpn, imgGIBleed, imgGuillainBarre, imgSucralfate, imgSyndactyly, imgSyringomyelia, imgTSS, imgTURP, imgTardiveDyskinesia, imgTetanus, imgThalassemiaV2, imgThermoregulationV2, imgThrombocytopeniaV2, imgThyroidStormV2, imgTinnitus, imgTonsillectomyV2, imgTraction, imgTrigeminalNeuralgia, imgTrisomy21V2, imgTumorMarkers, imgTurnerSyndromeV2, imgWoundHealingPhases, imgHeatStroke, imgHELLPNew, imgHemodialysis, imgHemorrhoidsNew, imgHepatitisNew, imgHerpesZoster, imgHFMNew, imgHyperemesisGravidarumNew, imgHiatalHerniaNew, imgHidradenitis, imgHidradenitisProg, imgHipDysplasiaNew, imgHirschsprung, imgHIV, imgHydrocephalusNew, imgHyperthyroidismNew, imgHypospadias, imgDiverticulitis, imgDKA, imgDysmenorrhea, imgDysphagia, imgEBV, imgEctopicPregnancy, imgEdema, imgEncephalitis, imgEndocarditisFlashcard, imgEndometriosis, imgEnteralFeeding };
 
 export type FlashcardData = {
   id: string;
@@ -398,7 +409,8 @@ export const rpnFlashcards: FlashcardData[] = [
     question: "Infective Endocarditis",
     answer: "Infection of the heart's inner lining or valves. Risk factors: IV drug use, prosthetic valves, dental procedures. Signs: Osler nodes (painful fingertip nodules), Janeway lesions (painless palm/sole lesions), splinter hemorrhages, new murmur, fever.",
     category: "Cardiovascular",
-    difficulty: 3
+    difficulty: 3,
+    image: imgEndocarditisFlashcard
   },
   {
     id: "rpn-cv-t6",
@@ -1003,7 +1015,8 @@ export const rpnFlashcards: FlashcardData[] = [
     question: "Diverticulitis",
     answer: "Inflammation/infection of diverticula (outpouchings in the colon wall). Signs: LLQ pain, fever, elevated WBC. Acute phase: Clear liquid diet, antibiotics. Prevention: High-fiber diet, adequate hydration. Complication: Perforation, abscess, fistula.",
     category: "GI",
-    difficulty: 2
+    difficulty: 2,
+    image: imgDiverticulitis
   },
   {
     id: "rpn-gi-t2",
@@ -1238,7 +1251,8 @@ export const rpnFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "DKA: Type 1, BG 300-800, significant ketosis/acidosis, Kussmaul breathing, fruity breath, rapid onset. HHS: Type 2, BG > 600 (often > 1000), minimal/no ketosis, severe dehydration, altered consciousness, gradual onset. Both require IV fluids and insulin.",
     category: "Endocrine",
-    difficulty: 3
+    difficulty: 3,
+    image: imgDKA
   },
   {
     id: "rpn-endo-q3",
@@ -1336,7 +1350,8 @@ export const rpnFlashcards: FlashcardData[] = [
     correctIndex: 2,
     answer: "Potassium must be ≥ 3.3 mEq/L before starting insulin in DKA. Insulin shifts potassium INTO cells, which could cause life-threatening hypokalemia and cardiac arrest if potassium is already low. Replace potassium first, then start insulin.",
     category: "Endocrine",
-    difficulty: 4
+    difficulty: 4,
+    image: imgDKA
   },
   {
     id: "rpn-endo-t5",
@@ -2029,7 +2044,8 @@ export const rpnFlashcards: FlashcardData[] = [
     question: "Ectopic Pregnancy",
     answer: "Implantation outside the uterus (most commonly fallopian tube). Signs: Unilateral lower abdominal pain, vaginal spotting, positive pregnancy test. Risk: Tubal rupture (surgical emergency) with sharp pain, referred shoulder pain (diaphragm irritation from bleeding). Treatment: Methotrexate or surgery.",
     category: "Maternity",
-    difficulty: 3
+    difficulty: 3,
+    image: imgEctopicPregnancy
   },
   {
     id: "rpn-mat-q11",
@@ -3739,7 +3755,8 @@ export const rpnFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "Kussmaul breathing (deep, rapid respirations) is the body's attempt to compensate for metabolic acidosis in DKA. By hyperventilating, the lungs blow off CO2 (an acid), raising the blood pH. The fruity breath odor is from acetone (a ketone byproduct).",
     category: "Endocrine",
-    difficulty: 2
+    difficulty: 2,
+    image: imgDKA
   },
   {
     id: "rpn-renal-q12",

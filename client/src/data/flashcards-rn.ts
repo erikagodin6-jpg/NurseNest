@@ -1,5 +1,5 @@
 import type { FlashcardData } from "./flashcards-rpn";
-import { imgUlcerativeColitis, imgSIADH, imgSickleCellCrisis, imgStomaCare, imgThrombocytopenia, imgUrinaryCatheterization, imgVitiligo, imgUrethralStricture, imgVestibularNeuritis, imgAddisons, imgAcuteHemolyticReaction, imgAtopicDermatitis, imgBPH, imgCastCareTraction, imgAcromegaly, imgNGTube, imgPancreatitis, imgPeritonealDialysis, imgPepticUlcer, imgOsteoporosis, imgCellulitis, imgCKD, imgClubfoot, imgCompartmentSyndrome, imgConjunctivitis, imgContracture, imgCushings, imgDelayedHemolyticReaction, imgDevHipDysplasia, imgDiabetes, imgDiabetesInsipidus, imgDiabeticNephropathy, imgDIC, imgDisuseAtrophy, imgDuchenne, imgEpiglottitis, imgEpistaxis, imgErysipelas, imgFallPrevention, imgHeadLice, imgHemophilia, imgGravesDisease, imgGout, imgPyloricStenosis, imgPlacentaPrevia, imgPostpartumHemorrhage, imgSerotoninSyndrome, imgVaricella, imgRhIncompatibility, imgIntussusception, imgLeadPoisoning, imgLeukemia, imgLungCancer, imgMeasles, imgMeningitisNew, imgMetabolicSyndrome, imgMRSA, imgCongenitalHypothyroidism, imgFetalMonitoring, imgInfantReflexes, imgWoundVAC, imgWoundInfection, imgEsophagealVarices, imgGIBleed, imgSucralfate, imgSyndactyly, imgSyringomyelia, imgTardiveDyskinesia, imgTetanus, imgThalassemiaV2, imgThermoregulationV2, imgThrombocytopeniaV2, imgThyroidStormV2, imgTinnitus, imgTonsillectomyV2, imgTraction, imgTrigeminalNeuralgia, imgTrisomy21V2, imgTSS, imgTumorMarkers, imgTurnerSyndromeV2, imgTURP } from "./flashcards-rpn";
+import { imgUlcerativeColitis, imgSIADH, imgSickleCellCrisis, imgStomaCare, imgThrombocytopenia, imgUrinaryCatheterization, imgVitiligo, imgUrethralStricture, imgVestibularNeuritis, imgAddisons, imgAcuteHemolyticReaction, imgAtopicDermatitis, imgBPH, imgCastCareTraction, imgAcromegaly, imgNGTube, imgPancreatitis, imgPeritonealDialysis, imgPepticUlcer, imgOsteoporosis, imgCellulitis, imgCKD, imgClubfoot, imgCompartmentSyndrome, imgConjunctivitis, imgContracture, imgCushings, imgDelayedHemolyticReaction, imgDevHipDysplasia, imgDiabetes, imgDiabetesInsipidus, imgDiabeticNephropathy, imgDIC, imgDisuseAtrophy, imgDuchenne, imgEpiglottitis, imgEpistaxis, imgErysipelas, imgFallPrevention, imgHeadLice, imgHemophilia, imgGravesDisease, imgGout, imgPyloricStenosis, imgPlacentaPrevia, imgPostpartumHemorrhage, imgSerotoninSyndrome, imgVaricella, imgRhIncompatibility, imgIntussusception, imgLeadPoisoning, imgLeukemia, imgLungCancer, imgMeasles, imgMeningitisNew, imgMetabolicSyndrome, imgMRSA, imgCongenitalHypothyroidism, imgFetalMonitoring, imgInfantReflexes, imgWoundVAC, imgWoundInfection, imgEsophagealVarices, imgGIBleed, imgSucralfate, imgSyndactyly, imgSyringomyelia, imgTardiveDyskinesia, imgTetanus, imgThalassemiaV2, imgThermoregulationV2, imgThrombocytopeniaV2, imgThyroidStormV2, imgTinnitus, imgTonsillectomyV2, imgTraction, imgTrigeminalNeuralgia, imgTrisomy21V2, imgTSS, imgTumorMarkers, imgTurnerSyndromeV2, imgTURP, imgHepatitisB, imgDKA, imgDysphagia, imgEBV, imgEctopicPregnancy, imgEndocarditisFlashcard, imgEndometriosis, imgEnteralFeeding } from "./flashcards-rpn";
 import imgImpetigo from "@assets/impetigo_1773340649073.png";
 import imgHypothyroidismNew from "@assets/hypothyroidism_1773374939606.png";
 import imgAntepartum from "@assets/antepartum_1773340419064.png";
@@ -9,7 +9,6 @@ import imgBacterialMeningitis from "@assets/bacterialmeningitis_1773374688442.pn
 import imgCSection from "@assets/c-section_1773374688442.png";
 import imgCarSeatSafety from "@assets/carseatsafety_1773340419064.png";
 import imgDepression from "@assets/depression_1773340419064.png";
-import imgEctopicPregnancy from "@assets/ectopicpregnancy_1773340513136.png";
 import imgHELLP from "@assets/HELLP_1773340513136.png";
 import { imgHeatStroke, imgHELLPNew, imgHemodialysis, imgHIV, imgHepatitisNew } from "./flashcards-rpn";
 import imgHepatitisC from "@assets/hepatitisc_1773340513136.png";
@@ -760,7 +759,8 @@ export const rnFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "In DKA, potassium shifts extracellularly due to acidosis (H+ enters cells, K+ exits to maintain electroneutrality) and insulin deficiency (insulin normally drives K+ into cells). The initial hyperkalemia is misleading because total body K+ is depleted from osmotic diuresis. When insulin is given, K+ shifts back into cells rapidly, unmasking the true deficit. This is why potassium must be monitored hourly during DKA treatment.",
     category: "Endocrine",
-    difficulty: 3
+    difficulty: 3,
+    image: imgDKA
   },
   {
     id: "rn-endo-q2",
@@ -1010,7 +1010,7 @@ export const rnFlashcards: FlashcardData[] = [
     answer: "Immunosuppressed transplant recipients are at high risk for opportunistic infections. A sore throat and fever could indicate anything from a common viral URI to a serious bacterial or fungal infection. The nurse should obtain cultures (blood, throat), check the WBC and differential, and notify the transplant team. CMV, EBV, and fungal infections are particular concerns. Prophylactic medications (valganciclovir, TMP-SMX) are typically prescribed.",
     category: "Renal/GU",
     difficulty: 2,
-    image: imgEpsteinBarr
+    image: imgEBV
   },
   // ============================================================
   // PHARMACOLOGY (17 cards)
@@ -1699,7 +1699,8 @@ export const rnFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "Recurrent DKA in adolescents often has psychosocial underpinnings. 'Diabulimia' (intentional insulin omission for weight control) is a recognized and dangerous eating disorder in type 1 diabetes. The nurse should explore barriers non-judgmentally: body image concerns, peer pressure, mental health issues (depression, anxiety), family dynamics, and practical barriers. Referral to a diabetes educator, psychologist, and social worker may be needed.",
     category: "Pediatrics",
-    difficulty: 3
+    difficulty: 3,
+    image: imgDKA
   },
   {
     id: "rn-peds-q9",
@@ -1925,7 +1926,8 @@ export const rnFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "Kussmaul respirations (deep, rapid breathing) are a compensatory mechanism for metabolic acidosis in DKA. The lungs blow off CO2 (a volatile acid), which temporarily raises blood pH. This is respiratory compensation for metabolic acidosis. The equation: CO2 + H2O ↔ H2CO3 ↔ H+ + HCO3-. By exhaling more CO2, the equation shifts left, reducing H+ concentration. This compensation is limited and does not fully correct severe acidosis.",
     category: "Emergency",
-    difficulty: 2
+    difficulty: 2,
+    image: imgDKA
   },
   // ============================================================
   // INFECTION CONTROL (15 cards)
@@ -2699,7 +2701,8 @@ export const rnFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "Severe hypophosphatemia in DKA impairs oxygen delivery because phosphate is essential for 2,3-DPG (which helps hemoglobin release oxygen to tissues) and ATP production. Insulin therapy drives phosphate into cells, worsening the deficit. Monitor and replace as ordered, but avoid overly rapid correction which can cause hypocalcemia.",
     category: "Fluid & Electrolytes",
-    difficulty: 3
+    difficulty: 3,
+    image: imgDKA
   },
   {
     id: "rn-pain-q1",
@@ -2899,7 +2902,8 @@ export const rnFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "Clients with dysphagia are at high risk for aspiration. Thickened liquids (honey or nectar consistency) and pureed/mechanically altered foods are safer as they are easier to control during swallowing. Position the client upright (90 degrees) during and 30 minutes after meals. A speech-language pathologist should evaluate swallowing function.",
     category: "Geriatrics",
-    difficulty: 1
+    difficulty: 1,
+    image: imgDysphagia
   },
   {
     id: "rn-ger-q8",
