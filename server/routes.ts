@@ -5117,6 +5117,90 @@ Rules:
     }
   });
 
+  app.get("/api/admin/content-analytics", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+
+      const [
+        examQ, flashcardB, alliedQ, alliedF,
+        imagingQ, imagingF, generatedQ, contentItems,
+        flashcardDecks, encyclopediaE
+      ] = await Promise.all([
+        pool.query(`SELECT tier, COUNT(*)::int AS count FROM exam_questions WHERE status='published' GROUP BY tier ORDER BY tier`),
+        pool.query(`SELECT tier, status, COUNT(*)::int AS count FROM flashcard_bank GROUP BY tier, status ORDER BY tier, status`),
+        pool.query(`SELECT career_type, status, COUNT(*)::int AS count FROM allied_questions GROUP BY career_type, status ORDER BY career_type`),
+        pool.query(`SELECT career_type, COUNT(*)::int AS count FROM allied_flashcards GROUP BY career_type ORDER BY career_type`),
+        pool.query(`SELECT status, COUNT(*)::int AS count FROM imaging_questions GROUP BY status`),
+        pool.query(`SELECT status, COUNT(*)::int AS count FROM imaging_flashcards GROUP BY status`),
+        pool.query(`SELECT COUNT(*)::int AS count FROM generated_questions`),
+        pool.query(`SELECT type, status, COUNT(*)::int AS count FROM content_items GROUP BY type, status ORDER BY type`),
+        pool.query(`SELECT COUNT(*)::int AS count FROM flashcard_decks`),
+        pool.query(`SELECT profession, COUNT(*)::int AS count FROM encyclopedia_entries WHERE status='published' GROUP BY profession ORDER BY count DESC`).catch(() => ({ rows: [] })),
+      ]);
+
+      const tiers: Record<string, { questions: number; flashcardsPublished: number; flashcardsReview: number }> = {};
+      for (const row of examQ.rows) {
+        if (!tiers[row.tier]) tiers[row.tier] = { questions: 0, flashcardsPublished: 0, flashcardsReview: 0 };
+        tiers[row.tier].questions = row.count;
+      }
+      for (const row of flashcardB.rows) {
+        if (!tiers[row.tier]) tiers[row.tier] = { questions: 0, flashcardsPublished: 0, flashcardsReview: 0 };
+        if (row.status === 'published') tiers[row.tier].flashcardsPublished = row.count;
+        else if (row.status === 'needs_review') tiers[row.tier].flashcardsReview = row.count;
+      }
+
+      const allied: Record<string, { published: number; other: number; flashcards: number; statuses: Record<string, number> }> = {};
+      for (const row of alliedQ.rows) {
+        if (!allied[row.career_type]) allied[row.career_type] = { published: 0, other: 0, flashcards: 0, statuses: {} };
+        allied[row.career_type].statuses[row.status] = (allied[row.career_type].statuses[row.status] || 0) + row.count;
+        if (row.status === 'published' || row.status === 'active') {
+          allied[row.career_type].published += row.count;
+        } else {
+          allied[row.career_type].other += row.count;
+        }
+      }
+      for (const row of alliedF.rows) {
+        if (!allied[row.career_type]) allied[row.career_type] = { published: 0, other: 0, flashcards: 0, statuses: {} };
+        allied[row.career_type].flashcards = row.count;
+      }
+
+      const imagingPublishedQ = imagingQ.rows.find((r: any) => r.status === 'published')?.count || 0;
+      const imagingPublishedF = imagingF.rows.find((r: any) => r.status === 'published')?.count || 0;
+
+      const totalQuestions = Object.values(tiers).reduce((s, t) => s + t.questions, 0)
+        + Object.values(allied).reduce((s, a) => s + a.published, 0)
+        + imagingPublishedQ;
+      const totalFlashcards = Object.values(tiers).reduce((s, t) => s + t.flashcardsPublished, 0)
+        + Object.values(allied).reduce((s, a) => s + a.flashcards, 0)
+        + imagingPublishedF;
+
+      const contentBreakdown: Record<string, number> = {};
+      for (const row of contentItems.rows) {
+        contentBreakdown[row.type] = (contentBreakdown[row.type] || 0) + row.count;
+      }
+
+      res.json({
+        tiers,
+        allied,
+        imaging: { questions: imagingPublishedQ, flashcards: imagingPublishedF },
+        generatedQuestions: generatedQ.rows[0].count,
+        contentItems: contentBreakdown,
+        flashcardDecks: flashcardDecks.rows[0].count,
+        encyclopedia: encyclopediaE.rows,
+        totals: {
+          questions: totalQuestions,
+          flashcards: totalFlashcards,
+          lessons: contentBreakdown.lesson || 0,
+          blogs: contentBreakdown.blog || 0,
+        },
+        timestamp: new Date().toISOString(),
+      });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
   app.get("/api/admin/content-audit", async (req, res) => {
     try {
       const admin = await requireAdmin(req, res);
