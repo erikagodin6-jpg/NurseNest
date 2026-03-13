@@ -1,0 +1,163 @@
+PageSpeed Insights logo
+PageSpeed Insights
+This site uses cookies from Google to deliver its services and to analyse traffic.
+Report from 13 Mar 2026, 14:41:31
+
+Enter a valid URL
+
+smartphone
+Mobile
+
+computer
+Desktop
+Showing results for URL: https://www.nursenest.ca/en
+Run with original URL
+
+Discover what your real users are experiencing
+No data
+
+Diagnose performance issues
+94
+Performance
+97
+Accessibility
+96
+Best Practices
+100
+SEO
+94
+FCP
++9
+LCP
++22
+TBT
++30
+CLS
++25
+SI
++9
+Performance
+Values are estimated and may vary. The performance score is calculated directly from these metrics.See calculator.
+0–49
+50–89
+90–100
+Final Screenshot
+
+METRICS
+Expand view
+First Contentful Paint
+0.9 s
+Largest Contentful Paint
+1.3 s
+Total Blocking Time
+10 ms
+Cumulative Layout Shift
+0.053
+Speed Index
+1.4 s
+Captured at 13 Mar 2026 at 14:41 GMT-4
+Emulated desktop with Lighthouse 13.0.1
+Single-page session
+Initial page load
+Custom throttling
+Using HeadlessChromium 145.0.7632.116 with lr
+View Treemap
+Screenshot
+Screenshot
+Screenshot
+Screenshot
+Screenshot
+Screenshot
+Screenshot
+Screenshot
+Show audits relevant to:
+
+All
+
+FCP
+
+LCP
+
+TBT
+
+CLS
+INSIGHTS
+Forced reflow
+Network dependency tree
+Use efficient cache lifetimes Est savings of 2 KiB
+Improve image delivery Est savings of 2,107 KiB
+Render blocking requests
+Layout shift culprits
+Optimise DOM size
+LCP breakdown
+Third parties
+These insights are also available in the Chrome DevTools performance panel – record a trace to view more detailed information.
+DIAGNOSTICS
+Reduce unused JavaScript Est savings of 197 KiB
+Image elements do not have explicit width and height
+Avoid enormous network payloads Total size was 3,123 KiB
+Avoid non-composited animations 1 animated element found
+Avoid long main-thread tasks 4 long tasks found
+More information about the performance of your application. These numbers don't directly affect the performance score.
+PASSED AUDITS (13)
+Show
+97
+Accessibility
+These checks highlight opportunities to improve the accessibility of your web app. Automatic detection can only detect a subset of issues and does not guarantee the accessibility of your web app, so manual testing is also encouraged.
+CONTRAST
+Background and foreground colours do not have a sufficient contrast ratio.
+These are opportunities to improve the legibility of your content.
+BEST PRACTICES
+Identical links have the same purpose.
+These items highlight common accessibility best practices.
+ADDITIONAL ITEMS TO MANUALLY CHECK (10)
+Show
+These items address areas which an automated testing tool cannot cover. Learn more in our guide on conducting an accessibility review.
+PASSED AUDITS (26)
+Show
+NOT APPLICABLE (32)
+Show
+96
+Best Practices
+USER EXPERIENCE
+Displays images with incorrect aspect ratio
+TRUST AND SAFETY
+Ensure CSP is effective against XSS attacks
+Use a strong HSTS policy
+Ensure proper origin isolation with COOP
+Mitigate DOM-based XSS with trusted types
+GENERAL
+Missing source maps for large first-party JavaScript
+PASSED AUDITS (11)
+Show
+NOT APPLICABLE (3)
+Show
+100
+SEO
+These checks ensure that your page is following basic search engine optimisation advice. There are many additional factors that Lighthouse does not score here that may affect your search ranking, including performance on Core Web Vitals. Learn more about Google Search essentials.
+ADDITIONAL ITEMS TO MANUALLY CHECK (1)
+Hide
+Structured data is valid
+Run these additional validators on your site to check additional SEO best practices.
+PASSED AUDITS (10)
+Show
+More on PageSpeed Insights
+What's new
+Documentation
+Learn about web performance
+Ask questions on Stack Overflow
+Mailing list
+Related content
+Updates
+Web Fundamentals
+Case studies
+Podcasts
+Connect
+Twitter
+YouTube
+Google Developers Logo
+Chrome
+Firebase
+All products
+Terms and Privacy Policy
+For details, see the Google Developers site policies.
