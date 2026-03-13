@@ -693,6 +693,14 @@ export async function seedRNQuestionsFromDocx(): Promise<{
   errors: number;
   details: string[];
 }> {
+  const existingCount = await pool.query(
+    "SELECT COUNT(*)::int AS cnt FROM exam_questions WHERE tier = 'rn'"
+  );
+  if (existingCount.rows[0].cnt >= 3951) {
+    console.log(`[DocxSeed] Fast-path: ${existingCount.rows[0].cnt} RN questions exist (>= expected), skipping docx import`);
+    return { total: 483, inserted: 0, skipped: 483, errors: 0, details: [] };
+  }
+
   const details: string[] = [];
   let inserted = 0;
   let skipped = 0;

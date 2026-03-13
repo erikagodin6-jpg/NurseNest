@@ -1139,76 +1139,46 @@ app.use((req, res, next) => {
 
     import("./seed-exam-questions").then(async ({ seedExamQuestions }) => {
       const { pool: seedPool } = await import("./storage");
-      seedExamQuestions(seedPool)
-        .then(async () => {
-          try {
-            const { seedRRTQuestions } = await import("./seed-rrt-questions");
-            await seedRRTQuestions(seedPool).catch((e: any) => console.error("[RRTSeed] Failed:", e.message));
-          } catch (e: any) {
-            console.error("[RRTSeed] Import failed:", e.message);
-          }
+      await seedExamQuestions(seedPool).catch((e: any) => console.error("[ExamSeed] Failed:", e.message));
+      await import("./seed-rrt-questions").then(({ seedRRTQuestions }) => seedRRTQuestions(seedPool)).catch((e: any) => console.error("[RRTSeed] Failed:", e.message));
+      await import("./seed-cat-flashcards").then(({ seedCatFlashcards }) => seedCatFlashcards(seedPool)).catch((e: any) => console.error("[CATFlashcards] Failed:", e.message));
+      await import("./exam-flashcard-mapper").then(async ({ mapExamQuestionsToFlashcards }) => {
+        const result = await mapExamQuestionsToFlashcards();
+        console.log(`[ExamFlashcardMapper] Synced: ${result.inserted} inserted, ${result.updated} updated, ${result.skipped} skipped`);
+      }).catch((e: any) => console.error("[ExamFlashcardMapper] Failed:", e.message));
+      await import("./seed-digital-products").then(({ seedDigitalProducts }) => seedDigitalProducts(seedPool)).catch((e: any) => console.error("[DigitalProductSeed] Failed:", e.message));
+      await import("./encyclopedia-seed").then(({ seedEncyclopediaEntries }) => seedEncyclopediaEntries()).catch((e: any) => console.error("[EncyclopediaSeed] Failed:", e.message));
 
-          try {
-            const { seedCatFlashcards } = await import("./seed-cat-flashcards");
-            await seedCatFlashcards(seedPool).catch((e: any) => console.error("[CATFlashcards] Failed:", e.message));
-          } catch (e: any) {
-            console.error("[CATFlashcards] Import failed:", e.message);
-          }
+      try {
+        const tierCounts = await seedPool.query(
+          `SELECT tier, COUNT(*)::int AS count FROM exam_questions WHERE status = 'published' GROUP BY tier ORDER BY tier`
+        );
+        const fbCounts = await seedPool.query(
+          `SELECT status, COUNT(*)::int AS count FROM flashcard_bank GROUP BY status`
+        ).catch(() => ({ rows: [] }));
+        const deckCount = await seedPool.query(
+          `SELECT COUNT(*)::int AS count FROM flashcard_decks`
+        ).catch(() => ({ rows: [{ count: 0 }] }));
+        const dpCounts = await seedPool.query(
+          `SELECT COUNT(*)::int AS count, COALESCE(SUM(question_count),0)::int AS total_q FROM digital_products WHERE is_active = true`
+        ).catch(() => ({ rows: [{ count: 0, total_q: 0 }] }));
 
-          try {
-            const { mapExamQuestionsToFlashcards } = await import("./exam-flashcard-mapper");
-            const result = await mapExamQuestionsToFlashcards();
-            console.log(`[ExamFlashcardMapper] Synced: ${result.inserted} inserted, ${result.updated} updated, ${result.skipped} skipped`);
-          } catch (e: any) {
-            console.error("[ExamFlashcardMapper] Failed:", e.message);
-          }
+        const tierSummary = tierCounts.rows.map((r: any) => `${r.tier}: ${r.count}`).join(", ");
+        const fbSummary = fbCounts.rows.map((r: any) => `${r.status}: ${r.count}`).join(", ");
+        const dbHost = (process.env.DATABASE_URL || "").replace(/\/\/.*@/, "//***@").split("/")[2] || "unknown";
+        const dp = dpCounts.rows[0] || { count: 0, total_q: 0 };
 
-          try {
-            const { seedDigitalProducts } = await import("./seed-digital-products");
-            await seedDigitalProducts(seedPool).catch((e: any) => console.error("[DigitalProductSeed] Failed:", e.message));
-          } catch (e: any) {
-            console.error("[DigitalProductSeed] Import failed:", e.message);
-          }
-
-          try {
-            const { seedEncyclopediaEntries } = await import("./encyclopedia-seed");
-            await seedEncyclopediaEntries().catch((e: any) => console.error("[EncyclopediaSeed] Failed:", e.message));
-          } catch (e: any) {
-            console.error("[EncyclopediaSeed] Import failed:", e.message);
-          }
-
-          try {
-            const tierCounts = await seedPool.query(
-              `SELECT tier, COUNT(*)::int AS count FROM exam_questions WHERE status = 'published' GROUP BY tier ORDER BY tier`
-            );
-            const fbCounts = await seedPool.query(
-              `SELECT status, COUNT(*)::int AS count FROM flashcard_bank GROUP BY status`
-            ).catch(() => ({ rows: [] }));
-            const deckCount = await seedPool.query(
-              `SELECT COUNT(*)::int AS count FROM flashcard_decks`
-            ).catch(() => ({ rows: [{ count: 0 }] }));
-            const dpCounts = await seedPool.query(
-              `SELECT COUNT(*)::int AS count, COALESCE(SUM(question_count),0)::int AS total_q FROM digital_products WHERE is_active = true`
-            ).catch(() => ({ rows: [{ count: 0, total_q: 0 }] }));
-
-            const tierSummary = tierCounts.rows.map((r: any) => `${r.tier}: ${r.count}`).join(", ");
-            const fbSummary = fbCounts.rows.map((r: any) => `${r.status}: ${r.count}`).join(", ");
-            const dbHost = (process.env.DATABASE_URL || "").replace(/\/\/.*@/, "//***@").split("/")[2] || "unknown";
-            const dp = dpCounts.rows[0] || { count: 0, total_q: 0 };
-
-            console.log("═══════════════════════════════════════════");
-            console.log("[Startup Health] Environment:", process.env.NODE_ENV || "development");
-            console.log("[Startup Health] DB Host:", dbHost);
-            console.log("[Startup Health] Exam Questions by tier:", tierSummary || "none");
-            console.log("[Startup Health] Flashcard Bank:", fbSummary || "none");
-            console.log("[Startup Health] Flashcard Decks:", deckCount.rows[0]?.count || 0);
-            console.log("[Startup Health] Digital Products:", dp.count, "products,", dp.total_q, "store questions");
-            console.log("═══════════════════════════════════════════");
-          } catch (healthErr: any) {
-            console.error("[Startup Health] Failed to log summary:", healthErr.message);
-          }
-        })
-        .catch((e: any) => console.error("[ExamSeed] Failed:", e.message));
+        console.log("═══════════════════════════════════════════");
+        console.log("[Startup Health] Environment:", process.env.NODE_ENV || "development");
+        console.log("[Startup Health] DB Host:", dbHost);
+        console.log("[Startup Health] Exam Questions by tier:", tierSummary || "none");
+        console.log("[Startup Health] Flashcard Bank:", fbSummary || "none");
+        console.log("[Startup Health] Flashcard Decks:", deckCount.rows[0]?.count || 0);
+        console.log("[Startup Health] Digital Products:", dp.count, "products,", dp.total_q, "store questions");
+        console.log("═══════════════════════════════════════════");
+      } catch (healthErr: any) {
+        console.error("[Startup Health] Failed to log summary:", healthErr.message);
+      }
     }).catch((e: any) => console.error("[ExamSeed] Import failed:", e.message));
   });
 

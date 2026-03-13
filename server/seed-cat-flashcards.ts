@@ -367,6 +367,12 @@ const TIER_LABELS: Record<string, string> = {
 };
 
 export async function seedCatFlashcards(pool: Pool): Promise<void> {
+  const deckCount = await pool.query("SELECT COUNT(*)::int AS cnt FROM flashcard_decks WHERE slug LIKE 'cat-%' OR slug LIKE '%-cat-%'");
+  if (deckCount.rows[0].cnt >= 59) {
+    console.log(`[CATFlashcards] Fast-path: ${deckCount.rows[0].cnt} CAT decks already exist, skipping`);
+    return;
+  }
+
   const imageMap = buildImageMap();
   const lessonSlugs = buildLessonSlugs();
 

@@ -32,6 +32,15 @@ interface RRTSeedQuestion {
 }
 
 export async function seedRRTQuestions(pool: Pool): Promise<void> {
+  const existingCount = await pool.query(
+    "SELECT COUNT(*)::int AS cnt FROM exam_questions WHERE tier = 'rrt'"
+  );
+  const dbCount = existingCount.rows[0].cnt;
+  if (dbCount >= 232) {
+    console.log(`[RRTSeed] Fast-path: ${dbCount} RRT questions in DB (>= seed file size), skipping`);
+    return;
+  }
+
   const candidates = [
     path.resolve(__dirname_esm, "seed-data/rrt-questions.json"),
     path.resolve(process.cwd(), "dist/seed-data/rrt-questions.json"),
@@ -49,13 +58,7 @@ export async function seedRRTQuestions(pool: Pool): Promise<void> {
     return;
   }
   console.log("[RRTSeed] Found seed file at:", seedPath);
-
-  const existingCount = await pool.query(
-    "SELECT COUNT(*)::int AS cnt FROM exam_questions WHERE tier = 'rrt'"
-  );
-  if (existingCount.rows[0].cnt > 0) {
-    console.log(`[RRTSeed] Already ${existingCount.rows[0].cnt} RRT questions in DB, checking for new questions...`);
-  }
+  console.log(`[RRTSeed] Already ${dbCount} RRT questions in DB, checking for new questions...`);
 
   const raw = fs.readFileSync(seedPath, "utf-8");
   const questions: RRTSeedQuestion[] = JSON.parse(raw);

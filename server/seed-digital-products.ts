@@ -7,6 +7,12 @@ const __filename_esm = typeof __filename !== "undefined" ? __filename : fileURLT
 const __dirname_esm = path.dirname(__filename_esm);
 
 export async function seedDigitalProducts(pool: Pool): Promise<void> {
+  const existingCount = await pool.query("SELECT COUNT(*)::int AS cnt FROM digital_products");
+  if (existingCount.rows[0].cnt >= 54) {
+    console.log(`[DigitalProductSeed] Fast-path: ${existingCount.rows[0].cnt} products exist, skipping`);
+    return;
+  }
+
   const candidates = [
     path.resolve(__dirname_esm, "seed-data/digital-products.json"),
     path.resolve(process.cwd(), "dist/seed-data/digital-products.json"),

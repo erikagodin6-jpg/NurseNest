@@ -781,6 +781,16 @@ const clusters: ClusterHub[] = [
 
 export async function seedSEOClusters(pool: Pool) {
   try {
+    const clusterSlugs = clusters.map(c => c.slug);
+    const existingCount = await pool.query(
+      `SELECT COUNT(*)::int AS cnt FROM seo_pages WHERE slug = ANY($1)`,
+      [clusterSlugs]
+    );
+    if (existingCount.rows[0].cnt >= clusters.length) {
+      console.log(`[SEO] Fast-path: all ${existingCount.rows[0].cnt} cluster hubs exist, skipping`);
+      return;
+    }
+
     for (const cluster of clusters) {
       const existing = await pool.query(`SELECT id FROM seo_pages WHERE slug = $1`, [cluster.slug]);
       if (existing.rows.length > 0) {

@@ -470,6 +470,16 @@ export async function mapExamQuestionsToFlashcards(): Promise<{
     missingData: 0,
   };
 
+  const { rows: [{ eq_count, fb_count }] } = await pool.query(
+    `SELECT
+       (SELECT COUNT(*)::int FROM exam_questions WHERE status='published' AND career_type='nursing') AS eq_count,
+       (SELECT COUNT(*)::int FROM flashcard_bank WHERE status='published') AS fb_count`
+  );
+  if (fb_count >= eq_count && eq_count > 0) {
+    console.log(`[ExamFlashcardMapper] Fast-path: ${fb_count} flashcards >= ${eq_count} nursing questions, skipping`);
+    return result;
+  }
+
   const { rows: questions } = await pool.query(
     `SELECT id, tier, stem, options, correct_answer, rationale, body_system, topic, subtopic, 
             difficulty, question_type, clinical_pearl, exam_strategy, distractor_rationales,

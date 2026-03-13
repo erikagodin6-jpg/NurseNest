@@ -7,6 +7,14 @@ const SYSTEM_USER_ID = "system-nursenest";
 
 export async function seedParamedicContent(pool: Pool) {
   try {
+    const seoCheck = await pool.query(
+      "SELECT COUNT(*)::int AS cnt FROM seo_pages WHERE exam IN ('paramedic','NREMT','COPR')"
+    ).catch(() => ({ rows: [{ cnt: 0 }] }));
+    if (seoCheck.rows[0].cnt >= 60) {
+      console.log(`[Paramedic Seed] Fast-path: ${seoCheck.rows[0].cnt} paramedic SEO pages exist, skipping`);
+      return;
+    }
+
     console.log("[Paramedic Seed] Starting paramedic content seeding...");
 
     const allSeoPages = [

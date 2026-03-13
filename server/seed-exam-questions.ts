@@ -32,6 +32,13 @@ interface SeedQuestion {
 }
 
 export async function seedExamQuestions(pool: Pool): Promise<void> {
+  const existingCount = await pool.query("SELECT COUNT(*)::int AS cnt FROM exam_questions");
+  const dbCount = existingCount.rows[0].cnt;
+  if (dbCount >= 8224) {
+    console.log(`[ExamSeed] Fast-path: ${dbCount} questions in DB (>= seed file size), skipping`);
+    return;
+  }
+
   const candidates = [
     path.resolve(__dirname_esm, "seed-data/exam-questions.json"),
     path.resolve(process.cwd(), "dist/seed-data/exam-questions.json"),
@@ -51,11 +58,7 @@ export async function seedExamQuestions(pool: Pool): Promise<void> {
   console.log("[ExamSeed] Found seed file at:", seedPath);
   const dbHost = (process.env.DATABASE_URL || "").replace(/\/\/.*@/, "//***@").split("/")[2] || "unknown";
   console.log(`[ExamSeed] Target database: ${dbHost}`);
-
-  const existingCount = await pool.query("SELECT COUNT(*)::int AS cnt FROM exam_questions");
-  if (existingCount.rows[0].cnt > 0) {
-    console.log(`[ExamSeed] Already ${existingCount.rows[0].cnt} questions in DB, checking for new questions...`);
-  }
+  console.log(`[ExamSeed] Already ${dbCount} questions in DB, checking for new questions...`);
 
   const raw = fs.readFileSync(seedPath, "utf-8");
   const questions: SeedQuestion[] = JSON.parse(raw);

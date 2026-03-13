@@ -220,6 +220,14 @@ function generateFlashcardsFromQuestion(q: QuestionData): Array<{ cardType: stri
 }
 
 export async function seedEmergencyNursingToxDisaster() {
+  const existingCount = await pool.query(
+    "SELECT COUNT(*)::int AS cnt FROM allied_questions WHERE career_type = 'emergencyNursing'"
+  );
+  if (existingCount.rows[0].cnt >= 375) {
+    console.log(`[EN-ToxDisaster] Fast-path: ${existingCount.rows[0].cnt} emergency nursing questions already exist, skipping`);
+    return;
+  }
+
   console.log("[EN-ToxDisaster] Starting emergency nursing toxicology & disaster medicine seed...");
 
   const allQuestions: QuestionData[] = [
