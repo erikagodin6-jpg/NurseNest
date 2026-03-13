@@ -376,7 +376,17 @@ function sitemapUrl(base: string, path: string, priority: string, changefreq: st
   return lines.join("\n");
 }
 
+let sitemapCache: { xml: string; builtAt: number } | null = null;
+const SITEMAP_CACHE_TTL = 3600_000;
+
 app.get("/sitemap.xml", async (_req, res) => {
+  if (sitemapCache && Date.now() - sitemapCache.builtAt < SITEMAP_CACHE_TTL) {
+    res.setHeader("Content-Type", "application/xml; charset=utf-8");
+    res.setHeader("Cache-Control", "public, max-age=3600, s-maxage=3600");
+    res.setHeader("X-Sitemap-Cache", "HIT");
+    return res.status(200).send(sitemapCache.xml);
+  }
+
   const base = getSiteBase();
   const today = new Date().toISOString().split("T")[0];
 
@@ -654,8 +664,11 @@ app.get("/sitemap.xml", async (_req, res) => {
     entries.join("\n") +
     `\n</urlset>`;
 
+  sitemapCache = { xml, builtAt: Date.now() };
+
   res.setHeader("Content-Type", "application/xml; charset=utf-8");
-  res.setHeader("Cache-Control", "public, max-age=3600");
+  res.setHeader("Cache-Control", "public, max-age=3600, s-maxage=3600");
+  res.setHeader("X-Sitemap-Cache", "MISS");
   res.status(200).send(xml);
 });
 
