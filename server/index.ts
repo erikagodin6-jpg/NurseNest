@@ -1074,6 +1074,10 @@ app.use((req, res, next) => {
       });
     });
 
+    import("./seed-emergency-nursing-tox-disaster").then(({ seedEmergencyNursingToxDisaster }) => {
+      seedEmergencyNursingToxDisaster().catch((e: any) => console.error("[EN-ToxDisaster] Failed:", e.message));
+    });
+
     import("./ensure-schema").then(async ({ ensureSchemaSync }) => {
       const { pool: schemaPool } = await import("./storage");
       await ensureSchemaSync(schemaPool);
