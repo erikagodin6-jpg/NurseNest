@@ -2579,6 +2579,10 @@ export const imagingQuestions = pgTable("imaging_questions", {
   country: varchar("country", { length: 50 }),
   topic: varchar("topic", { length: 200 }),
   status: varchar("status", { length: 20 }).default("draft"),
+  examDomain: varchar("exam_domain", { length: 100 }),
+  masteryCategory: varchar("mastery_category", { length: 20 }),
+  clinicalPearls: text("clinical_pearls"),
+  imagingPracticeNotes: text("imaging_practice_notes"),
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
 });

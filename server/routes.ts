@@ -274,6 +274,9 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
   const { registerImagingGrowthRoutes } = await import("./imaging-growth-routes");
   registerImagingGrowthRoutes(app);
 
+  const { registerImagingQuestionGeneratorRoutes } = await import("./imaging-question-generator-routes");
+  registerImagingQuestionGeneratorRoutes(app);
+
   const { registerStudyCoachingRoutes } = await import("./study-coaching-routes");
   registerStudyCoachingRoutes(app);
 
