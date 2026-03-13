@@ -1,5 +1,5 @@
 import type { FlashcardData } from "./flashcards-rpn";
-import { imgUlcerativeColitis, imgSIADH, imgSickleCellCrisis, imgStomaCare, imgThrombocytopenia, imgUrinaryCatheterization, imgVitiligo, imgUrethralStricture, imgVestibularNeuritis, imgAddisons, imgAcuteHemolyticReaction, imgAtopicDermatitis, imgBPH, imgCastCareTraction, imgAcromegaly, imgNGTube, imgPancreatitis, imgPeritonealDialysis, imgPepticUlcer, imgOsteoporosis, imgCellulitis, imgCKD, imgClubfoot, imgCompartmentSyndrome, imgConjunctivitis, imgContracture, imgCushings, imgDelayedHemolyticReaction, imgDevHipDysplasia, imgDiabetes, imgDiabetesInsipidus, imgDiabeticNephropathy, imgDIC, imgDisuseAtrophy, imgDuchenne, imgEpiglottitis, imgEpistaxis, imgErysipelas, imgFallPrevention, imgHeadLice, imgHemophilia, imgGravesDisease, imgGout, imgPyloricStenosis, imgPlacentaPrevia, imgPostpartumHemorrhage, imgSerotoninSyndrome, imgVaricella, imgRhIncompatibility, imgIntussusception, imgLeadPoisoning, imgLeukemia, imgLungCancer, imgMeasles, imgMeningitisNew, imgMetabolicSyndrome, imgMRSA, imgCongenitalHypothyroidism, imgFetalMonitoring, imgHepatitisB, imgInfantReflexes, imgWoundVAC, imgWoundInfection, imgEsophagealVarices, imgGIBleed } from "./flashcards-rpn";
+import { imgUlcerativeColitis, imgSIADH, imgSickleCellCrisis, imgStomaCare, imgThrombocytopenia, imgUrinaryCatheterization, imgVitiligo, imgUrethralStricture, imgVestibularNeuritis, imgAddisons, imgAcuteHemolyticReaction, imgAtopicDermatitis, imgBPH, imgCastCareTraction, imgAcromegaly, imgNGTube, imgPancreatitis, imgPeritonealDialysis, imgPepticUlcer, imgOsteoporosis, imgCellulitis, imgCKD, imgClubfoot, imgCompartmentSyndrome, imgConjunctivitis, imgContracture, imgCushings, imgDelayedHemolyticReaction, imgDevHipDysplasia, imgDiabetes, imgDiabetesInsipidus, imgDiabeticNephropathy, imgDIC, imgDisuseAtrophy, imgDuchenne, imgEpiglottitis, imgEpistaxis, imgErysipelas, imgFallPrevention, imgHeadLice, imgHemophilia, imgGravesDisease, imgGout, imgPyloricStenosis, imgPlacentaPrevia, imgPostpartumHemorrhage, imgSerotoninSyndrome, imgVaricella, imgRhIncompatibility, imgIntussusception, imgLeadPoisoning, imgLeukemia, imgLungCancer, imgMeasles, imgMeningitisNew, imgMetabolicSyndrome, imgMRSA, imgCongenitalHypothyroidism, imgFetalMonitoring, imgHepatitisB, imgInfantReflexes, imgWoundVAC, imgWoundInfection, imgEsophagealVarices, imgGIBleed, imgSucralfate, imgSyndactyly, imgSyringomyelia, imgTardiveDyskinesia, imgTetanus, imgThalassemiaV2, imgThermoregulationV2, imgThrombocytopeniaV2, imgThyroidStormV2, imgTinnitus, imgTonsillectomyV2, imgTraction, imgTrigeminalNeuralgia, imgTrisomy21V2, imgTSS, imgTumorMarkers, imgTurnerSyndromeV2, imgTURP } from "./flashcards-rpn";
 import imgImpetigo from "@assets/impetigo_1773340649073.png";
 import imgHypothyroidismNew from "@assets/hypothyroidism_1773374939606.png";
 import imgAntepartum from "@assets/antepartum_1773340419064.png";
@@ -1039,7 +1039,7 @@ export const rnFlashcards: FlashcardData[] = [
     options: ["Decrease the heparin rate by 50%", "Stop ALL heparin products immediately and initiate an alternative anticoagulant (argatroban or bivalirudin)", "Continue heparin and monitor platelets daily", "Administer platelet transfusion"],
     correctIndex: 1,
     answer: "HIT is an immune-mediated reaction where antibodies against heparin-platelet factor 4 complexes cause platelet activation and consumption. Despite low platelets, HIT is paradoxically prothrombotic, causing arterial and venous thrombosis. ALL heparin must be stopped (including heparin flushes and heparin-coated catheters). An alternative anticoagulant (argatroban, bivalirudin) must be started. Platelet transfusions are generally CONTRAINDICATED as they fuel the thrombotic process.",
-    image: imgThrombocytopenia,
+    image: imgThrombocytopeniaV2,
     category: "Pharmacology",
     difficulty: 3
   },
@@ -3808,7 +3808,7 @@ export const rnFlashcards: FlashcardData[] = [
     options: ["The weights are hanging freely off the bed", "The client reports mild discomfort at the fracture site", "The traction rope is caught on the edge of the pulley", "The client's foot on the affected side is in a neutral position"],
     correctIndex: 2,
     answer: "Traction must be maintained continuously with ropes riding freely over pulleys and weights hanging freely. A rope caught on the pulley edge disrupts the line of pull, rendering the traction ineffective and potentially causing pain, malalignment, or muscle spasm. The nurse should immediately free the rope to restore proper traction. Weights hanging freely and neutral foot positioning are expected findings.",
-    image: imgCastCareTraction,
+    image: imgTraction,
     category: "Musculoskeletal",
     difficulty: 2
   },
@@ -3829,7 +3829,7 @@ export const rnFlashcards: FlashcardData[] = [
     options: ["Remove the pin immediately and notify the provider", "Clean the pin site with sterile saline or prescribed solution per protocol", "Apply antibiotic ointment and cover with an occlusive dressing", "Discontinue traction and reposition the client"],
     correctIndex: 1,
     answer: "Small amounts of serous drainage at pin sites are expected findings. The nurse should perform pin site care per facility protocol, typically cleaning with sterile saline or chlorhexidine. Signs of infection (purulent drainage, erythema, warmth, fever) require provider notification. The nurse should never remove the pin or discontinue traction without a provider order, as this would compromise fracture alignment.",
-    image: imgCastCareTraction,
+    image: imgTraction,
     category: "Musculoskeletal",
     difficulty: 2
   },

@@ -471,6 +471,25 @@ import illustrationTRALI from "@assets/TRALI_1773268456011.png";
 import illustrationTransfusionHyperkalemia from "@assets/transfusionassociatedhyperkalemia_1773268456011.png";
 import illustrationTransfusionHypothermia from "@assets/transfusionassociatedhypothermia_1773268456011.png";
 
+import illustrationSucralfate from "@assets/sucralfate_1773375196270.png";
+import illustrationSyndactyly from "@assets/syndactyly_1773375196271.png";
+import illustrationSyringomyeliaV3 from "@assets/syringomyelia_1773375196271.png";
+import illustrationTardiveDyskinesiaV3 from "@assets/tardivedyskinesia_1773375196271.png";
+import illustrationTetanus from "@assets/tetanus_1773375196271.png";
+import illustrationThalassemiaV2 from "@assets/thalassemia_1773375196271.png";
+import illustrationThermoregulationNeonates from "@assets/thermoregulation_1773375196271.png";
+import illustrationThrombocytopeniaV2 from "@assets/thrombocytopenia_1773375196271.png";
+import illustrationThyroidStormV2 from "@assets/thyroidstorm_1773375196271.png";
+import illustrationTinnitusV2 from "@assets/tinnitus_1773375196271.png";
+import illustrationTonsillectomyCare from "@assets/tonsillectomy_1773375196271.png";
+import illustrationTractionV2 from "@assets/traction_1773375196271.png";
+import illustrationTrigeminalNeuralgiaV3 from "@assets/trigeminalneuralgia_1773375196271.png";
+import illustrationTrisomy21 from "@assets/trisomy21_1773375196271.png";
+import illustrationToxicShockSyndrome from "@assets/TSS_1773375196271.png";
+import illustrationTumorMarkers from "@assets/tumormarkers_1773375196271.png";
+import illustrationTurnerSyndrome from "@assets/turner_1773375196271.png";
+import illustrationTURP from "@assets/TURP_1773375196271.png";
+
 import illustrationABOCompatibility from "@assets/abo_1773269538451.png";
 import illustrationAcromegaly from "@assets/acromegaly_1773374656571.png";
 import illustrationAcuteHemolyticReaction from "@assets/acutehemolyticreaction_1773269538451.png";
@@ -830,10 +849,6 @@ const lessonSpecificImages: Record<string, string> = {
   "cranial-nerve-pathology-rpn": illustrationCranialNervePathologyV2,
   "cranial-nerve-pathology-rn": illustrationCranialNervePathologyV2,
   "cranial-nerve-pathology-np": illustrationCranialNervePathologyV2,
-  "trigeminal-neuralgia": illustrationTrigeminalNeuralgiaV2,
-  "trigeminal-neuralgia-rpn": illustrationTrigeminalNeuralgiaV2,
-  "trigeminal-neuralgia-rn": illustrationTrigeminalNeuralgiaV2,
-  "trigeminal-neuralgia-np": illustrationTrigeminalNeuralgiaV2,
   "carpal-tunnel": illustrationCarpalTunnelV3,
   "carpal-tunnel-syndrome": illustrationCarpalTunnelV3,
   "carpal-tunnel-rpn": illustrationCarpalTunnelV3,
@@ -1308,13 +1323,9 @@ const lessonSpecificImages: Record<string, string> = {
   "developmental-hip-dysplasia-rn": illustrationDevHipDysplasia,
   "developmental-hip-dysplasia-np": illustrationDevHipDysplasia,
   "cast-care": illustrationCastCareTraction,
-  "traction": illustrationCastCareTraction,
   "cast-care-rpn": illustrationCastCareTraction,
   "cast-care-rn": illustrationCastCareTraction,
   "cast-care-np": illustrationCastCareTraction,
-  "traction-rpn": illustrationCastCareTraction,
-  "traction-rn": illustrationCastCareTraction,
-  "traction-np": illustrationCastCareTraction,
   "rom-exercises": illustrationMusculoskeletalAnatomy,
   "body-mechanics": illustrationMusculoskeletalAnatomy,
   "iron-deficiency-anemia": illustrationIDANew,
@@ -2750,15 +2761,6 @@ const systemImageMap: Record<string, string> = {
 
   "taco-transfusion-associated-circulatory-overload": illustrationTACO,
 
-  "thalassemia": illustrationThalassemiaNew,
-  "thalassemia-rpn": illustrationThalassemiaNew,
-
-  "thyroid-storm-rpn": illustrationThyroidStorm,
-  "thyroid-storm-rn": illustrationThyroidStorm,
-  "thyroid-storm-np": illustrationThyroidStorm,
-
-  "tinnitus-rpn": illustrationTinnitus,
-
   "trali-transfusion-related-acute-lung-injury": illustrationTRALI,
   "trali-resp-rn": illustrationTRALI,
   "trali-critical-rn": illustrationTRALI,
@@ -2807,6 +2809,104 @@ const systemImageMap: Record<string, string> = {
   "esophageal-stricture-rpn": illustrationEsophagealStrictureV2,
   "esophageal-stricture-rn": illustrationEsophagealStrictureV2,
   "esophageal-stricture-np": illustrationEsophagealStrictureV2,
+
+  "sucralfate": illustrationSucralfate,
+  "sucralfate-rpn": illustrationSucralfate,
+  "sucralfate-rn": illustrationSucralfate,
+  "sucralfate-np": illustrationSucralfate,
+
+  "syndactyly": illustrationSyndactyly,
+  "syndactyly-rpn": illustrationSyndactyly,
+  "syndactyly-rn": illustrationSyndactyly,
+  "syndactyly-np": illustrationSyndactyly,
+
+  "syringomyelia": illustrationSyringomyeliaV3,
+  "syringomyelia-rpn": illustrationSyringomyeliaV3,
+  "syringomyelia-rn": illustrationSyringomyeliaV3,
+  "syringomyelia-np": illustrationSyringomyeliaV3,
+
+  "tardive-dyskinesia": illustrationTardiveDyskinesiaV3,
+  "tardive-dyskinesia-rpn": illustrationTardiveDyskinesiaV3,
+  "tardive-dyskinesia-rn": illustrationTardiveDyskinesiaV3,
+  "tardive-dyskinesia-np": illustrationTardiveDyskinesiaV3,
+
+  "tetanus": illustrationTetanus,
+  "tetanus-rpn": illustrationTetanus,
+  "tetanus-rn": illustrationTetanus,
+  "tetanus-np": illustrationTetanus,
+
+  "thalassemia": illustrationThalassemiaV2,
+  "thalassemia-rpn": illustrationThalassemiaV2,
+  "thalassemia-rn": illustrationThalassemiaV2,
+  "thalassemia-np": illustrationThalassemiaV2,
+
+  "thermoregulation": illustrationThermoregulationNeonates,
+  "thermoregulation-rpn": illustrationThermoregulationNeonates,
+  "thermoregulation-rn": illustrationThermoregulationNeonates,
+  "thermoregulation-np": illustrationThermoregulationNeonates,
+  "thermoregulation-neonates": illustrationThermoregulationNeonates,
+
+  "thrombocytopenia": illustrationThrombocytopeniaV2,
+  "thrombocytopenia-rpn": illustrationThrombocytopeniaV2,
+  "thrombocytopenia-rn": illustrationThrombocytopeniaV2,
+  "thrombocytopenia-np": illustrationThrombocytopeniaV2,
+
+  "thyroid-storm": illustrationThyroidStormV2,
+  "thyroid-storm-rpn": illustrationThyroidStormV2,
+  "thyroid-storm-rn": illustrationThyroidStormV2,
+  "thyroid-storm-np": illustrationThyroidStormV2,
+
+  "tinnitus": illustrationTinnitusV2,
+  "tinnitus-rpn": illustrationTinnitusV2,
+  "tinnitus-rn": illustrationTinnitusV2,
+  "tinnitus-np": illustrationTinnitusV2,
+
+  "tonsillectomy": illustrationTonsillectomyCare,
+  "tonsillectomy-rpn": illustrationTonsillectomyCare,
+  "tonsillectomy-rn": illustrationTonsillectomyCare,
+  "tonsillectomy-np": illustrationTonsillectomyCare,
+  "tonsillectomy-care": illustrationTonsillectomyCare,
+
+  "traction": illustrationTractionV2,
+  "traction-rpn": illustrationTractionV2,
+  "traction-rn": illustrationTractionV2,
+  "traction-np": illustrationTractionV2,
+
+  "trigeminal-neuralgia": illustrationTrigeminalNeuralgiaV3,
+  "trigeminal-neuralgia-rpn": illustrationTrigeminalNeuralgiaV3,
+  "trigeminal-neuralgia-rn": illustrationTrigeminalNeuralgiaV3,
+  "trigeminal-neuralgia-np": illustrationTrigeminalNeuralgiaV3,
+
+  "trisomy-21": illustrationTrisomy21,
+  "trisomy-21-rpn": illustrationTrisomy21,
+  "trisomy-21-rn": illustrationTrisomy21,
+  "trisomy-21-np": illustrationTrisomy21,
+  "down-syndrome": illustrationTrisomy21,
+  "down-syndrome-rpn": illustrationTrisomy21,
+  "down-syndrome-rn": illustrationTrisomy21,
+  "down-syndrome-np": illustrationTrisomy21,
+
+  "toxic-shock-syndrome": illustrationToxicShockSyndrome,
+  "toxic-shock-syndrome-rpn": illustrationToxicShockSyndrome,
+  "toxic-shock-syndrome-rn": illustrationToxicShockSyndrome,
+  "toxic-shock-syndrome-np": illustrationToxicShockSyndrome,
+  "tss": illustrationToxicShockSyndrome,
+
+  "tumor-markers": illustrationTumorMarkers,
+  "tumor-markers-rpn": illustrationTumorMarkers,
+  "tumor-markers-rn": illustrationTumorMarkers,
+  "tumor-markers-np": illustrationTumorMarkers,
+
+  "turner-syndrome": illustrationTurnerSyndrome,
+  "turner-syndrome-rpn": illustrationTurnerSyndrome,
+  "turner-syndrome-rn": illustrationTurnerSyndrome,
+  "turner-syndrome-np": illustrationTurnerSyndrome,
+
+  "turp": illustrationTURP,
+  "turp-rpn": illustrationTURP,
+  "turp-rn": illustrationTURP,
+  "turp-np": illustrationTURP,
+  "transurethral-resection": illustrationTURP,
 };
 
 export function getSystemImage(systemId: string): string | undefined {
@@ -2836,7 +2936,7 @@ export function getLessonImage(lessonId: string): string | undefined {
   if (lessonId.includes("myasthenia")) return illustrationMyastheniaGravisV4;
   if (lessonId.includes("concussion") || lessonId.includes("tbi")) return illustrationConcussionV3;
   if (lessonId.includes("carpal-tunnel")) return illustrationCarpalTunnelV3;
-  if (lessonId.includes("trigeminal")) return illustrationTrigeminalNeuralgiaV2;
+  if (lessonId.includes("trigeminal")) return illustrationTrigeminalNeuralgiaV3;
   if (lessonId.includes("cranial-nerve")) return illustrationCranialNervesV3;
   if (lessonId.includes("delirium")) return illustrationDeliriumV4;
   if (lessonId.includes("dementia")) return illustrationDementiaV4;
@@ -2896,7 +2996,8 @@ export function getLessonImage(lessonId: string): string | undefined {
   if (lessonId.includes("biliary-atresia")) return illustrationBiliaryAtresia;
   if (lessonId.includes("bppv") || lessonId.includes("benign-paroxysmal")) return illustrationBPPV;
   if (lessonId.includes("bullous-pemphigoid")) return illustrationBullousPemphigoid;
-  if (lessonId.includes("cast-care") || lessonId.includes("traction")) return illustrationCastCareTraction;
+  if (lessonId.includes("cast-care")) return illustrationCastCareTraction;
+  if (lessonId.includes("traction")) return illustrationTractionV2;
   if (lessonId.includes("adrenal-gland")) return illustrationAdrenalGland;
   if (lessonId.includes("pemphigus")) return illustrationPemphigusV2;
   if (lessonId.includes("polycythem")) return illustrationPolycythemiaV2;
@@ -3011,9 +3112,9 @@ export function getLessonImage(lessonId: string): string | undefined {
   if (lessonId.includes("siadh")) return illustrationSIADHV2;
   if (lessonId.includes("trali") || lessonId.includes("transfusion-related-acute-lung")) return illustrationTRALI;
   if (lessonId.includes("taco") || lessonId.includes("transfusion-associated-circulatory")) return illustrationTACO;
-  if (lessonId.includes("tinnitus")) return illustrationTinnitus;
+  if (lessonId.includes("tinnitus")) return illustrationTinnitusV2;
   if (lessonId.includes("von-willebrand") || lessonId.includes("vwd")) return illustrationVonWillebrand;
-  if (lessonId.includes("thrombocytopenia")) return illustrationThrombocytopenia;
+  if (lessonId.includes("thrombocytopenia")) return illustrationThrombocytopeniaV2;
   if (lessonId.includes("urethral-stricture")) return illustrationUrethralStricture;
   if (lessonId.includes("urethritis")) return illustrationUrethritis;
   if (lessonId.includes("uterine-prolapse") || lessonId.includes("pelvic-organ-prolapse")) return illustrationUterineProlapse;
@@ -3045,6 +3146,16 @@ export function getLessonImage(lessonId: string): string | undefined {
   if (lessonId.includes("feeding-tube-irrigat") || lessonId.includes("tube-irrigat") || lessonId.includes("peg-tube-irrigat")) return illustrationIrrigation;
   if (lessonId.includes("klinefelter")) return illustrationKlinefelterNew;
   if (lessonId.includes("korsakoff")) return illustrationKorsakoffNew;
+  if (lessonId.includes("sucralfate")) return illustrationSucralfate;
+  if (lessonId.includes("syndactyly")) return illustrationSyndactyly;
+  if (lessonId.includes("tetanus")) return illustrationTetanus;
+  if (lessonId.includes("thermoregulation")) return illustrationThermoregulationNeonates;
+  if (lessonId.includes("tonsillectomy")) return illustrationTonsillectomyCare;
+  if (lessonId.includes("trisomy") || lessonId.includes("down-syndrome")) return illustrationTrisomy21;
+  if (lessonId.includes("toxic-shock") || lessonId.includes("tss")) return illustrationToxicShockSyndrome;
+  if (lessonId.includes("tumor-marker")) return illustrationTumorMarkers;
+  if (lessonId.includes("turner-syndrome") || lessonId.includes("turner")) return illustrationTurnerSyndrome;
+  if (lessonId.includes("turp") || lessonId.includes("transurethral")) return illustrationTURP;
   if (lessonId.includes("papilledema")) return illustrationPapilledemaV2;
   if (lessonId.includes("pharyngitis") || lessonId.includes("strep-throat")) return illustrationPharyngitis;
   if (lessonId.includes("polycystic-kidney") || lessonId.includes("pkd")) return illustrationPolycysticKidney;

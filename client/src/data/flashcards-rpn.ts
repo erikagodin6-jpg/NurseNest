@@ -187,8 +187,26 @@ import imgSpinalStenosisV3 from "@assets/spinalstenosis_1773375229956.png";
 import imgSprain from "@assets/sprain_1773375229956.png";
 import imgStroke from "@assets/stroke_1773375229956.png";
 import imgEsophagealStricture from "@assets/stricture_1773375229956.png";
+import imgSucralfate from "@assets/sucralfate_1773375196270.png";
+import imgSyndactyly from "@assets/syndactyly_1773375196271.png";
+import imgSyringomyelia from "@assets/syringomyelia_1773375196271.png";
+import imgTardiveDyskinesia from "@assets/tardivedyskinesia_1773375196271.png";
+import imgTetanus from "@assets/tetanus_1773375196271.png";
+import imgThalassemiaV2 from "@assets/thalassemia_1773375196271.png";
+import imgThermoregulationV2 from "@assets/thermoregulation_1773375196271.png";
+import imgThrombocytopeniaV2 from "@assets/thrombocytopenia_1773375196271.png";
+import imgThyroidStormV2 from "@assets/thyroidstorm_1773375196271.png";
+import imgTinnitus from "@assets/tinnitus_1773375196271.png";
+import imgTonsillectomyV2 from "@assets/tonsillectomy_1773375196271.png";
+import imgTraction from "@assets/traction_1773375196271.png";
+import imgTrigeminalNeuralgia from "@assets/trigeminalneuralgia_1773375196271.png";
+import imgTrisomy21V2 from "@assets/trisomy21_1773375196271.png";
+import imgTSS from "@assets/TSS_1773375196271.png";
+import imgTumorMarkers from "@assets/tumormarkers_1773375196271.png";
+import imgTurnerSyndromeV2 from "@assets/turner_1773375196271.png";
+import imgTURP from "@assets/TURP_1773375196271.png";
 
-export { imgUlcerativeColitis, imgVonWillebrand, imgUrinaryCatheterization, imgSIADH, imgSickleCellCrisis, imgStomaCare, imgThalassemia, imgThrombocytopenia, imgThyroidStorm, imgTRALI, imgVitiligo, imgUrethralStricture, imgVestibularNeuritis, imgAddisons, imgAplasticAnemia, imgAcuteHemolyticReaction, imgAllergicTransfusion, imgAirEmbolism, imgCBI, imgCastCareTraction, imgAlopecia, imgBPH, imgAtopicDermatitis, imgAcromegaly, imgBPPV, imgNGTube, imgPancreatitis, imgPeritonealDialysis, imgPolycysticKidney, imgPolycythemia, imgPepticUlcer, imgOsteoporosis, imgCellulitis, imgCKD, imgClubfoot, imgCompartmentSyndrome, imgConjunctivitis, imgContracture, imgCushings, imgDelayedHemolyticReaction, imgDevHipDysplasia, imgDiabetes, imgDiabetesInsipidus, imgDiabeticNephropathy, imgDIC, imgDisuseAtrophy, imgDuchenne, imgEpiglottitis, imgEpistaxis, imgErysipelas, imgErythemaMultiforme, imgFallPrevention, imgFebrileNeutropenia, imgFebrileNonhemolytic, imgFibromyalgia, imgForeignBodyAspiration, imgFractureTypes, imgFungalInfections, imgGalactosemia, imgGlaucoma, imgGlomerulonephritis, imgGout, imgGraftVsHost, imgGravesDisease, imgHashimotoThyroiditis, imgHeadLice, imgHemolyticUremicSyndrome, imgHemophilia, imgNeonatalFeeding, imgNeonatalHypoglycemia, imgNeonatalJaundice, imgNeonatalSepsis, imgNeuroblastoma, imgNewbornDiabeticMother, imgOsteogenesisImperfecta, imgOvarianHyperstimulation, imgPatentDuctusArteriosus, imgPavlikHarness, imgPediatricVitalsChart, imgPediatricDehydration, imgPinworms, imgPKU, imgPlacentalAbruption, imgPlacentaPrevia, imgPostpartumHemorrhage, imgPyloricStenosis, imgReye, imgRhIncompatibility, imgROP, imgSeparationAnxiety, imgSerotoninSyndrome, imgStagesOfLabor, imgSubstanceAbuse, imgThermoregulation, imgTonsillectomy, imgToxicShockSyndrome, imgTrisomy21, imgTurnerSyndrome, imgUmbilicalCordCare, imgUmbilicalCordProlapse, imgVaginalHematoma, imgVaricella, imgVPShunt, imgHyperemesisGravidarum, imgInfantReflexes, imgIntussusception, imgLeadPoisoning, imgLeukemia, imgLochia, imgLungCancer, imgMastitis, imgMeasles, imgMeconiumAspiration, imgMeconiumIleus, imgMeningitisNew, imgMetabolicSyndrome, imgMRSA, imgCongenitalHypothyroidism, imgFetalMonitoring, imgEpisiotomy, imgHepatitisB, imgProstatitis, imgRotavirus, imgRubella, imgScabiesV3, imgScarletFever, imgShortBowelV4, imgSJSV2, imgSkinAssessment, imgSpinalStenosisV3, imgSprain, imgStroke, imgEsophagealStricture, imgMumps, imgNEC, imgOpioidOverdose, imgNeonatalReflexes, imgOtitisMedia, imgObstructiveUropathy, imgNarcolepsy, imgMultipleSclerosis, imgMyastheniaGravis, imgPancreaticPseudocyst, imgPapilledema, imgWernicke, imgWilmsTumor, imgWoundAssessment, imgWoundInfection, imgWoundVAC, imgVRE, imgParkinsonsNew, imgPediatricSeizuresNew, imgPepticUlcerNew, imgPeripheralNeuropathy, imgPemphigusNew, imgPressureInjuriesNew, imgBPD, imgPCOS, imgPhimosis, imgEndometrialPolyp, imgEsophagealVarices, imgFebrileSeizures, imgFundalHeight, imgGalactorrhea, imgGAS, imgGERD, imgGestationalDiabetesRpn, imgGIBleed, imgGuillainBarre };
+export { imgUlcerativeColitis, imgVonWillebrand, imgUrinaryCatheterization, imgSIADH, imgSickleCellCrisis, imgStomaCare, imgThalassemia, imgThrombocytopenia, imgThyroidStorm, imgTRALI, imgVitiligo, imgUrethralStricture, imgVestibularNeuritis, imgAddisons, imgAplasticAnemia, imgAcuteHemolyticReaction, imgAllergicTransfusion, imgAirEmbolism, imgCBI, imgCastCareTraction, imgAlopecia, imgBPH, imgAtopicDermatitis, imgAcromegaly, imgBPPV, imgNGTube, imgPancreatitis, imgPeritonealDialysis, imgPolycysticKidney, imgPolycythemia, imgPepticUlcer, imgOsteoporosis, imgCellulitis, imgCKD, imgClubfoot, imgCompartmentSyndrome, imgConjunctivitis, imgContracture, imgCushings, imgDelayedHemolyticReaction, imgDevHipDysplasia, imgDiabetes, imgDiabetesInsipidus, imgDiabeticNephropathy, imgDIC, imgDisuseAtrophy, imgDuchenne, imgEpiglottitis, imgEpistaxis, imgErysipelas, imgErythemaMultiforme, imgFallPrevention, imgFebrileNeutropenia, imgFebrileNonhemolytic, imgFibromyalgia, imgForeignBodyAspiration, imgFractureTypes, imgFungalInfections, imgGalactosemia, imgGlaucoma, imgGlomerulonephritis, imgGout, imgGraftVsHost, imgGravesDisease, imgHashimotoThyroiditis, imgHeadLice, imgHemolyticUremicSyndrome, imgHemophilia, imgNeonatalFeeding, imgNeonatalHypoglycemia, imgNeonatalJaundice, imgNeonatalSepsis, imgNeuroblastoma, imgNewbornDiabeticMother, imgOsteogenesisImperfecta, imgOvarianHyperstimulation, imgPatentDuctusArteriosus, imgPavlikHarness, imgPediatricVitalsChart, imgPediatricDehydration, imgPinworms, imgPKU, imgPlacentalAbruption, imgPlacentaPrevia, imgPostpartumHemorrhage, imgPyloricStenosis, imgReye, imgRhIncompatibility, imgROP, imgSeparationAnxiety, imgSerotoninSyndrome, imgStagesOfLabor, imgSubstanceAbuse, imgThermoregulation, imgTonsillectomy, imgToxicShockSyndrome, imgTrisomy21, imgTurnerSyndrome, imgUmbilicalCordCare, imgUmbilicalCordProlapse, imgVaginalHematoma, imgVaricella, imgVPShunt, imgHyperemesisGravidarum, imgInfantReflexes, imgIntussusception, imgLeadPoisoning, imgLeukemia, imgLochia, imgLungCancer, imgMastitis, imgMeasles, imgMeconiumAspiration, imgMeconiumIleus, imgMeningitisNew, imgMetabolicSyndrome, imgMRSA, imgCongenitalHypothyroidism, imgFetalMonitoring, imgEpisiotomy, imgHepatitisB, imgProstatitis, imgRotavirus, imgRubella, imgScabiesV3, imgScarletFever, imgShortBowelV4, imgSJSV2, imgSkinAssessment, imgSpinalStenosisV3, imgSprain, imgStroke, imgEsophagealStricture, imgMumps, imgNEC, imgOpioidOverdose, imgNeonatalReflexes, imgOtitisMedia, imgObstructiveUropathy, imgNarcolepsy, imgMultipleSclerosis, imgMyastheniaGravis, imgPancreaticPseudocyst, imgPapilledema, imgWernicke, imgWilmsTumor, imgWoundAssessment, imgWoundInfection, imgWoundVAC, imgVRE, imgParkinsonsNew, imgPediatricSeizuresNew, imgPepticUlcerNew, imgPeripheralNeuropathy, imgPemphigusNew, imgPressureInjuriesNew, imgBPD, imgPCOS, imgPhimosis, imgEndometrialPolyp, imgEsophagealVarices, imgFebrileSeizures, imgFundalHeight, imgGalactorrhea, imgGAS, imgGERD, imgGestationalDiabetesRpn, imgGIBleed, imgGuillainBarre, imgSucralfate, imgSyndactyly, imgSyringomyelia, imgTSS, imgTURP, imgTardiveDyskinesia, imgTetanus, imgThalassemiaV2, imgThermoregulationV2, imgThrombocytopeniaV2, imgThyroidStormV2, imgTinnitus, imgTonsillectomyV2, imgTraction, imgTrigeminalNeuralgia, imgTrisomy21V2, imgTumorMarkers, imgTurnerSyndromeV2 };
 
 export type FlashcardData = {
   id: string;
@@ -810,7 +828,8 @@ export const rpnFlashcards: FlashcardData[] = [
     question: "Trigeminal Neuralgia (Tic Douloureux)",
     answer: "Intense, stabbing facial pain along CN V distribution. Triggered by light touch, chewing, cold wind, talking. Treatment: Carbamazepine (first-line), gabapentin. Avoid triggers. Surgical options: Microvascular decompression.",
     category: "Neurological",
-    difficulty: 3
+    difficulty: 3,
+    image: imgTrigeminalNeuralgia
   },
   {
     id: "rpn-neuro-q8",
@@ -1304,7 +1323,7 @@ export const rpnFlashcards: FlashcardData[] = [
     answer: "Life-threatening exacerbation of hyperthyroidism. Triggers: Surgery, infection, stress in untreated Graves'. Signs: Very high fever (> 40°C), severe tachycardia, delirium, vomiting, shock. Treatment: PTU (blocks synthesis AND conversion), propranolol, cooling measures, IV fluids, corticosteroids.",
     category: "Endocrine",
     difficulty: 4,
-    image: imgThyroidStorm
+    image: imgThyroidStormV2
   },
   {
     id: "rpn-endo-q9",
@@ -1406,7 +1425,7 @@ export const rpnFlashcards: FlashcardData[] = [
     answer: "Platelet count < 150,000/mm³. Causes: Chemotherapy, ITP, HIT, DIC, liver disease. Signs: Petechiae, purpura, bleeding gums, easy bruising, nosebleeds. Precautions: Soft toothbrush, electric razor, no IM injections, no aspirin/NSAIDs, fall prevention. Platelet transfusion if < 10,000-20,000.",
     category: "Hematology",
     difficulty: 2,
-    image: imgThrombocytopenia
+    image: imgThrombocytopeniaV2
   },
   {
     id: "rpn-heme-q5",
@@ -1415,7 +1434,7 @@ export const rpnFlashcards: FlashcardData[] = [
     options: ["Increase the heparin dose", "Discontinue ALL heparin products immediately", "Switch to low-molecular-weight heparin", "Administer protamine sulfate"],
     correctIndex: 1,
     answer: "HIT is an immune-mediated response causing platelet destruction AND paradoxical thrombosis. Immediately discontinue ALL heparin (including flushes, coated lines). Switch to a direct thrombin inhibitor (argatroban, bivalirudin). LMWH is also contraindicated in HIT.",
-    image: imgThrombocytopenia,
+    image: imgThrombocytopeniaV2,
     category: "Hematology",
     difficulty: 3
   },
@@ -2750,7 +2769,8 @@ export const rpnFlashcards: FlashcardData[] = [
     question: "Common Tumor Markers",
     answer: "PSA: Prostate cancer. CA-125: Ovarian cancer. CA 19-9: Pancreatic cancer. CEA: Colorectal cancer. AFP: Liver cancer, testicular cancer. HCG: Testicular cancer, gestational trophoblastic disease. Used for screening, monitoring treatment response, and detecting recurrence.",
     category: "Oncology",
-    difficulty: 3
+    difficulty: 3,
+    image: imgTumorMarkers
   },
   {
     id: "rpn-onc-q5",
@@ -3713,7 +3733,7 @@ export const rpnFlashcards: FlashcardData[] = [
     options: ["Regular razors are dirty", "Low platelets mean your blood can't clot properly, increasing bleeding risk from even small cuts", "It's a hospital rule with no medical basis", "Razors interfere with medications"],
     correctIndex: 1,
     answer: "Platelets are essential for clot formation. With critically low platelets (< 20,000), even minor cuts can cause prolonged bleeding. Bleeding precautions: Electric razor only, soft toothbrush, no flossing, avoid IM injections, no aspirin/NSAIDs, apply pressure to venipuncture sites for 5+ minutes.",
-    image: imgThrombocytopenia,
+    image: imgThrombocytopeniaV2,
     category: "Hematology",
     difficulty: 1
   },
@@ -4038,7 +4058,7 @@ export const rpnFlashcards: FlashcardData[] = [
     options: ["Levothyroxine and aspirin", "PTU, propranolol, corticosteroids, and cooling measures", "Insulin and IV fluids", "Calcium gluconate and vitamin D"],
     correctIndex: 1,
     answer: "Thyroid storm treatment: PTU (blocks thyroid hormone synthesis AND peripheral conversion of T4 to T3), propranolol (controls tachycardia/symptoms), corticosteroids (blocks T4→T3 conversion, prevents adrenal crisis), cooling blankets (avoid aspirin: displaces T4 from proteins), IV fluids.",
-    image: imgThyroidStorm,
+    image: imgThyroidStormV2,
     category: "Endocrine",
     difficulty: 4
   },
@@ -4495,7 +4515,7 @@ export const rpnFlashcards: FlashcardData[] = [
     options: ["Hypokalemia", "Iron overload (hemosiderosis/hemochromatosis)", "Hypocalcemia", "Vitamin B12 deficiency"],
     correctIndex: 1,
     answer: "Repeated blood transfusions cause iron overload because the body has no mechanism to excrete excess iron. Iron deposits in organs (heart, liver, pancreas) causing damage. Treatment: Iron chelation therapy (deferoxamine, deferasirox). Monitor ferritin levels, liver and cardiac function.",
-    image: imgThalassemia,
+    image: imgThalassemiaV2,
     category: "Hematology",
     difficulty: 3
   },
@@ -6578,10 +6598,9 @@ export const rpnFlashcards: FlashcardData[] = [
     type: "term",
     question: "Tonsillectomy Post-Op Care",
     answer: "Position: Side-lying or prone to facilitate drainage. Diet: Clear cool liquids → soft foods. Avoid: Red/brown liquids (mask bleeding), straws (suction/irritation), acidic/citrus, crunchy/rough foods. Monitor for: Frequent swallowing (sign of bleeding: most dangerous complication), hemorrhage (immediate or 5-10 days post-op). Pain management: Avoid aspirin.",
-    image: imgTonsillectomy,
+    image: imgTonsillectomyV2,
     category: "Pediatrics",
-    difficulty: 2,
-    image: imgMeconiumAspiration
+    difficulty: 2
   },
   {
     id: "rpn-mat-q30",
