@@ -723,37 +723,9 @@ function buildCrossLinks(allEntries: EncyclopediaEntry[]): EncyclopediaEntry[] {
 }
 
 export async function seedEncyclopediaEntries(): Promise<{ total: number; byProfession: Record<string, number>; crossLinksAdded: number }> {
-  await pool.query(`
-    CREATE TABLE IF NOT EXISTS encyclopedia_entries (
-      id VARCHAR PRIMARY KEY DEFAULT gen_random_uuid(),
-      profession TEXT NOT NULL,
-      domain TEXT NOT NULL,
-      title TEXT NOT NULL,
-      slug TEXT NOT NULL UNIQUE,
-      overview TEXT NOT NULL,
-      mechanism TEXT,
-      clinical_relevance TEXT,
-      signs_symptoms TEXT,
-      assessment TEXT,
-      management TEXT,
-      complications TEXT,
-      clinical_pearls TEXT,
-      exam_pitfalls TEXT,
-      faq JSONB DEFAULT '[]'::jsonb,
-      keywords TEXT[] DEFAULT '{}'::text[],
-      cross_links JSONB DEFAULT '[]'::jsonb,
-      related_content JSONB DEFAULT '[]'::jsonb,
-      seo_title TEXT,
-      seo_description TEXT,
-      status TEXT DEFAULT 'published',
-      created_at TIMESTAMP DEFAULT NOW() NOT NULL,
-      updated_at TIMESTAMP DEFAULT NOW() NOT NULL
-    )
-  `);
-
   await pool.query(`CREATE INDEX IF NOT EXISTS idx_encyclopedia_profession ON encyclopedia_entries(profession)`);
-  await pool.query(`CREATE INDEX IF NOT EXISTS idx_encyclopedia_domain ON encyclopedia_entries(profession, domain)`);
   await pool.query(`CREATE INDEX IF NOT EXISTS idx_encyclopedia_status ON encyclopedia_entries(status)`);
+  await pool.query(`CREATE INDEX IF NOT EXISTS idx_encyclopedia_category ON encyclopedia_entries(profession, category)`);
 
   const existing = await pool.query(`SELECT COUNT(*)::int AS cnt FROM encyclopedia_entries`);
   if (existing.rows[0].cnt > 100) {
@@ -795,17 +767,19 @@ export async function seedEncyclopediaEntries(): Promise<{ total: number; byProf
       params.push(
         e.profession, e.domain, e.title, e.slug, e.overview, e.mechanism || null,
         e.clinicalRelevance || null, e.signsSymptoms || null, e.assessment || null,
-        e.management || null, e.complications || null, e.clinicalPearls || null,
-        e.examPitfalls || null, JSON.stringify(e.faq || []), e.keywords || [],
+        e.management || null, e.complications || null,
+        JSON.stringify(typeof e.clinicalPearls === 'string' ? [{ text: e.clinicalPearls }] : []),
+        JSON.stringify(typeof e.examPitfalls === 'string' ? [{ text: e.examPitfalls }] : []),
+        JSON.stringify(e.faq || []), e.keywords || [],
         JSON.stringify((e as any).crossLinks || []),
         e.seoTitle || null, e.seoDescription || null
       );
     }
 
     await pool.query(
-      `INSERT INTO encyclopedia_entries (profession, domain, title, slug, overview, mechanism, clinical_relevance, signs_symptoms, assessment, management, complications, clinical_pearls, exam_pitfalls, faq, keywords, cross_links, seo_title, seo_description)
+      `INSERT INTO encyclopedia_entries (profession, category, title, slug, overview, mechanism_physiology, clinical_relevance, signs_symptoms, assessment, management, complications, clinical_pearls, exam_pitfalls, faq_json, seo_keywords, cross_profession_links, seo_title, seo_description)
        VALUES ${values.join(", ")}
-       ON CONFLICT (slug) DO NOTHING`,
+       ON CONFLICT (profession, slug) DO NOTHING`,
       params
     );
 

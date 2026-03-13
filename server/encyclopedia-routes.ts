@@ -16,7 +16,7 @@ function snakeToCamel(obj: any): any {
 export function registerEncyclopediaRoutes(app: Express): void {
   app.get("/api/encyclopedia", async (req, res) => {
     try {
-      const { profession, domain, search, limit, offset } = req.query;
+      const { profession, domain, category, search, limit, offset } = req.query;
       const params: any[] = [];
       const conditions: string[] = ["status = 'published'"];
       let idx = 1;
@@ -25,9 +25,9 @@ export function registerEncyclopediaRoutes(app: Express): void {
         conditions.push(`profession = $${idx++}`);
         params.push(profession);
       }
-      if (domain) {
-        conditions.push(`domain = $${idx++}`);
-        params.push(domain);
+      if (domain || category) {
+        conditions.push(`category = $${idx++}`);
+        params.push(domain || category);
       }
       if (search) {
         conditions.push(`(title ILIKE $${idx} OR overview ILIKE $${idx})`);
@@ -43,14 +43,20 @@ export function registerEncyclopediaRoutes(app: Express): void {
       const total = countResult.rows[0]?.total || 0;
 
       const result = await pool.query(
-        `SELECT id, profession, domain, title, slug, overview, seo_title, seo_description, keywords, created_at
+        `SELECT id, profession, category, title, slug, overview, seo_title, seo_description, seo_keywords, created_at
          FROM encyclopedia_entries ${where}
-         ORDER BY profession, domain, title
+         ORDER BY profession, category, title
          LIMIT ${lim} OFFSET ${off}`,
         params
       );
 
-      res.json({ entries: result.rows.map(snakeToCamel), total, limit: lim, offset: off });
+      const entries = result.rows.map((row: any) => {
+        const camel = snakeToCamel(row);
+        camel.domain = camel.category;
+        return camel;
+      });
+
+      res.json({ entries, total, limit: lim, offset: off });
     } catch (e: any) {
       res.status(500).json({ error: e.message });
     }
@@ -60,7 +66,7 @@ export function registerEncyclopediaRoutes(app: Express): void {
     try {
       const result = await pool.query(
         `SELECT profession, COUNT(*)::int AS count,
-          array_agg(DISTINCT domain) AS domains
+          array_agg(DISTINCT category) AS domains
          FROM encyclopedia_entries WHERE status = 'published'
          GROUP BY profession ORDER BY profession`
       );
@@ -73,9 +79,9 @@ export function registerEncyclopediaRoutes(app: Express): void {
   app.get("/api/encyclopedia/domains/:profession", async (req, res) => {
     try {
       const result = await pool.query(
-        `SELECT domain, COUNT(*)::int AS count
+        `SELECT category AS domain, COUNT(*)::int AS count
          FROM encyclopedia_entries WHERE profession = $1 AND status = 'published'
-         GROUP BY domain ORDER BY domain`,
+         GROUP BY category ORDER BY category`,
         [req.params.profession]
       );
       res.json(result.rows.map(snakeToCamel));
@@ -87,19 +93,19 @@ export function registerEncyclopediaRoutes(app: Express): void {
   app.get("/api/encyclopedia/cross-links/:slug", async (req, res) => {
     try {
       const entry = await pool.query(
-        `SELECT cross_links FROM encyclopedia_entries WHERE slug = $1`,
+        `SELECT cross_profession_links FROM encyclopedia_entries WHERE slug = $1`,
         [req.params.slug]
       );
       if (entry.rows.length === 0) {
         return res.status(404).json({ error: "Entry not found" });
       }
-      const crossLinks = entry.rows[0].cross_links || [];
+      const crossLinks = entry.rows[0].cross_profession_links || [];
       if (crossLinks.length === 0) {
         return res.json({ linked: [] });
       }
       const slugs = crossLinks.map((l: any) => l.slug);
       const linked = await pool.query(
-        `SELECT id, profession, title, slug, domain, overview
+        `SELECT id, profession, title, slug, category AS domain, overview
          FROM encyclopedia_entries WHERE slug = ANY($1) AND status = 'published'`,
         [slugs]
       );
@@ -115,10 +121,10 @@ export function registerEncyclopediaRoutes(app: Express): void {
         `SELECT profession, COUNT(*)::int AS count FROM encyclopedia_entries WHERE status = 'published' GROUP BY profession ORDER BY profession`
       );
       const domainCounts = await pool.query(
-        `SELECT profession, domain, COUNT(*)::int AS count FROM encyclopedia_entries WHERE status = 'published' GROUP BY profession, domain ORDER BY profession, domain`
+        `SELECT profession, category AS domain, COUNT(*)::int AS count FROM encyclopedia_entries WHERE status = 'published' GROUP BY profession, category ORDER BY profession, category`
       );
       const crossLinkCount = await pool.query(
-        `SELECT COUNT(*)::int AS total FROM encyclopedia_entries WHERE status = 'published' AND jsonb_array_length(cross_links) > 0`
+        `SELECT COUNT(*)::int AS total FROM encyclopedia_entries WHERE status = 'published' AND cross_profession_links IS NOT NULL AND cross_profession_links::text != '[]'`
       );
       const totalCount = await pool.query(
         `SELECT COUNT(*)::int AS total FROM encyclopedia_entries WHERE status = 'published'`
@@ -143,7 +149,9 @@ export function registerEncyclopediaRoutes(app: Express): void {
         `SELECT * FROM encyclopedia_entries WHERE slug = $1 AND status = 'published'`,
         [fullSlug]
       );
-      if (!result.rows[0]) {
+      let row = result.rows[0];
+      let matchedSlug = fullSlug;
+      if (!row) {
         const directResult = await pool.query(
           `SELECT * FROM encyclopedia_entries WHERE profession = $1 AND slug = $2 AND status = 'published'`,
           [profession, slug]
@@ -151,20 +159,25 @@ export function registerEncyclopediaRoutes(app: Express): void {
         if (!directResult.rows[0]) {
           return res.status(404).json({ error: "Entry not found" });
         }
-        const entry = snakeToCamel(directResult.rows[0]);
-        return res.json(entry);
+        row = directResult.rows[0];
+        matchedSlug = slug;
       }
-      const entry = snakeToCamel(result.rows[0]);
+      const entry = snakeToCamel(row);
+      entry.domain = entry.category;
+      entry.keywords = entry.seoKeywords;
+      entry.mechanism = entry.mechanismPhysiology;
+      entry.faq = entry.faqJson;
+      entry.crossLinks = entry.crossProfessionLinks;
 
       const relatedResult = await pool.query(
-        `SELECT id, slug, title, domain FROM encyclopedia_entries
-         WHERE profession = $1 AND domain = $2 AND slug != $3 AND status = 'published'
+        `SELECT id, slug, title, category AS domain FROM encyclopedia_entries
+         WHERE profession = $1 AND category = $2 AND slug != $3 AND status = 'published'
          ORDER BY title LIMIT 6`,
-        [profession, result.rows[0].domain, fullSlug]
+        [profession, row.category, matchedSlug]
       );
       entry.relatedEntries = relatedResult.rows.map(snakeToCamel);
 
-      const crossLinks = entry.crossLinks || [];
+      const crossLinks = entry.crossProfessionLinks || [];
       if (Array.isArray(crossLinks) && crossLinks.length > 0) {
         const crossSlugs = crossLinks.map((cl: any) => cl.slug).filter(Boolean);
         if (crossSlugs.length > 0) {
@@ -193,7 +206,13 @@ export function registerEncyclopediaRoutes(app: Express): void {
       if (result.rows.length === 0) {
         return res.status(404).json({ error: "Entry not found" });
       }
-      res.json(snakeToCamel(result.rows[0]));
+      const entry = snakeToCamel(result.rows[0]);
+      entry.domain = entry.category;
+      entry.keywords = entry.seoKeywords;
+      entry.mechanism = entry.mechanismPhysiology;
+      entry.faq = entry.faqJson;
+      entry.crossLinks = entry.crossProfessionLinks;
+      res.json(entry);
     } catch (e: any) {
       res.status(500).json({ error: e.message });
     }
@@ -207,7 +226,7 @@ export function registerEncyclopediaRoutes(app: Express): void {
         SELECT profession,
           COUNT(*)::int AS total,
           COUNT(*) FILTER (WHERE status = 'published')::int AS published,
-          COUNT(DISTINCT domain)::int AS domains
+          COUNT(DISTINCT category)::int AS domains
         FROM encyclopedia_entries
         GROUP BY profession
         ORDER BY profession
@@ -216,7 +235,7 @@ export function registerEncyclopediaRoutes(app: Express): void {
         SELECT COUNT(*)::int AS total,
           COUNT(*) FILTER (WHERE status = 'published')::int AS published,
           COUNT(DISTINCT profession)::int AS professions,
-          COUNT(DISTINCT domain)::int AS domains
+          COUNT(DISTINCT category)::int AS domains
         FROM encyclopedia_entries
       `);
       res.json({
@@ -232,14 +251,14 @@ export function registerEncyclopediaRoutes(app: Express): void {
     const admin = await requireAdmin(req, res);
     if (!admin) return;
     try {
-      const { profession, domain, status, limit = "100" } = req.query;
+      const { profession, domain, category, status, limit = "100" } = req.query;
       let query = `SELECT * FROM encyclopedia_entries WHERE 1=1`;
       const params: any[] = [];
       let idx = 1;
       if (profession) { query += ` AND profession = $${idx++}`; params.push(profession); }
-      if (domain) { query += ` AND domain = $${idx++}`; params.push(domain); }
+      if (domain || category) { query += ` AND category = $${idx++}`; params.push(domain || category); }
       if (status) { query += ` AND status = $${idx++}`; params.push(status); }
-      query += ` ORDER BY profession, domain, title LIMIT $${idx++}`;
+      query += ` ORDER BY profession, category, title LIMIT $${idx++}`;
       params.push(Math.min(parseInt(String(limit)) || 100, 500));
       const result = await pool.query(query, params);
       res.json(result.rows.map(snakeToCamel));
