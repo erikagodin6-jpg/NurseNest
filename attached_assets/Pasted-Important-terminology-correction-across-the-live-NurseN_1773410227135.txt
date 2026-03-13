@@ -1,0 +1,38 @@
+Important terminology correction across the live NurseNest production site:
+
+The American practical nursing exam is NCLEX-PN, not “American REx-PN.”
+REx-PN is Canadian.
+NCLEX-PN is U.S.
+NCLEX-RN is U.S. RN.
+Any Canadian RN wording should not be mislabeled as NCLEX unless the page is specifically referring to U.S. RN exam prep.
+
+Non-negotiable:
+Apply this on the live production site/content/config only, not just Replit preview or dev data.
+
+Tasks:
+1. Audit all practical nursing, RN, NP, homepage, landing page, SEO, metadata, product cards, badges, filters, FAQs, CTA blocks, lesson copy, exam labels, schema, alt text, and admin content where exam names appear.
+2. Find and correct all incorrect terminology, including:
+   - “American REx-PN” → replace with “NCLEX-PN”
+   - any U.S. practical nursing references incorrectly labeled as REx-PN
+   - any shared tier copy that confuses Canadian vs U.S. exam naming
+3. Ensure the correct exam naming logic is used consistently:
+   - Canada practical nurse = REx-PN
+   - U.S. practical/vocational nurse = NCLEX-PN
+   - U.S. registered nurse = NCLEX-RN
+   - NP pages should reference the supported NP certification/board tracks appropriately and not inherit PN naming
+4. Refactor shared configs/components so exam labels are country-aware and tier-aware, not hardcoded.
+5. If there are dropdowns, chips, tier cards, filters, tags, product labels, or route mappings using incorrect terminology, fix them too.
+6. Update homepage and all tier landing pages so they no longer use incorrect exam names anywhere.
+7. Update SEO/meta/schema/Open Graph text so incorrect exam naming is not being indexed.
+8. Add validation rules so incorrect exam naming cannot be published again.
+9. Verify changes on the actual live public site, not only in preview.
+
+Important:
+Do not do a blind search-and-replace without checking context.
+Use correct terminology by market and learner type.
+
+Success definition:
+- no page on the live site refers to “American REx-PN”
+- U.S. PN is labeled NCLEX-PN
+- Canadian PN is labeled REx-PN
+- terminology is consistent across homepage, landing pages, cards, metadata, and shared components

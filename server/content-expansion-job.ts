@@ -97,12 +97,13 @@ const TIER_DISTRIBUTIONS: TierDistribution[] = [
     exam: "REx-PN",
     count: 500,
     categories: [
-      { name: "Fundamentals of Care", count: 120 },
-      { name: "Med-Surg Nursing", count: 150 },
+      { name: "Fundamentals", count: 120 },
+      { name: "Medical-Surgical", count: 150 },
       { name: "Pharmacology", count: 80 },
-      { name: "Maternal-Newborn", count: 50 },
-      { name: "Pediatrics", count: 50 },
-      { name: "Mental Health", count: 50 },
+      { name: "Maternal/Newborn", count: 40 },
+      { name: "Pediatrics", count: 40 },
+      { name: "Mental Health", count: 40 },
+      { name: "Professional Practice/Safety", count: 30 },
     ],
   },
   {
@@ -111,13 +112,13 @@ const TIER_DISTRIBUTIONS: TierDistribution[] = [
     count: 500,
     categories: [
       { name: "Management of Care", count: 80 },
-      { name: "Safety & Infection Control", count: 60 },
-      { name: "Health Promotion", count: 50 },
-      { name: "Psychosocial Integrity", count: 50 },
-      { name: "Pharmacological Therapies", count: 70 },
-      { name: "Reduction of Risk Potential", count: 60 },
-      { name: "Physiological Adaptation", count: 70 },
-      { name: "Basic Care & Comfort", count: 60 },
+      { name: "Safety and Infection Control", count: 60 },
+      { name: "Health Promotion and Maintenance", count: 60 },
+      { name: "Psychosocial Integrity", count: 60 },
+      { name: "Basic Care and Comfort", count: 60 },
+      { name: "Pharmacology and Parenteral Therapies", count: 70 },
+      { name: "Reduction of Risk Potential", count: 50 },
+      { name: "Physiological Adaptation", count: 60 },
     ],
   },
   {
@@ -127,10 +128,12 @@ const TIER_DISTRIBUTIONS: TierDistribution[] = [
     categories: [
       { name: "Advanced Pathophysiology", count: 120 },
       { name: "Advanced Pharmacology", count: 100 },
-      { name: "Differential Diagnosis", count: 80 },
-      { name: "Clinical Management", count: 80 },
-      { name: "Health Promotion & Disease Prevention", count: 60 },
-      { name: "Professional Role & Policy", count: 60 },
+      { name: "Advanced Health Assessment", count: 80 },
+      { name: "Primary Care Adult", count: 60 },
+      { name: "Primary Care Pediatric", count: 40 },
+      { name: "Primary Care Women's Health", count: 40 },
+      { name: "Mental Health / Psych NP", count: 30 },
+      { name: "Diagnostics / Clinical Decision Making", count: 30 },
     ],
   },
 ];
@@ -260,9 +263,11 @@ CRITICAL RULES:
 4. Include a thorough rationale explaining why the correct answer is right and why each distractor is wrong.
 5. Include a concise clinical pearl for exam prep.
 6. Vary difficulty: approximately 30% moderate, 50% hard, 20% very challenging.
-7. Use varied scenario types: prioritization, next-best-action, safety, delegation, lab interpretation, pharmacology, assessment.
+7. Use a balanced mix of question types: prioritization, next-best-action, safety, delegation, infection control, lab interpretation, ABG interpretation, ECG recognition, pharmacology adverse effects, pharmacology teaching, contraindications, maternal/newborn scenarios, pediatric scenarios, mental health scenarios, chronic disease management, urgent/emergent complications, diagnostic reasoning.
 8. Do NOT use emoji anywhere. Plain text only.
 9. Every stem must be a realistic clinical vignette with specific patient data.
+10. Vary age, setting, gender, acuity, and scenario details across questions.
+11. Avoid overusing the same disease topics. Ensure distractors are plausible but clearly wrong.
 
 Return a JSON object with key "questions" containing an array of question objects.
 Each object:
@@ -276,11 +281,13 @@ Each object:
   "rationale": "Why the correct answer is right. Include pathophysiology and clinical reasoning. Minimum 100 words.",
   "distractorRationales": { "A": "Why A is wrong", "B": "Why B is wrong", "C": "Why C is wrong", "D": "Why D is wrong" },
   "clinicalPearl": "A concise high-yield clinical pearl for exam prep",
+  "examStrategy": "A brief exam-taking strategy tip for this type of question",
   "difficulty": 1-5,
   "bodySystem": "Primary body system (e.g., Cardiac, Respiratory, Neuro, Renal, Endocrine, GI, Hematology, Immune, Integumentary, MSK, Reproductive, Multi-system)",
   "topic": "Specific topic within the category",
   "subtopic": "More specific subtopic",
-  "tags": ["tag1", "tag2", "tag3"]
+  "tags": ["tag1", "tag2", "tag3"],
+  "cognitiveLevel": "Application or Analysis or Synthesis or Evaluation"
 }`;
 }
 
@@ -341,7 +348,7 @@ async function generateBatch(
   const maxTokens = Math.min(count * 800 + 500, 16384);
 
   const response = await openai.chat.completions.create({
-    model: "openai/gpt-4o-mini",
+    model: "gpt-4o-mini",
     messages: [
       { role: "system", content: systemPrompt },
       { role: "user", content: userPrompt },
@@ -444,16 +451,16 @@ async function insertQuestionWithFlashcard(
       `INSERT INTO exam_questions (
         tier, exam, question_type, status, stem, options, correct_answer,
         rationale, difficulty, tags, body_system, topic, subtopic,
-        region_scope, career_type, stem_hash, clinical_pearl,
+        region_scope, career_type, stem_hash, clinical_pearl, exam_strategy,
         distractor_rationales, published_at
-      ) VALUES ($1, $2, 'MCQ', 'published', $3, $4, $5, $6, $7, $8, $9, $10, $11, 'BOTH', 'nursing', $12, $13, $14, NOW())
+      ) VALUES ($1, $2, 'MCQ', 'published', $3, $4, $5, $6, $7, $8, $9, $10, $11, 'BOTH', 'nursing', $12, $13, $14, $15, NOW())
       RETURNING id`,
       [
         tier, exam, q.stem, options, correctAnswer,
         q.rationale, q.difficulty || 3,
         q.tags || [], q.bodySystem || "Multi-system",
         q.topic || null, q.subtopic || null,
-        stemHash, q.clinicalPearl || null,
+        stemHash, q.clinicalPearl || null, q.examStrategy || null,
         q.distractorRationales ? JSON.stringify(q.distractorRationales) : null,
       ]
     );
@@ -484,7 +491,7 @@ async function insertQuestionWithFlashcard(
         tier, front, back, contentHash, questionId,
         options, correctAnswer,
         q.rationale || "", q.distractorRationales ? JSON.stringify(q.distractorRationales) : null,
-        q.clinicalPearl || null, q.clinicalPearl || null,
+        q.clinicalPearl || null, q.examStrategy || q.clinicalPearl || null,
         JSON.stringify(images), JSON.stringify(lessonLinks),
         q.difficulty || 3, q.bodySystem || "Multi-system",
         q.topic || null, q.subtopic || null,
@@ -557,8 +564,28 @@ async function runExpansionJob(): Promise<void> {
     currentJob.status = "running";
     let globalBatch = 0;
 
+    const BASELINE_COUNTS: Record<string, number> = { rpn: 3186, rn: 3351, np: 2135 };
+    const tierCurrentCounts: Record<string, number> = {};
+    try {
+      const countResult = await targetPool.query(
+        `SELECT tier, COUNT(*)::int as c FROM exam_questions WHERE status = 'published' AND career_type = 'nursing' GROUP BY tier`
+      );
+      for (const row of countResult.rows) {
+        tierCurrentCounts[row.tier] = row.c;
+      }
+    } catch (err: any) {
+      console.error(`[ContentExpansion] Failed to get tier counts: ${err.message}`);
+    }
+
     let totalBatches = 0;
     for (const tierDist of TIER_DISTRIBUTIONS) {
+      const baseline = BASELINE_COUNTS[tierDist.tier] || 0;
+      const current = tierCurrentCounts[tierDist.tier] || 0;
+      const alreadyAdded = current - baseline;
+      if (alreadyAdded >= tierDist.count) {
+        console.log(`[ContentExpansion] Skipping tier ${tierDist.tier}: already has ${alreadyAdded}/${tierDist.count} new questions`);
+        continue;
+      }
       for (const cat of tierDist.categories) {
         totalBatches += Math.ceil(cat.count / 50);
       }
@@ -569,8 +596,14 @@ async function runExpansionJob(): Promise<void> {
     const MAX_BACKFILL_ROUNDS = 3;
 
     for (const tierDist of TIER_DISTRIBUTIONS) {
+      const baseline = BASELINE_COUNTS[tierDist.tier] || 0;
+      const current = tierCurrentCounts[tierDist.tier] || 0;
+      const alreadyAdded = current - baseline;
+      if (alreadyAdded >= tierDist.count) {
+        continue;
+      }
       currentJob.currentTier = tierDist.tier;
-      console.log(`[ContentExpansion] Starting tier: ${tierDist.tier} (${tierDist.count} questions)`);
+      console.log(`[ContentExpansion] Starting tier: ${tierDist.tier} (${tierDist.count} questions, ${alreadyAdded} already added)`);
 
       for (const cat of tierDist.categories) {
         currentJob.currentCategory = cat.name;

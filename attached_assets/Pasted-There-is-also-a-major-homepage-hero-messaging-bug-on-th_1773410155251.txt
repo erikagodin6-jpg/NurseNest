@@ -1,0 +1,192 @@
+There is also a major homepage/hero messaging bug on the live NurseNest production site:
+
+Problem:
+The main hero/home page is only listing or advertising REx-PN, which is incorrect. NurseNest serves multiple learner tiers, and the homepage hero should not market only REx-PN unless that is intentionally a dedicated PN-only page. Right now the homepage messaging is narrowing the brand and misrepresenting the platform.
+
+Non-negotiable:
+Work only against the live published production site, production database, and production content/config source. Do not fix this only in preview/dev/mock data. Verify changes on the actual public site.
+
+Main objective:
+Fix the homepage hero and any related homepage marketing sections so the homepage accurately represents NurseNest as a multi-tier, multi-path nursing education platform, not just a REx-PN prep site.
+
+STEP 1 — AUDIT THE HOMEPAGE CONTENT SOURCE
+
+Find exactly where the homepage hero content is being pulled from and why it is defaulting to REx-PN-only messaging.
+
+Inspect:
+- homepage hero component
+- homepage content config
+- global marketing config
+- CMS/homepage content records
+- fallback content objects
+- translation/i18n keys
+- SEO/homepage metadata config
+- reusable CTA and promo components on the homepage
+- any shared “featured exam” logic
+- any dynamic badge/tagline/exam label logic
+
+Determine whether the issue is caused by:
+- a hardcoded REx-PN default
+- homepage inheriting from the RPN tier config
+- a missing homepage-specific config
+- a shared hero component using the wrong default content
+- stale cached content
+- a broken content lookup or mapping
+- translation fallback to PN strings
+
+Do not just patch the visible text. Find the actual root cause.
+
+STEP 2 — REWRITE THE HOMEPAGE HERO TO REPRESENT THE FULL PLATFORM
+
+Update the homepage hero so it reflects the real NurseNest offering across tiers.
+
+The homepage should position NurseNest as a comprehensive nursing education platform serving multiple pathways such as:
+- RPN / LVN
+- RN / NCLEX
+- NP Advanced
+- specialty/floor-based learning if those sections are part of the platform
+
+The homepage hero should no longer speak as though the entire site is only for REx-PN users.
+
+Desired messaging direction:
+- premium nursing education platform
+- personalized prep across nursing stages
+- exam prep + lessons + flashcards + question banks + clinical learning tools
+- support for practical nursing, registered nursing, and advanced practice pathways
+- confidence, clinical judgment, exam readiness, and ongoing professional growth
+
+Do not make the homepage copy vague. Make it broad enough to represent the platform but still conversion-focused.
+
+STEP 3 — FIX ALL HOMEPAGE SECTIONS THAT INHERIT THE SAME ISSUE
+
+Audit and correct the entire homepage, not just the hero headline.
+
+Check and fix:
+- hero headline
+- hero subheadline
+- primary CTA
+- secondary CTA
+- tier badges
+- exam labels
+- feature cards
+- benefit blurbs
+- testimonials/reviews intro copy if applicable
+- “who this is for” section
+- FAQ intro or homepage FAQ blurbs
+- section ribbons/banners
+- comparison cards
+- “start studying” sections
+- footer CTA blocks
+- any rotating text or badge chips
+- homepage SEO title/meta description
+- homepage Open Graph text
+- homepage schema/structured data
+
+Remove any homepage language that implies the whole site is only for REx-PN unless it is specifically inside an RPN-dedicated subsection.
+
+STEP 4 — BUILD PROPER HOMEPAGE CONTENT LOGIC
+
+Refactor the homepage so it has its own dedicated content model and does not accidentally inherit one tier’s exam copy.
+
+Requirements:
+- homepage content must be distinct from tier landing pages
+- homepage should not default to RPN tier copy
+- shared hero/CTA components must accept homepage-specific content safely
+- if homepage content is missing, fallback must be neutral platform-level copy, not REx-PN-specific copy
+
+If needed, create a structure like:
+- homepage content config
+- tier landing page content configs
+- shared components with explicit props, no unsafe default exam language
+
+STEP 5 — PRESERVE CONVERSION QUALITY
+
+Make the homepage hero strong from a conversion standpoint.
+
+The homepage should clearly communicate:
+- what NurseNest is
+- who it serves
+- the main study tools available
+- that users can choose the path that fits their level
+
+Possible directional content themes:
+- one platform for every stage of nursing learning
+- from practical nursing to RN to NP advancement
+- lessons, flashcards, question banks, adaptive prep, and clinical learning tools
+- modern, premium, exam-focused learning
+
+Do not let the copy become generic corporate filler. It should still feel clear, premium, and student-centered.
+
+STEP 6 — IF THERE IS A TIER SELECTOR OR HERO CHIP SYSTEM, FIX IT
+
+If the homepage has chips, tabs, pills, dropdowns, or rotating tier labels, verify they reflect the full product ecosystem.
+
+If there is a “featured exam” system:
+- make sure it does not globally lock the homepage to REx-PN
+- either rotate properly, show multiple supported pathways, or use broad platform-level messaging instead
+
+If there are cards or quick links for each tier, ensure they correctly point to:
+- RPN/LVN
+- RN/NCLEX
+- NP Advanced
+- any active specialty pages
+
+STEP 7 — FIX SEO AND METADATA
+
+The homepage metadata should reflect the broader platform.
+
+Update:
+- homepage title tag
+- homepage meta description
+- homepage OG title/description
+- homepage schema if applicable
+- alt text on homepage graphics if they contain incorrect exam references
+
+Do not leave homepage metadata saying or implying NurseNest is only for REx-PN prep.
+
+STEP 8 — VALIDATION AND SAFEGUARDS
+
+Add protection so this does not happen again.
+
+Create validation rules so:
+- homepage cannot publish with tier-specific exam copy unless explicitly intended
+- homepage content is checked for platform-level messaging
+- shared components do not silently fall back to REx-PN copy
+- homepage metadata is validated separately from tier metadata
+
+Add homepage to the admin messaging audit panel and show:
+- page type
+- resolved content source
+- hero headline
+- CTA text
+- metadata preview
+- validation status
+- flags for unintended single-tier messaging
+
+STEP 9 — VERIFY ON THE LIVE PUBLIC SITE
+
+After updating:
+- verify the actual homepage on the live public site
+- confirm that homepage hero no longer only lists REx-PN
+- confirm the homepage now represents multiple tiers accurately
+- confirm no stale cache is preserving the wrong copy
+- confirm preview and production match
+
+STEP 10 — REPORTING
+
+At the end, generate a concise dev/admin report with:
+- root cause of homepage REx-PN-only messaging
+- files/components/configs changed
+- confirmation that homepage hero was corrected
+- confirmation that homepage sections and metadata were also corrected
+- confirmation that the live site now reflects broad multi-tier NurseNest positioning
+
+IMPORTANT GUARDRAILS
+- Do not only change one line of hero text and leave the rest of the homepage PN-specific
+- Do not leave homepage metadata as REx-PN-only
+- Do not fix only preview/dev
+- Do not let homepage fall back to tier-specific copy again
+- Do not make the homepage bland or generic
+
+SUCCESS DEFINITION
+This is complete only when the homepage hero and related homepage marketing sections clearly represent NurseNest as a multi-tier nursing education platform rather than only a REx-PN site, and the fix is visible on the live public site.

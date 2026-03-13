@@ -1,0 +1,322 @@
+Build a production-safe overnight content expansion job for NurseNest that generates a large batch of new nursing questions, automatically creates flashcards from those questions, and attaches appropriate educational images to the rationale where available.
+
+PRIMARY GOAL
+Generate and insert 500 new questions for each nursing tier while also:
+1. creating flashcards for the test bank from each question
+2. attaching appropriate existing site images to rationale/explanation sections when clinically relevant
+3. writing everything to the published production database, never the development database
+4. refreshing the published exam/test bank/flashcard indexes after completion
+
+CRITICAL DATABASE RULE
+Do NOT write to the Replit development database.
+Do NOT generate data only visible in preview.
+All inserts, updates, image links, and flashcard records must go to the live published production database used by nursenest.ca.
+
+Before starting:
+- verify the active DB connection string
+- confirm it is the production database
+- log the database name/host safely for admin verification
+- if the app is connected to a dev DB, switch to production before continuing
+- fail safely rather than writing to the wrong database
+
+CONTENT TO GENERATE
+Create 500 new questions for each of these tiers:
+
+1. RPN / LVN
+2. RN / NCLEX
+3. NP Advanced
+
+Total = 1500 new questions
+
+DISTRIBUTION BY TIER
+
+RPN / LVN (500)
+- Fundamentals: 120
+- Medical-Surgical: 150
+- Pharmacology: 80
+- Maternal/Newborn: 40
+- Pediatrics: 40
+- Mental Health: 40
+- Professional Practice/Safety: 30
+
+RN / NCLEX (500)
+- Management of Care: 80
+- Safety and Infection Control: 60
+- Health Promotion and Maintenance: 60
+- Psychosocial Integrity: 60
+- Basic Care and Comfort: 60
+- Pharmacology and Parenteral Therapies: 70
+- Reduction of Risk Potential: 50
+- Physiological Adaptation: 60
+
+NP Advanced (500)
+- Advanced Pathophysiology: 120
+- Advanced Pharmacology: 100
+- Advanced Health Assessment: 80
+- Primary Care Adult: 60
+- Primary Care Pediatric: 40
+- Primary Care Women’s Health: 40
+- Mental Health / Psych NP: 30
+- Diagnostics / Clinical Decision Making: 30
+
+QUESTION QUALITY STANDARD
+Questions must be licensing-exam quality and suitable for:
+- REx-PN
+- NCLEX-RN
+- NP board-style prep including AANP/ANCC family exams
+
+Each question should be clinically realistic, not simplistic recall unless appropriate.
+Use a balanced mix of:
+- prioritization
+- next-best-action
+- safety
+- delegation
+- infection control
+- lab interpretation
+- ABG interpretation
+- ECG recognition where relevant
+- pharmacology adverse effects
+- pharmacology teaching
+- contraindications
+- maternal/newborn scenarios
+- pediatric scenarios
+- mental health scenarios
+- chronic disease management
+- urgent/emergent complications
+- diagnostic reasoning
+- advanced primary care decision-making for NP
+
+QUESTION UNIQUENESS RULES
+- no duplicate stems
+- no near-duplicate wording
+- vary age, setting, gender, acuity, and scenario details
+- balance easy/moderate/hard difficulty
+- avoid overusing the same disease topics
+- do not create obviously guessable distractors
+- ensure only one best answer unless explicitly designed otherwise
+
+QUESTION SCHEMA
+Each created question record must include at minimum:
+
+- tier
+- category
+- subcategory if available
+- questionStem
+- optionA
+- optionB
+- optionC
+- optionD
+- correctAnswer
+- rationale
+- clinicalPearl
+- difficulty
+- examType
+- lessonSlug
+- imageReference
+- tags
+- status
+- source = "AI Generated"
+- productionReady = true
+
+Use a schema compatible with the existing NurseNest question system.
+
+EXAM TYPES
+For each question, generate versions or mappings suitable for:
+- CAT exam pool
+- Practice exam pool
+- Test bank pool
+
+Rules:
+- CAT exam mode must not display rationale during the exam
+- Practice exam and Test bank can display rationale after answering
+- Flashcards should be generated from the same knowledge point
+
+FLASHCARD REQUIREMENT
+For every newly created question, automatically create at least one linked flashcard for the test bank/flashcard system.
+
+Flashcard rules:
+- front should test the key concept in a concise way
+- back should provide the correct answer plus a brief high-yield explanation
+- if the question is scenario-based, the flashcard should distill the teachable point
+- link the flashcard to the relevant lesson when possible
+- assign the flashcard to the same tier and category
+- ensure flashcards are randomized in the user experience as already designed
+
+Example flashcard transformation:
+Question concept: loop diuretic adverse effect
+Front: What electrolyte imbalance is most associated with loop diuretics?
+Back: Hypokalemia. Loop diuretics increase potassium excretion, which can lead to weakness and dysrhythmias.
+
+If a question contains multiple teachable facts, optionally create:
+- one primary flashcard
+- one secondary reinforcement flashcard
+but avoid redundancy
+
+RATIONALE REQUIREMENT
+Each question must have a strong rationale that includes:
+1. why the correct answer is correct
+2. why the other options are incorrect when useful
+3. a short clinical pearl
+4. brief lesson linkage when appropriate
+
+IMAGE REQUIREMENT
+While generating questions and rationales, attach an appropriate existing NurseNest image to the rationale if an image already exists in the site image library and is relevant.
+
+Use images only when they add value, such as:
+- ECG strips
+- anatomy diagrams
+- medication mechanism visuals
+- disease pathophysiology diagrams
+- assessment graphics
+- obstetric diagrams
+- pediatric growth/assessment visuals
+- wound/skin staging visuals
+- neuro diagrams
+- endocrine feedback diagrams
+- lab interpretation visuals
+
+Do not attach random decorative images.
+Do not attach images that do not match the concept.
+Do not create broken image references.
+
+Image logic:
+- search the existing internal image/image asset library for a concept match
+- if a strong match exists, assign the imageReference to the question rationale and flashcard support view if applicable
+- if no appropriate image exists, leave imageReference null rather than forcing a bad match
+
+Examples:
+- MI rhythm question -> ECG image if available
+- pressure injury staging -> staging image if available
+- DKA pathophysiology -> endocrine/metabolic diagram if available
+- fetal position question -> obstetric diagram if available
+- cranial nerve question -> neuro anatomy image if available
+
+LESSON LINKING
+For each question and flashcard:
+- link to the most relevant existing lessonSlug if one exists
+- if multiple lessons match, choose the best one
+- if no lesson exists, leave null and include it in a “missing lesson opportunities” report
+
+OVERNIGHT JOB ARCHITECTURE
+Implement this as a safe batched content generation process, not a single giant memory-heavy operation.
+
+Use batching:
+- generate in batches of 50 questions
+- validate each batch before insert
+- insert each batch transactionally
+- generate corresponding flashcards after question insert
+- then attach lesson links and images
+- then move to the next batch
+
+Suggested flow per batch:
+1. generate 50 questions
+2. validate schema + uniqueness
+3. insert into production question tables
+4. generate linked flashcards for those inserted questions
+5. map lessonSlug
+6. map imageReference from existing assets
+7. update search/exam indexes
+8. log batch success
+9. continue
+
+VALIDATION RULES
+Before inserting each batch:
+- verify production DB connection
+- verify no duplicate stems within batch
+- verify no major duplicate against existing bank if possible
+- verify all questions have 4 options and 1 correct answer
+- verify rationale exists
+- verify flashcard content exists
+- verify tier/category is valid
+- verify imageReference is valid if populated
+- verify lessonSlug exists if populated
+
+If a record fails validation:
+- skip only the failed record
+- log the reason
+- continue with remaining valid records
+- do not abort the entire run unless production DB verification fails
+
+DUPLICATE PREVENTION
+Add duplicate detection against existing production content using:
+- normalized stem comparison
+- semantic similarity threshold if available
+- same-answer same-rationale same-concept checks
+- repeated distractor patterns
+
+Avoid adding questions that are too close to existing ones already live.
+
+TEST BANK + FLASHCARD INTEGRATION
+After insertion, ensure these new records appear in:
+- published CAT pool where appropriate
+- published Practice exam pool
+- published Test bank
+- published Flashcards
+
+Important:
+The flashcards must be tied to the same topic/category/tier so the test bank and flashcard experience feel cohesive.
+
+UI / ADMIN SUPPORT
+Add an admin progress/report page or log output that shows:
+- start time
+- end time
+- active database target
+- batches completed
+- questions inserted per tier
+- flashcards inserted per tier
+- image-linked rationales per tier
+- lesson-linked questions per tier
+- failed records count
+- duplicate/skipped count
+- final totals
+
+FINAL OUTPUT REPORT
+At the end, print and/or store a report with:
+
+Production DB verified: YES/NO
+
+RPN questions inserted: ___
+RN questions inserted: ___
+NP questions inserted: ___
+
+Total questions inserted: ___
+
+RPN flashcards created: ___
+RN flashcards created: ___
+NP flashcards created: ___
+
+Total flashcards created: ___
+
+Rationales with images attached: ___
+Questions linked to lessons: ___
+Skipped as duplicates: ___
+Failed validation: ___
+
+Also show updated live totals for each tier after refresh.
+
+POST-INSERT TASKS
+After all batches finish:
+1. refresh question indexes
+2. refresh CAT pool
+3. refresh practice/test bank pool
+4. refresh flashcard indexes
+5. clear any relevant cache
+6. verify counts on the published site logic, not just local preview logic
+
+ADDITIONAL SAFETY RULE
+Do not store these only in preview-visible state.
+Do not seed into temporary data.
+Do not generate into dev and promise to copy later.
+Write directly to the live production source of truth.
+
+OPTIONAL IMPROVEMENT
+If the current content model supports it, also assign:
+- estimated exam blueprint category
+- client needs category
+- cognitive level
+- body system
+- topic tags
+to improve filtering later
+
+DELIVERABLE
+Implement the overnight generation job, execute it against the production database, and provide the final report with inserted counts and refreshed published totals.

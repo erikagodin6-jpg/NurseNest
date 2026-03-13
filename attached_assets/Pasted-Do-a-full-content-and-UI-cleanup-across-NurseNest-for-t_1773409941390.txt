@@ -1,0 +1,235 @@
+Do a full content and UI cleanup across NurseNest for the NP tier and all lesson landing pages on the live production site.
+
+Non-negotiable production rule:
+Work only against the published/live production database and live production content pipeline. Do not write to dev-only data, preview-only data, mock data, or temporary Replit environments. Before making changes, verify that the app is pointed to the same production database and content source used by the public NurseNest site. If preview and production are different, correct that first.
+
+Primary goals:
+1. Fully repair empty, partial, placeholder, broken, or non-rendering NP lessons
+2. Fix all tier landing pages so they advertise the correct exam/product type for that tier instead of incorrectly advertising only REx-PN
+3. Remove the book icon from lesson titles/site lesson cards wherever it appears
+4. Remove lesson thumbnail images from the lessons landing page so the page is cleaner and more uniform
+
+PART 1 — NP TIER LESSON AUDIT AND REPAIR
+
+Run a complete NP lesson audit and fix every lesson that is:
+- empty
+- partially generated
+- too thin
+- placeholder text
+- malformed or broken in rendering
+- disconnected from its slug/category
+- missing metadata
+- unpublished but expected to be live
+- missing study-tool associations where supported
+
+Tasks:
+1. Scan all NP lesson records, page routes, slugs, categories, and rendered lesson pages
+2. Identify:
+   - completely empty NP lessons
+   - partially filled NP lessons
+   - broken or blank rendered lessons
+   - duplicate NP lessons
+   - lessons with bad content blocks / malformed JSON / bad rich text
+   - lessons with missing metadata or broken relationships
+3. Repair every empty or incomplete NP lesson with full, premium content
+4. Expand weak NP lessons so they match the strongest lessons in the library
+5. Fix slug mismatches, broken loaders, rendering failures, and content fetch issues
+6. Verify repaired NP lessons load correctly on the actual live site, not just Replit preview
+
+NP lesson content standard:
+Each repaired NP lesson should be advanced, clinically useful, and exam-relevant. Use a Nurse Practitioner level where appropriate. Content should be suitable for board-style preparation and advanced clinical reasoning.
+
+Where relevant, include:
+- title
+- concise overview
+- learning objectives
+- advanced pathophysiology
+- epidemiology/risk factors
+- differential diagnoses
+- focused history
+- focused physical assessment
+- diagnostic criteria
+- labs/imaging/testing
+- evidence-based management
+- pharmacology and medication considerations
+- non-pharmacologic management
+- red flags
+- referral/escalation criteria
+- follow-up/monitoring
+- patient education
+- clinical pearls
+- board-style/high-yield exam tips
+- summary section
+
+Quality guardrails:
+- Do not replace strong existing NP content with weaker generic AI text
+- Do not duplicate the same lesson template wording across all topics
+- Do not leave thin content and mark it complete
+- Keep formatting clean, readable, premium, and mobile-friendly
+
+PART 2 — FIX ALL TIER LANDING PAGE MESSAGING
+
+Problem:
+Right now every tier landing page is incorrectly advertising REx-PN only. This is wrong and harms conversions.
+
+Fix the landing pages so each tier clearly markets the correct exam audience, exam products, and learner type.
+
+Audit and update all tier landing/marketing pages, hero sections, subheadings, CTA text, badges, feature blurbs, and exam references for:
+- RPN / LVN
+- RN / NCLEX
+- NP Advanced
+- and any other allied health / specialty tiers already present
+
+Replace incorrect REx-PN-only language with tier-specific language.
+
+Required messaging logic:
+- RPN / LVN tier should reference REx-PN, practical nursing prep, and any PN/LVN equivalents supported
+- RN tier should reference RN prep, NCLEX-RN, Canadian RN where applicable, and RN-level clinical mastery
+- NP tier should reference advanced practice, board prep, NP exam readiness, advanced diagnostics/pharmacology/clinical reasoning, and supported NP exam tracks where applicable
+- Any other specialty/floor/role pages should advertise the correct learner audience and not inherit REx-PN messaging unless that page is truly PN-focused
+
+Check and fix:
+- hero headings
+- hero subtext
+- CTA buttons
+- feature cards
+- testimonials/review copy if templated
+- FAQ copy
+- SEO metadata
+- alt text if it contains wrong tier language
+- structured data/schema if it includes wrong exam references
+- internal page banners
+- empty state text
+- cards and promotional sections reused across tiers
+
+Important:
+Create a tier-aware content/config mapping so the correct marketing language is rendered automatically by tier rather than hardcoded everywhere. Remove any global default that is causing all pages to fall back to REx-PN messaging.
+
+PART 3 — REMOVE BOOK ICON FROM LESSON TITLES
+
+Remove the book icon from lesson titles everywhere it appears, including:
+- lessons landing page cards
+- lesson detail page titles
+- category listings
+- related lesson widgets
+- search results
+- admin previews if the icon is injected there too
+
+Do this cleanly:
+- remove the icon component, emoji, or prepended glyph
+- preserve typography, spacing, alignment, and visual polish after removal
+- make sure no empty spacing or awkward padding remains where the icon used to be
+- if titles were using flex layouts built around the icon, refactor them properly
+
+PART 4 — REMOVE IMAGES FROM LESSONS LANDING PAGE
+
+On the lessons landing page only, remove the lesson thumbnail/preview images so the page looks cleaner and more streamlined.
+
+Requirements:
+- remove lesson card images/thumbnails from the lessons index/landing page
+- keep the cards visually attractive without the images
+- rebalance spacing, typography, badges, and metadata so cards still feel premium
+- ensure the card layout works well on desktop and mobile
+- do not remove images from inside lesson detail pages unless specifically needed
+- do not break lesson links, filters, pagination, or search
+
+After removing images from the lessons landing page:
+- tighten card height if appropriate
+- improve hierarchy with title, category, difficulty, tags, and short snippet/excerpt
+- make the grid/list feel intentional, not like something is missing
+
+PART 5 — ADMIN AND VALIDATION IMPROVEMENTS
+
+Add admin tools so this does not keep happening.
+
+Create content audit views for at least:
+- NP lesson completeness
+- RN lesson completeness
+- overall tier landing page messaging audit
+
+Admin audit panel should show:
+- total lessons by tier
+- complete lessons
+- partial lessons
+- empty lessons
+- broken lessons
+- last updated date
+- status badges: Complete / Partial / Empty / Broken
+- quick filters
+- one-click open/edit
+
+Add validation rules to prevent publishing:
+- blank lessons
+- lessons under a minimum content threshold
+- lessons missing title or slug
+- malformed lesson content
+- tier landing pages with missing or incorrect tier messaging
+- template fallbacks that default all marketing copy to REx-PN
+
+PART 6 — TECHNICAL CHECKS
+
+Check for and fix:
+- production vs preview database mismatches
+- hardcoded REx-PN copy in shared components
+- broken tier config inheritance
+- slug/content mismatch causing blank lessons
+- hydration or client fetch failures on lesson pages
+- incorrect cache/stale content on live site
+- admin saving to the wrong environment
+- paywall logic accidentally hiding content from valid users/admins
+- fallback UI inserting icons or thumbnails from outdated components
+
+PART 7 — DESIGN/BRAND REQUIREMENTS
+
+Keep everything aligned with NurseNest branding:
+- premium
+- modern-clinical
+- soft clean aesthetic
+- no clutter
+- no placeholder elements
+- no raw developer artifacts
+- polished desktop and mobile layout
+- consistent typography and spacing
+
+For the lessons landing page after image removal:
+- make it elegant and conversion-friendly
+- keep it clean and easy to scan
+- use strong title hierarchy and subtle metadata instead of thumbnail dependence
+
+PART 8 — EXECUTION ORDER
+
+Execute in this exact order:
+1. Verify live production DB/content target
+2. Audit NP lessons
+3. Repair and expand NP lesson content
+4. Audit RN and other tier pages only for incorrect marketing copy inheritance
+5. Fix tier-specific landing page messaging across all tiers
+6. Remove book icon from lesson titles globally where applicable
+7. Remove lesson images from lessons landing page and rebalance design
+8. Add admin audit panels and validation rules
+9. Verify changes on the actual live public site
+10. Refresh/rebuild caches if needed so production reflects the changes
+
+PART 9 — SUCCESS DEFINITION
+
+The work is complete only when:
+- NP tier no longer has obvious empty or underbuilt lessons
+- each tier landing page markets the correct exam/product audience
+- pages no longer incorrectly default to REx-PN messaging
+- the book icon is removed from lesson titles everywhere
+- lesson landing page images are removed cleanly and the page still looks premium
+- all changes are visible on the live published site, not just in Replit preview
+
+PART 10 — REPORTING
+
+When finished, output a concise completion report in admin/dev logs that includes:
+- total NP lessons audited
+- number empty
+- number repaired
+- number expanded
+- any lessons skipped and why
+- which tier landing pages had incorrect REx-PN messaging
+- what shared component/config caused the issue
+- confirmation that book icons were removed
+- confirmation that lesson landing page images were removed
+- confirmation that changes were applied to production/live site, not just preview
