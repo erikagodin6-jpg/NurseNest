@@ -643,6 +643,24 @@ import illustrationPlacentalAbruption from "@assets/placentalabruption_177334060
 import illustrationPlacentaPrevia from "@assets/placentaprevia_1773340609815.png";
 import illustrationPostpartumHemorrhage from "@assets/postpartumhemorrhage_1773340609815.png";
 import illustrationPyloricStenosis from "@assets/pyloricstenosis_1773340609815.png";
+import illustrationWoundHealingPhases from "@assets/healing_1773374903956.jpeg";
+import illustrationHeatStroke from "@assets/heatstroke_1773374903956.png";
+import illustrationHELLPSyndrome from "@assets/HELLP_1773374903956.png";
+import illustrationHemodialysis from "@assets/hemodialysis_1773374903956.png";
+import illustrationHemorrhoidsNew from "@assets/hemorrhoids_1773374903956.png";
+import illustrationHepatitisNew from "@assets/hepatitis_1773374903956.png";
+import illustrationHerpesZoster from "@assets/herpes_1773374903956.png";
+import illustrationHFMNew from "@assets/HFM_1773374903956.png";
+import illustrationHyperemesisGravidarumNew from "@assets/HG_1773374903956.png";
+import illustrationHiatalHerniaNew from "@assets/hiatalhernia_1773374903956.png";
+import illustrationHidradenitis from "@assets/hidra_1773374903956.png";
+import illustrationHidradenitisProg from "@assets/hidradenitis_1773374903956.png";
+import illustrationHipDysplasiaNew from "@assets/hipdysplasia_1773374903956.png";
+import illustrationHirschsprung from "@assets/hirschsprung_1773374903956.png";
+import illustrationHIV from "@assets/HIV_1773374903956.png";
+import illustrationHydrocephalusNew from "@assets/hydrocephalus_1773374903956.png";
+import illustrationHyperthyroidism from "@assets/hyperthyroidism_1773374903956.png";
+import illustrationHypospadias from "@assets/hypospadias_1773374903956.png";
 
 import illustrationUrethritis from "@assets/urethritis_1773375165171.png";
 import illustrationUterineProlapse from "@assets/uterineprolapse_1773375165171.png";
@@ -906,7 +924,7 @@ const lessonSpecificImages: Record<string, string> = {
   "malignant-hyperthermia-np": illustrationMalignantHyperthermiaV4,
   "psoriasis": illustrationAtopicDermatitis2,
   "eczema-atopic-dermatitis": illustrationAtopicDermatitis,
-  "herpes-zoster-shingles": illustrationShinglesV2,
+  "herpes-zoster-shingles": illustrationHerpesZoster,
   "ards-management": illustrationAsthma,
   "oxygen-therapy": illustrationOxygenTherapyV5,
   "oxygen-therapy-rpn": illustrationOxygenTherapyV5,
@@ -1055,9 +1073,9 @@ const lessonSpecificImages: Record<string, string> = {
   "atp-molecule": illustrationATPMolecule,
   "atp-synthesis": illustrationATPMolecule,
   "vitiligo": illustrationVitiligo,
-  "herpes-zoster": illustrationShinglesV2,
-  "shingles": illustrationShinglesV2,
-  "varicella-zoster": illustrationShinglesV2,
+  "herpes-zoster": illustrationHerpesZoster,
+  "shingles": illustrationHerpesZoster,
+  "varicella-zoster": illustrationHerpesZoster,
   "homeostasis": illustrationHomeostasis,
   "feedback-loops": illustrationHomeostasis,
   "homeostasis-feedback": illustrationHomeostasis,
@@ -1128,11 +1146,11 @@ const lessonSpecificImages: Record<string, string> = {
   "febrile-seizures-rpn": illustrationFebrileSeizuresV2,
   "febrile-seizures-rn": illustrationFebrileSeizuresV2,
   "febrile-seizures-np": illustrationFebrileSeizuresV2,
-  "hydrocephalus": illustrationHydrocephalusV2,
-  "hydrocephalus-basics-rpn": illustrationHydrocephalusV2,
-  "hydrocephalus-rpn": illustrationHydrocephalusV2,
-  "hydrocephalus-rn": illustrationHydrocephalusV2,
-  "hydrocephalus-np": illustrationHydrocephalusV2,
+  "hydrocephalus": illustrationHydrocephalusNew,
+  "hydrocephalus-basics-rpn": illustrationHydrocephalusNew,
+  "hydrocephalus-rpn": illustrationHydrocephalusNew,
+  "hydrocephalus-rn": illustrationHydrocephalusNew,
+  "hydrocephalus-np": illustrationHydrocephalusNew,
   "korsakoff-syndrome-rpn": illustrationKorsakoffNew,
   "korsakoff-syndrome": illustrationKorsakoffNew,
   "korsakoff-syndrome-rn": illustrationKorsakoffNew,
@@ -1202,21 +1220,21 @@ const lessonSpecificImages: Record<string, string> = {
   "gerd-np": illustrationGerdV2,
   "gerd-management": illustrationGerdV2,
   "gastroesophageal-reflux": illustrationGerdV2,
-  "hemorrhoids": illustrationHemorrhoidsV2,
-  "hemorrhoids-rpn": illustrationHemorrhoidsV2,
-  "hemorrhoids-rn": illustrationHemorrhoidsV2,
-  "hemorrhoids-np": illustrationHemorrhoidsV2,
-  "hemorrhoid-management": illustrationHemorrhoidsV2,
-  "hepatitis": illustrationHepatitisV2,
-  "hepatitis-rpn": illustrationHepatitisV2,
-  "hepatitis-rn": illustrationHepatitisV2,
-  "hepatitis-np": illustrationHepatitisV2,
-  "hepatitis-b": illustrationHepatitisV2,
-  "hepatitis-c": illustrationHepatitisV2,
-  "hiatal-hernia": illustrationHiatalHerniaV2,
-  "hiatal-hernia-rpn": illustrationHiatalHerniaV2,
-  "hiatal-hernia-rn": illustrationHiatalHerniaV2,
-  "hiatal-hernia-np": illustrationHiatalHerniaV2,
+  "hemorrhoids": illustrationHemorrhoidsNew,
+  "hemorrhoids-rpn": illustrationHemorrhoidsNew,
+  "hemorrhoids-rn": illustrationHemorrhoidsNew,
+  "hemorrhoids-np": illustrationHemorrhoidsNew,
+  "hemorrhoid-management": illustrationHemorrhoidsNew,
+  "hepatitis": illustrationHepatitisNew,
+  "hepatitis-rpn": illustrationHepatitisNew,
+  "hepatitis-rn": illustrationHepatitisNew,
+  "hepatitis-np": illustrationHepatitisNew,
+  "hepatitis-b": illustrationHepatitisNew,
+  "hepatitis-c": illustrationHepatitisNew,
+  "hiatal-hernia": illustrationHiatalHerniaNew,
+  "hiatal-hernia-rpn": illustrationHiatalHerniaNew,
+  "hiatal-hernia-rn": illustrationHiatalHerniaNew,
+  "hiatal-hernia-np": illustrationHiatalHerniaNew,
   "cirrhosis-management": illustrationCirrhosisV2,
   "cirrhosis": illustrationCirrhosisV2,
   "cirrhosis-rpn": illustrationCirrhosisV2,
@@ -1314,14 +1332,15 @@ const lessonSpecificImages: Record<string, string> = {
   "scoliosis-rpn": illustrationScoliosisV2,
   "scoliosis-rn": illustrationScoliosisV2,
   "scoliosis-np": illustrationScoliosisV2,
-  "hip-dysplasia": illustrationDevHipDysplasia,
-  "hip-dysplasia-rpn": illustrationDevHipDysplasia,
-  "hip-dysplasia-rn": illustrationDevHipDysplasia,
-  "hip-dysplasia-np": illustrationDevHipDysplasia,
-  "developmental-hip-dysplasia": illustrationDevHipDysplasia,
-  "developmental-hip-dysplasia-rpn": illustrationDevHipDysplasia,
-  "developmental-hip-dysplasia-rn": illustrationDevHipDysplasia,
-  "developmental-hip-dysplasia-np": illustrationDevHipDysplasia,
+  "hip-dysplasia": illustrationHipDysplasiaNew,
+  "hip-dysplasia-rpn": illustrationHipDysplasiaNew,
+  "hip-dysplasia-rn": illustrationHipDysplasiaNew,
+  "hip-dysplasia-np": illustrationHipDysplasiaNew,
+  "developmental-hip-dysplasia": illustrationHipDysplasiaNew,
+  "developmental-hip-dysplasia-rpn": illustrationHipDysplasiaNew,
+  "developmental-hip-dysplasia-rn": illustrationHipDysplasiaNew,
+  "developmental-hip-dysplasia-np": illustrationHipDysplasiaNew,
+  "fracture-types": illustrationMusculoskeletalAnatomy,
   "cast-care": illustrationCastCareTraction,
   "cast-care-rpn": illustrationCastCareTraction,
   "cast-care-rn": illustrationCastCareTraction,
@@ -1418,10 +1437,14 @@ const lessonSpecificImages: Record<string, string> = {
 
   "spinal-cord-basics": illustrationSpinalCord,
 
-  "wound-care": illustrationWoundHealing,
-  "wound-healing": illustrationWoundHealing,
-  "wound-management": illustrationWoundHealing,
-  "skin-integrity": illustrationWoundHealing,
+  "wound-care": illustrationWoundHealingPhases,
+  "wound-healing": illustrationWoundHealingPhases,
+  "wound-healing-phases": illustrationWoundHealingPhases,
+  "wound-healing-rpn": illustrationWoundHealingPhases,
+  "wound-healing-rn": illustrationWoundHealingPhases,
+  "wound-healing-np": illustrationWoundHealingPhases,
+  "wound-management": illustrationWoundHealingPhases,
+  "skin-integrity": illustrationWoundHealingPhases,
 
   "blood-transfusion-rpn": illustrationBloodTyping,
   "blood-typing": illustrationBloodTyping,
@@ -1516,10 +1539,13 @@ const lessonSpecificImages: Record<string, string> = {
 
   "psoriasis-management": illustrationPsoriasisPatho,
 
-  "shingles-herpes-zoster-rpn": illustrationShinglesV2,
-  "shingles-rpn": illustrationShinglesV2,
-  "shingles-rn": illustrationShinglesV2,
-  "shingles-np": illustrationShinglesV2,
+  "shingles-herpes-zoster-rpn": illustrationHerpesZoster,
+  "shingles-rpn": illustrationHerpesZoster,
+  "shingles-rn": illustrationHerpesZoster,
+  "shingles-np": illustrationHerpesZoster,
+  "herpes-zoster-rpn": illustrationHerpesZoster,
+  "herpes-zoster-rn": illustrationHerpesZoster,
+  "herpes-zoster-np": illustrationHerpesZoster,
 
   "cellulitis-management": illustrationCellulitisNew,
 
@@ -1570,7 +1596,11 @@ const lessonSpecificImages: Record<string, string> = {
   "hypothyroidism-np": illustrationHypothyroidismNew,
   "hypothyroidism-management": illustrationHypothyroidismNew,
   "myxedema-coma": illustrationHypothyroidismNew,
-  "hyperthyroidism-basics": illustrationThyroidPatho,
+  "hyperthyroidism-basics": illustrationHyperthyroidism,
+  "hyperthyroidism": illustrationHyperthyroidism,
+  "hyperthyroidism-rpn": illustrationHyperthyroidism,
+  "hyperthyroidism-rn": illustrationHyperthyroidism,
+  "hyperthyroidism-np": illustrationHyperthyroidism,
   "thyroid-disorders": illustrationThyroidPatho,
 
   "adrenal-crisis": illustrationAddisonsPatho,
@@ -1769,7 +1799,14 @@ const lessonSpecificImages: Record<string, string> = {
 
   "rhabdomyolysis-management": illustrationRhabdomyolysisPatho,
 
-  "hemodialysis-basics-rpn": illustrationAVFistulaPatho,
+  "hemodialysis-basics-rpn": illustrationHemodialysis,
+  "hemodialysis": illustrationHemodialysis,
+  "hemodialysis-rpn": illustrationHemodialysis,
+  "hemodialysis-rn": illustrationHemodialysis,
+  "hemodialysis-np": illustrationHemodialysis,
+  "hemodialysis-basics": illustrationHemodialysis,
+  "hemodialysis-basics-rn": illustrationHemodialysis,
+  "hemodialysis-basics-np": illustrationHemodialysis,
   "peritoneal-dialysis-basics-rpn": illustrationPeritonealDialysis,
 
   "endocarditis-basics-rpn": illustrationEndocarditisSigns,
@@ -2156,16 +2193,19 @@ const lessonSpecificImages: Record<string, string> = {
   "pyloric-stenosis-rn": illustrationPyloricStenosis,
   "pyloric-stenosis-np": illustrationPyloricStenosis,
 
-  "hand-foot-mouth-disease-rpn": illustrationHFM,
-  "hand-foot-mouth": illustrationHFM,
+  "hand-foot-mouth-disease-rpn": illustrationHFMNew,
+  "hand-foot-mouth": illustrationHFMNew,
+  "hand-foot-mouth-disease": illustrationHFMNew,
+  "hand-foot-mouth-rn": illustrationHFMNew,
+  "hand-foot-mouth-np": illustrationHFMNew,
 
   "histoplasmosis-basics-rpn": illustrationHistoplasmosis,
   "histoplasmosis": illustrationHistoplasmosis,
 
-  "hyperemesis-gravidarum-rpn": illustrationHyperemesisGravidarum,
-  "hyperemesis-gravidarum-rn": illustrationHyperemesisGravidarum,
-  "hyperemesis-gravidarum-np": illustrationHyperemesisGravidarum,
-  "hyperemesis-gravidarum": illustrationHyperemesisGravidarum,
+  "hyperemesis-gravidarum-rpn": illustrationHyperemesisGravidarumNew,
+  "hyperemesis-gravidarum-rn": illustrationHyperemesisGravidarumNew,
+  "hyperemesis-gravidarum-np": illustrationHyperemesisGravidarumNew,
+  "hyperemesis-gravidarum": illustrationHyperemesisGravidarumNew,
 
   "impetigo": illustrationImpetigoV2,
   "impetigo-rpn": illustrationImpetigoV2,
@@ -2468,6 +2508,43 @@ const lessonSpecificImages: Record<string, string> = {
   "irrigation-technique": illustrationIrrigation,
   "enteral-feeding-irrigation": illustrationIrrigation,
   "peg-tube-irrigation": illustrationIrrigation,
+
+  "heat-stroke": illustrationHeatStroke,
+  "heat-stroke-rpn": illustrationHeatStroke,
+  "heat-stroke-rn": illustrationHeatStroke,
+  "heat-stroke-np": illustrationHeatStroke,
+  "heatstroke": illustrationHeatStroke,
+
+  "hellp-syndrome": illustrationHELLPSyndrome,
+  "hellp": illustrationHELLPSyndrome,
+  "hellp-rpn": illustrationHELLPSyndrome,
+  "hellp-rn": illustrationHELLPSyndrome,
+  "hellp-np": illustrationHELLPSyndrome,
+
+  "hidradenitis-suppurativa": illustrationHidradenitis,
+  "hidradenitis-suppurativa-rpn": illustrationHidradenitis,
+  "hidradenitis-suppurativa-rn": illustrationHidradenitis,
+  "hidradenitis-suppurativa-np": illustrationHidradenitis,
+  "hidradenitis": illustrationHidradenitis,
+  "hidradenitis-progression": illustrationHidradenitisProg,
+
+  "hirschsprung-disease": illustrationHirschsprung,
+  "hirschsprung": illustrationHirschsprung,
+  "hirschsprung-rpn": illustrationHirschsprung,
+  "hirschsprung-rn": illustrationHirschsprung,
+  "hirschsprung-np": illustrationHirschsprung,
+
+  "hiv-aids": illustrationHIV,
+  "hiv": illustrationHIV,
+  "hiv-rpn": illustrationHIV,
+  "hiv-rn": illustrationHIV,
+  "hiv-np": illustrationHIV,
+  "hiv-prevention": illustrationHIV,
+
+  "hypospadias": illustrationHypospadias,
+  "hypospadias-rpn": illustrationHypospadias,
+  "hypospadias-rn": illustrationHypospadias,
+  "hypospadias-np": illustrationHypospadias,
 };
 
 const systemImageMap: Record<string, string> = {
@@ -2958,7 +3035,7 @@ export function getLessonImage(lessonId: string): string | undefined {
   if (lessonId.includes("becks-triad")) return illustrationBecksTriadV3;
   if (lessonId.includes("icp")) return illustrationICPV3;
   if (lessonId.includes("febrile-seizure")) return illustrationFebrileSeizuresV2;
-  if (lessonId.includes("hydrocephalus")) return illustrationHydrocephalusV2;
+  if (lessonId.includes("hydrocephalus")) return illustrationHydrocephalusNew;
   if (lessonId.includes("korsakoff")) return illustrationKorsakoffV3;
   if (lessonId.includes("guillain-barre") || lessonId.includes("gbs")) return illustrationGuillainBarreV3;
   if (lessonId.includes("constipation")) return illustrationConstipation;
@@ -3245,6 +3322,22 @@ export function getLessonImage(lessonId: string): string | undefined {
   if (lessonId.includes("stages-of-labor") || lessonId.includes("labor-stages")) return illustrationStagesOfLaborV2;
   if (lessonId.includes("esophageal-stricture")) return illustrationEsophagealStrictureV2;
   if (lessonId.includes("diabetes-across") || lessonId.includes("diabetes-mellitus")) return illustrationDiabetesAcrossAges;
+  if (lessonId.includes("wound-healing") || lessonId.includes("healing-phase")) return illustrationWoundHealingPhases;
+  if (lessonId.includes("heat-stroke") || lessonId.includes("heatstroke")) return illustrationHeatStroke;
+  if (lessonId.includes("hellp")) return illustrationHELLPSyndrome;
+  if (lessonId.includes("hemodialysis") || lessonId.includes("haemodialysis")) return illustrationHemodialysis;
+  if (lessonId.includes("hemorrhoid")) return illustrationHemorrhoidsNew;
+  if (lessonId.includes("hepatitis")) return illustrationHepatitisNew;
+  if (lessonId.includes("herpes-zoster") || lessonId.includes("shingles")) return illustrationHerpesZoster;
+  if (lessonId.includes("hand-foot-mouth") || lessonId.includes("hfmd")) return illustrationHFMNew;
+  if (lessonId.includes("hyperemesis")) return illustrationHyperemesisGravidarumNew;
+  if (lessonId.includes("hiatal-hernia")) return illustrationHiatalHerniaNew;
+  if (lessonId.includes("hidradenitis")) return illustrationHidradenitis;
+  if (lessonId.includes("hip-dysplasia")) return illustrationHipDysplasiaNew;
+  if (lessonId.includes("hirschsprung")) return illustrationHirschsprung;
+  if (lessonId.includes("hiv") && !lessonId.includes("archive")) return illustrationHIV;
+  if (lessonId.includes("hyperthyroid")) return illustrationHyperthyroidism;
+  if (lessonId.includes("hypospadias")) return illustrationHypospadias;
   if (lessonId.includes("wound") || lessonId.includes("burn")) return illustrationWound;
   if (lessonId.includes("bacteria") || lessonId.includes("infection")) return illustrationBacteria;
   if (lessonId.includes("virus") || lessonId.includes("viral")) return illustrationVirus;

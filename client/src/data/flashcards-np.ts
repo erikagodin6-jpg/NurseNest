@@ -1,5 +1,5 @@
 import type { FlashcardData } from "./flashcards-rpn";
-import { imgUlcerativeColitis, imgVonWillebrand, imgSIADH, imgSickleCellCrisis, imgVitiligo, imgUrethralStricture, imgVestibularNeuritis, imgAddisons, imgBPH, imgPancreatitis, imgOsteoporosis, imgCellulitis, imgCKD, imgClubfoot, imgCompartmentSyndrome, imgConjunctivitis, imgContracture, imgCushings, imgDelayedHemolyticReaction, imgDevHipDysplasia, imgDiabetes, imgDiabetesInsipidus, imgDiabeticNephropathy, imgDIC, imgDisuseAtrophy, imgDuchenne, imgEpiglottitis, imgEpistaxis, imgErysipelas, imgGlaucoma, imgGlomerulonephritis, imgGravesDisease, imgHashimotoThyroiditis, imgForeignBodyAspiration, imgFibromyalgia, imgHemolyticUremicSyndrome, imgNeuroblastoma, imgPyloricStenosis, imgPlacentaPrevia, imgSerotoninSyndrome, imgTonsillectomy, imgMastitis, imgLeadPoisoning, imgLeukemia, imgLungCancer, imgMeconiumAspiration, imgMeconiumIleus, imgMeningitisNew, imgMetabolicSyndrome, imgMRSA, imgLochia, imgCongenitalHypothyroidism, imgHepatitisB, imgInfantReflexes, imgSucralfate, imgSyndactyly, imgSyringomyelia, imgTardiveDyskinesia, imgTetanus, imgThalassemiaV2, imgThermoregulationV2, imgThrombocytopeniaV2, imgThyroidStormV2, imgTinnitus, imgTonsillectomyV2, imgTraction, imgTrigeminalNeuralgia, imgTrisomy21V2, imgTSS, imgTumorMarkers, imgTurnerSyndromeV2, imgTURP } from "./flashcards-rpn";
+import { imgUlcerativeColitis, imgVonWillebrand, imgSIADH, imgSickleCellCrisis, imgVitiligo, imgUrethralStricture, imgVestibularNeuritis, imgAddisons, imgBPH, imgPancreatitis, imgOsteoporosis, imgCellulitis, imgCKD, imgClubfoot, imgCompartmentSyndrome, imgConjunctivitis, imgContracture, imgCushings, imgDelayedHemolyticReaction, imgDevHipDysplasia, imgDiabetes, imgDiabetesInsipidus, imgDiabeticNephropathy, imgDIC, imgDisuseAtrophy, imgDuchenne, imgEpiglottitis, imgEpistaxis, imgErysipelas, imgGlaucoma, imgGlomerulonephritis, imgGravesDisease, imgHashimotoThyroiditis, imgForeignBodyAspiration, imgFibromyalgia, imgHemolyticUremicSyndrome, imgNeuroblastoma, imgPyloricStenosis, imgPlacentaPrevia, imgSerotoninSyndrome, imgTonsillectomy, imgMastitis, imgLeadPoisoning, imgLeukemia, imgLungCancer, imgMeconiumAspiration, imgMeconiumIleus, imgMeningitisNew, imgMetabolicSyndrome, imgMRSA, imgLochia, imgCongenitalHypothyroidism, imgInfantReflexes, imgSucralfate, imgSyndactyly, imgSyringomyelia, imgTardiveDyskinesia, imgTetanus, imgThalassemiaV2, imgThermoregulationV2, imgThrombocytopeniaV2, imgThyroidStormV2, imgTinnitus, imgTonsillectomyV2, imgTraction, imgTrigeminalNeuralgia, imgTrisomy21V2, imgTSS, imgTumorMarkers, imgTurnerSyndromeV2, imgTURP } from "./flashcards-rpn";
 import imgMenopause from "@assets/menopause_1773374978769.png";
 import imgImpetigo from "@assets/impetigo_1773340649073.png";
 import imgIntestinalMalrotation from "@assets/intestinalmalrotation_1773340649073.png";
@@ -9,6 +9,7 @@ import imgHepatitisC from "@assets/hepatitisc_1773340513136.png";
 import imgGestationalDiabetes from "@assets/gestationaldiabetes_1773340513136.png";
 import { imgStroke, imgProstatitis, imgRotavirus, imgRubella, imgScarletFever, imgShortBowelV4, imgSJSV2, imgSkinAssessment, imgSpinalStenosisV3, imgSprain, imgEsophagealStricture, imgScabiesV3 } from "./flashcards-rpn";
 import illustrationShinglesV2 from "@/assets/images/shingles-v2.png";
+import { imgHIV, imgHepatitisNew } from "./flashcards-rpn";
 import illustrationRetinalDetachmentV2 from "@/assets/images/retinal-detachment-v2.png";
 import illustrationRheumatoidArthritis from "@/assets/images/rheumatoid-arthritis.png";
 import imgAntepartum from "@assets/antepartum_1773340419064.png";
@@ -205,7 +206,7 @@ export const npFlashcards: FlashcardData[] = [
     answer: "FDA-approved PrEP regimens include Truvada (TDF/FTC) for all at-risk populations and Descovy (TAF/FTC) for men and transgender women (not studied in receptive vaginal sex). Cabotegravir IM injection (Apretude) every 2 months is also approved. Baseline requirements: documented negative HIV-1/2 test (4th gen Ag/Ab), CrCl/eGFR (TDF is nephrotoxic), hepatitis B serology (TDF/FTC treat HBV; discontinuation can cause HBV flare), comprehensive STI screening, and pregnancy test in women.",
     category: "Advanced Pharmacology",
     difficulty: 3,
-    image: imgHepatitisB
+    image: imgHepatitisNew
   },
   {
     id: "np-pharm-q18",
@@ -237,7 +238,7 @@ export const npFlashcards: FlashcardData[] = [
     answer: "Discontinuing nucleos(t)ide analogue therapy for chronic HBV without clear virological endpoints (HBsAg seroconversion, sustained HBV DNA suppression) can trigger severe hepatic flares from immune-mediated destruction of hepatocytes as viral replication rebounds. These flares can be fulminant and fatal. The NP must emphasize lifelong therapy in most cases, especially in cirrhotic patients. If discontinuation is considered in non-cirrhotic patients, close monitoring (ALT, HBV DNA every 1-3 months) for at least 12 months is mandatory.",
     category: "Advanced Pharmacology",
     difficulty: 3,
-    image: imgHepatitisB
+    image: imgHepatitisNew
   },
   // ============================================================
   // DIFFERENTIAL DIAGNOSIS (20 cards)
@@ -438,7 +439,7 @@ export const npFlashcards: FlashcardData[] = [
     answer: "This pattern indicates immunity from vaccination: anti-HBs positive (the vaccine produces antibodies to surface antigen) with negative HBsAg (no active infection) and negative anti-HBc (no exposure to the actual virus, as core antibody is only produced during natural infection). Resolved natural infection would show: HBsAg negative, anti-HBs positive, anti-HBc positive. Chronic HBV: HBsAg positive for >6 months. Acute HBV: HBsAg positive, IgM anti-HBc positive.",
     category: "Diagnostic Reasoning",
     difficulty: 2,
-    image: imgHepatitisB
+    image: imgHepatitisNew
   },
   {
     id: "np-diag-q6",
@@ -1025,7 +1026,7 @@ export const npFlashcards: FlashcardData[] = [
     answer: "First prenatal visit labs per ACOG guidelines: CBC (anemia, thrombocytopenia), blood type/Rh/antibody screen (Rh sensitization risk), rubella titer (immunity status), RPR/VDRL (syphilis), HIV (opt-out screening), hepatitis B surface antigen, urinalysis and urine culture (asymptomatic bacteriuria), Pap smear if due per screening guidelines. Offer first-trimester combined screening (nuchal translucency + serum markers) or cell-free DNA for aneuploidy at 10-13 weeks. GDM screening is at 24-28 weeks; GBS culture at 36-37 weeks.",
     category: "Women's Health",
     difficulty: 2,
-    image: imgHepatitisB
+    image: imgHepatitisNew
   },
   {
     id: "np-wh-q2",
@@ -2485,7 +2486,8 @@ export const npFlashcards: FlashcardData[] = [
     correctIndex: 2,
     answer: "Live vaccines (MMR, varicella, live attenuated influenza, oral polio, BCG, yellow fever) are contraindicated in immunocompromised patients with CD4 <200 cells/mm³. With CD4 ≥200, MMR and varicella vaccines CAN be administered if the patient is not immune. Inactivated vaccines (influenza, pneumococcal, Tdap, Hep A/B, HPV, COVID) are safe regardless of CD4 count. Recombinant zoster vaccine (Shingrix) is recommended for adults ≥19 with HIV.",
     category: "Diagnostic Reasoning",
-    difficulty: 3
+    difficulty: 3,
+    image: imgHIV
   },
   {
     id: "np-ac-q9",

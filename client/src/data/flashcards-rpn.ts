@@ -22,7 +22,7 @@ import imgUrethralStricture from "@assets/urethralstricture_1773375165171.png";
 import imgVestibularNeuritis from "@assets/vestibularneuritis_1773268105077.png";
 import illustrationPressureInjuriesV2 from "@/assets/images/pressure-injuries-v2.png";
 import illustrationPressureInjuryStagesV2 from "@/assets/images/pressure-injury-stages-v2.png";
-
+import illustrationRenalCalculi from "@/assets/images/renal-calculi.png";
 import illustrationShinglesV2 from "@/assets/images/shingles-v2.png";
 import illustrationRheumatoidArthritis from "@/assets/images/rheumatoid-arthritis.png";
 import illustrationScoliosis from "@assets/scoli_1773375229956.png";
@@ -206,7 +206,26 @@ import imgTumorMarkers from "@assets/tumormarkers_1773375196271.png";
 import imgTurnerSyndromeV2 from "@assets/turner_1773375196271.png";
 import imgTURP from "@assets/TURP_1773375196271.png";
 
-export { imgUlcerativeColitis, imgVonWillebrand, imgUrinaryCatheterization, imgSIADH, imgSickleCellCrisis, imgStomaCare, imgThalassemia, imgThrombocytopenia, imgThyroidStorm, imgTRALI, imgVitiligo, imgUrethralStricture, imgVestibularNeuritis, imgAddisons, imgAplasticAnemia, imgAcuteHemolyticReaction, imgAllergicTransfusion, imgAirEmbolism, imgCBI, imgCastCareTraction, imgAlopecia, imgBPH, imgAtopicDermatitis, imgAcromegaly, imgBPPV, imgNGTube, imgPancreatitis, imgPeritonealDialysis, imgPolycysticKidney, imgPolycythemia, imgPepticUlcer, imgOsteoporosis, imgCellulitis, imgCKD, imgClubfoot, imgCompartmentSyndrome, imgConjunctivitis, imgContracture, imgCushings, imgDelayedHemolyticReaction, imgDevHipDysplasia, imgDiabetes, imgDiabetesInsipidus, imgDiabeticNephropathy, imgDIC, imgDisuseAtrophy, imgDuchenne, imgEpiglottitis, imgEpistaxis, imgErysipelas, imgErythemaMultiforme, imgFallPrevention, imgFebrileNeutropenia, imgFebrileNonhemolytic, imgFibromyalgia, imgForeignBodyAspiration, imgFractureTypes, imgFungalInfections, imgGalactosemia, imgGlaucoma, imgGlomerulonephritis, imgGout, imgGraftVsHost, imgGravesDisease, imgHashimotoThyroiditis, imgHeadLice, imgHemolyticUremicSyndrome, imgHemophilia, imgNeonatalFeeding, imgNeonatalHypoglycemia, imgNeonatalJaundice, imgNeonatalSepsis, imgNeuroblastoma, imgNewbornDiabeticMother, imgOsteogenesisImperfecta, imgOvarianHyperstimulation, imgPatentDuctusArteriosus, imgPavlikHarness, imgPediatricVitalsChart, imgPediatricDehydration, imgPinworms, imgPKU, imgPlacentalAbruption, imgPlacentaPrevia, imgPostpartumHemorrhage, imgPyloricStenosis, imgReye, imgRhIncompatibility, imgROP, imgSeparationAnxiety, imgSerotoninSyndrome, imgStagesOfLabor, imgSubstanceAbuse, imgThermoregulation, imgTonsillectomy, imgToxicShockSyndrome, imgTrisomy21, imgTurnerSyndrome, imgUmbilicalCordCare, imgUmbilicalCordProlapse, imgVaginalHematoma, imgVaricella, imgVPShunt, imgHyperemesisGravidarum, imgInfantReflexes, imgIntussusception, imgLeadPoisoning, imgLeukemia, imgLochia, imgLungCancer, imgMastitis, imgMeasles, imgMeconiumAspiration, imgMeconiumIleus, imgMeningitisNew, imgMetabolicSyndrome, imgMRSA, imgCongenitalHypothyroidism, imgFetalMonitoring, imgEpisiotomy, imgHepatitisB, imgProstatitis, imgRotavirus, imgRubella, imgScabiesV3, imgScarletFever, imgShortBowelV4, imgSJSV2, imgSkinAssessment, imgSpinalStenosisV3, imgSprain, imgStroke, imgEsophagealStricture, imgMumps, imgNEC, imgOpioidOverdose, imgNeonatalReflexes, imgOtitisMedia, imgObstructiveUropathy, imgNarcolepsy, imgMultipleSclerosis, imgMyastheniaGravis, imgPancreaticPseudocyst, imgPapilledema, imgWernicke, imgWilmsTumor, imgWoundAssessment, imgWoundInfection, imgWoundVAC, imgVRE, imgParkinsonsNew, imgPediatricSeizuresNew, imgPepticUlcerNew, imgPeripheralNeuropathy, imgPemphigusNew, imgPressureInjuriesNew, imgBPD, imgPCOS, imgPhimosis, imgEndometrialPolyp, imgEsophagealVarices, imgFebrileSeizures, imgFundalHeight, imgGalactorrhea, imgGAS, imgGERD, imgGestationalDiabetesRpn, imgGIBleed, imgGuillainBarre, imgSucralfate, imgSyndactyly, imgSyringomyelia, imgTSS, imgTURP, imgTardiveDyskinesia, imgTetanus, imgThalassemiaV2, imgThermoregulationV2, imgThrombocytopeniaV2, imgThyroidStormV2, imgTinnitus, imgTonsillectomyV2, imgTraction, imgTrigeminalNeuralgia, imgTrisomy21V2, imgTumorMarkers, imgTurnerSyndromeV2 };
+import imgWoundHealingPhases from "@assets/healing_1773374903956.jpeg";
+import imgHeatStroke from "@assets/heatstroke_1773374903956.png";
+import imgHELLPNew from "@assets/HELLP_1773374903956.png";
+import imgHemodialysis from "@assets/hemodialysis_1773374903956.png";
+import imgHemorrhoidsNew from "@assets/hemorrhoids_1773374903956.png";
+import imgHepatitisNew from "@assets/hepatitis_1773374903956.png";
+import imgHerpesZoster from "@assets/herpes_1773374903956.png";
+import imgHFMNew from "@assets/HFM_1773374903956.png";
+import imgHyperemesisGravidarumNew from "@assets/HG_1773374903956.png";
+import imgHiatalHerniaNew from "@assets/hiatalhernia_1773374903956.png";
+import imgHidradenitis from "@assets/hidra_1773374903956.png";
+import imgHidradenitisProg from "@assets/hidradenitis_1773374903956.png";
+import imgHipDysplasiaNew from "@assets/hipdysplasia_1773374903956.png";
+import imgHirschsprung from "@assets/hirschsprung_1773374903956.png";
+import imgHIV from "@assets/HIV_1773374903956.png";
+import imgHydrocephalusNew from "@assets/hydrocephalus_1773374903956.png";
+import imgHyperthyroidismNew from "@assets/hyperthyroidism_1773374903956.png";
+import imgHypospadias from "@assets/hypospadias_1773374903956.png";
+
+export { imgUlcerativeColitis, imgVonWillebrand, imgUrinaryCatheterization, imgSIADH, imgSickleCellCrisis, imgStomaCare, imgThalassemia, imgThrombocytopenia, imgThyroidStorm, imgTRALI, imgVitiligo, imgUrethralStricture, imgVestibularNeuritis, imgAddisons, imgAplasticAnemia, imgAcuteHemolyticReaction, imgAllergicTransfusion, imgAirEmbolism, imgCBI, imgCastCareTraction, imgAlopecia, imgBPH, imgAtopicDermatitis, imgAcromegaly, imgBPPV, imgNGTube, imgPancreatitis, imgPeritonealDialysis, imgPolycysticKidney, imgPolycythemia, imgPepticUlcer, imgOsteoporosis, imgCellulitis, imgCKD, imgClubfoot, imgCompartmentSyndrome, imgConjunctivitis, imgContracture, imgCushings, imgDelayedHemolyticReaction, imgDevHipDysplasia, imgDiabetes, imgDiabetesInsipidus, imgDiabeticNephropathy, imgDIC, imgDisuseAtrophy, imgDuchenne, imgEpiglottitis, imgEpistaxis, imgErysipelas, imgErythemaMultiforme, imgFallPrevention, imgFebrileNeutropenia, imgFebrileNonhemolytic, imgFibromyalgia, imgForeignBodyAspiration, imgFractureTypes, imgFungalInfections, imgGalactosemia, imgGlaucoma, imgGlomerulonephritis, imgGout, imgGraftVsHost, imgGravesDisease, imgHashimotoThyroiditis, imgHeadLice, imgHemolyticUremicSyndrome, imgHemophilia, imgNeonatalFeeding, imgNeonatalHypoglycemia, imgNeonatalJaundice, imgNeonatalSepsis, imgNeuroblastoma, imgNewbornDiabeticMother, imgOsteogenesisImperfecta, imgOvarianHyperstimulation, imgPatentDuctusArteriosus, imgPavlikHarness, imgPediatricVitalsChart, imgPediatricDehydration, imgPinworms, imgPKU, imgPlacentalAbruption, imgPlacentaPrevia, imgPostpartumHemorrhage, imgPyloricStenosis, imgReye, imgRhIncompatibility, imgROP, imgSeparationAnxiety, imgSerotoninSyndrome, imgStagesOfLabor, imgSubstanceAbuse, imgThermoregulation, imgTonsillectomy, imgToxicShockSyndrome, imgTrisomy21, imgTurnerSyndrome, imgUmbilicalCordCare, imgUmbilicalCordProlapse, imgVaginalHematoma, imgVaricella, imgVPShunt, imgHyperemesisGravidarum, imgInfantReflexes, imgIntussusception, imgLeadPoisoning, imgLeukemia, imgLochia, imgLungCancer, imgMastitis, imgMeasles, imgMeconiumAspiration, imgMeconiumIleus, imgMeningitisNew, imgMetabolicSyndrome, imgMRSA, imgCongenitalHypothyroidism, imgFetalMonitoring, imgEpisiotomy, imgHepatitisB, imgProstatitis, imgRotavirus, imgRubella, imgScabiesV3, imgScarletFever, imgShortBowelV4, imgSJSV2, imgSkinAssessment, imgSpinalStenosisV3, imgSprain, imgStroke, imgEsophagealStricture, imgMumps, imgNEC, imgOpioidOverdose, imgNeonatalReflexes, imgOtitisMedia, imgObstructiveUropathy, imgNarcolepsy, imgMultipleSclerosis, imgMyastheniaGravis, imgPancreaticPseudocyst, imgPapilledema, imgWernicke, imgWilmsTumor, imgWoundAssessment, imgWoundInfection, imgWoundVAC, imgVRE, imgParkinsonsNew, imgPediatricSeizuresNew, imgPepticUlcerNew, imgPeripheralNeuropathy, imgPemphigusNew, imgPressureInjuriesNew, imgBPD, imgPCOS, imgPhimosis, imgEndometrialPolyp, imgEsophagealVarices, imgFebrileSeizures, imgFundalHeight, imgGalactorrhea, imgGAS, imgGERD, imgGestationalDiabetesRpn, imgGIBleed, imgGuillainBarre, imgSucralfate, imgSyndactyly, imgSyringomyelia, imgTSS, imgTURP, imgTardiveDyskinesia, imgTetanus, imgThalassemiaV2, imgThermoregulationV2, imgThrombocytopeniaV2, imgThyroidStormV2, imgTinnitus, imgTonsillectomyV2, imgTraction, imgTrigeminalNeuralgia, imgTrisomy21V2, imgTumorMarkers, imgTurnerSyndromeV2, imgWoundHealingPhases, imgHeatStroke, imgHELLPNew, imgHemodialysis, imgHemorrhoidsNew, imgHepatitisNew, imgHerpesZoster, imgHFMNew, imgHyperemesisGravidarumNew, imgHiatalHerniaNew, imgHidradenitis, imgHidradenitisProg, imgHipDysplasiaNew, imgHirschsprung, imgHIV, imgHydrocephalusNew, imgHyperthyroidismNew, imgHypospadias };
 
 export type FlashcardData = {
   id: string;
@@ -1018,7 +1037,8 @@ export const rpnFlashcards: FlashcardData[] = [
     question: "Hemorrhoids",
     answer: "Swollen veins in the rectal/anal area. Internal: Painless bleeding. External: Painful, itchy, may thrombose. Management: High-fiber diet, adequate fluids, sitz baths, topical agents, avoid straining. Severe cases: Banding, hemorrhoidectomy.",
     category: "GI",
-    difficulty: 1
+    difficulty: 1,
+    image: imgHemorrhoidsNew
   },
   {
     id: "rpn-gi-q10",
@@ -1078,7 +1098,8 @@ export const rpnFlashcards: FlashcardData[] = [
     correctIndex: 2,
     answer: "NEVER take BP, draw blood, or start an IV in the arm with an AV fistula. These can cause damage or clotting. Always assess the fistula for a thrill (palpable vibration) and bruit (audible swishing) which indicate patency.",
     category: "Renal/GU",
-    difficulty: 1
+    difficulty: 1,
+    image: imgHemodialysis
   },
   {
     id: "rpn-renal-q3",
@@ -1175,7 +1196,8 @@ export const rpnFlashcards: FlashcardData[] = [
     correctIndex: 2,
     answer: "Hemodialysis dietary restrictions: Limit potassium (prevents dysrhythmias), phosphorus (prevents bone disease), sodium (prevents fluid retention), and fluids (prevents overload between treatments). Adequate protein intake is needed due to losses during dialysis.",
     category: "Renal/GU",
-    difficulty: 2
+    difficulty: 2,
+    image: imgHemodialysis
   },
   {
     id: "rpn-renal-q9",
@@ -2221,7 +2243,8 @@ export const rpnFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "First: Immediately wash the affected area with soap and water (do not squeeze). Then report to supervisor/occupational health. Post-exposure prophylaxis (PEP) should be started within 72 hours (ideally within 2 hours). Baseline testing of source and employee.",
     category: "Infection Control",
-    difficulty: 2
+    difficulty: 2,
+    image: imgHIV
   },
   {
     id: "rpn-ic-t3",
@@ -2529,7 +2552,8 @@ export const rpnFlashcards: FlashcardData[] = [
     question: "Wound Healing Phases",
     answer: "1. Hemostasis (immediate): Clot formation. 2. Inflammatory (1-4 days): Redness, swelling, warmth: immune cells clear debris. 3. Proliferative (4-21 days): Granulation tissue, collagen, angiogenesis, epithelialization. 4. Maturation/Remodeling (21 days-2 years): Collagen reorganization, scar strengthening.",
     category: "Wound Care",
-    difficulty: 2
+    difficulty: 2,
+    image: imgWoundHealingPhases
   },
   {
     id: "rpn-wound-q3",
@@ -3133,7 +3157,8 @@ export const rpnFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "Hirschsprung disease: Absence of ganglion cells in a segment of the bowel (usually rectosigmoid), preventing peristalsis. Signs: Failure to pass meconium in first 24-48 hours, abdominal distension, ribbon-like stools, constipation. Diagnosis: Rectal biopsy. Treatment: Surgical resection (pull-through procedure).",
     category: "Pediatrics",
-    difficulty: 3
+    difficulty: 3,
+    image: imgHirschsprung
   },
   {
     id: "rpn-peds-q12",
@@ -3242,7 +3267,7 @@ export const rpnFlashcards: FlashcardData[] = [
     answer: "Localized herpes zoster (shingles): Contact precautions (cover lesions). Disseminated herpes zoster (widespread or immunocompromised client): Airborne AND contact precautions. The varicella-zoster virus can become airborne in disseminated disease. Susceptible staff should not enter the room.",
     category: "Infection Control",
     difficulty: 3,
-    image: illustrationShinglesV2
+    image: imgHerpesZoster
   },
   {
     id: "rpn-ic-t5",
@@ -3500,7 +3525,8 @@ export const rpnFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "Intradialytic hypotension is the most common complication of hemodialysis. Caused by rapid fluid removal exceeding the body's ability to refill the intravascular space. Interventions: Trendelenburg position, NS bolus, slow the ultrafiltration rate, adjust target weight.",
     category: "Renal/GU",
-    difficulty: 2
+    difficulty: 2,
+    image: imgHemodialysis
   },
   {
     id: "rpn-renal-t7",
@@ -3566,7 +3592,7 @@ export const rpnFlashcards: FlashcardData[] = [
     answer: "Morning sickness (NVP) affects up to 80% of pregnancies, typically weeks 6-12. Management: Small, frequent meals, dry crackers/toast before getting up, ginger tea/supplements, avoid triggers (odors, fatty foods), vitamin B6 (pyridoxine). Hyperemesis gravidarum (severe, persistent) requires IV fluids and antiemetics.",
     category: "Maternity",
     difficulty: 1,
-    image: imgHyperemesisGravidarum
+    image: imgHyperemesisGravidarumNew
   },
   {
     id: "rpn-mat-t6",
@@ -3898,7 +3924,8 @@ export const rpnFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "PTU can cause agranulocytosis (severe decrease in WBCs). Sore throat, fever, and malaise may indicate this life-threatening complication. Instruct client to report these symptoms immediately for CBC evaluation. Also monitor for hepatotoxicity (liver failure). Regular CBC and LFT monitoring required.",
     category: "Endocrine",
-    difficulty: 3
+    difficulty: 3,
+    image: imgHyperthyroidismNew
   },
   {
     id: "rpn-renal-q13",
@@ -3907,6 +3934,7 @@ export const rpnFlashcards: FlashcardData[] = [
     options: ["Absence of bruit", "Cool temperature over the site", "Palpable thrill and audible bruit", "Flat appearance of the vein"],
     correctIndex: 2,
     answer: "A functioning AV fistula has: Thrill (palpable vibration/buzzing) and bruit (audible swishing/humming with stethoscope). Absence of thrill/bruit indicates clotting and must be reported immediately. Assess at least every shift. The fistula takes 2-4 months to mature before use.",
+    image: imgHemodialysis,
     category: "Renal/GU",
     difficulty: 1
   },
@@ -4371,7 +4399,7 @@ export const rpnFlashcards: FlashcardData[] = [
     answer: "Hep A: Fecal-oral (contaminated food/water), no carrier state, vaccine available. Hep B: Blood/body fluids, can become chronic, vaccine available, treat with antivirals. Hep C: Blood (IV drug use, transfusion), often chronic, no vaccine, curable with direct-acting antivirals. Hep D: Requires Hep B coinfection. Hep E: Fecal-oral, dangerous in pregnancy.",
     category: "GI",
     difficulty: 3,
-    image: imgHepatitisB
+    image: imgHepatitisNew
   },
   {
     id: "rpn-gi-q18",

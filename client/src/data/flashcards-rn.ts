@@ -1,5 +1,5 @@
 import type { FlashcardData } from "./flashcards-rpn";
-import { imgUlcerativeColitis, imgSIADH, imgSickleCellCrisis, imgStomaCare, imgThrombocytopenia, imgUrinaryCatheterization, imgVitiligo, imgUrethralStricture, imgVestibularNeuritis, imgAddisons, imgAcuteHemolyticReaction, imgAtopicDermatitis, imgBPH, imgCastCareTraction, imgAcromegaly, imgNGTube, imgPancreatitis, imgPeritonealDialysis, imgPepticUlcer, imgOsteoporosis, imgCellulitis, imgCKD, imgClubfoot, imgCompartmentSyndrome, imgConjunctivitis, imgContracture, imgCushings, imgDelayedHemolyticReaction, imgDevHipDysplasia, imgDiabetes, imgDiabetesInsipidus, imgDiabeticNephropathy, imgDIC, imgDisuseAtrophy, imgDuchenne, imgEpiglottitis, imgEpistaxis, imgErysipelas, imgFallPrevention, imgHeadLice, imgHemophilia, imgGravesDisease, imgGout, imgPyloricStenosis, imgPlacentaPrevia, imgPostpartumHemorrhage, imgSerotoninSyndrome, imgVaricella, imgRhIncompatibility, imgIntussusception, imgLeadPoisoning, imgLeukemia, imgLungCancer, imgMeasles, imgMeningitisNew, imgMetabolicSyndrome, imgMRSA, imgCongenitalHypothyroidism, imgFetalMonitoring, imgHepatitisB, imgInfantReflexes, imgWoundVAC, imgWoundInfection, imgEsophagealVarices, imgGIBleed, imgSucralfate, imgSyndactyly, imgSyringomyelia, imgTardiveDyskinesia, imgTetanus, imgThalassemiaV2, imgThermoregulationV2, imgThrombocytopeniaV2, imgThyroidStormV2, imgTinnitus, imgTonsillectomyV2, imgTraction, imgTrigeminalNeuralgia, imgTrisomy21V2, imgTSS, imgTumorMarkers, imgTurnerSyndromeV2, imgTURP } from "./flashcards-rpn";
+import { imgUlcerativeColitis, imgSIADH, imgSickleCellCrisis, imgStomaCare, imgThrombocytopenia, imgUrinaryCatheterization, imgVitiligo, imgUrethralStricture, imgVestibularNeuritis, imgAddisons, imgAcuteHemolyticReaction, imgAtopicDermatitis, imgBPH, imgCastCareTraction, imgAcromegaly, imgNGTube, imgPancreatitis, imgPeritonealDialysis, imgPepticUlcer, imgOsteoporosis, imgCellulitis, imgCKD, imgClubfoot, imgCompartmentSyndrome, imgConjunctivitis, imgContracture, imgCushings, imgDelayedHemolyticReaction, imgDevHipDysplasia, imgDiabetes, imgDiabetesInsipidus, imgDiabeticNephropathy, imgDIC, imgDisuseAtrophy, imgDuchenne, imgEpiglottitis, imgEpistaxis, imgErysipelas, imgFallPrevention, imgHeadLice, imgHemophilia, imgGravesDisease, imgGout, imgPyloricStenosis, imgPlacentaPrevia, imgPostpartumHemorrhage, imgSerotoninSyndrome, imgVaricella, imgRhIncompatibility, imgIntussusception, imgLeadPoisoning, imgLeukemia, imgLungCancer, imgMeasles, imgMeningitisNew, imgMetabolicSyndrome, imgMRSA, imgCongenitalHypothyroidism, imgFetalMonitoring, imgInfantReflexes, imgWoundVAC, imgWoundInfection, imgEsophagealVarices, imgGIBleed, imgSucralfate, imgSyndactyly, imgSyringomyelia, imgTardiveDyskinesia, imgTetanus, imgThalassemiaV2, imgThermoregulationV2, imgThrombocytopeniaV2, imgThyroidStormV2, imgTinnitus, imgTonsillectomyV2, imgTraction, imgTrigeminalNeuralgia, imgTrisomy21V2, imgTSS, imgTumorMarkers, imgTurnerSyndromeV2, imgTURP } from "./flashcards-rpn";
 import imgImpetigo from "@assets/impetigo_1773340649073.png";
 import imgHypothyroidismNew from "@assets/hypothyroidism_1773374939606.png";
 import imgAntepartum from "@assets/antepartum_1773340419064.png";
@@ -11,6 +11,7 @@ import imgCarSeatSafety from "@assets/carseatsafety_1773340419064.png";
 import imgDepression from "@assets/depression_1773340419064.png";
 import imgEctopicPregnancy from "@assets/ectopicpregnancy_1773340513136.png";
 import imgHELLP from "@assets/HELLP_1773340513136.png";
+import { imgHeatStroke, imgHELLPNew, imgHemodialysis, imgHIV, imgHepatitisNew } from "./flashcards-rpn";
 import imgHepatitisC from "@assets/hepatitisc_1773340513136.png";
 const imgEpsteinBarr = undefined;
 import imgStevensJohnson from "@assets/SJS_1773375229956.png";
@@ -932,7 +933,8 @@ export const rnFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "Severe bleeding from an AV fistula is a medical emergency because the fistula carries high-flow arterial blood. The priority is applying firm, direct pressure to the bleeding site. Do NOT apply a tourniquet as this can clot and destroy the fistula. Call for help while maintaining pressure. If bleeding does not stop with direct pressure, the client needs emergent surgical evaluation.",
     category: "Renal/GU",
-    difficulty: 2
+    difficulty: 2,
+    image: imgHemodialysis
   },
   {
     id: "rn-renal-q2",
@@ -942,7 +944,8 @@ export const rnFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "The standard fluid restriction for hemodialysis patients is the previous day's urine output plus 500-1,000 mL for insensible losses (breathing, sweating). For this client: 200 mL + 500-1,000 mL = 700-1,200 mL/day. Weight gain between dialysis sessions should not exceed 2-3 kg (indicating 2-3 liters of retained fluid). Teaching should include ice chips, hard candy, and mouth rinses to manage thirst.",
     category: "Renal/GU",
-    difficulty: 2
+    difficulty: 2,
+    image: imgHemodialysis
   },
   {
     id: "rn-renal-q3",
@@ -1391,14 +1394,13 @@ export const rnFlashcards: FlashcardData[] = [
   {
     id: "rn-mat-q10",
     type: "question",
-    image: imgAntepartum,
+    image: imgHELLPNew,
     question: "A nurse is caring for a client diagnosed with HELLP syndrome. Which set of lab values is consistent with this diagnosis?",
     options: ["Elevated liver enzymes, low platelets, elevated LDH", "Normal liver enzymes, high platelets, low LDH", "Elevated liver enzymes, normal platelets, low WBC", "Low liver enzymes, low platelets, high albumin"],
     correctIndex: 0,
     answer: "HELLP syndrome (Hemolysis, Elevated Liver enzymes, Low Platelets) is a severe variant of preeclampsia. Lab findings include: hemolysis markers (elevated LDH, schistocytes on peripheral smear, elevated indirect bilirubin), elevated AST/ALT (liver enzymes), and thrombocytopenia (platelets <100,000). It is a medical emergency often requiring delivery regardless of gestational age. Complications include DIC, hepatic rupture, and placental abruption.",
     category: "Maternity",
-    difficulty: 3,
-    image: imgHELLP
+    difficulty: 3
   },
   {
     id: "rn-mat-q11",
@@ -1430,7 +1432,7 @@ export const rnFlashcards: FlashcardData[] = [
     answer: "Neonates born to HBsAg-positive mothers must receive BOTH hepatitis B vaccine (active immunity) AND hepatitis B immune globulin (HBIG, passive immunity) within 12 hours of birth, preferably at different injection sites. This dual approach provides immediate protection (HBIG) while the vaccine stimulates the infant's own immune response. This combination is 85-95% effective in preventing perinatal hepatitis B transmission.",
     category: "Maternity",
     difficulty: 2,
-    image: imgHepatitisB
+    image: imgHepatitisNew
   },
   {
     id: "rn-mat-q14",
@@ -1892,7 +1894,8 @@ export const rnFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "Heat stroke is a true medical emergency with mortality rates of 10-80% if untreated. The priority is rapid cooling to reduce core temperature below 39°C within 30 minutes. Methods include ice packs to major vessels (groin, axillae, neck), evaporative cooling (misting with tepid water plus fans), and cold IV fluids. Antipyretics (acetaminophen, NSAIDs) are INEFFECTIVE because the hyperthermia is from heat absorption, not pyrogen-mediated.",
     category: "Emergency",
-    difficulty: 2
+    difficulty: 2,
+    image: imgHeatStroke
   },
   {
     id: "rn-emerg-q13",
@@ -1945,7 +1948,8 @@ export const rnFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "After a needlestick injury: immediately wash the wound with soap and water (do NOT squeeze or milk the wound), report to occupational health/supervisor, and seek evaluation for PEP. PEP (typically 3-drug antiretroviral regimen for 28 days) should ideally be started within 2 hours of exposure, no later than 72 hours. Baseline HIV testing of both the nurse and source client should be obtained. Follow-up testing at 6 weeks, 3 months, and 6 months.",
     category: "Infection Control",
-    difficulty: 2
+    difficulty: 2,
+    image: imgHIV
   },
   {
     id: "rn-ic-q3",
@@ -3059,7 +3063,8 @@ export const rnFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "Heat stroke is characterized by core temperature >40°C (104°F), altered mental status, and hot dry skin (anhidrosis — sweating mechanism fails). This is a medical emergency. Rapid cooling is critical: remove clothing, apply ice packs to groin/axillae/neck, cool IV fluids, evaporative cooling. Monitor for rhabdomyolysis, DIC, and organ failure.",
     category: "Emergency",
-    difficulty: 2
+    difficulty: 2,
+    image: imgHeatStroke
   },
   {
     id: "rn-emerg-q10",
@@ -3572,7 +3577,8 @@ export const rnFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "Assess the AV fistula for a palpable thrill (vibration) and audible bruit (swooshing sound), which indicate patency. NEVER take blood pressure, draw blood, or start an IV in the access arm. Avoid restrictive clothing or positioning. Report absence of thrill/bruit immediately as it may indicate clotting.",
     category: "Renal/GU",
-    difficulty: 1
+    difficulty: 1,
+    image: imgHemodialysis
   },
   {
     id: "rn-renal-q10",
@@ -3684,7 +3690,8 @@ export const rnFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "Post-exposure prophylaxis (PEP) should be initiated as soon as possible, ideally within 2 hours and no later than 72 hours after exposure. PEP consists of a 28-day antiretroviral regimen. Immediately wash the wound with soap and water, report to occupational health, baseline labs (HIV, HBV, HCV), and complete an incident report. Do NOT squeeze the wound.",
     category: "Infection Control",
-    difficulty: 2
+    difficulty: 2,
+    image: imgHIV
   },
   {
     id: "rn-del-q12",
