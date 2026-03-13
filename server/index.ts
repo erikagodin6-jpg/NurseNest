@@ -441,28 +441,28 @@ app.get("/sitemap.xml", async (_req, res) => {
     "rex-pn-practice-questions-free",
   ];
   for (const slug of comparePages) {
-    entries.push(sitemapUrl(base, `/compare/${slug}`, "0.7", "monthly", allLocales, today));
+    entries.push(sitemapUrl(base, `/compare/${slug}`, "0.7", "monthly", indexableLocales, today));
   }
 
-  entries.push(sitemapUrl(base, "/medical-imaging", "0.9", "weekly", allLocales, today));
-  entries.push(sitemapUrl(base, "/medical-imaging/canada", "0.9", "weekly", allLocales, today));
-  entries.push(sitemapUrl(base, "/medical-imaging/usa", "0.9", "weekly", allLocales, today));
-  entries.push(sitemapUrl(base, "/medical-imaging/blog", "0.8", "daily", allLocales, today));
-  entries.push(sitemapUrl(base, "/medical-imaging/canada/lessons", "0.8", "weekly", allLocales, today));
-  entries.push(sitemapUrl(base, "/medical-imaging/canada/positioning", "0.8", "weekly", allLocales, today));
-  entries.push(sitemapUrl(base, "/medical-imaging/canada/physics", "0.8", "weekly", allLocales, today));
-  entries.push(sitemapUrl(base, "/medical-imaging/canada/flashcards", "0.8", "weekly", allLocales, today));
-  entries.push(sitemapUrl(base, "/medical-imaging/canada/practice-exams", "0.8", "weekly", allLocales, today));
-  entries.push(sitemapUrl(base, "/medical-imaging/canada/exam-simulator", "0.8", "weekly", allLocales, today));
-  entries.push(sitemapUrl(base, "/medical-imaging/usa/lessons", "0.8", "weekly", allLocales, today));
-  entries.push(sitemapUrl(base, "/medical-imaging/usa/positioning", "0.8", "weekly", allLocales, today));
-  entries.push(sitemapUrl(base, "/medical-imaging/usa/physics", "0.8", "weekly", allLocales, today));
-  entries.push(sitemapUrl(base, "/medical-imaging/usa/flashcards", "0.8", "weekly", allLocales, today));
-  entries.push(sitemapUrl(base, "/medical-imaging/usa/practice-exams", "0.8", "weekly", allLocales, today));
-  entries.push(sitemapUrl(base, "/medical-imaging/usa/exam-simulator", "0.8", "weekly", allLocales, today));
-  entries.push(sitemapUrl(base, "/radiography-practice-questions", "0.9", "weekly", allLocales, today));
-  entries.push(sitemapUrl(base, "/radiography-positioning-guide", "0.9", "weekly", allLocales, today));
-  entries.push(sitemapUrl(base, "/radiography-artifact-recognition", "0.9", "weekly", allLocales, today));
+  entries.push(sitemapUrl(base, "/medical-imaging", "0.9", "weekly", indexableLocales, today));
+  entries.push(sitemapUrl(base, "/medical-imaging/canada", "0.9", "weekly", indexableLocales, today));
+  entries.push(sitemapUrl(base, "/medical-imaging/usa", "0.9", "weekly", indexableLocales, today));
+  entries.push(sitemapUrl(base, "/medical-imaging/blog", "0.8", "daily", indexableLocales, today));
+  entries.push(sitemapUrl(base, "/medical-imaging/canada/lessons", "0.8", "weekly", indexableLocales, today));
+  entries.push(sitemapUrl(base, "/medical-imaging/canada/positioning", "0.8", "weekly", indexableLocales, today));
+  entries.push(sitemapUrl(base, "/medical-imaging/canada/physics", "0.8", "weekly", indexableLocales, today));
+  entries.push(sitemapUrl(base, "/medical-imaging/canada/flashcards", "0.8", "weekly", indexableLocales, today));
+  entries.push(sitemapUrl(base, "/medical-imaging/canada/practice-exams", "0.8", "weekly", indexableLocales, today));
+  entries.push(sitemapUrl(base, "/medical-imaging/canada/exam-simulator", "0.8", "weekly", indexableLocales, today));
+  entries.push(sitemapUrl(base, "/medical-imaging/usa/lessons", "0.8", "weekly", indexableLocales, today));
+  entries.push(sitemapUrl(base, "/medical-imaging/usa/positioning", "0.8", "weekly", indexableLocales, today));
+  entries.push(sitemapUrl(base, "/medical-imaging/usa/physics", "0.8", "weekly", indexableLocales, today));
+  entries.push(sitemapUrl(base, "/medical-imaging/usa/flashcards", "0.8", "weekly", indexableLocales, today));
+  entries.push(sitemapUrl(base, "/medical-imaging/usa/practice-exams", "0.8", "weekly", indexableLocales, today));
+  entries.push(sitemapUrl(base, "/medical-imaging/usa/exam-simulator", "0.8", "weekly", indexableLocales, today));
+  entries.push(sitemapUrl(base, "/radiography-practice-questions", "0.9", "weekly", indexableLocales, today));
+  entries.push(sitemapUrl(base, "/radiography-positioning-guide", "0.9", "weekly", indexableLocales, today));
+  entries.push(sitemapUrl(base, "/radiography-artifact-recognition", "0.9", "weekly", indexableLocales, today));
 
   try {
     const { pool: sitemapPool } = await import("./storage");
@@ -471,50 +471,50 @@ app.get("/sitemap.xml", async (_req, res) => {
     ).catch(() => ({ rows: [] }));
     for (const page of seoPages.rows) {
       const lastmod = page.updated_at ? new Date(page.updated_at).toISOString().split("T")[0] : today;
-      entries.push(sitemapUrl(base, `/medical-imaging/${page.country}/seo/${page.slug}`, "0.7", "weekly", allLocales, lastmod));
+      entries.push(sitemapUrl(base, `/medical-imaging/${page.country}/seo/${page.slug}`, "0.7", "weekly", indexableLocales, lastmod));
     }
     const blogArticles = await sitemapPool.query(
       `SELECT slug, updated_at FROM imaging_blog_articles WHERE status = 'published' ORDER BY updated_at DESC LIMIT 500`
     ).catch(() => ({ rows: [] }));
     for (const article of blogArticles.rows) {
       const lastmod = article.updated_at ? new Date(article.updated_at).toISOString().split("T")[0] : today;
-      entries.push(sitemapUrl(base, `/medical-imaging/blog/${article.slug}`, "0.7", "weekly", allLocales, lastmod));
+      entries.push(sitemapUrl(base, `/medical-imaging/blog/${article.slug}`, "0.7", "weekly", indexableLocales, lastmod));
     }
     const posEntries = await sitemapPool.query(
       `SELECT slug, country, updated_at FROM imaging_positioning_entries WHERE status = 'published' ORDER BY updated_at DESC LIMIT 500`
     ).catch(() => ({ rows: [] }));
     for (const entry of posEntries.rows) {
       const lastmod = entry.updated_at ? new Date(entry.updated_at).toISOString().split("T")[0] : today;
-      entries.push(sitemapUrl(base, `/medical-imaging/${entry.country}/positioning/${entry.slug}`, "0.7", "monthly", allLocales, lastmod));
+      entries.push(sitemapUrl(base, `/medical-imaging/${entry.country}/positioning/${entry.slug}`, "0.7", "monthly", indexableLocales, lastmod));
     }
   } catch (e) {
     console.error("Imaging sitemap error:", e);
   }
 
-  entries.push(sitemapUrl(base, "/nclex-rn/mock-exam", "0.9", "weekly", allLocales, today));
-  entries.push(sitemapUrl(base, "/nclex-pn/mock-exam", "0.9", "weekly", allLocales, today));
-  entries.push(sitemapUrl(base, "/rex-pn/mock-exam", "0.9", "weekly", allLocales, today));
-  entries.push(sitemapUrl(base, "/canada-np/mock-exam", "0.9", "weekly", allLocales, today));
-  entries.push(sitemapUrl(base, "/us-np/mock-exam", "0.9", "weekly", allLocales, today));
+  entries.push(sitemapUrl(base, "/nclex-rn/mock-exam", "0.9", "weekly", indexableLocales, today));
+  entries.push(sitemapUrl(base, "/nclex-pn/mock-exam", "0.9", "weekly", indexableLocales, today));
+  entries.push(sitemapUrl(base, "/rex-pn/mock-exam", "0.9", "weekly", indexableLocales, today));
+  entries.push(sitemapUrl(base, "/canada-np/mock-exam", "0.9", "weekly", indexableLocales, today));
+  entries.push(sitemapUrl(base, "/us-np/mock-exam", "0.9", "weekly", indexableLocales, today));
 
-  entries.push(sitemapUrl(base, "/nclex-rn", "0.8", "monthly", allLocales, today));
-  entries.push(sitemapUrl(base, "/nclex-pn", "0.8", "monthly", allLocales, today));
-  entries.push(sitemapUrl(base, "/canada-np", "0.8", "monthly", allLocales, today));
-  entries.push(sitemapUrl(base, "/us-np", "0.8", "monthly", allLocales, today));
+  entries.push(sitemapUrl(base, "/nclex-rn", "0.8", "monthly", indexableLocales, today));
+  entries.push(sitemapUrl(base, "/nclex-pn", "0.8", "monthly", indexableLocales, today));
+  entries.push(sitemapUrl(base, "/canada-np", "0.8", "monthly", indexableLocales, today));
+  entries.push(sitemapUrl(base, "/us-np", "0.8", "monthly", indexableLocales, today));
 
   const seoConditions = ["hypertension", "diabetes", "asthma", "copd", "heart-failure", "sepsis", "pneumonia"];
   for (const c of seoConditions) {
-    entries.push(sitemapUrl(base, `/conditions/${c}`, "0.8", "monthly", allLocales, today));
+    entries.push(sitemapUrl(base, `/conditions/${c}`, "0.8", "monthly", indexableLocales, today));
   }
 
   const seoMedications = ["metformin", "lisinopril", "warfarin", "insulin", "amiodarone"];
   for (const m of seoMedications) {
-    entries.push(sitemapUrl(base, `/medications/${m}`, "0.8", "monthly", allLocales, today));
+    entries.push(sitemapUrl(base, `/medications/${m}`, "0.8", "monthly", indexableLocales, today));
   }
 
   const seoLabValues = ["sodium", "potassium", "troponin", "creatinine", "inr"];
   for (const l of seoLabValues) {
-    entries.push(sitemapUrl(base, `/lab-values/${l}`, "0.8", "monthly", allLocales, today));
+    entries.push(sitemapUrl(base, `/lab-values/${l}`, "0.8", "monthly", indexableLocales, today));
   }
 
   const glossaryTermSlugs = [
@@ -544,7 +544,7 @@ app.get("/sitemap.xml", async (_req, res) => {
     "cardioversion","arterial-blood-gas-sampling","incentive-spirometry","suctioning",
   ];
   for (const slug of glossaryTermSlugs) {
-    entries.push(sitemapUrl(base, `/glossary/${slug}`, "0.5", "monthly", allLocales, today));
+    entries.push(sitemapUrl(base, `/glossary/${slug}`, "0.5", "monthly", indexableLocales, today));
   }
 
   const practiceQuestionCombos = [
@@ -554,7 +554,7 @@ app.get("/sitemap.xml", async (_req, res) => {
   ];
   for (const combo of practiceQuestionCombos) {
     for (const system of combo.systems) {
-      entries.push(sitemapUrl(base, `/practice-questions/${combo.tier}/${system}`, "0.8", "weekly", allLocales, today));
+      entries.push(sitemapUrl(base, `/practice-questions/${combo.tier}/${system}`, "0.8", "weekly", indexableLocales, today));
     }
   }
 
@@ -564,7 +564,7 @@ app.get("/sitemap.xml", async (_req, res) => {
   ];
   const uniqueLessonIds = [...new Set(lessonIds)];
   for (const id of uniqueLessonIds) {
-    entries.push(sitemapUrl(base, `/lessons/${id}`, "0.7", "monthly", allLocales, today));
+    entries.push(sitemapUrl(base, `/lessons/${id}`, "0.7", "monthly", indexableLocales, today));
   }
 
   const clarityTopics = [
@@ -611,7 +611,7 @@ app.get("/sitemap.xml", async (_req, res) => {
     "why-does-guillain-barre-cause-ascending-paralysis",
   ];
   for (const slug of clarityTopics) {
-    entries.push(sitemapUrl(base, `/clinical-clarity/${slug}`, "0.6", "monthly", allLocales, today));
+    entries.push(sitemapUrl(base, `/clinical-clarity/${slug}`, "0.6", "monthly", indexableLocales, today));
   }
 
   try {
@@ -626,7 +626,7 @@ app.get("/sitemap.xml", async (_req, res) => {
     });
     for (const post of blogPosts) {
       const lastmod = post.updatedAt ? new Date(post.updatedAt).toISOString().split("T")[0] : (post.publishedAt ? new Date(post.publishedAt).toISOString().split("T")[0] : today);
-      entries.push(sitemapUrl(base, `/learn/${post.slug}`, "0.6", "weekly", allLocales, lastmod));
+      entries.push(sitemapUrl(base, `/learn/${post.slug}`, "0.6", "weekly", indexableLocales, lastmod));
     }
   } catch {}
 
