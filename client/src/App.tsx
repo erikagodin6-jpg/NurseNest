@@ -196,6 +196,9 @@ const AdminSeoAutopilot = lazy(() => import("@/pages/admin-seo-autopilot"));
 const AdminSeoDebug = lazy(() => import("@/pages/admin-seo-debug"));
 const AdminAlliedMarketing = lazy(() => import("@/pages/admin-allied-marketing"));
 const OrderOfTheDraw = lazy(() => import("@/pages/order-of-the-draw"));
+const NursingQuestionSeoPage = lazy(() => import("@/pages/nursing-question-seo-page"));
+const NursingQuestionsIndexPage = lazy(() => import("@/pages/nursing-question-seo-page").then(m => ({ default: m.NursingQuestionsIndexPage })));
+const NursingCareerPage = lazy(() => import("@/pages/nursing-career-pages"));
 const InfographicLibrary = lazy(() => import("@/pages/infographic-library"));
 const TrialLanding = lazy(() => import("@/pages/trial-landing"));
 const TrialSession = lazy(() => import("@/pages/trial-session"));
@@ -451,6 +454,13 @@ function AppRoutes() {
         <Route path="/unit-guides/:slug" component={NewGradGuidePage} />
         <Route path="/career-development/:slug" component={NewGradGuidePage} />
         <Route path="/clinical-scenarios/:slug" component={NewGradGuidePage} />
+        <Route path="/rpn/questions/:topicSlug">{() => <NursingQuestionSeoPage tier="rpn" />}</Route>
+        <Route path="/rpn/questions">{() => <NursingQuestionsIndexPage tier="rpn" />}</Route>
+        <Route path="/rn/questions/:topicSlug">{() => <NursingQuestionSeoPage tier="rn" />}</Route>
+        <Route path="/rn/questions">{() => <NursingQuestionsIndexPage tier="rn" />}</Route>
+        <Route path="/np/questions/:topicSlug">{() => <NursingQuestionSeoPage tier="np" />}</Route>
+        <Route path="/np/questions">{() => <NursingQuestionsIndexPage tier="np" />}</Route>
+        <Route path="/how-to-become-a-nurse/:track" component={NursingCareerPage} />
         <Route path="/rpn">{() => <TrackLandingPage track="rpn" />}</Route>
         <Route path="/rn">{() => <TrackLandingPage track="rn" />}</Route>
         <Route path="/np">{() => <TrackLandingPage track="np" />}</Route>

@@ -1,4 +1,4 @@
-import { useLocation } from "wouter";
+import { useLocation, Link } from "wouter";
 import {
   ArrowRight,
   Check,
@@ -20,6 +20,7 @@ import {
   Calendar,
   Quote,
   Sparkles,
+  GraduationCap,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -157,6 +158,35 @@ export default function TrackLandingPage({ track }: TrackLandingPageProps) {
       )}
 
       <FaqSection faq={copy.faq} colors={colors} />
+
+      <section className="py-10 bg-gray-50 border-t border-gray-100">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6">
+          <h2 className="text-xl font-bold text-gray-900 mb-6 text-center">Explore More {label} Resources</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <Link href={`/${track}/questions`} className="flex items-center gap-3 p-4 bg-white rounded-xl border border-gray-100 hover:shadow-md hover:border-teal-200 transition-all" data-testid="link-topic-questions">
+              <Target className="w-5 h-5 text-teal-500" />
+              <div>
+                <h3 className="text-sm font-semibold text-gray-900">Questions by Topic</h3>
+                <p className="text-xs text-gray-500">Browse practice questions by clinical topic</p>
+              </div>
+            </Link>
+            <Link href={`/how-to-become-a-nurse/${track}`} className="flex items-center gap-3 p-4 bg-white rounded-xl border border-gray-100 hover:shadow-md hover:border-teal-200 transition-all" data-testid="link-career-guide">
+              <GraduationCap className="w-5 h-5 text-teal-500" />
+              <div>
+                <h3 className="text-sm font-semibold text-gray-900">Career Guide</h3>
+                <p className="text-xs text-gray-500">How to become a {label}</p>
+              </div>
+            </Link>
+            <Link href="/practice-questions" className="flex items-center gap-3 p-4 bg-white rounded-xl border border-gray-100 hover:shadow-md hover:border-teal-200 transition-all" data-testid="link-practice-by-system">
+              <BookOpen className="w-5 h-5 text-teal-500" />
+              <div>
+                <h3 className="text-sm font-semibold text-gray-900">By Body System</h3>
+                <p className="text-xs text-gray-500">Practice by body system</p>
+              </div>
+            </Link>
+          </div>
+        </div>
+      </section>
 
       {copy.finalCta && (
         <FinalCtaSection cta={copy.finalCta} colors={colors} onNavigate={setLocation} />

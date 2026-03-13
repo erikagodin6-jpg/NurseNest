@@ -557,6 +557,34 @@ app.get("/sitemap.xml", async (_req, res) => {
     entries.push(sitemapUrl(base, `/glossary/${slug}`, "0.5", "monthly", indexableLocales, today));
   }
 
+  const nursingQuestionTiers = ["rpn", "rn", "np"];
+  for (const tier of nursingQuestionTiers) {
+    entries.push(sitemapUrl(base, `/${tier}/questions`, "0.8", "weekly", indexableLocales, today));
+  }
+
+  entries.push(sitemapUrl(base, "/how-to-become-a-nurse/rpn", "0.7", "monthly", indexableLocales, today));
+  entries.push(sitemapUrl(base, "/how-to-become-a-nurse/rn", "0.7", "monthly", indexableLocales, today));
+  entries.push(sitemapUrl(base, "/how-to-become-a-nurse/np", "0.7", "monthly", indexableLocales, today));
+
+  try {
+    const { pool: nursingPool } = await import("./storage");
+    const nursingTopicResult = await nursingPool.query(
+      `SELECT DISTINCT tier, topic FROM exam_questions WHERE status = 'published' AND topic IS NOT NULL AND topic != '' AND tier IN ('rpn', 'rn', 'np') ORDER BY topic`
+    ).catch(() => ({ rows: [] }));
+
+    const seenSlugs = new Set<string>();
+    for (const row of nursingTopicResult.rows) {
+      const slug = row.topic.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+      const key = `${row.tier}/${slug}`;
+      if (slug && !seenSlugs.has(key)) {
+        seenSlugs.add(key);
+        entries.push(sitemapUrl(base, `/${row.tier}/questions/${slug}`, "0.7", "weekly", indexableLocales, today));
+      }
+    }
+  } catch (e) {
+    console.error("Nursing question topics sitemap error:", e);
+  }
+
   const practiceQuestionCombos = [
     { tier: "rpn", systems: ["cardiovascular", "respiratory", "neurological", "gastrointestinal", "endocrine", "renal", "pharmacology", "hematology", "maternal", "pediatric", "mental-health", "musculoskeletal", "assessment"] },
     { tier: "rn", systems: ["cardiovascular", "respiratory", "neurological", "gastrointestinal", "endocrine", "renal", "pharmacology", "hematology", "maternal", "pediatric", "mental-health", "musculoskeletal", "assessment"] },

@@ -7,7 +7,7 @@ import { useState } from "react";
 import {
   ArrowRight, BookOpen, FileText, Brain, Zap, GraduationCap,
   BarChart3, Target, CheckCircle2, Check, X, ChevronDown,
-  HelpCircle, Stethoscope, Layers, Activity, Sparkles, Clock
+  HelpCircle, Stethoscope, Layers, Activity, Sparkles, Clock,
 } from "lucide-react";
 
 const STATS = [
@@ -409,6 +409,56 @@ export default function NursingHub() {
             </Link>
             <Link href="/mock-exams" className="inline-flex items-center gap-2 px-8 py-3.5 bg-blue-500 text-white rounded-xl font-semibold hover:bg-blue-400 transition-colors border border-blue-400" data-testid="button-cta-diagnostic">
               Start Free Diagnostic
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      <section className="py-10 bg-gray-50 border-t border-gray-100" data-testid="section-explore-resources">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6">
+          <h2 className="text-xl font-bold text-gray-900 mb-6 text-center">Explore Nursing Resources</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            <Link href="/rpn/questions" className="flex items-center gap-3 p-4 bg-white rounded-xl border border-gray-100 hover:shadow-md hover:border-teal-200 transition-all" data-testid="link-rpn-questions">
+              <Target className="w-5 h-5 text-emerald-500" />
+              <div>
+                <h3 className="text-sm font-semibold text-gray-900">RPN Questions by Topic</h3>
+                <p className="text-xs text-gray-500">Browse RPN practice questions</p>
+              </div>
+            </Link>
+            <Link href="/rn/questions" className="flex items-center gap-3 p-4 bg-white rounded-xl border border-gray-100 hover:shadow-md hover:border-blue-200 transition-all" data-testid="link-rn-questions">
+              <Target className="w-5 h-5 text-blue-500" />
+              <div>
+                <h3 className="text-sm font-semibold text-gray-900">RN Questions by Topic</h3>
+                <p className="text-xs text-gray-500">Browse RN practice questions</p>
+              </div>
+            </Link>
+            <Link href="/np/questions" className="flex items-center gap-3 p-4 bg-white rounded-xl border border-gray-100 hover:shadow-md hover:border-purple-200 transition-all" data-testid="link-np-questions">
+              <Target className="w-5 h-5 text-purple-500" />
+              <div>
+                <h3 className="text-sm font-semibold text-gray-900">NP Questions by Topic</h3>
+                <p className="text-xs text-gray-500">Browse NP practice questions</p>
+              </div>
+            </Link>
+            <Link href="/how-to-become-a-nurse/rpn" className="flex items-center gap-3 p-4 bg-white rounded-xl border border-gray-100 hover:shadow-md hover:border-teal-200 transition-all" data-testid="link-career-rpn">
+              <GraduationCap className="w-5 h-5 text-emerald-500" />
+              <div>
+                <h3 className="text-sm font-semibold text-gray-900">How to Become an RPN</h3>
+                <p className="text-xs text-gray-500">Career guide and exam info</p>
+              </div>
+            </Link>
+            <Link href="/how-to-become-a-nurse/rn" className="flex items-center gap-3 p-4 bg-white rounded-xl border border-gray-100 hover:shadow-md hover:border-blue-200 transition-all" data-testid="link-career-rn">
+              <GraduationCap className="w-5 h-5 text-blue-500" />
+              <div>
+                <h3 className="text-sm font-semibold text-gray-900">How to Become an RN</h3>
+                <p className="text-xs text-gray-500">Career guide and exam info</p>
+              </div>
+            </Link>
+            <Link href="/how-to-become-a-nurse/np" className="flex items-center gap-3 p-4 bg-white rounded-xl border border-gray-100 hover:shadow-md hover:border-purple-200 transition-all" data-testid="link-career-np">
+              <GraduationCap className="w-5 h-5 text-purple-500" />
+              <div>
+                <h3 className="text-sm font-semibold text-gray-900">How to Become an NP</h3>
+                <p className="text-xs text-gray-500">Career guide and exam info</p>
+              </div>
             </Link>
           </div>
         </div>

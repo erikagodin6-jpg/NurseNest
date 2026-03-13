@@ -123,6 +123,31 @@ function buildBreadcrumbs(pathname: string): { name: string; url: string }[] {
     return crumbs;
   }
 
+  const tierLabels: Record<string, string> = { rpn: "RPN / LVN", rn: "RN", np: "Nurse Practitioner" };
+  const nursingQuestionTopicMatch = pathname.match(/^\/(rpn|rn|np)\/questions\/(.+)$/);
+  if (nursingQuestionTopicMatch) {
+    const [, t, topicSlug] = nursingQuestionTopicMatch;
+    crumbs.push({ name: tierLabels[t] || t.toUpperCase(), url: `${SITE_BASE}/${t}` });
+    crumbs.push({ name: "Practice Questions", url: `${SITE_BASE}/${t}/questions` });
+    crumbs.push({ name: slugToTitle(topicSlug), url: `${SITE_BASE}${pathname}` });
+    return crumbs;
+  }
+
+  const nursingQuestionsIndexMatch = pathname.match(/^\/(rpn|rn|np)\/questions$/);
+  if (nursingQuestionsIndexMatch) {
+    const t = nursingQuestionsIndexMatch[1];
+    crumbs.push({ name: tierLabels[t] || t.toUpperCase(), url: `${SITE_BASE}/${t}` });
+    crumbs.push({ name: "Practice Questions", url: `${SITE_BASE}${pathname}` });
+    return crumbs;
+  }
+
+  const careerPageMatch = pathname.match(/^\/how-to-become-a-nurse\/(.+)$/);
+  if (careerPageMatch) {
+    crumbs.push({ name: "How to Become a Nurse", url: `${SITE_BASE}/how-to-become-a-nurse/rpn` });
+    crumbs.push({ name: tierLabels[careerPageMatch[1]] || slugToTitle(careerPageMatch[1]), url: `${SITE_BASE}${pathname}` });
+    return crumbs;
+  }
+
   const conditionMatch = pathname.match(/^\/conditions\/(.+)$/);
   if (conditionMatch) {
     crumbs.push({ name: "Conditions", url: `${SITE_BASE}/conditions` });
@@ -363,6 +388,30 @@ const staticPages: Record<string, { title: string; description: string }> = {
   "/feedback": {
     title: "Feedback & Suggestions | NurseNest",
     description: "Share your feedback, feature requests, or report issues. Help us improve NurseNest for nursing students.",
+  },
+  "/rpn/questions": {
+    title: "RPN / LVN Practice Questions by Topic | NurseNest",
+    description: "Browse RPN/LVN practice question topics covering all body systems. Free sample questions with detailed clinical rationales for NCLEX-PN and REx-PN exam prep.",
+  },
+  "/rn/questions": {
+    title: "RN Practice Questions by Topic | NurseNest",
+    description: "Browse RN practice question topics covering all body systems. Free sample questions with detailed clinical rationales for NCLEX-RN exam preparation.",
+  },
+  "/np/questions": {
+    title: "Nurse Practitioner Practice Questions by Topic | NurseNest",
+    description: "Browse NP practice question topics covering advanced clinical scenarios. Free sample questions with detailed rationales for AANP and ANCC certification exam prep.",
+  },
+  "/how-to-become-a-nurse/rpn": {
+    title: "How to Become a Registered Practical Nurse (RPN / LVN) | NurseNest",
+    description: "Complete career guide for becoming an RPN/LVN. Education requirements, NCLEX-PN/REx-PN exam info, salary range ($42K-$62K), and step-by-step career path.",
+  },
+  "/how-to-become-a-nurse/rn": {
+    title: "How to Become a Registered Nurse (RN) | NurseNest",
+    description: "Complete career guide for becoming an RN. Education requirements, NCLEX-RN exam info, salary range ($60K-$95K), specializations, and step-by-step career path.",
+  },
+  "/how-to-become-a-nurse/np": {
+    title: "How to Become a Nurse Practitioner (NP) | NurseNest",
+    description: "Complete career guide for becoming an NP. Education requirements, AANP/ANCC certification exam info, salary range ($95K-$140K), and step-by-step career path.",
   },
   "/lectures": {
     title: "Video Lectures - Nursing Education | NurseNest",
@@ -758,6 +807,34 @@ export function getPageMeta(pathname: string): PageMeta {
       });
     }
     return result;
+  }
+
+  const nursingTopicMeta: Record<string, string> = { rpn: "RPN / LVN", rn: "RN", np: "Nurse Practitioner" };
+  const nursingExamMeta: Record<string, string> = { rpn: "NCLEX-PN / REx-PN", rn: "NCLEX-RN", np: "AANP/ANCC" };
+  const nursingTopicMatch = cleanPath.match(/^\/(rpn|rn|np)\/questions\/(.+)$/);
+  if (nursingTopicMatch) {
+    const tier = nursingTopicMatch[1];
+    const topicSlug = nursingTopicMatch[2];
+    const readable = slugToTitle(topicSlug);
+    const tierLabel = nursingTopicMeta[tier] || tier.toUpperCase();
+    const examLabel = nursingExamMeta[tier] || tier.toUpperCase();
+    return {
+      title: `${readable} — ${tierLabel} Practice Questions | NurseNest`,
+      description: `Practice ${tierLabel} exam questions on ${readable}. Clinical vignettes with detailed rationales for ${examLabel} exam preparation. Free sample questions included.`,
+      canonical,
+      noindex,
+      breadcrumbs,
+      jsonLd: JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "LearningResource",
+        name: `${readable} — ${tierLabel} Practice Questions`,
+        description: `Practice questions on ${readable} for ${tierLabel} nursing students preparing for ${examLabel} exams.`,
+        url: canonical,
+        learningResourceType: "Quiz",
+        educationalLevel: "Professional",
+        provider: { "@type": "Organization", name: "NurseNest", url: SITE_BASE },
+      }),
+    };
   }
 
   const lessonMatch = cleanPath.match(/^\/lessons\/(.+)$/);
