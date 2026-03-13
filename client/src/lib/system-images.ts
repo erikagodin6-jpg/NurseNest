@@ -38,7 +38,8 @@ import illustrationBrainAbscessV2 from "@/assets/lesson-brain-abscess-new.png";
 import illustrationBrainAbscessV3 from "@/assets/images/brain-abscess-v3.png";
 import illustrationDeliriumDementia from "@/assets/lesson-delirium-dementia.png";
 import illustrationDeliriumDementiaV2 from "@/assets/lesson-delirium-dementia-new.png";
-import illustrationDeliriumDementiaV3 from "@/assets/images/delirium-dementia-v3.png";
+import illustrationDeliriumV4 from "@assets/delirium.png";
+import illustrationDementiaV4 from "@assets/dementia.png";
 import illustrationAcuteDystonicReaction from "@/assets/lesson-acute-dystonic-reaction.png";
 import illustrationAcuteDystonicReactionV2 from "@/assets/images/acute-dystonic-reaction-v2.png";
 import illustrationALS from "@/assets/lesson-als.png";
@@ -50,7 +51,7 @@ import illustrationAchalasiaV2 from "@/assets/images/achalasia-v2.png";
 import illustrationAnalFissureV2 from "@/assets/images/anal-fissure-v2.png";
 import illustrationCranialNerves from "@/assets/lesson-cranial-nerves.png";
 import illustrationCranialNervesV2 from "@/assets/lesson-cranial-nerves-new.png";
-import illustrationCranialNervesV3 from "@/assets/images/cranial-nerves-v3.png";
+import illustrationCranialNervesV3 from "@assets/cranialnerves.png";
 import illustrationCranialNervePathology from "@/assets/lesson-cranial-nerve-pathology.png";
 import illustrationCranialNervePathologyV2 from "@/assets/images/cranial-nerve-pathology-v2.png";
 import illustrationTrigeminalNeuralgia from "@/assets/lesson-trigeminal-neuralgia.png";
@@ -68,7 +69,7 @@ import illustrationMyastheniaGravis from "@/assets/lesson-myasthenia-gravis.png"
 import illustrationMyastheniaGravisV2 from "@/assets/images/myasthenia-gravis-v2.png";
 import illustrationMyastheniaGravisV3 from "@/assets/images/myasthenia-gravis-v3.png";
 import illustrationConcussion from "@/assets/lesson-concussion.png";
-import illustrationConcussionV3 from "@/assets/images/concussion-v3.png";
+import illustrationConcussionV3 from "@assets/concussion.png";
 import illustrationConcussionV2 from "@/assets/lesson-concussion-new.png";
 import illustrationFebrileSeizures from "@/assets/lesson-febrile-seizures.png";
 import illustrationFebrileSeizuresV2 from "@/assets/images/febrile-seizures-v2.png";
@@ -320,7 +321,7 @@ import illustrationCirrhosisV2 from "@/assets/images/cirrhosis-v2.png";
 import illustrationCholecystectomyV2 from "@/assets/images/cholecystectomy-v2.png";
 import illustrationChronicHepatitisV2 from "@/assets/images/chronic-hepatitis-v2.png";
 import illustrationCdiffV2 from "@/assets/images/cdiff-v2.png";
-import illustrationCrohnsV2 from "@/assets/images/crohns-v2.png";
+import illustrationCrohnsV2 from "@assets/crohns.png";
 import illustrationDiverticulitisV2 from "@/assets/images/diverticulitis-v2.png";
 import illustrationDysphagiaV2 from "@/assets/images/dysphagia-v2.png";
 import illustrationEosinophilicEsophagitisV2 from "@/assets/images/eosinophilic-esophagitis-v2.png";
@@ -483,17 +484,17 @@ import illustrationPolycythemiaV2 from "@assets/polycythemia_1773269379973.png";
 import illustrationPolydactyly from "@assets/polydactyly_1773269379973.png";
 import illustrationPostTransfusionPurpura from "@assets/posttransfusionpurpura_1773269379973.png";
 import illustrationCellulitisNew from "@assets/cellulitis_1773269507783.png";
-import illustrationCKDNew from "@assets/CKD_1773269507783.jpeg";
-import illustrationClubfoot from "@assets/clubfoot_1773269507783.png";
-import illustrationCompartmentSyndromeNew from "@assets/compartmentsyndrome_1773269507783.png";
+import illustrationCKDNew from "@assets/CKD.png";
+import illustrationClubfoot from "@assets/clubfoot.png";
+import illustrationCompartmentSyndromeNew from "@assets/compartmentsyndrome.png";
 import illustrationConjunctivitisNew from "@assets/conjunctivitis_1773269507783.png";
-import illustrationContracture from "@assets/contracture_1773269507783.png";
-import illustrationCushingsNew from "@assets/cushings_1773269507783.png";
+import illustrationContracture from "@assets/contracture.png";
+import illustrationCushingsNew from "@assets/cushing.png";
 import illustrationDelayedHemolyticReaction from "@assets/delayedhemolyticreaction_1773269507783.png";
 import illustrationDevHipDysplasia from "@assets/developmentalhipdysplasia_1773269507783.png";
 import illustrationDiabetesAcrossAges from "@assets/diabetes_1773269507783.png";
-import illustrationDiabetesInsipidusNew from "@assets/diabetesinsipidus_1773269507783.png";
-import illustrationDiabeticNephropathy from "@assets/diabeticnephropathy_1773269507783.png";
+import illustrationDiabetesInsipidusNew from "@assets/diabetesinsipidus.png";
+import illustrationDiabeticNephropathy from "@assets/diabeticnephropathy.png";
 import illustrationDICNew from "@assets/DIC_1773269507783.png";
 import illustrationDisuseAtrophy from "@assets/disuseatrophy_1773269507783.png";
 import illustrationDuchenne from "@assets/duchenne_1773269507783.png";
@@ -548,10 +549,13 @@ import illustrationCSectionCare from "@assets/c-section_1773374688442.png";
 import illustrationCarSeatSafety from "@assets/carseatsafety_1773340419064.png";
 import illustrationChlamydia from "@assets/chlamydia_1773340419064.png";
 import illustrationCircumcision from "@assets/circumcision_1773340419064.png";
-import illustrationCMV from "@assets/CMV_1773340419064.png";
+import illustrationCMV from "@assets/CMV.png";
 import illustrationCongenitalHypothyroidism from "@assets/congenitalhypothyroidism_1773340419064.png";
-import illustrationCovid19 from "@assets/covid19_1773340419064.png";
-import illustrationDengue from "@assets/dengue_1773340419064.png";
+import illustrationCovid19 from "@assets/covid19.png";
+import illustrationDengue from "@assets/dengue.png";
+import illustrationConstipation from "@assets/constipation.png";
+import illustrationDiarrhea from "@assets/diarrhea.png";
+import illustrationCOPoisoning from "@assets/co.png";
 import illustrationDepression from "@assets/depression_1773340419064.png";
 
 import illustrationNeonatalFeeding from "@assets/neonatalfeeding_1773340609815.png";
@@ -727,12 +731,12 @@ const lessonSpecificImages: Record<string, string> = {
   "alzheimer-disease-rn": illustrationAlzheimersV2,
   "alzheimer-disease-np": illustrationAlzheimersV2,
   "alzheimers-disease": illustrationAlzheimersV2,
-  "delirium-vs-dementia": illustrationDeliriumDementiaV3,
-  "delirium-vs-dementia-rpn": illustrationDeliriumDementiaV3,
-  "delirium-vs-dementia-rn": illustrationDeliriumDementiaV3,
-  "delirium-vs-dementia-np": illustrationDeliriumDementiaV3,
-  "delirium": illustrationDeliriumDementiaV3,
-  "dementia-care": illustrationDeliriumDementiaV3,
+  "delirium-vs-dementia": illustrationDeliriumV4,
+  "delirium-vs-dementia-rpn": illustrationDeliriumV4,
+  "delirium-vs-dementia-rn": illustrationDeliriumV4,
+  "delirium-vs-dementia-np": illustrationDeliriumV4,
+  "delirium": illustrationDeliriumV4,
+  "dementia-care": illustrationDementiaV4,
   "cranial-nerve-assessment": illustrationCranialNervesV3,
   "cranial-nerves": illustrationCranialNervesV3,
   "cranial-nerves-rpn": illustrationCranialNervesV3,
@@ -2103,6 +2107,42 @@ const lessonSpecificImages: Record<string, string> = {
   "covid-basics-rpn": illustrationCovid19,
 
   "dengue-basics-rpn": illustrationDengue,
+  "dengue": illustrationDengue,
+  "dengue-fever": illustrationDengue,
+  "dengue-rpn": illustrationDengue,
+  "dengue-rn": illustrationDengue,
+  "dengue-np": illustrationDengue,
+
+  "constipation": illustrationConstipation,
+  "constipation-rpn": illustrationConstipation,
+  "constipation-rn": illustrationConstipation,
+  "constipation-np": illustrationConstipation,
+  "constipation-management": illustrationConstipation,
+
+  "diarrhea": illustrationDiarrhea,
+  "diarrhea-rpn": illustrationDiarrhea,
+  "diarrhea-rn": illustrationDiarrhea,
+  "diarrhea-np": illustrationDiarrhea,
+  "diarrhea-management": illustrationDiarrhea,
+
+  "co-poisoning": illustrationCOPoisoning,
+  "co-poisoning-rpn": illustrationCOPoisoning,
+  "co-poisoning-rn": illustrationCOPoisoning,
+  "co-poisoning-np": illustrationCOPoisoning,
+  "carbon-monoxide": illustrationCOPoisoning,
+  "carbon-monoxide-poisoning": illustrationCOPoisoning,
+
+  "covid": illustrationCovid19,
+  "covid-19": illustrationCovid19,
+  "covid-rpn": illustrationCovid19,
+  "covid-rn": illustrationCovid19,
+  "covid-np": illustrationCovid19,
+
+  "cmv": illustrationCMV,
+  "cmv-rpn": illustrationCMV,
+  "cmv-rn": illustrationCMV,
+  "cmv-np": illustrationCMV,
+  "cytomegalovirus": illustrationCMV,
 
   "depression-basics": illustrationDepression,
   "depression-core-np": illustrationDepression,
@@ -2438,7 +2478,8 @@ export function getLessonImage(lessonId: string): string | undefined {
   if (lessonId.includes("carpal-tunnel")) return illustrationCarpalTunnelV3;
   if (lessonId.includes("trigeminal")) return illustrationTrigeminalNeuralgiaV2;
   if (lessonId.includes("cranial-nerve")) return illustrationCranialNervesV3;
-  if (lessonId.includes("delirium") || lessonId.includes("dementia")) return illustrationDeliriumDementiaV3;
+  if (lessonId.includes("delirium")) return illustrationDeliriumV4;
+  if (lessonId.includes("dementia")) return illustrationDementiaV4;
   if (lessonId.includes("cerebral-edema")) return illustrationCerebralEdemaV3;
   if (lessonId.includes("cardiac-tamponade")) return illustrationCardiacTamponadeV2;
   if (lessonId.includes("c-diff") || lessonId.includes("cdiff") || lessonId.includes("clostridium") || lessonId.includes("clostridioides")) return illustrationCdiffV2;
@@ -2460,6 +2501,13 @@ export function getLessonImage(lessonId: string): string | undefined {
   if (lessonId.includes("hydrocephalus")) return illustrationHydrocephalusV2;
   if (lessonId.includes("korsakoff")) return illustrationKorsakoffV3;
   if (lessonId.includes("guillain-barre") || lessonId.includes("gbs")) return illustrationGuillainBarreV3;
+  if (lessonId.includes("constipation")) return illustrationConstipation;
+  if (lessonId.includes("diarrhea")) return illustrationDiarrhea;
+  if (lessonId.includes("co-poison") || lessonId.includes("carbon-monoxide")) return illustrationCOPoisoning;
+  if (lessonId.includes("covid")) return illustrationCovid19;
+  if (lessonId.includes("dengue")) return illustrationDengue;
+  if (lessonId.includes("cmv") || lessonId.includes("cytomegalovirus")) return illustrationCMV;
+  if (lessonId.includes("diabetic-nephropathy")) return illustrationDiabeticNephropathy;
   if (lessonId.includes("cystic-fibrosis") || lessonId === "cf-management") return illustrationCysticFibrosis;
   if (lessonId.includes("pertussis") || lessonId.includes("whooping")) return illustrationPertussisV3;
   if (lessonId.includes("bronchiect")) return illustrationBronchiectasis;
