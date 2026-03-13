@@ -5032,6 +5032,7 @@ export const ENCYCLOPEDIA_PROFESSIONS = [
   { slug: "emergency-nursing", label: "Emergency Nursing", icon: "Siren" },
   { slug: "occupational-therapy", label: "Occupational Therapy", icon: "Hand" },
   { slug: "addictions", label: "Addictions Counseling", icon: "ShieldAlert" },
+  { slug: "psychotherapy", label: "Psychotherapy & Counseling", icon: "Brain" },
 ] as const;
 
 export const programmaticPages = pgTable("programmatic_pages", {
