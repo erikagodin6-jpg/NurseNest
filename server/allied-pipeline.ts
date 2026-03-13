@@ -3,7 +3,7 @@ import { pool } from "./storage";
 import { CAREER_CONFIGS } from "@shared/careers";
 import { getUncachableStripeClient } from "./stripeClient";
 
-const ALLIED_CAREERS = ["rrt", "paramedic", "pharmacyTech", "mlt", "imaging", "psychotherapist"];
+const ALLIED_CAREERS = ["rrt", "paramedic", "pharmacyTech", "mlt", "imaging", "psychotherapist", "addictionsCounsellor"];
 
 const DEFAULT_DIFFICULTY_DIST: Record<number, number> = { 1: 0.10, 2: 0.20, 3: 0.35, 4: 0.25, 5: 0.10 };
 const DEFAULT_COGNITIVE_DIST: Record<string, { min: number; max: number }> = {
@@ -86,6 +86,15 @@ const CAREER_BLUEPRINT_DOMAINS: Record<string, Record<string, { weight: number; 
     "Ethics and Boundaries": { weight: 0.18, subtopics: ["Informed Consent", "Confidentiality and Limits", "Dual Relationships", "Boundary Crossings vs Violations", "Duty to Warn/Protect", "Mandated Reporting", "Record Keeping", "Scope of Practice", "Cultural Competence", "Supervision Ethics", "Telehealth Ethics", "Professional Codes of Ethics (ACA, CRPO, CCPA)", "Client Rights", "Termination Ethics"] },
     "Treatment Planning": { weight: 0.14, subtopics: ["Goal Setting", "Treatment Plan Development", "Evidence-Based Practice Selection", "Progress Monitoring", "Discharge Planning", "Collaborative Treatment Planning", "Stepped Care Models", "Interdisciplinary Coordination", "Relapse Prevention", "Homework/Between-Session Activities", "Modality Selection Criteria"] },
     "Crisis Intervention": { weight: 0.12, subtopics: ["Suicide Risk Assessment", "Safety Planning", "Crisis Stabilization", "De-escalation Techniques", "Psychiatric Emergency Response", "Trauma Response", "Critical Incident Debriefing", "Involuntary Hospitalization Criteria", "Crisis Hotline Protocols", "Self-Harm Assessment", "Homicidal Ideation Assessment", "Post-Crisis Follow-Up"] },
+  },
+  addictionsCounsellor: {
+    "Substance Use Disorders": { weight: 0.18, subtopics: ["Alcohol Use Disorder", "Opioid Use Disorder", "Stimulant Use Disorder", "Cannabis Use Disorder", "Hallucinogen Effects", "Polysubstance Use", "Nicotine Dependence", "Sedative/Hypnotic Use"] },
+    "Withdrawal Syndromes": { weight: 0.16, subtopics: ["Alcohol Withdrawal/DTs", "Opioid Withdrawal", "Benzodiazepine Withdrawal", "Stimulant Withdrawal", "Nicotine Withdrawal", "Neonatal Abstinence Syndrome", "CIWA/COWS Scales"] },
+    "Treatment Modalities": { weight: 0.18, subtopics: ["MAT (Methadone/Buprenorphine/Naltrexone)", "CBT for Addiction", "Contingency Management", "12-Step Facilitation", "Therapeutic Communities", "Detox Protocols", "Outpatient vs Inpatient"] },
+    "Relapse Prevention": { weight: 0.14, subtopics: ["Relapse Warning Signs", "Coping Strategies", "Trigger Identification", "Recovery Capital", "Gorski Model", "HALT Assessment", "Continuing Care Planning"] },
+    "Motivational Interviewing": { weight: 0.14, subtopics: ["OARS Techniques", "Stages of Change", "Change Talk vs Sustain Talk", "Rolling with Resistance", "Decisional Balance", "Readiness Rulers", "MI Spirit"] },
+    "Harm Reduction": { weight: 0.10, subtopics: ["Naloxone Distribution", "Needle Exchange", "Safe Consumption Sites", "Drug Checking", "Overdose Prevention", "Managed Alcohol Programs", "Housing First"] },
+    "Co-occurring Disorders": { weight: 0.10, subtopics: ["Dual Diagnosis Assessment", "Integrated Treatment", "PTSD and SUD", "Depression and SUD", "Psychosis and SUD", "Screening Tools (AUDIT, DAST, CAGE)"] },
   },
 };
 
