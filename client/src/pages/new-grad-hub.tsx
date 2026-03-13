@@ -4,6 +4,7 @@ import { SEO } from "@/components/seo";
 import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
 import { buildFaqStructuredData } from "@/lib/structured-data";
+import { PROFESSION_LIST } from "@/pages/new-grad/profession-data";
 import {
   ArrowRight, BookOpen, FileText, Brain, Zap, GraduationCap,
   CheckCircle2, ChevronRight, Check, X, HelpCircle,
@@ -128,15 +129,15 @@ export default function NewGradHub() {
     <div data-testid="new-grad-hub-page">
       <Navigation />
       <SEO
-        title="New Grad RN Hub - Interview Prep, Resume & First 90 Days | NurseNest"
-        description="Master your nursing career transition with interview prep, resume builder, cover letter tools, and first 90 days survival guide. Built for new graduate RNs."
-        keywords="new grad nurse, new graduate RN, nursing interview prep, nursing resume, STAR framework nursing, first year nurse, nurse career transition, nursing job search, new grad RN tips"
+        title="New Grad Hub - Career Launch Platform for Healthcare Professionals | NurseNest"
+        description="Career transition resources for new graduate healthcare professionals. Nursing, paramedic, respiratory therapy, MLT, diagnostic imaging, and occupational therapy career guides, exam prep, and first-year survival tools."
+        keywords="new grad healthcare, new graduate nurse, new grad paramedic, new grad respiratory therapist, new grad MLT, new grad imaging, new grad occupational therapy, healthcare career transition, first year healthcare professional"
         canonicalPath="/new-grad"
         structuredData={courseStructuredData}
         additionalStructuredData={[faqStructuredData]}
         breadcrumbs={[
           { name: "Home", url: "https://www.nursenest.ca" },
-          { name: "New Grad RN Hub", url: "https://www.nursenest.ca/new-grad" },
+          { name: "New Grad Hub", url: "https://www.nursenest.ca/new-grad" },
         ]}
       />
 
@@ -154,19 +155,52 @@ export default function NewGradHub() {
               Career Launch Platform
             </div>
             <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-4" data-testid="text-hero-title">
-              Your First Year as a Nurse, <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">Mastered</span>
+              Your First Year in Healthcare, <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">Mastered</span>
             </h1>
             <p className="text-lg text-gray-600 mb-8" data-testid="text-hero-subtitle">
-              Bridge the gap between nursing school and confident clinical practice. Interview prep, resume tools, and a day-by-day roadmap for your transition to practice.
+              Bridge the gap between school and confident clinical practice. Career resources, exam prep, interview tools, and first-year survival guides for nursing and allied health professionals.
             </p>
             <div className="flex flex-wrap gap-4">
               <Link href="/new-grad/readiness-quiz" className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-xl font-semibold hover:bg-blue-700 transition-colors shadow-lg shadow-blue-200" data-testid="button-readiness-quiz">
                 Take Free Readiness Quiz <ArrowRight className="w-4 h-4" />
               </Link>
-              <Link href="/new-grad#interview-lab" className="inline-flex items-center gap-2 px-6 py-3 bg-white text-blue-700 rounded-xl font-semibold hover:bg-blue-50 transition-colors border border-blue-200" data-testid="button-explore-interview-lab">
-                Explore Interview Lab
+              <Link href="/new-grad#professions" className="inline-flex items-center gap-2 px-6 py-3 bg-white text-blue-700 rounded-xl font-semibold hover:bg-blue-50 transition-colors border border-blue-200" data-testid="button-explore-professions">
+                Explore Your Profession
               </Link>
             </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="py-16 bg-white" id="professions" data-testid="section-profession-hubs">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3" data-testid="text-professions-title">Choose Your Profession</h2>
+            <p className="text-gray-600 max-w-2xl mx-auto">Specialized career transition resources for six healthcare professions. Each hub includes first-year guides, exam prep, clinical tips, and career development tools.</p>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            {PROFESSION_LIST.map((prof) => {
+              const PIcon = prof.icon;
+              return (
+                <Link key={prof.slug} href={`/new-grad/${prof.slug}`} className="group" data-testid={`card-profession-${prof.slug}`}>
+                  <div className="bg-white rounded-2xl border border-gray-100 p-6 hover:shadow-lg hover:border-blue-200 transition-all h-full">
+                    <div className={`w-12 h-12 rounded-xl ${prof.badgeColor} flex items-center justify-center mb-4`}>
+                      <PIcon className="w-6 h-6" />
+                    </div>
+                    <h3 className="font-bold text-gray-900 text-lg mb-2 group-hover:text-blue-700 transition-colors">{prof.name}</h3>
+                    <p className="text-sm text-gray-500 mb-4 line-clamp-2">{prof.heroSubtitle}</p>
+                    <div className="flex flex-wrap gap-1.5 mb-4">
+                      {prof.certifications.slice(0, 3).map((cert, ci) => (
+                        <span key={ci} className="text-xs px-2 py-0.5 rounded-full bg-gray-100 text-gray-600">{cert}</span>
+                      ))}
+                    </div>
+                    <span className="inline-flex items-center gap-1 text-sm text-blue-600 font-medium">
+                      Explore Hub <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+                    </span>
+                  </div>
+                </Link>
+              );
+            })}
           </div>
         </div>
       </section>
