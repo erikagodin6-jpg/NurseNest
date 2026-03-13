@@ -246,6 +246,16 @@ const IMAGE_TOPIC_MAP: Record<string, string[]> = {
   anaphylaxis: ["Anaphylaxis", "Anaphylactic Shock", "Epinephrine"],
   anxiety: ["Anxiety", "Generalized Anxiety", "GAD", "Panic"],
   as: ["Ankylosing Spondylitis", "AS", "Bamboo Spine"],
+  atopy: ["Atopic Dermatitis", "Eczema", "Atopy"],
+  bacterialvaginosis: ["Bacterial Vaginosis", "BV", "Vaginosis"],
+  balanitis: ["Balanitis", "Foreskin", "Glans"],
+  bartholinitis: ["Bartholin", "Bartholin Cyst", "Bartholin Abscess"],
+  benignovariancyst: ["Ovarian Cyst", "Benign Ovarian"],
+  braden: ["Braden Scale", "Pressure Injury Risk", "Skin Assessment"],
+  breastcancer: ["Breast Cancer", "Mammogram", "BRCA"],
+  bullous: ["Bullous Pemphigoid", "Pemphigoid"],
+  burns: ["Burn", "Burn Wound", "Thermal Injury"],
+  "c-section": ["C-Section", "Cesarean", "Caesarean"],
 };
 
 function buildImageMap(): Record<string, string> {
