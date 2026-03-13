@@ -620,12 +620,115 @@ app.get("/sitemap.xml", async (_req, res) => {
   res.status(200).send(xml);
 });
 
+const SITEMAP_MAX_URLS = 45000;
+
+async function getContentSitemapEntries(base: string, today: string, offset: number, limit: number): Promise<string[]> {
+  const entries: string[] = [];
+  const enOnly = ["en"];
+  const { pool: dbPool } = await import("./storage");
+
+  const seoArticles = await dbPool.query(
+    `SELECT slug, updated_at, type, site_context, career_track FROM seo_articles WHERE status = 'published' ORDER BY updated_at DESC`
+  ).catch(() => ({ rows: [] }));
+  for (const article of seoArticles.rows) {
+    const lastmod = article.updated_at ? new Date(article.updated_at).toISOString().split("T")[0] : today;
+    const priority = article.type === "pillar" ? "0.9" : "0.7";
+    const articlePath = article.site_context === "allied" && article.career_track
+      ? `/allied/${article.slug}`
+      : `/seo/${article.slug}`;
+    entries.push(sitemapUrl(base, articlePath, priority, "weekly", enOnly, lastmod));
+  }
+
+  const practicePages = await dbPool.query(
+    `SELECT slug, updated_at FROM practice_pages WHERE status = 'published' ORDER BY updated_at DESC`
+  ).catch(() => ({ rows: [] }));
+  for (const page of practicePages.rows) {
+    const lastmod = page.updated_at ? new Date(page.updated_at).toISOString().split("T")[0] : today;
+    entries.push(sitemapUrl(base, `/practice/${page.slug}`, "0.7", "weekly", enOnly, lastmod));
+  }
+
+  const blogClusters = await dbPool.query(
+    `SELECT pillar_slug, updated_at FROM blog_clusters WHERE status = 'published' ORDER BY updated_at DESC`
+  ).catch(() => ({ rows: [] }));
+  for (const cluster of blogClusters.rows) {
+    const lastmod = cluster.updated_at ? new Date(cluster.updated_at).toISOString().split("T")[0] : today;
+    entries.push(sitemapUrl(base, `/blog/${cluster.pillar_slug}`, "0.8", "weekly", enOnly, lastmod));
+  }
+
+  const seoPages = await dbPool.query(
+    `SELECT slug, language_code, page_type, last_updated FROM seo_pages WHERE is_public = true AND is_indexable = true ORDER BY last_updated DESC`
+  ).catch(() => ({ rows: [] }));
+  for (const page of seoPages.rows) {
+    const priority = page.page_type === "pillar" ? "0.9" : "0.7";
+    const lastmod = page.last_updated ? new Date(page.last_updated).toISOString().split("T")[0] : today;
+    entries.push(`<url><loc>${base}/${page.language_code}/study-guide/${page.slug}</loc><priority>${priority}</priority><changefreq>weekly</changefreq><lastmod>${lastmod}</lastmod></url>`);
+  }
+
+  return entries.slice(offset, offset + limit);
+}
+
+app.get("/sitemap-content.xml", async (_req, res) => {
+  const base = getSiteBase();
+  const today = new Date().toISOString().split("T")[0];
+
+  try {
+    const entries = await getContentSitemapEntries(base, today, 0, SITEMAP_MAX_URLS);
+    const xml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">\n${entries.join("\n")}\n</urlset>`;
+    res.setHeader("Content-Type", "application/xml; charset=utf-8");
+    res.setHeader("Cache-Control", "public, max-age=3600");
+    res.status(200).send(xml);
+  } catch (e) {
+    console.error("Content sitemap error:", e);
+    const xml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"></urlset>`;
+    res.setHeader("Content-Type", "application/xml; charset=utf-8");
+    res.status(200).send(xml);
+  }
+});
+
+app.get("/sitemap-content-:page.xml", async (req, res) => {
+  const pageNum = parseInt(req.params.page);
+  if (isNaN(pageNum) || pageNum < 2) return res.status(404).send("Not found");
+
+  const base = getSiteBase();
+  const today = new Date().toISOString().split("T")[0];
+  const offset = (pageNum - 1) * SITEMAP_MAX_URLS;
+
+  try {
+    const entries = await getContentSitemapEntries(base, today, offset, SITEMAP_MAX_URLS);
+    if (entries.length === 0) return res.status(404).send("Not found");
+
+    const xml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">\n${entries.join("\n")}\n</urlset>`;
+    res.setHeader("Content-Type", "application/xml; charset=utf-8");
+    res.setHeader("Cache-Control", "public, max-age=3600");
+    res.status(200).send(xml);
+  } catch (e) {
+    console.error("Content sitemap page error:", e);
+    res.status(500).send("Error generating sitemap");
+  }
+});
+
 app.get("/sitemap_index.xml", async (_req, res) => {
   const base = getSiteBase();
   const today = new Date().toISOString().split("T")[0];
-  const sitemaps = SUPPORTED_LOCALES.map(locale =>
-    `<sitemap><loc>${base}/sitemap-${locale}.xml</loc><lastmod>${today}</lastmod></sitemap>`
-  );
+  const sitemaps: string[] = [
+    `<sitemap><loc>${base}/sitemap.xml</loc><lastmod>${today}</lastmod></sitemap>`,
+    `<sitemap><loc>${base}/sitemap-content.xml</loc><lastmod>${today}</lastmod></sitemap>`,
+  ];
+
+  try {
+    const allEntries = await getContentSitemapEntries(base, today, 0, 999999);
+    const totalPages = Math.ceil(allEntries.length / SITEMAP_MAX_URLS);
+    for (let i = 2; i <= totalPages; i++) {
+      sitemaps.push(`<sitemap><loc>${base}/sitemap-content-${i}.xml</loc><lastmod>${today}</lastmod></sitemap>`);
+    }
+  } catch {}
+
+  for (const locale of SUPPORTED_LOCALES) {
+    sitemaps.push(`<sitemap><loc>${base}/sitemap-${locale}.xml</loc><lastmod>${today}</lastmod></sitemap>`);
+  }
+  sitemaps.push(`<sitemap><loc>${base}/sitemap-allied.xml</loc><lastmod>${today}</lastmod></sitemap>`);
+  sitemaps.push(`<sitemap><loc>${base}/sitemap-newgrad.xml</loc><lastmod>${today}</lastmod></sitemap>`);
+  sitemaps.push(`<sitemap><loc>${base}/image-sitemap.xml</loc><lastmod>${today}</lastmod></sitemap>`);
   const xml = `<?xml version="1.0" encoding="UTF-8"?>\n<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${sitemaps.join("\n")}\n</sitemapindex>`;
   res.setHeader("Content-Type", "application/xml; charset=utf-8");
   res.setHeader("Cache-Control", "public, max-age=3600");

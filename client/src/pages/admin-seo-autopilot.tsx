@@ -32,6 +32,11 @@ import {
   PinIcon,
   ShieldCheck,
   LayoutDashboard,
+  Upload,
+  Workflow,
+  BookTemplate,
+  RefreshCw,
+  ArrowRight,
 } from "lucide-react";
 import { adminFetch } from "@/lib/admin-fetch";
 
@@ -671,6 +676,510 @@ function QcTab({ siteContext, careerTrack }: { siteContext: string; careerTrack:
   );
 }
 
+function PageTemplatesTab() {
+  const queryClient = useQueryClient();
+  const [newKey, setNewKey] = useState("");
+  const [newName, setNewName] = useState("");
+  const [newType, setNewType] = useState("comparison");
+  const [newMetaTitle, setNewMetaTitle] = useState("{keyword} | NurseNest");
+  const [newMetaDesc, setNewMetaDesc] = useState("Learn about {keyword} with our comprehensive guide.");
+
+  const { data: templates, isLoading } = useQuery({
+    queryKey: ["/api/admin/seo-engine/page-templates"],
+    queryFn: () => adminFetch("/api/admin/seo-engine/page-templates").then(r => r.json()),
+  });
+
+  const createMutation = useMutation({
+    mutationFn: () => adminFetch("/api/admin/seo-engine/page-templates", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ templateKey: newKey, name: newName, pageType: newType, metaTitlePattern: newMetaTitle, metaDescriptionPattern: newMetaDesc }),
+    }).then(r => r.json()),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/admin/seo-engine/page-templates"] });
+      setNewKey(""); setNewName("");
+    },
+  });
+
+  const seedMutation = useMutation({
+    mutationFn: () => adminFetch("/api/admin/seo-engine/seed-page-templates", { method: "POST" }).then(r => r.json()),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["/api/admin/seo-engine/page-templates"] }),
+  });
+
+  const list = Array.isArray(templates) ? templates : [];
+  const PAGE_TYPES = ["comparison", "how-to", "listicle", "faq", "exam-prep", "study-guide"];
+
+  return (
+    <div className="space-y-6" data-testid="tab-page-templates">
+      <div className="flex items-center justify-between">
+        <h3 className="font-semibold text-[#2E3A59]">SEO Page Templates ({list.length})</h3>
+        <Button size="sm" variant="outline" onClick={() => seedMutation.mutate()} disabled={seedMutation.isPending} data-testid="button-seed-templates">
+          {seedMutation.isPending ? <Loader2 className="animate-spin w-4 h-4 mr-1" /> : <Plus className="w-4 h-4 mr-1" />}
+          Seed Default Templates
+        </Button>
+      </div>
+
+      <Card data-testid="card-create-page-template">
+        <CardHeader><CardTitle className="text-sm flex items-center gap-2"><Plus className="w-4 h-4" /> Create Page Template</CardTitle></CardHeader>
+        <CardContent className="space-y-3">
+          <div className="grid md:grid-cols-3 gap-3">
+            <Input placeholder="Template key (e.g., comparison)" value={newKey} onChange={e => setNewKey(e.target.value)} data-testid="input-pt-key" />
+            <Input placeholder="Display name" value={newName} onChange={e => setNewName(e.target.value)} data-testid="input-pt-name" />
+            <Select value={newType} onValueChange={setNewType}>
+              <SelectTrigger data-testid="select-pt-type"><SelectValue /></SelectTrigger>
+              <SelectContent>
+                {PAGE_TYPES.map(t => <SelectItem key={t} value={t}>{t}</SelectItem>)}
+              </SelectContent>
+            </Select>
+          </div>
+          <Input placeholder="Meta title pattern (use {keyword})" value={newMetaTitle} onChange={e => setNewMetaTitle(e.target.value)} data-testid="input-pt-meta-title" />
+          <Input placeholder="Meta description pattern (use {keyword})" value={newMetaDesc} onChange={e => setNewMetaDesc(e.target.value)} data-testid="input-pt-meta-desc" />
+          <Button onClick={() => createMutation.mutate()} disabled={!newKey || !newName || createMutation.isPending} className="bg-[#BFA6F6] hover:bg-[#A88DE0] text-white" data-testid="button-create-pt">
+            {createMutation.isPending ? <Loader2 className="animate-spin w-4 h-4" /> : "Save Template"}
+          </Button>
+        </CardContent>
+      </Card>
+
+      {isLoading ? (
+        <div className="flex items-center gap-2 py-4"><Loader2 className="animate-spin" /> Loading...</div>
+      ) : list.length === 0 ? (
+        <Card><CardContent className="py-8 text-center text-gray-500">No page templates yet. Click "Seed Default Templates" to create 6 starter templates.</CardContent></Card>
+      ) : (
+        <div className="grid md:grid-cols-2 gap-4">
+          {list.map((t: any) => (
+            <Card key={t.id} data-testid={`pt-card-${t.id}`}>
+              <CardContent className="py-4">
+                <div className="flex items-center gap-2 mb-2">
+                  <h4 className="font-semibold text-sm text-[#2E3A59]">{t.name}</h4>
+                  <Badge variant="outline" className="text-xs">{t.pageType}</Badge>
+                  <Badge className="text-xs bg-blue-50 text-blue-700">{t.schemaMarkupType}</Badge>
+                </div>
+                <p className="text-xs text-gray-500 mb-1">Key: {t.templateKey}</p>
+                <p className="text-xs text-gray-400 truncate">Title: {t.metaTitlePattern}</p>
+                <p className="text-xs text-gray-400 truncate">Desc: {t.metaDescriptionPattern}</p>
+                {t.sectionStructure && Array.isArray(t.sectionStructure) && (
+                  <div className="flex flex-wrap gap-1 mt-2">
+                    {t.sectionStructure.map((s: any, i: number) => (
+                      <Badge key={i} variant="outline" className="text-[10px]">{s.type}</Badge>
+                    ))}
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+function BlogTemplatesTab() {
+  const queryClient = useQueryClient();
+  const [newKey, setNewKey] = useState("");
+  const [newName, setNewName] = useState("");
+  const [newLayout, setNewLayout] = useState("clinical-deep-dive");
+
+  const { data: templates, isLoading } = useQuery({
+    queryKey: ["/api/admin/seo-engine/blog-templates"],
+    queryFn: () => adminFetch("/api/admin/seo-engine/blog-templates").then(r => r.json()),
+  });
+
+  const createMutation = useMutation({
+    mutationFn: () => adminFetch("/api/admin/seo-engine/blog-templates", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ templateKey: newKey, name: newName, layoutType: newLayout }),
+    }).then(r => r.json()),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/admin/seo-engine/blog-templates"] });
+      setNewKey(""); setNewName("");
+    },
+  });
+
+  const seedMutation = useMutation({
+    mutationFn: () => adminFetch("/api/admin/seo-engine/seed-blog-templates", { method: "POST" }).then(r => r.json()),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["/api/admin/seo-engine/blog-templates"] }),
+  });
+
+  const list = Array.isArray(templates) ? templates : [];
+  const LAYOUT_TYPES = ["clinical-deep-dive", "exam-tip", "quick-reference", "news-roundup"];
+
+  return (
+    <div className="space-y-6" data-testid="tab-blog-templates">
+      <div className="flex items-center justify-between">
+        <h3 className="font-semibold text-[#2E3A59]">Blog Post Templates ({list.length})</h3>
+        <Button size="sm" variant="outline" onClick={() => seedMutation.mutate()} disabled={seedMutation.isPending} data-testid="button-seed-blog-templates">
+          {seedMutation.isPending ? <Loader2 className="animate-spin w-4 h-4 mr-1" /> : <Plus className="w-4 h-4 mr-1" />}
+          Seed Default Templates
+        </Button>
+      </div>
+
+      <Card data-testid="card-create-blog-template">
+        <CardHeader><CardTitle className="text-sm flex items-center gap-2"><Plus className="w-4 h-4" /> Create Blog Template</CardTitle></CardHeader>
+        <CardContent className="space-y-3">
+          <div className="grid md:grid-cols-3 gap-3">
+            <Input placeholder="Template key" value={newKey} onChange={e => setNewKey(e.target.value)} data-testid="input-bt-key" />
+            <Input placeholder="Display name" value={newName} onChange={e => setNewName(e.target.value)} data-testid="input-bt-name" />
+            <Select value={newLayout} onValueChange={setNewLayout}>
+              <SelectTrigger data-testid="select-bt-layout"><SelectValue /></SelectTrigger>
+              <SelectContent>
+                {LAYOUT_TYPES.map(t => <SelectItem key={t} value={t}>{t}</SelectItem>)}
+              </SelectContent>
+            </Select>
+          </div>
+          <Button onClick={() => createMutation.mutate()} disabled={!newKey || !newName || createMutation.isPending} className="bg-[#BFA6F6] hover:bg-[#A88DE0] text-white" data-testid="button-create-bt">
+            {createMutation.isPending ? <Loader2 className="animate-spin w-4 h-4" /> : "Save Template"}
+          </Button>
+        </CardContent>
+      </Card>
+
+      {isLoading ? (
+        <div className="flex items-center gap-2 py-4"><Loader2 className="animate-spin" /> Loading...</div>
+      ) : list.length === 0 ? (
+        <Card><CardContent className="py-8 text-center text-gray-500">No blog templates yet. Click "Seed Default Templates" to create 4 starter templates.</CardContent></Card>
+      ) : (
+        <div className="grid md:grid-cols-2 gap-4">
+          {list.map((t: any) => (
+            <Card key={t.id} data-testid={`bt-card-${t.id}`}>
+              <CardContent className="py-4">
+                <div className="flex items-center gap-2 mb-2">
+                  <h4 className="font-semibold text-sm text-[#2E3A59]">{t.name}</h4>
+                  <Badge variant="outline" className="text-xs">{t.layoutType}</Badge>
+                </div>
+                <p className="text-xs text-gray-500 mb-1">Key: {t.templateKey}</p>
+                <div className="flex items-center gap-3 text-xs text-gray-400 mt-1">
+                  <span>{t.tocEnabled ? "TOC" : "No TOC"}</span>
+                  <span>{t.faqEnabled ? "FAQ" : "No FAQ"}</span>
+                  <span>{t.relatedPostsEnabled ? "Related Posts" : "No Related"}</span>
+                </div>
+                {t.contentBlocks && Array.isArray(t.contentBlocks) && (
+                  <div className="flex flex-wrap gap-1 mt-2">
+                    {t.contentBlocks.map((b: any, i: number) => (
+                      <Badge key={i} variant="outline" className="text-[10px]">{b.type}</Badge>
+                    ))}
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+function BulkGenerationTab({ siteContext, careerTrack }: { siteContext: string; careerTrack: string | null }) {
+  const queryClient = useQueryClient();
+  const [keywordsText, setKeywordsText] = useState("");
+  const [selectedTemplate, setSelectedTemplate] = useState("");
+  const [generateContent, setGenerateContent] = useState(true);
+  const [bulkResult, setBulkResult] = useState<any>(null);
+
+  const { data: pageTemplates } = useQuery({
+    queryKey: ["/api/admin/seo-engine/page-templates"],
+    queryFn: () => adminFetch("/api/admin/seo-engine/page-templates").then(r => r.json()),
+  });
+
+  const bulkMutation = useMutation({
+    mutationFn: () => {
+      const keywords = keywordsText
+        .split(/[\n,]/)
+        .map(k => k.trim())
+        .filter(k => k.length > 0);
+
+      return adminFetch("/api/admin/seo-engine/bulk-generate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ keywords, templateKey: selectedTemplate === "none" ? null : selectedTemplate || null, siteContext, careerTrack, generateContent }),
+      }).then(r => r.json());
+    },
+    onSuccess: (data) => {
+      setBulkResult(data);
+      queryClient.invalidateQueries({ queryKey: ["/api/admin/seo-engine/articles"] });
+      queryClient.invalidateQueries({ queryKey: ["/api/admin/seo-engine/clusters"] });
+      queryClient.invalidateQueries({ queryKey: ["/api/admin/seo-engine/pipeline-stats"] });
+    },
+  });
+
+  const templateList = Array.isArray(pageTemplates) ? pageTemplates : [];
+  const parsedKeywords = keywordsText.split(/[\n,]/).map(k => k.trim()).filter(k => k.length > 0);
+
+  return (
+    <div className="space-y-6" data-testid="tab-bulk-generation">
+      <h3 className="font-semibold text-[#2E3A59]">Bulk Keyword-to-Page Generator</h3>
+
+      <Card data-testid="card-bulk-input">
+        <CardHeader><CardTitle className="text-sm flex items-center gap-2"><Upload className="w-4 h-4" /> Enter Keywords</CardTitle></CardHeader>
+        <CardContent className="space-y-4">
+          <p className="text-xs text-gray-500">Paste keywords separated by commas or newlines (max 200). Each keyword will create an article page and optionally generate AI content.</p>
+          <Textarea
+            placeholder="Enter keywords, one per line or comma-separated:&#10;ECG Rhythm Interpretation&#10;Medication Administration Rights&#10;Blood Pressure Assessment..."
+            value={keywordsText}
+            onChange={e => setKeywordsText(e.target.value)}
+            rows={8}
+            data-testid="input-bulk-keywords"
+          />
+          <div className="flex items-center gap-3 flex-wrap">
+            <Select value={selectedTemplate} onValueChange={setSelectedTemplate}>
+              <SelectTrigger className="w-64" data-testid="select-bulk-template">
+                <SelectValue placeholder="Select template (optional)" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="none">No template</SelectItem>
+                {templateList.map((t: any) => (
+                  <SelectItem key={t.templateKey} value={t.templateKey}>{t.name} ({t.pageType})</SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+            <label className="flex items-center gap-2 text-sm cursor-pointer" data-testid="label-generate-content">
+              <input type="checkbox" checked={generateContent} onChange={e => setGenerateContent(e.target.checked)} className="rounded" data-testid="checkbox-generate-content" />
+              <span className="text-gray-700">Generate AI content</span>
+            </label>
+            <div className="flex-1 text-sm text-gray-500">
+              {parsedKeywords.length > 0 && <span>{parsedKeywords.length} keyword{parsedKeywords.length !== 1 ? "s" : ""} detected</span>}
+            </div>
+            <Button
+              onClick={() => bulkMutation.mutate()}
+              disabled={parsedKeywords.length === 0 || bulkMutation.isPending}
+              className="bg-[#BFA6F6] hover:bg-[#A88DE0] text-white"
+              data-testid="button-bulk-generate"
+            >
+              {bulkMutation.isPending ? (
+                <><Loader2 className="animate-spin w-4 h-4 mr-2" /> Generating...</>
+              ) : (
+                <><Play className="w-4 h-4 mr-2" /> Generate {parsedKeywords.length} Page{parsedKeywords.length !== 1 ? "s" : ""}</>
+              )}
+            </Button>
+          </div>
+        </CardContent>
+      </Card>
+
+      {bulkResult && (
+        <Card data-testid="card-bulk-result">
+          <CardHeader>
+            <CardTitle className="text-sm">Generation Results</CardTitle>
+            {bulkResult.generating && (
+              <p className="text-xs text-blue-600 flex items-center gap-1 mt-1">
+                <Loader2 className="animate-spin w-3 h-3" /> AI content generation is running in the background. Check the Pipeline tab for progress.
+              </p>
+            )}
+          </CardHeader>
+          <CardContent>
+            <div className="grid grid-cols-3 gap-4 mb-4">
+              <div className="text-center p-3 bg-green-50 rounded-lg">
+                <div className="text-2xl font-bold text-green-600">{bulkResult.created}</div>
+                <div className="text-xs text-gray-500">Created</div>
+              </div>
+              <div className="text-center p-3 bg-yellow-50 rounded-lg">
+                <div className="text-2xl font-bold text-yellow-600">{bulkResult.skipped}</div>
+                <div className="text-xs text-gray-500">Skipped</div>
+              </div>
+              <div className="text-center p-3 bg-red-50 rounded-lg">
+                <div className="text-2xl font-bold text-red-600">{bulkResult.failed}</div>
+                <div className="text-xs text-gray-500">Failed</div>
+              </div>
+            </div>
+            {bulkResult.results && (
+              <div className="max-h-60 overflow-y-auto space-y-1">
+                {bulkResult.results.map((r: any, i: number) => (
+                  <div key={i} className="flex items-center gap-2 text-sm p-2 rounded bg-gray-50">
+                    {r.status === "created" ? <CheckCircle2 className="w-4 h-4 text-green-500" /> :
+                     r.status === "skipped" ? <Clock className="w-4 h-4 text-yellow-500" /> :
+                     <AlertTriangle className="w-4 h-4 text-red-500" />}
+                    <span className="flex-1 truncate">{r.keyword}</span>
+                    <Badge className={`text-xs ${r.status === "created" ? "bg-green-100 text-green-700" : r.status === "skipped" ? "bg-yellow-100 text-yellow-700" : "bg-red-100 text-red-700"}`}>
+                      {r.status}
+                    </Badge>
+                    {r.error && <span className="text-xs text-red-500">{r.error}</span>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </CardContent>
+        </Card>
+      )}
+    </div>
+  );
+}
+
+function ContentPipelineTab({ siteContext, careerTrack }: { siteContext: string; careerTrack: string | null }) {
+  const queryClient = useQueryClient();
+  const [selectedIds, setSelectedIds] = useState<string[]>([]);
+
+  const { data: pipelineData, isLoading } = useQuery({
+    queryKey: ["/api/admin/seo-engine/pipeline-stats", siteContext, careerTrack],
+    queryFn: () => adminFetch(`/api/admin/seo-engine/pipeline-stats?siteContext=${siteContext}${careerTrack ? `&careerTrack=${careerTrack}` : ""}`).then(r => r.json()),
+    refetchInterval: 15000,
+  });
+
+  const bulkStatusMutation = useMutation({
+    mutationFn: ({ articleIds, status }: { articleIds: string[]; status: string }) =>
+      adminFetch("/api/admin/seo-engine/bulk-status", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ articleIds, status }),
+      }).then(r => r.json()),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/admin/seo-engine/pipeline-stats"] });
+      queryClient.invalidateQueries({ queryKey: ["/api/admin/seo-engine/articles"] });
+      setSelectedIds([]);
+    },
+  });
+
+  const recomputeLinksMutation = useMutation({
+    mutationFn: () => adminFetch("/api/admin/seo-engine/recompute-links", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ siteContext }),
+    }).then(r => r.json()),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/admin/seo-engine/internal-links"] });
+    },
+  });
+
+  if (isLoading) return <div className="flex items-center gap-2 py-8"><Loader2 className="animate-spin" /> Loading pipeline...</div>;
+
+  const p = pipelineData?.pipeline || {};
+  const articles = pipelineData?.recentArticles || [];
+
+  const toggleSelect = (id: string) => {
+    setSelectedIds(prev => prev.includes(id) ? prev.filter(x => x !== id) : [...prev, id]);
+  };
+
+  const selectAllDrafts = () => {
+    const draftIds = articles.filter((a: any) => a.status === "draft").map((a: any) => a.id);
+    setSelectedIds(draftIds);
+  };
+
+  return (
+    <div className="space-y-6" data-testid="tab-content-pipeline">
+      <div className="flex items-center justify-between">
+        <h3 className="font-semibold text-[#2E3A59]">Content Pipeline</h3>
+        <div className="flex gap-2">
+          <Button size="sm" variant="outline" onClick={() => recomputeLinksMutation.mutate()} disabled={recomputeLinksMutation.isPending} data-testid="button-recompute-links">
+            {recomputeLinksMutation.isPending ? <Loader2 className="animate-spin w-4 h-4 mr-1" /> : <RefreshCw className="w-4 h-4 mr-1" />}
+            Recompute Links
+          </Button>
+        </div>
+      </div>
+
+      {recomputeLinksMutation.isSuccess && recomputeLinksMutation.data && (
+        <div className="bg-green-50 border border-green-200 rounded-lg p-3 text-sm text-green-800" data-testid="notice-links-result">
+          Links recomputed: {(recomputeLinksMutation.data as any).linksCreated} new links from {(recomputeLinksMutation.data as any).articlesProcessed} articles
+        </div>
+      )}
+
+      <div className="grid grid-cols-2 md:grid-cols-6 gap-3">
+        {[
+          { label: "Drafts", value: p.drafts || 0, color: "bg-gray-100 text-gray-700", icon: "bg-gray-300" },
+          { label: "Generating", value: p.generating || 0, color: "bg-blue-50 text-blue-700", icon: "bg-blue-400" },
+          { label: "QC Review", value: p.needs_review || 0, color: "bg-orange-50 text-orange-700", icon: "bg-orange-400" },
+          { label: "Queued", value: p.queued || 0, color: "bg-purple-50 text-purple-700", icon: "bg-purple-400" },
+          { label: "Published", value: p.published || 0, color: "bg-green-50 text-green-700", icon: "bg-green-400" },
+          { label: "Failed", value: p.failed || 0, color: "bg-red-50 text-red-700", icon: "bg-red-400" },
+        ].map(stage => (
+          <Card key={stage.label} className={stage.color} data-testid={`pipeline-stage-${stage.label.toLowerCase()}`}>
+            <CardContent className="py-3 text-center">
+              <div className={`w-3 h-3 rounded-full ${stage.icon} mx-auto mb-1`} />
+              <div className="text-2xl font-bold">{stage.value}</div>
+              <div className="text-xs font-medium">{stage.label}</div>
+            </CardContent>
+          </Card>
+        ))}
+      </div>
+
+      <div className="flex items-center justify-between text-sm text-gray-500">
+        <span>Pipeline flow: Draft <ArrowRight className="w-3 h-3 inline" /> Generating <ArrowRight className="w-3 h-3 inline" /> QC Review <ArrowRight className="w-3 h-3 inline" /> Queued <ArrowRight className="w-3 h-3 inline" /> Published</span>
+      </div>
+
+      <Card>
+        <CardContent className="py-4">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+            <div>
+              <div className="text-xl font-bold text-[#2E3A59]">{p.total || 0}</div>
+              <div className="text-xs text-gray-500">Total Articles</div>
+            </div>
+            <div>
+              <div className="text-xl font-bold text-[#AEE3E1]">{(p.total_words || 0).toLocaleString()}</div>
+              <div className="text-xs text-gray-500">Total Words</div>
+            </div>
+            <div>
+              <div className="text-xl font-bold text-green-600">{p.published_this_week || 0}</div>
+              <div className="text-xs text-gray-500">Published This Week</div>
+            </div>
+            <div>
+              <div className="text-xl font-bold text-blue-600">{p.created_this_week || 0}</div>
+              <div className="text-xs text-gray-500">Created This Week</div>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardContent className="py-4">
+          <div className="flex items-center gap-3 text-sm mb-3">
+            <span className="text-gray-600">Page Templates: <strong>{pipelineData?.pageTemplates || 0}</strong></span>
+            <span className="text-gray-400">|</span>
+            <span className="text-gray-600">Blog Templates: <strong>{pipelineData?.blogTemplates || 0}</strong></span>
+            <span className="text-gray-400">|</span>
+            <span className="text-gray-600">Internal Links: <strong>{pipelineData?.internalLinksCount || 0}</strong></span>
+          </div>
+        </CardContent>
+      </Card>
+
+      {selectedIds.length > 0 && (
+        <Card className="border-[#BFA6F6]" data-testid="card-bulk-actions">
+          <CardContent className="py-3">
+            <div className="flex items-center gap-3">
+              <span className="text-sm font-medium">{selectedIds.length} selected</span>
+              <Button size="sm" onClick={() => bulkStatusMutation.mutate({ articleIds: selectedIds, status: "published" })} className="bg-green-500 hover:bg-green-600 text-white" data-testid="button-bulk-publish">
+                Publish Selected
+              </Button>
+              <Button size="sm" variant="outline" onClick={() => bulkStatusMutation.mutate({ articleIds: selectedIds, status: "needs_review" })} data-testid="button-bulk-review">
+                Mark for Review
+              </Button>
+              <Button size="sm" variant="outline" onClick={() => bulkStatusMutation.mutate({ articleIds: selectedIds, status: "queued" })} data-testid="button-bulk-queue">
+                Queue for Publishing
+              </Button>
+              <Button size="sm" variant="ghost" onClick={() => setSelectedIds([])} data-testid="button-clear-selection">
+                Clear
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
+      <Card>
+        <CardHeader>
+          <div className="flex items-center justify-between">
+            <CardTitle className="text-sm">Recent Articles</CardTitle>
+            <Button size="sm" variant="ghost" onClick={selectAllDrafts} data-testid="button-select-all-drafts">
+              Select All Drafts
+            </Button>
+          </div>
+        </CardHeader>
+        <CardContent>
+          {articles.length === 0 ? (
+            <p className="text-sm text-gray-500 text-center py-4">No articles in pipeline yet.</p>
+          ) : (
+            <div className="space-y-2 max-h-96 overflow-y-auto">
+              {articles.map((a: any) => (
+                <div key={a.id} className={`flex items-center gap-2 text-sm p-2 rounded cursor-pointer ${selectedIds.includes(a.id) ? "bg-[#BFA6F6]/10 border border-[#BFA6F6]" : "bg-gray-50 hover:bg-gray-100"}`} onClick={() => toggleSelect(a.id)} data-testid={`pipeline-article-${a.id}`}>
+                  <input type="checkbox" checked={selectedIds.includes(a.id)} onChange={() => toggleSelect(a.id)} className="rounded" data-testid={`checkbox-article-${a.id}`} />
+                  <span className="flex-1 truncate font-medium">{a.title}</span>
+                  <StatusBadge status={a.status} />
+                  <span className="text-xs text-gray-400">{a.wordCount || 0} words</span>
+                  {a.careerTrack && <Badge variant="outline" className="text-[10px]">{a.careerTrack}</Badge>}
+                </div>
+              ))}
+            </div>
+          )}
+        </CardContent>
+      </Card>
+    </div>
+  );
+}
+
 function SettingsTab() {
   return (
     <div className="space-y-6" data-testid="tab-settings">
@@ -774,10 +1283,14 @@ export default function AdminSeoAutopilot() {
         <Tabs defaultValue="overview" className="space-y-6">
           <TabsList className="flex flex-wrap gap-1 bg-white border rounded-lg p-1 h-auto">
             <TabsTrigger value="overview" className="gap-1.5 text-xs" data-testid="tab-trigger-overview"><LayoutDashboard className="w-3.5 h-3.5" /> Overview</TabsTrigger>
+            <TabsTrigger value="pipeline" className="gap-1.5 text-xs" data-testid="tab-trigger-pipeline"><Workflow className="w-3.5 h-3.5" /> Pipeline</TabsTrigger>
+            <TabsTrigger value="bulk" className="gap-1.5 text-xs" data-testid="tab-trigger-bulk"><Upload className="w-3.5 h-3.5" /> Bulk Generate</TabsTrigger>
             <TabsTrigger value="clusters" className="gap-1.5 text-xs" data-testid="tab-trigger-clusters"><Layers className="w-3.5 h-3.5" /> Clusters</TabsTrigger>
             <TabsTrigger value="articles" className="gap-1.5 text-xs" data-testid="tab-trigger-articles"><FileText className="w-3.5 h-3.5" /> Articles</TabsTrigger>
+            <TabsTrigger value="page-templates" className="gap-1.5 text-xs" data-testid="tab-trigger-page-templates"><BookTemplate className="w-3.5 h-3.5" /> Page Templates</TabsTrigger>
+            <TabsTrigger value="blog-templates" className="gap-1.5 text-xs" data-testid="tab-trigger-blog-templates"><BookTemplate className="w-3.5 h-3.5" /> Blog Templates</TabsTrigger>
             <TabsTrigger value="infographics" className="gap-1.5 text-xs" data-testid="tab-trigger-infographics"><Image className="w-3.5 h-3.5" /> Infographics</TabsTrigger>
-            <TabsTrigger value="templates" className="gap-1.5 text-xs" data-testid="tab-trigger-templates"><Search className="w-3.5 h-3.5" /> Templates</TabsTrigger>
+            <TabsTrigger value="templates" className="gap-1.5 text-xs" data-testid="tab-trigger-templates"><Search className="w-3.5 h-3.5" /> Infographic Templates</TabsTrigger>
             <TabsTrigger value="pins" className="gap-1.5 text-xs" data-testid="tab-trigger-pins"><PinIcon className="w-3.5 h-3.5" /> Pins</TabsTrigger>
             <TabsTrigger value="links" className="gap-1.5 text-xs" data-testid="tab-trigger-links"><Link2 className="w-3.5 h-3.5" /> Links</TabsTrigger>
             <TabsTrigger value="queue" className="gap-1.5 text-xs" data-testid="tab-trigger-queue"><Send className="w-3.5 h-3.5" /> Publish Queue</TabsTrigger>
@@ -786,8 +1299,12 @@ export default function AdminSeoAutopilot() {
           </TabsList>
 
           <TabsContent value="overview"><OverviewTab siteContext={siteContext} careerTrack={careerTrack} /></TabsContent>
+          <TabsContent value="pipeline"><ContentPipelineTab siteContext={siteContext} careerTrack={careerTrack} /></TabsContent>
+          <TabsContent value="bulk"><BulkGenerationTab siteContext={siteContext} careerTrack={careerTrack} /></TabsContent>
           <TabsContent value="clusters"><ClustersTab siteContext={siteContext} careerTrack={careerTrack} /></TabsContent>
           <TabsContent value="articles"><ArticlesTab siteContext={siteContext} careerTrack={careerTrack} /></TabsContent>
+          <TabsContent value="page-templates"><PageTemplatesTab /></TabsContent>
+          <TabsContent value="blog-templates"><BlogTemplatesTab /></TabsContent>
           <TabsContent value="infographics"><InfographicsTab siteContext={siteContext} careerTrack={careerTrack} /></TabsContent>
           <TabsContent value="templates"><TemplatesTab siteContext={siteContext} careerTrack={careerTrack} /></TabsContent>
           <TabsContent value="pins"><PinsTab siteContext={siteContext} careerTrack={careerTrack} /></TabsContent>

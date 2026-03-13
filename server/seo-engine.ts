@@ -1,6 +1,57 @@
 import type { Express, Request, Response } from "express";
 import { pool } from "./storage";
 import { requireAdmin } from "./admin-auth";
+import { generateNursingPage, generateAlliedHealthPage } from "./content-generators";
+
+async function computeInternalLinksForArticle(articleId: string, siteContext: string): Promise<number> {
+  const articleRes = await pool.query("SELECT * FROM seo_articles WHERE id = $1", [articleId]);
+  const article = articleRes.rows[0];
+  if (!article) return 0;
+
+  const allArticles = await pool.query(
+    "SELECT id, title, slug, target_keyword, career_track, site_context FROM seo_articles WHERE site_context = $1 AND status = 'published' AND id != $2",
+    [siteContext, articleId]
+  );
+
+  let linksCreated = 0;
+  const keywords = (article.target_keyword || "").toLowerCase().split(/\s+/).filter((w: string) => w.length > 3);
+  const articleTitle = (article.title || "").toLowerCase();
+
+  for (const candidate of allArticles.rows) {
+    const candidateTitle = (candidate.title || "").toLowerCase();
+    const candidateKeyword = (candidate.target_keyword || "").toLowerCase();
+
+    let matchScore = 0;
+    for (const kw of keywords) {
+      if (candidateTitle.includes(kw)) matchScore += 2;
+      if (candidateKeyword.includes(kw)) matchScore += 3;
+    }
+    const candidateWords = candidateKeyword.split(/\s+/).filter((w: string) => w.length > 3);
+    for (const ckw of candidateWords) {
+      if (articleTitle.includes(ckw)) matchScore += 1;
+    }
+    if (article.career_track && candidate.career_track === article.career_track) matchScore += 1;
+
+    if (matchScore >= 3) {
+      const forwardRes = await pool.query(
+        `INSERT INTO seo_internal_links (from_article_id, to_article_id, anchor_text, reason, placement)
+         VALUES ($1, $2, $3, $4, 'body')
+         ON CONFLICT DO NOTHING`,
+        [article.id, candidate.id, candidate.title || candidate.target_keyword, `Keyword match score: ${matchScore}`]
+      );
+      if (forwardRes.rowCount && forwardRes.rowCount > 0) linksCreated++;
+
+      const reverseRes = await pool.query(
+        `INSERT INTO seo_internal_links (from_article_id, to_article_id, anchor_text, reason, placement)
+         VALUES ($1, $2, $3, $4, 'sidebar')
+         ON CONFLICT DO NOTHING`,
+        [candidate.id, article.id, article.title || article.target_keyword, `Reverse link, match score: ${matchScore}`]
+      );
+      if (reverseRes.rowCount && reverseRes.rowCount > 0) linksCreated++;
+    }
+  }
+  return linksCreated;
+}
 
 const CAREER_TRACKS = [
   { slug: "pharmacy-tech", label: "Pharmacy Technician" },
@@ -345,12 +396,19 @@ export function setupSeoEngineRoutes(app: Express): void {
       const { status } = req.body as any;
       if (!status) return res.status(400).json({ error: "status required" });
 
-      const publishedAt = status === "published" ? "NOW()" : "null";
       const r = await pool.query(
         `UPDATE seo_articles SET status = $1, published_at = ${status === 'published' ? 'NOW()' : 'published_at'}, updated_at = NOW() WHERE id = $2 RETURNING *`,
         [status, id]
       );
       if (!r.rows[0]) return res.status(404).json({ error: "Article not found" });
+
+      if (status === "published") {
+        const article = r.rows[0];
+        computeInternalLinksForArticle(article.id, article.site_context || "nursing").catch(err => {
+          console.error(`[SEO] Publish-trigger link computation failed for ${id}:`, err.message);
+        });
+      }
+
       res.json(mapArticle(r.rows[0]));
     } catch (err: any) {
       res.status(500).json({ error: err.message });
@@ -598,6 +656,506 @@ export function setupSeoEngineRoutes(app: Express): void {
       );
 
       res.json({ passed, errors, runId: r.rows[0].id });
+    } catch (err: any) {
+      res.status(500).json({ error: err.message });
+    }
+  });
+
+  // ---- SEO Page Templates CRUD ----
+  app.get("/api/admin/seo-engine/page-templates", async (req: Request, res: Response) => {
+    const admin = await requireAdmin(req, res);
+    if (!admin) return;
+    try {
+      const r = await pool.query("SELECT * FROM seo_page_templates WHERE is_active = true ORDER BY name ASC");
+      res.json(r.rows.map((row: any) => ({
+        id: row.id, templateKey: row.template_key, name: row.name, pageType: row.page_type,
+        sectionStructure: row.section_structure, schemaMarkupType: row.schema_markup_type,
+        metaTitlePattern: row.meta_title_pattern, metaDescriptionPattern: row.meta_description_pattern,
+        placeholderBlocks: row.placeholder_blocks, isActive: row.is_active,
+        createdAt: row.created_at, updatedAt: row.updated_at,
+      })));
+    } catch (err: any) {
+      res.status(500).json({ error: err.message });
+    }
+  });
+
+  app.post("/api/admin/seo-engine/page-templates", async (req: Request, res: Response) => {
+    const admin = await requireAdmin(req, res);
+    if (!admin) return;
+    try {
+      const { templateKey, name, pageType, sectionStructure, schemaMarkupType, metaTitlePattern, metaDescriptionPattern, placeholderBlocks } = req.body as any;
+      if (!templateKey || !name || !pageType) return res.status(400).json({ error: "templateKey, name, and pageType required" });
+
+      const r = await pool.query(
+        `INSERT INTO seo_page_templates (template_key, name, page_type, section_structure, schema_markup_type, meta_title_pattern, meta_description_pattern, placeholder_blocks)
+         VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+         ON CONFLICT (template_key) DO UPDATE SET name = $2, page_type = $3, section_structure = $4, schema_markup_type = $5, meta_title_pattern = $6, meta_description_pattern = $7, placeholder_blocks = $8, updated_at = NOW()
+         RETURNING *`,
+        [templateKey, name, pageType, JSON.stringify(sectionStructure || []), schemaMarkupType || "Article", metaTitlePattern || "{keyword} | NurseNest", metaDescriptionPattern || "Learn about {keyword} with our comprehensive guide.", JSON.stringify(placeholderBlocks || [])]
+      );
+      res.json(r.rows[0]);
+    } catch (err: any) {
+      res.status(500).json({ error: err.message });
+    }
+  });
+
+  app.post("/api/admin/seo-engine/seed-page-templates", async (req: Request, res: Response) => {
+    const admin = await requireAdmin(req, res);
+    if (!admin) return;
+    try {
+      const DEFAULT_TEMPLATES = [
+        {
+          templateKey: "comparison", name: "Comparison Page", pageType: "comparison",
+          sectionStructure: [{ type: "hero", title: "{keyword}" }, { type: "comparison-table" }, { type: "detailed-breakdown" }, { type: "pros-cons" }, { type: "faq" }, { type: "cta" }],
+          schemaMarkupType: "Article", metaTitlePattern: "{keyword}: Side-by-Side Comparison | NurseNest",
+          metaDescriptionPattern: "Compare {keyword} with our detailed side-by-side analysis. Key differences, clinical implications, and exam tips.",
+        },
+        {
+          templateKey: "how-to", name: "How-To Guide", pageType: "how-to",
+          sectionStructure: [{ type: "hero", title: "How to {keyword}" }, { type: "prerequisites" }, { type: "step-by-step" }, { type: "tips-warnings" }, { type: "faq" }, { type: "cta" }],
+          schemaMarkupType: "HowTo", metaTitlePattern: "How to {keyword}: Step-by-Step Guide | NurseNest",
+          metaDescriptionPattern: "Learn how to {keyword} with our step-by-step guide. Includes tips, prerequisites, and common mistakes to avoid.",
+        },
+        {
+          templateKey: "listicle", name: "Listicle", pageType: "listicle",
+          sectionStructure: [{ type: "hero", title: "{keyword}" }, { type: "numbered-list" }, { type: "summary" }, { type: "faq" }, { type: "cta" }],
+          schemaMarkupType: "Article", metaTitlePattern: "{keyword}: Complete List | NurseNest",
+          metaDescriptionPattern: "Discover {keyword} in our comprehensive listicle. Everything you need to know for clinical practice and exam prep.",
+        },
+        {
+          templateKey: "faq-page", name: "FAQ Page", pageType: "faq",
+          sectionStructure: [{ type: "hero", title: "{keyword} FAQ" }, { type: "intro" }, { type: "faq-list" }, { type: "related-resources" }, { type: "cta" }],
+          schemaMarkupType: "FAQPage", metaTitlePattern: "{keyword}: Frequently Asked Questions | NurseNest",
+          metaDescriptionPattern: "Get answers to common questions about {keyword}. Expert-verified FAQs for nursing students and professionals.",
+        },
+        {
+          templateKey: "exam-prep", name: "Exam Prep Guide", pageType: "exam-prep",
+          sectionStructure: [{ type: "hero", title: "{keyword} Exam Prep" }, { type: "key-concepts" }, { type: "practice-questions" }, { type: "study-tips" }, { type: "mnemonics" }, { type: "faq" }, { type: "cta" }],
+          schemaMarkupType: "Article", metaTitlePattern: "{keyword} Exam Prep: Study Guide & Practice Questions | NurseNest",
+          metaDescriptionPattern: "Prepare for {keyword} with practice questions, mnemonics, and expert study tips. Pass your exam with confidence.",
+        },
+        {
+          templateKey: "study-guide", name: "Study Guide", pageType: "study-guide",
+          sectionStructure: [{ type: "hero", title: "{keyword} Study Guide" }, { type: "overview" }, { type: "core-concepts" }, { type: "clinical-applications" }, { type: "key-takeaways" }, { type: "faq" }, { type: "cta" }],
+          schemaMarkupType: "Article", metaTitlePattern: "{keyword}: Comprehensive Study Guide | NurseNest",
+          metaDescriptionPattern: "Master {keyword} with our comprehensive study guide. Core concepts, clinical applications, and exam preparation resources.",
+        },
+      ];
+
+      let seeded = 0;
+      for (const t of DEFAULT_TEMPLATES) {
+        await pool.query(
+          `INSERT INTO seo_page_templates (template_key, name, page_type, section_structure, schema_markup_type, meta_title_pattern, meta_description_pattern)
+           VALUES ($1, $2, $3, $4, $5, $6, $7) ON CONFLICT (template_key) DO NOTHING`,
+          [t.templateKey, t.name, t.pageType, JSON.stringify(t.sectionStructure), t.schemaMarkupType, t.metaTitlePattern, t.metaDescriptionPattern]
+        );
+        seeded++;
+      }
+      res.json({ success: true, seeded });
+    } catch (err: any) {
+      res.status(500).json({ error: err.message });
+    }
+  });
+
+  // ---- Blog Post Templates CRUD ----
+  app.get("/api/admin/seo-engine/blog-templates", async (req: Request, res: Response) => {
+    const admin = await requireAdmin(req, res);
+    if (!admin) return;
+    try {
+      const r = await pool.query("SELECT * FROM blog_post_templates WHERE is_active = true ORDER BY name ASC");
+      res.json(r.rows.map((row: any) => ({
+        id: row.id, templateKey: row.template_key, name: row.name, layoutType: row.layout_type,
+        heroConfig: row.hero_config, tocEnabled: row.toc_enabled, contentBlocks: row.content_blocks,
+        faqEnabled: row.faq_enabled, relatedPostsEnabled: row.related_posts_enabled,
+        ctaConfig: row.cta_config, seoMetaPatterns: row.seo_meta_patterns, isActive: row.is_active,
+        createdAt: row.created_at, updatedAt: row.updated_at,
+      })));
+    } catch (err: any) {
+      res.status(500).json({ error: err.message });
+    }
+  });
+
+  app.post("/api/admin/seo-engine/blog-templates", async (req: Request, res: Response) => {
+    const admin = await requireAdmin(req, res);
+    if (!admin) return;
+    try {
+      const { templateKey, name, layoutType, heroConfig, tocEnabled, contentBlocks, faqEnabled, relatedPostsEnabled, ctaConfig, seoMetaPatterns } = req.body as any;
+      if (!templateKey || !name || !layoutType) return res.status(400).json({ error: "templateKey, name, and layoutType required" });
+
+      const r = await pool.query(
+        `INSERT INTO blog_post_templates (template_key, name, layout_type, hero_config, toc_enabled, content_blocks, faq_enabled, related_posts_enabled, cta_config, seo_meta_patterns)
+         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
+         ON CONFLICT (template_key) DO UPDATE SET name = $2, layout_type = $3, hero_config = $4, toc_enabled = $5, content_blocks = $6, faq_enabled = $7, related_posts_enabled = $8, cta_config = $9, seo_meta_patterns = $10, updated_at = NOW()
+         RETURNING *`,
+        [templateKey, name, layoutType, JSON.stringify(heroConfig || {}), tocEnabled !== false, JSON.stringify(contentBlocks || []), faqEnabled !== false, relatedPostsEnabled !== false, JSON.stringify(ctaConfig || {}), JSON.stringify(seoMetaPatterns || {})]
+      );
+      res.json(r.rows[0]);
+    } catch (err: any) {
+      res.status(500).json({ error: err.message });
+    }
+  });
+
+  app.post("/api/admin/seo-engine/seed-blog-templates", async (req: Request, res: Response) => {
+    const admin = await requireAdmin(req, res);
+    if (!admin) return;
+    try {
+      const DEFAULT_BLOG_TEMPLATES = [
+        {
+          templateKey: "clinical-deep-dive", name: "Clinical Deep Dive", layoutType: "clinical-deep-dive",
+          heroConfig: { style: "gradient", showReadTime: true, showAuthor: true },
+          contentBlocks: [{ type: "intro" }, { type: "pathophysiology" }, { type: "clinical-presentation" }, { type: "diagnostics" }, { type: "management" }, { type: "nursing-interventions" }, { type: "key-takeaways" }],
+          seoMetaPatterns: { titlePattern: "{topic}: Clinical Deep Dive | NurseNest Blog", descriptionPattern: "In-depth clinical analysis of {topic}. Pathophysiology, management, and nursing interventions for exam preparation." },
+        },
+        {
+          templateKey: "exam-tip", name: "Exam Tip", layoutType: "exam-tip",
+          heroConfig: { style: "minimal", showReadTime: true, badge: "Exam Tip" },
+          contentBlocks: [{ type: "quick-tip" }, { type: "why-it-matters" }, { type: "example-question" }, { type: "answer-strategy" }, { type: "memory-trick" }],
+          seoMetaPatterns: { titlePattern: "Exam Tip: {topic} | NurseNest Blog", descriptionPattern: "Quick exam tip for {topic}. Memory tricks, example questions, and strategies to ace your nursing exam." },
+        },
+        {
+          templateKey: "quick-reference", name: "Quick Reference", layoutType: "quick-reference",
+          heroConfig: { style: "card", showReadTime: true, badge: "Quick Reference" },
+          contentBlocks: [{ type: "at-a-glance" }, { type: "key-values" }, { type: "when-to-act" }, { type: "clinical-pearls" }],
+          seoMetaPatterns: { titlePattern: "{topic}: Quick Reference Guide | NurseNest Blog", descriptionPattern: "Quick reference guide for {topic}. Key values, clinical pearls, and when to act. Perfect for clinical and exam review." },
+        },
+        {
+          templateKey: "news-roundup", name: "News Roundup", layoutType: "news-roundup",
+          heroConfig: { style: "banner", showDate: true, badge: "News Roundup" },
+          contentBlocks: [{ type: "headline-summary" }, { type: "news-items" }, { type: "clinical-impact" }, { type: "action-items" }],
+          seoMetaPatterns: { titlePattern: "{topic}: Nursing News Roundup | NurseNest Blog", descriptionPattern: "Latest nursing news about {topic}. What it means for clinical practice and how it affects your exam preparation." },
+        },
+      ];
+
+      let seeded = 0;
+      for (const t of DEFAULT_BLOG_TEMPLATES) {
+        await pool.query(
+          `INSERT INTO blog_post_templates (template_key, name, layout_type, hero_config, content_blocks, seo_meta_patterns)
+           VALUES ($1, $2, $3, $4, $5, $6) ON CONFLICT (template_key) DO NOTHING`,
+          [t.templateKey, t.name, t.layoutType, JSON.stringify(t.heroConfig), JSON.stringify(t.contentBlocks), JSON.stringify(t.seoMetaPatterns)]
+        );
+        seeded++;
+      }
+      res.json({ success: true, seeded });
+    } catch (err: any) {
+      res.status(500).json({ error: err.message });
+    }
+  });
+
+  // ---- Bulk Keyword-to-Page Generation ----
+  app.post("/api/admin/seo-engine/bulk-generate", async (req: Request, res: Response) => {
+    const admin = await requireAdmin(req, res);
+    if (!admin) return;
+    try {
+      const { keywords, templateKey, siteContext, careerTrack, clusterId, generateContent } = req.body as any;
+      if (!keywords || !Array.isArray(keywords) || keywords.length === 0) {
+        return res.status(400).json({ error: "keywords array required" });
+      }
+      if (keywords.length > 200) {
+        return res.status(400).json({ error: "Maximum 200 keywords per batch" });
+      }
+
+      let template: any = null;
+      if (templateKey) {
+        const tRes = await pool.query("SELECT * FROM seo_page_templates WHERE template_key = $1", [templateKey]);
+        template = tRes.rows[0];
+      }
+
+      let targetClusterId = clusterId;
+      if (!targetClusterId) {
+        const clusterKeyword = `Bulk: ${keywords[0]} (+${keywords.length - 1})`;
+        const clusterSlug = `bulk-${Date.now()}`;
+        const cRes = await pool.query(
+          `INSERT INTO seo_clusters (keyword, country_mode, exam_tier, pillar_slug, site_context, career_track, career_country_mode, status)
+           VALUES ($1, 'BOTH', 'ALL', $2, $3, $4, 'BOTH', 'generating') RETURNING id`,
+          [clusterKeyword, careerTrack ? `${careerTrack}/${clusterSlug}` : clusterSlug, siteContext || "nursing", careerTrack || null]
+        );
+        targetClusterId = cRes.rows[0].id;
+      }
+
+      const results: { keyword: string; articleId: string | null; status: string; error?: string }[] = [];
+      const createdArticleIds: string[] = [];
+
+      for (const keyword of keywords) {
+        try {
+          const kw = typeof keyword === "string" ? keyword.trim() : String(keyword).trim();
+          if (!kw) continue;
+
+          const slug = kw.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+          const fullSlug = careerTrack ? `${careerTrack}/${slug}` : slug;
+          const metaTitle = template ? template.meta_title_pattern.replace(/\{keyword\}/g, kw) : `${kw} | NurseNest`;
+          const metaDesc = template ? template.meta_description_pattern.replace(/\{keyword\}/g, kw) : `Learn about ${kw} with our comprehensive guide.`;
+
+          const outlineJson = template ? JSON.stringify({
+            templateKey: template.template_key,
+            pageType: template.page_type,
+            sectionStructure: template.section_structure,
+            schemaMarkupType: template.schema_markup_type,
+          }) : '{}';
+
+          const r = await pool.query(
+            `INSERT INTO seo_articles (cluster_id, type, status, title, slug, target_keyword, search_intent, meta_title, meta_description, site_context, career_track, gating_level, outline_json)
+             VALUES ($1, 'support', $2, $3, $4, $3, 'informational', $5, $6, $7, $8, 'public', $9)
+             ON CONFLICT (slug) DO NOTHING RETURNING id`,
+            [targetClusterId, generateContent !== false ? "generating" : "draft", kw, fullSlug, metaTitle, metaDesc, siteContext || "nursing", careerTrack || null, outlineJson]
+          );
+
+          if (r.rows[0]) {
+            results.push({ keyword: kw, articleId: r.rows[0].id, status: "created" });
+            createdArticleIds.push(r.rows[0].id);
+          } else {
+            results.push({ keyword: kw, articleId: null, status: "skipped", error: "Slug already exists" });
+          }
+        } catch (kwErr: any) {
+          results.push({ keyword: String(keyword), articleId: null, status: "failed", error: kwErr.message });
+        }
+      }
+
+      await pool.query("UPDATE seo_clusters SET status = $2, updated_at = NOW() WHERE id = $1", [targetClusterId, generateContent !== false ? "generating" : "draft"]);
+
+      if (generateContent !== false && createdArticleIds.length > 0) {
+        (async () => {
+          for (const artId of createdArticleIds) {
+            try {
+              const artRes = await pool.query("SELECT * FROM seo_articles WHERE id = $1", [artId]);
+              const article = artRes.rows[0];
+              if (!article) continue;
+
+              const ctx = article.site_context || "nursing";
+              const keyword = article.target_keyword || article.title;
+              const pageType = template?.page_type || "study-guide";
+              const sectionHints = template?.section_structure ? JSON.stringify(template.section_structure) : "";
+
+              const jobRes = await pool.query(
+                `INSERT INTO autopilot_jobs (engine_key, type, target_id, status, params)
+                 VALUES ('bulk_content', 'generate', $1, 'queued', $2) RETURNING id`,
+                [artId, JSON.stringify({ keyword, pageType, sectionHints, careerTrack: article.career_track })]
+              );
+              const jobId = jobRes.rows[0]?.id;
+
+              try {
+                await pool.query("UPDATE autopilot_jobs SET status = 'running', started_at = NOW() WHERE id = $1", [jobId]);
+
+                let generated: any;
+                if (ctx === "allied" && article.career_track) {
+                  generated = await generateAlliedHealthPage(keyword, article.career_track, jobId);
+                } else {
+                  generated = await generateNursingPage(keyword, "REx-PN", jobId);
+                }
+
+                if (generated) {
+                  const contentStr = typeof generated === "string" ? generated : JSON.stringify(generated);
+                  const wordCount = contentStr.split(/\s+/).length;
+
+                  await pool.query(
+                    `UPDATE seo_articles SET content_md = $1, word_count = $2, status = 'needs_review', updated_at = NOW() WHERE id = $3`,
+                    [contentStr, wordCount, artId]
+                  );
+                  await pool.query(
+                    "UPDATE autopilot_jobs SET status = 'completed', completed_at = NOW() WHERE id = $1", [jobId]
+                  );
+                }
+              } catch (genErr: any) {
+                console.error(`[SEO Bulk] AI generation failed for ${artId}:`, genErr.message);
+                await pool.query("UPDATE seo_articles SET status = 'failed', updated_at = NOW() WHERE id = $1", [artId]);
+                await pool.query(
+                  "UPDATE autopilot_jobs SET status = 'failed', error = $1, completed_at = NOW() WHERE id = $2",
+                  [genErr.message, jobId]
+                );
+              }
+            } catch (err: any) {
+              console.error(`[SEO Bulk] Processing failed for ${artId}:`, err.message);
+              await pool.query("UPDATE seo_articles SET status = 'failed', updated_at = NOW() WHERE id = $1", [artId]);
+            }
+          }
+          await pool.query("UPDATE seo_clusters SET status = 'draft', updated_at = NOW() WHERE id = $1", [targetClusterId]);
+          console.log(`[SEO Bulk] Background generation complete for cluster ${targetClusterId}, ${createdArticleIds.length} articles processed`);
+        })().catch(err => console.error("[SEO Bulk] Background generation error:", err));
+      } else {
+        await pool.query("UPDATE seo_clusters SET status = 'draft', updated_at = NOW() WHERE id = $1", [targetClusterId]);
+      }
+
+      const created = results.filter(r => r.status === "created").length;
+      const skipped = results.filter(r => r.status === "skipped").length;
+      const failed = results.filter(r => r.status === "failed").length;
+
+      res.json({
+        clusterId: targetClusterId,
+        total: keywords.length,
+        created,
+        skipped,
+        failed,
+        generating: generateContent !== false,
+        results,
+      });
+    } catch (err: any) {
+      res.status(500).json({ error: err.message });
+    }
+  });
+
+  // ---- Internal Linking Automation (bidirectional) ----
+  app.post("/api/admin/seo-engine/recompute-links", async (req: Request, res: Response) => {
+    const admin = await requireAdmin(req, res);
+    if (!admin) return;
+    try {
+      const { articleId, siteContext } = req.body as any;
+      const ctx = siteContext || "nursing";
+
+      let articleIds: string[] = [];
+      if (articleId) {
+        articleIds = [articleId];
+      } else {
+        const r = await pool.query("SELECT id FROM seo_articles WHERE site_context = $1 AND status = 'published' ORDER BY created_at DESC LIMIT 500", [ctx]);
+        articleIds = r.rows.map((row: any) => row.id);
+      }
+
+      let totalLinksCreated = 0;
+      for (const id of articleIds) {
+        const count = await computeInternalLinksForArticle(id, ctx);
+        totalLinksCreated += count;
+      }
+
+      res.json({ success: true, articlesProcessed: articleIds.length, linksCreated: totalLinksCreated });
+    } catch (err: any) {
+      res.status(500).json({ error: err.message });
+    }
+  });
+
+  // ---- Content Pipeline Stats ----
+  app.get("/api/admin/seo-engine/pipeline-stats", async (req: Request, res: Response) => {
+    const admin = await requireAdmin(req, res);
+    if (!admin) return;
+    try {
+      const siteContext = String(req.query.siteContext || "nursing");
+      const careerTrack = req.query.careerTrack ? String(req.query.careerTrack) : null;
+
+      let where = "WHERE site_context = $1";
+      const params: any[] = [siteContext];
+      if (careerTrack) {
+        where += " AND career_track = $2";
+        params.push(careerTrack);
+      }
+
+      const pipeline = await pool.query(
+        `SELECT
+          COUNT(*) FILTER (WHERE status = 'draft')::int AS drafts,
+          COUNT(*) FILTER (WHERE status = 'generating')::int AS generating,
+          COUNT(*) FILTER (WHERE status = 'needs_review')::int AS needs_review,
+          COUNT(*) FILTER (WHERE status = 'queued')::int AS queued,
+          COUNT(*) FILTER (WHERE status = 'published')::int AS published,
+          COUNT(*) FILTER (WHERE status = 'failed')::int AS failed,
+          COUNT(*)::int AS total,
+          COALESCE(SUM(word_count), 0)::int AS total_words,
+          COUNT(*) FILTER (WHERE published_at >= NOW() - INTERVAL '7 days')::int AS published_this_week,
+          COUNT(*) FILTER (WHERE created_at >= NOW() - INTERVAL '7 days')::int AS created_this_week
+        FROM seo_articles ${where}`,
+        params
+      );
+
+      const recentArticles = await pool.query(
+        `SELECT id, title, slug, status, target_keyword, word_count, career_track, created_at, published_at, updated_at
+         FROM seo_articles ${where}
+         ORDER BY updated_at DESC LIMIT 50`,
+        params
+      );
+
+      const templateUsage = await pool.query(
+        "SELECT COUNT(*)::int AS total FROM seo_page_templates WHERE is_active = true"
+      );
+      const blogTemplateUsage = await pool.query(
+        "SELECT COUNT(*)::int AS total FROM blog_post_templates WHERE is_active = true"
+      );
+      const internalLinks = await pool.query(
+        "SELECT COUNT(*)::int AS total FROM seo_internal_links"
+      );
+
+      res.json({
+        pipeline: pipeline.rows[0],
+        recentArticles: recentArticles.rows.map(mapArticle),
+        pageTemplates: templateUsage.rows[0]?.total || 0,
+        blogTemplates: blogTemplateUsage.rows[0]?.total || 0,
+        internalLinksCount: internalLinks.rows[0]?.total || 0,
+      });
+    } catch (err: any) {
+      res.status(500).json({ error: err.message });
+    }
+  });
+
+  // ---- Bulk Status Update ----
+  app.post("/api/admin/seo-engine/bulk-status", async (req: Request, res: Response) => {
+    const admin = await requireAdmin(req, res);
+    if (!admin) return;
+    try {
+      const { articleIds, status } = req.body as any;
+      if (!articleIds || !Array.isArray(articleIds) || !status) {
+        return res.status(400).json({ error: "articleIds array and status required" });
+      }
+
+      const validStatuses = ["draft", "needs_review", "published", "failed", "queued"];
+      if (!validStatuses.includes(status)) {
+        return res.status(400).json({ error: `Invalid status. Must be one of: ${validStatuses.join(", ")}` });
+      }
+
+      let updated = 0;
+      const publishedIds: string[] = [];
+      for (const id of articleIds) {
+        const r = await pool.query(
+          `UPDATE seo_articles SET status = $1, published_at = ${status === 'published' ? 'NOW()' : 'published_at'}, updated_at = NOW() WHERE id = $2 RETURNING id, site_context`,
+          [status, id]
+        );
+        if (r.rowCount && r.rowCount > 0) {
+          updated++;
+          if (status === "published" && r.rows[0]) publishedIds.push(r.rows[0].id);
+        }
+      }
+
+      if (publishedIds.length > 0) {
+        (async () => {
+          for (const pubId of publishedIds) {
+            try {
+              const artRes = await pool.query("SELECT site_context FROM seo_articles WHERE id = $1", [pubId]);
+              const ctx = artRes.rows[0]?.site_context || "nursing";
+              await computeInternalLinksForArticle(pubId, ctx);
+            } catch (err: any) {
+              console.error(`[SEO] Bulk publish link computation failed for ${pubId}:`, err.message);
+            }
+          }
+        })().catch(err => console.error("[SEO] Bulk publish link error:", err));
+      }
+
+      res.json({ success: true, updated, total: articleIds.length });
+    } catch (err: any) {
+      res.status(500).json({ error: err.message });
+    }
+  });
+
+  // ---- Dynamic Sitemap Data ----
+  app.get("/api/admin/seo-engine/sitemap-stats", async (req: Request, res: Response) => {
+    const admin = await requireAdmin(req, res);
+    if (!admin) return;
+    try {
+      const counts: Record<string, number> = {};
+
+      const seoArticles = await pool.query("SELECT COUNT(*)::int AS c FROM seo_articles WHERE status = 'published'");
+      counts.seoArticles = seoArticles.rows[0]?.c || 0;
+
+      const seoPages = await pool.query("SELECT COUNT(*)::int AS c FROM seo_pages WHERE is_public = true AND is_indexable = true");
+      counts.seoPages = seoPages.rows[0]?.c || 0;
+
+      const blogClusters = await pool.query("SELECT COUNT(*)::int AS c FROM blog_clusters WHERE status = 'published'").catch(() => ({ rows: [{ c: 0 }] }));
+      counts.blogClusters = blogClusters.rows[0]?.c || 0;
+
+      const practicePages = await pool.query("SELECT COUNT(*)::int AS c FROM practice_pages WHERE status = 'published'").catch(() => ({ rows: [{ c: 0 }] }));
+      counts.practicePages = practicePages.rows[0]?.c || 0;
+
+      const imagingSeo = await pool.query("SELECT COUNT(*)::int AS c FROM imaging_seo_pages WHERE status = 'published'").catch(() => ({ rows: [{ c: 0 }] }));
+      counts.imagingSeoPages = imagingSeo.rows[0]?.c || 0;
+
+      const imagingBlog = await pool.query("SELECT COUNT(*)::int AS c FROM imaging_blog_articles WHERE status = 'published'").catch(() => ({ rows: [{ c: 0 }] }));
+      counts.imagingBlogArticles = imagingBlog.rows[0]?.c || 0;
+
+      const total = Object.values(counts).reduce((s, c) => s + c, 0);
+
+      res.json({ counts, total, needsSitemapIndex: total > 5000 });
     } catch (err: any) {
       res.status(500).json({ error: err.message });
     }

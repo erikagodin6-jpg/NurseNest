@@ -2383,6 +2383,46 @@ export const insertQcRunSchema = createInsertSchema(qcRuns).omit({ id: true, cre
 export type QcRun = typeof qcRuns.$inferSelect;
 export type InsertQcRun = z.infer<typeof insertQcRunSchema>;
 
+export const seoPageTemplates = pgTable("seo_page_templates", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  templateKey: text("template_key").notNull().unique(),
+  name: text("name").notNull(),
+  pageType: text("page_type").notNull(),
+  sectionStructure: jsonb("section_structure").default(sql`'[]'::jsonb`),
+  schemaMarkupType: text("schema_markup_type").notNull().default("Article"),
+  metaTitlePattern: text("meta_title_pattern").notNull().default("{keyword} | NurseNest"),
+  metaDescriptionPattern: text("meta_description_pattern").notNull().default("Learn about {keyword} with our comprehensive guide."),
+  placeholderBlocks: jsonb("placeholder_blocks").default(sql`'[]'::jsonb`),
+  isActive: boolean("is_active").notNull().default(true),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export const insertSeoPageTemplateSchema = createInsertSchema(seoPageTemplates).omit({ id: true, createdAt: true, updatedAt: true });
+export type SeoPageTemplate = typeof seoPageTemplates.$inferSelect;
+export type InsertSeoPageTemplate = z.infer<typeof insertSeoPageTemplateSchema>;
+
+export const blogPostTemplates = pgTable("blog_post_templates", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  templateKey: text("template_key").notNull().unique(),
+  name: text("name").notNull(),
+  layoutType: text("layout_type").notNull(),
+  heroConfig: jsonb("hero_config").default(sql`'{}'::jsonb`),
+  tocEnabled: boolean("toc_enabled").notNull().default(true),
+  contentBlocks: jsonb("content_blocks").default(sql`'[]'::jsonb`),
+  faqEnabled: boolean("faq_enabled").notNull().default(true),
+  relatedPostsEnabled: boolean("related_posts_enabled").notNull().default(true),
+  ctaConfig: jsonb("cta_config").default(sql`'{}'::jsonb`),
+  seoMetaPatterns: jsonb("seo_meta_patterns").default(sql`'{}'::jsonb`),
+  isActive: boolean("is_active").notNull().default(true),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export const insertBlogPostTemplateSchema = createInsertSchema(blogPostTemplates).omit({ id: true, createdAt: true, updatedAt: true });
+export type BlogPostTemplate = typeof blogPostTemplates.$inferSelect;
+export type InsertBlogPostTemplate = z.infer<typeof insertBlogPostTemplateSchema>;
+
 export const pageViewsDaily = pgTable("page_views_daily", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
   date: text("date").notNull(),
