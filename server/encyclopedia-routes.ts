@@ -1,6 +1,24 @@
 import type { Express, Request, Response } from "express";
 import { pool } from "./storage";
 import { requireAdmin } from "./admin-auth";
+import { analyzeAndPopulateCrossLinks, getCrossLinksForEntry, getCrossLinkStats } from "./encyclopedia-cross-linker";
+
+let encColCache: { crossLinkCol: string; categoryCol: string; keywordsCol: string; faqCol: string; mechanismCol: string } | null = null;
+async function getEncColumns(): Promise<typeof encColCache> {
+  if (encColCache) return encColCache;
+  const r = await pool.query(
+    `SELECT column_name FROM information_schema.columns WHERE table_name = 'encyclopedia_entries'`
+  );
+  const cols = new Set(r.rows.map((row: any) => row.column_name));
+  encColCache = {
+    crossLinkCol: cols.has('cross_profession_links') ? 'cross_profession_links' : 'cross_links',
+    categoryCol: cols.has('category') ? 'category' : 'domain',
+    keywordsCol: cols.has('seo_keywords') ? 'seo_keywords' : 'keywords',
+    faqCol: cols.has('faq_json') ? 'faq_json' : 'faq',
+    mechanismCol: cols.has('mechanism_physiology') ? 'mechanism_physiology' : 'mechanism',
+  };
+  return encColCache;
+}
 
 function snakeToCamel(obj: any): any {
   if (Array.isArray(obj)) return obj.map(snakeToCamel);
@@ -92,20 +110,27 @@ export function registerEncyclopediaRoutes(app: Express): void {
 
   app.get("/api/encyclopedia/cross-links/:slug", async (req, res) => {
     try {
+      const ec = await getEncColumns();
       const entry = await pool.query(
-        `SELECT cross_profession_links FROM encyclopedia_entries WHERE slug = $1`,
+        `SELECT id, ${ec!.crossLinkCol} AS cross_links_data FROM encyclopedia_entries WHERE slug = $1 AND status = 'published'`,
         [req.params.slug]
       );
       if (entry.rows.length === 0) {
         return res.status(404).json({ error: "Entry not found" });
       }
-      const crossLinks = entry.rows[0].cross_profession_links || [];
+
+      const dbLinks = await getCrossLinksForEntry(entry.rows[0].id);
+      if (dbLinks.length > 0) {
+        return res.json({ linked: dbLinks });
+      }
+
+      const crossLinks = entry.rows[0].cross_links_data || [];
       if (crossLinks.length === 0) {
         return res.json({ linked: [] });
       }
       const slugs = crossLinks.map((l: any) => l.slug);
       const linked = await pool.query(
-        `SELECT id, profession, title, slug, category AS domain, overview
+        `SELECT id, profession, title, slug, ${ec!.categoryCol} AS domain, overview
          FROM encyclopedia_entries WHERE slug = ANY($1) AND status = 'published'`,
         [slugs]
       );
@@ -117,22 +142,30 @@ export function registerEncyclopediaRoutes(app: Express): void {
 
   app.get("/api/encyclopedia/stats/summary", async (_req, res) => {
     try {
+      const ec = await getEncColumns();
       const professionCounts = await pool.query(
         `SELECT profession, COUNT(*)::int AS count FROM encyclopedia_entries WHERE status = 'published' GROUP BY profession ORDER BY profession`
       );
       const domainCounts = await pool.query(
-        `SELECT profession, category AS domain, COUNT(*)::int AS count FROM encyclopedia_entries WHERE status = 'published' GROUP BY profession, category ORDER BY profession, category`
+        `SELECT profession, ${ec!.categoryCol} AS domain, COUNT(*)::int AS count FROM encyclopedia_entries WHERE status = 'published' GROUP BY profession, ${ec!.categoryCol} ORDER BY profession, ${ec!.categoryCol}`
       );
       const crossLinkCount = await pool.query(
-        `SELECT COUNT(*)::int AS total FROM encyclopedia_entries WHERE status = 'published' AND cross_profession_links IS NOT NULL AND cross_profession_links::text != '[]'`
+        `SELECT COUNT(*)::int AS total FROM encyclopedia_entries WHERE status = 'published' AND ${ec!.crossLinkCol} IS NOT NULL AND ${ec!.crossLinkCol}::text != '[]'`
       );
       const totalCount = await pool.query(
         `SELECT COUNT(*)::int AS total FROM encyclopedia_entries WHERE status = 'published'`
       );
 
+      let crossLinkTableStats = { totalLinks: 0, uniqueLinkedEntries: 0 };
+      try {
+        const clStats = await getCrossLinkStats();
+        crossLinkTableStats = clStats;
+      } catch (_e) {}
+
       res.json({
         totalEntries: totalCount.rows[0]?.total || 0,
         entriesWithCrossLinks: crossLinkCount.rows[0]?.total || 0,
+        crossLinkGraph: crossLinkTableStats,
         byProfession: professionCounts.rows.map(snakeToCamel),
         byDomain: domainCounts.rows.map(snakeToCamel),
       });
@@ -189,6 +222,20 @@ export function registerEncyclopediaRoutes(app: Express): void {
           );
           entry.crossProfessionTopics = crossResult.rows.map(snakeToCamel);
         }
+      }
+
+      if (!entry.crossProfessionTopics || entry.crossProfessionTopics.length === 0) {
+        try {
+          const dbCrossLinks = await getCrossLinksForEntry(row.id);
+          if (dbCrossLinks.length > 0) {
+            entry.crossProfessionTopics = dbCrossLinks;
+            entry.crossProfessionLinks = dbCrossLinks.map((cl: any) => ({
+              profession: cl.profession,
+              slug: cl.slug,
+              title: cl.title,
+            }));
+          }
+        } catch (_e) {}
       }
 
       res.json(entry);
@@ -274,6 +321,43 @@ export function registerEncyclopediaRoutes(app: Express): void {
       const { id } = req.params;
       await pool.query(`DELETE FROM encyclopedia_entries WHERE id = $1`, [id]);
       res.json({ ok: true });
+    } catch (err: any) {
+      res.status(500).json({ error: err.message });
+    }
+  });
+
+  app.post("/api/admin/encyclopedia/cross-links/analyze", async (req: Request, res: Response) => {
+    const admin = await requireAdmin(req, res);
+    if (!admin) return;
+    try {
+      const result = await analyzeAndPopulateCrossLinks();
+      res.json({
+        ok: true,
+        totalLinks: result.totalLinks,
+        entriesUpdated: result.entriesUpdated,
+      });
+    } catch (err: any) {
+      res.status(500).json({ error: err.message });
+    }
+  });
+
+  app.get("/api/admin/encyclopedia/cross-links/stats", async (req: Request, res: Response) => {
+    const admin = await requireAdmin(req, res);
+    if (!admin) return;
+    try {
+      const stats = await getCrossLinkStats();
+      res.json(stats);
+    } catch (err: any) {
+      res.status(500).json({ error: err.message });
+    }
+  });
+
+  app.get("/api/admin/encyclopedia/cross-links/:entryId", async (req: Request, res: Response) => {
+    const admin = await requireAdmin(req, res);
+    if (!admin) return;
+    try {
+      const links = await getCrossLinksForEntry(req.params.entryId);
+      res.json({ links });
     } catch (err: any) {
       res.status(500).json({ error: err.message });
     }

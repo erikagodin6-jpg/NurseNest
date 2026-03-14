@@ -5026,6 +5026,23 @@ export const insertEncyclopediaEntrySchema = createInsertSchema(encyclopediaEntr
 export type EncyclopediaEntry = typeof encyclopediaEntries.$inferSelect;
 export type InsertEncyclopediaEntry = z.infer<typeof insertEncyclopediaEntrySchema>;
 
+export const encyclopediaCrossLinks = pgTable("encyclopedia_cross_links", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  sourceEntryId: varchar("source_entry_id").notNull(),
+  targetEntryId: varchar("target_entry_id").notNull(),
+  matchScore: doublePrecision("match_score").notNull().default(0),
+  matchReason: text("match_reason"),
+  status: text("status").default("active"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const insertEncyclopediaCrossLinkSchema = createInsertSchema(encyclopediaCrossLinks).omit({
+  id: true,
+  createdAt: true,
+});
+export type EncyclopediaCrossLink = typeof encyclopediaCrossLinks.$inferSelect;
+export type InsertEncyclopediaCrossLink = z.infer<typeof insertEncyclopediaCrossLinkSchema>;
+
 export const ENCYCLOPEDIA_PROFESSIONS = [
   { slug: "nursing", label: "Nursing", icon: "Heart" },
   { slug: "paramedic", label: "Paramedic", icon: "Ambulance" },

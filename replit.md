@@ -29,7 +29,7 @@ Key systems and engines include:
 - **Clinical Vignette Generation Engine**: Admin-triggered batch generation of clinical vignette-style exam questions across all nursing tiers, with AI for content, image matching, and lesson linking.
 - **RRT Bulk Question Generation Pipeline**: AI-powered generation of Canadian CBRC-style RRT licensing exam questions and matching flashcards.
 - **Paramedic EMS Scenario Simulation System**: Interactive simulations with decision points.
-- **Allied Health Encyclopedia System**: Over 1,500 structured topic entries across 8 professions, including overview, mechanism, clinical relevance, assessment, management, complications, and SEO keywords, with cross-profession links.
+- **Allied Health Encyclopedia System**: Over 1,500 structured topic entries across 8 professions, including overview, mechanism, clinical relevance, assessment, management, complications, and SEO keywords, with cross-profession links. Includes an `encyclopedia_cross_links` table and matching algorithm for automated cross-profession knowledge graph linking, with admin endpoints for re-analysis on demand.
 - **Adaptive Learning Engine (v2)**: Tracks granular learning progress, uses weighted priority scoring, a 5-state mastery model, and spaced repetition with 7 session types.
 - **AI Study Coaching & Course Generation System**: Provides personalized study coaching, topic mastery scoring, exam readiness assessment, and dynamic study plan generation.
 - **Programmatic SEO Engines**:
