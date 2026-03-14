@@ -1,0 +1,272 @@
+Perform a full structural, routing, navigation, and SEO audit of the entire NurseNest platform. The goal is to identify and repair technical issues that affect discoverability, navigation reliability, page rendering, and user experience.
+
+The audit must include all sections of the site including:
+
+• Main NurseNest platform
+• Nursing tiers (RPN, RN, NP)
+• Allied Health section
+• New Grad section
+• Blog and content pages
+• Pricing pages
+• Lessons
+• Flashcards
+• Test Bank
+• Exams
+• Mock Exams
+• Admin routes (for safety verification)
+
+This task must not only detect issues but also fix them where possible.
+
+PRIMARY GOALS
+
+1. Identify and repair broken links.
+2. Detect and eliminate 404 errors across the site.
+3. Standardize routing patterns.
+4. Ensure all navigation components resolve correctly.
+5. Improve SEO structure and metadata.
+6. Detect pages that are unreachable from navigation.
+7. Verify that dynamic content pages resolve correctly.
+8. Ensure the router configuration matches the actual page structure.
+9. Prevent future broken links through validation tools.
+
+BROKEN LINK AUDIT
+
+Scan all internal links across the site including:
+
+• navigation bars
+• dropdown menus
+• side navigation
+• hero buttons
+• CTA buttons
+• feature cards
+• program cards
+• breadcrumbs
+• footer links
+• related content links
+• blog internal links
+• lesson references
+• flashcard references
+• sitemap entries
+
+Detect links that lead to:
+
+• 404 pages
+• undefined routes
+• incorrect slug formats
+• outdated routes
+• pages that no longer exist
+
+Automatically repair links when the correct destination can be determined.
+
+If the destination is ambiguous, log it for review.
+
+ROUTE CONSISTENCY CHECK
+
+Build a complete map of all registered routes in the application.
+
+Verify that:
+
+• every route has a corresponding page component
+• every page component has a registered route
+• no routes are duplicated
+• nested routes are configured correctly
+• wildcard routes do not override valid routes
+
+Ensure all site routes follow a consistent pattern.
+
+Example patterns to enforce:
+
+Nursing tiers:
+/rpn
+/rn
+/np
+
+Pricing:
+/pricing
+/pricing/rpn
+/pricing/rn
+/pricing/np
+/pricing/allied
+
+Allied health:
+/allied/paramedic
+/allied/respiratory-therapy
+/allied/medical-lab-tech
+/allied/diagnostic-imaging
+/allied/occupational-therapy
+/allied/physical-therapy
+
+Remove inconsistent abbreviations in URLs unless they redirect to the canonical slug.
+
+404 ERROR DETECTION
+
+Simulate navigation across all site routes and detect any routes returning 404 responses.
+
+Check both:
+
+• navigation access
+• direct URL access
+
+Ensure that deep links do not produce 404 errors.
+
+For single page application routing, ensure the server fallback correctly routes requests to the client router.
+
+SERVER FALLBACK VERIFICATION
+
+Verify the production server configuration supports client-side routing.
+
+Ensure routes like:
+
+/rpn/lessons
+/rn/exams
+/allied/respiratory-therapy
+/pricing/rn
+
+do not return 404 errors when accessed directly.
+
+If necessary, configure server rewrites so unknown routes return index.html and are handled by the frontend router.
+
+NAVIGATION CONSISTENCY
+
+Audit the entire navigation system including:
+
+• main navigation bar
+• tier navigation menus
+• mobile navigation
+• dropdown menus
+• footer navigation
+
+Verify that:
+
+• all links resolve
+• navigation order is consistent
+• there are no duplicate menu items
+• mobile navigation matches desktop navigation
+
+Detect navigation items that reference routes that no longer exist.
+
+PAGE DISCOVERABILITY
+
+Detect pages that exist but are not reachable from any navigation element.
+
+These pages should either:
+
+• be added to navigation
+or
+• be intentionally hidden and removed from the sitemap.
+
+SITEMAP VALIDATION
+
+Inspect the sitemap(s) for the site.
+
+Verify that:
+
+• every URL in the sitemap resolves successfully
+• there are no 404 URLs in the sitemap
+• the sitemap includes all important public pages
+• hidden or admin routes are excluded
+
+If multiple sitemaps exist (main, allied, newgrad), verify each separately.
+
+SEO METADATA AUDIT
+
+Check every public page for proper SEO metadata.
+
+Verify that each page includes:
+
+• unique title tag
+• meta description
+• canonical URL
+• correct open graph metadata
+
+Detect duplicate titles or descriptions across pages.
+
+Ensure pricing and program pages have optimized titles.
+
+Example:
+
+RN Pricing page:
+Title: RN NCLEX Exam Prep Pricing | NurseNest
+
+Allied Respiratory Therapy page:
+Title: Respiratory Therapy Exam Prep | NurseNest
+
+INTERNAL LINK STRUCTURE
+
+Ensure internal links use canonical URLs.
+
+Remove links that point to:
+
+• outdated paths
+• duplicate routes
+• redirect chains
+
+Prefer direct links to canonical routes.
+
+CONTENT STRUCTURE CHECK
+
+Verify that key sections of the site contain expected content.
+
+Examples:
+
+Nursing tiers should include:
+• lessons
+• test bank
+• exams
+• mock exams
+• flashcards
+
+Allied health programs should include:
+• overview
+• exam prep
+• study resources
+
+Detect pages that appear incomplete or missing key sections.
+
+ROUTE VALIDATION TOOL
+
+Create a lightweight internal route validation tool that runs during development.
+
+This tool should:
+
+• compare registered routes against internal links
+• detect links pointing to undefined routes
+• log warnings for broken navigation references
+
+This will help prevent future 404 errors during development.
+
+PERFORMANCE AND SAFETY
+
+Ensure that the audit and fixes do not break:
+
+• authentication routes
+• admin dashboards
+• Stripe checkout flows
+• dynamic exam systems
+• flashcard systems
+• API endpoints
+
+Changes must only affect routing, navigation, and SEO structure.
+
+FINAL REPORT
+
+After completing the audit, generate a report including:
+
+1. Total number of broken links found
+2. Total number of 404 routes discovered
+3. Pages that were unreachable from navigation
+4. Routes that were standardized
+5. Redirects that were implemented
+6. Navigation elements that were corrected
+7. SEO metadata issues that were repaired
+
+GOAL
+
+The final result should be a NurseNest platform where:
+
+• all internal links resolve correctly
+• no navigation paths lead to 404 pages
+• route patterns are consistent across the site
+• every important page is discoverable
+• SEO structure is optimized
+• future routing issues are automatically detected during development

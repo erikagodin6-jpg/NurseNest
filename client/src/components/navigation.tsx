@@ -253,6 +253,11 @@ export function Navigation({ compact = false }: { compact?: boolean } = {}) {
       setLocation("/flashcards");
       return;
     }
+    if (itemLabel === "Test Bank") {
+      const tierToPath: Record<string, string> = { rpn: "/rpn/test-bank", rn: "/rn/test-bank", np: "/np/test-bank" };
+      setLocation(tierToPath[effectiveTier || ""] || "/rpn/test-bank");
+      return;
+    }
     if (itemLabel === "Reports") {
       setLocation("/reports");
       return;
@@ -316,7 +321,7 @@ export function Navigation({ compact = false }: { compact?: boolean } = {}) {
             className="flex items-center justify-between gap-2 cursor-pointer text-gray-700 hover:text-primary hover:bg-primary/5 focus:bg-primary/5 focus:text-primary rounded-md py-2 px-3"
           >
             <span>{item.label}</span>
-            {isPaid && !["Lessons", "Lectures", "Flashcards", "Clinical Clarity", "Clinical Skill Lab", "Simulators", "Exams"].includes(item.key || item.label) && <Lock className="w-3 h-3 text-gray-400" />}
+            {isPaid && !["Lessons", "Lectures", "Flashcards", "Test Bank", "Clinical Clarity", "Clinical Skill Lab", "Simulators", "Exams"].includes(item.key || item.label) && <Lock className="w-3 h-3 text-gray-400" />}
           </DropdownMenuItem>
         ))}
       </DropdownMenuContent>
@@ -328,6 +333,7 @@ export function Navigation({ compact = false }: { compact?: boolean } = {}) {
     { icon: BookOpen, label: t("nav.lessons"), key: "Lessons" },
     { icon: Play, label: t("nav.lectures"), key: "Lectures" },
     { icon: Layers, label: t("nav.flashcards"), key: "Flashcards" },
+    { icon: FileText, label: "Test Bank", key: "Test Bank" },
     { icon: Lightbulb, label: t("nav.clinicalClarity"), key: "Clinical Clarity" },
     { icon: Activity, label: t("nav.clinicalSkillLab"), key: "Clinical Skill Lab" },
     { icon: Stethoscope, label: t("nav.simulators"), key: "Simulators" },
@@ -338,6 +344,7 @@ export function Navigation({ compact = false }: { compact?: boolean } = {}) {
     "Lessons": "Lessons",
     "Lectures": "Lessons",
     "Flashcards": "Flashcards",
+    "Test Bank": "Flashcards",
     "Clinical Clarity": "ClinicalJudgment",
     "Clinical Skill Lab": "DiagnosticReasoning",
     "Simulators": "AdvancedCases",
@@ -633,6 +640,15 @@ export function Navigation({ compact = false }: { compact?: boolean } = {}) {
               <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/flashcards")}>
                 <Layers className="w-4 h-4" />
                 {t("nav.flashcards")}
+              </Button>
+            </SheetClose>
+            <SheetClose asChild>
+              <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => {
+                const tierToPath: Record<string, string> = { rpn: "/rpn/test-bank", rn: "/rn/test-bank", np: "/np/test-bank" };
+                setLocation(tierToPath[effectiveTier || ""] || "/rpn/test-bank");
+              }} data-testid="button-test-bank-mobile">
+                <FileText className="w-4 h-4" />
+                Test Bank
               </Button>
             </SheetClose>
             <SheetClose asChild>

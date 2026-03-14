@@ -1680,7 +1680,7 @@ type ExamFlashcard = {
   sourceQuestionId: string;
 };
 
-export default function Flashcards() {
+export default function Flashcards({ isTestBank = false }: { isTestBank?: boolean } = {}) {
   const { user, effectiveTier } = useAuth();
   const [, setLocation] = useLocation();
   const { t } = useI18n();
@@ -3057,13 +3057,15 @@ export default function Flashcards() {
                 <div className="pt-2">
                   <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-violet-100/60 border border-violet-200/50 text-violet-700 text-xs font-medium mb-6" data-testid="badge-hero-tier">
                     <Stethoscope className="w-3.5 h-3.5" />
-                    Nursing Exam Prep — RPN · RN · NP
+                    {isTestBank ? "Test Bank — RPN · RN · NP" : "Nursing Exam Prep — RPN · RN · NP"}
                   </div>
                   <h1 className="text-3xl sm:text-4xl lg:text-[2.75rem] font-bold text-foreground tracking-tight leading-[1.15] mb-5" data-testid="text-flashcard-heading">
-                    Clinical Flashcards That Think Like Exam Questions
+                    {isTestBank ? "Test Bank: Exam-Style Practice Questions" : "Clinical Flashcards That Think Like Exam Questions"}
                   </h1>
                   <p className="text-muted-foreground text-base sm:text-lg leading-relaxed mb-8 max-w-xl" data-testid="text-flashcard-subheading">
-                    Tier-specific clinical scenarios with full rationales, clinical pearls, and distractor analysis. Built for how nursing exams actually test you.
+                    {isTestBank
+                      ? "Tier-calibrated clinical scenarios with full rationales, distractor analysis, adaptive difficulty, and clinical pearls. Practice the way your exam tests you."
+                      : "Tier-specific clinical scenarios with full rationales, clinical pearls, and distractor analysis. Built for how nursing exams actually test you."}
                   </p>
 
                   <div className="flex flex-wrap items-center gap-4 sm:gap-6 text-xs text-muted-foreground mb-8">
@@ -3092,7 +3094,7 @@ export default function Flashcards() {
                       data-testid="button-hero-start-studying"
                     >
                       <Zap className="w-4 h-4" />
-                      Start Flashcard Session
+                      {isTestBank ? "Start Practice Session" : "Start Flashcard Session"}
                     </Button>
                     <Button
                       variant="outline"
@@ -3105,11 +3107,11 @@ export default function Flashcards() {
                       data-testid="button-hero-explore-topics"
                     >
                       <Search className="w-4 h-4" />
-                      Explore Topics
+                      {isTestBank ? "Browse Question Topics" : "Explore Topics"}
                     </Button>
                   </div>
 
-                  {user?.tier === "admin" && (
+                  {user?.tier === "admin" && !isTestBank && (
                     <div className="mt-4 flex items-center gap-2">
                       <Button
                         variant="ghost"
@@ -3532,9 +3534,11 @@ export default function Flashcards() {
           <section className="py-14 bg-white border-b border-violet-50" data-testid="section-study-modes">
             <div className="max-w-5xl mx-auto px-4 sm:px-6">
               <div className="text-center mb-10">
-                <h2 className="text-2xl sm:text-3xl font-bold text-foreground mb-3" data-testid="text-study-modes-title">Study Your Way</h2>
+                <h2 className="text-2xl sm:text-3xl font-bold text-foreground mb-3" data-testid="text-study-modes-title">{isTestBank ? "Practice Modes" : "Study Your Way"}</h2>
                 <p className="text-muted-foreground text-sm sm:text-base max-w-2xl mx-auto leading-relaxed">
-                  Four study modes designed for different phases of exam preparation — from first exposure to exam-day simulation.
+                  {isTestBank
+                    ? "Four practice modes designed for different phases of exam preparation — from content review to exam-day simulation."
+                    : "Four study modes designed for different phases of exam preparation — from first exposure to exam-day simulation."}
                 </p>
               </div>
               <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
@@ -3651,9 +3655,11 @@ export default function Flashcards() {
           <section id="topic-filter-section" className="py-14 bg-gradient-to-b from-violet-50/20 to-white" data-testid="section-topic-filter">
             <div className="max-w-5xl mx-auto px-4 sm:px-6">
               <div className="text-center mb-8">
-                <h2 className="text-2xl sm:text-3xl font-bold text-foreground mb-3" data-testid="text-topic-filter-title">Browse by Topic</h2>
+                <h2 className="text-2xl sm:text-3xl font-bold text-foreground mb-3" data-testid="text-topic-filter-title">{isTestBank ? "Browse Questions by Topic" : "Browse by Topic"}</h2>
                 <p className="text-muted-foreground text-sm sm:text-base max-w-2xl mx-auto leading-relaxed">
-                  Filter by body system, specialty, or exam category to build a focused study session.
+                  {isTestBank
+                    ? "Filter questions by body system, specialty, or exam category to target your weak areas."
+                    : "Filter by body system, specialty, or exam category to build a focused study session."}
                 </p>
               </div>
 
@@ -6445,7 +6451,7 @@ export default function Flashcards() {
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <ContextualRelatedResources
             pageType="flashcards"
-            currentPath="/flashcards"
+            currentPath={isTestBank ? "/test-bank" : "/flashcards"}
             className="border-t border-gray-200"
           />
         </div>
@@ -6518,27 +6524,35 @@ export default function Flashcards() {
     <div className={`min-h-screen bg-gradient-to-b from-violet-50/40 via-white to-secondary flex flex-col font-sans ${user?.tier !== "admin" ? "select-none" : ""} print:hidden`}>
       {upgradeModalEl}
       <SEO
-        title="Nursing Flashcards - Interactive Quiz & Study Cards"
-        description="Master nursing pathophysiology with interactive flashcards covering cardiovascular, respiratory, neurological, pharmacology, and more. Practice NCLEX-style questions with instant feedback and progress tracking."
-        keywords="nursing flashcards, NCLEX flashcards, nursing quiz, pathophysiology study cards, nursing exam practice, clinical nursing questions, pharmacology flashcards"
-        canonicalPath="/flashcards"
+        title={isTestBank ? "Test Bank - Exam-Style Practice Questions | NurseNest" : "Nursing Flashcards - Interactive Quiz & Study Cards"}
+        description={isTestBank
+          ? "Practice with tier-calibrated exam-style clinical scenario questions with full rationales, distractor analysis, and adaptive difficulty for RPN, RN, and NP preparation."
+          : "Master nursing pathophysiology with interactive flashcards covering cardiovascular, respiratory, neurological, pharmacology, and more. Practice NCLEX-style questions with instant feedback and progress tracking."}
+        keywords={isTestBank
+          ? "nursing test bank, exam practice questions, NCLEX questions, nursing exam prep, clinical scenarios, practice questions"
+          : "nursing flashcards, NCLEX flashcards, nursing quiz, pathophysiology study cards, nursing exam practice, clinical nursing questions, pharmacology flashcards"}
+        canonicalPath={isTestBank ? window.location.pathname.replace(/^\/(?:en|fr|es|fil|hi|zh|ar|ko|pt|pa|vi|ht|ur|ja|fa)/, "") : "/flashcards"}
         ogType="website"
         structuredData={{
           "@context": "https://schema.org",
           "@type": "LearningResource",
-          "name": "NurseNest Nursing Flashcards",
-          "description": "Interactive nursing flashcards with quiz-style questions for NCLEX and clinical exam preparation.",
-          "url": "https://www.nursenest.ca/flashcards",
-          "learningResourceType": "Flashcard",
+          "name": isTestBank ? "NurseNest Test Bank" : "NurseNest Nursing Flashcards",
+          "description": isTestBank
+            ? "Exam-style practice questions with clinical rationales and adaptive difficulty."
+            : "Interactive nursing flashcards with quiz-style questions for NCLEX and clinical exam preparation.",
+          "url": isTestBank ? `https://www.nursenest.ca${window.location.pathname}` : "https://www.nursenest.ca/flashcards",
+          "learningResourceType": isTestBank ? "Quiz" : "Flashcard",
           "educationalLevel": "College",
           "about": { "@type": "Thing", "name": "Nursing Education" }
         }}
         additionalStructuredData={[{
           "@context": "https://schema.org",
           "@type": "Course",
-          "name": "Nursing Pharmacology & Clinical Flashcards",
-          "description": "Interactive nursing flashcards covering pharmacology, pathophysiology, and clinical concepts for NCLEX and REX-PN exam preparation.",
-          "url": "https://www.nursenest.ca/flashcards",
+          "name": isTestBank ? "Nursing Test Bank - Exam Practice Questions" : "Nursing Pharmacology & Clinical Flashcards",
+          "description": isTestBank
+            ? "Exam-style clinical scenario practice questions with full rationales, distractor analysis, and adaptive difficulty for nursing exam preparation."
+            : "Interactive nursing flashcards covering pharmacology, pathophysiology, and clinical concepts for NCLEX and REX-PN exam preparation.",
+          "url": isTestBank ? `https://www.nursenest.ca${window.location.pathname}` : "https://www.nursenest.ca/flashcards",
           "provider": { "@type": "EducationalOrganization", "name": "NurseNest", "url": "https://www.nursenest.ca" },
           "courseMode": "online",
           "isAccessibleForFree": false

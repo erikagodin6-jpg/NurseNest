@@ -1,0 +1,229 @@
+Create an **Automated Content Growth and SEO Optimization System** for the NurseNest platform.
+
+The goal is to continuously expand high-quality educational content while improving search engine visibility for the **Allied Health** and **New Grad** sections of the site.
+
+This system must automatically generate content, optimize pages for SEO, and ensure the platform grows organically in search rankings.
+
+The system should integrate with the existing NurseNest architecture including:
+
+• Nursing tiers (RPN, RN, NP)
+• Allied Health programs
+• New Grad support pages
+• Blog content
+• Lessons
+• Flashcards
+• Test bank questions
+
+AUTOMATED CONTENT ENGINE
+
+Create a background system that runs daily or weekly to expand content automatically.
+
+This system should generate:
+
+• new exam questions
+• new flashcards
+• new clinical lessons
+• new blog posts
+• new specialty guides
+
+All generated content must follow the existing NurseNest content standards.
+
+The content engine should prioritize topics that are underrepresented or have strong SEO potential.
+
+SEO IMPROVEMENT FOR ALLIED HEALTH PAGES
+
+Optimize the Allied Health section so it becomes searchable for healthcare career exam preparation.
+
+Each Allied Health program page must include SEO-optimized sections including:
+
+• program overview
+• certification requirements
+• exam preparation guidance
+• clinical skills required
+• study resources
+
+Target programs include:
+
+• Respiratory Therapy
+• Paramedic
+• Medical Laboratory Technology
+• Diagnostic Imaging
+• Occupational Therapy
+• Physical Therapy
+
+Each page must include keyword-rich headings such as:
+
+Respiratory Therapy Exam Prep
+Paramedic Certification Study Guide
+Medical Lab Tech Exam Questions
+
+Add long-form content so each page contains at least **1200–2000 words** of high-quality educational material.
+
+Ensure that internal links connect Allied Health pages to:
+
+• flashcards
+• test bank questions
+• blog articles
+• study guides
+
+This strengthens internal linking for SEO.
+
+NEW GRAD SEO IMPROVEMENT
+
+Improve the SEO for the New Grad section so it ranks for searches related to early career nursing support.
+
+Key topics should include:
+
+• new grad nurse survival guide
+• first year nursing tips
+• how to succeed as a new nurse
+• transition from nursing school to practice
+• common mistakes new nurses make
+
+Each New Grad page should include:
+
+• practical advice
+• clinical examples
+• workplace scenarios
+• career guidance
+
+Each page should include at least **1500 words** of structured content.
+
+SEO METADATA OPTIMIZATION
+
+Ensure each page contains optimized metadata including:
+
+• title tag
+• meta description
+• canonical URL
+• open graph tags
+
+Example titles:
+
+Respiratory Therapy Exam Prep | NurseNest
+New Grad Nurse Survival Guide | NurseNest
+
+Meta descriptions should be informative and include relevant keywords.
+
+INTERNAL LINKING STRUCTURE
+
+Improve the internal linking network.
+
+All blog articles should link to:
+
+• lessons
+• flashcards
+• exam prep pages
+
+Lessons should link to:
+
+• related blog articles
+• flashcards
+• test bank questions
+
+This strengthens the site's topical authority.
+
+SITEMAP EXPANSION
+
+Ensure all new content is automatically added to the sitemap.
+
+Create separate sitemap sections if needed:
+
+• main sitemap
+• allied health sitemap
+• new grad sitemap
+
+Verify that all sitemap URLs resolve correctly and do not produce 404 errors.
+
+BLOG GENERATION SYSTEM
+
+Automatically generate SEO blog articles targeting healthcare education search queries.
+
+Example topics:
+
+How to Pass the Respiratory Therapy Exam
+Top Study Tips for Paramedic Students
+Best Flashcards for Nursing Pharmacology
+How to Survive Your First Year as a Nurse
+
+Blog posts should include:
+
+• clinical insights
+• exam preparation tips
+• study strategies
+
+Each article should be at least **1200 words**.
+
+KEYWORD STRATEGY
+
+Incorporate relevant keywords naturally throughout the content.
+
+Examples include:
+
+• nursing exam prep
+• NCLEX study tips
+• respiratory therapy exam prep
+• paramedic exam questions
+• new grad nurse advice
+
+Avoid keyword stuffing. Maintain natural language.
+
+AUTOMATED CONTENT QUALITY CHECK
+
+Before publishing generated content verify that:
+
+• headings are structured properly
+• paragraphs are readable
+• metadata is present
+• internal links are included
+• images are inserted where appropriate
+
+Reject any content that fails validation.
+
+IMAGE GENERATION
+
+When generating lessons or blog posts include relevant images.
+
+Examples:
+
+• anatomical diagrams
+• ECG interpretation examples
+• clinical workflow diagrams
+
+Images should be professional and clinically accurate.
+
+SEARCH PERFORMANCE TRACKING
+
+Add a section to the admin dashboard called:
+
+SEO Performance
+
+This should track:
+
+• indexed pages
+• search impressions
+• click-through rates
+• top ranking keywords
+
+Use Google Search Console integration where possible.
+
+CONTENT GROWTH REPORT
+
+Generate a weekly report showing:
+
+• number of new blog posts generated
+• number of new lessons created
+• number of flashcards generated
+• number of exam questions generated
+
+This report should appear in the admin dashboard.
+
+GOAL
+
+The final system should ensure that:
+
+• Allied Health pages rank in search results
+• New Grad pages attract organic traffic
+• the platform continuously publishes new SEO content
+• internal linking strengthens page authority
+• NurseNest becomes highly discoverable in healthcare education searches.

@@ -1,0 +1,368 @@
+Build a comprehensive **Content Automation, SEO Optimization, and Site Integrity System** for the NurseNest platform.
+
+This system must ensure the platform continuously grows high-quality educational content while maintaining strong search engine visibility and preventing broken pages or incomplete content.
+
+The system should operate across the entire NurseNest ecosystem including:
+
+• Nursing tiers (RPN, RN, NP)
+• Allied Health programs
+• New Grad support resources
+• Lessons
+• Test bank questions
+• Flashcards
+• Exams
+• Mock exams
+• Blog articles
+• Career resources
+
+The system must include automated content generation, SEO optimization, coverage analysis, and site health monitoring.
+
+PRIMARY OBJECTIVES
+
+1. Improve SEO discoverability for Allied Health pages.
+2. Improve SEO discoverability for New Grad pages.
+3. Automatically generate missing lessons and educational content.
+4. Automatically generate exam questions and flashcards where coverage is low.
+5. Detect and repair broken links and missing pages.
+6. Create long-form SEO content that ranks in Google.
+7. Build a structured internal linking system.
+8. Maintain site integrity so the platform never advertises content that does not exist.
+
+PROGRAM-LEVEL SEO LANDING PAGES
+
+Create high-authority landing pages for each healthcare program.
+
+These pages should target major search queries related to certification exam preparation.
+
+Examples:
+
+/respiratory-therapy-exam-prep
+/paramedic-exam-prep
+/medical-lab-tech-exam-prep
+/diagnostic-imaging-exam-prep
+/occupational-therapy-exam-prep
+/physical-therapy-exam-prep
+
+Each program page must contain:
+
+• profession overview
+• certification exam explanation
+• required clinical knowledge
+• exam difficulty discussion
+• study strategies
+• links to flashcards
+• links to practice questions
+• links to lessons
+• links to blog articles
+
+Each page must contain **1500 to 2500 words of educational content**.
+
+These pages should act as SEO entry points for search traffic.
+
+TOPIC HUB STRUCTURE
+
+Create topic hub pages to organize related content and strengthen topical authority.
+
+Example hub:
+
+/respiratory-therapy-exam-prep
+
+This hub should link to subtopics such as:
+
+• respiratory physiology
+• ventilator management
+• arterial blood gas interpretation
+• oxygen therapy
+• respiratory pharmacology
+
+Each hub page should internally link to:
+
+• lessons
+• flashcards
+• test bank questions
+• blog articles
+
+This clustering structure helps search engines understand topic authority.
+
+LONG-FORM STUDY GUIDES
+
+Automatically generate long-form study guides targeting high-value educational searches.
+
+Examples:
+
+NCLEX Pharmacology Study Guide
+Cardiac Nursing Study Guide
+ABG Interpretation Guide
+New Grad Nurse Survival Guide
+How to Pass the REx-PN
+
+Each guide should include:
+
+• clinical explanations
+• diagrams
+• tables
+• step-by-step clinical reasoning
+• links to practice questions
+• links to flashcards
+
+Each guide should contain **2000+ words of structured educational content**.
+
+LONG-TAIL SEO PAGE GENERATION
+
+Create long-tail educational pages targeting specific search queries.
+
+Examples:
+
+/nclex-cardiology-questions
+/nclex-pharmacology-practice-questions
+/respiratory-therapy-abg-questions
+/paramedic-airway-management-guide
+/new-grad-nurse-medication-errors
+
+These pages should include:
+
+• topic explanation
+• example questions
+• study tips
+• links to flashcards
+• links to test bank questions
+
+Long-tail pages should contain **800–1200 words**.
+
+These pages often generate large amounts of organic search traffic.
+
+ALLIED HEALTH SEO OPTIMIZATION
+
+Improve SEO visibility for Allied Health programs.
+
+Each Allied Health program page should include structured sections:
+
+• program overview
+• certification exams
+• clinical competencies
+• exam preparation strategies
+• study resources
+
+Include relevant keywords such as:
+
+• respiratory therapy exam prep
+• paramedic exam questions
+• medical lab tech certification exam
+• diagnostic imaging exam preparation
+
+Ensure pages contain **1200–2000 words of optimized content**.
+
+NEW GRAD SEO OPTIMIZATION
+
+Improve the New Grad section with career support content.
+
+Key topics should include:
+
+• new grad nurse survival guide
+• transitioning from nursing school to practice
+• first year nursing mistakes
+• time management for new nurses
+• managing nurse burnout
+
+Each New Grad page should contain **1500+ words of guidance content**.
+
+CONTENT COVERAGE ANALYZER
+
+Create an admin dashboard tool:
+
+Admin → Content Coverage
+
+The system should analyze:
+
+• number of questions per tier
+• number of questions per specialty
+• number of questions per topic
+• number of flashcards per topic
+
+Default coverage targets:
+
+Nursing tiers:
+
+• minimum 300 questions per major system
+• minimum 500 questions per specialty
+
+Allied health programs:
+
+• minimum 300 questions per profession
+
+Flashcards:
+
+• minimum 25 flashcards per topic
+
+If coverage is below targets, automatically generate additional questions or flashcards.
+
+QUESTION GENERATION SYSTEM
+
+Generate exam-quality questions including:
+
+• clinical scenario
+• question stem
+• multiple answer options
+• realistic distractors
+• correct answer
+• detailed rationale
+• clinical pearls
+
+Difficulty distribution:
+
+• Easy 30%
+• Moderate 50%
+• Difficult 20%
+
+Ensure questions align with:
+
+• NCLEX format
+• REx-PN format
+• NP certification format
+
+FLASHCARD GENERATION
+
+If topics lack flashcards, generate flashcards including:
+
+• concept definition cards
+• clinical scenario cards
+• exam recall cards
+
+Each flashcard must include concise explanations.
+
+LESSON COMPLETION SYSTEM
+
+Scan all site navigation and program pages.
+
+If a lesson title appears but the corresponding lesson page does not exist:
+
+Automatically generate the missing lesson.
+
+Lessons must include:
+
+• pathophysiology
+• signs and symptoms
+• diagnostics
+• nursing interventions
+• pharmacology considerations
+• clinical pearls
+
+Include images or diagrams when relevant.
+
+SITE HEALTH DASHBOARD
+
+Create a monitoring dashboard:
+
+Admin → Site Health
+
+The dashboard should show:
+
+• broken links
+• missing pages
+• 404 errors
+• missing images
+• missing flashcards
+• missing questions
+• SEO metadata issues
+
+Provide color indicators:
+
+Green = healthy
+Yellow = warning
+Red = critical issue
+
+BROKEN LINK DETECTION
+
+Scan all internal links across the site including:
+
+• navigation menus
+• cards
+• blog links
+• lesson links
+• flashcard links
+• exam links
+
+Detect links pointing to:
+
+• 404 pages
+• undefined routes
+• pages without content
+
+Automatically repair links when possible.
+
+SITEMAP MANAGEMENT
+
+Ensure all valid pages are included in the sitemap.
+
+Remove URLs that produce 404 errors.
+
+Automatically add new pages generated by the content engine.
+
+SEO METADATA OPTIMIZATION
+
+Ensure each page includes:
+
+• title tag
+• meta description
+• canonical URL
+• open graph metadata
+
+Titles should include target keywords such as:
+
+Respiratory Therapy Exam Prep | NurseNest
+New Grad Nurse Survival Guide | NurseNest
+
+INTERNAL LINKING SYSTEM
+
+Strengthen internal linking across the platform.
+
+Lessons should link to:
+
+• flashcards
+• test bank questions
+• blog articles
+
+Blog posts should link to:
+
+• lessons
+• exam practice tools
+
+This improves SEO authority.
+
+SEARCH PERFORMANCE MONITORING
+
+Add an admin dashboard section:
+
+SEO Performance
+
+Display:
+
+• indexed pages
+• search impressions
+• click-through rates
+• top ranking keywords
+
+Integrate with Google Search Console when possible.
+
+AUTOMATED CONTENT REPORT
+
+Generate weekly reports showing:
+
+• new lessons created
+• new blog posts generated
+• new flashcards created
+• new exam questions generated
+
+Display these reports in the admin dashboard.
+
+FINAL GOAL
+
+The system should ensure that:
+
+• the NurseNest platform continuously expands educational content
+• Allied Health pages rank in search results
+• New Grad pages attract organic traffic
+• content gaps are automatically filled
+• internal linking strengthens site authority
+• broken links and missing pages are detected and fixed automatically
+• NurseNest becomes a large, authoritative healthcare education platform.
