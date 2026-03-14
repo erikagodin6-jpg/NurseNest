@@ -141,6 +141,7 @@ const AdminContentIntelligence = lazy(() => import("@/pages/admin-content-intell
 const AdminCatDashboard = lazy(() => import("@/pages/admin-cat-dashboard"));
 const AdminRevenueDashboard = lazy(() => import("@/pages/admin-revenue-dashboard"));
 const AdminPipelineDashboard = lazy(() => import("@/pages/admin-pipeline-dashboard"));
+const AdminContentMetrics = lazy(() => import("@/pages/admin-content-metrics"));
 const ComparePage = lazy(() => import("@/pages/compare"));
 const NpExamHub = lazy(() => import("@/pages/np-exam-hub"));
 const ShopPage = lazy(() => import("@/pages/shop"));
@@ -628,6 +629,7 @@ function AppRoutes() {
         <Route path="/admin/cat" component={AdminCatDashboard} />
         <Route path="/admin/revenue" component={AdminRevenueDashboard} />
         <Route path="/admin/pipeline" component={AdminPipelineDashboard} />
+        <Route path="/admin/content-metrics" component={AdminContentMetrics} />
         <Route path="/admin/content-manager" component={AdminContentManager} />
         <Route path="/admin/content-audit" component={AdminContentAudit} />
         <Route path="/admin/content-analytics" component={AdminContentAnalytics} />

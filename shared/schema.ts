@@ -5751,3 +5751,18 @@ export const businessExpenses = pgTable("business_expenses", {
 export const insertBusinessExpenseSchema = createInsertSchema(businessExpenses).omit({ id: true, createdAt: true, updatedAt: true });
 export type BusinessExpense = typeof businessExpenses.$inferSelect;
 export type InsertBusinessExpense = z.infer<typeof insertBusinessExpenseSchema>;
+
+export const adminFinance = pgTable("admin_finance", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  category: text("category").notNull(),
+  label: text("label").notNull(),
+  amount: doublePrecision("amount").notNull(),
+  currency: text("currency").default("USD"),
+  notes: text("notes"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export const insertAdminFinanceSchema = createInsertSchema(adminFinance).omit({ id: true, createdAt: true, updatedAt: true });
+export type InsertAdminFinance = z.infer<typeof insertAdminFinanceSchema>;
+export type AdminFinance = typeof adminFinance.$inferSelect;
