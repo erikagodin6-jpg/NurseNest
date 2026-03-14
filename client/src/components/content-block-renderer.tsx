@@ -131,10 +131,11 @@ function BlockTable({ block }: { block: ContentBlock }) {
 
 function BlockImage({ block }: { block: ContentBlock }) {
   if (!block.url) return null;
+  const altText = block.caption || "NurseNest clinical nursing illustration";
   return (
     <figure className="mb-4" data-testid="block-image">
-      <img src={block.url} alt={block.caption || ""} className="w-full rounded-lg max-h-96 object-contain" loading="lazy" />
-      {block.caption && <figcaption className="text-xs text-gray-500 text-center mt-2">{block.caption}</figcaption>}
+      <img src={block.url} alt={altText} title={altText} className="w-full rounded-lg max-h-96 object-contain" loading="lazy" />
+      <figcaption className="text-xs text-gray-500 text-center mt-2">{block.caption || altText}</figcaption>
     </figure>
   );
 }

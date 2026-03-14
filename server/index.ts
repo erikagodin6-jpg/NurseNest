@@ -385,6 +385,12 @@ function sitemapUrl(base: string, path: string, priority: string, changefreq: st
   return lines.join("\n");
 }
 
+app.get("/images/seo/:slug", (req, res) => {
+  const slug = req.params.slug.replace(/\.(png|jpg|jpeg|webp)$/i, "");
+  const cleanSlug = slug.replace(/-nursing-diagram$/, "").replace(/-diagram$/, "");
+  res.redirect(301, `/attached_assets/generated_images/${cleanSlug}.png`);
+});
+
 let sitemapCache: { xml: string; builtAt: number } | null = null;
 const SITEMAP_CACHE_TTL = 3600_000;
 

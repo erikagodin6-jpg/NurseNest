@@ -1435,8 +1435,26 @@ export function setupSeoEngineRoutes(app: Express): void {
     }
   });
 
-  app.get("/image-sitemap.xml", (_req: Request, res: Response) => {
-    const CATALOG = [
+  app.get("/image-sitemap.xml", async (_req: Request, res: Response) => {
+    const baseUrl = "https://nursenest.ca";
+    const allEntries: string[] = [];
+
+    function escXml(s: string): string {
+      return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&apos;");
+    }
+
+    function addImageEntry(pageUrl: string, imageUrl: string, title: string, caption: string) {
+      allEntries.push(`  <url>
+    <loc>${escXml(pageUrl)}</loc>
+    <image:image>
+      <image:loc>${escXml(imageUrl)}</image:loc>
+      <image:title>${escXml(title)}</image:title>
+      <image:caption>${escXml(caption)}</image:caption>
+    </image:image>
+  </url>`);
+    }
+
+    const INFOGRAPHIC_CATALOG = [
       { slug: "cbc-quick-reference", fileName: "cbc-quick-reference.png", title: "CBC Complete Blood Count Quick Reference", caption: "Complete blood count interpretation guide for NCLEX-RN, NCLEX-PN, and REx-PN exam preparation." },
       { slug: "coagulation-labs-reference", fileName: "coagulation-labs-reference.png", title: "Coagulation Labs Quick Reference", caption: "Coagulation laboratory values reference for anticoagulant monitoring." },
       { slug: "liver-function-tests", fileName: "liver-function-tests.png", title: "Liver Function Tests (LFTs) Quick Reference", caption: "Liver function test interpretation guide for nursing students." },
@@ -1471,23 +1489,81 @@ export function setupSeoEngineRoutes(app: Express): void {
       { slug: "isolation-precautions", fileName: "isolation-precautions.png", title: "Isolation Precautions Quick Reference", caption: "Infection control isolation precautions guide for nursing." },
     ];
 
-    const baseUrl = "https://nursenest.ca";
-    const entries = CATALOG.map(item => `  <url>
-    <loc>${baseUrl}/infographics/${item.slug}</loc>
-    <image:image>
-      <image:loc>${baseUrl}/attached_assets/generated_images/${item.fileName}</image:loc>
-      <image:title>${item.title}</image:title>
-      <image:caption>${item.caption}</image:caption>
-    </image:image>
-  </url>`).join("\n");
+    for (const item of INFOGRAPHIC_CATALOG) {
+      addImageEntry(
+        `${baseUrl}/infographics/${item.slug}`,
+        `${baseUrl}/attached_assets/generated_images/${item.fileName}`,
+        item.title,
+        item.caption
+      );
+    }
+
+    try {
+      const lessonImages = await pool.query(
+        `SELECT li.object_path, li.file_name, li.caption, li.lesson_id FROM lesson_images li ORDER BY li.lesson_id, li.position`
+      ).catch(() => ({ rows: [] }));
+
+      for (const img of lessonImages.rows) {
+        const title = img.caption || `${(img.lesson_id || "").replace(/-/g, " ").replace(/\b\w/g, (c: string) => c.toUpperCase())} - NurseNest Clinical Image`;
+        const caption = img.caption || `Clinical nursing illustration for ${(img.lesson_id || "").replace(/-/g, " ")} - NurseNest nursing education`;
+        const imageUrl = img.object_path.startsWith("http") ? img.object_path : `${baseUrl}${img.object_path}`;
+        addImageEntry(
+          `${baseUrl}/lessons/${img.lesson_id}`,
+          imageUrl,
+          title,
+          caption
+        );
+      }
+    } catch {}
+
+    try {
+      const alliedImages = await pool.query(
+        `SELECT image_url, alt_text, file_name, status FROM allied_lab_images WHERE status = 'approved' AND image_url IS NOT NULL`
+      ).catch(() => ({ rows: [] }));
+
+      for (const img of alliedImages.rows) {
+        const title = img.alt_text || img.file_name || "Allied health laboratory image - NurseNest";
+        const caption = img.alt_text || `Allied health laboratory reference image - NurseNest education`;
+        const imageUrl = img.image_url.startsWith("http") ? img.image_url : `${baseUrl}${img.image_url}`;
+        addImageEntry(
+          `${baseUrl}/allied/mlt/image-library`,
+          imageUrl,
+          title,
+          caption
+        );
+      }
+    } catch {}
+
+    try {
+      const contentWithImages = await pool.query(
+        `SELECT c.slug, c.title, c.type, li.object_path, li.caption
+         FROM content c
+         INNER JOIN lesson_images li ON li.lesson_id = c.slug
+         WHERE c.status = 'published' AND c.slug IS NOT NULL AND li.object_path IS NOT NULL
+         ORDER BY c.slug`
+      ).catch(() => ({ rows: [] }));
+
+      for (const item of contentWithImages.rows) {
+        const displayTitle = item.title || (item.slug || "").replace(/-/g, " ").replace(/\b\w/g, (c: string) => c.toUpperCase());
+        const pagePath = item.type === "lesson" ? `/lessons/${item.slug}` : `/learn/${item.slug}`;
+        const imageUrl = item.object_path.startsWith("http") ? item.object_path : `${baseUrl}${item.object_path}`;
+        addImageEntry(
+          `${baseUrl}${pagePath}`,
+          imageUrl,
+          `${displayTitle} - NurseNest Clinical Illustration`,
+          item.caption || `Clinical nursing illustration for ${displayTitle} - NurseNest nursing education`
+        );
+      }
+    } catch {}
 
     const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
-${entries}
+${allEntries.join("\n")}
 </urlset>`;
 
     res.set("Content-Type", "application/xml");
+    res.set("Cache-Control", "public, max-age=3600, s-maxage=3600");
     res.send(xml);
   });
 }

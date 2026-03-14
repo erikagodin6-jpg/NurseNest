@@ -192,7 +192,7 @@ export default function ImagingPositioningPage() {
                         <div className="bg-white border border-gray-100 rounded-xl overflow-hidden hover:shadow-lg hover:border-indigo-200 transition-all h-full flex flex-col">
                           {entry.teachingImageUrl ? (
                             <div className="h-40 bg-gray-100 overflow-hidden">
-                              <img src={entry.teachingImageUrl} alt={entry.projectionName} className="w-full h-full object-cover group-hover:scale-105 transition-transform" />
+                              <img src={entry.teachingImageUrl} alt={`${entry.projectionName} radiographic positioning - NurseNest medical imaging`} title={entry.projectionName} className="w-full h-full object-cover group-hover:scale-105 transition-transform" loading="lazy" />
                             </div>
                           ) : (
                             <div className="h-24 bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center">

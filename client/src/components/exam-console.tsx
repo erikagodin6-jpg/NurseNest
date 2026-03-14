@@ -185,7 +185,8 @@ function ExhibitViewer({ images }: { images: ExhibitImage[] }) {
       >
         <img
           src={image.url}
-          alt={image.altText || image.caption || "Exhibit"}
+          alt={image.altText || image.caption || "Clinical exhibit image - NurseNest nursing education"}
+          title={image.altText || image.caption || "Clinical exhibit image"}
           loading="lazy"
           className="w-full h-full object-contain transition-transform"
           style={{

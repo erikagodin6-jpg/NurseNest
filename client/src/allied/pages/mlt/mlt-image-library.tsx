@@ -274,7 +274,7 @@ function MltImageLibrary() {
                   </div>
                   <div className="aspect-square bg-gray-100 cursor-pointer" onClick={() => setPreviewImage(img)}>
                     {img.imageUrl ? (
-                      <img src={img.thumbnailUrl || img.imageUrl} alt={img.altText || "Lab image"} className="w-full h-full object-cover" loading="lazy" />
+                      <img src={img.thumbnailUrl || img.imageUrl} alt={img.altText || `Laboratory reference image - NurseNest allied health education`} title={img.altText || img.fileName || "Laboratory reference image"} className="w-full h-full object-cover" loading="lazy" />
                     ) : (
                       <div className="w-full h-full flex items-center justify-center text-gray-300">
                         <ImageIcon className="w-8 h-8" />

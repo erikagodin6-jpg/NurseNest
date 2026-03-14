@@ -1762,7 +1762,7 @@ function CustomModuleModal({ module, page, onClose, onSaved }: {
             <label className="text-sm font-medium text-gray-700 mb-2 block">Module Image</label>
             {imageUrl && (
               <div className="mb-2 rounded-xl overflow-hidden border border-gray-200 bg-gray-50">
-                <img src={imageUrl} alt={`${mod.title} pre-nursing module illustration`} loading="lazy" className="w-full h-32 object-contain p-2" />
+                <img src={imageUrl} alt={`${mod.title} pre-nursing module illustration - NurseNest education`} title={`${mod.title} pre-nursing module`} loading="lazy" className="w-full h-32 object-contain p-2" />
               </div>
             )}
             <div className="flex gap-2">
@@ -1921,7 +1921,7 @@ function CellBiologyModule() {
             return (
               <div key={idx} className={`rounded-xl ${c.bg} ${c.border} border p-4`} data-testid={`organelle-card-${idx}`}>
                 <div className="flex justify-center mb-3">
-                  <img src={organelle.img} alt={organelle.name} className="w-40 h-40 object-contain rounded-lg" />
+                  <img src={organelle.img} alt={`${organelle.name} cell organelle illustration - NurseNest pre-nursing education`} title={organelle.name} className="w-40 h-40 object-contain rounded-lg" loading="lazy" />
                 </div>
                 <h4 className={`font-semibold text-sm ${c.title} mb-1`}>{organelle.name}</h4>
                 <p className="text-xs text-slate-600 leading-relaxed mb-2">{organelle.desc}</p>
@@ -1969,14 +1969,14 @@ function CellBiologyModule() {
         <div className="grid sm:grid-cols-2 gap-3 mt-3">
           <div className="p-4 bg-blue-50/60 rounded-xl border border-blue-100">
             <div className="flex justify-center mb-3">
-              <img src={transportPassive} alt="Passive transport across cell membrane" className="w-full max-w-xs h-auto rounded-lg" data-testid="img-passive-transport" />
+              <img src={transportPassive} alt="Passive transport across cell membrane - diffusion, osmosis, facilitated diffusion - NurseNest pre-nursing" className="w-full max-w-xs h-auto rounded-lg" loading="lazy" data-testid="img-passive-transport" />
             </div>
             <p className="text-xs font-semibold text-blue-700 mb-1">Passive Transport</p>
             <EditableModuleText sectionKey="cell-bio-passive-transport" defaultText="No energy needed. Moves DOWN concentration gradient. Examples: diffusion, osmosis, facilitated diffusion." as="p" className="text-xs text-blue-600" multiline />
           </div>
           <div className="p-4 bg-amber-50/60 rounded-xl border border-amber-100">
             <div className="flex justify-center mb-3">
-              <img src={transportActive} alt="Active transport across cell membrane" className="w-full max-w-xs h-auto rounded-lg" data-testid="img-active-transport" />
+              <img src={transportActive} alt="Active transport across cell membrane - sodium-potassium pump - NurseNest pre-nursing" className="w-full max-w-xs h-auto rounded-lg" loading="lazy" data-testid="img-active-transport" />
             </div>
             <p className="text-xs font-semibold text-amber-700 mb-1">Active Transport</p>
             <EditableModuleText sectionKey="cell-bio-active-transport" defaultText="Requires ATP energy. Moves AGAINST concentration gradient. Example: Na+/K+ pump (3 Na+ out, 2 K+ in)." as="p" className="text-xs text-amber-600" multiline />
@@ -2013,7 +2013,7 @@ function PhysiologyModule() {
         )}
         <EditableModuleText sectionKey="phys-feedback-content" defaultText="Most physiological regulation uses negative feedback. The body detects a change, activates a response, and reverses the change to restore balance." as="p" className="text-sm text-slate-600 leading-relaxed" multiline />
         <div className="flex justify-center my-4">
-          <img src={feedbackLoopImage} alt="Negative feedback loop for thermoregulation" className="w-full max-w-sm h-auto rounded-xl border border-slate-200 shadow-sm" data-testid="img-feedback-loop" />
+          <img src={feedbackLoopImage} alt="Negative feedback loop for thermoregulation - homeostasis diagram - NurseNest pre-nursing" className="w-full max-w-sm h-auto rounded-xl border border-slate-200 shadow-sm" loading="lazy" data-testid="img-feedback-loop" />
         </div>
         <CognitiveCard
           type="concept"
@@ -2039,7 +2039,7 @@ function PhysiologyModule() {
           </div>
         )}
         <div className="flex justify-center my-4">
-          <img src={fluidCompartmentsImage} alt="Body fluid compartments showing intracellular, interstitial, and intravascular fluids" className="w-full max-w-sm h-auto rounded-xl border border-slate-200 shadow-sm" data-testid="img-fluid-compartments" />
+          <img src={fluidCompartmentsImage} alt="Body fluid compartments showing intracellular, interstitial, and intravascular fluids - NurseNest pre-nursing" className="w-full max-w-sm h-auto rounded-xl border border-slate-200 shadow-sm" loading="lazy" data-testid="img-fluid-compartments" />
         </div>
         <div className="space-y-3">
           <div className="p-4 bg-blue-50/60 rounded-xl border border-blue-100">
@@ -2317,14 +2317,14 @@ function PathophysiologyModule() {
         <div className="grid sm:grid-cols-2 gap-4 mb-4">
           <div className="bg-purple-50/60 rounded-xl border border-purple-200 p-4">
             <div className="flex justify-center mb-3">
-              <img src={brainAnatomyImage} alt="Brain sagittal cross-section" className="w-full max-w-[200px] h-auto rounded-lg" data-testid="img-brain-anatomy" />
+              <img src={brainAnatomyImage} alt="Brain sagittal cross-section showing cerebrum, cerebellum, and brainstem - NurseNest pre-nursing anatomy" className="w-full max-w-[200px] h-auto rounded-lg" loading="lazy" data-testid="img-brain-anatomy" />
             </div>
             <h4 className="font-semibold text-sm text-purple-800 mb-1">Brain (Medulla Oblongata)</h4>
             <p className="text-xs text-slate-600">The brainstem controls autonomic cardiovascular and respiratory responses. The medulla detects changes in blood pH and CO₂ levels, triggering compensatory breathing adjustments.</p>
           </div>
           <div className="bg-amber-50/60 rounded-xl border border-amber-200 p-4">
             <div className="flex justify-center mb-3">
-              <img src={kidneyAnatomyImage} alt="Kidney cross-section" className="w-full max-w-[200px] h-auto rounded-lg" data-testid="img-kidney-anatomy" />
+              <img src={kidneyAnatomyImage} alt="Kidney cross-section showing cortex, medulla, and nephron structures - NurseNest pre-nursing anatomy" className="w-full max-w-[200px] h-auto rounded-lg" loading="lazy" data-testid="img-kidney-anatomy" />
             </div>
             <h4 className="font-semibold text-sm text-amber-800 mb-1">Kidney</h4>
             <p className="text-xs text-slate-600">The kidneys regulate fluid balance, electrolytes, and acid-base status by adjusting reabsorption and secretion in the nephrons. Renal compensation takes 24-48 hours to take full effect.</p>

@@ -362,7 +362,7 @@ export default function ProfilePage() {
                   return (
                     <div key={purchase.id} className="border rounded-xl p-4 flex items-start gap-4" data-testid={`purchase-item-${purchase.id}`}>
                       {product?.coverImageUrl && (
-                        <img src={product.coverImageUrl} alt={product.title} className="w-16 h-16 rounded-lg object-cover flex-shrink-0" />
+                        <img src={product.coverImageUrl} alt={`${product.title} - NurseNest study resource`} title={product.title} className="w-16 h-16 rounded-lg object-cover flex-shrink-0" loading="lazy" />
                       )}
                       <div className="flex-1 min-w-0">
                         <LocaleLink href={`/shop/${product?.slug}`}>

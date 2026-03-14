@@ -320,7 +320,7 @@ function OverviewSection({ entry, showLabels, setShowLabels, isExamMode, labelOv
               <div className="relative">
                 <p className="text-xs font-medium text-gray-500 mb-2 uppercase tracking-wide">Teaching Image</p>
                 <div className="relative rounded-lg overflow-hidden bg-gray-50">
-                  <img src={entry.teachingImageUrl} alt={`${entry.projectionName} teaching`} className="w-full h-auto" data-testid="img-teaching" />
+                  <img src={entry.teachingImageUrl} alt={`${entry.projectionName} radiographic teaching image - NurseNest medical imaging`} title={`${entry.projectionName} teaching`} className="w-full h-auto" loading="lazy" data-testid="img-teaching" />
                   {showLabels && !isExamMode && labelOverlays.length > 0 && (
                     <div className="absolute inset-0">
                       {labelOverlays.map((label: any, i: number) => (
@@ -350,7 +350,7 @@ function OverviewSection({ entry, showLabels, setShowLabels, isExamMode, labelOv
               <div>
                 <p className="text-xs font-medium text-gray-500 mb-2 uppercase tracking-wide">Exam Image</p>
                 <div className="rounded-lg overflow-hidden bg-gray-50">
-                  <img src={entry.examImageUrl} alt={`${entry.projectionName} exam`} className="w-full h-auto" data-testid="img-exam" />
+                  <img src={entry.examImageUrl} alt={`${entry.projectionName} radiographic exam image - NurseNest medical imaging`} title={`${entry.projectionName} exam`} className="w-full h-auto" loading="lazy" data-testid="img-exam" />
                 </div>
               </div>
             )}
@@ -358,7 +358,7 @@ function OverviewSection({ entry, showLabels, setShowLabels, isExamMode, labelOv
               <div>
                 <p className="text-xs font-medium text-gray-500 mb-2 uppercase tracking-wide">Positioning Diagram</p>
                 <div className="rounded-lg overflow-hidden bg-gray-50">
-                  <img src={entry.positioningDiagramUrl} alt={`${entry.projectionName} diagram`} className="w-full h-auto" data-testid="img-diagram" />
+                  <img src={entry.positioningDiagramUrl} alt={`${entry.projectionName} positioning diagram - NurseNest medical imaging`} title={`${entry.projectionName} diagram`} className="w-full h-auto" loading="lazy" data-testid="img-diagram" />
                 </div>
               </div>
             )}
@@ -569,7 +569,7 @@ function ErrorTrainer({ errors, currentIndex, setCurrentIndex, selectedAnswer, s
         <div className="p-6">
           {error.imageUrl && (
             <div className="mb-4 rounded-lg overflow-hidden bg-gray-50">
-              <img src={error.imageUrl} alt="Positioning image" className="w-full h-auto max-h-64 object-contain" data-testid="img-error-trainer" />
+              <img src={error.imageUrl} alt="Radiographic positioning error example - NurseNest medical imaging" className="w-full h-auto max-h-64 object-contain" loading="lazy" data-testid="img-error-trainer" />
             </div>
           )}
 
@@ -694,7 +694,7 @@ function QuizMode({ questions, currentIndex, setCurrentIndex, selectedAnswer, se
 
           {q.imageUrl && (
             <div className="mb-4 rounded-lg overflow-hidden bg-gray-50">
-              <img src={q.imageUrl} alt="Quiz image" className="w-full h-auto max-h-64 object-contain" data-testid="img-quiz" />
+              <img src={q.imageUrl} alt="Radiographic positioning quiz image - NurseNest medical imaging" className="w-full h-auto max-h-64 object-contain" loading="lazy" data-testid="img-quiz" />
             </div>
           )}
 
@@ -788,7 +788,7 @@ function ImageComparison({ correctUrl, incorrectUrl, projectionName }: { correct
             <p className="text-sm font-semibold text-green-700">Correct Positioning</p>
           </div>
           <div className="rounded-lg overflow-hidden bg-gray-50 border-2 border-green-200">
-            <img src={correctUrl} alt={`${projectionName} correct`} className="w-full h-auto" data-testid="img-correct" />
+            <img src={correctUrl} alt={`${projectionName} correct positioning - NurseNest medical imaging`} className="w-full h-auto" loading="lazy" data-testid="img-correct" />
           </div>
         </div>
         <div className="p-4">
@@ -797,7 +797,7 @@ function ImageComparison({ correctUrl, incorrectUrl, projectionName }: { correct
             <p className="text-sm font-semibold text-red-700">Incorrect Positioning</p>
           </div>
           <div className="rounded-lg overflow-hidden bg-gray-50 border-2 border-red-200">
-            <img src={incorrectUrl} alt={`${projectionName} incorrect`} className="w-full h-auto" data-testid="img-incorrect" />
+            <img src={incorrectUrl} alt={`${projectionName} incorrect positioning - NurseNest medical imaging`} className="w-full h-auto" loading="lazy" data-testid="img-incorrect" />
           </div>
         </div>
       </div>

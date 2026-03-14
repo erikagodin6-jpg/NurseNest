@@ -1256,7 +1256,7 @@ export default function GeneratorV2Page() {
                     <div className="flex items-start gap-4">
                       {product.coverImageUrl && (
                         <div className="w-20 h-28 rounded-lg overflow-hidden border bg-gray-50 shrink-0">
-                          <img src={product.coverImageUrl} alt={product.title} className="w-full h-full object-cover" />
+                          <img src={product.coverImageUrl} alt={`${product.title} - NurseNest study resource`} title={product.title} className="w-full h-full object-cover" loading="lazy" />
                         </div>
                       )}
                       <div className="flex-1 min-w-0">

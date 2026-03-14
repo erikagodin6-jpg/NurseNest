@@ -439,19 +439,26 @@ function QuizSession({ tier, systemSlug }: { tier: string; systemSlug: string })
 
                     {(() => {
                       const img = getQuestionImage({ topic: current.topic, subtopic: current.subtopic, bodySystem: current.bodySystem });
+                      const pqAlt = current.topic
+                        ? `Clinical illustration of ${current.topic}${current.bodySystem ? ` - ${current.bodySystem}` : ""} - NurseNest nursing education`
+                        : current.bodySystem
+                        ? `${current.bodySystem} system clinical reference - NurseNest nursing education`
+                        : "NurseNest clinical reference illustration";
                       return img ? (
-                        <div className="px-6 sm:px-8 py-4">
+                        <figure className="px-6 sm:px-8 py-4">
                           <div className="border-t border-slate-100 pt-4">
                             <img
                               src={img}
-                              alt={current.topic || current.bodySystem || "Clinical reference"}
+                              alt={pqAlt}
+                              title={current.topic || current.bodySystem || "Clinical reference"}
                               className="rounded-xl border border-slate-200/60 max-w-full w-auto mx-auto"
                               style={{ maxHeight: '320px' }}
                               loading="lazy"
                               data-testid="img-rationale"
                             />
                           </div>
-                        </div>
+                          <figcaption className="text-xs text-gray-500 text-center mt-2 italic">{current.topic || current.bodySystem || "Clinical reference"}</figcaption>
+                        </figure>
                       ) : null;
                     })()}
 

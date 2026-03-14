@@ -197,9 +197,10 @@ export default function ShopProductPage() {
               <div className="rounded-xl overflow-hidden border border-gray-200 bg-white shadow-sm" data-testid="div-product-image">
                 <img
                   src={product.coverImageUrl}
-                  alt={product.title}
+                  alt={`${product.title} - NurseNest study resource`}
+                  title={product.title}
                   className="w-full object-cover"
-                  loading="lazy"
+                  loading="eager"
                   decoding="async"
                   data-testid="img-product-detail"
                 />
@@ -415,7 +416,7 @@ export default function ShopProductPage() {
                     <Card className="group hover:shadow-lg hover:border-primary/30 transition-all cursor-pointer h-full" data-testid={`card-related-${p.slug}`}>
                       {p.coverImageUrl && (
                         <div className="aspect-[16/10] overflow-hidden rounded-t-lg bg-gray-100">
-                          <img src={p.coverImageUrl} alt={p.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform" loading="lazy" />
+                          <img src={p.coverImageUrl} alt={`${p.title} - NurseNest study resource`} title={p.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform" loading="lazy" />
                         </div>
                       )}
                       <CardContent className="p-4">

@@ -519,3 +519,41 @@ export function getImageStructuredData(lessonId: string, src: string, lessonTitl
     acquireLicensePage: "https://www.nursenest.ca/terms",
   };
 }
+
+export function toSeoFilename(slug: string, extension: string = "png"): string {
+  const cleaned = slug
+    .toLowerCase()
+    .replace(/[^a-z0-9-]/g, "-")
+    .replace(/-+/g, "-")
+    .replace(/^-|-$/g, "");
+  const suffix = cleaned.includes("nursing") ? "diagram" : "nursing-diagram";
+  return `${cleaned}-${suffix}.${extension}`;
+}
+
+export function generateContextAltText(context: {
+  topic?: string;
+  subtopic?: string;
+  bodySystem?: string;
+  lessonTitle?: string;
+}): string {
+  const { topic, subtopic, bodySystem, lessonTitle } = context;
+  if (topic) {
+    const topicSlug = topic.toLowerCase().replace(/\s+/g, "-");
+    const dictAlt = illustrationAltText[topicSlug];
+    if (dictAlt) return dictAlt;
+  }
+  if (subtopic) {
+    const subtopicSlug = subtopic.toLowerCase().replace(/\s+/g, "-");
+    const dictAlt = illustrationAltText[subtopicSlug];
+    if (dictAlt) return dictAlt;
+  }
+  const parts: string[] = [];
+  if (topic) parts.push(topic);
+  if (subtopic && subtopic !== topic) parts.push(subtopic);
+  if (bodySystem && bodySystem !== topic) parts.push(`${bodySystem} system`);
+  if (lessonTitle && lessonTitle !== topic) parts.push(lessonTitle);
+  if (parts.length > 0) {
+    return `Clinical illustration of ${parts.join(" - ")} - NurseNest nursing education`;
+  }
+  return "NurseNest clinical reference illustration for nursing education";
+}

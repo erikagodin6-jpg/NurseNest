@@ -239,7 +239,8 @@ export function LessonImageManager({ lessonId, section = "general", isAdmin, isE
             <figure key={img.id} className="relative group rounded-xl overflow-hidden border border-gray-200 bg-white shadow-sm">
               <img
                 src={img.object_path}
-                alt={img.caption || img.file_name}
+                alt={img.caption || `${(img.lesson_id || "").replace(/-/g, " ")} clinical illustration - NurseNest nursing education`}
+                title={img.caption || img.file_name}
                 className="w-full h-auto object-contain max-h-80"
                 loading="lazy"
                 data-testid={`img-lesson-${img.id}`}

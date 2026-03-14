@@ -425,7 +425,7 @@ export default function QBankStudyPage() {
                                     >
                                       <img
                                         src={media.imageUrl}
-                                        alt={media.imageAlt || "Clinical reference image"}
+                                        alt={media.imageAlt || `Clinical reference image - NurseNest nursing education`}
                                         className={`w-full object-contain transition-all ${expandedImage === media.imageUrl ? "max-h-[600px]" : "max-h-[250px]"}`}
                                         loading="lazy"
                                       />
@@ -450,10 +450,16 @@ export default function QBankStudyPage() {
                             const hasMediaImages = currentQ.rationaleMedia && currentQ.rationaleMedia.length > 0;
                             if (!hasMediaImages) {
                               const img = getQuestionImage({ topic: currentQ.topic, bodySystem: currentQ.category });
+                              const qbAlt = currentQ.topic
+                                ? `Clinical illustration of ${currentQ.topic}${currentQ.category ? ` - ${currentQ.category}` : ""} - NurseNest nursing education`
+                                : currentQ.category
+                                ? `${currentQ.category} system clinical reference - NurseNest nursing education`
+                                : "NurseNest clinical reference illustration";
                               return img ? (
                                 <RationaleImageBlock
                                   src={img}
-                                  alt={currentQ.topic || currentQ.category || "Clinical reference"}
+                                  alt={qbAlt}
+                                  caption={currentQ.topic || currentQ.category || undefined}
                                   data-testid="img-rationale"
                                 />
                               ) : null;

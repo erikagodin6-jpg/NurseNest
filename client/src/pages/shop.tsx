@@ -52,7 +52,8 @@ function ProductCard({ product }: { product: DigitalProduct }) {
           <div className="aspect-[16/10] overflow-hidden rounded-t-lg bg-gray-100 relative">
             <img
               src={product.coverImageUrl}
-              alt={product.title}
+              alt={`${product.title} - NurseNest study resource`}
+              title={product.title}
               className="w-full h-full object-cover group-hover:scale-105 transition-transform"
               loading="lazy"
               decoding="async"

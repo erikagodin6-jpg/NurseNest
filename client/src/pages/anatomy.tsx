@@ -770,16 +770,17 @@ function AnatomySystemDetailPage({ systemId }: { systemId: string }) {
                       </p>
                     )}
                     {inlineImgs.map((img: InlineImage, imgIdx: number) => (
-                      <div key={`img-${idx}-${imgIdx}`} className="my-6 rounded-xl overflow-hidden border border-gray-100 shadow-sm bg-gray-50">
+                      <figure key={`img-${idx}-${imgIdx}`} className="my-6 rounded-xl overflow-hidden border border-gray-100 shadow-sm bg-gray-50">
                         <img
                           src={img.src}
-                          alt={img.alt}
+                          alt={img.alt || `Anatomy illustration - NurseNest nursing education`}
+                          title={img.alt}
                           className="w-full h-auto object-contain p-2 md:p-4 max-h-[400px]"
                           loading="lazy"
                           data-testid={`img-inline-${system.id}-${idx}-${imgIdx}`}
                         />
-                        <p className="text-xs text-gray-500 text-center pb-3 px-4 italic">{img.alt}</p>
-                      </div>
+                        <figcaption className="text-xs text-gray-500 text-center pb-3 px-4 italic">{img.alt}</figcaption>
+                      </figure>
                     ))}
                   </div>
                 );
@@ -1200,8 +1201,10 @@ function AnatomyListingPage() {
                     ) : (
                       <img
                         src={system.image}
-                        alt={resolved.name}
+                        alt={`${resolved.name} anatomy illustration - NurseNest nursing education`}
+                        title={resolved.name}
                         className="w-full h-full object-contain p-2 transition-transform duration-500 group-hover:scale-105"
+                        loading="lazy"
                       />
                     )}
                   </div>

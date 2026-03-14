@@ -392,10 +392,16 @@ export default function QuestionBank() {
                       <p className="text-xs text-gray-600 mt-3 leading-relaxed italic">{r.question.rationale}</p>
                       {(() => {
                         const img = getQuestionImage({ topic: r.question.topic, subtopic: r.question.subtopic, bodySystem: r.question.bodySystem });
+                        const imgAlt = r.question.topic
+                          ? `Clinical illustration of ${r.question.topic}${r.question.bodySystem ? ` - ${r.question.bodySystem}` : ""} - NurseNest nursing education`
+                          : r.question.bodySystem
+                          ? `${r.question.bodySystem} system clinical reference - NurseNest nursing education`
+                          : "NurseNest clinical reference illustration";
                         return img ? (
-                          <div className="mt-3 rounded-xl border border-gray-200/60 overflow-hidden bg-gray-50/50 p-3">
-                            <img src={img} alt={r.question.topic || r.question.bodySystem || "Clinical reference"} className="rounded-lg max-h-48 w-auto" loading="lazy" />
-                          </div>
+                          <figure className="mt-3 rounded-xl border border-gray-200/60 overflow-hidden bg-gray-50/50 p-3">
+                            <img src={img} alt={imgAlt} title={imgAlt} className="rounded-lg max-h-48 w-auto" loading="lazy" />
+                            <figcaption className="text-xs text-gray-500 text-center mt-2 italic">{r.question.topic || r.question.bodySystem || "Clinical reference"}</figcaption>
+                          </figure>
                         ) : null;
                       })()}
                     </div>
@@ -864,10 +870,16 @@ export default function QuestionBank() {
                                   </div>
                                   {(() => {
                                     const img = getQuestionImage({ topic: question.topic, subtopic: question.subtopic, bodySystem: question.bodySystem });
+                                    const rationaleAlt = question.topic
+                                      ? `Clinical illustration of ${question.topic}${question.bodySystem ? ` - ${question.bodySystem}` : ""} - NurseNest nursing education`
+                                      : question.bodySystem
+                                      ? `${question.bodySystem} system clinical reference - NurseNest nursing education`
+                                      : "NurseNest clinical reference illustration";
                                     return img ? (
                                       <RationaleImageBlock
                                         src={img}
-                                        alt={question.topic || question.bodySystem || "Clinical reference"}
+                                        alt={rationaleAlt}
+                                        caption={question.topic || question.bodySystem || undefined}
                                         data-testid="img-rationale"
                                       />
                                     ) : null;
