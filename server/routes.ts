@@ -8410,6 +8410,141 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
     }
   });
 
+  try {
+    await pool.query(`
+      CREATE TABLE IF NOT EXISTS cross_section_events (
+        id VARCHAR PRIMARY KEY DEFAULT gen_random_uuid(),
+        session_id TEXT NOT NULL,
+        user_id VARCHAR,
+        source_section TEXT NOT NULL,
+        destination_section TEXT NOT NULL,
+        source_page TEXT NOT NULL,
+        destination_page TEXT NOT NULL,
+        utm_source TEXT,
+        utm_medium TEXT,
+        utm_campaign TEXT,
+        created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+      )
+    `);
+    await pool.query(`ALTER TABLE page_views ADD COLUMN IF NOT EXISTS platform_section TEXT`).catch(() => {});
+  } catch (e) {
+    console.error("Cross-platform tables setup error:", e);
+  }
+
+  app.post("/api/track/cross-section", async (req, res) => {
+    try {
+      const { sessionId, userId, sourceSection, destinationSection, sourcePage, destinationPage, utmSource, utmMedium, utmCampaign } = req.body;
+      if (!sessionId || !sourceSection || !destinationSection) {
+        return res.status(400).json({ error: "Missing required fields" });
+      }
+      await pool.query(
+        `INSERT INTO cross_section_events (id, session_id, user_id, source_section, destination_section, source_page, destination_page, utm_source, utm_medium, utm_campaign, created_at)
+         VALUES (gen_random_uuid(), $1, $2, $3, $4, $5, $6, $7, $8, $9, NOW())`,
+        [sessionId, userId || null, sourceSection, destinationSection, sourcePage || "", destinationPage || "", utmSource || null, utmMedium || null, utmCampaign || null]
+      );
+      res.json({ success: true });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/admin/cross-platform-analytics", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+
+      const days = Math.max(1, Math.min(365, Math.floor(Number(req.query.days || 30))));
+      const cutoff = `NOW() - INTERVAL '${days} days'`;
+
+      const [
+        sectionTraffic,
+        crossSectionTransitions,
+        multiSectionVisitors,
+        educationToCareer,
+        dailySectionTrend,
+        topTransitions,
+      ] = await Promise.all([
+        pool.query(`
+          SELECT platform_section, COUNT(*)::int as page_views,
+            COUNT(DISTINCT session_id)::int as unique_sessions,
+            COALESCE(AVG(duration), 0)::int as avg_duration
+          FROM page_views
+          WHERE created_at > ${cutoff} AND platform_section IS NOT NULL
+          GROUP BY platform_section ORDER BY page_views DESC
+        `).catch(() => ({ rows: [] })),
+
+        pool.query(`
+          SELECT source_section, destination_section, COUNT(*)::int as transitions,
+            COUNT(DISTINCT session_id)::int as unique_users
+          FROM cross_section_events
+          WHERE created_at > ${cutoff}
+          GROUP BY source_section, destination_section
+          ORDER BY transitions DESC
+        `).catch(() => ({ rows: [] })),
+
+        pool.query(`
+          SELECT section_count, COUNT(*)::int as visitor_count FROM (
+            SELECT session_id, COUNT(DISTINCT platform_section) as section_count
+            FROM page_views
+            WHERE created_at > ${cutoff} AND platform_section IS NOT NULL
+            GROUP BY session_id
+            HAVING COUNT(DISTINCT platform_section) > 1
+          ) multi
+          GROUP BY section_count ORDER BY section_count
+        `).catch(() => ({ rows: [] })),
+
+        pool.query(`
+          SELECT COUNT(DISTINCT cse.session_id)::int as conversions
+          FROM cross_section_events cse
+          WHERE cse.created_at > ${cutoff}
+            AND cse.source_section IN ('exam_prep', 'allied_health')
+            AND cse.destination_section IN ('career_tools', 'new_grad')
+        `).catch(() => ({ rows: [{ conversions: 0 }] })),
+
+        pool.query(`
+          SELECT DATE(created_at) as day, platform_section,
+            COUNT(*)::int as page_views,
+            COUNT(DISTINCT session_id)::int as unique_sessions
+          FROM page_views
+          WHERE created_at > ${cutoff} AND platform_section IS NOT NULL
+          GROUP BY DATE(created_at), platform_section
+          ORDER BY day DESC
+          LIMIT 240
+        `).catch(() => ({ rows: [] })),
+
+        pool.query(`
+          SELECT source_section || ' → ' || destination_section as transition,
+            source_section, destination_section,
+            COUNT(*)::int as count
+          FROM cross_section_events
+          WHERE created_at > ${cutoff}
+          GROUP BY source_section, destination_section
+          ORDER BY count DESC LIMIT 10
+        `).catch(() => ({ rows: [] })),
+      ]);
+
+      const totalMultiSectionVisitors = multiSectionVisitors.rows.reduce(
+        (sum: number, r: any) => sum + (r.visitor_count || 0), 0
+      );
+
+      res.json({
+        period: { days },
+        sectionTraffic: sectionTraffic.rows,
+        crossSectionTransitions: crossSectionTransitions.rows,
+        multiSectionVisitors: {
+          total: totalMultiSectionVisitors,
+          breakdown: multiSectionVisitors.rows,
+        },
+        educationToCareerConversions: educationToCareer.rows[0]?.conversions || 0,
+        dailySectionTrend: dailySectionTrend.rows,
+        topTransitions: topTransitions.rows,
+      });
+    } catch (err: any) {
+      console.error("Cross-platform analytics error:", err.message);
+      res.status(500).json({ error: err.message });
+    }
+  });
+
   /**
    * NOW protected. Your Admin UI must call this with username/password.
    * Recommended: use POST instead of GET so credentials are not in the URL.

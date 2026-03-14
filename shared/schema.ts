@@ -218,6 +218,7 @@ export const pageViews = pgTable("page_views", {
   sessionId: text("session_id").notNull(),
   userId: varchar("user_id"),
   page: text("page").notNull(),
+  platformSection: text("platform_section"),
   referrer: text("referrer"),
   utmSource: text("utm_source"),
   utmMedium: text("utm_medium"),
@@ -231,6 +232,28 @@ export const pageViews = pgTable("page_views", {
   isPricingView: boolean("is_pricing_view").default(false),
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
+
+export const crossSectionEvents = pgTable("cross_section_events", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  sessionId: text("session_id").notNull(),
+  userId: varchar("user_id"),
+  sourceSection: text("source_section").notNull(),
+  destinationSection: text("destination_section").notNull(),
+  sourcePage: text("source_page").notNull(),
+  destinationPage: text("destination_page").notNull(),
+  utmSource: text("utm_source"),
+  utmMedium: text("utm_medium"),
+  utmCampaign: text("utm_campaign"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const insertCrossSectionEventSchema = createInsertSchema(crossSectionEvents).omit({
+  id: true,
+  createdAt: true,
+});
+
+export type CrossSectionEvent = typeof crossSectionEvents.$inferSelect;
+export type InsertCrossSectionEvent = z.infer<typeof insertCrossSectionEventSchema>;
 
 export const insertPageViewSchema = createInsertSchema(pageViews).omit({
   id: true,

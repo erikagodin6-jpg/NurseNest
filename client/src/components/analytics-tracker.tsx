@@ -1,5 +1,6 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useLocation } from "wouter";
+import { getPlatformSection } from "@shared/platform-sections";
 
 declare global {
   interface Window {
@@ -30,18 +31,55 @@ function extractProfession(path: string): string | null {
 
 export default function AnalyticsTracker() {
   const [location] = useLocation();
+  const previousSectionRef = useRef<string>("");
+  const previousPageRef = useRef<string>("");
 
   useEffect(() => {
     const profession = extractProfession(location);
+    const platformSection = getPlatformSection(location);
+    const previousSection = previousSectionRef.current;
+    const previousPage = previousPageRef.current;
+
     gtagEvent("page_view", {
       page_path: location,
       page_location: window.location.href,
       page_title: document.title,
+      platform_section: platformSection,
       ...(profession && { profession }),
     });
+
+    if (previousSection && previousSection !== platformSection && previousSection !== "other" && platformSection !== "other") {
+      gtagEvent("cross_section_navigation", {
+        source_section: previousSection,
+        destination_section: platformSection,
+        source_page: previousPage,
+        destination_page: location,
+        event_category: "navigation",
+      });
+    }
+
+    previousSectionRef.current = platformSection;
+    previousPageRef.current = location;
   }, [location]);
 
   return null;
+}
+
+export function trackCrossSectionClick(sourceSection: string, destinationSection: string, linkText: string) {
+  gtagEvent("cross_section_click", {
+    source_section: sourceSection,
+    destination_section: destinationSection,
+    link_text: linkText,
+    event_category: "navigation",
+  });
+}
+
+export function trackEducationToCareerConversion(profession: string, sourceActivity: string) {
+  gtagEvent("education_to_career_conversion", {
+    profession,
+    source_activity: sourceActivity,
+    event_category: "conversion",
+  });
 }
 
 export function trackCheckoutBegin(productName: string, productPrice: number) {

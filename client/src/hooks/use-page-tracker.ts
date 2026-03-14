@@ -1,5 +1,6 @@
 import { useEffect, useRef } from "react";
 import { useLocation } from "wouter";
+import { getPlatformSection } from "@shared/platform-sections";
 
 function getSessionId(): string {
   let sid = sessionStorage.getItem("nn-session-id");
@@ -45,10 +46,25 @@ function getUTMParams() {
   };
 }
 
+function getStoredUTMParams() {
+  try {
+    const stored = sessionStorage.getItem("nn-utm-params");
+    if (stored) return JSON.parse(stored);
+  } catch {}
+  return {};
+}
+
+function storeUTMParams(utms: { utmSource?: string; utmMedium?: string; utmCampaign?: string }) {
+  if (utms.utmSource || utms.utmMedium || utms.utmCampaign) {
+    sessionStorage.setItem("nn-utm-params", JSON.stringify(utms));
+  }
+}
+
 export function usePageTracker() {
   const [location] = useLocation();
   const startTimeRef = useRef<number>(Date.now());
   const lastPageRef = useRef<string>("");
+  const lastSectionRef = useRef<string>("");
 
   useEffect(() => {
     const sendDuration = () => {
@@ -70,13 +86,28 @@ export function usePageTracker() {
     sendDuration();
 
     const page = location || "/";
+    const platformSection = getPlatformSection(page);
+    const previousSection = lastSectionRef.current;
+    const previousPage = lastPageRef.current;
+
     lastPageRef.current = page;
     startTimeRef.current = Date.now();
+    lastSectionRef.current = platformSection;
 
     const stored = localStorage.getItem("nursenest-user");
     const userId = stored ? JSON.parse(stored)?.id : undefined;
 
-    const utms = getUTMParams();
+    const currentUtms = getUTMParams();
+    if (currentUtms.utmSource || currentUtms.utmMedium || currentUtms.utmCampaign) {
+      storeUTMParams(currentUtms);
+    }
+    const preservedUtms = getStoredUTMParams();
+    const utms = {
+      utmSource: currentUtms.utmSource || preservedUtms.utmSource,
+      utmMedium: currentUtms.utmMedium || preservedUtms.utmMedium,
+      utmCampaign: currentUtms.utmCampaign || preservedUtms.utmCampaign,
+    };
+
     const isPricingView = page === "/pricing";
     const isCheckoutIntent = page.includes("subscription") || page.includes("checkout");
 
@@ -98,6 +129,7 @@ export function usePageTracker() {
         sessionId: getSessionId(),
         userId,
         page,
+        platformSection,
         referrer: cleanReferrer,
         ...utms,
         deviceType: getDeviceType(),
@@ -107,6 +139,22 @@ export function usePageTracker() {
         isCheckoutIntent,
       }),
     }).catch(() => {});
+
+    if (previousSection && previousSection !== platformSection && previousPage && previousSection !== "other" && platformSection !== "other") {
+      fetch("/api/track/cross-section", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          sessionId: getSessionId(),
+          userId,
+          sourceSection: previousSection,
+          destinationSection: platformSection,
+          sourcePage: previousPage,
+          destinationPage: page,
+          ...utms,
+        }),
+      }).catch(() => {});
+    }
 
     return () => {};
   }, [location]);

@@ -58,6 +58,8 @@ import { useQuery } from "@tanstack/react-query";
 import { ThemedLogo } from "@/components/themed-logo";
 import { useI18n, LANGUAGES } from "@/lib/i18n";
 import { Globe, Languages, BarChart3, DollarSign, ShoppingBag, FileStack, Wind, Ambulance, Microscope, ScanLine, GraduationCap, Briefcase } from "lucide-react";
+import { trackCrossSectionClick } from "@/components/analytics-tracker";
+import { getPlatformSection } from "@shared/platform-sections";
 import { useCareer } from "@/lib/career-context";
 import { getEnabledCareers, type CareerType } from "@shared/careers";
 
@@ -162,6 +164,27 @@ function UserProfileDropdown({ user, logout, setLocation }: { user: any; logout:
   );
 }
 
+function appendUtmParams(path: string): string {
+  try {
+    const stored = sessionStorage.getItem("nn-utm-params");
+    if (!stored) return path;
+    const utms = JSON.parse(stored);
+    const params = new URLSearchParams();
+    if (utms.utmSource) params.set("utm_source", utms.utmSource);
+    if (utms.utmMedium) params.set("utm_medium", utms.utmMedium);
+    if (utms.utmCampaign) params.set("utm_campaign", utms.utmCampaign);
+    const qs = params.toString();
+    if (!qs) return path;
+    const hashIdx = path.indexOf("#");
+    if (hashIdx >= 0) {
+      return path.slice(0, hashIdx) + "?" + qs + path.slice(hashIdx);
+    }
+    return path + (path.includes("?") ? "&" : "?") + qs;
+  } catch {
+    return path;
+  }
+}
+
 export function Navigation({ compact = false }: { compact?: boolean } = {}) {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -171,7 +194,7 @@ export function Navigation({ compact = false }: { compact?: boolean } = {}) {
   const { toast } = useToast();
   const { setTheme, theme, resolvedTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
-  const [, setLocation] = useLocation();
+  const [location, setLocation] = useLocation();
   const { user, logout, isAdmin, previewTier, setPreviewTier, effectiveTier } = useAuth();
   const { language, setLanguage, t } = useI18n();
   const currentLang = LANGUAGES.find(l => l.code === language);
@@ -863,17 +886,17 @@ export function Navigation({ compact = false }: { compact?: boolean } = {}) {
       <div className="bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 text-white" data-testid="ecosystem-nav">
         <div className="max-w-7xl mx-auto px-2 sm:px-4 lg:px-8">
           <div className="flex items-center justify-center gap-1 sm:gap-6 h-8 text-[11px] sm:text-xs font-medium">
-            <LocaleLink href="/exam-prep" className="flex items-center gap-1.5 px-2 py-1 rounded-full hover:bg-white/15 transition-colors" data-testid="ecosystem-link-exam-prep">
+            <LocaleLink href={appendUtmParams("/exam-prep")} className="flex items-center gap-1.5 px-2 py-1 rounded-full hover:bg-white/15 transition-colors" data-testid="ecosystem-link-exam-prep" onClick={() => trackCrossSectionClick(getPlatformSection(location), "exam_prep", "Exam Prep")}>
               <BookOpen className="w-3 h-3" />
               <span>Exam Prep</span>
             </LocaleLink>
             <span className="text-white/30 hidden sm:inline">|</span>
-            <LocaleLink href="/new-graduate-support" className="flex items-center gap-1.5 px-2 py-1 rounded-full hover:bg-white/15 transition-colors" data-testid="ecosystem-link-new-grad">
+            <LocaleLink href={appendUtmParams("/new-graduate-support")} className="flex items-center gap-1.5 px-2 py-1 rounded-full hover:bg-white/15 transition-colors" data-testid="ecosystem-link-new-grad" onClick={() => trackCrossSectionClick(getPlatformSection(location), "new_grad", "New Grad Support")}>
               <GraduationCap className="w-3 h-3" />
               <span>New Grad Support</span>
             </LocaleLink>
             <span className="text-white/30 hidden sm:inline">|</span>
-            <LocaleLink href="/healthcare-careers" className="flex items-center gap-1.5 px-2 py-1 rounded-full hover:bg-white/15 transition-colors" data-testid="ecosystem-link-healthcare-jobs">
+            <LocaleLink href={appendUtmParams("/healthcare-careers")} className="flex items-center gap-1.5 px-2 py-1 rounded-full hover:bg-white/15 transition-colors" data-testid="ecosystem-link-healthcare-jobs" onClick={() => trackCrossSectionClick(getPlatformSection(location), "career_tools", "Healthcare Jobs")}>
               <Briefcase className="w-3 h-3" />
               <span className="hidden sm:inline">Healthcare Careers</span>
               <span className="sm:hidden">Careers</span>

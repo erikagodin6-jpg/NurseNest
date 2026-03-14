@@ -203,6 +203,7 @@ const AdminAlliedMarketing = lazy(() => import("@/pages/admin-allied-marketing")
 const AdminSocialContent = lazy(() => import("@/pages/admin-social-content"));
 const AdminProfessionAnalytics = lazy(() => import("@/pages/admin-profession-analytics"));
 const AdminSeoProgress = lazy(() => import("@/pages/admin-seo-progress"));
+const AdminCrossPlatformAnalytics = lazy(() => import("@/pages/admin-cross-platform-analytics"));
 const OrderOfTheDraw = lazy(() => import("@/pages/order-of-the-draw"));
 const NursingQuestionSeoPage = lazy(() => import("@/pages/nursing-question-seo-page"));
 const NursingQuestionsIndexPage = lazy(() => import("@/pages/nursing-question-seo-page").then(m => ({ default: m.NursingQuestionsIndexPage })));
@@ -541,6 +542,7 @@ function AppRoutes() {
         <Route path="/admin/allied-marketing" component={AdminAlliedMarketing} />
         <Route path="/admin/profession-analytics" component={AdminProfessionAnalytics} />
         <Route path="/admin/seo-progress" component={AdminSeoProgress} />
+        <Route path="/admin/cross-platform" component={AdminCrossPlatformAnalytics} />
         <Route path="/admin/programmatic-seo" component={AdminProgrammaticSeo} />
         <Route path="/admin/institutions" component={AdminInstitutions} />
         <Route path="/instructor" component={InstructorDashboard} />
