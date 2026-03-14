@@ -43,6 +43,7 @@ import { ContentBlockRenderer, LessonObjectives, ClinicalPearlsList } from "@/co
 import { AuscultationSitesDiagram } from "@/components/auscultation-sites-diagram";
 import { RespiratorySoundsLibrary } from "@/components/respiratory-sounds-library";
 import { useI18n } from "@/lib/i18n";
+import { ConversionFunnel, SocialProofBar } from "@/components/conversion-funnel";
 
 function getCredentials() {
   try {
@@ -2662,6 +2663,10 @@ export default function LessonDetail() {
               </Button>
             </CardContent>
           </Card>
+
+          <div className="mt-10 max-w-2xl mx-auto" data-testid="lesson-locked-social-proof">
+            <SocialProofBar />
+          </div>
         </main>
         <AdminEditButton />
       </div>
@@ -3551,6 +3556,22 @@ export default function LessonDetail() {
             </div>
           ) : null;
         })()}
+
+        <div className="mt-10" data-testid="lesson-conversion-funnel">
+          <ConversionFunnel
+            topic={lessonContent?.title || id || ""}
+            bodySystem={getLessonBodySystem(id || "")}
+            showPracticeQuestions={true}
+            showFlashcards={true}
+            showProgressPrompt={!user}
+            showMockExam={true}
+            showPremiumSummary={!user || effectiveTier === "free"}
+            showSocialProof={true}
+            showTopCta={false}
+            showMidCta={!user || effectiveTier === "free"}
+            showBottomCta={false}
+          />
+        </div>
 
         <div className="mt-8 p-8 rounded-2xl bg-gradient-to-br from-primary/5 to-blue-50 border border-primary/10" data-testid="section-next-action">
           <h3 className="text-xl font-bold text-gray-900 mb-2">What's Next?</h3>

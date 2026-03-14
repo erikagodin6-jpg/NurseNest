@@ -1,0 +1,88 @@
+import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { LocaleLink } from "@/lib/LocaleLink";
+import { useAuth } from "@/lib/auth";
+import {
+  GraduationCap,
+  Clock,
+  Brain,
+  BarChart3,
+  Target,
+  ArrowRight,
+  Shield,
+} from "lucide-react";
+
+interface MockExamTeaserProps {
+  profession?: string;
+}
+
+export function MockExamTeaser({ profession }: MockExamTeaserProps) {
+  const { user } = useAuth();
+
+  const examLink = profession ? `/careers/${profession}/mock-exams` : "/mock-exams";
+  const title = profession
+    ? `${profession.charAt(0).toUpperCase() + profession.slice(1)} Mock Exam`
+    : "Nursing Mock Exam";
+
+  return (
+    <div className="space-y-4" data-testid="mock-exam-teaser">
+      <div className="flex items-center gap-2">
+        <GraduationCap className="w-5 h-5 text-amber-600" />
+        <h3 className="text-lg font-bold text-gray-900">Test Your Readiness</h3>
+      </div>
+
+      <Card className="border-amber-200/60 bg-gradient-to-br from-amber-50/80 to-orange-50/30 overflow-hidden" data-testid="card-mock-exam-teaser">
+        <CardContent className="p-0">
+          <div className="p-6">
+            <div className="flex items-center gap-2 mb-3">
+              <Shield className="w-5 h-5 text-amber-600" />
+              <span className="font-bold text-gray-900">{title}</span>
+            </div>
+            <p className="text-sm text-gray-600 mb-5 leading-relaxed">
+              Simulate real exam conditions with timed questions, adaptive difficulty, and detailed performance analytics. Know exactly where you stand before test day.
+            </p>
+
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-5">
+              <div className="bg-white/80 rounded-xl p-3 text-center border border-amber-100">
+                <Clock className="w-5 h-5 text-amber-600 mx-auto mb-1" />
+                <p className="text-xs font-semibold text-gray-700">Timed</p>
+                <p className="text-[10px] text-gray-500">Real exam pacing</p>
+              </div>
+              <div className="bg-white/80 rounded-xl p-3 text-center border border-amber-100">
+                <Brain className="w-5 h-5 text-amber-600 mx-auto mb-1" />
+                <p className="text-xs font-semibold text-gray-700">Adaptive</p>
+                <p className="text-[10px] text-gray-500">Adjusts difficulty</p>
+              </div>
+              <div className="bg-white/80 rounded-xl p-3 text-center border border-amber-100">
+                <BarChart3 className="w-5 h-5 text-amber-600 mx-auto mb-1" />
+                <p className="text-xs font-semibold text-gray-700">Analytics</p>
+                <p className="text-[10px] text-gray-500">Score breakdown</p>
+              </div>
+              <div className="bg-white/80 rounded-xl p-3 text-center border border-amber-100">
+                <Target className="w-5 h-5 text-amber-600 mx-auto mb-1" />
+                <p className="text-xs font-semibold text-gray-700">Domains</p>
+                <p className="text-[10px] text-gray-500">By body system</p>
+              </div>
+            </div>
+
+            <div className="flex flex-col sm:flex-row gap-2">
+              <LocaleLink href={examLink}>
+                <Button className="rounded-xl gap-2 bg-amber-600 hover:bg-amber-700 text-white w-full sm:w-auto" data-testid="button-start-mock-exam">
+                  <GraduationCap className="w-4 h-4" />
+                  {user ? "Start Mock Exam" : "Try a Free Exam"}
+                </Button>
+              </LocaleLink>
+              {!user && (
+                <LocaleLink href="/start-free">
+                  <Button variant="outline" className="rounded-xl gap-2 border-amber-300 text-amber-700 w-full sm:w-auto" data-testid="button-mock-exam-signup">
+                    Create Free Account <ArrowRight className="w-4 h-4" />
+                  </Button>
+                </LocaleLink>
+              )}
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+    </div>
+  );
+}

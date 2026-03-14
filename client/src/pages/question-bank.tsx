@@ -19,6 +19,7 @@ import { useLocation } from "wouter";
 import { getTierConfig, getAllowedExamTiers } from "@shared/tier-config";
 import { BreadcrumbNav } from "@/components/breadcrumb-nav";
 import { ConfidenceRatingModal } from "@/components/study-momentum";
+import { SocialProofBar } from "@/components/conversion-funnel";
 import {
   AnswerOption,
   ResultHeader,
@@ -973,6 +974,9 @@ export default function QuestionBank() {
       </main>
 
       <div className="max-w-5xl mx-auto px-4 pb-8">
+        <div className="mb-8" data-testid="qbank-social-proof">
+          <SocialProofBar />
+        </div>
         <RelatedResources
           resources={[
             { title: "Nursing Flashcards", href: "/flashcards", description: "Review key concepts with interactive flashcards organized by system and topic.", icon: "flashcard" },

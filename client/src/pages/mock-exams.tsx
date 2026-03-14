@@ -13,6 +13,7 @@ import { getExamQuestions, getPoolStats, getAvailableBodySystems, getAvailableBl
 import type { ExamBlueprint } from "@/lib/question-pool";
 import { Badge } from "@/components/ui/badge";
 import { useI18n } from "@/lib/i18n";
+import { SocialProofBar } from "@/components/conversion-funnel";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import {
@@ -776,6 +777,9 @@ export default function MockExamsPage() {
           </div>
         </div>
       </main>
+      <div className="max-w-5xl mx-auto px-4 py-8" data-testid="mockexams-social-proof">
+        <SocialProofBar />
+      </div>
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
         <ContextualRelatedResources
           pageType="mockExams"

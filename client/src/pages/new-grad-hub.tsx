@@ -6,6 +6,7 @@ import { Footer } from "@/components/footer";
 import { buildFaqStructuredData } from "@/lib/structured-data";
 import { PROFESSION_LIST } from "@/pages/new-grad/profession-data";
 import { getCrossPlatformLinksForNewGrad } from "@/data/internal-links";
+import { SocialProofBar } from "@/components/conversion-funnel";
 import {
   ArrowRight, BookOpen, FileText, Brain, Zap, GraduationCap,
   CheckCircle2, ChevronRight, Check, X, HelpCircle,
@@ -490,6 +491,10 @@ export default function NewGradHub() {
           </div>
         </div>
       </section>
+
+      <div className="max-w-5xl mx-auto px-4 py-8" data-testid="newgrad-social-proof">
+        <SocialProofBar />
+      </div>
 
       <Footer />
     </div>

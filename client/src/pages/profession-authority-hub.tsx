@@ -10,6 +10,7 @@ import {
 } from "lucide-react";
 import { PROFESSION_AUTHORITY_DATA, type ProfessionAuthorityData } from "@shared/profession-authority-data";
 import { getAuthorityContentPagesByProfession } from "@shared/authority-content-data";
+import { SocialProofBar } from "@/components/conversion-funnel";
 
 interface ProfessionAuthorityHubProps {
   data: ProfessionAuthorityData;
@@ -518,6 +519,10 @@ export default function ProfessionAuthorityHub({ data }: ProfessionAuthorityHubP
           </div>
         </div>
       </section>
+
+      <div className="max-w-5xl mx-auto px-4 py-8" data-testid="allied-social-proof">
+        <SocialProofBar />
+      </div>
 
       <Footer />
     </div>

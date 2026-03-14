@@ -84,6 +84,7 @@ import { rnFlashcards } from "@/data/flashcards-rn";
 import { npFlashcards } from "@/data/flashcards-np";
 import { icuCriticalCareFlashcards } from "@/data/flashcards-icu-critical-care";
 import { AdaptiveStudyHub } from "@/components/adaptive-study";
+import { SocialProofBar } from "@/components/conversion-funnel";
 
 type CardType = "question" | "term";
 
@@ -4197,6 +4198,10 @@ export default function Flashcards() {
               </div>
             </div>
           </section>
+
+          <div className="mt-10" data-testid="flashcards-social-proof">
+            <SocialProofBar />
+          </div>
         </main>
 
         <Footer />
