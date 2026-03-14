@@ -114,14 +114,14 @@ export function HomeBottomSections({
   return (
     <>
         <LazySection minHeight="600px" rootMargin="300px">
-        <section className="py-16 bg-gradient-to-b from-primary/5 via-violet-50/30 to-white border-t border-primary/10" data-testid="section-study-tools">
+        <section className="border-t border-gray-100" style={{ paddingTop: 'var(--space-section)', paddingBottom: 'var(--space-section)' }} data-testid="section-study-tools">
           <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-10">
               <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-violet-50 border border-violet-200 mb-4">
                 <Sparkles className="w-3.5 h-3.5 text-violet-600" />
                 <span className="text-xs font-bold text-violet-700 uppercase tracking-wider">Built for You</span>
               </div>
-              <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-3" data-testid="text-study-tools-heading">
+              <h2 className="font-bold text-gray-900 mb-3" style={{ fontSize: 'var(--text-section)' }} data-testid="text-study-tools-heading">
                 Your Personalized Exam Toolkit
               </h2>
               <p className="text-lg text-gray-600 max-w-3xl mx-auto">
@@ -131,7 +131,7 @@ export function HomeBottomSections({
 
             <div className="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto">
               <div
-                className="relative bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-xl transition-[transform,box-shadow] duration-300 hover:-translate-y-1 p-6 cursor-pointer group overflow-hidden"
+                className="relative bg-white rounded-2xl border border-gray-100/80 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all duration-300 hover:-translate-y-1 p-6 cursor-pointer group overflow-hidden"
                 onClick={() => setLocation("/study-plan")}
                 data-testid="card-promo-study-planner"
               >
@@ -156,7 +156,7 @@ export function HomeBottomSections({
               </div>
 
               <div
-                className="relative bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-xl transition-[transform,box-shadow] duration-300 hover:-translate-y-1 p-6 cursor-pointer group overflow-hidden"
+                className="relative bg-white rounded-2xl border border-gray-100/80 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all duration-300 hover:-translate-y-1 p-6 cursor-pointer group overflow-hidden"
                 onClick={() => setLocation("/mock-exams")}
                 data-testid="card-promo-readiness-exam"
               >
@@ -181,7 +181,7 @@ export function HomeBottomSections({
               </div>
 
               <div
-                className="relative bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-xl transition-[transform,box-shadow] duration-300 hover:-translate-y-1 p-6 cursor-pointer group overflow-hidden"
+                className="relative bg-white rounded-2xl border border-gray-100/80 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all duration-300 hover:-translate-y-1 p-6 cursor-pointer group overflow-hidden"
                 onClick={() => setLocation("/reports")}
                 data-testid="card-promo-report-card"
               >
@@ -231,7 +231,7 @@ export function HomeBottomSections({
                 <Globe className="w-3.5 h-3.5 text-primary" />
                 <span className="text-xs font-bold text-primary uppercase tracking-wider">{t("home.examPath.badge")}</span>
               </div>
-              <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-3" data-testid="text-exam-path-heading">{t("home.examPath.heading")}</h2>
+              <h2 className="font-bold text-gray-900 mb-3" style={{ fontSize: 'var(--text-section)' }} data-testid="text-exam-path-heading">{t("home.examPath.heading")}</h2>
               <p className="text-lg text-gray-600 max-w-3xl mx-auto">{t("home.examPath.subtitle")}</p>
             </div>
             <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
@@ -313,7 +313,7 @@ export function HomeBottomSections({
                 <Zap className="w-3.5 h-3.5 text-primary" />
                 <span className="text-xs font-bold text-primary uppercase tracking-wider">{t("home.howItWorks.badge")}</span>
               </div>
-              <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-3" data-testid="text-how-it-works-heading">{t("home.howItWorks.heading")}</h2>
+              <h2 className="font-bold text-gray-900 mb-3" style={{ fontSize: 'var(--text-section)' }} data-testid="text-how-it-works-heading">{t("home.howItWorks.heading")}</h2>
               <p className="text-lg text-gray-600">{t("home.howItWorks.subtitle")}</p>
             </div>
             <div className="grid md:grid-cols-3 gap-8">
@@ -348,7 +348,7 @@ export function HomeBottomSections({
                 <Star className="w-3.5 h-3.5 text-amber-500" />
                 <span className="text-xs font-bold text-amber-700 uppercase tracking-wider">{t("home.socialProof.badge")}</span>
               </div>
-              <h2 className="text-3xl sm:text-4xl font-bold text-gray-900" data-testid="text-social-proof-heading">{t("home.socialProof.heading")}</h2>
+              <h2 className="font-bold text-gray-900" style={{ fontSize: 'var(--text-section)' }} data-testid="text-social-proof-heading">{t("home.socialProof.heading")}</h2>
             </div>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
               <div className="text-center p-5 rounded-2xl bg-gradient-to-b from-blue-50 to-white border border-blue-100" data-testid="stat-social-students">
@@ -395,7 +395,7 @@ export function HomeBottomSections({
 
             <div className="grid md:grid-cols-3 gap-5">
               <div
-                className="bg-white rounded-2xl border border-emerald-100 shadow-sm hover:shadow-lg transition-[transform,box-shadow] duration-300 hover:-translate-y-1 p-6 cursor-pointer group"
+                className="bg-white rounded-2xl border border-emerald-100/60 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all duration-300 hover:-translate-y-1 p-6 cursor-pointer group"
                 onClick={() => setLocation("/flashcards")}
                 data-testid="card-new-decks"
               >
@@ -410,7 +410,7 @@ export function HomeBottomSections({
               </div>
 
               <div
-                className="bg-white rounded-2xl border border-emerald-100 shadow-sm hover:shadow-lg transition-[transform,box-shadow] duration-300 hover:-translate-y-1 p-6 cursor-pointer group"
+                className="bg-white rounded-2xl border border-emerald-100/60 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all duration-300 hover:-translate-y-1 p-6 cursor-pointer group"
                 onClick={() => setLocation("/blog")}
                 data-testid="card-new-blog"
               >
@@ -425,7 +425,7 @@ export function HomeBottomSections({
               </div>
 
               <div
-                className="bg-white rounded-2xl border border-emerald-100 shadow-sm hover:shadow-lg transition-[transform,box-shadow] duration-300 hover:-translate-y-1 p-6 cursor-pointer group"
+                className="bg-white rounded-2xl border border-emerald-100/60 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all duration-300 hover:-translate-y-1 p-6 cursor-pointer group"
                 onClick={() => setLocation("/lessons")}
                 data-testid="card-new-languages"
               >
@@ -450,7 +450,7 @@ export function HomeBottomSections({
                 <Award className="w-4 h-4 text-primary" />
                 <span className="text-xs font-bold text-primary uppercase tracking-wider">{t("home.platform.badge")}</span>
               </div>
-              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-5" data-testid="text-features-heading">
+              <h2 className="font-bold text-gray-900 mb-5" style={{ fontSize: 'var(--text-section)' }} data-testid="text-features-heading">
                 {t("home.features.title")}
               </h2>
               <p className="text-lg text-gray-600 leading-relaxed">
@@ -466,7 +466,7 @@ export function HomeBottomSections({
                 { value: storeProductCount > 0 ? `${storeProductCount}+` : "9", label: storeProductCount > 0 ? t("home.stats.studyPacks") : t("home.stats.simulators"), icon: storeProductCount > 0 ? ShoppingBag : Gamepad2, color: "from-purple-500 to-violet-600" },
                 { value: "7+", label: t("home.stats.modes"), icon: Layers, color: "from-amber-500 to-orange-600" },
               ].map((stat, i) => (
-                <div key={i} className="relative overflow-hidden bg-white rounded-2xl border border-gray-100 shadow-md hover:shadow-xl transition-[transform,box-shadow] duration-300 hover:-translate-y-1 p-5 text-center group" data-testid={`stat-feature-${i}`}>
+                <div key={i} className="relative overflow-hidden bg-white rounded-2xl border border-gray-100/80 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all duration-300 hover:-translate-y-1 p-5 text-center group" data-testid={`stat-feature-${i}`}>
                   <div className={`absolute top-0 left-0 w-full h-1 bg-gradient-to-r ${stat.color}`} />
                   <div className="mx-auto w-11 h-11 rounded-xl bg-primary/10 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
                     <stat.icon className="w-5 h-5 text-primary" />
@@ -481,7 +481,7 @@ export function HomeBottomSections({
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5 mb-8">
               {/* Mock Exams */}
               <div
-                className="bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-xl transition-[transform,box-shadow] duration-300 hover:-translate-y-1 p-6 cursor-pointer group relative overflow-hidden"
+                className="bg-white rounded-2xl border border-gray-100/80 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all duration-300 hover:-translate-y-1 p-6 cursor-pointer group relative overflow-hidden"
                 onClick={() => setLocation("/mock-exams")}
                 data-testid="card-feature-mock-exams"
               >
@@ -500,7 +500,7 @@ export function HomeBottomSections({
 
               {/* Clinical Simulators */}
               <div
-                className="bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-xl transition-[transform,box-shadow] duration-300 hover:-translate-y-1 p-6 cursor-pointer group relative overflow-hidden"
+                className="bg-white rounded-2xl border border-gray-100/80 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all duration-300 hover:-translate-y-1 p-6 cursor-pointer group relative overflow-hidden"
                 onClick={() => setLocation("/first-action-simulator")}
                 data-testid="card-feature-simulators"
               >
@@ -519,7 +519,7 @@ export function HomeBottomSections({
 
               {/* Question Bank */}
               <div
-                className="bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-xl transition-[transform,box-shadow] duration-300 hover:-translate-y-1 p-6 cursor-pointer group relative overflow-hidden"
+                className="bg-white rounded-2xl border border-gray-100/80 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all duration-300 hover:-translate-y-1 p-6 cursor-pointer group relative overflow-hidden"
                 onClick={() => setLocation("/question-bank")}
                 data-testid="card-feature-question-bank"
               >
@@ -538,7 +538,7 @@ export function HomeBottomSections({
 
               {/* Flashcard Decks */}
               <div
-                className="bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-xl transition-[transform,box-shadow] duration-300 hover:-translate-y-1 p-6 cursor-pointer group relative overflow-hidden"
+                className="bg-white rounded-2xl border border-gray-100/80 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all duration-300 hover:-translate-y-1 p-6 cursor-pointer group relative overflow-hidden"
                 onClick={() => setLocation("/flashcards")}
                 data-testid="card-feature-flashcards"
               >
@@ -559,7 +559,7 @@ export function HomeBottomSections({
 
               {/* Med Math & Lab Values */}
               <div
-                className="bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-xl transition-[transform,box-shadow] duration-300 hover:-translate-y-1 p-6 cursor-pointer group relative overflow-hidden"
+                className="bg-white rounded-2xl border border-gray-100/80 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all duration-300 hover:-translate-y-1 p-6 cursor-pointer group relative overflow-hidden"
                 onClick={() => setLocation("/med-math")}
                 data-testid="card-feature-med-math"
               >
@@ -578,7 +578,7 @@ export function HomeBottomSections({
 
               {/* Video Lectures */}
               <div
-                className="bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-xl transition-[transform,box-shadow] duration-300 hover:-translate-y-1 p-6 cursor-pointer group relative overflow-hidden"
+                className="bg-white rounded-2xl border border-gray-100/80 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all duration-300 hover:-translate-y-1 p-6 cursor-pointer group relative overflow-hidden"
                 onClick={() => setLocation("/lectures")}
                 data-testid="card-feature-lectures"
               >
@@ -598,7 +598,7 @@ export function HomeBottomSections({
 
             {/* Secondary Features Strip */}
             <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
-              <div className="flex items-center gap-3 bg-white rounded-xl border border-gray-100 shadow-sm p-4 hover:shadow-md transition-shadow cursor-pointer" onClick={() => setLocation("/dashboard")} data-testid="card-feature-dashboard">
+              <div className="flex items-center gap-3 bg-white rounded-xl border border-gray-100/80 shadow-[var(--shadow-card)] p-4 hover:shadow-[var(--shadow-card-hover)] transition-shadow duration-200 cursor-pointer" onClick={() => setLocation("/dashboard")} data-testid="card-feature-dashboard">
                 <div className="w-10 h-10 bg-sky-100 rounded-lg flex items-center justify-center shrink-0">
                   <LayoutDashboard className="w-5 h-5 text-sky-600" />
                 </div>
@@ -608,7 +608,7 @@ export function HomeBottomSections({
                 </div>
               </div>
 
-              <div className="flex items-center gap-3 bg-white rounded-xl border border-gray-100 shadow-sm p-4 hover:shadow-md transition-shadow cursor-pointer" onClick={() => setLocation("/reports")} data-testid="card-feature-analytics">
+              <div className="flex items-center gap-3 bg-white rounded-xl border border-gray-100/80 shadow-[var(--shadow-card)] p-4 hover:shadow-[var(--shadow-card-hover)] transition-shadow duration-200 cursor-pointer" onClick={() => setLocation("/reports")} data-testid="card-feature-analytics">
                 <div className="w-10 h-10 bg-orange-100 rounded-lg flex items-center justify-center shrink-0">
                   <BarChart3 className="w-5 h-5 text-orange-600" />
                 </div>
@@ -618,7 +618,7 @@ export function HomeBottomSections({
                 </div>
               </div>
 
-              <div className="flex items-center gap-3 bg-white rounded-xl border border-gray-100 shadow-sm p-4 hover:shadow-md transition-shadow cursor-pointer" onClick={() => setLocation("/question-of-the-day")} data-testid="card-feature-qotd">
+              <div className="flex items-center gap-3 bg-white rounded-xl border border-gray-100/80 shadow-[var(--shadow-card)] p-4 hover:shadow-[var(--shadow-card-hover)] transition-shadow duration-200 cursor-pointer" onClick={() => setLocation("/question-of-the-day")} data-testid="card-feature-qotd">
                 <div className="w-10 h-10 bg-violet-100 rounded-lg flex items-center justify-center shrink-0">
                   <MessageSquareQuote className="w-5 h-5 text-violet-600" />
                 </div>
@@ -704,7 +704,7 @@ export function HomeBottomSections({
                 <Sparkles className="w-3.5 h-3.5 text-primary" />
                 <span className="text-xs font-semibold text-primary uppercase tracking-wide">{t("home.free.badge")}</span>
               </div>
-              <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4" data-testid="text-free-learning-heading">{t("home.free.title")}</h2>
+              <h2 className="font-bold text-gray-900 mb-4" style={{ fontSize: 'var(--text-section)' }} data-testid="text-free-learning-heading">{t("home.free.title")}</h2>
               <p className="text-lg text-gray-600 leading-relaxed">
                 {t("home.free.subtitle")}
               </p>
@@ -760,7 +760,7 @@ export function HomeBottomSections({
         <section className="py-24 bg-white/50 backdrop-blur-sm relative z-10" data-testid="section-study-topics">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center max-w-3xl mx-auto mb-6">
-              <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4" data-testid="text-study-heading">{t("home.study.heading")}</h2>
+              <h2 className="font-bold text-gray-900 mb-4" style={{ fontSize: 'var(--text-section)' }} data-testid="text-study-heading">{t("home.study.heading")}</h2>
               <p className="text-lg text-gray-600 leading-relaxed">
                 {t("home.study.subtitle")}
               </p>
@@ -810,7 +810,7 @@ export function HomeBottomSections({
                 <AlertTriangle className="w-3.5 h-3.5 text-red-500" />
                 <span className="text-xs font-semibold text-red-600 uppercase tracking-wide">{t("home.mostTested.badge")}</span>
               </div>
-              <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-3" data-testid="text-most-tested-heading">{t("home.mostTested.heading")}</h2>
+              <h2 className="font-bold text-gray-900 mb-3" style={{ fontSize: 'var(--text-section)' }} data-testid="text-most-tested-heading">{t("home.mostTested.heading")}</h2>
               <p className="text-gray-600">{t("home.mostTested.subtitle")}</p>
             </div>
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -854,7 +854,7 @@ export function HomeBottomSections({
                   <Users className="w-3.5 h-3.5 text-primary" />
                   <span className="text-xs font-semibold text-primary uppercase tracking-wide">{t("home.nurses.badge")}</span>
                 </div>
-                <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-6" data-testid="text-new-nurses-heading">
+                <h2 className="font-bold text-gray-900 mb-6" style={{ fontSize: 'var(--text-section)' }} data-testid="text-new-nurses-heading">
                   {t("home.nurses.heading")}
                 </h2>
                 <p className="text-lg text-gray-600 mb-6 leading-relaxed">
@@ -903,7 +903,7 @@ export function HomeBottomSections({
         <section className="py-24 bg-white" data-testid="section-why-nursenest">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center max-w-3xl mx-auto mb-16">
-              <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4" data-testid="text-why-heading">{t("home.why.heading")}</h2>
+              <h2 className="font-bold text-gray-900 mb-4" style={{ fontSize: 'var(--text-section)' }} data-testid="text-why-heading">{t("home.why.heading")}</h2>
               <p className="text-lg text-gray-600 leading-relaxed">
                 {t("home.why.subtitle")}
               </p>
@@ -938,7 +938,7 @@ export function HomeBottomSections({
                 <AlertTriangle className="w-4 h-4" aria-hidden="true" />
                 {t("home.flashcardTrust.warningBadge")}
               </div>
-              <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4" data-testid="text-flashcard-trust-heading">
+              <h2 className="font-bold text-gray-900 mb-4" style={{ fontSize: 'var(--text-section)' }} data-testid="text-flashcard-trust-heading">
                 {t("home.flashcardTrust.heading")}
               </h2>
               <p className="text-lg text-gray-600 leading-relaxed" data-testid="text-flashcard-trust-subtitle">
@@ -1047,7 +1047,7 @@ export function HomeBottomSections({
                 <BarChart3 className="w-3.5 h-3.5 text-indigo-600" />
                 <span className="text-xs font-bold text-indigo-700 uppercase tracking-wider">{t("home.competitive.badge")}</span>
               </div>
-              <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-3" data-testid="text-competitive-heading">{t("home.competitive.heading")}</h2>
+              <h2 className="font-bold text-gray-900 mb-3" style={{ fontSize: 'var(--text-section)' }} data-testid="text-competitive-heading">{t("home.competitive.heading")}</h2>
               <p className="text-lg text-gray-600">{t("home.competitive.subtitle")}</p>
             </div>
             <div className="overflow-x-auto">
@@ -1108,7 +1108,7 @@ export function HomeBottomSections({
                   <ShoppingBag className="w-3.5 h-3.5 text-primary" />
                   <span className="text-xs font-bold text-primary uppercase tracking-wider">{t("home.featured.badge")}</span>
                 </div>
-                <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-3" data-testid="text-featured-heading">{t("home.featured.heading")}</h2>
+                <h2 className="font-bold text-gray-900 mb-3" style={{ fontSize: 'var(--text-section)' }} data-testid="text-featured-heading">{t("home.featured.heading")}</h2>
                 <p className="text-lg text-gray-600 max-w-2xl mx-auto">{t("home.featured.subtitle")}</p>
               </div>
               <div className={`grid gap-6 ${featuredProducts.length === 1 ? 'max-w-sm mx-auto' : featuredProducts.length === 2 ? 'md:grid-cols-2 max-w-2xl mx-auto' : featuredProducts.length === 3 ? 'md:grid-cols-3' : 'md:grid-cols-2 lg:grid-cols-4'}`}>
@@ -1170,7 +1170,7 @@ export function HomeBottomSections({
         <section className="py-24 bg-gradient-to-b from-white to-gray-50" data-testid="section-faq-home">
           <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-12">
-              <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4" data-testid="text-faq-heading">{t("home.faq.heading")}</h2>
+              <h2 className="font-bold text-gray-900 mb-4" style={{ fontSize: 'var(--text-section)' }} data-testid="text-faq-heading">{t("home.faq.heading")}</h2>
               <p className="text-lg text-gray-600">{t("home.faq.subtitle")}</p>
             </div>
 
@@ -1351,7 +1351,7 @@ export function HomeBottomSections({
         {/* Final CTA Section */}
         <section className="py-24 relative overflow-hidden bg-gradient-to-b from-white to-primary/5" data-testid="section-final-cta">
           <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
-            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-6" data-testid="text-cta-heading">
+            <h2 className="font-bold text-gray-900 mb-6" style={{ fontSize: 'var(--text-section)' }} data-testid="text-cta-heading">
               {t("home.cta.title")}
             </h2>
             <p className="text-xl text-gray-600 mb-10 max-w-2xl mx-auto leading-relaxed">

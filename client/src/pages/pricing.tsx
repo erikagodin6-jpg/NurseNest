@@ -195,22 +195,22 @@ export default function PricingPage() {
     <div className="min-h-screen bg-warmwhite flex flex-col font-sans text-gray-900">
       <SEO title="Pricing - NurseNest" description="Affordable nursing exam prep plans for RPN, RN, NP, and Allied Health students. Start free or upgrade for full access to lessons, flashcards, and simulations." canonicalPath="/pricing" />
       <Navigation />
-      <main className="flex-1 px-4 py-12 sm:py-16">
+      <main className="flex-1 px-4" style={{ paddingTop: 'var(--space-section)', paddingBottom: 'var(--space-section)' }}>
         <div className="max-w-6xl mx-auto">
           <BreadcrumbNav />
 
           {!selectedTier ? (
             <>
-              <div className="text-center mb-10">
-                <h1 className="text-3xl sm:text-4xl font-bold mb-3" data-testid="text-pricing-title">
+              <div className="text-center mb-12">
+                <h1 className="font-bold mb-4" style={{ fontSize: 'var(--text-hero)' }} data-testid="text-pricing-title">
                   {t("pricing.title")}
                 </h1>
-                <p className="text-gray-500 text-lg max-w-2xl mx-auto" data-testid="text-pricing-subtitle">
+                <p className="text-gray-500 text-lg lg:text-xl max-w-2xl mx-auto leading-relaxed" data-testid="text-pricing-subtitle">
                   Choose your exam tier to see available plans.
                   {isCAD ? ` ${t("pricing.pricesCAD")}` : ` ${t("pricing.pricesUSD")}`}
                 </p>
                 {isCAD && (
-                  <div className="mt-4 inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-red-50 border border-red-200/60 text-sm" data-testid="badge-canadian-pricing">
+                  <div className="mt-5 inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-red-50/80 border border-red-200/40 text-sm shadow-[var(--shadow-card)]" data-testid="badge-canadian-pricing">
                     <span role="img" aria-label="maple leaf">🍁</span>
                     <span className="text-gray-700">
                       <span className="font-semibold text-gray-900">{t("pricing.canadianPricingTitle")}</span> - {t("pricing.canadianPricingDesc")}
@@ -219,10 +219,18 @@ export default function PricingPage() {
                 )}
               </div>
 
-              <div className="flex justify-center mb-8">
-                <div className="inline-flex items-center gap-2 bg-green-50 border border-green-200/60 rounded-full px-5 py-2.5" data-testid="badge-guarantee-top">
-                  <Shield className="w-5 h-5 text-green-600" />
-                  <span className="text-sm font-semibold text-green-700">{t("pricing.guaranteeBadge")}</span>
+              <div className="flex flex-wrap justify-center gap-4 mb-10">
+                <div className="inline-flex items-center gap-2 bg-emerald-50/80 border border-emerald-200/40 rounded-full px-5 py-2.5 shadow-[var(--shadow-card)]" data-testid="badge-guarantee-top">
+                  <Shield className="w-4 h-4 text-emerald-600" />
+                  <span className="text-sm font-medium text-emerald-700">{t("pricing.guaranteeBadge")}</span>
+                </div>
+                <div className="inline-flex items-center gap-2 bg-blue-50/80 border border-blue-200/40 rounded-full px-5 py-2.5 shadow-[var(--shadow-card)]">
+                  <Zap className="w-4 h-4 text-blue-600" />
+                  <span className="text-sm font-medium text-blue-700">Instant access after payment</span>
+                </div>
+                <div className="inline-flex items-center gap-2 bg-gray-50 border border-gray-200/60 rounded-full px-5 py-2.5 shadow-[var(--shadow-card)]">
+                  <Shield className="w-4 h-4 text-gray-500" />
+                  <span className="text-sm font-medium text-gray-600">Cancel anytime</span>
                 </div>
               </div>
 
@@ -238,13 +246,13 @@ export default function PricingPage() {
                   return (
                     <Card
                       key={tierId}
-                      className={`relative border shadow-lg transition-all duration-300 hover:shadow-xl hover:-translate-y-1 cursor-pointer ${info.bgColor} ${isPopularTier ? "ring-2 ring-primary" : ""}`}
+                      className={`relative border transition-all duration-300 hover:-translate-y-1 cursor-pointer ${info.bgColor} ${isPopularTier ? "ring-2 ring-primary/80 shadow-[var(--shadow-elevated)] scale-[1.02]" : "shadow-[var(--shadow-pricing)] hover:shadow-[var(--shadow-pricing-hover)]"}`}
                       onClick={() => setSelectedTier(tierId)}
                       data-testid={`card-tier-select-${tierId}`}
                     >
                       {isPopularTier && (
                         <div className="absolute -top-4 left-1/2 -translate-x-1/2 z-10">
-                          <Badge className="bg-primary text-white px-4 py-1.5 text-sm font-bold shadow-lg" data-testid="badge-most-popular-tier">
+                          <Badge className="bg-primary text-white px-5 py-1.5 text-sm font-bold shadow-[var(--shadow-elevated)]" data-testid="badge-most-popular-tier">
                             <Trophy className="w-4 h-4 mr-1.5 fill-white" />
                             {t("pricing.mostPopular")}
                           </Badge>
@@ -326,12 +334,12 @@ export default function PricingPage() {
                 </div>
               )}
 
-              <div className="mb-16">
-                <div className="text-center mb-8">
-                  <h2 className="text-2xl sm:text-3xl font-bold mb-2" data-testid="text-trial-title">
+              <div className="mb-20">
+                <div className="text-center mb-10">
+                  <h2 className="font-bold mb-3" style={{ fontSize: 'var(--text-section)' }} data-testid="text-trial-title">
                     {t("pricing.trialPasses")}
                   </h2>
-                  <p className="text-gray-500 text-base max-w-xl mx-auto" data-testid="text-trial-subtitle">
+                  <p className="text-gray-500 text-base lg:text-lg max-w-xl mx-auto" data-testid="text-trial-subtitle">
                     {t("pricing.trialSubtitle")}
                   </p>
                 </div>
@@ -377,12 +385,12 @@ export default function PricingPage() {
                 </div>
               </div>
 
-              <div className="mb-16">
-                <div className="text-center mb-8">
-                  <h2 className="text-2xl sm:text-3xl font-bold mb-2" data-testid="text-competitor-title">
+              <div className="mb-20">
+                <div className="text-center mb-10">
+                  <h2 className="font-bold mb-3" style={{ fontSize: 'var(--text-section)' }} data-testid="text-competitor-title">
                     {t("pricing.competitorTitle")}
                   </h2>
-                  <p className="text-gray-500 text-base max-w-xl mx-auto" data-testid="text-competitor-subtitle">
+                  <p className="text-gray-500 text-base lg:text-lg max-w-xl mx-auto" data-testid="text-competitor-subtitle">
                     {t("pricing.competitorSubtitle")}
                   </p>
                 </div>
@@ -425,13 +433,13 @@ export default function PricingPage() {
                 </div>
               </div>
 
-              <div className="flex flex-col items-center gap-6 text-center">
-                <div className="flex flex-col items-center gap-2 bg-green-50 border border-green-200/60 rounded-2xl px-8 py-5 shadow-sm max-w-md" data-testid="badge-money-back">
-                  <div className="flex items-center gap-3">
-                    <Shield className="w-6 h-6 text-green-600" />
-                    <span className="text-base font-bold text-green-700">{t("pricing.guaranteeBadge")}</span>
+              <div className="flex flex-col items-center gap-8 text-center mt-4">
+                <div className="flex flex-col items-center gap-3 bg-emerald-50/80 border border-emerald-200/40 rounded-3xl px-10 py-8 shadow-[var(--shadow-card)] max-w-md" data-testid="badge-money-back">
+                  <div className="w-14 h-14 rounded-2xl bg-emerald-100/80 flex items-center justify-center mb-1">
+                    <Shield className="w-7 h-7 text-emerald-600" />
                   </div>
-                  <p className="text-sm text-green-600/80">{t("pricing.guaranteeDesc")}</p>
+                  <span className="text-lg font-bold text-emerald-800">{t("pricing.guaranteeBadge")}</span>
+                  <p className="text-sm text-emerald-600/80 leading-relaxed">{t("pricing.guaranteeDesc")}</p>
                 </div>
                 <LocaleLink href="/faq" className="inline-flex items-center gap-2 text-sm text-primary hover:underline font-medium" data-testid="link-faq">
                   <HelpCircle className="w-4 h-4" />
@@ -452,7 +460,7 @@ export default function PricingPage() {
                   Back to all tiers
                 </Button>
                 <div className="text-center">
-                  <h1 className="text-3xl sm:text-4xl font-bold mb-2" data-testid="text-tier-plans-title">
+                  <h1 className="font-bold mb-2" style={{ fontSize: 'var(--text-hero)' }} data-testid="text-tier-plans-title">
                     {isCAD ? tierDisplayInfo[selectedTier]?.nameCA : tierDisplayInfo[selectedTier]?.nameUS} Plans
                   </h1>
                   <p className="text-gray-500 text-lg max-w-2xl mx-auto" data-testid="text-tier-plans-subtitle">
@@ -462,10 +470,14 @@ export default function PricingPage() {
                 </div>
               </div>
 
-              <div className="flex justify-center mb-8">
-                <div className="inline-flex items-center gap-2 bg-green-50 border border-green-200/60 rounded-full px-5 py-2.5" data-testid="badge-guarantee-plans">
-                  <Shield className="w-5 h-5 text-green-600" />
-                  <span className="text-sm font-semibold text-green-700">{t("pricing.guaranteeBadge")}</span>
+              <div className="flex flex-wrap justify-center gap-4 mb-10">
+                <div className="inline-flex items-center gap-2 bg-emerald-50/80 border border-emerald-200/40 rounded-full px-5 py-2.5 shadow-[var(--shadow-card)]" data-testid="badge-guarantee-plans">
+                  <Shield className="w-4 h-4 text-emerald-600" />
+                  <span className="text-sm font-medium text-emerald-700">{t("pricing.guaranteeBadge")}</span>
+                </div>
+                <div className="inline-flex items-center gap-2 bg-blue-50/80 border border-blue-200/40 rounded-full px-5 py-2.5 shadow-[var(--shadow-card)]">
+                  <Zap className="w-4 h-4 text-blue-600" />
+                  <span className="text-sm font-medium text-blue-700">Instant access after payment</span>
                 </div>
               </div>
 
@@ -483,12 +495,12 @@ export default function PricingPage() {
                     return (
                       <Card
                         key={plan.id}
-                        className={`relative border-none shadow-lg transition-all duration-300 hover:shadow-xl hover:-translate-y-1 ${plan.isPopular ? "ring-2 ring-primary shadow-primary/10" : ""} ${plan.isLifetime ? "bg-gradient-to-b from-amber-50 to-white" : ""}`}
+                        className={`relative border-none transition-all duration-300 hover:-translate-y-1 ${plan.isPopular ? "ring-2 ring-primary/80 shadow-[var(--shadow-elevated)] scale-[1.02]" : "shadow-[var(--shadow-pricing)] hover:shadow-[var(--shadow-pricing-hover)]"} ${plan.isLifetime ? "bg-gradient-to-b from-amber-50 to-white" : ""}`}
                         data-testid={`card-plan-${plan.duration}`}
                       >
                         {plan.isPopular && (
                           <div className="absolute -top-4 left-1/2 -translate-x-1/2 z-10">
-                            <Badge className="bg-primary text-white px-4 py-1.5 text-sm font-bold shadow-lg" data-testid={`badge-popular-${plan.duration}`}>
+                            <Badge className="bg-primary text-white px-5 py-1.5 text-sm font-bold shadow-[var(--shadow-elevated)]" data-testid={`badge-popular-${plan.duration}`}>
                               <Trophy className="w-4 h-4 mr-1.5 fill-white" />
                               {t("pricing.mostPopular")}
                             </Badge>
@@ -536,7 +548,7 @@ export default function PricingPage() {
                           <ul className="space-y-2 mb-6">
                             {(plan.featureList as string[]).map((feature, idx) => (
                               <li key={idx} className="flex items-start gap-2 text-sm text-gray-600" data-testid={`text-plan-feature-${plan.duration}-${idx}`}>
-                                <Check className="w-4 h-4 text-primary mt-0.5 flex-shrink-0" />
+                                <Check className="w-4 h-4 text-emerald-500 mt-0.5 flex-shrink-0" />
                                 <span>{feature}</span>
                               </li>
                             ))}
@@ -544,10 +556,10 @@ export default function PricingPage() {
                           <Button
                             className={`w-full rounded-full font-semibold transition-all ${
                               plan.isPopular
-                                ? "bg-primary hover:brightness-110 text-white shadow-md shadow-primary/20"
+                                ? "bg-primary hover:brightness-110 text-white shadow-[var(--shadow-elevated)] shadow-primary/25 hover:-translate-y-0.5"
                                 : plan.isLifetime
-                                ? "bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-white shadow-md"
-                                : "bg-primary/10 text-primary hover:bg-primary hover:text-white"
+                                ? "bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-white shadow-[var(--shadow-card)]"
+                                : "bg-gray-900 text-white hover:bg-gray-800 shadow-[var(--shadow-card)]"
                             }`}
                             onClick={() => handleSubscribe(plan)}
                             disabled={loadingTier === plan.id}
@@ -623,44 +635,45 @@ export default function PricingPage() {
               )}
 
               <div className="mb-16 max-w-3xl mx-auto">
-                <Card className="border border-gray-100 shadow-sm">
-                  <CardContent className="py-6 px-8">
-                    <div className="flex items-center gap-3 mb-4">
-                      <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
-                        <CreditCard className="w-4 h-4 text-primary" />
+                <Card className="border border-gray-100/80 shadow-[var(--shadow-card)]">
+                  <CardContent className="py-8 px-8">
+                    <div className="flex items-center gap-3 mb-5">
+                      <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">
+                        <CreditCard className="w-5 h-5 text-primary" />
                       </div>
-                      <h3 className="font-semibold text-lg text-gray-900" data-testid="text-bnpl-title">Flexible Payment Options</h3>
+                      <h3 className="font-bold text-lg text-gray-900" data-testid="text-bnpl-title">Flexible Payment Options</h3>
                     </div>
-                    <p className="text-sm text-gray-600 mb-4">Pay your way with credit/debit cards or buy-now-pay-later options at checkout.</p>
+                    <p className="text-sm text-gray-500 mb-5 leading-relaxed">Pay your way. In addition to credit and debit cards, we accept multiple buy-now-pay-later options at checkout so you can start studying immediately.</p>
                     <div className="grid grid-cols-2 sm:grid-cols-4 gap-3" data-testid="bnpl-options-grid">
-                      <div className="flex flex-col items-center p-3 rounded-lg bg-gray-50 border border-gray-100">
+                      <div className="flex flex-col items-center p-4 rounded-xl bg-gray-50/80 border border-gray-100">
                         <span className="text-xs font-bold text-gray-700 mb-1">Credit / Debit</span>
                         <span className="text-[10px] text-gray-400">Visa, Mastercard, Amex</span>
                       </div>
-                      <div className="flex flex-col items-center p-3 rounded-lg bg-[#FFB3C7]/10 border border-[#FFB3C7]/20">
+                      <div className="flex flex-col items-center p-4 rounded-xl bg-[#FFB3C7]/8 border border-[#FFB3C7]/15">
                         <span className="text-xs font-bold text-[#E5678F] mb-1">Klarna</span>
                         <span className="text-[10px] text-gray-400">Pay in 4 installments</span>
                       </div>
-                      <div className="flex flex-col items-center p-3 rounded-lg bg-[#B2FCE4]/10 border border-[#B2FCE4]/30">
+                      <div className="flex flex-col items-center p-4 rounded-xl bg-[#B2FCE4]/8 border border-[#B2FCE4]/20">
                         <span className="text-xs font-bold text-[#00C2A8] mb-1">Afterpay</span>
                         <span className="text-[10px] text-gray-400">Pay in 4 installments</span>
                       </div>
-                      <div className="flex flex-col items-center p-3 rounded-lg bg-[#4A4AFF]/5 border border-[#4A4AFF]/15">
+                      <div className="flex flex-col items-center p-4 rounded-xl bg-[#4A4AFF]/5 border border-[#4A4AFF]/10">
                         <span className="text-xs font-bold text-[#4A4AFF] mb-1">Affirm</span>
                         <span className="text-[10px] text-gray-400">Pay over time (US only)</span>
                       </div>
                     </div>
+                    <p className="text-[10px] text-gray-400 mt-4 text-center">Buy now, pay later options are available at checkout for eligible purchases. Subject to approval by the payment provider.</p>
                   </CardContent>
                 </Card>
               </div>
 
-              <div className="flex flex-col items-center gap-6 text-center">
-                <div className="flex flex-col items-center gap-2 bg-green-50 border border-green-200/60 rounded-2xl px-8 py-5 shadow-sm max-w-md" data-testid="badge-money-back-plans">
-                  <div className="flex items-center gap-3">
-                    <Shield className="w-6 h-6 text-green-600" />
-                    <span className="text-base font-bold text-green-700">{t("pricing.guaranteeBadge")}</span>
+              <div className="flex flex-col items-center gap-8 text-center mt-4">
+                <div className="flex flex-col items-center gap-3 bg-emerald-50/80 border border-emerald-200/40 rounded-3xl px-10 py-8 shadow-[var(--shadow-card)] max-w-md" data-testid="badge-money-back-plans">
+                  <div className="w-14 h-14 rounded-2xl bg-emerald-100/80 flex items-center justify-center mb-1">
+                    <Shield className="w-7 h-7 text-emerald-600" />
                   </div>
-                  <p className="text-sm text-green-600/80">{t("pricing.guaranteeDesc")}</p>
+                  <span className="text-lg font-bold text-emerald-800">{t("pricing.guaranteeBadge")}</span>
+                  <p className="text-sm text-emerald-600/80 leading-relaxed">{t("pricing.guaranteeDesc")}</p>
                 </div>
                 <LocaleLink href="/faq" className="inline-flex items-center gap-2 text-sm text-primary hover:underline font-medium" data-testid="link-faq-plans">
                   <HelpCircle className="w-4 h-4" />

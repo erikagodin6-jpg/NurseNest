@@ -246,40 +246,42 @@ function DynamicTrustCounters({
 
   return (
     <section
-      className="py-14 bg-gradient-to-b from-white to-gray-50/80 border-t border-gray-100"
+      className="border-t border-gray-100"
+      style={{ paddingTop: 'var(--space-block)', paddingBottom: 'var(--space-block)' }}
       data-testid="section-trust-counters"
     >
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-8">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 mb-4">
+        <div className="text-center mb-10">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/8 border border-primary/15 shadow-[var(--shadow-card)] mb-5">
             <BarChart3 className="w-3.5 h-3.5 text-primary" />
             <span className="text-xs font-bold text-primary uppercase tracking-wider">Platform Scale</span>
           </div>
           <h2
-            className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2"
+            className="font-bold text-gray-900 mb-3"
+            style={{ fontSize: 'var(--text-section)' }}
             data-testid="text-trust-counters-heading"
           >
             Built for serious exam preparation
           </h2>
-          <p className="text-gray-600 max-w-2xl mx-auto">
+          <p className="text-gray-500 max-w-2xl mx-auto text-base lg:text-lg">
             A growing library of questions, flashcards, lessons, and study tools — all in one place.
           </p>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-5 mb-10">
           {isLoading
             ? Array.from({ length: 4 }).map((_, i) => <TrustCounterSkeleton key={i} />)
             : counters.map((counter) => (
                 <div
                   key={counter.label}
-                  className={`text-center p-5 rounded-2xl bg-gradient-to-b from-white to-gray-50/50 border ${counter.border} shadow-sm hover:shadow-md transition-shadow`}
+                  className="text-center p-6 rounded-2xl bg-white border border-gray-100/80 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-shadow duration-200"
                   data-testid={`trust-counter-${counter.label.toLowerCase().replace(/\s+/g, "-")}`}
                 >
-                  <div className={`w-10 h-10 rounded-xl bg-gradient-to-br ${counter.gradient} flex items-center justify-center mx-auto mb-3 shadow-sm`}>
+                  <div className={`w-11 h-11 rounded-xl bg-gradient-to-br ${counter.gradient} flex items-center justify-center mx-auto mb-4 shadow-sm`}>
                     <counter.icon className="w-5 h-5 text-white" />
                   </div>
                   <div className="text-2xl sm:text-3xl font-extrabold text-gray-900">{counter.value}</div>
-                  <div className="text-xs font-semibold text-gray-500 uppercase tracking-wide mt-1">{counter.label}</div>
+                  <div className="text-xs font-semibold text-gray-400 uppercase tracking-wide mt-1.5">{counter.label}</div>
                 </div>
               ))}
         </div>
@@ -288,7 +290,7 @@ function DynamicTrustCounters({
           {badges.map((badge) => (
             <div
               key={badge.label}
-              className={`flex items-center gap-2 px-3 py-1.5 rounded-full ${badge.bg} border ${badge.border} text-xs font-medium ${badge.color}`}
+              className={`flex items-center gap-2 px-3.5 py-2 rounded-full ${badge.bg} border ${badge.border} text-xs font-medium ${badge.color} shadow-[var(--shadow-card)]`}
               data-testid={`badge-trust-${badge.label.toLowerCase().replace(/\s+/g, "-")}`}
             >
               <badge.icon className="w-3.5 h-3.5" />
@@ -314,29 +316,31 @@ function ConversionProofBlock({
 
   return (
     <section
-      className="py-16 bg-gradient-to-br from-primary/5 via-violet-50/30 to-white border-t border-primary/10"
+      className="border-t border-gray-100"
+      style={{ paddingTop: 'var(--space-section)', paddingBottom: 'var(--space-section)' }}
       data-testid="section-conversion-proof"
     >
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-10">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-violet-50 border border-violet-200 mb-4">
+        <div className="text-center mb-12">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-violet-50/80 border border-violet-200/40 shadow-[var(--shadow-card)] mb-5">
             <Sparkles className="w-3.5 h-3.5 text-violet-600" />
             <span className="text-xs font-bold text-violet-700 uppercase tracking-wider">Everything You Need</span>
           </div>
           <h2
-            className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-3"
+            className="font-bold text-gray-900 mb-3"
+            style={{ fontSize: 'var(--text-section)' }}
             data-testid="text-conversion-proof-heading"
           >
             Thousands of questions. Thousands of flashcards. One place to study smarter.
           </h2>
-          <p className="text-gray-600 max-w-2xl mx-auto text-lg">
+          <p className="text-gray-500 max-w-2xl mx-auto text-base lg:text-lg leading-relaxed">
             Stop juggling scattered resources. NurseNest brings {formatMarketingCount(questions)} exam-style questions,
             {" "}{formatMarketingCount(flashcards)} flashcards across {formatMarketingCount(decks)} decks, adaptive CAT exams,
             clinical images, and detailed rationales into a single study environment.
           </p>
         </div>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 max-w-4xl mx-auto mb-10">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-4xl mx-auto mb-12">
           {[
             {
               icon: Target,
@@ -377,14 +381,14 @@ function ConversionProofBlock({
           ].map((item) => (
             <div
               key={item.title}
-              className="bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-lg transition-all duration-300 hover:-translate-y-1 p-6"
+              className="bg-white rounded-2xl border border-gray-100/80 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all duration-300 hover:-translate-y-1 p-7"
               data-testid={`card-proof-${item.title.toLowerCase().replace(/\s+/g, "-")}`}
             >
-              <div className={`w-10 h-10 rounded-xl bg-gradient-to-br ${item.accent} flex items-center justify-center mb-3 shadow-sm`}>
+              <div className={`w-11 h-11 rounded-xl bg-gradient-to-br ${item.accent} flex items-center justify-center mb-4 shadow-sm`}>
                 <item.icon className="w-5 h-5 text-white" />
               </div>
-              <h3 className="font-bold text-gray-900 mb-1.5">{item.title}</h3>
-              <p className="text-sm text-gray-600 leading-relaxed">{item.desc}</p>
+              <h3 className="font-bold text-gray-900 mb-2" style={{ fontSize: 'var(--text-card-title)' }}>{item.title}</h3>
+              <p className="text-sm text-gray-500 leading-relaxed">{item.desc}</p>
             </div>
           ))}
         </div>
@@ -392,14 +396,14 @@ function ConversionProofBlock({
         <div className="text-center">
           <Button
             size="lg"
-            className="rounded-full px-8 shadow-lg shadow-primary/20"
+            className="rounded-full px-9 shadow-[var(--shadow-elevated)] shadow-primary/25 font-semibold"
             onClick={() => setLocation("/register")}
             data-testid="button-conversion-proof-cta"
           >
             Start Free — Explore the Full Library
             <ArrowRight className="ml-2 w-5 h-5" />
           </Button>
-          <p className="text-xs text-gray-500 mt-3">No credit card required. Free tier available.</p>
+          <p className="text-xs text-gray-400 mt-4">No credit card required. Free tier available.</p>
         </div>
       </div>
     </section>
@@ -456,47 +460,49 @@ function CompetitivePositioningSection({
 
   return (
     <section
-      className="py-16 bg-gradient-to-b from-white to-gray-50 border-t border-gray-100"
+      className="border-t border-gray-100"
+      style={{ paddingTop: 'var(--space-section)', paddingBottom: 'var(--space-section)' }}
       data-testid="section-competitive-positioning"
     >
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-10">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-50 border border-emerald-200 mb-4">
+        <div className="text-center mb-12">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-50/80 border border-emerald-200/40 shadow-[var(--shadow-card)] mb-5">
             <Shield className="w-3.5 h-3.5 text-emerald-600" />
             <span className="text-xs font-bold text-emerald-700 uppercase tracking-wider">Why NurseNest</span>
           </div>
           <h2
-            className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3"
+            className="font-bold text-gray-900 mb-3"
+            style={{ fontSize: 'var(--text-section)' }}
             data-testid="text-competitive-heading"
           >
             More content. More tools. One subscription.
           </h2>
-          <p className="text-gray-600 max-w-2xl mx-auto">
+          <p className="text-gray-500 max-w-2xl mx-auto text-base lg:text-lg">
             Most study platforms focus on one thing. NurseNest combines questions, flashcards, CAT exams, lessons, and analytics into a single study ecosystem.
           </p>
         </div>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 max-w-4xl mx-auto mb-10">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-4xl mx-auto mb-12">
           {comparisons.map((item) => (
             <div
               key={item.feature}
-              className="bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow p-5"
+              className="bg-white rounded-2xl border border-gray-100/80 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-shadow duration-200 p-6"
               data-testid={`card-compare-${item.feature.toLowerCase().replace(/\s+/g, "-")}`}
             >
-              <div className="flex items-center gap-2.5 mb-3">
-                <div className="w-8 h-8 rounded-lg bg-emerald-50 flex items-center justify-center shrink-0">
+              <div className="flex items-center gap-2.5 mb-4">
+                <div className="w-9 h-9 rounded-xl bg-emerald-50/80 flex items-center justify-center shrink-0">
                   <item.icon className="w-4 h-4 text-emerald-600" />
                 </div>
                 <h3 className="font-bold text-gray-900 text-sm">{item.feature}</h3>
               </div>
-              <div className="space-y-2">
+              <div className="space-y-2.5">
                 <div className="flex items-start gap-2">
                   <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" />
                   <p className="text-sm text-gray-700 leading-relaxed">{item.ours}</p>
                 </div>
-                <div className="flex items-start gap-2 opacity-60">
+                <div className="flex items-start gap-2 opacity-50">
                   <div className="w-4 h-4 rounded-full border-2 border-gray-300 shrink-0 mt-0.5" />
-                  <p className="text-sm text-gray-500 leading-relaxed">{item.typical}</p>
+                  <p className="text-sm text-gray-400 leading-relaxed">{item.typical}</p>
                 </div>
               </div>
             </div>
@@ -507,7 +513,7 @@ function CompetitivePositioningSection({
           <Button
             size="lg"
             variant="outline"
-            className="rounded-full px-8 border-emerald-200 text-emerald-700 hover:bg-emerald-50 hover:border-emerald-300"
+            className="rounded-full px-9 border-emerald-200 text-emerald-700 hover:bg-emerald-50 hover:border-emerald-300 font-medium shadow-[var(--shadow-card)]"
             onClick={() => setLocation("/pricing")}
             data-testid="button-competitive-cta"
           >
@@ -546,31 +552,31 @@ function HowItWorksSection() {
   ];
 
   return (
-    <section id="how-it-works" className="py-16 bg-gradient-to-b from-gray-50 to-white border-t border-gray-100" data-testid="section-how-it-works">
+    <section id="how-it-works" className="border-t border-gray-100" style={{ paddingTop: 'var(--space-section)', paddingBottom: 'var(--space-section)' }} data-testid="section-how-it-works">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-12">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 mb-4">
+        <div className="text-center mb-14">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/8 border border-primary/15 shadow-[var(--shadow-card)] mb-5">
             <Zap className="w-3.5 h-3.5 text-primary" />
             <span className="text-xs font-bold text-primary uppercase tracking-wider">How It Works</span>
           </div>
-          <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-3" data-testid="text-how-it-works-heading">
+          <h2 className="font-bold text-gray-900 mb-3" style={{ fontSize: 'var(--text-section)' }} data-testid="text-how-it-works-heading">
             Three Steps to Exam Readiness
           </h2>
-          <p className="text-lg text-gray-600">A proven system to prepare you for nursing licensure.</p>
+          <p className="text-base lg:text-lg text-gray-500">A proven system to prepare you for nursing licensure.</p>
         </div>
-        <div className="grid md:grid-cols-3 gap-8">
+        <div className="grid md:grid-cols-3 gap-10">
           {steps.map((item, i) => (
             <div key={i} className="relative text-center" data-testid={`step-how-it-works-${i}`}>
               {i < 2 && (
-                <div className="hidden md:block absolute top-10 left-[60%] w-[80%] h-px bg-gradient-to-r from-gray-300 to-transparent z-0" />
+                <div className="hidden md:block absolute top-12 left-[60%] w-[80%] h-px bg-gradient-to-r from-gray-200 to-transparent z-0" />
               )}
               <div className="relative z-10">
-                <div className={`mx-auto w-20 h-20 rounded-2xl bg-gradient-to-br ${item.color} flex items-center justify-center mb-5 shadow-lg`}>
+                <div className={`mx-auto w-20 h-20 rounded-2xl bg-gradient-to-br ${item.color} flex items-center justify-center mb-6 shadow-[var(--shadow-elevated)]`}>
                   <item.icon className="w-9 h-9 text-white" />
                 </div>
                 <div className="inline-flex items-center justify-center w-7 h-7 rounded-full bg-gray-900 text-white text-xs font-bold mb-3">{item.step}</div>
                 <h3 className="text-xl font-bold text-gray-900 mb-2">{item.title}</h3>
-                <p className="text-sm text-gray-600 leading-relaxed max-w-xs mx-auto">{item.desc}</p>
+                <p className="text-sm text-gray-500 leading-relaxed max-w-xs mx-auto">{item.desc}</p>
               </div>
             </div>
           ))}
@@ -623,13 +629,13 @@ function FeatureCardsSection({ questionCount }: { questionCount: number }) {
   ];
 
   return (
-    <section className="py-16 bg-white" data-testid="section-feature-cards">
+    <section style={{ paddingTop: 'var(--space-section)', paddingBottom: 'var(--space-section)' }} data-testid="section-feature-cards">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-10">
-          <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-3" data-testid="text-feature-cards-heading">
+        <div className="text-center mb-12">
+          <h2 className="font-bold text-gray-900 mb-3" style={{ fontSize: 'var(--text-section)' }} data-testid="text-feature-cards-heading">
             Everything You Need to Pass
           </h2>
-          <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+          <p className="text-base lg:text-lg text-gray-500 max-w-3xl mx-auto">
             A complete exam prep toolkit built specifically for nursing students.
           </p>
         </div>
@@ -637,21 +643,21 @@ function FeatureCardsSection({ questionCount }: { questionCount: number }) {
           {features.map((feature, i) => (
             <Card
               key={i}
-              className="border border-gray-100 hover:shadow-xl transition-all duration-300 hover:-translate-y-1 cursor-pointer group overflow-hidden"
+              className="border border-gray-100/80 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all duration-300 hover:-translate-y-1 cursor-pointer group overflow-hidden"
               onClick={() => setLocation(feature.href)}
               data-testid={`card-feature-${i}`}
             >
-              <CardContent className="p-6">
-                <div className={`w-12 h-12 ${feature.color} rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform`}>
+              <CardContent className="p-7">
+                <div className={`w-12 h-12 ${feature.color} rounded-xl flex items-center justify-center mb-5 group-hover:scale-110 transition-transform`}>
                   <feature.icon className={`w-6 h-6 ${feature.iconColor}`} />
                 </div>
-                <h3 className="text-lg font-bold text-gray-900 mb-2">{feature.title}</h3>
-                <p className="text-sm text-gray-600 leading-relaxed mb-3">{feature.desc}</p>
+                <h3 className="font-bold text-gray-900 mb-2" style={{ fontSize: 'var(--text-card-title)' }}>{feature.title}</h3>
+                <p className="text-sm text-gray-500 leading-relaxed mb-4">{feature.desc}</p>
                 <div className="flex flex-wrap gap-1.5">
                   {feature.tags.map((tag) => (
                     <span
                       key={tag}
-                      className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-gray-50 text-gray-600 border border-gray-100"
+                      className="text-[10px] font-semibold px-2.5 py-1 rounded-full bg-gray-50/80 text-gray-500 border border-gray-100"
                     >
                       {tag}
                     </span>
@@ -711,20 +717,20 @@ function ScreenshotCarouselSection() {
   const currentSrc = screenshotData[current.imageKey];
 
   return (
-    <section className="py-16 bg-gradient-to-b from-gray-50 via-white to-gray-50 overflow-hidden" data-testid="section-screenshot-carousel">
+    <section className="overflow-hidden border-t border-gray-100" style={{ paddingTop: 'var(--space-section)', paddingBottom: 'var(--space-section)' }} data-testid="section-screenshot-carousel">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-10">
-          <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-3" data-testid="text-screenshots-heading">
+        <div className="text-center mb-12">
+          <h2 className="font-bold text-gray-900 mb-3" style={{ fontSize: 'var(--text-section)' }} data-testid="text-screenshots-heading">
             See the Platform in Action
           </h2>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+          <p className="text-base lg:text-lg text-gray-500 max-w-2xl mx-auto">
             From adaptive analytics to exam-style practice, explore what NurseNest looks like inside.
           </p>
         </div>
 
         <div className="max-w-4xl mx-auto">
           <div className="relative group">
-            <div className="relative rounded-2xl overflow-hidden bg-white shadow-xl border border-gray-100">
+            <div className="relative rounded-2xl overflow-hidden bg-white shadow-[var(--shadow-elevated)] border border-gray-100/80">
               <div className="relative aspect-[16/10] overflow-hidden bg-gray-50">
                 <img
                   srcSet={currentSrc.srcSet}
@@ -744,7 +750,7 @@ function ScreenshotCarouselSection() {
 
               <button
                 onClick={goPrev}
-                className="absolute left-2 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/90 backdrop-blur-sm shadow-md border border-gray-200 flex items-center justify-center hover:bg-white transition-colors opacity-0 group-hover:opacity-100 focus:opacity-100"
+                className="absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/95 backdrop-blur-sm shadow-[var(--shadow-card)] border border-gray-100 flex items-center justify-center hover:bg-white transition-colors opacity-0 group-hover:opacity-100 focus:opacity-100"
                 aria-label="Previous screenshot"
                 data-testid="button-carousel-prev"
               >
@@ -752,7 +758,7 @@ function ScreenshotCarouselSection() {
               </button>
               <button
                 onClick={goNext}
-                className="absolute right-2 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/90 backdrop-blur-sm shadow-md border border-gray-200 flex items-center justify-center hover:bg-white transition-colors opacity-0 group-hover:opacity-100 focus:opacity-100"
+                className="absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/95 backdrop-blur-sm shadow-[var(--shadow-card)] border border-gray-100 flex items-center justify-center hover:bg-white transition-colors opacity-0 group-hover:opacity-100 focus:opacity-100"
                 aria-label="Next screenshot"
                 data-testid="button-carousel-next"
               >
@@ -760,17 +766,17 @@ function ScreenshotCarouselSection() {
               </button>
             </div>
 
-            <div className="mt-4 text-center">
-              <h3 className="text-base font-bold text-gray-900" data-testid="text-carousel-title">
+            <div className="mt-5 text-center">
+              <h3 className="font-bold text-gray-900" style={{ fontSize: 'var(--text-card-title)' }} data-testid="text-carousel-title">
                 {current.title}
               </h3>
-              <p className="text-sm text-gray-500 mt-1">{current.blurb}</p>
+              <p className="text-sm text-gray-500 mt-1.5">{current.blurb}</p>
             </div>
           </div>
 
           <div
             ref={thumbnailStripRef}
-            className="flex gap-2 overflow-x-auto pb-2 mt-4 scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent -mx-1 px-1 snap-x snap-mandatory justify-center"
+            className="flex gap-2.5 overflow-x-auto pb-2 mt-5 scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent -mx-1 px-1 snap-x snap-mandatory justify-center"
           >
             {screenshotItems.map((item, idx) => {
               const thumbSrc = screenshotData[item.imageKey];
@@ -779,10 +785,10 @@ function ScreenshotCarouselSection() {
                   key={item.id}
                   onClick={() => goTo(idx)}
                   aria-label={`View ${item.title}`}
-                  className={`shrink-0 w-16 h-12 sm:w-20 sm:h-14 rounded-lg overflow-hidden border-2 transition-all duration-200 snap-start ${
+                  className={`shrink-0 w-16 h-12 sm:w-20 sm:h-14 rounded-xl overflow-hidden border-2 transition-all duration-200 snap-start ${
                     idx === activeIndex
-                      ? "border-primary ring-2 ring-primary/20 shadow-md scale-105"
-                      : "border-gray-200 hover:border-primary/40 opacity-70 hover:opacity-100"
+                      ? "border-primary ring-2 ring-primary/20 shadow-[var(--shadow-card)] scale-105"
+                      : "border-gray-200 hover:border-primary/30 opacity-70 hover:opacity-100"
                   }`}
                   data-testid={`thumb-carousel-${item.id}`}
                 >
@@ -821,22 +827,22 @@ function ProfessionSelectorSection() {
   ];
 
   return (
-    <section className="py-16 bg-gradient-to-b from-white to-gray-50 border-t border-gray-100" data-testid="section-profession-selector">
+    <section className="border-t border-gray-100" style={{ paddingTop: 'var(--space-section)', paddingBottom: 'var(--space-section)' }} data-testid="section-profession-selector">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-10">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 mb-4">
+        <div className="text-center mb-12">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/8 border border-primary/15 shadow-[var(--shadow-card)] mb-5">
             <Brain className="w-3.5 h-3.5 text-primary" />
             <span className="text-xs font-bold text-primary uppercase tracking-wider">Choose Your Path</span>
           </div>
-          <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-3" data-testid="text-profession-heading">
+          <h2 className="font-bold text-gray-900 mb-3" style={{ fontSize: 'var(--text-section)' }} data-testid="text-profession-heading">
             Exam Prep for Every Healthcare Career
           </h2>
-          <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+          <p className="text-base lg:text-lg text-gray-500 max-w-3xl mx-auto">
             Select your profession to access tailored content, practice questions, and study plans.
           </p>
         </div>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 max-w-5xl mx-auto">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 max-w-5xl mx-auto">
           {professions.map((prof) => {
             const IconComp = prof.icon;
             const isAllied = ["paramedic", "rrt", "mlt", "imaging"].includes(prof.id);
@@ -852,23 +858,23 @@ function ProfessionSelectorSection() {
             return (
               <div
                 key={prof.id}
-                className="relative bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-lg transition-all duration-300 hover:-translate-y-1 p-5 cursor-pointer group overflow-hidden"
+                className="relative bg-white rounded-2xl border border-gray-100/80 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all duration-300 hover:-translate-y-1 p-6 cursor-pointer group overflow-hidden"
                 onClick={handleClick}
                 data-testid={`card-profession-${prof.id}`}
               >
                 {isAllied && (
-                  <div className="absolute top-2.5 right-2.5">
-                    <span className="text-[8px] font-bold uppercase tracking-wider bg-teal-500 text-white px-1.5 py-0.5 rounded-full">Allied</span>
+                  <div className="absolute top-3 right-3">
+                    <span className="text-[8px] font-bold uppercase tracking-wider bg-teal-500 text-white px-2 py-0.5 rounded-full">Allied</span>
                   </div>
                 )}
                 <div
-                  className="w-11 h-11 rounded-xl flex items-center justify-center mb-3"
+                  className="w-11 h-11 rounded-xl flex items-center justify-center mb-4"
                   style={{ backgroundColor: prof.accent }}
                 >
                   <IconComp className="w-5 h-5" style={{ color: prof.color }} />
                 </div>
                 <h3 className="font-bold text-gray-900 text-base mb-0.5">{prof.label}</h3>
-                <p className="text-xs text-gray-500">{prof.sublabel}</p>
+                <p className="text-xs text-gray-400">{prof.sublabel}</p>
                 <div className="flex items-center text-xs font-medium mt-3 group-hover:gap-1.5 transition-all" style={{ color: prof.color }}>
                   <span>Explore</span>
                   <ArrowRight className="w-3.5 h-3.5 ml-0.5 opacity-0 group-hover:opacity-100 transition-opacity" />
@@ -903,22 +909,22 @@ function SampleQuestionSection() {
   };
 
   return (
-    <section className="py-16 bg-white border-t border-gray-100" data-testid="section-sample-question">
+    <section className="border-t border-gray-100" style={{ paddingTop: 'var(--space-section)', paddingBottom: 'var(--space-section)' }} data-testid="section-sample-question">
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-8">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-50 border border-emerald-200 mb-4">
+        <div className="text-center mb-10">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-50/80 border border-emerald-200/40 shadow-[var(--shadow-card)] mb-5">
             <FileText className="w-3.5 h-3.5 text-emerald-600" />
             <span className="text-xs font-bold text-emerald-700 uppercase tracking-wider">Try It Free</span>
           </div>
-          <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-3" data-testid="text-sample-question-heading">
+          <h2 className="font-bold text-gray-900 mb-3" style={{ fontSize: 'var(--text-section)' }} data-testid="text-sample-question-heading">
             Sample Exam Question
           </h2>
-          <p className="text-lg text-gray-600">
+          <p className="text-base lg:text-lg text-gray-500">
             Experience the quality of our questions and rationales — no signup required.
           </p>
         </div>
 
-        <div className="bg-white rounded-2xl border border-gray-200 shadow-lg overflow-hidden" data-testid="card-sample-question">
+        <div className="bg-white rounded-2xl border border-gray-100/80 shadow-[var(--shadow-elevated)] overflow-hidden" data-testid="card-sample-question">
           <div className="bg-gray-50 px-6 py-3 border-b border-gray-200 flex items-center justify-between">
             <div className="flex items-center gap-2">
               <Badge variant="outline" className="text-xs">{sampleQuestion.category}</Badge>
@@ -1043,37 +1049,37 @@ function TestimonialsSection() {
   ];
 
   return (
-    <section className="py-16 bg-gradient-to-b from-gray-50 to-white border-t border-gray-100" data-testid="section-testimonials">
+    <section className="border-t border-gray-100" style={{ paddingTop: 'var(--space-section)', paddingBottom: 'var(--space-section)' }} data-testid="section-testimonials">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-10">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-amber-50 border border-amber-200 mb-4">
+        <div className="text-center mb-12">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-amber-50/80 border border-amber-200/40 shadow-[var(--shadow-card)] mb-5">
             <Star className="w-3.5 h-3.5 text-amber-500 fill-amber-500" />
             <span className="text-xs font-bold text-amber-700 uppercase tracking-wider">Student Reviews</span>
           </div>
-          <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-3" data-testid="text-testimonials-heading">
+          <h2 className="font-bold text-gray-900 mb-3" style={{ fontSize: 'var(--text-section)' }} data-testid="text-testimonials-heading">
             Trusted by Nursing Students Across North America
           </h2>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+          <p className="text-base lg:text-lg text-gray-500 max-w-2xl mx-auto">
             Real results from real students preparing for their nursing exams.
           </p>
         </div>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
           {reviews.map((review, i) => (
-            <Card key={i} className="border border-gray-100 hover:shadow-md transition-shadow" data-testid={`card-testimonial-${i}`}>
+            <Card key={i} className="border border-gray-100/80 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-shadow duration-200" data-testid={`card-testimonial-${i}`}>
               <CardContent className="p-6">
-                <div className="flex items-center gap-1 mb-3">
+                <div className="flex items-center gap-1 mb-4">
                   {Array.from({ length: 5 }).map((_, s) => (
                     <Star key={s} className={`w-4 h-4 ${s < review.rating ? "text-amber-400 fill-amber-400" : "text-gray-200"}`} />
                   ))}
                 </div>
-                <p className="text-gray-700 text-sm leading-relaxed mb-4" data-testid={`text-testimonial-${i}`}>
+                <p className="text-gray-600 text-sm leading-relaxed mb-5" data-testid={`text-testimonial-${i}`}>
                   "{review.text}"
                 </p>
-                <div className="flex items-center justify-between">
+                <div className="flex items-center justify-between pt-4 border-t border-gray-100">
                   <div>
                     <p className="font-semibold text-gray-900 text-sm">{review.name}</p>
-                    <p className="text-xs text-gray-500">{review.role}</p>
+                    <p className="text-xs text-gray-400">{review.role}</p>
                   </div>
                   <Badge variant="outline" className="text-xs">{review.tier}</Badge>
                 </div>
@@ -1083,7 +1089,7 @@ function TestimonialsSection() {
         </div>
 
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-8 text-sm text-gray-500">
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2.5">
             <div className="flex -space-x-2">
               {["bg-blue-400", "bg-emerald-400", "bg-purple-400", "bg-amber-400"].map((bg, i) => (
                 <div key={i} className={`w-7 h-7 rounded-full ${bg} border-2 border-white flex items-center justify-center text-white text-[10px] font-bold`}>
@@ -1108,18 +1114,18 @@ function FinalCTASection() {
   const [, setLocation] = useLocation();
 
   return (
-    <section className="py-20 relative overflow-hidden bg-gradient-to-b from-white to-primary/5" data-testid="section-final-cta">
+    <section className="relative overflow-hidden" style={{ paddingTop: 'var(--space-section)', paddingBottom: 'var(--space-section)' }} data-testid="section-final-cta">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
-        <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-6" data-testid="text-final-cta-heading">
+        <h2 className="font-bold text-gray-900 mb-5" style={{ fontSize: 'var(--text-section)' }} data-testid="text-final-cta-heading">
           Ready to Start Your Exam Prep Journey?
         </h2>
-        <p className="text-xl text-gray-600 mb-10 max-w-2xl mx-auto leading-relaxed">
+        <p className="text-lg lg:text-xl text-gray-500 mb-10 max-w-2xl mx-auto leading-relaxed">
           Join thousands of nursing students who passed their exams with NurseNest. Start for free — no credit card required.
         </p>
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
           <Button
             size="lg"
-            className="h-14 px-10 text-lg rounded-full bg-primary hover:brightness-110 shadow-lg shadow-primary/20 text-white transition-[transform,box-shadow] hover:-translate-y-1"
+            className="h-14 px-10 text-lg rounded-full bg-primary hover:brightness-110 shadow-[var(--shadow-elevated)] shadow-primary/25 text-white transition-all hover:-translate-y-0.5 font-semibold"
             onClick={() => setLocation("/register")}
             data-testid="button-final-cta-start"
           >
@@ -1129,21 +1135,21 @@ function FinalCTASection() {
           <Button
             size="lg"
             variant="outline"
-            className="h-14 px-8 text-lg rounded-full border-2 border-primary/20 hover:bg-primary/5 text-gray-700"
+            className="h-14 px-8 text-lg rounded-full border border-gray-200 hover:bg-gray-50 hover:border-gray-300 text-gray-700 bg-white font-medium"
             onClick={() => setLocation("/pricing")}
             data-testid="button-final-cta-pricing"
           >
             View Pricing
           </Button>
         </div>
-        <div className="flex items-center justify-center gap-2 mt-6 mb-2">
+        <div className="flex items-center justify-center gap-2 mt-8 mb-2">
           <ShieldCheck className="w-5 h-5 text-emerald-600" />
           <span className="text-sm font-semibold text-emerald-700">7-Day Money-Back Guarantee</span>
         </div>
         <p className="text-sm text-gray-400">Free account includes practice questions, lessons, and flashcard access.</p>
       </div>
 
-      <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-r from-primary/5 to-accent-foreground/5 rounded-full blur-3xl -z-10 opacity-40" />
+      <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-r from-primary/4 to-accent-foreground/4 rounded-full blur-[100px] -z-10 opacity-40" />
     </section>
   );
 }

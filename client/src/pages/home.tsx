@@ -209,35 +209,37 @@ export default function Home() {
       <Navigation />
       
       <main className="flex-grow">
-        <section className="relative overflow-hidden py-16 lg:py-24" data-testid="hero-section">
+        <section className="relative overflow-hidden" style={{ paddingTop: 'var(--space-section)', paddingBottom: 'var(--space-section)' }} data-testid="hero-section">
           <div className="absolute top-0 left-0 w-full h-full overflow-hidden -z-10 pointer-events-none hidden md:block">
-            <div className="absolute top-[-10%] right-[-5%] w-[500px] h-[500px] rounded-full bg-primary/10 blur-3xl" />
-            <div className="absolute bottom-[10%] left-[-10%] w-[600px] h-[600px] rounded-full bg-secondary/30 blur-3xl" />
+            <div className="absolute top-[-10%] right-[-5%] w-[500px] h-[500px] rounded-full bg-primary/8 blur-[80px]" />
+            <div className="absolute bottom-[10%] left-[-10%] w-[600px] h-[600px] rounded-full bg-secondary/20 blur-[100px]" />
           </div>
           <div className="absolute top-0 left-0 w-full h-full overflow-hidden -z-10 pointer-events-none md:hidden">
-            <div className="absolute top-[20%] left-[30%] w-[300px] h-[300px] rounded-full bg-primary/8 blur-2xl" />
+            <div className="absolute top-[20%] left-[30%] w-[300px] h-[300px] rounded-full bg-primary/6 blur-[60px]" />
           </div>
 
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
-              <div className="space-y-6 md:animate-in md:fade-in md:slide-in-from-bottom-8 md:duration-700">
-                <div className="inline-flex items-center gap-2 px-3 sm:px-4 py-2 rounded-full bg-white border border-primary/20 shadow-sm max-w-[90vw]">
+            <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+              <div className="space-y-8 md:animate-in md:fade-in md:slide-in-from-bottom-8 md:duration-700">
+                <div className="inline-flex items-center gap-2 px-3 sm:px-4 py-2 rounded-full bg-white border border-primary/15 shadow-[var(--shadow-card)] max-w-[90vw]">
                   <span className="flex h-2 w-2 rounded-full bg-emerald-500 shrink-0 skeleton-pulse"></span>
                   <span className="text-xs sm:text-sm font-medium text-gray-600 truncate">{t("home.new.announcement")}</span>
                 </div>
                 
-                <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-gray-900 leading-[1.1]" data-testid="text-hero-heading">
-                  Master Your Nursing Exam with Confidence
-                </h1>
+                <div className="space-y-4">
+                  <h1 className="font-bold tracking-tight text-gray-900 leading-[1.08]" style={{ fontSize: 'var(--text-hero)' }} data-testid="text-hero-heading">
+                    Master Your Nursing Exam with Confidence
+                  </h1>
+                  
+                  <p className="text-lg lg:text-xl text-gray-500 leading-relaxed max-w-xl" data-testid="text-hero-subheading">
+                    {formatCount(questionCount)} practice questions, {flashcardCount > 0 ? `${formatCount(flashcardCount)} flashcards, ` : ""}{formatCount(lessonCount)} clinical lessons, and adaptive mock exams — built for RPN, RN, NP, and allied health students.
+                  </p>
+                </div>
                 
-                <p className="text-lg text-gray-600 leading-relaxed" data-testid="text-hero-subheading">
-                  {formatCount(questionCount)} practice questions, {flashcardCount > 0 ? `${formatCount(flashcardCount)} flashcards across ${formatCount(deckCount)} decks, ` : ""}{formatCount(lessonCount)} clinical lessons, adaptive CAT exams, and personalized study plans — built for RPN, RN, NP, and allied health students.
-                </p>
-                
-                <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 pt-2">
+                <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
                   <Button 
                     size="lg" 
-                    className="h-12 sm:h-14 px-6 sm:px-8 text-base sm:text-lg rounded-full bg-primary hover:brightness-110 shadow-lg shadow-primary/20 transition-[transform,box-shadow] hover:-translate-y-1 text-white w-full sm:w-auto" 
+                    className="h-13 sm:h-14 px-7 sm:px-9 text-base sm:text-lg rounded-full bg-primary hover:brightness-110 shadow-[var(--shadow-elevated)] shadow-primary/25 transition-all hover:-translate-y-0.5 text-white w-full sm:w-auto font-semibold" 
                     onClick={() => setLocation("/register")}
                     data-testid="button-hero-start-free"
                   >
@@ -247,7 +249,7 @@ export default function Home() {
                   <Button 
                     size="lg" 
                     variant="outline" 
-                    className="h-12 sm:h-14 px-6 sm:px-8 text-base sm:text-lg rounded-full border-2 border-primary/20 hover:bg-primary/5 hover:border-primary/40 text-gray-700 bg-white/50 w-full sm:w-auto" 
+                    className="h-13 sm:h-14 px-7 sm:px-9 text-base sm:text-lg rounded-full border border-gray-200 hover:bg-gray-50 hover:border-gray-300 text-gray-700 bg-white w-full sm:w-auto font-medium" 
                     onClick={() => setLocation("/lessons")}
                     data-testid="button-hero-browse"
                   >
@@ -256,32 +258,39 @@ export default function Home() {
                   </Button>
                 </div>
 
-                <div className="space-y-2 pt-1">
-                  <p className="text-xs text-gray-500">{t("home.hero.reassurance")}</p>
-                  <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-700">
-                    <Shield className="w-3.5 h-3.5" />
-                    <span className="text-xs font-semibold">{t("home.hero.guarantee")}</span>
+                <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-gray-500">
+                  <div className="flex items-center gap-2">
+                    <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0" />
+                    <span>No credit card required</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Shield className="w-4 h-4 text-emerald-500 shrink-0" />
+                    <span>{t("home.hero.guarantee")}</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0" />
+                    <span>Cancel anytime</span>
                   </div>
                 </div>
 
-                <div className="flex flex-wrap items-center gap-3 text-sm text-gray-600 pt-2">
-                  <div className="flex items-center gap-2 px-3 py-2 bg-white/70 rounded-full border border-primary/10 backdrop-blur-sm shadow-sm">
-                    <CheckCircle2 className="w-4 h-4 text-primary shrink-0" />
-                    <span>{t("home.pill.learntest")}</span>
+                <div className="flex flex-wrap items-center gap-2.5 pt-1">
+                  <div className="flex items-center gap-2 px-3.5 py-2 bg-white rounded-full border border-gray-100 shadow-[var(--shadow-card)]">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-primary shrink-0" />
+                    <span className="text-xs font-medium text-gray-600">{t("home.pill.learntest")}</span>
                   </div>
-                  <div className="flex items-center gap-2 px-3 py-2 bg-white/70 rounded-full border border-primary/10 backdrop-blur-sm shadow-sm">
-                    <CheckCircle2 className="w-4 h-4 text-primary shrink-0" />
-                    <span>{t("home.pill.decks")}</span>
+                  <div className="flex items-center gap-2 px-3.5 py-2 bg-white rounded-full border border-gray-100 shadow-[var(--shadow-card)]">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-primary shrink-0" />
+                    <span className="text-xs font-medium text-gray-600">{t("home.pill.decks")}</span>
                   </div>
-                  <div className="flex items-center gap-2 px-3 py-2 bg-white/70 rounded-full border border-primary/10 backdrop-blur-sm shadow-sm">
-                    <CheckCircle2 className="w-4 h-4 text-primary shrink-0" />
-                    <span>{t("home.pill.tracks")}</span>
+                  <div className="flex items-center gap-2 px-3.5 py-2 bg-white rounded-full border border-gray-100 shadow-[var(--shadow-card)]">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-primary shrink-0" />
+                    <span className="text-xs font-medium text-gray-600">{t("home.pill.tracks")}</span>
                   </div>
                 </div>
               </div>
 
               <div className="relative hidden lg:block">
-                <div className="rounded-2xl overflow-hidden shadow-2xl border border-gray-100 bg-white">
+                <div className="rounded-2xl overflow-hidden shadow-[var(--shadow-elevated)] border border-gray-100/80 bg-white">
                   <img
                     srcSet="/screenshots/screenshot2_1773379293573-480w.webp 480w, /screenshots/screenshot2_1773379293573-768w.webp 768w, /screenshots/screenshot2_1773379293573-1200w.webp 1200w"
                     sizes="(max-width: 768px) 480px, 600px"
@@ -295,27 +304,37 @@ export default function Home() {
                     data-testid="img-hero-screenshot"
                   />
                 </div>
-                <div className="absolute -bottom-4 -left-4 bg-white rounded-xl shadow-lg border border-gray-100 px-4 py-3 flex items-center gap-2">
-                  <div className="w-8 h-8 rounded-full bg-emerald-100 flex items-center justify-center">
-                    <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+                <div className="absolute -bottom-5 -left-5 bg-white rounded-2xl shadow-[var(--shadow-card-hover)] border border-gray-100/80 px-5 py-3.5 flex items-center gap-3">
+                  <div className="w-9 h-9 rounded-full bg-emerald-50 flex items-center justify-center">
+                    <CheckCircle2 className="w-4.5 h-4.5 text-emerald-600" />
                   </div>
                   <div>
-                    <div className="text-xs font-bold text-gray-900">94% Pass Rate</div>
-                    <div className="text-[10px] text-gray-500">First-attempt students</div>
+                    <div className="text-sm font-bold text-gray-900">94% Pass Rate</div>
+                    <div className="text-xs text-gray-500">First-attempt students</div>
                   </div>
+                </div>
+                <div className="absolute -top-3 -right-3 bg-white rounded-2xl shadow-[var(--shadow-card-hover)] border border-gray-100/80 px-4 py-2.5 flex items-center gap-2">
+                  <div className="flex -space-x-1.5">
+                    {["bg-blue-400", "bg-emerald-400", "bg-purple-400"].map((bg, i) => (
+                      <div key={i} className={`w-6 h-6 rounded-full ${bg} border-2 border-white flex items-center justify-center text-white text-[9px] font-bold`}>
+                        {["P", "J", "A"][i]}
+                      </div>
+                    ))}
+                  </div>
+                  <span className="text-xs font-semibold text-gray-700">5,000+ students</span>
                 </div>
               </div>
             </div>
 
             {region === "CA" && (
-              <div className="mt-10 max-w-2xl mx-auto lg:mx-0" data-testid="banner-canadian-content">
-                <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-red-50 via-white to-red-50 border border-red-200/60 shadow-md px-6 py-5">
-                  <div className="absolute top-0 left-0 w-1.5 h-full bg-red-500 rounded-l-2xl" />
+              <div className="mt-12 max-w-2xl mx-auto lg:mx-0" data-testid="banner-canadian-content">
+                <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-red-50/80 via-white to-red-50/80 border border-red-200/40 shadow-[var(--shadow-card)] px-6 py-5">
+                  <div className="absolute top-0 left-0 w-1 h-full bg-red-500 rounded-l-2xl" />
                   <div className="flex items-start gap-4 pl-2">
                     <span className="text-3xl shrink-0 mt-0.5" role="img" aria-label="Canadian flag">🍁</span>
                     <div>
                       <p className="font-bold text-gray-900 text-base">{t("home.canadian.title")}</p>
-                      <p className="text-sm text-gray-600 mt-1 leading-relaxed">
+                      <p className="text-sm text-gray-500 mt-1 leading-relaxed">
                         {t("home.canadian.desc")}
                       </p>
                     </div>
@@ -335,31 +354,33 @@ export default function Home() {
           </Suspense>
         </LazySection>
 
-        <section className="py-12 bg-gradient-to-r from-blue-50 via-indigo-50/50 to-purple-50/30" data-testid="section-career-journey-cta">
+        <section className="border-t border-gray-100" style={{ paddingTop: 'var(--space-block)', paddingBottom: 'var(--space-block)' }} data-testid="section-career-journey-cta">
           <div className="max-w-5xl mx-auto px-4 sm:px-6 text-center">
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white border border-blue-200 shadow-sm mb-4">
-              <ArrowRight className="w-3.5 h-3.5 text-blue-600" />
-              <span className="text-xs sm:text-sm font-medium text-blue-700">Study → Pass → Transition → Get Hired</span>
-            </div>
-            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3">See Your Complete Career Path</h2>
-            <p className="text-gray-600 max-w-2xl mx-auto mb-6">Follow the step-by-step journey from exam prep to career launch. Every stage connects to the resources you need.</p>
-            <div className="flex flex-wrap justify-center gap-3">
-              <Button
-                className="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-xl"
-                onClick={() => setLocation("/career-journey")}
-                data-testid="button-career-journey-home"
-              >
-                Explore Your Career Journey
-                <ArrowRight className="w-4 h-4 ml-2" />
-              </Button>
-              <Button
-                variant="outline"
-                className="border-blue-200 text-blue-700 hover:bg-blue-50 px-5 py-2.5 rounded-xl"
-                onClick={() => setLocation("/career-journey/nursing")}
-                data-testid="button-career-journey-nursing"
-              >
-                RN Career Path
-              </Button>
+            <div className="bg-gradient-to-r from-blue-50/60 via-indigo-50/40 to-purple-50/30 rounded-3xl border border-blue-100/60 p-8 sm:p-12 shadow-[var(--shadow-card)]">
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white border border-blue-200/60 shadow-[var(--shadow-card)] mb-5">
+                <ArrowRight className="w-3.5 h-3.5 text-blue-600" />
+                <span className="text-xs sm:text-sm font-medium text-blue-700">Study → Pass → Transition → Get Hired</span>
+              </div>
+              <h2 className="font-bold text-gray-900 mb-3" style={{ fontSize: 'var(--text-section)' }}>See Your Complete Career Path</h2>
+              <p className="text-gray-500 max-w-2xl mx-auto mb-8 text-base lg:text-lg">Follow the step-by-step journey from exam prep to career launch. Every stage connects to the resources you need.</p>
+              <div className="flex flex-wrap justify-center gap-3">
+                <Button
+                  className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-full font-semibold shadow-[var(--shadow-card)]"
+                  onClick={() => setLocation("/career-journey")}
+                  data-testid="button-career-journey-home"
+                >
+                  Explore Your Career Journey
+                  <ArrowRight className="w-4 h-4 ml-2" />
+                </Button>
+                <Button
+                  variant="outline"
+                  className="border-blue-200 text-blue-700 hover:bg-blue-50 px-6 py-3 rounded-full font-medium"
+                  onClick={() => setLocation("/career-journey/nursing")}
+                  data-testid="button-career-journey-nursing"
+                >
+                  RN Career Path
+                </Button>
+              </div>
             </div>
           </div>
         </section>

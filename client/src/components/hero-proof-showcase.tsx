@@ -198,18 +198,19 @@ export function HeroProofShowcase() {
 
   return (
     <section
-      className="relative py-16 lg:py-24 bg-gradient-to-b from-gray-50 via-white to-gray-50 overflow-hidden"
+      className="relative overflow-hidden"
+      style={{ paddingTop: 'var(--space-section)', paddingBottom: 'var(--space-section)' }}
       data-testid="section-hero-proof-showcase"
     >
       <div className="absolute inset-0 -z-10 pointer-events-none overflow-hidden">
-        <div className="absolute top-[10%] right-[-8%] w-[400px] h-[400px] rounded-full bg-purple-100/40 blur-3xl" />
-        <div className="absolute bottom-[5%] left-[-5%] w-[350px] h-[350px] rounded-full bg-blue-100/30 blur-3xl" />
+        <div className="absolute top-[10%] right-[-8%] w-[400px] h-[400px] rounded-full bg-purple-100/30 blur-[80px]" />
+        <div className="absolute bottom-[5%] left-[-5%] w-[350px] h-[350px] rounded-full bg-blue-100/20 blur-[80px]" />
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-          <div className="space-y-6 lg:space-y-8">
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-purple-50 border border-purple-200/60">
+        <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+          <div className="space-y-8">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-purple-50/80 border border-purple-200/40 shadow-[var(--shadow-card)]">
               <Sparkles className="w-3.5 h-3.5 text-purple-500" />
               <span className="text-xs font-bold text-purple-700 uppercase tracking-wider">
                 Platform Preview
@@ -217,25 +218,24 @@ export function HeroProofShowcase() {
             </div>
 
             <h2
-              className="text-3xl sm:text-4xl lg:text-[2.75rem] font-bold text-gray-900 leading-tight tracking-tight"
+              className="font-bold text-gray-900 leading-tight tracking-tight"
+              style={{ fontSize: 'var(--text-section)' }}
               data-testid="text-proof-headline"
             >
-              Pass with confidence using adaptive nursing practice that feels like the real exam
+              Adaptive nursing practice that feels like the real exam
             </h2>
 
             <p
-              className="text-lg text-gray-600 leading-relaxed"
+              className="text-base lg:text-lg text-gray-500 leading-relaxed"
               data-testid="text-proof-subheadline"
             >
-              NurseNest helps nursing students strengthen weak areas, build confidence, and track
-              readiness with realistic questions, flashcards, case studies, analytics, and
-              personalized study plans.
+              Strengthen weak areas, build confidence, and track readiness with realistic questions, flashcards, case studies, analytics, and personalized study plans.
             </p>
 
-            <div className="flex flex-col sm:flex-row gap-3 pt-2">
+            <div className="flex flex-col sm:flex-row gap-3">
               <Button
                 size="lg"
-                className="h-12 sm:h-14 px-6 sm:px-8 text-base sm:text-lg rounded-full bg-primary hover:brightness-110 shadow-lg shadow-primary/20 transition-all hover:-translate-y-0.5 text-white w-full sm:w-auto"
+                className="h-13 sm:h-14 px-7 sm:px-9 text-base sm:text-lg rounded-full bg-primary hover:brightness-110 shadow-[var(--shadow-elevated)] shadow-primary/25 transition-all hover:-translate-y-0.5 text-white w-full sm:w-auto font-semibold"
                 onClick={() => setLocation("/register")}
                 data-testid="button-proof-start-practicing"
               >
@@ -245,7 +245,7 @@ export function HeroProofShowcase() {
               <Button
                 size="lg"
                 variant="outline"
-                className="h-12 sm:h-14 px-6 sm:px-8 text-base sm:text-lg rounded-full border-2 border-purple-200 hover:bg-purple-50 hover:border-purple-300 text-gray-700 bg-white/60 w-full sm:w-auto"
+                className="h-13 sm:h-14 px-7 sm:px-9 text-base sm:text-lg rounded-full border border-gray-200 hover:bg-gray-50 hover:border-gray-300 text-gray-700 bg-white w-full sm:w-auto font-medium"
                 onClick={() => {
                   const el = document.getElementById("how-it-works");
                   if (el) el.scrollIntoView({ behavior: "smooth" });
@@ -256,20 +256,20 @@ export function HeroProofShowcase() {
               </Button>
             </div>
 
-            <ul className="space-y-2.5 pt-2">
+            <ul className="space-y-3 pt-1">
               {trustBullets.map((bullet) => (
-                <li key={bullet} className="flex items-center gap-2.5 text-sm text-gray-700">
+                <li key={bullet} className="flex items-center gap-2.5 text-sm text-gray-600">
                   <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0" />
                   <span>{bullet}</span>
                 </li>
               ))}
             </ul>
 
-            <div className="flex flex-wrap gap-2 pt-2">
+            <div className="flex flex-wrap gap-2 pt-1">
               {proofBadges.map((badge) => (
                 <div
                   key={badge.label}
-                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white border border-purple-100 shadow-sm text-xs font-medium text-gray-600"
+                  className="flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-white border border-gray-100 shadow-[var(--shadow-card)] text-xs font-medium text-gray-600"
                   data-testid={`badge-proof-${badge.label.toLowerCase().replace(/\s+/g, "-")}`}
                 >
                   <badge.icon className="w-3.5 h-3.5 text-purple-400" />
@@ -279,10 +279,10 @@ export function HeroProofShowcase() {
             </div>
           </div>
 
-          <div className="space-y-4">
+          <div className="space-y-5">
             <div className="relative group">
               <div
-                className="relative rounded-2xl overflow-hidden bg-white shadow-xl border border-gray-100"
+                className="relative rounded-2xl overflow-hidden bg-white shadow-[var(--shadow-elevated)] border border-gray-100/80"
                 role="tabpanel"
                 id={`proof-tabpanel-${current.id}`}
                 aria-labelledby={`proof-tab-${current.id}`}
@@ -304,7 +304,7 @@ export function HeroProofShowcase() {
                     data-testid="img-proof-featured"
                   />
 
-                  <div className="absolute top-3 right-3 bg-white/90 backdrop-blur-sm rounded-lg px-3 py-2 shadow-md border border-purple-100/50 hidden sm:flex items-center gap-2">
+                  <div className="absolute top-3 right-3 bg-white/95 backdrop-blur-sm rounded-xl px-3 py-2 shadow-[var(--shadow-card)] border border-gray-100/80 hidden sm:flex items-center gap-2">
                     <TrendingUp className="w-3.5 h-3.5 text-emerald-500" />
                     <span className="text-xs font-bold text-gray-700">+8% improvement</span>
                   </div>
@@ -312,7 +312,7 @@ export function HeroProofShowcase() {
 
                 <button
                   onClick={goPrev}
-                  className="absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-white/90 backdrop-blur-sm shadow-md border border-gray-200 flex items-center justify-center hover:bg-white transition-colors opacity-0 group-hover:opacity-100 focus:opacity-100"
+                  className="absolute left-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-white/95 backdrop-blur-sm shadow-[var(--shadow-card)] border border-gray-100 flex items-center justify-center hover:bg-white transition-colors opacity-0 group-hover:opacity-100 focus:opacity-100"
                   aria-label="Previous screenshot"
                   data-testid="button-proof-prev"
                 >
@@ -320,7 +320,7 @@ export function HeroProofShowcase() {
                 </button>
                 <button
                   onClick={goNext}
-                  className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-white/90 backdrop-blur-sm shadow-md border border-gray-200 flex items-center justify-center hover:bg-white transition-colors opacity-0 group-hover:opacity-100 focus:opacity-100"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-white/95 backdrop-blur-sm shadow-[var(--shadow-card)] border border-gray-100 flex items-center justify-center hover:bg-white transition-colors opacity-0 group-hover:opacity-100 focus:opacity-100"
                   aria-label="Next screenshot"
                   data-testid="button-proof-next"
                 >
@@ -328,24 +328,24 @@ export function HeroProofShowcase() {
                 </button>
               </div>
 
-              <div className="mt-4 px-1">
+              <div className="mt-5 px-1">
                 <h3
-                  className="text-base font-bold text-gray-900"
+                  className="font-bold text-gray-900" style={{ fontSize: 'var(--text-card-title)' }}
                   data-testid="text-proof-screenshot-title"
                 >
                   {current.title}
                 </h3>
                 <p
-                  className="text-sm text-gray-500 mt-1 leading-relaxed"
+                  className="text-sm text-gray-500 mt-1.5 leading-relaxed"
                   data-testid="text-proof-screenshot-blurb"
                 >
                   {current.blurb}
                 </p>
-                <div className="flex flex-wrap gap-1.5 mt-2.5">
+                <div className="flex flex-wrap gap-1.5 mt-3">
                   {current.tags.map((tag) => (
                     <span
                       key={tag}
-                      className="text-[11px] font-medium px-2.5 py-0.5 rounded-full bg-purple-50 text-purple-600 border border-purple-100"
+                      className="text-[11px] font-medium px-2.5 py-1 rounded-full bg-purple-50/80 text-purple-600 border border-purple-100/60"
                       data-testid={`tag-proof-${tag.toLowerCase().replace(/\s+/g, "-")}`}
                     >
                       {tag}
@@ -357,7 +357,7 @@ export function HeroProofShowcase() {
 
             <div
               ref={thumbnailStripRef}
-              className="flex gap-2 overflow-x-auto pb-2 scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent -mx-1 px-1 snap-x snap-mandatory"
+              className="flex gap-2.5 overflow-x-auto pb-2 scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent -mx-1 px-1 snap-x snap-mandatory"
               role="tablist"
               aria-label="Screenshot thumbnails"
               onKeyDown={handleTabKeyDown}
@@ -374,10 +374,10 @@ export function HeroProofShowcase() {
                     id={`proof-tab-${item.id}`}
                     tabIndex={idx === activeIndex ? 0 : -1}
                     aria-label={`View ${item.title}`}
-                    className={`shrink-0 w-16 h-12 sm:w-20 sm:h-14 rounded-lg overflow-hidden border-2 transition-all duration-200 snap-start ${
+                    className={`shrink-0 w-16 h-12 sm:w-20 sm:h-14 rounded-xl overflow-hidden border-2 transition-all duration-200 snap-start ${
                       idx === activeIndex
-                        ? "border-purple-400 ring-2 ring-purple-200 shadow-md scale-105"
-                        : "border-gray-200 hover:border-purple-200 opacity-70 hover:opacity-100"
+                        ? "border-primary ring-2 ring-primary/20 shadow-[var(--shadow-card)] scale-105"
+                        : "border-gray-200 hover:border-primary/30 opacity-70 hover:opacity-100"
                     }`}
                     data-testid={`thumb-proof-${item.id}`}
                   >
@@ -399,20 +399,20 @@ export function HeroProofShowcase() {
           </div>
         </div>
 
-        <p className="text-center text-sm text-gray-500 mt-10 max-w-2xl mx-auto" data-testid="text-proof-microcopy">
+        <p className="text-center text-sm text-gray-400 mt-12 max-w-2xl mx-auto" data-testid="text-proof-microcopy">
           From readiness analytics to NGN case studies, NurseNest shows students exactly what to
           study next.
         </p>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-8">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5 mt-10">
           {socialProofCards.map((card) => (
             <div
               key={card.text}
-              className="flex items-start gap-3 p-4 rounded-xl bg-white border border-gray-100 shadow-sm hover:shadow-md transition-shadow"
+              className="flex items-start gap-3.5 p-5 rounded-2xl bg-white border border-gray-100/80 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-shadow duration-200"
               data-testid={`card-social-proof-${card.text.slice(0, 20).toLowerCase().replace(/\s+/g, "-")}`}
             >
-              <div className="w-8 h-8 rounded-lg bg-purple-50 flex items-center justify-center shrink-0">
-                <card.icon className="w-4 h-4 text-purple-500" />
+              <div className="w-9 h-9 rounded-xl bg-purple-50/80 flex items-center justify-center shrink-0">
+                <card.icon className="w-4.5 h-4.5 text-purple-500" />
               </div>
               <p className="text-sm text-gray-600 leading-relaxed">{card.text}</p>
             </div>
