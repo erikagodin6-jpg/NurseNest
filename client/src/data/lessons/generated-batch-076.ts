@@ -2,80 +2,102 @@ import type { LessonContent } from "./types";
 
 export const generatedBatch076Lessons: Record<string, LessonContent> = {
   "pituitary-function": {
-    title: "Pituitary Function: Anterior & Posterior Hormones",
-    cellular: { title: "Pituitary Gland Physiology", content: "The pituitary gland (hypophysis) is the 'master gland' of the endocrine system, located in the sella turcica at the base of the skull. It consists of two functionally distinct lobes.\n\nThe anterior pituitary (adenohypophysis) produces six hormones regulated by hypothalamic releasing and inhibiting hormones delivered via the hypothalamic-hypophyseal portal system: Growth Hormone (GH) — stimulates IGF-1 production, promotes growth and metabolism; Prolactin (PRL) — stimulates breast milk production (unique: tonically INHIBITED by dopamine); Thyroid-Stimulating Hormone (TSH) — stimulates thyroid hormone production; Adrenocorticotropic Hormone (ACTH) — stimulates cortisol from adrenal cortex; Follicle-Stimulating Hormone (FSH) — follicular development and spermatogenesis; Luteinizing Hormone (LH) — ovulation and testosterone production.\n\nThe posterior pituitary (neurohypophysis) does not synthesize hormones — it stores and releases two hormones produced by hypothalamic neurons: Antidiuretic Hormone (ADH/vasopressin) — acts on V2 receptors in renal collecting ducts to insert aquaporin-2 channels, promoting water reabsorption and concentrating urine; Oxytocin — stimulates uterine contractions during labor and milk ejection (let-down reflex) during breastfeeding.\n\nAll anterior pituitary hormones except prolactin are regulated by negative feedback. Prolactin is uniquely inhibited by dopamine — disruption of the pituitary stalk causes prolactin to RISE (stalk effect), while all other hormones FALL." },
-    riskFactors: ["Pituitary adenoma (most common cause of pituitary dysfunction)", "Pituitary surgery or radiation", "Traumatic brain injury (pituitary damage in up to 30%)", "Sheehan syndrome (postpartum pituitary infarction from hemorrhage)", "Autoimmune hypophysitis", "Craniopharyngioma", "Sarcoidosis or histiocytosis infiltrating the pituitary", "Genetic conditions (MEN 1, isolated hormone deficiencies)"],
-    diagnostics: ["Order anterior pituitary hormone panel: GH/IGF-1, prolactin, TSH/free T4, ACTH/cortisol, FSH/LH, estradiol/testosterone", "Order morning cortisol (8 AM) — <3 mcg/dL suggests deficiency; >18 mcg/dL excludes it", "Order dynamic testing for equivocal results: insulin tolerance test (gold standard for GH and ACTH reserve)", "Order serum and urine osmolality, urine specific gravity (DI assessment)", "Order MRI pituitary with gadolinium for structural evaluation", "Order visual field testing if macroadenoma present"],
-    management: ["Replace deficient hormones in priority order: cortisol first (life-threatening), then thyroid, then sex hormones, then GH", "Cortisol replacement: hydrocortisone 15-25 mg/day divided doses (MUST replace before thyroid hormone)", "Thyroid replacement: levothyroxine (monitor free T4, NOT TSH — TSH unreliable in secondary hypothyroidism)", "Sex hormone replacement: testosterone for men; estrogen/progesterone for premenopausal women", "GH replacement: daily subcutaneous recombinant GH injection", "ADH deficiency (diabetes insipidus): desmopressin (DDAVP)"],
-    nursingActions: ["Assess for signs of hormone deficiency across all pituitary axes", "Monitor cortisol replacement: teach stress dosing (double or triple dose during illness, trauma, surgery)", "Ensure cortisol is replaced BEFORE thyroid hormone (thyroxine without cortisol can cause adrenal crisis)", "Monitor for diabetes insipidus: urine output, specific gravity, serum sodium, thirst", "Educate on lifelong medication adherence", "Teach patients to wear medical alert identification for adrenal insufficiency"],
-    assessmentFindings: ["ACTH/cortisol deficiency: fatigue, hypotension, hypoglycemia, hyponatremia", "TSH/thyroid deficiency: fatigue, cold intolerance, weight gain, constipation", "GH deficiency: decreased muscle mass, increased body fat, reduced bone density", "FSH/LH deficiency: amenorrhea, infertility, decreased libido", "Prolactin excess: galactorrhea, amenorrhea", "ADH deficiency (DI): polyuria, polydipsia, dilute urine, hypernatremia"],
+    title: "Pituitary Gland and Hormones",
+    cellular: { title: "Pathophysiology of Pituitary Gland and Hormones", content: "The pituitary gland (hypophysis), located in the sella turcica of the sphenoid bone, is divided into the anterior pituitary (adenohypophysis) and posterior pituitary (neurohypophysis), collectively controlling growth, metabolism, reproduction, and fluid balance. The anterior pituitary produces six hormones under hypothalamic regulation: growth hormone (GH — stimulated by GHRH, inhibited by somatostatin), thyroid-stimulating hormone (TSH — stimulated by TRH), adrenocorticotropic hormone (ACTH — stimulated by CRH), follicle-stimulating hormone (FSH) and luteinizing hormone (LH — both stimulated by GnRH), and prolactin (tonically inhibited by dopamine). The posterior pituitary stores and releases two hormones synthesized in the hypothalamus: antidiuretic hormone (ADH/vasopressin — released in response to increased serum osmolality or decreased blood volume, acting on V2 receptors in renal collecting ducts to insert aquaporin-2 channels for water reabsorption) and oxytocin (stimulating uterine contractions during labor and milk ejection during breastfeeding). Pituitary disorders include hyperpituitarism (adenomas causing excess hormone production — acromegaly from GH excess, Cushing's disease from ACTH excess, prolactinoma) and hypopituitarism (panhypopituitarism from tumor compression, Sheehan syndrome from postpartum pituitary infarction, or surgical removal)." },
+    riskFactors: ["Pituitary adenoma (most common cause of hyperpituitarism, often prolactinomas or GH-secreting tumors)","Head trauma or neurosurgery near the sella turcica","Postpartum hemorrhage with hypovolemic shock (Sheehan syndrome causing pituitary infarction)","Cranial radiation therapy (damages hypothalamic-pituitary axis over time)","Autoimmune hypophysitis (lymphocytic infiltration, particularly peripartum)","Genetic syndromes (MEN-1 associated with pituitary, parathyroid, and pancreatic tumors)","Infiltrative diseases (sarcoidosis, hemochromatosis, histiocytosis affecting the pituitary stalk)"],
+    diagnostics: ["Serum hormone panels: prolactin, GH, IGF-1, TSH, free T4, ACTH, morning cortisol, FSH, LH, estradiol/testosterone","MRI of the sella turcica with gadolinium contrast to identify pituitary adenomas or empty sella","Water deprivation test for suspected diabetes insipidus (monitor urine osmolality and serum sodium)","ACTH stimulation test (cosyntropin test) to evaluate adrenal insufficiency from ACTH deficiency","Visual field testing (confrontation and formal perimetry) to assess for bitemporal hemianopsia from optic chiasm compression","Insulin tolerance test (gold standard for GH and ACTH reserve assessment in panhypopituitarism)"],
+    management: ["Hormone replacement therapy tailored to specific deficiencies (cortisol MUST be replaced before thyroid hormone to avoid adrenal crisis)","Transsphenoidal surgery for macroadenomas causing mass effect or visual field deficits","Dopamine agonists (cabergoline, bromocriptine) as first-line for prolactinomas","Desmopressin (DDAVP) for diabetes insipidus from posterior pituitary dysfunction","Radiation therapy for residual or recurrent tumors not amenable to surgery","Monitor and replace gonadal hormones, growth hormone in deficient adults as indicated"],
+    nursingActions: ["Monitor strict intake and output — sudden polyuria (>250 mL/hr of dilute urine) may indicate diabetes insipidus onset","Assess visual fields at each encounter; report any new visual changes immediately (chiasm compression)","Monitor serum sodium closely — both hypernatremia (DI) and hyponatremia (SIADH) can occur with pituitary disorders","Administer stress-dose corticosteroids before procedures in patients with ACTH deficiency","Assess for signs of adrenal crisis: severe hypotension, altered consciousness, abdominal pain, hypoglycemia","Educate patients on wearing a medical alert bracelet for adrenal insufficiency and emergency cortisol injection"],
+    assessmentFindings: ["Visual field deficits (bitemporal hemianopsia) from pituitary mass compressing the optic chiasm","Galactorrhea (inappropriate breast milk production) in hyperprolactinemia","Acral enlargement (hands, feet, jaw) and coarse facial features in acromegaly","Polyuria and polydipsia with dilute urine in diabetes insipidus","Fatigue, cold intolerance, weight gain, and dry skin in secondary hypothyroidism","Signs of Cushing disease: central obesity, moon face, purple striae, buffalo hump, easy bruising"],
     signs: {
-      left: ["Fatigue and weakness", "Cold intolerance", "Amenorrhea or decreased libido", "Excessive thirst and urination", "Galactorrhea"],
-      right: ["Low morning cortisol (<3 mcg/dL)", "Low free T4 with low/normal TSH", "Low IGF-1", "Elevated prolactin", "High urine output with low specific gravity"]
+      left: ["Galactorrhea or menstrual irregularity","Mild fatigue and cold intolerance","Gradual increase in hat, shoe, or ring size","Decreased libido or erectile dysfunction","Mild headache near the temples"],
+      right: ["Sudden severe headache with visual loss (pituitary apoplexy — hemorrhage into adenoma)","Acute adrenal crisis: profound hypotension, shock, altered consciousness","Diabetes insipidus with massive polyuria and dangerous hypernatremia","Bitemporal hemianopsia with rapid visual deterioration","Severe hypoglycemia from combined ACTH and GH deficiency"]
     },
     medications: [{
-      name: "Hydrocortisone (Cortef)",
-      type: "Glucocorticoid replacement",
-      action: "Replaces deficient cortisol in secondary adrenal insufficiency; essential for stress response, glucose metabolism, vascular tone",
-      sideEffects: "Weight gain, hyperglycemia, osteoporosis, Cushingoid features at supraphysiological doses",
-      contra: "Systemic fungal infections (relative); no contraindication to replacement doses in adrenal insufficiency",
-      pearl: "Physiological replacement: 15-25 mg/day divided (2/3 morning, 1/3 afternoon); STRESS DOSING: double/triple dose during illness; must be replaced BEFORE levothyroxine; patients need medical alert ID"
+      name: "Cabergoline",
+      type: "Dopamine agonist",
+      action: "Stimulates D2 dopamine receptors on lactotroph cells, suppressing prolactin secretion and shrinking prolactinomas",
+      sideEffects: "Nausea, dizziness, orthostatic hypotension, headache; rarely cardiac valvular fibrosis at high doses",
+      contra: "Uncontrolled hypertension, hypersensitivity to ergot derivatives, history of cardiac valvular disease",
+      pearl: "First-line for prolactinoma — normalizes prolactin and shrinks tumor in >80% of cases; take with food at bedtime to reduce nausea"
+    },{
+      name: "Desmopressin (DDAVP)",
+      type: "Synthetic vasopressin analog",
+      action: "Selective V2 receptor agonist that increases water reabsorption in renal collecting ducts by inserting aquaporin-2 channels",
+      sideEffects: "Hyponatremia (water intoxication), headache, nasal congestion (intranasal form)",
+      contra: "Habitual polydipsia, hyponatremia, moderate-to-severe renal impairment",
+      pearl: "Monitor serum sodium regularly; instruct patients to limit evening fluid intake to prevent nocturnal hyponatremia"
     }],
-    pearls: ["Mnemonic for anterior pituitary hormones: FLAT PiG — FSH, LH, ACTH, TSH, Prolactin, GH", "Prolactin is the ONLY anterior pituitary hormone tonically INHIBITED by dopamine — stalk damage raises prolactin but lowers everything else", "Replace cortisol BEFORE thyroid hormone — thyroxine increases cortisol metabolism and can precipitate adrenal crisis", "In secondary hypothyroidism, monitor FREE T4 (not TSH) because TSH is unreliable", "Posterior pituitary stores ADH and oxytocin but does NOT make them — they are made in the hypothalamus", "Sheehan syndrome: postpartum pituitary necrosis from hemorrhagic shock — failure to lactate is often the first sign"],
-    quiz: [{
-      question: "A patient with panhypopituitarism needs hormone replacement. In what order should replacement begin?",
-      options: ["Thyroid hormone first, then cortisol", "Cortisol FIRST, then thyroid hormone — starting thyroid without cortisol can cause adrenal crisis", "Growth hormone first", "All hormones simultaneously"],
-      correct: 1,
-      rationale: "Cortisol must be replaced before thyroid hormone because levothyroxine increases metabolic rate and cortisol clearance. In a cortisol-deficient patient, this can precipitate acute adrenal crisis."
-    }, {
-      question: "After pituitary stalk transection, what happens to prolactin levels?",
-      options: ["Prolactin decreases like all other hormones", "Prolactin INCREASES because it is normally inhibited by dopamine — loss of dopamine removes that inhibition", "Prolactin stays the same", "Prolactin becomes undetectable"],
-      correct: 1,
-      rationale: "Prolactin is uniquely tonically inhibited by dopamine from the hypothalamus. When the stalk is damaged, dopamine cannot reach lactotrophs and prolactin secretion increases, while all other hormones decrease because they depend on stimulatory releasing hormones."
-    }, {
-      question: "A woman who experienced massive postpartum hemorrhage cannot breastfeed and has persistent fatigue. What should be suspected?",
-      options: ["Postpartum depression", "Sheehan syndrome — postpartum pituitary necrosis from hemorrhagic shock", "Thyroid cancer", "Normal postpartum recovery"],
-      correct: 1,
-      rationale: "Sheehan syndrome is infarction of the enlarged pituitary gland due to hemorrhagic shock during or after delivery. The first sign is failure to lactate (prolactin deficiency), followed by progressive pituitary hormone deficiencies."
-    }]
+    pearls: ["Always replace cortisol BEFORE thyroid hormone in panhypopituitarism — starting levothyroxine first increases cortisol metabolism and can precipitate adrenal crisis","Pituitary apoplexy (hemorrhage into an adenoma) presents with sudden thunderclap headache, visual loss, and ophthalmoplegia — it is a neurosurgical emergency","Sheehan syndrome should be suspected in any woman with postpartum failure to lactate and persistent fatigue after significant delivery-related blood loss","Prolactinomas are treated medically (cabergoline) first, NOT surgically — they are uniquely responsive to dopamine agonist therapy","Diabetes insipidus produces large volumes of dilute urine (low specific gravity <1.005); SIADH produces concentrated urine with hyponatremia — know the distinction","Patients with adrenal insufficiency must double their steroid dose during illness and carry emergency injectable hydrocortisone"],
+    quiz: [
+      {
+        question: "A nurse notices a post-surgical pituitary patient suddenly producing 400 mL of clear urine per hour with a specific gravity of 1.002. Which condition should the nurse suspect?",
+        options: ["Syndrome of inappropriate ADH (SIADH)","Diabetes insipidus","Normal postoperative diuresis","Urinary tract infection"],
+        correct: 1,
+        rationale: "Large volumes of dilute urine (low specific gravity) after pituitary surgery indicate diabetes insipidus from disrupted ADH release. SIADH would cause concentrated urine with decreased output."
+      },
+      {
+        question: "A patient with panhypopituitarism needs hormone replacement. Which hormone must be replaced FIRST before starting thyroid hormone?",
+        options: ["Growth hormone","Testosterone","Cortisol (glucocorticoid)","Estrogen"],
+        correct: 2,
+        rationale: "Cortisol must be replaced before thyroid hormone because levothyroxine increases cortisol metabolism. Starting thyroid replacement without adequate cortisol coverage can precipitate a life-threatening adrenal crisis."
+      },
+      {
+        question: "A patient with a prolactinoma asks why surgery was not recommended as first-line treatment. What is the best explanation?",
+        options: ["Surgery carries a 50% mortality rate for pituitary tumors","Prolactinomas uniquely respond to dopamine agonist medication, which shrinks the tumor and normalizes hormone levels","Radiation therapy is always preferred over surgery","Prolactinomas are benign and never require any treatment"],
+        correct: 1,
+        rationale: "Unlike other pituitary adenomas, prolactinomas respond exceptionally well to dopamine agonists (cabergoline), which normalize prolactin levels and reduce tumor size in over 80% of patients, making surgery unnecessary in most cases."
+      },
+    ]
   },
   "pku-adult-management-np": {
-    title: "PKU Adult Management: Lifelong Dietary & Pharmacologic",
-    cellular: { title: "Adult PKU Management Challenges", content: "Phenylketonuria requires lifelong management. Evidence clearly demonstrates that elevated phenylalanine (Phe) in adulthood causes executive dysfunction, psychiatric symptoms (anxiety, depression, ADHD-like symptoms), reduced processing speed, and white matter abnormalities on MRI. Current guidelines recommend maintaining blood Phe 2-6 mg/dL (120-360 µmol/L) for life.\n\nAdult PKU management faces unique challenges: dietary non-adherence after years of relaxed restrictions, transition from pediatric to adult metabolic care, pregnancy planning (maternal PKU syndrome is devastating to the fetus if Phe is uncontrolled), access to medical foods, and comorbid mental health conditions exacerbated by elevated Phe.\n\nPharmacologic options have expanded: sapropterin (Kuvan/BH4) enhances residual PAH activity in responsive patients (~25-50%); pegvaliase (Palynziq) is a PEGylated phenylalanine ammonia lyase enzyme substitution therapy that can normalize Phe in patients unresponsive to sapropterin. Large neutral amino acid (LNAA) supplements competitively inhibit Phe transport across the blood-brain barrier." },
-    riskFactors: ["Dietary non-adherence (most common issue in adult PKU)", "Transition gaps from pediatric to adult care", "Pregnancy without preconception Phe control (maternal PKU syndrome)", "Loss of access to metabolic dietitian or medical foods", "Mental health comorbidities (depression, anxiety)", "Limited insurance coverage for medical foods", "Cognitive executive dysfunction from elevated Phe", "Social isolation related to dietary restrictions"],
-    diagnostics: ["Monitor blood Phe regularly (target 2-6 mg/dL / 120-360 µmol/L)", "Assess nutritional status: prealbumin, essential amino acids, vitamin B12, vitamin D, iron, zinc", "Screen for neuropsychiatric symptoms at every visit (depression, anxiety, executive dysfunction)", "Order brain MRI if neurological symptoms develop (white matter abnormalities)", "Perform BH4 responsiveness testing before prescribing sapropterin", "Monitor bone density (DEXA — PKU patients at risk for osteopenia)"],
-    management: ["Maintain Phe-restricted diet with medical formula providing amino acid supplementation", "Trial of sapropterin for all patients — ~25-50% are responsive (≥30% Phe reduction)", "Pegvaliase for patients with uncontrolled Phe despite diet and sapropterin", "LNAA supplementation as adjunctive therapy to reduce brain Phe uptake", "Preconception counseling for all women: achieve Phe 2-6 mg/dL BEFORE conception", "Address mental health comorbidities with appropriate pharmacotherapy"],
-    nursingActions: ["Assess dietary adherence using motivational interviewing", "Monitor blood Phe and correlate with symptoms", "Screen for depression and anxiety using validated tools", "Educate on lifelong nature of PKU management", "Provide preconception counseling to all women of childbearing age", "Coordinate with metabolic dietitian", "Monitor for pegvaliase adverse effects: injection site reactions, anaphylaxis risk"],
-    assessmentFindings: ["Blood Phe level within or above target range", "Neuropsychiatric symptoms: difficulty concentrating, irritability, anxiety, depression", "Nutritional status markers", "Dietary adherence assessment", "Executive function assessment", "Bone density results"],
+    title: "PKU Adult Management",
+    cellular: { title: "Pathophysiology of PKU Adult Management", content: "Phenylketonuria (PKU) is an autosomal recessive inborn error of metabolism caused by deficiency of phenylalanine hydroxylase (PAH), the hepatic enzyme that converts phenylalanine (Phe) to tyrosine. Without functional PAH, phenylalanine accumulates in the blood and crosses the blood-brain barrier, where it competitively inhibits large neutral amino acid transport, disrupts neurotransmitter synthesis (dopamine, serotonin, norepinephrine), impairs myelin formation, and causes oxidative stress to neurons. In adults who discontinue dietary treatment, elevated phenylalanine causes executive dysfunction, anxiety, depression, tremor, and white matter changes on MRI. Maternal PKU syndrome occurs when women with PKU become pregnant without adequate phenylalanine control (Phe >6 mg/dL), causing microcephaly, congenital heart defects, intellectual disability, and intrauterine growth restriction in the non-PKU fetus due to teratogenic effects of elevated maternal Phe crossing the placenta." },
+    riskFactors: ["Autosomal recessive inheritance (both parents must carry PAH mutation)","Discontinuation of phenylalanine-restricted diet during adolescence or adulthood","Maternal PKU without preconception phenylalanine control (teratogenic to fetus)","High-protein dietary intake without medical food supplementation","Non-adherence to amino acid formula (medical food) leading to nutritional deficiencies","BH4-nonresponsive classic PKU genotype (more severe enzyme deficiency)","Inadequate monitoring of blood phenylalanine levels"],
+    diagnostics: ["Quantitative plasma phenylalanine levels (target 120-360 micromol/L or 2-6 mg/dL for adults)","Plasma tyrosine levels (often low due to impaired conversion from phenylalanine)","Plasma amino acid profile to assess nutritional adequacy of medical food","BH4 loading test to determine sapropterin responsiveness (20 mg/kg oral challenge)","Neuropsychological testing for executive function, attention, and processing speed","Brain MRI for white matter changes in patients with chronically elevated Phe","Bone density screening (DXA scan) — PKU patients on restricted diets are at risk for osteopenia"],
+    management: ["Lifelong phenylalanine-restricted diet with individualized Phe tolerance (typically 200-500 mg Phe/day)","Phenylalanine-free amino acid medical formula to ensure adequate protein and micronutrient intake","Sapropterin (Kuvan/BH4) trial for BH4-responsive patients — may allow increased dietary Phe tolerance","Pegvaliase (Palynziq) enzyme substitution therapy for adults with uncontrolled Phe on diet alone","Preconception counseling: achieve Phe <6 mg/dL at least 3 months before conception (maternal PKU)","Regular monitoring of nutritional status including vitamin B12, iron, zinc, selenium, and essential fatty acids","Neuropsychiatric assessment and treatment for anxiety, depression, and executive dysfunction"],
+    nursingActions: ["Monitor plasma phenylalanine levels at each visit; correlate with dietary adherence and clinical symptoms","Counsel on strict avoidance of high-Phe foods: meat, fish, eggs, dairy, nuts, soy, aspartame-containing products","Assess adherence to amino acid medical formula — palatability is a major barrier; discuss flavoring strategies","Screen for depression, anxiety, and cognitive changes at each visit using validated tools (PHQ-9, GAD-7)","Coordinate preconception counseling for women of childbearing age — maternal PKU syndrome prevention is critical","Educate about aspartame avoidance — metabolized to phenylalanine; present in diet sodas and sugar-free products","Monitor injection site reactions and anaphylaxis risk in patients receiving pegvaliase"],
+    assessmentFindings: ["Musty or mousy body odor (from phenylacetic acid accumulation in sweat)","Lighter skin and hair pigmentation than family members (impaired melanin synthesis from low tyrosine)","Executive dysfunction: difficulty with planning, organization, working memory, and sustained attention","Anxiety, depression, irritability (from disrupted monoamine neurotransmitter synthesis)","Tremor, hyperreflexia, or spasticity with chronically elevated phenylalanine (>20 mg/dL)","Eczematous skin rash in poorly controlled PKU","White matter changes on brain MRI correlating with blood Phe levels"],
     signs: {
-      left: ["Difficulty concentrating", "Anxiety and depression", "Irritability and mood changes", "Headaches", "Tremor (very high Phe)"],
-      right: ["Elevated blood Phe (>6 mg/dL)", "White matter changes on brain MRI", "Nutritional deficiencies (B12, iron, zinc)", "Low bone density on DEXA", "Elevated Phe:Tyr ratio"]
+      left: ["Blood Phe within target (2-6 mg/dL)","Stable mood and cognitive function","Good dietary adherence with medical formula","Normal growth parameters and nutritional markers","Skin and hair pigmentation appropriate for family"],
+      right: ["Blood Phe >20 mg/dL with neurocognitive decline","Severe anxiety, depression, or psychotic features","Tremor, hyperreflexia, or gait disturbance","Pregnant with uncontrolled Phe (maternal PKU emergency)","Anaphylaxis symptoms after pegvaliase injection"]
     },
     medications: [{
+      name: "Sapropterin (Kuvan)",
+      type: "Phenylalanine hydroxylase cofactor (synthetic BH4)",
+      action: "Provides exogenous tetrahydrobiopterin that stabilizes residual PAH enzyme, enhancing phenylalanine metabolism and lowering blood Phe levels in BH4-responsive patients",
+      sideEffects: "Headache, rhinorrhea, pharyngolaryngeal pain, diarrhea, vomiting",
+      contra: "BH4-nonresponsive PKU genotype (no residual PAH activity to enhance)",
+      pearl: "Only effective in ~25-50% of PKU patients; BH4 loading test required before prescribing; dissolve tablets in water and take with food"
+    },{
       name: "Pegvaliase (Palynziq)",
       type: "PEGylated phenylalanine ammonia lyase (enzyme substitution)",
-      action: "Converts phenylalanine to trans-cinnamic acid and ammonia via a PAH-independent pathway; can normalize blood Phe",
-      sideEffects: "Injection site reactions, anaphylaxis risk (must carry epinephrine), arthralgia, alopecia",
-      contra: "Inadequate anaphylaxis management plan",
-      pearl: "Self-administered SC injection; REMS program due to anaphylaxis risk; titrate slowly from 2.5 mg to 20-40 mg daily; all patients must carry auto-injectable epinephrine"
+      action: "Substitutes for deficient PAH by converting phenylalanine to trans-cinnamic acid and ammonia via an alternative metabolic pathway, reducing blood Phe levels",
+      sideEffects: "Injection site reactions (most common), anaphylaxis (REMS program required), arthralgia, hypersensitivity",
+      contra: "Inability to self-administer epinephrine for anaphylaxis management",
+      pearl: "REMS-restricted: patients must carry auto-injectable epinephrine at all times; slow dose titration over months to target dose; observe 60 minutes after first injection"
     }],
-    pearls: ["PKU diet is for LIFE — adults who stop develop executive dysfunction and psychiatric symptoms", "Target Phe for adults: 2-6 mg/dL (120-360 µmol/L)", "Maternal PKU: uncontrolled Phe during pregnancy causes microcephaly, heart defects, intellectual disability in the baby — even if baby does NOT have PKU", "Pegvaliase can normalize Phe in diet-unresponsive patients but carries anaphylaxis risk", "Depression and anxiety may be directly caused by elevated Phe affecting neurotransmitter synthesis", "Sapropterin works only in BH4-responsive patients — trial required"],
-    quiz: [{
-      question: "An adult with PKU who stopped the diet reports difficulty concentrating and anxiety. Blood Phe is 18 mg/dL. What is the likely cause?",
-      options: ["Unrelated psychiatric disorder", "Elevated phenylalanine causing neurocognitive dysfunction — dietary non-adherence has direct neuropsychiatric consequences", "Normal aging", "Side effect of PKU formula"],
-      correct: 1,
-      rationale: "Elevated Phe in adults directly impairs executive function and mood through disruption of dopamine and serotonin synthesis. These symptoms are reversible with Phe lowering."
-    }, {
-      question: "A woman with PKU wants to become pregnant. Her blood Phe is 14 mg/dL. What is the critical counseling?",
-      options: ["PKU has no effect on pregnancy", "She must achieve Phe 2-6 mg/dL BEFORE conception — maternal PKU syndrome causes microcephaly and heart defects in the baby", "She can start the diet after becoming pregnant", "PKU prevents pregnancy"],
-      correct: 1,
-      rationale: "High maternal Phe crosses the placenta and damages the developing fetus, causing microcephaly, congenital heart defects, and intellectual disability. Phe must be controlled BEFORE conception."
-    }, {
-      question: "A patient on diet and sapropterin still has Phe of 12 mg/dL. What option remains?",
-      options: ["Higher-dose sapropterin", "Pegvaliase — enzyme substitution that can normalize Phe in diet-unresponsive patients", "Insulin", "No further options"],
-      correct: 1,
-      rationale: "Pegvaliase converts Phe to trans-cinnamic acid via a PAH-independent pathway. It requires REMS due to anaphylaxis risk, and all patients must carry auto-injectable epinephrine."
-    }]
+    pearls: ["PKU is LIFELONG — adults who abandon dietary treatment develop executive dysfunction, mood disorders, and white matter changes that may be partially reversible with diet resumption","Maternal PKU syndrome is preventable: blood Phe must be <6 mg/dL for at least 3 months BEFORE conception and maintained throughout pregnancy","Aspartame (NutraSweet) is metabolized to phenylalanine and is absolutely contraindicated — check all medications and sugar-free products","Sapropterin works only in BH4-responsive patients (~25-50%); a formal BH4 loading test must be performed before prescribing","Pegvaliase carries anaphylaxis risk requiring REMS enrollment and auto-injectable epinephrine; most effective option for adults uncontrolled on diet alone","Low tyrosine contributes to light pigmentation and impaired neurotransmitter synthesis — tyrosine supplementation may benefit some patients"],
+    quiz: [
+      {
+        question: "A 28-year-old woman with PKU presents for preconception counseling. Her current blood phenylalanine level is 14 mg/dL. What is the priority recommendation?",
+        options: ["She may conceive now and begin dietary restriction during the first trimester","She must achieve blood Phe <6 mg/dL for at least 3 months before conception","PKU dietary restriction is unnecessary during pregnancy","Sapropterin alone is sufficient without dietary modification"],
+        correct: 1,
+        rationale: "Maternal PKU syndrome (microcephaly, congenital heart defects, intellectual disability in the fetus) is caused by elevated maternal Phe crossing the placenta. Blood Phe must be controlled to <6 mg/dL for at least 3 months before conception and maintained throughout pregnancy."
+      },
+      {
+        question: "An adult PKU patient reports drinking diet soda containing aspartame. What should the NP advise?",
+        options: ["Aspartame is safe in moderation for PKU patients","Aspartame must be strictly avoided because it is metabolized to phenylalanine","Aspartame only affects children with PKU, not adults","Switch to sucralose only if blood Phe is above 10 mg/dL"],
+        correct: 1,
+        rationale: "Aspartame is an artificial sweetener that is metabolized to phenylalanine in the body. It is absolutely contraindicated in PKU because it directly raises blood phenylalanine levels. All diet beverages and sugar-free products must be checked for aspartame content."
+      },
+      {
+        question: "Which medication requires enrollment in a REMS program due to anaphylaxis risk in PKU management?",
+        options: ["Sapropterin (Kuvan)","Pegvaliase (Palynziq)","Levothyroxine","Folic acid"],
+        correct: 1,
+        rationale: "Pegvaliase (Palynziq) carries a significant risk of anaphylaxis and requires REMS enrollment. Patients must carry auto-injectable epinephrine at all times and be observed for 60 minutes after the initial injection."
+      },
+    ]
   },
   "placental-abruption-basics-rpn": {
     title: "Placental Abruption Basics",
@@ -154,80 +176,102 @@ export const generatedBatch076Lessons: Record<string, LessonContent> = {
     }]
   },
   "plasmapheresis-indications-np": {
-    title: "Plasmapheresis: Indications & Management",
-    cellular: { title: "Therapeutic Plasma Exchange Principles", content: "Therapeutic plasma exchange (TPE/plasmapheresis) removes the patient's plasma containing pathogenic antibodies, immune complexes, or toxins and replaces it with donor plasma or albumin solution. Blood is separated by centrifugation or membrane filtration; plasma is removed and cellular components returned to the patient.\n\nA typical session exchanges 1-1.5 plasma volumes (~40 mL/kg), removing ~60-70% of intravascular IgG per treatment. Most protocols involve 5-7 sessions over 10-14 days. Multiple sessions are needed because only intravascular immunoglobulin is removed and extravascular redistribution occurs.\n\nASFA Category I (first-line) indications: Guillain-Barré syndrome (GBS), myasthenic crisis, thrombotic thrombocytopenic purpura (TTP), anti-GBM disease (Goodpasture syndrome). Category II (second-line/adjunctive): ANCA-associated vasculitis with diffuse alveolar hemorrhage, antibody-mediated transplant rejection." },
-    riskFactors: ["Hemodynamic instability (relative contraindication — fluid shifts)", "Severe coagulopathy (clotting factor removal)", "Citrate toxicity risk (hypocalcemia)", "Central venous catheter complications", "Allergic reactions to replacement fluids (FFP)", "Severe infection (relative contraindication)", "Medication removal (TPE removes protein-bound drugs)"],
-    diagnostics: ["Confirm diagnosis requiring plasmapheresis", "Order baseline labs: CBC, BMP, coagulation panel, fibrinogen, immunoglobulin levels", "Monitor calcium during and after sessions (citrate-induced hypocalcemia)", "Monitor coagulation post-procedure (clotting factors removed)", "Order pathogenic antibody levels to track response", "Monitor hemoglobin and platelet count"],
-    management: ["Choose replacement fluid: albumin 5% (preferred for most indications) or FFP (required for TTP — contains ADAMTS13)", "Order calcium supplementation during procedure", "Coordinate with immunosuppressive therapy — plasmapheresis is temporary; immunosuppression prevents antibody re-synthesis", "Time medications to avoid removal during exchange (give AFTER procedure)", "Ensure adequate vascular access", "Prescribe appropriate number of exchanges based on indication"],
-    nursingActions: ["Monitor vital signs continuously during procedure", "Assess for hypocalcemia (citrate toxicity): perioral numbness, tingling, muscle cramps, Chvostek/Trousseau signs, arrhythmias", "Administer calcium supplementation as ordered", "Monitor vascular access site for bleeding, infection, hematoma", "Time medications AFTER exchange procedure", "Monitor for allergic reactions to replacement fluids (especially FFP)", "Assess neurological status before and after treatments", "Ensure blood products available if FFP is replacement fluid"],
-    assessmentFindings: ["Improvement in disease-specific symptoms after serial treatments", "Decreasing pathogenic antibody titers", "Signs of citrate toxicity: perioral tingling, cramps, prolonged QT", "Hypotension during procedure", "Post-procedure coagulopathy (increased bleeding risk 24-48 hours)", "Allergic reactions to replacement fluids"],
+    title: "Plasmapheresis Indications",
+    cellular: { title: "Pathophysiology of Plasmapheresis & Therapeutic Plasma Exchange", content: "Therapeutic plasma exchange (TPE/plasmapheresis) removes the patient's plasma containing pathogenic autoantibodies, immune complexes, paraproteins, or toxins and replaces it with donor plasma or albumin solution. Each standard exchange removes approximately one plasma volume (40 mL/kg), eliminating roughly 63% of the target substance. Blood is drawn through a central venous catheter or large-bore peripheral access, separated by centrifugation or membrane filtration, the plasma is discarded, and cellular components are returned with replacement fluid. Category I ASFA indications (first-line therapy) include Guillain-Barré syndrome (anti-ganglioside antibodies), myasthenic crisis (anti-AChR antibodies), thrombotic thrombocytopenic purpura (TTP — removes anti-ADAMTS13 autoantibodies and replenishes ADAMTS13 enzyme), and anti-GBM disease (Goodpasture syndrome). Category II indications include acute demyelinating encephalomyelitis (ADEM), neuromyelitis optica (NMO), and severe lupus nephritis refractory to conventional therapy." },
+    riskFactors: ["Autoimmune disorders producing pathogenic antibodies (myasthenia gravis, GBS, anti-GBM disease)","TTP with severe ADAMTS13 deficiency (<10% activity)","Hyperviscosity syndrome from paraprotein excess (Waldenström macroglobulinemia, multiple myeloma)","Rapidly progressive glomerulonephritis with anti-GBM or ANCA antibodies","Severe acute inflammatory demyelinating conditions refractory to corticosteroids","Cryoglobulinemia with end-organ damage","ABO-incompatible organ transplant requiring antibody removal"],
+    diagnostics: ["Disease-specific autoantibody panels (anti-AChR, anti-GBM, ANCA, anti-ADAMTS13)","ADAMTS13 activity level and inhibitor titer for TTP diagnosis","Serum viscosity and quantitative immunoglobulins for hyperviscosity syndrome","CBC with differential, coagulation studies (PT/INR, PTT, fibrinogen) before each session","Ionized calcium level (citrate anticoagulant causes hypocalcemia during procedure)","Serum albumin and total protein to guide replacement fluid selection","Blood type and screen; hepatitis B/C and HIV serologies before initiating therapy"],
+    management: ["Determine TPE prescription: volume to exchange (typically 1-1.5 plasma volumes), replacement fluid (5% albumin vs fresh frozen plasma), and treatment schedule","FFP replacement required when coagulation factor replenishment is needed (TTP, coagulopathy, pre-surgical)","Albumin replacement preferred when only antibody/toxin removal is the goal (lower allergic risk than FFP)","Central venous catheter placement (internal jugular or femoral) for reliable vascular access","Concurrent immunosuppressive therapy to prevent antibody rebound after TPE (corticosteroids, rituximab, cyclophosphamide)","Standard course: 5 exchanges over 10-14 days for most autoimmune indications; daily for TTP until platelet normalization","Monitor for post-exchange coagulopathy if albumin-only replacement used (clotting factors removed but not replaced)"],
+    nursingActions: ["Monitor ionized calcium during procedure — citrate anticoagulant chelates calcium causing perioral tingling, paresthesias, and potentially tetany","Assess vascular access site for bleeding, hematoma, infection, and catheter patency before each session","Monitor vital signs every 15 minutes during exchange — hypotension is the most common procedural complication","Administer IV calcium gluconate as ordered for symptomatic hypocalcemia (tingling, Chvostek sign, muscle cramping)","Hold ACE inhibitors before TPE — bradykinin accumulation can cause severe hypotension during albumin-based exchange","Document pre/post treatment labs including CBC, coagulation studies, and disease-specific markers","Assess for allergic reactions to replacement fluid (FFP): urticaria, flushing, dyspnea, anaphylaxis"],
+    assessmentFindings: ["Perioral tingling and fingertip numbness during exchange (citrate-induced hypocalcemia)","Hypotension during or immediately after procedure (intravascular volume shifts)","Chills, flushing, or urticaria (allergic reaction to FFP replacement fluid)","Catheter site erythema, swelling, or purulent drainage (central line infection)","Post-procedure bleeding or prolonged oozing from puncture sites (coagulation factor depletion)","Improvement in disease-specific symptoms after successive treatments (improved strength in MG, rising platelets in TTP)","Fatigue and lightheadedness following treatment sessions"],
     signs: {
-      left: ["Tingling around mouth", "Muscle cramps", "Lightheadedness", "Chills during procedure", "Nausea"],
-      right: ["Hypotension during exchange", "Prolonged QT on ECG", "Decreased fibrinogen", "Positive Chvostek/Trousseau signs", "Declining pathogenic antibody levels"]
+      left: ["Mild perioral tingling responding to calcium supplementation","Stable vital signs throughout procedure","Gradual improvement in disease-specific markers","Mild fatigue post-procedure","Vascular access functioning well"],
+      right: ["Severe hypocalcemia: tetany, carpopedal spasm, laryngospasm, QT prolongation","Anaphylaxis to replacement fluid (hypotension, bronchospasm, angioedema)","Catheter-related bloodstream infection (fever, rigors, hemodynamic instability)","Severe hypotension unresponsive to fluid bolus","Significant hemorrhage from coagulation factor depletion"]
     },
     medications: [{
-      name: "Calcium Gluconate (IV)",
-      type: "Calcium supplement / electrolyte replacement",
-      action: "Replaces calcium chelated by citrate anticoagulant; prevents symptomatic hypocalcemia and cardiac arrhythmias",
-      sideEffects: "Flushing, bradycardia if given too rapidly",
-      contra: "Hypercalcemia, digoxin use (increased toxicity)",
-      pearl: "Prophylactic oral calcium before and during TPE reduces citrate symptoms; IV calcium gluconate preferred over chloride for peripheral administration; monitor ionized calcium"
+      name: "Calcium Gluconate",
+      type: "Electrolyte replacement",
+      action: "Replaces ionized calcium depleted by citrate anticoagulant during plasmapheresis; citrate chelates free calcium ions in the blood",
+      sideEffects: "Bradycardia with rapid IV push, tissue necrosis with extravasation, hypercalcemia with excess dosing",
+      contra: "Hypercalcemia, digitalis toxicity (calcium potentiates digoxin effects), severe renal impairment",
+      pearl: "Administer IV slowly (not to exceed 200 mg/min); monitor for Chvostek and Trousseau signs during TPE; oral calcium supplementation may be given prophylactically between sessions"
+    },{
+      name: "Rituximab",
+      type: "Anti-CD20 monoclonal antibody",
+      action: "Depletes CD20-positive B lymphocytes responsible for producing pathogenic autoantibodies, preventing antibody rebound after plasmapheresis",
+      sideEffects: "Infusion reactions (fever, chills, rigors), progressive multifocal leukoencephalopathy (rare), hepatitis B reactivation, prolonged hypogammaglobulinemia",
+      contra: "Active severe infections, hepatitis B without prophylaxis, severe immunodeficiency",
+      pearl: "Schedule rituximab AFTER (not before) TPE sessions to avoid removing the drug; screen for hepatitis B before starting; premedicate with acetaminophen, diphenhydramine, and corticosteroid"
     }],
-    pearls: ["Category I indications: GBS, myasthenic crisis, TTP, anti-GBM disease", "TTP MUST use FFP (contains ADAMTS13); albumin preferred for most other indications", "Citrate toxicity (hypocalcemia) is most common complication — watch for tingling, cramps, QT prolongation", "Give medications AFTER plasmapheresis — protein-bound drugs are removed", "Plasmapheresis is a BRIDGE — immunosuppression must prevent antibody re-synthesis", "Post-procedure coagulopathy: increased bleeding risk 24-48 hours"],
-    quiz: [{
-      question: "A patient during plasmapheresis develops perioral tingling, muscle cramps, and prolonged QT. What is happening?",
-      options: ["Allergic reaction", "Citrate toxicity causing hypocalcemia — citrate chelates ionized calcium", "Heart attack", "Medication side effect"],
-      correct: 1,
-      rationale: "Citrate anticoagulant chelates ionized calcium, causing hypocalcemia symptoms. Treatment: slow exchange rate and administer IV calcium gluconate."
-    }, {
-      question: "Why must FFP be used for TTP rather than albumin?",
-      options: ["FFP is cheaper", "FFP contains ADAMTS13, the enzyme deficient in TTP; albumin does not", "Albumin causes reactions", "FFP has more protein"],
-      correct: 1,
-      rationale: "TTP is caused by ADAMTS13 deficiency. FFP contains ADAMTS13 and replenishes the enzyme while plasmapheresis removes pathogenic autoantibodies."
-    }, {
-      question: "Why should medications be given AFTER plasmapheresis?",
-      options: ["Medications work better after TPE", "Plasmapheresis removes protein-bound medications along with the plasma", "Medications interfere with exchange", "No timing requirement"],
-      correct: 1,
-      rationale: "Plasmapheresis removes plasma and everything bound in it, including protein-bound medications. Giving medications before exchange results in therapeutic drug removal."
-    }]
+    pearls: ["Citrate-induced hypocalcemia is the most common complication of TPE — monitor ionized calcium and have IV calcium gluconate at bedside","ACE inhibitors must be held before albumin-based TPE because the procedure activates the contact system, causing bradykinin accumulation and potentially severe hypotension","In TTP, TPE must begin IMMEDIATELY (within hours) — mortality drops from >90% to <20% with prompt plasma exchange","FFP replacement is mandatory in TTP because fresh frozen plasma provides the missing ADAMTS13 enzyme","Schedule immunosuppressive medications AFTER TPE sessions to avoid removing the therapeutic drug during exchange","Rebound antibody production is expected after TPE — concurrent immunosuppression is essential for sustained response"],
+    quiz: [
+      {
+        question: "During plasmapheresis, a patient reports tingling around the mouth and fingertips. What is the most likely cause?",
+        options: ["Allergic reaction to albumin replacement","Citrate-induced hypocalcemia","Air embolism from the circuit","Hyperkalemia from hemolyzed cells"],
+        correct: 1,
+        rationale: "Citrate anticoagulant used in the TPE circuit chelates ionized calcium, causing hypocalcemia. Perioral and fingertip paresthesias are the earliest symptoms. Treatment is IV calcium gluconate administration."
+      },
+      {
+        question: "Why is fresh frozen plasma (rather than albumin) used as the replacement fluid in TTP?",
+        options: ["Albumin is too expensive for TTP treatment","FFP contains ADAMTS13 enzyme that the patient is deficient in","Albumin causes more allergic reactions than FFP","FFP has a lower infection transmission risk"],
+        correct: 1,
+        rationale: "TTP is caused by ADAMTS13 deficiency (from autoantibodies). FFP provides functional ADAMTS13 enzyme to cleave ultra-large von Willebrand factor multimers, while also removing the pathogenic autoantibodies during exchange."
+      },
+      {
+        question: "When should rituximab be administered relative to a TPE session?",
+        options: ["Immediately before TPE to maximize drug levels","AFTER the TPE session to prevent the drug from being removed during exchange","It does not matter; timing has no effect","Rituximab should never be used with plasmapheresis"],
+        correct: 1,
+        rationale: "Rituximab is an IgG monoclonal antibody that would be removed from the plasma during TPE if given before the session. It should be administered after the exchange to ensure therapeutic drug levels are maintained."
+      },
+    ]
   },
   "plastic-bronchitis-rn": {
-    title: "Plastic Bronchitis: Airway Cast Formation",
-    cellular: { title: "Pathophysiology of Plastic Bronchitis", content: "Plastic bronchitis is a rare condition characterized by formation of thick, rubbery casts within the bronchial tree that can partially or completely obstruct airways. These branching structures conform to airway anatomy and can be expectorated intact.\n\nType 1 (inflammatory) casts are composed of fibrin and inflammatory cells, occurring with asthma, ABPA, or cystic fibrosis. Type 2 (acellular/plastic) casts are primarily mucin, most commonly seen in children after Fontan palliation for single-ventricle congenital heart disease due to elevated central venous pressure and lymphatic dysfunction.\n\nIn Fontan-associated type, elevated systemic venous pressure disrupts thoracic lymphatic drainage, causing protein-rich lymphatic fluid leakage into airways. This fluid solidifies into casts that obstruct airways, causing acute respiratory distress and life-threatening airway obstruction." },
-    riskFactors: ["Fontan palliation for single-ventricle congenital heart disease (most common pediatric cause)", "Asthma (inflammatory type)", "Allergic bronchopulmonary aspergillosis", "Cystic fibrosis", "Sickle cell disease", "Lymphatic malformations", "Elevated central venous pressure", "Post-cardiac surgery"],
-    diagnostics: ["Visualize expectorated bronchial casts (pathognomonic — rubbery branching structures)", "Chest X-ray: atelectasis, air trapping, or lobar collapse", "CT chest: airway obstruction, mucoid impaction", "Flexible bronchoscopy for cast removal (diagnostic and therapeutic)", "Lymphangiography or dynamic MRI for lymphatic anatomy (Fontan patients)", "Histopathology of casts determines type"],
-    management: ["Flexible bronchoscopy for acute cast removal (life-saving)", "Mucolytic therapy: inhaled dornase alfa or inhaled tPA", "Aggressive pulmonary hygiene: chest physiotherapy, postural drainage, oscillatory PEP", "Treat underlying cause: optimize Fontan hemodynamics, treat asthma/ABPA", "Lymphatic intervention for Fontan-associated type: selective lymphatic embolization", "Low-fat diet with MCTs to reduce lymphatic flow (Fontan patients)"],
-    nursingActions: ["Monitor respiratory status: SpO2, respiratory rate, work of breathing, breath sounds", "Recognize acute airway obstruction: sudden dyspnea, wheezing, decreased breath sounds on one side", "Collect and save expectorated casts for examination", "Administer inhaled mucolytics as prescribed", "Perform or assist with chest physiotherapy", "Encourage coughing to mobilize casts", "Prepare for emergent bronchoscopy if acute obstruction", "Educate family on recognizing cast formation signs"],
-    assessmentFindings: ["Acute dyspnea, cough, and wheezing", "Expectoration of rubbery branching casts", "Decreased or absent breath sounds on affected side", "Sudden lobar atelectasis on CXR", "History of Fontan surgery or chronic airway disease", "Recurrent episodes of airway obstruction"],
+    title: "Plastic Bronchitis",
+    cellular: { title: "Pathophysiology of Plastic Bronchitis", content: "Plastic bronchitis is a rare condition characterized by the formation of large, branching fibrinous or mucoid casts that occlude the tracheobronchial tree, causing acute respiratory distress and potentially fatal airway obstruction. The casts are composed of fibrin and inflammatory cells (type 1, associated with pulmonary inflammation from asthma, infections, or allergic bronchopulmonary aspergillosis) or acellular mucin and chyle (type 2, associated with congenital heart disease, particularly after Fontan palliation where elevated central venous pressure disrupts pulmonary lymphatic drainage). In post-Fontan patients, elevated systemic venous pressure impairs lymphatic drainage from the lungs, causing lymphatic fluid to leak into the airways and polymerize into rubbery, tree-shaped casts that conform to the bronchial anatomy. Clinical presentation includes acute dyspnea, cough (sometimes expectorating intact casts), wheezing, and respiratory failure. The nurse monitors respiratory status closely, recognizes acute deterioration from airway obstruction, assists with emergent bronchoscopy for cast removal, administers mucolytics (inhaled tissue plasminogen activator, dornase alfa), monitors oxygen saturation continuously, provides airway management support, and educates patients about recognizing symptoms of recurrence." },
+    riskFactors: ["History of Fontan palliation for single-ventricle congenital heart disease (elevated central venous pressure disrupts pulmonary lymphatic drainage)","Severe or poorly controlled asthma with chronic airway inflammation","Allergic bronchopulmonary aspergillosis (ABPA)","Sickle cell disease with acute chest syndrome","Lymphatic abnormalities including lymphangiectasia or thoracic duct injury","Chronic respiratory infections (viral bronchiolitis, influenza, pneumonia)","Cystic fibrosis with mucus hypersecretion"],
+    diagnostics: ["Chest X-ray showing segmental or lobar atelectasis from cast obstruction","CT chest revealing bronchial occlusion with mucoid impaction pattern","Bronchoscopy (diagnostic and therapeutic) — direct visualization and removal of bronchial casts","Analysis of expectorated or retrieved casts: type 1 (inflammatory/fibrin-rich) vs type 2 (acellular/mucin-chyle-rich)","Pulmonary function testing (spirometry) showing obstructive pattern during acute episodes","Echocardiography to assess Fontan circuit pressures and cardiac function in post-surgical patients","Lymphangiography or dynamic contrast-enhanced MRI lymphangiography to map lymphatic drainage abnormalities"],
+    management: ["Emergent bronchoscopy for cast removal during acute airway obstruction","Inhaled tissue plasminogen activator (tPA) to dissolve fibrin-based casts","Inhaled dornase alfa (Pulmozyme) as mucolytic for mucoid casts","Low-fat diet with medium-chain triglyceride (MCT) supplementation to reduce chylous lymphatic flow in type 2 casts","Inhaled heparin nebulization to prevent fibrin cast reformation","Thoracic duct ligation or lymphatic embolization for refractory lymphatic-type plastic bronchitis","Optimize Fontan hemodynamics to reduce central venous pressure contributing to lymphatic congestion"],
+    nursingActions: ["Monitor respiratory status continuously: oxygen saturation, respiratory rate, work of breathing, breath sounds","Recognize acute deterioration — sudden dyspnea, stridor, absent breath sounds, and desaturation suggest cast re-obstruction","Assist with emergent bronchoscopy preparation and recovery; ensure suction equipment at bedside","Collect and preserve expectorated casts for pathological analysis (place in saline-moistened container)","Administer inhaled mucolytics (tPA, dornase alfa) as prescribed and monitor for bronchospasm post-nebulization","Educate patient and family to recognize cast expectoration (rubbery, tree-shaped structures) and seek immediate care for worsening dyspnea","Coordinate dietary modifications with nutritionist for low-fat/MCT diet in lymphatic-type plastic bronchitis"],
+    assessmentFindings: ["Acute-onset dyspnea, wheezing, and respiratory distress from airway cast obstruction","Productive cough with expectoration of rubbery, branching, tree-shaped casts that conform to bronchial anatomy","Unilateral decreased or absent breath sounds over the obstructed segment","Hypoxemia with oxygen desaturation refractory to supplemental oxygen","Recurrent segmental atelectasis on imaging despite adequate respiratory effort","History of Fontan surgery with progressively worsening respiratory symptoms","Chylous pleural effusion in lymphatic-type disease"],
     signs: {
-      left: ["Sudden dyspnea and cough", "Unilateral wheezing", "Chest tightness", "Expectoration of rubbery material", "Recurrent respiratory distress"],
-      right: ["Branching rubbery casts expectorated", "Unilateral decreased breath sounds", "Lobar atelectasis on CXR", "SpO2 desaturation", "Air trapping on imaging"]
+      left: ["Mild intermittent cough with occasional small cast fragments","Oxygen saturation stable above 94% on room air","Mild wheezing responsive to bronchodilators","Stable respiratory rate and effort","Intermittent chest discomfort with deep breathing"],
+      right: ["Severe acute dyspnea with stridor and absent breath sounds (complete cast obstruction)","Oxygen saturation <85% unresponsive to supplemental oxygen","Respiratory failure requiring emergent intubation","Expectoration of large intact bronchial cast","Cardiovascular collapse from massive bilateral airway obstruction"]
     },
     medications: [{
-      name: "Dornase Alfa (Pulmozyme) — inhaled",
+      name: "Dornase Alfa (Pulmozyme)",
       type: "Recombinant human DNase / mucolytic",
-      action: "Cleaves extracellular DNA in airway secretions, reducing viscosity; may help dissolve inflammatory bronchial casts",
-      sideEffects: "Voice alteration, pharyngitis, chest pain",
-      contra: "Known hypersensitivity",
-      pearl: "2.5 mg nebulized once daily; more effective for inflammatory Type 1 casts; inhaled tPA used for Type 2 casts; combine with chest physiotherapy"
+      action: "Cleaves extracellular DNA in mucoid casts, reducing cast viscosity and facilitating expectoration and clearance",
+      sideEffects: "Voice alteration, pharyngitis, rash, chest pain, bronchospasm (rare)",
+      contra: "Known hypersensitivity to dornase alfa or Chinese hamster ovary cell products",
+      pearl: "More effective for mucoid (type 2) casts; administer via nebulizer daily; pre-treat with bronchodilator to prevent bronchospasm"
+    },{
+      name: "Inhaled Tissue Plasminogen Activator (tPA)",
+      type: "Fibrinolytic agent (off-label inhaled use)",
+      action: "Converts plasminogen to plasmin, which enzymatically degrades fibrin within bronchial casts, dissolving type 1 inflammatory casts",
+      sideEffects: "Hemoptysis (fibrinolysis of cast may expose bleeding surfaces), bronchospasm",
+      contra: "Active pulmonary hemorrhage, coagulopathy, recent surgery",
+      pearl: "Used off-label for fibrin-rich (type 1) plastic bronchitis casts; typically nebulized 5 mg in 5 mL NS twice daily; monitor closely for hemoptysis"
     }],
-    pearls: ["Expectorated bronchial casts are PATHOGNOMONIC — save them for examination", "Most common pediatric cause is Fontan palliation (lymphatic dysfunction)", "Acute airway obstruction is a medical emergency requiring emergent bronchoscopy", "Fontan-associated type: elevated venous pressure → impaired lymphatic drainage → cast formation", "Low-fat diet with MCTs reduces lymphatic flow in Fontan patients", "Save any expectorated casts — they are diagnostically important"],
-    quiz: [{
-      question: "A child with Fontan history coughs up a rubbery branching structure and breathing immediately improves. What was it?",
-      options: ["Food aspiration", "A bronchial cast — characteristic of plastic bronchitis after Fontan", "Blood clot", "Normal mucus"],
-      correct: 1,
-      rationale: "Expectorated bronchial casts are pathognomonic for plastic bronchitis. In Fontan patients, lymphatic fluid leakage forms casts that obstruct airflow. Coughing them up relieves obstruction."
-    }, {
-      question: "A nurse finds a branching rubbery substance a patient coughed up. What should be done?",
-      options: ["Discard as sputum", "Save it and notify provider — it may be a bronchial cast indicating plastic bronchitis", "Send for routine culture only", "Ignore it"],
-      correct: 1,
-      rationale: "Bronchial casts should be saved for histopathology to determine type and notify the provider for appropriate treatment and monitoring."
-    }, {
-      question: "A child with plastic bronchitis develops severe respiratory distress with absent left-sided breath sounds and SpO2 of 82%. What is needed?",
-      options: ["Albuterol nebulizer", "Emergent bronchoscopy for cast removal — complete airway obstruction is a medical emergency", "Antibiotics", "Reassurance"],
-      correct: 1,
-      rationale: "Sudden unilateral absent breath sounds with severe desaturation indicates complete airway obstruction by a cast, requiring emergent bronchoscopy for removal."
-    }]
+    pearls: ["Plastic bronchitis casts are TREE-SHAPED and rubbery — they conform to the bronchial anatomy; if a patient coughs up such a structure, this is diagnostic","Post-Fontan patients are at highest risk for type 2 (lymphatic/chyle) casts due to elevated central venous pressure impairing pulmonary lymphatic drainage","Acute complete cast obstruction is a life-threatening emergency — emergent bronchoscopy for cast removal is the definitive treatment","Low-fat diet with MCT oil reduces chylous lymphatic flow and decreases cast formation in lymphatic-type plastic bronchitis","tPA nebulization dissolves FIBRIN casts (type 1); dornase alfa dissolves MUCOID casts (type 2) — identifying cast type guides pharmacotherapy","Sudden absent breath sounds in a child with Fontan physiology should raise immediate suspicion for plastic bronchitis until proven otherwise"],
+    quiz: [
+      {
+        question: "A child with a history of Fontan surgery presents with acute dyspnea and absent breath sounds on the right side. The nurse should prepare for which priority intervention?",
+        options: ["Chest physiotherapy and postural drainage","Nebulized albuterol treatment","Emergent bronchoscopy for suspected cast removal","Oral antibiotic administration"],
+        correct: 2,
+        rationale: "In a post-Fontan patient with acute dyspnea and absent breath sounds, plastic bronchitis with complete airway cast obstruction should be suspected. Emergent bronchoscopy is the priority intervention for direct cast visualization and removal."
+      },
+      {
+        question: "A patient with plastic bronchitis expectorates a rubbery, tree-shaped structure. What should the nurse do with this specimen?",
+        options: ["Discard it as normal mucus expectoration","Preserve it in a saline-moistened container for pathological analysis","Send it for culture and sensitivity only","Document the event but no specimen collection is needed"],
+        correct: 1,
+        rationale: "Expectorated bronchial casts should be preserved and sent for pathological analysis to determine cast type (inflammatory fibrin vs mucoid/chyle). Cast composition guides treatment selection — tPA for fibrin casts, dornase alfa for mucoid casts."
+      },
+      {
+        question: "Which dietary modification helps reduce cast formation in lymphatic-type (type 2) plastic bronchitis?",
+        options: ["High-protein, high-calorie diet","Low-fat diet with medium-chain triglyceride (MCT) supplementation","Sodium-restricted diet with fluid limitation","Ketogenic diet with high fat intake"],
+        correct: 1,
+        rationale: "Low-fat diet with MCT supplementation reduces chylous lymphatic flow because MCTs are absorbed directly into the portal circulation rather than through intestinal lymphatics, decreasing the volume of lymphatic fluid that can leak into airways and form casts."
+      },
+    ]
   },
   "pleurisy-rpn": {
     title: "Pleurisy: Basic Assessment & Care",
@@ -268,80 +312,102 @@ export const generatedBatch076Lessons: Record<string, LessonContent> = {
     }]
   },
   "pnh-rn": {
-    title: "Paroxysmal Nocturnal Hemoglobinuria: Nursing Care",
-    cellular: { title: "Pathophysiology of PNH", content: "PNH is an acquired clonal disorder caused by a PIGA gene mutation in hematopoietic stem cells. This gene is essential for GPI anchors that attach complement-regulatory proteins (CD55 and CD59) to cell surfaces.\n\nWithout CD59, red blood cells are vulnerable to complement-mediated destruction. Complement continuously lyses unprotected RBCs (intravascular hemolysis), releasing free hemoglobin. Hemolysis worsens at night because mild respiratory acidosis during sleep activates complement.\n\nFree hemoglobin scavenges nitric oxide, causing smooth muscle dystonia, vasoconstriction, and platelet activation — leading to thrombosis (the leading cause of death in PNH), dysphagia, erectile dysfunction, abdominal pain, and renal damage. Thrombosis occurs in unusual sites: hepatic veins (Budd-Chiari), cerebral sinuses, portal and mesenteric veins." },
-    riskFactors: ["Aplastic anemia (PNH develops in up to 30%)", "Myelodysplastic syndrome", "Bone marrow failure syndromes", "Prior immunosuppressive therapy for aplastic anemia"],
-    diagnostics: ["Order flow cytometry for GPI-anchored proteins (CD55, CD59) — gold standard", "Order CBC: anemia, possible reticulocytosis, possible pancytopenia", "Order hemolysis markers: markedly elevated LDH, undetectable haptoglobin, elevated indirect bilirubin, reticulocytosis", "Order urinalysis: hemoglobinuria (dark/cola-colored urine, especially morning)", "Order D-dimer and coagulation studies", "Order renal function"],
-    management: ["Eculizumab (Soliris) or ravulizumab (Ultomiris): anti-C5 monoclonal antibodies — first-line", "Vaccinate against Neisseria meningitidis BEFORE starting complement inhibitor", "Anticoagulation for PNH-related thrombosis", "Iron and folate supplementation", "Blood transfusions for severe anemia", "Bone marrow transplant: only curative therapy (reserved for severe cases)"],
-    nursingActions: ["Monitor urine color (dark/cola-colored = hemoglobinuria — worse in morning)", "Assess for hemolysis: fatigue, pallor, jaundice, dark urine", "Monitor for thrombosis: abdominal pain (Budd-Chiari), headache (cerebral sinus thrombosis), leg swelling (DVT)", "Administer eculizumab/ravulizumab per protocol", "Verify meningococcal vaccination BEFORE complement inhibitor", "Monitor for meningococcal infection: fever, headache, neck stiffness, rash", "Educate on emergency signs", "Monitor CBC, LDH for treatment response"],
-    assessmentFindings: ["Dark/cola-colored urine especially upon waking", "Fatigue and exercise intolerance", "Jaundice and scleral icterus", "Dysphagia and abdominal pain", "Erectile dysfunction", "Signs of thrombosis in unusual sites", "Pancytopenia if underlying marrow failure"],
+    title: "Paroxysmal Nocturnal Hemoglobinuria (PNH)",
+    cellular: { title: "Pathophysiology of Paroxysmal Nocturnal Hemoglobinuria (PNH)", content: "Paroxysmal nocturnal hemoglobinuria (PNH) is an acquired clonal hematopoietic stem cell disorder caused by a somatic mutation in the PIG-A gene, which is essential for the biosynthesis of glycosylphosphatidylinositol (GPI) anchors that attach complement-regulatory proteins (CD55/DAF and CD59/MIRL) to the cell surface. Without GPI-anchored CD55 and CD59, red blood cells are unprotected from complement-mediated lysis, particularly during sleep when mild respiratory acidosis lowers blood pH and activates the alternative complement pathway, causing the characteristic morning hemoglobinuria (dark red-brown urine). Chronic intravascular hemolysis releases free hemoglobin that scavenges nitric oxide, causing smooth muscle dystonia (esophageal spasm, dysphagia, erectile dysfunction, abdominal pain), pulmonary hypertension, and a strongly prothrombotic state (hepatic vein thrombosis/Budd-Chiari syndrome is a classic complication). The nurse monitors urine color, serum LDH and haptoglobin as hemolysis markers, monitors renal function, monitors CBC for cytopenias (associated aplastic anemia), administers complement inhibitor therapy (eculizumab or ravulizumab -- anti-C5 monoclonal antibodies) as prescribed, ensures meningococcal vaccination before starting complement inhibitors, monitors for breakthrough hemolysis, manages iron and folate supplementation, and monitors for thrombotic complications." },
+    riskFactors: ["Acquired somatic PIG-A gene mutation in hematopoietic stem cells (not inherited; occurs sporadically)","History of aplastic anemia (PNH clones frequently arise in aplastic anemia bone marrow)","Myelodysplastic syndrome (MDS) with PNH clone overlap","Bone marrow failure syndromes","Young to middle-aged adults (median age at diagnosis 30-40 years)","Prior immunosuppressive therapy for aplastic anemia (may unmask or expand PNH clone)"],
+    diagnostics: ["Flow cytometry for GPI-anchored proteins (CD55 and CD59) on red blood cells and granulocytes — gold standard diagnostic test","Serum lactate dehydrogenase (LDH) — markedly elevated, most sensitive marker of intravascular hemolysis","Serum haptoglobin — decreased or undetectable (consumed binding free hemoglobin from hemolysis)","Direct antiglobulin test (DAT/Coombs) — negative, distinguishing PNH from autoimmune hemolytic anemia","Urine hemosiderin and urinalysis for hemoglobinuria (dark red-brown morning urine)","CBC showing anemia, possible pancytopenia; reticulocyte count elevated (compensatory erythropoiesis)","Serum free hemoglobin elevated; urine hemoglobin positive; renal function tests for hemoglobin-induced kidney injury"],
+    management: ["Eculizumab or ravulizumab (complement C5 inhibitors) as primary therapy to block complement-mediated hemolysis","Meningococcal vaccination (MenACWY and MenB) at least 2 weeks before starting complement inhibitor therapy","Anticoagulation for thrombotic events (Budd-Chiari, cerebral venous sinus thrombosis, DVT/PE are common in PNH)","Iron and folate supplementation to support erythropoiesis (chronic hemolysis depletes iron stores through urinary loss)","Bone marrow transplant — only curative therapy; reserved for severe disease with bone marrow failure","Erythropoiesis-stimulating agents for anemia management when complement inhibitors provide incomplete response","Monitor for breakthrough hemolysis and adjust complement inhibitor dosing"],
+    nursingActions: ["Inspect first morning urine for hemoglobinuria (cola-colored or dark red-brown urine indicates active hemolysis)","Monitor LDH levels as the primary marker of hemolysis activity — rising LDH suggests breakthrough hemolysis","Ensure meningococcal vaccination is documented BEFORE initiating eculizumab or ravulizumab therapy","Assess for signs of thrombosis at each visit: unilateral leg swelling (DVT), right upper quadrant pain (Budd-Chiari), headache with neurological changes (cerebral sinus thrombosis)","Monitor CBC, reticulocyte count, haptoglobin, and renal function at regular intervals","Educate patient to carry a medical card noting complement inhibitor therapy and increased meningococcal infection risk","Administer eculizumab IV every 2 weeks (or ravulizumab every 8 weeks) per protocol; monitor for infusion reactions"],
+    assessmentFindings: ["Dark red-brown or cola-colored morning urine (hemoglobinuria from overnight complement activation)","Fatigue and dyspnea on exertion from chronic anemia","Jaundice and scleral icterus from bilirubin production during hemolysis","Dysphagia, abdominal pain, and erectile dysfunction from nitric oxide depletion by free hemoglobin","Signs of venous thrombosis (leg swelling, hepatomegaly with ascites in Budd-Chiari syndrome)","Pallor with tachycardia reflecting anemia","Episodic worsening triggered by infections, surgery, or stress (complement activation triggers)"],
     signs: {
-      left: ["Dark morning urine", "Fatigue and weakness", "Abdominal pain", "Difficulty swallowing", "Headache"],
-      right: ["Markedly elevated LDH", "Undetectable haptoglobin", "Absent GPI-anchored proteins on flow cytometry", "Anemia with reticulocytosis", "Thrombosis in unusual venous sites"]
+      left: ["Mild fatigue with stable hemoglobin","Intermittent dark urine episodes","LDH mildly elevated above baseline","Stable renal function","Compensated hemolysis with adequate reticulocyte response"],
+      right: ["Severe hemolytic crisis with hemoglobin drop and hemodynamic instability","Budd-Chiari syndrome: acute hepatomegaly, ascites, right upper quadrant pain","Cerebral venous sinus thrombosis: severe headache, seizures, altered consciousness","Acute kidney injury from massive hemoglobinuria","Meningococcal sepsis in patient on complement inhibitor therapy (medical emergency)"]
     },
     medications: [{
       name: "Eculizumab (Soliris)",
-      type: "Anti-C5 complement monoclonal antibody",
-      action: "Binds C5 preventing MAC formation (C5b-9), stopping complement-mediated hemolysis of GPI-deficient RBCs",
-      sideEffects: "Headache, back pain, nausea, increased meningococcal infection risk",
-      contra: "Unresolved Neisseria infection; must vaccinate ≥2 weeks before starting",
-      pearl: "Must vaccinate against meningococcal disease BEFORE starting; prophylactic antibiotics recommended; IV every 2 weeks; ravulizumab is longer-acting (every 8 weeks)"
+      type: "Complement C5 inhibitor (monoclonal antibody)",
+      action: "Binds complement component C5, preventing its cleavage into C5a and C5b, thereby blocking formation of the membrane attack complex (MAC/C5b-9) that lyses GPI-deficient PNH red blood cells",
+      sideEffects: "Headache, nasopharyngitis, back pain, nausea; serious: life-threatening meningococcal infection from terminal complement blockade",
+      contra: "Unresolved Neisseria meningitidis infection, unvaccinated against meningococcal disease",
+      pearl: "Meningococcal vaccines (MenACWY + MenB) MUST be given ≥2 weeks before first dose; patients carry lifelong increased meningococcal risk; administer IV every 2 weeks after loading phase"
+    },{
+      name: "Ravulizumab (Ultomiris)",
+      type: "Long-acting complement C5 inhibitor (monoclonal antibody)",
+      action: "Binds complement C5 with enhanced recycling mechanism, providing longer duration of complement blockade compared to eculizumab",
+      sideEffects: "Upper respiratory infection, headache, nausea; serious: meningococcal infection (same risk as eculizumab)",
+      contra: "Unresolved Neisseria meningitidis infection, unvaccinated against meningococcal disease",
+      pearl: "Administered IV every 8 weeks (vs every 2 weeks for eculizumab), improving patient convenience and adherence; same meningococcal vaccination requirements"
     }],
-    pearls: ["PNH triad: hemolysis + thrombosis + possible bone marrow failure", "Dark/cola-colored MORNING urine — hemolysis increases overnight from respiratory acidosis", "Flow cytometry for GPI proteins (CD55/CD59) is diagnostic gold standard", "Thrombosis is #1 cause of death — occurs in UNUSUAL sites (Budd-Chiari, cerebral sinuses)", "MUST vaccinate against meningococcus BEFORE eculizumab", "LDH is the best marker for hemolysis severity and treatment response"],
-    quiz: [{
-      question: "A patient reports dark urine every morning that clears later. What test should be ordered?",
-      options: ["Urinalysis for UTI", "Flow cytometry for GPI-anchored proteins — morning hemoglobinuria suggests PNH", "Renal ultrasound", "Urine culture"],
-      correct: 1,
-      rationale: "Morning hemoglobinuria is classic for PNH. Nocturnal respiratory acidosis activates complement, destroying GPI-deficient RBCs. Flow cytometry confirms the diagnosis."
-    }, {
-      question: "What vaccination is mandatory before starting eculizumab?",
-      options: ["Influenza", "Meningococcal vaccine — eculizumab blocks complement needed to fight Neisseria", "Hepatitis B", "Pneumococcal only"],
-      correct: 1,
-      rationale: "Eculizumab blocks C5, critical for meningococcal clearance. Patients are ~1000x more susceptible to meningococcal disease. Vaccination must occur ≥2 weeks before starting."
-    }, {
-      question: "What is the leading cause of death in untreated PNH?",
-      options: ["Severe anemia", "Thrombosis in unusual venous sites", "Infection", "Renal failure"],
-      correct: 1,
-      rationale: "Free hemoglobin scavenges nitric oxide, causing platelet activation and vasoconstriction. Thrombosis occurs characteristically in unusual sites including hepatic veins, cerebral sinuses, and mesenteric veins."
-    }]
+    pearls: ["Morning hemoglobinuria (dark urine) is the hallmark of PNH — complement activation increases during sleep due to mild respiratory acidosis lowering blood pH","PNH is the ONLY hemolytic anemia with a NEGATIVE direct Coombs test and intravascular hemolysis — this distinguishes it from autoimmune hemolytic anemia","Thrombosis is the leading cause of death in PNH — Budd-Chiari syndrome (hepatic vein thrombosis) is a classic complication","Meningococcal vaccination is MANDATORY before starting eculizumab/ravulizumab — complement blockade dramatically increases meningococcal infection risk","LDH is the most sensitive marker of hemolysis in PNH — monitor trends to detect breakthrough hemolysis on complement inhibitor therapy","PNH and aplastic anemia frequently coexist — flow cytometry for GPI-anchored proteins should be performed in all aplastic anemia patients"],
+    quiz: [
+      {
+        question: "A patient with PNH reports that their first morning urine is consistently dark red-brown but clears later in the day. What explains this pattern?",
+        options: ["Dehydration concentrated the urine overnight","Complement-mediated hemolysis increases during sleep due to mild respiratory acidosis","Urinary tract infection causes morning hematuria","Myoglobinuria from nocturnal muscle breakdown"],
+        correct: 1,
+        rationale: "During sleep, hypoventilation causes mild respiratory acidosis, which lowers blood pH and activates the alternative complement pathway. PNH red blood cells lacking CD55/CD59 are vulnerable to complement lysis, causing hemoglobinuria that is most concentrated in the morning specimen."
+      },
+      {
+        question: "Before starting eculizumab therapy for PNH, which intervention must the nurse verify has been completed?",
+        options: ["Hepatitis B vaccination series","Meningococcal vaccination (MenACWY and MenB)","Annual influenza vaccination","Pneumococcal polysaccharide vaccine"],
+        correct: 1,
+        rationale: "Eculizumab blocks terminal complement (C5), which is essential for defense against Neisseria meningitidis. Meningococcal vaccines must be administered at least 2 weeks before initiating therapy to allow protective antibody development."
+      },
+      {
+        question: "A nurse caring for a PNH patient notes new right upper quadrant pain, hepatomegaly, and ascites. Which complication should be suspected?",
+        options: ["Gallstones from chronic hemolysis","Budd-Chiari syndrome (hepatic vein thrombosis)","Viral hepatitis reactivation","Hepatocellular carcinoma"],
+        correct: 1,
+        rationale: "Budd-Chiari syndrome (thrombosis of the hepatic veins) is a classic and serious thrombotic complication of PNH. It presents with right upper quadrant pain, hepatomegaly, and ascites. Thrombosis is the leading cause of death in PNH."
+      },
+    ]
   },
   "polyarteritis-nodosa-np": {
-    title: "Polyarteritis Nodosa: Diagnosis & Management",
-    cellular: { title: "Pathophysiology of PAN", content: "Polyarteritis nodosa (PAN) is a systemic necrotizing vasculitis affecting medium-sized muscular arteries with segmental transmural inflammation and fibrinoid necrosis. Unlike ANCA-associated vasculitides, PAN is ANCA-negative and does NOT involve small vessels (no glomerulonephritis, no pulmonary capillaritis).\n\nInflammation weakens vessels causing aneurysm formation at branch points ('string of beads' on angiography). Thrombosis of inflamed vessels causes downstream ischemia and infarction.\n\nHistorically HBV was associated with ~30% of PAN cases, but this has decreased with vaccination. Most commonly affected organs: kidneys (renovascular hypertension — NOT glomerulonephritis), peripheral nerves (mononeuritis multiplex), GI tract (mesenteric ischemia), skin (livedo reticularis, subcutaneous nodules), and musculoskeletal system.\n\nKey distinction: PAN spares the LUNGS and does NOT cause glomerulonephritis. Lung involvement or glomerulonephritis suggests ANCA-associated vasculitis instead." },
-    riskFactors: ["Hepatitis B infection (decreasing with vaccination)", "Male sex (slight predominance)", "Age 40-60 years", "Hairy cell leukemia", "HIV infection"],
-    diagnostics: ["Order mesenteric or renal angiography: microaneurysms and segmental narrowing ('string of beads')", "Order biopsy of affected tissue: transmural necrotizing arteritis with fibrinoid necrosis", "Order ANCA panel: PAN is ANCA-NEGATIVE", "Order HBV serology (HBsAg, anti-HBc)", "Order ESR, CRP (elevated)", "Order EMG/NCS if neuropathy present (mononeuritis multiplex pattern)"],
-    management: ["Non-HBV PAN: corticosteroids + cyclophosphamide for severe disease", "Mild PAN: corticosteroids alone may suffice", "HBV-associated PAN: short-course steroids + antivirals + plasmapheresis (prolonged immunosuppression CONTRAINDICATED)", "Remission maintenance: azathioprine or methotrexate", "Manage renovascular hypertension", "Monitor for relapse"],
-    nursingActions: ["Monitor blood pressure closely (renovascular hypertension common)", "Assess for mononeuritis multiplex: foot drop, wrist drop, patchy numbness", "Assess for GI involvement: abdominal pain, bloody stool (mesenteric ischemia)", "Monitor renal function", "Assess skin: livedo reticularis, nodules, digital gangrene", "Monitor for cyclophosphamide side effects: myelosuppression, hemorrhagic cystitis", "Educate on corticosteroid side effects and tapering"],
-    assessmentFindings: ["Constitutional symptoms: fever, weight loss, malaise, myalgias (90%)", "Mononeuritis multiplex: asymmetric sensorimotor neuropathy", "Renovascular hypertension", "Abdominal pain from mesenteric ischemia", "Skin: livedo reticularis, subcutaneous nodules, ulcers", "Testicular pain (highly suggestive of PAN)"],
+    title: "Polyarteritis Nodosa",
+    cellular: { title: "Pathophysiology of Polyarteritis Nodosa", content: "Polyarteritis nodosa (PAN) is a systemic necrotizing vasculitis affecting medium-sized muscular arteries, causing segmental transmural inflammation with fibrinoid necrosis of the vessel wall, aneurysm formation, thrombosis, and downstream organ ischemia. Unlike ANCA-associated vasculitides, PAN is ANCA-negative and does NOT involve small vessels or glomerulonephritis (spares the lungs and glomeruli). The inflammation is immune complex-mediated, with approximately 30% of cases associated with hepatitis B virus (HBV) infection. Affected organs include kidneys (renal artery aneurysms causing renovascular hypertension, NOT glomerulonephritis), gastrointestinal tract (mesenteric artery involvement causing postprandial abdominal pain and bowel ischemia), peripheral nervous system (vasa nervorum inflammation causing mononeuritis multiplex), skin (livedo reticularis, subcutaneous nodules, ulcers), and musculoskeletal system (myalgias, arthralgias). Constitutional symptoms include fever, weight loss, and malaise." },
+    riskFactors: ["Chronic hepatitis B virus infection (strongly associated with ~30% of PAN cases)","Middle-aged adults, predominantly male (peak incidence 40-60 years)","Hepatitis C virus with cryoglobulinemia (less commonly associated)","Hairy cell leukemia (rare but recognized association)","Intravenous drug use (associated with HBV acquisition)","No genetic predisposition or familial pattern identified"],
+    diagnostics: ["Conventional angiography (mesenteric or renal): shows characteristic microaneurysms and segmental stenosis of medium arteries — diagnostic gold standard","Hepatitis B surface antigen and HBV DNA — essential to identify HBV-associated PAN (different treatment approach)","ANCA testing — characteristically NEGATIVE (distinguishes PAN from ANCA-associated vasculitides like GPA)","ESR and CRP markedly elevated; leukocytosis and thrombocytosis common","Tissue biopsy (sural nerve, skin, or affected organ) showing transmural necrotizing inflammation of medium arteries","Serum creatinine, urinalysis (proteinuria but NO red blood cell casts — PAN does NOT cause glomerulonephritis)","Nerve conduction studies/EMG if mononeuritis multiplex suspected"],
+    management: ["High-dose corticosteroids (prednisone 1 mg/kg/day) for non-HBV-associated PAN as first-line","Cyclophosphamide added for severe or life-threatening organ involvement (renal, GI, CNS)","HBV-associated PAN: antiviral therapy (entecavir or tenofovir) PLUS short-course corticosteroids PLUS plasma exchange — long-term immunosuppression avoided","Aggressive blood pressure management for renovascular hypertension (ACE inhibitors, ARBs)","Azathioprine or methotrexate for remission maintenance after cyclophosphamide induction","Five-Factor Score (FFS) to guide treatment intensity: proteinuria >1g/day, renal insufficiency, GI involvement, cardiomyopathy, CNS involvement","Monitor for relapse with serial ESR/CRP and symptom assessment"],
+    nursingActions: ["Assess all extremities for sensory and motor deficits consistent with mononeuritis multiplex (foot drop, wrist drop, asymmetric sensory loss)","Monitor blood pressure closely — renovascular hypertension from renal artery involvement is common and requires tight control","Assess for postprandial abdominal pain, bloody stools, or signs of bowel ischemia (mesenteric vasculitis — surgical emergency if perforation occurs)","Monitor for skin changes: livedo reticularis (mottled purplish reticular pattern), tender subcutaneous nodules, digital ischemia/gangrene","Administer immunosuppressive therapy as prescribed; monitor CBC and liver function for cyclophosphamide toxicity","Screen for hepatitis B before starting immunosuppression — reactivation risk; ensure antiviral coverage if HBV-positive","Educate about infection risk during immunosuppressive therapy; report fever, cough, or dysuria promptly"],
+    assessmentFindings: ["Constitutional symptoms: fever, weight loss >10%, malaise, myalgias (present in majority of patients)","Mononeuritis multiplex: asymmetric sensory and motor neuropathy (foot drop, wrist drop) from vasa nervorum vasculitis","Livedo reticularis and tender subcutaneous nodules along affected arteries","Postprandial abdominal pain ('intestinal angina') from mesenteric artery involvement","Hypertension — new onset or worsening, often severe (renovascular hypertension from renal artery aneurysms)","Testicular pain and tenderness in males (testicular artery vasculitis — nearly pathognomonic when present)","Asymmetric arthritis and severe myalgias without joint destruction"],
     signs: {
-      left: ["Fever, weight loss, malaise", "Asymmetric weakness (foot/wrist drop)", "Abdominal pain after eating", "Skin nodules along arteries", "Testicular pain"],
-      right: ["ANCA negative", "Microaneurysms on angiography", "Elevated ESR/CRP", "Biopsy: transmural necrotizing vasculitis", "HBV positive (HBV-associated PAN)"]
+      left: ["Mild constitutional symptoms (low-grade fever, fatigue, weight loss)","Livedo reticularis on extremities","Mild sensory neuropathy in one extremity","Elevated ESR/CRP with nonspecific findings","Manageable hypertension"],
+      right: ["Acute abdomen from mesenteric artery thrombosis with bowel infarction (surgical emergency)","Ruptured renal artery aneurysm with retroperitoneal hemorrhage","Rapidly progressive mononeuritis multiplex with motor deficits","Malignant hypertension with end-organ damage","Digital gangrene from digital artery occlusion"]
     },
     medications: [{
-      name: "Cyclophosphamide (Cytoxan)",
-      type: "Alkylating immunosuppressant",
-      action: "Cross-links DNA preventing cell division; suppresses immune-driven vascular inflammation",
-      sideEffects: "Myelosuppression, hemorrhagic cystitis (give with mesna), nausea, alopecia, infertility, increased malignancy risk",
-      contra: "Severe leukopenia, active infection, pregnancy",
-      pearl: "IV pulse monthly × 3-6 months for induction; give with hydration and mesna for cystitis prevention; monitor CBC weekly; transition to azathioprine for maintenance"
+      name: "Cyclophosphamide",
+      type: "Alkylating agent / immunosuppressant",
+      action: "Cross-links DNA strands in rapidly dividing lymphocytes, suppressing the immune-mediated vascular inflammation driving PAN",
+      sideEffects: "Hemorrhagic cystitis (prevented with hydration and MESNA), bone marrow suppression, infertility, secondary malignancy (bladder cancer), infection risk",
+      contra: "Active infection, severely depressed bone marrow, pregnancy (teratogenic), bladder outflow obstruction",
+      pearl: "Aggressive IV hydration and MESNA co-administration prevent hemorrhagic cystitis; limit cumulative lifetime dose; monitor CBC biweekly; offer fertility preservation counseling before starting"
+    },{
+      name: "Prednisone",
+      type: "Systemic corticosteroid",
+      action: "Suppresses NF-kB-mediated inflammatory gene transcription, reducing vascular inflammation and immune complex deposition in PAN",
+      sideEffects: "Hyperglycemia, osteoporosis, adrenal suppression, immunosuppression, weight gain, cataracts, avascular necrosis",
+      contra: "Active untreated infections, live vaccine administration during therapy",
+      pearl: "Start at 1 mg/kg/day for severe PAN; taper gradually over months once remission achieved; co-prescribe calcium/vitamin D and consider bisphosphonate for bone protection during prolonged use"
     }],
-    pearls: ["PAN is ANCA-NEGATIVE — positive ANCA suggests GPA, MPA, or EGPA", "PAN does NOT involve lungs and does NOT cause glomerulonephritis", "Microaneurysms on angiography are highly suggestive", "Mononeuritis multiplex is the hallmark neurological finding", "Testicular pain from testicular artery vasculitis is highly suggestive", "HBV-associated PAN: treat with antivirals, NOT prolonged immunosuppression"],
-    quiz: [{
-      question: "A patient has fever, weight loss, foot drop, hypertension, and negative ANCA. Angiography shows microaneurysms. Diagnosis?",
-      options: ["GPA", "Polyarteritis nodosa — ANCA-negative with microaneurysms and mononeuritis multiplex", "Microscopic polyangiitis", "Takayasu arteritis"],
-      correct: 1,
-      rationale: "ANCA-negative vasculitis with microaneurysms, mononeuritis multiplex, and renovascular hypertension is classic for PAN."
-    }, {
-      question: "What distinguishes PAN from ANCA-associated vasculitides?",
-      options: ["PAN affects larger arteries", "PAN is ANCA-negative, does NOT involve lungs, does NOT cause glomerulonephritis", "PAN is more common", "PAN only affects skin"],
-      correct: 1,
-      rationale: "PAN is ANCA-negative and affects medium-sized arteries, sparing lungs and glomeruli. Lung involvement or glomerulonephritis should prompt reconsideration toward GPA or MPA."
-    }, {
-      question: "How does HBV-associated PAN change management?",
-      options: ["No change", "Use antivirals + short-course steroids + plasmapheresis instead of prolonged immunosuppression", "Only immunosuppression", "Avoid all treatment"],
-      correct: 1,
-      rationale: "Prolonged immunosuppression promotes HBV replication. Use antivirals to suppress HBV, short-course steroids for acute vasculitis, and plasmapheresis to remove immune complexes."
-    }]
+    pearls: ["PAN affects MEDIUM arteries and is ANCA-NEGATIVE — this distinguishes it from GPA (Wegener), MPA, and EGPA which affect small vessels and are ANCA-positive","PAN spares the LUNGS and GLOMERULI — if a patient has glomerulonephritis or pulmonary involvement, consider ANCA-associated vasculitis instead","Hepatitis B testing is MANDATORY before treatment — HBV-associated PAN requires antiviral therapy, and prolonged immunosuppression could worsen HBV infection","Testicular pain in a male with systemic vasculitis is nearly pathognomonic for PAN — always ask about this symptom","Classic angiographic finding is 'string of pearls' — microaneurysms alternating with stenotic segments in mesenteric or renal arteries","Mononeuritis multiplex (asymmetric neuropathy) is one of the most common and distinctive presentations of PAN"],
+    quiz: [
+      {
+        question: "A patient presents with fever, weight loss, foot drop, livedo reticularis, and new hypertension. ANCA testing is negative. Which vasculitis should the NP suspect?",
+        options: ["Granulomatosis with polyangiitis (GPA)","Polyarteritis nodosa (PAN)","Microscopic polyangiitis (MPA)","Eosinophilic granulomatosis with polyangiitis (EGPA)"],
+        correct: 1,
+        rationale: "Polyarteritis nodosa is a medium-vessel, ANCA-negative vasculitis presenting with constitutional symptoms, mononeuritis multiplex (foot drop), skin manifestations (livedo reticularis), and renovascular hypertension. GPA, MPA, and EGPA are ANCA-positive small-vessel vasculitides."
+      },
+      {
+        question: "Why is hepatitis B testing mandatory before treating polyarteritis nodosa?",
+        options: ["HBV causes all cases of PAN","HBV-associated PAN requires antiviral therapy rather than prolonged immunosuppression","Hepatitis B vaccination is needed before starting corticosteroids","HBV testing is only needed if the patient has liver symptoms"],
+        correct: 1,
+        rationale: "Approximately 30% of PAN cases are associated with HBV infection. HBV-associated PAN requires antiviral therapy as the primary treatment, with only short-course corticosteroids and plasma exchange. Prolonged immunosuppression without antivirals could worsen HBV infection."
+      },
+      {
+        question: "Which organ system is characteristically spared in polyarteritis nodosa, helping distinguish it from ANCA-associated vasculitides?",
+        options: ["Kidneys","Peripheral nerves","Lungs and glomeruli","Skin"],
+        correct: 2,
+        rationale: "PAN spares the lungs and glomeruli — it causes renal artery aneurysms and renovascular hypertension but NOT glomerulonephritis. The presence of pulmonary involvement or glomerulonephritis should prompt consideration of small-vessel ANCA-associated vasculitides instead."
+      },
+    ]
   },
   "polycystic-kidney-disease-rpn": {
     title: "Polycystic Kidney Disease Basics",
@@ -382,42 +448,53 @@ export const generatedBatch076Lessons: Record<string, LessonContent> = {
     }]
   },
   "polycystic-kidney-management-np": {
-    title: "PKD Management: Tolvaptan & Progression Monitoring",
-    cellular: { title: "Advanced PKD Pathophysiology & Management", content: "ADPKD results from mutations in PKD1 (85%, polycystin-1) or PKD2 (15%, polycystin-2), which form a calcium-permeable channel on the primary cilium. Loss of functional polycystin disrupts intracellular calcium signaling, leading to increased cAMP which drives both cell proliferation and fluid secretion via CFTR chloride channels, fueling cyst growth.\n\nTolvaptan blocks vasopressin V2 receptor on collecting duct cells, reducing cAMP accumulation. The TEMPO 3:4 and REPRISE trials demonstrated tolvaptan slows total kidney volume (TKV) growth by ~50% and eGFR decline by ~30%.\n\nProgression risk stratification uses Mayo Imaging Classification (Class 1A-1E based on height-adjusted TKV growth rate) or PRO-PKD score. High-risk patients (Mayo 1C-1E, rapid TKV growth >5%/year) benefit most from tolvaptan." },
-    riskFactors: ["PKD1 truncating mutation (fastest progression — ESRD ~54)", "PKD1 non-truncating mutation (intermediate)", "PKD2 mutation (slowest — ESRD ~74)", "Male sex", "Early-onset hypertension (<35 years)", "Macroscopic hematuria before 30", "Large TKV for age", "Urological complications before 35"],
-    diagnostics: ["Order MRI kidneys for TKV and Mayo classification", "Calculate height-adjusted TKV (htTKV) for staging", "Order genetic testing (PKD1 vs PKD2, mutation type)", "Monitor eGFR trajectory over time", "Monitor serum sodium, liver function (tolvaptan monitoring)", "Order liver MRI for hepatic cysts"],
-    management: ["Tolvaptan for patients at risk of rapid progression (Mayo 1C-1E, eGFR ≥25)", "BP target <110/75 if tolerated (HALT-PKD trial)", "RAAS blockade: ACE inhibitor or ARB first-line", "Adequate hydration: 2-3 L/day to suppress vasopressin", "Moderate sodium restriction (<2.3 g/day)", "Manage complications: cyst infections (fluoroquinolones), hemorrhage, nephrolithiasis"],
-    nursingActions: ["Monitor LFTs monthly for first 18 months of tolvaptan (hepatotoxicity risk)", "Monitor serum sodium (hypernatremia risk)", "Educate on expected polyuria and polydipsia with tolvaptan", "Assess for hepatotoxicity: RUQ pain, nausea, fatigue, dark urine, jaundice", "Monitor BP and eGFR at regular intervals", "Coordinate genetic counseling", "Screen for intracranial aneurysms if family history of SAH"],
-    assessmentFindings: ["TKV on imaging (htTKV for Mayo classification)", "eGFR trajectory over serial measurements", "Blood pressure control", "Tolvaptan response: urine osmolality decrease, TKV stability, eGFR preservation", "LFTs within normal limits", "Serum sodium within normal limits"],
+    title: "Polycystic Kidney Disease: Tolvaptan & Monitoring",
+    cellular: { title: "Pathophysiology of ADPKD and Tolvaptan Mechanism", content: "In autosomal dominant polycystic kidney disease (ADPKD), dysfunctional polycystin proteins on renal tubular cell cilia cause decreased intracellular calcium, which activates adenylyl cyclase and increases cyclic AMP (cAMP). Elevated cAMP drives two pathological processes: cyst epithelial cell proliferation and chloride-driven fluid secretion into cyst lumens. Vasopressin (ADH) binding to V2 receptors on collecting duct cells amplifies this cAMP-mediated cystogenesis. Tolvaptan selectively blocks V2 receptors, reducing cAMP levels in cyst-lining cells and slowing both cyst growth and total kidney volume (TKV) expansion. The TEMPO 3:4 and REPRISE trials demonstrated tolvaptan reduces TKV growth rate and slows eGFR decline. However, hepatotoxicity is a significant risk requiring intensive liver function monitoring. The NP must carefully select candidates using Mayo Imaging Classification (Class 1C-1E predict rapid progression), assess ADPKD risk using PROPKD score (PKD1 truncating mutations, male sex, early hypertension, early urological events), and implement structured monitoring protocols." },
+    riskFactors: ["PKD1 truncating mutation (fastest progression to ESRD, typically by age 55)","Mayo Imaging Classification 1C, 1D, or 1E (high predicted TKV growth rate)","Male sex with early-onset hypertension before age 35","Early urological events (hematuria, flank pain, UTI before age 35)","Large total kidney volume adjusted for height (htTKV >600 mL/m at baseline)","Family history of early ESRD from ADPKD (before age 58)","High PROPKD score (≥7 predicts ESRD before age 60)"],
+    diagnostics: ["MRI-measured total kidney volume (TKV) using Mayo Imaging Classification to predict progression rate","Serial eGFR using CKD-EPI equation every 3-6 months to track rate of decline","Liver function tests (ALT, AST, total bilirubin) monthly for first 18 months of tolvaptan, then every 3 months","Serum sodium (risk of hypernatremia from aquaretic effect) and serum osmolality","Urine osmolality and 24-hour urine volume to confirm tolvaptan pharmacodynamic effect","Genetic testing for PKD1 vs PKD2 mutation type to refine prognosis (PROPKD score)","Serum creatinine, BUN, and urinalysis at each visit; urine albumin-to-creatinine ratio for proteinuria monitoring"],
+    management: ["Tolvaptan initiation: split-dose regimen (45 mg morning / 15 mg afternoon) titrated to 60/30 then 90/30 mg based on tolerance","Mandatory fluid intake matching urine output (often 3-4 L/day) to prevent dehydration and hypernatremia from aquaretic effect","Discontinue tolvaptan if ALT or AST >3x upper limit of normal, or if ALT/AST >2x ULN with bilirubin >2x ULN (Hy's Law criteria)","Continue aggressive BP control with ACE inhibitor or ARB (target <110/75 in young patients per HALT-PKD trial)","Prescribe high water intake (2.5-3 L/day) even without tolvaptan to suppress endogenous vasopressin","Monitor and manage CKD complications: erythropoietin for anemia, phosphate binders, sodium bicarbonate for acidosis","Nephrology co-management for eGFR <30 mL/min; transplant referral planning when eGFR approaches 20 mL/min"],
+    nursingActions: ["Obtain liver function tests at each scheduled visit; compare to baseline; immediately report ALT/AST elevations >3x ULN","Counsel patients on mandatory high fluid intake — tolvaptan causes massive aquaresis (4-6 L urine/day); dehydration is dangerous","Monitor serum sodium at every visit; hypernatremia indicates insufficient water intake relative to urinary losses","Assess for signs of hepatotoxicity: fatigue, anorexia, nausea, right upper quadrant pain, dark urine, jaundice","Document 24-hour urine volume and fluid intake at each visit to confirm treatment adherence and pharmacologic response","Educate about split-dose timing: larger dose in morning, smaller dose in afternoon to minimize nocturia","Verify REMS enrollment and prescriber certification for tolvaptan (restricted distribution program for hepatotoxicity monitoring)"],
+    assessmentFindings: ["Polyuria (4-6 L/day) and polydipsia as expected pharmacologic effects of tolvaptan","Nocturia (most common tolerability complaint leading to discontinuation)","Stable or slower rate of eGFR decline compared to pre-treatment trajectory","Flank pain or hematuria (cyst rupture or hemorrhage, not necessarily tolvaptan-related)","Signs of hepatotoxicity: fatigue, anorexia, RUQ pain, jaundice (requires immediate drug discontinuation)","Hypernatremia with thirst and dry mucous membranes (inadequate fluid replacement)","Decreasing TKV growth rate on serial MRI (treatment response)"],
     signs: {
-      left: ["Increased urine output (expected with tolvaptan)", "Excessive thirst (expected)", "Flank pain or fullness", "Headache", "Fatigue"],
-      right: ["Rising htTKV on serial imaging", "Declining eGFR slope", "Elevated LFTs (hepatotoxicity)", "Hypernatremia", "Cyst infection (fever, localized pain)"]
+      left: ["Expected polyuria (3-5 L/day) with adequate fluid intake","Serum sodium within normal range","Liver enzymes stable within normal limits","eGFR decline rate slower than predicted trajectory","Manageable nocturia with dose timing adjustments"],
+      right: ["ALT/AST >3x ULN (requires immediate tolvaptan discontinuation)","Jaundice with ALT elevation (Hy's Law — risk of liver failure)","Severe hypernatremia (Na >150 mEq/L) from inadequate fluid replacement","Acute kidney injury (rapidly rising creatinine)","Severe dehydration with hemodynamic instability"]
     },
     medications: [{
-      name: "Tolvaptan (Jynarque)",
+      name: "Tolvaptan (Jinarc/Samsca)",
       type: "Vasopressin V2 receptor antagonist",
-      action: "Blocks ADH at V2 receptors, reducing intracellular cAMP that drives cyst proliferation and fluid secretion; slows TKV growth ~50% and eGFR decline ~30%",
-      sideEffects: "Polyuria/polydipsia (expected effect), hepatotoxicity (requires monthly LFT monitoring), hypernatremia",
-      contra: "Liver disease, inability to sense thirst, hypovolemia, pregnancy, strong CYP3A4 inhibitors",
-      pearl: "Split-dose regimen (higher AM, lower PM); REMS required; monthly LFTs for 18 months; discontinue immediately if ALT/AST >3× ULN; patients must drink water freely"
+      action: "Selectively blocks V2 receptors on collecting duct cells, reducing cAMP-driven cyst cell proliferation and fluid secretion; produces aquaresis (electrolyte-free water excretion) without natriuresis",
+      sideEffects: "Polyuria, polydipsia, nocturia, thirst, dry mouth; SERIOUS: hepatotoxicity (elevated ALT/AST, hepatic failure), hypernatremia, dehydration",
+      contra: "Unable to sense or respond to thirst; hypovolemia or hypernatremia; concurrent strong CYP3A4 inhibitors (ketoconazole, clarithromycin); liver disease or elevated transaminases; anuria; pregnancy",
+      pearl: "REMS-restricted program; monthly LFTs for first 18 months then every 3 months; split dosing (larger AM, smaller PM) to manage nocturia; patients MUST drink enough water to match urine output"
+    },{
+      name: "Lisinopril",
+      type: "ACE inhibitor",
+      action: "Blocks angiotensin-converting enzyme, reducing angiotensin II-mediated vasoconstriction, aldosterone secretion, and intraglomerular pressure; provides renoprotection beyond BP lowering in ADPKD",
+      sideEffects: "Dry cough, hyperkalemia, angioedema, dizziness, acute kidney injury if bilateral renal artery stenosis",
+      contra: "Pregnancy (teratogenic), bilateral renal artery stenosis, history of ACE inhibitor-induced angioedema, hyperkalemia",
+      pearl: "First-line antihypertensive for ADPKD; HALT-PKD trial showed aggressive BP target (<110/75) with RAAS blockade slowed TKV growth in young patients with preserved GFR"
     }],
-    pearls: ["Tolvaptan reduces cAMP-driven cyst growth by blocking V2 receptor", "Mayo Classification 1C-1E benefit most from tolvaptan", "PKD1 truncating → fastest progression; PKD2 → slowest", "Monthly LFT monitoring mandatory with tolvaptan for first 18 months", "Polyuria and polydipsia are EXPECTED pharmacologic effects, not side effects to treat", "Screen for intracranial aneurysms in patients with family history of SAH (5-10% aneurysm risk)"],
-    quiz: [{
-      question: "A patient on tolvaptan reports urinating every 2 hours and drinking 3 L water daily. Concerning?",
-      options: ["Yes — stop tolvaptan", "No — polyuria and polydipsia are expected pharmacologic effects of V2 receptor blockade", "Yes — diabetes insipidus", "Reduce dose"],
-      correct: 1,
-      rationale: "Tolvaptan produces aquaresis (electrolyte-free water excretion). Polyuria and polydipsia are expected and necessary. The patient must drink freely to prevent hypernatremia."
-    }, {
-      question: "Which ADPKD patients benefit most from tolvaptan?",
-      options: ["All PKD patients", "Those at risk of rapid progression: Mayo 1C-1E, PKD1 truncating mutations, early hypertension, large TKV", "Only dialysis patients", "Only PKD2 carriers"],
-      correct: 1,
-      rationale: "High-risk patients identified by Mayo Classification 1C-1E, PKD1 truncating mutations, early-onset hypertension, and large TKV benefit most."
-    }, {
-      question: "A patient on tolvaptan develops fatigue, nausea, dark urine, and ALT 5× ULN. What should be done?",
-      options: ["Continue and monitor", "Discontinue tolvaptan immediately — this indicates hepatotoxicity", "Increase dose", "Add hepatoprotective supplement"],
-      correct: 1,
-      rationale: "ALT >3× ULN with symptoms of liver injury requires immediate tolvaptan discontinuation. This is the reason for monthly LFT monitoring and REMS."
-    }]
+    pearls: ["Tolvaptan is the ONLY disease-modifying drug for ADPKD — it slows cyst growth by blocking vasopressin-driven cAMP accumulation","Monthly LFTs for 18 months are MANDATORY — hepatotoxicity can be severe; stop tolvaptan immediately if ALT >3x ULN","Patients on tolvaptan may produce 4-6 L of urine daily — they MUST drink equivalent volumes of water to prevent hypernatremia","Mayo Imaging Classification (1A-1E based on height-adjusted TKV) predicts progression rate and helps select tolvaptan candidates","Tolvaptan is NOT indicated for all ADPKD patients — reserve for rapidly progressive disease (Class 1C-1E or high PROPKD score)","Nocturia is the most common reason for tolvaptan discontinuation — split dosing with larger AM dose helps manage this"],
+    quiz: [
+      {
+        question: "A patient on tolvaptan for ADPKD has an ALT level 4 times the upper limit of normal on routine monitoring. What is the priority action?",
+        options: ["Continue tolvaptan and recheck in 2 weeks","Immediately discontinue tolvaptan and notify the prescriber","Reduce the tolvaptan dose by half","Add hepatoprotective supplements and continue monitoring"],
+        correct: 1,
+        rationale: "Tolvaptan must be immediately discontinued when ALT or AST exceeds 3 times the upper limit of normal due to the risk of serious hepatotoxicity. The prescriber must be notified and liver enzymes must be monitored until normalization."
+      },
+      {
+        question: "A patient starting tolvaptan asks why they need to drink so much water. What is the most accurate explanation?",
+        options: ["Water helps dissolve kidney cysts","Tolvaptan blocks water reabsorption in the kidneys, causing massive urine output that must be replaced to prevent dangerous dehydration","Water flushes the medication through the kidneys faster","High water intake is recommended for all kidney disease regardless of medication"],
+        correct: 1,
+        rationale: "Tolvaptan blocks vasopressin V2 receptors, preventing water reabsorption in the collecting ducts. This causes aquaresis (4-6 L urine/day). Patients must drink enough water to match output to prevent hypernatremia and dehydration."
+      },
+      {
+        question: "Which classification system helps the NP determine if an ADPKD patient is a candidate for tolvaptan therapy?",
+        options: ["KDIGO CKD staging","Mayo Imaging Classification of TKV","Child-Pugh score","RIFLE criteria"],
+        correct: 1,
+        rationale: "The Mayo Imaging Classification uses height-adjusted total kidney volume (htTKV) to classify ADPKD into classes 1A-1E, predicting the rate of kidney growth. Classes 1C-1E indicate rapidly progressive disease and are candidates for tolvaptan therapy."
+      },
+    ]
   },
   "polycythemia-basics-rpn": {
     title: "Polycythemia Basics",
@@ -458,79 +535,101 @@ export const generatedBatch076Lessons: Record<string, LessonContent> = {
     }]
   },
   "polymyositis-rn": {
-    title: "Polymyositis: Nursing Assessment & Care",
-    cellular: { title: "Pathophysiology of Polymyositis", content: "Polymyositis (PM) is an idiopathic inflammatory myopathy with symmetric proximal muscle weakness from CD8+ T-cell-mediated destruction of muscle fibers. Unlike dermatomyositis (humoral/complement-mediated with skin findings), PM involves direct T-cell invasion of individual muscle fibers.\n\nProximal muscles are preferentially affected: shoulder girdle (difficulty lifting arms), pelvic girdle (difficulty climbing stairs, rising from chair), and neck flexors (difficulty lifting head off pillow). Distal strength is preserved early. Facial and eye muscles are NOT affected (distinguishing from myasthenia gravis).\n\nComplications include interstitial lung disease (up to 40%, especially with anti-Jo-1 antibodies), dysphagia (aspiration risk from pharyngeal muscle weakness), and cardiac involvement. PM is associated with increased malignancy risk in patients over 40." },
-    riskFactors: ["Female sex (2:1 predominance)", "Age 40-60 years", "African American descent", "Associated autoimmune diseases", "Anti-Jo-1 antibodies (antisynthetase syndrome with ILD)", "Malignancy association (>40 years)", "HLA-DR3", "Statin medications"],
-    diagnostics: ["Order CK — markedly elevated (5-50× normal)", "Order aldolase (elevated)", "Order myositis-specific antibodies: anti-Jo-1, anti-Mi-2, anti-SRP, anti-MDA5", "Order EMG: myopathic pattern", "Order muscle biopsy (gold standard): CD8+ T-cell endomysial inflammation", "Order PFTs and HRCT for ILD screening"],
-    management: ["First-line: high-dose corticosteroids (prednisone 1 mg/kg/day) with slow taper", "Steroid-sparing agent early: methotrexate or azathioprine", "Refractory: IVIG, rituximab, mycophenolate, tacrolimus", "Screen for malignancy at diagnosis", "Treat ILD if present", "Physical therapy: gentle ROM during active disease; strengthening in remission"],
-    nursingActions: ["Assess proximal strength: rise from chair without arms? Climb stairs? Lift arms overhead? Lift head off pillow?", "Monitor CK for disease activity", "Assess swallowing function (aspiration risk)", "Monitor respiratory symptoms (ILD)", "Implement fall prevention", "Monitor steroid side effects", "Distinguish steroid myopathy from disease flare (CK normal in steroid myopathy)", "Educate on gradual activity progression"],
-    assessmentFindings: ["Symmetric PROXIMAL muscle weakness", "Difficulty rising from chairs, climbing stairs, reaching overhead", "Markedly elevated CK (5-50× normal)", "Dysphagia", "No skin rash (differentiates from dermatomyositis)", "No facial/eye weakness (differentiates from MG)", "Mechanic's hands if antisynthetase syndrome"],
+    title: "Polymyositis",
+    cellular: { title: "Pathophysiology of Polymyositis", content: "Polymyositis is an idiopathic inflammatory myopathy characterized by CD8+ T-cell-mediated destruction of skeletal muscle fibers, causing symmetric proximal muscle weakness. The autoimmune attack involves cytotoxic T lymphocytes that recognize and directly invade non-necrotic muscle fibers expressing MHC class I molecules (normally absent on healthy muscle), with endomysial inflammatory infiltration surrounding and destroying individual myocytes. Clinical presentation includes insidious onset of symmetric proximal muscle weakness (difficulty climbing stairs, rising from a chair, lifting arms above the head), dysphagia from pharyngeal muscle involvement (aspiration risk), and elevated serum creatine kinase (CK, often 10-50 times normal) from muscle fiber destruction. Interstitial lung disease occurs in a subset of patients, particularly those with anti-Jo-1 (anti-histidyl tRNA synthetase) antibodies, as part of the antisynthetase syndrome (myositis, ILD, mechanic's hands, Raynaud phenomenon, arthritis, fever). The nurse monitors muscle strength using manual muscle testing, monitors CK and aldolase levels as markers of disease activity, assesses swallowing function and implements aspiration precautions, monitors respiratory function (FVC), administers immunosuppressive therapy (high-dose corticosteroids, methotrexate, azathioprine, or IVIG) as prescribed, and coordinates physical therapy to maintain function while avoiding exercise-induced muscle damage during active inflammation." },
+    riskFactors: ["Female sex (2:1 female predominance)","Age 40-60 years (peak incidence in adults) or 5-15 years (childhood form)","Presence of other autoimmune conditions (SLE, rheumatoid arthritis, Sjögren syndrome)","Anti-Jo-1 antibodies (associated with antisynthetase syndrome: myositis + ILD + mechanic's hands)","Association with underlying malignancy (ovarian, lung, breast, GI cancers — higher risk in adults >40)","HLA-DR3 and HLA-B8 genetic associations","Certain medications (statins, D-penicillamine, hydroxychloroquine can trigger drug-induced myopathy)"],
+    diagnostics: ["Serum creatine kinase (CK): markedly elevated (10-50x normal), most sensitive marker of active muscle inflammation","Aldolase: elevated; may be increased even when CK is normal in some inflammatory myopathies","Myositis-specific antibodies: anti-Jo-1 (antisynthetase syndrome), anti-Mi-2, anti-SRP","Electromyography (EMG): shows characteristic myopathic pattern (short-duration, low-amplitude, polyphasic motor units with fibrillation potentials)","MRI of affected muscle groups: shows edema and inflammation in active disease; guides biopsy site selection","Muscle biopsy: definitive diagnosis showing endomysial CD8+ T-cell infiltration surrounding and invading individual muscle fibers","Age-appropriate cancer screening — polymyositis in adults >40 carries increased malignancy risk"],
+    management: ["High-dose corticosteroids (prednisone 1 mg/kg/day) as initial therapy; continue until CK normalizes, then gradual taper","Steroid-sparing agents added early: methotrexate or azathioprine to reduce long-term steroid side effects","IVIG (intravenous immunoglobulin) for refractory disease or severe dysphagia","Physical therapy: gentle ROM during active inflammation; progressive strengthening during remission","Swallowing evaluation and aspiration precautions if dysphagia present","Pulmonary function testing (FVC) for patients with anti-Jo-1 antibodies — ILD monitoring","Cancer screening at diagnosis and periodic surveillance (CT chest/abdomen/pelvis, age-appropriate screening)"],
+    nursingActions: ["Assess proximal muscle strength at each encounter using manual muscle testing (shoulder abduction, hip flexion, neck flexion)","Monitor CK levels as disease activity marker — declining CK indicates treatment response; rising CK suggests flare","Implement aspiration precautions: elevate HOB 30-45 degrees during and after meals, assess cough and swallow before oral intake","Monitor respiratory function: assess for dyspnea on exertion, measure oxygen saturation; declining FVC suggests ILD progression","Assess for corticosteroid side effects: hyperglycemia, weight gain, mood changes, bone density loss, infection risk","Coordinate fall prevention measures — proximal weakness impairs ability to rise from chairs and climb stairs","Educate about avoiding strenuous exercise during active inflammation (exacerbates muscle damage); gentle ROM exercises are appropriate"],
+    assessmentFindings: ["Symmetric proximal muscle weakness: difficulty rising from a chair, climbing stairs, lifting arms overhead, raising head from pillow","Dysphagia and nasal regurgitation (pharyngeal and esophageal muscle involvement — aspiration risk)","Muscle tenderness on palpation in some patients (not always present)","Mechanic's hands (cracked, rough skin on fingertips and lateral fingers — associated with antisynthetase syndrome)","Raynaud phenomenon (vasospastic blanching/cyanosis of fingers with cold exposure)","Dyspnea on exertion and dry cough (interstitial lung disease, especially with anti-Jo-1 antibodies)","Arthritis of small joints (wrists, hands) in antisynthetase syndrome"],
     signs: {
-      left: ["Difficulty rising from chair", "Difficulty climbing stairs", "Unable to lift arms overhead", "Difficulty swallowing", "Weak neck flexion"],
-      right: ["CK markedly elevated", "Positive anti-Jo-1", "Myopathic EMG pattern", "CD8+ T-cell invasion on biopsy", "ILD on HRCT"]
+      left: ["Mild proximal weakness (difficulty with overhead activities)","CK mildly elevated (2-5x normal)","Able to perform ADLs with some difficulty","Stable respiratory function","Responding to corticosteroid therapy"],
+      right: ["Severe proximal weakness unable to rise from bed or swallow safely","CK >10,000 U/L with active muscle destruction","Aspiration pneumonia from severe dysphagia","Respiratory failure from diaphragmatic weakness or ILD","Rhabdomyolysis with myoglobinuria and acute kidney injury"]
     },
     medications: [{
-      name: "Prednisone (for Polymyositis)",
+      name: "Prednisone",
       type: "Systemic corticosteroid",
-      action: "Suppresses T-cell-mediated immune attack on muscle fibers; reduces inflammation allowing regeneration",
-      sideEffects: "Weight gain, hyperglycemia, osteoporosis, immunosuppression, Cushingoid features, steroid myopathy",
-      contra: "Active untreated infections",
-      pearl: "Start 1 mg/kg/day; maintain until CK normalizes AND strength improves (4-8 weeks); taper slowly (10%/month); CK normalizes before strength — do NOT taper on CK alone; steroid myopathy has NORMAL CK"
+      action: "Suppresses T-cell-mediated autoimmune muscle destruction by inhibiting inflammatory cytokine production and NF-kB signaling",
+      sideEffects: "Cushingoid features, hyperglycemia, osteoporosis, immunosuppression, myopathy (steroid myopathy can mimic disease flare), cataracts, mood changes",
+      contra: "Active untreated systemic infections, live vaccines",
+      pearl: "PARADOX: high-dose steroids treat polymyositis but can also cause steroid myopathy — if weakness worsens with normal CK, suspect steroid myopathy and taper dose"
+    },{
+      name: "Methotrexate",
+      type: "Antimetabolite / steroid-sparing immunosuppressant",
+      action: "Inhibits dihydrofolate reductase, suppressing T-cell proliferation and inflammatory cytokine production in polymyositis",
+      sideEffects: "Hepatotoxicity, bone marrow suppression, pneumonitis (MTX lung), mucositis, teratogenicity",
+      contra: "Pregnancy (Category X), severe hepatic or renal impairment, active infection, immunodeficiency",
+      pearl: "Always co-prescribe folic acid 1 mg daily to reduce GI and hematologic toxicities; monitor CBC and LFTs every 4-8 weeks; avoid alcohol; excellent steroid-sparing agent"
     }],
-    pearls: ["PROXIMAL weakness is the hallmark — stairs, chairs, overhead reaching", "CK is the best disease activity marker (5-50× normal)", "Dermatomyositis has SKIN findings; polymyositis does NOT", "CK normalizes before strength returns — wait for both before tapering steroids", "Steroid myopathy mimics PM flare but CK is NORMAL", "Anti-Jo-1 = antisynthetase syndrome: PM + ILD + mechanic's hands — screen for ILD"],
-    quiz: [{
-      question: "A patient cannot rise from a chair, has difficulty climbing stairs, CK is 20× normal, and no skin rash. Likely diagnosis?",
-      options: ["Myasthenia gravis", "Polymyositis — proximal weakness with elevated CK and no rash", "Dermatomyositis", "Fibromyalgia"],
-      correct: 1,
-      rationale: "Symmetric proximal weakness with markedly elevated CK and no skin rash is classic for polymyositis. Dermatomyositis has characteristic skin findings. MG affects ocular/facial muscles with normal CK."
-    }, {
-      question: "A patient on prednisone for PM develops new weakness but CK is now normal. What should be suspected?",
-      options: ["PM flare requiring more prednisone", "Steroid myopathy — weakness from prolonged steroids; CK is NORMAL (elevated in PM flare)", "Non-adherence", "New onset MG"],
-      correct: 1,
-      rationale: "In PM flare, CK is elevated from active muscle destruction. In steroid myopathy, weakness occurs from muscle atrophy but CK is normal. Normal CK with new weakness on chronic steroids = steroid myopathy."
-    }, {
-      question: "Why assess swallowing in every PM patient?",
-      options: ["Medication difficulty", "Pharyngeal muscle weakness causes dysphagia and increases aspiration pneumonia risk", "Appetite loss", "Steroid throat effects"],
-      correct: 1,
-      rationale: "PM can affect pharyngeal muscles causing dysphagia in up to 30% of patients, increasing aspiration pneumonia risk."
-    }]
+    pearls: ["Proximal muscle weakness is the hallmark — test by asking the patient to rise from a chair without using arms, climb stairs, or lift arms above the head","CK level correlates with disease activity — declining CK indicates treatment response; normalizing CK precedes clinical strength improvement by weeks","If weakness worsens while CK is NORMAL during steroid therapy, suspect STEROID MYOPATHY rather than disease flare — this distinction changes management","Anti-Jo-1 antibody positive patients require lung monitoring — antisynthetase syndrome includes ILD which can be the most life-threatening component","Always screen for underlying malignancy in adults >40 with new-onset polymyositis — ovarian, lung, and GI cancers are most commonly associated","Aspiration risk from dysphagia is a leading cause of morbidity — assess swallowing function and implement precautions proactively"],
+    quiz: [
+      {
+        question: "A patient with polymyositis on high-dose prednisone reports worsening weakness, but today's CK level is within normal limits. What should the nurse suspect?",
+        options: ["Disease flare requiring increased corticosteroids","Steroid myopathy from prolonged corticosteroid use","Laboratory error requiring repeat testing","Normal variation in disease course"],
+        correct: 1,
+        rationale: "When weakness worsens with a normal CK level during steroid therapy, steroid myopathy is the most likely cause. Active polymyositis would show elevated CK from muscle fiber destruction. The treatment is to taper steroids and add a steroid-sparing agent."
+      },
+      {
+        question: "Which assessment is a priority for a newly admitted patient with polymyositis who reports difficulty swallowing?",
+        options: ["Visual acuity testing","Formal swallowing evaluation and aspiration precautions","Deep tendon reflex testing","Pupil reactivity assessment"],
+        correct: 1,
+        rationale: "Dysphagia from pharyngeal muscle weakness places patients at high risk for aspiration pneumonia. A swallowing evaluation should be performed before any oral intake, and aspiration precautions (HOB elevation, thickened liquids, supervised meals) should be implemented."
+      },
+      {
+        question: "A 55-year-old patient is newly diagnosed with polymyositis. Beyond treating the myositis, what additional evaluation is essential?",
+        options: ["Bone density scan only","Age-appropriate cancer screening","Cardiac catheterization","Sleep study"],
+        correct: 1,
+        rationale: "Polymyositis in adults over 40 is associated with an increased risk of underlying malignancy (ovarian, lung, breast, GI cancers). Age-appropriate cancer screening should be performed at diagnosis and periodically during follow-up."
+      },
+    ]
   },
   "polypharmacy-deprescribing-np": {
-    title: "Polypharmacy & Deprescribing: Evidence-Based Approach",
-    cellular: { title: "Polypharmacy Harm and Deprescribing Principles", content: "Polypharmacy (≥5 medications; excessive ≥10) increases adverse drug events, drug-drug interactions, falls, hospitalizations, and mortality. Each additional medication increases ADE risk by ~10%. The prescribing cascade — drug side effects treated with additional drugs — is a major driver.\n\nDeprescribing is the planned, supervised process of reducing or stopping medications no longer needed or causing harm. It requires systematic review, shared decision-making, gradual dose reduction, and monitoring.\n\nThe framework: (1) Identify all medications and indications; (2) Assess harm risk using Beers Criteria, STOPP/START criteria; (3) Determine if each can be discontinued, reduced, or substituted; (4) Plan the process (one drug at a time, taper if needed, monitor); (5) Monitor outcomes.\n\nPPIs, benzodiazepines, anticholinergics, first-generation antihistamines, long-acting sulfonylureas, and Z-drugs are the most commonly deprescribed in older adults." },
-    riskFactors: ["Age ≥65 years", "≥5 chronic medications", "Multiple prescribers without coordination", "Transitions of care", "Cognitive impairment", "Fall history", "Renal or hepatic impairment", "Prescribing cascade"],
-    diagnostics: ["Complete medication reconciliation: all prescriptions, OTC, herbals, supplements", "Review each medication for current indication and potential harm", "Apply Beers Criteria (AGS)", "Apply STOPP/START criteria", "Calculate anticholinergic burden score", "Assess patient goals of care and functional status"],
-    management: ["Deprescribe one medication at a time", "Taper medications requiring gradual withdrawal: benzodiazepines, SSRIs/SNRIs, corticosteroids, beta-blockers, gabapentinoids, opioids", "Stop medications that can be discontinued without taper: statins, PPIs (after 8 weeks), bisphosphonates, vitamins without deficiency", "Prioritize highest-harm medications: anticholinergics, benzodiazepines, opioids, long-term PPIs", "Implement non-pharmacological alternatives when possible", "Monitor for withdrawal and disease recurrence"],
-    nursingActions: ["Perform medication reconciliation at every visit", "Assess functional ability to manage medication regimen", "Identify prescribing cascades", "Monitor for withdrawal or disease recurrence during deprescribing", "Educate that fewer medications can be better", "Use teach-back method after changes", "Coordinate communication between prescribers"],
-    assessmentFindings: ["Number of medications and regimen complexity", "Potentially inappropriate medications identified", "Medications without current indication", "Prescribing cascade patterns", "Anticholinergic burden score", "Patient functional ability to manage medications"],
+    title: "Polypharmacy Deprescribing",
+    cellular: { title: "Pathophysiology of Polypharmacy & Deprescribing Principles", content: "Polypharmacy (typically defined as concurrent use of 5 or more medications) increases the risk of adverse drug reactions (ADRs), drug-drug interactions, medication non-adherence, falls, cognitive impairment, and hospitalizations, particularly in older adults. Age-related pharmacokinetic changes include decreased hepatic blood flow and CYP450 enzyme activity (slowing drug metabolism), reduced renal clearance (declining GFR reduces elimination of renally-cleared drugs), increased body fat percentage (expanding the volume of distribution for lipophilic drugs), decreased serum albumin (increasing free fraction of highly protein-bound drugs), and decreased total body water (concentrating hydrophilic drugs). Pharmacodynamic changes include increased sensitivity to CNS-active drugs (benzodiazepines, opioids, anticholinergics), altered baroreceptor sensitivity (increased orthostatic hypotension risk with antihypertensives), and reduced homeostatic reserve. Deprescribing is the systematic process of identifying and discontinuing medications where existing or potential harms outweigh benefits, guided by evidence-based frameworks including the Beers Criteria, STOPP/START criteria, and the Medication Appropriateness Index (MAI). The NP evaluates each medication's ongoing indication, applies patient-centered goals of care, tapers medications safely to avoid withdrawal syndromes, monitors for return of symptoms, and collaborates with patients in shared decision-making." },
+    riskFactors: ["Age ≥65 years with multiple chronic conditions requiring multiple prescribers","≥5 concurrent medications (polypharmacy threshold) or ≥10 (hyperpolypharmacy)","Multiple prescribing physicians without medication reconciliation","Renal impairment (eGFR <45 mL/min) impairing drug clearance","Hepatic impairment reducing drug metabolism capacity","History of falls, cognitive decline, or adverse drug reactions","Use of high-risk medications: anticoagulants, opioids, benzodiazepines, anticholinergics, insulin/sulfonylureas"],
+    diagnostics: ["Comprehensive medication reconciliation including all prescription, OTC, supplements, and herbal products","Beers Criteria review to identify potentially inappropriate medications (PIMs) in older adults","STOPP/START criteria assessment (Screening Tool of Older Persons' Prescriptions / Screening Tool to Alert to Right Treatment)","Medication Appropriateness Index (MAI) scoring for each medication","Renal function (eGFR) and hepatic function (LFTs) for dose adjustment needs","Drug interaction analysis using clinical decision support tools (e.g., Lexicomp, Epocrates)","Anticholinergic Cognitive Burden (ACB) scale scoring to quantify cumulative anticholinergic load"],
+    management: ["Apply deprescribing algorithm: identify drug to stop → plan taper → monitor withdrawal/rebound → reassess","Taper medications with withdrawal potential (benzodiazepines, SSRIs, beta-blockers, corticosteroids, opioids) — never abruptly discontinue","Deprescribe one medication at a time (every 1-2 weeks) to identify cause of any withdrawal symptoms or symptom recurrence","Prioritize deprescribing medications with highest harm potential: anticholinergics, benzodiazepines, PPIs >8 weeks, duplicate therapies","Replace high-risk medications with safer alternatives when indicated (e.g., melatonin for benzodiazepine in insomnia)","Simplify regimens: consolidate dosing schedules, use combination products, eliminate unnecessary duplicate therapies","Align medications with patient's goals of care — in patients with limited life expectancy, discontinue preventive medications without short-term benefit (statins, bisphosphonates)"],
+    nursingActions: ["Perform comprehensive medication reconciliation at every transition of care (admission, discharge, office visit)","Screen all medications against Beers Criteria for patients ≥65 years and flag potentially inappropriate medications","Calculate anticholinergic burden using ACB scale; report cumulative score ≥3 (associated with cognitive decline and delirium)","Educate patients that medications can be safely stopped — address fear of stopping by explaining that some medications are no longer needed or are causing harm","Monitor for withdrawal syndromes during taper (benzodiazepine withdrawal: anxiety, insomnia, seizures; PPI withdrawal: rebound acid hypersecretion; beta-blocker withdrawal: rebound tachycardia, hypertension)","Document deprescribing rationale and monitor patient outcomes (falls, cognition, functional status, symptom recurrence)","Coordinate with all prescribers to prevent re-prescribing of deprescribed medications"],
+    assessmentFindings: ["Cognitive decline, confusion, or delirium (anticholinergic burden, benzodiazepine use, polypharmacy itself)","Recurrent falls or near-falls (associated with sedatives, antihypertensives, hypoglycemic agents)","Orthostatic hypotension (multiple antihypertensives, alpha-blockers, diuretics)","Urinary retention, constipation, dry mouth (anticholinergic side effects)","Fatigue, dizziness, lethargy (cumulative sedating effects of multiple CNS-active medications)","Pill burden causing non-adherence (taking <80% of prescribed doses)","GI symptoms (PPI dependency, NSAID gastropathy, opioid-induced constipation)"],
     signs: {
-      left: ["Patient confused about medications", "Not taking medications as prescribed", "New falls or dizziness", "Cognitive decline", "Fatigue and decreased function"],
-      right: ["≥5 medications", "Beers Criteria drugs identified", "High anticholinergic burden", "Drug-drug interactions present", "Prescribing cascade identified"]
+      left: ["Patient managing current medication regimen without difficulty","No recent falls, stable cognition and functional status","Mild pill burden (5-6 medications) with good adherence","No anticholinergic symptoms","Renal and hepatic function stable"],
+      right: ["Recurrent falls causing injury (hip fracture, head trauma)","Delirium or acute cognitive decline from medication toxicity","Severe hypoglycemia from insulin or sulfonylurea in frail elderly","QTc prolongation from multiple QT-prolonging drugs (torsades risk)","Benzodiazepine withdrawal seizures from abrupt discontinuation","Serotonin syndrome from combined serotonergic medications"]
     },
     medications: [{
-      name: "Omeprazole (Prilosec) — Deprescribing Example",
-      type: "PPI — commonly deprescribed in older adults",
-      action: "Irreversibly inhibits H+/K+ ATPase reducing gastric acid",
-      sideEffects: "Long-term: C. difficile, pneumonia, hypomagnesemia, B12 deficiency, bone fractures, CKD",
-      contra: "No absolute contraindication, but long-term use without indication should prompt deprescribing",
-      pearl: "Deprescribing: reduce dose 50% for 2-4 weeks, then every other day for 2-4 weeks, then stop; use on-demand H2 blocker for breakthrough symptoms"
+      name: "Diphenhydramine (Benadryl)",
+      type: "First-generation antihistamine / anticholinergic (HIGH RISK in elderly)",
+      action: "Blocks histamine H1 receptors and muscarinic acetylcholine receptors; causes sedation and anticholinergic effects disproportionate to antihistamine benefit in older adults",
+      sideEffects: "Sedation, confusion, delirium, falls, urinary retention, constipation, dry mouth, blurred vision, tachycardia",
+      contra: "Elderly patients (Beers Criteria: avoid in ≥65 years), narrow-angle glaucoma, urinary retention, dementia",
+      pearl: "BEERS CRITERIA: avoid in older adults — strongly anticholinergic, causes confusion and falls; substitute cetirizine or loratidine for allergies; melatonin or CBT-I for insomnia"
+    },{
+      name: "Pantoprazole (Protonix)",
+      type: "Proton pump inhibitor (PPI)",
+      action: "Irreversibly inhibits H+/K+ ATPase (proton pump) in gastric parietal cells, suppressing acid secretion",
+      sideEffects: "Long-term: C. difficile infection, hip fractures (calcium malabsorption), hypomagnesemia, vitamin B12 deficiency, fundic gland polyps",
+      contra: "Concurrent rilpivirine (reduced absorption); relative: long-term use without clear indication",
+      pearl: "DEPRESCRIBING TARGET: >50% of PPI prescriptions lack ongoing indication; taper over 2-4 weeks to avoid rebound acid hypersecretion; step-down to H2 blocker during taper"
     }],
-    pearls: ["Each additional medication increases ADE risk by ~10%", "Deprescribe one at a time to identify cause of any new symptoms", "Prescribing cascade example: NSAID → edema → furosemide → hypokalemia → K+ supplement — better to stop the NSAID", "Beers Criteria: avoid benzodiazepines, anticholinergics, long-acting sulfonylureas in elderly", "PPIs started for appropriate reason should be reassessed after 8 weeks", "Taper medications that cause withdrawal: benzodiazepines, opioids, beta-blockers, corticosteroids"],
-    quiz: [{
-      question: "An 82-year-old on 12 medications falls and fractures her hip. Her list includes a benzodiazepine and anticholinergic. Priority?",
-      options: ["Add osteoporosis medication", "Deprescribe fall-risk medications (benzodiazepine, anticholinergic) — they contributed to the fall", "Add calcium", "Increase activity"],
-      correct: 1,
-      rationale: "The benzodiazepine and anticholinergic directly increase fall risk. Deprescribing these potentially inappropriate medications per Beers Criteria is the priority."
-    }, {
-      question: "A patient has been on omeprazole for 3 years for GERD that resolved 2 years ago. How to discontinue?",
-      options: ["Stop immediately", "Gradual step-down: reduce dose, then alternate days, then stop — with on-demand H2 blocker for rebound", "Continue indefinitely", "Switch PPI"],
-      correct: 1,
-      rationale: "Gradual step-down over 4-8 weeks prevents rebound acid hypersecretion from abrupt discontinuation."
-    }, {
-      question: "What is a prescribing cascade?",
-      options: ["Prescribing antibiotics sequentially", "A drug side effect mistaken for a new condition, leading to additional prescriptions in a chain of unnecessary polypharmacy", "Prescribing by priority", "Alphabetical prescribing"],
-      correct: 1,
-      rationale: "Example: amlodipine → edema → furosemide → hypokalemia → K+ supplement → GI upset → PPI. The better approach: recognize edema as a drug side effect and switch the antihypertensive."
-    }]
-  }
+    pearls: ["Beers Criteria lists medications to AVOID in adults ≥65 — know the high-risk categories: anticholinergics, benzodiazepines, non-benzodiazepine hypnotics, first-generation antihistamines","Deprescribe ONE medication at a time, every 1-2 weeks — this allows identification of which drug caused withdrawal symptoms or symptom recurrence","NEVER abruptly stop benzodiazepines, beta-blockers, corticosteroids, opioids, or SSRIs — all require gradual tapering to prevent withdrawal syndromes","PPIs are the most commonly over-prescribed class — >50% of long-term PPI use lacks an indication; taper over 2-4 weeks to avoid rebound hypersecretion","Anticholinergic Cognitive Burden (ACB) score ≥3 is associated with increased cognitive decline and delirium risk — review all medications for hidden anticholinergic properties","In frail elderly with limited life expectancy, consider stopping preventive medications without short-term benefit: statins, bisphosphonates, aspirin for primary prevention"],
+    quiz: [
+      {
+        question: "An NP reviews an 82-year-old patient's medications and finds diphenhydramine prescribed for sleep. What is the priority action?",
+        options: ["Continue diphenhydramine as it is an effective sleep aid","Deprescribe diphenhydramine and recommend melatonin or CBT-I as a safer alternative","Increase the diphenhydramine dose for better efficacy","Switch to a longer-acting anticholinergic sleep aid"],
+        correct: 1,
+        rationale: "Diphenhydramine is on the Beers Criteria as a potentially inappropriate medication in adults ≥65 years due to its strong anticholinergic properties causing confusion, falls, urinary retention, and delirium. Safer alternatives include melatonin or cognitive behavioral therapy for insomnia (CBT-I)."
+      },
+      {
+        question: "A patient on chronic PPI therapy with no ongoing indication wants to stop the medication. What is the safest approach?",
+        options: ["Abrupt discontinuation is safe for PPIs","Taper the PPI dose over 2-4 weeks, potentially stepping down to an H2 blocker","Double the PPI dose for one week then stop","Switch directly to an antacid without tapering"],
+        correct: 1,
+        rationale: "Abrupt PPI discontinuation can cause rebound acid hypersecretion (increased gastric acid production above pre-treatment levels). The recommended approach is gradual dose reduction over 2-4 weeks, potentially stepping down to an H2 blocker during the taper."
+      },
+      {
+        question: "When deprescribing multiple medications in an elderly patient, what is the recommended approach?",
+        options: ["Stop all unnecessary medications at once to maximize benefit","Deprescribe one medication at a time, monitoring for 1-2 weeks before stopping the next","Only deprescribe if the patient requests it","Wait until the patient is hospitalized to make changes"],
+        correct: 1,
+        rationale: "Deprescribing one medication at a time (every 1-2 weeks) allows the clinician to identify which specific drug caused any withdrawal symptoms or symptom recurrence. Stopping multiple medications simultaneously makes it impossible to determine the source of any adverse effects."
+      },
+    ]
+  },
 };
