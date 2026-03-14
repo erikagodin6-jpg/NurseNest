@@ -3,12 +3,14 @@ import { getCareerByRouteSlug, getCanonicalRoute } from "@shared/careers";
 import {
   ArrowRight, BookOpen, FileText, Brain, Zap, GraduationCap, Wrench,
   BarChart3, Target, Clock, CheckCircle2, ChevronRight, Check, X,
-  HelpCircle, DollarSign, Shield, Star, TrendingUp, Award, Globe, Stethoscope
+  HelpCircle, DollarSign, Shield, Star, TrendingUp, Award, Globe, Stethoscope,
+  Lightbulb, Heart, ChevronDown, ChevronUp
 } from "lucide-react";
 import { useState } from "react";
 import { AlliedSEO } from "@/allied/allied-seo";
 import { useRegion } from "@/allied/use-region";
 import { getCrossPlatformLinksForCareer } from "@/data/internal-links";
+import { getHubMarketingData } from "@/allied/data/hub-marketing-data";
 
 const FEATURES = [
   { slug: "qbank", label: "Question Bank", desc: "Exam-authentic questions with 600+ word rationales explaining the why behind every answer", icon: BookOpen },
@@ -30,7 +32,7 @@ const COMPARISON_DATA = [
   { feature: "Performance Analytics", allied: "Domain-level breakdown & trends", generic: "Basic score only" },
 ];
 
-const FAQ_DATA = [
+const GENERIC_FAQ_DATA = [
   {
     q: "How are NurseNest Allied questions different from other question banks?",
     a: "Every question includes a 600+ word rationale that doesn't just tell you the right answer — it teaches you the clinical reasoning behind it. Our questions are mapped to the official exam blueprint and use adaptive CAT-style logic to match real exam conditions."
@@ -63,6 +65,7 @@ export default function CareerLandingPage() {
   const { region, setRegion, getRegionConfig, regionLabel } = useRegion();
   const regionConfig = career ? getRegionConfig(career.slug) : null;
   const careerRoute = career ? getCanonicalRoute(career.slug) : "";
+  const hubData = career ? getHubMarketingData(career.slug) : undefined;
 
   if (!career) {
     return (
@@ -73,6 +76,8 @@ export default function CareerLandingPage() {
       </div>
     );
   }
+
+  const faqItems = hubData?.faq.map(f => ({ q: f.question, a: f.answer })) || GENERIC_FAQ_DATA;
 
   return (
     <div data-testid={`career-landing-${career.slug}`}>
@@ -96,7 +101,7 @@ export default function CareerLandingPage() {
           {
             "@context": "https://schema.org",
             "@type": "FAQPage",
-            "mainEntity": FAQ_DATA.map(f => ({
+            "mainEntity": faqItems.map(f => ({
               "@type": "Question",
               "name": f.q,
               "acceptedAnswer": { "@type": "Answer", "text": f.a },
@@ -104,6 +109,7 @@ export default function CareerLandingPage() {
           },
         ]}
       />
+
       {/* Hero Section */}
       <section className="relative py-16 sm:py-20 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-teal-50 via-cyan-50/30 to-white" />
@@ -138,7 +144,9 @@ export default function CareerLandingPage() {
             <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-4" data-testid="text-career-title">
               {career.name} Exam Prep
             </h1>
-            <p className="text-lg text-gray-600 mb-6" data-testid="text-career-description">{career.description}</p>
+            <p className="text-lg text-gray-600 mb-6" data-testid="text-career-description">
+              {hubData?.careerOverview ? hubData.careerOverview.slice(0, 200) + "..." : career.description}
+            </p>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-8">
               <div className="flex items-start gap-2.5">
@@ -174,32 +182,90 @@ export default function CareerLandingPage() {
         </div>
       </section>
 
-      {/* Stats Bar */}
-      <section className="py-12 bg-white border-y border-gray-100">
+      {/* Platform Stats Bar */}
+      <section className="py-12 bg-white border-y border-gray-100" data-testid="section-platform-stats">
         <div className="max-w-5xl mx-auto px-4">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
             <div data-testid="stat-questions">
-              <div className="text-2xl font-bold text-gray-900">500+</div>
-              <div className="text-sm text-gray-500">Questions</div>
+              <div className="text-2xl font-bold text-gray-900">{hubData?.platformStats.totalQuestions || "500+"}</div>
+              <div className="text-sm text-gray-500">Practice Questions</div>
             </div>
-            <div data-testid="stat-domains">
-              <div className="text-2xl font-bold text-gray-900">{career.domains.length}</div>
-              <div className="text-sm text-gray-500">Exam Domains</div>
+            <div data-testid="stat-lessons">
+              <div className="text-2xl font-bold text-gray-900">{hubData?.platformStats.totalLessons || "100+"}</div>
+              <div className="text-sm text-gray-500">Lessons</div>
             </div>
-            <div data-testid="stat-exams">
-              <div className="text-2xl font-bold text-gray-900">{career.examNames.length}</div>
-              <div className="text-sm text-gray-500">Exam Types</div>
+            <div data-testid="stat-flashcards">
+              <div className="text-2xl font-bold text-gray-900">{hubData?.platformStats.flashcardDecks || "40+"}</div>
+              <div className="text-sm text-gray-500">Flashcard Decks</div>
             </div>
-            <div data-testid="stat-tools">
-              <div className="text-2xl font-bold text-gray-900">{career.aiTools.length}</div>
-              <div className="text-sm text-gray-500">Smart Tools</div>
+            <div data-testid="stat-mock-exams">
+              <div className="text-2xl font-bold text-gray-900">{hubData?.platformStats.mockExams || "Unlimited"}</div>
+              <div className="text-sm text-gray-500">Mock Exams</div>
             </div>
           </div>
         </div>
       </section>
 
+      {/* Career Overview */}
+      {hubData && (
+        <section className="py-16 bg-white" data-testid="section-career-overview">
+          <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center mb-10">
+              <h2 className="text-2xl font-bold text-gray-900 mb-3">About the {career.shortName} Profession</h2>
+              <p className="text-gray-600 max-w-3xl mx-auto">{hubData.careerOverview}</p>
+            </div>
+            <div className="bg-gradient-to-br from-teal-50/50 to-cyan-50/30 rounded-2xl border border-teal-100 p-6 sm:p-8">
+              <h3 className="text-lg font-semibold text-gray-900 mb-3 flex items-center gap-2">
+                <Heart className="w-5 h-5 text-teal-500" />
+                Why Choose a Career in {career.shortName}?
+              </h3>
+              <p className="text-gray-600 leading-relaxed">{hubData.whyChoose}</p>
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Free Content Preview — Lead Gen */}
+      <section className="py-16 bg-gradient-to-b from-teal-50/40 to-white" data-testid="section-free-preview">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-10">
+            <h2 className="text-2xl font-bold text-gray-900 mb-3">Try It Free — No Account Required</h2>
+            <p className="text-gray-600">Experience the depth of NurseNest Allied {career.shortName} prep before you commit.</p>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 mb-8">
+            <div className="bg-white rounded-xl border border-gray-200 p-5 text-center" data-testid="preview-diagnostic">
+              <div className="w-12 h-12 rounded-xl bg-teal-50 flex items-center justify-center mx-auto mb-3">
+                <Target className="w-6 h-6 text-teal-600" />
+              </div>
+              <h3 className="font-semibold text-gray-900 mb-1">15-Question Diagnostic</h3>
+              <p className="text-sm text-gray-500">See your readiness score across all {career.shortName} domains</p>
+            </div>
+            <div className="bg-white rounded-xl border border-gray-200 p-5 text-center" data-testid="preview-questions">
+              <div className="w-12 h-12 rounded-xl bg-teal-50 flex items-center justify-center mx-auto mb-3">
+                <BookOpen className="w-6 h-6 text-teal-600" />
+              </div>
+              <h3 className="font-semibold text-gray-900 mb-1">5 Practice Questions</h3>
+              <p className="text-sm text-gray-500">Experience our 600+ word clinical rationales</p>
+            </div>
+            <div className="bg-white rounded-xl border border-gray-200 p-5 text-center" data-testid="preview-mock">
+              <div className="w-12 h-12 rounded-xl bg-teal-50 flex items-center justify-center mx-auto mb-3">
+                <FileText className="w-6 h-6 text-teal-600" />
+              </div>
+              <h3 className="font-semibold text-gray-900 mb-1">1 Free Mock Exam</h3>
+              <p className="text-sm text-gray-500">Take a full-length timed mock to experience the format</p>
+            </div>
+          </div>
+          <div className="text-center">
+            <Link href={`/diagnostic?career=${career.slug}`} className="inline-flex items-center gap-2 px-8 py-3.5 bg-teal-600 text-white rounded-xl font-bold hover:bg-teal-700 transition-colors shadow-lg shadow-teal-200" data-testid="button-free-preview-cta">
+              Start Free Diagnostic <ArrowRight className="w-4 h-4" />
+            </Link>
+            <p className="text-xs text-gray-400 mt-3">No credit card required</p>
+          </div>
+        </div>
+      </section>
+
       {/* Study Features */}
-      <section className="py-16">
+      <section className="py-16" data-testid="section-study-features">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-2xl font-bold text-gray-900 mb-8 text-center">Study Features</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
@@ -216,6 +282,131 @@ export default function CareerLandingPage() {
         </div>
       </section>
 
+      {/* Licensing Pathway */}
+      {hubData && (
+        <section className="py-16 bg-gray-50" data-testid="section-licensing-pathway">
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center mb-10">
+              <h2 className="text-2xl font-bold text-gray-900 mb-3">How to Become a {career.shortName}</h2>
+              <p className="text-gray-600">Follow the licensing pathway to earn your {career.examNames[0]} certification</p>
+            </div>
+            <div className="space-y-4">
+              {hubData.licensingPathway.map((step) => (
+                <div key={step.step} className="flex gap-4 items-start" data-testid={`licensing-step-${step.step}`}>
+                  <div className="flex-shrink-0 w-10 h-10 rounded-full bg-teal-600 text-white flex items-center justify-center font-bold text-sm">
+                    {step.step}
+                  </div>
+                  <div className="flex-1 bg-white rounded-xl border border-gray-200 p-4">
+                    <h3 className="font-semibold text-gray-900 mb-1">{step.title}</h3>
+                    <p className="text-sm text-gray-600">{step.description}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Career Information: Salary, Job Outlook, Benefits */}
+      {hubData && (
+        <section className="py-16 bg-white" data-testid="section-career-info">
+          <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center mb-10">
+              <h2 className="text-2xl font-bold text-gray-900 mb-3">{career.shortName} Career Information</h2>
+              <p className="text-gray-600">Salary data, job outlook, and career benefits</p>
+            </div>
+
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+              {/* Salary */}
+              <div className="bg-white rounded-2xl border border-gray-200 p-6" data-testid="card-salary">
+                <h3 className="font-semibold text-gray-900 mb-4 flex items-center gap-2">
+                  <DollarSign className="w-5 h-5 text-teal-500" />
+                  Salary Range
+                </h3>
+                <div className="space-y-3">
+                  <div className="flex justify-between items-center py-2 border-b border-gray-100">
+                    <span className="text-sm text-gray-600">Entry Level</span>
+                    <span className="font-semibold text-gray-900">{hubData.salary.entry}</span>
+                  </div>
+                  <div className="flex justify-between items-center py-2 border-b border-gray-100">
+                    <span className="text-sm text-gray-600">Median</span>
+                    <span className="font-bold text-teal-700 text-lg">{hubData.salary.median}</span>
+                  </div>
+                  <div className="flex justify-between items-center py-2">
+                    <span className="text-sm text-gray-600">Experienced</span>
+                    <span className="font-semibold text-gray-900">{hubData.salary.experienced}</span>
+                  </div>
+                </div>
+                <p className="text-xs text-gray-400 mt-3">{hubData.salary.source}</p>
+              </div>
+
+              {/* Job Outlook */}
+              <div className="bg-white rounded-2xl border border-gray-200 p-6" data-testid="card-job-outlook">
+                <h3 className="font-semibold text-gray-900 mb-4 flex items-center gap-2">
+                  <TrendingUp className="w-5 h-5 text-teal-500" />
+                  Job Outlook
+                </h3>
+                <div className="space-y-3">
+                  <div className="flex justify-between items-center py-2 border-b border-gray-100">
+                    <span className="text-sm text-gray-600">Growth Rate</span>
+                    <span className="font-bold text-teal-700 text-lg">{hubData.jobOutlook.growthRate}</span>
+                  </div>
+                  <div className="flex justify-between items-center py-2 border-b border-gray-100">
+                    <span className="text-sm text-gray-600">Period</span>
+                    <span className="font-semibold text-gray-900">{hubData.jobOutlook.growthPeriod}</span>
+                  </div>
+                  <div className="flex justify-between items-center py-2 border-b border-gray-100">
+                    <span className="text-sm text-gray-600">Openings/Year</span>
+                    <span className="font-semibold text-gray-900">{hubData.jobOutlook.openingsPerYear}</span>
+                  </div>
+                  <div className="flex justify-between items-center py-2">
+                    <span className="text-sm text-gray-600">Demand Level</span>
+                    <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-semibold bg-teal-50 text-teal-700">{hubData.jobOutlook.demandLevel}</span>
+                  </div>
+                </div>
+                <p className="text-xs text-gray-400 mt-3">{hubData.jobOutlook.source}</p>
+              </div>
+            </div>
+
+            {/* Benefits */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4" data-testid="career-benefits">
+              {hubData.benefits.map((benefit, i) => (
+                <div key={i} className="flex gap-3 p-4 bg-gray-50 rounded-xl" data-testid={`benefit-${i}`}>
+                  <CheckCircle2 className="w-5 h-5 text-teal-500 mt-0.5 flex-shrink-0" />
+                  <div>
+                    <h4 className="font-semibold text-gray-900 text-sm">{benefit.title}</h4>
+                    <p className="text-sm text-gray-600 mt-0.5">{benefit.description}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Day in the Life */}
+      {hubData && (
+        <section className="py-16 bg-gradient-to-b from-teal-50/30 to-white" data-testid="section-day-in-life">
+          <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center mb-10">
+              <h2 className="text-2xl font-bold text-gray-900 mb-3">{hubData.dayInTheLife.title}</h2>
+            </div>
+            <div className="bg-white rounded-2xl border border-gray-200 p-6 sm:p-8 mb-6">
+              <p className="text-gray-600 leading-relaxed" data-testid="text-day-narrative">{hubData.dayInTheLife.narrative}</p>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              {hubData.dayInTheLife.typicalTasks.map((task, i) => (
+                <div key={i} className="flex items-start gap-2.5 px-4 py-2.5 bg-white rounded-lg border border-gray-100" data-testid={`task-${i}`}>
+                  <Check className="w-4 h-4 text-teal-500 mt-0.5 flex-shrink-0" />
+                  <span className="text-sm text-gray-700">{task}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Related Resources (cross-platform internal links) */}
       {(() => {
         const crossLinks = getCrossPlatformLinksForCareer(career.slug);
         if (crossLinks.length === 0) return null;
@@ -314,7 +505,7 @@ export default function CareerLandingPage() {
       </section>
 
       {/* Exam Blueprint Domains */}
-      <section className="py-16 bg-gradient-to-b from-teal-50/30 to-white">
+      <section className="py-16 bg-gradient-to-b from-teal-50/30 to-white" data-testid="section-domains">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-2xl font-bold text-gray-900 mb-8 text-center">Exam Blueprint Domains</h2>
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
@@ -327,6 +518,31 @@ export default function CareerLandingPage() {
           </div>
         </div>
       </section>
+
+      {/* Exam Prep Tips */}
+      {hubData && (
+        <section className="py-16 bg-white" data-testid="section-exam-tips">
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center mb-10">
+              <h2 className="text-2xl font-bold text-gray-900 mb-3">{career.shortName} Exam Preparation Tips</h2>
+              <p className="text-gray-600">Expert strategies to maximize your study time and pass on your first attempt</p>
+            </div>
+            <div className="space-y-4">
+              {hubData.examPrepTips.map((tip, i) => (
+                <div key={i} className="flex gap-4 items-start bg-gray-50 rounded-xl p-5" data-testid={`exam-tip-${i}`}>
+                  <div className="flex-shrink-0 w-8 h-8 rounded-lg bg-teal-100 flex items-center justify-center">
+                    <Lightbulb className="w-4 h-4 text-teal-600" />
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-gray-900 mb-1">{tip.title}</h3>
+                    <p className="text-sm text-gray-600">{tip.description}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
 
       {regionConfig && (
         <section className="py-16 bg-white" data-testid="section-region-info">
@@ -392,7 +608,7 @@ export default function CareerLandingPage() {
 
       {/* Smart Study Tools */}
       {career.aiTools.length > 0 && (
-        <section className="py-16 bg-white">
+        <section className="py-16 bg-white" data-testid="section-smart-tools">
           <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
             <h2 className="text-2xl font-bold text-gray-900 mb-8 text-center">Smart Study Tools</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
@@ -410,6 +626,82 @@ export default function CareerLandingPage() {
         </section>
       )}
 
+      {/* Instructor Bios */}
+      {hubData && hubData.instructors.length > 0 && (
+        <section className="py-16 bg-gray-50" data-testid="section-instructors">
+          <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center mb-10">
+              <h2 className="text-2xl font-bold text-gray-900 mb-3">Built by Experts</h2>
+              <p className="text-gray-600">Our content is created and reviewed by credentialed {career.shortName} professionals</p>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {hubData.instructors.map((instructor, i) => (
+                <div key={i} className="bg-white rounded-2xl border border-gray-200 p-6" data-testid={`instructor-${i}`}>
+                  <div className="flex items-start gap-4">
+                    <div className="flex-shrink-0 w-14 h-14 rounded-full flex items-center justify-center text-white font-bold text-lg" style={{ backgroundColor: career.color }}>
+                      {instructor.name.split(' ').map(n => n[0]).join('').slice(0, 2)}
+                    </div>
+                    <div className="flex-1">
+                      <h3 className="font-semibold text-gray-900">{instructor.name}</h3>
+                      <p className="text-xs text-teal-600 font-medium mt-0.5">{instructor.credentials}</p>
+                      <p className="text-xs text-gray-500 mt-0.5">{instructor.specialty}</p>
+                    </div>
+                  </div>
+                  <p className="text-sm text-gray-600 mt-4 leading-relaxed">{instructor.bio}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Testimonials */}
+      {hubData && hubData.testimonials.length > 0 && (
+        <section className="py-16 bg-white" data-testid="section-testimonials">
+          <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center mb-10">
+              <h2 className="text-2xl font-bold text-gray-900 mb-3">What {career.shortName} Students Are Saying</h2>
+              <p className="text-gray-600">Real feedback from learners preparing for their {career.examNames[0]} exam</p>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {hubData.testimonials.map((testimonial, i) => (
+                <div key={i} className="bg-white rounded-2xl border border-gray-100 p-6 shadow-sm hover:shadow-md transition-shadow" data-testid={`hub-testimonial-${i}`}>
+                  <div className="flex items-center gap-1 mb-3">
+                    {Array.from({ length: testimonial.rating }).map((_, j) => (
+                      <Star key={j} className="w-4 h-4 fill-amber-400 text-amber-400" />
+                    ))}
+                  </div>
+                  <p className="text-gray-700 leading-relaxed mb-4 italic text-sm">"{testimonial.quote}"</p>
+                  <div className="flex items-center gap-2">
+                    <CheckCircle2 className="w-4 h-4 text-emerald-500" />
+                    <div>
+                      <p className="text-sm font-semibold text-gray-900">{testimonial.name}</p>
+                      <p className="text-xs text-gray-500">{testimonial.role}</p>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Mid-Page CTA */}
+      <section className="py-12 bg-gradient-to-r from-teal-600 to-teal-700" data-testid="section-mid-cta">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h2 className="text-xl sm:text-2xl font-bold text-white mb-3">Start practicing now — create your free account</h2>
+          <p className="text-teal-100 mb-6">Get instant access to practice questions, a diagnostic assessment, and a sample mock exam.</p>
+          <div className="flex flex-wrap gap-4 justify-center">
+            <Link href={`/diagnostic?career=${career.slug}`} className="inline-flex items-center gap-2 px-6 py-3 bg-white text-teal-700 rounded-xl font-bold hover:bg-teal-50 transition-colors shadow-lg" data-testid="button-mid-cta-diagnostic">
+              Start Free Diagnostic <ArrowRight className="w-4 h-4" />
+            </Link>
+            <Link href="/register" className="inline-flex items-center gap-2 px-6 py-3 bg-teal-500 text-white rounded-xl font-semibold hover:bg-teal-400 transition-colors border border-teal-400" data-testid="button-mid-cta-register">
+              Create Free Account
+            </Link>
+          </div>
+        </div>
+      </section>
+
       {/* Pricing Mini-Section */}
       <section className="py-16 bg-gradient-to-b from-white to-teal-50/40" data-testid="section-pricing">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -418,7 +710,6 @@ export default function CareerLandingPage() {
             <p className="text-gray-600">Start free. Upgrade when you're ready to go all-in on exam prep.</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-            {/* Free */}
             <div className="bg-white rounded-2xl border border-gray-200 p-6" data-testid="pricing-free">
               <div className="text-sm font-medium text-gray-500 mb-2">Free</div>
               <div className="text-3xl font-bold text-gray-900 mb-1">$0</div>
@@ -442,7 +733,6 @@ export default function CareerLandingPage() {
               </Link>
             </div>
 
-            {/* Monthly */}
             <div className="bg-white rounded-2xl border border-gray-200 p-6" data-testid="pricing-monthly">
               <div className="text-sm font-medium text-gray-500 mb-2">Monthly</div>
               <div className="text-3xl font-bold text-gray-900 mb-1">$29</div>
@@ -466,7 +756,6 @@ export default function CareerLandingPage() {
               </Link>
             </div>
 
-            {/* Annual - Best Value */}
             <div className="bg-white rounded-2xl border-2 border-teal-500 p-6 relative shadow-lg shadow-teal-100" data-testid="pricing-annual">
               <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-0.5 bg-teal-600 text-white text-xs font-bold rounded-full">
                 BEST VALUE
@@ -505,7 +794,7 @@ export default function CareerLandingPage() {
             <p className="text-gray-600">Everything you need to know about {career.shortName} exam prep</p>
           </div>
           <div className="space-y-3">
-            {FAQ_DATA.map((faq, i) => (
+            {faqItems.map((faq, i) => (
               <FAQItem key={i} question={faq.q} answer={faq.a} index={i} />
             ))}
           </div>
@@ -513,7 +802,7 @@ export default function CareerLandingPage() {
       </section>
 
       {/* Final CTA */}
-      <section className="py-16 bg-gradient-to-br from-teal-600 to-teal-700">
+      <section className="py-16 bg-gradient-to-br from-teal-600 to-teal-700" data-testid="section-final-cta">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-2xl sm:text-3xl font-bold text-white mb-4">
             Ready to pass your {career.examNames[0]} exam?
@@ -551,7 +840,11 @@ function FAQItem({ question, answer, index }: { question: string; answer: string
         data-testid={`button-faq-toggle-${index}`}
       >
         <span className="font-medium text-gray-900 pr-4">{question}</span>
-        <HelpCircle className={`w-5 h-5 flex-shrink-0 transition-colors ${open ? 'text-teal-500' : 'text-gray-400'}`} />
+        {open ? (
+          <ChevronUp className="w-5 h-5 flex-shrink-0 text-teal-500" />
+        ) : (
+          <ChevronDown className="w-5 h-5 flex-shrink-0 text-gray-400" />
+        )}
       </button>
       {open && (
         <div className="px-5 pb-4 text-sm text-gray-600 leading-relaxed" data-testid={`text-faq-answer-${index}`}>
