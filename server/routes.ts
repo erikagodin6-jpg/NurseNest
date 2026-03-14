@@ -19784,6 +19784,134 @@ Rules:
     }
   });
 
+  // Content Quality Gate routes
+  const { runContentQualityGate } = await import("./content-quality-gate");
+
+  app.post("/api/admin/quality-gate/analyze", async (req, res) => {
+    const admin = await requireAdmin(req, res);
+    if (!admin) return;
+    try {
+      const { items, contentType = "question", specialtyKey, isNewGrad, isAdaptive, difficultyLevel } = req.body;
+      if (!Array.isArray(items) || items.length === 0) return res.status(400).json({ error: "items array required" });
+      const report = runContentQualityGate(items, { contentType, specialtyKey, isNewGrad, isAdaptive, difficultyLevel });
+      res.json(report);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/admin/quality-gate/flagged", async (req, res) => {
+    const admin = await requireAdmin(req, res);
+    if (!admin) return;
+    try {
+      const page = parseInt(req.query.page as string) || 1;
+      const limit = Math.min(parseInt(req.query.limit as string) || 50, 200);
+      const offset = (page - 1) * limit;
+      const contentType = req.query.contentType as string || "all";
+
+      let questionItems: any[] = [];
+      let flashcardItems: any[] = [];
+      let totalQuestions = 0;
+      let totalFlashcards = 0;
+
+      const qCount = await pool.query(`SELECT COUNT(*)::int as total FROM exam_questions WHERE status = 'needs_revision'`);
+      totalQuestions = qCount.rows[0]?.total || 0;
+      const fCount = await pool.query(`SELECT COUNT(*)::int as total FROM flashcard_bank WHERE status = 'needs_revision'`);
+      totalFlashcards = fCount.rows[0]?.total || 0;
+
+      if (contentType === "all" || contentType === "question") {
+        const qLimit = contentType === "all" ? Math.ceil(limit / 2) : limit;
+        const qOffset = contentType === "all" ? Math.ceil(offset / 2) : offset;
+        const qResult = await pool.query(
+          `SELECT id, tier, exam, question_type, status, stem, body_system, topic, difficulty, rationale,
+                  quality_scores, quality_feedback, quality_score, created_at, updated_at
+           FROM exam_questions WHERE status = 'needs_revision'
+           ORDER BY created_at DESC LIMIT $1 OFFSET $2`,
+          [qLimit, qOffset]
+        );
+        questionItems = qResult.rows.map(snakeToCamel);
+      }
+
+      if (contentType === "all" || contentType === "flashcard") {
+        const fLimit = contentType === "all" ? Math.ceil(limit / 2) : limit;
+        const fOffset = contentType === "all" ? Math.ceil(offset / 2) : offset;
+        const fResult = await pool.query(
+          `SELECT id, tier, front, back, topic, category, status, difficulty,
+                  quality_scores, quality_feedback, quality_score, created_at
+           FROM flashcard_bank WHERE status = 'needs_revision'
+           ORDER BY created_at DESC LIMIT $1 OFFSET $2`,
+          [fLimit, fOffset]
+        );
+        flashcardItems = fResult.rows.map(snakeToCamel);
+      }
+
+      const total = totalQuestions + totalFlashcards;
+      res.json({
+        questions: questionItems,
+        flashcards: flashcardItems,
+        totalQuestions,
+        totalFlashcards,
+        total,
+        page,
+        totalPages: Math.ceil(total / limit),
+      });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.post("/api/admin/quality-gate/override/:entityType/:id", async (req, res) => {
+    const admin = await requireAdmin(req, res);
+    if (!admin) return;
+    try {
+      const { entityType, id } = req.params;
+      const { justification, newStatus = "draft" } = req.body;
+      if (!justification || justification.length < 10) return res.status(400).json({ error: "Justification required (min 10 chars)" });
+
+      const table = entityType === "question" ? "exam_questions" : entityType === "flashcard" ? "flashcard_bank" : null;
+      if (!table) return res.status(400).json({ error: "Invalid entityType" });
+
+      const overrideNote = JSON.stringify({ overriddenBy: admin.username, justification, overriddenAt: new Date().toISOString() });
+      const updateResult = await pool.query(
+        `UPDATE ${table} SET status = $1, quality_feedback = jsonb_set(COALESCE(quality_feedback, '{}')::jsonb, '{override}', $2::jsonb), updated_at = NOW() WHERE id = $3`,
+        [newStatus, overrideNote, id]
+      );
+      if (updateResult.rowCount === 0) return res.status(404).json({ error: "Item not found" });
+      res.json({ success: true, message: `Item status updated to ${newStatus}` });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.post("/api/admin/quality-gate/recheck/:entityType/:id", async (req, res) => {
+    const admin = await requireAdmin(req, res);
+    if (!admin) return;
+    try {
+      const { entityType, id } = req.params;
+      const table = entityType === "question" ? "exam_questions" : entityType === "flashcard" ? "flashcard_bank" : null;
+      if (!table) return res.status(400).json({ error: "Invalid entityType" });
+
+      const result = await pool.query(`SELECT * FROM ${table} WHERE id = $1`, [id]);
+      if (!result.rows[0]) return res.status(404).json({ error: "Item not found" });
+
+      const item = result.rows[0];
+      const report = runContentQualityGate([item], {
+        contentType: entityType as "question" | "flashcard",
+        specialtyKey: item.career_type,
+      });
+
+      const itemResult = report.itemResults[0];
+      const newStatus = itemResult.passed ? "draft" : "needs_revision";
+      await pool.query(
+        `UPDATE ${table} SET status = $1, quality_scores = $2, quality_feedback = $3, quality_score = $4, updated_at = NOW() WHERE id = $5`,
+        [newStatus, JSON.stringify(itemResult.scores), JSON.stringify({ revisionFeedback: itemResult.revisionFeedback, overallScore: itemResult.overallScore }), itemResult.overallScore, id]
+      );
+      res.json({ ...itemResult, newStatus });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
   return httpServer;
 }
 

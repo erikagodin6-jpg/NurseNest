@@ -2,6 +2,7 @@ import type { Express } from "express";
 import { pool } from "./storage";
 import { requireAdmin } from "./admin-auth";
 import { renderPromptForVariant, getActiveTemplates } from "./prompts/qbank-templates";
+import { runContentQualityGate } from "./content-quality-gate";
 
 let globalKillSwitch = false;
 let dailyTokenCost = 0;
@@ -297,30 +298,48 @@ async function ingestQuestions(runId: string, questions: any[], variant: any, te
   const dbTarget = "development";
   console.log(`[QBank Ingest] Run ${runId}: ingesting ${questions.length} questions → targeting ${dbTarget.toUpperCase()} database`);
 
-  for (const q of questions) {
-    if (isNursing || templateKey === "cnpe_v1" || templateKey === "np_us_v1") {
+  const isNursingBatch = isNursing || templateKey === "cnpe_v1" || templateKey === "np_us_v1";
+  const careerMap: Record<string, string> = {
+    mlt: "mlt", pharm_tech: "pharmacyTech", paramedic: "paramedic",
+    rrt: "rrt", imaging: "imaging", ot: "ot", pt: "pt",
+    psychotherapist: "psychotherapist", social_worker: "socialWorker",
+    addictions_worker: "addictionsWorker", peds_nursing: "peds_nursing",
+  };
+  const specialtyKey = isAllied ? (careerMap[variant.variantKey] || variant.variantKey) : undefined;
+
+  const qualityReport = runContentQualityGate(questions, {
+    contentType: "question",
+    specialtyKey,
+    isNewGrad: variant.isNewGrad || false,
+  });
+  console.log(`[QBank Quality Gate] Run ${runId}: ${qualityReport.passedCount}/${qualityReport.batchSize} passed (${qualityReport.overallPassRate}%)`);
+
+  for (let i = 0; i < questions.length; i++) {
+    const q = questions[i];
+    const qr = qualityReport.itemResults[i];
+    const qStatus = qr && !qr.passed ? "needs_revision" : initialStatus;
+    const qualityScoresJson = qr ? JSON.stringify(qr.scores) : null;
+    const qualityFeedbackJson = qr ? JSON.stringify({ revisionFeedback: qr.revisionFeedback, overallScore: qr.overallScore }) : null;
+    const qualityScoreNum = qr ? qr.overallScore : null;
+
+    if (isNursingBatch) {
       const tier = variant.examKey.includes("PN") ? "rpn" : "rn";
       const region = variant.region === "Canada" ? "CAN" : "US";
       await pool.query(
-        `INSERT INTO exam_questions (tier, exam, question_type, status, ${autoPublish ? "published_at," : ""} stem, options, correct_answer, rationale, difficulty, tags, body_system, topic, subtopic, region_scope, career_type)
-         VALUES ($1, $2, $3, $4, ${autoPublish ? "NOW()," : ""} $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, 'nursing')`,
+        `INSERT INTO exam_questions (tier, exam, question_type, status, ${autoPublish && qStatus !== "needs_revision" ? "published_at," : ""} stem, options, correct_answer, rationale, difficulty, tags, body_system, topic, subtopic, region_scope, career_type, quality_scores, quality_feedback, quality_score)
+         VALUES ($1, $2, $3, $4, ${autoPublish && qStatus !== "needs_revision" ? "NOW()," : ""} $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, 'nursing', $15, $16, $17)`,
         [
-          tier, variant.examKey, q.questionType || "MCQ", initialStatus, q.stem,
+          tier, variant.examKey, q.questionType || "MCQ", qStatus, q.stem,
           JSON.stringify(q.options || []), JSON.stringify(q.correctAnswer || []),
           q.rationale || q.rationaleLong || "", q.difficulty || 3,
           q.tags || [], q.bodySystem || q.domain || q.clientNeedDomain || null,
           q.topic || q.clientNeedDomain || q.domain || null,
           q.subtopic || q.subCategory || q.subDomain || null,
           region === "CAN" ? "CAN" : region === "US" ? "US" : "BOTH",
+          qualityScoresJson, qualityFeedbackJson, qualityScoreNum,
         ]
       );
     } else if (isAllied) {
-      const careerMap: Record<string, string> = {
-        mlt: "mlt", pharm_tech: "pharmacyTech", paramedic: "paramedic",
-        rrt: "rrt", imaging: "imaging", ot: "ot", pt: "pt",
-        psychotherapist: "psychotherapist", social_worker: "socialWorker",
-        addictions_worker: "addictionsWorker", peds_nursing: "peds_nursing",
-      };
       const careerType = careerMap[variant.variantKey] || variant.variantKey;
       const questionResult = await pool.query(
         `INSERT INTO allied_questions (career_type, stem, options, correct_answer, rationale_long, learning_objective, blueprint_category, subtopic, difficulty, cognitive_level, question_type, exam_trap, clinical_pearls, safety_note, distractor_rationales, status)

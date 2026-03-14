@@ -668,6 +668,9 @@ export const examQuestions = pgTable("exam_questions", {
   frameworkUsed: text("framework_used"),
   clinicalTrap: text("clinical_trap"),
   distractorRationales: jsonb("distractor_rationales"),
+  qualityScores: jsonb("quality_scores"),
+  qualityFeedback: jsonb("quality_feedback"),
+  qualityScore: integer("quality_score"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
   publishedAt: timestamp("published_at"),
@@ -1140,6 +1143,9 @@ export const flashcardBank = pgTable("flashcard_bank", {
   highYield: boolean("high_yield").default(false),
   isFoundational: boolean("is_foundational").default(false),
   blueprintCategory: text("blueprint_category"),
+  qualityScores: jsonb("quality_scores"),
+  qualityFeedback: jsonb("quality_feedback"),
+  qualityScore: integer("quality_score"),
 });
 
 export const insertFlashcardBankSchema = createInsertSchema(flashcardBank).omit({ id: true, createdAt: true });

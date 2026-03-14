@@ -8,13 +8,15 @@ import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
+import { Textarea } from "@/components/ui/textarea";
 import {
   ArrowLeft, CheckCircle, XCircle, Archive, Trash2, Copy, Eye,
-  Loader2, Search, ChevronLeft, ChevronRight, Upload, Download
+  Loader2, Search, ChevronLeft, ChevronRight, Upload, Download,
+  AlertTriangle, ShieldCheck, RotateCcw
 } from "lucide-react";
 import { Link } from "wouter";
 
-type ContentTab = "questions" | "flashcards";
+type ContentTab = "questions" | "flashcards" | "quality";
 
 interface QuestionItem {
   id: string;
@@ -600,6 +602,254 @@ function FlashcardBankTab() {
   );
 }
 
+interface QualityFlaggedItem {
+  id: string;
+  type: "question" | "flashcard";
+  stem?: string;
+  front?: string;
+  back?: string;
+  tier?: string;
+  topic?: string;
+  difficulty?: number;
+  qualityScores?: any[];
+  qualityFeedback?: { revisionFeedback?: string[]; overallScore?: number; override?: any };
+  qualityScore?: number;
+  createdAt?: string;
+}
+
+function QualityScoreBadge({ score }: { score: number }) {
+  const color = score >= 80 ? "bg-green-100 text-green-800" : score >= 65 ? "bg-yellow-100 text-yellow-800" : "bg-red-100 text-red-800";
+  return <span className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-medium ${color}`} data-testid={`badge-quality-score-${score}`}>{score}%</span>;
+}
+
+function QualityReviewTab() {
+  const queryClient = useQueryClient();
+  const [contentFilter, setContentFilter] = useState("all");
+  const [page, setPage] = useState(1);
+  const [expandedId, setExpandedId] = useState<string | null>(null);
+  const [overrideId, setOverrideId] = useState<string | null>(null);
+  const [overrideType, setOverrideType] = useState<string>("");
+  const [justification, setJustification] = useState("");
+
+  const { data, isLoading } = useQuery({
+    queryKey: ["/api/admin/quality-gate/flagged", contentFilter, page],
+    queryFn: async () => {
+      const res = await adminFetch(`/api/admin/quality-gate/flagged?contentType=${contentFilter}&page=${page}&limit=25`);
+      if (!res.ok) throw new Error("Failed to fetch flagged items");
+      return res.json();
+    },
+  });
+
+  const overrideMutation = useMutation({
+    mutationFn: async ({ entityType, id, justification: just }: { entityType: string; id: string; justification: string }) => {
+      const res = await adminFetch(`/api/admin/quality-gate/override/${entityType}/${id}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ justification: just, newStatus: "draft" }),
+      });
+      if (!res.ok) throw new Error("Override failed");
+      return res.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/admin/quality-gate/flagged"] });
+      setOverrideId(null);
+      setJustification("");
+    },
+  });
+
+  const recheckMutation = useMutation({
+    mutationFn: async ({ entityType, id }: { entityType: string; id: string }) => {
+      const res = await adminFetch(`/api/admin/quality-gate/recheck/${entityType}/${id}`, { method: "POST" });
+      if (!res.ok) throw new Error("Recheck failed");
+      return res.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/admin/quality-gate/flagged"] });
+    },
+  });
+
+  const allItems: QualityFlaggedItem[] = [
+    ...(data?.questions || []).map((q: any) => ({ ...q, type: "question" as const })),
+    ...(data?.flashcards || []).map((f: any) => ({ ...f, type: "flashcard" as const })),
+  ];
+
+  return (
+    <div className="space-y-4" data-testid="quality-review-tab">
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-3">
+          <Select value={contentFilter} onValueChange={v => { setContentFilter(v); setPage(1); }}>
+            <SelectTrigger className="w-40" data-testid="select-quality-filter">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">All Types</SelectItem>
+              <SelectItem value="question">Questions Only</SelectItem>
+              <SelectItem value="flashcard">Flashcards Only</SelectItem>
+            </SelectContent>
+          </Select>
+          <span className="text-sm text-gray-500" data-testid="text-flagged-count">
+            {data?.total || 0} flagged items ({data?.totalQuestions || 0} questions, {data?.totalFlashcards || 0} flashcards)
+          </span>
+        </div>
+      </div>
+
+      {isLoading ? (
+        <div className="flex justify-center py-12"><Loader2 className="h-6 w-6 animate-spin" /></div>
+      ) : allItems.length === 0 ? (
+        <div className="text-center py-12 text-gray-500" data-testid="text-no-flagged">
+          <ShieldCheck className="h-12 w-12 mx-auto mb-3 text-green-400" />
+          <p className="font-medium">All content passed quality checks</p>
+          <p className="text-sm mt-1">No items need revision</p>
+        </div>
+      ) : (
+        <div className="space-y-3">
+          {allItems.map((item) => {
+            const isExpanded = expandedId === item.id;
+            const isOverriding = overrideId === item.id;
+            const feedback = item.qualityFeedback as any;
+            const score = feedback?.overallScore || item.qualityScore || 0;
+            const revisionFeedback: string[] = feedback?.revisionFeedback || [];
+            const scores: any[] = item.qualityScores || [];
+
+            return (
+              <div key={item.id} className="border rounded-lg bg-white" data-testid={`card-flagged-${item.id}`}>
+                <div
+                  className="flex items-center justify-between p-4 cursor-pointer hover:bg-gray-50"
+                  onClick={() => setExpandedId(isExpanded ? null : item.id)}
+                  data-testid={`row-flagged-${item.id}`}
+                >
+                  <div className="flex items-center gap-3 flex-1 min-w-0">
+                    <AlertTriangle className="h-4 w-4 text-amber-500 flex-shrink-0" />
+                    <Badge variant="outline" className="flex-shrink-0" data-testid={`badge-type-${item.id}`}>
+                      {item.type === "question" ? "Q" : "FC"}
+                    </Badge>
+                    <span className="text-sm truncate" data-testid={`text-preview-${item.id}`}>
+                      {item.type === "question" ? (item.stem || "").substring(0, 120) : (item.front || "").substring(0, 120)}
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-3 flex-shrink-0">
+                    {item.tier && <Badge variant="secondary" data-testid={`badge-tier-${item.id}`}>{item.tier}</Badge>}
+                    <QualityScoreBadge score={score} />
+                  </div>
+                </div>
+
+                {isExpanded && (
+                  <div className="border-t p-4 space-y-4 bg-gray-50">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div>
+                        <h4 className="text-sm font-semibold mb-2 text-gray-700">Content Preview</h4>
+                        <div className="bg-white p-3 rounded border text-sm" data-testid={`text-content-${item.id}`}>
+                          {item.type === "question" ? (
+                            <p>{item.stem}</p>
+                          ) : (
+                            <>
+                              <p className="font-medium">Front: {item.front}</p>
+                              <p className="mt-1 text-gray-600">Back: {item.back}</p>
+                            </>
+                          )}
+                        </div>
+                      </div>
+
+                      <div>
+                        <h4 className="text-sm font-semibold mb-2 text-gray-700">Quality Scores</h4>
+                        <div className="space-y-1">
+                          {scores.map((s: any, idx: number) => (
+                            <div key={idx} className="flex items-center justify-between text-xs" data-testid={`score-dimension-${item.id}-${idx}`}>
+                              <span className={s.passed ? "text-green-700" : "text-red-700"}>
+                                {s.passed ? "✓" : "✗"} {s.dimension}
+                              </span>
+                              <span className="font-mono">{s.score}/{s.maxScore}</span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+
+                    {revisionFeedback.length > 0 && (
+                      <div>
+                        <h4 className="text-sm font-semibold mb-2 text-amber-700">Revision Feedback</h4>
+                        <ul className="list-disc pl-5 space-y-1" data-testid={`list-feedback-${item.id}`}>
+                          {revisionFeedback.map((f: string, idx: number) => (
+                            <li key={idx} className="text-sm text-gray-700">{f}</li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+
+                    <div className="flex items-center gap-2 pt-2 border-t">
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        onClick={(e) => { e.stopPropagation(); recheckMutation.mutate({ entityType: item.type, id: item.id }); }}
+                        disabled={recheckMutation.isPending}
+                        data-testid={`btn-recheck-${item.id}`}
+                      >
+                        <RotateCcw className="h-3 w-3 mr-1" /> Re-check
+                      </Button>
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setOverrideId(isOverriding ? null : item.id);
+                          setOverrideType(item.type);
+                          setJustification("");
+                        }}
+                        data-testid={`btn-override-${item.id}`}
+                      >
+                        <ShieldCheck className="h-3 w-3 mr-1" /> Override
+                      </Button>
+                    </div>
+
+                    {isOverriding && (
+                      <div className="bg-amber-50 p-3 rounded border border-amber-200 space-y-2" data-testid={`form-override-${item.id}`}>
+                        <p className="text-xs text-amber-700 font-medium">Provide justification for overriding quality gate:</p>
+                        <Textarea
+                          value={justification}
+                          onChange={e => setJustification(e.target.value)}
+                          placeholder="Explain why this item should bypass quality checks (min 10 chars)..."
+                          className="text-sm"
+                          data-testid={`input-justification-${item.id}`}
+                        />
+                        <div className="flex gap-2">
+                          <Button
+                            size="sm"
+                            disabled={justification.length < 10 || overrideMutation.isPending}
+                            onClick={() => overrideMutation.mutate({ entityType: overrideType, id: item.id, justification })}
+                            data-testid={`btn-confirm-override-${item.id}`}
+                          >
+                            {overrideMutation.isPending ? <Loader2 className="h-3 w-3 animate-spin mr-1" /> : null}
+                            Confirm Override
+                          </Button>
+                          <Button size="sm" variant="ghost" onClick={() => setOverrideId(null)} data-testid={`btn-cancel-override-${item.id}`}>
+                            Cancel
+                          </Button>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </div>
+      )}
+
+      {data && data.totalPages > 1 && (
+        <div className="flex items-center justify-center gap-2 pt-4" data-testid="pagination-quality">
+          <Button size="sm" variant="outline" disabled={page <= 1} onClick={() => setPage(p => p - 1)} data-testid="btn-quality-prev">
+            <ChevronLeft className="h-4 w-4" />
+          </Button>
+          <span className="text-sm text-gray-600">Page {page} of {data.totalPages}</span>
+          <Button size="sm" variant="outline" disabled={page >= data.totalPages} onClick={() => setPage(p => p + 1)} data-testid="btn-quality-next">
+            <ChevronRight className="h-4 w-4" />
+          </Button>
+        </div>
+      )}
+    </div>
+  );
+}
+
 export default function AdminContentManager() {
   const [tab, setTab] = useState<ContentTab>("questions");
 
@@ -619,6 +869,9 @@ export default function AdminContentManager() {
           <TabsList data-testid="tabs-content-type">
             <TabsTrigger value="questions" data-testid="tab-questions">Exam Questions</TabsTrigger>
             <TabsTrigger value="flashcards" data-testid="tab-flashcards">Flashcard Bank</TabsTrigger>
+            <TabsTrigger value="quality" data-testid="tab-quality">
+              <AlertTriangle className="h-3.5 w-3.5 mr-1" /> Quality Review
+            </TabsTrigger>
           </TabsList>
 
           <TabsContent value="questions">
@@ -639,6 +892,20 @@ export default function AdminContentManager() {
               </CardHeader>
               <CardContent>
                 <FlashcardBankTab />
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          <TabsContent value="quality">
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-[#2E3A59] flex items-center gap-2">
+                  <AlertTriangle className="h-5 w-5 text-amber-500" />
+                  Quality Review
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <QualityReviewTab />
               </CardContent>
             </Card>
           </TabsContent>
