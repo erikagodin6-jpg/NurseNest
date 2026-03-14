@@ -461,6 +461,18 @@ const staticPages: Record<string, { title: string; description: string }> = {
     title: "US NP Certification Exam Mock Simulator (AANP/ANCC) | NurseNest",
     description: "Practice for AANP or ANCC nurse practitioner certification with a realistic mock exam. 175 advanced practice questions covering FNP, AGNP, and specialty content.",
   },
+  "/exam-prep": {
+    title: "Exam Prep Hub: Healthcare Certification Study Resources | NurseNest",
+    description: "Central hub for all healthcare exam preparation resources. Practice questions, mock exams, flashcards, and lessons for nursing, paramedic, MLT, respiratory therapy, medical imaging, pharmacy tech, social work, and occupational therapy certifications.",
+  },
+  "/new-graduate-support": {
+    title: "New Graduate Support Hub: Career Launch Resources for Healthcare Professionals | NurseNest",
+    description: "Central hub for new graduate healthcare professionals. Interview prep, ATS-optimized resume builder, cover letter generator, first 90 days roadmap, and clinical confidence tools for nursing and allied health graduates.",
+  },
+  "/healthcare-careers": {
+    title: "Healthcare Careers Hub: Explore Career Paths and Certification Requirements | NurseNest",
+    description: "Explore healthcare career paths across nursing, paramedic, respiratory therapy, medical laboratory, medical imaging, pharmacy, social work, and occupational therapy. Compare salaries, job outlook, and certification requirements.",
+  },
   "/nclex-rn": {
     title: "NCLEX-RN Exam Prep Hub | Study Guides, Mock Exams & Practice Questions | NurseNest",
     description: "Your complete NCLEX-RN exam prep hub. Access mock exams, practice questions, pharmacology flashcards, study guides, and lab value review all in one place.",
@@ -1281,6 +1293,7 @@ export async function injectMeta(html: string, pathname: string): Promise<string
     "/pricing", "/about", "/pre-nursing", "/free-practice",
     "/nclex-rn", "/nclex-pn", "/canada-np", "/us-np",
     "/medical-imaging", "/new-grad",
+    "/exam-prep", "/new-graduate-support", "/healthcare-careers",
   ]);
 
   if (EDUCATIONAL_ORG_LANDING_PAGES.has(strippedPath)) {

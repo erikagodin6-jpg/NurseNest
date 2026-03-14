@@ -298,6 +298,9 @@ const AddictionsAuthorityHub = lazy(() => import("@/pages/authority-hubs").then(
 const OccupationalTherapyAuthorityHub = lazy(() => import("@/pages/authority-hubs").then(m => ({ default: m.OccupationalTherapyAuthorityHub })));
 const CareerGuidePage = lazy(() => import("@/allied/pages/career-guide-page"));
 const AuthorityContentPage = lazy(() => import("@/pages/authority-content-page"));
+const ExamPrepHub = lazy(() => import("@/pages/exam-prep-hub"));
+const NewGraduateSupportHub = lazy(() => import("@/pages/new-graduate-support-hub"));
+const HealthcareCareersHub = lazy(() => import("@/pages/healthcare-careers-hub"));
 
 function PageTracker() {
   usePageTracker();
@@ -463,6 +466,9 @@ function AppRoutes() {
           return <NewGradProfessionHub />;
         }}</Route>
         <Route path="/new-grad" component={NewGradHub} />
+        <Route path="/exam-prep" component={ExamPrepHub} />
+        <Route path="/new-graduate-support" component={NewGraduateSupportHub} />
+        <Route path="/healthcare-careers" component={HealthcareCareersHub} />
         <Route path="/nurse-first-year-survival-guide" component={NewGradGuidePage} />
         <Route path="/paramedic-first-year-survival-guide" component={NewGradGuidePage} />
         <Route path="/respiratory-therapist-first-year-survival-guide" component={NewGradGuidePage} />

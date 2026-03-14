@@ -74,9 +74,9 @@ export function Footer() {
             </ul>
             <h3 className="text-sm font-semibold text-gray-900 mb-3 mt-6">Ecosystem</h3>
             <ul className="space-y-2 text-sm text-gray-500">
-              <li><LocaleLink href="/lessons" className="hover:text-primary transition-colors" data-testid="link-footer-ecosystem-exam-prep">Exam Prep</LocaleLink></li>
-              <li><LocaleLink href="/new-grad" className="hover:text-primary transition-colors" data-testid="link-footer-ecosystem-new-grad">New Grad Support</LocaleLink></li>
-              <li><LocaleLink href="/new-grad#career-tools" className="hover:text-primary transition-colors" data-testid="link-footer-ecosystem-jobs">Healthcare Jobs</LocaleLink></li>
+              <li><LocaleLink href="/exam-prep" className="hover:text-primary transition-colors" data-testid="link-footer-ecosystem-exam-prep">Exam Prep</LocaleLink></li>
+              <li><LocaleLink href="/new-graduate-support" className="hover:text-primary transition-colors" data-testid="link-footer-ecosystem-new-grad">New Grad Support</LocaleLink></li>
+              <li><LocaleLink href="/healthcare-careers" className="hover:text-primary transition-colors" data-testid="link-footer-ecosystem-jobs">Healthcare Careers</LocaleLink></li>
             </ul>
           </div>
         </div>

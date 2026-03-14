@@ -432,6 +432,9 @@ app.get("/sitemap.xml", async (_req, res) => {
   entries.push(sitemapUrl(base, "/practice-questions", "0.9", "weekly", indexableLocales, today));
   entries.push(sitemapUrl(base, "/glossary", "0.8", "monthly", indexableLocales, today));
   entries.push(sitemapUrl(base, "/medication-mastery", "0.7", "monthly", indexableLocales, today));
+  entries.push(sitemapUrl(base, "/exam-prep", "0.9", "weekly", indexableLocales, today));
+  entries.push(sitemapUrl(base, "/new-graduate-support", "0.9", "weekly", indexableLocales, today));
+  entries.push(sitemapUrl(base, "/healthcare-careers", "0.9", "weekly", indexableLocales, today));
 
   const enOnly = ["en"];
   entries.push(sitemapUrl(base, "/case-simulations", "0.8", "monthly", enOnly, today));
