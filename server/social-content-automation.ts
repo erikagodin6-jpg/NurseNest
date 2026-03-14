@@ -112,9 +112,9 @@ function generateStudyTipContent(sourceContent: any, platform: string): Generate
 
   let caption = "";
   if (platform === "instagram") {
-    caption = `📚 STUDY TIP\n\n${tip}\n\n💡 From our lesson on "${sourceContent.title || "Exam Prep"}"\n\n👉 Save this post for your next study session!\n👇 Tag a classmate who needs this tip\n\n🔗 More tips at NurseNest.ca`;
+    caption = `STUDY TIP\n\n${tip}\n\nFrom our lesson on "${sourceContent.title || "Exam Prep"}"\n\nSave this post for your next study session!\nTag a classmate who needs this tip\n\nMore tips at NurseNest.ca`;
   } else if (platform === "tiktok") {
-    caption = `Study tip that could change your exam score 📚✨ ${tip} - Save this for later! #StudyTok #NurseTok`;
+    caption = `Study tip that could change your exam score ${tip} - Save this for later! #StudyTok #NurseTok`;
   } else if (platform === "pinterest") {
     caption = `${title} | ${tip} | Complete study resources and practice questions available at NurseNest.ca | Pin for your next study session`;
   } else if (platform === "linkedin") {
@@ -196,7 +196,7 @@ function generateClinicalPearlContent(sourceContent: any, platform: string): Gen
 
   let caption = "";
   if (platform === "instagram") {
-    caption = `💎 CLINICAL PEARL\n\n${pearl}\n\n📖 From: "${sourceContent.title || "Clinical Resource"}"\n\n⚠️ This is commonly tested on exams!\n📌 Save this for review\n👥 Share with your cohort`;
+    caption = `CLINICAL PEARL\n\n${pearl}\n\nFrom: "${sourceContent.title || "Clinical Resource"}"\n\nThis is commonly tested on exams!\nSave this for review\nShare with your cohort`;
   } else if (platform === "tiktok") {
     caption = `Clinical pearl every student should know 💎 ${pearl.substring(0, 200)} #ClinicalPearl #NurseTok #MedTok`;
   } else if (platform === "pinterest") {

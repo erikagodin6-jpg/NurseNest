@@ -506,7 +506,7 @@ export async function seedCatFlashcards(pool: Pool): Promise<void> {
             lessonSlugs
           );
           if (lesson) {
-            rationale += `\n\n📚 Study More: [${lesson.title}](/lessons/${lesson.slug})`;
+            rationale += `\n\nStudy More: [${lesson.title}](/lessons/${lesson.slug})`;
           }
 
           const difficulty =

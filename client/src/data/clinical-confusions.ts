@@ -948,32 +948,7 @@ export const clinicalConfusions: ClinicalConfusion[] = [
       { id: "pneumonia", title: "Pneumonia" },
     ],
     keywords: ["barrel chest COPD", "air trapping mechanism", "COPD hyperinflation", "chest wall remodeling", "COPD nursing assessment"],
-    images: [
-      {
-        src: "/attached_assets/generated_images/barrel-chest-normal-vs-copd-comparison.png",
-        alt: "Cross-sectional comparison of a normal thorax with an oval shape and dome-shaped diaphragm versus a COPD barrel chest with a rounded cross-section approaching a 1:1 anteroposterior-to-transverse ratio and flattened diaphragm",
-        caption: "Normal thorax vs. barrel chest in COPD. The normal chest (left) has an oval cross-section with an AP-to-transverse ratio of approximately 1:2 and a dome-shaped diaphragm. In advanced COPD (right), chronic hyperinflation remodels the thorax into a rounded shape where the AP diameter approaches the transverse diameter (ratio approaching 1:1). The diaphragm is visibly flattened, losing its mechanical advantage for generating negative inspiratory pressure.",
-        placement: "top",
-      },
-      {
-        src: "/attached_assets/generated_images/barrel-chest-air-trapping-mechanism.png",
-        alt: "Cross-section of lung tissue showing healthy alveoli with intact elastic walls on one side and emphysematous alveoli with destroyed walls, collapsed small airways, and trapped air on the other side",
-        caption: "The alveolar mechanism of air trapping in COPD. Healthy alveoli (left) maintain structural integrity with intact elastic fibers and open small airways during exhalation. In emphysema (right), neutrophil elastase and matrix metalloproteinases destroy alveolar walls, eliminating elastic recoil and the radial traction that holds small airways open. Without these tethering forces, small airways collapse during expiration, trapping air distally and progressively increasing residual volume and functional residual capacity.",
-        placement: "after-mechanism",
-      },
-      {
-        src: "/attached_assets/generated_images/barrel-chest-diaphragm-flattening.png",
-        alt: "Side-by-side comparison of a normal dome-shaped diaphragm with efficient muscle fiber orientation versus a flattened COPD diaphragm with reduced excursion and prominent accessory respiratory muscles in the neck",
-        caption: "Diaphragm flattening and accessory muscle recruitment in COPD. The normal diaphragm (left) maintains a high dome shape, allowing efficient downward contraction that generates strong negative intrathoracic pressure. In chronic hyperinflation (right), the diaphragm is pushed downward and flattened, operating at a suboptimal length-tension relationship. To compensate for the diaphragm's mechanical disadvantage, the sternocleidomastoid, scalene, and external intercostal muscles hypertrophy and become the primary muscles of inspiration.",
-        placement: "after-chain",
-      },
-      {
-        src: "/attached_assets/generated_images/barrel-chest-rib-remodeling.png",
-        alt: "Anterior view comparing a normal ribcage with downward-angled ribs and oval thorax to a COPD-remodeled ribcage with horizontally oriented ribs, widened intercostal spaces, and expanded anteroposterior diameter",
-        caption: "Progressive skeletal remodeling of the thorax in chronic COPD. The normal ribcage (left) has ribs that slope downward at approximately 45 degrees with narrow intercostal spaces. After years of sustained hyperinflation pressure (right), the costal cartilages remodel, ribs shift to a nearly horizontal orientation, and intercostal spaces widen. The sternum is displaced anteriorly as the AP diameter increases. This irreversible skeletal change is the hallmark barrel chest appearance and indicates severe, long-standing COPD (typically GOLD Stage III-IV).",
-        placement: "after-misconceptions",
-      },
-    ],
+    images: [],
   },
   {
     slug: "why-does-pancreatitis-cause-hypocalcemia",

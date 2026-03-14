@@ -1317,7 +1317,7 @@ function buildCramPageFlow(): PageFlowStep[] {
 
 const TEMPLATE_BLUEPRINTS: TemplateBlueprint[] = [
   {
-    id: "cram", label: "Cram Guide", description: "Comprehensive exam review with high-yield content, clinical pearls, and practice questions", icon: "📘",
+    id: "cram", label: "Cram Guide", description: "Comprehensive exam review with high-yield content, clinical pearls, and practice questions", icon: "",
     minPages: 20, maxPages: 80, defaultPages: 45, charsPerPage: 1800,
     sections: [
       { id: "learning-objectives", label: "Learning Objectives", weight: 0.05, required: true },

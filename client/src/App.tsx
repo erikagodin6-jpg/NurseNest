@@ -234,7 +234,6 @@ const NursingQuestionSeoPage = lazy(() => import("@/pages/nursing-question-seo-p
 const NursingQuestionsIndexPage = lazy(() => import("@/pages/nursing-question-seo-page").then(m => ({ default: m.NursingQuestionsIndexPage })));
 const QuestionPreviewPage = lazy(() => import("@/pages/question-preview"));
 const NursingCareerPage = lazy(() => import("@/pages/nursing-career-pages"));
-const InfographicLibrary = lazy(() => import("@/pages/infographic-library"));
 const TrialLanding = lazy(() => import("@/pages/trial-landing"));
 const TrialSession = lazy(() => import("@/pages/trial-session"));
 const TrialResults = lazy(() => import("@/pages/trial-results"));
@@ -707,8 +706,6 @@ function AppRoutes() {
         <Route path="/medical-imaging/usa" component={MedicalImagingUSAPage} />
         <Route path="/medical-imaging" component={MedicalImagingHub} />
         <Route path="/order-of-the-draw" component={OrderOfTheDraw} />
-        <Route path="/infographics/:slug" component={InfographicLibrary} />
-        <Route path="/infographics" component={InfographicLibrary} />
         <Route path="/demo/exam-readiness" component={ExamReadinessDemo} />
         <Route path="/demo/learning-progress" component={DemoLearningProgress} />
         <Route path="/diagnostic-assessment" component={DiagnosticAssessmentPage} />

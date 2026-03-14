@@ -146,7 +146,7 @@ export default function DemoStudyPlanPage() {
             </div>
           </div>
           <Badge className="text-xs px-3 py-1 border-0 font-semibold" style={{ backgroundColor: "#f3efff", color: "#9d82dd" }} data-testid="badge-ai-generated">
-            <Sparkles className="w-3.5 h-3.5 mr-1" /> AI-Generated Plan
+            <Sparkles className="w-3.5 h-3.5 mr-1" /> Personalized Plan
           </Badge>
         </div>
 

@@ -73,7 +73,7 @@ export default function PricingPage() {
   useEffect(() => {
     fetch("/api/pricing/plans")
       .then((r) => r.json())
-      .then((data) => { setPlans(data); setLoadingPlans(false); })
+      .then((data) => { setPlans(Array.isArray(data) ? data : []); setLoadingPlans(false); })
       .catch(() => setLoadingPlans(false));
   }, []);
 
