@@ -823,4 +823,117 @@ export function setupQBankRoutes(app: Express) {
       res.json({ lessons: 240, questions: 1000, flashcards: 500 });
     }
   });
+
+  const demoLimiter = rateLimit({
+    windowMs: 60 * 1000,
+    max: 10,
+    message: { error: "Too many demo requests. Please try again later." },
+    validate: { xForwardedForHeader: false, trustProxy: false },
+  });
+
+  app.get("/api/demo-exam/questions", demoLimiter, async (_req: any, res) => {
+    try {
+      const query = `SELECT id, tier, exam, question_type, stem, options, correct_answer, rationale, body_system, topic, subtopic, difficulty, scenario
+                     FROM exam_questions
+                     WHERE exam = 'NCLEX-RN' AND status = 'published'
+                     ORDER BY RANDOM() LIMIT 75`;
+      const result = await pool.query(query);
+
+      const letterMap: Record<string, number> = { A: 0, B: 1, C: 2, D: 3 };
+
+      const questions = result.rows.map((row: any) => {
+        let parsedOptions = row.options;
+        if (typeof parsedOptions === "string") {
+          try { parsedOptions = JSON.parse(parsedOptions); } catch { parsedOptions = [parsedOptions]; }
+        }
+
+        let parsedCorrect = row.correct_answer;
+        if (typeof parsedCorrect === "string") {
+          try {
+            parsedCorrect = JSON.parse(parsedCorrect);
+            if (typeof parsedCorrect === "string") {
+              const mapped = letterMap[parsedCorrect.toUpperCase()];
+              if (mapped !== undefined) parsedCorrect = [mapped];
+              else return null;
+            }
+          } catch {
+            const mapped = letterMap[parsedCorrect.toUpperCase()];
+            if (mapped !== undefined) parsedCorrect = [mapped];
+            else return null;
+          }
+        }
+        if (typeof parsedCorrect === "number") parsedCorrect = [parsedCorrect];
+        if (!Array.isArray(parsedCorrect)) return null;
+
+        const normalizedOptions = Array.isArray(parsedOptions)
+          ? parsedOptions.map((o: any) => typeof o === "object" && o !== null ? (o.text || o.label || JSON.stringify(o)) : String(o))
+          : parsedOptions;
+
+        return {
+          id: row.id,
+          stem: row.stem,
+          options: normalizedOptions,
+          bodySystem: row.body_system,
+          topic: row.topic,
+          subtopic: row.subtopic,
+          difficulty: row.difficulty,
+          questionType: row.question_type,
+          scenario: row.scenario,
+        };
+      }).filter((q: any) => q !== null);
+
+      res.json({ questions, count: questions.length });
+    } catch (e: any) {
+      console.error("Demo exam questions error:", e.message);
+      res.status(500).json({ error: "Failed to fetch demo questions" });
+    }
+  });
+
+  app.post("/api/demo-exam/check-answer", demoLimiter, async (req: any, res) => {
+    try {
+      const { questionId, selectedOption } = req.body;
+      if (!questionId || selectedOption === undefined) {
+        return res.status(400).json({ error: "Missing questionId or selectedOption" });
+      }
+
+      const result = await pool.query(
+        `SELECT correct_answer, body_system FROM exam_questions WHERE id = $1 AND exam = 'NCLEX-RN' AND status = 'published'`,
+        [questionId]
+      );
+
+      if (result.rows.length === 0) {
+        return res.status(404).json({ error: "Question not found" });
+      }
+
+      const row = result.rows[0];
+      const letterMap: Record<string, number> = { A: 0, B: 1, C: 2, D: 3 };
+      let parsedCorrect = row.correct_answer;
+      if (typeof parsedCorrect === "string") {
+        try {
+          parsedCorrect = JSON.parse(parsedCorrect);
+          if (typeof parsedCorrect === "string") {
+            const mapped = letterMap[parsedCorrect.toUpperCase()];
+            parsedCorrect = mapped !== undefined ? [mapped] : [0];
+          }
+        } catch {
+          const mapped = letterMap[parsedCorrect.toUpperCase()];
+          parsedCorrect = mapped !== undefined ? [mapped] : [0];
+        }
+      }
+      if (typeof parsedCorrect === "number") parsedCorrect = [parsedCorrect];
+      if (!Array.isArray(parsedCorrect)) parsedCorrect = [0];
+
+      const correctIndex = parsedCorrect[0];
+      const isCorrect = selectedOption === correctIndex;
+
+      res.json({
+        correct: isCorrect,
+        correctAnswer: correctIndex,
+        bodySystem: row.body_system,
+      });
+    } catch (e: any) {
+      console.error("Demo check-answer error:", e.message);
+      res.status(500).json({ error: "Failed to check answer" });
+    }
+  });
 }
