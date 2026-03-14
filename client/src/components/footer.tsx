@@ -58,11 +58,23 @@ export function Footer() {
             <h3 className="text-sm font-semibold text-gray-900 mb-3 mt-6">Nursing Specialties</h3>
             <ul className="space-y-2 text-sm text-gray-500">
               <li><LocaleLink href="/nursing-specialties" className="hover:text-primary transition-colors" data-testid="link-footer-specialties">All Specialties</LocaleLink></li>
-              <li><LocaleLink href="/icu" className="hover:text-primary transition-colors" data-testid="link-footer-icu">ICU Nursing</LocaleLink></li>
-              <li><LocaleLink href="/med-surg" className="hover:text-primary transition-colors" data-testid="link-footer-med-surg">Med-Surg</LocaleLink></li>
-              <li><LocaleLink href="/labor-and-delivery" className="hover:text-primary transition-colors" data-testid="link-footer-ld">Labor & Delivery</LocaleLink></li>
-              <li><LocaleLink href="/mental-health" className="hover:text-primary transition-colors" data-testid="link-footer-mental-health">Mental Health</LocaleLink></li>
-              <li><LocaleLink href="/trauma" className="hover:text-primary transition-colors" data-testid="link-footer-trauma">Trauma</LocaleLink></li>
+              <li><LocaleLink href="/guides/icu-nursing-ultimate-guide" className="hover:text-primary transition-colors" data-testid="link-footer-icu-guide">ICU Nursing Guide</LocaleLink></li>
+              <li><LocaleLink href="/guides/nicu-nursing-ultimate-guide" className="hover:text-primary transition-colors" data-testid="link-footer-nicu-guide">NICU Nursing Guide</LocaleLink></li>
+              <li><LocaleLink href="/guides/trauma-nursing-ultimate-guide" className="hover:text-primary transition-colors" data-testid="link-footer-trauma-guide">Trauma Nursing Guide</LocaleLink></li>
+              <li><LocaleLink href="/guides/med-surg-nursing-ultimate-guide" className="hover:text-primary transition-colors" data-testid="link-footer-medsurg-guide">Med-Surg Nursing Guide</LocaleLink></li>
+              <li><LocaleLink href="/guides/mental-health-nursing-ultimate-guide" className="hover:text-primary transition-colors" data-testid="link-footer-mental-health-guide">Mental Health Nursing Guide</LocaleLink></li>
+              <li><LocaleLink href="/guides/orthopedic-nursing-ultimate-guide" className="hover:text-primary transition-colors" data-testid="link-footer-ortho-guide">Orthopedic Nursing Guide</LocaleLink></li>
+              <li><LocaleLink href="/guides/nephrology-nursing-ultimate-guide" className="hover:text-primary transition-colors" data-testid="link-footer-nephro-guide">Nephrology Nursing Guide</LocaleLink></li>
+              <li><LocaleLink href="/guides/palliative-care-nursing-ultimate-guide" className="hover:text-primary transition-colors" data-testid="link-footer-palliative-guide">Palliative Care Guide</LocaleLink></li>
+            </ul>
+            <h3 className="text-sm font-semibold text-gray-900 mb-3 mt-6">Allied Health Guides</h3>
+            <ul className="space-y-2 text-sm text-gray-500">
+              <li><LocaleLink href="/guides/paramedic-career-guide" className="hover:text-primary transition-colors" data-testid="link-footer-paramedic-guide">Paramedic Guide</LocaleLink></li>
+              <li><LocaleLink href="/guides/respiratory-therapy-career-guide" className="hover:text-primary transition-colors" data-testid="link-footer-rrt-guide">Respiratory Therapy Guide</LocaleLink></li>
+              <li><LocaleLink href="/guides/medical-laboratory-technologist-guide" className="hover:text-primary transition-colors" data-testid="link-footer-mlt-guide">MLT Guide</LocaleLink></li>
+              <li><LocaleLink href="/guides/diagnostic-imaging-technologist-guide" className="hover:text-primary transition-colors" data-testid="link-footer-imaging-guide">Diagnostic Imaging Guide</LocaleLink></li>
+              <li><LocaleLink href="/guides/occupational-therapy-guide" className="hover:text-primary transition-colors" data-testid="link-footer-ot-guide">Occupational Therapy Guide</LocaleLink></li>
+              <li><LocaleLink href="/guides/physical-therapy-guide" className="hover:text-primary transition-colors" data-testid="link-footer-pt-guide">Physical Therapy Guide</LocaleLink></li>
             </ul>
             <h3 className="text-sm font-semibold text-gray-900 mb-3 mt-6">Healthcare Jobs</h3>
             <ul className="space-y-2 text-sm text-gray-500">

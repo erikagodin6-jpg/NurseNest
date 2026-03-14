@@ -419,7 +419,7 @@ export default function GuidePage() {
               </div>
             </section>
 
-            <EndOfContentLeadCapture />
+            <EndOfContentLeadCapture leadMagnetType="study_guide" source={`authority-guide-${guide.slug}`} />
           </div>
         </div>
       </main>
