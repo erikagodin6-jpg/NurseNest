@@ -54,6 +54,8 @@ Key systems and engines include:
 
 - **SEO Lesson Engine**: Dedicated `lessons` table with structured clinical fields (definition, pathophysiology, signs/symptoms, diagnostics, treatment, nursing interventions, complications, clinical pearls, references). Auto-generated slugs, SEO-optimized pages at `/lessons/:slug` with MedicalCondition, FAQPage, and Course structured data schemas. Paywall logic based on tier access. Admin CRUD panel at `/admin/seo-lessons` with bulk JSON import. Sitemap auto-integration for all published lessons. API: `/api/seo-lessons` (list), `/api/seo-lessons/:slug` (detail, published only), `/api/admin/seo-lessons` (admin CRUD).
 
+- **Allied Health Article Engine (Phase 1)**: Structured SEO article system for profession-specific content. Two tables: `allied_article_templates` (15 reusable article type definitions like how-to-become, salary-guide, certification-guide, etc.) and `allied_health_articles` (full articles with structured JSON content sections, FAQ items, internal links, schema markup, breadcrumbs). AI generation via GPT-4o produces complete structured articles from profession + template. Admin API: `/api/admin/allied-articles` (CRUD), `/api/admin/allied-articles/generate`, `/api/admin/allied-article-templates` (CRUD). Public API: `/api/allied-articles/:professionSlug`, `/api/allied-articles/:professionSlug/:articleSlug`. Published articles auto-included in allied sitemap. Routes: `server/allied-article-routes.ts`.
+
 The platform utilizes PostgreSQL with Drizzle ORM for database management.
 
 ## External Dependencies

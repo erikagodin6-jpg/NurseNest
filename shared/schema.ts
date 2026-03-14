@@ -5312,3 +5312,48 @@ export function generateLessonSlug(title: string): string {
     .replace(/^-|-$/g, "")
     .slice(0, 100);
 }
+
+export const alliedArticleTemplates = pgTable("allied_article_templates", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  templateKey: text("template_key").notNull().unique(),
+  displayName: text("display_name").notNull(),
+  description: text("description"),
+  sectionStructure: jsonb("section_structure").default(sql`'[]'::jsonb`),
+  promptInstructions: text("prompt_instructions"),
+  defaultInternalLinkTargets: jsonb("default_internal_link_targets").default(sql`'{}'::jsonb`),
+  isActive: boolean("is_active").default(true),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export const insertAlliedArticleTemplateSchema = createInsertSchema(alliedArticleTemplates).omit({ id: true, createdAt: true, updatedAt: true });
+export type AlliedArticleTemplate = typeof alliedArticleTemplates.$inferSelect;
+export type InsertAlliedArticleTemplate = z.infer<typeof insertAlliedArticleTemplateSchema>;
+
+export const alliedHealthArticles = pgTable("allied_health_articles", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  professionSlug: text("profession_slug").notNull(),
+  articleType: text("article_type").notNull(),
+  title: text("title").notNull(),
+  slug: text("slug").notNull().unique(),
+  metaTitle: text("meta_title"),
+  metaDescription: text("meta_description"),
+  canonicalUrl: text("canonical_url"),
+  primaryKeyword: text("primary_keyword"),
+  secondaryKeywords: text("secondary_keywords").array().default(sql`'{}'::text[]`),
+  contentSections: jsonb("content_sections").default(sql`'[]'::jsonb`),
+  faqItems: jsonb("faq_items").default(sql`'[]'::jsonb`),
+  internalLinks: jsonb("internal_links").default(sql`'[]'::jsonb`),
+  schemaMarkupJson: jsonb("schema_markup_json"),
+  breadcrumbItems: jsonb("breadcrumb_items").default(sql`'[]'::jsonb`),
+  status: text("status").notNull().default("draft"),
+  featuredOrder: integer("featured_order"),
+  countryScope: text("country_scope").default("ALL"),
+  publishedAt: timestamp("published_at"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export const insertAlliedHealthArticleSchema = createInsertSchema(alliedHealthArticles).omit({ id: true, createdAt: true, updatedAt: true, publishedAt: true });
+export type AlliedHealthArticle = typeof alliedHealthArticles.$inferSelect;
+export type InsertAlliedHealthArticle = z.infer<typeof insertAlliedHealthArticleSchema>;

@@ -344,6 +344,17 @@ export async function generateAlliedSitemapAsync(baseUrl: string): Promise<strin
     } catch {}
   }
 
+  try {
+    const { pool: dbPool3 } = require("./storage");
+    const articlesResult = await dbPool3.query(
+      `SELECT slug, profession_slug, updated_at FROM allied_health_articles WHERE status = 'published' ORDER BY published_at DESC`
+    );
+    for (const row of articlesResult.rows) {
+      const lm = row.updated_at ? new Date(row.updated_at).toISOString().split("T")[0] : new Date().toISOString().split("T")[0];
+      urls.push(`<url><loc>${baseUrl}/allied-health/${row.profession_slug}/${row.slug}</loc><changefreq>monthly</changefreq><priority>0.7</priority><lastmod>${lm}</lastmod></url>`);
+    }
+  } catch {}
+
   if (urls.length === 0) return staticXml;
 
   return staticXml.replace("</urlset>", urls.join("\n") + "\n</urlset>");
