@@ -50,6 +50,7 @@ import {
   Database,
   Lock,
   User as UserIcon,
+  Sparkles,
 } from "lucide-react";
 
 type AdminData = {
@@ -3713,10 +3714,16 @@ export default function AdminPage() {
                 <div className="space-y-6" data-testid="section-social">
                   <div className="flex items-center justify-between">
                     <h2 className="text-lg font-semibold text-gray-900">Social Media Scheduler</h2>
-                    <Button size="sm" variant="outline" onClick={fetchSocialPosts} disabled={socialLoading} className="gap-2" data-testid="button-refresh-social">
-                      <RefreshCw className={`w-4 h-4 ${socialLoading ? "animate-spin" : ""}`} />
-                      Refresh
-                    </Button>
+                    <div className="flex items-center gap-2">
+                      <Button size="sm" variant="default" onClick={() => setLocation("/admin/social-content")} className="gap-2" data-testid="button-social-content-automation">
+                        <Sparkles className="w-4 h-4" />
+                        Content Automation
+                      </Button>
+                      <Button size="sm" variant="outline" onClick={fetchSocialPosts} disabled={socialLoading} className="gap-2" data-testid="button-refresh-social">
+                        <RefreshCw className={`w-4 h-4 ${socialLoading ? "animate-spin" : ""}`} />
+                        Refresh
+                      </Button>
+                    </div>
                   </div>
 
                   <Card className={`border ${metaStatus?.connected ? "border-green-200 bg-green-50/30" : "border-amber-200 bg-amber-50/30"}`} data-testid="card-meta-connection">
@@ -3779,6 +3786,9 @@ export default function AdminPage() {
                           >
                             <option value="facebook">Facebook</option>
                             <option value="instagram">Instagram</option>
+                            <option value="tiktok">TikTok</option>
+                            <option value="pinterest">Pinterest</option>
+                            <option value="linkedin">LinkedIn</option>
                           </select>
                         </div>
                         <div>
@@ -3851,7 +3861,14 @@ export default function AdminPage() {
                         <div className="space-y-3">
                           {socialPosts.map((post: any) => (
                             <div key={post.id} className="flex items-start gap-3 p-3 rounded-lg border border-gray-100 bg-gray-50/50" data-testid={`card-social-post-${post.id}`}>
-                              <div className={`px-2 py-1 rounded text-xs font-bold uppercase ${post.platform === "facebook" ? "bg-blue-100 text-blue-700" : "bg-pink-100 text-pink-700"}`}>
+                              <div className={`px-2 py-1 rounded text-xs font-bold uppercase ${
+                                post.platform === "facebook" ? "bg-blue-100 text-blue-700" :
+                                post.platform === "instagram" ? "bg-pink-100 text-pink-700" :
+                                post.platform === "tiktok" ? "bg-gray-900 text-white" :
+                                post.platform === "pinterest" ? "bg-red-100 text-red-700" :
+                                post.platform === "linkedin" ? "bg-blue-200 text-blue-800" :
+                                "bg-gray-100 text-gray-700"
+                              }`}>
                                 {post.platform}
                               </div>
                               <div className="flex-1 min-w-0">

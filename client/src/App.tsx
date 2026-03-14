@@ -198,6 +198,7 @@ const AdminStudyAnalytics = lazy(() => import("@/pages/admin-study-analytics"));
 const AdminSeoAutopilot = lazy(() => import("@/pages/admin-seo-autopilot"));
 const AdminSeoDebug = lazy(() => import("@/pages/admin-seo-debug"));
 const AdminAlliedMarketing = lazy(() => import("@/pages/admin-allied-marketing"));
+const AdminSocialContent = lazy(() => import("@/pages/admin-social-content"));
 const OrderOfTheDraw = lazy(() => import("@/pages/order-of-the-draw"));
 const NursingQuestionSeoPage = lazy(() => import("@/pages/nursing-question-seo-page"));
 const NursingQuestionsIndexPage = lazy(() => import("@/pages/nursing-question-seo-page").then(m => ({ default: m.NursingQuestionsIndexPage })));
@@ -418,6 +419,7 @@ function AppRoutes() {
         <Route path="/med-math" component={MedMathPage} />
         <Route path="/lab-values" component={LabValuesPage} />
         <Route path="/admin" component={AdminPage} />
+        <Route path="/admin/social-content" component={AdminSocialContent} />
         <Route path="/admin/question-bank" component={AdminQuestionBankPage} />
         <Route path="/qbank/exam" component={QBankExamPage} />
         <Route path="/qbank/study" component={QBankStudyPage} />

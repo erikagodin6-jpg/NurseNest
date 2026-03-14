@@ -6,6 +6,7 @@ import { createServer } from "http";
 import { registerRoutes } from "./routes";
 import { registerAlliedPipelineRoutes } from "./allied-pipeline";
 import { registerAutomationRoutes } from "./allied-automations";
+import { registerSocialContentRoutes } from "./social-content-automation";
 import { registerScenarioRoutes } from "./allied-scenarios";
 import { registerParamedicBulkUploadRoutes } from "./paramedic-bulk-upload";
 import { serveStatic } from "./static";
@@ -1069,6 +1070,7 @@ app.use((req, res, next) => {
 
   registerAlliedPipelineRoutes(app);
   registerAutomationRoutes(app);
+  registerSocialContentRoutes(app);
   registerScenarioRoutes(app);
   registerParamedicBulkUploadRoutes(app);
 

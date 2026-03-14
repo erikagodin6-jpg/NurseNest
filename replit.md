@@ -78,3 +78,4 @@ The platform utilizes PostgreSQL with Drizzle ORM for database management, confi
 
 ### Social Media
 - Meta Graph API (for social media scheduling)
+- Social Content Automation Engine: Multi-platform content generation (Instagram, TikTok, Pinterest, LinkedIn) with study tip graphics, quiz question cards, clinical pearl snippets, and infographic specs. Admin dashboard at `/admin/social-content` for review/edit/schedule. DB table: `social_content`. Key files: `server/social-content-automation.ts`, `client/src/pages/admin-social-content.tsx`.

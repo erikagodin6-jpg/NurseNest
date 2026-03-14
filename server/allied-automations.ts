@@ -1056,8 +1056,18 @@ async function handleIndexingMonitor(automation: any, runId: string): Promise<Au
   return { generated: 1, accepted: 1, rejected: 0, details: { publishedPages: total } };
 }
 
+async function handleSocialContentGenerator(automation: any, runId: string): Promise<AutomationResult> {
+  try {
+    const { generateFromLessonsAndBlogs } = await import("./social-content-automation");
+    const result = await generateFromLessonsAndBlogs();
+    return { generated: result.generated, accepted: result.generated, rejected: 0, details: result.details };
+  } catch (e: any) {
+    return { generated: 0, accepted: 0, rejected: 0, details: { error: e.message } };
+  }
+}
+
 // ============================================================
-// AUTOMATION DEFINITIONS (all 40)
+// AUTOMATION DEFINITIONS (all 40+)
 // ============================================================
 
 const AUTOMATION_DEFS: AutomationDef[] = [
@@ -1106,6 +1116,8 @@ const AUTOMATION_DEFS: AutomationDef[] = [
   { slug: "error-notifier", category: "ops", name: "Error Spike Notifier", description: "Alert on job failures via webhook/admin dashboard", defaultFrequency: "hourly", defaultMaxItems: 1, defaultMaxRuns: 24, defaultAutoPublish: false, handler: handleErrorNotifier },
   { slug: "sitemap-refresher", category: "ops", name: "Sitemap Refresher", description: "Regenerate sitemap and ping search engines", defaultFrequency: "daily", defaultMaxItems: 1, defaultMaxRuns: 1, defaultAutoPublish: false, handler: handleSitemapRefresher },
   { slug: "dead-link-scanner", category: "ops", name: "Dead Link Scanner", description: "Scan internal/external links; flag broken links", defaultFrequency: "weekly", defaultMaxItems: 50, defaultMaxRuns: 1, defaultAutoPublish: false, handler: handleDeadLinkScanner },
+
+  { slug: "social-content-generator", category: "social_media", name: "Social Content Generator", description: "Auto-generate social media content (study tips, quiz cards, clinical pearls, infographics) for Instagram, TikTok, Pinterest, and LinkedIn from lessons and blog posts", defaultFrequency: "daily", defaultMaxItems: 10, defaultMaxRuns: 1, defaultAutoPublish: false, handler: handleSocialContentGenerator },
 ];
 
 const HANDLER_MAP: Record<string, (automation: any, runId: string) => Promise<AutomationResult>> = {};
