@@ -62,6 +62,7 @@ import { registerImagingLibraryRoutes } from "./imaging-library-routes";
 import { registerInstitutionalRoutes } from "./institutional-routes";
 import { registerMltPipelineRoutes } from "./mlt-question-pipeline";
 import { registerMltExamRoutes } from "./mlt-exam-routes";
+import { registerPremiumStudyRoutes } from "./premium-study-routes";
 import { registerMltRemediationRoutes } from "./mlt-remediation-routes";
 import { regionMiddleware, getEffectiveRegion, isRegionAllowed, getDefaultRegionScope, canChangeRegionScope, buildRegionFilter, type Region, type RegionScope } from "./region";
 import { languageMiddleware, getTranslatedFields, getTranslationStatus, getBulkTranslatedTitles, getAvailableLanguages, simpleHash } from "./translation-helpers";
@@ -237,6 +238,7 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
   registerMltAdminRoutes(app);
   registerMltPipelineRoutes(app);
   registerMltExamRoutes(app);
+  registerPremiumStudyRoutes(app);
   registerMltRemediationRoutes(app);
   registerImagingLibraryRoutes(app);
   registerInstitutionalRoutes(app);
@@ -8147,9 +8149,73 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
       const { answers, flagged, timeSpent, report } = req.body;
       if (!answers || !report) return res.status(400).json({ error: "Missing required fields" });
 
-      const check = await pool.query(`SELECT user_id FROM mock_exam_attempts WHERE id = $1`, [attemptId]);
+      const check = await pool.query(`SELECT * FROM mock_exam_attempts WHERE id = $1`, [attemptId]);
       if (check.rows.length === 0) return res.status(404).json({ error: "Exam not found" });
       if (check.rows[0].user_id !== String(authUser.id)) return res.status(403).json({ error: "Access denied" });
+
+      const attempt = check.rows[0];
+      const questions = attempt.questions || [];
+      const flaggedIds = flagged || [];
+
+      const domainBreakdown: Record<string, { total: number; correct: number; percentage: number; avgTimeMs: number }> = {};
+      let totalTimeMs = 0;
+      let totalQuestions = 0;
+      let totalCorrect = 0;
+
+      for (const q of questions) {
+        const qId = q.id || q.questionId;
+        const answer = answers[qId];
+        const domain = q.bodySystem || q.category || q.topic || "General";
+        const isCorrect = answer?.isCorrect ?? false;
+        const timeMs = answer?.responseTimeMs || answer?.timeSpent || 0;
+
+        if (!domainBreakdown[domain]) {
+          domainBreakdown[domain] = { total: 0, correct: 0, percentage: 0, avgTimeMs: 0 };
+        }
+        domainBreakdown[domain].total++;
+        if (isCorrect) domainBreakdown[domain].correct++;
+        domainBreakdown[domain].avgTimeMs += timeMs;
+
+        totalTimeMs += timeMs;
+        totalQuestions++;
+        if (isCorrect) totalCorrect++;
+      }
+
+      for (const domain of Object.keys(domainBreakdown)) {
+        const d = domainBreakdown[domain];
+        d.percentage = d.total > 0 ? Math.round((d.correct / d.total) * 100) : 0;
+        d.avgTimeMs = d.total > 0 ? Math.round(d.avgTimeMs / d.total) : 0;
+      }
+
+      const avgTimePerQuestion = totalQuestions > 0 ? Math.round(totalTimeMs / totalQuestions) : 0;
+      const score = report.score ?? (totalQuestions > 0 ? Math.round((totalCorrect / totalQuestions) * 100) : 0);
+
+      const previousResult = await pool.query(
+        `SELECT id, score, time_spent FROM mock_exam_attempts
+         WHERE user_id = $1 AND status = 'completed' AND id != $2
+         ORDER BY completed_at DESC LIMIT 1`,
+        [authUser.id, attemptId]
+      );
+
+      let comparison: any = null;
+      if (previousResult.rows.length > 0) {
+        const prev = previousResult.rows[0];
+        comparison = {
+          previousAttemptId: prev.id,
+          previousScore: prev.score,
+          scoreDelta: score - (prev.score || 0),
+          improved: score > (prev.score || 0),
+        };
+      }
+
+      const enhancedReport = {
+        ...report,
+        domainBreakdown,
+        avgTimePerQuestion,
+        flaggedSummary: { count: flaggedIds.length, questionIds: flaggedIds },
+        comparison,
+        passPrediction: score >= 65 ? "likely_pass" : "needs_improvement",
+      };
 
       await pool.query(
         `UPDATE mock_exam_attempts
@@ -8161,10 +8227,10 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
              score = $5,
              completed_at = NOW()
          WHERE id = $6`,
-        [JSON.stringify(answers), JSON.stringify(flagged || []), timeSpent, JSON.stringify(report), report.score, attemptId],
+        [JSON.stringify(answers), JSON.stringify(flaggedIds), timeSpent, JSON.stringify(enhancedReport), score, attemptId],
       );
 
-      res.json({ success: true });
+      res.json({ success: true, report: enhancedReport });
     } catch (e: any) {
       res.status(500).json({ error: e.message });
     }
@@ -16096,7 +16162,21 @@ Return ONLY valid JSON with this exact structure:
         LIMIT 10`,
         [req.params.userId]
       );
-      res.json(result.rows.map(snakeToCamel));
+      const weakTopics = result.rows.map((row: any) => ({
+        ...snakeToCamel(row),
+        practiceAction: {
+          label: "Practice Weak Topic",
+          endpoint: "/api/practice-sessions",
+          method: "POST",
+          payload: {
+            topics: [row.topic || row.body_system].filter(Boolean),
+            difficultyMin: 1,
+            difficultyMax: 5,
+            questionCount: 20,
+          },
+        },
+      }));
+      res.json(weakTopics);
     } catch (e: any) {
       res.status(500).json({ error: "Failed to fetch weak areas" });
     }
@@ -16130,39 +16210,94 @@ Return ONLY valid JSON with this exact structure:
 
   app.get("/api/exam-readiness/:userId", async (req, res) => {
     try {
-      const stats = await pool.query(
-        `SELECT * FROM user_stats WHERE user_id = $1`,
-        [req.params.userId]
-      );
-      const confidenceData = await pool.query(
-        `SELECT
-          COUNT(*) as total,
-          SUM(CASE WHEN was_correct THEN 1 ELSE 0 END) as correct,
-          SUM(CASE WHEN confidence = 'very_confident' THEN 1 ELSE 0 END) as very_confident,
-          SUM(CASE WHEN confidence = 'somewhat' THEN 1 ELSE 0 END) as somewhat,
-          SUM(CASE WHEN confidence = 'guessing' THEN 1 ELSE 0 END) as guessing
-        FROM confidence_ratings WHERE user_id = $1`,
-        [req.params.userId]
-      );
-      const s = stats.rows[0];
-      const c = confidenceData.rows[0];
+      const userId = req.params.userId;
+      const statsResult = await pool.query(`SELECT * FROM user_stats WHERE user_id = $1`, [userId]);
+      const s = statsResult.rows[0];
       const totalAnswered = s?.total_questions_answered || 0;
       const totalCorrect = s?.total_correct || 0;
-      const accuracy = totalAnswered > 0 ? (totalCorrect / totalAnswered) * 100 : 0;
-      const confidenceTotal = parseInt(c?.total || "0");
-      const veryConfident = parseInt(c?.very_confident || "0");
-      const guessing = parseInt(c?.guessing || "0");
-      const confidenceScore = confidenceTotal > 0 ? ((veryConfident * 100 + (confidenceTotal - veryConfident - guessing) * 50) / confidenceTotal) : 50;
-      const coverageEstimate = Math.min(100, (totalAnswered / 200) * 100);
-      const readiness = Math.round(accuracy * 0.4 + confidenceScore * 0.3 + coverageEstimate * 0.3);
+      const questionAccuracy = totalAnswered > 0 ? (totalCorrect / totalAnswered) * 100 : 0;
+
+      const mockExamResult = await pool.query(
+        `SELECT score FROM mock_exam_attempts WHERE user_id = $1 AND status = 'completed' AND score IS NOT NULL ORDER BY completed_at DESC LIMIT 5`,
+        [userId]
+      );
+      const mockScores = mockExamResult.rows.map((r: any) => r.score);
+      const avgMockScore = mockScores.length > 0
+        ? mockScores.reduce((a: number, b: number) => a + b, 0) / mockScores.length
+        : 0;
+
+      const topicResult = await pool.query(
+        `SELECT DISTINCT body_system FROM confidence_ratings WHERE user_id = $1 AND body_system IS NOT NULL AND body_system != ''`,
+        [userId]
+      );
+      const totalTopicResult = await pool.query(
+        `SELECT COUNT(DISTINCT body_system) as total FROM exam_questions WHERE body_system IS NOT NULL AND body_system != '' AND status = 'published'`
+      );
+      const coveredTopics = topicResult.rows.length;
+      const totalTopics = parseInt(totalTopicResult.rows[0]?.total || "20");
+      const topicCoverage = totalTopics > 0 ? Math.min(100, (coveredTopics / totalTopics) * 100) : 0;
+
+      const profileResult = await pool.query(
+        `SELECT current_streak FROM student_study_profiles WHERE user_id = $1`,
+        [userId]
+      );
+      const currentStreak = profileResult.rows[0]?.current_streak || s?.study_streak || 0;
+      const streakScore = Math.min(100, currentStreak * 5);
+
+      const readiness = Math.round(
+        questionAccuracy * 0.4 +
+        avgMockScore * 0.3 +
+        topicCoverage * 0.2 +
+        streakScore * 0.1
+      );
+
+      const suggestions: string[] = [];
+      if (avgMockScore < 60 && mockScores.length > 0) {
+        suggestions.push("Your mock exam scores are below passing — take more practice exams to build stamina");
+      }
+      if (mockScores.length === 0) {
+        suggestions.push("Take a mock exam to get a realistic assessment of your readiness");
+      }
+      const weakResult = await pool.query(
+        `SELECT body_system, ROUND(100.0 * SUM(CASE WHEN was_correct THEN 1 ELSE 0 END) / COUNT(*), 1) as accuracy
+         FROM confidence_ratings WHERE user_id = $1 AND body_system IS NOT NULL AND body_system != ''
+         GROUP BY body_system HAVING COUNT(*) >= 3
+         ORDER BY accuracy ASC LIMIT 3`,
+        [userId]
+      );
+      for (const row of weakResult.rows) {
+        suggestions.push(`Focus on ${row.body_system} — your weakest domain at ${row.accuracy}% accuracy`);
+      }
+      if (topicCoverage < 50) {
+        suggestions.push("Broaden your study — you've only covered " + Math.round(topicCoverage) + "% of topics");
+      }
+      if (currentStreak === 0) {
+        suggestions.push("Build a daily study habit — consistent practice improves retention");
+      }
+
       res.json({
         readiness: Math.min(100, Math.max(0, readiness)),
-        accuracy: Math.round(accuracy),
+        accuracy: Math.round(questionAccuracy),
         totalAnswered,
         totalCorrect,
-        confidenceScore: Math.round(confidenceScore),
-        coverageEstimate: Math.round(coverageEstimate),
-        streak: s?.study_streak || 0,
+        mockExamAverage: Math.round(avgMockScore),
+        topicCoverage: Math.round(topicCoverage),
+        studyConsistency: Math.round(streakScore),
+        streak: currentStreak,
+        mockExamsCompleted: mockScores.length,
+        suggestions,
+        breakdown: {
+          questionAccuracy: Math.round(questionAccuracy),
+          mockExamAverage: Math.round(avgMockScore),
+          topicCoverage: Math.round(topicCoverage),
+          studyConsistency: Math.round(streakScore),
+        },
+        weights: {
+          questionAccuracy: 0.4,
+          mockExamScore: 0.3,
+          topicCoverage: 0.2,
+          studyConsistency: 0.1,
+        },
       });
     } catch (e: any) {
       res.status(500).json({ error: "Failed to compute exam readiness" });

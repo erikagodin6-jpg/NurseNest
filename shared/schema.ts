@@ -5085,3 +5085,15 @@ export const insertProgrammaticPageSchema = createInsertSchema(programmaticPages
 });
 export type ProgrammaticPage = typeof programmaticPages.$inferSelect;
 export type InsertProgrammaticPage = z.infer<typeof insertProgrammaticPageSchema>;
+
+export const questionBookmarks = pgTable("question_bookmarks", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id").notNull(),
+  questionId: varchar("question_id").notNull(),
+  questionSource: text("question_source").notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const insertQuestionBookmarkSchema = createInsertSchema(questionBookmarks).omit({ id: true, createdAt: true });
+export type QuestionBookmark = typeof questionBookmarks.$inferSelect;
+export type InsertQuestionBookmark = z.infer<typeof insertQuestionBookmarkSchema>;

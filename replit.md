@@ -42,6 +42,7 @@ Key systems and engines include:
 - **Clinical Skills Content Pages**: 18 comprehensive clinical skills guides with search, category filtering, interactive practice scenarios, FAQs, and CTAs.
 - **Paramedic Lesson Content Library**: AI-generated paramedic lessons with structured content, SEO metadata, and links to flashcards/related lessons.
 - **Referral Discount System**: Enables users to generate discounts and earn premium access.
+- **Premium Study Engine**: Backend APIs for question bookmarks (cross-source), custom practice sessions with filtered question assembly, unified adaptive question selection across all professions, enhanced streak tracking with motivation messages, enhanced exam readiness scoring (weighted: accuracy 40%, mock exams 30%, topic coverage 20%, streak 10%), actionable weak topic detection with practice session links, and detailed mock exam reports with per-domain breakdown, time analysis, and attempt comparison. Routes in `server/premium-study-routes.ts`.
 - **Adaptive Practice & Mastery Systems**: For Pharmacy Tech, Paramedic, and MLT, offering adaptive practice with difficulty progression and weak area detection.
 - **Medical Imaging Education System**: Exam prep for CAMRT/ARRT, including lessons, positioning guides, physics reviews, micro-quizzes, flashcards, an adaptive exam simulator, and a Positioning Training Module.
 - **Medical Imaging Growth & Marketing Engine**: User acquisition and growth system with email capture, referral incentives, and study plan generation.
