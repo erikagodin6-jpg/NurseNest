@@ -101,6 +101,20 @@ function buildBreadcrumbs(pathname: string): { name: string; url: string }[] {
     return crumbs;
   }
 
+  const applyNestCareersMatch = pathname.match(/^\/applynest\/careers\/(.+)$/);
+  if (applyNestCareersMatch) {
+    crumbs.push({ name: "ApplyNest", url: `${SITE_BASE}/applynest` });
+    crumbs.push({ name: slugToTitle(applyNestCareersMatch[1]) + " Career Guide", url: `${SITE_BASE}${pathname}` });
+    return crumbs;
+  }
+
+  const applyNestMatch = pathname.match(/^\/applynest\/(.+)$/);
+  if (applyNestMatch) {
+    crumbs.push({ name: "ApplyNest", url: `${SITE_BASE}/applynest` });
+    crumbs.push({ name: slugToTitle(applyNestMatch[1]), url: `${SITE_BASE}${pathname}` });
+    return crumbs;
+  }
+
   const careerMatch = pathname.match(/^\/career-development\/(.+)$/);
   if (careerMatch) {
     crumbs.push({ name: "Career Development", url: `${SITE_BASE}/new-grad` });
@@ -573,6 +587,22 @@ const staticPages: Record<string, { title: string; description: string }> = {
     title: "How to Become a Pharmacy Technician: Career Guide for 2026 | NurseNest",
     description: "Explore pharmacy technician education, PTCB/PEBC certification, salary expectations ($37K-$55K+), and career growth in retail, hospital, and specialty pharmacies.",
   },
+  "/applynest": {
+    title: "ApplyNest - Healthcare Career Placement | Job Search, Resumes & Interview Prep",
+    description: "Launch your healthcare career with ApplyNest. Career guides, resume templates, interview prep, salary data, and job search resources for nursing and allied health professionals.",
+  },
+  "/applynest/resume-templates": {
+    title: "Healthcare Resume Templates - New Grad, Experienced & Specialty | ApplyNest",
+    description: "Free healthcare resume templates for new graduates, experienced professionals, and specialty transitions. Nursing, paramedic, RT, MLT, imaging, and pharmacy tech formats.",
+  },
+  "/applynest/interview-prep": {
+    title: "Healthcare Interview Questions & Answers - Interview Prep | ApplyNest",
+    description: "Common healthcare interview questions with sample answers and expert tips. Behavioral, clinical, and technical questions for nursing and allied health job interviews.",
+  },
+  "/applynest/job-search-guide": {
+    title: "Healthcare Job Search Guide - Find, Evaluate & Negotiate Offers | ApplyNest",
+    description: "Complete healthcare job search guide. Where to find jobs, how to evaluate offers, salary negotiation tips, and credentialing timelines for healthcare professionals.",
+  },
   "/paramedic-exam-prep": {
     title: "Paramedic Exam Prep | NREMT, PCP & ACP Practice Questions | NurseNest",
     description: "Complete paramedic exam preparation for NREMT, PCP (Canada), and ACP certification. Practice questions, trauma scenarios, ECG drills, and mock exams with detailed rationales.",
@@ -895,6 +925,30 @@ export function getPageMeta(pathname: string): PageMeta {
           { "@type": "ListItem", "position": 3, "name": "Clinical Review Flashcards", "url": `${SITE_BASE}/en/flashcards` },
         ],
       });
+    } else if (cleanPath === "/applynest") {
+      result.jsonLd = JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        "name": "ApplyNest - Healthcare Career Placement",
+        "description": "Career placement resources for nursing and allied health professionals. Job search guides, resume templates, interview prep, and salary data.",
+        "url": canonical,
+        "isPartOf": { "@type": "WebSite", "name": "NurseNest", "url": SITE_BASE },
+        "publisher": { "@type": "Organization", "name": "NurseNest", "url": SITE_BASE },
+        "mainEntity": {
+          "@type": "ItemList",
+          "name": "Healthcare Career Guides",
+          "itemListElement": [
+            { "@type": "ListItem", "position": 1, "name": "Registered Nurse (RN) Career Guide", "url": `${SITE_BASE}/applynest/careers/rn` },
+            { "@type": "ListItem", "position": 2, "name": "RPN / LVN Career Guide", "url": `${SITE_BASE}/applynest/careers/rpn-lvn` },
+            { "@type": "ListItem", "position": 3, "name": "Nurse Practitioner (NP) Career Guide", "url": `${SITE_BASE}/applynest/careers/np` },
+            { "@type": "ListItem", "position": 4, "name": "Paramedic Career Guide", "url": `${SITE_BASE}/applynest/careers/paramedic` },
+            { "@type": "ListItem", "position": 5, "name": "Respiratory Therapist (RRT) Career Guide", "url": `${SITE_BASE}/applynest/careers/rrt` },
+            { "@type": "ListItem", "position": 6, "name": "Medical Lab Technologist (MLT) Career Guide", "url": `${SITE_BASE}/applynest/careers/mlt` },
+            { "@type": "ListItem", "position": 7, "name": "Medical Imaging Career Guide", "url": `${SITE_BASE}/applynest/careers/imaging` },
+            { "@type": "ListItem", "position": 8, "name": "Pharmacy Technician Career Guide", "url": `${SITE_BASE}/applynest/careers/pharmtech` },
+          ],
+        },
+      });
     } else if (cleanPath === "/question-bank") {
       result.jsonLd = JSON.stringify({
         "@context": "https://schema.org",
@@ -989,6 +1043,38 @@ export function getPageMeta(pathname: string): PageMeta {
         learningResourceType: "Quiz",
         educationalLevel: "Professional",
         provider: { "@type": "Organization", name: "NurseNest", url: SITE_BASE },
+      }),
+    };
+  }
+
+  const applyNestCareersPageMatch = cleanPath.match(/^\/applynest\/careers\/(.+)$/);
+  if (applyNestCareersPageMatch) {
+    const professionSlug = applyNestCareersPageMatch[1];
+    const professionLabels: Record<string, string> = {
+      "rn": "Registered Nurse (RN)",
+      "rpn-lvn": "RPN / LVN",
+      "np": "Nurse Practitioner (NP)",
+      "paramedic": "Paramedic",
+      "rrt": "Respiratory Therapist (RRT)",
+      "mlt": "Medical Lab Technologist (MLT)",
+      "imaging": "Medical Imaging / Radiologic Technologist",
+      "pharmtech": "Pharmacy Technician",
+    };
+    const label = professionLabels[professionSlug] || slugToTitle(professionSlug);
+    return {
+      title: `${label} Career Guide - Job Market, Salary & Interview Tips | ApplyNest`,
+      description: `Complete ${label} career guide with job market outlook, salary data, top employers, licensing requirements, resume tips, and interview preparation. Launch your ${label.toLowerCase()} career with ApplyNest.`,
+      canonical,
+      noindex,
+      breadcrumbs,
+      jsonLd: JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "Article",
+        "headline": `${label} Career Guide`,
+        "description": `Job market, salary, licensing, resume tips and interview prep for ${label.toLowerCase()} professionals.`,
+        "url": canonical,
+        "author": { "@type": "Organization", "name": "NurseNest" },
+        "publisher": { "@type": "Organization", "name": "NurseNest", "url": SITE_BASE },
       }),
     };
   }

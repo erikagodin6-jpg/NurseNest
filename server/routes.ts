@@ -300,6 +300,9 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
   const { registerNewGradRoutes } = await import("./new-grad-routes");
   registerNewGradRoutes(app);
 
+  const { registerApplyNestRoutes } = await import("./applynest-routes");
+  registerApplyNestRoutes(app);
+
   const { setupAlliedMarketingRoutes } = await import("./allied-marketing-engine");
   setupAlliedMarketingRoutes(app);
 

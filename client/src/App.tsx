@@ -162,6 +162,11 @@ const RexPnPracticePage = lazy(() => import("@/pages/exam-practice-landing").the
 const NpExamPracticePage = lazy(() => import("@/pages/exam-practice-landing").then(m => ({ default: m.NpExamPractice })));
 const NursingExamPrepPage = lazy(() => import("@/pages/allied-exam-prep-landing").then(m => ({ default: m.NursingExamPrep })));
 const GlossaryPage = lazy(() => import("@/pages/glossary"));
+const ApplyNestLanding = lazy(() => import("@/pages/applynest-landing"));
+const ApplyNestCareerPage = lazy(() => import("@/pages/applynest-career"));
+const ApplyNestResumeTemplates = lazy(() => import("@/pages/applynest-resume-templates"));
+const ApplyNestInterviewPrep = lazy(() => import("@/pages/applynest-interview-prep"));
+const ApplyNestJobSearchGuide = lazy(() => import("@/pages/applynest-job-search-guide"));
 const CareerAISimulator = lazy(() => import("@/pages/career-tools/career-ai-simulator"));
 const AdminCareersPage = lazy(() => import("@/pages/admin-careers"));
 const NewGradHub = lazy(() => import("@/pages/new-grad-hub"));
@@ -484,6 +489,11 @@ function AppRoutes() {
         <Route path="/addictions-counselor-first-year-survival-guide" component={NewGradGuidePage} />
         <Route path="/addictions-counseling-first-year-survival-guide" component={NewGradGuidePage} />
         <Route path="/ot-first-year-survival-guide" component={NewGradGuidePage} />
+        <Route path="/applynest/careers/:profession" component={ApplyNestCareerPage} />
+        <Route path="/applynest/resume-templates" component={ApplyNestResumeTemplates} />
+        <Route path="/applynest/interview-prep" component={ApplyNestInterviewPrep} />
+        <Route path="/applynest/job-search-guide" component={ApplyNestJobSearchGuide} />
+        <Route path="/applynest" component={ApplyNestLanding} />
         <Route path="/clinical-skills" component={ClinicalSkillsHub} />
         <Route path="/clinical-skills/:slug" component={ClinicalSkillsGuideDetail} />
         <Route path="/unit-guides/:slug" component={NewGradGuidePage} />

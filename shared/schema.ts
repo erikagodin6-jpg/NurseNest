@@ -5120,3 +5120,125 @@ export const questionBookmarks = pgTable("question_bookmarks", {
 export const insertQuestionBookmarkSchema = createInsertSchema(questionBookmarks).omit({ id: true, createdAt: true });
 export type QuestionBookmark = typeof questionBookmarks.$inferSelect;
 export type InsertQuestionBookmark = z.infer<typeof insertQuestionBookmarkSchema>;
+
+export const APPLYNEST_PROFESSIONS = [
+  { slug: "rn", label: "Registered Nurse (RN)", icon: "Heart" },
+  { slug: "rpn-lvn", label: "RPN / LVN", icon: "Stethoscope" },
+  { slug: "np", label: "Nurse Practitioner (NP)", icon: "GraduationCap" },
+  { slug: "paramedic", label: "Paramedic", icon: "Ambulance" },
+  { slug: "rrt", label: "Respiratory Therapist (RRT)", icon: "Wind" },
+  { slug: "mlt", label: "Medical Lab Technologist (MLT)", icon: "Microscope" },
+  { slug: "imaging", label: "Medical Imaging / Radiologic Tech", icon: "Radio" },
+  { slug: "pharmtech", label: "Pharmacy Technician", icon: "Pill" },
+] as const;
+
+export type ApplyNestProfessionSlug = typeof APPLYNEST_PROFESSIONS[number]["slug"];
+
+export const applyNestCareerProfiles = pgTable("applynest_career_profiles", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  profession: text("profession").notNull().unique(),
+  professionLabel: text("profession_label").notNull(),
+  jobMarketOverview: text("job_market_overview").notNull(),
+  salaryRangeJson: jsonb("salary_range_json").default(sql`'{}'::jsonb`),
+  topEmployers: jsonb("top_employers").default(sql`'[]'::jsonb`),
+  licensingRequirements: jsonb("licensing_requirements").default(sql`'[]'::jsonb`),
+  resumeTips: jsonb("resume_tips").default(sql`'[]'::jsonb`),
+  interviewQuestions: jsonb("interview_questions").default(sql`'[]'::jsonb`),
+  firstJobChecklist: jsonb("first_job_checklist").default(sql`'[]'::jsonb`),
+  seoTitle: text("seo_title"),
+  seoDescription: text("seo_description"),
+  seoKeywords: text("seo_keywords").array().default(sql`'{}'::text[]`),
+  status: text("status").default("published"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export const insertApplyNestCareerProfileSchema = createInsertSchema(applyNestCareerProfiles).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+export type ApplyNestCareerProfile = typeof applyNestCareerProfiles.$inferSelect;
+export type InsertApplyNestCareerProfile = z.infer<typeof insertApplyNestCareerProfileSchema>;
+
+export const applyNestResumeTemplates = pgTable("applynest_resume_templates", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  title: text("title").notNull(),
+  slug: text("slug").notNull().unique(),
+  category: text("category").notNull(),
+  profession: text("profession"),
+  description: text("description").notNull(),
+  templateContent: jsonb("template_content").default(sql`'{}'::jsonb`),
+  tips: jsonb("tips").default(sql`'[]'::jsonb`),
+  seoTitle: text("seo_title"),
+  seoDescription: text("seo_description"),
+  status: text("status").default("published"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export const insertApplyNestResumeTemplateSchema = createInsertSchema(applyNestResumeTemplates).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+export type ApplyNestResumeTemplate = typeof applyNestResumeTemplates.$inferSelect;
+export type InsertApplyNestResumeTemplate = z.infer<typeof insertApplyNestResumeTemplateSchema>;
+
+export const applyNestInterviewQuestions = pgTable("applynest_interview_questions", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  question: text("question").notNull(),
+  category: text("category").notNull(),
+  profession: text("profession"),
+  sampleAnswer: text("sample_answer").notNull(),
+  tips: text("tips"),
+  difficulty: text("difficulty").default("medium"),
+  questionType: text("question_type").default("behavioral"),
+  status: text("status").default("published"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const insertApplyNestInterviewQuestionSchema = createInsertSchema(applyNestInterviewQuestions).omit({
+  id: true,
+  createdAt: true,
+});
+export type ApplyNestInterviewQuestion = typeof applyNestInterviewQuestions.$inferSelect;
+export type InsertApplyNestInterviewQuestion = z.infer<typeof insertApplyNestInterviewQuestionSchema>;
+
+export const applyNestCareerGuides = pgTable("applynest_career_guides", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  title: text("title").notNull(),
+  slug: text("slug").notNull().unique(),
+  category: text("category").notNull(),
+  summary: text("summary").notNull(),
+  content: jsonb("content").default(sql`'[]'::jsonb`),
+  seoTitle: text("seo_title"),
+  seoDescription: text("seo_description"),
+  seoKeywords: text("seo_keywords").array().default(sql`'{}'::text[]`),
+  status: text("status").default("published"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export const insertApplyNestCareerGuideSchema = createInsertSchema(applyNestCareerGuides).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+export type ApplyNestCareerGuide = typeof applyNestCareerGuides.$inferSelect;
+export type InsertApplyNestCareerGuide = z.infer<typeof insertApplyNestCareerGuideSchema>;
+
+export const applyNestLeads = pgTable("applynest_leads", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  email: text("email").notNull().unique(),
+  profession: text("profession"),
+  source: text("source").default("applynest"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const insertApplyNestLeadSchema = createInsertSchema(applyNestLeads).omit({
+  id: true,
+  createdAt: true,
+});
+export type ApplyNestLead = typeof applyNestLeads.$inferSelect;
+export type InsertApplyNestLead = z.infer<typeof insertApplyNestLeadSchema>;
