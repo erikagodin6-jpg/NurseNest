@@ -5367,20 +5367,37 @@ export type InsertAlliedHealthArticle = z.infer<typeof insertAlliedHealthArticle
 export const aiJobs = pgTable("ai_jobs", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
   type: text("type").notNull(),
+  tier: text("tier"),
+  contentType: text("content_type"),
   status: text("status").notNull().default("pending"),
   config: jsonb("config").default(sql`'{}'::jsonb`),
   progress: jsonb("progress").default(sql`'{}'::jsonb`),
   logs: jsonb("logs").default(sql`'[]'::jsonb`),
+  model: text("model").default("gpt-4o-mini"),
+  modelTier: text("model_tier").default("cheapest"),
+  batchSize: integer("batch_size").default(25),
+  spendCap: doublePrecision("spend_cap"),
+  duplicateProtection: boolean("duplicate_protection").default(true),
+  dryRun: boolean("dry_run").default(false),
+  topic: text("topic"),
+  specialty: text("specialty"),
+  framework: text("framework"),
+  currentStage: text("current_stage"),
   costEstimate: doublePrecision("cost_estimate").default(0),
   actualCost: doublePrecision("actual_cost").default(0),
   itemCount: integer("item_count").default(1),
   itemsCompleted: integer("items_completed").default(0),
+  itemsFailed: integer("items_failed").default(0),
   duplicatesSkipped: integer("duplicates_skipped").default(0),
+  retryCount: integer("retry_count").default(0),
+  maxRetries: integer("max_retries").default(3),
   createdBy: text("created_by"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   startedAt: timestamp("started_at"),
   completedAt: timestamp("completed_at"),
   cancelledAt: timestamp("cancelled_at"),
+  pausedAt: timestamp("paused_at"),
+  resumedAt: timestamp("resumed_at"),
   error: text("error"),
 });
 
@@ -5401,6 +5418,19 @@ export const aiSpendTracking = pgTable("ai_spend_tracking", {
 export const insertAiSpendTrackingSchema = createInsertSchema(aiSpendTracking).omit({ id: true, createdAt: true });
 export type AiSpendTracking = typeof aiSpendTracking.$inferSelect;
 export type InsertAiSpendTracking = z.infer<typeof insertAiSpendTrackingSchema>;
+
+export const aiBudgetLogs = pgTable("ai_budget_logs", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  eventType: text("event_type").notNull(),
+  jobId: varchar("job_id"),
+  capType: text("cap_type"),
+  capValue: doublePrecision("cap_value"),
+  currentSpend: doublePrecision("current_spend"),
+  message: text("message"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export type AiBudgetLog = typeof aiBudgetLogs.$inferSelect;
 
 export const systemSettings = pgTable("system_settings", {
   key: text("key").primaryKey(),

@@ -633,5 +633,5 @@ export function registerSocialContentRoutes(app: Express) {
     }
   });
 
-  startSocialContentScheduler();
+  // startSocialContentScheduler(); // Disabled: AI generation now admin-triggered only via AI Jobs
 }

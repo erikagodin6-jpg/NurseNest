@@ -6,13 +6,22 @@ import {
   startJob,
   pauseJob,
   cancelJob,
+  retryFailedItems,
   getJobStatus,
   listJobs,
+  getJobHistory,
+  getJobStats,
+  getBudgetLogs,
   isKillSwitchActive,
   setKillSwitch,
   getSpendCaps,
   setSpendCaps,
   getSpendSummary,
+  verifyProductionEnvironment,
+  JOB_TYPES,
+  TIERS,
+  MODEL_TIERS,
+  BATCH_LIMITS,
 } from "./ai-job-queue";
 
 export function registerAiJobsRoutes(app: Express): void {
@@ -22,9 +31,51 @@ export function registerAiJobsRoutes(app: Express): void {
     try {
       const limit = parseInt(String(req.query.limit || "50"));
       const offset = parseInt(String(req.query.offset || "0"));
-      const jobs = await listJobs(limit, offset);
+      const status = req.query.status as string | undefined;
+      const type = req.query.type as string | undefined;
+      const jobs = await listJobs(limit, offset, status, type);
       const totalR = await pool.query("SELECT COUNT(*) as c FROM ai_jobs");
       res.json({ jobs, total: parseInt(totalR.rows[0]?.c || "0") });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/admin/ai-jobs/stats", async (req, res) => {
+    const admin = await requireAdmin(req, res);
+    if (!admin) return;
+    try {
+      const stats = await getJobStats();
+      res.json(stats);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/admin/ai-jobs/history", async (req, res) => {
+    const admin = await requireAdmin(req, res);
+    if (!admin) return;
+    try {
+      const limit = parseInt(String(req.query.limit || "100"));
+      const history = await getJobHistory(limit);
+      res.json({ jobs: history });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/admin/ai-jobs/config", async (req, res) => {
+    const admin = await requireAdmin(req, res);
+    if (!admin) return;
+    try {
+      const env = verifyProductionEnvironment();
+      res.json({
+        jobTypes: JOB_TYPES,
+        tiers: TIERS,
+        modelTiers: Object.keys(MODEL_TIERS),
+        batchLimits: BATCH_LIMITS,
+        environment: env,
+      });
     } catch (e: any) {
       res.status(500).json({ error: e.message });
     }
@@ -46,18 +97,33 @@ export function registerAiJobsRoutes(app: Express): void {
     const admin = await requireAdmin(req, res);
     if (!admin) return;
     try {
-      const { type, itemCount, costCap, config } = req.body;
-      if (!type || !itemCount) {
-        return res.status(400).json({ error: "type and itemCount are required" });
+      const { type, tier, contentType, itemCount, batchSize, modelTier, spendCap, duplicateProtection, dryRun, topic, specialty, framework, config } = req.body;
+      if (!type) {
+        return res.status(400).json({ error: "type is required" });
       }
-      const validTypes = ["blog", "qbank", "allied"];
-      if (!validTypes.includes(type)) {
-        return res.status(400).json({ error: `Invalid type. Must be one of: ${validTypes.join(", ")}` });
+      if (!JOB_TYPES.includes(type as any)) {
+        return res.status(400).json({ error: `Invalid type. Must be one of: ${JOB_TYPES.join(", ")}` });
       }
+      if (tier && !TIERS.includes(tier as any)) {
+        return res.status(400).json({ error: `Invalid tier. Must be one of: ${TIERS.join(", ")}` });
+      }
+      if (modelTier && !MODEL_TIERS[modelTier]) {
+        return res.status(400).json({ error: `Invalid modelTier. Must be one of: ${Object.keys(MODEL_TIERS).join(", ")}` });
+      }
+
       const id = await createJob({
         type,
-        itemCount: Math.min(Math.max(1, parseInt(itemCount)), 100),
-        costCap: costCap ? parseFloat(costCap) : undefined,
+        tier,
+        contentType,
+        itemCount: itemCount ? parseInt(String(itemCount)) : undefined,
+        batchSize: batchSize ? parseInt(String(batchSize)) : undefined,
+        modelTier,
+        spendCap: spendCap ? parseFloat(String(spendCap)) : undefined,
+        duplicateProtection: duplicateProtection !== false,
+        dryRun: dryRun === true,
+        topic,
+        specialty,
+        framework,
         config: config || {},
         createdBy: admin.username || admin.id,
       });
@@ -95,6 +161,17 @@ export function registerAiJobsRoutes(app: Express): void {
     try {
       await cancelJob(req.params.id);
       res.json({ message: "Job cancelled" });
+    } catch (e: any) {
+      res.status(400).json({ error: e.message });
+    }
+  });
+
+  app.post("/api/admin/ai-jobs/:id/retry", async (req, res) => {
+    const admin = await requireAdmin(req, res);
+    if (!admin) return;
+    try {
+      await retryFailedItems(req.params.id);
+      res.json({ message: "Job queued for retry" });
     } catch (e: any) {
       res.status(400).json({ error: e.message });
     }
@@ -152,13 +229,30 @@ export function registerAiJobsRoutes(app: Express): void {
     const admin = await requireAdmin(req, res);
     if (!admin) return;
     try {
-      const { dailyCap, weeklyCap, perJobCap } = req.body;
+      const { dailyCap, weeklyCap, perJobCap, monthlyCap } = req.body;
       await setSpendCaps(
-        { dailyCap: dailyCap ? parseFloat(dailyCap) : undefined, weeklyCap: weeklyCap ? parseFloat(weeklyCap) : undefined, perJobCap: perJobCap ? parseFloat(perJobCap) : undefined },
+        {
+          dailyCap: dailyCap != null ? parseFloat(String(dailyCap)) : undefined,
+          weeklyCap: weeklyCap != null ? parseFloat(String(weeklyCap)) : undefined,
+          perJobCap: perJobCap != null ? parseFloat(String(perJobCap)) : undefined,
+          monthlyCap: monthlyCap != null ? parseFloat(String(monthlyCap)) : undefined,
+        },
         admin.username || admin.id
       );
       const updated = await getSpendCaps();
       res.json(updated);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/admin/ai-budget-logs", async (req, res) => {
+    const admin = await requireAdmin(req, res);
+    if (!admin) return;
+    try {
+      const limit = parseInt(String(req.query.limit || "100"));
+      const logs = await getBudgetLogs(limit);
+      res.json({ logs });
     } catch (e: any) {
       res.status(500).json({ error: e.message });
     }
@@ -171,7 +265,7 @@ export function registerAiJobsRoutes(app: Express): void {
       const spendSummary = await getSpendSummary();
 
       const contentStats = await pool.query(`
-        SELECT 
+        SELECT
           COUNT(*) FILTER (WHERE status = 'published') as published_count,
           COUNT(*) FILTER (WHERE status = 'draft') as draft_count,
           COUNT(*) as total_count
@@ -179,7 +273,7 @@ export function registerAiJobsRoutes(app: Express): void {
       `);
 
       const aiJobStats = await pool.query(`
-        SELECT 
+        SELECT
           COUNT(*) as total_jobs,
           COUNT(*) FILTER (WHERE status = 'completed') as completed_jobs,
           COALESCE(SUM(items_completed), 0) as total_items_generated,
@@ -191,7 +285,7 @@ export function registerAiJobsRoutes(app: Express): void {
       try {
         const { getUncachableStripeClient } = await import("./stripeClient");
         const stripe = await getUncachableStripeClient();
-        
+
         const subscriptions = await stripe.subscriptions.list({ status: "active", limit: 100 });
         stripeMetrics.activeSubscribers = subscriptions.data.length;
         stripeMetrics.mrr = subscriptions.data.reduce((sum: number, sub: any) => {
