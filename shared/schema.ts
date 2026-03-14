@@ -5357,3 +5357,50 @@ export const alliedHealthArticles = pgTable("allied_health_articles", {
 export const insertAlliedHealthArticleSchema = createInsertSchema(alliedHealthArticles).omit({ id: true, createdAt: true, updatedAt: true, publishedAt: true });
 export type AlliedHealthArticle = typeof alliedHealthArticles.$inferSelect;
 export type InsertAlliedHealthArticle = z.infer<typeof insertAlliedHealthArticleSchema>;
+
+export const aiJobs = pgTable("ai_jobs", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  type: text("type").notNull(),
+  status: text("status").notNull().default("pending"),
+  config: jsonb("config").default(sql`'{}'::jsonb`),
+  progress: jsonb("progress").default(sql`'{}'::jsonb`),
+  logs: jsonb("logs").default(sql`'[]'::jsonb`),
+  costEstimate: doublePrecision("cost_estimate").default(0),
+  actualCost: doublePrecision("actual_cost").default(0),
+  itemCount: integer("item_count").default(1),
+  itemsCompleted: integer("items_completed").default(0),
+  duplicatesSkipped: integer("duplicates_skipped").default(0),
+  createdBy: text("created_by"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  startedAt: timestamp("started_at"),
+  completedAt: timestamp("completed_at"),
+  cancelledAt: timestamp("cancelled_at"),
+  error: text("error"),
+});
+
+export const insertAiJobSchema = createInsertSchema(aiJobs).omit({ id: true, createdAt: true });
+export type AiJob = typeof aiJobs.$inferSelect;
+export type InsertAiJob = z.infer<typeof insertAiJobSchema>;
+
+export const aiSpendTracking = pgTable("ai_spend_tracking", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  jobId: varchar("job_id"),
+  dateKey: text("date_key").notNull(),
+  weekKey: text("week_key").notNull(),
+  tokenCount: integer("token_count").default(0),
+  estimatedCostUsd: doublePrecision("estimated_cost_usd").default(0),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const insertAiSpendTrackingSchema = createInsertSchema(aiSpendTracking).omit({ id: true, createdAt: true });
+export type AiSpendTracking = typeof aiSpendTracking.$inferSelect;
+export type InsertAiSpendTracking = z.infer<typeof insertAiSpendTrackingSchema>;
+
+export const systemSettings = pgTable("system_settings", {
+  key: text("key").primaryKey(),
+  value: jsonb("value").default(sql`'{}'::jsonb`),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+  updatedBy: text("updated_by"),
+});
+
+export type SystemSetting = typeof systemSettings.$inferSelect;

@@ -413,6 +413,49 @@ export async function ensureSchemaSync(pool: pg.Pool): Promise<void> {
     await client.query(`ALTER TABLE email_subscribers ADD COLUMN IF NOT EXISTS lead_magnet_type TEXT`);
     await client.query(`ALTER TABLE email_subscribers ADD COLUMN IF NOT EXISTS profession_context TEXT`);
 
+    await client.query(`
+      CREATE TABLE IF NOT EXISTS ai_jobs (
+        id varchar PRIMARY KEY DEFAULT gen_random_uuid(),
+        type text NOT NULL,
+        status text NOT NULL DEFAULT 'pending',
+        config jsonb DEFAULT '{}'::jsonb,
+        progress jsonb DEFAULT '{}'::jsonb,
+        logs jsonb DEFAULT '[]'::jsonb,
+        cost_estimate double precision DEFAULT 0,
+        actual_cost double precision DEFAULT 0,
+        item_count integer DEFAULT 1,
+        items_completed integer DEFAULT 0,
+        duplicates_skipped integer DEFAULT 0,
+        created_by text,
+        created_at timestamptz NOT NULL DEFAULT NOW(),
+        started_at timestamptz,
+        completed_at timestamptz,
+        cancelled_at timestamptz,
+        error text
+      )
+    `);
+
+    await client.query(`
+      CREATE TABLE IF NOT EXISTS ai_spend_tracking (
+        id varchar PRIMARY KEY DEFAULT gen_random_uuid(),
+        job_id varchar,
+        date_key text NOT NULL,
+        week_key text NOT NULL,
+        token_count integer DEFAULT 0,
+        estimated_cost_usd double precision DEFAULT 0,
+        created_at timestamptz NOT NULL DEFAULT NOW()
+      )
+    `);
+
+    await client.query(`
+      CREATE TABLE IF NOT EXISTS system_settings (
+        key text PRIMARY KEY,
+        value jsonb DEFAULT '{}'::jsonb,
+        updated_at timestamptz NOT NULL DEFAULT NOW(),
+        updated_by text
+      )
+    `);
+
     await client.query("COMMIT");
     console.log("[SchemaSync] Ensured all tables and columns exist");
 

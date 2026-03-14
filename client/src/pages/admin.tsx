@@ -53,6 +53,31 @@ import {
   Sparkles,
 } from "lucide-react";
 
+import { useQuery as useQueryRQ } from "@tanstack/react-query";
+import { adminFetch } from "@/lib/admin-fetch";
+import { AlertTriangle } from "lucide-react";
+
+function KillSwitchBanner() {
+  const { data } = useQueryRQ({
+    queryKey: ["ai-kill-switch-banner"],
+    queryFn: async () => {
+      try {
+        const res = await adminFetch("/api/admin/ai-kill-switch");
+        if (!res.ok) return { active: false };
+        return res.json();
+      } catch { return { active: false }; }
+    },
+    refetchInterval: 15000,
+  });
+  if (!data?.active) return null;
+  return (
+    <div className="bg-red-600 text-white p-3 rounded-lg flex items-center gap-3 mb-4 shadow-lg" data-testid="banner-kill-switch-admin">
+      <AlertTriangle className="w-5 h-5 flex-shrink-0" />
+      <span className="font-bold">All AI Jobs Disabled — Emergency Kill Switch Active</span>
+    </div>
+  );
+}
+
 type AdminData = {
   overview: {
     totalUsers: number;
@@ -1540,6 +1565,15 @@ export default function AdminPage() {
             </div>
           ) : data ? (
             <>
+              <KillSwitchBanner />
+              <div className="flex gap-2 mb-4 flex-wrap">
+                <a href="/admin/ai-jobs" className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors" data-testid="link-ai-jobs">
+                  <Zap className="w-4 h-4" /> AI Jobs
+                </a>
+                <a href="/admin/business-health" className="inline-flex items-center gap-2 px-4 py-2 bg-green-600 text-white rounded-lg text-sm font-medium hover:bg-green-700 transition-colors" data-testid="link-business-health">
+                  <TrendingUp className="w-4 h-4" /> Business Health
+                </a>
+              </div>
               {/* Tab Navigation */}
               <div className="flex gap-1 mb-8 bg-white rounded-lg border border-primary/10 p-1 overflow-x-auto" data-testid="nav-admin-tabs">
                 {(["overview", "users", "activity", "content-engine", "analytics", "promotions", "feedback", "social", "audit", "deck-moderation", "ai-safety", "beta-testers", "flashcard-preview"] as const).map((tab) => (

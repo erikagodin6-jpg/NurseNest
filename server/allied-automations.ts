@@ -1446,5 +1446,6 @@ export function registerAutomationRoutes(app: Express) {
     }
   });
 
-  startAutomationScheduler();
+  // AI scheduler disabled — all AI generation is now admin-triggered via /admin/ai-jobs
+  // startAutomationScheduler();
 }

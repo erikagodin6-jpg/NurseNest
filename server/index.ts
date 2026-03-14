@@ -6,6 +6,7 @@ import { createServer } from "http";
 import { registerRoutes } from "./routes";
 import { registerAlliedPipelineRoutes } from "./allied-pipeline";
 import { registerAutomationRoutes } from "./allied-automations";
+import { registerAiJobsRoutes } from "./ai-jobs-routes";
 import { registerSocialContentRoutes } from "./social-content-automation";
 import { registerScenarioRoutes } from "./allied-scenarios";
 import { registerParamedicBulkUploadRoutes } from "./paramedic-bulk-upload";
@@ -430,6 +431,7 @@ app.use((req, res, next) => {
 
   registerAlliedPipelineRoutes(app);
   registerAutomationRoutes(app);
+  registerAiJobsRoutes(app);
   registerSocialContentRoutes(app);
   registerScenarioRoutes(app);
   registerParamedicBulkUploadRoutes(app);
@@ -535,8 +537,9 @@ app.use((req, res, next) => {
     console.log(`[Sitemap] /sitemap.xml → 301 → /sitemap-index.xml`);
     console.log(`[Sitemap] /sitemap_index.xml → 301 → /sitemap-index.xml\n`);
 
-    import("./content-scheduler").then(({ startContentScheduler }) => startContentScheduler());
-    import("./qbank-scheduler").then(({ startQBankScheduler }) => startQBankScheduler());
+    // AI schedulers disabled — all AI generation is now admin-triggered via /admin/ai-jobs
+    // import("./content-scheduler").then(({ startContentScheduler }) => startContentScheduler());
+    // import("./qbank-scheduler").then(({ startQBankScheduler }) => startQBankScheduler());
     import("./prompts/qbank-templates").then(({ seedPromptTemplates }) => seedPromptTemplates().catch((e: any) => console.error("[QBank Templates] Seed failed:", e.message)));
     import("./seed-study-decks").then(async ({ seedStudyDecks }) => {
       const { getDevPool } = await import("./db");
