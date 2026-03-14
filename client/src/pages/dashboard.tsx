@@ -12,7 +12,7 @@ import { useI18n } from "@/lib/i18n";
 import { useToast } from "@/hooks/use-toast";
 import {
   LayoutDashboard, BookOpen, FlaskConical, Brain, FileText,
-  TrendingUp, GripVertical, Plus, X, Eye, EyeOff, Settings,
+  TrendingUp, Plus, X, Eye, EyeOff,
   Stethoscope, Pill, Activity, ClipboardList, Award, Target,
   ChevronUp, ChevronDown, BarChart3, Bookmark, Clock,
   Sparkles, ArrowRight, CheckCircle2, PlayCircle, Flame,
@@ -268,6 +268,20 @@ export default function DashboardPage() {
     (key) => !widgets.find((w) => w.widgetType === key)
   );
 
+  const WIDGET_SECTIONS: Record<string, { labelKey: string; types: Set<string> }> = {
+    hero: { labelKey: "", types: new Set(["welcome"]) },
+    progress: { labelKey: "dashboard.sectionProgress", types: new Set(["progress", "study_streak", "pass_probability", "exam_readiness", "exam_stats", "performance_overview"]) },
+    study: { labelKey: "dashboard.sectionStudyTools", types: new Set(["quick_links", "quick_study", "flashcard_review", "review_due", "recent_lessons", "bookmarks_preview"]) },
+    smart: { labelKey: "dashboard.sectionSmartInsights", types: new Set(["recommended", "adaptive_engine", "ai_study_coach", "intelligent_recommendations", "topic_mastery", "weak_topics", "study_workload", "clinical_tools"]) },
+  };
+
+  function getWidgetSection(widgetType: string): string {
+    for (const [key, section] of Object.entries(WIDGET_SECTIONS)) {
+      if (section.types.has(widgetType)) return key;
+    }
+    return "smart";
+  }
+
   return (
     <div className="min-h-screen bg-background" data-testid="dashboard-page">
       <SEO
@@ -289,7 +303,7 @@ export default function DashboardPage() {
         ]}
       />
       <Navigation />
-      <main className="container mx-auto px-4 py-6 sm:py-8 max-w-7xl" role="main" aria-label="Learning Dashboard">
+      <main className="container mx-auto px-4 py-6 sm:py-8 max-w-6xl" role="main" aria-label="Learning Dashboard">
         <nav aria-label="Breadcrumb" className="mb-4">
           <ol className="flex items-center gap-1.5 text-sm text-muted-foreground">
             <li><LocaleLink href="/" className="hover:text-primary transition-colors" data-testid="link-breadcrumb-home">{t("dashboard.breadcrumbHome")}</LocaleLink></li>
@@ -304,10 +318,10 @@ export default function DashboardPage() {
 
         <TrialDashboardWidget />
 
-        <header className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 sm:mb-8">
+        <header className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
           <div>
-            <h1 className="text-2xl sm:text-3xl font-bold" data-testid="text-dashboard-title">{t("dashboard.pageTitle")}</h1>
-            <p className="text-muted-foreground mt-1 text-sm sm:text-base">{t("dashboard.pageSubtitle")}</p>
+            <h1 className="text-2xl sm:text-3xl font-bold tracking-tight" data-testid="text-dashboard-title">{t("dashboard.pageTitle")}</h1>
+            <p className="text-muted-foreground mt-1 text-sm">{t("dashboard.pageSubtitle")}</p>
           </div>
           <div className="flex gap-2 flex-shrink-0">
             {editing ? (
@@ -324,8 +338,8 @@ export default function DashboardPage() {
                 </Button>
               </>
             ) : (
-              <Button variant="outline" size="sm" onClick={() => setEditing(true)} data-testid="button-customize-dashboard" aria-label="Customize dashboard layout">
-                <Settings className="h-4 w-4 mr-1.5" />
+              <Button variant="outline" size="sm" onClick={() => setEditing(true)} className="text-muted-foreground" data-testid="button-customize-dashboard" aria-label="Customize dashboard layout">
+                <SlidersHorizontal className="h-4 w-4 mr-1.5" />
                 {t("dashboard.customize")}
               </Button>
             )}
@@ -385,96 +399,106 @@ export default function DashboardPage() {
             ))}
           </div>
         ) : (
-          <section className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6" aria-label="Dashboard widgets">
-            {(editing ? widgets : visibleWidgets).map((widget, index) => {
-              const WidgetComponent = WIDGET_COMPONENTS[widget.widgetType];
-              const keys = WIDGET_I18N_KEYS[widget.widgetType];
-              if (!WidgetComponent || !keys) return null;
-              const Icon = WIDGET_ICONS[widget.widgetType];
-              const widgetLabel = t(keys.label);
-              const isFullWidth = widget.widgetType === "welcome" || widget.widgetType === "recommended";
-              return (
-                <article
-                  key={widget.widgetType}
-                  className={`relative ${editing ? "cursor-move" : ""} ${
-                    !widget.visible && editing ? "opacity-50" : ""
-                  } ${isFullWidth ? "md:col-span-2" : ""}`}
-                  aria-label={`${widgetLabel} widget`}
-                  draggable={editing}
-                  onDragStart={() => handleDragStart(index)}
-                  onDragOver={(e) => handleDragOver(e, index)}
-                  onDragEnd={handleDragEnd}
-                  data-testid={`widget-${widget.widgetType}`}
-                >
-                  <Card className={`h-full transition-all ${editing ? "ring-2 ring-primary/20 hover:ring-primary/40" : "hover:shadow-md"}`}>
-                    {editing && (
-                      <div className="absolute top-2 right-2 flex items-center gap-0.5 z-10 bg-background/80 backdrop-blur-sm rounded-lg p-0.5">
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          className="h-7 w-7"
-                          onClick={() => moveWidget(index, "up")}
-                          disabled={index === 0}
-                          data-testid={`button-move-up-${widget.widgetType}`}
-                          aria-label={`Move ${widgetLabel} up`}
-                        >
-                          <ChevronUp className="h-3 w-3" />
-                        </Button>
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          className="h-7 w-7"
-                          onClick={() => moveWidget(index, "down")}
-                          disabled={index === widgets.length - 1}
-                          data-testid={`button-move-down-${widget.widgetType}`}
-                          aria-label={`Move ${widgetLabel} down`}
-                        >
-                          <ChevronDown className="h-3 w-3" />
-                        </Button>
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          className="h-7 w-7"
-                          onClick={() => toggleWidget(index)}
-                          data-testid={`button-toggle-${widget.widgetType}`}
-                          aria-label={widget.visible ? `Hide ${widgetLabel}` : `Show ${widgetLabel}`}
-                        >
-                          {widget.visible ? <Eye className="h-3 w-3" /> : <EyeOff className="h-3 w-3" />}
-                        </Button>
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          className="h-7 w-7 text-destructive"
-                          onClick={() => removeWidget(index)}
-                          data-testid={`button-remove-${widget.widgetType}`}
-                          aria-label={`Remove ${widgetLabel}`}
-                        >
-                          <X className="h-3 w-3" />
-                        </Button>
-                        <GripVertical className="h-4 w-4 text-muted-foreground ml-0.5" aria-hidden="true" />
+          <section className="space-y-8" aria-label="Dashboard widgets">
+            {(() => {
+              const displayWidgets = editing ? widgets : visibleWidgets;
+              const sectionOrder = ["hero", "progress", "study", "smart"];
+              
+              if (editing) {
+                return (
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
+                    {displayWidgets.map((widget, index) => {
+                      const WidgetComponent = WIDGET_COMPONENTS[widget.widgetType];
+                      const keys = WIDGET_I18N_KEYS[widget.widgetType];
+                      if (!WidgetComponent || !keys) return null;
+                      const Icon = WIDGET_ICONS[widget.widgetType];
+                      const widgetLabel = t(keys.label);
+                      const isFullWidth = widget.widgetType === "welcome" || widget.widgetType === "recommended";
+                      return (
+                        <article key={widget.widgetType} className={`relative cursor-move ${!widget.visible ? "opacity-50" : ""} ${isFullWidth ? "md:col-span-2" : ""}`} aria-label={`${widgetLabel} widget`} draggable onDragStart={() => handleDragStart(index)} onDragOver={(e) => handleDragOver(e, index)} onDragEnd={handleDragEnd} data-testid={`widget-${widget.widgetType}`}>
+                          <Card className="h-full transition-all duration-200 premium-card ring-2 ring-primary/20 hover:ring-primary/40">
+                            <div className="absolute top-2 right-2 flex items-center gap-0.5 z-10 bg-background/80 backdrop-blur-sm rounded-lg p-0.5">
+                              <Button variant="ghost" size="icon" className="h-7 w-7" onClick={() => moveWidget(index, "up")} disabled={index === 0} data-testid={`button-move-up-${widget.widgetType}`} aria-label={`Move ${widgetLabel} up`}><ChevronUp className="h-3 w-3" /></Button>
+                              <Button variant="ghost" size="icon" className="h-7 w-7" onClick={() => moveWidget(index, "down")} disabled={index === displayWidgets.length - 1} data-testid={`button-move-down-${widget.widgetType}`} aria-label={`Move ${widgetLabel} down`}><ChevronDown className="h-3 w-3" /></Button>
+                              <Button variant="ghost" size="icon" className="h-7 w-7" onClick={() => toggleWidget(index)} data-testid={`button-toggle-${widget.widgetType}`} aria-label={widget.visible ? `Hide ${widgetLabel}` : `Show ${widgetLabel}`}>
+                                {widget.visible ? <EyeOff className="h-3 w-3" /> : <Eye className="h-3 w-3" />}
+                              </Button>
+                              <Button variant="ghost" size="icon" className="h-7 w-7 text-destructive" onClick={() => removeWidget(index)} data-testid={`button-remove-${widget.widgetType}`} aria-label={`Remove ${widgetLabel}`}><X className="h-3 w-3" /></Button>
+                            </div>
+                            <CardHeader className="pb-2 pt-4">
+                              <CardTitle className="text-xs uppercase tracking-wider text-muted-foreground font-semibold flex items-center gap-2">
+                                {Icon && <Icon className="h-4 w-4 text-primary/60" />}
+                                {widgetLabel}
+                              </CardTitle>
+                            </CardHeader>
+                            <CardContent>
+                              {(() => {
+                                const featureKey = PREMIUM_WIDGET_FEATURES[widget.widgetType];
+                                if (featureKey && !canAccessFeature(effectiveTier, featureKey)) return <PremiumLockedWidget widgetType={widget.widgetType} />;
+                                return <WidgetComponent user={user} />;
+                              })()}
+                            </CardContent>
+                          </Card>
+                        </article>
+                      );
+                    })}
+                  </div>
+                );
+              }
+
+              const grouped: Record<string, typeof displayWidgets> = {};
+              displayWidgets.forEach((w) => {
+                const section = getWidgetSection(w.widgetType);
+                if (!grouped[section]) grouped[section] = [];
+                grouped[section].push(w);
+              });
+
+              return sectionOrder.map((sectionKey) => {
+                const sectionWidgets = grouped[sectionKey];
+                if (!sectionWidgets || sectionWidgets.length === 0) return null;
+                const sectionConfig = WIDGET_SECTIONS[sectionKey];
+                const sectionLabel = sectionConfig.labelKey ? t(sectionConfig.labelKey) : null;
+                return (
+                  <div key={sectionKey} className="dashboard-module rounded-xl">
+                    {sectionLabel && (
+                      <div className="flex items-center gap-2 mb-4 px-1">
+                        <h2 className="text-xs font-bold uppercase tracking-wider text-muted-foreground">{sectionLabel}</h2>
+                        <div className="flex-1 h-px bg-border/50" />
                       </div>
                     )}
-                    <CardHeader className="pb-3">
-                      <CardTitle className="text-sm font-medium flex items-center gap-2">
-                        <Icon className="h-4 w-4 text-primary" aria-hidden="true" />
-                        {widgetLabel}
-                      </CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                      {widget.visible ? (
-                        PREMIUM_WIDGET_FEATURES[widget.widgetType] && !canAccessFeature(effectiveTier, PREMIUM_WIDGET_FEATURES[widget.widgetType]) ? (
-                          <PremiumLockedWidget widgetType={widget.widgetType} />
-                        ) : (
-                          <WidgetComponent user={user} />
-                        )
-                      ) : (
-                        <p className="text-xs text-muted-foreground italic">{t("dashboard.widgetHidden")}</p>
-                      )}
-                    </CardContent>
-                  </Card>
-                </article>
-              );
-            })}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-5">
+                      {sectionWidgets.map((widget) => {
+                        const WidgetComponent = WIDGET_COMPONENTS[widget.widgetType];
+                        const keys = WIDGET_I18N_KEYS[widget.widgetType];
+                        if (!WidgetComponent || !keys) return null;
+                        const Icon = WIDGET_ICONS[widget.widgetType];
+                        const widgetLabel = t(keys.label);
+                        const isFullWidth = widget.widgetType === "welcome" || widget.widgetType === "recommended";
+                        return (
+                          <article key={widget.widgetType} className={`relative ${isFullWidth ? "md:col-span-2" : ""}`} aria-label={`${widgetLabel} widget`} data-testid={`widget-${widget.widgetType}`}>
+                            <Card className="h-full transition-all duration-200 premium-card border-gray-200/60 hover:shadow-lg hover:shadow-gray-100/50">
+                              <CardHeader className="pb-2 pt-4">
+                                <CardTitle className="text-xs uppercase tracking-wider text-muted-foreground font-semibold flex items-center gap-2">
+                                  {Icon && <Icon className="h-4 w-4 text-primary/60" />}
+                                  {widgetLabel}
+                                </CardTitle>
+                              </CardHeader>
+                              <CardContent>
+                                {(() => {
+                                  const featureKey = PREMIUM_WIDGET_FEATURES[widget.widgetType];
+                                  if (featureKey && !canAccessFeature(effectiveTier, featureKey)) return <PremiumLockedWidget widgetType={widget.widgetType} />;
+                                  return <WidgetComponent user={user} />;
+                                })()}
+                              </CardContent>
+                            </Card>
+                          </article>
+                        );
+                      })}
+                    </div>
+                  </div>
+                );
+              });
+            })()}
           </section>
         )}
       </main>
@@ -525,17 +549,24 @@ function WelcomeWidget({ user }: { user: any }) {
   const actions = tierQuickActions[user.tier] || tierQuickActions.free;
 
   return (
-    <div data-testid="widget-content-welcome">
-      <p className="text-lg font-semibold mb-1">{greeting}, {user.username}!</p>
-      <p className="text-sm text-muted-foreground mb-1">
-        {config.dashboardSubtitle}
-      </p>
-      <p className="text-xs text-muted-foreground mb-4">
-        {t("dashboard.plan")} <span className="font-medium text-foreground">{config.displayName}</span>
-      </p>
+    <div className="dashboard-hero rounded-xl p-1" data-testid="widget-content-welcome">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-5">
+        <div>
+          <p className="text-xl sm:text-2xl font-bold tracking-tight mb-1">{greeting}, {user.username}!</p>
+          <p className="text-sm text-muted-foreground">
+            {config.dashboardSubtitle}
+          </p>
+        </div>
+        <div className="flex items-center gap-3 shrink-0">
+          <div className="dashboard-stat-card px-4 py-2">
+            <p className="text-[10px] uppercase tracking-wider text-muted-foreground font-medium">{t("dashboard.plan")}</p>
+            <p className="text-sm font-bold text-primary">{config.displayName}</p>
+          </div>
+        </div>
+      </div>
       <div className="flex flex-wrap gap-2">
         {actions.map((action) => (
-          <Button key={action.path} size="sm" variant={action.variant || "outline"} onClick={() => navigate(action.path)} data-testid={`button-go-${action.path.replace(/\//g, "")}`}>
+          <Button key={action.path} size="sm" variant={action.variant || "outline"} onClick={() => navigate(action.path)} className={action.variant === "default" ? "shadow-sm shadow-primary/15" : ""} data-testid={`button-go-${action.path.replace(/\//g, "")}`}>
             <action.icon className="h-4 w-4 mr-1.5" /> {action.label}
           </Button>
         ))}
@@ -683,13 +714,15 @@ function QuickLinksWidget({ user }: { user: any }) {
         return (
           <button
             key={link.path}
-            className="flex flex-col items-center gap-1.5 p-3 rounded-lg border hover:bg-muted hover:border-primary/30 transition-all text-center group"
+            className="flex flex-col items-center gap-2 p-3.5 rounded-xl border border-gray-200/60 hover:bg-primary/[0.03] hover:border-primary/30 transition-all duration-200 text-center group"
             onClick={() => navigate(link.path)}
             data-testid={`link-quick-${link.path.slice(1)}`}
             aria-label={`${link.label}: ${link.desc}`}
           >
-            <Icon className="h-5 w-5 text-primary group-hover:scale-110 transition-transform" />
-            <span className="text-xs font-medium leading-tight">{link.label}</span>
+            <div className="w-8 h-8 rounded-lg bg-primary/8 flex items-center justify-center group-hover:bg-primary/12 transition-colors">
+              <Icon className="h-4 w-4 text-primary" />
+            </div>
+            <span className="text-xs font-medium leading-tight text-gray-700">{link.label}</span>
           </button>
         );
       })}
@@ -728,18 +761,18 @@ function ExamStatsWidget({ user }: { user: any }) {
 
   return (
     <div data-testid="widget-content-exam-stats">
-      <div className="grid grid-cols-3 gap-3 mb-3">
-        <div className="text-center p-2 rounded-lg bg-primary/5">
+      <div className="grid grid-cols-3 gap-2.5 mb-3">
+        <div className="dashboard-stat-card">
           <p className="text-2xl font-bold text-primary">{avgScore}%</p>
-          <p className="text-[10px] text-muted-foreground">{t("dashboard.examAverage")}</p>
+          <p className="text-[10px] text-muted-foreground mt-0.5">{t("dashboard.examAverage")}</p>
         </div>
-        <div className="text-center p-2 rounded-lg bg-green-50">
-          <p className="text-2xl font-bold text-green-600">{bestScore}%</p>
-          <p className="text-[10px] text-muted-foreground">{t("dashboard.examBest")}</p>
+        <div className="text-center p-2.5 rounded-xl bg-emerald-50/60 border border-emerald-100/60">
+          <p className="text-2xl font-bold text-emerald-600">{bestScore}%</p>
+          <p className="text-[10px] text-muted-foreground mt-0.5">{t("dashboard.examBest")}</p>
         </div>
-        <div className="text-center p-2 rounded-lg bg-muted">
+        <div className="text-center p-2.5 rounded-xl bg-muted/50 border border-gray-200/40">
           <p className="text-2xl font-bold">{stats.length}</p>
-          <p className="text-[10px] text-muted-foreground">{t("dashboard.examTaken")}</p>
+          <p className="text-[10px] text-muted-foreground mt-0.5">{t("dashboard.examTaken")}</p>
         </div>
       </div>
       <Button size="sm" variant="outline" className="w-full" onClick={() => navigate("/mock-exams")} data-testid="button-view-exams">

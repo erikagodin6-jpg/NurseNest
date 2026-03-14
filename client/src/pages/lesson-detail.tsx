@@ -2040,9 +2040,9 @@ export default function LessonDetail() {
             </div>
 
             <div className="space-y-8">
-              <div className="space-y-4">
+              <div className="space-y-4 lesson-header-bar">
                 <div className="flex items-center gap-4">
-                  <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900" data-testid="text-lesson-title">{dbContent.title}</h1>
+                  <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 tracking-tight leading-tight" data-testid="text-lesson-title">{dbContent.title}</h1>
                   {isAdmin && (
                     <div className="flex gap-2">
                       {!dbLessonIsPublished && (
@@ -2082,23 +2082,23 @@ export default function LessonDetail() {
                     </div>
                   )}
                 </div>
-                <div className="flex items-center gap-4 flex-wrap">
-                  <span className="px-3 py-1 rounded-full bg-primary/10 text-primary text-sm font-bold">
+                <div className="flex items-center gap-3 flex-wrap">
+                  <span className="px-3 py-1 rounded-full bg-primary/8 text-primary text-xs font-bold uppercase tracking-wide">
                     {dbTierLabel}
                   </span>
                   {dbContent.category && (
-                    <span className="px-3 py-1 rounded-full bg-blue-100 text-blue-700 text-sm font-bold" data-testid="badge-category">
+                    <span className="px-3 py-1 rounded-full bg-blue-50 text-blue-700 text-xs font-bold" data-testid="badge-category">
                       {dbContent.category}
                     </span>
                   )}
                   {!dbLessonIsPublished && (
-                    <span className="px-3 py-1 rounded-full bg-yellow-100 text-yellow-800 text-sm font-bold" data-testid="badge-draft">
+                    <span className="px-3 py-1 rounded-full bg-yellow-50 text-yellow-800 text-xs font-bold" data-testid="badge-draft">
                       Draft
                     </span>
                   )}
                 </div>
                 {dbContent.summary && (
-                  <p className="text-gray-600 text-lg" data-testid="text-lesson-summary">{dbContent.summary}</p>
+                  <p className="text-gray-600 text-base leading-relaxed max-w-2xl" data-testid="text-lesson-summary">{dbContent.summary}</p>
                 )}
               </div>
 

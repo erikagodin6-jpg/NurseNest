@@ -30,17 +30,17 @@ function BlockHeading({ block }: { block: ContentBlock }) {
   const level = block.level || 2;
   const text = block.content || block.title || "";
   const cls = level === 1
-    ? "text-2xl font-bold text-gray-900 mb-4"
+    ? "text-2xl font-bold text-foreground mb-5 tracking-tight"
     : level === 2
-    ? "text-xl font-bold text-gray-900 mb-3"
-    : "text-lg font-semibold text-gray-800 mb-2";
+    ? "text-xl font-bold text-foreground mb-3.5 tracking-tight mt-8 first:mt-0"
+    : "text-lg font-semibold text-foreground/90 mb-2.5 mt-6 first:mt-0";
   return <div className={cls} data-testid="block-heading">{text}</div>;
 }
 
 function BlockParagraph({ block }: { block: ContentBlock }) {
   return (
     <div
-      className="text-sm text-gray-700 leading-relaxed mb-3"
+      className="text-[15px] text-foreground/80 leading-[1.75] mb-4 max-w-[65ch]"
       data-testid="block-paragraph"
       dangerouslySetInnerHTML={{ __html: block.content || "" }}
     />
@@ -51,10 +51,10 @@ function BlockBulletList({ block }: { block: ContentBlock }) {
   const items = block.items || (block.content ? block.content.split("\n").filter(Boolean) : []);
   if (items.length === 0) return null;
   return (
-    <ul className="space-y-2 mb-4 pl-1" data-testid="block-bullet-list">
+    <ul className="space-y-2.5 mb-5 pl-1" data-testid="block-bullet-list">
       {items.map((item, i) => (
-        <li key={i} className="flex items-start gap-2 text-sm text-gray-700">
-          <span className="w-1.5 h-1.5 bg-primary rounded-full mt-2 flex-shrink-0" />
+        <li key={i} className="flex items-start gap-2.5 text-[15px] text-foreground/80 leading-relaxed">
+          <span className="w-1.5 h-1.5 bg-primary/70 rounded-full mt-2.5 flex-shrink-0" />
           <span dangerouslySetInnerHTML={{ __html: item }} />
         </li>
       ))}
@@ -66,9 +66,9 @@ function BlockNumberedList({ block }: { block: ContentBlock }) {
   const items = block.items || (block.content ? block.content.split("\n").filter(Boolean) : []);
   if (items.length === 0) return null;
   return (
-    <ol className="space-y-2 mb-4 pl-1 list-decimal list-inside" data-testid="block-numbered-list">
+    <ol className="space-y-2.5 mb-5 pl-1 list-decimal list-inside" data-testid="block-numbered-list">
       {items.map((item, i) => (
-        <li key={i} className="text-sm text-gray-700" dangerouslySetInnerHTML={{ __html: item }} />
+        <li key={i} className="text-[15px] text-foreground/80 leading-relaxed" dangerouslySetInnerHTML={{ __html: item }} />
       ))}
     </ol>
   );
@@ -87,12 +87,12 @@ function BlockCallout({ block }: { block: ContentBlock }) {
   const style = calloutStyles[block.calloutType || "tip"] || calloutStyles.tip;
   const Icon = style.icon;
   return (
-    <div className={`${style.bg} ${style.border} border rounded-xl p-4 mb-4`} data-testid="block-callout">
+    <div className={`${style.bg}/60 ${style.border}/60 border rounded-xl p-5 mb-5 border-l-[3px]`} data-testid="block-callout">
       <div className="flex items-start gap-3">
         <Icon className={`w-5 h-5 ${style.textColor} flex-shrink-0 mt-0.5`} />
         <div>
-          {block.title && <p className={`text-sm font-semibold ${style.textColor} mb-1`}>{block.title}</p>}
-          <div className="text-sm text-gray-700 leading-relaxed" dangerouslySetInnerHTML={{ __html: block.content || "" }} />
+          {block.title && <p className={`text-sm font-bold ${style.textColor} mb-1.5`}>{block.title}</p>}
+          <div className="text-[15px] text-foreground/80 leading-[1.7]" dangerouslySetInnerHTML={{ __html: block.content || "" }} />
         </div>
       </div>
     </div>
@@ -133,9 +133,9 @@ function BlockImage({ block }: { block: ContentBlock }) {
   if (!block.url) return null;
   const altText = block.caption || "NurseNest clinical nursing illustration";
   return (
-    <figure className="mb-4" data-testid="block-image">
+    <figure className="mb-6 rounded-xl overflow-hidden border border-gray-100 bg-gray-50/30 p-3" data-testid="block-image">
       <img src={block.url} alt={altText} title={altText} className="w-full rounded-lg max-h-96 object-contain" loading="lazy" />
-      <figcaption className="text-xs text-gray-500 text-center mt-2">{block.caption || altText}</figcaption>
+      <figcaption className="text-xs text-gray-500 text-center mt-2.5 italic">{block.caption || altText}</figcaption>
     </figure>
   );
 }
@@ -153,11 +153,11 @@ function BlockQuiz({ block }: { block: ContentBlock }) {
 
   return (
     <div className="space-y-4 mb-4" data-testid="block-quiz">
-      {block.title && <h3 className="text-lg font-semibold text-gray-900 mb-3">{block.title}</h3>}
+      {block.title && <h3 className="text-lg font-semibold text-foreground mb-3">{block.title}</h3>}
       {questions.map((q, qi) => (
         <Card key={qi} className="border-gray-200">
           <CardContent className="p-4">
-            <p className="text-sm font-medium text-gray-800 mb-3">{q.question}</p>
+            <p className="text-sm font-medium text-foreground/90 mb-3">{q.question}</p>
             <div className="space-y-2 mb-3">
               {q.options.map((opt, oi) => {
                 const selected = answers[qi] === oi;
@@ -202,12 +202,12 @@ function BlockQuiz({ block }: { block: ContentBlock }) {
 
 function BlockClinicalPearl({ block }: { block: ContentBlock }) {
   return (
-    <div className="bg-emerald-50 border border-emerald-200 rounded-xl p-4 mb-4" data-testid="block-clinical-pearl">
+    <div className="rationale-callout rationale-callout-pearl mb-5" data-testid="block-clinical-pearl">
       <div className="flex items-start gap-3">
-        <Stethoscope className="w-5 h-5 text-emerald-700 flex-shrink-0 mt-0.5" />
+        <Stethoscope className="w-5 h-5 text-violet-600 flex-shrink-0 mt-0.5" />
         <div>
-          <p className="text-sm font-semibold text-emerald-800 mb-1">Clinical Pearl</p>
-          <p className="text-sm text-gray-700 leading-relaxed">{block.content || ""}</p>
+          <p className="text-xs font-bold text-violet-700 mb-1.5 uppercase tracking-wider">Clinical Pearl</p>
+          <p className="text-[15px] text-foreground/80 leading-[1.7]">{block.content || ""}</p>
         </div>
       </div>
     </div>
@@ -220,7 +220,7 @@ export function ContentBlockRenderer({ blocks }: { blocks: ContentBlock[] }) {
   }
 
   return (
-    <div className="space-y-1" data-testid="content-blocks">
+    <div className="space-y-1 lesson-prose" data-testid="content-blocks">
       {blocks.map((block, i) => {
         if (!block || !block.type) return null;
         switch (block.type) {
@@ -254,7 +254,7 @@ export function LessonObjectives({ objectives }: { objectives: string[] }) {
       </h3>
       <ul className="space-y-2">
         {objectives.map((obj, i) => (
-          <li key={i} className="flex items-start gap-2 text-sm text-gray-700">
+          <li key={i} className="flex items-start gap-2 text-sm text-foreground/80">
             <CheckCircle2 className="w-4 h-4 text-primary flex-shrink-0 mt-0.5" />
             <span>{obj}</span>
           </li>

@@ -31,7 +31,8 @@ import {
   StickyNote,
   Calendar,
   UserCircle,
-  X
+  X,
+  LayoutDashboard
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/lib/auth";
@@ -903,13 +904,13 @@ export function Navigation({ compact = false }: { compact?: boolean } = {}) {
       className={cn(
         "sticky top-0 z-50 transition-all duration-300 border-b",
         scrolled 
-          ? "bg-white/90 backdrop-blur-lg border-primary/10 shadow-sm" 
-          : "bg-white/80 backdrop-blur-lg border-transparent"
+          ? "bg-white/95 backdrop-blur-xl border-gray-200/60 shadow-sm" 
+          : "bg-white/90 backdrop-blur-xl border-transparent"
       )}
     >
       <div className="bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 text-white" data-testid="ecosystem-nav">
         <div className="max-w-7xl mx-auto px-2 sm:px-4 lg:px-8">
-          <div className="flex items-center justify-center gap-1 sm:gap-6 h-8 text-[11px] sm:text-xs font-medium">
+          <div className="flex items-center justify-center gap-1 sm:gap-6 h-7 sm:h-8 text-[10px] sm:text-xs font-medium">
             <LocaleLink href={appendUtmParams("/exam-prep")} className="flex items-center gap-1.5 px-2 py-1 rounded-full hover:bg-white/15 transition-colors" data-testid="ecosystem-link-exam-prep" onClick={() => trackCrossSectionClick(getPlatformSection(location), "exam_prep", "Exam Prep")}>
               <BookOpen className="w-3 h-3" />
               <span>Exam Prep</span>
@@ -997,11 +998,39 @@ export function Navigation({ compact = false }: { compact?: boolean } = {}) {
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button variant="ghost" className="text-sm font-medium text-softgray hover:text-primary hover:bg-transparent flex items-center gap-1 px-2 lg:px-2.5 group data-[state=open]:text-primary">
-                    {t("nav.learning")}
+                    {t("nav.study")}
                     <ChevronDown className="w-3 h-3 transition-transform duration-200 group-data-[state=open]:rotate-180" />
                   </Button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent align="start" className="w-52 p-2">
+                <DropdownMenuContent align="start" className="w-56 p-2">
+                  <p className="text-[10px] font-bold text-muted-foreground uppercase px-2 mb-1.5 tracking-wider">{t("nav.coreStudyTools")}</p>
+                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary hover:bg-primary/5" onClick={() => setLocation("/question-bank")} data-testid="nav-questions-desktop">
+                    <FlaskConical className="w-4 h-4 text-primary/70" />
+                    {t("nav.questionBank")}
+                  </DropdownMenuItem>
+                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary hover:bg-primary/5 relative" onClick={() => setLocation("/flashcards?view=decks")} data-testid="button-study-decks-nav">
+                    <Layers className="w-4 h-4 text-primary/70" />
+                    {t("nav.flashcards")}
+                    <span className="ml-auto flex h-4 px-1.5 items-center justify-center rounded-full bg-emerald-500 text-[8px] font-bold text-white leading-none">{t("common.free")}</span>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary hover:bg-primary/5" onClick={() => setLocation("/lessons")}>
+                    <BookOpen className="w-4 h-4 text-primary/70" />
+                    {t("nav.lessons")}
+                  </DropdownMenuItem>
+                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary hover:bg-primary/5" onClick={() => setLocation("/mock-exams")}>
+                    <FileText className="w-4 h-4 text-primary/70" />
+                    {t("nav.exams")}
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <p className="text-[10px] font-bold text-muted-foreground uppercase px-2 mb-1.5 tracking-wider">{t("nav.learnMore")}</p>
+                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary hover:bg-primary/5" onClick={() => setLocation("/lectures")}>
+                    <Play className="w-4 h-4 text-primary/70" />
+                    {t("nav.lectures")}
+                  </DropdownMenuItem>
+                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary hover:bg-primary/5" onClick={() => setLocation("/clinical-clarity")}>
+                    <Lightbulb className="w-4 h-4 text-primary/70" />
+                    {t("nav.clinicalClarity")}
+                  </DropdownMenuItem>
                   <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary hover:bg-primary/5" onClick={() => setLocation("/pre-nursing")}>
                     <BookOpen className="w-4 h-4 text-primary/70" />
                     {t("nav.preNursing")}
@@ -1009,33 +1038,6 @@ export function Navigation({ compact = false }: { compact?: boolean } = {}) {
                   <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary hover:bg-primary/5" onClick={() => setLocation("/anatomy")}>
                     <Dna className="w-4 h-4 text-primary/70" />
                     {t("nav.anatomy")}
-                  </DropdownMenuItem>
-                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary hover:bg-primary/5" onClick={() => setLocation("/lessons")}>
-                    <BookOpen className="w-4 h-4 text-primary/70" />
-                    {t("nav.lessons")}
-                  </DropdownMenuItem>
-                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary hover:bg-primary/5" onClick={() => setLocation("/lectures")}>
-                    <Play className="w-4 h-4 text-primary/70" />
-                    {t("nav.lectures")}
-                  </DropdownMenuItem>
-                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary hover:bg-primary/5" onClick={() => setLocation("/blog")}>
-                    <FileText className="w-4 h-4 text-primary/70" />
-                    {t("nav.blog")}
-                  </DropdownMenuItem>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary hover:bg-primary/5 relative" onClick={() => setLocation("/flashcards?view=decks")} data-testid="button-study-decks-nav">
-                    <Layers className="w-4 h-4 text-primary/70" />
-                    {t("nav.flashcards")}
-                    <span className="ml-auto flex h-4 px-1.5 items-center justify-center rounded-full bg-emerald-500 text-[8px] font-bold text-white leading-none">{t("common.free")}</span>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary hover:bg-primary/5" onClick={() => setLocation("/clinical-clarity")}>
-                    <Lightbulb className="w-4 h-4 text-primary/70" />
-                    {t("nav.clinicalClarity")}
-                  </DropdownMenuItem>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary hover:bg-primary/5" onClick={() => setLocation("/nursing-specialties")} data-testid="button-specialties-desktop">
-                    <Stethoscope className="w-4 h-4 text-primary/70" />
-                    Nursing Specialties
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
@@ -1048,10 +1050,7 @@ export function Navigation({ compact = false }: { compact?: boolean } = {}) {
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="start" className="w-56 p-2">
-                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary hover:bg-primary/5" onClick={() => setLocation("/mock-exams")}>
-                    <FileText className="w-4 h-4 text-primary/70" />
-                    {t("nav.exams")}
-                  </DropdownMenuItem>
+                  <p className="text-[10px] font-bold text-muted-foreground uppercase px-2 mb-1.5 tracking-wider">{t("nav.clinicalSimulators")}</p>
                   <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary hover:bg-primary/5" onClick={() => setLocation("/simulators/osce")}>
                     <Stethoscope className="w-4 h-4 text-primary/70" />
                     {t("nav.simulators")}
@@ -1064,45 +1063,71 @@ export function Navigation({ compact = false }: { compact?: boolean } = {}) {
                     <Activity className="w-4 h-4 text-primary/70" />
                     {t("nav.clinicalSkillsSim")}
                   </DropdownMenuItem>
-                  <DropdownMenuSeparator />
-                  <p className="text-[10px] font-bold text-gray-400 uppercase px-2 mb-1 tracking-wider">{t("nav.premiumTools")}</p>
-                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary hover:bg-primary/5" onClick={() => setLocation("/med-math")}>
-                    <Calculator className="w-4 h-4" />
-                    {t("nav.medMathLab")}
-                  </DropdownMenuItem>
-                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary hover:bg-primary/5" onClick={() => setLocation("/lab-values")}>
-                    <FlaskConical className="w-4 h-4" />
-                    {t("nav.labInterpretation")}
-                  </DropdownMenuItem>
-                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary hover:bg-primary/5" onClick={() => setLocation("/medication-mastery")}>
-                    <Pill className="w-4 h-4" />
-                    {t("nav.medicationMastery")}
-                  </DropdownMenuItem>
-                  <DropdownMenuSeparator />
-                  <p className="text-[10px] font-bold text-gray-400 uppercase px-2 mb-1 tracking-wider">{t("nav.clinicalSimulators")}</p>
                   <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary hover:bg-primary/5" onClick={() => setLocation("/first-action-simulator")}>
-                    <Activity className="w-4 h-4" />
+                    <Activity className="w-4 h-4 text-primary/70" />
                     {t("nav.firstAction")}
                   </DropdownMenuItem>
                   <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary hover:bg-primary/5" onClick={() => setLocation("/safety-hazard-simulator")}>
-                    <Heart className="w-4 h-4" />
+                    <Heart className="w-4 h-4 text-primary/70" />
                     {t("nav.safetyHazard")}
                   </DropdownMenuItem>
                   <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary hover:bg-primary/5" onClick={() => setLocation("/iv-complications-simulator")}>
-                    <Dna className="w-4 h-4" />
+                    <Dna className="w-4 h-4 text-primary/70" />
                     {t("nav.ivComplications")}
                   </DropdownMenuItem>
                   <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary hover:bg-primary/5" onClick={() => setLocation("/electrolyte-abg-simulator")}>
-                    <FlaskConical className="w-4 h-4" />
+                    <FlaskConical className="w-4 h-4 text-primary/70" />
                     {t("nav.electrolyteAbg")}
                   </DropdownMenuItem>
                   <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary hover:bg-primary/5" onClick={() => setLocation("/deteriorating-patient-simulator")}>
-                    <Activity className="w-4 h-4" />
+                    <Activity className="w-4 h-4 text-primary/70" />
                     {t("nav.deterioratingPatient")}
                   </DropdownMenuItem>
                   <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary hover:bg-primary/5" onClick={() => setLocation("/blood-transfusion-simulator")}>
-                    <Heart className="w-4 h-4" />
+                    <Heart className="w-4 h-4 text-primary/70" />
                     {t("nav.bloodTransfusion")}
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <p className="text-[10px] font-bold text-muted-foreground uppercase px-2 mb-1.5 tracking-wider">{t("nav.premiumTools")}</p>
+                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary hover:bg-primary/5" onClick={() => setLocation("/med-math")}>
+                    <Calculator className="w-4 h-4 text-primary/70" />
+                    {t("nav.medMathLab")}
+                  </DropdownMenuItem>
+                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary hover:bg-primary/5" onClick={() => setLocation("/lab-values")}>
+                    <FlaskConical className="w-4 h-4 text-primary/70" />
+                    {t("nav.labInterpretation")}
+                  </DropdownMenuItem>
+                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary hover:bg-primary/5" onClick={() => setLocation("/medication-mastery")}>
+                    <Pill className="w-4 h-4 text-primary/70" />
+                    {t("nav.medicationMastery")}
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" className="text-sm font-medium text-softgray hover:text-primary hover:bg-transparent flex items-center gap-1 px-2 lg:px-2.5 group data-[state=open]:text-primary" data-testid="nav-analytics-desktop">
+                    {t("nav.analytics")}
+                    <ChevronDown className="w-3 h-3 transition-transform duration-200 group-data-[state=open]:rotate-180" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="start" className="w-52 p-2">
+                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary hover:bg-primary/5" onClick={() => setLocation("/dashboard")}>
+                    <LayoutDashboard className="w-4 h-4 text-primary/70" />
+                    {t("nav.dashboard")}
+                  </DropdownMenuItem>
+                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary hover:bg-primary/5" onClick={() => setLocation("/reports")}>
+                    <BarChart3 className="w-4 h-4 text-primary/70" />
+                    {t("nav.reports")}
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary hover:bg-primary/5" onClick={() => setLocation("/nursing-specialties")} data-testid="button-specialties-desktop">
+                    <Stethoscope className="w-4 h-4 text-primary/70" />
+                    Nursing Specialties
+                  </DropdownMenuItem>
+                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary hover:bg-primary/5" onClick={() => setLocation("/blog")}>
+                    <FileText className="w-4 h-4 text-primary/70" />
+                    {t("nav.blog")}
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>

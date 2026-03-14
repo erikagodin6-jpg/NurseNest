@@ -108,22 +108,22 @@ export function AnswerOption({
 }) {
   const letter = String.fromCharCode(65 + index);
 
-  let containerCls = "border-gray-200 hover:border-primary/40 hover:bg-primary/[0.03] hover:shadow-sm";
+  let containerCls = "border-gray-200/80 hover:border-primary/40 hover:bg-primary/[0.03] hover:shadow-sm active:scale-[0.995]";
   let circleCls = "border-gray-300 text-gray-500 bg-white";
   let statusIcon: ReactNode = null;
 
   if (isCorrect) {
-    containerCls = "shadow-sm answer-correct-state";
+    containerCls = "shadow-sm answer-correct-state ring-1 ring-primary/10";
     circleCls = "text-white answer-correct-circle";
     statusIcon = <CheckCircle2 className="h-4 w-4 shrink-0 theme-icon" />;
   } else if (isWrong) {
-    containerCls = "border-red-200 bg-red-50/40";
+    containerCls = "border-red-200 bg-red-50/30 ring-1 ring-red-100";
     circleCls = "border-red-400 text-white bg-red-400";
     statusIcon = <XCircle className="h-4.5 w-4.5 text-red-500 shrink-0" />;
   } else if (isRevealed && !isSelected) {
-    containerCls = "border-gray-100 opacity-45";
+    containerCls = "border-gray-100 opacity-40";
   } else if (isSelected && !isRevealed) {
-    containerCls = "border-primary/60 bg-primary/[0.04] ring-2 ring-primary/20";
+    containerCls = "border-primary/50 bg-primary/[0.04] ring-2 ring-primary/15 shadow-sm";
     circleCls = "border-primary text-primary bg-primary/10";
   }
 
@@ -132,7 +132,7 @@ export function AnswerOption({
       onClick={onClick}
       disabled={disabled}
       className={cn(
-        "w-full text-left px-4 py-3.5 rounded-xl border transition-all duration-200 flex items-center gap-3.5 group",
+        "w-full text-left px-5 py-4 rounded-xl border transition-all duration-200 flex items-center gap-4 group",
         containerCls,
         disabled && !isRevealed ? "" : disabled ? "cursor-default" : "cursor-pointer",
         className
@@ -140,7 +140,7 @@ export function AnswerOption({
       data-testid={testId}
     >
       <span className={cn(
-        "shrink-0 w-8 h-8 rounded-lg border-[1.5px] flex items-center justify-center text-sm font-semibold transition-all duration-200",
+        "shrink-0 w-9 h-9 rounded-lg border-[1.5px] flex items-center justify-center text-sm font-semibold transition-all duration-200",
         circleCls
       )}>
         {isCorrect ? <CheckCircle2 className="h-4 w-4" /> : isWrong ? <XCircle className="h-4 w-4" /> : letter}
@@ -231,13 +231,13 @@ export function RationaleSection({
   };
 
   return (
-    <div className={cn("px-3 py-2.5 rounded-xl border relative", variantStyles[variant], className)} data-testid={testId}>
+    <div className={cn("px-4 py-3.5 rounded-xl border relative", variantStyles[variant], className)} data-testid={testId}>
       <div className={cn("absolute left-0 top-3 bottom-3 w-[3px] rounded-full", accentBar[variant])} />
-      <div className="flex items-center gap-2 mb-1.5 pl-2">
+      <div className="flex items-center gap-2 mb-2 pl-2.5">
         {icon}
         <p className={cn("text-xs font-semibold uppercase tracking-wider", titleColors[variant])}>{title}</p>
       </div>
-      <div className="text-sm leading-[1.7] text-gray-700 pl-2">{children}</div>
+      <div className="text-sm leading-[1.75] text-gray-700 pl-2.5">{children}</div>
     </div>
   );
 }
@@ -379,7 +379,7 @@ export function ProgressHeader({
   return (
     <div
       className={cn(
-        "sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-gray-200/60 shadow-sm",
+        "study-control-bar",
         className
       )}
       data-testid={testId}
@@ -488,16 +488,16 @@ export function FlashcardContainer({
   return (
     <div
       className={cn(
-        "min-h-[380px] cursor-pointer select-none",
+        "min-h-[400px] cursor-pointer select-none perspective-1000",
         className
       )}
       onClick={onClick}
     >
       <Card className={cn(
-        "premium-card border-0 shadow-xl min-h-[380px] flex flex-col items-center justify-center p-8 sm:p-10 text-center transition-all duration-300",
+        "premium-card border-0 shadow-xl min-h-[400px] flex flex-col items-center justify-center p-10 sm:p-12 text-center transition-all duration-500 ease-out",
         flipped
-          ? "bg-gradient-to-br from-primary to-primary/80 text-white"
-          : "bg-white"
+          ? "bg-gradient-to-br from-primary via-primary/90 to-primary/80 text-white shadow-2xl shadow-primary/20"
+          : "bg-white hover:shadow-2xl"
       )}>
         {children}
       </Card>
@@ -521,46 +521,46 @@ export function FlashcardRatingButtons({
   correctTestId?: string;
 }) {
   return (
-    <div className="space-y-3">
-      <p className="text-center text-xs text-gray-400 uppercase tracking-widest font-medium">
+    <div className="space-y-4">
+      <p className="text-center text-[11px] text-gray-400 uppercase tracking-[0.15em] font-medium">
         How well did you know this?
       </p>
       <div className="flex gap-3 justify-center">
         <Button
           onClick={onWrong}
           variant="outline"
-          className="rounded-2xl gap-2.5 px-5 py-6 border-red-200/80 text-red-600 hover:bg-red-50/80 flex-1 transition-all duration-200 hover:shadow-sm"
+          className="rounded-2xl gap-3 px-5 py-7 border-red-200/60 text-red-600 hover:bg-red-50/60 hover:border-red-300/60 flex-1 transition-all duration-200 hover:shadow-md active:scale-[0.97]"
           data-testid={wrongTestId}
         >
           <XCircle className="w-5 h-5" />
           <div className="text-left">
             <div className="font-semibold text-sm">I got it wrong</div>
-            <div className="text-[10px] text-red-400">Review tomorrow</div>
+            <div className="text-[10px] text-red-400 mt-0.5">Review tomorrow</div>
           </div>
         </Button>
         {onUnsure && (
           <Button
             onClick={onUnsure}
             variant="outline"
-            className="rounded-2xl gap-2.5 px-5 py-6 border-amber-200/80 text-amber-600 hover:bg-amber-50/80 flex-1 transition-all duration-200 hover:shadow-sm"
+            className="rounded-2xl gap-3 px-5 py-7 border-amber-200/60 text-amber-600 hover:bg-amber-50/60 hover:border-amber-300/60 flex-1 transition-all duration-200 hover:shadow-md active:scale-[0.97]"
             data-testid={unsureTestId}
           >
             <RotateCcw className="w-5 h-5" />
             <div className="text-left">
               <div className="font-semibold text-sm">I was unsure</div>
-              <div className="text-[10px] text-amber-400">Review in 3 days</div>
+              <div className="text-[10px] text-amber-400 mt-0.5">Review in 3 days</div>
             </div>
           </Button>
         )}
         <Button
           onClick={onCorrect}
-          className="rounded-2xl gap-2.5 px-5 py-6 bg-primary hover:bg-primary/90 text-primary-foreground flex-1 transition-all duration-200 hover:shadow-sm"
+          className="rounded-2xl gap-3 px-5 py-7 bg-primary hover:bg-primary/90 text-primary-foreground flex-1 transition-all duration-200 hover:shadow-md hover:shadow-primary/15 active:scale-[0.97]"
           data-testid={correctTestId}
         >
           <CheckCircle2 className="w-5 h-5" />
           <div className="text-left">
             <div className="font-semibold text-sm">I knew this</div>
-            <div className="text-[10px] opacity-70">Review in 7+ days</div>
+            <div className="text-[10px] opacity-70 mt-0.5">Review in 7+ days</div>
           </div>
         </Button>
       </div>

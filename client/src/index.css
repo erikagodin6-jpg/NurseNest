@@ -761,6 +761,111 @@ input, textarea, [contenteditable="true"], .allow-select {
   box-shadow: 0 8px 30px -8px rgba(0,0,0,0.1), 0 2px 8px -2px rgba(0,0,0,0.05);
 }
 
+.dashboard-hero {
+  background: linear-gradient(135deg, color-mix(in srgb, var(--theme-primary) 6%, var(--color-warmwhite)), color-mix(in srgb, var(--theme-primary) 3%, var(--color-warmwhite)));
+  border: 1px solid color-mix(in srgb, var(--theme-primary) 12%, transparent);
+  border-radius: 1.5rem;
+}
+
+.dashboard-module {
+  border-radius: 1rem;
+  border: 1px solid color-mix(in srgb, var(--theme-border) 60%, transparent);
+  background: var(--color-card-base);
+  transition: box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.dashboard-module:hover {
+  box-shadow: 0 4px 16px -4px rgba(0,0,0,0.06);
+  border-color: color-mix(in srgb, var(--theme-primary) 20%, transparent);
+}
+
+.dashboard-stat-card {
+  border-radius: 0.875rem;
+  background: color-mix(in srgb, var(--theme-primary) 5%, var(--color-card-base));
+  border: 1px solid color-mix(in srgb, var(--theme-primary) 10%, transparent);
+  padding: 1rem 1.25rem;
+  text-align: center;
+}
+
+.study-control-bar {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  background: rgba(255, 255, 255, 0.97);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid color-mix(in srgb, var(--theme-border) 50%, transparent);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+}
+
+.lesson-prose h2,
+.lesson-prose [data-testid="block-heading"] {
+  font-size: 1.375rem;
+  font-weight: 700;
+  color: var(--color-foreground, var(--color-softgray));
+  margin-top: 2.5rem;
+  margin-bottom: 1rem;
+  letter-spacing: -0.01em;
+}
+
+.lesson-prose h3 {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--color-foreground, var(--color-softgray));
+  margin-top: 2rem;
+  margin-bottom: 0.75rem;
+}
+
+.lesson-prose p,
+.lesson-prose [data-testid="block-paragraph"] {
+  font-size: 0.9375rem;
+  line-height: 1.75;
+  color: var(--color-foreground, var(--color-softgray));
+  margin-bottom: 1.25rem;
+  max-width: 65ch;
+}
+
+.lesson-prose ul, .lesson-prose ol,
+.lesson-prose [data-testid="block-bullet-list"],
+.lesson-prose [data-testid="block-numbered-list"] {
+  margin-bottom: 1.25rem;
+  padding-left: 0.25rem;
+}
+
+.lesson-prose li {
+  font-size: 0.9375rem;
+  line-height: 1.7;
+  margin-bottom: 0.5rem;
+}
+
+.lesson-header-bar {
+  border-bottom: 1px solid color-mix(in srgb, var(--theme-border) 40%, transparent);
+  padding-bottom: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.rationale-callout {
+  border-radius: 0.75rem;
+  border-left: 3px solid;
+  padding: 0.875rem 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.rationale-callout-pearl {
+  border-left-color: #8b5cf6;
+  background: rgba(139, 92, 246, 0.04);
+}
+
+.rationale-callout-strategy {
+  border-left-color: #3b82f6;
+  background: rgba(59, 130, 246, 0.04);
+}
+
+.rationale-callout-takeaway {
+  border-left-color: var(--theme-primary);
+  background: color-mix(in srgb, var(--theme-primary) 4%, transparent);
+}
+
 @keyframes fadeInUp {
   from { opacity: 0; transform: translateY(8px); }
   to { opacity: 1; transform: translateY(0); }
@@ -814,6 +919,53 @@ input, textarea, [contenteditable="true"], .allow-select {
 [data-theme="dark-clinical"] .premium-card-interactive,
 [data-theme="dark-academia"] .premium-card-interactive {
   background-color: var(--color-card) !important;
+}
+
+[data-theme="dark-clinical"] .dashboard-hero,
+[data-theme="dark-academia"] .dashboard-hero {
+  background: color-mix(in srgb, var(--theme-primary) 6%, var(--color-card)) !important;
+  border-color: color-mix(in srgb, var(--theme-primary) 12%, transparent) !important;
+}
+
+[data-theme="dark-clinical"] .dashboard-module,
+[data-theme="dark-academia"] .dashboard-module {
+  background-color: var(--color-card) !important;
+  border-color: var(--theme-border) !important;
+}
+
+[data-theme="dark-clinical"] .dashboard-stat-card,
+[data-theme="dark-academia"] .dashboard-stat-card {
+  background-color: color-mix(in srgb, var(--theme-primary) 8%, var(--color-card)) !important;
+  border-color: color-mix(in srgb, var(--theme-primary) 15%, transparent) !important;
+}
+
+[data-theme="dark-clinical"] .study-control-bar,
+[data-theme="dark-academia"] .study-control-bar {
+  background: var(--color-card) !important;
+  border-bottom-color: var(--theme-border) !important;
+}
+
+[data-theme="dark-clinical"] .rationale-callout,
+[data-theme="dark-academia"] .rationale-callout {
+  background: color-mix(in srgb, var(--theme-primary) 4%, var(--color-card)) !important;
+}
+
+[data-theme="dark-clinical"] .lesson-prose p,
+[data-theme="dark-clinical"] .lesson-prose li,
+[data-theme="dark-clinical"] .lesson-prose [data-testid="block-paragraph"],
+[data-theme="dark-academia"] .lesson-prose p,
+[data-theme="dark-academia"] .lesson-prose li,
+[data-theme="dark-academia"] .lesson-prose [data-testid="block-paragraph"] {
+  color: var(--color-foreground) !important;
+}
+
+[data-theme="dark-clinical"] .lesson-prose h2,
+[data-theme="dark-clinical"] .lesson-prose h3,
+[data-theme="dark-clinical"] .lesson-prose [data-testid="block-heading"],
+[data-theme="dark-academia"] .lesson-prose h2,
+[data-theme="dark-academia"] .lesson-prose h3,
+[data-theme="dark-academia"] .lesson-prose [data-testid="block-heading"] {
+  color: var(--color-foreground) !important;
 }
 
 .perspective-1000 {

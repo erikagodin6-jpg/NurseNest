@@ -523,11 +523,11 @@ export default function QuestionBank() {
       <main className="min-h-screen bg-warmwhite">
         <div className="container mx-auto px-4 py-8 max-w-4xl">
           <BreadcrumbNav />
-          <div className="text-center mb-6">
-            <h1 className="text-3xl md:text-4xl font-bold mb-2 text-gray-900" data-testid="text-qb-title">
+          <div className="text-center mb-8">
+            <h1 className="text-3xl md:text-4xl font-bold mb-2 text-gray-900 tracking-tight" data-testid="text-qb-title">
               {qbTitle}
             </h1>
-            <p className="text-gray-500">
+            <p className="text-gray-500 text-sm">
               Practice {accessibleQuestions.length.toLocaleString()} questions with detailed rationales
             </p>
           </div>
@@ -612,7 +612,7 @@ export default function QuestionBank() {
             </Card>
           )}
 
-          <div className="flex flex-wrap items-center gap-3 mb-6 bg-white/60 rounded-2xl p-3 border border-gray-200/40">
+          <div className="flex flex-wrap items-center gap-3 mb-6 bg-white/70 rounded-2xl p-3.5 border border-gray-200/50 shadow-sm">
             <div className="flex flex-wrap items-center gap-2">
               <Filter className="h-4 w-4 text-gray-400" />
               {allowedQBankTiers.length !== 1 && (
@@ -759,7 +759,7 @@ export default function QuestionBank() {
               ) : question ? (
                 <>
                   <Card className="premium-card border-0 shadow-lg bg-white mb-4 animate-fade-in-up" data-testid="card-question">
-                    <CardHeader className="pb-3 px-6 pt-6">
+                    <CardHeader className="pb-3 px-6 sm:px-8 pt-6 sm:pt-8">
                       <div className="flex items-center justify-between mb-3">
                         <div className="flex items-center gap-2 flex-wrap">
                           <PremiumBadge variant="tier" data-testid="badge-q-tier">
@@ -770,16 +770,16 @@ export default function QuestionBank() {
                             <PremiumBadge variant="exam" data-testid="badge-q-exam">{question.exam}</PremiumBadge>
                           )}
                         </div>
-                        <span className="text-sm font-medium text-gray-400 tabular-nums" data-testid="text-progress">
+                        <span className="text-xs font-medium text-gray-400 tabular-nums" data-testid="text-progress">
                           {currentIndex + 1} / {accessibleQuestions.length}
                         </span>
                       </div>
-                      <StudyProgressBar value={((currentIndex + 1) / accessibleQuestions.length) * 100} variant="primary" className="mb-4" />
-                      <CardTitle className="text-lg leading-relaxed text-gray-900" data-testid="text-q-text">
+                      <StudyProgressBar value={((currentIndex + 1) / accessibleQuestions.length) * 100} variant="primary" className="mb-5" />
+                      <CardTitle className="text-lg leading-[1.65] text-gray-900" data-testid="text-q-text">
                         {question.question}
                       </CardTitle>
                     </CardHeader>
-                    <CardContent className="px-6 pb-6">
+                    <CardContent className="px-6 sm:px-8 pb-6 sm:pb-8">
                       <div className="space-y-3 mb-6">
                         {question.options.map((opt, idx) => (
                           <AnswerOption
@@ -808,7 +808,7 @@ export default function QuestionBank() {
                         <Button
                           onClick={handleCheck}
                           disabled={selectedAnswer === null}
-                          className="w-full rounded-xl py-6 text-base font-semibold bg-primary hover:bg-primary/90 text-white shadow-sm shadow-primary/20 transition-all duration-200"
+                          className="w-full rounded-xl py-6 text-base font-semibold bg-primary hover:bg-primary/90 text-white shadow-md shadow-primary/20 transition-all duration-200 active:scale-[0.98]"
                           size="lg"
                           data-testid="button-qb-check"
                         >
