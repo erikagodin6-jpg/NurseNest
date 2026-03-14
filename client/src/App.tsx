@@ -118,6 +118,7 @@ const FeedbackPage = lazy(() => import("@/pages/feedback"));
 const QuestionOfTheDay = lazy(() => import("@/pages/question-of-the-day"));
 const QuestionBank = lazy(() => import("@/pages/question-bank"));
 const SocialWorkerLessonsPage = lazy(() => import("@/pages/social-worker-lessons"));
+const PerioperativeLessonsPage = lazy(() => import("@/allied/pages/perioperative-lessons"));
 const FirstActionSimulatorPage = lazy(() => import("@/pages/first-action-simulator"));
 const SafetyHazardSimulatorPage = lazy(() => import("@/pages/safety-hazard-simulator"));
 const IVComplicationsSimulatorPage = lazy(() => import("@/pages/iv-complications-simulator"));
@@ -901,6 +902,8 @@ function AppRoutes() {
         <Route path="/preoperative-nursing-guide" component={PreoperativeNursingGuide} />
         <Route path="/perioperative-nurse-career" component={PerioperativeNurseCareer} />
 
+        <Route path="/perioperative/lessons/:slug" component={PerioperativeLessonsPage} />
+        <Route path="/perioperative/lessons" component={PerioperativeLessonsPage} />
         <Route path="/perioperative/question-bank" component={QuestionBank} />
         <Route path="/perioperative/flashcards/deck/:slug" component={DeckPage} />
         <Route path="/perioperative/flashcards" component={Flashcards} />

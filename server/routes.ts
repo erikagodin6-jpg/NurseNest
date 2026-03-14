@@ -19170,6 +19170,54 @@ Rules:
     }
   });
 
+  app.get("/api/perioperative/lessons", async (_req, res) => {
+    try {
+      const result = await pool.query(
+        `SELECT id, module_id, slug, title, order_index, clinical_reasoning, common_mistakes, exam_trap_warning, checkpoint_questions, status
+         FROM allied_lessons WHERE career_type = 'perioperative' AND status = 'published'
+         ORDER BY order_index ASC`
+      );
+      res.json(result.rows.map((r: any) => ({
+        id: r.id,
+        moduleId: r.module_id,
+        slug: r.slug,
+        title: r.title,
+        orderIndex: r.order_index,
+        status: r.status,
+      })));
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/perioperative/lessons/:slug", async (req, res) => {
+    try {
+      const result = await pool.query(
+        `SELECT * FROM allied_lessons WHERE slug = $1 AND career_type = 'perioperative' AND status = 'published'`,
+        [req.params.slug]
+      );
+      if (result.rows.length === 0) {
+        return res.status(404).json({ error: "Lesson not found" });
+      }
+      const r = result.rows[0];
+      res.json({
+        id: r.id,
+        moduleId: r.module_id,
+        slug: r.slug,
+        title: r.title,
+        content: r.content,
+        orderIndex: r.order_index,
+        clinicalReasoning: r.clinical_reasoning,
+        commonMistakes: r.common_mistakes,
+        examTrapWarning: r.exam_trap_warning,
+        checkpointQuestions: r.checkpoint_questions,
+        status: r.status,
+      });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
   return httpServer;
 }
 
