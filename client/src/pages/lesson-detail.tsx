@@ -46,6 +46,7 @@ import { AuscultationSitesDiagram } from "@/components/auscultation-sites-diagra
 import { RespiratorySoundsLibrary } from "@/components/respiratory-sounds-library";
 import { useI18n } from "@/lib/i18n";
 import { ConversionFunnel, SocialProofBar } from "@/components/conversion-funnel";
+import { FixedLessonNav } from "@/components/fixed-lesson-nav";
 
 function getCredentials() {
   try {
@@ -2404,6 +2405,8 @@ export default function LessonDetail() {
               </div>
             </div>
           </main>
+          <FixedLessonNav lessonId={id || ""} />
+          <div className="pb-14" />
           <Footer />
         </div>
       );
@@ -3714,40 +3717,6 @@ export default function LessonDetail() {
           </div>
         )}
 
-        {(() => {
-          const nav = getLessonNavigation(id || "");
-          if (!nav) return null;
-          return (
-            <div className="mt-8 flex items-stretch gap-4" data-testid="lesson-navigation">
-              {nav.prev ? (
-                <LocaleLink href={`/lessons/${nav.prev.id}`} className="flex-1">
-                  <div className="h-full flex items-center gap-3 p-4 rounded-xl border border-gray-200 hover:border-primary/30 hover:bg-primary/5 transition-all group cursor-pointer" data-testid="button-prev-lesson">
-                    <ChevronLeft className="w-5 h-5 text-gray-400 group-hover:text-primary transition-colors flex-shrink-0" />
-                    <div className="min-w-0 flex-1">
-                      <span className="text-xs text-gray-500 block">Previous Lesson</span>
-                      <span className="text-sm font-medium text-gray-900 block truncate">{nav.prev.name}</span>
-                    </div>
-                  </div>
-                </LocaleLink>
-              ) : (
-                <div className="flex-1" />
-              )}
-              {nav.next ? (
-                <LocaleLink href={`/lessons/${nav.next.id}`} className="flex-1">
-                  <div className="h-full flex items-center gap-3 p-4 rounded-xl border border-gray-200 hover:border-primary/30 hover:bg-primary/5 transition-all group cursor-pointer text-right" data-testid="button-next-lesson">
-                    <div className="min-w-0 flex-1">
-                      <span className="text-xs text-gray-500 block">Next Lesson</span>
-                      <span className="text-sm font-medium text-gray-900 block truncate">{nav.next.name}</span>
-                    </div>
-                    <ChevronRight className="w-5 h-5 text-gray-400 group-hover:text-primary transition-colors flex-shrink-0" />
-                  </div>
-                </LocaleLink>
-              ) : (
-                <div className="flex-1" />
-              )}
-            </div>
-          );
-        })()}
       </main>
 
       <style>{`
@@ -3815,6 +3784,8 @@ export default function LessonDetail() {
         </div>
       )}
       <AdminEditButton />
+      <FixedLessonNav lessonId={id || ""} />
+      <div className="pb-14" />
       <Footer />
     </div>
   );

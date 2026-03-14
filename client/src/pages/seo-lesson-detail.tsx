@@ -15,6 +15,7 @@ import {
   Lock, BookOpen, ChevronRight, Heart, Activity, Search, ClipboardList,
   ShieldAlert, Loader2, ArrowRight, GraduationCap, ExternalLink,
 } from "lucide-react";
+import { FixedLessonNav } from "@/components/fixed-lesson-nav";
 
 function stripTierFromTitle(title: string): string {
   return title
@@ -392,6 +393,8 @@ export function SeoLessonDetail({ lesson, related }: { lesson: SeoLessonData; re
           </div>
         </section>
       </main>
+      <FixedLessonNav lessonId={lesson.slug} />
+      <div className="pb-14" />
       <Footer />
     </div>
   );
