@@ -1,6 +1,11 @@
 import Stripe from 'stripe';
 
 let cachedCredentials: { publishableKey: string; secretKey: string } | null = null;
+let credentialSource: string = 'none';
+
+function keyPrefix(key: string): string {
+  return key.substring(0, 12) + '...' + key.substring(key.length - 4);
+}
 
 async function getCredentialsFromConnector(): Promise<{ publishableKey: string; secretKey: string } | null> {
   try {
@@ -35,13 +40,14 @@ async function getCredentialsFromConnector(): Promise<{ publishableKey: string; 
     const connectionSettings = data.items?.[0];
 
     if (connectionSettings?.settings?.publishable && connectionSettings?.settings?.secret) {
-      console.log(`[Stripe] Credentials loaded from Replit connector (${targetEnvironment})`);
+      console.log(`[Stripe] Credentials loaded from Replit connector (${targetEnvironment}), key: ${keyPrefix(connectionSettings.settings.secret)}`);
       return {
         publishableKey: connectionSettings.settings.publishable,
         secretKey: connectionSettings.settings.secret,
       };
     }
 
+    console.log(`[Stripe] Replit connector returned no ${targetEnvironment} connection`);
     return null;
   } catch (err: any) {
     console.warn(`[Stripe] Connector lookup failed: ${err.message}`);
@@ -82,14 +88,16 @@ async function getCredentials(): Promise<{ publishableKey: string; secretKey: st
   if (connectorCreds) {
     validateCredentials(connectorCreds);
     cachedCredentials = connectorCreds;
+    credentialSource = `connector(${env})`;
     return connectorCreds;
   }
 
   const envCreds = getCredentialsFromEnv();
   if (envCreds) {
-    console.log(`[Stripe] Credentials loaded from environment variables (${env})`);
+    console.log(`[Stripe] Credentials loaded from environment variables (${env}), key: ${keyPrefix(envCreds.secretKey)}, pub: ${keyPrefix(envCreds.publishableKey)}`);
     validateCredentials(envCreds);
     cachedCredentials = envCreds;
+    credentialSource = `env_vars(${env})`;
     return envCreds;
   }
 
@@ -102,6 +110,29 @@ async function getCredentials(): Promise<{ publishableKey: string; secretKey: st
     `Replit connector returned no ${env} connection, and env vars are missing: ${missing.join(', ')}. ` +
     `Set STRIPE_SECRET_KEY and STRIPE_PUBLISHABLE_KEY as environment secrets.`
   );
+}
+
+export async function validateStripeConnection(): Promise<boolean> {
+  try {
+    const client = await getUncachableStripeClient();
+    await client.balance.retrieve();
+    console.log('[Stripe] Connection validated successfully');
+    return true;
+  } catch (err: any) {
+    console.error(`[Stripe] Connection validation FAILED: ${err.type || 'unknown'} — ${err.message}`);
+    if (err.type === 'StripeAuthenticationError') {
+      console.error('[Stripe] The secret key is invalid, expired, or revoked. Update STRIPE_SECRET_KEY with a valid key from https://dashboard.stripe.com/apikeys');
+      cachedCredentials = null;
+    }
+    return false;
+  }
+}
+
+export function getCredentialInfo(): { keyType: string; keyPrefix: string; source: string } {
+  if (!cachedCredentials) return { keyType: 'UNLOADED', keyPrefix: 'none', source: 'none' };
+  const sk = cachedCredentials.secretKey;
+  const keyType = sk.startsWith('sk_live_') ? 'LIVE' : sk.startsWith('sk_test_') ? 'TEST' : 'UNKNOWN';
+  return { keyType, keyPrefix: keyPrefix(sk), source: credentialSource };
 }
 
 export async function getUncachableStripeClient() {

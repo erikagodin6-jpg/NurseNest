@@ -139,3 +139,22 @@ export function getStripePriceId(tier: string, duration: string, currency: strin
 export function hasStripePriceId(tier: string, duration: string, currency: string): boolean {
   return getStripePriceId(tier, duration, currency) !== null;
 }
+
+export function getMissingPriceIds(): string[] {
+  if (!loaded) loadStripePrices();
+  const subscriptionTiers = ["rpn", "rn", "np"];
+  const durations = ["monthly", "3-month", "6-month", "yearly"];
+  const currencies = ["usd", "cad"];
+  const missing: string[] = [];
+  for (const tier of subscriptionTiers) {
+    for (const dur of durations) {
+      for (const cur of currencies) {
+        const key = buildKey(tier, dur, cur);
+        if (!priceIndex[key]) {
+          missing.push(`tier=${tier} interval=${dur} currency=${cur}`);
+        }
+      }
+    }
+  }
+  return missing;
+}

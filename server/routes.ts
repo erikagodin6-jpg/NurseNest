@@ -53,7 +53,7 @@ import {
   MLT_DISCIPLINES,
   MLT_DRILL_TYPES,
 } from "@shared/schema";
-import { getUncachableStripeClient, getStripePublishableKey } from "./stripeClient";
+import { getUncachableStripeClient, getStripePublishableKey, validateStripeConnection, getCredentialInfo } from "./stripeClient";
 import { getStripePriceId, loadStripePrices } from "./stripe-pricing";
 import { createPaypalOrder, capturePaypalOrder, loadPaypalDefault, isPaypalConfigured } from "./paypal";
 import { generateBlogPost, runBlogScheduler, expandAllShortPosts } from "./blog-automation";
@@ -3184,21 +3184,49 @@ Return ONLY a JSON array of flashcard objects, no other text.`;
   });
 
   app.post("/api/stripe/create-checkout", async (req, res) => {
+    const isProduction = process.env.REPLIT_DEPLOYMENT === '1';
+    const env = isProduction ? 'PRODUCTION' : 'DEVELOPMENT';
+
     try {
       const { userId, tier, duration, region, planId } = req.body;
+
+      console.log(`[Checkout:${env}] Starting checkout — tier=${tier} duration=${duration} region=${region} planId=${planId} userId=${userId}`);
+
+      if (!tier) return res.status(400).json({ error: "Missing tier parameter" });
+      if (!userId) return res.status(400).json({ error: "Missing userId parameter" });
+
       const user = await storage.getUser(userId);
       if (!user) return res.status(404).json({ error: "User not found" });
 
-      const stripe = await getUncachableStripeClient();
+      let stripe;
+      try {
+        stripe = await getUncachableStripeClient();
+      } catch (credErr: any) {
+        console.error(`[Checkout:${env}] Stripe client initialization FAILED: ${credErr.message}`);
+        return res.status(503).json({
+          error: "Payment system is not configured. Please contact support.",
+          detail: isProduction ? undefined : credErr.message,
+        });
+      }
+
+      const credInfo = getCredentialInfo();
+      console.log(`[Checkout:${env}] Stripe key type: ${credInfo.keyType}, prefix: ${credInfo.keyPrefix}, source: ${credInfo.source}`);
+
+      if (isProduction && credInfo.keyType === 'TEST') {
+        console.error(`[Checkout:${env}] FATAL: Test key used in production!`);
+        return res.status(503).json({ error: "Payment system misconfigured. Please contact support." });
+      }
 
       let customerId = user.stripeCustomerId;
       if (!customerId) {
+        console.log(`[Checkout:${env}] Creating new Stripe customer for user ${user.id} (${user.email || 'no email'})`);
         const customer = await stripe.customers.create({
           email: user.email || undefined,
           metadata: { userId: user.id, username: user.username },
         });
         await storage.updateUserStripeInfo(user.id, { stripeCustomerId: customer.id });
         customerId = customer.id;
+        console.log(`[Checkout:${env}] Created Stripe customer: ${customer.id}`);
       }
 
       const isCAD = region === "CA";
@@ -3232,12 +3260,20 @@ Return ONLY a JSON array of flashcard objects, no other text.`;
       if (dbPlan) {
         amount = isCAD ? dbPlan.priceCad : dbPlan.priceUsd;
         isLifetimePlan = dbPlan.isLifetime || false;
+        console.log(`[Checkout:${env}] DB plan found: id=${dbPlan.id} amount=${amount} currency=${currency} isLifetime=${isLifetimePlan}`);
       } else {
         const fallbackTierPrices = fallbackPriceTable[tier];
-        if (!fallbackTierPrices) return res.status(400).json({ error: "Invalid tier" });
+        if (!fallbackTierPrices) {
+          console.error(`[Checkout:${env}] Invalid tier: ${tier} — no DB plan and no fallback`);
+          return res.status(400).json({ error: `Invalid tier: ${tier}` });
+        }
         const durationPrices = fallbackTierPrices[selectedDuration] || fallbackTierPrices["monthly"];
-        if (!durationPrices) return res.status(400).json({ error: "Invalid duration" });
+        if (!durationPrices) {
+          console.error(`[Checkout:${env}] Invalid duration: ${selectedDuration} for tier ${tier}`);
+          return res.status(400).json({ error: `Invalid duration: ${selectedDuration}` });
+        }
         amount = isCAD ? durationPrices.CAD : durationPrices.USD;
+        console.log(`[Checkout:${env}] Using fallback price: amount=${amount} currency=${currency}`);
       }
 
       const intervalMap: Record<string, { interval: "month" | "year"; interval_count: number }> = {
@@ -3257,7 +3293,15 @@ Return ONLY a JSON array of flashcard objects, no other text.`;
       const recurring = intervalMap[selectedDuration] || intervalMap["monthly"];
       const durationLabel = durationLabels[selectedDuration] || "Monthly";
 
-      const baseUrl = `${req.protocol}://${req.get("host")}`;
+      const baseUrl = process.env.SITE_URL || `${req.protocol}://${req.get("host")}`;
+      const successUrl = `${baseUrl}/subscription/success?session_id={CHECKOUT_SESSION_ID}&tier=${tier}`;
+      const cancelUrl = `${baseUrl}/pricing`;
+
+      console.log(`[Checkout:${env}] URLs — success: ${successUrl.substring(0, 60)}... cancel: ${cancelUrl}`);
+
+      if (isProduction && !baseUrl.startsWith('https://')) {
+        console.warn(`[Checkout:${env}] WARNING: baseUrl is not HTTPS: ${baseUrl}`);
+      }
 
       const bnplPaymentMethods: string[] = ["card", "klarna", "afterpay_clearpay"];
       if (!isCAD) bnplPaymentMethods.push("affirm");
@@ -3279,11 +3323,12 @@ Return ONLY a JSON array of flashcard objects, no other text.`;
             referralCouponId = coupon.id;
           }
         } catch (couponErr) {
-          console.error("Failed to create/find referral coupon:", couponErr);
+          console.error("[Checkout] Failed to create/find referral coupon:", couponErr);
         }
       }
 
       if (isLifetimePlan || selectedDuration === "lifetime") {
+        console.log(`[Checkout:${env}] Creating LIFETIME payment session — tier=${tier} amount=${amount} ${currency}`);
         const sessionOpts: any = {
           customer: customerId,
           payment_method_types: amount >= 100 ? bnplPaymentMethods : ["card"],
@@ -3302,18 +3347,20 @@ Return ONLY a JSON array of flashcard objects, no other text.`;
           ],
           mode: "payment",
           allow_promotion_codes: !referralCouponId,
-          success_url: `${baseUrl}/subscription/success?session_id={CHECKOUT_SESSION_ID}&tier=${tier}&lifetime=true`,
-          cancel_url: `${baseUrl}/pricing`,
+          success_url: successUrl + '&lifetime=true',
+          cancel_url: cancelUrl,
           metadata: { userId: user.id, tier, duration: "lifetime", isLifetime: "true", referredBy: user.referredBy || "" },
         };
         if (referralCouponId) {
           sessionOpts.discounts = [{ coupon: referralCouponId }];
         }
         const session = await stripe.checkout.sessions.create(sessionOpts);
+        console.log(`[Checkout:${env}] Lifetime session created: ${session.id}`);
         return res.json({ url: session.url });
       }
 
       if (selectedDuration === "one-time" || tier === "lab-values" || tier === "med-math" || tier === "practice-tools") {
+        console.log(`[Checkout:${env}] Creating ONE-TIME payment session — tier=${tier} amount=${amount} ${currency}`);
         const sessionOpts: any = {
           customer: customerId,
           payment_method_types: amount >= 100 ? bnplPaymentMethods : ["card"],
@@ -3332,18 +3379,32 @@ Return ONLY a JSON array of flashcard objects, no other text.`;
           ],
           mode: "payment",
           allow_promotion_codes: !referralCouponId,
-          success_url: `${baseUrl}/subscription/success?session_id={CHECKOUT_SESSION_ID}&tier=${tier}`,
-          cancel_url: `${baseUrl}/pricing`,
+          success_url: successUrl,
+          cancel_url: cancelUrl,
           metadata: { userId: user.id, tier, duration: selectedDuration, referredBy: user.referredBy || "" },
         };
         if (referralCouponId) {
           sessionOpts.discounts = [{ coupon: referralCouponId }];
         }
         const session = await stripe.checkout.sessions.create(sessionOpts);
+        console.log(`[Checkout:${env}] One-time session created: ${session.id}`);
         return res.json({ url: session.url });
       }
 
       const stripePriceId = getStripePriceId(tier, selectedDuration, currency);
+
+      if (stripePriceId) {
+        if (isProduction && stripePriceId.startsWith('price_') && !stripePriceId.includes('test')) {
+          console.log(`[Checkout:${env}] Using Stripe Price ID: ${stripePriceId} for ${tier}/${selectedDuration}/${currency}`);
+        } else if (isProduction) {
+          console.warn(`[Checkout:${env}] Price ID ${stripePriceId} may be a test price in production — proceeding with caution`);
+        } else {
+          console.log(`[Checkout:${env}] Using Stripe Price ID: ${stripePriceId} for ${tier}/${selectedDuration}/${currency}`);
+        }
+      } else {
+        const missingKey = `tier=${tier} interval=${selectedDuration} currency=${currency}`;
+        console.warn(`[Checkout:${env}] Missing live price ID for ${missingKey} — using inline price_data fallback (amount=${amount})`);
+      }
 
       const lineItem: any = stripePriceId
         ? { price: stripePriceId, quantity: 1 }
@@ -3360,11 +3421,7 @@ Return ONLY a JSON array of flashcard objects, no other text.`;
             quantity: 1,
           };
 
-      if (stripePriceId) {
-        console.log(`Checkout using Stripe Price ID: ${stripePriceId} for ${tier} ${selectedDuration} ${currency}`);
-      } else {
-        console.warn(`No Stripe Price ID for ${tier} ${selectedDuration} ${currency} — using inline price_data`);
-      }
+      console.log(`[Checkout:${env}] Creating SUBSCRIPTION session — tier=${tier} duration=${selectedDuration} amount=${amount} ${currency} customer=${customerId}`);
 
       const subscriptionOpts: any = {
         customer: customerId,
@@ -3372,8 +3429,8 @@ Return ONLY a JSON array of flashcard objects, no other text.`;
         line_items: [lineItem],
         mode: "subscription",
         allow_promotion_codes: !referralCouponId,
-        success_url: `${baseUrl}/subscription/success?session_id={CHECKOUT_SESSION_ID}&tier=${tier}`,
-        cancel_url: `${baseUrl}/pricing`,
+        success_url: successUrl,
+        cancel_url: cancelUrl,
         metadata: { userId: user.id, tier, duration: selectedDuration, referredBy: user.referredBy || "" },
         subscription_data: {
           metadata: { userId: user.id, tier, duration: selectedDuration },
@@ -3383,24 +3440,48 @@ Return ONLY a JSON array of flashcard objects, no other text.`;
         subscriptionOpts.discounts = [{ coupon: referralCouponId }];
       }
       const session = await stripe.checkout.sessions.create(subscriptionOpts);
+      console.log(`[Checkout:${env}] Subscription session created: ${session.id}`);
 
       res.json({ url: session.url });
     } catch (e: any) {
       const errorDetail = {
+        env,
         message: e.message,
         type: e.type || 'unknown',
+        code: e.code || null,
+        statusCode: e.statusCode || null,
         tier: req.body?.tier,
         duration: req.body?.duration,
         region: req.body?.region,
+        userId: req.body?.userId,
+        stack: e.stack?.split('\n').slice(0, 5).join('\n'),
       };
-      console.error("Checkout error:", JSON.stringify(errorDetail, null, 2));
+      console.error(`[Checkout:${env}] ERROR:`, JSON.stringify(errorDetail, null, 2));
 
-      if (e.message?.includes('credentials') || e.message?.includes('connection not found')) {
+      if (e.type === 'StripeAuthenticationError') {
+        console.error(`[Checkout:${env}] The Stripe secret key is INVALID or REVOKED. Update STRIPE_SECRET_KEY at https://dashboard.stripe.com/apikeys`);
+        res.status(503).json({
+          error: "Payment system authentication failed. The API key may be invalid or expired. Please contact support.",
+          stripeError: isProduction ? undefined : e.message,
+        });
+      } else if (e.type === 'StripeInvalidRequestError') {
+        console.error(`[Checkout:${env}] Stripe rejected the request: ${e.message}`);
+        res.status(400).json({
+          error: isProduction
+            ? "There was a problem with the checkout configuration. Please try again or contact support."
+            : `Checkout configuration error: ${e.message}`,
+        });
+      } else if (e.message?.includes('credentials') || e.message?.includes('connection not found')) {
         res.status(503).json({ error: "Payment system temporarily unavailable. Please try again shortly." });
       } else if (e.message?.includes('No such price')) {
-        res.status(400).json({ error: "Selected plan configuration is invalid. Please refresh the page and try again." });
+        const missingId = e.message.match(/price_\w+/)?.[0] || 'unknown';
+        console.error(`[Checkout:${env}] Invalid price ID: ${missingId}`);
+        res.status(400).json({ error: `Invalid price configuration (${missingId}). Please refresh and try again.` });
       } else {
-        res.status(500).json({ error: "Failed to create checkout session. Please try again." });
+        res.status(500).json({
+          error: "Failed to create checkout session. Please try again.",
+          stripeError: isProduction ? undefined : e.message,
+        });
       }
     }
   });

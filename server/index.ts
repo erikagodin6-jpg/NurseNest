@@ -579,9 +579,14 @@ app.use((req, res, next) => {
   const { setupQBankRoutes } = await import("./qbank-api");
   setupQBankRoutes(app);
 
-  // Load Stripe price IDs from synced map
   const { loadStripePrices } = await import("./stripe-pricing");
   loadStripePrices();
+
+  const { validateStripeConnection } = await import("./stripeClient");
+  const stripeValid = await validateStripeConnection();
+  if (!stripeValid) {
+    console.error("[STARTUP] WARNING: Stripe connection validation failed — checkout will not work until the key is fixed");
+  }
 
   // Seed/upsert pricing plans from pricing-config.ts on startup
   const { seedPricingPlans } = await import("./seed-pricing-plans");
