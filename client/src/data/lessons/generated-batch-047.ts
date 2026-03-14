@@ -1,5 +1,6 @@
+import { getAssetUrl } from "@/lib/asset-url";
 import type { LessonContent } from "./types";
-const imgVPShunt = "/attached_assets/VP_1773375165171.png";
+const imgVPShunt = getAssetUrl("VP_1773375165171.png");
 
 export const generatedBatch047Lessons: Record<string, LessonContent> = {
   "htn-all-stages-np": {

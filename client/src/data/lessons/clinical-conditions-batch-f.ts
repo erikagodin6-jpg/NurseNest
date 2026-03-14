@@ -1,3 +1,4 @@
+import { getAssetUrl } from "@/lib/asset-url";
 import type { LessonContent } from "./types";
 
 export const clinicalConditionsBatchFLessons: Record<string, LessonContent> = {
@@ -465,7 +466,7 @@ export const clinicalConditionsBatchFLessons: Record<string, LessonContent> = {
 
   "hyperemesis-gravidarum-rpn": {
     title: "Hyperemesis Gravidarum",
-    image: "/attached_assets/hyperemesisgravidarum_1773340513136.png",
+    image: getAssetUrl("hyperemesisgravidarum_1773340513136.png"),
     cellular: {
       title: "Severe Pregnancy-Related Nausea and Vomiting",
       content: "Hyperemesis gravidarum is a severe form of morning sickness characterized by persistent, intractable nausea and vomiting during pregnancy that leads to significant weight loss (>5% of pre-pregnancy weight), dehydration, electrolyte imbalances, and ketonuria. It is thought to be caused by rapidly rising levels of human chorionic gonadotropin (hCG), estrogen, and progesterone. Unlike normal morning sickness which resolves by 12-14 weeks, hyperemesis can persist throughout pregnancy. The nurse monitors vital signs, intake and output, and dietary tolerance, reporting changes to the nursing team."
@@ -540,7 +541,7 @@ export const clinicalConditionsBatchFLessons: Record<string, LessonContent> = {
 
   "hyperemesis-gravidarum-rn": {
     title: "Hyperemesis Gravidarum",
-    image: "/attached_assets/hyperemesisgravidarum_1773340513136.png",
+    image: getAssetUrl("hyperemesisgravidarum_1773340513136.png"),
     cellular: {
       title: "Intractable Pregnancy Emesis",
       content: "Hyperemesis gravidarum results from exaggerated physiological responses to pregnancy hormones, primarily hCG, which peaks at 8-12 weeks gestation. Elevated hCG stimulates the chemoreceptor trigger zone (CTZ) in the area postrema and increases thyroid hormone levels (hCG shares structural homology with TSH). Persistent vomiting depletes intravascular volume, causes electrolyte derangements (hypokalemia, hypochloremic metabolic alkalosis, hyponatremia), and shifts metabolism to fat catabolism with resultant ketonemia. Severe, prolonged cases can lead to Wernicke encephalopathy from thiamine (vitamin B1) depletion, hepatic dysfunction, and renal impairment. The nurse must manage fluid and electrolyte replacement, administer antiemetics, monitor nutritional status, and coordinate multidisciplinary care."
@@ -624,7 +625,7 @@ export const clinicalConditionsBatchFLessons: Record<string, LessonContent> = {
 
   "hyperemesis-gravidarum-np": {
     title: "Hyperemesis Gravidarum",
-    image: "/attached_assets/hyperemesisgravidarum_1773340513136.png",
+    image: getAssetUrl("hyperemesisgravidarum_1773340513136.png"),
     cellular: {
       title: "Pathophysiology and Pharmacotherapeutics",
       content: "Hyperemesis gravidarum involves a complex interplay of hormonal, immunological, and gastrointestinal factors. The primary trigger is rapidly rising hCG, which peaks at 8-12 weeks and stimulates the CTZ via vagal afferents. hCG structural homology with TSH activates thyroid receptors, causing gestational thyrotoxicosis in up to 60% of cases. Estrogen slows gastric motility and relaxes the lower esophageal sphincter. Progesterone reduces smooth muscle tone throughout the GI tract. Severe, prolonged emesis causes dehydration, leading to hemoconcentration, reduced GFR, and prerenal azotemia. Metabolic consequences include hypochloremic hypokalemic metabolic alkalosis from gastric HCl loss, thiamine depletion from impaired intake and increased metabolic demand, and ketosis from fat catabolism. The clinician must prescribe evidence-based stepwise antiemetic therapy, manage fluid and electrolyte replacement, prevent Wernicke encephalopathy, and determine when parenteral or enteral nutrition is required."

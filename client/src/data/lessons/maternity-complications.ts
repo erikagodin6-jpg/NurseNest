@@ -1,10 +1,11 @@
+import { getAssetUrl } from "@/lib/asset-url";
 import type { LessonContent } from "./types";
-const imgUmbilicalCordProlapse = "/attached_assets/umbilicalcordprolapse_1773340545537.png";
-const imgVaginalHematoma = "/attached_assets/vaginalhematoma_1773375165171.png";
+const imgUmbilicalCordProlapse = getAssetUrl("umbilicalcordprolapse_1773340545537.png");
+const imgVaginalHematoma = getAssetUrl("vaginalhematoma_1773375165171.png");
 
 const ectopicPregnancy: LessonContent = {
   title: "Ectopic Pregnancy",
-  image: "/attached_assets/ectopicpregnancy_1773340513136.png",
+  image: getAssetUrl("ectopicpregnancy_1773340513136.png"),
   cellular: {
     title: "Pathophysiology of Ectopic Implantation",
     content: "Ectopic pregnancy occurs when a fertilized ovum implants outside the uterine cavity, most commonly in the fallopian tube (tubal pregnancy). The extrauterine tissue cannot support normal placental development or fetal growth. As the embryo grows, it stretches the surrounding structure, eventually leading to rupture with potentially life-threatening hemorrhage. Risk factors include previous ectopic pregnancy, pelvic inflammatory disease, tubal surgery, endometriosis, IUD use, and assisted reproduction. Clinical presentation includes unilateral lower abdominal or pelvic pain, vaginal bleeding (often irregular), and amenorrhea followed by abnormal bleeding. Rupture produces sudden severe pain, signs of hypovolemic shock (tachycardia, hypotension, diaphoresis), referred shoulder pain from diaphragmatic irritation by blood in the peritoneal cavity, and peritoneal signs. A positive pregnancy test with no intrauterine gestational sac on ultrasound is a critical diagnostic clue. Serial beta-hCG levels that fail to double appropriately suggest ectopic pregnancy. This is a surgical/medical emergency requiring rapid intervention to prevent maternal death from hemorrhage."
@@ -86,7 +87,7 @@ const dicPregnancy: LessonContent = {
 
 const hyperemesisGravidarum: LessonContent = {
   title: "Hyperemesis Gravidarum",
-  image: "/attached_assets/hyperemesisgravidarum_1773340513136.png",
+  image: getAssetUrl("hyperemesisgravidarum_1773340513136.png"),
   cellular: {
     title: "Pathophysiology of Severe Pregnancy Nausea",
     content: "Hyperemesis gravidarum is severe, persistent nausea and vomiting during pregnancy that exceeds normal morning sickness. It is characterized by weight loss exceeding 5% of pre-pregnancy weight, dehydration, electrolyte imbalances, ketonuria, and nutritional deficiency. The condition typically peaks between 8-12 weeks gestation but can persist throughout pregnancy. The exact pathophysiology is not fully understood but involves elevated beta-hCG levels, estrogen effects on the GI tract, altered gastric motility, and possible thyroid stimulation. Risk factors include molar pregnancy (markedly elevated hCG), multiple gestation, previous hyperemesis, and obesity. Complications include Wernicke encephalopathy from thiamine (B1) deficiency, Mallory-Weiss tears from forceful vomiting, metabolic alkalosis from loss of hydrochloric acid, hypokalemia, hyponatremia, and fetal growth restriction from severe malnutrition. Management includes IV fluid and electrolyte replacement, antiemetic therapy, thiamine supplementation before dextrose administration (to prevent Wernicke's), nutritional support, and in severe cases, parenteral nutrition."

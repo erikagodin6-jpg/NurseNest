@@ -1,32 +1,36 @@
+import { getAssetUrl } from "@/lib/asset-url";
 import type { FlashcardData } from "./flashcards-rpn";
 import { imgUlcerativeColitis, imgSIADH, imgSickleCellCrisis, imgStomaCare, imgThrombocytopenia, imgUrinaryCatheterization, imgVitiligo, imgUrethralStricture, imgVestibularNeuritis, imgAddisons, imgAcuteHemolyticReaction, imgAtopicDermatitis, imgBPH, imgCastCareTraction, imgAcromegaly, imgNGTube, imgPancreatitis, imgPeritonealDialysis, imgPepticUlcer, imgOsteoporosis, imgCellulitis, imgCKD, imgClubfoot, imgCompartmentSyndrome, imgConjunctivitis, imgContracture, imgCushings, imgDelayedHemolyticReaction, imgDevHipDysplasia, imgDiabetes, imgDiabetesInsipidus, imgDiabeticNephropathy, imgDIC, imgDisuseAtrophy, imgDuchenne, imgEpiglottitis, imgEpistaxis, imgErysipelas, imgFallPrevention, imgHeadLice, imgHemophilia, imgGravesDisease, imgGout, imgPyloricStenosis, imgPlacentaPrevia, imgPostpartumHemorrhage, imgSerotoninSyndrome, imgVaricella, imgRhIncompatibility, imgIntussusception, imgLeadPoisoning, imgLeukemia, imgLungCancer, imgMeasles, imgMeningitisNew, imgMetabolicSyndrome, imgMRSA, imgCongenitalHypothyroidism, imgFetalMonitoring, imgInfantReflexes, imgWoundVAC, imgWoundInfection, imgEsophagealVarices, imgGIBleed, imgSucralfate, imgSyndactyly, imgSyringomyelia, imgTardiveDyskinesia, imgTetanus, imgThalassemiaV2, imgThermoregulationV2, imgThrombocytopeniaV2, imgThyroidStormV2, imgTinnitus, imgTonsillectomyV2, imgTraction, imgTrigeminalNeuralgia, imgTrisomy21V2, imgTSS, imgTumorMarkers, imgTurnerSyndromeV2, imgTURP, imgHepatitisB, imgDKA, imgDysphagia, imgEBV, imgEctopicPregnancy, imgEndocarditisFlashcard, imgEndometriosis, imgEnteralFeeding } from "./flashcards-rpn";
-import imgImpetigo from "@assets/impetigo_1773340649073.png";
-import imgHypothyroidismNew from "@assets/hypothyroidism_1773374939606.png";
-import imgAntepartum from "@assets/antepartum_1773340419064.png";
-import imgAnxiety from "@assets/anxiety_1773374656571.png";
-import imgAPGAR from "@assets/APGAR_1773340419064.png";
-import imgBacterialMeningitis from "@assets/bacterialmeningitis_1773374688442.png";
-import imgCSection from "@assets/c-section_1773374688442.png";
-import imgCarSeatSafety from "@assets/carseatsafety_1773340419064.png";
-import imgDepression from "@assets/depression_1773340419064.png";
-import imgHELLP from "@assets/HELLP_1773340513136.png";
 import { imgHeatStroke, imgHELLPNew, imgHemodialysis, imgHIV, imgHepatitisNew } from "./flashcards-rpn";
-import imgHepatitisC from "@assets/hepatitisc_1773340513136.png";
-const imgEpsteinBarr = undefined;
-import imgStevensJohnson from "@assets/SJS_1773375229956.png";
-import illustrationPressureInjuriesV2 from "@/assets/images/pressure-injuries-v2.png";
-import illustrationPressureInjuryStagesV2 from "@/assets/images/pressure-injury-stages-v2.png";
-import illustrationShinglesV2 from "@/assets/images/shingles-v2.png";
-import illustrationScabiesV2 from "@assets/scabies_1773375229956.png";
-import illustrationRibFractures from "@/assets/images/rib-fractures.png";
-import illustrationRheumatoidArthritis from "@/assets/images/rheumatoid-arthritis.png";
-import imgPituitaryGlands from "@assets/pituitaryglands_1773269379973.png";
-import imgParkinsonsNew from "@assets/parkinson_1773375118294.png";
-import imgPeripheralNeuropathy from "@assets/peripheralneuropathy_1773375118294.png";
-import imgPepticUlcerNew from "@assets/pepticulcer_1773375118294.png";
-import imgPressureInjuriesNew from "@assets/pressureinjuries_1773375118294.png";
-import imgPediatricSeizuresNew from "@assets/pediatricseizures_1773375118294.png";
 import { imgStroke, imgProstatitis, imgRotavirus, imgRubella, imgScarletFever, imgShortBowelV4, imgSkinAssessment, imgSpinalStenosisV3, imgSprain, imgEsophagealStricture, imgScabiesV3 } from "./flashcards-rpn";
+
+const imgImpetigo = getAssetUrl("impetigo_1773340649073.png");
+const imgHypothyroidismNew = getAssetUrl("hypothyroidism_1773374939606.png");
+const imgAntepartum = getAssetUrl("antepartum_1773340419064.png");
+const imgAnxiety = getAssetUrl("anxiety_1773374656571.png");
+const imgAPGAR = getAssetUrl("APGAR_1773340419064.png");
+const imgBacterialMeningitis = getAssetUrl("bacterialmeningitis_1773374688442.png");
+const imgCSection = getAssetUrl("c-section_1773374688442.png");
+const imgCarSeatSafety = getAssetUrl("carseatsafety_1773340419064.png");
+const imgDepression = getAssetUrl("depression_1773340419064.png");
+const imgHELLP = getAssetUrl("HELLP_1773340513136.png");
+const imgHepatitisC = getAssetUrl("hepatitisc_1773340513136.png");
+const imgStevensJohnson = getAssetUrl("SJS_1773375229956.png");
+const illustrationPressureInjuriesV2 = getAssetUrl("pressure-injuries-v2.png");
+const illustrationPressureInjuryStagesV2 = getAssetUrl("pressure-injury-stages-v2.png");
+const illustrationShinglesV2 = getAssetUrl("shingles-v2.png");
+const illustrationScabiesV2 = getAssetUrl("scabies_1773375229956.png");
+const illustrationRibFractures = getAssetUrl("rib-fractures.png");
+const illustrationRheumatoidArthritis = getAssetUrl("rheumatoid-arthritis.png");
+const imgPituitaryGlands = getAssetUrl("pituitaryglands_1773269379973.png");
+const imgParkinsonsNew = getAssetUrl("parkinson_1773375118294.png");
+const imgPeripheralNeuropathy = getAssetUrl("peripheralneuropathy_1773375118294.png");
+const imgPepticUlcerNew = getAssetUrl("pepticulcer_1773375118294.png");
+const imgPressureInjuriesNew = getAssetUrl("pressureinjuries_1773375118294.png");
+const imgPediatricSeizuresNew = getAssetUrl("pediatricseizures_1773375118294.png");
+
+
+const imgEpsteinBarr = getAssetUrl("epsteinbarrvirus_1773340513136.png");
 
 export const rnFlashcards: FlashcardData[] = [
   // ============================================================

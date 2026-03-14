@@ -1,3 +1,4 @@
+import { getAssetUrl } from "@/lib/asset-url";
 import type { LessonContent } from "./types";
 
 export const respiratoryMissingRpnLessons: Record<string, LessonContent> = {
@@ -98,7 +99,7 @@ export const respiratoryMissingRpnLessons: Record<string, LessonContent> = {
 
   "stress-response": {
     title: "Stress Response and Coping",
-    image: "/attached_assets/GAS_1773340513136.png",
+    image: getAssetUrl("GAS_1773340513136.png"),
     cellular: {
       title: "Neuroendocrine Stress Cascade",
       content: "The stress response activates two primary neuroendocrine pathways: the sympathetic-adrenal-medullary (SAM) axis for the immediate fight-or-flight response and the hypothalamic-pituitary-adrenal (HPA) axis for sustained stress adaptation. The SAM axis releases catecholamines (epinephrine and norepinephrine) from the adrenal medulla, causing tachycardia, bronchodilation, glycogenolysis, and redistribution of blood flow to skeletal muscles. The HPA axis activates when the hypothalamus releases corticotropin-releasing hormone (CRH), stimulating the anterior pituitary to secrete adrenocorticotropic hormone (ACTH), which triggers cortisol release from the adrenal cortex. Cortisol raises blood glucose through gluconeogenesis, suppresses non-essential immune function, and maintains vascular tone. Prolonged cortisol elevation from chronic stress leads to immunosuppression, hyperglycemia, muscle wasting, impaired wound healing, and hippocampal neuronal damage affecting memory and cognition."

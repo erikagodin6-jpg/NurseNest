@@ -1,3 +1,4 @@
+import { getAssetUrl } from "@/lib/asset-url";
 import type { LessonContent } from "./types";
 
 export const maternityExpandedLessons: Record<string, LessonContent> = {
@@ -33,7 +34,7 @@ export const maternityExpandedLessons: Record<string, LessonContent> = {
 
   "maternity-rn-exp": {
     title: "Maternity (High-Risk Pregnancy, Fetal Monitoring)",
-    image: "/attached_assets/fetalmonitoring_1773340513136.png",
+    image: getAssetUrl("fetalmonitoring_1773340513136.png"),
     cellular: { title: "Pathophysiology of High-Risk Pregnancy", content: "High-risk pregnancy encompasses maternal conditions and pregnancy complications that threaten the health of the mother, fetus, or both, requiring enhanced surveillance, specialized management, and often hospitalization. Placenta previa (placental implantation over or near the internal cervical os) causes painless bright red vaginal bleeding, typically in the second or third trimester — digital vaginal examination is absolutely contraindicated as it may provoke life-threatening hemorrhage. Placental abruption (premature separation of a normally implanted placenta) presents with painful dark vaginal bleeding, uterine rigidity, and fetal distress — risk factors include hypertension, cocaine use, trauma, and prior abruption. HELLP syndrome (Hemolysis, Elevated Liver enzymes, Low Platelets) is a severe variant of preeclampsia with significant maternal morbidity including hepatic rupture, DIC, and renal failure — presenting with right upper quadrant or epigastric pain, nausea, vomiting, and malaise that may be misdiagnosed as gallbladder disease or viral illness. Gestational diabetes, affecting 2-10% of pregnancies, results from placental hormone-induced insulin resistance that exceeds beta-cell compensatory capacity." },
     riskFactors: ["Nulliparity with preeclampsia risk", "Chronic hypertension", "Pre-existing or gestational diabetes", "Multiple gestation", "History of preeclampsia in previous pregnancy", "Autoimmune disorders (lupus, antiphospholipid syndrome)", "Obesity", "Renal disease", "Placenta previa or abruption in prior pregnancy", "Advanced maternal age > 35"],
     diagnostics: ["Monitor blood pressure for hypertension (> 140/90 mmHg on two occasions 4 hours apart)", "Assess 24-hour urine protein or protein-to-creatinine ratio for preeclampsia", "Monitor continuous electronic fetal monitoring (EFM) for high-risk patients", "Assess Bishop score for cervical readiness before induction", "Monitor laboratory values: CBC, liver enzymes, LDH, uric acid, coagulation studies", "Perform non-stress test (NST) and biophysical profile (BPP) as ordered", "Monitor blood glucose levels for gestational diabetes management"],

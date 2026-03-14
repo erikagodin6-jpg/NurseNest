@@ -1,11 +1,12 @@
+import { getAssetUrl } from "@/lib/asset-url";
 import type { LessonContent } from "./types";
-const aaaImg = "/attached_assets/abdominalaorticaneurysm_1773374656570.png";
-const imgToxicShockSyndrome = "/attached_assets/toxicshocksyndrome_1773340545537.png";
+const aaaImg = getAssetUrl("abdominalaorticaneurysm_1773374656570.png");
+const imgToxicShockSyndrome = getAssetUrl("toxicshocksyndrome_1773340545537.png");
 
 export const cardiovascularLessons: Record<string, LessonContent> = {
   "aaa-rupture": {
     title: "Abdominal Aortic Aneurysm (AAA)",
-    image: "/attached_assets/abdominalaorticaneurysm_1773374656570.png",
+    image: getAssetUrl("abdominalaorticaneurysm_1773374656570.png"),
     cellular: { title: "Vessel Wall Integrity", content: "Chronic high pressure (HTN) and smoking damage the aortic endothelium, causing the arterial wall to weaken and dilate. If the wall reaches its breaking point, it ruptures, leading to rapid exsanguination into the abdominal cavity." },
     riskFactors: ["Age > 65 years", "Male sex (6:1 male-to-female ratio)", "Smoking history (strongest modifiable risk factor)", "Hypertension", "Family history of AAA", "Atherosclerosis", "Connective tissue disorders (Marfan, Ehlers-Danlos)", "COPD"],
     diagnostics: ["Expect abdominal ultrasound or CT angiography to be ordered", "Monitor serial hemoglobin and hematocrit trends", "Expect type and crossmatch for blood products", "Monitor continuous vital signs on telemetry", "Expect coagulation studies to be drawn", "Monitor urine output hourly"],

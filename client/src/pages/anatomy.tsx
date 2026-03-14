@@ -1,3 +1,4 @@
+import { getAssetUrl } from "@/lib/asset-url";
 import { LocaleLink } from "@/lib/LocaleLink";
 import { useState, useEffect, useCallback } from "react";
 import { useParams, useLocation } from "wouter";
@@ -50,78 +51,78 @@ import {
   HelpCircle,
   ArrowRight,
 } from "lucide-react";
-
 import { BreadcrumbNav } from "@/components/breadcrumb-nav";
-import imgCellStructure from "@/assets/anatomy-cell-structure.png";
-import imgFeedbackLoops from "@/assets/anatomy-feedback-loops.png";
-import imgCardiovascular from "@/assets/anatomy-cardiovascular.png";
-import imgRespiratory from "@/assets/anatomy-respiratory.png";
-import imgNervous from "@/assets/anatomy-nervous.png";
-import imgMusculoskeletal from "@/assets/anatomy-musculoskeletal.png";
-import imgGastrointestinal from "@/assets/anatomy-gastrointestinal.png";
-import imgRenal from "@/assets/anatomy-renal.png";
-import imgEndocrine from "@/assets/anatomy-endocrine.png";
-import imgIntegumentary from "@/assets/anatomy-integumentary.png";
-import imgLymphaticImmune from "@/assets/anatomy-lymphatic-immune.png";
-import imgReproductive from "@/assets/anatomy-reproductive.png";
-
-import imgHeartLayers from "@/assets/anatomy-heart-layers.png";
-import imgVesselLayers from "@/assets/anatomy-vessel-layers.png";
-import imgRespConducting from "@/assets/anatomy-respiratory-conducting.png";
-import imgRespVentilation from "@/assets/anatomy-respiratory-ventilation.png";
-import imgRespAlveoli from "@/assets/anatomy-respiratory-alveoli.png";
-import imgRespGasExchange from "@/assets/anatomy-respiratory-gas-exchange.png";
-import imgRespACM from "@/assets/anatomy-respiratory-acm.png";
-import imgRespBronchi from "@/assets/anatomy-respiratory-bronchi.png";
-import imgRespLungComparison from "@/assets/anatomy-respiratory-lung-comparison.png";
-import imgNervousNeuron from "@/assets/anatomy-nervous-neuron.png";
-import imgNervousSynapse from "@/assets/anatomy-nervous-synapse.png";
-import imgNervousBrainLobes from "@/assets/anatomy-nervous-brain-lobes.png";
-import imgNervousANS from "@/assets/anatomy-nervous-ans.png";
-import imgNervousReflexArc from "@/assets/anatomy-nervous-reflex-arc.png";
-import imgMuskBoneTypes from "@/assets/anatomy-musculoskeletal-bone-types.png";
-import imgMuskSynovialJoint from "@/assets/anatomy-musculoskeletal-synovial-joint.png";
-import imgMuskSarcomere from "@/assets/anatomy-musculoskeletal-sarcomere.png";
-import imgGiTractOverview from "@/assets/anatomy-gi-tract-overview.png";
-import imgGiVilli from "@/assets/anatomy-gi-villi.png";
-import imgGiHepatobiliary from "@/assets/anatomy-gi-hepatobiliary.png";
-import imgRenalSystem from "@/assets/anatomy-renal-system.png";
-import imgRenalNephron from "@/assets/anatomy-renal-nephron.png";
-import imgRenalGlomerulus from "@/assets/anatomy-renal-glomerulus.png";
-import imgEndocrineGlands from "@/assets/anatomy-endocrine-glands.png";
-import imgEndocrineThyroid from "@/assets/anatomy-endocrine-thyroid.png";
-import imgEndocrineAdrenal from "@/assets/anatomy-endocrine-adrenal.png";
-import imgIntegSkinLayers from "@/assets/anatomy-integumentary-skin-layers.png";
-import imgIntegEpidermis from "@/assets/anatomy-integumentary-epidermis.png";
-import imgIntegWoundHealing from "@/assets/anatomy-integumentary-wound-healing.png";
-import imgIntegHairFollicle from "@/assets/anatomy-integumentary-hair-follicle.png";
-import imgLymphInnate from "@/assets/anatomy-lymphatic-innate.png";
-import imgLymphAdaptive from "@/assets/anatomy-lymphatic-adaptive.png";
-import imgLymphSystem from "@/assets/anatomy-lymphatic-system.png";
-import imgLymphNode from "@/assets/anatomy-lymphatic-node.png";
-import imgCellOrganelles from "@/assets/anatomy-cell-organelles.png";
-import imgCellMembrane from "@/assets/anatomy-cell-membrane.png";
-import imgCellDivision from "@/assets/anatomy-cell-division.png";
-import imgReproductiveFemale from "@/assets/anatomy-reproductive-female.png";
-import imgReproductiveMale from "@/assets/anatomy-reproductive-male.png";
-import heartAnatomyImage from "@/assets/heart-anatomy.png";
-import hotspotCellStructure from "@/assets/hotspot-cell-structure.png";
-import hotspotFeedbackLoops from "@/assets/hotspot-feedback-loops.png";
-import hotspotRespiratory from "@/assets/hotspot-respiratory.png";
-import hotspotNervous from "@/assets/hotspot-nervous.png";
-import hotspotMusculoskeletal from "@/assets/hotspot-musculoskeletal.png";
-import hotspotGastrointestinal from "@/assets/hotspot-gastrointestinal.png";
-import hotspotRenal from "@/assets/hotspot-renal.png";
-import hotspotEndocrine from "@/assets/hotspot-endocrine.png";
-import hotspotIntegumentary from "@/assets/hotspot-integumentary.png";
-import hotspotLymphaticImmune from "@/assets/hotspot-lymphatic-immune.png";
-import hotspotReproductive from "@/assets/hotspot-reproductive.png";
 import { AnatomyLabeling } from "@/components/interactive-learning";
 import {
   heartLabels, lungLabels, brainLabels, kidneyLabels, digestiveLabels,
   endocrineLabels, cellLabels, musculoskeletalLabels, integumentaryLabels,
   lymphaticLabels, reproductiveLabels, feedbackLoopLabels,
 } from "@/components/anatomy-diagrams";
+
+const imgCellStructure = getAssetUrl("anatomy-cell-structure.png");
+const imgFeedbackLoops = getAssetUrl("anatomy-feedback-loops.png");
+const imgCardiovascular = getAssetUrl("anatomy-cardiovascular.png");
+const imgRespiratory = getAssetUrl("anatomy-respiratory.png");
+const imgNervous = getAssetUrl("anatomy-nervous.png");
+const imgMusculoskeletal = getAssetUrl("anatomy-musculoskeletal.png");
+const imgGastrointestinal = getAssetUrl("anatomy-gastrointestinal.png");
+const imgRenal = getAssetUrl("anatomy-renal.png");
+const imgEndocrine = getAssetUrl("anatomy-endocrine.png");
+const imgIntegumentary = getAssetUrl("anatomy-integumentary.png");
+const imgLymphaticImmune = getAssetUrl("anatomy-lymphatic-immune.png");
+const imgReproductive = getAssetUrl("anatomy-reproductive.png");
+const imgHeartLayers = getAssetUrl("anatomy-heart-layers.png");
+const imgVesselLayers = getAssetUrl("anatomy-vessel-layers.png");
+const imgRespConducting = getAssetUrl("anatomy-respiratory-conducting.png");
+const imgRespVentilation = getAssetUrl("anatomy-respiratory-ventilation.png");
+const imgRespAlveoli = getAssetUrl("anatomy-respiratory-alveoli.png");
+const imgRespGasExchange = getAssetUrl("anatomy-respiratory-gas-exchange.png");
+const imgRespACM = getAssetUrl("anatomy-respiratory-acm.png");
+const imgRespBronchi = getAssetUrl("anatomy-respiratory-bronchi.png");
+const imgRespLungComparison = getAssetUrl("anatomy-respiratory-lung-comparison.png");
+const imgNervousNeuron = getAssetUrl("anatomy-nervous-neuron.png");
+const imgNervousSynapse = getAssetUrl("anatomy-nervous-synapse.png");
+const imgNervousBrainLobes = getAssetUrl("anatomy-nervous-brain-lobes.png");
+const imgNervousANS = getAssetUrl("anatomy-nervous-ans.png");
+const imgNervousReflexArc = getAssetUrl("anatomy-nervous-reflex-arc.png");
+const imgMuskBoneTypes = getAssetUrl("anatomy-musculoskeletal-bone-types.png");
+const imgMuskSynovialJoint = getAssetUrl("anatomy-musculoskeletal-synovial-joint.png");
+const imgMuskSarcomere = getAssetUrl("anatomy-musculoskeletal-sarcomere.png");
+const imgGiTractOverview = getAssetUrl("anatomy-gi-tract-overview.png");
+const imgGiVilli = getAssetUrl("anatomy-gi-villi.png");
+const imgGiHepatobiliary = getAssetUrl("anatomy-gi-hepatobiliary.png");
+const imgRenalSystem = getAssetUrl("anatomy-renal-system.png");
+const imgRenalNephron = getAssetUrl("anatomy-renal-nephron.png");
+const imgRenalGlomerulus = getAssetUrl("anatomy-renal-glomerulus.png");
+const imgEndocrineGlands = getAssetUrl("anatomy-endocrine-glands.png");
+const imgEndocrineThyroid = getAssetUrl("anatomy-endocrine-thyroid.png");
+const imgEndocrineAdrenal = getAssetUrl("anatomy-endocrine-adrenal.png");
+const imgIntegSkinLayers = getAssetUrl("anatomy-integumentary-skin-layers.png");
+const imgIntegEpidermis = getAssetUrl("anatomy-integumentary-epidermis.png");
+const imgIntegWoundHealing = getAssetUrl("anatomy-integumentary-wound-healing.png");
+const imgIntegHairFollicle = getAssetUrl("anatomy-integumentary-hair-follicle.png");
+const imgLymphInnate = getAssetUrl("anatomy-lymphatic-innate.png");
+const imgLymphAdaptive = getAssetUrl("anatomy-lymphatic-adaptive.png");
+const imgLymphSystem = getAssetUrl("anatomy-lymphatic-system.png");
+const imgLymphNode = getAssetUrl("anatomy-lymphatic-node.png");
+const imgCellOrganelles = getAssetUrl("anatomy-cell-organelles.png");
+const imgCellMembrane = getAssetUrl("anatomy-cell-membrane.png");
+const imgCellDivision = getAssetUrl("anatomy-cell-division.png");
+const imgReproductiveFemale = getAssetUrl("anatomy-reproductive-female.png");
+const imgReproductiveMale = getAssetUrl("anatomy-reproductive-male.png");
+const heartAnatomyImage = getAssetUrl("heart-anatomy.png");
+const hotspotCellStructure = getAssetUrl("hotspot-cell-structure.png");
+const hotspotFeedbackLoops = getAssetUrl("hotspot-feedback-loops.png");
+const hotspotRespiratory = getAssetUrl("hotspot-respiratory.png");
+const hotspotNervous = getAssetUrl("hotspot-nervous.png");
+const hotspotMusculoskeletal = getAssetUrl("hotspot-musculoskeletal.png");
+const hotspotGastrointestinal = getAssetUrl("hotspot-gastrointestinal.png");
+const hotspotRenal = getAssetUrl("hotspot-renal.png");
+const hotspotEndocrine = getAssetUrl("hotspot-endocrine.png");
+const hotspotIntegumentary = getAssetUrl("hotspot-integumentary.png");
+const hotspotLymphaticImmune = getAssetUrl("hotspot-lymphatic-immune.png");
+const hotspotReproductive = getAssetUrl("hotspot-reproductive.png");
+
 
 type InlineImage = { src: string; alt: string; afterParagraph: number };
 

@@ -1,5 +1,6 @@
+import { getAssetUrl } from "@/lib/asset-url";
 import type { LessonContent } from "./types";
-const imgEsophagealVarices = "/attached_assets/esophagealvarices_1773374861631.png";
+const imgEsophagealVarices = getAssetUrl("esophagealvarices_1773374861631.png");
 
 export const giAdvancedLessons: Record<string, LessonContent> = {
   "bariatric-surgery": {
@@ -563,7 +564,7 @@ export const giAdvancedLessons: Record<string, LessonContent> = {
 
   "hepatitis": {
     title: "Hepatitis",
-    image: "/attached_assets/hepatitisb_1773340513136.png",
+    image: getAssetUrl("hepatitisb_1773340513136.png"),
     cellular: {
       title: "Hepatitis - Types A-E, Transmission, Serology",
       content:
@@ -1753,7 +1754,7 @@ export const giAdvancedLessons: Record<string, LessonContent> = {
   },
   "viral-hepatitis": {
     title: "Viral Hepatitis",
-    image: "/attached_assets/hepatitisb_1773340513136.png",
+    image: getAssetUrl("hepatitisb_1773340513136.png"),
     cellular: { title: "Hepatotropic Virus Pathology", content: "Viral hepatitis involves inflammation and necrosis of hepatocytes caused by hepatotropic viruses (A, B, C, D, E). Each virus targets hepatocytes through specific receptors and replicates within the cell. The immune response (cytotoxic T lymphocytes) directed against viral antigens on the hepatocyte surface causes the majority of liver damage, not the virus itself. Hepatocyte necrosis leads to elevated transaminases (ALT > AST), impaired bilirubin conjugation (jaundice), and reduced synthetic function (coagulopathy, hypoalbuminemia). Hepatitis A and E are transmitted fecal-oral and typically cause acute self-limited disease. Hepatitis B and C are bloodborne and can progress to chronic hepatitis, cirrhosis, and hepatocellular carcinoma." },
     riskFactors: ["IV drug use (shared needles - Hep B, C)", "Unprotected sexual contact (Hep B)", "Travel to endemic areas (Hep A, E)", "Contaminated food/water (Hep A, E)", "Healthcare workers (needlestick - Hep B, C)", "Blood transfusion before 1992 (Hep C)", "Perinatal transmission (Hep B)", "Tattoos/body piercings with non-sterile equipment", "Dialysis patients", "Immunocompromised individuals"],
     diagnostics: ["Expect hepatitis panel with serologic markers", "Monitor liver function tests (ALT, AST, bilirubin, albumin)", "Expect coagulation studies (PT/INR)", "Monitor for signs of hepatic failure", "Expect abdominal ultrasound", "Monitor for hepatic encephalopathy signs"],
@@ -1781,7 +1782,7 @@ export const giAdvancedLessons: Record<string, LessonContent> = {
   },
   "hepatitis-c": {
     title: "Hepatitis C",
-    image: "/attached_assets/hepatitisc_1773340513136.png",
+    image: getAssetUrl("hepatitisc_1773340513136.png"),
     cellular: { title: "Chronic Bloodborne Hepatitis", content: "Hepatitis C virus (HCV) is an RNA flavivirus that infects hepatocytes via the CD81 receptor and claudin-1. Unlike hepatitis B, HCV has high mutation rates and lacks a proofreading mechanism, creating viral quasispecies that evade immune detection - this is why no vaccine exists and why chronic infection develops in 75-85% of cases. Chronic HCV triggers persistent low-grade inflammation, stellate cell activation, and progressive fibrosis (F0-F4 staging). Over 20-30 years, 15-30% of chronically infected patients progress to cirrhosis, and 1-5% per year of cirrhotics develop hepatocellular carcinoma (HCC). HCV is now CURABLE with direct-acting antivirals (DAAs)." },
     riskFactors: ["IV drug use (most common route in North America)", "Blood transfusion/organ transplant before 1992", "Needlestick injuries (healthcare workers)", "Birth to HCV-infected mother (5% vertical transmission)", "Intranasal drug use (shared straws)", "Tattoos/piercings with non-sterile equipment", "Incarceration history", "HIV co-infection", "Born between 1945-1965 (baby boomer screening recommendation)", "Hemodialysis"],
     diagnostics: ["Expect anti-HCV antibody test (screening)", "Expect HCV RNA viral load (confirms active infection)", "Expect HCV genotype testing (guides treatment selection)", "Monitor liver function tests", "Expect FibroScan or liver biopsy for fibrosis staging", "Expect hepatic function panel (albumin, bilirubin, INR)", "Screen for HCC with alpha-fetoprotein and ultrasound every 6 months in cirrhotics"],

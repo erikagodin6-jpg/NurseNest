@@ -1,5 +1,6 @@
+import { getAssetUrl } from "@/lib/asset-url";
 import type { LessonContent } from "./types";
-const imgFebrileSeizures = "/attached_assets/febrileseizures_1773374861631.png";
+const imgFebrileSeizures = getAssetUrl("febrileseizures_1773374861631.png");
 
 export const clinicalConditionsBatchBLessons: Record<string, LessonContent> = {
   "febrile-seizures-rpn": {

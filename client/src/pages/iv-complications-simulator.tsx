@@ -1,3 +1,4 @@
+import { getAssetUrl } from "@/lib/asset-url";
 import { useState } from "react";
 import { Navigation } from "@/components/navigation";
 import { SEO } from "@/components/seo";
@@ -21,14 +22,15 @@ import {
 import { AdminEditButton } from "@/components/admin-edit-button";
 import { BreadcrumbNav } from "@/components/breadcrumb-nav";
 
-import imgInfiltration from "@/assets/images/iv-complication-infiltration.png";
-import imgExtravasation from "@/assets/images/iv-complication-extravasation.png";
-import imgPhlebitis from "@/assets/images/iv-complication-phlebitis.png";
-import imgClabsi from "@/assets/images/iv-complication-clabsi.png";
-import imgAirEmbolism from "@/assets/images/iv-complication-air-embolism.png";
-import imgFluidOverload from "@/assets/images/iv-complication-fluid-overload.png";
-import imgPiccOcclusion from "@/assets/images/iv-complication-picc-occlusion.png";
-import imgSpeedShock from "@/assets/images/iv-complication-speed-shock.png";
+const imgInfiltration = getAssetUrl("iv-complication-infiltration.png");
+const imgExtravasation = getAssetUrl("iv-complication-extravasation.png");
+const imgPhlebitis = getAssetUrl("iv-complication-phlebitis.png");
+const imgClabsi = getAssetUrl("iv-complication-clabsi.png");
+const imgAirEmbolism = getAssetUrl("iv-complication-air-embolism.png");
+const imgFluidOverload = getAssetUrl("iv-complication-fluid-overload.png");
+const imgPiccOcclusion = getAssetUrl("iv-complication-picc-occlusion.png");
+const imgSpeedShock = getAssetUrl("iv-complication-speed-shock.png");
+
 
 const scenarioImages: Record<string, string> = {
   infiltration: imgInfiltration,

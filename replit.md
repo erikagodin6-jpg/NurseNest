@@ -37,9 +37,16 @@ Key systems include:
 - **Pricing Page Architecture**: Modern SaaS-style layout with hero section, social proof metrics, tier selection grid (RPN/RN/NP), feature comparison table, study timeline guidance, trust signals. 6-month plan highlighted as "Most Popular". CTA buttons use "Unlock Full Access" for paid plans and "Start Free" for free tier.
 - **Business Health & Subscriber Dashboard**: Admin page for financial summaries (revenue, expenses, break-even), subscriber metrics (total, active, conversion rates), and purchase metrics. Uses a `business_expenses` table for manual entries and integrates AI generation costs.
 
+## Asset Storage
+- **Object Storage**: All images (PNG/JPG/WebP/SVG) and media (MP4) are stored in Replit Object Storage bucket `replit-objstore-482be09b-b392-43d4-9116-a0189fbcd2e6` under the `public/` prefix.
+- **Asset URLs**: Use `getAssetUrl(filename)` from `client/src/lib/asset-url.ts` which returns `/api/assets/{filename}`. The Express route at `GET /api/assets/:filename` streams files from object storage with immutable caching headers.
+- **Upload Script**: `scripts/upload-from-list.ts` uploads referenced assets to object storage. `scripts/upload-assets.ts` uploads all assets from source directories.
+- **Migration**: ES module `import` statements for images were replaced with `getAssetUrl()` calls. String paths like `/attached_assets/...` and `/videos/...` were also migrated.
+
 ## External Dependencies
 - **Database**: PostgreSQL
 - **ORM**: Drizzle ORM
 - **Payment Processing**: Stripe (for subscriptions and one-time purchases), PayPal SDK
 - **AI/Content Generation**: Centralized AI Provider Router (supports OpenAI, Ollama, vLLM, LM Studio, Anthropic)
 - **Social Media**: Meta Graph API
+- **Object Storage**: Replit Object Storage (Google Cloud Storage via sidecar)

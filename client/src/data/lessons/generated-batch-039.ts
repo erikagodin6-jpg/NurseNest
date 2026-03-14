@@ -1,6 +1,7 @@
+import { getAssetUrl } from "@/lib/asset-url";
 import type { LessonContent } from "./types";
-const imgGERD = "/attached_assets/GERD_1773374861631.png";
-const imgGestationalDiabetesRpn = "/attached_assets/gestational_1773374861631.png";
+const imgGERD = getAssetUrl("GERD_1773374861631.png");
+const imgGestationalDiabetesRpn = getAssetUrl("gestational_1773374861631.png");
 
 export const generatedBatch039Lessons: Record<string, LessonContent> = {
   "gerd-diagnostic-criteria-np": {

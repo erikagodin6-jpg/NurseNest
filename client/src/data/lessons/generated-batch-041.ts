@@ -1,6 +1,7 @@
+import { getAssetUrl } from "@/lib/asset-url";
 import type { LessonContent } from "./types";
-const imgGravesDisease = "/attached_assets/graves_1773374861631.png";
-const imgGuillainBarre = "/attached_assets/guillainbarrre_1773374861631.png";
+const imgGravesDisease = getAssetUrl("graves_1773374861631.png");
+const imgGuillainBarre = getAssetUrl("guillainbarrre_1773374861631.png");
 
 export const generatedBatch041Lessons: Record<string, LessonContent> = {
   "gout-management": {

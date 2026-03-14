@@ -1,8 +1,9 @@
+import { getAssetUrl } from "@/lib/asset-url";
 import type { LessonContent } from "./types";
-const imgSeparationAnxiety = "/attached_assets/separationanxiety_1773340545537.png";
-const imgReye = "/attached_assets/reye_1773340545537.png";
-const imgVaricella = "/attached_assets/varicella_1773375165171.png";
-const imgForeignBodyAspiration = "/attached_assets/foreignbodyaspiration_1773374861631.png";
+const imgSeparationAnxiety = getAssetUrl("separationanxiety_1773340545537.png");
+const imgReye = getAssetUrl("reye_1773340545537.png");
+const imgVaricella = getAssetUrl("varicella_1773375165171.png");
+const imgForeignBodyAspiration = getAssetUrl("foreignbodyaspiration_1773374861631.png");
 
 export const pediatricsLessons: Record<string, LessonContent> = {
   "kawasaki-critical": {

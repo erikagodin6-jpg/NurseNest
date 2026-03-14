@@ -206,6 +206,69 @@ async function isAdminUser(req: any): Promise<boolean> {
 }
 
 export async function registerRoutes(httpServer: Server, app: Express): Promise<Server> {
+  app.get("/api/assets/:filename", async (req, res) => {
+    try {
+      const { filename } = req.params;
+      const decodedFilename = decodeURIComponent(filename);
+      const safeFilename = nodePath.basename(decodedFilename);
+
+      const publicSearchPaths = (process.env.PUBLIC_OBJECT_SEARCH_PATHS || "").split(",").map(p => p.trim()).filter(Boolean);
+      if (publicSearchPaths.length === 0) {
+        return res.status(500).json({ error: "Object storage not configured" });
+      }
+
+      const { Storage } = await import("@google-cloud/storage");
+      const storageClient = new Storage({
+        credentials: {
+          audience: "replit",
+          subject_token_type: "access_token",
+          token_url: "http://127.0.0.1:1106/token",
+          type: "external_account",
+          credential_source: {
+            url: "http://127.0.0.1:1106/credential",
+            format: { type: "json", subject_token_field_name: "access_token" },
+          },
+          universe_domain: "googleapis.com",
+        },
+        projectId: "",
+      });
+
+      for (const searchPath of publicSearchPaths) {
+        const { bucketName, objectName } = parseStoragePath(`${searchPath}/${safeFilename}`);
+        const bucket = storageClient.bucket(bucketName);
+        const file = bucket.file(objectName);
+        const [exists] = await file.exists();
+        if (exists) {
+          const [metadata] = await file.getMetadata();
+          const contentType = metadata.contentType || "application/octet-stream";
+          res.set({
+            "Content-Type": contentType,
+            "Cache-Control": "public, max-age=31536000, immutable",
+          });
+          if (metadata.size) {
+            res.set("Content-Length", String(metadata.size));
+          }
+          const stream = file.createReadStream();
+          stream.on("error", (err) => {
+            console.error("Asset stream error:", err);
+            if (!res.headersSent) {
+              res.status(500).json({ error: "Error streaming asset" });
+            }
+          });
+          stream.pipe(res);
+          return;
+        }
+      }
+
+      res.status(404).json({ error: "Asset not found" });
+    } catch (error) {
+      console.error("Error serving asset:", error);
+      if (!res.headersSent) {
+        res.status(500).json({ error: "Error serving asset" });
+      }
+    }
+  });
+
   app.post("/api/email-signup", async (req, res) => {
     try {
       const { email } = req.body;

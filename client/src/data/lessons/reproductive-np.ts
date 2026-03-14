@@ -1,5 +1,6 @@
+import { getAssetUrl } from "@/lib/asset-url";
 import type { LessonContent } from "./types";
-const imgGalactorrhea = "/attached_assets/galactorrhea_1773374861631.png";
+const imgGalactorrhea = getAssetUrl("galactorrhea_1773374861631.png");
 
 export const reproductiveNpLessons: Record<string, LessonContent> = {
   "delayed-puberty-np": {

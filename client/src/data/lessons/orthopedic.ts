@@ -1,5 +1,6 @@
+import { getAssetUrl } from "@/lib/asset-url";
 import type { LessonContent } from "./types";
-const imgFibromyalgia = "/attached_assets/fibro_1773374861631.png";
+const imgFibromyalgia = getAssetUrl("fibro_1773374861631.png");
 
 export const orthopedicLessons: Record<string, LessonContent> = {
   "osteoarthritis": {

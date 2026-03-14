@@ -1,5 +1,6 @@
+import { getAssetUrl } from "@/lib/asset-url";
 import type { LessonContent } from "./types";
-const imgFractureTypes = "/attached_assets/fracture_1773374861631.png";
+const imgFractureTypes = getAssetUrl("fracture_1773374861631.png");
 
 export const generatedBatch104Lessons: Record<string, LessonContent> = {
   "acute-coronary-syndrome-rpn": {

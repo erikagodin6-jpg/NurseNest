@@ -1,6 +1,7 @@
+import { getAssetUrl } from "@/lib/asset-url";
 import type { LessonContent } from "./types";
-const imgTrisomy21 = "/attached_assets/trisomy21_1773340545537.png";
-const imgTurnerSyndrome = "/attached_assets/turnersyndrome_1773340545537.png";
+const imgTrisomy21 = getAssetUrl("trisomy21_1773340545537.png");
+const imgTurnerSyndrome = getAssetUrl("turnersyndrome_1773340545537.png");
 
 export const generatedBatch098Lessons: Record<string, LessonContent> = {
   "trichomoniasis": {

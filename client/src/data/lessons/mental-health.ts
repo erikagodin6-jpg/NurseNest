@@ -1,5 +1,6 @@
+import { getAssetUrl } from "@/lib/asset-url";
 import type { LessonContent } from "./types";
-const imgSubstanceAbuse = "/attached_assets/substanceabuse_1773340545537.png";
+const imgSubstanceAbuse = getAssetUrl("substanceabuse_1773340545537.png");
 
 export const mentalHealthLessons: Record<string, LessonContent> = {
   "schizophrenia": {

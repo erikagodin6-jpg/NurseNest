@@ -1,24 +1,27 @@
+import { getAssetUrl } from "@/lib/asset-url";
 import type { FlashcardData } from "./flashcards-rpn";
 import { imgUlcerativeColitis, imgVonWillebrand, imgSIADH, imgSickleCellCrisis, imgVitiligo, imgUrethralStricture, imgVestibularNeuritis, imgAddisons, imgBPH, imgPancreatitis, imgOsteoporosis, imgCellulitis, imgCKD, imgClubfoot, imgCompartmentSyndrome, imgConjunctivitis, imgContracture, imgCushings, imgDelayedHemolyticReaction, imgDevHipDysplasia, imgDiabetes, imgDiabetesInsipidus, imgDiabeticNephropathy, imgDIC, imgDisuseAtrophy, imgDuchenne, imgEpiglottitis, imgEpistaxis, imgErysipelas, imgGlaucoma, imgGlomerulonephritis, imgGravesDisease, imgHashimotoThyroiditis, imgForeignBodyAspiration, imgFibromyalgia, imgHemolyticUremicSyndrome, imgNeuroblastoma, imgPyloricStenosis, imgPlacentaPrevia, imgSerotoninSyndrome, imgTonsillectomy, imgMastitis, imgLeadPoisoning, imgLeukemia, imgLungCancer, imgMeconiumAspiration, imgMeconiumIleus, imgMeningitisNew, imgMetabolicSyndrome, imgMRSA, imgLochia, imgCongenitalHypothyroidism, imgInfantReflexes, imgSucralfate, imgSyndactyly, imgSyringomyelia, imgTardiveDyskinesia, imgTetanus, imgThalassemiaV2, imgThermoregulationV2, imgThrombocytopeniaV2, imgThyroidStormV2, imgTinnitus, imgTonsillectomyV2, imgTraction, imgTrigeminalNeuralgia, imgTrisomy21V2, imgTSS, imgTumorMarkers, imgTurnerSyndromeV2, imgTURP, imgHepatitisB, imgDKA, imgDysphagia, imgEBV, imgEctopicPregnancy, imgEndocarditisFlashcard, imgEndometriosis, imgEnteralFeeding } from "./flashcards-rpn";
-import imgMenopause from "@assets/menopause_1773374978769.png";
-import imgImpetigo from "@assets/impetigo_1773340649073.png";
-import imgIntestinalMalrotation from "@assets/intestinalmalrotation_1773340649073.png";
-import imgHypothyroidismNew from "@assets/hypothyroidism_1773374939606.png";
-import imgHepatitisC from "@assets/hepatitisc_1773340513136.png";
-import imgGestationalDiabetes from "@assets/gestationaldiabetes_1773340513136.png";
 import { imgStroke, imgProstatitis, imgRotavirus, imgRubella, imgScarletFever, imgShortBowelV4, imgSJSV2, imgSkinAssessment, imgSpinalStenosisV3, imgSprain, imgEsophagealStricture, imgScabiesV3 } from "./flashcards-rpn";
-import illustrationShinglesV2 from "@/assets/images/shingles-v2.png";
 import { imgHIV, imgHepatitisNew } from "./flashcards-rpn";
-import illustrationRetinalDetachmentV2 from "@/assets/images/retinal-detachment-v2.png";
-import illustrationRheumatoidArthritis from "@/assets/images/rheumatoid-arthritis.png";
-import imgAntepartum from "@assets/antepartum_1773340419064.png";
-import imgAnxiety from "@assets/anxiety_1773374656571.png";
-import imgAPGAR from "@assets/APGAR_1773340419064.png";
-import imgChlamydia from "@assets/chlamydia_1773340419064.png";
-import imgDepression from "@assets/depression_1773340419064.png";
-import imgPharyngitis from "@assets/pharyngitis_1773269379973.png";
-import imgPCOS from "@assets/pcos_1773375118294.png";
-import imgPeripheralNeuropathy from "@assets/peripheralneuropathy_1773375118294.png";
+
+const imgMenopause = getAssetUrl("menopause_1773374978769.png");
+const imgImpetigo = getAssetUrl("impetigo_1773340649073.png");
+const imgIntestinalMalrotation = getAssetUrl("intestinalmalrotation_1773340649073.png");
+const imgHypothyroidismNew = getAssetUrl("hypothyroidism_1773374939606.png");
+const imgHepatitisC = getAssetUrl("hepatitisc_1773340513136.png");
+const imgGestationalDiabetes = getAssetUrl("gestationaldiabetes_1773340513136.png");
+const illustrationShinglesV2 = getAssetUrl("shingles-v2.png");
+const illustrationRetinalDetachmentV2 = getAssetUrl("retinal-detachment-v2.png");
+const illustrationRheumatoidArthritis = getAssetUrl("rheumatoid-arthritis.png");
+const imgAntepartum = getAssetUrl("antepartum_1773340419064.png");
+const imgAnxiety = getAssetUrl("anxiety_1773374656571.png");
+const imgAPGAR = getAssetUrl("APGAR_1773340419064.png");
+const imgChlamydia = getAssetUrl("chlamydia_1773340419064.png");
+const imgDepression = getAssetUrl("depression_1773340419064.png");
+const imgPharyngitis = getAssetUrl("pharyngitis_1773269379973.png");
+const imgPCOS = getAssetUrl("pcos_1773375118294.png");
+const imgPeripheralNeuropathy = getAssetUrl("peripheralneuropathy_1773375118294.png");
+
 
 export const npFlashcards: FlashcardData[] = [
   // ============================================================

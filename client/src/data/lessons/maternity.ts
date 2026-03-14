@@ -1,12 +1,13 @@
+import { getAssetUrl } from "@/lib/asset-url";
 import type { LessonContent } from "./types";
-const imgStagesOfLabor = "/attached_assets/stages_1773375229956.png";
-const imgRhIncompatibility = "/attached_assets/Rhincompatibility_1773340545537.png";
-const imgGestationalDiabetesRpn = "/attached_assets/gestational_1773374861631.png";
+const imgStagesOfLabor = getAssetUrl("stages_1773375229956.png");
+const imgRhIncompatibility = getAssetUrl("Rhincompatibility_1773340545537.png");
+const imgGestationalDiabetesRpn = getAssetUrl("gestational_1773374861631.png");
 
 export const maternityLessons: Record<string, LessonContent> = {
   "fetal-monitoring-advanced": {
     title: "Fetal Monitoring: Late & Variable Decels",
-    image: "/attached_assets/fetalmonitoring_1773340513136.png",
+    image: getAssetUrl("fetalmonitoring_1773340513136.png"),
     cellular: { 
       title: "Uteroplacental Insufficiency", 
       content: "Late Decelerations: Placental insufficiency causes fetal hypoxia after the contraction peak. Reflex vasoconstriction preserves blood flow to vital organs but indicates acidosis if persistent. \nVariable Decelerations: Umbilical cord compression obstructs blood flow, causing rapid drops in FHR." 
@@ -157,7 +158,7 @@ export const maternityLessons: Record<string, LessonContent> = {
   },
   "fetal-monitoring-rn": {
     title: "Fetal Heart Rate Monitoring",
-    image: "/attached_assets/fetalmonitoring_1773340513136.png",
+    image: getAssetUrl("fetalmonitoring_1773340513136.png"),
     cellular: { title: "Autonomic Regulation", content: "The fetal heart rate (FHR) is regulated by the autonomic nervous system. The sympathetic nervous system increases heart rate, while the parasympathetic (vagus nerve) decreases it. Normal baseline is 110-160 bpm. Variability reflects intact CNS function: absent (no fluctuation: ominous), minimal (<5 bpm), moderate (6-25 bpm: reassuring, indicates intact neurological pathway), and marked (>25 bpm). Accelerations (≥15 bpm above baseline for ≥15 seconds) are reassuring and indicate fetal well-being. Decelerations are classified as Early (head compression, mirrors contractions), Late (uteroplacental insufficiency, begins after contraction peak), and Variable (cord compression, abrupt onset/offset with varying shape)." },
     riskFactors: ["Post-term pregnancy", "Intrauterine growth restriction", "Preeclampsia/gestational hypertension", "Gestational diabetes", "Decreased fetal movement", "Oligohydramnios", "Maternal chronic disease", "Multiple gestation"],
     diagnostics: ["Anticipate continuous electronic fetal monitoring for high-risk patients", "Prepare for fetal scalp electrode placement if external monitoring inadequate", "Anticipate non-stress test (NST) and biophysical profile (BPP) orders", "Monitor contraction pattern with tocodynamometer", "Prepare for umbilical cord blood gas collection at delivery", "Anticipate amnioinfusion supplies for recurrent variable decelerations"],

@@ -1,3 +1,4 @@
+import { getAssetUrl } from "@/lib/asset-url";
 import { useState, useRef, useCallback, useEffect } from "react";
 import { fisherYatesShuffle } from "@shared/shuffle";
 import { Card, CardContent } from "@/components/ui/card";
@@ -9,24 +10,25 @@ import {
   HelpCircle, CheckCircle2, XCircle, Eye, EyeOff
 } from "lucide-react";
 
-import soundAcutePericarditis from "@assets/acutepericarditis_1772495949269.mp4";
-import soundAorticRegurgitation from "@assets/aorticregurgitation_1772495949269.mp4";
-import soundAorticRegurgitation2 from "@assets/aorticregurgitation2_1772495949269.mp4";
-import soundAorticSclerosis from "@assets/aorticsclerosis_1772495949269.mp4";
-import soundAorticStenosis from "@assets/aorticstenosis_1772495949269.mp4";
-import soundAorticStenosis2 from "@assets/aorticstenosis2_1772495949269.mp4";
-import soundPansystolicMurmur from "@assets/pansystolicmurmur_1772495949269.mp4";
-import soundMidsystolicClick from "@assets/midsystolicclick_1772495949269.mp4";
-import soundInnocentMurmur from "@assets/innocentmurmur_1772495949269.mp4";
-import soundEbsteins from "@assets/ebsteins_1772495949269.mp4";
-import soundCoarctation from "@assets/coarctationofaorta_1772495949269.mp4";
-import soundASD from "@assets/ASD_1772495949269.mp4";
-import soundPDA from "@assets/PDA_1772495949269.mp4";
-import soundPleuralRub from "@assets/pleuralrub_1772495949269.mp4";
-import soundS4 from "@assets/s$_1772495949269.mp4";
-import soundS3 from "@assets/S3_1772495949269.mp4";
-import soundSystolicEjection from "@assets/systolicejectionmurmur_1772495949269.mp4";
-import soundVSD from "@assets/VSD_1772495949269.mp4";
+const soundAcutePericarditis = getAssetUrl("acutepericarditis_1772495949269.mp4");
+const soundAorticRegurgitation = getAssetUrl("aorticregurgitation_1772495949269.mp4");
+const soundAorticRegurgitation2 = getAssetUrl("aorticregurgitation2_1772495949269.mp4");
+const soundAorticSclerosis = getAssetUrl("aorticsclerosis_1772495949269.mp4");
+const soundAorticStenosis = getAssetUrl("aorticstenosis_1772495949269.mp4");
+const soundAorticStenosis2 = getAssetUrl("aorticstenosis2_1772495949269.mp4");
+const soundPansystolicMurmur = getAssetUrl("pansystolicmurmur_1772495949269.mp4");
+const soundMidsystolicClick = getAssetUrl("midsystolicclick_1772495949269.mp4");
+const soundInnocentMurmur = getAssetUrl("innocentmurmur_1772495949269.mp4");
+const soundEbsteins = getAssetUrl("ebsteins_1772495949269.mp4");
+const soundCoarctation = getAssetUrl("coarctationofaorta_1772495949269.mp4");
+const soundASD = getAssetUrl("ASD_1772495949269.mp4");
+const soundPDA = getAssetUrl("PDA_1772495949269.mp4");
+const soundPleuralRub = getAssetUrl("pleuralrub_1772495949269.mp4");
+const soundS4 = getAssetUrl("s$_1772495949269.mp4");
+const soundS3 = getAssetUrl("S3_1772495949269.mp4");
+const soundSystolicEjection = getAssetUrl("systolicejectionmurmur_1772495949269.mp4");
+const soundVSD = getAssetUrl("VSD_1772495949269.mp4");
+
 
 interface HeartSoundConfig {
   id: string;

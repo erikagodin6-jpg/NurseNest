@@ -1,3 +1,4 @@
+import { getAssetUrl } from "@/lib/asset-url";
 import { useState, useEffect, useMemo, useCallback } from "react";
 import { fisherYatesShuffle } from "@shared/shuffle";
 import { Navigation } from "@/components/navigation";
@@ -14,6 +15,7 @@ import { Input } from "@/components/ui/input";
 import { DeckHub, DeckView, DeckEditor, DeckStudyLearn, DeckStudyTest, DeckReportCard } from "@/components/deck-views";
 import { Textarea } from "@/components/ui/textarea";
 import { 
+
   ChevronRight, 
   ChevronLeft, 
   Clock,
@@ -77,15 +79,17 @@ import { AnswerOption, RationaleSection, RationaleImageBlock, QuestionContextHea
 import { ProtectedImage } from "@/components/protected-image";
 import { getCategoryImage } from "@/lib/system-images";
 import { BreadcrumbNav } from "@/components/breadcrumb-nav";
-import heartImg from "@/assets/images/heart-flashcard.png";
-import pedsImg from "@/assets/images/peds-flashcard.png";
-import oncologyImg from "@/assets/images/oncology-flashcard.png";
-import aaaImg from "@assets/abdominalaorticaneurysm_1773374656570.png";
 import { rnFlashcards } from "@/data/flashcards-rn";
 import { npFlashcards } from "@/data/flashcards-np";
 import { icuCriticalCareFlashcards } from "@/data/flashcards-icu-critical-care";
 import { AdaptiveStudyHub } from "@/components/adaptive-study";
 import { SocialProofBar } from "@/components/conversion-funnel";
+
+const heartImg = getAssetUrl("heart-flashcard.png");
+const pedsImg = getAssetUrl("peds-flashcard.png");
+const oncologyImg = getAssetUrl("oncology-flashcard.png");
+const aaaImg = getAssetUrl("abdominalaorticaneurysm_1773374656570.png");
+
 
 type CardType = "question" | "term";
 

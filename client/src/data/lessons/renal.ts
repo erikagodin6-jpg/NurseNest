@@ -1,5 +1,6 @@
+import { getAssetUrl } from "@/lib/asset-url";
 import type { LessonContent } from "./types";
-const imgGlomerulonephritis = "/attached_assets/glomerulonephritis_1773374861631.png";
+const imgGlomerulonephritis = getAssetUrl("glomerulonephritis_1773374861631.png");
 
 export const renalLessons: Record<string, LessonContent> = {
   "aki-management": {

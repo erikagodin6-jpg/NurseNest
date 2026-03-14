@@ -1,5 +1,6 @@
+import { getAssetUrl } from "@/lib/asset-url";
 import type { LessonContent } from "./types";
-const imgGlaucoma = "/attached_assets/glaucoma_1773374861631.png";
+const imgGlaucoma = getAssetUrl("glaucoma_1773374861631.png");
 
 const glaucoma: LessonContent = {
   title: "Glaucoma",

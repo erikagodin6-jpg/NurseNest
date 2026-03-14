@@ -1,5 +1,6 @@
+import { getAssetUrl } from "@/lib/asset-url";
 import type { LessonContent } from "./types";
-const imgToxicShockSyndrome = "/attached_assets/toxicshocksyndrome_1773340545537.png";
+const imgToxicShockSyndrome = getAssetUrl("toxicshocksyndrome_1773340545537.png");
 
 export const generatedBatch097Lessons: Record<string, LessonContent> = {
   "toxic-epidermal": {

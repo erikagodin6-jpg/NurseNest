@@ -1,3 +1,4 @@
+import { getAssetUrl } from "@/lib/asset-url";
 import { useState, useEffect, useCallback } from "react";
 import { Navigation } from "@/components/navigation";
 import { SEO } from "@/components/seo";
@@ -36,18 +37,19 @@ import {
 import { AdminEditButton } from "@/components/admin-edit-button";
 import { BreadcrumbNav } from "@/components/breadcrumb-nav";
 
-import imgMedSurg from "@/assets/images/safety-medsurg-room.png";
-import imgMedPrep from "@/assets/images/safety-med-prep-area.png";
-import imgPostOp from "@/assets/images/safety-post-op-room.png";
-import imgPeds from "@/assets/images/safety-peds-room.png";
-import imgIsolation from "@/assets/images/safety-isolation-room.png";
-import imgED from "@/assets/images/safety-ed-bay.png";
-import imgLaborDelivery from "@/assets/images/safety-labor-delivery.png";
-import imgICU from "@/assets/images/safety-icu-room.png";
-import imgORSuite from "@/assets/images/safety-or-suite.png";
-import imgLTC from "@/assets/images/safety-ltc-room.png";
-import imgPsychUnit from "@/assets/images/safety-psych-unit.png";
-import imgHotspotRoom from "@/assets/images/safety-hotspot-room.png";
+const imgMedSurg = getAssetUrl("safety-medsurg-room.png");
+const imgMedPrep = getAssetUrl("safety-med-prep-area.png");
+const imgPostOp = getAssetUrl("safety-post-op-room.png");
+const imgPeds = getAssetUrl("safety-peds-room.png");
+const imgIsolation = getAssetUrl("safety-isolation-room.png");
+const imgED = getAssetUrl("safety-ed-bay.png");
+const imgLaborDelivery = getAssetUrl("safety-labor-delivery.png");
+const imgICU = getAssetUrl("safety-icu-room.png");
+const imgORSuite = getAssetUrl("safety-or-suite.png");
+const imgLTC = getAssetUrl("safety-ltc-room.png");
+const imgPsychUnit = getAssetUrl("safety-psych-unit.png");
+const imgHotspotRoom = getAssetUrl("safety-hotspot-room.png");
+
 
 const scenarioImages: Record<string, string> = {
   "med-surg": imgMedSurg,

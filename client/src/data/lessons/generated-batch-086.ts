@@ -1,3 +1,4 @@
+import { getAssetUrl } from "@/lib/asset-url";
 import type { LessonContent } from "./types";
 
 export const generatedBatch086Lessons: Record<string, LessonContent> = {
@@ -475,7 +476,7 @@ export const generatedBatch086Lessons: Record<string, LessonContent> = {
   },
   "ruptured-ectopic": {
     title: "Ruptured Ectopic Pregnancy",
-    image: "/attached_assets/ectopicpregnancy_1773340513136.png",
+    image: getAssetUrl("ectopicpregnancy_1773340513136.png"),
     cellular: { title: "Pathophysiology of Ruptured Ectopic Pregnancy", content: "Ectopic pregnancy occurs when a fertilized ovum implants outside the uterine cavity, most commonly in the fallopian tube (97%, particularly the ampulla), with rupture constituting a life-threatening surgical emergency due to hemorrhagic shock. The fallopian tube lacks the thick myometrium and decidualized endometrium of the uterus, so trophoblastic invasion erodes through the thin tubal wall and its blood supply, causing tubal rupture with rapid hemoperitoneum. Risk factors include previous ectopic pregnancy (10-25% recurrence), prior tubal surgery or tubal ligation, pelvic inflammatory disease (particularly chlamydial salpingitis causing tubal adhesions and epithelial damage), endometriosis, IUD use, and assisted reproductive technology. Rupture presents with sudden severe unilateral lower abdominal pain, vaginal bleeding, signs of hemorrhagic shock (tachycardia, hypotension, diaphoresis), shoulder pain from diaphragmatic irritation (Kehr's sign from hemoperitoneum), and peritoneal signs — management requires immediate IV access with large-bore catheters, aggressive fluid resuscitation, type and crossmatch, and emergent surgical intervention (salpingectomy or salpingostomy)." },
     riskFactors: ["Advanced age or extremes of age","Family history of ruptured ectopic or related conditions","Chronic comorbidities (hypertension, diabetes, obesity)","Sedentary lifestyle and poor nutritional status","Tobacco, alcohol, or substance use","Immunocompromised state or prolonged medication use"],
     diagnostics: ["Perform focused assessment and report findings to supervising nurse","Monitor vital signs and report deviations from baseline","Collect specimens as directed and label accurately","Document assessment findings and communicate changes promptly","Recognize and report signs of deterioration"],

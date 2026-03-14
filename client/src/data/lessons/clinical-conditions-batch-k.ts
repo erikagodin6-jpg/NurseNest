@@ -1,5 +1,6 @@
+import { getAssetUrl } from "@/lib/asset-url";
 import type { LessonContent } from "./types";
-const imgTonsillectomy = "/attached_assets/tonsillectomy_1773340545537.png";
+const imgTonsillectomy = getAssetUrl("tonsillectomy_1773340545537.png");
 
 export const clinicalConditionsBatchKLessons: Record<string, LessonContent> = {
   "pancreatitis-management-rpn": {

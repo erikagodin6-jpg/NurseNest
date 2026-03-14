@@ -1,5 +1,6 @@
 import { heartFailureLecture } from "./heart-failure";
 import { hyperkalemiaHypokalemiaMicroLecture } from "./hyperkalemia-hypokalemia";
+import { getAssetUrl } from "@/lib/asset-url";
 
 export interface LectureMetadata {
   slug: string;
@@ -22,7 +23,7 @@ export const lectureRegistry: LectureMetadata[] = [
     category: "Anatomy & Physiology",
     tiers: ["rpn", "rn", "np"],
     relatedLessonIds: [],
-    videoUrl: "/videos/cell-anatomy-lecture.mp4",
+    videoUrl: getAssetUrl("cell-anatomy-lecture.mp4"),
     free: true,
   },
   {

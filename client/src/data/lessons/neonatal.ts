@@ -1,7 +1,8 @@
+import { getAssetUrl } from "@/lib/asset-url";
 import type { LessonContent } from "./types";
-const imgThermoregulation = "/attached_assets/Thermoregulation_1773340545537.png";
-const imgROP = "/attached_assets/ROP_1773340545537.png";
-const imgUmbilicalCordCare = "/attached_assets/umbilicalcordcare_1773340545537.png";
+const imgThermoregulation = getAssetUrl("Thermoregulation_1773340545537.png");
+const imgROP = getAssetUrl("ROP_1773340545537.png");
+const imgUmbilicalCordCare = getAssetUrl("umbilicalcordcare_1773340545537.png");
 
 export const neonatalLessons: Record<string, LessonContent> = {
   "newborn-assessment": {

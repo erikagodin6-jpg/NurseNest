@@ -1,3 +1,4 @@
+import { getAssetUrl } from "@/lib/asset-url";
 import { useState, useRef, useCallback, useEffect } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -7,17 +8,18 @@ import {
   Wind, ChevronDown, ChevronUp, Stethoscope
 } from "lucide-react";
 
-import vesicularAudio from "@assets/vesicularlungsounds_1772495979578.mp4";
-import bronchovesicularAudio from "@assets/bronchovesicular_1772495979578.mp4";
-import bronchialAudio from "@assets/bronchial_1772495979578.mp4";
-import fineCracklesAudio from "@assets/finecrackles_1772495979578.mp4";
-import coarseCracklesAudio from "@assets/coarsecrackles-rales_1772495979578.mp4";
-import inspiratoryCracklesAudio from "@assets/inspiratorycrackles_1772495979578.mp4";
-import wheezeAudio from "@assets/wheeze_1772495979578.mp4";
-import expiratoryWheezeAudio from "@assets/expiratorywheeze_1772495979578.mp4";
-import rhonchiAudio from "@assets/rhonchi_1772495979578.mp4";
-import stridorAudio from "@assets/stridor_1772495979578.mp4";
-import pleuralRubAudio from "@assets/pleuralrub_1772495979578.mp4";
+const vesicularAudio = getAssetUrl("vesicularlungsounds_1772495979578.mp4");
+const bronchovesicularAudio = getAssetUrl("bronchovesicular_1772495979578.mp4");
+const bronchialAudio = getAssetUrl("bronchial_1772495979578.mp4");
+const fineCracklesAudio = getAssetUrl("finecrackles_1772495979578.mp4");
+const coarseCracklesAudio = getAssetUrl("coarsecrackles-rales_1772495979578.mp4");
+const inspiratoryCracklesAudio = getAssetUrl("inspiratorycrackles_1772495979578.mp4");
+const wheezeAudio = getAssetUrl("wheeze_1772495979578.mp4");
+const expiratoryWheezeAudio = getAssetUrl("expiratorywheeze_1772495979578.mp4");
+const rhonchiAudio = getAssetUrl("rhonchi_1772495979578.mp4");
+const stridorAudio = getAssetUrl("stridor_1772495979578.mp4");
+const pleuralRubAudio = getAssetUrl("pleuralrub_1772495979578.mp4");
+
 
 type BreathSound = {
   id: string;

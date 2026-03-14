@@ -1,5 +1,6 @@
+import { getAssetUrl } from "@/lib/asset-url";
 import type { LessonContent } from "./types";
-const imgGIBleed = "/attached_assets/gibleed_1773374861631.png";
+const imgGIBleed = getAssetUrl("gibleed_1773374861631.png");
 
 export const gastrointestinalLessons: Record<string, LessonContent> = {
   "gi-bleed": {

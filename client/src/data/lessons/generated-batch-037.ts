@@ -1,7 +1,8 @@
+import { getAssetUrl } from "@/lib/asset-url";
 import type { LessonContent } from "./types";
-const imgFractureTypes = "/attached_assets/fracture_1773374861631.png";
-const imgFundalHeight = "/attached_assets/fundalheight_1773374861631.jpeg";
-const imgFungalInfections = "/attached_assets/fungal_1773374861631.jpeg";
+const imgFractureTypes = getAssetUrl("fracture_1773374861631.png");
+const imgFundalHeight = getAssetUrl("fundalheight_1773374861631.jpeg");
+const imgFungalInfections = getAssetUrl("fungal_1773374861631.jpeg");
 
 export const generatedBatch037Lessons: Record<string, LessonContent> = {
   "fluid-electrolyte-basics": {

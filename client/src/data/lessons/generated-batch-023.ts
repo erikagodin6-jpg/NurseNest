@@ -1,6 +1,7 @@
+import { getAssetUrl } from "@/lib/asset-url";
 import type { LessonContent } from "./types";
-const imgUmbilicalCordCare = "/attached_assets/umbilicalcordcare_1773340545537.png";
-const imgUmbilicalCordProlapse = "/attached_assets/umbilicalcordprolapse_1773340545537.png";
+const imgUmbilicalCordCare = getAssetUrl("umbilicalcordcare_1773340545537.png");
+const imgUmbilicalCordProlapse = getAssetUrl("umbilicalcordprolapse_1773340545537.png");
 
 export const generatedBatch023Lessons: Record<string, LessonContent> = {
   "contact-precautions": {

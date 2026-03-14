@@ -1,5 +1,6 @@
+import { getAssetUrl } from "@/lib/asset-url";
 import type { LessonContent } from "./types";
-const imgGuillainBarre = "/attached_assets/guillainbarrre_1773374861631.png";
+const imgGuillainBarre = getAssetUrl("guillainbarrre_1773374861631.png");
 
 export const clinicalConditionsBatchLLessons: Record<string, LessonContent> = {
   "alzheimer-disease-rpn": {

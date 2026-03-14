@@ -1,5 +1,8 @@
-import heartFailureAnatomyImg from "@/assets/lesson-heart-failure-anatomy.png";
-import heartFailureCellImg from "@/assets/lesson-heart-failure-cell-hypertrophy.png";
+import { getAssetUrl } from "@/lib/asset-url";
+
+const heartFailureAnatomyImg = getAssetUrl("lesson-heart-failure-anatomy.png");
+const heartFailureCellImg = getAssetUrl("lesson-heart-failure-cell-hypertrophy.png");
+
 
 export const heartFailureLecture = {
   title: "Heart Failure: Pathophysiology to Practice",
@@ -480,3 +483,4 @@ Always check potassium before giving digoxin. Always check the apical pulse befo
     "2 and 5 RULE: 2 lbs in 1 day or 5 lbs in 1 week = call the provider."
   ]
 };
+

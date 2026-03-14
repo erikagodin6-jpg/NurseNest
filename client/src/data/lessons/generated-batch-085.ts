@@ -1,6 +1,7 @@
+import { getAssetUrl } from "@/lib/asset-url";
 import type { LessonContent } from "./types";
-const imgROP = "/attached_assets/ROP_1773340545537.png";
-const imgReye = "/attached_assets/reye_1773340545537.png";
+const imgROP = getAssetUrl("ROP_1773340545537.png");
+const imgReye = getAssetUrl("reye_1773340545537.png");
 
 export const generatedBatch085Lessons: Record<string, LessonContent> = {
   "renovascular-hypertension-np": {

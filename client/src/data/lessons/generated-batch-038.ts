@@ -1,8 +1,9 @@
+import { getAssetUrl } from "@/lib/asset-url";
 import type { LessonContent } from "./types";
-const imgGalactosemia = "/attached_assets/galactosemia_1773374861631.png";
-const imgGERD = "/attached_assets/GERD_1773374861631.png";
-const imgFungalInfections = "/attached_assets/fungal_1773374861631.jpeg";
-const imgGAS = "/attached_assets/GAS_1773374861631.png";
+const imgGalactosemia = getAssetUrl("galactosemia_1773374861631.png");
+const imgGERD = getAssetUrl("GERD_1773374861631.png");
+const imgFungalInfections = getAssetUrl("fungal_1773374861631.jpeg");
+const imgGAS = getAssetUrl("GAS_1773374861631.png");
 
 export const generatedBatch038Lessons: Record<string, LessonContent> = {
   "fungal-sepsis-rn": {

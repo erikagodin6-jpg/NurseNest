@@ -1,3 +1,4 @@
+import { getAssetUrl } from "@/lib/asset-url";
 import { useState, useEffect, useCallback, useRef } from "react";
 import { Navigation } from "@/components/navigation";
 import { SEO } from "@/components/seo";
@@ -26,21 +27,6 @@ import {
   CognitiveCard,
   HoverReveal,
 } from "@/components/interactive-learning";
-import cellStructureImage from "@/assets/cell-structure-diagram.png";
-import organelleMitochondria from "@/assets/organelle-mitochondria.png";
-import organelleNucleus from "@/assets/organelle-nucleus.png";
-import organelleGolgi from "@/assets/organelle-golgi.png";
-import organelleRoughER from "@/assets/organelle-rough-er.png";
-import organelleCellMembrane from "@/assets/organelle-cell-membrane.png";
-import organelleLysosome from "@/assets/organelle-lysosome.png";
-import transportPassive from "@/assets/transport-passive.png";
-import transportActive from "@/assets/transport-active.png";
-import heartAnatomyImage from "@/assets/heart-anatomy.png";
-import lungsAnatomyImage from "@/assets/lungs-anatomy.png";
-import feedbackLoopImage from "@/assets/feedback-loop.png";
-import fluidCompartmentsImage from "@/assets/fluid-compartments.png";
-import brainAnatomyImage from "@/assets/brain-anatomy.png";
-import kidneyAnatomyImage from "@/assets/kidney-anatomy.png";
 import {
   cellLabels,
   HeartSVG,
@@ -114,35 +100,51 @@ import { ResearchReadingModule } from "@/data/pre-nursing-research-reading";
 import { HumanFactorsModule } from "@/data/pre-nursing-human-factors";
 import { ATPPathwayModule } from "@/data/pre-nursing-atp-pathway";
 
-import imgCellBiology from "@/assets/prenursing-cell-biology.png";
-import imgPhysiology from "@/assets/prenursing-physiology.png";
-import imgTerminology from "@/assets/prenursing-terminology.png";
-import imgPharmacology from "@/assets/prenursing-pharmacology.png";
-import imgPharmAbsorption from "@/assets/pharm-absorption-routes.png";
-import imgPharmPK from "@/assets/pharm-pharmacokinetics.png";
-import imgPathophysiology from "@/assets/prenursing-pathophysiology.png";
-import imgScienceFoundations from "@/assets/prenursing-science-foundations.png";
-import imgAnatomyPhysiology from "@/assets/prenursing-anatomy-physiology.png";
-import imgResearchStatistics from "@/assets/prenursing-research-statistics.png";
-import imgMedicalTerminology from "@/assets/prenursing-medical-terminology.png";
-import imgChemistry from "@/assets/prenursing-chemistry.png";
-import imgMicrobiology from "@/assets/prenursing-microbiology.png";
-import imgInfectionControl from "@/assets/prenursing-infection-control.png";
-import imgFluidsElectrolytes from "@/assets/prenursing-fluids-electrolytes.png";
-import imgCommunication from "@/assets/prenursing-communication.png";
-import imgEthicsLegal from "@/assets/prenursing-ethics-legal.png";
-import imgStudyStrategies from "@/assets/prenursing-study-strategies.png";
-import imgHealthAssessment from "@/assets/prenursing-health-assessment.png";
-import imgNutrition from "@/assets/prenursing-nutrition.png";
-import imgCulturalCompetency from "@/assets/prenursing-cultural-competency.png";
-import imgInflammation from "@/assets/prenursing-inflammation.png";
-import imgCellularInjury from "@/assets/prenursing-cellular-injury.png";
-import imgOxygenation from "@/assets/prenursing-oxygenation.png";
-import imgDiagnostics from "@/assets/prenursing-diagnostics.png";
-import imgHealthcareStructure from "@/assets/prenursing-healthcare-structure.png";
-import imgResearchReading from "@/assets/prenursing-research-reading.png";
-import imgHumanFactors from "@/assets/prenursing-human-factors.png";
-import imgAtpPathway from "@/assets/prenursing-atp-pathway.png";
+const cellStructureImage = getAssetUrl("cell-structure-diagram.png");
+const organelleMitochondria = getAssetUrl("organelle-mitochondria.png");
+const organelleNucleus = getAssetUrl("organelle-nucleus.png");
+const organelleGolgi = getAssetUrl("organelle-golgi.png");
+const organelleRoughER = getAssetUrl("organelle-rough-er.png");
+const organelleCellMembrane = getAssetUrl("organelle-cell-membrane.png");
+const organelleLysosome = getAssetUrl("organelle-lysosome.png");
+const transportPassive = getAssetUrl("transport-passive.png");
+const transportActive = getAssetUrl("transport-active.png");
+const heartAnatomyImage = getAssetUrl("heart-anatomy.png");
+const lungsAnatomyImage = getAssetUrl("lungs-anatomy.png");
+const feedbackLoopImage = getAssetUrl("feedback-loop.png");
+const fluidCompartmentsImage = getAssetUrl("fluid-compartments.png");
+const brainAnatomyImage = getAssetUrl("brain-anatomy.png");
+const kidneyAnatomyImage = getAssetUrl("kidney-anatomy.png");
+const imgCellBiology = getAssetUrl("prenursing-cell-biology.png");
+const imgPhysiology = getAssetUrl("prenursing-physiology.png");
+const imgTerminology = getAssetUrl("prenursing-terminology.png");
+const imgPharmacology = getAssetUrl("prenursing-pharmacology.png");
+const imgPharmAbsorption = getAssetUrl("pharm-absorption-routes.png");
+const imgPharmPK = getAssetUrl("pharm-pharmacokinetics.png");
+const imgPathophysiology = getAssetUrl("prenursing-pathophysiology.png");
+const imgScienceFoundations = getAssetUrl("prenursing-science-foundations.png");
+const imgAnatomyPhysiology = getAssetUrl("prenursing-anatomy-physiology.png");
+const imgResearchStatistics = getAssetUrl("prenursing-research-statistics.png");
+const imgMedicalTerminology = getAssetUrl("prenursing-medical-terminology.png");
+const imgChemistry = getAssetUrl("prenursing-chemistry.png");
+const imgMicrobiology = getAssetUrl("prenursing-microbiology.png");
+const imgInfectionControl = getAssetUrl("prenursing-infection-control.png");
+const imgFluidsElectrolytes = getAssetUrl("prenursing-fluids-electrolytes.png");
+const imgCommunication = getAssetUrl("prenursing-communication.png");
+const imgEthicsLegal = getAssetUrl("prenursing-ethics-legal.png");
+const imgStudyStrategies = getAssetUrl("prenursing-study-strategies.png");
+const imgHealthAssessment = getAssetUrl("prenursing-health-assessment.png");
+const imgNutrition = getAssetUrl("prenursing-nutrition.png");
+const imgCulturalCompetency = getAssetUrl("prenursing-cultural-competency.png");
+const imgInflammation = getAssetUrl("prenursing-inflammation.png");
+const imgCellularInjury = getAssetUrl("prenursing-cellular-injury.png");
+const imgOxygenation = getAssetUrl("prenursing-oxygenation.png");
+const imgDiagnostics = getAssetUrl("prenursing-diagnostics.png");
+const imgHealthcareStructure = getAssetUrl("prenursing-healthcare-structure.png");
+const imgResearchReading = getAssetUrl("prenursing-research-reading.png");
+const imgHumanFactors = getAssetUrl("prenursing-human-factors.png");
+const imgAtpPathway = getAssetUrl("prenursing-atp-pathway.png");
+
 
 function cn(...classes: any[]) {
   return classes.filter(Boolean).join(" ");
