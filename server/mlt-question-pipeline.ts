@@ -1,6 +1,7 @@
 import type { Express } from "express";
-import { getProdPool } from "./db";
+import { getProdPool, hasSeparateProdDb } from "./db";
 import { requireAdmin } from "./admin-auth";
+import { runPreflightChecks, getPreflightCheckedPool } from "./environment-write-service";
 import {
   MLT_DISCIPLINES,
   MLT_SUBDISCIPLINES,
@@ -43,8 +44,9 @@ const COGNITIVE_DISTRIBUTION = {
 
 const SIMILARITY_THRESHOLD = 0.70;
 
-function getProductionPool() {
-  return getProdPool();
+async function getCheckedProductionPool() {
+  const target = hasSeparateProdDb() ? "production" : "development";
+  return getPreflightCheckedPool(target as any, "MLT-Pipeline");
 }
 
 function resolveCountryTag(discipline: string, countryTrack: "canada" | "usa" | "both"): string {
@@ -602,7 +604,7 @@ async function runMltBatchGeneration(params: {
   previewQuestions: any[];
   importReadyQuestions: Record<string, any>[];
 }> {
-  const prodPool = getProductionPool();
+  const prodPool = await getCheckedProductionPool();
 
   const batchRes = await prodPool.query(
     `INSERT INTO mlt_generation_batches (country_track, requested_count, discipline, status, triggered_by, created_at)
@@ -805,7 +807,7 @@ async function runMltBatchGeneration(params: {
 }
 
 async function ensureMltPipelineTables() {
-  const prodPool = getProductionPool();
+  const prodPool = await getCheckedProductionPool();
   await prodPool.query(`
     CREATE TABLE IF NOT EXISTS mlt_generation_batches (
       id VARCHAR PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -878,7 +880,7 @@ export function registerMltPipelineRoutes(app: Express) {
         }
       }
 
-      const prodPool = getProductionPool();
+      const prodPool = await getCheckedProductionPool();
       const lessons = await fetchMltLessons(prodPool);
 
       const allResults: any[] = [];
@@ -937,7 +939,7 @@ export function registerMltPipelineRoutes(app: Express) {
       const BATCH_SIZE = 50;
       const totalBatches = Math.ceil(TOTAL_TARGET / BATCH_SIZE);
 
-      const prodPool = getProductionPool();
+      const prodPool = await getCheckedProductionPool();
       const lessons = await fetchMltLessons(prodPool);
       const plan = planDisciplineDistribution(TOTAL_TARGET, countryTrack);
 
@@ -1074,7 +1076,7 @@ export function registerMltPipelineRoutes(app: Express) {
       const admin = await requireAdmin(req, res);
       if (!admin) return;
 
-      const prodPool = getProductionPool();
+      const prodPool = await getCheckedProductionPool();
 
       const totalResult = await prodPool.query(
         `SELECT COUNT(*) as total,
@@ -1116,7 +1118,7 @@ export function registerMltPipelineRoutes(app: Express) {
       const admin = await requireAdmin(req, res);
       if (!admin) return;
 
-      const prodPool = getProductionPool();
+      const prodPool = await getCheckedProductionPool();
       const result = await prodPool.query(
         `UPDATE allied_questions SET status = 'published'
          WHERE career_type = 'mlt' AND status = 'draft'
@@ -1134,7 +1136,7 @@ export function registerMltPipelineRoutes(app: Express) {
       const admin = await requireAdmin(req, res);
       if (!admin) return;
 
-      const prodPool = getProductionPool();
+      const prodPool = await getCheckedProductionPool();
       const result = await prodPool.query(
         `SELECT * FROM mlt_generation_batches ORDER BY created_at DESC LIMIT 50`
       );
@@ -1149,7 +1151,7 @@ export function registerMltPipelineRoutes(app: Express) {
       const admin = await requireAdmin(req, res);
       if (!admin) return;
 
-      const prodPool = getProductionPool();
+      const prodPool = await getCheckedProductionPool();
       const result = await prodPool.query(
         `SELECT * FROM mlt_generation_batches WHERE id = $1`,
         [req.params.id]
@@ -1181,7 +1183,7 @@ export function registerMltPipelineRoutes(app: Express) {
         return res.status(400).json({ error: "Status must be published or draft" });
       }
 
-      const prodPool = getProductionPool();
+      const prodPool = await getCheckedProductionPool();
       const result = await prodPool.query(
         `UPDATE allied_questions SET status = $1
          WHERE batch_id = $2 AND career_type = 'mlt' AND status = 'draft'
@@ -1200,7 +1202,7 @@ export function registerMltPipelineRoutes(app: Express) {
       const admin = await requireAdmin(req, res);
       if (!admin) return;
 
-      const prodPool = getProductionPool();
+      const prodPool = await getCheckedProductionPool();
       const result = await prodPool.query(
         `DELETE FROM allied_questions WHERE batch_id = $1 AND career_type = 'mlt' RETURNING id`,
         [req.params.id]
@@ -1222,7 +1224,7 @@ export function registerMltPipelineRoutes(app: Express) {
       const admin = await requireAdmin(req, res);
       if (!admin) return;
 
-      const prodPool = getProductionPool();
+      const prodPool = await getCheckedProductionPool();
 
       const totalResult = await prodPool.query(
         `SELECT COUNT(*) as total,
@@ -1327,7 +1329,7 @@ export function registerMltPipelineRoutes(app: Express) {
       const admin = await requireAdmin(req, res);
       if (!admin) return;
 
-      const prodPool = getProductionPool();
+      const prodPool = await getCheckedProductionPool();
       const result = await prodPool.query(
         `SELECT stem, options, correct_answer as "correctAnswer",
                 rationale_long as "rationaleLong", blueprint_category as "blueprintCategory",

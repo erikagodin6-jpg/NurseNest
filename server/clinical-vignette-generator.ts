@@ -3,6 +3,7 @@ import * as crypto from "crypto";
 import { requireAdmin } from "./admin-auth";
 import { getProdPool, hasSeparateProdDb, getDbInfo } from "./db";
 import * as pg from "pg";
+import { runPreflightChecks, getPreflightCheckedPool, type PreflightResult } from "./environment-write-service";
 
 const CLINICAL_DOMAINS = [
   "Foundations",
@@ -453,7 +454,8 @@ async function verifyProductionDb(): Promise<{ verified: boolean; target: string
   const targetLabel = hasSeparate ? "production (PROD_DATABASE_URL)" : "shared (DATABASE_URL)";
   console.log(`[ClinicalVignette] DB Info: dev=${info.devUrl}, prod=${info.prodUrl}, hasSeparateProd=${hasSeparate}`);
 
-  const targetPool = getProdPool();
+  const envTarget = hasSeparate ? "production" : "development";
+  const targetPool = await getPreflightCheckedPool(envTarget as any, "ClinicalVignette");
 
   try {
     const result = await targetPool.query("SELECT current_database() AS db, current_user AS usr, NOW() AS ts");
@@ -611,7 +613,8 @@ async function runVignetteJob(): Promise<void> {
     console.log(`[ClinicalVignette] PRODUCTION DB VERIFIED: ${JSON.stringify(dbCheck.info)}`);
     console.log(`[ClinicalVignette] Starting clinical vignette generation job ${currentVignetteJob.jobId}`);
 
-    const targetPool = getProdPool();
+    const envTarget2 = hasSeparateProdDb() ? "production" : "development";
+    const targetPool = await getPreflightCheckedPool(envTarget2 as any, "ClinicalVignette-Job");
     const existingHashes = await getExistingStemHashes(targetPool);
     console.log(`[ClinicalVignette] Found ${existingHashes.size} existing stem hashes for duplicate detection`);
 

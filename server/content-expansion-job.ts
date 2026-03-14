@@ -3,6 +3,7 @@ import crypto from "crypto";
 import { requireAdmin } from "./admin-auth";
 import { getProdPool, hasSeparateProdDb, getDbInfo, getDevPool } from "./db";
 import pg from "pg";
+import { runPreflightChecks, getPreflightCheckedPool, type PreflightResult } from "./environment-write-service";
 
 const IMAGE_KEYWORD_MAP: Record<string, { file: string; alt: string; caption: string; description: string }[]> = {
   "cardiac tamponade": [{ file: "cardiactamponade", alt: "Cardiac tamponade illustration", caption: "Cardiac Tamponade", description: "Beck's triad: hypotension, muffled heart sounds, JVD" }],
@@ -386,7 +387,8 @@ async function verifyProductionDb(): Promise<{ verified: boolean; target: string
   const targetLabel = hasSeparate ? "production (PROD_DATABASE_URL)" : "shared (DATABASE_URL — no separate prod configured)";
   console.log(`[ContentExpansion] DB Info: dev=${info.devUrl}, prod=${info.prodUrl}, hasSeparateProd=${hasSeparate}`);
 
-  const targetPool = getProdPool();
+  const envTarget = hasSeparate ? "production" : "development";
+  const targetPool = await getPreflightCheckedPool(envTarget as any, "ContentExpansion");
 
   try {
     const result = await targetPool.query("SELECT current_database() AS db, current_user AS usr, NOW() AS ts");
@@ -557,7 +559,8 @@ async function runExpansionJob(): Promise<void> {
     console.log(`[ContentExpansion] PRODUCTION DB VERIFIED: ${JSON.stringify(dbCheck.info)}`);
     console.log(`[ContentExpansion] Starting content expansion job ${currentJob.jobId}`);
 
-    const targetPool = getProdPool();
+    const envTarget2 = hasSeparateProdDb() ? "production" : "development";
+    const targetPool = await getPreflightCheckedPool(envTarget2 as any, "ContentExpansion-Job");
     const existingHashes = await getExistingStemHashes(targetPool);
     console.log(`[ContentExpansion] Found ${existingHashes.size} existing stem hashes for duplicate detection`);
 

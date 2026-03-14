@@ -30,6 +30,7 @@ Key systems and engines:
 - **Analytics & Admin**: A Content Analytics Engine & Admin Dashboard provides real-time production data, content health audits, and ROI insights. Public aggregate counts at `GET /api/public/platform-proof`.
 - **Offline Capabilities**: An IndexedDB-based Offline Study System for question packs and flashcards.
 - **Multi-Profession Framework**: A dynamic system for configuring and adding new healthcare professions, supported by a Universal Question Bank Importer.
+- **Production Database Safety & Environment-Aware Publishing System**: Centralized `EnvironmentAwareContentWriteService` enforcing preflight checks, post-write verification, and full audit logging for all content writes, with explicit environment targeting and confirmation.
 - **Data Management**: PostgreSQL with Drizzle ORM.
 
 ## External Dependencies

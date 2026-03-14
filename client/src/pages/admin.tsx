@@ -8,6 +8,7 @@ import { useLocation } from "wouter";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
+import { EnvironmentBadge } from "@/components/environment-badge";
 import {
   Users,
   TrendingUp,
@@ -1463,9 +1464,12 @@ export default function AdminPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between mb-8">
             <div>
-              <h1 className="text-3xl font-bold text-gray-900" data-testid="text-admin-title">
-                Admin Dashboard
-              </h1>
+              <div className="flex items-center gap-4">
+                <h1 className="text-3xl font-bold text-gray-900" data-testid="text-admin-title">
+                  Admin Dashboard
+                </h1>
+                <EnvironmentBadge />
+              </div>
               <p className="text-gray-500 mt-1">Platform analytics and user management</p>
               {(authIsAdmin || isAdmin) && (
                 <div className="flex items-center gap-2 mt-2 p-2 bg-gray-50 rounded-lg border" data-testid="section-preview-mode">
@@ -1705,6 +1709,22 @@ export default function AdminPage() {
                     >
                       <Database className="w-4 h-4" />
                       Database Status & Sync
+                    </a>
+                    <a
+                      href="/admin/environment-audit"
+                      className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-red-50 border border-red-200 text-red-700 text-sm font-medium hover:bg-red-100 transition"
+                      data-testid="link-environment-audit"
+                    >
+                      <Shield className="w-4 h-4" />
+                      Environment Audit Log
+                    </a>
+                    <a
+                      href="/admin/environment-diagnostic"
+                      className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-purple-50 border border-purple-200 text-purple-700 text-sm font-medium hover:bg-purple-100 transition"
+                      data-testid="link-environment-diagnostic"
+                    >
+                      <Lock className="w-4 h-4" />
+                      Environment & Publish Check
                     </a>
                     <a
                       href="/admin/demo-screenshot-studio"

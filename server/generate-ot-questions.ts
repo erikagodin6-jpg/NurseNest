@@ -1,7 +1,16 @@
-import { getProdPool } from "./db";
+import { getProdPool, hasSeparateProdDb } from "./db";
 import crypto from "crypto";
+import { runPreflightChecks, getPreflightCheckedPool } from "./environment-write-service";
+import pg from "pg";
 
-const pool = getProdPool();
+let _checkedPool: pg.Pool | null = null;
+async function getPool(): Promise<pg.Pool> {
+  if (!_checkedPool) {
+    const target = hasSeparateProdDb() ? "production" : "development";
+    _checkedPool = await getPreflightCheckedPool(target as any, "OT-QuestionGenerator");
+  }
+  return _checkedPool;
+}
 
 async function getOpenAI() {
   const OpenAI = (await import("openai")).default;
@@ -98,6 +107,7 @@ Return JSON array:
 }
 
 async function loadExistingHashes(): Promise<Set<string>> {
+  const pool = await getPool();
   const result = await pool.query(`SELECT stem FROM allied_questions WHERE career_type = 'occupationalTherapy'`);
   const hashes = new Set<string>();
   for (const row of result.rows) hashes.add(stemHash(row.stem));
@@ -106,6 +116,7 @@ async function loadExistingHashes(): Promise<Set<string>> {
 
 async function generateAndInsertChunk(domain: string, count: number, variant: number, batchId: string, existingHashes: Set<string>): Promise<{ inserted: number; flashcards: number; rejected: number; duplicates: number }> {
   let inserted = 0, flashcards = 0, rejected = 0, duplicates = 0;
+  const pool = await getPool();
 
   const content = await aiGenerate(SYSTEM_PROMPT, buildUserPrompt(domain, count, variant));
   const parsed = parseJsonFromResponse(content);
@@ -158,6 +169,7 @@ async function generateAndInsertChunk(domain: string, count: number, variant: nu
 
 async function runVerification(): Promise<void> {
   console.log("\n=== VERIFICATION ===");
+  const pool = await getPool();
   const t = await pool.query(`SELECT COUNT(*) as c FROM allied_questions WHERE career_type='occupationalTherapy' AND status='approved'`);
   console.log(`Total OT questions: ${t.rows[0].c}`);
   const d = await pool.query(`SELECT blueprint_category, COUNT(*) as c FROM allied_questions WHERE career_type='occupationalTherapy' AND status='approved' GROUP BY blueprint_category ORDER BY c DESC`);
@@ -184,6 +196,7 @@ async function main() {
   console.log(`Existing hashes: ${existingHashes.size}`);
 
   let total = { inserted: 0, flashcards: 0, rejected: 0, duplicates: 0 };
+  const pool = await getPool();
 
   const batchRunRes = await pool.query(
     `INSERT INTO allied_batch_runs (career_type, requested_count, status) VALUES ('occupationalTherapy', $1, 'running') RETURNING id`,
@@ -214,7 +227,8 @@ async function main() {
     await runVerification();
   }
 
-  await pool.end();
+  const endPool = await getPool();
+  await endPool.end();
 }
 
 main().catch(e => { console.error("Fatal:", e); process.exit(1); });

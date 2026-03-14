@@ -1,5 +1,6 @@
 import pg from "pg";
-import { getProdPool } from "./db";
+import { getProdPool, hasSeparateProdDb } from "./db";
+import { runPreflightChecks, getPreflightCheckedPool } from "./environment-write-service";
 import {
   MLT_DISCIPLINES,
   MLT_SUBDISCIPLINES,
@@ -212,7 +213,8 @@ async function main() {
   console.log(`[MLT 1400] Starting generation of ${TOTAL_TARGET} MLT exam questions`);
   console.log(`[MLT 1400] Timestamp: ${new Date().toISOString()}`);
 
-  const prodPool = getProdPool();
+  const envTarget = hasSeparateProdDb() ? "production" : "development";
+  const prodPool = await getPreflightCheckedPool(envTarget as any, "MLT-1400");
   const openai = await getOpenAI();
 
   await prodPool.query(`

@@ -1,5 +1,6 @@
 import { storage } from "../storage";
 import { validateChunk, extractJsonFromResponse, type ValidationResult } from "./validator";
+import { runPreflightChecks } from "../environment-write-service";
 
 const VALID_SYSTEMS = [
   "Cardiac", "Respiratory", "Neuro", "Renal", "Endocrine", "GI",

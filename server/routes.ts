@@ -235,6 +235,10 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
   });
 
   registerObjectStorageRoutes(app);
+
+  const { registerEnvironmentRoutes } = await import("./environment-routes");
+  registerEnvironmentRoutes(app);
+
   registerMltAdminRoutes(app);
   registerMltPipelineRoutes(app);
   registerMltExamRoutes(app);

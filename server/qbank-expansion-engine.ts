@@ -2,6 +2,7 @@ import crypto from "crypto";
 import { pool } from "./storage";
 import { getProdPool, hasSeparateProdDb } from "./db";
 import OpenAI from "openai";
+import { runPreflightChecks, getPreflightCheckedPool, type PreflightResult } from "./environment-write-service";
 
 const EXPANSION_DOMAINS = [
   "Foundations", "Health Assessment", "Pharmacology", "Cardiovascular",
@@ -394,7 +395,8 @@ export async function runExpansionForTier(
   onProgress?: (p: ExpansionProgress) => void,
 ): Promise<ExpansionSummary> {
   const count = targetCount || TIER_TARGETS[tier] || 1000;
-  const dbPool = hasSeparateProdDb() ? getProdPool() : pool;
+  const qbankTarget = hasSeparateProdDb() ? "production" : "development";
+  const dbPool = await getPreflightCheckedPool(qbankTarget as any, "QBank-Expansion");
 
   console.log(`[Expansion] Starting ${tier.toUpperCase()} expansion: ${count} questions, targeting ${hasSeparateProdDb() ? "PRODUCTION" : "DEVELOPMENT"} database`);
 
@@ -688,7 +690,8 @@ export async function runFullExpansion(
     target: 3700,
   };
 
-  const dbPool = hasSeparateProdDb() ? getProdPool() : pool;
+  const qbankTarget = hasSeparateProdDb() ? "production" : "development";
+  const dbPool = await getPreflightCheckedPool(qbankTarget as any, "QBank-Expansion");
   try {
     await dbPool.query(
       `INSERT INTO generation_events (id, generation_id, event_type, payload, created_at)
@@ -1016,7 +1019,8 @@ export async function runCriticalCareSubspecialty(
   targetCount: number = 500,
   onProgress?: (p: ExpansionProgress) => void,
 ): Promise<CriticalCareSummary> {
-  const dbPool = hasSeparateProdDb() ? getProdPool() : pool;
+  const qbankTarget = hasSeparateProdDb() ? "production" : "development";
+  const dbPool = await getPreflightCheckedPool(qbankTarget as any, "QBank-Expansion");
 
   console.log(`[CriticalCare] Starting ${subspecialty} expansion: ${targetCount} questions, targeting ${hasSeparateProdDb() ? "PRODUCTION" : "DEVELOPMENT"} database`);
 
@@ -1372,7 +1376,8 @@ export async function runFullCriticalCareExpansion(
     ),
   };
 
-  const dbPool = hasSeparateProdDb() ? getProdPool() : pool;
+  const qbankTarget = hasSeparateProdDb() ? "production" : "development";
+  const dbPool = await getPreflightCheckedPool(qbankTarget as any, "QBank-Expansion");
   try {
     await dbPool.query(
       `INSERT INTO generation_events (id, generation_id, event_type, payload, created_at)
@@ -1392,7 +1397,8 @@ export async function runFullCriticalCareExpansion(
 }
 
 export async function getCriticalCareExpansionStatus(): Promise<any> {
-  const dbPool = hasSeparateProdDb() ? getProdPool() : pool;
+  const qbankTarget = hasSeparateProdDb() ? "production" : "development";
+  const dbPool = await getPreflightCheckedPool(qbankTarget as any, "QBank-Expansion");
 
   const { rows: events } = await dbPool.query(
     `SELECT event_type, payload, created_at
@@ -1427,7 +1433,8 @@ export async function getCriticalCareExpansionStatus(): Promise<any> {
 }
 
 export async function getExpansionStatus(): Promise<any> {
-  const dbPool = hasSeparateProdDb() ? getProdPool() : pool;
+  const qbankTarget = hasSeparateProdDb() ? "production" : "development";
+  const dbPool = await getPreflightCheckedPool(qbankTarget as any, "QBank-Expansion");
 
   const { rows: events } = await dbPool.query(
     `SELECT event_type, payload, created_at
@@ -1835,7 +1842,8 @@ export async function runMedicalSpecialtySubspecialty(
   targetCount: number = 500,
   onProgress?: (p: ExpansionProgress) => void,
 ): Promise<MedicalSpecialtySummary> {
-  const dbPool = hasSeparateProdDb() ? getProdPool() : pool;
+  const qbankTarget = hasSeparateProdDb() ? "production" : "development";
+  const dbPool = await getPreflightCheckedPool(qbankTarget as any, "QBank-Expansion");
 
   console.log(`[MedicalSpecialties] Starting ${subspecialty} expansion: ${targetCount} questions, targeting ${hasSeparateProdDb() ? "PRODUCTION" : "DEVELOPMENT"} database`);
 
@@ -2191,7 +2199,8 @@ export async function runFullMedicalSpecialtiesExpansion(
     ),
   };
 
-  const dbPool = hasSeparateProdDb() ? getProdPool() : pool;
+  const qbankTarget = hasSeparateProdDb() ? "production" : "development";
+  const dbPool = await getPreflightCheckedPool(qbankTarget as any, "QBank-Expansion");
   try {
     await dbPool.query(
       `INSERT INTO generation_events (id, generation_id, event_type, payload, created_at)
@@ -2211,7 +2220,8 @@ export async function runFullMedicalSpecialtiesExpansion(
 }
 
 export async function getMedicalSpecialtiesExpansionStatus(): Promise<any> {
-  const dbPool = hasSeparateProdDb() ? getProdPool() : pool;
+  const qbankTarget = hasSeparateProdDb() ? "production" : "development";
+  const dbPool = await getPreflightCheckedPool(qbankTarget as any, "QBank-Expansion");
 
   const { rows: events } = await dbPool.query(
     `SELECT event_type, payload, created_at

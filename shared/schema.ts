@@ -5493,3 +5493,37 @@ export const bgJobSettings = pgTable("bg_job_settings", {
 export const insertBgJobSettingsSchema = createInsertSchema(bgJobSettings).omit({ id: true, createdAt: true, updatedAt: true });
 export type BgJobSetting = typeof bgJobSettings.$inferSelect;
 export type InsertBgJobSetting = z.infer<typeof insertBgJobSettingsSchema>;
+
+export const ENVIRONMENT_TARGETS = ["development", "staging", "production"] as const;
+export type EnvironmentTarget = typeof ENVIRONMENT_TARGETS[number];
+
+export const CONTENT_PUBLISH_STATUSES = ["draft", "validated", "approved", "published_live", "failed_verification"] as const;
+export type ContentPublishStatus = typeof CONTENT_PUBLISH_STATUSES[number];
+
+export const environmentWriteAudit = pgTable("environment_write_audit", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  actorId: varchar("actor_id"),
+  actorUsername: text("actor_username"),
+  selectedTarget: text("selected_target").notNull(),
+  actualEnvironment: text("actual_environment").notNull(),
+  actualDbFingerprint: text("actual_db_fingerprint"),
+  contentType: text("content_type").notNull(),
+  entityId: varchar("entity_id"),
+  itemCount: integer("item_count").default(0),
+  actionType: text("action_type").notNull(),
+  providerModel: text("provider_model"),
+  approvalState: text("approval_state"),
+  writeSummary: text("write_summary"),
+  preflightResult: jsonb("preflight_result"),
+  postWriteResult: jsonb("post_write_result"),
+  success: boolean("success").default(false),
+  failureReason: text("failure_reason"),
+  mismatchReason: text("mismatch_reason"),
+  blockReason: text("block_reason"),
+  dryRun: boolean("dry_run").default(false),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const insertEnvironmentWriteAuditSchema = createInsertSchema(environmentWriteAudit).omit({ id: true, createdAt: true });
+export type EnvironmentWriteAudit = typeof environmentWriteAudit.$inferSelect;
+export type InsertEnvironmentWriteAudit = z.infer<typeof insertEnvironmentWriteAuditSchema>;
