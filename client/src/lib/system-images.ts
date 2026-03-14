@@ -730,9 +730,6 @@ const lessonSpecificImages: Record<string, string> = {
   "dysrhythmias": illustrationCardioversion,
   "mi-management": illustrationCardiacCycleUpdated,
   "mi-acute": illustrationCardiacCycleUpdated,
-  "cardiovascular-rpn": illustrationCardiacCycleUpdated,
-  "cardiovascular-rn": illustrationCardiacCycleUpdated,
-  "cardiovascular-np": illustrationCardiacCycleUpdated,
   "chf-basics": illustrationHeartFailureAnatomy,
   "hf-advanced": illustrationHeartFailureAnatomy,
   "heart-failure": illustrationHeartFailureAnatomy,
@@ -795,9 +792,6 @@ const lessonSpecificImages: Record<string, string> = {
   "peripheral-vascular-disease": illustrationPADSymptomsV2,
   "aortic-dissection": illustrationCardiacCycleNew,
   "carotid-endarterectomy": illustrationPADSymptoms,
-  "respiratory-rpn": illustrationCOPDPathology,
-  "respiratory-rn": illustrationCOPDPathology,
-  "respiratory-np": illustrationCOPDPathology,
   "pneumonia-basics": illustrationPneumoniaV3,
   "pneumonia-management": illustrationPneumoniaV3,
   "pneumonia-community": illustrationPneumoniaV3,
@@ -820,7 +814,6 @@ const lessonSpecificImages: Record<string, string> = {
   "tracheostomy-suctioning": illustrationTracheostomy,
   "laryngectomy": illustrationTracheostomy,
   "sterile-technique": illustrationBacteria,
-  "neuro-basics": illustrationNerve,
   "stroke": illustrationStrokeV2,
   "stroke-advanced": illustrationStrokeV2,
   "stroke-rpn": illustrationStrokeV2,
@@ -1027,7 +1020,6 @@ const lessonSpecificImages: Record<string, string> = {
   "abg-interpretation": illustrationABGReferenceNew,
   "acid-base-balance": illustrationABGReferenceNew,
   "contact-dermatitis": illustrationAtopicDermatitis2,
-  "stevens-johnson-syndrome": illustrationSJS,
   "urticaria": illustrationAtopicDermatitis,
   "scabies": illustrationScabiesV2,
   "pemphigus-vulgaris": illustrationPemphigusV3,
@@ -1070,8 +1062,6 @@ const lessonSpecificImages: Record<string, string> = {
   "herpes-simplex": illustrationHerpesSimplex,
   "hsv": illustrationHerpesSimplex,
   "cold-sores": illustrationHerpesSimplex,
-  "cell-structure": illustrationCellStructure,
-  "cell-biology": illustrationCellStructure,
   "atp-cellular-energy": illustrationATPMitochondria,
   "atp-energy-pathways": illustrationATPMitochondria,
   "cellular-energy": illustrationATPMitochondria,
@@ -1085,12 +1075,9 @@ const lessonSpecificImages: Record<string, string> = {
   "glucose-metabolism": illustrationATPGlycolysis,
   "atp-molecule": illustrationATPMolecule,
   "atp-synthesis": illustrationATPMolecule,
-  "vitiligo": illustrationVitiligo,
   "herpes-zoster": illustrationHerpesZoster,
   "shingles": illustrationHerpesZoster,
   "varicella-zoster": illustrationHerpesZoster,
-  "homeostasis": illustrationHomeostasis,
-  "feedback-loops": illustrationHomeostasis,
   "homeostasis-feedback": illustrationHomeostasis,
   "pinworms": illustrationPinwormsV2,
   "pinworm": illustrationPinwormsV2,
@@ -1323,7 +1310,6 @@ const lessonSpecificImages: Record<string, string> = {
   "pancreatic-function": illustrationPancreaticFunctioning,
   "adrenal-function": illustrationEndocrineAnatomy,
   "pituitary-function": illustrationPituitaryGlands,
-  "siadh-di": illustrationEndocrineAnatomy,
   "dka-hhns": illustrationDKANew,
   "adrenal-insufficiency": illustrationEndocrineAnatomy,
   "thyroidectomy": illustrationEndocrineAnatomy,
@@ -1368,7 +1354,6 @@ const lessonSpecificImages: Record<string, string> = {
   "dic-basics": illustrationHematologyAnatomy,
   "coagulation-cascade": illustrationHematologyAnatomy,
   "blood-products": illustrationHematologyAnatomy,
-  "sickle-cell": illustrationHematologyAnatomy,
   "anemia-types": illustrationHematologyAnatomy,
   "all-leukemia": illustrationLeukemia,
   "aml-leukemia": illustrationLeukemia,
@@ -1378,7 +1363,6 @@ const lessonSpecificImages: Record<string, string> = {
   "leukemia-np": illustrationLeukemia,
   "cll-leukemia": illustrationLeukemia,
   "cml-leukemia": illustrationLeukemia,
-  "thalassemia": illustrationHematologyAnatomy,
   "prenatal-basics": illustrationMaternityAnatomy,
   "labor-stages": illustrationMaternityAnatomy,
   "postpartum-basics": illustrationMaternityAnatomy,
@@ -1497,7 +1481,6 @@ const lessonSpecificImages: Record<string, string> = {
   "insulin-safety": illustrationPancreasInsulin,
   "hypoglycemia-vs-dka-rpn": illustrationPancreasInsulin,
 
-
   "sle-autoimmune": illustrationAutoimmune,
   "autoimmune-disorders": illustrationAutoimmune,
   "rheumatoid-arthritis": illustrationRheumatoidArthritis,
@@ -1509,7 +1492,6 @@ const lessonSpecificImages: Record<string, string> = {
 
   "mi-pathophysiology": illustrationMIPatho,
   "acute-coronary-syndrome": illustrationMIPatho,
-
 
   "copd-basics-rpn": illustrationCOPDPatho,
 
@@ -1540,12 +1522,6 @@ const lessonSpecificImages: Record<string, string> = {
 
   "preeclampsia-eclampsia": illustrationPreeclampsiaPatho,
   "gestational-hypertension": illustrationPreeclampsiaPatho,
-
-  "sickle-cell-disease": illustrationSickleCellV2,
-  "sickle-cell-crisis": illustrationSickleCellV2,
-
-  "stevens-johnson-basics-rpn": illustrationSJSV2,
-
 
   "burn-care": illustrationBurnDepth,
   "burns-classification": illustrationBurnDepth,
@@ -1672,14 +1648,6 @@ const lessonSpecificImages: Record<string, string> = {
   "spinal-stenosis-rpn": illustrationSpinalStenosisV3,
   "spinal-stenosis-rn": illustrationSpinalStenosisV3,
   "spinal-stenosis-np": illustrationSpinalStenosisV3,
-  "syringomyelia": illustrationSyringomyeliaV2,
-  "syringomyelia-rpn": illustrationSyringomyeliaV2,
-  "syringomyelia-rn": illustrationSyringomyeliaV2,
-  "syringomyelia-np": illustrationSyringomyeliaV2,
-  "tardive-dyskinesia": illustrationTardiveDyskinesiaV2,
-  "tardive-dyskinesia-rpn": illustrationTardiveDyskinesiaV2,
-  "tardive-dyskinesia-rn": illustrationTardiveDyskinesiaV2,
-  "tardive-dyskinesia-np": illustrationTardiveDyskinesiaV2,
 
   "placenta-previa": illustrationPlacentaPrevia,
   "placenta-previa-rpn": illustrationPlacentaPrevia,
@@ -1689,8 +1657,6 @@ const lessonSpecificImages: Record<string, string> = {
   "placental-abruption-rpn": illustrationPlacentalAbruptionV2,
   "placental-abruption-rn": illustrationPlacentalAbruptionV2,
   "placental-abruption-np": illustrationPlacentalAbruptionV2,
-
-
 
   "newborn-diabetic-mother": illustrationNewbornDiabeticMotherV2,
   "infant-diabetic-mother": illustrationNewbornDiabeticMotherV2,
@@ -1734,13 +1700,6 @@ const lessonSpecificImages: Record<string, string> = {
 
   "meningitis-management": illustrationMeningitisNew,
 
-
-
-  "ulcerative-colitis": illustrationUlcerativeColitisV2,
-  "ulcerative-colitis-rpn": illustrationUlcerativeColitisV2,
-  "ulcerative-colitis-rn": illustrationUlcerativeColitisV2,
-  "ulcerative-colitis-np": illustrationUlcerativeColitisV2,
-  "ulcerative-colitis-management": illustrationUlcerativeColitisV2,
   "uc-management": illustrationUlcerativeColitisV2,
   "crohns-disease": illustrationCrohnsV2,
   "crohns-disease-rpn": illustrationCrohnsV2,
@@ -1773,11 +1732,6 @@ const lessonSpecificImages: Record<string, string> = {
   "short-bowel-syndrome-rn": illustrationShortBowelV4,
   "short-bowel-syndrome-np": illustrationShortBowelV4,
   "short-bowel": illustrationShortBowelV4,
-  "stoma-care": illustrationStomaCareV3,
-  "stoma-care-rpn": illustrationStomaCareV3,
-  "stoma-care-rn": illustrationStomaCareV3,
-  "stoma-care-np": illustrationStomaCareV3,
-  "ostomy-care": illustrationStomaCareV3,
   "colostomy-care": illustrationStomaCareV3,
   "ileostomy-care": illustrationStomaCareV3,
 
@@ -1786,7 +1740,6 @@ const lessonSpecificImages: Record<string, string> = {
 
   "cushings-management": illustrationCushingsNew,
 
-  "siadh-basics-rpn": illustrationSIADHDIPatho,
   "diabetes-insipidus-basics-rpn": illustrationSIADHDIPatho,
 
   "retinal-detachment-rpn": illustrationRetinalDetachmentV2,
@@ -2178,7 +2131,6 @@ const lessonSpecificImages: Record<string, string> = {
   "newborn-diabetic-mother-rpn": illustrationNewbornDiabeticMotherV2,
   "newborn-diabetic-mother-rn": illustrationNewbornDiabeticMotherV2,
   "newborn-diabetic-mother-np": illustrationNewbornDiabeticMotherV2,
-
 
   "ohss": illustrationOvarianHyperstimulation,
   "ohss-rpn": illustrationOvarianHyperstimulation,
@@ -2577,169 +2529,6 @@ const lessonSpecificImages: Record<string, string> = {
 };
 
 const systemImageMap: Record<string, string> = {
-  "cardiovascular": illustrationCardiacCycle,
-  "cardiovascular-rn": illustrationCardiacCycle,
-  "cardiovascular-np": illustrationCardiacCycle,
-  "cardiovascular-rpn": illustrationCardiacCycle,
-  "cardiovascular-pharmacology-rpn": illustrationCardiacCycle,
-  "cardiovascular-pharmacology-rn": illustrationCardiacCycle,
-  "cardiovascular-pharmacology-np": illustrationCardiacCycle,
-
-  "respiratory": illustrationCOPDPathology,
-  "respiratory-rn": illustrationCOPDPathology,
-  "respiratory-np": illustrationCOPDPathology,
-  "respiratory-rpn": illustrationCOPDPathology,
-  "respiratory-pharmacology-rpn": illustrationCOPDPathology,
-  "respiratory-pharmacology-rn": illustrationCOPDPathology,
-  "respiratory-pharmacology-np": illustrationCOPDPathology,
-
-  "neurological": illustrationBrainAnatomy,
-  "neurological-rn": illustrationBrainAnatomy,
-  "neurological-np": illustrationBrainAnatomy,
-  "neurological-rpn": illustrationBrainAnatomy,
-  "neuro-basics": illustrationBrainAnatomy,
-  "neurological-pharmacology-rpn": illustrationBrainAnatomy,
-  "neurological-pharmacology-rn": illustrationBrainAnatomy,
-  "neurological-pharmacology-np": illustrationBrainAnatomy,
-
-  "gastrointestinal": illustrationElectrolytes,
-  "gastrointestinal-rn": illustrationElectrolytes,
-  "gastrointestinal-np": illustrationElectrolytes,
-  "gastrointestinal-rpn": illustrationElectrolytes,
-  "gi-advanced": illustrationElectrolytes,
-  "gi-pharmacology-rpn": illustrationElectrolytes,
-  "gi-pharmacology-rn": illustrationElectrolytes,
-  "gi-pharmacology-np": illustrationElectrolytes,
-
-  "renal": illustrationKidneys,
-  "renal-rpn": illustrationKidneys,
-  "renal-metabolic-rn": illustrationKidneys,
-  "renal-np": illustrationKidneys,
-  "renal-pharmacology-rpn": illustrationKidneys,
-  "renal-pharmacology-rn": illustrationKidneys,
-  "renal-pharmacology-np": illustrationKidneys,
-
-  "endocrine": illustrationHomeostasis,
-  "endocrine-rpn": illustrationHomeostasis,
-  "endocrine-rn": illustrationHomeostasis,
-  "endocrine-np": illustrationHomeostasis,
-  "endocrine-pharmacology-rpn": illustrationHomeostasis,
-  "endocrine-pharmacology-rn": illustrationHomeostasis,
-  "endocrine-pharmacology-np": illustrationHomeostasis,
-
-  "hematology": illustrationHematology,
-  "hematology-rpn": illustrationHematology,
-  "hematology-rn": illustrationHematology,
-  "hematology-np": illustrationHematology,
-  "hematology-oncology-rpn": illustrationHematology,
-  "hematology-pharmacology-rpn": illustrationHematology,
-
-  "musculoskeletal": illustrationOsteoporosisV2,
-  "musculoskeletal-rpn": illustrationOsteoporosisV2,
-  "musculoskeletal-rn": illustrationOsteoporosisV2,
-  "musculoskeletal-np": illustrationOsteoporosisV2,
-  "orthopedic-rpn": illustrationOsteoporosisV2,
-
-  "immune": illustrationInflammatoryResponse,
-  "immune-system": illustrationInflammatoryResponse,
-  "immune-system-rpn": illustrationInflammatoryResponse,
-  "immune-rn": illustrationInflammatoryResponse,
-  "immune-np": illustrationInflammatoryResponse,
-  "autoimmune-rheumatology-np": illustrationInflammatoryResponse,
-
-  "maternity": illustrationMaternity,
-  "maternity-rn": illustrationMaternity,
-  "maternity-np": illustrationMaternity,
-  "maternity-rpn": illustrationMaternity,
-  "maternity-pharmacology-rpn": illustrationMaternity,
-  "maternity-pharmacology-rn": illustrationMaternity,
-  "maternity-pharmacology-np": illustrationMaternity,
-  "postpartum-neonatal-rpn": illustrationMaternity,
-
-  "pediatrics": illustrationPediatrics,
-  "pediatrics-rn": illustrationPediatrics,
-  "pediatrics-np": illustrationPediatrics,
-  "pediatrics-rpn": illustrationPediatrics,
-  "pediatric-pharmacology-rpn": illustrationPediatrics,
-  "pediatric-pharmacology-rn": illustrationPediatrics,
-  "pediatric-pharmacology-np": illustrationPediatrics,
-  "neonatal-rpn": illustrationPediatrics,
-
-  "mental-health": illustrationMentalHealth,
-  "mental-health-rn": illustrationMentalHealth,
-  "mental-health-np": illustrationMentalHealth,
-  "mental-health-rpn": illustrationMentalHealth,
-  "psychiatric-pharmacology-rpn": illustrationMentalHealth,
-  "psychiatric-pharmacology-rn": illustrationMentalHealth,
-  "psychiatric-pharmacology-np": illustrationMentalHealth,
-
-  "oncology": illustrationTumor,
-  "oncology-rn": illustrationTumor,
-  "oncology-np": illustrationTumor,
-  "oncology-rpn": illustrationTumor,
-  "oncology-pharmacology-rpn": illustrationTumor,
-  "oncology-pharmacology-rn": illustrationTumor,
-  "oncology-pharmacology-np": illustrationTumor,
-
-  "pharmacology": illustrationPharmacology,
-  "pharmacology-core-rpn": illustrationPharmacology,
-  "pharmacology-core-rn": illustrationPharmacology,
-  "pharmacology-core-np": illustrationPharmacology,
-  "analgesic-pharmacology-rpn": illustrationPharmacology,
-
-  "fundamentals-core": illustrationBacteria,
-  "fundamentals": illustrationBacteria,
-  "nursing-fundamentals-rpn": illustrationBacteria,
-
-  "emergency": illustrationEmergency,
-  "emergency-rn": illustrationEmergency,
-  "emergency-np": illustrationEmergency,
-  "emergency-rpn": illustrationEmergency,
-  "clinical-scenarios": illustrationEmergency,
-  "clinical-scenarios-rpn": illustrationEmergency,
-  "critical-care-advanced-np": illustrationEmergency,
-
-  "heent-skin-rpn": illustrationAtopicDermatitis2,
-  "eye-ear": illustrationGlaucoma,
-  "eye-ear-rpn": illustrationGlaucoma,
-  "sensory-np": illustrationGlaucoma,
-
-  "wound-care-rpn": illustrationWound,
-  "skin-infections-rpn": illustrationScabies,
-
-  "delegation-core": illustrationAssessment,
-  "delegation": illustrationAssessment,
-
-  "infection-control-rpn": illustrationVirus,
-  "infection-control": illustrationVirus,
-
-  "pain-management-rpn": illustrationPainManagement,
-  "pain-management": illustrationPainManagement,
-
-  "palliative-eol-rpn": illustrationPalliative,
-  "palliative": illustrationPalliative,
-
-  "community-health-rpn": illustrationCommunityHealth,
-  "community": illustrationCommunityHealth,
-
-  "cell-structure": illustrationCellStructure,
-  "cell-biology": illustrationCellStructure,
-  "feedback-loops": illustrationHomeostasis,
-  "homeostasis": illustrationHomeostasis,
-
-  "reproductive": illustrationMaternity,
-
-  "assessment-rpn": illustrationAssessment,
-  "assessment": illustrationAssessment,
-
-  "nutrition-rpn": illustrationNutrition,
-  "lab-fundamentals-rpn": illustrationKidneys,
-  "vaccines-rpn": illustrationVirus,
-
-  "rare-genetic-disorders-np": illustrationCellStructure,
-  "toxicology-np": illustrationShock,
-  "advanced-diagnostics-np": illustrationAssessment,
-  "advanced-pharmacology-np": illustrationPharmacology,
 
   "ulcerative-colitis": illustrationUlcerativeColitis,
   "ulcerative-colitis-rpn": illustrationUlcerativeColitis,
