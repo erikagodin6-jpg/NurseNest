@@ -537,6 +537,54 @@ export async function ensureSchemaSync(pool: pg.Pool): Promise<void> {
       )
     `);
 
+    await client.query(`
+      CREATE TABLE IF NOT EXISTS security_audit_logs (
+        id varchar PRIMARY KEY DEFAULT gen_random_uuid(),
+        user_id varchar,
+        ip_address text,
+        endpoint text NOT NULL,
+        event_type text NOT NULL,
+        request_count integer DEFAULT 1,
+        metadata jsonb DEFAULT '{}'::jsonb,
+        created_at timestamp NOT NULL DEFAULT now()
+      )
+    `);
+
+    await client.query(`
+      CREATE TABLE IF NOT EXISTS content_access_counters (
+        id varchar PRIMARY KEY DEFAULT gen_random_uuid(),
+        user_id varchar NOT NULL,
+        content_type text NOT NULL,
+        access_date text NOT NULL,
+        count integer NOT NULL DEFAULT 0,
+        UNIQUE (user_id, content_type, access_date)
+      )
+    `);
+
+    try {
+      await client.query(`ALTER TABLE content_access_counters ADD CONSTRAINT content_access_counters_user_type_date_unique UNIQUE (user_id, content_type, access_date)`);
+    } catch (e: any) {
+      // constraint already exists
+    }
+    await client.query(`CREATE INDEX IF NOT EXISTS idx_security_audit_logs_user ON security_audit_logs (user_id)`);
+    await client.query(`CREATE INDEX IF NOT EXISTS idx_security_audit_logs_event ON security_audit_logs (event_type)`);
+    await client.query(`CREATE INDEX IF NOT EXISTS idx_security_audit_logs_created ON security_audit_logs (created_at)`);
+    await client.query(`CREATE INDEX IF NOT EXISTS idx_content_access_user_date ON content_access_counters (user_id, access_date)`);
+    await client.query(`CREATE INDEX IF NOT EXISTS idx_watermark_sessions_user ON watermark_sessions (user_id)`);
+
+    await client.query(`
+      CREATE TABLE IF NOT EXISTS watermark_sessions (
+        id varchar PRIMARY KEY DEFAULT gen_random_uuid(),
+        user_id varchar NOT NULL,
+        masked_email text,
+        user_id_suffix text,
+        ip_address text,
+        user_agent text,
+        created_at timestamp NOT NULL DEFAULT now(),
+        expires_at timestamp
+      )
+    `);
+
     await client.query("COMMIT");
     console.log("[SchemaSync] Ensured all tables and columns exist");
 

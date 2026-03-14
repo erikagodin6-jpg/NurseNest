@@ -57,6 +57,7 @@ import {
 import { useQuery as useQueryRQ } from "@tanstack/react-query";
 import { adminFetch } from "@/lib/admin-fetch";
 import { AlertTriangle } from "lucide-react";
+import AdminContentSecurity from "./admin-content-security";
 
 function KillSwitchBanner() {
   const { data } = useQueryRQ({
@@ -164,7 +165,7 @@ export default function AdminPage() {
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const tab = params.get("tab");
-    if (tab && ["overview", "users", "activity", "content-engine", "analytics", "promotions", "feedback", "social", "audit", "deck-moderation", "ai-safety", "beta-testers"].includes(tab)) {
+    if (tab && ["overview", "users", "activity", "content-engine", "analytics", "promotions", "feedback", "social", "audit", "deck-moderation", "ai-safety", "beta-testers", "content-security"].includes(tab)) {
       setActiveTab(tab as any);
     }
   }, []);
@@ -181,7 +182,7 @@ export default function AdminPage() {
   const [sortField, setSortField] = useState<string>("lastActivity");
   const [sortDir, setSortDir] = useState<"asc" | "desc">("desc");
   const [activeTab, setActiveTab] = useState<
-    "overview" | "users" | "activity" | "content-engine" | "analytics" | "promotions" | "feedback" | "social" | "audit" | "deck-moderation" | "ai-safety" | "beta-testers" | "flashcard-preview"
+    "overview" | "users" | "activity" | "content-engine" | "analytics" | "promotions" | "feedback" | "social" | "audit" | "deck-moderation" | "ai-safety" | "beta-testers" | "flashcard-preview" | "content-security"
   >("overview");
 
   const [blogConfig, setBlogConfig] = useState<any>(null);
@@ -1580,7 +1581,7 @@ export default function AdminPage() {
               </div>
               {/* Tab Navigation */}
               <div className="flex gap-1 mb-8 bg-white rounded-lg border border-primary/10 p-1 overflow-x-auto" data-testid="nav-admin-tabs">
-                {(["overview", "users", "activity", "content-engine", "analytics", "promotions", "feedback", "social", "audit", "deck-moderation", "ai-safety", "beta-testers", "flashcard-preview"] as const).map((tab) => (
+                {(["overview", "users", "activity", "content-engine", "analytics", "promotions", "feedback", "social", "audit", "deck-moderation", "ai-safety", "beta-testers", "flashcard-preview", "content-security"] as const).map((tab) => (
                   <button
                     key={tab}
                     onClick={() => setActiveTab(tab)}
@@ -1602,6 +1603,7 @@ export default function AdminPage() {
                     {tab === "ai-safety" && "AI Safety"}
                     {tab === "beta-testers" && "Beta Testers"}
                     {tab === "flashcard-preview" && "Flashcard Preview"}
+                    {tab === "content-security" && "Content Security"}
                   </button>
                 ))}
               </div>
@@ -4892,6 +4894,9 @@ export default function AdminPage() {
 
               {activeTab === "flashcard-preview" && (
                 <FlashcardPreviewConfigPanel userId={user?.id || ""} />
+              )}
+              {activeTab === "content-security" && (
+                <AdminContentSecurity />
               )}
             </>
           ) : null}

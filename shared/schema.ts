@@ -5621,3 +5621,41 @@ export const aiCostBudgets = pgTable("ai_cost_budgets", {
 export const insertAiCostBudgetSchema = createInsertSchema(aiCostBudgets).omit({ id: true, updatedAt: true, currentTokens: true, currentCostUsd: true });
 export type AiCostBudget = typeof aiCostBudgets.$inferSelect;
 export type InsertAiCostBudget = z.infer<typeof insertAiCostBudgetSchema>;
+
+export const securityAuditLogs = pgTable("security_audit_logs", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id"),
+  ipAddress: text("ip_address"),
+  endpoint: text("endpoint").notNull(),
+  eventType: text("event_type").notNull(),
+  requestCount: integer("request_count").default(1),
+  metadata: jsonb("metadata").default(sql`'{}'::jsonb`),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const insertSecurityAuditLogSchema = createInsertSchema(securityAuditLogs).omit({ id: true, createdAt: true });
+export type SecurityAuditLog = typeof securityAuditLogs.$inferSelect;
+export type InsertSecurityAuditLog = z.infer<typeof insertSecurityAuditLogSchema>;
+
+export const contentAccessCounters = pgTable("content_access_counters", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id").notNull(),
+  contentType: text("content_type").notNull(),
+  accessDate: text("access_date").notNull(),
+  count: integer("count").notNull().default(0),
+});
+
+export const insertContentAccessCounterSchema = createInsertSchema(contentAccessCounters).omit({ id: true });
+export type ContentAccessCounter = typeof contentAccessCounters.$inferSelect;
+export type InsertContentAccessCounter = z.infer<typeof insertContentAccessCounterSchema>;
+
+export const watermarkSessions = pgTable("watermark_sessions", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id").notNull(),
+  maskedEmail: text("masked_email"),
+  userIdSuffix: text("user_id_suffix"),
+  ipAddress: text("ip_address"),
+  userAgent: text("user_agent"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  expiresAt: timestamp("expires_at"),
+});
