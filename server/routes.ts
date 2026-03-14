@@ -5140,84 +5140,348 @@ Rules:
     }
   });
 
+  let contentAnalyticsCache: { data: any; timestamp: number } | null = null;
+  const CONTENT_ANALYTICS_TTL = 5 * 60 * 1000;
+
+  async function computeContentAnalytics() {
+    const queryErrors: string[] = [];
+    const safeQuery = (sql: string) => pool.query(sql).catch((err: any) => {
+      queryErrors.push(`${sql.substring(0, 80).trim()}: ${err.message}`);
+      return { rows: [] };
+    });
+
+    const [
+      examQ, examQAll, flashcardB, alliedQ, alliedF,
+      imagingQ, imagingF, generatedQ, contentItems,
+      flashcardDecksR, encyclopediaE, deckFlashcardsR,
+      qbankDraftsR, seoArticlesR, mltQ, mltF,
+      paramScenariosR, pharmtechQR,
+      missingFlashcardsR, missingRationaleR, missingImagesR,
+      heroStatsR, contentItemsPublished
+    ] = await Promise.all([
+      safeQuery(`SELECT tier, COUNT(*)::int AS count FROM exam_questions WHERE status='published' GROUP BY tier ORDER BY tier`),
+      safeQuery(`SELECT tier, status, COUNT(*)::int AS count FROM exam_questions GROUP BY tier, status ORDER BY tier, status`),
+      safeQuery(`SELECT tier, status, COUNT(*)::int AS count FROM flashcard_bank GROUP BY tier, status ORDER BY tier, status`),
+      safeQuery(`SELECT career_type, status, COUNT(*)::int AS count FROM allied_questions GROUP BY career_type, status ORDER BY career_type`),
+      safeQuery(`SELECT career_type, COUNT(*)::int AS count FROM allied_flashcards GROUP BY career_type ORDER BY career_type`),
+      safeQuery(`SELECT status, COUNT(*)::int AS count FROM imaging_questions GROUP BY status`),
+      safeQuery(`SELECT status, COUNT(*)::int AS count FROM imaging_flashcards GROUP BY status`),
+      safeQuery(`SELECT COUNT(*)::int AS count FROM generated_questions`),
+      safeQuery(`SELECT type, status, COUNT(*)::int AS count FROM content_items GROUP BY type, status ORDER BY type`),
+      safeQuery(`SELECT COUNT(*)::int AS count FROM flashcard_decks`),
+      safeQuery(`SELECT profession, COUNT(*)::int AS count FROM encyclopedia_entries WHERE status='published' GROUP BY profession ORDER BY count DESC`),
+      safeQuery(`SELECT COUNT(*)::int AS count FROM deck_flashcards`),
+      safeQuery(`SELECT status, COUNT(*)::int AS count FROM qbank_drafts GROUP BY status`),
+      safeQuery(`SELECT status, COUNT(*)::int AS count FROM seo_articles GROUP BY status`),
+      safeQuery(`SELECT status, discipline, COUNT(*)::int AS count FROM mlt_questions GROUP BY status, discipline ORDER BY discipline`),
+      safeQuery(`SELECT status, discipline, COUNT(*)::int AS count FROM mlt_flashcards GROUP BY status, discipline ORDER BY discipline`),
+      safeQuery(`SELECT status, COUNT(*)::int AS count FROM paramedic_scenarios GROUP BY status`),
+      safeQuery(`SELECT CASE WHEN published THEN 'published' ELSE 'draft' END AS status, COUNT(*)::int AS count FROM pharmtech_questions GROUP BY published`),
+      safeQuery(`SELECT COUNT(*)::int AS count FROM exam_questions eq WHERE eq.status='published' AND NOT EXISTS (SELECT 1 FROM flashcard_bank fb WHERE fb.tier = eq.tier AND fb.status = 'published' LIMIT 1)`),
+      safeQuery(`SELECT COUNT(*)::int AS count FROM exam_questions WHERE status='published' AND (rationale IS NULL OR rationale = '')`),
+      safeQuery(`SELECT COUNT(*)::int AS count FROM exam_questions WHERE status='published' AND (exhibit_data IS NULL OR exhibit_data::text = 'null')`),
+      safeQuery(`SELECT COUNT(*)::int AS total_published FROM content_items WHERE status='published'`),
+      safeQuery(`SELECT tier, COUNT(*)::int AS count FROM content_items WHERE status='published' GROUP BY tier`),
+    ]);
+
+    const tiers: Record<string, { questions: number; flashcardsPublished: number; flashcardsReview: number; totalQuestions: number; draftQuestions: number }> = {};
+    for (const row of examQ.rows) {
+      if (!tiers[row.tier]) tiers[row.tier] = { questions: 0, flashcardsPublished: 0, flashcardsReview: 0, totalQuestions: 0, draftQuestions: 0 };
+      tiers[row.tier].questions = row.count;
+    }
+    for (const row of examQAll.rows) {
+      if (!tiers[row.tier]) tiers[row.tier] = { questions: 0, flashcardsPublished: 0, flashcardsReview: 0, totalQuestions: 0, draftQuestions: 0 };
+      tiers[row.tier].totalQuestions += row.count;
+      if (row.status !== 'published') tiers[row.tier].draftQuestions += row.count;
+    }
+    for (const row of flashcardB.rows) {
+      if (!tiers[row.tier]) tiers[row.tier] = { questions: 0, flashcardsPublished: 0, flashcardsReview: 0, totalQuestions: 0, draftQuestions: 0 };
+      if (row.status === 'published') tiers[row.tier].flashcardsPublished = row.count;
+      else if (row.status === 'needs_review') tiers[row.tier].flashcardsReview = row.count;
+    }
+
+    const allied: Record<string, { published: number; other: number; flashcards: number; statuses: Record<string, number> }> = {};
+    for (const row of alliedQ.rows) {
+      if (!allied[row.career_type]) allied[row.career_type] = { published: 0, other: 0, flashcards: 0, statuses: {} };
+      allied[row.career_type].statuses[row.status] = (allied[row.career_type].statuses[row.status] || 0) + row.count;
+      if (row.status === 'published' || row.status === 'active') {
+        allied[row.career_type].published += row.count;
+      } else {
+        allied[row.career_type].other += row.count;
+      }
+    }
+    for (const row of alliedF.rows) {
+      if (!allied[row.career_type]) allied[row.career_type] = { published: 0, other: 0, flashcards: 0, statuses: {} };
+      allied[row.career_type].flashcards = row.count;
+    }
+
+    const imagingPublishedQ = imagingQ.rows.find((r: any) => r.status === 'published')?.count || 0;
+    const imagingPublishedF = imagingF.rows.find((r: any) => r.status === 'published')?.count || 0;
+    const imagingTotalQ = imagingQ.rows.reduce((s: number, r: any) => s + r.count, 0);
+    const imagingTotalF = imagingF.rows.reduce((s: number, r: any) => s + r.count, 0);
+
+    const contentBreakdown: Record<string, number> = {};
+    const contentByStatus: Record<string, Record<string, number>> = {};
+    for (const row of contentItems.rows) {
+      contentBreakdown[row.type] = (contentBreakdown[row.type] || 0) + row.count;
+      if (!contentByStatus[row.type]) contentByStatus[row.type] = {};
+      contentByStatus[row.type][row.status] = row.count;
+    }
+
+    const draftPipeline: Record<string, number> = {};
+    let totalDrafts = 0;
+    for (const row of qbankDraftsR.rows) {
+      draftPipeline[row.status] = row.count;
+      totalDrafts += row.count;
+    }
+    const draftsReadyForReview = (draftPipeline['ready'] || 0) + (draftPipeline['review'] || 0);
+
+    const seoArticlesByStatus: Record<string, number> = {};
+    let totalArticles = 0;
+    for (const row of seoArticlesR.rows) {
+      seoArticlesByStatus[row.status] = row.count;
+      totalArticles += row.count;
+    }
+
+    const mltData = { questions: { published: 0, total: 0, byDiscipline: {} as Record<string, number> }, flashcards: { published: 0, total: 0 } };
+    for (const row of mltQ.rows) {
+      mltData.questions.total += row.count;
+      if (row.status === 'published') mltData.questions.published += row.count;
+      mltData.questions.byDiscipline[row.discipline] = (mltData.questions.byDiscipline[row.discipline] || 0) + row.count;
+    }
+    for (const row of mltF.rows) {
+      mltData.flashcards.total += row.count;
+      if (row.status === 'published') mltData.flashcards.published += row.count;
+    }
+
+    const paramData = { total: 0, published: 0 };
+    for (const row of paramScenariosR.rows) {
+      paramData.total += row.count;
+      if (row.status === 'published') paramData.published = row.count;
+    }
+
+    const pharmtechData = { published: 0, draft: 0 };
+    for (const row of pharmtechQR.rows) {
+      if (row.status === 'published') pharmtechData.published = row.count;
+      else pharmtechData.draft += row.count;
+    }
+
+    const totalQuestions = Object.values(tiers).reduce((s, t) => s + t.questions, 0)
+      + Object.values(allied).reduce((s, a) => s + a.published, 0)
+      + imagingPublishedQ
+      + mltData.questions.published
+      + paramData.published
+      + pharmtechData.published;
+    const totalFlashcards = Object.values(tiers).reduce((s, t) => s + t.flashcardsPublished, 0)
+      + Object.values(allied).reduce((s, a) => s + a.flashcards, 0)
+      + imagingPublishedF
+      + mltData.flashcards.published;
+
+    const contentHealth = {
+      questionsWithoutFlashcards: missingFlashcardsR.rows[0]?.count || 0,
+      questionsWithoutRationale: missingRationaleR.rows[0]?.count || 0,
+      questionsWithoutImages: missingImagesR.rows[0]?.count || 0,
+      draftsReadyForReview,
+      totalDrafts,
+    };
+
+    const allPublishedQuestions = Object.values(tiers).reduce((s, t) => s + t.questions, 0);
+    const allPublishedFlashcards = Object.values(tiers).reduce((s, t) => s + t.flashcardsPublished, 0);
+    const ratioPercent = allPublishedQuestions > 0 ? ((allPublishedFlashcards / allPublishedQuestions) * 100).toFixed(1) : "0";
+    const rationalePercent = allPublishedQuestions > 0
+      ? (((allPublishedQuestions - contentHealth.questionsWithoutRationale) / allPublishedQuestions) * 100).toFixed(1) : "100";
+
+    const publishedContentItems = heroStatsR.rows[0]?.total_published || 0;
+    const contentItemsByTier: Record<string, number> = {};
+    for (const row of contentItemsPublished.rows) {
+      contentItemsByTier[row.tier || 'free'] = row.count;
+    }
+
+    const pipelineOpportunity = {
+      totalDrafts,
+      draftsByStatus: draftPipeline,
+      estimatedPublishable: draftsReadyForReview,
+      generatedQuestions: generatedQ.rows[0]?.count || 0,
+    };
+
+    const validation: Array<{ check: string; status: string; detail: string }> = [];
+    const heroTotalPublished = publishedContentItems;
+    if (heroTotalPublished > 0 && Math.abs(heroTotalPublished - (contentBreakdown.lesson || 0)) > 10) {
+      validation.push({
+        check: "Content items vs lesson count",
+        status: "warning",
+        detail: `Published content_items total (${heroTotalPublished}) differs from lesson type count (${contentBreakdown.lesson || 0})`,
+      });
+    }
+
+    const timestamp = new Date().toISOString();
+
+    console.log(`[ContentAnalytics] Report generated at ${timestamp}`);
+    console.log(`[ContentAnalytics] Total Questions: ${totalQuestions}, Total Flashcards: ${totalFlashcards}`);
+    console.log(`[ContentAnalytics] Tiers: ${JSON.stringify(Object.entries(tiers).map(([k, v]) => `${k}:${v.questions}Q/${v.flashcardsPublished}FC`))}`);
+    console.log(`[ContentAnalytics] Allied: ${Object.keys(allied).length} professions, Imaging: ${imagingPublishedQ}Q/${imagingPublishedF}FC`);
+    console.log(`[ContentAnalytics] Health: ${contentHealth.questionsWithoutRationale} missing rationale, ${contentHealth.questionsWithoutImages} missing images`);
+    console.log(`[ContentAnalytics] Pipeline: ${totalDrafts} drafts, ${pipelineOpportunity.generatedQuestions} generated`);
+
+    return {
+      tiers,
+      allied,
+      imaging: {
+        questions: imagingPublishedQ,
+        flashcards: imagingPublishedF,
+        totalQuestions: imagingTotalQ,
+        totalFlashcards: imagingTotalF,
+        byStatus: { questions: Object.fromEntries(imagingQ.rows.map((r: any) => [r.status, r.count])), flashcards: Object.fromEntries(imagingF.rows.map((r: any) => [r.status, r.count])) },
+      },
+      generatedQuestions: generatedQ.rows[0]?.count || 0,
+      contentItems: contentBreakdown,
+      contentByStatus,
+      flashcardDecks: flashcardDecksR.rows[0]?.count || 0,
+      deckFlashcards: deckFlashcardsR.rows[0]?.count || 0,
+      encyclopedia: encyclopediaE.rows,
+      seoArticles: { byStatus: seoArticlesByStatus, total: totalArticles },
+      mlt: mltData,
+      paramedic: paramData,
+      pharmtech: pharmtechData,
+      contentHealth,
+      pipelineOpportunity,
+      validation,
+      contentItemsByTier,
+      totals: {
+        questions: totalQuestions,
+        flashcards: totalFlashcards,
+        lessons: contentBreakdown.lesson || 0,
+        blogs: (contentBreakdown.blog || 0) + totalArticles,
+        decks: flashcardDecksR.rows[0]?.count || 0,
+        drafts: totalDrafts,
+        alliedContent: Object.values(allied).reduce((s, a) => s + a.published + a.other, 0),
+        imagingContent: imagingTotalQ + imagingTotalF,
+      },
+      qualityMetrics: {
+        flashcardCoveragePercent: ratioPercent,
+        rationalePercent,
+        publishedVsTotal: {
+          questions: { published: allPublishedQuestions, total: Object.values(tiers).reduce((s, t) => s + t.totalQuestions, 0) },
+          flashcards: { published: allPublishedFlashcards, needsReview: Object.values(tiers).reduce((s, t) => s + t.flashcardsReview, 0) },
+        },
+      },
+      dataSource: "Production DB",
+      dataQuality: queryErrors.length === 0 ? "complete" : "degraded",
+      queryErrors: queryErrors.length > 0 ? queryErrors : undefined,
+      timestamp,
+    };
+  }
+
   app.get("/api/admin/content-analytics", async (req, res) => {
     try {
       const admin = await requireAdmin(req, res);
       if (!admin) return;
 
-      const [
-        examQ, flashcardB, alliedQ, alliedF,
-        imagingQ, imagingF, generatedQ, contentItems,
-        flashcardDecks, encyclopediaE
-      ] = await Promise.all([
-        pool.query(`SELECT tier, COUNT(*)::int AS count FROM exam_questions WHERE status='published' GROUP BY tier ORDER BY tier`),
-        pool.query(`SELECT tier, status, COUNT(*)::int AS count FROM flashcard_bank GROUP BY tier, status ORDER BY tier, status`),
-        pool.query(`SELECT career_type, status, COUNT(*)::int AS count FROM allied_questions GROUP BY career_type, status ORDER BY career_type`),
-        pool.query(`SELECT career_type, COUNT(*)::int AS count FROM allied_flashcards GROUP BY career_type ORDER BY career_type`),
-        pool.query(`SELECT status, COUNT(*)::int AS count FROM imaging_questions GROUP BY status`),
-        pool.query(`SELECT status, COUNT(*)::int AS count FROM imaging_flashcards GROUP BY status`),
-        pool.query(`SELECT COUNT(*)::int AS count FROM generated_questions`),
-        pool.query(`SELECT type, status, COUNT(*)::int AS count FROM content_items GROUP BY type, status ORDER BY type`),
-        pool.query(`SELECT COUNT(*)::int AS count FROM flashcard_decks`),
-        pool.query(`SELECT profession, COUNT(*)::int AS count FROM encyclopedia_entries WHERE status='published' GROUP BY profession ORDER BY count DESC`).catch(() => ({ rows: [] })),
+      if (contentAnalyticsCache && Date.now() - contentAnalyticsCache.timestamp < CONTENT_ANALYTICS_TTL) {
+        return res.json(contentAnalyticsCache.data);
+      }
+
+      const data = await computeContentAnalytics();
+      contentAnalyticsCache = { data, timestamp: Date.now() };
+      res.json(data);
+    } catch (e: any) {
+      console.error("[ContentAnalytics] Error:", e);
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/admin/content-analytics/summary", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+
+      if (contentAnalyticsCache && Date.now() - contentAnalyticsCache.timestamp < CONTENT_ANALYTICS_TTL) {
+        return res.json(contentAnalyticsCache.data);
+      }
+
+      const data = await computeContentAnalytics();
+      contentAnalyticsCache = { data, timestamp: Date.now() };
+      res.json(data);
+    } catch (e: any) {
+      console.error("[ContentAnalytics] Summary error:", e);
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/admin/content-analytics/breakdown", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+
+      const safeQuery = (sql: string) => pool.query(sql).catch(() => ({ rows: [] }));
+      const [byExamType, bySpecialty, byReviewStatus, topDecks] = await Promise.all([
+        safeQuery(`SELECT exam, tier, COUNT(*)::int AS count FROM exam_questions GROUP BY exam, tier ORDER BY count DESC`),
+        safeQuery(`SELECT body_system, COUNT(*)::int AS count FROM exam_questions WHERE status='published' AND body_system IS NOT NULL GROUP BY body_system ORDER BY count DESC LIMIT 20`),
+        safeQuery(`SELECT status, COUNT(*)::int AS count FROM exam_questions GROUP BY status ORDER BY count DESC`),
+        safeQuery(`SELECT fd.title, fd.tier, fd.card_count, fd.career_type FROM flashcard_decks fd ORDER BY fd.card_count DESC NULLS LAST LIMIT 15`),
       ]);
 
-      const tiers: Record<string, { questions: number; flashcardsPublished: number; flashcardsReview: number }> = {};
-      for (const row of examQ.rows) {
-        if (!tiers[row.tier]) tiers[row.tier] = { questions: 0, flashcardsPublished: 0, flashcardsReview: 0 };
-        tiers[row.tier].questions = row.count;
-      }
-      for (const row of flashcardB.rows) {
-        if (!tiers[row.tier]) tiers[row.tier] = { questions: 0, flashcardsPublished: 0, flashcardsReview: 0 };
-        if (row.status === 'published') tiers[row.tier].flashcardsPublished = row.count;
-        else if (row.status === 'needs_review') tiers[row.tier].flashcardsReview = row.count;
+      res.json({
+        byExamType: byExamType.rows,
+        bySpecialty: bySpecialty.rows,
+        byReviewStatus: byReviewStatus.rows,
+        topDecks: topDecks.rows,
+        timestamp: new Date().toISOString(),
+      });
+    } catch (e: any) {
+      console.error("[ContentAnalytics] Breakdown error:", e);
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.post("/api/admin/content-analytics/recalculate", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+
+      contentAnalyticsCache = null;
+      const data = await computeContentAnalytics();
+      contentAnalyticsCache = { data, timestamp: Date.now() };
+
+      await logAudit(req, admin, "content_analytics", null, "recalculate", null, { timestamp: data.timestamp });
+
+      res.json({ ok: true, data, recalculatedAt: data.timestamp });
+    } catch (e: any) {
+      console.error("[ContentAnalytics] Recalculate error:", e);
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/public/platform-proof", async (_req, res) => {
+    try {
+      if (contentAnalyticsCache && Date.now() - contentAnalyticsCache.timestamp < CONTENT_ANALYTICS_TTL) {
+        const d = contentAnalyticsCache.data;
+        return res.json({
+          totalQuestions: d.totals.questions,
+          totalFlashcards: d.totals.flashcards,
+          totalDecks: d.totals.decks,
+          totalLessons: d.totals.lessons,
+          professionsServed: Object.keys(d.allied).length + 4,
+          lastUpdated: d.timestamp,
+        });
       }
 
-      const allied: Record<string, { published: number; other: number; flashcards: number; statuses: Record<string, number> }> = {};
-      for (const row of alliedQ.rows) {
-        if (!allied[row.career_type]) allied[row.career_type] = { published: 0, other: 0, flashcards: 0, statuses: {} };
-        allied[row.career_type].statuses[row.status] = (allied[row.career_type].statuses[row.status] || 0) + row.count;
-        if (row.status === 'published' || row.status === 'active') {
-          allied[row.career_type].published += row.count;
-        } else {
-          allied[row.career_type].other += row.count;
-        }
-      }
-      for (const row of alliedF.rows) {
-        if (!allied[row.career_type]) allied[row.career_type] = { published: 0, other: 0, flashcards: 0, statuses: {} };
-        allied[row.career_type].flashcards = row.count;
-      }
-
-      const imagingPublishedQ = imagingQ.rows.find((r: any) => r.status === 'published')?.count || 0;
-      const imagingPublishedF = imagingF.rows.find((r: any) => r.status === 'published')?.count || 0;
-
-      const totalQuestions = Object.values(tiers).reduce((s, t) => s + t.questions, 0)
-        + Object.values(allied).reduce((s, a) => s + a.published, 0)
-        + imagingPublishedQ;
-      const totalFlashcards = Object.values(tiers).reduce((s, t) => s + t.flashcardsPublished, 0)
-        + Object.values(allied).reduce((s, a) => s + a.flashcards, 0)
-        + imagingPublishedF;
-
-      const contentBreakdown: Record<string, number> = {};
-      for (const row of contentItems.rows) {
-        contentBreakdown[row.type] = (contentBreakdown[row.type] || 0) + row.count;
-      }
+      const safeQuery = (sql: string) => pool.query(sql).catch(() => ({ rows: [] }));
+      const [questionsR, flashcardsR, decksR, lessonsR, alliedR] = await Promise.all([
+        safeQuery(`SELECT COUNT(*)::int AS count FROM exam_questions WHERE status='published'`),
+        safeQuery(`SELECT COUNT(*)::int AS count FROM flashcard_bank WHERE status='published'`),
+        safeQuery(`SELECT COUNT(*)::int AS count FROM flashcard_decks`),
+        safeQuery(`SELECT COUNT(*)::int AS count FROM content_items WHERE status='published' AND type='lesson'`),
+        safeQuery(`SELECT COUNT(DISTINCT career_type)::int AS count FROM allied_questions`),
+      ]);
 
       res.json({
-        tiers,
-        allied,
-        imaging: { questions: imagingPublishedQ, flashcards: imagingPublishedF },
-        generatedQuestions: generatedQ.rows[0].count,
-        contentItems: contentBreakdown,
-        flashcardDecks: flashcardDecks.rows[0].count,
-        encyclopedia: encyclopediaE.rows,
-        totals: {
-          questions: totalQuestions,
-          flashcards: totalFlashcards,
-          lessons: contentBreakdown.lesson || 0,
-          blogs: contentBreakdown.blog || 0,
-        },
-        timestamp: new Date().toISOString(),
+        totalQuestions: questionsR.rows[0]?.count || 0,
+        totalFlashcards: flashcardsR.rows[0]?.count || 0,
+        totalDecks: decksR.rows[0]?.count || 0,
+        totalLessons: lessonsR.rows[0]?.count || 0,
+        professionsServed: (alliedR.rows[0]?.count || 0) + 4,
+        lastUpdated: new Date().toISOString(),
       });
     } catch (e: any) {
       res.status(500).json({ error: e.message });
