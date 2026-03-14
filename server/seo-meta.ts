@@ -573,6 +573,38 @@ const staticPages: Record<string, { title: string; description: string }> = {
     title: "Performance Reports | NurseNest",
     description: "Track your learning progress with detailed performance reports. Identify strengths and weak areas for focused study.",
   },
+  "/paramedic-exam-study-guide": {
+    title: "Paramedic Exam Study Guide | NREMT & COPR Prep 2025 | NurseNest",
+    description: "Comprehensive paramedic exam study guide covering the NREMT and COPR exam blueprints. Topics breakdown, study strategies, practice questions, and flashcard decks for PCP and ACP certification.",
+  },
+  "/rrt-exam-study-guide": {
+    title: "RRT Exam Study Guide | NBRC TMC & CSE Prep 2025 | NurseNest",
+    description: "Comprehensive RRT exam study guide for the NBRC TMC and Clinical Simulation Exam. Ventilator management, ABG interpretation, airway management, and all tested domains with study strategies.",
+  },
+  "/mlt-exam-study-guide": {
+    title: "MLT Exam Study Guide | CSMLS & ASCP Certification Prep 2025 | NurseNest",
+    description: "Comprehensive MLT exam study guide for CSMLS and ASCP BOC certification. Hematology, clinical chemistry, microbiology, blood banking topics with study strategies and practice resources.",
+  },
+  "/imaging-exam-study-guide": {
+    title: "Imaging Exam Study Guide | ARRT & CAMRT Radiography Prep 2025 | NurseNest",
+    description: "Comprehensive medical imaging exam study guide for ARRT and CAMRT radiography certification. Positioning, image production, radiation safety, and patient care with study strategies.",
+  },
+  "/social-work-exam-study-guide": {
+    title: "Social Work Exam Study Guide | ASWB Licensing Exam Prep 2025 | NurseNest",
+    description: "Comprehensive social work exam study guide for ASWB Clinical and Masters licensing exams. DSM-5 diagnosis, treatment planning, ethics, and human development with proven study strategies.",
+  },
+  "/psychotherapy-exam-study-guide": {
+    title: "Psychotherapy Exam Study Guide | CRPO & NCE Licensing Prep 2025 | NurseNest",
+    description: "Comprehensive psychotherapy exam study guide for CRPO registration and NCE licensing. Therapeutic modalities, ethical practice, clinical assessment, and professional standards with study strategies.",
+  },
+  "/addictions-exam-study-guide": {
+    title: "Addictions Exam Study Guide | IC&RC ADC & CCAC Prep 2025 | NurseNest",
+    description: "Comprehensive addictions counsellor exam study guide for IC&RC ADC and CCAC certification. Screening and assessment, treatment planning, motivational interviewing, and relapse prevention strategies.",
+  },
+  "/occupational-therapy-exam-study-guide": {
+    title: "OT Exam Study Guide | NBCOT OTR & NOTCE Prep 2025 | NurseNest",
+    description: "Comprehensive occupational therapy exam study guide for NBCOT OTR and NOTCE certification. Evaluation, intervention planning, OT theory, and clinical reasoning with proven study strategies.",
+  },
 };
 
 function escapeHtml(str: string): string {

@@ -96,6 +96,7 @@ const GeneratorV2Page = lazy(() => import("@/pages/generator-v2"));
 const DashboardPage = lazy(() => import("@/pages/dashboard"));
 const MltStudentDashboard = lazy(() => import("@/allied/pages/mlt-student-dashboard"));
 import { MltSEOPage } from "@/allied/pages/mlt-seo-pages";
+import { ExamStudyGuidePage } from "@/pages/exam-study-guide";
 const ContentEditorPage = lazy(() => import("@/pages/content-editor"));
 const MedMathPage = lazy(() => import("@/pages/med-math"));
 const LabValuesPage = lazy(() => import("@/pages/lab-values"));
@@ -706,6 +707,15 @@ function AppRoutes() {
         <Route path="/dashboard/mlt/wrong-answers" component={MltStudentDashboard} />
         <Route path="/dashboard/mlt/study-plan" component={MltStudentDashboard} />
         <Route path="/dashboard/mlt" component={MltStudentDashboard} />
+
+        <Route path="/paramedic-exam-study-guide">{() => <ExamStudyGuidePage slug="paramedic-exam-study-guide" />}</Route>
+        <Route path="/rrt-exam-study-guide">{() => <ExamStudyGuidePage slug="rrt-exam-study-guide" />}</Route>
+        <Route path="/mlt-exam-study-guide">{() => <ExamStudyGuidePage slug="mlt-exam-study-guide" />}</Route>
+        <Route path="/imaging-exam-study-guide">{() => <ExamStudyGuidePage slug="imaging-exam-study-guide" />}</Route>
+        <Route path="/social-work-exam-study-guide">{() => <ExamStudyGuidePage slug="social-work-exam-study-guide" />}</Route>
+        <Route path="/psychotherapy-exam-study-guide">{() => <ExamStudyGuidePage slug="psychotherapy-exam-study-guide" />}</Route>
+        <Route path="/addictions-exam-study-guide">{() => <ExamStudyGuidePage slug="addictions-exam-study-guide" />}</Route>
+        <Route path="/occupational-therapy-exam-study-guide">{() => <ExamStudyGuidePage slug="occupational-therapy-exam-study-guide" />}</Route>
 
         <Route path="/mlt/canada/practice-questions">{() => <MltSEOPage country="canada" pageType="practice-questions" />}</Route>
         <Route path="/mlt/usa/practice-questions">{() => <MltSEOPage country="usa" pageType="practice-questions" />}</Route>
