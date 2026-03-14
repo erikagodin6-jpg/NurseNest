@@ -1,0 +1,124 @@
+Restructure the flashcard experience across the NurseNest site because the current learner-facing Flashcards page is conceptually confusing.
+
+Goal:
+Create a clear separation between:
+1. a public, Quizlet-like Flashcards experience available to everyone from the main navigation
+2. a tier-specific exam-prep experience that should be renamed Test Bank and live inside the tiered sections (RPN, RN, NP, and other relevant exam-prep areas)
+
+Core product definitions:
+- Flashcards = public, broad-access, Quizlet-style study tool for quick recall, term-definition review, topic-based decks, saved decks, and custom cards
+- Test Bank = exam-style multiple-choice practice with rationales, distractor analysis, clinical pearls, adaptive review, weak areas, and tier-calibrated exam-prep logic
+
+Required information architecture changes:
+
+1. Main navigation
+- Add or keep a top-level main navigation item called Flashcards
+- This should route to a public-facing Flashcards landing page
+- This page must be available to all users and should not feel like a premium exam simulator
+- Do not use tier-heavy exam-prep messaging on this page
+
+2. Tier-specific navigation
+- Under each tiered exam-prep area such as RPN, RN, NP, and other relevant sections, rename the current exam-style flashcard product to Test Bank
+- Update links, buttons, cards, route labels, headings, breadcrumbs, and CTA text so the user sees Test Bank instead of Flashcards where the experience is exam-style
+- Preserve all current underlying functionality that is already programmed well in the tiered sections
+
+3. Public Flashcards page
+Build or refactor the top-level Flashcards page so it behaves like a clean Quizlet-style product:
+- simple card flipping
+- topic browsing
+- search
+- saved decks
+- shared/community decks if available
+- custom deck creation if already supported
+- quick study modes such as Learn Mode or Review Mode
+- broad-access learning experience
+- cleaner, lighter UX than the current exam-style page
+
+The public Flashcards page should NOT emphasize:
+- adaptive difficulty
+- distractor analysis
+- exam simulation language
+- NCLEX-style testing engine framing
+- tier-specific exam calibration as the primary message
+- admin actions
+- manage content buttons
+- exam question manager links
+
+4. Test Bank pages
+Move or preserve the following exam-prep features under Test Bank instead:
+- clinical scenario multiple-choice questions
+- rationales for correct and incorrect answers
+- distractor analysis
+- clinical pearls
+- difficulty markers
+- weak areas
+- adaptive study
+- confidence tracking
+- tier-specific calibration for RPN, RN, NP
+- exam-style positioning and premium prep messaging
+
+5. Content cleanup on the current Flashcards landing page
+The current page is trying to be too many things at once. Refactor it so the public Flashcards page no longer mixes:
+- public flashcards
+- tier-specific exam prep
+- admin links
+- adaptive testing
+- live exam-style sample session
+- marketing for multiple unrelated features
+
+6. Admin separation
+- Remove learner-facing visibility of admin controls such as Manage Content and Exam Question Manager from the public Flashcards landing page
+- Ensure admin tools remain accessible only where appropriate in admin interfaces
+
+7. Routing and labels
+Please create or refactor routes so the structure is clear and scalable. Example target structure:
+- /flashcards → public Quizlet-style flashcards
+- /rpn/test-bank
+- /rn/test-bank
+- /np/test-bank
+- equivalent test-bank routes for other tiered exam-prep areas if applicable
+
+8. CTA updates
+On public Flashcards pages, use CTAs like:
+- Start Studying
+- Browse Decks
+- Explore Topics
+- Create Deck
+- Save Deck
+
+On tier Test Bank pages, use CTAs like:
+- Start Test Bank
+- Practice Questions
+- Review Weak Areas
+- Start Adaptive Review
+
+9. Copy changes
+Public Flashcards page headline should feel like:
+- simple
+- approachable
+- study-focused
+- quick recall and review
+- available to everyone
+
+Test Bank page headline should feel like:
+- exam-style
+- clinical reasoning
+- tier-calibrated
+- built for certification prep
+
+10. UX principle
+The user should immediately understand:
+- Flashcards = quick concept review for everyone
+- Test Bank = serious exam-style practice inside their tier
+
+11. Preserve existing good functionality
+The tier-specific flashcard-like systems that are already programmed well should not be broken. They should simply be relabeled and repositioned as Test Bank if they are exam-style in nature.
+
+12. Final verification
+After implementation, verify:
+- the main navigation has a clean public Flashcards entry
+- the public Flashcards page no longer looks like an exam-testing page
+- each tier has a separate Test Bank section
+- exam-style functionality still works
+- admin controls are not exposed on learner-facing public pages
+- breadcrumbs, titles, CTAs, cards, and links consistently use Flashcards vs Test Bank in the correct places

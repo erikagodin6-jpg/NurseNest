@@ -1,0 +1,161 @@
+Refactor the exam system under each tier (RPN, RN, NP, and any other exam-prep tiers where applicable) so there are TWO clearly separated exam products:
+
+1. CAT Exam
+2. Practice Exams
+
+This should feel closer to the real nursing exam experience and should not show rationales during active testing.
+
+GOAL
+
+Create a realistic CAT-style exam mode that behaves like the real exam structure:
+- minimum 85 questions
+- may continue beyond 85 questions
+- maximum 150 questions
+- exam should end only when stopping rules are met, not just at a fixed number unless the max is reached
+- stopping logic should consider both user performance and blueprint/category coverage thresholds, not just raw percentage
+- no rationale or answer reveal during the exam
+- review with rationales only after the exam is submitted/completed
+
+Also create a separate Practice Exam builder:
+- user chooses how many questions they want
+- custom exam lengths supported
+- no rationale during the exam
+- full rationale only after finishing and entering review mode
+
+INFORMATION ARCHITECTURE
+
+For each tier exam page, add or refactor the UI so users clearly see:
+- CAT Exam
+- Practice Exams
+
+Suggested CTA labels:
+- Start CAT Exam
+- Build Practice Exam
+- Resume Exam
+- Review Results
+
+CAT EXAM REQUIREMENTS
+
+1. CAT exam structure
+- Minimum length: 85 questions
+- Maximum length: 150 questions
+- The exam must not automatically stop before 85 questions
+- After 85 questions, the engine should evaluate whether stopping criteria are met after each subsequent question or at a reasonable checkpoint interval
+- If stopping criteria are met, end the exam
+- If not, continue until criteria are met or the user reaches 150 questions
+
+2. CAT decision logic
+Implement a realistic adaptive stopping approach inspired by nursing CAT exam behavior:
+- Track overall ability/confidence estimate
+- Track category or blueprint performance coverage
+- Require sufficient evidence that the user is above or below competency threshold before stopping
+- Require enough category representation so the result is not based on narrow topic sampling
+- If evidence is inconclusive at 85 questions, continue administering questions
+- Continue adapting difficulty based on previous responses
+- At 150 questions, force end and calculate final result based on accumulated evidence
+
+3. Category coverage logic
+The CAT exam should not over-sample only one or two areas.
+Add a blueprint-aware selection engine so:
+- questions are drawn across required categories/domains
+- the exam tracks whether enough items have been answered in each major category
+- if category evidence is insufficient, the exam continues even if total question count has exceeded 85
+- ensure realistic spread across client needs / body systems / core nursing categories depending on tier blueprint
+
+4. Adaptive difficulty
+- Increase difficulty when the user performs well
+- Decrease difficulty when the user struggles
+- Avoid extreme repetition of the same topic
+- Maintain category balancing while adapting difficulty
+- Use existing metadata if available such as difficulty, topic, system, exam blueprint category, subcategory, and tier
+
+5. No rationale during CAT exam
+During active CAT mode:
+- do NOT show correct answer immediately
+- do NOT show rationale
+- do NOT show distractor analysis
+- do NOT show clinical pearl
+- do NOT reveal score in real time beyond optional progress indicators
+- only allow standard exam actions like next, previous if appropriate, flag, pause/resume if supported
+
+6. CAT completion screen
+After completion, show:
+- total questions answered
+- estimated performance result
+- pass-likelihood / readiness label if you already use that concept
+- category breakdown
+- strengths and weak areas
+- review mode button
+
+7. CAT review mode
+After completion only, unlock:
+- correct answer
+- full rationale
+- distractor analysis
+- clinical pearls
+- linked lessons if supported
+- category-by-category review
+- flagged question review
+
+PRACTICE EXAM REQUIREMENTS
+
+8. Practice Exam builder
+Create a separate custom practice exam mode where the user can choose:
+- number of questions
+- topic(s)
+- system(s)
+- difficulty range if supported
+- tutor mode OFF by default for exam realism
+- optional timed or untimed
+- optional random or blueprint-balanced selection
+
+9. Practice Exam question count
+Allow user-selected exam lengths such as:
+- 10
+- 25
+- 50
+- 75
+- 100
+- 150
+And/or custom numeric input within safe limits
+
+10. No rationale during Practice Exam
+During active practice exam mode:
+- do NOT reveal answers after each item
+- do NOT show rationales while the user is taking the exam
+- do NOT show distractor analysis during active testing
+- only show rationale after final submission in review mode
+
+11. Practice Exam completion
+After user submits:
+- show raw score
+- show percent correct
+- show category breakdown
+- show weak areas
+- allow full review with rationales and explanations
+
+QUESTION DELIVERY RULES
+
+12. Question selection
+Please ensure both CAT and Practice Exam modes:
+- exclude duplicate questions within the same exam
+- respect tier-specific content
+- use published/approved items only
+- prioritize psychometrically usable questions where possible
+- pull from the correct tier bank only
+- do not mix RPN, RN, and NP questions incorrectly
+
+13. Session persistence
+- Users should be able to resume an unfinished CAT or practice exam if they leave and return
+- Preserve question order, answers, flags, timer state if applicable, and adaptive state for CAT
+- Do not reshuffle the exam mid-session
+
+14. Exam integrity
+- Prevent answer/rationale leakage during active testing
+- Only unlock rationales in review mode after completion
+- Ensure results are saved for analytics and progress tracking
+
+UI REQUIREMENTS
+
+15. Tier exam page layout
+Under
