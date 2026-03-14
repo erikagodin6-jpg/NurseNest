@@ -33,4 +33,4 @@ Disallow: /*?ref=
 
 Crawl-delay: 1
 
-Sitemap: https://www.nursenest.ca/sitemap.xml
+Sitemap: https://www.nursenest.ca/sitemap-index.xml

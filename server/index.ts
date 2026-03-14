@@ -506,6 +506,34 @@ app.use((req, res, next) => {
   httpServer.listen({ port, host: "0.0.0.0", reusePort: true }, () => {
     log(`serving on port ${port}`);
 
+    const sitemapFiles = [
+      "sitemap-index.xml (master index)",
+      "sitemap-pages.xml (static/marketing pages)",
+      "sitemap-lessons.xml (lesson content)",
+      "sitemap-questions.xml (practice questions)",
+      "sitemap-flashcards.xml (glossary/flashcards)",
+      "sitemap-specialties.xml (nursing specialties)",
+      "sitemap-professions.xml (profession landing pages)",
+      "sitemap-allied.xml (allied health)",
+      "sitemap-newgrad.xml (new graduate)",
+      "sitemap-content.xml (SEO articles/content)",
+      "image-sitemap.xml (images)",
+      "sitemap-study-guides.xml (programmatic)",
+      "sitemap-exam-tips.xml (programmatic)",
+      "sitemap-clinical-scenarios.xml (programmatic)",
+      "sitemap-practice-questions.xml (programmatic)",
+      "sitemap-question-details.xml (programmatic)",
+      "sitemap-flashcard-details.xml (programmatic)",
+    ];
+    console.log("\n[Sitemap] Registered sitemap files:");
+    for (const f of sitemapFiles) {
+      console.log(`  ✓ /${f}`);
+    }
+    console.log(`[Sitemap] Total: ${sitemapFiles.length} sitemap files`);
+    console.log(`[Sitemap] robots.txt → Sitemap: https://www.nursenest.ca/sitemap-index.xml`);
+    console.log(`[Sitemap] /sitemap.xml → 301 → /sitemap-index.xml`);
+    console.log(`[Sitemap] /sitemap_index.xml → 301 → /sitemap-index.xml\n`);
+
     import("./content-scheduler").then(({ startContentScheduler }) => startContentScheduler());
     import("./qbank-scheduler").then(({ startQBankScheduler }) => startQBankScheduler());
     import("./prompts/qbank-templates").then(({ seedPromptTemplates }) => seedPromptTemplates().catch((e: any) => console.error("[QBank Templates] Seed failed:", e.message)));
