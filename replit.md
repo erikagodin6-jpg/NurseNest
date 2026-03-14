@@ -52,12 +52,13 @@ Key systems and engines include:
 - **ICU/CCRN Critical Care Content**: Over 1,500 ICU-level exam questions covering 6 CCRN domains, generated via AI.
 - **Email Marketing Network**: Cross-platform email subscription categories (exam_prep, new_grad_tips, job_alerts, general) with contextual signup forms, section-aware exit intent modal, and a subscriber preference center page.
 - **Offline Study System**: IndexedDB-based offline storage for question packs and flashcard decks with sync capabilities.
-- **Multi-Profession Framework**: Dynamic system for managing new healthcare professions.
-- **Universal Question Bank Importer**: Supports CSV, JSON, and XLSX imports.
-- **Translation Coverage Dashboard**: Admin tool for auditing translation completeness.
-- **Allied Health Marketing & SEO Ecosystem**: Comprehensive marketing infrastructure with long-tail SEO, authority pages, email capture, and social media content templates.
-- **Lead Capture Funnels**: Contextual lead capture forms integrated across the platform.
+- **Multi-Profession Framework**: Dynamic profession management system for adding/configuring new healthcare professions.
+- **Universal Question Bank Importer**: Bulk question import system supporting CSV, JSON, and XLSX, with validation and duplicate detection.
+- **Translation Coverage Dashboard**: Admin tool for auditing translation completeness across locales for UI, DB content, and lessons.
+- **Allied Health Marketing & SEO Ecosystem**: Comprehensive marketing infrastructure across all 8 allied health professions (Pharmacy Tech, RRT, Paramedic, MLT, Medical Imaging, Ultrasound, PTA, OTA). Includes long-tail SEO blog topic templates (10 per profession), authority pages (Top 100 Questions, Study Guide, Ultimate Guide), profession-specific email capture, social media content templates (Instagram/TikTok/Pinterest/LinkedIn), A/B-ready conversion CTAs, structured data (EducationalOrganization/Course/FAQPage), analytics tracking, and an admin progress dashboard at `/admin/allied-marketing`.
+- **Lead Capture Funnels**: Contextual lead capture forms across marketing and content pages. Three reusable components (`InlineLeadCapture`, `EndOfContentLeadCapture`, `StickyLeadBanner`, `BlogInlineLeadCapture`) in `client/src/components/lead-capture.tsx`. Supports three lead magnet types: study_guide, practice_questions, mock_exam. Captures profession context and source page. Integrated across profession hub, exam hub, nursing hub, NP exam hub, medical imaging hub, NCLEX-RN guide, REX-PN guide, blog listing, and individual blog post pages. Data stored in `email_subscribers` table with `lead_magnet_type` and `profession_context` columns, flowing through `/api/subscribe` endpoint.
 
+### Database Architecture
 The platform utilizes PostgreSQL with Drizzle ORM for database management.
 
 ## External Dependencies
@@ -71,7 +72,7 @@ The platform utilizes PostgreSQL with Drizzle ORM for database management.
 - PayPal SDK
 
 ### AI/Content Generation
-- OpenAI (for blog posts, AI flashcards, lesson content, AI medical images, micro-lectures, adaptive engines, and various content pipelines)
+- OpenAI (for content generation, adaptive engines, and various content pipelines)
 
 ### Social Media
 - Meta Graph API (for social media scheduling)

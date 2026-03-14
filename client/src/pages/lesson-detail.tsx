@@ -31,6 +31,8 @@ import { generateLessonSeoDescription, generateLessonKeywords, buildLessonStruct
 import { buildFaqFromQuizQuestions } from "@/lib/structured-data";
 import { trackMilestone } from "@/components/upgrade-prompt";
 import { getInternalLinksForLesson } from "@/data/internal-links";
+import { getConditionSlugsForLesson } from "@/data/cross-profession-conditions";
+import { getConditionBySlug } from "@/data/seo-conditions";
 import { LessonQuizEmbed } from "@/components/lesson-quiz-embed";
 import { getLessonImage } from "@/lib/system-images";
 import { ProtectedImage } from "@/components/protected-image";
@@ -3458,6 +3460,38 @@ export default function LessonDetail() {
         })()}
 
         <LessonQuizEmbed lessonSlug={id || ""} />
+
+        {(() => {
+          const conditionSlugs = getConditionSlugsForLesson(id || "");
+          if (conditionSlugs.length === 0) return null;
+          const conditions = conditionSlugs.map(s => getConditionBySlug(s)).filter(Boolean);
+          if (conditions.length === 0) return null;
+          return (
+            <div className="mt-10 p-6 rounded-2xl bg-gradient-to-r from-indigo-50 to-purple-50 border border-indigo-100 shadow-sm" data-testid="section-condition-links">
+              <h3 className="text-lg font-semibold text-gray-900 mb-1">Related Condition Guides</h3>
+              <p className="text-sm text-gray-500 mb-4">Deep-dive condition pages with cross-profession perspectives</p>
+              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                {conditions.map((cond, i) => cond && (
+                  <LocaleLink
+                    key={cond.slug}
+                    href={`/conditions/${cond.slug}`}
+                    className="flex items-center gap-3 p-3 rounded-xl bg-white border border-indigo-100 hover:border-primary/30 hover:shadow-sm transition-all group"
+                    data-testid={`link-condition-${cond.slug}`}
+                  >
+                    <span className="w-8 h-8 rounded-lg bg-indigo-100 flex items-center justify-center flex-shrink-0">
+                      <Stethoscope className="w-4 h-4 text-indigo-500" />
+                    </span>
+                    <div className="min-w-0">
+                      <span className="text-sm font-medium text-gray-700 group-hover:text-primary block truncate">{cond.name}</span>
+                      <span className="text-xs text-gray-400">{cond.bodySystem}</span>
+                    </div>
+                    <ArrowRight className="w-3.5 h-3.5 text-gray-300 group-hover:text-primary ml-auto flex-shrink-0" />
+                  </LocaleLink>
+                ))}
+              </div>
+            </div>
+          );
+        })()}
 
         {(() => {
           const contextualLinks = getInternalLinksForLesson(id || "");

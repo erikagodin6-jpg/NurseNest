@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useParams } from "wouter";
 import { SEO } from "@/components/seo";
 import { getConditionBySlug, getAllConditionSlugs, type ConditionPageData } from "@/data/seo-conditions";
+import { getCrossProfessionByConditionSlug } from "@/data/cross-profession-conditions";
 import { LocaleLink } from "@/lib/LocaleLink";
 import {
   ChevronDown,
@@ -18,6 +19,8 @@ import {
   HelpCircle,
   ArrowRight,
   FileText,
+  Users,
+  GraduationCap,
 } from "lucide-react";
 
 function FAQItem({ question, answer, index }: { question: string; answer: string; index: number }) {
@@ -205,7 +208,7 @@ export default function ConditionPage() {
               {condition.name}
             </h1>
             <p className="text-lg text-white/80 leading-relaxed max-w-3xl" data-testid="text-condition-subtitle">
-              Complete nursing study guide with pathophysiology, clinical presentation, diagnostics, medications, and nursing interventions.
+              Complete study guide with pathophysiology, clinical presentation, diagnostics, medications, and cross-profession perspectives from nursing, paramedic, respiratory therapy, and laboratory science.
             </p>
           </div>
         </section>
@@ -363,6 +366,102 @@ export default function ConditionPage() {
               </ol>
             </div>
           </section>
+
+          {(() => {
+            const crossProfession = getCrossProfessionByConditionSlug(condition.slug);
+            if (!crossProfession || crossProfession.perspectives.length === 0) return null;
+            const professionColors: Record<string, { bg: string; text: string; border: string; icon: string }> = {
+              rn: { bg: "bg-blue-50", text: "text-blue-700", border: "border-blue-200", icon: "text-blue-500" },
+              paramedic: { bg: "bg-red-50", text: "text-red-700", border: "border-red-200", icon: "text-red-500" },
+              rrt: { bg: "bg-teal-50", text: "text-teal-700", border: "border-teal-200", icon: "text-teal-500" },
+              mlt: { bg: "bg-purple-50", text: "text-purple-700", border: "border-purple-200", icon: "text-purple-500" },
+            };
+            return (
+              <section data-testid="section-cross-profession">
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="w-10 h-10 rounded-xl bg-indigo-50 flex items-center justify-center">
+                    <Users className="w-5 h-5 text-indigo-500" />
+                  </div>
+                  <div>
+                    <h2 className="text-2xl font-bold text-[#2E3A59]">Cross-Profession Perspectives</h2>
+                    <p className="text-sm text-gray-500">How different healthcare professionals approach {condition.name}</p>
+                  </div>
+                </div>
+                <div className="space-y-6">
+                  {crossProfession.perspectives.map((perspective, pIdx) => {
+                    const colors = professionColors[perspective.professionSlug] || { bg: "bg-gray-50", text: "text-gray-700", border: "border-gray-200", icon: "text-gray-500" };
+                    return (
+                      <div key={pIdx} className={`bg-white border ${colors.border} rounded-xl overflow-hidden`} data-testid={`card-profession-${perspective.professionSlug}`}>
+                        <div className={`${colors.bg} px-6 py-4 border-b ${colors.border}`}>
+                          <h2 className={`text-lg font-bold ${colors.text} flex items-center gap-2`}>
+                            <GraduationCap className={`w-5 h-5 ${colors.icon}`} />
+                            {perspective.profession} Perspective
+                          </h2>
+                        </div>
+                        <div className="p-6 space-y-4">
+                          <p className="text-gray-700 leading-relaxed text-sm" data-testid={`text-perspective-${perspective.professionSlug}`}>{perspective.approach}</p>
+
+                          {perspective.lessonSlugs.length > 0 && (
+                            <div>
+                              <h3 className="text-sm font-semibold text-gray-900 mb-2 flex items-center gap-1.5">
+                                <BookOpen className="w-4 h-4 text-gray-400" />
+                                Related Lessons
+                              </h3>
+                              <div className="flex flex-wrap gap-2">
+                                {perspective.lessonSlugs.map((slug) => (
+                                  <LocaleLink
+                                    key={slug}
+                                    href={`/lessons/${slug}`}
+                                    className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg ${colors.bg} ${colors.text} text-xs font-medium hover:opacity-80 transition-opacity`}
+                                    data-testid={`link-profession-lesson-${perspective.professionSlug}-${slug}`}
+                                  >
+                                    <ArrowRight className="w-3 h-3" />
+                                    {slug.replace(/-/g, " ").replace(/\b\w/g, c => c.toUpperCase())}
+                                  </LocaleLink>
+                                ))}
+                              </div>
+                            </div>
+                          )}
+
+                          {perspective.practiceQuestionTopics.length > 0 && (
+                            <div>
+                              <h3 className="text-sm font-semibold text-gray-900 mb-2 flex items-center gap-1.5">
+                                <ClipboardList className="w-4 h-4 text-gray-400" />
+                                Practice Question Topics
+                              </h3>
+                              <div className="flex flex-wrap gap-1.5">
+                                {perspective.practiceQuestionTopics.map((topic, tIdx) => (
+                                  <span key={tIdx} className="px-2.5 py-1 rounded-full bg-gray-100 text-gray-600 text-xs" data-testid={`tag-question-topic-${perspective.professionSlug}-${tIdx}`}>
+                                    {topic}
+                                  </span>
+                                ))}
+                              </div>
+                            </div>
+                          )}
+
+                          {perspective.flashcardTopics.length > 0 && (
+                            <div>
+                              <h3 className="text-sm font-semibold text-gray-900 mb-2 flex items-center gap-1.5">
+                                <FileText className="w-4 h-4 text-gray-400" />
+                                Flashcard Topics
+                              </h3>
+                              <div className="flex flex-wrap gap-1.5">
+                                {perspective.flashcardTopics.map((topic, tIdx) => (
+                                  <span key={tIdx} className="px-2.5 py-1 rounded-full bg-gray-100 text-gray-600 text-xs" data-testid={`tag-flashcard-topic-${perspective.professionSlug}-${tIdx}`}>
+                                    {topic}
+                                  </span>
+                                ))}
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </section>
+            );
+          })()}
 
           <section data-testid="section-practice-questions">
             <div className="flex items-center gap-3 mb-4">
