@@ -1,3 +1,15 @@
+import {
+  trackGA4ExamStart,
+  trackGA4ExamComplete,
+  trackGA4QuizStart,
+  trackGA4QuizComplete,
+  trackGA4LessonStart,
+  trackGA4LessonComplete,
+  trackGA4FlashcardStudy,
+  trackGA4Upgrade,
+  trackGA4CtaClick,
+} from "@/components/analytics-tracker";
+
 type MltEventCategory = "page_view" | "quiz" | "lesson" | "flashcard" | "exam" | "conversion" | "study_plan" | "wrong_answer" | "remediation";
 
 interface MltAnalyticsEvent {
@@ -74,6 +86,7 @@ export function trackMltQuizStart(discipline: string, questionCount: number): vo
     eventLabel: discipline,
     eventValue: questionCount,
   });
+  trackGA4QuizStart("mlt", discipline, questionCount);
 }
 
 export function trackMltQuizComplete(discipline: string, score: number, total: number): void {
@@ -85,6 +98,7 @@ export function trackMltQuizComplete(discipline: string, score: number, total: n
     eventValue: score,
     metadata: { total, percentage: Math.round((score / total) * 100) },
   });
+  trackGA4QuizComplete("mlt", discipline, score, total);
 }
 
 export function trackMltLessonStart(lessonId: string, discipline: string): void {
@@ -95,6 +109,7 @@ export function trackMltLessonStart(lessonId: string, discipline: string): void 
     eventLabel: discipline,
     metadata: { lessonId },
   });
+  trackGA4LessonStart("mlt", lessonId);
 }
 
 export function trackMltLessonComplete(lessonId: string, discipline: string): void {
@@ -105,6 +120,7 @@ export function trackMltLessonComplete(lessonId: string, discipline: string): vo
     eventLabel: discipline,
     metadata: { lessonId },
   });
+  trackGA4LessonComplete("mlt", lessonId);
 }
 
 export function trackMltFlashcardStudy(deckTitle: string, cardsStudied: number): void {
@@ -115,6 +131,7 @@ export function trackMltFlashcardStudy(deckTitle: string, cardsStudied: number):
     eventLabel: deckTitle,
     eventValue: cardsStudied,
   });
+  trackGA4FlashcardStudy("mlt", deckTitle, cardsStudied);
 }
 
 export function trackMltExamStart(examType: string, country: string): void {
@@ -125,6 +142,7 @@ export function trackMltExamStart(examType: string, country: string): void {
     eventLabel: examType,
     country,
   });
+  trackGA4ExamStart("mlt", examType);
 }
 
 export function trackMltExamComplete(examType: string, score: number, country: string): void {
@@ -136,6 +154,7 @@ export function trackMltExamComplete(examType: string, score: number, country: s
     eventValue: score,
     country,
   });
+  trackGA4ExamComplete("mlt", examType, score, 100);
 }
 
 export function trackMltConversionEvent(action: string, tier?: string): void {
@@ -145,6 +164,13 @@ export function trackMltConversionEvent(action: string, tier?: string): void {
     eventAction: action,
     eventLabel: tier,
   });
+  if (action === "upgrade" && tier) {
+    trackGA4Upgrade("mlt", "free", tier);
+  } else if (action === "signup") {
+    trackGA4Signup("mlt", "conversion");
+  } else {
+    trackGA4CtaClick("mlt", action);
+  }
 }
 
 export function trackMltUpgradePromptShown(location: string): void {
@@ -163,4 +189,5 @@ export function trackMltUpgradeClick(location: string): void {
     eventAction: "upgrade_click",
     eventLabel: location,
   });
+  trackGA4CtaClick("mlt", "upgrade");
 }

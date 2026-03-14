@@ -1,3 +1,18 @@
+import {
+  trackGA4ExamStart,
+  trackGA4ExamComplete,
+  trackGA4QuizStart,
+  trackGA4QuizComplete,
+  trackGA4QuestionAnswered,
+  trackGA4Signup,
+  trackGA4EmailCapture,
+  trackGA4Upgrade,
+  trackGA4LessonStart,
+  trackGA4LessonComplete,
+  trackGA4FlashcardStudy,
+  trackGA4CtaClick,
+} from "@/components/analytics-tracker";
+
 type AlliedEventCategory = "page_view" | "quiz" | "lesson" | "flashcard" | "exam" | "conversion" | "study_plan" | "cta_click" | "email_capture" | "social_share";
 
 interface AlliedAnalyticsEvent {
@@ -86,6 +101,7 @@ export function trackAlliedQuizStart(profession: string, topic: string, question
     eventLabel: topic,
     eventValue: questionCount,
   });
+  trackGA4QuizStart(profession, topic, questionCount);
 }
 
 export function trackAlliedQuizComplete(profession: string, topic: string, score: number, total: number): void {
@@ -98,6 +114,7 @@ export function trackAlliedQuizComplete(profession: string, topic: string, score
     eventValue: score,
     metadata: { total, percentage: Math.round((score / total) * 100) },
   });
+  trackGA4QuizComplete(profession, topic, score, total);
 }
 
 export function trackAlliedLessonStart(profession: string, lessonId: string): void {
@@ -108,6 +125,7 @@ export function trackAlliedLessonStart(profession: string, lessonId: string): vo
     profession,
     eventLabel: lessonId,
   });
+  trackGA4LessonStart(profession, lessonId);
 }
 
 export function trackAlliedLessonComplete(profession: string, lessonId: string): void {
@@ -118,6 +136,7 @@ export function trackAlliedLessonComplete(profession: string, lessonId: string):
     profession,
     eventLabel: lessonId,
   });
+  trackGA4LessonComplete(profession, lessonId);
 }
 
 export function trackAlliedFlashcardStudy(profession: string, deckTitle: string, cardsStudied: number): void {
@@ -129,6 +148,7 @@ export function trackAlliedFlashcardStudy(profession: string, deckTitle: string,
     eventLabel: deckTitle,
     eventValue: cardsStudied,
   });
+  trackGA4FlashcardStudy(profession, deckTitle, cardsStudied);
 }
 
 export function trackAlliedExamStart(profession: string, examType: string, country?: string): void {
@@ -140,6 +160,7 @@ export function trackAlliedExamStart(profession: string, examType: string, count
     eventLabel: examType,
     country,
   });
+  trackGA4ExamStart(profession, examType);
 }
 
 export function trackAlliedExamComplete(profession: string, examType: string, score: number, country?: string): void {
@@ -152,6 +173,7 @@ export function trackAlliedExamComplete(profession: string, examType: string, sc
     eventValue: score,
     country,
   });
+  trackGA4ExamComplete(profession, examType, score, 100);
 }
 
 export function trackAlliedConversion(profession: string, action: string, tier?: string): void {
@@ -162,6 +184,13 @@ export function trackAlliedConversion(profession: string, action: string, tier?:
     profession,
     eventLabel: tier,
   });
+  if (action === "upgrade" && tier) {
+    trackGA4Upgrade(profession, "free", tier);
+  } else if (action === "signup") {
+    trackGA4Signup(profession, "conversion");
+  } else {
+    trackGA4CtaClick(profession, action);
+  }
 }
 
 export function trackAlliedUpgradePromptShown(profession: string, location: string): void {
@@ -182,6 +211,7 @@ export function trackAlliedUpgradeClick(profession: string, location: string): v
     profession,
     eventLabel: location,
   });
+  trackGA4CtaClick(profession, "upgrade");
 }
 
 export function trackAlliedCtaClick(profession: string, ctaVariant: string, abVariant: string): void {
@@ -193,6 +223,7 @@ export function trackAlliedCtaClick(profession: string, ctaVariant: string, abVa
     eventLabel: ctaVariant,
     metadata: { abVariant },
   });
+  trackGA4CtaClick(profession, ctaVariant);
 }
 
 export function trackAlliedEmailCapture(profession: string, source: string): void {
@@ -203,6 +234,18 @@ export function trackAlliedEmailCapture(profession: string, source: string): voi
     profession,
     eventLabel: source,
   });
+  trackGA4EmailCapture(profession, source);
+}
+
+export function trackAlliedSignup(profession: string, source: string): void {
+  trackAlliedEvent({
+    eventType: "signup",
+    eventCategory: "conversion",
+    eventAction: "signup",
+    profession,
+    eventLabel: source,
+  });
+  trackGA4Signup(profession, source);
 }
 
 export function trackAlliedPracticeQuestionUsage(profession: string, questionId: string, correct: boolean): void {
@@ -214,6 +257,7 @@ export function trackAlliedPracticeQuestionUsage(profession: string, questionId:
     eventLabel: questionId,
     eventValue: correct ? 1 : 0,
   });
+  trackGA4QuestionAnswered(profession, correct);
 }
 
 export function trackAlliedMockExamAttempt(profession: string, examId: string, score: number, totalQuestions: number): void {
@@ -226,4 +270,5 @@ export function trackAlliedMockExamAttempt(profession: string, examId: string, s
     eventValue: score,
     metadata: { totalQuestions, percentage: Math.round((score / totalQuestions) * 100) },
   });
+  trackGA4ExamComplete(profession, examId, score, totalQuestions);
 }
