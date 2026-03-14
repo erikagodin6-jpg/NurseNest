@@ -583,6 +583,10 @@ app.use((req, res, next) => {
   const { loadStripePrices } = await import("./stripe-pricing");
   loadStripePrices();
 
+  // Seed/upsert pricing plans from pricing-config.ts on startup
+  const { seedPricingPlans } = await import("./seed-pricing-plans");
+  await seedPricingPlans();
+
   // Register the rest of your app routes
   await registerRoutes(httpServer, app);
 
