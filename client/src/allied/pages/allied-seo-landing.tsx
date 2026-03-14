@@ -557,6 +557,144 @@ const SEO_PAGES: SEOPageConfig[] = [
       { q: "How are the drugs organized?", a: "Drugs are grouped by therapeutic category matching the PTCB blueprint: cardiovascular, CNS, endocrine, anti-infective, respiratory, GI, and more. This helps you see relationships between drugs in the same class." }
     ]
   },
+  {
+    slug: "occupational-therapy-practice-questions",
+    careerSlug: "occupational-therapy",
+    pageType: "practice-questions",
+    title: "Occupational Therapy Practice Questions | NBCOT OTR & NOTCE Prep",
+    metaDescription: "Master occupational therapy certification with 500+ NBCOT OTR and NOTCE practice questions. Clinical case vignettes, detailed rationales, and adaptive weak-area targeting.",
+    h1: "Occupational Therapy Practice Questions",
+    heroSubtitle: "Exam-authentic NBCOT OTR and NOTCE practice questions with clinical case vignettes, detailed rationales covering evaluation, intervention planning, and professional practice across all OT domains.",
+    sections: [
+      {
+        heading: "Why Our OT Questions Stand Out",
+        content: "Generic question banks give you surface-level explanations. NurseNest Allied provides detailed clinical rationales for every question — covering the occupational therapy process, clinical reasoning, evidence-based practice, and decision-making behind each answer. Our questions span all NBCOT domains: Evaluation & Assessment, Intervention Planning, Intervention Implementation, Service Management, and Professional Practice. Each question uses clinical case vignettes that mirror the real exam format."
+      },
+      {
+        heading: "Adaptive Practice Engine",
+        content: "The NBCOT OTR exam includes both multiple-choice and clinical simulation items. Our adaptive engine adjusts question difficulty in real-time based on your answers, simulating the actual exam experience. You'll encounter increasingly complex case vignettes as your performance improves — building both confidence and clinical reasoning skills."
+      },
+      {
+        heading: "Comprehensive Domain Coverage",
+        content: "Our platform tracks your performance across every OT practice area: Evaluation & Assessment (standardized tools, occupational profiles), Intervention Planning (activity analysis, grading, adaptation), Pediatric OT (developmental milestones, sensory processing, school-based practice), Adult Rehabilitation (ADL/IADL, cognitive rehabilitation, physical dysfunction), Mental Health OT (therapeutic use of self, group dynamics), and Professional Practice (ethics, documentation, evidence-based practice)."
+      },
+      {
+        heading: "Clinical Case Vignette Format",
+        content: "Every practice question presents a realistic clinical scenario — a patient with specific occupational challenges, assessment findings, and contextual factors. You must analyze the case, apply clinical reasoning, and select the most appropriate OT intervention or assessment tool. This format directly prepares you for the case-based reasoning required on both the NBCOT OTR and NOTCE exams."
+      }
+    ],
+    faqs: [
+      { q: "How many OT practice questions are available?", a: "We currently have 500+ exam-authentic questions mapped to the NBCOT OTR and NOTCE blueprints, with new questions added regularly. Questions cover all OT practice domains including pediatrics, adult rehabilitation, mental health, and geriatrics." },
+      { q: "Are the questions aligned with the NBCOT exam?", a: "Yes. Every question is mapped to the official NBCOT OTR examination content outline, covering Evaluation & Assessment, Intervention Planning, Intervention Implementation, and Service Management domains." },
+      { q: "Do you cover pediatric OT questions?", a: "Extensively. Our question bank includes questions on developmental milestones, sensory processing disorders, school-based OT, early intervention, play-based assessment, and pediatric intervention techniques — each with detailed clinical rationales." },
+      { q: "What about the NOTCE exam for Canada?", a: "Yes. Our question bank includes content aligned with the NOTCE (National Occupational Therapy Certification Examination) administered by CAOT, covering Canadian practice standards and regulatory frameworks." },
+      { q: "Is there a free trial?", a: "Yes! Take our free diagnostic assessment to see your readiness score across all OT domains and get free practice questions to experience our rationale quality firsthand." },
+      { q: "How does the adaptive engine work?", a: "Our adaptive engine adjusts question difficulty based on your performance in real-time. It tracks your accuracy across all OT domains and prioritizes areas where you need the most practice." }
+    ]
+  },
+  {
+    slug: "occupational-therapy-study-guide",
+    careerSlug: "occupational-therapy",
+    pageType: "study-guide",
+    title: "Occupational Therapy Study Guide | Complete NBCOT OTR & NOTCE Prep",
+    metaDescription: "Comprehensive occupational therapy study guide with personalized study plans, flashcards, case simulations, and activity analysis tools. Everything you need to pass the NBCOT OTR or NOTCE.",
+    h1: "Occupational Therapy Study Guide",
+    heroSubtitle: "A complete, adaptive study system covering every NBCOT and NOTCE domain — from evaluation and assessment to intervention planning, pediatric OT, and professional practice.",
+    sections: [
+      {
+        heading: "Personalized Study Plans",
+        content: "Our platform analyzes your diagnostic results and ongoing performance to create a day-by-day study plan tailored to your timeline and weak areas. Whether you have 4 weeks or 3 months until your exam, the study planner adapts to ensure you cover every OT domain with appropriate depth — prioritizing evaluation & assessment, intervention techniques, and clinical reasoning."
+      },
+      {
+        heading: "Comprehensive OT Domain Coverage",
+        content: "Our study materials cover every NBCOT domain in depth: Evaluation & Assessment (standardized tools, occupational profiles, functional evaluation), Intervention Planning (activity analysis, grading, adaptation, SMART goals), Intervention Implementation (therapeutic techniques, adaptive equipment, environmental modification), Pediatric OT (developmental milestones, sensory integration, school-based practice), Adult Rehabilitation (ADL/IADL training, cognitive rehabilitation, physical dysfunction), Mental Health (therapeutic use of self, group dynamics, psychosocial interventions), and Professional Practice (ethics, documentation, evidence-based practice)."
+      },
+      {
+        heading: "Spaced Repetition Flashcards",
+        content: "Master key OT concepts with our spaced repetition flashcard system. Cards cover assessment tools, frames of reference, developmental milestones, activity analysis components, adaptive equipment, and clinical terminology — automatically resurfacing at optimal intervals based on your performance for long-term retention."
+      },
+      {
+        heading: "Clinical Case Simulations",
+        content: "Go beyond memorization with unfolding case simulations that mirror real OT clinical scenarios. Practice evaluation selection, intervention planning, goal writing, and discharge planning across pediatric, adult, and geriatric populations — building the clinical judgment tested on the NBCOT OTR and NOTCE exams."
+      }
+    ],
+    faqs: [
+      { q: "How does the study plan work?", a: "After you complete the diagnostic assessment, the platform creates a personalized study schedule. It prioritizes your weakest OT domains, allocates study time based on your exam date, and adjusts daily as your performance improves." },
+      { q: "What study materials are included?", a: "Pro members get access to the full question bank, flashcards, mock exams, case simulations, activity analysis tools, SMART goal practice, personalized study planner, and all interactive tools. Everything you need in one platform." },
+      { q: "How are the flashcards organized?", a: "Flashcards are organized by OT domain and topic — assessment tools, frames of reference, developmental milestones, conditions, and interventions. The spaced repetition algorithm tracks which cards you know well and which need more practice." },
+      { q: "Can I study on my phone?", a: "Yes! NurseNest Allied is fully responsive and works on any device. Study on your phone during breaks, on your tablet at home, or on your computer at your desk." },
+      { q: "How long should I study before taking the NBCOT?", a: "Most students use our platform for 8-12 weeks before their exam. The study planner will create an optimized schedule based on your timeline, starting knowledge level, and exam date." }
+    ]
+  },
+  {
+    slug: "physical-therapy-practice-questions",
+    careerSlug: "physical-therapy",
+    pageType: "practice-questions",
+    title: "Physical Therapy Practice Questions | NPTE & PCE Exam Prep",
+    metaDescription: "Master physical therapy certification with 500+ NPTE and PCE practice questions. Clinical case vignettes, detailed rationales, and adaptive weak-area targeting across all PT domains.",
+    h1: "Physical Therapy Practice Questions",
+    heroSubtitle: "Exam-authentic NPTE and PCE practice questions with clinical case vignettes, detailed rationales covering musculoskeletal, neuromuscular, cardiovascular, and integumentary systems.",
+    sections: [
+      {
+        heading: "Why Our PT Questions Stand Out",
+        content: "Generic question banks give you minimal explanations. NurseNest Allied provides detailed clinical rationales for every question — covering the physical therapy examination process, clinical decision-making, and evidence-based reasoning behind each answer. Our questions span all NPTE content areas: Musculoskeletal, Neuromuscular, Cardiovascular & Pulmonary, Integumentary, and Other Systems. Each question uses clinical case vignettes that mirror the real NPTE and PCE exam format."
+      },
+      {
+        heading: "Adaptive Practice Engine",
+        content: "The NPTE uses a fixed-format exam with 250 questions (200 scored + 50 pretest). Our adaptive practice engine adjusts question difficulty based on your performance, ensuring you're always challenged at the right level. When you demonstrate mastery of musculoskeletal content, the system increases difficulty and introduces more complex multi-system cases."
+      },
+      {
+        heading: "Comprehensive System Coverage",
+        content: "Our platform tracks your performance across every NPTE system area: Musculoskeletal (orthopedic assessment, manual therapy, therapeutic exercise), Neuromuscular (neurological conditions, motor control, gait analysis), Cardiovascular & Pulmonary (cardiac rehabilitation, pulmonary function, exercise physiology), Integumentary (wound management, burns, skin conditions), and Other Systems (metabolic, endocrine, GI/GU conditions). It identifies your weakest areas and prioritizes those topics."
+      },
+      {
+        heading: "Evidence-Based Clinical Reasoning",
+        content: "Every practice question requires you to apply clinical reasoning — analyzing patient history, physical examination findings, diagnostic test results, and functional limitations to determine the most appropriate PT intervention, examination technique, or plan of care. This critical thinking approach directly prepares you for the clinical decision-making required on the NPTE and PCE."
+      }
+    ],
+    faqs: [
+      { q: "How many PT practice questions are available?", a: "We currently have 500+ exam-authentic questions mapped to the NPTE and PCE blueprints, with new questions added regularly. Questions cover all body systems and practice settings including outpatient, inpatient, and home health." },
+      { q: "Are the questions aligned with the NPTE exam?", a: "Yes. Every question is mapped to the official NPTE content outline published by the FSBPT, covering all system categories and non-system categories including safety, professional practice, and research." },
+      { q: "Do you cover orthopedic and sports PT?", a: "Extensively. Our musculoskeletal section includes questions on special tests, manual therapy techniques, therapeutic exercise progression, post-surgical rehabilitation protocols, and sports-specific return-to-play criteria — each with detailed biomechanical rationales." },
+      { q: "What about the PCE exam for Canada?", a: "Yes. Our question bank includes content aligned with the Physiotherapy Competency Examination (PCE) administered by the Canadian Alliance of Physiotherapy Regulators, covering Canadian practice standards and SI units." },
+      { q: "Is there a free trial?", a: "Yes! Take our free diagnostic assessment to evaluate your readiness across all PT system areas and get free practice questions to experience our detailed clinical rationales." },
+      { q: "How does weak-area targeting work?", a: "Our platform tracks your accuracy across every NPTE content area. It identifies your weakest systems and automatically prioritizes those topics in your practice sessions, so you spend study time where it matters most." }
+    ]
+  },
+  {
+    slug: "physical-therapy-study-guide",
+    careerSlug: "physical-therapy",
+    pageType: "study-guide",
+    title: "Physical Therapy Study Guide | Complete NPTE & PCE Exam Prep",
+    metaDescription: "Comprehensive physical therapy study guide with personalized study plans, flashcards, clinical case simulations, and biomechanics tools. Everything you need to pass the NPTE or PCE.",
+    h1: "Physical Therapy Study Guide",
+    heroSubtitle: "A complete, adaptive study system covering every NPTE and PCE domain — from musculoskeletal and neuromuscular systems to cardiovascular, integumentary, and professional practice.",
+    sections: [
+      {
+        heading: "Personalized Study Plans",
+        content: "Our platform analyzes your diagnostic results and ongoing performance to create a day-by-day study plan tailored to your timeline and weak areas. Whether you have 4 weeks or 4 months until your exam, the study planner adapts to ensure you cover every system area with appropriate depth — prioritizing musculoskeletal, neuromuscular, and cardiovascular content based on their exam weight."
+      },
+      {
+        heading: "Complete NPTE System Coverage",
+        content: "Our study materials cover every NPTE system in depth: Musculoskeletal (orthopedic assessment, manual therapy, therapeutic exercise, biomechanics), Neuromuscular (neurological conditions, motor control, gait analysis, balance), Cardiovascular & Pulmonary (cardiac rehab, pulmonary function testing, exercise physiology), Integumentary (wound care, burns, pressure injury management), and Other Systems (metabolic, endocrine, GI/GU). Non-system content includes safety, professional practice, research, and pharmacology."
+      },
+      {
+        heading: "Spaced Repetition Flashcards",
+        content: "Master key PT concepts with our spaced repetition flashcard system. Cards cover special tests, manual therapy techniques, neurological assessments, gait deviations, pharmacology, and clinical terminology — automatically resurfacing at optimal intervals based on your performance for long-term retention."
+      },
+      {
+        heading: "Clinical Case Simulations",
+        content: "Go beyond memorization with unfolding clinical case simulations that mirror real PT practice. Evaluate patients, interpret diagnostic findings, design treatment plans, select appropriate interventions, and manage progression across outpatient, inpatient, and home health settings — building the clinical judgment tested on the NPTE and PCE exams."
+      }
+    ],
+    faqs: [
+      { q: "How does the study plan work?", a: "After completing the diagnostic assessment, the platform creates a personalized study schedule. It prioritizes your weakest systems, allocates study time based on NPTE content weighting and your exam date, and adjusts daily as your performance improves." },
+      { q: "What study materials are included?", a: "Pro members get access to the full question bank (500+ questions), flashcards, mock exams, clinical case simulations, biomechanics tools, personalized study planner, and all interactive tools — everything you need in one platform." },
+      { q: "How are the flashcards organized?", a: "Flashcards are organized by body system and topic — special tests, manual therapy techniques, neurological assessments, conditions, interventions, and pharmacology. The spaced repetition algorithm optimizes your review schedule automatically." },
+      { q: "Can I study on my phone?", a: "Yes! NurseNest Allied is fully responsive and works on any device. Study on your phone during breaks, on your tablet at home, or on your computer at your desk." },
+      { q: "How long should I study before taking the NPTE?", a: "Most students use our platform for 8-16 weeks before their exam. The study planner creates an optimized schedule based on your timeline, starting knowledge level, and target score." }
+    ]
+  },
 ];
 
 function getPageBySlug(slug: string): SEOPageConfig | undefined {
@@ -630,15 +768,25 @@ export default function AlliedSeoLandingPage({ pageSlug }: { pageSlug: string })
             }
           }))
         }}
-        additionalStructuredData={[{
-          "@context": "https://schema.org",
-          "@type": "BreadcrumbList",
-          "itemListElement": [
-            { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://allied.nursenest.ca/" },
-            { "@type": "ListItem", "position": 2, "name": career?.name || "Allied Health", "item": `https://allied.nursenest.ca/career/${page.careerSlug}` },
-            { "@type": "ListItem", "position": 3, "name": page.h1, "item": `https://allied.nursenest.ca/${page.slug}` }
-          ]
-        }]}
+        additionalStructuredData={[
+          {
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://allied.nursenest.ca/" },
+              { "@type": "ListItem", "position": 2, "name": career?.name || "Allied Health", "item": `https://allied.nursenest.ca/career/${page.careerSlug}` },
+              { "@type": "ListItem", "position": 3, "name": page.h1, "item": `https://allied.nursenest.ca/${page.slug}` }
+            ]
+          },
+          {
+            "@context": "https://schema.org",
+            "@type": "Course",
+            "name": page.h1,
+            "description": page.metaDescription,
+            "provider": { "@type": "Organization", "name": "NurseNest Allied", "sameAs": "https://allied.nursenest.ca" },
+            "hasCourseInstance": { "@type": "CourseInstance", "courseMode": "online", "courseWorkload": "PT40H" }
+          }
+        ]}
       />
       <section className="bg-gradient-to-br from-gray-900 via-gray-800 to-teal-900 text-white py-16 md:py-20">
         <div className="max-w-4xl mx-auto px-4 text-center">
@@ -792,6 +940,61 @@ export default function AlliedSeoLandingPage({ pageSlug }: { pageSlug: string })
           <FAQAccordion faqs={page.faqs} />
         </div>
       </section>
+
+      {page.careerSlug === "occupational-therapy" && (
+        <section className="py-8 bg-gray-50 border-t border-gray-100">
+          <div className="max-w-4xl mx-auto px-4">
+            <h3 className="text-lg font-bold text-gray-900 mb-4">Related Exam Prep</h3>
+            <div className="flex flex-wrap gap-3">
+              <Link href="/occupational-therapy-exam-prep" className="inline-flex items-center gap-2 px-4 py-2 bg-white rounded-lg border border-gray-200 text-sm font-medium text-gray-700 hover:border-teal-300 hover:text-teal-700 transition-colors" data-testid="link-related-ot-exam-prep">
+                <ArrowRight className="w-3.5 h-3.5" /> OT Exam Prep Hub
+              </Link>
+              <Link href="/occupational-therapy-practice-questions" className="inline-flex items-center gap-2 px-4 py-2 bg-white rounded-lg border border-gray-200 text-sm font-medium text-gray-700 hover:border-teal-300 hover:text-teal-700 transition-colors" data-testid="link-related-ot-practice">
+                <ArrowRight className="w-3.5 h-3.5" /> OT Practice Questions
+              </Link>
+              <Link href="/occupational-therapy-study-guide" className="inline-flex items-center gap-2 px-4 py-2 bg-white rounded-lg border border-gray-200 text-sm font-medium text-gray-700 hover:border-teal-300 hover:text-teal-700 transition-colors" data-testid="link-related-ot-study">
+                <ArrowRight className="w-3.5 h-3.5" /> OT Study Guide
+              </Link>
+              <Link href="/physical-therapy-exam-prep" className="inline-flex items-center gap-2 px-4 py-2 bg-white rounded-lg border border-gray-200 text-sm font-medium text-gray-700 hover:border-teal-300 hover:text-teal-700 transition-colors" data-testid="link-related-pt-exam-prep">
+                <ArrowRight className="w-3.5 h-3.5" /> Physical Therapy Exam Prep
+              </Link>
+              <Link href="/physical-therapy-practice-questions" className="inline-flex items-center gap-2 px-4 py-2 bg-white rounded-lg border border-gray-200 text-sm font-medium text-gray-700 hover:border-teal-300 hover:text-teal-700 transition-colors" data-testid="link-related-pt-practice">
+                <ArrowRight className="w-3.5 h-3.5" /> PT Practice Questions
+              </Link>
+              <Link href="/physical-therapy-study-guide" className="inline-flex items-center gap-2 px-4 py-2 bg-white rounded-lg border border-gray-200 text-sm font-medium text-gray-700 hover:border-teal-300 hover:text-teal-700 transition-colors" data-testid="link-related-pt-study">
+                <ArrowRight className="w-3.5 h-3.5" /> PT Study Guide
+              </Link>
+            </div>
+          </div>
+        </section>
+      )}
+      {page.careerSlug === "physical-therapy" && (
+        <section className="py-8 bg-gray-50 border-t border-gray-100">
+          <div className="max-w-4xl mx-auto px-4">
+            <h3 className="text-lg font-bold text-gray-900 mb-4">Related Exam Prep</h3>
+            <div className="flex flex-wrap gap-3">
+              <Link href="/physical-therapy-exam-prep" className="inline-flex items-center gap-2 px-4 py-2 bg-white rounded-lg border border-gray-200 text-sm font-medium text-gray-700 hover:border-teal-300 hover:text-teal-700 transition-colors" data-testid="link-related-pt-exam-prep">
+                <ArrowRight className="w-3.5 h-3.5" /> PT Exam Prep Hub
+              </Link>
+              <Link href="/physical-therapy-practice-questions" className="inline-flex items-center gap-2 px-4 py-2 bg-white rounded-lg border border-gray-200 text-sm font-medium text-gray-700 hover:border-teal-300 hover:text-teal-700 transition-colors" data-testid="link-related-pt-practice">
+                <ArrowRight className="w-3.5 h-3.5" /> PT Practice Questions
+              </Link>
+              <Link href="/physical-therapy-study-guide" className="inline-flex items-center gap-2 px-4 py-2 bg-white rounded-lg border border-gray-200 text-sm font-medium text-gray-700 hover:border-teal-300 hover:text-teal-700 transition-colors" data-testid="link-related-pt-study">
+                <ArrowRight className="w-3.5 h-3.5" /> PT Study Guide
+              </Link>
+              <Link href="/occupational-therapy-exam-prep" className="inline-flex items-center gap-2 px-4 py-2 bg-white rounded-lg border border-gray-200 text-sm font-medium text-gray-700 hover:border-teal-300 hover:text-teal-700 transition-colors" data-testid="link-related-ot-exam-prep">
+                <ArrowRight className="w-3.5 h-3.5" /> Occupational Therapy Exam Prep
+              </Link>
+              <Link href="/occupational-therapy-practice-questions" className="inline-flex items-center gap-2 px-4 py-2 bg-white rounded-lg border border-gray-200 text-sm font-medium text-gray-700 hover:border-teal-300 hover:text-teal-700 transition-colors" data-testid="link-related-ot-practice">
+                <ArrowRight className="w-3.5 h-3.5" /> OT Practice Questions
+              </Link>
+              <Link href="/occupational-therapy-study-guide" className="inline-flex items-center gap-2 px-4 py-2 bg-white rounded-lg border border-gray-200 text-sm font-medium text-gray-700 hover:border-teal-300 hover:text-teal-700 transition-colors" data-testid="link-related-ot-study">
+                <ArrowRight className="w-3.5 h-3.5" /> OT Study Guide
+              </Link>
+            </div>
+          </div>
+        </section>
+      )}
 
       <section className="py-12 md:py-16 bg-gray-50">
         <div className="max-w-4xl mx-auto px-4">

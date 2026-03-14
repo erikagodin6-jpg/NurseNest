@@ -503,8 +503,65 @@ const EXAM_PREP_DATA: Record<string, ExamPrepConfig> = {
     ctaPrimary: { label: "Start Free Practice", href: "/occupational-therapist/question-bank" },
     ctaSecondary: { label: "Take Mock Exam", href: "/occupational-therapist/mock-exams" },
     relatedProfessions: [
+      { label: "Physical Therapy Exam Prep", href: "/physical-therapy-exam-prep" },
       { label: "Social Work Exam Prep", href: "/social-work-exam-prep" },
       { label: "Psychotherapy Exam Prep", href: "/psychotherapy-exam-prep" },
+    ],
+  },
+
+  "physical-therapy": {
+    slug: "physical-therapy-exam-prep",
+    title: "Physical Therapy Exam Prep | NPTE & PCE | NurseNest",
+    h1: "Physical Therapy Exam Prep",
+    description: "Prepare for PT licensing exams with practice questions, clinical case simulations, and blueprint-weighted mock exams.",
+    metaDescription: "Complete physical therapy exam preparation for NPTE (USA) and PCE (Canada). Practice questions, clinical case simulations, biomechanics tools, mock exams, and personalized study plans.",
+    keywords: "physical therapy exam prep, NPTE practice questions, PT licensing exam, physical therapy certification, PCE exam prep, PT mock exam, NPTE study guide, physical therapy flashcards, NPTE exam prep, FSBPT exam",
+    intro: "NurseNest provides comprehensive physical therapy exam preparation for both the NPTE exam (USA) and the PCE exam (Canada). Our platform features adaptive practice questions across all body systems, clinical case simulations for orthopedic, neurological, and cardiopulmonary patients, biomechanics tools, and blueprint-weighted mock exams with detailed clinical rationales written by licensed physical therapists.",
+    color: "#0D9488",
+    colorAccent: "#CCFBF1",
+    Icon: Activity,
+    examNames: ["NPTE-PT", "PCE"],
+    certifyingBodies: ["FSBPT (Federation of State Boards of Physical Therapy)", "CAPR (Canadian Alliance of Physiotherapy Regulators)", "State/Provincial PT Regulatory Boards"],
+    examFormat: "The NPTE-PT exam consists of 250 questions (200 scored + 50 pretest) in a 5-hour time limit. The PCE consists of a written component and a clinical component aligned with Canadian physiotherapy competency standards.",
+    features: [
+      { icon: Target, title: "PT Question Bank", desc: "500+ NPTE-aligned questions with clinical case vignettes across all body systems.", href: "/physical-therapy-practice-questions", cta: "Browse Questions" },
+      { icon: Stethoscope, title: "Mock Exam Simulator", desc: "Full-length NPTE simulations with domain scoring and performance analytics.", href: "/physical-therapy-exam-prep", cta: "Start Mock Exam" },
+      { icon: Activity, title: "Clinical Case Simulations", desc: "Practice clinical reasoning with orthopedic, neurological, and cardiopulmonary patient cases.", href: "/physical-therapy-practice-questions", cta: "Practice Cases" },
+      { icon: Layers, title: "Flashcard Decks", desc: "Spaced repetition flashcards for special tests, manual therapy, and pharmacology.", href: "/physical-therapy-study-guide", cta: "Study Flashcards" },
+    ],
+    domains: [
+      { name: "Musculoskeletal", description: "Orthopedic assessment, manual therapy, therapeutic exercise, biomechanics, and post-surgical rehab." },
+      { name: "Neuromuscular", description: "Neurological conditions, motor control, gait analysis, balance training, and vestibular rehabilitation." },
+      { name: "Cardiovascular & Pulmonary", description: "Cardiac rehabilitation, pulmonary function, exercise physiology, and vital sign monitoring." },
+      { name: "Integumentary", description: "Wound management, burns, pressure injuries, and skin condition assessment." },
+      { name: "Other Systems", description: "Metabolic, endocrine, GI/GU conditions, oncology rehab, and lymphedema management." },
+      { name: "Non-System Topics", description: "Safety, professional practice, research & EBP, pharmacology, and imaging interpretation." },
+    ],
+    stats: [
+      { label: "Practice Questions", value: "500+" },
+      { label: "Clinical Simulations", value: "80+" },
+      { label: "System Areas", value: "6" },
+      { label: "Country Tracks", value: "2" },
+    ],
+    studyTools: [
+      { icon: Activity, title: "Biomechanics Visualizer", description: "Interactive tools for understanding joint mechanics, muscle actions, and movement analysis." },
+      { icon: ClipboardList, title: "Special Tests Library", description: "Comprehensive library of orthopedic and neurological special tests with sensitivity/specificity data." },
+      { icon: Brain, title: "Gait Analysis Tool", description: "Interactive gait cycle analysis with common deviation identification and intervention planning." },
+      { icon: BarChart3, title: "Domain Analytics", description: "Track performance across all NPTE system areas with readiness scoring and study recommendations." },
+    ],
+    faqs: [
+      { q: "What PT exams do you cover?", a: "We cover the NPTE-PT exam (United States) and the PCE exam (Canada). Content is organized to cover both exam blueprints, with country-specific regulatory and practice standards." },
+      { q: "How many practice questions are available?", a: "Our question bank includes 500+ NPTE-aligned questions with detailed clinical rationales covering all body systems. New questions are added weekly." },
+      { q: "Do you cover orthopedic and sports PT?", a: "Yes. We include comprehensive musculoskeletal content covering special tests, manual therapy techniques, therapeutic exercise progression, post-surgical protocols, and sports rehabilitation." },
+      { q: "What about neurological PT content?", a: "Our content covers neuromuscular rehabilitation including stroke, TBI, spinal cord injury, Parkinson's disease, MS, vestibular disorders, and pediatric neurological conditions." },
+      { q: "Is there a free trial?", a: "Yes! Take a free diagnostic assessment to identify strengths and gaps across all PT system areas, plus access sample questions with full clinical rationales." },
+      { q: "How long should I study for the NPTE?", a: "Most students study 8-16 weeks. Our study planner creates an adaptive schedule based on your diagnostic results, exam date, and available study time." },
+    ],
+    ctaPrimary: { label: "Start Free Practice", href: "/physical-therapy-practice-questions" },
+    ctaSecondary: { label: "View Study Guide", href: "/physical-therapy-study-guide" },
+    relatedProfessions: [
+      { label: "Occupational Therapy Prep", href: "/occupational-therapy-exam-prep" },
+      { label: "Paramedic Exam Prep", href: "/paramedic-exam-prep" },
       { label: "Nursing Exam Prep", href: "/nclex-rn-practice-questions" },
     ],
   },
@@ -826,6 +883,7 @@ export function SocialWorkExamPrep() { return <AlliedExamPrepLanding config={EXA
 export function PsychotherapyExamPrep() { return <AlliedExamPrepLanding config={EXAM_PREP_DATA.psychotherapy} />; }
 export function AddictionsCounsellingExamPrep() { return <AlliedExamPrepLanding config={EXAM_PREP_DATA.addictions} />; }
 export function OccupationalTherapyExamPrep() { return <AlliedExamPrepLanding config={EXAM_PREP_DATA["occupational-therapy"]} />; }
+export function PhysicalTherapyExamPrep() { return <AlliedExamPrepLanding config={EXAM_PREP_DATA["physical-therapy"]} />; }
 export function NursingExamPrep() { return <AlliedExamPrepLanding config={EXAM_PREP_DATA.nursing} />; }
 
 export default AlliedExamPrepLanding;

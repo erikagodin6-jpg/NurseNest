@@ -100,6 +100,7 @@ const SocialWorkExamPrepLanding = lazy(() => import("@/pages/allied-exam-prep-la
 const PsychotherapyExamPrepLanding = lazy(() => import("@/pages/allied-exam-prep-landing").then(m => ({ default: m.PsychotherapyExamPrep })));
 const AddictionsCounsellingExamPrepLanding = lazy(() => import("@/pages/allied-exam-prep-landing").then(m => ({ default: m.AddictionsCounsellingExamPrep })));
 const OccupationalTherapyExamPrepLanding = lazy(() => import("@/pages/allied-exam-prep-landing").then(m => ({ default: m.OccupationalTherapyExamPrep })));
+const PhysicalTherapyExamPrepLanding = lazy(() => import("@/pages/allied-exam-prep-landing").then(m => ({ default: m.PhysicalTherapyExamPrep })));
 
 function CareerRedirect({ careerSlug, subPath }: { careerSlug?: string; subPath?: string }) {
   if (!careerSlug) return null;
@@ -328,7 +329,12 @@ export function AlliedRoutes() {
         <Route path="/psychotherapy-exam-prep" component={PsychotherapyExamPrepLanding} />
         <Route path="/addictions-counselling-exam-prep" component={AddictionsCounsellingExamPrepLanding} />
         <Route path="/occupational-therapy-exam-prep" component={OccupationalTherapyExamPrepLanding} />
-        <Route path="/physical-therapy-exam-prep">{() => { window.location.replace("/physical-therapy"); return null; }}</Route>
+        <Route path="/physical-therapy-exam-prep" component={PhysicalTherapyExamPrepLanding} />
+
+        <Route path="/occupational-therapy-practice-questions">{() => <AlliedSeoLanding pageSlug="occupational-therapy-practice-questions" />}</Route>
+        <Route path="/occupational-therapy-study-guide">{() => <AlliedSeoLanding pageSlug="occupational-therapy-study-guide" />}</Route>
+        <Route path="/physical-therapy-practice-questions">{() => <AlliedSeoLanding pageSlug="physical-therapy-practice-questions" />}</Route>
+        <Route path="/physical-therapy-study-guide">{() => <AlliedSeoLanding pageSlug="physical-therapy-study-guide" />}</Route>
 
         <Route path="/social-worker-exam-prep">{() => <UnderservedSEOPage profession="social-worker" pageType="exam-prep" />}</Route>
         <Route path="/social-worker-career-guide">{() => <UnderservedSEOPage profession="social-worker" pageType="career-guide" />}</Route>
@@ -343,11 +349,7 @@ export function AlliedRoutes() {
         <Route path="/addictions-counsellor-study-guide">{() => <UnderservedSEOPage profession="addictions-counsellor" pageType="study-guide" />}</Route>
         <Route path="/addictions-counsellor-practice-questions">{() => <UnderservedSEOPage profession="addictions-counsellor" pageType="practice-questions" />}</Route>
         <Route path="/occupational-therapy-career-guide">{() => <UnderservedSEOPage profession="occupational-therapy" pageType="career-guide" />}</Route>
-        <Route path="/occupational-therapy-study-guide">{() => <UnderservedSEOPage profession="occupational-therapy" pageType="study-guide" />}</Route>
-        <Route path="/occupational-therapy-practice-questions">{() => <UnderservedSEOPage profession="occupational-therapy" pageType="practice-questions" />}</Route>
         <Route path="/physical-therapy-career-guide">{() => <UnderservedSEOPage profession="physical-therapy" pageType="career-guide" />}</Route>
-        <Route path="/physical-therapy-study-guide">{() => <UnderservedSEOPage profession="physical-therapy" pageType="study-guide" />}</Route>
-        <Route path="/physical-therapy-practice-questions">{() => <UnderservedSEOPage profession="physical-therapy" pageType="practice-questions" />}</Route>
         <Route path="/occupational-therapist/question-bank" component={OTQuestionBankPage} />
         <Route path="/occupational-therapist/mock-exams" component={OTMockExamsPage} />
         <Route path="/occupational-therapist/study-plan" component={OTStudyPlanPage} />
