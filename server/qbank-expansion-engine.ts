@@ -1457,3 +1457,790 @@ export async function getExpansionStatus(): Promise<any> {
     recentEvents: events,
   };
 }
+
+const MEDICAL_SPECIALTIES_SUBSPECIALTIES = [
+  "Cardiac Nursing",
+  "Oncology Nursing",
+  "Nephrology/Dialysis Nursing",
+  "Gastroenterology Nursing",
+  "Neurology/Stroke Nursing",
+  "Pulmonary/Respiratory Nursing",
+  "Endocrine Nursing",
+] as const;
+
+const MEDICAL_SPECIALTIES_TOPICS: Record<string, string[]> = {
+  "Cardiac Nursing": [
+    "Heart Failure Management", "Acute Coronary Syndrome", "Arrhythmia & ECG Interpretation",
+    "Cardiac Catheterization & PCI", "Valve Disorders & Surgical Repair",
+    "Hypertensive Crisis Management", "Anticoagulation Therapy", "Cardiac Rehabilitation",
+    "Pericarditis & Endocarditis", "Peripheral Vascular Disease",
+    "DVT & Pulmonary Embolism Prevention", "Cardiac Medication Management",
+    "Heart Transplant Nursing", "Cardiomyopathy", "Cardiac Pacemaker & ICD Management",
+    "Lipid Management & Atherosclerosis", "Shock & Hemodynamic Monitoring",
+    "Post-Cardiac Surgery Nursing", "Congenital Heart Disease in Adults",
+    "Cardiac Patient Education & Lifestyle Modification",
+  ],
+  "Oncology Nursing": [
+    "Chemotherapy Administration & Safety", "Radiation Therapy Nursing",
+    "Cancer Pain Management", "Neutropenic Precautions", "Tumor Lysis Syndrome",
+    "Oncologic Emergencies", "Breast Cancer Nursing", "Lung Cancer Management",
+    "Colorectal Cancer Care", "Leukemia & Lymphoma Nursing",
+    "Hematopoietic Stem Cell Transplant", "Immunotherapy & Targeted Therapy",
+    "Palliative & End-of-Life Care", "Psychosocial Support in Oncology",
+    "Cancer Screening & Prevention", "Central Venous Access Device Management",
+    "Oncology Pharmacology", "Cancer-Related Fatigue Management",
+    "Surgical Oncology Nursing", "Survivorship & Long-Term Effects",
+  ],
+  "Nephrology/Dialysis Nursing": [
+    "Acute Kidney Injury", "Chronic Kidney Disease Staging", "Hemodialysis Nursing",
+    "Peritoneal Dialysis Management", "Vascular Access Care", "Fluid & Electrolyte Balance",
+    "Acid-Base Imbalances in Renal Disease", "Renal Transplant Nursing",
+    "Diabetic Nephropathy", "Hypertensive Nephrosclerosis",
+    "Glomerulonephritis", "Polycystic Kidney Disease", "Nephrotic Syndrome",
+    "Renal Diet & Nutrition", "Dialysis Complications & Management",
+    "Continuous Renal Replacement Therapy", "Renal Pharmacology",
+    "Uremia & Uremic Syndrome", "Kidney Stone Management",
+    "Psychosocial Aspects of Chronic Dialysis",
+  ],
+  "Gastroenterology Nursing": [
+    "GERD & Peptic Ulcer Disease", "Inflammatory Bowel Disease", "Liver Cirrhosis & Portal Hypertension",
+    "Hepatitis Management", "Pancreatitis Nursing", "GI Bleeding Assessment",
+    "Bowel Obstruction", "Celiac Disease & Malabsorption",
+    "Colorectal Surgery & Ostomy Care", "Endoscopy Procedure Nursing",
+    "Esophageal Varices", "Cholecystitis & Cholelithiasis",
+    "Diverticular Disease", "GI Pharmacology", "Enteral & Parenteral Nutrition",
+    "Liver Transplant Nursing", "Ascites Management", "Hepatic Encephalopathy",
+    "Irritable Bowel Syndrome", "GI Cancer Screening & Nursing",
+  ],
+  "Neurology/Stroke Nursing": [
+    "Ischemic Stroke Management", "Hemorrhagic Stroke Care", "TIA Assessment & Prevention",
+    "Seizure Disorders & Epilepsy", "Multiple Sclerosis Nursing",
+    "Parkinson Disease Management", "Myasthenia Gravis", "Guillain-Barre Syndrome",
+    "Traumatic Brain Injury", "Spinal Cord Injury Nursing",
+    "Meningitis & Encephalitis", "Intracranial Pressure Management",
+    "Neurological Assessment & GCS", "Neuropharmacology",
+    "Alzheimer Disease & Dementia Care", "Amyotrophic Lateral Sclerosis",
+    "Headache & Migraine Management", "Peripheral Neuropathy",
+    "Neurosurgical Post-Op Care", "Stroke Rehabilitation Nursing",
+  ],
+  "Pulmonary/Respiratory Nursing": [
+    "COPD Management & Exacerbation", "Asthma Assessment & Treatment",
+    "Pneumonia Nursing Care", "Pulmonary Embolism", "Tuberculosis Management",
+    "Oxygen Therapy & Delivery Systems", "Chest Tube Management",
+    "Mechanical Ventilation Basics", "Pulmonary Function Testing",
+    "Sleep Apnea & CPAP Management", "Cystic Fibrosis Nursing",
+    "Pulmonary Hypertension", "Pleural Effusion Management",
+    "Respiratory Pharmacology", "ABG Interpretation & Acid-Base",
+    "Lung Cancer Nursing", "Pneumothorax Management",
+    "Tracheostomy Care", "Respiratory Assessment & Auscultation",
+    "Pulmonary Rehabilitation",
+  ],
+  "Endocrine Nursing": [
+    "Type 1 Diabetes Management", "Type 2 Diabetes & Insulin Therapy",
+    "Diabetic Ketoacidosis", "Hyperosmolar Hyperglycemic State",
+    "Hypoglycemia Management", "Thyroid Disorders: Hypo & Hyperthyroidism",
+    "Thyroid Storm & Myxedema Coma", "Cushing Syndrome Nursing",
+    "Addison Disease Management", "Pheochromocytoma",
+    "Syndrome of Inappropriate ADH", "Diabetes Insipidus",
+    "Hyperparathyroidism & Hypoparathyroidism", "Adrenal Crisis Management",
+    "Metabolic Syndrome", "Endocrine Pharmacology",
+    "Pituitary Disorders", "Gestational Diabetes",
+    "Diabetes Self-Management Education", "Endocrine Surgical Nursing",
+  ],
+};
+
+const MEDICAL_SPECIALTIES_SCOPE: Record<string, string> = {
+  "Cardiac Nursing": `You are a senior Cardiac-Vascular Nursing (RN-BC / CVRN) certification exam item writer.
+Focus on: heart failure management, acute coronary syndrome, arrhythmia recognition & ECG interpretation, cardiac catheterization, valve disorders, hypertensive crisis, anticoagulation therapy, cardiac rehabilitation, pericarditis/endocarditis, peripheral vascular disease, DVT/PE prevention, cardiac medications (beta-blockers, ACE inhibitors, antiarrhythmics, anticoagulants), pacemaker/ICD management, cardiomyopathy, and post-cardiac surgery care.
+Questions test clinical judgment at the application/analysis level with emphasis on assessment, monitoring, medication management, patient education, and prioritization in cardiac nursing.`,
+
+  "Oncology Nursing": `You are a senior Oncology Certified Nurse (OCN) exam item writer.
+Focus on: chemotherapy administration & safety (PPE, extravasation, vesicant management), radiation therapy nursing, cancer pain management, neutropenic precautions, tumor lysis syndrome, oncologic emergencies (spinal cord compression, superior vena cava syndrome, DIC), specific cancer types (breast, lung, colorectal, leukemia, lymphoma), HSCT nursing, immunotherapy/targeted therapy, palliative care, psychosocial support, cancer screening, CVAD management, oncology pharmacology (antiemetics, growth factors, targeted agents), and survivorship care.
+Questions test clinical judgment with emphasis on safe chemotherapy handling, symptom management, emergency recognition, and patient/family education.`,
+
+  "Nephrology/Dialysis Nursing": `You are a senior Certified Nephrology Nurse (CNN) / Certified Dialysis Nurse (CDN) exam item writer.
+Focus on: AKI vs CKD staging, hemodialysis nursing (initiation, monitoring, complications), peritoneal dialysis management, vascular access care (AV fistula, graft, central catheter), fluid & electrolyte balance, acid-base imbalances in renal disease, renal transplant care, diabetic nephropathy, glomerulonephritis, polycystic kidney disease, nephrotic syndrome, renal diet (potassium, phosphorus, sodium, protein restrictions), dialysis complications (disequilibrium syndrome, air embolism, hypotension), CRRT, renal pharmacology (EPO, phosphate binders, vitamin D analogs), and psychosocial aspects of chronic dialysis.
+Questions test clinical judgment with emphasis on dialysis procedure management, lab interpretation, medication adjustments, and patient education.`,
+
+  "Gastroenterology Nursing": `You are a senior Certified Gastroenterology Nurse (CGRN) exam item writer.
+Focus on: GERD & PUD management, inflammatory bowel disease (Crohn's vs UC), liver cirrhosis & portal hypertension, hepatitis management (A/B/C), pancreatitis nursing, GI bleeding assessment & management, bowel obstruction, celiac disease & malabsorption, ostomy care, endoscopy procedure nursing (pre/post care, sedation monitoring), esophageal varices, cholecystitis/cholelithiasis, diverticular disease, GI pharmacology (PPIs, H2 blockers, biologics, laxatives), enteral & parenteral nutrition, liver transplant nursing, ascites management, hepatic encephalopathy, and GI cancer screening.
+Questions test clinical judgment with emphasis on assessment, procedure preparation, post-procedure monitoring, nutritional management, and patient education.`,
+
+  "Neurology/Stroke Nursing": `You are a senior Certified Neuroscience Registered Nurse (CNRN) / Stroke Certified Registered Nurse (SCRN) exam item writer.
+Focus on: ischemic stroke management (tPA window, NIH Stroke Scale, thrombectomy), hemorrhagic stroke care, TIA assessment, seizure disorders & epilepsy (status epilepticus, AED management), multiple sclerosis nursing, Parkinson disease, myasthenia gravis (cholinergic vs myasthenic crisis), Guillain-Barre syndrome, TBI, spinal cord injury, meningitis/encephalitis, ICP management, neurological assessment (GCS, cranial nerves, motor/sensory), neuropharmacology (anticonvulsants, dopaminergic agents, thrombolytics), Alzheimer's/dementia care, ALS, headache/migraine, peripheral neuropathy, and stroke rehabilitation.
+Questions test clinical judgment with emphasis on time-sensitive interventions, neurological deterioration recognition, medication management, and rehabilitation nursing.`,
+
+  "Pulmonary/Respiratory Nursing": `You are a senior Certified Pulmonary Function Technologist / Respiratory Nursing certification exam item writer.
+Focus on: COPD management & exacerbation, asthma assessment & treatment (peak flow, action plans), pneumonia nursing, pulmonary embolism, tuberculosis management (isolation, DOT), oxygen therapy & delivery systems (nasal cannula, Venturi mask, high-flow), chest tube management, mechanical ventilation basics (modes, weaning), PFT interpretation, sleep apnea & CPAP, cystic fibrosis, pulmonary hypertension, pleural effusion, respiratory pharmacology (bronchodilators, corticosteroids, mucolytics, antibiotics), ABG interpretation & acid-base balance, lung cancer nursing, pneumothorax, tracheostomy care, respiratory assessment & auscultation, and pulmonary rehabilitation.
+Questions test clinical judgment with emphasis on assessment, oxygen management, medication administration, emergency interventions, and patient education.`,
+
+  "Endocrine Nursing": `You are a senior Certified Diabetes Care and Education Specialist (CDCES) / Endocrine Nursing certification exam item writer.
+Focus on: Type 1 & Type 2 diabetes management, insulin therapy (types, onset, peak, duration, sliding scale), DKA vs HHS, hypoglycemia management, thyroid disorders (hypothyroidism, hyperthyroidism, thyroid storm, myxedema coma), Cushing syndrome, Addison disease, pheochromocytoma, SIADH, diabetes insipidus, hyperparathyroidism/hypoparathyroidism, adrenal crisis, metabolic syndrome, endocrine pharmacology (insulin, oral hypoglycemics, thyroid replacement, corticosteroids), pituitary disorders, gestational diabetes, diabetes self-management education, and endocrine surgical nursing (thyroidectomy, adrenalectomy).
+Questions test clinical judgment with emphasis on blood glucose management, hormone replacement monitoring, crisis recognition, medication management, and patient self-care education.`,
+};
+
+const MEDICAL_SPECIALTIES_IMAGE_KEYWORDS: Record<string, { file: string; alt: string; caption: string; description: string }[]> = {
+  "heart failure": [{ file: "heartfailure", alt: "Heart failure illustration", caption: "Heart Failure", description: "HF pathophysiology, left vs right-sided, treatment" }],
+  "acute coronary": [{ file: "heartfailure", alt: "ACS illustration", caption: "Acute Coronary Syndrome", description: "STEMI/NSTEMI assessment and management" }],
+  "arrhythmia": [{ file: "heartfailure", alt: "Arrhythmia illustration", caption: "Cardiac Arrhythmias", description: "ECG interpretation and management" }],
+  "cardiac tamponade": [{ file: "cardiactamponade", alt: "Cardiac tamponade illustration", caption: "Cardiac Tamponade", description: "Beck's triad: hypotension, muffled heart sounds, JVD" }],
+  "dvt": [{ file: "dvt", alt: "DVT illustration", caption: "Deep Vein Thrombosis", description: "DVT prevention and treatment" }],
+  "pulmonary embolism": [{ file: "pe", alt: "Pulmonary embolism illustration", caption: "Pulmonary Embolism", description: "PE signs, treatment, prevention" }],
+  "chemotherapy": [{ file: "anemia", alt: "Chemotherapy illustration", caption: "Chemotherapy Nursing", description: "Safe handling, administration, and side effects" }],
+  "anemia": [{ file: "anemia", alt: "Anemia illustration", caption: "Anemia", description: "Types of anemia and nursing management" }],
+  "sickle cell": [{ file: "sicklecell", alt: "Sickle cell illustration", caption: "Sickle Cell Disease", description: "Sickle cell crisis management" }],
+  "dialysis": [{ file: "renalcalculus_1773375303320.png", alt: "Renal illustration", caption: "Dialysis Nursing", description: "Hemodialysis and peritoneal dialysis management" }],
+  "kidney": [{ file: "renalcalculus_1773375303320.png", alt: "Kidney illustration", caption: "Renal Disorders", description: "Kidney disease assessment and management" }],
+  "renal": [{ file: "renalcalculus_1773375303320.png", alt: "Renal illustration", caption: "Renal Nursing", description: "Renal assessment and management" }],
+  "hepatitis": [{ file: "hepatitisb", alt: "Hepatitis illustration", caption: "Hepatitis", description: "Viral hepatitis types and management" }],
+  "cirrhosis": [{ file: "hepatitisb", alt: "Cirrhosis illustration", caption: "Liver Cirrhosis", description: "Portal hypertension and liver failure" }],
+  "pancreatitis": [{ file: "pancreatitis", alt: "Pancreatitis illustration", caption: "Pancreatitis", description: "Acute and chronic pancreatitis nursing" }],
+  "pyloric stenosis": [{ file: "pyloricstenosis_1773375303320.png", alt: "Pyloric stenosis illustration", caption: "Pyloric Stenosis", description: "GI obstruction assessment" }],
+  "stroke": [{ file: "stroke", alt: "Stroke illustration", caption: "Stroke", description: "Ischemic vs hemorrhagic stroke management" }],
+  "seizure": [{ file: "seizure", alt: "Seizure illustration", caption: "Seizure Management", description: "Seizure types, medications, nursing care" }],
+  "multiple sclerosis": [{ file: "MS", alt: "Multiple sclerosis illustration", caption: "Multiple Sclerosis", description: "Autoimmune demyelinating disease" }],
+  "myasthenia gravis": [{ file: "myastheniagravis", alt: "Myasthenia gravis illustration", caption: "Myasthenia Gravis", description: "Neuromuscular junction disorder" }],
+  "copd": [{ file: "copd", alt: "COPD illustration", caption: "COPD", description: "COPD management and exacerbation" }],
+  "asthma": [{ file: "asthma", alt: "Asthma illustration", caption: "Asthma", description: "Airway inflammation and bronchospasm" }],
+  "pneumonia": [{ file: "pneumonia", alt: "Pneumonia illustration", caption: "Pneumonia", description: "Lung infection assessment and treatment" }],
+  "abg": [{ file: "ABGreference", alt: "ABG reference chart", caption: "ABG Interpretation", description: "Arterial blood gas interpretation guide" }],
+  "tuberculosis": [{ file: "pneumonia", alt: "TB illustration", caption: "Tuberculosis", description: "TB screening, isolation, and treatment" }],
+  "diabetes": [{ file: "diabetes", alt: "Diabetes management infographic", caption: "Diabetes Overview", description: "Diabetes management and monitoring" }],
+  "dka": [{ file: "diabetes", alt: "DKA illustration", caption: "Diabetic Ketoacidosis", description: "DKA pathophysiology and management" }],
+  "hypoglycemia": [{ file: "diabetes", alt: "Hypoglycemia illustration", caption: "Hypoglycemia", description: "Blood glucose management" }],
+  "hypothyroidism": [{ file: "hypothyroidism_1773374939606", alt: "Hypothyroidism illustration", caption: "Hypothyroidism", description: "Decreased thyroid hormone management" }],
+  "hyperthyroidism": [{ file: "hyperthyroidism", alt: "Hyperthyroidism illustration", caption: "Hyperthyroidism", description: "Thyroid storm and management" }],
+  "cushing": [{ file: "cushing.png", alt: "Cushing syndrome illustration", caption: "Cushing Syndrome", description: "Cortisol excess management" }],
+  "addison": [{ file: "addisons", alt: "Addison's disease illustration", caption: "Addison's Disease", description: "Adrenal insufficiency management" }],
+  "gestational diabetes": [{ file: "gestationaldiabetes", alt: "Gestational diabetes illustration", caption: "Gestational Diabetes", description: "Glucose intolerance in pregnancy" }],
+};
+
+const MEDICAL_SPECIALTIES_LESSON_MAP: Record<string, { title: string; slug: string }> = {
+  "heart failure": { title: "Heart Failure Management", slug: "heart-failure" },
+  "acute coronary": { title: "Acute Coronary Syndrome", slug: "acute-coronary-syndrome" },
+  "arrhythmia": { title: "Arrhythmia Management", slug: "arrhythmia-management" },
+  "anticoagulation": { title: "Anticoagulation Therapy", slug: "anticoagulation" },
+  "cardiac rehabilitation": { title: "Cardiac Rehabilitation", slug: "cardiac-rehab" },
+  "hypertension": { title: "Hypertension", slug: "hypertension" },
+  "cardiac tamponade": { title: "Cardiac Tamponade", slug: "cardiac-tamponade" },
+  "dvt": { title: "Deep Vein Thrombosis", slug: "dvt" },
+  "pulmonary embolism": { title: "Pulmonary Embolism", slug: "pulmonary-embolism" },
+  "chemotherapy": { title: "Chemotherapy Nursing", slug: "chemotherapy-nursing" },
+  "radiation therapy": { title: "Radiation Therapy", slug: "radiation-therapy" },
+  "neutropeni": { title: "Neutropenic Precautions", slug: "neutropenic-precautions" },
+  "tumor lysis": { title: "Tumor Lysis Syndrome", slug: "tumor-lysis-syndrome" },
+  "palliative": { title: "Palliative Care", slug: "palliative-care" },
+  "pain management": { title: "Cancer Pain Management", slug: "cancer-pain" },
+  "stem cell transplant": { title: "HSCT Nursing", slug: "hsct-nursing" },
+  "immunotherapy": { title: "Immunotherapy", slug: "immunotherapy" },
+  "acute kidney": { title: "Acute Kidney Injury", slug: "acute-kidney-injury" },
+  "chronic kidney": { title: "Chronic Kidney Disease", slug: "chronic-kidney-disease" },
+  "hemodialysis": { title: "Hemodialysis Nursing", slug: "hemodialysis" },
+  "peritoneal dialysis": { title: "Peritoneal Dialysis", slug: "peritoneal-dialysis" },
+  "vascular access": { title: "Vascular Access Care", slug: "vascular-access" },
+  "renal transplant": { title: "Renal Transplant", slug: "renal-transplant" },
+  "dialysis": { title: "Dialysis", slug: "dialysis" },
+  "electrolyte": { title: "Electrolyte Imbalances", slug: "electrolyte-imbalances" },
+  "gerd": { title: "GERD Management", slug: "gerd" },
+  "inflammatory bowel": { title: "IBD Nursing", slug: "inflammatory-bowel-disease" },
+  "cirrhosis": { title: "Liver Cirrhosis", slug: "liver-cirrhosis" },
+  "hepatitis": { title: "Hepatitis", slug: "hepatitis" },
+  "pancreatitis": { title: "Pancreatitis", slug: "pancreatitis" },
+  "gi bleeding": { title: "GI Bleeding", slug: "gi-bleeding" },
+  "ostomy": { title: "Ostomy Care", slug: "ostomy-care" },
+  "hepatic encephalopathy": { title: "Hepatic Encephalopathy", slug: "hepatic-encephalopathy" },
+  "enteral nutrition": { title: "Enteral Nutrition", slug: "enteral-nutrition" },
+  "stroke": { title: "Stroke Assessment", slug: "stroke" },
+  "seizure": { title: "Seizure Management", slug: "seizure-disorders" },
+  "multiple sclerosis": { title: "Multiple Sclerosis", slug: "multiple-sclerosis" },
+  "parkinson": { title: "Parkinson Disease", slug: "parkinson-disease" },
+  "myasthenia gravis": { title: "Myasthenia Gravis", slug: "myasthenia-gravis" },
+  "guillain": { title: "Guillain-Barre Syndrome", slug: "guillain-barre" },
+  "meningitis": { title: "Meningitis", slug: "meningitis" },
+  "intracranial pressure": { title: "ICP Management", slug: "icp-management" },
+  "alzheimer": { title: "Alzheimer Disease", slug: "alzheimer-disease" },
+  "spinal cord": { title: "Spinal Cord Injury", slug: "spinal-cord-injury" },
+  "copd": { title: "COPD Management", slug: "copd" },
+  "asthma": { title: "Asthma Management", slug: "asthma" },
+  "pneumonia": { title: "Pneumonia", slug: "pneumonia" },
+  "tuberculosis": { title: "Tuberculosis", slug: "tuberculosis" },
+  "oxygen therapy": { title: "Oxygen Therapy", slug: "oxygen-therapy" },
+  "chest tube": { title: "Chest Tube Management", slug: "chest-tube" },
+  "tracheostomy": { title: "Tracheostomy Care", slug: "tracheostomy-care" },
+  "pulmonary embolism": { title: "Pulmonary Embolism", slug: "pulmonary-embolism" },
+  "abg": { title: "ABG Interpretation", slug: "abg-interpretation" },
+  "diabetes": { title: "Diabetes Management", slug: "diabetes-management" },
+  "insulin": { title: "Insulin Therapy", slug: "insulin-therapy" },
+  "dka": { title: "Diabetic Ketoacidosis", slug: "dka-management" },
+  "hypoglycemia": { title: "Hypoglycemia Management", slug: "hypoglycemia" },
+  "thyroid": { title: "Thyroid Disorders", slug: "thyroid" },
+  "cushing": { title: "Cushing Syndrome", slug: "cushings" },
+  "addison": { title: "Addison Disease", slug: "addisons" },
+  "siadh": { title: "SIADH", slug: "siadh" },
+  "diabetes insipidus": { title: "Diabetes Insipidus", slug: "diabetes-insipidus" },
+  "adrenal crisis": { title: "Adrenal Crisis", slug: "adrenal-crisis" },
+  "pituitary": { title: "Pituitary Disorders", slug: "pituitary-disorders" },
+};
+
+interface MedicalSpecialtySummary {
+  subspecialty: string;
+  targetCount: number;
+  totalQuestionsInserted: number;
+  totalFlashcardsCreated: number;
+  totalImagesAttached: number;
+  totalLessonLinksAdded: number;
+  totalDuplicatesRejected: number;
+  topicDistribution: Record<string, number>;
+  difficultyDistribution: Record<string, number>;
+  startedAt: string;
+  completedAt: string;
+  batches: ExpansionProgress[];
+}
+
+function buildMedicalSpecialtyPrompt(
+  subspecialty: string,
+  topic: string,
+  count: number,
+  difficulties: string[],
+  existingStems: string[],
+): { system: string; user: string } {
+  const scope = MEDICAL_SPECIALTIES_SCOPE[subspecialty] || MEDICAL_SPECIALTIES_SCOPE["Cardiac Nursing"];
+
+  const diffCounts: Record<string, number> = {};
+  for (const d of difficulties) diffCounts[d] = (diffCounts[d] || 0) + 1;
+
+  const diffBlock = Object.entries(diffCounts)
+    .map(([d, c]) => `- ${d}: ${c} questions`)
+    .join("\n");
+
+  const antiDupe = existingStems.length > 0
+    ? `\nAvoid duplicating these recent stems:\n${existingStems.slice(-15).map((s, i) => `${i + 1}. ${s.substring(0, 80)}...`).join("\n")}`
+    : "";
+
+  const system = `${scope}
+
+CRITICAL RULES:
+1. Output ONLY valid JSON. No markdown, no code fences, no prose.
+2. NEVER copy or reference instructions in any output field.
+3. Every question must have a unique, distinct clinical scenario set in the ${subspecialty} environment.
+4. Do NOT use any emoji characters. Plain text only.
+5. Each question's rationale MUST be 80-150 words and include:
+   - Why the correct answer is right
+   - Why each distractor is wrong
+   - A clinical application note
+   - A nursing intervention note
+6. Include a clinical pearl for each question.
+7. All scenarios must reflect real clinical decision-making appropriate for ${subspecialty}.
+8. Include specific patient data (vital signs, lab values, assessment findings) in each scenario.
+9. Focus on NCLEX-style clinical judgment: assessment, prioritization, safety, interventions.
+10. Cover pharmacology, pathophysiology, assessment, interventions, prioritization, and safety aspects.
+
+Topic focus for this batch: ${topic}
+
+You will generate exactly ${count} questions for ${subspecialty} - ${topic}.
+
+Difficulty distribution:
+${diffBlock}
+
+Return JSON: {"items": [...]} with exactly ${count} question objects.
+
+Each question object schema:
+{
+  "stem": "A detailed clinical scenario question set in ${subspecialty} (min 60 chars)",
+  "scenario": "Extended clinical context with specific patient data",
+  "options": [{"label": "A", "text": "..."}, {"label": "B", "text": "..."}, {"label": "C", "text": "..."}, {"label": "D", "text": "..."}],
+  "correct_answer": "B",
+  "difficulty": "easy" | "moderate" | "hard",
+  "domain": "Medical Specialties",
+  "topic": "${topic}",
+  "subtopic": "${subspecialty}",
+  "rationale": "Detailed 80-150 word rationale: why correct + why each distractor wrong + clinical application + nursing intervention",
+  "clinical_pearl": "A concise clinical pearl for exam prep",
+  "body_system": "Related body system"
+}
+
+MCQ rules: exactly 4 choices (A-D), exactly 1 correct answer letter.
+${antiDupe}
+
+Return EXACTLY ${count} items. JSON only. No extra text.`;
+
+  const user = `Generate ${count} unique ${subspecialty} exam questions focused on ${topic}. Each must have a distinct clinical scenario with specific patient vital signs, lab values, or assessment data relevant to the ${subspecialty} setting.`;
+
+  return { system, user };
+}
+
+function matchMedicalSpecialtyImages(stem: string, rationale: string, topic: string, subspecialty: string): { imageUrl: string; imageAlt: string; imageCaption: string; imageDescription: string }[] {
+  const searchText = `${stem} ${rationale} ${topic} ${subspecialty}`.toLowerCase();
+  const matches: { imageUrl: string; imageAlt: string; imageCaption: string; imageDescription: string }[] = [];
+
+  for (const [keyword, images] of Object.entries(MEDICAL_SPECIALTIES_IMAGE_KEYWORDS)) {
+    if (searchText.includes(keyword)) {
+      for (const img of images) {
+        if (!matches.find(m => m.imageUrl.includes(img.file))) {
+          matches.push({
+            imageUrl: `/attached_assets/${img.file}`,
+            imageAlt: img.alt,
+            imageCaption: img.caption,
+            imageDescription: img.description,
+          });
+        }
+      }
+    }
+  }
+
+  for (const [keyword, images] of Object.entries(IMAGE_KEYWORD_MAP)) {
+    if (searchText.includes(keyword)) {
+      for (const img of images) {
+        if (!matches.find(m => m.imageUrl.includes(img.file))) {
+          matches.push({
+            imageUrl: `/attached_assets/${img.file}`,
+            imageAlt: img.alt,
+            imageCaption: img.caption,
+            imageDescription: img.description,
+          });
+        }
+      }
+    }
+  }
+
+  return matches.slice(0, 3);
+}
+
+function findMedicalSpecialtyLessonLink(stem: string, rationale: string, topic: string, subspecialty: string): { title: string; url: string } | null {
+  const searchText = `${stem} ${rationale} ${topic}`.toLowerCase();
+
+  for (const [keyword, lesson] of Object.entries(MEDICAL_SPECIALTIES_LESSON_MAP)) {
+    if (searchText.includes(keyword)) {
+      return {
+        title: lesson.title,
+        url: `/lessons/${lesson.slug}-medical-specialties`,
+      };
+    }
+  }
+
+  for (const [keyword, lesson] of Object.entries(LESSON_TOPIC_MAP)) {
+    if (searchText.includes(keyword)) {
+      return {
+        title: lesson.title,
+        url: `/lessons/${lesson.slug}-medical-specialties`,
+      };
+    }
+  }
+
+  return null;
+}
+
+export async function runMedicalSpecialtySubspecialty(
+  subspecialty: string,
+  targetCount: number = 500,
+  onProgress?: (p: ExpansionProgress) => void,
+): Promise<MedicalSpecialtySummary> {
+  const dbPool = hasSeparateProdDb() ? getProdPool() : pool;
+
+  console.log(`[MedicalSpecialties] Starting ${subspecialty} expansion: ${targetCount} questions, targeting ${hasSeparateProdDb() ? "PRODUCTION" : "DEVELOPMENT"} database`);
+
+  try {
+    const testResult = await dbPool.query("SELECT 1 as connected");
+    console.log(`[MedicalSpecialties] Database connection verified: ${testResult.rows[0]?.connected === 1 ? "OK" : "FAILED"}`);
+  } catch (connErr: any) {
+    console.error(`[MedicalSpecialties] Database connection FAILED:`, connErr.message);
+    throw new Error(`Cannot connect to database: ${connErr.message}`);
+  }
+
+  const openai = getOpenAI();
+  const existingHashes = await getExistingStemHashes(dbPool);
+  const topics = MEDICAL_SPECIALTIES_TOPICS[subspecialty] || MEDICAL_SPECIALTIES_TOPICS["Cardiac Nursing"];
+  const startedAt = new Date().toISOString();
+  const batches: ExpansionProgress[] = [];
+
+  let totalInserted = 0;
+  let totalFlashcards = 0;
+  let totalImages = 0;
+  let totalLessonLinks = 0;
+  let totalDuplicates = 0;
+  let batchNumber = 0;
+  const recentStems: string[] = [];
+
+  const topicCounts: Record<string, number> = {};
+  const difficultyCounts: Record<string, number> = {};
+
+  const perTopic = Math.floor(targetCount / topics.length);
+  const remainder = targetCount % topics.length;
+  const topicPlan: { topic: string; count: number }[] = topics.map((t, i) => ({
+    topic: t,
+    count: perTopic + (i < remainder ? 1 : 0),
+  }));
+
+  for (const { topic, count: topicTarget } of topicPlan) {
+    let topicRemaining = topicTarget;
+
+    while (topicRemaining > 0) {
+      const thisBatchSize = Math.min(BATCH_SIZE, topicRemaining);
+      batchNumber++;
+
+      console.log(`[MedicalSpecialties] Batch ${batchNumber}: ${thisBatchSize} questions for ${subspecialty} - ${topic}`);
+
+      try {
+        await dbPool.query(
+          `INSERT INTO generation_events (id, generation_id, event_type, payload, created_at)
+           VALUES (gen_random_uuid(), $1, $2, $3, NOW())`,
+          [
+            `medical-specialties-${subspecialty.toLowerCase().replace(/[\s\/]+/g, "-")}`,
+            "medical_specialty_batch_start",
+            JSON.stringify({ subspecialty, batchNumber, topic, batchSize: thisBatchSize, totalInserted }),
+          ]
+        );
+      } catch (logErr: any) {
+        console.error(`[MedicalSpecialties] Event log error:`, logErr.message);
+      }
+
+      const difficulties: string[] = [];
+      for (let i = 0; i < thisBatchSize; i++) {
+        difficulties.push(assignDifficulty(i, thisBatchSize));
+      }
+
+      const { system, user } = buildMedicalSpecialtyPrompt(subspecialty, topic, thisBatchSize, difficulties, recentStems);
+
+      let items: any[] = [];
+      for (let attempt = 0; attempt <= 2; attempt++) {
+        try {
+          const resp = await openai.chat.completions.create({
+            model: "gpt-4o-mini",
+            messages: [
+              { role: "system", content: system },
+              { role: "user", content: user },
+            ],
+            temperature: 0.4,
+            max_tokens: Math.min(thisBatchSize * 700 + 500, 16384),
+            response_format: { type: "json_object" },
+          });
+
+          const content = resp.choices[0]?.message?.content || "{}";
+          let cleaned = content.trim().replace(/^```(?:json)?\s*/i, "").replace(/\s*```\s*$/, "");
+          const firstBrace = cleaned.indexOf("{");
+          const lastBrace = cleaned.lastIndexOf("}");
+          if (firstBrace !== -1 && lastBrace > firstBrace) {
+            cleaned = cleaned.substring(firstBrace, lastBrace + 1);
+          }
+
+          const parsed = JSON.parse(cleaned);
+          items = Array.isArray(parsed.items) ? parsed.items
+            : Array.isArray(parsed.questions) ? parsed.questions
+            : Array.isArray(parsed) ? parsed : [];
+
+          if (items.length > 0) break;
+          console.log(`[MedicalSpecialties] Attempt ${attempt + 1}: 0 items parsed for ${topic}, retrying...`);
+        } catch (err: any) {
+          console.error(`[MedicalSpecialties] Attempt ${attempt + 1} failed for ${topic}:`, err.message);
+        }
+        if (attempt < 2) await new Promise(r => setTimeout(r, 1500));
+      }
+
+      let batchInserted = 0;
+      let batchFlashcards = 0;
+      let batchImages = 0;
+      let batchLessonLinks = 0;
+      let batchDuplicates = 0;
+
+      for (const item of items) {
+        if (!validateQuestion(item)) continue;
+
+        const stemHash = computeStemHash(item.stem);
+        if (existingHashes.has(stemHash)) {
+          batchDuplicates++;
+          continue;
+        }
+
+        const difficulty = item.difficulty || "moderate";
+        const difficultyNum = DIFFICULTY_MAP[difficulty] || 3;
+        const masteryCategory = MASTERY_MAP[difficulty] || "moderate_mastery";
+        const lessonLink = findMedicalSpecialtyLessonLink(item.stem, item.rationale, item.topic || topic, subspecialty);
+        const rationaleWithLink = appendLessonLinkToRationale(item.rationale, lessonLink);
+        const images = matchMedicalSpecialtyImages(item.stem, item.rationale, item.topic || topic, subspecialty);
+
+        const options = Array.isArray(item.options) ? item.options.map((o: any, i: number) => {
+          if (typeof o === "string") {
+            const match = o.match(/^([A-H])\)\s*(.+)/);
+            if (match) return { label: match[1], text: match[2] };
+            return { label: String.fromCharCode(65 + i), text: o };
+          }
+          return { label: o.label || String.fromCharCode(65 + i), text: o.text || String(o) };
+        }) : [];
+
+        const correctAnswer = typeof item.correct_answer === "string" ? item.correct_answer : "A";
+
+        const client = await dbPool.connect();
+        try {
+          await client.query("BEGIN");
+
+          const tagsArray = ["Medical Specialties", subspecialty, topic, masteryCategory, `difficulty_${difficulty}`];
+
+          const { rows: inserted } = await client.query(
+            `INSERT INTO exam_questions (
+              id, tier, exam, question_type, status, stem, options, correct_answer,
+              rationale, difficulty, tags, body_system, topic, subtopic, region_scope,
+              stem_hash, career_type, scenario, clinical_pearl, created_at, updated_at
+            ) VALUES (
+              gen_random_uuid(), $1, $2, $3, $4, $5, $6, $7,
+              $8, $9, $10::text[], $11, $12, $13, $14,
+              $15, $16, $17, $18, NOW(), NOW()
+            ) ON CONFLICT DO NOTHING RETURNING id`,
+            [
+              "rn",
+              "Medical-Specialties",
+              "multiple_choice",
+              "approved",
+              item.stem,
+              JSON.stringify(options),
+              JSON.stringify([correctAnswer]),
+              rationaleWithLink,
+              difficultyNum,
+              tagsArray,
+              item.body_system || subspecialty,
+              item.topic || topic,
+              subspecialty,
+              "BOTH",
+              stemHash,
+              "nursing",
+              item.scenario || item.stem,
+              item.clinical_pearl || "",
+            ]
+          );
+
+          if (!inserted || inserted.length === 0) {
+            await client.query("ROLLBACK");
+            batchDuplicates++;
+            client.release();
+            continue;
+          }
+
+          const questionId = inserted[0].id;
+          existingHashes.add(stemHash);
+          batchInserted++;
+          topicCounts[topic] = (topicCounts[topic] || 0) + 1;
+          difficultyCounts[difficulty] = (difficultyCounts[difficulty] || 0) + 1;
+          recentStems.push(item.stem.substring(0, 100));
+          if (recentStems.length > 30) recentStems.splice(0, recentStems.length - 20);
+
+          if (lessonLink) batchLessonLinks++;
+          if (images.length > 0) batchImages++;
+
+          const flashcardFront = item.stem;
+          const flashcardBack = buildFlashcardBack(
+            correctAnswer, options, item.rationale, item.clinical_pearl || "", lessonLink,
+          );
+          const flashcardHash = computeContentHash(item.stem, `medical-specialties-${subspecialty}`);
+
+          const lessonLinks = lessonLink ? [{ lessonTitle: lessonLink.title, lessonUrl: lessonLink.url, relevanceNote: `Related to ${subspecialty} - ${topic}` }] : [];
+
+          const { rowCount: fcInserted } = await client.query(
+            `INSERT INTO flashcard_bank (
+              id, tier, front, back, content_hash, status, source_type, source_question_id,
+              question_type, options, correct_answer, rationale_correct,
+              clinical_takeaway, exam_pearl, rationale_media, lesson_links,
+              difficulty, body_system, topic, subtopic, region_scope, flashcard_enabled,
+              category, career_type, created_at
+            ) VALUES (
+              gen_random_uuid(), $1, $2, $3, $4, $5, $6, $7,
+              $8, $9, $10, $11, $12, $13, $14, $15,
+              $16, $17, $18, $19, $20, $21, $22, $23, NOW()
+            ) ON CONFLICT (content_hash) DO NOTHING`,
+            [
+              "rn",
+              flashcardFront,
+              flashcardBack,
+              flashcardHash,
+              "approved",
+              "medical_specialties_expansion",
+              questionId,
+              "multiple_choice",
+              JSON.stringify(options),
+              JSON.stringify([correctAnswer]),
+              item.rationale,
+              item.clinical_pearl || null,
+              item.clinical_pearl || null,
+              JSON.stringify(images),
+              JSON.stringify(lessonLinks),
+              difficultyNum,
+              item.body_system || subspecialty,
+              item.topic || topic,
+              subspecialty,
+              "BOTH",
+              true,
+              `Medical Specialties - ${subspecialty}`,
+              "nursing",
+            ]
+          );
+
+          await client.query("COMMIT");
+          if (fcInserted && fcInserted > 0) batchFlashcards++;
+        } catch (err: any) {
+          await client.query("ROLLBACK").catch(() => {});
+          if (err.code === "23505") {
+            batchDuplicates++;
+          } else {
+            console.error(`[MedicalSpecialties] Insert error:`, err.message);
+          }
+        } finally {
+          client.release();
+        }
+      }
+
+      totalInserted += batchInserted;
+      totalFlashcards += batchFlashcards;
+      totalImages += batchImages;
+      totalLessonLinks += batchLessonLinks;
+      totalDuplicates += batchDuplicates;
+      topicRemaining -= batchInserted > 0 ? batchInserted : thisBatchSize;
+
+      const progress: ExpansionProgress = {
+        tier: `medical-specialties-${subspecialty}`,
+        batchNumber,
+        questionsGenerated: batchInserted,
+        flashcardsCreated: batchFlashcards,
+        imagesAttached: batchImages,
+        lessonLinksAdded: batchLessonLinks,
+        duplicatesRejected: batchDuplicates,
+      };
+      batches.push(progress);
+
+      if (onProgress) onProgress(progress);
+
+      try {
+        await dbPool.query(
+          `INSERT INTO generation_events (id, generation_id, event_type, payload, created_at)
+           VALUES (gen_random_uuid(), $1, $2, $3, NOW())`,
+          [
+            `medical-specialties-${subspecialty.toLowerCase().replace(/[\s\/]+/g, "-")}`,
+            "medical_specialty_batch_complete",
+            JSON.stringify({
+              ...progress,
+              totalInserted,
+              totalFlashcards,
+              totalImages,
+              totalLessonLinks,
+              totalDuplicates,
+            }),
+          ]
+        );
+      } catch (logErr: any) {
+        console.error(`[MedicalSpecialties] Event log error:`, logErr.message);
+      }
+
+      console.log(`[MedicalSpecialties] Batch ${batchNumber} complete: ${batchInserted} inserted, ${batchFlashcards} flashcards, ${batchImages} images, ${batchLessonLinks} lessons, ${batchDuplicates} duplicates. Total: ${totalInserted}/${targetCount}`);
+
+      await new Promise(r => setTimeout(r, 500));
+    }
+  }
+
+  const completedAt = new Date().toISOString();
+
+  const summary: MedicalSpecialtySummary = {
+    subspecialty,
+    targetCount,
+    totalQuestionsInserted: totalInserted,
+    totalFlashcardsCreated: totalFlashcards,
+    totalImagesAttached: totalImages,
+    totalLessonLinksAdded: totalLessonLinks,
+    totalDuplicatesRejected: totalDuplicates,
+    topicDistribution: topicCounts,
+    difficultyDistribution: difficultyCounts,
+    startedAt,
+    completedAt,
+    batches,
+  };
+
+  try {
+    await dbPool.query(
+      `INSERT INTO generation_events (id, generation_id, event_type, payload, created_at)
+       VALUES (gen_random_uuid(), $1, $2, $3, NOW())`,
+      [
+        `medical-specialties-${subspecialty.toLowerCase().replace(/[\s\/]+/g, "-")}`,
+        "medical_specialty_subspecialty_complete",
+        JSON.stringify(summary),
+      ]
+    );
+  } catch (logErr: any) {
+    console.error(`[MedicalSpecialties] Event log error:`, logErr.message);
+  }
+
+  console.log(`[MedicalSpecialties] ${subspecialty} complete: ${totalInserted}/${targetCount} questions, ${totalFlashcards} flashcards`);
+  return summary;
+}
+
+export async function runFullMedicalSpecialtiesExpansion(
+  onProgress?: (p: ExpansionProgress) => void,
+): Promise<{ subspecialties: Record<string, MedicalSpecialtySummary>; grandTotal: any }> {
+  console.log(`[MedicalSpecialties] Starting full 3,500-question Medical Specialties expansion across 7 subspecialties`);
+
+  const results: Record<string, MedicalSpecialtySummary> = {};
+
+  for (const subspecialty of MEDICAL_SPECIALTIES_SUBSPECIALTIES) {
+    results[subspecialty] = await runMedicalSpecialtySubspecialty(subspecialty, 500, onProgress);
+  }
+
+  const grandTotal = {
+    totalQuestions: Object.values(results).reduce((s, r) => s + r.totalQuestionsInserted, 0),
+    totalFlashcards: Object.values(results).reduce((s, r) => s + r.totalFlashcardsCreated, 0),
+    totalImages: Object.values(results).reduce((s, r) => s + r.totalImagesAttached, 0),
+    totalLessonLinks: Object.values(results).reduce((s, r) => s + r.totalLessonLinksAdded, 0),
+    totalDuplicates: Object.values(results).reduce((s, r) => s + r.totalDuplicatesRejected, 0),
+    target: 3500,
+    subspecialtyBreakdown: Object.fromEntries(
+      Object.entries(results).map(([k, v]) => [k, { questions: v.totalQuestionsInserted, flashcards: v.totalFlashcardsCreated }])
+    ),
+  };
+
+  const dbPool = hasSeparateProdDb() ? getProdPool() : pool;
+  try {
+    await dbPool.query(
+      `INSERT INTO generation_events (id, generation_id, event_type, payload, created_at)
+       VALUES (gen_random_uuid(), $1, $2, $3, NOW())`,
+      [
+        "medical-specialties-full",
+        "medical_specialties_full_expansion_complete",
+        JSON.stringify({ subspecialties: results, grandTotal }),
+      ]
+    );
+  } catch (logErr: any) {
+    console.error(`[MedicalSpecialties] Event log error:`, logErr.message);
+  }
+
+  console.log(`[MedicalSpecialties] Full expansion complete: ${grandTotal.totalQuestions}/3500 questions, ${grandTotal.totalFlashcards} flashcards`);
+  return { subspecialties: results, grandTotal };
+}
+
+export async function getMedicalSpecialtiesExpansionStatus(): Promise<any> {
+  const dbPool = hasSeparateProdDb() ? getProdPool() : pool;
+
+  const { rows: events } = await dbPool.query(
+    `SELECT event_type, payload, created_at
+     FROM generation_events
+     WHERE generation_id LIKE 'medical-specialties-%'
+     ORDER BY created_at DESC
+     LIMIT 50`
+  );
+
+  const { rows: questionCounts } = await dbPool.query(
+    `SELECT subtopic as subspecialty, COUNT(*)::int as count
+     FROM exam_questions
+     WHERE exam = 'Medical-Specialties' AND status = 'approved' AND career_type = 'nursing'
+     GROUP BY subtopic`
+  );
+
+  const { rows: flashcardCounts } = await dbPool.query(
+    `SELECT subtopic as subspecialty, COUNT(*)::int as count
+     FROM flashcard_bank
+     WHERE source_type = 'medical_specialties_expansion'
+     GROUP BY subtopic`
+  );
+
+  return {
+    questionsBySubspecialty: Object.fromEntries(questionCounts.map((r: any) => [r.subspecialty, r.count])),
+    flashcardsBySubspecialty: Object.fromEntries(flashcardCounts.map((r: any) => [r.subspecialty, r.count])),
+    totalQuestions: questionCounts.reduce((s: number, r: any) => s + r.count, 0),
+    totalFlashcards: flashcardCounts.reduce((s: number, r: any) => s + r.count, 0),
+    recentEvents: events,
+    validSubspecialties: [...MEDICAL_SPECIALTIES_SUBSPECIALTIES],
+  };
+}
