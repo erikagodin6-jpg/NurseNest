@@ -62,6 +62,8 @@ const MltExamResults = lazy(() => import("./pages/mlt/mlt-exam-results"));
 const MltExamHistory = lazy(() => import("./pages/mlt/mlt-exam-history"));
 const MltAdminCat = lazy(() => import("./pages/mlt/mlt-admin-cat"));
 
+const OccupationalTherapyHub = lazy(() => import("./pages/occupational-therapy-hub"));
+const PhysicalTherapyHub = lazy(() => import("./pages/physical-therapy-hub"));
 const PharmtechHub = lazy(() => import("./pages/pharmtech-hub"));
 const PharmtechLessons = lazy(() => import("./pages/pharmtech-lessons"));
 const PharmtechFlashcards = lazy(() => import("./pages/pharmtech-flashcards"));
@@ -148,6 +150,14 @@ export function AlliedRoutes() {
         <Route path="/admin/mlt/publish" component={MltAdmin} />
         <Route path="/admin/mlt/import" component={MltAdmin} />
         <Route path="/admin/mlt/import/history" component={MltAdmin} />
+        <Route path="/admin/allied-content/occupational-therapy/questions" component={AlliedAdmin} />
+        <Route path="/admin/allied-content/occupational-therapy/lessons" component={AlliedAdmin} />
+        <Route path="/admin/allied-content/occupational-therapy/flashcards" component={AlliedAdmin} />
+        <Route path="/admin/allied-content/occupational-therapy" component={AlliedAdmin} />
+        <Route path="/admin/allied-content/physical-therapy/questions" component={AlliedAdmin} />
+        <Route path="/admin/allied-content/physical-therapy/lessons" component={AlliedAdmin} />
+        <Route path="/admin/allied-content/physical-therapy/flashcards" component={AlliedAdmin} />
+        <Route path="/admin/allied-content/physical-therapy" component={AlliedAdmin} />
         <Route path="/admin/allied-content/pharmacy-technician/questions" component={PharmtechAdmin} />
         <Route path="/admin/allied-content/pharmacy-technician/lessons" component={PharmtechAdmin} />
         <Route path="/admin/allied-content/pharmacy-technician/flashcards" component={PharmtechAdmin} />
@@ -237,6 +247,10 @@ export function AlliedRoutes() {
         <Route path="/mlt/questions">{() => <AlliedQuestionsIndexPage professionKey="mlt" />}</Route>
         <Route path="/imaging/questions/:topicSlug">{() => <AlliedQuestionSeoPage professionKey="imaging" />}</Route>
         <Route path="/imaging/questions">{() => <AlliedQuestionsIndexPage professionKey="imaging" />}</Route>
+        <Route path="/occupational-therapy/questions/:topicSlug">{() => <AlliedQuestionSeoPage professionKey="occupationalTherapy" />}</Route>
+        <Route path="/occupational-therapy/questions">{() => <AlliedQuestionsIndexPage professionKey="occupationalTherapy" />}</Route>
+        <Route path="/physical-therapy/questions/:topicSlug">{() => <AlliedQuestionSeoPage professionKey="physicalTherapy" />}</Route>
+        <Route path="/physical-therapy/questions">{() => <AlliedQuestionsIndexPage professionKey="physicalTherapy" />}</Route>
         <Route path="/paramedic" component={ParamedicLanding} />
         <Route path="/mlt/exams" component={MltExamHub} />
         <Route path="/mlt/exam/canada_realistic" component={MltCanadaExam} />
@@ -267,7 +281,8 @@ export function AlliedRoutes() {
         <Route path="/social-work">{() => <ProfessionHubPage data={PROFESSION_HUB_DATA["social-work"]} />}</Route>
         <Route path="/psychotherapy">{() => <ProfessionHubPage data={PROFESSION_HUB_DATA["psychotherapy"]} />}</Route>
         <Route path="/addictions">{() => <ProfessionHubPage data={PROFESSION_HUB_DATA["addictions"]} />}</Route>
-        <Route path="/occupational-therapy">{() => <ProfessionHubPage data={PROFESSION_HUB_DATA["occupational-therapy"]} />}</Route>
+        <Route path="/occupational-therapy" component={OccupationalTherapyHub} />
+        <Route path="/physical-therapy" component={PhysicalTherapyHub} />
 
         <Route path="/rrt/lessons">{() => <ProfessionClusterRedirect profession="rrt" clusterType="lessons" />}</Route>
         <Route path="/rrt/practice-questions">{() => <ProfessionClusterRedirect profession="rrt" clusterType="practice-questions" />}</Route>
@@ -299,6 +314,12 @@ export function AlliedRoutes() {
         <Route path="/occupational-therapy/mock-exam">{() => <ProfessionClusterRedirect profession="occupational-therapy" clusterType="mock-exam" />}</Route>
         <Route path="/occupational-therapy/study-guide">{() => <ProfessionClusterRedirect profession="occupational-therapy" clusterType="study-guide" />}</Route>
 
+        <Route path="/physical-therapy/lessons">{() => <ProfessionClusterRedirect profession="physical-therapy" clusterType="lessons" />}</Route>
+        <Route path="/physical-therapy/practice-questions">{() => <ProfessionClusterRedirect profession="physical-therapy" clusterType="practice-questions" />}</Route>
+        <Route path="/physical-therapy/flashcards">{() => <ProfessionClusterRedirect profession="physical-therapy" clusterType="flashcards" />}</Route>
+        <Route path="/physical-therapy/mock-exam">{() => <ProfessionClusterRedirect profession="physical-therapy" clusterType="mock-exam" />}</Route>
+        <Route path="/physical-therapy/study-guide">{() => <ProfessionClusterRedirect profession="physical-therapy" clusterType="study-guide" />}</Route>
+
         <Route path="/paramedic-exam-prep" component={ParamedicExamPrepLanding} />
         <Route path="/rrt-exam-prep" component={RrtExamPrepLanding} />
         <Route path="/mlt-exam-prep" component={MltExamPrepLanding} />
@@ -307,6 +328,7 @@ export function AlliedRoutes() {
         <Route path="/psychotherapy-exam-prep" component={PsychotherapyExamPrepLanding} />
         <Route path="/addictions-counselling-exam-prep" component={AddictionsCounsellingExamPrepLanding} />
         <Route path="/occupational-therapy-exam-prep" component={OccupationalTherapyExamPrepLanding} />
+        <Route path="/physical-therapy-exam-prep">{() => { window.location.replace("/physical-therapy"); return null; }}</Route>
 
         <Route path="/social-worker-exam-prep">{() => <UnderservedSEOPage profession="social-worker" pageType="exam-prep" />}</Route>
         <Route path="/social-worker-career-guide">{() => <UnderservedSEOPage profession="social-worker" pageType="career-guide" />}</Route>
@@ -323,6 +345,9 @@ export function AlliedRoutes() {
         <Route path="/occupational-therapy-career-guide">{() => <UnderservedSEOPage profession="occupational-therapy" pageType="career-guide" />}</Route>
         <Route path="/occupational-therapy-study-guide">{() => <UnderservedSEOPage profession="occupational-therapy" pageType="study-guide" />}</Route>
         <Route path="/occupational-therapy-practice-questions">{() => <UnderservedSEOPage profession="occupational-therapy" pageType="practice-questions" />}</Route>
+        <Route path="/physical-therapy-career-guide">{() => <UnderservedSEOPage profession="physical-therapy" pageType="career-guide" />}</Route>
+        <Route path="/physical-therapy-study-guide">{() => <UnderservedSEOPage profession="physical-therapy" pageType="study-guide" />}</Route>
+        <Route path="/physical-therapy-practice-questions">{() => <UnderservedSEOPage profession="physical-therapy" pageType="practice-questions" />}</Route>
         <Route path="/occupational-therapist/question-bank" component={OTQuestionBankPage} />
         <Route path="/occupational-therapist/mock-exams" component={OTMockExamsPage} />
         <Route path="/occupational-therapist/study-plan" component={OTStudyPlanPage} />
@@ -355,6 +380,7 @@ export function AlliedRoutes() {
         <Route path="/how-to-become-a-psychotherapist" component={CareerGuidePage} />
         <Route path="/how-to-become-an-addictions-counselor" component={CareerGuidePage} />
         <Route path="/how-to-become-an-occupational-therapist" component={CareerGuidePage} />
+        <Route path="/how-to-become-a-physical-therapist" component={CareerGuidePage} />
         <Route path="/how-to-become-a-pharmacy-technician" component={CareerGuidePage} />
 
         <Route path="/admin/encyclopedia" component={EncyclopediaAdmin} />
@@ -374,6 +400,8 @@ export function AlliedRoutes() {
         <Route path="/addictions-encyclopedia">{() => <EncyclopediaHubPage profession="addictions" />}</Route>
         <Route path="/occupational-therapy-encyclopedia/:slug">{() => <EncyclopediaTopicPage profession="occupational-therapy" />}</Route>
         <Route path="/occupational-therapy-encyclopedia">{() => <EncyclopediaHubPage profession="occupational-therapy" />}</Route>
+        <Route path="/physical-therapy-encyclopedia/:slug">{() => <EncyclopediaTopicPage profession="physical-therapy" />}</Route>
+        <Route path="/physical-therapy-encyclopedia">{() => <EncyclopediaHubPage profession="physical-therapy" />}</Route>
 
         <Route path="/:careerSlug/study-guide/:topicSlug">{() => <ProgrammaticSeoPage />}</Route>
         <Route path="/:careerSlug/exam-tips/:topicSlug">{() => <ProgrammaticSeoPage />}</Route>

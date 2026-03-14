@@ -16,6 +16,8 @@ const ALLIED_CAREER_MAP: Record<string, CareerConfig> = {
   "pharmacy-tech": CAREER_CONFIGS.pharmacyTech,
   mlt: CAREER_CONFIGS.mlt,
   imaging: CAREER_CONFIGS.imaging,
+  "occupational-therapy": CAREER_CONFIGS.occupationalTherapy,
+  "physical-therapy": CAREER_CONFIGS.physicalTherapy,
 };
 
 const DIAGNOSTIC_COUNT = 15;

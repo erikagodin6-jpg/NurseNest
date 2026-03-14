@@ -212,6 +212,35 @@ export function registerProfessionRoutes(app: Express) {
       res.status(500).json({ error: e.message });
     }
   });
+  app.get("/api/occupational-therapy/stats", async (_req, res) => {
+    try {
+      const { rows } = await pool.query(`
+        SELECT
+          (SELECT COUNT(*) FROM allied_questions WHERE career_type = 'occupationalTherapy' AND status IN ('approved', 'pending')) as question_count,
+          (SELECT COUNT(*) FROM allied_questions WHERE career_type = 'occupationalTherapy' AND status IN ('approved', 'pending') AND blueprint_category IS NOT NULL) as lesson_count,
+          (SELECT COUNT(*) FROM allied_questions WHERE career_type = 'occupationalTherapy' AND status IN ('approved', 'pending')) as flashcard_count,
+          0 as exam_count
+      `);
+      res.json(snakeToCamel(rows[0]));
+    } catch (e: any) {
+      res.json({ questionCount: 0, lessonCount: 0, flashcardCount: 0, examCount: 0 });
+    }
+  });
+
+  app.get("/api/physical-therapy/stats", async (_req, res) => {
+    try {
+      const { rows } = await pool.query(`
+        SELECT
+          (SELECT COUNT(*) FROM allied_questions WHERE career_type = 'physicalTherapy' AND status IN ('approved', 'pending')) as question_count,
+          (SELECT COUNT(*) FROM allied_questions WHERE career_type = 'physicalTherapy' AND status IN ('approved', 'pending') AND blueprint_category IS NOT NULL) as lesson_count,
+          (SELECT COUNT(*) FROM allied_questions WHERE career_type = 'physicalTherapy' AND status IN ('approved', 'pending')) as flashcard_count,
+          0 as exam_count
+      `);
+      res.json(snakeToCamel(rows[0]));
+    } catch (e: any) {
+      res.json({ questionCount: 0, lessonCount: 0, flashcardCount: 0, examCount: 0 });
+    }
+  });
 }
 
 function snakeToCamel(obj: any): any {
