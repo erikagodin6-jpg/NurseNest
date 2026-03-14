@@ -435,6 +435,76 @@ export const CLINICAL_SKILLS_CATEGORIES: Record<string, { name: string; descript
     description: "Create systems for organizing your shift, from brain sheets to time-blocking strategies that keep you on track.",
     icon: "Clock",
   },
+  "medication-administration": {
+    name: "Medication Administration",
+    description: "Master safe medication administration with the 10 rights, high-alert medications, and error prevention strategies.",
+    icon: "Pill",
+  },
+  "patient-communication": {
+    name: "Patient Communication",
+    description: "Develop therapeutic communication, active listening, health literacy, and difficult conversation strategies.",
+    icon: "MessageCircle",
+  },
+  "vital-signs-assessment": {
+    name: "Vital Signs Assessment",
+    description: "Accurately measure, interpret, and trend vital signs to identify patient deterioration early.",
+    icon: "Activity",
+  },
+  "infection-control": {
+    name: "Infection Control",
+    description: "Essential infection prevention practices including hand hygiene, PPE use, isolation precautions, and sterile technique.",
+    icon: "Shield",
+  },
+  "wound-care-management": {
+    name: "Wound Care Management",
+    description: "Systematic wound assessment, classification, dressing selection, and healing optimization strategies.",
+    icon: "Bandage",
+  },
+  "pain-assessment-management": {
+    name: "Pain Assessment & Management",
+    description: "Comprehensive pain assessment, pharmacological and non-pharmacological interventions, and opioid safety.",
+    icon: "HeartPulse",
+  },
+  "fall-prevention": {
+    name: "Fall Prevention",
+    description: "Evidence-based fall prevention strategies including risk assessment, environmental modification, and patient education.",
+    icon: "ShieldAlert",
+  },
+  "patient-safety-protocols": {
+    name: "Patient Safety Protocols",
+    description: "Essential safety protocols including two-patient identifiers, timeout procedures, and incident reporting.",
+    icon: "ShieldCheck",
+  },
+  "blood-glucose-monitoring": {
+    name: "Blood Glucose Monitoring",
+    description: "Blood glucose monitoring techniques, insulin administration, and management of hypo- and hyperglycemia.",
+    icon: "Droplet",
+  },
+  "iv-therapy-management": {
+    name: "IV Therapy Management",
+    description: "Peripheral IV insertion, infusion rate calculation, complication recognition, and central line management.",
+    icon: "Syringe",
+  },
+  "discharge-planning": {
+    name: "Discharge Planning",
+    description: "Effective discharge planning including medication reconciliation, patient education, and readmission prevention.",
+    icon: "ClipboardCheck",
+  },
+  "teamwork-delegation": {
+    name: "Teamwork & Delegation",
+    description: "Effective delegation using the 5 Rights, interprofessional collaboration, and team communication strategies.",
+    icon: "Users",
+  },
+  "ethical-decision-making": {
+    name: "Ethical Decision-Making",
+    description: "Navigate ethical dilemmas using core principles, informed consent, advance directives, and decision-making frameworks.",
+    icon: "Scale",
+  },
+  "prioritizing-busy-shifts": {
+    name: "Prioritizing During Busy Shifts",
+    description: "Rapid clinical decision-making strategies for high-volume shifts including triage frameworks and stress resilience.",
+    icon: "Zap",
+  },
 };
 
 export const CAREER_DEVELOPMENT_PATHS: Record<string, { name: string; description: string; fromProfession: string; toProfession?: string; icon: string }> = {

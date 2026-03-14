@@ -166,6 +166,8 @@ const NewGradHub = lazy(() => import("@/pages/new-grad-hub"));
 const NewGradProfessionHub = lazy(() => import("@/pages/new-grad/profession-hub-page"));
 const FirstYearGuidePage = lazy(() => import("@/pages/new-grad/first-year-guide-page"));
 const ClinicalSkillsGuidePage = lazy(() => import("@/pages/new-grad/clinical-skills-guide-page"));
+const ClinicalSkillsHub = lazy(() => import("@/pages/clinical-skills-hub"));
+const ClinicalSkillsGuideDetail = lazy(() => import("@/pages/clinical-skills-guide"));
 const UnitGuidePage = lazy(() => import("@/pages/new-grad/unit-guide-page"));
 const CareerDevelopmentPage = lazy(() => import("@/pages/new-grad/career-development-page"));
 const ClinicalScenarioPage = lazy(() => import("@/pages/new-grad/clinical-scenario-page"));
@@ -456,7 +458,8 @@ function AppRoutes() {
         <Route path="/addictions-counselor-first-year-survival-guide" component={NewGradGuidePage} />
         <Route path="/addictions-counseling-first-year-survival-guide" component={NewGradGuidePage} />
         <Route path="/ot-first-year-survival-guide" component={NewGradGuidePage} />
-        <Route path="/clinical-skills/:slug" component={NewGradGuidePage} />
+        <Route path="/clinical-skills" component={ClinicalSkillsHub} />
+        <Route path="/clinical-skills/:slug" component={ClinicalSkillsGuideDetail} />
         <Route path="/unit-guides/:slug" component={NewGradGuidePage} />
         <Route path="/career-development/:slug" component={NewGradGuidePage} />
         <Route path="/clinical-scenarios/:slug" component={NewGradGuidePage} />
