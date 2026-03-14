@@ -2,89 +2,235 @@ import type { LessonContent } from "./types";
 
 export const generatedBatch026Lessons: Record<string, LessonContent> = {
   "damage-control-resus-np": {
-    title: "Damage Control Resuscitation: Permissive",
-    cellular: { title: "Damage Control Resuscitation: Permissive", content: "the clinician applies advanced clinical reasoning to the assessment and management of Damage Control Resuscitation: Permissive Hypotension, integrating comprehensive pathophysiological knowledge with evidence-based diagnostic and therapeutic decision-making at the independent practitioner level. Assessment includes focused history using structured frameworks (OLDCARTS for symptom analysis, comprehensive review of systems), targeted physical examination with provocative maneuvers as indicated, and interpretation of relevant diagnostic studies (laboratory investigations, imaging, and specialized testing). The clinician formulates a differential diagnosis using systematic clinical reasoning, applies validated clinical prediction rules and scoring systems to guide investigation and management, and selects evidence-based pharmacotherapy based on mechanism of action, pharmacokinetic/pharmacodynamic principles, patient-specific factors (age, renal and hepatic function, comorbidities, drug interactions, pregnancy status, allergies), and current clinical practice guidelines. Management integrates pharmacological and non-pharmacological interventions, patient education with health literacy assessment, shared decision-making, and appropriate follow-up monitoring. The clinician identifies red flags requiring urgent investigation or intervention, determines criteria for specialist referral or emergency department transfer, coordinates interprofessional collaborative care, and implements quality improvement strategies to optimize patient outcomes." },
-    riskFactors: ["Advanced age or extremes of age","Family history of damage control resus or related conditions","Chronic comorbidities (hypertension, diabetes, obesity)","Sedentary lifestyle and poor nutritional status","Tobacco, alcohol, or substance use","Immunocompromised state or prolonged medication use"],
-    diagnostics: ["Order and interpret CBC, BMP, and disease-specific labs","Review imaging studies (X-ray, CT, MRI, ultrasound) as indicated","Perform focused physical examination with advanced assessment techniques","Apply clinical decision rules and scoring tools","Order specialty consultations when findings exceed scope"],
-    management: ["Prescribe first-line pharmacotherapy based on current clinical guidelines","Develop individualized treatment plan with measurable outcomes","Order follow-up diagnostic testing to monitor treatment response","Refer to specialist when condition is refractory or complex","Adjust therapy based on patient response and adverse effects"],
-    nursingActions: ["Order and interpret diagnostic studies for changes in condition","Prescribe pharmacological and non-pharmacological therapies per established protocols","Formulate differential diagnosis and treatment plan based on assessment findings","Counsel patients on disease management and prevention regarding condition management","Document all interventions, assessments, and patient responses accurately","Maintain safe environment and follow infection prevention protocols"],
-    assessmentFindings: ["Changes in vital signs including temperature, pulse, blood pressure, and respirations","Alterations in level of consciousness, orientation, or cognitive function","Pain assessment using validated tools (onset, location, duration, character, severity)","Skin assessment including color, turgor, moisture, integrity, and temperature","Functional status changes including mobility, self-care ability, and nutritional intake"],
-    signs: {
-      left: ["Changes in vital sign trends","Altered mental status or confusion","Pain or discomfort reported by patient","Skin changes (pallor, diaphoresis, cyanosis, jaundice)","Abnormal laboratory values"],
-      right: ["Fever or hypothermia","Edema (peripheral, periorbital, or generalized)","Adventitious breath sounds or respiratory distress","Gastrointestinal symptoms (nausea, vomiting, distension)","Changes in urine output or characteristics"]
+      "title": "Damage Control Resuscitation",
+      "cellular": {
+        "title": "Damage Control Resuscitation Principles",
+        "content": "Damage control resuscitation (DCR) is a systematic approach to managing hemorrhagic shock that addresses the 'lethal triad' of trauma: hypothermia, acidosis, and coagulopathy. These three conditions create a self-reinforcing cycle: hypothermia (<35°C) impairs clotting factor enzyme kinetics, acidosis (pH <7.2) inactivates clotting factors and causes platelet dysfunction, and coagulopathy from factor consumption and dilution worsens hemorrhage, which worsens hypothermia and acidosis. DCR principles include: permissive hypotension (SBP 80-90 mmHg in penetrating trauma, higher in TBI), balanced blood product transfusion (1:1:1 ratio of RBCs:FFP:platelets per PROPPR trial), hemostatic resuscitation (TXA within 3 hours per CRASH-2), minimizing crystalloid use (causes dilutional coagulopathy and worse acidosis), and early surgical hemorrhage control (damage control surgery)."
+      },
+      "riskFactors": [
+        "Major trauma with hemorrhagic shock (most common indication)",
+        "Penetrating trauma with massive hemorrhage",
+        "Blunt abdominal/pelvic trauma with vascular injury",
+        "Massive obstetric hemorrhage (placental abruption, uterine rupture, postpartum hemorrhage)",
+        "GI hemorrhage with hemodynamic instability",
+        "Ruptured abdominal aortic aneurysm",
+        "Warfarin/anticoagulant-related hemorrhage",
+        "Any patient requiring massive transfusion (≥10 units pRBCs in 24 hours or ≥4 units in 1 hour)"
+      ],
+      "diagnostics": [
+        "Point-of-care testing: ABG with lactate (acidosis marker), ionized calcium (hypocalcemia from citrate in transfused blood), TEG/ROTEM (thromboelastography -- guides blood product replacement in real time)",
+        "CBC: serial hemoglobin (may not accurately reflect acute blood loss initially due to hemoconcentration), platelet count",
+        "Coagulation: PT/INR, aPTT, fibrinogen (target >150-200 mg/dL in massive hemorrhage)",
+        "Core temperature monitoring: continuous esophageal or bladder temperature probe",
+        "Lactate: indicator of tissue perfusion; trend clearance to monitor resuscitation (>10% clearance per 2 hours)",
+        "Base deficit: correlates with blood loss and resuscitation adequacy",
+        "FAST exam (Focused Assessment with Sonography in Trauma): identifies free fluid in abdomen/thorax -- positive FAST + hemodynamic instability = OR",
+        "Type and crossmatch: send early; activate massive transfusion protocol (MTP) for uncrossmatched O-negative blood while waiting"
+      ],
+      "management": [
+        "Activate massive transfusion protocol (MTP) early: do not wait for lab confirmation of coagulopathy",
+        "Balanced transfusion: 1:1:1 ratio of RBCs:FFP:platelets (PROPPR trial -- decreased 24-hour mortality from exsanguination vs 1:1:2)",
+        "TXA (tranexamic acid): 1g IV within 3 HOURS of injury (CRASH-2), followed by 1g over 8 hours; do NOT give after 3 hours (may increase mortality)",
+        "Permissive hypotension: target SBP 80-90 mmHg in penetrating trauma to minimize disruption of forming clots; maintain SBP >100 mmHg if concurrent TBI (brain needs perfusion pressure)",
+        "Minimize crystalloid: use blood products instead; crystalloids cause dilutional coagulopathy, worsen acidosis (non-buffered NS), and hypothermia (room temperature fluids)",
+        "Calcium replacement: citrate in blood products chelates calcium; maintain ionized Ca >1.0 mmol/L (calcium is essential for coagulation cascade)",
+        "Warm aggressively: blood warmers for all products, forced-air warming blankets, warm IV fluids, warm OR environment",
+        "Damage control surgery: rapid hemorrhage control (packing, ligation, shunting) + temporary abdominal closure → ICU resuscitation → definitive repair in 24-48 hours when physiology normalized",
+        "Fibrinogen replacement: cryoprecipitate or fibrinogen concentrate if fibrinogen <150-200 mg/dL"
+      ],
+      "nursingActions": [
+        "Activate massive transfusion protocol per institutional criteria (e.g., ABC score ≥2, clinical assessment of massive hemorrhage)",
+        "Administer blood products in 1:1:1 ratio: 6 units pRBC + 6 units FFP + 1 apheresis platelet (typical MTP cooler)",
+        "Administer TXA 1g IV within 3 hours of injury -- this is time-critical and should be given as early as possible",
+        "Monitor and replace ionized calcium: citrate in transfused blood chelates calcium; maintain iCa >1.0 mmol/L; give calcium gluconate 1g IV per 4-6 units transfused as empiric replacement",
+        "Prevent and treat hypothermia aggressively: blood warmers, forced-air warming, warm environment; core temp monitoring",
+        "Monitor for massive transfusion complications: hyperkalemia (from stored RBCs), hypocalcemia (citrate toxicity), hypothermia, metabolic alkalosis (citrate→bicarbonate), TRALI (acute lung injury within 6 hours of transfusion)",
+        "Obtain serial POC labs: ABG with lactate q30-60 min, ionized calcium, TEG/ROTEM if available",
+        "Ensure large-bore IV access (≥16 gauge × 2) or central/IO access; rapid infuser capability for high-volume transfusion"
+      ],
+      "assessmentFindings": [
+        "Hemorrhagic shock: tachycardia, hypotension, cool/pale extremities, altered mental status, weak pulses",
+        "Class III-IV hemorrhage: >30% blood volume lost, significant hypotension, tachycardia >120, AMS",
+        "Lethal triad: hypothermia (<35°C) + acidosis (pH <7.2, base deficit >-6, lactate >4) + coagulopathy (prolonged PT/aPTT, low fibrinogen, non-clotting surgical field)",
+        "Ongoing hemorrhage: persistent hemodynamic instability despite resuscitation, increasing lactate, non-surgical oozing from all wounds/IV sites (coagulopathy)",
+        "TRALI: new bilateral pulmonary infiltrates and hypoxemia within 6 hours of transfusion, without circulatory overload"
+      ],
+      "signs": {
+        "left": [
+          "Hemorrhage controlled with initial resuscitation; lactate clearing; core temperature rising; coagulation normalizing",
+          "Successful damage control surgery with temporary abdominal closure; patient stabilizing in ICU for 24-48 hours before definitive repair"
+        ],
+        "right": [
+          "Refractory hemorrhagic shock despite MTP: consider aortic occlusion (REBOA), surgical packing, interventional radiology embolization",
+          "Lethal triad fully established (hypothermia + acidosis + coagulopathy): mortality >50%; aggressive correction needed simultaneously",
+          "Massive transfusion complications: TRALI (bilateral pulmonary infiltrates, hypoxemia), hyperkalemia with ECG changes, severe hypocalcemia",
+          "Non-compressible torso hemorrhage: junctional/truncal bleeding requiring emergent surgical or endovascular control"
+        ]
+      },
+      "medications": [
+        {
+          "name": "Tranexamic Acid (TXA)",
+          "type": "Antifibrinolytic agent (lysine analogue)",
+          "action": "Competitively inhibits plasminogen activation, preventing fibrin clot degradation; stabilizes formed clots without promoting new thrombosis; reduces bleeding and mortality in trauma when given within 3 hours of injury (CRASH-2 trial)",
+          "sideEffects": "Nausea, diarrhea, dizziness; rare: seizures (at high doses, especially cardiac surgery), thromboembolic events (theoretical but not demonstrated in trials at recommended doses)",
+          "contra": "Active thromboembolic disease (relative), severe renal impairment (dose adjust), subarachnoid hemorrhage (may impair beneficial clot lysis -- controversial)",
+          "pearl": "1g IV bolus over 10 minutes WITHIN 3 HOURS of injury (CRASH-2: reduced all-cause mortality by 1.5% NNT=67); followed by 1g IV over 8 hours; giving TXA AFTER 3 hours actually INCREASES mortality in the CRASH-2 trial; also effective in postpartum hemorrhage (WOMAN trial: 1g IV reduces bleeding-related death); in MTP, give TXA as EARLY as possible -- ideally prehospital"
+        }
+      ],
+      "pearls": [
+        "The LETHAL TRIAD (hypothermia + acidosis + coagulopathy) is a vicious cycle where each component worsens the others -- ALL THREE must be corrected simultaneously",
+        "1:1:1 ratio of RBCs:FFP:platelets in massive transfusion reduces mortality from exsanguination (PROPPR trial)",
+        "TXA within 3 HOURS of injury reduces mortality (CRASH-2); after 3 hours it may INCREASE mortality -- timing is critical",
+        "Permissive hypotension (SBP 80-90) reduces disruption of forming clots in hemorrhagic shock; EXCEPTION: maintain SBP >100 in TBI (brain needs perfusion pressure)",
+        "Minimize crystalloids in hemorrhagic shock: they cause dilutional coagulopathy, don't carry oxygen, worsen hypothermia, and may worsen acidosis (NS = hyperchloremic acidosis)",
+        "Citrate in banked blood chelates CALCIUM -- hypocalcemia impairs coagulation and cardiac function; empirically replace calcium during MTP (1g calcium gluconate per ~4-6 units)"
+      ],
+      "quiz": [
+        {
+          "question": "What is the recommended blood product ratio during massive transfusion per the PROPPR trial?",
+          "options": [
+            "2:1:1 (RBC:FFP:platelets)",
+            "1:1:1 (RBC:FFP:platelets)",
+            "6:1:1 (RBC:FFP:platelets)",
+            "RBCs only until bleeding stops"
+          ],
+          "correct": 1,
+          "rationale": "The PROPPR trial demonstrated that a balanced 1:1:1 ratio of RBCs:FFP:platelets achieved hemostasis more quickly and reduced 24-hour mortality from exsanguination compared to the traditional 1:1:2 ratio. The 1:1:1 approach replaces ALL blood components proportionally, preventing dilutional coagulopathy."
+        },
+        {
+          "question": "A trauma patient arrives 4 hours after a motor vehicle collision with hemorrhagic shock. Should TXA be administered?",
+          "options": [
+            "Yes -- TXA is always beneficial regardless of timing",
+            "No -- the CRASH-2 trial showed that TXA given after 3 hours may INCREASE mortality",
+            "Yes -- but at a reduced dose",
+            "TXA is only for surgical bleeding, not trauma"
+          ],
+          "correct": 1,
+          "rationale": "The CRASH-2 trial showed TXA reduces mortality when given within 3 hours of injury, but administration after 3 hours was associated with increased mortality (possibly from stabilizing harmful microvascular thrombi in later stages). The 3-hour window is firm, and TXA should be given as EARLY as possible -- ideally prehospital."
+        },
+        {
+          "question": "During massive transfusion, a patient's ionized calcium drops to 0.7 mmol/L. Why does this occur and what is the treatment?",
+          "options": [
+            "Calcium loss from hemorrhage -- give calcium chloride orally",
+            "Citrate in banked blood chelates ionized calcium -- give IV calcium gluconate to maintain iCa >1.0 mmol/L",
+            "Calcium is consumed by the coagulation cascade -- no treatment needed",
+            "Acidosis causes hypercalcemia, not hypocalcemia"
+          ],
+          "correct": 1,
+          "rationale": "Banked blood products contain citrate as an anticoagulant preservative. When large volumes are transfused rapidly, citrate overwhelms the liver's ability to metabolize it, chelating ionized calcium. Hypocalcemia impairs both the coagulation cascade (calcium is a clotting factor) and cardiac contractility. Treat with IV calcium gluconate, targeting iCa >1.0 mmol/L."
+        }
+      ]
     },
-    medications: [{
-      name: "Acetaminophen",
-      type: "Analgesic/Antipyretic",
-      action: "Inhibits cyclooxygenase enzymes in the CNS to reduce pain and fever",
-      sideEffects: "Hepatotoxicity at high doses, nausea, rash (rare)",
-      contra: "Severe hepatic impairment, active liver disease, alcohol use disorder",
-      pearl: "Maximum 4g/day in healthy adults, 2g/day with liver disease; found in many combination products - check all sources"
-    }],
-    pearls: ["Always assess for allergies before administering any new medication","Document baseline assessment findings to enable accurate trending","Use the SBAR format for structured clinical communication with the healthcare team","Consider age-specific and population-specific variations in normal findings","Never ignore a sudden change in patient condition, even if vital signs appear stable","Verify two patient identifiers before any medication administration or procedure"],
-    quiz: [
-      {
-        question: "A nurse is caring for a patient with damage control resus. Which assessment finding requires immediate intervention?",
-        options: ["Sudden change in level of consciousness","Mild discomfort rated 3/10 on pain scale","Stable vital signs within normal limits","Patient requesting information about their condition"],
-        correct: 0,
-        rationale: "A sudden change in level of consciousness may indicate a serious complication such as hemorrhage, hypoxia, or neurological deterioration and requires immediate assessment and intervention."
-      },
-      {
-        question: "Which nursing action is most appropriate when managing a patient with damage control resus?",
-        options: ["Order and interpret diagnostic studies for changes in condition","Delay assessment until the next scheduled time","Administer PRN medications without assessment","Transfer care without communicating relevant findings"],
-        correct: 0,
-        rationale: "Ongoing assessment and timely intervention are fundamental to safe patient care. Delaying assessment, administering medications without assessment, or failing to communicate findings can compromise patient safety."
-      },
-      {
-        question: "The patient asks about their damage control resus diagnosis. What is the best initial nursing response?",
-        options: ["Avoid discussing the diagnosis and redirect the conversation","Provide all available information regardless of patient readiness","Assess the patient's current understanding and address their specific concerns","Tell the patient to wait for the physician to explain everything"],
-        correct: 2,
-        rationale: "Assessing the patient's current understanding allows the nurse to provide targeted, accurate education at the appropriate level, supporting informed decision-making and reducing anxiety."
-      },
-    ]
-  },
   "d-dimer-logic-np": {
-    title: "D-Dimer Logic",
-    cellular: { title: "Pathophysiology of D-Dimer Logic", content: "the clinician applies advanced clinical reasoning to the assessment and management of D-Dimer Logic, integrating comprehensive pathophysiological knowledge with evidence-based diagnostic and therapeutic decision-making at the independent practitioner level. Assessment includes focused history using structured frameworks (OLDCARTS for symptom analysis, comprehensive review of systems), targeted physical examination with provocative maneuvers as indicated, and interpretation of relevant diagnostic studies (laboratory investigations, imaging, and specialized testing). The clinician formulates a differential diagnosis using systematic clinical reasoning, applies validated clinical prediction rules and scoring systems to guide investigation and management, and selects evidence-based pharmacotherapy based on mechanism of action, pharmacokinetic/pharmacodynamic principles, patient-specific factors (age, renal and hepatic function, comorbidities, drug interactions, pregnancy status, allergies), and current clinical practice guidelines. Management integrates pharmacological and non-pharmacological interventions, patient education with health literacy assessment, shared decision-making, and appropriate follow-up monitoring. The clinician identifies red flags requiring urgent investigation or intervention, determines criteria for specialist referral or emergency department transfer, coordinates interprofessional collaborative care, and implements quality improvement strategies to optimize patient outcomes." },
-    riskFactors: ["Advanced age or extremes of age","Family history of d dimer logic or related conditions","Chronic comorbidities (hypertension, diabetes, obesity)","Sedentary lifestyle and poor nutritional status","Tobacco, alcohol, or substance use","Immunocompromised state or prolonged medication use"],
-    diagnostics: ["Order and interpret CBC, BMP, and disease-specific labs","Review imaging studies (X-ray, CT, MRI, ultrasound) as indicated","Perform focused physical examination with advanced assessment techniques","Apply clinical decision rules and scoring tools","Order specialty consultations when findings exceed scope"],
-    management: ["Prescribe first-line pharmacotherapy based on current clinical guidelines","Develop individualized treatment plan with measurable outcomes","Order follow-up diagnostic testing to monitor treatment response","Refer to specialist when condition is refractory or complex","Adjust therapy based on patient response and adverse effects"],
-    nursingActions: ["Order and interpret diagnostic studies for changes in condition","Prescribe pharmacological and non-pharmacological therapies per established protocols","Formulate differential diagnosis and treatment plan based on assessment findings","Counsel patients on disease management and prevention regarding condition management","Document all interventions, assessments, and patient responses accurately","Maintain safe environment and follow infection prevention protocols"],
-    assessmentFindings: ["Changes in vital signs including temperature, pulse, blood pressure, and respirations","Alterations in level of consciousness, orientation, or cognitive function","Pain assessment using validated tools (onset, location, duration, character, severity)","Skin assessment including color, turgor, moisture, integrity, and temperature","Functional status changes including mobility, self-care ability, and nutritional intake"],
-    signs: {
-      left: ["Changes in vital sign trends","Altered mental status or confusion","Pain or discomfort reported by patient","Skin changes (pallor, diaphoresis, cyanosis, jaundice)","Abnormal laboratory values"],
-      right: ["Fever or hypothermia","Edema (peripheral, periorbital, or generalized)","Adventitious breath sounds or respiratory distress","Gastrointestinal symptoms (nausea, vomiting, distension)","Changes in urine output or characteristics"]
+      "title": "D-Dimer Diagnostic Logic",
+      "cellular": {
+        "title": "D-Dimer Interpretation & Clinical Application",
+        "content": "D-dimer is a fibrin degradation product released when cross-linked fibrin is cleaved by plasmin during fibrinolysis. It is a marker of both coagulation activation (fibrin formation) and fibrinolysis (fibrin breakdown). D-dimer has HIGH SENSITIVITY but LOW SPECIFICITY for venous thromboembolism: a negative D-dimer effectively EXCLUDES DVT/PE in low-to-moderate pretest probability patients (high negative predictive value), but a positive D-dimer does NOT confirm thrombosis (many conditions elevate D-dimer). Conditions causing elevated D-dimer include: VTE, DIC, sepsis, malignancy, trauma, surgery, pregnancy, inflammation, liver disease, advanced age, and COVID-19. The clinical utility of D-dimer depends entirely on integrating it with pretest probability assessment (Wells criteria for DVT/PE)."
+      },
+      "riskFactors": [
+        "Conditions causing elevated D-dimer (non-VTE): recent surgery (<4 weeks), trauma, active malignancy, pregnancy, DIC, sepsis, liver disease, inflammatory conditions (RA, IBD), COVID-19, advanced age, hospitalization, atrial fibrillation",
+        "Age-related D-dimer elevation: D-dimer naturally rises with age, reducing specificity; age-adjusted cutoff improves specificity (age × 10 ng/mL for patients >50 years)",
+        "Pre-test probability tools: Wells criteria for DVT (score ≤1 = low probability), Wells criteria for PE (simplified: PE likely ≤4 vs PE unlikely ≤4, or original scoring)",
+        "PERC rule (Pulmonary Embolism Rule-out Criteria): if ALL 8 criteria are negative AND low gestalt probability, PE can be excluded WITHOUT D-dimer testing"
+      ],
+      "diagnostics": [
+        "D-dimer assay types: quantitative (ELISA-based -- most sensitive, used for VTE exclusion), semi-quantitative (latex agglutination -- less sensitive, not recommended for exclusion)",
+        "VTE exclusion algorithm: 1) Assess pretest probability (Wells criteria), 2) If LOW probability: D-dimer test → if negative, VTE excluded (NPV >99%); if positive → imaging (compression ultrasound for DVT, CT-PA for PE), 3) If HIGH probability: proceed directly to imaging (D-dimer is not useful for exclusion in high pretest probability)",
+        "Age-adjusted D-dimer cutoff: for patients >50 years, use cutoff = age × 10 ng/mL (e.g., 70-year-old: cutoff = 700 ng/mL instead of standard 500); increases specificity without sacrificing sensitivity",
+        "YEARS algorithm for PE: D-dimer threshold varies based on clinical features (signs of DVT, hemoptysis, PE most likely diagnosis); if 0 YEARS items: cutoff 1000 ng/mL; if ≥1 items: cutoff 500 ng/mL",
+        "DIC diagnosis: D-dimer is one component of the ISTH DIC scoring system (along with platelet count, PT, fibrinogen)",
+        "Monitoring: serial D-dimer after VTE treatment to guide anticoagulation duration (persistently elevated D-dimer after stopping anticoagulation predicts recurrence)"
+      ],
+      "management": [
+        "Low pretest probability + negative D-dimer: VTE excluded; no imaging needed; no anticoagulation",
+        "Low pretest probability + positive D-dimer: obtain imaging (CUS for DVT, CT-PA for PE) -- most positives in this group are false positives",
+        "High pretest probability: proceed directly to imaging regardless of D-dimer (D-dimer has insufficient NPV when pretest probability is high)",
+        "Apply age-adjusted cutoff for patients >50 to reduce unnecessary imaging from false-positive D-dimer",
+        "Consider the PERC rule in low-risk ED patients: if ALL 8 criteria are negative (age <50, HR <100, SpO2 >94%, no unilateral leg swelling, no hemoptysis, no recent surgery/trauma, no prior VTE, no estrogen use), PE can be excluded without D-dimer",
+        "Post-VTE: D-dimer measured 3-4 weeks after completing anticoagulation can guide extension of therapy (elevated D-dimer = higher recurrence risk = consider extended anticoagulation)"
+      ],
+      "nursingActions": [
+        "Assess pretest probability using Wells criteria BEFORE ordering D-dimer -- D-dimer is only useful for EXCLUDING VTE in low-to-moderate probability patients",
+        "Do NOT order D-dimer if pretest probability is HIGH -- proceed directly to imaging (a negative D-dimer in high probability does not exclude VTE with sufficient confidence)",
+        "Apply age-adjusted D-dimer cutoff for patients >50 years (age × 10 ng/mL) to reduce false positives and unnecessary imaging",
+        "Know PERC criteria for PE: if low clinical suspicion AND ALL 8 criteria negative → no testing needed (not even D-dimer)",
+        "Interpret D-dimer results in clinical context: D-dimer is elevated in many non-VTE conditions (surgery, malignancy, pregnancy, infection, hospitalization, inflammation)",
+        "Do NOT use D-dimer for VTE DIAGNOSIS: it is a RULE-OUT test only; a positive D-dimer requires confirmatory imaging",
+        "Educate patients that a positive D-dimer does not mean they have a blood clot -- it means further testing is needed"
+      ],
+      "assessmentFindings": [
+        "DVT symptoms: unilateral leg swelling, calf pain, warmth, erythema, pitting edema; Homan sign (calf pain with dorsiflexion) is unreliable",
+        "PE symptoms: acute dyspnea, pleuritic chest pain, tachycardia, tachypnea, hypoxia; massive PE: hypotension, syncope, right heart strain",
+        "Wells score components for PE: clinical signs of DVT, PE most likely diagnosis, HR >100, immobilization/surgery in past 4 weeks, previous DVT/PE, hemoptysis, malignancy",
+        "Causes of false-positive D-dimer: recent surgery, trauma, pregnancy, malignancy, DIC, liver disease, inflammation, advanced age, hospitalization, COVID-19"
+      ],
+      "signs": {
+        "left": [
+          "Low Wells score with negative D-dimer: VTE effectively excluded -- no imaging needed, reassure patient",
+          "Positive D-dimer in post-surgical patient (likely false positive from surgical inflammation) but imaging confirms no VTE",
+          "Age-adjusted D-dimer cutoff applied: 65-year-old with D-dimer 600 (below age-adjusted cutoff of 650) -- VTE excluded without imaging"
+        ],
+        "right": [
+          "High Wells score: proceed directly to imaging regardless of D-dimer -- delay for D-dimer testing is inappropriate",
+          "Massive PE with hemodynamic instability: do NOT wait for D-dimer -- emergent CT-PA, bedside echo for RV strain, consider empiric anticoagulation",
+          "Elevated D-dimer with clinical DIC pattern (low platelets, low fibrinogen, prolonged PT) -- treat underlying cause",
+          "Post-VTE: elevated D-dimer after stopping anticoagulation -- consider extended anticoagulation for recurrence prevention"
+        ]
+      },
+      "medications": [
+        {
+          "name": "This lesson covers diagnostic logic, not specific medications",
+          "type": "Diagnostic reasoning skill",
+          "action": "D-dimer results guide anticoagulation decisions: negative D-dimer in low probability = no anticoagulation; positive D-dimer or high probability = imaging, then anticoagulate if VTE confirmed",
+          "sideEffects": "N/A",
+          "contra": "N/A",
+          "pearl": "The key clinical decision: D-dimer EXCLUDES VTE (high NPV in low probability) but does NOT DIAGNOSE VTE (low specificity); the only role of D-dimer is to rule OUT VTE in patients with LOW pretest probability; in high probability, imaging is required regardless"
+        }
+      ],
+      "pearls": [
+        "D-dimer is a RULE-OUT test, NOT a diagnostic test: negative D-dimer + low pretest probability = VTE excluded (NPV >99%); positive D-dimer = needs imaging, NOT diagnostic of VTE",
+        "ALWAYS assess pretest probability with Wells criteria BEFORE ordering D-dimer -- D-dimer should NOT be ordered in high-probability patients (imaging is needed regardless)",
+        "Age-adjusted D-dimer cutoff: age × 10 ng/mL for patients >50 years reduces unnecessary CT scans by 30% without missing clinically significant PE",
+        "PERC rule: if gestalt probability is LOW AND ALL 8 PERC criteria are negative, PE can be excluded WITHOUT any testing (not even D-dimer) -- reduces unnecessary workup",
+        "A negative D-dimer in the setting of HIGH pretest probability does NOT exclude VTE -- the false-negative rate is too high; this is why pretest probability assessment is MANDATORY before D-dimer interpretation",
+        "Post-VTE D-dimer: persistently elevated D-dimer after stopping anticoagulation predicts higher recurrence risk and may guide the decision to extend anticoagulation therapy"
+      ],
+      "quiz": [
+        {
+          "question": "A 45-year-old with a Wells PE score of 2 (PE unlikely) has a D-dimer of 320 ng/mL (normal <500). What is the appropriate next step?",
+          "options": [
+            "Order CT-PA to confirm no PE",
+            "D-dimer is negative with low pretest probability -- PE is effectively excluded; no imaging needed",
+            "Start anticoagulation empirically",
+            "Repeat D-dimer in 24 hours"
+          ],
+          "correct": 1,
+          "rationale": "With low pretest probability (Wells ≤4 = PE unlikely) and a negative D-dimer (<500 ng/mL), PE is effectively excluded with >99% negative predictive value. No imaging is needed. This is the appropriate clinical application of D-dimer as a rule-out test."
+        },
+        {
+          "question": "A 70-year-old with a Wells PE score of 2 has a D-dimer of 620 ng/mL. Using the standard cutoff of 500, this is positive. Using the age-adjusted cutoff, what is the result?",
+          "options": [
+            "Still positive -- proceed to imaging",
+            "Negative by age-adjusted cutoff (70 × 10 = 700 ng/mL); PE can be excluded without imaging",
+            "Age adjustment should not be used in clinical practice",
+            "The patient needs empiric anticoagulation"
+          ],
+          "correct": 1,
+          "rationale": "The age-adjusted D-dimer cutoff for a 70-year-old is 700 ng/mL (age × 10). The patient's D-dimer of 620 is below this threshold. Combined with low pretest probability (Wells 2), PE can be excluded without imaging. The age-adjusted cutoff reduces unnecessary CT-PA scans by ~30% in elderly patients without missing clinically significant PE."
+        },
+        {
+          "question": "A patient has a Wells PE score of 8 (PE likely). Should a D-dimer be ordered?",
+          "options": [
+            "Yes -- D-dimer should always be the first test",
+            "No -- with high pretest probability, proceed directly to CT-PA regardless of D-dimer because a negative D-dimer cannot reliably exclude PE in this setting",
+            "Yes -- but only if CT-PA is unavailable",
+            "D-dimer should be ordered along with CT-PA simultaneously"
+          ],
+          "correct": 1,
+          "rationale": "In high pretest probability (Wells >4 = PE likely), D-dimer should NOT be ordered because its negative predictive value is insufficient to exclude PE. The false-negative rate is too high in this population. Proceed directly to definitive imaging (CT-PA). Ordering D-dimer in high probability adds cost, delays imaging, and may cause false reassurance."
+        }
+      ]
     },
-    medications: [{
-      name: "Acetaminophen",
-      type: "Analgesic/Antipyretic",
-      action: "Inhibits cyclooxygenase enzymes in the CNS to reduce pain and fever",
-      sideEffects: "Hepatotoxicity at high doses, nausea, rash (rare)",
-      contra: "Severe hepatic impairment, active liver disease, alcohol use disorder",
-      pearl: "Maximum 4g/day in healthy adults, 2g/day with liver disease; found in many combination products - check all sources"
-    }],
-    pearls: ["Always assess for allergies before administering any new medication","Document baseline assessment findings to enable accurate trending","Use the SBAR format for structured clinical communication with the healthcare team","Consider age-specific and population-specific variations in normal findings","Never ignore a sudden change in patient condition, even if vital signs appear stable","Verify two patient identifiers before any medication administration or procedure"],
-    quiz: [
-      {
-        question: "A nurse is caring for a patient with d dimer logic. Which assessment finding requires immediate intervention?",
-        options: ["Sudden change in level of consciousness","Mild discomfort rated 3/10 on pain scale","Stable vital signs within normal limits","Patient requesting information about their condition"],
-        correct: 0,
-        rationale: "A sudden change in level of consciousness may indicate a serious complication such as hemorrhage, hypoxia, or neurological deterioration and requires immediate assessment and intervention."
-      },
-      {
-        question: "Which nursing action is most appropriate when managing a patient with d dimer logic?",
-        options: ["Order and interpret diagnostic studies for changes in condition","Delay assessment until the next scheduled time","Administer PRN medications without assessment","Transfer care without communicating relevant findings"],
-        correct: 0,
-        rationale: "Ongoing assessment and timely intervention are fundamental to safe patient care. Delaying assessment, administering medications without assessment, or failing to communicate findings can compromise patient safety."
-      },
-      {
-        question: "The patient asks about their d dimer logic diagnosis. What is the best initial nursing response?",
-        options: ["Avoid discussing the diagnosis and redirect the conversation","Provide all available information regardless of patient readiness","Assess the patient's current understanding and address their specific concerns","Tell the patient to wait for the physician to explain everything"],
-        correct: 2,
-        rationale: "Assessing the patient's current understanding allows the nurse to provide targeted, accurate education at the appropriate level, supporting informed decision-making and reducing anxiety."
-      },
-    ]
-  },
   "death-dying-stages-rpn": {
         title: "Death, Dying, and End-of-Life Care",
         cellular: { title: "Physiology of the Dying Process", content: "The dying process involves progressive, predictable physiological changes across all organ systems as the body transitions from active cellular metabolism toward cessation of function. Understanding these changes at the cellular level allows the practical nurse to anticipate symptoms, provide appropriate comfort care, and educate families about what to expect. The cardiovascular system deteriorates as the myocardium weakens and peripheral vascular resistance drops. Cardiac output decreases, leading to reduced perfusion of vital organs. The kidneys receive less blood flow, resulting in decreased urine output (oliguria progressing to anuria) and accumulation of metabolic waste products (azotemia). Reduced renal clearance contributes to elevated blood urea nitrogen, which can cause terminal restlessness, confusion, and myoclonic jerking. Peripheral circulation diminishes in a predictable centripetal pattern: extremities become cool and mottled first (acrocyanosis), then cyanosis progresses centrally. Mottling typically appears on the knees, feet, and hands before progressing to the trunk. Blood pressure drops progressively, and the pulse becomes weak, thready, and irregular. The respiratory system undergoes characteristic changes as respiratory muscle strength declines. Cheyne-Stokes breathing (cyclical pattern of gradually increasing tidal volume followed by gradually decreasing tidal volume with periods of apnea lasting 10-60 seconds) is common in the days before death and reflects brainstem dysfunction in respiratory control centers. As the swallowing reflex diminishes and secretions accumulate in the posterior pharynx and upper airway, the characteristic sound known as the death rattle develops. This gurgling or rattling sound occurs with each breath and is caused by air passing through pooled secretions; importantly, it is typically more distressing to family members than to the patient, who is usually obtunded at this stage. The neurological system progressively deteriorates from the cortex downward. Consciousness diminishes from drowsiness to obtundation to coma. Hearing is traditionally believed to be the last sense to be lost, which is why nurses counsel families to continue speaking to their dying loved one and to be mindful of conversations in the room. The pupils become fixed and dilated as brainstem reflexes cease. The gastrointestinal system slows dramatically: appetite decreases, then thirst diminishes, and finally the swallowing reflex is lost. The liver reduces metabolism of medications, necessitating dose adjustments or route changes. Thermoregulation fails as hypothalamic function declines, and the patient may have alternating fever and hypothermia. Peripheral vasoconstriction leads to cool extremities even in the presence of core fever. Understanding these changes enables the practical nurse to shift the care goal from cure to comfort, focusing on symptom management, dignity, and family support. Kubler-Ross identified five stages of grief that patients and families may experience: denial, anger, bargaining, depression, and acceptance. These stages are not linear, not universal, and may be experienced in any order or simultaneously. The practical nurse must recognize that grief is an individual process and avoid forcing patients or families through prescribed stages." },
@@ -99,47 +245,127 @@ export const generatedBatch026Lessons: Record<string, LessonContent> = {
         quiz: [{ question: "A practical nurse is caring for a terminally ill patient who has developed noisy, gurgling respirations (death rattle). The family is visibly distressed. Which action should the practical nurse take first?", options: ["Perform deep oropharyngeal suctioning to remove all secretions","Explain to the family that the sound is caused by secretions the patient is likely unaware of, and reposition the patient on their side","Increase the IV fluid rate to thin the secretions","Apply supplemental oxygen via non-rebreather mask"], correct: 1, rationale: "The death rattle is caused by air passing through pooled secretions in the posterior pharynx. The patient is typically too obtunded to be aware of the sound. The first action is to educate the family and reposition the patient on their side to facilitate secretion drainage. Deep suctioning is invasive and often ineffective. IV fluids may worsen secretion volume. Oxygen does not address the underlying cause." },{ question: "A family member of a dying patient is angry and says to the practical nurse: 'You are not doing enough to save my mother. I want every treatment available.' Which response by the practical nurse demonstrates therapeutic communication?", options: ["I understand you are upset. Your mother's care team has determined that further treatment would not change the outcome.","I can see how much you love your mother. Tell me more about what is concerning you right now.","Anger is a normal stage of grief. You will eventually reach acceptance.","I will ask the doctor to order more tests and treatments."], correct: 1, rationale: "Acknowledging the family member's emotions and inviting them to express their concerns demonstrates therapeutic communication and empathy. Labeling their emotions as a grief stage may feel dismissive. Providing false reassurance or ordering unnecessary interventions is inappropriate. The nurse should listen, validate, and facilitate a care conference if needed." },{ question: "A practical nurse is reviewing the medication orders for an actively dying patient. Which medication should the nurse question as potentially non-essential at this stage of care?", options: ["Morphine 2 mg subcutaneous every 4 hours for pain","Hyoscine butylbromide 20 mg subcutaneous every 6 hours for secretions","Atorvastatin 40 mg oral daily for cholesterol management","Haloperidol 1 mg subcutaneous PRN for agitation"], correct: 2, rationale: "Atorvastatin is a statin used for long-term cardiovascular risk reduction and provides no comfort benefit in an actively dying patient. It should be discontinued to reduce unnecessary medication burden. Morphine, hyoscine, and haloperidol are all appropriate comfort medications for symptom management at end of life." }]
   },
   "dehydration-basics": {
-    title: "Dehydration Recognition",
-    cellular: { title: "Pathophysiology of Dehydration Recognition", content: "Dehydration represents a negative fluid balance where fluid losses exceed intake, causing intravascular volume depletion and, if severe, compromised tissue perfusion. Dehydration is classified by tonicity: isotonic (equal loss of water and sodium — hemorrhage, vomiting, diarrhea), hypotonic (greater sodium loss than water — adrenal insufficiency, diuretic use), and hypertonic (greater water loss than sodium — diabetes insipidus, inadequate free water intake, fever). Clinical assessment includes evaluating skin turgor (tenting over the sternum or clavicle in adults, abdomen in children), mucous membrane moisture, fontanelle status in infants (sunken indicates dehydration), capillary refill time, urine output and concentration (oliguria with specific gravity > 1.030), orthostatic vital signs, and mental status changes. Pediatric dehydration is classified by percentage of body weight lost: mild (3-5%), moderate (6-9%), and severe (≥ 10%), with severe dehydration producing hemodynamic instability requiring emergent IV fluid resuscitation with isotonic crystalloid (20 mL/kg boluses)." },
-    riskFactors: ["Advanced age or extremes of age","Family history of dehydration basics or related conditions","Chronic comorbidities (hypertension, diabetes, obesity)","Sedentary lifestyle and poor nutritional status","Tobacco, alcohol, or substance use","Immunocompromised state or prolonged medication use"],
-    diagnostics: ["Perform focused assessment and report findings to supervising nurse","Monitor vital signs and report deviations from baseline","Collect specimens as directed and label accurately","Document assessment findings and communicate changes promptly","Recognize and report signs of deterioration"],
-    management: ["Administer medications as ordered and document administration","Implement comfort measures and basic supportive care","Follow established care protocols and report patient responses","Assist with activities of daily living and mobility as appropriate","Report changes in patient condition to the registered nurse promptly"],
-    nursingActions: ["Order and interpret diagnostic studies for changes in condition","Prescribe pharmacological and non-pharmacological therapies per established protocols","Formulate differential diagnosis and treatment plan based on assessment findings","Counsel patients on disease management and prevention regarding condition management","Document all interventions, assessments, and patient responses accurately","Maintain safe environment and follow infection prevention protocols"],
-    assessmentFindings: ["Changes in vital signs including temperature, pulse, blood pressure, and respirations","Alterations in level of consciousness, orientation, or cognitive function","Pain assessment using validated tools (onset, location, duration, character, severity)","Skin assessment including color, turgor, moisture, integrity, and temperature","Functional status changes including mobility, self-care ability, and nutritional intake"],
-    signs: {
-      left: ["Changes in vital sign trends","Altered mental status or confusion","Pain or discomfort reported by patient","Skin changes (pallor, diaphoresis, cyanosis, jaundice)","Abnormal laboratory values"],
-      right: ["Fever or hypothermia","Edema (peripheral, periorbital, or generalized)","Adventitious breath sounds or respiratory distress","Gastrointestinal symptoms (nausea, vomiting, distension)","Changes in urine output or characteristics"]
+      "title": "Dehydration Basics",
+      "cellular": {
+        "title": "Fluid Volume Deficit Pathophysiology",
+        "content": "Dehydration (fluid volume deficit) results from inadequate fluid intake, excessive fluid loss, or both, causing decreased intravascular volume and impaired tissue perfusion. The body's total body water (TBW) is ~60% of body weight in adults (higher in children/infants ~75-80%, lower in elderly and obese). Fluid loss can be isotonic (proportional sodium and water loss: hemorrhage, GI losses), hypotonic (more sodium than water lost: diuretics, renal disease -- causes hypernatremia), or hypertonic (more water than sodium lost: fever, hyperventilation, diabetes insipidus -- causes hyponatremia). Compensatory mechanisms include: ADH release (water retention), RAAS activation (sodium retention, vasoconstriction), sympathetic activation (tachycardia, vasoconstriction), and thirst. In pediatric patients, dehydration is classified as mild (3-5%), moderate (6-9%), or severe (≥10%) based on percentage of body weight lost."
+      },
+      "riskFactors": [
+        "Extremes of age: infants (high body surface area to volume ratio, higher metabolic rate, renal immaturity) and elderly (decreased thirst perception, renal concentrating ability, mobility limitations)",
+        "Gastrointestinal losses: vomiting, diarrhea (most common cause of dehydration worldwide, especially in children)",
+        "Fever and hyperthermia (increased insensible losses)",
+        "Burns (massive fluid shifts and evaporative losses)",
+        "Diabetes mellitus (osmotic diuresis from hyperglycemia)",
+        "Diabetes insipidus (massive water loss)",
+        "Diuretic therapy (especially loop diuretics)",
+        "Exercise-induced dehydration (athletes, military training, outdoor workers)",
+        "Decreased oral intake: altered mental status, NPO status, dysphagia, depression",
+        "Third-spacing: peritonitis, pancreatitis, sepsis (fluid shifts from intravascular to interstitial)"
+      ],
+      "diagnostics": [
+        "Clinical assessment: weight change (most accurate method in children -- 1 kg loss = 1 L fluid deficit), skin turgor (decreased), mucous membranes (dry), urine output and color (oliguria, concentrated), vital signs (tachycardia, orthostatic hypotension)",
+        "Serum sodium: determines TYPE of dehydration (isonatremic 130-150, hyponatremic <130, hypernatremic >150)",
+        "BUN/creatinine ratio: >20:1 suggests pre-renal dehydration (BUN rises disproportionately because urea is reabsorbed with sodium/water)",
+        "Urine specific gravity: >1.030 indicates concentrated urine (appropriate renal response to dehydration); <1.010 in dehydration suggests renal concentrating defect or diabetes insipidus",
+        "Urine sodium: <20 mEq/L suggests appropriate renal sodium retention (pre-renal); >40 mEq/L suggests renal sodium wasting",
+        "Serum osmolality: >295 mOsm/kg indicates hyperosmolality (water deficit > sodium deficit)",
+        "Lactate: elevated if severe dehydration causing tissue hypoperfusion",
+        "Pediatric dehydration assessment: WHO scale, CDS (Clinical Dehydration Scale)"
+      ],
+      "management": [
+        "Mild dehydration: oral rehydration therapy (ORT) -- preferred route; ORS (oral rehydration solution) contains glucose + sodium + water (WHO-ORS: Na 75 mEq/L, glucose 75 mmol/L, osmolality 245)",
+        "Moderate dehydration: ORT if tolerating oral; IV fluids if not (NS or LR bolus 20 mL/kg, then maintenance)",
+        "Severe dehydration: IV fluid resuscitation; NS or LR 20 mL/kg bolus, repeat up to 60 mL/kg; then calculate deficit replacement + maintenance",
+        "Maintenance fluid calculation (Holliday-Segar): 4-2-1 rule: 4 mL/kg/hr for first 10 kg, 2 mL/kg/hr for next 10 kg, 1 mL/kg/hr for each kg >20 kg",
+        "Deficit replacement: estimate percent dehydration × weight (kg) × 10 = mL deficit; replace 50% in first 8 hours, remaining 50% over next 16 hours",
+        "HYPERNATREMIC dehydration: correct sodium SLOWLY (<0.5 mEq/L/hr, <10-12 mEq/L per 24 hours) to prevent cerebral edema -- use hypotonic fluids (D5 0.45% NS)",
+        "Treat underlying cause: antiemetics for vomiting, antidiarrheal if appropriate, insulin for DKA, desmopressin for DI"
+      ],
+      "nursingActions": [
+        "Assess hydration status: skin turgor (check over sternum or inner thigh in adults; abdomen in children), mucous membranes, fontanelle (sunken in dehydrated infants), tear production, capillary refill, urine output and color",
+        "Weigh patient accurately (especially children -- weight is the most reliable indicator of fluid status)",
+        "Monitor strict I&O: all fluids in (oral, IV, tube feeds) and all fluids out (urine, stool, emesis, drains, insensible losses)",
+        "Encourage oral rehydration when possible: small, frequent sips of ORS or clear fluids; avoid high-osmolality fluids (juice, soda -- may worsen diarrhea)",
+        "Administer IV fluids per orders: monitor rate carefully; assess for signs of fluid overload (crackles, edema, JVD) especially in elderly and cardiac patients",
+        "Monitor electrolytes: sodium (type of dehydration), potassium (may be depleted from GI losses), chloride, bicarbonate",
+        "Orthostatic vital signs: measure BP and HR supine and standing; positive orthostatic test = SBP drop ≥20 mmHg or HR increase ≥20 bpm indicates significant volume depletion",
+        "Educate patients and families on signs of dehydration and when to seek medical care"
+      ],
+      "assessmentFindings": [
+        "Mild (3-5%): thirst, slightly dry mucous membranes, mildly decreased urine output, normal vital signs",
+        "Moderate (6-9%): dry mucous membranes, decreased skin turgor, tachycardia, sunken eyes, decreased urine output, orthostatic hypotension, sunken fontanelle in infants",
+        "Severe (≥10%): very dry mucous membranes, tenting of skin, significant tachycardia, hypotension, weak/thready pulses, altered mental status, oliguria/anuria, sunken fontanelle, absent tears",
+        "Infants: decreased wet diapers (<6/day for infants), sunken fontanelle, no tears when crying, lethargy or irritability",
+        "Elderly: may have less obvious signs; confusion may be the first indicator; skin turgor is unreliable (decreased elasticity at baseline)"
+      ],
+      "signs": {
+        "left": [
+          "Mild dehydration from gastroenteritis responding to oral rehydration therapy",
+          "Borderline dehydration in athlete responding to electrolyte-containing fluids",
+          "Elderly patient with mild dehydration from decreased oral intake improving with IV fluids and encouragement"
+        ],
+        "right": [
+          "Severe dehydration with hemodynamic instability requiring aggressive IV resuscitation (20 mL/kg boluses)",
+          "Hypernatremic dehydration (Na >160) requiring SLOW correction to prevent cerebral edema",
+          "Dehydration complicated by AKI (rising creatinine, oliguria)",
+          "Hypovolemic shock from dehydration: altered mental status, tachycardia, hypotension, lactic acidosis",
+          "Infant with severe dehydration, sunken fontanelle, absent tears, lethargy -- needs emergent IV access (consider IO if IV access fails)"
+        ]
+      },
+      "medications": [
+        {
+          "name": "Oral Rehydration Solution (ORS / Pedialyte)",
+          "type": "Electrolyte-glucose rehydration fluid",
+          "action": "Contains sodium, potassium, chloride, and glucose in specific concentrations that optimize intestinal sodium-glucose co-transport (SGLT1 transporter), facilitating water absorption even during active diarrhea; the WHO-ORS formulation (reduced osmolarity: Na 75 mEq/L, glucose 75 mmol/L) reduces stool output and vomiting compared to standard ORS",
+          "sideEffects": "Hypernatremia if concentrated improperly (always mix as directed); nausea/vomiting (give small frequent sips, 5 mL every 1-2 minutes); vomiting should not be a reason to switch to IV -- ORT is often successful despite vomiting",
+          "contra": "Severe dehydration with hemodynamic instability (needs IV), altered consciousness (aspiration risk), ileus, suspected surgical abdomen",
+          "pearl": "WHO calls ORS 'one of the most important medical advances of the 20th century' -- it has saved millions of lives from diarrheal dehydration; KEY: ORS works because glucose-sodium co-transport in the intestine is preserved even during diarrhea (the SGLT1 transporter is not affected by most diarrheal pathogens); give 5 mL every 1-2 minutes if vomiting (spoon/syringe feeding); household alternatives (juice, soda, sports drinks) have too much sugar and too little sodium -- they may worsen diarrhea"
+        }
+      ],
+      "pearls": [
+        "Weight change is the MOST ACCURATE indicator of fluid status in children: 1 kg weight loss = approximately 1 liter of fluid deficit",
+        "Oral rehydration therapy (ORT) is the PREFERRED treatment for mild-moderate dehydration -- even in vomiting children (give 5 mL every 1-2 minutes by spoon or syringe)",
+        "BUN:creatinine ratio >20:1 suggests PRE-RENAL dehydration (BUN is reabsorbed with sodium and water in the proximal tubule; creatinine is not)",
+        "Hypernatremic dehydration requires SLOW correction (<0.5 mEq/L/hr sodium change, <10-12 mEq/L per 24 hours) -- rapid correction causes water to shift into brain cells, causing cerebral edema and seizures",
+        "The 4-2-1 rule for maintenance IV fluids: 4 mL/kg/hr for first 10 kg + 2 mL/kg/hr for next 10 kg + 1 mL/kg/hr for each kg above 20 kg",
+        "In elderly patients, confusion may be the FIRST sign of dehydration -- traditional signs (skin turgor, thirst) are unreliable in the elderly"
+      ],
+      "quiz": [
+        {
+          "question": "A 2-year-old with gastroenteritis has lost 500g since yesterday, has dry mucous membranes, and decreased urine output. What is the estimated fluid deficit and preferred initial treatment?",
+          "options": [
+            "50 mL deficit -- encourage sips of juice",
+            "500 mL deficit -- oral rehydration solution (ORS) given in small frequent sips",
+            "500 mL deficit -- IV normal saline bolus",
+            "5000 mL deficit -- emergent IV resuscitation"
+          ],
+          "correct": 1,
+          "rationale": "1 kg weight loss = 1 L fluid deficit. This child lost 500g = 500 mL deficit. With dry mucous membranes and decreased urine output but no hemodynamic instability (moderate dehydration), oral rehydration therapy is the preferred treatment. Give ORS in small frequent sips (5 mL every 1-2 minutes). IV fluids are reserved for severe dehydration or inability to tolerate oral intake."
+        },
+        {
+          "question": "A dehydrated patient has serum sodium of 162 mEq/L. How quickly should the sodium be corrected?",
+          "options": [
+            "As rapidly as possible with hypotonic fluids",
+            "Slowly -- no more than 0.5 mEq/L per hour and no more than 10-12 mEq/L per 24 hours to prevent cerebral edema",
+            "Correct to 140 within the first 6 hours",
+            "Sodium level is not important in dehydration management"
+          ],
+          "correct": 1,
+          "rationale": "Hypernatremic dehydration must be corrected SLOWLY. Rapid correction causes water to shift into brain cells (which have accumulated organic osmoles to protect against dehydration), causing cerebral edema and seizures. The safe correction rate is <0.5 mEq/L/hr, not exceeding 10-12 mEq/L per 24 hours."
+        },
+        {
+          "question": "A patient has BUN of 45 and creatinine of 1.5 (BUN:Cr ratio = 30:1). What does this suggest?",
+          "options": [
+            "Intrinsic renal disease",
+            "Pre-renal azotemia (likely from dehydration) -- BUN rises disproportionately because urea is reabsorbed with sodium and water",
+            "Post-renal obstruction",
+            "Normal finding"
+          ],
+          "correct": 1,
+          "rationale": "A BUN:creatinine ratio >20:1 indicates pre-renal azotemia, commonly from dehydration. In the dehydrated state, the kidneys reabsorb more sodium and water in the proximal tubule, and urea passively follows (reabsorbed by concentration gradient). Creatinine is not reabsorbed, so BUN rises disproportionately. This typically corrects with rehydration."
+        }
+      ]
     },
-    medications: [{
-      name: "Acetaminophen",
-      type: "Analgesic/Antipyretic",
-      action: "Inhibits cyclooxygenase enzymes in the CNS to reduce pain and fever",
-      sideEffects: "Hepatotoxicity at high doses, nausea, rash (rare)",
-      contra: "Severe hepatic impairment, active liver disease, alcohol use disorder",
-      pearl: "Maximum 4g/day in healthy adults, 2g/day with liver disease; found in many combination products - check all sources"
-    }],
-    pearls: ["Always assess for allergies before administering any new medication","Document baseline assessment findings to enable accurate trending","Use the SBAR format for structured clinical communication with the healthcare team","Consider age-specific and population-specific variations in normal findings","Never ignore a sudden change in patient condition, even if vital signs appear stable","Verify two patient identifiers before any medication administration or procedure"],
-    quiz: [
-      {
-        question: "A nurse is caring for a patient with dehydration basics. Which assessment finding requires immediate intervention?",
-        options: ["Sudden change in level of consciousness","Mild discomfort rated 3/10 on pain scale","Stable vital signs within normal limits","Patient requesting information about their condition"],
-        correct: 0,
-        rationale: "A sudden change in level of consciousness may indicate a serious complication such as hemorrhage, hypoxia, or neurological deterioration and requires immediate assessment and intervention."
-      },
-      {
-        question: "Which nursing action is most appropriate when managing a patient with dehydration basics?",
-        options: ["Order and interpret diagnostic studies for changes in condition","Delay assessment until the next scheduled time","Administer PRN medications without assessment","Transfer care without communicating relevant findings"],
-        correct: 0,
-        rationale: "Ongoing assessment and timely intervention are fundamental to safe patient care. Delaying assessment, administering medications without assessment, or failing to communicate findings can compromise patient safety."
-      },
-      {
-        question: "The patient asks about their dehydration basics diagnosis. What is the best initial nursing response?",
-        options: ["Avoid discussing the diagnosis and redirect the conversation","Provide all available information regardless of patient readiness","Assess the patient's current understanding and address their specific concerns","Tell the patient to wait for the physician to explain everything"],
-        correct: 2,
-        rationale: "Assessing the patient's current understanding allows the nurse to provide targeted, accurate education at the appropriate level, supporting informed decision-making and reducing anxiety."
-      },
-    ]
-  },
   "dehydration-rpn": {
         title: "Dehydration",
         cellular: { title: "Pathophysiology of Dehydration", content: "Dehydration refers to a deficit of total body water that disrupts normal physiological processes. It occurs when fluid output exceeds fluid intake over a sustained period. Water comprises approximately 60% of adult body weight (higher in infants at 70-80%, lower in elderly and obese individuals), making fluid balance essential for cellular function, circulatory volume, thermoregulation, and organ perfusion.\n\nDehydration is classified by the relationship between water and sodium loss into three types. Isotonic (isonatraemic) dehydration involves proportional loss of water and sodium, keeping serum sodium within the normal range (135-145 mEq/L). This is the most common type, occurring with GI losses (vomiting, diarrhoea), haemorrhage, and third-spacing. The primary deficit is intravascular volume loss, leading to reduced cardiac output and tissue perfusion. Hypotonic (hyponatraemic) dehydration involves greater sodium loss relative to water (serum sodium less than 135 mEq/L). This creates an osmotic gradient that pulls water from the extracellular space into cells, causing cellular swelling. This is particularly dangerous for brain cells, which can swell within the rigid skull, causing cerebral oedema with neurological symptoms (headache, confusion, seizures). Hypertonic (hypernatraemic) dehydration involves greater water loss relative to sodium (serum sodium greater than 145 mEq/L). The elevated extracellular osmolality draws water OUT of cells, causing cellular shrinkage. This type is seen with insensible water losses (fever, hyperventilation), diabetes insipidus, and inadequate water intake (especially in elderly with impaired thirst mechanism). Hypertonic dehydration is particularly dangerous in infants and elderly.\n\nThe body's compensatory mechanisms for dehydration include: activation of the renin-angiotensin-aldosterone system (RAAS) - reduced renal perfusion triggers renin release, leading to angiotensin II (vasoconstriction) and aldosterone (sodium and water retention in the kidneys); antidiuretic hormone (ADH/vasopressin) release from the posterior pituitary in response to increased plasma osmolality and decreased blood volume, promoting water reabsorption in the renal collecting ducts; sympathetic nervous system activation causing tachycardia and peripheral vasoconstriction to maintain blood pressure; and thirst mechanism activation to promote fluid intake.\n\nWhen compensation fails, hypovolemic shock develops: reduced cardiac output, hypotension, tachycardia, poor tissue perfusion, lactic acidosis, and multi-organ dysfunction. The kidneys are particularly vulnerable to ischaemic injury (acute kidney injury from prerenal azotaemia), manifested by oliguria (urine output less than 0.5 mL/kg/hour) or anuria.\n\nIn clinical practice, certain populations are at highest risk for dehydration and its complications: infants (high body surface area to weight ratio, immature renal concentrating ability, dependent on others for fluid intake), elderly (diminished thirst response, reduced total body water, impaired renal function, medications such as diuretics, mobility limitations affecting access to fluids), and patients with diarrhoea and vomiting (GI losses can be massive and rapid, especially in infectious gastroenteritis).\n\nFor the RPN, critical assessment skills include: recognising early signs of dehydration (tachycardia, decreased urine output, concentrated urine, thirst, dry mucous membranes), monitoring intake and output accurately, calculating fluid replacement needs, administering oral and IV fluids safely, recognising signs of shock, and understanding that dehydration in infants and elderly requires heightened vigilance because compensatory mechanisms are less effective in these populations." },
@@ -167,47 +393,118 @@ export const generatedBatch026Lessons: Record<string, LessonContent> = {
         quiz: [{ question: "A practical nurse is working with a personal support worker (PSW) on a medical unit. Which task is appropriate for the practical nurse to delegate to the PSW?", options: ["Performing the initial shift assessment on a newly admitted patient","Administering oral medications to a stable patient","Assisting a stable patient with bathing and recording intake and output","Evaluating a patient's response to a new pain medication"], correct: 2, rationale: "Assisting with activities of daily living (bathing) and recording intake and output are within the scope of a personal support worker for stable patients. Initial assessment, medication administration, and evaluation of treatment response require professional nursing judgment and cannot be delegated to unregulated care providers." },{ question: "A practical nurse delegates vital sign measurement to a personal support worker for a patient who was stable at the beginning of the shift. The PSW reports a blood pressure of 82/50 mmHg. What should the practical nurse do first?", options: ["Ask the PSW to recheck the blood pressure in 30 minutes","Document the finding and continue with other patient care","Personally assess the patient immediately, including a full set of vital signs and clinical assessment","Delegate a more experienced PSW to reassess the patient"], correct: 2, rationale: "A blood pressure of 82/50 mmHg represents a potentially dangerous change requiring immediate professional nursing assessment. The practical nurse must personally assess the patient, including repeat vital signs, level of consciousness, and other clinical indicators. Delaying assessment or re-delegating assessment to another unregulated provider is unsafe. This situation demonstrates that when delegated monitoring reveals abnormal findings, the nurse must reassume direct care." },{ question: "Which element of the Five Rights of Delegation is being addressed when a practical nurse asks a personal support worker to describe how they would perform a blood glucose check before delegating the task?", options: ["Right Task","Right Circumstance","Right Person","Right Supervision"], correct: 2, rationale: "Assessing whether the delegate has the knowledge, skill, and training to perform the task safely addresses the Right Person component of the Five Rights of Delegation. Asking the PSW to verbalize or demonstrate the procedure confirms their competency. Right Task addresses whether the task itself is appropriate to delegate. Right Circumstance considers the patient's stability. Right Supervision addresses the monitoring and follow-up plan." }]
   },
   "delirium-dementia-advanced-np": {
-    title: "Delirium vs Dementia: Advanced",
-    cellular: { title: "Delirium vs Dementia: Advanced", content: "the clinician evaluates and manages Delirium vs Dementia: Advanced Differentiation through systematic neurological assessment and advanced understanding of central and peripheral nervous system pathophysiology. The clinician performs comprehensive neurological examination including mental status evaluation (level of consciousness, orientation, attention, language, memory), cranial nerve assessment, motor examination (strength grading 0-5, tone, pronator drift, coordination), sensory evaluation (light touch, pain/temperature, proprioception, vibration), deep tendon reflexes (grading 0-4+, pathological reflexes including Babinski), cerebellar testing (finger-to-nose, heel-to-shin, rapid alternating movements, Romberg), and gait assessment. Localization of neurological lesions guides differential diagnosis: upper motor neuron signs (spasticity, hyperreflexia, Babinski positive) versus lower motor neuron signs (flaccidity, hyporeflexia, fasciculations, muscle atrophy). The clinician interprets neuroimaging (CT for acute hemorrhage and mass lesions, MRI for detailed parenchymal assessment, MRA/CTA for vascular pathology), electrodiagnostic studies (EEG for seizure evaluation, EMG/NCS for peripheral nerve and muscle disorders), and relevant laboratory investigations. Management integrates acute stabilization, targeted pharmacotherapy based on pathophysiological mechanism, neuroprotective strategies, rehabilitation coordination, and determination of emergent versus urgent versus routine neurological referral." },
-    riskFactors: ["Advanced age or extremes of age","Family history of delirium dementia advanced or related conditions","Chronic comorbidities (hypertension, diabetes, obesity)","Sedentary lifestyle and poor nutritional status","Tobacco, alcohol, or substance use","Immunocompromised state or prolonged medication use"],
-    diagnostics: ["Order and interpret CBC, BMP, and disease-specific labs","Review imaging studies (X-ray, CT, MRI, ultrasound) as indicated","Perform focused physical examination with advanced assessment techniques","Apply clinical decision rules and scoring tools","Order specialty consultations when findings exceed scope"],
-    management: ["Prescribe first-line pharmacotherapy based on current clinical guidelines","Develop individualized treatment plan with measurable outcomes","Order follow-up diagnostic testing to monitor treatment response","Refer to specialist when condition is refractory or complex","Adjust therapy based on patient response and adverse effects"],
-    nursingActions: ["Order and interpret diagnostic studies for changes in condition","Prescribe pharmacological and non-pharmacological therapies per established protocols","Formulate differential diagnosis and treatment plan based on assessment findings","Counsel patients on disease management and prevention regarding condition management","Document all interventions, assessments, and patient responses accurately","Maintain safe environment and follow infection prevention protocols"],
-    assessmentFindings: ["Changes in vital signs including temperature, pulse, blood pressure, and respirations","Alterations in level of consciousness, orientation, or cognitive function","Pain assessment using validated tools (onset, location, duration, character, severity)","Skin assessment including color, turgor, moisture, integrity, and temperature","Functional status changes including mobility, self-care ability, and nutritional intake"],
-    signs: {
-      left: ["Changes in vital sign trends","Altered mental status or confusion","Pain or discomfort reported by patient","Skin changes (pallor, diaphoresis, cyanosis, jaundice)","Abnormal laboratory values"],
-      right: ["Fever or hypothermia","Edema (peripheral, periorbital, or generalized)","Adventitious breath sounds or respiratory distress","Gastrointestinal symptoms (nausea, vomiting, distension)","Changes in urine output or characteristics"]
+      "title": "Delirium vs Dementia Advanced",
+      "cellular": {
+        "title": "Differentiating Delirium and Dementia",
+        "content": "Delirium is an acute, fluctuating disturbance of attention and awareness caused by an underlying medical condition, with a pathophysiology involving widespread cortical dysfunction from neurotransmitter imbalance (decreased acetylcholine, excess dopamine, GABA disturbance, and neuroinflammation). Dementia is a chronic, progressive decline in cognitive function from neurodegenerative disease. Key differentiators: ONSET (delirium = hours-days; dementia = months-years), ATTENTION (delirium = impaired, fluctuating; dementia = relatively preserved until late), CONSCIOUSNESS (delirium = altered/clouded; dementia = clear until late), COURSE (delirium = fluctuating; dementia = stable day-to-day), and REVERSIBILITY (delirium = potentially reversible if cause treated; dementia = irreversible). Critically, delirium can be SUPERIMPOSED on dementia (30-50% of hospitalized dementia patients develop delirium), making diagnosis challenging."
+      },
+      "riskFactors": [
+        "Delirium risk factors: advanced age (strongest), pre-existing dementia (strongest predisposing factor), acute infection, medications (anticholinergics, benzodiazepines, opioids, polypharmacy), surgery, ICU stay, sleep deprivation, sensory deprivation, urinary retention, fecal impaction, pain, dehydration, electrolyte disturbances",
+        "Dementia risk factors: age, family history, ApoE4 genotype, cardiovascular risk factors, low cognitive reserve, hearing loss, social isolation, depression, TBI",
+        "Delirium superimposed on dementia: patients with dementia are 2-5x MORE likely to develop delirium during hospitalization; this combination has the worst prognosis",
+        "Predisposing (patient vulnerability) × precipitating (acute insult) model: a patient with many predisposing factors needs only a minor precipitant to develop delirium"
+      ],
+      "diagnostics": [
+        "Delirium screening: CAM (Confusion Assessment Method): 1) Acute onset and fluctuating course AND 2) Inattention AND EITHER 3) Disorganized thinking OR 4) Altered level of consciousness",
+        "CAM-ICU: modified for intubated/ICU patients (cannot speak) -- uses Richmond Agitation-Sedation Scale (RASS) and attention tasks",
+        "Delirium evaluation (identify cause): I WATCH DEATH mnemonic: Infection, Withdrawal, Acute metabolic, Trauma, CNS pathology, Hypoxia, Deficiencies (B12, thiamine), Endocrine, Acute vascular, Toxins/drugs, Heavy metals",
+        "Workup for delirium: CBC, CMP, UA/culture, blood cultures if febrile, chest X-ray, ECG, medication review, pulse oximetry; CT head if focal neurological signs, fall, or anticoagulation; LP if meningitis suspected",
+        "Dementia workup: cognitive screening (MoCA, MMSE), labs for reversible causes (TSH, B12, RPR, HIV), brain MRI, neuropsychological testing for domain-specific assessment",
+        "Distinguish delirium subtypes: hyperactive (agitated, hallucinations, pulling at lines -- 25%), hypoactive (withdrawn, quiet, flat affect -- 50%, more dangerous because often unrecognized), mixed (25%)"
+      ],
+      "management": [
+        "Delirium: TREAT THE UNDERLYING CAUSE (this is the most important intervention); non-pharmacologic interventions first (reorientation, sleep hygiene, mobilization, sensory aids, family presence)",
+        "Delirium non-pharmacologic (HELP protocol): orientation (clocks, calendars, family photos), sleep promotion (minimize nighttime interruptions, daytime activity), early mobilization, cognitive stimulation, vision/hearing aids, avoid restraints, adequate hydration/nutrition",
+        "Delirium pharmacologic (only if non-pharmacologic fails and patient is a danger to self/others): low-dose haloperidol 0.5-1 mg PO/IM (avoid in Lewy body dementia, Parkinson, QTc prolongation); quetiapine 12.5-25 mg PO for Lewy body/Parkinson patients",
+        "Dementia: cholinesterase inhibitors (donepezil, rivastigmine) for mild-moderate Alzheimer; memantine for moderate-severe; behavioral management prioritizes non-pharmacologic approaches",
+        "Avoid in delirium: benzodiazepines (worsen delirium EXCEPT in alcohol/benzo withdrawal and seizures), anticholinergics (worsen confusion), restraints (increase agitation and prolong delirium)",
+        "Delirium prevention: HOSPITAL ELDER LIFE PROGRAM (HELP) reduces delirium incidence by 33% in at-risk elderly patients"
+      ],
+      "nursingActions": [
+        "Screen for delirium using CAM at least twice daily in all hospitalized patients ≥65 and all ICU patients (CAM-ICU)",
+        "Distinguish delirium from dementia: KEY is the TIME COURSE -- delirium has ACUTE onset over hours-days with FLUCTUATING attention; dementia develops over months-years with relatively stable day-to-day function",
+        "Recognize HYPOACTIVE delirium: the quiet, withdrawn patient who 'sleeps a lot' or seems 'pleasantly confused' -- this is MORE COMMON (50%) and MORE DANGEROUS than hyperactive delirium because it is frequently missed",
+        "Identify and treat precipitating causes: review medication list for deliriogenic drugs, check for infection, electrolytes, constipation, urinary retention, pain, hypoxia",
+        "Implement non-pharmacologic prevention (HELP protocol): reorientation, sleep hygiene, early mobility, cognitive engagement, sensory aids, adequate hydration",
+        "Avoid benzodiazepines for delirium management (they worsen delirium) EXCEPT in alcohol withdrawal delirium and benzodiazepine withdrawal",
+        "Avoid physical restraints: they increase agitation, prolong delirium, and are associated with worse outcomes",
+        "Document baseline cognitive function (ask family about pre-hospitalization function) to distinguish delirium from dementia"
+      ],
+      "assessmentFindings": [
+        "Delirium: acute onset (hours-days), fluctuating attention (waxing and waning), disorganized thinking, altered consciousness, perceptual disturbances (hallucinations, illusions), sleep-wake cycle disruption, psychomotor changes",
+        "Hyperactive delirium: agitation, combativeness, pulling at lines/tubes, hallucinations, restlessness -- often recognized quickly",
+        "Hypoactive delirium: lethargy, flat affect, decreased responsiveness, psychomotor slowing, quiet withdrawal -- frequently MISSED and misattributed to fatigue, depression, or 'old age'",
+        "Dementia: gradual onset (months-years), progressive, stable day-to-day (no acute fluctuation), clear consciousness until late stages, memory loss preceding other cognitive deficits (Alzheimer type)",
+        "Delirium superimposed on dementia: acute change from patient's BASELINE cognitive function (family can report that the patient is 'not acting like themselves')"
+      ],
+      "signs": {
+        "left": [
+          "Mild delirium resolving with identification and treatment of precipitating cause (UTI treated, deliriogenic medication stopped)",
+          "Stable dementia at baseline without superimposed delirium",
+          "Successful delirium prevention with HELP protocol implementation"
+        ],
+        "right": [
+          "Delirium with severe agitation endangering patient safety (pulling at lines, attempting to leave, combative)",
+          "Hypoactive delirium unrecognized for days, masking serious underlying cause (sepsis, MI, medication toxicity)",
+          "Delirium superimposed on dementia: difficult to differentiate acute change from baseline; requires careful collateral history",
+          "Persistent delirium beyond expected resolution (consider ongoing/unidentified cause, non-convulsive status epilepticus, or emerging dementia)",
+          "Delirium with aspiration risk: unable to protect airway, refusing food/medication"
+        ]
+      },
+      "medications": [
+        {
+          "name": "Haloperidol (Haldol)",
+          "type": "First-generation (typical) antipsychotic (butyrophenone)",
+          "action": "Blocks dopamine D2 receptors in the mesolimbic pathway, reducing agitation, hallucinations, and disorganized thinking in delirium; does NOT treat the underlying cause of delirium",
+          "sideEffects": "QTc prolongation (monitor ECG, hold if QTc >500ms), extrapyramidal symptoms (dystonia, akathisia, parkinsonism), neuroleptic malignant syndrome (rare), sedation, orthostatic hypotension, lowered seizure threshold",
+          "contra": "Lewy body dementia or Parkinson disease (extreme neuroleptic sensitivity), QTc >500ms, concurrent QT-prolonging drugs, CNS depression, anticholinergic delirium (paradoxical worsening)",
+          "pearl": "Low dose: 0.5-1 mg PO/IM (elderly); use ONLY when non-pharmacologic measures fail and patient is danger to self/others; does NOT reduce delirium duration or mortality (MIND-USA trial); for Lewy body/Parkinson patients: use quetiapine 12.5-25 mg instead (less D2 binding); AVOID in alcohol withdrawal delirium (use benzodiazepines instead); IV haloperidol carries HIGHER QTc prolongation risk than PO/IM"
+        }
+      ],
+      "pearls": [
+        "Delirium = ACUTE onset (hours-days) + fluctuating ATTENTION + underlying medical CAUSE; Dementia = CHRONIC onset (months-years) + progressive MEMORY decline + stable day-to-day",
+        "Hypoactive delirium is the MOST COMMON subtype (50%) and the MOST DANGEROUS because it is frequently UNRECOGNIZED -- screen ALL hospitalized elderly with CAM",
+        "Pre-existing dementia is the STRONGEST risk factor for developing delirium during hospitalization -- 30-50% of hospitalized dementia patients develop delirium",
+        "Non-pharmacologic interventions are FIRST-LINE for delirium prevention AND treatment: reorientation, sleep hygiene, early mobility, sensory aids (glasses/hearing aids), avoid restraints and deliriogenic drugs",
+        "AVOID benzodiazepines for delirium (they worsen it) EXCEPT in alcohol/benzodiazepine withdrawal -- this is a critical exception",
+        "Haloperidol does NOT reduce delirium duration or mortality (MIND-USA, AID-ICU trials) -- it manages SYMPTOMS of agitation only when non-pharmacologic measures fail and the patient is unsafe"
+      ],
+      "quiz": [
+        {
+          "question": "An 82-year-old hospitalized for pneumonia was previously independent and oriented. Today, the nurse finds the patient lethargic, inattentive, and unable to state the date or location. What is the most likely diagnosis?",
+          "options": [
+            "New-onset Alzheimer dementia",
+            "Hypoactive delirium superimposed on an acute illness",
+            "Depression",
+            "Normal aging"
+          ],
+          "correct": 1,
+          "rationale": "The ACUTE change from baseline (previously independent and oriented → lethargic, inattentive, disoriented) in the setting of an acute medical illness (pneumonia) is classic for delirium. The hypoactive presentation (lethargy, inattention) rather than agitation makes this hypoactive delirium, which is frequently missed. Dementia would not have acute onset."
+        },
+        {
+          "question": "Which medication class should be AVOIDED in the management of delirium?",
+          "options": [
+            "Low-dose antipsychotics",
+            "Benzodiazepines -- they worsen delirium (EXCEPT in alcohol/benzo withdrawal)",
+            "Antibiotics for underlying infection",
+            "IV fluids for dehydration"
+          ],
+          "correct": 1,
+          "rationale": "Benzodiazepines worsen delirium by further impairing GABA-mediated cognition and increasing sedation. The ONE EXCEPTION is delirium tremens (alcohol withdrawal) and benzodiazepine withdrawal, where benzodiazepines are the treatment of choice because the delirium is CAUSED by GABA receptor understimulation."
+        },
+        {
+          "question": "An elderly patient with known Lewy body dementia develops delirium. What is the SAFEST pharmacologic option if non-pharmacologic measures fail?",
+          "options": [
+            "Haloperidol 2 mg IM",
+            "Quetiapine 12.5-25 mg PO -- Lewy body patients have severe neuroleptic sensitivity; quetiapine has the least D2 binding",
+            "Chlorpromazine",
+            "Benzodiazepines"
+          ],
+          "correct": 1,
+          "rationale": "Lewy body dementia patients have extreme neuroleptic sensitivity due to widespread alpha-synuclein deposition in dopaminergic neurons. Typical antipsychotics (haloperidol) can cause irreversible parkinsonism, NMS-like reactions, and death. Quetiapine has the LOWEST D2 binding affinity among antipsychotics and is the safest option, used at the lowest possible dose (12.5-25 mg)."
+        }
+      ]
     },
-    medications: [{
-      name: "Levetiracetam",
-      type: "Anticonvulsant",
-      action: "Modulates synaptic vesicle protein SV2A to reduce neuronal excitability",
-      sideEffects: "Drowsiness, behavioral changes, dizziness, fatigue",
-      contra: "Known hypersensitivity; dose adjustment needed in renal impairment",
-      pearl: "Fewer drug interactions than older anticonvulsants; monitor for mood changes"
-    }],
-    pearls: ["Always assess for allergies before administering any new medication","Document baseline assessment findings to enable accurate trending","Use the SBAR format for structured clinical communication with the healthcare team","Consider age-specific and population-specific variations in normal findings","Never ignore a sudden change in patient condition, even if vital signs appear stable","Verify two patient identifiers before any medication administration or procedure"],
-    quiz: [
-      {
-        question: "A nurse is caring for a patient with delirium dementia advanced. Which assessment finding requires immediate intervention?",
-        options: ["Sudden change in level of consciousness","Mild discomfort rated 3/10 on pain scale","Stable vital signs within normal limits","Patient requesting information about their condition"],
-        correct: 0,
-        rationale: "A sudden change in level of consciousness may indicate a serious complication such as hemorrhage, hypoxia, or neurological deterioration and requires immediate assessment and intervention."
-      },
-      {
-        question: "Which nursing action is most appropriate when managing a patient with delirium dementia advanced?",
-        options: ["Order and interpret diagnostic studies for changes in condition","Delay assessment until the next scheduled time","Administer PRN medications without assessment","Transfer care without communicating relevant findings"],
-        correct: 0,
-        rationale: "Ongoing assessment and timely intervention are fundamental to safe patient care. Delaying assessment, administering medications without assessment, or failing to communicate findings can compromise patient safety."
-      },
-      {
-        question: "The patient asks about their delirium dementia advanced diagnosis. What is the best initial nursing response?",
-        options: ["Avoid discussing the diagnosis and redirect the conversation","Provide all available information regardless of patient readiness","Assess the patient's current understanding and address their specific concerns","Tell the patient to wait for the physician to explain everything"],
-        correct: 2,
-        rationale: "Assessing the patient's current understanding allows the nurse to provide targeted, accurate education at the appropriate level, supporting informed decision-making and reducing anxiety."
-      },
-    ]
-  },
   "delirium-elderly-rpn": {
         title: "Delirium in the Elderly: Recognition",
         cellular: { title: "Delirium in the Aging Brain", content: "Delirium is an acute, fluctuating disturbance in attention, awareness, and cognition that develops over hours to days and represents a medical emergency. Unlike dementia, delirium is typically reversible when the underlying cause is identified and treated. The pathophysiology involves widespread disruption of neurotransmitter signaling, particularly an imbalance between acetylcholine (which decreases) and dopamine (which increases) in the brain. This neurochemical disruption impairs the reticular activating system, which controls arousal and attention, and disrupts cortical-subcortical connectivity. The aging brain is particularly vulnerable to delirium because of age-related reductions in cerebral blood flow, decreased cholinergic reserve, increased blood-brain barrier permeability, and reduced neuronal density. These changes mean that even minor physiological insults such as urinary tract infections, constipation, dehydration, or medication changes can trigger delirium in elderly patients. Inflammatory cytokines released during acute illness (interleukin-1, interleukin-6, tumor necrosis factor-alpha) cross the compromised blood-brain barrier and directly impair neurotransmission. Oxidative stress and neuroinflammation further damage vulnerable neurons. Delirium exists in three motor subtypes: hyperactive (agitation, hallucinations, restlessness), hypoactive (lethargy, reduced responsiveness, withdrawal), and mixed (alternating between the two). Hypoactive delirium is the most common subtype in elderly patients but is frequently missed because the patient appears calm or sleepy rather than agitated. The practical nurse must understand that delirium is NEVER a normal part of aging and always indicates an underlying medical condition requiring urgent investigation. The DELIRIUM mnemonic identifies common reversible causes: Drugs (anticholinergics, benzodiazepines, opioids), Electrolyte imbalances, Lack of drugs (withdrawal from alcohol or benzodiazepines), Infection (UTI, pneumonia, sepsis), Reduced sensory input (missing hearing aids or glasses), Intracranial pathology (stroke, subdural hematoma), Urinary retention or fecal impaction, and Myocardial or pulmonary conditions (MI, PE, hypoxia). Early recognition using validated screening tools such as the Confusion Assessment Method (CAM) significantly improves outcomes. The CAM requires four features: acute onset and fluctuating course, inattention, disorganized thinking, and altered level of consciousness. Features 1 and 2 must be present, plus either feature 3 or 4, for a positive screen. Untreated delirium is associated with increased mortality (up to 25-33% in hospitalized elderly), prolonged hospital stays, increased risk of falls, pressure injuries, functional decline, and accelerated progression to dementia." },
@@ -255,129 +552,337 @@ export const generatedBatch026Lessons: Record<string, LessonContent> = {
         quiz: [{ question: "A practical nurse is caring for a patient diagnosed with Lewy body dementia who is experiencing visual hallucinations. The physician orders an antipsychotic medication. What is the MOST important nursing action?", options: ["Administer the medication as ordered to control the hallucinations","Question the order because patients with Lewy body dementia have extreme sensitivity to antipsychotics","Request a higher dose because hallucinations in Lewy body dementia are treatment-resistant","Hold the medication until the next shift and let another nurse decide"], correct: 1, rationale: "Patients with Lewy body dementia have extreme sensitivity to antipsychotic medications, which can cause severe parkinsonism, neuroleptic malignant syndrome, and death. The nurse must question this order and communicate the concern to the prescriber. This is a critical patient safety issue." },{ question: "A family member asks the practical nurse to explain the difference between their mother's Alzheimer disease and the delirium she experienced during a recent hospitalization. Which response is MOST accurate?", options: ["Delirium and Alzheimer disease are essentially the same condition with different names","Delirium develops suddenly and is usually reversible, while Alzheimer disease develops gradually and is progressive","Alzheimer disease causes hallucinations, while delirium only causes memory loss","Both conditions are caused by the same brain changes and have identical treatments"], correct: 1, rationale: "Delirium has an acute onset (hours to days), fluctuating course, and is typically reversible when the underlying cause is treated. Alzheimer disease has a gradual onset (months to years), progressive course, and is irreversible. Delirium can occur in patients who already have dementia (delirium superimposed on dementia)." },{ question: "A patient with moderate Alzheimer disease becomes agitated and begins yelling during afternoon care. Which nursing intervention should the practical nurse implement FIRST?", options: ["Request an order for a PRN antipsychotic medication","Apply physical restraints to prevent the patient from harming themselves","Assess for an underlying cause such as pain, toileting needs, or overstimulation","Leave the patient alone in their room until they calm down"], correct: 2, rationale: "When a patient with dementia becomes agitated, the first nursing action is to assess for underlying causes (pain, hunger, toileting needs, overstimulation, fear). Agitation in dementia often communicates an unmet need. Non-pharmacological interventions should always be attempted before requesting medication. Restraints increase agitation and are associated with injury." }]
   },
   "dementia-delirium-np": {
-    title: "Dementia vs Delirium",
-    cellular: { title: "Pathophysiology of Dementia vs Delirium", content: "the clinician evaluates and manages Dementia vs Delirium through systematic neurological assessment and advanced understanding of central and peripheral nervous system pathophysiology. The clinician performs comprehensive neurological examination including mental status evaluation (level of consciousness, orientation, attention, language, memory), cranial nerve assessment, motor examination (strength grading 0-5, tone, pronator drift, coordination), sensory evaluation (light touch, pain/temperature, proprioception, vibration), deep tendon reflexes (grading 0-4+, pathological reflexes including Babinski), cerebellar testing (finger-to-nose, heel-to-shin, rapid alternating movements, Romberg), and gait assessment. Localization of neurological lesions guides differential diagnosis: upper motor neuron signs (spasticity, hyperreflexia, Babinski positive) versus lower motor neuron signs (flaccidity, hyporeflexia, fasciculations, muscle atrophy). The clinician interprets neuroimaging (CT for acute hemorrhage and mass lesions, MRI for detailed parenchymal assessment, MRA/CTA for vascular pathology), electrodiagnostic studies (EEG for seizure evaluation, EMG/NCS for peripheral nerve and muscle disorders), and relevant laboratory investigations. Management integrates acute stabilization, targeted pharmacotherapy based on pathophysiological mechanism, neuroprotective strategies, rehabilitation coordination, and determination of emergent versus urgent versus routine neurological referral." },
-    riskFactors: ["Advanced age or extremes of age","Family history of dementia delirium or related conditions","Chronic comorbidities (hypertension, diabetes, obesity)","Sedentary lifestyle and poor nutritional status","Tobacco, alcohol, or substance use","Immunocompromised state or prolonged medication use"],
-    diagnostics: ["Order and interpret CBC, BMP, and disease-specific labs","Review imaging studies (X-ray, CT, MRI, ultrasound) as indicated","Perform focused physical examination with advanced assessment techniques","Apply clinical decision rules and scoring tools","Order specialty consultations when findings exceed scope"],
-    management: ["Prescribe first-line pharmacotherapy based on current clinical guidelines","Develop individualized treatment plan with measurable outcomes","Order follow-up diagnostic testing to monitor treatment response","Refer to specialist when condition is refractory or complex","Adjust therapy based on patient response and adverse effects"],
-    nursingActions: ["Order and interpret diagnostic studies for changes in condition","Prescribe pharmacological and non-pharmacological therapies per established protocols","Formulate differential diagnosis and treatment plan based on assessment findings","Counsel patients on disease management and prevention regarding condition management","Document all interventions, assessments, and patient responses accurately","Maintain safe environment and follow infection prevention protocols"],
-    assessmentFindings: ["Changes in vital signs including temperature, pulse, blood pressure, and respirations","Alterations in level of consciousness, orientation, or cognitive function","Pain assessment using validated tools (onset, location, duration, character, severity)","Skin assessment including color, turgor, moisture, integrity, and temperature","Functional status changes including mobility, self-care ability, and nutritional intake"],
-    signs: {
-      left: ["Changes in vital sign trends","Altered mental status or confusion","Pain or discomfort reported by patient","Skin changes (pallor, diaphoresis, cyanosis, jaundice)","Abnormal laboratory values"],
-      right: ["Fever or hypothermia","Edema (peripheral, periorbital, or generalized)","Adventitious breath sounds or respiratory distress","Gastrointestinal symptoms (nausea, vomiting, distension)","Changes in urine output or characteristics"]
+      "title": "Dementia & Delirium Differentiation",
+      "cellular": {
+        "title": "Clinical Differentiation of Cognitive Disorders",
+        "content": "Differentiation between delirium and dementia requires systematic assessment of key clinical features. Delirium reflects acute global cerebral dysfunction from metabolic, infectious, toxic, or structural causes disrupting neurotransmitter balance (cholinergic deficiency, dopaminergic excess, GABAergic dysregulation, neuroinflammation). Dementia reflects progressive neuronal loss from specific neurodegenerative pathologies (amyloid/tau in Alzheimer, alpha-synuclein in Lewy body, vascular injury, TDP-43/tau in frontotemporal). The critical clinical distinction is that delirium is POTENTIALLY REVERSIBLE when the underlying cause is identified and treated, while dementia is IRREVERSIBLE but treatable symptomatically. Failure to recognize delirium leads to delayed treatment of the underlying cause, prolonged hospitalization, increased mortality, and accelerated cognitive decline."
+      },
+      "riskFactors": [
+        "Shared risk factors: advanced age, pre-existing cognitive impairment, polypharmacy",
+        "Delirium-specific precipitants: acute infection (UTI most common in elderly), medication changes (anticholinergics, opioids, benzodiazepines), surgery, dehydration, electrolyte abnormalities, pain, urinary retention, constipation, sleep deprivation, sensory deprivation, ICU environment",
+        "Dementia-specific risk factors: ApoE4 allele, cardiovascular risk factors, low education, hearing loss, social isolation, depression, TBI, excessive alcohol use",
+        "Delirium superimposed on dementia: most challenging diagnostic scenario -- patients with dementia are at highest risk for delirium and have the worst outcomes when both occur"
+      ],
+      "diagnostics": [
+        "Systematic comparison table: Onset (delirium: acute hours-days / dementia: insidious months-years), Course (fluctuating / progressive), Attention (impaired, core feature / preserved until late), Consciousness (altered, clouded / clear), Duration (days-weeks / months-years), Reversibility (yes if cause treated / no)",
+        "CAM for delirium: requires acute onset + fluctuating course + inattention + EITHER disorganized thinking OR altered consciousness",
+        "Cognitive screening: MoCA or MMSE for dementia baseline; serial CAM for delirium monitoring",
+        "Attention testing: digit span (delirium patients cannot maintain), months of year backward, serial subtraction",
+        "Collateral history from family: ESSENTIAL to establish baseline cognitive function and determine if current presentation represents ACUTE CHANGE (delirium) or chronic stable impairment (dementia)",
+        "Laboratory workup for delirium: CBC, CMP, UA, blood cultures, thyroid function, vitamin B12; CT head if focal signs; LP if meningitis suspected"
+      ],
+      "management": [
+        "Delirium: identify and treat underlying cause (infection, medication, metabolic, structural); non-pharmacologic interventions (reorientation, sleep hygiene, early mobility, sensory aids); pharmacologic only if danger to self/others",
+        "Dementia: cholinesterase inhibitors (mild-moderate Alzheimer), memantine (moderate-severe), behavioral management, caregiver support, advance care planning",
+        "Delirium superimposed on dementia: treat the delirium trigger; DO NOT simply attribute acute changes to 'sundowning' or progression of dementia -- always evaluate for a new precipitant",
+        "Sundowning: worsening confusion/agitation in late afternoon/evening in dementia patients; managed with environmental modifications, maintaining routines, adequate daytime activity; avoid sedating medications",
+        "Prevention: HELP protocol, medication review (Beers Criteria for potentially inappropriate medications in elderly), adequate pain management, maintain hydration and nutrition"
+      ],
+      "nursingActions": [
+        "Ask the KEY question to family: 'Is this patient's current mental status DIFFERENT from their usual baseline?' -- if YES, evaluate for delirium regardless of dementia history",
+        "Screen with CAM at minimum twice daily in all hospitalized elderly; use CAM-ICU in intubated patients",
+        "Assess attention specifically: ask patient to spell WORLD backward, list months in reverse, repeat digit strings -- attention impairment is the HALLMARK of delirium (not memory loss)",
+        "Do NOT attribute acute confusion to dementia, 'old age,' or 'sundowning' without first ruling out delirium -- this is a common and dangerous cognitive bias",
+        "Review medication list using Beers Criteria for deliriogenic medications: stop or reduce anticholinergics, benzodiazepines, non-essential opioids",
+        "Implement delirium prevention in ALL hospitalized elderly: orientation cues, glasses and hearing aids, early mobilization, sleep protocol (reduce nighttime disruptions), adequate hydration, avoid unnecessary catheters",
+        "Document pre-hospital cognitive function (from family/caregivers) to establish baseline for comparison"
+      ],
+      "assessmentFindings": [
+        "Delirium features: acute onset from identifiable precipitant, fluctuating attention (lucid intervals followed by confusion), perceptual disturbances (visual hallucinations, illusions), sleep-wake disruption, psychomotor changes (hyperactive or hypoactive), disorganized speech",
+        "Dementia features: gradual onset without clear precipitant, progressive decline over months, relatively stable day-to-day, memory loss (Alzheimer), personality changes (FTD), fluctuating cognition with visual hallucinations (Lewy body -- can mimic delirium)",
+        "Overlap features making differentiation challenging: both can have hallucinations, both cause cognitive impairment, both more common in elderly, both may show agitation or withdrawal",
+        "Red flags for delirium in a dementia patient: sudden worsening, new perceptual disturbances, acute inattention, altered consciousness, new physical symptoms (fever, pain, urinary symptoms)"
+      ],
+      "signs": {
+        "left": [
+          "Delirium resolving with treatment of precipitating cause (antibiotics for UTI, discontinuation of deliriogenic medication)",
+          "Stable mild dementia with consistent baseline cognitive function -- no acute change",
+          "Successful delirium prevention in high-risk hospitalized elderly"
+        ],
+        "right": [
+          "Delirium superimposed on dementia: acute change missed because confusion attributed to 'baseline dementia' -- dangerous diagnostic error",
+          "Delirium with unknown cause despite workup -- consider non-convulsive status epilepticus (continuous EEG monitoring)",
+          "Prolonged delirium (>7 days) associated with worse long-term cognitive outcomes and higher mortality",
+          "New-onset delirium unmasking previously undiagnosed dementia (30-50% of patients with new delirium have underlying cognitive impairment)"
+        ]
+      },
+      "medications": [
+        {
+          "name": "No specific medication differentiates delirium from dementia",
+          "type": "Clinical differentiation skill",
+          "action": "The differentiation guides treatment: delirium treatment = identify and treat the underlying CAUSE; dementia treatment = cholinesterase inhibitors (symptomatic, does not modify disease course) + behavioral management + caregiver support",
+          "sideEffects": "N/A",
+          "contra": "N/A",
+          "pearl": "The single most important clinical question: 'Is this an ACUTE CHANGE from baseline?' -- if yes, it is delirium until proven otherwise, regardless of whether the patient has underlying dementia; treating the delirium cause (infection, medication, metabolic derangement) is the priority"
+        }
+      ],
+      "pearls": [
+        "The #1 question: 'Is this ACUTE or CHRONIC?' Acute change = delirium (investigate cause); chronic progressive = dementia",
+        "ATTENTION is the hallmark of delirium (fluctuating, impaired); MEMORY is the hallmark of Alzheimer dementia (progressive loss with preserved attention until late)",
+        "Hypoactive delirium is FREQUENTLY MISSED in dementia patients -- staff may assume the patient is 'just having a quiet day' when they actually have a treatable cause of delirium",
+        "NEVER attribute new confusion in an elderly patient to 'sundowning' or 'just their dementia' without first evaluating for delirium -- this is a dangerous diagnostic assumption",
+        "New delirium UNMASKS previously undiagnosed dementia in 30-50% of cases -- patients who develop delirium should be screened for cognitive impairment after recovery",
+        "Lewy body dementia can MIMIC delirium (fluctuating cognition, visual hallucinations, altered consciousness) -- careful history for chronicity differentiates"
+      ],
+      "quiz": [
+        {
+          "question": "A hospitalized 78-year-old with known mild Alzheimer disease is found to be acutely confused, pulling at IV lines, and not recognizing family members. Staff note he was oriented this morning. What is the priority assessment?",
+          "options": [
+            "This is expected progression of his Alzheimer disease -- no workup needed",
+            "Evaluate for delirium by performing CAM assessment and investigating precipitating causes (infection, medications, metabolic)",
+            "Administer haloperidol for agitation",
+            "Consult psychiatry for new behavioral symptoms of dementia"
+          ],
+          "correct": 1,
+          "rationale": "An ACUTE change from baseline (oriented this morning → confused, agitated, not recognizing family) in a hospitalized patient indicates delirium superimposed on dementia until proven otherwise. The priority is CAM screening and investigating precipitating causes (UTI, medication change, electrolytes, pain, constipation). Do NOT attribute acute changes to dementia progression."
+        },
+        {
+          "question": "Which cognitive domain is the HALLMARK deficit in delirium that distinguishes it from early dementia?",
+          "options": [
+            "Memory (recall)",
+            "Attention (the ability to focus, sustain, and shift attention)",
+            "Language (naming and fluency)",
+            "Visuospatial function"
+          ],
+          "correct": 1,
+          "rationale": "ATTENTION deficit is the hallmark of delirium. Patients cannot maintain focus, are easily distracted, and show fluctuating awareness. In early dementia (especially Alzheimer), memory is primarily affected while attention is relatively preserved. Testing attention (digit span, months backward) is the best way to identify delirium."
+        },
+        {
+          "question": "Why is Lewy body dementia particularly challenging to differentiate from delirium?",
+          "options": [
+            "Lewy body dementia causes fever",
+            "Lewy body dementia has FLUCTUATING cognition and visual HALLUCINATIONS, mimicking the fluctuating attention and perceptual disturbances of delirium",
+            "Lewy body dementia only occurs in the ICU",
+            "There is no difference between them"
+          ],
+          "correct": 1,
+          "rationale": "Lewy body dementia is uniquely challenging because it features FLUCTUATING cognition (day-to-day and even hour-to-hour variation in alertness and cognitive function) and recurrent detailed VISUAL hallucinations -- both of which are also features of delirium. Differentiation requires careful history: Lewy body features are CHRONIC and recurrent, while delirium has an acute precipitant. The presence of parkinsonism and REM sleep behavior disorder favors Lewy body."
+        }
+      ]
     },
-    medications: [{
-      name: "Levetiracetam",
-      type: "Anticonvulsant",
-      action: "Modulates synaptic vesicle protein SV2A to reduce neuronal excitability",
-      sideEffects: "Drowsiness, behavioral changes, dizziness, fatigue",
-      contra: "Known hypersensitivity; dose adjustment needed in renal impairment",
-      pearl: "Fewer drug interactions than older anticonvulsants; monitor for mood changes"
-    }],
-    pearls: ["Always assess for allergies before administering any new medication","Document baseline assessment findings to enable accurate trending","Use the SBAR format for structured clinical communication with the healthcare team","Consider age-specific and population-specific variations in normal findings","Never ignore a sudden change in patient condition, even if vital signs appear stable","Verify two patient identifiers before any medication administration or procedure"],
-    quiz: [
-      {
-        question: "A nurse is caring for a patient with dementia delirium. Which assessment finding requires immediate intervention?",
-        options: ["Sudden change in level of consciousness","Mild discomfort rated 3/10 on pain scale","Stable vital signs within normal limits","Patient requesting information about their condition"],
-        correct: 0,
-        rationale: "A sudden change in level of consciousness may indicate a serious complication such as hemorrhage, hypoxia, or neurological deterioration and requires immediate assessment and intervention."
-      },
-      {
-        question: "Which nursing action is most appropriate when managing a patient with dementia delirium?",
-        options: ["Order and interpret diagnostic studies for changes in condition","Delay assessment until the next scheduled time","Administer PRN medications without assessment","Transfer care without communicating relevant findings"],
-        correct: 0,
-        rationale: "Ongoing assessment and timely intervention are fundamental to safe patient care. Delaying assessment, administering medications without assessment, or failing to communicate findings can compromise patient safety."
-      },
-      {
-        question: "The patient asks about their dementia delirium diagnosis. What is the best initial nursing response?",
-        options: ["Avoid discussing the diagnosis and redirect the conversation","Provide all available information regardless of patient readiness","Assess the patient's current understanding and address their specific concerns","Tell the patient to wait for the physician to explain everything"],
-        correct: 2,
-        rationale: "Assessing the patient's current understanding allows the nurse to provide targeted, accurate education at the appropriate level, supporting informed decision-making and reducing anxiety."
-      },
-    ]
-  },
   "dementia-diagnostic-criteria-np": {
-    title: "Dementia: Cognitive Decline",
-    cellular: { title: "Dementia: Cognitive Decline", content: "the clinician evaluates and manages Dementia: Cognitive Decline & Reversible Causes through systematic neurological assessment and advanced understanding of central and peripheral nervous system pathophysiology. The clinician performs comprehensive neurological examination including mental status evaluation (level of consciousness, orientation, attention, language, memory), cranial nerve assessment, motor examination (strength grading 0-5, tone, pronator drift, coordination), sensory evaluation (light touch, pain/temperature, proprioception, vibration), deep tendon reflexes (grading 0-4+, pathological reflexes including Babinski), cerebellar testing (finger-to-nose, heel-to-shin, rapid alternating movements, Romberg), and gait assessment. Localization of neurological lesions guides differential diagnosis: upper motor neuron signs (spasticity, hyperreflexia, Babinski positive) versus lower motor neuron signs (flaccidity, hyporeflexia, fasciculations, muscle atrophy). The clinician interprets neuroimaging (CT for acute hemorrhage and mass lesions, MRI for detailed parenchymal assessment, MRA/CTA for vascular pathology), electrodiagnostic studies (EEG for seizure evaluation, EMG/NCS for peripheral nerve and muscle disorders), and relevant laboratory investigations. Management integrates acute stabilization, targeted pharmacotherapy based on pathophysiological mechanism, neuroprotective strategies, rehabilitation coordination, and determination of emergent versus urgent versus routine neurological referral." },
-    riskFactors: ["Advanced age or extremes of age","Family history of dementia diagnostic criteria or related conditions","Chronic comorbidities (hypertension, diabetes, obesity)","Sedentary lifestyle and poor nutritional status","Tobacco, alcohol, or substance use","Immunocompromised state or prolonged medication use"],
-    diagnostics: ["Order and interpret CBC, BMP, and disease-specific labs","Review imaging studies (X-ray, CT, MRI, ultrasound) as indicated","Perform focused physical examination with advanced assessment techniques","Apply clinical decision rules and scoring tools","Order specialty consultations when findings exceed scope"],
-    management: ["Prescribe first-line pharmacotherapy based on current clinical guidelines","Develop individualized treatment plan with measurable outcomes","Order follow-up diagnostic testing to monitor treatment response","Refer to specialist when condition is refractory or complex","Adjust therapy based on patient response and adverse effects"],
-    nursingActions: ["Order and interpret diagnostic studies for changes in condition","Prescribe pharmacological and non-pharmacological therapies per established protocols","Formulate differential diagnosis and treatment plan based on assessment findings","Counsel patients on disease management and prevention regarding condition management","Document all interventions, assessments, and patient responses accurately","Maintain safe environment and follow infection prevention protocols"],
-    assessmentFindings: ["Changes in vital signs including temperature, pulse, blood pressure, and respirations","Alterations in level of consciousness, orientation, or cognitive function","Pain assessment using validated tools (onset, location, duration, character, severity)","Skin assessment including color, turgor, moisture, integrity, and temperature","Functional status changes including mobility, self-care ability, and nutritional intake"],
-    signs: {
-      left: ["Changes in vital sign trends","Altered mental status or confusion","Pain or discomfort reported by patient","Skin changes (pallor, diaphoresis, cyanosis, jaundice)","Abnormal laboratory values"],
-      right: ["Fever or hypothermia","Edema (peripheral, periorbital, or generalized)","Adventitious breath sounds or respiratory distress","Gastrointestinal symptoms (nausea, vomiting, distension)","Changes in urine output or characteristics"]
+      "title": "Dementia Diagnostic Criteria",
+      "cellular": {
+        "title": "NIA-AA & DSM-5 Dementia Diagnostic Frameworks",
+        "content": "Major neurocognitive disorder (DSM-5 term for dementia) requires: 1) significant cognitive decline from a previous level in ≥1 cognitive domain (complex attention, executive function, learning/memory, language, perceptual-motor, social cognition), 2) cognitive deficits interfere with independence in everyday activities, 3) deficits do not occur exclusively in the context of delirium, 4) not better explained by another mental disorder. The NIA-AA 2011 criteria for Alzheimer disease dementia require: dementia meeting general criteria + insidious onset + clear-cut history of progressive worsening + initial and most prominent presentation is amnestic (typical) OR non-amnestic (language, visuospatial, or executive dysfunction). Biomarker evidence (amyloid PET, CSF amyloid/tau, MRI hippocampal atrophy) increases diagnostic confidence from 'possible' to 'probable' to definitive pathologic diagnosis."
+      },
+      "riskFactors": [
+        "Conditions that must be excluded before diagnosing neurodegenerative dementia: delirium, depression (pseudodementia), medication effects, thyroid disease, vitamin B12 deficiency, normal pressure hydrocephalus, chronic subdural hematoma, neurosyphilis, HIV-associated neurocognitive disorder",
+        "MCI as prodromal state: 50% of MCI patients progress to dementia within 5 years; MCI = cognitive impairment WITHOUT functional decline",
+        "Factors that reduce diagnostic accuracy: low education (may not be detected early), high premorbid function (compensates for cognitive decline), language/cultural barriers, coexisting psychiatric illness"
+      ],
+      "diagnostics": [
+        "DSM-5 Major Neurocognitive Disorder criteria: significant cognitive decline in ≥1 domain + functional impairment + not during delirium + not explained by other psychiatric disorder",
+        "NIA-AA Probable Alzheimer disease: meets dementia criteria + insidious onset + progressive course + amnestic or non-amnestic presentation + no evidence of other cause; biomarkers supportive but not required for clinical diagnosis",
+        "Cognitive domains (DSM-5): complex attention (sustained, divided, selective), executive function (planning, decision-making, abstraction), learning and memory (immediate, recent, remote), language (expressive, receptive, naming), perceptual-motor (visuospatial, praxis), social cognition (emotion recognition, theory of mind)",
+        "Neuropsychological testing: provides domain-specific quantitative assessment; identifies pattern of deficits suggesting specific etiology (amnestic = Alzheimer, executive/behavioral = FTD, fluctuating = Lewy body)",
+        "Biomarkers: amyloid PET (detects amyloid plaques), FDG-PET (metabolic patterns: temporoparietal hypometabolism in AD), CSF (low Aβ42, high phospho-tau, high total tau = AD pattern), plasma biomarkers (p-tau 217, emerging)",
+        "Functional assessment: Katz ADLs (basic: bathing, dressing, toileting, feeding) and Lawton IADLs (complex: finances, medications, cooking, driving, shopping, phone use) -- IADL impairment defines the transition from MCI to dementia"
+      ],
+      "management": [
+        "Confirm diagnosis meets established criteria before labeling patient with dementia",
+        "Specify etiology: Alzheimer (most common, ~60-80%), vascular (10-20%), Lewy body (5-15%), frontotemporal (5-10%), mixed (common especially AD + vascular)",
+        "Pharmacotherapy by etiology: Alzheimer mild-moderate: cholinesterase inhibitor (donepezil, rivastigmine, galantamine); moderate-severe: add memantine; Lewy body: cholinesterase inhibitor (may help cognition and hallucinations); FTD: no specific treatment (SSRIs for behavioral symptoms); Vascular: control cardiovascular risk factors",
+        "Early advance care planning: discuss goals of care, healthcare proxy, advance directives, driving safety WHILE PATIENT RETAINS DECISION-MAKING CAPACITY",
+        "Address behavioral symptoms: non-pharmacologic interventions FIRST (structured routine, redirect, environmental modification); pharmacologic only if non-pharmacologic fails and there is imminent danger",
+        "Caregiver support: education, respite care, support groups, assess for caregiver burnout/depression"
+      ],
+      "nursingActions": [
+        "Apply DSM-5 criteria systematically: confirm cognitive decline in ≥1 domain, confirm functional impairment, exclude delirium, exclude other psychiatric causes",
+        "Distinguish MCI from dementia: MCI = cognitive impairment WITHOUT functional impairment (IADLs preserved); dementia = cognitive impairment WITH functional decline (IADLs impaired)",
+        "Assess functional status specifically: Lawton IADLs (finances, medications, cooking, driving, shopping, housework, phone, transportation) -- impairment in these is the DEFINING FEATURE distinguishing dementia from MCI",
+        "Order reversible cause workup: TSH, B12, folate, CBC, CMP, RPR, HIV (if risk factors), brain MRI -- BEFORE diagnosing neurodegenerative dementia",
+        "Document cognitive and functional decline with input from reliable informant (family/caregiver) -- patients with dementia often have anosognosia (unawareness of deficits)",
+        "Initiate advance care planning conversations early in the disease course while decision-making capacity is retained",
+        "Assess driving safety: refer for driving evaluation; driving is often the first complex IADL to become unsafe"
+      ],
+      "assessmentFindings": [
+        "Alzheimer disease pattern: progressive memory loss (unable to learn new information), word-finding difficulty, spatial disorientation (getting lost), impaired judgment, personality changes (apathy, withdrawal)",
+        "Vascular dementia pattern: stepwise decline, focal neurological signs, executive dysfunction, gait abnormalities, history of stroke or vascular risk factors",
+        "Lewy body dementia pattern: fluctuating cognition, recurrent detailed visual hallucinations, parkinsonism, REM sleep behavior disorder, severe neuroleptic sensitivity",
+        "Frontotemporal dementia pattern: behavioral variant (early personality change, disinhibition, apathy, loss of empathy, compulsive behaviors) OR language variant (progressive aphasia)",
+        "Mixed dementia: overlapping features (very common in elderly -- AD + vascular most frequent combination)",
+        "Functional impairment examples: missed medication doses, unpaid bills, kitchen accidents, getting lost driving, inability to manage appointments"
+      ],
+      "signs": {
+        "left": [
+          "MCI with preserved functional independence -- monitor every 6-12 months for progression, optimize modifiable risk factors",
+          "Mild dementia with early advance care planning completed and support services in place",
+          "Stable dementia on appropriate pharmacotherapy with engaged caregiver"
+        ],
+        "right": [
+          "Rapidly progressive dementia (<1 year): evaluate urgently for CJD, autoimmune encephalitis, CNS lymphoma, paraneoplastic syndrome",
+          "New-onset dementia with focal neurological signs: evaluate for vascular event, mass lesion, NPH",
+          "Advanced dementia with loss of capacity to make medical decisions: goals of care and comfort-focused care discussion",
+          "Behavioral crisis in dementia: aggression, psychosis requiring careful pharmacologic management (avoid antipsychotics in Lewy body)",
+          "Caregiver burnout: depression, physical exhaustion, social isolation -- refer to support services immediately"
+        ]
+      },
+      "medications": [
+        {
+          "name": "Memantine (Namenda)",
+          "type": "NMDA receptor antagonist",
+          "action": "Non-competitive antagonist of NMDA glutamate receptors; blocks excessive glutamate-mediated excitotoxicity (which contributes to neuronal death in Alzheimer disease) while allowing normal physiologic NMDA receptor activity; provides modest symptomatic benefit in moderate-severe Alzheimer disease",
+          "sideEffects": "Dizziness, headache, confusion (paradoxically), constipation, hypertension; generally well-tolerated",
+          "contra": "Known hypersensitivity; caution with severe renal impairment (renally cleared -- reduce dose if CrCl 5-29), concurrent NMDA antagonists (amantadine, ketamine, dextromethorphan)",
+          "pearl": "Indicated for MODERATE-SEVERE Alzheimer disease (MMSE <17); can be combined with cholinesterase inhibitor (combination provides additive benefit); start 5 mg daily, titrate weekly by 5 mg to target 10 mg BID (or 28 mg ER daily); unlike cholinesterase inhibitors, memantine works on the glutamate system, providing a different mechanism of action; does NOT modify disease progression -- provides symptomatic stabilization"
+        }
+      ],
+      "pearls": [
+        "The KEY distinction between MCI and dementia is FUNCTIONAL STATUS: MCI = cognitive impairment WITHOUT IADL impairment; dementia = cognitive impairment WITH IADL impairment -- always assess specific IADLs",
+        "DSM-5 uses 'major neurocognitive disorder' instead of 'dementia' -- the criteria are equivalent; 'mild neurocognitive disorder' = MCI",
+        "Rapidly progressive dementia (<1-2 years from onset to severe impairment) is NOT typical Alzheimer -- evaluate for CJD, autoimmune encephalitis, malignancy, metabolic causes",
+        "ALWAYS exclude reversible causes before diagnosing neurodegenerative dementia: TSH, B12, medication effects, depression, normal pressure hydrocephalus, chronic subdural",
+        "NIA-AA 'probable' AD requires: insidious onset + progressive + amnestic or defined non-amnestic presentation + no other explanation; biomarkers increase confidence but are not required for clinical diagnosis",
+        "Lewy body dementia core features: fluctuating cognition + visual hallucinations + parkinsonism + REM sleep behavior disorder -- these overlap with delirium and require careful differentiation"
+      ],
+      "quiz": [
+        {
+          "question": "A patient has a MoCA score of 20/30 and can no longer manage medications or finances independently but performs basic ADLs (bathing, dressing) without assistance. What is the classification?",
+          "options": [
+            "Normal cognition",
+            "Mild cognitive impairment",
+            "Major neurocognitive disorder (dementia) -- cognitive decline with impairment in complex IADLs",
+            "Delirium"
+          ],
+          "correct": 2,
+          "rationale": "This patient has cognitive decline (MoCA 20/30) WITH functional impairment in IADLs (medications, finances). The preservation of basic ADLs but loss of complex IADLs is typical of mild-moderate dementia. MCI would be diagnosed only if functional independence were fully preserved."
+        },
+        {
+          "question": "A 72-year-old develops personality changes, social disinhibition, compulsive eating, and loss of empathy over 2 years with relatively preserved memory. Which dementia subtype is most likely?",
+          "options": [
+            "Alzheimer disease",
+            "Behavioral variant frontotemporal dementia",
+            "Vascular dementia",
+            "Lewy body dementia"
+          ],
+          "correct": 1,
+          "rationale": "Behavioral variant FTD presents with early personality changes (disinhibition, apathy, loss of empathy, compulsive behaviors) with RELATIVELY PRESERVED MEMORY initially. This contrasts with Alzheimer disease where memory loss is the earliest and most prominent feature. FTD typically presents at a younger age (45-65) than AD."
+        },
+        {
+          "question": "Which feature BEST distinguishes dementia from mild cognitive impairment?",
+          "options": [
+            "MoCA score",
+            "Presence of memory complaints",
+            "Functional impairment in instrumental activities of daily living (IADLs)",
+            "Brain MRI findings"
+          ],
+          "correct": 2,
+          "rationale": "The defining distinction between MCI and dementia is functional status. MCI involves cognitive impairment WITHOUT functional impairment (the patient manages IADLs independently). Dementia involves cognitive impairment WITH functional decline (inability to manage medications, finances, cooking, driving independently). This is the CORE diagnostic criterion."
+        }
+      ]
     },
-    medications: [{
-      name: "Levetiracetam",
-      type: "Anticonvulsant",
-      action: "Modulates synaptic vesicle protein SV2A to reduce neuronal excitability",
-      sideEffects: "Drowsiness, behavioral changes, dizziness, fatigue",
-      contra: "Known hypersensitivity; dose adjustment needed in renal impairment",
-      pearl: "Fewer drug interactions than older anticonvulsants; monitor for mood changes"
-    }],
-    pearls: ["Always assess for allergies before administering any new medication","Document baseline assessment findings to enable accurate trending","Use the SBAR format for structured clinical communication with the healthcare team","Consider age-specific and population-specific variations in normal findings","Never ignore a sudden change in patient condition, even if vital signs appear stable","Verify two patient identifiers before any medication administration or procedure"],
-    quiz: [
-      {
-        question: "A nurse is caring for a patient with dementia diagnostic criteria. Which assessment finding requires immediate intervention?",
-        options: ["Sudden change in level of consciousness","Mild discomfort rated 3/10 on pain scale","Stable vital signs within normal limits","Patient requesting information about their condition"],
-        correct: 0,
-        rationale: "A sudden change in level of consciousness may indicate a serious complication such as hemorrhage, hypoxia, or neurological deterioration and requires immediate assessment and intervention."
-      },
-      {
-        question: "Which nursing action is most appropriate when managing a patient with dementia diagnostic criteria?",
-        options: ["Order and interpret diagnostic studies for changes in condition","Delay assessment until the next scheduled time","Administer PRN medications without assessment","Transfer care without communicating relevant findings"],
-        correct: 0,
-        rationale: "Ongoing assessment and timely intervention are fundamental to safe patient care. Delaying assessment, administering medications without assessment, or failing to communicate findings can compromise patient safety."
-      },
-      {
-        question: "The patient asks about their dementia diagnostic criteria diagnosis. What is the best initial nursing response?",
-        options: ["Avoid discussing the diagnosis and redirect the conversation","Provide all available information regardless of patient readiness","Assess the patient's current understanding and address their specific concerns","Tell the patient to wait for the physician to explain everything"],
-        correct: 2,
-        rationale: "Assessing the patient's current understanding allows the nurse to provide targeted, accurate education at the appropriate level, supporting informed decision-making and reducing anxiety."
-      },
-    ]
-  },
   "dementia-management-np": {
-    title: "Dementia: Differential",
-    cellular: { title: "Dementia: Differential", content: "the clinician evaluates and manages Dementia: Differential & Cholinesterase Inhibitors through systematic neurological assessment and advanced understanding of central and peripheral nervous system pathophysiology. The clinician performs comprehensive neurological examination including mental status evaluation (level of consciousness, orientation, attention, language, memory), cranial nerve assessment, motor examination (strength grading 0-5, tone, pronator drift, coordination), sensory evaluation (light touch, pain/temperature, proprioception, vibration), deep tendon reflexes (grading 0-4+, pathological reflexes including Babinski), cerebellar testing (finger-to-nose, heel-to-shin, rapid alternating movements, Romberg), and gait assessment. Localization of neurological lesions guides differential diagnosis: upper motor neuron signs (spasticity, hyperreflexia, Babinski positive) versus lower motor neuron signs (flaccidity, hyporeflexia, fasciculations, muscle atrophy). The clinician interprets neuroimaging (CT for acute hemorrhage and mass lesions, MRI for detailed parenchymal assessment, MRA/CTA for vascular pathology), electrodiagnostic studies (EEG for seizure evaluation, EMG/NCS for peripheral nerve and muscle disorders), and relevant laboratory investigations. Management integrates acute stabilization, targeted pharmacotherapy based on pathophysiological mechanism, neuroprotective strategies, rehabilitation coordination, and determination of emergent versus urgent versus routine neurological referral." },
-    riskFactors: ["Advanced age or extremes of age","Family history of dementia management or related conditions","Chronic comorbidities (hypertension, diabetes, obesity)","Sedentary lifestyle and poor nutritional status","Tobacco, alcohol, or substance use","Immunocompromised state or prolonged medication use"],
-    diagnostics: ["Order and interpret CBC, BMP, and disease-specific labs","Review imaging studies (X-ray, CT, MRI, ultrasound) as indicated","Perform focused physical examination with advanced assessment techniques","Apply clinical decision rules and scoring tools","Order specialty consultations when findings exceed scope"],
-    management: ["Prescribe first-line pharmacotherapy based on current clinical guidelines","Develop individualized treatment plan with measurable outcomes","Order follow-up diagnostic testing to monitor treatment response","Refer to specialist when condition is refractory or complex","Adjust therapy based on patient response and adverse effects"],
-    nursingActions: ["Order and interpret diagnostic studies for changes in condition","Prescribe pharmacological and non-pharmacological therapies per established protocols","Formulate differential diagnosis and treatment plan based on assessment findings","Counsel patients on disease management and prevention regarding condition management","Document all interventions, assessments, and patient responses accurately","Maintain safe environment and follow infection prevention protocols"],
-    assessmentFindings: ["Changes in vital signs including temperature, pulse, blood pressure, and respirations","Alterations in level of consciousness, orientation, or cognitive function","Pain assessment using validated tools (onset, location, duration, character, severity)","Skin assessment including color, turgor, moisture, integrity, and temperature","Functional status changes including mobility, self-care ability, and nutritional intake"],
-    signs: {
-      left: ["Changes in vital sign trends","Altered mental status or confusion","Pain or discomfort reported by patient","Skin changes (pallor, diaphoresis, cyanosis, jaundice)","Abnormal laboratory values"],
-      right: ["Fever or hypothermia","Edema (peripheral, periorbital, or generalized)","Adventitious breath sounds or respiratory distress","Gastrointestinal symptoms (nausea, vomiting, distension)","Changes in urine output or characteristics"]
+      "title": "Dementia Management",
+      "cellular": {
+        "title": "Comprehensive Dementia Care",
+        "content": "Dementia management is multimodal, combining pharmacotherapy (symptomatic only -- no disease-modifying treatments proven for most dementias), behavioral interventions, caregiver support, and advance care planning. Pharmacotherapy targets neurotransmitter deficits: cholinesterase inhibitors (donepezil, rivastigmine, galantamine) increase acetylcholine in the synaptic cleft, partially compensating for cholinergic neuron loss in Alzheimer disease; memantine blocks excitotoxic glutamate-mediated neuronal damage via NMDA receptor antagonism. Behavioral and psychological symptoms of dementia (BPSD) -- agitation, aggression, psychosis, depression, apathy, sleep disturbance, wandering -- affect >90% of dementia patients and are the primary driver of caregiver burden, institutionalization, and healthcare costs. Non-pharmacologic interventions are first-line for BPSD; pharmacologic management carries significant risks in elderly patients with dementia."
+      },
+      "riskFactors": [
+        "Factors associated with faster dementia progression: ApoE4 homozygosity, younger onset, lower education, cardiovascular comorbidity, diabetes, lack of cognitive/social engagement",
+        "Behavioral symptom triggers: pain (often unrecognized in advanced dementia), infection (UTI, pneumonia), medication effects, constipation, environmental overstimulation, unmet needs (hunger, thirst, toileting), caregiver interaction style",
+        "Institutionalization predictors: BPSD severity, caregiver burnout, falls, incontinence, wandering, nutritional decline",
+        "Medication risks in dementia: anticholinergics (worsen cognition), benzodiazepines (falls, paradoxical agitation), antipsychotics (FDA black box: increased mortality in elderly with dementia)"
+      ],
+      "diagnostics": [
+        "Stage assessment: CDR (Clinical Dementia Rating), GDS (Global Deterioration Scale), FAST (Functional Assessment Staging Tool) -- guide prognosis and care planning",
+        "BPSD assessment: NPI (Neuropsychiatric Inventory) systematically evaluates 12 behavioral domains; ABC analysis (Antecedent-Behavior-Consequence) identifies triggers for behavioral episodes",
+        "Caregiver assessment: Zarit Burden Interview, PHQ-9 for caregiver depression, assess for elder abuse",
+        "Swallowing evaluation: speech-language pathology referral when dysphagia develops (risk of aspiration)",
+        "Safety assessment: driving evaluation, home safety assessment (fall prevention, kitchen safety, wandering risk, medication management, firearm access)",
+        "Capacity assessment: evaluate decision-making capacity for specific decisions (medical, financial, legal) -- capacity is decision-specific, not global"
+      ],
+      "management": [
+        "Pharmacologic -- cognitive: donepezil 5-10 mg daily (mild-moderate AD); rivastigmine patch 4.6-13.3 mg/24hr (AD and Parkinson disease dementia); galantamine 8-24 mg ER daily; memantine 10 mg BID or 28 mg ER daily (moderate-severe AD, add to ChEI)",
+        "BPSD non-pharmacologic (FIRST-LINE): DICE approach (Describe behavior, Investigate causes, Create plan, Evaluate); music therapy, pet therapy, aromatherapy, structured activities, exercise, caregiver education on communication techniques, environmental modifications",
+        "BPSD pharmacologic (only when non-pharmacologic fails + danger): SSRIs for depression and anxiety (citalopram 10-20 mg -- CITAD trial showed modest benefit for agitation); low-dose antipsychotics for psychosis/severe aggression ONLY if danger to self/others (FDA black box: 1.6-1.7x increased mortality); trazodone for sleep disturbance; avoid benzodiazepines",
+        "Advance care planning: early in disease course -- healthcare proxy, advance directive, code status, feeding tube preferences, hospice eligibility criteria",
+        "Driving cessation: mandatory reporting laws vary by state; recommend formal driving evaluation; alternative transportation planning",
+        "End-of-life: hospice referral when FAST stage 7c (unable to ambulate, dress, bathe, continent, <6 intelligible words); comfort-focused care; avoid burdensome interventions"
+      ],
+      "nursingActions": [
+        "Implement person-centered care: know the patient's history, preferences, routines, and meaningful activities; maintain consistent caregivers when possible",
+        "Use non-pharmacologic approaches FIRST for behavioral symptoms: identify and address unmet needs (pain, hunger, toileting, boredom), modify environment, use validation therapy, redirect rather than confront",
+        "Avoid pharmacologic restraints when possible: antipsychotics carry FDA black box warning for increased mortality (stroke, cardiac events) in elderly with dementia; document specific indication if prescribed",
+        "Assess pain using validated tools for dementia: PAINAD scale (Pain Assessment in Advanced Dementia) -- behavioral cues (facial expression, vocalization, body language, consolability) because patients cannot self-report",
+        "Manage nutritional decline: modified consistency diets for dysphagia, assist with feeding, optimize meal environment; artificial nutrition (PEG tube) does NOT improve outcomes in advanced dementia and is NOT recommended",
+        "Assess and support caregivers: screen for depression and burnout, refer to Alzheimer's Association, connect with respite care, support groups, and community resources",
+        "Initiate advance care planning conversations proactively: identify healthcare proxy, discuss goals of care, establish preferences for hospitalization, ICU care, feeding tubes, CPR"
+      ],
+      "assessmentFindings": [
+        "Mild stage: forgetfulness (recent events), word-finding difficulty, mild IADL impairment (medications, finances), preserved basic ADLs, aware of deficits (early insight)",
+        "Moderate stage: significant memory loss (forgets familiar names, recent events), needs assistance with ADLs (dressing, bathing), behavioral symptoms emerge (agitation, wandering, sundowning, repetitive questioning), loses awareness of deficits",
+        "Severe stage: unable to communicate verbally (few words), dependent for all ADLs, incontinence, difficulty swallowing, immobility, loss of recognition of family",
+        "BPSD: agitation/aggression (most distressing to caregivers), psychosis (hallucinations/delusions), depression/apathy (most common neuropsychiatric symptom), wandering, sundowning, sleep disturbance",
+        "Caregiver indicators: emotional exhaustion, depression, social isolation, physical health decline, anger/guilt"
+      ],
+      "signs": {
+        "left": [
+          "Mild dementia with patient engaged in advance care planning and caregiver support in place",
+          "BPSD managed successfully with non-pharmacologic interventions (structured routine, music therapy, caregiver education)",
+          "Stable cognitive function on cholinesterase inhibitor + memantine combination"
+        ],
+        "right": [
+          "Severe agitation with risk of harm to self or caregivers -- non-pharmacologic measures failed; careful pharmacologic intervention needed with documented benefit-risk assessment",
+          "Aspiration pneumonia in advanced dementia -- goals of care discussion about level of intervention",
+          "Caregiver crisis: depression, suicidal ideation, elder abuse risk, complete exhaustion -- immediate intervention and respite",
+          "Advanced dementia: unable to swallow, fully dependent, multiple pressure injuries -- hospice referral conversation",
+          "Weight loss >10% in advanced dementia -- discuss whether feeding tube is appropriate (evidence does NOT support PEG in advanced dementia)"
+        ]
+      },
+      "medications": [
+        {
+          "name": "Rivastigmine Patch (Exelon Patch)",
+          "type": "Cholinesterase inhibitor (carbamate type -- inhibits both AChE and BuChE)",
+          "action": "Inhibits both acetylcholinesterase and butyrylcholinesterase, increasing acetylcholine availability; provides continuous drug delivery with fewer GI side effects than oral forms; FDA-approved for Alzheimer disease AND Parkinson disease dementia (the only ChEI with this dual indication)",
+          "sideEffects": "Application site reactions (rotate sites), nausea, vomiting, diarrhea (less than oral -- major advantage of patch), weight loss, dizziness, bradycardia, insomnia",
+          "contra": "Known hypersensitivity to carbamate derivatives; caution with sick sinus syndrome, GI bleeding risk, COPD/asthma, seizure disorder",
+          "pearl": "Patch formulation (4.6 mg/24hr start → 9.5 mg/24hr → 13.3 mg/24hr) has significantly fewer GI side effects than oral rivastigmine; apply to clean, dry, hairless skin on upper back/chest; rotate application sites; only ChEI approved for BOTH Alzheimer AND Parkinson disease dementia; onset of meaningful benefit: 3-6 months; if no benefit after 6-month adequate trial, consider discontinuation with monitoring for rapid decline"
+        }
+      ],
+      "pearls": [
+        "Non-pharmacologic interventions are FIRST-LINE for BPSD -- pharmacologic management is reserved for when non-pharmacologic approaches fail AND the patient is a danger to self/others",
+        "FDA BLACK BOX WARNING: antipsychotics increase mortality by 1.6-1.7x in elderly patients with dementia (stroke, cardiac events, infection); use lowest dose for shortest duration with documented indication and regular reassessment",
+        "PEG tubes do NOT improve outcomes in advanced dementia: no survival benefit, no reduction in aspiration pneumonia, increased discomfort -- careful hand feeding is preferred (Choosing Wisely campaign)",
+        "PAIN is a common unrecognized cause of behavioral symptoms in dementia -- patients cannot verbalize pain; use the PAINAD scale (behavioral pain assessment) and trial analgesics before antipsychotics",
+        "Cholinesterase inhibitors provide MODEST benefit (stabilization, not cure); expect slight improvement or slowed decline, not reversal; if no benefit after 6-month trial, consider discontinuation with monitoring",
+        "Caregiver burnout is a MEDICAL EMERGENCY for the patient: when the caregiver fails, the patient's care fails; screen caregivers for depression, connect with respite care and support groups",
+        "FAST stage 7c is the Medicare hospice eligibility criterion for dementia: unable to ambulate, dress, bathe independently + urinary and fecal incontinence + fewer than 6 intelligible words"
+      ],
+      "quiz": [
+        {
+          "question": "An advanced dementia patient frequently becomes agitated during bathing. What is the FIRST intervention?",
+          "options": [
+            "Administer haloperidol 30 minutes before bath",
+            "Identify the cause of agitation (pain, cold water, fear, feeling rushed) and modify the bathing approach -- non-pharmacologic intervention first",
+            "Apply physical restraints during bathing",
+            "Skip bathing to avoid agitation"
+          ],
+          "correct": 1,
+          "rationale": "Non-pharmacologic interventions are FIRST-LINE for BPSD. The agitation likely has an identifiable trigger: cold environment, feeling rushed, loss of dignity, pain. Interventions include warming the room, using a sponge bath instead, providing verbal reassurance, maintaining a consistent routine, and ensuring adequate pain management. Antipsychotics should be reserved for when non-pharmacologic measures fail and there is danger."
+        },
+        {
+          "question": "A family asks about placing a PEG feeding tube in their mother with advanced Alzheimer disease who is having difficulty swallowing. What should the NP counsel?",
+          "options": [
+            "PEG tubes improve survival in advanced dementia",
+            "PEG tubes do NOT improve outcomes in advanced dementia -- no survival benefit, no reduction in aspiration, and they may increase discomfort; careful hand feeding is recommended",
+            "PEG tubes are required for all patients who have difficulty swallowing",
+            "The family should decide without medical input"
+          ],
+          "correct": 1,
+          "rationale": "Evidence consistently shows that PEG tubes in advanced dementia provide NO survival benefit, do NOT reduce aspiration pneumonia (patients still aspirate secretions), and may increase discomfort (restraints to prevent tube removal, diarrhea, infections). Careful hand feeding with modified consistency is preferred and supports comfort-focused care goals."
+        },
+        {
+          "question": "Why do antipsychotics carry an FDA black box warning for use in elderly patients with dementia?",
+          "options": [
+            "They cause irreversible cognitive decline",
+            "They increase mortality by 1.6-1.7x due to cerebrovascular events, cardiac events, and infections",
+            "They are ineffective for behavioral symptoms",
+            "They interact with cholinesterase inhibitors"
+          ],
+          "correct": 1,
+          "rationale": "The FDA black box warning states that both typical and atypical antipsychotics are associated with 1.6-1.7x increased mortality in elderly patients with dementia, primarily from cerebrovascular adverse events (stroke), cardiac arrhythmias, and infections (pneumonia from aspiration). They should be used only when non-pharmacologic measures fail AND the patient poses a danger, at the lowest dose for the shortest duration."
+        }
+      ]
     },
-    medications: [{
-      name: "Levetiracetam",
-      type: "Anticonvulsant",
-      action: "Modulates synaptic vesicle protein SV2A to reduce neuronal excitability",
-      sideEffects: "Drowsiness, behavioral changes, dizziness, fatigue",
-      contra: "Known hypersensitivity; dose adjustment needed in renal impairment",
-      pearl: "Fewer drug interactions than older anticonvulsants; monitor for mood changes"
-    }],
-    pearls: ["Always assess for allergies before administering any new medication","Document baseline assessment findings to enable accurate trending","Use the SBAR format for structured clinical communication with the healthcare team","Consider age-specific and population-specific variations in normal findings","Never ignore a sudden change in patient condition, even if vital signs appear stable","Verify two patient identifiers before any medication administration or procedure"],
-    quiz: [
-      {
-        question: "A nurse is caring for a patient with dementia management. Which assessment finding requires immediate intervention?",
-        options: ["Sudden change in level of consciousness","Mild discomfort rated 3/10 on pain scale","Stable vital signs within normal limits","Patient requesting information about their condition"],
-        correct: 0,
-        rationale: "A sudden change in level of consciousness may indicate a serious complication such as hemorrhage, hypoxia, or neurological deterioration and requires immediate assessment and intervention."
-      },
-      {
-        question: "Which nursing action is most appropriate when managing a patient with dementia management?",
-        options: ["Order and interpret diagnostic studies for changes in condition","Delay assessment until the next scheduled time","Administer PRN medications without assessment","Transfer care without communicating relevant findings"],
-        correct: 0,
-        rationale: "Ongoing assessment and timely intervention are fundamental to safe patient care. Delaying assessment, administering medications without assessment, or failing to communicate findings can compromise patient safety."
-      },
-      {
-        question: "The patient asks about their dementia management diagnosis. What is the best initial nursing response?",
-        options: ["Avoid discussing the diagnosis and redirect the conversation","Provide all available information regardless of patient readiness","Assess the patient's current understanding and address their specific concerns","Tell the patient to wait for the physician to explain everything"],
-        correct: 2,
-        rationale: "Assessing the patient's current understanding allows the nurse to provide targeted, accurate education at the appropriate level, supporting informed decision-making and reducing anxiety."
-      },
-    ]
-  },
 };

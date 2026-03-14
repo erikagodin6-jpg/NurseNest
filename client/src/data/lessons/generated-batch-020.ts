@@ -2,558 +2,1197 @@ import type { LessonContent } from "./types";
 
 export const generatedBatch020Lessons: Record<string, LessonContent> = {
   "cirrhosis-core-np": {
-    title: "Cirrhosis: Core Concepts",
-    cellular: { title: "Pathophysiology of Cirrhosis", content: "Cirrhosis represents the end stage of chronic liver injury characterized by a well-defined sequence: hepatocyte injury from any etiology triggers activation of hepatic stellate cells (Ito cells), which transform from quiescent vitamin A-storing cells into proliferative myofibroblasts. These activated stellate cells deposit excessive extracellular matrix proteins, primarily type I and III collagen, within the space of Disse. Ongoing fibrosis leads to nodular regeneration of hepatocytes surrounded by fibrous septa, causing progressive architectural distortion of the hepatic lobule. This structural remodeling increases intrahepatic vascular resistance, compresses hepatic sinusoids, and disrupts normal blood flow through the portal system, resulting in portal hypertension (hepatic venous pressure gradient >5 mmHg, clinically significant >10 mmHg). Compensated cirrhosis maintains adequate hepatic synthetic and metabolic function without clinical complications; decompensated cirrhosis is defined by the development of ascites, variceal hemorrhage, hepatic encephalopathy, or jaundice (bilirubin >3 mg/dL). The transition from compensated to decompensated cirrhosis occurs at a rate of approximately 5-7% per year and marks a dramatic decline in median survival from >12 years to approximately 2 years." },
-    riskFactors: ["Chronic hepatitis C virus infection (most common cause in developed countries)","Alcohol use disorder (>2 drinks/day women, >3 drinks/day men for >10 years)","Non-alcoholic fatty liver disease (NAFLD) and non-alcoholic steatohepatitis (NASH)","Chronic hepatitis B virus infection","Autoimmune hepatitis","Primary biliary cholangitis (PBC) and primary sclerosing cholangitis (PSC)","Hereditary hemochromatosis and Wilson disease"],
-    diagnostics: ["FibroScan (transient elastography) for non-invasive fibrosis assessment (>12.5 kPa suggests cirrhosis)","FIB-4 index calculation: (Age x AST) / (Platelet count x sqrt(ALT)) - low cutoff <1.30, high cutoff >2.67","APRI score (AST-to-Platelet Ratio Index) for fibrosis staging","Liver biopsy remains the gold standard for diagnosis, staging, and determining etiology","Child-Pugh score (A/B/C) using albumin, bilirubin, INR, ascites, encephalopathy grade","MELD score (Model for End-Stage Liver Disease) using bilirubin, INR, creatinine for transplant prioritization","Abdominal ultrasound with Doppler to assess liver morphology and portal vein flow"],
-    management: ["Identify and treat underlying etiology (antiviral therapy for HBV/HCV, alcohol cessation, weight loss for NASH)","Variceal screening with EGD at diagnosis; repeat every 2 years if compensated with no varices, annually if decompensated","HCC surveillance with abdominal ultrasound plus serum AFP every 6 months in all cirrhotic patients","Sodium restriction to <2g/day for ascites management; fluid restriction only if serum sodium <125 mEq/L","Lactulose titrated to 2-3 soft bowel movements per day for hepatic encephalopathy prevention and treatment","Refer for liver transplant evaluation when MELD ≥15 or first episode of decompensation"],
-    nursingActions: ["Monitor daily weights and abdominal girth to assess for ascites progression","Assess neurological status using West Haven criteria for hepatic encephalopathy grading","Administer lactulose and titrate dose to achieve 2-3 soft stools daily","Monitor for signs of variceal bleeding (hematemesis, melena, hemodynamic instability)","Educate patient on sodium-restricted diet and importance of alcohol abstinence","Coordinate multidisciplinary care including hepatology, nutrition, and social work referrals"],
-    assessmentFindings: ["Jaundice and scleral icterus indicating hyperbilirubinemia","Spider angiomata on upper trunk and face (estrogen metabolism impairment)","Palmar erythema from hyperdynamic circulation and estrogen excess","Ascites with shifting dullness and fluid wave on abdominal examination","Gynecomastia and testicular atrophy in males from estrogen excess","Asterixis (flapping tremor) indicating hepatic encephalopathy"],
-    signs: {
-      left: ["Fatigue and malaise","Mild jaundice or scleral icterus","Spider angiomata on upper body","Palmar erythema","Mild splenomegaly on palpation","Easy bruising from coagulopathy"],
-      right: ["Tense ascites with respiratory compromise","Massive hematemesis from variceal rupture","Grade III-IV hepatic encephalopathy with coma","Hepatorenal syndrome (rising creatinine with oliguria)","Spontaneous bacterial peritonitis (fever, abdominal pain, altered mental status)","Coagulopathy with active bleeding (INR >2.5)"]
+      "title": "Cirrhosis Core Concepts",
+      "cellular": {
+        "title": "Hepatic Fibrosis & Cirrhosis Pathophysiology",
+        "content": "Cirrhosis is the end-stage of chronic liver disease characterized by diffuse fibrosis, regenerative nodule formation, and distortion of hepatic architecture. Chronic injury (alcohol, viral hepatitis, NAFLD/NASH) activates hepatic stellate cells, which transform from quiescent vitamin A-storing cells into myofibroblasts that produce excessive collagen (types I and III), forming fibrous septa that disrupt normal lobular architecture. This creates portosystemic shunting, impaired hepatocyte function, and portal hypertension (hepatic venous pressure gradient >5 mmHg; clinically significant >10 mmHg). Consequences include synthetic failure (hypoalbuminemia, coagulopathy), impaired detoxification (hyperammonemia → hepatic encephalopathy), and portal hypertension complications (varices, ascites, splenomegaly)."
+      },
+      "riskFactors": [
+        "Chronic alcohol use (most common cause in Western countries; >60-80 g/day men, >20-40 g/day women for >10 years)",
+        "Chronic hepatitis C (HCV) and hepatitis B (HBV) infection",
+        "Non-alcoholic steatohepatitis (NASH) / metabolic-associated steatotic liver disease (MASLD)",
+        "Autoimmune hepatitis",
+        "Primary biliary cholangitis (PBC) and primary sclerosing cholangitis (PSC)",
+        "Hereditary hemochromatosis, Wilson disease, alpha-1 antitrypsin deficiency",
+        "Drug-induced liver injury (methotrexate, amiodarone)",
+        "Chronic biliary obstruction"
+      ],
+      "diagnostics": [
+        "Liver biopsy: gold standard for diagnosis and staging (Metavir fibrosis score F0-F4; F4 = cirrhosis)",
+        "FibroScan (transient elastography): non-invasive assessment of liver stiffness; >12.5 kPa suggests cirrhosis",
+        "FIB-4 index: calculated from age, AST, ALT, and platelet count; non-invasive fibrosis assessment",
+        "Serum markers: AST/ALT ratio >1 suggests cirrhosis (reversed from hepatitis); low albumin, prolonged PT/INR, elevated bilirubin, thrombocytopenia (splenic sequestration)",
+        "Abdominal ultrasound: nodular liver surface, splenomegaly, ascites, portal vein dilation (>13 mm)",
+        "Upper endoscopy: screen for esophageal/gastric varices at diagnosis; every 2-3 years if none found",
+        "AFP every 6 months for HCC surveillance (with ultrasound)",
+        "Hepatic venous pressure gradient (HVPG): >10 mmHg = clinically significant portal hypertension"
+      ],
+      "management": [
+        "Treat underlying etiology: alcohol cessation, antiviral therapy for HCV/HBV, weight loss for NASH, immunosuppression for autoimmune hepatitis",
+        "Compensated cirrhosis: regular surveillance (HCC screening q6 months, variceal screening by EGD), hepatitis A/B vaccination, avoid hepatotoxins (alcohol, NSAIDs, high-dose acetaminophen)",
+        "Decompensated cirrhosis (ascites, variceal bleeding, encephalopathy, jaundice): manage each complication specifically",
+        "Ascites: sodium restriction (<2g/day), diuretics (spironolactone 100 mg + furosemide 40 mg in 100:40 ratio), therapeutic paracentesis for tense ascites with albumin replacement (6-8 g per liter removed if >5L)",
+        "Variceal bleeding prophylaxis: non-selective beta-blocker (propranolol, nadolol, carvedilol) or endoscopic variceal ligation (EVL)",
+        "Hepatic encephalopathy: lactulose (titrate to 2-3 soft stools/day) + rifaximin 550 mg BID",
+        "Liver transplant evaluation for decompensated cirrhosis or HCC within Milan criteria"
+      ],
+      "nursingActions": [
+        "Monitor for signs of decompensation: new ascites, jaundice, confusion (encephalopathy), GI bleeding",
+        "Calculate and monitor Child-Pugh and MELD scores to assess disease severity and transplant candidacy",
+        "Assess for asterixis (liver flap) as an early sign of hepatic encephalopathy",
+        "Implement fall precautions for patients with encephalopathy",
+        "Monitor for spontaneous bacterial peritonitis (SBP) in patients with ascites: paracentesis if fever, abdominal pain, or worsening encephalopathy",
+        "Educate on absolute alcohol avoidance, sodium restriction, medication adherence",
+        "Coordinate HCC surveillance: AFP + ultrasound every 6 months"
+      ],
+      "assessmentFindings": [
+        "Compensated: may be asymptomatic; fatigue, spider angiomata, palmar erythema, gynecomastia, testicular atrophy",
+        "Decompensated: ascites (shifting dullness, fluid wave), jaundice, peripheral edema, hepatic encephalopathy (confusion, asterixis, fetor hepaticus)",
+        "Portal hypertension signs: caput medusae, splenomegaly, hemorrhoids, esophageal varices",
+        "Coagulopathy: easy bruising, mucosal bleeding, prolonged PT/INR",
+        "Hepatorenal syndrome: progressive renal failure in advanced cirrhosis without intrinsic renal disease"
+      ],
+      "signs": {
+        "left": [
+          "Compensated cirrhosis with normal synthetic function",
+          "Mild spider angiomata or palmar erythema without decompensation",
+          "Stable MELD score, normal albumin, no ascites",
+          "Small varices without red wale signs on endoscopy"
+        ],
+        "right": [
+          "Acute variceal hemorrhage: hematemesis, melena, hemorrhagic shock",
+          "Grade III-IV hepatic encephalopathy: coma, unresponsive",
+          "Spontaneous bacterial peritonitis: fever, abdominal pain, worsening ascites",
+          "Hepatorenal syndrome type 1: rapidly progressive renal failure (creatinine doubling in <2 weeks)",
+          "Hepatocellular carcinoma: new hepatic mass on surveillance imaging"
+        ]
+      },
+      "medications": [
+        {
+          "name": "Spironolactone",
+          "type": "Aldosterone antagonist / potassium-sparing diuretic",
+          "action": "Blocks aldosterone at the mineralocorticoid receptor in the collecting duct; in cirrhosis, secondary hyperaldosteronism from RAAS activation causes avid sodium retention and ascites; spironolactone counteracts this by promoting natriuresis",
+          "sideEffects": "Hyperkalemia, gynecomastia and breast tenderness (anti-androgen effect), menstrual irregularities, GI upset",
+          "contra": "K+ >5.5, severe renal failure, concurrent potassium supplements",
+          "pearl": "Cornerstone of ascites management; used with furosemide in 100:40 mg ratio to maintain potassium balance; start at 100 mg/day, increase every 3-5 days as needed; maximum 400 mg/day; monitor electrolytes and renal function closely"
+        },
+        {
+          "name": "Lactulose",
+          "type": "Osmotic laxative / ammonia-reducing agent",
+          "action": "Non-absorbable disaccharide metabolized by colonic bacteria to lactic and acetic acids; acidifies colonic contents converting ammonia (NH3) to ammonium (NH4+) which cannot be absorbed; osmotic effect increases fecal elimination of ammonium; reduces blood ammonia levels and improves hepatic encephalopathy",
+          "sideEffects": "Bloating, flatulence, abdominal cramping, diarrhea (excessive dosing), dehydration and electrolyte imbalances with overuse",
+          "contra": "Galactosemia, bowel obstruction",
+          "pearl": "Titrate dose to achieve 2-3 soft stools per day; typical dose 15-30 mL (10-20 g) PO 2-4 times daily; can also be given rectally as retention enema (300 mL in 700 mL water) for patients unable to take PO; combine with rifaximin for prevention of recurrent hepatic encephalopathy"
+        }
+      ],
+      "pearls": [
+        "Child-Pugh score (A/B/C) assesses cirrhosis severity using 5 parameters: bilirubin, albumin, INR, ascites, encephalopathy; MELD score (bilirubin, INR, creatinine) determines transplant priority",
+        "Ascites diuretic ratio: spironolactone:furosemide = 100:40 mg to maintain potassium balance; monitor renal function and electrolytes frequently",
+        "Spontaneous bacterial peritonitis (SBP): diagnose by paracentesis with PMN count ≥250 cells/mm³; treat with ceftriaxone + IV albumin; prophylaxis with norfloxacin or TMP-SMX after first episode",
+        "In cirrhosis, AST > ALT (reversed from hepatitis); de Ritis ratio >1 suggests cirrhosis; thrombocytopenia is often the first laboratory clue",
+        "NSAIDs are CONTRAINDICATED in cirrhosis -- they reduce renal prostaglandins, worsen renal function, and increase GI bleeding risk",
+        "Acetaminophen is safe in cirrhosis at reduced doses (max 2 g/day); it is actually safer than NSAIDs for pain in cirrhotic patients"
+      ],
+      "quiz": [
+        {
+          "question": "A patient with cirrhosis and ascites is started on diuretics. Which ratio of spironolactone to furosemide maintains potassium balance?",
+          "options": [
+            "25:40 mg",
+            "40:100 mg",
+            "100:40 mg",
+            "100:100 mg"
+          ],
+          "correct": 2,
+          "rationale": "The recommended diuretic ratio for ascites management is spironolactone 100 mg to furosemide 40 mg. Spironolactone's potassium-sparing effect offsets furosemide's potassium-wasting effect, maintaining serum potassium in the normal range."
+        },
+        {
+          "question": "A cirrhotic patient with ascites develops fever and abdominal pain. Paracentesis shows PMN count of 350 cells/mm³. What is the diagnosis and treatment?",
+          "options": [
+            "Peritoneal carcinomatosis -- oncology referral",
+            "Spontaneous bacterial peritonitis -- IV ceftriaxone and albumin",
+            "Appendicitis -- surgical consultation",
+            "Secondary bacterial peritonitis -- emergent surgery"
+          ],
+          "correct": 1,
+          "rationale": "PMN count ≥250 cells/mm³ on paracentesis in a cirrhotic patient with ascites is diagnostic of spontaneous bacterial peritonitis (SBP). Treatment is empiric IV ceftriaxone plus IV albumin (1.5 g/kg on day 1, 1 g/kg on day 3) to prevent hepatorenal syndrome."
+        },
+        {
+          "question": "Which medication is CONTRAINDICATED in a patient with cirrhosis and ascites?",
+          "options": [
+            "Acetaminophen 1 g twice daily",
+            "Ibuprofen 400 mg three times daily",
+            "Lactulose 30 mL twice daily",
+            "Spironolactone 100 mg daily"
+          ],
+          "correct": 1,
+          "rationale": "NSAIDs (including ibuprofen) are contraindicated in cirrhosis because they inhibit renal prostaglandin synthesis, reducing renal blood flow and worsening sodium retention, ascites, and renal function. They also increase GI bleeding risk. Acetaminophen at reduced doses (max 2 g/day) is the preferred analgesic."
+        }
+      ]
     },
-    medications: [{
-      name: "Lactulose",
-      type: "Osmotic laxative / ammonia-reducing agent",
-      action: "Converted by colonic bacteria to lactic acid and acetic acid, lowering colonic pH to convert ammonia (NH3) to non-absorbable ammonium (NH4+) and promoting fecal excretion",
-      sideEffects: "Diarrhea, bloating, flatulence, abdominal cramping, electrolyte imbalances with overuse",
-      contra: "Galactosemia; use with caution in diabetes (contains galactose and lactose)",
-      pearl: "Titrate to 2-3 soft stools per day; inadequate dosing is the most common cause of treatment failure for hepatic encephalopathy"
-    }, {
-      name: "Rifaximin",
-      type: "Non-absorbable antibiotic (rifamycin derivative)",
-      action: "Reduces ammonia-producing intestinal bacteria by inhibiting bacterial RNA synthesis; minimal systemic absorption (<0.4%)",
-      sideEffects: "Peripheral edema, nausea, dizziness, ascites, fatigue",
-      contra: "Hypersensitivity to rifamycin antimicrobials",
-      pearl: "Added to lactulose for secondary prevention of hepatic encephalopathy; reduces recurrence by 50% (RFHE trial)"
-    }, {
-      name: "Propranolol",
-      type: "Non-selective beta-blocker (NSBB)",
-      action: "Blocks beta-1 receptors (reduces cardiac output) and beta-2 receptors (causes splanchnic vasoconstriction) to reduce portal pressure",
-      sideEffects: "Hypotension, bradycardia, fatigue, bronchospasm, masking of hypoglycemia",
-      contra: "Resting heart rate <55 bpm, systolic BP <90 mmHg, severe asthma, refractory ascites (relative)",
-      pearl: "Target resting heart rate of 55-60 bpm; hold if SBP <90 or HR <55; discontinue in refractory ascites or SBP"
-    }],
-    pearls: ["Compensated cirrhosis has median survival >12 years; decompensated cirrhosis drops to ~2 years without transplant","MELD score ≥15 warrants transplant referral; MELD uses bilirubin, INR, and creatinine (no subjective variables)","Child-Pugh B and C patients should be referred to hepatology; Child-Pugh A patients can often be managed in primary care","All cirrhotic patients need HCC screening every 6 months regardless of etiology - ultrasound plus AFP","NSBBs (propranolol, nadolol, carvedilol) are first-line primary prophylaxis for medium/large esophageal varices","Spontaneous bacterial peritonitis prophylaxis with norfloxacin or TMP-SMX is indicated after first SBP episode","Avoid NSAIDs, aminoglycosides, and IV contrast when possible in decompensated cirrhosis"],
-    quiz: [
-      {
-        question: "A patient with cirrhosis presents with new-onset confusion, asterixis, and elevated ammonia level. Which medication combination is first-line for this presentation?",
-        options: ["Propranolol and spironolactone","Lactulose and rifaximin","Furosemide and albumin","Metoprolol and omeprazole"],
-        correct: 1,
-        rationale: "Hepatic encephalopathy is treated with lactulose (titrated to 2-3 soft stools/day to reduce ammonia absorption) combined with rifaximin (reduces ammonia-producing gut bacteria). This combination reduces encephalopathy recurrence by approximately 50%."
-      },
-      {
-        question: "Which screening protocol is recommended for hepatocellular carcinoma surveillance in a patient with compensated cirrhosis?",
-        options: ["CT abdomen annually","Abdominal ultrasound plus AFP every 6 months","MRI liver every 2 years","Liver biopsy annually"],
-        correct: 1,
-        rationale: "AASLD guidelines recommend HCC surveillance with abdominal ultrasound plus serum alpha-fetoprotein (AFP) every 6 months for all patients with cirrhosis, regardless of etiology. This interval balances tumor doubling time with detection sensitivity."
-      },
-      {
-        question: "A cirrhotic patient has a MELD score of 18. What is the most appropriate next step in management?",
-        options: ["Continue current management and reassess in 6 months","Initiate non-selective beta-blocker therapy","Refer for liver transplant evaluation","Start empiric antibiotics for SBP prophylaxis"],
-        correct: 2,
-        rationale: "A MELD score ≥15 indicates sufficient disease severity to warrant liver transplant evaluation. The MELD score predicts 90-day mortality in end-stage liver disease and is used for transplant organ allocation prioritization."
-      },
-    ]
-  },
   "cirrhosis-diagnostic-criteria-np": {
-    title: "Cirrhosis: Diagnostic Criteria",
-    cellular: { title: "Non-Invasive Fibrosis Assessment and Histological Staging", content: "Modern cirrhosis diagnosis integrates non-invasive fibrosis assessment algorithms with histological staging to minimize unnecessary liver biopsies while maintaining diagnostic accuracy. Transient elastography (FibroScan) measures liver stiffness by transmitting a low-frequency shear wave through the hepatic parenchyma and calculating wave propagation velocity; stiffer tissue (more fibrosis) transmits waves faster, expressed in kilopascals (kPa). The METAVIR scoring system classifies fibrosis on a 5-point scale: F0 (no fibrosis), F1 (portal fibrosis without septa), F2 (portal fibrosis with few septa), F3 (numerous septa without cirrhosis), and F4 (cirrhosis). The Ishak modification provides a more granular 7-point scale (0-6) allowing better discrimination of intermediate stages. Serum biomarker panels combine indirect markers (platelet count, AST, ALT, albumin) into validated algorithms (FIB-4, APRI) or direct fibrosis markers (hyaluronic acid, PIIINP, TIMP-1) into the Enhanced Liver Fibrosis (ELF) test. Sequential algorithm approaches use FIB-4 as initial triage: low risk (<1.30) can be managed in primary care, indeterminate (1.30-2.67) requires second-line testing with elastography, and high risk (>2.67) warrants hepatology referral. This stepwise approach reduces unnecessary specialist referrals by approximately 50%." },
-    riskFactors: ["Chronic hepatitis C infection (genotype-dependent fibrosis progression rates)","Chronic hepatitis B infection with high viral load (HBV DNA >2000 IU/mL)","Alcohol consumption >20g/day for women, >30g/day for men","NAFLD with metabolic risk factors (obesity, diabetes, dyslipidemia)","Primary biliary cholangitis with elevated ALP and positive anti-mitochondrial antibody","Autoimmune hepatitis with elevated IgG and positive ANA/anti-smooth muscle antibody","Co-infection (HIV/HCV) accelerating fibrosis progression"],
-    diagnostics: ["FibroScan transient elastography: <8 kPa = unlikely significant fibrosis, 8-12.5 kPa = indeterminate, >12.5 kPa = suggestive of cirrhosis (etiology-specific cutoffs apply)","FIB-4 index: (Age x AST) / (Platelet count x sqrt(ALT)); <1.30 excludes advanced fibrosis (NPV >90%), >2.67 confirms advanced fibrosis","APRI score: (AST/upper limit of normal) x 100 / platelet count; >2.0 has high specificity for cirrhosis","Enhanced Liver Fibrosis (ELF) test: combines hyaluronic acid, PIIINP, and TIMP-1; score >9.8 indicates advanced fibrosis","Liver biopsy with Ishak scoring (0-6): gold standard for fibrosis staging, etiology confirmation, and assessment of concurrent pathology","Platelet count <150,000/mcL as simple screening marker for portal hypertension and advanced fibrosis"],
-    management: ["Apply sequential algorithm: FIB-4 first, then elastography for indeterminate results, biopsy reserved for discordant findings","Risk stratify patients: F0-F1 managed in primary care with repeat assessment every 3 years; F2-F3 require hepatology referral","Initiate etiology-specific treatment to halt or reverse fibrosis progression (fibrosis regression is possible with sustained viral response)","Begin HCC surveillance (US + AFP every 6 months) once cirrhosis is confirmed or in F3 hepatitis B patients","Refer for transplant evaluation when MELD ≥15, Child-Pugh B/C, or first decompensation event","Screen for esophageal varices with EGD at cirrhosis diagnosis; liver stiffness >20 kPa with platelets <150K warrants EGD"],
-    nursingActions: ["Prepare patient for FibroScan: fasting for 2 hours, right arm abducted, intercostal approach at right lobe","Ensure liver biopsy pre-procedure checklist: INR <1.5, platelets >60,000, blood type and screen, informed consent obtained","Monitor post-liver biopsy for complications: right shoulder pain (diaphragmatic irritation), hypotension, tachycardia (hemorrhage)","Educate patients on disease staging results and implications for surveillance schedule","Coordinate hepatology referral for patients with advanced fibrosis (F3-F4) or indeterminate non-invasive results","Document and track serial fibrosis assessments to monitor progression or regression with treatment"],
-    assessmentFindings: ["Hepatomegaly in early cirrhosis progressing to shrunken liver in advanced disease","Splenomegaly indicating portal hypertension (spleen >13 cm on imaging)","Thrombocytopenia (platelets <150,000) as surrogate marker of portal hypertension","Elevated AST:ALT ratio >1 (suggests cirrhosis; ratio >2 suggests alcoholic etiology)","Prolonged INR and low albumin indicating impaired hepatic synthetic function","Elevated alkaline phosphatase and GGT in cholestatic etiologies (PBC, PSC)"],
-    signs: {
-      left: ["Mild fatigue and decreased appetite","Hepatomegaly with firm liver edge on palpation","Mildly elevated liver enzymes on routine labs","Thrombocytopenia on CBC (platelets 100,000-150,000)","Elevated FIB-4 score on screening labs"],
-      right: ["Coagulopathy with INR >1.5 and active bleeding","Hypoalbuminemia <2.5 g/dL with anasarca","Refractory ascites requiring frequent paracentesis","Portal hypertensive gastropathy with chronic GI bleeding","Hepatopulmonary syndrome with hypoxemia and platypnea"]
+      "title": "Cirrhosis: Diagnostic Criteria",
+      "cellular": {
+        "title": "Non-Invasive Fibrosis Assessment & Scoring Systems",
+        "content": "Diagnosing cirrhosis has evolved from mandatory liver biopsy (Metavir F4) to validated non-invasive methods. FibroScan (transient elastography) measures liver stiffness using ultrasound-based shear wave velocity: <7 kPa is normal, 7-12.5 kPa suggests significant fibrosis, >12.5 kPa suggests cirrhosis (with >95% NPV for ruling out advanced fibrosis). Serum biomarker panels include FIB-4 (combining age, AST, ALT, platelets; >3.25 suggests advanced fibrosis), APRI (AST-to-platelet ratio index), and enhanced liver fibrosis (ELF) test. The Child-Pugh classification (A=5-6, B=7-9, C=10-15) uses bilirubin, albumin, INR, ascites, and encephalopathy to stage functional severity. The MELD score (using bilirubin, INR, creatinine) predicts 3-month mortality and determines transplant priority."
+      },
+      "riskFactors": [
+        "Same as cirrhosis-core: chronic alcohol use, HCV/HBV, NASH/MASLD, autoimmune hepatitis, metabolic liver diseases",
+        "Patients with persistent transaminase elevation >6 months warrant fibrosis assessment",
+        "Thrombocytopenia (<150,000) in chronic liver disease patients is often the first clue to portal hypertension",
+        "Patients with any known chronic liver disease should be periodically assessed for fibrosis progression",
+        "Metabolic syndrome components (obesity, diabetes, dyslipidemia) increase NASH-related fibrosis risk"
+      ],
+      "diagnostics": [
+        "FIB-4 index: (Age x AST) / (Platelets x √ALT); <1.30 rules out advanced fibrosis; >3.25 suggests advanced fibrosis/cirrhosis; intermediate values need further testing",
+        "FibroScan (transient elastography): >12.5 kPa suggests cirrhosis; limited by obesity (XL probe needed), ascites, and acute inflammation (false elevation)",
+        "APRI score: (AST/ULN x 100) / platelets; >2.0 suggests cirrhosis",
+        "Child-Pugh score: Bilirubin (1-3 pts), Albumin (1-3 pts), INR (1-3 pts), Ascites (1-3 pts), Encephalopathy (1-3 pts); Class A (5-6), B (7-9), C (10-15)",
+        "MELD score: 3.78 x ln(bilirubin) + 11.2 x ln(INR) + 9.57 x ln(creatinine) + 6.43; range 6-40; determines transplant prioritization",
+        "Liver biopsy: gold standard but invasive; reserved for diagnostic uncertainty, multiple potential etiologies, or assessing treatment response",
+        "Imaging features of cirrhosis: nodular liver contour, caudate lobe hypertrophy, splenomegaly, portal vein >13mm, ascites"
+      ],
+      "management": [
+        "Use non-invasive tests as first-line for fibrosis staging in most chronic liver disease patients",
+        "Refer to hepatology when FIB-4 >3.25, FibroScan >12.5 kPa, or clinical/imaging features suggest cirrhosis",
+        "Once cirrhosis confirmed: classify as compensated vs decompensated; calculate Child-Pugh and MELD scores",
+        "Compensated (Child-Pugh A): treat etiology, HCC surveillance q6 months, variceal screening, avoid hepatotoxins",
+        "Decompensated (Child-Pugh B/C or MELD ≥15): manage complications, refer for transplant evaluation",
+        "Monitor MELD score regularly in decompensated patients for transplant listing priority",
+        "Serial non-invasive fibrosis assessments to monitor treatment response (e.g., after HCV cure, alcohol cessation)"
+      ],
+      "nursingActions": [
+        "Calculate and trend FIB-4, Child-Pugh, and MELD scores at each visit",
+        "Ensure HCC surveillance protocol is implemented: ultrasound + AFP every 6 months for ALL cirrhotic patients",
+        "Screen for esophageal varices by upper endoscopy at time of cirrhosis diagnosis",
+        "Monitor for transition from compensated to decompensated cirrhosis: new ascites, jaundice, encephalopathy, variceal bleed",
+        "Educate patients on the meaning of their scores and prognosis in understandable terms",
+        "Coordinate multidisciplinary care: hepatology, nutrition (protein optimization, sodium restriction), social work (alcohol cessation support), transplant team"
+      ],
+      "assessmentFindings": [
+        "Laboratory patterns: thrombocytopenia (often first finding, from splenic sequestration), AST > ALT, low albumin, elevated bilirubin, prolonged INR",
+        "Physical findings: spider angiomata (upper body), palmar erythema, jaundice, gynecomastia, testicular atrophy, caput medusae, splenomegaly",
+        "Imaging: nodular liver surface, caudate lobe hypertrophy relative to right lobe, splenomegaly, collateral vessels",
+        "Decompensation markers: ascites, hepatic encephalopathy, variceal bleeding, jaundice (bilirubin >3)"
+      ],
+      "signs": {
+        "left": [
+          "Compensated cirrhosis: normal synthetic function, no ascites or encephalopathy (Child-Pugh A)",
+          "FIB-4 <1.30 effectively ruling out advanced fibrosis",
+          "Stable MELD score <10 with no decompensation events",
+          "Liver stiffness improving after treatment of underlying cause"
+        ],
+        "right": [
+          "MELD score ≥15 indicating need for transplant evaluation",
+          "Rapidly rising MELD score (>5 point increase in 3 months)",
+          "First decompensation event: new ascites, variceal bleed, or hepatic encephalopathy",
+          "Child-Pugh C cirrhosis: 1-year survival only 45% without transplant",
+          "Hepatocellular carcinoma detected on surveillance imaging"
+        ]
+      },
+      "medications": [
+        {
+          "name": "Rifaximin (Xifaxan)",
+          "type": "Non-absorbable antibiotic (rifamycin derivative)",
+          "action": "Minimally absorbed oral antibiotic that acts locally in the gut to reduce ammonia-producing bacteria; does not significantly alter overall gut flora composition; reduces recurrence of hepatic encephalopathy by 58% when added to lactulose",
+          "sideEffects": "Generally well-tolerated; headache, nausea, peripheral edema, ascites, C. difficile (rare despite antibiotic class)",
+          "contra": "Hypersensitivity to rifaximin or rifamycin antimicrobials",
+          "pearl": "550 mg BID for prevention of recurrent hepatic encephalopathy (RFHE trial); used in combination with lactulose, not as replacement; very expensive but reduces hospitalizations; minimal systemic absorption (<0.4%) so drug interactions are minimal"
+        }
+      ],
+      "pearls": [
+        "FIB-4 <1.30 has >90% NPV for excluding advanced fibrosis -- excellent first-line screening tool for primary care",
+        "Child-Pugh score uses CLINICAL parameters (ascites, encephalopathy) making it somewhat subjective; MELD uses only LABORATORY values (bilirubin, INR, creatinine) making it more objective for transplant allocation",
+        "Thrombocytopenia is often the FIRST laboratory abnormality in developing cirrhosis -- always evaluate platelet count <150,000 in context of liver disease risk factors",
+        "FibroScan values can be falsely elevated by acute hepatitis flares, post-prandial state, cholestasis, and right heart failure -- interpret in clinical context",
+        "The transition from compensated to decompensated cirrhosis carries a dramatic prognostic change: median survival drops from >12 years to ~2 years",
+        "MELD-Na (incorporating sodium) is now used for transplant allocation; hyponatremia in cirrhosis indicates poor prognosis"
+      ],
+      "quiz": [
+        {
+          "question": "A patient with chronic hepatitis C has a FIB-4 score of 4.2 and FibroScan of 15.8 kPa. What do these results suggest?",
+          "options": [
+            "Normal liver with no fibrosis",
+            "Mild hepatic steatosis",
+            "Advanced fibrosis/cirrhosis requiring hepatology referral",
+            "Acute hepatitis flare"
+          ],
+          "correct": 2,
+          "rationale": "FIB-4 >3.25 and FibroScan >12.5 kPa both independently suggest advanced fibrosis or cirrhosis. These concordant results strongly indicate cirrhosis, warranting hepatology referral for comprehensive management including HCC surveillance, variceal screening, and transplant evaluation."
+        },
+        {
+          "question": "Which scoring system is used to determine liver transplant prioritization?",
+          "options": [
+            "Child-Pugh score",
+            "MELD score",
+            "FIB-4 index",
+            "APRI score"
+          ],
+          "correct": 1,
+          "rationale": "The MELD (Model for End-stage Liver Disease) score, calculated from bilirubin, INR, and creatinine, is used for transplant organ allocation. Higher MELD scores indicate greater disease severity and receive transplant priority. Child-Pugh is useful for prognostication but is not used for transplant allocation due to its subjective components."
+        },
+        {
+          "question": "A cirrhotic patient's platelet count drops from 180,000 to 95,000 over 6 months. What does this most likely indicate?",
+          "options": [
+            "Medication side effect",
+            "Worsening portal hypertension with splenic sequestration",
+            "Aplastic anemia",
+            "Vitamin B12 deficiency"
+          ],
+          "correct": 1,
+          "rationale": "Progressive thrombocytopenia in cirrhosis is caused by portal hypertension-induced splenomegaly and splenic sequestration of platelets. It is often the first laboratory clue to developing portal hypertension. Decreased thrombopoietin production by the failing liver also contributes."
+        }
+      ]
     },
-    medications: [{
-      name: "Tenofovir disoproxil fumarate",
-      type: "Nucleotide reverse transcriptase inhibitor (antiviral)",
-      action: "Inhibits HBV DNA polymerase by competing with deoxyadenosine triphosphate for incorporation into viral DNA, causing chain termination",
-      sideEffects: "Nephrotoxicity (Fanconi syndrome), decreased bone mineral density, lactic acidosis (rare), headache, nausea",
-      contra: "CrCl <10 mL/min without dialysis; monitor renal function every 3-6 months; switch to tenofovir alafenamide (TAF) if renal/bone concerns",
-      pearl: "High barrier to resistance; preferred first-line for HBV; do not discontinue abruptly (risk of severe hepatitis flare from immune reconstitution)"
-    }, {
-      name: "Sofosbuvir/Velpatasvir (Epclusa)",
-      type: "Direct-acting antiviral combination (NS5B + NS5A inhibitor)",
-      action: "Sofosbuvir inhibits HCV NS5B RNA-dependent RNA polymerase; velpatasvir inhibits NS5A protein essential for viral replication and assembly",
-      sideEffects: "Headache, fatigue, nausea; bradycardia risk when combined with amiodarone",
-      contra: "Concomitant use with amiodarone, rifampin, St. John's wort; check for drug interactions with all current medications",
-      pearl: "Pan-genotypic (all HCV genotypes 1-6); 12-week course achieves >95% sustained virologic response; fibrosis can regress after SVR"
-    }, {
-      name: "Ursodeoxycholic acid (UDCA)",
-      type: "Bile acid (hydrophilic)",
-      action: "Replaces hydrophobic toxic bile acids in the bile acid pool, reduces hepatocyte apoptosis, and has immunomodulatory and choleretic effects",
-      sideEffects: "Diarrhea, weight gain, nausea, hair thinning (rare)",
-      contra: "Complete biliary obstruction; ineffective and potentially harmful in PSC (high-dose UDCA worsened outcomes in trials)",
-      pearl: "Standard dose 13-15 mg/kg/day for PBC; ALP response at 1 year predicts long-term prognosis; add obeticholic acid if inadequate response"
-    }],
-    pearls: ["FIB-4 is the recommended first-line non-invasive test in primary care; calculable from routine labs (age, AST, ALT, platelets)","Transient elastography results can be falsely elevated by acute hepatitis flare (AST >5x ULN), postprandial state, or congestive hepatopathy","METAVIR F3-F4 patients need HCC surveillance; regression from F4 to F3 after HCV cure does NOT eliminate HCC risk","The Baveno VII criteria use liver stiffness <20 kPa plus platelets >150K to safely rule out high-risk varices without EGD","HCV cure with DAAs achieves SVR >95% and is associated with fibrosis regression in 50-70% of patients over 5 years","APRI has lower diagnostic accuracy than FIB-4 for advanced fibrosis but remains useful in resource-limited settings","Liver biopsy remains indicated when non-invasive tests are discordant, etiology is uncertain, or concurrent pathology (e.g., NASH + HCV) is suspected"],
-    quiz: [
-      {
-        question: "A patient with chronic hepatitis C has a FIB-4 score of 3.2. What is the most appropriate next step?",
-        options: ["Reassure the patient and recheck in 3 years","Order a FibroScan to confirm fibrosis severity","Start lactulose therapy empirically","Refer directly for liver transplant evaluation"],
-        correct: 1,
-        rationale: "A FIB-4 >2.67 suggests advanced fibrosis and warrants confirmatory testing with transient elastography (FibroScan). If elastography confirms advanced fibrosis (>12.5 kPa), hepatology referral is indicated. Direct transplant referral is premature without confirming cirrhosis severity."
-      },
-      {
-        question: "Which FibroScan liver stiffness measurement is most consistent with established cirrhosis?",
-        options: ["6.5 kPa","9.0 kPa","14.8 kPa","4.2 kPa"],
-        correct: 2,
-        rationale: "A liver stiffness >12.5 kPa on transient elastography is suggestive of cirrhosis (F4). Values <8 kPa suggest no significant fibrosis, while 8-12.5 kPa is considered indeterminate and requires further evaluation."
-      },
-      {
-        question: "A patient with primary biliary cholangitis has been on UDCA 13 mg/kg/day for 12 months. Alkaline phosphatase remains 3x ULN. What is the next step?",
-        options: ["Increase UDCA dose to 25 mg/kg/day","Discontinue UDCA as it is ineffective","Consider adding obeticholic acid as second-line therapy","Switch to sofosbuvir/velpatasvir"],
-        correct: 2,
-        rationale: "Inadequate ALP response to UDCA at 1 year (ALP >1.67x ULN) in PBC indicates the need for second-line therapy. Obeticholic acid (FXR agonist) is FDA-approved for PBC patients with inadequate UDCA response. Increasing UDCA beyond 15 mg/kg/day does not improve efficacy."
-      },
-    ]
-  },
   "cirrhosis-patho-np": {
-    title: "Cirrhosis: Pathophysiology",
-    cellular: { title: "Portal Hypertension, Ascites, and Hepatic Encephalopathy Mechanisms", content: "Hepatic stellate cells reside in the space of Disse between hepatocytes and sinusoidal endothelial cells. In their quiescent state, they store retinoids (vitamin A); upon activation by hepatocyte injury, reactive oxygen species, and inflammatory cytokines (TGF-beta1, PDGF, TNF-alpha), they undergo transdifferentiation into contractile myofibroblasts that produce types I and III collagen. This extracellular matrix deposition obliterates the fenestrated sinusoidal endothelium (sinusoidal capillarization), impairing nutrient exchange between portal blood and hepatocytes while dramatically increasing intrahepatic vascular resistance. Portal hypertension develops through two synergistic mechanisms: (1) increased intrahepatic resistance from fibrosis and stellate cell contraction, and (2) increased portal venous inflow from splanchnic arteriolar vasodilation mediated by excess nitric oxide and other vasodilators. The resulting hyperdynamic circulatory state features increased cardiac output, decreased systemic vascular resistance, and decreased effective arterial blood volume. Ascites forms through arterial underfilling: splanchnic vasodilation causes relative hypovolemia, activating RAAS and sympathetic nervous system, leading to renal sodium and water retention. Alternatively, the overflow theory suggests primary renal sodium retention from hepatorenal reflex. Hepatorenal syndrome (HRS) represents the extreme of renal hypoperfusion from progressive splanchnic vasodilation and renal vasoconstriction. Hepatic encephalopathy results from failure to metabolize gut-derived neurotoxins (primarily ammonia) combined with neuroinflammation, altered GABAergic neurotransmission, and blood-brain barrier permeability changes; ammonia is converted to glutamine in astrocytes, causing osmotic swelling and cerebral edema." },
-    riskFactors: ["Portal pressure gradient >10 mmHg (clinically significant portal hypertension)","Ongoing alcohol use in established cirrhosis (accelerates decompensation)","Bacterial infections triggering inflammatory cascade and vasodilatation","Constipation increasing ammonia absorption and precipitating encephalopathy","GI bleeding increasing protein load and ammonia production","Hepatitis B or C viral replication with ongoing necro-inflammation","Hyponatremia (<130 mEq/L) indicating advanced hemodynamic derangement"],
-    diagnostics: ["Serum-ascites albumin gradient (SAAG): >1.1 g/dL confirms portal hypertensive ascites; <1.1 g/dL suggests non-portal hypertensive cause","Diagnostic paracentesis: cell count (PMN >250/mm3 = SBP), culture, albumin, total protein, glucose, LDH","Serum ammonia level: supports hepatic encephalopathy diagnosis but does not correlate with severity grade","Hepatic venous pressure gradient (HVPG) via transjugular approach: gold standard for portal hypertension quantification","Duplex Doppler ultrasound: portal vein flow direction (hepatofugal = advanced portal HTN), diameter, and splenic vein assessment","Renal function panel: serum creatinine trending, urine sodium (<10 mEq/L in HRS), fractional excretion of sodium (<1% in HRS)"],
-    management: ["Large-volume paracentesis with albumin replacement (6-8 g albumin per liter removed if >5L drained)","Diuretic therapy for ascites: spironolactone 100mg + furosemide 40mg (100:40 ratio), titrate every 3-5 days","Hepatic encephalopathy: lactulose titrated to 2-3 stools/day plus rifaximin 550mg BID for prevention of recurrence","HRS-AKI: terlipressin (or norepinephrine) plus IV albumin 1g/kg (day 1) then 20-40g/day to increase effective arterial volume","TIPS (transjugular intrahepatic portosystemic shunt) for refractory ascites or recurrent variceal bleeding","SBP treatment: IV cefotaxime 2g q8h for 5 days plus IV albumin (1.5g/kg day 1, 1g/kg day 3)"],
-    nursingActions: ["Measure abdominal girth daily at the level of the umbilicus at the same time each day","Perform neurological assessment every shift using West Haven criteria for encephalopathy grading","Monitor strict intake and output; weigh daily (target weight loss 0.5 kg/day without peripheral edema, 1 kg/day with edema)","Assist with paracentesis: position patient semi-recumbent, monitor vital signs during and after procedure, send fluid for analysis","Assess for asterixis (liver flap) by having patient dorsiflex wrists with arms extended","Administer IV albumin as ordered during large-volume paracentesis; monitor for volume overload"],
-    assessmentFindings: ["Ascites: shifting dullness, fluid wave, bulging flanks, abdominal distension","Caput medusae (periumbilical venous distension from portosystemic collaterals)","Asterixis (negative myoclonus / flapping tremor) indicating hepatic encephalopathy","Fetor hepaticus (sweet, musty breath odor from dimethyl sulfide accumulation)","Splenomegaly from portal congestion (splenic vein drains into portal system)","Peripheral edema and decreased urine output indicating sodium retention and renal hypoperfusion"],
-    signs: {
-      left: ["Mild ascites detectable only on ultrasound (grade 1)","Intermittent confusion or sleep-wake cycle reversal (grade 1 encephalopathy)","Mild peripheral edema","Asterixis on provocative testing","Caput medusae visible on inspection"],
-      right: ["Tense ascites with respiratory compromise requiring urgent paracentesis","Grade III-IV encephalopathy with somnolence or coma","Hematemesis from ruptured esophageal varices","Hepatorenal syndrome with oliguria and rising creatinine","Spontaneous bacterial peritonitis (fever, diffuse abdominal pain, worsening encephalopathy)","Hyponatremia <125 mEq/L with seizure risk"]
+      "title": "Cirrhosis Pathophysiology",
+      "cellular": {
+        "title": "Portal Hypertension & Splanchnic Vasodilation",
+        "content": "Portal hypertension in cirrhosis results from increased intrahepatic resistance (structural: fibrosis, nodular distortion; dynamic: stellate cell contraction from decreased nitric oxide and increased endothelin-1) and increased portal blood flow (splanchnic vasodilation from excessive nitric oxide production in the mesenteric circulation). When the hepatic venous pressure gradient (HVPG) exceeds 10 mmHg, portosystemic collaterals develop at sites of portal-systemic anastomosis: esophageal varices (left gastric vein → esophageal veins), caput medusae (paraumbilical veins), hemorrhoids (superior → inferior rectal veins), and retroperitoneal shunts. Splanchnic vasodilation reduces effective arterial blood volume, triggering RAAS activation, sympathetic nervous system stimulation, and ADH release, causing renal sodium and water retention (ascites) and ultimately hepatorenal syndrome."
+      },
+      "riskFactors": [
+        "Continued alcohol intake in alcoholic cirrhosis (accelerates fibrosis progression and portal hypertension)",
+        "Untreated chronic hepatitis B or C (ongoing inflammation drives fibrosis)",
+        "NASH with ongoing metabolic risk factors (obesity, insulin resistance, dyslipidemia)",
+        "Portal vein thrombosis (adds pre-hepatic component to portal hypertension)",
+        "TIPS dysfunction or stenosis (causes recurrent portal hypertension)",
+        "Non-compliance with beta-blocker prophylaxis (increases variceal bleeding risk)",
+        "Hepatocellular carcinoma with portal vein invasion"
+      ],
+      "diagnostics": [
+        "HVPG measurement: gold standard; >5 mmHg = portal hypertension; >10 mmHg = clinically significant (variceal formation); >12 mmHg = variceal bleeding risk; >20 mmHg = treatment failure risk",
+        "Upper endoscopy: grade varices (small vs large), identify red wale signs (high bleeding risk)",
+        "Doppler ultrasound: portal vein diameter (>13 mm suggests portal HTN), flow direction (hepatofugal = reversed flow away from liver)",
+        "Platelet count/spleen diameter ratio: <909 has high sensitivity for esophageal varices",
+        "Serum-ascites albumin gradient (SAAG): ≥1.1 g/dL confirms portal hypertension as cause of ascites; <1.1 suggests non-portal hypertension cause (malignancy, TB, nephrotic syndrome)",
+        "Serum ammonia level: correlates loosely with encephalopathy; trends more useful than single values"
+      ],
+      "management": [
+        "Primary prophylaxis of variceal bleeding: non-selective beta-blocker (nadolol, propranolol, or carvedilol) for medium-large varices; alternative: endoscopic variceal ligation (EVL)",
+        "Acute variceal hemorrhage: IV octreotide (250 mcg bolus then 25-50 mcg/hr infusion) + emergent EGD with EVL within 12 hours + IV ceftriaxone (antibiotic prophylaxis)",
+        "Ascites management: sodium restriction <2g/day, spironolactone + furosemide, therapeutic paracentesis with albumin replacement for tense ascites",
+        "Hepatic encephalopathy: lactulose titrated to 2-3 BMs/day + rifaximin 550 mg BID; identify and treat precipitants (infection, GI bleed, constipation, medications, electrolyte imbalances)",
+        "Hepatorenal syndrome: IV albumin + midodrine + octreotide (or IV norepinephrine); definitive treatment is liver transplant",
+        "TIPS (transjugular intrahepatic portosystemic shunt): for refractory ascites or recurrent variceal bleeding despite medical therapy; contraindicated in severe encephalopathy"
+      ],
+      "nursingActions": [
+        "Monitor for variceal bleeding: hematemesis, melena, hematochezia, tachycardia, hypotension; have 2 large-bore IVs ready",
+        "Assess hepatic encephalopathy grade: Grade I (subtle personality changes, tremor), Grade II (lethargy, asterixis), Grade III (somnolence, confusion), Grade IV (coma)",
+        "Perform asterixis testing (liver flap): ask patient to dorsiflex wrists with arms extended; involuntary flapping indicates encephalopathy",
+        "Monitor daily weights and abdominal girth for ascites progression",
+        "Identify encephalopathy precipitants: infection (SBP), GI bleeding, constipation, medication non-compliance, electrolyte abnormalities, dehydration",
+        "Calculate SAAG on paracentesis fluid to confirm portal hypertensive ascites (≥1.1 g/dL)",
+        "Administer lactulose and monitor bowel movement frequency (target 2-3 soft stools/day)"
+      ],
+      "assessmentFindings": [
+        "Ascites: shifting dullness (detects >500 mL), fluid wave (detects large volumes), abdominal distension",
+        "Esophageal varices: may be asymptomatic until hemorrhage (hematemesis, melena)",
+        "Hepatic encephalopathy: sleep-wake reversal (early), asterixis, confusion progressing to coma",
+        "Hepatorenal syndrome: oliguria, rising creatinine without response to volume challenge, bland urine sediment",
+        "Splenomegaly: palpable below left costal margin, thrombocytopenia, leukopenia",
+        "Spider angiomata: blanch with central compression and refill from center outward (arterial)"
+      ],
+      "signs": {
+        "left": [
+          "Small varices without red wale signs on screening endoscopy",
+          "Mild ascites controlled with low-dose diuretics",
+          "Grade I encephalopathy with intact daily function",
+          "Stable renal function with adequate urine output"
+        ],
+        "right": [
+          "Massive variceal hemorrhage with hemodynamic instability -- emergent EGD and octreotide",
+          "Grade IV hepatic encephalopathy (coma) -- ICU admission, intubation for airway protection",
+          "Refractory ascites requiring repeated paracentesis or TIPS consideration",
+          "Hepatorenal syndrome type 1: creatinine doubling in <2 weeks with no response to albumin challenge",
+          "Spontaneous bacterial peritonitis with sepsis"
+        ]
+      },
+      "medications": [
+        {
+          "name": "Octreotide",
+          "type": "Somatostatin analogue",
+          "action": "Inhibits release of vasodilatory hormones (glucagon) from the splanchnic circulation, causing splanchnic vasoconstriction and reducing portal blood flow and pressure; reduces variceal bleeding",
+          "sideEffects": "Hyperglycemia (inhibits insulin release), bradycardia, GI cramps, diarrhea/steatorrhea, gallstone formation (long-term)",
+          "contra": "Known hypersensitivity; use with caution in diabetes (glucose monitoring needed)",
+          "pearl": "IV bolus 50 mcg then continuous infusion 25-50 mcg/hr for acute variceal hemorrhage; continue for 3-5 days; used adjunctively with emergent EGD and EVL; also used with midodrine and albumin for hepatorenal syndrome (off-label)"
+        },
+        {
+          "name": "Nadolol",
+          "type": "Non-selective beta-blocker",
+          "action": "Blocks beta-1 (reduces cardiac output) and beta-2 (permits unopposed alpha-mediated splanchnic vasoconstriction) receptors, reducing portal blood flow and portal pressure; decreases HVPG and variceal bleeding risk",
+          "sideEffects": "Bradycardia, hypotension, fatigue, bronchospasm, masking of hypoglycemia symptoms",
+          "contra": "Decompensated heart failure, severe bradycardia (<50), COPD/asthma (non-selective beta blockade), refractory ascites with SBP <90 (beta-blockers may worsen hemodynamics in very advanced cirrhosis)",
+          "pearl": "Titrate to resting heart rate of 55-60 bpm; non-selective beta-blockade is essential (beta-2 blockade causes splanchnic vasoconstriction); carvedilol has additional anti-alpha1 effect providing greater portal pressure reduction; CONTRAINDICATE in advanced decompensated cirrhosis with refractory ascites (worsens survival)"
+        }
+      ],
+      "pearls": [
+        "SAAG ≥1.1 g/dL = portal hypertensive ascites (cirrhosis, heart failure, Budd-Chiari); SAAG <1.1 = non-portal hypertensive (malignancy, TB, nephrotic syndrome, pancreatitis)",
+        "Non-selective beta-blockers (NOT selective beta-1 blockers like metoprolol) are required for variceal prophylaxis -- beta-2 blockade causes splanchnic vasoconstriction which is the key mechanism",
+        "In VERY advanced/decompensated cirrhosis with refractory ascites, SBP <90, or hepatorenal syndrome, non-selective beta-blockers may WORSEN hemodynamics and survival (the 'window' hypothesis)",
+        "Acute variceal hemorrhage: ABCs + 2 large-bore IVs + blood products + octreotide IV + ceftriaxone (antibiotic prophylaxis reduces mortality) + emergent EGD within 12 hours",
+        "Hepatic encephalopathy precipitants (MNEMONIC: HEPATICS): Hemorrhage, Electrolyte imbalance, Protein excess, Azotemia, Toxins/drugs (sedatives, opioids), Infection (SBP), Constipation, Shunts",
+        "Lactulose works by acidifying the colon (NH3 → NH4+, which cannot be absorbed) AND by osmotic laxative effect increasing fecal ammonia excretion"
+      ],
+      "quiz": [
+        {
+          "question": "A paracentesis fluid analysis shows SAAG of 1.8 g/dL and protein of 1.2 g/dL. What does this indicate?",
+          "options": [
+            "Malignant ascites",
+            "Portal hypertensive ascites (e.g., cirrhosis)",
+            "Tuberculous peritonitis",
+            "Nephrotic syndrome-related ascites"
+          ],
+          "correct": 1,
+          "rationale": "SAAG ≥1.1 g/dL indicates portal hypertension as the cause of ascites (cirrhosis, heart failure, Budd-Chiari). Low ascitic protein (<2.5 g/dL) further suggests cirrhosis rather than cardiac ascites (which typically has protein >2.5 g/dL). SAAG <1.1 would suggest non-portal hypertensive causes."
+        },
+        {
+          "question": "Why is metoprolol (selective beta-1 blocker) NOT appropriate for variceal bleeding prophylaxis?",
+          "options": [
+            "It causes too much bradycardia",
+            "It lacks beta-2 blockade, which is needed for splanchnic vasoconstriction to reduce portal pressure",
+            "It is metabolized by the liver and accumulates in cirrhosis",
+            "It interacts with lactulose"
+          ],
+          "correct": 1,
+          "rationale": "Variceal bleeding prophylaxis requires NON-selective beta-blockers (nadolol, propranolol, carvedilol) because beta-2 blockade causes splanchnic vasoconstriction, reducing portal blood flow. Selective beta-1 blockers only reduce cardiac output without the crucial splanchnic vasoconstriction."
+        },
+        {
+          "question": "A cirrhotic patient with encephalopathy is found to be constipated and has not had a bowel movement in 3 days. How does this relate to the encephalopathy?",
+          "options": [
+            "Constipation is unrelated to encephalopathy",
+            "Constipation increases colonic ammonia absorption, worsening encephalopathy",
+            "Constipation causes hepatorenal syndrome",
+            "Constipation indicates lactulose is working"
+          ],
+          "correct": 1,
+          "rationale": "Constipation is a common precipitant of hepatic encephalopathy. Slow colonic transit increases the time for bacterial ammonia production and absorption into the portal circulation. Lactulose treats both problems: it acidifies the colon (trapping ammonia as NH4+) and its osmotic laxative effect increases fecal ammonia elimination."
+        }
+      ]
     },
-    medications: [{
-      name: "Terlipressin",
-      type: "Vasopressin V1 receptor agonist (splanchnic vasoconstrictor)",
-      action: "Causes splanchnic arteriolar vasoconstriction, reducing portal pressure and redirecting blood flow to the renal circulation, improving renal perfusion in hepatorenal syndrome",
-      sideEffects: "Abdominal cramping, diarrhea, peripheral and myocardial ischemia, hyponatremia, skin necrosis (rare)",
-      contra: "Coronary artery disease, peripheral vascular disease, uncontrolled hypertension; FDA approved in US (2022) for HRS type 1 with renal failure",
-      pearl: "Administer with IV albumin for synergistic effect; response defined as serum creatinine decrease to <1.5 mg/dL; CONFIRM trial showed 32% HRS reversal vs 17% placebo"
-    }, {
-      name: "Midodrine",
-      type: "Alpha-1 adrenergic agonist (systemic vasoconstrictor)",
-      action: "Increases systemic vascular resistance through arterial and venous vasoconstriction, counteracting splanchnic vasodilation and improving effective arterial blood volume and renal perfusion",
-      sideEffects: "Supine hypertension, urinary retention, piloerection (goosebumps), scalp tingling, bradycardia",
-      contra: "Supine systolic BP >160 mmHg, urinary retention, pheochromocytoma, thyrotoxicosis",
-      pearl: "Often combined with octreotide + albumin as alternative to terlipressin for HRS when terlipressin unavailable; dose 7.5-12.5 mg TID"
-    }, {
-      name: "Octreotide",
-      type: "Somatostatin analog",
-      action: "Inhibits release of glucagon and other vasodilatory peptides, causing splanchnic vasoconstriction and reducing portal blood flow and portal pressure",
-      sideEffects: "Hyperglycemia, abdominal pain, diarrhea, cholelithiasis with chronic use, injection site reactions",
-      contra: "Hypersensitivity to octreotide; use cautiously in diabetes (alters insulin and glucagon secretion)",
-      pearl: "Used with midodrine and albumin for HRS; also used as adjunct to endoscopic therapy for acute variceal hemorrhage (IV infusion 50 mcg/hr for 3-5 days)"
-    }],
-    pearls: ["SAAG >1.1 g/dL indicates portal hypertension with 97% accuracy; differential includes cirrhosis, heart failure, Budd-Chiari, and portal vein thrombosis","HVPG >10 mmHg = clinically significant portal HTN (varices form); >12 mmHg = variceal hemorrhage risk; >20 mmHg = poor prognosis with acute bleed","The 100:40 ratio (spironolactone:furosemide) maintains normokalemia; maximum doses are spironolactone 400mg + furosemide 160mg daily","In SBP, ascitic fluid PMN >250/mm3 warrants empiric antibiotics BEFORE culture results return; delayed treatment increases mortality","Ammonia levels do not reliably correlate with encephalopathy grade - treat the clinical picture, not the lab value","Hepatorenal syndrome is a diagnosis of exclusion: must rule out hypovolemia, nephrotoxins, and structural kidney disease first","TIPS is contraindicated in patients with severe encephalopathy (>grade 2), MELD >18, or right heart failure"],
-    quiz: [
-      {
-        question: "A cirrhotic patient undergoes diagnostic paracentesis. The SAAG is 1.8 g/dL and ascitic fluid PMN count is 380 cells/mm3. What is the priority intervention?",
-        options: ["Schedule TIPS placement","Initiate IV cefotaxime and IV albumin","Start oral lactulose and rifaximin","Order abdominal CT with contrast"],
-        correct: 1,
-        rationale: "PMN count >250/mm3 in ascitic fluid indicates spontaneous bacterial peritonitis (SBP). Empiric IV antibiotics (cefotaxime 2g q8h) should be started immediately before culture results. IV albumin (1.5g/kg day 1, 1g/kg day 3) reduces the incidence of hepatorenal syndrome and mortality in SBP."
-      },
-      {
-        question: "Which hemodynamic mechanism best explains ascites formation in cirrhosis?",
-        options: ["Increased cardiac output causing systemic fluid overload","Splanchnic vasodilation causing relative arterial underfilling and RAAS activation","Direct portal venous congestion forcing plasma across hepatic sinusoids","Decreased lymphatic drainage from thoracic duct obstruction"],
-        correct: 1,
-        rationale: "The arterial underfilling theory explains ascites formation: splanchnic vasodilation (from excess NO production) leads to relative hypovolemia and decreased effective arterial blood volume. This activates RAAS and the sympathetic nervous system, causing renal sodium and water retention that preferentially accumulates as ascites due to elevated portal and sinusoidal pressures."
-      },
-      {
-        question: "A patient with cirrhosis and hepatorenal syndrome has a serum creatinine of 3.2 mg/dL. Terlipressin is unavailable. What is the best alternative pharmacotherapy?",
-        options: ["Furosemide IV push to improve renal perfusion","Midodrine, octreotide, and IV albumin combination","Dopamine low-dose renal perfusion protocol","NSAIDs to inhibit renal prostaglandin-mediated vasoconstriction"],
-        correct: 1,
-        rationale: "When terlipressin is unavailable, the combination of midodrine (alpha-1 agonist, 7.5-12.5mg TID), octreotide (somatostatin analog, 100-200mcg SC TID), and IV albumin is the recommended alternative for hepatorenal syndrome. This combination increases effective arterial blood volume and improves renal perfusion. NSAIDs are contraindicated in cirrhosis as they worsen renal function."
-      },
-    ]
-  },
   "ckd-diagnostic-criteria-np": {
-    title: "CKD: Diagnostic Criteria",
-    cellular: { title: "KDIGO Diagnostic Criteria and CKD Classification", content: "Chronic kidney disease (CKD) is defined by the KDIGO (Kidney Disease: Improving Global Outcomes) criteria as abnormalities of kidney structure or function present for >3 months with health implications. Diagnosis requires either: (1) eGFR <60 mL/min/1.73m2 for >3 months, OR (2) markers of kidney damage persisting >3 months, including albuminuria (UACR ≥30 mg/g), urine sediment abnormalities (hematuria, red cell casts), electrolyte abnormalities due to tubular disorders, histological abnormalities on biopsy, structural abnormalities on imaging, or history of kidney transplantation. The CKD-EPI (Chronic Kidney Disease Epidemiology Collaboration) equation is the recommended formula for estimating GFR from serum creatinine, incorporating age, sex, and race (2021 revision removed the race coefficient). CKD is staged by GFR: G1 (≥90, normal or high), G2 (60-89, mildly decreased), G3a (45-59, mildly to moderately decreased), G3b (30-44, moderately to severely decreased), G4 (15-29, severely decreased), G5 (<15, kidney failure). Albuminuria is categorized as: A1 (<30 mg/g, normal to mildly increased), A2 (30-300 mg/g, moderately increased, formerly microalbuminuria), A3 (>300 mg/g, severely increased, formerly macroalbuminuria). The combination of GFR category and albuminuria category determines prognosis and guides management intensity using the KDIGO heat map (green = low risk, yellow = moderately increased risk, orange = high risk, red = very high risk)." },
-    riskFactors: ["Diabetes mellitus (leading cause of CKD, accounting for ~40% of ESKD cases)","Hypertension (second most common cause; both cause and consequence of CKD)","Family history of CKD or ESKD (genetic susceptibility, APOL1 risk variants)","Age >60 years (age-related decline in GFR approximately 1 mL/min/year after age 40)","Obesity and metabolic syndrome (obesity-related glomerulopathy)","History of acute kidney injury (each AKI episode increases future CKD risk)","Autoimmune diseases (lupus nephritis, IgA nephropathy, ANCA vasculitis)"],
-    diagnostics: ["Serum creatinine with eGFR calculation using CKD-EPI equation; confirm with repeat testing at ≥3 months to establish chronicity","Cystatin C: alternative GFR marker less affected by muscle mass, age, and diet; useful when creatinine-based eGFR may be inaccurate","Urine albumin-to-creatinine ratio (UACR): first morning void preferred; repeat x2-3 over 3 months to confirm persistent albuminuria","Comprehensive metabolic panel: assess for hyperkalemia, metabolic acidosis (bicarbonate <22), hyperphosphatemia, hypocalcemia","Renal ultrasound: assess kidney size (small kidneys <9 cm suggest chronicity), echogenicity, hydronephrosis, cysts, masses","Kidney biopsy indications: unexplained CKD, nephrotic-range proteinuria, active urine sediment, rapidly declining GFR, or suspected systemic disease"],
-    management: ["Initiate ACE inhibitor or ARB for all patients with UACR ≥30 mg/g regardless of hypertension status; titrate to maximum tolerated dose","Start SGLT2 inhibitor (empagliflozin or dapagliflozin) for CKD with eGFR ≥20 and UACR ≥200 mg/g (expanding indications)","Blood pressure target <130/80 mmHg per KDIGO 2021 and AHA/ACC guidelines; SPRINT trial supports intensive BP control","Add finerenone (nonsteroidal MRA) for diabetic kidney disease with persistent albuminuria despite maximized RAAS inhibition","Glycemic target HbA1c ~7% in diabetic kidney disease; individualize based on hypoglycemia risk and life expectancy","Nephrology referral criteria: eGFR <30, UACR >300, rapidly declining GFR (>5 mL/min/year), refractory hypertension, or uncertain etiology"],
-    nursingActions: ["Collect and properly label first morning urine specimen for UACR; educate patient on proper collection technique","Monitor serum potassium within 1-2 weeks of initiating or titrating ACE-I/ARB/MRA; hold if potassium >5.5 mEq/L","Assess blood pressure at each visit using proper technique (seated, rested 5 minutes, appropriate cuff size)","Educate patient on CKD staging, what eGFR numbers mean, and the importance of serial monitoring","Coordinate referrals to nephrology, dietitian (renal diet education), and diabetes educator as appropriate","Monitor for signs of CKD complications: anemia (fatigue, pallor), bone disease (bone pain), fluid overload (edema, dyspnea)"],
-    assessmentFindings: ["Elevated serum creatinine with decreased eGFR on routine laboratory screening","Persistent albuminuria on serial UACR measurements (≥30 mg/g on 2 of 3 samples)","Hypertension that is new-onset, worsening, or requiring multiple antihypertensives","Bilateral small echogenic kidneys on renal ultrasound suggesting chronic parenchymal disease","Peripheral edema from sodium retention and decreased albumin (nephrotic syndrome)","Normocytic normochromic anemia from decreased erythropoietin production (typically eGFR <30)"],
-    signs: {
-      left: ["Mildly elevated creatinine with eGFR 45-59 (stage G3a)","Persistent microalbuminuria (UACR 30-300 mg/g)","Blood pressure above target despite single antihypertensive","Mild peripheral edema","Nocturia from impaired concentrating ability"],
-      right: ["Uremic symptoms: nausea, anorexia, metallic taste, pruritus, encephalopathy","Severe hyperkalemia >6.5 mEq/L with ECG changes (peaked T waves, widened QRS)","Pulmonary edema from volume overload unresponsive to diuretics","Pericardial friction rub (uremic pericarditis - indication for urgent dialysis)","Severe metabolic acidosis with Kussmaul respirations","eGFR <15 with symptomatic uremia requiring dialysis initiation"]
+      "title": "CKD: Diagnostic Criteria",
+      "cellular": {
+        "title": "CKD Staging & Diagnostic Framework",
+        "content": "Chronic kidney disease is defined as kidney damage (albuminuria, structural abnormalities) or GFR <60 mL/min/1.73m² persisting for ≥3 months. The CKD-EPI (Chronic Kidney Disease Epidemiology Collaboration) equation is preferred for eGFR calculation, using serum creatinine, age, sex, and (previously) race. KDIGO staging combines GFR categories (G1: ≥90, G2: 60-89, G3a: 45-59, G3b: 30-44, G4: 15-29, G5: <15) with albuminuria categories (A1: <30 mg/g, A2: 30-300 mg/g, A3: >300 mg/g) to create a risk matrix for progression. Albuminuria is the most sensitive early marker of diabetic nephropathy and an independent cardiovascular risk factor. Two abnormal values ≥3 months apart confirm the diagnosis and exclude acute kidney injury."
+      },
+      "riskFactors": [
+        "Diabetes mellitus (leading cause of CKD in developed countries; ~40% of CKD cases)",
+        "Hypertension (second leading cause; both cause and consequence of CKD)",
+        "Glomerulonephritis (IgA nephropathy, lupus nephritis, FSGS)",
+        "Polycystic kidney disease (most common genetic cause)",
+        "Recurrent pyelonephritis or urinary tract obstruction",
+        "Cardiovascular disease (bidirectional relationship with CKD)",
+        "Obesity, metabolic syndrome",
+        "Nephrotoxic medications: NSAIDs (chronic use), aminoglycosides, lithium, contrast agents",
+        "African American, Hispanic, Native American race (higher CKD prevalence and progression)",
+        "Family history of kidney disease",
+        "Age >60 years"
+      ],
+      "diagnostics": [
+        "Serum creatinine with eGFR calculation (CKD-EPI equation): two values ≥3 months apart showing eGFR <60 confirms CKD",
+        "Urine albumin-to-creatinine ratio (UACR): spot sample; A1 (<30) normal, A2 (30-300) moderately increased, A3 (>300) severely increased",
+        "Urinalysis: proteinuria, hematuria, casts (RBC casts = glomerulonephritis, WBC casts = pyelonephritis/interstitial nephritis, waxy casts = advanced CKD)",
+        "Renal ultrasound: kidney size (small echogenic kidneys = chronic scarring; large kidneys = diabetic nephropathy, PKD, amyloidosis), hydronephrosis, cysts",
+        "Serum cystatin C: alternative to creatinine for eGFR; less affected by muscle mass, useful in elderly and extreme body habitus",
+        "BMP: electrolytes (hyperkalemia, hyperphosphatemia, metabolic acidosis), calcium",
+        "CBC: normocytic anemia from decreased erythropoietin production",
+        "Renal biopsy: for unexplained CKD, nephrotic syndrome, rapidly progressive GN, or when diagnosis impacts management"
+      ],
+      "management": [
+        "Slow progression: ACEi or ARB for all patients with albuminuria (reduces intraglomerular pressure); BP target <130/80",
+        "SGLT2 inhibitors (dapagliflozin, empagliflozin): indicated for CKD with eGFR ≥20 regardless of diabetes status (DAPA-CKD and EMPA-KIDNEY trials); reduces CKD progression and cardiovascular events",
+        "Finerenone (non-steroidal MRA): for diabetic kidney disease with albuminuria on maximized ACEi/ARB",
+        "Blood pressure control: target <130/80; ACEi/ARB first-line; avoid in bilateral renal artery stenosis",
+        "Glycemic control in diabetic CKD: HbA1c target ~7%; SGLT2 inhibitors if eGFR ≥20; dose-adjust metformin by eGFR (contraindicated if <30)",
+        "Manage CKD complications: anemia (ESAs when Hgb <10), mineral bone disease (phosphate binders, vitamin D), metabolic acidosis (sodium bicarbonate if HCO3 <22), hyperkalemia",
+        "Nephrology referral: eGFR <30, rapidly declining GFR, persistent albuminuria A3, refractory HTN, electrolyte abnormalities, unclear etiology"
+      ],
+      "nursingActions": [
+        "Calculate and trend eGFR and UACR at each visit; stage CKD using KDIGO GFR + albuminuria matrix",
+        "Ensure ACEi/ARB or SGLT2 inhibitor is prescribed for all CKD patients with albuminuria; check BMP 1-2 weeks after initiation",
+        "Review medication list for nephrotoxic drugs: NSAIDs, certain antibiotics (aminoglycosides), contrast agents; dose-adjust renally-cleared medications",
+        "Educate on sodium restriction (<2g/day), protein moderation (0.8 g/kg/day in advanced CKD), potassium awareness",
+        "Monitor for CKD complications: anemia (CBC every 6-12 months), mineral bone disease (calcium, phosphorus, PTH, vitamin D annually for stages 3-5)",
+        "Counsel on avoiding contrast dye when possible; if contrast needed, ensure pre- and post-hydration protocol",
+        "Coordinate nephrology referral when eGFR <30 or rapidly declining; begin dialysis access planning at eGFR <20"
+      ],
+      "assessmentFindings": [
+        "Often asymptomatic in early stages (G1-G3a); detected by laboratory screening",
+        "Fatigue, decreased appetite, nausea (uremic symptoms in G4-G5)",
+        "Peripheral edema, hypertension, volume overload",
+        "Pallor (anemia from decreased erythropoietin)",
+        "Uremic frost (late finding in severe uremia), pruritus, restless legs",
+        "Small echogenic kidneys on ultrasound (chronic scarring)",
+        "Pericardial friction rub (uremic pericarditis -- indication for emergent dialysis)"
+      ],
+      "signs": {
+        "left": [
+          "CKD G1-G2 with albuminuria: normal eGFR, treatable with RAAS blockade and SGLT2i",
+          "Stable CKD G3a responding to medical management",
+          "Mild anemia correctable with iron supplementation"
+        ],
+        "right": [
+          "Rapidly progressive GN: rapidly declining GFR over weeks-months requiring urgent biopsy and treatment",
+          "Uremic emergency: pericarditis, encephalopathy, severe hyperkalemia -- indication for emergent dialysis",
+          "CKD G5: eGFR <15, preparing for renal replacement therapy (dialysis or transplant)",
+          "Severe hyperkalemia (K+ >6.5) with ECG changes (peaked T waves, widened QRS)",
+          "Pulmonary edema from volume overload refractory to diuretics"
+        ]
+      },
+      "medications": [
+        {
+          "name": "Dapagliflozin (Farxiga)",
+          "type": "SGLT2 inhibitor",
+          "action": "Blocks sodium-glucose cotransporter 2 in the proximal tubule, reducing glucose and sodium reabsorption; causes osmotic diuresis and natriuresis; restores tubuloglomerular feedback, reducing intraglomerular pressure and hyperfiltration; provides renoprotective, cardioprotective, and glycemic benefits independent of diabetes status",
+          "sideEffects": "Genital mycotic infections (vulvovaginal candidiasis in women, balanitis in men), UTI, volume depletion, euglycemic DKA (rare, mainly in type 1 DM), Fournier gangrene (rare)",
+          "contra": "Type 1 diabetes (DKA risk), eGFR <20 (for initiation; can continue if already on therapy), dialysis, recurrent UTIs or genital infections",
+          "pearl": "DAPA-CKD trial showed 39% reduction in CKD progression in patients with eGFR 25-75 regardless of diabetes status; 10 mg daily; initial eGFR dip (10-15%) is expected and hemodynamically mediated (like ACEi) -- do NOT discontinue; can be used down to eGFR 20 for initiation"
+        }
+      ],
+      "pearls": [
+        "CKD requires TWO abnormal values ≥3 months apart (eGFR <60 OR albuminuria) to distinguish from AKI",
+        "SGLT2 inhibitors are now indicated for CKD with albuminuria REGARDLESS of diabetes status (DAPA-CKD, EMPA-KIDNEY); one of the most important advances in nephrology",
+        "An initial 10-15% eGFR dip with ACEi/ARB or SGLT2i is EXPECTED and reflects reduced intraglomerular pressure (the renoprotective mechanism) -- do NOT discontinue unless rise >30%",
+        "UACR >30 mg/g (A2) is the earliest marker of diabetic nephropathy and independently predicts cardiovascular risk",
+        "CKD-EPI equation: the race coefficient was removed in 2021 to address health disparities",
+        "KDIGO heat map combines GFR stage (G1-G5) and albuminuria category (A1-A3) to assign risk color: green (low), yellow (moderate), orange (high), red (very high) -- determines monitoring frequency and treatment intensity"
+      ],
+      "quiz": [
+        {
+          "question": "A 55-year-old diabetic patient has eGFR of 48 and UACR of 180 mg/g confirmed on repeat testing. Which medication provides the strongest evidence for slowing CKD progression?",
+          "options": [
+            "Metformin",
+            "Dapagliflozin (SGLT2 inhibitor)",
+            "Amlodipine",
+            "Furosemide"
+          ],
+          "correct": 1,
+          "rationale": "SGLT2 inhibitors (dapagliflozin, empagliflozin) have the strongest recent evidence for slowing CKD progression. The DAPA-CKD trial showed a 39% reduction in the composite of sustained eGFR decline, ESKD, and renal/CV death, regardless of diabetes status. This patient should be on an ACEi/ARB AND an SGLT2 inhibitor."
+        },
+        {
+          "question": "Two weeks after starting an ACEi, a CKD patient's creatinine rises from 1.5 to 1.8 mg/dL (20% increase). What should the NP do?",
+          "options": [
+            "Immediately discontinue the ACEi",
+            "Continue the ACEi -- up to a 30% creatinine rise is expected and reflects the renoprotective mechanism",
+            "Double the ACEi dose for greater protection",
+            "Switch to an ARB"
+          ],
+          "correct": 1,
+          "rationale": "A creatinine rise up to 30% after initiating ACEi/ARB or SGLT2i is expected and reflects reduced intraglomerular pressure from efferent arteriolar dilation -- this IS the renoprotective mechanism. Discontinuation should only occur if the rise exceeds 30%, hyperkalemia develops, or symptoms of AKI appear."
+        },
+        {
+          "question": "Which is the earliest laboratory marker of diabetic nephropathy?",
+          "options": [
+            "Elevated serum creatinine",
+            "Microalbuminuria (UACR 30-300 mg/g)",
+            "Hematuria",
+            "Elevated BUN"
+          ],
+          "correct": 1,
+          "rationale": "Microalbuminuria (UACR 30-300 mg/g, now termed moderately increased albuminuria or A2) is the earliest detectable marker of diabetic nephropathy, preceding GFR decline by years. Annual UACR screening is recommended for all diabetic patients. It is also an independent cardiovascular risk factor."
+        }
+      ]
     },
-    medications: [{
-      name: "Lisinopril",
-      type: "ACE inhibitor (angiotensin-converting enzyme inhibitor)",
-      action: "Blocks conversion of angiotensin I to angiotensin II, reducing efferent arteriolar tone and intraglomerular pressure, thereby decreasing proteinuria and slowing CKD progression",
-      sideEffects: "Hyperkalemia, acute kidney injury (initial GFR dip of 20-30% is acceptable and expected), dry cough (5-20%), angioedema (rare but serious)",
-      contra: "Bilateral renal artery stenosis, pregnancy (teratogenic - category D), history of angioedema, potassium >5.5 mEq/L",
-      pearl: "Expect up to 30% eGFR drop when initiating; if >30% drop, evaluate for renal artery stenosis. Recheck creatinine and potassium within 1-2 weeks of initiation or dose change"
-    }, {
-      name: "Empagliflozin",
-      type: "SGLT2 inhibitor (sodium-glucose cotransporter 2 inhibitor)",
-      action: "Blocks glucose and sodium reabsorption in the proximal tubule, reducing tubuloglomerular feedback and intraglomerular pressure; provides cardiorenal protection independent of glucose lowering",
-      sideEffects: "Genital mycotic infections, urinary tract infections, volume depletion, euglycemic DKA (rare), Fournier gangrene (very rare)",
-      contra: "eGFR <20 mL/min for initiation (can continue if already on therapy); type 1 diabetes; history of DKA",
-      pearl: "EMPA-KIDNEY trial showed 28% reduction in CKD progression; initial eGFR dip of 3-5 mL/min is expected and reversible (hemodynamic, not structural injury)"
-    }, {
-      name: "Finerenone",
-      type: "Nonsteroidal mineralocorticoid receptor antagonist (MRA)",
-      action: "Selectively blocks mineralocorticoid receptor activation in the kidney and heart, reducing inflammation and fibrosis without the hormonal side effects of steroidal MRAs",
-      sideEffects: "Hyperkalemia (most common), hypotension, hyponatremia; lower risk of gynecomastia compared to spironolactone",
-      contra: "Potassium >5.0 mEq/L at initiation, eGFR <25 mL/min, concomitant use with strong CYP3A4 inhibitors, adrenal insufficiency",
-      pearl: "FIDELIO-DKD and FIGARO-DKD trials showed significant reduction in CKD progression and cardiovascular events in diabetic kidney disease; add on top of maximized ACE-I/ARB + SGLT2i"
-    }],
-    pearls: ["CKD diagnosis requires ≥3 months duration - do not diagnose CKD from a single elevated creatinine (may be AKI)","The 2021 CKD-EPI equation removed the race coefficient, resulting in lower eGFR estimates for Black patients and earlier detection of CKD","UACR is preferred over 24-hour urine collection for albuminuria screening due to convenience and equivalent accuracy","An initial eGFR drop of up to 30% with ACE-I/ARB initiation is acceptable and actually predicts long-term renoprotection - do not discontinue","SGLT2 inhibitors provide renoprotection independent of diabetes status; can be started at eGFR ≥20 and continued even below this threshold","The KDIGO heat map combines GFR stage (G1-G5) and albuminuria category (A1-A3) to determine risk and monitoring frequency","Screen all diabetic patients annually with UACR and eGFR; screen hypertensive patients and those with CKD risk factors at least every 1-3 years"],
-    quiz: [
-      {
-        question: "A 62-year-old patient with type 2 diabetes has an eGFR of 52 mL/min and UACR of 180 mg/g on two separate occasions. How should this be classified per KDIGO?",
-        options: ["CKD G3a A2 (moderately increased risk)","CKD G3b A3 (very high risk)","CKD G2 A1 (low risk)","Acute kidney injury, needs further workup"],
-        correct: 0,
-        rationale: "eGFR 45-59 = stage G3a; UACR 30-300 mg/g = category A2 (moderately increased albuminuria). This classifies as CKD G3a A2. Two measurements confirm chronicity. This patient warrants ACE-I/ARB therapy, SGLT2 inhibitor consideration, and monitoring every 3-6 months per the KDIGO heat map."
-      },
-      {
-        question: "Which medication class has been shown to reduce CKD progression independent of blood glucose lowering or blood pressure reduction?",
-        options: ["Calcium channel blockers","Thiazide diuretics","SGLT2 inhibitors","Beta-blockers"],
-        correct: 2,
-        rationale: "SGLT2 inhibitors (empagliflozin, dapagliflozin) reduce intraglomerular pressure through tubuloglomerular feedback modulation, providing renoprotection independent of glycemic or blood pressure effects. The CREDENCE, DAPA-CKD, and EMPA-KIDNEY trials demonstrated significant reduction in CKD progression in both diabetic and non-diabetic kidney disease."
-      },
-      {
-        question: "After starting lisinopril 10mg daily in a CKD patient, the serum creatinine increases from 1.8 to 2.2 mg/dL (22% rise). What is the most appropriate action?",
-        options: ["Immediately discontinue lisinopril and switch to a calcium channel blocker","Continue lisinopril and recheck creatinine in 1-2 weeks","Double the lisinopril dose to maximize renoprotection","Order urgent renal artery Doppler ultrasound"],
-        correct: 1,
-        rationale: "An initial rise in serum creatinine of up to 30% after ACE-I/ARB initiation is expected and reflects reduced intraglomerular pressure (the therapeutic mechanism). This hemodynamic change is associated with long-term renoprotection. Continue the medication and monitor. A rise >30% should prompt evaluation for renal artery stenosis."
-      },
-    ]
-  },
   "ckd-medication-adjustments-np": {
-    title: "CKD: Medication Adjustments",
-    cellular: { title: "Altered Pharmacokinetics in Chronic Kidney Disease", content: "CKD fundamentally alters all four phases of pharmacokinetics, requiring systematic dose adjustment for renally cleared medications. Absorption may be affected by uremia-induced gastroparesis, altered gastric pH from phosphate binder use, and chelation of drugs by calcium or iron supplements. Distribution is altered by decreased protein binding (uremic toxins compete for albumin binding sites, increasing the free fraction of highly protein-bound drugs such as phenytoin and warfarin), fluid overload expanding the volume of distribution for hydrophilic drugs, and decreased muscle mass reducing the distribution volume for drugs like digoxin. Metabolism is impaired because CKD reduces hepatic CYP450 enzyme activity (particularly CYP3A4 and CYP2C9) by 20-40% due to accumulation of uremic toxins that downregulate enzyme expression. Elimination is the most significantly affected parameter: decreased glomerular filtration reduces clearance of renally excreted drugs proportionally to GFR decline, and tubular secretion and reabsorption are also impaired. The Cockcroft-Gault equation [CrCl = (140 - age) x weight / (72 x serum creatinine), multiply by 0.85 for females] remains the standard for drug dosing adjustments because most pharmaceutical studies used this formula. Importantly, CrCl from Cockcroft-Gault differs from eGFR (CKD-EPI), and drug references typically specify which to use. Two strategies for dose adjustment exist: dose reduction (same interval, lower dose) or interval extension (same dose, longer interval); the choice depends on whether the drug's efficacy is concentration-dependent or time-dependent." },
-    riskFactors: ["Advanced CKD stage (eGFR <30 mL/min) requiring adjustment of most renally cleared drugs","Polypharmacy (>5 medications) increasing drug interaction risk exponentially","Elderly patients with age-related renal decline and altered pharmacodynamics","Diabetes mellitus with fluctuating renal function and hypoglycemia risk","Acute illness or dehydration causing acute-on-chronic kidney injury","Use of nephrotoxic medications (NSAIDs, aminoglycosides, iodinated contrast)","Hypoalbuminemia increasing free drug fraction of protein-bound medications"],
-    diagnostics: ["Cockcroft-Gault CrCl calculation for drug dosing: (140 - age) x weight(kg) / (72 x SCr); x 0.85 for females","Therapeutic drug monitoring (TDM): vancomycin trough (15-20 mcg/mL for serious infections), AUC-guided vancomycin dosing preferred","Aminoglycoside levels: peak (efficacy) and trough (toxicity); extended-interval dosing preferred in CKD","Digoxin level monitoring: target 0.5-0.9 ng/mL in heart failure (lower than traditional range); toxicity increased in CKD due to decreased renal clearance","Anti-Xa level monitoring for enoxaparin dose adjustment when eGFR <30 mL/min (target 0.5-1.0 IU/mL for treatment doses)","Serum potassium monitoring with all RAAS inhibitors and potassium-sparing diuretics; frequency increases as eGFR declines"],
-    management: ["Apply dose reduction for concentration-dependent drugs (aminoglycosides): maintain peak for efficacy, extend interval to allow clearance","Apply interval extension for time-dependent drugs (beta-lactams): maintain dose for time above MIC, increase interval","Avoid nephrotoxins: NSAIDs (reduce renal prostaglandins and GFR), aminoglycosides (direct tubular toxicity), iodinated contrast (acute tubular necrosis)","Perform comprehensive medication reconciliation at each visit; compare prescribed medications against renal dosing guidelines","Use AUC-guided vancomycin dosing (target AUC/MIC 400-600) rather than trough-only monitoring per 2020 ASHP/IDSA guidelines","Implement sick-day rules: educate patients to temporarily hold ACE-I/ARB, diuretics, SGLT2i, and metformin during acute illness with dehydration"],
-    nursingActions: ["Calculate CrCl using Cockcroft-Gault before administering renally dosed medications; use actual body weight unless obese","Verify renal dosing for all new medication orders in patients with eGFR <60; consult pharmacy if uncertain","Time therapeutic drug monitoring draws correctly: vancomycin trough within 30 minutes before next dose; peak 1 hour after IV completion","Educate patients on sick-day medication management: which medications to hold during vomiting, diarrhea, or dehydration","Monitor for drug toxicity signs: ototoxicity (aminoglycosides), visual changes and bradycardia (digoxin), CNS depression (gabapentin accumulation)","Coordinate with pharmacy for individualized dosing protocols in dialysis patients (pre- vs post-dialysis dosing considerations)"],
-    assessmentFindings: ["Signs of drug accumulation: excessive sedation, nausea, neurotoxicity from medications not appropriately dose-adjusted","Hyperkalemia from ACE-I/ARB or potassium-sparing diuretics in declining renal function","Lactic acidosis symptoms (malaise, myalgia, tachypnea) from metformin accumulation in acute kidney injury","Bleeding from supratherapeutic anticoagulation due to impaired drug clearance","Hypoglycemia from insulin or sulfonylurea accumulation (insulin degradation occurs in proximal tubule)","Ototoxicity (tinnitus, hearing loss) from aminoglycoside or loop diuretic accumulation"],
-    signs: {
-      left: ["Mild nausea or GI upset from medication side effects","Drowsiness or mild cognitive slowing from drug accumulation","Mildly elevated drug trough levels on routine monitoring","Mild hyperkalemia (5.0-5.5 mEq/L) on ACE-I/ARB therapy","Subtle changes in urine output after medication changes"],
-      right: ["Severe lactic acidosis (pH <7.20, lactate >5) from metformin toxicity","Acute ototoxicity with hearing loss from aminoglycoside accumulation","Digoxin toxicity with bradycardia, visual changes, and arrhythmias","Severe hyperkalemia >6.5 mEq/L with ECG changes requiring emergent treatment","Major bleeding from anticoagulant accumulation (INR >5, anti-Xa supratherapeutic)","Status epilepticus or profound sedation from accumulated CNS-active drugs"]
+      "title": "CKD: Medication Adjustments",
+      "cellular": {
+        "title": "Pharmacokinetics in Renal Impairment",
+        "content": "Renal impairment profoundly alters drug pharmacokinetics. Reduced GFR decreases clearance of renally-excreted drugs, leading to accumulation and toxicity. Uremia also affects non-renal pathways: decreased protein binding (uremic toxins displace drugs from albumin, increasing free drug fraction of highly protein-bound drugs like phenytoin and warfarin), altered hepatic metabolism (CYP3A4 activity reduced by ~30% in severe CKD), decreased intestinal absorption (uremic gastroparesis, altered gut pH), and increased volume of distribution (edema, altered body composition). Drug dosing in CKD requires adjustment by either reducing the dose (maintaining interval) or extending the interval (maintaining dose), depending on whether efficacy depends on peak concentration or sustained levels."
+      },
+      "riskFactors": [
+        "Polypharmacy (CKD patients take an average of 10-12 medications)",
+        "Rapidly changing renal function (requires frequent dose reassessment)",
+        "Elderly patients with age-related GFR decline and comorbidities",
+        "Diabetes with fluctuating glucose control (affects drug metabolism and renal function)",
+        "Heart failure with cardiorenal syndrome (variable renal perfusion)",
+        "Dialysis patients (drug removal during dialysis sessions)",
+        "Over-the-counter NSAID use (nephrotoxic and commonly used without provider knowledge)",
+        "Herbal supplements with nephrotoxic potential (aristolochic acid, ephedra)"
+      ],
+      "diagnostics": [
+        "Calculate eGFR (CKD-EPI) at every prescribing encounter for renally-dosed medications",
+        "Monitor drug levels for narrow therapeutic index medications: vancomycin (trough 10-20), digoxin (0.5-0.9 in CKD/HF), lithium, aminoglycosides, phenytoin",
+        "Adjust phenytoin level for hypoalbuminemia: Corrected phenytoin = measured phenytoin / (0.2 x albumin + 0.1)",
+        "Monitor BMP (K+, creatinine, BUN) with RAAS blockade, diuretics, and potassium-affecting medications",
+        "Monitor CBC with medications that suppress bone marrow and are renally cleared",
+        "Review all medications at each visit using a renal dosing reference (Lexicomp, clinical pharmacist)",
+        "Check for drug-drug interactions that are amplified in CKD (e.g., ACEi + K+-sparing diuretic + NSAID = severe hyperkalemia)"
+      ],
+      "management": [
+        "Metformin: safe if eGFR >30; reduce dose to 1000 mg/day max if eGFR 30-45; contraindicated if eGFR <30 (lactic acidosis risk)",
+        "NSAIDs: AVOID in CKD (reduce GFR, increase hyperkalemia risk, worsen HTN and edema); if absolutely needed, use lowest dose for shortest duration",
+        "Gabapentin/pregabalin: dose reduce significantly in CKD (gabapentin: 300 mg TID if eGFR >60; 300 mg BID if 30-60; 300 mg daily if 15-30; 300 mg every other day if <15)",
+        "Opioids: avoid morphine (active metabolite M6G accumulates → respiratory depression); hydromorphone is safer; fentanyl is preferred in severe CKD/dialysis",
+        "Antibiotics: vancomycin and aminoglycosides require trough-based dosing; fluoroquinolones need dose adjustment; nitrofurantoin ineffective if eGFR <30",
+        "Anticoagulants: warfarin does NOT require dose adjustment (hepatic metabolism) but CKD patients have increased bleeding risk; DOACs need dose reduction (rivaroxaban, apixaban adjust below eGFR 50; dabigatran contraindicated if CrCl <30)",
+        "Allopurinol: start 100 mg/day and titrate slowly in CKD; dose limit based on CrCl"
+      ],
+      "nursingActions": [
+        "Systematically review ALL medications against current eGFR at each visit; use renal dosing charts or clinical pharmacist support",
+        "Identify and discontinue nephrotoxic medications: NSAIDs, certain antibiotics, contrast agents where possible",
+        "Counsel patients to avoid OTC NSAIDs (ibuprofen, naproxen) -- most common patient-acquired nephrotoxin",
+        "Adjust doses when eGFR changes significantly (>20% change or crossing a dosing threshold)",
+        "Monitor therapeutic drug levels for narrow TI medications and adjust per renal dosing guidelines",
+        "Coordinate with pharmacy for dialysis-specific dosing: determine if drug is removed by dialysis and whether supplemental dosing is needed post-dialysis",
+        "Educate patients to inform ALL providers of their kidney disease and current eGFR"
+      ],
+      "assessmentFindings": [
+        "Drug toxicity signs: sedation/confusion (opioids, gabapentin accumulation), bleeding (anticoagulant excess), hypoglycemia (sulfonylurea/insulin accumulation), ototoxicity (aminoglycosides)",
+        "Uremic symptoms worsening despite stable GFR may indicate medication accumulation",
+        "Volume overload from sodium-retaining medications (NSAIDs, steroids) in CKD patients",
+        "Hyperkalemia from ACEi/ARB/MRA accumulation or NSAID-induced reduced potassium excretion",
+        "Metformin-associated lactic acidosis (rare but fatal): abdominal pain, tachypnea, confusion, elevated lactate"
+      ],
+      "signs": {
+        "left": [
+          "Medications appropriately dosed for current eGFR",
+          "Therapeutic drug levels within target range",
+          "No evidence of drug accumulation or toxicity",
+          "Patient educated on nephrotoxin avoidance"
+        ],
+        "right": [
+          "Morphine toxicity in CKD: respiratory depression from M6G metabolite accumulation",
+          "Metformin-associated lactic acidosis: Kussmaul breathing, elevated lactate >5, shock",
+          "Vancomycin nephrotoxicity: rising creatinine with supratherapeutic trough levels",
+          "Severe hyperkalemia from triple whammy (ACEi + spironolactone + NSAID) with ECG changes",
+          "Digoxin toxicity in renal impairment: nausea, visual changes, bradycardia, arrhythmias"
+        ]
+      },
+      "medications": [
+        {
+          "name": "Metformin",
+          "type": "Biguanide antidiabetic",
+          "action": "Reduces hepatic glucose production and improves insulin sensitivity; does not cause hypoglycemia as monotherapy; renally cleared without metabolism",
+          "sideEffects": "GI upset (nausea, diarrhea), metallic taste, lactic acidosis (rare, primarily in renal impairment), B12 deficiency (long-term use)",
+          "contra": "eGFR <30 (FDA updated from blanket creatinine cutoffs to eGFR-based guidance); acute/unstable HF; conditions predisposing to lactic acidosis; hold 48 hours before and after IV contrast",
+          "pearl": "Safe at eGFR >45 (no dose adjustment); reduce max dose to 1000 mg/day if eGFR 30-45; contraindicated if eGFR <30; hold before IV contrast and restart 48 hours later after confirming stable renal function; the old blanket contraindication at creatinine >1.5 (men) or >1.4 (women) is OUTDATED"
+        }
+      ],
+      "pearls": [
+        "AVOID morphine in CKD -- its active metabolite morphine-6-glucuronide (M6G) accumulates and causes prolonged respiratory depression; hydromorphone or fentanyl are safer alternatives",
+        "Metformin is SAFE in CKD with eGFR >30 (updated FDA guidance replaced the old creatinine-based cutoffs); reduce dose if eGFR 30-45; contraindicated if <30",
+        "The 'triple whammy' of ACEi/ARB + diuretic + NSAID is the most common cause of preventable drug-induced AKI -- counsel ALL CKD patients to avoid NSAIDs",
+        "Gabapentin accumulation in CKD causes sedation, ataxia, and myoclonus -- dose MUST be reduced; many providers fail to adjust for renal function",
+        "Nitrofurantoin is INEFFECTIVE if eGFR <30 because it cannot achieve adequate urinary concentrations; also risks peripheral neuropathy in CKD",
+        "Phenytoin level must be corrected for albumin in CKD: Adjusted level = measured level / (0.2 × albumin + 0.1); without correction, levels appear falsely low leading to overdosing"
+      ],
+      "quiz": [
+        {
+          "question": "A patient with eGFR 25 is prescribed morphine for chronic pain. Why is this inappropriate?",
+          "options": [
+            "Morphine is hepatotoxic in renal failure",
+            "Morphine's active metabolite M6G accumulates in CKD, causing prolonged respiratory depression",
+            "Morphine is ineffective in CKD patients",
+            "Morphine causes acute kidney injury"
+          ],
+          "correct": 1,
+          "rationale": "Morphine is renally cleared, and its active metabolite morphine-6-glucuronide (M6G) accumulates in CKD, causing prolonged sedation and potentially fatal respiratory depression. Hydromorphone or fentanyl (hepatically metabolized) are safer alternatives in severe CKD."
+        },
+        {
+          "question": "A diabetic patient has eGFR of 38. Should metformin be continued?",
+          "options": [
+            "No -- metformin is contraindicated at any GFR below 60",
+            "Yes -- at full dose with no adjustment needed",
+            "Yes -- but reduce the maximum dose to 1000 mg/day",
+            "No -- switch to insulin immediately"
+          ],
+          "correct": 2,
+          "rationale": "Per updated FDA guidance, metformin is safe at eGFR ≥30 but should be dose-reduced (max 1000 mg/day) when eGFR is 30-45 due to increased lactic acidosis risk. It should be discontinued if eGFR falls below 30."
+        },
+        {
+          "question": "A CKD patient on lisinopril and furosemide takes ibuprofen for back pain and develops AKI. What is the mechanism?",
+          "options": [
+            "Ibuprofen allergy",
+            "Triple whammy: NSAID constricts afferent arteriole + ACEi dilates efferent arteriole + diuretic reduces volume, all reducing GFR simultaneously",
+            "Furosemide toxicity",
+            "Lisinopril overdose"
+          ],
+          "correct": 1,
+          "rationale": "The 'triple whammy' combines three mechanisms that reduce GFR: NSAIDs block prostaglandin-mediated afferent arteriolar dilation, ACEi/ARBs dilate the efferent arteriole, and diuretics reduce intravascular volume. Together, they can cause severe AKI, especially in patients with underlying CKD."
+        }
+      ]
     },
-    medications: [{
-      name: "Metformin",
-      type: "Biguanide (oral antidiabetic)",
-      action: "Decreases hepatic glucose production, increases insulin sensitivity in peripheral tissues, and reduces intestinal glucose absorption; does NOT cause hypoglycemia as monotherapy",
-      sideEffects: "GI upset (nausea, diarrhea, metallic taste), vitamin B12 deficiency with chronic use, lactic acidosis (rare but serious in renal impairment)",
-      contra: "eGFR <30 mL/min (contraindicated); reduce dose to 1000mg/day max if eGFR 30-45; hold before iodinated contrast if eGFR <45; hold during acute illness",
-      pearl: "Lactic acidosis risk increases dramatically when metformin accumulates in renal failure; FDA updated labeling in 2016 to allow use down to eGFR 30; restart 48 hours after contrast if renal function stable"
-    }, {
-      name: "Gabapentin",
-      type: "Anticonvulsant / neuropathic pain agent (GABA analog)",
-      action: "Binds alpha-2-delta subunit of voltage-gated calcium channels, reducing excitatory neurotransmitter release; does NOT actually bind GABA receptors despite its name",
-      sideEffects: "Somnolence, dizziness, ataxia, peripheral edema, weight gain; CNS depression potentiated in CKD due to accumulation",
-      contra: "Must dose-adjust for renal function; suicidal ideation risk; avoid abrupt discontinuation (seizure risk)",
-      pearl: "Dose adjustment critical: CrCl >60: 300-1200mg TID; CrCl 30-59: 200-700mg BID; CrCl 15-29: 200-700mg daily; CrCl <15: 100-300mg daily; supplemental dose after hemodialysis"
-    }, {
-      name: "Enoxaparin",
-      type: "Low molecular weight heparin (LMWH) anticoagulant",
-      action: "Preferentially inhibits factor Xa (anti-Xa:anti-IIa ratio 3.8:1) by binding antithrombin III; more predictable pharmacokinetics than unfractionated heparin",
-      sideEffects: "Bleeding, thrombocytopenia (HIT less common than UFH), injection site reactions, hyperkalemia (aldosterone suppression)",
-      contra: "Active major bleeding, HIT, severe thrombocytopenia; use with extreme caution if eGFR <30 (accumulation risk)",
-      pearl: "eGFR <30: reduce treatment dose to 1mg/kg once daily (instead of BID); monitor anti-Xa levels (target 0.5-1.0 IU/mL 4 hours post-dose); consider unfractionated heparin instead for eGFR <15 or dialysis patients"
-    }],
-    pearls: ["Cockcroft-Gault (not CKD-EPI) remains the standard for drug dosing; the two equations can give significantly different results, especially in elderly or cachectic patients","NSAIDs are the most common nephrotoxin encountered in primary care; even short courses can precipitate AKI in CKD patients by blocking prostaglandin-mediated afferent arteriolar dilation","Sick-day rules: temporarily hold ACE-I/ARB, diuretics, SGLT2i, metformin, and NSAIDs during acute illness with volume depletion to prevent AKI","Digoxin has a narrow therapeutic index and is 85% renally cleared; in CKD, reduce dose and target level 0.5-0.9 ng/mL (not the traditional 1.0-2.0 range)","Insulin is partially metabolized by the kidney; as CKD progresses, insulin requirements often decrease, increasing hypoglycemia risk - reduce basal insulin by 25-50% when eGFR <30","Vancomycin dosing has shifted from trough-based monitoring to AUC/MIC-guided dosing (target 400-600) per 2020 guidelines; critical in CKD where accumulation risk is high","Many over-the-counter medications contain hidden nephrotoxins: NSAIDs in cold remedies, phosphate in bowel preps, magnesium in antacids - always review OTC medications in CKD patients"],
-    quiz: [
-      {
-        question: "A patient with CKD stage 4 (eGFR 22 mL/min) is prescribed metformin 1000mg BID for type 2 diabetes. What is the most appropriate action?",
-        options: ["Continue the current dose as metformin is safe at all eGFR levels","Discontinue metformin and switch to an alternative agent","Reduce to metformin 500mg BID and monitor renal function","Add sodium bicarbonate to prevent lactic acidosis"],
-        correct: 1,
-        rationale: "Metformin is contraindicated when eGFR <30 mL/min due to the risk of lactic acidosis from drug accumulation. The FDA allows continued use down to eGFR 30 (with dose reduction), but this patient's eGFR of 22 requires discontinuation and transition to a renally safe alternative such as insulin or a DPP-4 inhibitor with renal dosing."
-      },
-      {
-        question: "Which equation should be used when calculating medication dose adjustments for a patient with CKD?",
-        options: ["CKD-EPI equation for eGFR","MDRD equation for GFR","Cockcroft-Gault equation for creatinine clearance","Harris-Benedict equation for metabolic rate"],
-        correct: 2,
-        rationale: "The Cockcroft-Gault equation for creatinine clearance remains the standard for drug dosing adjustments because most pharmaceutical drug studies and FDA labeling used this formula to determine dose recommendations. CKD-EPI is preferred for CKD staging and prognosis but may give different values, particularly in elderly or low-muscle-mass patients."
-      },
-      {
-        question: "A CKD patient with eGFR 25 mL/min requires treatment-dose anticoagulation for DVT. Enoxaparin is ordered. What dosing modification is required?",
-        options: ["Standard dose 1mg/kg BID with no modification needed","Reduce to 1mg/kg once daily and monitor anti-Xa levels","Switch to warfarin immediately as LMWH is contraindicated","Double the dose to compensate for uremic platelet dysfunction"],
-        correct: 1,
-        rationale: "When eGFR <30 mL/min, enoxaparin treatment dose should be reduced from 1mg/kg BID to 1mg/kg once daily due to accumulation risk from decreased renal clearance. Anti-Xa monitoring (target 0.5-1.0 IU/mL 4 hours post-dose) is recommended to ensure therapeutic levels without accumulation."
-      },
-    ]
-  },
   "ckd-progression-patho-np": {
-    title: "CKD: Progression Pathophysiology",
-    cellular: { title: "The Common Pathway of CKD Progression", content: "CKD progression follows a 'common pathway' regardless of initial etiology, driven by a self-perpetuating cycle of nephron loss and maladaptive compensatory hyperfiltration. When nephrons are destroyed by any process (diabetic nephropathy, hypertension, glomerulonephritis), surviving nephrons undergo compensatory hyperfiltration to maintain total GFR. This initially adaptive response becomes maladaptive: increased single-nephron GFR raises intraglomerular pressure and flow, causing mechanical stress on podocytes (the specialized epithelial cells that form the glomerular filtration barrier). Podocyte injury leads to foot process effacement, detachment from the glomerular basement membrane, and disruption of the slit diaphragm, resulting in proteinuria. Filtered proteins in the tubular lumen activate proximal tubular cells to produce pro-inflammatory cytokines (MCP-1, RANTES) and pro-fibrotic mediators (TGF-beta1), driving tubulointerstitial inflammation and fibrosis. The renin-angiotensin-aldosterone system (RAAS) is a central mediator: angiotensin II preferentially constricts the efferent arteriole (increasing intraglomerular pressure), stimulates TGF-beta1 production, promotes oxidative stress through NADPH oxidase activation, and activates aldosterone which causes inflammation and fibrosis independent of its mineralocorticoid effects. Oxidative stress from mitochondrial dysfunction, NADPH oxidase, and advanced glycation end-products (AGEs in diabetic nephropathy) amplifies tubular injury. As fibrosis replaces functional nephrons, remaining nephrons hyperfiltrate further, creating a vicious cycle that progresses to end-stage kidney disease regardless of whether the original insult is removed. This explains why CKD often progresses even after the initial cause is treated, and why interventions targeting intraglomerular pressure (RAAS blockers, SGLT2 inhibitors) slow progression across all CKD etiologies." },
-    riskFactors: ["Persistent proteinuria (strongest modifiable predictor of CKD progression; UACR >300 mg/g = high risk)","Uncontrolled hypertension accelerating glomerular injury and nephrosclerosis","Diabetes mellitus with poor glycemic control (HbA1c >8%) promoting hyperfiltration and AGE accumulation","Recurrent acute kidney injury episodes (each episode accelerates CKD progression)","Smoking (direct renal toxicity, endothelial dysfunction, accelerates atherosclerosis of renal vasculature)","High dietary sodium intake (>4g/day) blunting RAAS blocker efficacy and increasing proteinuria","Obesity causing glomerular hyperfiltration and obesity-related glomerulopathy"],
-    diagnostics: ["Serial eGFR trending: calculate rate of decline (normal age-related: ~1 mL/min/year; rapid decline: >5 mL/min/year warrants urgent nephrology referral)","Proteinuria quantification via UACR or urine protein-to-creatinine ratio (UPCR); serial measurements to assess treatment response","Kidney biopsy for etiology: indicated when diagnosis uncertain, rapid decline unexplained, or specific treatment would change based on histology","Renal ultrasound: kidney size trending (progressive shrinkage indicates ongoing nephron loss), rule out obstruction","Urine microscopy: active sediment (RBC casts = glomerulonephritis, WBC casts = interstitial nephritis) guides etiology-specific treatment","Serum bicarbonate: metabolic acidosis (HCO3 <22 mEq/L) accelerates CKD progression through ammonia-mediated complement activation"],
-    management: ["Maximize RAAS blockade: ACE-I or ARB titrated to maximum tolerated dose; reduces proteinuria and intraglomerular pressure (RENAAL, IDNT trials)","Add SGLT2 inhibitor: dapagliflozin or empagliflozin proven to slow CKD progression by 39% (DAPA-CKD) and 28% (EMPA-KIDNEY) independent of diabetes status","Blood pressure target <130/80 mmHg; lower targets (120/80) may further benefit patients with significant proteinuria (SPRINT trial)","Correct metabolic acidosis with sodium bicarbonate supplementation when serum HCO3 <22 mEq/L (target 22-26 mEq/L)","Dietary protein management: 0.8 g/kg/day for CKD G3-G5 (avoid excessive protein which increases hyperfiltration; avoid severe restriction which causes malnutrition)","Address modifiable progression factors: smoking cessation, weight management, sodium restriction <2g/day, avoid nephrotoxins"],
-    nursingActions: ["Track and graph serial eGFR values to visualize rate of decline and identify acceleration in progression","Monitor proteinuria response to RAAS blockade: obtain UACR at baseline, 3 months after initiation, then every 6-12 months","Educate patient on the importance of medication adherence for RAAS blockers and SGLT2 inhibitors even when feeling well","Teach sick-day rules: temporarily hold ACE-I/ARB, diuretics, SGLT2i, and metformin during acute illness with dehydration","Provide dietary counseling: sodium restriction <2g/day, moderate protein intake 0.8g/kg/day, potassium management as CKD advances","Coordinate transition of care planning: nephrology referral at eGFR <30, vascular access planning at eGFR <20, dialysis education at eGFR <15"],
-    assessmentFindings: ["Progressive decline in eGFR over serial measurements (>5 mL/min/year = rapid progression)","Increasing proteinuria on serial UACR measurements despite treatment","Worsening hypertension requiring additional antihypertensive agents","Metabolic acidosis (serum bicarbonate <22 mEq/L) contributing to muscle wasting and bone disease","Progressive anemia from declining erythropoietin production (typically eGFR <30)","CKD-mineral bone disease: elevated PTH, hyperphosphatemia, hypocalcemia, elevated FGF-23"],
-    signs: {
-      left: ["Gradual eGFR decline of 2-3 mL/min/year with stable proteinuria","Mildly increased UACR (30-300 mg/g) on routine screening","Blood pressure at target with current regimen","Mild metabolic acidosis (HCO3 20-22 mEq/L)","Early secondary hyperparathyroidism (PTH mildly elevated)"],
-      right: ["Rapid eGFR decline >5 mL/min/year requiring urgent nephrology evaluation","Nephrotic-range proteinuria (UACR >3500 mg/g) with hypoalbuminemia and edema","Refractory hypertension on 4+ agents suggesting secondary cause or volume overload","Severe metabolic acidosis (HCO3 <18 mEq/L) with Kussmaul respirations","Symptomatic uremia (encephalopathy, pericarditis, bleeding) requiring emergent dialysis","Severe hyperkalemia >6.5 mEq/L with ECG changes from combined RAAS blockade and declining GFR"]
+      "title": "CKD Progression Pathophysiology",
+      "cellular": {
+        "title": "Nephron Loss & Maladaptive Hyperfiltration",
+        "content": "CKD progression follows a common final pathway regardless of the initial insult. When nephrons are lost, remaining nephrons undergo compensatory hyperfiltration (increased single-nephron GFR) to maintain total GFR temporarily. This maladaptive response involves afferent arteriolar dilation and efferent vasoconstriction (mediated by angiotensin II), increasing intraglomerular pressure and flow. The resulting glomerular hypertension damages the glomerular basement membrane, causes podocyte injury and detachment, and leads to proteinuria. Filtered proteins are toxic to tubular epithelial cells, triggering tubulointerstitial inflammation and fibrosis through TGF-beta, NF-kB, and complement activation. This creates a self-perpetuating cycle: nephron loss → hyperfiltration → glomerular injury → proteinuria → tubulointerstitial fibrosis → more nephron loss. RAAS blockade (ACEi/ARB) and SGLT2 inhibitors interrupt this cycle by reducing intraglomerular pressure."
+      },
+      "riskFactors": [
+        "Persistent proteinuria/albuminuria (strongest predictor of CKD progression; higher proteinuria = faster decline)",
+        "Uncontrolled hypertension (accelerates nephrosclerosis and glomerular damage)",
+        "Uncontrolled diabetes (glycation of GBM, mesangial expansion, nodular glomerulosclerosis)",
+        "Acute kidney injury episodes (each AKI episode accelerates CKD progression)",
+        "Smoking (renal vasoconstriction, oxidative stress, accelerated atherosclerosis)",
+        "Obesity (hyperfiltration, lipotoxicity, adipokine-mediated inflammation)",
+        "Nephrotoxin exposure (NSAIDs, aminoglycosides, contrast agents)",
+        "High dietary sodium intake (counteracts RAAS blockade, increases proteinuria)",
+        "Non-adherence to RAAS blockade or SGLT2 inhibitor therapy"
+      ],
+      "diagnostics": [
+        "eGFR trajectory: calculate rate of decline; >5 mL/min/year is rapid progression requiring investigation",
+        "Serial UACR monitoring: increasing proteinuria indicates accelerating nephron damage",
+        "Renal ultrasound: progressive decrease in kidney size indicates chronic scarring",
+        "Kidney biopsy: if cause of CKD unclear or rapidly progressive decline",
+        "Monitor for complications as GFR declines: anemia (Hgb, iron studies), mineral bone disease (Ca, PO4, PTH, vitamin D), metabolic acidosis (HCO3)",
+        "24-hour urine protein if UACR is borderline or to quantify protein loss precisely"
+      ],
+      "management": [
+        "Maximize RAAS blockade: ACEi or ARB titrated to maximum tolerated dose; reduces proteinuria and slows progression",
+        "Add SGLT2 inhibitor (dapagliflozin or empagliflozin) for additional renoprotection regardless of diabetes status",
+        "Add finerenone (non-steroidal MRA) for diabetic CKD with persistent albuminuria on maximal ACEi/ARB (FIDELIO-DKD trial)",
+        "Blood pressure target <130/80; essential to slow progression",
+        "Glycemic control: HbA1c ~7% for most; avoid over-tight control in advanced CKD (hypoglycemia risk increases as insulin clearance decreases)",
+        "Sodium restriction <2 g/day (amplifies RAAS blockade efficacy)",
+        "Protein moderation: 0.8 g/kg/day in CKD G3-5 (reduces hyperfiltration); avoid very low protein diets (<0.6 g/kg) without dietitian supervision",
+        "Smoking cessation, weight management, avoid nephrotoxins"
+      ],
+      "nursingActions": [
+        "Track eGFR slope over time: calculate annual rate of decline; refer urgently if >5 mL/min/year",
+        "Maximize RAAS blockade dose: uptitrate ACEi/ARB to guideline-recommended targets; monitor BMP 1-2 weeks after each adjustment",
+        "Ensure SGLT2 inhibitor is prescribed for eligible patients (eGFR ≥20 with albuminuria)",
+        "Counsel on sodium restriction (<2 g/day) -- critical for augmenting RAAS blockade efficacy",
+        "Identify and eliminate nephrotoxin exposure: NSAIDs, herbal supplements, contrast agents",
+        "Educate on the importance of each medication in the renoprotective regimen and consequences of non-adherence",
+        "Coordinate dietary counseling: protein moderation, potassium awareness, sodium restriction"
+      ],
+      "assessmentFindings": [
+        "Increasing proteinuria on serial UACR measurements (indicates worsening glomerular damage)",
+        "Progressive eGFR decline over serial measurements",
+        "Worsening hypertension despite medication compliance",
+        "New anemia (decreasing Hgb from reduced erythropoietin production)",
+        "Rising phosphorus with decreasing calcium (secondary hyperparathyroidism)",
+        "Metabolic acidosis (decreasing serum bicarbonate <22 mEq/L)"
+      ],
+      "signs": {
+        "left": [
+          "Stable eGFR trajectory on maximized medical therapy",
+          "Decreasing proteinuria in response to RAAS blockade (indicates effective treatment)",
+          "Blood pressure at target <130/80",
+          "Expected initial eGFR dip (10-15%) after starting ACEi/ARB or SGLT2i"
+        ],
+        "right": [
+          "Rapid GFR decline >5 mL/min/year despite optimal therapy -- evaluate for superimposed disease",
+          "Nephrotic-range proteinuria (>3.5 g/day) with hypoalbuminemia and edema",
+          "CKD stage 5 (eGFR <15) requiring dialysis access planning",
+          "Refractory hyperkalemia despite dietary restriction and medication adjustment",
+          "Severe metabolic acidosis with Kussmaul breathing (pH <7.2)"
+        ]
+      },
+      "medications": [
+        {
+          "name": "Finerenone (Kerendia)",
+          "type": "Non-steroidal mineralocorticoid receptor antagonist",
+          "action": "Selectively blocks the mineralocorticoid receptor in the kidney and heart; reduces fibrosis, inflammation, and sodium retention; unlike spironolactone, minimal anti-androgen effects; FIDELIO-DKD showed 18% reduction in CKD progression in diabetic CKD patients on RAAS blockade",
+          "sideEffects": "Hyperkalemia (primary concern; monitor K+ closely), hypotension, decreased eGFR (expected initial dip)",
+          "contra": "K+ >5.0, eGFR <25 for initiation, severe hepatic impairment (Child-Pugh C), concurrent strong CYP3A4 inhibitors, concurrent use with other MRAs",
+          "pearl": "Add to maximized ACEi/ARB in diabetic CKD with persistent albuminuria; start 10 mg if eGFR 25-60 or 20 mg if eGFR >60; check K+ at 4 weeks and periodically; provides additional renoprotection beyond ACEi/ARB and SGLT2i; the stacking of ACEi/ARB + SGLT2i + finerenone represents the current optimal renoprotective regimen"
+        }
+      ],
+      "pearls": [
+        "Proteinuria is BOTH a marker and a MEDIATOR of CKD progression -- reducing proteinuria with RAAS blockade directly slows kidney damage",
+        "The modern CKD progression-slowing regimen: ACEi/ARB (maximum dose) + SGLT2 inhibitor + finerenone (for diabetic CKD) + BP <130/80 + sodium restriction",
+        "An initial eGFR dip of 10-15% after starting ACEi/ARB or SGLT2i is EXPECTED and reflects reduced intraglomerular pressure (the protective mechanism) -- do NOT stop the medication",
+        "Each AKI episode accelerates CKD progression -- AKI is NOT fully reversible; prevention is critical",
+        "Sodium restriction (<2 g/day) is critical -- high sodium intake directly counteracts the renoprotective effects of RAAS blockade by expanding volume and increasing intraglomerular pressure",
+        "eGFR slope (rate of decline) is more clinically important than a single eGFR value -- track trajectory over time"
+      ],
+      "quiz": [
+        {
+          "question": "Why do remaining nephrons undergo hyperfiltration when nephrons are lost in CKD?",
+          "options": [
+            "It is a beneficial adaptation with no consequences",
+            "Remaining nephrons increase their single-nephron GFR to compensate, but this maladaptive response causes glomerular hypertension, proteinuria, and progressive nephron damage",
+            "The kidneys regenerate new nephrons to replace lost ones",
+            "Hyperfiltration only occurs in diabetic nephropathy"
+          ],
+          "correct": 1,
+          "rationale": "Compensatory hyperfiltration is initially adaptive (maintaining total GFR) but ultimately maladaptive. Increased intraglomerular pressure damages glomeruli, causes proteinuria, and triggers tubulointerstitial fibrosis -- creating a self-perpetuating cycle of nephron loss. ACEi/ARBs and SGLT2 inhibitors reduce intraglomerular pressure, breaking this cycle."
+        },
+        {
+          "question": "A patient with diabetic CKD is on maximum-dose lisinopril and empagliflozin but still has UACR of 250 mg/g. What additional medication can be added?",
+          "options": [
+            "Another ARB (dual RAAS blockade)",
+            "Finerenone (non-steroidal MRA)",
+            "Amlodipine",
+            "Metformin"
+          ],
+          "correct": 1,
+          "rationale": "Finerenone is a non-steroidal MRA approved for diabetic CKD with persistent albuminuria despite maximized ACEi/ARB therapy. The FIDELIO-DKD trial showed additional 18% reduction in CKD progression. This represents the third pillar of the modern renoprotective regimen. Dual ACEi/ARB is contraindicated."
+        },
+        {
+          "question": "Which factor most strongly predicts CKD progression?",
+          "options": [
+            "Patient's age",
+            "Serum creatinine level",
+            "Degree of proteinuria/albuminuria",
+            "Blood glucose level"
+          ],
+          "correct": 2,
+          "rationale": "Proteinuria/albuminuria is the strongest independent predictor of CKD progression. It is both a marker of glomerular damage and a direct mediator of tubulointerstitial fibrosis. Higher proteinuria levels predict faster GFR decline, which is why reducing proteinuria with RAAS blockade is the primary therapeutic target."
+        }
+      ]
     },
-    medications: [{
-      name: "Losartan",
-      type: "Angiotensin II receptor blocker (ARB)",
-      action: "Selectively blocks angiotensin II at the AT1 receptor on the efferent arteriole, reducing intraglomerular pressure and proteinuria; blocks pro-fibrotic and pro-inflammatory effects of angiotensin II on the kidney",
-      sideEffects: "Hyperkalemia, hypotension, dizziness, acute kidney injury (initial hemodynamic GFR dip is expected), teratogenicity",
-      contra: "Pregnancy (all trimesters), bilateral renal artery stenosis, potassium >5.5 mEq/L, concurrent ACE-I use (dual RAAS blockade increases AKI and hyperkalemia risk without benefit)",
-      pearl: "RENAAL trial demonstrated 16% reduction in doubling of creatinine and 28% reduction in ESKD in diabetic nephropathy; titrate to maximum dose (100mg daily) for maximal proteinuria reduction"
-    }, {
-      name: "Dapagliflozin",
-      type: "SGLT2 inhibitor (sodium-glucose cotransporter 2 inhibitor)",
-      action: "Blocks glucose and sodium reabsorption in the proximal tubule, restoring tubuloglomerular feedback and reducing intraglomerular pressure; reduces hyperfiltration in surviving nephrons independent of glucose lowering",
-      sideEffects: "Genital mycotic infections, volume depletion, euglycemic DKA (rare), UTI, Fournier gangrene (very rare)",
-      contra: "eGFR <20 mL/min for initiation (can continue below this); type 1 diabetes; history of recurrent DKA",
-      pearl: "DAPA-CKD trial: 39% reduction in sustained eGFR decline, ESKD, or renal death in CKD patients with or without diabetes; NNT of 19 over 2.4 years; initial eGFR dip of 3-5 mL/min is hemodynamic and reversible"
-    }, {
-      name: "Sodium bicarbonate",
-      type: "Alkalinizing agent (electrolyte supplement)",
-      action: "Corrects metabolic acidosis by providing exogenous bicarbonate; reduces ammonia-mediated complement activation and endothelin-1 production in the kidney, slowing tubulointerstitial fibrosis",
-      sideEffects: "Sodium and fluid retention, metabolic alkalosis if over-corrected, GI bloating, hypokalemia",
-      contra: "Severe fluid overload, uncontrolled hypertension (sodium load), metabolic alkalosis, hypochloremia",
-      pearl: "Target serum bicarbonate 22-26 mEq/L; typical starting dose 650mg (7.7 mEq) TID; the UBI trial showed correction of acidosis slowed CKD progression by ~50%; monitor sodium intake from bicarbonate supplementation"
-    }],
-    pearls: ["The 'common pathway' explains why CKD progresses even after the original insult resolves - surviving nephrons hyperfiltrate, causing podocyte injury and tubulointerstitial fibrosis","Proteinuria is both a marker AND a mediator of CKD progression - reducing proteinuria with RAAS blockers independently slows kidney function decline","SGLT2 inhibitors work by restoring tubuloglomerular feedback (reducing hyperfiltration), NOT primarily through glucose lowering - they are renoprotective in non-diabetic CKD","Do NOT combine ACE-I + ARB (dual RAAS blockade): VA NEPHRON-D and ONTARGET trials showed increased AKI and hyperkalemia without improved outcomes","An initial eGFR dip with ACE-I/ARB or SGLT2i is hemodynamic (reduced hyperfiltration) and predicts BETTER long-term outcomes - do not discontinue unless >30% decline","Metabolic acidosis (HCO3 <22) is not just a consequence of CKD - it actively accelerates progression through complement activation and increased ammoniagenesis","The CREDENCE trial was stopped early due to overwhelming benefit: canagliflozin reduced the primary renal composite endpoint by 30% in diabetic kidney disease"],
-    quiz: [
-      {
-        question: "Which mechanism best explains why CKD continues to progress even after the initial cause is successfully treated?",
-        options: ["Persistent autoimmune attack on the glomeruli","Compensatory hyperfiltration in surviving nephrons causing podocyte injury and fibrosis","Ongoing medication toxicity from RAAS inhibitors","Progressive renal artery stenosis from atherosclerosis"],
-        correct: 1,
-        rationale: "The 'common pathway' of CKD progression involves maladaptive compensatory hyperfiltration in remaining nephrons. Increased single-nephron GFR raises intraglomerular pressure, injuring podocytes, causing proteinuria, and triggering tubulointerstitial inflammation and fibrosis. This self-perpetuating cycle continues even after the original insult is resolved."
-      },
-      {
-        question: "A patient with CKD G3b and UACR 450 mg/g is on maximum-dose losartan. Which additional medication has the strongest evidence for slowing CKD progression?",
-        options: ["Amlodipine (calcium channel blocker)","Dapagliflozin (SGLT2 inhibitor)","Furosemide (loop diuretic)","Allopurinol (xanthine oxidase inhibitor)"],
-        correct: 1,
-        rationale: "SGLT2 inhibitors (dapagliflozin, empagliflozin) have demonstrated significant reduction in CKD progression when added to RAAS blockade. The DAPA-CKD trial showed a 39% reduction in the renal composite endpoint in both diabetic and non-diabetic CKD. SGLT2 inhibitors reduce hyperfiltration through tubuloglomerular feedback restoration, complementing the efferent arteriolar relaxation from ARBs."
-      },
-      {
-        question: "A CKD G4 patient on losartan and dapagliflozin has a serum bicarbonate of 19 mEq/L. What is the most appropriate intervention?",
-        options: ["Discontinue losartan as it may be causing the acidosis","Initiate sodium bicarbonate supplementation targeting HCO3 22-26 mEq/L","Increase dietary protein to buffer the acidosis","Start acetazolamide to improve renal acid excretion"],
-        correct: 1,
-        rationale: "Metabolic acidosis (serum HCO3 <22 mEq/L) in CKD actively accelerates progression through ammonia-mediated complement activation and endothelin-1 production. Oral sodium bicarbonate supplementation to target HCO3 22-26 mEq/L has been shown to slow CKD progression. Acetazolamide would worsen acidosis (it is a carbonic anhydrase inhibitor), and increased protein would increase acid load."
-      },
-    ]
-  },
   "ckd-staging-np": {
-    title: "CKD: KDIGO Staging & Progression",
-    cellular: { title: "KDIGO Classification & Progression Risk", content: "Chronic kidney disease (CKD) is classified using the KDIGO heat map combining GFR categories (G1 ≥90, G2 60-89, G3a 45-59, G3b 30-44, G4 15-29, G5 <15 mL/min/1.73m²) with albuminuria categories (A1 <30, A2 30-300, A3 >300 mg/g UACR). This 6×3 matrix stratifies risk into green (low), yellow (moderately increased), orange (high), and red (very high) for both CKD progression and cardiovascular events. CKD pathophysiology involves progressive nephron loss from any etiology (diabetes, hypertension, glomerulonephritis), triggering compensatory hyperfiltration in remaining nephrons. This maladaptive response increases intraglomerular pressure, causing further glomerular injury, proteinuria, and tubulointerstitial fibrosis via TGF-beta and RAAS activation. As GFR declines, complications accumulate: anemia (decreased erythropoietin production from peritubular fibroblasts at G3a-G3b), mineral bone disease (phosphate retention, decreased 1,25-dihydroxyvitamin D synthesis, secondary hyperparathyroidism at G3b-G4), metabolic acidosis (impaired ammoniagenesis at G4), uremia (accumulation of nitrogenous waste products at G4-G5), and fluid/electrolyte imbalances (hyperkalemia, volume overload at G4-G5). Monitoring intervals are stage-dependent: G1-G2 annually, G3a every 6 months, G3b every 3-4 months, G4 every 1-3 months, G5 monthly or more frequently." },
-    riskFactors: ["Diabetes mellitus (leading cause of CKD, accounting for ~45% of ESKD cases)","Hypertension (second leading cause; both cause and consequence of CKD)","Family history of CKD or ESKD (genetic susceptibility, APOL1 variants in African Americans)","Age >60 years (age-related nephron loss compounds disease-related injury)","Obesity and metabolic syndrome (glomerular hyperfiltration, obesity-related glomerulopathy)","Acute kidney injury episodes (each AKI event increases risk of CKD development and progression)","Nephrotoxic medication exposure (chronic NSAID use, aminoglycosides, lithium, calcineurin inhibitors)"],
-    diagnostics: ["eGFR calculation using CKD-EPI 2021 creatinine equation (race-free formula; preferred over MDRD); confirm with cystatin C-based eGFR when creatinine may be unreliable (extremes of muscle mass, amputation, cirrhosis)","Urine albumin-to-creatinine ratio (UACR) on spot morning urine -- confirm with 2 of 3 positive samples over 3 months; A2 (30-300 mg/g) = moderately increased, A3 (>300 mg/g) = severely increased","Renal ultrasound to assess kidney size (small echogenic kidneys suggest chronicity; asymmetric size suggests renovascular or reflux disease; normal-to-large kidneys in diabetic nephropathy, HIV-associated nephropathy, amyloidosis, polycystic kidney disease)","Metabolic panel trending (BUN, creatinine, potassium, bicarbonate, calcium, phosphorus, albumin) at stage-appropriate intervals","CBC for anemia assessment (normocytic normochromic anemia of CKD); reticulocyte count, iron studies (ferritin, TSAT) to differentiate from iron deficiency","Intact PTH level and 25-hydroxyvitamin D (begin monitoring at G3a; PTH rises as CKD progresses due to phosphate retention and decreased calcitriol synthesis)","Lipid panel (CKD is a coronary artery disease risk equivalent); urinalysis with microscopy to evaluate for active sediment"],
-    management: ["G1-G2: Treat underlying cause, optimize BP (<130/80 with ACEi/ARB as first-line for albuminuria), glycemic control in diabetes (A1C <7%), SGLT2 inhibitor (dapagliflozin or empagliflozin) if UACR ≥200 mg/g regardless of diabetes status, cardiovascular risk reduction, annual monitoring","G3a: All above plus begin monitoring for CKD-mineral bone disease (PTH, calcium, phosphorus, vitamin D every 6-12 months), assess and treat anemia (target Hgb 10-11.5 g/dL), avoid nephrotoxins (NSAIDs, IV contrast with pre-hydration if necessary), renally dose medications","G3b: Increase monitoring frequency to every 3-4 months, nephrology referral, dietary counseling (moderate protein restriction 0.8 g/kg/day, potassium and phosphorus restriction as indicated), finerenone for diabetic kidney disease with albuminuria","G4: Nephrology co-management, begin dialysis modality education (hemodialysis vs peritoneal dialysis vs conservative management), referral for vascular access planning when eGFR <20 (AV fistula takes 2-3 months to mature), transplant evaluation referral (preemptive transplant preferred if eligible), manage uremic symptoms, optimize nutrition","G5/ESKD: Initiate renal replacement therapy when symptomatic uremia develops (not based on eGFR threshold alone); typical initiation at eGFR 5-10; maintain AV fistula surveillance; coordinate transplant listing"],
-    nursingActions: ["Monitor eGFR trends and UACR at stage-appropriate intervals; recognize rapid progression (eGFR decline >5 mL/min/year) requiring urgent nephrology referral","Perform medication reconciliation at every visit with renal dose adjustments (metformin dose reduction at eGFR <45, discontinue at <30; gabapentin dose reduction; avoid NSAIDs)","Educate patients on dietary modifications (sodium restriction <2g/day in all stages; potassium, phosphorus, and protein modifications in advanced stages)","Coordinate multidisciplinary care: nephrology, dietitian, diabetes educator, social worker for insurance/financial planning for dialysis","Monitor and manage CKD complications: anemia (iron studies, ESA therapy), mineral bone disease (PTH, phosphorus), metabolic acidosis (bicarbonate supplementation when <22 mEq/L)","Assess AV fistula function in pre-dialysis and dialysis patients (thrill, bruit, signs of stenosis); protect fistula arm from BP cuffs, IVs, and venipuncture"],
-    assessmentFindings: ["Fatigue and exercise intolerance (anemia, uremia, metabolic acidosis)","Peripheral edema and weight gain (sodium and fluid retention, hypoalbuminemia in nephrotic-range proteinuria)","Pruritus and dry skin (uremic toxins, hyperphosphatemia, calcium-phosphate deposition)","Nausea, anorexia, and metallic taste (uremic toxins, gastroparesis in advanced CKD)","Hypertension (volume expansion, RAAS activation -- may be resistant to multiple agents)"],
-    signs: {
-      left: ["Mildly elevated creatinine with preserved eGFR >60 and microalbuminuria","Fatigue and mild exercise intolerance","Mild peripheral edema responsive to diuretics","Nocturia (early loss of concentrating ability)","Mild normocytic anemia (Hgb 10-12 g/dL)"],
-      right: ["Uremic encephalopathy (asterixis, confusion, seizures, coma)","Uremic pericarditis (friction rub, chest pain -- indication for emergent dialysis)","Severe hyperkalemia (K+ >6.5 mEq/L with ECG changes -- peaked T waves, widened QRS)","Pulmonary edema refractory to diuretics (volume overload requiring emergent ultrafiltration)","Uremic bleeding (platelet dysfunction, GI hemorrhage)"]
+      "title": "CKD Staging",
+      "cellular": {
+        "title": "KDIGO GFR & Albuminuria Classification",
+        "content": "The KDIGO classification stages CKD using a two-dimensional matrix combining GFR categories and albuminuria categories. GFR stages: G1 (≥90, normal), G2 (60-89, mildly decreased), G3a (45-59, mild-moderate), G3b (30-44, moderate-severe), G4 (15-29, severe), G5 (<15, kidney failure). Albuminuria categories: A1 (<30 mg/g, normal), A2 (30-300, moderately increased/microalbuminuria), A3 (>300, severely increased/macroalbuminuria). G1-G2 require evidence of kidney damage (albuminuria, structural abnormality) to qualify as CKD. The heat map assigns risk colors guiding monitoring frequency: green (annual), yellow (annual), orange (every 6 months), red (every 3 months). Management intensity increases with both declining GFR and increasing albuminuria."
+      },
+      "riskFactors": [
+        "All CKD risk factors apply for staging assessment",
+        "Stage G3a is the most common stage at diagnosis (often incidental finding)",
+        "Rapid progression (>5 mL/min/year decline) may skip stages",
+        "Acute-on-chronic kidney injury can cause apparent stage worsening that may partially reverse",
+        "Albuminuria progression (A1 → A2 → A3) often precedes GFR decline in diabetic nephropathy",
+        "Elderly patients may have stable low GFR (G3a) without progressive CKD (age-related nephron loss)"
+      ],
+      "diagnostics": [
+        "eGFR via CKD-EPI equation: two values ≥3 months apart confirming persistence",
+        "UACR: spot urine sample; confirm abnormal result on repeat testing (exclude transient causes: exercise, fever, UTI, menstruation)",
+        "Combine GFR category (G1-G5) and albuminuria category (A1-A3) for complete staging",
+        "KDIGO heat map determines: monitoring frequency, intensity of RAAS blockade, referral timing, complication screening frequency",
+        "Rate of eGFR decline: calculate slope from serial values; >5 mL/min/year = rapid progression",
+        "Stage-appropriate complication screening: G3a+: electrolytes, calcium, phosphorus, PTH annually; G4+: add Hgb, iron studies every 6 months"
+      ],
+      "management": [
+        "G1-G2: manage risk factors (BP, glucose, lipids); ACEi/ARB if albuminuria A2-A3; annual monitoring",
+        "G3a: above + monitor for complications; SGLT2 inhibitor if albuminuria; avoid nephrotoxins; moderate protein intake",
+        "G3b: above + increase monitoring to every 6 months; adjust medication doses; bone mineral disease management",
+        "G4: above + nephrology co-management; dialysis access planning (AV fistula creation when eGFR ~15-20); transplant evaluation",
+        "G5: renal replacement therapy (hemodialysis, peritoneal dialysis) or conservative management; transplant (pre-emptive preferred)",
+        "All stages with A2-A3: ACEi/ARB at maximum tolerated dose + SGLT2 inhibitor regardless of diabetes status"
+      ],
+      "nursingActions": [
+        "Stage CKD using BOTH GFR and albuminuria categories at each visit; document in the chart",
+        "Apply the KDIGO heat map to determine appropriate monitoring intervals and intervention intensity",
+        "Ensure stage-appropriate medication adjustments: dose-adjust renally-cleared drugs at each stage transition",
+        "Initiate complication screening per stage: anemia (G3a+), mineral bone disease (G3a+), metabolic acidosis (G3b+)",
+        "Coordinate nephrology referral at G4 or earlier if rapid progression, unclear etiology, or refractory complications",
+        "Begin patient education about renal replacement therapy options at G4: hemodialysis, peritoneal dialysis, transplant, conservative management",
+        "Ensure AV fistula creation is planned 6+ months before anticipated dialysis start (maturation time)"
+      ],
+      "assessmentFindings": [
+        "G1-G3a: often asymptomatic; detected by screening labs",
+        "G3b-G4: fatigue, nocturia (loss of concentrating ability), mild edema, early anemia",
+        "G5: uremic symptoms (nausea, anorexia, metallic taste, pruritus, restless legs, encephalopathy, pericarditis)",
+        "Progressive albuminuria category increase indicates worsening kidney damage",
+        "Complication development correlates with stage: anemia at G3a, hyperphosphatemia at G3b, acidosis at G4, uremia at G5"
+      ],
+      "signs": {
+        "left": [
+          "Stable eGFR at G1-G3a with controlled risk factors",
+          "A1 albuminuria (normal) with preserved kidney function",
+          "Gradual age-appropriate GFR decline (~1 mL/min/year after age 40)",
+          "Responding appropriately to RAAS blockade with decreasing proteinuria"
+        ],
+        "right": [
+          "Rapid stage progression (skipping stages within months) -- evaluate for rapidly progressive GN",
+          "Stage G5 with uremic symptoms: indication for dialysis initiation",
+          "Stage G4-G5 without dialysis access planning (AV fistula takes 3-6 months to mature)",
+          "Stage G5 with uremic pericarditis (pericardial friction rub) -- EMERGENT dialysis indication",
+          "Acute-on-chronic kidney injury with sudden stage jump"
+        ]
+      },
+      "medications": [
+        {
+          "name": "Sevelamer (Renagel/Renvela)",
+          "type": "Non-calcium phosphate binder",
+          "action": "Binds dietary phosphate in the GI tract, preventing absorption; reduces serum phosphorus in CKD stages 3-5; avoids calcium loading unlike calcium-based binders (calcium carbonate, calcium acetate)",
+          "sideEffects": "GI upset (nausea, constipation, diarrhea, bloating, flatulence), metabolic acidosis (Renagel/HCl form; use Renvela/carbonate form instead)",
+          "contra": "Bowel obstruction, fecal impaction, hypophosphatemia",
+          "pearl": "Take with meals (must be present in GI tract when phosphorus-containing food is eaten); preferred over calcium-based binders to avoid vascular calcification (especially in dialysis patients); Renvela (carbonate form) preferred over Renagel (HCl form) to avoid worsening metabolic acidosis in CKD"
+        }
+      ],
+      "pearls": [
+        "CKD staging requires BOTH GFR category (G1-G5) AND albuminuria category (A1-A3) -- stating only GFR is incomplete staging",
+        "G1 and G2 require evidence of kidney DAMAGE (albuminuria, abnormal imaging, biopsy findings) to be called CKD -- a GFR of 70 alone is NOT CKD in a healthy person",
+        "The KDIGO heat map is a visual tool: green = low risk/annual monitoring; yellow = moderate/annual; orange = high/every 6 months; red = very high/every 3 months + nephrology referral",
+        "AV fistula should be created when eGFR approaches 15-20 (at least 6 months before anticipated dialysis) -- 'Fistula First' initiative; fistula requires 3-6 months to mature",
+        "Indications for emergent dialysis (mnemonic AEIOU): Acidosis (refractory), Electrolytes (hyperkalemia refractory to medical management), Ingestion (toxic alcohol, lithium, aspirin), Overload (fluid overload refractory to diuretics), Uremia (encephalopathy, pericarditis, bleeding)",
+        "Conservative management (no dialysis) is an acceptable option for elderly patients with multiple comorbidities and limited life expectancy -- focus on symptom management and quality of life"
+      ],
+      "quiz": [
+        {
+          "question": "A patient has eGFR 52 and UACR 180 mg/g. What is their CKD stage and monitoring recommendation?",
+          "options": [
+            "CKD G3a-A2; monitor every 6 months per KDIGO heat map",
+            "CKD G3a-A1; monitor annually",
+            "CKD G2-A3; monitor every 3 months",
+            "No CKD -- eGFR is above 45"
+          ],
+          "correct": 0,
+          "rationale": "eGFR 52 = G3a (45-59) and UACR 180 = A2 (30-300). Per the KDIGO heat map, G3a-A2 falls in the orange (high risk) zone, recommending monitoring every 6 months. This patient should be on ACEi/ARB and SGLT2 inhibitor."
+        },
+        {
+          "question": "When should AV fistula creation be planned for a CKD patient?",
+          "options": [
+            "When the patient starts dialysis",
+            "When eGFR drops below 5",
+            "At least 6 months before anticipated dialysis start, typically around eGFR 15-20",
+            "Only after the patient starts hemodialysis via temporary catheter"
+          ],
+          "correct": 2,
+          "rationale": "AV fistulas require 3-6 months to mature and may require revision. The 'Fistula First' initiative recommends creation when eGFR approaches 15-20, at least 6 months before anticipated dialysis. Starting dialysis via catheter increases infection risk and should be avoided when possible."
+        },
+        {
+          "question": "Which is an emergent indication for dialysis? (Use AEIOU mnemonic)",
+          "options": [
+            "eGFR <15 without symptoms",
+            "Mild hyponatremia",
+            "Refractory hyperkalemia with ECG changes",
+            "Asymptomatic proteinuria"
+          ],
+          "correct": 2,
+          "rationale": "AEIOU emergent dialysis indications: Acidosis (refractory to medical management), Electrolytes (hyperkalemia refractory to medical management with ECG changes), Ingestion (toxic substances), Overload (fluid overload refractory to diuretics), Uremia (encephalopathy, pericarditis, bleeding)."
+        }
+      ]
     },
-    medications: [{
-      name: "Epoetin Alfa (Epogen/Procrit)",
-      type: "Erythropoiesis-stimulating agent (ESA)",
-      action: "Recombinant human erythropoietin that binds to EPO receptors on erythroid progenitor cells in bone marrow, stimulating proliferation and differentiation into mature red blood cells, compensating for decreased endogenous EPO production by damaged kidneys",
-      sideEffects: "Hypertension (most common, occurs in 20-30%; due to increased blood viscosity and loss of hypoxia-mediated vasodilation), thromboembolic events (stroke, MI, DVT -- risk increases when Hgb >11.5 g/dL), pure red cell aplasia (rare, due to anti-EPO antibodies), headache, arthralgia",
-      contra: "Uncontrolled hypertension, pure red cell aplasia from prior ESA use, hypersensitivity; do NOT target Hgb >11.5 g/dL (FDA black box warning -- increased cardiovascular events and mortality)",
-      pearl: "Ensure adequate iron stores before starting (TSAT >20%, ferritin >100 ng/mL in non-dialysis CKD, >200 ng/mL in dialysis); iron deficiency is the most common cause of ESA hyporesponsiveness; start low dose (50-100 units/kg TIW for dialysis patients) and titrate to target Hgb 10-11.5 g/dL"
-    },{
-      name: "Sevelamer Carbonate (Renvela)",
-      type: "Non-calcium, non-metal phosphate binder",
-      action: "Binds dietary phosphorus in the GI tract through ion exchange, forming an insoluble complex that is excreted in feces, thereby reducing intestinal phosphate absorption and lowering serum phosphorus levels without adding calcium load (avoids vascular calcification risk associated with calcium-based binders)",
-      sideEffects: "Nausea, vomiting, constipation, abdominal distension, flatulence; may reduce absorption of co-administered medications (fat-soluble vitamins, levothyroxine, ciprofloxacin, mycophenolate)",
-      contra: "Bowel obstruction, ileus, hypophosphatemia; use with caution in patients with GI motility disorders or major GI surgery",
-      pearl: "Must be taken WITH meals (no effect if taken on empty stomach -- it binds phosphorus in food); typical starting dose 800 mg TID with meals; preferred over calcium-based binders in CKD G3-G5 to reduce vascular calcification risk; separate from other medications by at least 1 hour"
-    },{
-      name: "Calcitriol (Rocaltrol)",
-      type: "Active vitamin D analog (1,25-dihydroxyvitamin D3)",
-      action: "Bypasses the impaired renal 1-alpha-hydroxylation step in CKD by providing the active form of vitamin D directly; increases intestinal calcium absorption, suppresses PTH secretion from parathyroid glands (treating secondary hyperparathyroidism), and supports bone mineralization",
-      sideEffects: "Hypercalcemia (most significant -- monitor calcium levels closely), hyperphosphatemia (increased intestinal phosphorus absorption), hypercalciuria, soft tissue calcification if calcium-phosphorus product >55",
-      contra: "Hypercalcemia, vitamin D toxicity, metastatic calcification, hyperphosphatemia (correct phosphorus before starting calcitriol)",
-      pearl: "Used in CKD G4-G5 when PTH is above target despite correcting 25-OH vitamin D deficiency and controlling phosphorus; start at low dose (0.25 mcg daily or every other day); monitor calcium and phosphorus every 2 weeks initially; native vitamin D (cholecalciferol) supplementation is preferred in early CKD stages (G3a-G3b) for 25-OH vitamin D deficiency"
-    }],
-    pearls: ["The KDIGO heat map combines GFR (G1-G5) and albuminuria (A1-A3) categories to guide monitoring frequency and management intensity -- albuminuria stage independently predicts cardiovascular risk and CKD progression regardless of GFR","SGLT2 inhibitors (dapagliflozin, empagliflozin) are now recommended for CKD with UACR ≥200 mg/g regardless of diabetes status -- they reduce intraglomerular pressure via tubuloglomerular feedback and have shown 30-40% reduction in CKD progression","An initial 10-30% drop in eGFR after starting ACEi/ARB or SGLT2 inhibitor is expected (hemodynamic effect of reducing glomerular hyperfiltration) and is nephroprotective long-term -- do NOT discontinue unless eGFR drops >30% or hyperkalemia develops","AV fistula planning should begin when eGFR approaches 15-20 mL/min because fistula creation to maturation takes 2-3 months; the 'fistula first' approach is preferred over grafts and catheters due to lower infection and thrombosis rates","Metabolic acidosis (serum bicarbonate <22 mEq/L) accelerates CKD progression, promotes protein catabolism, and worsens bone disease -- oral sodium bicarbonate supplementation (650-1300 mg TID) slows progression","Refer for transplant evaluation early (eGFR <20) -- preemptive transplantation (before dialysis initiation) has the best long-term graft survival and patient outcomes","The most common cause of ESA hyporesponsiveness is iron deficiency -- always check iron stores (TSAT, ferritin) before increasing ESA dose; other causes include infection, inflammation, aluminum toxicity, and hyperparathyroidism"],
-    quiz: [
-      {
-        question: "A patient with CKD has an eGFR of 38 mL/min/1.73m² and a UACR of 450 mg/g. According to KDIGO classification, what is this patient's CKD stage and risk category?",
-        options: ["G3a A2 -- moderately increased risk","G3b A3 -- very high risk","G4 A3 -- very high risk","G3b A2 -- high risk"],
-        correct: 1,
-        rationale: "An eGFR of 38 mL/min/1.73m² falls in the G3b category (30-44), and a UACR of 450 mg/g falls in the A3 category (>300 mg/g). On the KDIGO heat map, G3b + A3 places the patient in the very high (red) risk category for both CKD progression and cardiovascular events, warranting nephrology referral and monitoring every 1-3 months."
-      },
-      {
-        question: "A CKD G4 patient on epoetin alfa has a hemoglobin of 9.2 g/dL that has not responded to 3 months of ESA therapy. Ferritin is 80 ng/mL and TSAT is 15%. What is the most appropriate next step?",
-        options: ["Double the epoetin alfa dose","Administer IV iron supplementation","Discontinue epoetin alfa and transfuse packed RBCs","Order a bone marrow biopsy"],
-        correct: 1,
-        rationale: "The most common cause of ESA hyporesponsiveness is iron deficiency. This patient's TSAT of 15% (<20%) and ferritin of 80 ng/mL (<100 ng/mL for non-dialysis CKD) indicate inadequate iron stores. IV iron supplementation should be provided to replete stores before increasing ESA dose. Target TSAT >20% and ferritin >100 ng/mL (>200 ng/mL in dialysis patients)."
-      },
-      {
-        question: "When should the NP initiate AV fistula planning for a patient with progressive CKD?",
-        options: ["When the patient begins dialysis","When eGFR falls below 20 mL/min/1.73m²","When eGFR falls below 45 mL/min/1.73m²","When the patient develops uremic symptoms"],
-        correct: 1,
-        rationale: "AV fistula planning should begin when eGFR approaches 15-20 mL/min/1.73m² because fistula creation requires surgical referral, and the fistula needs 2-3 months to mature before it can be used for hemodialysis. Starting at eGFR <20 allows adequate time for maturation and avoids the need for temporary central venous catheters, which carry higher infection and thrombosis risks."
-      },
-    ]
-  },
   "cleft-lip-palate": {
-    title: "Cleft Lip and Palate",
-    cellular: { title: "Embryology of Cleft Lip & Palate", content: "Cleft lip and cleft palate result from failure of fusion of facial processes during weeks 4-12 of embryonic development. Cleft lip occurs when the maxillary prominences fail to fuse with the medial nasal processes during weeks 4-7, resulting in a unilateral or bilateral gap in the upper lip. Cleft palate occurs when the lateral palatine shelves fail to fuse with each other and/or the nasal septum during weeks 9-12, leaving an opening between the oral and nasal cavities. Clefts can be unilateral or bilateral, complete (extending through lip, alveolus, and palate) or incomplete (partial involvement). Cleft lip with or without cleft palate (CL/P) occurs in approximately 1:700 live births and is more common in males and individuals of Asian and Native American descent. Isolated cleft palate occurs in approximately 1:2,500 births and is more common in females. The defect causes significant functional impairment: inability to generate negative intraoral pressure for adequate suction during feeding, eustachian tube dysfunction leading to chronic otitis media with effusion and conductive hearing loss (due to abnormal tensor veli palatini muscle insertion), velopharyngeal insufficiency causing hypernasality and articulation errors, and dental malocclusion. Approximately 30% of cases are associated with a syndromic diagnosis (Pierre Robin sequence, van der Woude syndrome, velocardiofacial syndrome/22q11 deletion)." },
-    riskFactors: ["Family history of cleft lip/palate (first-degree relative with CL/P increases risk 30-40 fold)","Maternal smoking during first trimester (dose-dependent increased risk)","Anticonvulsant use during pregnancy (phenytoin, valproic acid, topiramate)","Folic acid deficiency (inadequate periconceptional supplementation)","Maternal diabetes mellitus (both pregestational and poorly controlled gestational)","Maternal alcohol use during embryonic period","Advanced paternal age and certain ethnic backgrounds (Asian, Native American higher incidence)"],
-    diagnostics: ["Prenatal ultrasound detection (cleft lip visible on 2D ultrasound as early as 18-20 weeks; cleft palate alone is harder to detect prenatally and often missed)","Postnatal physical examination (visual inspection of lip and palpation of palate with gloved finger; assess extent -- unilateral vs bilateral, complete vs incomplete, involvement of soft vs hard palate)","Audiological assessment (baseline hearing screen at birth; tympanometry and repeat audiometry due to high incidence of chronic otitis media with effusion and conductive hearing loss)","Speech and language evaluation (begin by age 12 months; assess velopharyngeal function, resonance, and articulation)","Genetic evaluation to rule out associated syndromes (karyotype, FISH for 22q11 deletion, clinical genetics consultation)","Dental and orthodontic assessment (eruption patterns, alveolar ridge integrity, need for pre-surgical orthopedics such as nasoalveolar molding)"],
-    management: ["Cleft lip repair (cheiloplasty) at approximately 3 months using the 'Rule of 10s': 10 weeks of age, weight 10 pounds, hemoglobin 10 g/dL; Millard rotation-advancement technique most common","Cleft palate repair (palatoplasty) at 9-12 months of age, before significant speech development begins; goal is to create a functional velopharyngeal mechanism for normal speech","Myringotomy with pressure equalization (PE) tube placement for chronic otitis media with effusion (often performed at time of palate repair)","Multidisciplinary cleft team management: plastic/craniofacial surgery, ENT/otolaryngology, speech-language pathology, audiology, orthodontics, pediatric dentistry, genetics, social work, psychology","Secondary procedures as needed: alveolar bone grafting (age 7-9 years, mixed dentition), rhinoplasty, pharyngeal flap for persistent velopharyngeal insufficiency, orthodontic treatment, orthognathic surgery in adolescence if needed"],
-    nursingActions: ["Teach parents specialized feeding techniques: use squeezable bottles (Mead Johnson, Dr. Brown's Specialty Feeding System) or Haberman (SpecialNeeds) feeder; position infant upright at 45-60 degrees to prevent aspiration and nasal regurgitation","Burp frequently during feedings (every 15-30 mL) due to increased air swallowing; monitor for signs of aspiration (coughing, choking, cyanosis, wet/gurgling breathing)","Monitor daily weight and feeding adequacy (intake volume, feeding duration -- sessions should not exceed 30 minutes to prevent fatigue; caloric intake should support normal growth curve)","Post-operative lip repair care: maintain suture line integrity (clean with sterile water or dilute hydrogen peroxide per protocol), apply antibiotic ointment as ordered, prevent tension on suture line; use elbow restraints (No-Nos) to prevent infant from touching surgical site","Post-operative palate repair care: NO straws, pacifiers, sippy cups, or hard/crunchy foods for 2-4 weeks (can disrupt palate repair); feed with cup or syringe; maintain liquid to soft diet; position on side or abdomen (not supine) to facilitate drainage","Provide emotional support to parents -- address feelings of guilt, grief, or anxiety about infant's appearance; connect families with cleft palate support organizations and other affected families"],
-    assessmentFindings: ["Visible cleft in upper lip (unilateral or bilateral; may extend into nostril floor and alveolar ridge)","Palpable opening in hard and/or soft palate on examination with gloved finger","Feeding difficulties: prolonged feeding times (>30 min), nasal regurgitation of formula/breast milk, inadequate weight gain, excessive air swallowing","Recurrent or chronic otitis media with effusion (serous fluid behind tympanic membrane on otoscopic exam)","Speech abnormalities developing in toddlerhood: hypernasality, nasal air emission, compensatory articulation errors (glottal stops)"],
-    signs: {
-      left: ["Visible cleft lip or palpable cleft palate on newborn exam","Difficulty latching during breastfeeding or bottle feeding","Nasal regurgitation of milk during feeding","Slow weight gain requiring feeding plan modification","Mild serous otitis media on otoscopic examination"],
-      right: ["Aspiration during feeding (cyanosis, choking, desaturation, wet breath sounds)","Failure to thrive with significant weight loss (>10% birth weight)","Post-operative hemorrhage from surgical site (excessive bleeding, tachycardia)","Airway compromise (especially in Pierre Robin sequence with glossoptosis and micrognathia)","Wound dehiscence of surgical repair"]
+      "title": "Cleft Lip and Palate",
+      "cellular": {
+        "title": "Craniofacial Development Failure",
+        "content": "Cleft lip and/or palate results from failure of fusion of the maxillary and medial nasal processes (cleft lip, occurs at 5-7 weeks gestation) or failure of fusion of the palatal shelves (cleft palate, occurs at 7-12 weeks gestation). Cleft lip ranges from a small notch to complete separation extending into the nose (unilateral or bilateral). Cleft palate involves the hard palate, soft palate, or both, and can be isolated or associated with cleft lip. The condition causes feeding difficulties (inability to create suction), speech problems (velopharyngeal insufficiency causing hypernasal speech), recurrent otitis media (eustachian tube dysfunction), and dental abnormalities. Multidisciplinary team management is essential from birth through adolescence."
+      },
+      "riskFactors": [
+        "Family history (recurrence risk ~4% with one affected sibling; 9% with two affected siblings)",
+        "Maternal smoking during pregnancy (2x increased risk)",
+        "Maternal alcohol use in first trimester",
+        "Anticonvulsant use: phenytoin, valproic acid, carbamazepine (teratogenic)",
+        "Maternal folate deficiency (inadequate periconceptional folic acid supplementation)",
+        "Maternal diabetes",
+        "Asian and Native American descent (higher incidence)",
+        "Associated syndromes: Pierre Robin sequence, Treacher Collins, Stickler syndrome, velocardiofacial (22q11.2 deletion)"
+      ],
+      "diagnostics": [
+        "Prenatal diagnosis: cleft lip may be detected on second-trimester ultrasound (18-20 weeks); cleft palate alone is difficult to diagnose prenatally",
+        "Physical examination at birth: inspect lip for continuity; palpate hard and soft palate (submucous cleft may be palpable as a midline notch in the posterior hard palate but visually normal)",
+        "Feeding assessment: observe for nasal regurgitation, inability to create suction, excessive air intake during feeding",
+        "Audiologic evaluation: newborn hearing screen and regular audiologic follow-up (chronic eustachian tube dysfunction → conductive hearing loss)",
+        "Genetic evaluation: to identify associated syndromes; karyotype or microarray if additional anomalies present",
+        "Speech-language pathology assessment starting at 12-18 months"
+      ],
+      "management": [
+        "Cleft lip repair: cheiloplasty at approximately 3 months of age ('rule of 10s': 10 weeks old, 10 lbs weight, Hgb 10 g/dL)",
+        "Cleft palate repair: palatoplasty at approximately 9-12 months of age (before speech development)",
+        "Myringotomy with PE (pressure equalization) tubes for chronic otitis media with effusion",
+        "Orthodontic management: presurgical orthopedics (NAM appliance), dental care throughout childhood",
+        "Speech therapy: beginning after palate repair; pharyngeal flap surgery if velopharyngeal insufficiency persists",
+        "Alveolar bone grafting at 6-10 years (mixed dentition stage)",
+        "Long-term follow-up through adolescence: rhinoplasty, orthodontics, psychosocial support"
+      ],
+      "nursingActions": [
+        "Pre-surgical feeding: use specialized bottles (Haberman/SpecialNeeds feeder, Pigeon nipple, or squeezable bottles) that deliver milk without requiring suction",
+        "Position upright during feeding to prevent nasal regurgitation and aspiration",
+        "Post-operative cleft lip repair (Logan bow/lip protector): prevent the infant from rubbing the surgical site; use elbow restraints (No-No splints) to prevent hands reaching the face",
+        "Post-operative feeding: use cup or syringe feeding for 7-14 days after lip repair (NO nipple or pacifier on surgical site); resume specialized bottle after palate repair per surgeon protocol",
+        "Assess surgical site for bleeding, infection, wound dehiscence",
+        "Educate parents on long-term care plan: multiple surgeries, dental care, speech therapy, audiologic monitoring",
+        "Provide emotional support and connect family with cleft team and support groups (e.g., Smile Train, cleft palate foundation)"
+      ],
+      "assessmentFindings": [
+        "Visible cleft of the lip (unilateral or bilateral; may extend into the nose)",
+        "Cleft of the hard/soft palate visible on inspection or palpable on examination",
+        "Feeding difficulties: inability to latch or create suction, nasal regurgitation of milk, prolonged feeding times, poor weight gain",
+        "Recurrent otitis media (eustachian tube dysfunction causes fluid accumulation)",
+        "Speech abnormalities (hypernasal speech from velopharyngeal insufficiency) -- assessed at 18-24 months",
+        "Dental abnormalities: missing, malpositioned, or supernumerary teeth near the cleft"
+      ],
+      "signs": {
+        "left": [
+          "Isolated minor cleft lip with adequate feeding using specialized bottle",
+          "Weight gain appropriate with feeding modifications",
+          "Normal hearing on audiologic screening",
+          "Surgical repair proceeding on typical timeline"
+        ],
+        "right": [
+          "Failure to thrive despite feeding modifications (inadequate caloric intake)",
+          "Aspiration pneumonia from chronic nasal regurgitation",
+          "Post-surgical wound dehiscence (surgical site opening)",
+          "Severe bilateral cleft lip and palate with associated syndrome (Pierre Robin: micrognathia, glossoptosis, airway obstruction)",
+          "Acute airway obstruction in Pierre Robin sequence (glossoptosis)"
+        ]
+      },
+      "medications": [
+        {
+          "name": "Acetaminophen (infant drops)",
+          "type": "Analgesic/antipyretic",
+          "action": "Central COX inhibition providing pain relief and fever reduction; first-line analgesic for post-surgical pain in cleft repair patients",
+          "sideEffects": "Hepatotoxicity at supratherapeutic doses; rare rash",
+          "contra": "Severe hepatic impairment; known hypersensitivity",
+          "pearl": "15 mg/kg/dose every 4-6 hours (max 75 mg/kg/day); use weight-based dosing with the measuring device provided; first-line post-operative pain management after cleft repair; avoid aspirin and NSAIDs in infants"
+        }
+      ],
+      "pearls": [
+        "Rule of 10s for cleft lip repair timing: 10 weeks old, 10 lbs weight, Hgb 10 g/dL",
+        "Cleft palate repair before 12 months to optimize speech development (before the child begins talking)",
+        "NO nipple or pacifier after cleft lip repair -- use cup or syringe feeding to protect the surgical site",
+        "Elbow restraints (No-No splints) prevent infant from touching the surgical site with hands -- remove periodically for supervised range of motion",
+        "Eustachian tube dysfunction is nearly universal in cleft palate patients -- PE tubes are commonly placed at the time of palate repair",
+        "Pierre Robin sequence (cleft palate + micrognathia + glossoptosis) may cause airway obstruction -- position prone to move the tongue forward; may need nasopharyngeal airway or surgical intervention"
+      ],
+      "quiz": [
+        {
+          "question": "When is the optimal timing for cleft lip repair?",
+          "options": [
+            "Within the first 24 hours of life",
+            "At approximately 3 months of age (rule of 10s)",
+            "At 12 months of age",
+            "After 2 years when the child can cooperate"
+          ],
+          "correct": 1,
+          "rationale": "Cleft lip repair (cheiloplasty) is typically performed at approximately 3 months of age, following the 'rule of 10s': 10 weeks old, 10 pounds weight, and hemoglobin of 10 g/dL. This timing allows adequate growth for surgical repair while minimizing the psychosocial impact on the family."
+        },
+        {
+          "question": "A nurse is feeding an infant after cleft lip repair. Which feeding method is appropriate?",
+          "options": [
+            "Regular bottle with standard nipple",
+            "Breastfeeding directly at the breast",
+            "Cup or syringe feeding -- no nipple should contact the surgical site",
+            "No feeding for 48 hours post-operatively"
+          ],
+          "correct": 2,
+          "rationale": "After cleft lip repair, no nipple or pacifier should be placed against the surgical site for 7-14 days to prevent disruption of the suture line. Cup feeding, syringe feeding, or spoon feeding are appropriate alternatives. Specific protocols vary by surgeon."
+        },
+        {
+          "question": "Why do infants with cleft palate require PE tubes?",
+          "options": [
+            "They have congenital hearing loss requiring surgical correction",
+            "Eustachian tube dysfunction causes chronic middle ear effusion and conductive hearing loss",
+            "PE tubes prevent speech delays",
+            "PE tubes are part of the palate repair procedure"
+          ],
+          "correct": 1,
+          "rationale": "Cleft palate disrupts the normal attachment of the tensor veli palatini muscle, which opens the eustachian tube. This causes chronic eustachian tube dysfunction, leading to recurrent otitis media with effusion and conductive hearing loss. PE tubes provide drainage and ventilation of the middle ear."
+        }
+      ]
     },
-    medications: [{
-      name: "Acetaminophen (Tylenol Infant)",
-      type: "Analgesic/Antipyretic",
-      action: "Inhibits prostaglandin synthesis in the CNS, raising the pain threshold and acting on the hypothalamic heat-regulating center to reduce fever; preferred post-operative analgesic in infants for cleft repair",
-      sideEffects: "Hepatotoxicity with overdose, rash (rare), nausea",
-      contra: "Severe hepatic impairment; caution in G6PD deficiency; do not exceed maximum weight-based dosing (15 mg/kg/dose every 4-6 hours, max 5 doses/24 hours)",
-      pearl: "First-line post-operative pain management for cleft repair; avoid ibuprofen in infants <6 months; use calibrated oral syringe for accurate infant dosing; assess pain using age-appropriate scale (FLACC for infants)"
-    },{
-      name: "Amoxicillin",
-      type: "Aminopenicillin antibiotic",
-      action: "Inhibits bacterial cell wall synthesis by binding to penicillin-binding proteins; broad-spectrum coverage for common pathogens in acute otitis media (Streptococcus pneumoniae, Haemophilus influenzae, Moraxella catarrhalis)",
-      sideEffects: "Diarrhea, diaper rash, allergic reaction (rash, urticaria, anaphylaxis in penicillin-allergic patients), nausea/vomiting",
-      contra: "Penicillin allergy (cross-reactivity with cephalosporins in 1-2%); infectious mononucleosis (risk of maculopapular rash)",
-      pearl: "First-line treatment for acute otitis media in cleft palate patients (80-90 mg/kg/day divided BID); these children have high rates of recurrent otitis media due to eustachian tube dysfunction and often require PE tubes; prophylactic antibiotics may be used perioperatively for cleft repair"
-    }],
-    pearls: ["Use special feeding devices (Haberman/SpecialNeeds feeder, squeezable bottles) -- do NOT enlarge regular nipple holes as this increases aspiration risk; the goal is to deliver milk with gentle compression, not gravity flow","Position infant upright (45-60 degrees) during and for 30 minutes after feeding to reduce nasal regurgitation and aspiration risk; burp frequently every 15-30 mL","Post palate repair: NO pacifiers, straws, spoons, or hard objects in the mouth for 2-4 weeks -- these can disrupt the surgical site; feed only with cup, syringe, or soft-tip device","Apply elbow restraints (No-Nos) post-operatively to prevent infant from placing fingers or objects in the mouth; remove restraints one at a time every 2 hours to check skin integrity and allow range of motion","Rule of 10s for cleft lip repair timing: 10 weeks old, 10 pounds, hemoglobin 10 g/dL -- ensures the infant is physiologically mature enough for surgery and anesthesia","Cleft palate is repaired at 9-12 months to optimize speech development -- if delayed beyond 12-18 months, compensatory speech patterns become more difficult to correct","All infants with cleft palate should have regular hearing assessments because chronic otitis media with effusion can cause conductive hearing loss affecting speech and language development"],
-    quiz: [
-      {
-        question: "A nurse is feeding a 2-week-old infant with an unrepaired cleft lip and palate. Which feeding technique is most appropriate?",
-        options: ["Breastfeed in cradle hold position","Use a regular bottle with an enlarged nipple hole","Use a squeezable bottle with the infant positioned upright at 45-60 degrees","Place the infant supine and use a standard nipple"],
-        correct: 2,
-        rationale: "Infants with cleft lip and palate cannot generate adequate negative pressure for suction. A squeezable bottle (such as Mead Johnson or Haberman feeder) allows the caregiver to assist milk flow through gentle compression. Upright positioning at 45-60 degrees prevents nasal regurgitation and reduces aspiration risk. Enlarging regular nipple holes increases risk of too-rapid flow and aspiration."
-      },
-      {
-        question: "A 3-month-old infant returns from cleft lip repair surgery. Which nursing intervention has the highest priority?",
-        options: ["Offer a pacifier for comfort","Apply elbow restraints to prevent the infant from touching the surgical site","Position the infant prone for comfort","Begin solid food introduction"],
-        correct: 1,
-        rationale: "Elbow restraints (No-Nos) are applied after cleft lip repair to prevent the infant from touching, rubbing, or disrupting the suture line with their hands. Pacifiers are contraindicated after cleft lip repair because they can apply pressure to the suture line. The infant should not be positioned prone on the face. Solid foods are not appropriate at 3 months of age."
-      },
-      {
-        question: "The parent of an infant with cleft palate asks why the palate repair is scheduled at 10 months rather than immediately after birth. What is the nurse's best response?",
-        options: ["The surgeon prefers to wait until the child is older for cosmetic reasons","Palate repair at 9-12 months allows the infant to grow and optimizes speech development before language patterns are established","The palate usually closes on its own by 6 months so surgery may not be needed","Waiting reduces the number of anesthesia exposures in the first year"],
-        correct: 1,
-        rationale: "Palatoplasty is timed at 9-12 months to allow adequate growth of palatal structures while repairing the palate before critical speech development milestones. If repair is delayed beyond 12-18 months, the child develops compensatory articulation patterns (glottal stops) that are more difficult to correct with speech therapy. The palate does not close spontaneously."
-      },
-    ]
-  },
   "clinical-prioritization-np": {
-    title: "Clinical Prioritization",
-    cellular: { title: "Frameworks for Clinical Prioritization", content: "Clinical prioritization is the systematic process of determining the order and urgency of patient care actions using evidence-based frameworks. The ABCs (Airway, Breathing, Circulation) framework remains the primary prioritization tool: airway threats take precedence over breathing problems, which take precedence over circulatory issues. Maslow's hierarchy of needs applied to clinical care establishes that physiological needs (oxygenation, perfusion, fluid balance, thermoregulation) must be addressed before safety, then psychosocial concerns. Acute conditions take priority over chronic conditions; unstable patients are prioritized over stable patients. The Emergency Severity Index (ESI) is a 5-level triage system: ESI-1 (immediate life-threatening, requires resuscitation), ESI-2 (emergent, high-risk situation or severe distress), ESI-3 (urgent, requires multiple resources), ESI-4 (less urgent, one resource needed), ESI-5 (non-urgent, no resources needed). Delegation follows the five rights: right task (delegable per scope of practice), right circumstance (stable, predictable patient situation), right person (competent to perform the task), right communication (clear, concise instructions with expected outcomes), and right supervision (appropriate follow-up and feedback). The NP must differentiate between tasks requiring independent clinical judgment (assessment, diagnosis, care planning, evaluation, patient education on complex topics) and those that can be delegated to RNs, LPNs, or UAPs. Clinical prioritization also requires rapid identification of time-sensitive conditions: STEMI (door-to-balloon <90 minutes), stroke (door-to-needle <60 minutes for tPA), sepsis (1-hour bundle), and trauma (golden hour)." },
-    riskFactors: ["Cognitive overload and task saturation (multiple simultaneous patient emergencies, high nurse-to-patient ratios)","Inexperience with acute care settings (new graduate nurses, floating to unfamiliar units)","Communication failures (incomplete handoff, missing critical information during transitions of care)","Inadequate staffing and resource limitations (contributing to delayed interventions and sentinel events)","Anchoring bias (fixating on initial assessment and failing to reassess or reprioritize as conditions change)","System-level barriers (alarm fatigue, EHR inefficiencies, unclear chain of command)"],
-    diagnostics: ["Early Warning Scores: Modified Early Warning Score (MEWS) -- assigns points for systolic BP, heart rate, respiratory rate, temperature, and level of consciousness to identify deteriorating patients; score ≥5 triggers rapid response","National Early Warning Score (NEWS2) -- standardized 7-parameter scoring system (RR, SpO2, supplemental O2, temperature, systolic BP, heart rate, consciousness); aggregate score determines clinical response: 0-4 (routine), 5-6 (urgent), ≥7 (emergent/critical care evaluation)","SBAR communication framework for structured handoff: Situation (what is happening now), Background (relevant clinical history), Assessment (clinical impression and severity), Recommendation (what you need from the provider)","Rapid systematic assessment: primary survey (ABCDE -- Airway, Breathing, Circulation, Disability/neurological, Exposure) completed in <60 seconds for unstable patients","Glasgow Coma Scale (GCS) for neurological prioritization: Eye (1-4), Verbal (1-5), Motor (1-6); total ≤8 indicates coma requiring airway protection"],
-    management: ["Time-critical intervention protocols: STEMI activation (door-to-balloon target <90 min), stroke code (door-to-CT <25 min, door-to-needle <60 min for tPA), sepsis bundle (blood cultures, lactate, antibiotics, fluid bolus within 1 hour), trauma activation (hemorrhage control, massive transfusion protocol)","Resource allocation using ESI triage: assign patients to appropriate care areas based on acuity and predicted resource utilization; reassess triage level as condition changes","Scope of practice decision-making: identify which interventions require NP/physician order vs standing protocol vs nursing judgment; know state-specific NP scope and collaborative agreement requirements","Structured prioritization for multiple patients: address life-threatening conditions first, then time-sensitive interventions (medication timing, procedure scheduling), then urgent assessments, then routine care; reassess priorities continuously","Delegation framework: assign vital signs and ADL care to UAPs, medication administration and focused assessments to RNs/LPNs (within scope), retain complex assessments, diagnosis, and care planning for NP"],
-    nursingActions: ["Perform rapid primary survey (ABCDE) on all new patients and patients with acute changes; escalate immediately for airway compromise, respiratory failure, hemodynamic instability, or neurological deterioration","Calculate and document early warning scores (MEWS/NEWS) at each assessment; activate rapid response team when threshold scores are reached; do not wait for physician callback","Use SBAR format for all urgent communications with providers; include specific request (What do you need from me? What orders are anticipated?)","Implement teach-back delegation: when delegating tasks to UAPs or LPNs, state the task, expected findings, parameters for reporting back, and timeline; verify understanding","Continuously reassess and reprioritize throughout the shift as patient conditions change -- a stable patient can become unstable rapidly; document rationale for prioritization decisions","Conduct bedside handoff using standardized format to reduce information loss during transitions of care"],
-    assessmentFindings: ["Abnormal early warning score indicating clinical deterioration (elevated MEWS ≥5 or NEWS ≥7)","Unstable vital signs requiring immediate intervention (hypotension <90 systolic, tachycardia >120, respiratory rate >30, SpO2 <90%)","Acute change in mental status or level of consciousness (new confusion, agitation, unresponsiveness)","Signs of time-sensitive emergencies (acute chest pain with ST changes, focal neurological deficits, signs of sepsis with lactate >2)","Clinical mismatch (patient appears sicker than vital signs suggest, or vital signs are concerning but patient appears comfortable -- both require heightened vigilance)"],
-    signs: {
-      left: ["Mild vital sign changes trending away from baseline","New onset of mild symptoms (headache, nausea, mild pain)","Stable patient with scheduled medication or procedure due","Early warning score increase of 1-2 points from baseline","Patient requesting PRN medication or comfort measures"],
-      right: ["Airway compromise (stridor, inability to speak, drooling, accessory muscle use)","Pulseless or apneic patient requiring CPR/code blue activation","Acute ST-elevation on telemetry with chest pain (STEMI activation)","Acute focal neurological deficits suggesting stroke (code stroke activation)","Anaphylaxis with hypotension and airway edema (epinephrine STAT)"]
+      "title": "Clinical Prioritization",
+      "cellular": {
+        "title": "Triage & Clinical Decision-Making",
+        "content": "Clinical prioritization requires systematic assessment of patient acuity and time-sensitivity of interventions. The ABCs (Airway, Breathing, Circulation) framework ensures life-threatening conditions are addressed first. Maslow's hierarchy applies to nursing prioritization: physiological needs (oxygenation, circulation, fluid balance) take precedence over safety, then psychosocial needs. The acute vs chronic framework distinguishes new/changing conditions requiring immediate intervention from stable chronic conditions. Clinical decision rules (HEART score, Wells criteria, CURB-65) standardize risk stratification. Triage systems (ESI 1-5, MTS) categorize patients by acuity: ESI-1 (immediate/resuscitation), ESI-2 (emergent/high risk), ESI-3 (urgent), ESI-4 (less urgent), ESI-5 (non-urgent). The NP must also recognize the 'can't miss' diagnoses that present with common symptoms but carry high mortality if delayed."
+      },
+      "riskFactors": [
+        "Cognitive biases that impair prioritization: anchoring (fixating on initial diagnosis), premature closure (stopping workup too early), availability bias (overweighing recent experience)",
+        "Diagnostic momentum (accepting prior diagnosis without re-evaluation)",
+        "High patient volumes and time pressure reducing systematic assessment",
+        "Atypical presentations masking serious pathology (elderly, immunocompromised, diabetic patients)",
+        "Communication failures in handoffs and transitions of care",
+        "Alarm fatigue in monitored settings (desensitization to clinical alerts)"
+      ],
+      "diagnostics": [
+        "ESI (Emergency Severity Index) triage: 5-level system based on acuity and resource needs",
+        "Clinical prediction rules for risk stratification: HEART score (chest pain), Wells criteria (PE/DVT), CURB-65 (pneumonia severity), Ottawa ankle/knee rules (fracture)",
+        "Serial vital signs with early warning scores (NEWS, MEWS) for deterioration detection",
+        "Point-of-care testing: troponin, lactate, blood gas for rapid decision-making",
+        "Focused bedside assessment: ABCDE survey for critical patients"
+      ],
+      "management": [
+        "Immediate (ESI-1): cardiopulmonary arrest, anaphylaxis, acute airway obstruction, massive hemorrhage, tension pneumothorax -- intervene within seconds",
+        "Emergent (ESI-2): STEMI, stroke within thrombolytic window, sepsis, unstable vital signs, severe pain -- intervene within minutes",
+        "Urgent (ESI-3): stable chest pain, abdominal pain requiring workup, moderate asthma exacerbation -- intervene within 30-60 minutes",
+        "Semi-urgent (ESI-4): minor laceration, stable chronic conditions, simple UTI -- can wait hours safely",
+        "Non-urgent (ESI-5): prescription refills, minor symptoms, stable follow-up -- can wait without risk",
+        "Time-critical diagnoses: STEMI (door-to-balloon <90 min), stroke (door-to-needle <60 min), sepsis (antibiotics within 1 hour), necrotizing fasciitis (emergent surgery)"
+      ],
+      "nursingActions": [
+        "Apply the ABC framework to ALL clinical encounters: address airway, breathing, and circulation threats first before proceeding to other assessment",
+        "Use Maslow's hierarchy: physiological needs (oxygenation, perfusion, pain) → safety → psychosocial → education",
+        "Identify 'can't miss' diagnoses for common presentations: chest pain (ACS, PE, aortic dissection, tension pneumothorax); headache (SAH, meningitis); abdominal pain (AAA rupture, ectopic pregnancy, appendicitis)",
+        "Apply clinical decision rules to standardize risk assessment and reduce cognitive bias",
+        "Implement structured handoff communication (SBAR, I-PASS) to prevent information loss during transitions",
+        "Recognize and manage cognitive biases: always ask 'What else could this be?' to prevent premature closure",
+        "Reassess frequently: initial low-acuity triage can change -- patients deteriorate"
+      ],
+      "assessmentFindings": [
+        "Immediate threats: unresponsive patient, absent/agonal respirations, pulselessness, anaphylaxis (airway edema, stridor), massive hemorrhage",
+        "Emergent findings: acute altered mental status, severe respiratory distress, hemodynamic instability, acute focal neurological deficit (stroke), severe sepsis signs",
+        "Urgent findings: acute pain with stable vitals, moderate respiratory symptoms, stable GI bleeding, new rash with systemic symptoms",
+        "Deterioration indicators: new tachycardia, increasing oxygen requirements, declining mental status, rising lactate"
+      ],
+      "signs": {
+        "left": [
+          "Stable chronic conditions with unchanged symptoms",
+          "Normal vital signs with low-risk presentation",
+          "Clinical decision rule scoring low risk (HEART 0-3, Wells <2)",
+          "Patient responding to initial management"
+        ],
+        "right": [
+          "Pulseless/apneic patient requiring CPR",
+          "Anaphylaxis with airway compromise: stridor, angioedema, hypotension",
+          "Acute stroke within thrombolytic window (last known well <4.5 hours for IV tPA)",
+          "Sepsis with lactate >4 and refractory hypotension (septic shock)",
+          "Massive GI hemorrhage with hemodynamic instability"
+        ]
+      },
+      "medications": [
+        {
+          "name": "Epinephrine (1:1000 IM / 1:10,000 IV)",
+          "type": "Sympathomimetic (alpha and beta agonist)",
+          "action": "Alpha-1: vasoconstriction (reverses hypotension and mucosal edema); Beta-1: increases heart rate and contractility; Beta-2: bronchodilation and mast cell stabilization; FIRST-LINE for anaphylaxis",
+          "sideEffects": "Tachycardia, palpitations, hypertension, anxiety, tremor, headache",
+          "contra": "No absolute contraindications in anaphylaxis (life-saving; benefits always outweigh risks)",
+          "pearl": "Anaphylaxis: 0.3-0.5 mg (1:1000) IM in lateral thigh; can repeat every 5-15 minutes; IM preferred over IV (safer, faster absorption from lateral thigh); IV epinephrine only in refractory anaphylaxis or cardiac arrest with continuous monitoring; ACLS cardiac arrest: 1 mg (1:10,000) IV every 3-5 minutes"
+        }
+      ],
+      "pearls": [
+        "ABCs FIRST, ALWAYS: a patient can die from airway obstruction in minutes, hemorrhage in hours, and infection in days -- prioritize accordingly",
+        "'Can't miss' diagnoses for common presentations: Chest pain → ACS, PE, aortic dissection, tension pneumothorax; Headache → SAH, meningitis; Abdominal pain → AAA rupture, ectopic pregnancy, mesenteric ischemia",
+        "Time-critical interventions: STEMI door-to-balloon <90 min; stroke door-to-needle <60 min; sepsis antibiotics within 1 hour; trauma golden hour; anaphylaxis epinephrine IMMEDIATELY",
+        "When a patient's story doesn't add up -- RECONSIDER the diagnosis; cognitive biases kill patients; always ask 'What am I missing?'",
+        "Acute change in mental status is ALWAYS a red flag requiring immediate evaluation -- the differential includes hypoglycemia (check glucose FIRST -- most rapidly reversible), stroke, sepsis, intracranial hemorrhage, drug overdose",
+        "Serial reassessment is critical: a patient triaged as ESI-3 can deteriorate to ESI-1; initial impression can be wrong"
+      ],
+      "quiz": [
+        {
+          "question": "An NP is managing four patients simultaneously. Which requires the MOST immediate attention?",
+          "options": [
+            "Patient with stable angina waiting for stress test results",
+            "Patient with fever of 38.5°C and known UTI on antibiotics",
+            "Patient with acute onset left-sided weakness 45 minutes ago",
+            "Patient requesting pain medication refill for chronic back pain"
+          ],
+          "correct": 2,
+          "rationale": "Acute onset focal neurological deficit (left-sided weakness) within the thrombolytic window (<4.5 hours from last known well) is a time-critical emergency. This patient needs immediate stroke team activation, CT head, and potential IV tPA. Every minute of delay equals ~1.9 million neurons lost."
+        },
+        {
+          "question": "A patient presents with diffuse abdominal pain, blood pressure 80/50, and heart rate 120. The NP's initial assessment should focus on:",
+          "options": [
+            "Detailed past medical and surgical history",
+            "ABCs: ensure airway, breathing, and circulation are stabilized before further assessment",
+            "Comprehensive physical examination including neurological exam",
+            "Patient's pain rating and administration of analgesics"
+          ],
+          "correct": 1,
+          "rationale": "This patient is hemodynamically unstable (hypotension, tachycardia), indicating potential hemorrhagic shock from a surgical emergency (ruptured AAA, ruptured ectopic, GI hemorrhage). The ABC approach mandates stabilizing airway, breathing, and circulation (IV access, fluids, blood products) before detailed history-taking."
+        },
+        {
+          "question": "Which cognitive bias involves accepting a previous clinician's diagnosis without independent re-evaluation?",
+          "options": [
+            "Anchoring bias",
+            "Diagnostic momentum",
+            "Availability bias",
+            "Confirmation bias"
+          ],
+          "correct": 1,
+          "rationale": "Diagnostic momentum occurs when a diagnosis established by a prior clinician is carried forward without critical re-evaluation. Each clinician should independently assess the patient and consider whether the working diagnosis fits the current clinical picture."
+        }
+      ]
     },
-    medications: [{
-      name: "Epinephrine (Adrenaline)",
-      type: "Catecholamine (alpha and beta adrenergic agonist)",
-      action: "Alpha-1: vasoconstriction increasing SVR and blood pressure; Beta-1: increased heart rate and contractility; Beta-2: bronchodilation and mast cell stabilization. The first-line emergency medication for anaphylaxis and cardiac arrest",
-      sideEffects: "Tachycardia, hypertension, tremor, anxiety, palpitations, headache, ventricular dysrhythmias at high doses",
-      contra: "No absolute contraindications in anaphylaxis or cardiac arrest (benefit always outweighs risk in life-threatening situations); relative caution with concurrent MAOIs, halogenated anesthetics",
-      pearl: "Anaphylaxis dose: 0.3-0.5 mg IM in anterolateral thigh (1:1,000 concentration); cardiac arrest dose: 1 mg IV/IO every 3-5 minutes (1:10,000 concentration); NEVER give 1:1,000 IV -- fatal hypertension and dysrhythmias; autoinjectors deliver 0.3 mg (adult) or 0.15 mg (pediatric)"
-    },{
-      name: "Naloxone (Narcan)",
-      type: "Opioid antagonist",
-      action: "Competitive antagonist at mu, kappa, and delta opioid receptors, reversing opioid-induced respiratory depression, sedation, and hypotension within 1-2 minutes of IV administration",
-      sideEffects: "Acute opioid withdrawal syndrome (agitation, nausea, vomiting, tachycardia, diaphoresis, piloerection), hypertension, ventricular dysrhythmias, pulmonary edema (rare)",
-      contra: "Hypersensitivity; use with caution in opioid-dependent patients (titrate to respiratory effort, not full consciousness, to minimize withdrawal severity)",
-      pearl: "Start with 0.04-0.4 mg IV and titrate to respiratory rate >12; duration of naloxone (30-90 min) is shorter than most opioids -- monitor for re-sedation and repeat dosing or start continuous infusion; intranasal route (4 mg/spray) available for pre-hospital and bystander use"
-    },{
-      name: "Dextrose 50% (D50W)",
-      type: "Hypertonic glucose solution",
-      action: "Provides immediate exogenous glucose to reverse symptomatic hypoglycemia by rapidly raising blood glucose levels; 25 g of dextrose in 50 mL raises blood glucose approximately 75-100 mg/dL",
-      sideEffects: "Hyperglycemia (rebound), venous irritation and phlebitis (hyperosmolar solution), tissue necrosis with extravasation, fluid overload in CHF patients",
-      contra: "Intracranial hemorrhage (hyperglycemia worsens neurological outcomes in stroke); known hyperglycemia; use with caution in renal failure",
-      pearl: "Give 25-50 mL (12.5-25 g) IV push for blood glucose <70 mg/dL with symptoms or <54 mg/dL regardless of symptoms; always check blood glucose before administration; if no IV access, give glucagon 1 mg IM; recheck glucose in 15 minutes and repeat if needed; thiamine should be given before D50 in suspected alcoholism/malnutrition to prevent Wernicke encephalopathy"
-    }],
-    pearls: ["ABCs always come first: an airway problem takes priority over everything else -- even if another patient has abnormal labs or pain, the patient who cannot breathe is assessed and treated first","Acute and unstable always comes before chronic and stable -- a new onset of chest pain with diaphoresis takes priority over a chronic wound dressing change, even if the wound care was scheduled first","The ESI triage system is resource-based for levels 3-5: a patient needing multiple resources (labs, imaging, IV meds) is ESI-3 even if vitals are stable; this helps predict ED throughput and staffing needs","Delegation follows scope of practice: UAPs can perform vital signs, I&O, ADL assistance, and ambulation but CANNOT perform assessments, administer IV medications, receive telephone orders, or provide initial patient education","SBAR is not just a communication tool -- it structures clinical thinking: formulating S-B-A-R forces the clinician to organize data, synthesize a clinical impression, and propose a plan before calling the provider","NEWS/MEWS scores should trigger standardized responses: a score of 5-6 triggers increased monitoring and urgent provider notification; ≥7 requires emergent assessment by a provider with critical care competencies","Always reassess after every intervention -- prioritization is dynamic, not static; a patient who was stable 30 minutes ago may now be your highest priority after an acute change"],
-    quiz: [
-      {
-        question: "An NP is managing four patients on a medical-surgical unit. Which patient should be assessed FIRST?",
-        options: ["A patient with a blood glucose of 210 mg/dL requesting insulin","A patient with new onset confusion who was previously alert and oriented","A patient requesting PRN pain medication for chronic back pain rated 6/10","A patient with stable vital signs asking to speak with the provider about discharge"],
-        correct: 1,
-        rationale: "A new onset change in mental status (acute confusion in a previously alert patient) represents an unstable, potentially life-threatening condition that requires immediate assessment. This could indicate stroke, hypoglycemia, hypoxia, sepsis, or other emergencies. The other patients have stable or chronic conditions that, while important, are not immediately life-threatening."
-      },
-      {
-        question: "Which task can the NP appropriately delegate to an unlicensed assistive personnel (UAP)?",
-        options: ["Performing the initial assessment on a newly admitted patient","Administering IV push morphine to a post-operative patient","Obtaining vital signs and intake/output measurements on stable patients","Teaching a newly diagnosed diabetic patient how to administer insulin"],
-        correct: 2,
-        rationale: "UAPs can perform vital signs, intake and output measurements, ambulation, and ADL assistance on stable, predictable patients. Initial assessments, IV medication administration, and patient education on complex topics (insulin administration) require the clinical judgment and scope of practice of a licensed nurse or NP."
-      },
-      {
-        question: "A patient has a NEWS2 aggregate score of 8. What is the appropriate clinical response?",
-        options: ["Continue routine monitoring every 4 hours","Increase monitoring to every 2 hours and notify the provider at next rounds","Activate emergent clinical assessment by a provider with critical care competency; consider transfer to higher level of care","Document the score and reassess in 1 hour"],
-        correct: 2,
-        rationale: "A NEWS2 score of ≥7 indicates a high clinical risk requiring emergent assessment by a provider with critical care competencies, continuous monitoring, and consideration for transfer to a higher level of care (ICU). This score suggests significant physiological derangement and risk of clinical deterioration. Routine monitoring intervals are inadequate at this acuity level."
-      },
-    ]
-  },
   "clinical-reasoning-np": {
-    title: "Clinical Reasoning",
-    cellular: { title: "Cognitive Foundations of Clinical Reasoning", content: "Clinical reasoning is the cognitive process by which clinicians collect, interpret, and synthesize clinical data to make diagnostic and therapeutic decisions. Dual process theory describes two systems: System 1 (intuitive/fast) relies on pattern recognition, heuristics, and illness scripts developed through experience -- an experienced clinician instantly recognizes the presentation of acute MI or diabetic ketoacidosis without deliberate analysis. System 2 (analytical/slow) employs deliberate hypothetico-deductive reasoning -- generating hypotheses, gathering targeted data to confirm or refute them, and systematically narrowing the differential diagnosis. Expert clinicians fluidly transition between both systems, using System 1 for initial pattern recognition and engaging System 2 when the pattern is unfamiliar, ambiguous, or when System 1 yields a low-confidence match. Illness scripts are mental models organized as: predisposing factors (epidemiology, risk factors) → pathophysiology (fault) → clinical consequences (signs, symptoms, lab findings, imaging). Cognitive biases are systematic errors in clinical reasoning that lead to diagnostic error: anchoring (fixating on an early diagnosis despite disconfirming evidence), premature closure (stopping the diagnostic process after the first plausible diagnosis without considering alternatives), availability heuristic (overestimating probability of a diagnosis recently encountered or emotionally salient), confirmation bias (selectively seeking information that supports the working diagnosis while ignoring contradictory data), framing effect (diagnostic impression influenced by how the case is presented by the referring provider or triage nurse), and representativeness (assuming a patient must have the classic textbook presentation). Meta-cognition (thinking about thinking) and structured diagnostic time-outs are strategies to mitigate cognitive bias." },
-    riskFactors: ["Cognitive overload from high patient volume, interruptions, and multitasking (reduces System 2 analytical capacity)","Fatigue and sleep deprivation (degrades executive function, increases reliance on error-prone heuristics)","Inadequate clinical experience (fewer illness scripts for pattern recognition, limited exposure to rare presentations)","Handoff communication failures (framing bias when receiving incomplete or biased patient information)","Overconfidence bias (experienced clinicians may fail to consider alternative diagnoses when initial impression feels certain)","System-level factors: time pressure, inadequate access to diagnostic resources, EHR alert fatigue reducing attention to critical data"],
-    diagnostics: ["Bayesian reasoning: pre-test probability (estimated from history and physical) × likelihood ratio of a test = post-test probability; a positive test with a high likelihood ratio (+LR >10) significantly increases disease probability; a negative test with a low likelihood ratio (-LR <0.1) effectively rules out disease","Sensitivity and specificity: sensitive tests (SnNOut -- Sensitive test, Negative result rules Out) are best for screening; specific tests (SpPIn -- Specific test, Positive result rules In) are best for confirmation; example: D-dimer is highly sensitive for PE (good rule-out test) but poorly specific","Positive Predictive Value (PPV) and Negative Predictive Value (NPV): PPV = probability that a positive test result is a true positive; NPV = probability that a negative test result is a true negative; both are heavily influenced by disease prevalence in the tested population","Clinical prediction rules: validated scoring tools that standardize clinical decision-making (Wells criteria for DVT/PE, HEART score for chest pain, Ottawa ankle rules, CHA2DS2-VASc for stroke risk in atrial fibrillation, CURB-65 for pneumonia severity)","Diagnostic time-out: structured pause in clinical reasoning to ask 'What else could this be?' 'What is the worst-case diagnosis I cannot miss?' 'Does all the data fit my working diagnosis?' -- used to mitigate premature closure and anchoring"],
-    management: ["Evidence-based practice using the PICO framework: Population (specific patient group), Intervention (treatment or diagnostic test), Comparison (alternative or placebo), Outcome (measurable clinical endpoint) -- structures clinical questions for literature searching","Apply clinical practice guidelines (CPGs) from authoritative sources (AHA/ACC, USPSTF, IDSA, ADA) as frameworks for standardized care while individualizing based on patient preferences, comorbidities, and values","Shared decision-making: present evidence using absolute numbers (not just relative risk reduction) -- 'This medication prevents 3 additional heart attacks per 100 patients treated over 5 years' rather than 'This medication reduces heart attack risk by 30%'","Calculate Number Needed to Treat (NNT) and Number Needed to Harm (NNH) for medication decisions: NNT = 1/Absolute Risk Reduction; if NNT is 50 and NNH is 10, the medication harms more patients than it helps","Implement structured diagnostic review at care transitions: revisit working diagnosis whenever new data arrives, when treatment fails to produce expected response, or when the clinical trajectory deviates from predicted course"],
-    nursingActions: ["Apply systematic clinical reasoning to every patient encounter: generate a differential diagnosis (minimum 3-5 possibilities), identify 'cannot miss' diagnoses (life-threatening conditions that must be excluded even if unlikely), and gather targeted data to narrow the differential","Perform diagnostic time-outs before finalizing clinical decisions -- explicitly consider alternative diagnoses, ask 'What doesn't fit?' and 'What am I missing?', especially when fatigued or during high-volume shifts","Use clinical prediction rules and validated scoring tools to standardize decision-making and reduce reliance on subjective judgment (Wells score, HEART score, CURB-65)","Communicate clinical reasoning in notes and handoffs: document not just what you did but WHY -- the differential diagnosis, which diagnoses were considered and excluded, and the rationale for the chosen plan","Practice reflective reasoning: after unexpected outcomes or near-misses, review the reasoning process to identify where cognitive biases may have influenced the decision","Engage in shared decision-making by translating evidence into patient-friendly language using absolute risk/benefit numbers, visual aids, and decision aids when available"],
-    assessmentFindings: ["Pattern recognition triggers: classic symptom clusters that activate illness scripts (crushing substernal chest pain + diaphoresis + nausea → acute coronary syndrome; worst headache of life + acute onset → subarachnoid hemorrhage)","Cognitive bias red flags: 'this is just another...' thinking (premature closure), difficulty reconciling conflicting data with working diagnosis (confirmation bias), anchoring to ED triage or referral diagnosis without independent assessment","Clinical prediction rule scores indicating high or low probability (Wells >4 for DVT, HEART score ≥7 for major cardiac event)","Data-diagnosis mismatch: clinical trajectory not following expected course for working diagnosis (e.g., pneumonia not improving with appropriate antibiotics → consider empyema, lung abscess, or wrong diagnosis)","Gut feeling/clinical gestalt discordance: experienced clinician intuition that 'something is wrong' even when objective data appears reassuring -- this System 1 signal should trigger formal System 2 analysis"],
-    signs: {
-      left: ["Clinical presentation matches a common illness script with high confidence","All data points are congruent with the working diagnosis","Clinical prediction rule score indicates low-risk category","Patient responding as expected to empiric treatment","Stable clinical trajectory with no unexpected findings"],
-      right: ["Cognitive bias identified in clinical reasoning (anchoring to incorrect diagnosis despite disconfirming evidence)","Life-threatening 'cannot miss' diagnosis not yet excluded (PE, aortic dissection, ectopic pregnancy, meningitis)","Treatment failure suggesting incorrect diagnosis or complication","Clinical prediction rule score indicating high-risk category requiring emergent workup","Multiple unexplained findings that do not fit any single diagnosis (consider systemic disease, atypical presentation, or multiple concurrent diagnoses)"]
+      "title": "Clinical Reasoning",
+      "cellular": {
+        "title": "Diagnostic Reasoning & Bayesian Thinking",
+        "content": "Clinical reasoning integrates pattern recognition (System 1, fast/intuitive) with analytical reasoning (System 2, slow/deliberate). Bayesian reasoning adjusts disease probability based on sequential evidence: pre-test probability (based on prevalence, risk factors, presentation) is modified by test characteristics (sensitivity, specificity, likelihood ratios) to yield post-test probability. A test's utility depends on pre-test probability: high-sensitivity tests are best for ruling OUT disease (SnNout: Sensitive test, Negative result, rules Out); high-specificity tests are best for ruling IN disease (SpPin: Specific test, Positive result, rules In). The NP applies illness scripts (structured mental models of diseases with predisposing factors, pathophysiology, and clinical features), generates differential diagnoses, and systematically narrows them using history, exam, and testing."
+      },
+      "riskFactors": [
+        "Cognitive biases: anchoring (fixating on first impression), premature closure (stopping too early), availability (overweighing recent cases), confirmation (seeking only supportive evidence)",
+        "System 1 overreliance in complex cases (pattern recognition fails with atypical presentations)",
+        "Knowledge gaps in rare but dangerous conditions",
+        "Fatigue, cognitive overload, time pressure",
+        "Handoff communication failures",
+        "Atypical presentations: elderly, immunocompromised, pregnant, pediatric patients present differently"
+      ],
+      "diagnostics": [
+        "Sensitivity: true positive rate; the ability of a test to correctly identify disease; high sensitivity → low false negative rate → good for screening/ruling out (SnNout)",
+        "Specificity: true positive rate for non-disease; ability to correctly identify absence of disease; high specificity → low false positive rate → good for confirming/ruling in (SpPin)",
+        "Likelihood ratios: LR+ = sensitivity/(1-specificity); LR- = (1-sensitivity)/specificity; LR+ >10 or LR- <0.1 are strong; modify pre-test probability",
+        "Positive predictive value: probability of disease given positive test; affected by prevalence",
+        "Negative predictive value: probability of no disease given negative test; high-sensitivity tests in low-prevalence settings have high NPV",
+        "Clinical prediction rules: validated scoring systems that standardize probability assessment (HEART, Wells, PERC, Ottawa rules, Centor/McIsaac, CURB-65)"
+      ],
+      "management": [
+        "Generate broad differential diagnosis using system-based approach before narrowing",
+        "Apply hypothesis-driven workup: choose tests that will maximally discriminate between competing diagnoses",
+        "Use clinical prediction rules to standardize risk assessment and reduce cognitive error",
+        "High-sensitivity tests first for screening/ruling out dangerous diagnoses; high-specificity tests to confirm",
+        "Develop problem representation: one-sentence summary capturing key features (age, sex, acuity, key symptoms/signs)",
+        "Implement diagnostic time-outs: periodically reassess the working diagnosis, especially when the patient isn't improving as expected",
+        "Practice 'what else could this be?' thinking to combat premature closure"
+      ],
+      "nursingActions": [
+        "Formulate a one-line problem representation summarizing the clinical picture before generating differential",
+        "Develop a systematic approach to differential diagnosis: always consider life-threatening diagnoses first",
+        "Apply appropriate clinical decision rules to guide workup (HEART score for chest pain, Wells for PE, CURB-65 for pneumonia)",
+        "Select diagnostic tests based on Bayesian reasoning: consider pre-test probability before ordering tests",
+        "Implement structured diagnostic time-outs: reassess the working diagnosis at defined intervals or when expected improvement does not occur",
+        "Use cognitive forcing strategies to reduce bias: consider opposite diagnosis, involve colleagues for second opinion",
+        "Document clinical reasoning in the medical record: differential diagnosis, rationale for testing, and decision-making process"
+      ],
+      "assessmentFindings": [
+        "This is a cognitive skill assessment, not a physical condition",
+        "Application of clinical reasoning is assessed through: accuracy of differential diagnosis, appropriateness of test selection, interpretation of results in clinical context",
+        "Effective clinical reasoning produces: timely diagnosis, appropriate treatment, avoidance of diagnostic errors",
+        "Diagnostic error indicators: unexpected patient deterioration, delayed diagnosis of time-sensitive conditions, excessive or unnecessary testing"
+      ],
+      "signs": {
+        "left": [
+          "Working diagnosis confirmed by appropriate testing",
+          "Patient improving as expected with treatment",
+          "Clinical reasoning documented with clear rationale",
+          "Clinical decision rule appropriately applied"
+        ],
+        "right": [
+          "Unexpected patient deterioration suggesting wrong or missed diagnosis",
+          "Failure to consider life-threatening 'can't miss' diagnoses (premature closure)",
+          "Test results contradicting working diagnosis -- requires diagnostic reassessment",
+          "Time-sensitive diagnosis missed due to cognitive bias or inadequate evaluation"
+        ]
+      },
+      "medications": [
+        {
+          "name": "No specific medications for clinical reasoning",
+          "type": "Cognitive and decision-making skill",
+          "action": "Clinical reasoning guides all medication selection and management decisions; the reasoning process itself is the 'intervention'",
+          "sideEffects": "N/A",
+          "contra": "N/A",
+          "pearl": "The most important clinical reasoning pearl: when a patient is not improving as expected, reassess the diagnosis rather than escalating treatment for the wrong diagnosis"
+        }
+      ],
+      "pearls": [
+        "SnNout: Sensitive test + Negative result = rules OUT disease (use high-sensitivity tests for screening/exclusion)",
+        "SpPin: Specific test + Positive result = rules IN disease (use high-specificity tests for confirmation)",
+        "Always ask 'What am I missing?' -- premature closure (stopping the diagnostic process too early) is the most common cognitive error leading to diagnostic failure",
+        "Problem representation: distill the case into one sentence capturing demographics, acuity, and key features; this activates the correct illness scripts from memory",
+        "Pre-test probability determines test utility: ordering a D-dimer (high sensitivity) in a high-probability PE patient is useless (won't change management regardless of result); ordering it in a low-probability patient is helpful (negative result rules out PE)",
+        "When the patient isn't getting better on your treatment, it's more likely the diagnosis is wrong than that the treatment is failing -- reassess rather than escalate"
+      ],
+      "quiz": [
+        {
+          "question": "A test has 95% sensitivity and 50% specificity. In what clinical scenario is this test MOST useful?",
+          "options": [
+            "Confirming a diagnosis in a patient with high pre-test probability",
+            "Screening/ruling out disease in a patient with low-to-moderate pre-test probability",
+            "Monitoring treatment response",
+            "Determining disease prognosis"
+          ],
+          "correct": 1,
+          "rationale": "A highly sensitive test (95%) with low specificity (50%) is best for RULING OUT disease (SnNout). A negative result in this test makes disease very unlikely (few false negatives). However, a positive result is not confirmatory due to the high false-positive rate (low specificity). This makes it ideal for screening."
+        },
+        {
+          "question": "An NP diagnosed a patient with community-acquired pneumonia and started antibiotics. After 72 hours, the patient is worsening despite appropriate therapy. What should the NP do?",
+          "options": [
+            "Escalate to broader-spectrum antibiotics immediately",
+            "Continue current therapy -- pneumonia takes time to resolve",
+            "Reassess the diagnosis: consider alternative diagnoses (PE, empyema, lung cancer, heart failure)",
+            "Discharge and schedule outpatient follow-up"
+          ],
+          "correct": 2,
+          "rationale": "When a patient is not improving as expected, the most common error is to escalate treatment without reassessing the diagnosis. The NP should consider alternative diagnoses: could this be a PE, empyema, lung cancer with post-obstructive pneumonia, or heart failure masquerading as pneumonia?"
+        },
+        {
+          "question": "What does it mean when a clinical prediction rule (e.g., Wells score for PE) yields a low pre-test probability?",
+          "options": [
+            "PE has been definitively excluded -- no further testing needed",
+            "A high-sensitivity test (D-dimer) can be used to safely rule out PE",
+            "Imaging is required regardless of the score",
+            "The patient should be started on anticoagulation empirically"
+          ],
+          "correct": 1,
+          "rationale": "A low pre-test probability (e.g., Wells score ≤4 with low clinical suspicion) means a high-sensitivity test like D-dimer can effectively rule out PE. A negative D-dimer in this setting has a very high NPV (>99%), safely excluding PE without imaging. In high pre-test probability, D-dimer is not helpful (proceed directly to imaging)."
+        }
+      ]
     },
-    medications: [{
-      name: "Aspirin (Acetylsalicylic Acid)",
-      type: "Antiplatelet/NSAID (clinical reasoning example for risk-benefit analysis)",
-      action: "Irreversibly inhibits cyclooxygenase-1 (COX-1) in platelets, blocking thromboxane A2 synthesis and preventing platelet aggregation for the lifespan of the platelet (7-10 days); example of applying NNT/NNH framework to prescribing decisions",
-      sideEffects: "GI bleeding (most significant -- NNH approximately 100-300 for major GI bleed over 5 years of low-dose aspirin), dyspepsia, tinnitus at high doses, Reye syndrome in children with viral illness, increased bleeding risk",
-      contra: "Active GI bleeding, aspirin allergy/sensitivity (aspirin-exacerbated respiratory disease), children <18 with viral illness (Reye syndrome), severe bleeding disorders, concurrent anticoagulation (relative)",
-      pearl: "Primary prevention example: USPSTF recommends initiating low-dose aspirin for CVD prevention in adults 40-59 with ≥10% 10-year ASCVD risk ONLY after shared decision-making balancing NNT (~250 to prevent one MI over 10 years) vs NNH (~100-300 for major GI bleed); discontinued recommendation for adults ≥60 (NNH exceeds NNT); illustrates how clinical reasoning integrates evidence, patient values, and risk stratification"
-    },{
-      name: "Amoxicillin-Clavulanate (Augmentin)",
-      type: "Beta-lactam/Beta-lactamase inhibitor combination antibiotic (clinical reasoning example for empiric therapy)",
-      action: "Amoxicillin inhibits bacterial cell wall synthesis; clavulanate irreversibly inhibits beta-lactamase enzymes produced by resistant bacteria, restoring amoxicillin efficacy against beta-lactamase-producing H. influenzae, M. catarrhalis, and some S. aureus",
-      sideEffects: "Diarrhea (most common, due to clavulanate), nausea/vomiting, Clostridioides difficile infection, allergic reactions (rash to anaphylaxis), hepatotoxicity (rare, more common with prolonged courses)",
-      contra: "Penicillin allergy (obtain detailed history -- IgE-mediated reactions vs non-IgE; 90% of patients with reported penicillin allergy are not truly allergic on testing), history of cholestatic jaundice with amoxicillin-clavulanate",
-      pearl: "Clinical reasoning example: empiric antibiotic selection requires matching spectrum to most likely pathogen(s) based on clinical syndrome, local resistance patterns, prior cultures, and patient risk factors; choosing this over amoxicillin alone for sinusitis exemplifies hypothesis-based treatment when beta-lactamase producers are suspected"
-    },{
-      name: "Enoxaparin (Lovenox)",
-      type: "Low molecular weight heparin (LMWH) (clinical reasoning example for clinical prediction rule application)",
-      action: "Binds antithrombin III, primarily inhibiting Factor Xa (and to lesser extent Factor IIa/thrombin), preventing thrombin generation and fibrin clot formation; more predictable pharmacokinetics than unfractionated heparin allowing weight-based dosing without routine monitoring",
-      sideEffects: "Bleeding (major bleeding 1-2%), injection site bruising/hematoma, thrombocytopenia (HIT less common than with UFH), hyperkalemia (inhibits aldosterone secretion), osteoporosis with long-term use",
-      contra: "Active major bleeding, HIT (current or history), severe thrombocytopenia, renal insufficiency (CrCl <30 requires dose adjustment or switch to UFH); epidural/spinal catheter (risk of spinal hematoma -- coordinate timing)",
-      pearl: "Clinical reasoning application: a patient with suspected DVT and a Wells score of 6 (high pre-test probability ~50%) should receive empiric enoxaparin while awaiting confirmatory ultrasound; a patient with Wells score of 0 (low pre-test probability ~5%) should have D-dimer first -- if negative, DVT is effectively excluded without imaging (negative LR of D-dimer in low-risk patients makes post-test probability <1%)"
-    }],
-    pearls: ["Dual process theory: System 1 (fast, intuitive, pattern recognition) is efficient for familiar presentations but prone to cognitive bias; System 2 (slow, analytical, deliberate) is more accurate for complex or unfamiliar cases but requires time and cognitive resources -- expert clinicians know when to override System 1 with System 2","The most common cognitive biases causing diagnostic error are premature closure (accepting a diagnosis before it is fully verified) and anchoring (locking onto initial impression) -- a structured diagnostic time-out asking 'What else could this be?' is the most effective countermeasure","Sensitivity rules OUT (SnNOut): a highly sensitive test that is NEGATIVE effectively excludes the disease; Specificity rules IN (SpPIn): a highly specific test that is POSITIVE effectively confirms the disease -- this guides test selection strategy","Pre-test probability dramatically affects test interpretation: a positive troponin in a 25-year-old marathon runner with atypical chest pain (low pre-test probability) is more likely a false positive than in a 65-year-old diabetic smoker with exertional chest pressure (high pre-test probability)","NNT (Number Needed to Treat) is more clinically meaningful than relative risk reduction for shared decision-making: 'We would need to treat 44 patients like you for 5 years to prevent one stroke' is more informative than 'This medication reduces stroke risk by 68%'","Always identify the 'cannot miss' diagnosis for each chief complaint -- the diagnosis that is potentially fatal if missed, even if statistically unlikely: chest pain → aortic dissection/PE/MI; headache → SAH/meningitis; abdominal pain → ectopic/AAA/mesenteric ischemia","Treatment failure is a diagnostic clue: if a patient does not respond to appropriate therapy as expected, revisit the diagnosis rather than escalating treatment for the current working diagnosis"],
-    quiz: [
-      {
-        question: "An NP evaluates a 55-year-old patient with acute onset chest pain. The initial ECG shows no ST changes, and the first troponin is negative. The NP concludes it is musculoskeletal pain and plans discharge. Which cognitive bias is most likely influencing this decision?",
-        options: ["Availability heuristic","Premature closure","Framing effect","Representativeness bias"],
-        correct: 1,
-        rationale: "Premature closure occurs when the clinician stops the diagnostic process after finding an initial plausible explanation without fully exploring alternatives. A single negative troponin and ECG do not rule out acute coronary syndrome -- serial troponins (3-6 hours apart), clinical risk scoring (HEART score), and further evaluation are needed. The clinician should ask 'What am I missing?' before concluding a benign diagnosis in a patient with cardiac risk factors."
-      },
-      {
-        question: "A patient presents with leg swelling. The NP calculates a Wells score of 1 (low probability for DVT). D-dimer returns negative. What is the most appropriate next step based on Bayesian reasoning?",
-        options: ["Order compression ultrasound to confirm the absence of DVT","DVT is effectively excluded -- no further imaging needed; evaluate alternative diagnoses","Start empiric anticoagulation pending further testing","Repeat D-dimer in 24 hours for confirmation"],
-        correct: 1,
-        rationale: "Using Bayesian reasoning: low pre-test probability (Wells ≤1, approximately 5% probability) combined with a negative D-dimer (highly sensitive test with negative likelihood ratio ~0.1) yields a post-test probability of <1%. This is low enough to safely exclude DVT without imaging. This demonstrates the SnNOut principle: a sensitive test with a negative result in a low-risk population effectively rules out the diagnosis."
-      },
-      {
-        question: "An NP is deciding whether to prescribe a statin for primary cardiovascular prevention. The medication has a relative risk reduction of 25% for major cardiovascular events, with an NNT of 40 over 10 years and an NNH of 200 for new-onset diabetes. How should this information be communicated for shared decision-making?",
-        options: ["Tell the patient the medication reduces heart attack risk by 25% and recommend starting it","Present the NNT and NNH in absolute terms: 'For every 40 patients like you treated for 10 years, one additional cardiovascular event is prevented; for every 200 patients, one develops diabetes from the medication'","Explain only the side effects so the patient can decide","Recommend against the medication because it causes diabetes"],
-        correct: 1,
-        rationale: "Shared decision-making requires presenting evidence in absolute terms that patients can understand. Relative risk reduction (25%) sounds impressive but does not convey how many patients actually benefit. NNT of 40 means treating 40 patients for 10 years prevents one event; NNH of 200 means one in 200 develops diabetes. Since NNT (40) is much lower than NNH (200), the benefit outweighs the harm, but the patient should understand both the magnitude of benefit and risk to make an informed decision aligned with their values."
-      },
-    ]
-  },
   "cll-rn": {
         title: "Chronic Lymphocytic Leukemia",
         cellular: { title: "Pathogenesis of CLL", content: "Chronic lymphocytic leukemia (CLL) is the most common adult leukemia in Western countries, characterized by the clonal proliferation and progressive accumulation of functionally incompetent, mature-appearing CD5-positive B lymphocytes in the peripheral blood, bone marrow, lymph nodes, and spleen. CLL accounts for approximately 25-30% of all adult leukemias with an incidence of approximately 4-5 per 100,000 annually. The median age at diagnosis is 70 years, with a male-to-female ratio of approximately 2:1. The pathogenesis of CLL involves the clonal expansion of B lymphocytes that have arrested at an intermediate stage of B-cell differentiation. These CLL cells characteristically co-express the B-cell markers CD19, CD20 (dim), and CD23 with the T-cell marker CD5 -- this aberrant CD5 expression on B cells is the immunophenotypic hallmark of CLL and distinguishes it from other B-cell lymphoproliferative disorders. The CLL cells also express dim surface immunoglobulin (sIg), typically IgM and/or IgD, reflecting their origin from antigen-experienced B cells. The fundamental defect in CLL is not excessive proliferation (the CLL cells actually divide slowly) but rather defective apoptosis -- the CLL cells accumulate because they fail to undergo programmed cell death. Overexpression of the anti-apoptotic protein BCL-2 is nearly universal in CLL and is a major contributor to this apoptotic resistance. The BCL-2 protein resides on the outer mitochondrial membrane where it prevents the release of cytochrome c and other pro-apoptotic factors, blocking the intrinsic apoptotic pathway. This understanding led directly to the development of venetoclax, a BCL-2 inhibitor that has transformed CLL treatment. The B-cell receptor (BCR) signaling pathway plays a central role in CLL cell survival and proliferation. In normal B cells, antigen binding to the BCR activates a signaling cascade through Bruton's tyrosine kinase (BTK), phosphoinositide 3-kinase (PI3K), and downstream effectors that promote cell survival, proliferation, and migration. In CLL, the BCR signaling pathway is constitutively activated (in some cases by autonomous signaling independent of antigen binding), providing continuous survival signals to the malignant cells. This constitutive BCR signaling activates NF-kappaB, MAPK/ERK, and PI3K/AKT pathways, promoting cell survival, chemokine-directed migration to lymphoid niches, and resistance to apoptosis. BTK is a critical node in this signaling cascade, and its inhibition by ibrutinib and other BTK inhibitors has revolutionized CLL therapy. CLL cells also critically depend on interactions with the tumor microenvironment in lymphoid tissues (bone marrow and lymph nodes). Stromal cells, T cells, and nurse-like cells in these compartments provide survival signals through direct contact (CD40 ligand, BAFF, APRIL) and paracrine cytokine signaling (IL-4, IL-6, IL-15), creating protective niches where CLL cells are shielded from apoptosis. BTK inhibitors disrupt this microenvironmental support by inhibiting chemokine-mediated migration and adhesion of CLL cells to stromal cells, causing a characteristic early lymphocytosis (initial rise in peripheral lymphocyte count as CLL cells are mobilized from lymphoid tissues into the blood) that resolves over weeks to months as the displaced cells undergo apoptosis. CLL has a highly variable clinical course. Approximately one-third of patients never require treatment and have near-normal life expectancy (watch and wait approach); one-third have an initially indolent course that eventually progresses to require treatment; and one-third have aggressive disease requiring early treatment. Prognostic stratification relies on genetic and molecular features: del(13q) as the sole abnormality carries the best prognosis (median survival >15 years); trisomy 12 and normal karyotype have intermediate prognosis; del(11q) (ATM gene) confers adverse prognosis with extensive lymphadenopathy; and del(17p) (TP53 gene) carries the worst prognosis with resistance to conventional chemotherapy and median survival of 2-3 years with chemoimmunotherapy. IGHV mutation status is another critical prognostic marker: mutated IGHV (>2% deviation from germline) indicates the CLL arose from a post-germinal center B cell and carries favorable prognosis; unmutated IGHV indicates pre-germinal center origin with more aggressive behavior. The clinical presentation includes progressive lymphocytosis (peripheral blood lymphocyte count >5,000/mcL with characteristic mature-appearing small lymphocytes), lymphadenopathy (painless, symmetric, most commonly cervical, axillary, and inguinal), splenomegaly, hepatomegaly, and constitutional symptoms (fatigue, night sweats, weight loss, fever). Smudge cells (basket cells) on the peripheral blood smear are a characteristic artifact: fragile CLL lymphocytes are easily disrupted during slide preparation, creating smeared nuclear remnants. CLL causes immunodeficiency through multiple mechanisms: hypogammaglobulinemia (progressive decline in serum immunoglobulin levels as normal B-cell function is suppressed), impaired T-cell function, and complement deficiency. This immune dysfunction makes infections the leading cause of morbidity and mortality in CLL. Autoimmune complications occur in 5-10% of CLL patients, most commonly autoimmune hemolytic anemia (AIHA, warm type -- direct Coombs test positive) and immune thrombocytopenic purpura (ITP). Richter transformation -- the development of aggressive diffuse large B-cell lymphoma (DLBCL) from the CLL clone -- occurs in approximately 2-10% of patients and presents with rapidly enlarging lymphadenopathy, markedly elevated LDH, constitutional symptoms, and dramatically worsening prognosis (median survival 5-8 months). Treatment is indicated for active disease as defined by iwCLL criteria: progressive marrow failure, massive or progressive lymphadenopathy or splenomegaly, progressive lymphocytosis (>50% increase over 2 months or lymphocyte doubling time <6 months), autoimmune cytopenias unresponsive to corticosteroids, or significant constitutional symptoms. Current first-line therapy has shifted from chemoimmunotherapy (fludarabine/cyclophosphamide/rituximab -- FCR) to targeted therapies: BTK inhibitors (ibrutinib, acalabrutinib, zanubrutinib) and BCL-2 inhibitors (venetoclax) combined with anti-CD20 antibodies (obinutuzumab, rituximab), which provide superior outcomes with more tolerable side effect profiles. The nursing role encompasses monitoring for disease progression, managing treatment side effects (atrial fibrillation and bleeding with BTK inhibitors, tumor lysis syndrome with venetoclax), infection prevention and surveillance, and patient education about the chronic nature of the disease." },
@@ -568,115 +1207,247 @@ export const generatedBatch020Lessons: Record<string, LessonContent> = {
         quiz: [{ question: "A patient newly started on ibrutinib for CLL has a follow-up CBC showing the lymphocyte count increased from 45,000 to 78,000/mcL after 6 weeks of treatment. The patient feels well with shrinking lymph nodes. What should the nurse understand about this finding?", options: ["This indicates treatment failure and ibrutinib should be discontinued","This is an expected pharmacological effect -- BTK inhibitors mobilize CLL cells from lymph nodes into the blood, causing transient lymphocytosis that resolves over months","The dose of ibrutinib needs to be increased to control the rising count","This represents Richter transformation requiring urgent biopsy"], correct: 1, rationale: "Early treatment lymphocytosis is a well-characterized and EXPECTED effect of BTK inhibitors. Ibrutinib disrupts CLL cell retention in lymphoid tissues by inhibiting chemokine-mediated migration and adhesion, causing CLL cells to mobilize from lymph nodes and bone marrow into the peripheral blood. This explains the rising blood lymphocyte count occurring simultaneously with shrinking lymph nodes. The displaced cells gradually undergo apoptosis over 3-6 months, and the lymphocyte count normalizes. This is NOT treatment failure and does not require dose changes or discontinuation." },{ question: "The nurse is initiating venetoclax for a CLL patient with a lymphocyte count of 80,000/mcL and a 7 cm lymph node. Which safety measure is MOST critical during the dose ramp-up?", options: ["Daily chest X-rays to monitor for pneumonia","Tumor lysis syndrome monitoring with labs at 6-8 hours and 24 hours after each dose escalation, along with adequate hydration and allopurinol prophylaxis","Weekly cardiac monitoring with serial echocardiograms","Daily bone marrow biopsies to assess treatment response"], correct: 1, rationale: "Tumor lysis syndrome (TLS) is the most critical safety concern during venetoclax initiation. The rapid and extensive apoptosis of CLL cells releases intracellular contents (potassium, phosphorus, uric acid, nucleic acids), which can cause hyperkalemia, hyperphosphatemia, hyperuricemia, hypocalcemia, acute kidney injury, and death. The mandatory TLS prophylaxis protocol includes: adequate hydration (1.5-2 L/day), allopurinol, and STAT labs at 6-8 hours and 24 hours after EACH dose increase during the 5-week ramp-up. With an ALC of 80,000 and a 7 cm node, this patient is at high TLS risk and may require hospitalization for the first dose." },{ question: "A CLL patient presents with rapidly enlarging cervical lymph nodes, LDH of 1,200 U/L (normal <250), drenching night sweats, and 15-pound weight loss over 3 weeks. The nurse should be most concerned about:", options: ["Normal disease progression of CLL requiring standard treatment initiation","Richter transformation -- CLL transforming to aggressive diffuse large B-cell lymphoma requiring urgent evaluation","A concurrent upper respiratory infection causing reactive lymphadenopathy","Autoimmune hemolytic anemia complicating the CLL"], correct: 1, rationale: "Richter transformation (development of aggressive DLBCL from the CLL clone) occurs in 2-10% of CLL patients and presents with this classic constellation: rapidly enlarging lymph nodes, markedly elevated LDH, prominent B symptoms (fever, night sweats, weight loss), and sudden clinical deterioration. The dramatic elevation of LDH reflects the high proliferative rate and tissue destruction of the aggressive lymphoma. This requires urgent evaluation with PET/CT (shows intensely FDG-avid nodes) and biopsy of the most metabolically active node for definitive diagnosis. Median survival after Richter transformation is only 5-8 months, making rapid diagnosis and treatment critical." }]
   },
   "cml-management-np": {
-    title: "CML Management",
-    cellular: { title: "BCR-ABL1 Fusion & CML Pathogenesis", content: "Chronic myeloid leukemia (CML) is a myeloproliferative neoplasm caused by the Philadelphia chromosome, a reciprocal translocation between chromosomes 9 and 22 [t(9;22)(q34;q11.2)]. This translocation fuses the BCR gene on chromosome 22 with the ABL1 gene on chromosome 9, creating the BCR-ABL1 fusion gene. The BCR-ABL1 fusion protein is a constitutively active tyrosine kinase that phosphorylates downstream signaling proteins (RAS/MAPK, JAK/STAT, PI3K/AKT pathways) without requiring normal growth factor regulation, driving uncontrolled proliferation of myeloid cells and resistance to apoptosis. CML accounts for approximately 15% of adult leukemias with an incidence of 1-2 per 100,000 annually and a median age at diagnosis of 64 years. CML progresses through three phases: Chronic Phase (CP, 85% of diagnoses) -- characterized by expansion of mature and maturing granulocytes with <10% blasts in blood or bone marrow; most patients are asymptomatic or mildly symptomatic and can remain in CP for years with TKI therapy. Accelerated Phase (AP) -- defined by 10-19% blasts in blood or marrow, ≥20% basophils, persistent thrombocytopenia (<100,000), cytogenetic evolution (clonal chromosomal abnormalities in addition to Ph chromosome), indicating loss of TKI response and disease progression. Blast Crisis (BC) -- ≥20% blasts in blood or marrow or extramedullary blast proliferation, effectively an acute leukemia (myeloid or lymphoid phenotype) with very poor prognosis; median survival 3-6 months without allogeneic stem cell transplant. The discovery that BCR-ABL1 is the sole driver of CML led to the development of imatinib (Gleevec), the first targeted tyrosine kinase inhibitor, which transformed CML from a fatal disease (median survival 3-5 years) to a chronic manageable condition (10-year survival >80%)." },
-    riskFactors: ["Ionizing radiation exposure (atomic bomb survivors had 2-3 fold increased CML incidence; occupational radiation exposure)","Age >60 years (median age at diagnosis 64; incidence increases with age)","Male sex (slight male predominance, approximately 1.3:1 male-to-female ratio)","No clearly established hereditary, dietary, or chemical risk factors (CML is primarily a sporadic acquired genetic event)","Benzene exposure (weak epidemiological association)","No association with prior chemotherapy (unlike therapy-related AML/MDS)"],
-    diagnostics: ["CBC with differential: leukocytosis (WBC often 50,000-200,000+) with 'left shift' showing the entire spectrum of myeloid maturation (metamyelocytes, myelocytes, promyelocytes, rare blasts); absolute basophilia (>2%, characteristic of CML); thrombocytosis common; mild anemia","Peripheral blood smear: granulocytes at all stages of maturation (differential hallmark of CML vs leukemoid reaction); basophilia; occasional nucleated RBCs; low leukocyte alkaline phosphatase (LAP) score (distinguishes CML from leukemoid reaction)","Bone marrow biopsy: hypercellular marrow with granulocytic hyperplasia, increased myeloid:erythroid ratio (10:1 to 50:1), increased megakaryocytes; blast percentage determines phase","BCR-ABL1 fluorescence in situ hybridization (FISH): detects Philadelphia chromosome in interphase cells; rapid confirmation of diagnosis","Conventional cytogenetics (karyotype): identifies t(9;22) and any additional chromosomal abnormalities (clonal evolution suggesting progression)","Quantitative BCR-ABL1 PCR (RT-qPCR) on peripheral blood: the primary molecular monitoring tool; results reported on International Scale (IS) as BCR-ABL1/ABL1 ratio; used to assess treatment response milestones and detect molecular relapse; performed every 3 months","Sokal/Hasford/EUTOS risk scores at diagnosis: use age, spleen size, platelet count, blast %, basophil %, and eosinophil % to stratify into low, intermediate, and high-risk groups for treatment response prediction"],
-    management: ["First-line TKI therapy for chronic phase CML: imatinib 400 mg daily (standard first-line), dasatinib 100 mg daily, or nilotinib 300 mg BID (second-generation TKIs may achieve faster/deeper responses); begin immediately upon diagnosis","NCCN molecular response milestones: BCR-ABL1 ≤10% IS at 3 months, ≤1% IS at 6 months (complete cytogenetic response), ≤0.1% IS at 12 months (major molecular response/MMR); failure to meet milestones requires assessment of adherence and consideration of TKI switch","Mutation analysis (ABL1 kinase domain sequencing) for treatment failure or loss of response -- specific mutations guide second-line TKI selection (T315I 'gatekeeper' mutation is resistant to imatinib, dasatinib, and nilotinib but sensitive to ponatinib)","Treatment-free remission (TFR): patients who achieve and maintain deep molecular response (MR4.5, BCR-ABL1 ≤0.0032% IS) for ≥2 years on TKI may be eligible for supervised TKI discontinuation; approximately 40-60% maintain TFR; requires monthly molecular monitoring for first year, every 6 weeks for second year","Allogeneic stem cell transplant: reserved for blast crisis, accelerated phase failing multiple TKIs, or patients with T315I mutation not responding to ponatinib; only curative option but carries significant morbidity/mortality"],
-    nursingActions: ["Monitor CBC with differential regularly during TKI initiation (weekly for first month, then every 2 weeks for 3 months, then every 3 months when stable); manage cytopenias with dose modifications per guidelines","Ensure BCR-ABL1 qPCR molecular monitoring every 3 months per protocol; track response milestones at 3, 6, and 12 months; report failure to achieve milestones to hematology team promptly","Assess and reinforce TKI medication adherence at every visit -- adherence <80% is the most common cause of suboptimal response; use pill counts, refill records, and motivational interviewing","Monitor for TKI-specific side effects: imatinib (periorbital edema, muscle cramps, nausea, diarrhea, rash, fluid retention); dasatinib (pleural effusions -- monitor for dyspnea/cough, pulmonary hypertension); nilotinib (QT prolongation -- obtain baseline and periodic ECGs, metabolic effects including hyperglycemia and hyperlipidemia)","Educate patients about drug-food interactions: imatinib should be taken WITH food and a large glass of water to reduce GI side effects; nilotinib must be taken on EMPTY stomach (fasting 2 hours before and 1 hour after) because food significantly increases absorption and risk of QT prolongation","Screen for psychosocial impact of lifelong oral chemotherapy: address concerns about adherence burden, financial toxicity (TKI costs), reproductive planning (TKIs are teratogenic -- effective contraception required), and transition to TFR eligibility"],
-    assessmentFindings: ["Splenomegaly (often massive, extending below the umbilicus -- most common physical finding at diagnosis; causes early satiety, left upper quadrant discomfort/pain)","Fatigue and malaise (often the presenting symptom; multifactorial -- anemia, cytokine burden, disease-related metabolic changes)","Leukocytosis on routine blood work (many patients diagnosed incidentally on CBC obtained for other reasons)","Constitutional symptoms: night sweats, low-grade fever, unintentional weight loss (more common in accelerated/blast phases)","Leukostasis symptoms in extreme leukocytosis (WBC >100,000): headache, visual changes, dyspnea, priapism, altered mental status (oncologic emergency requiring leukapheresis)"],
-    signs: {
-      left: ["Incidental leukocytosis on routine CBC with WBC 15,000-50,000 in asymptomatic patient","Mild fatigue and malaise without other significant symptoms","Palpable splenomegaly 2-4 cm below costal margin","Mildly elevated basophil count on differential","Peripheral blood showing granulocytes at all stages of maturation"],
-      right: ["Blast crisis transformation: ≥20% blasts in blood/marrow with acute leukemia-like presentation (fever, bleeding, DIC)","Leukostasis syndrome (WBC >100,000 with pulmonary infiltrates, neurological symptoms, retinal hemorrhages -- oncologic emergency)","Massive splenomegaly with splenic infarction (severe LUQ pain, peritoneal signs, hemodynamic instability)","Tumor lysis syndrome at TKI initiation with very high disease burden (hyperkalemia, hyperuricemia, hyperphosphatemia, hypocalcemia, AKI)","T315I mutation with multi-TKI resistance and disease progression"]
+      "title": "CML Management",
+      "cellular": {
+        "title": "BCR-ABL Oncogene & Tyrosine Kinase Inhibition",
+        "content": "Chronic myeloid leukemia (CML) is defined by the Philadelphia chromosome t(9;22), which creates the BCR-ABL fusion oncogene encoding a constitutively active tyrosine kinase. This drives unregulated myeloid proliferation and resistance to apoptosis. CML progresses through three phases: chronic (>90% of patients at diagnosis; leukocytosis with left shift, basophilia, splenomegaly), accelerated (10-19% blasts, increasing basophilia, cytogenetic evolution), and blast crisis (≥20% blasts, behaves like acute leukemia with poor prognosis). Tyrosine kinase inhibitors (TKIs) revolutionized treatment: imatinib was the first targeted therapy, binding the ATP-binding site of BCR-ABL and reducing its kinase activity. Second-generation TKIs (dasatinib, nilotinib, bosutinib) have greater potency and overcome many imatinib-resistant mutations, except the T315I gatekeeper mutation (treated with ponatinib)."
+      },
+      "riskFactors": [
+        "Age (median diagnosis at 64 years)",
+        "Ionizing radiation exposure (atomic bomb survivors had increased CML incidence)",
+        "No known hereditary risk factors (BCR-ABL is an acquired somatic mutation)",
+        "Phase progression risk factors: large spleen, high blast count, additional cytogenetic abnormalities, platelet count >700k or <100k",
+        "TKI resistance: BCR-ABL kinase domain mutations (most common: T315I), gene amplification, alternative signaling pathway activation",
+        "TKI non-adherence (most common cause of treatment failure)"
+      ],
+      "diagnostics": [
+        "CBC with differential: leukocytosis (often >100,000/µL) with left shift (myelocytes, metamyelocytes, bands), basophilia, eosinophilia, thrombocytosis",
+        "Peripheral blood smear: granulocyte maturation spectrum (myeloblasts through mature neutrophils)",
+        "Bone marrow biopsy with cytogenetics: Philadelphia chromosome t(9;22)(q34;q11.2) -- confirms diagnosis",
+        "FISH (fluorescence in situ hybridization): detects BCR-ABL fusion; faster than conventional cytogenetics",
+        "Quantitative RT-PCR for BCR-ABL transcripts: most sensitive test; used for monitoring treatment response (target: major molecular response = BCR-ABL ≤0.1% IS)",
+        "Sokal or Euro risk scores for prognostic stratification at diagnosis",
+        "BCR-ABL kinase domain mutation analysis if treatment failure or loss of response"
+      ],
+      "management": [
+        "First-line chronic phase: TKI therapy -- imatinib 400 mg daily, dasatinib 100 mg daily, nilotinib 300 mg BID, or bosutinib 400 mg daily",
+        "Monitoring milestones: BCR-ABL ≤10% IS at 3 months, ≤1% at 6 months, ≤0.1% (major molecular response, MMR) at 12 months",
+        "Treatment failure: switch to alternative TKI; perform BCR-ABL mutation analysis to guide selection",
+        "T315I mutation: ponatinib (third-generation TKI) or asciminib (STAMP inhibitor targeting myristoyl pocket)",
+        "Accelerated/blast crisis: more potent TKI + consider chemotherapy and allogeneic stem cell transplant",
+        "Treatment-free remission (TFR): select patients with deep molecular response (MR4.5 for ≥2 years) may attempt TKI discontinuation with close monitoring",
+        "Allogeneic stem cell transplant: reserved for TKI-refractory disease, blast crisis, or T315I mutation if ponatinib fails"
+      ],
+      "nursingActions": [
+        "Ensure BCR-ABL monitoring by quantitative RT-PCR every 3 months for first 2 years, then every 3-6 months",
+        "Monitor treatment milestones: verify BCR-ABL response at 3, 6, and 12 months; failure to meet milestones requires regimen change",
+        "Assess TKI adherence at every visit -- non-adherence is the most common cause of treatment failure",
+        "Monitor for TKI side effects: imatinib (edema, muscle cramps, GI upset, myelosuppression), dasatinib (pleural effusion, pulmonary arterial hypertension), nilotinib (QT prolongation, hyperglycemia, pancreatitis, vascular events)",
+        "Monitor ECG for QT prolongation with nilotinib; fasting lipid panel and glucose",
+        "Educate on drug-food interactions: nilotinib must be taken on EMPTY stomach (food increases absorption by 80%, risking QT prolongation); imatinib WITH food",
+        "Monitor CBC weekly initially then monthly; hold TKI for severe myelosuppression (ANC <1000, platelets <50,000)"
+      ],
+      "assessmentFindings": [
+        "Often incidental finding on CBC: marked leukocytosis (WBC 50,000-500,000)",
+        "Splenomegaly (60% at diagnosis; may cause LUQ fullness, early satiety)",
+        "Fatigue, malaise, weight loss, night sweats (constitutional symptoms)",
+        "Leukostasis symptoms if WBC >100,000: visual changes, dyspnea, priapism, altered mental status (medical emergency)",
+        "Gout from hyperuricemia (massive cell turnover)",
+        "Accelerated/blast crisis: increasing blasts, worsening symptoms, organ infiltration"
+      ],
+      "signs": {
+        "left": [
+          "Incidental leukocytosis on routine CBC with no symptoms",
+          "Chronic phase CML responding to TKI with declining BCR-ABL levels",
+          "Achieving major molecular response (BCR-ABL ≤0.1%) at 12 months",
+          "Stable CBC on TKI therapy with minimal side effects"
+        ],
+        "right": [
+          "Leukostasis from WBC >100,000: emergent leukapheresis required",
+          "Blast crisis: ≥20% blasts, behaves like acute leukemia (poor prognosis)",
+          "TKI resistance with T315I mutation requiring ponatinib",
+          "Severe dasatinib-induced pleural effusion requiring TKI switch",
+          "Tumor lysis syndrome during initial treatment of high WBC count"
+        ]
+      },
+      "medications": [
+        {
+          "name": "Imatinib (Gleevec)",
+          "type": "First-generation tyrosine kinase inhibitor",
+          "action": "Competitively binds the ATP-binding site of the BCR-ABL fusion protein, blocking its constitutive tyrosine kinase activity; halts unregulated myeloid proliferation and induces apoptosis of Ph+ cells; revolutionized CML from fatal disease to manageable chronic condition",
+          "sideEffects": "Edema (periorbital, peripheral), muscle cramps, nausea, diarrhea, rash, myelosuppression, hepatotoxicity, QT prolongation (rare)",
+          "contra": "Known hypersensitivity; pregnancy (teratogenic); concurrent strong CYP3A4 inhibitors (increases levels); severe hepatic impairment",
+          "pearl": "400 mg daily WITH food and full glass of water; CYP3A4 substrate (avoid grapefruit juice, St. John's wort); 5-year survival >90% in chronic phase CML; most patients achieve complete cytogenetic response; resistance develops via BCR-ABL mutations -- second-generation TKIs overcome most mutations except T315I"
+        },
+        {
+          "name": "Dasatinib (Sprycel)",
+          "type": "Second-generation tyrosine kinase inhibitor (multi-kinase inhibitor)",
+          "action": "325x more potent than imatinib against BCR-ABL; also inhibits SRC family kinases; covers most imatinib-resistant BCR-ABL mutations (except T315I); crosses the blood-brain barrier (useful for CNS disease)",
+          "sideEffects": "Pleural effusion (20-35%, unique to dasatinib -- dose-dependent), pulmonary arterial hypertension (rare but serious), myelosuppression (more than imatinib), GI upset, headache, hemorrhage",
+          "contra": "Pregnancy, known hypersensitivity; caution in patients with pleural disease or PAH risk factors",
+          "pearl": "100 mg daily; pleural effusion is the most clinically significant side effect -- monitor for dyspnea, cough; manage with dose reduction, diuretics, or TKI switch; unlike nilotinib, can be taken with or without food; hold for ANC <500 or platelets <10,000"
+        }
+      ],
+      "pearls": [
+        "The Philadelphia chromosome t(9;22) creating BCR-ABL is the hallmark of CML -- its presence confirms the diagnosis and its quantitation guides therapy",
+        "TKI therapy transformed CML from a uniformly fatal disease (median survival 3-5 years) to a chronic manageable condition (10-year survival >80%)",
+        "NON-ADHERENCE is the #1 cause of TKI treatment failure -- assess adherence at every visit; even partial non-adherence significantly reduces molecular response rates",
+        "BCR-ABL monitoring milestones: ≤10% at 3 months, ≤1% at 6 months, ≤0.1% (MMR) at 12 months; failure to meet these triggers regimen change",
+        "T315I 'gatekeeper' mutation confers resistance to ALL first and second-generation TKIs; only ponatinib and asciminib are effective",
+        "Nilotinib must be taken on EMPTY stomach (no food 2 hours before or 1 hour after) due to dramatically increased absorption with food risking QT prolongation; imatinib is the opposite -- take WITH food"
+      ],
+      "quiz": [
+        {
+          "question": "A CML patient on imatinib has a BCR-ABL level of 15% at 3 months. Per NCCN guidelines, this indicates:",
+          "options": [
+            "Optimal response -- continue imatinib",
+            "Warning -- continue imatinib with close monitoring",
+            "Treatment failure -- switch TKI and check for BCR-ABL mutations",
+            "Complete molecular response -- consider TKI discontinuation"
+          ],
+          "correct": 2,
+          "rationale": "BCR-ABL >10% at 3 months is considered treatment failure per NCCN/ELN guidelines. The patient should be switched to a second-generation TKI (dasatinib, nilotinib, or bosutinib) and BCR-ABL kinase domain mutation analysis should be performed to guide selection."
+        },
+        {
+          "question": "BCR-ABL mutation analysis reveals a T315I mutation. Which TKI is effective against this mutation?",
+          "options": [
+            "Imatinib",
+            "Dasatinib",
+            "Nilotinib",
+            "Ponatinib"
+          ],
+          "correct": 3,
+          "rationale": "The T315I 'gatekeeper' mutation confers resistance to ALL first-generation (imatinib) and second-generation (dasatinib, nilotinib, bosutinib) TKIs. Ponatinib (third-generation) and asciminib (STAMP inhibitor) are the only TKIs effective against T315I."
+        },
+        {
+          "question": "Why must nilotinib be taken on an empty stomach?",
+          "options": [
+            "Food decreases absorption",
+            "Food increases absorption by ~80%, raising drug levels and QT prolongation risk",
+            "It causes more nausea with food",
+            "It interacts with dairy products"
+          ],
+          "correct": 1,
+          "rationale": "Food increases nilotinib absorption by approximately 80%, leading to supratherapeutic levels and increased risk of QT prolongation (potentially fatal arrhythmias). It must be taken 2 hours after and 1 hour before meals. This is opposite to imatinib, which should be taken WITH food."
+        }
+      ]
     },
-    medications: [{
-      name: "Imatinib (Gleevec)",
-      type: "First-generation BCR-ABL1 tyrosine kinase inhibitor (TKI)",
-      action: "Competitively binds the ATP-binding pocket of the BCR-ABL1 fusion protein in its inactive conformation, blocking constitutive tyrosine kinase activity and downstream signaling through RAS/MAPK, JAK/STAT, and PI3K/AKT pathways. This restores normal apoptotic pathways in CML cells and halts uncontrolled myeloid proliferation. Also inhibits c-KIT, PDGFR-alpha/beta, and ABL-related kinases",
-      sideEffects: "Periorbital and peripheral edema (fluid retention, most common), nausea/vomiting/diarrhea, muscle cramps (especially calves and hands), rash, fatigue, myelosuppression (neutropenia, thrombocytopenia, anemia -- especially in first 2-3 months), hepatotoxicity (monitor LFTs), weight gain",
-      contra: "Pregnancy and lactation (teratogenic -- Category D; effective contraception mandatory); concomitant strong CYP3A4 inhibitors/inducers (imatinib is a CYP3A4 substrate); caution with hepatic impairment, heart failure (fluid retention risk)",
-      pearl: "400 mg daily with food and a full glass of water (reduces GI side effects); lifelong therapy unless eligible for TFR; complete cytogenetic response achieved in ~75% by 12 months; medication adherence is the single most important modifiable factor for treatment success -- adherence <80% associated with significantly lower MMR rates"
-    },{
-      name: "Dasatinib (Sprycel)",
-      type: "Second-generation BCR-ABL1 tyrosine kinase inhibitor",
-      action: "Binds BCR-ABL1 in both active and inactive conformations (unlike imatinib which only binds inactive), providing 325-fold greater potency against BCR-ABL1; effective against most imatinib-resistant BCR-ABL1 mutations EXCEPT T315I. Also inhibits SRC family kinases (LYN, HCK, FGR), c-KIT, PDGFR-beta, and ephrin receptor kinases",
-      sideEffects: "Pleural effusion (most clinically significant, occurs in 15-35% -- dose-related; monitor for dyspnea, cough, chest pain; may require dose reduction, thoracentesis, or switch to nilotinib), myelosuppression, pulmonary arterial hypertension (rare but serious), diarrhea, headache, rash, fluid retention, QT prolongation (rare)",
-      contra: "Pregnancy (teratogenic); T315I mutation (resistant); caution with pulmonary disease or history of pleural effusion; avoid concurrent strong CYP3A4 inhibitors; caution with anticoagulants (dasatinib inhibits platelet function)",
-      pearl: "100 mg once daily for chronic phase; achieves faster and deeper molecular responses than imatinib in some studies (DASISION trial); uniquely crosses blood-brain barrier (may be preferred for CNS involvement); MUST monitor for pleural effusions -- obtain chest X-ray if new dyspnea or cough develops; avoid antacids and PPIs (dasatinib requires acidic pH for absorption -- use H2 blockers 10 hours before or 2 hours after)"
-    },{
-      name: "Nilotinib (Tasigna)",
-      type: "Second-generation BCR-ABL1 tyrosine kinase inhibitor",
-      action: "Selectively binds the inactive conformation of BCR-ABL1 with approximately 20-30 fold greater potency than imatinib; designed by modifying the imatinib structure for improved fit in the BCR-ABL1 ATP-binding pocket; effective against most imatinib-resistant mutations EXCEPT T315I. Also inhibits c-KIT, PDGFR, and DDR1",
-      sideEffects: "QT prolongation (FDA black box warning -- obtain baseline ECG, monitor periodically; avoid in patients with long QT, hypokalemia, hypomagnesemia), hyperglycemia and new-onset diabetes, hyperlipidemia, elevated lipase/pancreatitis, peripheral arterial occlusive disease (PAOD -- claudication, PAD), myelosuppression, rash, headache, hepatotoxicity",
-      contra: "Hypokalemia or hypomagnesemia (correct before starting), long QT syndrome, concurrent QT-prolonging medications, pregnancy (teratogenic), severe hepatic impairment; caution in patients with cardiovascular risk factors (diabetes, PAD history) due to vascular occlusive event risk",
-      pearl: "300 mg BID for first-line, 400 mg BID for resistant/intolerant; MUST take on EMPTY stomach (fast 2 hours before and 1 hour after) -- food increases bioavailability by 80% and significantly increases QT prolongation risk; monitor fasting glucose, lipid panel, and amylase/lipase regularly; obtain ECG at baseline, 7 days after initiation, and periodically thereafter"
-    }],
-    pearls: ["The Philadelphia chromosome [t(9;22)] creating BCR-ABL1 fusion is the defining molecular event in CML -- it is present in >95% of CML cases and is the therapeutic target for all TKIs; its absence should prompt reconsideration of the diagnosis","Imatinib transformed CML from a fatal disease (median survival 3-5 years pre-imatinib) to a chronic manageable condition (10-year survival >80%) -- it is the prototype for targeted molecular therapy in oncology","Medication adherence is the single most important modifiable factor determining TKI treatment success -- adherence <80% is associated with significantly lower rates of achieving major molecular response; assess adherence at every visit using multiple methods","BCR-ABL1 qPCR monitoring every 3 months is essential -- response milestones at 3, 6, and 12 months predict long-term outcomes; failure to achieve milestones warrants mutation analysis and consideration of TKI switch before disease progresses","T315I 'gatekeeper' mutation confers resistance to imatinib, dasatinib, AND nilotinib -- ponatinib (third-generation TKI) or asciminib (STAMP inhibitor) are the only TKI options for this mutation; always obtain mutation analysis for treatment failure","Nilotinib must be taken on an EMPTY stomach (fasting 2 hours before, 1 hour after) -- food increases absorption by 80% and significantly increases risk of QT prolongation; dasatinib requires acidic gastric pH -- avoid PPIs and separate from antacids","Treatment-free remission (TFR) is achievable in 40-60% of patients who maintain deep molecular response (MR4.5) for ≥2 years -- monthly molecular monitoring is mandatory during TFR to detect molecular relapse early and restart TKI before hematologic relapse occurs"],
-    quiz: [
-      {
-        question: "A patient with newly diagnosed chronic phase CML is started on imatinib 400 mg daily. BCR-ABL1 qPCR at the 3-month milestone shows BCR-ABL1 IS of 15%. What does this result indicate?",
-        options: ["Optimal response -- continue current therapy","Warning -- the 3-month milestone of ≤10% IS has not been met; reassess adherence and consider closer monitoring","Treatment failure requiring immediate switch to second-generation TKI","The patient has entered blast crisis"],
-        correct: 1,
-        rationale: "Per NCCN/ELN guidelines, BCR-ABL1 ≤10% IS at 3 months indicates optimal response. A level of 15% exceeds this threshold and is classified as a warning response. The first step is to assess medication adherence (the most common cause of suboptimal response), ensure correct dosing and timing (with food), check for drug interactions, and repeat BCR-ABL1 at closer intervals. It does not yet meet criteria for treatment failure, but closer monitoring and potential intervention are needed."
-      },
-      {
-        question: "A CML patient on dasatinib presents with progressive dyspnea over 2 weeks, dullness to percussion at the right lung base, and diminished breath sounds. SpO2 is 92% on room air. What is the most likely cause?",
-        options: ["Pneumonia requiring broad-spectrum antibiotics","Dasatinib-related pleural effusion","Blast crisis with pulmonary leukostasis","Pulmonary embolism"],
-        correct: 1,
-        rationale: "Pleural effusion is the most clinically significant side effect of dasatinib, occurring in 15-35% of patients. The presentation of progressive dyspnea with dullness to percussion and diminished breath sounds at the lung base is classic. Management includes dose reduction or interruption, thoracentesis if large or symptomatic, and consideration of switching to an alternative TKI (nilotinib or imatinib) if recurrent. A chest X-ray should be obtained to confirm."
-      },
-      {
-        question: "Which specific BCR-ABL1 mutation confers resistance to imatinib, dasatinib, AND nilotinib?",
-        options: ["E255K mutation","Y253H mutation","T315I gatekeeper mutation","M351T mutation"],
-        correct: 2,
-        rationale: "The T315I mutation is called the 'gatekeeper' mutation because it occurs at the threonine 315 residue, which is a critical contact point for imatinib, dasatinib, and nilotinib binding in the BCR-ABL1 ATP pocket. Substitution of isoleucine for threonine eliminates a hydrogen bond required for first and second-generation TKI binding. Ponatinib (third-generation TKI) and asciminib (allosteric STAMP inhibitor that binds a different site) are the only TKI options that overcome T315I resistance."
-      },
-    ]
-  },
   "cmp-interpretation-np": {
-    title: "CMP Interpretation",
-    cellular: { title: "Pathophysiology of Comprehensive Metabolic Panel (CMP) Interpretation", content: "The CMP is a 14-component panel providing integrated assessment of hepatic function (AST, ALT, ALP, total bilirubin, direct bilirubin, albumin, total protein), renal function (BUN, creatinine), electrolyte balance (sodium, potassium, chloride, CO2/HCO3), and glucose homeostasis. Hepatic enzyme patterns differentiate hepatocellular injury (AST/ALT elevation ≥3× normal, ALT > AST) from cholestatic patterns (ALP/bilirubin elevation with ALT <3× normal). The hepatocellular-to-cholestatic R-ratio (AST/ALT divided by ALP/normal ALP) classifies patterns: R >5 suggests hepatocellular, <2 suggests cholestatic, 2-5 is mixed. BUN/Creatinine ratio interpretation: prerenal azotemia (>20:1 suggests dehydration, prerenal hypoperfusion), intrinsic renal disease (10-15:1), postrenal obstruction. Anion gap calculation (Na - [Cl + HCO3]) normal 8-12 mEq/L; elevated gap indicates metabolic acidosis with organic acids (MUDPILES: Methanol, Uremia, Diabetic ketoacidosis, Propylene glycol, Isoniazid/Iron, Lactic acidosis, Ethylene glycol, Salicylates). Delta gap identifies concurrent metabolic alkalosis. eGFR (MDRD or CKD-EPI equation) stratifies chronic kidney disease staging (Stage 1: eGFR ≥90, Stage 2: 60-89, Stage 3a: 45-59, Stage 3b: 30-44, Stage 4: 15-29, Stage 5: <15)." },
-    riskFactors: ["Chronic kidney disease (CKD) of any etiology","Chronic liver disease (cirrhosis, hepatitis, fatty liver disease)","Diabetes mellitus with poor glycemic control","Medication-induced electrolyte abnormalities (diuretics, ACE inhibitors, SGLT2 inhibitors, NSAIDs)","Dehydration and volume depletion states","Malnutrition and protein wasting syndromes","Heart failure (renal hypoperfusion, diuretics)","Sepsis and critical illness"],
-    diagnostics: ["Interpret CMP reference ranges and critical values: K <2.5 or >6.5 mEq/L, Na <120 or >160 mEq/L, glucose <40 or >500 mg/dL, Ca <6.0 or >13.0 mg/dL, creatinine critical rise (>4 mg/dL or doubling in 24-48 hours)","Analyze trending patterns: acute vs chronic changes (compare serial values over days to weeks)","Calculate hepatic panel R-ratio and interpret pattern (hepatocellular vs cholestatic vs mixed)","Calculate anion gap and delta gap for acid-base interpretation","Calculate eGFR using MDRD or CKD-EPI equation to stage CKD","Order targeted additional testing (LDH, albumin, PT/INR for liver disease; urinalysis, urine electrolytes for renal disease; repeat electrolytes in 4-6 hours for critical values)"],
-    management: ["Electrolyte replacement protocols: oral potassium for mild hypokalemia (K 3.0-3.4), IV potassium 10-20 mEq in 100 mL over 1-2 hours via central line for symptomatic hypokalemia","Hyperkalemia management: calcium gluconate 10 mL 10% IV push for cardiac membrane stabilization (ECG changes present), regular insulin 10 units IV + dextrose 25g IV for intracellular K shift, albuterol 10-20 mg nebulized, loop diuretics, sodium polystyrene sulfonate 15-60g PO","Hyponatremia correction: 3% hypertonic saline for severe symptomatic hyponatremia (Na <120 with seizures) at 0.5-1.0 mEq/L/hr (max 8 mEq/L in 24 hours to prevent osmotic demyelination)","Acute kidney injury (AKI) staging and management per KDIGO criteria; fluid resuscitation for prerenal AKI, nephrotoxin avoidance, contrast/NSAIDs contraindicated","Hepatic workup cascade: if elevated transaminases, obtain hepatitis serologies, autoimmune markers, ferritin, copper level; hepatology referral if ALT >5× normal or INR >1.5"],
-    nursingActions: ["Implement critical value notification protocols: immediately notify provider and document all attempts at communication for K <2.5 or >6.5, Na <120 or >160, glucose <40 or >500","Institute cardiac monitoring for electrolyte abnormalities: continuous for K >6.0 or <2.5 mEq/L, assess for peaked T waves, prolonged QRS, U waves, ST depression","IV potassium administration safety: NEVER administer as IV push, maximum concentration 40 mEq/L, maximum rate 10 mEq/hr via peripheral IV or 20 mEq/hr via central line, assess IV site for extravasation/phlebitis q15 min","NPO status considerations for fasting labs: specimen collection timing critical for fasting glucose (ideally 8-12 hours fasting), fasting state affects triglycerides","Specimen collection integrity: avoid hemolysis (K falsely elevated), ensure proper tube order, minimize tourniquet time, note timing relative to IV fluids or medications"],
-    assessmentFindings: ["Signs of electrolyte imbalance: muscle cramps, weakness, paresthesias, fatigue (hypokalemia); neuromuscular irritability, paresthesias, tetany (hypocalcemia); confusion, lethargy, seizures (severe hyponatremia); palpitations, dyspnea (hyperkalemia)","ECG changes: peaked T waves and prolonged QRS in hyperkalemia; flattened T waves, U waves in hypokalemia; prolonged QT in hypocalcemia","Uremic symptoms (elevated creatinine/BUN): nausea, vomiting, uremic pericarditis (friction rub), asterixis, altered mental status","Hepatic encephalopathy signs (advanced liver disease): personality changes, sleep disturbances, asterixis, confusion, coma (portosystemic shunting of ammonia)","Hyperglycemic symptoms: polyuria, polydipsia, weight loss, DKA (Kussmaul respirations, fruity breath); hypoglycemic symptoms: tremor, diaphoresis, tachycardia, confusion, seizure"],
-    signs: {
-      left: ["Borderline electrolyte values (K 3.5-3.9, Na 135-139, glucose 100-125 mg/dL)","Mild creatinine elevation (1.5-2.0 mg/dL in chronic stable disease)","Mild transaminitis (1-3× upper limit of normal)","Asymptomatic hyponatremia (Na 130-135 mEq/L, no neurologic symptoms)","Stable trending (no acute changes from prior values)"],
-      right: ["Critical hyperkalemia with ECG changes (K >6.5 with peaked T waves, QRS prolongation)","Hyponatremic seizures (Na <120 mEq/L with altered mental status)","Hepatic failure (INR >1.5, albumin <2.5, encephalopathy, ascites)","Diabetic ketoacidosis (glucose >250, anion gap >12, pH <7.35, positive ketones)","Acute kidney injury KDIGO Stage 3 (creatinine >3× baseline or absolute >4 mg/dL, oliguria <0.5 mL/kg/hr for >12 hours)"]
+      "title": "CMP Interpretation",
+      "cellular": {
+        "title": "Comprehensive Metabolic Panel Components",
+        "content": "The comprehensive metabolic panel (CMP) includes 14 tests evaluating renal function (BUN, creatinine, eGFR), electrolytes (Na+, K+, Cl-, CO2/bicarbonate, calcium), glucose, and hepatic function (total protein, albumin, bilirubin, AST, ALT, ALP). Interpreting the CMP requires understanding of the physiological systems each test reflects. Sodium reflects water balance (hyponatremia is usually dilutional, not sodium depletion). Potassium homeostasis is maintained by aldosterone (renal excretion), insulin (cellular uptake), and acid-base status (acidosis shifts K+ extracellularly). The anion gap (Na - Cl - HCO3; normal 8-12) identifies the cause of metabolic acidosis: elevated gap indicates acid accumulation (MUDPILES: Methanol, Uremia, DKA, Propylene glycol, INH/Iron, Lactic acidosis, Ethylene glycol, Salicylates); normal gap indicates bicarbonate loss (diarrhea, RTA)."
+      },
+      "riskFactors": [
+        "CKD (abnormal creatinine, BUN, electrolytes, calcium, phosphorus, bicarbonate)",
+        "Liver disease (abnormal AST, ALT, ALP, bilirubin, albumin, INR)",
+        "Diabetes (glucose abnormalities, potential renal/hepatic involvement)",
+        "Heart failure (dilutional hyponatremia, prerenal azotemia)",
+        "Dehydration and volume depletion (prerenal azotemia, hypernatremia)",
+        "Medications: diuretics (electrolyte derangements), ACEi/ARB (hyperkalemia, creatinine changes), NSAIDs (renal impairment)",
+        "Malnutrition, alcoholism (hypoalbuminemia, hypomagnesemia, electrolyte abnormalities)",
+        "Rhabdomyolysis (elevated creatinine from CK, hyperkalemia, hyperphosphatemia, hypocalcemia)"
+      ],
+      "diagnostics": [
+        "Electrolytes: Na+ (135-145), K+ (3.5-5.0), Cl- (96-106), CO2/bicarb (22-28); derangements indicate fluid/acid-base/hormonal disorders",
+        "Renal function: BUN (7-20), Creatinine (0.7-1.3 male, 0.6-1.1 female), eGFR; BUN/Cr ratio >20:1 suggests prerenal azotemia",
+        "Glucose: fasting 70-99 normal, 100-125 prediabetes, ≥126 diabetes; random ≥200 with symptoms = diabetes",
+        "Hepatic panel: AST/ALT (aminotransferases indicating hepatocellular injury); ALP (cholestatic/biliary obstruction); bilirubin (direct/indirect for conjugated/unconjugated); albumin (synthetic function)",
+        "Anion gap calculation: Na - (Cl + HCO3); normal 8-12; elevated gap acidosis (MUDPILES) vs normal gap acidosis (bicarbonate loss)",
+        "Calcium: total calcium must be corrected for albumin; corrected Ca = total Ca + 0.8 × (4.0 - albumin); ionized calcium is more accurate"
+      ],
+      "management": [
+        "Hyponatremia: determine volume status first (hypovolemic → NS; euvolemic SIADH → fluid restrict; hypervolemic HF/cirrhosis → fluid restrict + diuretics); correct slowly ≤8 mEq/L per 24 hours to prevent osmotic demyelination syndrome",
+        "Hyperkalemia: ECG first; if ECG changes → IV calcium gluconate (membrane stabilizer), insulin + dextrose, albuterol, sodium bicarb; if K+ >6.5 or refractory → dialysis",
+        "Hypokalemia: oral KCl supplementation (10-20 mEq per 0.1 mEq/L deficit); always check magnesium (hypomagnesemia causes refractory hypokalemia); IV KCl max 10 mEq/hour peripheral, 20 mEq/hour central",
+        "Elevated transaminases: pattern recognition (AST:ALT >2:1 in alcoholic liver disease; ALT > AST in viral/NASH; markedly elevated >1000 in ischemic hepatitis, viral hepatitis, acetaminophen toxicity)",
+        "Elevated ALP with normal transaminases: cholestatic pattern → check GGT (elevated confirms hepatobiliary source vs bone); obtain RUQ ultrasound",
+        "Metabolic acidosis with elevated anion gap: identify and treat the underlying cause (MUDPILES mnemonic)"
+      ],
+      "nursingActions": [
+        "Interpret CMP systematically: electrolytes → renal function → glucose → hepatic panel; always calculate anion gap in acidosis",
+        "Correlate laboratory abnormalities with clinical presentation and medication list",
+        "Correct total calcium for albumin level: corrected Ca = total Ca + 0.8 × (4.0 - albumin)",
+        "Identify critically abnormal values requiring immediate intervention: K+ >6.0 or <2.5, Na+ <120 or >160, glucose <50 or >600, creatinine rising acutely",
+        "Ensure ECG is obtained for any potassium abnormality outside normal range",
+        "Calculate BUN/Cr ratio to differentiate prerenal (>20:1) from intrinsic renal disease",
+        "Monitor trends over time rather than single values; rate of change is clinically important"
+      ],
+      "assessmentFindings": [
+        "Hyponatremia (<135): confusion, headache, nausea, seizures, coma if severe/rapid",
+        "Hyperkalemia (>5.0): muscle weakness, paresthesias, peaked T waves, widened QRS, bradycardia, cardiac arrest if severe",
+        "Hypocalcemia: Chvostek sign (facial twitching with tapping CN VII), Trousseau sign (carpal spasm with BP cuff inflation), perioral tingling, tetany, QT prolongation",
+        "Elevated BUN/Cr with oliguria: assess volume status, urine output, medications",
+        "Elevated transaminases: RUQ tenderness, jaundice, hepatomegaly suggest hepatic pathology",
+        "Hyperglycemia: polyuria, polydipsia, polyphagia, blurred vision; Kussmaul breathing if DKA"
+      ],
+      "signs": {
+        "left": [
+          "Mild electrolyte abnormalities correctable with oral supplementation",
+          "Mildly elevated transaminases (<3x ULN) requiring monitoring",
+          "Stable mild chronic kidney disease on serial CMP",
+          "Mild hyperglycemia in known diabetic responding to adjustment"
+        ],
+        "right": [
+          "Severe hyperkalemia (K+ >6.5) with peaked T waves and widened QRS -- emergent treatment needed",
+          "Severe hyponatremia (<120) with seizures or altered mental status -- hypertonic saline (3% NS)",
+          "Transaminases >1000 IU/L (ischemic hepatitis, acetaminophen toxicity, acute viral hepatitis)",
+          "DKA: glucose >250, anion gap >12, pH <7.3, bicarb <18, positive ketones",
+          "Acute kidney injury: creatinine >2x baseline or oliguria <0.5 mL/kg/hr"
+        ]
+      },
+      "medications": [
+        {
+          "name": "Potassium Chloride (KCl)",
+          "type": "Electrolyte supplement",
+          "action": "Provides potassium for replacement in hypokalemia; essential for maintaining resting membrane potential, cardiac conduction, muscle contraction, and acid-base balance",
+          "sideEffects": "GI irritation (nausea, vomiting, diarrhea with oral formulation), hyperkalemia if over-supplemented, tissue necrosis if IV infiltrates, cardiac arrhythmias if infused too rapidly",
+          "contra": "Hyperkalemia, severe renal impairment (impaired excretion), Addison disease, concurrent potassium-sparing diuretics without monitoring",
+          "pearl": "Oral: 10-20 mEq for each 0.1 mEq/L deficit; IV: max 10 mEq/hour peripheral line, 20 mEq/hour central line with cardiac monitoring; ALWAYS check and replete magnesium first -- hypomagnesemia causes refractory hypokalemia (magnesium is required for the renal potassium-retaining channel ROMK); never give IV push"
+        }
+      ],
+      "pearls": [
+        "ALWAYS check magnesium when treating hypokalemia -- hypomagnesemia causes refractory hypokalemia because Mg2+ is required for the ROMK channel that retains potassium in the kidney",
+        "Anion gap = Na - (Cl + HCO3); elevated gap (>12) = acid ACCUMULATION (MUDPILES); normal gap = bicarbonate LOSS (diarrhea, RTA)",
+        "Correct calcium for albumin: for every 1 g/dL albumin below 4.0, add 0.8 to measured calcium; or use ionized calcium directly",
+        "AST:ALT ratio >2:1 suggests alcoholic liver disease; ALT > AST suggests viral hepatitis or NASH; ALT and AST >1000 suggests ischemic hepatitis, acute viral hepatitis, or acetaminophen toxicity",
+        "Hyponatremia correction speed is CRITICAL: ≤8 mEq/L in 24 hours to prevent osmotic demyelination syndrome (central pontine myelinolysis); too-rapid correction is more dangerous than the hyponatremia itself in many cases",
+        "BUN/Cr ratio >20:1 = prerenal azotemia (volume depletion, CHF, liver failure); ratio 10-20:1 = intrinsic renal disease; ratio <10:1 = post-renal or protein malnutrition"
+      ],
+      "quiz": [
+        {
+          "question": "A patient has K+ of 2.8 mEq/L. IV potassium replacement is started but levels remain low despite appropriate supplementation. What should the NP check?",
+          "options": [
+            "Serum calcium level",
+            "Serum magnesium level -- hypomagnesemia causes refractory hypokalemia",
+            "Serum phosphorus level",
+            "Thyroid function tests"
+          ],
+          "correct": 1,
+          "rationale": "Hypomagnesemia is the most common cause of refractory hypokalemia. Magnesium is required for the ROMK potassium channel in the kidney; without adequate magnesium, the kidney wastes potassium regardless of supplementation. Always check and replete magnesium before or concurrently with potassium."
+        },
+        {
+          "question": "A patient has Na+ 118, serum osmolality 260, and urine osmolality 500. The patient is euvolemic. What is the most likely diagnosis?",
+          "options": [
+            "Dehydration",
+            "SIADH (syndrome of inappropriate ADH secretion)",
+            "Adrenal insufficiency",
+            "Psychogenic polydipsia"
+          ],
+          "correct": 1,
+          "rationale": "Hyponatremia with low serum osmolality (hypotonic hyponatremia), concentrated urine (osmolality >100), and euvolemic status is classic for SIADH. In SIADH, excess ADH causes water retention and dilutional hyponatremia. Treatment is fluid restriction; severe cases may need hypertonic saline."
+        },
+        {
+          "question": "A patient has metabolic acidosis with anion gap of 22. Using the MUDPILES mnemonic, which condition is NOT a cause of elevated anion gap acidosis?",
+          "options": [
+            "Diabetic ketoacidosis",
+            "Lactic acidosis",
+            "Diarrhea",
+            "Uremia"
+          ],
+          "correct": 2,
+          "rationale": "Diarrhea causes a NORMAL anion gap (non-gap) metabolic acidosis through direct bicarbonate loss in the stool. MUDPILES causes of elevated anion gap acidosis: Methanol, Uremia, DKA, Propylene glycol, INH/Iron, Lactic acidosis, Ethylene glycol, Salicylates."
+        }
+      ]
     },
-    medications: [{
-      name: "Potassium chloride (KCl)",
-      type: "Electrolyte replacement",
-      action: "Replaces intracellular potassium and restores resting membrane potential; normalizes cardiac conduction and neuromuscular function",
-      sideEffects: "GI upset, hyperkalemia (if overdosed), phlebitis with IV administration, cardiac dysrhythmias if infused too rapidly",
-      contra: "Hyperkalemia (K >5.5), renal failure (eGFR <15), dehydration (concentrate solution), digitalis toxicity with hypokalemia; caution with ACE inhibitors, ARBs, NSAIDs",
-      pearl: "Maximum safe IV rate is 10 mEq/hr peripheral or 20 mEq/hr central; never give IV push; dilute in 50-100 mL fluid; KCl 20 mEq in 8 oz juice (20 mL oral solution) or tablets 20 mEq BID-TID for chronic replacement; monitor K level 4-6 hours after initiation"
-    }, {
-      name: "Calcium gluconate 10%",
-      type: "Cardioprotective agent for hyperkalemia, calcium replacement",
-      action: "Stabilizes cardiac myocyte membrane potential and raises depolarization threshold; antagonizes hyperkalemia-induced cardiac effects independent of serum K normalization",
-      sideEffects: "Local tissue necrosis if extravasated (severe), phlebitis, hypercalcemia if given with diuretics, hypocalcemia rebound after initial use",
-      contra: "Hypercalcemia (Ca >13 mg/dL), severe digitalis toxicity (risk of dysrhythmias), tissue extravasation; do not mix with sodium bicarbonate or phosphate",
-      pearl: "10 mL of 10% solution IV push over 2-5 minutes for acute hyperkalemia with ECG changes; repeat q5-10 min if peaked T waves persist; protect IV site carefully (central line preferred); effect is temporary (protective only, does not lower K) -- must be followed by insulin/glucose, albuterol, or diuretics to shift K intracellularly"
-    }, {
-      name: "Regular insulin with dextrose 50% (D50)",
-      type: "Intracellular potassium shift agent",
-      action: "Insulin drives potassium intracellularly via Na-K-ATPase pump activation; glucose prevents hypoglycemia and provides concurrent energy substrate; reduces serum K 0.5-1.2 mEq/L within 10-20 minutes",
-      sideEffects: "Hypoglycemia (if inadequate glucose co-administered), hyperglycemia rebound in 4-6 hours, local phlebitis from D50, hypercalcemia, hypokalemia rebound after insulin wears off",
-      contra: "Type 1 diabetes without insulin availability, hypoglycemia (relative, but treat hypoglycemia first then give insulin-glucose if hyperkalemia present), allergy to insulin",
-      pearl: "Standard dose: 10 units regular insulin IV + 25g D50 (50 mL 50% solution) IV over 5 minutes; peak effect in 10-20 minutes, duration 4-6 hours; do NOT give D50 through peripheral lines >25%; monitor glucose 1 hour after administration and repeat dosing every 4-6 hours as needed; must use with other interventions (calcium gluconate, albuterol, cation exchange resins, diuretics)"
-    }],
-    pearls: ["The BUN/Creatinine ratio is your key to differentiating prerenal (>20:1) from intrinsic renal disease (10-15:1) -- prerenal responds to volume resuscitation within 24-48 hours, intrinsic renal disease requires additional investigation for glomerulonephritis, acute tubular necrosis, or drug toxicity","Hepatic enzyme patterns matter more than absolute values: AST/ALT >3× with ALT>AST indicates hepatocellular injury (viral hepatitis, drug-induced, ischemia), while ALP/bilirubin elevation with mild ALT indicates cholestasis (biliary obstruction, PBC, medications) -- R-ratio quantifies this distinction","The anion gap metabolic acidosis mnemonic MUDPILES (Methanol, Uremia, DKA, Propylene glycol, Isoniazid, Lactic acidosis, Ethylene glycol, Salicylates) helps identify life-threatening poisonings and metabolic emergencies; calculate delta gap to detect concurrent metabolic alkalosis masked by anion gap acidosis","Critical electrolyte values are medical emergencies requiring immediate intervention, not just lab result reporting -- hyperkalemia >6.5 with ECG changes can cause sudden cardiac arrest, hyponatremia <120 causes seizures, severe hypoglycemia <40 causes permanent neurologic damage if not treated in minutes","Chronic vs acute kidney disease changes management dramatically: chronic disease (eGFR stable for months) allows cautious medication dosing adjustments, acute kidney injury (creatinine doubling in 24-48 hours, urine output <0.5 mL/kg/hr) requires immediate nephrology consultation and supportive care because KDIGO Stage 3-4 AKI has 50% mortality","Serial CMP trending is more informative than single values -- one K of 6.2 might be pseudo-hyperkalemia from hemolysis, but rising K trend over 6 hours with declining urine output indicates true hyperkalemia requiring treatment; similarly, creatinine 2.0 is benign if baseline 1.9 (acute disease) but indicates significant AKI if baseline was 0.9"],
-    quiz: [
-      {
-        question: "A 68-year-old male with CKD Stage 3 on lisinopril and HCTZ presents with K 6.8 mEq/L and peaked T waves on ECG. Which intervention should you initiate FIRST?",
-        options: ["Administer sodium polystyrene sulfonate 60g PO","Push 10 mL calcium gluconate 10% IV over 2-5 minutes","Start IV insulin 10 units + dextrose 25g","Increase loop diuretic dose"],
-        correct: 1,
-        rationale: "Calcium gluconate IV is the FIRST intervention for hyperkalemia with ECG changes because it immediately stabilizes the cardiac myocyte membrane and prevents sudden dysrhythmias/cardiac arrest. It works within 1-3 minutes. Insulin/glucose and albuterol (shift K intracellularly) are given simultaneously or immediately after to actually lower serum K. Cation exchangers and diuretics are slower and third-line."
-      },
-      {
-        question: "A patient with acute diarrhea has Na 132 mEq/L, K 2.8 mEq/L, Cl 98 mEq/L, HCO3 24 mEq/L, BUN 35 mg/dL, Cr 1.8 mg/dL (baseline 1.0). Calculate the BUN/Cr ratio and identify the likely etiology.",
-        options: ["19:1, consistent with intrinsic renal disease","35:1, consistent with prerenal azotemia (dehydration)","12:1, consistent with postrenal obstruction","28:1, consistent with rhabdomyolysis"],
-        correct: 1,
-        rationale: "BUN/Cr ratio = 35/1.8 = 19.4:1, which is >20:1 (actually rounds to ~20:1, in the prerenal range). This pattern (elevated BUN/Cr ratio, hypokalemia, hyperchloremic metabolic acidosis from diarrheal losses, elevated BUN) is classic for volume depletion from diarrhea. The creatinine rise from 1.0 to 1.8 represents prerenal hypoperfusion. Treatment is IV normal saline and K replacement; renal function should normalize within 24-48 hours of volume resuscitation."
-      },
-      {
-        question: "A 54-year-old with cirrhosis has AST 240 U/L, ALT 85 U/L, ALP 95 U/L (normal 30-120), albumin 2.1 g/dL, total bilirubin 4.2 mg/dL. Calculate the R-ratio and interpret the hepatic pattern.",
-        options: ["R = 4.0, hepatocellular injury pattern (AST/ALT much higher than ALP)","R = 2.0, mixed hepatocellular and cholestatic pattern","R = 0.47, cholestatic pattern (ALP/bilirubin predominant)","R = 3.5, indicates acute viral hepatitis"],
-        correct: 0,
-        rationale: "R-ratio = (AST/ALT) / (ALP/normal ALP) = (240/85) / (95/120) = 2.82 / 0.79 = 3.57 ≈ 3.5-4.0. This is >2.5, indicating a hepatocellular pattern. The AST is much higher than ALT (240 vs 85), which is characteristic of cirrhosis and chronic liver disease (in acute hepatitis, ALT>AST). The low albumin 2.1 and elevated bilirubin 4.2 indicate severe synthetic dysfunction and cholestasis superimposed on hepatocellular disease. This patient needs hepatology referral for variceal screening and transplant evaluation."
-      },
-    ]
-  },
 };

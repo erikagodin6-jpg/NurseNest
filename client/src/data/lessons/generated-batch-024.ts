@@ -2,54 +2,126 @@ import type { LessonContent } from "./types";
 
 export const generatedBatch024Lessons: Record<string, LessonContent> = {
   "cranial-nerve-advanced-np": {
-    title: "Cranial Nerve Testing: Advanced Techniques",
-    cellular: { title: "Advanced Cranial Nerve Testing and Lesion Localization", content: "Advanced cranial nerve (CN) testing goes beyond basic bedside screening to employ provocative maneuvers and pattern recognition that localize lesions within the brainstem, cranial nerve nuclei, or peripheral nerve pathways. Each CN has a nucleus of origin within the brainstem (midbrain: CN III, IV; pons: CN V, VI, VII; medulla: CN IX, X, XI, XII) or forebrain (CN I, II). Understanding this topography allows the clinician to determine whether a deficit is nuclear, fascicular, or peripheral. Upper motor neuron (UMN) versus lower motor neuron (LMN) distinction is critical: UMN CN VII lesions spare the forehead (bilateral cortical innervation of the upper face), while LMN CN VII lesions paralyze the entire ipsilateral face. CN III palsy with pupil involvement (compressive, e.g., posterior communicating artery aneurysm) must be differentiated from pupil-sparing CN III palsy (microvascular, e.g., diabetic mononeuropathy). Provocative testing includes dynamic visual field assessment, optokinetic nystagmus testing, corneal reflex lateralization, jaw jerk reflex for bilateral CN V UMN lesions, and acoustic reflex testing for CN VII/VIII pathway integrity. Brainstem localization uses the rule of 4: medial structures (motor pathway, medial lemniscus, medial longitudinal fasciculus, motor CN nuclei) produce medial syndromes, while lateral structures (spinocerebellar, spinothalamic, CN V nucleus) produce lateral syndromes. Classic brainstem syndromes include Wallenberg (lateral medullary), Weber (medial midbrain), and Millard-Gubler (ventral pons)." },
-    riskFactors: ["Diabetes mellitus (microvascular CN III and CN VI palsies)","Posterior communicating artery aneurysm (compressive CN III palsy with pupil involvement)","Cerebellopontine angle tumors (acoustic neuroma affecting CN VII and VIII)","Cavernous sinus pathology (CN III, IV, V1, V2, VI involvement)","Multiple sclerosis (internuclear ophthalmoplegia from MLF demyelination)","Skull base fractures (CN I through cribriform plate, CN VII/VIII through temporal bone)"],
-    diagnostics: ["MRI brain with thin-cut brainstem sequences and gadolinium enhancement for cranial nerve and brainstem lesion localization","CT angiography or MR angiography to evaluate for posterior communicating artery aneurysm in CN III palsy with pupil involvement","Electronystagmography (ENG) for vestibular CN VIII pathway evaluation","Blink reflex testing (electrophysiologic assessment of CN V afferent and CN VII efferent pathways)","EMG of facial muscles to quantify CN VII denervation and predict recovery","Lumbar puncture with CSF studies for suspected carcinomatous meningitis or infectious etiologies of multiple cranial neuropathies"],
-    management: ["Emergent neurosurgical referral for CN III palsy with pupil involvement (rule out posterior communicating artery aneurysm)","Corticosteroid therapy for inflammatory cranial neuropathies (Bell palsy, sarcoidosis, idiopathic cranial polyneuropathy)","Eye protection protocol for impaired corneal reflex or incomplete eye closure (artificial tears, moisture chamber, tarsorrhaphy if refractory)","Swallowing rehabilitation for lower cranial nerve palsies (CN IX, X, XII) with SLP-guided dysphagia management","Targeted treatment of underlying etiology (tumor resection, anticoagulation for cavernous sinus thrombosis, immunotherapy for paraneoplastic syndromes)","Serial cranial nerve examinations with documentation to track progression or resolution"],
-    nursingActions: ["Perform detailed CN examination including provocative maneuvers: corneal reflex, jaw jerk, acoustic reflex, dynamic visual field testing","Differentiate UMN from LMN facial weakness at bedside (forehead sparing = UMN; entire face = LMN)","Assess pupil reactivity with swinging flashlight test to detect relative afferent pupillary defect (Marcus Gunn pupil)","Evaluate extraocular movements in all nine cardinal positions of gaze and document specific deficits","Perform Dix-Hallpike maneuver for suspected BPPV-related CN VIII involvement","Document brainstem localization findings: crossed deficits (ipsilateral CN palsy + contralateral motor/sensory = brainstem lesion)"],
-    assessmentFindings: ["Pupil-involving CN III palsy: ptosis, eye deviated down and out, dilated fixed pupil (surgical emergency until aneurysm ruled out)","Pupil-sparing CN III palsy: ptosis and ophthalmoplegia WITHOUT pupil involvement (suggests microvascular etiology)","Internuclear ophthalmoplegia: impaired adduction of ipsilateral eye with nystagmus of contralateral abducting eye (MLF lesion)","Cerebellopontine angle syndrome: ipsilateral sensorineural hearing loss (CN VIII), facial weakness (CN VII), decreased corneal reflex (CN V)","Jugular foramen syndrome: ipsilateral CN IX, X, XI palsy (hoarseness, dysphagia, palatal deviation, SCM/trapezius weakness)","Wallenberg syndrome: ipsilateral facial pain/temperature loss (CN V), Horner syndrome, contralateral body pain/temperature loss, vertigo, ataxia"],
-    signs: {
-      left: ["Isolated CN palsy consistent with microvascular etiology (pupil-sparing CN III, CN VI) with expected spontaneous recovery in 8-12 weeks","Unilateral LMN CN VII palsy (Bell palsy) with intact hearing and no other CN deficits","Stable, longstanding CN deficit with established diagnosis and management plan"],
-      right: ["Acute pupil-involving CN III palsy requiring emergent CTA to rule out posterior communicating artery aneurysm","Multiple cranial nerve palsies suggesting cavernous sinus thrombosis, carcinomatous meningitis, or skull base tumor","Progressive bulbar palsy (CN IX, X, XII) with aspiration risk and threatened airway","Crossed brainstem signs (ipsilateral CN deficit + contralateral hemiparesis) indicating acute brainstem stroke","Bilateral CN VI palsies as a sign of dangerously elevated intracranial pressure"]
+      "title": "Cranial Nerve Advanced Assessment",
+      "cellular": {
+        "title": "Cranial Nerve Neuroanatomy & Clinical Correlates",
+        "content": "The twelve cranial nerves emerge from the brainstem (except CN I and II from the cerebrum) and serve sensory, motor, or mixed functions. CN I (olfactory) passes through the cribriform plate; fractures here cause anosmia and CSF rhinorrhea. CN II (optic) transmits visual information via the optic chiasm where nasal fibers decussate; lesions produce characteristic visual field defects (bitemporal hemianopia from chiasmal compression). CN III (oculomotor) carries parasympathetic fibers on its surface, making pupil dilation the earliest sign of compression (uncal herniation). The corneal reflex tests CN V (afferent) and CN VII (efferent). CN VII upper vs lower motor neuron distinction is critical: central lesions spare the forehead (bilateral cortical innervation), peripheral lesions (Bell palsy) affect the entire half of face."
+      },
+      "riskFactors": [
+        "Posterior fossa tumors (acoustic neuroma affecting CN VIII, meningioma compressing multiple nerves)",
+        "Cerebrovascular disease (brainstem stroke affecting cranial nerve nuclei)",
+        "Traumatic brain injury (basilar skull fracture damaging CN I, VII, VIII)",
+        "Diabetes mellitus (CN III palsy with pupil-sparing from microvascular ischemia)",
+        "Multiple sclerosis (internuclear ophthalmoplegia from MLF demyelination)",
+        "Increased intracranial pressure (CN VI palsy is a false-localizing sign due to long intracranial course)",
+        "Cavernous sinus pathology (affects CN III, IV, V1, V2, VI simultaneously)",
+        "Guillain-Barré syndrome (bilateral facial nerve palsy)"
+      ],
+      "diagnostics": [
+        "CN I: test each nostril separately with non-irritating substances (coffee, vanilla); anosmia may indicate frontal lobe lesion or cribriform plate fracture",
+        "CN II: visual acuity (Snellen chart), visual fields by confrontation, pupillary light reflex (afferent limb), fundoscopy (papilledema, optic atrophy)",
+        "CN III/IV/VI: extraocular movements in H pattern; CN III palsy = 'down and out' eye with ptosis and mydriasis; CN IV = difficulty looking down and inward; CN VI = inability to abduct eye",
+        "CN V: facial sensation (V1 forehead, V2 cheek, V3 jaw), corneal reflex (afferent V1), jaw clench (motor V3)",
+        "CN VII: facial symmetry, forehead wrinkling, eye closure, smile; distinguish UMN (forehead spared) from LMN (entire face)",
+        "CN VIII: Weber (lateralizes to conductive loss side), Rinne (air>bone = normal or sensorineural; bone>air = conductive)",
+        "CN IX/X: gag reflex, palate elevation (uvula deviates AWAY from lesion), voice quality",
+        "CN XI: sternocleidomastoid (turns head to OPPOSITE side), trapezius (shoulder shrug)",
+        "CN XII: tongue protrusion (deviates TOWARD lesion side), fasciculations (LMN lesion)"
+      ],
+      "management": [
+        "Bell palsy (peripheral CN VII): oral corticosteroids within 72 hours (prednisone 60-80 mg x 7 days); eye protection (artificial tears, tape eye closed at night); antiviral (valacyclovir) controversial but often added for moderate-severe cases",
+        "CN III palsy with pupil involvement: emergent neuroimaging (CT angiography) to rule out posterior communicating artery aneurysm (surgical emergency)",
+        "CN III palsy with pupil-SPARING: likely microvascular (diabetes) -- observe, resolves in 3 months typically",
+        "Trigeminal neuralgia (CN V): carbamazepine first-line; oxcarbazepine, gabapentin alternatives; microvascular decompression for refractory cases",
+        "Acoustic neuroma (CN VIII): MRI with gadolinium; observation, stereotactic radiosurgery, or microsurgical resection based on size and symptoms",
+        "Increased ICP with CN VI palsy: treat underlying cause of elevated ICP"
+      ],
+      "nursingActions": [
+        "Perform systematic cranial nerve examination documenting each nerve individually",
+        "Recognize CN III palsy with fixed dilated pupil as a neurological emergency (possible uncal herniation or posterior communicating artery aneurysm)",
+        "Distinguish central from peripheral CN VII palsy: ask patient to raise eyebrows and close eyes tightly -- forehead involvement indicates peripheral lesion",
+        "Assess corneal reflex in unconscious patients (CN V afferent, CN VII efferent) -- absent reflex indicates brainstem dysfunction",
+        "Monitor for multiple cranial nerve involvement (suggests brainstem lesion, cavernous sinus pathology, or meningeal disease)",
+        "Protect the eye in CN VII palsy: inability to close the eye leads to corneal exposure, drying, and ulceration",
+        "Document baseline cranial nerve function for serial comparison in neurosurgical and stroke patients"
+      ],
+      "assessmentFindings": [
+        "CN III palsy: ptosis, eye deviated 'down and out,' mydriasis (dilated pupil from parasympathetic disruption)",
+        "Bell palsy (peripheral CN VII): unilateral facial weakness affecting ENTIRE half including forehead, inability to close eye, loss of nasolabial fold, drooling, hyperacusis, decreased taste anterior 2/3 tongue",
+        "Acoustic neuroma: unilateral sensorineural hearing loss, tinnitus, imbalance; may compress CN V (facial numbness) and CN VII (facial weakness) if large",
+        "Trigeminal neuralgia: lancinating 'electric shock' pain in V2 or V3 distribution triggered by light touch, chewing, wind",
+        "Bulbar palsy (CN IX, X, XII LMN): dysarthria, dysphagia, nasal regurgitation, tongue atrophy with fasciculations",
+        "Internuclear ophthalmoplegia: impaired adduction of ipsilateral eye with nystagmus of contralateral abducting eye (MLF lesion -- MS in young, stroke in elderly)"
+      ],
+      "signs": {
+        "left": [
+          "Isolated Bell palsy recovering with corticosteroid treatment",
+          "Pupil-sparing CN III palsy in diabetic patient (microvascular, self-limiting)",
+          "Mild unilateral hearing loss with small acoustic neuroma under surveillance",
+          "Trigeminal neuralgia well-controlled on carbamazepine"
+        ],
+        "right": [
+          "CN III palsy with fixed dilated pupil -- emergent imaging for PCA aneurysm or uncal herniation",
+          "Multiple cranial nerve palsies suggesting brainstem stroke or cavernous sinus thrombosis",
+          "Bilateral facial nerve palsy (GBS, Lyme disease, sarcoidosis -- requires urgent evaluation)",
+          "Progressive bulbar palsy with aspiration pneumonia risk",
+          "Papilledema with CN VI palsy indicating elevated ICP"
+        ]
+      },
+      "medications": [
+        {
+          "name": "Carbamazepine (Tegretol)",
+          "type": "Anticonvulsant / sodium channel blocker",
+          "action": "Blocks voltage-gated sodium channels, stabilizing neuronal membranes and reducing repetitive firing; first-line treatment for trigeminal neuralgia by reducing aberrant pain signal transmission along CN V",
+          "sideEffects": "Drowsiness, dizziness, diplopia, ataxia, hyponatremia (SIADH), aplastic anemia (rare but serious), Stevens-Johnson syndrome (HLA-B*1502 in Asian descent -- test before prescribing), hepatotoxicity, leukopenia",
+          "contra": "Bone marrow suppression, concurrent MAOIs, known HLA-B*1502 (increased SJS risk), hepatic porphyria",
+          "pearl": "First-line for trigeminal neuralgia (NNT=1.7 -- very effective); check HLA-B*1502 in patients of Asian descent BEFORE starting (FDA recommendation); monitor CBC and hepatic function; potent CYP3A4 inducer (many drug interactions -- reduces efficacy of OCPs, warfarin, other medications); therapeutic level 4-12 mcg/mL"
+        }
+      ],
+      "pearls": [
+        "CN III palsy WITH pupil involvement = aneurysm until proven otherwise (parasympathetic fibers run on the OUTSIDE of CN III, compressed first by external mass); CN III palsy with pupil SPARING = likely microvascular (diabetes -- ischemia affects core fibers, spares surface parasympathetics)",
+        "CN VII: Central = forehead SPARED (bilateral cortical innervation); Peripheral (Bell palsy) = ENTIRE face affected",
+        "CN VI palsy can be a FALSE LOCALIZING sign of elevated ICP -- the long intracranial course of CN VI makes it vulnerable to generalized pressure increases",
+        "Tongue deviates TOWARD the side of a CN XII LMN lesion; uvula deviates AWAY from the side of a CN X lesion",
+        "Weber test: lateralizes to AFFECTED ear in conductive hearing loss (better bone conduction in blocked ear); lateralizes to UNAFFECTED ear in sensorineural loss",
+        "Internuclear ophthalmoplegia (INO): bilateral in YOUNG patients = think MS; unilateral in ELDERLY patients = think brainstem stroke"
+      ],
+      "quiz": [
+        {
+          "question": "A patient presents with a right-sided 'down and out' eye position, ptosis, and a fixed dilated right pupil. What is the most urgent concern?",
+          "options": [
+            "Diabetic microvascular CN III palsy",
+            "Posterior communicating artery aneurysm compressing CN III",
+            "Bell palsy",
+            "CN VI palsy from elevated ICP"
+          ],
+          "correct": 1,
+          "rationale": "CN III palsy WITH pupil involvement (mydriasis) is a posterior communicating artery aneurysm until proven otherwise. The parasympathetic fibers travel on the OUTSIDE of CN III and are compressed first by an expanding aneurysm. This is a neurosurgical emergency requiring immediate CT angiography. Diabetic CN III palsy typically SPARES the pupil."
+        },
+        {
+          "question": "A patient cannot raise the right eyebrow or close the right eye, and the right nasolabial fold is flattened. Where is the lesion?",
+          "options": [
+            "Right cerebral cortex (central/UMN CN VII lesion)",
+            "Right peripheral facial nerve (LMN CN VII -- Bell palsy)",
+            "Left cerebral cortex",
+            "Right trigeminal nerve (CN V)"
+          ],
+          "correct": 1,
+          "rationale": "Involvement of the ENTIRE right face including the forehead (cannot raise eyebrow, close eye) indicates a peripheral/LMN CN VII lesion (Bell palsy). Central/UMN lesions spare the forehead because the upper facial muscles receive bilateral cortical innervation."
+        },
+        {
+          "question": "During a Weber test, sound lateralizes to the LEFT ear. Rinne test shows bone conduction > air conduction on the LEFT. What type of hearing loss is present?",
+          "options": [
+            "Left sensorineural hearing loss",
+            "Left conductive hearing loss",
+            "Right conductive hearing loss",
+            "Normal hearing"
+          ],
+          "correct": 1,
+          "rationale": "Weber lateralizes to the affected ear in conductive hearing loss. Rinne showing bone > air conduction (negative Rinne) on the left confirms conductive hearing loss on the left side. In sensorineural loss, Weber would lateralize to the UNAFFECTED ear, and Rinne would show air > bone (positive Rinne) bilaterally."
+        }
+      ]
     },
-    medications: [{
-      name: "Prednisone",
-      type: "Corticosteroid",
-      action: "Reduces perineural inflammation and edema in inflammatory cranial neuropathies; in Bell palsy, decreases swelling of CN VII within the fallopian canal to prevent ischemic nerve damage",
-      sideEffects: "Hyperglycemia, insomnia, mood changes, immunosuppression, GI irritation",
-      contra: "Active systemic fungal infection, uncontrolled diabetes (relative), herpes simplex keratitis",
-      pearl: "For Bell palsy: 60-80 mg/day for 7 days started within 72 hours of onset; NNT ~10 for complete recovery; always combine with eye protection measures"
-    },{
-      name: "Nimodipine",
-      type: "Calcium channel blocker (dihydropyridine)",
-      action: "Selectively dilates cerebral vasculature to prevent vasospasm following subarachnoid hemorrhage; relevant when aneurysmal SAH presents with CN III palsy",
-      sideEffects: "Hypotension, headache, nausea, bradycardia",
-      contra: "Severe hypotension, concurrent use of strong CYP3A4 inhibitors",
-      pearl: "60 mg PO/NG every 4 hours for 21 days post-SAH; must be given orally/enterally — IV administration of oral formulation causes fatal hypotension and cardiac arrest"
-    }],
-    pearls: ["The Rule of the Pupil: CN III palsy WITH pupil involvement is compressive until proven otherwise (aneurysm) — emergent imaging required; pupil-sparing suggests microvascular (diabetic)","Cavernous sinus syndrome involves CN III, IV, V1, V2, and VI because all traverse the cavernous sinus; CN V3 is spared (exits via foramen ovale before the cavernous sinus)","Internuclear ophthalmoplegia (INO) in a young patient suggests MS; in an elderly patient suggests brainstem stroke — both localize to the medial longitudinal fasciculus","The jaw jerk reflex (CN V motor) is hyperactive in bilateral UMN lesions (pseudobulbar palsy) and helps differentiate UMN from LMN bulbar weakness","A relative afferent pupillary defect (RAPD/Marcus Gunn pupil) detected by swinging flashlight test indicates optic nerve (CN II) pathology on the affected side","Crossed findings (ipsilateral cranial nerve deficit + contralateral hemiparesis/hemisensory loss) are pathognomonic for brainstem localization"],
-    quiz: [
-      {
-        question: "A 58-year-old diabetic patient presents with acute onset ptosis and diplopia of the right eye. The right eye is deviated inferiorly and laterally. The right pupil is 3mm and reactive. What is the most likely diagnosis?",
-        options: ["Compressive CN III palsy from posterior communicating artery aneurysm","Microvascular (ischemic) CN III palsy","Myasthenia gravis","Horner syndrome"],
-        correct: 1,
-        rationale: "Pupil-sparing CN III palsy in a diabetic patient is most consistent with microvascular (ischemic) mononeuropathy. Diabetic CN III palsy characteristically spares the pupil because ischemia affects the central motor fibers while the peripherally located parasympathetic pupillary fibers maintain their blood supply. A compressive lesion (aneurysm) would involve the pupil."
-      },
-      {
-        question: "A patient is found to have impaired adduction of the left eye on rightward gaze with nystagmus of the abducting right eye. Convergence is intact. This finding localizes to which structure?",
-        options: ["Left CN III nucleus in the midbrain","Left medial longitudinal fasciculus (MLF)","Right CN VI nucleus in the pons","Left optic nerve"],
-        correct: 1,
-        rationale: "This describes a left internuclear ophthalmoplegia (INO), caused by a lesion in the left MLF. The MLF connects the CN VI nucleus to the contralateral CN III nucleus for conjugate lateral gaze. A left MLF lesion impairs adduction of the left eye on contralateral gaze. Intact convergence confirms the CN III nucleus itself is functioning."
-      },
-      {
-        question: "A patient presents with ipsilateral facial numbness, Horner syndrome, cerebellar ataxia, and contralateral loss of pain and temperature sensation over the body. Which brainstem syndrome does this represent?",
-        options: ["Weber syndrome (medial midbrain)","Millard-Gubler syndrome (ventral pons)","Wallenberg syndrome (lateral medulla)","Locked-in syndrome (ventral pons bilateral)"],
-        correct: 2,
-        rationale: "Wallenberg (lateral medullary) syndrome results from posterior inferior cerebellar artery (PICA) or vertebral artery occlusion. The lateral medulla contains the spinal trigeminal nucleus (ipsilateral facial pain/temperature loss), descending sympathetic fibers (Horner syndrome), inferior cerebellar peduncle (ataxia), and spinothalamic tract (contralateral body pain/temperature loss)."
-      },
-    ]
-  },
   "cranial-nerve-assessment": {
         title: "Cranial Nerve Assessment",
         cellular: { title: "Anatomy and Function of the Cranial Nerves", content: "The twelve cranial nerves emerge directly from the brain (most from the brainstem) and control sensory, motor, and autonomic functions of the head, face, neck, and visceral organs. Understanding cranial nerve anatomy is essential for nurses because changes in cranial nerve function can indicate neurological deterioration, stroke, increased intracranial pressure, or brainstem compression requiring immediate intervention.\n\nThe cranial nerves are numbered I through XII based on their position from anterior to posterior on the brainstem. A useful mnemonic for remembering their names is: Oh Oh Oh To Touch And Feel Very Good Velvet, Ah Heaven (Olfactory, Optic, Oculomotor, Trochlear, Trigeminal, Abducens, Facial, Vestibulocochlear, Glossopharyngeal, Vagus, Accessory, Hypoglossal). Their functions can be remembered with: Some Say Marry Money But My Brother Says Big Brains Matter More (Sensory, Sensory, Motor, Motor, Both, Motor, Both, Sensory, Both, Both, Motor, Motor).\n\nCN I (Olfactory): Pure sensory nerve carrying smell sensation from the nasal epithelium to the olfactory bulb. Tested by having the patient identify familiar scents (coffee, vanilla) with eyes closed, one nostril at a time. Loss of smell (anosmia) can follow head trauma, nasal obstruction, or frontal lobe lesions.\n\nCN II (Optic): Pure sensory nerve carrying visual information from the retina to the occipital cortex. Tested by visual acuity (Snellen chart), visual field testing (confrontation), and fundoscopic examination. Papilledema (swelling of the optic disc) seen on fundoscopy indicates increased intracranial pressure.\n\nCN III (Oculomotor), CN IV (Trochlear), CN VI (Abducens): These three nerves work together to control eye movements and pupil function. CN III controls most eye movements (up, down, medial), eyelid elevation, pupil constriction, and lens accommodation. CN IV controls downward and inward eye movement. CN VI controls lateral (outward) eye movement. Tested together by having the patient follow a finger through six cardinal positions of gaze. A fixed, dilated pupil on one side (blown pupil) indicates CN III compression, often from uncal herniation - this is a neurological emergency.\n\nCN V (Trigeminal): Mixed nerve providing facial sensation (three branches: ophthalmic V1, maxillary V2, mandibular V3) and motor function to muscles of mastication. Tested by light touch to three facial areas and clenching teeth. Important for the corneal reflex (afferent limb).\n\nCN VII (Facial): Mixed nerve controlling facial expression muscles, taste to the anterior two-thirds of the tongue, and some salivary and lacrimal gland secretion. Tested by asking patient to raise eyebrows, close eyes tightly, smile, and puff cheeks. In Bell palsy (peripheral CN VII lesion), the entire half of the face is paralyzed. In stroke (central lesion), only the lower face is affected because the upper face receives bilateral cortical innervation.\n\nCN VIII (Vestibulocochlear): Pure sensory nerve for hearing and balance. Tested by whisper test, Weber test, and Rinne test. Sudden hearing loss may indicate acoustic neuroma or stroke.\n\nCN IX (Glossopharyngeal) and CN X (Vagus): Often assessed together. CN IX provides sensation to the posterior pharynx and taste to the posterior tongue. CN X controls pharyngeal and laryngeal muscles (swallowing, voice), and parasympathetic innervation to thoracic and abdominal organs (heart rate, digestion). Tested by gag reflex, saying 'ah' (uvula should rise midline), and assessing voice quality. Absent gag reflex or hoarse voice suggests brainstem compromise. CN X dysfunction causes aspiration risk.\n\nCN XI (Accessory): Pure motor nerve controlling the sternocleidomastoid and trapezius muscles. Tested by having the patient shrug shoulders and turn head against resistance.\n\nCN XII (Hypoglossal): Pure motor nerve controlling tongue movement. Tested by asking the patient to protrude the tongue (deviates toward the side of the lesion) and move it side to side. Important for speech and swallowing." },
@@ -111,299 +183,710 @@ export const generatedBatch024Lessons: Record<string, LessonContent> = {
         quiz: [{ question: "A nurse performing neurological checks on a patient with traumatic brain injury notes a newly dilated left pupil that is unreactive to light, along with increasing drowsiness. What does this finding indicate, and what is the immediate nursing action?", options: ["A normal variation in pupil size that should be documented and rechecked in 4 hours","CN III compression from left-sided uncal herniation -- IMMEDIATELY notify the neurosurgical team, prepare for emergent CT scan, and anticipate orders for IV mannitol","CN VI palsy from increased intracranial pressure -- recheck in 1 hour and document","Medication side effect from opioid analgesics -- hold the next dose"], correct: 1, rationale: "A NEW unilateral dilated unreactive pupil in a patient with declining consciousness is the hallmark of CN III compression from uncal herniation. The uncus of the temporal lobe herniates over the tentorium cerebelli, compressing the ipsilateral CN III against the posterior cerebral artery. The parasympathetic fibers on the surface of CN III are compressed first, causing loss of pupillary constriction (dilated pupil). This is a neurological emergency that can rapidly progress to brainstem compression, respiratory arrest, and death. Immediate actions include notifying neurosurgery, administering IV mannitol to reduce ICP, and arranging emergent CT." },{ question: "A patient presents with sudden onset left-sided facial weakness. The nurse observes that the patient cannot close the left eye, cannot raise the left eyebrow, and the left nasolabial fold is flattened. What is the significance of the forehead involvement?", options: ["Forehead involvement indicates a stroke until proven otherwise","Forehead involvement indicates a lower motor neuron (LMN) lesion such as Bell palsy, because the ENTIRE half of the face is affected; in an upper motor neuron stroke, the forehead would be SPARED because it receives bilateral cortical innervation","Forehead involvement is normal in all types of facial weakness and has no localizing value","Forehead involvement indicates bilateral facial nerve damage requiring emergent MRI"], correct: 1, rationale: "The forehead-sparing rule is one of the most important clinical pearls in neurology for distinguishing UMN from LMN facial weakness. The upper face (frontalis muscle, orbicularis oculi) receives motor innervation from BOTH cerebral hemispheres via the corticobulbar tracts. Therefore, a unilateral UMN lesion (such as stroke) leaves the upper face functional because the intact contralateral hemisphere maintains innervation. In contrast, an LMN lesion (Bell palsy, acoustic neuroma, temporal bone fracture) destroys the final common pathway -- the facial nerve itself -- paralyzing the ENTIRE ipsilateral face including the forehead. This patient's inability to raise the left eyebrow indicates an LMN lesion." },{ question: "Why must a nurse assess swallowing function before allowing oral intake in a patient with hoarseness and absent gag reflex on the left side?", options: ["Because the patient probably has a sore throat that makes swallowing painful","Because CN IX and CN X deficits impair the protective reflexes that prevent aspiration -- the absent gag reflex and hoarseness (from vocal cord paralysis) indicate the patient cannot adequately protect the airway during swallowing","Because hoarseness always indicates esophageal obstruction","Because the gag reflex is needed for chewing food properly"], correct: 1, rationale: "Hoarseness indicates vocal cord paralysis from CN X (vagus nerve) dysfunction -- specifically the recurrent laryngeal nerve branch. The absent gag reflex (CN IX afferent/CN X efferent) confirms pharyngeal nerve dysfunction. These deficits impair multiple protective mechanisms during swallowing: the epiglottis may not close properly over the larynx, the vocal cords cannot adduct to protect the airway, pharyngeal muscle contraction for propelling the food bolus is weakened, and the cough reflex (CN X) may be impaired. This creates a high risk of aspiration (food or liquid entering the trachea instead of the esophagus), which can cause aspiration pneumonia." }]
   },
   "cranial-nerve-functions-np": {
-    title: "Cranial Nerve Functions",
-    cellular: { title: "Clinical Application of Cranial Nerve Function and Pathological Patterns", content: "The twelve cranial nerves (CN I-XII) subserve sensory, motor, and parasympathetic autonomic functions. At the NP level, clinical application requires understanding not just individual nerve functions but pathological patterns that indicate specific anatomical lesions. CN palsy syndromes arise when multiple cranial nerves are affected together due to their anatomical proximity at specific sites. Cavernous sinus syndrome involves CN III, IV, V1, V2, and VI as they traverse the cavernous sinus — etiologies include cavernous sinus thrombosis (septic from facial/sinus infection or aseptic), pituitary apoplexy, carotid-cavernous fistula, meningioma, and Tolosa-Hunt syndrome (idiopathic granulomatous inflammation). Cerebellopontine angle (CPA) syndrome classically involves CN VII (facial weakness) and CN VIII (sensorineural hearing loss, tinnitus, vertigo), most commonly from vestibular schwannoma (acoustic neuroma); larger tumors compress CN V (facial numbness, absent corneal reflex) and the cerebellum (ataxia). Jugular foramen syndrome (Vernet syndrome) involves CN IX, X, and XI — causes include glomus jugulare tumor, metastasis, and thrombophlebitis. Collet-Sicard syndrome adds CN XII involvement. Pharmacological agents affecting CN function include aminoglycosides (CN VIII ototoxicity — irreversible cochlear hair cell damage), cisplatin (CN VIII), vincristine (CN autonomic neuropathy), ethambutol (CN II optic neuritis), and botulinum toxin (blocks acetylcholine release at the neuromuscular junction affecting multiple CNs). Understanding the parasympathetic component of CN III (pupil constriction via ciliary ganglion), CN VII (lacrimal and submandibular glands), CN IX (parotid gland), and CN X (cardiac, pulmonary, and GI parasympathetic innervation) is essential for interpreting autonomic dysfunction and medication effects." },
-    riskFactors: ["Vestibular schwannoma/acoustic neuroma (CPA syndrome affecting CN VII, VIII)","Cavernous sinus thrombosis — septic (from facial or sinus infections) or aseptic","Pituitary apoplexy (sudden hemorrhage into pituitary adenoma compressing cavernous sinus structures)","Glomus jugulare tumor (jugular foramen syndrome: CN IX, X, XI)","Aminoglycoside or cisplatin use (CN VIII ototoxicity)","Skull base meningiomas or metastatic disease affecting multiple cranial nerves"],
-    diagnostics: ["MRI brain with gadolinium and thin cuts through skull base for cranial nerve enhancement and mass lesions","CT temporal bone for CPA lesions, cholesteatoma, or temporal bone fractures","MR angiography or CT angiography for carotid-cavernous fistula or aneurysm evaluation","Audiometry with speech discrimination scores and brainstem auditory evoked responses (BAER) for CN VIII","Lumbar puncture with cytology for carcinomatous meningitis (elevated protein, low glucose, malignant cells)","Anti-neuronal antibody panel (anti-Hu, anti-Yo) for paraneoplastic cranial neuropathy"],
-    management: ["Surgical resection or stereotactic radiosurgery for vestibular schwannoma based on tumor size, hearing status, and patient age","Anticoagulation with heparin for cavernous sinus thrombosis; antibiotics for septic CST (broad-spectrum including MRSA coverage)","Corticosteroids for Tolosa-Hunt syndrome (dramatic response to prednisone is diagnostic and therapeutic)","Discontinue ototoxic medications and obtain baseline and serial audiometry when aminoglycosides or cisplatin must be continued","Hormone replacement therapy for pituitary apoplexy causing panhypopituitarism (cortisol replacement is life-saving priority)","Radiation therapy for glomus jugulare tumors that are not surgical candidates"],
-    nursingActions: ["Perform systematic CN examination documenting each nerve individually with comparison to baseline","Evaluate for CN palsy syndromes by identifying patterns of multi-nerve involvement that localize to specific anatomical sites","Assess ototoxicity risk in patients receiving aminoglycosides: baseline audiometry, trough levels, symptoms of tinnitus or hearing change","Monitor visual fields and acuity in patients with sellar/parasellar masses (bitemporal hemianopsia from chiasmal compression)","Evaluate autonomic CN function: pupillary responses (CN III parasympathetic), lacrimation (CN VII), heart rate variability (CN X)","Coordinate speech-language pathology evaluation for patients with lower CN deficits (CN IX, X, XII) affecting swallowing and speech"],
-    assessmentFindings: ["Cavernous sinus syndrome: ophthalmoplegia (CN III, IV, VI), facial numbness in V1/V2 distribution, proptosis, chemosis","CPA syndrome: unilateral sensorineural hearing loss, facial weakness, decreased corneal reflex, ipsilateral cerebellar ataxia","Jugular foramen syndrome: hoarseness (CN X), dysphagia (CN IX), ipsilateral SCM/trapezius weakness (CN XI)","CN VIII ototoxicity: bilateral high-frequency sensorineural hearing loss, tinnitus, vestibular dysfunction (oscillopsia)","Pituitary apoplexy: sudden severe headache, bitemporal hemianopsia, ophthalmoplegia, altered mental status, signs of adrenal crisis"],
-    signs: {
-      left: ["Isolated unilateral CN palsy with identified benign etiology (e.g., Bell palsy, diabetic CN VI)","Stable known CN deficit with established management plan","Drug-induced CN effects recognized early with medication adjustment"],
-      right: ["Acute multiple CN palsies suggesting cavernous sinus thrombosis or skull base emergency","Progressive CPA syndrome with brainstem compression signs (long tract signs, hydrocephalus)","Pituitary apoplexy with adrenal crisis (hypotension, altered consciousness — life-threatening)","Bilateral CN VI palsies indicating dangerously elevated ICP","Rapidly progressive lower cranial neuropathies threatening airway protection"]
+      "title": "Cranial Nerve Functions",
+      "cellular": {
+        "title": "Cranial Nerve Functional Organization",
+        "content": "The twelve cranial nerves are organized by function: purely sensory (I-olfactory, II-optic, VIII-vestibulocochlear), purely motor (III-oculomotor, IV-trochlear, VI-abducens, XI-accessory, XII-hypoglossal), and mixed sensory-motor (V-trigeminal, VII-facial, IX-glossopharyngeal, X-vagus). Motor components include somatic motor (voluntary skeletal muscle), branchial motor (muscles derived from pharyngeal arches), and parasympathetic (autonomic). CN III carries parasympathetic fibers to the pupillary sphincter (constriction) and ciliary muscle (accommodation). CN VII carries parasympathetic to submandibular/sublingual glands and lacrimal gland. CN IX provides parasympathetic to the parotid gland. CN X provides parasympathetic innervation to thoracic and abdominal viscera (heart rate regulation, GI motility, bronchial smooth muscle). Understanding these functional components is essential for localizing lesions."
+      },
+      "riskFactors": [
+        "Conditions affecting multiple cranial nerves: meningitis, carcinomatous meningitis, sarcoidosis, GBS, skull base tumors",
+        "Diabetes mellitus: most common cause of isolated cranial mononeuropathy (CN III, VI, VII)",
+        "Herpes zoster: Ramsay Hunt syndrome (CN VII + CN VIII from VZV reactivation in geniculate ganglion)",
+        "Lyme disease: bilateral facial nerve palsy (most common infectious cause of bilateral CN VII palsy)",
+        "Myasthenia gravis: fluctuating CN III, IV, VI weakness (ptosis, diplopia) worsening with fatigue",
+        "Brainstem lesions: infarction, hemorrhage, demyelination (MS), tumor -- may produce crossed findings (ipsilateral CN deficit with contralateral body weakness)"
+      ],
+      "diagnostics": [
+        "Mnemonic for CN functions: 'Some Say Marry Money But My Brother Says Big Brains Matter More' (S=Sensory, M=Motor, B=Both for CN I-XII)",
+        "CN I: smell identification test; loss may indicate anterior cranial fossa lesion or early neurodegenerative disease (Parkinson, Alzheimer)",
+        "CN II: afferent pupillary defect (APD/Marcus Gunn pupil) tested with swinging flashlight test; indicates optic nerve or retinal pathology",
+        "CN V: three divisions (V1-ophthalmic, V2-maxillary, V3-mandibular); motor component tested by jaw clench (masseter) and lateral jaw movement (pterygoids)",
+        "CN VII: taste anterior 2/3 of tongue (chorda tympani branch); motor to muscles of facial expression; parasympathetic to lacrimal, submandibular, sublingual glands",
+        "CN IX and X: gag reflex (IX=afferent, X=efferent); CN X also provides motor to vocal cords (recurrent laryngeal nerve) and parasympathetic to heart/lungs/GI",
+        "CN XI (spinal accessory): sternocleidomastoid (turns head to OPPOSITE side) and trapezius (shoulder shrug)",
+        "CN XII (hypoglossal): tongue protrusion; LMN lesion causes ipsilateral atrophy with fasciculations, tongue deviates TOWARD lesion"
+      ],
+      "management": [
+        "Isolated cranial mononeuropathy in diabetic: control glucose, most resolve spontaneously in 3-6 months; rule out compressive lesion if atypical features",
+        "Ramsay Hunt syndrome: valacyclovir + prednisone within 72 hours (worse prognosis than Bell palsy)",
+        "Myasthenia gravis: acetylcholinesterase inhibitors (pyridostigmine), immunosuppression (steroids, azathioprine), thymectomy if thymoma",
+        "Multiple cranial neuropathy workup: MRI brain/brainstem with contrast, lumbar puncture (look for malignant cells, elevated protein, infection), autoimmune panel",
+        "Recurrent laryngeal nerve injury (hoarseness after thyroid surgery): ENT evaluation, speech therapy; may recover spontaneously or require vocal cord medialization"
+      ],
+      "nursingActions": [
+        "Use systematic approach to cranial nerve assessment, testing each nerve in order with specific methods",
+        "Test olfaction (CN I) in trauma patients -- anosmia indicates cribriform plate fracture; also early sign of Parkinson disease",
+        "Test swinging flashlight for relative afferent pupillary defect (RAPD/Marcus Gunn pupil) -- indicates optic nerve pathology ipsilateral to the abnormal pupil",
+        "Assess corneal reflex in patients with decreased consciousness (afferent=CN V, efferent=CN VII)",
+        "Test gag reflex before oral medications or feeding in patients with suspected bulbar dysfunction (afferent=CN IX, efferent=CN X)",
+        "Document laterality and completeness of all cranial nerve deficits for serial monitoring",
+        "Assess swallowing safety when CN IX, X, or XII are affected; aspiration precautions if dysphagia present"
+      ],
+      "assessmentFindings": [
+        "CN I deficit: anosmia (may not notice until tested); bilateral = check for meningioma, neurodegenerative disease",
+        "CN II: visual field cuts (bitemporal hemianopia = chiasm compression; homonymous hemianopia = retrochiasmal lesion)",
+        "CN III: 'down and out' eye, ptosis, mydriasis (complete); ptosis and diplopia without pupil changes (incomplete/microvascular)",
+        "CN V: facial numbness in specific division; absent corneal reflex; jaw deviation TOWARD weak side on opening",
+        "CN VII motor: facial asymmetry; check upper and lower face separately to distinguish UMN from LMN",
+        "CN VIII: unilateral hearing loss, tinnitus, vertigo; nystagmus (fast phase toward lesion in peripheral, variable in central)",
+        "CN IX/X: absent gag, dysphagia, hoarseness, nasal voice; uvula deviates AWAY from lesion",
+        "CN XII: tongue atrophy, fasciculations (LMN); deviation TOWARD lesion on protrusion"
+      ],
+      "signs": {
+        "left": [
+          "Isolated Bell palsy with complete recovery after steroid treatment",
+          "Diabetic CN VI palsy resolving spontaneously",
+          "Mild unilateral hearing loss with normal MRI",
+          "Trigeminal neuralgia controlled with carbamazepine"
+        ],
+        "right": [
+          "Multiple cranial nerve palsies (need urgent workup for brainstem pathology, meningeal disease, or malignancy)",
+          "CN III palsy with pupil involvement -- emergent angiography for aneurysm",
+          "Bilateral CN VII palsy -- evaluate for GBS, Lyme disease, sarcoidosis",
+          "Progressive bulbar dysfunction with aspiration risk -- swallow evaluation and possible NG/PEG placement",
+          "Horner syndrome (ptosis, miosis, anhidrosis) -- evaluate for carotid dissection, Pancoast tumor, brainstem stroke"
+        ]
+      },
+      "medications": [
+        {
+          "name": "Pyridostigmine (Mestinon)",
+          "type": "Acetylcholinesterase inhibitor (reversible)",
+          "action": "Inhibits acetylcholinesterase at the neuromuscular junction, increasing acetylcholine availability and improving muscle contraction; primary symptomatic treatment for myasthenia gravis (which commonly presents with cranial nerve dysfunction -- ptosis, diplopia, dysphagia, dysarthria)",
+          "sideEffects": "Cholinergic effects: increased salivation, lacrimation, urination, defecation, GI cramping, emesis (SLUDGE mnemonic); bradycardia, miosis, bronchospasm; cholinergic crisis if overdosed (weakness WORSENS paradoxically)",
+          "contra": "Mechanical GI or urinary obstruction; caution with asthma/COPD (bronchospasm)",
+          "pearl": "Start 30 mg TID, increase gradually to 60-120 mg q4-6h based on response; take 30-60 minutes BEFORE meals for dysphagia; cholinergic crisis vs myasthenic crisis: both cause weakness -- edrophonium test (Tensilon) historically used to differentiate (improvement = myasthenic crisis; worsening = cholinergic crisis); now rarely used due to risk -- clinical assessment and dose reduction preferred"
+        }
+      ],
+      "pearls": [
+        "CN mnemonic: 'Oh Oh Oh To Touch And Feel Very Good Velvet AH' = Olfactory, Optic, Oculomotor, Trochlear, Trigeminal, Abducens, Facial, Vestibulocochlear, Glossopharyngeal, Vagus, Accessory, Hypoglossal",
+        "Sensory/Motor/Both: 'Some Say Marry Money But My Brother Says Big Brains Matter More' (I-S, II-S, III-M, IV-M, V-B, VI-M, VII-B, VIII-S, IX-B, X-B, XI-M, XII-M)",
+        "SCM turns head to OPPOSITE side (left SCM turns head right); test CN XI by having patient turn head against resistance -- feel/observe the CONTRALATERAL SCM",
+        "Marcus Gunn pupil (RAPD): on swinging flashlight test, the affected pupil DILATES when light is swung to it (because the optic nerve cannot detect the light as well as the contralateral nerve)",
+        "Brainstem crossed syndromes: ipsilateral cranial nerve deficit + contralateral body weakness = brainstem lesion at the level of that cranial nerve",
+        "Vagus nerve (CN X) is the 'wanderer' -- provides parasympathetic innervation to heart (bradycardia), lungs (bronchoconstriction), and GI tract (increased motility) down to the splenic flexure"
+      ],
+      "quiz": [
+        {
+          "question": "When testing CN XI (spinal accessory), a patient is asked to turn their head to the right against resistance. Which muscle is being tested?",
+          "options": [
+            "Right sternocleidomastoid",
+            "Left sternocleidomastoid",
+            "Right trapezius",
+            "Left trapezius"
+          ],
+          "correct": 1,
+          "rationale": "The sternocleidomastoid turns the head to the OPPOSITE side. Therefore, turning the head to the RIGHT tests the LEFT sternocleidomastoid. The SCM originates from the sternum and clavicle and inserts on the mastoid process -- contraction pulls the head toward the opposite side."
+        },
+        {
+          "question": "During a swinging flashlight test, the left pupil dilates when the light swings from the right eye to the left eye. What does this indicate?",
+          "options": [
+            "Left CN III palsy",
+            "Left relative afferent pupillary defect (Marcus Gunn pupil) indicating left optic nerve pathology",
+            "Right optic nerve damage",
+            "Normal finding"
+          ],
+          "correct": 1,
+          "rationale": "A relative afferent pupillary defect (RAPD/Marcus Gunn pupil) indicates damage to the afferent limb (CN II/optic nerve) of the affected eye. When light is swung to the damaged left eye, it perceives less light than the right eye did, so BOTH pupils dilate paradoxically (as if the light were being removed rather than applied)."
+        },
+        {
+          "question": "Which cranial nerve provides parasympathetic innervation to the heart, lungs, and GI tract down to the splenic flexure?",
+          "options": [
+            "CN VII (facial)",
+            "CN IX (glossopharyngeal)",
+            "CN X (vagus)",
+            "CN XII (hypoglossal)"
+          ],
+          "correct": 2,
+          "rationale": "The vagus nerve (CN X) is the major parasympathetic nerve, providing innervation to the heart (slows heart rate), lungs (bronchoconstriction), and GI tract from the esophagus to the splenic flexure of the colon. Below the splenic flexure, parasympathetic innervation comes from the pelvic splanchnic nerves (S2-S4)."
+        }
+      ]
     },
-    medications: [{
-      name: "Gentamicin",
-      type: "Aminoglycoside antibiotic",
-      action: "Binds to 30S ribosomal subunit inhibiting bacterial protein synthesis; ototoxicity occurs through reactive oxygen species generation in cochlear hair cells and vestibular epithelium",
-      sideEffects: "CN VIII ototoxicity (irreversible cochlear and vestibular damage), nephrotoxicity, neuromuscular blockade at high doses",
-      contra: "Myasthenia gravis, pre-existing hearing loss, concurrent ototoxic drugs (loop diuretics, cisplatin)",
-      pearl: "Monitor trough levels (<1 mcg/mL for traditional dosing); vestibular toxicity (vertigo, nystagmus) may precede cochlear toxicity (hearing loss); once-daily extended-interval dosing reduces toxicity while maintaining efficacy"
-    },{
-      name: "Prednisone",
-      type: "Corticosteroid",
-      action: "Reduces inflammation and edema around cranial nerves; first-line for Tolosa-Hunt syndrome (idiopathic granulomatous cavernous sinus inflammation) with dramatic clinical response within 72 hours",
-      sideEffects: "Hyperglycemia, immunosuppression, osteoporosis with prolonged use, adrenal suppression",
-      contra: "Active systemic fungal infection, untreated septic process",
-      pearl: "In Tolosa-Hunt syndrome, rapid improvement with steroids supports the diagnosis but does not exclude lymphoma or sarcoidosis — biopsy may be needed for atypical cases or relapse"
-    }],
-    pearls: ["Cavernous sinus syndrome spares CN V3 because the mandibular branch exits via foramen ovale before reaching the cavernous sinus — V3 involvement suggests a more proximal lesion","Acoustic neuroma (vestibular schwannoma) presents with gradual unilateral hearing loss and speech discrimination disproportionately worse than pure tone audiometry","CN VIII ototoxicity from aminoglycosides is dose-dependent and irreversible — once cochlear hair cells are destroyed, they cannot regenerate in humans","The Hitselberger sign (loss of sensation in the posterior ear canal) is an early finding of CPA tumors compressing the sensory branch of CN VII","CN X (vagus) is the longest cranial nerve with the widest distribution — its damage affects phonation (recurrent laryngeal), swallowing, and parasympathetic regulation of heart rate and GI motility","Bilateral vocal cord paralysis (bilateral CN X recurrent laryngeal nerve injury) is a life-threatening emergency causing stridor and airway obstruction requiring emergent intubation"],
-    quiz: [
-      {
-        question: "A patient presents with right-sided ptosis, diplopia, right facial numbness in the forehead and cheek, and right lateral rectus palsy. Which anatomical site best explains all findings?",
-        options: ["Right cerebellopontine angle","Right cavernous sinus","Right jugular foramen","Right internal auditory canal"],
-        correct: 1,
-        rationale: "The cavernous sinus contains CN III (ptosis, diplopia), CN IV, CN V1 and V2 (forehead and cheek numbness), and CN VI (lateral rectus palsy). All of these deficits localize to a cavernous sinus lesion. CPA syndrome involves CN VII and VIII; jugular foramen involves CN IX, X, XI."
-      },
-      {
-        question: "A patient on IV gentamicin for 14 days reports new-onset bilateral tinnitus and difficulty hearing conversations. What is the priority NP action?",
-        options: ["Continue gentamicin and recheck hearing in one week","Order stat audiometry and evaluate for medication discontinuation or switch","Reassure the patient that tinnitus is temporary and self-limiting","Increase the gentamicin dose to complete the course faster"],
-        correct: 1,
-        rationale: "New tinnitus and hearing difficulty in a patient on aminoglycosides strongly suggests CN VIII ototoxicity. Aminoglycoside ototoxicity is dose-dependent and irreversible due to permanent cochlear hair cell destruction. The NP should obtain stat audiometry to document hearing loss and evaluate whether to discontinue or switch to a non-ototoxic antibiotic."
-      },
-      {
-        question: "A 45-year-old patient presents with progressive unilateral sensorineural hearing loss, ipsilateral facial weakness, and an absent corneal reflex on the same side. MRI reveals a 3cm mass at the cerebellopontine angle. Which cranial nerves are involved?",
-        options: ["CN III, IV, VI","CN V, VII, VIII","CN IX, X, XI","CN I, II"],
-        correct: 1,
-        rationale: "This is classic cerebellopontine angle syndrome from a vestibular schwannoma (acoustic neuroma). CN VIII produces the sensorineural hearing loss, CN VII the facial weakness, and CN V the absent corneal reflex (afferent limb). CPA tumors characteristically affect these three nerves due to their anatomical proximity at the CPA."
-      },
-    ]
-  },
   "craniopharyngioma-np": {
-    title: "Craniopharyngioma: Sellar Mass Workup",
-    cellular: { title: "Craniopharyngioma Pathophysiology and Clinical Presentation", content: "Craniopharyngioma is a benign but locally aggressive sellar/suprasellar tumor arising from embryonic remnants of Rathke's pouch (the ectodermal diverticulum that forms the anterior pituitary). It accounts for 2-5% of primary intracranial tumors but is the most common suprasellar tumor in children. Two histological subtypes exist: adamantinomatous (bimodal age distribution peaking at 5-14 years and 50-74 years; characterized by calcification, cystic components with 'machinery oil' fluid, and wet keratin) and papillary (almost exclusively adults; solid, rarely calcified, better prognosis). The tumor's suprasellar location produces symptoms through mass effect on adjacent structures: compression of the optic chiasm causes bitemporal hemianopsia (classically starts as superior temporal quadrantanopsia); compression of the pituitary gland and stalk causes panhypopituitarism (growth hormone deficiency is most common in children, followed by gonadotropin, TSH, and ACTH deficiency); hypothalamic involvement causes diabetes insipidus (DI) from destruction of ADH-producing neurons in the supraoptic and paraventricular nuclei, as well as obesity, temperature dysregulation, and behavioral changes. Obstructive hydrocephalus occurs when the tumor blocks the foramen of Monro or third ventricle. CT characteristically shows a calcified suprasellar mass (90% of pediatric craniopharyngiomas have calcification). MRI better delineates the tumor's relationship to the optic apparatus, pituitary, and hypothalamus for surgical planning." },
-    riskFactors: ["Bimodal age distribution: peak incidence at 5-14 years and 50-74 years","No established modifiable risk factors — tumor arises from embryonic Rathke's pouch remnants","Adamantinomatous subtype more common in children; papillary subtype in adults","Genetic: CTNNB1 (beta-catenin) mutations in adamantinomatous type; BRAF V600E mutation in papillary type"],
-    diagnostics: ["CT head showing calcified sellar/suprasellar mass (pathognomonic in children — 90% have calcification)","MRI brain with gadolinium: defines tumor extent, cystic vs solid components, relationship to optic chiasm, pituitary, and hypothalamus","Complete pituitary hormone panel: GH/IGF-1, LH/FSH, estradiol/testosterone, TSH/free T4, morning cortisol/ACTH, prolactin","Formal visual field testing (Humphrey or Goldmann perimetry) for bitemporal hemianopsia","Serum and urine osmolality, urine specific gravity for diabetes insipidus evaluation","Water deprivation test if DI is suspected but not clinically obvious"],
-    management: ["Surgical resection via transcranial or transsphenoidal approach — goal is maximal safe resection while preserving hypothalamic and visual function","Adjuvant radiation therapy (fractionated or stereotactic radiosurgery) for subtotal resection or recurrence","Lifelong hormone replacement therapy: hydrocortisone (cortisol replacement — MUST be initiated before thyroid replacement to prevent adrenal crisis), levothyroxine, sex steroids, GH replacement, desmopressin for DI","Cyst drainage via Ommaya reservoir for recurrent symptomatic cystic components","Intracystic interferon-alpha or bleomycin for cystic recurrences not amenable to resection","Long-term endocrinology, ophthalmology, and neurosurgery follow-up with serial MRI surveillance"],
-    nursingActions: ["Monitor strict intake and output for diabetes insipidus: polyuria (>3L/24h or >250mL/hr), polydipsia, low urine specific gravity (<1.005)","Administer desmopressin (DDAVP) as prescribed for DI and monitor serum sodium to prevent hyponatremia from overcorrection","Assess visual fields at bedside using confrontation testing; report any new visual deficits immediately","Ensure cortisol replacement is given BEFORE thyroid hormone replacement (thyroid hormone increases cortisol metabolism — giving it first can precipitate adrenal crisis)","Post-operative monitoring for triphasic response of DI: initial DI (days 1-3) → SIADH phase (days 4-8, risk of hyponatremia) → permanent DI","Educate patient/family on lifelong hormone replacement, stress dosing of hydrocortisone during illness, and MedicAlert bracelet"],
-    assessmentFindings: ["Bitemporal hemianopsia (patients report bumping into things laterally, difficulty driving)","Growth failure in children (most common presenting symptom in pediatric craniopharyngioma)","Polyuria and polydipsia from diabetes insipidus","Headache from mass effect or obstructive hydrocephalus","Delayed or arrested puberty in adolescents (gonadotropin deficiency)","Hypothalamic obesity (particularly post-surgical, extremely difficult to manage)"],
-    signs: {
-      left: ["Small incidental craniopharyngioma without visual field deficits or hormonal deficiency","Stable post-operative patient on established hormone replacement with stable MRI","Mild GH deficiency managed with replacement therapy"],
-      right: ["Acute visual deterioration suggesting tumor expansion or hemorrhage into cystic component (pituitary apoplexy equivalent)","Post-operative adrenal crisis: hypotension, altered consciousness, hyponatremia — requires emergent IV hydrocortisone","Signs of obstructive hydrocephalus: headache, papilledema, vomiting, decreased consciousness","Severe hyponatremia during SIADH phase of triphasic DI response (seizure risk)","Hypothalamic dysfunction: temperature dysregulation, severe obesity, behavioral changes"]
+      "title": "Craniopharyngioma",
+      "cellular": {
+        "title": "Craniopharyngioma Pathology",
+        "content": "Craniopharyngioma is a benign but locally aggressive epithelial tumor arising from Rathke pouch remnants along the craniopharyngeal duct. Two histologic subtypes exist: adamantinomatous (children/adolescents, calcifications, cystic with machinery oil-like fluid, CTNNB1 beta-catenin mutations) and papillary (adults, solid, rarely calcified, BRAF V600E mutations). These tumors grow in the sellar/suprasellar region, compressing the optic chiasm (bitemporal hemianopia), pituitary gland (hypopituitarism), hypothalamus (obesity, temperature dysregulation, behavioral changes), and third ventricle (obstructive hydrocephalus). Despite being histologically benign (WHO Grade I), they cause significant morbidity due to their critical location and high recurrence rate (20-50% after surgery)."
+      },
+      "riskFactors": [
+        "Bimodal age distribution: childhood peak (5-14 years) and adult peak (50-74 years)",
+        "No established environmental or genetic risk factors for sporadic cases",
+        "Adamantinomatous subtype: CTNNB1 mutations (beta-catenin pathway)",
+        "Papillary subtype: BRAF V600E mutation (targetable with BRAF inhibitors)",
+        "Prior subtotal resection: high recurrence rate (50% within 10 years)",
+        "Radiation-naive status: adjuvant radiation reduces recurrence after subtotal resection"
+      ],
+      "diagnostics": [
+        "Brain MRI with contrast: mixed solid/cystic mass in sellar/suprasellar region; calcifications best seen on CT (90% of adamantinomatous type calcify)",
+        "Visual field testing: bitemporal hemianopia from optic chiasm compression (most common visual field defect)",
+        "Complete pituitary hormone panel: GH (growth failure in children), TSH/free T4, ACTH/cortisol (morning cortisol <3 = adrenal insufficiency), LH/FSH, prolactin, ADH (diabetes insipidus)",
+        "Water deprivation test: diagnose diabetes insipidus (failure to concentrate urine despite dehydration)",
+        "CT head: calcifications in sellar/suprasellar region (highly suggestive of adamantinomatous craniopharyngioma in children)",
+        "Formal ophthalmologic examination: visual acuity, visual fields, fundoscopy"
+      ],
+      "management": [
+        "Surgical resection: gross total resection when feasible without unacceptable hypothalamic/optic damage; transcranial or transsphenoidal approach depending on location",
+        "Subtotal resection + radiation: preferred over aggressive total resection when hypothalamic involvement is significant (reduces hypothalamic obesity risk)",
+        "Radiation therapy: conventional fractionated RT or proton beam therapy for residual/recurrent disease; stereotactic radiosurgery for small solid residual",
+        "BRAF inhibitor (dabrafenib) + MEK inhibitor (trametinib): emerging targeted therapy for papillary craniopharyngiomas with BRAF V600E mutation",
+        "Hormone replacement: lifelong in most patients -- levothyroxine, hydrocortisone, growth hormone, sex hormones, desmopressin (for DI)",
+        "Intracystic therapy: interferon-alpha or bleomycin instillation for predominantly cystic tumors (palliative)",
+        "Hypothalamic obesity management: most refractory to conventional diet/exercise; GLP-1 agonists, bariatric surgery considered"
+      ],
+      "nursingActions": [
+        "Perform comprehensive endocrine assessment pre-operatively: pituitary hormone panel, assess for diabetes insipidus (polyuria, polydipsia, low urine osmolality)",
+        "Monitor strict I&O post-operatively: diabetes insipidus may develop acutely after surgery (UOP >300 mL/hr, dilute urine, rising serum sodium)",
+        "Administer stress-dose hydrocortisone peri-operatively if cortisol axis deficient (adrenal crisis prevention)",
+        "Monitor visual fields pre- and post-operatively (improvement in bitemporal hemianopia is expected after successful decompression)",
+        "Assess for signs of obstructive hydrocephalus: headache, nausea/vomiting, altered mental status, papilledema",
+        "Coordinate multidisciplinary care: endocrinology, neurosurgery, ophthalmology, radiation oncology",
+        "Educate patient/family on lifelong hormone replacement and medical alert identification for adrenal insufficiency"
+      ],
+      "assessmentFindings": [
+        "Visual disturbance: bitemporal hemianopia (optic chiasm compression) -- patients bump into things on both sides, difficulty with peripheral vision",
+        "Growth failure in children (GH deficiency -- often the first endocrine symptom)",
+        "Headache (mass effect, hydrocephalus)",
+        "Diabetes insipidus: polyuria (large volumes of dilute urine), polydipsia, nocturia",
+        "Hypothyroidism symptoms: fatigue, weight gain, cold intolerance, constipation",
+        "Adrenal insufficiency: fatigue, hypotension, electrolyte abnormalities",
+        "Obesity (hypothalamic involvement -- occurs in 50% of patients, often refractory to treatment)",
+        "Delayed or arrested puberty in adolescents"
+      ],
+      "signs": {
+        "left": [
+          "Small incidental craniopharyngioma found on imaging without visual or endocrine compromise -- monitor with serial MRI",
+          "Stable residual tumor post-surgery and radiation without growth on surveillance imaging",
+          "Well-managed endocrine deficiencies on hormone replacement"
+        ],
+        "right": [
+          "Acute visual loss from tumor enlargement or cyst expansion compressing the optic chiasm -- urgent neurosurgical intervention",
+          "Obstructive hydrocephalus: acute headache, vomiting, altered consciousness -- emergent CSF diversion (EVD or shunt)",
+          "Adrenal crisis: hypotension, altered mental status from cortisol deficiency -- emergent IV hydrocortisone",
+          "Severe post-operative diabetes insipidus: massive polyuria with hypernatremia if not managed",
+          "Hypothalamic obesity: severe weight gain refractory to lifestyle interventions"
+        ]
+      },
+      "medications": [
+        {
+          "name": "Desmopressin (DDAVP)",
+          "type": "Synthetic ADH analogue (V2 receptor agonist)",
+          "action": "Selectively activates vasopressin V2 receptors on the basolateral membrane of collecting duct principal cells, inserting aquaporin-2 water channels in the apical membrane; increases water reabsorption and produces concentrated urine; replaces deficient ADH in central diabetes insipidus caused by craniopharyngioma or post-surgical pituitary stalk damage",
+          "sideEffects": "Hyponatremia (most serious -- water intoxication if fluid intake not restricted), headache, nausea, nasal congestion (intranasal form), flushing",
+          "contra": "Hyponatremia, habitual polydipsia (psychogenic), type IIb von Willebrand disease, moderate-severe renal impairment",
+          "pearl": "Available as oral tablet, sublingual melt, nasal spray, or IV/SC injection; for DI management: intranasal 10-40 mcg/day divided BID or oral 0.1-1.2 mg/day divided BID-TID; titrate based on urine output and serum sodium; educate patients to have a 'free water day' or skip a dose periodically to avoid hyponatremia from over-replacement; monitor serum sodium regularly"
+        }
+      ],
+      "pearls": [
+        "Craniopharyngioma is the most common suprasellar tumor in children -- think of it when a child presents with growth failure + visual field deficits + calcifications on imaging",
+        "Adamantinomatous (children): calcified, cystic with 'machinery oil' fluid, CTNNB1 mutation; Papillary (adults): solid, non-calcified, BRAF V600E mutation (targetable)",
+        "Bitemporal hemianopia = optic chiasm compression (nasal retinal fibers cross at chiasm; these carry temporal visual fields from both eyes)",
+        "Hypothalamic obesity occurs in ~50% of craniopharyngioma patients and is the most debilitating long-term complication -- extremely resistant to diet/exercise due to disrupted satiety signaling",
+        "Post-operative diabetes insipidus may follow a TRIPHASIC pattern: DI (days 1-5) → SIADH (days 5-10, from dying neurons releasing stored ADH) → permanent DI (if stalk is damaged)",
+        "Most patients require lifelong hormone replacement for multiple pituitary axes -- always assess and replace cortisol BEFORE thyroid hormone (giving T4 without cortisol can precipitate adrenal crisis)"
+      ],
+      "quiz": [
+        {
+          "question": "A 9-year-old presents with headaches, growth failure, and bitemporal hemianopia. Brain MRI shows a calcified cystic mass in the suprasellar region. What is the most likely diagnosis?",
+          "options": [
+            "Pituitary adenoma",
+            "Craniopharyngioma (adamantinomatous type)",
+            "Optic glioma",
+            "Meningioma"
+          ],
+          "correct": 1,
+          "rationale": "A calcified cystic suprasellar mass in a child with growth failure and bitemporal hemianopia is classic for adamantinomatous craniopharyngioma. Pituitary adenomas rarely calcify and are uncommon in children. The growth failure indicates GH deficiency from pituitary compression, and bitemporal hemianopia indicates optic chiasm compression."
+        },
+        {
+          "question": "After craniopharyngioma resection, a patient develops urine output of 500 mL/hour with serum sodium rising to 152. What complication has occurred?",
+          "options": [
+            "SIADH",
+            "Central diabetes insipidus from pituitary stalk damage",
+            "Cerebral salt wasting",
+            "Normal post-operative diuresis"
+          ],
+          "correct": 1,
+          "rationale": "Massive polyuria with dilute urine and rising serum sodium post-craniopharyngioma surgery indicates central diabetes insipidus from disruption of the pituitary stalk or posterior pituitary. ADH (vasopressin) is no longer released, so the kidneys cannot concentrate urine. Treatment is desmopressin (DDAVP) and careful fluid management."
+        },
+        {
+          "question": "Why must cortisol replacement be started BEFORE thyroid hormone replacement in panhypopituitarism?",
+          "options": [
+            "Thyroid hormone is not important in pituitary failure",
+            "Levothyroxine increases metabolic rate, which accelerates cortisol clearance and can precipitate adrenal crisis in a cortisol-deficient patient",
+            "Cortisol blocks thyroid hormone absorption",
+            "They have a drug interaction"
+          ],
+          "correct": 1,
+          "rationale": "In panhypopituitarism, starting levothyroxine before cortisol replacement is dangerous. Thyroid hormone increases the metabolic rate, accelerating cortisol metabolism. In a cortisol-deficient patient, this accelerated clearance can precipitate a life-threatening adrenal crisis. Always replace cortisol (hydrocortisone) first, then add levothyroxine."
+        }
+      ]
     },
-    medications: [{
-      name: "Desmopressin (DDAVP)",
-      type: "Synthetic vasopressin analog",
-      action: "Binds to V2 receptors in the renal collecting duct, inserting aquaporin-2 channels to increase water reabsorption; replaces deficient ADH in central diabetes insipidus caused by hypothalamic/posterior pituitary destruction",
-      sideEffects: "Hyponatremia (from excess water retention if dose too high or fluid intake unrestricted), headache, nausea, facial flushing",
-      contra: "Habitual polydipsia (risk of severe hyponatremia), type IIB von Willebrand disease, hyponatremia",
-      pearl: "Dose titrated to control polyuria while avoiding hyponatremia; patients must be educated to allow breakthrough polyuria periodically to prevent water intoxication; monitor serum sodium regularly, especially during the post-operative triphasic DI response"
-    },{
-      name: "Hydrocortisone",
-      type: "Glucocorticoid (physiological cortisol replacement)",
-      action: "Replaces deficient endogenous cortisol in patients with ACTH deficiency from pituitary/hypothalamic destruction; essential for maintaining vascular tone, glucose homeostasis, and stress response",
-      sideEffects: "Cushingoid features with supraphysiologic dosing, weight gain, hyperglycemia, osteoporosis with long-term excess",
-      contra: "No absolute contraindication when used as physiologic replacement in documented adrenal insufficiency",
-      pearl: "Stress dosing is critical: double or triple the dose during febrile illness, trauma, or surgery; patients must carry emergency injectable hydrocortisone and wear MedicAlert identification; MUST be started before levothyroxine to prevent adrenal crisis"
-    }],
-    pearls: ["Calcification in a suprasellar mass on CT in a child is craniopharyngioma until proven otherwise — this imaging finding is nearly pathognomonic","The triphasic DI response after surgery (DI → SIADH → permanent DI) is a critical post-operative monitoring concept — the SIADH phase carries the highest risk for dangerous hyponatremia","Always replace cortisol BEFORE thyroid hormone — levothyroxine increases cortisol metabolism and can precipitate adrenal crisis in a cortisol-deficient patient","Hypothalamic obesity following craniopharyngioma surgery is often refractory to diet and exercise due to disrupted hypothalamic satiety centers — octreotide and GLP-1 agonists are under investigation","Craniopharyngiomas have a high recurrence rate (30-50% after subtotal resection) — lifelong MRI surveillance is mandatory","Papillary craniopharyngiomas harbor BRAF V600E mutations — targeted therapy with BRAF/MEK inhibitors (dabrafenib/trametinib) is an emerging treatment for recurrent/unresectable tumors"],
-    quiz: [
-      {
-        question: "A 9-year-old presents with headaches, short stature, and bitemporal visual field deficits. CT shows a calcified suprasellar mass. What is the most likely diagnosis?",
-        options: ["Pituitary macroadenoma","Craniopharyngioma","Optic pathway glioma","Meningioma"],
-        correct: 1,
-        rationale: "A calcified suprasellar mass in a child with growth failure and bitemporal hemianopsia is classic for craniopharyngioma. Pituitary adenomas are rare in children and rarely calcify. Optic pathway gliomas do not typically calcify. Meningiomas are uncommon in children."
-      },
-      {
-        question: "Three days after craniopharyngioma resection, a patient's urine output drops to 30 mL/hr and serum sodium falls to 128 mEq/L. What is the most likely explanation?",
-        options: ["Worsening diabetes insipidus requiring more desmopressin","SIADH phase of the triphasic diabetes insipidus response","Adrenal crisis from inadequate cortisol replacement","Normal post-operative fluid shift"],
-        correct: 1,
-        rationale: "The triphasic response after sellar surgery follows a predictable pattern: initial DI (days 1-3 with polyuria), followed by SIADH (days 4-8 with oliguria and hyponatremia from unregulated ADH release from dying posterior pituitary neurons), then permanent DI. The decreased urine output with hyponatremia on day 3-5 represents the SIADH phase. Desmopressin should be held and fluids restricted."
-      },
-      {
-        question: "A patient with newly diagnosed craniopharyngioma has ACTH deficiency and central hypothyroidism. Which hormone should be replaced FIRST?",
-        options: ["Levothyroxine for hypothyroidism","Hydrocortisone for cortisol deficiency","Growth hormone","Desmopressin for diabetes insipidus"],
-        correct: 1,
-        rationale: "Cortisol (hydrocortisone) must always be replaced before thyroid hormone. Levothyroxine increases hepatic cortisol metabolism; initiating thyroid replacement in a cortisol-deficient patient can precipitate a life-threatening adrenal crisis with cardiovascular collapse."
-      },
-    ]
-  },
   "creutzfeldt-jakob-np": {
-    title: "Creutzfeldt-Jakob Disease",
-    cellular: { title: "Prion Disease Pathophysiology", content: "Creutzfeldt-Jakob disease (CJD) is a fatal transmissible spongiform encephalopathy caused by misfolded prion proteins (PrPSc — scrapie isoform). Normal cellular prion protein (PrPC) is a glycoprotein expressed on neuronal cell surfaces with a predominantly alpha-helical structure. In CJD, PrPC undergoes conformational change to the pathological beta-sheet-rich PrPSc isoform, which is resistant to proteolytic degradation, heat, radiation, and standard sterilization. PrPSc acts as a template, inducing normal PrPC to misfold in a self-propagating cascade. Accumulation of PrPSc causes spongiform vacuolation (characteristic microscopic 'holes' in gray matter), astrocytic gliosis, and neuronal loss without inflammatory infiltrate — this lack of inflammation is distinctive because prions are not recognized by the immune system. Four forms of CJD exist: sporadic (sCJD, 85-90% — spontaneous PrPC misfolding, mean age 65, median survival 5 months), familial/genetic (fCJD, 10-15% — PRNP gene mutations on chromosome 20, autosomal dominant), iatrogenic (iCJD — contaminated surgical instruments, dura mater grafts, corneal transplants, cadaveric pituitary-derived growth hormone), and variant (vCJD — linked to bovine spongiform encephalopathy/BSE/mad cow disease, younger patients median age 28, longer duration 13 months, psychiatric symptoms predominate early, pulvinar sign on MRI). The disease is invariably fatal with no cure or disease-modifying treatment." },
-    riskFactors: ["Sporadic CJD: advancing age (peak incidence 55-75 years), no known modifiable risk factors","Familial CJD: PRNP gene mutations (autosomal dominant — E200K most common worldwide, D178N causes fatal familial insomnia)","Iatrogenic CJD: prior neurosurgical procedures, dura mater grafts (Lyodura), cadaveric pituitary-derived growth hormone (before 1985), corneal transplant from infected donor","Variant CJD: exposure to BSE-contaminated beef (primarily UK/Europe, 1980s-1990s), blood transfusion from vCJD-infected donor","Homozygosity at PRNP codon 129 (methionine/methionine genotype confers increased susceptibility)"],
-    diagnostics: ["MRI brain with DWI (diffusion-weighted imaging): cortical ribboning (high signal in cortical gyri) and caudate/putamen hyperintensity on DWI and FLAIR — highly sensitive and specific for sCJD","EEG: periodic sharp wave complexes (PSWCs) at 1-2 Hz — classic for sCJD but sensitivity only ~65%; absent in vCJD","CSF biomarkers: 14-3-3 protein (moderate sensitivity/specificity), RT-QuIC assay (real-time quaking-induced conversion — sensitivity >90%, specificity >99%, gold standard antemortem test)","CSF tau protein (markedly elevated, typically >1150 pg/mL) and neuron-specific enolase","Brain biopsy or autopsy: definitive diagnosis showing spongiform change, PrPSc immunostaining, and gliosis — rarely performed antemortem","For vCJD: tonsil biopsy positive for PrPSc; MRI shows pulvinar sign (bilateral pulvinar thalamic hyperintensity)"],
-    management: ["No cure or disease-modifying treatment exists — CJD is invariably fatal","Supportive and palliative care: symptom management for myoclonus (clonazepam, valproate), pain, anxiety, and agitation","Early palliative care consultation and goals-of-care discussions with family","Fall prevention and safety measures for progressive ataxia and cognitive decline","Strict prion infection control: contaminated surgical instruments must be destroyed or undergo specific decontamination (1N NaOH for 1 hour OR 20,000 ppm sodium hypochlorite for 1 hour — standard autoclaving at 134°C for 18 minutes in prevacuum sterilizer; routine steam sterilization is INSUFFICIENT)","Notify public health authorities — CJD is a reportable disease in most jurisdictions"],
-    nursingActions: ["Implement strict prion-specific infection control precautions: single-use instruments for any invasive procedure, dedicated non-disposable equipment, avoid contamination of reusable surgical instruments","Handle CSF, brain tissue, and dura mater as high-risk prion-contaminated materials — standard disinfectants (alcohol, formaldehyde, glutaraldehyde) do NOT inactivate prions","Use standard precautions for routine patient care — prions are NOT transmitted by casual contact, respiratory droplets, or intact skin exposure","Monitor for and manage myoclonus with clonazepam; assess for aspiration risk as dysphagia progresses","Provide emotional support to family regarding the rapid, inevitable decline — mean survival from symptom onset is 5 months for sCJD","Coordinate genetic counseling referral for familial CJD cases (PRNP testing for at-risk family members)"],
-    assessmentFindings: ["Rapidly progressive dementia over weeks to months (much faster than Alzheimer disease which progresses over years)","Startle myoclonus — involuntary jerking movements triggered by auditory or tactile stimuli","Cerebellar ataxia with progressive gait instability and limb incoordination","Visual disturbances including cortical blindness (Heidenhain variant of sCJD)","Akinetic mutism in late stages — patient is awake but unresponsive, immobile, and mute","Psychiatric symptoms predominating early in variant CJD (depression, anxiety, behavioral changes, painful dysesthesias)"],
-    signs: {
-      left: ["Stable cognitive status in a patient under evaluation for suspected CJD (diagnosis not yet confirmed)","Effective symptom management with controlled myoclonus and comfort measures"],
-      right: ["Rapidly progressive dementia with myoclonus and ataxia — classic triad requiring urgent MRI and CSF RT-QuIC","Status myoclonus unresponsive to clonazepam requiring additional anticonvulsant therapy","Aspiration pneumonia from progressive dysphagia and loss of protective airway reflexes","Akinetic mutism indicating end-stage disease requiring intensive palliative support","Suspected iatrogenic exposure requiring instrument quarantine and public health notification"]
+      "title": "Creutzfeldt-Jakob Disease",
+      "cellular": {
+        "title": "Prion Disease Pathogenesis",
+        "content": "Creutzfeldt-Jakob disease (CJD) is a rapidly progressive and universally fatal transmissible spongiform encephalopathy caused by prions -- misfolded isoforms (PrPSc) of normal cellular prion protein (PrPC). PrPSc acts as a template, converting normal PrPC into the pathological conformation through a self-propagating cascade. The misfolded proteins are resistant to proteases, heat, radiation, and standard sterilization. Accumulation of PrPSc causes neuronal vacuolation (spongiform change), astrogliosis, and neuronal death without inflammatory infiltrate. Forms include sporadic CJD (85%, mean age 65, unknown trigger), familial/genetic CJD (10-15%, PRNP gene mutations), iatrogenic CJD (contaminated surgical instruments, dura mater grafts, cadaveric pituitary hormones), and variant CJD (vCJD, bovine spongiform encephalopathy/mad cow disease, younger patients, psychiatric symptoms, 'florid plaques')."
+      },
+      "riskFactors": [
+        "Sporadic CJD: advanced age (peak 60-70 years), unknown precipitant -- most common form (85%)",
+        "Genetic CJD: PRNP gene mutations (autosomal dominant); family history of rapid dementia",
+        "Iatrogenic CJD: prior neurosurgical procedures with contaminated instruments, dura mater grafts (Lyodura), cadaveric growth hormone or gonadotropins (historical)",
+        "Variant CJD (vCJD): exposure to BSE-contaminated beef products (primarily UK in 1990s-2000s); younger age (median 28 years); methionine homozygosity at codon 129 of PRNP gene",
+        "Corneal transplant from infected donor (rare)",
+        "No risk from casual contact, airborne transmission, or blood transfusion for sporadic CJD (though vCJD has been transmitted by blood)"
+      ],
+      "diagnostics": [
+        "Brain MRI (DWI/FLAIR): cortical ribboning (high signal in cortical gyri) and basal ganglia hyperintensity (caudate and putamen) -- most sensitive early test for sporadic CJD",
+        "EEG: periodic sharp wave complexes (PSWCs) at 1-2 Hz -- present in 60-70% of sporadic CJD (not seen in vCJD)",
+        "CSF biomarkers: RT-QuIC assay (real-time quaking-induced conversion) -- 97% sensitivity and ~100% specificity for prion disease; CSF 14-3-3 protein (marker of rapid neuronal destruction, less specific); total tau elevated",
+        "Definitive diagnosis: brain biopsy or autopsy showing spongiform change, PrPSc immunohistochemistry, protease-resistant prion protein",
+        "PRNP gene analysis: identifies familial CJD mutations and codon 129 polymorphism (M/M homozygosity = higher susceptibility)",
+        "Variant CJD differences: MRI shows 'pulvinar sign' (bilateral pulvinar thalamic hyperintensity); no PSWCs on EEG; tonsil biopsy positive for PrPSc"
+      ],
+      "management": [
+        "No cure or disease-modifying treatment exists -- CJD is uniformly fatal (median survival: sporadic 5 months, vCJD 14 months)",
+        "Supportive care: comfort measures, symptom management (myoclonus -- clonazepam; seizures -- levetiracetam; psychiatric symptoms -- low-dose antipsychotics)",
+        "Palliative care: early and ongoing; goals of care discussion; advance directives",
+        "Infection prevention: prions are NOT destroyed by autoclaving, ethylene oxide, alcohol, formaldehyde, or ionizing radiation; WHO guidelines: disposable instruments for suspected cases or decontamination with 1N NaOH for 1 hour or immersion in sodium hypochlorite (20,000 ppm) for 1 hour followed by autoclaving at 134°C for 18 minutes",
+        "Notification: CJD is a reportable disease; refer brain tissue for definitive diagnosis at autopsy to prion surveillance center"
+      ],
+      "nursingActions": [
+        "Recognize the clinical presentation: rapidly progressive dementia (weeks to months, NOT years), myoclonus, cerebellar ataxia, visual disturbances, and akinetic mutism (late stage)",
+        "Order appropriate diagnostics urgently: brain MRI with DWI, EEG, CSF for RT-QuIC and 14-3-3 protein",
+        "Implement special infection control precautions: standard precautions are adequate for routine care; prion-specific decontamination for surgical instruments and tissue handling",
+        "Refer for palliative care early given universally fatal prognosis",
+        "Provide compassionate family education: explain the prion disease mechanism, expected trajectory, and that there is no treatment to alter the course",
+        "Coordinate with public health for disease reporting",
+        "Ensure advance directive completion while patient retains any decision-making capacity (early in disease course)",
+        "Handle tissue specimens with caution: label as 'prion precaution'; notify pathology/laboratory for special handling"
+      ],
+      "assessmentFindings": [
+        "Rapidly progressive dementia: cognitive decline over WEEKS to months (not years -- this distinguishes CJD from Alzheimer disease)",
+        "Myoclonus: involuntary jerking movements, often stimulus-sensitive (startle myoclonus)",
+        "Cerebellar ataxia: gait instability, dysarthria, limb incoordination",
+        "Visual disturbances: cortical blindness, visual hallucinations (Heidenhain variant)",
+        "Psychiatric symptoms: depression, anxiety, apathy, psychosis (especially prominent in vCJD as presenting feature)",
+        "Akinetic mutism (late stage): awake-appearing but unable to move or speak",
+        "Extrapyramidal signs: rigidity, bradykinesia",
+        "Pyramidal signs: hyperreflexia, extensor plantar responses"
+      ],
+      "signs": {
+        "left": [
+          "There are no 'stable' presentations of CJD -- all forms are rapidly progressive and fatal",
+          "Early cognitive changes may initially be attributed to depression, anxiety, or early Alzheimer disease"
+        ],
+        "right": [
+          "Rapidly progressive dementia over weeks with myoclonus -- urgent neurological evaluation for CJD",
+          "Akinetic mutism: patient appears awake but is unresponsive (late-stage CJD)",
+          "Status myoclonus: continuous myoclonic jerking requiring clonazepam",
+          "Aspiration pneumonia from dysphagia in advanced disease",
+          "Death typically occurs within 1 year of symptom onset (sporadic CJD)"
+        ]
+      },
+      "medications": [
+        {
+          "name": "Clonazepam (Klonopin)",
+          "type": "Benzodiazepine (GABA-A receptor agonist)",
+          "action": "Enhances GABA-A receptor function, increasing chloride conductance and neuronal inhibition; used symptomatically for myoclonus in CJD (no disease-modifying therapies exist)",
+          "sideEffects": "Sedation, respiratory depression, paradoxical agitation, dependence, cognitive worsening (may be difficult to distinguish from disease progression in CJD)",
+          "contra": "Severe respiratory insufficiency, acute narrow-angle glaucoma",
+          "pearl": "Used for symptom management of myoclonus in CJD; start low dose (0.5 mg BID) and titrate to effect; alternative: levetiracetam for myoclonus with less sedation; valproic acid also used; no medication alters the disease course -- all treatment is palliative"
+        }
+      ],
+      "pearls": [
+        "CJD causes rapidly progressive dementia over WEEKS to MONTHS -- if cognitive decline is over YEARS, think Alzheimer disease; if WEEKS, think CJD or autoimmune encephalitis",
+        "RT-QuIC (real-time quaking-induced conversion) is the most specific CSF test for CJD (97% sensitive, ~100% specific) -- has largely replaced 14-3-3 protein testing",
+        "Prions are NOT destroyed by standard sterilization: autoclaving, alcohol, formaldehyde, and radiation are INEFFECTIVE; requires 1N NaOH or concentrated bleach + extended autoclaving",
+        "MRI DWI showing cortical ribboning and basal ganglia hyperintensity is the most sensitive imaging finding for sporadic CJD",
+        "EEG periodic sharp wave complexes are seen in sporadic CJD but NOT variant CJD",
+        "Variant CJD (vCJD) differs: younger patients, prominent psychiatric symptoms as presenting feature, 'pulvinar sign' on MRI, positive tonsil biopsy, NO EEG sharp waves, and is associated with BSE-contaminated beef"
+      ],
+      "quiz": [
+        {
+          "question": "A 67-year-old develops rapidly progressive cognitive decline, myoclonus, and ataxia over 8 weeks. MRI shows cortical ribboning on DWI and bilateral caudate hyperintensity. What is the most likely diagnosis?",
+          "options": [
+            "Alzheimer disease",
+            "Sporadic Creutzfeldt-Jakob disease",
+            "Lewy body dementia",
+            "Vascular dementia"
+          ],
+          "correct": 1,
+          "rationale": "Rapidly progressive dementia over weeks with myoclonus, ataxia, and characteristic MRI findings (cortical ribboning, basal ganglia hyperintensity on DWI) is classic for sporadic CJD. Alzheimer disease progresses over years, not weeks. This presentation warrants urgent CSF RT-QuIC testing."
+        },
+        {
+          "question": "Which sterilization method is effective against prions?",
+          "options": [
+            "Standard autoclaving (121°C for 15 minutes)",
+            "70% isopropyl alcohol",
+            "1N sodium hydroxide for 1 hour followed by autoclaving at 134°C for 18 minutes",
+            "Ethylene oxide gas sterilization"
+          ],
+          "correct": 2,
+          "rationale": "Prions are extraordinarily resistant to standard sterilization methods including autoclaving, alcohol, formaldehyde, ethylene oxide, UV light, and ionizing radiation. WHO guidelines recommend 1N NaOH for 1 hour or sodium hypochlorite (20,000 ppm) for 1 hour, followed by autoclaving at 134°C for 18 minutes for instruments contaminated with prion tissue."
+        },
+        {
+          "question": "What distinguishes variant CJD (vCJD) from sporadic CJD?",
+          "options": [
+            "vCJD progresses more slowly than sporadic CJD",
+            "vCJD presents in younger patients with prominent psychiatric symptoms, shows the pulvinar sign on MRI, and does NOT have periodic sharp waves on EEG",
+            "vCJD is caused by PRNP gene mutations",
+            "vCJD has a better prognosis than sporadic CJD"
+          ],
+          "correct": 1,
+          "rationale": "Variant CJD (linked to BSE/mad cow disease) differs from sporadic CJD: younger age (median 28 vs 65), psychiatric symptoms as presenting feature (depression, anxiety, behavioral changes), pulvinar sign on MRI (bilateral thalamic hyperintensity), ABSENCE of periodic sharp waves on EEG, and positive tonsil biopsy. Both are universally fatal."
+        }
+      ]
     },
-    medications: [{
-      name: "Clonazepam",
-      type: "Benzodiazepine (anticonvulsant)",
-      action: "Enhances GABA-A receptor activity to reduce neuronal excitability; effective for managing the startle myoclonus characteristic of CJD by reducing cortical hyperexcitability",
-      sideEffects: "Sedation, respiratory depression, paradoxical agitation in elderly, dependence with prolonged use",
-      contra: "Severe respiratory insufficiency, acute narrow-angle glaucoma, severe hepatic disease",
-      pearl: "Start low (0.25-0.5 mg BID) and titrate for myoclonus control; may worsen cognitive dysfunction and increase fall risk — balance symptom relief against sedation in this already rapidly declining patient"
-    },{
-      name: "Valproic Acid",
-      type: "Anticonvulsant/mood stabilizer",
-      action: "Multiple mechanisms including GABA enhancement, sodium channel blockade, and T-type calcium channel inhibition; used as adjunctive therapy for myoclonus in CJD when clonazepam alone is insufficient",
-      sideEffects: "Hepatotoxicity, thrombocytopenia, pancreatitis, tremor, weight gain, teratogenicity",
-      contra: "Hepatic disease, urea cycle disorders, pregnancy, mitochondrial disorders (POLG mutations)",
-      pearl: "Monitor LFTs, CBC with platelets, and ammonia level; may be combined with clonazepam for refractory myoclonus; avoid in patients with hepatic dysfunction which may already be compromised in advanced CJD"
-    }],
-    pearls: ["CJD is the only dementia that kills in weeks to months — if a patient develops rapidly progressive dementia, CJD must be on the differential","RT-QuIC (real-time quaking-induced conversion) of CSF has revolutionized antemortem diagnosis with >90% sensitivity and >99% specificity — brain biopsy is rarely needed","Prions CANNOT be destroyed by standard autoclaving, alcohol, formaldehyde, or glutaraldehyde — only 1N NaOH, concentrated bleach (20,000 ppm), or incineration are effective","The EEG finding of periodic sharp wave complexes is classic but NOT present in all types — vCJD and early sCJD often have normal or nonspecific EEG findings","MRI DWI cortical ribboning with caudate hyperintensity has replaced EEG as the most useful diagnostic imaging tool — sensitivity >90%","There is NO immune response to prions because PrPSc is the patient's own protein in an abnormal conformation — this is why there is no CSF pleocytosis and no effective vaccine or immunotherapy"],
-    quiz: [
-      {
-        question: "A 67-year-old patient presents with rapidly progressive dementia over 8 weeks, startle myoclonus, and cerebellar ataxia. MRI shows cortical ribboning on DWI and bilateral caudate hyperintensity. Which diagnostic test provides the highest specificity for confirming the suspected diagnosis?",
-        options: ["EEG for periodic sharp wave complexes","CSF 14-3-3 protein","CSF RT-QuIC (real-time quaking-induced conversion)","Serum prion protein antibody level"],
-        correct: 2,
-        rationale: "CSF RT-QuIC has >90% sensitivity and >99% specificity for sporadic CJD, making it the gold standard antemortem diagnostic test. CSF 14-3-3 protein has moderate specificity and can be elevated in other conditions (stroke, encephalitis). EEG periodic sharp wave complexes are classic but only ~65% sensitive. There is no serum antibody test for prions because PrPSc does not elicit an immune response."
-      },
-      {
-        question: "A patient with confirmed CJD requires a brain biopsy for research purposes. What is the correct handling of the surgical instruments used during the procedure?",
-        options: ["Standard steam autoclave at 121°C for 15 minutes","Glutaraldehyde immersion for 30 minutes followed by routine autoclaving","Instruments must be destroyed by incineration or decontaminated with 1N NaOH for 1 hour","Standard hospital instrument reprocessing with enzymatic cleaner and steam sterilization"],
-        correct: 2,
-        rationale: "Prions are extraordinarily resistant to standard sterilization methods. Standard autoclaving, alcohol, formaldehyde, and glutaraldehyde do NOT inactivate prions. Instruments must be destroyed (incinerated) or undergo specific decontamination: immersion in 1N NaOH for 1 hour, or 20,000 ppm sodium hypochlorite for 1 hour, followed by autoclaving at 134°C for 18 minutes in a prevacuum sterilizer."
-      },
-      {
-        question: "What distinguishes variant CJD (vCJD) from sporadic CJD (sCJD) in terms of clinical presentation?",
-        options: ["vCJD has a shorter disease course than sCJD","vCJD affects elderly patients while sCJD affects young adults","vCJD presents predominantly with psychiatric symptoms early, affects younger patients (median age 28), and shows the pulvinar sign on MRI","vCJD shows periodic sharp wave complexes on EEG while sCJD does not"],
-        correct: 2,
-        rationale: "Variant CJD (linked to BSE/mad cow disease) characteristically affects younger patients (median age 28 vs 65 for sCJD), presents with prominent early psychiatric symptoms (depression, anxiety, behavioral changes) and painful dysesthesias, has a longer disease duration (median 13 months vs 5 months), and shows the pulvinar sign (bilateral pulvinar thalamic hyperintensity) on MRI rather than cortical ribboning."
-      },
-    ]
-  },
   "crisis-intervention": {
-    title: "Crisis Intervention Basics",
-    cellular: { title: "Crisis Theory and Neurobiological Stress Response", content: "Crisis intervention is a time-limited, goal-directed therapeutic approach for individuals experiencing acute psychological distress that overwhelms their usual coping mechanisms. Crisis theory, developed by Lindemann (1944) and expanded by Caplan (1964), defines a crisis as a state of psychological disequilibrium in which a precipitating event renders habitual problem-solving methods inadequate, producing increasing anxiety, cognitive disruption, and potential for self-harm or harm to others. The neurobiological stress response during crisis involves hypothalamic-pituitary-adrenal (HPA) axis activation with cortisol surges and sympathetic nervous system activation with catecholamine release. Amygdalar hyperactivation triggers the fight-flight-freeze response while simultaneously impairing prefrontal cortex function — reducing the capacity for rational thought, impulse control, and problem-solving. This neurobiological understanding explains why individuals in crisis make decisions they would not normally make and why de-escalation techniques that reduce sympathetic arousal are effective. Roberts' Seven-Stage Crisis Intervention Model provides a structured nursing framework: (1) Plan and conduct a thorough biopsychosocial assessment including lethality/safety, (2) Establish rapport and therapeutic alliance, (3) Identify the major problems and precipitating events, (4) Deal with feelings and provide validation, (5) Generate and explore alternatives and coping strategies, (6) Develop and formulate an action plan, (7) Follow up and ensure plan implementation. The Columbia-Suicide Severity Rating Scale (C-SSRS) is the evidence-based gold standard for suicide risk screening, assessing suicidal ideation severity (wish to be dead, active ideation, ideation with plan, ideation with intent, ideation with plan and intent) and suicidal behavior (preparatory acts, aborted attempts, interrupted attempts, actual attempts)." },
-    riskFactors: ["Previous suicide attempt (single strongest predictor of future suicide)","Current suicidal ideation with specific plan and access to lethal means","Recent major loss (relationship, job, financial, bereavement, legal problems)","Substance use disorders (especially alcohol intoxication — present in ~30% of completed suicides)","Social isolation, lack of support systems, recent discharge from psychiatric inpatient care","History of trauma, abuse, or adverse childhood experiences","Psychiatric disorders: major depression, bipolar disorder, schizophrenia, borderline personality disorder, PTSD"],
-    diagnostics: ["Columbia-Suicide Severity Rating Scale (C-SSRS): standardized screening tool for suicidal ideation and behavior — score determines risk level and intervention intensity","PHQ-9 for depression screening (question 9 specifically asks about suicidal ideation)","CAGE or AUDIT-C for alcohol use screening during crisis assessment","Urine drug screen to identify substance use contributing to crisis state","Safety assessment: access to firearms, medications, sharps, or other lethal means in the home","Psychosocial assessment: support systems, housing stability, recent stressors, protective factors (reasons for living, children, religious beliefs)"],
-    management: ["Ensure immediate physical safety: remove access to lethal means (lethal means restriction is one of the most evidence-based suicide prevention interventions)","Implement 1:1 continuous observation for patients at high risk (active suicidal ideation with plan and intent)","De-escalation techniques: calm voice, open body posture, active listening, empathic validation, offering choices, respecting personal space, avoiding power struggles","Develop a collaborative Safety Plan (Stanley-Brown Safety Planning Intervention): warning signs, internal coping strategies, social contacts for distraction, professionals to contact, means restriction, reasons for living","Determine disposition: voluntary psychiatric admission, involuntary hold (72-hour hold criteria vary by state), crisis stabilization unit, or discharge with safety plan and follow-up","Arrange follow-up within 24-72 hours of crisis resolution — the post-crisis period carries elevated suicide risk"],
-    nursingActions: ["Perform suicide risk assessment using C-SSRS on all patients presenting in crisis — ask directly about suicidal thoughts (asking does NOT increase risk)","Implement environmental safety precautions: remove sharps, belts, cords, medications, breakable items from the room; check belongings","Maintain therapeutic communication: use open-ended questions, reflective listening, empathic responses; avoid dismissive statements ('You have so much to live for'), arguing, or false reassurance","Document risk assessment findings, safety interventions, and patient responses thoroughly — include direct quotes of patient statements about self-harm","Administer PRN anxiolytics or antipsychotics as ordered for acute agitation, monitoring for oversedation and respiratory depression","Coordinate with social work, psychiatry, and crisis team; ensure warm handoff to outpatient providers at discharge"],
-    assessmentFindings: ["Expressed suicidal ideation — assess specificity of plan, access to means, timeline, and intent","Psychomotor agitation or severe anxiety with inability to sit still, pacing, pressured speech","Flat affect, hopelessness, statements of being a burden to others (key warning signs for suicide)","Evidence of self-harm (cutting, burning, scratching) indicating nonsuicidal self-injury or suicide attempt","Intoxication with alcohol or drugs complicating risk assessment and impairing judgment","Dissociative symptoms, flashback, or acute trauma response in PTSD-related crisis"],
-    signs: {
-      left: ["Patient engaging in safety planning and identifying reasons for living","Decreased agitation with effective de-escalation and therapeutic rapport","Patient verbalizing willingness to use coping strategies and follow-up plan","Protective factors present: social support, future orientation, children, treatment engagement"],
-      right: ["Active suicidal ideation with specific plan, access to means, and stated intent — requires immediate 1:1 observation and psychiatric evaluation","Command auditory hallucinations directing patient to harm self or others","Acute agitation with threatening behavior toward self or staff — may require chemical or physical restraint per protocol","Patient refuses to contract for safety and attempts to leave against medical advice while at imminent risk","Recent serious suicide attempt (hanging, firearm, jumping, overdose requiring medical treatment)"]
+      "title": "Crisis Intervention",
+      "cellular": {
+        "title": "Neurobiological Basis of Crisis Response",
+        "content": "A psychological crisis occurs when an individual's coping mechanisms are overwhelmed by a stressful event, leading to acute emotional disequilibrium. Neurobiologically, the stress response activates the hypothalamic-pituitary-adrenal (HPA) axis and sympathetic nervous system, releasing cortisol and catecholamines. In crisis, the prefrontal cortex (rational thinking, executive function) is overwhelmed by amygdala-driven emotional reactivity, impairing decision-making and problem-solving. The goal of crisis intervention is to reduce immediate distress, restore pre-crisis functioning, and connect the individual with ongoing support. Crisis intervention follows a time-limited model (typically 4-6 weeks) based on the principle that crisis states are inherently self-limiting -- the person will either adaptively resolve the crisis, maladaptively cope (substance use, avoidance), or decompensate further without intervention."
+      },
+      "riskFactors": [
+        "Recent significant loss: death of loved one, divorce, job loss, financial crisis",
+        "History of prior suicide attempts (strongest predictor of future attempts)",
+        "Mental health disorders: depression, bipolar disorder, schizophrenia, PTSD, substance use disorders",
+        "Social isolation and lack of support systems",
+        "Exposure to trauma: sexual assault, domestic violence, natural disaster, mass casualty event",
+        "Access to lethal means (firearms, medications, bridges)",
+        "Recent discharge from psychiatric hospitalization (highest risk period: first week post-discharge)",
+        "Chronic pain or terminal illness diagnosis",
+        "Identity-related stressors: LGBTQ+ youth facing rejection, discrimination, bullying",
+        "Military veterans: higher rates of PTSD, TBI, and suicide"
+      ],
+      "diagnostics": [
+        "Suicide risk assessment: ask directly about suicidal ideation, plan, intent, means, and timeline (asking does NOT increase risk -- it demonstrates care and opens communication)",
+        "Columbia Suicide Severity Rating Scale (C-SSRS): standardized screening tool for suicidal ideation and behavior",
+        "PHQ-9 item 9: screens for suicidal ideation ('Thoughts that you would be better off dead')",
+        "SAD PERSONS scale: Sex (male), Age (<19 or >45), Depression, Previous attempt, Ethanol abuse, Rational thinking loss, Social supports lacking, Organized plan, No spouse, Sickness",
+        "Safety assessment: access to lethal means (firearms, medications, sharps), protective factors (children, pets, religious beliefs, future plans, therapeutic alliance)",
+        "Mental status exam: affect, thought process, thought content (SI/HI/psychosis), insight, judgment",
+        "Distinguish crisis from psychiatric emergency: crisis = emotional disequilibrium with intact reality; psychiatric emergency = imminent danger to self/others requiring involuntary intervention"
+      ],
+      "management": [
+        "Establish rapport and therapeutic relationship immediately: active listening, empathy, non-judgmental approach, validate emotions",
+        "Ensure safety: assess and restrict access to lethal means (firearms counseling, medication lock-up); involuntary psychiatric hold if imminent danger",
+        "Crisis stabilization: de-escalation techniques, brief cognitive interventions (reality testing, reframing), problem-solving support",
+        "Safety planning (Stanley-Brown Safety Plan): 1) Warning signs, 2) Internal coping strategies, 3) Social contacts for distraction, 4) Family/friends who can help, 5) Professionals/agencies to contact, 6) Means restriction",
+        "Crisis hotline referral: 988 Suicide and Crisis Lifeline (call or text 988), Crisis Text Line (text HOME to 741741)",
+        "Medication if needed: short-term anxiolytics for acute anxiety (avoid benzodiazepines in substance use), antipsychotics for acute agitation, rapid-acting antidepressant consideration (ketamine/esketamine for acute suicidality in refractory depression)",
+        "Follow-up: scheduled contact within 24-48 hours; warm handoff to outpatient mental health; caring contacts (brief check-in calls/texts reduce suicide risk)"
+      ],
+      "nursingActions": [
+        "Screen all patients for suicidal ideation using validated tools (C-SSRS, PHQ-9 item 9) at every encounter in appropriate settings",
+        "Ask directly about suicidal thoughts: 'Are you thinking about killing yourself?' (direct question is more effective than euphemisms)",
+        "If suicide risk identified: do not leave patient alone, remove lethal means from the environment, initiate one-to-one observation, notify provider",
+        "Develop collaborative safety plan with the patient (NOT a 'no-suicide contract' which is ineffective and creates false reassurance)",
+        "De-escalate agitated patients: use calm voice, open body language, offer choices, maintain safe distance, avoid confrontation",
+        "Assess protective factors: reasons for living, family connections, religious/cultural beliefs, future plans, children/pets dependent on patient",
+        "Coordinate warm handoff to outpatient mental health services (do not simply give a phone number -- make the connection before discharge)",
+        "Document suicide risk assessment, safety plan, means restriction counseling, and follow-up plan in detail"
+      ],
+      "assessmentFindings": [
+        "Emotional: overwhelming anxiety, fear, anger, hopelessness, helplessness, numbness",
+        "Cognitive: difficulty concentrating, impaired decision-making, tunnel vision, racing thoughts, preoccupation with the crisis event",
+        "Behavioral: crying, agitation, pacing, social withdrawal, substance use increase, reckless behavior, giving away possessions",
+        "Physiological: insomnia, anorexia, fatigue, headache, GI distress, chest tightness, hyperventilation",
+        "Suicidal ideation indicators: hopelessness ('There's no way out'), perceived burdensomeness ('Everyone would be better off without me'), thwarted belonging, giving away possessions, saying goodbye, sudden calmness after period of depression (may indicate decision to act)",
+        "Homicidal ideation indicators: specific threats, identified target, plan, access to means, history of violence"
+      ],
+      "signs": {
+        "left": [
+          "Patient in emotional distress with intact coping and social supports -- brief intervention and follow-up",
+          "Passive suicidal ideation without plan or intent ('I wish I wouldn't wake up') -- safety planning and outpatient referral",
+          "Crisis triggered by identifiable stressor with clear path to resolution",
+          "Patient engaging in safety planning and expressing willingness to seek help"
+        ],
+        "right": [
+          "Active suicidal ideation with plan, intent, and access to means -- psychiatric emergency",
+          "Suicide attempt in progress or immediately after an attempt -- medical stabilization and psychiatric evaluation",
+          "Homicidal ideation with specific target and plan -- duty to warn (Tarasoff)",
+          "Psychotic crisis with command auditory hallucinations to harm self/others -- involuntary psychiatric evaluation",
+          "Patient who is calm after prolonged depression and is giving away possessions (may indicate decision to act on suicide plan)"
+        ]
+      },
+      "medications": [
+        {
+          "name": "No specific 'crisis intervention' medication",
+          "type": "Psychiatric emergency pharmacotherapy",
+          "action": "Medications target specific symptoms: lorazepam 1-2 mg PO/IM for acute anxiety (avoid in substance use); haloperidol 5 mg IM + diphenhydramine 25 mg IM + lorazepam 2 mg IM ('B52' cocktail variant) for severe agitation; olanzapine 10 mg IM for agitation (do NOT combine with IM benzodiazepines); ketamine/esketamine for acute suicidal ideation in refractory depression (rapid-acting)",
+          "sideEffects": "Benzodiazepines: respiratory depression, paradoxical agitation, disinhibition, dependence; antipsychotics: EPS, QTc prolongation, hypotension; ketamine: dissociation, BP elevation, nausea",
+          "contra": "Benzodiazepines: respiratory compromise, active substance intoxication; IM olanzapine + IM benzodiazepines: risk of fatal cardiorespiratory depression (do NOT combine)",
+          "pearl": "The therapeutic relationship and crisis intervention techniques are MORE important than medication; medication is adjunctive for specific symptoms (agitation, severe anxiety, psychosis, insomnia); safety planning is more effective than 'no-suicide contracts'; 988 Suicide and Crisis Lifeline is the national resource (call or text 988)"
+        }
+      ],
+      "pearls": [
+        "Asking about suicide does NOT increase risk -- it opens communication and demonstrates care; direct questions are more effective than indirect ('Are you thinking about killing yourself?' not 'You're not thinking about hurting yourself, are you?')",
+        "Safety planning (Stanley-Brown model) is MORE effective than no-suicide contracts -- contracts create false reassurance and have no evidence of effectiveness",
+        "Means restriction is the MOST effective suicide prevention strategy: removing access to firearms reduces overall suicide rates (not just firearm suicide -- people do not simply substitute methods)",
+        "The highest risk period for suicide after psychiatric discharge is the FIRST WEEK -- ensure follow-up contact within 24-48 hours",
+        "Risk factors for completed suicide differ by demographics: males use more lethal methods (firearms); females attempt more frequently; elderly males have the highest completion rate",
+        "Protective factors to assess: reasons for living, children in the home, religious/cultural beliefs against suicide, therapeutic alliance, future-oriented thinking",
+        "The '988' number (Suicide and Crisis Lifeline) replaced the old 1-800-273-TALK number -- know this for patient education"
+      ],
+      "quiz": [
+        {
+          "question": "A patient with depression states 'Everyone would be better off without me. I've been thinking about using my husband's gun.' What is the PRIORITY nursing action?",
+          "options": [
+            "Administer an antidepressant medication",
+            "Ask about the husband's gun and initiate means restriction counseling",
+            "Document the statement and continue the assessment",
+            "Refer the patient to outpatient therapy"
+          ],
+          "correct": 1,
+          "rationale": "This patient has active suicidal ideation with an identified plan (shooting) and access to means (husband's gun). The priority is to assess access to the means and initiate means restriction (secure or remove the firearm). Means restriction is the single most effective suicide prevention intervention. The patient should not be left alone and requires immediate further assessment and safety planning."
+        },
+        {
+          "question": "Which suicide prevention intervention has the strongest evidence?",
+          "options": [
+            "No-suicide contracts",
+            "Means restriction (reducing access to lethal means)",
+            "Long-term psychoanalytic therapy",
+            "Medication alone"
+          ],
+          "correct": 1,
+          "rationale": "Means restriction has the strongest evidence for suicide prevention. Studies consistently show that reducing access to lethal means (especially firearms) reduces suicide rates. People in suicidal crisis often act impulsively -- if the most lethal means is unavailable, they may not substitute another method. No-suicide contracts have NO evidence of effectiveness."
+        },
+        {
+          "question": "A patient who has been severely depressed for weeks suddenly appears calm, gives away personal belongings, and says goodbye to staff. What should the nurse suspect?",
+          "options": [
+            "The patient's depression is resolving",
+            "The patient may have decided to act on a suicide plan and needs immediate reassessment",
+            "The patient is responding to medication",
+            "This is a normal part of recovery"
+          ],
+          "correct": 1,
+          "rationale": "Sudden calmness after prolonged severe depression, giving away possessions, and saying goodbye are WARNING SIGNS that the patient may have made the decision to act on a suicide plan. The sense of peace comes from having resolved the internal conflict by deciding to die. This requires immediate reassessment of suicidal ideation, safety planning, and increased observation."
+        }
+      ]
     },
-    medications: [{
-      name: "Lorazepam",
-      type: "Benzodiazepine (anxiolytic)",
-      action: "Enhances GABA-A receptor activity to rapidly reduce anxiety, agitation, and psychomotor hyperactivity during acute crisis; provides anxiolysis without antipsychotic side effects",
-      sideEffects: "Sedation, respiratory depression, paradoxical agitation (especially in elderly), disinhibition, amnesia, dependence with repeated dosing",
-      contra: "Severe respiratory insufficiency, acute narrow-angle glaucoma, concomitant opioid use (respiratory depression risk), known benzodiazepine hypersensitivity",
-      pearl: "IM lorazepam is preferred for acute agitation when patient refuses oral medication; onset 15-30 min IM, 1-3 min IV; avoid in patients with alcohol intoxication (synergistic CNS/respiratory depression); always reassess after administration — may unmask suicidal intent previously masked by agitation"
-    },{
-      name: "Haloperidol",
-      type: "First-generation antipsychotic (butyrophenone)",
-      action: "Blocks dopamine D2 receptors to reduce psychotic symptoms, severe agitation, and aggressive behavior; used when agitation is psychosis-driven or unresponsive to benzodiazepines",
-      sideEffects: "Extrapyramidal symptoms (acute dystonia, akathisia), QTc prolongation, neuroleptic malignant syndrome (rare), sedation",
-      contra: "QTc >500 ms, Parkinson disease, severe CNS depression, known hypersensitivity, concurrent QT-prolonging drugs",
-      pearl: "Often given IM as part of B52 protocol (Benadryl 50mg + haloperidol 5mg + lorazepam 2mg IM) for severe agitation; always obtain baseline ECG if possible — monitor for QTc prolongation; have diphenhydramine available for acute dystonic reactions"
-    }],
-    pearls: ["Asking directly about suicide does NOT increase risk or 'plant the idea' — research consistently shows that direct questioning reduces anxiety and opens communication","Lethal means restriction (removing access to firearms, stockpiled medications, and other means) is one of the most effective suicide prevention interventions — 90% of people who survive a suicide attempt do not go on to die by suicide","The period immediately following psychiatric discharge (first 1-4 weeks) carries the highest risk for completed suicide — ensure close follow-up is arranged","Safety contracts ('no-harm contracts') have NO evidence of effectiveness and should NOT be relied upon — use the Stanley-Brown Safety Planning Intervention instead","Risk factors identify populations at risk, but warning signs indicate imminent danger: giving away possessions, saying goodbye, sudden calmness after severe depression, searching for methods online","The 72-hour involuntary psychiatric hold (5150, Baker Act, etc.) criteria vary by state but generally require imminent danger to self or others due to mental illness — know your jurisdiction's specific criteria and process"],
-    quiz: [
-      {
-        question: "A patient in the emergency department tells the nurse, 'I took 30 acetaminophen tablets an hour ago because I don't want to be here anymore.' After medical stabilization, what is the priority nursing intervention?",
-        options: ["Ask the patient to sign a no-harm safety contract","Administer lorazepam for anxiety","Perform a suicide risk assessment using the Columbia-Suicide Severity Rating Scale (C-SSRS) and implement 1:1 observation","Contact the patient's family to arrange discharge home"],
-        correct: 2,
-        rationale: "This patient has made an actual suicide attempt with stated intent. The priority is a comprehensive suicide risk assessment using a validated tool (C-SSRS) and immediate implementation of 1:1 continuous observation for safety. No-harm contracts have no evidence of effectiveness. Anxiolytics may be appropriate but are not the priority over safety assessment."
-      },
-      {
-        question: "Which component of the Stanley-Brown Safety Planning Intervention is most important for reducing suicide risk?",
-        options: ["Listing warning signs that a crisis is developing","Identifying internal coping strategies","Restricting access to lethal means","Listing professional crisis resources"],
-        correct: 2,
-        rationale: "While all components of the Safety Plan are important, lethal means restriction (step 6) has the strongest evidence base for suicide prevention. Research shows that creating time and distance between a suicidal person and their preferred means significantly reduces completed suicides, as most suicidal crises are time-limited and impulsive."
-      },
-      {
-        question: "A nurse is de-escalating an agitated patient who is shouting and pacing. Which approach is most appropriate?",
-        options: ["Stand directly in front of the patient to establish authority","Use a calm, low voice and offer choices while maintaining a safe distance","Tell the patient to stop shouting or they will be restrained","Immediately administer IM haloperidol for rapid sedation"],
-        correct: 1,
-        rationale: "Evidence-based de-escalation involves a calm voice, empathic listening, offering choices (which restores the patient's sense of control), and maintaining safe distance. Standing directly in front can be perceived as threatening. Threats of restraint escalate agitation. Chemical restraint is used only when de-escalation fails and the patient poses imminent danger."
-      },
-    ]
-  },
   "criteria-fulfillment-np": {
-    title: "Does Patient Meet Full Criteria?",
-    cellular: { title: "Diagnostic Reasoning: Bayesian Thinking and Clinical Prediction Rules", content: "Advanced diagnostic reasoning integrates Bayesian probability with validated clinical prediction rules to systematically determine whether patients meet criteria for specific diagnoses and treatment decisions. Bayesian reasoning starts with pre-test probability (the likelihood of disease before testing, estimated from history, examination, and prevalence), then updates this probability using test characteristics to generate post-test probability. Key test operating characteristics include sensitivity (true positive rate — ability to detect disease when present), specificity (true negative rate — ability to exclude disease when absent), positive predictive value (PPV — probability of disease given a positive test, heavily influenced by prevalence), negative predictive value (NPV — probability of no disease given a negative test), and likelihood ratios (LR+ = sensitivity/(1-specificity); LR- = (1-sensitivity)/specificity — these are prevalence-independent and more clinically useful). The Fagan nomogram provides a visual tool for converting pre-test probability through likelihood ratio to post-test probability. Clinical prediction rules (CPRs) are validated, evidence-based scoring systems that standardize diagnostic and therapeutic decisions: Wells criteria for PE (score dictates whether CTPA or D-dimer is appropriate), Wells criteria for DVT, HEART score for acute chest pain (score ≤3 = safe for discharge), CURB-65 for pneumonia severity (determines inpatient vs outpatient management), CHA2DS2-VASc for atrial fibrillation anticoagulation decision, PERC rule for PE exclusion (all 8 criteria must be negative to rule out PE without further testing). Diagnostic criteria sets provide standardized frameworks for complex diseases: modified Duke criteria for infective endocarditis, ACR/EULAR criteria for rheumatoid arthritis, SLICC criteria for systemic lupus erythematosus, Jones criteria for acute rheumatic fever (2 major or 1 major + 2 minor with evidence of preceding GAS infection)." },
-    riskFactors: ["Cognitive biases leading to diagnostic error: anchoring (fixating on initial diagnosis), premature closure (stopping the diagnostic process too early), availability bias (overweighting recent or memorable cases)","Confirmation bias (selectively seeking information that supports initial hypothesis while ignoring contradictory data)","Overreliance on pattern recognition (System 1 thinking) without analytical verification (System 2 thinking)","Failure to apply validated clinical prediction rules when available, relying instead on gestalt","Base rate neglect (ignoring disease prevalence when interpreting test results, leading to overdiagnosis in low-prevalence populations)","Testing in low pre-test probability populations (generating false positives that trigger unnecessary cascade testing)"],
-    diagnostics: ["Apply Wells criteria for PE: score ≤4 → D-dimer → if negative, PE excluded; score >4 → proceed directly to CTPA","Apply Wells criteria for DVT: score ≥2 → compression ultrasound; score <2 → D-dimer → if negative, DVT excluded","HEART score for acute chest pain: History (0-2), ECG (0-2), Age (0-2), Risk factors (0-2), Troponin (0-2); score 0-3 = low risk, safe for early discharge; 4-6 = moderate risk; 7-10 = high risk","CURB-65 for pneumonia: Confusion, Urea >7mmol/L, Respiratory rate ≥30, BP systolic <90 or diastolic ≤60, age ≥65; score 0-1 = outpatient, 2 = short inpatient, 3-5 = ICU consideration","CHA2DS2-VASc for atrial fibrillation: CHF (1), Hypertension (1), Age ≥75 (2), Diabetes (1), Stroke/TIA (2), Vascular disease (1), Age 65-74 (1), Sex female (1); score ≥2 males or ≥3 females = anticoagulation indicated","PERC rule for PE exclusion: all 8 criteria must be met (age <50, HR <100, SpO2 >94%, no hemoptysis, no estrogen use, no prior DVT/PE, no unilateral leg swelling, no recent surgery/trauma) — if all met and low clinical suspicion, no further workup needed"],
-    management: ["Apply dual-process diagnostic reasoning: initial System 1 pattern recognition followed by deliberate System 2 analytical verification","Perform a diagnostic time-out when diagnosis is uncertain: explicitly list differential diagnoses, consider what would make you wrong, identify must-not-miss diagnoses","Use the Fagan nomogram to communicate diagnostic reasoning: pre-test probability + likelihood ratio = post-test probability — share this reasoning transparently with patients and team","Apply diagnostic criteria sets systematically: document which specific criteria are met and which are not (e.g., modified Duke criteria — 2 major, or 1 major + 3 minor, or 5 minor = definite IE)","Implement test stewardship: avoid ordering tests when pre-test probability is very low (high false positive rate) or very high (test will not change management regardless of result)","Recognize when a patient does NOT meet criteria and pursue alternative diagnoses rather than forcing a diagnosis to fit"],
-    nursingActions: ["Calculate and document clinical prediction rule scores with all component values for transparency and reproducibility","Apply the PERC rule before ordering D-dimer in low-risk PE patients to avoid unnecessary testing cascades","Perform structured problem representation: age, sex, acute/chronic, key features → refine differential diagnosis systematically","Assess for cognitive biases in diagnostic reasoning: ask 'What else could this be?' and 'What would make me wrong?'","Communicate diagnostic reasoning using Bayesian language with patients and team: 'Based on the history and Wells score of 2, the probability of PE is low, so we will check a D-dimer first'","Document criteria fulfillment explicitly: which criteria from a validated set are met, which are not, and the resulting diagnostic classification"],
-    assessmentFindings: ["Wells PE score >4 with positive CTPA confirming pulmonary embolism — full criteria met for diagnosis and anticoagulation","HEART score ≤3 with negative serial troponins — patient meets criteria for safe early discharge from chest pain evaluation","CURB-65 score ≥3 indicating severe pneumonia meeting criteria for ICU admission and broad-spectrum antibiotics","CHA2DS2-VASc score ≥2 (male) or ≥3 (female) meeting criteria for oral anticoagulation in atrial fibrillation","Modified Duke criteria: 2 major criteria met (positive blood cultures + echocardiographic vegetation) — definite infective endocarditis","Jones criteria met for acute rheumatic fever: carditis (major) + polyarthralgia (minor) + elevated ESR (minor) + positive ASO titer (evidence of GAS)"],
-    signs: {
-      left: ["Patient clearly meets or clearly does not meet diagnostic criteria — high diagnostic certainty","Clinical prediction rule score places patient in well-defined low-risk category with validated safe disposition","Diagnostic workup complete with concordant results supporting a single unifying diagnosis"],
-      right: ["Patient partially meets criteria with atypical features — diagnostic uncertainty requiring specialist consultation or additional testing","Clinical prediction rule score falls in intermediate zone requiring clinical judgment and shared decision-making","Discordant test results (positive D-dimer with negative CTPA, or clinical suspicion high despite negative initial workup — consider further imaging or serial testing)","Cognitive bias suspected in diagnostic reasoning (anchoring on initial diagnosis despite contradictory findings)","Must-not-miss diagnosis not adequately excluded (e.g., PE not ruled out in appropriate clinical scenario)"]
+      "title": "Diagnostic Criteria Fulfillment",
+      "cellular": {
+        "title": "Applying Diagnostic Criteria in Clinical Practice",
+        "content": "Diagnostic criteria fulfillment is the systematic process of evaluating clinical findings against established diagnostic standards (DSM-5 for psychiatric disorders, ACR/EULAR for rheumatologic conditions, Jones criteria for rheumatic fever, Duke criteria for endocarditis, etc.). Evidence-based criteria typically include major and minor criteria, with specified combinations required for diagnosis. Sensitivity-oriented criteria cast a wider net (fewer missed cases, more false positives); specificity-oriented criteria are more restrictive (fewer false positives, may miss atypical presentations). The NP must understand which criteria apply, how to apply them correctly, and when clinical judgment should override strict criteria adherence (criteria are guides, not absolute rules -- atypical presentations may not meet criteria but still warrant treatment)."
+      },
+      "riskFactors": [
+        "Diagnostic errors from incorrect criteria application: using outdated criteria, misinterpreting criteria, not applying the correct criteria set for the clinical question",
+        "Atypical presentations: elderly, immunosuppressed, and pediatric patients may not meet standard criteria",
+        "Cultural and linguistic barriers affecting symptom reporting and criteria assessment",
+        "Over-reliance on criteria without clinical judgment (missing diagnoses in atypical presentations)",
+        "Under-application of criteria (diagnosing without meeting established thresholds, leading to overdiagnosis and unnecessary treatment)",
+        "Time pressure leading to incomplete criteria evaluation"
+      ],
+      "diagnostics": [
+        "Rheumatic fever (revised Jones criteria): requires evidence of preceding GAS infection PLUS 2 major or 1 major + 2 minor criteria; Major: carditis, migratory polyarthritis, Sydenham chorea, erythema marginatum, subcutaneous nodules; Minor: fever, polyarthralgia, elevated ESR/CRP, prolonged PR interval",
+        "Infective endocarditis (modified Duke criteria): 2 major, or 1 major + 3 minor, or 5 minor; Major: positive blood cultures (typical organisms in ≥2 cultures), endocardial involvement on echo (vegetation, abscess, dehiscence); Minor: predisposing condition, fever, vascular phenomena, immunologic phenomena, microbiologic evidence not meeting major",
+        "SLE (ACR/EULAR 2019): entry criterion ANA ≥1:80; then additive weighted criteria across 7 clinical domains (constitutional, hematologic, neuropsychiatric, mucocutaneous, serosal, musculoskeletal, renal) and 3 immunology domains (anti-dsDNA, anti-Sm, complement, antiphospholipid); score ≥10 = SLE",
+        "Sepsis (Sepsis-3): suspected infection + SOFA score increase ≥2 points (qSOFA for bedside screening: altered mental status, SBP ≤100, RR ≥22 -- 2 of 3 = high risk)",
+        "SIRS criteria (older): ≥2 of: temp >38°C or <36°C, HR >90, RR >20 or PaCO2 <32, WBC >12k or <4k or >10% bands"
+      ],
+      "management": [
+        "Apply appropriate diagnostic criteria systematically for the suspected condition",
+        "Document which criteria are met and which are not -- this supports clinical reasoning and medicolegal documentation",
+        "When criteria are borderline or partially met: consider repeat evaluation over time, additional testing, or specialist consultation",
+        "Recognize that criteria evolve: use the most current version (e.g., Sepsis-3 replaced SIRS-based definitions)",
+        "For conditions where treatment must begin before full criteria are met (sepsis, meningitis): treat empirically and refine diagnosis as data accumulates",
+        "Distinguish screening criteria from diagnostic criteria: screening identifies who needs further workup; diagnostic criteria establish the diagnosis"
+      ],
+      "nursingActions": [
+        "Know and correctly apply the diagnostic criteria for conditions within your practice scope",
+        "Document criteria fulfillment systematically: list each criterion and whether it is met or not met",
+        "Apply the correct version of criteria (most current evidence-based guidelines)",
+        "Recognize when a patient has a strong clinical presentation but does not strictly meet criteria -- this may warrant specialist consultation or empiric treatment",
+        "Use clinical prediction rules and decision tools appropriately: Wells criteria (DVT/PE), CURB-65 (pneumonia severity), CHA2DS2-VASc (atrial fibrillation stroke risk)",
+        "Educate patients about their diagnosis and the criteria that support it",
+        "For psychiatric diagnoses (DSM-5): ensure duration criteria, exclusion criteria, and functional impairment are documented, not just symptom count"
+      ],
+      "assessmentFindings": [
+        "Findings vary by condition being evaluated -- this is a diagnostic reasoning skill applicable across all conditions",
+        "Complete documentation includes: presenting symptoms matched to specific criteria, laboratory results meeting or not meeting thresholds, timeline of symptoms relative to criteria requirements, exclusion of alternative diagnoses",
+        "Examples: Jones criteria require evidence of preceding strep infection PLUS criteria -- many clinicians forget to confirm the strep evidence",
+        "DSM-5 criteria for major depression: ≥5 of 9 symptoms for ≥2 weeks including depressed mood OR anhedonia + functional impairment + not attributable to substances/medical conditions"
+      ],
+      "signs": {
+        "left": [
+          "Clear criteria fulfillment: all required criteria met with supporting evidence -- proceed with diagnosis and treatment",
+          "Partial criteria fulfillment with clinical suspicion -- monitor and re-evaluate; consider empiric treatment based on clinical judgment",
+          "Alternative diagnosis meets criteria better -- revise working diagnosis"
+        ],
+        "right": [
+          "Clinical picture strongly suggestive but strict criteria NOT met -- treat empirically for serious conditions (sepsis, meningitis) while awaiting confirmation",
+          "Over-reliance on criteria causing diagnostic delay: patient with atypical presentation being dismissed because criteria not met",
+          "Multiple diagnostic criteria met simultaneously (overlapping conditions -- consider overlap syndromes or misapplication of criteria)"
+        ]
+      },
+      "medications": [
+        {
+          "name": "No specific medications for criteria fulfillment",
+          "type": "Clinical reasoning skill",
+          "action": "Diagnostic criteria guide medication selection and treatment initiation; the skill is knowing when to act on criteria fulfillment and when to treat empirically despite incomplete criteria",
+          "sideEffects": "N/A",
+          "contra": "N/A",
+          "pearl": "Remember: criteria are evidence-based GUIDES, not absolute rules; a patient dying of sepsis should be treated even if SOFA score calculation is pending; conversely, a patient meeting criteria for a diagnosis should have alternative diagnoses considered before labeling"
+        }
+      ],
+      "pearls": [
+        "Rheumatic fever Jones criteria REQUIRE evidence of preceding streptococcal infection -- without this, the criteria cannot be applied regardless of how many major/minor criteria are met",
+        "Modified Duke criteria for endocarditis: 2 major criteria = definite; remember the major criteria relate to BLOOD CULTURES (typical organisms in multiple cultures) and ECHOCARDIOGRAPHIC findings (vegetation, abscess)",
+        "SLE diagnosis (ACR/EULAR 2019) requires ANA ≥1:80 as an ENTRY CRITERION before applying the additive scoring system -- if ANA is negative, SLE is extremely unlikely",
+        "Sepsis-3 definition replaced SIRS: infection + SOFA ≥2 increase = sepsis; septic shock = sepsis + vasopressors needed to maintain MAP ≥65 + lactate >2 despite adequate resuscitation",
+        "DSM-5 major depression requires ≥5 of 9 symptoms for ≥2 WEEKS, and at least one must be depressed mood OR anhedonia; the duration and gateway symptom requirements are frequently overlooked",
+        "Clinical prediction rules (Wells, CURB-65, CHA2DS2-VASc) stratify risk and guide management -- they are NOT diagnostic criteria but risk stratification tools"
+      ],
+      "quiz": [
+        {
+          "question": "A child presents with migratory polyarthritis, fever, elevated ESR, and an erythema marginatum rash. Rapid strep test and ASO titer are negative. Can acute rheumatic fever be diagnosed?",
+          "options": [
+            "Yes -- the child meets 1 major + 2 minor criteria",
+            "No -- Jones criteria require evidence of preceding streptococcal infection before criteria can be applied",
+            "Yes -- the rash is diagnostic by itself",
+            "No -- rheumatic fever only occurs in adults"
+          ],
+          "correct": 1,
+          "rationale": "The revised Jones criteria REQUIRE evidence of preceding group A streptococcal infection (positive throat culture, rapid antigen test, or elevated ASO/anti-DNase B titers) before the major and minor criteria can be applied. Without this prerequisite, the diagnosis cannot be made regardless of how many criteria are otherwise met."
+        },
+        {
+          "question": "The ACR/EULAR 2019 SLE classification criteria require which entry criterion before the scoring system can be applied?",
+          "options": [
+            "Positive anti-dsDNA antibody",
+            "ANA ≥1:80",
+            "Proteinuria",
+            "Joint inflammation"
+          ],
+          "correct": 1,
+          "rationale": "The 2019 ACR/EULAR classification criteria for SLE require a positive ANA (≥1:80) as an ENTRY criterion. If the ANA is negative, the additive scoring system is not applied because the negative predictive value of ANA for SLE is very high (>99%). After meeting the entry criterion, clinical and immunologic domains are scored; ≥10 points = classifiable as SLE."
+        },
+        {
+          "question": "A patient with suspected pneumonia has temperature 39°C, heart rate 105, respiratory rate 24, and WBC 15,000. Do they meet SIRS criteria?",
+          "options": [
+            "No -- only 2 of 4 criteria are met",
+            "Yes -- they meet 3 of 4 SIRS criteria (temperature, heart rate, respiratory rate); WBC >12k meets the 4th criterion as well",
+            "SIRS criteria are no longer used",
+            "Temperature must be >40°C to qualify"
+          ],
+          "correct": 1,
+          "rationale": "SIRS requires ≥2 of 4 criteria: temp >38°C or <36°C (39°C meets this), HR >90 (105 meets this), RR >20 or PaCO2 <32 (24 meets this), WBC >12k or <4k or >10% bands (15k meets this). This patient meets ALL 4 SIRS criteria. Note: Sepsis-3 has replaced SIRS-based sepsis definitions, but SIRS criteria are still used in some clinical contexts."
+        }
+      ]
     },
-    medications: [{
-      name: "Enoxaparin",
-      type: "Low molecular weight heparin (anticoagulant)",
-      action: "Binds antithrombin III to preferentially inhibit factor Xa; used for treatment of DVT/PE when clinical prediction rules (Wells criteria) and confirmatory testing establish the diagnosis",
-      sideEffects: "Bleeding (major and minor), heparin-induced thrombocytopenia (HIT — less common than with unfractionated heparin), injection site bruising/hematoma",
-      contra: "Active major bleeding, HIT history, severe renal impairment (CrCl <30 — use unfractionated heparin instead), epidural/spinal anesthesia within 12 hours",
-      pearl: "Treatment dose is 1 mg/kg SC every 12 hours; for CrCl 15-30 mL/min, reduce to 1 mg/kg SC daily; anti-Xa levels can monitor efficacy (target 0.6-1.0 IU/mL 4 hours post-dose); the decision to anticoagulate is driven by validated clinical prediction rules, not gestalt"
-    },{
-      name: "Apixaban",
-      type: "Direct oral anticoagulant (factor Xa inhibitor)",
-      action: "Directly inhibits factor Xa without requiring antithrombin III; used for stroke prevention in atrial fibrillation when CHA2DS2-VASc score meets criteria for anticoagulation, and for DVT/PE treatment",
-      sideEffects: "Bleeding (lower rates of intracranial hemorrhage compared to warfarin), GI upset, rarely hepatotoxicity",
-      contra: "Active pathological bleeding, prosthetic heart valves, severe hepatic impairment, concurrent strong dual CYP3A4/P-gp inhibitors or inducers",
-      pearl: "For AFib: CHA2DS2-VASc ≥2 (male) or ≥3 (female) = indication for anticoagulation; dose 5mg BID, reduce to 2.5mg BID if 2 of 3: age ≥80, weight ≤60kg, creatinine ≥1.5; reversal agent: andexanet alfa"
-    }],
-    pearls: ["Sensitivity rules OUT disease (SnNOut): a highly sensitive test with a negative result effectively excludes the disease — D-dimer is highly sensitive for VTE, so a negative D-dimer in a low-risk patient rules out PE/DVT","Specificity rules IN disease (SpPIn): a highly specific test with a positive result effectively confirms the disease — a positive troponin I is highly specific for myocardial injury","Likelihood ratios are superior to sensitivity/specificity for clinical decision-making because they are prevalence-independent — LR+ >10 or LR- <0.1 generate large shifts in post-test probability","The PERC rule can ONLY be applied when clinical gestalt already places PE probability below 15% (low pre-test probability) — it should never be applied to moderate or high-risk patients","Cognitive bias is the leading cause of diagnostic error — structured approaches (diagnostic time-outs, explicit differential documentation, prediction rules) reduce bias-related mistakes","A test is only useful when its result will change management — if you would treat regardless of the result (very high pre-test probability) or would not treat regardless (very low pre-test probability), the test adds cost and risk without benefit"],
-    quiz: [
-      {
-        question: "A 42-year-old woman presents with pleuritic chest pain and dyspnea. Her Wells PE score is 2 (low probability). D-dimer returns at 380 ng/mL (normal <500). What is the appropriate next step?",
-        options: ["Order CT pulmonary angiography to definitively rule out PE","Discharge with PE effectively ruled out by low Wells score + negative D-dimer","Start empiric anticoagulation pending further workup","Obtain a ventilation-perfusion (V/Q) scan"],
-        correct: 1,
-        rationale: "Per validated clinical prediction rules, a low Wells score (≤4) combined with a negative D-dimer effectively excludes PE (negative predictive value >99%). No further imaging is needed. This is the Bayesian approach: low pre-test probability + negative high-sensitivity test = very low post-test probability, making CTPA unnecessary and exposing the patient to radiation and contrast without benefit."
-      },
-      {
-        question: "A 72-year-old male with hypertension, diabetes, and prior stroke is diagnosed with atrial fibrillation. His CHA2DS2-VASc score is 5. Which medication decision is supported by this score?",
-        options: ["Aspirin alone for stroke prevention","No anticoagulation needed at this score","Oral anticoagulation (apixaban, rivaroxaban, or warfarin) is indicated","Dual antiplatelet therapy with aspirin and clopidogrel"],
-        correct: 2,
-        rationale: "A CHA2DS2-VASc score ≥2 in males (or ≥3 in females) is the validated threshold for recommending oral anticoagulation for stroke prevention in atrial fibrillation. This patient scores 5 (hypertension=1, diabetes=1, prior stroke=2, age ≥65=1), placing him at high annual stroke risk (~6.7%) without anticoagulation. Aspirin alone is insufficient, and dual antiplatelet therapy is inferior to oral anticoagulation for stroke prevention in AFib."
-      },
-      {
-        question: "A clinician suspects pulmonary embolism in a patient with moderate clinical probability (Wells score 5). The D-dimer is positive at 850 ng/mL. The CTPA is negative. What should the clinician consider?",
-        options: ["The negative CTPA definitively rules out PE — discharge the patient","The D-dimer was a false positive — ignore it","Consider the possibility of subsegmental PE missed by CTPA, or alternative diagnoses; clinical correlation and possible follow-up imaging may be warranted","Order a V/Q scan immediately to overrule the CTPA"],
-        correct: 2,
-        rationale: "Discordant results (moderate pre-test probability with positive D-dimer but negative CTPA) require clinical judgment. While CTPA has high sensitivity (~95%), it can miss subsegmental PEs. The clinician should consider the clinical picture, assess for alternative diagnoses that explain the D-dimer elevation (infection, malignancy, post-operative state), and determine if further investigation (lower extremity ultrasound, follow-up imaging, or V/Q scan) is warranted based on ongoing clinical suspicion."
-      },
-    ]
-  },
   "critical-care-advanced-np": {
-    title: "ECMO Management",
-    cellular: { title: "Extracorporeal Membrane Oxygenation Physiology", content: "Extracorporeal membrane oxygenation (ECMO) provides temporary cardiopulmonary support by draining venous blood through large-bore cannulae, passing it through an external circuit containing a centrifugal pump and membrane oxygenator (gas exchange device), and returning oxygenated blood to the patient. A heat exchanger maintains normothermia.\n\nVenovenous ECMO (VV-ECMO) is used for isolated severe respiratory failure (e.g., severe ARDS with P/F ratio <80 despite optimal ventilation, refractory hypoxemia). Blood is drained from and returned to the venous system (typically dual-lumen cannula in the right internal jugular vein, or femoral drainage with IJ return). VV-ECMO provides gas exchange support only; the patient's native cardiac output drives systemic perfusion. VV-ECMO allows lung-protective ventilation (ultra-low tidal volumes, reduced FiO2 and plateau pressures) while the membrane oxygenator performs gas exchange, giving the lungs time to recover.\n\nVenoarterial ECMO (VA-ECMO) is used for cardiogenic shock or cardiac arrest refractory to conventional therapy (e.g., massive MI, fulminant myocarditis, post-cardiotomy shock, bridge to heart transplant/LVAD). Blood is drained from the venous system (femoral vein or right atrium) and returned to the arterial system (femoral artery or ascending aorta). VA-ECMO provides both cardiac output support and gas exchange. A critical complication unique to peripheral VA-ECMO is differential hypoxia (Harlequin syndrome or North-South syndrome): the recovering heart ejects deoxygenated blood from the left ventricle into the aortic root supplying the coronary arteries, brain, and upper extremities, while well-oxygenated ECMO blood enters the descending aorta via the femoral artery return cannula. This results in upper body hypoxemia with lower body normoxemia. Monitoring requires a right radial arterial line and pulse oximetry on the right hand to detect this phenomenon.\n\nThe ECMO circuit requires systemic anticoagulation with continuous unfractionated heparin infusion to prevent thrombosis within the circuit. Activated clotting time (ACT) is maintained at 180-220 seconds (or anti-Xa 0.3-0.7 IU/mL depending on institutional protocol). The balance between preventing circuit thrombosis and avoiding hemorrhagic complications is the central management challenge of ECMO." },
-    riskFactors: ["Severe ARDS with P/F ratio <80 despite optimal mechanical ventilation, prone positioning, and neuromuscular blockade (VV-ECMO indication)","Refractory cardiogenic shock unresponsive to vasopressors, inotropes, and IABP (VA-ECMO indication)","Massive pulmonary embolism with hemodynamic collapse","Fulminant myocarditis with cardiogenic shock","Post-cardiotomy shock (failure to wean from cardiopulmonary bypass)","Bridge to heart or lung transplantation","Extracorporeal cardiopulmonary resuscitation (eCPR) for refractory cardiac arrest in select patients"],
-    diagnostics: ["Activated clotting time (ACT) every 1-2 hours with target 180-220 seconds; anti-Xa levels if using anti-Xa-based protocol (target 0.3-0.7 IU/mL)","Arterial blood gas from right radial artery (pre-membrane) and post-membrane oxygenator to assess native lung function and circuit function separately","Serial CBC with attention to hemoglobin (hemolysis), platelet count (consumption, HIT), fibrinogen (DIC screening)","Plasma-free hemoglobin to monitor for circuit-related hemolysis (>50 mg/dL concerning, >150 mg/dL may warrant circuit change)","LDH, haptoglobin, indirect bilirubin as additional hemolysis markers","Daily chest X-ray to assess lung recovery and cannula position","Echocardiography (TTE/TEE) to assess cardiac function recovery in VA-ECMO, LV distension, aortic valve opening","Head CT if neurological changes (ICH risk from anticoagulation)","Pre- and post-oxygenator pressure monitoring to detect oxygenator thrombosis (rising transmembrane pressure gradient)"],
-    management: ["Continuous unfractionated heparin infusion titrated to ACT 180-220 seconds; hold or reduce for active bleeding (target ACT 160-180)","Circuit flow rates: VV-ECMO typically 50-80 mL/kg/min to achieve SaO2 >88%; VA-ECMO typically 60-80 mL/kg/min to maintain adequate perfusion (MAP >65)","Sweep gas (oxygen flow through the membrane oxygenator) adjusted to control PaCO2; increasing sweep gas removes more CO2","Lung-protective ventilation while on VV-ECMO: rest settings (FiO2 0.3, PEEP 10-15, RR 10, TV 4 mL/kg) to minimize ventilator-induced lung injury","VA-ECMO: monitor for LV distension (LV stun from increased afterload) - may require LV venting via Impella, IABP, or atrial septostomy","Weaning trials: VV-ECMO - reduce sweep gas while monitoring native gas exchange on moderate ventilator settings; VA-ECMO - reduce flow incrementally while monitoring hemodynamics and echocardiographic function","Transfusion: maintain hemoglobin >7-8 g/dL; platelets >50,000 (>80,000 if bleeding); fibrinogen >150 mg/dL; cryoprecipitate for hypofibrinogenemia"],
-    nursingActions: ["Perform hourly circuit checks: inspect for clots (dark areas in tubing, oxygenator), fibrin strands, condensation (plasma leak), chattering (hypovolemia causing intermittent flow interruption)","Monitor cannula sites for bleeding, hematoma, signs of infection, and limb perfusion distal to femoral cannulation (pulse checks, capillary refill, skin temperature, near-infrared spectroscopy)","Maintain distal perfusion catheter patency in femoral VA-ECMO to prevent limb ischemia; assess affected extremity hourly for the 5 Ps (pain, pallor, pulselessness, paresthesia, paralysis)","Position patient with head of bed elevated 30 degrees; avoid kinking or tension on cannulae; secure tubing to prevent accidental decannulation (catastrophic hemorrhage risk)","Emergency preparedness: clamps at bedside at all times for immediate circuit clamping if air embolism or accidental decannulation; hand-crank available for pump failure","Neurological assessments every 2-4 hours: pupil reactivity, GCS, seizure activity; sedation holidays when safe to assess","Strict I&O with hourly documentation; manage fluid balance in collaboration with the ECMO team"],
-    assessmentFindings: ["Mixed venous oxygen saturation (SvO2) from pre-oxygenator blood gas reflects adequacy of oxygen delivery versus consumption (target >65-70%)","Right radial SpO2 monitoring to detect differential hypoxia in peripheral VA-ECMO (if right hand SpO2 drops below 90% while lower extremity SpO2 is normal, Harlequin syndrome is present)","Signs of hemolysis: pink-tinged plasma in circuit, dark urine (hemoglobinuria), rising LDH, dropping haptoglobin, elevated plasma-free hemoglobin","Limb ischemia distal to femoral artery cannulation: cool/pale extremity, diminished or absent pulses, pain, mottling","Signs of circuit thrombosis: rising transmembrane pressure gradient across oxygenator, declining post-membrane PaO2 despite adequate sweep gas, visible clot in circuit"],
-    signs: {
-      left: ["Declining SvO2 (<60%) indicating inadequate tissue oxygen delivery","Rising lactate suggesting tissue hypoperfusion despite ECMO support","Hemoglobinuria (dark/cola-colored urine) indicating circuit hemolysis","Circuit chattering from hypovolemia or cannula malposition","Declining platelet count (heparin-induced thrombocytopenia or consumption)"],
-      right: ["Differential hypoxia: right hand SpO2 <90% with normal lower extremity SpO2 (VA-ECMO)","Limb ischemia: pale, cool, pulseless extremity distal to femoral cannulation","Oxygenator failure: declining post-membrane PaO2, visible plasma leak or clot","LV distension on echo (aortic valve not opening, increased LVEDP) in VA-ECMO","Cannula site hemorrhage or expanding hematoma requiring intervention"]
+      "title": "Critical Care Advanced Concepts",
+      "cellular": {
+        "title": "Advanced ICU Pathophysiology",
+        "content": "Critical care medicine manages life-threatening organ dysfunction requiring intensive monitoring and organ support. Shock represents inadequate tissue perfusion classified by etiology: distributive (septic -- most common ICU shock; vasodilatory from cytokine-mediated endothelial dysfunction), cardiogenic (pump failure from MI, cardiomyopathy, valve dysfunction), hypovolemic (hemorrhage, dehydration), and obstructive (PE, tension pneumothorax, cardiac tamponade). ARDS (acute respiratory distress syndrome) involves diffuse alveolar damage from pulmonary or extrapulmonary insults, causing non-cardiogenic pulmonary edema with bilateral infiltrates and refractory hypoxemia. Multi-organ dysfunction syndrome (MODS) is the progressive failure of two or more organ systems, driven by dysregulated inflammatory response, with mortality increasing by 15-20% per organ system involved."
+      },
+      "riskFactors": [
+        "Sepsis/septic shock: infection with SOFA score increase ≥2; most common cause of ICU admission and ICU mortality",
+        "ARDS risk factors: pneumonia (most common), sepsis, aspiration, pancreatitis, massive transfusion, trauma, near-drowning",
+        "Cardiogenic shock: acute MI (especially anterior STEMI), acute decompensated HF, acute valve dysfunction, myocarditis",
+        "Ventilator-associated events: prolonged intubation >48 hours, supine positioning, sedation-related delayed extubation",
+        "ICU-acquired weakness: prolonged immobility, corticosteroids + neuromuscular blockers, critical illness polyneuropathy/myopathy",
+        "Delirium in ICU: sedation (especially benzodiazepines), sleep deprivation, immobility, infection, polypharmacy",
+        "Stress ulceration: mechanical ventilation >48 hours, coagulopathy, TBI, burns >35% BSA"
+      ],
+      "diagnostics": [
+        "Hemodynamic monitoring: arterial line (continuous BP, ABG access), central venous pressure (CVP via CVC), pulmonary artery catheter (PCWP, CO, SVR -- rarely used now), non-invasive cardiac output monitoring (PiCCO, FloTrac)",
+        "Shock differentiation by hemodynamics: Septic (low SVR, high CO, low CVP) → Cardiogenic (high SVR, low CO, high PCWP) → Hypovolemic (high SVR, low CO, low CVP) → Obstructive (variable based on cause)",
+        "ARDS Berlin criteria: acute onset (≤1 week), bilateral opacities on CXR not fully explained by effusions/atelectasis, respiratory failure not fully explained by cardiac failure, P/F ratio classification: mild 200-300, moderate 100-200, severe <100 (on PEEP ≥5)",
+        "Point-of-care ultrasound (POCUS): cardiac function, IVC collapsibility (volume status), lung ultrasound (B-lines = pulmonary edema, A-lines = normal/pneumothorax), pleural effusion",
+        "Lactate: >2 mmol/L indicates tissue hypoperfusion; trend clearance to monitor resuscitation (>10% clearance per 2 hours is favorable)",
+        "ScvO2 (central venous oxygen saturation): <70% indicates increased oxygen extraction (inadequate delivery) -- target ≥70% with resuscitation"
+      ],
+      "management": [
+        "Septic shock: early antibiotics (within 1 hour of recognition), 30 mL/kg crystalloid bolus, vasopressors (norepinephrine first-line, target MAP ≥65), source control (drain abscess, remove infected device)",
+        "ARDS: lung-protective ventilation (tidal volume 6 mL/kg IBW, plateau pressure ≤30 cmH2O), higher PEEP strategy, prone positioning for P/F <150 (PROSEVA trial: 16 hours/day), conservative fluid management (FACTT trial), neuromuscular blockade for severe ARDS in first 48 hours",
+        "Cardiogenic shock: identify and treat cause; inotropes (dobutamine, milrinone), vasopressors if hypotensive (norepinephrine), mechanical circulatory support (IABP, Impella, ECMO), revascularization if MI-related",
+        "ICU bundle (ABCDEF): Assess/manage pain, Both SAT and SBT (spontaneous awakening and breathing trials daily), Choice of sedation (avoid benzodiazepines), Delirium assessment (CAM-ICU), Early mobility, Family engagement",
+        "Stress ulcer prophylaxis: PPI or H2RA for patients with risk factors (MV >48 hours, coagulopathy)",
+        "VTE prophylaxis: LMWH or UFH unless contraindicated; mechanical (SCDs) if anticoagulation contraindicated"
+      ],
+      "nursingActions": [
+        "Perform hourly hemodynamic assessments: MAP, CVP, urine output, lactate trends, ScvO2",
+        "Manage mechanical ventilation: monitor for lung-protective parameters (TV 6 mL/kg IBW, Pplat ≤30), perform daily spontaneous breathing trials (SBT) when appropriate",
+        "Implement prone positioning for severe ARDS (P/F <150): coordinate team, ensure secured ETT, position for 16 hours/day",
+        "Assess for ICU delirium using CAM-ICU at least twice daily; implement non-pharmacologic prevention (orientation, sleep promotion, minimize sedation, early mobility, hearing aids/glasses)",
+        "Perform daily sedation interruption (spontaneous awakening trial) paired with SBT to reduce ventilator days",
+        "Calculate and trend SOFA scores to monitor organ dysfunction trajectory",
+        "Initiate early progressive mobility within 24-48 hours of ICU admission (reduces ventilator days, delirium, and ICU-acquired weakness)",
+        "Monitor for ventilator-associated pneumonia: new/progressive infiltrate + fever + purulent secretions + leukocytosis after >48 hours of mechanical ventilation"
+      ],
+      "assessmentFindings": [
+        "Septic shock: warm extremities initially (vasodilation), tachycardia, hypotension, altered mental status, decreased urine output, elevated lactate",
+        "Cardiogenic shock: cool/mottled extremities, jugular venous distension, pulmonary crackles, S3 gallop, elevated PCWP",
+        "ARDS: acute onset bilateral crackles, severe hypoxemia refractory to supplemental oxygen, high FiO2 requirements, decreased lung compliance on ventilator",
+        "ICU delirium: acute onset fluctuating attention, disorganized thinking; hyperactive (agitated, pulling at lines) or hypoactive (quiet, withdrawn -- more common and more dangerous because often unrecognized)",
+        "ICU-acquired weakness: symmetric proximal muscle weakness, difficulty weaning from ventilator, decreased grip strength",
+        "Multi-organ dysfunction: progressive failure across systems (renal: rising creatinine, oliguria; hepatic: rising bilirubin, coagulopathy; hematologic: thrombocytopenia; neurologic: altered mental status)"
+      ],
+      "signs": {
+        "left": [
+          "Patient responding to initial sepsis resuscitation with improving lactate clearance and adequate urine output",
+          "ARDS patient stable on lung-protective ventilation with P/F ratio improving",
+          "Successful daily SBT with plan for extubation",
+          "ICU delirium resolving with non-pharmacologic interventions"
+        ],
+        "right": [
+          "Refractory septic shock requiring multiple vasopressors and stress-dose hydrocortisone",
+          "Severe ARDS with P/F <100 despite prone positioning (consider ECMO referral)",
+          "Cardiogenic shock failing inotropes -- mechanical circulatory support needed",
+          "Multi-organ dysfunction with rising SOFA score despite treatment (mortality >80% with ≥4 organ failures)",
+          "Refractory ICU delirium with severe agitation endangering patient safety"
+        ]
+      },
+      "medications": [
+        {
+          "name": "Norepinephrine (Levophed)",
+          "type": "Catecholamine vasopressor (alpha-1 > beta-1 agonist)",
+          "action": "Potent alpha-1 agonist causing peripheral vasoconstriction (increases SVR and MAP); mild beta-1 agonist effect provides modest inotropic support; first-line vasopressor for septic shock per Surviving Sepsis Campaign guidelines",
+          "sideEffects": "Tissue ischemia (peripheral, mesenteric, digital), arrhythmias, tissue necrosis from extravasation, reflex bradycardia",
+          "contra": "Hypovolemia that has not been adequately resuscitated (vasopressors without volume = worsening tissue ischemia); mesenteric or peripheral ischemia",
+          "pearl": "First-line vasopressor for septic shock (SSC 2021); administer via central line (extravasation of peripheral infusion causes tissue necrosis -- phentolamine is the antidote for extravasation); target MAP ≥65 mmHg; if escalating beyond 0.5 mcg/kg/min, add vasopressin 0.04 units/min as second-line; titrate to MAP, NOT to maximum dose"
+        }
+      ],
+      "pearls": [
+        "Hour-1 sepsis bundle: measure lactate, obtain blood cultures, administer broad-spectrum antibiotics, begin 30 mL/kg crystalloid for hypotension or lactate ≥4, start vasopressor if hypotensive during/after fluid resuscitation to maintain MAP ≥65",
+        "Lung-protective ventilation saves lives in ARDS: tidal volume 6 mL/kg IDEAL body weight (based on HEIGHT, not actual weight), plateau pressure ≤30 cmH2O -- the ARDSNet trial showed 22% mortality reduction",
+        "Prone positioning in severe ARDS (P/F <150) for ≥16 hours/day reduces mortality (PROSEVA trial) -- mechanism: improved V/Q matching, recruitment of dorsal lung, reduced ventilator-induced lung injury",
+        "CAM-ICU for delirium: 1) Acute onset/fluctuation AND 2) Inattention AND EITHER 3) Disorganized thinking OR 4) Altered consciousness = positive for delirium",
+        "Norepinephrine is FIRST-LINE vasopressor in septic shock; vasopressin is SECOND-LINE (added at 0.04 U/min, NOT titrated); epinephrine is an alternative second-line",
+        "ICU-acquired weakness prevention: early mobilization within 24-48 hours, minimize sedation, avoid concurrent corticosteroids and neuromuscular blockers when possible"
+      ],
+      "quiz": [
+        {
+          "question": "An intubated ARDS patient has a P/F ratio of 90 on FiO2 100% and PEEP 14. What intervention has the strongest mortality benefit?",
+          "options": [
+            "Increase PEEP to 20",
+            "Prone positioning for at least 16 hours per day",
+            "Administer high-dose corticosteroids",
+            "Perform recruitment maneuvers"
+          ],
+          "correct": 1,
+          "rationale": "Prone positioning for ≥16 hours/day in severe ARDS (P/F <150) has the strongest evidence for mortality reduction (PROSEVA trial: 16% absolute mortality reduction). Mechanism: improved ventilation-perfusion matching, recruitment of dependent lung regions, and reduced ventilator-induced lung injury."
+        },
+        {
+          "question": "What is the first-line vasopressor for septic shock per current guidelines?",
+          "options": [
+            "Dopamine",
+            "Epinephrine",
+            "Norepinephrine",
+            "Vasopressin"
+          ],
+          "correct": 2,
+          "rationale": "Norepinephrine is the first-line vasopressor for septic shock per the Surviving Sepsis Campaign 2021 guidelines. It has potent alpha-1 vasoconstrictor activity to increase SVR and MAP, with mild beta-1 inotropic support. Vasopressin (0.04 U/min) is added as second-line if MAP goal is not met. Dopamine is associated with more arrhythmias and is no longer recommended as first-line."
+        },
+        {
+          "question": "A mechanically ventilated patient weighing 120 kg (IBW 70 kg based on height) has ARDS. What tidal volume should be set?",
+          "options": [
+            "720 mL (6 mL/kg actual weight)",
+            "420 mL (6 mL/kg ideal body weight)",
+            "840 mL (7 mL/kg actual weight)",
+            "600 mL (5 mL/kg actual weight)"
+          ],
+          "correct": 1,
+          "rationale": "Lung-protective ventilation uses 6 mL/kg of IDEAL body weight (calculated from height), NOT actual body weight. IBW 70 kg × 6 mL/kg = 420 mL. Using actual weight would deliver excessive tidal volumes and cause ventilator-induced lung injury. The ARDSNet trial demonstrated 22% mortality reduction with this approach."
+        }
+      ]
     },
-    medications: [{
-      name: "Unfractionated Heparin (continuous infusion)",
-      type: "Anticoagulant",
-      action: "Binds antithrombin III, accelerating inactivation of thrombin (factor IIa) and factor Xa, preventing thrombus formation within the ECMO circuit",
-      sideEffects: "Hemorrhage (most common and serious), heparin-induced thrombocytopenia (HIT), osteoporosis with prolonged use",
-      contra: "Active uncontrolled hemorrhage, confirmed HIT (switch to bivalirudin or argatroban), severe thrombocytopenia",
-      pearl: "Monitor ACT every 1-2 hours (target 180-220s); in active bleeding, reduce target to 160-180s; if HIT suspected, send PF4 antibody and switch to bivalirudin immediately"
-    },{
-      name: "Bivalirudin",
-      type: "Direct thrombin inhibitor",
-      action: "Directly inhibits both free and clot-bound thrombin independent of antithrombin III; alternative anticoagulation for ECMO in HIT",
-      sideEffects: "Hemorrhage, antibody formation (rare), no reversal agent available",
-      contra: "Active major hemorrhage, severe renal impairment (primarily renally cleared - requires dose adjustment)",
-      pearl: "Preferred alternative to heparin in HIT on ECMO; titrate using aPTT (target 1.5-2.5x baseline) or ACT; short half-life (25 min) is advantageous but can lead to circuit clotting if infusion interrupted"
-    }],
-    pearls: ["VV-ECMO supports gas exchange only (respiratory failure); VA-ECMO supports both cardiac output and gas exchange (cardiogenic shock) - selecting the wrong configuration is a critical error","Differential hypoxia (Harlequin syndrome) is unique to peripheral VA-ECMO: always place a right radial arterial line and SpO2 probe to detect upper body desaturation","ACT target 180-220 seconds balances thrombosis prevention against hemorrhagic risk; this is the most frequent titration challenge in ECMO management","Circuit chattering (intermittent flow interruptions) most commonly indicates hypovolemia or cannula malposition - assess volume status and check cannula position with imaging","Accidental decannulation is a life-threatening emergency: clamps must be at the bedside at all times; staff must know the emergency decannulation protocol","When weaning VV-ECMO, reduce sweep gas (not flow) to assess native lung gas exchange; for VA-ECMO, reduce flow incrementally while monitoring hemodynamics","Hemolysis is monitored via plasma-free hemoglobin; levels >50 mg/dL are concerning, and >150 mg/dL may warrant oxygenator or circuit change"],
-    quiz: [
-      {
-        question: "A patient on peripheral VA-ECMO has a right radial SpO2 of 82% and a left foot SpO2 of 98%. What does this finding indicate?",
-        options: ["Normal expected finding on VA-ECMO","Differential hypoxia (Harlequin syndrome) requiring intervention","Right radial arterial line malfunction","Inadequate ECMO circuit flow rates"],
-        correct: 1,
-        rationale: "Differential hypoxia (Harlequin syndrome) occurs in peripheral VA-ECMO when the recovering heart ejects deoxygenated blood into the aortic root (supplying the coronaries, brain, and upper extremities) while oxygenated ECMO blood enters the descending aorta via the femoral return cannula. Interventions include increasing ventilator support, switching to central VA-ECMO cannulation, or converting to VAV-ECMO configuration."
-      },
-      {
-        question: "An ECMO nurse notices the circuit is chattering intermittently. What is the most likely cause?",
-        options: ["Oxygenator membrane failure","Heparin-induced thrombocytopenia","Hypovolemia or cannula malposition causing intermittent flow interruption","Normal circuit function during high flow rates"],
-        correct: 2,
-        rationale: "Circuit chattering occurs when the centrifugal pump intermittently loses prime due to insufficient venous drainage. The most common causes are hypovolemia (inadequate preload to the drainage cannula) and cannula malposition (drainage cannula against the vessel wall). Assessment of volume status and repositioning of the patient or cannula are the appropriate interventions."
-      },
-      {
-        question: "Which anticoagulation target is standard for ECMO circuit management with unfractionated heparin?",
-        options: ["ACT 120-140 seconds","ACT 180-220 seconds","aPTT 25-35 seconds","INR 2.0-3.0"],
-        correct: 1,
-        rationale: "The standard ACT target for ECMO anticoagulation is 180-220 seconds. This range balances the risk of circuit thrombosis (undertreated) against hemorrhagic complications (overtreated). In active bleeding, the target may be reduced to 160-180 seconds. Some centers use anti-Xa levels (0.3-0.7 IU/mL) as an alternative monitoring strategy."
-      },
-    ]
-  },
   "crohns-disease-basics-rpn": {
         title: "Crohn Disease Basics",
         cellular: { title: "Pathophysiology of Crohn Disease", content: "Crohn disease is a chronic, relapsing inflammatory bowel disease characterised by transmural (full-thickness) inflammation that can affect any portion of the gastrointestinal tract from mouth to anus. It most commonly involves the terminal ileum and proximal colon (ileocolonic pattern, 40% of cases), followed by small bowel only (30%) and colon only (30%).\n\nThe pathogenesis involves a dysregulated immune response to intestinal microbiota in genetically susceptible individuals, triggered by environmental factors. The NOD2/CARD15 gene on chromosome 16 was the first identified susceptibility gene, involved in bacterial recognition by innate immune cells. Over 200 genetic loci have now been associated with Crohn disease.\n\nIn the normal gut, the epithelial barrier separates luminal bacteria from the underlying immune cells. In Crohn disease, defects in barrier function allow bacterial translocation, which activates dendritic cells and macrophages in the lamina propria. These cells produce pro-inflammatory cytokines, particularly tumor necrosis factor-alpha (TNF-alpha), interleukin-12, and interleukin-23, which drive a Th1/Th17-mediated immune response. This creates a self-perpetuating cycle of inflammation, tissue injury, further barrier disruption, and increased bacterial translocation.\n\nTransmural inflammation is the hallmark of Crohn disease, distinguishing it from ulcerative colitis which is limited to the mucosa and submucosa. Full-thickness involvement results in several characteristic complications: deep fissuring ulcers, non-caseating granulomas (found in approximately 30% of biopsies), fistula formation (tracts between the bowel and other structures - enterocutaneous, enteroenteric, enterovesical, perianal), abscesses, and fibrotic strictures causing bowel obstruction.\n\nThe disease is characteristically discontinuous with 'skip lesions' - segments of inflamed bowel separated by normal-appearing mucosa. Endoscopically, the mucosa has a 'cobblestone' appearance created by intersecting linear ulcers surrounding islands of edematous mucosa. 'Creeping fat' (mesenteric fat wrapping around the serosal surface) is a distinctive gross finding at surgery.\n\nExtraintestinal manifestations are common (25-40% of patients) and can affect virtually any organ system. Joint involvement (peripheral arthritis, sacroiliitis, ankylosing spondylitis) is most common. Other manifestations include erythema nodosum and pyoderma gangrenosum (skin), uveitis and episcleritis (eyes), primary sclerosing cholangitis (liver), and nephrolithiasis (kidney). Some extraintestinal manifestations parallel intestinal disease activity (erythema nodosum, peripheral arthritis), while others follow an independent course (primary sclerosing cholangitis, ankylosing spondylitis).\n\nNutritional deficiencies are prevalent due to malabsorption (especially with ileal disease), decreased oral intake from pain and anorexia, and chronic inflammation increasing metabolic demands. Iron deficiency anemia, B12 deficiency (terminal ileum absorption site), folate deficiency, calcium and vitamin D deficiency, and protein-calorie malnutrition are common and require monitoring." },
@@ -418,201 +901,481 @@ export const generatedBatch024Lessons: Record<string, LessonContent> = {
         quiz: [{ question: "A patient newly diagnosed with Crohn disease is prescribed infliximab. Which test must be completed BEFORE initiating therapy?", options: ["Fecal calprotectin level","Tuberculosis screening (TST or IGRA and chest X-ray)","Colonoscopy with biopsies","DEXA scan for bone density"], correct: 1, rationale: "Tuberculosis screening is mandatory before starting any anti-TNF biologic therapy. Anti-TNF agents suppress TNF-alpha, which is essential for containing latent TB granulomas. Without screening and treatment of latent TB, there is a significant risk of reactivation to active, potentially disseminated tuberculosis, which can be fatal in immunosuppressed patients." },{ question: "A nurse is educating a patient with Crohn disease about modifiable lifestyle factors. Which recommendation has the strongest evidence for reducing disease flares?", options: ["Avoiding all dairy products permanently","Following a strict gluten-free diet","Smoking cessation","Eliminating fibre from the diet"], correct: 2, rationale: "Smoking cessation is the single most important modifiable risk factor for Crohn disease. Smoking doubles the relapse rate, increases the need for surgery, and worsens disease course. There is no evidence supporting blanket elimination of dairy, gluten, or fibre in Crohn disease, though individual patients may identify personal trigger foods." },{ question: "Which assessment finding most clearly distinguishes Crohn disease from ulcerative colitis?", options: ["Bloody diarrhea with urgency and tenesmus","Continuous inflammation starting from the rectum","Perianal fistulae and skip lesions on colonoscopy","Elevated fecal calprotectin level"], correct: 2, rationale: "Perianal fistulae and skip lesions (segments of inflamed bowel separated by normal mucosa) are characteristic of Crohn disease's transmural, discontinuous inflammation pattern. Bloody diarrhea and continuous rectal inflammation are more typical of ulcerative colitis. Fecal calprotectin is elevated in both conditions and cannot distinguish between them." }]
   },
   "cross-system-concepts-np": {
-    title: "Differential Diagnosis Frameworks",
-    cellular: { title: "Clinical Reasoning and Differential Diagnosis", content: "Differential diagnosis is the systematic process of distinguishing a particular disease or condition from others that present with similar clinical features. Advanced clinical reasoning integrates two cognitive processes described by dual-process theory.\n\nSystem 1 (intuitive/pattern recognition) is fast, automatic, and relies on illness scripts -- mental models of diseases built through clinical experience. An experienced clinician sees a constellation of findings and rapidly pattern-matches to a likely diagnosis. System 1 is efficient but vulnerable to cognitive biases.\n\nSystem 2 (analytical/deliberate) is slow, methodical, and resource-intensive. It involves systematically generating a comprehensive differential, weighing evidence for and against each diagnosis, and applying probabilistic reasoning. System 2 is used when System 1 fails (atypical presentation), when the stakes are high (critical diagnoses that cannot be missed), or when the clinician consciously pauses to reconsider.\n\nThe VINDICATE mnemonic provides a systematic framework to ensure broad differential generation across disease categories: Vascular (thrombosis, hemorrhage, embolism), Infectious (bacterial, viral, fungal, parasitic), Neoplastic (primary, metastatic, paraneoplastic), Degenerative (osteoarthritis, dementia, disc disease), Iatrogenic/Intoxication (drug side effects, overdose, radiation), Congenital (genetic disorders, developmental anomalies), Autoimmune/Allergic (SLE, RA, anaphylaxis), Traumatic (fracture, TBI, burns), Endocrine/Metabolic (thyroid disorders, DKA, electrolyte imbalances).\n\nProblem representation is the concise summary of a clinical case that activates the correct illness scripts. An effective problem representation distills the patient into a one-sentence semantic qualifier-rich statement: 'A 65-year-old male smoker with acute-onset tearing chest pain radiating to the back with a blood pressure differential between arms.' This activates the illness script for aortic dissection far more effectively than listing individual findings.\n\nCognitive biases are systematic errors in clinical reasoning. Anchoring bias occurs when the clinician fixates on an initial impression despite contradictory evidence. Premature closure is accepting a diagnosis before it is fully verified. Availability bias overestimates the likelihood of diagnoses recently encountered. Confirmation bias involves selectively seeking evidence that supports the working diagnosis while ignoring disconfirming data. A diagnostic time-out -- deliberately pausing to ask 'What else could this be?' -- is a debiasing strategy that activates System 2 reasoning." },
-    riskFactors: ["Anchoring bias: fixating on initial impression and failing to adjust despite new contradictory data (e.g., labeling chest pain as GERD and missing ACS)","Premature closure: accepting a diagnosis before verification is complete (most common cognitive error in diagnostic failures)","Availability bias: overweighting diagnoses recently seen or memorable (e.g., diagnosing PE after just seeing a PE case)","Confirmation bias: selectively seeking evidence supporting the working diagnosis while ignoring disconfirming findings","Framing effect: being influenced by how information is presented (e.g., ED triage note stating 'anxiety attack' biases subsequent evaluation)","Search satisfying: stopping the search for diagnoses once one abnormality is found (e.g., finding a UTI and missing concurrent sepsis source)"],
-    diagnostics: ["Pre-test probability estimation using clinical gestalt combined with validated prediction rules (Wells score for PE/DVT, HEART score for ACS, CURB-65 for pneumonia severity, CHA2DS2-VASc for stroke risk in AF)","Likelihood ratios (LR): LR+ >10 or LR- <0.1 are strong; apply LRs to pre-test probability using the Fagan nomogram to calculate post-test probability and determine whether a test result meaningfully changes clinical decision-making","Sensitivity and specificity interpretation: high sensitivity rules OUT disease (SnNOut), high specificity rules IN disease (SpPIn); D-dimer is highly sensitive but not specific for PE","Positive predictive value (PPV) and negative predictive value (NPV): vary with disease prevalence; a positive result in a low-prevalence population has a lower PPV (more false positives)","Bayesian reasoning: iteratively updating the probability of disease as new information (history, exam, tests) becomes available; each piece of evidence shifts the probability up or down","Diagnostic time-out: structured pause to reconsider the differential when the clinical picture does not fit, when the patient is not improving as expected, or before a high-stakes decision"],
-    management: ["Construct a prioritized differential: rank diagnoses by probability AND by consequence of missing them (cannot-miss diagnoses: aortic dissection, ectopic pregnancy, meningitis, PE)","Apply clinical prediction rules to guide workup: Wells score <2 + negative D-dimer safely excludes PE; HEART score 0-3 allows safe early discharge for chest pain","Use the Fagan nomogram: plot pre-test probability on the left axis, draw a line through the LR of the test result to the right axis to determine post-test probability","Apply validated diagnostic criteria sets: modified Duke criteria for infective endocarditis, Jones criteria for rheumatic fever, ACR/EULAR criteria for RA, SLICC criteria for SLE","Implement diagnostic time-outs at key decision points: before discharge, before invasive procedures, when the patient is not responding to treatment as expected","Document clinical reasoning explicitly: record the differential diagnosis, the evidence for and against each possibility, and the rationale for the working diagnosis and plan"],
-    nursingActions: ["Generate a broad initial differential using VINDICATE or similar systematic framework before narrowing; avoid premature closure by listing at least 3-5 possibilities","Create a concise problem representation using semantic qualifiers (acute vs chronic, inflammatory vs non-inflammatory, localized vs systemic) to activate appropriate illness scripts","Identify cannot-miss diagnoses for every chief complaint and ensure they are adequately evaluated before being removed from the differential","Apply the appropriate clinical prediction rule for the clinical scenario (Wells, HEART, CURB-65, CHA2DS2-VASc, Ottawa ankle/knee rules, PERC rule) and document the score","Perform a diagnostic time-out before finalizing disposition: ask 'What is the worst thing this could be?' and 'Does the clinical course match my working diagnosis?'","Reassess the differential when the patient does not respond to initial treatment as expected; treatment failure is a red flag for an incorrect or incomplete diagnosis"],
-    assessmentFindings: ["Illness script matching: the clinician compares the patient's presentation (demographics, risk factors, tempo, symptom pattern) against stored illness scripts to identify pattern matches and mismatches","Red flags that should trigger expanded differential: unexplained weight loss, fever of unknown origin, night sweats, new neurological deficits, symptoms out of proportion to examination findings","Atypical presentations that increase diagnostic error risk: elderly patients with ACS presenting without chest pain, women with atypical MI symptoms, immunocompromised patients with muted inflammatory responses","Diagnostic discordance: when findings do not fit together into a single unifying diagnosis, consider multiple concurrent diagnoses or an uncommon presentation of a common disease","Temporal pattern analysis: hyperacute onset (seconds) suggests vascular events; acute (hours) suggests infectious or inflammatory; subacute (days-weeks) suggests autoimmune or neoplastic; chronic (months) suggests degenerative"],
-    signs: {
-      left: ["System 1 pattern recognition cues: classic presentations that trigger rapid diagnosis (crushing substernal chest pain + diaphoresis = ACS)","Semantic qualifiers that refine the differential: sharp vs dull pain, constant vs intermittent, migratory vs fixed, exertional vs rest","Pre-test probability anchors: age, sex, risk factors, and clinical context that establish baseline probability before any testing","Validated prediction rule scores that quantify risk and guide workup intensity"],
-      right: ["System 2 analytical triggers: atypical presentations, diagnostic uncertainty, high-stakes decisions, treatment failure","Cognitive bias indicators: diagnosis made too quickly, contradictory evidence ignored, only confirmatory tests ordered","Debiasing strategies: diagnostic time-out, consider the opposite, peer consultation, structured checklists","Post-test probability shifts: how each test result changes the likelihood of each diagnosis on the differential"]
+      "title": "Cross-System Clinical Concepts",
+      "cellular": {
+        "title": "Multi-System Pathophysiological Connections",
+        "content": "Many disease processes affect multiple organ systems simultaneously through shared pathophysiological mechanisms. Inflammation (cytokine cascades involving TNF-alpha, IL-1, IL-6) can cause systemic effects: SIRS progressing to sepsis affects cardiovascular, pulmonary, renal, hepatic, and hematologic systems simultaneously. Autoimmune diseases (SLE, vasculitis) involve immune complex deposition or cell-mediated destruction across multiple organs. Metabolic diseases (diabetes, metabolic syndrome) cause micro- and macrovascular damage in kidneys, eyes, nerves, and cardiovascular system. Endocrine disorders produce downstream effects: hypothyroidism causes bradycardia, constipation, hyperlipidemia, and cognitive changes. Understanding these cross-system connections enables the NP to anticipate complications, perform comprehensive assessments, and manage patients holistically rather than treating organ systems in isolation."
+      },
+      "riskFactors": [
+        "Systemic inflammatory conditions: sepsis, autoimmune diseases (SLE, RA, vasculitis), sarcoidosis",
+        "Metabolic syndrome components: obesity, insulin resistance, hypertension, dyslipidemia -- each amplifies the others",
+        "Chronic kidney disease: affects cardiovascular (uremic cardiomyopathy), hematologic (anemia from EPO deficiency), skeletal (renal osteodystrophy), neurologic (uremic encephalopathy) systems",
+        "Heart failure: affects renal (cardiorenal syndrome), hepatic (congestive hepatopathy), pulmonary (pulmonary edema), and neurologic (decreased cerebral perfusion) systems",
+        "Liver cirrhosis: causes portal hypertension (GI varices), coagulopathy, hepatorenal syndrome, hepatic encephalopathy, hepatopulmonary syndrome",
+        "Diabetes mellitus: microvascular (retinopathy, nephropathy, neuropathy) and macrovascular (CAD, PVD, stroke) complications across all organ systems"
+      ],
+      "diagnostics": [
+        "Multi-system assessment approach: when one system is affected, systematically evaluate connected systems",
+        "Cardiorenal syndrome workup: simultaneous BNP/troponin AND creatinine/BUN monitoring; urine sodium and FeNa to differentiate pre-renal from intrinsic renal disease",
+        "Hepatorenal syndrome diagnosis: cirrhosis + ascites + creatinine rise + no improvement with albumin challenge + no other cause identified",
+        "SLE multi-system workup: CBC (cytopenias), CMP (renal function), UA (proteinuria, casts), complement levels (C3/C4), anti-dsDNA, chest imaging, echocardiography",
+        "DM multi-system screening: HbA1c + annual dilated eye exam + annual UACR + annual foot exam + lipid panel + BP monitoring",
+        "Sepsis multi-system assessment: SOFA score evaluates 6 organ systems simultaneously (respiratory PaO2/FiO2, coagulation platelets, liver bilirubin, cardiovascular MAP/vasopressors, CNS GCS, renal creatinine/UOP)"
+      ],
+      "management": [
+        "Treat the primary disease while monitoring and managing downstream organ effects",
+        "Cardiorenal syndrome: optimize cardiac output (diuretics, inotropes) to improve renal perfusion; avoid nephrotoxins",
+        "Hepatorenal syndrome: volume expansion with albumin, vasoconstrictors (terlipressin, norepinephrine + albumin), liver transplant is the definitive treatment",
+        "Diabetes multi-system management: glycemic control + statin + ACEi/ARB (renal/cardiac protection) + BP control + annual screening",
+        "Sepsis multi-organ support: antibiotics + fluid resuscitation + vasopressors + organ-specific support (renal replacement, mechanical ventilation, blood products)",
+        "Autoimmune multi-system: immunosuppression targeting the underlying disease + organ-specific interventions"
+      ],
+      "nursingActions": [
+        "When evaluating any single-organ disease, systematically assess all connected organ systems",
+        "Apply the SOFA score to track multi-organ dysfunction in critical illness",
+        "Recognize cardiorenal syndrome: worsening renal function in the setting of heart failure -- manage volume status carefully (too much fluid worsens congestion; too little worsens renal perfusion)",
+        "Screen diabetic patients annually for all complications: eyes (retinopathy), kidneys (UACR, eGFR), feet (neuropathy, vascular), cardiovascular (lipids, BP)",
+        "Identify polypharmacy risks in multi-system disease: medications for one system may worsen another (NSAIDs improve joint pain but worsen renal function and GI bleeding risk in cirrhosis)",
+        "Coordinate multi-specialty care: manage referrals and synthesize recommendations from multiple specialists",
+        "Educate patients on how their conditions are interconnected and why comprehensive management matters"
+      ],
+      "assessmentFindings": [
+        "Multi-system disease presentations: sepsis (fever + hypotension + tachypnea + AKI + coagulopathy + altered mental status), SLE flare (rash + arthritis + nephritis + cytopenias + serositis), diabetic complications (retinopathy + nephropathy + neuropathy + cardiovascular disease)",
+        "Cardiorenal syndrome: jugular venous distension, peripheral edema, pulmonary crackles (cardiac) WITH rising creatinine, oliguria (renal)",
+        "Hepatorenal syndrome: ascites, jaundice, spider angiomata, palmar erythema (hepatic) WITH progressive oliguria and rising creatinine (renal)",
+        "Drug-induced multi-system effects: NSAID use causing AKI + GI bleeding + worsening heart failure simultaneously"
+      ],
+      "signs": {
+        "left": [
+          "Single-organ disease without evidence of multi-system involvement -- monitor connected systems preventively",
+          "Stable chronic multi-system disease managed with coordinated care (e.g., well-controlled diabetic with stable kidney function)",
+          "Early identification of secondary organ involvement allowing early intervention"
+        ],
+        "right": [
+          "Multi-organ dysfunction syndrome (MODS) with ≥3 organ systems failing -- mortality >50%",
+          "Cardiorenal syndrome with refractory volume overload requiring ultrafiltration or dialysis",
+          "Hepatorenal syndrome with progressive renal failure in advanced cirrhosis (median survival <2 weeks without liver transplant)",
+          "Septic shock with progressive SOFA score increase despite treatment",
+          "Catastrophic antiphospholipid syndrome: simultaneous thrombosis in ≥3 organ systems over days"
+        ]
+      },
+      "medications": [
+        {
+          "name": "No single medication for cross-system concepts",
+          "type": "Multi-system management principle",
+          "action": "Key drugs that provide multi-system protection: ACEi/ARBs (cardioprotective + renoprotective in diabetes and CKD); statins (cardiovascular + anti-inflammatory); SGLT2 inhibitors (glycemic control + heart failure reduction + renal protection -- the 'triple benefit' drug class); metformin (glycemic control + possible cardiovascular benefit)",
+          "sideEffects": "Each medication has system-specific side effects that must be weighed against multi-system benefits",
+          "contra": "Varies by medication -- renal function affects many drug choices across systems",
+          "pearl": "SGLT2 inhibitors (empagliflozin, dapagliflozin) are the prototypical cross-system medication: originally for diabetes, now proven to reduce heart failure hospitalization (EMPEROR/DAPA-HF), slow CKD progression (DAPA-CKD/EMPA-KIDNEY), and reduce cardiovascular death -- REGARDLESS of whether diabetes is present; these trials transformed thinking about cross-system pharmacotherapy"
+        }
+      ],
+      "pearls": [
+        "When you find disease in ONE organ system, ALWAYS think about connected systems: heart failure → check kidneys; kidney disease → check cardiovascular risk, bone density, hemoglobin; liver disease → check coagulation, kidneys, varices",
+        "SGLT2 inhibitors are the best example of cross-system pharmacotherapy: proven benefits in diabetes, heart failure, AND CKD -- independent of each other (a true 'multi-system' drug class)",
+        "Cardiorenal syndrome: the heart and kidneys are intimately connected; heart failure reduces renal perfusion (Type 1), and CKD accelerates cardiovascular disease (Type 4) -- managing one affects the other",
+        "The SOFA score is designed to track MULTI-organ dysfunction: each of 6 organ systems (respiratory, coagulation, hepatic, cardiovascular, neurologic, renal) scored 0-4; total score correlates with ICU mortality",
+        "Polypharmacy in multi-system disease: medications for one system may harm another -- NSAIDs (good for pain → bad for kidneys, GI, heart failure), steroids (good for inflammation → bad for glucose, bones, immune function)",
+        "Diabetes is the quintessential multi-system disease: affects kidneys, eyes, nerves, cardiovascular, immune, musculoskeletal -- comprehensive annual screening is the standard of care"
+      ],
+      "quiz": [
+        {
+          "question": "A patient with heart failure develops rising creatinine and decreased urine output during diuretic therapy. What is this phenomenon called?",
+          "options": [
+            "Hepatorenal syndrome",
+            "Cardiorenal syndrome -- worsening renal function in the setting of heart failure",
+            "Nephrotic syndrome",
+            "Acute tubular necrosis"
+          ],
+          "correct": 1,
+          "rationale": "Cardiorenal syndrome describes the bidirectional relationship between heart and kidney failure. In this case (Type 1), acute decompensated heart failure leads to decreased renal perfusion and rising creatinine. Management requires careful volume optimization -- enough diuresis to relieve congestion but not so much as to worsen renal hypoperfusion."
+        },
+        {
+          "question": "Which drug class has proven benefits across diabetes, heart failure, AND chronic kidney disease regardless of whether the other conditions are present?",
+          "options": [
+            "Beta-blockers",
+            "ACE inhibitors",
+            "SGLT2 inhibitors",
+            "Statins"
+          ],
+          "correct": 2,
+          "rationale": "SGLT2 inhibitors (empagliflozin, dapagliflozin) have landmark trials demonstrating benefits in ALL THREE conditions independently: EMPA-REG/DECLARE (diabetes cardiovascular outcomes), EMPEROR/DAPA-HF (heart failure), and DAPA-CKD/EMPA-KIDNEY (chronic kidney disease). They are the prototypical 'cross-system' drug class, working through multiple mechanisms including natriuresis, reduced glomerular hyperfiltration, and improved cardiac energetics."
+        },
+        {
+          "question": "An NP is managing a patient with cirrhosis who develops progressive oliguria and rising creatinine despite adequate albumin infusion and no other identifiable cause. What is the most likely diagnosis?",
+          "options": [
+            "Pre-renal AKI from dehydration",
+            "Hepatorenal syndrome",
+            "Drug-induced nephrotoxicity",
+            "Obstructive uropathy"
+          ],
+          "correct": 1,
+          "rationale": "Hepatorenal syndrome is diagnosed in cirrhotic patients with ascites who develop progressive renal failure without improvement after albumin challenge (1g/kg/day for 2 days), with no other identifiable cause (no nephrotoxins, no shock, no obstruction). The kidneys are structurally normal but fail due to extreme renal vasoconstriction from splanchnic vasodilation. Liver transplant is the definitive treatment."
+        }
+      ]
     },
-    medications: [{
-      name: "Clinical Prediction Rules (not a medication - diagnostic decision tools)",
-      type: "Validated Scoring Systems",
-      action: "Quantify pre-test probability and guide appropriate test ordering; reduce unnecessary testing in low-risk patients and ensure adequate workup in high-risk patients",
-      sideEffects: "Misapplication to populations outside the validation cohort; over-reliance without clinical judgment; false reassurance if applied to patients who do not meet inclusion criteria",
-      contra: "Should not override strong clinical suspicion; rules are decision aids, not decision makers; many rules exclude high-risk subgroups (e.g., PERC rule excludes patients with prior PE/DVT)",
-      pearl: "Wells score for PE: <2 points with negative age-adjusted D-dimer safely excludes PE (sensitivity >99%); HEART score 0-3 identifies low-risk chest pain patients safe for early discharge with <2% MACE rate at 6 weeks"
-    }],
-    pearls: ["The VINDICATE mnemonic (Vascular, Infectious, Neoplastic, Degenerative, Iatrogenic, Congenital, Autoimmune, Traumatic, Endocrine) ensures you consider all major disease categories when generating a differential","Premature closure is the single most common cognitive error in diagnostic failures -- always ask 'What else could this be?' before finalizing a diagnosis","A likelihood ratio >10 strongly rules IN a diagnosis; a likelihood ratio <0.1 strongly rules OUT a diagnosis; LRs between 1-5 or 0.2-1 provide minimal diagnostic shift","Problem representation using semantic qualifiers activates illness scripts more effectively than a raw list of findings -- practice distilling cases into one-sentence summaries","Cannot-miss diagnoses must be explicitly considered and ruled out for every chief complaint, even when a more likely benign diagnosis is present","Diagnostic time-outs are most valuable at three points: before discharge, before invasive procedures, and when the patient is not improving as expected","Bayesian reasoning is iterative: each new piece of data (history element, physical finding, test result) updates the probability -- no single test is interpreted in isolation"],
-    quiz: [
-      {
-        question: "A clinician sees a 45-year-old woman with pleuritic chest pain and immediately orders a CT pulmonary angiogram without calculating a Wells score or checking D-dimer. Which cognitive bias is most likely operating?",
-        options: ["Confirmation bias","Availability bias -- the clinician recently managed a PE case","Anchoring bias","Search satisfying"],
-        correct: 1,
-        rationale: "Availability bias occurs when a clinician overestimates the probability of a diagnosis because it is easily recalled, often due to a recent or memorable case. The clinician bypassed systematic risk stratification (Wells score, D-dimer) and proceeded directly to advanced imaging, suggesting the recent PE case made PE disproportionately salient in the differential."
-      },
-      {
-        question: "A patient presents with acute chest pain. The clinician calculates a HEART score of 2. What is the most appropriate next step?",
-        options: ["Immediate cardiac catheterization","Admit for serial troponins and stress testing","Consider safe early discharge with outpatient follow-up given low MACE risk (<2% at 6 weeks)","Order CT coronary angiography"],
-        correct: 2,
-        rationale: "A HEART score of 0-3 identifies patients with a <2% risk of major adverse cardiac events (MACE) at 6 weeks. These patients can be safely considered for early discharge with appropriate outpatient follow-up, avoiding unnecessary admissions, serial testing, and invasive procedures. The HEART Pathway has been validated in multiple large trials."
-      },
-      {
-        question: "Which clinical reasoning strategy is most effective at countering premature closure?",
-        options: ["Ordering more diagnostic tests to increase certainty","Performing a diagnostic time-out to ask 'What else could this be?'","Consulting a specialist for every patient encounter","Relying exclusively on System 1 pattern recognition"],
-        correct: 1,
-        rationale: "A diagnostic time-out is a deliberate pause that activates System 2 analytical reasoning. By explicitly asking 'What else could this be?' the clinician forces reconsideration of the differential, counteracting premature closure (accepting a diagnosis before it is fully verified). This is the most studied and effective debiasing strategy."
-      },
-    ]
-  },
   "croup-np": {
-    title: "Croup",
-    cellular: { title: "Pathophysiology of Laryngotracheobronchitis (Croup)", content: "Croup (acute laryngotracheobronchitis) is a common pediatric upper airway infection characterized by inflammation and edema of the subglottic region of the larynx and upper trachea. The subglottis is the narrowest portion of the pediatric airway (bounded by the rigid cricoid cartilage ring), and even mild edema in this area significantly increases airway resistance -- a 1mm reduction in the subglottic diameter of a 4mm infant airway reduces the cross-sectional area by approximately 44% and increases airway resistance by 16-fold (Poiseuille's law).\n\nParainfluenza virus (types 1 and 3) is the causative agent in approximately 75% of cases. Other viral etiologies include respiratory syncytial virus (RSV), influenza A and B, adenovirus, human metapneumovirus, and enterovirus. The virus is transmitted via respiratory droplets and direct contact. After an incubation period of 2-6 days, viral replication in the respiratory epithelium causes mucosal inflammation, edema, and increased mucus production concentrated in the subglottic region.\n\nCroup predominantly affects children aged 6 months to 3 years (peak incidence 1-2 years), with males affected 1.5 times more frequently than females. The condition is more common in fall and early winter (corresponding to parainfluenza seasonality). The clinical course typically follows a pattern: 1-2 days of URI prodrome (rhinorrhea, low-grade fever, mild cough), followed by the sudden onset of a characteristic barking (seal-like) cough, hoarseness (laryngeal inflammation), and inspiratory stridor (turbulent airflow through the narrowed subglottis). Symptoms characteristically worsen at night and with agitation or crying (increased turbulent airflow). Most cases are mild and self-limited, resolving within 3-7 days.\n\nThe Westley croup score is the validated severity assessment tool: it grades level of consciousness (0-5), cyanosis (0-5), stridor (0-2), air entry (0-2), and retractions (0-3) for a total score of 0-17. Mild croup (score 0-2): intermittent barking cough, no stridor at rest, no retractions. Moderate croup (score 3-7): stridor at rest, visible retractions, but no agitation or cyanosis. Severe croup (score 8-11): stridor at rest, significant retractions, agitation, decreased air entry. Impending respiratory failure (score >12): altered consciousness, cyanosis, minimal air entry.\n\nCritical differential diagnoses that must be distinguished from viral croup include: epiglottitis (Haemophilus influenzae type b -- now rare due to Hib vaccination; presents with abrupt onset high fever, toxic appearance, drooling, tripod positioning, muffled voice, NO barking cough; lateral neck X-ray shows 'thumb sign' of swollen epiglottis), bacterial tracheitis (secondary bacterial infection of the trachea, often following viral croup; high fever, toxic appearance, purulent secretions, poor response to croup treatment), and foreign body aspiration (sudden onset in a previously well child, unilateral wheezing, history of choking episode)." },
-    riskFactors: ["Age 6 months to 3 years (peak incidence 1-2 years due to narrow subglottic airway diameter)","Male sex (1.5:1 male-to-female ratio)","Fall and early winter seasonality (parainfluenza circulation peaks)","Daycare attendance and school-aged siblings (increased viral exposure)","History of previous croup episodes (recurrent croup in children <6 months or >6 years warrants evaluation for subglottic stenosis or other anatomic abnormality)","Preexisting subglottic narrowing (history of prolonged intubation, subglottic hemangioma, congenital subglottic stenosis)"],
-    diagnostics: ["Clinical diagnosis based on characteristic presentation: barking cough, hoarseness, inspiratory stridor in a child aged 6 months to 3 years with URI prodrome -- routine labs and imaging are NOT required for typical cases","Westley croup score assessment to grade severity: 0-2 mild, 3-7 moderate, 8-11 severe, >12 impending respiratory failure","AP neck X-ray (if obtained for atypical presentation or diagnostic uncertainty): 'steeple sign' showing subglottic narrowing; this finding is supportive but not required for diagnosis and has limited sensitivity (~50%)","Lateral neck X-ray if epiglottitis is suspected: 'thumb sign' of a swollen epiglottis with thickened aryepiglottic folds (do NOT examine the throat if epiglottitis is suspected -- risk of complete airway obstruction)","Pulse oximetry for continuous monitoring in moderate-severe cases; hypoxemia is a late and ominous finding in croup (upper airway obstruction)","Nasopharyngeal swab for viral PCR if identification of specific pathogen will change management (generally not necessary for routine croup)"],
-    management: ["Dexamethasone 0.6 mg/kg PO/IM as a SINGLE dose for ALL severities of croup (including mild) -- this is the single most important intervention; onset of action 2-4 hours, peak effect at 6 hours, duration of action up to 72 hours; reduces return visits, hospitalization, and need for additional interventions","Nebulized racemic epinephrine (0.5 mL of 2.25% solution diluted in 3 mL NS) or L-epinephrine (0.5 mL/kg of 1:1000, max 5 mL) for moderate-severe croup; provides rapid mucosal vasoconstriction reducing subglottic edema; onset of action 10-30 minutes; must observe for at least 2-4 hours after administration due to rebound worsening as drug effect wears off","Supportive care: keep child calm (agitation worsens stridor by increasing turbulent airflow), allow comfortable position (usually upright in parent's lap), administer antipyretics for fever, ensure adequate hydration","Humidified air/mist therapy: despite widespread traditional use, evidence does NOT support benefit; current guidelines do not recommend routine mist therapy","Avoid throat examination or other agitating procedures if epiglottitis is suspected (risk of complete airway obstruction)","Intubation with a smaller-than-predicted ETT size for impending respiratory failure (anticipated difficult airway due to subglottic edema); ENT/anesthesia should be present if available","Admit for observation if: severe croup (Westley score >8), required more than one nebulized epinephrine treatment, persistent stridor at rest after dexamethasone and epinephrine, underlying airway abnormality, unreliable follow-up"],
-    nursingActions: ["Assess and document Westley croup score on presentation and serially after interventions to track response to treatment","Minimize agitation: keep child in caregiver's lap, avoid unnecessary procedures, perform assessments calmly; crying and agitation worsen stridor by increasing turbulent airflow through the narrowed subglottis","Administer dexamethasone 0.6 mg/kg as prescribed; if child is vomiting and unable to take oral dose, administer IM; document time of administration for tracking onset of effect (2-4 hours)","Monitor for rebound worsening after nebulized racemic epinephrine: stridor and respiratory distress may return 1-2 hours after treatment as vasoconstrictor effect wears off; observe for minimum 2-4 hours post-epinephrine before considering discharge","Continuously monitor respiratory status: work of breathing (retractions, nasal flaring, head bobbing), stridor (presence at rest vs only with agitation), air entry, and SpO2","Educate parents on expected course: symptoms typically peak on night 2-3 of illness and resolve within 5-7 days; cough may persist longer; return precautions include stridor at rest, increased work of breathing, drooling, inability to swallow, or cyanosis","Prepare for potential difficult airway: have suction, age-appropriate bag-valve-mask, and smaller-than-predicted ETT sizes readily available"],
-    assessmentFindings: ["Barking (seal-like) cough -- the hallmark of croup; caused by inflammation and edema of the vocal cords and subglottic region","Inspiratory stridor -- high-pitched sound during inspiration caused by turbulent airflow through the narrowed subglottis; stridor at rest indicates moderate-severe disease","Hoarseness or dysphonia from vocal cord inflammation","URI prodrome (rhinorrhea, nasal congestion, low-grade fever) preceding the onset of barking cough by 1-2 days","Symptoms characteristically worse at night and with agitation or crying","Intercostal, subcostal, and suprasternal retractions indicating increased work of breathing","Normal oxygen saturation in most cases (hypoxemia is a late finding indicating impending respiratory failure)"],
-    signs: {
-      left: ["Barking (seal-like) cough worse at night","Inspiratory stridor at rest (moderate-severe)","Hoarseness and dysphonia","Low-grade fever (typically <39C/102.2F)","Intercostal and suprasternal retractions"],
-      right: ["Steeple sign on AP neck X-ray (subglottic narrowing)","Decreased air entry on auscultation (severe cases)","Agitation and restlessness (hypoxia, worsening obstruction)","Cyanosis (late and ominous -- impending respiratory failure)","Altered level of consciousness (critical -- impending arrest)"]
+      "title": "Croup (Laryngotracheobronchitis)",
+      "cellular": {
+        "title": "Croup Pathophysiology",
+        "content": "Croup (acute laryngotracheobronchitis) is a viral infection causing inflammation and edema of the subglottic airway, primarily affecting children 6 months to 3 years (peak incidence 1-2 years). Parainfluenza virus types 1 and 3 account for ~75% of cases; other causes include RSV, influenza, adenovirus, and human metapneumovirus. The subglottic trachea is the narrowest part of the pediatric airway (cricoid cartilage is a complete ring that cannot expand), making children uniquely susceptible to symptomatic obstruction from even mild edema. One millimeter of circumferential edema reduces the cross-sectional area of the infant subglottic airway by ~60% (Poiseuille law: airflow resistance is inversely proportional to radius to the fourth power). This produces the characteristic barking/seal-like cough, inspiratory stridor, and hoarseness."
+      },
+      "riskFactors": [
+        "Age 6 months to 3 years (narrow subglottic airway)",
+        "Male sex (1.5x more common in boys)",
+        "Fall and early winter seasonality (parainfluenza peaks)",
+        "Exposure to viral respiratory infections (daycare, older siblings)",
+        "Previous episodes of croup (recurrent croup in children >3 years warrants evaluation for anatomic abnormality)",
+        "Premature birth or history of subglottic stenosis (higher risk of severe presentation)",
+        "Atopy/reactive airway disease (may predispose to spasmodic croup)"
+      ],
+      "diagnostics": [
+        "Clinical diagnosis based on characteristic presentation: barking cough, hoarseness, inspiratory stridor, low-grade fever; history of URI prodrome (1-3 days of rhinorrhea, cough) followed by sudden onset of stridor (often worse at night)",
+        "Westley Croup Score: assesses severity (stridor, retractions, air entry, cyanosis, level of consciousness); mild ≤2, moderate 3-7, severe ≥8",
+        "AP neck X-ray (if diagnosis uncertain): 'steeple sign' -- subglottic narrowing of the tracheal air column (not routinely needed in classic presentation)",
+        "Differentiate from epiglottitis (EMERGENCY): epiglottitis has rapid onset, high fever, drooling, tripod positioning, muffled 'hot potato' voice, NO barking cough; lateral neck X-ray shows 'thumbprint sign' (swollen epiglottis)",
+        "Differentiate from foreign body aspiration: sudden onset without prodrome, unilateral wheezing, choking history",
+        "Differentiate from bacterial tracheitis: high fever, toxic appearance, poor response to croup treatment, purulent secretions"
+      ],
+      "management": [
+        "Mild croup (barking cough, no stridor at rest): single dose dexamethasone 0.6 mg/kg PO/IM (max 10 mg); cool mist; supportive care at home; anticipatory guidance",
+        "Moderate croup (stridor at rest with mild retractions): dexamethasone 0.6 mg/kg PO/IM + nebulized racemic epinephrine 0.5 mL of 2.25% solution diluted in 3 mL NS; observe for 2-4 hours for rebound symptoms after epinephrine",
+        "Severe croup (significant stridor, retractions, decreased air entry, agitation/lethargy): dexamethasone + racemic epinephrine; prepare for possible intubation; if intubating, use ETT 0.5-1.0 size smaller than age-predicted due to subglottic edema",
+        "Heliox (helium-oxygen mixture): may reduce work of breathing in severe croup by decreasing airflow turbulence (helium is less dense than nitrogen)",
+        "Spasmodic croup: sudden onset without viral prodrome, often recurrent, may respond to cold night air or cool mist; still give dexamethasone",
+        "Avoid: racemic epinephrine is NOT a substitute for corticosteroids (epinephrine is temporary, corticosteroids provide sustained benefit)"
+      ],
+      "nursingActions": [
+        "Assess severity using Westley Croup Score at presentation and after interventions",
+        "Keep the child calm and comfortable -- agitation increases oxygen demand and turbulent airflow, worsening stridor; allow parent to hold child",
+        "Administer dexamethasone 0.6 mg/kg (max 10 mg) -- single dose is the mainstay of treatment for ALL severity levels",
+        "Administer nebulized racemic epinephrine for moderate-severe croup and observe for minimum 2-4 hours (rebound stridor can occur as epinephrine wears off at 1-2 hours)",
+        "Monitor for signs of worsening: increasing stridor, worsening retractions, decreased air entry, cyanosis, altered consciousness",
+        "Do NOT examine the throat with a tongue depressor if epiglottitis is suspected (may trigger complete airway obstruction)",
+        "Educate parents: croup is usually self-limited (3-7 days); symptoms worse at night; return for stridor at rest, respiratory distress, or poor fluid intake",
+        "Humidity: cool mist humidifier or brief exposure to cool night air may provide temporary comfort (limited evidence but widely recommended)"
+      ],
+      "assessmentFindings": [
+        "Barking 'seal-like' cough (hallmark symptom)",
+        "Hoarseness (laryngeal inflammation)",
+        "Inspiratory stridor (turbulent airflow through narrowed subglottic airway)",
+        "Low-grade fever (usually <39°C; high fever suggests bacterial tracheitis or epiglottitis)",
+        "URI prodrome (rhinorrhea, mild cough for 1-3 days before stridor onset)",
+        "Symptoms characteristically WORSE at night (circadian cortisol nadir + supine position)",
+        "Intercostal, subcostal, and suprasternal retractions (increased work of breathing)",
+        "Agitation or lethargy in severe cases (hypoxia signs)"
+      ],
+      "signs": {
+        "left": [
+          "Mild croup: barking cough with no stridor at rest, no retractions, happy and playful; responds to single dose dexamethasone",
+          "Moderate croup: stridor at rest but child is not distressed; responds to dexamethasone + racemic epinephrine",
+          "Recurrent spasmodic croup responding to cool air and dexamethasone"
+        ],
+        "right": [
+          "Severe croup: marked stridor, severe retractions, decreased air entry, cyanosis, altered consciousness -- prepare for possible intubation",
+          "No improvement after racemic epinephrine and dexamethasone -- consider bacterial tracheitis or foreign body",
+          "Drooling with high fever and toxic appearance -- think epiglottitis (do NOT examine throat; emergent ENT/anesthesia for controlled airway management)",
+          "Complete airway obstruction: absent air movement, severe cyanosis -- emergent intubation with smaller-than-expected ETT"
+        ]
+      },
+      "medications": [
+        {
+          "name": "Dexamethasone",
+          "type": "Glucocorticoid (anti-inflammatory)",
+          "action": "Potent anti-inflammatory that reduces subglottic mucosal edema and inflammation; decreases capillary permeability and cytokine-mediated inflammatory response; provides sustained benefit (biological half-life 36-54 hours, so single dose is effective)",
+          "sideEffects": "Single dose: essentially no significant side effects; mild: hyperactivity, insomnia, increased appetite, gastric irritation",
+          "contra": "No absolute contraindications for single-dose use in croup; safe in children with varicella exposure, immunosuppression, and concurrent infections at standard croup dosing",
+          "pearl": "0.6 mg/kg PO/IM (max 10 mg) -- SINGLE DOSE is the standard of care for ALL severity levels of croup; onset of action 2-4 hours (this is why epinephrine is needed for moderate-severe cases -- it bridges until dexamethasone takes effect); PO route is preferred if child can tolerate oral (equally effective as IM); even 0.15 mg/kg has shown benefit in mild croup (lower dose studies)"
+        },
+        {
+          "name": "Racemic Epinephrine (nebulized)",
+          "type": "Adrenergic agonist (alpha and beta)",
+          "action": "Alpha-adrenergic vasoconstriction of subglottic mucosal blood vessels reduces edema and increases airway diameter; provides rapid temporary relief of airway obstruction (onset 10-30 minutes); does NOT reduce underlying inflammation",
+          "sideEffects": "Tachycardia, tremor, pallor; REBOUND WORSENING: symptoms may return or worsen 1-2 hours after dose as vasoconstriction wears off and edema returns",
+          "contra": "Hypertrophic obstructive cardiomyopathy, tetralogy of Fallot (relative); outweighed by need in airway emergency",
+          "pearl": "0.5 mL of 2.25% solution nebulized; observe for minimum 2-4 HOURS after administration due to risk of rebound stridor; L-epinephrine 5 mL of 1:1000 is an alternative with equal efficacy; can be repeated every 15-20 minutes in severe cases; epinephrine is a BRIDGE -- always give dexamethasone concurrently for sustained anti-inflammatory effect"
+        }
+      ],
+      "pearls": [
+        "Croup is a CLINICAL diagnosis: barking cough + hoarseness + inspiratory stridor + URI prodrome in a 6-month to 3-year-old; X-ray is NOT needed for classic presentation",
+        "Dexamethasone 0.6 mg/kg (max 10 mg) SINGLE DOSE is the cornerstone treatment for ALL croup severity levels -- it reduces hospitalizations, return visits, and need for additional interventions",
+        "Racemic epinephrine is TEMPORARY (wears off in 1-2 hours with potential rebound); it must be paired with dexamethasone for sustained benefit; observe 2-4 hours after epinephrine",
+        "Steeple sign on AP neck X-ray = croup (subglottic narrowing); Thumbprint sign on lateral neck X-ray = epiglottitis (swollen epiglottis)",
+        "If you suspect EPIGLOTTITIS: do NOT examine the throat, do NOT agitate the child, do NOT lay the child supine -- call ENT/anesthesia for controlled airway management in the operating room",
+        "Symptoms are WORSE AT NIGHT (cortisol nadir + supine position increasing venous congestion in subglottic mucosa) -- parents often bring children to the ED in the middle of the night",
+        "1 mm of subglottic edema reduces infant airway cross-sectional area by ~60% (Poiseuille law: resistance ∝ 1/r⁴) -- this explains why mild edema causes dramatic symptoms in children but not adults"
+      ],
+      "quiz": [
+        {
+          "question": "A 2-year-old presents at 2 AM with a barking cough, hoarse voice, and inspiratory stridor at rest. Temperature is 38.2°C. What is the FIRST medication to administer?",
+          "options": [
+            "Nebulized albuterol",
+            "Oral dexamethasone 0.6 mg/kg",
+            "Oral amoxicillin",
+            "IV ceftriaxone"
+          ],
+          "correct": 1,
+          "rationale": "This is moderate croup (stridor at rest). Dexamethasone 0.6 mg/kg PO (single dose, max 10 mg) is the first-line treatment for ALL croup severity levels. For moderate croup with stridor at rest, nebulized racemic epinephrine should also be given for rapid temporary relief while waiting for dexamethasone to take effect (2-4 hours). Albuterol is for bronchospasm (lower airway), not subglottic edema."
+        },
+        {
+          "question": "After receiving nebulized racemic epinephrine, a child with moderate croup improves significantly. How long must the child be observed before discharge?",
+          "options": [
+            "30 minutes",
+            "2-4 hours minimum due to risk of rebound stridor",
+            "1 hour",
+            "No observation needed if symptoms resolve"
+          ],
+          "correct": 1,
+          "rationale": "Racemic epinephrine provides temporary relief through mucosal vasoconstriction, but its effect wears off in 1-2 hours. Rebound stridor (return or worsening of symptoms) can occur as the vasoconstriction resolves. The child must be observed for at least 2-4 hours to ensure symptoms do not return before safe discharge."
+        },
+        {
+          "question": "A 3-year-old presents with acute onset high fever (40°C), drooling, tripod positioning, and a muffled voice. There is no barking cough. What should the nurse AVOID doing?",
+          "options": [
+            "Calling for help",
+            "Keeping the child calm and in the parent's lap",
+            "Examining the throat with a tongue depressor",
+            "Administering supplemental oxygen"
+          ],
+          "correct": 2,
+          "rationale": "This presentation (high fever, drooling, tripod position, muffled voice, NO barking cough) suggests epiglottitis, not croup. Examining the throat with a tongue depressor can trigger laryngospasm and complete airway obstruction. Do NOT agitate the child, do NOT examine the throat, do NOT lay the child supine. Call ENT/anesthesia for controlled airway management in the OR."
+        }
+      ]
     },
-    medications: [{
-      name: "Dexamethasone",
-      type: "Corticosteroid (long-acting glucocorticoid)",
-      action: "Reduces subglottic mucosal inflammation and edema through inhibition of inflammatory mediators, decreased capillary permeability, and reduced mucus production; long half-life (36-72 hours) provides sustained anti-inflammatory effect from a single dose",
-      sideEffects: "Single-dose administration has minimal side effects; may cause transient hyperglycemia, irritability, or insomnia; vomiting after oral administration may require IM dosing",
-      contra: "No absolute contraindications for single-dose use in croup; use with caution in active varicella or herpes simplex infection (immunosuppression concern with repeated dosing, not single dose)",
-      pearl: "0.6 mg/kg PO or IM as a SINGLE dose is the standard of care for ALL severities of croup, including mild; this is the single most evidence-based intervention in croup management; reduces ED return visits by 50% and hospitalization rates; oral bioavailability is excellent and PO is preferred over IM"
-    },{
-      name: "Racemic Epinephrine (nebulized)",
-      type: "Alpha-adrenergic agonist (mucosal vasoconstrictor)",
-      action: "Alpha-adrenergic stimulation causes mucosal arteriolar vasoconstriction in the subglottic region, rapidly reducing edema and improving airway caliber; onset of action within 10-30 minutes",
-      sideEffects: "Tachycardia, pallor, tremor; rebound worsening of symptoms as drug effect wears off (1-2 hours) -- must observe patient for minimum 2-4 hours post-administration",
-      contra: "No absolute contraindications in the setting of severe croup with respiratory distress; relative caution with known cardiac arrhythmias or tetralogy of Fallot",
-      pearl: "Racemic epinephrine 0.5 mL of 2.25% solution OR L-epinephrine 0.5 mL/kg (max 5 mL) of 1:1000 are equally effective; the need for more than one dose of epinephrine in the ED suggests the child may require admission; never discharge within 2 hours of epinephrine administration"
-    }],
-    pearls: ["Dexamethasone 0.6 mg/kg PO/IM single dose is recommended for ALL severities of croup -- even mild croup benefits from steroid treatment with reduced symptom duration and lower return visit rates","The Westley croup score is the validated tool for severity assessment: 0-2 mild, 3-7 moderate, 8-11 severe, >12 impending respiratory failure","After nebulized epinephrine, observe for a minimum of 2-4 hours for rebound worsening before considering discharge; the need for more than one dose suggests admission","Do NOT examine the throat if epiglottitis is suspected (toxic-appearing child with drooling, tripod positioning, muffled voice, NO barking cough) -- risk of precipitating complete airway obstruction","Humidified mist/steam therapy is NOT supported by evidence despite widespread traditional use; current guidelines do not recommend it","Croup in children <6 months or >6 years, or recurrent croup (>2 episodes), warrants evaluation for underlying anatomic airway abnormality (subglottic stenosis, hemangioma, vascular ring)","Hypoxemia is a late finding in upper airway obstruction -- do not be falsely reassured by normal SpO2 in a child with significant stridor and retractions"],
-    quiz: [
-      {
-        question: "A 2-year-old presents to the ED with a barking cough, hoarseness, and stridor at rest with mild retractions. Temperature is 38.4C. What is the most important first intervention?",
-        options: ["Nebulized albuterol","Oral dexamethasone 0.6 mg/kg","Immediate intubation","Obtain AP and lateral neck X-rays before any treatment"],
-        correct: 1,
-        rationale: "Dexamethasone 0.6 mg/kg as a single oral dose is the cornerstone of croup management for ALL severities. This child has moderate croup (stridor at rest with retractions, Westley score 3-7). Albuterol targets lower airway bronchospasm and is not effective for subglottic edema. Intubation is reserved for impending respiratory failure. Imaging should not delay treatment and is not routinely needed for typical presentations."
-      },
-      {
-        question: "A child with croup received nebulized racemic epinephrine 30 minutes ago and stridor has resolved. The parent requests discharge. What is the appropriate response?",
-        options: ["Discharge the child since stridor has resolved","Observe for at least 2-4 hours post-epinephrine before considering discharge due to risk of rebound worsening","Administer a second dose of epinephrine prophylactically before discharge","Admit the child to the ICU"],
-        correct: 1,
-        rationale: "Racemic epinephrine provides rapid but temporary relief through mucosal vasoconstriction. The effect wears off within 1-2 hours, and rebound worsening of subglottic edema and stridor can occur. A minimum observation period of 2-4 hours post-epinephrine is required before discharge can be safely considered. Early discharge risks the child developing severe airway obstruction at home."
-      },
-      {
-        question: "A 3-year-old presents with abrupt-onset high fever (40.2C), drooling, a muffled voice, and refusal to lie down. The child appears toxic and is leaning forward. Which action should be AVOIDED?",
-        options: ["Summoning anesthesia and ENT for airway management","Allowing the child to remain in a position of comfort","Examining the oropharynx with a tongue depressor","Preparing for potential emergent intubation"],
-        correct: 2,
-        rationale: "This presentation is classic for epiglottitis (acute onset, high fever, toxic appearance, drooling, muffled voice, tripod positioning), NOT croup. Examining the oropharynx with a tongue depressor in suspected epiglottitis risks precipitating complete airway obstruction and is absolutely contraindicated. The child should be kept calm, allowed to remain in a position of comfort, and the airway team (anesthesia/ENT) should be summoned for controlled airway management."
-      },
-    ]
-  },
   "crrt-np": {
-    title: "Continuous Renal Replacement Therapy (CRRT)",
-    cellular: { title: "Physiology of Continuous Renal Replacement Therapy", content: "Continuous renal replacement therapy (CRRT) is a form of extracorporeal blood purification used in hemodynamically unstable critically ill patients who cannot tolerate conventional intermittent hemodialysis (IHD). Unlike IHD, which removes solutes and fluid rapidly over 3-4 hours, CRRT operates continuously (24 hours/day) at lower blood flow rates (150-250 mL/min vs 300-500 mL/min for IHD), providing gradual solute and fluid removal with superior hemodynamic stability.\n\nCRRT uses two fundamental principles of solute removal. Convection (hemofiltration) removes solutes by dragging them across a semipermeable membrane with ultrafiltrated water -- a process called solvent drag. This is effective for both small and middle-molecular-weight substances (up to 20-30 kDa). The ultrafiltrate is replaced with sterile replacement fluid to maintain volume balance. Diffusion (hemodialysis) moves solutes across the membrane along a concentration gradient using dialysate fluid running countercurrent to blood flow. Diffusion is most effective for small solutes (urea, creatinine, potassium, <500 Da).\n\nThree principal CRRT modalities exist: CVVH (continuous venovenous hemofiltration) uses convection only -- blood passes through the hemofilter, ultrafiltrate is generated and discarded, and replacement fluid is infused either pre-filter (pre-dilution, which reduces filter clotting but slightly reduces efficiency) or post-filter (post-dilution, which is more efficient but increases hemoconcentration and clotting risk). CVVHD (continuous venovenous hemodialysis) uses diffusion only -- dialysate flows countercurrent to blood across the hemofilter membrane. CVVHDF (continuous venovenous hemodiafiltration) combines both convection and diffusion for the broadest solute clearance spectrum.\n\nVascular access for CRRT requires a large-bore, dual-lumen dialysis catheter. The right internal jugular vein is the preferred site (most reliable blood flow rates, lowest recirculation). The femoral vein is an acceptable alternative, particularly in emergencies. The subclavian vein is generally avoided due to risk of subclavian stenosis, which can compromise future arteriovenous fistula creation in that arm.\n\nAnticoagulation is essential to prevent circuit clotting. Regional citrate anticoagulation (RCA) is the preferred method for most CRRT patients per KDIGO guidelines. Citrate is infused pre-filter, chelating ionized calcium in the circuit to prevent clotting. Calcium is then infused systemically to replace the chelated calcium. The citrate-calcium complex is metabolized by the liver to bicarbonate. RCA provides effective circuit anticoagulation without systemic anticoagulation, reducing bleeding risk compared to systemic heparin. Systemic heparin is the alternative when citrate is contraindicated (severe liver failure with inability to metabolize citrate, leading to citrate accumulation with metabolic alkalosis and ionized hypocalcemia).\n\nThe effluent dose (total volume of ultrafiltrate + spent dialysate per unit time) determines clearance intensity. Current evidence (ATN and RENAL trials) supports a delivered dose of 20-25 mL/kg/hr; higher doses do not improve outcomes and increase electrolyte disturbances. The prescribed dose should be 25-30 mL/kg/hr to account for downtime (filter changes, procedures, transport)." },
-    riskFactors: ["Hemodynamically unstable AKI requiring renal replacement therapy (MAP <65 despite vasopressors, or unable to tolerate fluid removal rates required by IHD)","Severe fluid overload refractory to diuretic therapy in critically ill patients (pulmonary edema, anasarca)","Refractory hyperkalemia unresponsive to medical management (potassium >6.5 mEq/L with ECG changes)","Severe metabolic acidosis (pH <7.1) not correctable with bicarbonate infusion","Uremic complications (encephalopathy, pericarditis, bleeding) in hemodynamically unstable patients","Toxic ingestion of dialyzable substances (methanol, ethylene glycol, lithium, salicylates) in patients too unstable for IHD","Severe hypernatremia or hyponatremia requiring controlled, gradual correction to avoid osmotic demyelination"],
-    diagnostics: ["Serum BMP every 4-6 hours: monitor potassium (risk of hypokalemia from continuous removal), sodium (gradual correction targets), bicarbonate (citrate metabolism generates bicarbonate -- monitor for metabolic alkalosis), BUN and creatinine (clearance adequacy), phosphorus and magnesium (depleted by continuous removal)","Ionized calcium every 4-6 hours (critical with citrate anticoagulation): systemic ionized calcium must be maintained at 1.0-1.2 mmol/L; circuit ionized calcium target <0.4 mmol/L to ensure adequate anticoagulation; total-to-ionized calcium ratio >2.5 suggests citrate accumulation","CBC monitoring: platelet count trending (HIT screening, circuit-related consumption), hemoglobin (blood loss from circuit clotting and sampling)","Arterial blood gas to monitor acid-base status: citrate is metabolized to bicarbonate and may cause metabolic alkalosis; conversely, citrate accumulation in liver failure causes ionized hypocalcemia and metabolic acidosis","Circuit pressures monitoring: access pressure, pre-filter pressure, effluent pressure, return pressure; rising transmembrane pressure (TMP) indicates filter clotting","Fluid balance calculation: net ultrafiltration rate = total effluent output minus replacement fluid input minus dialysate input; hourly I&O documentation is essential","Drug levels for medications cleared by CRRT (vancomycin, aminoglycosides, beta-lactams) -- CRRT alters pharmacokinetics and standard dosing may be inadequate"],
-    management: ["Select CRRT modality based on clinical needs: CVVH for combined fluid and middle-molecule removal, CVVHD for primarily small-solute clearance, CVVHDF for broadest solute spectrum (most commonly used in practice)","Set prescribed effluent dose at 25-30 mL/kg/hr to achieve delivered dose of 20-25 mL/kg/hr (accounting for downtime); higher doses do not improve outcomes per ATN and RENAL trials","Regional citrate anticoagulation (preferred): citrate infused pre-filter targeting circuit ionized calcium <0.4 mmol/L; systemic calcium chloride or calcium gluconate infusion to maintain systemic ionized calcium 1.0-1.2 mmol/L; monitor total-to-ionized calcium ratio for citrate accumulation","Systemic heparin anticoagulation (alternative when citrate contraindicated): initial bolus 10-20 units/kg followed by infusion 5-10 units/kg/hr; target aPTT 1.5-2x baseline or anti-Xa 0.3-0.5 IU/mL","Net ultrafiltration rate for fluid removal: typically 50-200 mL/hr depending on hemodynamic tolerance; adjust based on MAP, vasopressor requirements, and fluid balance goals","Adjust medication dosing for CRRT clearance: hydrophilic drugs with low protein binding (vancomycin, beta-lactams, aminoglycosides) have increased clearance requiring higher or more frequent dosing; consult pharmacy for CRRT-specific dosing protocols","Replacement fluid composition: standard solutions contain physiologic sodium, bicarbonate buffer, calcium, and magnesium; customize potassium concentration based on serum levels (potassium-free solutions for hyperkalemia, add potassium for normo/hypokalemia)"],
-    nursingActions: ["Perform hourly circuit assessment: inspect for clot formation in the filter (darkening of fibers, pressure changes), air in the circuit, secure connections, catheter site for bleeding or infection","Document strict hourly I&O including all CRRT-related fluids: effluent output, replacement fluid infused, dialysate infused, citrate volume, calcium infusion volume; calculate and document net fluid balance","Monitor and trend circuit pressures every 1-2 hours: rising access pressure suggests catheter malposition or kinking; rising TMP indicates filter clotting; sudden pressure drops may indicate circuit disconnection","With citrate anticoagulation: draw circuit ionized calcium from the post-filter port (target <0.4 mmol/L) and systemic ionized calcium from the patient's arterial line or peripheral draw (target 1.0-1.2 mmol/L); adjust citrate and calcium infusion rates per protocol","Manage vascular access: maintain catheter patency, assess for signs of catheter-related bloodstream infection (fever, erythema, purulence at site), secure catheter to prevent dislodgement, maintain sterile dressing","Coordinate CRRT interruptions: clamp and flush catheter per protocol during filter changes, procedures, or transport; document downtime to calculate actual delivered dose versus prescribed dose","Implement fall prevention and mobility protocols: patients on CRRT have restricted mobility due to femoral or jugular catheter; ensure call light access, reposition every 2 hours, DVT prophylaxis"],
-    assessmentFindings: ["Hemodynamic status: MAP response to ultrafiltration (hypotension with aggressive fluid removal is the most common complication), vasopressor requirements, heart rate","Volume status assessment: JVP, peripheral edema, lung auscultation (crackles clearing with effective fluid removal), daily weights","Electrolyte trends: hypokalemia and hypophosphatemia are common with continuous solute removal; hypomagnesemia from clearance; metabolic alkalosis from citrate metabolism","Signs of citrate accumulation (liver failure patients): widening total-to-ionized calcium ratio (>2.5:1), declining ionized calcium despite increasing calcium infusion, metabolic acidosis with elevated anion gap, hemodynamic instability","Filter life: average CRRT filter life is 24-72 hours; frequent filter clotting (<12 hours) suggests inadequate anticoagulation, hemoconcentration (increase pre-dilution), or patient hypercoagulability","Catheter function: blood flow rate achieving prescribed rate (150-250 mL/min); access recirculation suspected if BUN clearance is lower than expected despite adequate flow"],
-    signs: {
-      left: ["Hypotension with ultrafiltration (reduce net UF rate, assess volume status)","Hypokalemia (K+ <3.5 mEq/L) from continuous potassium clearance","Hypophosphatemia from continuous phosphorus removal","Rising TMP indicating hemofilter clotting","Metabolic alkalosis from citrate metabolism to bicarbonate"],
-      right: ["Citrate accumulation: declining ionized calcium, rising total-to-ionized calcium ratio >2.5, metabolic acidosis","Catheter malfunction: inability to achieve prescribed blood flow rate, high access pressures, alarms","Hypothermia from extracorporeal blood cooling (ensure warming measures)","Bleeding from anticoagulation (hematuria, oozing from catheter site, declining hemoglobin)","Air embolism: sudden dyspnea, hypotension, chest pain (rare but catastrophic -- clamp circuit immediately)"]
+      "title": "Continuous Renal Replacement Therapy",
+      "cellular": {
+        "title": "CRRT Principles & Modalities",
+        "content": "Continuous renal replacement therapy (CRRT) provides slow, continuous solute and fluid removal over 24 hours in hemodynamically unstable critically ill patients who cannot tolerate conventional intermittent hemodialysis (IHD). CRRT works through three mechanisms: diffusion (solutes move across a semipermeable membrane down concentration gradients -- like hemodialysis), convection (solutes are dragged across the membrane with fluid movement through solvent drag -- like hemofiltration), and ultrafiltration (hydrostatic pressure drives fluid removal). Modalities include CVVHD (continuous venovenous hemodialysis -- primarily diffusion using dialysate), CVVH (continuous venovenous hemofiltration -- primarily convection using replacement fluid), and CVVHDF (continuous venovenous hemodiafiltration -- combines both). CRRT provides superior hemodynamic stability compared to IHD because fluid and solute are removed gradually rather than in rapid 4-hour sessions."
+      },
+      "riskFactors": [
+        "Indications for CRRT over IHD: hemodynamic instability (septic shock, cardiogenic shock), acute brain injury (IHD can worsen cerebral edema from rapid osmolar shifts), severe fluid overload with hemodynamic compromise",
+        "AKI requiring RRT: refractory hyperkalemia, severe metabolic acidosis, uremic complications (pericarditis, encephalopathy, bleeding), volume overload refractory to diuretics, dialyzable toxin ingestion in unstable patient",
+        "Risk factors for AKI requiring CRRT: sepsis (most common cause of AKI in ICU), nephrotoxic medications (aminoglycosides, vancomycin, contrast dye, NSAIDs), cardiorenal syndrome, rhabdomyolysis, hepatorenal syndrome",
+        "Contraindications: no absolute contraindications; relative: inability to obtain vascular access, treatment futility"
+      ],
+      "diagnostics": [
+        "Labs to monitor during CRRT: BMP q6h (electrolytes, BUN, creatinine), ionized calcium (citrate anticoagulation chelates calcium), phosphorus (CRRT removes phosphorus causing hypophosphatemia), magnesium, ABG (acid-base status), CBC",
+        "Circuit monitoring: access pressures, filter pressures, transmembrane pressure (TMP -- elevated TMP indicates filter clotting), effluent appearance",
+        "Fluid balance calculation: net ultrafiltration rate = total output - total input; precise hourly fluid balance documentation",
+        "Clearance adequacy: prescribed dose 20-25 mL/kg/hr effluent rate (KDIGO recommendation); actual delivered dose often lower due to circuit downtime",
+        "Anticoagulation monitoring: if regional citrate anticoagulation: post-filter ionized calcium (target 0.25-0.35 mmol/L), systemic ionized calcium (target 1.0-1.2 mmol/L); if systemic heparin: aPTT 45-60 seconds"
+      ],
+      "management": [
+        "Vascular access: large-bore dual-lumen catheter in internal jugular (preferred) or femoral vein; subclavian avoided (stenosis risk for future AV fistula)",
+        "Anticoagulation: regional citrate anticoagulation preferred (lower bleeding risk); systemic heparin alternative; no anticoagulation if coagulopathic (DIC, liver failure)",
+        "Prescribe CRRT parameters: modality (CVVH, CVVHD, or CVVHDF), blood flow rate (150-250 mL/min), effluent rate (20-25 mL/kg/hr), net ultrafiltration rate (fluid removal goal, typically 50-200 mL/hr)",
+        "Replacement fluid and dialysate: commercially prepared bicarbonate-based solutions; pre-dilution (before filter -- protects filter, slightly reduces clearance) or post-dilution (after filter -- better clearance but higher clotting risk)",
+        "Drug dosing adjustments: many drugs are cleared by CRRT (antibiotics, sedatives, vasoactive drugs) -- consult pharmacy; supplemental dosing may be needed",
+        "Transition to IHD when hemodynamically stable; consider stopping CRRT when urine output recovers (>500 mL/day without diuretics) and labs improve"
+      ],
+      "nursingActions": [
+        "Manage CRRT circuit: monitor pressures (access, return, filter/TMP), adjust anticoagulation, troubleshoot alarms",
+        "Maintain strict hourly fluid balance: document all inputs and outputs precisely; calculate net ultrafiltration accurately",
+        "Monitor electrolytes every 6 hours: CRRT removes potassium, phosphorus, magnesium, and calcium -- replacement is almost always needed",
+        "If using citrate anticoagulation: monitor post-filter iCa (target 0.25-0.35) and systemic iCa (target 1.0-1.2); citrate accumulation (suspect if ratio of total Ca/ionized Ca >2.5) occurs in liver failure",
+        "Monitor filter life: average 24-72 hours; signs of impending filter failure include rising TMP, dark filter fibers, decreased clearance",
+        "Maintain catheter patency: strict aseptic technique for all connections; do NOT use CRRT catheter for medication administration or blood draws unless emergency",
+        "Coordinate with pharmacy for drug dosing in CRRT: many critical medications need dose adjustment (vancomycin, piperacillin-tazobactam, meropenem)",
+        "Ensure patient safety during CRRT: limit mobility carefully, prevent circuit disconnection (risk of air embolism or hemorrhage)"
+      ],
+      "assessmentFindings": [
+        "Volume overload signs: peripheral edema, pulmonary crackles, elevated JVP, weight gain, increasing FiO2 requirements",
+        "Uremia signs: encephalopathy (confusion, asterixis), pericardial friction rub (uremic pericarditis), nausea/vomiting, uremic frost (rare)",
+        "Electrolyte imbalances during CRRT: hypophosphatemia (most common -- CRRT efficiently removes phosphorus), hypokalemia, hypomagnesemia, hypocalcemia (especially with citrate)",
+        "Circuit complications: catheter dysfunction (poor blood flow, recirculation), filter clotting (rising TMP, dark fibers), circuit disconnection (air embolism risk, hemorrhage)",
+        "Citrate toxicity: metabolic alkalosis, hypocalcemia (total calcium elevated but ionized calcium low), hemodynamic instability -- suspect in liver failure patients on citrate anticoagulation"
+      ],
+      "signs": {
+        "left": [
+          "AKI with improving urine output during CRRT support -- consider transition to IHD or CRRT discontinuation",
+          "Stable hemodynamics with adequate CRRT clearance and improving labs",
+          "Electrolyte losses managed with appropriate replacement protocols"
+        ],
+        "right": [
+          "Refractory hyperkalemia (K+ >6.5 with ECG changes) not responding to medical management -- emergent CRRT initiation",
+          "Severe volume overload with respiratory failure not responding to diuretics",
+          "Citrate toxicity: total/ionized calcium ratio >2.5 with hemodynamic instability (switch to heparin anticoagulation or no anticoagulation)",
+          "Filter clotting every few hours despite adequate anticoagulation -- evaluate for HIT, reconsider anticoagulation strategy",
+          "Catheter malfunction with inability to maintain blood flow rates for adequate clearance"
+        ]
+      },
+      "medications": [
+        {
+          "name": "Trisodium Citrate (4% solution for regional citrate anticoagulation)",
+          "type": "Regional anticoagulant (calcium chelator)",
+          "action": "Chelates ionized calcium in the extracorporeal circuit, inhibiting the coagulation cascade (calcium is essential for multiple steps of coagulation); regional because anticoagulation occurs ONLY within the circuit -- calcium is infused back into the patient systemically to restore normal coagulation",
+          "sideEffects": "Hypocalcemia (systemic ionized calcium must be monitored and repleted), metabolic alkalosis (citrate is metabolized to bicarbonate in the liver), citrate accumulation in liver failure (total calcium rises but ionized falls -- total/ionized ratio >2.5 is diagnostic)",
+          "contra": "Severe liver failure or shock (cannot metabolize citrate, causing accumulation and toxicity); in these cases, use systemic heparin or no anticoagulation",
+          "pearl": "Preferred over systemic heparin for CRRT anticoagulation (KDIGO guidelines): lower bleeding risk, longer filter life; monitor TWO calcium levels: post-filter ionized Ca (target 0.25-0.35 to anticoagulate the circuit) AND systemic ionized Ca (target 1.0-1.2 to maintain normal patient coagulation); citrate accumulation is signaled by a total Ca/ionized Ca ratio >2.5"
+        }
+      ],
+      "pearls": [
+        "CRRT is preferred over IHD when hemodynamic instability would not tolerate rapid fluid/solute shifts (septic shock, cardiogenic shock, acute brain injury)",
+        "CRRT removes phosphorus, potassium, and magnesium very efficiently -- virtually ALL patients on CRRT need electrolyte replacement (especially phosphorus)",
+        "Regional citrate anticoagulation: anticoagulates the CIRCUIT only (not the patient) -- preferred for patients with bleeding risk; requires monitoring of BOTH post-filter iCa (circuit anticoagulation) and systemic iCa (patient safety)",
+        "Citrate accumulation (liver failure patients): suspect when total calcium is HIGH but ionized calcium is LOW (ratio >2.5); citrate cannot be metabolized to bicarbonate; switch to heparin or no anticoagulation",
+        "Drug clearance in CRRT: small, unbound, water-soluble drugs are cleared most efficiently; supplement doses of vancomycin, beta-lactams, and other antibiotics -- always consult pharmacy",
+        "CRRT effluent dose target: 20-25 mL/kg/hr (KDIGO recommendation based on RENAL and ATN trials -- higher doses did NOT improve outcomes)"
+      ],
+      "quiz": [
+        {
+          "question": "Why is CRRT preferred over intermittent hemodialysis in hemodynamically unstable ICU patients?",
+          "options": [
+            "CRRT provides better toxin clearance",
+            "CRRT removes fluid and solutes slowly and continuously, providing superior hemodynamic stability compared to the rapid shifts of IHD",
+            "CRRT is less expensive",
+            "CRRT does not require vascular access"
+          ],
+          "correct": 1,
+          "rationale": "CRRT provides continuous, gradual fluid and solute removal over 24 hours, avoiding the rapid osmolar shifts and large-volume fluid removal that occur during 4-hour IHD sessions. This gentler approach maintains hemodynamic stability in patients who are already on vasopressors or have unstable blood pressure."
+        },
+        {
+          "question": "A patient on CRRT with citrate anticoagulation has a total calcium of 12.5 mg/dL but ionized calcium of 0.8 mmol/L. The total/ionized ratio is 3.1. What does this indicate?",
+          "options": [
+            "Normal findings during citrate anticoagulation",
+            "Citrate accumulation -- the liver cannot metabolize citrate, causing chelation of ionized calcium",
+            "Hyperparathyroidism",
+            "Laboratory error"
+          ],
+          "correct": 1,
+          "rationale": "A total Ca/ionized Ca ratio >2.5 indicates citrate accumulation. Citrate chelates ionized calcium, but the total calcium appears elevated because citrate-calcium complexes are measured by the total calcium assay. This occurs when the liver cannot metabolize citrate (liver failure, shock). Management: stop citrate, switch to heparin or no anticoagulation, and replete ionized calcium."
+        },
+        {
+          "question": "Which electrolyte is MOST commonly depleted during CRRT, requiring aggressive replacement?",
+          "options": [
+            "Sodium",
+            "Potassium",
+            "Phosphorus",
+            "Chloride"
+          ],
+          "correct": 2,
+          "rationale": "Phosphorus is the most commonly depleted electrolyte during CRRT. The semipermeable membrane efficiently removes phosphorus, and unlike potassium (which can be added to replacement fluid), phosphorus must often be supplemented separately. Severe hypophosphatemia can cause respiratory failure (diaphragm weakness), cardiac dysfunction, and hemolytic anemia."
+        }
+      ]
     },
-    medications: [{
-      name: "Trisodium Citrate (4% or ACD-A solution)",
-      type: "Regional anticoagulant for CRRT circuit",
-      action: "Chelates ionized calcium in the CRRT circuit, preventing activation of the calcium-dependent coagulation cascade; provides effective circuit anticoagulation without systemic anticoagulation; metabolized by the liver to bicarbonate",
-      sideEffects: "Citrate accumulation in liver failure (metabolic acidosis, ionized hypocalcemia, widening total:ionized calcium ratio >2.5); metabolic alkalosis from excessive citrate metabolism to bicarbonate; hypomagnesemia (citrate chelates magnesium as well as calcium)",
-      contra: "Severe hepatic failure (inability to metabolize citrate leads to accumulation, ionized hypocalcemia, and worsening acidosis); requires careful monitoring of ionized calcium and total:ionized calcium ratio",
-      pearl: "Regional citrate is the preferred anticoagulation for CRRT per KDIGO guidelines -- it provides superior filter life compared to heparin (40-70 hours vs 20-40 hours) with significantly lower bleeding risk; requires two separate calcium monitoring sites: circuit post-filter (target <0.4 mmol/L) and systemic (target 1.0-1.2 mmol/L)"
-    },{
-      name: "Calcium Chloride or Calcium Gluconate (systemic infusion)",
-      type: "Electrolyte replacement (calcium)",
-      action: "Replaces ionized calcium chelated by citrate in the CRRT circuit; maintains systemic ionized calcium at physiologic levels to support cardiac contractility, neuromuscular function, and coagulation",
-      sideEffects: "Hypercalcemia if infusion rate is excessive; calcium chloride causes tissue necrosis if extravasated (requires central line); bradycardia with rapid IV push",
-      contra: "Hypercalcemia, digoxin toxicity (calcium potentiates digoxin cardiotoxicity); calcium chloride is contraindicated via peripheral IV due to vesicant properties",
-      pearl: "Calcium chloride provides 3x more elemental calcium per gram than calcium gluconate (272 mg vs 90 mg) and is preferred via central line; calcium gluconate is safer for peripheral administration; titrate based on systemic ionized calcium levels every 4-6 hours"
-    }],
-    pearls: ["Regional citrate anticoagulation is preferred over systemic heparin for CRRT -- superior filter life and lower bleeding risk per KDIGO guidelines","Prescribed effluent dose should be 25-30 mL/kg/hr to achieve a delivered dose of 20-25 mL/kg/hr after accounting for downtime; higher doses do not improve survival (ATN/RENAL trials)","Right internal jugular vein is the preferred vascular access site for CRRT (best flow rates, lowest recirculation); avoid subclavian to preserve future AV fistula options","Monitor total-to-ionized calcium ratio with citrate anticoagulation: ratio >2.5 suggests citrate accumulation and mandates reducing citrate infusion rate or switching to heparin","Hydrophilic drugs with low protein binding (vancomycin, beta-lactams, aminoglycosides) have significantly increased clearance during CRRT -- standard dosing will result in subtherapeutic levels; consult pharmacy","Hypokalemia and hypophosphatemia are the most common electrolyte complications of CRRT from continuous solute removal -- monitor every 4-6 hours and supplement aggressively","Hypothermia is common during CRRT due to extracorporeal cooling of blood; use circuit warmers and warming blankets to maintain normothermia"],
-    quiz: [
-      {
-        question: "A critically ill patient on CVVHDF with regional citrate anticoagulation develops worsening metabolic acidosis, declining ionized calcium despite increasing the calcium infusion, and a total-to-ionized calcium ratio of 3.1. What is the most likely complication?",
-        options: ["Heparin-induced thrombocytopenia","Citrate accumulation due to hepatic dysfunction","Filter clotting from inadequate anticoagulation","Normal citrate metabolism"],
-        correct: 1,
-        rationale: "Citrate accumulation occurs when the liver cannot metabolize citrate (hepatic dysfunction, shock liver). Unmetabolized citrate chelates systemic ionized calcium, causing ionized hypocalcemia despite calcium replacement. The total calcium remains elevated (calcium-citrate complexes are measured as total calcium but are not ionized), widening the total-to-ionized calcium ratio above 2.5. Associated metabolic acidosis occurs because citrate is not being converted to bicarbonate. Management requires reducing or stopping citrate and switching to systemic heparin anticoagulation."
-      },
-      {
-        question: "Which vascular access site is preferred for CRRT catheter placement?",
-        options: ["Left subclavian vein","Right internal jugular vein","Right femoral vein","Left external jugular vein"],
-        correct: 1,
-        rationale: "The right internal jugular vein is preferred for CRRT catheter placement because it provides the most reliable blood flow rates (straight path to the SVC/right atrium), lowest recirculation rates, and lowest infection rates compared to femoral access. The subclavian vein is generally avoided because subclavian stenosis can compromise future ipsilateral arteriovenous fistula creation for long-term hemodialysis access."
-      },
-      {
-        question: "A patient on CRRT is receiving vancomycin for MRSA bacteremia. Trough levels drawn 48 hours after the loading dose are 8 mcg/mL (target 15-20 mcg/mL). What is the most likely explanation?",
-        options: ["Vancomycin is not cleared by CRRT and levels should be therapeutic","CRRT increases clearance of hydrophilic drugs like vancomycin, requiring higher doses","The patient has vancomycin resistance","The loading dose was too high"],
-        correct: 1,
-        rationale: "Vancomycin is a hydrophilic, relatively low protein-binding drug that is significantly cleared by CRRT (especially CVVHDF). Standard dosing regimens designed for anuric patients on intermittent hemodialysis will result in subtherapeutic levels during continuous therapy. Patients on CRRT typically require higher maintenance doses (e.g., 500-750 mg every 12 hours or more) with frequent trough monitoring. Pharmacy consultation for CRRT-specific dosing is essential."
-      },
-    ]
-  },
   "crush-injury-np": {
-    title: "Crush Injury: Rhabdomyolysis & Hyperkalemia",
-    cellular: { title: "Crush Syndrome Pathophysiology", content: "Crush syndrome is a systemic condition resulting from prolonged compression of skeletal muscle (typically >1 hour), followed by reperfusion injury upon release. The pathophysiology involves two phases with distinct but overlapping mechanisms.\n\nDuring the compression phase, sustained mechanical pressure on skeletal muscle causes direct myocyte injury and ischemia. The compressed tissue is relatively contained -- intracellular contents (potassium, myoglobin, phosphorus, uric acid, creatine kinase, lactic acid) accumulate within the damaged cells but cannot enter the systemic circulation while compression is maintained. Paradoxically, the patient may appear hemodynamically stable during this phase because the toxic intracellular contents are sequestered.\n\nThe reperfusion phase begins when compression is released (extrication). This is the most dangerous period. The sudden restoration of blood flow to the damaged muscle causes a massive release of intracellular contents into the systemic circulation. Potassium release causes acute hyperkalemia, which can precipitate lethal cardiac arrhythmias (peaked T waves, widened QRS, sine wave, VFib, asystole) within minutes of extrication. Myoglobin (an oxygen-binding heme protein from damaged skeletal muscle) is released in massive quantities, filtered by the kidneys, and precipitates in the renal tubules, causing acute tubular necrosis and pigment nephropathy. Myoglobin is directly nephrotoxic through three mechanisms: tubular obstruction (myoglobin casts), direct oxidative injury to tubular epithelial cells via lipid peroxidation (catalyzed by the iron moiety of heme), and renal vasoconstriction. Acidic urine promotes myoglobin precipitation and toxicity. Phosphorus release causes hyperphosphatemia, which binds calcium and causes secondary hypocalcemia (do NOT correct hypocalcemia unless symptomatic or severe, as calcium may deposit in damaged muscle). Uric acid and lactic acid contribute to metabolic acidosis.\n\nAdditionally, third-spacing of fluid into the damaged muscle compartments causes massive hypovolemia and hypovolemic shock during reperfusion. Edematous, swollen muscle within fascial compartments may lead to compartment syndrome, further compromising perfusion and extending myocyte death in a vicious cycle. Rhabdomyolysis is defined by a serum CK >5 times the upper limit of normal (approximately >1,000 IU/L), though CK levels in crush syndrome often exceed 10,000-100,000+ IU/L. CK levels peak at 24-72 hours post-injury and correlate with the volume of muscle damage.\n\nThe most critical pre-hospital intervention is initiating aggressive IV normal saline (1-1.5 L/hr) BEFORE extrication if possible. This volume expansion dilutes the potassium surge, maintains renal perfusion, and increases urinary flow to flush myoglobin from the tubules, reducing the risk of AKI. Isotonic normal saline (0.9% NaCl) is specifically chosen because it does NOT contain potassium (unlike lactated Ringer's, which should be avoided)." },
-    riskFactors: ["Prolonged compression of skeletal muscle (earthquake entrapment, building collapse, motor vehicle entrapment, prolonged immobilization from loss of consciousness)","Compression duration >1 hour (risk increases significantly with duration; >4-6 hours nearly universally causes significant rhabdomyolysis)","Large muscle mass involvement (thighs and trunk carry higher risk than extremities alone)","Statin use (increases baseline susceptibility to rhabdomyolysis from any insult)","Dehydration or hypovolemia at the time of injury (reduces renal protective capacity)","Concurrent trauma, burns, or electrical injury (additional myocyte damage)","Extreme exertion in heat (exertional rhabdomyolysis -- same pathophysiology without mechanical crush)","Illicit drug use (cocaine, amphetamines cause vasoconstriction and direct myotoxicity; prolonged immobilization from intoxication)"],
-    diagnostics: ["Serum creatine kinase (CK): diagnostic for rhabdomyolysis when >5x ULN (~1,000 IU/L); in crush syndrome often >10,000-100,000+ IU/L; serial CK every 6-12 hours to track trajectory; peak at 24-72 hours; CK >5,000 IU/L carries significant AKI risk","Serum potassium: STAT and repeat every 1-2 hours during the acute phase; hyperkalemia (K+ >6.0-6.5 mEq/L) is the most immediate life-threatening complication post-extrication","12-lead ECG: monitor for hyperkalemic changes (peaked T waves → loss of P waves → widened QRS → sine wave → VFib/asystole); continuous cardiac monitoring required","Serum BMP: creatinine and BUN (AKI monitoring), calcium (hypocalcemia from hyperphosphatemia -- calcium-phosphate binding), phosphorus (hyperphosphatemia from myocyte lysis), bicarbonate (metabolic acidosis)","Urinalysis: dark brown/tea-colored urine positive for blood on dipstick but WITHOUT red blood cells on microscopy = myoglobinuria (dipstick detects heme pigment from myoglobin, not actual blood)","Urine pH: target >6.5 with bicarbonate therapy to reduce myoglobin precipitation and nephrotoxicity","Serum lactate: elevated from tissue ischemia and anaerobic metabolism; marker of perfusion adequacy","Compartment pressures if compartment syndrome suspected: pressure >30 mmHg or within 30 mmHg of diastolic pressure (delta pressure <30 mmHg) indicates need for fasciotomy"],
-    management: ["Aggressive IV normal saline resuscitation (1-1.5 L/hr) initiated BEFORE extrication if possible and continued post-extrication; target urine output 200-300 mL/hr (approximately 3 mL/kg/hr); use 0.9% NS specifically (NO lactated Ringer's -- contains potassium)","Hyperkalemia emergency management: calcium gluconate 1-3g IV over 5-10 minutes for cardiac membrane stabilization (does NOT lower potassium, provides temporary cardioprotection); regular insulin 10 units IV with D50W 25g to shift potassium intracellularly; sodium bicarbonate 50-100 mEq IV for severe acidosis (also shifts potassium intracellularly); nebulized albuterol 10-20 mg; sodium polystyrene sulfonate (Kayexalate) 15-30g PO/PR for potassium removal (slow onset)","Urine alkalinization with IV sodium bicarbonate infusion (150 mEq NaHCO3 in 1L D5W at 200 mL/hr) to maintain urine pH >6.5; alkaline urine reduces myoglobin cast formation and decreases the nephrotoxic potential of myoglobin's iron moiety; monitor serum pH (do not exceed 7.55) and ionized calcium (alkalosis worsens hypocalcemia)","Do NOT correct hypocalcemia unless symptomatic (tetany, seizures, QTc prolongation) or ionized calcium critically low (<0.8 mmol/L) -- exogenous calcium deposits in damaged muscle, worsens tissue injury, and will rebound to hypercalcemia during recovery phase","Fasciotomy for confirmed compartment syndrome: emergent surgical decompression of all involved compartments; delay >6 hours significantly increases risk of permanent neuromuscular damage and limb loss","CRRT or emergent hemodialysis for: refractory hyperkalemia unresponsive to medical management, severe AKI with oliguria/anuria despite adequate volume resuscitation, refractory metabolic acidosis, life-threatening fluid overload","Avoid nephrotoxic agents: no NSAIDs, no contrast dye, no aminoglycosides; hold ACE inhibitors/ARBs during acute phase"],
-    nursingActions: ["Initiate and maintain aggressive IV NS infusion at prescribed rate (typically 1-1.5 L/hr initially); strict I&O with hourly urine output documentation; target UOP 200-300 mL/hr; immediately report UOP <100 mL/hr (developing AKI)","Monitor urine color every void or hourly via Foley: dark brown/tea/cola-colored urine indicates high myoglobin concentration; clearing urine color indicates improving myoglobin clearance","Continuous cardiac monitoring with immediate notification for hyperkalemic ECG changes: peaked T waves, PR prolongation, loss of P waves, widened QRS; have calcium gluconate at bedside for emergent administration","Perform serial neurovascular assessments of all involved extremities every 1-2 hours: the 5 Ps of compartment syndrome (Pain out of proportion to injury and worsened with passive stretch, Pallor, Pulselessness, Paresthesia, Paralysis); pain with passive stretch is the earliest and most sensitive finding","Administer IV sodium bicarbonate infusion as prescribed; check urine pH every 1-2 hours (target >6.5); check serum pH and ionized calcium with each BMP (alkalosis worsens hypocalcemia)","Draw serial CK levels every 6-12 hours as ordered; peak CK typically occurs at 24-72 hours post-injury; declining CK indicates resolving rhabdomyolysis","Monitor for signs of DIC (concurrent coagulopathy from massive tissue injury): petechiae, oozing from IV sites, declining platelets and fibrinogen, rising PT/INR and D-dimer"],
-    assessmentFindings: ["Dark brown/cola-colored urine (myoglobinuria) -- the hallmark clinical finding of significant rhabdomyolysis; urine dipstick positive for blood but microscopy shows no RBCs","Swollen, tense, painful extremity with pain exacerbated by passive stretch (compartment syndrome)","ECG changes of hyperkalemia: peaked T waves (earliest), PR prolongation, loss of P waves, widened QRS, sine wave pattern (pre-arrest)","Decreased or absent urine output despite aggressive fluid resuscitation (developing AKI from myoglobin nephropathy)","Hemodynamic instability from massive third-spacing of fluid into damaged muscle compartments (hypovolemic shock requiring aggressive resuscitation)","Metabolic acidosis on ABG (lactic acid from tissue ischemia, hyperphosphatemia, uremic acids)","Muscle weakness, tenderness, and swelling in the affected areas; may develop flaccid paralysis if compartment syndrome is not treated"],
-    signs: {
-      left: ["Dark brown/cola-colored urine (myoglobinuria)","Muscle swelling, tenderness, and tense compartments","Tachycardia and hypotension (hypovolemic shock from third-spacing)","Peaked T waves on ECG (hyperkalemia)","Oliguria or anuria despite volume resuscitation (AKI)"],
-      right: ["Pain out of proportion with passive stretch (earliest sign of compartment syndrome)","Metabolic acidosis with elevated anion gap","CK >5,000 IU/L with rising trajectory","Hypocalcemia (from hyperphosphatemia binding calcium)","Widened QRS complex (severe hyperkalemia -- pre-arrest rhythm)"]
+      "title": "Crush Injury & Crush Syndrome",
+      "cellular": {
+        "title": "Crush Injury & Rhabdomyolysis Pathophysiology",
+        "content": "Crush syndrome is a systemic manifestation of muscle cell damage (rhabdomyolysis) resulting from prolonged compression of skeletal muscle (typically >1 hour). During compression, ischemia causes ATP depletion, disrupting Na+/K+-ATPase and Ca2+-ATPase pumps. Intracellular calcium rises, activating proteases and lipases that destroy the sarcolemma. Upon release of the compressive force (extrication), reperfusion delivers oxygen to damaged cells, generating reactive oxygen species that amplify cellular injury. Simultaneously, the contents of destroyed myocytes flood the systemic circulation: potassium (life-threatening hyperkalemia and cardiac arrest), myoglobin (precipitates in renal tubules causing AKI), phosphorus (hyperphosphatemia, binds calcium), uric acid, creatine kinase, and lactic acid. The triad of crush syndrome is: hyperkalemia (most immediately lethal), myoglobinuric AKI, and hypovolemic shock (third-spacing of fluid into damaged muscle -- up to 12 liters in bilateral lower extremity crush)."
+      },
+      "riskFactors": [
+        "Entrapment under heavy objects: building collapse (earthquakes), motor vehicle accidents, industrial accidents",
+        "Prolonged immobilization on hard surface: elderly fall with inability to get up (found down), drug/alcohol-induced immobility",
+        "Extensive burns (thermal rhabdomyolysis)",
+        "Electrical injuries (especially high-voltage)",
+        "Severe exertion (exertional rhabdomyolysis: marathon runners, military training, extreme exercise, sickle cell trait)",
+        "Medications/toxins: statins + fibrates (synergistic risk), cocaine, amphetamines, malignant hyperthermia, neuroleptic malignant syndrome",
+        "Status epilepticus (prolonged seizure activity damages muscle)",
+        "Compression of >10% of total body muscle mass predicts significant crush syndrome"
+      ],
+      "diagnostics": [
+        "Serum CK (creatine kinase): gold standard marker; CK >5,000 U/L significantly predicts AKI; CK >15,000-20,000 U/L nearly universal AKI risk; peak at 24-72 hours after injury; can exceed 100,000 U/L",
+        "BMP: hyperkalemia (may be rapidly lethal), hyperphosphatemia, hypocalcemia (calcium binds phosphorus), elevated BUN/creatinine (AKI), metabolic acidosis",
+        "Urine: dark tea/cola-colored urine (myoglobinuria); urine dipstick positive for 'blood' but microscopy shows NO red blood cells (myoglobin cross-reacts with hemoglobin reagent)",
+        "ECG: monitor for hyperkalemic changes (peaked T waves → widened QRS → sine wave → cardiac arrest)",
+        "Lactate: elevated from tissue ischemia and hypovolemic shock",
+        "Urine myoglobin: confirms myoglobinuria but may clear faster than CK; a negative urine myoglobin does NOT exclude rhabdomyolysis if CK is elevated",
+        "Compartment pressures: assess for compartment syndrome in affected extremities (crush injury and compartment syndrome frequently coexist)"
+      ],
+      "management": [
+        "PRE-HOSPITAL (before extrication): establish IV access and begin aggressive fluid resuscitation BEFORE releasing the crush -- sudden release without pre-hydration can cause fatal hyperkalemia from reperfusion washout",
+        "IV fluid resuscitation: aggressive NS 1-1.5 L/hour initially (total volume may need 6-12 L in first 24 hours); target urine output 200-300 mL/hour",
+        "Treat hyperkalemia IMMEDIATELY if present: calcium gluconate (cardiac membrane stabilization), insulin + dextrose, sodium bicarbonate, albuterol nebulizer, kayexalate, emergent dialysis if refractory",
+        "Urine alkalinization: sodium bicarbonate IV to target urine pH >6.5 (prevents myoglobin precipitation in renal tubules -- myoglobin is most nephrotoxic in acidic urine); controversial but widely used",
+        "Avoid: calcium replacement unless symptomatic or severe hypocalcemia (exogenous calcium may deposit in damaged muscle during recovery phase)",
+        "Fasciotomy if compartment syndrome develops (crush injury and compartment syndrome frequently coexist)",
+        "CRRT/hemodialysis: for refractory hyperkalemia, severe acidosis, volume overload, or established AKI with uremic complications",
+        "Monitor for DIC (crush injury releases tissue factor), hypothermia, and ARDS"
+      ],
+      "nursingActions": [
+        "In field/extrication situations: initiate IV fluids BEFORE releasing the entrapped patient (reperfusion without volume loading causes fatal 'reperfusion' hyperkalemia)",
+        "Aggressive IV fluid administration: NS at 1-1.5 L/hr initially; monitor strict I&O; target UOP 200-300 mL/hr (significantly higher than standard goal)",
+        "Monitor potassium and ECG CONTINUOUSLY: hyperkalemia is the most immediately life-threatening complication; have calcium gluconate at bedside",
+        "Monitor CK levels every 6-12 hours: trend to peak (24-72 hours); CK >5,000 U/L increases AKI risk significantly",
+        "Assess urine color: dark tea/cola-colored = myoglobinuria; clear urine indicates adequate dilution and clearance",
+        "If sodium bicarbonate infusion ordered: monitor blood pH (avoid pH >7.5), monitor ionized calcium (alkalosis worsens hypocalcemia)",
+        "Assess extremities for compartment syndrome: pain out of proportion, pain with passive stretch, tense compartments, paresthesias",
+        "Prevent hypothermia: massive fluid resuscitation with room-temperature NS causes heat loss; use fluid warmers"
+      ],
+      "assessmentFindings": [
+        "History of prolonged compression or entrapment (>1 hour under heavy object, 'found down' for extended period)",
+        "Dark tea/cola-colored urine (myoglobinuria) -- may be the first clinical sign",
+        "Swollen, tense, painful extremities (edema of damaged muscle)",
+        "Signs of hypovolemic shock: tachycardia, hypotension (fluid third-spacing into damaged muscle)",
+        "ECG changes of hyperkalemia: peaked T waves, widened QRS, loss of P waves, sine wave pattern",
+        "Decreased or absent urine output (AKI developing)",
+        "Altered mental status (uremia, shock, electrolyte derangements)",
+        "Signs of compartment syndrome in affected extremities"
+      ],
+      "signs": {
+        "left": [
+          "Mild rhabdomyolysis (CK <5,000) with adequate urine output and normal potassium -- IV fluids and monitoring",
+          "Exertional rhabdomyolysis resolving with hydration and rest",
+          "Dark urine clearing with aggressive fluid resuscitation"
+        ],
+        "right": [
+          "Hyperkalemia with ECG changes (peaked T waves, widened QRS) -- treat immediately (calcium gluconate, insulin/dextrose, consider emergent dialysis)",
+          "CK >20,000 with declining urine output and rising creatinine -- impending myoglobinuric AKI, may need CRRT",
+          "Crush syndrome with hypovolemic shock from massive third-spacing -- requires aggressive volume resuscitation (may need >10L in 24 hours)",
+          "Compartment syndrome developing in crush-injured extremity -- emergent fasciotomy",
+          "Cardiac arrest from hyperkalemia during or immediately after extrication"
+        ]
+      },
+      "medications": [
+        {
+          "name": "Calcium Gluconate 10%",
+          "type": "Electrolyte / cardiac membrane stabilizer",
+          "action": "In hyperkalemia: does NOT lower potassium -- stabilizes the cardiac membrane by raising the threshold potential, reducing the risk of fatal arrhythmias while other treatments are working to shift or remove potassium; provides a 'bridge' of cardiac protection (onset 1-3 minutes, duration 30-60 minutes)",
+          "sideEffects": "Tissue necrosis if extravasated peripherally (prefer central line for CaCl2; Ca gluconate is safer peripherally), bradycardia if administered too rapidly, hypercalcemia with repeated dosing",
+          "contra": "Digitalis toxicity (calcium worsens digoxin-related arrhythmias); caution with hypercalcemia",
+          "pearl": "10 mL of 10% calcium gluconate IV over 2-3 minutes for hyperkalemic ECG changes; can repeat in 5-10 minutes if ECG changes persist; Ca gluconate preferred peripherally (less tissue necrosis risk than CaCl2); CaCl2 provides 3x more elemental calcium per volume but requires central access; this is the FIRST medication given for hyperkalemic ECG changes (before insulin, before bicarbonate, before anything else)"
+        }
+      ],
+      "pearls": [
+        "START IV FLUIDS BEFORE EXTRICATION: releasing a crushed patient without pre-hydration can cause immediate fatal cardiac arrest from reperfusion hyperkalemia -- 'kill by kindness' phenomenon",
+        "Hyperkalemia is the MOST IMMEDIATELY LETHAL complication of crush syndrome -- monitor potassium and ECG continuously; have calcium gluconate at bedside",
+        "Urine dipstick positive for 'blood' but microscopy shows NO red blood cells = MYOGLOBIN (myoglobin cross-reacts with the hemoglobin reagent on the dipstick)",
+        "Target urine output 200-300 mL/hr (much higher than standard 0.5-1 mL/kg/hr) to flush myoglobin through the kidneys before it precipitates",
+        "CK is the gold standard for rhabdomyolysis diagnosis: >5,000 U/L = significant AKI risk; >15,000-20,000 = high AKI risk; may exceed 100,000 U/L in severe crush",
+        "Do NOT aggressively replace calcium in crush-induced hypocalcemia UNLESS symptomatic (tetany, seizures) or hyperkalemic -- exogenous calcium deposits in damaged muscle during recovery (heterotopic calcification)",
+        "Crush injury triad: HYPERKALEMIA + MYOGLOBINURIC AKI + HYPOVOLEMIC SHOCK -- all three must be addressed simultaneously"
+      ],
+      "quiz": [
+        {
+          "question": "An earthquake victim has been trapped under rubble for 6 hours. Rescue teams are preparing to extricate. What should be done BEFORE releasing the patient?",
+          "options": [
+            "Apply a tourniquet to the trapped limb",
+            "Establish IV access and begin aggressive normal saline infusion",
+            "Administer morphine for pain",
+            "Wait for the hospital to prepare an OR for amputation"
+          ],
+          "correct": 1,
+          "rationale": "IV fluids MUST be started BEFORE extrication. When the crush is released, reperfusion washes the contents of destroyed muscle cells (especially potassium) into the systemic circulation, which can cause immediate fatal hyperkalemia and cardiac arrest. Pre-hydration with IV NS dilutes the released potassium and provides volume to counteract the massive third-spacing into damaged muscle."
+        },
+        {
+          "question": "A rhabdomyolysis patient's urine dipstick is positive for blood, but urine microscopy shows NO red blood cells. What explains this finding?",
+          "options": [
+            "Laboratory error",
+            "Myoglobin in the urine cross-reacts with the hemoglobin reagent on the dipstick, producing a false-positive for blood",
+            "The patient also has a UTI",
+            "The dipstick has expired"
+          ],
+          "correct": 1,
+          "rationale": "Myoglobin's chemical structure is similar enough to hemoglobin that it cross-reacts with the hemoglobin reagent on the urine dipstick, producing a positive 'blood' result. However, microscopy shows no RBCs because the color reaction is from myoglobin, not hemoglobin. This is the classic urine finding of myoglobinuria/rhabdomyolysis."
+        },
+        {
+          "question": "A crush injury patient has peaked T waves and a widened QRS on ECG with K+ of 7.2. What is the FIRST medication to administer?",
+          "options": [
+            "Insulin with dextrose (shifts K+ into cells)",
+            "Calcium gluconate IV (stabilizes cardiac membrane)",
+            "Sodium bicarbonate (shifts K+ into cells)",
+            "Kayexalate (removes K+ from body)"
+          ],
+          "correct": 1,
+          "rationale": "Calcium gluconate is the FIRST medication given for hyperkalemia with ECG changes. It does NOT lower potassium but stabilizes the cardiac membrane within 1-3 minutes, preventing fatal arrhythmias while other treatments (insulin/dextrose, bicarbonate, dialysis) are working to actually reduce potassium levels. Think of it as 'buying time' for the heart."
+        }
+      ]
     },
-    medications: [{
-      name: "Calcium Gluconate (10% IV)",
-      type: "Cardiac membrane stabilizer",
-      action: "Raises the cardiac membrane threshold potential, antagonizing the cardiotoxic effects of hyperkalemia; does NOT lower serum potassium -- provides temporary cardiac protection (30-60 minutes) while definitive potassium-lowering therapies take effect",
-      sideEffects: "Bradycardia with rapid administration, tissue necrosis if calcium chloride extravasates (gluconate is safer peripherally), hypercalcemia with repeated doses",
-      contra: "Concurrent digoxin therapy (calcium potentiates digoxin cardiotoxicity -- use with extreme caution, administer slowly over 20-30 minutes if given); hypercalcemia",
-      pearl: "Calcium gluconate 1-3g IV over 5-10 minutes is the FIRST intervention for hyperkalemia with ECG changes; it does NOT reduce potassium but buys time; effect lasts 30-60 minutes and may be repeated; follow immediately with insulin/dextrose to shift potassium intracellularly"
-    },{
-      name: "Regular Insulin + Dextrose 50%",
-      type: "Potassium-shifting agent",
-      action: "Insulin activates the Na+/K+-ATPase pump on cell membranes, driving potassium from the extracellular space into cells; lowers serum potassium by 0.5-1.5 mEq/L within 15-30 minutes; D50W prevents insulin-induced hypoglycemia",
-      sideEffects: "Hypoglycemia (most common -- monitor blood glucose every 30-60 minutes for 4-6 hours post-administration), hypokalemia with repeated dosing",
-      contra: "Use with caution in patients with hypoglycemia; ensure IV dextrose is co-administered; monitor blood glucose closely in patients with renal failure (insulin clearance is reduced)",
-      pearl: "Standard dosing: regular insulin 10 units IV push with D50W 25g (50 mL) IV push; onset 15-30 minutes, duration 4-6 hours; this is the most reliable potassium-shifting intervention; always check blood glucose before and serially after administration"
-    },{
-      name: "Sodium Bicarbonate (IV infusion for urine alkalinization)",
-      type: "Alkalinizing agent",
-      action: "Raises urine pH above 6.5, which prevents myoglobin dissociation into its nephrotoxic ferrihemate and globin components in the renal tubules; alkaline urine increases myoglobin solubility, reducing tubular cast formation and obstruction; also shifts potassium intracellularly as a secondary benefit",
-      sideEffects: "Metabolic alkalosis (do not exceed serum pH 7.55), worsening of hypocalcemia (alkalosis decreases ionized calcium by increasing calcium-albumin binding), hypernatremia, volume overload, paradoxical CNS acidosis",
-      contra: "Pre-existing metabolic alkalosis (pH >7.55), severe symptomatic hypocalcemia (alkalosis will worsen it), pulmonary edema",
-      pearl: "Standard preparation: 150 mEq NaHCO3 in 1L D5W at 200 mL/hr; titrate to urine pH >6.5; monitor serum pH (stop if >7.55) and ionized calcium closely; the benefits of urine alkalinization must be weighed against the risk of worsening hypocalcemia"
-    }],
-    pearls: ["Start aggressive IV normal saline (1-1.5 L/hr) BEFORE extrication if possible -- the potassium and myoglobin surge upon release can be immediately lethal; volume expansion is the single most important intervention","Use 0.9% NS specifically -- avoid lactated Ringer's because it contains potassium (4 mEq/L), which is contraindicated in the setting of crush-related hyperkalemia","CK >5,000 IU/L is the threshold for significant AKI risk from myoglobin nephropathy; maintain UOP 200-300 mL/hr to flush myoglobin from the renal tubules","Do NOT give calcium for hypocalcemia in crush syndrome unless symptomatic or critically low -- exogenous calcium deposits in damaged muscle and will rebound to hypercalcemia during recovery","Dark brown urine that tests positive for blood on dipstick but shows NO red blood cells on microscopy = myoglobinuria (the dipstick detects heme pigment, which is present in both hemoglobin and myoglobin)","Pain with passive stretch of the involved muscles is the earliest and most sensitive sign of compartment syndrome -- do not wait for the 5 Ps; compartment pressure >30 mmHg or delta pressure <30 mmHg requires emergent fasciotomy","Hyperkalemia is the most immediate life-threatening complication post-extrication: ECG changes progress from peaked T waves → widened QRS → sine wave → VFib/asystole; calcium gluconate stabilizes the myocardium but does NOT lower potassium"],
-    quiz: [
-      {
-        question: "A 35-year-old male is trapped under a collapsed building with both legs compressed for 6 hours. EMS has IV access established. What is the most critical intervention BEFORE extrication?",
-        options: ["Administer IV morphine for pain control","Begin aggressive IV normal saline infusion at 1-1.5 L/hr","Apply tourniquets to both legs above the compression site","Administer IV calcium chloride prophylactically"],
-        correct: 1,
-        rationale: "Aggressive IV normal saline (1-1.5 L/hr) should be initiated BEFORE extrication whenever possible. Upon release, the sudden influx of potassium, myoglobin, and other intracellular contents into the circulation can cause fatal hyperkalemic cardiac arrest and AKI. Volume expansion dilutes the potassium surge, maintains renal perfusion, and increases urinary flow to clear myoglobin from the tubules. Normal saline (0.9% NaCl) is used specifically because it contains no potassium."
-      },
-      {
-        question: "A crush injury patient has dark brown urine. The urine dipstick is positive for blood, but microscopy shows no red blood cells. What does this finding indicate?",
-        options: ["Urinary tract infection","Myoglobinuria from rhabdomyolysis","Hematuria from renal laceration","False-positive dipstick result"],
-        correct: 1,
-        rationale: "Dark brown/cola-colored urine that is positive for blood on dipstick but shows no RBCs on microscopy is pathognomonic for myoglobinuria. The urine dipstick detects the heme moiety, which is present in both hemoglobin (from RBCs) and myoglobin (from damaged skeletal muscle). The absence of RBCs on microscopy confirms that the heme pigment is from myoglobin, not hemoglobin. This is a hallmark finding of significant rhabdomyolysis."
-      },
-      {
-        question: "A crush injury patient post-extrication has a serum potassium of 7.2 mEq/L and peaked T waves on the ECG. What is the FIRST medication to administer?",
-        options: ["Regular insulin 10 units IV with D50W","Sodium bicarbonate 50 mEq IV","Calcium gluconate 1-3g IV over 5-10 minutes","Sodium polystyrene sulfonate (Kayexalate) 30g PO"],
-        correct: 2,
-        rationale: "Calcium gluconate is the FIRST intervention for hyperkalemia with ECG changes. It stabilizes the cardiac membrane by raising the threshold potential, providing immediate cardioprotection. It does NOT lower potassium -- it buys 30-60 minutes of cardiac protection while definitive potassium-lowering therapies (insulin/dextrose, bicarbonate) take effect. Insulin/dextrose should be given immediately after, but cardiac stabilization takes priority."
-      },
-    ]
-  },
   "cryoglobulinemia-rn": {
         title: "Cryoglobulinemia",
         cellular: { title: "Cryoglobulin-Mediated Immune Complex", content: "Cryoglobulinemia is a systemic condition characterized by the presence of cryoglobulins -- immunoglobulins that reversibly precipitate at temperatures below 37C and redissolve upon warming. When these abnormal proteins precipitate in the cooler peripheral microcirculation (fingers, toes, ears, nose, skin of the lower extremities), they deposit in small vessel walls, activate the complement cascade, and trigger a small-vessel vasculitis that can damage the skin, kidneys, peripheral nerves, and other organs. Cryoglobulinemia is classified into three types based on the Brouet classification. Type I cryoglobulinemia consists of a single monoclonal immunoglobulin (usually IgM or IgG) and is associated with lymphoproliferative disorders such as Waldenstrom macroglobulinemia, multiple myeloma, or chronic lymphocytic leukemia. The monoclonal protein precipitates in the cold, causing hyperviscosity and vascular occlusion rather than immune complex-mediated inflammation. Type II cryoglobulinemia (mixed cryoglobulinemia) consists of a monoclonal IgM with rheumatoid factor (RF) activity directed against polyclonal IgG. Type III cryoglobulinemia consists of polyclonal IgM with RF activity directed against polyclonal IgG. Types II and III are collectively called 'mixed cryoglobulinemia' because they contain more than one immunoglobulin class. Mixed cryoglobulinemia is the most clinically significant form and is strongly associated with chronic hepatitis C virus (HCV) infection -- approximately 80-90% of mixed cryoglobulinemia cases are attributable to HCV. The pathogenesis of HCV-associated mixed cryoglobulinemia involves chronic antigenic stimulation of B lymphocytes by HCV. The virus infects hepatocytes but also directly infects B cells (binding to CD81, a B-cell coreceptor). Chronic HCV infection drives sustained B-cell activation, clonal expansion, and production of RF-positive IgM that forms immune complexes with IgG and viral antigens. These circulating immune complexes precipitate at cooler temperatures in small blood vessels, depositing in vessel walls and activating the classical complement pathway (C1q binding to the Fc region of IgG within the cryoprecipitate). Complement activation generates the anaphylatoxins C3a and C5a (attracting neutrophils and macrophages), the membrane attack complex (C5b-9, causing endothelial damage), and C3b opsonization. The resulting inflammatory cascade causes a leukocytoclastic vasculitis -- neutrophilic infiltration of vessel walls with nuclear debris (leukocytoclasis), fibrinoid necrosis of the vessel wall, and extravasation of red blood cells into the perivascular tissue. The classic clinical presentation of mixed cryoglobulinemia is the Meltzer triad: palpable purpura (non-blanching purpuric papules predominantly on the lower extremities -- caused by immune complex deposition in dermal small vessels), arthralgias (non-deforming joint pain from synovial vasculitis), and weakness/fatigue. Renal involvement (membranoproliferative glomerulonephritis/MPGN type I -- immune complex deposition in the glomerular capillary basement membrane causing proliferation of mesangial and endothelial cells) occurs in 20-35% of patients and can progress to renal failure. Peripheral neuropathy (mononeuritis multiplex or distal symmetric polyneuropathy from vasa nervorum vasculitis) occurs in 50-80% of patients, causing sensory symptoms (numbness, paresthesias, burning pain) predominantly in the lower extremities. Laboratory findings include positive cryoglobulins (the blood sample MUST be drawn and processed at 37C to prevent premature cryoprecipitation), positive rheumatoid factor (from the IgM-RF component), low C4 complement (classical complement pathway consumption -- C4 is preferentially depleted because it is consumed early in the classical pathway), and often positive HCV antibodies and detectable HCV RNA. Treatment targets both the underlying cause (HCV eradication with direct-acting antiviral agents such as sofosbuvir-based regimens, which cure HCV in >95% of patients and often resolve the cryoglobulinemia) and the immune-mediated inflammatory damage (rituximab for moderate-to-severe vasculitis, particularly renal and neurological involvement; plasmapheresis for severe or life-threatening disease to rapidly remove circulating cryoglobulins; corticosteroids for acute flares). The management of HCV-associated cryoglobulinemia has been transformed by direct-acting antivirals (DAAs), which achieve sustained virological response in >95% of patients -- HCV eradication often leads to clearance of cryoglobulins and resolution of clinical manifestations over months." },
@@ -625,7 +1388,7 @@ export const generatedBatch024Lessons: Record<string, LessonContent> = {
         medications: [{ name: "Rituximab (Rituxan)", type: "Anti-CD20 chimeric monoclonal antibody", action: "Binds to the CD20 antigen expressed on the surface of pre-B and mature B lymphocytes, triggering B-cell destruction through complement-dependent cytotoxicity (CDC), antibody-dependent cellular cytotoxicity (ADCC), and direct induction of apoptosis. In cryoglobulinemia, rituximab depletes the B-cell clones responsible for producing the pathogenic cryoglobulins (the IgM-RF component in mixed cryoglobulinemia). By eliminating the source of cryoglobulin production, rituximab reduces circulating cryoglobulin levels and alleviates the immune complex-mediated vasculitis affecting the skin, kidneys, and peripheral nerves. Rituximab is preferred over traditional immunosuppressants (cyclophosphamide, azathioprine) because it specifically targets B cells without the broader immunosuppressive and toxic effects of alkylating agents.", sideEffects: "Infusion-related reactions (fever, chills, rigors, hypotension, bronchospasm -- most common with first infusion; pre-medicate with acetaminophen, diphenhydramine, and corticosteroid), hepatitis B reactivation (screen ALL patients for HBV before treatment; HBsAg-positive patients require antiviral prophylaxis), progressive multifocal leukoencephalopathy (rare, fatal JC virus reactivation), late-onset neutropenia, hypogammaglobulinemia with recurrent infections, serum sickness-like reactions", contra: "Active severe infections; HBV carriers without antiviral prophylaxis; known hypersensitivity; live vaccines during and for 6-12 months after treatment", pearl: "Standard dosing: 375 mg/m2 IV weekly x 4 weeks or 1000 mg IV on days 1 and 15; response typically seen in 4-12 weeks; in HCV-associated cryoglobulinemia, rituximab is used ALONGSIDE direct-acting antiviral therapy (not as a substitute for HCV eradication); HBV screening (HBsAg, anti-HBc) is MANDATORY before first dose; caution in HCV patients: rituximab may transiently increase HCV viral load (theoretical concern of accelerated liver disease, though clinical significance is debated); AVOID in active HBV (can cause fulminant hepatitis from HBV reactivation); monitor immunoglobulin levels during treatment (hypogammaglobulinemia increases infection risk)" },{ name: "Prednisone", type: "Systemic corticosteroid (glucocorticoid)", action: "Binds to intracellular glucocorticoid receptors, modulating inflammatory gene transcription. Suppresses the immune-mediated vasculitis in cryoglobulinemia by reducing pro-inflammatory cytokine production (IL-1, IL-6, TNF-alpha), inhibiting neutrophil migration to vessel walls (reducing leukocytoclasis), stabilizing endothelial cell membranes, and reducing complement-mediated tissue damage. In acute cryoglobulinemic vasculitis flares, prednisone rapidly suppresses the inflammatory cascade causing organ damage (renal inflammation, skin vasculitis, peripheral nerve injury) while definitive therapies (antivirals, rituximab) take weeks to months to achieve their full effect.", sideEffects: "Short-term: hyperglycemia, insomnia, mood changes, increased appetite, fluid retention, immunosuppression. Long-term: Cushingoid features, osteoporosis, adrenal suppression, cataracts, myopathy, avascular necrosis. IMPORTANT in HCV: high-dose corticosteroids may increase HCV replication (immunosuppression allows viral proliferation), potentially worsening liver disease -- use the lowest effective dose for the shortest duration", contra: "Active untreated systemic fungal infections; caution in diabetes (causes significant hyperglycemia), peptic ulcer disease, osteoporosis; use cautiously in HCV patients (may increase viral replication)", pearl: "Dose: 0.5-1 mg/kg/day PO for acute cryoglobulinemic vasculitis flares (renal involvement, severe neuropathy, extensive purpura with ulceration); taper over 4-8 weeks as rituximab and antiviral therapy take effect; monitor blood glucose closely (especially in HCV patients with hepatic dysfunction who may have impaired glucose metabolism at baseline); GI prophylaxis with PPI; concurrent antiviral therapy is essential in HCV-associated disease -- corticosteroids alone may worsen HCV infection; for mild disease (intermittent purpura without organ involvement), steroids are usually not necessary (cold avoidance + antiviral therapy may suffice)" },{ name: "Sofosbuvir/Velpatasvir (Epclusa)", type: "Pan-genotypic direct-acting antiviral combination (NS5B + NS5A inhibitors)", action: "Sofosbuvir is a nucleotide analogue inhibitor of the HCV NS5B RNA-dependent RNA polymerase -- the enzyme responsible for replicating the HCV genome. After intracellular phosphorylation to its active triphosphate form (GS-461203), sofosbuvir is incorporated into the growing HCV RNA chain by NS5B, causing chain termination and preventing viral replication. Velpatasvir inhibits the HCV NS5A protein, a multifunctional phosphoprotein essential for viral RNA replication, virion assembly, and secretion. The combination of two DAAs with different mechanisms of action provides synergistic antiviral activity and a high barrier to resistance. By eradicating HCV (sustained virological response/SVR in >95% of patients across all genotypes), sofosbuvir/velpatasvir removes the chronic antigenic stimulus driving B-cell activation and cryoglobulin production, leading to gradual resolution of mixed cryoglobulinemia over months following SVR.", sideEffects: "Generally very well tolerated; headache, fatigue, nausea (mild and self-limited in most cases); CRITICAL drug interaction: sofosbuvir + amiodarone can cause symptomatic bradycardia including cardiac arrest (contraindicated combination); HBV reactivation possible during or after HCV treatment (screen for HBV before starting DAAs; co-infected patients need HBV monitoring and may need concurrent HBV therapy)", contra: "Co-administration with rifampin, carbamazepine, or other potent P-gp inducers (reduce sofosbuvir levels below therapeutic threshold); co-administration with amiodarone (bradycardia risk); severe renal impairment (sofosbuvir metabolite accumulates -- use with caution if eGFR <30 mL/min, though newer data support use with monitoring)", pearl: "One tablet (sofosbuvir 400 mg/velpatasvir 100 mg) PO once daily x 12 weeks for ALL HCV genotypes; SVR rate >95% in clinical trials; for HCV-associated cryoglobulinemia, HCV eradication is the CORNERSTONE of treatment -- cryoglobulin clearance and clinical improvement (reduction in purpura, stabilization of renal function, improvement in neuropathy) typically follow SVR over 6-12 months; screen for HBV co-infection before starting (HBV reactivation during DAA therapy has been reported); check drug interactions carefully (sofosbuvir levels affected by P-gp inducers); no food requirement; well-tolerated with minimal side effects compared to older interferon-based HCV regimens; in patients with decompensated cirrhosis, add ribavirin and extend treatment to 24 weeks; monitor CBC, hepatic function panel, and HCV RNA at baseline, during treatment, and 12 weeks post-treatment (SVR12 = cure)" }],
         pearls: ["Cryoglobulin specimen collection requires strict temperature control: blood MUST be drawn into a prewarmed tube maintained at 37C, transported at 37C, and allowed to clot at 37C before refrigeration -- improper specimen handling is the #1 cause of false-negative cryoglobulin testing","The Meltzer triad of palpable purpura, arthralgias, and weakness/fatigue is the classic clinical presentation of mixed cryoglobulinemia -- purpura characteristically affects the lower extremities and is triggered by prolonged standing or cold exposure","Low C4 complement with relatively preserved C3 is a serological clue to cryoglobulinemia -- the classical complement pathway is preferentially activated by cryoglobulin immune complexes, consuming C4 early in the cascade; this pattern (low C4, normal or mildly low C3) should trigger cryoglobulin testing","Approximately 80-90% of mixed cryoglobulinemia cases are caused by chronic hepatitis C virus infection -- ALL patients with newly diagnosed mixed cryoglobulinemia should be tested for HCV; HCV eradication with direct-acting antivirals (>95% cure rate) is the cornerstone of treatment","Rituximab targets B cells producing the pathogenic cryoglobulins and is preferred over cyclophosphamide for moderate-to-severe cryoglobulinemic vasculitis because it specifically depletes B cells without the broader toxic effects of alkylating agents; screen for HBV before starting rituximab (risk of fatal HBV reactivation)","Cold avoidance is essential for all patients with cryoglobulinemia: cryoglobulins precipitate at temperatures below 37C, and cold exposure drives deposition in the peripheral microcirculation, triggering vasculitic flares -- warm gloves, warm socks, warm environment","Renal involvement (membranoproliferative glomerulonephritis type I) occurs in 20-35% of patients and can progress to renal failure -- monitor urinalysis (proteinuria, hematuria), serum creatinine, and blood pressure at every visit; early renal involvement may be silent and detected only by laboratory screening"],
     quiz: [{ question: "A patient with hepatitis C presents with palpable purpura on the lower extremities, arthralgias, and decreased complement levels. Which condition should the nurse suspect?", options: ["Henoch-Schonlein purpura", "Mixed cryoglobulinemia", "Thrombotic thrombocytopenic purpura", "Immune thrombocytopenic purpura"], correct: 1, rationale: "Mixed cryoglobulinemia (Type II/III) is strongly associated with hepatitis C infection. The triad of palpable purpura, arthralgias, and hypocomplementemia (especially low C4) is classic. Cryoglobulins are immunoglobulins that precipitate at temperatures below 37 degrees Celsius, causing small-vessel vasculitis." },
-      { question: "When collecting a blood sample for cryoglobulin testing, which nursing action is most critical?", options: ["Collect the sample in a heparinized tube", "Keep the sample at room temperature or 37 degrees Celsius during transport", "Refrigerate the sample immediately after collection", "Collect the sample after the patient has fasted for 12 hours"], correct: 1, rationale: "Cryoglobulins precipitate at temperatures below 37 degrees Celsius. If the sample cools during transport, cryoglobulins will precipitate and be removed during serum separation, causing a false-negative result. The sample must be kept warm (37 degrees Celsius) until the serum is separated in the laboratory." },
-      { question: "A patient's cryoglobulin test returns negative, but the clinical presentation (purpura, positive RF, low C4, peripheral neuropathy) strongly suggests cryoglobulinemia. What is the most likely explanation for the negative result?", options: ["The patient does not have cryoglobulinemia -- another diagnosis should be sought","The blood specimen was not collected and transported at 37C -- improper handling caused the cryoglobulins to precipitate and be discarded with the clot before the laboratory could detect them","Cryoglobulin testing is unreliable and should not be used for diagnosis","The patient needs a higher dose of the cryoglobulin reagent"], correct: 1, rationale: "Improper specimen handling is the most common cause of false-negative cryoglobulin testing. Cryoglobulins precipitate at temperatures below 37C. If the blood specimen cools below 37C during collection or transport (which occurs rapidly in standard phlebotomy tubes at room temperature), the cryoglobulins precipitate and become trapped in the blood clot during centrifugation, yielding a falsely negative serum result. The specimen must be drawn into a pre-warmed tube, maintained at 37C during transport, and allowed to clot at 37C before the serum is separated and refrigerated for cryoglobulin detection." },{ question: "Why is hepatitis C virus testing MANDATORY in all patients diagnosed with mixed cryoglobulinemia?", options: ["Because HCV is a rare but possible cause and should be excluded as a formality","Because chronic HCV infection is the underlying cause in 80-90% of mixed cryoglobulinemia cases, and HCV eradication with direct-acting antivirals is the cornerstone of treatment that can resolve the cryoglobulinemia","Because HCV testing is required before starting prednisone","Because HCV causes Type I monoclonal cryoglobulinemia exclusively"], correct: 1, rationale: "Chronic hepatitis C virus infection drives B-cell activation and production of the IgM-RF that forms the pathogenic cryoglobulin immune complexes in 80-90% of mixed cryoglobulinemia cases. Identifying HCV as the underlying cause is critical because HCV eradication with direct-acting antivirals (cure rate >95%) removes the chronic antigenic stimulus driving cryoglobulin production. Following sustained virological response (SVR), cryoglobulin levels decline and clinical manifestations (purpura, neuropathy, renal disease) often improve or resolve over months. Without HCV eradication, treatment with rituximab and steroids provides only temporary suppression." },{ question: "A patient with cryoglobulinemia develops worsening proteinuria (3.2 g/day), hematuria, and a rising creatinine from 1.1 to 2.4 mg/dL over 2 weeks. What renal complication is this, and what is the expected biopsy finding?", options: ["Minimal change disease with diffuse podocyte effacement","Membranoproliferative glomerulonephritis (MPGN) type I with subendothelial immune complex deposits containing IgM, IgG, and complement -- from cryoglobulin deposition in the glomerular capillary walls","IgA nephropathy with mesangial IgA deposits","Focal segmental glomerulosclerosis from hypertension"], correct: 1, rationale: "Renal involvement in mixed cryoglobulinemia is characteristically membranoproliferative glomerulonephritis (MPGN) type I. The circulating cryoglobulin immune complexes (containing IgM-RF, IgG, and HCV antigens) deposit in the subendothelial space of the glomerular capillary basement membrane. This triggers mesangial cell proliferation, endothelial cell proliferation, and complement activation, producing the classic MPGN pattern on light microscopy with double-contour (tram-track) basement membranes. Immunofluorescence shows granular deposits of IgM, IgG, C3, and C4 along the capillary walls. This complication requires aggressive treatment with rituximab, HCV eradication, and potentially plasmapheresis." }]
+      { question: "When collecting a blood sample for cryoglobulin testing, which nursing action is most critical?", options: ["Collect the sample in a heparinized tube", "Keep the sample at room temperature or 37 degrees Celsius during transport", "Refrigerate the sample immediately after collection", "Collect the sample after the patient has fasted for 12 hours"], correct: 1, rationale: "Cryoglobulins precipitate at temperatures below 37 degrees Celsius. If the sample cools during transport, cryoglobulins will precipitate and be removed during serum separation, causing a false-negative result. The sample must be kept warm (37 degrees Celsius) until the serum is separated in the laboratory." }],
+        quiz: [{ question: "A patient's cryoglobulin test returns negative, but the clinical presentation (purpura, positive RF, low C4, peripheral neuropathy) strongly suggests cryoglobulinemia. What is the most likely explanation for the negative result?", options: ["The patient does not have cryoglobulinemia -- another diagnosis should be sought","The blood specimen was not collected and transported at 37C -- improper handling caused the cryoglobulins to precipitate and be discarded with the clot before the laboratory could detect them","Cryoglobulin testing is unreliable and should not be used for diagnosis","The patient needs a higher dose of the cryoglobulin reagent"], correct: 1, rationale: "Improper specimen handling is the most common cause of false-negative cryoglobulin testing. Cryoglobulins precipitate at temperatures below 37C. If the blood specimen cools below 37C during collection or transport (which occurs rapidly in standard phlebotomy tubes at room temperature), the cryoglobulins precipitate and become trapped in the blood clot during centrifugation, yielding a falsely negative serum result. The specimen must be drawn into a pre-warmed tube, maintained at 37C during transport, and allowed to clot at 37C before the serum is separated and refrigerated for cryoglobulin detection." },{ question: "Why is hepatitis C virus testing MANDATORY in all patients diagnosed with mixed cryoglobulinemia?", options: ["Because HCV is a rare but possible cause and should be excluded as a formality","Because chronic HCV infection is the underlying cause in 80-90% of mixed cryoglobulinemia cases, and HCV eradication with direct-acting antivirals is the cornerstone of treatment that can resolve the cryoglobulinemia","Because HCV testing is required before starting prednisone","Because HCV causes Type I monoclonal cryoglobulinemia exclusively"], correct: 1, rationale: "Chronic hepatitis C virus infection drives B-cell activation and production of the IgM-RF that forms the pathogenic cryoglobulin immune complexes in 80-90% of mixed cryoglobulinemia cases. Identifying HCV as the underlying cause is critical because HCV eradication with direct-acting antivirals (cure rate >95%) removes the chronic antigenic stimulus driving cryoglobulin production. Following sustained virological response (SVR), cryoglobulin levels decline and clinical manifestations (purpura, neuropathy, renal disease) often improve or resolve over months. Without HCV eradication, treatment with rituximab and steroids provides only temporary suppression." },{ question: "A patient with cryoglobulinemia develops worsening proteinuria (3.2 g/day), hematuria, and a rising creatinine from 1.1 to 2.4 mg/dL over 2 weeks. What renal complication is this, and what is the expected biopsy finding?", options: ["Minimal change disease with diffuse podocyte effacement","Membranoproliferative glomerulonephritis (MPGN) type I with subendothelial immune complex deposits containing IgM, IgG, and complement -- from cryoglobulin deposition in the glomerular capillary walls","IgA nephropathy with mesangial IgA deposits","Focal segmental glomerulosclerosis from hypertension"], correct: 1, rationale: "Renal involvement in mixed cryoglobulinemia is characteristically membranoproliferative glomerulonephritis (MPGN) type I. The circulating cryoglobulin immune complexes (containing IgM-RF, IgG, and HCV antigens) deposit in the subendothelial space of the glomerular capillary basement membrane. This triggers mesangial cell proliferation, endothelial cell proliferation, and complement activation, producing the classic MPGN pattern on light microscopy with double-contour (tram-track) basement membranes. Immunofluorescence shows granular deposits of IgM, IgG, C3, and C4 along the capillary walls. This complication requires aggressive treatment with rituximab, HCV eradication, and potentially plasmapheresis." }]
   },
 };

@@ -89,110 +89,258 @@ export const generatedBatch018Lessons: Record<string, LessonContent> = {
         quiz: [{ question: "A 28-year-old woman on oral contraceptives presents with severe progressive headache, left hemiparesis, and a seizure. CT shows a right parasagittal hemorrhagic infarction. MR venography confirms superior sagittal sinus thrombosis. What is the appropriate initial treatment?", options: ["Avoid all anticoagulation due to the hemorrhagic infarction and manage conservatively","Initiate anticoagulation with unfractionated heparin despite the hemorrhagic component","Perform immediate surgical thrombectomy of the superior sagittal sinus","Administer IV alteplase (tPA) as for acute arterial ischemic stroke"], correct: 1, rationale: "Anticoagulation with UFH (or LMWH) is the first-line treatment for CVST even in the presence of hemorrhagic venous infarction. This counterintuitive approach is evidence-based: the hemorrhage results from venous congestion and hypertension, not from arterial bleeding. By preventing thrombus propagation, anticoagulation reduces venous pressure and actually decreases the risk of further hemorrhagic transformation. The ISCVT trial and multiple meta-analyses support anticoagulation in hemorrhagic CVST. Surgical thrombectomy and IV tPA are not first-line treatments; endovascular intervention is reserved for patients deteriorating despite adequate anticoagulation." },{ question: "A nurse is caring for a CVST patient and notices progressive headache worsening, nausea, and bilateral papilledema on fundoscopic exam. The patient's neurological status is otherwise stable. What mechanism is most likely responsible for these findings?", options: ["Hemorrhagic transformation of the venous infarction causing mass effect","Impaired CSF reabsorption through occluded arachnoid granulations in the thrombosed dural sinus causing elevated intracranial pressure","Cerebral vasospasm from subarachnoid blood irritating cortical arteries","Hydrocephalus from obstruction of the fourth ventricle outflow"], correct: 1, rationale: "The dural venous sinuses contain the arachnoid granulations (villi) that are responsible for reabsorbing CSF from the subarachnoid space back into the venous circulation. When dural sinuses are thrombosed, CSF reabsorption is impaired, causing progressive elevation of intracranial pressure even without parenchymal lesions. This manifests as worsening headache, nausea/vomiting, and papilledema (bilateral optic disc swelling). This mechanism of elevated ICP is unique to CVST and explains why some patients present with isolated intracranial hypertension. Treatment includes acetazolamide to reduce CSF production while anticoagulation works to recanalize the sinuses." },{ question: "A patient with CVST has been on warfarin for 3 months with stable INR of 2.5. Thrombophilia screening reveals she is heterozygous for Factor V Leiden mutation. What is the recommended duration of anticoagulation?", options: ["Discontinue warfarin now since 3 months is sufficient for any CVST","Continue warfarin for a total of 6-12 months due to the identified mild thrombophilia","Continue warfarin indefinitely since any thrombophilia requires lifelong anticoagulation","Switch to aspirin for long-term secondary prevention"], correct: 1, rationale: "Duration of anticoagulation after CVST depends on the underlying etiology. For provoked CVST (OCP use, pregnancy, transient risk factor), 3-6 months is typically sufficient. For unprovoked CVST or CVST with a mild thrombophilia (such as heterozygous Factor V Leiden), guidelines recommend 6-12 months of anticoagulation. Lifelong anticoagulation is reserved for severe thrombophilias (homozygous Factor V Leiden, antithrombin III deficiency, antiphospholipid syndrome) or recurrent venous thromboembolism. Heterozygous Factor V Leiden is considered a mild thrombophilia with moderate recurrence risk, warranting extended but not indefinite anticoagulation." }]
   },
   "cervical-cerclage": {
-    title: "Cervical Cerclage",
-    cellular: { title: "Cervical Insufficiency & Cerclage Mechanics", content: "Cervical cerclage is a surgical procedure that places a purse-string suture around the cervix to prevent premature cervical dilation and preterm birth in women with cervical insufficiency. The normal cervix is composed of approximately 80% fibrous connective tissue (primarily type I and III collagen) with only 10-15% smooth muscle. In cervical insufficiency, decreased collagen content, abnormal collagen cross-linking, or structural damage leads to inability of the cervix to maintain a closed state under the increasing weight and pressure of the growing uterus and amniotic fluid. As the uterus enlarges, the internal os begins to funnel and dilate painlessly, typically in the second trimester (16-24 weeks). Without intervention, the membranes herniate through the dilating cervix, rupture, and preterm delivery occurs. The McDonald cerclage (most common) places a non-absorbable suture (Mersilene tape or Prolene) in a purse-string fashion at the cervicovaginal junction at 12-14 weeks gestation. The Shirodkar technique places the suture at the level of the internal os after bladder dissection. Transabdominal cerclage is reserved for patients with prior failed transvaginal cerclage or extremely short cervix. The suture mechanically reinforces the weakened cervical stroma, preventing dilation. McDonald cerclage is removed at 36-37 weeks to allow vaginal delivery; emergency cerclage may be attempted with membranes already bulging through a dilated cervix but carries higher risks of membrane rupture and infection." },
-    riskFactors: ["Prior second-trimester pregnancy loss due to painless cervical dilation","History of cervical conization, LEEP, or loop excision (removal of cervical tissue weakens structural integrity)","Prior mechanical cervical dilation for procedures (D&C, D&E)","In utero DES (diethylstilbestrol) exposure causing cervical hypoplasia","Connective tissue disorders (Ehlers-Danlos syndrome, Marfan syndrome)","Mullerian duct anomalies (bicornuate uterus, septate uterus)","Short cervical length <25 mm on transvaginal ultrasound before 24 weeks","Multiple gestation (increased uterine distension and cervical pressure)"],
-    diagnostics: ["Transvaginal ultrasound for serial cervical length measurement (cervical length <25 mm before 24 weeks is threshold for intervention; funneling of the internal os is an early sign)","History of prior painless second-trimester loss is the primary diagnostic criterion for history-indicated cerclage","Digital cervical examination to assess dilation, effacement, and membrane status","Fetal fibronectin (fFN) testing to assess risk of preterm delivery (negative fFN has high negative predictive value)","Vaginal cultures (Group B Streptococcus, bacterial vaginosis, gonorrhea, chlamydia) before cerclage placement","Urinalysis and urine culture to rule out UTI that could trigger contractions","Ultrasound to confirm viable intrauterine pregnancy, gestational age, and rule out fetal anomalies before cerclage"],
-    management: ["History-indicated cerclage placed at 12-14 weeks in women with classic history of cervical insufficiency","Ultrasound-indicated cerclage placed when cervical length shortens to <25 mm before 24 weeks in women with prior preterm birth","Rescue (emergency) cerclage considered when cervix is already dilated 1-4 cm with visible membranes and no signs of infection or labor","Modified bed rest or activity restriction as prescribed post-procedure (evidence is limited but commonly ordered)","Tocolytics (indomethacin for 48 hours) may be given perioperatively to suppress uterine irritability","Cerclage removal at 36-37 weeks gestation or earlier if preterm labor, chorioamnionitis, or PPROM develops","Progesterone supplementation (vaginal progesterone 200 mg nightly or 17-alpha hydroxyprogesterone caproate 250 mg IM weekly) as adjunctive therapy"],
-    nursingActions: ["Monitor for uterine contractions using tocodynamometry post-procedure (contractions may indicate cervical irritation or preterm labor)","Assess vaginal discharge for color, amount, and odor every shift (foul-smelling discharge suggests chorioamnionitis; clear watery gush suggests PPROM)","Perform nitrazine and ferning tests if premature rupture of membranes is suspected","Monitor vital signs with attention to temperature elevation >38°C (sign of chorioamnionitis)","Educate patient on signs requiring immediate medical attention: fluid leaking, regular contractions, fever, foul-smelling discharge, heavy bleeding","Provide emotional support for anxiety related to pregnancy loss history and activity restrictions","Document cerclage type, suture material, and gestational age at placement for continuity of care"],
-    assessmentFindings: ["Mild vaginal spotting for 24-48 hours post-cerclage placement (expected finding)","Mild cramping for 1-2 days post-procedure (managed with acetaminophen)","Cerclage suture visible or palpable on speculum examination","Cervical length stability or improvement on serial transvaginal ultrasound","Intact membranes on sterile speculum examination","Absence of pooling, positive nitrazine, or ferning (rules out membrane rupture)","Fetal heart tones within normal range (110-160 bpm) on Doppler assessment"],
-    signs: {
-      left: ["Mild spotting after cerclage placement","Mild cramping resolving within 48 hours","Stable cervical length on follow-up ultrasound","Closed cervix with visible cerclage suture on speculum exam","Normal vaginal discharge without odor"],
-      right: ["Regular uterine contractions (preterm labor despite cerclage)","Gush of clear fluid from vagina (PPROM -- cerclage may need removal)","Temperature >38°C with uterine tenderness (chorioamnionitis -- cerclage must be removed)","Heavy vaginal bleeding (cervical laceration or placental abruption)","Cervical dilation with bulging membranes beyond the cerclage (cerclage failure)"]
+      "title": "Cervical Cerclage",
+      "cellular": {
+        "title": "Cervical Insufficiency & Cerclage Mechanics",
+        "content": "Cervical insufficiency involves painless cervical dilation in the second trimester due to structural weakness of the cervical stroma. The cervix normally contains 80% collagen and 20% smooth muscle; in cervical insufficiency, collagen content is reduced or structurally abnormal. Causes include prior cervical trauma (cone biopsy, LEEP, mechanical dilation for D&C), congenital anomalies (DES exposure in utero, Mullerian duct anomalies), and connective tissue disorders (Ehlers-Danlos syndrome). McDonald cerclage places a purse-string suture at the cervicovaginal junction at 12-14 weeks gestation; Shirodkar cerclage is placed higher at the internal os. Emergency (rescue) cerclage is attempted when the cervix is already dilated with bulging membranes. The suture mechanically reinforces the cervix and is removed at 36-37 weeks to allow vaginal delivery."
+      },
+      "riskFactors": [
+        "Prior second-trimester pregnancy loss with painless cervical dilation (strongest indicator)",
+        "Prior cervical surgery: cone biopsy, LEEP, cervical conization (removal of cervical tissue weakens structural support)",
+        "History of DES exposure in utero (T-shaped uterus, cervical hypoplasia)",
+        "Multiple prior mechanical cervical dilations (D&C procedures)",
+        "Connective tissue disorders: Ehlers-Danlos syndrome, Marfan syndrome",
+        "Short cervical length on transvaginal ultrasound (<25 mm before 24 weeks in singleton pregnancy with prior preterm birth)",
+        "Twin or higher-order multiple gestation (NOTE: cerclage is NOT indicated for multiples)",
+        "Uterine anomalies (septate, bicornuate uterus)"
+      ],
+      "diagnostics": [
+        "Transvaginal ultrasound for cervical length measurement: <25 mm before 24 weeks is short; <15 mm is critically short",
+        "Serial cervical length monitoring every 1-2 weeks from 16-24 weeks in high-risk patients",
+        "Speculum examination to assess cervical dilation, effacement, and membrane bulging",
+        "Fetal fibronectin (fFN) testing at 22-34 weeks: negative result has >99% NPV for delivery within 14 days",
+        "GBS culture, wet mount, and gonorrhea/chlamydia testing before cerclage placement",
+        "Ultrasound to confirm viable intrauterine pregnancy, gestational age, and rule out anomalies before cerclage",
+        "Monitor for signs of infection pre-procedure: CBC, temperature, uterine tenderness"
+      ],
+      "management": [
+        "History-indicated (prophylactic) cerclage: placed at 12-14 weeks based on history of prior cervical insufficiency (≥1 prior second-trimester loss or prior cerclage)",
+        "Ultrasound-indicated cerclage: placed when cervical shortening (<25 mm) is detected on serial monitoring in singleton pregnancy with prior spontaneous preterm birth <34 weeks",
+        "Rescue (emergency) cerclage: placed when cervix is found dilated with exposed membranes <24 weeks; higher complication rate but can prolong pregnancy significantly",
+        "Vaginal progesterone (200 mg suppository nightly) for short cervix in singleton pregnancy without prior preterm birth (alternative to cerclage)",
+        "17-alpha hydroxyprogesterone caproate (Makena) 250 mg IM weekly starting at 16-20 weeks through 36 weeks for prior spontaneous preterm birth",
+        "Cerclage removal at 36-37 weeks to allow term vaginal delivery; emergent removal if PPROM, chorioamnionitis, or preterm labor",
+        "Contraindications to cerclage: active preterm labor, chorioamnionitis, PPROM, vaginal bleeding, fetal anomaly incompatible with life, gestational age >24 weeks"
+      ],
+      "nursingActions": [
+        "Post-cerclage monitoring: continuous fetal monitoring for 1-2 hours, monitor for uterine contractions, vaginal bleeding, and ROM",
+        "Assess for signs of PPROM: gush or continuous leaking of fluid, pooling on speculum exam, positive nitrazine/ferning test",
+        "Monitor for chorioamnionitis: maternal fever >38°C, uterine tenderness, foul-smelling discharge, maternal and fetal tachycardia",
+        "Educate on activity modifications: avoid heavy lifting, prolonged standing, sexual intercourse, and tampons; modified bed rest may be prescribed",
+        "Teach patient to report: vaginal bleeding, fluid leakage, regular contractions, pelvic pressure, foul-smelling discharge",
+        "Administer tocolytics (indomethacin, nifedipine) as ordered for 24-48 hours post-procedure to prevent contractions",
+        "Ensure patient understands planned cerclage removal at 36-37 weeks and importance of keeping this appointment"
+      ],
+      "assessmentFindings": [
+        "Cervical insufficiency history: painless cervical dilation in second trimester, minimal or no contractions, prolapsing membranes",
+        "Short cervical length on transvaginal ultrasound (<25 mm)",
+        "Funneling of internal os (membrane herniation into cervical canal)",
+        "Post-cerclage: suture visible on speculum exam, cervix appears closed",
+        "Signs of cerclage complication: vaginal bleeding, discharge, contractions, cervical laceration"
+      ],
+      "signs": {
+        "left": [
+          "Stable cervical length on serial monitoring",
+          "Post-cerclage with closed cervix and no contractions",
+          "Mild cramping after cerclage placement resolving within 24-48 hours",
+          "Scant spotting immediately post-procedure"
+        ],
+        "right": [
+          "PPROM with cerclage in place (requires emergent removal to prevent ascending infection)",
+          "Chorioamnionitis: fever, tachycardia, uterine tenderness, purulent cervical discharge (emergent cerclage removal and delivery)",
+          "Cervical laceration from suture cutting through dilating cervix",
+          "Active preterm labor with regular contractions despite cerclage",
+          "Prolapsing membranes through a dilating cervix (rescue cerclage consideration vs delivery)"
+        ]
+      },
+      "medications": [
+        {
+          "name": "17-alpha Hydroxyprogesterone Caproate (Makena)",
+          "type": "Synthetic progestogen (intramuscular)",
+          "action": "Provides sustained progesterone activity that maintains uterine quiescence by inhibiting prostaglandin synthesis and oxytocin receptor expression in the myometrium; promotes cervical rigidity and length maintenance",
+          "sideEffects": "Injection site pain/swelling/nodules, nausea, headache, urticaria, thromboembolic events (rare), gestational diabetes (monitor glucose)",
+          "contra": "Active thrombosis or thromboembolic disease, known/suspected breast cancer, undiagnosed vaginal bleeding, liver tumors or active liver disease",
+          "pearl": "250 mg IM weekly starting at 16-20 weeks through 36 weeks for women with prior spontaneous preterm birth; NOT indicated for short cervix without prior preterm birth or for multiple gestations; injection site rotation essential (gluteal muscle)"
+        },
+        {
+          "name": "Indomethacin (Indocin)",
+          "type": "NSAID / prostaglandin synthesis inhibitor (tocolytic)",
+          "action": "Non-selective COX inhibitor that suppresses prostaglandin production, reducing myometrial contractility; used as short-term tocolytic after cerclage placement to prevent contractions",
+          "sideEffects": "GI upset, headache; fetal effects: premature closure of ductus arteriosus (avoid after 32 weeks), oligohydramnios (reduced fetal urine output with prolonged use), NEC risk in neonates",
+          "contra": "Gestational age >32 weeks (risk of premature ductal closure), renal impairment, active GI bleeding, platelet dysfunction",
+          "pearl": "Short-term use only (48-72 hours maximum) as post-cerclage tocolytic; most effective tocolytic before 32 weeks; monitor amniotic fluid index if used >48 hours; loading dose 50 mg then 25-50 mg every 6 hours"
+        }
+      ],
+      "pearls": [
+        "Cervical insufficiency presents with PAINLESS cervical dilation in the second trimester -- this distinguishes it from preterm labor which presents with painful contractions",
+        "Cerclage is NOT indicated in multifetal pregnancies with short cervix -- vaginal progesterone is used instead",
+        "History-indicated cerclage (prophylactic) is placed at 12-14 weeks based on obstetric history; ultrasound-indicated cerclage is placed when cervical shortening is detected on monitoring",
+        "Cerclage MUST be removed if PPROM occurs to allow drainage of amniotic fluid and reduce risk of ascending infection/chorioamnionitis",
+        "Indomethacin should NOT be used as a tocolytic after 32 weeks gestation due to risk of premature closure of the fetal ductus arteriosus",
+        "Short cervix (<25 mm) in a FIRST pregnancy without prior preterm birth is managed with vaginal progesterone, not cerclage"
+      ],
+      "quiz": [
+        {
+          "question": "A patient at 18 weeks gestation with a history of second-trimester pregnancy loss is found to have a cervical length of 20 mm on transvaginal ultrasound. What is the recommended intervention?",
+          "options": [
+            "Bed rest and weekly cervical checks only",
+            "Ultrasound-indicated cerclage placement",
+            "Emergent cesarean delivery",
+            "No intervention needed until 24 weeks"
+          ],
+          "correct": 1,
+          "rationale": "In a singleton pregnancy with prior spontaneous preterm birth before 34 weeks and short cervical length (<25 mm) before 24 weeks, an ultrasound-indicated cerclage is recommended per ACOG guidelines to reduce the risk of preterm delivery."
+        },
+        {
+          "question": "A patient with a cerclage at 28 weeks presents with a gush of clear fluid from the vagina. Nitrazine testing is positive. What is the priority action?",
+          "options": [
+            "Continue bed rest and monitor for labor",
+            "Administer tocolytics to prevent preterm labor",
+            "Plan for cerclage removal, administer betamethasone for fetal lung maturity, and start GBS prophylaxis",
+            "Reinforce the cerclage with an additional suture"
+          ],
+          "correct": 2,
+          "rationale": "PPROM with a cerclage in place requires cerclage removal to allow fluid drainage and prevent ascending infection/chorioamnionitis. Betamethasone is given for fetal lung maturity (24-34 weeks), and GBS prophylaxis is started. Keeping the cerclage in place with ruptured membranes significantly increases infection risk."
+        },
+        {
+          "question": "Why is cerclage NOT recommended for twin pregnancies with short cervix?",
+          "options": [
+            "Twins always deliver preterm regardless of intervention",
+            "Clinical trials showed cerclage INCREASED preterm birth risk in multiples",
+            "The cervix cannot support a suture during twin pregnancy",
+            "Twin pregnancies are always delivered by cesarean"
+          ],
+          "correct": 1,
+          "rationale": "Randomized trials demonstrated that cerclage in multiple gestations with short cervix actually increased the rate of preterm birth. Vaginal progesterone is the recommended intervention for short cervix in twin pregnancies. Cerclage is only beneficial in singleton pregnancies."
+        }
+      ]
     },
-    medications: [{
-      name: "Indomethacin",
-      type: "NSAID / Tocolytic",
-      action: "Inhibits prostaglandin synthesis by blocking COX-1 and COX-2 enzymes, reducing uterine contractility and cervical ripening",
-      sideEffects: "Oligohydramnios with prolonged use, premature closure of fetal ductus arteriosus, neonatal renal impairment, maternal GI upset",
-      contra: "Gestational age >32 weeks (risk of premature ductal closure), renal impairment, active peptic ulcer, NSAID allergy",
-      pearl: "Used only for short courses (48-72 hours) perioperatively around cerclage; monitor amniotic fluid index if used beyond 48 hours; contraindicated after 32 weeks due to fetal ductal closure risk"
-    },{
-      name: "17-Alpha Hydroxyprogesterone Caproate (Makena)",
-      type: "Synthetic progestogen",
-      action: "Stabilizes the myometrium by maintaining progesterone dominance, suppresses uterine contractility, and supports cervical integrity by promoting collagen synthesis in cervical stroma",
-      sideEffects: "Injection site pain and swelling, nausea, headache, rare thromboembolic events",
-      contra: "History of hormone-sensitive cancer, active thromboembolic disease, undiagnosed vaginal bleeding, liver disease",
-      pearl: "Given as 250 mg IM weekly starting at 16-20 weeks through 36 weeks; used as adjunct to cerclage in women with prior spontaneous preterm birth; injection sites should be rotated between gluteal muscles"
-    }],
-    pearls: ["Cervical insufficiency classically presents as painless cervical dilation in the second trimester -- the absence of contractions distinguishes it from preterm labor","The McDonald cerclage is removed at 36-37 weeks by simply cutting and pulling the suture in the office -- no anesthesia required","If chorioamnionitis develops, the cerclage MUST be removed regardless of gestational age to allow delivery and prevent maternal sepsis","Educate patients to report any gush or constant trickle of fluid immediately -- PPROM with a cerclage in place increases infection risk because the suture acts as a foreign body and a wick for ascending bacteria","A short cervix (<25 mm) found incidentally on ultrasound in a woman WITHOUT prior preterm birth is managed with vaginal progesterone alone, NOT cerclage","Emergency cerclage with bulging membranes carries 50% success rate but is still offered as the alternative is almost certain preterm delivery","Serial cervical length monitoring by transvaginal ultrasound every 2 weeks from 16-24 weeks is standard surveillance in women with prior preterm birth"],
-    quiz: [
-      {
-        question: "A patient at 22 weeks gestation with a history of two prior painless second-trimester losses presents with cervical dilation of 2 cm and visible bulging membranes. She is afebrile with no contractions. What should the nurse anticipate?",
-        options: ["Immediate induction of labor given advanced dilation","Evaluation for emergency (rescue) cerclage placement","Administration of oxytocin to complete the delivery","Discharge home with bed rest instructions"],
-        correct: 1,
-        rationale: "This patient has classic cervical insufficiency with painless dilation and bulging membranes. In the absence of chorioamnionitis, active labor, or advanced dilation beyond 4 cm, an emergency rescue cerclage may be attempted. Success rates are approximately 50%, but the alternative is near-certain preterm delivery at a previable gestational age."
-      },
-      {
-        question: "A nurse is caring for a patient 6 hours after McDonald cerclage placement. Which finding requires immediate notification of the provider?",
-        options: ["Mild vaginal spotting on the perineal pad","Temperature of 38.3°C with lower abdominal cramping","Mild cramping described as 2/10 on pain scale","Clear, non-odorous vaginal discharge"],
-        correct: 1,
-        rationale: "Temperature >38°C combined with cramping after cerclage placement may indicate developing chorioamnionitis (infection of the amniotic membranes). Chorioamnionitis requires cerclage removal and delivery regardless of gestational age. Mild spotting and mild cramping are expected post-procedure findings."
-      },
-      {
-        question: "A patient with a cervical cerclage at 30 weeks gestation reports a sudden gush of clear fluid from her vagina. What is the priority nursing action?",
-        options: ["Reassure the patient that increased discharge is normal in pregnancy","Perform a sterile speculum examination and nitrazine/ferning test to evaluate for rupture of membranes","Administer oxytocin to induce labor","Remove the cerclage immediately at bedside"],
-        correct: 1,
-        rationale: "A sudden gush of clear fluid suggests premature rupture of membranes (PPROM). The nurse should assess with sterile speculum examination and nitrazine/ferning tests. If PPROM is confirmed, the cerclage will likely need to be removed because the retained suture acts as a nidus for infection, but this decision is made by the provider after evaluation."
-      },
-    ]
-  },
   "cervical-insufficiency-np": {
-    title: "Cervical Insufficiency",
-    cellular: { title: "Cervical Remodeling & Insufficiency Pathogenesis", content: "Cervical insufficiency is the inability of the cervix to maintain a pregnancy to term due to a structural or functional defect, resulting in painless cervical dilation and second-trimester pregnancy loss or extreme preterm birth. The normal cervix is composed predominantly of an extracellular matrix (ECM) rich in type I and type III collagen fibers organized in a cross-linked three-dimensional network, with glycosaminoglycans (particularly dermatan sulfate and hyaluronic acid) providing hydration and compressive resistance. Only 10-15% of the cervix is smooth muscle (concentrated at the internal os), making the cervix fundamentally a connective tissue structure unlike the myometrium. Throughout pregnancy, the cervix undergoes a tightly regulated four-phase remodeling process: softening (beginning in the first trimester via increased hyaluronic acid, decorin, and collagen turnover mediated by matrix metalloproteinases MMP-1, MMP-2, MMP-8, and MMP-9), ripening (near term, with progressive collagen disorganization and increased water content driven by prostaglandins PGE2 and PGF2-alpha, relaxin, and nitric oxide), dilation (during labor, with complete loss of collagen organization), and postpartum repair. In cervical insufficiency, premature activation of these remodeling pathways or baseline structural weakness (from prior cervical surgery, congenital collagen disorders, or Mullerian anomalies) causes the cervix to soften, funnel, and dilate under the normal hydrostatic forces of the expanding amniotic sac before fetal viability. The advanced practice provider must differentiate cervical insufficiency from preterm labor (which involves uterine contractions), preterm premature rupture of membranes, and infection-mediated cervical shortening, as management differs significantly for each etiology." },
-    riskFactors: ["Prior second-trimester pregnancy loss with painless dilation (strongest predictor; recurrence risk 15-30% without intervention)","Prior cervical excisional procedures: cold-knife conization (highest risk, removes significant stroma), LEEP/LLETZ (risk proportional to depth of excision >10 mm), repeated procedures","In utero DES (diethylstilbestrol) exposure causing cervical hypoplasia with T-shaped uterine cavity","Connective tissue disorders: Ehlers-Danlos syndrome (collagen synthesis defects), Marfan syndrome (fibrillin-1 mutation), osteogenesis imperfecta","Mullerian duct anomalies: unicornuate, bicornuate, or septate uterus with associated cervical structural abnormalities","Prior traumatic cervical laceration during delivery or forced mechanical dilation (D&E at advanced gestational age)","Short cervical length on mid-trimester ultrasound (<25 mm) in a patient with prior preterm birth"],
-    diagnostics: ["Transvaginal ultrasound cervical length measurement: the gold standard for cervical assessment; performed at 16-24 weeks every 1-2 weeks in high-risk patients; cervical length <25 mm (10th percentile) is the threshold for intervention; funneling (dilation of the internal os with intact external os creating a V or U shape) is an early sign","History-based diagnosis: two or more prior second-trimester losses or extremely preterm deliveries preceded by painless cervical dilation establishes the diagnosis without ultrasound evidence in the current pregnancy","Speculum examination and digital cervical exam: assess for current dilation, effacement, and membrane herniation; palpable membranes through the external os indicate advanced cervical insufficiency","Fetal fibronectin (fFN) testing: qualitative detection of fFN in cervicovaginal secretions between 22-34 weeks; negative result (<50 ng/mL) has >95% negative predictive value for delivery within 7-14 days","Vaginal and cervical cultures: screen for bacterial vaginosis, Group B Streptococcus, Neisseria gonorrhoeae, Chlamydia trachomatis, and Trichomonas vaginalis before cerclage placement to reduce perioperative infection risk","Amniocentesis: considered before rescue cerclage to rule out subclinical intra-amniotic infection (elevated IL-6 >2.6 ng/mL, positive Gram stain, low glucose, elevated WBC in amniotic fluid)","Thrombophilia workup if recurrent second-trimester losses: antiphospholipid antibody panel, Factor V Leiden, prothrombin G20210A mutation"],
-    management: ["History-indicated cerclage (McDonald or Shirodkar): placed at 12-14 weeks gestation in women with classic history of cervical insufficiency (three or more prior preterm births or second-trimester losses); does not require cervical length screening","Ultrasound-indicated cerclage: placed when serial cervical length monitoring demonstrates shortening to <25 mm before 24 weeks in a singleton pregnancy with at least one prior spontaneous preterm birth; evidence supports this approach from the Owen meta-analysis","Vaginal progesterone (200 mg micronized progesterone suppository or 90 mg gel nightly): first-line pharmacotherapy for short cervix (<20 mm) found incidentally on ultrasound in women WITHOUT prior preterm birth; reduces preterm birth by approximately 45%","17-alpha hydroxyprogesterone caproate (250 mg IM weekly from 16-36 weeks): indicated for women with prior spontaneous preterm birth; used alone or as adjunct to cerclage","Rescue cerclage: considered for painless cervical dilation 1-4 cm before 24 weeks with visible membranes; exclude infection (amniocentesis), active bleeding, and regular contractions; Trendelenburg positioning and bladder filling to reduce membranes before suture placement","Cervical pessary (Arabin pessary): non-surgical alternative that displaces the cervical canal posteriorly toward the sacral curve, redirecting uterine weight away from the internal os; evidence is mixed but considered when cerclage is contraindicated","Transabdominal cerclage (laparoscopic or open): reserved for patients with prior failed transvaginal cerclage, very short or absent cervix, or extensive cervical scarring; placed at 10-14 weeks; requires cesarean delivery as suture is not removed"],
-    nursingActions: ["Coordinate serial transvaginal ultrasound cervical length monitoring every 1-2 weeks between 16-24 weeks for patients with prior preterm birth history","Assess for contraindications to cerclage before the procedure: active preterm labor (regular contractions), chorioamnionitis (fever, uterine tenderness, fetal tachycardia), vaginal bleeding suggesting placental abruption, PPROM","Post-cerclage monitoring: continuous fetal heart rate and tocodynamometry for 1-2 hours; assess for vaginal bleeding, membrane rupture, and uterine irritability","Administer prescribed perioperative medications: prophylactic antibiotics (cefazolin 2g IV), indomethacin 50 mg rectal for 48 hours for tocolysis, vaginal progesterone as adjunctive therapy","Educate patient on activity modification: avoid heavy lifting, prolonged standing, strenuous exercise; pelvic rest (no intercourse, tampons, or douching) until provider clearance","Instruct patient on warning signs requiring immediate evaluation: fluid leaking from vagina, regular contractions, fever or chills, heavy bleeding, foul-smelling discharge","Monitor for cervical cerclage complications: suture migration, cervical laceration, chorioamnionitis, PPROM, and preterm labor despite cerclage"],
-    assessmentFindings: ["Asymptomatic cervical shortening detected on routine or surveillance transvaginal ultrasound","Painless cervical dilation found on routine prenatal examination (classic presentation of cervical insufficiency)","Vaginal pressure sensation or increased mucoid discharge without contractions","Funneling pattern on transvaginal ultrasound (internal os dilation with closed external os)","Visible or palpable membranes at or through the external os on speculum examination (advanced insufficiency)","Prior obstetric history notable for recurrent mid-trimester losses without labor contractions","Shortened cervical length <15 mm with dynamic changes (further shortening with transfundal pressure)"],
-    signs: {
-      left: ["Asymptomatic cervical shortening <25 mm on surveillance ultrasound","Mild increase in vaginal mucoid discharge","Vague pelvic pressure without contractions","Cervical funneling at internal os with closed external os","Stable cervical length on serial monitoring with progesterone therapy"],
-      right: ["Painless cervical dilation >2 cm with bulging membranes visible on speculum exam","Prolapse of amniotic sac beyond the external os (hourglass membranes)","Premature rupture of membranes (gush of clear fluid, positive nitrazine and ferning)","Chorioamnionitis (fever >38°C, fetal tachycardia >160 bpm, uterine tenderness, purulent cervical discharge)","Previable delivery (fetal expulsion before 24 weeks despite cerclage placement)"]
+      "title": "Cervical Insufficiency: Cerclage",
+      "cellular": {
+        "title": "Cervical Insufficiency: Progesterone & Cerclage Decision-Making",
+        "content": "At the NP level, managing cervical insufficiency requires understanding the evidence-based criteria for cerclage versus progesterone therapy. Cervical remodeling in insufficiency involves premature activation of matrix metalloproteinases (MMP-1, MMP-8) that degrade collagen, combined with increased hyaluronic acid and decreased proteoglycan content in the cervical stroma. Progesterone maintains cervical rigidity by suppressing MMP expression and maintaining the collagen-rich extracellular matrix. The OPPTIMUM trial showed vaginal progesterone reduced preterm birth in women with short cervix (<25 mm); the Berghella meta-analysis confirmed that cerclage reduces preterm birth in singleton pregnancies with short cervix AND prior preterm birth. The decision algorithm stratifies by history (prior preterm birth), cervical length, and number of fetuses to select progesterone, cerclage, or both."
+      },
+      "riskFactors": [
+        "History of one or more second-trimester losses with painless cervical dilation",
+        "Prior cerclage placement in a previous pregnancy",
+        "Prior preterm birth <34 weeks (especially second-trimester)",
+        "Cervical length <25 mm on transvaginal ultrasound before 24 weeks",
+        "Prior cervical conization, LEEP, or cone biopsy (>10 mm of cervical tissue removed)",
+        "In utero DES exposure (cervical hypoplasia and structural abnormalities)",
+        "Ascending intrauterine infection (subclinical chorioamnionitis may contribute to premature cervical remodeling)",
+        "Black race (2x higher rate of cervical insufficiency and preterm birth)"
+      ],
+      "diagnostics": [
+        "Serial transvaginal cervical length measurements every 1-2 weeks from 16-24 weeks in high-risk patients",
+        "Cervical length <25 mm triggers intervention in singleton with prior PTB; <20 mm is more concerning in women without prior PTB",
+        "Fetal fibronectin (fFN): negative test has >99% NPV for delivery within 14 days; useful in symptomatic patients 22-34 weeks",
+        "TVUS findings: cervical funneling (Y, V, or U-shaped internal os), dynamic cervical change with transfundal pressure",
+        "Amniocentesis if rescue cerclage considered: rule out subclinical intraamniotic infection (glucose <14 mg/dL, elevated WBC, positive culture suggest infection)",
+        "Preoperative labs before cerclage: GBS status, STI screening (gonorrhea, chlamydia), wet mount, urinalysis, CBC"
+      ],
+      "management": [
+        "Singleton + prior spontaneous PTB <34 wk: start 17-OHP at 16-20 weeks + serial CL monitoring; add cerclage if CL shortens to <25 mm",
+        "Singleton + short CL (<25 mm) + NO prior PTB: vaginal progesterone 200 mg nightly (not cerclage)",
+        "Singleton + ≥1 prior second-trimester loss from cervical insufficiency: history-indicated cerclage at 12-14 weeks",
+        "Twins + short CL: vaginal progesterone; cerclage is CONTRAINDICATED in multiples",
+        "Rescue cerclage for dilated cervix <24 weeks without infection, labor, or PPROM: success rates 40-60% for prolonging pregnancy ≥4 weeks",
+        "Pessary (Arabin pessary): alternative to cerclage in some populations; evidence is mixed",
+        "Postpartum: evaluate cervix for structural damage; counsel on recurrence risk and management plan for future pregnancies"
+      ],
+      "nursingActions": [
+        "Coordinate serial cervical length monitoring schedule: TVUS every 1-2 weeks from 16-24 weeks; ensure patient understands importance of adherence",
+        "Administer 17-OHP injection technique: 250 mg IM in gluteal muscle weekly; rotate injection sites; assess for injection site reactions",
+        "Prescribe and counsel on vaginal progesterone administration: 200 mg suppository inserted vaginally at bedtime nightly; may cause local irritation and discharge",
+        "Assess cerclage candidate appropriateness: rule out contraindications (PPROM, chorioamnionitis, active bleeding, fetal anomaly, preterm labor)",
+        "Post-cerclage monitoring: assess for complications (bleeding, membrane rupture, infection, contractions) at each prenatal visit; visualize cerclage on speculum exam",
+        "Plan cerclage removal at 36-37 weeks: schedule office procedure; counsel patient that labor may follow removal",
+        "Counsel on activity restrictions, warning signs, and when to present to labor and delivery urgently"
+      ],
+      "assessmentFindings": [
+        "Classic presentation: painless cervical dilation in second trimester, often discovered incidentally on exam or ultrasound",
+        "Patient may report pelvic pressure, increased vaginal discharge, or 'something falling out' sensation",
+        "Transvaginal ultrasound: short cervix, funneling, dynamic cervical change",
+        "Speculum exam may reveal dilated cervix with visible membranes",
+        "No regular painful contractions (distinguishes from preterm labor)"
+      ],
+      "signs": {
+        "left": [
+          "Cervical length stable >25 mm on serial monitoring",
+          "Well-positioned cerclage with closed cervix on follow-up",
+          "Progesterone supplementation without side effects",
+          "Normal fetal growth and amniotic fluid"
+        ],
+        "right": [
+          "Cervical length <15 mm with funneling to external os despite intervention",
+          "PPROM at previable gestational age (<23 weeks)",
+          "Chorioamnionitis requiring cerclage removal and delivery regardless of gestational age",
+          "Cervix dilated to >4 cm with prolapsing membranes (rescue cerclage unlikely to succeed)",
+          "Sepsis from retained cerclage with intraamniotic infection"
+        ]
+      },
+      "medications": [
+        {
+          "name": "Vaginal Progesterone (Endometrin/Prometrium)",
+          "type": "Bioidentical progesterone (local/vaginal)",
+          "action": "Provides local progesterone effect on the cervix: suppresses matrix metalloproteinases, maintains collagen integrity, reduces inflammatory cytokines, and promotes cervical rigidity; also reduces myometrial contractility via local tissue effects",
+          "sideEffects": "Vaginal irritation, discharge, headache, drowsiness, breast tenderness; fewer systemic side effects than IM progesterone",
+          "contra": "Known hypersensitivity, active thromboembolism, undiagnosed vaginal bleeding, breast cancer",
+          "pearl": "200 mg vaginal suppository nightly for singleton pregnancy with short cervix (<25 mm) and NO prior PTB; evidence from OPPTIMUM and Fonseca trials; insert at bedtime and remain supine for 30 minutes to maximize absorption; local route provides higher cervical tissue levels than systemic IM progesterone"
+        },
+        {
+          "name": "Betamethasone",
+          "type": "Antenatal corticosteroid for fetal lung maturity",
+          "action": "Stimulates fetal type II pneumocyte production of surfactant (phosphatidylcholine), accelerating fetal lung maturation; also reduces risk of intraventricular hemorrhage, necrotizing enterocolitis, and neonatal death",
+          "sideEffects": "Maternal hyperglycemia (monitor in diabetics), transient fetal heart rate changes (reduced variability), insomnia, rare maternal pulmonary edema with concurrent tocolysis",
+          "contra": "Active systemic fungal infection; relative: chorioamnionitis (give if delivery not imminent)",
+          "pearl": "12 mg IM x 2 doses given 24 hours apart; optimal benefit 24-168 hours after first dose; indicated between 24-34 weeks when preterm delivery is anticipated within 7 days; a single rescue course may be given if >14 days since initial course and <34 weeks; late preterm (34-36+6 weeks) single course of betamethasone may be considered"
+        }
+      ],
+      "pearls": [
+        "Decision algorithm: Prior PTB + singleton + short CL → cerclage; Short CL + NO prior PTB → vaginal progesterone; Short CL + twins → vaginal progesterone (NO cerclage)",
+        "Cerclage in TWINS is contraindicated -- randomized trials showed increased preterm birth rate with cerclage in multiples",
+        "Vaginal progesterone works locally on the cervix and has fewer systemic side effects than IM 17-OHP; evidence supports both approaches in different clinical scenarios",
+        "fFN negative predictive value >99% -- a negative test essentially rules out delivery within 14 days; most useful in symptomatic patients to avoid unnecessary interventions",
+        "Rescue cerclage success depends on absence of infection: amniocentesis to rule out subclinical intraamniotic infection improves outcomes; glucose <14 mg/dL in amniotic fluid suggests infection",
+        "Always give betamethasone (24-34 weeks) when preterm delivery is anticipated -- even if cerclage successfully prolongs pregnancy, prepare for possible premature delivery"
+      ],
+      "quiz": [
+        {
+          "question": "A patient with a singleton pregnancy and NO prior preterm birth is found to have a cervical length of 18 mm at 20 weeks. What is the recommended management?",
+          "options": [
+            "History-indicated cerclage placement",
+            "Vaginal progesterone 200 mg nightly",
+            "17-OHP 250 mg IM weekly",
+            "Emergency cesarean delivery"
+          ],
+          "correct": 1,
+          "rationale": "For a singleton pregnancy with short cervix (<25 mm) but NO history of prior preterm birth, vaginal progesterone is the recommended intervention. Cerclage has only been shown to benefit women with BOTH short cervix AND prior preterm birth."
+        },
+        {
+          "question": "A patient with twins at 22 weeks has a cervical length of 15 mm. The MFM recommends against cerclage. Why?",
+          "options": [
+            "Cerclage is technically impossible in twin pregnancies",
+            "Evidence shows cerclage increases preterm birth risk in multiple gestations",
+            "The cervix is too short for suture placement",
+            "Twins are always delivered at 22 weeks"
+          ],
+          "correct": 1,
+          "rationale": "Randomized controlled trials demonstrated that cerclage in multiple gestations with short cervix actually increased preterm birth rates compared to no cerclage. Vaginal progesterone is the recommended alternative for short cervix in twin pregnancies."
+        },
+        {
+          "question": "What distinguishes cervical insufficiency from preterm labor?",
+          "options": [
+            "Cervical insufficiency occurs only after 30 weeks",
+            "Cervical insufficiency presents with PAINLESS cervical dilation without regular contractions",
+            "Preterm labor always involves membrane rupture",
+            "Cervical insufficiency is only diagnosed postpartum"
+          ],
+          "correct": 1,
+          "rationale": "Cervical insufficiency is characterized by painless cervical dilation, typically in the second trimester, without regular uterine contractions. Preterm labor, in contrast, involves regular, painful uterine contractions causing cervical change. This distinction is critical for determining the appropriate intervention."
+        }
+      ]
     },
-    medications: [{
-      name: "Vaginal Progesterone (Prometrium, Crinone, Cervidil)",
-      type: "Progestational hormone (micronized progesterone or progesterone gel)",
-      action: "Progesterone maintains uterine quiescence by suppressing gap junction formation between myometrial cells (reducing coordinated contractions), inhibiting prostaglandin synthesis (PGE2 and PGF2-alpha) that drive cervical ripening, suppressing cervical matrix metalloproteinase expression (MMP-1, MMP-8, MMP-9) to preserve collagen integrity, and maintaining anti-inflammatory cytokine balance at the cervical-decidual interface by promoting IL-10 and suppressing IL-1-beta, TNF-alpha, and IL-8",
-      sideEffects: "Vaginal irritation and discharge, drowsiness and dizziness (systemic absorption), headache, breast tenderness, constipation, mood changes",
-      contra: "Known allergy to progesterone or peanuts (some formulations contain peanut oil), active thromboembolic disease, undiagnosed vaginal bleeding, hepatic dysfunction, known or suspected breast cancer",
-      pearl: "Vaginal progesterone 200 mg nightly is first-line for incidentally discovered short cervix (<20 mm) in women without prior preterm birth; the OPPTIMUM, PREGNANT, and Fonseca trials demonstrated approximately 45% reduction in preterm birth before 34 weeks; continue until 36 weeks; does not require concurrent cerclage for efficacy in the low-risk population"
-    },{
-      name: "Indomethacin",
-      type: "Non-selective COX inhibitor / Tocolytic / NSAID",
-      action: "Inhibits both cyclooxygenase-1 and cyclooxygenase-2, blocking the conversion of arachidonic acid to prostaglandins PGE2, PGF2-alpha, and prostacyclin; prostaglandins are essential mediators of both myometrial contractility and cervical ripening; by suppressing prostaglandin synthesis, indomethacin reduces uterine contractions and slows cervical remodeling; also reduces amniotic fluid volume by decreasing fetal renal blood flow and urine production (prostaglandin-mediated)",
-      sideEffects: "Premature closure of the fetal ductus arteriosus (risk increases significantly after 32 weeks), oligohydramnios (reduced fetal urine output), neonatal pulmonary hypertension, necrotizing enterocolitis (with prolonged use), maternal GI irritation and bleeding",
-      contra: "Gestational age >32 weeks (unacceptable risk of premature ductal closure), renal impairment, active GI bleeding, platelet disorders, NSAID hypersensitivity, concurrent use of corticosteroids without GI protection",
-      pearl: "Used as short-course tocolysis (48-72 hours maximum) perioperatively around cerclage; monitor amniotic fluid index if used >48 hours; a loading dose of 50-100 mg rectal suppository followed by 25-50 mg PO every 6 hours is the typical regimen; always check gestational age before prescribing"
-    },{
-      name: "17-Alpha Hydroxyprogesterone Caproate (17-OHPC, Makena)",
-      type: "Synthetic progestogen (long-acting intramuscular depot)",
-      action: "A synthetic progestational compound that provides sustained progesterone receptor activation to suppress myometrial contractility and cervical remodeling; the caproate ester slows absorption from the injection site, providing a prolonged duration of action (7-10 days); maintains the progesterone-dominated uterine environment that prevents the pro-inflammatory estrogen-mediated shift toward labor initiation",
-      sideEffects: "Injection site pain, swelling, and nodule formation; nausea; headache; urticaria; depression; rare reports of thromboembolic events; gestational diabetes exacerbation",
-      contra: "History of hormone-sensitive malignancy (breast cancer), active thromboembolic disease, undiagnosed vaginal bleeding, cholestatic jaundice of pregnancy, hepatic disease",
-      pearl: "250 mg IM weekly starting at 16-20 weeks through 36 weeks; the Meis NEJM 2003 trial showed 34% reduction in recurrent preterm birth; FDA approval was later withdrawn based on the PROLONG confirmatory trial failing to replicate benefit; ACOG and SMFM continue to support use based on totality of evidence; rotate injection sites between deltoid and gluteal muscles"
-    }],
-    pearls: ["Cervical insufficiency is a CLINICAL diagnosis based on history -- there is no single diagnostic test; the classic presentation is painless cervical dilation in the second trimester resulting in pregnancy loss without uterine contractions","The critical distinction between cervical insufficiency and preterm labor: insufficiency is painless dilation (cervical problem), while preterm labor involves regular uterine contractions causing cervical change (myometrial problem); management differs fundamentally","Cerclage is NOT indicated for a short cervix in women WITHOUT prior preterm birth -- vaginal progesterone is the evidence-based treatment; cerclage in this population showed no benefit in the CERV-01 trial","The combination of cerclage PLUS vaginal progesterone may be superior to either intervention alone in high-risk women, though definitive evidence from randomized trials is still evolving","After 24 weeks, cerclage is generally NOT placed because the risks (PPROM, infection) outweigh benefits; management shifts to antenatal corticosteroids, tocolysis, and expectant management","Patients with a transabdominal cerclage MUST deliver by cesarean section because the suture cannot be removed vaginally; this should be thoroughly counseled before placement","A negative fetal fibronectin test is the most clinically useful result -- it essentially rules out delivery within the next 2 weeks with >95% negative predictive value, providing reassurance and avoiding unnecessary interventions"],
-    quiz: [
-      {
-        question: "A 30-year-old woman at 18 weeks gestation with one prior spontaneous preterm birth at 22 weeks (painless dilation) has a cervical length of 22 mm on transvaginal ultrasound. What is the most appropriate management?",
-        options: ["Expectant management with repeat ultrasound in 4 weeks","Vaginal progesterone alone without cerclage","Ultrasound-indicated cerclage placement plus progesterone","Prescribe bed rest and pelvic rest without pharmacotherapy"],
-        correct: 2,
-        rationale: "This patient has a prior spontaneous preterm birth and a short cervical length (<25 mm) before 24 weeks, meeting criteria for ultrasound-indicated cerclage. Evidence from the Owen meta-analysis demonstrates that cerclage significantly reduces preterm birth in this population. Progesterone is added as adjunctive therapy. Vaginal progesterone alone without cerclage is appropriate for women with short cervix but WITHOUT prior preterm birth."
-      },
-      {
-        question: "A nulliparous woman at 20 weeks is found to have a cervical length of 15 mm on routine anatomy ultrasound. She has no prior preterm birth history. What is the evidence-based first-line intervention?",
-        options: ["History-indicated McDonald cerclage","Ultrasound-indicated cerclage placement","Vaginal progesterone 200 mg nightly until 36 weeks","17-alpha hydroxyprogesterone caproate 250 mg IM weekly"],
-        correct: 2,
-        rationale: "For women with a short cervix discovered incidentally on ultrasound WITHOUT prior preterm birth, vaginal progesterone is the evidence-based first-line treatment. Multiple randomized trials (Fonseca 2007, OPPTIMUM 2016) demonstrate approximately 45% reduction in preterm birth. Cerclage has NOT shown benefit in this population and is reserved for women with prior preterm birth history and cervical shortening."
-      },
-      {
-        question: "Before performing a rescue cerclage on a patient with 3 cm cervical dilation and bulging membranes at 21 weeks, what diagnostic test should the NP anticipate ordering to guide the decision?",
-        options: ["Non-stress test to assess fetal well-being","Amniocentesis to rule out subclinical intra-amniotic infection","24-hour urine protein to rule out preeclampsia","Glucose tolerance test to screen for gestational diabetes"],
-        correct: 1,
-        rationale: "Before rescue cerclage with advanced dilation and bulging membranes, amniocentesis should be performed to exclude subclinical intra-amniotic infection, which is a contraindication to cerclage. Amniotic fluid is analyzed for glucose (low <14 mg/dL suggests infection), Gram stain, IL-6 levels, white blood cell count, and culture. Placing a cerclage in the presence of infection traps the infection and can lead to fulminant sepsis."
-      },
-    ]
-  },
   "cesarean-section-care-rpn": {
         title: "Cesarean Section Care",
         cellular: { title: "Anatomy, Physiology", content: "A cesarean section (C-section) is a surgical procedure in which the fetus is delivered through an incision in the abdominal wall (laparotomy) and the uterine wall (hysterotomy). The procedure involves incision through multiple tissue layers: skin, subcutaneous fat, rectus fascia, rectus abdominis muscle (separated, not cut), peritoneum, and finally the uterine myometrium. The most common uterine incision is the low transverse (Kerr) incision, made in the thinner lower uterine segment, which results in less blood loss, easier repair, and lower risk of uterine rupture in future pregnancies compared to the classical vertical incision. The uterine myometrium is composed of three smooth muscle layers: the outer longitudinal layer, the middle interlacing layer (which contains the major blood vessels and is responsible for the 'living ligature' effect that controls postpartum hemorrhage through contraction), and the inner circular layer. After delivery, the uterus must contract firmly to compress the spiral arteries at the former placental attachment site. The placental site covers approximately 200 square centimeters of endometrial surface and contains between 150 and 200 spiral arteries. Failure of the myometrium to contract (uterine atony) leaves these arteries unsupported, resulting in hemorrhage that can exceed 500 mL per minute. Postoperatively, the endometrium undergoes involution over approximately 6 weeks, during which the decidual lining is shed as lochia. Lochia progresses through three stages: lochia rubra (red, days 1-3), lochia serosa (pinkish-brown, days 4-10), and lochia alba (yellowish-white, days 11 to approximately 6 weeks). The practical nurse must understand wound healing principles as they apply to the surgical incision: the inflammatory phase (days 0-4), proliferative phase (days 4-21), and remodeling phase (day 21 to 1 year). Breastfeeding initiation after cesarean delivery may be delayed due to surgical recovery, anesthesia effects, and maternal-infant separation. The LATCH scoring system evaluates breastfeeding effectiveness across five components: Latch (attachment quality), Audible swallowing, Type of nipple, Comfort of the breast and nipple, and Hold (positioning assistance needed). Each component is scored 0-2, with a total score of 10 indicating optimal breastfeeding." },
@@ -233,61 +381,136 @@ export const generatedBatch018Lessons: Record<string, LessonContent> = {
         quiz: [{ question: "A nurse assessing a patient with right-sided pneumonia would expect to find which combination of physical examination findings over the affected area?", options: ["Decreased tactile fremitus, hyperresonance to percussion, and absent breath sounds","Increased tactile fremitus, dullness to percussion, and bronchial breath sounds in the periphery","Decreased tactile fremitus, dullness to percussion, and absent breath sounds","Normal tactile fremitus, resonance to percussion, and vesicular breath sounds"], correct: 1, rationale: "Pneumonia causes consolidation -- the alveoli fill with inflammatory exudate (bacteria, white blood cells, fibrin, fluid), replacing air with dense material. This consolidation produces three characteristic findings: (1) INCREASED tactile fremitus because the solid exudate transmits vibrations from the voice more efficiently than air-filled alveoli; (2) DULLNESS to percussion because the dense fluid-filled lung tissue produces a dull percussion note replacing the normal resonance of air-filled lung; (3) Bronchial breath sounds heard in peripheral lung zones because the consolidated lung transmits the high-frequency bronchial sounds from the large airways directly to the chest wall. Option C describes pleural effusion (fluid between pleura dampens all sound), and option A describes pneumothorax." },{ question: "During a chest assessment, the nurse palpates a rice-crispy crackling sensation over the left anterior chest wall. What does this finding indicate?", options: ["Normal tactile fremitus from loud voice transmission","Subcutaneous emphysema indicating air has tracked into the subcutaneous tissue, potentially from pneumothorax or pneumomediastinum","Pleural friction rub from inflamed pleural surfaces","Chest wall muscle fasciculations from electrolyte imbalance"], correct: 1, rationale: "Subcutaneous emphysema (also called crepitus) produces a characteristic rice-crispy or bubble-wrap crackling sensation when palpated over the chest wall. It indicates that air has tracked from the respiratory tract or pleural space into the subcutaneous tissues. Common causes include pneumothorax (air leaks from the lung through the visceral pleura into the subcutaneous tissue), pneumomediastinum (air dissects along fascial planes from the mediastinum), esophageal perforation (Boerhaave syndrome), and post-procedural air leak (after chest tube insertion, central line placement, or thoracic surgery). This finding always warrants immediate investigation to identify and treat the underlying cause." },{ question: "A nurse assessing a patient with severe asthma exacerbation notes significant dyspnea, use of accessory muscles, and a respiratory rate of 36, but hears NO wheezing on auscultation. What does this finding indicate?", options: ["The patient's asthma is resolving and no further treatment is needed","Near-complete airway obstruction with minimal airflow -- this is an ominous sign indicating critical asthma that may progress to respiratory arrest","The stethoscope is likely malfunctioning and should be replaced","The patient is hyperventilating from anxiety, not asthma, since there is no wheezing"], correct: 1, rationale: "A 'silent chest' in a severely dyspneic asthma patient is one of the most dangerous clinical findings in respiratory assessment. Wheezing requires airflow through narrowed airways to generate the vibrating, musical quality. When bronchospasm is so severe that virtually no air moves through the airways, no wheezing is produced despite critical bronchospasm. This is an ominous sign indicating imminent respiratory failure and potential respiratory arrest. Paradoxically, the RETURN of wheezing after bronchodilator treatment is actually a positive sign, indicating that airways have opened enough to allow airflow. The silent chest with respiratory distress requires immediate aggressive intervention including continuous nebulized bronchodilators, systemic corticosteroids, and preparation for possible intubation." }]
   },
   "chest-pain-workup-np": {
-    title: "Chest Pain Workup: ACS Rule-Out",
-    cellular: { title: "Acute Coronary Syndrome Pathophysiology & Risk Stratification", content: "The chest pain workup centers on rapidly identifying or excluding acute coronary syndrome (ACS), which encompasses a spectrum from unstable angina (UA) to non-ST-elevation myocardial infarction (NSTEMI) to ST-elevation myocardial infarction (STEMI). The underlying pathophysiology involves disruption of a vulnerable atherosclerotic plaque in a coronary artery, exposing the thrombogenic lipid core and subendothelial collagen to flowing blood. Platelet adhesion (via glycoprotein Ib-V-IX binding to von Willebrand factor on exposed collagen), activation (via thromboxane A2 and ADP release), and aggregation (via glycoprotein IIb/IIIa receptor cross-linking by fibrinogen) form a platelet-rich thrombus. Simultaneously, tissue factor exposure activates the extrinsic coagulation cascade, generating thrombin that converts fibrinogen to fibrin, stabilizing the clot. In UA/NSTEMI, the thrombus is non-occlusive or transiently occlusive, producing subendocardial ischemia without transmural necrosis (UA) or limited necrosis with troponin elevation (NSTEMI). In STEMI, complete thrombotic occlusion causes transmural ischemia progressing to irreversible necrosis within 20-40 minutes. The advanced practice provider must systematically risk-stratify chest pain presentations using validated clinical decision tools (HEART score, TIMI risk score, GRACE score) to determine disposition, further testing, and treatment intensity. The differential diagnosis of chest pain extends far beyond ACS and includes life-threatening mimics (pulmonary embolism, aortic dissection, tension pneumothorax, esophageal rupture, cardiac tamponade) and common benign etiologies (musculoskeletal, GERD, anxiety)." },
-    riskFactors: ["Age >45 years in men, >55 years in women (or postmenopausal status)","Active smoking or significant smoking history (accelerates endothelial dysfunction and plaque formation)","Hypertension (chronic endothelial shear stress promotes atherosclerosis)","Hyperlipidemia (elevated LDL-C and low HDL-C drive foam cell formation in arterial walls)","Diabetes mellitus (insulin resistance, endothelial dysfunction, platelet hyperreactivity, and accelerated atherosclerosis)","Family history of premature coronary artery disease (first-degree male relative <55 or female <65 years)","Cocaine or methamphetamine use (coronary vasospasm and accelerated atherosclerosis)","Obesity and metabolic syndrome","Chronic kidney disease (uremic vasculopathy and accelerated atherosclerosis)"],
-    diagnostics: ["12-lead ECG within 10 minutes of presentation: ST elevation >1 mm in two contiguous leads indicates STEMI requiring emergent reperfusion; ST depression, T-wave inversions, or new LBBB suggest NSTEMI/UA; compare with prior ECGs","Serial high-sensitivity troponin (hs-cTnI or hs-cTnT): draw at presentation and 1-3 hours later using validated rapid rule-out protocols (0/1-hour or 0/3-hour algorithms); rising/falling pattern with at least one value above the 99th percentile URL confirms acute myocardial injury","HEART score calculation (History, ECG, Age, Risk factors, Troponin): score 0-3 is low risk (0.9-1.7% MACE at 6 weeks, safe for discharge); 4-6 is intermediate (12-16.6% MACE, observation and further testing); 7-10 is high risk (50-65% MACE, admit and pursue invasive strategy)","Chest X-ray: assess for widened mediastinum (aortic dissection), pulmonary congestion (heart failure), pneumothorax, pneumonia, or rib fractures","CT coronary angiography (CCTA): emerging first-line test for low-to-intermediate risk patients to directly visualize coronary anatomy; negative CCTA safely excludes obstructive CAD","D-dimer and CT pulmonary angiography if pulmonary embolism is suspected (pleuritic chest pain, dyspnea, tachycardia, risk factors for VTE)","Point-of-care echocardiography: assess for regional wall motion abnormalities (suggests ACS), pericardial effusion (tamponade), right ventricular dilation (PE), or aortic root dilation (dissection)"],
-    management: ["STEMI: activate cardiac catheterization lab for primary percutaneous coronary intervention (PCI) with door-to-balloon time goal <90 minutes; if PCI unavailable within 120 minutes, administer fibrinolytic therapy (tenecteplase or alteplase) with door-to-needle time <30 minutes","NSTEMI: dual antiplatelet therapy (aspirin + P2Y12 inhibitor), anticoagulation (heparin), and risk-stratified timing of cardiac catheterization (early invasive strategy within 24 hours for high-risk features: recurrent ischemia, hemodynamic instability, GRACE score >140)","Initial ACS management (MONA-B): Morphine (cautious use, may increase mortality -- reserve for refractory pain), Oxygen (only if SpO2 <90%), Nitroglycerin (sublingual or IV for ongoing ischemia), Aspirin (162-325 mg chewed), Beta-blocker (metoprolol if no contraindications)","Low-risk chest pain (HEART score 0-3, negative serial troponins, non-ischemic ECG): safe for discharge with outpatient follow-up, stress testing within 72 hours, and return precautions","Aortic dissection suspected: emergent CT angiography, IV esmolol and nicardipine for rate and BP control (target HR <60, SBP 100-120), emergent surgical consultation for Type A dissection","Initiate guideline-directed medical therapy for confirmed ACS: high-intensity statin (atorvastatin 80 mg), ACE inhibitor or ARB, beta-blocker, dual antiplatelet therapy for 12 months post-PCI"],
-    nursingActions: ["Obtain 12-lead ECG within 10 minutes of patient presentation with chest pain and immediately present to the provider for interpretation","Establish IV access, place on continuous cardiac monitoring, and obtain baseline labs (troponin, CBC, BMP, coagulation studies, lipid panel)","Administer aspirin 162-325 mg chewed (not swallowed whole) immediately unless true aspirin allergy; if allergic, document and administer P2Y12 inhibitor per protocol","Administer sublingual nitroglycerin 0.4 mg every 5 minutes x3 for ongoing chest pain; hold if SBP <90 mmHg, HR <50 or >100, suspected right ventricular infarction, or phosphodiesterase-5 inhibitor use within 24-48 hours","Calculate and document HEART score or TIMI risk score to support clinical decision-making and disposition planning","Monitor for complications during observation: recurrent chest pain, hemodynamic instability, new arrhythmias, signs of heart failure (crackles, JVD, S3)","Provide patient education on ACS warning signs, importance of calling 911 (not driving to hospital), medication adherence, and cardiac rehabilitation referral"],
-    assessmentFindings: ["Substernal chest pressure or heaviness (not sharp) radiating to left arm, jaw, neck, or back lasting >20 minutes (classic ACS presentation)","Diaphoresis, nausea, vomiting, and sense of impending doom accompanying chest pain","Atypical presentations: isolated dyspnea, epigastric pain, or fatigue without chest pain (more common in women, elderly, and diabetic patients)","New or worsening heart murmur (may indicate papillary muscle rupture or acute mitral regurgitation complicating MI)","Hypertension or hypotension (hypotension suggests cardiogenic shock or right ventricular infarction)","Unequal blood pressures in bilateral arms >20 mmHg difference (suggests aortic dissection rather than ACS)","Reproducible chest wall tenderness on palpation (suggests musculoskeletal etiology but does NOT exclude ACS -- 6% of ACS patients have chest wall tenderness)"],
-    signs: {
-      left: ["Exertional chest discomfort relieved by rest or nitroglycerin (stable angina pattern)","Non-specific ECG changes (T-wave flattening, nondiagnostic ST changes)","Low HEART score (0-3) with negative initial troponin","Chest pain reproducible with palpation and no cardiac risk factors","Normal vital signs and unremarkable cardiac examination"],
-      right: ["ST elevation >1 mm in two or more contiguous leads (STEMI -- activate cath lab)","Hemodynamic instability: hypotension, tachycardia, cardiogenic shock (Killip class III-IV)","New onset heart failure with ACS: bilateral crackles, S3 gallop, JVD, frothy sputum","Acute mechanical complication: new loud holosystolic murmur (VSD or papillary muscle rupture)","Tearing interscapular pain with BP differential between arms (aortic dissection requiring emergent surgery)"]
+      "title": "Chest Pain Workup: ACS Rule-Out",
+      "cellular": {
+        "title": "ACS Pathophysiology & Risk Stratification",
+        "content": "Acute coronary syndrome (ACS) encompasses unstable angina (UA), NSTEMI, and STEMI, all resulting from atherosclerotic plaque rupture or erosion with superimposed thrombosis. Plaque rupture exposes the lipid-rich necrotic core and collagen to flowing blood, triggering platelet adhesion (via von Willebrand factor and GPIb), activation, and aggregation (via GPIIb/IIIa). The coagulation cascade generates thrombin and fibrin, forming an occlusive or near-occlusive thrombus. STEMI results from complete thrombotic occlusion causing transmural ischemia (ST elevation); NSTEMI results from subtotal occlusion or microembolization causing subendocardial injury (troponin elevation without ST elevation); UA involves ischemia without myocyte necrosis (normal troponin). Risk stratification uses HEART score (History, ECG, Age, Risk factors, Troponin) or TIMI score to guide disposition."
+      },
+      "riskFactors": [
+        "Traditional cardiovascular risk factors: hypertension, diabetes, dyslipidemia, smoking, family history of premature CAD (<55 male, <65 female)",
+        "Age (men >45, women >55 or postmenopausal)",
+        "Metabolic syndrome and obesity",
+        "Cocaine use (coronary vasospasm causing MI even in young patients with no CAD)",
+        "Prior CAD, MI, PCI, or CABG",
+        "Chronic kidney disease (accelerated atherosclerosis)",
+        "Inflammatory conditions: lupus, rheumatoid arthritis (accelerated atherosclerosis)",
+        "Atypical presentations more common in women, diabetics, and elderly (dyspnea, nausea, jaw/arm/back pain, fatigue without classic chest pain)"
+      ],
+      "diagnostics": [
+        "12-lead ECG within 10 minutes of presentation: STEMI (ST elevation ≥1 mm in 2 contiguous leads, or new LBBB); NSTEMI (ST depression, T-wave inversions); UA (normal or nonspecific changes)",
+        "Serial high-sensitivity troponin (hs-cTnI or hs-cTnT): at presentation and 3-6 hours later; rule-out with 0/1-hour or 0/3-hour protocol using hs-troponin algorithms",
+        "HEART score calculation: History (0-2), ECG (0-2), Age (0-2), Risk factors (0-2), Troponin (0-2); score 0-3 = low risk, 4-6 = moderate, 7-10 = high risk",
+        "CXR: rule out aortic dissection (widened mediastinum), pneumothorax, pneumonia, pericardial effusion",
+        "BMP: assess renal function (contrast exposure for cath), electrolytes (arrhythmia risk)",
+        "BNP/NT-proBNP if heart failure suspected (prognostic value in ACS)",
+        "Echocardiography: assess wall motion abnormalities, EF, complications (papillary muscle rupture, VSD, pericardial effusion)",
+        "Stress testing for intermediate-risk patients to assess inducible ischemia before or after discharge"
+      ],
+      "management": [
+        "STEMI: emergent PCI (door-to-balloon <90 minutes) or fibrinolytic therapy (if PCI not available within 120 minutes; door-to-needle <30 minutes)",
+        "NSTEMI high risk: early invasive strategy (cardiac catheterization within 24-72 hours); dual antiplatelet therapy (DAPT) + anticoagulation",
+        "NSTEMI low risk/UA: ischemia-guided strategy acceptable; serial troponins, stress testing, medical management",
+        "Antiplatelet therapy: aspirin 162-325 mg chewed immediately + P2Y12 inhibitor (ticagrelor 180 mg load or clopidogrel 600 mg load)",
+        "Anticoagulation: heparin (UFH or enoxaparin) for all ACS",
+        "Additional acute management: nitroglycerin SL for ischemic pain (avoid if RV infarct, hypotension, PDE5 inhibitor use within 24-48 hours); high-flow oxygen only if SpO2 <90%",
+        "Beta-blocker within 24 hours (metoprolol) unless contraindicated; high-intensity statin (atorvastatin 80 mg); ACEi/ARB if EF <40% or anterior MI",
+        "Morphine: use with CAUTION in ACS (may increase mortality per some studies); reserved for refractory pain"
+      ],
+      "nursingActions": [
+        "Obtain 12-lead ECG within 10 minutes of chest pain presentation and with any change in symptoms",
+        "Implement MONA-B protocol as ordered: Morphine (with caution), Oxygen (only if SpO2 <90%), Nitroglycerin, Aspirin, Beta-blocker",
+        "Establish large-bore IV access; draw troponin, CBC, BMP, coagulation studies, type and screen",
+        "Continuous cardiac monitoring for arrhythmias; prepare for emergent defibrillation/cardioversion",
+        "Assess contraindications to therapies: NTG contraindicated if recent PDE5 inhibitor use (sildenafil 24 hrs, tadalafil 48 hrs), hypotension, RV infarct",
+        "Assess pain using 0-10 scale; document character, location, radiation, associated symptoms, and response to treatment",
+        "If STEMI identified: activate cath lab immediately; minimize door-to-balloon time; prepare patient for emergent PCI",
+        "Monitor for reperfusion signs post-PCI: resolution of chest pain, ST-segment normalization, reperfusion arrhythmias (AIVR)"
+      ],
+      "assessmentFindings": [
+        "Classic ACS presentation: substernal chest pressure/heaviness radiating to left arm, jaw, or back; associated with diaphoresis, nausea, dyspnea",
+        "Levine sign: patient clenching fist over sternum describing pressure",
+        "Atypical presentations (women, elderly, diabetics): dyspnea as anginal equivalent, epigastric pain, isolated jaw/arm pain, fatigue, nausea without chest pain",
+        "S4 gallop (reduced ventricular compliance), new mitral regurgitation murmur (papillary muscle ischemia)",
+        "Diaphoresis, pallor, anxiety, sense of impending doom",
+        "Tachycardia, hypotension (large MI or RV involvement), hypertension (sympathetic activation)"
+      ],
+      "signs": {
+        "left": [
+          "Low HEART score (0-3) with negative serial troponins -- safe for discharge with outpatient stress test",
+          "Typical anginal symptoms resolving with nitroglycerin",
+          "Stable vital signs, no ECG changes, non-rising troponin",
+          "Intermediate risk suitable for stress testing or observation"
+        ],
+        "right": [
+          "STEMI: ST elevation on ECG requiring emergent PCI (door-to-balloon <90 min)",
+          "Cardiogenic shock: hypotension, tachycardia, pulmonary edema, cold extremities (high mortality)",
+          "Mechanical complications: papillary muscle rupture (acute severe MR), ventricular septal rupture, free wall rupture with tamponade",
+          "Ventricular fibrillation or sustained VT requiring immediate defibrillation",
+          "Complete heart block in inferior MI requiring temporary pacing"
+        ]
+      },
+      "medications": [
+        {
+          "name": "Aspirin",
+          "type": "Irreversible COX-1 inhibitor / antiplatelet",
+          "action": "Irreversibly acetylates platelet cyclooxygenase-1 (COX-1), blocking thromboxane A2 (TXA2) synthesis and inhibiting platelet aggregation for the platelet's 7-10 day lifespan; reduces ACS mortality by 23% (ISIS-2 trial)",
+          "sideEffects": "GI bleeding, gastric ulceration, tinnitus (high doses), Reye syndrome in children, allergic reactions, bronchospasm in aspirin-sensitive asthma",
+          "contra": "Active GI bleeding, known aspirin allergy, severe bleeding disorder, Reye syndrome risk in children with viral illness",
+          "pearl": "162-325 mg CHEWED immediately in suspected ACS (chewing accelerates absorption to 15 minutes vs 60 minutes swallowed); non-enteric-coated for fastest absorption; continue 81 mg daily indefinitely post-ACS"
+        },
+        {
+          "name": "Ticagrelor (Brilinta)",
+          "type": "P2Y12 receptor antagonist (reversible, direct-acting)",
+          "action": "Directly and reversibly binds the P2Y12 ADP receptor on platelets, inhibiting ADP-mediated platelet activation and aggregation; faster onset (30 minutes) and more potent platelet inhibition than clopidogrel; does NOT require hepatic activation (unlike clopidogrel)",
+          "sideEffects": "Bleeding (more than clopidogrel), dyspnea (mechanism unclear, usually self-limiting), bradycardia, hyperuricemia, increased creatinine",
+          "contra": "Active pathological bleeding, history of intracranial hemorrhage, severe hepatic impairment, concurrent strong CYP3A4 inhibitors/inducers, aspirin doses >100 mg daily (reduces efficacy)",
+          "pearl": "Loading dose 180 mg then 90 mg BID; preferred over clopidogrel for ACS per PLATO trial (reduced CV death, MI, stroke); must be taken with aspirin 81 mg (NOT >100 mg); BID dosing important -- missed doses rapidly lose antiplatelet effect (reversible binding); hold 5 days before surgery"
+        }
+      ],
+      "pearls": [
+        "ECG within 10 MINUTES of chest pain presentation -- STEMI identification triggers emergent cath lab activation; door-to-balloon goal <90 minutes",
+        "HEART score 0-3 with negative serial troponins = <2% 30-day MACE rate; safe for discharge with outpatient follow-up",
+        "Nitroglycerin is CONTRAINDICATED with PDE5 inhibitors (sildenafil within 24 hrs, tadalafil within 48 hrs), in right ventricular infarction (preload-dependent), and in hypotension",
+        "Morphine use in ACS is CONTROVERSIAL -- some studies suggest increased mortality; reserve for pain refractory to NTG and beta-blockers; prefer NTG first",
+        "Oxygen supplementation only if SpO2 <90% -- routine O2 in normoxemic ACS patients may increase mortality (AVOID trial)",
+        "Women, elderly, and diabetics more commonly present with ATYPICAL symptoms: dyspnea, nausea, fatigue, jaw/back pain -- maintain high suspicion in these populations"
+      ],
+      "quiz": [
+        {
+          "question": "A 62-year-old man presents with crushing substernal chest pain. ECG shows 3 mm ST elevation in leads II, III, and aVF. He took sildenafil 12 hours ago. Which medication is CONTRAINDICATED?",
+          "options": [
+            "Aspirin 325 mg chewed",
+            "Ticagrelor 180 mg loading dose",
+            "Nitroglycerin sublingual",
+            "Heparin IV bolus"
+          ],
+          "correct": 2,
+          "rationale": "Nitroglycerin is contraindicated within 24 hours of sildenafil (or 48 hours of tadalafil) use because both cause vasodilation via the nitric oxide pathway, risking severe, refractory hypotension. This patient needs emergent PCI for STEMI; aspirin, P2Y12 inhibitor, and heparin should be administered."
+        },
+        {
+          "question": "A patient with STEMI presents 3 hours after symptom onset. The nearest PCI-capable facility is 150 minutes away by transfer. What is the recommended reperfusion strategy?",
+          "options": [
+            "Wait for PCI regardless of transfer time",
+            "Administer fibrinolytic therapy (door-to-needle <30 minutes) since PCI cannot be achieved within 120 minutes",
+            "Give aspirin and heparin only, no reperfusion therapy",
+            "Schedule elective catheterization in 1 week"
+          ],
+          "correct": 1,
+          "rationale": "When PCI cannot be performed within 120 minutes of first medical contact, fibrinolytic therapy should be administered within 30 minutes (door-to-needle time). Time is muscle -- every 30-minute delay in reperfusion increases mortality. After fibrinolysis, transfer for angiography within 3-24 hours is recommended."
+        },
+        {
+          "question": "A patient with ACS has a HEART score of 2 with two negative troponins 3 hours apart. What is the appropriate disposition?",
+          "options": [
+            "Admit to the ICU for continuous monitoring",
+            "Emergent cardiac catheterization",
+            "Safe for discharge with outpatient stress test follow-up within 72 hours",
+            "Administer fibrinolytic therapy"
+          ],
+          "correct": 2,
+          "rationale": "A HEART score of 0-3 with negative serial troponins indicates low risk (<2% 30-day MACE rate). These patients can be safely discharged with outpatient follow-up including stress testing within 72 hours, significantly reducing unnecessary admissions and resource utilization."
+        }
+      ]
     },
-    medications: [{
-      name: "Aspirin",
-      type: "Irreversible cyclooxygenase-1 inhibitor / antiplatelet agent",
-      action: "Irreversibly acetylates COX-1 in platelets, permanently blocking thromboxane A2 (TxA2) synthesis for the lifetime of the platelet (7-10 days); TxA2 is a potent platelet activator and vasoconstrictor; by inhibiting TxA2, aspirin prevents platelet aggregation at the site of plaque rupture, reducing thrombus propagation; chewing the tablet accelerates absorption via buccal mucosa, achieving therapeutic antiplatelet effect within 15 minutes versus 60 minutes for swallowed tablets",
-      sideEffects: "GI bleeding and peptic ulceration, tinnitus at high doses, Reye syndrome in children with viral illness, bronchospasm in aspirin-sensitive asthma, prolonged bleeding time",
-      contra: "Active GI hemorrhage, known aspirin allergy (desensitize if ACS confirmed), severe bleeding diathesis, last trimester of pregnancy",
-      pearl: "Always give 162-325 mg CHEWED (not swallowed) at first presentation of suspected ACS for rapid onset; this single intervention has the strongest evidence for mortality reduction in acute MI (ISIS-2 trial: 23% mortality reduction); continue 81 mg daily indefinitely for secondary prevention"
-    },{
-      name: "Nitroglycerin",
-      type: "Organic nitrate / vasodilator",
-      action: "Converted to nitric oxide (NO) in vascular smooth muscle, activating guanylyl cyclase to increase cyclic GMP, causing smooth muscle relaxation; predominantly dilates venous capacitance vessels (reducing preload and myocardial oxygen demand) and coronary arteries (improving myocardial oxygen supply); at higher doses also reduces arteriolar resistance (afterload reduction); relieves coronary vasospasm",
-      sideEffects: "Headache (most common), hypotension, reflex tachycardia, dizziness, flushing, tolerance with continuous use",
-      contra: "SBP <90 mmHg, severe aortic stenosis, hypertrophic cardiomyopathy with outflow obstruction, phosphodiesterase-5 inhibitor use within 24 hours (sildenafil, vardenafil) or 48 hours (tadalafil), right ventricular infarction (preload-dependent)",
-      pearl: "Sublingual 0.4 mg every 5 minutes x3 doses; if no relief, consider IV nitroglycerin infusion starting at 5-10 mcg/min and titrate; ALWAYS check BP before each dose; right ventricular MI (inferior STEMI with right-sided ST elevation in V4R) is critically preload-dependent -- nitroglycerin causes profound hypotension"
-    },{
-      name: "Ticagrelor (Brilinta)",
-      type: "P2Y12 receptor antagonist / antiplatelet agent",
-      action: "Reversibly binds to the P2Y12 ADP receptor on platelets, preventing ADP-mediated activation of the glycoprotein IIb/IIIa complex and platelet aggregation; unlike clopidogrel, ticagrelor is a direct-acting agent that does not require hepatic CYP metabolism for activation, providing more consistent and rapid antiplatelet effect; achieves peak platelet inhibition within 2 hours versus 6-8 hours for clopidogrel",
-      sideEffects: "Bleeding (major and minor), dyspnea (occurs in 14% -- mechanism involves adenosine reuptake inhibition; usually mild and self-limiting), bradycardia and ventricular pauses, hyperuricemia and gout flares, elevated creatinine",
-      contra: "Active pathological bleeding, history of intracranial hemorrhage, severe hepatic impairment, concurrent use of strong CYP3A4 inhibitors (ketoconazole, clarithromycin) or inducers (rifampin, phenytoin); aspirin dose must be ≤100 mg/day (higher doses reduce ticagrelor efficacy)",
-      pearl: "Loading dose 180 mg, then 90 mg BID for 12 months post-ACS; PLATO trial showed 16% reduction in cardiovascular death versus clopidogrel; must be taken with aspirin 81 mg daily (NOT 325 mg -- higher aspirin doses paradoxically reduce ticagrelor effectiveness); warn patients about expected dyspnea side effect to prevent unnecessary discontinuation"
-    }],
-    pearls: ["The HEART score is the most validated and practical clinical decision tool for chest pain risk stratification: a score of 0-3 identifies patients safe for early discharge with <2% risk of major adverse cardiac events at 6 weeks","High-sensitivity troponin with 0/1-hour or 0/3-hour rapid rule-out protocols can safely exclude MI within hours rather than the traditional 6-12 hour observation -- know your institution's specific assay and protocol","Chest pain that is reproducible with palpation does NOT rule out ACS -- approximately 6% of patients with proven ACS have reproducible chest wall tenderness; always complete the full workup regardless of musculoskeletal findings","Right ventricular MI (complicating inferior STEMI) is a critical diagnosis to recognize: obtain right-sided ECG leads (V4R) in all inferior STEMIs; these patients are preload-dependent and will develop severe hypotension with nitroglycerin, morphine, or diuretics -- treatment is IV fluid resuscitation","Aortic dissection must be excluded before administering anticoagulation or antiplatelet therapy: interscapular tearing pain, BP differential >20 mmHg between arms, new aortic regurgitation murmur, and widened mediastinum on CXR are red flags","Women, elderly patients, and diabetics frequently present with atypical ACS symptoms (dyspnea, fatigue, nausea, epigastric pain) without classic chest pressure -- maintain a high index of suspicion and low threshold for troponin testing","Morphine use in ACS is now controversial: the CRUSADE registry and subsequent studies suggest morphine may increase mortality in NSTEMI by delaying P2Y12 inhibitor absorption; reserve for refractory pain unresponsive to nitroglycerin"],
-    quiz: [
-      {
-        question: "A 58-year-old male smoker with diabetes presents with substernal pressure radiating to his left jaw for 45 minutes. His initial ECG shows 3 mm ST elevation in leads II, III, and aVF. What is the immediate priority?",
-        options: ["Administer morphine for pain control and repeat ECG in 30 minutes","Activate the cardiac catheterization lab for primary PCI with a door-to-balloon goal of <90 minutes","Order serial troponins every 6 hours and observe","Start heparin infusion and schedule stress testing for the following morning"],
-        correct: 1,
-        rationale: "ST elevation in leads II, III, and aVF indicates an inferior STEMI. The standard of care is emergent primary percutaneous coronary intervention (PCI) with a door-to-balloon time goal of <90 minutes. Time is myocardium -- every 30-minute delay in reperfusion increases mortality. Serial troponins are unnecessary as the diagnosis is established by ECG. A right-sided ECG (V4R) should also be obtained to assess for right ventricular involvement."
-      },
-      {
-        question: "A patient with an inferior STEMI (ST elevation in II, III, aVF) has a blood pressure of 85/50 mmHg and clear lung fields. Right-sided ECG shows ST elevation in V4R. What intervention is CONTRAINDICATED?",
-        options: ["IV normal saline fluid bolus","Aspirin 325 mg chewed","Sublingual nitroglycerin","Emergent cardiac catheterization"],
-        correct: 2,
-        rationale: "ST elevation in V4R confirms right ventricular infarction complicating the inferior STEMI. The right ventricle is critically preload-dependent in this scenario -- nitroglycerin causes venodilation that reduces preload, potentially causing profound refractory hypotension and cardiovascular collapse. Treatment is IV fluid resuscitation to maintain right ventricular filling. Morphine and diuretics are also contraindicated for the same reason."
-      },
-      {
-        question: "A 45-year-old woman presents with 2 hours of chest pressure. Her HEART score is 2, initial high-sensitivity troponin is <5 ng/L (well below 99th percentile), and ECG is normal. What is the most appropriate disposition?",
-        options: ["Admit to the ICU for continuous monitoring and serial troponins every 6 hours","Immediate cardiac catheterization for definitive diagnosis","Safe for discharge with outpatient follow-up and return precautions, based on institutional 0/1-hour or 0/3-hour rapid rule-out protocol","Administer fibrinolytic therapy empirically given the chest pain history"],
-        correct: 2,
-        rationale: "A HEART score of 0-3 with a negative high-sensitivity troponin at presentation identifies a patient at very low risk (<2%) of major adverse cardiac events at 6 weeks. Using validated rapid rule-out protocols (0/1-hour or 0/3-hour algorithms), these patients can be safely discharged with outpatient follow-up, stress testing within 72 hours, and clear return precautions. This evidence-based approach avoids unnecessary admissions while maintaining patient safety."
-      },
-    ]
-  },
   "chest-physiotherapy-rpn": {
         title: "Chest Physiotherapy",
         cellular: { title: "Respiratory Physiology", content: "Chest physiotherapy (CPT) encompasses a group of airway clearance techniques designed to mobilize and remove retained pulmonary secretions, improve ventilation, and prevent or treat atelectasis. Understanding the normal mechanisms of mucus clearance and the pathophysiology of conditions that impair these mechanisms is essential for practical nurses who perform and assist with CPT.\n\nThe respiratory tract is lined with pseudostratified ciliated columnar epithelium from the trachea to the terminal bronchioles. This epithelium contains two critical components of the mucociliary escalator, the body's primary defense mechanism for clearing inhaled particles and pathogens from the airways. Goblet cells and submucosal glands produce mucus, a complex viscoelastic gel composed of water (approximately 95%), glycoproteins called mucins (which give mucus its sticky, gel-like consistency), electrolytes, immunoglobulins (IgA), lysozyme, and lactoferrin. Normal mucus production is approximately 100 mL per day. The mucus layer consists of two phases: the sol layer (a thin, watery layer closest to the epithelial surface in which the cilia beat) and the gel layer (a thicker, more viscous layer on top that traps particles). Ciliated cells have approximately 200 cilia per cell, each beating in a coordinated metachronal wave at 12-15 beats per second. During the effective stroke, the cilia tips engage with the gel layer and propel it toward the pharynx at approximately 1-2 cm per minute. During the recovery stroke, the cilia bend and move through the sol layer without contacting the gel layer. This continuous escalator moves trapped particles, bacteria, and debris upward from the lower respiratory tract to the pharynx, where they are swallowed or expectorated.\n\nWhen the mucociliary escalator is impaired, secretions accumulate in the airways, creating several pathological consequences. Mucus plugging obstructs smaller airways, preventing ventilation of the alveoli distal to the plug. This creates areas of ventilation-perfusion (V/Q) mismatch where blood continues to flow through the pulmonary capillaries surrounding the collapsed alveoli but no gas exchange occurs (intrapulmonary shunting), leading to hypoxemia. Retained secretions provide an ideal medium for bacterial growth, increasing the risk of nosocomial pneumonia. Atelectasis (alveolar collapse) occurs when the obstructed alveoli absorb their trapped gas and collapse, further reducing the surface area available for gas exchange. In patients with chronic obstructive pulmonary disease (COPD) or cystic fibrosis, the mucus is abnormally thick and tenacious due to goblet cell hyperplasia, submucosal gland hypertrophy, and (in cystic fibrosis) defective chloride ion transport across the epithelium caused by mutations in the CFTR protein, which reduces the water content of the airway surface liquid.\n\nChest physiotherapy techniques work by applying mechanical forces to the chest wall that are transmitted to the airways, loosening adherent secretions from the bronchial walls and moving them toward the larger central airways where they can be coughed out or suctioned. Postural drainage uses gravity to facilitate secretion movement from specific lung segments to the central airways by positioning the patient so that the affected lung segment is uppermost (the bronchus draining that segment points downward). There are 12 postural drainage positions corresponding to the 18 segments of the lungs. Percussion (clapping) involves rhythmically striking the chest wall over the affected lung segment with cupped hands, creating a wave of energy that dislodges secretions from the bronchial walls. The hands must be cupped (not flat) to create an air cushion that transmits energy to the lung tissue without causing pain or injury. Vibration involves applying a fine trembling pressure to the chest wall during exhalation, when the airways are naturally narrowing, which helps propel loosened secretions toward the central airways. Incentive spirometry is a technique that encourages deep breathing by having the patient inhale slowly and deeply through a mouthpiece connected to a visual feedback device; sustained maximal inspiration opens collapsed alveoli (reversing atelectasis) and mobilizes secretions through the deep breathing effect." },
@@ -302,157 +525,371 @@ export const generatedBatch018Lessons: Record<string, LessonContent> = {
         quiz: [{ question: "A practical nurse is planning chest physiotherapy for a post-operative patient. Which action should be performed FIRST before beginning percussion and postural drainage?", options: ["Position the patient in the Trendelenburg position","Administer the prescribed bronchodilator 15-20 minutes before CPT","Have the patient eat a meal to maintain energy for the procedure","Begin percussion on the chest wall without any preparation"], correct: 1, rationale: "A bronchodilator should be administered 15-20 minutes before chest physiotherapy to open the airways and facilitate secretion mobilization. Opening the airways first allows percussion and postural drainage techniques to be more effective. CPT should be performed on an empty stomach (1 hour before or 2 hours after meals) to prevent aspiration." },{ question: "During chest physiotherapy, the practical nurse notices that the patient's SpO2 has dropped to 88% and the patient is becoming increasingly dyspneic. What is the PRIORITY action?", options: ["Continue CPT and monitor the SpO2 closely","Increase the force of percussion to mobilize secretions faster","Stop CPT immediately, position the patient upright, and apply supplemental oxygen","Have the patient perform incentive spirometry before continuing CPT"], correct: 2, rationale: "An SpO2 below 90% with increasing dyspnea indicates that the patient is not tolerating the CPT procedure. The practical nurse must stop immediately, position the patient upright to optimize ventilation, apply supplemental oxygen, and notify the physician. Continuing or intensifying CPT could worsen respiratory compromise." },{ question: "A practical nurse is teaching a patient how to use an incentive spirometer after abdominal surgery. Which instruction is correct?", options: ["Inhale as quickly as possible to raise the indicator to the highest level","Exhale forcefully into the mouthpiece to exercise the expiratory muscles","Inhale slowly and deeply through the mouthpiece and hold the breath for 3-5 seconds at maximum inspiration","Use the incentive spirometer once a day before bedtime"], correct: 2, rationale: "The correct technique for incentive spirometry is slow, deep inhalation through the mouthpiece followed by a sustained maximum inspiration hold for 3-5 seconds. This opens collapsed alveoli and prevents atelectasis. Rapid inhalation is less effective. The device requires inhalation (not exhalation), and it should be used 10 times every 1-2 hours while awake, not once daily." }]
   },
   "chest-xray-interpretation-np": {
-    title: "Chest X-Ray Interpretation",
-    cellular: { title: "Systematic CXR Interpretation & Radiographic Anatomy", content: "Chest X-ray (CXR) interpretation is a foundational diagnostic skill for the advanced practice provider, requiring systematic evaluation of radiographic anatomy, recognition of normal variants, and identification of pathological patterns. The standard posteroanterior (PA) CXR is obtained with the patient upright, X-ray beam entering from posterior and exiting anteriorly onto the cassette, at a source-to-image distance of 72 inches (180 cm) to minimize cardiac magnification. The anteroposterior (AP) projection (portable bedside films) magnifies the cardiac silhouette by approximately 15-20%, making cardiomegaly assessment unreliable on AP views. CXR interpretation relies on differential X-ray absorption: air appears black (low absorption), fat appears dark gray, soft tissue and fluid appear light gray, and bone and calcium appear white. The silhouette sign is a critical radiographic principle: when two adjacent structures of similar density are in contact, their interface (border) is obliterated -- loss of the right heart border indicates right middle lobe pathology, loss of the left heart border indicates lingula pathology, and loss of the hemidiaphragm indicates lower lobe pathology. Air bronchograms (visible air-filled bronchi against opacified lung parenchyma) confirm that an opacity is within the lung parenchyma (consolidation) rather than pleural. The provider must recognize emergent findings requiring immediate intervention: tension pneumothorax (absent lung markings, mediastinal shift away from affected side, tracheal deviation), massive pleural effusion, widened mediastinum suggesting aortic pathology, and free air under the diaphragm indicating visceral perforation." },
-    riskFactors: ["Smoking and tobacco use (increased risk of lung cancer, COPD, pneumonia -- all producing CXR abnormalities)","Occupational exposures: asbestosis (pleural plaques, mesothelioma), silicosis (eggshell calcification of hilar nodes), coal workers' pneumoconiosis","Immunocompromised states: HIV/AIDS (PCP producing diffuse bilateral ground-glass opacities, TB with atypical patterns), post-transplant, chemotherapy","Heart failure (produces characteristic CXR findings: cephalization, Kerley B lines, pleural effusions, bat-wing perihilar opacities)","Recurrent pneumonia in the same location (suggests underlying obstruction from endobronchial tumor or foreign body)","TB exposure or endemic area travel (cavitary lesions in upper lobes, miliary pattern, hilar lymphadenopathy)","Prior thoracic surgery or radiation therapy (altered anatomy, post-surgical changes, radiation fibrosis)"],
-    diagnostics: ["PA and lateral CXR (standard views): PA film for initial assessment; lateral film localizes pathology to specific lobes and identifies retrosternal and retrocardiac abnormalities not visible on PA view","CT chest without contrast: superior sensitivity for parenchymal detail; indicated when CXR findings are equivocal or further characterization is needed (nodule assessment, interstitial lung disease, mediastinal mass)","CT pulmonary angiography (CTPA): contrast-enhanced CT specifically for pulmonary embolism detection; indicated when CXR shows nonspecific findings in a patient with clinical suspicion for PE","Lateral decubitus CXR: patient lies on the affected side; free-flowing pleural effusion layers along the dependent chest wall; confirms effusion is free (not loculated) and quantifies amount; effusion >10 mm thick is amenable to thoracentesis","Comparison with prior CXR: essential for determining acuity and chronicity of findings; new opacity versus stable chronic finding completely changes management","Sputum cultures, AFB staining, and cytology: guided by CXR findings -- cavitary lesions prompt AFB screening, persistent mass prompts cytology","Ultrasound-guided thoracentesis: when CXR shows pleural effusion, fluid analysis (Light's criteria: protein ratio >0.5, LDH ratio >0.6, LDH >2/3 upper normal) differentiates transudative from exudative effusions"],
-    management: ["Tension pneumothorax identified on CXR with clinical correlation (hemodynamic instability, tracheal deviation): emergent needle decompression at 2nd intercostal space midclavicular line followed by chest tube placement; do not delay treatment for imaging if clinical diagnosis is clear","Lobar consolidation with air bronchograms (community-acquired pneumonia): empiric antibiotic therapy per ATS/IDSA guidelines -- outpatient: amoxicillin or doxycycline; inpatient: ceftriaxone plus azithromycin or respiratory fluoroquinolone","Pleural effusion management: small (<10 mm on decubitus): observe; moderate/large with dyspnea: diagnostic and therapeutic thoracentesis; loculated or empyema: chest tube drainage with fibrinolytic therapy or VATS","Pulmonary nodule found incidentally on CXR: apply Fleischner Society guidelines for follow-up based on size, solid versus subsolid nature, and patient risk factors; nodules >8 mm in high-risk patients require CT characterization and possible PET/CT or biopsy","Widened mediastinum on CXR in trauma patient or with acute tearing chest pain: emergent CT angiography to evaluate for aortic injury or dissection; do not delay for additional views","Bilateral diffuse opacities with clinical context of acute respiratory failure: differentiate cardiogenic pulmonary edema (cephalization, Kerley B lines, effusions) from ARDS (normal heart size, air bronchograms, peripheral predominance); treatment differs fundamentally"],
-    nursingActions: ["Apply the systematic ABCDE approach to CXR interpretation: Airway (tracheal position, main bronchi), Bones (fractures, lytic lesions), Cardiac (heart size, mediastinal contour), Diaphragm (costophrenic angles, free air), and Everything else (lung fields, soft tissues, lines/tubes)","Verify proper CXR technique before interpretation: adequate inspiration (10 posterior ribs visible above the diaphragm), proper rotation (spinous processes equidistant between medial clavicular heads), and appropriate penetration (thoracic vertebral bodies faintly visible through the cardiac silhouette)","Assess all lines and tubes on CXR: endotracheal tube tip should be 2-6 cm above the carina; central venous catheter tip at the cavoatrial junction; nasogastric tube in the stomach below the diaphragm; chest tube within the pleural space","Calculate cardiothoracic ratio on PA film: cardiac width divided by thoracic width; ratio >0.5 indicates cardiomegaly (not valid on AP portable films due to magnification)","Correlate CXR findings with clinical presentation -- an abnormal CXR in an asymptomatic patient and a normal CXR in a symptomatic patient both require clinical judgment rather than reflexive action","Document CXR interpretation findings using standardized terminology and communicate urgent findings directly to the relevant provider via closed-loop communication","Order comparison with prior imaging whenever available -- determining whether a finding is new, changed, or stable dramatically alters clinical significance and management"],
-    assessmentFindings: ["Lobar consolidation with air bronchograms (pneumonia: dense opacification confined to a lobe with visible air-filled bronchi within the opacity)","Bilateral interstitial opacities (may represent pulmonary edema, interstitial pneumonia, or interstitial lung disease depending on clinical context)","Unilateral pleural effusion (meniscus sign: concave opacity obliterating the costophrenic angle; massive effusion causes mediastinal shift AWAY from affected side)","Pneumothorax (visceral pleural line visible with absent lung markings peripherally; tension: mediastinal shift away from affected side)","Widened mediastinum >8 cm on PA view (differential: aortic dissection, aortic aneurysm, mediastinal mass, lymphadenopathy)","Solitary pulmonary nodule (round opacity <3 cm surrounded by normal lung; requires size, edge characteristics, and calcification pattern assessment)","Hyperinflated lung fields with flattened diaphragms (COPD: increased AP diameter, >10 posterior ribs visible above diaphragm, barrel-shaped lateral view)"],
-    signs: {
-      left: ["Small pleural effusion blunting costophrenic angle without respiratory compromise","Stable pulmonary nodule unchanged from prior imaging","Mild cardiomegaly (CTR 0.50-0.55) in a patient with known heart failure","Subsegmental atelectasis (linear opacity at lung base) in a postoperative patient","Mild bilateral hilar prominence (may be normal variant or early lymphadenopathy)"],
-      right: ["Tension pneumothorax: complete lung collapse with contralateral mediastinal shift and hemodynamic instability","Massive pleural effusion causing complete opacification of hemithorax with mediastinal shift","Widened mediastinum >8 cm with acute tearing chest pain (aortic dissection until proven otherwise)","Free air under diaphragm (pneumoperitoneum from visceral perforation requiring emergent surgery)","Rapidly progressive bilateral whiteout (ARDS or flash pulmonary edema requiring emergent intervention)"]
+      "title": "Chest X-Ray Interpretation Basics",
+      "cellular": {
+        "title": "Systematic CXR Interpretation",
+        "content": "Chest X-ray interpretation requires a systematic approach to avoid missed findings. The standard PA (posteroanterior) film is taken with the patient standing 6 feet from the X-ray source, with the anterior chest against the cassette, minimizing cardiac silhouette magnification. AP (anteroposterior) films, often portable, magnify the heart and mediastinum, making cardiomegaly assessment unreliable. X-ray images display five densities from most to least radiopaque: metal (white) > bone > soft tissue/fluid > fat > air (black). The systematic ABCDE approach covers: Airway (tracheal position, carina), Breathing (lung fields, pleural spaces), Cardiac (heart size, mediastinal contours), Diaphragm (costophrenic angles, free air), and Everything else (bones, soft tissues, tubes/lines). The silhouette sign occurs when two adjacent structures of the same density lose their border (e.g., right heart border loss = RML pathology; left heart border loss = lingula pathology)."
+      },
+      "riskFactors": [
+        "This is a diagnostic interpretation skill rather than a clinical condition with risk factors",
+        "Indications for CXR: acute chest pain, dyspnea, cough with fever, trauma, pre-operative assessment",
+        "Factors affecting image quality: patient rotation (medial clavicle ends should be equidistant from spinous processes), adequate inspiration (10 posterior ribs or 6 anterior ribs visible), AP vs PA projection",
+        "Conditions requiring urgent CXR: suspected pneumothorax, PE, pneumonia, pulmonary edema, aortic dissection, rib fractures",
+        "Radiation exposure: CXR delivers ~0.02 mSv (equivalent to 2.4 days of background radiation); low risk but avoid unnecessary imaging",
+        "Limitations of CXR: poor sensitivity for small pulmonary emboli, early pneumonia, and small pneumothoraces; CT is often needed for definitive diagnosis"
+      ],
+      "diagnostics": [
+        "Systematic ABCDE approach: Airway (trachea midline? deviation suggests tension pneumothorax, large effusion, or mass), Breathing (compare lung fields for symmetry, opacities, hyperinflation), Cardiac (heart width <50% of thoracic width on PA = normal; >50% = cardiomegaly), Diaphragm (R normally higher than L; blunted costophrenic angles = effusion >200-300 mL), Everything else (bones, soft tissues, tubes/lines)",
+        "Air bronchograms: air-filled bronchi visible within opacified (consolidated) lung parenchyma -- indicates alveolar filling (pneumonia, pulmonary edema, ARDS)",
+        "Silhouette sign: loss of normal border between structures of similar density indicates adjacent pathology (loss of R heart border = RML; loss of L heart border = lingula; loss of R hemidiaphragm = RLL; loss of L hemidiaphragm = LLL)",
+        "Meniscus sign: concave upper border of pleural effusion on upright film; fluid levels with hydropneumothorax",
+        "Kerley B lines: short horizontal lines at lung periphery indicating interstitial edema (pulmonary venous congestion)",
+        "Deep sulcus sign: deep costophrenic angle on supine film indicating anterior pneumothorax"
+      ],
+      "management": [
+        "Pneumonia: lobar consolidation with air bronchograms → antibiotics targeting community or hospital-acquired pathogens",
+        "Pleural effusion: blunted costophrenic angles (requires >200 mL to detect on upright CXR); lateral decubitus film to assess if free-flowing; thoracentesis for diagnostic/therapeutic purposes if significant",
+        "Pneumothorax: visceral pleural line visible with absent lung markings beyond; tension pneumothorax (tracheal deviation AWAY from affected side, mediastinal shift) → emergent needle decompression then chest tube",
+        "Heart failure: cephalization of vessels, Kerley B lines, bilateral pleural effusions, peribronchial cuffing, bat wing pulmonary edema → diuresis, oxygen, preload/afterload reduction",
+        "Widened mediastinum: >8 cm on PA film → consider aortic dissection, mediastinal mass, or lymphadenopathy; CT angiography for further evaluation",
+        "Tube/line confirmation: ETT tip 2-6 cm above carina; central line tip at SVC-RA junction; NG tube tip below diaphragm; chest tube within pleural space"
+      ],
+      "nursingActions": [
+        "Order CXR and interpret systematically using ABCDE approach before calling for formal radiologist read",
+        "Compare with prior films to identify new or changed findings",
+        "Verify tube and line positions on all portable CXRs: ETT tip 2-6 cm above carina, central line at SVC-RA junction, NG tube below diaphragm in stomach",
+        "Identify emergencies requiring immediate action: tension pneumothorax (tracheal deviation, mediastinal shift), massive pleural effusion, widened mediastinum",
+        "Correlate CXR findings with clinical assessment: normal CXR does not exclude PE, early pneumonia, or small pneumothorax",
+        "Order CT when CXR is insufficient: CT angiography for PE, CT chest for nodule characterization, CT with contrast for mediastinal pathology",
+        "Document findings and communicate critical results to the team immediately"
+      ],
+      "assessmentFindings": [
+        "Consolidation: opacification of lung parenchyma with air bronchograms (pneumonia, atelectasis, hemorrhage)",
+        "Pleural effusion: blunted costophrenic angles, meniscus sign, white-out of hemithorax if massive",
+        "Pneumothorax: visible pleural line with absent lung markings laterally; hyperlucency",
+        "Cardiomegaly: cardiac silhouette >50% of thoracic width on PA film",
+        "Pulmonary edema: bilateral hazy opacities, cephalization, Kerley B lines, peribronchial cuffing",
+        "Hyperinflation: flattened diaphragms, increased AP diameter, >10 posterior rib spaces visible (COPD/emphysema)"
+      ],
+      "signs": {
+        "left": [
+          "Minor atelectasis at lung bases (common post-operative finding)",
+          "Small stable pleural effusion",
+          "Mild cardiomegaly on PA film",
+          "Unchanged nodule on comparison with prior films"
+        ],
+        "right": [
+          "Tension pneumothorax: tracheal deviation, mediastinal shift -- emergent needle decompression",
+          "Complete white-out of hemithorax (massive effusion, complete lung collapse, or post-pneumonectomy)",
+          "Widened mediastinum suggesting aortic dissection -- emergent CT angiography",
+          "Free air under diaphragm (pneumoperitoneum) suggesting bowel perforation -- emergent surgical consultation",
+          "New cavitary lesion (tuberculosis, lung abscess, cavitating carcinoma)"
+        ]
+      },
+      "medications": [
+        {
+          "name": "No specific medications for CXR interpretation",
+          "type": "Diagnostic skill -- medications are condition-specific",
+          "action": "CXR interpretation guides medication selection: pneumonia → antibiotics; pulmonary edema → diuretics; pneumothorax → procedural intervention rather than medication",
+          "sideEffects": "N/A",
+          "contra": "N/A",
+          "pearl": "The clinical value of CXR is in guiding treatment decisions: a systematic approach prevents missed findings that would alter management"
+        }
+      ],
+      "pearls": [
+        "Use the ABCDE systematic approach for EVERY CXR to avoid missed findings: Airway, Breathing, Cardiac, Diaphragm, Everything else",
+        "The silhouette sign localizes pathology: loss of right heart border = RML; loss of left heart border = lingula; loss of right hemidiaphragm = RLL; loss of left hemidiaphragm = LLL",
+        "Air bronchograms (visible air-filled bronchi within opacified lung) indicate ALVEOLAR disease (pneumonia, pulmonary edema, ARDS) -- not seen in pleural effusion or atelectasis (the bronchi are compressed)",
+        "Upright CXR requires >200 mL of fluid to blunt the costophrenic angle; lateral decubitus film detects as little as 50 mL; ultrasound is most sensitive at bedside",
+        "Tension pneumothorax is a CLINICAL diagnosis treated BEFORE CXR -- do not delay needle decompression for imaging in a hemodynamically unstable patient",
+        "On AP portable films, the heart appears magnified -- do NOT diagnose cardiomegaly on AP films; PA film is required for accurate cardiac silhouette assessment"
+      ],
+      "quiz": [
+        {
+          "question": "A CXR shows loss of the left cardiac border silhouette with opacification. Which anatomical location is the pathology most likely in?",
+          "options": [
+            "Right middle lobe",
+            "Left lower lobe",
+            "Lingula of the left upper lobe",
+            "Right upper lobe"
+          ],
+          "correct": 2,
+          "rationale": "The silhouette sign indicates that pathology is in the anatomical structure adjacent to the lost border. The left heart border is adjacent to the lingula segment of the left upper lobe. Opacification in the lingula causes loss of the left heart border silhouette."
+        },
+        {
+          "question": "A trauma patient has absent breath sounds on the right, tracheal deviation to the left, and hypotension. CXR has not been obtained. What is the priority action?",
+          "options": [
+            "Obtain CXR before any intervention",
+            "Perform emergent needle decompression of the right chest",
+            "Start IV fluids and obtain CT scan",
+            "Intubate the patient for airway protection"
+          ],
+          "correct": 1,
+          "rationale": "This presentation is classic tension pneumothorax: absent breath sounds, tracheal deviation AWAY from affected side, and hemodynamic instability. This is a clinical diagnosis treated BEFORE imaging. Emergent needle decompression (2nd intercostal space, midclavicular line) followed by chest tube placement is life-saving."
+        },
+        {
+          "question": "A CXR shows bilateral hazy opacities, cephalization of pulmonary vessels, and Kerley B lines. What is the most likely diagnosis?",
+          "options": [
+            "Bilateral pneumonia",
+            "Pulmonary edema from heart failure",
+            "Bilateral pneumothorax",
+            "Pulmonary embolism"
+          ],
+          "correct": 1,
+          "rationale": "Cephalization (distension of upper lobe vessels from elevated pulmonary venous pressure), Kerley B lines (interstitial edema), and bilateral hazy opacities (alveolar edema) are the classic CXR progression of congestive heart failure with pulmonary edema."
+        }
+      ]
     },
-    medications: [{
-      name: "Ceftriaxone",
-      type: "Third-generation cephalosporin antibiotic",
-      action: "Binds to penicillin-binding proteins (PBPs) in bacterial cell walls, inhibiting transpeptidase-mediated cross-linking of peptidoglycan chains, weakening the cell wall and causing osmotic lysis; broad-spectrum coverage against gram-positive (S. pneumoniae) and gram-negative organisms (H. influenzae, M. catarrhalis, Klebsiella); first-line for community-acquired pneumonia consolidation identified on CXR",
-      sideEffects: "Diarrhea and C. difficile-associated colitis, biliary pseudolithiasis (ceftriaxone-calcium precipitates in gallbladder), injection site reactions, hypersensitivity (cross-reactivity with penicillin is approximately 1-2%)",
-      contra: "Known cephalosporin anaphylaxis, neonates with hyperbilirubinemia (ceftriaxone displaces bilirubin from albumin), neonates receiving calcium-containing IV solutions (risk of fatal ceftriaxone-calcium precipitates in lungs and kidneys)",
-      pearl: "Standard dose 1-2g IV daily; paired with azithromycin for inpatient CAP to cover atypical organisms; has the longest half-life (8 hours) of all cephalosporins allowing once-daily dosing; does NOT require renal dose adjustment"
-    },{
-      name: "Azithromycin",
-      type: "Macrolide antibiotic",
-      action: "Binds to the 50S ribosomal subunit of susceptible bacteria, blocking translocation of the peptidyl-tRNA from the acceptor site to the donor site, inhibiting protein synthesis; bacteriostatic at standard doses; covers atypical organisms (Mycoplasma pneumoniae, Chlamydophila pneumoniae, Legionella pneumophila) that cause pneumonia but do not appear as classic lobar consolidation on CXR",
-      sideEffects: "QT prolongation (risk of torsades de pointes), GI upset (nausea, diarrhea, abdominal pain), hepatotoxicity (rare cholestatic jaundice), ototoxicity with high doses",
-      contra: "History of cholestatic jaundice with prior azithromycin use, known QT prolongation or concurrent use of QT-prolonging drugs, myasthenia gravis (may worsen muscle weakness)",
-      pearl: "500 mg IV/PO on day 1, then 250 mg PO daily for days 2-5 for CAP; combined with ceftriaxone for inpatient CAP to ensure atypical pathogen coverage; 3-day course (500 mg daily x3) is equally effective due to extensive tissue distribution and prolonged post-antibiotic effect; tissue concentrations persist for 5-7 days after the last dose"
-    }],
-    pearls: ["Use the systematic ABCDE approach on EVERY CXR to avoid satisfaction of search (finding one abnormality and stopping): Airway, Bones, Cardiac, Diaphragm, Everything else -- missing a finding is usually due to an unsystematic approach, not inability to see it","The silhouette sign localizes pathology without a lateral view: loss of right heart border = right middle lobe; loss of left heart border = lingula; loss of hemidiaphragm = lower lobe; loss of aortic knob = left upper lobe posterior segment","Air bronchograms (visible air-filled bronchi within an opacity) confirm the opacity is WITHIN the lung parenchyma (consolidation or atelectasis), not pleural (effusion) -- this distinction is critical because consolidation requires antibiotics while effusion may require drainage","On AP portable films, do NOT diagnose cardiomegaly based on cardiothoracic ratio -- AP projection magnifies the heart by 15-20%; if the clinical question is cardiac size, request a PA film","A normal CXR does NOT exclude pulmonary embolism, early pneumonia, or aortic dissection -- CXR sensitivity for PE is only 12%, and early pneumonia may take 12-24 hours to appear radiographically; always correlate with clinical presentation","Pleural effusions layer dependently: a lateral decubitus film with the affected side down differentiates free-flowing from loculated effusions; free effusion >10 mm thick on decubitus is adequate for safe thoracentesis","The deep sulcus sign (abnormally deep costophrenic angle) on a supine AP film is how pneumothorax presents in a supine patient -- air rises to the most anterior/inferior aspect of the pleural space; look for this on ICU portable films where upright positioning may not be possible"],
-    quiz: [
-      {
-        question: "An NP is interpreting a CXR that shows a dense right lower lobe opacity with visible air-filled bronchi within the opacity. The right hemidiaphragm border is obliterated. What is the most likely diagnosis and what radiographic sign confirms the opacity is within the lung parenchyma?",
-        options: ["Right pleural effusion confirmed by the meniscus sign","Right lower lobe pneumonia confirmed by air bronchograms","Right lower lobe atelectasis confirmed by tracheal deviation","Right hemothorax confirmed by fluid layering on lateral decubitus"],
-        correct: 1,
-        rationale: "Air bronchograms (visible air-filled bronchi within an opacity) confirm the pathology is within the lung parenchyma, not pleural. Combined with lobar distribution, this pattern is diagnostic of pneumonia (consolidation). Loss of the hemidiaphragm border (silhouette sign) localizes the process to the lower lobe. Pleural effusion would not show air bronchograms because the fluid is outside the lung."
-      },
-      {
-        question: "A CXR of a critically ill patient on a ventilator shows a left-sided whiteout with the trachea and mediastinum shifted to the RIGHT (toward the affected side). What is the most likely etiology?",
-        options: ["Massive left pleural effusion","Left-sided tension pneumothorax","Complete left lung atelectasis (likely mucus plugging or mainstem intubation)","Left lower lobe pneumonia"],
-        correct: 2,
-        rationale: "Mediastinal shift TOWARD the side of the opacification indicates volume loss (atelectasis) -- the collapsed lung pulls the mediastinum toward it. In a ventilated patient, common causes include mucus plugging or right mainstem intubation (the left lung deflates). In contrast, tension pneumothorax and massive pleural effusion cause mediastinal shift AWAY from the affected side because they add volume/pressure. Pneumonia does not typically cause significant mediastinal shift."
-      },
-      {
-        question: "An NP reviewing a portable AP CXR of an ICU patient notes the endotracheal tube tip is at the level of the aortic arch and the cardiothoracic ratio is 0.58. Which statement about these findings is correct?",
-        options: ["The ETT position is appropriate and the patient has cardiomegaly requiring workup","The ETT is too high and should be advanced; cardiomegaly cannot be reliably assessed on an AP film","The ETT is too low and at risk of right mainstem intubation; the heart size is normal","Both findings are normal for a critically ill patient and require no intervention"],
-        correct: 1,
-        rationale: "The ETT tip should be 2-6 cm above the carina (approximately at the level of T3-T4). The aortic arch is at approximately T4, so the ETT at the aortic arch level is at the upper acceptable range or slightly too high and should be verified. Cardiomegaly CANNOT be reliably diagnosed on an AP portable film because the AP projection magnifies the cardiac silhouette by 15-20%; a PA film is needed for accurate cardiothoracic ratio assessment."
-      },
-    ]
-  },
   "child-abuse": {
-    title: "Child Abuse Recognition & Reporting",
-    cellular: { title: "Pathophysiology of Non-Accidental Trauma", content: "Child maltreatment encompasses physical abuse, sexual abuse, emotional/psychological abuse, and neglect, each producing distinct pathophysiological consequences. Non-accidental trauma (NAT) generates injury patterns through biomechanics inconsistent with the reported mechanism or the child's developmental capabilities. Abusive head trauma (AHT) involves violent acceleration-deceleration and rotational forces applied to an infant's head, rupturing parasagittal bridging veins (producing subdural hematomas), shearing axons (diffuse axonal injury), and causing multilayered retinal hemorrhages extending to the ora serrata. The classic triad of subdural hemorrhage, retinal hemorrhages, and encephalopathy in an infant without adequate explanation carries high specificity for AHT. Skeletal injuries follow predictable biomechanics: classic metaphyseal lesions (corner/bucket-handle fractures) result from shearing forces at the growth plate when extremities are pulled or twisted; posterior rib fractures occur from anteroposterior thoracic compression during squeezing; spiral fractures of long bones in pre-ambulatory infants indicate torsional forces inconsistent with the child's motor development. Thermal injuries in abuse show characteristic distribution patterns — stocking-glove immersion burns with sharp demarcation lines, sparing of flexion creases (child pulling extremities in), and circular cigarette burns. Beyond acute trauma, adverse childhood experiences (ACEs) produce lasting pathophysiology: chronic activation of the hypothalamic-pituitary-adrenal (HPA) axis causes sustained cortisol elevation, hippocampal atrophy, amygdala hyperreactivity, and prefrontal cortex developmental impairment. Epigenetic modifications (DNA methylation of stress-response genes including NR3C1 glucocorticoid receptor gene) alter stress reactivity across the lifespan. ACE scores of 4 or more are associated with significantly increased risk of cardiovascular disease, autoimmune disorders, depression, substance abuse, and early mortality." },
-    riskFactors: ["Parental or caregiver substance abuse (alcohol, opioids, methamphetamine) impairing judgment and impulse control","Poverty and financial stress increasing household tension and limiting access to support resources","Social isolation of the family with lack of support systems or community connections","Domestic violence or intimate partner violence in the household (children in DV homes have 30-60% co-occurrence of child abuse)","Premature infant or infant with colic, feeding difficulties, or excessive crying increasing caregiver frustration","Child with disability (intellectual, physical, or developmental) increasing caregiver burden and stress","Young or single parent with unrealistic developmental expectations for the child","Caregiver history of being abused as a child (intergenerational cycle of violence)","Mental health disorders in the caregiver (depression, anxiety, personality disorders) untreated or undertreated","Non-biologically related male in the household (statistically elevated risk for physical abuse and AHT)"],
-    diagnostics: ["Skeletal survey (AP and lateral views of entire skeleton) — mandatory for all children under 2 years with suspected abuse; follow-up skeletal survey in 2 weeks to detect healing fractures not visible acutely","Non-contrast head CT — first-line neuroimaging for suspected abusive head trauma; identifies acute subdural/epidural hematomas, subarachnoid hemorrhage, cerebral edema, and skull fractures","Brain MRI with diffusion-weighted imaging — more sensitive than CT for diffuse axonal injury, parenchymal contusions, and dating of subdural collections; obtained after initial stabilization","Dilated fundoscopic examination by pediatric ophthalmologist — identifies retinal hemorrhages (number, type, distribution); multilayered hemorrhages extending to the periphery are highly specific for AHT","Coagulation studies (PT, PTT, INR, fibrinogen, platelet count, von Willebrand panel) — rule out bleeding disorders that could explain bruising or intracranial hemorrhage","Hepatic transaminases (AST, ALT) and pancreatic enzymes (lipase, amylase) — screen for occult abdominal trauma; AST >80 or ALT >80 warrants abdominal CT with contrast","Urinalysis for hematuria — screen for renal or genitourinary trauma","Complete blood count — evaluate for anemia from occult hemorrhage or chronic blood loss","Toxicology screen — identify drug exposure or poisoning as a form of abuse"],
-    management: ["Mandatory reporting to child protective services (CPS) — all healthcare providers are mandated reporters; report based on reasonable suspicion, not certainty of abuse; failure to report carries legal consequences","Ensure immediate safety of the child — do not discharge to the suspected abuser; admit to hospital for medical stabilization and protective custody if needed","Activate multidisciplinary child protection team (CPT) — includes social work, child life specialist, pediatrician or child abuse specialist, law enforcement, and CPS","Meticulous forensic documentation — use body diagrams to map all injuries with precise measurements (cm), color, shape, and pattern; document exact quotes from caregivers regarding mechanism of injury using quotation marks","Photographic documentation of all visible injuries — include a ruler for scale, patient identifier in the image, and photographs taken before and after cleaning wounds; maintain chain of custody for all evidence","Safety planning and discharge coordination with CPS — ensure safe placement before discharge; may require court order for temporary custody if imminent danger exists","Pain management appropriate to injuries — assess pain using age-appropriate validated tools (FLACC for preverbal children, Wong-Baker FACES for ages 3-7, numeric scale for older children)","Trauma-informed care approach — recognize that the child may be fearful, withdrawn, or hypervigilant; minimize unnecessary examinations and procedures; explain all interventions at the child's developmental level"],
-    nursingActions: ["Document all injuries using body diagrams with precise descriptions: size in centimeters, color (red/purple = acute, green/yellow = healing 5-7 days, brown = 10-14 days), shape, pattern, and anatomical location","Photograph injuries per institutional protocol with proper consent, including a measurement ruler and patient identifier; ensure photographs are entered into the medical record and chain of custody is maintained","Maintain a therapeutic, nonjudgmental relationship with the family — avoid accusatory language or confrontation; use open-ended questions such as 'Tell me what happened' and 'How did this injury occur?'","Document caregiver explanations verbatim using direct quotation marks — note inconsistencies between the history provided and the injury pattern or child's developmental stage","Perform a comprehensive head-to-toe assessment including inspection of scalp (under hair), behind ears, inside mouth, genitalia, and buttocks — areas often missed where inflicted injuries may be hidden","Assess the child's behavior and developmental status — document signs of fear, flinching, withdrawal from caregiver, inappropriate affect, or developmental regression","Coordinate with social work and child life specialists to provide age-appropriate emotional support to the child during examination and hospitalization","Preserve clothing and other potential evidence in paper bags (not plastic); label with patient name, date, time, and nurse's name; maintain chain of custody documentation","Monitor for signs of escalating intracranial pressure in suspected AHT: bulging fontanelle, altered consciousness, vomiting, seizures, bradycardia, irregular respirations"],
-    assessmentFindings: ["Injuries inconsistent with the reported mechanism or the child's developmental capabilities (e.g., spiral femur fracture in a 3-month-old attributed to rolling off a couch)","Multiple bruises in various stages of healing (different colors) suggesting repeated episodes of trauma over time","Patterned injuries that reflect the shape of an object: linear marks (belt/cord), loop marks (electrical cord), circular burns (cigarette), U-shaped marks (bite marks with intercanine distance >3 cm suggesting adult bite)","Bruising in non-mobile infants (infants who cannot cruise or walk should not have bruises — 'those who don't cruise rarely bruise')","Injuries to unusual locations: ears, neck, trunk, buttocks, genitalia (accidental injuries in mobile children typically occur over bony prominences — shins, forehead, elbows)","Conflicting or changing histories from caregivers, or history that changes when different providers ask","Delay in seeking medical care disproportionate to the severity of injury","Sentinel injuries — minor injuries (bruises, oral injuries) in pre-mobile infants that precede more severe abuse; identified in >25% of abused infants prior to the abusive event that prompted diagnosis","Subdural hematomas of varying ages on neuroimaging suggesting repeated episodes of head trauma"],
-    signs: {
-      left: ["Behavioral withdrawal, excessive quietness, or watchful frozen appearance around caregivers","Developmental regression (loss of previously acquired milestones such as toileting, speech, or social skills)","Inappropriate affect — overly compliant or excessively eager to please adults","Flinching or cowering when approached by adults or when adults raise their hands","Age-inappropriate sexual knowledge or sexualized behaviors in young children","Failure to thrive or poor weight gain without medical explanation","Frequent school absences or reluctance to go home"],
-      right: ["Acute subdural hematoma with midline shift and signs of increased ICP (neurosurgical emergency)","Multilayered retinal hemorrhages extending to the ora serrata (highly specific for abusive head trauma)","Immersion burns with stocking-glove distribution, sharp demarcation lines, and flexion-crease sparing","Posterior rib fractures in infants (require significant compressive force — virtually pathognomonic for abuse)","Classic metaphyseal lesions (corner/bucket-handle fractures) on skeletal survey","Abdominal solid organ injury (hepatic laceration, splenic rupture, pancreatic transection) from blunt force trauma — second leading cause of death in abused children","Status epilepticus or signs of cerebral herniation (fixed dilated pupils, posturing, Cushing triad) in abusive head trauma"]
+      "title": "Child Abuse Recognition",
+      "cellular": {
+        "title": "Patterns of Non-Accidental Trauma",
+        "content": "Child abuse (non-accidental trauma, NAT) encompasses physical abuse, sexual abuse, emotional abuse, and neglect. Physical abuse produces characteristic injury patterns that differ from accidental injuries based on the child's developmental stage, location, and pattern. Bruising in non-mobile infants (not yet cruising) is highly suspicious -- the TEN-4 rule identifies high-risk bruise locations: Torso, Ears, Neck in children <4 years, or any bruise in infants <4 months. Fractures with high specificity for abuse include classic metaphyseal lesions (bucket handle/corner fractures from shaking/twisting), posterior rib fractures (from squeezing), scapular and sternal fractures, and multiple fractures in different stages of healing. Abusive head trauma (shaken baby syndrome) causes subdural hemorrhages, retinal hemorrhages, and diffuse axonal injury from rotational acceleration-deceleration forces."
+      },
+      "riskFactors": [
+        "Age <3 years (most vulnerable; highest mortality from abuse in children <1 year)",
+        "Caregiver risk factors: substance abuse, mental health disorders, domestic violence, social isolation, history of being abused",
+        "Child risk factors: prematurity, colic, developmental disabilities, chronic illness (increased caregiver stress)",
+        "Single-parent household, young parental age, poverty (risk factors, not causes)",
+        "History inconsistent with injury pattern or developmental capability (e.g., 'fell off couch' with spiral femur fracture in non-ambulatory infant)",
+        "Changing or evolving explanations for injury",
+        "Delay in seeking medical care for significant injury",
+        "Prior CPS involvement or sibling previously removed from home"
+      ],
+      "diagnostics": [
+        "Skeletal survey (21-view radiographic series) for all children <2 years with suspected abuse; repeat in 2 weeks to detect healing fractures",
+        "Head CT without contrast for all children <6 months with suspected abuse and any child with neurological symptoms",
+        "Ophthalmologic exam for retinal hemorrhages (highly specific for abusive head trauma when bilateral, multilayered)",
+        "Coagulation studies (PT, PTT, INR, fibrinogen, CBC with platelets) to rule out bleeding disorders",
+        "Liver function tests and lipase if abdominal injury suspected",
+        "Urinalysis for hematuria (renal/bladder trauma)",
+        "STI screening and forensic examination if sexual abuse suspected",
+        "Document all injuries with photographs, body diagrams, and detailed descriptions including size, shape, color, and location"
+      ],
+      "management": [
+        "Mandatory reporting: ALL healthcare providers are legally required to report suspected child abuse to child protective services (CPS) -- certainty is NOT required; reasonable suspicion triggers the report",
+        "Stabilize and treat acute injuries: address life-threatening injuries first per standard trauma protocols",
+        "Admit to hospital for safety and further evaluation when concern for abuse is high",
+        "Social work consultation for family assessment, safety planning, and CPS coordination",
+        "Forensic interview by trained professionals for disclosure of abuse (do NOT conduct investigative interviews)",
+        "Safety assessment of all siblings and other children in the household",
+        "Document objectively and thoroughly: use quotes for caregiver statements, describe injuries in detail, note developmental stage of child"
+      ],
+      "nursingActions": [
+        "Recognize red flags: injury pattern inconsistent with stated mechanism, bruising in non-mobile infants, injuries in unusual locations (ears, neck, buttocks, genitals)",
+        "Apply the TEN-4 rule: bruises on Torso, Ears, or Neck in children <4 years, or ANY bruise in infants <4 months is highly concerning for abuse",
+        "Document objectively using exact quotes, measurements, photographs, and body diagrams -- avoid subjective interpretations",
+        "Report suspected abuse to CPS as mandated by law -- do NOT wait for certainty; report based on reasonable suspicion",
+        "Provide a safe, supportive environment for the child; separate from suspected abuser if safe to do so",
+        "Assess the child's emotional state using age-appropriate communication; allow the child to speak freely without leading questions",
+        "Coordinate with the interdisciplinary team: social work, child life specialist, law enforcement, CPS"
+      ],
+      "assessmentFindings": [
+        "Bruising in patterns suggesting objects (belt marks, loop marks, bite marks, cigarette burns -- circular, uniform)",
+        "Bruises in unusual locations: ears (auricular bruising), neck, buttocks, genitals, trunk (accidental bruises are typically on shins, forehead, knees in mobile children)",
+        "Fractures with high specificity for abuse: classic metaphyseal lesions, posterior rib fractures, multiple fractures in different stages of healing, spiral fractures in non-ambulatory children",
+        "Burns with pattern suggesting immersion (stocking-glove distribution with sharp demarcation lines, sparing of flexion creases), or branding (contact burns matching objects)",
+        "Abusive head trauma: altered consciousness, seizures, bulging fontanelle, retinal hemorrhages, subdural hematoma",
+        "Neglect: failure to thrive, poor hygiene, untreated dental caries, missed medical appointments, developmental delays",
+        "Child's demeanor: withdrawn, fearful of caregiver, flinching, inappropriate affect"
+      ],
+      "signs": {
+        "left": [
+          "Single bruise on the shin or forehead in a mobile toddler (consistent with normal play)",
+          "Minor injury with consistent mechanism and age-appropriate developmental capability",
+          "Appropriate caregiver concern and timely medical attention",
+          "Normal growth and development patterns"
+        ],
+        "right": [
+          "Bruising in a non-mobile infant (pre-cruising baby should NOT have bruises)",
+          "Multiple fractures in different stages of healing on skeletal survey",
+          "Retinal hemorrhages with subdural hematoma in an infant (abusive head trauma until proven otherwise)",
+          "Immersion burn pattern with sharp demarcation lines and sparing of flexion creases",
+          "Delay in seeking care for major injury with changing caregiver explanations"
+        ]
+      },
+      "medications": [
+        {
+          "name": "No specific medications for child abuse recognition",
+          "type": "Assessment and reporting skill",
+          "action": "Management focuses on injury treatment, mandatory reporting, and child safety rather than pharmacotherapy",
+          "sideEffects": "N/A",
+          "contra": "N/A",
+          "pearl": "The most critical intervention is recognition and mandatory reporting; treatment addresses specific injuries identified during the evaluation"
+        }
+      ],
+      "pearls": [
+        "ALL healthcare providers are MANDATED REPORTERS -- report based on REASONABLE SUSPICION, not certainty; failure to report is a legal violation in all jurisdictions",
+        "TEN-4 rule: bruises on Torso, Ears, Neck in children <4 years, or ANY bruise in infants <4 months = high concern for abuse",
+        "Bruising in non-mobile infants (pre-cruising) is highly suspicious: 'Those who don't cruise rarely bruise'",
+        "Classic metaphyseal lesions (bucket handle/corner fractures) are PATHOGNOMONIC for abuse -- caused by shearing forces from shaking or yanking extremities",
+        "Posterior rib fractures in infants are highly specific for abuse -- caused by anteroposterior chest compression (squeezing); they are NOT caused by CPR",
+        "Bilateral, multilayered retinal hemorrhages + subdural hematoma in an infant = abusive head trauma until proven otherwise",
+        "Document objectively: describe what you SEE (size, shape, color, location), use caregiver's exact words in quotes, avoid writing 'abuse' as a diagnosis -- let the evidence speak"
+      ],
+      "quiz": [
+        {
+          "question": "A 3-month-old non-mobile infant presents with multiple bruises on the torso and ears. The caregiver states the baby 'rolled off the changing table.' What should the nurse suspect?",
+          "options": [
+            "This is a common accidental injury in infants",
+            "Non-accidental trauma -- bruising in a non-mobile infant is highly suspicious for abuse, and the mechanism is inconsistent with the injuries",
+            "The infant may have a bleeding disorder",
+            "The bruises are likely from normal handling"
+          ],
+          "correct": 1,
+          "rationale": "A 3-month-old cannot roll purposefully and should NOT have bruises. Bruising in a non-mobile infant (TEN-4 rule: Torso, Ears, Neck in <4 years, or ANY bruise in <4 months) is highly concerning for abuse. The stated mechanism (rolling off a changing table) does not explain multiple bruises in protected locations."
+        },
+        {
+          "question": "A skeletal survey of a 15-month-old reveals bilateral posterior rib fractures and a classic metaphyseal lesion of the right tibia. These findings are most consistent with:",
+          "options": [
+            "Osteogenesis imperfecta",
+            "Non-accidental trauma (child abuse)",
+            "Rickets from vitamin D deficiency",
+            "Normal healing from birth trauma"
+          ],
+          "correct": 1,
+          "rationale": "Posterior rib fractures (from chest compression/squeezing) and classic metaphyseal lesions (bucket handle fractures from shaking/twisting forces) are highly specific for non-accidental trauma. While osteogenesis imperfecta must be considered in the differential, these specific fracture patterns together are characteristic of abuse."
+        },
+        {
+          "question": "A nurse suspects child abuse but is not certain. What is the appropriate action?",
+          "options": [
+            "Wait for more evidence before reporting",
+            "Report to CPS based on reasonable suspicion -- certainty is not required",
+            "Confront the caregiver directly about the injuries",
+            "Document concerns but do not report unless the physician also suspects abuse"
+          ],
+          "correct": 1,
+          "rationale": "All healthcare providers are mandated reporters required by law to report SUSPECTED child abuse to CPS. The threshold is reasonable suspicion, NOT certainty. Waiting for more evidence, requiring physician agreement, or confronting the caregiver delays protection of the child and may violate mandated reporting laws."
+        }
+      ]
     },
-    medications: [{
-      name: "Acetaminophen",
-      type: "Non-opioid analgesic/antipyretic",
-      action: "Inhibits cyclooxygenase enzymes centrally to reduce pain perception and lower fever via hypothalamic thermoregulation",
-      sideEffects: "Hepatotoxicity at supratherapeutic doses, nausea, rare allergic reactions",
-      contra: "Severe hepatic impairment, active liver disease; caution with hepatic injury from abdominal trauma",
-      pearl: "First-line pain management in suspected abuse; oral dose 10-15 mg/kg every 4-6 hours (max 75 mg/kg/day); avoid NSAIDs if bleeding or coagulopathy is a concern"
-    },{
-      name: "Morphine Sulfate",
-      type: "Opioid analgesic (mu-receptor agonist)",
-      action: "Binds to mu-opioid receptors in the CNS to modulate pain perception and provide analgesia for moderate to severe pain",
-      sideEffects: "Respiratory depression, sedation, constipation, nausea, pruritus, urinary retention",
-      contra: "Respiratory compromise without airway protection; head injury with unmonitored ICP (may mask neurological changes); use with caution and close monitoring in suspected AHT",
-      pearl: "IV dose 0.05-0.1 mg/kg every 2-4 hours for acute pain from fractures or burns; perform frequent neuro checks if head trauma is suspected; document pain scores before and after administration"
-    },{
-      name: "Tetanus Toxoid (Td/Tdap)",
-      type: "Vaccine/toxoid for tetanus prophylaxis",
-      action: "Stimulates active immunity by inducing antibody production against Clostridium tetani exotoxin",
-      sideEffects: "Injection site pain, swelling, low-grade fever, myalgia",
-      contra: "History of severe allergic reaction to prior tetanus-containing vaccine; defer in acute moderate-severe illness with fever",
-      pearl: "Administer tetanus prophylaxis for contaminated wounds, deep puncture wounds, or burns if immunization status is unknown or incomplete; combine with tetanus immune globulin (TIG) for high-risk wounds in under-immunized children"
-    }],
-    pearls: ["All healthcare providers are mandated reporters — report suspected abuse based on reasonable suspicion, not proof; you do not need to confirm abuse before reporting to CPS","'Those who don't cruise rarely bruise' — any bruising in a pre-mobile infant (typically <6 months) should raise suspicion for non-accidental trauma and warrants a full evaluation","Document using the patient's or caregiver's exact words in quotation marks — never interpret or paraphrase; note discrepancies between the history and injury pattern objectively","Classic metaphyseal lesions (corner fractures), posterior rib fractures, and scapular fractures are considered highly specific for non-accidental trauma in infants","Maintain a nonjudgmental, therapeutic demeanor with the family — accusatory behavior may cause the family to flee, refuse care, or become hostile, jeopardizing the child's safety","The TEN-4 FACES bruising rule identifies high-risk bruising locations: Torso, Ears, Neck in children <4 years and Frenulum, Angle of jaw, Cheeks, Eyes, Subconjunctival hemorrhage at any age","Always assess siblings and other children in the home — if one child is being abused, other children in the household are at significantly increased risk","ACE (Adverse Childhood Experiences) scores of 4 or more are associated with dramatically increased lifetime risk of chronic disease, mental health disorders, and early mortality"],
-    quiz: [
-      {
-        question: "A 4-month-old infant is brought to the ED with bilateral femur fractures. The caregiver states the infant 'rolled off the changing table.' Which nursing action is the PRIORITY?",
-        options: ["Accept the caregiver's explanation and focus on pain management","Report to child protective services because the history is inconsistent with the child's developmental stage","Confront the caregiver about the suspicious injuries","Wait for the attending physician to decide whether to report"],
-        correct: 1,
-        rationale: "A 4-month-old infant cannot roll purposefully or generate enough force to cause bilateral femur fractures from a short fall. The injury pattern is inconsistent with the reported mechanism and the child's developmental capabilities. As a mandated reporter, the nurse must report suspected abuse to CPS based on reasonable suspicion. Confronting the caregiver is not appropriate and may jeopardize the child's safety. Reporting is the nurse's legal obligation and should not be deferred to the physician."
-      },
-      {
-        question: "When documenting injuries on a child with suspected non-accidental trauma, which nursing documentation practice is MOST appropriate?",
-        options: ["Write 'child appears to be a victim of abuse' in the nursing notes","Record exact size, color, shape, and location of each injury using a body diagram and direct caregiver quotes in quotation marks","Summarize the injuries in general terms to avoid legal issues","Document only the injuries that seem intentional and omit minor findings"],
-        correct: 1,
-        rationale: "Forensic documentation requires precise, objective recording of all injuries using body diagrams with measurements in centimeters, color descriptions, shape, pattern, and anatomical location. Caregiver statements should be recorded verbatim in quotation marks. The nurse should never write conclusions such as 'victim of abuse' — document objective findings and let the multidisciplinary team and CPS make determinations. All injuries, including minor ones, should be documented as they may represent sentinel injuries."
-      },
-      {
-        question: "A nurse is caring for a 2-year-old with a subdural hematoma, retinal hemorrhages, and no reported history of trauma. Which finding, if also present, would MOST increase the suspicion for abusive head trauma?",
-        options: ["A single linear parietal skull fracture","Bilateral healing posterior rib fractures on skeletal survey","Mild iron deficiency anemia on CBC","A bruise on the shin"],
-        correct: 1,
-        rationale: "Bilateral healing posterior rib fractures are highly specific for non-accidental trauma in infants and young children, as they require significant anteroposterior compressive force (such as squeezing the thorax). Combined with subdural hematoma and retinal hemorrhages (the classic triad of abusive head trauma), posterior rib fractures in various stages of healing strongly suggest repeated episodes of inflicted injury. A single linear skull fracture can occur from accidental falls, shin bruises are common in ambulatory toddlers, and mild anemia is non-specific."
-      },
-    ]
-  },
   "chlamydia": {
-    title: "Chlamydia",
-    cellular: { title: "Pathophysiology of Chlamydia trachomatis Infection", content: "Chlamydia trachomatis is an obligate intracellular gram-negative bacterium and the most commonly reported bacterial sexually transmitted infection (STI) in the United States, with approximately 1.8 million cases reported annually. C. trachomatis has a unique biphasic developmental cycle involving two distinct forms: the elementary body (EB) and the reticulate body (RB). The EB is the small (0.3 µm), metabolically inactive, extracellular infectious form that is environmentally stable and capable of attaching to columnar epithelial cells of the cervix, urethra, rectum, pharynx, or conjunctiva. Upon attachment, the EB is internalized via receptor-mediated endocytosis into the host cell within a membrane-bound vacuole called an inclusion. The organism prevents phagolysosomal fusion, allowing it to survive intracellularly. Within 6-8 hours, the EB reorganizes into the larger (1 µm) reticulate body (RB), which is the metabolically active, non-infectious replicative form. The RB divides by binary fission within the expanding inclusion, hijacking host cell ATP and nutrients. After 48-72 hours, RBs condense back into EBs, and 200-1000 new infectious EBs are released when the host cell lyses or through extrusion of the intact inclusion, infecting adjacent epithelial cells. The infection triggers a predominantly Th1 immune response with recruitment of neutrophils, macrophages, and lymphocytes, producing mucopurulent inflammation. Repeated or persistent infection causes a delayed-type hypersensitivity response with fibrosis and scarring — this scarring process is responsible for the major complications of untreated chlamydia: ascending infection causes pelvic inflammatory disease (PID) with inflammation of the endometrium and fallopian tubes, leading to tubal scarring, tubal factor infertility, ectopic pregnancy, and chronic pelvic pain. Approximately 70-80% of infected women and 50% of infected men are completely asymptomatic, making screening essential to prevent transmission and complications." },
-    riskFactors: ["Age under 25 years (highest rates in 15-24 year age group — accounts for nearly two-thirds of all reported cases)","Multiple sexual partners or new sexual partner within the past 60 days","Inconsistent or no condom use during vaginal, anal, or oral sex","Prior history of chlamydia or other STIs (prior infection does not confer protective immunity and reinfection is common)","Sexual partner with known STI or concurrent partners","Men who have sex with men (MSM) — screen at all sites of exposure (urethral, rectal, pharyngeal)","Commercial sex work or transactional sex","Substance use associated with high-risk sexual behaviors","Incarcerated populations (higher prevalence in correctional settings)","Pregnant women under 25 or with risk factors (screen at first prenatal visit and rescreen in third trimester if at risk)"],
-    diagnostics: ["Nucleic acid amplification test (NAAT) — gold standard diagnostic test with sensitivity >95% and specificity >99%; can be performed on first-void urine (preferred non-invasive specimen for men), vaginal swab (preferred for women — self-collected or clinician-collected), endocervical swab, urethral swab, or rectal/pharyngeal swab for extragenital sites","First-void urine collection for NAAT — instruct patient not to void for at least 1 hour before collection; collect the FIRST 10-30 mL of the urine stream (not midstream clean-catch) to capture urethral epithelial cells containing the organism","Vaginal swab NAAT — self-collected vaginal swabs have equivalent sensitivity to clinician-collected endocervical swabs and are preferred by many patients; can be performed during routine pelvic exam or as a self-collected specimen","Screening guidelines per CDC/USPSTF: annual screening for all sexually active women under 25 years; women 25 and older with risk factors; all pregnant women at first prenatal visit; MSM at all exposed anatomic sites at least annually (every 3-6 months if high risk); rescreen 3 months after treatment to detect reinfection","Co-testing for other STIs — test for gonorrhea (NAAT can run dual CT/GC testing on same specimen), HIV, syphilis (RPR/VDRL), and trichomoniasis as indicated based on risk assessment","Wet mount and cervical exam — if pelvic exam performed, assess for mucopurulent cervical discharge, cervical friability (easily bleeds when swabbed), and cervical motion tenderness suggesting PID"],
-    management: ["Recommended treatment: Doxycycline 100 mg orally twice daily for 7 days (preferred first-line per 2021 CDC guidelines due to superior efficacy, especially for rectal chlamydia) OR Azithromycin 1 g orally as a single dose (alternative regimen — previously first-line, now alternative due to slightly lower efficacy for rectal infection)","Alternative regimen: Levofloxacin 500 mg orally once daily for 7 days (for patients who cannot take doxycycline or azithromycin)","Treatment in pregnancy: Azithromycin 1 g orally as a single dose (preferred — doxycycline is CONTRAINDICATED in pregnancy due to teratogenic effects on fetal teeth and bones); amoxicillin 500 mg orally three times daily for 7 days is an alternative","Expedited partner therapy (EPT) — provide prescription or medication for the patient to give to their sexual partner(s) from the past 60 days without requiring the partner to be clinically evaluated; legal in most US states; reduces reinfection rates","Abstinence from sexual intercourse for 7 days after single-dose treatment or until completion of 7-day regimen AND until all sexual partners have been treated","Test of cure (repeat NAAT) — recommended 4 weeks after treatment ONLY in pregnant women; not routinely recommended for non-pregnant patients unless symptoms persist or reinfection is suspected","Rescreen (test of reinfection) — repeat NAAT testing 3 months after treatment for ALL patients to detect reinfection from untreated partners; reinfection rates are approximately 10-20%","Report to public health department — chlamydia is a nationally notifiable disease; report all confirmed cases per state requirements"],
-    nursingActions: ["Provide confidential, nonjudgmental STI counseling — use a private setting, ensure confidentiality, normalize STI testing, and use inclusive language when discussing sexual practices and partners","Obtain a comprehensive sexual history using the 5 Ps framework: Partners (number, gender), Practices (vaginal, anal, oral sex), Protection from STIs (condom use), Past history of STIs, and Prevention of pregnancy","Educate the patient on completing the full course of doxycycline (7 days) even if symptoms improve — emphasize taking with food and water, remaining upright for 30 minutes after, and avoiding dairy/antacids within 2 hours of the dose","Facilitate partner notification and treatment — provide EPT prescriptions/medications, discuss the importance of treating all partners from the past 60 days, and offer assistance with partner notification through public health services if desired","Counsel on avoiding sun exposure and tanning beds during doxycycline therapy due to photosensitivity risk; advise sunscreen and protective clothing","Provide safe sex education — demonstrate correct condom use, discuss consistent condom use for all sexual encounters, and counsel on reducing number of partners","Schedule follow-up: test of cure at 4 weeks for pregnant patients, rescreen at 3 months for all patients to detect reinfection","Assess for signs and symptoms of PID in women — lower abdominal pain, fever, cervical motion tenderness, adnexal tenderness — and escalate care if present as PID requires additional antibiotic coverage","Document STI test results and treatment in accordance with state confidentiality laws — many states have specific protections for minor STI treatment without parental consent"],
-    assessmentFindings: ["Asymptomatic infection — the most common presentation; 70-80% of women and 50% of men have NO symptoms, underscoring the critical importance of routine screening","Mucopurulent cervical or urethral discharge — yellow-green discharge from the cervical os or urethral meatus","Dysuria (painful urination) — often the presenting complaint in men; may mimic UTI in women","Cervicitis — inflamed, edematous, friable cervix that bleeds easily when swabbed during speculum exam","Urethritis in men — urethral discharge (often clear to mucoid), urethral itching, and dysuria; may have meatal erythema","Intermenstrual bleeding or postcoital bleeding in women — from inflamed, friable cervical tissue","Rectal infection — may cause rectal discharge, pain, bleeding, or tenesmus; often asymptomatic; diagnosed by rectal NAAT swab","Pharyngeal infection — usually asymptomatic; diagnosed by pharyngeal NAAT swab in patients with oral sex exposure","Epididymitis in men under 35 — unilateral testicular pain and swelling; chlamydia is the most common cause in sexually active young men"],
-    signs: {
-      left: ["Asymptomatic infection detected only on routine NAAT screening","Mild clear to white urethral or vaginal discharge","Mild dysuria without fever or systemic symptoms","Slight cervical erythema on speculum exam","Mild urethral itching or meatal irritation in men"],
-      right: ["Pelvic inflammatory disease (PID) — lower abdominal pain, fever >38.3°C, cervical motion tenderness, purulent cervical discharge, adnexal tenderness","Tubo-ovarian abscess — severe pelvic pain, high fever, peritoneal signs, palpable adnexal mass","Ectopic pregnancy from tubal scarring — unilateral pelvic pain, vaginal bleeding, positive pregnancy test, hemodynamic instability if ruptured","Fitz-Hugh-Curtis syndrome (perihepatitis) — right upper quadrant pain from inflammation of the liver capsule and perihepatic adhesions, mimicking cholecystitis","Reactive arthritis (formerly Reiter syndrome) — asymmetric oligoarthritis, conjunctivitis, and urethritis occurring weeks after chlamydial infection (more common in HLA-B27 positive individuals)","Neonatal conjunctivitis (ophthalmia neonatorum) — purulent eye discharge in newborns 5-14 days after vaginal delivery through an infected birth canal","Neonatal pneumonia — afebrile pneumonia with staccato cough developing at 1-3 months of age in infants born to untreated mothers"]
+      "title": "Chlamydia",
+      "cellular": {
+        "title": "Chlamydia trachomatis Infection",
+        "content": "Chlamydia trachomatis is an obligate intracellular gram-negative bacterium and the most common bacterial STI worldwide. It has a unique biphasic developmental cycle: elementary bodies (EBs) are the infectious extracellular form that attach to columnar epithelial cells; after endocytosis, EBs convert to metabolically active reticulate bodies (RBs) that replicate within an inclusion body using host ATP. RBs reorganize back into EBs released by cell lysis or exocytosis. C. trachomatis serovars D-K cause urogenital infections (cervicitis, urethritis, PID); serovars L1-L3 cause lymphogranuloma venereum (LGV). The infection predominantly targets columnar epithelium of the cervix, urethra, and rectum. Untreated chlamydia causes ascending infection leading to PID, tubal scarring, ectopic pregnancy, and infertility."
+      },
+      "riskFactors": [
+        "Age 15-24 years (highest prevalence; USPSTF recommends annual screening for all sexually active women <25)",
+        "Multiple or new sexual partners",
+        "Inconsistent condom use",
+        "Prior STI history",
+        "Co-infection with other STIs (especially gonorrhea -- always test for both simultaneously)",
+        "Men who have sex with men (MSM) -- screen pharyngeal, rectal, and urogenital sites",
+        "Sex work or exchange of sex for drugs/money",
+        "Pregnancy (screen all pregnant women at first prenatal visit; rescreen in third trimester if risk factors)"
+      ],
+      "diagnostics": [
+        "NAAT (nucleic acid amplification test): gold standard; performed on urine (first-void), endocervical swab, vaginal swab (self-collected acceptable), urethral swab, or rectal/pharyngeal swab",
+        "First-void urine NAAT preferred for male screening (non-invasive, highly sensitive)",
+        "Vaginal swab NAAT preferred for female screening (can be self-collected; higher sensitivity than cervical swab)",
+        "Always test for gonorrhea simultaneously (co-infection in 10-40% of chlamydia cases)",
+        "Test of cure: repeat NAAT at 4 weeks post-treatment ONLY if pregnant, symptoms persist, or compliance concern (NAAT may remain positive for 3 weeks after cure due to dead organism DNA)",
+        "Test of reinfection: repeat NAAT at 3 months post-treatment for ALL patients (high reinfection rate)",
+        "RPR/VDRL and HIV testing should be offered to all patients diagnosed with any STI"
+      ],
+      "management": [
+        "First-line: doxycycline 100 mg BID x 7 days (preferred over azithromycin per 2021 CDC guidelines due to superior efficacy, especially for rectal chlamydia)",
+        "Alternative: azithromycin 1 g single dose (still acceptable when adherence is a concern; less effective for rectal infection)",
+        "Pregnancy: azithromycin 1 g single dose (doxycycline is CONTRAINDICATED in pregnancy -- teeth staining, bone growth effects)",
+        "Treat ALL sexual partners from the past 60 days; expedited partner therapy (EPT) where legally permitted",
+        "Abstain from sexual intercourse for 7 days after completing treatment AND until all partners are treated",
+        "Retest at 3 months for reinfection (not test of cure -- reinfection rate is high)",
+        "If concurrent gonorrhea: add ceftriaxone 500 mg IM single dose (dual treatment for GC)"
+      ],
+      "nursingActions": [
+        "Screen all sexually active women <25 years annually and all pregnant women at first prenatal visit per USPSTF guidelines",
+        "Counsel on the importance of treating ALL sexual partners to prevent reinfection (ping-pong effect)",
+        "Educate that chlamydia is often ASYMPTOMATIC (up to 70% of women and 50% of men are asymptomatic) -- screening is essential",
+        "Teach about complications of untreated chlamydia: PID, ectopic pregnancy, infertility, chronic pelvic pain in women; epididymitis in men; neonatal conjunctivitis and pneumonia",
+        "Counsel on safe sex practices: consistent condom use, limiting number of partners, regular STI screening",
+        "Verify pregnancy status before prescribing doxycycline (contraindicated); use azithromycin for pregnant patients",
+        "Schedule follow-up for test of reinfection at 3 months post-treatment"
+      ],
+      "assessmentFindings": [
+        "Often ASYMPTOMATIC (up to 70% of women, 50% of men) -- emphasizes importance of screening",
+        "Women: mucopurulent cervical discharge, cervical friability (bleeds easily on contact), dysuria, intermenstrual or postcoital bleeding",
+        "Men: urethral discharge (clear to mucopurulent), dysuria, testicular pain (epididymitis)",
+        "Rectal infection: rectal discharge, pain, bleeding (may be asymptomatic)",
+        "Pharyngeal infection: usually asymptomatic; sore throat (rare)",
+        "Complications: PID (lower abdominal pain, cervical motion tenderness, adnexal tenderness), Fitz-Hugh-Curtis syndrome (perihepatitis with RUQ pain)",
+        "Reactive arthritis (Reiter syndrome): urethritis + conjunctivitis + arthritis (can't see, can't pee, can't climb a tree)"
+      ],
+      "signs": {
+        "left": [
+          "Asymptomatic positive screening test in young woman",
+          "Mild mucopurulent cervical discharge without systemic symptoms",
+          "Uncomplicated urethritis in male responding to treatment",
+          "Partner notification and treatment completed successfully"
+        ],
+        "right": [
+          "Pelvic inflammatory disease: fever, cervical motion tenderness, tubo-ovarian abscess",
+          "Ectopic pregnancy from tubal scarring (ruptured ectopic = surgical emergency)",
+          "Neonatal chlamydial conjunctivitis (ophthalmia neonatorum) developing 5-14 days after birth",
+          "Chlamydial neonatal pneumonia (staccato cough, bilateral infiltrates, eosinophilia at 4-12 weeks of age)",
+          "Disseminated gonococcal infection if concurrent untreated GC (septic arthritis, dermatitis)"
+        ]
+      },
+      "medications": [
+        {
+          "name": "Doxycycline",
+          "type": "Tetracycline antibiotic",
+          "action": "Inhibits bacterial protein synthesis by binding to the 30S ribosomal subunit, blocking aminoacyl-tRNA attachment; bacteriostatic; excellent intracellular penetration (critical for obligate intracellular Chlamydia)",
+          "sideEffects": "Photosensitivity (severe sunburn risk), esophageal ulceration (take with full glass of water, remain upright 30 min), GI upset, vaginal candidiasis, tooth discoloration in children <8 years",
+          "contra": "Pregnancy (all trimesters -- tooth discoloration, bone growth inhibition), children <8 years, severe hepatic impairment",
+          "pearl": "NOW preferred over azithromycin per 2021 CDC STI guidelines due to superior cure rates especially for rectal chlamydia; 100 mg BID x 7 days; take with food and full glass of water; avoid dairy/antacids within 2 hours (chelation); advise sunscreen and sun avoidance during treatment"
+        },
+        {
+          "name": "Azithromycin (Zithromax)",
+          "type": "Macrolide antibiotic",
+          "action": "Binds 50S ribosomal subunit, inhibiting bacterial protein synthesis; bacteriostatic; excellent intracellular concentration and long tissue half-life (68 hours) allowing single-dose therapy",
+          "sideEffects": "GI upset (nausea, diarrhea, abdominal pain), QT prolongation (rare), hepatotoxicity (rare), C. difficile risk",
+          "contra": "Known macrolide hypersensitivity, history of cholestatic jaundice with azithromycin, concurrent QT-prolonging medications",
+          "pearl": "1 g single dose; advantage is directly observed therapy (DOT) ensuring compliance; preferred in pregnancy when doxycycline is contraindicated; LESS effective than doxycycline for rectal chlamydia; safe in pregnancy (Category B)"
+        }
+      ],
+      "pearls": [
+        "Doxycycline is NOW preferred over azithromycin for chlamydia per 2021 CDC guidelines -- better cure rates especially for rectal infection; azithromycin is the alternative when compliance is a concern or patient is pregnant",
+        "Chlamydia is often ASYMPTOMATIC (70% women, 50% men) -- screening saves fertility; USPSTF recommends annual screening for ALL sexually active women <25",
+        "Always test for BOTH chlamydia AND gonorrhea simultaneously (co-infection rate 10-40%)",
+        "Doxycycline is CONTRAINDICATED in pregnancy -- use azithromycin 1 g single dose instead",
+        "Retest at 3 MONTHS for reinfection, NOT at 4 weeks (NAAT may remain positive for 3 weeks after successful treatment due to residual dead organism DNA)",
+        "Reactive arthritis (Reiter syndrome) triad: urethritis + conjunctivitis + asymmetric oligoarthritis -- 'can't see, can't pee, can't climb a tree'"
+      ],
+      "quiz": [
+        {
+          "question": "Per 2021 CDC guidelines, what is the preferred first-line treatment for uncomplicated urogenital chlamydia in a non-pregnant adult?",
+          "options": [
+            "Azithromycin 1 g single dose",
+            "Doxycycline 100 mg BID x 7 days",
+            "Ciprofloxacin 500 mg single dose",
+            "Amoxicillin 500 mg TID x 7 days"
+          ],
+          "correct": 1,
+          "rationale": "The 2021 CDC STI Treatment Guidelines changed the preferred first-line treatment from azithromycin to doxycycline 100 mg BID for 7 days, based on evidence of superior cure rates, particularly for rectal chlamydia. Azithromycin remains an acceptable alternative when adherence is a concern."
+        },
+        {
+          "question": "A pregnant woman at her first prenatal visit tests positive for chlamydia. Which treatment is appropriate?",
+          "options": [
+            "Doxycycline 100 mg BID x 7 days",
+            "Azithromycin 1 g single dose",
+            "Ciprofloxacin 500 mg single dose",
+            "Metronidazole 500 mg BID x 7 days"
+          ],
+          "correct": 1,
+          "rationale": "Doxycycline is CONTRAINDICATED in pregnancy (tetracycline class causes fetal tooth discoloration and bone growth inhibition). Azithromycin 1 g single dose is the recommended treatment for chlamydia in pregnant women. Fluoroquinolones are also contraindicated in pregnancy."
+        },
+        {
+          "question": "A patient completes treatment for chlamydia. When should retesting be performed?",
+          "options": [
+            "1 week after treatment to confirm cure",
+            "4 weeks after treatment as test of cure",
+            "3 months after treatment to test for reinfection",
+            "No retesting is necessary if symptoms resolve"
+          ],
+          "correct": 2,
+          "rationale": "Retesting should be performed at 3 months post-treatment to detect REINFECTION (not test of cure). The reinfection rate for chlamydia is high. NAAT should not be used as a test of cure within 4 weeks because dead organism DNA can cause false-positive results. Test of cure at 4 weeks is only needed in pregnancy or if symptoms persist."
+        }
+      ]
     },
-    medications: [{
-      name: "Doxycycline",
-      type: "Tetracycline antibiotic (bacteriostatic)",
-      action: "Inhibits bacterial protein synthesis by binding to the 30S ribosomal subunit, preventing aminoacyl-tRNA from binding to the mRNA-ribosome complex, blocking peptide chain elongation",
-      sideEffects: "Photosensitivity (severe sunburn risk), GI upset (nausea, vomiting, diarrhea, esophagitis), vaginal candidiasis, tooth discoloration in children under 8 years",
-      contra: "Pregnancy (category D — crosses placenta causing permanent tooth discoloration and impaired bone growth in fetus), breastfeeding, children under 8 years of age, known hypersensitivity to tetracyclines",
-      pearl: "Now CDC-recommended first-line for chlamydia (100 mg PO BID x 7 days); take with full glass of water and remain upright 30 min after to prevent esophageal ulceration; avoid concurrent dairy, antacids, iron, or calcium supplements (chelation reduces absorption); superior to azithromycin for rectal chlamydia"
-    },{
-      name: "Azithromycin",
-      type: "Macrolide antibiotic (bacteriostatic/bactericidal at high concentrations)",
-      action: "Inhibits bacterial protein synthesis by binding to the 50S ribosomal subunit, blocking translocation of peptides during translation; achieves high intracellular concentrations in phagocytes, delivering drug directly to sites of chlamydial infection",
-      sideEffects: "GI disturbance (nausea, vomiting, diarrhea, abdominal pain), headache, rare QT prolongation, hepatotoxicity (rare), allergic reactions",
-      contra: "History of cholestatic jaundice or hepatic dysfunction associated with prior azithromycin use; caution with QT-prolonging medications; caution in myasthenia gravis (may exacerbate weakness)",
-      pearl: "Single 1 g oral dose provides 100% directly observed therapy (DOT) compliance advantage; preferred regimen in pregnancy when doxycycline is contraindicated; tissue half-life of 68 hours maintains therapeutic levels for 5-7 days after single dose; now CDC alternative (not first-line) due to slightly lower rectal cure rates compared to doxycycline"
-    }],
-    pearls: ["Chlamydia is the most common reportable bacterial STI in the United States — approximately 1.8 million cases reported annually, with true prevalence estimated at nearly 3 million due to underdiagnosis of asymptomatic infections","The majority of infections are ASYMPTOMATIC (70-80% of women, 50% of men) — this is why routine screening of at-risk populations is the cornerstone of chlamydia control and prevention","Doxycycline 100 mg BID x 7 days is now the preferred first-line treatment per 2021 CDC STI Treatment Guidelines, replacing azithromycin 1 g single dose as the primary recommendation due to superior efficacy for rectal infections","Always test for gonorrhea concurrently — co-infection rates are 10-40% depending on population; most NAAT platforms offer dual CT/GC testing on the same specimen","Rescreen ALL treated patients at 3 months to detect reinfection — do NOT perform test of cure earlier than 4 weeks (residual nucleic acid may cause false-positive NAAT results)","Expedited partner therapy (EPT) significantly reduces reinfection rates — provide medication or prescriptions for partners without requiring clinical evaluation; check state-specific EPT legality","In pregnancy, untreated chlamydia increases risk of preterm premature rupture of membranes (PPROM), preterm birth, low birth weight, postpartum endometritis, and neonatal conjunctivitis/pneumonia","Chlamydia does NOT confer protective immunity after treatment — patients can be reinfected immediately; emphasize consistent condom use and partner treatment to prevent reinfection"],
-    quiz: [
-      {
-        question: "A 22-year-old sexually active woman presents for a routine well-woman exam. She has no symptoms and her last STI screening was 14 months ago. According to CDC guidelines, which screening test should the nurse anticipate?",
-        options: ["Chlamydia and gonorrhea NAAT testing — she meets criteria for annual screening as a sexually active woman under 25","No STI testing is needed because she is asymptomatic","Chlamydia culture from endocervical swab only","Pap smear with HPV co-testing as a substitute for chlamydia screening"],
-        correct: 0,
-        rationale: "CDC and USPSTF recommend annual chlamydia and gonorrhea screening for ALL sexually active women under 25 years of age, regardless of symptoms. Since 70-80% of chlamydia infections in women are asymptomatic, waiting for symptoms would miss the majority of infections and allow progression to PID, infertility, and continued transmission. NAAT is the gold standard diagnostic test. Pap smears do not screen for chlamydia."
-      },
-      {
-        question: "A patient is prescribed doxycycline 100 mg BID for 7 days for chlamydia. Which patient teaching statement by the nurse is MOST important?",
-        options: ["Take the medication with a glass of milk to reduce stomach upset","You may stop taking the medication once your symptoms resolve","Avoid prolonged sun exposure and use sunscreen during treatment because this medication causes severe photosensitivity","Take the medication on an empty stomach for best absorption"],
-        correct: 2,
-        rationale: "Doxycycline causes significant photosensitivity, increasing the risk of severe sunburn. Patients must be counseled to avoid prolonged sun exposure, tanning beds, and to use broad-spectrum sunscreen and protective clothing. Doxycycline should NOT be taken with milk or dairy products (calcium chelates the drug and reduces absorption). Patients must complete the full 7-day course regardless of symptom improvement. The medication should be taken with food and a full glass of water while remaining upright for 30 minutes to prevent esophageal ulceration."
-      },
-      {
-        question: "A nurse is counseling a patient diagnosed with chlamydia about partner treatment. The patient's sexual partner lives in another city and cannot come to the clinic. What is the BEST nursing intervention?",
-        options: ["Tell the patient that their partner does not need treatment if asymptomatic","Provide expedited partner therapy (EPT) — a prescription or medication the patient can give to their partner","Advise the patient to simply use condoms with their partner going forward","Inform the patient that partner treatment is the partner's own responsibility"],
-        correct: 1,
-        rationale: "Expedited partner therapy (EPT) allows the nurse or provider to give the patient a prescription or actual medication to deliver to their sexual partner(s) without requiring the partner to be clinically evaluated. EPT is recommended by the CDC and is legal in most US states. It significantly reduces reinfection rates by ensuring partners are treated. All sexual partners from the past 60 days should be treated. Asymptomatic partners still carry and transmit infection. Simply using condoms without treating the existing infection does not eliminate the current infection in the partner."
-      },
-    ]
-  },
 };

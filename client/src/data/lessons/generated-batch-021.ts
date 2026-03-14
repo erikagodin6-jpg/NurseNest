@@ -15,201 +15,479 @@ export const generatedBatch021Lessons: Record<string, LessonContent> = {
         quiz: [{ question: "A 38-year-old presents with chronic progressive headache over 3 months, cognitive decline, and a new right hemiparesis. MRI shows multifocal infarcts in different vascular territories with leptomeningeal enhancement. CSF shows 45 lymphocytes and elevated protein. What diagnosis should be strongly considered?", options: ["Reversible cerebral vasoconstriction syndrome (RCVS)","Primary angiitis of the CNS (PACNS)","Multiple sclerosis","Migraine with aura"], correct: 1, rationale: "This presentation is classic for PACNS: chronic progressive headache (not thunderclap), cognitive decline, focal neurological deficit, multifocal infarcts in different vascular territories (the clinical hallmark), leptomeningeal enhancement, and ABNORMAL CSF (lymphocytic pleocytosis with elevated protein -- found in 80-90% of PACNS). The young age with strokes in multiple territories without cardiovascular risk factors further supports CNS vasculitis. RCVS is excluded by the abnormal CSF (RCVS has normal CSF) and insidious rather than thunderclap headache." },{ question: "How does the nurse differentiate between PACNS and reversible cerebral vasoconstriction syndrome (RCVS), the most important clinical mimic?", options: ["PACNS has normal CSF while RCVS has abnormal CSF","PACNS presents with thunderclap headaches while RCVS presents with chronic headache","PACNS has chronic progressive headache with ABNORMAL CSF; RCVS has thunderclap headaches with NORMAL CSF and vasoconstriction that reverses within 12 weeks","Both conditions are identical and require the same treatment"], correct: 2, rationale: "The two key differentiators are: (1) Headache pattern -- PACNS causes chronic progressive headache developing over weeks to months, while RCVS causes thunderclap headaches (sudden onset, maximal severity within 60 seconds, often recurrent); and (2) CSF -- PACNS has abnormal CSF with lymphocytic pleocytosis and elevated protein in 80-90% of cases, while RCVS characteristically has NORMAL CSF. Additionally, RCVS vasoconstriction reverses spontaneously within 12 weeks, while PACNS angiographic abnormalities persist. This distinction is critical because PACNS requires aggressive immunosuppression while RCVS is self-limiting." },{ question: "A patient on cyclophosphamide for CNS vasculitis is due for their monthly IV pulse. The nurse notices the urinalysis shows new microscopic hematuria. What complication should the nurse suspect and what action is needed?", options: ["Expected finding from cyclophosphamide -- continue treatment without changes","Hemorrhagic cystitis from acrolein (toxic cyclophosphamide metabolite) -- hold cyclophosphamide, notify physician, and ensure adequate hydration and mesna are being administered","UTI requiring antibiotics before the next dose","Glomerulonephritis from the underlying vasculitis requiring increased immunosuppression"], correct: 1, rationale: "New microscopic hematuria in a patient receiving cyclophosphamide should raise immediate concern for hemorrhagic cystitis caused by acrolein, a toxic metabolite of cyclophosphamide that is directly cytotoxic to the bladder urothelium. The nurse should hold the cyclophosphamide dose, notify the physician, ensure adequate hydration protocols are being followed (high urine output dilutes acrolein concentration in the bladder), and verify that mesna (which chemically neutralizes acrolein) is being administered with each cyclophosphamide dose. Continued exposure without intervention can progress to severe hemorrhagic cystitis and increases long-term bladder cancer risk." }]
   },
   "coagulation-cascade": {
-    title: "Coagulation Cascade",
-    cellular: { title: "Pathophysiology of Coagulation Cascade", content: "The coagulation cascade is a sequential activation of serine protease zymogens (clotting factors) that amplifies a small initial stimulus into a robust fibrin clot to achieve hemostasis. The extrinsic pathway is initiated by tissue factor (TF, factor III) exposure from vascular injury, which complexes with factor VIIa to activate factor X — this is the primary physiological initiator of coagulation and is measured by the prothrombin time (PT/INR). The intrinsic pathway involves contact activation of factor XII, activating XI, then IX, which combines with factor VIIIa to form the tenase complex activating factor X — measured by the activated partial thromboplastin time (aPTT). Both pathways converge at the common pathway where factor Xa combines with factor Va (prothrombinase complex) to convert prothrombin to thrombin, which then cleaves fibrinogen to fibrin and activates factor XIII for fibrin cross-linking. Anticoagulant mechanisms (antithrombin III, protein C/S system, tissue factor pathway inhibitor) and fibrinolysis (plasminogen to plasmin) prevent excessive clotting — imbalances cause either hemorrhagic (hemophilia, von Willebrand disease) or thrombotic (DVT, PE, DIC) disorders." },
-    riskFactors: ["Immobility or prolonged bed rest (venous stasis activates clotting)","Recent surgery or trauma (tissue factor release initiates extrinsic pathway)","Malignancy (tumor cells release procoagulants; Trousseau syndrome)","Oral contraceptives or hormone replacement therapy (increase hepatic clotting factor synthesis)","Inherited thrombophilias (Factor V Leiden, prothrombin G20210A mutation, protein C/S deficiency, antithrombin III deficiency)","Liver disease (decreased synthesis of clotting factors and anticoagulant proteins)","Vitamin K deficiency (impairs synthesis of factors II, VII, IX, X)","DIC triggers (sepsis, obstetric complications, massive transfusion)"],
-    diagnostics: ["PT/INR (measures extrinsic and common pathway; prolonged with warfarin therapy, liver disease, vitamin K deficiency, DIC)","aPTT (measures intrinsic and common pathway; prolonged with heparin therapy, hemophilia A/B, von Willebrand disease)","Fibrinogen level (decreased in DIC and severe liver disease; acute phase reactant elevated in inflammation)","D-dimer (fibrin degradation product; elevated in DVT, PE, DIC; sensitive but NOT specific)","Platelet count (thrombocytopenia in DIC, HIT, ITP; thrombocytosis in reactive states)","Peripheral blood smear (schistocytes in DIC/TTP indicate microangiopathic hemolysis)","Mixing study (distinguishes factor deficiency from inhibitor: corrects with normal plasma if deficiency, does not correct if inhibitor present)"],
-    management: ["Identify and treat underlying cause of coagulopathy (sepsis, liver disease, malignancy)","Administer vitamin K (phytonadione) IV/PO for warfarin reversal or vitamin K deficiency","Transfuse fresh frozen plasma (FFP) for active bleeding with prolonged PT/aPTT (contains all clotting factors)","Administer cryoprecipitate for low fibrinogen (<100 mg/dL) — contains fibrinogen, factor VIII, vWF, factor XIII","Platelet transfusion for thrombocytopenia with active bleeding (goal >50,000 for most bleeds, >100,000 for CNS/eye surgery)","Heparin anticoagulation for thrombotic states (monitor aPTT for UFH, anti-Xa for LMWH)"],
-    nursingActions: ["Monitor for signs of bleeding: check all IV sites, surgical wounds, gums, stool (guaiac), urine (hematuria), and neurological status","Apply direct pressure to venipuncture sites for at least 5 minutes; avoid arterial punctures if possible in coagulopathic patients","Implement bleeding precautions: use soft-bristle toothbrush, electric razor, avoid IM injections, pad side rails","Monitor coagulation labs and report critical values (INR >4, aPTT >100 seconds, fibrinogen <100, platelets <20,000)","Assess for heparin-induced thrombocytopenia (HIT): unexplained platelet drop >50% from baseline 5-10 days after heparin initiation — discontinue all heparin immediately","Educate patients on anticoagulant therapy: dietary vitamin K consistency for warfarin, signs of bleeding to report, medication interactions"],
-    assessmentFindings: ["Petechiae (pinpoint hemorrhages indicating platelet disorder or DIC)","Ecchymoses (bruising from minor trauma suggesting coagulopathy)","Prolonged bleeding from venipuncture sites, wounds, or surgical sites","Epistaxis or gingival bleeding","Hematuria, melena, or hematemesis","Joint swelling and pain (hemarthrosis — classic for hemophilia A/B)","Altered mental status (may indicate intracranial hemorrhage)"],
-    signs: {
-      left: ["Minor bruising with trauma","Slightly prolonged PT or aPTT","Stable hemoglobin and hematocrit","Small petechiae without mucosal bleeding","Oozing from IV sites that responds to pressure"],
-      right: ["Massive hemorrhage with hemodynamic instability (tachycardia, hypotension)","DIC triad: bleeding, thrombosis, and organ failure simultaneously","Intracranial hemorrhage (sudden headache, altered LOC, focal deficits)","Hemarthrosis with joint destruction (severe hemophilia)","Pulmonary embolism (sudden dyspnea, pleuritic chest pain, tachycardia)"]
+      "title": "Coagulation Cascade",
+      "cellular": {
+        "title": "Hemostasis Pathways",
+        "content": "The coagulation cascade consists of intrinsic, extrinsic, and common pathways converging to form a fibrin clot. The extrinsic pathway (measured by PT/INR) is initiated when tissue factor (TF) exposed by vascular injury binds Factor VII, forming TF-VIIa complex that activates Factor X. The intrinsic pathway (measured by aPTT) is activated when Factor XII contacts exposed subendothelial collagen, triggering sequential activation of XI, IX, and VIII. Both pathways converge at the common pathway where Factor Xa (with cofactor Va) forms prothrombinase, converting prothrombin to thrombin. Thrombin converts fibrinogen to fibrin monomers, which are cross-linked by Factor XIII. Anticoagulation is regulated by antithrombin (inhibits thrombin and Xa), protein C/S (inactivate Va and VIIIa), and TFPI."
+      },
+      "riskFactors": [
+        "Inherited bleeding disorders: hemophilia A (Factor VIII deficiency), hemophilia B (Factor IX deficiency), von Willebrand disease",
+        "Liver disease (decreased synthesis of most clotting factors)",
+        "Vitamin K deficiency (malabsorption, warfarin use, newborns, prolonged antibiotics)",
+        "Disseminated intravascular coagulation (DIC)",
+        "Massive transfusion (dilutional coagulopathy)",
+        "Anticoagulant therapy (heparin, warfarin, DOACs)",
+        "Thrombophilia risk factors: Factor V Leiden, prothrombin gene mutation, protein C/S deficiency, antithrombin deficiency"
+      ],
+      "diagnostics": [
+        "PT/INR: measures extrinsic and common pathways; prolonged in warfarin use, vitamin K deficiency, liver disease, Factor VII deficiency",
+        "aPTT: measures intrinsic and common pathways; prolonged in heparin use, hemophilia A/B, von Willebrand disease, Factor XII deficiency",
+        "Thrombin time: measures fibrinogen to fibrin conversion; prolonged in fibrinogen disorders, heparin, thrombin inhibitors",
+        "Fibrinogen level: decreased in DIC, liver failure, massive hemorrhage",
+        "D-dimer: fibrin degradation product; elevated in DVT/PE, DIC, post-surgery (sensitive but non-specific)",
+        "Mixing study: if prolonged PT/aPTT corrects with normal plasma = factor deficiency; if does NOT correct = inhibitor (e.g., lupus anticoagulant)",
+        "Specific factor assays: quantify individual factor levels (Factor VIII, IX for hemophilia diagnosis)"
+      ],
+      "management": [
+        "Warfarin reversal: vitamin K (PO for non-urgent, IV for urgent) + FFP or 4-factor PCC for life-threatening bleeding",
+        "Heparin reversal: protamine sulfate (1 mg per 100 units of heparin given in last 2-3 hours)",
+        "Factor replacement: Factor VIII concentrate for hemophilia A; Factor IX concentrate for hemophilia B; desmopressin (DDAVP) for mild hemophilia A and Type 1 von Willebrand disease",
+        "DIC: treat underlying cause; supportive with platelets, FFP, cryoprecipitate as needed",
+        "Massive transfusion protocol: balanced ratio of RBCs:FFP:platelets (1:1:1) to prevent dilutional coagulopathy",
+        "Vitamin K 1 mg IM at birth for hemorrhagic disease of the newborn",
+        "Thrombophilia: anticoagulation based on clinical scenario (not prophylactically for most inherited thrombophilias)"
+      ],
+      "nursingActions": [
+        "Monitor PT/INR for patients on warfarin (therapeutic range 2.0-3.0 for most indications; 2.5-3.5 for mechanical heart valves)",
+        "Monitor aPTT for patients on unfractionated heparin (therapeutic range 1.5-2.5x control)",
+        "Assess for bleeding at all sites: puncture sites, GI (guaiac stool), urinary (hematuria), neurological (headache, altered mental status suggesting intracranial hemorrhage)",
+        "Apply prolonged pressure to venipuncture and injection sites in patients with coagulopathy",
+        "Administer vitamin K to all newborns within 1 hour of birth per standing protocol",
+        "Educate patients on warfarin: consistent vitamin K intake (don't eliminate, keep consistent), drug interactions, signs of bleeding to report",
+        "Hold anticoagulants pre-procedure per provider orders; document timing of last dose"
+      ],
+      "assessmentFindings": [
+        "Prolonged bleeding from minor cuts or venipuncture sites",
+        "Easy bruising (ecchymoses), petechiae (platelet disorders), purpura",
+        "Hemarthrosis (joint bleeding -- classic for hemophilia)",
+        "Epistaxis, gingival bleeding",
+        "GI bleeding (melena, hematochezia)",
+        "Hematuria",
+        "Menorrhagia in women with bleeding disorders"
+      ],
+      "signs": {
+        "left": [
+          "Minor bruising with mildly prolonged PT or aPTT",
+          "Small venipuncture site bleeding controlled with pressure",
+          "Isolated lab abnormality without clinical bleeding",
+          "Known mild bleeding disorder with appropriate factor levels"
+        ],
+        "right": [
+          "Active hemorrhage with hemodynamic instability requiring massive transfusion",
+          "Intracranial hemorrhage: sudden severe headache, altered mental status, focal neurological deficits",
+          "DIC: simultaneous bleeding AND thrombosis, organ failure, lab showing low fibrinogen, elevated D-dimer, prolonged PT/aPTT, thrombocytopenia",
+          "Compartment syndrome from deep tissue bleeding in hemophilia",
+          "Hemarthrosis causing joint destruction"
+        ]
+      },
+      "medications": [
+        {
+          "name": "Vitamin K (Phytonadione)",
+          "type": "Fat-soluble vitamin / coagulation factor cofactor",
+          "action": "Essential cofactor for hepatic gamma-carboxylation of Factors II, VII, IX, X, and proteins C and S; without vitamin K, these factors are produced in inactive forms (PIVKA); reverses warfarin effect by restoring functional factor production",
+          "sideEffects": "Anaphylaxis/anaphylactoid reactions (IV route -- rare but serious), flushing, diaphoresis, injection site pain; IV administration should be slow (over 20-30 minutes)",
+          "contra": "Known hypersensitivity; use caution with IV route (anaphylactoid reactions even with dilution and slow infusion)",
+          "pearl": "Onset: PO 6-10 hours, IV 1-2 hours (for factor synthesis -- faster than PO but not immediate); for life-threatening warfarin-related bleeding, give 4-factor PCC for IMMEDIATE reversal + vitamin K for sustained reversal; 1 mg IM to all newborns at birth prevents hemorrhagic disease of the newborn"
+        }
+      ],
+      "pearls": [
+        "PT/INR = Extrinsic pathway (warfarin monitoring); aPTT = Intrinsic pathway (heparin monitoring); remember: PeT = exTrinsic, aPTT = inTrinsic",
+        "Vitamin K-dependent factors: 2, 7, 9, 10 and proteins C and S (mnemonic: '1972' = factors 10, 9, 7, 2)",
+        "Mixing study interpretation: correction with normal plasma = factor DEFICIENCY; no correction = INHIBITOR (lupus anticoagulant, factor inhibitor antibody)",
+        "Warfarin affects Factor VII first (shortest half-life ~6 hours), so PT/INR rises before aPTT",
+        "Protein C has a shorter half-life than most procoagulant factors -- initial warfarin therapy can cause transient hypercoagulability (warfarin skin necrosis); bridge with heparin until INR therapeutic for 2 consecutive days",
+        "DIC consumes ALL components: platelets, fibrinogen, and clotting factors -- the lab shows everything depleted simultaneously with elevated D-dimer (fibrinolysis of consumed fibrin)"
+      ],
+      "quiz": [
+        {
+          "question": "A patient on warfarin has an INR of 8.5 with gum bleeding but no major hemorrhage. What is the most appropriate intervention?",
+          "options": [
+            "Hold warfarin and administer oral vitamin K",
+            "Administer 4-factor prothrombin complex concentrate immediately",
+            "Continue warfarin at the same dose and recheck INR in 1 week",
+            "Administer IV heparin to prevent thrombosis"
+          ],
+          "correct": 0,
+          "rationale": "For supratherapeutic INR (>4.5) with minor bleeding, hold warfarin and give oral vitamin K (2.5-5 mg). For LIFE-THREATENING bleeding, 4-factor PCC provides immediate factor replacement along with IV vitamin K. This patient has minor bleeding, so oral vitamin K and holding warfarin is appropriate."
+        },
+        {
+          "question": "Which laboratory test monitors the intrinsic pathway of coagulation?",
+          "options": [
+            "PT/INR",
+            "aPTT",
+            "Thrombin time",
+            "D-dimer"
+          ],
+          "correct": 1,
+          "rationale": "The aPTT (activated partial thromboplastin time) measures the intrinsic pathway (factors XII, XI, IX, VIII) and common pathway. PT/INR measures the extrinsic pathway (Factor VII) and common pathway. aPTT is used to monitor unfractionated heparin therapy."
+        },
+        {
+          "question": "Why must heparin bridging be used when initiating warfarin therapy?",
+          "options": [
+            "Warfarin takes 5-7 days to reach full anticoagulant effect, and protein C depletion can cause initial hypercoagulability",
+            "Heparin enhances warfarin absorption",
+            "Warfarin does not work without concurrent heparin",
+            "Heparin prevents warfarin side effects"
+          ],
+          "correct": 0,
+          "rationale": "Warfarin inhibits synthesis of factors II, VII, IX, X AND anticoagulant proteins C and S. Protein C has a shorter half-life than most procoagulant factors, so it depletes first, creating a transient hypercoagulable state that can cause warfarin skin necrosis. Heparin provides immediate anticoagulation until warfarin reaches therapeutic levels (INR therapeutic x 2 consecutive days)."
+        }
+      ]
     },
-    medications: [{
-      name: "Heparin (Unfractionated)",
-      type: "Anticoagulant",
-      action: "Binds antithrombin III, potentiating its inhibition of thrombin (IIa) and factor Xa by 1000-fold; provides immediate anticoagulation",
-      sideEffects: "Bleeding, heparin-induced thrombocytopenia (HIT), osteoporosis with prolonged use",
-      contra: "Active uncontrolled bleeding, severe thrombocytopenia, HIT history",
-      pearl: "Monitor aPTT every 6 hours until therapeutic (1.5-2.5x control); antidote is protamine sulfate (1 mg per 100 units heparin)"
-    },{
-      name: "Warfarin (Coumadin)",
-      type: "Vitamin K antagonist anticoagulant",
-      action: "Inhibits vitamin K epoxide reductase (VKORC1), preventing recycling of vitamin K needed for hepatic synthesis of factors II, VII, IX, X and proteins C and S",
-      sideEffects: "Bleeding, skin necrosis (rare, in protein C deficiency), teratogenic (Category X), drug/food interactions",
-      contra: "Pregnancy, active bleeding, severe liver disease, non-adherent patient",
-      pearl: "Therapeutic INR 2-3 for most indications (2.5-3.5 for mechanical heart valves); takes 3-5 days for full effect because existing clotting factors must be cleared; bridge with heparin; antidote is vitamin K (oral or IV) plus FFP or PCC for emergent reversal"
-    }],
-    pearls: ["PT/INR monitors the EXTRINSIC pathway (warfarin); aPTT monitors the INTRINSIC pathway (heparin) — remember: PT = Prothrombin Time = exTrinsic","Vitamin K-dependent clotting factors are II, VII, IX, X (mnemonic: 1972 — the year you need to know)","DIC is a consumptive coagulopathy: paradoxical simultaneous clotting AND bleeding because clotting factors and platelets are consumed in widespread microthrombi","Warfarin crosses the placenta and is teratogenic — NEVER use in pregnancy; use heparin or LMWH instead","Factor VII has the shortest half-life (~6 hours) — PT/INR is the first lab to become abnormal in liver disease or vitamin K deficiency","HIT is a prothrombotic condition despite low platelets — discontinue ALL heparin products (including flushes) and start a non-heparin anticoagulant (argatroban or bivalirudin)"],
-    quiz: [
-      {
-        question: "A patient on IV heparin has an aPTT of 110 seconds (therapeutic range 60-80). Which action should the nurse take FIRST?",
-        options: ["Continue the infusion and recheck in 6 hours","Stop the heparin infusion and notify the provider","Administer protamine sulfate immediately","Increase the heparin drip rate"],
-        correct: 1,
-        rationale: "An aPTT significantly above therapeutic range indicates excessive anticoagulation and increased bleeding risk. The nurse should stop the infusion and notify the provider for further orders. Protamine sulfate is the antidote but is given only for significant bleeding, not simply an elevated aPTT."
-      },
-      {
-        question: "A patient on warfarin has an INR of 2.4 and reports dark, tarry stools. Which finding is MOST concerning?",
-        options: ["The INR is within therapeutic range so the stools are unrelated","Dark tarry stools (melena) indicate upper GI bleeding requiring immediate evaluation","The patient should increase vitamin K intake","Dark stools are a normal side effect of warfarin"],
-        correct: 1,
-        rationale: "Melena (dark, tarry stools) indicates upper GI bleeding. Even with a therapeutic INR, anticoagulated patients can develop GI bleeding. This requires immediate assessment, hemoglobin check, and provider notification. Melena is never a normal finding."
-      },
-      {
-        question: "A nurse observes a platelet count drop from 180,000 to 72,000 on day 7 of heparin therapy. What is the priority action?",
-        options: ["Continue heparin and monitor the count daily","Suspect heparin-induced thrombocytopenia, discontinue ALL heparin products, and notify the provider","Transfuse platelets to raise the count above 100,000","Switch from IV heparin to subcutaneous heparin"],
-        correct: 1,
-        rationale: "A >50% drop in platelets 5-10 days after heparin initiation is the hallmark of HIT (heparin-induced thrombocytopenia). ALL heparin products must be discontinued immediately, including heparin flushes and heparin-coated catheters. HIT is prothrombotic — platelet transfusion can worsen thrombosis. A non-heparin anticoagulant (argatroban) must be started."
-      },
-    ]
-  },
   "coagulation-cascade-np": {
-    title: "Coagulation Cascade: Advanced Practice",
-    cellular: { title: "Advanced Pathophysiology of Hemostasis", content: "The cell-based model of coagulation has replaced the traditional cascade model for clinical decision-making. Hemostasis occurs in three overlapping phases: initiation (tissue factor-bearing cells activate factor VII, generating small amounts of thrombin), amplification (thrombin activates platelets and factors V, VIII, and XI on the platelet surface), and propagation (large-scale thrombin generation on the activated platelet surface via the tenase complex [IXa-VIIIa] and prothrombinase complex [Xa-Va]). The clinician must understand that the extrinsic pathway (measured by PT/INR) and intrinsic pathway (measured by aPTT) are laboratory constructs — in vivo, both systems are interconnected. The tissue factor pathway inhibitor (TFPI) rapidly shuts down the initiation phase, making the amplification loop through factor XI essential for sustained hemostasis. Natural anticoagulants operate at each level: antithrombin III (inhibits thrombin, Xa, IXa), protein C/S system (inactivates Va and VIIIa after activation by the thrombin-thrombomodulin complex on endothelial surfaces), and TFPI. The fibrinolytic system (tissue plasminogen activator converts plasminogen to plasmin, which cleaves fibrin into D-dimers and fibrin degradation products) provides the counterbalance. Disruption at any level produces thrombotic or hemorrhagic phenotypes that the NP must diagnose and manage." },
-    riskFactors: ["Inherited thrombophilias: Factor V Leiden (most common, 5% of Caucasians; APC resistance), prothrombin G20210A mutation, antithrombin III deficiency, protein C/S deficiency","Acquired hypercoagulable states: antiphospholipid syndrome, malignancy-associated (Trousseau syndrome), HIT, myeloproliferative neoplasms","Liver disease (decreased synthesis of ALL clotting factors AND natural anticoagulants — creates complex hemostatic derangement)","Vitamin K deficiency (malabsorption, prolonged antibiotic use, warfarin therapy, biliary obstruction)","DIC triggers: sepsis (most common), obstetric complications (placental abruption, amniotic fluid embolism), massive trauma, malignancy (acute promyelocytic leukemia)","Medication-related: warfarin, heparin, DOACs, antiplatelet agents, NSAIDs, SSRIs (impair platelet serotonin uptake)","Chronic kidney disease (uremic platelet dysfunction)","Massive transfusion (dilutional coagulopathy: 1 blood volume replacement dilutes clotting factors to ~35%)"],
-    diagnostics: ["PT/INR: extrinsic + common pathway; prolonged by warfarin, liver disease, vitamin K deficiency, factor VII deficiency (shortest half-life — first to become abnormal); INR standardizes PT across laboratories","aPTT: intrinsic + common pathway; prolonged by UFH, hemophilia A (VIII) and B (IX), von Willebrand disease, lupus anticoagulant (paradoxically prolongs aPTT but causes thrombosis)","Mixing study: differentiates factor deficiency (aPTT corrects when mixed 1:1 with normal plasma) from inhibitor (aPTT does NOT correct); incubated mixing study detects time-dependent inhibitors (factor VIII inhibitor)","Thrombin time (TT): prolonged by heparin contamination, low fibrinogen, fibrin degradation products, dabigatran; reptilase time is insensitive to heparin and helps differentiate","Fibrinogen (Clauss method): <100 mg/dL in DIC; acute phase reactant (elevated in inflammation can mask depletion); critical threshold for bleeding is <100","D-dimer: highly sensitive for VTE (>95% negative predictive value); NOT specific — elevated in infection, malignancy, pregnancy, post-surgical states; age-adjusted cutoff (age x 10 for patients >50) improves specificity","Specific factor assays: factor VIII activity (hemophilia A), factor IX activity (hemophilia B), von Willebrand factor antigen and activity (ristocetin cofactor assay), factor XIII activity (clot solubility test for rare XIII deficiency — normal PT and aPTT but delayed wound healing)","Thromboelastography (TEG/ROTEM): point-of-care viscoelastic testing that provides real-time assessment of clot formation, strength, and lysis — guides component therapy in massive hemorrhage and liver transplant"],
-    management: ["Anticoagulation selection based on indication: UFH (ICU, renal failure, need for rapid reversibility), LMWH (bridge therapy, DVT treatment, pregnancy), warfarin (mechanical valves, antiphospholipid syndrome), DOACs (atrial fibrillation, VTE without APS or mechanical valve)","DOAC prescribing: rivaroxaban and apixaban (factor Xa inhibitors — no routine monitoring; dose-adjust for renal function; idarucizumab reverses dabigatran; andexanet alfa reverses Xa inhibitors); dabigatran (direct thrombin inhibitor — CrCl-based dosing)","Warfarin management: initiate with heparin bridge for 5 days AND until INR therapeutic x 24 hours; target INR 2.0-3.0 (most indications) or 2.5-3.5 (mechanical mitral valve); pharmacogenomics (CYP2C9/VKORC1 polymorphisms) guide dosing","DIC management: treat the underlying cause; replace depleted components (FFP for factors, cryoprecipitate for fibrinogen <100, platelets if <50,000 with bleeding); therapeutic-dose heparin ONLY if thrombosis predominates (purpura fulminans)","Massive transfusion protocol: 1:1:1 ratio of PRBCs:FFP:platelets; administer tranexamic acid within 3 hours of hemorrhage onset; monitor TEG/ROTEM for goal-directed therapy","Reversal agents: vitamin K + 4-factor PCC for warfarin (PCC preferred over FFP for life-threatening bleeding — faster, no volume overload); protamine for UFH; idarucizumab for dabigatran; andexanet alfa for rivaroxaban/apixaban"],
-    nursingActions: ["Interpret coagulation panels systematically: isolated prolonged PT = factor VII deficiency or early warfarin effect; isolated prolonged aPTT = hemophilia, vWD, or lupus anticoagulant; both prolonged = common pathway defect, DIC, liver disease, or massive transfusion dilution","Order and monitor anticoagulation: adjust heparin drip per nomogram based on aPTT q6h; monitor INR for warfarin with dose adjustments (2-3 day lag for dose changes to reflect in INR); verify renal function before DOAC prescribing","Manage anticoagulation peri-procedurally: bridge therapy decision based on thrombotic risk (CHA₂DS₂-VASc score for atrial fibrillation); hold warfarin 5 days pre-procedure, hold DOACs 2-3 days based on half-life and renal function","Evaluate for thrombophilia: order workup in unprovoked VTE <50 years, recurrent VTE, unusual site thrombosis (cerebral, splanchnic, portal), family history; test AFTER acute event and OFF anticoagulation (warfarin affects protein C/S; heparin affects antithrombin levels)","Calculate HIT probability using 4T score (Thrombocytopenia, Timing, Thrombosis, oTher causes) before ordering HIT antibody testing — low 4T score effectively excludes HIT","Counsel patients on DOAC adherence: missed doses of short half-life DOACs cause rapid loss of anticoagulation (unlike warfarin which has a long half-life buffer); drug interactions (P-glycoprotein and CYP3A4 inhibitors/inducers)"],
-    assessmentFindings: ["Mucocutaneous bleeding pattern (petechiae, gingival bleeding, epistaxis, menorrhagia) — suggests primary hemostasis defect (platelet disorder or von Willebrand disease)","Deep tissue bleeding pattern (hemarthrosis, muscle hematomas, delayed surgical bleeding) — suggests secondary hemostasis defect (clotting factor deficiency, e.g., hemophilia)","Simultaneous thrombosis and hemorrhage — hallmark of DIC","Warfarin skin necrosis (painful purpura progressing to necrosis, typically on day 3-6 of therapy — from transient protein C depletion in protein C-deficient patients; prevented by heparin bridge)","Purpura fulminans (symmetric peripheral gangrene) — severe DIC or acquired protein C deficiency in meningococcemia","Trousseau syndrome (migratory superficial thrombophlebitis) — suggests occult malignancy, especially pancreatic cancer"],
-    signs: {
-      left: ["Mildly prolonged PT or aPTT without clinical bleeding","Stable anticoagulation with INR in therapeutic range","Low-titer factor inhibitor without spontaneous bleeding","Single episode provoked VTE with identifiable risk factor","Compensated chronic liver disease with mildly deranged coagulation"],
-      right: ["Acute DIC with simultaneous hemorrhage and microvascular thrombosis","Life-threatening bleeding on anticoagulation (INR >9, intracranial hemorrhage)","Massive hemorrhage requiring massive transfusion protocol activation","Acquired hemophilia (high-titer factor VIII inhibitor with severe spontaneous bleeding)","HIT with thrombosis (limb-threatening arterial or venous thromboembolism)"]
+      "title": "Coagulation Cascade",
+      "cellular": {
+        "title": "Advanced Coagulation Physiology & Pharmacology",
+        "content": "The cell-based model of coagulation has replaced the traditional cascade model. Initiation occurs on tissue factor-bearing cells where TF-VIIa generates small amounts of thrombin. Amplification occurs on activated platelet surfaces where thrombin activates factors V, VIII, XI, and platelets. Propagation involves tenase (IXa-VIIIa) and prothrombinase (Xa-Va) complexes on platelet surfaces generating a thrombin burst sufficient for stable fibrin clot formation. Natural anticoagulants include: antithrombin III (heparin cofactor; inhibits IIa, Xa, IXa), protein C pathway (thrombomodulin-thrombin activates protein C, which with protein S inactivates Va/VIIIa), and TFPI (limits TF-VIIa). Fibrinolysis: plasminogen is converted to plasmin by tPA, degrading fibrin into D-dimers and fibrin degradation products."
+      },
+      "riskFactors": [
+        "Inherited thrombophilias: Factor V Leiden (most common, activated protein C resistance), prothrombin G20210A mutation, protein C/S deficiency, antithrombin deficiency",
+        "Acquired thrombophilia: antiphospholipid syndrome (lupus anticoagulant, anticardiolipin antibodies, anti-beta2-glycoprotein I)",
+        "Inherited bleeding disorders: hemophilia A (VIII), hemophilia B (IX), von Willebrand disease (most common inherited bleeding disorder)",
+        "Acquired coagulopathy: DIC, liver failure, vitamin K deficiency, massive transfusion",
+        "Medication-induced: heparin (HIT type II), warfarin (skin necrosis), DOACs (bleeding)",
+        "Pregnancy: hypercoagulable state (increased factors VII, VIII, X, fibrinogen; decreased protein S)"
+      ],
+      "diagnostics": [
+        "Coagulation panel: PT/INR (extrinsic + common), aPTT (intrinsic + common), thrombin time, fibrinogen",
+        "Mixing study: distinguishes factor deficiency (corrects) from inhibitor (does not correct); if inhibitor suspected, incubate at 37°C for 2 hours (Factor VIII inhibitor is time-dependent)",
+        "Specific factor assays: quantify individual factors; von Willebrand panel (vWF antigen, ristocetin cofactor activity, Factor VIII level, multimer analysis)",
+        "Thrombophilia workup: Factor V Leiden (APC resistance screen then genetic test), prothrombin gene mutation, protein C/S levels, antithrombin level, lupus anticoagulant, anticardiolipin/anti-beta2GP1 antibodies",
+        "Thromboelastography (TEG/ROTEM): point-of-care viscoelastic testing of whole blood clot formation and lysis; guides blood product replacement in massive hemorrhage",
+        "Platelet function testing: PFA-100 (screen for vWD and platelet dysfunction), platelet aggregation studies",
+        "Anti-Xa assay: monitors LMWH and can monitor DOACs when needed"
+      ],
+      "management": [
+        "Hemophilia A: Factor VIII replacement (recombinant or plasma-derived); mild cases: DDAVP 0.3 mcg/kg IV (releases vWF-VIII stores); emicizumab (bispecific antibody bridging IXa and X, mimicking VIII function) for prophylaxis",
+        "Hemophilia B: Factor IX replacement (recombinant); no response to DDAVP",
+        "von Willebrand disease: Type 1 (most common): DDAVP (releases stored vWF); Types 2/3: vWF-containing concentrates; aminocaproic acid or tranexamic acid as adjuncts",
+        "Warfarin management: target INR 2.0-3.0 (most indications), 2.5-3.5 (mechanical mitral valve); reversal: vitamin K + 4-factor PCC for major bleeding",
+        "UFH management: weight-based protocol; aPTT target 1.5-2.5x control; reversal: protamine sulfate",
+        "DOAC management: rivaroxaban/apixaban reversal: andexanet alfa; dabigatran reversal: idarucizumab",
+        "DIC: treat underlying cause; supportive: platelets if <10k or bleeding, cryoprecipitate if fibrinogen <100, FFP if PT/aPTT prolonged with bleeding"
+      ],
+      "nursingActions": [
+        "Order and interpret coagulation studies; recognize patterns: isolated prolonged aPTT with normal PT = intrinsic pathway (hemophilia, vWD, heparin); isolated prolonged PT = extrinsic pathway (warfarin, early liver disease, VII deficiency); both prolonged = common pathway or DIC or severe liver disease",
+        "Perform mixing studies when etiology of prolonged PT/aPTT is unclear",
+        "Order thrombophilia workup appropriately: NOT during acute thrombosis or on anticoagulation (false results); test 2-4 weeks after completing anticoagulation course",
+        "Manage anticoagulation: select agent based on indication, renal function, drug interactions; adjust doses based on monitoring",
+        "Prescribe DDAVP for mild hemophilia A and Type 1 vWD; perform test dose to confirm response before relying on it in surgical/bleeding situations",
+        "Manage perioperative anticoagulation bridging based on thrombotic risk assessment",
+        "Educate patients on anticoagulant therapy, bleeding precautions, drug-food interactions"
+      ],
+      "assessmentFindings": [
+        "Hemophilia: hemarthroses (knee, ankle, elbow), deep muscle hematomas, prolonged bleeding after procedures; severity correlates with factor level (<1% = severe, 1-5% = moderate, 5-40% = mild)",
+        "von Willebrand disease: mucocutaneous bleeding (epistaxis, menorrhagia, GI bleeding, easy bruising); less likely to have hemarthroses",
+        "DIC: simultaneous bleeding (oozing from IV sites, petechiae, mucosal) AND thrombosis (organ ischemia, acral gangrene, purpura fulminans)",
+        "Warfarin skin necrosis: painful purpuric skin lesions (buttocks, breasts, thighs) 3-6 days after warfarin initiation",
+        "HIT: platelet drop >50% from baseline, 5-10 days after heparin initiation, with or without thrombosis"
+      ],
+      "signs": {
+        "left": [
+          "Mild factor deficiency with prolonged lab values but no clinical bleeding",
+          "Stable patient on therapeutic anticoagulation within target range",
+          "Minor mucocutaneous bleeding in vWD controlled with DDAVP",
+          "Known thrombophilia without active thrombosis"
+        ],
+        "right": [
+          "Massive hemorrhage with coagulopathy requiring massive transfusion protocol",
+          "DIC with multi-organ failure: simultaneous bleeding and thrombosis, lab showing low platelets/fibrinogen, elevated D-dimer, prolonged PT/aPTT",
+          "HIT with limb-threatening arterial thrombosis (white clot syndrome)",
+          "Acquired Factor VIII inhibitor with life-threatening hemorrhage requiring bypassing agents (FEIBA, rFVIIa)",
+          "Intracranial hemorrhage on anticoagulation requiring emergent reversal"
+        ]
+      },
+      "medications": [
+        {
+          "name": "Enoxaparin (Lovenox)",
+          "type": "Low-molecular-weight heparin (LMWH)",
+          "action": "Binds antithrombin III, primarily enhancing its inhibition of Factor Xa (anti-Xa:anti-IIa ratio 3:1); more predictable pharmacokinetics than UFH due to longer chains being removed; subcutaneous bioavailability ~100%",
+          "sideEffects": "Bleeding, injection site bruising/hematoma, HIT (less common than UFH), osteoporosis (long-term), hyperkalemia (aldosterone suppression)",
+          "contra": "Active major bleeding, HIT (current or history), severe renal impairment (CrCl <30 -- use UFH instead or adjust dose), epidural/spinal anesthesia (risk of spinal hematoma -- hold per guidelines)",
+          "pearl": "Fixed-dose subcutaneous injection (1 mg/kg BID for treatment, 40 mg daily for prophylaxis); does NOT require routine aPTT monitoring (use anti-Xa level in obesity, renal impairment, pregnancy); partially reversed by protamine (60% of anti-Xa activity); renal clearance -- dose-adjust or avoid if CrCl <30"
+        },
+        {
+          "name": "Emicizumab (Hemlibra)",
+          "type": "Bispecific monoclonal antibody (Factor VIII mimetic)",
+          "action": "Bridges activated Factor IXa and Factor X, mimicking the cofactor function of Factor VIII in the tenase complex; restores thrombin generation in hemophilia A patients with or without Factor VIII inhibitors",
+          "sideEffects": "Injection site reactions, headache, arthralgia; thrombotic microangiopathy and thromboembolism when combined with activated PCC (FEIBA) -- AVOID concurrent aPCC if possible",
+          "contra": "Known hypersensitivity; avoid concurrent aPCC (FEIBA) >100 U/kg/day (TMA risk)",
+          "pearl": "Subcutaneous injection; prophylactic use reduces bleeding episodes by 87% vs no prophylaxis in hemophilia A with inhibitors (HAVEN trials); does NOT normalize aPTT (aPTT will appear shortened even in hemophilia) -- use chromogenic Factor VIII assay for monitoring; works for hemophilia A with AND without inhibitors"
+        }
+      ],
+      "pearls": [
+        "Cell-based coagulation model: Initiation (TF-bearing cells) → Amplification (platelet surfaces, thrombin activation) → Propagation (thrombin burst on platelets) -- replaces the simplistic cascade model",
+        "Mixing study interpretation: correction = factor DEFICIENCY; no correction = INHIBITOR; if lupus anticoagulant suspected, aPTT paradoxically prolonged but patient is THROMBOTIC (not bleeding) -- lupus anticoagulant is an in vitro artifact",
+        "Factor V Leiden is the most common inherited thrombophilia but does NOT cause bleeding -- it causes activated protein C resistance leading to thrombosis",
+        "DDAVP works for mild hemophilia A and Type 1 vWD by releasing stored vWF-VIII from endothelial Weibel-Palade bodies; tachyphylaxis occurs after 2-3 doses (stores deplete)",
+        "Thrombophilia testing should NOT be done during acute thrombosis or while on anticoagulation -- results are unreliable; test 2-4 weeks after completing anticoagulation",
+        "Emicizumab (Hemlibra) will shorten the aPTT even in hemophilia A -- do NOT use aPTT to monitor these patients; use chromogenic Bethesda assay for factor VIII level"
+      ],
+      "quiz": [
+        {
+          "question": "A patient has a prolonged aPTT that does NOT correct with a mixing study. Which condition is most likely?",
+          "options": [
+            "Hemophilia A (Factor VIII deficiency)",
+            "Lupus anticoagulant (antiphospholipid syndrome)",
+            "Vitamin K deficiency",
+            "von Willebrand disease"
+          ],
+          "correct": 1,
+          "rationale": "A prolonged aPTT that does not correct with mixing study indicates an inhibitor rather than a factor deficiency. Lupus anticoagulant is an antiphospholipid antibody that interferes with phospholipid-dependent coagulation tests, prolonging aPTT in vitro. Paradoxically, these patients are at risk for THROMBOSIS, not bleeding."
+        },
+        {
+          "question": "Why does DDAVP work for mild hemophilia A but NOT hemophilia B?",
+          "options": [
+            "DDAVP directly replaces Factor IX",
+            "DDAVP releases stored vWF-Factor VIII complexes from endothelial cells; it has no effect on Factor IX levels",
+            "DDAVP inhibits Factor IX degradation",
+            "DDAVP only works in female carriers of hemophilia"
+          ],
+          "correct": 1,
+          "rationale": "DDAVP stimulates release of von Willebrand factor and Factor VIII from endothelial Weibel-Palade bodies, transiently raising Factor VIII levels 2-5x. This benefits mild hemophilia A (Factor VIII deficiency). Hemophilia B involves Factor IX, which is not stored in endothelial cells and is not released by DDAVP."
+        },
+        {
+          "question": "A patient on emicizumab (Hemlibra) prophylaxis has an aPTT of 22 seconds (shortened). Does this indicate over-anticoagulation?",
+          "options": [
+            "Yes -- the dose should be reduced",
+            "No -- emicizumab shortens aPTT as an artifact; use chromogenic Factor VIII assay for monitoring",
+            "Yes -- the patient is at high risk for bleeding",
+            "The aPTT result is a lab error and should be repeated"
+          ],
+          "correct": 1,
+          "rationale": "Emicizumab bridges FIXa and FX, mimicking FVIII in the tenase complex. This shortens the aPTT in vitro regardless of actual hemostatic status. Standard aPTT-based coagulation monitoring is unreliable in patients on emicizumab. Chromogenic Factor VIII assays using bovine reagents should be used instead."
+        }
+      ]
     },
-    medications: [{
-      name: "Rivaroxaban (Xarelto)",
-      type: "Direct oral anticoagulant (factor Xa inhibitor)",
-      action: "Directly and selectively inhibits free and clot-bound factor Xa without requiring antithrombin III as a cofactor; prevents conversion of prothrombin to thrombin in the prothrombinase complex; predictable pharmacokinetics allow fixed dosing without routine monitoring",
-      sideEffects: "Bleeding (GI bleeding more common than with warfarin), no reliable routine monitoring test (anti-Xa chromogenic assay can assess drug level but not widely standardized), hepatotoxicity (rare)",
-      contra: "Severe hepatic impairment (Child-Pugh B/C with coagulopathy), CrCl <15 mL/min, active pathological bleeding, concurrent strong dual CYP3A4/P-gp inhibitors or inducers, mechanical heart valves, antiphospholipid syndrome (TRAPS trial showed increased thrombosis)",
-      pearl: "DVT/PE treatment: 15 mg BID with food x 21 days then 20 mg daily with food (food increases bioavailability by 39%); AF stroke prevention: 20 mg daily with evening meal (CrCl 15-50: reduce to 15 mg daily); reversal agent: andexanet alfa (recombinant modified factor Xa decoy); 4-factor PCC can be used if andexanet unavailable"
-    },{
-      name: "Tranexamic Acid (TXA)",
-      type: "Antifibrinolytic agent",
-      action: "Competitively inhibits plasminogen activation by blocking lysine-binding sites on plasminogen, preventing its conversion to plasmin and subsequent fibrin clot degradation; stabilizes formed clots without promoting new clot formation",
-      sideEffects: "Nausea, diarrhea, seizures (dose-dependent, especially with renal impairment), theoretical increased thrombotic risk (not supported in major trials), visual disturbances with prolonged use",
-      contra: "Active intravascular clotting (DIC with thrombosis predominance), subarachnoid hemorrhage (delayed cerebral ischemia risk), severe renal impairment (dose adjustment required), history of seizures (relative)",
-      pearl: "CRASH-2 trial: 1g IV over 10 minutes then 1g over 8 hours within 3 hours of trauma reduces mortality from hemorrhage by one-third; also used in postpartum hemorrhage (WOMAN trial), heavy menstrual bleeding (oral 1.3g TID during menses), and dental procedures in patients on anticoagulants"
-    }],
-    pearls: ["The cell-based model of coagulation (initiation-amplification-propagation) better explains clinical scenarios than the traditional waterfall cascade — tissue factor on subendothelial cells initiates, thrombin on activated platelets amplifies, and the platelet surface propagates large-scale thrombin burst","Lupus anticoagulant PROLONGS the aPTT in vitro but causes THROMBOSIS in vivo — this is the classic paradox; never anticoagulate based solely on a prolonged aPTT without understanding the cause","Factor V Leiden (APC resistance) is the most common inherited thrombophilia in Caucasians (~5% prevalence) but confers relatively modest VTE risk (5-10x heterozygous, 50-80x homozygous) — routine screening of the general population is NOT recommended","In DIC, the fibrinogen level can be misleadingly normal early in the course because it is an acute-phase reactant — a declining trend is more significant than any single value; D-dimer is typically markedly elevated (>10x normal)","4-factor PCC (Kcentra) contains factors II, VII, IX, and X plus proteins C and S — preferred over FFP for warfarin reversal in life-threatening bleeding (faster administration, smaller volume, no thaw time, predictable response)","Thromboelastography (TEG/ROTEM) guides component therapy in real-time during massive hemorrhage: short R-time = hypercoagulable, prolonged R-time = factor deficiency (give FFP), low MA = platelet/fibrinogen deficiency, increased LY30 = hyperfibrinolysis (give TXA)"],
-    quiz: [
-      {
-        question: "A 35-year-old woman presents with an unprovoked DVT. Her aPTT is prolonged at 45 seconds. Mixing study does NOT correct the aPTT. What is the most likely diagnosis?",
-        options: ["Hemophilia A (factor VIII deficiency)","Lupus anticoagulant (antiphospholipid syndrome)","von Willebrand disease","Heparin contamination"],
-        correct: 1,
-        rationale: "A prolonged aPTT that does NOT correct on mixing study indicates an inhibitor, not a factor deficiency. In a young woman with unprovoked DVT, the most likely inhibitor is lupus anticoagulant. Despite prolonging the aPTT in vitro, lupus anticoagulant is associated with thrombosis (not bleeding) in vivo. Hemophilia A would correct on mixing study (factor deficiency). Heparin contamination would be detected by thrombin time."
-      },
-      {
-        question: "A patient with sepsis-induced DIC has PT 22 seconds, aPTT 55 seconds, fibrinogen 85 mg/dL, platelets 38,000, and D-dimer >20,000. What is the MOST appropriate management?",
-        options: ["Start therapeutic heparin to prevent further thrombosis","Administer cryoprecipitate (for fibrinogen), FFP (for factors), and platelet transfusion while aggressively treating the underlying sepsis","Give vitamin K and observe","Start warfarin for anticoagulation"],
-        correct: 1,
-        rationale: "DIC management centers on treating the underlying cause (sepsis) and replacing consumed coagulation components. Cryoprecipitate is first-line for fibrinogen <100 mg/dL (each unit raises fibrinogen ~5-10 mg/dL). FFP replaces depleted clotting factors. Platelets are transfused when <50,000 with active bleeding. Heparin is reserved for DIC with predominant thrombosis (e.g., purpura fulminans). Warfarin is contraindicated in acute DIC."
-      },
-      {
-        question: "A patient on rivaroxaban for atrial fibrillation presents with a large GI hemorrhage and hemoglobin of 6.2. What is the most appropriate reversal strategy?",
-        options: ["Administer vitamin K 10 mg IV","Administer protamine sulfate","Administer andexanet alfa (Andexxa) and transfuse PRBCs","Administer fresh frozen plasma alone"],
-        correct: 2,
-        rationale: "Andexanet alfa is the specific reversal agent for factor Xa inhibitors (rivaroxaban, apixaban). It acts as a decoy receptor that binds and sequesters the Xa inhibitor. PRBCs are needed for the severe anemia. Vitamin K reverses warfarin, not DOACs. Protamine reverses heparin. FFP alone is insufficient for DOAC reversal. If andexanet is unavailable, 4-factor PCC is an alternative."
-      },
-    ]
-  },
   "coagulation-disorders-patho-np": {
-    title: "Coagulation Disorders: Platelet & Clotting Factor Pathophysiology",
-    cellular: { title: "Platelet and Clotting Factor Disorders", content: "Coagulation disorders are classified by the phase of hemostasis affected. Primary hemostasis disorders involve platelets and von Willebrand factor (vWF): quantitative platelet disorders include immune thrombocytopenic purpura (ITP — autoimmune IgG-mediated platelet destruction by splenic macrophages), thrombotic thrombocytopenic purpura (TTP — ADAMTS13 deficiency causing ultra-large vWF multimer accumulation and platelet consumption in microvascular thrombi), and hemolytic uremic syndrome (HUS — Shiga toxin-mediated endothelial injury causing microangiopathic hemolysis and thrombocytopenia). Qualitative platelet disorders include uremic platelet dysfunction, aspirin-induced irreversible COX-1 inhibition, and inherited defects (Bernard-Soulier syndrome — GP Ib/IX/V deficiency; Glanzmann thrombasthenia — GP IIb/IIIa deficiency). Secondary hemostasis disorders involve clotting factor deficiencies: hemophilia A (factor VIII deficiency, X-linked recessive, 80% of hemophilia), hemophilia B (factor IX deficiency, X-linked recessive), and von Willebrand disease (most common inherited bleeding disorder, autosomal dominant, quantitative or qualitative vWF defects affecting both platelet adhesion and factor VIII stabilization). The NP must distinguish primary hemostasis defects (mucocutaneous bleeding — petechiae, epistaxis, gingival bleeding, menorrhagia) from secondary defects (deep tissue bleeding — hemarthrosis, muscle hematomas, delayed post-surgical bleeding)." },
-    riskFactors: ["Family history of bleeding disorders (hemophilia A/B — X-linked recessive; vWD — autosomal dominant with variable penetrance)","Autoimmune conditions (ITP associated with SLE, HIV, HCV, CLL, H. pylori)","Medications affecting platelet function: aspirin (irreversible COX-1), clopidogrel (irreversible P2Y12), NSAIDs, SSRIs, valproic acid","Liver disease (decreased thrombopoietin production, portal hypertension-related splenic sequestration, decreased clotting factor synthesis)","Chronic kidney disease (uremic toxins impair platelet adhesion, aggregation, and vWF binding)","Bone marrow disorders: aplastic anemia, myelodysplastic syndrome, leukemia (decreased platelet production)","Massive transfusion or cardiopulmonary bypass (dilutional thrombocytopenia and acquired platelet dysfunction)","Pregnancy-related: gestational thrombocytopenia (benign), HELLP syndrome, preeclampsia with DIC"],
-    diagnostics: ["CBC with platelet count: thrombocytopenia (<150,000); classify as mild (100-150K), moderate (50-100K), or severe (<50K); evaluate for pseudothrombocytopenia from EDTA-induced platelet clumping (confirm with citrate tube)","Peripheral blood smear: giant platelets (Bernard-Soulier, ITP), schistocytes (TTP/HUS, DIC — microangiopathic hemolytic anemia), platelet clumps (pseudothrombocytopenia)","PT/INR and aPTT panel: normal in platelet disorders; prolonged aPTT with normal PT = intrinsic pathway defect (hemophilia A or B, vWD); prolonged PT with normal aPTT = factor VII deficiency","Platelet function analyzer (PFA-100): screens for platelet dysfunction and vWD; prolonged closure time with collagen/epinephrine and collagen/ADP suggests platelet defect; replaces bleeding time","von Willebrand panel: vWF antigen (quantitative), ristocetin cofactor activity (functional), factor VIII activity, vWF multimer analysis (distinguishes types 1, 2A, 2B, 2M, 2N, 3)","ADAMTS13 activity: <10% diagnostic for TTP; >10% with renal failure and bloody diarrhea suggests HUS; send BEFORE plasma exchange alters levels","Mixing study: prolonged aPTT that corrects = factor deficiency; does not correct = inhibitor (acquired hemophilia A — factor VIII autoantibody in elderly, postpartum, or autoimmune patients)","Bone marrow biopsy: indicated when thrombocytopenia etiology unclear; megakaryocyte hyperplasia in ITP (peripheral destruction); hypocellularity in aplastic anemia"],
-    management: ["ITP first-line: corticosteroids (prednisone 1 mg/kg/day or dexamethasone 40 mg/day x 4 days); IVIG 1 g/kg for rapid platelet rise in life-threatening bleeding or pre-procedure (response in 24-48 hours); anti-D immunoglobulin in Rh-positive non-splenectomized patients","ITP second-line: thrombopoietin receptor agonists (eltrombopag 50 mg PO daily, romiplostim 1 mcg/kg SQ weekly — stimulate megakaryopoiesis); rituximab (anti-CD20); splenectomy (75% long-term response but infection risk — vaccinate against encapsulated organisms pre-splenectomy)","TTP: EMERGENT plasma exchange (plasmapheresis) — removes autoantibodies against ADAMTS13 and ultra-large vWF multimers while replacing ADAMTS13; caplacizumab (anti-vWF nanobody) added for faster platelet recovery; corticosteroids; rituximab for refractory or relapsing cases","Hemophilia A: factor VIII replacement (recombinant preferred; prophylactic for severe disease with factor <1%; on-demand for mild/moderate); desmopressin (DDAVP) for mild hemophilia A (releases stored vWF and factor VIII from endothelial cells); emicizumab (bispecific antibody mimicking factor VIIIa for patients with inhibitors)","von Willebrand disease: desmopressin (DDAVP) first-line for type 1 vWD (contraindicated in type 2B — worsens thrombocytopenia); vWF-containing factor VIII concentrates (Humate-P) for types 2 and 3 or when DDAVP fails; tranexamic acid adjunctively for mucosal bleeding","Hemophilia B: factor IX replacement (recombinant preferred); do NOT use DDAVP (ineffective for factor IX); extended half-life products (eftrenonacog alfa) allow less frequent dosing"],
-    nursingActions: ["Differentiate mucocutaneous bleeding (platelet/vWF disorder) from deep tissue bleeding (factor deficiency) to guide initial diagnostic workup and treatment selection","Calculate bleeding risk based on platelet count: spontaneous mucosal bleeding at <20,000; spontaneous CNS/GI hemorrhage at <10,000; surgical bleeding at <50,000 (CNS/eye surgery needs >100,000)","Monitor for TTP pentad (fever, thrombocytopenia, microangiopathic hemolytic anemia, renal dysfunction, neurological symptoms) — do NOT transfuse platelets in TTP (fuels microvascular thrombosis and worsens organ damage)","Manage DDAVP administration: 0.3 mcg/kg IV over 30 minutes; tachyphylaxis occurs after 2-3 doses (vWF stores deplete); monitor for hyponatremia from antidiuretic effect (restrict free water, check sodium q12h); contraindicated in type 2B vWD","Coordinate factor replacement therapy: calculate dose based on desired factor level rise and patient weight; for hemophilia A — each unit/kg of factor VIII raises level by 2%; for hemophilia B — each unit/kg of factor IX raises level by 1%","Screen for inhibitors in hemophilia patients with poor response to factor replacement — Bethesda assay quantifies inhibitor titer; low-titer (<5 BU) may respond to higher-dose factor; high-titer (>5 BU) requires bypassing agents (activated prothrombin complex concentrate or recombinant factor VIIa)"],
-    assessmentFindings: ["Petechiae and purpura (non-blanching, do not fade with pressure — indicate platelet disorder or vasculitis)","Mucosal bleeding: epistaxis, gingival bleeding, menorrhagia, GI bleeding (primary hemostasis defect)","Hemarthrosis — joint swelling with warm, tense effusion, typically in weight-bearing joints (knees, ankles, elbows) — hallmark of hemophilia","Delayed surgical or post-procedural bleeding (hours after hemostasis initially achieved — suggests factor deficiency)","Microangiopathic hemolytic anemia signs: schistocytes on smear, elevated LDH, low haptoglobin, indirect hyperbilirubinemia (TTP/HUS)","Neurological symptoms in TTP: confusion, headache, focal deficits, seizures (microvascular thrombi in cerebral circulation)","Chronic arthropathy (hemophilic arthropathy) — joint destruction from recurrent hemarthrosis"],
-    signs: {
-      left: ["Mild thrombocytopenia (100-150K) without spontaneous bleeding","Type 1 vWD with menorrhagia responsive to DDAVP","Mild hemophilia A (factor VIII 5-40%) with post-traumatic bleeding only","ITP with platelets >30,000 and no active bleeding","Drug-induced platelet dysfunction (resolves after drug discontinuation)"],
-      right: ["TTP with platelets <20,000, schistocytes, and neurological symptoms requiring emergent plasmapheresis","Severe hemophilia A (factor VIII <1%) with life-threatening hemarthrosis or intracranial hemorrhage","Acquired hemophilia A with high-titer inhibitor and spontaneous retroperitoneal hemorrhage","HELLP syndrome with thrombocytopenia, hemolysis, and hepatic rupture risk","Platelet count <10,000 with spontaneous intracranial hemorrhage"]
+      "title": "Coagulation Disorders Pathophysiology",
+      "cellular": {
+        "title": "DIC, HIT & Acquired Coagulopathies",
+        "content": "Disseminated intravascular coagulation (DIC) involves systemic activation of coagulation triggered by tissue factor release (sepsis, trauma, malignancy, obstetric emergencies). Widespread microvascular thrombosis consumes platelets, fibrinogen, and clotting factors while simultaneously activating fibrinolysis, producing the paradox of simultaneous thrombosis AND bleeding. Heparin-induced thrombocytopenia (HIT) type II is an immune-mediated prothrombotic disorder: heparin binds platelet factor 4 (PF4), creating a neoantigen; IgG antibodies against heparin-PF4 complexes activate platelets via FcγRIIa receptors, causing intense platelet activation, aggregation, and thrombin generation. Despite thrombocytopenia, the predominant risk is THROMBOSIS (white clot syndrome), not bleeding."
+      },
+      "riskFactors": [
+        "DIC triggers: sepsis (most common), trauma/burns, obstetric emergencies (placental abruption, amniotic fluid embolism, HELLP), malignancy (acute promyelocytic leukemia, mucin-secreting adenocarcinomas), transfusion reactions, snake envenomation",
+        "HIT risk factors: UFH > LMWH (10x higher risk), surgical patients > medical patients, duration of heparin exposure (typically 5-10 days), female sex, higher heparin doses",
+        "Thrombotic thrombocytopenic purpura (TTP): ADAMTS13 deficiency (autoimmune or congenital) causing ultra-large vWF multimers",
+        "Hemolytic uremic syndrome (HUS): Shiga toxin-producing E. coli O157:H7 (typical HUS in children)",
+        "Acquired Factor VIII inhibitors: autoantibodies against Factor VIII; associated with autoimmune diseases, malignancy, pregnancy, elderly"
+      ],
+      "diagnostics": [
+        "DIC panel: low platelets, low fibrinogen (<100), elevated D-dimer/FDP, prolonged PT and aPTT, schistocytes on blood smear (microangiopathic hemolytic anemia)",
+        "ISTH DIC scoring system: platelets, fibrinogen, D-dimer, PT prolongation; score ≥5 = overt DIC",
+        "HIT: 4Ts scoring (Thrombocytopenia severity, Timing of onset, Thrombosis, oTher causes); anti-PF4/heparin antibody (ELISA -- high sensitivity, moderate specificity); serotonin release assay (SRA -- gold standard, high specificity)",
+        "TTP pentad: thrombocytopenia, microangiopathic hemolytic anemia (schistocytes), neurological symptoms, renal impairment, fever (full pentad uncommon)",
+        "ADAMTS13 activity: <10% diagnostic for TTP; autoantibody (acquired) vs congenital deficiency",
+        "PLASMIC score: predicts ADAMTS13 deficiency to guide empiric plasma exchange before ADAMTS13 result available"
+      ],
+      "management": [
+        "DIC: TREAT THE UNDERLYING CAUSE (this is THE most important intervention); supportive: platelets if <10k or active bleeding, cryoprecipitate if fibrinogen <100, FFP if prolonged PT/aPTT with bleeding; heparin ONLY in DIC with predominant thrombosis (e.g., purpura fulminans)",
+        "HIT: STOP ALL HEPARIN immediately (including flushes, coated catheters); start non-heparin anticoagulant (argatroban for hepatic metabolism, bivalirudin for short procedures); do NOT give warfarin until platelets >150k (risk of venous limb gangrene); do NOT transfuse platelets (fuels thrombosis)",
+        "TTP: EMERGENT plasma exchange (plasmapheresis) -- do NOT delay; removes autoantibodies and ultra-large vWF multimers, replaces ADAMTS13; caplacizumab (anti-vWF nanobody) adjunctive; corticosteroids + rituximab for autoimmune TTP",
+        "HUS (typical/Shiga toxin): supportive care; do NOT give antibiotics for STEC (may increase toxin release); do NOT give antiplatelet or anticoagulant therapy",
+        "Acquired Factor VIII inhibitor: bypassing agents (FEIBA, rFVIIa) for bleeding; immunosuppression (steroids ± rituximab/cyclophosphamide) to eradicate inhibitor"
+      ],
+      "nursingActions": [
+        "Recognize DIC early: simultaneous bleeding (oozing from IV sites, petechiae) AND thrombosis (organ dysfunction, acral ischemia) with consumptive lab pattern",
+        "Calculate 4Ts score for HIT pretest probability when platelet count drops >50% on heparin therapy",
+        "If HIT suspected: immediately discontinue ALL forms of heparin (IV, SC, flushes, heparin-coated catheters, LMWH)",
+        "Do NOT transfuse platelets in HIT or TTP -- platelets fuel thrombosis in both conditions",
+        "Order ADAMTS13 activity level urgently when TTP suspected; initiate plasma exchange before results return if clinical suspicion is high (PLASMIC score)",
+        "Monitor for thrombotic complications in HIT: lower extremity DVT, PE, arterial thrombosis (stroke, limb ischemia), adrenal hemorrhage",
+        "Transition from parenteral anticoagulant to warfarin in HIT only after platelet recovery >150k (overlap ≥5 days)"
+      ],
+      "assessmentFindings": [
+        "DIC: petechiae, purpura, oozing from IV sites and wounds, acral cyanosis/gangrene, organ dysfunction (renal failure, hepatic failure, ARDS)",
+        "HIT: platelet drop >50% from baseline (typically day 5-10 of heparin); new thrombosis (DVT/PE most common); skin necrosis at heparin injection sites",
+        "TTP: fluctuating neurological symptoms (confusion, headache, seizures, focal deficits), jaundice (hemolysis), petechiae, dark urine",
+        "HUS: bloody diarrhea (E. coli O157:H7 prodrome in children), oliguria/anuria, pallor, petechiae"
+      ],
+      "signs": {
+        "left": [
+          "Mild thrombocytopenia on heparin with low 4Ts score (likely non-HIT cause)",
+          "Early DIC with lab abnormalities but minimal clinical bleeding",
+          "Stable TTP responding to plasma exchange with improving platelet count"
+        ],
+        "right": [
+          "Fulminant DIC with multi-organ failure: renal failure, ARDS, hepatic failure, widespread microvascular thrombosis",
+          "HIT with massive ileofemoral DVT or pulmonary embolism",
+          "TTP with ADAMTS13 <10% and seizures requiring emergent plasma exchange",
+          "Purpura fulminans: symmetric peripheral gangrene in DIC (meningococcemia, protein C deficiency)",
+          "Bilateral adrenal hemorrhage in HIT (Waterhouse-Friderichsen-like presentation)"
+        ]
+      },
+      "medications": [
+        {
+          "name": "Argatroban",
+          "type": "Direct thrombin inhibitor (parenteral)",
+          "action": "Directly and reversibly binds to the catalytic site of thrombin (Factor IIa), inhibiting thrombin-catalyzed reactions including fibrin formation, platelet activation, and amplification of coagulation; does not require antithrombin as a cofactor (unlike heparin); no cross-reactivity with HIT antibodies",
+          "sideEffects": "Bleeding (primary risk), fever, diarrhea, hypotension, cardiac arrhythmias",
+          "contra": "Active major bleeding, severe hepatic impairment (hepatically metabolized -- accumulates in liver failure; use bivalirudin instead)",
+          "pearl": "Drug of choice for HIT in patients with hepatic function; hepatically metabolized (reduce dose in hepatic impairment); will FALSELY elevate INR (interferes with PT assay) -- use chromogenic Factor X assay or wait until argatroban is stopped to assess true INR when transitioning to warfarin"
+        }
+      ],
+      "pearls": [
+        "DIC: treat the UNDERLYING CAUSE first -- all supportive measures are futile without addressing the trigger",
+        "HIT: the '4Ts' score estimates pretest probability; intermediate or high scores warrant immediate heparin cessation and non-heparin anticoagulation BEFORE confirmatory test results",
+        "In HIT, do NOT give platelets (fuels thrombosis), do NOT give warfarin until platelets >150k (risk of venous limb gangrene from protein C depletion), and do NOT give LMWH (cross-reactivity with HIT antibodies ~90%)",
+        "TTP: do NOT delay plasma exchange for ADAMTS13 results -- mortality approaches 90% without treatment; use PLASMIC score to guide empiric therapy",
+        "Schistocytes on peripheral blood smear are seen in BOTH DIC and TTP/HUS -- distinguish by clinical context and fibrinogen (low in DIC, normal in TTP/HUS)",
+        "Argatroban falsely elevates INR -- when transitioning to warfarin, the true INR cannot be assessed while on argatroban; use chromogenic Factor X assay or wait"
+      ],
+      "quiz": [
+        {
+          "question": "A patient on heparin for 7 days develops a platelet count drop from 200,000 to 80,000 with a new DVT. What is the FIRST action?",
+          "options": [
+            "Increase heparin dose to treat the DVT",
+            "Discontinue ALL heparin and start argatroban",
+            "Transfuse platelets to raise the count above 100,000",
+            "Switch to warfarin for outpatient DVT management"
+          ],
+          "correct": 1,
+          "rationale": "This presentation (platelet drop >50%, day 5-10 of heparin, new thrombosis) is classic HIT type II. The first action is to stop ALL heparin (including flushes) and start a non-heparin anticoagulant (argatroban). Do NOT transfuse platelets (fuels thrombosis) or start warfarin (risk of venous limb gangrene until platelets recover)."
+        },
+        {
+          "question": "Which laboratory finding distinguishes DIC from TTP?",
+          "options": [
+            "Elevated D-dimer (present in both)",
+            "Schistocytes on peripheral smear (present in both)",
+            "Low fibrinogen in DIC; normal fibrinogen in TTP",
+            "Thrombocytopenia (present in both)"
+          ],
+          "correct": 2,
+          "rationale": "Both DIC and TTP cause thrombocytopenia, schistocytes (MAHA), and elevated D-dimer. The key distinguishing feature is FIBRINOGEN: it is consumed and LOW in DIC (consumptive coagulopathy) but NORMAL in TTP (mechanical RBC shearing without consumption of clotting factors). PT/aPTT are also prolonged in DIC but normal in TTP."
+        },
+        {
+          "question": "Why should warfarin NOT be initiated in acute HIT until platelets recover above 150,000?",
+          "options": [
+            "Warfarin is ineffective in HIT",
+            "Warfarin causes protein C depletion, which combined with HIT-related hypercoagulability can cause venous limb gangrene",
+            "Warfarin further lowers the platelet count",
+            "Warfarin has a drug interaction with heparin"
+          ],
+          "correct": 1,
+          "rationale": "Warfarin depletes protein C (an anticoagulant with a short half-life) before adequately depleting procoagulant factors. In the hypercoagulable state of HIT, this additional loss of protein C can cause microvascular thrombosis in the venous limbs, leading to venous limb gangrene and skin necrosis. Wait until platelet recovery >150k and overlap with non-heparin anticoagulant."
+        }
+      ]
     },
-    medications: [{
-      name: "Desmopressin (DDAVP)",
-      type: "Synthetic vasopressin analogue (hemostatic agent)",
-      action: "Stimulates release of stored von Willebrand factor (vWF) and factor VIII from Weibel-Palade bodies in endothelial cells, raising vWF and factor VIII levels 2-5 fold within 30-60 minutes; also releases tissue plasminogen activator (consider concurrent tranexamic acid)",
-      sideEffects: "Hyponatremia (antidiuretic effect causes water retention — monitor sodium, restrict free water), facial flushing, headache, tachycardia, tachyphylaxis after 2-3 doses (endothelial stores deplete), rare seizures from severe hyponatremia",
-      contra: "Type 2B von Willebrand disease (paradoxically worsens thrombocytopenia by releasing abnormal vWF that causes platelet aggregation), unstable angina or severe coronary artery disease (risk of coronary thrombosis), children <2 years (hyponatremia and seizure risk), hyponatremia at baseline",
-      pearl: "First-line for mild hemophilia A and type 1 vWD: 0.3 mcg/kg IV over 30 minutes (or intranasal Stimate 150 mcg per nostril); perform a DDAVP trial before elective procedures to confirm adequate vWF/factor VIII rise; limit fluid intake to 1L in 24 hours post-dose to prevent hyponatremia; monitor sodium at 6 and 24 hours; ineffective for hemophilia B (does not affect factor IX levels)"
-    },{
-      name: "Eltrombopag (Promacta)",
-      type: "Thrombopoietin receptor agonist (oral)",
-      action: "Binds to the transmembrane domain of the thrombopoietin (TPO) receptor (c-Mpl) on megakaryocyte precursors, activating JAK-STAT and MAPK signaling pathways to promote megakaryocyte proliferation, differentiation, and platelet production; works at a different binding site than endogenous TPO allowing additive effect",
-      sideEffects: "Hepatotoxicity (monitor ALT/AST every 2 weeks during dose adjustment, then monthly), thrombotic events (especially when platelet count rises above normal range — do NOT normalize count, target >50,000), bone marrow reticulin fibrosis (reversible upon discontinuation), cataracts (monitor with regular eye exams)",
-      contra: "Severe hepatic impairment, active thrombotic events, known hypersensitivity; must take on empty stomach 2 hours before or 4 hours after meals/calcium/antacids (chelates polyvalent cations reducing absorption by 70%)",
-      pearl: "Starting dose 50 mg PO daily (25 mg in East Asian patients due to pharmacogenomic differences); titrate by 25 mg every 2 weeks targeting platelet count 50,000-200,000; discontinue if no response after 4 weeks at maximum dose (75 mg); takes 1-2 weeks for initial platelet rise; platelet count drops rapidly upon discontinuation — do NOT stop abruptly"
-    }],
-    pearls: ["Primary vs secondary hemostasis bleeding patterns: mucocutaneous bleeding (petechiae, epistaxis, gingival bleeding) = platelet/vWF disorder; deep tissue bleeding (hemarthrosis, muscle hematomas, delayed surgical bleeding) = clotting factor deficiency — this clinical distinction guides the entire diagnostic workup","NEVER transfuse platelets in TTP — platelets fuel microvascular thrombosis and can precipitate fatal organ damage; emergent plasmapheresis is the treatment; mortality drops from >90% to <10% with plasma exchange","von Willebrand disease is the MOST COMMON inherited bleeding disorder (prevalence ~1%) but is frequently underdiagnosed; type 1 (quantitative partial deficiency, ~80% of cases) is autosomal dominant; always consider vWD in women with menorrhagia","DDAVP is contraindicated in type 2B vWD because it releases abnormal vWF that causes platelet aggregation and worsens thrombocytopenia — always confirm vWD type before administering DDAVP","Hemophilia A and B are X-linked recessive — affected males, carrier females (who may have mild bleeding due to lyonization); hemophilia A (factor VIII deficiency) is 5x more common than hemophilia B (factor IX deficiency)","ITP is a diagnosis of exclusion — rule out pseudothrombocytopenia (EDTA artifact), drug-induced thrombocytopenia, TTP/HUS, bone marrow disorders, and hypersplenism before diagnosing ITP"],
-    quiz: [
-      {
-        question: "A 6-year-old boy presents with a swollen, painful right knee after minor play activity. His aPTT is prolonged at 62 seconds, PT is normal, and platelet count is 245,000. What is the most likely diagnosis?",
-        options: ["Immune thrombocytopenic purpura (ITP)","Hemophilia A (factor VIII deficiency)","von Willebrand disease type 1","Vitamin K deficiency"],
-        correct: 1,
-        rationale: "Hemarthrosis (joint bleeding) in a young boy with isolated prolonged aPTT, normal PT, and normal platelet count is the classic presentation of hemophilia A or B. The intrinsic pathway is affected (prolonged aPTT). The deep tissue bleeding pattern distinguishes this from platelet disorders. Factor VIII and IX assays will differentiate hemophilia A from B. X-linked recessive inheritance explains the male predominance."
-      },
-      {
-        question: "A 45-year-old woman presents with confusion, fever, thrombocytopenia (platelets 18,000), and schistocytes on peripheral smear. LDH is markedly elevated. What should the NP do FIRST?",
-        options: ["Transfuse platelets to prevent intracranial hemorrhage","Order ADAMTS13 activity level and initiate emergent plasma exchange","Start high-dose corticosteroids and observe","Administer IVIG and schedule splenectomy"],
-        correct: 1,
-        rationale: "This is the classic TTP presentation: thrombocytopenia, microangiopathic hemolytic anemia (schistocytes, elevated LDH), and neurological symptoms. Emergent plasma exchange is life-saving — mortality drops from >90% to <10%. ADAMTS13 activity should be sent BEFORE plasma exchange (which replaces the enzyme and alters the level). Platelet transfusion is CONTRAINDICATED as it fuels microvascular thrombosis."
-      },
-      {
-        question: "A patient with type 2B von Willebrand disease is scheduled for dental extraction. Which treatment is CONTRAINDICATED?",
-        options: ["Tranexamic acid oral rinse","Desmopressin (DDAVP)","vWF-containing factor VIII concentrate (Humate-P)","Topical thrombin"],
-        correct: 1,
-        rationale: "DDAVP is contraindicated in type 2B vWD because it releases abnormal vWF that binds platelets spontaneously, causing platelet aggregation and worsening thrombocytopenia. Type 2B is the only vWD subtype where DDAVP is harmful. Instead, use vWF-containing factor VIII concentrates (Humate-P) for hemostatic coverage. Tranexamic acid and topical hemostatic agents are safe adjuncts."
-      },
-    ]
-  },
   "coagulopathies-basics-np": {
-    title: "Coagulopathies: Diagnostic Framework & Management",
-    cellular: { title: "Systematic Approach to Coagulopathies", content: "The NP evaluates coagulopathies using a systematic algorithm based on which coagulation tests are abnormal. The initial screening panel (PT/INR, aPTT, platelet count, fibrinogen, D-dimer) categorizes disorders: (1) Isolated prolonged PT — factor VII deficiency (earliest sign of liver disease or vitamin K deficiency), early warfarin effect, or rare congenital factor VII deficiency; (2) Isolated prolonged aPTT — factor VIII deficiency (hemophilia A), factor IX deficiency (hemophilia B), factor XI deficiency, von Willebrand disease, lupus anticoagulant, or heparin effect; (3) Both PT and aPTT prolonged — common pathway defects (factor X, V, II, fibrinogen), DIC, severe liver disease, vitamin K deficiency, supratherapeutic warfarin, dilutional coagulopathy; (4) Normal PT/aPTT with bleeding — platelet disorder (qualitative), factor XIII deficiency, vascular disorders (hereditary hemorrhagic telangiectasia, Ehlers-Danlos), or alpha-2-antiplasmin deficiency. The liver synthesizes virtually all clotting factors except vWF and factor VIII (produced by endothelial cells); therefore, liver disease creates a complex hemostatic derangement with both bleeding AND thrombotic risk. The NP must understand that conventional coagulation tests (PT/aPTT) do NOT accurately predict bleeding risk in liver disease because they do not measure the concurrent decrease in natural anticoagulants (protein C, protein S, antithrombin) — viscoelastic testing (TEG/ROTEM) better reflects true hemostatic balance." },
-    riskFactors: ["Liver cirrhosis (complex coagulopathy: decreased factor synthesis, decreased thrombopoietin, portal hypertension-related splenic sequestration, increased fibrinolysis, dysfibrinogenemia)","Vitamin K deficiency: malabsorptive states (celiac disease, short bowel syndrome, biliary obstruction), prolonged antibiotic use (disrupts gut flora that produce vitamin K2), inadequate dietary intake, warfarin therapy","Disseminated intravascular coagulation (DIC) triggers: sepsis, obstetric complications, massive trauma/crush injury, malignancy (especially acute promyelocytic leukemia, pancreatic cancer), snake envenomation, burn injury","Inherited coagulopathies: hemophilia A/B, von Willebrand disease types 1-3, rare factor deficiencies (XI, XIII, II, V, X, VII), combined factor V/VIII deficiency","Acquired factor inhibitors: factor VIII inhibitor (autoimmune — elderly, postpartum, autoimmune diseases; alloimmune — hemophilia patients who develop antibodies to replacement factor)","Medications: anticoagulants, antiplatelet agents, fibrinolytics (alteplase), valproic acid (decreases fibrinogen and platelet count), L-asparaginase (depletes fibrinogen and antithrombin)","Massive hemorrhage with resuscitation: dilutional coagulopathy (>1 blood volume crystalloid or >10 units PRBCs without plasma), hypothermia-impaired enzyme function, acidosis-impaired clotting factor activity — the lethal triad"],
-    diagnostics: ["Coagulation panel interpretation algorithm: step 1 — determine which tests are abnormal (PT, aPTT, or both); step 2 — perform mixing study if aPTT prolonged; step 3 — order specific factor assays based on pattern; step 4 — correlate with clinical bleeding pattern","ISTH DIC scoring system: platelet count (>100K=0, 50-100K=1, <50K=2), fibrin markers/D-dimer (normal=0, moderate increase=2, strong increase=3), prolonged PT (<3 sec=0, 3-6 sec=1, >6 sec=2), fibrinogen (>1 g/L=0, <1 g/L=1); score >=5 = overt DIC","Thromboelastography (TEG)/ROTEM: real-time viscoelastic hemostasis assessment; R-time/CT = time to initial fibrin formation (clotting factor function); K-time/CFT = clot kinetics; MA/MCF = maximum clot firmness (platelet/fibrinogen contribution); LY30/ML = fibrinolysis","Factor-specific assays: quantitative measurement of individual clotting factors (normal 50-150%); factor VIII and IX for hemophilia classification (severe <1%, moderate 1-5%, mild 5-40%)","Bethesda assay: quantifies inhibitor titer in Bethesda Units (BU); low responder <5 BU (can overcome with high-dose factor); high responder >=5 BU (requires bypassing agents)","Thrombin generation assay: measures overall hemostatic potential; useful in complex coagulopathies (liver disease) where PT/aPTT overestimate bleeding risk","Euglobulin clot lysis time: shortened in hyperfibrinolytic states (primary fibrinolysis, liver disease, DIC with fibrinolytic predominance)"],
-    management: ["Vitamin K replacement: 10 mg IV slow push (over 30 minutes, risk of anaphylactoid reaction) for serious bleeding or INR >9; 2.5-5 mg PO for INR 4.5-9 without bleeding; IV onset 6-8 hours, PO onset 24-48 hours; SC route has erratic absorption and is NOT recommended","Fresh frozen plasma (FFP): contains all clotting factors at ~1 unit/mL activity; dose 10-15 mL/kg (typically 4-6 units for an adult); must be ABO-compatible; thaw time ~30 minutes; volume overload risk; indicated for active bleeding with multiple factor deficiencies, warfarin reversal if PCC unavailable, or TTP plasmapheresis replacement","4-factor prothrombin complex concentrate (PCC/Kcentra): contains factors II, VII, IX, X plus proteins C and S; preferred over FFP for warfarin reversal in life-threatening bleeding (rapid administration, predictable effect, no thaw time, low volume); dose based on INR and weight; also used for DOAC reversal when specific antidotes unavailable","Cryoprecipitate: concentrated source of fibrinogen (150-250 mg per unit), factor VIII, vWF, factor XIII, and fibronectin; indicated when fibrinogen <100-150 mg/dL; typical dose 10 units (raises fibrinogen ~50-70 mg/dL in 70 kg adult); must be ABO-compatible","Recombinant activated factor VII (rFVIIa/NovoSeven): bypassing agent for hemophilia with inhibitors; generates thrombin on activated platelet surface independent of factor VIII/IX; dose 90 mcg/kg IV every 2 hours until hemostasis; off-label use in refractory hemorrhage (controversial)","Antifibrinolytic therapy: tranexamic acid 1g IV over 10 minutes (trauma: within 3 hours; obstetric hemorrhage: ASAP; dental procedures in hemophilia: oral rinse); aminocaproic acid 4-5g loading then 1g/hour maintenance; contraindicated in DIC and upper urinary tract bleeding (risk of ureteral clot obstruction)"],
-    nursingActions: ["Apply the systematic coagulopathy diagnostic algorithm: isolated prolonged PT = extrinsic pathway (factor VII); isolated prolonged aPTT = intrinsic pathway (VIII, IX, XI, XII, vWF); both prolonged = common pathway or global defect (DIC, liver disease, vitamin K deficiency)","Calculate and interpret the ISTH DIC score serially: score >=5 confirms overt DIC; repeat every 8-12 hours to track progression or resolution; falling fibrinogen trend is more important than a single value due to its acute-phase reactant properties","Manage massive transfusion protocol: activate with estimated blood loss >30% blood volume or hemodynamic instability with ongoing hemorrhage; maintain 1:1:1 ratio of PRBCs:FFP:platelets; administer TXA within 3 hours; monitor TEG/ROTEM for goal-directed component therapy; address the lethal triad (hypothermia, acidosis, coagulopathy)","Monitor for transfusion-associated circulatory overload (TACO) in patients receiving large-volume plasma: dyspnea, orthopnea, JVD, hypertension, pulmonary edema — distinguished from TRALI by elevated BNP and response to diuretics","Counsel patients with inherited coagulopathies on lifelong management: medic-alert identification, avoidance of IM injections and aspirin/NSAIDs, pre-procedural factor replacement planning, genetic counseling, comprehensive hemophilia treatment center follow-up","Differentiate primary fibrinolysis (elevated D-dimer, LOW fibrinogen, normal or mildly decreased platelets) from DIC (elevated D-dimer, LOW fibrinogen, LOW platelets, prolonged PT/aPTT, microangiopathic hemolysis) — primary fibrinolysis responds to antifibrinolytics; antifibrinolytics in DIC can worsen organ damage from microvascular thrombosis"],
-    assessmentFindings: ["DIC presentation: simultaneous bleeding (oozing from IV sites, wound edges, mucosal surfaces) AND thrombosis (acrocyanosis, purpura fulminans, organ ischemia) — the hallmark diagnostic paradox","Hepatic coagulopathy: coagulation tests abnormal out of proportion to clinical bleeding; spider angiomata, ascites, jaundice, splenomegaly — PT prolonged first (factor VII has shortest half-life at 6 hours)","Vitamin K deficiency: prolonged PT initially (factor VII shortest half-life), then aPTT becomes prolonged as factors IX, X, II deplete; easy bruising, mucosal bleeding; common in neonates (hemorrhagic disease of the newborn prevented by vitamin K injection at birth)","Acquired hemophilia A: elderly patient with sudden onset severe bleeding (large soft tissue hematomas, retroperitoneal hemorrhage) and isolated markedly prolonged aPTT that does NOT correct on mixing study — autoantibody against factor VIII","Hyperfibrinolysis: delayed re-bleeding after initial hemostasis, oozing from previously stable surgical sites, diffuse mucosal bleeding; euglobulin clot lysis time shortened; TEG/ROTEM shows increased LY30/ML"],
-    signs: {
-      left: ["Mild coagulopathy with asymptomatic lab abnormalities only","Vitamin K deficiency responding to oral supplementation","Chronic stable liver disease with compensated coagulopathy","Low-titer factor inhibitor without spontaneous bleeding","Mild DIC (score 5) with controlled underlying cause"],
-      right: ["Fulminant DIC with massive hemorrhage AND multi-organ failure from microvascular thrombosis","Life-threatening intracranial hemorrhage in hemophilia patient","Lethal triad in trauma: hypothermia <35C, pH <7.2, coagulopathy (PT >1.5x normal)","Acquired hemophilia A with compartment syndrome from muscle hemorrhage","Purpura fulminans (symmetric peripheral gangrene) in meningococcemia with severe protein C depletion"]
+      "title": "Coagulopathies Basics",
+      "cellular": {
+        "title": "Hemostatic Disorders Overview",
+        "content": "Coagulopathies are disorders of hemostasis resulting in either excessive bleeding or thrombosis. Primary hemostasis (platelet plug formation) disorders include quantitative (thrombocytopenia) and qualitative (platelet dysfunction) platelet abnormalities, presenting with mucocutaneous bleeding (petechiae, purpura, epistaxis, GI bleeding). Secondary hemostasis (coagulation factor) disorders cause deep tissue bleeding (hemarthrosis, deep hematomas, delayed post-surgical bleeding). The NP must differentiate between platelet-type bleeding (immediate, mucocutaneous) and factor-type bleeding (delayed, deep tissue), evaluate with appropriate laboratories (platelet count, PT, aPTT, bleeding time/PFA-100), and identify inherited versus acquired causes to guide management."
+      },
+      "riskFactors": [
+        "Liver disease (decreased factor synthesis, decreased thrombopoietin, portal hypertension-related splenomegaly with platelet sequestration)",
+        "Chronic kidney disease (uremic platelet dysfunction)",
+        "Malnutrition/malabsorption (vitamin K deficiency)",
+        "Medications: anticoagulants, antiplatelet agents, NSAIDs, SSRIs (impair platelet serotonin uptake), valproic acid (thrombocytopenia)",
+        "Bone marrow disorders: leukemia, aplastic anemia, myelodysplastic syndrome (decreased production)",
+        "Autoimmune: ITP (immune-mediated platelet destruction), acquired hemophilia (Factor VIII autoantibody)",
+        "Massive transfusion without balanced replacement (dilutional coagulopathy)",
+        "Hypothermia and acidosis (impair clotting factor enzymatic function -- 'lethal triad' with hemorrhage)"
+      ],
+      "diagnostics": [
+        "Platelet count: <150,000 = thrombocytopenia; <10,000 = risk of spontaneous bleeding; >450,000 = thrombocytosis",
+        "PT/INR: prolonged = extrinsic/common pathway disorder (vitamin K deficiency, warfarin, liver disease, Factor VII deficiency)",
+        "aPTT: prolonged = intrinsic/common pathway disorder (heparin, hemophilia A/B, vWD, Factor XII deficiency)",
+        "Bleeding time/PFA-100: prolonged = platelet dysfunction or vWD",
+        "Fibrinogen: <100 mg/dL = increased bleeding risk; <50 mg/dL = critical",
+        "D-dimer: elevated = fibrinolysis (DIC, DVT/PE)",
+        "Peripheral blood smear: schistocytes (MAHA), giant platelets (ITP, Bernard-Soulier), platelet clumping (pseudothrombocytopenia from EDTA)"
+      ],
+      "management": [
+        "Platelet-type bleeding: platelet transfusion (threshold <10k prophylactic, <50k before procedure, <100k for neurosurgery/ophthalmologic surgery); ITP: steroids first-line, IVIG for rapid platelet increase, thrombopoietin receptor agonists for chronic ITP",
+        "Factor-type bleeding: replace the deficient factor; FFP (all factors), cryoprecipitate (fibrinogen, VIII, vWF, XIII), specific factor concentrates",
+        "Vitamin K deficiency: phytonadione (IV for urgent, PO for non-urgent); takes 6-24 hours for effect",
+        "Uremic bleeding: DDAVP (improves platelet adhesion), cryoprecipitate, conjugated estrogens",
+        "Massive hemorrhage: massive transfusion protocol (1:1:1 ratio RBCs:FFP:platelets), correct hypothermia and acidosis (the 'lethal triad')",
+        "Antifibrinolytic therapy: tranexamic acid or aminocaproic acid for mucosal bleeding, post-surgical bleeding, menorrhagia"
+      ],
+      "nursingActions": [
+        "Differentiate platelet-type from factor-type bleeding clinically: petechiae/purpura/mucosal = platelet; hemarthrosis/deep hematoma/delayed bleeding = factor",
+        "Order and interpret initial coagulation workup: CBC with platelet count, PT/INR, aPTT, fibrinogen, peripheral smear",
+        "Assess for the lethal triad in trauma/massive hemorrhage: hypothermia, acidosis, coagulopathy -- all three impair hemostasis and must be corrected simultaneously",
+        "Calculate the 4Ts score for any patient on heparin with declining platelets",
+        "Prescribe appropriate blood products: know the indications for each (RBCs for oxygen-carrying capacity, FFP for factors, platelets for thrombocytopenia, cryoprecipitate for fibrinogen <100)",
+        "Review medication list for drugs contributing to bleeding: anticoagulants, antiplatelets, NSAIDs, SSRIs, fish oil supplements",
+        "Implement bleeding precautions: soft toothbrush, electric razor, avoid IM injections, stool softeners, fall prevention"
+      ],
+      "assessmentFindings": [
+        "Platelet-type bleeding: petechiae (pinpoint, non-blanching), purpura, ecchymoses, mucosal bleeding (gingival, epistaxis), GI bleeding, menorrhagia",
+        "Factor-type bleeding: hemarthrosis, deep muscle hematomas, retroperitoneal hemorrhage, delayed post-surgical bleeding",
+        "Combined: DIC causes both types simultaneously",
+        "Signs of severity: pallor, tachycardia, hypotension (hemorrhagic shock), altered mental status",
+        "Splenomegaly may indicate sequestration thrombocytopenia or underlying liver disease"
+      ],
+      "signs": {
+        "left": [
+          "Mild thrombocytopenia (50,000-150,000) without clinical bleeding",
+          "Minor mucocutaneous bleeding controlled with local measures",
+          "Mildly prolonged PT or aPTT without clinical bleeding",
+          "Known mild bleeding disorder with appropriate baseline function"
+        ],
+        "right": [
+          "Severe thrombocytopenia (<10,000) with spontaneous mucosal bleeding",
+          "Massive hemorrhage with hemodynamic instability (lethal triad)",
+          "Intracranial hemorrhage from any coagulopathy",
+          "DIC with simultaneous bleeding and organ ischemia",
+          "Post-operative hemorrhage requiring re-exploration"
+        ]
+      },
+      "medications": [
+        {
+          "name": "Tranexamic Acid (TXA / Cyklokapron)",
+          "type": "Antifibrinolytic agent",
+          "action": "Competitively inhibits plasminogen activation by binding to the lysine-binding sites on plasminogen, preventing plasmin from degrading fibrin clots; stabilizes formed clots and reduces bleeding without forming new clots",
+          "sideEffects": "Nausea, diarrhea, dizziness; rare: thromboembolic events (DVT, PE -- theoretical risk but not supported by clinical trial data), seizures (at very high doses, especially in cardiac surgery)",
+          "contra": "Active thromboembolic disease, subarachnoid hemorrhage (may prevent beneficial clot lysis), severe renal impairment (dose adjust), color vision disturbances",
+          "pearl": "1g IV in trauma (CRASH-2 trial: reduces mortality when given within 3 hours of injury; NO benefit after 3 hours and may increase mortality); 1g IV in postpartum hemorrhage (WOMAN trial); 1.3g PO TID for heavy menstrual bleeding; also effective as mouthwash for oral bleeding in thrombocytopenia"
+        }
+      ],
+      "pearls": [
+        "Petechiae/purpura/mucosal bleeding = PLATELET disorder; hemarthrosis/deep hematoma/delayed bleeding = FACTOR disorder -- this clinical distinction guides initial workup",
+        "The lethal triad in trauma: hypothermia + acidosis + coagulopathy -- all three impair clotting and must be corrected simultaneously; damage control resuscitation focuses on preventing this triad",
+        "Pseudothrombocytopenia: EDTA anticoagulant in purple-top tubes causes platelet clumping in ~0.1% of patients, falsely lowering platelet count; confirm by repeating with citrate (blue-top) tube and examining peripheral smear",
+        "ITP treatment ladder: corticosteroids (first-line) → IVIG (rapid platelet increase needed) → splenectomy (refractory) → TPO receptor agonists (eltrombopag, romiplostim for chronic)",
+        "Tranexamic acid in trauma (CRASH-2): give within 3 HOURS of injury -- after 3 hours it increases mortality; 1g IV bolus then 1g over 8 hours",
+        "Cryoprecipitate contains: fibrinogen, Factor VIII, vWF, and Factor XIII; 1 unit raises fibrinogen ~5-10 mg/dL; indicated when fibrinogen <100 mg/dL"
+      ],
+      "quiz": [
+        {
+          "question": "A patient presents with deep muscle hematomas and hemarthrosis after minor trauma. Which type of hemostatic disorder is most likely?",
+          "options": [
+            "Platelet disorder (thrombocytopenia or dysfunction)",
+            "Coagulation factor disorder (hemophilia or factor deficiency)",
+            "Vascular disorder (vasculitis)",
+            "Fibrinolytic disorder"
+          ],
+          "correct": 1,
+          "rationale": "Deep tissue bleeding (hemarthrosis, deep hematomas, retroperitoneal hemorrhage) is characteristic of FACTOR disorders (secondary hemostasis defects like hemophilia). Platelet disorders cause mucocutaneous bleeding (petechiae, purpura, epistaxis, gingival bleeding). This clinical distinction is fundamental for directing the diagnostic workup."
+        },
+        {
+          "question": "A trauma patient has hypothermia (34°C), pH 7.15, and INR of 2.8 despite no anticoagulant use. What is this triad called and why is it dangerous?",
+          "options": [
+            "Cushing triad -- indicates increased intracranial pressure",
+            "Virchow triad -- indicates DVT risk",
+            "Lethal triad -- hypothermia, acidosis, and coagulopathy each impair hemostasis, creating a vicious cycle of worsening hemorrhage",
+            "Beck triad -- indicates cardiac tamponade"
+          ],
+          "correct": 2,
+          "rationale": "The lethal triad (hypothermia + acidosis + coagulopathy) creates a vicious cycle in trauma: hypothermia slows enzymatic clotting reactions, acidosis impairs factor function and causes platelet dysfunction, and coagulopathy worsens bleeding which worsens hypothermia and acidosis. Damage control resuscitation prioritizes correcting all three simultaneously."
+        },
+        {
+          "question": "Tranexamic acid (TXA) in trauma should be administered within what timeframe per the CRASH-2 trial?",
+          "options": [
+            "Within 30 minutes of injury",
+            "Within 3 hours of injury -- administration after 3 hours may increase mortality",
+            "Within 12 hours of injury",
+            "Within 24 hours of injury"
+          ],
+          "correct": 1,
+          "rationale": "The CRASH-2 trial demonstrated that TXA reduces all-cause mortality in bleeding trauma patients when given within 3 hours of injury. Administration after 3 hours showed a trend toward INCREASED mortality, possibly due to stabilization of harmful microvascular thrombi. The recommended protocol is 1g IV bolus followed by 1g IV over 8 hours."
+        }
+      ]
     },
-    medications: [{
-      name: "4-Factor Prothrombin Complex Concentrate (Kcentra/Beriplex)",
-      type: "Clotting factor concentrate",
-      action: "Contains vitamin K-dependent factors II, VII, IX, X plus proteins C and S in a lyophilized concentrate; rapidly replaces depleted clotting factors without the volume, thaw time, or ABO compatibility requirements of FFP; reconstitutes in minutes and can be infused in 15-30 minutes",
-      sideEffects: "Thrombotic events (stroke, MI, PE, DVT — especially in patients with underlying hypercoagulable states), DIC, heparin-induced thrombocytopenia (some formulations contain heparin), headache, hypotension",
-      contra: "Known heparin allergy (if formulation contains heparin), DIC, history of HIT (if heparin-containing); use cautiously in patients with recent thrombotic events",
-      pearl: "Dosing for warfarin reversal based on INR: INR 2-4 = 25 units/kg (max 2500 units); INR 4-6 = 35 units/kg (max 3500 units); INR >6 = 50 units/kg (max 5000 units); recheck INR 30 minutes post-infusion; give vitamin K 10 mg IV concurrently to prevent INR rebound once PCC factors are cleared (PCC is a bridge, vitamin K provides sustained reversal); faster onset than FFP (minutes vs hours) with predictable dose-response"
-    },{
-      name: "Aminocaproic Acid (Amicar)",
-      type: "Antifibrinolytic agent",
-      action: "Competitively inhibits plasminogen activators and, at higher concentrations, non-competitively inhibits plasmin; prevents fibrin clot breakdown by stabilizing the formed fibrin matrix; does NOT promote new clot formation",
-      sideEffects: "Nausea, diarrhea, dizziness, myopathy (with prolonged use >3 weeks — monitor CK), thrombotic events (rare), seizures (rare), rhabdomyolysis (rare with high doses and renal impairment)",
-      contra: "DIC (antifibrinolytics trap microthrombi and worsen organ damage), upper urinary tract bleeding (clots may obstruct ureters), active intravascular thrombosis; dose-adjust in renal impairment",
-      pearl: "Loading dose 4-5 g IV over 1 hour then 1-1.25 g/hour continuous infusion; also available PO (swish and spit or swallow for oral/dental procedures); used as adjunct in cardiac surgery (reduces transfusion requirements by 30%), dental procedures in patients on anticoagulants, and menorrhagia; do NOT confuse with tranexamic acid (TXA is 10x more potent by weight)"
-    }],
-    pearls: ["The coagulopathy diagnostic algorithm: isolated prolonged PT = think factor VII (liver disease, vitamin K deficiency, warfarin); isolated prolonged aPTT = think intrinsic pathway (hemophilia A/B, vWD, lupus anticoagulant, heparin); both prolonged = think common pathway or global (DIC, severe liver disease, massive transfusion dilution)","In liver disease, PT/aPTT overestimate bleeding risk because they do not account for the concurrent decrease in natural anticoagulants — the liver disease patient is 'rebalanced' with decreased procoagulants AND decreased anticoagulants; TEG/ROTEM better reflects true hemostatic balance","The lethal triad of trauma (hypothermia + acidosis + coagulopathy) is a vicious cycle: hypothermia slows enzymatic clotting reactions, acidosis impairs factor function, and coagulopathy worsens hemorrhage which worsens hypothermia and acidosis — damage control resuscitation (permissive hypotension, 1:1:1 transfusion ratio, warming, TXA) breaks this cycle","Factor VII has the shortest half-life (~6 hours) of all clotting factors — it is the FIRST factor to decline in liver disease, vitamin K deficiency, and warfarin therapy, making PT/INR the first lab to become abnormal","Neonates are physiologically deficient in vitamin K-dependent factors (II, VII, IX, X) — vitamin K 1 mg IM at birth prevents hemorrhagic disease of the newborn (HDN), which can present with life-threatening intracranial hemorrhage at 2-12 weeks of age","The ISTH DIC score uses 4 parameters (platelet count, D-dimer, PT prolongation, fibrinogen level) — score >=5 = overt DIC; repeat serially as a TREND is more diagnostically valuable than any single score"],
-    quiz: [
-      {
-        question: "A patient presents with INR of 8.2 and active GI bleeding after taking too much warfarin. What is the MOST appropriate reversal strategy?",
-        options: ["Vitamin K 10 mg IV alone and wait 24 hours","4-factor PCC (dose based on INR) PLUS vitamin K 10 mg IV concurrently","Fresh frozen plasma 2 units only","Hold warfarin and observe"],
-        correct: 1,
-        rationale: "Life-threatening warfarin-associated bleeding requires BOTH 4-factor PCC for immediate factor replacement (onset within minutes) AND vitamin K 10 mg IV for sustained reversal (onset 6-8 hours). PCC alone provides temporary correction — factors are eventually cleared, and without vitamin K the INR will rebound. FFP is a second-line option with slower onset, volume overload risk, and thaw time delays. Simply holding warfarin is insufficient for active bleeding."
-      },
-      {
-        question: "A trauma patient arrives with massive hemorrhage, temperature 34.5°C, pH 7.18, and aPTT 58 seconds. What does this constellation represent and what is the priority?",
-        options: ["Sepsis-induced DIC — start antibiotics and heparin","The lethal triad of trauma — initiate damage control resuscitation with warming, 1:1:1 transfusion, and TXA","Hemophilia — give factor VIII replacement","Liver failure — give vitamin K and FFP"],
-        correct: 1,
-        rationale: "Hypothermia (<35°C), acidosis (pH <7.2), and coagulopathy (prolonged aPTT) constitute the lethal triad of trauma. This vicious cycle worsens hemorrhage. Damage control resuscitation includes aggressive warming (warm fluids, forced-air warmers), balanced transfusion (1:1:1 PRBCs:FFP:platelets), tranexamic acid within 3 hours, and permissive hypotension (target SBP 80-90 until hemorrhage control). Correcting hypothermia and acidosis helps restore clotting factor enzymatic function."
-      },
-      {
-        question: "A patient with cirrhosis has PT 18 seconds and aPTT 42 seconds. No active bleeding. An invasive procedure is planned. The most appropriate pre-procedural hemostatic assessment is:",
-        options: ["Transfuse FFP until PT normalizes","Order thromboelastography (TEG/ROTEM) to assess true hemostatic balance","Administer vitamin K 10 mg IV and repeat PT in 24 hours","Cancel the procedure due to coagulopathy"],
-        correct: 1,
-        rationale: "In liver disease, PT/aPTT overestimate bleeding risk because they only measure procoagulant factor levels and do not account for the concurrent decrease in natural anticoagulants (protein C, S, antithrombin). The hepatic coagulopathy is 'rebalanced.' TEG/ROTEM provides a global assessment of hemostatic function including clot formation, strength, and fibrinolysis, better guiding the need for component therapy. Routine FFP administration to normalize PT in cirrhosis is no longer recommended."
-      },
-    ]
-  },
   "coarctation-of-aorta-rn": {
         title: "Coarctation of the Aorta",
         cellular: { title: "Aortic Narrowing and Hemodynamic Consequences", content: "Coarctation of the aorta (CoA) is a congenital cardiovascular malformation characterized by a discrete narrowing (stenosis) of the thoracic aorta, most commonly located in the juxtaductal region -- just distal to the origin of the left subclavian artery at the site where the ductus arteriosus (ligamentum arteriosum after closure) inserts into the aortic isthmus. This anatomical localization is not coincidental: the ductal tissue theory proposes that ectopic ductal smooth muscle tissue extends into the aortic wall, and when the ductus arteriosus constricts during normal postnatal closure, this aberrant ductal tissue within the aortic wall also constricts, producing a localized shelf-like narrowing of the aortic lumen. CoA occurs in approximately 5-8% of all congenital heart defects, with an incidence of approximately 4 per 10,000 live births, and has a male predominance of approximately 2:1. It is strongly associated with Turner syndrome (45,X) -- CoA is present in 10-15% of patients with Turner syndrome, and all females with CoA should be evaluated for Turner syndrome with karyotype analysis. CoA frequently coexists with other cardiac anomalies, most notably bicuspid aortic valve (present in 50-75% of CoA patients -- the most common associated cardiac defect), ventricular septal defect (VSD), patent ductus arteriosus (PDA), mitral valve abnormalities (parachute mitral valve in Shone complex), and intracranial berry aneurysms (particularly in the Circle of Willis -- present in 2-10% of CoA patients, creating a risk of subarachnoid hemorrhage especially if hypertension is uncontrolled). The hemodynamic consequences of CoA are determined by the degree of aortic narrowing and the rapidity of its development. In severe coarctation presenting in the neonatal period, the narrowing is critical and the infant depends on the patent ductus arteriosus (PDA) to maintain lower body perfusion. Blood flows right-to-left through the PDA from the pulmonary artery to the descending aorta, bypassing the coarctation. When the PDA begins to close naturally in the first days of life, lower body perfusion drops precipitously, causing cardiogenic shock with metabolic acidosis, renal failure, necrotizing enterocolitis, and death if not treated emergently. This ductus-dependent circulation is the basis for prostaglandin E1 (alprostadil) therapy, which reopens and maintains ductal patency as a life-saving bridge to surgical repair. In older children and adults with less severe coarctation, the hemodynamic picture is dominated by upper body hypertension and lower body hypoperfusion. The narrowed aortic segment acts as a mechanical obstruction to blood flow, creating a pressure gradient between the aorta proximal to the coarctation (upper body -- head, arms) and the aorta distal to the coarctation (lower body -- abdomen, legs). This produces the pathognomonic finding of CoA: upper extremity hypertension with diminished or absent femoral pulses and lower extremity hypotension. The blood pressure differential between arms and legs is typically >20 mmHg systolic. The left ventricle faces increased afterload from the fixed obstruction, leading to concentric left ventricular hypertrophy. Over time, collateral circulation develops through intercostal arteries (branches of the subcostal, internal thoracic, and lateral thoracic arteries) that bypass the coarctation, connecting the pre-coarctation arterial system to the post-coarctation descending aorta. These enlarged, tortuous collateral arteries produce the classic rib notching seen on chest X-ray (bilateral notching of the inferior margins of the third through eighth ribs, caused by erosion of the undersurface of the ribs by dilated, pulsatile intercostal arteries). Another classic CXR finding is the 3-sign (figure-3 sign): the pre-stenotic aortic dilation above the coarctation, the indentation at the coarctation site, and the post-stenotic aortic dilation below the coarctation together create a figure-3 appearance. Even after successful surgical repair, patients with CoA have lifelong cardiovascular risk. Persistent hypertension occurs in 25-40% of patients after repair due to abnormal aortic wall compliance, altered baroreceptor function, and activation of the renin-angiotensin system from chronic renal hypoperfusion. Re-coarctation (recurrent narrowing at the repair site) occurs in 5-15% of patients, particularly those repaired in infancy. Aortic aneurysm formation can occur at the repair site or in the ascending aorta (associated with bicuspid aortic valve). Premature coronary artery disease and stroke risk are elevated. All patients require lifelong cardiovascular follow-up with serial blood pressure monitoring, echocardiography (to assess for re-coarctation, bicuspid aortic valve progression, and LV function), and screening for intracranial aneurysms. The nursing assessment is critical for detecting CoA, particularly in neonates. The single most important screening maneuver is simultaneous palpation of the right brachial and femoral pulses -- absent or diminished femoral pulses with bounding upper extremity pulses is the hallmark finding. Four-extremity blood pressure measurement reveals upper extremity systolic BP >20 mmHg higher than lower extremity BP. In neonates with critical coarctation, signs of cardiogenic shock develop as the PDA closes: tachycardia, tachypnea, poor feeding, lethargy, mottled or gray skin color, metabolic acidosis, oliguria, and cardiovascular collapse. Recognition of these signs and immediate initiation of prostaglandin E1 infusion is life-saving." },
@@ -237,89 +515,239 @@ export const generatedBatch021Lessons: Record<string, LessonContent> = {
         quiz: [{ question: "A patient from Arizona presents with fever, cough, pleuritic chest pain, and painful red nodules on both shins. The CBC shows 8% eosinophils. What is the most likely diagnosis, and what does the shin rash indicate?", options: ["Bacterial pneumonia with cellulitis -- poor prognosis requiring IV antibiotics","Coccidioidomycosis with erythema nodosum -- the rash indicates GOOD prognosis because it reflects intact cell-mediated immunity","Coccidioidomycosis with disseminated skin disease -- the rash indicates POOR prognosis requiring immediate amphotericin B","Tuberculosis with erythema nodosum -- requires 4-drug anti-TB therapy"], correct: 1, rationale: "This is a classic presentation of primary pulmonary coccidioidomycosis: community-acquired pneumonia in a patient from an endemic area (Arizona), peripheral eosinophilia (common with coccidioidomycosis), and erythema nodosum (EN). EN is an immune-mediated hypersensitivity reaction (delayed-type/Type IV) to Coccidioides antigens. Paradoxically, EN indicates a GOOD prognosis because it reflects a vigorous Th1 cell-mediated immune response that is associated with lower risk of dissemination. EN should NOT be confused with disseminated cutaneous coccidioidomycosis, which presents as papules, verrucous nodules, and draining sinuses." },{ question: "A patient with coccidioidal meningitis has been on fluconazole 800 mg daily for 2 years and wants to stop the medication because he feels well. What is the nurse's most important response?", options: ["Support the patient's decision since 2 years is an adequate treatment duration","Explain that coccidioidal meningitis requires LIFELONG fluconazole therapy because relapse occurs in >80% of patients within 1 year of discontinuation","Suggest switching to a shorter course of amphotericin B to complete treatment","Recommend reducing the dose to 200 mg daily as maintenance"], correct: 1, rationale: "Coccidioidal meningitis is one of the few infectious diseases that requires LIFELONG antifungal therapy. Studies have consistently shown that relapse occurs in >80% of patients within 1 year of fluconazole discontinuation, regardless of treatment duration. The fungus persists in the CNS and cannot be eradicated with currently available antifungals. The nurse must educate the patient about the permanent nature of this therapy, the serious consequences of relapse (meningitis, hydrocephalus, stroke, death), and the importance of adherence and regular follow-up with CF titer monitoring." },{ question: "When a nurse suspects a patient may have coccidioidomycosis and orders culture specimens, what special precaution must be communicated to the laboratory?", options: ["Request anaerobic culture conditions for optimal growth","Label specimens with 'Coccidioides suspected' because mycelial cultures produce highly infectious arthroconidia requiring BSL-3 containment","Request that cultures be processed within 24 hours for rapid results","No special precautions are needed for fungal cultures"], correct: 1, rationale: "Coccidioides is classified as a Biosafety Level 3 (BSL-3) organism because the mycelial form grown in culture produces barrel-shaped arthroconidia that are HIGHLY infectious via aerosol -- inhalation of as few as 1-10 arthroconidia can cause infection. Standard laboratory handling of unsuspected Coccidioides cultures (opening plates, examining colonies) has caused numerous laboratory-acquired infections. Alerting the laboratory with 'Coccidioides suspected' ensures that cultures are processed under BSL-3 containment (biological safety cabinet, respiratory protection) to protect laboratory personnel." }]
   },
   "cognitive-decline-np": {
-    title: "Cognitive Decline",
-    cellular: { title: "Neurodegenerative Pathophysiology", content: "Cognitive decline encompasses a spectrum from mild cognitive impairment (MCI) to dementia, driven by neurodegenerative processes. In Alzheimer disease (the most common cause, 60-80% of dementia), amyloid-beta peptide accumulates extracellularly as senile plaques, and hyperphosphorylated tau protein forms intracellular neurofibrillary tangles, leading to synaptic dysfunction, neuroinflammation, and neuronal death starting in the entorhinal cortex and hippocampus before spreading cortically. Vascular cognitive impairment results from chronic cerebral hypoperfusion, strategic infarcts, or white matter disease. Lewy body dementia involves alpha-synuclein aggregation in cortical neurons. Frontotemporal dementia features tau or TDP-43 protein deposition in frontal and temporal lobes. The NP clinician differentiates these etiologies through clinical pattern recognition, neuropsychological testing, biomarker interpretation (CSF amyloid/tau, amyloid PET), and neuroimaging to guide targeted management." },
-    riskFactors: ["Advanced age (strongest non-modifiable risk factor; prevalence doubles every 5 years after age 65)","Family history of Alzheimer disease or dementia (APOE-e4 allele increases risk 3-15x)","Cardiovascular risk factors (hypertension, diabetes, hyperlipidemia, atrial fibrillation -- all contribute to vascular cognitive impairment)","Traumatic brain injury history (especially repetitive concussions)","Depression and social isolation","Low educational attainment and cognitive inactivity","Obstructive sleep apnea (chronic intermittent hypoxia accelerates neurodegeneration)","Hearing loss (independently associated with accelerated cognitive decline)"],
-    diagnostics: ["Order and interpret cognitive screening tools (MoCA preferred over MMSE for MCI detection; Mini-Cog for rapid screening; score interpretation guides referral decisions)","Order brain MRI without contrast (evaluate hippocampal atrophy via medial temporal lobe atrophy scale, white matter hyperintensities, strategic infarcts, frontotemporal atrophy patterns)","Order reversible cause workup: TSH, B12, folate, CBC, CMP, RPR/VDRL, HIV (if risk factors), urinalysis","Interpret CSF biomarkers when indicated (decreased amyloid-beta 42, elevated phospho-tau and total tau support Alzheimer diagnosis)","Order neuropsychological testing for comprehensive cognitive domain assessment (memory, executive function, language, visuospatial, attention)","Apply clinical decision tools: CDR (Clinical Dementia Rating) for staging; GDS (Global Deterioration Scale) for tracking progression"],
-    management: ["Prescribe cholinesterase inhibitors for mild-moderate Alzheimer disease (donepezil 5-10 mg daily, rivastigmine, galantamine) -- titrate slowly to minimize GI side effects","Add memantine (NMDA receptor antagonist) for moderate-severe Alzheimer disease; can combine with cholinesterase inhibitor","Manage vascular risk factors aggressively (target BP <130/80, statin therapy, diabetes optimization, anticoagulation for atrial fibrillation)","Prescribe SSRIs for comorbid depression (avoid tricyclics due to anticholinergic cognitive worsening)","Conduct comprehensive medication reconciliation -- discontinue anticholinergics, benzodiazepines, and other cognitively impairing medications","Refer to neurology for atypical presentations, young-onset dementia (<65), rapidly progressive dementia, or diagnostic uncertainty","Initiate advance care planning discussions early while patient retains decision-making capacity"],
-    nursingActions: ["Perform serial cognitive assessments using standardized tools (MoCA, MMSE) to track progression at each visit and document trends","Conduct comprehensive medication reconciliation at every encounter to identify and discontinue potentially inappropriate medications (Beers Criteria anticholinergics, benzodiazepines)","Assess functional status using validated ADL/IADL scales (Lawton IADL, Katz ADL) to determine disease stage and care needs","Screen for caregiver burden using Zarit Burden Interview; provide caregiver resources and respite referrals","Evaluate home safety (fall risk, stove safety, driving capacity, wandering risk) and make appropriate referrals","Counsel on non-pharmacological interventions: cognitive stimulation, physical exercise (150 min/week), social engagement, Mediterranean-style diet"],
-    assessmentFindings: ["Short-term memory impairment (asking repetitive questions, misplacing items, forgetting recent conversations -- hallmark of early Alzheimer disease)","Executive dysfunction (difficulty with financial management, medication adherence, meal planning, multitasking)","Language difficulties (word-finding pauses, circumlocution, reduced verbal fluency)","Visuospatial impairment (getting lost in familiar places, difficulty with clock drawing test)","Behavioral and psychological symptoms (apathy, depression, agitation, sleep-wake cycle disturbances, paranoia)","Impaired instrumental ADLs with preserved basic ADLs in mild cognitive impairment; progressive ADL decline in dementia","Abnormal neurological examination findings depending on etiology (parkinsonism in Lewy body, primitive reflexes in advanced disease)"],
-    signs: {
-      left: ["MCI: subjective memory complaints with objective cognitive testing abnormalities but preserved ADLs","Mild dementia: IADL impairment (finances, medications, cooking) with preserved basic self-care","Gradual progressive course over months to years","MoCA score 18-25 (mild impairment)","Clock drawing test showing planning errors"],
-      right: ["Rapidly progressive dementia (weeks to months -- consider prion disease, autoimmune encephalitis, malignancy)","Severe dementia with loss of basic ADLs (bathing, dressing, toileting, feeding)","Behavioral crisis (severe agitation, psychosis, aggression requiring acute management)","New focal neurological deficits suggesting stroke or mass lesion","MoCA score <10 with complete functional dependence"]
+      "title": "Cognitive Decline Assessment",
+      "cellular": {
+        "title": "Neurodegenerative Pathways & Cognitive Assessment",
+        "content": "Cognitive decline encompasses a spectrum from subjective cognitive complaints to mild cognitive impairment (MCI) to dementia. Alzheimer disease (most common) involves extracellular amyloid-beta plaque deposition, intracellular neurofibrillary tangles (hyperphosphorylated tau protein), synaptic loss, and cholinergic neuron degeneration in the hippocampus and association cortices. Vascular cognitive impairment results from chronic cerebrovascular disease (white matter lesions, lacunar infarcts). Lewy body dementia involves alpha-synuclein aggregates causing fluctuating cognition, visual hallucinations, and parkinsonism. Frontotemporal dementia involves tau or TDP-43 protein aggregates causing personality changes and language deficits. Reversible causes (vitamin B12 deficiency, hypothyroidism, normal pressure hydrocephalus, medication effects, depression) must be excluded before diagnosing neurodegenerative disease."
+      },
+      "riskFactors": [
+        "Age (strongest risk factor; prevalence doubles every 5 years after age 65)",
+        "Family history of Alzheimer disease or related dementias",
+        "ApoE4 allele (strongest genetic risk factor for sporadic Alzheimer; homozygous = 15x risk)",
+        "Cardiovascular risk factors: hypertension, diabetes, hyperlipidemia, obesity, smoking (vascular contributions to cognitive impairment)",
+        "Prior traumatic brain injury",
+        "Low educational attainment and cognitive inactivity (low cognitive reserve)",
+        "Social isolation and depression (both risk factor and prodromal symptom)",
+        "Hearing loss (strongest modifiable risk factor per Lancet Commission)",
+        "Obstructive sleep apnea (hypoxia-mediated neurodegeneration)"
+      ],
+      "diagnostics": [
+        "Cognitive screening: MMSE (max 30; <24 suggests dementia), MoCA (max 30; <26 suggests MCI; more sensitive than MMSE for MCI), SLUMS, Mini-Cog (3-item recall + clock draw)",
+        "Distinguish MCI from dementia: MCI = cognitive impairment WITHOUT functional impairment in IADLs; dementia = cognitive impairment WITH functional decline",
+        "Laboratory workup to exclude reversible causes: TSH, B12, folate, CBC, CMP, RPR/VDRL, HIV (if risk factors), urinalysis",
+        "Brain MRI: hippocampal atrophy (Alzheimer), white matter changes (vascular), frontal/temporal atrophy (FTD); exclude structural lesions, NPH, subdural hematoma",
+        "CSF biomarkers (when diagnosis uncertain): low amyloid-beta42, elevated phospho-tau, elevated total tau (Alzheimer pattern)",
+        "Amyloid PET scan: detects amyloid plaques in vivo; appropriate when diagnosis uncertain and would change management",
+        "Neuropsychological testing: detailed domain-specific assessment (memory, language, executive function, visuospatial, attention)"
+      ],
+      "management": [
+        "Mild-moderate Alzheimer: cholinesterase inhibitor (donepezil 5-10 mg daily, rivastigmine, galantamine)",
+        "Moderate-severe Alzheimer: add memantine (NMDA receptor antagonist) 10 mg BID; can combine with cholinesterase inhibitor",
+        "Lewy body dementia: cholinesterase inhibitors may help cognition; AVOID antipsychotics (severe sensitivity reaction -- neuroleptic malignant syndrome-like)",
+        "Vascular cognitive impairment: control cardiovascular risk factors aggressively; no specific cognitive-enhancing medications proven effective",
+        "Behavioral symptoms (agitation, aggression, psychosis): non-pharmacological interventions first; if necessary, low-dose atypical antipsychotics with caution (FDA black box: increased mortality in elderly with dementia)",
+        "Reversible causes: B12 supplementation, thyroid hormone replacement, treat depression, medication review and deprescribing, NPH shunting",
+        "Supportive: caregiver education and support, home safety assessment, advance care planning, driving assessment"
+      ],
+      "nursingActions": [
+        "Screen for cognitive impairment using validated tools (MoCA preferred over MMSE for detecting MCI)",
+        "Obtain collateral history from family/caregivers (patients with dementia have limited insight into their deficits)",
+        "Order laboratory workup to exclude reversible causes: TSH, B12, CBC, CMP",
+        "Differentiate MCI from dementia based on functional status: assess IADLs (finances, medications, cooking, driving) -- impairment = dementia",
+        "Review medication list for cognitive-impairing drugs: anticholinergics (diphenhydramine, oxybutynin), benzodiazepines, opioids, anticholinergic burden (use Beers Criteria)",
+        "Counsel on advance directive completion and designation of healthcare proxy EARLY in the disease course while decision-making capacity is retained",
+        "Assess caregiver burden and connect with resources (Alzheimer's Association, respite care, support groups)"
+      ],
+      "assessmentFindings": [
+        "Alzheimer disease: progressive memory loss (hippocampal involvement), word-finding difficulty, getting lost in familiar places, difficulty managing finances",
+        "Vascular cognitive impairment: stepwise decline, focal neurological signs, executive dysfunction, gait abnormalities",
+        "Lewy body dementia: fluctuating cognition, recurrent detailed visual hallucinations, REM sleep behavior disorder, parkinsonism, severe neuroleptic sensitivity",
+        "Frontotemporal dementia: personality changes (disinhibition, apathy), language deficits, relatively preserved memory early on",
+        "Normal pressure hydrocephalus (reversible): triad of gait apraxia ('magnetic gait'), urinary incontinence, dementia ('wet, wobbly, and wacky')",
+        "Depression (pseudodementia): cognitive complaints with depressed mood; patients COMPLAIN about memory loss (unlike true dementia where patients minimize deficits)"
+      ],
+      "signs": {
+        "left": [
+          "MCI with preserved functional independence -- monitor and optimize risk factors",
+          "Mild cognitive symptoms with identified reversible cause (B12 deficiency, hypothyroidism)",
+          "Early-stage dementia with retained decision-making capacity -- focus on advance planning",
+          "Medication-related cognitive impairment improving with deprescribing"
+        ],
+        "right": [
+          "Rapid cognitive decline over weeks-months (consider Creutzfeldt-Jakob disease, autoimmune encephalitis, malignancy, NPH)",
+          "Severe behavioral disturbance: aggression, psychosis, wandering with safety risk",
+          "Lewy body dementia patient given antipsychotic developing severe rigidity, altered consciousness (neuroleptic sensitivity)",
+          "Advanced dementia with loss of ability to swallow: goals of care discussion, comfort-focused care",
+          "New focal neurological deficits with cognitive decline: stroke, mass lesion, subdural hematoma"
+        ]
+      },
+      "medications": [
+        {
+          "name": "Donepezil (Aricept)",
+          "type": "Cholinesterase inhibitor",
+          "action": "Reversibly inhibits acetylcholinesterase, increasing acetylcholine availability in synaptic clefts; compensates for cholinergic neuron loss in Alzheimer disease; does NOT modify disease progression (symptomatic only)",
+          "sideEffects": "GI effects (nausea, diarrhea, anorexia -- most common, dose-related), bradycardia, syncope, insomnia, vivid dreams, muscle cramps",
+          "contra": "Known hypersensitivity; caution with sick sinus syndrome or conduction abnormalities (vagotonic effect → bradycardia); caution with peptic ulcer disease, COPD/asthma (cholinergic effects)",
+          "pearl": "Start 5 mg daily at bedtime (reduces GI side effects); increase to 10 mg after 4-6 weeks; 23 mg extended-release tablet for moderate-severe AD; expect modest improvement or stabilization -- NOT cure; if no benefit after 3-6 month trial, consider discontinuation; take at bedtime to minimize GI effects and vivid dreams"
+        }
+      ],
+      "pearls": [
+        "MoCA is more sensitive than MMSE for detecting MCI -- use MoCA for screening in primary care",
+        "MCI vs dementia: the KEY differentiator is functional status; MCI = cognitive impairment WITHOUT IADLs affected; dementia = cognitive impairment WITH functional decline",
+        "ALWAYS exclude reversible causes before diagnosing neurodegenerative dementia: check TSH, B12, depression screening, medication review, and brain imaging",
+        "Lewy body dementia patients are EXTREMELY sensitive to antipsychotics -- can develop irreversible parkinsonism, NMS-like reactions, and death; use cholinesterase inhibitors first for behavioral symptoms",
+        "Normal pressure hydrocephalus triad: 'wet (incontinence), wobbly (gait apraxia), and wacky (dementia)' -- this is REVERSIBLE with VP shunt placement",
+        "Depression can mimic dementia (pseudodementia): depressed patients COMPLAIN about cognitive problems; patients with true dementia typically MINIMIZE or are unaware of their deficits"
+      ],
+      "quiz": [
+        {
+          "question": "A 72-year-old presents with progressive memory loss, word-finding difficulty, and getting lost in familiar places. The MoCA score is 18/30, and the patient can no longer manage finances independently. What is the appropriate classification?",
+          "options": [
+            "Normal age-related cognitive changes",
+            "Mild cognitive impairment",
+            "Dementia (probable Alzheimer disease)",
+            "Depression-related pseudodementia"
+          ],
+          "correct": 2,
+          "rationale": "This patient has progressive memory loss (hippocampal domain) with functional impairment (unable to manage finances = IADL decline). MCI would be diagnosed if cognition were impaired but functional independence preserved. The presence of functional decline in the context of cognitive impairment meets criteria for dementia."
+        },
+        {
+          "question": "Which medication class should be AVOIDED in Lewy body dementia?",
+          "options": [
+            "Cholinesterase inhibitors",
+            "Antipsychotics -- Lewy body dementia patients have severe neuroleptic sensitivity",
+            "SSRIs",
+            "Memantine"
+          ],
+          "correct": 1,
+          "rationale": "Lewy body dementia patients have profound neuroleptic sensitivity due to dopaminergic neuron degeneration. Antipsychotics (especially typical/first-generation) can cause severe parkinsonism, rigidity, altered consciousness, autonomic instability, and death. If an antipsychotic is absolutely necessary, use lowest dose of quetiapine with extreme caution."
+        },
+        {
+          "question": "A patient presents with gait apraxia, urinary incontinence, and cognitive decline. Brain MRI shows ventriculomegaly out of proportion to cortical atrophy. What is the most likely diagnosis?",
+          "options": [
+            "Alzheimer disease",
+            "Vascular dementia",
+            "Normal pressure hydrocephalus",
+            "Frontotemporal dementia"
+          ],
+          "correct": 2,
+          "rationale": "The triad of gait apraxia, urinary incontinence, and dementia ('wet, wobbly, wacky') with ventriculomegaly on imaging is classic for normal pressure hydrocephalus (NPH). This is a potentially REVERSIBLE cause of dementia treated with VP shunt placement. Gait is typically the first symptom to improve after shunting."
+        }
+      ]
     },
-    medications: [{
-      name: "Donepezil (Aricept)",
-      type: "Cholinesterase inhibitor",
-      action: "Reversibly inhibits acetylcholinesterase, increasing acetylcholine availability at cholinergic synapses in the cerebral cortex and hippocampus to temporarily improve or stabilize cognitive function in Alzheimer disease",
-      sideEffects: "GI effects (nausea, diarrhea, anorexia -- most common, often dose-related), bradycardia (vagotonic effect), vivid dreams/insomnia (give in morning if problematic), muscle cramps, syncope",
-      contra: "Known hypersensitivity; caution with sick sinus syndrome, conduction abnormalities, active peptic ulcer disease, asthma/COPD (increases bronchial secretions), bladder outlet obstruction",
-      pearl: "Start 5 mg daily at bedtime, increase to 10 mg after 4-6 weeks if tolerated; 23 mg extended-release available for moderate-severe disease; take with or without food; GI side effects often improve with continued use; do not abruptly discontinue as rapid cognitive decline may occur"
-    }],
-    pearls: ["MoCA is more sensitive than MMSE for detecting MCI (MoCA cutoff <26/30; MMSE has ceiling effect and misses early executive dysfunction)","Always rule out REVERSIBLE causes before diagnosing neurodegenerative dementia: hypothyroidism, B12 deficiency, normal pressure hydrocephalus (triad: gait apraxia, urinary incontinence, dementia), depression (pseudodementia), medication effects","Rapidly progressive dementia (weeks to months) is a RED FLAG -- evaluate urgently for Creutzfeldt-Jakob disease, autoimmune encephalitis, CNS lymphoma, or metabolic encephalopathy","Anticholinergic medications are the single most common iatrogenic contributor to cognitive decline in older adults -- perform anticholinergic burden assessment at every visit","Lewy body dementia: do NOT prescribe typical antipsychotics (haloperidol) -- causes severe neuroleptic sensitivity reactions; if antipsychotic needed, use quetiapine at lowest dose","Driving assessment is a critical safety and medicolegal issue -- document driving status and capacity at each visit; refer for formal driving evaluation when uncertain"],
-    quiz: [
-      {
-        question: "A 72-year-old patient presents with progressive memory loss over 18 months. MoCA score is 20/30. TSH, B12, and metabolic panel are normal. Brain MRI shows hippocampal atrophy. What is the most appropriate initial pharmacotherapy?",
-        options: ["Memantine 10 mg twice daily","Donepezil 5 mg daily","Haloperidol 0.5 mg daily","Lorazepam 0.5 mg as needed"],
-        correct: 1,
-        rationale: "Donepezil (cholinesterase inhibitor) is first-line pharmacotherapy for mild-to-moderate Alzheimer disease. Start at 5 mg daily and titrate to 10 mg after 4-6 weeks. Memantine is added for moderate-severe disease. Benzodiazepines and antipsychotics worsen cognitive function and are not appropriate initial treatments."
-      },
-      {
-        question: "Which medication class should the NP prioritize discontinuing in a patient presenting with new cognitive complaints?",
-        options: ["ACE inhibitors","Statins","Anticholinergics (diphenhydramine, oxybutynin)","Calcium channel blockers"],
-        correct: 2,
-        rationale: "Anticholinergic medications (diphenhydramine, oxybutynin, tricyclic antidepressants) directly impair acetylcholine-mediated cognition and are the most common iatrogenic cause of cognitive decline in older adults. Discontinuation may improve or stabilize cognitive function."
-      },
-      {
-        question: "A patient with Lewy body dementia develops visual hallucinations causing distress. Which antipsychotic is safest to prescribe?",
-        options: ["Haloperidol","Quetiapine at the lowest effective dose","Chlorpromazine","Risperidone"],
-        correct: 1,
-        rationale: "Patients with Lewy body dementia have severe neuroleptic sensitivity -- typical antipsychotics (haloperidol, chlorpromazine) and high-potency atypicals can cause life-threatening rigidity, obtundation, and autonomic instability. Quetiapine has the lowest D2 receptor affinity and is the safest option, used at the lowest effective dose."
-      },
-    ]
-  },
   "cognitive-screening-np": {
-    title: "Cognitive Screening (MMSE, MoCA, Mini-Cog)",
-    cellular: { title: "Neuropsychometric Assessment Principles", content: "Cognitive screening tools measure specific cognitive domains through standardized tasks that correlate with underlying neuroanatomical function. The Montreal Cognitive Assessment (MoCA) evaluates visuospatial/executive function (trail-making, cube copy, clock drawing -- frontal and parietal lobe function), naming (temporal lobe), attention (digit span, serial 7s, vigilance -- prefrontal cortex and reticular activating system), language (sentence repetition, verbal fluency -- Broca and Wernicke areas), abstraction (frontal lobe), delayed recall (hippocampal function -- 5-word recall after ~5 minutes tests encoding and retrieval), and orientation (temporal-parietal cortex). The Mini-Mental State Examination (MMSE) covers orientation, registration, attention/calculation, recall, and language but has a significant ceiling effect and poor sensitivity for MCI and executive dysfunction. The Mini-Cog combines a 3-word recall with clock drawing, providing a rapid (<3 minutes) screening tool with good sensitivity and specificity. Each tool has different psychometric properties -- sensitivity, specificity, and positive/negative predictive values vary based on disease prevalence, education level, cultural background, and primary language, requiring the clinician to understand these operating characteristics to properly interpret results and determine need for comprehensive neuropsychological testing." },
-    riskFactors: ["Advanced age (cognitive screening yield increases significantly after age 65)","Subjective cognitive complaints from patient or informant (strongest predictor of positive screen)","Depression or anxiety (can cause reversible cognitive impairment mimicking neurodegenerative disease)","Polypharmacy, especially anticholinergic and sedative medications","Low educational attainment (affects screening tool interpretation -- MoCA adds 1 point for ≤12 years education)","History of cerebrovascular disease or cardiovascular risk factors","Traumatic brain injury history","Family history of Alzheimer disease or other dementia"],
-    diagnostics: ["Administer MoCA as preferred screening tool (sensitivity 90% for MCI vs. MMSE 18%; cutoff <26/30; add 1 point if education ≤12 years; available in 30+ languages)","Administer MMSE when MoCA unavailable or for serial tracking in established dementia (cutoff <24/30; ceiling effect limits MCI detection; copyright restrictions apply)","Perform Mini-Cog for rapid screening in primary care (3-item recall + clock drawing; <3 minutes; less affected by education and language barriers)","Order reversible cause workup when screening is positive: TSH, B12, folate, CMP, CBC, RPR, HIV (if risk factors), urinalysis, depression screening (PHQ-9)","Refer for formal neuropsychological testing when screening results are borderline, discordant with clinical impression, or detailed cognitive domain profiling is needed","Order brain MRI without contrast for positive screens to evaluate structural correlates (hippocampal atrophy, white matter disease, strategic infarcts, mass lesions)"],
-    management: ["Interpret screening results in clinical context -- a 'normal' score does not exclude early cognitive impairment in highly educated patients (ceiling effect), and a 'low' score may reflect education/language/cultural factors rather than pathology","Refer patients with positive screens and confirmed deficits on neuropsychological testing to neurology for comprehensive dementia evaluation and subtype diagnosis","Initiate cholinesterase inhibitor therapy (donepezil, rivastigmine, galantamine) for confirmed Alzheimer disease; memantine for moderate-severe disease","Discontinue cognitively impairing medications identified during screening workup (anticholinergics, benzodiazepines, antihistamines, opioids)","Treat reversible causes aggressively (thyroid replacement, B12 supplementation, depression treatment, medication adjustment)","Establish baseline and serial screening schedule (repeat screening every 6-12 months to track trajectory; use same tool for valid comparison)"],
-    nursingActions: ["Administer cognitive screening tools in a quiet, well-lit room with minimal distractions; ensure patient has glasses and hearing aids if needed","Document screening scores with tool version, date, and any factors that may affect performance (fatigue, pain, medication timing, acute illness, language barrier, sensory deficits)","Compare serial scores using the same screening tool -- minimum clinically important difference for MoCA is approximately 2-4 points","Screen for depression concurrently (PHQ-9 or GDS) as depression is both a differential diagnosis and comorbidity that affects cognitive screening performance","Assess functional status (ADLs/IADLs) in conjunction with cognitive screening to differentiate MCI (preserved function) from dementia (impaired function)","Counsel patients and families on screening results with sensitivity, explaining that screening tools are not diagnostic but guide further evaluation"],
-    assessmentFindings: ["MoCA score <26/30 suggests possible cognitive impairment (sensitivity 90% for MCI; high sensitivity means few missed cases but some false positives)","MMSE score <24/30 suggests dementia but frequently misses MCI (sensitivity only 18% for MCI; use MoCA for early detection)","Mini-Cog: inability to recall all 3 words AND abnormal clock drawing suggests cognitive impairment requiring further evaluation","Clock drawing abnormalities: incorrect number placement (visuospatial), wrong time (executive function), missing hands or numbers (semantic/planning deficits)","Discrepancy between patient self-report and informant report (patients with anosognosia may deny deficits while family reports significant functional decline)","Performance anxiety during testing producing falsely low scores (reassess in relaxed setting; consider practice effects on repeat testing)"],
-    signs: {
-      left: ["MoCA 22-25 (borderline/mild impairment) -- may represent MCI or early dementia; correlate with functional assessment","Isolated domain weakness (e.g., delayed recall deficit with preserved executive function suggests amnestic MCI)","MMSE 24-27 with subtle functional concerns reported by family","Patient performing well on screening but informant reports significant real-world cognitive lapses","Mildly abnormal clock drawing with intact word recall"],
-      right: ["MoCA <16 or MMSE <18 indicating moderate-severe cognitive impairment requiring comprehensive evaluation","Dramatic decline in serial screening scores (>4-point MoCA drop over 6-12 months suggests rapid progression)","Mini-Cog 0/5 with no words recalled and grossly abnormal clock drawing","Complete disorientation to time, place, or person on screening","New inability to complete screening tasks previously performed without difficulty"]
+      "title": "Cognitive Screening Tools",
+      "cellular": {
+        "title": "Cognitive Assessment Instruments",
+        "content": "Cognitive screening tools are brief, standardized assessments that evaluate multiple cognitive domains to detect impairment. The Montreal Cognitive Assessment (MoCA) evaluates visuospatial/executive function, naming, memory, attention, language, abstraction, delayed recall, and orientation (30 points; <26 suggests MCI). The Mini-Mental State Examination (MMSE) assesses orientation, registration, attention/calculation, recall, and language (30 points; <24 suggests dementia; less sensitive for MCI than MoCA). The Mini-Cog combines 3-word recall with clock drawing (quick 3-minute screen). The Saint Louis University Mental Status (SLUMS) is more sensitive than MMSE for MCI detection. Each tool has different sensitivity/specificity profiles, and selection depends on the clinical setting, time available, and purpose of screening."
+      },
+      "riskFactors": [
+        "Populations requiring cognitive screening: adults >65 with memory complaints, pre-operative assessment for elderly surgical patients, patients with risk factors for dementia, following neurological events (stroke, TBI)",
+        "Factors affecting screening accuracy: education level (adjust MoCA +1 point for ≤12 years education), language barriers, sensory deficits (hearing, vision), depression, anxiety, delirium (acute confusional state falsely lowers scores)",
+        "Cultural and linguistic bias in testing instruments",
+        "Acute illness or hospitalization (delirium confounds screening -- assess after acute illness resolves)",
+        "Medications: benzodiazepines, opioids, anticholinergics -- can impair test performance"
+      ],
+      "diagnostics": [
+        "MoCA: most sensitive for MCI detection; tests multiple domains; 10-15 minutes; score <26 = abnormal (add 1 point if education ≤12 years); freely available at mocatest.org",
+        "MMSE: widely recognized; less sensitive for MCI (ceiling effect in educated patients); tests orientation, memory, calculation, language; copyright-protected",
+        "Mini-Cog: 3-minute screen; 3-word registration/recall + clock drawing test; positive if recall ≤2/3 or abnormal clock; best for primary care screening due to speed",
+        "SLUMS: 7-minute assessment; more sensitive than MMSE for MCI; scoring adjusts for education level",
+        "Clock Drawing Test: screens visuospatial and executive function; ask patient to draw a clock face with all numbers and set hands to '10 after 11' (11:10); errors in number placement, spacing, or hand placement indicate impairment",
+        "Trail Making Test (Part B): measures executive function; connect alternating numbers and letters (1-A-2-B-3-C...); time to completion >300 seconds or many errors suggests executive dysfunction"
+      ],
+      "management": [
+        "Abnormal screening: refer for comprehensive neuropsychological testing to characterize domains affected and severity",
+        "Determine if impairment represents MCI (functional independence preserved) or dementia (functional decline present)",
+        "Evaluate for reversible causes: TSH, B12, medication review, depression screen, brain imaging",
+        "For confirmed MCI: no FDA-approved medications; optimize cardiovascular risk factors, exercise, cognitive engagement, social activity; monitor for progression to dementia",
+        "For confirmed dementia: initiate appropriate pharmacotherapy (cholinesterase inhibitors for mild-moderate; add memantine for moderate-severe)",
+        "Advance care planning while patient retains decision-making capacity",
+        "Repeat screening at 6-12 month intervals to monitor trajectory"
+      ],
+      "nursingActions": [
+        "Select appropriate screening tool for the clinical setting: MoCA for suspected MCI, Mini-Cog for quick primary care screening, MMSE for tracking known dementia over time",
+        "Ensure proper testing environment: quiet room, patient wearing glasses/hearing aids, not acutely ill or delirious",
+        "Score and interpret results accounting for education level (MoCA: +1 point for ≤12 years)",
+        "Document results and communicate findings to the care team with clinical correlation",
+        "Differentiate screening from diagnostic testing: screening identifies potential impairment; neuropsychological testing provides definitive domain-specific diagnosis",
+        "Assess functional status with IADLs (finances, medications, cooking, driving, phone use) to classify MCI vs dementia",
+        "Provide emotional support during screening; normalize the process ('This is a routine check-up for your thinking and memory')"
+      ],
+      "assessmentFindings": [
+        "MoCA deficits: trail-drawing errors (executive dysfunction), inability to name animals in drawings (naming), poor delayed recall (memory), incorrect date/place (orientation)",
+        "Clock drawing errors: numbers bunched on one side (visuospatial neglect), incorrect hand placement (executive dysfunction), missing numbers (planning deficit)",
+        "MMSE deficits: disorientation to time/place (temporal-parietal dysfunction), poor serial 7s (attention/calculation), unable to follow 3-step command (language comprehension)",
+        "Functional assessment: difficulty managing medications (missed doses, double-doses), problems with finances (unpaid bills, unusual purchases), getting lost while driving, difficulty using technology previously managed"
+      ],
+      "signs": {
+        "left": [
+          "MoCA 23-25 with education adjustment: mild impairment warranting monitoring and reversible cause workup",
+          "Age-related cognitive changes: slower processing speed but intact function",
+          "Delirium-related poor score improving after acute illness resolution",
+          "Depression-related cognitive complaints improving with antidepressant treatment"
+        ],
+        "right": [
+          "MoCA <18 with clear functional decline: moderate-severe dementia requiring comprehensive evaluation and support services",
+          "Rapid cognitive decline over weeks: evaluate urgently for delirium, stroke, CNS infection, autoimmune encephalitis, CJD",
+          "Patient unable to complete screening due to severe impairment: advanced dementia requiring goals of care discussion",
+          "Safety concerns identified during assessment: driving impairment, inability to manage medications, wandering, leaving stove on"
+        ]
+      },
+      "medications": [
+        {
+          "name": "No specific medications for cognitive screening",
+          "type": "Diagnostic assessment skill",
+          "action": "Screening tools guide clinical decision-making about the need for further workup, reversible cause evaluation, and treatment initiation for confirmed cognitive disorders",
+          "sideEffects": "N/A",
+          "contra": "N/A",
+          "pearl": "The screening tool is a means to an end -- always interpret results in clinical context; a normal screening score does not exclude early cognitive impairment (especially with high premorbid function), and a low score may reflect delirium, depression, or sensory deficits rather than dementia"
+        }
+      ],
+      "pearls": [
+        "MoCA is MORE SENSITIVE than MMSE for detecting MCI -- MoCA should be the preferred screening tool in primary care when MCI is suspected",
+        "Add 1 point to MoCA score for patients with ≤12 years of education to adjust for education-related test performance differences",
+        "Mini-Cog takes only 3 MINUTES and is ideal for busy primary care settings -- combines 3-word recall with clock drawing for efficient screening",
+        "Clock drawing test assesses visuospatial AND executive function simultaneously; '10 after 11' (11:10) is the standard prompt; errors in planning and execution are early markers of cognitive decline",
+        "Always rule out DELIRIUM before interpreting cognitive screening: delirium is acute, fluctuating, with altered attention -- dementia is chronic, progressive, with relatively stable attention until advanced stages",
+        "A patient who COMPLAINS vigorously about memory loss is more likely to have depression (pseudodementia) than dementia; patients with dementia often have ANOSOGNOSIA (unawareness of deficits)"
+      ],
+      "quiz": [
+        {
+          "question": "Which cognitive screening tool is most sensitive for detecting mild cognitive impairment (MCI)?",
+          "options": [
+            "MMSE",
+            "MoCA",
+            "Mini-Cog",
+            "Clock Drawing Test alone"
+          ],
+          "correct": 1,
+          "rationale": "The MoCA (Montreal Cognitive Assessment) is more sensitive than the MMSE for detecting MCI because it includes more challenging tasks (trail-making, abstraction, delayed recall with fewer cues). The MMSE has a ceiling effect in educated patients and may miss early cognitive impairment."
+        },
+        {
+          "question": "A patient with 10 years of education scores 24 on the MoCA. How should this score be interpreted?",
+          "options": [
+            "Abnormal -- score is below the 26-point cutoff",
+            "Normal -- add 1 point for education ≤12 years, making the adjusted score 25, which is still abnormal",
+            "Normal -- add 1 point for education ≤12 years, making the adjusted score 25, which requires clinical correlation",
+            "The education adjustment makes the score 25, which is borderline -- repeat testing in 6-12 months with reversible cause workup"
+          ],
+          "correct": 3,
+          "rationale": "With ≤12 years of education, 1 point is added to the MoCA score (24+1=25). The cutoff is <26, so 25 is borderline abnormal. Clinical judgment is needed: this warrants workup for reversible causes (TSH, B12, depression, medications) and repeat testing in 6-12 months to determine trajectory."
+        },
+        {
+          "question": "Before administering a cognitive screening test, a hospitalized elderly patient appears confused with fluctuating attention. What should the NP do first?",
+          "options": [
+            "Proceed with the MoCA -- the results will guide management",
+            "Evaluate for delirium first -- acute confusional states confound cognitive screening results",
+            "Start a cholinesterase inhibitor empirically",
+            "Diagnose the patient with dementia based on the confusion"
+          ],
+          "correct": 1,
+          "rationale": "Delirium must be evaluated and treated before cognitive screening can be meaningfully interpreted. Delirium is acute onset, fluctuating, with altered attention, and is caused by medical illness, medications, or metabolic derangements. A cognitive screening score obtained during delirium does not reflect the patient's baseline cognitive function."
+        }
+      ]
     },
-    medications: [{
-      name: "Donepezil (Aricept)",
-      type: "Cholinesterase inhibitor (first-line for Alzheimer disease confirmed after positive screening)",
-      action: "Reversibly inhibits acetylcholinesterase in the cerebral cortex and hippocampus, increasing synaptic acetylcholine concentration to compensate for cholinergic neuron loss in Alzheimer disease; improves or temporarily stabilizes cognition and global function",
-      sideEffects: "GI effects (nausea, diarrhea, anorexia -- dose-dependent, often transient), bradycardia (vagotonic effect -- check baseline HR and ECG), vivid dreams/insomnia, muscle cramps, urinary incontinence, syncope",
-      contra: "Known hypersensitivity; sick sinus syndrome or conduction abnormalities without pacemaker; active peptic ulcer disease; severe asthma/COPD; concurrent use of other cholinergics or anticholinergics (pharmacological antagonism)",
-      pearl: "Only initiate after cognitive impairment is confirmed beyond screening (neuropsychological testing + reversible cause workup); start 5 mg at bedtime, increase to 10 mg after 4-6 weeks; GI side effects often improve after 2-3 weeks; take with evening meal to reduce nausea; do not abruptly discontinue"
-    }],
-    pearls: ["MoCA is SUPERIOR to MMSE for detecting MCI (90% vs 18% sensitivity) -- use MoCA as the primary screening tool in primary care; MMSE has a ceiling effect that misses early deficits in educated patients","A NORMAL screening score does NOT rule out cognitive impairment -- high baseline intelligence can mask deficits; if clinical suspicion is high despite normal screening, refer for formal neuropsychological testing","Always add 1 point to MoCA total if patient has ≤12 years of formal education -- failure to apply this correction leads to overdiagnosis in less educated populations","The Mini-Cog is the fastest validated screen (<3 minutes) and is LEAST affected by education, language, and cultural bias -- ideal for busy primary care settings and diverse populations","Serial screening must use the SAME tool for valid comparison -- switching between MoCA, MMSE, and Mini-Cog makes trajectory tracking unreliable","Depression screening (PHQ-9 or GDS) should ALWAYS accompany cognitive screening -- depressive pseudodementia is a reversible cause that can produce positive cognitive screens"],
-    quiz: [
-      {
-        question: "An NP is selecting a cognitive screening tool for a 70-year-old college professor with subjective memory complaints. Which tool is most appropriate for detecting mild cognitive impairment?",
-        options: ["MMSE (score <24 cutoff)","MoCA (score <26 cutoff)","Mini-Cog","Glasgow Coma Scale"],
-        correct: 1,
-        rationale: "The MoCA has 90% sensitivity for MCI compared to only 18% for the MMSE. In a highly educated patient, the MMSE ceiling effect is even more problematic -- the patient may score normally on MMSE despite significant cognitive decline. MoCA tests executive function more thoroughly and is the preferred primary screening tool."
-      },
-      {
-        question: "A patient scores 24/30 on the MoCA. The patient has 10 years of formal education. What is the corrected score and interpretation?",
-        options: ["24/30 -- abnormal, indicating cognitive impairment","25/30 -- still abnormal, suggesting mild cognitive impairment","25/30 -- normal, no cognitive impairment detected","24/30 -- normal for this education level"],
-        correct: 1,
-        rationale: "Per MoCA scoring guidelines, 1 point is added for patients with ≤12 years of education, making the corrected score 25/30. Since the cutoff is <26, a score of 25 still suggests mild cognitive impairment warranting further evaluation with reversible cause workup and possible neuropsychological referral."
-      },
-      {
-        question: "Which finding during cognitive screening should prompt the NP to order urgent neuroimaging rather than routine follow-up?",
-        options: ["MoCA score of 23/30 with gradual 2-point decline over 12 months","Patient unable to draw clock but recalls all 3 words on Mini-Cog","Rapid cognitive decline from MoCA 26 to MoCA 15 over 8 weeks with new headaches","MMSE 22/30 in a patient with known Alzheimer disease on donepezil"],
-        correct: 2,
-        rationale: "Rapid cognitive decline (>4 points over weeks to months) with new neurological symptoms is a RED FLAG requiring urgent neuroimaging to evaluate for mass lesion, subdural hematoma, stroke, or rapidly progressive dementia (Creutzfeldt-Jakob disease, autoimmune encephalitis). Gradual decline and expected progression in established dementia do not require urgent imaging."
-      },
-    ]
-  },
   "cold-agglutinin-disease-rn": {
         title: "Cold Agglutinin Disease",
         cellular: { title: "IgM-Mediated Cold Autoimmune Hemolytic Anemia", content: "Cold agglutinin disease (CAD) is a form of autoimmune hemolytic anemia (AIHA) caused by IgM autoantibodies (cold agglutinins) that bind to red blood cell surface antigens at temperatures below core body temperature (optimally at 0-4C but pathogenic antibodies with high thermal amplitude can bind at temperatures approaching 37C). These IgM cold agglutinins are primarily directed against the I/i antigen system on the RBC surface -- the I antigen is expressed on adult RBCs while the i antigen predominates on fetal and neonatal RBCs. CAD accounts for approximately 15-25% of all AIHA cases and has a median age of onset of 65-70 years. The disease exists in two forms: primary (idiopathic) CAD, which is now recognized as a clonal lymphoproliferative disorder of B lymphocytes (classified by WHO as a distinct entity related to but separate from lymphoplasmacytic lymphoma/Waldenstrom macroglobulinemia), and secondary cold agglutinin syndrome, which occurs in association with lymphoproliferative disorders (CLL, lymphoma, Waldenstrom) or infections (Mycoplasma pneumoniae, Epstein-Barr virus/infectious mononucleosis -- typically transient and self-limited). The pathogenesis involves complement-mediated hemolysis rather than the antibody-dependent cellular cytotoxicity that characterizes warm AIHA. When IgM cold agglutinins bind to RBC surface antigens in the cooler peripheral circulation (fingers, toes, ears, nose where blood temperature drops to 28-31C), the pentameric IgM molecule is an extremely efficient complement activator -- a single IgM molecule bound to the RBC surface can initiate the classical complement pathway by binding C1q. The complement cascade proceeds through C1, C4, C2, and C3, depositing C3b on the RBC surface. When the RBCs return to the warmer central circulation (37C), the IgM antibody dissociates from the RBC surface (its binding is temperature-dependent), but the covalently bound C3b remains. In most cases, the complement cascade does NOT proceed to completion (C5-C9 membrane attack complex formation and intravascular hemolysis) because of protective complement regulatory proteins (CD55/decay-accelerating factor, CD59/membrane inhibitor of reactive lysis) on the RBC surface. Instead, C3b is cleaved to iC3b and then C3d by factor I and its cofactors. RBCs coated with C3b and iC3b are recognized and phagocytosed by macrophages in the liver and spleen (which express complement receptors CR1 and CR3), producing extravascular hemolysis. This complement-mediated extravascular hemolysis is the predominant mechanism of RBC destruction in CAD. However, in some patients -- particularly during acute exacerbations triggered by cold exposure, infections, or surgery -- complement activation may proceed fully through the terminal pathway to MAC formation, causing intravascular hemolysis with hemoglobinemia, hemoglobinuria, and potentially acute kidney injury. The clinical manifestations of CAD include chronic hemolytic anemia (typically mild to moderate with hemoglobin 8-12 g/dL, though acute exacerbations can be severe), acrocyanosis (bluish discoloration of the fingers, toes, ears, and nose caused by RBC agglutination in the cool peripheral microcirculation -- this is distinct from Raynaud phenomenon and does not involve vasospasm), jaundice (from bilirubin production during hemolysis), fatigue, cold intolerance, and dark urine during hemolytic exacerbations. The direct antiglobulin test (DAT/Coombs test) is positive for complement (C3d) but NEGATIVE for IgG -- this complement-only positive DAT pattern is the serological hallmark that distinguishes cold AIHA from warm AIHA (which shows IgG-positive DAT). Cold agglutinin titers are elevated (typically >1:64 at 4C; high titers >1:512 are more clinically significant). The thermal amplitude (the highest temperature at which the antibody binds to RBCs) is a critical determinant of clinical severity -- antibodies with high thermal amplitude (binding at 30-37C) cause more severe disease because they can agglutinate RBCs even in the relatively warm central circulation. Treatment of CAD differs fundamentally from warm AIHA because corticosteroids and splenectomy (the mainstays of warm AIHA treatment) are largely INEFFECTIVE in CAD. The ineffectiveness of splenectomy reflects the fact that complement-mediated RBC clearance occurs predominantly in the LIVER (by hepatic Kupffer cells expressing complement receptors), not the spleen. The ineffectiveness of corticosteroids reflects the complement-mediated (rather than antibody-mediated) mechanism of hemolysis. Current first-line therapy for CAD requiring treatment is rituximab (anti-CD20 monoclonal antibody) either alone or in combination with bendamustine, which targets the clonal B-cell population producing the pathogenic IgM cold agglutinins. Sutimlimab (Enjaymo), a humanized anti-C1s monoclonal antibody that inhibits the classical complement pathway, was FDA-approved in 2022 specifically for CAD -- it is the first complement-targeted therapy approved for this disease and provides rapid improvement in hemoglobin by blocking complement-mediated hemolysis. Cold avoidance is a critical non-pharmacological intervention -- patients must protect extremities from cold, use warm IV fluids, and maintain a warm environment during hospitalization. RBC transfusion, when needed, requires careful blood bank coordination because cold agglutinins can interfere with crossmatching and cause agglutination of transfused RBCs; blood must be administered through an in-line blood warmer to prevent agglutination in the IV tubing." },
@@ -334,47 +762,123 @@ export const generatedBatch021Lessons: Record<string, LessonContent> = {
         quiz: [{ question: "A patient with cold agglutinin disease needs a blood transfusion. Which special precaution is MOST critical?", options: ["Administer the blood at a rapid rate to minimize exposure time","Use an in-line blood warmer to warm the blood to 37C before infusion to prevent cold agglutination","Pre-treat the patient with high-dose corticosteroids to prevent hemolysis","Request only O-negative blood to prevent antibody reactions"], correct: 1, rationale: "In-line blood warming is the most critical precaution for CAD patients receiving blood transfusions. Cold IgM autoantibodies bind to RBC surface antigens at temperatures below core body temperature, causing agglutination and complement-mediated hemolysis. If cold blood is infused directly, it can trigger severe agglutination in the IV tubing and in the cooler peripheral circulation. Blood warmers heat the transfused blood to 37C, preventing cold antibody binding. Additionally, the blood bank must be notified of the CAD diagnosis because cold agglutinins interfere with crossmatching." },{ question: "Why are corticosteroids and splenectomy, the mainstays of warm AIHA treatment, largely INEFFECTIVE for cold agglutinin disease?", options: ["Because CAD is caused by IgG antibodies that do not respond to steroids","Because the hemolysis in CAD is complement-mediated and RBC clearance occurs primarily in the LIVER (not spleen), making splenectomy ineffective; corticosteroids poorly suppress complement activation","Because CAD only affects the bone marrow, not the peripheral blood","Because cold agglutinins are resistant to all immunosuppressive therapies"], correct: 1, rationale: "The mechanisms of RBC destruction differ between warm and cold AIHA, explaining the different treatment responses. In warm AIHA, IgG-coated RBCs are destroyed by splenic macrophages (Fc receptor-mediated phagocytosis), and corticosteroids reduce antibody production and downregulate Fc receptors. In CAD, complement (C3b)-coated RBCs are primarily cleared by HEPATIC Kupffer cells (complement receptor-mediated phagocytosis), making splenectomy futile. Corticosteroids have limited effect on complement activation and IgM production by the clonal B-cell population." },{ question: "A nurse notes that a CAD patient's CBC shows an MCV of 118 fL despite a normal vitamin B12 and folate level. What is the most likely explanation?", options: ["The patient has concurrent myelodysplastic syndrome","The elevated MCV is a laboratory artifact from RBC agglutination in the automated counter -- warming the specimen to 37C before analysis will correct it","The patient has developed aplastic anemia","The elevated MCV is caused by reticulocytosis from hemolysis"], correct: 1, rationale: "In CAD, cold agglutinins can cause RBC clumping in the automated cell counter (which operates at room temperature, below the thermal amplitude of pathogenic cold agglutinins). The counter interprets clumps of agglutinated RBCs as single large cells, producing a falsely elevated MCV. This is a well-recognized laboratory artifact in CAD. Warming the blood specimen to 37C before analysis disperses the agglutinates and corrects the MCV to the true value. While reticulocytosis can mildly increase MCV (reticulocytes are larger than mature RBCs), it typically causes only mild elevation (100-105 fL), not the dramatic elevation seen with agglutination artifacts." }]
   },
   "colon-cancer-screening-np": {
-    title: "Colon Cancer Screening: Guidelines, FIT",
-    cellular: { title: "Adenoma-Carcinoma Sequence & Screening Biology", content: "Colorectal cancer (CRC) screening is grounded in the adenoma-carcinoma sequence: most CRCs arise from adenomatous polyps through stepwise accumulation of genetic mutations (APC, KRAS, TP53) over 10-15 years, providing a critical window for detection and removal. Fecal immunochemical testing (FIT) detects human hemoglobin in stool using antibodies specific to the globin moiety of human hemoglobin, which is degraded by upper GI digestive enzymes -- making FIT specific for lower GI (colorectal) bleeding with no dietary restrictions required (unlike guaiac-based FOBT). Colonoscopy allows direct visualization of the colonic mucosa, biopsy of suspicious lesions, and therapeutic polypectomy. The serrated polyp pathway (BRAF mutation, CpG island methylation) accounts for 20-30% of CRCs and produces sessile serrated lesions that are flat, pale, and easily missed on colonoscopy -- the NP must understand this pathway to counsel patients on screening quality indicators (adenoma detection rate, bowel preparation quality). Risk stratification drives screening intervals: average-risk adults begin at age 45, while high-risk groups (Lynch syndrome, FAP, IBD, family history) require earlier initiation and shorter intervals." },
-    riskFactors: ["Age ≥45 years (USPSTF and ACS recommend screening initiation at 45 for average-risk adults; incidence rising in adults 20-49)","First-degree relative with CRC or advanced adenoma (2-4x increased risk; screen 10 years before relative's diagnosis age or at 40, whichever is earlier)","Personal history of adenomatous polyps (recurrence risk depends on number, size, and histology of initial polyps)","Inflammatory bowel disease (ulcerative colitis or Crohn colitis) of ≥8 years duration","Hereditary syndromes: Lynch syndrome (70-80% lifetime CRC risk), FAP (near 100% risk without colectomy), Peutz-Jeghers","Obesity, physical inactivity, and type 2 diabetes mellitus","High consumption of red and processed meats; low dietary fiber intake","Heavy alcohol use (>2 drinks/day) and tobacco use","History of abdominal/pelvic radiation"],
-    diagnostics: ["FIT (fecal immunochemical test) annually: preferred stool-based test; sensitivity 74-79% for CRC, 24% for advanced adenomas; no dietary restrictions; positive result ALWAYS requires colonoscopy follow-up regardless of prior screening history","Colonoscopy every 10 years for average-risk with no polyps: gold standard; allows visualization, biopsy, and polypectomy; adenoma detection rate (ADR) is a key quality indicator (target ≥25%)","FIT-DNA (Cologuard) every 3 years: combines FIT with DNA biomarkers (KRAS mutations, NDRG4 and BMP3 methylation); higher sensitivity (92% for CRC) but lower specificity (more false positives) than FIT alone","CT colonography every 5 years: alternative for patients unable/unwilling to undergo colonoscopy; polyps ≥6 mm require colonoscopy follow-up","Post-polypectomy surveillance colonoscopy intervals: 1-2 low-risk adenomas → 7-10 years; 3-4 adenomas or advanced features (≥10 mm, villous, HGD) → 3 years; ≥5 adenomas or piecemeal resection → 1 year","Flexible sigmoidoscopy every 5 years (with or without annual FIT): examines only distal colon; misses proximal lesions; declining use in practice"],
-    management: ["Apply USPSTF/ACS screening guidelines: average-risk adults age 45-75 (Grade A recommendation); age 76-85 individualize based on health status and prior screening (Grade C); >85 do not screen","Stratify risk to determine appropriate screening modality and interval: average risk (stool-based or colonoscopy), increased risk (colonoscopy with shorter intervals), high risk/hereditary syndromes (genetic counseling + colonoscopy per syndrome-specific protocols)","Manage positive FIT/FIT-DNA results: ALWAYS refer for diagnostic colonoscopy regardless of other factors; a positive non-invasive test is NOT a final diagnosis -- colonoscopy is required for definitive evaluation","Manage post-polypectomy surveillance: apply guideline-based intervals based on polyp number, size, and histology; avoid both over-surveillance (unnecessary procedures, cost, risk) and under-surveillance (missed interval cancers)","Counsel patients on modifiable risk reduction: weight management, regular physical activity (150 min/week), limit red/processed meat, adequate fiber intake, limit alcohol, smoking cessation","Order Lynch syndrome screening (MSI/IHC testing) on all newly diagnosed CRC per NCCN guidelines; refer for genetic counseling if positive","Address screening barriers: fear, cost concerns, lack of awareness, cultural factors, bowel preparation aversion -- tailor counseling to individual barriers"],
-    nursingActions: ["Conduct CRC risk assessment at every health maintenance visit: personal and family history of polyps/CRC, IBD history, hereditary syndrome features -- determine appropriate screening modality and timing","Order and interpret FIT results: educate patients on proper specimen collection (single stool sample, avoid collection during menstruation or with hemorrhoidal bleeding); positive FIT requires colonoscopy referral within 10 months for optimal outcomes","Manage colonoscopy referrals: ensure timely scheduling after positive stool-based tests (delays >12 months associated with worse CRC outcomes); coordinate bowel preparation instructions, medication management (anticoagulant bridging), and pre-procedure evaluation","Apply post-polypectomy surveillance guidelines accurately: document polyp characteristics (number, size, location, histology) and calculate next screening interval; avoid defaulting to routine 10-year intervals after polyp removal","Provide genetic counseling referral for patients meeting Amsterdam II or revised Bethesda criteria for Lynch syndrome, or with ≥10 adenomatous polyps (consider attenuated FAP)","Educate patients on CRC warning signs requiring evaluation between screening intervals: change in bowel habits, rectal bleeding, unexplained iron deficiency anemia, unintentional weight loss"],
-    assessmentFindings: ["Asymptomatic (most screening-detected lesions are asymptomatic -- this is the rationale for population-based screening)","Iron deficiency anemia without obvious source (especially in males and postmenopausal females -- mandates colonoscopy evaluation for occult right-sided CRC)","Change in bowel habits persisting >4 weeks (alternating constipation/diarrhea, narrowing of stool caliber)","Rectal bleeding or hematochezia (do not attribute to hemorrhoids without colonoscopic evaluation in age-appropriate patients)","Unintentional weight loss (>5% body weight in 6 months without dieting)","Positive family history meeting high-risk criteria (first-degree relative with CRC <60 years or ≥2 first-degree relatives at any age)","Positive FIT or FIT-DNA result requiring diagnostic colonoscopy follow-up"],
-    signs: {
-      left: ["Positive FIT with subsequent normal colonoscopy (false positive -- reassure and continue annual FIT screening)","Small tubular adenoma <10 mm without high-grade dysplasia found on screening colonoscopy","Patient at average risk, age 45-75, due for initial or interval screening","Asymptomatic patient with family history requiring earlier screening initiation","Iron studies showing borderline low ferritin warranting colonoscopic evaluation"],
-      right: ["Positive FIT with patient refusing or delaying colonoscopy follow-up (critical safety gap requiring aggressive patient navigation)","Large sessile polyp requiring piecemeal resection with incomplete removal -- short-interval surveillance essential","Multiple adenomatous polyps (≥10) raising concern for attenuated FAP -- genetic counseling referral urgent","Colonoscopy revealing CRC requiring staging workup and oncology referral","Iron deficiency anemia with cecal mass on colonoscopy -- expedited tissue diagnosis and staging"]
+      "title": "Colon Cancer Screening",
+      "cellular": {
+        "title": "Colorectal Carcinogenesis & Screening Rationale",
+        "content": "Colorectal cancer (CRC) develops through the adenoma-carcinoma sequence over 10-15 years. Normal colonic epithelium acquires mutations in APC (tumor suppressor, initiating adenoma formation), KRAS (oncogene, promoting growth), SMAD4/DCC (progression), and TP53 (malignant transformation). The serrated neoplasia pathway involves BRAF mutation and CpG island methylation. Screening is effective because: 1) the disease has a long preclinical detectable phase, 2) removal of precancerous adenomas prevents cancer development, and 3) early-stage CRC has excellent survival (90% 5-year survival for stage I vs 14% for stage IV). CRC is the second leading cause of cancer death in the US; screening has reduced mortality by 50-60% in screened populations."
+      },
+      "riskFactors": [
+        "Average risk: all adults beginning at age 45 (USPSTF 2021 update from 50; ACS recommends 45)",
+        "Family history: first-degree relative with CRC or advanced adenoma <60 years → screen at 40 or 10 years before youngest affected relative (whichever is earlier)",
+        "Inflammatory bowel disease (ulcerative colitis, Crohn colitis) >8-10 years duration → surveillance colonoscopy every 1-2 years",
+        "Lynch syndrome (hereditary nonpolyposis CRC, HNPCC): MLH1, MSH2, MSH6, PMS2 mutations → colonoscopy every 1-2 years starting at 20-25",
+        "Familial adenomatous polyposis (FAP): APC mutation → hundreds of polyps; colonoscopy or sigmoidoscopy beginning age 10-12; prophylactic colectomy typically needed",
+        "Personal history of colorectal polyps or CRC",
+        "Modifiable risk factors: obesity, physical inactivity, red/processed meat, alcohol, smoking",
+        "African Americans have higher CRC incidence and mortality (some guidelines recommend screening at 45 even before 2021 USPSTF update)"
+      ],
+      "diagnostics": [
+        "Colonoscopy: gold standard; visualizes entire colon; allows biopsy and polypectomy; every 10 years if normal; repeat based on polyp findings (1-2 small tubular adenomas → 7-10 years; 3-10 adenomas or >10mm or villous/HGD → 3 years)",
+        "Stool-based tests: FIT (fecal immunochemical test) annually; FIT-DNA (Cologuard) every 3 years -- positive results require colonoscopy for confirmation",
+        "Flexible sigmoidoscopy: every 5 years (only examines rectum and distal colon; misses proximal lesions)",
+        "CT colonography (virtual colonoscopy): every 5 years; non-invasive but requires bowel prep; polyps >6mm require follow-up colonoscopy",
+        "Screening guidelines: USPSTF recommends screening ages 45-75 (Grade B for 45-49, Grade A for 50-75); ages 76-85 selective screening based on individual risk"
+      ],
+      "management": [
+        "Polyp management: adenomatous polyps removed during colonoscopy; follow-up interval based on pathology (number, size, histology, completeness of removal)",
+        "Low-risk adenomas (1-2 tubular adenomas <10mm): repeat colonoscopy in 7-10 years",
+        "High-risk adenomas (≥3 adenomas, ≥10mm, villous histology, high-grade dysplasia): repeat colonoscopy in 3 years",
+        "Sessile serrated polyps ≥10mm or with dysplasia: repeat in 3 years",
+        "Malignant polyp (invasive cancer in polyp): may require surgical resection if high-risk features (positive margin, lymphovascular invasion, poorly differentiated)",
+        "CRC staging and treatment: surgery (resection with lymph node sampling), adjuvant chemotherapy for stage III (FOLFOX regimen), targeted therapy based on molecular markers (KRAS, BRAF, MSI status)"
+      ],
+      "nursingActions": [
+        "Identify screening-eligible patients at every wellness visit; initiate shared decision-making about screening modality",
+        "Determine risk category: average risk → screening at 45; increased risk (family history, IBD, genetic syndrome) → earlier and more frequent screening per guidelines",
+        "Prescribe appropriate screening test based on patient preference and risk: colonoscopy for increased risk; FIT or colonoscopy for average risk",
+        "Ensure patients with positive stool-based tests complete diagnostic colonoscopy (FIT/Cologuard is screening only -- positive results ALWAYS require colonoscopy)",
+        "Order genetic testing/referral for patients meeting Lynch syndrome criteria (Amsterdam II or revised Bethesda criteria)",
+        "Manage post-polypectomy surveillance intervals based on pathology results",
+        "Educate patients on screening importance, bowel prep instructions, and modifiable risk factor reduction"
+      ],
+      "assessmentFindings": [
+        "Early CRC is typically ASYMPTOMATIC -- this is why screening is essential",
+        "Right-sided (ascending colon) CRC: iron deficiency anemia (occult blood loss), fatigue, weakness; large tumors may be palpable (mass doesn't obstruct because ascending colon is wide)",
+        "Left-sided (descending/sigmoid) CRC: change in bowel habits (narrowing of stool caliber), obstructive symptoms (because descending colon is narrower), bright red blood per rectum",
+        "Rectal cancer: rectal bleeding, tenesmus (feeling of incomplete evacuation), change in stool caliber",
+        "Advanced disease: weight loss, abdominal pain, hepatomegaly (liver metastases), lymphadenopathy",
+        "Iron deficiency anemia in any adult male or postmenopausal female REQUIRES colonoscopy to exclude CRC"
+      ],
+      "signs": {
+        "left": [
+          "Average-risk patient due for age-appropriate screening with no symptoms",
+          "Small tubular adenomas removed during screening colonoscopy (low-risk follow-up)",
+          "Normal colonoscopy -- repeat in 10 years",
+          "Positive FIT requiring diagnostic colonoscopy"
+        ],
+        "right": [
+          "Iron deficiency anemia in male or postmenopausal female (colon cancer until proven otherwise)",
+          "New onset change in bowel habits with rectal bleeding in patient >45",
+          "Large bowel obstruction from obstructing left-sided tumor (surgical emergency)",
+          "Metastatic CRC with liver metastases on imaging",
+          "Lynch syndrome with multiple early-onset CRCs"
+        ]
+      },
+      "medications": [
+        {
+          "name": "Polyethylene Glycol Electrolyte Solution (GoLYTELY/MiraLAX prep)",
+          "type": "Osmotic bowel preparation agent",
+          "action": "Osmotically active solution that retains water in the intestinal lumen, producing watery diarrhea to cleanse the colon for colonoscopy; electrolyte-balanced to minimize fluid and electrolyte shifts",
+          "sideEffects": "Nausea, bloating, abdominal cramping, vomiting; dehydration and electrolyte imbalance if patient does not maintain hydration; aspiration risk if impaired swallowing",
+          "contra": "Bowel obstruction, bowel perforation, gastric retention, toxic colitis, toxic megacolon",
+          "pearl": "Split-dose prep (half the evening before, half the morning of) provides superior bowel cleanliness compared to full evening-only prep; encourage clear liquids throughout prep; start clear liquid diet the day before; inadequate bowel prep is the #1 reason for missed polyps and shortened surveillance intervals"
+        }
+      ],
+      "pearls": [
+        "USPSTF 2021: colorectal cancer screening now starts at age 45 (previously 50); Grade A recommendation for ages 50-75",
+        "Colonoscopy is the ONLY screening test that is both diagnostic AND therapeutic (can remove polyps during the procedure); all other positive screening tests require follow-up colonoscopy",
+        "A positive FIT or Cologuard is NOT diagnostic -- it ALWAYS requires follow-up colonoscopy regardless of the result",
+        "Iron deficiency anemia in any adult male or postmenopausal female = colonoscopy to rule out right-sided CRC (until proven otherwise)",
+        "Right-sided CRC presents with anemia (occult blood loss); Left-sided CRC presents with obstructive symptoms and visible bleeding -- know this distinction",
+        "The adenoma-carcinoma sequence takes 10-15 years -- this long preclinical phase is why 10-year colonoscopy intervals are effective for average-risk screening",
+        "Split-dose bowel prep is SUPERIOR to single-dose -- better bowel cleanliness means fewer missed polyps"
+      ],
+      "quiz": [
+        {
+          "question": "A 48-year-old patient with no family history of CRC asks about colorectal cancer screening. Per USPSTF 2021 guidelines, when should screening begin?",
+          "options": [
+            "Age 50 for average-risk individuals",
+            "Age 45 for average-risk individuals",
+            "Age 40 for all patients",
+            "Screening is not recommended until age 55"
+          ],
+          "correct": 1,
+          "rationale": "The USPSTF 2021 guidelines lowered the recommended screening age from 50 to 45 for average-risk adults, based on increasing CRC incidence in younger adults. This is a Grade B recommendation for ages 45-49 and Grade A for ages 50-75."
+        },
+        {
+          "question": "A 55-year-old male presents with iron deficiency anemia (ferritin 8, Hgb 9.5). He has no GI symptoms. What evaluation is most important?",
+          "options": [
+            "Start oral iron and monitor hemoglobin response",
+            "Refer for upper endoscopy only",
+            "Colonoscopy -- iron deficiency anemia in an adult male requires exclusion of colorectal cancer",
+            "Obtain a FIT test as initial screening"
+          ],
+          "correct": 2,
+          "rationale": "Iron deficiency anemia in an adult male or postmenopausal female ALWAYS requires evaluation for GI blood loss, particularly right-sided colon cancer which causes chronic occult bleeding. Colonoscopy is required (often with upper endoscopy to evaluate for other sources). Starting iron without investigation could delay cancer diagnosis."
+        },
+        {
+          "question": "A patient's Cologuard (FIT-DNA) test returns positive. What is the next step?",
+          "options": [
+            "Repeat the Cologuard in 3 months to confirm",
+            "Diagnostic colonoscopy -- positive stool-based screening always requires colonoscopy",
+            "Start empiric treatment for colon cancer",
+            "Reassure the patient that Cologuard has many false positives and rescreen in 3 years"
+          ],
+          "correct": 1,
+          "rationale": "A positive stool-based screening test (FIT or FIT-DNA/Cologuard) is NOT diagnostic. All positive results require follow-up diagnostic colonoscopy to evaluate for polyps or cancer. Repeating the stool test or dismissing the result could delay diagnosis of a treatable condition."
+        }
+      ]
     },
-    medications: [{
-      name: "Polyethylene Glycol Electrolyte Solution (GoLYTELY, MiraLAX prep)",
-      type: "Osmotic bowel preparation agent",
-      action: "Non-absorbable polyethylene glycol creates an osmotic gradient in the intestinal lumen, drawing water into the bowel to produce watery diarrhea that cleanses the colon of fecal material, providing clear visualization for colonoscopy; electrolyte-balanced formulations (GoLYTELY) minimize electrolyte shifts",
-      sideEffects: "Nausea, vomiting, bloating, abdominal cramping (improved with split-dose preparation), electrolyte disturbances (especially with sodium phosphate-based preps in renal insufficiency), aspiration risk if patient vomits large volumes, dehydration",
-      contra: "Known bowel obstruction or ileus, bowel perforation, toxic megacolon, gastric retention, severe dehydration; sodium phosphate preps contraindicated in renal insufficiency, heart failure, and elderly (risk of phosphate nephropathy)",
-      pearl: "Split-dose preparation (half evening before, half morning of procedure) produces SUPERIOR bowel cleanliness compared to evening-only prep and is now the standard of care; adequate bowel prep is critical -- inadequate prep reduces adenoma detection rate by up to 42% and requires earlier repeat colonoscopy; clear liquid diet day before, avoid red/purple liquids; coordinate anticoagulant/antiplatelet management with proceduralist"
-    }],
-    pearls: ["FIT is the preferred stool-based screening test -- it is specific for LOWER GI human hemoglobin (no dietary restrictions needed), unlike guaiac FOBT which requires dietary restrictions and detects both human and animal hemoglobin","A POSITIVE FIT always requires colonoscopy follow-up -- never repeat the FIT to 'confirm' the result; delays >12 months after positive FIT are associated with significantly worse CRC stage at diagnosis and reduced survival","Post-polypectomy surveillance intervals are based on polyp NUMBER, SIZE, and HISTOLOGY -- the most common error is defaulting to 10-year intervals after any polyp removal; 3-4 adenomas or advanced features require 3-year follow-up","Split-dose bowel preparation is the standard of care -- it improves bowel cleanliness, patient compliance, and adenoma detection rate compared to evening-only prep","CRC incidence is INCREASING in adults under 50 (particularly rectal cancer in those 20-49) -- this trend led to the lowering of screening initiation age from 50 to 45 by USPSTF and ACS","The adenoma detection rate (ADR) is the most important colonoscopy quality indicator -- endoscopists with ADR ≥25% have patients with significantly lower risk of interval CRC; ask about your endoscopist's ADR","Lynch syndrome screening (MSI/IHC testing) should be performed on ALL newly diagnosed CRCs regardless of age or family history per NCCN guidelines -- approximately 3% of all CRCs are Lynch-associated"],
-    quiz: [
-      {
-        question: "A 52-year-old average-risk patient has a positive FIT result. They had a normal colonoscopy 5 years ago. What is the most appropriate next step?",
-        options: ["Repeat the FIT in 3 months to confirm the positive result","Reassure the patient based on the prior normal colonoscopy and continue annual FIT","Refer for diagnostic colonoscopy within 10 months","Order a CT abdomen/pelvis instead of colonoscopy"],
-        correct: 2,
-        rationale: "A positive FIT ALWAYS requires diagnostic colonoscopy follow-up, regardless of prior screening history. The FIT detects hemoglobin from a potentially new lesion that may have developed since the last colonoscopy. Repeating FIT to 'confirm' delays diagnosis and is never appropriate. Studies show delays >12 months after positive FIT are associated with more advanced CRC stage at diagnosis."
-      },
-      {
-        question: "A patient's colonoscopy reveals three 8-mm tubular adenomas and one 12-mm tubulovillous adenoma with low-grade dysplasia. When should the next surveillance colonoscopy be scheduled?",
-        options: ["10 years (standard average-risk interval)","7 years (low-risk adenoma interval)","3 years (high-risk adenoma features present)","1 year (multiple polyps require annual screening)"],
-        correct: 2,
-        rationale: "This patient has high-risk adenoma features: ≥3 adenomas AND an advanced adenoma (≥10 mm with villous histology). Per guidelines, the recommended surveillance interval is 3 years. The 10-year interval applies only to patients with no polyps, and 7-10 years for 1-2 small tubular adenomas without advanced features."
-      },
-      {
-        question: "Which quality indicator is most important for the NP to consider when referring a patient for screening colonoscopy?",
-        options: ["The endoscopist's procedure volume per year","The endoscopist's adenoma detection rate (ADR)","The facility's infection rate","The type of sedation used during the procedure"],
-        correct: 1,
-        rationale: "The adenoma detection rate (ADR) is the single most important quality indicator for colonoscopy. Endoscopists with ADR ≥25% (detecting adenomas in at least 25% of screening colonoscopies) have patients with significantly lower rates of interval colorectal cancer. ADR reflects thoroughness of mucosal examination and correlates directly with cancer prevention effectiveness."
-      },
-    ]
-  },
   "colorectal-cancer-basics-rpn": {
         title: "Colorectal Cancer Basics",
         cellular: { title: "Pathophysiology of Colorectal Cancer", content: "Colorectal cancer (CRC) is the third most common cancer and the second leading cause of cancer death in North America. Over 90% of CRCs are adenocarcinomas arising from the glandular epithelial cells lining the colonic mucosa. Understanding the adenoma-carcinoma sequence is fundamental: most CRCs develop from pre-existing adenomatous polyps through a stepwise accumulation of genetic mutations over 10-15 years.\n\nThe adenoma-carcinoma pathway begins with normal colonic epithelium acquiring a mutation in the APC (adenomatous polyposis coli) tumour suppressor gene, leading to dysregulated cell proliferation and formation of an adenomatous polyp. Subsequent mutations in KRAS oncogene, SMAD4, and TP53 tumour suppressor gene drive progression from small adenoma to advanced adenoma to invasive carcinoma. This sequence typically takes 10-15 years, providing a critical window for screening and early intervention through polyp removal (polypectomy).\n\nAn alternative pathway, the serrated polyp pathway, accounts for 20-30% of CRCs and involves serrated polyps rather than conventional adenomas. These cancers are more common in the right (proximal) colon and are associated with BRAF mutations, CpG island methylator phenotype (CIMP), and microsatellite instability (MSI). They can be more difficult to detect endoscopically as they tend to be flat and may be missed during colonoscopy.\n\nThe hereditary CRC syndromes account for 5-10% of cases: Familial Adenomatous Polyposis (FAP) involves a germline APC mutation causing hundreds to thousands of colonic adenomas, with near-100% cancer risk without prophylactic colectomy. Lynch syndrome (hereditary non-polyposis colorectal cancer, HNPCC) is caused by mutations in DNA mismatch repair genes (MLH1, MSH2, MSH6, PMS2), conferring a 70-80% lifetime CRC risk along with elevated risks for endometrial, ovarian, and other cancers.\n\nCRC staging uses the TNM system: T describes depth of tumour invasion (T1 into submucosa, T2 into muscularis propria, T3 through muscularis into subserosa, T4 through serosa or into adjacent organs), N describes lymph node involvement, and M describes distant metastases. CRC spreads via lymphatic drainage, direct extension to adjacent organs, hematogenous spread (most commonly to the liver via portal circulation, then lungs), and less commonly peritoneal seeding.\n\nThe clinical presentation differs by tumour location. Right-sided (ascending colon) tumours present insidiously with iron deficiency anemia (from chronic occult blood loss into the large-caliber, liquid-stool right colon), fatigue, weight loss, and sometimes a palpable right-sided abdominal mass. Left-sided (descending and sigmoid) tumours present more acutely with changes in bowel habits (narrowing of stool caliber, alternating constipation and diarrhea), visible rectal bleeding, and obstructive symptoms because the left colon has a narrower lumen and more formed stool. Rectal cancers present with rectal bleeding, tenesmus (sensation of incomplete evacuation), and change in stool caliber.\n\nScreening is one of the most effective cancer prevention strategies because it can detect and remove pre-cancerous polyps before they transform into cancer, and detect early-stage cancers with much better prognosis. Average-risk screening begins at age 45-50 with colonoscopy every 10 years, or alternative tests (FIT annually, flexible sigmoidoscopy every 5 years, CT colonography every 5 years). Higher-risk individuals require earlier and more frequent screening." },

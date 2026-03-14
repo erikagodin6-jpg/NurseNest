@@ -2,103 +2,239 @@ import type { LessonContent } from "./types";
 
 export const generatedBatch025Lessons: Record<string, LessonContent> = {
   "cryoglobulinemia-workup-np": {
-    title: "Cryoglobulinemia: HCV-Associated",
-    cellular: { title: "Cryoglobulinemia: HCV-Associated Workup & Renal Involvement", content: "Cryoglobulins are immunoglobulins that precipitate at temperatures below 37C and redissolve upon rewarming. Cryoglobulinemia is classified into three types: Type I consists of monoclonal immunoglobulins (usually IgM) associated with lymphoproliferative disorders (Waldenstrom macroglobulinemia, multiple myeloma); Type II (mixed) contains monoclonal IgM with rheumatoid factor (RF) activity directed against polyclonal IgG, most strongly associated with hepatitis C virus (HCV) infection (80-90% of cases); Type III (mixed polyclonal) contains polyclonal IgM RF against polyclonal IgG, associated with autoimmune diseases and chronic infections. HCV drives Type II cryoglobulinemia through chronic B-cell stimulation: HCV binds to CD81 on B lymphocytes, causing clonal expansion and monoclonal IgM production with RF activity. The resulting immune complexes deposit in small and medium vessels, activating complement (classical pathway) and causing vasculitis. Renal involvement manifests as membranoproliferative glomerulonephritis (MPGN) Type I, with mesangial proliferation, endocapillary hypercellularity, subendothelial immune complex deposits, and characteristic double-contour (tram-track) appearance of glomerular basement membranes on light microscopy. Immunofluorescence shows granular IgM, IgG, and C3 deposits. Cryoglobulinemic vasculitis (CV) affects skin (palpable purpura in dependent areas), kidneys (MPGN), peripheral nerves (mononeuritis multiplex or symmetric sensorimotor polyneuropathy), and joints (arthralgias without destructive arthritis)." },
-    riskFactors: ["Chronic hepatitis C virus infection (responsible for 80-90% of mixed cryoglobulinemia cases; genotypes 1 and 2 most commonly implicated)","Lymphoproliferative disorders for Type I (Waldenstrom macroglobulinemia, multiple myeloma, chronic lymphocytic leukemia)","Autoimmune diseases (systemic lupus erythematosus, Sjogren syndrome, rheumatoid arthritis) contributing to Types II/III","Hepatitis B virus coinfection","HIV coinfection (accelerates HCV-associated cryoglobulinemia progression)","Female sex (2:1 female predominance in HCV-associated cryoglobulinemia)"],
-    diagnostics: ["Cryocrit measurement: specimen MUST be drawn in pre-warmed tubes, transported at 37C, and allowed to clot at 37C before refrigeration at 4C for 72 hours; improper cold handling causes false negatives","Complement C4: characteristically very low (often undetectable) due to classical pathway activation; C3 may be normal or mildly low; low C4 with near-normal C3 is a hallmark pattern","Rheumatoid factor (RF): positive in >90% of mixed cryoglobulinemia (the monoclonal IgM IS a rheumatoid factor)","HCV RNA quantitative PCR and HCV genotyping: essential to confirm HCV as the underlying driver","Serum protein electrophoresis (SPEP) and immunofixation: identifies monoclonal spike in Type I; may show M-component in Type II","Renal biopsy: confirms MPGN Type I with subendothelial deposits, mesangial proliferation, and GBM double contours; immunofluorescence shows IgM/IgG/C3","Urinalysis with microscopy: proteinuria, hematuria (dysmorphic RBCs, RBC casts indicating glomerular origin)","Serum creatinine/GFR, 24-hour urine protein, hepatic panel, CBC with differential"],
-    management: ["Direct-acting antiviral (DAA) therapy for HCV eradication is the cornerstone of treatment: sofosbuvir/velpatasvir (pangenotypic) or glecaprevir/pibrentasvir; SVR cures most mild-moderate cryoglobulinemia","Rituximab (anti-CD20 monoclonal antibody) 375 mg/m2 weekly x 4 doses for severe vasculitis (renal failure, progressive neuropathy, skin ulceration) to deplete the pathogenic B-cell clone","Plasmapheresis for life-threatening manifestations (rapidly progressive glomerulonephritis, hyperviscosity syndrome, severe neuropathy): removes circulating cryoglobulins while definitive therapy takes effect","Low-dose corticosteroids as bridge therapy for acute flares; avoid high-dose or prolonged steroids (may increase HCV viral load)","Cyclophosphamide reserved for rituximab-refractory severe organ-threatening disease","ACE inhibitor or ARB for renal protection in cryoglobulinemic MPGN with proteinuria","Monitor for rituximab-associated HBV reactivation; screen all patients for HBsAg/anti-HBc before initiating"],
-    nursingActions: ["Ensure proper cryoglobulin specimen collection: use pre-warmed syringes and tubes, maintain specimen at 37C during transport to laboratory; label as cryoglobulin specimen requiring warm handling","Monitor renal function trends (creatinine, GFR, urine output, proteinuria quantification) for progression of MPGN","Assess skin daily for new palpable purpura, ulceration, or digital ischemia/necrosis (Raynaud phenomenon); document distribution and progression","Monitor for rituximab infusion reactions: premedicate with acetaminophen, diphenhydramine, and methylprednisolone; observe for hypotension, bronchospasm, urticaria during and 1 hour after infusion","Assess neurological status: peripheral neuropathy symptoms (numbness, burning, weakness in feet/hands), mononeuritis multiplex (asymmetric motor/sensory deficits)","Educate patient on cold avoidance measures: cryoglobulins precipitate in cold temperatures causing Raynaud phenomenon, purpura, and tissue ischemia"],
-    assessmentFindings: ["Palpable purpura in dependent areas (lower extremities most common) that does not blanch with pressure","Arthralgias (non-erosive, symmetric, affecting large joints) without joint swelling or deformity","Peripheral neuropathy: symmetric sensorimotor polyneuropathy or mononeuritis multiplex (foot drop, wrist drop)","Raynaud phenomenon with digital cyanosis or necrosis in cold exposure","Proteinuria and microscopic hematuria indicating glomerulonephritis","Hepatomegaly and splenomegaly from underlying HCV liver disease","Fatigue, weakness, and malaise (constitutional symptoms present in >90%)"],
-    signs: {
-      left: ["Palpable purpura confined to lower extremities without ulceration","Mild proteinuria (<1g/day) with stable renal function","Symmetric sensory polyneuropathy (numbness/paresthesias)","Arthralgias without functional limitation","Positive RF and low C4 on screening labs"],
-      right: ["Rapidly progressive glomerulonephritis (rising creatinine, oliguria, nephrotic-range proteinuria)","Skin ulceration or digital gangrene from severe vasculitis","Mononeuritis multiplex with motor deficits (foot drop, wrist drop)","Hyperviscosity syndrome (visual changes, confusion, bleeding)","Pulmonary hemorrhage from alveolar capillary vasculitis"]
+      "title": "Cryoglobulinemia Workup",
+      "cellular": {
+        "title": "Cryoglobulinemia Pathophysiology",
+        "content": "Cryoglobulins are immunoglobulins that precipitate at temperatures below 37°C and dissolve upon rewarming. Classification: Type I (monoclonal IgM or IgG, associated with lymphoproliferative disorders like Waldenström macroglobulinemia or multiple myeloma -- causes hyperviscosity). Type II (mixed, monoclonal IgM with rheumatoid factor activity against polyclonal IgG -- most common, strongly associated with hepatitis C virus, ~90%). Type III (mixed, polyclonal IgG and IgM -- associated with autoimmune diseases and chronic infections). Types II and III cause small-vessel vasculitis through immune complex deposition, complement activation, and endothelial injury, manifesting as palpable purpura, arthralgias, glomerulonephritis (membranoproliferative pattern), and peripheral neuropathy. The classic Meltzer triad of mixed cryoglobulinemia: purpura, weakness, and arthralgias."
+      },
+      "riskFactors": [
+        "Hepatitis C virus (90% of mixed cryoglobulinemia Type II)",
+        "Hepatitis B virus",
+        "Lymphoproliferative disorders: Waldenström macroglobulinemia, multiple myeloma, CLL (Type I)",
+        "Autoimmune diseases: SLE, Sjögren syndrome, rheumatoid arthritis (Type III)",
+        "HIV infection",
+        "Chronic infections (endocarditis, chronic hepatitis)"
+      ],
+      "diagnostics": [
+        "Cryoglobulin testing: specimen MUST be collected in pre-warmed tubes, transported at 37°C, and allowed to precipitate at 4°C for 72 hours (improper handling causes false negatives -- most common reason for negative result)",
+        "Cryocrit: quantifies the volume of cryoprecipitate as percentage of serum",
+        "Complement levels: low C4 with relatively preserved C3 is characteristic of mixed cryoglobulinemia (classical complement pathway activation)",
+        "Rheumatoid factor: elevated in Type II/III (IgM with RF activity)",
+        "Hepatitis C testing: HCV antibody and viral load (cause of 90% of mixed cryoglobulinemia)",
+        "Serum protein electrophoresis/immunofixation: identifies monoclonal component (Type I)",
+        "Renal biopsy if nephritis: membranoproliferative glomerulonephritis pattern with subendothelial deposits",
+        "Skin biopsy of purpura: leukocytoclastic vasculitis"
+      ],
+      "management": [
+        "HCV-associated (Type II): direct-acting antiviral therapy (DAA) for HCV cure is now first-line; achieving sustained virologic response resolves cryoglobulinemia in most patients",
+        "Severe/life-threatening manifestations (rapidly progressive GN, severe neuropathy, digital ischemia): rituximab + plasmapheresis; cyclophosphamide + corticosteroids for refractory cases",
+        "Mild disease (purpura, arthralgias): low-dose corticosteroids; treat underlying HCV",
+        "Type I (monoclonal): treat underlying lymphoproliferative disorder (chemotherapy, targeted therapy)",
+        "Avoid cold exposure (prevents cryoglobulin precipitation in peripheral vessels)",
+        "Plasmapheresis: removes circulating cryoglobulins; used as bridge therapy for acute severe manifestations while definitive treatment takes effect"
+      ],
+      "nursingActions": [
+        "Order cryoglobulin testing with proper specimen handling: pre-warmed tubes, transport at 37°C (improper handling is the #1 cause of false-negative results)",
+        "Screen all patients with mixed cryoglobulinemia for hepatitis C",
+        "Monitor renal function (creatinine, urinalysis for proteinuria and hematuria) -- MPGN is a major complication",
+        "Assess for peripheral neuropathy: symmetric polyneuropathy, numbness, tingling, weakness in hands and feet",
+        "Educate patients on cold avoidance: wear gloves, avoid cold environments, keep extremities warm (cryoglobulins precipitate in cold-exposed vessels)",
+        "Monitor complement levels (C3, C4) as markers of disease activity",
+        "If on rituximab: monitor for infusion reactions, screen for hepatitis B reactivation before starting"
+      ],
+      "assessmentFindings": [
+        "Palpable purpura (lower extremities predominantly) -- most common presenting feature",
+        "Arthralgias (joint pain without destructive arthritis)",
+        "Peripheral neuropathy: symmetric distal sensorimotor polyneuropathy, painful paresthesias",
+        "Raynaud phenomenon, livedo reticularis, digital ischemia/ulceration (cold-induced precipitation in digital vessels)",
+        "Glomerulonephritis: proteinuria, hematuria, hypertension, lower extremity edema, rising creatinine",
+        "Fatigue, weakness (Meltzer triad: purpura + weakness + arthralgias)",
+        "Hepatomegaly, splenomegaly (in HCV-associated cases)"
+      ],
+      "signs": {
+        "left": [
+          "Mild cryoglobulinemia with intermittent purpura and arthralgias responding to HCV treatment",
+          "Low cryocrit without organ-threatening involvement",
+          "Stable renal function with mild proteinuria under monitoring"
+        ],
+        "right": [
+          "Rapidly progressive glomerulonephritis with rising creatinine -- urgent rituximab + plasmapheresis",
+          "Severe peripheral neuropathy with motor involvement causing disability",
+          "Digital gangrene from cryoglobulin precipitation in cold-exposed extremities",
+          "Hyperviscosity syndrome (Type I): blurred vision, headache, mucosal bleeding, altered mental status -- emergent plasmapheresis"
+        ]
+      },
+      "medications": [
+        {
+          "name": "Rituximab (Rituxan)",
+          "type": "Anti-CD20 monoclonal antibody",
+          "action": "Depletes CD20-positive B lymphocytes, reducing production of cryoglobulins; effective for mixed cryoglobulinemia (Types II/III) by targeting the B cells producing the pathogenic immunoglobulins; preferred over cyclophosphamide due to better safety profile",
+          "sideEffects": "Infusion reactions, increased infection risk, hepatitis B reactivation, progressive multifocal leukoencephalopathy (PML, rare), hypogammaglobulinemia with prolonged use",
+          "contra": "Active severe infections, hepatitis B without prophylaxis (screen HBV before starting), known hypersensitivity",
+          "pearl": "First-line immunosuppressive for moderate-severe HCV-associated cryoglobulinemia along with DAA therapy for HCV; screen for hepatitis B BEFORE starting (reactivation risk); 375 mg/m² IV weekly × 4 weeks is standard dosing; may take 3-6 months for full clinical response; monitor immunoglobulin levels for hypogammaglobulinemia"
+        }
+      ],
+      "pearls": [
+        "Hepatitis C causes ~90% of mixed (Type II) cryoglobulinemia -- ALWAYS test for HCV in any patient with cryoglobulinemia",
+        "Specimen handling is CRITICAL: cryoglobulin samples MUST be collected in pre-warmed tubes and transported at 37°C; improper handling causes false-negative results and is the most common reason for missing the diagnosis",
+        "Low C4 with relatively preserved C3 is characteristic of mixed cryoglobulinemia -- classical pathway activation preferentially consumes C4",
+        "Meltzer triad: purpura + weakness + arthralgias = think mixed cryoglobulinemia",
+        "Direct-acting antivirals (DAAs) for HCV cure have revolutionized treatment -- achieving sustained virologic response resolves cryoglobulinemia in most HCV-associated cases",
+        "Type I cryoglobulinemia (monoclonal) causes HYPERVISCOSITY, not vasculitis -- different pathophysiology and treatment (treat underlying lymphoproliferative disorder)"
+      ],
+      "quiz": [
+        {
+          "question": "A patient with hepatitis C presents with palpable purpura, arthralgias, and proteinuria. Lab shows low C4, normal C3, and positive rheumatoid factor. What diagnosis should be suspected?",
+          "options": [
+            "Systemic lupus erythematosus",
+            "Mixed cryoglobulinemia (Type II) associated with HCV",
+            "Henoch-Schönlein purpura",
+            "Rheumatoid arthritis"
+          ],
+          "correct": 1,
+          "rationale": "This presentation (HCV + purpura + arthralgias + renal involvement + low C4 with normal C3 + positive RF) is classic for Type II mixed cryoglobulinemia. HCV accounts for ~90% of mixed cryoglobulinemia. The low C4 with preserved C3 reflects classical complement pathway activation by immune complexes."
+        },
+        {
+          "question": "Why do cryoglobulin blood tests frequently return false-negative results?",
+          "options": [
+            "The test is inherently unreliable",
+            "Improper specimen handling -- samples must be collected in pre-warmed tubes and transported at 37°C; cooling causes premature precipitation and loss of cryoglobulins",
+            "The test requires too large a blood volume",
+            "Cryoglobulins are only present during acute flares"
+          ],
+          "correct": 1,
+          "rationale": "Cryoglobulins precipitate at temperatures below 37°C. If blood samples cool during collection or transport, cryoglobulins precipitate in the tube and are removed during serum separation, causing a false-negative result. Proper technique requires pre-warmed tubes, transport at 37°C, and controlled precipitation at 4°C in the laboratory."
+        },
+        {
+          "question": "What is the first-line treatment for HCV-associated mixed cryoglobulinemia?",
+          "options": [
+            "Long-term corticosteroids",
+            "Direct-acting antiviral therapy to cure HCV",
+            "Immediate cyclophosphamide",
+            "Splenectomy"
+          ],
+          "correct": 1,
+          "rationale": "Direct-acting antivirals (DAAs) that cure HCV are now the first-line treatment for HCV-associated mixed cryoglobulinemia. Achieving sustained virologic response (SVR) eliminates the antigenic drive for cryoglobulin production, resolving the condition in most patients. Rituximab and plasmapheresis are added for severe organ-threatening manifestations."
+        }
+      ]
     },
-    medications: [{
-      name: "Rituximab",
-      type: "Anti-CD20 monoclonal antibody",
-      action: "Binds CD20 on B lymphocytes causing complement-dependent cytotoxicity, antibody-dependent cellular cytotoxicity, and apoptosis; depletes the pathogenic B-cell clone producing cryoglobulin-forming immunoglobulins",
-      sideEffects: "Infusion reactions (fever, chills, rigors, hypotension, bronchospasm), progressive multifocal leukoencephalopathy (PML, rare but fatal), hepatitis B reactivation, hypogammaglobulinemia with recurrent infections, late-onset neutropenia",
-      contra: "Active severe infections, hepatitis B without prophylactic antiviral coverage, known hypersensitivity; screen for HBsAg/anti-HBc before initiating",
-      pearl: "Standard dosing for cryoglobulinemic vasculitis: 375 mg/m2 IV weekly x 4 weeks; must premedicate with acetaminophen, diphenhydramine, and corticosteroid to reduce infusion reactions; monitor immunoglobulin levels long-term"
-    },{
-      name: "Sofosbuvir/Velpatasvir (Epclusa)",
-      type: "Pangenotypic direct-acting antiviral (DAA) combination",
-      action: "Sofosbuvir inhibits HCV NS5B RNA-dependent RNA polymerase (nucleotide analog); velpatasvir inhibits NS5A protein essential for viral replication and assembly; combination achieves SVR rates >95% across all HCV genotypes",
-      sideEffects: "Headache, fatigue, nausea, nasopharyngitis; generally very well tolerated",
-      contra: "Coadministration with amiodarone (risk of symptomatic bradycardia); strong P-gp inducers (rifampin, St. John's wort) reduce efficacy",
-      pearl: "HCV eradication is the cornerstone of cryoglobulinemia treatment; SVR resolves cryoglobulinemia in 50-70% of mild-moderate cases; 12-week course standard; check HCV RNA at 12 weeks post-treatment to confirm SVR"
-    }],
-    pearls: ["Proper specimen handling is CRITICAL for cryoglobulin testing: blood must be drawn into pre-warmed tubes and maintained at 37C until clotting is complete; cold handling during collection or transport causes false-negative results (cryoglobulins precipitate before reaching the lab)","The triad of purpura + arthralgias + weakness (Meltzer triad) is the classic presentation of mixed cryoglobulinemia","Complement C4 is characteristically very low (often undetectable) while C3 is normal or mildly reduced; this pattern strongly suggests cryoglobulinemic vasculitis","Rheumatoid factor is positive in >90% of mixed cryoglobulinemia because the monoclonal IgM component IS a rheumatoid factor; a positive RF in an HCV-positive patient should prompt cryoglobulin testing","HCV eradication with DAA therapy is first-line for mild-moderate disease; rituximab is added for severe organ-threatening manifestations (RPGN, severe neuropathy, skin ulceration)","Plasmapheresis is a bridge therapy for acute life-threatening disease; it removes circulating cryoglobulins but does not address the underlying B-cell clone","Monitor for HBV reactivation in patients receiving rituximab; all patients must be screened for HBsAg and anti-HBc before therapy; prophylactic antiviral (entecavir) required if HBV markers are positive"],
-    quiz: [
-      {
-        question: "A cryoglobulin specimen is drawn from an HCV-positive patient with palpable purpura. The result comes back negative. Which factor most likely caused a false-negative result?",
-        options: ["The patient was not fasting before the blood draw","The specimen was transported in a standard specimen bag at room temperature instead of at 37C","The specimen was hemolyzed during collection","The patient had taken acetaminophen before the draw"],
-        correct: 1,
-        rationale: "Cryoglobulins precipitate at temperatures below 37C. If the blood specimen is allowed to cool during collection or transport, cryoglobulins precipitate and are removed during centrifugation, causing a false-negative result. Specimens must be drawn in pre-warmed tubes and maintained at 37C until processing in the laboratory."
-      },
-      {
-        question: "Which complement pattern is most characteristic of HCV-associated mixed cryoglobulinemia?",
-        options: ["Normal C3 and normal C4","Low C3 with normal C4","Very low C4 (often undetectable) with normal or mildly reduced C3","Elevated C3 and C4"],
-        correct: 2,
-        rationale: "HCV-associated mixed cryoglobulinemia causes classical complement pathway activation. C4 is consumed early in the classical pathway and is characteristically very low or undetectable, while C3 remains normal or only mildly decreased. This pattern (very low C4, near-normal C3) is a hallmark of cryoglobulinemic vasculitis."
-      },
-      {
-        question: "An NP is managing an HCV-positive patient with cryoglobulinemic vasculitis causing rapidly progressive glomerulonephritis. What is the most appropriate initial treatment approach?",
-        options: ["DAA therapy alone and monitoring renal function over 12 weeks","Rituximab plus plasmapheresis with concurrent DAA therapy","High-dose prednisone 1 mg/kg/day monotherapy","Cyclophosphamide with high-dose corticosteroids"],
-        correct: 1,
-        rationale: "Rapidly progressive glomerulonephritis is a severe, organ-threatening manifestation requiring aggressive treatment. Rituximab depletes the pathogenic B-cell clone, plasmapheresis removes circulating cryoglobulins as a bridge, and DAA therapy targets the underlying HCV driver. DAA therapy alone would be too slow for RPGN. High-dose steroids may worsen HCV viremia and are not first-line. Cyclophosphamide is reserved for rituximab-refractory disease."
-      },
-    ]
-  },
   "cryptorchidism-np": {
-    title: "Cryptorchidism: GnRH Axis & Orchiopexy Timing",
-    cellular: { title: "Cryptorchidism: GnRH Axis & Orchiopexy Timing", content: "Cryptorchidism (undescended testis, UDT) is the most common congenital genitourinary anomaly in males, affecting 3-5% of full-term and up to 30% of preterm male neonates. Testicular descent is a two-phase process: the transabdominal phase (8-15 weeks gestation) is insulin-like factor 3 (INSL3) dependent, moving the testis from the urogenital ridge to the internal inguinal ring; the inguinoscrotal phase (25-35 weeks) is androgen-dependent (testosterone and dihydrotestosterone via the genitofemoral nerve releasing calcitonin gene-related peptide/CGRP), guiding the testis through the inguinal canal to the scrotum. Failure at either phase produces UDT. The GnRH-LH/FSH-testosterone axis is critical: the hypothalamus secretes GnRH in pulsatile fashion, stimulating anterior pituitary LH and FSH secretion; LH acts on Leydig cells to produce testosterone, while FSH acts on Sertoli cells to support spermatogenesis and produce inhibin B and AMH (anti-Mullerian hormone). In cryptorchidism, the undescended testis is exposed to core body temperature (37C) rather than the scrotal temperature (33-34C), causing progressive germ cell loss beginning at 6 months of age. By 12-18 months, histological changes include reduced germ cell counts, Leydig cell hyperplasia, and Sertoli cell immaturity. These changes are the basis for the current recommendation to perform orchiopexy by 6-12 months of age. Cryptorchidism confers a 40-fold increased risk of testicular cancer (seminoma most common), which persists even after orchiopexy but is reduced with early surgical correction. Clinical classification: true UDT (testis arrested along the normal descent pathway), ectopic testis (testis outside the normal descent pathway, e.g., perineal, femoral, contralateral scrotal), retractile testis (testis can be manually brought to the scrotum and remains there temporarily due to an overactive cremasteric reflex), and absent/vanishing testis (testicular regression from prenatal torsion)." },
-    riskFactors: ["Prematurity and low birth weight (strongest risk factor; 30% incidence in preterm vs 3-5% in full-term males)","Family history of cryptorchidism (first-degree relative with UDT increases risk 3-4 fold)","Small for gestational age (SGA) and intrauterine growth restriction","Maternal exposure to endocrine-disrupting chemicals (phthalates, pesticides, diethylstilbestrol)","Genetic syndromes associated with UDT: Prader-Willi, Klinefelter (47,XXY), Noonan syndrome, Kallmann syndrome (GnRH deficiency)","Disorders of sex development (DSD) including androgen insensitivity syndrome and congenital adrenal hyperplasia"],
-    diagnostics: ["Physical examination: careful bilateral scrotal and inguinal palpation in warm environment with relaxed child; differentiate palpable UDT (80%) from non-palpable (20%); assess for retractile vs true UDT using cremasteric reflex maneuver","Hormonal evaluation for bilateral non-palpable testes: serum LH, FSH, testosterone (baseline and post-hCG stimulation test); elevated gonadotropins with undetectable testosterone suggest anorchia; AMH and inhibin B levels assess Sertoli cell function","hCG stimulation test: administer hCG and measure testosterone response; a rise in testosterone confirms functional testicular tissue is present somewhere; failure to respond suggests absent/vanishing testes","Karyotype analysis: indicated in bilateral non-palpable testes or when DSD is suspected (ambiguous genitalia); rule out 46,XX with CAH or 46,XY with androgen insensitivity","Diagnostic laparoscopy: gold standard for non-palpable testis; confirms intra-abdominal testis, testicular nubbin (vanishing testis), or blind-ending vessels; simultaneously therapeutic (laparoscopic orchiopexy or orchiectomy)","Ultrasound: limited utility for locating non-palpable testes (poor sensitivity for intra-abdominal testes); NOT recommended as routine workup for UDT per AUA guidelines","MRI with contrast: occasionally used pre-operatively for non-palpable testes but does not replace diagnostic laparoscopy"],
-    management: ["Orchiopexy by 6-12 months of age (AUA/EAU guidelines): surgical fixation of testis in the scrotum; earlier correction preserves germ cells and maximizes fertility potential","Two-stage Fowler-Stephens orchiopexy for high intra-abdominal testes: stage 1 clips testicular vessels laparoscopically; stage 2 (6 months later) mobilizes testis to scrotum relying on collateral blood supply via vas deferens artery","Orchiectomy for post-pubertal undescended testis or atrophic/dysplastic testis found at surgery: risk of malignancy outweighs benefit of retention; prosthesis can be placed for cosmesis","Hormonal therapy (hCG or GnRH analogs): NOT recommended as primary treatment per current AUA guidelines due to low success rates (20%) and lack of long-term benefit; may be used in select cases of bilateral UDT to stimulate descent","Long-term surveillance for testicular cancer: monthly self-examination education beginning at puberty; risk is 40x general population even after orchiopexy; seminoma is the most common histologic type","Fertility counseling: bilateral cryptorchidism has highest infertility risk (up to 75% if untreated); unilateral UDT has paternity rates approaching normal if corrected early; semen analysis recommended at maturity"],
-    nursingActions: ["Perform newborn genital examination: confirm bilateral testicular descent; document testicular position and size; retractile testes are common and require serial follow-up but not surgery","Educate parents on the importance of early orchiopexy timing (6-12 months): delay beyond 12-18 months results in progressive germ cell loss and increased cancer risk","Pre-operative teaching for orchiopexy: outpatient procedure, general anesthesia, inguinal or scrotal incision, expected post-operative swelling and bruising; avoid straddling activities for 2-4 weeks","Post-orchiopexy assessment: monitor for wound infection, scrotal edema/hematoma, testicular atrophy (late complication from compromised blood supply); follow up at 1 week and 6 months","Refer to pediatric urology by 6 months of age if testis has not spontaneously descended (most spontaneous descent occurs by 3-6 months of age; after 6 months descent is unlikely)","Educate adolescent patients on testicular self-examination: monthly exam after warm shower, feel for lumps or changes in size; emphasize lifelong cancer surveillance even after orchiopexy"],
-    assessmentFindings: ["Empty hemiscrotum on palpation with ipsilateral inguinal fullness (palpable UDT in inguinal canal)","Bilateral empty scrotum in newborn (bilateral non-palpable testes requires urgent evaluation to rule out DSD or congenital adrenal hyperplasia with salt-wasting crisis)","Retractile testis that can be manually brought to the scrotum but retracts upward with cremasteric reflex","Inguinal hernia (present in >90% of UDT due to patent processus vaginalis)","Scrotal hypoplasia on the affected side (underdeveloped scrotal skin from lack of testicular presence)","Post-orchiopexy: testis palpable in scrotum at follow-up; testicular atrophy (decreased size) is a concerning finding suggesting vascular compromise"],
-    signs: {
-      left: ["Unilateral palpable UDT in inguinal canal identified at newborn exam","Retractile testis that remains in scrotum when gently held (observation, no surgery needed)","Spontaneous descent by 3-6 months of age confirmed at follow-up","Successful orchiopexy with viable testis in scrotal position at 6-month follow-up"],
-      right: ["Bilateral non-palpable testes with ambiguous genitalia (urgent DSD workup and endocrine consultation)","Acute scrotal pain in child with UDT (torsion of undescended testis is a surgical emergency)","Testicular atrophy after orchiopexy (vascular compromise during surgery)","New testicular mass in adolescent/adult with history of cryptorchidism (testicular cancer until proven otherwise)","Bilateral anorchia with undetectable testosterone and elevated gonadotropins (will require lifelong testosterone replacement at puberty)"]
+      "title": "Cryptorchidism",
+      "cellular": {
+        "title": "Cryptorchidism Pathophysiology",
+        "content": "Cryptorchidism (undescended testis) is the failure of one or both testes to descend from the retroperitoneal space through the inguinal canal into the scrotum. Testicular descent occurs in two phases: transabdominal (weeks 10-15, guided by insulin-like factor 3/INSL3 from Leydig cells) and inguinoscrotal (weeks 25-35, dependent on androgens and the gubernaculum). The undescended testis is exposed to the higher core body temperature (37°C vs 33°C in scrotum), which impairs spermatogenesis (requires cooler temperature) and increases malignant transformation risk. Germ cell degeneration begins by age 6 months in undescended testes, and by 1-2 years, histological changes include decreased germ cells, Leydig cell hyperplasia, and delayed maturation. The risk of testicular cancer is 4-8x higher in undescended testes, with seminoma being the most common malignancy."
+      },
+      "riskFactors": [
+        "Prematurity (incidence 30% in preterm vs 3% in term; inversely related to gestational age/birth weight)",
+        "Low birth weight",
+        "Small for gestational age",
+        "Family history of cryptorchidism (genetic component)",
+        "Maternal exposure: pesticides, endocrine disruptors (phthalates, DES)",
+        "Maternal diabetes",
+        "Maternal smoking during pregnancy",
+        "Associated genetic conditions: Klinefelter syndrome, Prader-Willi syndrome, Noonan syndrome, abdominal wall defects (gastroschisis)"
+      ],
+      "diagnostics": [
+        "Physical examination: palpate for testis along the inguinal canal, femoral triangle, and perineum; distinguish from retractile testis (can be manipulated into scrotum and stays temporarily -- normal cremasteric reflex, does NOT require surgery)",
+        "Bilateral nonpalpable testes: evaluate for disorders of sexual development (DSD) -- karyotype, serum electrolytes (salt-wasting CAH can present as phenotypic male with bilateral nonpalpable testes), 17-hydroxyprogesterone, testosterone, AMH, LH, FSH",
+        "HCG stimulation test: for bilateral nonpalpable testes, HCG injection should produce testosterone rise if functional testicular tissue exists; no response suggests anorchia (absent testes)",
+        "Müllerian inhibiting substance (AMH/MIS): elevated indicates functional testicular tissue is present somewhere (useful for bilateral nonpalpable testes)",
+        "Imaging: ultrasound has limited sensitivity for nonpalpable testes (poor at localizing intra-abdominal testes); MRI can help but is not definitive",
+        "Diagnostic laparoscopy: gold standard for locating nonpalpable testes and determining if viable testicular tissue is present intra-abdominally"
+      ],
+      "management": [
+        "Observation until 6 months of age (spontaneous descent occurs in 70-75% of full-term and 90-95% of preterm cryptorchid testes by 6 months)",
+        "Orchiopexy (surgical fixation into scrotum): recommended by 6-12 months of age if no spontaneous descent; earlier surgery preserves fertility potential and reduces (but does not eliminate) malignancy risk",
+        "Laparoscopic approach for intra-abdominal testes: one-stage or two-stage (Fowler-Stephens) orchiopexy",
+        "Orchiectomy: for post-pubertal intra-abdominal testes or atrophic non-viable testes (high malignancy risk with no fertility potential)",
+        "Hormonal therapy (HCG or GnRH): limited role; may promote descent in some cases but surgery is the standard of care",
+        "Long-term follow-up: testicular self-exam education at puberty (cancer risk persists even after orchiopexy); fertility counseling if bilateral"
+      ],
+      "nursingActions": [
+        "Examine all male newborns for testicular position at birth and document bilateral descended testes",
+        "Distinguish undescended testis from retractile testis: retractile testis can be manually brought into the scrotum and stays temporarily (normal cremasteric reflex); undescended testis cannot be brought into the scrotum",
+        "Refer for surgical evaluation by 6 months of age if testis has not descended spontaneously",
+        "For bilateral nonpalpable testes in a newborn: URGENTLY evaluate for disorder of sexual development (DSD); check electrolytes (salt-wasting CAH is life-threatening)",
+        "Provide pre-operative education for orchiopexy: outpatient procedure, typical recovery 1-2 weeks, avoid straddle activities for 2-4 weeks",
+        "Educate family on long-term cancer surveillance: testicular self-examination beginning at puberty; cancer risk is 4-8x higher than normal even after successful orchiopexy",
+        "Assess for associated conditions: inguinal hernia (present in 90% of cryptorchid testes on the affected side), hypospadias, other genitourinary anomalies"
+      ],
+      "assessmentFindings": [
+        "Empty hemiscrotum on the affected side",
+        "Testis palpable in inguinal canal, superficial inguinal pouch, or femoral region",
+        "Non-palpable testis: may be intra-abdominal, absent (vanishing testis), or ectopic",
+        "Unilateral: right side more commonly affected than left (right testis descends later in fetal development)",
+        "Bilateral: consider DSD workup, especially if associated with hypospadias",
+        "Ipsilateral inguinal hernia (present in ~90%)",
+        "At puberty/adulthood (if untreated): smaller testis, decreased spermatogenesis, infertility risk"
+      ],
+      "signs": {
+        "left": [
+          "Retractile testis confirmed (no treatment needed -- follow annually to ensure does not become truly undescended)",
+          "Unilateral cryptorchidism detected at birth -- observe until 6 months for spontaneous descent",
+          "Successful orchiopexy with well-positioned testis on follow-up"
+        ],
+        "right": [
+          "Bilateral nonpalpable testes in newborn -- URGENT evaluation for disorder of sexual development and salt-wasting congenital adrenal hyperplasia (life-threatening)",
+          "Undescended testis not referred for orchiopexy by age 1 year (delayed surgery = decreased fertility potential and increased cancer risk)",
+          "Testicular mass detected in previously undescended testis (testicular cancer -- 4-8x risk)",
+          "Post-pubertal intra-abdominal testis: high malignancy risk, consider orchiectomy rather than orchiopexy"
+        ]
+      },
+      "medications": [
+        {
+          "name": "Human Chorionic Gonadotropin (HCG)",
+          "type": "Gonadotropin (LH analogue)",
+          "action": "Stimulates Leydig cells to produce testosterone, which promotes gubernacular contraction and inguinoscrotal testicular descent; used diagnostically (HCG stimulation test: testosterone rise confirms functional testicular tissue) and historically as therapeutic attempt to promote descent",
+          "sideEffects": "Penile growth, pubic hair development (androgenic effects from testosterone stimulation), injection site pain, mood changes, headache",
+          "contra": "Precocious puberty, androgen-dependent tumors",
+          "pearl": "Hormonal therapy (HCG or GnRH) has limited success (10-20%) for promoting testicular descent and is NOT the standard of care -- orchiopexy is the definitive treatment; HCG stimulation test is diagnostically useful for bilateral nonpalpable testes: a positive testosterone response indicates functional testicular tissue exists; no response suggests anorchia"
+        }
+      ],
+      "pearls": [
+        "Cryptorchidism is the MOST COMMON genitourinary anomaly in male newborns (3% of term, 30% of preterm)",
+        "Orchiopexy should be performed by 6-12 MONTHS of age -- earlier surgery preserves germ cells and fertility potential; delays beyond 1-2 years cause irreversible germ cell loss",
+        "Cancer risk is 4-8x HIGHER in undescended testes, even AFTER successful orchiopexy; SEMINOMA is the most common tumor type; teach testicular self-examination at puberty",
+        "Retractile testis ≠ cryptorchid testis: retractile testis can be brought into the scrotum (normal cremasteric reflex) and does NOT require surgery; follow annually",
+        "Bilateral nonpalpable testes in a newborn is a medical EMERGENCY: evaluate for DSD, especially salt-wasting congenital adrenal hyperplasia (46,XX with virilization, electrolyte crisis)",
+        "Associated inguinal hernia is present in ~90% of cryptorchid testes (patent processus vaginalis)"
+      ],
+      "quiz": [
+        {
+          "question": "A newborn male has bilateral nonpalpable testes and mild hypospadias. What is the MOST important initial evaluation?",
+          "options": [
+            "Schedule bilateral orchiopexy immediately",
+            "Obtain karyotype and serum electrolytes urgently to evaluate for disorder of sexual development",
+            "Order bilateral scrotal ultrasound",
+            "Observe until 6 months of age for spontaneous descent"
+          ],
+          "correct": 1,
+          "rationale": "Bilateral nonpalpable testes with hypospadias raises concern for a disorder of sexual development (DSD), including 46,XX congenital adrenal hyperplasia (CAH) with virilization. Salt-wasting CAH can cause life-threatening adrenal crisis (hyponatremia, hyperkalemia) in the first weeks of life. Urgent karyotype, electrolytes, and 17-hydroxyprogesterone are essential."
+        },
+        {
+          "question": "At what age should orchiopexy be performed for cryptorchidism that has not spontaneously resolved?",
+          "options": [
+            "At birth",
+            "By 6-12 months of age",
+            "At age 5 years",
+            "At puberty"
+          ],
+          "correct": 1,
+          "rationale": "Current guidelines recommend orchiopexy by 6-12 months of age (after allowing time for spontaneous descent, which usually occurs by 6 months). Earlier surgery preserves germ cells, optimizes future fertility potential, and reduces (but does not eliminate) malignancy risk. Surgery delayed beyond 1-2 years results in irreversible histological damage."
+        },
+        {
+          "question": "A 22-year-old with a history of right orchiopexy at age 2 presents for routine care. What counseling is important?",
+          "options": [
+            "He has no increased cancer risk because orchiopexy was performed",
+            "He should perform monthly testicular self-examination because cancer risk remains 4-8x higher even after orchiopexy",
+            "He does not need follow-up for his previous cryptorchidism",
+            "He should have the right testis removed prophylactically"
+          ],
+          "correct": 1,
+          "rationale": "Even after successful orchiopexy, the lifetime risk of testicular cancer remains 4-8x higher than the general population (orchiopexy allows for easier examination and early detection but does not eliminate the oncogenic potential of the previously undescended testis). Monthly testicular self-examination beginning at puberty is recommended."
+        }
+      ]
     },
-    medications: [{
-      name: "Human Chorionic Gonadotropin (hCG)",
-      type: "Gonadotropin hormone (LH analog)",
-      action: "Stimulates Leydig cells to produce testosterone, which promotes testicular descent through the inguinal canal; used diagnostically (hCG stimulation test) to confirm presence of functional testicular tissue in non-palpable testes and occasionally therapeutically to promote descent",
-      sideEffects: "Penile growth, pubic hair development, behavioral changes (irritability), injection site pain; effects are reversible after discontinuation",
-      contra: "Precocious puberty, androgen-sensitive tumors; NOT recommended as primary treatment for UDT per current AUA guidelines (low success rate ~20%)",
-      pearl: "Primary value is DIAGNOSTIC: a testosterone rise after hCG confirms functional testicular tissue exists; absence of response in bilateral non-palpable testes suggests anorchia and may avoid unnecessary surgical exploration"
-    },{
-      name: "Testosterone Replacement Therapy",
-      type: "Androgen hormone replacement",
-      action: "Replaces deficient endogenous testosterone in patients with bilateral anorchia or bilateral testicular atrophy; initiated at puberty (age 11-12) with gradual dose escalation to mimic normal pubertal development",
-      sideEffects: "Acne, mood changes, erythrocytosis, hepatic effects with oral formulations; long-term: lipid changes, potential cardiovascular risk",
-      contra: "Prostate cancer, breast cancer in males, polycythemia (hematocrit >54%)",
-      pearl: "Start with low-dose testosterone (50 mg IM monthly or equivalent transdermal) and gradually increase over 3-4 years to adult dosing to simulate normal pubertal progression; monitor bone age, growth velocity, Tanner staging, and hematocrit"
-    }],
-    pearls: ["Cryptorchidism is the most common congenital genitourinary anomaly in males; 80% of undescended testes are palpable on exam and 20% are non-palpable (intra-abdominal, inguinal, or absent)","Orchiopexy should be performed by 6-12 months of age per AUA guidelines; germ cell deterioration begins at 6 months due to exposure to core body temperature (37C vs scrotal 33-34C)","Differentiate retractile testis (cremasteric reflex pulls testis upward; can be manipulated into scrotum and stays briefly; does NOT require surgery) from true UDT (testis cannot reach the scrotum; requires orchiopexy)","Bilateral non-palpable testes in a newborn is an URGENT situation: must rule out disorder of sex development (46,XX with congenital adrenal hyperplasia presenting as virilized female) and salt-wasting CAH which is life-threatening","The cancer risk in cryptorchidism is 40x the general population; seminoma is the most common type; risk persists lifelong even after orchiopexy but is reduced with early correction; educate on testicular self-examination beginning at puberty","Ultrasound is NOT recommended for routine UDT workup (poor sensitivity for intra-abdominal testes); diagnostic laparoscopy is the gold standard for non-palpable testes"],
-    quiz: [
-      {
-        question: "A 9-month-old male has a right undescended testis palpable in the inguinal canal. The left testis is normally descended. According to current AUA guidelines, what is the recommended management?",
-        options: ["Observe until age 2 years to allow time for spontaneous descent","Initiate hCG injections to stimulate hormonal descent","Refer for right inguinal orchiopexy within the next 3 months (by 12 months of age)","Order an ultrasound to locate the testis before any intervention"],
-        correct: 2,
-        rationale: "Current AUA guidelines recommend orchiopexy by 6-12 months of age. Spontaneous descent after 6 months is unlikely, and delaying surgery beyond 12-18 months results in progressive germ cell loss. hCG therapy is not recommended as primary treatment due to low success rates (~20%). Ultrasound is not indicated when the testis is palpable on exam."
-      },
-      {
-        question: "A newborn male has bilateral non-palpable testes. Which evaluation should be prioritized?",
-        options: ["Bilateral inguinal ultrasound to locate the testes","Observation for 6 months to allow spontaneous descent","Urgent karyotype and serum 17-hydroxyprogesterone to rule out disorder of sex development and congenital adrenal hyperplasia","Diagnostic laparoscopy under general anesthesia"],
-        correct: 2,
-        rationale: "Bilateral non-palpable testes in a newborn requires urgent evaluation to rule out disorder of sex development (DSD). A 46,XX infant with congenital adrenal hyperplasia (CAH) may present as a virilized female phenotype; the salt-wasting form of CAH can cause life-threatening adrenal crisis in the first weeks of life. Karyotype and 17-hydroxyprogesterone are essential first steps."
-      },
-      {
-        question: "Parents ask why their son needs orchiopexy at 10 months rather than waiting until he is older. Which is the most accurate explanation?",
-        options: ["The procedure is technically easier in younger infants","Germ cell deterioration begins at approximately 6 months of age because the undescended testis is exposed to core body temperature (37C) instead of the cooler scrotal temperature (33-34C), and early correction preserves fertility and reduces cancer risk","Anesthesia is safer for infants under 1 year of age","Insurance coverage requires the procedure before age 1"],
-        correct: 1,
-        rationale: "The undescended testis is exposed to core body temperature (37C) rather than the lower scrotal temperature (33-34C). This temperature difference causes progressive germ cell apoptosis and loss beginning at 6 months. Early orchiopexy (by 6-12 months) preserves germ cells, maximizes future fertility potential, and reduces (but does not eliminate) the 40-fold increased risk of testicular cancer."
-      },
-    ]
-  },
   "cultural-assessment-rn": {
         title: "Cultural Assessment in Nursing",
         cellular: { title: "Foundations of Culturally Competent Nursing", content: "Cultural assessment in nursing is a systematic process of gathering and analyzing information about a patient's cultural background, health beliefs, values, practices, and preferences to provide culturally congruent care that respects individual and community diversity. Cultural competence is not merely an additive element of nursing practice -- it is a fundamental requirement for safe, effective, and ethical patient care. The failure to assess and incorporate cultural factors into clinical care leads to miscommunication, misdiagnosis, treatment non-adherence, health disparities, and preventable adverse outcomes. Cultural competence operates through several theoretical frameworks that guide nursing practice. Madeleine Leininger's Theory of Culture Care Diversity and Universality (Transcultural Nursing Theory, 1978) established the foundational principle that culturally congruent care requires knowledge of the patient's cultural values, beliefs, and practices, and that nursing care must be adapted to fit the cultural context of the patient rather than imposing the dominant culture's healthcare norms. Leininger identified three nursing decision modes: cultural care preservation/maintenance (supporting beneficial cultural practices), cultural care accommodation/negotiation (adapting professional care to incorporate cultural preferences while maintaining safety), and cultural care repatterning/restructuring (helping patients modify practices that are harmful to health while respecting cultural context). Larry Purnell's Model for Cultural Competence (2002) provides a comprehensive assessment framework organized into 12 domains: overview/heritage (country of origin, acculturation), communication (language, personal space, touch, time orientation), family roles and organization (head of household, gender roles, decision-making patterns), workforce issues, biocultural ecology (biological variations, hereditary conditions, drug metabolism differences), high-risk behaviors, nutrition (food practices, dietary restrictions, ceremonial foods), pregnancy and childbearing practices, death rituals, spirituality, healthcare practices (folk medicine, barriers to care, sick role behaviors), and healthcare practitioners (traditional healers, acceptance of providers of different backgrounds). Josepha Campinha-Bacote's Process of Cultural Competence model describes cultural competence as an ongoing journey involving five constructs: cultural awareness (self-examination of biases and prejudices), cultural knowledge (educational foundation about diverse groups), cultural skill (ability to collect relevant cultural data), cultural encounters (direct cross-cultural interactions), and cultural desire (the genuine motivation to engage in cultural competence). The biological and pharmacological implications of cultural diversity are clinically significant and directly impact nursing care. Pharmacogenomics reveals important population-based variations in drug metabolism that affect medication safety and efficacy. Cytochrome P450 enzyme polymorphisms vary significantly across racial and ethnic groups: CYP2D6 poor metabolizer phenotype occurs in 5-10% of European-descent populations (causing elevated plasma levels of codeine, tramadol, many SSRIs, beta-blockers, and antipsychotics), while CYP2D6 ultrarapid metabolizer phenotype is found in 20-29% of East African populations (causing rapid drug clearance and potential therapeutic failure at standard doses; critically, ultrarapid metabolism of codeine to morphine can cause fatal respiratory depression). CYP2C19 poor metabolizer phenotype affects up to 15-20% of East Asian populations (impacting clopidogrel activation, proton pump inhibitor metabolism, and diazepam clearance). The HLA-B*5801 allele, which confers high risk for severe allopurinol hypersensitivity (Stevens-Johnson syndrome/toxic epidermal necrolysis), has a prevalence of 6-8% in Southeast Asian and African American populations compared to 1-2% in European-descent populations -- genetic testing before initiating allopurinol is recommended in high-risk populations. Communication assessment is the cornerstone of cultural nursing assessment. Language barriers are the single most impactful cultural factor affecting healthcare quality and safety. Patients with limited English proficiency (LEP) have documented higher rates of adverse events, medication errors, longer hospital stays, lower satisfaction, and higher readmission rates compared to English-proficient patients. The use of professional medical interpreters (either in-person or via telephone/video interpreter services) is the standard of care and a legal requirement under Title VI of the Civil Rights Act for healthcare organizations receiving federal funding. The use of family members (especially children) as interpreters is discouraged because of accuracy concerns (family members may filter, editorialize, or omit information based on their own beliefs or emotional reactions), confidentiality violations (patients may not disclose sensitive information such as domestic violence, substance use, or sexual health concerns with family members interpreting), role reversal stress (children interpreting for parents experience inappropriate responsibility), and lack of medical vocabulary knowledge. Pain expression and reporting vary significantly across cultures. Some cultures value stoicism and emotional restraint in the face of pain (many East Asian, Northern European, and Native American traditions emphasize enduring pain without complaint), while others accept or encourage verbal and emotional expression of pain (many Mediterranean, Middle Eastern, and Hispanic cultures view pain expression as appropriate communication rather than weakness). These cultural differences can lead to systematic undertreatment of pain in stoic patients and misinterpretation of expressive patients' pain as exaggeration. The nurse must use culturally appropriate pain assessment tools (such as the Wong-Baker FACES scale or translated numeric rating scales), avoid assumptions about pain tolerance based on cultural background, and recognize that behavioral pain cues (facial expressions, guarding, physiological signs) may be more reliable indicators of pain in stoic patients than verbal reports. Dietary and nutritional practices are deeply embedded in cultural identity and directly impact medical nutrition therapy. Many cultural and religious traditions have specific dietary restrictions (halal/haram in Islam, kosher laws in Judaism, vegetarianism in Hinduism and Buddhism, fasting practices during Ramadan, Lent, Yom Kippur), and hospitalized patients require meal options that accommodate these practices. Failure to provide culturally appropriate meals contributes to malnutrition during hospitalization and erodes the patient-provider trust relationship. Traditional and complementary medicine practices are used by a significant proportion of patients from diverse cultural backgrounds. Traditional Chinese medicine (acupuncture, herbal remedies, qi gong), Ayurvedic medicine (herbal preparations, yoga, dietary therapy), Native American healing practices (sweat lodge ceremonies, sage burning, medicine wheel), Mexican curanderismo (folk healing, herbal remedies, spiritual cleansing), and many other traditional systems may be used alongside or instead of Western biomedical treatment. The nurse must assess for traditional medicine use in a non-judgmental manner because many traditional remedies can interact with prescribed medications (St. John's Wort induces CYP3A4, reducing effectiveness of many medications; certain Chinese herbs are hepatotoxic or contain heavy metals; kava can potentiate sedatives), and patients who feel their traditional practices are disrespected are less likely to disclose their use or adhere to prescribed treatments." },
@@ -126,54 +262,125 @@ export const generatedBatch025Lessons: Record<string, LessonContent> = {
         quiz: [{ question: "A practical nurse is caring for a patient who speaks limited English. The patient's adult daughter offers to interpret during the discharge teaching. What is the most appropriate nursing action?", options: ["Accept the daughter's offer since she knows the patient best","Proceed with discharge teaching in English and provide written materials","Arrange for a professional medical interpreter and decline the daughter's offer for clinical interpretation","Ask the daughter to translate only the medication instructions"], correct: 2, rationale: "Professional medical interpreters must be used for clinical encounters with patients who have limited English proficiency. Family members should not serve as medical interpreters because they may lack medical vocabulary, may filter or modify information, and the patient may not disclose sensitive information through a family member. Professional interpreters are trained in medical terminology, accuracy, and confidentiality." },{ question: "A practical nurse asks a patient from a different cultural background, 'What do you think caused your illness?' This question is an example of which approach?", options: ["Ethnocentric assessment","Kleinman's explanatory model","Stereotyping the patient's cultural beliefs","Implicit bias assessment"], correct: 1, rationale: "Kleinman's explanatory model uses open-ended questions to elicit the patient's own understanding and beliefs about their illness, including perceived cause, expected course, and desired treatment. This patient-centered approach honors the patient as the expert on their own experience and helps the nurse develop a culturally congruent care plan." },{ question: "A practical nurse recognizes that she has an unconscious preference for providing more detailed explanations to patients who speak English fluently compared to those with limited English proficiency. This recognition reflects which concept?", options: ["Cultural competence","Cultural desire","Implicit bias awareness","Ethnocentrism"], correct: 2, rationale: "Implicit bias refers to unconscious attitudes and stereotypes that affect perception and behavior without conscious awareness. Recognizing one's own implicit biases is a critical first step in cultural humility, enabling the practical nurse to consciously counteract these biases and ensure equitable care for all patients regardless of language or cultural background." }]
   },
   "culture-negative-ie-np": {
-    title: "Culture-Negative Infective Endocarditis",
-    cellular: { title: "Blood Culture-Negative Infective Endocarditis (BCNIE)", content: "Blood culture-negative infective endocarditis (BCNIE) accounts for approximately 5-10% of all infective endocarditis (IE) cases and represents a significant diagnostic challenge. The most common cause of BCNIE is prior antibiotic administration before blood cultures are obtained (up to 50% of BCNIE cases), which suppresses bacteremia below the detection threshold of standard culture systems. The remaining cases are caused by fastidious organisms that do not grow on routine culture media. HACEK organisms (Haemophilus, Aggregatibacter, Cardiobacterium, Eikenella, Kingella) are slow-growing gram-negative bacteria that may require extended incubation (up to 14 days on some older systems, though modern automated systems detect most within 5 days). Bartonella species (B. henselae from cat scratch/flea exposure, B. quintana associated with homelessness and body lice) cause approximately 3% of all IE and are a leading cause of BCNIE. Coxiella burnetii (Q fever) causes chronic endocarditis typically involving prosthetic or previously damaged native valves, with exposure history to farm animals (cattle, sheep, goats) or their birth products. Tropheryma whipplei (Whipple disease) causes chronic endocarditis that may present without GI symptoms. Brucella species are associated with unpasteurized dairy consumption or animal contact in endemic regions. Fungal endocarditis (Candida, Aspergillus) occurs in IV drug users, prosthetic valves, and immunocompromised patients, often producing large vegetations but negative standard blood cultures (fungal cultures require special media and prolonged incubation). The modified Duke criteria remain the diagnostic standard for IE, combining major criteria (positive blood cultures and echocardiographic evidence of endocardial involvement) with minor criteria (predisposing heart condition/IVDU, fever, vascular phenomena, immunologic phenomena, supportive microbiology). In BCNIE, TEE is superior to TTE (sensitivity 90-95% vs 60-65%) for detecting vegetations, abscesses, and prosthetic valve complications." },
-    riskFactors: ["Prior antibiotic therapy before blood culture collection (most common cause of BCNIE, up to 50% of cases)","Prosthetic heart valves (increased risk for Q fever and fungal endocarditis)","IV drug use (right-sided IE, increased risk for fungal endocarditis)","Contact with cats or fleas (Bartonella henselae) or homelessness/body lice exposure (Bartonella quintana)","Farm animal exposure especially during birthing season (Coxiella burnetii/Q fever)","Consumption of unpasteurized dairy products (Brucella)","Immunosuppression (fungal endocarditis with Candida or Aspergillus)","Pre-existing valvular disease or prior endocarditis"],
-    diagnostics: ["Serial blood cultures: at least 3 sets from separate venipuncture sites drawn over 1-2 hours BEFORE antibiotics; in BCNIE, hold antibiotics for 48-72 hours if clinically stable and repeat cultures","Transesophageal echocardiography (TEE): superior to TTE for BCNIE (sensitivity 90-95%); identifies vegetations, paravalvular abscess, prosthetic valve dehiscence, fistulae","Bartonella serology: IgG titer >=1:800 is a major Duke criterion; IgM suggests acute infection; species-specific testing (B. henselae vs B. quintana)","Coxiella burnetii serology: Phase I IgG >=1:800 is diagnostic of chronic Q fever endocarditis; Phase I IgG is a modified Duke major criterion","PCR testing: 16S rRNA broad-range bacterial PCR on blood or excised valve tissue; species-specific PCR for Bartonella, Coxiella, Tropheryma whipplei","Valve tissue analysis: PCR and histopathology with special stains (PAS for Whipple, Warthin-Starry for Bartonella) on surgically excised valves","18F-FDG PET/CT: increasingly used for prosthetic valve endocarditis and to identify septic emboli; abnormal FDG uptake around prosthetic valve is a major imaging criterion in ESC 2023 guidelines","Modified Duke criteria application: definite IE requires 2 major, 1 major + 3 minor, or 5 minor criteria"],
-    management: ["Stop antibiotics for 48-72 hours and repeat blood cultures if patient is hemodynamically stable and prior antibiotics are suspected cause of culture negativity","Empiric antimicrobial therapy for BCNIE: ampicillin-sulbactam + gentamicin for native valve; vancomycin + gentamicin + rifampin for prosthetic valve; adjust based on serologic/PCR results","Doxycycline 100 mg BID + hydroxychloroquine 200 mg TID for 18 months minimum for Q fever (Coxiella burnetii) endocarditis; this combination is bactericidal while doxycycline alone is bacteriostatic","Bartonella endocarditis: doxycycline 100 mg BID x 6 weeks + gentamicin 3 mg/kg/day x 2 weeks","Surgical consultation for: heart failure from valvular dysfunction, uncontrolled infection despite optimal antibiotics, large vegetations (>10 mm) with embolic risk, paravalvular abscess, prosthetic valve endocarditis with dehiscence","Infectious disease consultation for all BCNIE cases: specialized serologic, molecular, and culture workup is essential"],
-    nursingActions: ["Obtain blood cultures correctly: 3 sets from 3 separate venipuncture sites (NOT from existing lines), each set is one aerobic + one anaerobic bottle, drawn over 1 hour; document time, site, and volume for each set","Coordinate with laboratory for extended incubation protocols and specialty cultures (fungal media, Bartonella-specific media) when BCNIE is suspected","Administer IV antibiotics on strict schedule: aminoglycoside levels (gentamicin peak and trough) must be monitored to prevent nephrotoxicity and ototoxicity","Monitor for embolic complications: daily neurological assessment (stroke from cerebral emboli), splenic assessment (LUQ pain from splenic infarct), extremity assessment (Janeway lesions, Osler nodes, splinter hemorrhages)","Assess for heart failure progression: daily weight, intake/output, lung auscultation for new crackles, peripheral edema, JVD; report new or worsening murmur immediately","Educate patient on long-term antibiotic therapy compliance, especially for Q fever endocarditis (18+ months of doxycycline/hydroxychloroquine); emphasize that stopping early leads to relapse"],
-    assessmentFindings: ["Persistent fever despite empiric antibiotic therapy (hallmark of BCNIE; may be low-grade and intermittent)","New or changing heart murmur (valvular vegetation causing regurgitation)","Peripheral stigmata of endocarditis: petechiae (conjunctival, oral, extremities), Osler nodes (painful, immunologic, fingertips/toes), Janeway lesions (painless, embolic, palms/soles), splinter hemorrhages (nail beds)","Splenomegaly (present in 15-50% of subacute endocarditis)","Signs of embolic events: acute neurological deficits (stroke), flank pain/hematuria (renal infarction), LUQ pain (splenic infarction), pleuritic chest pain with infiltrates (pulmonary emboli in right-sided IE)","Elevated inflammatory markers: ESR, CRP, anemia of chronic disease, microscopic hematuria, elevated rheumatoid factor"],
-    signs: {
-      left: ["Low-grade intermittent fever with elevated ESR/CRP and negative standard cultures","Nonspecific constitutional symptoms (fatigue, weight loss, night sweats) with known valvular disease","Osler nodes or Janeway lesions on exam prompting endocarditis workup","Positive Bartonella or Coxiella serology guiding targeted therapy"],
-      right: ["Acute stroke from septic emboli (sudden neurological deficit requiring emergent imaging and neurology consultation)","Acute heart failure from valvular destruction (new pulmonary edema, hemodynamic instability)","Mycotic aneurysm rupture (sudden severe headache or abdominal/back pain)","Paravalvular abscess with heart block (new conduction abnormalities on ECG)","Septic shock with hemodynamic collapse despite appropriate antibiotics"]
+      "title": "Culture-Negative Infective Endocarditis",
+      "cellular": {
+        "title": "Culture-Negative Endocarditis Pathogenesis",
+        "content": "Culture-negative infective endocarditis (CNIE) accounts for 5-31% of all IE cases where standard blood cultures fail to identify the causative organism. The most common cause is prior antibiotic exposure (up to 45% of CNIE cases -- antibiotics suppress bacterial growth in culture media). Other causes include fastidious organisms requiring special growth conditions: HACEK group (Haemophilus, Aggregatibacter, Cardiobacterium, Eikenella, Kingella -- require prolonged incubation), Coxiella burnetii (Q fever -- most common cause of CNIE worldwide, intracellular pathogen), Bartonella species (cat scratch, body lice), Brucella (unpasteurized dairy), Tropheryma whipplei (Whipple disease), and fungi (Candida, Aspergillus -- especially in prosthetic valves and IVDU). Non-infectious causes mimicking IE include Libman-Sacks endocarditis (SLE), marantic endocarditis (malignancy), and antiphospholipid syndrome."
+      },
+      "riskFactors": [
+        "Prior antibiotic therapy before blood cultures obtained (most common cause of culture-negative IE)",
+        "Prosthetic heart valves (higher risk of fungal and atypical organisms)",
+        "Intravenous drug use",
+        "Contact with farm animals, unpasteurized dairy products (Coxiella, Brucella)",
+        "Cat exposure (Bartonella henselae)",
+        "Body lice infestation or homelessness (Bartonella quintana)",
+        "Poor dental hygiene (fastidious oral flora)",
+        "Immunosuppression (fungal endocarditis)",
+        "Endemic area travel (Q fever, brucellosis)"
+      ],
+      "diagnostics": [
+        "Extended blood culture incubation: hold cultures for 14-21 days to allow growth of HACEK and other slow-growing organisms",
+        "Serologic testing: Coxiella burnetii (Q fever) phase I and II IgG antibodies (anti-phase I IgG ≥1:800 is a major Duke criterion); Bartonella IgG antibodies (≥1:800 is a major criterion); Brucella serology; Legionella urinary antigen",
+        "PCR testing: 16S rRNA gene PCR on blood, surgically excised valve tissue, or emboli (identifies bacteria by genetic material when cultures are negative)",
+        "Echocardiography: TTE first; TEE if TTE negative but clinical suspicion high (TEE sensitivity ~95% for vegetations vs ~65% for TTE)",
+        "Duke criteria application: culture-negative IE is challenging because one major criterion (positive blood cultures) is absent; rely more heavily on echocardiographic findings, vascular/immunologic phenomena, and serologic evidence",
+        "Autoimmune workup: ANA, antiphospholipid antibodies, complement levels (to exclude non-infectious mimics like Libman-Sacks)",
+        "Valve tissue histopathology and culture if surgery performed: provides definitive identification in many CNIE cases"
+      ],
+      "management": [
+        "If antibiotics were given before cultures: stop antibiotics, obtain repeat blood cultures after a washout period (if clinically stable)",
+        "Empiric therapy for CNIE: ampicillin-sulbactam + gentamicin for native valve; vancomycin + gentamicin + rifampin for prosthetic valve; add doxycycline if Coxiella or Bartonella suspected",
+        "Coxiella burnetii (Q fever) IE: doxycycline + hydroxychloroquine for ≥18 months (very prolonged therapy); monitor anti-phase I IgG titers",
+        "Bartonella IE: doxycycline + gentamicin (gentamicin for initial 2 weeks); 6 weeks total",
+        "Brucella IE: doxycycline + rifampin + gentamicin (initial) for prolonged course; surgery often needed",
+        "Fungal IE (Candida): amphotericin B + flucytosine initially; surgical valve replacement almost always required; long-term suppressive azole therapy",
+        "Surgical indications: same as culture-positive IE (heart failure from valve dysfunction, uncontrolled infection, large vegetations >10mm, embolic events despite therapy, prosthetic valve IE, fungal IE)"
+      ],
+      "nursingActions": [
+        "Obtain blood cultures BEFORE starting antibiotics whenever possible (prior antibiotics are the #1 cause of culture-negative IE)",
+        "If cultures are negative at 5 days: request extended incubation (14-21 days) and order serologic workup for Coxiella, Bartonella, Brucella",
+        "Order TEE if TTE is negative but clinical suspicion for IE remains high (TEE detects vegetations as small as 1-2mm)",
+        "Obtain detailed exposure history: animal contact (farm animals = Q fever, cats = Bartonella), unpasteurized dairy (Brucella), IV drug use (fungal/staph), dental procedures, travel",
+        "If valve surgery is performed: ensure excised tissue is sent for BOTH culture (aerobic, anaerobic, fungal, mycobacterial) AND histopathology AND PCR",
+        "Monitor for embolic events: stroke symptoms, splenic infarct (left upper quadrant pain), renal infarct (flank pain/hematuria), Janeway lesions, Osler nodes",
+        "Administer prolonged antibiotic therapy as prescribed and ensure outpatient completion (OPAT coordination for parenteral antibiotics)"
+      ],
+      "assessmentFindings": [
+        "Fever (present in >90% of IE but may be absent in elderly, immunosuppressed, or previously treated patients)",
+        "New or changing heart murmur",
+        "Embolic phenomena: stroke, splenic infarct, renal infarct, pulmonary emboli (right-sided IE)",
+        "Peripheral stigmata: Janeway lesions (painless erythematous lesions on palms/soles), Osler nodes (painful nodules on fingers/toes), splinter hemorrhages, Roth spots (retinal hemorrhages with pale centers)",
+        "Splenomegaly",
+        "Constitutional symptoms: weight loss, night sweats, fatigue, arthralgias",
+        "Blood cultures persistently negative despite appropriate clinical syndrome"
+      ],
+      "signs": {
+        "left": [
+          "CNIE with vegetation responding to empiric antibiotic therapy with defervescence and improving inflammatory markers",
+          "Small vegetation without embolic events on stable therapy"
+        ],
+        "right": [
+          "CNIE with heart failure from valve destruction requiring surgical intervention",
+          "Recurrent embolic events (stroke, splenic/renal infarcts) despite appropriate therapy -- consider surgery",
+          "Large vegetation (>10mm) on echocardiography with high embolic risk",
+          "Prosthetic valve CNIE with paravalvular abscess",
+          "Fungal endocarditis: surgical valve replacement is almost always required"
+        ]
+      },
+      "medications": [
+        {
+          "name": "Doxycycline",
+          "type": "Tetracycline antibiotic (bacteriostatic protein synthesis inhibitor)",
+          "action": "Binds 30S ribosomal subunit, inhibiting aminoacyl-tRNA binding and bacterial protein synthesis; effective against intracellular organisms (Coxiella, Bartonella, Brucella, Chlamydia) that are common causes of culture-negative endocarditis",
+          "sideEffects": "Photosensitivity, GI upset (take with food), esophageal ulceration (take with full glass of water, stay upright 30 min), tooth discoloration in children <8 years, hepatotoxicity (rare)",
+          "contra": "Pregnancy (teratogenic), children <8 years (tooth discoloration -- EXCEPTION: short courses acceptable for serious infections like RMSF), severe hepatic impairment",
+          "pearl": "Key drug for culture-negative IE: used for Q fever IE (doxycycline + hydroxychloroquine × ≥18 months), Bartonella IE (doxycycline + gentamicin × 6 weeks), and Brucella IE (doxycycline + rifampin); Q fever IE requires the longest antibiotic course of any endocarditis -- ≥18 months with serologic monitoring for cure; hydroxychloroquine is added because it alkalinizes the phagolysosome, making doxycycline more effective against intracellular Coxiella"
+        }
+      ],
+      "pearls": [
+        "Prior antibiotic administration is the #1 cause of culture-negative endocarditis -- always obtain blood cultures BEFORE starting antibiotics",
+        "Coxiella burnetii (Q fever) is the most common cause of CNIE worldwide after prior antibiotics; anti-phase I IgG ≥1:800 is a MAJOR Duke criterion for Q fever IE",
+        "HACEK organisms (gram-negative, fastidious) require extended culture incubation (14-21 days); they are now relatively easy to grow with modern automated blood culture systems",
+        "If valve tissue is available (surgery), send for culture, histopathology, AND 16S rRNA PCR -- PCR identifies organisms even after prolonged antibiotic therapy",
+        "Q fever IE treatment is the LONGEST: doxycycline + hydroxychloroquine for ≥18 months; shorter courses result in relapse",
+        "Non-infectious endocarditis mimics: Libman-Sacks (SLE), marantic/NBTE (malignancy), antiphospholipid syndrome -- these should be considered when cultures AND serologies are negative"
+      ],
+      "quiz": [
+        {
+          "question": "A patient with culture-negative endocarditis has a history of working with sheep and goats. Serology shows anti-Coxiella burnetii phase I IgG ≥1:800. What is the recommended treatment?",
+          "options": [
+            "Vancomycin + gentamicin for 6 weeks",
+            "Doxycycline + hydroxychloroquine for at least 18 months",
+            "Ampicillin-sulbactam for 4 weeks",
+            "Fluconazole for 6 weeks"
+          ],
+          "correct": 1,
+          "rationale": "Q fever endocarditis (Coxiella burnetii) requires prolonged treatment: doxycycline + hydroxychloroquine for ≥18 months. Hydroxychloroquine alkalinizes the phagolysosome, enhancing doxycycline's bactericidal activity against this obligate intracellular pathogen. Anti-phase I IgG ≥1:800 is a major Duke criterion for Q fever IE."
+        },
+        {
+          "question": "What is the MOST common cause of culture-negative infective endocarditis?",
+          "options": [
+            "Coxiella burnetii infection",
+            "Prior antibiotic administration before blood cultures were obtained",
+            "Fungal infection",
+            "HACEK organisms"
+          ],
+          "correct": 1,
+          "rationale": "Prior antibiotic exposure accounts for up to 45% of culture-negative IE cases. Antibiotics suppress bacterial growth in culture media, preventing organism identification. This is why obtaining blood cultures BEFORE starting antibiotics is critical. If antibiotics have been given, consider stopping (if clinically stable) and re-culturing after a washout period."
+        },
+        {
+          "question": "Blood cultures at day 5 show no growth in a patient with suspected IE. What should be done?",
+          "options": [
+            "Conclude that the patient does not have IE",
+            "Request extended incubation to 14-21 days and order serologies for Coxiella, Bartonella, and Brucella",
+            "Repeat cultures only if fever returns",
+            "Start empiric antifungals"
+          ],
+          "correct": 1,
+          "rationale": "When standard blood cultures are negative at 5 days in a patient with suspected IE, extended incubation (14-21 days) should be requested to detect HACEK and other slow-growing organisms. Simultaneously, serologic testing for common CNIE causes (Coxiella, Bartonella, Brucella) should be ordered. TEE should be obtained if not already done."
+        }
+      ]
     },
-    medications: [{
-      name: "Doxycycline",
-      type: "Tetracycline antibiotic",
-      action: "Inhibits bacterial protein synthesis by binding 30S ribosomal subunit; bacteriostatic alone but bactericidal in combination with hydroxychloroquine for Q fever endocarditis (HCQ alkalinizes phagolysosome, enhancing doxycycline activity against intracellular Coxiella)",
-      sideEffects: "Photosensitivity, GI upset, esophageal ulceration (take upright with full glass of water), tooth discoloration in children <8 years",
-      contra: "Pregnancy (teratogenic), children under 8 years (tooth/bone effects), severe hepatic dysfunction",
-      pearl: "For Q fever endocarditis: doxycycline 100 mg BID + hydroxychloroquine 200 mg TID for minimum 18 months; monitor HCQ ocular toxicity with annual eye exam; Phase I IgG titers guide treatment duration (treat until titer drops below 1:200)"
-    },{
-      name: "Gentamicin",
-      type: "Aminoglycoside antibiotic",
-      action: "Irreversibly binds 30S ribosomal subunit causing misreading of mRNA and lethal protein production; bactericidal; synergistic with cell wall-active agents (ampicillin, vancomycin) for endocarditis",
-      sideEffects: "Nephrotoxicity (monitor creatinine), ototoxicity (vestibular and cochlear; often irreversible), neuromuscular blockade at high doses",
-      contra: "Pre-existing renal impairment (dose adjust based on CrCl), myasthenia gravis, concurrent ototoxic drugs",
-      pearl: "For endocarditis: traditional dosing 3 mg/kg/day in divided doses; monitor peak (3-4 mcg/mL) and trough (<1 mcg/mL) levels; limit duration to 2 weeks to minimize nephrotoxicity/ototoxicity; audiometry baseline and weekly"
-    }],
-    pearls: ["The single most common cause of culture-negative endocarditis is prior antibiotic administration before blood cultures are obtained; if BCNIE is suspected and the patient is stable, consider holding antibiotics 48-72 hours and repeating cultures","TEE is essential in suspected BCNIE because TTE sensitivity is only 60-65% vs 90-95% for TEE; negative TTE does NOT exclude endocarditis","Bartonella is a leading cause of BCNIE; always ask about cat/flea exposure (B. henselae) or homelessness/body lice (B. quintana); Bartonella IgG >=1:800 is a major Duke criterion","Q fever endocarditis (Coxiella burnetii) requires a minimum of 18 months of doxycycline + hydroxychloroquine; it almost exclusively affects abnormal or prosthetic valves; ask about farm animal exposure","PCR of excised valve tissue is the highest-yield diagnostic test for BCNIE; always send valve tissue for both culture AND PCR when surgery is performed","HACEK organisms are a common cause of BCNIE but most modern automated blood culture systems detect them within 5 days without extended incubation protocols","Fungal endocarditis should be considered in IVDU, prosthetic valve, and immunocompromised patients with BCNIE; requires specific fungal blood cultures (lysis-centrifugation technique) and often produces large vegetations prone to embolization"],
-    quiz: [
-      {
-        question: "An NP is evaluating a patient with a prosthetic aortic valve who presents with 6 weeks of low-grade fever, weight loss, and negative standard blood cultures despite no prior antibiotics. TEE shows a small vegetation. Which serologic test is most important to obtain?",
-        options: ["Anti-nuclear antibody (ANA) panel","Coxiella burnetii Phase I and Phase II IgG titers","Rapid strep antigen test","Hepatitis C antibody"],
-        correct: 1,
-        rationale: "Q fever endocarditis (Coxiella burnetii) has a strong predilection for prosthetic and previously damaged valves and is a leading cause of BCNIE in patients without prior antibiotic exposure. Phase I IgG >=1:800 is diagnostic of chronic Q fever and is a major Duke criterion. C. burnetii does not grow on standard blood culture media."
-      },
-      {
-        question: "A homeless patient presents with IE on echocardiography but persistently negative blood cultures. Which organism should be strongly suspected?",
-        options: ["Streptococcus viridans","Staphylococcus aureus","Bartonella quintana","Pseudomonas aeruginosa"],
-        correct: 2,
-        rationale: "Bartonella quintana is transmitted by body lice and is strongly associated with homelessness. It is a leading cause of BCNIE. B. quintana does not grow on routine blood culture media; diagnosis requires serology (IgG >=1:800) or PCR. B. henselae is associated with cat/flea exposure, while B. quintana is associated with body lice in homeless populations."
-      },
-      {
-        question: "In evaluating BCNIE, which imaging modality is preferred for detecting prosthetic valve endocarditis complications such as paravalvular abscess?",
-        options: ["Transthoracic echocardiography (TTE)","Chest X-ray","Transesophageal echocardiography (TEE)","CT coronary angiography"],
-        correct: 2,
-        rationale: "TEE has sensitivity of 90-95% for detecting endocarditis complications compared to 60-65% for TTE. TEE is particularly superior for prosthetic valve evaluation, paravalvular abscess detection, and identifying small vegetations that may be missed by TTE. It is the recommended imaging modality when clinical suspicion for IE is high and TTE is nondiagnostic."
-      },
-    ]
-  },
   "cushings-syndrome-basics-rpn": {
         title: "Cushing Syndrome",
         cellular: { title: "Pathophysiology of Cushing Syndrome", content: "Cushing syndrome is the clinical condition resulting from prolonged exposure to excessive glucocorticoids, either from endogenous overproduction or exogenous administration. It is important to distinguish Cushing syndrome (the clinical state from any cause) from Cushing disease (specifically caused by an ACTH-secreting pituitary adenoma, accounting for 70% of endogenous cases).\n\nThe most common cause of Cushing syndrome is iatrogenic - prolonged administration of exogenous glucocorticoids (prednisone, dexamethasone, hydrocortisone) for conditions such as autoimmune diseases, asthma, organ transplant rejection, and inflammatory conditions. Even inhaled and topical steroids at high doses can cause cushingoid features.\n\nEndogenous causes are categorised as ACTH-dependent or ACTH-independent. ACTH-dependent causes (80% of endogenous cases) include Cushing disease (pituitary corticotroph adenoma secreting excess ACTH, 70%) and ectopic ACTH syndrome (ACTH secretion from non-pituitary tumours - small cell lung cancer, bronchial carcinoids, pancreatic neuroendocrine tumours, 10%). ACTH-independent causes (20%) include adrenal adenoma, adrenal carcinoma, and bilateral adrenal hyperplasia.\n\nExcessive cortisol produces widespread metabolic and physiologic effects. Glucocorticoid excess promotes hepatic gluconeogenesis and insulin resistance, causing hyperglycemia and potential steroid-induced diabetes. It enhances lipogenesis in central and facial fat deposits while promoting lipolysis in the extremities, creating the characteristic central obesity, moon facies, and buffalo hump (dorsocervical fat pad) with thin extremities.\n\nProtein catabolism causes proximal muscle wasting (difficulty rising from a chair, climbing stairs), skin thinning with easy bruising, poor wound healing, and wide purple striae (distinct from the narrow white-pink striae of pregnancy or growth). The purple colour results from the thin dermis allowing visualisation of the underlying red-blue vasculature. Bone protein matrix breakdown leads to osteoporosis with pathologic fractures and avascular necrosis.\n\nCortisol's mineralocorticoid activity at high levels promotes sodium and water retention (hypertension, edema) and potassium excretion (hypokalemia). The hypertension of Cushing syndrome is a major cause of morbidity and mortality. Immunosuppression from cortisol's anti-inflammatory effects increases susceptibility to infections, which may present atypically due to blunted inflammatory responses.\n\nNeuropsychiatric effects include emotional lability, depression, anxiety, insomnia, cognitive impairment, and occasionally psychosis. These effects can be the presenting complaint and may be mistaken for primary psychiatric disorders." },
@@ -188,138 +395,357 @@ export const generatedBatch025Lessons: Record<string, LessonContent> = {
         quiz: [{ question: "A patient who has been taking prednisone 20 mg daily for 3 months asks if they can stop the medication because they feel better. What is the most important nursing response?", options: ["You can stop the prednisone since your symptoms have improved","You should switch to an over-the-counter anti-inflammatory instead","Prednisone must be tapered gradually under medical supervision; stopping abruptly can cause a life-threatening adrenal crisis","You should take double the dose for 3 days and then stop"], correct: 2, rationale: "After 3 months of daily prednisone, the HPA axis is significantly suppressed and the adrenal glands have atrophied. Abrupt discontinuation would cause secondary adrenal insufficiency (adrenal crisis) with potentially fatal hypotension, hypoglycemia, and cardiovascular collapse. The dose must be tapered gradually over weeks to months to allow the HPA axis to recover." },{ question: "Which combination of assessment findings is most characteristic of Cushing syndrome?", options: ["Weight loss, hyperpigmentation, and hypotension","Central obesity, moon facies, wide purple striae, and proximal muscle weakness","Exophthalmos, heat intolerance, and weight loss","Periorbital edema, cold intolerance, and constipation"], correct: 1, rationale: "Central (truncal) obesity with thin extremities, moon facies, wide purple striae, and proximal muscle weakness are the classic features of cortisol excess. Weight loss with hyperpigmentation and hypotension describes Addison disease (opposite condition). Exophthalmos with heat intolerance describes Graves disease. Periorbital edema with cold intolerance describes hypothyroidism." },{ question: "A nurse is caring for a patient with Cushing syndrome who has a small skin tear from tape removal. Which nursing consideration is most important?", options: ["Apply a standard adhesive bandage and document the injury","Recognise that wound healing is significantly impaired in Cushing syndrome; use non-adhesive dressings and monitor closely for infection","The skin tear is a normal occurrence that requires no special attention","Apply topical hydrocortisone cream to the wound to promote healing"], correct: 1, rationale: "Cushing syndrome causes thin fragile skin, poor wound healing (cortisol inhibits fibroblast activity and collagen synthesis), and immunosuppression. Even minor wounds require careful attention with non-adhesive dressings and close monitoring for infection, which may present with minimal signs due to blunted inflammatory response. Adhesive products should be avoided. Topical steroids would worsen healing." }]
   },
   "cushing-syndrome": {
-    title: "Cushing Syndrome",
-    cellular: { title: "Pathophysiology of Cushing Syndrome", content: "Cushing syndrome results from prolonged exposure to supraphysiologic levels of cortisol, most commonly iatrogenic (exogenous corticosteroid therapy) or from endogenous causes including ACTH-secreting pituitary adenoma (Cushing's disease, 70%), ectopic ACTH production (small cell lung cancer, 10-15%), or adrenal tumors (15-20%). Excess cortisol exerts widespread metabolic effects: gluconeogenesis stimulation and peripheral insulin resistance cause hyperglycemia; protein catabolism causes proximal muscle weakness, thin skin with easy bruising, and poor wound healing; fat redistribution produces central obesity, moon facies, and dorsocervical fat pad (buffalo hump); mineralocorticoid activity causes sodium retention and hypokalemia. Bone effects include inhibited osteoblast function and calcium malabsorption leading to osteoporosis, while immune suppression increases infection susceptibility. Diagnosis involves screening with 24-hour urine free cortisol, late-night salivary cortisol, and 1-mg overnight dexamethasone suppression test, followed by ACTH levels and imaging to determine the etiology." },
-    riskFactors: ["Chronic exogenous corticosteroid therapy (most common cause of Cushing syndrome overall; prednisone, dexamethasone, inhaled/topical steroids at high doses)","Pituitary adenoma (Cushing disease): corticotroph microadenoma secreting excess ACTH; more common in women aged 20-50 with 3:1 female-to-male ratio","Ectopic ACTH-secreting tumors: small cell lung cancer (most common malignant cause), bronchial carcinoids, thymic carcinoids, medullary thyroid carcinoma","Adrenal tumors: adrenal adenoma (benign, more common) or adrenal carcinoma (malignant, aggressive)","Chronic alcoholism (pseudo-Cushing syndrome: alcohol activates HPA axis producing cushingoid features that resolve with abstinence)","Obesity and metabolic syndrome (can mimic some features but do not cause true Cushing syndrome)"],
-    diagnostics: ["Monitor blood glucose levels regularly (cortisol causes insulin resistance and hyperglycemia; some patients develop steroid-induced diabetes requiring insulin therapy)","Monitor blood pressure closely (hypertension present in approximately 80% of patients from mineralocorticoid effects of cortisol)","Monitor serum electrolytes especially potassium (hypokalemia from cortisol's mineralocorticoid activity; watch for cardiac arrhythmias, muscle weakness)","Collect 24-hour urine specimens accurately for cortisol measurement: ensure complete collection, label start/stop times, store properly","Report signs of infection immediately: Cushing patients are immunosuppressed; infections may present atypically with minimal fever or inflammation","Assess skin integrity: document bruising, striae, wounds; Cushing patients have poor wound healing and fragile skin"],
-    management: ["Administer prescribed medications on schedule: steroid taper (NEVER abrupt discontinuation), antihypertensives, diabetes medications, potassium supplements","Implement fall prevention measures: osteoporosis increases fracture risk; proximal muscle weakness impairs mobility; assist with ambulation and transfers","Provide meticulous skin care: use gentle skin products, avoid adhesive tape directly on skin, pad bony prominences to prevent pressure injuries, use paper tape only","Monitor and manage blood glucose: administer insulin as prescribed for steroid-induced hyperglycemia; teach patient blood glucose monitoring if not already doing so","Provide emotional support: depression, anxiety, insomnia, and emotional lability are common with cortisol excess; refer to mental health services as needed","Pre/post-operative care for adrenalectomy or transsphenoidal surgery: monitor for diabetes insipidus (polyuria, high serum sodium), CSF leak (clear nasal drainage), and adrenal crisis (hypotension, tachycardia, weakness)"],
-    nursingActions: ["Assess for classic cushingoid features at admission and throughout hospitalization: central obesity with thin extremities, moon facies, buffalo hump (dorsocervical fat pad), wide purple striae (>1cm) on abdomen/thighs/breasts, easy bruising, facial plethora, hirsutism in women, acne","Monitor blood glucose minimum every 6 hours (or per protocol); administer sliding scale insulin as prescribed; report persistent hyperglycemia (>200 mg/dL) to provider","Implement strict infection prevention: hand hygiene before all patient contact; assess for subtle signs of infection (immunosuppressed patients may not mount typical fever or WBC response); report any warmth, redness, or drainage from wounds","During steroid taper: educate patient on gradual dose reduction schedule; teach signs of adrenal insufficiency (fatigue, weakness, dizziness, nausea, hypotension); instruct patient to carry medical alert identification and stress-dose steroid instructions","Assess and manage pain related to osteoporotic fractures (especially vertebral compression fractures): position for comfort, administer analgesics as prescribed, assist with mobility aids","Weigh patient daily at same time with same clothing to monitor fluid retention from cortisol's mineralocorticoid effects"],
-    assessmentFindings: ["Central (truncal) obesity with thin extremities, moon facies (round, plethoric face), dorsocervical fat pad (buffalo hump)","Wide purple striae (>1 cm wide) on abdomen, breasts, thighs, and upper arms; distinct from narrow white-pink stretch marks of pregnancy or growth","Easy bruising from capillary fragility, thin fragile skin, poor wound healing","Proximal muscle weakness: difficulty rising from a chair without using arms, difficulty climbing stairs, wide-based gait","Hypertension (present in ~80% of patients) and peripheral edema from sodium/water retention","Hyperglycemia or overt diabetes mellitus from insulin resistance and gluconeogenesis stimulation","Emotional lability, depression, insomnia, irritability; severe cases may develop steroid psychosis with hallucinations"],
-    signs: {
-      left: ["Moon facies and central obesity with thin extremities","Wide purple striae >1 cm on trunk and proximal limbs","Easy bruising and thin, fragile skin","Proximal muscle weakness (difficulty rising from chair)","Hypertension and hyperglycemia on monitoring","Hirsutism, acne, and menstrual irregularities in women"],
-      right: ["Pathologic fractures from osteoporosis (vertebral compression fractures causing acute back pain, loss of height)","Opportunistic infections presenting with minimal signs (immunosuppression masks typical inflammatory response)","Deep vein thrombosis or pulmonary embolism (hypercortisolism creates hypercoagulable state)","Steroid psychosis (severe agitation, hallucinations, paranoia)","Hypokalemia with cardiac arrhythmias (especially in ectopic ACTH syndrome)","Adrenal crisis during steroid taper (hypotension, shock, cardiovascular collapse)"]
+      "title": "Cushing Syndrome",
+      "cellular": {
+        "title": "Hypercortisolism Pathophysiology",
+        "content": "Cushing syndrome results from prolonged exposure to excess glucocorticoids, either exogenous (most common cause: chronic corticosteroid therapy) or endogenous. Endogenous Cushing is classified as ACTH-dependent (80%): Cushing disease (pituitary adenoma secreting ACTH, 70%), ectopic ACTH (small cell lung cancer, carcinoid tumors, 10%); or ACTH-independent (20%): adrenal adenoma, adrenal carcinoma, bilateral adrenal hyperplasia. Excess cortisol causes: protein catabolism (muscle wasting, thin skin, striae, osteoporosis), glucose dysregulation (insulin resistance, diabetes), fat redistribution (central obesity, moon face, buffalo hump, supraclavicular fat pads), sodium retention with potassium wasting (hypertension, hypokalemia), immunosuppression (increased infection risk), and psychiatric effects (depression, psychosis, cognitive impairment)."
+      },
+      "riskFactors": [
+        "Exogenous glucocorticoid use (most common cause overall): chronic oral, IV, or high-dose inhaled/topical corticosteroids for autoimmune diseases, transplant, inflammatory conditions",
+        "Pituitary adenoma (Cushing disease): 70% of endogenous ACTH-dependent cases; more common in women 20-40 years",
+        "Ectopic ACTH production: small cell lung cancer, bronchial carcinoid, thymic carcinoid, medullary thyroid cancer, pheochromocytoma",
+        "Adrenal adenoma: 10-15% of endogenous cases; ACTH-independent",
+        "Adrenal carcinoma: rare but aggressive; produces cortisol often with androgens",
+        "ACTH-independent macronodular adrenal hyperplasia, primary pigmented nodular adrenal disease (Carney complex)"
+      ],
+      "diagnostics": [
+        "Step 1 -- Confirm hypercortisolism (need ≥2 positive tests): 24-hour urine free cortisol (UFC, ≥3x upper limit is highly diagnostic), late-night salivary cortisol (elevated -- loss of diurnal nadir), 1 mg overnight dexamethasone suppression test (cortisol >1.8 mcg/dL at 8 AM = failure to suppress = positive)",
+        "Step 2 -- Determine ACTH-dependent vs ACTH-independent: plasma ACTH level; ACTH suppressed (<5 pg/mL) = adrenal source (ACTH-independent); ACTH normal-elevated (>20 pg/mL) = pituitary or ectopic (ACTH-dependent)",
+        "Step 3 -- Differentiate pituitary vs ectopic ACTH: high-dose (8 mg) dexamethasone suppression test (pituitary adenoma suppresses >50%, ectopic usually does not); CRH stimulation test (pituitary responds with ACTH rise, ectopic does not); pituitary MRI; inferior petrosal sinus sampling (IPSS, gold standard for lateralization)",
+        "Adrenal imaging: CT adrenal for ACTH-independent cases; identifies adenoma vs carcinoma (size >4 cm, irregular borders suggest carcinoma)",
+        "Ectopic ACTH workup: CT chest/abdomen for lung tumors, carcinoid; octreotide scan"
+      ],
+      "management": [
+        "Exogenous Cushing: taper corticosteroids gradually (abrupt discontinuation causes adrenal crisis); switch to steroid-sparing agents for underlying condition",
+        "Cushing disease (pituitary adenoma): transsphenoidal surgery (first-line, 65-90% remission); radiation for residual/recurrent disease; medical therapy for surgical failures",
+        "Ectopic ACTH: treat the underlying tumor; medical therapy (ketoconazole, metyrapone, mitotane, osilodrostat) to control cortisol while managing the source",
+        "Adrenal adenoma: unilateral adrenalectomy (curative)",
+        "Adrenal carcinoma: surgical resection + mitotane (adrenolytic agent); poor prognosis if metastatic",
+        "Medical cortisol-lowering agents: ketoconazole (steroidogenesis inhibitor), metyrapone (11β-hydroxylase inhibitor), mitotane (adrenolytic), osilodrostat (newest oral), pasireotide (somatostatin analog for pituitary), cabergoline (dopamine agonist for some pituitary), mifepristone (glucocorticoid receptor antagonist -- for hyperglycemia)",
+        "Post-operative: patients need stress-dose hydrocortisone replacement (contralateral adrenal is suppressed; recovery takes 6-18 months)"
+      ],
+      "nursingActions": [
+        "Assess for Cushing features: central obesity, moon face, buffalo hump, striae (wide, purple -- distinguishes from normal stretch marks), thin skin, easy bruising, proximal muscle weakness",
+        "Screen with 24-hour urine free cortisol or late-night salivary cortisol when clinical features are present",
+        "For patients on chronic corticosteroids: educate about NOT stopping abruptly (adrenal crisis risk); wear medical alert identification",
+        "Monitor glucose closely (cortisol causes insulin resistance -- 'steroid diabetes')",
+        "Assess for osteoporosis risk: bone density scan, calcium/vitamin D supplementation, fall prevention",
+        "Wound care: impaired wound healing from cortisol effects on collagen synthesis and immune function",
+        "Post-surgical care (transsphenoidal): monitor for diabetes insipidus (polyuria), CSF leak (rhinorrhea), adrenal insufficiency (hypotension, fatigue)",
+        "Emotional support: depression and psychiatric effects are common and improve with cortisol normalization"
+      ],
+      "assessmentFindings": [
+        "Central obesity with thin extremities (protein catabolism causes muscle wasting)",
+        "Moon face (round, plethoric facial appearance)",
+        "Dorsocervical fat pad (buffalo hump) and supraclavicular fat pads",
+        "Purple striae >1 cm wide (on abdomen, flanks, thighs, breasts) -- distinguish from normal stretch marks which are thinner and white/pink",
+        "Thin, fragile skin with easy bruising",
+        "Proximal muscle weakness (difficulty rising from chair, climbing stairs)",
+        "Hypertension, hyperglycemia/diabetes",
+        "Hirsutism, acne, menstrual irregularities in women (cortisol and adrenal androgen excess)",
+        "Osteoporosis with pathological fractures",
+        "Depression, emotional lability, cognitive impairment, insomnia",
+        "Increased susceptibility to infections (immunosuppression)"
+      ],
+      "signs": {
+        "left": [
+          "Mild Cushing features in patient on chronic low-dose prednisone -- gradual taper if possible",
+          "Subclinical Cushing from adrenal incidentaloma -- monitor for progression",
+          "Post-surgical remission with normalizing cortisol levels and improving features"
+        ],
+        "right": [
+          "Severe Cushing with uncontrolled diabetes, hypertension, and active infections (immunosuppression)",
+          "Ectopic ACTH from occult malignancy: severe hypokalemia, metabolic alkalosis, muscle wasting, dark skin (ACTH cross-reacts with melanocyte receptors)",
+          "Adrenal carcinoma: large adrenal mass with virilization, rapid onset, weight loss",
+          "Post-operative adrenal crisis: hypotension, altered mental status (need stress-dose hydrocortisone)",
+          "Cushing-related osteoporotic vertebral compression fractures"
+        ]
+      },
+      "medications": [
+        {
+          "name": "Ketoconazole",
+          "type": "Azole antifungal / steroidogenesis inhibitor",
+          "action": "Inhibits multiple enzymes in the adrenal steroidogenic pathway (CYP17A1, CYP11A1, CYP11B1), reducing cortisol synthesis; used off-label to control hypercortisolism when surgery is not possible or as bridge therapy",
+          "sideEffects": "Hepatotoxicity (most serious -- monitor LFTs regularly), GI upset, gynecomastia (blocks androgen synthesis), adrenal insufficiency (over-suppression), QT prolongation, drug interactions (potent CYP3A4 inhibitor)",
+          "contra": "Active liver disease, concurrent QT-prolonging medications, pregnancy",
+          "pearl": "200-400 mg BID-TID; monitor LFTs every 2-4 weeks initially; most commonly used medical therapy for Cushing syndrome in the US; potent CYP3A4 inhibitor -- check ALL drug interactions; gynecomastia is common because ketoconazole also inhibits testosterone synthesis; alternative agents: metyrapone (faster acting), osilodrostat (newest oral), mitotane (adrenolytic for carcinoma)"
+        }
+      ],
+      "pearls": [
+        "Exogenous glucocorticoids are the MOST COMMON cause of Cushing syndrome -- always ask about ALL forms of steroid use (oral, inhaled, topical, injections) before pursuing endogenous workup",
+        "Purple striae >1 cm wide are SPECIFIC for Cushing syndrome -- normal stretch marks are narrow and white/pink; the purple color comes from cortisol-induced skin thinning exposing subdermal vasculature",
+        "Cushing syndrome workup: 1) CONFIRM hypercortisolism (≥2 of 3 screening tests), 2) DETERMINE ACTH-dependent vs independent, 3) LOCALIZE the source",
+        "Ectopic ACTH often presents more acutely and severely than pituitary Cushing: profound hypokalemia (cortisol at very high levels activates mineralocorticoid receptor), metabolic alkalosis, hyperpigmentation (very high ACTH), rapid weight loss (unlike pituitary Cushing which gains weight)",
+        "After surgical cure of Cushing: the contralateral adrenal gland is SUPPRESSED from prolonged negative feedback -- patients need stress-dose hydrocortisone during recovery (6-18 months for HPA axis recovery)",
+        "Mifepristone (glucocorticoid receptor antagonist) does NOT lower cortisol levels -- it blocks cortisol's ACTION at the receptor; used for Cushing-related hyperglycemia; monitoring is challenging because cortisol levels remain elevated (measure by clinical response)"
+      ],
+      "quiz": [
+        {
+          "question": "A patient has elevated 24-hour urine free cortisol, failed 1 mg dexamethasone suppression test, and plasma ACTH is <5 pg/mL. Where is the source of excess cortisol?",
+          "options": [
+            "Pituitary adenoma",
+            "Ectopic ACTH-producing tumor",
+            "Adrenal source (adenoma or carcinoma) -- ACTH is suppressed by autonomous cortisol production",
+            "Exogenous corticosteroid use"
+          ],
+          "correct": 2,
+          "rationale": "Suppressed ACTH (<5 pg/mL) with confirmed hypercortisolism indicates ACTH-independent Cushing syndrome -- the adrenal gland is autonomously producing cortisol. This suppresses pituitary ACTH through negative feedback. The next step is adrenal CT to identify adenoma vs carcinoma."
+        },
+        {
+          "question": "What distinguishes pathological purple striae from normal stretch marks?",
+          "options": [
+            "Purple striae are thinner",
+            "Purple striae are >1 cm wide and located on the abdomen, flanks, thighs, and breasts; the purple color results from cortisol-induced skin thinning exposing underlying vasculature",
+            "There is no difference",
+            "Purple striae are found only on the face"
+          ],
+          "correct": 1,
+          "rationale": "Cushing striae are characteristically WIDE (>1 cm), PURPLE/violaceous (from extreme skin thinning exposing subdermal blood vessels), and located on the abdomen, flanks, thighs, breasts, and upper arms. Normal stretch marks are narrow, pale (white/pink), and occur with rapid weight gain or pregnancy without the skin-thinning effect of cortisol."
+        },
+        {
+          "question": "After successful transsphenoidal surgery for Cushing disease, why does the patient need hydrocortisone replacement?",
+          "options": [
+            "The surgery damaged the adrenal glands",
+            "The contralateral pituitary is suppressed",
+            "The adrenal glands are suppressed from chronic cortisol excess -- the HPA axis needs 6-18 months to recover",
+            "Hydrocortisone prevents surgical complications"
+          ],
+          "correct": 2,
+          "rationale": "Chronic cortisol excess from the pituitary adenoma suppresses ACTH production by normal corticotroph cells through negative feedback, causing bilateral adrenal atrophy. After tumor removal, ACTH levels drop abruptly, and the atrophied adrenal glands cannot mount a cortisol response. Patients need exogenous hydrocortisone until the HPA axis recovers (6-18 months)."
+        }
+      ]
     },
-    medications: [{
-      name: "Prednisone (Taper Protocol)",
-      type: "Glucocorticoid (for taper management)",
-      action: "Exogenous glucocorticoid that must be gradually tapered after prolonged use; abrupt discontinuation causes secondary adrenal insufficiency because the HPA axis is suppressed and the adrenal glands have atrophied from disuse",
-      sideEffects: "During therapy: hyperglycemia, hypertension, immunosuppression, osteoporosis, proximal myopathy, skin thinning, GI ulceration, mood disturbances, insomnia; during taper: fatigue, myalgias, arthralgias, hypotension (adrenal insufficiency symptoms)",
-      contra: "NEVER stop abruptly after >2-3 weeks of daily use; active untreated infection (relative); live vaccines during immunosuppressive doses",
-      pearl: "Taper slowly over weeks to months to allow HPA axis recovery; patients on chronic steroids need stress-dose coverage (hydrocortisone 100 mg IV) during surgery or acute illness until adrenal function recovers; educate patient to wear medical alert identification"
-    },{
-      name: "Spironolactone",
-      type: "Potassium-sparing diuretic / Mineralocorticoid receptor antagonist",
-      action: "Blocks aldosterone and cortisol at the mineralocorticoid receptor in the renal collecting duct; promotes sodium excretion and potassium retention; also has anti-androgenic effects helpful for hirsutism and acne in female Cushing patients",
-      sideEffects: "Hyperkalemia (most important; monitor potassium), gynecomastia and breast tenderness in men, menstrual irregularities, GI upset, dizziness",
-      contra: "Hyperkalemia (K+ >5.0 mEq/L), severe renal impairment (GFR <30), Addison disease, concurrent potassium supplements or other potassium-sparing agents",
-      pearl: "Dual benefit in Cushing syndrome: corrects hypokalemia from cortisol's mineralocorticoid activity AND reduces hirsutism/acne through androgen receptor blockade; monitor potassium closely especially if combined with ACE inhibitor/ARB"
-    }],
-    pearls: ["The most common cause of Cushing syndrome is IATROGENIC: always ask about exogenous corticosteroid use (oral, inhaled, topical, nasal, injected, joint injections) before pursuing an endogenous workup","Wide purple striae (>1 cm) are highly specific for Cushing syndrome and result from skin thinning combined with rapid central weight gain; narrow white-pink striae from pregnancy or growth are NOT the same finding","NEVER abruptly discontinue chronic corticosteroid therapy: the HPA axis is suppressed and sudden withdrawal causes adrenal crisis (acute adrenal insufficiency with hypotension, shock, and potential death)","Cushing patients are immunocompromised: infections may present with minimal fever, reduced WBC response, and blunted inflammatory signs; maintain high clinical suspicion for infection and report subtle changes","Cushing syndrome creates a hypercoagulable state with significantly elevated DVT and PE risk; DVT prophylaxis should be considered, especially perioperatively","After successful transsphenoidal surgery for Cushing disease, the patient needs temporary glucocorticoid replacement because the suppressed normal corticotrophs may take 6-18 months to recover","Teach all patients on steroid taper to carry a medical alert card/bracelet and stress-dose steroid instructions; during acute illness, surgery, or trauma they need supplemental hydrocortisone until adrenal function recovers"],
-    quiz: [
-      {
-        question: "A patient who has been taking prednisone 15 mg daily for 4 months tells the nurse they want to stop taking it because of weight gain. What is the most important nursing response?",
-        options: ["Encourage the patient to stop the medication and switch to ibuprofen for inflammation","Explain that prednisone must be tapered gradually under medical supervision because abrupt discontinuation can cause life-threatening adrenal crisis","Suggest cutting the dose in half immediately and stopping after one week","Recommend taking the medication every other day instead of daily"],
-        correct: 1,
-        rationale: "After 4 months of daily prednisone, the HPA axis is suppressed and the adrenal glands have atrophied. Abrupt discontinuation causes secondary adrenal insufficiency (adrenal crisis) with potentially fatal hypotension, hypoglycemia, and cardiovascular collapse. The dose must be tapered gradually under medical supervision over weeks to months to allow HPA axis recovery."
-      },
-      {
-        question: "A nurse is assessing a patient with Cushing syndrome. Which combination of findings is most specific to this condition?",
-        options: ["Weight loss, hyperpigmentation, and postural hypotension","Central obesity, moon facies, wide purple striae, and proximal muscle weakness","Peripheral edema, JVD, and orthopnea","Heat intolerance, tremor, and exophthalmos"],
-        correct: 1,
-        rationale: "Central obesity with thin extremities, moon facies, wide purple striae (>1 cm), and proximal muscle weakness are the hallmark features of cortisol excess in Cushing syndrome. Weight loss with hyperpigmentation describes Addison disease. Peripheral edema with JVD describes heart failure. Heat intolerance with tremor describes hyperthyroidism."
-      },
-      {
-        question: "A Cushing syndrome patient post-transsphenoidal surgery is producing 500 mL of dilute urine per hour with rising serum sodium of 152 mEq/L. Which complication should the nurse suspect?",
-        options: ["Syndrome of inappropriate ADH secretion (SIADH)","Diabetes insipidus from posterior pituitary damage during surgery","Steroid-induced diabetes mellitus","Urinary tract infection"],
-        correct: 1,
-        rationale: "Large-volume dilute urine output (polyuria) with rising serum sodium (hypernatremia) after transsphenoidal surgery is classic for central diabetes insipidus. Surgery near the pituitary can damage the posterior pituitary or pituitary stalk, disrupting ADH (vasopressin) release. Treatment involves desmopressin (DDAVP) and fluid replacement. SIADH would cause the opposite (concentrated urine, hyponatremia)."
-      },
-    ]
-  },
   "cushing-syndrome-np": {
-    title: "Cushing Syndrome: Diagnosis & Etiology",
-    cellular: { title: "Cushing Syndrome: Diagnosis & Etiology", content: "the clinician manages Cushing Syndrome: Diagnosis & Etiology through advanced understanding of hormonal regulatory axes, metabolic pathways, and feedback mechanisms. Assessment includes focused endocrine history (symptoms of hormone excess or deficiency, family history, medication exposure including glucocorticoids and hormonal agents), targeted physical examination (body habitus, skin changes, thyroid palpation, signs of androgen excess or deficiency, visual field assessment for pituitary pathology), and systematic interpretation of hormonal assays and dynamic testing. The clinician applies diagnostic algorithms using baseline hormone levels, stimulation and suppression tests, and imaging to localize endocrine pathology. Management integrates hormonal replacement or suppression therapy with careful dose titration based on clinical response and laboratory monitoring, lifestyle modification (dietary counseling, exercise prescription, weight management), screening for and management of associated complications (cardiovascular risk, bone health, reproductive function), and patient education on disease self-management including sick-day rules for adrenal insufficiency and insulin adjustment for diabetes. The clinician coordinates multidisciplinary care with endocrinology, ophthalmology, cardiology, and other specialties as indicated, and determines referral criteria based on diagnostic complexity and treatment response." },
-    riskFactors: ["Exogenous glucocorticoid use (MOST COMMON cause of Cushing syndrome overall -- iatrogenic from chronic prednisone, dexamethasone, inhaled corticosteroids at high doses, topical steroids with occlusion)","Pituitary corticotroph adenoma (Cushing DISEASE -- accounts for ~70% of endogenous ACTH-dependent Cushing; usually microadenoma <10mm; female predominance 3:1)","Ectopic ACTH-producing tumor (~15% of endogenous cases): small cell lung cancer (most common), bronchial carcinoid, thymic carcinoid, medullary thyroid carcinoma, pheochromocytoma -- often presents with rapid-onset severe hypercortisolism with profound hypokalemia","Adrenal adenoma (~10% of endogenous cases): autonomous cortisol production independent of ACTH; unilateral benign tumor with contralateral adrenal atrophy","Adrenal carcinoma (rare, <5%): typically large tumors (>6 cm) producing cortisol plus androgens (virilization); poor prognosis","Bilateral macronodular adrenal hyperplasia (BMAH): ACTH-independent bilateral adrenal cortisol overproduction from aberrant receptor expression (GIP, LH, vasopressin receptors)","Primary pigmented nodular adrenocortical disease (PPNAD): often part of Carney complex (cardiac myxomas, skin pigmentation, endocrine tumors); young patients"],
-    diagnostics: ["First-line screening tests (use at least 2 different tests): (1) 24-hour urine free cortisol (UFC) -- elevated >3x upper limit confirms hypercortisolism; requires 2 collections; (2) Late-night salivary cortisol -- loss of circadian nadir at 11 PM; >0.15 mcg/dL on 2 nights; (3) 1 mg overnight dexamethasone suppression test -- cortisol ≥1.8 mcg/dL at 8 AM indicates non-suppression","Plasma ACTH level (THE KEY branch point): ACTH >20 pg/mL = ACTH-dependent (pituitary or ectopic); ACTH <5 pg/mL = ACTH-independent (adrenal); ACTH 5-20 pg/mL = indeterminate (requires further testing)","High-dose dexamethasone suppression test (8 mg overnight or 2 mg q6h x 48h): >50% cortisol suppression from baseline suggests pituitary source (Cushing disease); failure to suppress suggests ectopic ACTH (pituitary tumors retain partial feedback sensitivity; ectopic sources do not)","Pituitary MRI with gadolinium: identifies pituitary adenoma in Cushing disease; sensitivity ~50-60% for microadenomas (small tumors may be missed); normal MRI does NOT exclude pituitary source","Inferior petrosal sinus sampling (IPSS -- gold standard for distinguishing pituitary from ectopic ACTH): catheterize both petrosal sinuses and compare ACTH levels to peripheral; central-to-peripheral ACTH ratio >2:1 (basal) or >3:1 (after CRH stimulation) confirms pituitary source","Adrenal CT (thin-cut): identifies adrenal adenoma, carcinoma, or bilateral hyperplasia in ACTH-independent Cushing; adenomas typically <4 cm with low attenuation (<10 HU); carcinomas typically >6 cm with irregular borders and high attenuation","CT chest/abdomen/pelvis for occult ectopic ACTH source: bronchial carcinoid is the most common occult source; may require octreotide scintigraphy or 68Ga-DOTATATE PET for localization"],
-    management: ["Surgical resection is definitive treatment for ALL endogenous causes: transsphenoidal pituitary adenomectomy for Cushing disease (remission rate 70-90% for microadenomas), unilateral adrenalectomy for adrenal adenoma (curative), bilateral adrenalectomy for bilateral hyperplasia, resection of ectopic ACTH-producing tumor when localized","Medical therapy for cortisol reduction (bridge to surgery or when surgery fails/contraindicated): steroidogenesis inhibitors -- ketoconazole (blocks multiple CYP enzymes in cortisol synthesis; monitor LFTs), metyrapone (blocks 11-beta-hydroxylase), osilodrostat (blocks 11-beta-hydroxylase; more selective)","Mifepristone (Korlym): glucocorticoid receptor antagonist; does NOT lower cortisol levels (cortisol rises) but blocks cortisol action at the receptor; FDA-approved for hyperglycemia in Cushing syndrome when surgery is not an option; cannot monitor treatment by cortisol levels","Pasireotide (Signifor): somatostatin receptor ligand targeting SST5 receptors on corticotroph adenomas; reduces ACTH secretion; significant hyperglycemia as side effect (occurs in >70% of patients)","Post-operative management: ALL patients develop adrenal insufficiency after successful surgery (suppressed contralateral adrenal/pituitary); require hydrocortisone replacement with gradual taper over 6-18 months as HPA axis recovers; stress dosing education is critical","Radiation therapy for Cushing disease: stereotactic radiosurgery (Gamma Knife) for residual/recurrent pituitary adenoma after failed surgery; delayed effect (years); risk of hypopituitarism","Iatrogenic Cushing: gradual steroid taper with HPA axis assessment (morning cortisol, cosyntropin stimulation test); educate on stress dosing during taper; never stop abruptly after >2-3 weeks of daily use"],
-    nursingActions: ["Coordinate the diagnostic workup: ensure proper timing for cortisol tests (8 AM morning cortisol, 11 PM salivary cortisol, dexamethasone given at exactly 11 PM for overnight DST); instruct on accurate 24-hour urine collection technique; improper timing invalidates results","Prepare patients for transsphenoidal pituitary surgery: pre-operative teaching about nasal packing, mouth breathing, no nose blowing/straining/bending post-operatively (risk of CSF leak); explain that hormonal recovery takes months and hydrocortisone replacement will be needed","Post-operative monitoring after pituitary surgery: assess for diabetes insipidus (polyuria >250 mL/hr, low urine specific gravity <1.005, hypernatremia) -- DI occurs in 10-30% of cases; strict I&O; monitor serum sodium and urine specific gravity; administer desmopressin as ordered","Monitor for adrenal crisis in post-operative patients: the suppressed adrenal glands cannot mount a cortisol response; stress-dose hydrocortisone (100 mg IV bolus then 50 mg IV q8h) must be given perioperatively; signs of crisis include hypotension, tachycardia, fever, altered mental status, hyponatremia, hyperkalemia","Manage metabolic complications: monitor blood glucose closely (cortisol causes insulin resistance; many patients have steroid-induced diabetes); optimize antihypertensive therapy; monitor potassium (hypercortisolism causes hypokalemia through mineralocorticoid activity)","Educate patients on hydrocortisone replacement and stress dosing after successful surgery: double or triple dose for febrile illness; injectable hydrocortisone for emergencies; medical alert bracelet; carry emergency card; HPA axis recovery may take 6-18 months"],
-    assessmentFindings: ["Classic cushingoid body habitus: central/truncal obesity with thin extremities (fat redistribution from limbs to trunk), moon facies (round plethoric face), dorsocervical fat pad (buffalo hump), supraclavicular fat pads","Wide purple abdominal striae (>1 cm width, violaceous color -- caused by cortisol-induced dermis thinning with underlying vasculature showing through; distinct from narrow white/pink stretch marks of simple obesity)","Proximal muscle weakness (cortisol causes protein catabolism and type II muscle fiber atrophy): difficulty rising from a chair, climbing stairs; measurable with grip strength testing","Skin fragility: easy bruising (ecchymoses from minor trauma), thin skin (transparent dorsal hand skin), poor wound healing, increased infection susceptibility","Metabolic abnormalities: hyperglycemia/diabetes (cortisol drives gluconeogenesis and insulin resistance), hypertension (cortisol has mineralocorticoid activity at high levels, activating ENaC), hypokalemic metabolic alkalosis (especially with ectopic ACTH)","Neuropsychiatric manifestations: depression (most common), anxiety, cognitive impairment, insomnia, psychosis (in severe hypercortisolism); emotional lability","Osteoporosis with vertebral compression fractures (cortisol inhibits osteoblasts, activates osteoclasts, reduces intestinal calcium absorption, increases renal calcium excretion)","Hirsutism, acne, and menstrual irregularity in women (adrenal androgen co-secretion, especially with adrenal carcinoma); decreased libido and erectile dysfunction in men"],
-    signs: {
-      left: ["Mild cushingoid features in a patient on chronic prednisone being tapered (iatrogenic -- reversible with steroid withdrawal)","Subclinical Cushing from adrenal incidentaloma with only metabolic features (hypertension, diabetes) without obvious body habitus changes -- detected by abnormal screening tests","Cushing disease from small pituitary microadenoma with borderline cortisol elevation -- early/mild presentation"],
-      right: ["Ectopic ACTH from occult malignancy with severe hypercortisolism: profound hypokalemia (<3.0 mEq/L), metabolic alkalosis, severe hyperglycemia, rapid-onset weight gain, skin hyperpigmentation (ACTH stimulates melanocyte receptors)","Adrenal crisis in post-operative patient after pituitary or adrenal surgery: severe hypotension, shock, hyponatremia, hyperkalemia, altered mental status -- EMERGENCY requiring IV hydrocortisone 100 mg STAT","Nelson syndrome: aggressive pituitary corticotroph tumor growth after bilateral adrenalectomy (loss of cortisol feedback allows unrestricted ACTH secretion and tumor expansion); presents with hyperpigmentation and mass effect","Adrenal carcinoma with cortisol AND androgen overproduction: rapid virilization in women, large adrenal mass >6 cm, elevated DHEA-S"]
+      "title": "Cushing Syndrome",
+      "cellular": {
+        "title": "Advanced Cushing Syndrome Workup & Management",
+        "content": "At the NP level, Cushing syndrome evaluation requires sophisticated application of the diagnostic algorithm and nuanced management decisions. The 1 mg overnight dexamethasone suppression test (DST) has ~95% sensitivity but only ~80% specificity -- false positives occur with depression, alcoholism, obesity, OCP use (estrogen increases cortisol-binding globulin, elevating total cortisol), and CYP3A4 inducers (phenytoin, carbamazepine accelerate dexamethasone metabolism, causing inadequate suppression). The 48-hour low-dose DST (2 mg/day × 2 days) improves specificity. Late-night salivary cortisol measures FREE cortisol and is not affected by CBG levels. The inferior petrosal sinus sampling (IPSS) with CRH stimulation is the gold standard to distinguish pituitary from ectopic ACTH: a central-to-peripheral ACTH ratio ≥2 (baseline) or ≥3 (post-CRH) confirms pituitary source."
+      },
+      "riskFactors": [
+        "Same as RN-level Cushing syndrome with additional NP-level considerations",
+        "Pseudo-Cushing states (must exclude before diagnosing): major depression (HPA axis hyperactivation), alcoholism (alcohol activates HPA axis, resolves with abstinence), obesity, poorly controlled diabetes",
+        "False-positive DST causes: OCPs/estrogen therapy (elevated CBG), pregnancy, CYP3A4 inducers (phenytoin, carbamazepine, rifampin), malabsorption (poor dexamethasone absorption)",
+        "Cyclic Cushing syndrome: intermittent cortisol secretion causing episodic symptoms -- may require repeated testing to capture",
+        "Subclinical Cushing from adrenal incidentaloma: cortisol excess without classic features; associated with metabolic syndrome, osteoporosis, cardiovascular risk"
+      ],
+      "diagnostics": [
+        "First-line screening (need ≥2 positive): 24-hr UFC, late-night salivary cortisol (2 collections), 1 mg overnight DST; consider 48-hr low-dose DST for equivocal results",
+        "Pseudo-Cushing differentiation: CRH-DST (dexamethasone + CRH stimulation) -- in true Cushing, cortisol rises after CRH despite dexamethasone; in pseudo-Cushing, cortisol remains suppressed",
+        "ACTH measurement: drawn at 8 AM (ACTH has diurnal variation); <5 pg/mL = ACTH-independent (adrenal); >20 pg/mL = ACTH-dependent (pituitary or ectopic); 5-20 = equivocal (repeat with CRH stimulation)",
+        "High-dose DST (8 mg): pituitary adenoma typically suppresses cortisol >50% (retains partial feedback sensitivity); ectopic typically does NOT suppress (no feedback mechanism); not 100% reliable (some ectopic tumors do suppress)",
+        "IPSS: gold standard for pituitary vs ectopic differentiation when imaging is equivocal; central:peripheral ACTH ratio ≥2 baseline or ≥3 post-CRH = pituitary; sensitivity 94%, specificity 100%",
+        "Pituitary MRI: only ~60% of Cushing disease pituitary adenomas are visible on MRI (many are microadenomas <6mm); a negative MRI does NOT exclude Cushing disease -- proceed to IPSS"
+      ],
+      "management": [
+        "Cushing disease: transsphenoidal surgery (TSS) first-line (65-90% remission for microadenoma; lower for macroadenoma); if TSS fails: repeat TSS, stereotactic radiosurgery, bilateral adrenalectomy, or medical therapy",
+        "Medical therapy options and indications: pre-operative cortisol reduction, surgical failure, while awaiting radiation effect, inoperable disease",
+        "Steroidogenesis inhibitors: ketoconazole (most used, hepatotoxicity risk), metyrapone (fastest onset, used for rapid control), osilodrostat (newest oral, potent), mitotane (adrenolytic, for carcinoma)",
+        "Pituitary-directed: pasireotide (somatostatin analog, targets pituitary -- unique mechanism; causes hyperglycemia in 70%); cabergoline (dopamine agonist, modest efficacy)",
+        "Glucocorticoid receptor antagonist: mifepristone (blocks cortisol action; approved for hyperglycemia in Cushing; does NOT lower cortisol levels -- monitor clinically, not by cortisol)",
+        "Bilateral adrenalectomy: last resort for refractory Cushing disease; provides immediate cure but requires lifelong glucocorticoid + mineralocorticoid replacement; risk of Nelson syndrome (pituitary adenoma growth + hyperpigmentation from loss of cortisol feedback on ACTH)",
+        "Subclinical Cushing: individualized approach -- surgery if metabolic complications; monitor if asymptomatic"
+      ],
+      "nursingActions": [
+        "Perform systematic Cushing workup: confirm hypercortisolism → determine ACTH-dependence → localize source",
+        "Exclude pseudo-Cushing states before diagnosing: assess for depression, alcoholism, pregnancy, medications affecting testing",
+        "Ensure proper test conditions: 1 mg DST (take dexamethasone at 11 PM, draw cortisol at 8 AM); check medication list for CYP3A4 inducers (false positive); check for OCP/estrogen use (false positive from elevated CBG)",
+        "Order late-night salivary cortisol when DST results are equivocal (not affected by CBG levels, measures free cortisol)",
+        "Refer to endocrinology for IPSS when pituitary MRI is negative but ACTH-dependent Cushing is suspected (MRI misses 40% of pituitary microadenomas)",
+        "Monitor post-surgical patients for adrenal insufficiency: morning cortisol, symptoms of fatigue/hypotension; gradual hydrocortisone taper over months as HPA axis recovers",
+        "Screen for and manage Cushing complications: diabetes (glucose monitoring), osteoporosis (DEXA scan), hypertension, depression, VTE risk, infections"
+      ],
+      "assessmentFindings": [
+        "Same as RN level, plus NP-specific considerations",
+        "Subclinical Cushing: may have metabolic syndrome features (hypertension, diabetes, dyslipidemia, osteoporosis) without classic Cushingoid appearance",
+        "Ectopic ACTH (especially occult carcinoid): may present with profound hypokalemia and metabolic alkalosis due to extremely high cortisol levels (cortisol overwhelms 11β-HSD2 enzyme that normally protects mineralocorticoid receptor, causing cortisol-mediated mineralocorticoid effect)",
+        "Nelson syndrome (after bilateral adrenalectomy): enlarging pituitary mass with progressive hyperpigmentation from very high ACTH",
+        "Cyclical Cushing: fluctuating symptoms with 'normal' testing between episodes -- may need repeated testing"
+      ],
+      "signs": {
+        "left": [
+          "Mild subclinical Cushing from adrenal incidentaloma without metabolic complications -- monitor",
+          "Post-surgical biochemical remission with normalizing HPA axis",
+          "Pseudo-Cushing successfully excluded (depression treated, alcohol cessation)"
+        ],
+        "right": [
+          "Severe ectopic ACTH with K+ <2.5, metabolic alkalosis, and overwhelming infection (immunosuppression from extreme hypercortisolism)",
+          "Failed transsphenoidal surgery with persistent hypercortisolism -- requires second-line therapy",
+          "Nelson syndrome: rapidly enlarging pituitary adenoma post-bilateral adrenalectomy causing visual field compromise",
+          "Cushing-related psychosis requiring psychiatric intervention",
+          "Severe osteoporosis with vertebral compression fractures from chronic hypercortisolism"
+        ]
+      },
+      "medications": [
+        {
+          "name": "Osilodrostat (Isturisa)",
+          "type": "11β-hydroxylase inhibitor (steroidogenesis inhibitor)",
+          "action": "Potent inhibitor of 11β-hydroxylase (CYP11B1) and aldosterone synthase (CYP11B2), blocking the final step of cortisol and aldosterone synthesis; more potent and selective than ketoconazole; FDA-approved for Cushing disease in adults who are not surgical candidates or have failed surgery",
+          "sideEffects": "Adrenal insufficiency (from over-suppression -- monitor cortisol), QT prolongation, hypokalemia, nausea, headache, fatigue, adrenal hormone precursor accumulation (may cause hirsutism, acne from androgen precursor build-up), hypocortisolism",
+          "contra": "QT prolongation, concurrent QT-prolonging drugs, severe hepatic impairment",
+          "pearl": "Newest oral steroidogenesis inhibitor (FDA approved 2020); starts at 2 mg BID, titrate based on UFC and clinical response; monitor cortisol levels and ECG (QTc); more potent cortisol-lowering than ketoconazole with fewer drug interactions; adrenal precursor accumulation can cause androgenic effects; if cortisol drops too low, reduce dose or add hydrocortisone ('block and replace' strategy)"
+        }
+      ],
+      "pearls": [
+        "Pituitary MRI is NEGATIVE in ~40% of Cushing disease cases (microadenomas <6mm) -- a negative MRI does NOT exclude pituitary Cushing; proceed to IPSS",
+        "IPSS is the GOLD STANDARD for differentiating pituitary from ectopic ACTH: central:peripheral ratio ≥3 post-CRH = pituitary source (sensitivity 94%, specificity 100%)",
+        "Pseudo-Cushing (depression, alcoholism, obesity) can cause positive screening tests -- use CRH-DST to differentiate; depression resolves with antidepressant, alcoholism resolves with abstinence",
+        "False-positive 1 mg DST causes: OCPs (elevated CBG raises total cortisol), CYP3A4 inducers (accelerate dexamethasone metabolism), malabsorption -- use late-night salivary cortisol as alternative",
+        "Nelson syndrome risk after bilateral adrenalectomy: the pituitary adenoma, freed from cortisol feedback, can grow aggressively; prophylactic pituitary radiation may be considered",
+        "Mifepristone does NOT lower cortisol levels -- it blocks the glucocorticoid receptor; cortisol and ACTH actually INCREASE during treatment; monitor efficacy by clinical response (glucose, blood pressure, weight), not by cortisol levels"
+      ],
+      "quiz": [
+        {
+          "question": "A patient with confirmed ACTH-dependent Cushing syndrome has a normal pituitary MRI. What is the next step?",
+          "options": [
+            "Conclude that the patient does not have Cushing disease",
+            "Perform inferior petrosal sinus sampling (IPSS) to differentiate pituitary from ectopic ACTH source",
+            "Start empiric ketoconazole",
+            "Repeat the MRI in 6 months"
+          ],
+          "correct": 1,
+          "rationale": "Pituitary MRI is negative in ~40% of Cushing disease cases because many pituitary microadenomas are <6mm. IPSS with CRH stimulation is the gold standard: a central-to-peripheral ACTH ratio ≥3 post-CRH confirms pituitary source with ~100% specificity."
+        },
+        {
+          "question": "A patient on combined oral contraceptives has a cortisol of 3.2 mcg/dL after 1 mg dexamethasone suppression test (positive). Why might this be a false positive?",
+          "options": [
+            "OCPs impair dexamethasone absorption",
+            "Estrogen in OCPs increases cortisol-binding globulin, raising total cortisol levels without increasing free cortisol",
+            "OCPs directly stimulate cortisol production",
+            "This cannot be a false positive"
+          ],
+          "correct": 1,
+          "rationale": "Estrogen (in OCPs) increases hepatic production of cortisol-binding globulin (CBG/transcortin), which raises TOTAL cortisol levels. The DST measures total cortisol, so CBG elevation causes a false-positive result. FREE cortisol (measured by salivary cortisol or UFC) is unaffected by CBG levels. Options: hold OCPs for 6 weeks and retest, or use late-night salivary cortisol instead."
+        },
+        {
+          "question": "After bilateral adrenalectomy for refractory Cushing disease, a patient develops increasing skin hyperpigmentation and headaches over 2 years. MRI shows an enlarging pituitary mass. What is this condition?",
+          "options": [
+            "Recurrent Cushing disease",
+            "Nelson syndrome -- pituitary adenoma growth from loss of cortisol negative feedback on ACTH",
+            "Addison disease",
+            "Pituitary apoplexy"
+          ],
+          "correct": 1,
+          "rationale": "Nelson syndrome occurs after bilateral adrenalectomy when the pituitary adenoma, freed from cortisol's negative feedback, grows aggressively. Very high ACTH levels cause pronounced skin hyperpigmentation (ACTH cross-reacts with melanocyte-stimulating hormone receptors). The enlarging mass can cause headaches and visual field deficits. Treatment: pituitary surgery and/or radiation."
+        }
+      ]
     },
-    medications: [{
-      name: "Ketoconazole",
-      type: "Steroidogenesis inhibitor (imidazole antifungal with adrenal suppressive properties)",
-      action: "Inhibits multiple cytochrome P450 enzymes in the adrenal cortisol synthesis pathway, including CYP11A1 (cholesterol side-chain cleavage), CYP17A1 (17-alpha-hydroxylase), and CYP11B1 (11-beta-hydroxylase); this blocks cortisol production at multiple steps, effectively reducing serum cortisol levels; the most commonly used medical therapy for Cushing syndrome due to its rapid onset (cortisol drops within hours) and availability",
-      sideEffects: "Hepatotoxicity (most serious -- liver enzymes must be monitored at baseline, 1-2 weeks after initiation, then monthly; ranges from mild transaminase elevation to fatal hepatic necrosis; FDA Black Box warning), nausea, vomiting, abdominal pain, gynecomastia and decreased libido in men (inhibits testosterone synthesis), adrenal insufficiency (over-suppression of cortisol -- dose-related), QTc prolongation",
-      contra: "Acute or chronic liver disease, concurrent use of QTc-prolonging drugs, concurrent use with simvastatin/lovastatin (rhabdomyolysis risk -- ketoconazole is a potent CYP3A4 inhibitor), pregnancy (teratogenic), nursing mothers",
-      pearl: "Start 200 mg PO BID, titrate up to 400 mg TID based on cortisol response; monitor 24-hour UFC or late-night salivary cortisol to guide dosing; check LFTs at baseline, 1-2 weeks, then monthly; educate patients to report nausea, dark urine, jaundice immediately; used as bridge therapy before surgery or when surgery fails; multiple CYP3A4 drug interactions (must review medication list carefully); adrenal insufficiency from over-suppression requires stress-dose hydrocortisone education"
-    }],
-    pearls: ["The MOST COMMON cause of Cushing syndrome is iatrogenic (exogenous glucocorticoid use) -- always take a thorough medication history including topical steroids, inhaled corticosteroids, and joint injections before pursuing an expensive endogenous workup","ACTH level is the SINGLE MOST IMPORTANT branch point in the Cushing diagnostic algorithm: high ACTH = ACTH-dependent (pituitary 70% vs ectopic 15%); low ACTH = ACTH-independent (adrenal 15%); this determines the entire subsequent workup direction","Ectopic ACTH syndrome (especially small cell lung cancer) presents with rapid-onset severe hypercortisolism with PROFOUND hypokalemia (mineralocorticoid activity of cortisol at very high levels overwhelms 11-beta-HSD2) and metabolic alkalosis -- the hypokalemia may be more clinically prominent than the cushingoid features","Inferior petrosal sinus sampling (IPSS) is the GOLD STANDARD for distinguishing pituitary from ectopic ACTH when imaging is non-diagnostic -- a central-to-peripheral ACTH gradient >3:1 after CRH stimulation confirms pituitary Cushing disease with >95% sensitivity and specificity","ALL patients develop adrenal insufficiency after successful Cushing surgery (the suppressed normal tissue cannot produce cortisol) -- they require hydrocortisone replacement for 6-18 months with stress dosing education; failure to provide perioperative stress-dose steroids causes adrenal crisis","Wide PURPLE striae >1 cm are highly specific for Cushing syndrome and distinguish it from the narrow pink/white striae of simple obesity -- this is one of the highest-yield physical exam findings on board exams"],
-    quiz: [
-      {
-        question: "A patient with confirmed Cushing syndrome has a plasma ACTH level of 85 pg/mL (elevated). What does this indicate about the etiology?",
-        options: ["The Cushing syndrome is caused by an adrenal adenoma autonomously producing cortisol","The Cushing syndrome is ACTH-dependent, meaning the source is either a pituitary adenoma (Cushing disease) or an ectopic ACTH-producing tumor","The ACTH level is irrelevant to determining the cause of Cushing syndrome","The patient has adrenal carcinoma"],
-        correct: 1,
-        rationale: "An elevated ACTH level (>20 pg/mL) indicates ACTH-dependent Cushing syndrome, meaning the excess cortisol is driven by ACTH overproduction from either a pituitary corticotroph adenoma (Cushing disease, ~70%) or an ectopic ACTH-producing tumor (~15%). In ACTH-independent causes (adrenal adenoma or carcinoma), the autonomous cortisol production suppresses pituitary ACTH to <5 pg/mL via negative feedback."
-      },
-      {
-        question: "After successful transsphenoidal pituitary adenomectomy for Cushing disease, the patient develops nausea, hypotension, and confusion on post-operative day 2 despite initial improvement. What is the most likely cause?",
-        options: ["Surgical site infection requiring antibiotics","Adrenal crisis from inability of the suppressed adrenal glands to produce cortisol after removal of the ACTH-producing adenoma","Diabetes insipidus from posterior pituitary injury","Recurrence of the pituitary adenoma"],
-        correct: 1,
-        rationale: "After successful removal of an ACTH-producing pituitary adenoma, the chronically suppressed normal corticotroph cells and adrenal glands cannot immediately resume cortisol production. The patient is functionally adrenal insufficient and requires exogenous hydrocortisone replacement. Nausea, hypotension, and confusion are signs of adrenal crisis. Stress-dose hydrocortisone (100 mg IV bolus) must be given perioperatively and continued with gradual taper over months as the HPA axis recovers."
-      },
-      {
-        question: "Which clinical feature is most specific for differentiating Cushing syndrome from simple obesity?",
-        options: ["Central obesity with increased BMI","Wide purple abdominal striae greater than 1 cm","Elevated blood glucose","Hypertension"],
-        correct: 1,
-        rationale: "Wide purple striae (>1 cm, violaceous color) are highly specific for Cushing syndrome. They result from cortisol-induced thinning of the dermis, which allows the underlying vasculature to show through the stretched, atrophied skin. Simple obesity causes narrow white or pink stretch marks. Central obesity, hyperglycemia, and hypertension occur in both Cushing syndrome and metabolic syndrome/simple obesity and are therefore less specific."
-      },
-    ]
-  },
   "cyanide-poisoning-np": {
-    title: "Cyanide Poisoning",
-    cellular: { title: "Pathophysiology of Cyanide Poisoning", content: "the clinician evaluates and manages Cyanide Poisoning through systematic toxicological assessment and evidence-based management algorithms. Assessment includes focused toxicological history (substance(s) involved, amount, route, timing of exposure, co-ingestants, suicidal intent versus accidental exposure), recognition of toxidromes (sympathomimetic, anticholinergic, cholinergic, opioid, sedative-hypnotic, serotonin syndrome), and targeted diagnostics (serum drug levels when applicable, acetaminophen and salicylate levels in all intentional ingestions, ECG for QRS and QTc prolongation, blood gas, basic metabolic panel with anion gap calculation, osmolar gap calculation when toxic alcohol exposure is suspected). The clinician applies the initial management framework: stabilize ABCs, decontamination when appropriate (activated charcoal within 1-2 hours of ingestion for most substances if airway is protected and no contraindications; whole bowel irrigation for sustained-release preparations, body packing, or iron/lithium), enhanced elimination techniques (urinary alkalinization for salicylates, hemodialysis for methanol, ethylene glycol, lithium, salicylates), and specific antidote administration (N-acetylcysteine for acetaminophen, naloxone for opioids, flumazenil for benzodiazepines with caution, atropine and pralidoxime for organophosphates, fomepizole for toxic alcohols, digoxin-specific antibody fragments for digoxin, glucagon for beta-blocker and calcium channel blocker overdose). The clinician assesses suicide risk, implements psychiatric safety precautions, coordinates Poison Control Center consultation, and determines appropriate level of care and monitoring." },
-    riskFactors: ["Smoke inhalation from structural fires (most common cause of cyanide poisoning in developed countries -- combustion of synthetic materials such as polyurethane, nylon, wool, silk, and plastics releases hydrogen cyanide gas; fire victims often have concurrent CO and CN poisoning)","Industrial/occupational exposure: mining (cyanide used in gold/silver extraction), electroplating, chemical manufacturing, photography; dermal absorption and inhalation are primary exposure routes","Sodium nitroprusside toxicity: prolonged infusion (>3 days) or high doses (>2 mcg/kg/min) release cyanide during metabolism; renal insufficiency impairs thiocyanate clearance, increasing risk","Intentional ingestion of cyanide salts (KCN, NaCN) -- available in some industrial and laboratory settings; used in suicide and homicide","Dietary cyanogenic glycoside exposure: bitter cassava root (linamarin releases HCN during digestion if improperly processed), bitter almonds (amygdalin), fruit pits (apricots, cherries, peaches)","Laboratory/research chemical exposure: accidental spillage or inhalation of HCN or cyanide solutions in chemistry laboratories","Prolonged entrapment in closed-space fires: trapped victims accumulate lethal HCN concentrations within minutes in enclosed burning structures"],
-    diagnostics: ["Serum lactate level (MOST IMPORTANT readily available marker): markedly elevated >8-10 mmol/L from forced anaerobic glycolysis; in a smoke inhalation victim, lactate >10 mmol/L is highly suggestive of concurrent cyanide poisoning -- do NOT wait for cyanide levels to treat","Arterial blood gas: severe high-anion-gap metabolic acidosis (lactic acidosis); PaO2 is paradoxically NORMAL because oxygen delivery to blood is unimpaired -- the cells cannot extract/use the oxygen (histotoxic hypoxia)","Venous blood gas: abnormally HIGH venous PO2 reflecting failure of peripheral oxygen extraction; the arteriovenous oxygen difference is narrowed; venous blood appears bright red (arterialized)","Serum cyanide level (confirmatory but NOT immediately available -- results take hours to days): whole blood cyanide >0.5 mg/L is toxic, >1.0 mg/L causes obtundation, >3.0 mg/L is potentially lethal -- DO NOT delay antidote administration waiting for levels","Carboxyhemoglobin level (co-oximetry): essential in all smoke inhalation patients to identify concurrent CO poisoning; standard pulse oximetry does NOT detect COHb and gives falsely reassuring SpO2 readings","ECG: sinus tachycardia (early), then bradycardia (late), ST-segment changes, ventricular arrhythmias from myocardial ischemia; may progress to asystole","Basic metabolic panel: anion gap metabolic acidosis, hyperkalemia (from cellular energy failure and membrane pump dysfunction)"],
-    management: ["Immediate removal from exposure: rescue personnel MUST use self-contained breathing apparatus (SCBA) -- NEVER enter cyanide-contaminated environment without respiratory protection; remove contaminated clothing; copious water skin decontamination","Hydroxocobalamin (Cyanokit) 5g IV over 15 minutes -- FIRST-LINE antidote: cobalt center directly binds cyanide to form non-toxic cyanocobalamin (vitamin B12) for renal excretion; does NOT cause methemoglobinemia or hypotension; safe in concurrent CO poisoning","100% high-flow oxygen via non-rebreather mask or ETT: maximizes competitive displacement of cyanide from cytochrome oxidase and improves oxygen delivery; maintain even if SpO2 appears normal -- cellular oxygen utilization is impaired","Sodium thiosulfate 12.5g IV: provides sulfur substrate for the mitochondrial enzyme rhodanese to convert cyanide to non-toxic thiocyanate (renally excreted); may be given with hydroxocobalamin for severe poisoning; slower onset than hydroxocobalamin","If hydroxocobalamin unavailable: amyl nitrite inhalant (crush ampule, hold under nose 15 seconds every minute) as bridge to IV sodium nitrite 300 mg over 5 minutes + sodium thiosulfate 12.5g IV; nitrites induce methemoglobin which binds cyanide -- use with CAUTION in concurrent CO poisoning (further reduces oxygen-carrying capacity)","Aggressive supportive care: endotracheal intubation for airway protection, vasopressors (norepinephrine) for refractory hypotension, benzodiazepines for seizures, sodium bicarbonate for severe acidosis (pH <7.1), continuous cardiac monitoring"],
-    nursingActions: ["Recognize the clinical triad suggesting cyanide poisoning in fire/smoke victims: altered consciousness + severe metabolic acidosis (lactate >8-10 mmol/L) + misleadingly normal pulse oximetry -- initiate treatment based on clinical suspicion, do NOT wait for cyanide levels","Administer hydroxocobalamin (Cyanokit) 5g IV over 15 minutes as priority: reconstitute with 200 mL NS; use DEDICATED IV line (incompatible with many drugs and solutions); warn staff that patient's skin, urine, and mucous membranes will turn deep red/burgundy for days to weeks -- this is expected drug effect, NOT hematuria or bleeding","Provide 100% high-flow oxygen via NRB at 15 L/min regardless of SpO2 reading: pulse oximetry is FALSELY NORMAL in cyanide poisoning because hemoglobin IS saturated with oxygen but cells cannot use it; also falsely normal in concurrent CO poisoning","If using nitrite-thiosulfate antidote kit: monitor methemoglobin level after sodium nitrite; target methemoglobin 20-30%; hold additional doses if MetHb >30% (excessive methemoglobinemia dangerously reduces oxygen-carrying capacity, especially with concurrent CO poisoning)","Monitor cardiac rhythm continuously: cyanide causes arrhythmias from myocardial energy failure; have defibrillator immediately accessible; prepare atropine for bradycardia; anticipate need for vasopressor support","Contact Poison Control Center (1-800-222-1222) for all cyanide exposures to guide antidote dosing, additional treatment recommendations, and disposition decisions"],
-    assessmentFindings: ["Rapid symptom onset (seconds for inhalation, minutes for ingestion): headache, dizziness, confusion, agitation, then seizures and loss of consciousness -- progression from initial sympathetic activation to cardiovascular collapse","Cherry-red skin color: caused by arterialized venous blood (oxygen present but not extracted by tissues); often a LATE or post-mortem finding; unreliable for early diagnosis","Bitter almond odor on breath: 20-40% of people CANNOT detect this due to genetic polymorphism in olfactory receptors; absence does NOT exclude cyanide","Normal or near-normal SpO2 despite clinical signs of severe tissue hypoxia (THE PARADOX of histotoxic hypoxia -- hemoglobin IS oxygenated, but mitochondria cannot use the oxygen)","Severe high-anion-gap metabolic acidosis with lactic acid >8-10 mmol/L (cellular energy failure forces anaerobic glycolysis)","Cardiovascular progression: initial hypertension and tachycardia (sympathetic surge) → hypotension, bradycardia, and cardiac arrest","Fire-related clues: soot in nares/oropharynx/sputum, facial burns, singed nasal hairs, hoarse voice (should trigger suspicion for BOTH CO and cyanide poisoning)"],
-    signs: {
-      left: ["Mild exposure with headache and dizziness responding to fresh air, 100% oxygen, and removal from exposure","Subclinical cyanide elevation from sodium nitroprusside infusion detected by lactate monitoring and resolved by stopping the infusion","Low-level smoke inhalation exposure treated empirically with hydroxocobalamin with complete recovery"],
-      right: ["Cardiac arrest from cyanide-induced complete inhibition of cellular respiration requiring immediate CPR and antidote administration","Refractory ventricular fibrillation from myocardial ATP depletion despite antidote therapy","Severe anoxic brain injury from delayed recognition and antidote administration (prolonged histotoxic hypoxia causes irreversible neuronal death)","Combined lethal cyanide and carbon monoxide poisoning in structural fire victim","Status epilepticus from acute cerebral energy failure"]
+      "title": "Cyanide Poisoning",
+      "cellular": {
+        "title": "Cyanide Toxicology",
+        "content": "Cyanide (CN-) is a rapidly acting cellular asphyxiant that binds to cytochrome c oxidase (Complex IV) in the mitochondrial electron transport chain, halting aerobic metabolism. Despite adequate oxygen delivery, cells cannot utilize oxygen for ATP production, forcing reliance on anaerobic glycolysis. This produces profound lactic acidosis (type A -- tissue hypoxia despite adequate oxygen delivery) and cellular death within minutes of significant exposure. Sources include: smoke inhalation (combustion of synthetic materials releases hydrogen cyanide -- #1 cause in developed countries), industrial exposure (electroplating, mining, photography), ingestion of cyanogenic compounds (amygdalin in bitter almonds, apricot pits, cassava), and sodium nitroprusside metabolism (prolonged infusion produces cyanide). The classic finding is bright red/cherry-red venous blood (oxygen-rich because tissues cannot extract oxygen)."
+      },
+      "riskFactors": [
+        "Smoke inhalation in structural fires (most common cause -- combustion of plastics, polyurethane, wool, silk releases HCN)",
+        "Industrial exposure: electroplating, metal finishing, mining (gold/silver extraction), photography, chemical manufacturing",
+        "Ingestion: suicide attempts with cyanide salts, accidental ingestion of cyanogenic plants (bitter almonds, apricot/cherry/peach pits, cassava root)",
+        "Sodium nitroprusside infusion: cyanide is a metabolic byproduct; risk increases with prolonged infusion (>48 hours), high doses (>2 mcg/kg/min), and renal impairment",
+        "Laboratory workers handling cyanide compounds",
+        "Terrorist/mass casualty scenarios (cyanide gas)"
+      ],
+      "diagnostics": [
+        "Clinical diagnosis based on presentation and context (do NOT wait for confirmatory levels before treating)",
+        "Venous blood gas: elevated venous PaO2 and decreased arterio-venous O2 difference (tissues cannot extract oxygen)",
+        "Serum lactate: severely elevated (>8 mmol/L in significant poisoning; hallmark is lactic acidosis with normal/high PaO2)",
+        "Whole blood cyanide level: >0.5 mcg/mL toxic, >3 mcg/mL lethal; results often take hours -- treat empirically",
+        "ABG: high anion gap metabolic acidosis",
+        "Co-oximetry: if concurrent CO poisoning from smoke inhalation (carboxyhemoglobin level)",
+        "Serum methemoglobin level if hydroxocobalamin given (can interfere with some assays)",
+        "Pulse oximetry may be UNRELIABLE: normal SpO2 despite cellular hypoxia (oxygen is in the blood, just not being used)"
+      ],
+      "management": [
+        "Immediate: remove from exposure, 100% O2 via high-flow non-rebreather, decontamination if dermal exposure",
+        "HYDROXOCOBALAMIN (Cyanokit): FIRST-LINE antidote; 5g IV over 15 minutes (adults); binds cyanide to form cyanocobalamin (vitamin B12) which is renally excreted; safe in smoke inhalation (preferred because it does NOT cause methemoglobinemia)",
+        "Sodium thiosulfate: provides sulfur substrate for rhodanase enzyme to convert cyanide to thiocyanate (renally excreted); 12.5g IV; slower onset than hydroxocobalamin; often used as adjunct",
+        "Amyl nitrite (inhaled) + sodium nitrite (IV): older antidote; induces methemoglobinemia (methemoglobin binds cyanide); DANGEROUS in concurrent CO poisoning (further reduces oxygen-carrying capacity) -- NOT preferred in smoke inhalation",
+        "Supportive: aggressive fluid resuscitation, vasopressors for hemodynamic support, sodium bicarbonate for severe acidosis, seizure management with benzodiazepines",
+        "Nitroprusside-related cyanide toxicity: stop infusion, administer hydroxocobalamin or sodium thiosulfate; prevent with concurrent thiosulfate co-infusion during prolonged use"
+      ],
+      "nursingActions": [
+        "Recognize cyanide poisoning in smoke inhalation patients: altered mental status, severe lactic acidosis (>8 mmol/L) despite adequate oxygenation, hemodynamic instability -- treat empirically",
+        "Administer hydroxocobalamin 5g IV as rapidly as possible (over 15 minutes) -- do NOT delay for confirmatory cyanide levels",
+        "If hydroxocobalamin is unavailable: use cyanide antidote kit (amyl nitrite pearls + sodium nitrite + sodium thiosulfate) -- but AVOID nitrite-induced methemoglobinemia in CO co-poisoning",
+        "Monitor for hydroxocobalamin side effects: skin/urine turns red (chromaturia -- temporary, harmless but warn patient); may interfere with colorimetric lab assays (falsely alters readings for creatinine, glucose, bilirubin, hemoglobin on some analyzers)",
+        "Decontaminate if dermal/ingestion exposure: remove contaminated clothing, skin washing; gastric decontamination if ingestion is recent",
+        "Monitor lactic acid levels: improvement indicates successful treatment",
+        "For patients on nitroprusside: monitor for cyanide toxicity (altered mental status, lactic acidosis, tachyphylaxis to nitroprusside); keep infusion <2 mcg/kg/min and duration <48 hours when possible"
+      ],
+      "assessmentFindings": [
+        "Rapid onset after exposure: headache, dizziness, confusion within minutes",
+        "Cardiovascular: initial hypertension and tachycardia (sympathetic response), followed by hypotension, bradycardia, cardiovascular collapse",
+        "Respiratory: initial tachypnea progressing to apnea",
+        "Neurological: agitation, confusion, seizures, coma",
+        "Classic finding: bright red or cherry-red venous blood (high oxygen content because cells cannot extract oxygen)",
+        "Bitter almond odor on patient's breath (detectable by only ~40% of people due to genetic variation)",
+        "Skin: may appear pink or cherry-red (not cyanotic despite cellular hypoxia)",
+        "Severe lactic acidosis with normal or elevated PaO2 (paradoxical finding -- oxygen is present but cells can't use it)"
+      ],
+      "signs": {
+        "left": [
+          "Mild exposure with headache and dizziness responding to removal from exposure and oxygen therapy",
+          "Recognized early in nitroprusside infusion and infusion discontinued with thiosulfate administered"
+        ],
+        "right": [
+          "Severe cyanide poisoning: cardiovascular collapse, seizures, coma (administer hydroxocobalamin IMMEDIATELY)",
+          "Smoke inhalation with severe lactic acidosis and altered mental status -- empiric hydroxocobalamin",
+          "Cardiac arrest from cyanide exposure -- ACLS with concurrent hydroxocobalamin administration",
+          "Mass casualty cyanide exposure requiring triage and rapid antidote deployment"
+        ]
+      },
+      "medications": [
+        {
+          "name": "Hydroxocobalamin (Cyanokit)",
+          "type": "Cyanide antidote (vitamin B12 precursor)",
+          "action": "Contains cobalt ion that has extremely high affinity for cyanide; binds cyanide to form cyanocobalamin (vitamin B12), which is non-toxic and renally excreted; does NOT cause methemoglobinemia (safe in smoke inhalation with concurrent CO poisoning)",
+          "sideEffects": "Red discoloration of skin and urine (chromaturia -- temporary, harmless, may last days), hypertension (transient), headache, nausea, injection site reactions; INTERFERES with colorimetric lab assays (may falsely alter creatinine, glucose, bilirubin, hemoglobin, SpO2 readings)",
+          "contra": "Known hypersensitivity (very rare); the benefits in life-threatening cyanide poisoning always outweigh risks",
+          "pearl": "FIRST-LINE antidote for cyanide poisoning: 5g IV over 15 minutes (can repeat × 1 for severe cases); preferred over nitrite antidotes in SMOKE INHALATION because it does NOT reduce oxygen-carrying capacity (nitrites cause methemoglobinemia, which is dangerous when carboxyhemoglobin is already elevated from CO); warn lab and nursing staff about red discoloration of all body fluids and interference with lab tests; shelf life of reconstituted solution is 6 hours"
+        }
+      ],
+      "pearls": [
+        "Smoke inhalation is the #1 cause of cyanide poisoning in developed countries -- have a HIGH suspicion for cyanide toxicity in fire victims with severe lactic acidosis and altered mental status",
+        "Classic paradox: lactic acidosis + NORMAL/HIGH PaO2 = cellular oxygen utilization problem (cyanide blocks cytochrome oxidase; cells have oxygen but can't use it)",
+        "Hydroxocobalamin is FIRST-LINE in smoke inhalation because it does NOT cause methemoglobinemia (unlike nitrites) -- critical when CO poisoning is concurrent",
+        "Pulse oximetry is UNRELIABLE in cyanide poisoning: SpO2 may read normal because oxygen IS bound to hemoglobin, it's just not being extracted by tissues",
+        "Cherry-red venous blood and skin: oxygen-rich venous blood because tissues cannot extract oxygen (same mechanism as mixed venous O2 being elevated)",
+        "Sodium nitroprusside toxicity: limit infusion to <2 mcg/kg/min and <48 hours; tachyphylaxis (decreasing response) may indicate cyanide accumulation; co-infuse sodium thiosulfate for prolonged use"
+      ],
+      "quiz": [
+        {
+          "question": "A fire victim arrives with altered mental status, lactic acid of 12 mmol/L, and PaO2 of 95 mmHg on 100% O2. SpO2 reads 97%. What should you suspect and what is the first-line antidote?",
+          "options": [
+            "Carbon monoxide poisoning only -- administer hyperbaric oxygen",
+            "Cyanide poisoning -- administer hydroxocobalamin (Cyanokit) 5g IV",
+            "Methemoglobinemia -- administer methylene blue",
+            "Opioid overdose -- administer naloxone"
+          ],
+          "correct": 1,
+          "rationale": "Severe lactic acidosis (12 mmol/L) with normal PaO2 in a fire victim is classic for cyanide poisoning: cells cannot utilize oxygen (cytochrome oxidase inhibition) causing anaerobic metabolism despite adequate oxygen delivery. Hydroxocobalamin is the first-line antidote because it is safe in concurrent CO poisoning (does not cause methemoglobinemia like nitrite antidotes)."
+        },
+        {
+          "question": "Why should sodium nitrite be AVOIDED as a cyanide antidote in smoke inhalation victims?",
+          "options": [
+            "Sodium nitrite is ineffective against cyanide",
+            "Sodium nitrite induces methemoglobinemia, which further reduces oxygen-carrying capacity in patients who may also have carboxyhemoglobin elevation from CO poisoning",
+            "Sodium nitrite causes anaphylaxis in burn patients",
+            "Sodium nitrite worsens lactic acidosis"
+          ],
+          "correct": 1,
+          "rationale": "Sodium nitrite works by deliberately inducing methemoglobinemia (MetHb has higher affinity for cyanide than cytochrome oxidase, 'scavenging' cyanide from tissues). However, in smoke inhalation, carboxyhemoglobin (from CO) already reduces oxygen-carrying capacity. Adding methemoglobinemia further decreases functional hemoglobin, potentially worsening tissue hypoxia. Hydroxocobalamin is preferred because it binds cyanide without affecting hemoglobin."
+        },
+        {
+          "question": "A patient on a nitroprusside infusion for 36 hours develops confusion and rising lactic acid. What should be done?",
+          "options": [
+            "Increase the nitroprusside infusion rate",
+            "Stop the nitroprusside infusion and administer hydroxocobalamin or sodium thiosulfate for suspected cyanide toxicity",
+            "Continue the infusion and add a sodium bicarbonate drip",
+            "Switch to hydralazine and monitor lactate"
+          ],
+          "correct": 1,
+          "rationale": "Confusion and rising lactate during prolonged nitroprusside infusion suggest cyanide toxicity. Cyanide is a metabolic byproduct of nitroprusside. The infusion should be stopped immediately and antidote therapy initiated (hydroxocobalamin or sodium thiosulfate). Prevention: limit infusion to <2 mcg/kg/min, duration <48 hours, and consider thiosulfate co-infusion."
+        }
+      ]
     },
-    medications: [{
-      name: "Hydroxocobalamin (Cyanokit)",
-      type: "Direct cyanide-binding antidote (cobalt-containing vitamin B12a precursor)",
-      action: "Contains a cobalt (Co3+) center with extremely high binding affinity for cyanide (CN-); each molecule binds one cyanide ion, forming cyanocobalamin (vitamin B12) which is pharmacologically inert and renally excreted; this stoichiometric reaction rapidly removes cyanide from the bloodstream and draws it away from cytochrome c oxidase (Complex IV), restoring mitochondrial electron transport chain function and aerobic ATP production; unlike nitrite-based antidotes, hydroxocobalamin does NOT generate methemoglobin and does NOT cause hypotension, making it safe for concurrent CO poisoning and hemodynamic instability",
-      sideEffects: "Chromaturia (dark red/burgundy urine for up to 5 weeks -- expected, NOT hematuria), red discoloration of skin and mucous membranes (resolves over days to weeks), interference with colorimetric laboratory assays (falsely elevated bilirubin, falsely decreased creatinine), transient hypertension (generally beneficial in poisoned patients), headache, nausea, rare allergic reactions",
-      contra: "Known hypersensitivity to hydroxocobalamin or cyanocobalamin; there are NO absolute contraindications in the setting of known or suspected cyanide poisoning -- the lethality of cyanide outweighs any antidote risk",
-      pearl: "FIRST-LINE antidote: 5g IV over 15 minutes in adults (pediatric: 70 mg/kg, max 5g); reconstitute with 200 mL NS; use DEDICATED IV line (incompatible with many drugs -- dark red color stains everything); may repeat 5g dose for severe poisoning; preferred over nitrite-thiosulfate kit in fire victims because it does NOT cause methemoglobinemia (which would further compromise oxygen delivery in concurrent CO poisoning); warn all providers about skin/urine discoloration and lab interference"
-    }],
-    pearls: ["In smoke inhalation victims, suspect concurrent cyanide poisoning when lactic acid is >8-10 mmol/L despite adequate oxygenation -- do NOT wait for cyanide levels (results take hours to days); treat empirically with hydroxocobalamin based on clinical presentation and lactate","Pulse oximetry is MISLEADINGLY NORMAL in cyanide poisoning: SpO2 reads 98-100% because hemoglobin IS fully saturated with oxygen, but cells CANNOT USE the oxygen (histotoxic hypoxia); a critically ill patient with normal SpO2 and severe lactic acidosis should trigger cyanide suspicion","Hydroxocobalamin (Cyanokit) is preferred over the nitrite-thiosulfate kit because it does NOT generate methemoglobin and does NOT cause hypotension -- this is critical in fire victims with concurrent CO poisoning where methemoglobin formation would further reduce oxygen-carrying capacity","The bitter almond odor is an UNRELIABLE sign: 20-40% of the population cannot detect it due to genetic olfactory receptor polymorphism; absence NEVER excludes cyanide exposure","Cyanide and carbon monoxide poisoning COEXIST in most fire victims and are SYNERGISTICALLY lethal: both impair cellular oxygen utilization but through different mechanisms (CN blocks mitochondrial ETC; CO blocks hemoglobin oxygen delivery); always treat for both in smoke inhalation","Sodium nitroprusside (SNP) infusion is a commonly overlooked source of iatrogenic cyanide: each SNP molecule releases 5 cyanide ions during metabolism; limit infusion rate to <2 mcg/kg/min and duration to <3 days; monitor lactate levels; co-administer sodium thiosulfate with prolonged infusions"],
-    quiz: [
-      {
-        question: "A firefighter is brought to the ED after rescue from a structural fire. SpO2 reads 98%, but he is confused with a serum lactate of 14 mmol/L. What should the NP suspect and what is the priority intervention?",
-        options: ["Normal stress response from firefighting; observe and recheck lactate in 2 hours","Concurrent cyanide and CO poisoning; administer hydroxocobalamin 5g IV and 100% oxygen immediately","Carbon monoxide poisoning only; administer 100% oxygen and monitor","Anxiety-related hyperventilation; provide reassurance and benzodiazepines"],
-        correct: 1,
-        rationale: "The combination of smoke inhalation, altered mental status, normal SpO2, and severely elevated lactate (>10 mmol/L) strongly suggests concurrent cyanide and CO poisoning. The misleadingly normal SpO2 is characteristic of both poisons. Hydroxocobalamin is the first-line cyanide antidote (safe in concurrent CO poisoning because it does not cause methemoglobinemia), and 100% oxygen addresses both CO displacement from hemoglobin and maximizes oxygen delivery. Treatment should not be delayed for confirmatory cyanide levels."
-      },
-      {
-        question: "Why is hydroxocobalamin preferred over the sodium nitrite-sodium thiosulfate kit in a fire victim with suspected cyanide poisoning?",
-        options: ["Hydroxocobalamin is less expensive and more widely available","Hydroxocobalamin does NOT generate methemoglobin, which is critical because fire victims likely have concurrent CO poisoning and further reducing oxygen-carrying capacity could be fatal","Hydroxocobalamin works more slowly, giving providers more time to assess","The nitrite-thiosulfate kit is no longer FDA-approved"],
-        correct: 1,
-        rationale: "Fire victims likely have concurrent CO and cyanide poisoning. Sodium nitrite works by intentionally creating methemoglobin (MetHb), which binds cyanide. However, MetHb cannot carry oxygen, and in a patient who already has reduced oxygen-carrying capacity from CO poisoning (carboxyhemoglobin), adding methemoglobin is dangerous. Hydroxocobalamin directly binds cyanide without creating methemoglobin and without causing hypotension, making it the safer first-line choice."
-      },
-      {
-        question: "A patient is receiving a sodium nitroprusside infusion for hypertensive emergency. After 48 hours, the nurse notices the patient developing confusion and the lactate has risen to 9 mmol/L. What is the most likely cause?",
-        options: ["Worsening hypertensive crisis","Cyanide accumulation from nitroprusside metabolism","Sepsis from IV line infection","Hepatic failure from nitroprusside"],
-        correct: 1,
-        rationale: "Each sodium nitroprusside molecule releases 5 cyanide ions during metabolism. With prolonged infusion (>48 hours) or high doses (>2 mcg/kg/min), cyanide can accumulate, especially in patients with renal insufficiency. Rising lactate with altered mental status in a patient on SNP should prompt immediate suspicion for cyanide toxicity. The infusion should be stopped immediately and hydroxocobalamin or sodium thiosulfate administered."
-      },
-    ]
-  },
   "cyanide-toxicity-rn": {
         title: "Cyanide Toxicity",
         cellular: { title: "Cyanide Poisoning", content: "Cyanide is one of the most rapidly lethal poisons known, capable of causing death within minutes at sufficient doses. It exists in multiple forms: hydrogen cyanide (HCN, a volatile gas), cyanide salts (potassium cyanide/KCN, sodium cyanide/NaCN), cyanogenic glycosides (amygdalin in bitter almonds, cassava, apple seeds), and cyanide-releasing compounds (sodium nitroprusside, acetonitrile in artificial nail remover). The most common cause of cyanide poisoning in developed countries is smoke inhalation from structural fires -- combustion of synthetic materials (polyurethane, nylon, wool, silk, plastics) releases hydrogen cyanide gas, and fire victims often have combined cyanide and carbon monoxide (CO) poisoning, which is synergistically lethal. Industrial exposure in mining, electroplating, chemical manufacturing, and photography is another important source. The mechanism of cyanide toxicity centers on the inhibition of cytochrome c oxidase (Complex IV), the terminal enzyme of the mitochondrial electron transport chain (ETC). Under normal aerobic metabolism, cells generate ATP through oxidative phosphorylation: electrons from NADH and FADH2 are passed through Complexes I, II, III, and IV of the ETC embedded in the inner mitochondrial membrane, with molecular oxygen (O2) serving as the final electron acceptor at Complex IV (cytochrome c oxidase). The energy released by electron transfer is used to pump protons (H+) across the inner mitochondrial membrane, creating an electrochemical gradient that drives ATP synthesis by ATP synthase (Complex V). This process generates 36-38 ATP molecules per glucose molecule and is responsible for >90% of cellular ATP production. Cyanide binds with high affinity to the iron (Fe3+) center of cytochrome a3 (the oxygen-binding subunit of cytochrome c oxidase), preventing the transfer of electrons to molecular oxygen. This effectively shuts down the entire ETC because electrons cannot flow to their terminal acceptor. When Complex IV is inhibited, the upstream complexes (I, II, III) cannot transfer their electrons either (they become fully reduced and cannot accept new electrons), halting the entire oxidative phosphorylation process. The proton gradient across the inner mitochondrial membrane collapses, and ATP synthesis ceases. The cell is forced to rely entirely on anaerobic glycolysis for ATP production, generating only 2 ATP per glucose (compared to 36-38 from aerobic metabolism) and producing excessive lactic acid. This creates a profound lactic acidosis that is a hallmark laboratory finding of cyanide poisoning. Because the cells cannot utilize oxygen despite its presence, oxygen accumulates in the venous blood -- the venous blood remains oxygenated (bright red rather than the normal dark blue/purple), producing the classic finding of 'cherry red' venous blood and an abnormally NARROW arteriovenous oxygen difference. The pulse oximetry reading is paradoxically normal or high despite the patient being in cellular hypoxia -- the oxygen is present in the blood but cannot be used by the mitochondria (this is called histotoxic/cytotoxic hypoxia). The organs most vulnerable to cyanide toxicity are those with the highest oxygen consumption and mitochondrial density: the brain (most sensitive -- neuronal death within minutes), the heart (cardiac arrest from myocardial ATP depletion), and the liver. The clinical presentation reflects this vulnerability: within seconds to minutes of significant cyanide exposure, patients develop headache, confusion, agitation, seizures (from brain ATP depletion), followed rapidly by loss of consciousness, respiratory arrest, cardiovascular collapse, and death. The classic description includes the 'bitter almond' odor on the patient's breath (though 20-40% of people cannot detect this due to a genetic variation in olfactory receptor genes), cherry-red skin (from saturated venous blood and cyanomethemoglobin formation -- though this is often a late or postmortem finding), and the paradox of a normoxic pulse oximetry reading in a critically ill patient with severe metabolic acidosis. The treatment of cyanide poisoning is a medical emergency requiring immediate antidote administration. Two antidote strategies exist: (1) The hydroxocobalamin (Cyanokit) approach -- hydroxocobalamin (vitamin B12a precursor) directly binds cyanide with extremely high affinity, forming cyanocobalamin (vitamin B12), which is nontoxic and renally excreted. This is the preferred first-line antidote because it is safe, effective, does not cause methemoglobinemia, does not cause hypotension, and can be given empirically to smoke inhalation victims who may have concurrent CO poisoning. (2) The traditional cyanide antidote kit (Taylor kit/Lilly kit) uses a sequential two-step approach: first, an agent to generate methemoglobin (amyl nitrite inhaled or sodium nitrite IV), because methemoglobin (Fe3+) has higher affinity for cyanide than cytochrome c oxidase, pulling cyanide away from the mitochondria and forming cyanmethemoglobin; second, sodium thiosulfate IV, which provides sulfur substrate for the enzyme rhodanese (sulfurtransferase), which converts cyanide to thiocyanate (a relatively nontoxic compound excreted by the kidneys). The nitrite-based approach has significant limitations: inducing methemoglobinemia reduces the oxygen-carrying capacity of hemoglobin, which is dangerous in patients with concurrent CO poisoning (already compromised oxygen delivery) and in anemic patients; nitrites also cause hypotension through nitric oxide-mediated vasodilation. For these reasons, hydroxocobalamin has largely replaced the nitrite-thiosulfate approach as first-line therapy, particularly in the pre-hospital and fire rescue setting. Nursing priorities include recognizing cyanide poisoning in the differential diagnosis of smoke inhalation victims with severe metabolic acidosis (lactic acid >8 mmol/L), maintaining airway patency and providing 100% high-flow oxygen (even though the cells cannot use it, maintaining high PaO2 maximizes the competitive displacement of cyanide from cytochrome oxidase), immediately administering the appropriate antidote, and monitoring for cardiovascular collapse requiring advanced cardiac life support." },
@@ -334,131 +760,352 @@ export const generatedBatch025Lessons: Record<string, LessonContent> = {
         quiz: [{ question: "A firefighter is brought to the ED after being trapped in a burning building. He is obtunded with soot in the nares. SpO2 reads 97% on room air, but ABG shows pH 7.08 with lactic acid 14 mmol/L. CO level is 22%. What is the appropriate antidote?", options: ["Sodium nitrite IV to generate methemoglobin and bind the cyanide","Hydroxocobalamin (Cyanokit) 5g IV -- it directly binds cyanide without generating methemoglobin, making it safe for this patient who has concurrent CO poisoning","Methylene blue IV to treat methemoglobinemia","Activated charcoal to bind the ingested cyanide"], correct: 1, rationale: "This firefighter has combined cyanide and carbon monoxide poisoning (common in structural fire smoke inhalation). The severe lactic acidosis (14 mmol/L) with normal SpO2 is classic for cyanide poisoning (histotoxic hypoxia -- cells cannot use oxygen). Hydroxocobalamin is the correct choice because it directly chelates cyanide without generating methemoglobin. Sodium nitrite would be CONTRAINDICATED because it generates methemoglobin, which would further reduce oxygen-carrying capacity in a patient who already has 22% carboxyhemoglobin from CO poisoning. The combination of carboxyhemoglobin (22%) and nitrite-induced methemoglobin would critically impair oxygen delivery." },{ question: "After administering hydroxocobalamin to a cyanide poisoning patient, the nurse notices the patient's skin has turned deep red/burgundy and the urine is dark red. A new nurse expresses concern about possible hematuria. What is the correct explanation?", options: ["The patient is likely having an allergic reaction and needs epinephrine","The red discoloration is an expected pharmacological effect of hydroxocobalamin (which is deep red in color) and NOT blood or hematuria -- the skin discoloration resolves over days to weeks, and the red urine resolves over weeks; alert the laboratory because the drug interferes with colorimetric assays","The red urine indicates hemolysis from the antidote and the patient needs a transfusion","The skin discoloration means the dose was too high and the infusion should be stopped"], correct: 1, rationale: "Hydroxocobalamin is an intensely deep red compound (it is a form of vitamin B12). After IV administration, it circulates throughout the body, causing red/burgundy discoloration of the skin, mucous membranes, and urine. This is an expected, harmless pharmacological effect -- NOT hemolysis, hematuria, or allergic reaction. The skin discoloration resolves over days to weeks, and the urinary discoloration resolves over 2-5 weeks. It is important to alert the clinical laboratory because hydroxocobalamin interferes with multiple colorimetric laboratory assays, potentially causing falsely elevated bilirubin, falsely decreased creatinine, and interference with hemoglobin and glucose measurements." },{ question: "A nurse is monitoring a patient receiving sodium nitroprusside at 4 mcg/kg/min for a hypertensive emergency. After 48 hours, the patient develops unexplained metabolic acidosis with rising lactate. What should the nurse suspect and what action is needed?", options: ["The acidosis is from the hypertension itself -- increase the nitroprusside dose","Suspect cyanide toxicity from nitroprusside metabolism -- notify the provider immediately, monitor cyanide levels, consider stopping or reducing the nitroprusside infusion, and anticipate orders for sodium thiosulfate administration","The acidosis is from dehydration -- increase IV fluid rate","The acidosis is a normal side effect of nitroprusside that does not require intervention"], correct: 1, rationale: "Sodium nitroprusside releases five cyanide molecules per molecule during its metabolism. At high doses (>2 mcg/kg/min) or with prolonged infusions (>48-72 hours), cyanide can accumulate faster than the body's endogenous rhodanese enzyme can detoxify it. The developing metabolic acidosis with rising lactate in this clinical scenario suggests cyanide accumulation (cells switching to anaerobic glycolysis as cyanide inhibits cytochrome c oxidase). The nurse should immediately notify the provider, as the nitroprusside may need to be stopped or reduced. Sodium thiosulfate can be administered to provide sulfur substrate for rhodanese-mediated cyanide detoxification. Some institutions co-administer sodium thiosulfate prophylactically with nitroprusside infusions." }]
   },
   "cyp450-interactions-np": {
-    title: "Hepatic Metabolism: CYP450 Interactions",
-    cellular: { title: "Hepatic Metabolism: CYP450 Interactions", content: "the clinician evaluates and manages Hepatic Metabolism: CYP450 Interactions through advanced understanding of gastrointestinal and hepatobiliary pathophysiology, diagnostic algorithms, and evidence-based treatment strategies. Assessment includes focused GI history (pain characterization using OLDCARTS, alarm features including unintentional weight loss, dysphagia, GI bleeding, change in bowel habits in patients over 50, family history of GI malignancy), systematic abdominal examination (inspection, auscultation, percussion, palpation with provocative maneuvers as indicated), and interpretation of laboratory studies (liver panel with pattern recognition for hepatocellular versus cholestatic injury, pancreatic enzymes, celiac serologies, inflammatory markers, tumor markers when indicated) and imaging (abdominal ultrasound, CT, MRI/MRCP, endoscopic findings). The clinician applies diagnostic algorithms to differentiate surgical from medical causes of abdominal pathology, manages acid-related disorders with appropriate PPI prescribing (considering risks of long-term use including C. difficile, fractures, magnesium depletion), prescribes evidence-based pharmacotherapy for functional and inflammatory GI conditions, coordinates endoscopic evaluation and screening colonoscopy per guidelines, and manages hepatic disease including viral hepatitis screening and treatment, non-alcoholic fatty liver disease risk reduction, and cirrhosis complications. Referral criteria for gastroenterology and hepatology are applied based on disease complexity and specialist procedure needs." },
-    riskFactors: ["Polypharmacy (≥5 concurrent medications) -- each additional drug increases the probability of a CYP450-mediated interaction exponentially; elderly patients and those with multiple comorbidities are at highest risk","Hepatic impairment (cirrhosis, hepatitis, liver failure) -- reduced CYP450 enzyme mass decreases drug metabolism capacity, causing higher drug levels and increased toxicity risk","Genetic polymorphisms in CYP450 enzymes (pharmacogenomics): CYP2D6 poor metabolizers (~7% of Caucasians) cannot metabolize codeine to morphine (no analgesia) or accumulate toxic levels of drugs like metoprolol; CYP2C19 poor metabolizers (~2-5% of Caucasians, 15-20% of Asians) have reduced clopidogrel activation","Concurrent use of known potent CYP inhibitors: azole antifungals (ketoconazole, fluconazole), macrolide antibiotics (clarithromycin, erythromycin), HIV protease inhibitors (ritonavir), grapefruit juice -- these dramatically increase levels of CYP substrates","Concurrent use of known potent CYP inducers: rifampin (most potent inducer -- affects virtually all CYP isoforms), carbamazepine, phenytoin, St. John's wort, chronic alcohol use -- these dramatically decrease levels of CYP substrates","Narrow therapeutic index drugs that are CYP substrates: warfarin (CYP2C9), phenytoin (CYP2C9), theophylline (CYP1A2), cyclosporine/tacrolimus (CYP3A4), digoxin (P-glycoprotein) -- small changes in drug levels cause toxicity or loss of efficacy","Age extremes: neonates have immature CYP enzymes (reduced metabolism); elderly have declining hepatic blood flow and CYP activity (accumulation of metabolized drugs)"],
-    diagnostics: ["Comprehensive medication reconciliation: identify ALL drugs (prescription, OTC, supplements, herbal products) and map each to its primary CYP metabolic pathway to identify potential interactions; this IS the primary diagnostic tool for CYP450 interactions","Pharmacogenomic testing: genotyping for CYP2D6, CYP2C19, CYP2C9, and VKORC1 polymorphisms; identifies poor, intermediate, extensive, and ultra-rapid metabolizers; guides drug selection and dosing (e.g., clopidogrel alternatives for CYP2C19 poor metabolizers, warfarin dose adjustments for CYP2C9/*VKORC1 variants)","Serum drug level monitoring: for narrow therapeutic index drugs (warfarin via INR, phenytoin levels, theophylline levels, tacrolimus/cyclosporine trough levels, digoxin levels) -- essential when adding or removing CYP inhibitors or inducers","Liver function tests: AST, ALT, alkaline phosphatase, bilirubin, albumin -- assess hepatic synthetic function and detect hepatotoxicity from drug accumulation","Drug interaction databases/clinical decision support: use validated tools (Lexicomp, Micromedex, Epocrates) to check all drug combinations before prescribing -- no provider can memorize all CYP interactions","INR monitoring when adding/removing CYP2C9 interacting drugs in patients on warfarin: inhibitors (fluconazole, amiodarone, metronidazole) increase INR/bleeding risk; inducers (rifampin, carbamazepine) decrease INR/thrombotic risk"],
-    management: ["Systematic medication review before prescribing any new drug: check CYP metabolic pathways for the new drug and all existing medications; identify potential inhibitor-substrate or inducer-substrate conflicts","Dose adjustment strategy when CYP interactions are unavoidable: when adding a CYP inhibitor to a substrate, reduce the substrate dose prophylactically (e.g., reduce simvastatin by 50% when starting diltiazem); when adding a CYP inducer, consider increasing substrate dose or switching to a non-interacting alternative","Warfarin-CYP2C9 interaction management: when starting fluconazole (potent CYP2C9 inhibitor), empirically reduce warfarin dose by 25-50% and check INR in 3-5 days; when starting rifampin (potent inducer), increase warfarin dose and monitor INR frequently (may need 2-3x baseline dose)","Clopidogrel-CYP2C19 interaction management: avoid concurrent PPIs that inhibit CYP2C19 (omeprazole, esomeprazole) in patients on clopidogrel -- use pantoprazole instead (weaker CYP2C19 inhibitor); consider pharmacogenomic testing for CYP2C19 status; switch to prasugrel or ticagrelor if CYP2C19 poor metabolizer","Drug selection to avoid interactions: choose alternatives that use different metabolic pathways (e.g., azithromycin instead of clarithromycin with statins; pantoprazole instead of omeprazole with clopidogrel; pravastatin instead of simvastatin with CYP3A4 inhibitors)","Transitional monitoring when stopping CYP inhibitors/inducers: enzyme activity returns to baseline over days to weeks after stopping an inducer (rifampin effects persist 2-3 weeks); substrate levels will change -- adjust doses accordingly"],
-    nursingActions: ["Perform comprehensive medication reconciliation at every encounter: include prescription drugs, OTC medications, supplements, herbal products (especially St. John's wort and grapefruit juice); cross-reference with CYP interaction databases before new prescriptions","Monitor drug levels for narrow therapeutic index medications when CYP-interacting drugs are added or removed: check INR 3-5 days after starting/stopping a CYP2C9 modifier in warfarin patients; check tacrolimus/cyclosporine troughs 3-5 days after CYP3A4 changes","Educate patients about grapefruit juice interaction: grapefruit inhibits intestinal CYP3A4, dramatically increasing oral bioavailability of many drugs (statins -- rhabdomyolysis risk, calcium channel blockers -- hypotension, immunosuppressants -- toxicity); avoid grapefruit with CYP3A4 substrates","Counsel patients about St. John's wort: a potent CYP3A4, CYP2C9, and P-glycoprotein inducer that dramatically reduces levels of oral contraceptives (contraceptive failure), warfarin (thromboembolic events), cyclosporine (organ rejection), and HIV antiretrovirals (treatment failure)","Educate patients taking warfarin about dietary consistency with vitamin K AND about reporting any new medications (especially antibiotics) that may alter CYP2C9 metabolism and dramatically change INR","Review pharmacogenomic test results with patients: explain metabolizer status implications for drug selection and dosing; document in the medical record for future providers"],
-    assessmentFindings: ["Unexpected drug toxicity despite normal dosing: suggests a CYP inhibitor is blocking metabolism of the affected drug, causing accumulation (e.g., rhabdomyolysis from simvastatin after starting clarithromycin [CYP3A4 inhibitor])","Unexpected therapeutic failure despite adequate dosing: suggests a CYP inducer is accelerating metabolism, reducing drug levels below therapeutic range (e.g., breakthrough seizures after starting rifampin in a patient on phenytoin)","Supratherapeutic INR and bleeding in a warfarin patient after starting a new medication: CYP2C9 inhibitor (fluconazole, metronidazole, amiodarone) has reduced warfarin metabolism","Subtherapeutic INR and thrombotic event in a warfarin patient after starting rifampin: potent CYP inducer has dramatically increased warfarin metabolism","Lack of analgesic response to codeine: patient may be a CYP2D6 poor metabolizer unable to convert codeine (prodrug) to its active metabolite morphine","Excessive opioid effect from codeine: patient may be a CYP2D6 ultra-rapid metabolizer converting codeine to morphine too quickly, causing respiratory depression -- particularly dangerous in breastfeeding mothers (morphine secreted in breast milk)","Statin-induced rhabdomyolysis after adding a CYP3A4 inhibitor: muscle pain, weakness, dark urine, CK >10x ULN; occurs with simvastatin/lovastatin/atorvastatin (CYP3A4 substrates) but NOT pravastatin/rosuvastatin (minimally CYP-metabolized)"],
-    signs: {
-      left: ["Identified potential CYP interaction during medication reconciliation before adverse event occurred -- drug substituted or dose adjusted proactively","Mild INR elevation after starting CYP2C9 inhibitor -- detected on routine monitoring and warfarin dose reduced","Patient educated about grapefruit avoidance with their statin and demonstrates understanding"],
-      right: ["Life-threatening hemorrhage from supratherapeutic warfarin after unrecognized CYP2C9 inhibitor was added","Rhabdomyolysis from statin toxicity (CK >10,000) after starting potent CYP3A4 inhibitor without dose adjustment","Organ transplant rejection from cyclosporine/tacrolimus failure after patient started St. John's wort (potent CYP3A4 inducer)","Respiratory depression and death from codeine in a CYP2D6 ultra-rapid metabolizer (FDA Black Box warning for codeine in children)","Oral contraceptive failure and unintended pregnancy after starting CYP3A4 inducer (rifampin, carbamazepine, St. John's wort)"]
+      "title": "CYP450 Drug Interactions",
+      "cellular": {
+        "title": "Cytochrome P450 Pharmacology",
+        "content": "The cytochrome P450 (CYP) enzyme system is a superfamily of heme-containing mono-oxygenases located primarily in the liver (also in intestinal wall, kidneys, lungs) responsible for Phase I drug metabolism (oxidation, reduction, hydrolysis). Six major CYP isoforms metabolize ~90% of clinically used drugs: CYP3A4 (metabolizes ~50% of all drugs -- the most important isoform), CYP2D6 (20-25%), CYP2C9 (15%), CYP2C19 (10%), CYP1A2 (5%), and CYP2E1. Enzyme INHIBITORS decrease the metabolism of substrate drugs, increasing their plasma levels and risk of toxicity. Enzyme INDUCERS increase metabolism, decreasing plasma levels and potentially causing therapeutic failure. Genetic polymorphisms create poor metabolizers (increased drug levels, toxicity risk), extensive/normal metabolizers, and ultra-rapid metabolizers (reduced drug levels, therapeutic failure). CYP2D6 and CYP2C19 have the most clinically significant genetic polymorphisms."
+      },
+      "riskFactors": [
+        "Polypharmacy (most important risk factor for CYP-mediated drug interactions)",
+        "Elderly patients (decreased hepatic metabolism, polypharmacy, narrow therapeutic indices)",
+        "Hepatic impairment (decreased CYP enzyme activity)",
+        "Genetic polymorphisms: CYP2D6 poor metabolizers (7-10% of Caucasians), CYP2C19 poor metabolizers (2-5% of Caucasians, 15-20% of Asians)",
+        "Grapefruit juice consumption (inhibits intestinal CYP3A4)",
+        "Herbal supplements (St. John's wort induces CYP3A4, CYP2C9, CYP1A2)",
+        "Narrow therapeutic index drugs: warfarin, phenytoin, digoxin, theophylline, cyclosporine, lithium",
+        "Critical care patients on multiple IV medications"
+      ],
+      "diagnostics": [
+        "Pharmacogenomic testing: CYP2D6 genotyping (codeine → morphine conversion; tamoxifen → endoxifen activation; antidepressant metabolism), CYP2C19 genotyping (clopidogrel activation; PPI metabolism)",
+        "Therapeutic drug monitoring (TDM): drug levels for narrow therapeutic index drugs when interactions suspected (warfarin INR, phenytoin level, digoxin level, cyclosporine/tacrolimus trough)",
+        "Medication reconciliation: systematic review of all medications, supplements, and dietary factors for potential CYP interactions",
+        "Drug interaction databases: Lexicomp, Micromedex, Clinical Pharmacology -- use at every prescribing encounter",
+        "INR monitoring when adding/removing CYP2C9 inhibitors or inducers in patients on warfarin"
+      ],
+      "management": [
+        "Identify and document significant CYP interactions before prescribing",
+        "Choose alternative medications when significant interactions exist (e.g., use citalopram instead of fluoxetine with tamoxifen -- fluoxetine is a potent CYP2D6 inhibitor that prevents tamoxifen activation)",
+        "Dose adjustments when interaction is unavoidable: increase substrate dose when adding an inducer; decrease when adding an inhibitor",
+        "Monitor drug levels and clinical effects closely when interactions are present",
+        "Stagger timing of administration when appropriate (some interactions are minimized by separating doses, though this only works for intestinal CYP interactions, not hepatic)",
+        "Educate patients about dietary interactions (grapefruit juice and CYP3A4 substrates, vitamin K-rich foods and warfarin)"
+      ],
+      "nursingActions": [
+        "Review medication list for CYP-mediated drug interactions at every prescribing encounter and medication reconciliation",
+        "Know the major CYP3A4 inhibitors: azole antifungals (ketoconazole, itraconazole), macrolide antibiotics (erythromycin, clarithromycin), HIV protease inhibitors (ritonavir), grapefruit juice, diltiazem, verapamil",
+        "Know the major CYP3A4 inducers: rifampin (most potent), phenytoin, carbamazepine, phenobarbital, St. John's wort",
+        "CYP2D6 inhibitors to know: fluoxetine, paroxetine, bupropion, quinidine -- these block codeine activation and tamoxifen activation",
+        "Order pharmacogenomic testing when appropriate: before prescribing clopidogrel (CYP2C19 -- poor metabolizers don't activate the prodrug), codeine (CYP2D6 -- ultra-rapid metabolizers produce toxic morphine levels)",
+        "Monitor INR when starting/stopping any CYP2C9 interacting drug in warfarin patients",
+        "Educate patients: avoid grapefruit juice with CYP3A4 substrates (statins, calcium channel blockers, cyclosporine); St. John's wort interacts with nearly everything"
+      ],
+      "assessmentFindings": [
+        "Drug toxicity signs when inhibitor added: increased drug effect (bleeding with warfarin + CYP2C9 inhibitor, statin myopathy with CYP3A4 inhibitor, sedation with benzodiazepine + CYP3A4 inhibitor)",
+        "Therapeutic failure when inducer added: loss of anticoagulation (warfarin + rifampin), transplant rejection (cyclosporine + St. John's wort), seizure recurrence (phenytoin + rifampin reduces phenytoin levels)",
+        "Adverse effects from genetic polymorphism: codeine toxicity in CYP2D6 ultra-rapid metabolizers (especially dangerous in breastfeeding -- morphine passes to infant), clopidogrel failure in CYP2C19 poor metabolizers (increased stent thrombosis)",
+        "Signs of serotonin syndrome: when CYP-mediated interaction increases serotonergic drug levels (agitation, clonus, hyperthermia, diaphoresis)"
+      ],
+      "signs": {
+        "left": [
+          "Known drug interaction being monitored with appropriate dose adjustments and lab monitoring",
+          "Patient educated about dietary interactions and avoidance of contraindicated substances",
+          "Pharmacogenomic testing guiding appropriate drug selection"
+        ],
+        "right": [
+          "Supratherapeutic INR >8 from warfarin + CYP2C9 inhibitor (fluconazole) causing life-threatening bleeding",
+          "Rhabdomyolysis from statin + CYP3A4 inhibitor (simvastatin + erythromycin)",
+          "Transplant rejection from cyclosporine + CYP3A4 inducer (St. John's wort)",
+          "Serotonin syndrome from accumulated serotonergic drug (CYP interaction preventing metabolism)",
+          "Codeine-related respiratory depression in CYP2D6 ultra-rapid metabolizer or breastfed infant"
+        ]
+      },
+      "medications": [
+        {
+          "name": "This lesson covers CYP450 interactions as a pharmacological concept",
+          "type": "Key drug interactions to memorize",
+          "action": "CYP3A4 substrates (50% of drugs): statins (simvastatin, atorvastatin), calcium channel blockers, cyclosporine/tacrolimus, benzodiazepines (midazolam), fentanyl, apixaban/rivaroxaban. CYP2D6 substrates: codeine→morphine (prodrug activation), tamoxifen→endoxifen (prodrug activation), many antidepressants, metoprolol, ondansetron. CYP2C9 substrates: warfarin (S-enantiomer), phenytoin, NSAIDs, sulfonylureas. CYP2C19 substrates: clopidogrel (prodrug activation), PPIs, diazepam, phenytoin.",
+          "sideEffects": "Inhibitor effects: increased substrate levels → toxicity; Inducer effects: decreased substrate levels → therapeutic failure",
+          "contra": "Avoid potent inhibitors with narrow therapeutic index substrates; avoid strong inducers with critical medications",
+          "pearl": "Key mnemonics: CYP3A4 inhibitors = 'Inhibitors Keep Drugs Elevated' (azole antifungals, macrolides, protease inhibitors, grapefruit); CYP3A4 inducers = 'Inducers Cause Rapid Removal' (Rifampin, Phenytoin, Carbamazepine, Phenobarbital, St. John's wort); RIFAMPIN is the most potent inducer of almost everything -- assume it interacts with every drug"
+        }
+      ],
+      "pearls": [
+        "CYP3A4 metabolizes ~50% of all drugs -- it is the most important CYP isoform; know its major inhibitors (azoles, macrolides, protease inhibitors, grapefruit) and inducers (rifampin, phenytoin, carbamazepine)",
+        "RIFAMPIN is the most potent CYP inducer known -- it induces CYP3A4, 2C9, 2C19, 1A2 and reduces levels of nearly every drug; ALWAYS check interactions when prescribing rifampin",
+        "Prodrug activation: clopidogrel (CYP2C19), codeine (CYP2D6), tamoxifen (CYP2D6) -- inhibiting these enzymes causes THERAPEUTIC FAILURE of the prodrug, not toxicity",
+        "CYP2D6 ultra-rapid metabolizers: convert codeine to morphine so rapidly that toxic levels accumulate; FDA boxed warning against codeine use in children and breastfeeding mothers",
+        "Grapefruit juice inhibits INTESTINAL CYP3A4 (not hepatic) -- increases oral bioavailability of CYP3A4 substrates; a single glass can inhibit the enzyme for 24 hours",
+        "St. John's wort is a potent CYP inducer (3A4, 2C9, 1A2) -- has caused transplant rejection (cyclosporine), contraceptive failure (OCPs), serotonin syndrome breakthrough, and HIV treatment failure"
+      ],
+      "quiz": [
+        {
+          "question": "A patient on warfarin is prescribed fluconazole for a vaginal yeast infection. What CYP interaction should the NP anticipate?",
+          "options": [
+            "Fluconazole induces CYP2C9, decreasing warfarin levels",
+            "Fluconazole inhibits CYP2C9, increasing warfarin levels and INR -- risk of bleeding",
+            "No interaction exists between these drugs",
+            "Fluconazole increases warfarin absorption"
+          ],
+          "correct": 1,
+          "rationale": "Fluconazole is a potent CYP2C9 inhibitor. Warfarin's more active S-enantiomer is metabolized by CYP2C9. Inhibiting this enzyme increases warfarin levels, raising the INR and bleeding risk significantly. The NP should either choose an alternative antifungal (topical) or reduce the warfarin dose and monitor INR closely."
+        },
+        {
+          "question": "Why should fluoxetine NOT be prescribed to breast cancer patients on tamoxifen?",
+          "options": [
+            "Fluoxetine causes breast cancer progression",
+            "Fluoxetine inhibits CYP2D6, preventing tamoxifen's conversion to its active metabolite endoxifen, reducing anti-cancer efficacy",
+            "Tamoxifen causes serotonin syndrome with all SSRIs",
+            "There is no interaction"
+          ],
+          "correct": 1,
+          "rationale": "Tamoxifen is a prodrug that requires CYP2D6 conversion to endoxifen (the active anti-cancer metabolite). Fluoxetine and paroxetine are potent CYP2D6 inhibitors that block this conversion, significantly reducing tamoxifen's efficacy and increasing breast cancer recurrence risk. Use citalopram, escitalopram, or venlafaxine instead (minimal CYP2D6 inhibition)."
+        },
+        {
+          "question": "A patient on cyclosporine (immunosuppressant after kidney transplant) starts taking St. John's wort for depression. What is the expected consequence?",
+          "options": [
+            "Increased cyclosporine levels causing nephrotoxicity",
+            "Decreased cyclosporine levels causing transplant rejection",
+            "No interaction",
+            "Improved depression without drug interaction"
+          ],
+          "correct": 1,
+          "rationale": "St. John's wort is a potent inducer of CYP3A4, which metabolizes cyclosporine. Induction increases cyclosporine metabolism, reducing its blood levels below therapeutic range, potentially causing acute transplant rejection. This interaction has been documented in case reports and is potentially life-threatening. St. John's wort should be AVOIDED with all immunosuppressants."
+        }
+      ]
     },
-    medications: [{
-      name: "Rifampin (Rifadin)",
-      type: "Potent pan-CYP450 enzyme inducer (antitubercular agent used here as CYP interaction exemplar)",
-      action: "Rifampin is the most potent known inducer of CYP450 enzymes (CYP3A4, CYP2C9, CYP2C19, CYP1A2, CYP2B6) AND P-glycoprotein; it binds to the pregnane X receptor (PXR) in hepatocytes, which dimerizes with retinoid X receptor (RXR) and translocates to the nucleus, binding to response elements in CYP gene promoters and dramatically upregulating enzyme transcription; this increases the metabolism and clearance of virtually all CYP-metabolized drugs, reducing their serum levels by 50-95% within days; the magnitude of induction makes rifampin the single most clinically dangerous drug interaction risk factor",
-      sideEffects: "Hepatotoxicity (monitor LFTs monthly), orange-red discoloration of urine/tears/sweat/saliva (warn patients -- stains contact lenses permanently), GI upset, thrombocytopenia, flu-like syndrome with intermittent dosing, drug interactions (the primary clinical concern)",
-      contra: "Concurrent use with HIV protease inhibitors or NNRTIs (renders antiretroviral therapy ineffective -- use rifabutin instead); jaundice; concurrent use with direct oral anticoagulants (renders them ineffective -- use warfarin with frequent INR monitoring instead)",
-      pearl: "Rifampin reduces the efficacy of almost every co-administered drug including: warfarin (INR drops dramatically -- may need 2-3x baseline dose), oral contraceptives (contraceptive failure), cyclosporine/tacrolimus (organ rejection), methadone (opioid withdrawal), corticosteroids (adrenal crisis risk), statins, CCBs, beta-blockers, phenytoin, theophylline, DOACs; induction begins within 2-3 days, peaks at 1-2 weeks, and persists for 2-3 weeks AFTER stopping rifampin; whenever starting or stopping rifampin, review ALL co-administered medications and adjust doses proactively"
-    }],
-    pearls: ["CYP3A4 metabolizes approximately 50% of all prescribed drugs -- it is the SINGLE MOST CLINICALLY IMPORTANT CYP isoform; key substrates include statins (simvastatin, atorvastatin), calcium channel blockers, immunosuppressants (cyclosporine, tacrolimus), benzodiazepines (midazolam, alprazolam), and opioids (fentanyl)","Rifampin is the most potent CYP inducer in clinical use and affects virtually ALL CYP isoforms -- when starting or stopping rifampin, EVERY co-administered medication must be reviewed for potential interaction; failure to do this causes organ rejection, contraceptive failure, treatment failure, and withdrawal syndromes","The clopidogrel-PPI interaction is clinically important: clopidogrel is a PRODRUG that requires CYP2C19 activation to its active thiol metabolite; omeprazole and esomeprazole inhibit CYP2C19, potentially reducing clopidogrel's antiplatelet effect -- use pantoprazole instead (weaker CYP2C19 inhibitor)","Pharmacogenomic testing for CYP2D6 is particularly important for codeine and tramadol prescribing: poor metabolizers get NO analgesic effect (cannot convert prodrug to active metabolite); ultra-rapid metabolizers get EXCESSIVE opioid effect (rapid conversion to morphine) -- the FDA has a Black Box warning against codeine use in children due to fatal respiratory depression in ultra-rapid metabolizers","Grapefruit juice inhibits INTESTINAL CYP3A4 (not hepatic) -- it dramatically increases the oral bioavailability of CYP3A4 substrates by preventing first-pass metabolism in the gut wall; a single glass can increase simvastatin levels by 260% and felodipine levels by 300%","Inhibitors take effect IMMEDIATELY (within 1-3 doses) because they directly block enzyme activity; inducers take DAYS TO WEEKS to take effect because they work by upregulating enzyme synthesis (new protein must be transcribed and translated) -- this timing difference is clinically important for dose adjustment planning"],
-    quiz: [
-      {
-        question: "A patient on warfarin is prescribed fluconazole for a vaginal yeast infection. The NP recognizes this is a significant CYP interaction. What is the appropriate action?",
-        options: ["Continue warfarin at the current dose since the fluconazole course is short","Empirically reduce warfarin dose by 25-50% and check INR in 3-5 days because fluconazole is a potent CYP2C9 inhibitor that will significantly increase warfarin levels","Stop warfarin completely while taking fluconazole","Switch to a DOAC which has no interaction with fluconazole"],
-        correct: 1,
-        rationale: "Fluconazole is a potent CYP2C9 inhibitor, and warfarin's more potent S-enantiomer is metabolized by CYP2C9. Adding fluconazole dramatically reduces warfarin metabolism, causing INR to rise dangerously within 3-5 days. The appropriate action is prophylactic warfarin dose reduction (25-50%) with INR monitoring. Even a short fluconazole course can cause significant INR elevation."
-      },
-      {
-        question: "A patient on simvastatin 40 mg develops severe myalgias, dark urine, and CK of 15,000 U/L one week after starting clarithromycin for pneumonia. What CYP interaction caused this?",
-        options: ["Clarithromycin induced CYP3A4, reducing simvastatin levels","Clarithromycin inhibited CYP3A4, causing simvastatin accumulation and rhabdomyolysis","Simvastatin inhibited the metabolism of clarithromycin","The two drugs have no CYP interaction; this is coincidental"],
-        correct: 1,
-        rationale: "Clarithromycin is a potent CYP3A4 inhibitor. Simvastatin is extensively metabolized by CYP3A4. When clarithromycin blocks CYP3A4, simvastatin cannot be metabolized and accumulates to toxic levels, causing rhabdomyolysis (muscle breakdown with CK >10x ULN, myoglobinuria). This is why azithromycin (which does NOT inhibit CYP3A4) is preferred when a macrolide antibiotic is needed in a patient on simvastatin."
-      },
-      {
-        question: "Why is pantoprazole preferred over omeprazole in patients taking clopidogrel?",
-        options: ["Pantoprazole is more effective at acid suppression","Pantoprazole has fewer GI side effects","Omeprazole is a CYP2C19 inhibitor that may reduce clopidogrel activation (clopidogrel is a prodrug requiring CYP2C19), while pantoprazole has minimal CYP2C19 inhibition","Pantoprazole is available in IV form"],
-        correct: 2,
-        rationale: "Clopidogrel is a prodrug that requires CYP2C19 activation to its active thiol metabolite. Omeprazole and esomeprazole are moderate CYP2C19 inhibitors that can reduce clopidogrel's antiplatelet effect, potentially increasing the risk of stent thrombosis or cardiovascular events. Pantoprazole has minimal CYP2C19 inhibitory activity and is considered the safest PPI to use with clopidogrel."
-      },
-    ]
-  },
   "cytokine-cascade-np": {
-    title: "Cytokine Cascade and SIRS",
-    cellular: { title: "Pathophysiology of Cytokine Cascade and SIRS", content: "the clinician applies advanced clinical reasoning to the assessment and management of Cytokine Cascade and SIRS, integrating comprehensive pathophysiological knowledge with evidence-based diagnostic and therapeutic decision-making at the independent practitioner level. Assessment includes focused history using structured frameworks (OLDCARTS for symptom analysis, comprehensive review of systems), targeted physical examination with provocative maneuvers as indicated, and interpretation of relevant diagnostic studies (laboratory investigations, imaging, and specialized testing). The clinician formulates a differential diagnosis using systematic clinical reasoning, applies validated clinical prediction rules and scoring systems to guide investigation and management, and selects evidence-based pharmacotherapy based on mechanism of action, pharmacokinetic/pharmacodynamic principles, patient-specific factors (age, renal and hepatic function, comorbidities, drug interactions, pregnancy status, allergies), and current clinical practice guidelines. Management integrates pharmacological and non-pharmacological interventions, patient education with health literacy assessment, shared decision-making, and appropriate follow-up monitoring. The clinician identifies red flags requiring urgent investigation or intervention, determines criteria for specialist referral or emergency department transfer, coordinates interprofessional collaborative care, and implements quality improvement strategies to optimize patient outcomes." },
-    riskFactors: ["Severe infection/sepsis (bacterial, viral, fungal) -- the most common trigger of pathological cytokine cascade; gram-negative bacteremia with LPS/endotoxin is the classic trigger for TNF-alpha release from macrophages","Major surgery or trauma with extensive tissue injury -- damaged cells release DAMPs (damage-associated molecular patterns) that activate innate immune cells and initiate the inflammatory cascade through TLR signaling","CAR-T cell therapy (chimeric antigen receptor T-cell therapy) -- cytokine release syndrome (CRS) occurs in 50-90% of patients within 1-14 days of infusion; severity correlates with tumor burden and T-cell expansion","Pancreatitis (especially severe necrotizing pancreatitis) -- pancreatic autodigestion releases inflammatory mediators that trigger a systemic cytokine response; SIRS criteria met in >80% of severe cases","Burns (>20% total body surface area) -- massive tissue damage triggers SIRS through DAMP release, complement activation, and bacterial translocation from disrupted gut mucosal barrier","Hemophagocytic lymphohistiocytosis (HLH) / macrophage activation syndrome (MAS) -- genetic (primary HLH) or secondary to infections (EBV most common), malignancies, or autoimmune diseases (SLE, Still disease); uncontrolled macrophage and T-cell activation","COVID-19 pneumonia with hyperinflammatory phenotype -- IL-6-driven cytokine storm contributes to ARDS and multi-organ failure; occurs typically in week 2 of illness during the immune dysregulation phase"],
-    diagnostics: ["Serum IL-6 level (most clinically useful cytokine marker): directly correlates with severity of cytokine storm; >1000 pg/mL indicates severe CRS; used to guide tocilizumab therapy in CAR-T-associated CRS; drives hepatic CRP and ferritin production","C-reactive protein (CRP): acute-phase reactant produced by hepatocytes in response to IL-6; rises rapidly (within 6-8 hours); levels >10 mg/dL suggest significant systemic inflammation; useful for trending response to anti-cytokine therapy","Ferritin level: extremely elevated ferritin (>10,000 ng/mL) is a hallmark of HLH/MAS and severe cytokine storm; produced by activated macrophages; also elevated in severe sepsis and hepatocellular injury; ferritin >500 is one of the HLH diagnostic criteria","Procalcitonin (PCT): helps differentiate bacterial infection-driven cytokine cascade (PCT elevated >0.5 ng/mL) from non-infectious SIRS (PCT typically normal); useful for antibiotic stewardship decisions","Lactate level: elevated lactate (>2 mmol/L) indicates tissue hypoperfusion from vasodilatory shock driven by TNF-alpha and NO; lactate >4 mmol/L defines septic shock; serial trending guides resuscitation adequacy","D-dimer, fibrinogen, PT/PTT, platelet count: assess for DIC (disseminated intravascular coagulation) -- cytokine-mediated endothelial activation triggers tissue factor expression, activating the coagulation cascade; consumptive coagulopathy with elevated D-dimer, low fibrinogen, prolonged PT/PTT, thrombocytopenia","Soluble IL-2 receptor (sIL-2R/CD25): markedly elevated in HLH (>2400 U/mL is one of the 8 HLH diagnostic criteria); reflects T-cell and macrophage activation; helps distinguish HLH from sepsis"],
-    management: ["Treat the underlying trigger: source control for sepsis (antibiotics, drainage of abscess), antiviral therapy for viral triggers, tumor-directed therapy for malignancy-associated HLH -- cytokine-directed therapy alone without addressing the trigger is insufficient","Tocilizumab (anti-IL-6 receptor monoclonal antibody): FIRST-LINE for CAR-T-associated CRS (FDA-approved indication); 8 mg/kg IV over 60 minutes; blocks IL-6 signaling, rapidly reduces fever and hemodynamic instability; may repeat in 8 hours if no response; maximum 3 doses","Corticosteroids for cytokine modulation: dexamethasone 6 mg daily x 10 days for COVID-19 with hypoxia (RECOVERY trial -- reduced mortality by 35% in ventilated patients); methylprednisolone pulse therapy for MAS/HLH; dose-dependent immunosuppression of multiple cytokine pathways","Anakinra (IL-1 receptor antagonist) for MAS/HLH: 2-10 mg/kg/day IV or SC; blocks IL-1-mediated inflammatory amplification; short half-life (4-6 hours) allows rapid dose titration; preferred in MAS secondary to Still disease","HLH-directed therapy (HLH-2004 protocol for primary HLH): etoposide + dexamethasone + cyclosporine; etoposide targets activated T cells and macrophages; hematopoietic stem cell transplant for familial/refractory HLH","Hemodynamic support for cytokine-mediated distributive shock: aggressive IV fluid resuscitation (30 mL/kg crystalloid bolus), vasopressors (norepinephrine first-line) for refractory hypotension; TNF-alpha and NO cause profound vasodilation and capillary leak","Organ-specific support: mechanical ventilation for ARDS (low tidal volume 6 mL/kg IBW, PEEP optimization), CRRT for AKI, blood product replacement for DIC (FFP for coagulopathy, platelets if <10,000 or active bleeding, cryoprecipitate for fibrinogen <150)"],
-    nursingActions: ["Monitor for early signs of cytokine cascade/CRS: fever (often the earliest sign -- temperature >38°C), tachycardia, hypotension, hypoxia, rigors; in CAR-T patients, CRS grading (grades 1-4) determines treatment escalation -- grade 1 (fever only) vs grade 3-4 (vasopressors/ventilator required)","Implement the Surviving Sepsis Campaign hour-1 bundle when sepsis-driven cytokine cascade is suspected: obtain blood cultures before antibiotics, administer broad-spectrum antibiotics within 1 hour, measure lactate, begin 30 mL/kg IV crystalloid for hypotension or lactate ≥4 mmol/L, apply vasopressors for MAP <65 despite fluids","Monitor and trend inflammatory biomarkers: CRP, ferritin, IL-6 (if available), procalcitonin, LDH, D-dimer; ferritin >10,000 or rapidly rising ferritin should trigger evaluation for HLH/MAS; report trends to the team for treatment escalation decisions","Assess for DIC: monitor for petechiae, purpura, oozing from IV sites, mucosal bleeding, hematuria; track platelet trends, fibrinogen levels, PT/PTT, D-dimer; prepare for blood product replacement as ordered","Administer tocilizumab for CRS per protocol: infuse over 60 minutes through dedicated IV line; monitor for infusion reactions (anaphylaxis, hypotension); note that tocilizumab suppresses CRP production (CRP will drop even if inflammation persists) -- use clinical assessment and other markers to gauge response","Provide respiratory support and monitoring: continuous SpO2, serial ABGs, prepare for escalation from supplemental O2 to HFNC to BiPAP to mechanical ventilation; cytokine-mediated capillary leak causes rapid-onset pulmonary edema and ARDS"],
-    assessmentFindings: ["High-grade fever with rigors (TNF-alpha and IL-1 are endogenous pyrogens that reset the hypothalamic thermoregulatory set point; fever >39°C is common in severe cytokine cascade)","Hemodynamic instability: hypotension (systolic <90 mmHg or MAP <65 mmHg) with tachycardia (>100 bpm) -- caused by TNF-alpha-mediated vasodilation, NO production, and capillary leak syndrome with third-spacing of fluid","Respiratory distress progressing to ARDS: tachypnea, hypoxemia (SpO2 <94% on room air), bilateral pulmonary infiltrates on CXR; cytokine-mediated increased alveolar-capillary permeability causes non-cardiogenic pulmonary edema","Altered mental status: confusion, agitation, or obtundation; IL-6 and TNF-alpha cross the blood-brain barrier causing neuroinflammation; in CAR-T CRS this is termed ICANS (immune effector cell-associated neurotoxicity syndrome)","Coagulopathy/DIC: petechiae, purpura, ecchymoses, oozing from venipuncture sites, mucosal bleeding; cytokine-activated endothelium expresses tissue factor, triggering simultaneous thrombosis and consumptive coagulopathy","Laboratory hallmarks: markedly elevated CRP (>15 mg/dL), ferritin (>1000-10,000+), LDH, D-dimer; elevated IL-6; falling fibrinogen and platelets (consumption in DIC); rising lactate (tissue hypoperfusion)","Capillary leak syndrome: peripheral edema, ascites, pleural effusions, weight gain from fluid third-spacing; caused by cytokine-mediated endothelial glycocalyx damage and increased vascular permeability"],
-    signs: {
-      left: ["Grade 1 CRS after CAR-T therapy: fever only without hemodynamic instability; managed with antipyretics and observation","Mild SIRS from uncomplicated infection: meeting 2 of 4 SIRS criteria (temp >38°C, HR >90, RR >20, WBC >12,000); responding to appropriate antibiotics","Early sepsis with elevated lactate 2-4 mmol/L responding to fluid resuscitation and antibiotics within the first hour"],
-      right: ["Grade 4 CRS requiring vasopressors AND mechanical ventilation: refractory hypotension despite fluids and multiple vasopressors; ARDS with P/F ratio <100; requires tocilizumab and/or corticosteroids emergently","Hemophagocytic lymphohistiocytosis (HLH) with ferritin >50,000, pancytopenia, hepatosplenomegaly, and multi-organ failure -- without treatment mortality exceeds 90%","Fulminant DIC from meningococcal septicemia (Waterhouse-Friderichsen syndrome): purpura fulminans, adrenal hemorrhage, cardiovascular collapse","Septic shock with refractory lactic acidosis (>8 mmol/L) despite maximum vasopressor support and adequate fluid resuscitation"]
+      "title": "Cytokine Cascade",
+      "cellular": {
+        "title": "Cytokine-Mediated Inflammatory Response",
+        "content": "Cytokines are small signaling proteins that orchestrate the immune and inflammatory response. In the innate immune response, pattern recognition receptors (TLRs) on macrophages and dendritic cells detect pathogen-associated molecular patterns (PAMPs) or damage-associated molecular patterns (DAMPs), triggering NF-κB activation and release of pro-inflammatory cytokines: TNF-alpha (first cytokine released; activates endothelium, induces acute phase response), IL-1 (fever, neutrophil activation), IL-6 (acute phase protein synthesis by liver, B-cell differentiation). The cytokine cascade can become dysregulated, leading to cytokine storm -- a massive, self-amplifying release of pro-inflammatory cytokines causing SIRS, septic shock, multi-organ failure, and death. Anti-inflammatory cytokines (IL-10, TGF-beta) normally counterregulate, but in cytokine storm this homeostasis is overwhelmed."
+      },
+      "riskFactors": [
+        "Sepsis (most common cause of pathological cytokine cascade)",
+        "COVID-19 severe disease (cytokine storm with elevated IL-6, ferritin, CRP)",
+        "Hemophagocytic lymphohistiocytosis (HLH) / macrophage activation syndrome (MAS)",
+        "Chimeric antigen receptor T-cell (CAR-T) therapy (cytokine release syndrome)",
+        "Influenza (especially H5N1, 1918 pandemic strain -- healthy young adults with robust immune response had worse outcomes)",
+        "Toxic shock syndrome (superantigen-mediated T-cell activation)",
+        "Acute pancreatitis (DAMP-mediated cytokine release)",
+        "Burns and major trauma (massive DAMP release from tissue destruction)"
+      ],
+      "diagnostics": [
+        "Inflammatory markers: CRP (hepatic acute phase protein induced by IL-6), ESR (non-specific), procalcitonin (elevated in bacterial infection, helps distinguish bacterial from viral)",
+        "Ferritin: massively elevated in cytokine storm/HLH (>10,000 ng/mL is highly suggestive of HLH)",
+        "IL-6 level: directly measures the key cytokine driving systemic inflammation; elevated in sepsis, cytokine storm, CRS",
+        "Complete blood count: leukocytosis or leukopenia, thrombocytopenia (consumption in cytokine storm)",
+        "Hepatic panels: elevated transaminases (cytokine-mediated hepatocyte injury)",
+        "Coagulation: DIC pattern (prolonged PT/aPTT, low fibrinogen, elevated D-dimer, thrombocytopenia)",
+        "Lactate: elevated (tissue hypoperfusion from vasodilation and capillary leak)",
+        "Soluble IL-2 receptor (sIL-2R): elevated in HLH; part of HLH diagnostic criteria"
+      ],
+      "management": [
+        "Sepsis-related cytokine cascade: source control + antibiotics + hemodynamic support (fluids, vasopressors) -- the SSC bundle",
+        "Corticosteroids: dexamethasone reduces mortality in severe COVID-19 (RECOVERY trial); hydrocortisone for septic shock refractory to vasopressors; high-dose steroids for HLH/MAS",
+        "Tocilizumab (IL-6 receptor antagonist): used in severe COVID-19, CAR-T associated CRS; blocks IL-6 signaling cascade",
+        "Anakinra (IL-1 receptor antagonist): used in HLH/MAS, refractory cytokine storm, Still disease",
+        "JAK inhibitors (baricitinib, ruxolitinib): block JAK-STAT signaling downstream of multiple cytokine receptors; baricitinib added to dexamethasone in severe COVID-19",
+        "HLH-specific: etoposide-based protocols (HLH-94/2004) for primary HLH; treat underlying trigger for secondary HLH",
+        "Supportive: mechanical ventilation for ARDS, vasopressors for shock, CRRT for AKI, blood products for DIC"
+      ],
+      "nursingActions": [
+        "Recognize cytokine storm clinically: high fever, hypotension, tachycardia, tachypnea, rapidly worsening multi-organ dysfunction",
+        "Monitor inflammatory markers serially: CRP, ferritin, IL-6 (if available), D-dimer, fibrinogen -- trending is more informative than single values",
+        "Administer immunomodulatory agents as prescribed: tocilizumab, corticosteroids, anakinra -- timing matters (early intervention more effective)",
+        "Monitor for DIC: check coagulation parameters, assess for bleeding and thrombosis simultaneously",
+        "Manage hemodynamic instability: vasopressors per protocol, fluid resuscitation monitoring CVP and lactate clearance",
+        "For CAR-T patients: grade CRS severity (fever → hypotension → hypoxia → organ dysfunction); escalate treatment accordingly",
+        "Assess for HLH/MAS in patients with unexplained persistent fevers, hepatosplenomegaly, cytopenias, and very high ferritin (>10,000)"
+      ],
+      "assessmentFindings": [
+        "High fever (often >39°C, may be >40°C in HLH)",
+        "Hemodynamic instability: hypotension, tachycardia (vasodilation from TNF-alpha and IL-1)",
+        "Respiratory failure: ARDS from capillary leak and endothelial dysfunction",
+        "Multi-organ dysfunction: AKI, hepatic failure, coagulopathy, encephalopathy",
+        "Laboratory: elevated CRP, markedly elevated ferritin (>500 in cytokine storm, >10,000 in HLH), elevated IL-6, DIC pattern, transaminitis, cytopenias",
+        "Capillary leak: peripheral edema, pleural effusions, ascites, anasarca",
+        "Skin findings: may have diffuse erythroderma (toxic shock), rash (drug reaction)"
+      ],
+      "signs": {
+        "left": [
+          "Mild systemic inflammatory response with improving markers on supportive care",
+          "CAR-T CRS Grade 1 (fever only, no hypotension or hypoxia) -- observation and antipyretics",
+          "Cytokine elevation in context of infection resolving with appropriate antimicrobial therapy"
+        ],
+        "right": [
+          "Cytokine storm with multi-organ failure: ARDS + AKI + DIC + hemodynamic collapse",
+          "HLH/MAS: ferritin >10,000, pancytopenia, hepatosplenomegaly, coagulopathy (90% mortality untreated)",
+          "CAR-T CRS Grade 3-4: hypotension requiring vasopressors, hypoxia requiring mechanical ventilation -- tocilizumab urgently",
+          "Refractory septic shock despite fluids and vasopressors -- consider stress-dose hydrocortisone",
+          "Superantigen-mediated toxic shock syndrome: diffuse erythroderma, desquamation, multi-organ failure"
+        ]
+      },
+      "medications": [
+        {
+          "name": "Tocilizumab (Actemra)",
+          "type": "IL-6 receptor antagonist (humanized monoclonal antibody)",
+          "action": "Binds soluble and membrane-bound IL-6 receptors, blocking IL-6 signaling; IL-6 is a key driver of the acute phase response, CRP production, fever, and vascular endothelial activation in cytokine storm; reduces the downstream inflammatory cascade without broadly immunosuppressing like corticosteroids",
+          "sideEffects": "Infections (immunosuppression), hepatotoxicity (monitor LFTs), GI perforation risk (especially with concurrent corticosteroids and diverticular disease), neutropenia, hyperlipidemia, infusion reactions",
+          "contra": "Active infections (especially TB -- screen before use), severe hepatic impairment, concurrent live vaccines, absolute neutrophil count <1000, platelet count <50,000",
+          "pearl": "8 mg/kg IV (max 800 mg) single dose for CAR-T CRS and severe COVID-19; may repeat in 8 hours if insufficient response; CRP drops dramatically within hours (useful to monitor response -- but CRP will NOT rise even if new infection develops because IL-6 signaling is blocked, so CRP loses its utility as an infection marker while on tocilizumab); also used for rheumatoid arthritis and giant cell arteritis"
+        }
+      ],
+      "pearls": [
+        "TNF-alpha is the FIRST pro-inflammatory cytokine released in the innate immune response, followed by IL-1 and IL-6 -- this cascade activates endothelium, recruits neutrophils, and triggers the acute phase response",
+        "Ferritin >10,000 ng/mL is highly suggestive of HLH/MAS -- this is a medical emergency with 90% mortality if untreated; the combination of very high ferritin + pancytopenia + hepatosplenomegaly + coagulopathy should trigger urgent evaluation",
+        "Tocilizumab blocks IL-6 signaling, causing CRP to drop rapidly -- but this means CRP can NO LONGER be used as an infection marker while on tocilizumab (IL-6 drives CRP production in the liver)",
+        "The 'cytokine storm' in severe COVID-19 responds to dexamethasone (RECOVERY trial: 6 mg/day × 10 days reduced mortality in patients on O2 or ventilator) and tocilizumab (added benefit in patients requiring O2)",
+        "Superantigens (toxic shock syndrome toxin, streptococcal pyrogenic exotoxins) bypass normal antigen processing and activate up to 20% of ALL T cells simultaneously (vs 0.01% in normal immune response), causing massive cytokine release",
+        "Anti-inflammatory cytokines (IL-10, TGF-beta) normally counterregulate the inflammatory response; immunoparalysis (excessive anti-inflammatory response) can follow the initial cytokine storm, leaving patients vulnerable to secondary infections"
+      ],
+      "quiz": [
+        {
+          "question": "A patient receiving CAR-T cell therapy develops fever of 40°C, hypotension requiring vasopressors, and hypoxia requiring supplemental oxygen. What is the most likely diagnosis and first-line treatment?",
+          "options": [
+            "Sepsis -- start broad-spectrum antibiotics only",
+            "Cytokine release syndrome (CRS) -- administer tocilizumab",
+            "Tumor lysis syndrome -- start rasburicase",
+            "Anaphylaxis -- administer epinephrine"
+          ],
+          "correct": 1,
+          "rationale": "This is Grade 3 cytokine release syndrome (CRS) from CAR-T therapy: fever + hypotension requiring vasopressors + hypoxia. First-line treatment is tocilizumab (IL-6 receptor antagonist), which blocks the IL-6-mediated inflammatory cascade driving CRS. Broad-spectrum antibiotics should also be given empirically until infection is excluded, but tocilizumab is the specific CRS intervention."
+        },
+        {
+          "question": "A patient has persistent high fevers, ferritin of 15,000 ng/mL, pancytopenia, and hepatosplenomegaly. What diagnosis should be urgently evaluated?",
+          "options": [
+            "Iron overload (hemochromatosis)",
+            "Hemophagocytic lymphohistiocytosis (HLH)",
+            "Simple viral infection",
+            "Liver cirrhosis"
+          ],
+          "correct": 1,
+          "rationale": "The combination of very high ferritin (>10,000), persistent fever, pancytopenia, and hepatosplenomegaly is classic for HLH/MAS. HLH is driven by pathological immune activation with excessive cytokine production and tissue macrophage activation (hemophagocytosis). Without treatment (corticosteroids, etoposide, treat trigger), mortality approaches 90%."
+        },
+        {
+          "question": "After administering tocilizumab for cytokine storm, CRP drops from 250 to 5 mg/L within 24 hours. Three days later, the patient develops new fever. Can CRP be relied upon to detect a secondary infection?",
+          "options": [
+            "Yes -- CRP is always reliable",
+            "No -- tocilizumab blocks IL-6 signaling which drives CRP production; CRP will remain low even in the presence of new infection while on tocilizumab",
+            "CRP rises only in viral infections",
+            "CRP is not affected by tocilizumab"
+          ],
+          "correct": 1,
+          "rationale": "Tocilizumab blocks the IL-6 receptor, and IL-6 is the primary driver of hepatic CRP synthesis. With IL-6 signaling blocked, CRP will NOT rise even if a new bacterial infection develops. This is a critical clinical consideration: alternative markers of infection (procalcitonin, clinical assessment, cultures) must be used while the patient is on tocilizumab."
+        }
+      ]
     },
-    medications: [{
-      name: "Tocilizumab (Actemra)",
-      type: "Anti-IL-6 receptor monoclonal antibody (humanized IgG1)",
-      action: "Binds to both soluble and membrane-bound interleukin-6 receptors (IL-6R/gp80), blocking IL-6 from binding and preventing IL-6-mediated signal transduction through the JAK-STAT3 pathway; this interrupts the central amplification loop of the cytokine cascade because IL-6 drives hepatic acute-phase protein production (CRP, ferritin, fibrinogen, hepcidin), endothelial activation, vascular permeability, fever, and T-cell differentiation; by blocking IL-6 signaling, tocilizumab rapidly reduces fever, improves hemodynamics, and decreases capillary leak within hours of administration",
-      sideEffects: "Increased infection risk (IL-6 blockade impairs neutrophil recruitment and acute-phase response -- infections may present atypically without fever or elevated CRP), hepatotoxicity (elevated transaminases, monitor LFTs), GI perforation (rare but serious, especially in patients with diverticulitis), infusion reactions (anaphylaxis, urticaria), neutropenia, thrombocytopenia, hyperlipidemia with chronic use",
-      contra: "Active untreated infection (bacterial, viral, fungal, or mycobacterial including TB -- screen for latent TB before chronic use); severe hepatic impairment (ALT/AST >5x ULN); absolute neutrophil count <500; platelet count <50,000; known hypersensitivity",
-      pearl: "FDA-approved for CAR-T-associated CRS: 8 mg/kg IV (max 800 mg) over 60 minutes; may repeat once after 8 hours if inadequate response; CRITICAL caveat: tocilizumab SUPPRESSES CRP production (CRP will drop to near-zero within hours even if the underlying inflammation persists) -- therefore, after tocilizumab administration, CRP can NO LONGER be used as a marker of clinical response; use clinical assessment, ferritin, lactate, and hemodynamic status instead; also used off-label for COVID-19 hyperinflammation (REMAP-CAP trial showed mortality benefit when combined with corticosteroids)"
-    }],
-    pearls: ["The cytokine cascade follows a predictable sequence: tissue damage or pathogen recognition → macrophage activation → TNF-alpha release (THE INITIATOR, peaks in minutes) → IL-1 release (AMPLIFIER, peaks in hours) → IL-6 release (SUSTAINER, peaks in 6-8 hours, drives CRP and ferritin) → counter-regulatory IL-10 release (BRAKE) -- understanding this sequence explains why early intervention is more effective","SIRS criteria (≥2 of: temp >38°C or <36°C, HR >90, RR >20 or PaCO2 <32, WBC >12K or <4K or >10% bands) are SENSITIVE but NOT SPECIFIC for pathological cytokine cascade -- many non-dangerous conditions trigger SIRS; clinical context and serial assessment determine the significance","Ferritin >10,000 ng/mL should trigger evaluation for HLH/MAS: check the 8 HLH-2004 diagnostic criteria (fever, splenomegaly, cytopenias, hypertriglyceridemia/hypofibrinogenemia, hemophagocytosis on biopsy, low NK cell activity, elevated sIL-2R, elevated ferritin ≥500); 5 of 8 criteria required for diagnosis","After tocilizumab administration, CRP drops to near-zero within hours regardless of ongoing inflammation -- this is because CRP production is directly IL-6-dependent; do NOT use CRP to assess treatment response post-tocilizumab; use clinical assessment, ferritin, lactate, and organ function instead","The RECOVERY trial established dexamethasone 6 mg daily x 10 days as standard of care for COVID-19 patients requiring supplemental oxygen -- it reduced mortality by 17% in patients on oxygen and by 35% in mechanically ventilated patients; however, it INCREASED mortality in patients NOT requiring oxygen, likely by impairing viral clearance","Cytokine-mediated DIC is a CONSUMPTIVE process: simultaneous microvascular thrombosis AND bleeding coagulopathy occur because cytokines activate tissue factor on endothelium, triggering widespread clot formation that consumes platelets and clotting factors; treatment targets the underlying cause while replacing consumed factors"],
-    quiz: [
-      {
-        question: "A patient develops fever to 39.5°C, tachycardia to 120 bpm, and hypotension (BP 80/50) six days after receiving CAR-T cell therapy. IL-6 is markedly elevated. What is the first-line pharmacological intervention?",
-        options: ["Broad-spectrum antibiotics only","High-dose methylprednisolone 1g IV","Tocilizumab 8 mg/kg IV over 60 minutes to block IL-6-mediated cytokine release syndrome","Epinephrine 0.3 mg IM for anaphylaxis"],
-        correct: 2,
-        rationale: "This presentation is consistent with grade 3 cytokine release syndrome (CRS) following CAR-T therapy -- fever with hypotension requiring intervention. Tocilizumab (anti-IL-6R antibody) is the FDA-approved first-line treatment for CAR-T-associated CRS. It rapidly blocks IL-6 signaling, reducing fever and improving hemodynamics. Corticosteroids are second-line if tocilizumab fails, as steroids may impair CAR-T cell function and efficacy."
-      },
-      {
-        question: "After administering tocilizumab for CRS, the CRP drops from 25 mg/dL to 0.3 mg/dL within 12 hours, but the patient remains febrile and hypotensive. How should the NP interpret the CRP result?",
-        options: ["The dramatic CRP drop confirms the cytokine cascade has resolved; continue supportive care only","CRP is unreliable after tocilizumab because tocilizumab blocks IL-6-driven CRP production; assess clinical status, ferritin, and lactate instead","The low CRP indicates a new non-inflammatory process is causing the symptoms","Repeat the CRP in 24 hours for confirmation before changing management"],
-        correct: 1,
-        rationale: "Tocilizumab blocks IL-6 receptors, and CRP production by hepatocytes is entirely IL-6-dependent. After tocilizumab, CRP will drop to near-zero regardless of whether the underlying inflammatory process has resolved. Clinical assessment (fever, hemodynamics, organ function), ferritin, lactate, and other non-IL-6-dependent markers must be used instead to gauge treatment response."
-      },
-      {
-        question: "A patient with EBV infection develops persistent high fevers, pancytopenia, splenomegaly, and a ferritin level of 45,000 ng/mL. What diagnosis should the NP suspect?",
-        options: ["Severe EBV mononucleosis requiring supportive care only","Hemophagocytic lymphohistiocytosis (HLH) triggered by EBV infection","EBV-associated lymphoma","Iron overload from hemochromatosis"],
-        correct: 1,
-        rationale: "The combination of persistent fever, pancytopenia, splenomegaly, and extremely elevated ferritin (>10,000 ng/mL) in the setting of EBV infection is classic for secondary hemophagocytic lymphohistiocytosis (HLH). EBV is the most common infectious trigger of HLH. This condition represents uncontrolled macrophage and cytotoxic T-cell activation with massive cytokine release. Without treatment (etoposide-based HLH-2004 protocol), mortality exceeds 90%."
-      },
-    ]
-  },
   "cytokine-signaling-np": {
-    title: "Cytokine Signaling",
-    cellular: { title: "Pathophysiology of Cytokine Signaling", content: "the clinician applies advanced clinical reasoning to the assessment and management of Cytokine Signaling, integrating comprehensive pathophysiological knowledge with evidence-based diagnostic and therapeutic decision-making at the independent practitioner level. Assessment includes focused history using structured frameworks (OLDCARTS for symptom analysis, comprehensive review of systems), targeted physical examination with provocative maneuvers as indicated, and interpretation of relevant diagnostic studies (laboratory investigations, imaging, and specialized testing). The clinician formulates a differential diagnosis using systematic clinical reasoning, applies validated clinical prediction rules and scoring systems to guide investigation and management, and selects evidence-based pharmacotherapy based on mechanism of action, pharmacokinetic/pharmacodynamic principles, patient-specific factors (age, renal and hepatic function, comorbidities, drug interactions, pregnancy status, allergies), and current clinical practice guidelines. Management integrates pharmacological and non-pharmacological interventions, patient education with health literacy assessment, shared decision-making, and appropriate follow-up monitoring. The clinician identifies red flags requiring urgent investigation or intervention, determines criteria for specialist referral or emergency department transfer, coordinates interprofessional collaborative care, and implements quality improvement strategies to optimize patient outcomes." },
-    riskFactors: ["Autoimmune and chronic inflammatory diseases requiring cytokine-targeted therapy: rheumatoid arthritis (TNF-alpha and IL-6 driven synovitis), psoriasis/psoriatic arthritis (IL-17/IL-23 axis), inflammatory bowel disease (TNF-alpha mediated), SLE (type I interferon pathway), atopic dermatitis (IL-4/IL-13 driven)","Myeloproliferative neoplasms with dysregulated JAK-STAT signaling: myelofibrosis (JAK2 V617F mutation in ~60%), polycythemia vera (JAK2 V617F in >95%), essential thrombocythemia -- constitutive JAK2 activation drives abnormal hematopoiesis","Immunodeficiency from cytokine signaling defects: STAT3 loss-of-function (hyper-IgE/Job syndrome -- recurrent staphylococcal abscesses, high IgE, eczema), STAT1 gain-of-function (chronic mucocutaneous candidiasis), IL-12/IFN-gamma axis defects (susceptibility to mycobacterial infections)","Patients on JAK inhibitor therapy: increased risk of serious infections (herpes zoster reactivation 2-4x baseline, opportunistic infections), venous thromboembolism (FDA Black Box warning for tofacitinib), malignancy (lymphoma risk), and cardiovascular events","Graft-versus-host disease (GVHD) after allogeneic stem cell transplant: donor T-cell cytokine signaling (IFN-gamma, TNF-alpha, IL-2) drives tissue damage in skin, liver, and GI tract; ruxolitinib (JAK1/2 inhibitor) is FDA-approved for steroid-refractory acute and chronic GVHD","Patients receiving biologic therapies targeting cytokine pathways: risk of reactivation of latent infections (TB with TNF inhibitors, hepatitis B with anti-CD20), hypersensitivity/injection site reactions, paradoxical autoimmune phenomena","Cytokine receptor mutations causing constitutive pathway activation: gain-of-function JAK mutations in hematologic malignancies, activating STAT mutations in T-cell lymphomas, dysregulated type I interferon signaling in interferonopathies (Aicardi-Goutieres syndrome)"],
-    diagnostics: ["JAK2 V617F mutation testing (peripheral blood PCR): positive in >95% of polycythemia vera, ~60% of myelofibrosis and essential thrombocythemia; identifies patients who may benefit from JAK inhibitor therapy (ruxolitinib); quantitative allele burden correlates with disease severity","Serum cytokine panels (IL-6, TNF-alpha, IFN-gamma, IL-1beta, IL-10, IL-17): used in research and increasingly in clinical practice to characterize the inflammatory phenotype and guide targeted therapy selection; IL-6 >1000 pg/mL in CRS guides tocilizumab use","Serum immunoglobulin levels and immunoglobulin subclasses: assess for secondary immunodeficiency from cytokine pathway disruption; patients on JAK inhibitors and anti-cytokine biologics may develop hypogammaglobulinemia increasing infection risk","Flow cytometry for lymphocyte subsets (CD4, CD8, NK cells, B cells): evaluates immune cell populations affected by cytokine signaling disruption; helps monitor immunosuppressive effects of JAK inhibitors and biologics","Interferon-gamma release assay (IGRA/QuantiFERON) or tuberculin skin test: MANDATORY screening before initiating TNF inhibitors, JAK inhibitors, or other immunosuppressive biologics -- TNF blockade reactivates latent TB with disseminated/extrapulmonary disease","Bone marrow biopsy with reticulin/collagen staining: essential for myelofibrosis diagnosis and grading; JAK2-mutated myeloproliferative neoplasms show characteristic megakaryocyte clustering and fibrosis; guides treatment decisions including JAK inhibitor initiation","Hepatitis B serology (HBsAg, anti-HBc, anti-HBs) and hepatitis C antibody: required before biologics and JAK inhibitors; anti-TNF therapy and rituximab can reactivate HBV causing fulminant hepatitis -- prophylactic antivirals (entecavir) required if HBsAg+ or anti-HBc+"],
-    management: ["JAK inhibitors for myeloproliferative neoplasms: ruxolitinib (Jakafi) -- JAK1/JAK2 inhibitor; FDA-approved for myelofibrosis (reduces splenomegaly by >35% in ~40% of patients, improves constitutional symptoms) and polycythemia vera (hydroxyurea-resistant/intolerant); dose 15-20 mg BID adjusted for platelet count","JAK inhibitors for autoimmune diseases: tofacitinib (Xeljanz) -- JAK1/JAK3 inhibitor; FDA-approved for RA, psoriatic arthritis, UC, and polyarticular juvenile idiopathic arthritis; baricitinib (Olumiant) -- JAK1/JAK2 inhibitor; approved for RA and COVID-19 (with remdesivir); upadacitinib (Rinvoq) -- JAK1 selective; approved for RA, PsA, UC, Crohn, atopic dermatitis","Anti-TNF-alpha biologics (the FIRST class of cytokine-targeted therapies): infliximab (chimeric mAb), adalimumab (fully human mAb), etanercept (soluble TNF receptor fusion protein), golimumab, certolizumab pegol; revolutionized treatment of RA, Crohn disease, UC, psoriasis, ankylosing spondylitis","Anti-IL-6 pathway: tocilizumab (anti-IL-6R) for RA, giant cell arteritis, CRS; sarilumab (anti-IL-6R) for RA; siltuximab (anti-IL-6) for Castleman disease -- IL-6 blockade suppresses CRP production, so CRP cannot be used to monitor infection in these patients","Anti-IL-17/IL-23 axis for psoriasis and spondyloarthropathy: secukinumab, ixekizumab (anti-IL-17A); brodalumab (anti-IL-17RA); guselkumab, risankizumab, tildrakizumab (anti-IL-23 p19 subunit); highly effective for plaque psoriasis with sustained clearance","Anti-IL-4/IL-13 for type 2 inflammatory diseases: dupilumab (Dupixent) -- anti-IL-4Ralpha (blocks both IL-4 and IL-13 signaling); FDA-approved for moderate-severe atopic dermatitis, asthma with eosinophilic phenotype, chronic rhinosinusitis with nasal polyps, eosinophilic esophagitis","Interferon therapy: pegylated IFN-alpha for hepatitis B, polycythemia vera (alternative to hydroxyurea in young patients); IFN-beta for multiple sclerosis (reduces relapse rate by ~30%); IFN-gamma for chronic granulomatous disease (enhances macrophage oxidative burst)"],
-    nursingActions: ["Screen ALL patients for latent TB (IGRA or TST) and hepatitis B/C serology BEFORE initiating any biologic or JAK inhibitor therapy: TNF inhibitors reactivate latent TB with disseminated/extrapulmonary patterns; HBV reactivation can cause fulminant hepatitis; document screening results and ensure prophylactic treatment is initiated if positive","Monitor CBC with differential every 4-8 weeks during JAK inhibitor therapy: JAK inhibitors suppress hematopoiesis (JAK2 mediates erythropoietin and thrombopoietin signaling); monitor for anemia (hemoglobin drop), neutropenia (ANC <1000 -- hold drug), thrombocytopenia, and lymphopenia; dose adjust per package insert","Educate patients on JAK inhibitor Black Box warnings (FDA): increased risk of serious infections (especially herpes zoster -- consider Shingrix vaccination before starting), venous thromboembolism (DVT/PE), malignancy (lymphoma), and major adverse cardiovascular events (MACE); these risks led to FDA label changes requiring JAK inhibitors to be used only after TNF inhibitor failure in RA","Administer biologic injections and monitor for reactions: subcutaneous biologics (adalimumab, etanercept, secukinumab, dupilumab) -- teach self-injection technique, rotation of sites, cold chain storage; IV biologics (infliximab, tocilizumab) -- monitor during infusion for anaphylaxis, have epinephrine available","Monitor for herpes zoster reactivation in patients on JAK inhibitors: risk is 2-4x higher than background rate; patients should receive recombinant zoster vaccine (Shingrix -- 2 doses) ideally 2-4 weeks BEFORE starting JAK inhibitor; live vaccines (Zostavax) are CONTRAINDICATED during JAK inhibitor therapy","Assess lipid profile at baseline and 4-8 weeks after JAK inhibitor initiation: JAK inhibitors (especially tofacitinib and baricitinib) increase LDL and total cholesterol by 10-20%; may require statin therapy; this lipid change is a class effect related to JAK-mediated hepatic lipid metabolism"],
-    assessmentFindings: ["Signs of disease activity in conditions treated with cytokine-targeted therapies: RA (joint swelling, morning stiffness >30 minutes, elevated ESR/CRP), psoriasis (erythematous plaques with silvery scale -- assess PASI score), Crohn disease (abdominal pain, diarrhea, fistulae), atopic dermatitis (pruritus, eczematous lesions, elevated IgE)","Constitutional symptoms of myeloproliferative neoplasms indicating cytokine-driven disease: night sweats, unexplained weight loss, fatigue, early satiety from splenomegaly, bone pain, pruritus (especially aquagenic pruritus in PV); symptom burden assessed with MPN-SAF Total Symptom Score","Injection site reactions from subcutaneous biologics: erythema, swelling, pain, pruritus at injection site; usually mild and self-limiting; occur in 10-20% of patients; differentiate from true hypersensitivity","Infection signs that may be ATTENUATED by cytokine blockade: fever may be absent (IL-6 blockade suppresses febrile response), CRP may be normal (IL-6 blockade suppresses CRP production), WBC may be suppressed (JAK inhibitors) -- maintain high clinical suspicion for infection even without classic inflammatory markers","Herpes zoster reactivation (dermatomal vesicular rash): particularly common with JAK inhibitors; may be multidermatomal or disseminated in immunosuppressed patients; requires prompt antiviral therapy (valacyclovir or IV acyclovir for disseminated)","Paradoxical inflammatory reactions on anti-TNF therapy: new-onset psoriasis in a patient being treated for Crohn disease (TNF blockade can paradoxically trigger psoriasiform skin lesions); new demyelinating disease; drug-induced lupus","Cytopenias from JAK inhibitor therapy: fatigue and pallor (anemia from EPO signaling suppression), recurrent infections (neutropenia), easy bruising or bleeding (thrombocytopenia from TPO signaling suppression)"],
-    signs: {
-      left: ["Rheumatoid arthritis patient achieving clinical remission on tocilizumab (anti-IL-6R) with normalized CRP and no active joint inflammation","Myelofibrosis patient with symptomatic improvement (reduced splenomegaly, decreased night sweats, weight gain) on ruxolitinib","Psoriasis patient achieving PASI-90 response (>90% skin clearance) on secukinumab (anti-IL-17A)"],
-      right: ["Disseminated tuberculosis reactivation in a patient on infliximab (anti-TNF) who was not screened for latent TB before initiation -- miliary pattern on CXR, multisystem involvement","Fulminant hepatitis B reactivation in a patient on rituximab who was not given antiviral prophylaxis despite positive anti-HBc serology","Progressive multifocal leukoencephalopathy (PML) from JC virus reactivation in a severely immunosuppressed patient on multiple biologics","Venous thromboembolism (PE) in a patient on tofacitinib -- FDA Black Box warning based on ORAL Surveillance trial showing increased VTE and MACE risk vs TNF inhibitors","Cytokine withdrawal flare: rapid disease exacerbation after abrupt discontinuation of JAK inhibitor in myelofibrosis (ruxolitinib withdrawal syndrome -- hemodynamic instability, shock-like picture from rebound cytokine surge)"]
+      "title": "Cytokine Signaling Pathways",
+      "cellular": {
+        "title": "Intracellular Cytokine Signal Transduction",
+        "content": "Cytokine signaling involves binding of extracellular cytokines to specific membrane receptors, triggering intracellular signal transduction cascades that alter gene expression. The JAK-STAT pathway is the primary signaling mechanism for Type I and II cytokine receptors: cytokine binding activates receptor-associated Janus kinases (JAK1, JAK2, JAK3, TYK2), which phosphorylate STAT proteins; phosphorylated STATs dimerize, translocate to the nucleus, and activate target gene transcription (immune cell differentiation, proliferation, survival). The NF-κB pathway mediates TNF-alpha, IL-1, and TLR signaling: activating IKK which phosphorylates IκB, releasing NF-κB to translocate to the nucleus and activate pro-inflammatory gene transcription. These pathways are now therapeutic targets: JAK inhibitors (tofacitinib, baricitinib, ruxolitinib) and anti-TNF biologics (infliximab, adalimumab) specifically target these cascades."
+      },
+      "riskFactors": [
+        "Dysregulated cytokine signaling: autoimmune diseases (RA, IBD, psoriasis, lupus), myeloproliferative neoplasms (JAK2 V617F mutation in polycythemia vera)",
+        "Immunodeficiency from signaling pathway defects: STAT3 loss-of-function (hyper-IgE syndrome), JAK3 deficiency (SCID)",
+        "Gain-of-function mutations: JAK2 V617F (polycythemia vera, essential thrombocythemia, primary myelofibrosis); STAT3 gain-of-function (autoimmunity)",
+        "Iatrogenic immunosuppression from pathway-targeted therapy: JAK inhibitors, anti-TNF agents, IL-6 blockers (increased infection risk, reactivation of latent TB, hepatitis B)"
+      ],
+      "diagnostics": [
+        "JAK2 V617F mutation testing: diagnostic for myeloproliferative neoplasms (present in 95% of polycythemia vera, 50-60% of ET and PMF)",
+        "CALR and MPL mutation testing: for JAK2-negative myeloproliferative neoplasms",
+        "STAT protein phosphorylation assays (research/specialized labs): assess pathway activation in lymphoproliferative disorders",
+        "Inflammatory markers: CRP (driven by IL-6-JAK-STAT3 signaling), ferritin, ESR",
+        "Immunophenotyping: T-cell, B-cell, NK-cell subsets to assess immune function in patients on pathway-targeted therapy",
+        "TB screening (QuantiFERON-Gold or PPD) before starting JAK inhibitors or anti-TNF therapy",
+        "Hepatitis B and C screening before immunomodulatory therapy"
+      ],
+      "management": [
+        "JAK inhibitors: tofacitinib (JAK1/3 -- RA, UC, psoriatic arthritis), baricitinib (JAK1/2 -- RA, severe COVID-19, atopic dermatitis), ruxolitinib (JAK1/2 -- myelofibrosis, polycythemia vera, GVHD)",
+        "Anti-TNF biologics: infliximab, adalimumab, etanercept, certolizumab, golimumab -- for RA, IBD, psoriasis, ankylosing spondylitis",
+        "IL-1 inhibitors: anakinra (IL-1 receptor antagonist), canakinumab (anti-IL-1β antibody) -- for autoinflammatory diseases, gout, Still disease",
+        "IL-6 inhibitors: tocilizumab, sarilumab -- for RA, giant cell arteritis, CRS",
+        "IL-17/IL-23 inhibitors: secukinumab, ixekizumab (anti-IL-17), guselkumab, risankizumab (anti-IL-23) -- for psoriasis, psoriatic arthritis, ankylosing spondylitis",
+        "NF-κB pathway modulation: corticosteroids (inhibit NF-κB nuclear translocation); bortezomib (proteasome inhibitor that prevents IκB degradation -- used in myeloma)"
+      ],
+      "nursingActions": [
+        "Screen for latent TB and hepatitis B BEFORE starting any biologic or JAK inhibitor therapy (reactivation risk)",
+        "Verify immunization status before initiating immunomodulatory therapy: update all age-appropriate vaccines; administer live vaccines ≥4 weeks BEFORE starting therapy (contraindicated during treatment)",
+        "Monitor for infection during therapy: patients on JAK inhibitors and biologics are immunosuppressed; educate about infection signs and when to seek care",
+        "For JAK inhibitors: monitor CBC (cytopenias), LFTs (hepatotoxicity), lipid panel (JAK inhibitors increase cholesterol), and renal function",
+        "FDA boxed warnings for JAK inhibitors (tofacitinib): increased risk of serious infections, malignancy (especially lymphoma), thrombotic events (PE, DVT), and MACE in patients >50 with cardiovascular risk factors",
+        "Monitor for anti-TNF therapy complications: injection site reactions, infusion reactions, demyelinating disease, heart failure exacerbation, drug-induced lupus",
+        "Educate patients that biologic and JAK inhibitor therapies increase infection risk and to report fever, cough, wound infections, and URI symptoms promptly"
+      ],
+      "assessmentFindings": [
+        "Autoimmune disease improvement on pathway-targeted therapy: decreased joint swelling/pain (RA), mucosal healing (IBD), skin clearance (psoriasis)",
+        "Adverse effects: new or recurrent infections (upper respiratory, UTI, herpes zoster reactivation -- especially common with JAK inhibitors), injection site reactions, infusion reactions",
+        "Myeloproliferative neoplasm findings (JAK2 mutation): polycythemia (elevated Hgb/Hct), splenomegaly, constitutional symptoms, pruritus (especially aquagenic)",
+        "Drug-induced lupus (anti-TNF therapy): arthralgias, rash, positive ANA and anti-histone antibodies, no renal or CNS involvement"
+      ],
+      "signs": {
+        "left": [
+          "Autoimmune disease well-controlled on targeted therapy with no adverse effects",
+          "Myeloproliferative neoplasm managed with ruxolitinib with improved symptoms and splenomegaly reduction",
+          "Stable immunosuppression with regular monitoring and no infections"
+        ],
+        "right": [
+          "Opportunistic infection on biologic/JAK inhibitor therapy: reactivation TB, disseminated herpes zoster, PJP",
+          "Venous thromboembolism on JAK inhibitor (PE, DVT -- FDA boxed warning)",
+          "Myelofibrosis progression on ruxolitinib: worsening cytopenias, increasing splenomegaly",
+          "Demyelinating disease (MS-like syndrome) triggered by anti-TNF therapy",
+          "New lymphoma diagnosis in patient on long-term JAK inhibitor (FDA boxed warning)"
+        ]
+      },
+      "medications": [
+        {
+          "name": "Tofacitinib (Xeljanz)",
+          "type": "JAK1/JAK3 inhibitor (small molecule kinase inhibitor)",
+          "action": "Inhibits JAK1 and JAK3, blocking signaling downstream of multiple cytokine receptors (IL-2, IL-4, IL-6, IL-7, IL-15, IL-21, IFN-gamma); reduces T-cell activation, B-cell function, and NK-cell activity; oral alternative to biologic DMARDs for autoimmune diseases",
+          "sideEffects": "Serious infections (TB reactivation, opportunistic infections), herpes zoster (significantly increased risk), malignancy (lymphoma -- FDA boxed warning), thrombotic events (PE, DVT -- FDA boxed warning), MACE in cardiovascular high-risk patients >50, cytopenias, hepatotoxicity, hyperlipidemia, GI perforations",
+          "contra": "Active serious infection, severe hepatic impairment, lymphocyte count <500, ANC <1000, Hgb <9, concurrent strong immunosuppressants",
+          "pearl": "5 mg BID for RA and psoriatic arthritis; 10 mg BID for UC induction (then 5 mg BID maintenance); FDA boxed warnings (2021 ORAL Surveillance trial): increased cardiovascular events, thrombosis, malignancy, and death compared to TNF inhibitors in patients >50 with CV risk factors -- FDA recommends trying TNF inhibitor first before JAK inhibitors in many patients; screen for TB and hepatitis B before starting; herpes zoster vaccination (Shingrix) recommended before initiation"
+        }
+      ],
+      "pearls": [
+        "JAK-STAT is the primary signaling pathway for most cytokine receptors -- blocking JAK blocks signals from MULTIPLE cytokines simultaneously (broader immunosuppression than targeting a single cytokine)",
+        "JAK2 V617F mutation is present in 95% of polycythemia vera and ~50% of essential thrombocythemia and primary myelofibrosis -- it's a key diagnostic and therapeutic target (ruxolitinib)",
+        "JAK inhibitors have FDA BOXED WARNINGS for serious infections, malignancy (lymphoma), thrombotic events (PE/DVT), and MACE -- these were highlighted by the ORAL Surveillance trial (tofacitinib vs TNF inhibitors in RA patients >50 with CV risk factors)",
+        "Anti-TNF agents increase TB reactivation risk -- screen with QuantiFERON-Gold BEFORE starting; if latent TB positive, treat with INH for 9 months before initiating anti-TNF",
+        "Corticosteroids work partly by inhibiting NF-κB nuclear translocation -- this is why they are such broadly effective anti-inflammatory agents (NF-κB drives transcription of TNF, IL-1, IL-6, adhesion molecules, etc.)",
+        "Herpes zoster risk is SIGNIFICANTLY increased with JAK inhibitors (especially tofacitinib) -- recommend Shingrix vaccination BEFORE starting therapy"
+      ],
+      "quiz": [
+        {
+          "question": "Before starting tofacitinib for rheumatoid arthritis, which screening tests are ESSENTIAL?",
+          "options": [
+            "Echocardiogram and stress test",
+            "TB screening (QuantiFERON-Gold), hepatitis B/C serologies, CBC, LFTs, lipid panel, and age-appropriate cancer screening",
+            "Genetic testing for JAK mutations",
+            "Bone density scan"
+          ],
+          "correct": 1,
+          "rationale": "JAK inhibitors are immunosuppressive and carry FDA boxed warnings for serious infections, malignancy, and thrombotic events. Pre-treatment screening must include TB testing (reactivation risk), hepatitis B/C (reactivation risk), baseline CBC (monitor for cytopenias), LFTs (hepatotoxicity), lipid panel (JAK inhibitors increase cholesterol), and age-appropriate cancer screening."
+        },
+        {
+          "question": "The JAK2 V617F mutation is present in 95% of which myeloproliferative neoplasm?",
+          "options": [
+            "Chronic myeloid leukemia",
+            "Polycythemia vera",
+            "Acute myeloid leukemia",
+            "Hodgkin lymphoma"
+          ],
+          "correct": 1,
+          "rationale": "The JAK2 V617F mutation is a gain-of-function mutation present in ~95% of polycythemia vera cases and ~50% of essential thrombocythemia and primary myelofibrosis. It causes constitutive activation of JAK2 signaling, driving erythropoietin-independent red blood cell production. CML is associated with the BCR-ABL fusion gene (Philadelphia chromosome), not JAK2."
+        },
+        {
+          "question": "How do corticosteroids exert their broad anti-inflammatory effects at the molecular level?",
+          "options": [
+            "They directly kill immune cells",
+            "They inhibit NF-κB nuclear translocation, blocking transcription of multiple pro-inflammatory genes including TNF-alpha, IL-1, IL-6, and adhesion molecules",
+            "They block all JAK-STAT signaling",
+            "They neutralize circulating cytokines"
+          ],
+          "correct": 1,
+          "rationale": "Corticosteroids bind intracellular glucocorticoid receptors that translocate to the nucleus and: 1) directly inhibit NF-κB-dependent gene transcription (transrepression), and 2) activate anti-inflammatory gene transcription (transactivation). By inhibiting NF-κB, corticosteroids block the transcription of TNF-alpha, IL-1, IL-6, COX-2, adhesion molecules, and many other pro-inflammatory mediators, explaining their broad anti-inflammatory potency."
+        }
+      ]
     },
-    medications: [{
-      name: "Tofacitinib (Xeljanz)",
-      type: "JAK1/JAK3 inhibitor (oral small-molecule targeted synthetic DMARD)",
-      action: "Selectively inhibits Janus kinase 1 (JAK1) and JAK3 with functional selectivity over JAK2; JAK1/JAK3 heterodimerize in the signaling of multiple cytokine receptors that use the common gamma chain (IL-2, IL-4, IL-7, IL-9, IL-15, IL-21); by blocking JAK phosphorylation, tofacitinib prevents downstream STAT activation (particularly STAT1, STAT3, STAT5), blocking nuclear translocation and transcription of pro-inflammatory genes; this suppresses T-cell activation and differentiation, reduces pro-inflammatory cytokine production, and modulates innate immune responses; the net effect is broad immunosuppression across multiple cytokine pathways simultaneously, unlike biologics that target a single cytokine",
-      sideEffects: "Serious infections (pneumonia, cellulitis, herpes zoster reactivation -- 2-4x increased risk, UTI, opportunistic infections), venous thromboembolism (DVT/PE -- FDA Black Box), malignancy (lymphoma, NMSC -- FDA Black Box), major adverse cardiovascular events (MACE -- FDA Black Box), hyperlipidemia (LDL/total cholesterol increase 10-20%), anemia, neutropenia, lymphopenia, elevated liver enzymes, GI perforation (rare)",
-      contra: "Active serious infection; ANC <1000, ALC <500, hemoglobin <9 g/dL; severe hepatic impairment; concurrent use with other potent immunosuppressants or biologic DMARDs; concurrent use with strong CYP3A4 inhibitors requires dose reduction (tofacitinib is CYP3A4 substrate); live vaccines are contraindicated during therapy",
-      pearl: "FDA Black Box warnings (post-ORAL Surveillance trial vs TNF inhibitors in RA patients ≥50 years with ≥1 CV risk factor): increased risk of serious infections, mortality, malignancy, MACE, and thrombosis vs TNF inhibitors -- FDA now requires JAK inhibitors to be used ONLY after failure of a TNF inhibitor in RA; dose 5 mg PO BID for RA (10 mg BID for UC induction); reduce dose to 5 mg daily with strong CYP3A4 inhibitors or moderate CYP3A4 inhibitor + strong CYP2C19 inhibitor; screen for latent TB, hepatitis B/C, and update vaccinations (including Shingrix) BEFORE initiation; check CBC, lipids, and LFTs at baseline and monitor regularly"
-    }],
-    pearls: ["The JAK-STAT pathway is the CENTRAL signaling mechanism for most cytokine receptors: cytokine binding causes receptor dimerization → JAK autophosphorylation → STAT recruitment and phosphorylation → STAT dimerization → nuclear translocation → gene transcription; there are 4 JAKs (JAK1, JAK2, JAK3, TYK2) and 7 STATs (STAT1-4, 5a, 5b, 6) -- different cytokine receptors use different JAK-STAT combinations, explaining why different JAK inhibitors have different clinical profiles","JAK2 is CRITICAL for erythropoietin (EPO), thrombopoietin (TPO), and G-CSF signaling -- this is why JAK2-selective inhibitors (ruxolitinib) cause dose-dependent anemia and thrombocytopenia as on-target side effects; dose must be adjusted for platelet count in myelofibrosis","The JAK2 V617F mutation is a gain-of-function point mutation (valine to phenylalanine at position 617) that causes constitutive JAK2 activation independent of cytokine binding; this single mutation drives the three classic BCR-ABL-negative myeloproliferative neoplasms: polycythemia vera (>95%), essential thrombocythemia (~60%), and myelofibrosis (~60%)","Anti-TNF therapy and latent TB: TNF-alpha is ESSENTIAL for granuloma formation and maintenance -- granulomas wall off Mycobacterium tuberculosis in latent infection; when TNF is blocked, granulomas disintegrate, releasing viable mycobacteria, causing reactivation TB that is often EXTRAPULMONARY and DISSEMINATED; this is why TB screening is MANDATORY before anti-TNF initiation","IL-6 blockade (tocilizumab, sarilumab) suppresses CRP production because CRP is an acute-phase protein whose transcription is directly IL-6-STAT3-dependent; after starting anti-IL-6 therapy, CRP drops to near-zero regardless of infection status -- infections may present WITHOUT fever (IL-6 drives the febrile response) and WITHOUT elevated CRP, making infection diagnosis challenging; educate patients and staff about this altered presentation","The ORAL Surveillance trial (tofacitinib vs TNF inhibitors in RA) led to FDA restricting ALL JAK inhibitors to second-line use after TNF inhibitor failure in RA -- the trial showed increased risk of MACE, VTE, malignancy, and all-cause mortality with tofacitinib vs adalimumab/etanercept in patients ≥50 years with ≥1 CV risk factor; whether this is a class effect of all JAK inhibitors or specific to tofacitinib remains debated"],
-    quiz: [
-      {
-        question: "A patient with myelofibrosis is being started on ruxolitinib. The NP should explain that which of the following is an expected on-target side effect of JAK2 inhibition?",
-        options: ["Hyperglycemia from pancreatic beta-cell suppression","Dose-dependent anemia and thrombocytopenia because JAK2 mediates erythropoietin and thrombopoietin signaling","Peripheral neuropathy from nerve demyelination","Hypertension from renal vasoconstriction"],
-        correct: 1,
-        rationale: "JAK2 is the signaling kinase for erythropoietin (EPO) and thrombopoietin (TPO) receptors. EPO drives red blood cell production; TPO drives platelet production. When ruxolitinib inhibits JAK2, it suppresses both erythropoiesis and thrombopoiesis, causing dose-dependent anemia and thrombocytopenia. These are on-target (expected) effects, not idiosyncratic toxicity, and require dose adjustment based on blood counts."
-      },
-      {
-        question: "Before initiating a TNF inhibitor (adalimumab) for Crohn disease, which screening test is MANDATORY and why?",
-        options: ["Serum ferritin to assess iron stores before immunosuppression","Interferon-gamma release assay (IGRA) or tuberculin skin test to screen for latent tuberculosis, because TNF blockade disrupts granuloma integrity and reactivates latent TB with often disseminated/extrapulmonary disease","Echocardiogram to assess cardiac function","Bone density scan to assess osteoporosis risk"],
-        correct: 1,
-        rationale: "TNF-alpha is essential for forming and maintaining granulomas that contain Mycobacterium tuberculosis in latent TB infection. When TNF is blocked by biologics, these granulomas break down, releasing viable mycobacteria and causing reactivation TB. Reactivation on anti-TNF therapy is often disseminated and extrapulmonary (peritoneal, lymph node, CNS), unlike typical reactivation TB. Screening with IGRA or TST and treating latent TB with isoniazid before starting anti-TNF therapy is mandatory."
-      },
-      {
-        question: "A patient on tocilizumab (anti-IL-6R) for rheumatoid arthritis develops a cough and low-grade fatigue. Their CRP is 0.2 mg/dL (normal). The NP should:",
-        options: ["Reassure the patient that the normal CRP excludes infection","Recognize that tocilizumab suppresses CRP production by blocking IL-6 signaling, so a normal CRP does NOT exclude infection; perform thorough clinical assessment and obtain additional diagnostics (CBC, procalcitonin, chest X-ray)","Discontinue tocilizumab immediately because cough indicates drug toxicity","Increase the tocilizumab dose to better control the RA"],
-        correct: 1,
-        rationale: "Tocilizumab blocks IL-6 receptors, and CRP production is entirely IL-6-STAT3-dependent. After IL-6 blockade, CRP is suppressed to near-zero regardless of whether infection is present. Similarly, IL-6 drives the febrile response, so fever may be blunted. A normal CRP in a patient on tocilizumab provides NO reassurance about absence of infection. The clinician must use other markers (procalcitonin, which is NOT IL-6-dependent, clinical assessment, imaging) to evaluate for infection."
-      },
-    ]
-  },
   "cytomegalovirus-rpn": {
         title: "Cytomegalovirus (CMV) Infection",
         cellular: { title: "Pathophysiology of Cytomegalovirus Infection", content: "Cytomegalovirus (CMV) is a double-stranded DNA virus belonging to the Herpesviridae family, specifically the Betaherpesvirinae subfamily. It is one of the most common viral infections worldwide, with seroprevalence rates ranging from 40 to 100 percent depending on geographic region, socioeconomic status, and age. CMV shares a critical biological property with all herpesviruses: after primary infection, the virus establishes lifelong latency within host cells, primarily monocytes, macrophages, and CD34+ hematopoietic progenitor cells in the bone marrow. The virus can reactivate at any time, particularly during periods of immunosuppression. During primary infection, CMV enters host cells through receptor-mediated endocytosis, utilizing glycoprotein complexes on its viral envelope to bind to cellular receptors including platelet-derived growth factor receptor alpha (PDGFR-alpha) and epidermal growth factor receptor (EGFR). Once inside the cell, the viral DNA is transported to the nucleus where it hijacks the host cell's transcriptional machinery to replicate. CMV has evolved sophisticated immune evasion strategies: it downregulates major histocompatibility complex (MHC) class I and class II molecules on infected cells, interferes with natural killer cell recognition, produces viral cytokines that modulate the host immune response, and encodes proteins that block apoptosis of infected cells. In immunocompetent individuals, primary CMV infection is usually asymptomatic or produces a mild mononucleosis-like syndrome with fever, fatigue, lymphadenopathy, and atypical lymphocytosis. However, in immunocompromised patients -- including organ transplant recipients, patients receiving chemotherapy, and individuals with HIV/AIDS with CD4 counts below 50 cells per microliter -- CMV can cause severe and life-threatening disease affecting virtually every organ system. CMV retinitis is the most common manifestation in AIDS patients, presenting with painless vision loss, floaters, and characteristic retinal hemorrhages and exudates described as a cottage cheese and ketchup appearance on fundoscopic examination. CMV pneumonitis occurs primarily in bone marrow and lung transplant recipients, presenting with progressive dyspnea, dry cough, and bilateral interstitial infiltrates on chest radiography, carrying mortality rates of 30 to 50 percent even with treatment. CMV colitis presents with watery or bloody diarrhea, abdominal pain, fever, and weight loss, with endoscopy revealing characteristic deep mucosal ulcerations. CMV encephalitis causes confusion, personality changes, and focal neurological deficits. Congenital CMV infection is the leading infectious cause of sensorineural hearing loss and intellectual disability worldwide, affecting approximately 0.5 to 2 percent of all live births. Transmission of congenital CMV occurs through transplacental passage of the virus during maternal primary infection (30 to 40 percent transmission rate) or reactivation (1 to 3 percent transmission rate). Approximately 10 to 15 percent of congenitally infected neonates are symptomatic at birth, presenting with petechiae, hepatosplenomegaly, jaundice, microcephaly, periventricular calcifications on cranial imaging, chorioretinitis, and thrombocytopenia. An additional 10 to 15 percent of initially asymptomatic infants will develop late-onset sequelae, primarily sensorineural hearing loss. TORCH screening (Toxoplasmosis, Other agents, Rubella, CMV, Herpes simplex) is performed when congenital infection is suspected. CMV-specific IgM indicates recent or active infection, while CMV IgG indicates past exposure and immunity. Quantitative CMV DNA polymerase chain reaction (PCR) is the gold standard for monitoring viral load in immunocompromised patients and guides decisions about preemptive therapy versus treatment. The practical nurse must understand that CMV is transmitted through direct contact with infectious body fluids including saliva, urine, blood, breast milk, cervical secretions, and semen. Standard precautions are sufficient for hospitalized patients, but meticulous hand hygiene is essential, particularly after contact with diapers, saliva, or other body fluids of young children who are the primary reservoir for CMV in community settings." },
