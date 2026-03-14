@@ -1421,7 +1421,7 @@ export const generatedBatch111Lessons: Record<string, LessonContent> = {
       pearl: "Prioritization example: respiratory depression (Airway/Breathing) takes priority — administer naloxone immediately; titrate to respiratory effort, not alertness"
     }],
     pearls: [
-      "When in doubt On the licensing exam, : Assess before Intervene, ABC order, Acute before Chronic",
+      "When in doubt: Assess before Intervene, ABC order, Acute before Chronic",
       "Maslow's applied to nursing: Physiological → Safety → Psychosocial → Self-actualization",
       "The patient with a CHANGE in condition takes priority over a patient with stable chronic findings"
     ],
@@ -1505,7 +1505,7 @@ export const generatedBatch111Lessons: Record<string, LessonContent> = {
     title: "Question Strategies",
     cellular: {
       title: "Test-Taking Framework",
-      content: "The NCLEX uses Computer Adaptive Testing (CAT) that adjusts question difficulty based on performance. Questions test clinical judgment using the NCSBN Clinical Judgment Measurement Model (CJMM) with six cognitive skills: recognize cues, analyze cues, prioritize hypotheses, generate solutions, take action, evaluate outcomes.\n\nQuestion types include traditional multiple choice, select-all-that-apply (SATA), ordered response (drag and drop), hot spot, fill-in-the-blank calculation, and Next GeneratiOn the licensing exam, (NGN) case studies with enhanced item types (matrix, cloze, bowtie, trend).\n\nKey strategies: read the question stem carefully for what is ACTUALLY being asked, identify the topic and framework (ABCs, Maslow, nursing process), eliminate obviously wrong answers, and choose the MOST correct answer. For priority questions, use ABC → Maslow → Acute vs Chronic → Assessment before Intervention."
+      content: "The NCLEX uses Computer Adaptive Testing (CAT) that adjusts question difficulty based on performance. Questions test clinical judgment using the NCSBN Clinical Judgment Measurement Model (CJMM) with six cognitive skills: recognize cues, analyze cues, prioritize hypotheses, generate solutions, take action, evaluate outcomes.\n\nQuestion types include traditional multiple choice, select-all-that-apply (SATA), ordered response (drag and drop), hot spot, fill-in-the-blank calculation, and Next Generation (NGN) case studies with enhanced item types (matrix, cloze, bowtie, trend).\n\nKey strategies: read the question stem carefully for what is ACTUALLY being asked, identify the topic and framework (ABCs, Maslow, nursing process), eliminate obviously wrong answers, and choose the MOST correct answer. For priority questions, use ABC → Maslow → Acute vs Chronic → Assessment before Intervention."
     },
     riskFactors: [
       "Misreading the question stem or missing key words",
