@@ -104,6 +104,12 @@ export const generatedBatch028Lessons: Record<string, LessonContent> = {
         correct: 1,
         rationale: "After 1–2 weeks of adequate MNT trial, persistent fasting glucose >95 mg/dL and/or 1-hour postprandial >140 mg/dL indicates the need for pharmacotherapy. Insulin is the preferred first-line agent as it does not cross the placenta. She needs bedtime NPH (for fasting control) and pre-breakfast rapid-acting insulin (for post-breakfast spike). Glyburide is no longer recommended first-line due to inferior neonatal outcomes."
       },
+      {
+        question: "A woman with pre-existing type 1 diabetes delivers a healthy infant at 38 weeks. Her third-trimester insulin dose was 95 units/day. Immediately postpartum, the NP should anticipate:",
+        options: ["Insulin requirements will remain the same as the third trimester","Insulin requirements will drop dramatically (often by 50% or more) due to sudden loss of placental counter-regulatory hormones — reduce the dose immediately to prevent severe hypoglycemia","Insulin can be discontinued because the insulin resistance of pregnancy resolves completely","Insulin should be switched to metformin for postpartum management"],
+        correct: 1,
+        rationale: "Delivery of the placenta causes a sudden loss of human placental lactogen, progesterone, cortisol, and growth hormone — the major drivers of insulin resistance in late pregnancy. Insulin requirements may drop by 50% or more within hours of delivery. Failure to reduce the insulin dose promptly causes severe, potentially dangerous postpartum hypoglycemia. The NP should anticipate this drop and adjust the dose pre-emptively, often returning to the pre-pregnancy dose or lower initially."
+      },
     ]
   },
   "diabetes-technology-np": {
@@ -139,6 +145,12 @@ export const generatedBatch028Lessons: Record<string, LessonContent> = {
         options: ["No intervention needed as glucose is currently within normal range","Consume 15–20g of fast-acting carbohydrates immediately — the glucose is predicted to drop below 55 mg/dL within minutes","Increase the pump basal rate to counteract the dropping glucose","Wait for the next CGM reading in 5 minutes before taking action"],
         correct: 1,
         rationale: "Double down arrows indicate glucose is falling at >2 mg/dL/min. At 95 mg/dL, the glucose will reach the hypoglycemic range (<70) within approximately 12 minutes and could reach dangerous levels (<55) shortly after. Due to the 5–15 minute interstitial lag, actual blood glucose may already be lower than displayed. Immediate carbohydrate ingestion is required. Trend arrows are as clinically important as the glucose value itself."
+      },
+      {
+        question: "A patient on an insulin pump develops nausea, vomiting, and blood glucose of 420 mg/dL with large ketones. After administering a correction bolus via syringe and changing the infusion set, the NP should advise the patient to:",
+        options: ["Resume normal pump operation and recheck glucose in 4 hours","Check blood glucose and ketones every 1-2 hours, continue correction doses via syringe until ketones clear, and seek emergency care if vomiting persists or ketones do not decrease — pump failure can rapidly progress to DKA","Disconnect the pump and switch permanently to multiple daily injections","Fast until blood glucose normalizes"],
+        correct: 1,
+        rationale: "Pump users are at higher risk for DKA than MDI users because pumps use only rapid-acting insulin with no long-acting depot — if delivery is interrupted for even 4-6 hours, insulin levels drop to zero. After addressing suspected pump failure (correction via syringe, new infusion set), close monitoring is essential: glucose and ketones every 1-2 hours, continued syringe corrections until ketones clear, and clear criteria for emergency department evaluation (persistent vomiting, worsening ketosis, altered mental status). This is a pump-specific sick-day management protocol."
       },
     ]
   },
@@ -189,6 +201,12 @@ export const generatedBatch028Lessons: Record<string, LessonContent> = {
         correct: 1,
         rationale: "ANA is a highly sensitive but poorly specific test. Up to 15-20% of the general healthy population has a positive ANA. In a patient without clinical features of SLE (no malar rash, serositis, renal involvement, cytopenias, photosensitivity), the pre-test probability is low, making this positive ANA most likely a false positive. This demonstrates the principle that predictive value depends on disease prevalence/pre-test probability — ordering sensitive tests in low-probability populations generates false positives."
       },
+      {
+        question: "An NP is evaluating a 62-year-old patient with acute pleuritic chest pain. The PERC rule assessment shows: age 62, heart rate 88, SpO2 97%, no hemoptysis, no estrogen use, no prior DVT/PE, no unilateral leg swelling, no recent surgery/trauma. The NP's MOST appropriate action is:",
+        options: ["PE is excluded by the PERC rule — no further testing needed","The patient does NOT meet ALL PERC criteria (age >50) — PERC cannot exclude PE; proceed with Wells scoring and D-dimer if Wells ≤4","Order CT-PA immediately regardless of clinical assessment","Start empiric anticoagulation before imaging"],
+        correct: 1,
+        rationale: "The PERC rule requires ALL 8 criteria to be met to exclude PE without testing: age <50, HR <100, SpO2 >94%, no hemoptysis, no estrogen use, no prior DVT/PE, no unilateral leg swelling, no recent surgery/trauma. This patient is 62 years old, which violates the age criterion. Therefore, PERC cannot exclude PE, and the NP must proceed with standard diagnostic evaluation — calculate Wells score, and if ≤4 (PE unlikely), order D-dimer."
+      },
     ]
   },
   "diagnostic-reasoning-np": {
@@ -224,6 +242,12 @@ export const generatedBatch028Lessons: Record<string, LessonContent> = {
         options: ["Reassure the patient that most mammographic findings are benign and repeat mammogram in 6 months","Diagnose breast cancer and refer to oncology for treatment planning","Order a tissue biopsy (diagnostic procedure) to confirm or exclude malignancy — a screening test result is not a diagnosis","Start tamoxifen empirically while awaiting further testing"],
         correct: 2,
         rationale: "A positive screening test (abnormal mammogram) requires confirmatory diagnostic testing (tissue biopsy) before any diagnosis can be made. Screening identifies individuals who need further evaluation — it does not establish a diagnosis. BI-RADS 4 indicates a suspicious finding with 2-95% probability of malignancy, warranting tissue sampling. Treating based on a screening result alone, or reassuring and delaying workup, are both inappropriate."
+      },
+      {
+        question: "An NP is discussing lung cancer screening with a 58-year-old patient who smoked one pack per day for 25 years and quit 10 years ago. The patient asks if a chest X-ray can be done instead of low-dose CT. The BEST response is:",
+        options: ["Chest X-ray is an acceptable alternative to LDCT for lung cancer screening","Low-dose CT is the ONLY validated screening modality for lung cancer — chest X-ray has not demonstrated a mortality reduction in screening trials and misses early-stage cancers","The patient no longer qualifies for screening because he quit smoking","Annual chest X-ray combined with sputum cytology provides adequate screening"],
+        correct: 1,
+        rationale: "The National Lung Screening Trial (NLST) demonstrated that LDCT reduces lung cancer mortality by 20% compared to chest X-ray in high-risk individuals. Chest X-ray has never been shown to reduce lung cancer mortality in any screening trial. This patient meets USPSTF criteria: age 50-80, ≥20 pack-year history (25 pack-years), quit within 15 years (quit 10 years ago). LDCT is the only approved modality; chest X-ray should not be substituted."
       },
     ]
   },
@@ -294,6 +318,12 @@ export const generatedBatch028Lessons: Record<string, LessonContent> = {
         correct: 1,
         rationale: "ATRA should be started IMMEDIATELY when APL is suspected based on morphology (abnormal promyelocytes with Auer rods on peripheral smear or bone marrow). Delaying ATRA for cytogenetic confirmation of PML-RARA fusion risks fatal hemorrhage from uncontrolled DIC. ATRA induces differentiation of the malignant promyelocytes, halting the release of procoagulant substances that drive APL-associated DIC. The coagulopathy typically begins improving within 2-3 days of ATRA initiation."
       },
+      {
+        question: "An NP is considering heparin anticoagulation for a patient with cancer-associated DIC manifesting primarily with recurrent DVT and minimal bleeding. Before initiating heparin, the NP should verify:",
+        options: ["The platelet count is above 150,000 to ensure heparin safety","The antithrombin III level is adequate — heparin requires AT-III to function, and AT-III is consumed in DIC; if AT-III is depleted (<60%), heparin will be ineffective","The D-dimer is trending downward","The fibrinogen is above 400 mg/dL"],
+        correct: 1,
+        rationale: "Heparin works by potentiating antithrombin III (AT-III), accelerating its inhibition of thrombin and Factor Xa by 1000-fold. In DIC, AT-III is consumed and levels may fall below 60%, rendering heparin ineffective regardless of dose. If heparin fails to achieve therapeutic effect in DIC, the NP should check AT-III level and consider AT-III concentrate replacement before increasing the heparin dose. Heparin use in DIC is generally reserved for thrombosis-predominant presentations (chronic DIC, Trousseau syndrome) and is contraindicated in actively hemorrhaging patients."
+      },
     ]
   },
   "dic-obstetrics-np": {
@@ -337,6 +367,12 @@ export const generatedBatch028Lessons: Record<string, LessonContent> = {
         correct: 1,
         rationale: "A fibrinogen of 180 mg/dL in a pregnant/postpartum patient represents a significant drop from the pregnancy baseline of 400-600 mg/dL. While 180 mg/dL would be 'normal' in a non-pregnant patient, in the obstetric context it indicates substantial consumption and developing coagulopathy. The obstetric DIC threshold for fibrinogen replacement is <200 mg/dL (compared to <100 mg/dL in non-obstetric DIC). Cryoprecipitate (10 units) or fibrinogen concentrate (2-4 grams) should be administered."
       },
+      {
+        question: "A patient with postpartum hemorrhage and suspected DIC is identified 45 minutes after hemorrhage onset. The NP orders tranexamic acid (TXA). The MOST critical consideration regarding timing is:",
+        options: ["TXA can be given at any time during hemorrhage with equal efficacy","TXA must be administered within 3 HOURS of hemorrhage onset — efficacy decreases by 10% for every 15 minutes of delay; give immediately without waiting for lab results","TXA should be withheld until coagulation studies confirm fibrinolysis","TXA is contraindicated in obstetric hemorrhage"],
+        correct: 1,
+        rationale: "The WOMAN trial demonstrated that TXA reduces death from postpartum hemorrhage when given within 3 hours of onset, with benefit decreasing by approximately 10% for every 15 minutes of delay. TXA should be administered as early as possible (1 gram IV over 10 minutes) without waiting for laboratory confirmation. It addresses the fibrinolytic component of hemorrhage and is part of the WHO-recommended PPH treatment bundle. A second dose may be given after 30 minutes if bleeding continues."
+      },
     ]
   },
   "differential-diagnosis-narrowing-np": {
@@ -372,6 +408,12 @@ export const generatedBatch028Lessons: Record<string, LessonContent> = {
         options: ["Identify the single most likely benign diagnosis based on pattern recognition","Rule out life-threatening must-not-miss diagnoses (ACS, PE, aortic dissection, tension pneumothorax, esophageal rupture) before considering benign causes","Order a comprehensive laboratory panel to guide the differential","Prescribe empiric treatment for the most common cause of chest pain in the patient's age group"],
         correct: 1,
         rationale: "The cardinal principle of differential diagnosis narrowing is to rule out must-not-miss (life-threatening) diagnoses FIRST, regardless of their probability. For chest pain, the 'Big 5' emergencies (ACS, PE, aortic dissection, tension pneumothorax, esophageal rupture) must be systematically excluded before attributing the pain to a benign cause. This risk-stratified approach prioritizes patient safety over diagnostic efficiency."
+      },
+      {
+        question: "A 75-year-old patient with diabetes, COPD, and heart failure presents with fatigue, mild confusion, and a productive cough. The NP initially treats for community-acquired pneumonia. After 72 hours of appropriate antibiotics, the patient shows no improvement and develops new-onset atrial fibrillation. Applying Hickam's dictum, the NP should consider:",
+        options: ["The patient simply needs a broader-spectrum antibiotic for resistant pneumonia","The patient likely has a single unifying diagnosis that explains all findings — apply Occam's razor","Multiple concurrent conditions may be contributing (pneumonia PLUS decompensated heart failure PLUS new atrial fibrillation) — in elderly patients with comorbidities, Hickam's dictum often applies over Occam's razor","The treatment failure indicates a viral rather than bacterial etiology"],
+        correct: 2,
+        rationale: "Hickam's dictum states that a patient can have as many diseases as they please. In elderly patients with multiple comorbidities, multiple concurrent conditions frequently coexist and interact. This patient likely has both pneumonia AND decompensated heart failure (which may explain the incomplete response to antibiotics alone), with new-onset atrial fibrillation as a third concurrent problem. Occam's razor (seek a single unifying diagnosis) applies better to younger patients without comorbidities."
       },
     ]
   },
@@ -428,6 +470,12 @@ export const generatedBatch028Lessons: Record<string, LessonContent> = {
         options: ["Digoxin-specific antibody fragments (Fab)","IV calcium gluconate for hyperkalemia","Atropine for symptomatic bradycardia","Sodium bicarbonate to shift potassium intracellularly"],
         correct: 1,
         rationale: "IV calcium is CONTRAINDICATED in digoxin toxicity with hyperkalemia. Digoxin toxicity already causes dangerous intracellular calcium overload via Na+/K+-ATPase inhibition. Adding IV calcium on top of this can precipitate fatal 'stone heart' — intractable ventricular fibrillation from extreme calcium overload. The correct treatment for hyperkalemia in digoxin toxicity is Fab fragments, which reverse the Na+/K+-ATPase inhibition and allow the pump to resume driving potassium into cells."
+      },
+      {
+        question: "After administering digoxin immune Fab (DigiFab) to a patient with severe digoxin toxicity, the serum digoxin level is reported as 8.5 ng/mL — higher than the pre-treatment level of 4.2 ng/mL. The NP should:",
+        options: ["Administer additional Fab fragments because the level is rising","Recognize that post-Fab serum digoxin levels are FALSELY ELEVATED because standard assays measure both free and Fab-bound digoxin — follow clinical response (heart rate, rhythm, symptoms) rather than lab values","Suspect Fab treatment failure and initiate temporary cardiac pacing","Order emergent hemodialysis to remove the excess digoxin"],
+        correct: 1,
+        rationale: "After Fab fragment administration, standard immunoassays for digoxin measure TOTAL digoxin (both free digoxin and Fab-bound digoxin). Since Fab fragments pull digoxin from tissue binding sites into the circulation where it is bound and inactivated, the measured total serum digoxin level paradoxically rises despite clinical improvement. Only free (unbound) digoxin is pharmacologically active, but free digoxin assays are not widely available. The NP must follow clinical response — resolution of arrhythmias, normalization of heart rate, improvement in symptoms — rather than serum digoxin levels."
       },
     ]
   },

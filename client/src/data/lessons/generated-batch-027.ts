@@ -55,6 +55,12 @@ export const generatedBatch027Lessons: Record<string, LessonContent> = {
         correct: 1,
         rationale: "Benzodiazepines must be tapered gradually (10-25% reduction every 2-4 weeks) to prevent withdrawal symptoms including rebound insomnia, anxiety, tremor, and seizures. Abrupt discontinuation is dangerous. Z-drugs carry similar risks in elderly patients and are not a safe substitute."
       },
+      {
+        question: "An NP identifies that a 72-year-old patient is taking metoclopramide, which was started 6 months ago to treat nausea caused by donepezil. This pattern BEST represents:",
+        options: ["Appropriate symptom management with two indicated medications","A prescribing cascade — the side effect of one drug was treated with another drug rather than reconsidering the original prescription","Therapeutic duplication requiring removal of one medication","An absolute contraindication requiring immediate discontinuation of both drugs"],
+        correct: 1,
+        rationale: "This is a classic prescribing cascade: donepezil (cholinesterase inhibitor) causes nausea as a common side effect, which was misinterpreted as a new GI condition and treated with metoclopramide rather than reassessing the need for or dose of donepezil. Metoclopramide in elderly patients carries risk of tardive dyskinesia and extrapyramidal symptoms. The NP should consider whether donepezil's nausea can be managed by dose adjustment or whether the medication is still indicated."
+      },
     ]
   },
   "depression-basics": {
@@ -154,6 +160,12 @@ export const generatedBatch027Lessons: Record<string, LessonContent> = {
         correct: 1,
         rationale: "Screening for bipolar disorder (using the MDQ or detailed history of prior manic/hypomanic episodes) is essential before starting antidepressant monotherapy. An unrecognized bipolar patient treated with an SSRI alone risks precipitating a manic episode, mixed state, or rapid cycling. Bipolar depression requires a mood stabilizer as the foundation of treatment."
       },
+      {
+        question: "A patient on sertraline 100 mg daily for MDD reports moderate improvement but persistent fatigue and low motivation. The NP considers adding bupropion 150 mg XL. This augmentation strategy is MOST appropriate because:",
+        options: ["Bupropion is an SSRI that doubles the serotonergic effect","Bupropion's norepinephrine-dopamine reuptake inhibition complements SSRI serotonergic activity to target residual fatigue and anhedonia","Bupropion has sedating properties that will improve the patient's sleep","Bupropion should replace sertraline entirely rather than be added to it"],
+        correct: 1,
+        rationale: "Bupropion (an NDRI) is a well-established augmentation agent for partial SSRI responders. Its norepinephrine and dopamine reuptake inhibition targets residual symptoms that serotonergic agents alone do not address — specifically fatigue, low energy, and anhedonia. Bupropion is activating (not sedating) and does not cause the sexual side effects or weight gain associated with SSRIs, making it an ideal complement."
+      },
     ]
   },
   "depression-neurobiology-np": {
@@ -204,6 +216,12 @@ export const generatedBatch027Lessons: Record<string, LessonContent> = {
         correct: 2,
         rationale: "Duloxetine is an SNRI that increases both serotonin and norepinephrine. Its norepinephrine reuptake inhibition modulates descending pain inhibitory pathways, providing FDA-approved treatment for both MDD and pain conditions (diabetic neuropathy, fibromyalgia, chronic musculoskeletal pain). SSRIs lack significant norepinephrine activity for pain modulation."
       },
+      {
+        question: "An NP is counseling a patient about starting an SSRI for MDD. The patient asks why the medication takes weeks to work if it increases serotonin immediately. The BEST explanation is:",
+        options: ["The medication needs time to accumulate to a therapeutic blood level","Immediate serotonin increase triggers compensatory autoreceptor downregulation and downstream neuroplastic changes (including BDNF-mediated neurogenesis) that require 4-6 weeks to produce clinical improvement","The patient's liver enzymes need time to activate the prodrug","SSRIs actually do work immediately but the patient cannot perceive the change"],
+        correct: 1,
+        rationale: "While SSRIs increase synaptic serotonin within hours, the therapeutic effect depends on downstream adaptive changes: presynaptic 5-HT1A autoreceptor desensitization (removing the negative feedback brake on serotonin release), postsynaptic receptor downregulation, increased BDNF expression, and hippocampal neurogenesis. These neuroplastic changes require 4-6 weeks, explaining the therapeutic lag."
+      },
     ]
   },
   "dermatitis-herpetiformis-np": {
@@ -239,6 +257,12 @@ export const generatedBatch027Lessons: Record<string, LessonContent> = {
         options: ["The center of an active vesicle","Uninvolved perilesional skin adjacent to an active lesion","Any area of normal-appearing skin on the trunk","An old healed lesion site"],
         correct: 1,
         rationale: "Direct immunofluorescence (DIF) for DH requires biopsy of uninvolved perilesional skin (within 1 cm of an active lesion). Biopsy of the lesion itself shows non-specific inflammation and may miss the diagnostic granular IgA deposits at the dermal papillae. The characteristic finding is granular IgA deposition at the tips of the dermal papillae."
+      },
+      {
+        question: "A patient with dermatitis herpetiformis controlled on dapsone asks if a strict gluten-free diet is truly necessary since dapsone controls the rash. The NP's BEST response is:",
+        options: ["A gluten-free diet is optional since dapsone effectively treats DH","A strict gluten-free diet is essential — it treats the underlying celiac disease, reduces the long-term risk of intestinal lymphoma, and may eventually allow dapsone discontinuation","The gluten-free diet only helps with GI symptoms and does not affect the skin disease","Dapsone cures DH so neither diet nor ongoing medication will be needed after 6 months"],
+        correct: 1,
+        rationale: "DH is the cutaneous manifestation of celiac disease, and virtually all DH patients have underlying gluten-sensitive enteropathy even if asymptomatic. A strict gluten-free diet treats the root cause, reduces the risk of enteropathy-associated T-cell lymphoma, and after 6-24 months may allow tapering and discontinuation of dapsone. Dapsone controls the rash rapidly but does not address the intestinal disease or long-term malignancy risk."
       },
     ]
   },
@@ -283,6 +307,12 @@ export const generatedBatch027Lessons: Record<string, LessonContent> = {
         correct: 2,
         rationale: "The eyelids have the thinnest skin on the body and are extremely susceptible to corticosteroid-induced atrophy, glaucoma, and cataracts. Tacrolimus (a calcineurin inhibitor) provides effective anti-inflammatory activity without atrophy risk and is the first-line steroid-sparing agent for periorbital and facial dermatitis. All corticosteroid options listed are too potent for eyelid use."
       },
+      {
+        question: "During a full-body skin examination, an NP identifies a papule on the patient's back that is non-blanchable on diascopy. This finding is MOST significant because:",
+        options: ["Non-blanchable lesions are always benign vascular anomalies requiring no further evaluation","Non-blanchable lesions indicate extravasated blood (purpura) rather than vascular dilation — this finding may represent vasculitis, coagulopathy, or thrombocytopenia and warrants systemic evaluation","The lesion should be treated with a topical corticosteroid and reassessed in 2 weeks","Diascopy cannot reliably distinguish blanchable from non-blanchable lesions"],
+        correct: 1,
+        rationale: "Diascopy (pressing a glass slide against the skin) distinguishes blanchable lesions (vascular dilation — erythema, telangiectasia) from non-blanchable lesions (extravasated blood — purpura, petechiae). A non-blanchable papule is palpable purpura, which is highly suggestive of cutaneous vasculitis (leukocytoclastic vasculitis, IgA vasculitis, ANCA-associated vasculitis) and warrants systemic evaluation including CBC, BMP, urinalysis, ESR/CRP, and consideration of skin biopsy."
+      },
     ]
   },
   "dermatology-np": {
@@ -325,6 +355,12 @@ export const generatedBatch027Lessons: Record<string, LessonContent> = {
         options: ["Subungual hematoma — observe for nail growth","Melanonychia from nail matrix nevus — routine follow-up in 3 months","Acral lentiginous melanoma with Hutchinson sign — urgent excisional/incisional biopsy and dermatology referral","Fungal nail infection — start oral terbinafine"],
         correct: 2,
         rationale: "Hutchinson sign (pigment extension to the proximal nail fold) in a longitudinal melanonychia is highly suspicious for subungual melanoma. Acral lentiginous melanoma is the most common melanoma subtype in darker-skinned individuals and frequently presents on the nail bed. This requires urgent biopsy (nail matrix biopsy by dermatology/surgery) — delay in diagnosis worsens prognosis significantly."
+      },
+      {
+        question: "A melanoma with Breslow depth 2.3 mm is excised. Sentinel lymph node biopsy (SLNB) should be recommended because:",
+        options: ["SLNB is a therapeutic procedure that improves overall survival by removing metastatic nodes","SLNB is a staging procedure — for melanomas >1.0 mm Breslow depth, it identifies microscopic nodal metastasis to guide adjuvant therapy decisions and accurate staging","SLNB is only indicated for melanomas with Breslow depth >4.0 mm","SLNB should be replaced by PET-CT scanning for detecting nodal metastasis"],
+        correct: 1,
+        rationale: "Sentinel lymph node biopsy is recommended for melanomas with Breslow depth >1.0 mm (or >0.8 mm with adverse features such as ulceration or high mitotic rate). It is a staging procedure that identifies microscopic regional nodal metastasis, guiding accurate AJCC staging and decisions about adjuvant immunotherapy (nivolumab, pembrolizumab) or targeted therapy. SLNB has not been shown to improve overall survival but provides critical prognostic and therapeutic planning information."
       },
     ]
   },
@@ -382,6 +418,12 @@ export const generatedBatch027Lessons: Record<string, LessonContent> = {
         correct: 1,
         rationale: "Normal/normalizing CK with persistent weakness during high-dose corticosteroid therapy strongly suggests steroid myopathy (type II fiber atrophy from prolonged corticosteroid use). In a DM/PM flare, CK would be elevated. The appropriate management is to reduce the steroid dose and ensure a steroid-sparing agent (methotrexate or azathioprine) is in place. Increasing the steroid dose would worsen steroid myopathy."
       },
+      {
+        question: "An NP evaluates a patient with clinically amyopathic dermatomyositis (skin findings but minimal muscle weakness) who is positive for anti-MDA5 antibodies. The MOST critical screening is:",
+        options: ["Comprehensive cancer screening given the 15-30% malignancy association","High-resolution CT chest to evaluate for rapidly progressive interstitial lung disease, which carries up to 50% mortality in anti-MDA5 DM","Cardiac MRI to evaluate for myocarditis","Nerve conduction studies to evaluate for concurrent neuropathy"],
+        correct: 1,
+        rationale: "Anti-MDA5 antibodies define a distinct DM phenotype characterized by clinically amyopathic or hypomyopathic disease (minimal muscle involvement) but a high risk of rapidly progressive interstitial lung disease (RP-ILD) with mortality exceeding 50%. HRCT chest is essential for early ILD detection. These patients require aggressive combination immunosuppression (calcineurin inhibitor + steroids ± rituximab or cyclophosphamide) rather than the standard corticosteroid approach. Cancer screening is important in all adult DM but anti-MDA5 is specifically associated with ILD, not malignancy."
+      },
     ]
   },
   "dermatomyositis-rn": {
@@ -438,6 +480,12 @@ export const generatedBatch027Lessons: Record<string, LessonContent> = {
         correct: 1,
         rationale: "An annular plaque with central clearing and a scaly border is classic for tinea corporis (dermatophyte infection). Applying a topical corticosteroid to an undiagnosed fungal infection creates tinea incognito — the steroid suppresses inflammation and masks the clinical appearance while the fungus spreads. KOH preparation is a rapid bedside test that identifies fungal hyphae and should always be performed before prescribing topical steroids for scaly annular lesions."
       },
+      {
+        question: "A patient presents with grouped vesicles on an erythematous base confined to a single dermatome along the left thorax with severe burning pain. The NP recognizes this distribution pattern as MOST consistent with:",
+        options: ["Allergic contact dermatitis from a topical agent applied linearly","Herpes zoster — the dermatomal distribution of grouped vesicles with pain is pathognomonic","Bullous pemphigoid presenting in an unusual pattern","Dermatitis herpetiformis on the trunk"],
+        correct: 1,
+        rationale: "Grouped vesicles on an erythematous base in a unilateral dermatomal distribution with associated pain (burning, lancinating) is the classic presentation of herpes zoster (shingles). VZV reactivates from dorsal root ganglia and travels along a single sensory nerve to the corresponding dermatome. The distribution pattern is the key diagnostic clue — contact dermatitis follows an exposure pattern, not a dermatome; DH favors extensor surfaces bilaterally; bullous pemphigoid produces tense bullae on a generalized distribution."
+      },
     ]
   },
   "dermoscopy-np": {
@@ -480,6 +528,12 @@ export const generatedBatch027Lessons: Record<string, LessonContent> = {
         options: ["Benign acral nevus — parallel furrow pattern is normal on palms and soles","Acral melanoma — parallel ridge pattern on acral skin is highly specific for melanoma; biopsy is indicated","Plantar wart — no biopsy needed, treat with salicylic acid","Acral lentiginous keratosis — routine follow-up"],
         correct: 1,
         rationale: "On acral (palm/sole) dermoscopy, the parallel ridge pattern (pigment following the sulci and ridges of dermatoglyphics) is highly specific for acral melanoma. The parallel furrow pattern (pigment following the furrows) is the benign pattern seen in acral nevi. Remember: 'Ridges are Risky.' Any lesion with a parallel ridge pattern requires biopsy."
+      },
+      {
+        question: "An NP evaluates a dermoscopically suspicious melanocytic lesion and considers biopsy. Which biopsy technique should be AVOIDED for a suspected melanoma?",
+        options: ["Excisional biopsy with 1-2 mm margins","Incisional biopsy of the thickest area when excision is not feasible","Superficial shave biopsy — it risks transecting the lesion and preventing accurate Breslow depth measurement","Punch biopsy encompassing the entire small lesion"],
+        correct: 2,
+        rationale: "Superficial shave biopsy should be avoided for dermoscopically suspicious melanocytic lesions because it risks transecting the deepest portion of the tumor, preventing accurate measurement of Breslow depth — the single most important prognostic factor that determines surgical margins, sentinel lymph node biopsy eligibility, and adjuvant therapy decisions. Excisional biopsy with narrow (1-2 mm) margins is the preferred standard of care. When complete excision is not feasible (large lesion, cosmetically sensitive site), incisional or deep punch biopsy of the clinically thickest area is acceptable. Note: a deep saucerization biopsy performed by an experienced clinician may be appropriate in select clinical scenarios."
       },
     ]
   },
@@ -529,6 +583,12 @@ export const generatedBatch027Lessons: Record<string, LessonContent> = {
         options: ["Immediately refer for physical therapy evaluation for motor delay","Calculate corrected age (14 months - 3 months = 11 months corrected) and assess motor milestones at the corrected age","Reassure the parent that boys develop motor skills later","Order brain MRI to evaluate for cerebral palsy"],
         correct: 1,
         rationale: "For premature infants, developmental assessment must use corrected age until 24-36 months. This infant was born at 28 weeks (12 weeks/3 months premature), so the corrected age is 11 months. At 11 months corrected, not yet pulling to stand may still be within normal limits (pulling to stand typically occurs at 9-12 months). Assessment using corrected age prevents false-positive identification of delays and unnecessary referrals."
+      },
+      {
+        question: "A parent reports their 30-month-old child speaks only 10 words and does not combine words into two-word phrases. The child passed the ASQ-3 at the 24-month visit. The NP should:",
+        options: ["Reassure the parent that the child will catch up — the ASQ-3 was normal 6 months ago","Refer for audiology evaluation and speech-language pathology assessment — a 30-month-old should have at least 50 words and be combining two-word phrases; an abnormal language trajectory warrants evaluation regardless of prior screening results","Rescreen with the ASQ-3 at 36 months as scheduled","Advise the parent to read more to the child and reassess at the next well-child visit"],
+        correct: 1,
+        rationale: "By 24 months, a child should have at least 50 words and be combining two-word phrases; by 30 months, vocabulary should be expanding rapidly. Ten words at 30 months represents a significant expressive language delay. Prior normal screening does not preclude new concerns — development is dynamic and regression or stagnation can occur. Audiology evaluation is essential to rule out hearing loss as a cause, and speech-language pathology referral enables early intervention, which has the greatest impact during the critical language development window."
       },
     ]
   },
