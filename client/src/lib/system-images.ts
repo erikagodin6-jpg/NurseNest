@@ -1575,7 +1575,6 @@ const lessonSpecificImages: Record<string, string> = {
 
   "dic-management": illustrationDICNew,
   "dic": illustrationDICNew,
-  "dic-basics": illustrationDICNew,
   "dic-rpn": illustrationDICNew,
   "dic-rn": illustrationDICNew,
   "dic-np": illustrationDICNew,
@@ -1691,10 +1690,6 @@ const lessonSpecificImages: Record<string, string> = {
   "placental-abruption-rn": illustrationPlacentalAbruptionV2,
   "placental-abruption-np": illustrationPlacentalAbruptionV2,
 
-  "neonatal-hypoglycemia": illustrationNeonatalHypoglycemia,
-  "neonatal-hypoglycemia-rpn": illustrationNeonatalHypoglycemia,
-  "neonatal-hypoglycemia-rn": illustrationNeonatalHypoglycemia,
-  "neonatal-hypoglycemia-np": illustrationNeonatalHypoglycemia,
 
 
   "newborn-diabetic-mother": illustrationNewbornDiabeticMotherV2,
@@ -1936,13 +1931,10 @@ const lessonSpecificImages: Record<string, string> = {
   "peritoneal-dialysis-rn": illustrationPeritonealDialysis,
   "peritoneal-dialysis-np": illustrationPeritonealDialysis,
 
-  "osteoporosis": illustrationOsteoporosisV3,
   "osteoporosis-rpn": illustrationOsteoporosisV3,
   "osteoporosis-rn": illustrationOsteoporosisV3,
   "osteoporosis-np": illustrationOsteoporosisV3,
-  "osteoporosis-management": illustrationOsteoporosisV3,
 
-  "otitis-externa": illustrationOtitisExternaV2,
   "otitis-externa-rpn": illustrationOtitisExternaV2,
   "otitis-externa-rn": illustrationOtitisExternaV2,
   "otitis-externa-np": illustrationOtitisExternaV2,
@@ -1955,8 +1947,6 @@ const lessonSpecificImages: Record<string, string> = {
   "acromegaly-np": illustrationPituitaryGlands,
   "hypophysectomy": illustrationPituitaryGlands,
 
-  "polycythemia-vera": illustrationPolycythemiaV2,
-  "polycythemia": illustrationPolycythemiaV2,
   "polycythemia-rpn": illustrationPolycythemiaV2,
   "polycythemia-rn": illustrationPolycythemiaV2,
   "polycythemia-np": illustrationPolycythemiaV2,
@@ -2108,7 +2098,6 @@ const lessonSpecificImages: Record<string, string> = {
   "foreign-body-aspiration-rn": illustrationForeignBodyAspiration,
   "foreign-body-aspiration-np": illustrationForeignBodyAspiration,
 
-  "fracture-types": illustrationFractureTypesNew,
   "fracture-types-rpn": illustrationFractureTypesNew,
   "fracture-types-rn": illustrationFractureTypesNew,
   "fracture-types-np": illustrationFractureTypesNew,
@@ -2163,8 +2152,6 @@ const lessonSpecificImages: Record<string, string> = {
   "hashimoto-np": illustrationHashimotoThyroiditis,
   "hashimotos-thyroiditis": illustrationHashimotoThyroiditis,
 
-  "head-lice": illustrationHeadLiceNew,
-  "pediculosis": illustrationHeadLiceNew,
   "head-lice-rpn": illustrationHeadLiceNew,
   "head-lice-rn": illustrationHeadLiceNew,
   "head-lice-np": illustrationHeadLiceNew,
@@ -2188,16 +2175,10 @@ const lessonSpecificImages: Record<string, string> = {
   "neuroblastoma-rn": illustrationNeuroblastoma,
   "neuroblastoma-np": illustrationNeuroblastoma,
 
-  "newborn-diabetic-mother": illustrationNewbornDiabeticMotherV2,
   "newborn-diabetic-mother-rpn": illustrationNewbornDiabeticMotherV2,
   "newborn-diabetic-mother-rn": illustrationNewbornDiabeticMotherV2,
   "newborn-diabetic-mother-np": illustrationNewbornDiabeticMotherV2,
-  "infant-diabetic-mother": illustrationNewbornDiabeticMotherV2,
 
-  "osteogenesis-imperfecta": illustrationOsteogenesisImperfectaV2,
-  "osteogenesis-imperfecta-rpn": illustrationOsteogenesisImperfectaV2,
-  "osteogenesis-imperfecta-rn": illustrationOsteogenesisImperfectaV2,
-  "osteogenesis-imperfecta-np": illustrationOsteogenesisImperfectaV2,
 
   "ohss": illustrationOvarianHyperstimulation,
   "ohss-rpn": illustrationOvarianHyperstimulation,
@@ -2208,16 +2189,10 @@ const lessonSpecificImages: Record<string, string> = {
   "ovarian-hyperstimulation-rn": illustrationOvarianHyperstimulation,
   "ovarian-hyperstimulation-np": illustrationOvarianHyperstimulation,
 
-  "patent-ductus-arteriosus": illustrationPatentDuctusArteriosus,
-  "patent-ductus-arteriosus-rpn": illustrationPatentDuctusArteriosus,
-  "patent-ductus-arteriosus-rn": illustrationPatentDuctusArteriosus,
-  "patent-ductus-arteriosus-np": illustrationPatentDuctusArteriosus,
-  "pda": illustrationPatentDuctusArteriosus,
   "pda-rpn": illustrationPatentDuctusArteriosus,
   "pda-rn": illustrationPatentDuctusArteriosus,
   "pda-np": illustrationPatentDuctusArteriosus,
 
-  "pavlik-harness": illustrationPavlikHarness,
   "pavlik-harness-rpn": illustrationPavlikHarness,
   "pavlik-harness-rn": illustrationPavlikHarness,
   "pavlik-harness-np": illustrationPavlikHarness,
@@ -2231,28 +2206,18 @@ const lessonSpecificImages: Record<string, string> = {
   "vital-signs-pediatric-rn": illustrationPediatricVitals,
   "vital-signs-pediatric-np": illustrationPediatricVitals,
 
-  "pediatric-dehydration": illustrationPediatricDehydrationV2,
-  "pediatric-dehydration-rpn": illustrationPediatricDehydrationV2,
-  "pediatric-dehydration-rn": illustrationPediatricDehydrationV2,
-  "pediatric-dehydration-np": illustrationPediatricDehydrationV2,
   "dehydration-pediatric": illustrationPediatricDehydration,
   "dehydration-pediatric-rpn": illustrationPediatricDehydration,
   "dehydration-pediatric-rn": illustrationPediatricDehydration,
   "dehydration-pediatric-np": illustrationPediatricDehydration,
 
-  "pinworm": illustrationPinwormsNew,
   "pinworm-rpn": illustrationPinwormsNew,
   "pinworm-rn": illustrationPinwormsNew,
   "pinworm-np": illustrationPinwormsNew,
 
-  "phenylketonuria": illustrationPKU,
   "phenylketonuria-rpn": illustrationPKU,
   "phenylketonuria-rn": illustrationPKU,
   "phenylketonuria-np": illustrationPKU,
-  "pku": illustrationPKU,
-  "pku-rpn": illustrationPKU,
-  "pku-rn": illustrationPKU,
-  "pku-np": illustrationPKU,
 
   "pyloric-stenosis": illustrationPyloricStenosis,
   "pyloric-stenosis-rpn": illustrationPyloricStenosis,
@@ -2342,7 +2307,6 @@ const lessonSpecificImages: Record<string, string> = {
   "moisture-associated-skin-damage-rpn": illustrationMASD,
   "moisture-associated-skin-damage-rn": illustrationMASD,
   "moisture-associated-skin-damage-np": illustrationMASD,
-  "skin-integrity": illustrationMASD,
 
   "mastitis-rpn": illustrationMastitis,
   "mastitis-rn": illustrationMastitis,
@@ -2409,7 +2373,6 @@ const lessonSpecificImages: Record<string, string> = {
   "neonatal-reflexes-rpn": illustrationNeonatalReflexes,
   "neonatal-reflexes-rn": illustrationNeonatalReflexes,
   "neonatal-reflexes-np": illustrationNeonatalReflexes,
-  "newborn-reflexes": illustrationNeonatalReflexes,
 
   "neonatal-vital-signs-rpn": illustrationNeonatalVitalSigns,
   "neonatal-vital-signs": illustrationNeonatalVitalSigns,
