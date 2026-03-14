@@ -89,6 +89,15 @@ const EncyclopediaAdmin = lazy(() => import("./pages/encyclopedia-admin"));
 const ProgrammaticSeoPage = lazy(() => import("@/pages/programmatic-seo-page"));
 const CareerGuidePage = lazy(() => import("./pages/career-guide-page"));
 
+const ParamedicExamPrepLanding = lazy(() => import("@/pages/allied-exam-prep-landing").then(m => ({ default: m.ParamedicExamPrep })));
+const RrtExamPrepLanding = lazy(() => import("@/pages/allied-exam-prep-landing").then(m => ({ default: m.RrtExamPrep })));
+const MltExamPrepLanding = lazy(() => import("@/pages/allied-exam-prep-landing").then(m => ({ default: m.MltExamPrep })));
+const RadiographyExamPrepLanding = lazy(() => import("@/pages/allied-exam-prep-landing").then(m => ({ default: m.RadiographyExamPrep })));
+const SocialWorkExamPrepLanding = lazy(() => import("@/pages/allied-exam-prep-landing").then(m => ({ default: m.SocialWorkExamPrep })));
+const PsychotherapyExamPrepLanding = lazy(() => import("@/pages/allied-exam-prep-landing").then(m => ({ default: m.PsychotherapyExamPrep })));
+const AddictionsCounsellingExamPrepLanding = lazy(() => import("@/pages/allied-exam-prep-landing").then(m => ({ default: m.AddictionsCounsellingExamPrep })));
+const OccupationalTherapyExamPrepLanding = lazy(() => import("@/pages/allied-exam-prep-landing").then(m => ({ default: m.OccupationalTherapyExamPrep })));
+
 function LoadingFallback() {
   return (
     <div className="min-h-[60vh] flex items-center justify-center">
@@ -281,6 +290,15 @@ export function AlliedRoutes() {
         <Route path="/occupational-therapy/mock-exam">{() => <ProfessionClusterRedirect profession="occupational-therapy" clusterType="mock-exam" />}</Route>
         <Route path="/occupational-therapy/study-guide">{() => <ProfessionClusterRedirect profession="occupational-therapy" clusterType="study-guide" />}</Route>
 
+        <Route path="/paramedic-exam-prep" component={ParamedicExamPrepLanding} />
+        <Route path="/rrt-exam-prep" component={RrtExamPrepLanding} />
+        <Route path="/mlt-exam-prep" component={MltExamPrepLanding} />
+        <Route path="/radiography-exam-prep" component={RadiographyExamPrepLanding} />
+        <Route path="/social-work-exam-prep" component={SocialWorkExamPrepLanding} />
+        <Route path="/psychotherapy-exam-prep" component={PsychotherapyExamPrepLanding} />
+        <Route path="/addictions-counselling-exam-prep" component={AddictionsCounsellingExamPrepLanding} />
+        <Route path="/occupational-therapy-exam-prep" component={OccupationalTherapyExamPrepLanding} />
+
         <Route path="/social-worker-exam-prep">{() => <UnderservedSEOPage profession="social-worker" pageType="exam-prep" />}</Route>
         <Route path="/social-worker-career-guide">{() => <UnderservedSEOPage profession="social-worker" pageType="career-guide" />}</Route>
         <Route path="/social-worker-study-guide">{() => <UnderservedSEOPage profession="social-worker" pageType="study-guide" />}</Route>
@@ -293,7 +311,6 @@ export function AlliedRoutes() {
         <Route path="/addictions-counsellor-career-guide">{() => <UnderservedSEOPage profession="addictions-counsellor" pageType="career-guide" />}</Route>
         <Route path="/addictions-counsellor-study-guide">{() => <UnderservedSEOPage profession="addictions-counsellor" pageType="study-guide" />}</Route>
         <Route path="/addictions-counsellor-practice-questions">{() => <UnderservedSEOPage profession="addictions-counsellor" pageType="practice-questions" />}</Route>
-        <Route path="/occupational-therapy-exam-prep">{() => <UnderservedSEOPage profession="occupational-therapy" pageType="exam-prep" />}</Route>
         <Route path="/occupational-therapy-career-guide">{() => <UnderservedSEOPage profession="occupational-therapy" pageType="career-guide" />}</Route>
         <Route path="/occupational-therapy-study-guide">{() => <UnderservedSEOPage profession="occupational-therapy" pageType="study-guide" />}</Route>
         <Route path="/occupational-therapy-practice-questions">{() => <UnderservedSEOPage profession="occupational-therapy" pageType="practice-questions" />}</Route>

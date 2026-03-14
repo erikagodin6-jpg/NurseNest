@@ -561,6 +561,42 @@ const staticPages: Record<string, { title: string; description: string }> = {
     title: "How to Become a Pharmacy Technician: Career Guide for 2026 | NurseNest",
     description: "Explore pharmacy technician education, PTCB/PEBC certification, salary expectations ($37K-$55K+), and career growth in retail, hospital, and specialty pharmacies.",
   },
+  "/paramedic-exam-prep": {
+    title: "Paramedic Exam Prep | NREMT, PCP & ACP Practice Questions | NurseNest",
+    description: "Complete paramedic exam preparation for NREMT, PCP (Canada), and ACP certification. Practice questions, trauma scenarios, ECG drills, and mock exams with detailed rationales.",
+  },
+  "/rrt-exam-prep": {
+    title: "RRT Exam Prep | NBRC TMC & CSE Practice Questions | NurseNest",
+    description: "Complete RRT exam preparation for NBRC TMC, CSE, and CBRC certification. Practice questions, ABG analysis, ventilator management, and mock exams with detailed rationales.",
+  },
+  "/mlt-exam-prep": {
+    title: "MLT Exam Prep | CSMLS & ASCP Practice Questions | NurseNest",
+    description: "Complete MLT exam preparation for CSMLS (Canada) and ASCP (USA) certification. 1,000+ practice questions, flashcards, mock exams, lab image drills, and personalized study plans.",
+  },
+  "/radiography-exam-prep": {
+    title: "Radiography Exam Prep | CAMRT & ARRT Practice Questions | NurseNest",
+    description: "Complete radiography exam preparation for CAMRT (Canada) and ARRT (USA) certification. Practice questions, positioning guides, physics review, flashcards, and adaptive exam simulators.",
+  },
+  "/social-work-exam-prep": {
+    title: "Social Work Exam Prep | ASWB Clinical & Masters Practice Questions | NurseNest",
+    description: "Complete ASWB exam preparation for Clinical, Masters, and Advanced Generalist levels. Practice questions, DSM-5 case studies, ethics scenario drills, mock exams, and personalized study plans.",
+  },
+  "/psychotherapy-exam-prep": {
+    title: "Psychotherapy Exam Prep | CRPO, NCE & Counseling Certification | NurseNest",
+    description: "Complete psychotherapy exam preparation for CRPO Registration Exam, NCE, CMHCE, and CCC certification. Practice questions, therapeutic modality simulations, mock exams, and clinical rationales.",
+  },
+  "/addictions-counselling-exam-prep": {
+    title: "Addictions Counselling Exam Prep | IC&RC ADC & CASAC | NurseNest",
+    description: "Complete addictions counselor exam preparation for IC&RC ADC, CASAC, and CCAC certification. Practice questions, motivational interviewing simulations, substance identification drills, and mock exams.",
+  },
+  "/occupational-therapy-exam-prep": {
+    title: "Occupational Therapy Exam Prep | NBCOT OTR & NOTCE | NurseNest",
+    description: "Complete occupational therapy exam preparation for NBCOT OTR (USA) and NOTCE (Canada). Practice questions, clinical case analysis, SMART goal writing, mock exams, and personalized study plans.",
+  },
+  "/nursing-exam-prep": {
+    title: "Nursing Exam Prep | NCLEX-RN, NCLEX-PN, REx-PN & NP | NurseNest",
+    description: "Complete nursing exam preparation for NCLEX-RN, NCLEX-PN, REx-PN, and NP certification. 4,000+ practice questions, adaptive mock exams, pharmacology flashcards, and pathophysiology lessons.",
+  },
   "/login": {
     title: "Log In | NurseNest",
     description: "Log in to your NurseNest account to access nursing lessons, flashcards, and exam prep tools.",
