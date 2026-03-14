@@ -270,6 +270,14 @@ const DemoStreakAnalytics = lazy(() => import("@/pages/demo-streak-analytics"));
 const DemoSessionComparison = lazy(() => import("@/pages/demo-session-comparison"));
 const DemoHeroShowcase = lazy(() => import("@/pages/demo-hero-showcase"));
 const SeoPracticeQuiz = lazy(() => import("@/pages/seo-practice-quiz"));
+const ParamedicPracticeQuestions = lazy(() => import("@/pages/profession-practice-questions").then(m => ({ default: m.ParamedicPracticeQuestions })));
+const RrtPracticeQuestions = lazy(() => import("@/pages/profession-practice-questions").then(m => ({ default: m.RrtPracticeQuestions })));
+const MltPracticeQuestionsPage = lazy(() => import("@/pages/profession-practice-questions").then(m => ({ default: m.MltPracticeQuestions })));
+const ImagingPracticeQuestions = lazy(() => import("@/pages/profession-practice-questions").then(m => ({ default: m.ImagingPracticeQuestions })));
+const SocialWorkPracticeQuestions = lazy(() => import("@/pages/profession-practice-questions").then(m => ({ default: m.SocialWorkPracticeQuestions })));
+const PsychotherapyPracticeQuestions = lazy(() => import("@/pages/profession-practice-questions").then(m => ({ default: m.PsychotherapyPracticeQuestions })));
+const AddictionsPracticeQuestions = lazy(() => import("@/pages/profession-practice-questions").then(m => ({ default: m.AddictionsPracticeQuestions })));
+const OccupationalTherapyPracticeQuestions = lazy(() => import("@/pages/profession-practice-questions").then(m => ({ default: m.OccupationalTherapyPracticeQuestions })));
 const OfflineStudyPage = lazy(() => import("@/pages/offline-study"));
 const AdminMockResults = lazy(() => import("@/pages/admin-mock-results"));
 const EncyclopediaLanding = lazy(() => import("@/pages/encyclopedia-landing"));
@@ -654,6 +662,14 @@ function AppRoutes() {
         <Route path="/rex-pn-practice-questions" component={RexPnPracticePage} />
         <Route path="/np-exam-practice-questions" component={NpExamPracticePage} />
         <Route path="/nursing-exam-prep" component={NursingExamPrepPage} />
+        <Route path="/paramedic-practice-questions" component={ParamedicPracticeQuestions} />
+        <Route path="/rrt-practice-questions" component={RrtPracticeQuestions} />
+        <Route path="/mlt-practice-questions" component={MltPracticeQuestionsPage} />
+        <Route path="/imaging-practice-questions" component={ImagingPracticeQuestions} />
+        <Route path="/social-work-practice-questions" component={SocialWorkPracticeQuestions} />
+        <Route path="/psychotherapy-practice-questions" component={PsychotherapyPracticeQuestions} />
+        <Route path="/addictions-practice-questions" component={AddictionsPracticeQuestions} />
+        <Route path="/occupational-therapy-practice-questions" component={OccupationalTherapyPracticeQuestions} />
         <Route path="/quiz/:slug" component={SeoPracticeQuiz} />
         <Route path="/offline-study" component={OfflineStudyPage} />
         <Route path="/glossary/:term" component={GlossaryPage} />
