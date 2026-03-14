@@ -130,6 +130,7 @@ const LecturesPage = lazy(() => import("@/pages/lectures"));
 const DeckPage = lazy(() => import("@/pages/deck-page"));
 const ProbabilitySimulatorPage = lazy(() => import("@/pages/probability-simulator"));
 const SeoPage = lazy(() => import("@/pages/seo-page"));
+const AdminSeoLessonsPage = lazy(() => import("@/pages/admin-seo-lessons"));
 const AdminSeoDashboard = lazy(() => import("@/pages/admin-seo-dashboard"));
 const AdminTranslationDashboard = lazy(() => import("@/pages/admin-translation-dashboard"));
 const AdminTranslationCoverage = lazy(() => import("@/pages/admin-translation-coverage"));
@@ -622,6 +623,7 @@ function AppRoutes() {
         <Route path="/admin/seo-progress" component={AdminSeoProgress} />
         <Route path="/admin/cross-platform" component={AdminCrossPlatformAnalytics} />
         <Route path="/admin/programmatic-seo" component={AdminProgrammaticSeo} />
+        <Route path="/admin/seo-lessons" component={AdminSeoLessonsPage} />
         <Route path="/admin/institutions" component={AdminInstitutions} />
         <Route path="/instructor" component={InstructorDashboard} />
         <Route path="/admin/medical-imaging" component={AdminMedicalImaging} />

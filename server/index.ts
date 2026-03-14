@@ -542,6 +542,19 @@ app.get("/sitemap.xml", async (_req, res) => {
     console.error("Nursing hub sitemap error:", e);
   }
 
+  try {
+    const { pool: lessonPool } = await import("./storage");
+    const seoLessons = await lessonPool.query(
+      `SELECT slug, updated_at FROM lessons WHERE status = 'published' ORDER BY updated_at DESC LIMIT 2500`
+    ).catch(() => ({ rows: [] }));
+    for (const lesson of seoLessons.rows) {
+      const lastmod = lesson.updated_at ? new Date(lesson.updated_at).toISOString().split("T")[0] : today;
+      entries.push(sitemapUrl(base, `/lessons/${lesson.slug}`, "0.8", "weekly", indexableLocales, lastmod));
+    }
+  } catch (e) {
+    console.error("SEO lessons sitemap error:", e);
+  }
+
   entries.push(sitemapUrl(base, "/nclex-rn/mock-exam", "0.9", "weekly", indexableLocales, today));
   entries.push(sitemapUrl(base, "/nclex-pn/mock-exam", "0.9", "weekly", indexableLocales, today));
   entries.push(sitemapUrl(base, "/rex-pn/mock-exam", "0.9", "weekly", indexableLocales, today));

@@ -19218,6 +19218,160 @@ Rules:
     }
   });
 
+  // --------------------
+  // Programmatic SEO Lessons
+  // --------------------
+  app.get("/api/seo-lessons", async (req, res) => {
+    try {
+      const { category, tier, status, limit, offset } = req.query;
+      const lessons = await storage.getAllLessons({
+        category: category as string,
+        tier: tier as string,
+        status: (status as string) || "published",
+        limit: limit ? parseInt(limit as string) : 50,
+        offset: offset ? parseInt(offset as string) : 0,
+      });
+      const total = await storage.getLessonCount({
+        category: category as string,
+        tier: tier as string,
+        status: (status as string) || "published",
+      });
+      res.json({ lessons, total });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/seo-lessons/categories", async (_req, res) => {
+    try {
+      const r = await pool.query(
+        "SELECT category, COUNT(*)::int AS count FROM lessons WHERE status = 'published' AND category IS NOT NULL GROUP BY category ORDER BY count DESC"
+      );
+      res.json(r.rows.map((row: any) => ({ category: row.category, count: row.count })));
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/seo-lessons/slugs", async (_req, res) => {
+    try {
+      const slugs = await storage.getAllPublishedLessonSlugs();
+      res.json(slugs);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/seo-lessons/:slug", async (req, res) => {
+    try {
+      const lesson = await storage.getLessonBySlug(req.params.slug);
+      if (!lesson) return res.status(404).json({ error: "Lesson not found" });
+      if (lesson.status !== "published") {
+        return res.status(404).json({ error: "Lesson not found" });
+      }
+      const related = await storage.getRelatedLessons(req.params.slug, 3);
+      res.json({ lesson, related });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/admin/seo-lessons", async (req, res) => {
+    const admin = await requireAdmin(req, res);
+    if (!admin) return;
+    try {
+      const { category, tier, status, limit, offset } = req.query;
+      const lessons = await storage.getAllLessons({
+        category: category as string,
+        tier: tier as string,
+        status: status as string,
+        limit: limit ? parseInt(limit as string) : 100,
+        offset: offset ? parseInt(offset as string) : 0,
+      });
+      const total = await storage.getLessonCount({
+        category: category as string,
+        tier: tier as string,
+        status: status as string,
+      });
+      res.json({ lessons, total });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/admin/seo-lessons/:id", async (req, res) => {
+    const admin = await requireAdmin(req, res);
+    if (!admin) return;
+    try {
+      const lesson = await storage.getLessonBySlug(req.params.id);
+      if (!lesson) return res.status(404).json({ error: "Lesson not found" });
+      res.json({ lesson });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.post("/api/admin/seo-lessons", async (req, res) => {
+    const admin = await requireAdmin(req, res);
+    if (!admin) return;
+    try {
+      const data = req.body;
+      if (!data.title) return res.status(400).json({ error: "Title is required" });
+      if (!data.slug) {
+        const { generateLessonSlug } = await import("../shared/schema");
+        data.slug = generateLessonSlug(data.title);
+      }
+      const existing = await storage.getLessonBySlug(data.slug);
+      if (existing) return res.status(409).json({ error: "Slug already exists" });
+      const lesson = await storage.createLesson(data);
+      res.json(lesson);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.put("/api/admin/seo-lessons/:id", async (req, res) => {
+    const admin = await requireAdmin(req, res);
+    if (!admin) return;
+    try {
+      const lesson = await storage.updateLesson(req.params.id, req.body);
+      res.json(lesson);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.delete("/api/admin/seo-lessons/:id", async (req, res) => {
+    const admin = await requireAdmin(req, res);
+    if (!admin) return;
+    try {
+      await storage.deleteLesson(req.params.id);
+      res.json({ success: true });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.post("/api/admin/seo-lessons/bulk-import", async (req, res) => {
+    const admin = await requireAdmin(req, res);
+    if (!admin) return;
+    try {
+      const { lessons: lessonsData } = req.body;
+      if (!Array.isArray(lessonsData)) return res.status(400).json({ error: "lessons array required" });
+      const { generateLessonSlug } = await import("../shared/schema");
+      const processed = lessonsData.map((l: any) => ({
+        ...l,
+        slug: l.slug || generateLessonSlug(l.title),
+      }));
+      const results = await storage.bulkCreateLessons(processed);
+      const created = results.filter((r: any) => !r.error).length;
+      const errors = results.filter((r: any) => r.error);
+      res.json({ created, errors, total: lessonsData.length });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
   return httpServer;
 }
 

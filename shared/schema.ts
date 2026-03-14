@@ -5242,3 +5242,53 @@ export const insertApplyNestLeadSchema = createInsertSchema(applyNestLeads).omit
 });
 export type ApplyNestLead = typeof applyNestLeads.$inferSelect;
 export type InsertApplyNestLead = z.infer<typeof insertApplyNestLeadSchema>;
+
+export const lessons = pgTable("lessons", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  slug: text("slug").notNull().unique(),
+  title: text("title").notNull(),
+  category: text("category"),
+  subCategory: text("sub_category"),
+  tier: text("tier").default("free"),
+  status: text("status").default("draft"),
+  summary: text("summary"),
+  definition: text("definition"),
+  pathophysiology: text("pathophysiology"),
+  signsSymptoms: jsonb("signs_symptoms").default(sql`'[]'::jsonb`),
+  diagnostics: jsonb("diagnostics").default(sql`'[]'::jsonb`),
+  treatment: jsonb("treatment").default(sql`'[]'::jsonb`),
+  nursingInterventions: jsonb("nursing_interventions").default(sql`'[]'::jsonb`),
+  complications: jsonb("complications").default(sql`'[]'::jsonb`),
+  clinicalPearls: jsonb("clinical_pearls").default(sql`'[]'::jsonb`),
+  references: jsonb("references").default(sql`'[]'::jsonb`),
+  seoTitle: text("seo_title"),
+  seoDescription: text("seo_description"),
+  seoKeywords: text("seo_keywords").array().default(sql`'{}'::text[]`),
+  imageUrl: text("image_url"),
+  imageAlt: text("image_alt"),
+  relatedLessonSlugs: text("related_lesson_slugs").array().default(sql`'{}'::text[]`),
+  linkedFlashcardSetId: varchar("linked_flashcard_set_id"),
+  linkedQuestionBankId: varchar("linked_question_bank_id"),
+  isPublicPreview: boolean("is_public_preview").default(false),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export const insertLessonSchema = createInsertSchema(lessons).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+export type Lesson = typeof lessons.$inferSelect;
+export type InsertLesson = z.infer<typeof insertLessonSchema>;
+
+export function generateLessonSlug(title: string): string {
+  return title
+    .toLowerCase()
+    .replace(/\(.*?\)/g, "")
+    .replace(/[^a-z0-9\s-]/g, "")
+    .replace(/\s+/g, "-")
+    .replace(/-+/g, "-")
+    .replace(/^-|-$/g, "")
+    .slice(0, 100);
+}

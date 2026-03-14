@@ -49,6 +49,8 @@ Key systems and engines include:
 - **Clinical Specialty Hub Pages**: 16 individual specialty hub pages (ICU, Pediatric ICU, NICU, Med-Surg, Orthopedics, Mental Health, Nephrology, Labor & Delivery, Postpartum, Neurology, Palliative Care, Trauma, Public Health, Community Nursing, Long-Term Care, Rehabilitation) with matching SEO landing pages, structured data, and FAQ sections.
 - **Nursing SEO Content Hub**: Three pillar pages (`/nursing-certifications`, `/nursing-specialties`, `/study-pathways`) with 35+ subpages (10 certifications, 15 specialties, 10 study pathways) stored in `seo_pages` table. Generic subpage template (`nursing-hub-page.tsx`) renders content from API with TOC sidebar, FAQ accordion, structured data, breadcrumbs, internal cross-linking, and CTAs. Routes: `/certifications/:slug`, `/specialties/:slug`, `/study-pathways/:slug`. API: `server/nursing-content-hub.ts`, seed: `server/seed-nursing-content-hub.ts`.
 
+- **SEO Lesson Engine**: Dedicated `lessons` table with structured clinical fields (definition, pathophysiology, signs/symptoms, diagnostics, treatment, nursing interventions, complications, clinical pearls, references). Auto-generated slugs, SEO-optimized pages at `/lessons/:slug` with MedicalCondition, FAQPage, and Course structured data schemas. Paywall logic based on tier access. Admin CRUD panel at `/admin/seo-lessons` with bulk JSON import. Sitemap auto-integration for all published lessons. API: `/api/seo-lessons` (list), `/api/seo-lessons/:slug` (detail, published only), `/api/admin/seo-lessons` (admin CRUD).
+
 The platform utilizes PostgreSQL with Drizzle ORM for database management.
 
 ## External Dependencies

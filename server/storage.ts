@@ -291,6 +291,17 @@ export interface IStorage {
   updateCaseStudyQuestion(id: string, updates: Partial<InsertCaseStudyQuestion>): Promise<CaseStudyQuestion>;
   deleteCaseStudyQuestion(id: string): Promise<void>;
   getCaseStudyFull(id: string): Promise<{ study: CaseStudy; steps: (CaseStudyStep & { questions: CaseStudyQuestion[] })[] } | undefined>;
+
+  getAllLessons(filters?: { category?: string; tier?: string; status?: string; limit?: number; offset?: number }): Promise<any[]>;
+  getLessonBySlug(slug: string): Promise<any | undefined>;
+  getLessonById(id: string): Promise<any | undefined>;
+  createLesson(data: any): Promise<any>;
+  updateLesson(id: string, updates: any): Promise<any>;
+  deleteLesson(id: string): Promise<void>;
+  getRelatedLessons(slug: string, limit?: number): Promise<any[]>;
+  getLessonCount(filters?: { category?: string; tier?: string; status?: string }): Promise<number>;
+  bulkCreateLessons(lessons: any[]): Promise<any[]>;
+  getAllPublishedLessonSlugs(): Promise<string[]>;
 }
 
 import { getDevPool } from "./db";
@@ -1965,6 +1976,141 @@ export class DatabaseStorage implements IStorage {
       })
     );
     return { study, steps: stepsWithQuestions };
+  }
+
+  async getAllLessons(filters?: { category?: string; tier?: string; status?: string; limit?: number; offset?: number }): Promise<any[]> {
+    let query = "SELECT * FROM lessons WHERE 1=1";
+    const params: any[] = [];
+    let idx = 1;
+    if (filters?.category) { query += ` AND category = $${idx++}`; params.push(filters.category); }
+    if (filters?.tier) { query += ` AND tier = $${idx++}`; params.push(filters.tier); }
+    if (filters?.status) { query += ` AND status = $${idx++}`; params.push(filters.status); }
+    query += " ORDER BY created_at DESC";
+    if (filters?.limit) { query += ` LIMIT $${idx++}`; params.push(filters.limit); }
+    if (filters?.offset) { query += ` OFFSET $${idx++}`; params.push(filters.offset); }
+    const r = await pool.query(query, params);
+    return r.rows.map(snakeToCamel);
+  }
+
+  async getLessonBySlug(slug: string): Promise<any | undefined> {
+    const r = await pool.query("SELECT * FROM lessons WHERE slug = $1", [slug]);
+    return r.rows[0] ? snakeToCamel(r.rows[0]) : undefined;
+  }
+
+  async getLessonById(id: string): Promise<any | undefined> {
+    const r = await pool.query("SELECT * FROM lessons WHERE id = $1", [id]);
+    return r.rows[0] ? snakeToCamel(r.rows[0]) : undefined;
+  }
+
+  async createLesson(data: any): Promise<any> {
+    const r = await pool.query(
+      `INSERT INTO lessons (slug, title, category, sub_category, tier, status, summary, definition, pathophysiology, signs_symptoms, diagnostics, treatment, nursing_interventions, complications, clinical_pearls, "references", seo_title, seo_description, seo_keywords, image_url, image_alt, related_lesson_slugs, linked_flashcard_set_id, linked_question_bank_id, is_public_preview)
+       VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20,$21,$22,$23,$24,$25) RETURNING *`,
+      [
+        data.slug, data.title, data.category || null, data.subCategory || null,
+        data.tier || "free", data.status || "draft", data.summary || null,
+        data.definition || null, data.pathophysiology || null,
+        JSON.stringify(data.signsSymptoms || []), JSON.stringify(data.diagnostics || []),
+        JSON.stringify(data.treatment || []), JSON.stringify(data.nursingInterventions || []),
+        JSON.stringify(data.complications || []), JSON.stringify(data.clinicalPearls || []),
+        JSON.stringify(data.references || []),
+        data.seoTitle || null, data.seoDescription || null, data.seoKeywords || [],
+        data.imageUrl || null, data.imageAlt || null, data.relatedLessonSlugs || [],
+        data.linkedFlashcardSetId || null, data.linkedQuestionBankId || null,
+        data.isPublicPreview || false,
+      ]
+    );
+    return snakeToCamel(r.rows[0]);
+  }
+
+  async updateLesson(id: string, updates: any): Promise<any> {
+    const sets: string[] = [];
+    const vals: any[] = [];
+    let idx = 1;
+    const fieldMap: Record<string, string> = {
+      slug: "slug", title: "title", category: "category", subCategory: "sub_category",
+      tier: "tier", status: "status", summary: "summary", definition: "definition",
+      pathophysiology: "pathophysiology", seoTitle: "seo_title", seoDescription: "seo_description",
+      seoKeywords: "seo_keywords", imageUrl: "image_url", imageAlt: "image_alt",
+      relatedLessonSlugs: "related_lesson_slugs", linkedFlashcardSetId: "linked_flashcard_set_id",
+      linkedQuestionBankId: "linked_question_bank_id", isPublicPreview: "is_public_preview",
+    };
+    const jsonFields = ["signsSymptoms", "diagnostics", "treatment", "nursingInterventions", "complications", "clinicalPearls", "references"];
+    const jsonFieldMap: Record<string, string> = {
+      signsSymptoms: "signs_symptoms", diagnostics: "diagnostics", treatment: "treatment",
+      nursingInterventions: "nursing_interventions", complications: "complications",
+      clinicalPearls: "clinical_pearls", references: '"references"',
+    };
+    for (const [key, col] of Object.entries(fieldMap)) {
+      if (updates[key] !== undefined) { sets.push(`${col} = $${idx++}`); vals.push(updates[key]); }
+    }
+    for (const key of jsonFields) {
+      if (updates[key] !== undefined) { sets.push(`${jsonFieldMap[key]} = $${idx++}`); vals.push(JSON.stringify(updates[key])); }
+    }
+    if (sets.length === 0) {
+      const existing = await this.getLessonById(id);
+      if (!existing) throw new Error("Lesson not found");
+      return existing;
+    }
+    sets.push(`updated_at = NOW()`);
+    vals.push(id);
+    const r = await pool.query(`UPDATE lessons SET ${sets.join(", ")} WHERE id = $${idx} RETURNING *`, vals);
+    if (!r.rows[0]) throw new Error("Lesson not found");
+    return snakeToCamel(r.rows[0]);
+  }
+
+  async deleteLesson(id: string): Promise<void> {
+    await pool.query("DELETE FROM lessons WHERE id = $1", [id]);
+  }
+
+  async getRelatedLessons(slug: string, limit: number = 3): Promise<any[]> {
+    const lesson = await this.getLessonBySlug(slug);
+    if (!lesson) return [];
+    if (lesson.relatedLessonSlugs && lesson.relatedLessonSlugs.length > 0) {
+      const placeholders = lesson.relatedLessonSlugs.map((_: string, i: number) => `$${i + 1}`).join(", ");
+      const r = await pool.query(
+        `SELECT id, slug, title, category, tier, summary, image_url FROM lessons WHERE slug IN (${placeholders}) AND status = 'published' LIMIT $${lesson.relatedLessonSlugs.length + 1}`,
+        [...lesson.relatedLessonSlugs, limit]
+      );
+      return r.rows.map(snakeToCamel);
+    }
+    if (lesson.category) {
+      const r = await pool.query(
+        "SELECT id, slug, title, category, tier, summary, image_url FROM lessons WHERE category = $1 AND slug != $2 AND status = 'published' ORDER BY RANDOM() LIMIT $3",
+        [lesson.category, slug, limit]
+      );
+      return r.rows.map(snakeToCamel);
+    }
+    return [];
+  }
+
+  async getLessonCount(filters?: { category?: string; tier?: string; status?: string }): Promise<number> {
+    let query = "SELECT COUNT(*)::int AS count FROM lessons WHERE 1=1";
+    const params: any[] = [];
+    let idx = 1;
+    if (filters?.category) { query += ` AND category = $${idx++}`; params.push(filters.category); }
+    if (filters?.tier) { query += ` AND tier = $${idx++}`; params.push(filters.tier); }
+    if (filters?.status) { query += ` AND status = $${idx++}`; params.push(filters.status); }
+    const r = await pool.query(query, params);
+    return r.rows[0].count;
+  }
+
+  async bulkCreateLessons(lessonsData: any[]): Promise<any[]> {
+    const results: any[] = [];
+    for (const data of lessonsData) {
+      try {
+        const lesson = await this.createLesson(data);
+        results.push(lesson);
+      } catch (e: any) {
+        results.push({ error: e.message, slug: data.slug });
+      }
+    }
+    return results;
+  }
+
+  async getAllPublishedLessonSlugs(): Promise<string[]> {
+    const r = await pool.query("SELECT slug FROM lessons WHERE status = 'published' ORDER BY title ASC");
+    return r.rows.map((row: any) => row.slug);
   }
 }
 

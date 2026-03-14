@@ -1,4 +1,5 @@
 import { LocaleLink } from "@/lib/LocaleLink";
+import { SeoLessonDetail } from "@/pages/seo-lesson-detail";
 import { useState, useMemo, useEffect, useCallback, useRef } from "react";
 import { useParams, useLocation } from "wouter";
 import { Navigation } from "@/components/navigation";
@@ -1695,6 +1696,32 @@ export default function LessonDetail() {
   const [showAdminCreator, setShowAdminCreator] = useState(false);
   const { toast } = useToast();
 
+  const [seoLesson, setSeoLesson] = useState<any>(null);
+  const [seoRelated, setSeoRelated] = useState<any[]>([]);
+  const [seoChecked, setSeoChecked] = useState(false);
+
+  useEffect(() => {
+    if (!id) { setSeoChecked(true); return; }
+    setSeoLesson(null);
+    setSeoRelated([]);
+    setSeoChecked(false);
+    const controller = new AbortController();
+    fetch(`/api/seo-lessons/${id}`, { signal: controller.signal })
+      .then(r => {
+        if (!r.ok) throw new Error("Not found");
+        return r.json();
+      })
+      .then(data => {
+        if (data?.lesson) {
+          setSeoLesson(data.lesson);
+          setSeoRelated(data.related || []);
+        }
+        setSeoChecked(true);
+      })
+      .catch(() => { setSeoChecked(true); });
+    return () => controller.abort();
+  }, [id]);
+
   useEffect(() => {
     const handleRegionChange = () => {
       setRegion((localStorage.getItem("nursenest-region") as "US" | "CA") || "US");
@@ -1871,8 +1898,12 @@ export default function LessonDetail() {
     return lessonContent ? getTestQuestions(lessonContent, "posttest") : [];
   }, [lessonContent]);
 
+  if (seoLesson && seoChecked) {
+    return <SeoLessonDetail lesson={seoLesson} related={seoRelated} />;
+  }
+
   if (!baseLesson || !lessonContent) {
-    if (apiLoading || dbLoading) {
+    if (apiLoading || dbLoading || !seoChecked) {
       return (
         <div className="min-h-screen bg-warmwhite flex flex-col font-sans text-gray-900">
           <Navigation />
