@@ -1,6 +1,5 @@
 import { LocaleLink } from "@/lib/LocaleLink";
 import { useState, useEffect } from "react";
-import { getExamConstants, getCurrency, type Region as ConstRegion } from "@shared/constants";
 import { useLocation } from "wouter";
 import { Navigation } from "@/components/navigation";
 import { AdminEditButton } from "@/components/admin-edit-button";
@@ -12,10 +11,18 @@ import { useI18n } from "@/lib/i18n";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Check, Shield, HelpCircle, Star, Clock, X, CreditCard, Calculator, Beaker, Zap, Award, Trophy, ArrowLeft, Crown, Sparkles } from "lucide-react";
+import {
+  Check, Shield, HelpCircle, Clock, X, CreditCard,
+  Zap, Award, Trophy, ArrowLeft, Crown, BookOpen,
+  GraduationCap, Lock,
+} from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import PayPalButton from "@/components/PayPalButton";
-import { loadStripe } from "@stripe/stripe-js";
+import {
+  durationLabels, durationMonths, tierMeta,
+  socialProofStats, featureComparisonRows, studyTimelines,
+  type TierKey, type DurationKey,
+} from "@shared/pricing-config";
 
 type PricingPlan = {
   id: string;
@@ -31,38 +38,17 @@ type PricingPlan = {
   displayOrder: number;
 };
 
-
-const tierDisplayInfo: Record<string, { nameCA: string; nameUS: string; description: string; icon: any; color: string; bgColor: string }> = {
-  rpn: { nameCA: "RPN", nameUS: "LVN", description: "Practical nursing exam preparation", icon: Shield, color: "text-blue-600", bgColor: "bg-blue-50 border-blue-200" },
-  rn: { nameCA: "RN", nameUS: "RN/NCLEX", description: "Registered nursing exam preparation", icon: Award, color: "text-purple-600", bgColor: "bg-purple-50 border-purple-200" },
-  np: { nameCA: "NP", nameUS: "NP", description: "Nurse practitioner board preparation", icon: Trophy, color: "text-amber-600", bgColor: "bg-amber-50 border-amber-200" },
-  allied: { nameCA: "Allied Health", nameUS: "Allied Health", description: "Allied health professional certification prep", icon: Sparkles, color: "text-teal-600", bgColor: "bg-teal-50 border-teal-200" },
+const tierIcons: Record<TierKey, typeof Shield> = {
+  rpn: Shield,
+  rn: Award,
+  np: Trophy,
 };
 
-const durationLabels: Record<string, string> = {
-  monthly: "1 Month",
-  "3-month": "3 Months",
-  "6-month": "6 Months",
-  yearly: "1 Year",
+const tierColors: Record<TierKey, { color: string; bgColor: string }> = {
+  rpn: { color: "text-blue-600", bgColor: "bg-blue-50 border-blue-200" },
+  rn: { color: "text-purple-600", bgColor: "bg-purple-50 border-purple-200" },
+  np: { color: "text-amber-600", bgColor: "bg-amber-50 border-amber-200" },
 };
-
-const durationMonths: Record<string, number> = {
-  monthly: 1,
-  "3-month": 3,
-  "6-month": 6,
-  yearly: 12,
-};
-
-let stripePromise: ReturnType<typeof loadStripe> | null = null;
-function getStripePromise() {
-  if (!stripePromise) {
-    stripePromise = fetch("/api/stripe/publishable-key")
-      .then((r) => r.json())
-      .then((data) => loadStripe(data.publishableKey))
-      .catch(() => null);
-  }
-  return stripePromise;
-}
 
 export default function PricingPage() {
   const [, navigate] = useLocation();
@@ -92,15 +78,6 @@ export default function PricingPage() {
       .then((d) => setPaypalAvailable(d.configured))
       .catch(() => {});
   }, []);
-
-  useEffect(() => {
-    if (user && user.tier === "free") {
-      fetch(`/api/free-trial/usage?userId=${user.id}`)
-        .then((r) => r.json())
-        .then(setTrialUsage)
-        .catch(() => {});
-    }
-  }, [user]);
 
   useEffect(() => {
     const handleRegionChange = () => {
@@ -154,14 +131,14 @@ export default function PricingPage() {
 
   function getMonthlyEquiv(plan: PricingPlan) {
     const price = isCAD ? plan.priceCad : plan.priceUsd;
-    const months = durationMonths[plan.duration];
+    const months = durationMonths[plan.duration as DurationKey];
     if (!months) return null;
     return (price / months / 100).toFixed(2);
   }
 
   function getSavingsPercent(plan: PricingPlan) {
     if (!monthlyPlan || plan.duration === "monthly") return 0;
-    const months = durationMonths[plan.duration];
+    const months = durationMonths[plan.duration as DurationKey];
     if (!months) return 0;
     const monthlyPrice = isCAD ? monthlyPlan.priceCad : monthlyPlan.priceUsd;
     const totalMonthly = monthlyPrice * months;
@@ -171,7 +148,11 @@ export default function PricingPage() {
 
   return (
     <div className="min-h-screen bg-warmwhite flex flex-col font-sans text-gray-900 animate-page-enter">
-      <SEO title="Pricing - NurseNest" description="Affordable nursing exam prep plans for RPN, RN, NP, and Allied Health students. Start free or upgrade for full access to lessons, flashcards, and simulations." canonicalPath="/pricing" />
+      <SEO
+        title="Pricing - NurseNest"
+        description="Affordable nursing exam prep plans for RPN, RN, and NP students. 40,000+ practice questions, 13,000+ flashcards, and adaptive mock exams. Start free or upgrade for full access."
+        canonicalPath="/pricing"
+      />
       <Navigation />
       <main className="flex-1 px-4" style={{ paddingTop: 'var(--space-section)', paddingBottom: 'var(--space-section)' }}>
         <div className="max-w-6xl mx-auto">
@@ -179,13 +160,45 @@ export default function PricingPage() {
 
           {!selectedTier ? (
             <>
-              <div className="text-center mb-12">
-                <h1 className="font-bold mb-4" style={{ fontSize: 'var(--text-hero)' }} data-testid="text-pricing-title">
-                  {t("pricing.title")}
+              {/* Hero Section */}
+              <div className="text-center mb-10">
+                <h1 className="font-bold mb-4 tracking-tight" style={{ fontSize: 'var(--text-hero)' }} data-testid="text-pricing-title">
+                  Pass Your Nursing Exam With Confidence
                 </h1>
-                <p className="text-gray-500 text-lg lg:text-xl max-w-2xl mx-auto leading-relaxed" data-testid="text-pricing-subtitle">
-                  Choose your exam tier to see available plans.
-                  {isCAD ? ` ${t("pricing.pricesCAD")}` : ` ${t("pricing.pricesUSD")}`}
+                <p className="text-gray-500 text-lg lg:text-xl max-w-2xl mx-auto leading-relaxed mb-4" data-testid="text-pricing-subtitle">
+                  40,000+ practice questions, 13,000+ flashcards, and adaptive mock exams built for RPN, RN, and NP licensing exams.
+                </p>
+                <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mb-3">
+                  {user ? (
+                    <Button
+                      className="rounded-full font-semibold bg-primary hover:brightness-110 text-white px-8 h-12 text-base shadow-lg shadow-primary/20"
+                      onClick={() => navigate("/dashboard")}
+                      data-testid="button-hero-start-free"
+                    >
+                      Start Free
+                    </Button>
+                  ) : (
+                    <Button
+                      className="rounded-full font-semibold bg-primary hover:brightness-110 text-white px-8 h-12 text-base shadow-lg shadow-primary/20"
+                      onClick={() => navigate("/register")}
+                      data-testid="button-hero-start-free"
+                    >
+                      Start Free
+                    </Button>
+                  )}
+                  <Button
+                    variant="outline"
+                    className="rounded-full font-semibold px-8 h-12 text-base border-gray-300 text-gray-700 hover:bg-gray-50"
+                    onClick={() => {
+                      document.getElementById("pricing-tiers")?.scrollIntoView({ behavior: "smooth" });
+                    }}
+                    data-testid="button-hero-explore-plans"
+                  >
+                    Explore Plans
+                  </Button>
+                </div>
+                <p className="text-sm text-gray-400" data-testid="text-hero-subtext">
+                  Start with a free 1-day pass. Upgrade anytime.
                 </p>
                 {isCAD && (
                   <div className="mt-5 inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-red-50/80 border border-red-200/40 text-sm shadow-[var(--shadow-card)]" data-testid="badge-canadian-pricing">
@@ -197,7 +210,22 @@ export default function PricingPage() {
                 )}
               </div>
 
-              <div className="flex flex-wrap justify-center gap-4 mb-10">
+              {/* Social Proof Metrics */}
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 max-w-3xl mx-auto mb-12" data-testid="social-proof-metrics">
+                {socialProofStats.map((stat, idx) => (
+                  <div
+                    key={idx}
+                    className="text-center p-4 rounded-2xl bg-white border border-gray-100/80 shadow-[var(--shadow-card)]"
+                    data-testid={`stat-${idx}`}
+                  >
+                    <div className="text-2xl sm:text-3xl font-bold text-primary mb-1">{stat.value}</div>
+                    <div className="text-xs sm:text-sm text-gray-500">{stat.label}</div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Credibility Bar */}
+              <div className="flex flex-wrap justify-center gap-4 mb-10" data-testid="credibility-bar">
                 <div className="inline-flex items-center gap-2 bg-emerald-50/80 border border-emerald-200/40 rounded-full px-5 py-2.5 shadow-[var(--shadow-card)]" data-testid="badge-guarantee-top">
                   <Shield className="w-4 h-4 text-emerald-600" />
                   <span className="text-sm font-medium text-emerald-700">{t("pricing.guaranteeBadge")}</span>
@@ -210,21 +238,27 @@ export default function PricingPage() {
                   <Shield className="w-4 h-4 text-gray-500" />
                   <span className="text-sm font-medium text-gray-600">Cancel anytime</span>
                 </div>
+                <div className="inline-flex items-center gap-2 bg-purple-50/80 border border-purple-200/40 rounded-full px-5 py-2.5 shadow-[var(--shadow-card)]">
+                  <BookOpen className="w-4 h-4 text-purple-600" />
+                  <span className="text-sm font-medium text-purple-700">Canadian and U.S. exam coverage</span>
+                </div>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 max-w-4xl mx-auto mb-16" data-testid="tier-selection-grid">
-                {(["rpn", "rn", "np"] as const).map((tierId, tierIdx) => {
-                  const info = tierDisplayInfo[tierId];
+              {/* Tier Selection Grid */}
+              <div id="pricing-tiers" className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 max-w-4xl mx-auto mb-12" data-testid="tier-selection-grid">
+                {(["rpn", "rn", "np"] as const).map((tierId) => {
+                  const meta = tierMeta[tierId];
+                  const colors = tierColors[tierId];
+                  const Icon = tierIcons[tierId];
                   const tierPlansForCard = plans.filter((p) => p.tier === tierId && p.isEnabled);
                   const lowestPlan = tierPlansForCard.find((p) => p.duration === "monthly");
                   const lowestPrice = lowestPlan ? (isCAD ? lowestPlan.priceCad : lowestPlan.priceUsd) / 100 : 0;
-                  const Icon = info.icon;
                   const isPopularTier = tierId === "rn";
 
                   return (
                     <Card
                       key={tierId}
-                      className={`relative border cursor-pointer card-hover-lift stagger-item ${info.bgColor} ${isPopularTier ? "ring-2 ring-primary/80 shadow-[var(--shadow-elevated)] scale-[1.02]" : "shadow-[var(--shadow-pricing)]"}`}
+                      className={`relative border cursor-pointer card-hover-lift stagger-item ${colors.bgColor} ${isPopularTier ? "ring-2 ring-primary/80 shadow-[var(--shadow-elevated)] scale-[1.02]" : "shadow-[var(--shadow-pricing)]"}`}
                       onClick={() => setSelectedTier(tierId)}
                       data-testid={`card-tier-select-${tierId}`}
                     >
@@ -237,13 +271,13 @@ export default function PricingPage() {
                         </div>
                       )}
                       <CardHeader className="text-center pb-2 pt-8">
-                        <div className={`w-14 h-14 rounded-2xl flex items-center justify-center mx-auto mb-3 bg-white shadow-sm`}>
-                          <Icon className={`w-7 h-7 ${info.color}`} />
+                        <div className="w-14 h-14 rounded-2xl flex items-center justify-center mx-auto mb-3 bg-white shadow-sm">
+                          <Icon className={`w-7 h-7 ${colors.color}`} />
                         </div>
                         <CardTitle className="text-xl font-bold" data-testid={`text-tier-name-${tierId}`}>
-                          {isCAD ? info.nameCA : info.nameUS}
+                          {isCAD ? meta.nameCA : meta.nameUS}
                         </CardTitle>
-                        <p className="text-xs text-gray-500 mt-1">{info.description}</p>
+                        <p className="text-xs text-gray-500 mt-1 leading-relaxed">{meta.tagline}</p>
                       </CardHeader>
                       <CardContent className="text-center pt-2">
                         {lowestPrice > 0 && (
@@ -267,6 +301,7 @@ export default function PricingPage() {
                 })}
               </div>
 
+              {/* Free Pass Card */}
               <div className="mb-16 max-w-2xl mx-auto">
                 <Card className="border border-emerald-200/60 shadow-[var(--shadow-card)] bg-gradient-to-br from-emerald-50/80 to-white" data-testid="card-free-pass">
                   <CardContent className="p-6 sm:p-8 text-center">
@@ -277,7 +312,7 @@ export default function PricingPage() {
                       Free 1-Day Pass
                     </h3>
                     <p className="text-sm text-emerald-600 mb-4 max-w-md mx-auto">
-                      Every new user automatically receives a free 1-day pass to explore NurseNest. No payment required. Upgrade anytime to unlock full access.
+                      Every new account receives a free 1-day pass to explore the platform before upgrading. No payment required.
                     </p>
                     {user ? (
                       <Button
@@ -300,9 +335,58 @@ export default function PricingPage() {
                 </Card>
               </div>
 
-              <div className="mb-20">
-                <div className="text-center mb-10">
-                  <h2 className="font-bold mb-3" style={{ fontSize: 'var(--text-section)' }} data-testid="text-competitor-title">
+              {/* Feature Comparison Table */}
+              <div className="mb-16">
+                <div className="text-center mb-8">
+                  <h2 className="font-bold mb-2" style={{ fontSize: 'var(--text-section)' }} data-testid="text-comparison-title">
+                    What's Included
+                  </h2>
+                  <p className="text-gray-500 text-base max-w-xl mx-auto">
+                    See what you get with each plan.
+                  </p>
+                </div>
+                <div className="max-w-3xl mx-auto overflow-x-auto">
+                  <table className="w-full text-sm border-collapse" data-testid="table-feature-comparison">
+                    <thead>
+                      <tr className="border-b border-gray-200">
+                        <th className="text-left py-3 px-4 font-semibold text-gray-700">Feature</th>
+                        <th className="text-center py-3 px-4 font-semibold text-gray-500">Free Pass</th>
+                        <th className="text-center py-3 px-4 font-semibold text-gray-700">RPN</th>
+                        <th className="text-center py-3 px-4 font-bold text-primary bg-primary/5 rounded-t-lg">RN</th>
+                        <th className="text-center py-3 px-4 font-semibold text-gray-700">NP</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {featureComparisonRows.map((row, idx) => (
+                        <tr key={idx} className="border-b border-gray-100 last:border-0">
+                          <td className="py-3 px-4 text-gray-700 font-medium">{row.feature}</td>
+                          <td className="py-3 px-4 text-center">
+                            {row.free === "No" ? (
+                              <X className="w-4 h-4 text-gray-300 mx-auto" />
+                            ) : (
+                              <span className="text-xs text-gray-400">{row.free}</span>
+                            )}
+                          </td>
+                          {(["rpn", "rn", "np"] as const).map((tier) => (
+                            <td key={tier} className={`py-3 px-4 text-center ${tier === "rn" ? "bg-primary/5" : ""}`}>
+                              {row[tier] === "Full access" ? (
+                                <Check className="w-5 h-5 text-emerald-500 mx-auto" />
+                              ) : (
+                                <span className="text-xs text-gray-400">{row[tier]}</span>
+                              )}
+                            </td>
+                          ))}
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              {/* Competitor Comparison */}
+              <div className="mb-16">
+                <div className="text-center mb-8">
+                  <h2 className="font-bold mb-2" style={{ fontSize: 'var(--text-section)' }} data-testid="text-competitor-title">
                     {t("pricing.competitorTitle")}
                   </h2>
                   <p className="text-gray-500 text-base lg:text-lg max-w-xl mx-auto" data-testid="text-competitor-subtitle">
@@ -348,13 +432,90 @@ export default function PricingPage() {
                 </div>
               </div>
 
-              <div className="flex flex-col items-center gap-8 text-center mt-4">
-                <div className="flex flex-col items-center gap-3 bg-emerald-50/80 border border-emerald-200/40 rounded-3xl px-10 py-8 shadow-[var(--shadow-card)] max-w-md" data-testid="badge-money-back">
-                  <div className="w-14 h-14 rounded-2xl bg-emerald-100/80 flex items-center justify-center mb-1">
-                    <Shield className="w-7 h-7 text-emerald-600" />
+              {/* Study Timeline Guidance */}
+              <div className="mb-16 max-w-3xl mx-auto">
+                <Card className="border border-gray-100/80 shadow-[var(--shadow-card)]">
+                  <CardContent className="py-8 px-8">
+                    <div className="flex items-center gap-3 mb-5">
+                      <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">
+                        <GraduationCap className="w-5 h-5 text-primary" />
+                      </div>
+                      <h3 className="font-bold text-lg text-gray-900" data-testid="text-study-timeline-title">How long should you study?</h3>
+                    </div>
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-4" data-testid="study-timelines">
+                      {(["rpn", "rn", "np"] as const).map((tier) => {
+                        const Icon = tierIcons[tier];
+                        const colors = tierColors[tier];
+                        return (
+                          <div key={tier} className={`p-4 rounded-xl border ${colors.bgColor}`} data-testid={`timeline-${tier}`}>
+                            <div className="flex items-center gap-2 mb-2">
+                              <Icon className={`w-4 h-4 ${colors.color}`} />
+                              <span className="font-semibold text-sm text-gray-800 uppercase">{tierMeta[tier].nameCA}</span>
+                            </div>
+                            <p className="text-sm text-gray-600">{studyTimelines[tier]}</p>
+                          </div>
+                        );
+                      })}
+                    </div>
+                    <p className="text-sm text-gray-500 text-center">
+                      Choose the plan that matches your study timeline. Students typically prepare for 8-12 weeks before their exam.
+                    </p>
+                  </CardContent>
+                </Card>
+              </div>
+
+              {/* Payment Options */}
+              <div className="mb-16 max-w-3xl mx-auto">
+                <Card className="border border-gray-100/80 shadow-[var(--shadow-card)]">
+                  <CardContent className="py-8 px-8">
+                    <div className="flex items-center gap-3 mb-5">
+                      <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">
+                        <CreditCard className="w-5 h-5 text-primary" />
+                      </div>
+                      <h3 className="font-bold text-lg text-gray-900" data-testid="text-bnpl-title">Flexible Payment Options</h3>
+                    </div>
+                    <p className="text-sm text-gray-500 mb-5 leading-relaxed">Pay your way. In addition to credit and debit cards, we accept multiple buy-now-pay-later options at checkout so you can start studying immediately.</p>
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-3" data-testid="bnpl-options-grid">
+                      <div className="flex flex-col items-center p-4 rounded-xl bg-gray-50/80 border border-gray-100">
+                        <span className="text-xs font-bold text-gray-700 mb-1">Credit / Debit</span>
+                        <span className="text-[10px] text-gray-400">Visa, Mastercard, Amex</span>
+                      </div>
+                      <div className="flex flex-col items-center p-4 rounded-xl bg-[#FFB3C7]/8 border border-[#FFB3C7]/15">
+                        <span className="text-xs font-bold text-[#E5678F] mb-1">Klarna</span>
+                        <span className="text-[10px] text-gray-400">Pay in 4 installments</span>
+                      </div>
+                      <div className="flex flex-col items-center p-4 rounded-xl bg-[#B2FCE4]/8 border border-[#B2FCE4]/20">
+                        <span className="text-xs font-bold text-[#00C2A8] mb-1">Afterpay</span>
+                        <span className="text-[10px] text-gray-400">Pay in 4 installments</span>
+                      </div>
+                      <div className="flex flex-col items-center p-4 rounded-xl bg-[#4A4AFF]/5 border border-[#4A4AFF]/10">
+                        <span className="text-xs font-bold text-[#4A4AFF] mb-1">Affirm</span>
+                        <span className="text-[10px] text-gray-400">Pay over time (US only)</span>
+                      </div>
+                    </div>
+                    <p className="text-[10px] text-gray-400 mt-4 text-center">Buy now, pay later options are available at checkout for eligible purchases. Subject to approval by the payment provider.</p>
+                  </CardContent>
+                </Card>
+              </div>
+
+              {/* Trust Signals */}
+              <div className="flex flex-col items-center gap-8 text-center mt-4 mb-8">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-2xl mx-auto w-full" data-testid="trust-signals">
+                  <div className="flex flex-col items-center gap-2 p-5 rounded-2xl bg-emerald-50/80 border border-emerald-200/40">
+                    <Shield className="w-6 h-6 text-emerald-600" />
+                    <span className="text-sm font-bold text-emerald-800">{t("pricing.guaranteeBadge")}</span>
+                    <p className="text-xs text-emerald-600/80">{t("pricing.guaranteeDesc")}</p>
                   </div>
-                  <span className="text-lg font-bold text-emerald-800">{t("pricing.guaranteeBadge")}</span>
-                  <p className="text-sm text-emerald-600/80 leading-relaxed">{t("pricing.guaranteeDesc")}</p>
+                  <div className="flex flex-col items-center gap-2 p-5 rounded-2xl bg-blue-50/80 border border-blue-200/40">
+                    <Zap className="w-6 h-6 text-blue-600" />
+                    <span className="text-sm font-bold text-blue-800">Cancel Anytime</span>
+                    <p className="text-xs text-blue-600/80">No contracts. No commitments. Cancel your subscription whenever you need to.</p>
+                  </div>
+                  <div className="flex flex-col items-center gap-2 p-5 rounded-2xl bg-purple-50/80 border border-purple-200/40">
+                    <Lock className="w-6 h-6 text-purple-600" />
+                    <span className="text-sm font-bold text-purple-800">Secure Checkout</span>
+                    <p className="text-xs text-purple-600/80">Your payment is processed securely through Stripe. We never store your card details.</p>
+                  </div>
                 </div>
                 <LocaleLink href="/faq" className="inline-flex items-center gap-2 text-sm text-primary hover:underline font-medium" data-testid="link-faq">
                   <HelpCircle className="w-4 h-4" />
@@ -364,6 +525,7 @@ export default function PricingPage() {
             </>
           ) : (
             <>
+              {/* Plan Detail View */}
               <div className="mb-8">
                 <Button
                   variant="ghost"
@@ -376,16 +538,18 @@ export default function PricingPage() {
                 </Button>
                 <div className="text-center">
                   <h1 className="font-bold mb-2" style={{ fontSize: 'var(--text-hero)' }} data-testid="text-tier-plans-title">
-                    {isCAD ? tierDisplayInfo[selectedTier]?.nameCA : tierDisplayInfo[selectedTier]?.nameUS} Plans
+                    {isCAD ? tierMeta[selectedTier as TierKey]?.nameCA : tierMeta[selectedTier as TierKey]?.nameUS} Plans
                   </h1>
-                  <p className="text-gray-500 text-lg max-w-2xl mx-auto" data-testid="text-tier-plans-subtitle">
-                    {tierDisplayInfo[selectedTier]?.description}
-                    {isCAD ? ` - ${t("pricing.pricesCAD")}` : ` - ${t("pricing.pricesUSD")}`}
+                  <p className="text-gray-500 text-lg max-w-2xl mx-auto mb-2" data-testid="text-tier-plans-subtitle">
+                    {tierMeta[selectedTier as TierKey]?.tagline}
+                  </p>
+                  <p className="text-sm text-gray-400">
+                    {isCAD ? `${t("pricing.pricesCAD")}` : `${t("pricing.pricesUSD")}`}
                   </p>
                 </div>
               </div>
 
-              <div className="flex flex-wrap justify-center gap-4 mb-10">
+              <div className="flex flex-wrap justify-center gap-4 mb-6">
                 <div className="inline-flex items-center gap-2 bg-emerald-50/80 border border-emerald-200/40 rounded-full px-5 py-2.5 shadow-[var(--shadow-card)]" data-testid="badge-guarantee-plans">
                   <Shield className="w-4 h-4 text-emerald-600" />
                   <span className="text-sm font-medium text-emerald-700">{t("pricing.guaranteeBadge")}</span>
@@ -395,6 +559,11 @@ export default function PricingPage() {
                   <span className="text-sm font-medium text-blue-700">Instant access after payment</span>
                 </div>
               </div>
+
+              {/* Subtle urgency message */}
+              <p className="text-center text-sm text-gray-400 mb-8" data-testid="text-study-urgency">
+                Most students choose the 6-month plan to prepare comfortably before their exam.
+              </p>
 
               {loadingPlans ? (
                 <div className="text-center py-12 text-gray-500">Loading plans...</div>
@@ -406,18 +575,23 @@ export default function PricingPage() {
                     const currency = isCAD ? "CAD" : "USD";
                     const savings = getSavingsPercent(plan);
                     const monthlyEquiv = getMonthlyEquiv(plan);
+                    const is6Month = plan.duration === "6-month";
 
                     return (
                       <Card
                         key={plan.id}
-                        className={`relative border-none transition-all duration-300 hover:-translate-y-1 ${plan.isPopular ? "ring-2 ring-primary/80 shadow-[var(--shadow-elevated)] scale-[1.02]" : "shadow-[var(--shadow-pricing)] hover:shadow-[var(--shadow-pricing-hover)]"}`}
+                        className={`relative border-none transition-all duration-300 hover:-translate-y-1 ${
+                          is6Month
+                            ? "ring-2 ring-primary/80 shadow-[var(--shadow-elevated)] scale-[1.02]"
+                            : "shadow-[var(--shadow-pricing)] hover:shadow-[var(--shadow-pricing-hover)]"
+                        }`}
                         data-testid={`card-plan-${plan.duration}`}
                       >
-                        {plan.isPopular && (
+                        {is6Month && (
                           <div className="absolute -top-4 left-1/2 -translate-x-1/2 z-10">
                             <Badge className="bg-primary text-white px-5 py-1.5 text-sm font-bold shadow-[var(--shadow-elevated)]" data-testid={`badge-popular-${plan.duration}`}>
                               <Trophy className="w-4 h-4 mr-1.5 fill-white" />
-                              {t("pricing.mostPopular")}
+                              Most Popular
                             </Badge>
                           </div>
                         )}
@@ -430,7 +604,7 @@ export default function PricingPage() {
                           </div>
                         )}
                         {savings > 0 && (
-                          <div className="absolute -top-3 right-3">
+                          <div className={`absolute -top-3 right-3 ${is6Month ? "z-10" : ""}`}>
                             <Badge className="bg-green-500 text-white px-3 py-1 text-xs font-semibold shadow-md" data-testid={`badge-save-${plan.duration}`}>
                               Save {savings}%
                             </Badge>
@@ -438,7 +612,7 @@ export default function PricingPage() {
                         )}
                         <CardHeader className="text-center pb-2 pt-8">
                           <CardTitle className="text-lg font-bold" data-testid={`text-plan-name-${plan.duration}`}>
-                            {durationLabels[plan.duration] || plan.duration}
+                            {durationLabels[plan.duration as DurationKey] || plan.duration}
                           </CardTitle>
                           <div className="mt-3 mb-1">
                             <span className="text-3xl font-bold text-primary" data-testid={`text-plan-price-${plan.duration}`}>
@@ -455,17 +629,19 @@ export default function PricingPage() {
                           )}
                         </CardHeader>
                         <CardContent className="pt-2">
-                          <ul className="space-y-2 mb-6">
-                            {(plan.featureList as string[]).map((feature, idx) => (
-                              <li key={idx} className="flex items-start gap-2 text-sm text-gray-600" data-testid={`text-plan-feature-${plan.duration}-${idx}`}>
-                                <Check className="w-4 h-4 text-emerald-500 mt-0.5 flex-shrink-0" />
-                                <span>{feature}</span>
-                              </li>
-                            ))}
-                          </ul>
+                          {Array.isArray(plan.featureList) && plan.featureList.length > 0 && (
+                            <ul className="space-y-2 mb-6">
+                              {(plan.featureList as string[]).map((feature, idx) => (
+                                <li key={idx} className="flex items-start gap-2 text-sm text-gray-600" data-testid={`text-plan-feature-${plan.duration}-${idx}`}>
+                                  <Check className="w-4 h-4 text-emerald-500 mt-0.5 flex-shrink-0" />
+                                  <span>{feature}</span>
+                                </li>
+                              ))}
+                            </ul>
+                          )}
                           <Button
                             className={`w-full rounded-full font-semibold transition-all ${
-                              plan.isPopular
+                              is6Month
                                 ? "bg-primary hover:brightness-110 text-white shadow-[var(--shadow-elevated)] shadow-primary/25 hover:-translate-y-0.5"
                                 : "bg-gray-900 text-white hover:bg-gray-800 shadow-[var(--shadow-card)]"
                             }`}
@@ -476,7 +652,7 @@ export default function PricingPage() {
                             <CreditCard className="w-4 h-4 mr-2" />
                             {loadingTier === plan.id
                               ? t("pricing.processing")
-                              : t("pricing.payWithCard")}
+                              : "Unlock Full Access"}
                           </Button>
 
                           <div className="flex items-center justify-center gap-2 mt-2 py-1.5 px-3 bg-gray-50 rounded-full" data-testid={`bnpl-badges-${plan.duration}`}>
@@ -538,39 +714,13 @@ export default function PricingPage() {
                 </div>
               )}
 
-              <div className="mb-16 max-w-3xl mx-auto">
-                <Card className="border border-gray-100/80 shadow-[var(--shadow-card)]">
-                  <CardContent className="py-8 px-8">
-                    <div className="flex items-center gap-3 mb-5">
-                      <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">
-                        <CreditCard className="w-5 h-5 text-primary" />
-                      </div>
-                      <h3 className="font-bold text-lg text-gray-900" data-testid="text-bnpl-title">Flexible Payment Options</h3>
-                    </div>
-                    <p className="text-sm text-gray-500 mb-5 leading-relaxed">Pay your way. In addition to credit and debit cards, we accept multiple buy-now-pay-later options at checkout so you can start studying immediately.</p>
-                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-3" data-testid="bnpl-options-grid">
-                      <div className="flex flex-col items-center p-4 rounded-xl bg-gray-50/80 border border-gray-100">
-                        <span className="text-xs font-bold text-gray-700 mb-1">Credit / Debit</span>
-                        <span className="text-[10px] text-gray-400">Visa, Mastercard, Amex</span>
-                      </div>
-                      <div className="flex flex-col items-center p-4 rounded-xl bg-[#FFB3C7]/8 border border-[#FFB3C7]/15">
-                        <span className="text-xs font-bold text-[#E5678F] mb-1">Klarna</span>
-                        <span className="text-[10px] text-gray-400">Pay in 4 installments</span>
-                      </div>
-                      <div className="flex flex-col items-center p-4 rounded-xl bg-[#B2FCE4]/8 border border-[#B2FCE4]/20">
-                        <span className="text-xs font-bold text-[#00C2A8] mb-1">Afterpay</span>
-                        <span className="text-[10px] text-gray-400">Pay in 4 installments</span>
-                      </div>
-                      <div className="flex flex-col items-center p-4 rounded-xl bg-[#4A4AFF]/5 border border-[#4A4AFF]/10">
-                        <span className="text-xs font-bold text-[#4A4AFF] mb-1">Affirm</span>
-                        <span className="text-[10px] text-gray-400">Pay over time (US only)</span>
-                      </div>
-                    </div>
-                    <p className="text-[10px] text-gray-400 mt-4 text-center">Buy now, pay later options are available at checkout for eligible purchases. Subject to approval by the payment provider.</p>
-                  </CardContent>
-                </Card>
+              {/* Reassurance under plans */}
+              <div className="text-center mb-12">
+                <p className="text-sm text-gray-400 mb-1">No contracts. Cancel anytime.</p>
+                <p className="text-sm text-gray-400">Secure checkout powered by Stripe.</p>
               </div>
 
+              {/* Trust and FAQ */}
               <div className="flex flex-col items-center gap-8 text-center mt-4">
                 <div className="flex flex-col items-center gap-3 bg-emerald-50/80 border border-emerald-200/40 rounded-3xl px-10 py-8 shadow-[var(--shadow-card)] max-w-md" data-testid="badge-money-back-plans">
                   <div className="w-14 h-14 rounded-2xl bg-emerald-100/80 flex items-center justify-center mb-1">
