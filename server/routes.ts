@@ -316,6 +316,9 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
   const { setupAlliedMarketingRoutes } = await import("./allied-marketing-engine");
   setupAlliedMarketingRoutes(app);
 
+  const { registerAlliedHealthArticleRoutes } = await import("./allied-health-article-routes");
+  registerAlliedHealthArticleRoutes(app);
+
   const { registerProgrammaticSeoRoutes } = await import("./programmatic-seo-engine");
   registerProgrammaticSeoRoutes(app);
 

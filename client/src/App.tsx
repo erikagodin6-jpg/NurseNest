@@ -218,6 +218,10 @@ const AdminPageviews = lazy(() => import("@/pages/admin-pageviews"));
 const StudyCoachingDashboard = lazy(() => import("@/pages/study-coaching-dashboard"));
 const AdminStudyAnalytics = lazy(() => import("@/pages/admin-study-analytics"));
 const AdminSeoAutopilot = lazy(() => import("@/pages/admin-seo-autopilot"));
+const AlliedHealthHub = lazy(() => import("@/pages/allied-health-hub"));
+const AlliedHealthProfessionPage = lazy(() => import("@/pages/allied-health-profession"));
+const AlliedHealthArticlePage = lazy(() => import("@/pages/allied-health-article"));
+const AdminAlliedHealthArticles = lazy(() => import("@/pages/admin-allied-health-articles"));
 const AdminSeoDebug = lazy(() => import("@/pages/admin-seo-debug"));
 const AdminAlliedMarketing = lazy(() => import("@/pages/admin-allied-marketing"));
 const AdminSocialContent = lazy(() => import("@/pages/admin-social-content"));
@@ -509,6 +513,11 @@ function AppRoutes() {
         <Route path="/exam-prep" component={ExamPrepHub} />
         <Route path="/new-graduate-support" component={NewGraduateSupportHub} />
         <Route path="/healthcare-careers" component={HealthcareCareersHub} />
+
+        <Route path="/allied-health/:profession/:articleSlug" component={AlliedHealthArticlePage} />
+        <Route path="/allied-health/:profession" component={AlliedHealthProfessionPage} />
+        <Route path="/allied-health" component={AlliedHealthHub} />
+
         <Route path="/nurse-first-year-survival-guide" component={NewGradGuidePage} />
         <Route path="/paramedic-first-year-survival-guide" component={NewGradGuidePage} />
         <Route path="/respiratory-therapist-first-year-survival-guide" component={NewGradGuidePage} />
@@ -631,6 +640,7 @@ function AppRoutes() {
         <Route path="/admin/content-expansion" component={AdminContentExpansion} />
         <Route path="/admin/pageviews" component={AdminPageviews} />
         <Route path="/admin/seo-visual-autopilot" component={AdminSeoAutopilot} />
+        <Route path="/admin/allied-health-articles" component={AdminAlliedHealthArticles} />
         <Route path="/admin/seo-debug" component={AdminSeoDebug} />
         <Route path="/admin/allied-marketing" component={AdminAlliedMarketing} />
         <Route path="/admin/profession-analytics" component={AdminProfessionAnalytics} />
