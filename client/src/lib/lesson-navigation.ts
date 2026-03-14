@@ -4,6 +4,7 @@ import {
   clinicalScenariosSystems,
   medMathSystems,
   preNursingSystems,
+  freeGeneralSystems,
   rpnSystems,
   rnSystems,
   npSystems,
@@ -21,7 +22,7 @@ type LessonNavResult = {
 type TierSystems = typeof rpnSystems;
 
 const tierSystemGroups: { tier: string; systems: TierSystems }[] = [
-  { tier: "free", systems: [...preNursingSystems, ...fundamentalsSystems, ...delegationSystems, ...clinicalScenariosSystems, ...medMathSystems] as TierSystems },
+  { tier: "free", systems: [...preNursingSystems, ...fundamentalsSystems, ...delegationSystems, ...clinicalScenariosSystems, ...medMathSystems, ...freeGeneralSystems] as TierSystems },
   { tier: "rpn", systems: rpnSystems },
   { tier: "rn", systems: rnSystems },
   { tier: "np", systems: npSystems },
