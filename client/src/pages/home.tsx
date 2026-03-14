@@ -5,7 +5,6 @@ import { SEO } from "@/components/seo";
 import { AdminEditButton } from "@/components/admin-edit-button";
 import { useAuth } from "@/lib/auth";
 import { Footer } from "@/components/footer";
-import { TrustSignals } from "@/components/trust-signals";
 import { Button } from "@/components/ui/button";
 import { useLocation } from "wouter";
 import { useI18n } from "@/lib/i18n";
@@ -13,17 +12,14 @@ import { LazySection } from "@/components/lazy-section";
 import {
   ArrowRight,
   Shield,
-  Target,
-  ChevronRight,
+  BookOpen,
   CheckCircle2,
 } from "lucide-react";
 
 import { useQuery } from "@tanstack/react-query";
 import type { HeroStats } from "@shared/lesson-stats";
-import type { DigitalProduct } from "@shared/schema";
 
-const HeroProofShowcase = lazy(() => import("@/components/hero-proof-showcase").then(m => ({ default: m.HeroProofShowcase })));
-const HomeBelowFold = lazy(() => import("@/components/home-below-fold"));
+const HomeConversionSections = lazy(() => import("@/components/home-conversion-sections"));
 const HomeBottomSections = lazy(() => import("@/components/home-bottom-sections"));
 
 function formatCount(n: number | undefined): string {
@@ -50,15 +46,6 @@ export default function Home() {
     queryKey: ["/api/hero-stats"],
     staleTime: 10 * 60 * 1000,
   });
-
-  const { data: shopProducts } = useQuery<DigitalProduct[]>({
-    queryKey: ["/api/shop/products"],
-    staleTime: 10 * 60 * 1000,
-  });
-
-  const featuredProducts = (shopProducts || [])
-    .filter(p => p.featured && p.isActive)
-    .slice(0, 4);
 
   const lessonCount = heroStats?.totalLessons ?? 0;
   const questionCount = heroStats?.questionCount ?? 0;
@@ -214,214 +201,138 @@ export default function Home() {
       <Navigation />
       
       <main className="flex-grow">
-        {/* Hero Section */}
-        <section className="relative overflow-hidden py-20 lg:py-28" data-testid="hero-section">
+        <section className="relative overflow-hidden py-16 lg:py-24" data-testid="hero-section">
           <div className="absolute top-0 left-0 w-full h-full overflow-hidden -z-10 pointer-events-none hidden md:block">
             <div className="absolute top-[-10%] right-[-5%] w-[500px] h-[500px] rounded-full bg-primary/10 blur-3xl" />
             <div className="absolute bottom-[10%] left-[-10%] w-[600px] h-[600px] rounded-full bg-secondary/30 blur-3xl" />
-            <div className="absolute top-[40%] left-[50%] transform -translate-x-1/2 w-[800px] h-[800px] rounded-full bg-accent-foreground/10 blur-3xl" />
           </div>
           <div className="absolute top-0 left-0 w-full h-full overflow-hidden -z-10 pointer-events-none md:hidden">
             <div className="absolute top-[20%] left-[30%] w-[300px] h-[300px] rounded-full bg-primary/8 blur-2xl" />
           </div>
 
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center max-w-4xl mx-auto space-y-8 md:animate-in md:fade-in md:slide-in-from-bottom-8 md:duration-700">
-              <div className="inline-flex items-center gap-2 px-3 sm:px-4 py-2 rounded-full bg-white border border-primary/20 shadow-sm mb-2 max-w-[90vw]">
-                <span className="flex h-2 w-2 rounded-full bg-emerald-500 shrink-0 skeleton-pulse"></span>
-                <span className="text-xs sm:text-sm font-medium text-gray-600 truncate">{t("home.new.announcement")}</span>
-              </div>
-              
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-gray-900 leading-[1.1]" data-testid="text-hero-heading">
-                {t("home.hero.title")}
-              </h1>
-              
-              <p className="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed" data-testid="text-hero-subheading">
-                {t("home.hero.subtitle")}
-              </p>
-              
-              <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3 sm:gap-4 pt-2 px-4 sm:px-0">
-                <Button 
-                  size="lg" 
-                  className="h-12 sm:h-14 px-6 sm:px-8 text-base sm:text-lg rounded-full bg-primary hover:brightness-110 shadow-lg shadow-primary/20 transition-[transform,box-shadow] hover:-translate-y-1 text-white w-full sm:w-auto" 
-                  onClick={() => setLocation("/register")}
-                  data-testid="button-hero-start-free"
-                >
-                  {t("home.hero.cta")}
-                  <ArrowRight className="ml-2 w-4 sm:w-5 h-4 sm:h-5" />
-                </Button>
-                <Button 
-                  size="lg" 
-                  variant="outline" 
-                  className="h-12 sm:h-14 px-6 sm:px-8 text-base sm:text-lg rounded-full border-2 border-primary/20 hover:bg-primary/5 hover:border-primary/40 text-gray-700 bg-white/50 w-full sm:w-auto" 
-                  onClick={() => setLocation("/free-practice")}
-                  data-testid="button-hero-browse"
-                >
-                  <Target className="mr-2 w-4 sm:w-5 h-4 sm:h-5 text-primary" />
-                  {t("home.hero.cta2")}
-                </Button>
-              </div>
-
-              <div className="space-y-2 pt-2">
-                <p className="text-xs text-gray-500">{t("home.hero.reassurance")}</p>
-                <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-700">
-                  <Shield className="w-3.5 h-3.5" />
-                  <span className="text-xs font-semibold">{t("home.hero.guarantee")}</span>
+            <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+              <div className="space-y-6 md:animate-in md:fade-in md:slide-in-from-bottom-8 md:duration-700">
+                <div className="inline-flex items-center gap-2 px-3 sm:px-4 py-2 rounded-full bg-white border border-primary/20 shadow-sm max-w-[90vw]">
+                  <span className="flex h-2 w-2 rounded-full bg-emerald-500 shrink-0 skeleton-pulse"></span>
+                  <span className="text-xs sm:text-sm font-medium text-gray-600 truncate">{t("home.new.announcement")}</span>
                 </div>
-              </div>
-
-              <div className="pt-4">
-                <p className="text-xs font-medium text-gray-500 uppercase tracking-wider mb-3">{t("home.hero.quickSelect")}</p>
-                <div className="flex flex-wrap items-center justify-center gap-2">
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    className="rounded-full border-blue-200 text-blue-700 hover:bg-blue-50 hover:border-blue-400 px-5"
-                    onClick={() => setLocation("/nclex-rn-practice-questions")}
-                    data-testid="button-quick-nclex-rn"
-                  >
-                    {t("home.hero.nclexRn")}
-                  </Button>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    className="rounded-full border-red-200 text-red-700 hover:bg-red-50 hover:border-red-400 px-5"
-                    onClick={() => setLocation("/rex-pn-practice-questions")}
-                    data-testid="button-quick-rex-pn"
-                  >
-                    {examLabel}
-                  </Button>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    className="rounded-full border-emerald-200 text-emerald-700 hover:bg-emerald-50 hover:border-emerald-400 px-5"
-                    onClick={() => setLocation("/nclex-pn-practice-questions")}
-                    data-testid="button-quick-lvn-lpn"
-                  >
-                    {t("home.hero.lvnLpn")}
-                  </Button>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    className="rounded-full border-purple-200 text-purple-700 hover:bg-purple-50 hover:border-purple-400 px-5"
-                    onClick={() => setLocation("/np-exam-practice-questions")}
-                    data-testid="button-quick-np"
-                  >
-                    {t("home.hero.npExams")}
-                  </Button>
-                </div>
-                <p className="text-[11px] text-gray-400 mt-2">
-                  NP Certification: AANP, ANCC, FNP-BC, AGPCNP-BC, AGACNP-BC, PMHNP-BC, PNP-BC, NNP-BC, ENP-C
+                
+                <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-gray-900 leading-[1.1]" data-testid="text-hero-heading">
+                  Master Your Nursing Exam with Confidence
+                </h1>
+                
+                <p className="text-lg text-gray-600 leading-relaxed" data-testid="text-hero-subheading">
+                  {formatCount(questionCount)} practice questions, {formatCount(lessonCount)} clinical lessons, flashcards, mock exams, and adaptive study plans — built for RPN, RN, NP, and allied health students.
                 </p>
-              </div>
+                
+                <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 pt-2">
+                  <Button 
+                    size="lg" 
+                    className="h-12 sm:h-14 px-6 sm:px-8 text-base sm:text-lg rounded-full bg-primary hover:brightness-110 shadow-lg shadow-primary/20 transition-[transform,box-shadow] hover:-translate-y-1 text-white w-full sm:w-auto" 
+                    onClick={() => setLocation("/register")}
+                    data-testid="button-hero-start-free"
+                  >
+                    Start Practicing Free
+                    <ArrowRight className="ml-2 w-4 sm:w-5 h-4 sm:h-5" />
+                  </Button>
+                  <Button 
+                    size="lg" 
+                    variant="outline" 
+                    className="h-12 sm:h-14 px-6 sm:px-8 text-base sm:text-lg rounded-full border-2 border-primary/20 hover:bg-primary/5 hover:border-primary/40 text-gray-700 bg-white/50 w-full sm:w-auto" 
+                    onClick={() => setLocation("/lessons")}
+                    data-testid="button-hero-browse"
+                  >
+                    <BookOpen className="mr-2 w-4 sm:w-5 h-4 sm:h-5 text-primary" />
+                    Explore Lessons
+                  </Button>
+                </div>
 
-              <div className="pt-4">
-                <button
-                  onClick={() => document.getElementById("included")?.scrollIntoView({ behavior: "smooth" })}
-                  className="text-sm text-primary hover:text-primary/80 font-medium inline-flex items-center gap-1 transition-colors"
-                  data-testid="button-see-included"
-                >
-                  {t("home.hero.seeIncluded")}
-                  <ChevronRight className="w-4 h-4 rotate-90" />
-                </button>
-              </div>
+                <div className="space-y-2 pt-1">
+                  <p className="text-xs text-gray-500">{t("home.hero.reassurance")}</p>
+                  <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-700">
+                    <Shield className="w-3.5 h-3.5" />
+                    <span className="text-xs font-semibold">{t("home.hero.guarantee")}</span>
+                  </div>
+                </div>
 
-              <div className="pt-6 flex flex-wrap items-center justify-center gap-8 sm:gap-12">
-                <div className="text-center" data-testid="stat-hero-lessons">
-                  <div className="text-2xl sm:text-3xl font-bold text-primary">{lessonCount > 0 ? `${lessonCount}+` : "2400+"}</div>
-                  <div className="text-xs text-gray-500 font-medium">Nursing Lessons</div>
-                </div>
-                <div className="text-center" data-testid="stat-hero-questions">
-                  <div className="text-2xl sm:text-3xl font-bold text-primary">{questionCount > 0 ? `${questionCount.toLocaleString()}+` : "8000+"}</div>
-                  <div className="text-xs text-gray-500 font-medium">Practice Questions</div>
-                </div>
-                <div className="text-center" data-testid="stat-hero-systems">
-                  <div className="text-2xl sm:text-3xl font-bold text-primary">12</div>
-                  <div className="text-xs text-gray-500 font-medium">Body Systems</div>
-                </div>
-                <div className="text-center" data-testid="stat-hero-simulator">
-                  <div className="text-2xl sm:text-3xl font-bold text-primary">Adaptive</div>
-                  <div className="text-xs text-gray-500 font-medium">Exam Simulator</div>
-                </div>
-              </div>
-
-              <div className="space-y-1 pt-2">
-                <p className="text-sm text-primary font-semibold">{t("home.tagline")}</p>
-                <p className="text-xs text-gray-400">{t("home.nocc")}</p>
-              </div>
-
-              <div className="pt-6 flex flex-wrap items-center justify-center gap-3 text-sm text-gray-600">
-                <div className="flex items-center gap-2 px-4 py-2.5 bg-white/70 rounded-full border border-primary/10 backdrop-blur-sm shadow-sm">
-                  <CheckCircle2 className="w-4 h-4 text-primary shrink-0" />
-                  <span>{t("home.pill.learntest")}</span>
-                </div>
-                <div className="flex items-center gap-2 px-4 py-2.5 bg-white/70 rounded-full border border-primary/10 backdrop-blur-sm shadow-sm">
-                  <CheckCircle2 className="w-4 h-4 text-primary shrink-0" />
-                  <span>{t("home.pill.decks")}</span>
-                </div>
-                <div className="flex items-center gap-2 px-4 py-2.5 bg-white/70 rounded-full border border-primary/10 backdrop-blur-sm shadow-sm">
-                  <CheckCircle2 className="w-4 h-4 text-primary shrink-0" />
-                  <span>{t("home.pill.tracks")}</span>
-                </div>
-                <div className="flex items-center gap-2 px-4 py-2.5 bg-white/70 rounded-full border border-primary/10 backdrop-blur-sm shadow-sm">
-                  <CheckCircle2 className="w-4 h-4 text-primary shrink-0" />
-                  <span>{t("home.pill.languages")}</span>
+                <div className="flex flex-wrap items-center gap-3 text-sm text-gray-600 pt-2">
+                  <div className="flex items-center gap-2 px-3 py-2 bg-white/70 rounded-full border border-primary/10 backdrop-blur-sm shadow-sm">
+                    <CheckCircle2 className="w-4 h-4 text-primary shrink-0" />
+                    <span>{t("home.pill.learntest")}</span>
+                  </div>
+                  <div className="flex items-center gap-2 px-3 py-2 bg-white/70 rounded-full border border-primary/10 backdrop-blur-sm shadow-sm">
+                    <CheckCircle2 className="w-4 h-4 text-primary shrink-0" />
+                    <span>{t("home.pill.decks")}</span>
+                  </div>
+                  <div className="flex items-center gap-2 px-3 py-2 bg-white/70 rounded-full border border-primary/10 backdrop-blur-sm shadow-sm">
+                    <CheckCircle2 className="w-4 h-4 text-primary shrink-0" />
+                    <span>{t("home.pill.tracks")}</span>
+                  </div>
                 </div>
               </div>
 
-              {region === "CA" && (
-                <div className="mt-6 max-w-2xl mx-auto" data-testid="banner-canadian-content">
-                  <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-red-50 via-white to-red-50 border border-red-200/60 shadow-md px-6 py-5">
-                    <div className="absolute top-0 left-0 w-1.5 h-full bg-red-500 rounded-l-2xl" />
-                    <div className="flex items-start gap-4 pl-2">
-                      <span className="text-3xl shrink-0 mt-0.5" role="img" aria-label="Canadian flag">🍁</span>
-                      <div>
-                        <p className="font-bold text-gray-900 text-base">{t("home.canadian.title")}</p>
-                        <p className="text-sm text-gray-600 mt-1 leading-relaxed">
-                          {t("home.canadian.desc")}
-                        </p>
-                      </div>
+              <div className="relative hidden lg:block">
+                <div className="rounded-2xl overflow-hidden shadow-2xl border border-gray-100 bg-white">
+                  <img
+                    srcSet="/screenshots/screenshot2_1773379293573-480w.webp 480w, /screenshots/screenshot2_1773379293573-768w.webp 768w, /screenshots/screenshot2_1773379293573-1200w.webp 1200w"
+                    sizes="(max-width: 768px) 480px, 600px"
+                    src="/screenshots/screenshot2_1773379293573-768w.webp"
+                    alt="NurseNest adaptive performance dashboard"
+                    width={2730}
+                    height={1588}
+                    className="w-full h-auto object-cover"
+                    loading="eager"
+                    fetchPriority="high"
+                    data-testid="img-hero-screenshot"
+                  />
+                </div>
+                <div className="absolute -bottom-4 -left-4 bg-white rounded-xl shadow-lg border border-gray-100 px-4 py-3 flex items-center gap-2">
+                  <div className="w-8 h-8 rounded-full bg-emerald-100 flex items-center justify-center">
+                    <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+                  </div>
+                  <div>
+                    <div className="text-xs font-bold text-gray-900">94% Pass Rate</div>
+                    <div className="text-[10px] text-gray-500">First-attempt students</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {region === "CA" && (
+              <div className="mt-10 max-w-2xl mx-auto lg:mx-0" data-testid="banner-canadian-content">
+                <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-red-50 via-white to-red-50 border border-red-200/60 shadow-md px-6 py-5">
+                  <div className="absolute top-0 left-0 w-1.5 h-full bg-red-500 rounded-l-2xl" />
+                  <div className="flex items-start gap-4 pl-2">
+                    <span className="text-3xl shrink-0 mt-0.5" role="img" aria-label="Canadian flag">🍁</span>
+                    <div>
+                      <p className="font-bold text-gray-900 text-base">{t("home.canadian.title")}</p>
+                      <p className="text-sm text-gray-600 mt-1 leading-relaxed">
+                        {t("home.canadian.desc")}
+                      </p>
                     </div>
                   </div>
                 </div>
-              )}
-            </div>
+              </div>
+            )}
           </div>
         </section>
 
         <LazySection minHeight="400px" rootMargin="200px">
           <Suspense fallback={<div className="min-h-[400px]" />}>
-            <HeroProofShowcase />
-          </Suspense>
-        </LazySection>
-
-        <LazySection minHeight="600px" rootMargin="300px">
-          <Suspense fallback={<div className="min-h-[600px]" />}>
-            <HomeBelowFold
-              region={region}
-              heroStats={heroStats}
-              featuredProducts={featuredProducts}
+            <HomeConversionSections
               lessonCount={lessonCount}
               questionCount={questionCount}
-              storeProductCount={storeProductCount}
-              email={email}
-              setEmail={setEmail}
-              emailFrequency={emailFrequency}
-              setEmailFrequency={setEmailFrequency}
-              emailStatus={emailStatus}
-              emailMessage={emailMessage}
-              handleEmailSubscribe={handleEmailSubscribe}
             />
           </Suspense>
         </LazySection>
-
 
         <LazySection minHeight="800px" rootMargin="400px">
           <Suspense fallback={<div className="min-h-[800px]" />}>
             <HomeBottomSections
               region={region}
               heroStats={heroStats}
-              featuredProducts={featuredProducts}
+              featuredProducts={[]}
               lessonCount={lessonCount}
               questionCount={questionCount}
               storeProductCount={storeProductCount}
@@ -472,8 +383,6 @@ export default function Home() {
           </details>
         </div>
       )}
-
-      <TrustSignals showStats={true} className="bg-gray-50/50" />
 
       <Footer />
       <AdminEditButton />
