@@ -18,24 +18,17 @@ const SECTION_LABELS: Record<string, string> = {
 };
 
 async function callModel(systemPrompt: string, userPrompt: string): Promise<string> {
-  const OpenAI = (await import("openai")).default;
-  const openai = new OpenAI({
-    apiKey: process.env.AI_INTEGRATIONS_OPENAI_API_KEY,
-    baseURL: process.env.AI_INTEGRATIONS_OPENAI_BASE_URL,
-  });
-
-  const resp = await openai.chat.completions.create({
+  const { routeAIRequest } = await import("../ai-provider-router");
+  const result = await routeAIRequest(systemPrompt, userPrompt, {
     model: "gpt-4o-mini",
-    messages: [
-      { role: "system", content: systemPrompt },
-      { role: "user", content: userPrompt },
-    ],
+    maxTokens: 8192,
     temperature: 0.7,
-    max_tokens: 8192,
-    response_format: { type: "json_object" },
+    responseFormat: { type: "json_object" },
+    taskType: "content",
+    feature: "generatorV2-contentWorker",
   });
 
-  return resp.choices[0]?.message?.content || "{}";
+  return result.content || "{}";
 }
 
 export async function generateContentBlocks(

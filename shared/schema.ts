@@ -5527,3 +5527,67 @@ export const environmentWriteAudit = pgTable("environment_write_audit", {
 export const insertEnvironmentWriteAuditSchema = createInsertSchema(environmentWriteAudit).omit({ id: true, createdAt: true });
 export type EnvironmentWriteAudit = typeof environmentWriteAudit.$inferSelect;
 export type InsertEnvironmentWriteAudit = z.infer<typeof insertEnvironmentWriteAuditSchema>;
+
+export const aiProviders = pgTable("ai_providers", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  name: text("name").notNull(),
+  providerType: text("provider_type").notNull(),
+  endpointUrl: text("endpoint_url").notNull(),
+  apiKey: text("api_key"),
+  models: text("models").array().default(sql`'{}'::text[]`),
+  costPerInputToken: doublePrecision("cost_per_input_token").default(0),
+  costPerOutputToken: doublePrecision("cost_per_output_token").default(0),
+  maxConcurrency: integer("max_concurrency").default(5),
+  rateLimit: integer("rate_limit").default(60),
+  healthEndpoint: text("health_endpoint"),
+  priority: integer("priority").default(100),
+  enabled: boolean("enabled").default(true),
+  isHealthy: boolean("is_healthy").default(true),
+  lastHealthCheck: timestamp("last_health_check"),
+  consecutiveFailures: integer("consecutive_failures").default(0),
+  taskTypes: text("task_types").array().default(sql`'{}'::text[]`),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export const insertAiProviderSchema = createInsertSchema(aiProviders).omit({ id: true, createdAt: true, updatedAt: true, isHealthy: true, lastHealthCheck: true, consecutiveFailures: true });
+export type AiProvider = typeof aiProviders.$inferSelect;
+export type InsertAiProvider = z.infer<typeof insertAiProviderSchema>;
+
+export const aiRequestLogs = pgTable("ai_request_logs", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  providerId: varchar("provider_id"),
+  providerName: text("provider_name"),
+  model: text("model"),
+  taskType: text("task_type"),
+  feature: text("feature"),
+  inputTokens: integer("input_tokens").default(0),
+  outputTokens: integer("output_tokens").default(0),
+  totalTokens: integer("total_tokens").default(0),
+  estimatedCost: doublePrecision("estimated_cost").default(0),
+  latencyMs: integer("latency_ms").default(0),
+  success: boolean("success").default(true),
+  errorMessage: text("error_message"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const insertAiRequestLogSchema = createInsertSchema(aiRequestLogs).omit({ id: true, createdAt: true });
+export type AiRequestLog = typeof aiRequestLogs.$inferSelect;
+export type InsertAiRequestLog = z.infer<typeof insertAiRequestLogSchema>;
+
+export const aiCostBudgets = pgTable("ai_cost_budgets", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  budgetType: text("budget_type").notNull(),
+  maxTokens: integer("max_tokens").default(1000000),
+  maxCostUsd: doublePrecision("max_cost_usd").default(50),
+  alertThresholdPct: integer("alert_threshold_pct").default(80),
+  currentTokens: integer("current_tokens").default(0),
+  currentCostUsd: doublePrecision("current_cost_usd").default(0),
+  periodStart: timestamp("period_start").defaultNow().notNull(),
+  periodEnd: timestamp("period_end"),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export const insertAiCostBudgetSchema = createInsertSchema(aiCostBudgets).omit({ id: true, updatedAt: true, currentTokens: true, currentCostUsd: true });
+export type AiCostBudget = typeof aiCostBudgets.$inferSelect;
+export type InsertAiCostBudget = z.infer<typeof insertAiCostBudgetSchema>;

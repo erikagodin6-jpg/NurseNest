@@ -439,6 +439,12 @@ app.use((req, res, next) => {
   const { registerScheduleRoutes } = await import("./qbank-scheduler");
   registerScheduleRoutes(app);
 
+  const { setupAiOpsRoutes } = await import("./ai-ops-routes");
+  setupAiOpsRoutes(app);
+
+  const { loadProviders } = await import("./ai-provider-router");
+  loadProviders().catch(err => console.error("[AIRouter] Init failed:", err.message));
+
   const { setupQBankGenerator } = await import("./qbank-generator");
   setupQBankGenerator(app);
 

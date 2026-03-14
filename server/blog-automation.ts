@@ -1,10 +1,32 @@
-import OpenAI from "openai";
 import { storage } from "./storage";
+import { routeAIRequest } from "./ai-provider-router";
 
-const openai = new OpenAI({
-  apiKey: process.env.AI_INTEGRATIONS_OPENAI_API_KEY,
-  baseURL: process.env.AI_INTEGRATIONS_OPENAI_BASE_URL,
-});
+const openai = {
+  chat: {
+    completions: {
+      create: async (params: any) => {
+        const systemMsg = params.messages?.find((m: any) => m.role === "system");
+        const userMsg = params.messages?.find((m: any) => m.role === "user");
+        const result = await routeAIRequest(
+          systemMsg?.content || "",
+          userMsg?.content || "",
+          {
+            model: (params.model || "gpt-4o-mini").replace("openai/", ""),
+            maxTokens: params.max_tokens || params.max_completion_tokens || 16000,
+            temperature: params.temperature ?? 0.7,
+            responseFormat: params.response_format,
+            taskType: "content",
+            feature: "blog-automation",
+          }
+        );
+        return {
+          choices: [{ message: { content: result.content } }],
+          usage: { total_tokens: result.tokensUsed, prompt_tokens: result.inputTokens, completion_tokens: result.outputTokens },
+        };
+      },
+    },
+  },
+};
 
 export const LONG_TAIL_SEO_TOPICS: Array<{ topic: string; profession: string; category: string }> = [
   { topic: "How to pass the REx-PN exam on your first attempt", profession: "nursing-rpn", category: "nursing-education" },

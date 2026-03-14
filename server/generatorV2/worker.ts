@@ -259,26 +259,19 @@ async function callModel(
   userPrompt: string,
   maxTokens: number,
 ): Promise<{ content: string; tokens: number }> {
-  const OpenAI = (await import("openai")).default;
-  const openai = new OpenAI({
-    apiKey: process.env.AI_INTEGRATIONS_OPENAI_API_KEY,
-    baseURL: process.env.AI_INTEGRATIONS_OPENAI_BASE_URL,
-  });
-
-  const resp = await openai.chat.completions.create({
+  const { routeAIRequest } = await import("../ai-provider-router");
+  const result = await routeAIRequest(systemPrompt, userPrompt, {
     model: "gpt-4o-mini",
-    messages: [
-      { role: "system", content: systemPrompt },
-      { role: "user", content: userPrompt },
-    ],
+    maxTokens,
     temperature: 0.3,
-    max_tokens: maxTokens,
-    response_format: { type: "json_object" },
+    responseFormat: { type: "json_object" },
+    taskType: "qbank",
+    feature: "generatorV2-worker",
   });
 
   return {
-    content: resp.choices[0]?.message?.content || "{}",
-    tokens: resp.usage?.total_tokens || 0,
+    content: result.content || "{}",
+    tokens: result.tokensUsed || 0,
   };
 }
 

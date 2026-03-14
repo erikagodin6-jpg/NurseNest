@@ -98,6 +98,36 @@ const CAREER_BLUEPRINT_DOMAINS: Record<string, Record<string, { weight: number; 
   },
 };
 
+async function getOpenAI() {
+  const { routeAIRequest } = await import("./ai-provider-router");
+  return {
+    chat: {
+      completions: {
+        create: async (params: any) => {
+          const systemMsg = params.messages?.find((m: any) => m.role === "system");
+          const userMsg = params.messages?.find((m: any) => m.role === "user");
+          const result = await routeAIRequest(
+            systemMsg?.content || "",
+            userMsg?.content || "",
+            {
+              model: (params.model || "gpt-4o-mini").replace("openai/", ""),
+              maxTokens: params.max_tokens || params.max_completion_tokens || 16000,
+              temperature: params.temperature ?? 0.7,
+              responseFormat: params.response_format,
+              taskType: "allied",
+              feature: "allied-pipeline",
+            }
+          );
+          return {
+            choices: [{ message: { content: result.content } }],
+            usage: { total_tokens: result.tokensUsed, prompt_tokens: result.inputTokens, completion_tokens: result.outputTokens },
+          };
+        },
+      },
+    },
+  };
+}
+
 async function requirePipelineAdmin(req: any, res: any): Promise<any> {
   const adminId = String(req.headers?.["x-admin-id"] || req.body?.adminId || req.query?.adminId || "");
   if (!adminId) return res.status(401).json({ error: "Admin required" });
@@ -996,11 +1026,7 @@ async function runPsychotherapyBulkGeneration(
   const cogBreakdown: Record<string, number> = {};
   const domBreakdown: Record<string, number> = {};
 
-  const OpenAI = (await import("openai")).default;
-  const openai = new OpenAI({
-    apiKey: process.env.AI_INTEGRATIONS_OPENAI_API_KEY,
-    baseURL: process.env.AI_INTEGRATIONS_OPENAI_BASE_URL,
-  });
+  const openai = await getOpenAI();
 
   const existingImagesRes = await pool.query(
     "SELECT url, alt, key FROM site_images WHERE key LIKE '%nursenest%' OR key LIKE '%therapy%' OR key LIKE '%mental%' OR key LIKE '%counseling%' LIMIT 50"
@@ -1360,11 +1386,7 @@ async function generateBatchAsync(
 
     const prompt = buildGenerationPrompt(career, domain, subtopic, count, diffDist, cogDist, allowedTypes);
 
-    const OpenAI = (await import("openai")).default;
-    const openai = new OpenAI({
-      apiKey: process.env.AI_INTEGRATIONS_OPENAI_API_KEY,
-      baseURL: process.env.AI_INTEGRATIONS_OPENAI_BASE_URL,
-    });
+    const openai = await getOpenAI();
 
     let generated = 0;
     let accepted = 0;
@@ -1677,11 +1699,7 @@ async function runRrtBulkGeneration(
   const cogBreakdown: Record<string, number> = {};
   const domBreakdown: Record<string, number> = {};
 
-  const OpenAI = (await import("openai")).default;
-  const openai = new OpenAI({
-    apiKey: process.env.AI_INTEGRATIONS_OPENAI_API_KEY,
-    baseURL: process.env.AI_INTEGRATIONS_OPENAI_BASE_URL,
-  });
+  const openai = await getOpenAI();
 
   const existingImagesRes = await pool.query(
     "SELECT url, alt, key FROM site_images WHERE key LIKE '%respiratory%' OR key LIKE '%ventilator%' OR key LIKE '%lung%' OR key LIKE '%airway%' OR key LIKE '%abg%' LIMIT 50"

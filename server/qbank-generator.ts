@@ -3,42 +3,17 @@ import { pool } from "./storage";
 import { requireAdmin } from "./admin-auth";
 import { renderPromptForVariant, getActiveTemplates } from "./prompts/qbank-templates";
 import { runContentQualityGate } from "./content-quality-gate";
-
-let globalKillSwitch = false;
-let dailyTokenCost = 0;
-let dailyCostResetDate = "";
-const MAX_DAILY_TOKEN_COST = 500000;
-
-function resetDailyCostIfNeeded() {
-  const today = new Date().toISOString().split("T")[0];
-  if (dailyCostResetDate !== today) {
-    dailyTokenCost = 0;
-    dailyCostResetDate = today;
-  }
-}
-
-async function getOpenAI() {
-  const OpenAI = (await import("openai")).default;
-  return new OpenAI({
-    apiKey: process.env.AI_INTEGRATIONS_OPENAI_API_KEY,
-    baseURL: process.env.AI_INTEGRATIONS_OPENAI_BASE_URL,
-  });
-}
+import { routeAIRequest, getKillSwitch } from "./ai-provider-router";
 
 async function aiGenerate(systemPrompt: string, userPrompt: string, model: string, maxTokens = 16000): Promise<{ content: string; tokensUsed: number }> {
-  const openai = await getOpenAI();
-  const response = await openai.chat.completions.create({
-    model: model.startsWith("openai/") ? model : `openai/${model}`,
-    messages: [
-      { role: "system", content: systemPrompt },
-      { role: "user", content: userPrompt },
-    ],
-    max_tokens: maxTokens,
+  const result = await routeAIRequest(systemPrompt, userPrompt, {
+    model,
+    maxTokens,
     temperature: 0.7,
+    taskType: "qbank",
+    feature: "qbank-generator",
   });
-  const tokensUsed = response.usage?.total_tokens || 0;
-  dailyTokenCost += tokensUsed;
-  return { content: response.choices[0]?.message?.content || "", tokensUsed };
+  return { content: result.content, tokensUsed: result.tokensUsed };
 }
 
 function parseJsonFromResponse(text: string): any {
@@ -168,13 +143,8 @@ async function runBatchGeneration(params: {
   triggeredBy: string;
   scheduleId?: string;
 }): Promise<{ runId: string; status: string; validationReport: any; previewItems: any[]; totalGenerated: number; totalAccepted: number; totalRejected: number; tokenCost: number }> {
-  resetDailyCostIfNeeded();
-
-  if (globalKillSwitch) {
+  if (getKillSwitch()) {
     throw new Error("Generation kill switch is active");
-  }
-  if (dailyTokenCost >= MAX_DAILY_TOKEN_COST) {
-    throw new Error("Daily token cost limit exceeded");
   }
 
   const rendered = await renderPromptForVariant(params.templateKey, params.variantKey, {
@@ -230,9 +200,6 @@ async function runBatchGeneration(params: {
         allQuestions.push(parsed);
       }
 
-      if (dailyTokenCost >= MAX_DAILY_TOKEN_COST) {
-        break;
-      }
     }
 
     await pool.query("UPDATE qbank_generation_runs SET status = 'validating' WHERE id = $1", [runId]);
@@ -585,20 +552,22 @@ export function setupQBankGenerator(app: Express): void {
     const admin = await requireAdmin(req, res);
     if (!admin) return;
 
-    globalKillSwitch = !!req.body.enabled;
-    res.json({ killSwitch: globalKillSwitch });
+    const { setKillSwitch } = await import("./ai-provider-router");
+    setKillSwitch(!!req.body.enabled);
+    res.json({ killSwitch: getKillSwitch() });
   });
 
   app.get("/api/admin/qbank/token-usage", async (req, res) => {
     const admin = await requireAdmin(req, res);
     if (!admin) return;
 
-    resetDailyCostIfNeeded();
+    const { getRouterStatus } = await import("./ai-provider-router");
+    const status = getRouterStatus();
     res.json({
-      dailyTokenCost,
-      maxDailyTokenCost: MAX_DAILY_TOKEN_COST,
-      killSwitch: globalKillSwitch,
-      remainingBudget: MAX_DAILY_TOKEN_COST - dailyTokenCost,
+      dailyTokenCost: status.dailyTokens,
+      maxDailyTokenCost: 1000000,
+      killSwitch: status.killSwitch,
+      remainingBudget: 1000000 - status.dailyTokens,
     });
   });
 }

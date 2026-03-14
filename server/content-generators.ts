@@ -1,11 +1,33 @@
-import OpenAI from "openai";
 import { pool } from "./storage";
+import { routeAIRequest } from "./ai-provider-router";
 
 function getOpenAI() {
-  return new OpenAI({
-    apiKey: process.env.AI_INTEGRATIONS_OPENAI_API_KEY,
-    baseURL: process.env.AI_INTEGRATIONS_OPENAI_BASE_URL,
-  });
+  return {
+    chat: {
+      completions: {
+        create: async (params: any) => {
+          const systemMsg = params.messages?.find((m: any) => m.role === "system");
+          const userMsg = params.messages?.find((m: any) => m.role === "user");
+          const result = await routeAIRequest(
+            systemMsg?.content || "",
+            userMsg?.content || "",
+            {
+              model: params.model?.replace("openai/", "") || "gpt-4o-mini",
+              maxTokens: params.max_tokens || params.max_completion_tokens || 16000,
+              temperature: params.temperature ?? 0.7,
+              responseFormat: params.response_format,
+              taskType: "content",
+              feature: "content-generators",
+            }
+          );
+          return {
+            choices: [{ message: { content: result.content } }],
+            usage: { total_tokens: result.tokensUsed, prompt_tokens: result.inputTokens, completion_tokens: result.outputTokens },
+          };
+        },
+      },
+    },
+  };
 }
 
 const NURSING_PAGE_SYSTEM_PROMPT = `You are a senior nursing educator and exam strategist creating high-quality educational content for NurseNest.
@@ -186,21 +208,13 @@ export async function generateNursingPage(
   wordCount: number,
   jobId: string
 ): Promise<any> {
-  const openai = getOpenAI();
-
   await pool.query(
     "UPDATE autopilot_jobs SET status = 'running', started_at = NOW() WHERE id = $1",
     [jobId]
   );
 
   try {
-    const response = await openai.chat.completions.create({
-      model: "gpt-4o",
-      messages: [
-        { role: "system", content: NURSING_PAGE_SYSTEM_PROMPT },
-        {
-          role: "user",
-          content: `Generate a comprehensive nursing study page on the following topic:
+    const userPrompt = `Generate a comprehensive nursing study page on the following topic:
 
 Topic: ${topic}
 Target SEO Keyword: ${targetKeyword}
@@ -215,15 +229,18 @@ Requirements:
 - Clinical pearls should be memorable exam tips
 - Common exam traps should warn about frequent mistakes students make
 
-Make the content comprehensive, clinically accurate, and exam-focused.`
-        }
-      ],
+Make the content comprehensive, clinically accurate, and exam-focused.`;
+
+    const result = await routeAIRequest(NURSING_PAGE_SYSTEM_PROMPT, userPrompt, {
+      model: "gpt-4o",
+      maxTokens: 8000,
       temperature: 0.7,
-      max_tokens: 8000,
-      response_format: { type: "json_object" },
+      responseFormat: { type: "json_object" },
+      taskType: "content",
+      feature: "nursing-page-generator",
     });
 
-    const content = response.choices[0]?.message?.content;
+    const content = result.content;
     if (!content) throw new Error("No content returned from generation");
 
     const parsed = JSON.parse(content);
@@ -288,8 +305,6 @@ export async function generateAlliedHealthPage(
   wordCount: number,
   jobId: string
 ): Promise<any> {
-  const openai = getOpenAI();
-
   await pool.query(
     "UPDATE autopilot_jobs SET status = 'running', started_at = NOW() WHERE id = $1",
     [jobId]
@@ -298,13 +313,7 @@ export async function generateAlliedHealthPage(
   const careerLabel = ALLIED_CAREER_LABELS[career] || career;
 
   try {
-    const response = await openai.chat.completions.create({
-      model: "gpt-4o",
-      messages: [
-        { role: "system", content: ALLIED_HEALTH_PAGE_SYSTEM_PROMPT },
-        {
-          role: "user",
-          content: `Generate a comprehensive allied health study page on the following topic:
+    const userPrompt = `Generate a comprehensive allied health study page on the following topic:
 
 Topic: ${topic}
 Target SEO Keyword: ${targetKeyword}
@@ -321,15 +330,18 @@ Requirements:
 - Clinical pearls should be memorable exam tips specific to this career
 - Visual content recommendation should be relevant to ${careerLabel} practice
 
-Make the content comprehensive, clinically accurate, and exam-focused.`
-        }
-      ],
+Make the content comprehensive, clinically accurate, and exam-focused.`;
+
+    const aiResult = await routeAIRequest(ALLIED_HEALTH_PAGE_SYSTEM_PROMPT, userPrompt, {
+      model: "gpt-4o",
+      maxTokens: 8000,
       temperature: 0.7,
-      max_tokens: 8000,
-      response_format: { type: "json_object" },
+      responseFormat: { type: "json_object" },
+      taskType: "content",
+      feature: "allied-health-page-generator",
     });
 
-    const content = response.choices[0]?.message?.content;
+    const content = aiResult.content;
     if (!content) throw new Error("No content returned from generation");
 
     const parsed = JSON.parse(content);
