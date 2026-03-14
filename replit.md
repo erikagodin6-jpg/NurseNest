@@ -61,6 +61,15 @@ A server-side trial entitlement system enabling one 24-hour free trial per user 
 - **Rate Limiting**: Applied to signup, login, trial activation, and content fetch endpoints.
 - **Audit Logging**: All trial events (initiation, activation, fraud blocks, consumption limits, cancellation) logged to `audit_logs` table with `entity_type='trial_entitlement'`.
 - **Environment Variables**: `TRIAL_DURATION_HOURS` (default 24), `TRIAL_MAX_QUESTIONS` (50), `TRIAL_MAX_FLASHCARDS` (30), `TRIAL_MAX_LESSONS` (5), `TRIAL_MAX_MOCK_EXAMS` (2), `TRIAL_DEVICE_MAX_ATTEMPTS` (3), `TRIAL_IP_MAX_ATTEMPTS` (5), `TRIAL_IP_WINDOW_HOURS` (24).
+- **Frontend Trial Components** (Task #294):
+  - `client/src/hooks/use-trial-status.ts` – React hook fetching `/api/trial-sub/status`, exposes `isOnTrial`, `remainingMs`, consumption counters, eligibility
+  - `client/src/components/watermark-overlay.tsx` – SVG-based repeating watermark overlay for trial content (masked email + user ID + timestamp)
+  - `client/src/components/trial-dashboard-widget.tsx` – Countdown timer widget with consumption usage bars, view-only notice, cancel/upgrade buttons; integrated into dashboard.tsx
+  - `client/src/components/admin-trial-analytics.tsx` – Admin analytics panel with stat cards, filterable audit table, and fraud settings configuration form
+  - Pricing page (`/pricing`) – "Start Your 24-Hour Free Trial" section with tier selection, email verification step, and Stripe card collection flow; shown only when `trialStatus.eligible` is true
+  - Admin page (`/admin`) – "Trial Analytics" tab in admin tab navigation rendering `AdminTrialAnalytics` component
+  - Export button hiding – Download/print/export buttons conditionally hidden on profile, mock-exam-report, account-library, and diagnostic-assessment pages during active trial via `useTrialStatus().isOnTrial`
+  - `ENABLE_COPY_PROTECTION` feature flag exported from `use-trial-status.ts` (currently hardcoded `true`)
 
 ## Business Health & Subscriber Dashboard
 - **Page**: `/admin/business-health` (`client/src/pages/admin-business-health.tsx`)

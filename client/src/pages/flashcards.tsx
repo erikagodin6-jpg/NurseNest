@@ -1,6 +1,7 @@
 import { useState, useEffect, useMemo, useCallback } from "react";
 import { fisherYatesShuffle } from "@shared/shuffle";
 import { Navigation } from "@/components/navigation";
+import { ProtectedContent } from "@/components/protected-content";
 import { SEO } from "@/components/seo";
 import { AdminEditButton } from "@/components/admin-edit-button";
 import { Footer } from "@/components/footer";
@@ -5422,7 +5423,7 @@ export default function Flashcards() {
                         <h3 className="text-xs font-semibold text-primary tracking-wide">Rationale & Review</h3>
                       </div>
 
-                      <CardContent className="px-5 py-4 space-y-3.5" data-testid="section-exam-rationale">
+                      <CardContent className="px-5 py-4 space-y-3.5" data-testid="section-exam-rationale"><ProtectedContent>
                         <div className="themed-correct-answer-bg rounded-lg border p-3">
                           <p className="text-[10px] font-semibold themed-correct-answer-label uppercase tracking-widest mb-1.5 flex items-center gap-1">
                             <CheckCircle2 className="w-3 h-3 theme-icon" /> Correct Answer
@@ -5515,7 +5516,7 @@ export default function Flashcards() {
                             </div>
                           </div>
                         )}
-                      </CardContent>
+                      </ProtectedContent></CardContent>
                     </Card>
                   </div>
                 </div>

@@ -8,6 +8,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
+import { useTrialStatus } from "@/hooks/use-trial-status";
 import {
   Download, Package, BookOpen, Shield, Crown,
   Calendar, RefreshCw, Library, ShoppingBag, ArrowRight,
@@ -29,7 +30,7 @@ function formatDate(dateStr: string | Date) {
   });
 }
 
-function PurchaseCard({ purchase, onDownload }: { purchase: PurchaseWithProduct; onDownload: (id: string) => void }) {
+function PurchaseCard({ purchase, onDownload, isOnTrial }: { purchase: PurchaseWithProduct; onDownload: (id: string) => void; isOnTrial?: boolean }) {
   const product = purchase.product;
   const downloadsUsed = purchase.downloadCount ?? 0;
   const maxDownloads = purchase.maxDownloads ?? 5;
@@ -76,15 +77,22 @@ function PurchaseCard({ purchase, onDownload }: { purchase: PurchaseWithProduct;
             </div>
           </div>
           <div className="flex sm:flex-col items-center sm:items-end gap-2 sm:justify-center">
-            <Button
-              size="sm"
-              onClick={() => onDownload(purchase.id)}
-              disabled={downloadsRemaining <= 0}
-              data-testid={`button-download-${purchase.id}`}
-            >
-              <Download className="w-4 h-4 mr-1" />
-              Download
-            </Button>
+            {isOnTrial ? (
+              <Button size="sm" variant="outline" disabled data-testid={`button-download-trial-locked-${purchase.id}`}>
+                <Shield className="w-4 h-4 mr-1" />
+                Upgrade to Download
+              </Button>
+            ) : (
+              <Button
+                size="sm"
+                onClick={() => onDownload(purchase.id)}
+                disabled={downloadsRemaining <= 0}
+                data-testid={`button-download-${purchase.id}`}
+              >
+                <Download className="w-4 h-4 mr-1" />
+                Download
+              </Button>
+            )}
             {downloadsRemaining <= 0 && (
               <span className="text-xs text-red-500" data-testid={`text-no-downloads-${purchase.id}`}>
                 Download limit reached
@@ -196,6 +204,7 @@ function SubscriptionMeter({ tier }: { tier: string }) {
 export default function AccountLibraryPage() {
   const { user } = useAuth();
   const { toast } = useToast();
+  const { isOnTrial } = useTrialStatus();
   const [purchases, setPurchases] = useState<PurchaseWithProduct[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -308,6 +317,7 @@ export default function AccountLibraryPage() {
                     key={purchase.id}
                     purchase={purchase}
                     onDownload={handleDownload}
+                    isOnTrial={isOnTrial}
                   />
                 ))}
               </div>

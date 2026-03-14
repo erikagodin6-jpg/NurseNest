@@ -3,6 +3,7 @@ import { SeoLessonDetail } from "@/pages/seo-lesson-detail";
 import { useState, useMemo, useEffect, useCallback, useRef } from "react";
 import { useParams, useLocation } from "wouter";
 import { Navigation } from "@/components/navigation";
+import { ProtectedContent } from "@/components/protected-content";
 import { SEO } from "@/components/seo";
 import { AdminEditButton } from "@/components/admin-edit-button";
 import { QuickCreatePanel } from "@/components/inline-editor";
@@ -2986,6 +2987,7 @@ export default function LessonDetail() {
             )}
 
             <TabsContent value="content" className="mt-6">
+              <ProtectedContent>
               <nav className="hidden lg:block fixed left-4 top-1/3 z-30 bg-white/90 backdrop-blur-sm rounded-xl shadow-lg border border-gray-100 p-3 space-y-1 max-w-[160px]" data-testid="nav-quick-sections">
                 <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2">Sections</p>
                 {[
@@ -3430,6 +3432,7 @@ export default function LessonDetail() {
                   </div>
                 </section>
               </div>
+              </ProtectedContent>
             </TabsContent>
 
             {!hidePostTest && (

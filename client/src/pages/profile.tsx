@@ -8,8 +8,9 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useAuth } from "@/lib/auth";
 import { useToast } from "@/hooks/use-toast";
-import { User, BookOpen, FileText, Crown, LogOut, Printer, Trash2, Plus, Pencil, X, RotateCcw, ChevronLeft, ChevronRight, Layers, Mail, ShoppingBag, Download, AlertCircle, Eye } from "lucide-react";
+import { User, BookOpen, FileText, Crown, LogOut, Printer, Trash2, Plus, Pencil, X, RotateCcw, ChevronLeft, ChevronRight, Layers, Mail, ShoppingBag, Download, AlertCircle, Eye, Lock } from "lucide-react";
 import { LocaleLink } from "@/lib/LocaleLink";
+import { useTrialStatus } from "@/hooks/use-trial-status";
 
 function formatNoteTitle(lessonId: string): string {
   if (lessonId.startsWith("anatomy-")) {
@@ -25,6 +26,7 @@ export default function ProfilePage() {
   const { user, logout, previewTier, setPreviewTier, effectiveTier, isAdmin } = useAuth();
   const [, navigate] = useLocation();
   const { toast } = useToast();
+  const { isOnTrial } = useTrialStatus();
   const [notes, setNotes] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [flashcards, setFlashcards] = useState<any[]>([]);
@@ -385,16 +387,23 @@ export default function ProfilePage() {
                           )}
                         </div>
                       </div>
-                      <Button
-                        size="sm"
-                        variant={limitReached ? "outline" : "default"}
-                        disabled={limitReached || downloadingId === purchase.id}
-                        onClick={() => handleDownload(purchase.id)}
-                        data-testid={`button-download-${purchase.id}`}
-                      >
-                        <Download className="w-4 h-4 mr-1" />
-                        {downloadingId === purchase.id ? "..." : "Download"}
-                      </Button>
+                      {isOnTrial ? (
+                        <Button size="sm" variant="outline" disabled data-testid={`button-download-trial-locked-${purchase.id}`}>
+                          <Lock className="w-4 h-4 mr-1" />
+                          Trial - Upgrade to Download
+                        </Button>
+                      ) : (
+                        <Button
+                          size="sm"
+                          variant={limitReached ? "outline" : "default"}
+                          disabled={limitReached || downloadingId === purchase.id}
+                          onClick={() => handleDownload(purchase.id)}
+                          data-testid={`button-download-${purchase.id}`}
+                        >
+                          <Download className="w-4 h-4 mr-1" />
+                          {downloadingId === purchase.id ? "..." : "Download"}
+                        </Button>
+                      )}
                     </div>
                   );
                 })}
@@ -578,9 +587,11 @@ export default function ProfilePage() {
                       <div className="flex items-center justify-between">
                         <h3 className="font-bold text-gray-900">{formatNoteTitle(note.lessonId)}</h3>
                         <div className="flex gap-2">
-                          <Button variant="ghost" size="sm" onClick={() => handlePrint(note)} data-testid={`button-print-note-${note.id}`}>
-                            <Printer className="w-4 h-4" />
-                          </Button>
+                          {!isOnTrial && (
+                            <Button variant="ghost" size="sm" onClick={() => handlePrint(note)} data-testid={`button-print-note-${note.id}`}>
+                              <Printer className="w-4 h-4" />
+                            </Button>
+                          )}
                           <Button variant="ghost" size="sm" onClick={() => handleDelete(note.id, note.lessonId)} data-testid={`button-delete-note-${note.id}`}>
                             <Trash2 className="w-4 h-4 text-red-400" />
                           </Button>

@@ -3,6 +3,7 @@ import { BreadcrumbNav } from "@/components/breadcrumb-nav";
 import { SEO } from "@/components/seo";
 import { useAuth } from "@/lib/auth";
 import { useToast } from "@/hooks/use-toast";
+import { useTrialStatus } from "@/hooks/use-trial-status";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -219,7 +220,7 @@ function DiagnosticExamView({ user, onComplete }: { user: any; onComplete: (a: A
   );
 }
 
-function AssessmentResultView({ assessment, user, isPremium }: { assessment: Assessment; user: any; isPremium: boolean }) {
+function AssessmentResultView({ assessment, user, isPremium, isOnTrial }: { assessment: Assessment; user: any; isPremium: boolean; isOnTrial?: boolean }) {
   const [, navigate] = useLocation();
   const { toast } = useToast();
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -491,9 +492,11 @@ function AssessmentResultView({ assessment, user, isPremium }: { assessment: Ass
         <CardContent>
           <canvas ref={canvasRef} className="w-full max-w-[600px] rounded-lg border mb-3" style={{ height: "auto" }} data-testid="share-card-canvas" />
           <div className="flex gap-2">
-            <Button size="sm" variant="outline" onClick={downloadCard} className="text-xs gap-1" data-testid="button-download-card">
-              <Download className="w-3 h-3" /> Download Image
-            </Button>
+            {!isOnTrial && (
+              <Button size="sm" variant="outline" onClick={downloadCard} className="text-xs gap-1" data-testid="button-download-card">
+                <Download className="w-3 h-3" /> Download Image
+              </Button>
+            )}
             <Button size="sm" variant="outline" onClick={copyShareText} className="text-xs gap-1" data-testid="button-copy-share">
               <Copy className="w-3 h-3" /> Copy Share Text
             </Button>
@@ -879,6 +882,7 @@ function StudyGroupsView({ user }: { user: any }) {
 export default function DiagnosticAssessmentPage() {
   const { user } = useAuth();
   const [, navigate] = useLocation();
+  const { isOnTrial } = useTrialStatus();
   const [activeTab, setActiveTab] = useState<"diagnostic" | "results" | "stats" | "groups" | "history">("diagnostic");
   const [assessment, setAssessment] = useState<Assessment | null>(null);
   const [history, setHistory] = useState<Assessment[]>([]);
@@ -977,7 +981,7 @@ export default function DiagnosticAssessmentPage() {
       )}
 
       {(activeTab === "results" || (activeTab === "diagnostic" && assessment)) && assessment && (
-        <AssessmentResultView assessment={assessment} user={user} isPremium={isPremium} />
+        <AssessmentResultView assessment={assessment} user={user} isPremium={isPremium} isOnTrial={isOnTrial} />
       )}
 
       {activeTab === "history" && (

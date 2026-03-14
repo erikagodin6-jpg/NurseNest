@@ -21,6 +21,7 @@ import {
 } from "lucide-react";
 import { canAccessFeature, type Feature } from "@/lib/entitlements";
 import { StudyMomentumPanel } from "@/components/study-momentum";
+import { TrialDashboardWidget } from "@/components/trial-dashboard-widget";
 
 type WidgetConfig = {
   widgetType: string;
@@ -300,6 +301,8 @@ export default function DashboardPage() {
         <div className="mb-6">
           <StudyMomentumPanel />
         </div>
+
+        <TrialDashboardWidget />
 
         <header className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 sm:mb-8">
           <div>

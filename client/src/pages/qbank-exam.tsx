@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { useAuth } from "@/lib/auth";
+import { ProtectedContent } from "@/components/protected-content";
 import { useLocation } from "wouter";
 import { getPracticalNurseExamName, type Region } from "@shared/constants";
 import {
@@ -422,13 +423,13 @@ export default function QBankExamPage() {
                         })}
                       </div>
 
-                      <div className="ml-10 bg-slate-50 rounded-xl p-4">
+                      <ProtectedContent className="ml-10 bg-slate-50 rounded-xl p-4">
                         <div className="flex items-center gap-2 mb-2">
                           <BookOpen className="w-3.5 h-3.5 text-violet-500" />
                           <span className="text-xs font-semibold text-slate-600 uppercase tracking-wide">Rationale</span>
                         </div>
                         <p className="text-sm text-slate-700 leading-relaxed">{q.rationale}</p>
-                      </div>
+                      </ProtectedContent>
                     </div>
                   </div>
                 );

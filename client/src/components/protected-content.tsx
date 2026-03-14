@@ -1,5 +1,7 @@
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { useAuth } from "@/lib/auth";
+import { useTrialStatus, ENABLE_COPY_PROTECTION } from "@/hooks/use-trial-status";
+import { WatermarkOverlay } from "./watermark-overlay";
 
 interface WatermarkData {
   enabled: boolean;
@@ -19,19 +21,23 @@ interface ProtectedContentProps {
 
 export function ProtectedContent({ children, className = "", showWatermark = true }: ProtectedContentProps) {
   const { user } = useAuth();
+  const { isOnTrial } = useTrialStatus();
   const containerRef = useRef<HTMLDivElement>(null);
   const [watermark, setWatermark] = useState<WatermarkData | null>(null);
-  const [protectionEnabled, setProtectionEnabled] = useState(true);
+  const [serverProtectionEnabled, setServerProtectionEnabled] = useState(false);
+
+  const trialProtectionActive = isOnTrial && ENABLE_COPY_PROTECTION;
+  const shouldApplyDeterrents = trialProtectionActive || (serverProtectionEnabled && isOnTrial);
 
   useEffect(() => {
     fetch("/api/content-security/config")
       .then((r) => r.json())
-      .then((data) => setProtectionEnabled(data.featureEnabled))
+      .then((data) => setServerProtectionEnabled(data.featureEnabled))
       .catch(() => {});
   }, []);
 
   useEffect(() => {
-    if (!user || !showWatermark || !protectionEnabled) return;
+    if (!user || !showWatermark || !serverProtectionEnabled) return;
 
     const headers: Record<string, string> = {};
     const userToken = localStorage.getItem("nursenest-user-token");
@@ -45,10 +51,10 @@ export function ProtectedContent({ children, className = "", showWatermark = tru
         if (data.enabled) setWatermark(data);
       })
       .catch(() => {});
-  }, [user, showWatermark, protectionEnabled]);
+  }, [user, showWatermark, serverProtectionEnabled]);
 
   useEffect(() => {
-    if (!protectionEnabled) return;
+    if (!shouldApplyDeterrents) return;
     const el = containerRef.current;
     if (!el) return;
 
@@ -79,16 +85,16 @@ export function ProtectedContent({ children, className = "", showWatermark = tru
 
     el.addEventListener("contextmenu", handleContextMenu);
     el.addEventListener("copy", handleCopy);
-    document.addEventListener("keydown", handleKeyDown);
+    el.addEventListener("keydown", handleKeyDown);
 
     return () => {
       el.removeEventListener("contextmenu", handleContextMenu);
       el.removeEventListener("copy", handleCopy);
-      document.removeEventListener("keydown", handleKeyDown);
+      el.removeEventListener("keydown", handleKeyDown);
     };
-  }, [protectionEnabled]);
+  }, [shouldApplyDeterrents]);
 
-  if (!protectionEnabled) {
+  if (!shouldApplyDeterrents) {
     return <div className={className}>{children}</div>;
   }
 
@@ -98,6 +104,7 @@ export function ProtectedContent({ children, className = "", showWatermark = tru
       className={`relative ${className}`}
       style={{ userSelect: "none", WebkitUserSelect: "none" }}
       data-testid="container-protected-content"
+      tabIndex={-1}
     >
       <style>{`
         @media print {
@@ -117,6 +124,9 @@ export function ProtectedContent({ children, className = "", showWatermark = tru
       <div style={{ userSelect: "none", WebkitUserSelect: "none" }}>
         {children}
       </div>
+      {trialProtectionActive && user && (
+        <WatermarkOverlay />
+      )}
       {watermark && watermark.enabled && (
         <div
           className="pointer-events-none absolute inset-0 overflow-hidden z-10"

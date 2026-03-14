@@ -12,9 +12,12 @@ import { useI18n } from "@/lib/i18n";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Check, Shield, HelpCircle, Star, Clock, X, CreditCard, Calculator, Beaker, Zap, Award, Trophy, ArrowLeft, Crown, Sparkles } from "lucide-react";
+import { Check, Shield, HelpCircle, Star, Clock, X, CreditCard, Calculator, Beaker, Zap, Award, Trophy, ArrowLeft, Crown, Sparkles, Mail, Loader2 } from "lucide-react";
+import { useTrialStatus } from "@/hooks/use-trial-status";
 import { useToast } from "@/hooks/use-toast";
 import PayPalButton from "@/components/PayPalButton";
+import { loadStripe } from "@stripe/stripe-js";
+import { Elements, CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
 
 type PricingPlan = {
   id: string;
@@ -54,11 +57,127 @@ const durationMonths: Record<string, number> = {
   yearly: 12,
 };
 
+let stripePromise: ReturnType<typeof loadStripe> | null = null;
+function getStripePromise() {
+  if (!stripePromise) {
+    stripePromise = fetch("/api/stripe/publishable-key")
+      .then((r) => r.json())
+      .then((data) => loadStripe(data.publishableKey))
+      .catch(() => null);
+  }
+  return stripePromise;
+}
+
+function TrialCardForm({
+  selectedTier,
+  onSuccess,
+  onBack,
+}: {
+  selectedTier: string;
+  onSuccess: () => void;
+  onBack: () => void;
+}) {
+  const stripe = useStripe();
+  const elements = useElements();
+  const [activating, setActivating] = useState(false);
+  const [cardError, setCardError] = useState<string | null>(null);
+  const { toast } = useToast();
+
+  async function handleSubmit() {
+    if (!stripe || !elements) return;
+    const cardElement = elements.getElement(CardElement);
+    if (!cardElement) return;
+
+    setActivating(true);
+    setCardError(null);
+    try {
+      const res = await fetch("/api/trial-sub/activate", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("nursenest-user-token") || ""}`,
+        },
+        body: JSON.stringify({ selectedTier }),
+      });
+      if (!res.ok) {
+        const err = await res.json();
+        toast({ title: "Trial Activation Failed", description: err.error || "Could not start trial", variant: "destructive" });
+        return;
+      }
+      const data = await res.json();
+      if (data.setupIntentClientSecret) {
+        const { error } = await stripe.confirmCardSetup(data.setupIntentClientSecret, {
+          payment_method: { card: cardElement },
+        });
+        if (error) {
+          setCardError(error.message || "Card verification failed");
+          return;
+        }
+        const confirmRes = await fetch("/api/trial-sub/confirm", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("nursenest-user-token") || ""}`,
+          },
+          body: JSON.stringify({ setupIntentId: data.setupIntentClientSecret.split("_secret_")[0] }),
+        });
+        if (!confirmRes.ok) {
+          const confirmErr = await confirmRes.json().catch(() => ({ error: "Confirmation failed" }));
+          setCardError(confirmErr.error || "Trial confirmation failed. Please try again.");
+          return;
+        }
+      }
+      toast({ title: "Trial Activated!", description: "Your 24-hour free trial has started." });
+      onSuccess();
+    } catch {
+      toast({ title: "Error", description: "Failed to activate trial", variant: "destructive" });
+    } finally {
+      setActivating(false);
+    }
+  }
+
+  return (
+    <div className="space-y-4 max-w-md mx-auto">
+      <div className="p-4 bg-amber-50 rounded-xl border border-amber-100">
+        <div className="flex items-center gap-2 mb-2">
+          <CreditCard className="w-5 h-5 text-amber-600" />
+          <p className="text-sm font-semibold text-amber-800">Add Payment Method</p>
+        </div>
+        <p className="text-xs text-amber-700 mb-1">A valid card is required to start your free trial. You won't be charged during the trial period.</p>
+        <p className="text-xs text-amber-600">After 24 hours, your subscription begins at the regular price. Cancel anytime before renewal.</p>
+      </div>
+      <div className="p-3 border rounded-lg bg-white" data-testid="container-stripe-card">
+        <CardElement
+          options={{
+            style: {
+              base: { fontSize: "16px", color: "#1f2937", "::placeholder": { color: "#9ca3af" } },
+              invalid: { color: "#ef4444" },
+            },
+          }}
+        />
+      </div>
+      {cardError && (
+        <p className="text-sm text-red-600" data-testid="text-card-error">{cardError}</p>
+      )}
+      <Button
+        className="w-full rounded-full font-semibold bg-primary hover:brightness-110 text-white shadow-lg h-12"
+        onClick={handleSubmit}
+        disabled={activating || !stripe}
+        data-testid="button-activate-trial"
+      >
+        {activating ? (<><Loader2 className="w-5 h-5 mr-2 animate-spin" /> Activating...</>) : (<><CreditCard className="w-5 h-5 mr-2" /> Activate 24-Hour Free Trial</>)}
+      </Button>
+      <Button variant="ghost" size="sm" onClick={onBack} data-testid="button-trial-back-verify">Back</Button>
+    </div>
+  );
+}
+
 export default function PricingPage() {
   const [, navigate] = useLocation();
   const { user } = useAuth();
   const { toast } = useToast();
   const { t } = useI18n();
+  const trialStatus = useTrialStatus();
   const [region, setRegion] = useState<"US" | "CA">(() => {
     return (localStorage.getItem("nursenest-region") as "US" | "CA") || "US";
   });
@@ -66,9 +185,14 @@ export default function PricingPage() {
   const [plans, setPlans] = useState<PricingPlan[]>([]);
   const [loadingPlans, setLoadingPlans] = useState(true);
   const [loadingTier, setLoadingTier] = useState<string | null>(null);
-  const [trialUsage, setTrialUsage] = useState<any>(null);
+  const [trialUsage, setTrialUsage] = useState<{ remaining?: { questions?: number; flashcards?: number; catExams?: number } } | null>(null);
   const [paypalAvailable, setPaypalAvailable] = useState(false);
   const [paypalPlan, setPaypalPlan] = useState<string | null>(null);
+  const [selectedTrialTier, setSelectedTrialTier] = useState<string>("rn");
+  const [trialStep, setTrialStep] = useState<"select" | "verify" | "card">("select");
+  const [verificationCode, setVerificationCode] = useState("");
+  const [verificationSending, setVerificationSending] = useState(false);
+  const [verificationSent, setVerificationSent] = useState(false);
 
   useEffect(() => {
     fetch("/api/pricing/plans")
@@ -631,6 +755,148 @@ export default function PricingPage() {
                       </Card>
                     );
                   })}
+                </div>
+              )}
+
+              {!trialStatus.isOnTrial && !trialStatus.hasTrial && (
+                <div className="mb-16" data-testid="section-free-trial">
+                  <Card className="max-w-2xl mx-auto border-2 border-primary/20 shadow-xl bg-gradient-to-br from-primary/5 to-white overflow-hidden">
+                    <CardContent className="p-8">
+                      <div className="text-center mb-6">
+                        <Badge className="bg-primary/10 text-primary border-primary/20 px-4 py-1.5 text-sm font-semibold mb-4" data-testid="badge-free-trial">
+                          <Clock className="w-4 h-4 mr-1.5" />
+                          24-Hour Free Trial
+                        </Badge>
+                        <h2 className="text-2xl sm:text-3xl font-bold mb-2" data-testid="text-free-trial-title">
+                          Start Your 24-Hour Free Trial
+                        </h2>
+                        <p className="text-gray-500 max-w-lg mx-auto">
+                          Get full access to premium content for 24 hours. Experience lessons, flashcards, practice exams, and more before committing.
+                        </p>
+                      </div>
+
+                      {trialStep === "select" && (
+                        <div className="space-y-4">
+                          <div className="flex items-center justify-center gap-2 text-sm text-gray-600 mb-2">
+                            <Shield className="w-4 h-4 text-primary" />
+                            <span>Full access to <strong className="text-primary uppercase">{user?.tier && ["rpn", "rn", "np"].includes(user.tier) ? user.tier : selectedTrialTier}</strong> exam preparation content</span>
+                          </div>
+                          <Button
+                            className="w-full max-w-md mx-auto flex rounded-full font-semibold bg-primary hover:brightness-110 text-white shadow-lg shadow-primary/20 h-12"
+                            onClick={() => {
+                              if (!user) { navigate("/login"); return; }
+                              if (user.tier && ["rpn", "rn", "np"].includes(user.tier)) {
+                                setSelectedTrialTier(user.tier);
+                              }
+                              if (!user.email) {
+                                toast({ title: "Email Required", description: "Please add an email to your profile before starting a trial.", variant: "destructive" });
+                                navigate("/profile");
+                                return;
+                              }
+                              setTrialStep("verify");
+                            }}
+                            data-testid="button-start-free-trial"
+                          >
+                            <Clock className="w-5 h-5 mr-2" />
+                            Start Free Trial
+                          </Button>
+                          <div className="flex items-center justify-center gap-4 text-xs text-gray-400">
+                            <span className="flex items-center gap-1"><CreditCard className="w-3 h-3" /> Card required</span>
+                            <span>Cancel before renewal</span>
+                            <span>No charge for 24 hours</span>
+                          </div>
+                        </div>
+                      )}
+
+                      {trialStep === "verify" && (
+                        <div className="space-y-4 max-w-md mx-auto">
+                          <div className="p-4 bg-blue-50 rounded-xl border border-blue-100">
+                            <div className="flex items-center gap-2 mb-2">
+                              <Mail className="w-5 h-5 text-blue-600" />
+                              <p className="text-sm font-semibold text-blue-800">Verify Your Email</p>
+                            </div>
+                            <p className="text-xs text-blue-600 mb-3">
+                              We'll send a verification code to {user?.email || "your email"} to confirm your identity.
+                            </p>
+                            {!verificationSent ? (
+                              <Button
+                                className="w-full rounded-full"
+                                variant="outline"
+                                onClick={async () => {
+                                  setVerificationSending(true);
+                                  try {
+                                    const res = await fetch("/api/auth/send-verification", {
+                                      method: "POST",
+                                      headers: { "Content-Type": "application/json", Authorization: `Bearer ${localStorage.getItem("nursenest-user-token") || ""}` },
+                                    });
+                                    if (res.ok) {
+                                      setVerificationSent(true);
+                                      toast({ title: "Code Sent", description: "Check your email for the verification code." });
+                                    } else {
+                                      const err = await res.json();
+                                      if (err.error?.includes("already verified")) { setTrialStep("card"); }
+                                      else { toast({ title: "Error", description: err.error || "Failed to send code", variant: "destructive" }); }
+                                    }
+                                  } catch { toast({ title: "Error", description: "Failed to send verification code", variant: "destructive" }); }
+                                  finally { setVerificationSending(false); }
+                                }}
+                                disabled={verificationSending}
+                                data-testid="button-send-verification"
+                              >
+                                {verificationSending ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Mail className="w-4 h-4 mr-2" />}
+                                Send Verification Code
+                              </Button>
+                            ) : (
+                              <div className="space-y-2">
+                                <label htmlFor="trial-verification-code" className="sr-only">Verification Code</label>
+                                <input
+                                  id="trial-verification-code"
+                                  type="text"
+                                  placeholder="Enter 6-digit code"
+                                  aria-label="6-digit verification code"
+                                  value={verificationCode}
+                                  onChange={(e) => setVerificationCode(e.target.value.replace(/\D/g, "").slice(0, 6))}
+                                  className="w-full px-4 py-2 border rounded-lg text-center text-lg font-mono tracking-widest"
+                                  maxLength={6}
+                                  data-testid="input-verification-code"
+                                />
+                                <Button
+                                  className="w-full rounded-full"
+                                  onClick={async () => {
+                                    try {
+                                      const res = await fetch("/api/auth/verify-email", {
+                                        method: "POST",
+                                        headers: { "Content-Type": "application/json", Authorization: `Bearer ${localStorage.getItem("nursenest-user-token") || ""}` },
+                                        body: JSON.stringify({ code: verificationCode }),
+                                      });
+                                      if (res.ok) { toast({ title: "Email Verified", description: "Your email has been verified." }); setTrialStep("card"); }
+                                      else { const err = await res.json(); toast({ title: "Invalid Code", description: err.error || "Please check the code and try again.", variant: "destructive" }); }
+                                    } catch { toast({ title: "Error", description: "Failed to verify code", variant: "destructive" }); }
+                                  }}
+                                  disabled={verificationCode.length !== 6}
+                                  data-testid="button-verify-code"
+                                >
+                                  <Check className="w-4 h-4 mr-2" />
+                                  Verify & Continue
+                                </Button>
+                              </div>
+                            )}
+                          </div>
+                          <Button variant="ghost" size="sm" onClick={() => setTrialStep("select")} data-testid="button-trial-back-select">Back</Button>
+                        </div>
+                      )}
+
+                      {trialStep === "card" && (
+                        <Elements stripe={getStripePromise()}>
+                          <TrialCardForm
+                            selectedTier={selectedTrialTier}
+                            onSuccess={() => navigate("/dashboard")}
+                            onBack={() => setTrialStep("verify")}
+                          />
+                        </Elements>
+                      )}
+                    </CardContent>
+                  </Card>
                 </div>
               )}
 

@@ -10,6 +10,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { useAuth } from "@/lib/auth";
+import { useTrialStatus } from "@/hooks/use-trial-status";
 import {
   ArrowLeft, Trophy, Target, AlertTriangle, BarChart3, Clock,
   CheckCircle2, XCircle, ChevronDown, ChevronUp, ChevronRight, Flag, BookOpen,
@@ -55,6 +56,7 @@ export default function MockExamReport() {
   const { id: attemptId } = useParams();
   const { user } = useAuth();
   const { toast } = useToast();
+  const { isOnTrial } = useTrialStatus();
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [exam, setExam] = useState<any>(null);
   const [loading, setLoading] = useState(true);
@@ -611,15 +613,17 @@ export default function MockExamReport() {
               data-testid="share-card-canvas"
             />
             <div className="flex flex-wrap gap-2">
-              <Button
-                size="sm"
-                variant="outline"
-                onClick={downloadShareCard}
-                className="gap-2"
-                data-testid="button-download-share-card"
-              >
-                <Download className="w-4 h-4" /> Download PNG
-              </Button>
+              {!isOnTrial && (
+                <Button
+                  size="sm"
+                  variant="outline"
+                  onClick={downloadShareCard}
+                  className="gap-2"
+                  data-testid="button-download-share-card"
+                >
+                  <Download className="w-4 h-4" /> Download PNG
+                </Button>
+              )}
               <Button
                 size="sm"
                 variant="outline"
