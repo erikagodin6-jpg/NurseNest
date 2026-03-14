@@ -450,6 +450,10 @@ function AppRoutes() {
         <Route path="/respiratory-therapist-first-year-survival-guide" component={NewGradGuidePage} />
         <Route path="/mlt-first-year-survival-guide" component={NewGradGuidePage} />
         <Route path="/imaging-tech-first-year-survival-guide" component={NewGradGuidePage} />
+        <Route path="/social-work-first-year-survival-guide" component={NewGradGuidePage} />
+        <Route path="/psychotherapy-first-year-survival-guide" component={NewGradGuidePage} />
+        <Route path="/addictions-counselor-first-year-survival-guide" component={NewGradGuidePage} />
+        <Route path="/addictions-counseling-first-year-survival-guide" component={NewGradGuidePage} />
         <Route path="/ot-first-year-survival-guide" component={NewGradGuidePage} />
         <Route path="/clinical-skills/:slug" component={NewGradGuidePage} />
         <Route path="/unit-guides/:slug" component={NewGradGuidePage} />
