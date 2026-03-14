@@ -3145,8 +3145,6 @@ Return ONLY a JSON array of flashcard objects, no other text.`;
         "lab-values": { monthly: { CAD: 999, USD: 999 } },
         "med-math": { monthly: { CAD: 999, USD: 999 } },
         "practice-tools": { monthly: { CAD: 1499, USD: 1499 } },
-        "1-day": { "one-time": { CAD: 499, USD: 399 } },
-        "3-day": { "one-time": { CAD: 999, USD: 799 } },
       };
 
       const tierNames: Record<string, string> = {
@@ -3157,8 +3155,6 @@ Return ONLY a JSON array of flashcard objects, no other text.`;
         "lab-values": "NurseNest Lab Interpretation Unlimited",
         "med-math": "NurseNest Med Math Unlimited",
         "practice-tools": "NurseNest All Practice Tools",
-        "1-day": "NurseNest 1-Day Trial Pass",
-        "3-day": "NurseNest 3-Day Trial Pass",
       };
 
       const selectedDuration = duration || "monthly";
@@ -9007,7 +9003,7 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
         return res.status(403).json({ error: "User mismatch" });
       }
 
-      const validTiers = ["rpn", "rn", "np", "1-day", "3-day", "lab-values", "med-math", "practice-tools"];
+      const validTiers = ["rpn", "rn", "np", "lab-values", "med-math", "practice-tools"];
       if (!validTiers.includes(tier)) {
         return res.status(400).json({ error: "Invalid tier" });
       }
