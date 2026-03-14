@@ -8574,24 +8574,32 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
 
   const VALID_LEAD_MAGNETS = ["study_guide", "practice_questions", "mock_exam"];
 
+  const VALID_CATEGORIES = ["exam_prep", "new_grad_tips", "job_alerts", "general"];
+
   app.post("/api/subscribe", async (req, res) => {
     try {
-      const { email, tier, source, frequency, leadMagnetType, professionContext } = req.body;
+      const { email, tier, source, frequency, leadMagnetType, professionContext, categories } = req.body;
       if (!email || !email.includes("@")) {
         return res.status(400).json({ error: "Valid email required" });
       }
       const freq = VALID_FREQUENCIES.includes(frequency) ? frequency : "weekly";
       const validatedLeadMagnet = leadMagnetType && VALID_LEAD_MAGNETS.includes(leadMagnetType) ? leadMagnetType : undefined;
       const validatedProfession = professionContext && typeof professionContext === "string" ? professionContext.slice(0, 100) : undefined;
+      const validatedCategories = Array.isArray(categories)
+        ? categories.filter((c: string) => VALID_CATEGORIES.includes(c))
+        : ["general"];
+      const finalCategories = validatedCategories.length > 0 ? validatedCategories : ["general"];
+
       const existing = await storage.getEmailSubscriberByEmail(email.toLowerCase().trim());
       if (existing) {
-        if ((validatedLeadMagnet || validatedProfession) && (!existing.leadMagnetType || !existing.professionContext)) {
-          await storage.updateEmailSubscriber(existing.email, {
-            ...(validatedLeadMagnet && !existing.leadMagnetType ? { leadMagnetType: validatedLeadMagnet } : {}),
-            ...(validatedProfession && !existing.professionContext ? { professionContext: validatedProfession } : {}),
-          });
-        }
-        return res.json({ message: "Already subscribed", subscriber: existing });
+        const mergedCategories = Array.from(new Set([...(existing.categories || []), ...finalCategories]));
+        await storage.updateEmailSubscriber(existing.email, {
+          categories: mergedCategories,
+          ...(validatedLeadMagnet && !existing.leadMagnetType ? { leadMagnetType: validatedLeadMagnet } : {}),
+          ...(validatedProfession && !existing.professionContext ? { professionContext: validatedProfession } : {}),
+        });
+        const updated = await storage.getEmailSubscriberByEmail(existing.email);
+        return res.json({ message: "Subscription updated", subscriber: updated });
       }
       const subscriber = await storage.createEmailSubscriber({
         email: email.toLowerCase().trim(),
@@ -8599,6 +8607,7 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
         source: source || "homepage",
         verified: false,
         frequency: freq,
+        categories: finalCategories,
         ...(validatedLeadMagnet ? { leadMagnetType: validatedLeadMagnet } : {}),
         ...(validatedProfession ? { professionContext: validatedProfession } : {}),
       });
@@ -8622,11 +8631,17 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
 
   app.patch("/api/subscribe/:email", async (req, res) => {
     try {
-      const { frequency } = req.body;
+      const { frequency, categories } = req.body;
       if (frequency && !VALID_FREQUENCIES.includes(frequency)) {
         return res.status(400).json({ error: "Invalid frequency" });
       }
-      const updated = await storage.updateEmailSubscriber(req.params.email.toLowerCase().trim(), { frequency });
+      const updates: any = {};
+      if (frequency) updates.frequency = frequency;
+      if (Array.isArray(categories)) {
+        const validCats = categories.filter((c: string) => VALID_CATEGORIES.includes(c));
+        updates.categories = validCats.length > 0 ? validCats : ["general"];
+      }
+      const updated = await storage.updateEmailSubscriber(req.params.email.toLowerCase().trim(), updates);
       if (!updated) {
         return res.status(404).json({ error: "Not subscribed" });
       }

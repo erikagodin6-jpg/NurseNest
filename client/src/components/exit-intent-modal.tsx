@@ -8,27 +8,118 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Label } from "@/components/ui/label";
 import {
   BookOpen,
   Target,
   Stethoscope,
   CheckCircle2,
   ArrowRight,
-  X,
+  GraduationCap,
+  Briefcase,
 } from "lucide-react";
 import { useExitIntent } from "@/hooks/use-exit-intent";
+import { useLocation } from "wouter";
 
-const VALUE_PROPS = [
-  { icon: Target, text: "Free diagnostic exam to find your weak areas" },
-  { icon: BookOpen, text: "Access to pathophysiology study resources" },
-  { icon: Stethoscope, text: "Clinical practice questions with rationales" },
-];
+type SubscriptionCategory = "exam_prep" | "new_grad_tips" | "job_alerts" | "general";
+
+interface SectionConfig {
+  heading: string;
+  description: string;
+  defaultCategory: SubscriptionCategory;
+  valueProps: { icon: any; text: string }[];
+  ctaText: string;
+}
+
+const SECTION_CONFIGS: Record<string, SectionConfig> = {
+  exam_prep: {
+    heading: "Don't leave without your study edge!",
+    description: "Get exam prep tips, practice questions, and study strategies sent to your inbox.",
+    defaultCategory: "exam_prep",
+    valueProps: [
+      { icon: Target, text: "Weekly practice questions with detailed rationales" },
+      { icon: BookOpen, text: "Study strategies from top-scoring students" },
+      { icon: Stethoscope, text: "Clinical pearls to ace your exam" },
+    ],
+    ctaText: "Get Free Exam Prep Tips",
+  },
+  new_grad: {
+    heading: "Starting your career? We've got your back!",
+    description: "Get survival tips, clinical confidence builders, and career advice for new graduates.",
+    defaultCategory: "new_grad_tips",
+    valueProps: [
+      { icon: GraduationCap, text: "New grad survival tips from experienced nurses" },
+      { icon: Stethoscope, text: "Clinical confidence builders for your first year" },
+      { icon: Briefcase, text: "Career development advice and mentorship resources" },
+    ],
+    ctaText: "Get New Grad Tips",
+  },
+  career: {
+    heading: "Looking for your next opportunity?",
+    description: "Get healthcare job alerts, career tips, and industry insights delivered weekly.",
+    defaultCategory: "job_alerts",
+    valueProps: [
+      { icon: Briefcase, text: "Curated healthcare job alerts in your specialty" },
+      { icon: Target, text: "Resume and interview tips for healthcare professionals" },
+      { icon: GraduationCap, text: "Career growth strategies and certifications guide" },
+    ],
+    ctaText: "Get Job Alerts",
+  },
+  default: {
+    heading: "Wait — don't leave empty-handed!",
+    description: "Get a personalized study plan and free diagnostic exam sent straight to your inbox.",
+    defaultCategory: "general",
+    valueProps: [
+      { icon: Target, text: "Free diagnostic exam to find your weak areas" },
+      { icon: BookOpen, text: "Access to pathophysiology study resources" },
+      { icon: Stethoscope, text: "Clinical practice questions with rationales" },
+    ],
+    ctaText: "Get Your Free Study Plan",
+  },
+};
+
+function detectSection(pathname: string): string {
+  if (pathname.includes("/new-grad") || pathname.includes("survival-guide") || pathname.includes("first-year")) {
+    return "new_grad";
+  }
+  if (pathname.includes("/career") || pathname.includes("how-to-become") || pathname.includes("/job")) {
+    return "career";
+  }
+  if (
+    pathname.includes("/lessons") || pathname.includes("/flashcards") || pathname.includes("/qbank") ||
+    pathname.includes("/mock-exam") || pathname.includes("/exam") || pathname.includes("/study") ||
+    pathname.includes("/diagnostic") || pathname.includes("/med-math") || pathname.includes("/lab-values")
+  ) {
+    return "exam_prep";
+  }
+  return "default";
+}
+
+const CATEGORY_LABELS: Record<SubscriptionCategory, string> = {
+  exam_prep: "Exam Prep Tips",
+  new_grad_tips: "New Grad Survival Tips",
+  job_alerts: "Healthcare Job Alerts",
+  general: "General Updates",
+};
 
 export function ExitIntentModal() {
   const { showModal, dismiss, dismissPermanently } = useExitIntent();
+  const [location] = useLocation();
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [errorMsg, setErrorMsg] = useState("");
+
+  const section = detectSection(location);
+  const config = SECTION_CONFIGS[section] || SECTION_CONFIGS.default;
+
+  const [selectedCategories, setSelectedCategories] = useState<SubscriptionCategory[]>([config.defaultCategory]);
+
+  const toggleCategory = (cat: SubscriptionCategory) => {
+    setSelectedCategories((prev) =>
+      prev.includes(cat) ? prev.filter((c) => c !== cat) : [...prev, cat]
+    );
+  };
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -44,7 +135,12 @@ export function ExitIntentModal() {
       const res = await fetch("/api/subscribe", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: trimmed, frequency: "weekly" }),
+        body: JSON.stringify({
+          email: trimmed,
+          frequency: "weekly",
+          categories: selectedCategories.length > 0 ? selectedCategories : [config.defaultCategory],
+          source: `exit_intent_${section}`,
+        }),
       });
       if (!res.ok) {
         const data = await res.json().catch(() => ({}));
@@ -69,13 +165,13 @@ export function ExitIntentModal() {
               className="text-xl font-bold text-gray-900"
               data-testid="text-exit-intent-heading"
             >
-              Wait — don't leave empty-handed!
+              {config.heading}
             </DialogTitle>
             <DialogDescription
               className="text-sm text-gray-600 mt-1"
               data-testid="text-exit-intent-description"
             >
-              Get a personalized study plan and free diagnostic exam sent straight to your inbox.
+              {config.description}
             </DialogDescription>
           </DialogHeader>
         </div>
@@ -86,7 +182,7 @@ export function ExitIntentModal() {
               <CheckCircle2 className="w-12 h-12 text-emerald-500 mx-auto" />
               <p className="text-lg font-semibold text-gray-900">You're in!</p>
               <p className="text-sm text-gray-600">
-                Check your inbox for your free study plan and diagnostic exam link.
+                Check your inbox for your personalized content.
               </p>
               <Button
                 variant="outline"
@@ -100,7 +196,7 @@ export function ExitIntentModal() {
           ) : (
             <>
               <ul className="space-y-2.5">
-                {VALUE_PROPS.map((prop) => {
+                {config.valueProps.map((prop) => {
                   const Icon = prop.icon;
                   return (
                     <li key={prop.text} className="flex items-center gap-3">
@@ -112,6 +208,25 @@ export function ExitIntentModal() {
                   );
                 })}
               </ul>
+
+              <div className="space-y-2 pt-1" data-testid="exit-intent-categories">
+                <p className="text-xs font-medium text-gray-500 uppercase tracking-wide">Also subscribe to:</p>
+                <div className="grid grid-cols-2 gap-2">
+                  {(Object.keys(CATEGORY_LABELS) as SubscriptionCategory[]).map((cat) => (
+                    <div key={cat} className="flex items-center gap-2">
+                      <Checkbox
+                        id={`exit-cat-${cat}`}
+                        checked={selectedCategories.includes(cat)}
+                        onCheckedChange={() => toggleCategory(cat)}
+                        data-testid={`checkbox-exit-category-${cat}`}
+                      />
+                      <Label htmlFor={`exit-cat-${cat}`} className="text-xs cursor-pointer">
+                        {CATEGORY_LABELS[cat]}
+                      </Label>
+                    </div>
+                  ))}
+                </div>
+              </div>
 
               <form onSubmit={handleSubmit} className="space-y-3 pt-2">
                 <Input
@@ -141,7 +256,7 @@ export function ExitIntentModal() {
                     </span>
                   ) : (
                     <>
-                      Get Your Free Study Plan
+                      {config.ctaText}
                       <ArrowRight className="w-4 h-4 ml-2" />
                     </>
                   )}

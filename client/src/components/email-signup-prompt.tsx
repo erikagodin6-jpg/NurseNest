@@ -2,6 +2,24 @@ import { useState } from "react";
 import { Mail, CheckCircle, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Label } from "@/components/ui/label";
+
+type SubscriptionCategory = "exam_prep" | "new_grad_tips" | "job_alerts" | "general";
+
+const CATEGORY_LABELS: Record<SubscriptionCategory, string> = {
+  exam_prep: "Exam Prep Tips",
+  new_grad_tips: "New Grad Survival Tips",
+  job_alerts: "Healthcare Job Alerts",
+  general: "General Updates",
+};
+
+const CATEGORY_DESCRIPTIONS: Record<SubscriptionCategory, string> = {
+  exam_prep: "NCLEX strategies, practice questions & study resources",
+  new_grad_tips: "Transition tips, clinical confidence & career advice",
+  job_alerts: "New healthcare job openings & career opportunities",
+  general: "Platform news, feature updates & community highlights",
+};
 
 interface EmailSignupPromptProps {
   title?: string;
@@ -9,6 +27,9 @@ interface EmailSignupPromptProps {
   buttonText?: string;
   variant?: "inline" | "banner" | "card";
   className?: string;
+  defaultCategories?: SubscriptionCategory[];
+  showCategoryPicker?: boolean;
+  source?: string;
 }
 
 export function EmailSignupPrompt({
@@ -17,19 +38,33 @@ export function EmailSignupPrompt({
   buttonText = "Subscribe",
   variant = "card",
   className = "",
+  defaultCategories = ["general"],
+  showCategoryPicker = false,
+  source = "homepage",
 }: EmailSignupPromptProps) {
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [selectedCategories, setSelectedCategories] = useState<SubscriptionCategory[]>(defaultCategories);
+
+  const toggleCategory = (cat: SubscriptionCategory) => {
+    setSelectedCategories((prev) =>
+      prev.includes(cat) ? prev.filter((c) => c !== cat) : [...prev, cat]
+    );
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!email || !email.includes("@")) return;
     setStatus("loading");
     try {
-      const res = await fetch("/api/email-signup", {
+      const res = await fetch("/api/subscribe", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email }),
+        body: JSON.stringify({
+          email,
+          categories: selectedCategories.length > 0 ? selectedCategories : defaultCategories,
+          source,
+        }),
       });
       if (res.ok) {
         setStatus("success");
@@ -41,6 +76,27 @@ export function EmailSignupPrompt({
       setStatus("error");
     }
   };
+
+  const categoryPicker = showCategoryPicker ? (
+    <div className="space-y-2 mb-3" data-testid="category-picker">
+      {(Object.keys(CATEGORY_LABELS) as SubscriptionCategory[]).map((cat) => (
+        <div key={cat} className="flex items-start gap-2">
+          <Checkbox
+            id={`cat-${cat}`}
+            checked={selectedCategories.includes(cat)}
+            onCheckedChange={() => toggleCategory(cat)}
+            data-testid={`checkbox-category-${cat}`}
+          />
+          <div className="grid gap-0.5 leading-none">
+            <Label htmlFor={`cat-${cat}`} className="text-sm font-medium cursor-pointer">
+              {CATEGORY_LABELS[cat]}
+            </Label>
+            <p className="text-xs text-gray-500">{CATEGORY_DESCRIPTIONS[cat]}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+  ) : null;
 
   if (status === "success") {
     return (
@@ -64,6 +120,7 @@ export function EmailSignupPrompt({
               <p className="text-xs text-gray-500">{subtitle}</p>
             </div>
           </div>
+          {categoryPicker}
           <form onSubmit={handleSubmit} className="flex gap-2 w-full sm:w-auto">
             <Input
               type="email"
@@ -86,20 +143,23 @@ export function EmailSignupPrompt({
 
   if (variant === "inline") {
     return (
-      <form onSubmit={handleSubmit} className={`flex gap-2 ${className}`} data-testid="email-signup-inline">
-        <Input
-          type="email"
-          placeholder="your@email.com"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          className="h-10 text-sm"
-          required
-          data-testid="input-email-signup"
-        />
-        <Button type="submit" disabled={status === "loading"} className="shrink-0" data-testid="button-email-subscribe">
-          {status === "loading" ? <Loader2 className="w-4 h-4 animate-spin" /> : buttonText}
-        </Button>
-      </form>
+      <div className={className}>
+        {categoryPicker}
+        <form onSubmit={handleSubmit} className="flex gap-2" data-testid="email-signup-inline">
+          <Input
+            type="email"
+            placeholder="your@email.com"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className="h-10 text-sm"
+            required
+            data-testid="input-email-signup"
+          />
+          <Button type="submit" disabled={status === "loading"} className="shrink-0" data-testid="button-email-subscribe">
+            {status === "loading" ? <Loader2 className="w-4 h-4 animate-spin" /> : buttonText}
+          </Button>
+        </form>
+      </div>
     );
   }
 
@@ -114,6 +174,7 @@ export function EmailSignupPrompt({
           <p className="text-sm text-gray-500">{subtitle}</p>
         </div>
       </div>
+      {categoryPicker}
       <form onSubmit={handleSubmit} className="flex gap-2">
         <Input
           type="email"

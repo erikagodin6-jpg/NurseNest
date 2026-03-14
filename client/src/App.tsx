@@ -146,6 +146,7 @@ const PathwaysPage = lazy(() => import("@/pages/pathways"));
 const RexPnGuide = lazy(() => import("@/pages/rex-pn-guide"));
 const NclexRnGuide = lazy(() => import("@/pages/nclex-rn-guide"));
 const DiagnosticAssessmentPage = lazy(() => import("@/pages/diagnostic-assessment"));
+const EmailPreferencesPage = lazy(() => import("@/pages/email-preferences"));
 const QBankFactoryPage = lazy(() => import("@/pages/qbank-factory"));
 const AccountLibraryPage = lazy(() => import("@/pages/account-library"));
 const AdminTrustShowcase = lazy(() => import("@/pages/admin-trust-showcase"));
@@ -629,6 +630,7 @@ function AppRoutes() {
         <Route path="/privacy" component={PrivacyPage} />
         <Route path="/disclaimer" component={DisclaimerPage} />
         <Route path="/refund-policy" component={RefundPolicyPage} />
+        <Route path="/email-preferences" component={EmailPreferencesPage} />
         <Route path="/question-of-the-day" component={QuestionOfTheDay} />
         <Route path="/question-bank" component={QuestionBank} />
         <Route path="/contact" component={ContactPage} />

@@ -281,6 +281,9 @@ export const qotdHistory = pgTable("qotd_history", {
 
 export type QotdHistory = typeof qotdHistory.$inferSelect;
 
+export const SUBSCRIPTION_CATEGORIES = ["exam_prep", "new_grad_tips", "job_alerts", "general"] as const;
+export type SubscriptionCategory = typeof SUBSCRIPTION_CATEGORIES[number];
+
 export const emailSubscribers = pgTable("email_subscribers", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
   email: text("email").notNull().unique(),
@@ -290,6 +293,7 @@ export const emailSubscribers = pgTable("email_subscribers", {
   frequency: text("frequency").default("weekly"),
   leadMagnetType: text("lead_magnet_type"),
   professionContext: text("profession_context"),
+  categories: text("categories").array().default(sql`'{"general"}'::text[]`),
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
