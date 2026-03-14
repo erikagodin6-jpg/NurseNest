@@ -19,6 +19,7 @@ import {
   generateInternalLinkMap,
   generateQuestionBankProduct,
 } from "./content-generators";
+import { createBgJob, registerJobHandler } from "./job-queue";
 
 const DEFAULT_ENGINES = [
   { engineKey: "blog_engine", name: "Blog Engine", description: "Generate SEO blog clusters and articles" },
@@ -673,6 +674,50 @@ export function setupAutopilotRoutes(app: Express): void {
           createdAt: row.created_at,
         },
       });
+    } catch (err: any) {
+      res.status(500).json({ error: err.message });
+    }
+  });
+
+  registerJobHandler("autopilot_content", async (job: any, batch: any, payload: any) => {
+    const engineKey = payload.engineKey || job.engine_key || "";
+    const jobPayload = typeof job.payload === "string" ? JSON.parse(job.payload) : (job.payload || {});
+    const mergedPayload = { ...jobPayload, ...payload };
+
+    const tempJobId = `bg_${batch.id}`;
+    try {
+      const tempRow = await pool.query(
+        `INSERT INTO autopilot_jobs (engine_key, status, payload)
+         VALUES ($1, 'running', $2) RETURNING id`,
+        [engineKey, JSON.stringify(mergedPayload)]
+      );
+      const autopilotJobId = tempRow.rows[0].id;
+      await processAutopilotJob(autopilotJobId, engineKey, mergedPayload);
+    } catch (err: any) {
+      console.error(`[Autopilot BG] Handler error for ${engineKey}:`, err.message);
+      throw err;
+    }
+  });
+
+  app.post("/api/admin/autopilot/jobs/bg", async (req: Request, res: Response) => {
+    const admin = await requireAdmin(req, res);
+    if (!admin) return;
+
+    try {
+      const { engineKey, payload, totalItems, batchSize, priority } = req.body as any;
+      if (!engineKey) return res.status(400).json({ error: "engineKey is required" });
+
+      const jobId = await createBgJob({
+        type: "autopilot_content",
+        engineKey,
+        payload: { ...payload, engineKey },
+        totalItems: totalItems || 1,
+        batchSize: batchSize || 1,
+        priority: priority || 0,
+        createdBy: admin.id,
+      });
+
+      res.json({ jobId, status: "queued", message: "Background job created" });
     } catch (err: any) {
       res.status(500).json({ error: err.message });
     }

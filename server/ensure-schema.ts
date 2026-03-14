@@ -456,6 +456,87 @@ export async function ensureSchemaSync(pool: pg.Pool): Promise<void> {
       )
     `);
 
+    await client.query(`
+      CREATE TABLE IF NOT EXISTS bg_jobs (
+        id varchar PRIMARY KEY DEFAULT gen_random_uuid(),
+        type text NOT NULL,
+        engine_key varchar,
+        status text NOT NULL DEFAULT 'queued',
+        priority integer DEFAULT 0,
+        payload jsonb DEFAULT '{}'::jsonb,
+        result jsonb DEFAULT '{}'::jsonb,
+        error text,
+        total_items integer DEFAULT 0,
+        completed_items integer DEFAULT 0,
+        failed_items integer DEFAULT 0,
+        total_batches integer DEFAULT 0,
+        completed_batches integer DEFAULT 0,
+        failed_batches integer DEFAULT 0,
+        batch_size integer DEFAULT 50,
+        concurrency_limit integer DEFAULT 3,
+        created_by varchar,
+        claimed_by varchar,
+        heartbeat_at timestamp,
+        started_at timestamp,
+        completed_at timestamp,
+        cancelled_at timestamp,
+        created_at timestamp NOT NULL DEFAULT now()
+      )
+    `);
+    await client.query(`CREATE INDEX IF NOT EXISTS idx_bg_jobs_status ON bg_jobs (status)`);
+    await client.query(`CREATE INDEX IF NOT EXISTS idx_bg_jobs_type ON bg_jobs (type)`);
+
+    await client.query(`
+      CREATE TABLE IF NOT EXISTS bg_job_batches (
+        id varchar PRIMARY KEY DEFAULT gen_random_uuid(),
+        job_id varchar NOT NULL,
+        batch_index integer NOT NULL DEFAULT 0,
+        status text NOT NULL DEFAULT 'queued',
+        total_items integer DEFAULT 0,
+        completed_items integer DEFAULT 0,
+        failed_items integer DEFAULT 0,
+        payload jsonb DEFAULT '{}'::jsonb,
+        result jsonb DEFAULT '{}'::jsonb,
+        error text,
+        retry_count integer DEFAULT 0,
+        max_retries integer DEFAULT 3,
+        claimed_by varchar,
+        heartbeat_at timestamp,
+        started_at timestamp,
+        completed_at timestamp,
+        created_at timestamp NOT NULL DEFAULT now()
+      )
+    `);
+    await client.query(`CREATE INDEX IF NOT EXISTS idx_bg_job_batches_job_id ON bg_job_batches (job_id)`);
+    await client.query(`CREATE INDEX IF NOT EXISTS idx_bg_job_batches_status ON bg_job_batches (status)`);
+
+    await client.query(`
+      CREATE TABLE IF NOT EXISTS bg_job_items (
+        id varchar PRIMARY KEY DEFAULT gen_random_uuid(),
+        job_id varchar NOT NULL,
+        batch_id varchar NOT NULL,
+        item_index integer DEFAULT 0,
+        status text NOT NULL DEFAULT 'pending',
+        content_type text,
+        content_payload jsonb DEFAULT '{}'::jsonb,
+        error text,
+        saved_at timestamp,
+        created_at timestamp NOT NULL DEFAULT now()
+      )
+    `);
+    await client.query(`CREATE INDEX IF NOT EXISTS idx_bg_job_items_batch_id ON bg_job_items (batch_id)`);
+    await client.query(`CREATE INDEX IF NOT EXISTS idx_bg_job_items_job_id ON bg_job_items (job_id)`);
+
+    await client.query(`
+      CREATE TABLE IF NOT EXISTS bg_job_settings (
+        id varchar PRIMARY KEY DEFAULT gen_random_uuid(),
+        key text NOT NULL UNIQUE,
+        value jsonb DEFAULT '{}'::jsonb,
+        updated_at timestamp NOT NULL DEFAULT now(),
+        created_at timestamp NOT NULL DEFAULT now()
+      )
+    `);
+
     await client.query("COMMIT");
     console.log("[SchemaSync] Ensured all tables and columns exist");
 

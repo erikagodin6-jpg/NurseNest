@@ -1508,6 +1508,345 @@ function PerformanceDashboardTab() {
   );
 }
 
+function JobMonitorTab() {
+  const queryClient = useQueryClient();
+  const [expandedJob, setExpandedJob] = useState<string | null>(null);
+
+  const { data: jobsData, isLoading } = useQuery({
+    queryKey: ["/api/admin/bg-jobs"],
+    queryFn: () => adminFetch("/api/admin/bg-jobs?limit=50").then(r => r.json()),
+    refetchInterval: 5000,
+  });
+
+  const { data: statsData } = useQuery({
+    queryKey: ["/api/admin/bg-jobs/stats"],
+    queryFn: () => adminFetch("/api/admin/bg-jobs/stats").then(r => r.json()),
+    refetchInterval: 10000,
+  });
+
+  const { data: jobDetail } = useQuery({
+    queryKey: ["/api/admin/bg-jobs", expandedJob],
+    queryFn: () => expandedJob ? adminFetch(`/api/admin/bg-jobs/${expandedJob}`).then(r => r.json()) : null,
+    enabled: !!expandedJob,
+    refetchInterval: expandedJob ? 5000 : false,
+  });
+
+  const actionMutation = useMutation({
+    mutationFn: async ({ jobId, action, batchId }: { jobId: string; action: string; batchId?: string }) => {
+      const url = batchId
+        ? `/api/admin/bg-jobs/${jobId}/batches/${batchId}/${action}`
+        : `/api/admin/bg-jobs/${jobId}/${action}`;
+      const res = await adminFetch(url, { method: "POST" });
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        throw new Error(err.error || `${action} failed`);
+      }
+      return res.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/admin/bg-jobs"] });
+    },
+  });
+
+  const jobs = jobsData?.jobs || [];
+  const stats = statsData?.jobs || {};
+
+  function formatElapsed(start: string, end?: string): string {
+    if (!start) return "-";
+    const s = new Date(start).getTime();
+    const e = end ? new Date(end).getTime() : Date.now();
+    const diff = Math.max(0, e - s);
+    const mins = Math.floor(diff / 60000);
+    const secs = Math.floor((diff % 60000) / 1000);
+    return mins > 0 ? `${mins}m ${secs}s` : `${secs}s`;
+  }
+
+  function progressPercent(completed: number, total: number): number {
+    if (!total || total <= 0) return 0;
+    return Math.min(100, Math.round((completed / total) * 100));
+  }
+
+  if (isLoading) return <div className="flex items-center gap-2 py-8"><Loader2 className="animate-spin" /> Loading job monitor...</div>;
+
+  return (
+    <div className="space-y-6">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <Card data-testid="stat-bg-queued">
+          <CardContent className="py-4 text-center">
+            <div className="text-2xl font-bold text-yellow-600">{stats.queued || 0}</div>
+            <div className="text-xs text-gray-500">Queued</div>
+          </CardContent>
+        </Card>
+        <Card data-testid="stat-bg-running">
+          <CardContent className="py-4 text-center">
+            <div className="text-2xl font-bold text-blue-600">{stats.running || 0}</div>
+            <div className="text-xs text-gray-500">Running</div>
+          </CardContent>
+        </Card>
+        <Card data-testid="stat-bg-completed">
+          <CardContent className="py-4 text-center">
+            <div className="text-2xl font-bold text-green-600">{stats.completed || 0}</div>
+            <div className="text-xs text-gray-500">Completed</div>
+          </CardContent>
+        </Card>
+        <Card data-testid="stat-bg-failed">
+          <CardContent className="py-4 text-center">
+            <div className="text-2xl font-bold text-red-600">{stats.failed || 0}</div>
+            <div className="text-xs text-gray-500">Failed</div>
+          </CardContent>
+        </Card>
+      </div>
+
+      {jobs.length === 0 ? (
+        <p className="text-muted-foreground py-8 text-center">No background jobs found</p>
+      ) : (
+        <div className="space-y-2">
+          {jobs.map((job: any) => {
+            const isExpanded = expandedJob === job.id;
+            const batches = isExpanded ? (jobDetail?.batches || []) : [];
+            const pct = progressPercent(job.completedItems || 0, job.totalItems || 0);
+
+            return (
+              <Card key={job.id} data-testid={`card-bg-job-${job.id}`}>
+                <CardContent className="py-3 px-4">
+                  <div className="flex items-center justify-between gap-3">
+                    <div className="flex-1 min-w-0 cursor-pointer" onClick={() => setExpandedJob(isExpanded ? null : job.id)}>
+                      <div className="flex items-center gap-2 mb-1">
+                        <Badge variant="outline" className="text-xs">{job.type}</Badge>
+                        {job.engineKey && <Badge variant="outline" className="text-xs">{job.engineKey}</Badge>}
+                        <StatusBadge status={job.status} />
+                      </div>
+                      <div className="flex items-center gap-4">
+                        <div className="flex-1">
+                          {job.totalItems > 0 && (
+                            <div className="flex items-center gap-2">
+                              <div className="flex-1 bg-gray-200 rounded-full h-2">
+                                <div
+                                  className="bg-blue-500 h-2 rounded-full transition-all"
+                                  style={{ width: `${pct}%` }}
+                                />
+                              </div>
+                              <span className="text-xs text-gray-500 whitespace-nowrap" data-testid={`text-progress-${job.id}`}>
+                                {job.completedItems}/{job.totalItems} ({pct}%)
+                              </span>
+                            </div>
+                          )}
+                          <div className="flex items-center gap-3 mt-1 text-xs text-gray-400">
+                            <span>Batches: {job.completedBatches}/{job.totalBatches}</span>
+                            {job.failedBatches > 0 && <span className="text-red-500">{job.failedBatches} failed</span>}
+                            <span><Clock className="inline h-3 w-3 mr-1" />{formatElapsed(job.startedAt || job.createdAt, job.completedAt)}</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="flex gap-1 shrink-0">
+                      {["queued", "running"].includes(job.status) && (
+                        <Button
+                          size="sm"
+                          variant="ghost"
+                          onClick={() => actionMutation.mutate({ jobId: job.id, action: "pause" })}
+                          disabled={actionMutation.isPending}
+                          data-testid={`button-pause-job-${job.id}`}
+                          title="Pause"
+                        >
+                          <PauseCircle className="h-4 w-4" />
+                        </Button>
+                      )}
+                      {job.status === "paused" && (
+                        <Button
+                          size="sm"
+                          variant="ghost"
+                          className="text-green-600"
+                          onClick={() => actionMutation.mutate({ jobId: job.id, action: "resume" })}
+                          disabled={actionMutation.isPending}
+                          data-testid={`button-resume-job-${job.id}`}
+                          title="Resume"
+                        >
+                          <Play className="h-4 w-4" />
+                        </Button>
+                      )}
+                      {!["completed", "cancelled"].includes(job.status) && (
+                        <Button
+                          size="sm"
+                          variant="ghost"
+                          className="text-red-600"
+                          onClick={() => actionMutation.mutate({ jobId: job.id, action: "cancel" })}
+                          disabled={actionMutation.isPending}
+                          data-testid={`button-cancel-job-${job.id}`}
+                          title="Cancel"
+                        >
+                          <XCircle className="h-4 w-4" />
+                        </Button>
+                      )}
+                    </div>
+                  </div>
+
+                  {isExpanded && (
+                    <div className="mt-3 pt-3 border-t space-y-2">
+                      <h4 className="text-sm font-medium text-gray-600">Child Batches</h4>
+                      {batches.length === 0 ? (
+                        <p className="text-xs text-gray-400">Loading batches...</p>
+                      ) : (
+                        batches.map((batch: any) => (
+                          <div
+                            key={batch.id}
+                            className="flex items-center justify-between py-2 px-3 bg-gray-50 rounded text-sm"
+                            data-testid={`row-batch-${batch.id}`}
+                          >
+                            <div className="flex items-center gap-2 flex-1">
+                              <span className="text-xs text-gray-500 font-mono">#{batch.batchIndex}</span>
+                              <StatusBadge status={batch.status} />
+                              {batch.totalItems > 0 && (
+                                <span className="text-xs text-gray-500">
+                                  {batch.completedItems}/{batch.totalItems}
+                                </span>
+                              )}
+                              {batch.retryCount > 0 && (
+                                <span className="text-xs text-orange-500">retry {batch.retryCount}/{batch.maxRetries}</span>
+                              )}
+                              {batch.error && (
+                                <span className="text-xs text-red-500 truncate max-w-48" title={batch.error}>
+                                  {batch.error}
+                                </span>
+                              )}
+                              <span className="text-xs text-gray-400">
+                                {formatElapsed(batch.startedAt || batch.createdAt, batch.completedAt)}
+                              </span>
+                            </div>
+                            {batch.status === "failed" && (
+                              <Button
+                                size="sm"
+                                variant="ghost"
+                                className="text-blue-600"
+                                onClick={() => actionMutation.mutate({ jobId: job.id, action: "retry", batchId: batch.id })}
+                                disabled={actionMutation.isPending}
+                                data-testid={`button-retry-batch-${batch.id}`}
+                              >
+                                <RefreshCw className="h-3 w-3 mr-1" /> Retry
+                              </Button>
+                            )}
+                          </div>
+                        ))
+                      )}
+                      {job.error && (
+                        <div className="text-xs text-red-500 mt-2 p-2 bg-red-50 rounded">
+                          <AlertTriangle className="inline h-3 w-3 mr-1" />
+                          {job.error}
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+            );
+          })}
+        </div>
+      )}
+    </div>
+  );
+}
+
+function JobQueueSettingsTab() {
+  const queryClient = useQueryClient();
+
+  const { data: settingsData, isLoading } = useQuery({
+    queryKey: ["/api/admin/bg-jobs/settings"],
+    queryFn: () => adminFetch("/api/admin/bg-jobs/settings").then(r => r.json()),
+  });
+
+  const [formValues, setFormValues] = useState<Record<string, number>>({});
+
+  const settings = settingsData?.settings || {};
+
+  const saveMutation = useMutation({
+    mutationFn: async (updates: Record<string, number>) => {
+      const res = await adminFetch("/api/admin/bg-jobs/settings", {
+        method: "PUT",
+        body: updates,
+      });
+      if (!res.ok) throw new Error("Save failed");
+      return res.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/admin/bg-jobs/settings"] });
+      setFormValues({});
+    },
+  });
+
+  function getVal(key: string, defaultVal: number): number {
+    return formValues[key] !== undefined ? formValues[key] : (settings[key] ?? defaultVal);
+  }
+
+  function setVal(key: string, val: number) {
+    setFormValues(prev => ({ ...prev, [key]: val }));
+  }
+
+  const fields = [
+    { key: "maxParentJobs", label: "Max Concurrent Parent Jobs", desc: "Maximum number of parent jobs running at once", default: 5, min: 1, max: 50 },
+    { key: "maxChildBatchesPerJob", label: "Max Child Batches Per Job", desc: "Maximum concurrent child batches within one parent job", default: 3, min: 1, max: 20 },
+    { key: "maxRequestsPerProvider", label: "Max Requests Per Provider", desc: "Maximum concurrent API requests to AI provider", default: 10, min: 1, max: 100 },
+    { key: "defaultBatchSize", label: "Default Batch Size", desc: "Number of items per child batch", default: 50, min: 1, max: 500 },
+    { key: "retryLimit", label: "Retry Limit", desc: "Number of times to retry a failed batch", default: 3, min: 0, max: 10 },
+    { key: "retryBackoffMs", label: "Retry Backoff (ms)", desc: "Base delay between retries (doubles each attempt)", default: 5000, min: 1000, max: 60000 },
+    { key: "maxRuntimePerBatch", label: "Max Runtime Per Batch (ms)", desc: "Maximum time a single batch can run", default: 300000, min: 60000, max: 3600000 },
+    { key: "stalledJobTimeoutMs", label: "Stalled Job Timeout (ms)", desc: "Time without heartbeat before a job is considered stalled", default: 120000, min: 30000, max: 600000 },
+  ];
+
+  if (isLoading) return <div className="flex items-center gap-2 py-8"><Loader2 className="animate-spin" /> Loading settings...</div>;
+
+  const hasChanges = Object.keys(formValues).length > 0;
+
+  return (
+    <div className="space-y-6">
+      <Card data-testid="card-queue-settings">
+        <CardHeader>
+          <CardTitle className="text-lg flex items-center gap-2">
+            <Settings className="h-5 w-5" /> Job Queue Concurrency Settings
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <p className="text-sm text-gray-600 mb-4">
+            Configure concurrency limits, batch sizes, retry behavior, and timeout settings for the background job processing system.
+          </p>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {fields.map((field) => (
+              <div key={field.key} className="space-y-1" data-testid={`field-${field.key}`}>
+                <Label className="text-sm font-medium">{field.label}</Label>
+                <Input
+                  type="number"
+                  value={getVal(field.key, field.default)}
+                  onChange={(e) => setVal(field.key, parseInt(e.target.value) || field.default)}
+                  min={field.min}
+                  max={field.max}
+                  data-testid={`input-${field.key}`}
+                />
+                <p className="text-xs text-gray-400">{field.desc}</p>
+              </div>
+            ))}
+          </div>
+          <div className="mt-6 flex gap-3">
+            <Button
+              onClick={() => saveMutation.mutate(
+                Object.fromEntries(fields.map(f => [f.key, getVal(f.key, f.default)]))
+              )}
+              disabled={saveMutation.isPending || !hasChanges}
+              data-testid="button-save-queue-settings"
+            >
+              {saveMutation.isPending ? <Loader2 className="animate-spin mr-2 h-4 w-4" /> : null}
+              Save Settings
+            </Button>
+            {hasChanges && (
+              <Button variant="ghost" onClick={() => setFormValues({})} data-testid="button-reset-queue-settings">
+                Reset
+              </Button>
+            )}
+          </div>
+        </CardContent>
+      </Card>
+    </div>
+  );
+}
+
 function SettingsTab() {
   const queryClient = useQueryClient();
   const { data: engines, isLoading } = useQuery({
@@ -1599,6 +1938,8 @@ export default function AdminAutopilot() {
               <TabsTrigger value="courses" data-testid="tab-courses">Course Builder</TabsTrigger>
               <TabsTrigger value="email" data-testid="tab-email">Lifecycle Email</TabsTrigger>
               <TabsTrigger value="performance" data-testid="tab-performance">Performance</TabsTrigger>
+              <TabsTrigger value="job-monitor" data-testid="tab-job-monitor">Job Monitor</TabsTrigger>
+              <TabsTrigger value="queue-settings" data-testid="tab-queue-settings">Queue Settings</TabsTrigger>
               <TabsTrigger value="settings" data-testid="tab-settings">Settings</TabsTrigger>
             </TabsList>
           </div>
@@ -1616,6 +1957,8 @@ export default function AdminAutopilot() {
           <TabsContent value="courses"><CourseBuilderTab /></TabsContent>
           <TabsContent value="email"><LifecycleEmailTab /></TabsContent>
           <TabsContent value="performance"><PerformanceDashboardTab /></TabsContent>
+          <TabsContent value="job-monitor"><JobMonitorTab /></TabsContent>
+          <TabsContent value="queue-settings"><JobQueueSettingsTab /></TabsContent>
           <TabsContent value="settings"><SettingsTab /></TabsContent>
         </Tabs>
       </div>

@@ -454,8 +454,13 @@ app.use((req, res, next) => {
   const { setupStudyPathRoutes } = await import("./study-path");
   setupStudyPathRoutes(app);
 
+  const { setupJobQueueRoutes, startJobQueueWorker } = await import("./job-queue");
+  setupJobQueueRoutes(app);
+
   const { setupAutopilotRoutes } = await import("./autopilot");
   setupAutopilotRoutes(app);
+
+  startJobQueueWorker();
 
   const { setupLessonContentRoutes } = await import("./lesson-content-api");
   setupLessonContentRoutes(app);

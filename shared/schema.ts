@@ -5410,3 +5410,86 @@ export const systemSettings = pgTable("system_settings", {
 });
 
 export type SystemSetting = typeof systemSettings.$inferSelect;
+
+export const bgJobs = pgTable("bg_jobs", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  type: text("type").notNull(),
+  engineKey: varchar("engine_key"),
+  status: text("status").notNull().default("queued"),
+  priority: integer("priority").default(0),
+  payload: jsonb("payload").default(sql`'{}'::jsonb`),
+  result: jsonb("result").default(sql`'{}'::jsonb`),
+  error: text("error"),
+  totalItems: integer("total_items").default(0),
+  completedItems: integer("completed_items").default(0),
+  failedItems: integer("failed_items").default(0),
+  totalBatches: integer("total_batches").default(0),
+  completedBatches: integer("completed_batches").default(0),
+  failedBatches: integer("failed_batches").default(0),
+  batchSize: integer("batch_size").default(50),
+  concurrencyLimit: integer("concurrency_limit").default(3),
+  createdBy: varchar("created_by"),
+  claimedBy: varchar("claimed_by"),
+  heartbeatAt: timestamp("heartbeat_at"),
+  startedAt: timestamp("started_at"),
+  completedAt: timestamp("completed_at"),
+  cancelledAt: timestamp("cancelled_at"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const insertBgJobSchema = createInsertSchema(bgJobs).omit({ id: true, createdAt: true });
+export type BgJob = typeof bgJobs.$inferSelect;
+export type InsertBgJob = z.infer<typeof insertBgJobSchema>;
+
+export const bgJobBatches = pgTable("bg_job_batches", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  jobId: varchar("job_id").notNull(),
+  batchIndex: integer("batch_index").notNull().default(0),
+  status: text("status").notNull().default("queued"),
+  totalItems: integer("total_items").default(0),
+  completedItems: integer("completed_items").default(0),
+  failedItems: integer("failed_items").default(0),
+  payload: jsonb("payload").default(sql`'{}'::jsonb`),
+  result: jsonb("result").default(sql`'{}'::jsonb`),
+  error: text("error"),
+  retryCount: integer("retry_count").default(0),
+  maxRetries: integer("max_retries").default(3),
+  claimedBy: varchar("claimed_by"),
+  heartbeatAt: timestamp("heartbeat_at"),
+  startedAt: timestamp("started_at"),
+  completedAt: timestamp("completed_at"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const insertBgJobBatchSchema = createInsertSchema(bgJobBatches).omit({ id: true, createdAt: true });
+export type BgJobBatch = typeof bgJobBatches.$inferSelect;
+export type InsertBgJobBatch = z.infer<typeof insertBgJobBatchSchema>;
+
+export const bgJobItems = pgTable("bg_job_items", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  jobId: varchar("job_id").notNull(),
+  batchId: varchar("batch_id").notNull(),
+  itemIndex: integer("item_index").default(0),
+  status: text("status").notNull().default("pending"),
+  contentType: text("content_type"),
+  contentPayload: jsonb("content_payload").default(sql`'{}'::jsonb`),
+  error: text("error"),
+  savedAt: timestamp("saved_at"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const insertBgJobItemSchema = createInsertSchema(bgJobItems).omit({ id: true, createdAt: true });
+export type BgJobItem = typeof bgJobItems.$inferSelect;
+export type InsertBgJobItem = z.infer<typeof insertBgJobItemSchema>;
+
+export const bgJobSettings = pgTable("bg_job_settings", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  key: text("key").notNull().unique(),
+  value: jsonb("value").default(sql`'{}'::jsonb`),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const insertBgJobSettingsSchema = createInsertSchema(bgJobSettings).omit({ id: true, createdAt: true, updatedAt: true });
+export type BgJobSetting = typeof bgJobSettings.$inferSelect;
+export type InsertBgJobSetting = z.infer<typeof insertBgJobSettingsSchema>;
