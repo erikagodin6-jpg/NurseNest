@@ -1,0 +1,165 @@
+We are implementing a new pricing architecture for the NurseNest platform.
+
+Goal:
+Implement a tier-based pricing system where each nursing tier has its own pricing plans with duration-based subscriptions plus a lifetime option.
+
+This system must work with Stripe subscriptions and one-time purchases.
+
+Nursing tiers:
+
+- RPN / REx-PN
+- RN / NCLEX-RN
+- NP
+- Allied Health
+
+Each tier must have its own pricing plans and access control.
+
+Pricing plans per tier:
+
+Subscription durations:
+- 1 month
+- 3 months
+- 6 months
+- 12 months
+
+Plus a one-time purchase:
+
+- Lifetime access
+
+Example pricing structure (configurable in admin):
+
+RPN:
+1 month
+3 months
+6 months
+12 months
+lifetime
+
+RN:
+1 month
+3 months
+6 months
+12 months
+lifetime
+
+NP:
+1 month
+3 months
+6 months
+12 months
+lifetime
+
+Allied:
+1 month
+3 months
+6 months
+12 months
+lifetime
+
+Requirements:
+
+1. Pricing must be configurable in the admin dashboard.
+2. Admin must be able to:
+   - change plan prices
+   - enable/disable plans
+   - mark a plan as “Most Popular”
+   - mark a plan as “Founding Price”
+3. Plans must integrate with Stripe.
+
+Subscription plans must create Stripe subscriptions.
+
+Lifetime plans must create Stripe one-time purchases.
+
+Access control rules:
+
+Users only access the tier they purchased.
+
+Example:
+If user buys RN access → unlock RN questions, RN flashcards, RN CAT exams.
+
+Database changes:
+
+Add fields for:
+tier
+plan_duration
+is_lifetime
+purchase_date
+expiration_date
+stripe_subscription_id
+stripe_payment_id
+
+Lifetime purchases should not expire.
+
+UI requirements:
+
+Pricing page must work like this:
+
+Step 1:
+User selects exam tier
+
+RPN
+RN
+NP
+Allied
+
+Step 2:
+Display pricing cards for that tier.
+
+Pricing cards show:
+
+plan name
+price
+monthly equivalent price
+duration
+feature list
+Most Popular badge
+Founding Price badge if enabled
+
+Plans must display savings for longer durations.
+
+Example:
+
+6 months
+Save 50% vs monthly
+
+Add a Free Trial plan:
+
+Free trial includes:
+
+- 50 questions
+- 20 flashcards
+- 1 CAT exam
+
+Free trial must expire after limited usage.
+
+Add conversion optimization:
+
+Pricing cards should show:
+
+price
+price per month
+savings vs monthly
+plan badge (Most Popular)
+
+Admin dashboard must show:
+
+Total subscriptions
+Active subscriptions
+Lifetime purchases
+Revenue by tier
+Revenue by plan
+Monthly recurring revenue
+Conversion rates if available
+
+Do not break existing subscription logic.
+
+Do not delete existing users or purchases.
+
+Make all pricing configurable so we can adjust later.
+
+Finally, provide a list of:
+
+- new database fields
+- modified files
+- Stripe configuration needed
+- admin pages added
