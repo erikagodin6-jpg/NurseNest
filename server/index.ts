@@ -249,9 +249,13 @@ app.post(
         if (evt.type === "checkout.session.completed" && evt.data?.object?.metadata?.isLifetime === "true") {
           const meta = evt.data.object.metadata;
           if (meta.userId && meta.tier) {
+            const existingUser = await storage.getUser(meta.userId);
+            const isAdmin = existingUser?.tier === "admin";
             await storage.setUserLifetime(meta.userId);
-            await storage.updateUserTier(meta.userId, meta.tier);
-            console.log(`Lifetime purchase completed: user ${meta.userId}, tier ${meta.tier}`);
+            if (!isAdmin) {
+              await storage.updateUserTier(meta.userId, meta.tier);
+            }
+            console.log(`[Webhook] Lifetime purchase completed: user ${meta.userId}, tier ${isAdmin ? 'admin (preserved)' : meta.tier}`);
           }
         }
 
@@ -260,14 +264,21 @@ app.post(
           const meta = session?.metadata;
           if (meta?.userId && meta?.tier && session?.mode === "subscription" && !meta?.isTrial && !meta?.isLifetime) {
             const subscriptionId = session.subscription;
-            await storage.updateUserTier(meta.userId, meta.tier);
+            const existingUser = await storage.getUser(meta.userId);
+            const isAdmin = existingUser?.tier === "admin";
+            console.log(`[Webhook] checkout.session.completed: userId=${meta.userId} purchasedTier=${meta.tier} currentTier=${existingUser?.tier} isAdmin=${isAdmin} subscriptionId=${subscriptionId}`);
+
+            if (!isAdmin) {
+              await storage.updateUserTier(meta.userId, meta.tier);
+            }
             if (subscriptionId) {
               await storage.updateUserStripeInfo(meta.userId, {
                 stripeSubscriptionId: subscriptionId,
                 subscriptionStatus: "active",
+                ...(isAdmin ? {} : { tier: meta.tier }),
               });
             }
-            console.log(`Subscription activated: user ${meta.userId}, tier ${meta.tier}, sub ${subscriptionId}`);
+            console.log(`[Webhook] Subscription activated: user ${meta.userId}, tier ${isAdmin ? 'admin (preserved)' : meta.tier}, sub ${subscriptionId}`);
           }
         }
 
@@ -282,16 +293,19 @@ app.post(
             if (r.rows.length > 0) userId = r.rows[0].id;
           }
           if (userId && !sub?.metadata?.isTrial) {
+            const existingUser = await storage.getUser(userId);
+            const isAdmin = existingUser?.tier === "admin";
             const status = sub?.status;
+            console.log(`[Webhook] subscription.updated: userId=${userId} status=${status} tier=${tier} isAdmin=${isAdmin}`);
             if (status === "active" || status === "trialing") {
-              await storage.updateUserStripeInfo(userId, { subscriptionStatus: "active", ...(tier ? { tier } : {}) });
-              console.log(`Subscription updated (active): user ${userId}`);
+              await storage.updateUserStripeInfo(userId, { subscriptionStatus: "active", ...(tier && !isAdmin ? { tier } : {}) });
+              console.log(`[Webhook] Subscription updated (active): user ${userId}, tier ${isAdmin ? 'admin (preserved)' : (tier || 'unchanged')}`);
             } else if (status === "past_due") {
               await storage.updateUserStripeInfo(userId, { subscriptionStatus: "past_due" });
-              console.log(`Subscription past_due: user ${userId}`);
+              console.log(`[Webhook] Subscription past_due: user ${userId}`);
             } else if (status === "canceled" || status === "unpaid") {
-              await storage.updateUserStripeInfo(userId, { subscriptionStatus: "canceled", tier: "free" });
-              console.log(`Subscription ${status}: user ${userId} downgraded to free`);
+              await storage.updateUserStripeInfo(userId, { subscriptionStatus: "canceled", ...(isAdmin ? {} : { tier: "free" }) });
+              console.log(`[Webhook] Subscription ${status}: user ${userId} ${isAdmin ? '(admin preserved)' : 'downgraded to free'}`);
             }
           }
         }
@@ -306,8 +320,10 @@ app.post(
             if (r.rows.length > 0) userId = r.rows[0].id;
           }
           if (userId && !sub?.metadata?.isTrial) {
-            await storage.updateUserStripeInfo(userId, { subscriptionStatus: "canceled", tier: "free" });
-            console.log(`Subscription deleted: user ${userId} downgraded to free`);
+            const existingUser = await storage.getUser(userId);
+            const isAdmin = existingUser?.tier === "admin";
+            await storage.updateUserStripeInfo(userId, { subscriptionStatus: "canceled", ...(isAdmin ? {} : { tier: "free" }) });
+            console.log(`[Webhook] Subscription deleted: user ${userId} ${isAdmin ? '(admin preserved)' : 'downgraded to free'}`);
           }
         }
 

@@ -3198,6 +3198,14 @@ Return ONLY a JSON array of flashcard objects, no other text.`;
       const user = await storage.getUser(userId);
       if (!user) return res.status(404).json({ error: "User not found" });
 
+      if (user.tier === "admin") {
+        console.warn(`[Checkout:${env}] BLOCKED: Admin account ${user.id} (${user.username}) attempted to purchase tier=${tier}. Admin accounts already have full access.`);
+        return res.status(400).json({
+          error: "Admin accounts already have full access to all content. Subscriptions are for student accounts.",
+          isAdmin: true,
+        });
+      }
+
       let stripe;
       try {
         stripe = await getUncachableStripeClient();
@@ -3489,35 +3497,58 @@ Return ONLY a JSON array of flashcard objects, no other text.`;
   app.post("/api/stripe/verify-session", async (req, res) => {
     try {
       const { sessionId, userId, tier } = req.body;
+      const user = await storage.getUser(userId);
+      const isAdmin = user?.tier === "admin";
+
+      console.log(`[VerifySession] userId=${userId} tier=${tier} sessionId=${sessionId} currentTier=${user?.tier} isAdmin=${isAdmin} email=${user?.email || 'none'} stripeCustomerId=${user?.stripeCustomerId || 'none'}`);
+
       const stripe = await getUncachableStripeClient();
       const session = await stripe.checkout.sessions.retrieve(sessionId);
 
+      console.log(`[VerifySession] Stripe session status: payment_status=${session.payment_status} mode=${session.mode} subscription=${session.subscription || 'none'}`);
+
       if (session.payment_status === "paid") {
         const isLifetime = session.metadata?.isLifetime === "true";
+
+        const effectiveTier = isAdmin ? "admin" : tier;
+        console.log(`[VerifySession] Payment confirmed. isLifetime=${isLifetime} effectiveTier=${effectiveTier} (preserving admin=${isAdmin})`);
+
         if (isLifetime) {
           await storage.setUserLifetime(userId);
-          await storage.updateUserTier(userId, tier);
+          if (!isAdmin) {
+            await storage.updateUserTier(userId, tier);
+          }
         } else {
           await storage.updateUserStripeInfo(userId, {
             stripeSubscriptionId: session.subscription as string,
             subscriptionStatus: "active",
-            tier,
+            ...(isAdmin ? {} : { tier }),
           });
         }
+
         const paidUser = await storage.getUser(userId);
+        console.log(`[VerifySession] DB write complete. user tier=${paidUser?.tier} subscriptionStatus=${paidUser?.subscriptionStatus} stripeSubId=${paidUser?.stripeSubscriptionId || 'none'}`);
+
         if (paidUser?.referredBy && !paidUser.referralDiscountUsed) {
           try {
             await storage.markReferralDiscountUsed(userId);
           } catch (e) {
-            console.error("Failed to mark referral discount used:", e);
+            console.error("[VerifySession] Failed to mark referral discount used:", e);
           }
         }
-        res.json({ success: true, tier, isLifetime });
+        res.json({ success: true, tier: effectiveTier, isLifetime });
       } else {
-        res.json({ success: false });
+        console.warn(`[VerifySession] Payment NOT paid — status=${session.payment_status}`);
+        res.json({ success: false, error: `Payment status: ${session.payment_status}` });
       }
     } catch (e: any) {
-      res.status(500).json({ error: e.message });
+      console.error(`[VerifySession] ERROR: type=${e.type || 'unknown'} message=${e.message}`);
+      const isProduction = process.env.REPLIT_DEPLOYMENT === '1';
+      if (e.type === 'StripeAuthenticationError') {
+        res.status(503).json({ error: "Payment verification temporarily unavailable. Your subscription will activate automatically. If it doesn't appear within a few minutes, please contact support." });
+      } else {
+        res.status(500).json({ error: isProduction ? "Verification temporarily unavailable. If you were charged, your subscription will activate shortly." : e.message });
+      }
     }
   });
 

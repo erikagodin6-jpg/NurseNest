@@ -12,6 +12,7 @@ export default function SubscriptionSuccess() {
   const { user, refreshUser } = useAuth();
   const [verifying, setVerifying] = useState(true);
   const [success, setSuccess] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -28,6 +29,10 @@ export default function SubscriptionSuccess() {
         .then((data) => {
           setSuccess(data.success);
           if (data.success) refreshUser();
+          if (data.error) setErrorMessage(data.error);
+        })
+        .catch(() => {
+          setErrorMessage("Could not reach the server. Please refresh the page to try again.");
         })
         .finally(() => setVerifying(false));
     } else {
@@ -43,7 +48,7 @@ export default function SubscriptionSuccess() {
           <CardContent className="p-8 text-center space-y-6">
             {verifying ? (
               <>
-                <Loader2 className="w-16 h-16 text-primary mx-auto animate-spin" />
+                <Loader2 className="w-16 h-16 text-primary mx-auto animate-spin" data-testid="icon-verifying" />
                 <h2 className="text-2xl font-bold">Verifying your subscription...</h2>
               </>
             ) : success ? (
@@ -51,7 +56,7 @@ export default function SubscriptionSuccess() {
                 <div className="w-20 h-20 bg-emerald-50 rounded-full flex items-center justify-center mx-auto">
                   <CheckCircle2 className="w-10 h-10 text-emerald-500" />
                 </div>
-                <h2 className="text-2xl font-bold">Subscription Activated!</h2>
+                <h2 className="text-2xl font-bold" data-testid="text-subscription-activated">Subscription Activated!</h2>
                 <p className="text-gray-600">You now have full access to your tier's content. Build a personalized study plan to get started.</p>
                 <div className="flex flex-col gap-2">
                   <Button onClick={() => navigate("/onboarding/plan")} className="rounded-full px-8" data-testid="button-build-study-plan">
@@ -64,11 +69,19 @@ export default function SubscriptionSuccess() {
               </>
             ) : (
               <>
-                <h2 className="text-2xl font-bold">Something went wrong</h2>
-                <p className="text-gray-600">We couldn't verify your subscription. Please try again or contact support.</p>
-                <Button onClick={() => navigate("/lessons")} variant="outline" data-testid="button-back-to-lessons">
-                  Back to Lessons
-                </Button>
+                <h2 className="text-2xl font-bold" data-testid="text-verification-failed">Something went wrong</h2>
+                <p className="text-gray-600">
+                  {errorMessage || "We couldn't verify your subscription. Please try again or contact support."}
+                </p>
+                <p className="text-sm text-gray-400">If you were charged, your subscription will activate automatically within a few minutes. If not, please contact support.</p>
+                <div className="flex flex-col gap-2">
+                  <Button onClick={() => window.location.reload()} className="rounded-full px-8" data-testid="button-retry-verification">
+                    Retry Verification
+                  </Button>
+                  <Button onClick={() => navigate("/lessons")} variant="outline" data-testid="button-back-to-lessons">
+                    Back to Lessons
+                  </Button>
+                </div>
               </>
             )}
           </CardContent>

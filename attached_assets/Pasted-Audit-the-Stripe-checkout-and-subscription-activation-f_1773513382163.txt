@@ -1,0 +1,60 @@
+Audit the Stripe checkout and subscription activation flow for admin accounts.
+
+Problem:
+A real charge succeeded, but the site showed:
+"We couldn't verify your subscription."
+This may have happened because checkout was performed while logged into an admin account.
+
+Tasks:
+1. Trace the full subscription flow after successful Stripe checkout:
+   - checkout session creation
+   - success page verification
+   - webhook handling
+   - database subscription write
+   - user role/tier update
+
+2. Inspect whether admin accounts are handled differently anywhere in:
+   - checkout route
+   - verify-session route
+   - webhook handlers
+   - user tier assignment
+   - entitlements/middleware
+   - subscription guards
+
+3. Search for logic that may block or skip subscription activation for admins, such as:
+   - role === 'admin'
+   - isAdmin
+   - skip subscription update
+   - bypass paid tier logic
+   - existing access override
+
+4. Make the system safe and explicit:
+   - either allow admin accounts to complete paid checkout cleanly
+   - or block admin accounts from purchasing and show a clear message before payment
+   - do not allow silent charging followed by failed verification
+
+5. Add logs for:
+   - user id
+   - role
+   - email
+   - Stripe customer id
+   - subscription id
+   - plan/tier selected
+   - DB write result
+   - whether the account is admin
+
+6. If admin accounts should not subscribe, prevent checkout session creation for admins with a clear frontend/backend message:
+   "Admin accounts cannot purchase subscriptions. Please use a standard student account."
+
+7. If admin accounts should be allowed to subscribe, ensure:
+   - Stripe customer mapping works
+   - subscription records write correctly
+   - role and paid tier can coexist
+   - verification does not fail because of admin status
+
+8. Check whether a successful payment can occur before the app rejects admin subscription activation, and fix that flow so users are never charged before the restriction is enforced.
+
+9. Return a summary:
+   - whether admin accounts are currently causing the verification failure
+   - exactly where the flow breaks
+   - what was changed
