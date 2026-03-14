@@ -183,6 +183,7 @@ const NewGradGuidePage = lazy(() => import("@/pages/new-grad/new-grad-guide-temp
 const NursingHub = lazy(() => import("@/pages/nursing-hub"));
 const TrackLandingPage = lazy(() => import("@/pages/marketing/TrackLandingPage"));
 const NursingSpecialtiesHub = lazy(() => import("@/pages/nursing-specialties-hub"));
+const NursingSpecialtyDetail = lazy(() => import("@/pages/nursing-specialty-detail"));
 const SpecialtyHubPage = lazy(() => import("@/pages/specialty-hub-page"));
 const SpecialtyHubBySlug = lazy(() => import("@/pages/specialty-hub-page").then(m => ({ default: m.SpecialtyHubBySlug })));
 const SpecialtySeoPage = lazy(() => import("@/pages/specialty-seo-page"));
@@ -531,6 +532,7 @@ function AppRoutes() {
         <Route path="/nursing/top-100-nclex-practice-questions" component={AuthorityContentPage} />
         <Route path="/nursing" component={NursingAuthorityHub} />
         <Route path="/nursing-specialties" component={NursingSpecialtiesHub} />
+        <Route path="/nursing-specialties/:slug" component={NursingSpecialtyDetail} />
 
         {/* 16 Specialty Hub Pages */}
         <Route path="/icu">{() => <SpecialtyHubBySlug slug="icu" />}</Route>

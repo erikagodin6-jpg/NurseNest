@@ -4,7 +4,7 @@ import { SEO } from "@/components/seo";
 import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
 import { buildFaqStructuredData } from "@/lib/structured-data";
-import { SPECIALTY_CONFIGS } from "@/data/specialty-hub-data";
+import { NURSING_SPECIALTIES } from "@/data/nursing-specialties-detail-data";
 import {
   ArrowRight, Heart, Brain, Baby, Stethoscope, Ribbon, SmilePlus,
   Clock, Users, Scissors, Check, HelpCircle, ChevronRight,
@@ -23,7 +23,7 @@ const TRACK_FEATURES = [
 const FAQ_DATA = [
   {
     question: "Can I access multiple specialties at the same time?",
-    answer: "Yes. Your NurseNest subscription gives you unlimited access to every specialty track. Study one or all sixteen — there are no per-specialty fees or content locks between tracks."
+    answer: "Yes. Your NurseNest subscription gives you unlimited access to every specialty track. Study one or all twelve — there are no per-specialty fees or content locks between tracks."
   },
   {
     question: "Are these specialty tracks aligned to certification exams?",
@@ -97,7 +97,7 @@ export default function NursingSpecialtiesHub() {
             "name": "NurseNest",
             "url": "https://www.nursenest.ca"
           },
-          "numberOfCredits": 16,
+          "numberOfCredits": 12,
           "educationalLevel": "Advanced",
         }}
         breadcrumbs={[
@@ -140,16 +140,16 @@ export default function NursingSpecialtiesHub() {
       <section className="py-16" data-testid="section-specialty-grid">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-10">
-            <h2 className="text-2xl font-bold text-gray-900 mb-3" data-testid="text-specialty-grid-heading">16 Specialty Tracks, One Platform</h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">Each track is built by specialty nurses and mapped to official certification exam blueprints. Pick your focus or study them all.</p>
+            <h2 className="text-2xl font-bold text-gray-900 mb-3" data-testid="text-specialty-grid-heading">12 Nursing Specialties, One Platform</h2>
+            <p className="text-gray-600 max-w-2xl mx-auto">Explore in-depth guides for each nursing specialty — including role overviews, required skills, certifications, practice questions, and related resources.</p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-            {SPECIALTY_CONFIGS.map((spec) => {
+            {NURSING_SPECIALTIES.map((spec) => {
               const SpecIcon = spec.icon;
               return (
                 <Link
                   key={spec.slug}
-                  href={`/${spec.slug}`}
+                  href={`/nursing-specialties/${spec.slug}`}
                   className="group"
                   data-testid={`card-specialty-${spec.slug}`}
                 >
@@ -160,10 +160,10 @@ export default function NursingSpecialtiesHub() {
                     <h3 className="font-semibold text-gray-900 mb-2 group-hover:text-blue-700 transition-colors" data-testid={`text-specialty-name-${spec.slug}`}>
                       {spec.name}
                     </h3>
-                    <p className="text-sm text-gray-500 mb-2">{spec.description}</p>
+                    <p className="text-sm text-gray-500 mb-2">{spec.metaDescription.split('.')[0]}.</p>
                     <div className="flex flex-wrap gap-1 mb-3">
                       {spec.certifications.slice(0, 2).map((cert) => (
-                        <span key={cert} className="text-xs px-2 py-0.5 rounded-full bg-gray-100 text-gray-600">{cert}</span>
+                        <span key={cert.name} className="text-xs px-2 py-0.5 rounded-full bg-gray-100 text-gray-600">{cert.name}</span>
                       ))}
                     </div>
                     <span className="inline-flex items-center gap-1 text-sm font-medium text-blue-600 group-hover:gap-2 transition-all">
@@ -268,7 +268,7 @@ export default function NursingSpecialtiesHub() {
             Ready to Go Deep in Your Specialty?
           </h2>
           <p className="text-blue-100 mb-4 text-lg">
-            All 16 specialty tracks are included with your NurseNest subscription. No per-track fees, no content limits.
+            All 12 specialty tracks are included with your NurseNest subscription. No per-track fees, no content limits.
           </p>
           <p className="text-blue-200 mb-8 text-sm">
             Starting at $19/month or included with any RN/NP subscription tier.
