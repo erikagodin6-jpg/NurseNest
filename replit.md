@@ -43,6 +43,13 @@ Key systems include:
 - **Upload Script**: `scripts/upload-from-list.ts` uploads referenced assets to object storage. `scripts/upload-assets.ts` uploads all assets from source directories.
 - **Migration**: ES module `import` statements for images were replaced with `getAssetUrl()` calls. String paths like `/attached_assets/...` and `/videos/...` were also migrated.
 
+## Stripe Integration
+- **Credential Resolution**: `server/stripeClient.ts` resolves Stripe keys via: (1) Replit connector API (environment-aware: development/production), then (2) env vars (`STRIPE_SECRET_KEY` + `STRIPE_PUBLISHABLE_KEY`). Production validates keys are live (sk_live_/pk_live_).
+- **Price Maps**: `stripe-price-map.json` (test mode, 24 prices), `stripe-price-map-live.json` (live mode, created when live prices are synced). Falls back to inline `price_data` if no matching map exists.
+- **Checkout Flow**: `/api/stripe/create-checkout` in `server/routes.ts`. Uses `getUncachableStripeClient()` for all Stripe API calls. Supports subscription (monthly/3-month/6-month/yearly), lifetime one-time, and add-on purchases.
+- **Webhook**: Managed webhook via `stripe-replit-sync`, raw body parsing before `express.json()`.
+- **Required Secrets**: `STRIPE_SECRET_KEY`, `STRIPE_PUBLISHABLE_KEY`, `STRIPE_WEBHOOK_SECRET`.
+
 ## External Dependencies
 - **Database**: PostgreSQL
 - **ORM**: Drizzle ORM

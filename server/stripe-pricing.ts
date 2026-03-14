@@ -54,32 +54,43 @@ export function loadStripePrices(): void {
   const isProduction = process.env.REPLIT_DEPLOYMENT === "1";
   const expectedMode = isProduction ? "live" : "test";
 
-  const mapPath = path.join(process.cwd(), "stripe-price-map.json");
-  if (fs.existsSync(mapPath)) {
+  const mapFiles = isProduction
+    ? ["stripe-price-map-live.json", "stripe-price-map.json"]
+    : ["stripe-price-map.json"];
+
+  let mapLoaded = false;
+  for (const filename of mapFiles) {
+    const mapPath = path.join(process.cwd(), filename);
+    if (!fs.existsSync(mapPath)) continue;
+
     try {
       const raw = fs.readFileSync(mapPath, "utf8");
       const data: StripePriceMap = JSON.parse(raw);
 
       if (data.mode !== expectedMode) {
-        console.error(
-          `STRIPE PRICING MISMATCH: price map mode is "${data.mode}" but environment expects "${expectedMode}". ` +
-          `Skipping price map to prevent using wrong Stripe keys. Run syncStripePrices to regenerate.`
+        console.warn(
+          `[Stripe Pricing] Skipping ${filename}: mode "${data.mode}" does not match expected "${expectedMode}"`
         );
-      } else {
-        for (const entry of data.prices) {
-          const key = buildKey(entry.tier, entry.duration, entry.currency);
-          priceIndex[key] = entry.priceId;
-        }
-
-        console.log(
-          `Loaded ${data.prices.length} Stripe prices from ${mapPath} (mode: ${data.mode}, synced: ${data.syncedAt})`
-        );
+        continue;
       }
+
+      for (const entry of data.prices) {
+        const key = buildKey(entry.tier, entry.duration, entry.currency);
+        priceIndex[key] = entry.priceId;
+      }
+
+      console.log(
+        `Loaded ${data.prices.length} Stripe prices from ${filename} (mode: ${data.mode}, synced: ${data.syncedAt})`
+      );
+      mapLoaded = true;
+      break;
     } catch (err: any) {
-      console.warn(`Failed to load stripe-price-map.json: ${err.message}`);
+      console.warn(`Failed to load ${filename}: ${err.message}`);
     }
-  } else {
-    console.warn("stripe-price-map.json not found — subscription checkout will use inline price_data fallback");
+  }
+
+  if (!mapLoaded) {
+    console.warn(`[Stripe Pricing] No ${expectedMode}-mode price map found — subscription checkout will use inline price_data fallback`);
   }
 
   for (const [tier, durations] of Object.entries(LIVE_PRICE_MAP)) {

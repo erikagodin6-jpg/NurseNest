@@ -3386,8 +3386,22 @@ Return ONLY a JSON array of flashcard objects, no other text.`;
 
       res.json({ url: session.url });
     } catch (e: any) {
-      console.error("Checkout error:", e);
-      res.status(500).json({ error: e.message });
+      const errorDetail = {
+        message: e.message,
+        type: e.type || 'unknown',
+        tier: req.body?.tier,
+        duration: req.body?.duration,
+        region: req.body?.region,
+      };
+      console.error("Checkout error:", JSON.stringify(errorDetail, null, 2));
+
+      if (e.message?.includes('credentials') || e.message?.includes('connection not found')) {
+        res.status(503).json({ error: "Payment system temporarily unavailable. Please try again shortly." });
+      } else if (e.message?.includes('No such price')) {
+        res.status(400).json({ error: "Selected plan configuration is invalid. Please refresh the page and try again." });
+      } else {
+        res.status(500).json({ error: "Failed to create checkout session. Please try again." });
+      }
     }
   });
 
@@ -7413,8 +7427,7 @@ Be conservative: if uncertain, use "unknown". Only "pass" for clearly accurate c
       const deckCheck = await pool.query(`SELECT * FROM flashcard_decks WHERE id = $1 AND owner_id = $2`, [deckId, userId]);
       if (deckCheck.rows.length === 0) return res.status(404).json({ error: "Deck not found or not owned by you" });
       if (deckCheck.rows[0].is_upgraded) return res.status(400).json({ error: "Deck already upgraded" });
-      const stripe = (await import("stripe")).default;
-      const stripeClient = new stripe(process.env.STRIPE_SECRET_KEY || "");
+      const stripeClient = await getUncachableStripeClient();
       const session = await stripeClient.checkout.sessions.create({
         mode: "payment",
         payment_method_types: ["card", "klarna", "afterpay_clearpay"],
