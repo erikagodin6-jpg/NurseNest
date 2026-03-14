@@ -254,10 +254,11 @@ export function Navigation({ compact = false }: { compact?: boolean } = {}) {
       return;
     }
     if (itemLabel === "Test Bank") {
-      const allProfessions = ["rpn", "rn", "np", "rrt", "paramedic", "pharmacy-tech", "mlt", "imaging", "critical-care", "emergency-nursing", "perioperative", "oncology-nursing", "pediatric-cert", "psychotherapist", "social-worker", "addictions-counsellor"];
+      const validTestBankSlugs = ["rpn", "rn", "np", "rrt", "paramedic", "pharmacy-tech", "mlt", "imaging", "critical-care", "emergency-nursing", "perioperative", "oncology-nursing", "pediatric-cert", "psychotherapist", "social-worker", "addictions-counsellor"];
       const pathSegments = window.location.pathname.split("/").filter(Boolean);
-      const currentProfession = pathSegments.find(s => allProfessions.includes(s));
-      const targetSlug = currentProfession || effectiveTier || "rpn";
+      const currentProfession = pathSegments.find(s => validTestBankSlugs.includes(s));
+      const tierSlug = effectiveTier && validTestBankSlugs.includes(effectiveTier) ? effectiveTier : "rpn";
+      const targetSlug = currentProfession || tierSlug;
       setLocation(`/${targetSlug}/test-bank`);
       return;
     }
@@ -647,10 +648,11 @@ export function Navigation({ compact = false }: { compact?: boolean } = {}) {
             </SheetClose>
             <SheetClose asChild>
               <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => {
-                const allProfessions = ["rpn", "rn", "np", "rrt", "paramedic", "pharmacy-tech", "mlt", "imaging", "critical-care", "emergency-nursing", "perioperative", "oncology-nursing", "pediatric-cert", "psychotherapist", "social-worker", "addictions-counsellor"];
+                const validTestBankSlugs = ["rpn", "rn", "np", "rrt", "paramedic", "pharmacy-tech", "mlt", "imaging", "critical-care", "emergency-nursing", "perioperative", "oncology-nursing", "pediatric-cert", "psychotherapist", "social-worker", "addictions-counsellor"];
                 const pathSegments = window.location.pathname.split("/").filter(Boolean);
-                const currentProfession = pathSegments.find(s => allProfessions.includes(s));
-                const targetSlug = currentProfession || effectiveTier || "rpn";
+                const currentProfession = pathSegments.find(s => validTestBankSlugs.includes(s));
+                const tierSlug = effectiveTier && validTestBankSlugs.includes(effectiveTier) ? effectiveTier : "rpn";
+                const targetSlug = currentProfession || tierSlug;
                 setLocation(`/${targetSlug}/test-bank`);
               }} data-testid="button-test-bank-mobile">
                 <FileText className="w-4 h-4" />

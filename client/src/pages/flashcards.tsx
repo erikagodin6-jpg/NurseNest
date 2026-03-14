@@ -3588,9 +3588,9 @@ export default function Flashcards({ isTestBank = false }: { isTestBank?: boolea
                   <div className="w-11 h-11 rounded-2xl bg-amber-100 flex items-center justify-center mb-4 group-hover:scale-105 transition-transform">
                     <Target className="w-5 h-5 text-amber-600" />
                   </div>
-                  <h3 className="text-sm font-bold text-foreground mb-1.5">Weak Areas</h3>
+                  <h3 className="text-sm font-bold text-foreground mb-1.5">{isTestBank ? "Review Weak Areas" : "Weak Areas"}</h3>
                   <p className="text-xs text-muted-foreground leading-relaxed">
-                    Review flagged cards and topics you've struggled with to strengthen gaps.
+                    {isTestBank ? "Target questions you've struggled with and strengthen knowledge gaps." : "Review flagged cards and topics you've struggled with to strengthen gaps."}
                   </p>
                   {bookmarks.length > 0 && (
                     <span className="inline-flex items-center gap-1 mt-2 text-[10px] font-semibold text-amber-600 bg-amber-50 px-2 py-0.5 rounded-full">
@@ -3613,7 +3613,7 @@ export default function Flashcards({ isTestBank = false }: { isTestBank?: boolea
                   <div className="w-11 h-11 rounded-2xl bg-rose-100 flex items-center justify-center mb-4 group-hover:scale-105 transition-transform">
                     <Brain className="w-5 h-5 text-rose-600" />
                   </div>
-                  <h3 className="text-sm font-bold text-rose-700 mb-1.5">Adaptive Study</h3>
+                  <h3 className="text-sm font-bold text-rose-700 mb-1.5">{isTestBank ? "Start Adaptive Review" : "Adaptive Study"}</h3>
                   <p className="text-xs text-rose-500/70 leading-relaxed">
                     6 modes · Smart engine · Confidence tracking
                   </p>
@@ -3869,7 +3869,7 @@ export default function Flashcards({ isTestBank = false }: { isTestBank?: boolea
           <section className="py-14 bg-white border-b border-violet-50" data-testid="section-study-modes">
             <div className="max-w-5xl mx-auto px-4 sm:px-6">
               <div className="text-center mb-10">
-                <h2 className="text-2xl sm:text-3xl font-bold text-foreground mb-3">Adaptive Study Modes</h2>
+                <h2 className="text-2xl sm:text-3xl font-bold text-foreground mb-3">{isTestBank ? "Adaptive Review Modes" : "Adaptive Study Modes"}</h2>
                 <p className="text-muted-foreground text-sm sm:text-base max-w-2xl mx-auto leading-relaxed">
                   Exam questions are prioritized based on your weak areas, missed questions, and spaced repetition schedule.
                 </p>
@@ -3990,7 +3990,7 @@ export default function Flashcards({ isTestBank = false }: { isTestBank?: boolea
                   <div className="w-9 h-9 rounded-lg bg-amber-50 flex items-center justify-center mb-3.5">
                     <Zap className="w-4.5 h-4.5 text-amber-500" />
                   </div>
-                  <h3 className="text-sm font-semibold text-foreground mb-1">Adaptive Review</h3>
+                  <h3 className="text-sm font-semibold text-foreground mb-1">{isTestBank ? "Start Adaptive Review" : "Adaptive Review"}</h3>
                   <p className="text-xs text-muted-foreground leading-relaxed">
                     AI-powered spaced repetition that adapts to your weak areas and optimizes recall.
                   </p>
@@ -4004,9 +4004,9 @@ export default function Flashcards({ isTestBank = false }: { isTestBank?: boolea
                   <div className="w-9 h-9 rounded-lg bg-red-50 flex items-center justify-center mb-3.5">
                     <AlertTriangle className="w-4.5 h-4.5 text-red-500" />
                   </div>
-                  <h3 className="text-sm font-semibold text-foreground mb-1">Weak Areas</h3>
+                  <h3 className="text-sm font-semibold text-foreground mb-1">{isTestBank ? "Review Weak Areas" : "Weak Areas"}</h3>
                   <p className="text-xs text-muted-foreground leading-relaxed">
-                    Focus on topics you've missed most often for targeted improvement.
+                    {isTestBank ? "Target questions you've missed most often for focused improvement." : "Focus on topics you've missed most often for targeted improvement."}
                   </p>
                 </div>
               </div>

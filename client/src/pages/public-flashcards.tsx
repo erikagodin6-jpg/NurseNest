@@ -19,6 +19,34 @@ import {
 } from "lucide-react";
 import { LocaleLink } from "@/lib/LocaleLink";
 
+interface DeckRecord {
+  id: string;
+  title: string;
+  description?: string;
+  visibility?: string;
+  userId?: string;
+  cardCount?: number;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+interface DeckCardRecord {
+  id: string;
+  deckId: string;
+  front: string;
+  back: string;
+  rationale?: string;
+  clinicalPearl?: string;
+  position?: number;
+}
+
+interface DeckEntitlement {
+  isPremium: boolean;
+  totalFreeCards: number;
+  limit: number;
+  percentage: number;
+}
+
 const FLASHCARD_TOPICS = [
   { name: "Cardiovascular", icon: Heart, color: "bg-red-50 text-red-600 border-red-100" },
   { name: "Respiratory", icon: Stethoscope, color: "bg-blue-50 text-blue-600 border-blue-100" },
@@ -78,13 +106,13 @@ export default function PublicFlashcards() {
   const [isFlipped, setIsFlipped] = useState(false);
   const [masteredIds, setMasteredIds] = useState<Set<string>>(new Set());
 
-  const [myDecks, setMyDecks] = useState<any[]>([]);
-  const [publicDecks, setPublicDecks] = useState<any[]>([]);
-  const [savedDecksList, setSavedDecksList] = useState<any[]>([]);
-  const [currentDeck, setCurrentDeck] = useState<any>(null);
-  const [deckCards, setDeckCards] = useState<any[]>([]);
+  const [myDecks, setMyDecks] = useState<DeckRecord[]>([]);
+  const [publicDecks, setPublicDecks] = useState<DeckRecord[]>([]);
+  const [savedDecksList, setSavedDecksList] = useState<DeckRecord[]>([]);
+  const [currentDeck, setCurrentDeck] = useState<DeckRecord | null>(null);
+  const [deckCards, setDeckCards] = useState<DeckCardRecord[]>([]);
   const [deckLoading, setDeckLoading] = useState(false);
-  const [entitlement, setEntitlement] = useState<any>({ isPremium: false, totalFreeCards: 0, limit: 50, percentage: 0 });
+  const [entitlement, setEntitlement] = useState<DeckEntitlement>({ isPremium: false, totalFreeCards: 0, limit: 50, percentage: 0 });
   const [deckTab, setDeckTab] = useState("my");
   const [deckSearchQuery, setDeckSearchQuery] = useState("");
   const [newDeckTitle, setNewDeckTitle] = useState("");
@@ -94,7 +122,7 @@ export default function PublicFlashcards() {
   const [newCardBack, setNewCardBack] = useState("");
   const [newCardRationale, setNewCardRationale] = useState("");
   const [newCardClinicalPearl, setNewCardClinicalPearl] = useState("");
-  const [aiCheckResult, setAiCheckResult] = useState<any>(null);
+  const [aiCheckResult, setAiCheckResult] = useState<{ valid: boolean; suggestions?: string[] } | null>(null);
   const [aiChecking, setAiChecking] = useState(false);
   const [csvImportText, setCsvImportText] = useState("");
   const [showCsvImport, setShowCsvImport] = useState(false);
@@ -107,7 +135,7 @@ export default function PublicFlashcards() {
   const [deckStudyFlipped, setDeckStudyFlipped] = useState(false);
   const [deckStudyCorrect, setDeckStudyCorrect] = useState(0);
   const [deckStudyIncorrect, setDeckStudyIncorrect] = useState(0);
-  const [deckStudyQueue, setDeckStudyQueue] = useState<any[]>([]);
+  const [deckStudyQueue, setDeckStudyQueue] = useState<DeckCardRecord[]>([]);
   const [deckStudyComplete, setDeckStudyComplete] = useState(false);
   const [deckStudyStartTime, setDeckStudyStartTime] = useState(0);
   const [deckStudyMissed, setDeckStudyMissed] = useState<string[]>([]);
@@ -229,12 +257,15 @@ export default function PublicFlashcards() {
     try { await fetch(`/api/decks/${deckId}/report`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ userId: user?.id, reason }) }); } catch {}
   }, [user?.id]);
 
+  const validTestBankSlugs = ["rpn", "rn", "np", "rrt", "paramedic", "pharmacy-tech", "mlt", "imaging", "critical-care", "emergency-nursing", "perioperative", "oncology-nursing", "pediatric-cert", "psychotherapist", "social-worker", "addictions-counsellor"];
+  const testBankSlug = effectiveTier && validTestBankSlugs.includes(effectiveTier) ? effectiveTier : "rpn";
+
   const aiCheckCard = useCallback(async () => {
-    setLocation(`/${effectiveTier || "rpn"}/test-bank`);
-  }, [effectiveTier, setLocation]);
+    setLocation(`/${testBankSlug}/test-bank`);
+  }, [testBankSlug, setLocation]);
   const handleCsvImport = useCallback(async () => {
-    setLocation(`/${effectiveTier || "rpn"}/test-bank`);
-  }, [effectiveTier, setLocation]);
+    setLocation(`/${testBankSlug}/test-bank`);
+  }, [testBankSlug, setLocation]);
 
   const startDeckStudy = useCallback((mode: "learn" | "test") => {
     if (!deckCards.length) return;
@@ -267,11 +298,11 @@ export default function PublicFlashcards() {
   }, [deckStudyIndex, deckStudyQueue]);
 
   const aiGenerateCards = useCallback(async () => {
-    setLocation(`/${effectiveTier || "rpn"}/test-bank`);
-  }, [effectiveTier, setLocation]);
+    setLocation(`/${testBankSlug}/test-bank`);
+  }, [testBankSlug, setLocation]);
   const addAiGeneratedCards = useCallback(async () => {
-    setLocation(`/${effectiveTier || "rpn"}/test-bank`);
-  }, [effectiveTier, setLocation]);
+    setLocation(`/${testBankSlug}/test-bank`);
+  }, [testBankSlug, setLocation]);
   const removeAiGeneratedCard = useCallback((index: number) => {
     setAiGeneratedCards(prev => prev.filter((_, i) => i !== index));
   }, []);
@@ -677,7 +708,7 @@ export default function PublicFlashcards() {
                 <Input
                   placeholder="Search flashcards by term or topic..."
                   value={searchQuery}
-                  onChange={(e: any) => setSearchQuery(e.target.value)}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchQuery(e.target.value)}
                   className="pl-10 rounded-xl border-slate-200 focus:border-primary"
                   data-testid="input-search-flashcards"
                 />
